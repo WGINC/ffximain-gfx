@@ -79,7 +79,7 @@ XI_API int __thiscall fn_10047490(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100474D0  (unit unit_100473F0: no unit evidence of its own; in the gap between 0x100473E0 (CMoElem) and 0x10047560 (CMoNullProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59, town PASS 55, town2 PASS 54, combat PASS 55, zonetoinn PASS 55
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned __int8 * __cdecl fn_100474D0(void)
 {
   unsigned __int8 *result;

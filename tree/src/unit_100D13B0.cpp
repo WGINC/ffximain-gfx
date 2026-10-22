@@ -8,10 +8,10 @@ XI_API void __thiscall fn_100D1450(void * self_, int * param_1, int param_2)
 {
   void *pvVar1;
   void *this_00;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
   if (param_2 == *(int *)((int)self_ + 0x9ec)) {
-    if (((byte)*(undefined4 *)(*param_1 + 0x24) & 0x7f) == 1) {
+    if (((uint8_t)*(uint32_t *)(*param_1 + 0x24) & 0x7f) == 1) {
       orig::CXiActor_SpawnResourceGenerators_v1(self_,param_1);
     }
     pvVar1 = *(void **)((int)self_ + 0x7e4);
@@ -20,7 +20,7 @@ XI_API void __thiscall fn_100D1450(void * self_, int * param_1, int param_2)
       pvVar1 = *(void **)((int)this_00 + 4);
       if (((param_2 != 0) && (uVar2 = orig::ResourceHandle_IsResident_v1(&param_2), (char)uVar2 == '\x01'))
          && (*(char *)((int)this_00 + 0x20) == '\0')) {
-        orig::FUN_1001b7b0(this_00);
+        orig::FUN_1001b7b0(this_00,((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)this_00 + 0x20)))));
       }
     }
   }
@@ -31,16 +31,16 @@ XI_API void __thiscall fn_100D1450(void * self_, int * param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100D14C0(void * self_)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   int iVar3;
   int iVar4;
-  undefined4 uVar5;
-  undefined4 *puVar6;
-  undefined8 uVar7;
+  uint32_t uVar5;
+  uint32_t *puVar6;
+  uint64_t uVar7;
   char xi_frame[8] __attribute__((aligned(4)));
   int * &local_8 = *reinterpret_cast<int * *>(xi_frame + 0);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   
   iVar2 = orig::CXiActor_GetModelByteEE_v1(self_);
   if (iVar2 != 2) {
@@ -57,9 +57,9 @@ XI_API void __thiscall fn_100D14C0(void * self_)
         uVar5 = orig::ResourceHandle_IsResident_v1(&local_8);
         if ((char)uVar5 == '\0') {
           uVar7 = orig::Allocator_Generic_v1(0x14);
-          puVar6 = (undefined4 *)uVar7;
-          if (puVar6 == (undefined4 *)0x0) {
-            puVar6 = (undefined4 *)0x0;
+          puVar6 = (uint32_t *)uVar7;
+          if (puVar6 == (uint32_t *)0x0) {
+            puVar6 = (uint32_t *)0x0;
           }
           else {
             puVar1 = puVar6 + 1;
@@ -70,7 +70,7 @@ XI_API void __thiscall fn_100D14C0(void * self_)
               puVar6[4] = 2;
             }
             else {
-              *puVar6 = *(undefined4 *)((int)self_ + 0x9ec);
+              *puVar6 = *(uint32_t *)((int)self_ + 0x9ec);
               orig::FUN_100814f0(puVar1,(int)self_);
               puVar6[4] = 2;
             }
@@ -91,9 +91,9 @@ XI_API void __thiscall fn_100D14C0(void * self_)
         uVar5 = orig::ResourceHandle_IsResident_v1(&local_8);
         if ((char)uVar5 == '\0') {
           uVar7 = orig::Allocator_Generic_v1(0x14);
-          puVar6 = (undefined4 *)uVar7;
-          if (puVar6 == (undefined4 *)0x0) {
-            puVar6 = (undefined4 *)0x0;
+          puVar6 = (uint32_t *)uVar7;
+          if (puVar6 == (uint32_t *)0x0) {
+            puVar6 = (uint32_t *)0x0;
           }
           else {
             puVar1 = puVar6 + 1;
@@ -104,7 +104,7 @@ XI_API void __thiscall fn_100D14C0(void * self_)
               puVar6[4] = 1;
             }
             else {
-              *puVar6 = *(undefined4 *)((int)self_ + 0x9ec);
+              *puVar6 = *(uint32_t *)((int)self_ + 0x9ec);
               orig::FUN_100814f0(puVar1,(int)self_);
               puVar6[4] = 1;
             }
@@ -117,10 +117,10 @@ XI_API void __thiscall fn_100D14C0(void * self_)
       }
     }
     iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-    uVar5 = orig::CXiActor_ModelTest95680_v1(self_,iVar2);
+    uVar5 = orig::CXiActor_ModelTest95680_v1(self_,iVar2,iVar2);
     if ((char)uVar5 == '\0') {
       iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-      uVar5 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2);
+      uVar5 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2,iVar2);
       if ((char)uVar5 == '\0') {
         return;
       }

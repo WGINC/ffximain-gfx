@@ -2,43 +2,24 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x10014350  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10014350(void * self_)
-{
-  undefined4 uVar1;
-  
-  uVar1 = orig::FUN_10014390(self_);
-  if ((char)uVar1 == '\0') {
-    return uVar1;
-  }
-  DAT_104570e0_as_v0 = 0;
-  uVar1 = orig::FUN_101ab7d0();
-  if (DAT_1045690c_as_v0 != (int *)0x0) {
-    uVar1 = (**(code **)(*DAT_1045690c_as_v0 + 0x18))(1);
-    DAT_1045690c_as_v0 = (int *)0x0;
-  }
-  return CONCAT31((int3)((uint)uVar1 >> 8),1);
-}
-
 // FUNCTION: FFXIMAIN 0x100149B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall fn_100149B0(void * self_)
+XI_API uint8_t __thiscall fn_100149B0(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   if (DAT_1046393c != 0) {
     orig::FUN_102463c0(0xffffffff);
   }
-  *(undefined4 *)((int)self_ + 0x334) = 0x80000000;
-  *(undefined4 *)((int)self_ + 0x324) = 0x80000000;
-  *(undefined4 *)((int)self_ + 0x328) = 0x80000000;
+  *(uint32_t *)((int)self_ + 0x334) = 0x80000000;
+  *(uint32_t *)((int)self_ + 0x324) = 0x80000000;
+  *(uint32_t *)((int)self_ + 0x328) = 0x80000000;
   orig::GameMode_PollPendingState_v1(g_pGameMode_as_v0);
   uVar1 = orig::FUN_10014c90(self_);
   if ((char)uVar1 == '\0') {
     return 0;
   }
-  *(undefined4 *)((int)self_ + 0x44) = 4;
+  *(uint32_t *)((int)self_ + 0x44) = 4;
   return 1;
 }
 
@@ -46,17 +27,17 @@ XI_API undefined1 __thiscall fn_100149B0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10014A20(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_10014c90(self_);
-  return CONCAT31((int3)((uint)uVar1 >> 8),(char)uVar1 != '\0');
+  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),(char)uVar1 != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x10014C10  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall fn_10014C10(void * self_)
+XI_API uint8_t __thiscall fn_10014C10(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   orig::FUN_1019c4f0();
   if (g_pStDancer != (void *)0x0) {
@@ -78,10 +59,10 @@ XI_API undefined1 __thiscall fn_10014C10(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10014C60(void)
 {
-  undefined *puVar1;
+  uint8_t *puVar1;
   
   if (DAT_104570b0 != 0) {
-    puVar1 =(undefined*)(&DAT_103501f8);
+    puVar1 =(uint8_t*)(&DAT_103501f8);
     do {
       orig::FUN_10029390(puVar1);
       puVar1 = puVar1 + 8;
@@ -94,26 +75,26 @@ XI_API void __cdecl fn_10014C60(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10014C90(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_10093b70();
   if ((char)uVar1 == '\0') {
     return uVar1;
   }
   uVar1 = orig::FUN_10014cb0();
-  return CONCAT31((int3)((uint)uVar1 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10014CB0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10014CB0(void)
 {
-  undefined4 uVar1;
-  undefined *puVar2;
+  uint32_t uVar1;
+  uint8_t *puVar2;
   
   uVar1 = 0;
   if (DAT_104570b0 != 0) {
-    puVar2 =(undefined*)(&DAT_10350210);
+    puVar2 =(uint8_t*)(&DAT_10350210);
     do {
       uVar1 = orig::FUN_10029390(puVar2);
       puVar2 = puVar2 + 8;
@@ -129,7 +110,7 @@ XI_API undefined4 __cdecl fn_10014CE0(void)
   int iVar1;
   
   iVar1 = g_pCamera_as_s32;
-  *(undefined1 *)(g_pCamera_as_s32 + 10) = 0;
+  *(uint8_t *)(g_pCamera_as_s32 + 10) = 0;
   return iVar1;
 }
 
@@ -137,47 +118,47 @@ XI_API undefined4 __cdecl fn_10014CE0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Camera_GetFrameScale(void)
 {
-  xi_bool bVar1;
+  uint8_t bVar1;
   
-  bVar1 = NAN((float10)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((float10)xi_k4(0x3F800000ull));
-  if ((bVar1 || (float10)*(float *)(g_pCamera_as_s32 + 0x28) < (float10)xi_k4(0x3F800000ull)) != bVar1) {
-    return (float10)xi_k4(0x3F800000ull);
+  bVar1 = NAN((long double)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((long double)1.0f);
+  if ((bVar1 || (long double)*(float *)(g_pCamera_as_s32 + 0x28) < (long double)1.0f) != bVar1) {
+    return (long double)1.0f;
   }
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x28);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x28);
 }
 
 // FUNCTION: FFXIMAIN 0x10014D20  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl fn_10014D20(void)
 {
-  xi_bool bVar1;
+  uint8_t bVar1;
   
-  bVar1 = NAN((float10)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((float10)xi_k4(0x3F800000ull));
-  if ((bVar1 || (float10)*(float *)(g_pCamera_as_s32 + 0x28) < (float10)xi_k4(0x3F800000ull)) != bVar1) {
-    return (float10)xi_k4(0x3F800000ull);
+  bVar1 = NAN((long double)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((long double)1.0f);
+  if ((bVar1 || (long double)*(float *)(g_pCamera_as_s32 + 0x28) < (long double)1.0f) != bVar1) {
+    return (long double)1.0f;
   }
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x28);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x28);
 }
 
 // FUNCTION: FFXIMAIN 0x10014D60  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10014D60(void)
 {
-  return *(undefined4 *)(g_pCamera_as_s32 + 0x38);
+  return *(uint32_t *)(g_pCamera_as_s32 + 0x38);
 }
 
 // FUNCTION: FFXIMAIN 0x10014D70  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Camera_GetFloat2DC(void)
 {
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x2dc);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x2dc);
 }
 
 // FUNCTION: FFXIMAIN 0x10014D80  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Camera_GetFloat2E0(void)
 {
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x2e0);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x2e0);
 }
 
 // FUNCTION: FFXIMAIN 0x10014D90  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -192,7 +173,7 @@ XI_API void __cdecl Camera_SetClearColorRGB(undefined4 param_1, undefined4 param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10014DB0(void * self_, uint32_t param_1, uint32_t param_2, uint32_t param_3)
 {
-  *(uint *)((int)self_ + 0x308) =
+  *(uint32_t *)((int)self_ + 0x308) =
        ((param_1 & 0xff | 0xffff8000) << 8 | param_2 & 0xff) << 8 | param_3 & 0xff;
   return;
 }
@@ -209,8 +190,8 @@ XI_API void __cdecl fn_10014E00(undefined4 param_1, undefined4 param_2, undefine
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10014E20(void * self_, undefined4 param_1, undefined4 param_2, uint32_t param_3)
 {
-  *(uint *)((int)self_ + 0x304) =
-       (uint)CONCAT11((undefined1)param_1,(undefined1)param_2) << 8 | param_3 & 0xff;
+  *(uint32_t *)((int)self_ + 0x304) =
+       (uint32_t)((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_1) << 8) | (uint8_t)((uint8_t)param_2))) << 8 | param_3 & 0xff;
   return;
 }
 
@@ -218,7 +199,7 @@ XI_API void __thiscall fn_10014E20(void * self_, undefined4 param_1, undefined4 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10014E60(float param_1)
 {
-  *(float *)(g_pCamera_as_s32 + 0x2fc) = (float)(float10)param_1;
+  *(float *)(g_pCamera_as_s32 + 0x2fc) = (float)(long double)param_1;
   return;
 }
 
@@ -226,7 +207,7 @@ XI_API void __cdecl fn_10014E60(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10014E80(float param_1)
 {
-  *(float *)(g_pCamera_as_s32 + 0x300) = (float)(float10)param_1;
+  *(float *)(g_pCamera_as_s32 + 0x300) = (float)(long double)param_1;
   return;
 }
 
@@ -234,7 +215,7 @@ XI_API void __cdecl fn_10014E80(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10014EB0(float param_1)
 {
-  *(float *)(g_pCamera_as_s32 + 0x314) = (float)(float10)param_1;
+  *(float *)(g_pCamera_as_s32 + 0x314) = (float)(long double)param_1;
   return;
 }
 
@@ -242,7 +223,7 @@ XI_API void __cdecl fn_10014EB0(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10014ED0(float param_1)
 {
-  *(float *)(g_pCamera_as_s32 + 0x318) = (float)(float10)param_1;
+  *(float *)(g_pCamera_as_s32 + 0x318) = (float)(long double)param_1;
   return;
 }
 
@@ -250,7 +231,7 @@ XI_API void __cdecl fn_10014ED0(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015100(undefined4 param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_100151a0(g_pCamera_as_v2,param_1);
   return uVar1;
@@ -260,17 +241,17 @@ XI_API undefined4 __cdecl fn_10015100(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10015120(void * self_, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7, undefined4 xi_s8, undefined4 xi_s9, undefined4 xi_s10, undefined4 xi_s11, undefined4 xi_s12, undefined4 xi_s13, undefined4 xi_s14, undefined4 xi_s15, undefined4 xi_s16)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   orig::Mat4_Copy_v1((void *)((int)self_ + 0x54),&xi_s1);
-  orig::Mat4_Copy_v1((undefined4 *)((int)self_ + 0x94),&xi_s1);
+  orig::Mat4_Copy_v1((uint32_t *)((int)self_ + 0x94),&xi_s1);
   orig::Mat4_SetIdentity_v1((void *)((int)self_ + 0x114));
   orig::Mat4_Copy_v1((void *)((int)self_ + 0xd4),&xi_s1);
-  *(undefined4 *)((int)self_ + 0x104) = 0;
-  *(undefined4 *)((int)self_ + 0x108) = 0;
-  *(undefined4 *)((int)self_ + 0x10c) = 0;
-  orig::Mat4_Copy_v1((void *)((int)self_ + 0x294),(undefined4 *)((int)self_ + 0x94));
-  uVar1 = orig::Mat4_InvertOrthonormal_v1((void *)((int)self_ + 0x294));
+  *(uint32_t *)((int)self_ + 0x104) = 0;
+  *(uint32_t *)((int)self_ + 0x108) = 0;
+  *(uint32_t *)((int)self_ + 0x10c) = 0;
+  orig::Mat4_Copy_v1((void *)((int)self_ + 0x294),(uint32_t *)((int)self_ + 0x94));
+  uVar1 = orig::Mat4_InvertOrthonormal((void *)((int)self_ + 0x294));
   orig::nullsub_1();
   return uVar1;
 }
@@ -295,7 +276,7 @@ XI_API int __cdecl Camera_GetViewMatrixPtr(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Camera_GetField50(void)
 {
-  return *(undefined4 *)(g_pCamera_as_s32 + 0x50);
+  return *(uint32_t *)(g_pCamera_as_s32 + 0x50);
 }
 
 // FUNCTION: FFXIMAIN 0x10015270  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -317,7 +298,7 @@ XI_API void __cdecl fn_10015290(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100152B0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x2f8) = param_1;
+  *(uint32_t *)((int)self_ + 0x2f8) = param_1;
   return;
 }
 
@@ -325,23 +306,23 @@ XI_API void __thiscall fn_100152B0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl fn_100152C0(void)
 {
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x2f4);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x2f4);
 }
 
 // FUNCTION: FFXIMAIN 0x10015360  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10015360(int param_1)
 {
-  float10 fVar1;
+  long double fVar1;
   
   if (g_pCamera_as_s32 != 0) {
     if (param_1 == 0) {
-      fVar1 = (float10)xi_k4(0x3F800000ull);
+      fVar1 = (long double)1.0f;
     }
     else {
-      fVar1 = (float10)xi_k4(0x3F400000ull);
+      fVar1 = (long double)0.75f;
     }
-    *(float *)(g_pCamera_as_s32 + 0x2e4) = (float)((float10)xi_k4(0x3F800000ull) / fVar1);
+    *(float *)(g_pCamera_as_s32 + 0x2e4) = (float)((long double)1.0f / fVar1);
     orig::FUN_100153d0();
     return;
   }
@@ -354,7 +335,7 @@ XI_API void __cdecl fn_100153A0(float param_1, float param_2)
 {
   if (g_pCamera_as_s32 != 0) {
     *(float *)(g_pCamera_as_s32 + 0x2f0) =
-         (float)((float10)param_2 / ((float10)param_1 * (float10)xi_k4(0x3E800000ull) * (float10)xi_k4(0x40400000ull)));
+         (float)((long double)param_2 / ((long double)param_1 * (long double)0.25f * (long double)3.0f));
   }
   return;
 }
@@ -371,120 +352,65 @@ XI_API void __cdecl Camera_BuildProjection(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10015490(void * self_)
 {
-  float10 fVar1;
+  long double fVar1;
   
-  fVar1 = xi_castbits<float10>(fpatan((float10)xi_k8(0x4068000000000000ull),(float10)*(float *)((int)self_ + 0x2f4)));
+  fVar1 = xi_castbits<long double>(fpatan((long double)192.0,(long double)*(float *)((int)self_ + 0x2f4)));
   orig::D3DXMatrixPerspectiveFovLH_static_v1
             ((float *)((int)self_ + 0x154),(float)(fVar1 + fVar1),
-             (float)((float10)xi_k4(0x3F800000ull) /
-                    ((float10)*(float *)((int)self_ + 0x2f0) * (float10)*(float *)((int)self_ + 0x2e8)
+             (float)((long double)1.0f /
+                    ((long double)*(float *)((int)self_ + 0x2f0) * (long double)*(float *)((int)self_ + 0x2e8)
                     )),*(float *)((int)self_ + 0x2dc),*(float *)((int)self_ + 0x2e0));
   orig::Mat4_Copy_v1((void *)((int)self_ + 0x1d4),(float *)((int)self_ + 0x154));
   return;
-}
-
-// FUNCTION: FFXIMAIN 0x10015510  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54, town PASS 59, town2 PASS 59, combat PASS 59, zonetoinn PASS 59
-XI_API void __cdecl Camera_ApplyViewProjection(void)
-{
-  int Field50;
-  float *v1;
-  _DWORD *v2;
-  float *v3;
-  char *Matrix154Ptr;
-  int v5[16];
-  if ( orig::Camera_GetField50() != 0 )
-  {
-    Field50 = orig::Camera_GetField50();
-    orig::Camera_UpdateController(Field50);
-    v1 = (float *)orig::Camera_GetField50();
-    if ( orig::sub_10021AE0(v1) || *(_BYTE *)(orig::Camera_GetField50() + 244) != 0 )
-    {
-      *(_BYTE *)(orig::Camera_GetField50() + 244) = 0;
-      v2 = (_DWORD *)orig::Camera_GetField50();
-      v3 = orig::sub_10021B70(v2);
-      orig::CDx_SetTransform(g_pCDx, 2, v3);
-      qmemcpy(v5, v3, sizeof(v5));
-      orig::Camera_SetViewMatrix(
-        v5[0],
-        v5[1],
-        v5[2],
-        v5[3],
-        v5[4],
-        v5[5],
-        v5[6],
-        v5[7],
-        v5[8],
-        v5[9],
-        v5[10],
-        v5[11],
-        v5[12],
-        v5[13],
-        v5[14],
-        v5[15]);
-    }
-  }
-  if ( g_pCamera != nullptr )
-    *((_DWORD *)g_pCamera + 189) = *((_DWORD *)g_pCamera + 190);
-  orig::Camera_BuildProjection();
-  Matrix154Ptr = orig::Camera_GetMatrix154Ptr();
-  orig::CDx_SetTransform(g_pCDx, 3, Matrix154Ptr);
-  if ( g_pResourceMng != 0 && g_pMoCamera != 0 )
-  {
-    orig::sub_10069F90(g_pResourceMng);
-    orig::sub_10044540();
-    orig::CameraCache_CacheViewProjection((_DWORD *)g_pMoCamera);
-    orig::sub_1006A180(g_pResourceMng, 0, 0, 0, 0);
-  }
 }
 
 // FUNCTION: FFXIMAIN 0x100155D0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_100155D0(void)
 {
-  return CONCAT31((int3)((uint)g_pCamera_as_s32 >> 8),*(undefined1 *)(g_pCamera_as_s32 + 0xb));
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_pCamera_as_s32 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(g_pCamera_as_s32 + 0xb))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015600  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015600(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x10));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x10))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015610  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015610(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x12));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x12))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015640  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015640(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x14));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x14))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015650  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015650(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x16));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x16))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015680  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Camera_GetViewportWidth(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x18));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x18))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015690  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Camera_GetViewportHeight(void)
 {
-  return CONCAT22((short)((uint)g_pCamera_as_s32 >> 0x10),*(undefined2 *)(g_pCamera_as_s32 + 0x1a));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)g_pCamera_as_s32 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(g_pCamera_as_s32 + 0x1a))));
 }
 
 // FUNCTION: FFXIMAIN 0x100156A0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -493,8 +419,8 @@ XI_API int __cdecl fn_100156A0(int param_1, int param_2, undefined4 * param_3, u
 {
   int iVar1;
   int iVar2;
-  xi_bool bVar3;
-  float10 fVar4;
+  uint8_t bVar3;
+  long double fVar4;
   double local_10;
   
   if ((0 < param_1) && (0 < param_2)) {
@@ -504,13 +430,13 @@ XI_API int __cdecl fn_100156A0(int param_1, int param_2, undefined4 * param_3, u
     local_10 = xi_k8(0x7FEFFFFFFFFFFFFFull);
     iVar1 = 0;
     do {
-      fVar4 = ABS((float10)param_1 / (float10)param_2 -
-                  (float10)xi_castbits<float>((&DAT_1034f4a0)[iVar1 * 2]) /
-                  (float10)xi_castbits<float>((&DAT_1034f4a4)[iVar1 * 2])) /
-              ((float10)xi_castbits<float>((&DAT_1034f4a0)[iVar1 * 2]) /
-              (float10)xi_castbits<float>((&DAT_1034f4a4)[iVar1 * 2]));
-      bVar3 = NAN(fVar4) || NAN((float10)local_10);
-      if ((bVar3 || fVar4 < (float10)local_10) != bVar3) {
+      fVar4 = ABS((long double)param_1 / (long double)param_2 -
+                  (long double)xi_castbits<float>((&DAT_1034f4a0)[iVar1 * 2]) /
+                  (long double)xi_castbits<float>((&DAT_1034f4a4)[iVar1 * 2])) /
+              ((long double)xi_castbits<float>((&DAT_1034f4a0)[iVar1 * 2]) /
+              (long double)xi_castbits<float>((&DAT_1034f4a4)[iVar1 * 2]));
+      bVar3 = NAN(fVar4) || NAN((long double)local_10);
+      if ((bVar3 || fVar4 < (long double)local_10) != bVar3) {
         local_10 = (double)fVar4;
         *param_3 = (&DAT_1034f4a0)[iVar1 * 2];
         *param_4 = (&DAT_1034f4a4)[iVar1 * 2];
@@ -527,9 +453,9 @@ XI_API int __cdecl fn_100156A0(int param_1, int param_2, undefined4 * param_3, u
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10015740(void)
 {
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   
-  return CONCAT31((int3)((uint)xi_entry_eax >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100157B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -541,118 +467,8 @@ XI_API void __stdcall fn_100157B0(undefined4 param_1, undefined4 param_2, undefi
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100157E0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API int __cdecl App_WinMain(int a1, int a2)
-{
-  int v2;
-  int v3;
-  HWND MainWindow;
-  int v5;
-  char v6;
-  int v8;
-  g_pFileMng = 0;
-  v8 = -2005467136;
-  g_pSceneState = (int)&g_sceneStateStorage;
-  g_pHostFuncTable = g_sceneStateStorage_30;
-  if ( orig::App_SetCommandLine((const char *)g_cmdLine) != 0 )
-  {
-    *(_DWORD *)(g_pSceneState + 8) = g_sceneStateStorage_4C;
-    *(_DWORD *)(g_pSceneState + 4) = phkResult;
-    *(_DWORD *)(g_pSceneState + 12) = orig::Thunk_FnTable694();
-    *(_DWORD *)(g_pSceneState + 24) ^= ((unsigned __int8)*(_DWORD *)(g_pSceneState + 24)
-                                      ^ (unsigned __int8)((_BYTE)g_sceneStateStorage_70 << 7))
-                                     & 0x80;
-    if ( orig::App_CreateConfig() != 0 )
-    {
-      *(_DWORD *)(g_pSceneState + 24) ^= ((unsigned __int8)*(_DWORD *)(g_pSceneState + 24)
-                                        ^ (unsigned __int8)((_BYTE)g_sceneStateStorage_70 << 7))
-                                       & 0x80;
-      if ( orig::App_IsRegistryFlagSet(phkResult) )
-        orig::App_SetGlobal_104569E8((int)&c_strD);
-      else
-        orig::App_SetGlobal_104569E8((int)&c_strR);
-      if ( orig::App_InitDataPaths() != 0 && orig::App_CheckOSVersion() != 0 )
-      {
-        v2 = yBottom;
-        v3 = xRight;
-        MainWindow = orig::App_CreateMainWindow(
-                       aFinalFantasyXi,
-                       ClassName,
-                       hmod,
-                       (const char *)g_installDir,
-                       g_windowMode,
-                       xRight,
-                       yBottom);
-        hWnd = MainWindow;
-        if ( MainWindow != nullptr )
-        {
-          v5 = (int)MainWindow;
-          if ( g_sceneStateStorage_68 == 1 )
-          {
-            if ( orig::App_LoadImeUiDll((int)MainWindow, (const char *)g_installDir) != 0 )
-            {
-              if ( g_sceneStateStorage_68 == 1 )
-              {
-                if ( orig::App_LoadKeyInputDll((int)hWnd, (const char *)g_installDir) != 0 )
-                {
-                  if ( g_sceneStateStorage_68 == 1 )
-                    orig::App_EnableImeUi();
-                }
-                else
-                {
-                  g_sceneStateStorage_68 = 0;
-                }
-              }
-            }
-            else
-            {
-              g_sceneStateStorage_68 = 0;
-            }
-          }
-          v6 = g_windowMode == 0;
-          if ( orig::Gfx_CreateD3DHolder(v5, v3, v2, g_windowMode == 0, *(_DWORD *)(g_pAppSettings + 88) != 0) == 0 )
-          {
-            orig::Gfx_DestroyD3DHolder();
-            orig::App_SetErrorCode(0);
-            if ( orig::Gfx_CreateD3DHolder(v5, xRight, yBottom, v6, 1) == 0 )
-              goto LABEL_24;
-            *(_DWORD *)(g_pAppSettings + 88) = 1;
-            if ( g_pD3DHolder->_rest[1128] == 0 )
-            {
-              orig::App_SetErrorCode(2001);
-              goto LABEL_24;
-            }
-            *(_DWORD *)(g_pAppSettings + 92) = 1;
-          }
-          if ( g_cfgSoundEnabled == 0 || orig::App_InitSoundSystem() != 0 )
-          {
-            orig::App_DetectDat11();
-            v8 = orig::App_RunWithCOM(a1, a2);
-          }
-        }
-      }
-    }
-  }
-LABEL_24:
-  if ( g_cfgSoundEnabled != 0 )
-    orig::thunk_sub_10035900();
-  orig::Gfx_DestroyD3DHolder();
-  if ( g_sceneStateStorage_68 == 1 )
-  {
-    orig::App_UninitImeUi();
-    orig::App_UnloadKeyInputDll();
-  }
-  orig::App_DestroyMainWindow((int)aFinalFantasyXi, ClassName, hmod, hWnd);
-  hWnd = nullptr;
-  orig::App_DestroyDataPaths();
-  orig::App_DestroyConfig();
-  orig::App_FreeCommandLine();
-  return v8;
-}
-
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 29 returned normally, 70 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 29, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 29 returned normally, 69 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl App_CreateRendererAndApp(void)
 {
   CDx *v0;
@@ -757,7 +573,7 @@ XI_API _DWORD * __cdecl fn_10016320(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100163C0(undefined4 param_1)
 {
-  DAT_104569c5 = (undefined1)param_1;
+  DAT_104569c5 = (uint8_t)param_1;
   return;
 }
 
@@ -765,7 +581,7 @@ XI_API void __cdecl fn_100163C0(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100163E0(undefined4 param_1)
 {
-  DAT_104569c6 = (undefined1)param_1;
+  DAT_104569c6 = (uint8_t)param_1;
   return;
 }
 
@@ -782,6 +598,13 @@ XI_API undefined4 __cdecl App_SetGlobal_104569C8(undefined4 param_1)
 XI_API undefined4 __cdecl fn_10016410(void)
 {
   return DAT_104569c8;
+}
+
+// FUNCTION: FFXIMAIN 0x100164B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100164B0(undefined4 xi_eax)
+{
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(g_sceneStateStorage_68)));
 }
 
 // FUNCTION: FFXIMAIN 0x100164C0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -805,9 +628,9 @@ XI_API void __cdecl fn_10016560(undefined4 * param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
-  *(undefined4 *)((int)self_ + 0x604) = param_1;
-  *(undefined4 *)((int)self_ + 0x608) = param_2;
-  *(undefined4 *)((int)self_ + 0x60c) = param_3;
+  *(uint32_t *)((int)self_ + 0x604) = param_1;
+  *(uint32_t *)((int)self_ + 0x608) = param_2;
+  *(uint32_t *)((int)self_ + 0x60c) = param_3;
   return;
 }
 
@@ -815,9 +638,9 @@ XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefi
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall GammaRamp_GetRGB(void * self_, undefined4 * param_1, undefined4 * param_2, undefined4 * param_3)
 {
-  *param_1 = *(undefined4 *)((int)self_ + 0x604);
-  *param_2 = *(undefined4 *)((int)self_ + 0x608);
-  *param_3 = *(undefined4 *)((int)self_ + 0x60c);
+  *param_1 = *(uint32_t *)((int)self_ + 0x604);
+  *param_2 = *(uint32_t *)((int)self_ + 0x608);
+  *param_3 = *(uint32_t *)((int)self_ + 0x60c);
   return;
 }
 
@@ -825,27 +648,27 @@ XI_API void __thiscall GammaRamp_GetRGB(void * self_, undefined4 * param_1, unde
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall GammaRamp_GetChannelSamples(void * self_, float * param_1, float * param_2, float * param_3)
 {
-  ushort uVar1;
+  uint16_t uVar1;
   
-  *param_1 = (float)((float10)*(ushort *)((int)self_ + 0xf4) * (float10)xi_k4(0x381333C6ull));
-  *param_2 = (float)((float10)*(ushort *)((int)self_ + 0x2ec) * (float10)xi_k4(0x381333C6ull));
-  uVar1 = *(ushort *)((int)self_ + 0x504);
-  *param_3 = (float)((float10)uVar1 * (float10)xi_k4(0x381333C6ull));
-  return (uint)uVar1;
+  *param_1 = (float)((long double)*(uint16_t *)((int)self_ + 0xf4) * (long double)xi_k4(0x381333C6ull));
+  *param_2 = (float)((long double)*(uint16_t *)((int)self_ + 0x2ec) * (long double)xi_k4(0x381333C6ull));
+  uVar1 = *(uint16_t *)((int)self_ + 0x504);
+  *param_3 = (float)((long double)uVar1 * (long double)xi_k4(0x381333C6ull));
+  return (uint32_t)uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10017160  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall GammaRamp_BuildRamps(void * self_)
 {
-  orig::FUN_100171b0(*(undefined4 *)((int)self_ + 0x610),(int)self_ + 4);
-  orig::FUN_100171b0(*(undefined4 *)((int)self_ + 0x614),(int)self_ + 0x204);
-  orig::FUN_100171b0(*(undefined4 *)((int)self_ + 0x618),(int)self_ + 0x404);
+  orig::FUN_100171b0(*(uint32_t *)((int)self_ + 0x610),(int)self_ + 4);
+  orig::FUN_100171b0(*(uint32_t *)((int)self_ + 0x614),(int)self_ + 0x204);
+  orig::FUN_100171b0(*(uint32_t *)((int)self_ + 0x618),(int)self_ + 0x404);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10017230  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
 {
   char v2;
@@ -877,7 +700,7 @@ XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10017310  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 26900 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 26900 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall fn_10017310(int a1, int a2)
 {
   int v2;
@@ -918,11 +741,11 @@ XI_API int __stdcall fn_10017310(int a1, int a2)
 
 // FUNCTION: FFXIMAIN 0x10017630  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10017630(undefined4 param_1, undefined4 param_2)
+XI_API void __cdecl setPolUrl(undefined4 url, undefined4 pat)
 {
   orig::FUN_1031111e();
   DAT_10456a50 = DAT_10456a50 + '\x01';
-  DAT_10456a51 = (undefined1)param_2;
+  DAT_10456a51 = (uint8_t)pat;
   return;
 }
 
@@ -930,7 +753,7 @@ XI_API void __cdecl fn_10017630(undefined4 param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10017670(void)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   orig::FUN_10010520();
   orig::App_SetGlobal_104569C8_v1(1);

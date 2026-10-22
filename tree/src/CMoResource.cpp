@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10036B70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoResource::GetRuntimeClass_variant0()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10047FC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource::CMoCamera_SetLinkedObject(int a2)
 {
   *this->field_14 = a2;
@@ -19,42 +19,42 @@ int CMoResource::CMoCamera_SetLinkedObject(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047FD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource::vf005(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10056250  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoResource::GetRuntimeClass_variant1()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10056290  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoResource::GetRuntimeClass_variant2()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071D70  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoResource::GetRuntimeClass_variant3()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource::vf008()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);
@@ -67,9 +67,11 @@ unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoResource::Destructor(void * self)
 {
-  *(undefined ***)self = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
-  orig::CMoResource_Destroy_v1(self);
-  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
+  uint32_t xi_entry_eax = 0;
+  
+  *(uint8_t ***)self = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
+  orig::CMoResource_Destroy_v1(self,xi_entry_eax);
+  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
   return;
 }
 
@@ -77,16 +79,16 @@ void __thiscall CMoResource::Destructor(void * self)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CMoResource::ReleaseChain(void * self)
 {
-  ushort uVar1;
+  uint16_t uVar1;
   int *piVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
+  uint32_t *puVar3;
+  uint32_t uVar4;
   void *pvVar5;
   
   do {
-    uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(undefined4 **)((int)self + 0x14));
+    uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
     if (((char)uVar4 == '\0') &&
-       (uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(undefined4 **)((int)self + 0x14)),
+       (uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14)),
        (char)uVar4 == '\0')) {
       return uVar4;
     }
@@ -97,7 +99,7 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
     else {
       pvVar5 = (void *)*piVar2;
     }
-    if ((pvVar5 == self) && ((*(ushort *)((int)self + 0x18) & 0x7fff) == 0)) {
+    if ((pvVar5 == self) && ((*(uint16_t *)((int)self + 0x18) & 0x7fff) == 0)) {
       if (piVar2 == (int *)0x0) {
         pvVar5 = (void *)0x0;
       }
@@ -108,18 +110,18 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
         return pvVar5;
       }
     }
-    uVar1 = *(ushort *)((int)self + 0x18);
-    *(ushort *)((int)self + 0x18) = (uVar1 - 1 ^ uVar1) & 0x7fff ^ uVar1;
-    puVar3 = *(undefined4 **)((int)self + 0x28);
-    if (puVar3 == (undefined4 *)0x0) {
+    uVar1 = *(uint16_t *)((int)self + 0x18);
+    *(uint16_t *)((int)self + 0x18) = (uVar1 - 1 ^ uVar1) & 0x7fff ^ uVar1;
+    puVar3 = *(uint32_t **)((int)self + 0x28);
+    if (puVar3 == (uint32_t *)0x0) {
       pvVar5 = (void *)0x0;
     }
     else {
       pvVar5 = (void *)*puVar3;
     }
     if (pvVar5 == self) {
-      if ((*(ushort *)((int)self + 0x18) & 0x7fff) == 0) {
-        *(ushort *)((int)self + 0x18) = *(ushort *)((int)self + 0x18) & 0x7fff;
+      if ((*(uint16_t *)((int)self + 0x18) & 0x7fff) == 0) {
+        *(uint16_t *)((int)self + 0x18) = *(uint16_t *)((int)self + 0x18) & 0x7fff;
       }
       return puVar3;
     }
@@ -131,25 +133,25 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
 // GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoResource::RegisterInTypeList(void * self)
 {
-  uint uVar1;
+  uint32_t uVar1;
   char xi_frame[4] __attribute__((aligned(4)));
   void * &local_4 = *reinterpret_cast<void * *>(xi_frame + 0);
   
-  if ((*(uint *)((int)self + 0x24) >> 0x1b & 1) == 0) {
+  if ((*(uint32_t *)((int)self + 0x24) >> 0x1b & 1) == 0) {
     local_4 = self;
     orig::MeshResourceMng_AllocHandle_v1(g_pMeshResourceMng_as_v1,(int *)&local_4,(int)self);
-    uVar1 = *(uint *)((int)self + 0x24) & 0x7f;
+    uVar1 = *(uint32_t *)((int)self + 0x24) & 0x7f;
     if (0x60 < uVar1) {
       uVar1 = 4;
     }
     if ((int *)(&DAT_1047cf80)[uVar1] != (int *)0x0) {
       orig::FUN_10071200((void *)(*(int *)(&DAT_1047cf80)[uVar1] + 4),(int)self);
     }
-    *(undefined4 *)((int)self + 0x10) = (&DAT_1047cf80)[uVar1];
-    (&DAT_1047cf80)[uVar1] = *(undefined4 *)((int)self + 0x14);
-    *(undefined4 *)((int)self + 0x2c) = DAT_1047d124_as_v0;
-    DAT_1047d124_as_v0 = *(undefined4 *)((int)self + 0x14);
-    *(uint *)((int)self + 0x24) = *(uint *)((int)self + 0x24) | 0x8000000;
+    *(uint32_t *)((int)self + 0x10) = (&DAT_1047cf80)[uVar1];
+    (&DAT_1047cf80)[uVar1] = *(uint32_t *)((int)self + 0x14);
+    *(uint32_t *)((int)self + 0x2c) = DAT_1047d124_as_v0;
+    DAT_1047d124_as_v0 = *(uint32_t *)((int)self + 0x14);
+    *(uint32_t *)((int)self + 0x24) = *(uint32_t *)((int)self + 0x24) | 0x8000000;
   }
   return;
 }
@@ -160,15 +162,15 @@ void * __thiscall CMoResource::GetParent(void * self)
 {
   void *pvVar1;
   
-  if (*(undefined4 **)((int)self + 0x28) == (undefined4 *)0x0) {
+  if (*(uint32_t **)((int)self + 0x28) == (uint32_t *)0x0) {
     pvVar1 = (void *)0x0;
   }
   else {
-    pvVar1 = (void *)**(undefined4 **)((int)self + 0x28);
+    pvVar1 = (void *)**(uint32_t **)((int)self + 0x28);
   }
   if (pvVar1 != self) {
-    if (*(undefined4 **)((int)self + 0x28) != (undefined4 *)0x0) {
-      return (void *)**(undefined4 **)((int)self + 0x28);
+    if (*(uint32_t **)((int)self + 0x28) != (uint32_t *)0x0) {
+      return (void *)**(uint32_t **)((int)self + 0x28);
     }
     self = (void *)0x0;
   }
@@ -177,50 +179,11 @@ void * __thiscall CMoResource::GetParent(void * self)
 
 // FUNCTION: FFXIMAIN 0x10072290  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined8 __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   g_resourceFindDepth = g_resourceFindDepth + 1;
   uVar1 = orig::FUN_100722c0(self,param_1,param_2,param_3,g_resourceFindDepth);
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),param_1);
-}
-
-// FUNCTION: FFXIMAIN 0x10072430  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined4 __stdcall CMoResource::FindInScope(undefined4 * param_1, int param_2, uint32_t param_3, int param_4)
-{
-  int iVar1;
-  uint uVar2;
-  
-  iVar1 = ((*(byte *)(param_2 + 0x24) & 0x7f) != 1) - 1;
-  do {
-    uVar2 = *(uint *)(param_2 + 0x24) & 0x7f;
-    if (uVar2 == 1) {
-      iVar1 = iVar1 + 1;
-    }
-    if ((uVar2 == 0) && (iVar1 = iVar1 + -1, iVar1 < 0)) break;
-    if (param_3 == 0) {
-      if (*(int *)(param_2 + 0x20) == param_4) {
-LAB_1007246a:
-        *param_1 = *(undefined4 *)(param_2 + 0x14);
-        return param_1;
-      }
-    }
-    else if (uVar2 == param_3) {
-      if (param_4 == 0) goto LAB_1007246a;
-      if (*(int *)(param_2 + 0x20) == param_4) {
-        *param_1 = *(undefined4 *)(param_2 + 0x14);
-        return param_1;
-      }
-    }
-    if (*(int **)(param_2 + 8) == (int *)0x0) {
-      param_2 = 0;
-    }
-    else {
-      param_2 = **(int **)(param_2 + 8);
-    }
-  } while (param_2 != 0);
-  *param_1 = 0;
-  return param_1;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(param_1)));
 }

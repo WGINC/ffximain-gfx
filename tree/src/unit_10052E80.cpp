@@ -6,6 +6,6 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052E80(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x194) = param_1;
+  *(uint32_t *)((int)self_ + 0x194) = param_1;
   return;
 }

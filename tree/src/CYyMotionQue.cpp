@@ -7,8 +7,8 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   uVar1 = orig::FUN_10084620(param_1);
   if ((uVar1 != 0) && (uVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x200))))((void *)(param_1)), (char)uVar2 == '\0')) {
@@ -26,7 +26,7 @@ void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefine
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param_1)
 {
-  *param_1 = *(undefined4 *)((int)self_ + 0x34);
+  *param_1 = *(uint32_t *)((int)self_ + 0x34);
   return;
 }
 
@@ -34,115 +34,130 @@ XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::ComputeFrameAdvance(void * self, int * param_1, int param_2)
 {
-  undefined4 *this_00;
+  uint32_t *this_00;
   float fVar1;
   float fVar2;
-  undefined4 uVar3;
+  uint32_t uVar3;
   int iVar4;
-  xi_bool bVar5;
-  float10 fVar6;
-  float10 fVar7;
+  uint32_t xi_eax;
+  uint8_t bVar5;
+  uint8_t bVar6;
+  long double fVar7;
+  long double fVar8;
   float fStack_c;
   
-  this_00 = (undefined4 *)((int)self + 0x34);
-  if ((*(int *)((int)self + 0x34) != 0) &&
-     (uVar3 = orig::ResourceHandle_IsResident_v1(this_00), (char)uVar3 != '\0')) {
-    iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00);
-    uVar3 = *(undefined4 *)((int)self + 0x24);
-    fStack_c = (float)(float10)(int)*(short *)(iVar4 + 0x34);
-    if ((!NAN((float10)*(float *)((int)self + 0x38)) && !NAN((float10)xi_k4(0x0ull))) &&
-        (float10)xi_k4(0x0ull) < (float10)*(float *)((int)self + 0x38)) {
-      fStack_c = *(float *)((int)self + 0x38);
+  this_00 = (uint32_t *)((int)self + 0x34);
+  if (*(int *)((int)self + 0x34) == 0) {
+    return;
+  }
+  uVar3 = orig::ResourceHandle_IsResident_v1(this_00);
+  if ((char)uVar3 == '\0') {
+    return;
+  }
+  iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
+  uVar3 = *(uint32_t *)((int)self + 0x24);
+  fStack_c = (float)(long double)(int)*(short *)(iVar4 + 0x34);
+  if ((long double)*(float *)((int)self + 0x38) > (long double)0.0f) {
+    fStack_c = *(float *)((int)self + 0x38);
+  }
+  if (*(int *)((int)self + 0x2c) < 0) {
+    return;
+  }
+  iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
+  fVar1 = *(float *)(iVar4 + 0x36);
+  fVar2 = *(float *)((int)self + 0x28);
+  fVar7 = (long double)fStack_c;
+  fVar8 = (long double)2.0f;
+  bVar5 = NAN(fVar7) || NAN(fVar8);
+  bVar6 = bVar5 || fVar7 == fVar8;
+  xi_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar4 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar8) << 8 | (uint16_t)bVar5 << 10 |
+                    (uint16_t)bVar6 << 0xe)));
+  if (bVar5 != bVar6) {
+    iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
+    fVar7 = (long double)*(float *)(iVar4 + 0x36) * (long double)0.5f;
+    fVar8 = (long double)0.5f;
+    bVar5 = NAN(fVar7) || NAN(fVar8);
+    bVar6 = bVar5 || fVar7 == fVar8;
+    xi_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar4 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar8) << 8 | (uint16_t)bVar5 << 10 |
+                      (uint16_t)bVar6 << 0xe)));
+    if (bVar5 != bVar6) {
+      fVar8 = (long double)*(float *)((int)self + 0x24) + (long double)1.0f;
+      goto LAB_1001a9b7;
     }
-    if (-1 < *(int *)((int)self + 0x2c)) {
-      iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00);
-      fVar1 = *(float *)(iVar4 + 0x36);
-      fVar2 = *(float *)((int)self + 0x28);
-      bVar5 = NAN((float10)fStack_c) || NAN((float10)xi_k4(0x40000000ull));
-      if ((bVar5 == (bVar5 || (float10)fStack_c == (float10)xi_k4(0x40000000ull))) ||
-         (iVar4 = orig::ResourceHandle_Deref_v1((undefined4 *)*this_00),
-         fVar6 = (float10)*(float *)(iVar4 + 0x36) * (float10)xi_k4(0x3F000000ull),
-         bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x3F000000ull)), bVar5 == (bVar5 || fVar6 == (float10)xi_k4(0x3F000000ull)))) {
-        fVar6 = orig::Camera_GetFrameScale_v1();
-        fVar6 = fVar6 * (float10)(float)((float10)fVar1 * (float10)xi_k4(0x3F000000ull) * (float10)fVar2) +
-                (float10)*(float *)((int)self + 0x24);
-      }
-      else {
-        fVar6 = (float10)*(float *)((int)self + 0x24) + (float10)xi_k4(0x3F800000ull);
-      }
-      *(float *)((int)self + 0x24) = (float)fVar6;
-      if ((NAN((float10)*(float *)((int)self + 0x24)) || NAN((float10)fStack_c)) ||
-          (float10)*(float *)((int)self + 0x24) < (float10)fStack_c) {
-        bVar5 = NAN((float10)*(float *)((int)self + 0x24)) || NAN((float10)xi_k4(0x0ull));
-        if ((bVar5 || (float10)*(float *)((int)self + 0x24) < (float10)xi_k4(0x0ull)) != bVar5) {
-          if ((0 < *(int *)((int)self + 0x2c)) &&
-             (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4,
-             iVar4 == 0)) {
-            *(undefined4 *)((int)self + 0x2c) = 0xffffffff;
-            if (param_2 < 3) {
-              if (*(int *)((int)self + 4) == 0) {
-                ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
-              }
-              *(undefined4 *)((int)self + 0x28) = 0;
-              *(undefined4 *)((int)self + 0x24) = uVar3;
-              return;
-            }
-            orig::FUN_1001b590(self);
-            *(undefined4 *)((int)self + 0x28) = 0;
-            *(undefined4 *)((int)self + 0x24) = uVar3;
-            return;
-          }
-          fVar7 = (float10)fStack_c;
-          fVar6 = (float10)xi_k4(0x0ull);
-          if ((!NAN(fVar7) && !NAN(fVar6)) && fVar7 < fVar6 != (fVar7 == fVar6)) {
-            *(undefined4 *)((int)self + 0x24) = 0x3f800000;
-            return;
-          }
-          fVar6 = (float10)*(float *)((int)self + 0x24);
-          bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-          if ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) != bVar5) {
-            do {
-              fVar6 = fVar6 + (float10)fStack_c;
-              bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-            } while ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) != bVar5);
-            *(float *)((int)self + 0x24) = (float)fVar6;
-            return;
-          }
-        }
-      }
-      else {
-        if ((0 < *(int *)((int)self + 0x2c)) &&
-           (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4, iVar4 == 0)
-           ) {
-          *(undefined4 *)((int)self + 0x2c) = 0xffffffff;
-          if (param_2 < 3) {
-            if (*(int *)((int)self + 4) == 0) {
-              ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
-            }
-            *(undefined4 *)((int)self + 0x28) = 0;
-            *(undefined4 *)((int)self + 0x24) = uVar3;
-            return;
-          }
+  }
+  fVar8 = orig::Camera_GetFrameScale_v1(xi_eax);
+  fVar8 = fVar8 * (long double)(float)((long double)fVar1 * (long double)0.5f * (long double)fVar2) +
+          (long double)*(float *)((int)self + 0x24);
+LAB_1001a9b7:
+  *(float *)((int)self + 0x24) = (float)fVar8;
+  if (!((long double)*(float *)((int)self + 0x24) >= (long double)fStack_c)) {
+    bVar5 = NAN((long double)*(float *)((int)self + 0x24)) || NAN((long double)0.0f);
+    if ((bVar5 || (long double)*(float *)((int)self + 0x24) < (long double)0.0f) != bVar5) {
+      if ((0 < *(int *)((int)self + 0x2c)) &&
+         (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4, iVar4 == 0))
+      {
+        *(uint32_t *)((int)self + 0x2c) = 0xffffffff;
+        if (2 < param_2) {
           orig::FUN_1001b590(self);
-          *(undefined4 *)((int)self + 0x28) = 0;
-          *(undefined4 *)((int)self + 0x24) = uVar3;
+          *(uint32_t *)((int)self + 0x28) = 0;
+          *(uint32_t *)((int)self + 0x24) = uVar3;
           return;
         }
-        fVar7 = (float10)fStack_c;
-        fVar6 = (float10)xi_k4(0x0ull);
-        if ((!NAN(fVar7) && !NAN(fVar6)) && fVar7 < fVar6 != (fVar7 == fVar6)) {
-          *(undefined4 *)((int)self + 0x24) = 0;
-          return;
+        if (*(int *)((int)self + 4) == 0) {
+          ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
         }
-        fVar6 = (float10)*(float *)((int)self + 0x24);
-        if ((!NAN(fVar6) && !NAN((float10)fStack_c)) && (float10)fStack_c <= fVar6) {
-          do {
-            fVar6 = fVar6 - (float10)fStack_c;
-          } while ((!NAN(fVar6) && !NAN((float10)fStack_c)) && (float10)fStack_c <= fVar6);
-          *(float *)((int)self + 0x24) = (float)fVar6;
-          return;
-        }
+        *(uint32_t *)((int)self + 0x28) = 0;
+        *(uint32_t *)((int)self + 0x24) = uVar3;
+        return;
       }
+      fVar7 = (long double)fStack_c;
+      fVar8 = (long double)0.0f;
+      if (fVar7 <= fVar8) {
+        *(uint32_t *)((int)self + 0x24) = 0x3f800000;
+        return;
+      }
+      fVar8 = (long double)*(float *)((int)self + 0x24);
+      bVar5 = NAN(fVar8) || NAN((long double)0.0f);
+      if ((bVar5 || fVar8 < (long double)0.0f) != bVar5) {
+        do {
+          fVar8 = fVar8 + (long double)fStack_c;
+          bVar5 = NAN(fVar8) || NAN((long double)0.0f);
+        } while ((bVar5 || fVar8 < (long double)0.0f) != bVar5);
+        *(float *)((int)self + 0x24) = (float)fVar8;
+        return;
+      }
+    }
+  }
+  else {
+    if ((0 < *(int *)((int)self + 0x2c)) &&
+       (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4, iVar4 == 0)) {
+      *(uint32_t *)((int)self + 0x2c) = 0xffffffff;
+      if (2 < param_2) {
+        orig::FUN_1001b590(self);
+        *(uint32_t *)((int)self + 0x28) = 0;
+        *(uint32_t *)((int)self + 0x24) = uVar3;
+        return;
+      }
+      if (*(int *)((int)self + 4) == 0) {
+        ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
+      }
+      *(uint32_t *)((int)self + 0x28) = 0;
+      *(uint32_t *)((int)self + 0x24) = uVar3;
+      return;
+    }
+    fVar7 = (long double)fStack_c;
+    fVar8 = (long double)0.0f;
+    if (fVar7 <= fVar8) {
+      *(uint32_t *)((int)self + 0x24) = 0;
+      return;
+    }
+    fVar8 = (long double)*(float *)((int)self + 0x24);
+    if (fVar8 >= (long double)fStack_c) {
+      do {
+        fVar8 = fVar8 - (long double)fStack_c;
+      } while (fVar8 >= (long double)fStack_c);
+      *(float *)((int)self + 0x24) = (float)fVar8;
+      return;
     }
   }
   return;
@@ -158,14 +173,14 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
   
   uStack_4 = *(float *)((int)self + 0x10);
   if ((param_4 == 0) && (4 < param_1)) {
-    uStack_4 = xi_k4(0x3F800000ull);
+    uStack_4 = 1.0f;
   }
   if (*(int *)((int)self + 0x34) != 0) {
     uVar1 = orig::ResourceHandle_IsResident_v1((undefined4 *)((int)self + 0x34));
     if ((char)uVar1 != '\0') {
       uVar1 = *(undefined4 *)((int)self + 0x24);
       this_00 = (void *)orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 0x34));
-      orig::FUN_10019a50(this_00,param_1,uVar1,uStack_4,param_3);
+      orig::FUN_10019a50(this_00,param_1,uVar1,uStack_4,param_3,this_00);
     }
   }
   return;
@@ -176,15 +191,15 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
 undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefined4 param_2)
 {
   int iVar1;
-  float10 fVar2;
+  long double fVar2;
   int *a4;
   int *this_00;
-  undefined4 xi_entry_eax = 0;
-  xi_bool bVar3;
-  xi_bool bVar4;
-  float10 fVar5;
+  uint32_t xi_entry_eax = 0;
+  uint8_t bVar3;
+  uint8_t bVar4;
+  long double fVar5;
   
-  *(undefined4 *)((int)self + 0xc) = 0;
+  *(uint32_t *)((int)self + 0xc) = 0;
   a4 = (int *)0x0;
   for (this_00 = *(int **)((int)self + 4); this_00 != (int *)0x0; this_00 = (int *)this_00[1]) {
     iVar1 = this_00[1];
@@ -192,21 +207,20 @@ undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefin
       xi_entry_eax = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x38))))((void *)(this_00),param_1,(int)self + 0x10,param_2,a4);
     }
     else {
-      fVar5 = (float10)*(float *)(iVar1 + 0x10);
-      fVar2 = (float10)xi_k4(0x3F800000ull);
+      fVar5 = (long double)*(float *)(iVar1 + 0x10);
+      fVar2 = (long double)1.0f;
       bVar3 = NAN(fVar5) || NAN(fVar2);
       bVar4 = bVar3 || fVar5 == fVar2;
-      xi_entry_eax = CONCAT22((short)((uint)iVar1 >> 0x10),
-                        (ushort)(bVar3 || fVar5 < fVar2) << 8 | (ushort)bVar3 << 10 |
-                        (ushort)bVar4 << 0xe);
+      xi_entry_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar1 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar3 || fVar5 < fVar2) << 8 | (uint16_t)bVar3 << 10 |
+                        (uint16_t)bVar4 << 0xe)));
       if (bVar3 == bVar4) {
         xi_entry_eax = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x38))))((void *)(this_00),param_1,(int)self + 0x10,param_2,a4);
       }
     }
     if (param_1 != 0) {
       *(float *)((int)self + 0xc) =
-           (float)((float10)xi_castbits<float>(this_00[7]) * (float10)xi_castbits<float>(this_00[4]) +
-                  ((float10)xi_k4(0x3F800000ull) - (float10)xi_castbits<float>(this_00[4])) * (float10)*(float *)((int)self + 0xc)
+           (float)((long double)xi_castbits<float>(this_00[7]) * (long double)xi_castbits<float>(this_00[4]) +
+                  ((long double)1.0f - (long double)xi_castbits<float>(this_00[4])) * (long double)*(float *)((int)self + 0xc)
                   );
     }
     a4 = this_00;

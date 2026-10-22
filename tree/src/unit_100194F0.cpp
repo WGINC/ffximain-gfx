@@ -14,8 +14,8 @@ XI_API void __thiscall fn_100194F0(void * self_)
   *(DWORD *)((int)self_ + 0xc) = DVar2;
   *(DWORD *)((int)self_ + 0x14) =
        *(int *)((int)self_ + 0x14) + ((DVar2 - iVar1) - *(int *)((int)self_ + 0x1c));
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
   return;
 }
 
@@ -24,15 +24,15 @@ XI_API void __thiscall fn_100194F0(void * self_)
 XI_API long double __thiscall fn_10019550(void * self_)
 {
   DWORD DVar1;
-  uint uVar2;
+  uint32_t uVar2;
   
   DVar1 = timeGetTime();
   uVar2 = (DVar1 - *(int *)((int)self_ + 0x1c)) - *(int *)((int)self_ + 0xc);
   if (uVar2 == 0) {
     uVar2 = 1;
   }
-  *(float *)((int)self_ + 4) = (float)((float10)xi_k4(0x447A0000ull) / (float10)uVar2);
-  return (float10)xi_k4(0x447A0000ull) / (float10)uVar2;
+  *(float *)((int)self_ + 4) = (float)((long double)1e+03f / (long double)uVar2);
+  return (long double)1e+03f / (long double)uVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x10019590  (unit unit_100194F0: no unit evidence of its own; in the gap between 0x100194E0 (CXiTimerLow) and 0x100195F0 (CYyBlendQue) -- an unnamed source file)
@@ -42,5 +42,5 @@ XI_API long double __thiscall fn_10019590(void * self_)
   DWORD DVar1;
   
   DVar1 = timeGetTime();
-  return (float10)((DVar1 - *(int *)((int)self_ + 0x1c)) - *(int *)((int)self_ + 0xc));
+  return (long double)((DVar1 - *(int *)((int)self_ + 0x1c)) - *(int *)((int)self_ + 0xc));
 }

@@ -6,19 +6,19 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_102A1FA0(int param_1)
 {
-  undefined4 uVar1;
-  float10 fVar2;
+  uint32_t uVar1;
+  long double fVar2;
   char xi_frame[24] __attribute__((aligned(4)));
   float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_14 = *reinterpret_cast<float  *>(xi_frame + 4);
   float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 8);
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 12);
   
-  local_18 = (float)((float10)*(float *)(param_1 + 0x14) - (float10)*(float *)(param_1 + 0x20));
-  local_14 = (float)((float10)*(float *)(param_1 + 0x18) - (float10)*(float *)(param_1 + 0x24));
-  local_10 = (float)((float10)*(float *)(param_1 + 0x1c) - (float10)*(float *)(param_1 + 0x28));
+  local_18 = (float)((long double)*(float *)(param_1 + 0x14) - (long double)*(float *)(param_1 + 0x20));
+  local_14 = (float)((long double)*(float *)(param_1 + 0x18) - (long double)*(float *)(param_1 + 0x24));
+  local_10 = (float)((long double)*(float *)(param_1 + 0x1c) - (long double)*(float *)(param_1 + 0x28));
   fVar2 = orig::FUN_102746c0(&local_18);
   orig::FUN_1028dbb0((float *)(param_1 + 0x14),local_c);
-  uVar1 = orig::FUN_10284000(local_c,(float)(fVar2 * (float10)xi_k4(0x3F000000ull)));
+  uVar1 = orig::FUN_10284000(local_c,(float)(fVar2 * (long double)0.5f));
   return uVar1;
 }

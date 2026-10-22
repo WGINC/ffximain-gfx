@@ -3,11 +3,11 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10081A30  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 198 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 194 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10081A30(void)
 {
   int *self_;
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::FUN_10085240();
   self_ = (int *)uVar1;
@@ -41,82 +41,21 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
 
 // FUNCTION: FFXIMAIN 0x10081AE0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10081AE0(void * self_)
+XI_API void __attribute__((stdcall, regparm(3))) fn_10081AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int iVar1;
   
-  if ((*(byte *)((int)self_ + 0x88) & 2) == 0) {
+  if ((*(uint8_t *)((int)self_ + 0x88) & 2) == 0) {
     if (g_pActorDrawListHead_as_v2 != (void *)0x0) {
       *(void **)((int)g_pActorDrawListHead_as_v2 + 0x58) = self_;
     }
     *(void **)((int)self_ + 0x54) = g_pActorDrawListHead_as_v2;
-    *(undefined4 *)((int)self_ + 0x58) = 0;
+    *(uint32_t *)((int)self_ + 0x58) = 0;
     g_pActorDrawListHead_as_v2 = self_;
     iVar1 = orig::FUN_10082bf0();
     *(int *)((int)self_ + 0x74) = iVar1;
-    *(uint *)((int)self_ + 0x88) = *(uint *)((int)self_ + 0x88) | 2;
+    *(uint32_t *)((int)self_ + 0x88) = *(uint32_t *)((int)self_ + 0x88) | 2;
   }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10081BA0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10081BA0(void * self_)
-{
-  char cVar1;
-  undefined4 *puVar2;
-  char *pcVar3;
-  int iVar4;
-  undefined4 *puVar5;
-  
-  puVar5 = (undefined4 *)&DAT_103581b4;
-  puVar2 = (undefined4 *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1bc))))((void *)(self_));
-  orig::Vec4_Copy_v1(puVar2,puVar5);
-  puVar5 = (undefined4 *)&DAT_103581c4;
-  puVar2 = (undefined4 *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
-  orig::Vec4_Copy_v1(puVar2,puVar5);
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x268))))((void *)(self_),0);
-  if (*(char *)(g_pCamera_as_s32 + 9) == '\0') {
-    pcVar3 = s_roro_thomashi_1035821c;
-    do {
-      cVar1 = *pcVar3;
-      pcVar3[(int)self_ + -0x10358164] = cVar1;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-  }
-  else {
-    pcVar3 = &Read_as_v0;
-    do {
-      cVar1 = *pcVar3;
-      pcVar3[(int)self_ + -0x103d3bcc] = cVar1;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-  }
-  *(uint *)((int)self_ + 0x88) = *(uint *)((int)self_ + 0x88) & 0xfffff800;
-  *(undefined4 *)((int)self_ + 0x78) = 0x80808080;
-  *(undefined4 *)((int)self_ + 0x7c) = 0x80808080;
-  *(undefined2 *)((int)self_ + 0xb2) = 0;
-  *(undefined4 *)((int)self_ + 0x80) = 0;
-  *(undefined4 *)((int)self_ + 0xb4) = 0;
-  *(undefined4 *)((int)self_ + 0xa0) = 0;
-  *(undefined4 *)((int)self_ + 0xa8) = 0;
-  *(undefined4 *)((int)self_ + 0x84) = 0;
-  *(undefined4 *)((int)self_ + 0x70) = 0;
-  *(undefined1 *)((int)self_ + 0xc0) = 0;
-  *(undefined4 *)((int)self_ + 0x6c) = 0;
-  *(undefined4 *)((int)self_ + 0x68) = 0;
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x1ac))))((void *)(self_),0x40a00000);
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x1a4))))((void *)(self_),(float)((float10)_DAT_103581a0 * (float10)xi_k4(0x40A00000ull)));
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x1b4))))((void *)(self_),(float)((float10)_DAT_103581a0 * (float10)xi_k4(0x3FD55555ull)));
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x290))))((void *)(self_),0);
-  orig::FUN_10081ae0(self_);
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x350))))((void *)(self_),0);
-  if (*(char *)(g_pCamera_as_s32 + 9) == '\0') {
-    iVar4 = orig::FUN_10082bf0();
-    *(int *)((int)self_ + 0x74) = iVar4;
-  }
-  iVar4 = orig::FUN_10082bf0();
-  *(int *)((int)self_ + 0x74) = iVar4;
   return;
 }
 
@@ -126,7 +65,7 @@ XI_API void * __thiscall fn_10081CF0(void * self_)
 {
   orig::CMoTask_Constructor_v1(self_);
   orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x5c));
-  *(undefined ***)self_ = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
+  *(uint8_t ***)self_ = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
   orig::CXiActor_Init(self_);
   return self_;
 }

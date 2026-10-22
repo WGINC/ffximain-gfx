@@ -8,7 +8,7 @@ XI_API int __cdecl fn_10082BF0(void)
 {
   void *self_;
   int iVar1;
-  undefined8 uVar2;
+  uint64_t uVar2;
   
   iVar1 = 0;
   uVar2 = orig::FUN_10085240();

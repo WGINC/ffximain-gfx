@@ -64,56 +64,58 @@ XI_API void __cdecl App_RegisterSystemDats(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10010520(void)
 {
-  orig::FUN_10103740();
-  orig::FUN_1021c100(DAT_10666e2c,0x103502d4,0x103502dc);
-  orig::FUN_1021c100(DAT_10666e30,0x103502cc,0);
+  uint32_t uVar1;
+  
+  uVar1 = orig::FUN_10103740();
+  uVar1 = orig::FUN_1021c100(DAT_10666e2c,0x103502d4,0x103502dc,uVar1);
+  uVar1 = orig::FUN_1021c100(DAT_10666e30,0x103502cc,0,uVar1);
   if (DAT_10666e34 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e34,0x103502c4,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e34,0x103502c4,0,uVar1);
   }
   if (DAT_10666e38 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e38,0x103502bc,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e38,0x103502bc,0,uVar1);
   }
   if (DAT_10666e3c != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e3c,0x103502b4,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e3c,0x103502b4,0,uVar1);
   }
   if (DAT_10666e40 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e40,0x103502ac,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e40,0x103502ac,0,uVar1);
   }
   if (DAT_10666e44 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e44,0x103502a4,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e44,0x103502a4,0,uVar1);
   }
   if (DAT_10666e48 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e48,0x1035029c,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e48,0x1035029c,0,uVar1);
   }
   if (DAT_10666e4c != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e4c,0x10350294,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e4c,0x10350294,0,uVar1);
   }
   if (DAT_10666e50 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e50,0x10350288,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e50,0x10350288,0,uVar1);
   }
   if (DAT_10666e54 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e54,0x1035027c,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e54,0x1035027c,0,uVar1);
   }
   if (DAT_10666e58 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e58,0x10350270,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e58,0x10350270,0,uVar1);
   }
   if (DAT_10666e5c != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e5c,0x10350264,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e5c,0x10350264,0,uVar1);
   }
   if (DAT_10666e60 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e60,0x10350258,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e60,0x10350258,0,uVar1);
   }
   if (DAT_10666e64 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e64,0x1035024c,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e64,0x1035024c,0,uVar1);
   }
   if (DAT_10666e68 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e68,0x10350240,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e68,0x10350240,0,uVar1);
   }
   if (DAT_10666e6c != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e6c,0x10350238,0);
+    uVar1 = orig::FUN_1021c100(DAT_10666e6c,0x10350238,0,uVar1);
   }
   if (DAT_10666e70 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e70,0,0);
+    orig::FUN_1021c100(DAT_10666e70,0,0,uVar1);
   }
   orig::FUN_10093da0();
   orig::FUN_10240860();
@@ -124,7 +126,7 @@ XI_API void __cdecl fn_10010520(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl fn_100106C0(void)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
   uVar1 = g_pCamera_as_v1;
   if (*(char *)(g_pCamera_as_v1 + 9) != '\0') {
@@ -134,7 +136,7 @@ XI_API uint32_t __cdecl fn_100106C0(void)
       return uVar1 & 0xffffff00;
     }
     if (DAT_106631d8 != (void *)0x0) {
-      uVar1 = orig::FUN_101d5370(DAT_106631d8);
+      uVar1 = orig::FUN_101d5370(DAT_106631d8,uVar1);
     }
   }
   return uVar1 & 0xffffff00;
@@ -144,35 +146,35 @@ XI_API uint32_t __cdecl fn_100106C0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall App_Constructor(void * self_)
 {
-  orig::fn_10027990_v1((void *)((int)self_ + 0x54));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x94));
-  orig::fn_10027990_v1((void *)((int)self_ + 0xd4));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x114));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x154));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x194));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x1d4));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x214));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x254));
-  orig::fn_10027990_v1((void *)((int)self_ + 0x294));
-  *(undefined ***)self_ = &PTR_FUN_10329c14;
-  *(undefined1 *)((int)self_ + 0xb) = 1;
-  *(undefined2 *)((int)self_ + 4) = 0;
-  *(undefined2 *)((int)self_ + 6) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
-  *(undefined4 *)((int)self_ + 0x2c) = 0xbf800000;
-  *(undefined4 *)((int)self_ + 0x28) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x30) = 2;
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)((int)self_ + 0x3c) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined1 *)((int)self_ + 8) = 1;
-  *(undefined1 *)((int)self_ + 9) = 0;
-  *(undefined1 *)((int)self_ + 10) = 1;
-  *(undefined4 *)((int)self_ + 0x40) = 0xffffffff;
-  *(undefined4 *)((int)self_ + 0x44) = 0;
-  *(undefined4 *)((int)self_ + 0x48) = 0;
-  *(undefined4 *)((int)self_ + 0x4c) = 0;
+  orig::FUN_10027990((void *)((int)self_ + 0x54));
+  orig::FUN_10027990((void *)((int)self_ + 0x94));
+  orig::FUN_10027990((void *)((int)self_ + 0xd4));
+  orig::FUN_10027990((void *)((int)self_ + 0x114));
+  orig::FUN_10027990((void *)((int)self_ + 0x154));
+  orig::FUN_10027990((void *)((int)self_ + 0x194));
+  orig::FUN_10027990((void *)((int)self_ + 0x1d4));
+  orig::FUN_10027990((void *)((int)self_ + 0x214));
+  orig::FUN_10027990((void *)((int)self_ + 0x254));
+  orig::FUN_10027990((void *)((int)self_ + 0x294));
+  *(uint8_t ***)self_ = &PTR_FUN_10329c14;
+  *(uint8_t *)((int)self_ + 0xb) = 1;
+  *(uint16_t *)((int)self_ + 4) = 0;
+  *(uint16_t *)((int)self_ + 6) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x2c) = 0xbf800000;
+  *(uint32_t *)((int)self_ + 0x28) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x30) = 2;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)((int)self_ + 0x3c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint8_t *)((int)self_ + 8) = 1;
+  *(uint8_t *)((int)self_ + 9) = 0;
+  *(uint8_t *)((int)self_ + 10) = 1;
+  *(uint32_t *)((int)self_ + 0x40) = 0xffffffff;
+  *(uint32_t *)((int)self_ + 0x44) = 0;
+  *(uint32_t *)((int)self_ + 0x48) = 0;
+  *(uint32_t *)((int)self_ + 0x4c) = 0;
   g_pTextureMng_as_v1 = 0;
   g_pVbMng_as_v0 = 0;
   dword_1045B774_as_v1 = 0;
@@ -183,20 +185,20 @@ XI_API void * __thiscall App_Constructor(void * self_)
   g_pTkMsgWinData_as_v0 = 0;
   dword_1057815C_as_v0 = 0;
   dword_10578160_as_v0 = 0;
-  DAT_1045690c_as_v1 = 0;
+  DAT_1045690c_as_v0 = 0;
   dword_1047D688_as_v0 = 0;
   dword_1047D68C_as_v0 = 0;
   g_pXiCapture_as_v0 = 0;
   g_pObj_Vtbl10329F8C_as_v0 = 0;
-  *(undefined1 *)((int)self_ + 0xb) = (undefined1)g_cfg0000_as_v0;
-  *(undefined4 *)((int)self_ + 0x50) = 0;
+  *(uint8_t *)((int)self_ + 0xb) = (uint8_t)g_cfg0000_as_v0;
+  *(uint32_t *)((int)self_ + 0x50) = 0;
   g_afterimageState_as_v0 = 0;
   g_afterimageBufferState_as_v0 = 0;
   g_afterimagePhase_as_v0 = 0;
   g_afterimageTex_as_v0 = 0;
-  g_afterimageHalfTex_as_v0 = 0;
+  g_afterimageHalfTex = 0;
   g_afterimageDepth_as_v0 = 0;
-  dword_1045691C_as_v0 = 0;
+  dword_1045691C = 0;
   g_feedbackBufferIndex_as_v0 = 0;
   g_feedbackBufferState_as_v0 = 0;
   g_feedbackActive_as_v0 = 0;
@@ -205,10 +207,10 @@ XI_API void * __thiscall App_Constructor(void * self_)
   g_feedbackDepth_as_v0 = 0;
   dword_10456944_as_v0 = 0;
   XI_PIECE(g_screenFadeLevel_as_v0, 0, 1) = 0x80;
-  *(undefined4 *)((int)self_ + 0x2e4) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x2e8) = 0x3f4a7efa;
-  *(undefined4 *)((int)self_ + 0x2ec) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x2f0) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x2e4) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x2e8) = 0x3f4a7efa;
+  *(uint32_t *)((int)self_ + 0x2ec) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x2f0) = 0x3f800000;
   orig::Mat4_SetIdentity_v1(&g_frameWorldMatrix_as_v0);
   return self_;
 }
@@ -217,8 +219,8 @@ XI_API void * __thiscall App_Constructor(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall App_SetSeqStep(void * self_, undefined4 param_1)
 {
-  *(undefined2 *)((int)self_ + 6) = 0;
-  *(undefined2 *)((int)self_ + 4) = (undefined2)param_1;
+  *(uint16_t *)((int)self_ + 6) = 0;
+  *(uint16_t *)((int)self_ + 4) = (uint16_t)param_1;
   return;
 }
 
@@ -227,7 +229,7 @@ XI_API void __thiscall App_SetSeqStep(void * self_, undefined4 param_1)
 XI_API void __thiscall App_AdvanceSeqStep(void * self_)
 {
   *(short *)((int)self_ + 4) = *(short *)((int)self_ + 4) + 1;
-  *(undefined2 *)((int)self_ + 6) = 0;
+  *(uint16_t *)((int)self_ + 6) = 0;
   return;
 }
 
@@ -240,7 +242,7 @@ XI_API void __thiscall fn_10010D10(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D20  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_InitScene(int self_, int a4)
 {
   _DWORD *v3;

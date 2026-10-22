@@ -4,28 +4,28 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003EF10  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoVuAnmElem::GetRuntimeClass()
 {
   return &CMoVuAnmElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EF80  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 BOOL CMoVuAnmElem::vf012(int a1)
 {
   return a1 == 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EF90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoVuAnmElem::vf008()
 {
   return ((int (__thiscall *)(CMoVuAnmElem *))(*(CMoTask_vtbl * *)((char *)this + 0x0))[1].vf10_CMoTask_vf010)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x1003EFA0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CMoVuAnmElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoVuAnmElem_Destructor(this);
@@ -36,18 +36,18 @@ void * CMoVuAnmElem::ScalarDeletingDtor(char a2)
 
 // FUNCTION: FFXIMAIN 0x10052CD0  (unit CMoVuAnmElem: stores CMoVuAnmElem vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10052CD0(void * self_)
+XI_API uint64_t __thiscall fn_10052CD0(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
-  *(undefined4 *)((int)self_ + 0x198) = 0;
-  *(undefined4 *)((int)self_ + 0x1d4) = 0;
-  *(undefined2 *)((int)self_ + 0x1da) = 0;
+  *(uint8_t ***)self_ = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
+  *(uint32_t *)((int)self_ + 0x198) = 0;
+  *(uint32_t *)((int)self_ + 0x1d4) = 0;
+  *(uint16_t *)((int)self_ + 0x1da) = 0;
   uVar1 = orig::DynVB_Constructor_v1((void *)((int)self_ + 0x1dd));
-  *(undefined ***)self_ = &PTR_CMoVuAnmElem_GetRuntimeClass_1032ac10;
-  *(undefined2 *)((int)self_ + 0x176) = 0x231;
-  *(undefined1 *)((int)self_ + 0x1dc) = 0;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  *(uint8_t ***)self_ = &PTR_CMoVuAnmElem_GetRuntimeClass_1032ac10;
+  *(uint16_t *)((int)self_ + 0x176) = 0x231;
+  *(uint8_t *)((int)self_ + 0x1dc) = 0;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }

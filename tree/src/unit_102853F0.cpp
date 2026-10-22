@@ -86,8 +86,8 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
     puVar4 = orig::FUN_10275d80(1,*piVar1 << 2,s_dataType_103b7b90,0xd6);
     puVar5[0x13] = puVar4;
     orig::FUN_1028a0f0(puVar4,4,*piVar1,param_1,(int)puVar7);
-    *(undefined1 *)(puVar5 + 0x15) = 0;
-    *(undefined1 *)((int)puVar5 + 0x55) = 0xff;
+    *(uint8_t *)(puVar5 + 0x15) = 0;
+    *(uint8_t *)((int)puVar5 + 0x55) = 0xff;
     puVar7 = orig::FUN_10275d80(1,*piVar1,s_entryEnabled_103b7b80,0xdd);
     puVar5[0x14] = puVar7;
     iVar8 = 0;

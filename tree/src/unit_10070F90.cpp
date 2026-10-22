@@ -6,10 +6,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10070F90(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
-  *(undefined4 *)((int)self_ + 0x34) = param_1;
-  *(undefined4 *)((int)self_ + 0x38) = param_2;
-  *(undefined4 *)((int)self_ + 0x3c) = param_3;
-  *(undefined1 *)((int)self_ + 0x40) = (undefined1)param_4;
+  *(uint32_t *)((int)self_ + 0x34) = param_1;
+  *(uint32_t *)((int)self_ + 0x38) = param_2;
+  *(uint32_t *)((int)self_ + 0x3c) = param_3;
+  *(uint8_t *)((int)self_ + 0x40) = (uint8_t)param_4;
   orig::CMoTask_RegisterWithMng_v1(0);
   return;
 }
@@ -18,7 +18,7 @@ XI_API void __thiscall fn_10070F90(void * self_, undefined4 param_1, undefined4 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ResHandle_FreeIfUnreferenced(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::MoRes_FreeIfUnreferenced_v1(*(int **)self_);
   return uVar1;
@@ -29,38 +29,38 @@ XI_API undefined4 __thiscall ResHandle_FreeIfUnreferenced(void * self_)
 XI_API undefined4 __thiscall ResourceHandle_IsResident(void * self_)
 {
   void *this_00;
-  undefined4 uVar1;
+  uint32_t uVar1;
   int iVar2;
   
-  uVar1 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(undefined4 **)self_);
+  uVar1 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(uint32_t **)self_);
   if ((char)uVar1 == '\0') {
     return uVar1;
   }
-  if (*(undefined4 **)self_ == (undefined4 *)0x0) {
+  if (*(uint32_t **)self_ == (uint32_t *)0x0) {
     return 0;
   }
-  this_00 = (void *)**(undefined4 **)self_;
+  this_00 = (void *)**(uint32_t **)self_;
   if (this_00 == (void *)0x0) {
     return 0;
   }
   iVar2 = orig::FUN_10071f80(this_00);
-  return CONCAT31((int3)((uint)iVar2 >> 8),iVar2 == 0);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(iVar2 == 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100710F0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100710F0(void * self_, undefined4 param_1, undefined4 param_2, int param_3, int param_4)
 {
-  undefined4 uVar1;
-  undefined4 *this_00;
-  undefined8 uVar2;
+  uint32_t uVar1;
+  uint32_t *this_00;
+  uint64_t uVar2;
   
   uVar2 = orig::Mem_AllocFromArea_v1(0x84,4);
-  this_00 = (undefined4 *)uVar2;
+  this_00 = (uint32_t *)uVar2;
   orig::CMoTask_ResetFields_v1(this_00);
   g_resourcesDirty_as_v0 = 1;
-  if (this_00 == (undefined4 *)0x0) {
-    this_00 = (undefined4 *)0x0;
+  if (this_00 == (uint32_t *)0x0) {
+    this_00 = (uint32_t *)0x0;
   }
   else {
     orig::FUN_10070f40(this_00);
@@ -68,7 +68,7 @@ XI_API undefined4 __thiscall fn_100710F0(void * self_, undefined4 param_1, undef
     this_00[0x11] = &PTR_CMoAttachments_GetRuntimeClass_1032c4e8;
     *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c4bc;
   }
-  orig::FUN_10070f90(this_00,*(undefined4 *)self_,param_1,param_2,1);
+  orig::FUN_10070f90(this_00,*(uint32_t *)self_,param_1,param_2,1);
   orig::CMoAttachments_SetCaster_v1(this_00 + 0x11,param_3);
   uVar1 = orig::CMoAttachments_SetTarget_v1(this_00 + 0x11,param_4);
   return uVar1;
@@ -78,13 +78,13 @@ XI_API undefined4 __thiscall fn_100710F0(void * self_, undefined4 param_1, undef
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100711B0(void * self_)
 {
-  *(undefined2 *)((int)self_ + 0x14) = 0x8000;
-  *(undefined4 *)self_ = 0;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined2 *)((int)self_ + 0x16) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
+  *(uint16_t *)((int)self_ + 0x14) = 0x8000;
+  *(uint32_t *)self_ = 0;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint16_t *)((int)self_ + 0x16) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
   return;
 }
 
@@ -93,7 +93,7 @@ XI_API void __thiscall fn_100711B0(void * self_)
 XI_API void __thiscall fn_100711D0(void * self_, int param_1)
 {
   if (param_1 != 0) {
-    *(undefined4 *)self_ = *(undefined4 *)(param_1 + 0x14);
+    *(uint32_t *)self_ = *(uint32_t *)(param_1 + 0x14);
   }
   return;
 }
@@ -103,7 +103,7 @@ XI_API void __thiscall fn_100711D0(void * self_, int param_1)
 XI_API void __thiscall fn_100711E0(void * self_, int param_1)
 {
   if (param_1 != 0) {
-    *(undefined4 *)((int)self_ + 4) = *(undefined4 *)(param_1 + 0x14);
+    *(uint32_t *)((int)self_ + 4) = *(uint32_t *)(param_1 + 0x14);
   }
   return;
 }
@@ -113,7 +113,7 @@ XI_API void __thiscall fn_100711E0(void * self_, int param_1)
 XI_API void __thiscall fn_10071200(void * self_, int param_1)
 {
   if (param_1 != 0) {
-    *(undefined4 *)((int)self_ + 8) = *(undefined4 *)(param_1 + 0x14);
+    *(uint32_t *)((int)self_ + 8) = *(uint32_t *)(param_1 + 0x14);
   }
   return;
 }

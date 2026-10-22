@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 19 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93, town PASS 89, town2 PASS 83, combat PASS 83, zonetoinn PASS 84
+// GATE: PASS -- 100 trials, 93 returned normally, 19 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 {
   int *v3;
@@ -99,7 +99,7 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   int iVar4;
   int *piVar5;
   int iVar6;
@@ -108,10 +108,10 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
   int  &local_1c = *reinterpret_cast<int  *>(xi_frame + 4);
   int  &local_18 = *reinterpret_cast<int  *>(xi_frame + 8);
   int  &local_14 = *reinterpret_cast<int  *>(xi_frame + 12);
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 16);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 20);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 24);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
   
   piVar5 = (int *)(param_2 * 0x30 + *(int *)(param_1 + 0x40));
   iVar1 = *piVar5;
@@ -134,19 +134,19 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
   orig::sqgxTextureClear_v1(&local_10,0);
   iVar6 = *(int *)(*(int *)(param_1 + 0x18) + *(int *)(param_1 + 0x1c) * 0xc);
   orig::sqgxPerspective(*(float *)(iVar4 + 0x24),*(float *)(iVar6 + 0x18),*(float *)(iVar6 + 0x1c));
-  orig::sqgxMatrixCamera_v1(*(undefined4 **)(iVar1 * 0xc + 4 + *(int *)(param_1 + 0x24)));
+  orig::sqgxMatrixCamera_v1(*(uint32_t **)(iVar1 * 0xc + 4 + *(int *)(param_1 + 0x24)));
   orig::sqgxShader_v1(0,0);
   orig::sqgxZMask_v1(0);
   orig::sqgxZTest_v1(0);
   param_2 = 0;
   if (0 < piVar5[1]) {
     do {
-      uVar3 = *(uint *)(piVar5[2] + param_2 * 4);
+      uVar3 = *(uint32_t *)(piVar5[2] + param_2 * 4);
       iVar4 = (uVar3 & 0x7fff) * 0x90;
       iVar6 = ((int)uVar3 >> 0x10) * 0x2c;
       iVar1 = *(int *)(*(int *)(param_1 + 0x48) + 0x28 + iVar6);
       if (*(char *)(iVar1 + 0x1d + iVar4) != '\0') {
-        orig::sqgxMatrixShape_v1(*(undefined4 **)(iVar1 + iVar4 + 4));
+        orig::sqgxMatrixShape_v1(*(uint32_t **)(iVar1 + iVar4 + 4));
         orig::sqgxColor_v1(&local_20);
         orig::sqgxColorUpdate_v1();
         orig::sqDrawableDraw_v1(*(int *)(*(int *)(*(int *)(param_1 + 0x48) + 0x28 + iVar6) + iVar4));
@@ -207,7 +207,7 @@ XI_API void __cdecl fn_102A2C00(int param_1, int * param_2, int param_3, int par
   orig::sqgxBlendZeroSrcAlpha();
   orig::sqgxPassAdd_v1(0x14);
   orig::sqgxZMask_v1(0);
-  orig::sqgxMatrixShape_v1((undefined4 *)param_2[1]);
+  orig::sqgxMatrixShape_v1((uint32_t *)param_2[1]);
   orig::FUN_102972d0(*(float *)(*(int *)(*(int *)(param_1 + 0x24) + *(int *)(iVar1 + param_3 * 0x30) * 0xc
                                   ) + 0x24));
   orig::sqgxShader_v1(0x20000000,0);

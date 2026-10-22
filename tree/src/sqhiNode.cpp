@@ -21,7 +21,7 @@ XI_API void __cdecl fn_10291BA0(undefined4 * param_1)
   param_1[2] = &LAB_10291c10;
   param_1[3] = XI_CODE(FUN_10291c20);
   param_1[4] = XI_CODE(FUN_10291c60);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = XI_CODE(FUN_10291fe0);
   param_1[7] = 0xffffffff;
   param_1[8] = 0;
@@ -30,7 +30,7 @@ XI_API void __cdecl fn_10291BA0(undefined4 * param_1)
   param_1[0x1b] = 0;
   param_1[0x1c] = 0;
   orig::FUN_1027ebd0(param_1 + 9);
-  *(undefined1 *)(param_1 + 0x1d) = 0xff;
+  *(uint8_t *)(param_1 + 0x1d) = 0xff;
   orig::FUN_1027eb00_v1(param_1 + 0x1e);
   orig::M4fSet_v1(param_1 + 0x2e,param_1 + 9);
   return;
@@ -48,7 +48,7 @@ XI_API void __cdecl fn_10291C50(void)
 XI_API void __cdecl fn_10291F00(int param_1, undefined4 param_2)
 {
   if (param_1 != 0) {
-    *(undefined4 *)(param_1 + 100) = param_2;
+    *(uint32_t *)(param_1 + 100) = param_2;
   }
   return;
 }

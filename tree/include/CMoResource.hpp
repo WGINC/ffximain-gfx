@@ -18,7 +18,6 @@ public:
     static void __thiscall RegisterInTypeList(void * self);  // 0x10072030
     static void * __thiscall GetParent(void * self);  // 0x10072270
     static undefined8 __thiscall FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10072290
-    static undefined4 __stdcall FindInScope(undefined4 * param_1, int param_2, uint32_t param_3, int param_4);  // 0x10072430
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x10];

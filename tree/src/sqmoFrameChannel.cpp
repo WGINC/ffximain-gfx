@@ -31,7 +31,7 @@ XI_API void __cdecl fn_10293FA0(undefined4 * param_1)
   param_1[0xc] = 0;
   param_1[0xd] = 0;
   param_1[0xe] = 0;
-  *(undefined1 *)(param_1 + 0xf) = 0;
+  *(uint8_t *)(param_1 + 0xf) = 0;
   return;
 }
 
@@ -40,6 +40,6 @@ XI_API void __cdecl fn_10293FA0(undefined4 * param_1)
 XI_API void __cdecl fn_102944E0(int param_1, int param_2)
 {
   orig::FUN_1027d650(*(int *)(param_1 + 0x38),*(int *)(param_1 + 0x1c),param_2,
-               (undefined1 *)(param_1 + 0x3c));
+               (uint8_t *)(param_1 + 0x3c));
   return;
 }

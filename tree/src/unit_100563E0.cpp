@@ -7,40 +7,40 @@
 XI_API void __thiscall fn_10056400(void * self_)
 {
   int iVar1;
-  xi_bool bVar2;
-  float10 fVar3;
+  uint8_t bVar2;
+  long double fVar3;
   char xi_frame[20] __attribute__((aligned(4)));
   float  &fStack_14 = *reinterpret_cast<float  *>(xi_frame + 0);
   int  &iStack_10 = *reinterpret_cast<int  *>(xi_frame + 4);
-  undefined4  &uStack_c = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &uStack_8 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
+  uint32_t  &uStack_c = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &uStack_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   
   iStack_10 = *(int *)((int)self_ + 0x54);
-  uStack_c = *(undefined4 *)((int)self_ + 0x58);
-  uStack_8 = *(undefined4 *)((int)self_ + 0x5c);
+  uStack_c = *(uint32_t *)((int)self_ + 0x58);
+  uStack_8 = *(uint32_t *)((int)self_ + 0x5c);
   if (*(char *)((int)self_ + 0x1b0) == '\0') {
-    iVar1 = orig::FUN_10178610(*(int *)((int)self_ + 0x194),&iStack_10,*(uint *)((int)self_ + 0xf8),xi_k4(0x0ull),
-                         xi_castbits<int>((float)((float10)*(float *)((int)self_ + 0x1a8) *
-                                     (float10)*(float *)((int)self_ + 0x19c))));
+    iVar1 = orig::FUN_10178610(*(int *)((int)self_ + 0x194),&iStack_10,*(uint32_t *)((int)self_ + 0xf8),0.0f,
+                         xi_castbits<int>((float)((long double)*(float *)((int)self_ + 0x1a8) *
+                                     (long double)*(float *)((int)self_ + 0x19c))));
     *(int *)((int)self_ + 0x1ac) = iVar1;
-    *(undefined1 *)((int)self_ + 0x1b0) = 1;
+    *(uint8_t *)((int)self_ + 0x1b0) = 1;
     return;
   }
-  bVar2 = NAN((float10)*(float *)((int)self_ + 0x1a0)) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar2 || (float10)*(float *)((int)self_ + 0x1a0) < (float10)xi_k4(0x0ull)) == bVar2) {
-    fVar3 = (float10)*(float *)((int)self_ + 0x1a0);
+  bVar2 = NAN((long double)*(float *)((int)self_ + 0x1a0)) || NAN((long double)0.0f);
+  if ((bVar2 || (long double)*(float *)((int)self_ + 0x1a0) < (long double)0.0f) == bVar2) {
+    fVar3 = (long double)*(float *)((int)self_ + 0x1a0);
   }
   else {
-    fVar3 = (float10)xi_k4(0x0ull);
+    fVar3 = (long double)0.0f;
   }
-  fVar3 = fVar3 * (float10)*(float *)((int)self_ + 0x1a4) * (float10)*(float *)((int)self_ + 0x138);
+  fVar3 = fVar3 * (long double)*(float *)((int)self_ + 0x1a4) * (long double)*(float *)((int)self_ + 0x138);
   fStack_14 = (float)fVar3;
-  bVar2 = NAN(fVar3) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar2 || fVar3 < (float10)xi_k4(0x0ull)) != bVar2) {
-    fStack_14 = xi_k4(0x0ull);
+  bVar2 = NAN(fVar3) || NAN((long double)0.0f);
+  if ((bVar2 || fVar3 < (long double)0.0f) != bVar2) {
+    fStack_14 = 0.0f;
   }
-  orig::FUN_10178530(*(int *)((int)self_ + 0x1ac),&iStack_10,*(uint *)((int)self_ + 0xf8),fStack_14,
-               (float)((float10)*(float *)((int)self_ + 0x1a8) *
-                      (float10)*(float *)((int)self_ + 0x19c)));
+  orig::FUN_10178530(*(int *)((int)self_ + 0x1ac),&iStack_10,*(uint32_t *)((int)self_ + 0xf8),fStack_14,
+               (float)((long double)*(float *)((int)self_ + 0x1a8) *
+                      (long double)*(float *)((int)self_ + 0x19c)));
   return;
 }

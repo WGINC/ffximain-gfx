@@ -6,9 +6,9 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
 {
-  if ((*(ushort *)((int)self_ + 0x54) != 0) &&
-     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x54)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x54)] + 0xa0);
+  if ((*(uint16_t *)((int)self_ + 0x54) != 0) &&
+     ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x54)] != 0)) {
+    return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x54)] + 0xa0);
   }
   return 0;
 }
@@ -17,9 +17,9 @@ XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CDA00(void * self_)
 {
-  if ((*(ushort *)((int)self_ + 0x56) != 0) &&
-     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x56)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x56)] + 0xa0);
+  if ((*(uint16_t *)((int)self_ + 0x56) != 0) &&
+     ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x56)] != 0)) {
+    return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x56)] + 0xa0);
   }
   return 0;
 }
@@ -28,9 +28,9 @@ XI_API undefined4 __thiscall fn_101CDA00(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CDA30(void * self_)
 {
-  if ((*(ushort *)((int)self_ + 0x5a) != 0) &&
-     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x5a)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x5a)] + 0xa0);
+  if ((*(uint16_t *)((int)self_ + 0x5a) != 0) &&
+     ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x5a)] != 0)) {
+    return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x5a)] + 0xa0);
   }
   return 0;
 }

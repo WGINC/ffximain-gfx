@@ -7,10 +7,10 @@
 XI_API void __cdecl SetMusicTrackVolume_C(void)
 {
   void *self_;
-  undefined8 uVar1;
-  longlong lVar2;
+  uint64_t uVar1;
+  int64_t lVar2;
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
   
   if (DAT_104637e8 == (undefined4 *)0x0) {
     uVar1 = orig::CMoResource_FindByTypeAndId_v1
@@ -23,7 +23,7 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
   }
   self_ = (void *)*DAT_104637e8;
   if (self_ != (void *)0x0) {
-    lVar2 = XI_CALL_ST0(0x10311C2Cu)((float10)DAT_10351700 * (float10)xi_k4(0x42FE0000ull));
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
     orig::FUN_10036f00(self_,0x40,(int)lVar2);
   }
   return;
@@ -34,10 +34,10 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
 XI_API void __cdecl fn_10037D70(void)
 {
   void *self_;
-  undefined8 uVar1;
-  longlong lVar2;
+  uint64_t uVar1;
+  int64_t lVar2;
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
   
   if (DAT_1046279c == (undefined4 *)0x0) {
     uVar1 = orig::CMoResource_FindByTypeAndId_v1
@@ -50,7 +50,7 @@ XI_API void __cdecl fn_10037D70(void)
   }
   self_ = (void *)*DAT_1046279c;
   if (self_ != (void *)0x0) {
-    lVar2 = XI_CALL_ST0(0x10311C2Cu)((float10)DAT_10351700 * (float10)xi_k4(0x42FE0000ull));
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
     orig::FUN_10036f00(self_,0x40,(int)lVar2);
   }
   return;
@@ -61,10 +61,10 @@ XI_API void __cdecl fn_10037D70(void)
 XI_API void __cdecl fn_10037E30(void)
 {
   void *self_;
-  undefined8 uVar1;
-  longlong lVar2;
+  uint64_t uVar1;
+  int64_t lVar2;
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
   
   if (DAT_104627cc == (undefined4 *)0x0) {
     uVar1 = orig::CMoResource_FindByTypeAndId_v1
@@ -77,7 +77,7 @@ XI_API void __cdecl fn_10037E30(void)
   }
   self_ = (void *)*DAT_104627cc;
   if (self_ != (void *)0x0) {
-    lVar2 = XI_CALL_ST0(0x10311C2Cu)((float10)DAT_10351700 * (float10)xi_k4(0x42FE0000ull));
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
     orig::FUN_10036f00(self_,0x40,(int)lVar2);
   }
   return;
@@ -88,10 +88,10 @@ XI_API void __cdecl fn_10037E30(void)
 XI_API void __cdecl fn_10037E90(void)
 {
   void *self_;
-  undefined8 uVar1;
-  longlong lVar2;
+  uint64_t uVar1;
+  int64_t lVar2;
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 0);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
   
   if (DAT_10462690 == (undefined4 *)0x0) {
     uVar1 = orig::CMoResource_FindByTypeAndId_v1
@@ -104,7 +104,7 @@ XI_API void __cdecl fn_10037E90(void)
   }
   self_ = (void *)*DAT_10462690;
   if (self_ != (void *)0x0) {
-    lVar2 = XI_CALL_ST0(0x10311C2Cu)((float10)DAT_10351700 * (float10)xi_k4(0x42FE0000ull));
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
     orig::FUN_10036f00(self_,0x40,(int)lVar2);
   }
   return;
@@ -116,8 +116,8 @@ XI_API void __cdecl fn_100380F0(uint32_t param_1, undefined4 param_2, undefined4
 {
   void *self_;
   undefined4 *this_00;
-  undefined8 uVar1;
-  longlong lVar2;
+  uint64_t uVar1;
+  int64_t lVar2;
   
   if (DAT_10463938 == (undefined4 *)0x0) {
     uVar1 = orig::Mem_AllocFromArea_v1(0x40,4);
@@ -134,15 +134,15 @@ XI_API void __cdecl fn_100380F0(uint32_t param_1, undefined4 param_2, undefined4
                          param_1 >> 0x18);
       if (((undefined4 *)*(int *)uVar1 != (undefined4 *)0x0) &&
          (self_ = *(void **)*(int *)uVar1, self_ != (void *)0x0)) {
-        lVar2 = XI_CALL_ST0(0x10311C2Cu)((float10)DAT_10351710 * (float10)param_2 * (float10)xi_k4(0x42FE0000ull));
+        lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351710 * (long double)param_2 * (long double)127.0f);
         uVar1 = orig::FUN_10036f00(self_,0x40,(int)lVar2);
         this_00[0xe] = (int)uVar1;
         this_00[0xd] = 0x42f00000;
-        *(undefined1 *)(this_00 + 0xf) = (undefined1)param_3;
+        *(uint8_t *)(this_00 + 0xf) = (uint8_t)param_3;
         return;
       }
       this_00[0xd] = 0;
-      *(undefined1 *)(this_00 + 0xf) = (undefined1)param_3;
+      *(uint8_t *)(this_00 + 0xf) = (uint8_t)param_3;
     }
   }
   return;
@@ -150,12 +150,33 @@ XI_API void __cdecl fn_100380F0(uint32_t param_1, undefined4 param_2, undefined4
 
 // FUNCTION: FFXIMAIN 0x100382A0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100382A0(undefined4 param_1, undefined4 param_2)
+XI_API void __attribute__((cdecl, regparm(1))) fn_100382A0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
   if (DAT_1046393c != 0) {
     orig::FUN_102465e0(param_1,param_2,0);
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10038470  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038470(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3)
+{
+  if (-1 < param_1) {
+    if (param_2 < 0) {
+      xi_eax = 0;
+    }
+    else {
+      xi_eax = param_2;
+      if (0x7f < param_2) {
+        xi_eax = 0x7f;
+      }
+    }
+    if (DAT_1046393c != 0) {
+      xi_eax = orig::FUN_10246320(param_1,xi_eax,param_3);
+    }
+  }
+  return xi_eax;
 }
 
 // FUNCTION: FFXIMAIN 0x100384B0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
@@ -164,15 +185,15 @@ XI_API void __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined
 {
   char cVar1;
   char *pcVar2;
-  uint uVar3;
+  uint32_t uVar3;
   
   if ((char)param_4 != '\0') {
     (&dword_10463950_as_v0)[dword_1047B950] = 3;
     (&DAT_10463951)[dword_1047B950] = (char)param_4;
     dword_1047B950 = dword_1047B950 + 2;
   }
-  *(undefined4 *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
-  *(undefined4 *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
+  *(uint32_t *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
+  *(uint32_t *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
   pcVar2 = param_1;
   do {
     cVar1 = *pcVar2;
@@ -192,7 +213,7 @@ XI_API void __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 12, town PASS 12, town2 PASS 12, combat PASS 12, zonetoinn PASS 12
+// GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Font_DrawPass(void)
 {
   int *v0;
@@ -245,7 +266,7 @@ XI_API int __cdecl Font_DrawPass(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038720  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 24 returned normally, 174795 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24, town PASS 24, town2 PASS 24, combat PASS 24, zonetoinn PASS 24
+// GATE: PASS -- 100 trials, 24 returned normally, 174795 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float arg8, float a4)
 {
   unsigned __int8 *v4;

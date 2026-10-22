@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003D9A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 240 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 240 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDome(void)
 {
   int result;
@@ -83,7 +83,7 @@ XI_API int __cdecl Sky_DrawDome(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1003DB60  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 105 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76, town PASS 78, town2 PASS 78, combat PASS 78, zonetoinn PASS 78
+// GATE: PASS -- 100 trials, 76 returned normally, 105 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 {
   int result;
@@ -205,53 +205,53 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1003E0D0(void * self_, undefined4 * param_1, float * param_2)
 {
-  byte bVar1;
-  undefined4 uVar2;
-  undefined1 uVar3;
-  undefined1 uVar4;
-  xi_bool bVar5;
-  float10 fVar6;
-  longlong lVar7;
-  undefined4 local_8;
+  uint8_t bVar1;
+  uint32_t uVar2;
+  uint8_t uVar3;
+  uint8_t uVar4;
+  uint8_t bVar5;
+  long double fVar6;
+  int64_t lVar7;
+  uint32_t local_8;
   
-  bVar1 = *(byte *)((int)self_ + 2);
-  fVar6 = (float10)bVar1 * (float10)*param_2;
-  bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) == bVar5) {
+  bVar1 = *(uint8_t *)((int)self_ + 2);
+  fVar6 = (long double)bVar1 * (long double)*param_2;
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
     lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-    uVar3 = (undefined1)lVar7;
+    uVar3 = (uint8_t)lVar7;
   }
   else {
     uVar3 = 0;
   }
-  fVar6 = (float10)*(byte *)((int)self_ + 1) * (float10)param_2[1];
-  bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) == bVar5) {
+  fVar6 = (long double)*(uint8_t *)((int)self_ + 1) * (long double)param_2[1];
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
     lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-    uVar4 = (undefined1)lVar7;
+    uVar4 = (uint8_t)lVar7;
   }
   else {
     uVar4 = 0;
   }
-  XI_PIECE(local_8, 0, 2) = CONCAT11(uVar4,bVar1);
-  fVar6 = (float10)*(byte *)self_ * (float10)param_2[2];
-  bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) == bVar5) {
+  XI_PIECE(local_8, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)(uVar4) << 8) | (uint8_t)(bVar1)));
+  fVar6 = (long double)*(uint8_t *)self_ * (long double)param_2[2];
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
     lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-    uVar4 = (undefined1)lVar7;
+    uVar4 = (uint8_t)lVar7;
   }
   else {
     uVar4 = 0;
   }
-  uVar2 = CONCAT31(CONCAT12(uVar3,(undefined2)local_8) >> 8,uVar4);
-  fVar6 = (float10)*(byte *)((int)self_ + 3) * (float10)param_2[3];
-  bVar5 = NAN(fVar6) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar5 || fVar6 < (float10)xi_k4(0x0ull)) != bVar5) {
+  uVar2 = ((uint32_t)(((uint32_t)(((uint32_t)(((uint32_t)(uint8_t)(uVar3) << 16) | (uint16_t)((uint16_t)local_8))) >> 8) << 8) | (uint8_t)(uVar4)));
+  fVar6 = (long double)*(uint8_t *)((int)self_ + 3) * (long double)param_2[3];
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) != bVar5) {
     *param_1 = uVar2;
     return param_1;
   }
   lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-  local_8 = CONCAT13((char)lVar7,(int3)uVar2);
+  local_8 = CONCAT13((char)lVar7,(int32_t)uVar2);
   *param_1 = local_8;
   return param_1;
 }
@@ -272,9 +272,9 @@ XI_API void __thiscall fn_1003E1D0(void * self_, char * param_1)
 XI_API void __thiscall Color_SetFromU32SwapRB(void * self_, undefined4 param_1)
 {
   *(char *)((int)self_ + 2) = (char)param_1;
-  *(char *)((int)self_ + 1) = (char)((uint)param_1 >> 8);
-  *(char *)self_ = (char)((uint)param_1 >> 0x10);
-  *(char *)((int)self_ + 3) = (char)((uint)param_1 >> 0x18);
+  *(char *)((int)self_ + 1) = (char)((uint32_t)param_1 >> 8);
+  *(char *)self_ = (char)((uint32_t)param_1 >> 0x10);
+  *(char *)((int)self_ + 3) = (char)((uint32_t)param_1 >> 0x18);
   return;
 }
 
@@ -282,31 +282,31 @@ XI_API void __thiscall Color_SetFromU32SwapRB(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t * __thiscall fn_1003E330(void * self_, uint32_t * param_1, float param_2)
 {
-  uint uVar1;
-  xi_bool bVar2;
-  float10 st0;
-  longlong lVar3;
+  uint32_t uVar1;
+  uint8_t bVar2;
+  long double st0;
+  int64_t lVar3;
   
-  bVar2 = NAN((float10)param_2) || NAN((float10)xi_k4(0x3F800000ull));
-  if ((bVar2 || (float10)param_2 < (float10)xi_k4(0x3F800000ull)) != bVar2) {
-    st0 = (float10)*(byte *)((int)self_ + 3) * (float10)param_2;
-    bVar2 = NAN(st0) || NAN((float10)xi_k4(0x0ull));
-    if ((bVar2 || st0 < (float10)xi_k4(0x0ull)) == bVar2) {
+  bVar2 = NAN((long double)param_2) || NAN((long double)1.0f);
+  if ((bVar2 || (long double)param_2 < (long double)1.0f) != bVar2) {
+    st0 = (long double)*(uint8_t *)((int)self_ + 3) * (long double)param_2;
+    bVar2 = NAN(st0) || NAN((long double)0.0f);
+    if ((bVar2 || st0 < (long double)0.0f) == bVar2) {
       lVar3 = XI_CALL_ST0(0x10311C2Cu)(st0);
-      uVar1 = (uint)lVar3 & 0xff;
+      uVar1 = (uint32_t)lVar3 & 0xff;
     }
     else {
       uVar1 = 0;
     }
-    *param_1 = uVar1 << 0x18 | *(uint *)self_ & 0xffffff;
+    *param_1 = uVar1 << 0x18 | *(uint32_t *)self_ & 0xffffff;
     return param_1;
   }
-  *param_1 = *(uint *)self_;
+  *param_1 = *(uint32_t *)self_;
   return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x1003E3A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API __int64 __thiscall fn_1003E3A0(unsigned __int8 *self_, unsigned __int8 *a2)
 {
   double v2;
@@ -322,7 +322,7 @@ XI_API __int64 __thiscall fn_1003E3A0(unsigned __int8 *self_, unsigned __int8 *a
 }
 
 // FUNCTION: FFXIMAIN 0x1003E450  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2)
 {
   double v2;
@@ -338,7 +338,7 @@ XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1003E500  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1003E500(unsigned __int8 *self_, __int16 *a2)
 {
   double v2;
@@ -405,7 +405,7 @@ XI_API void __thiscall fn_1003E650(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003E660  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1003E660(void *self_, int a1)
 {
   double v2;

@@ -6,6 +6,6 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102778C0(int param_1, uint32_t param_2)
 {
-  *(uint *)(param_1 + 0x68) = *(uint *)(param_1 + 0x68) & 0xfffffffe | param_2 & 0xff;
+  *(uint32_t *)(param_1 + 0x68) = *(uint32_t *)(param_1 + 0x68) & 0xfffffffe | param_2 & 0xff;
   return;
 }

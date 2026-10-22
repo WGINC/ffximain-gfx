@@ -7,7 +7,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall CXi471011C8_VT_1032AD80_DeletingDtor(void * self_, undefined4 param_1)
 {
-  *(undefined ***)self_ = &PTR_CMoElem_GetRuntimeClass_variant8_1032ad80;
+  *(uint8_t ***)self_ = &PTR_CMoElem_GetRuntimeClass_variant8_1032ad80;
   orig::CMoElemFamily_SharedCleanup_v1(self_);
   if ((param_1 & 1) != 0) {
     orig::SharedDeleteHelper_v1((int)self_);
@@ -17,11 +17,11 @@ XI_API void * __thiscall CXi471011C8_VT_1032AD80_DeletingDtor(void * self_, unde
 
 // FUNCTION: FFXIMAIN 0x10052F00  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined8 __thiscall CXi471011C8_VT_1032AD80::Ctor(void * self)
+uint64_t __thiscall CXi471011C8_VT_1032AD80::Ctor(void * self)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self);
-  *(undefined ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032ad80;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self);
+  *(uint8_t ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032ad80;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }

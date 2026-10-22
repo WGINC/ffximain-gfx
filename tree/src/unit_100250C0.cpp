@@ -9,13 +9,13 @@ XI_API undefined4 __thiscall fn_100250F0(void * self_, int param_1)
   int iVar1;
   undefined4 *puVar2;
   
-  puVar2 = orig::Mem_AllocObject_v1(((*(ushort **)(param_1 + 0x42))[1] + 1 +
-                           (uint)**(ushort **)(param_1 + 0x42)) * 0x3c,4);
+  puVar2 = orig::Mem_AllocObject_v1(((*(uint16_t **)(param_1 + 0x42))[1] + 1 +
+                           (uint32_t)**(uint16_t **)(param_1 + 0x42)) * 0x3c,4);
   *(undefined4 **)((int)self_ + 0x40) = puVar2;
   if (puVar2 == (undefined4 *)0x0) {
     return 0;
   }
-  iVar1 = (*(ushort **)(param_1 + 0x42))[1] + 1 + (uint)**(ushort **)(param_1 + 0x42);
+  iVar1 = (*(uint16_t **)(param_1 + 0x42))[1] + 1 + (uint32_t)**(uint16_t **)(param_1 + 0x42);
   *(int *)((int)self_ + 0x44) = iVar1;
-  return CONCAT31((int3)((uint)iVar1 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
 }

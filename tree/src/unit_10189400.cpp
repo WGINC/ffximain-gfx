@@ -7,45 +7,45 @@
 XI_API void * __thiscall fn_10189400(void * self_)
 {
   int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
+  uint32_t *puVar2;
+  uint32_t *puVar3;
   
   puVar2 = self_;
   for (iVar1 = 0x2b; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
-  *(uint *)self_ = *(uint *)self_ | 4;
-  *(undefined1 *)((int)self_ + 0x2c) = 0x80;
-  *(undefined1 *)((int)self_ + 0x2d) = 0x80;
-  *(undefined1 *)((int)self_ + 0x2e) = 0x80;
-  *(undefined1 *)((int)self_ + 0x2f) = 0x80;
-  *(undefined1 *)((int)self_ + 0x34) = 0x80;
-  *(undefined1 *)((int)self_ + 0x35) = 0x80;
-  *(undefined1 *)((int)self_ + 0x36) = 0x80;
-  *(undefined1 *)((int)self_ + 0x37) = 0x80;
-  *(undefined1 *)((int)self_ + 0x38) = 0x80;
-  *(undefined1 *)((int)self_ + 0x39) = 0x80;
-  *(undefined1 *)((int)self_ + 0x3a) = 0x80;
-  *(undefined1 *)((int)self_ + 0x3b) = 0x80;
-  *(undefined4 *)((int)self_ + 0x3c) = 0x43c80000;
-  *(undefined4 *)((int)self_ + 0x40) = 0x42200000;
-  *(undefined1 *)((int)self_ + 0x4c) = 0x80;
-  *(undefined1 *)((int)self_ + 0x4d) = 0x80;
-  *(undefined1 *)((int)self_ + 0x4e) = 0x80;
-  *(undefined1 *)((int)self_ + 0x4f) = 0x80;
-  puVar2 = (undefined4 *)((int)self_ + 0x2c);
-  puVar3 = (undefined4 *)((int)self_ + 0xc);
+  *(uint32_t *)self_ = *(uint32_t *)self_ | 4;
+  *(uint8_t *)((int)self_ + 0x2c) = 0x80;
+  *(uint8_t *)((int)self_ + 0x2d) = 0x80;
+  *(uint8_t *)((int)self_ + 0x2e) = 0x80;
+  *(uint8_t *)((int)self_ + 0x2f) = 0x80;
+  *(uint8_t *)((int)self_ + 0x34) = 0x80;
+  *(uint8_t *)((int)self_ + 0x35) = 0x80;
+  *(uint8_t *)((int)self_ + 0x36) = 0x80;
+  *(uint8_t *)((int)self_ + 0x37) = 0x80;
+  *(uint8_t *)((int)self_ + 0x38) = 0x80;
+  *(uint8_t *)((int)self_ + 0x39) = 0x80;
+  *(uint8_t *)((int)self_ + 0x3a) = 0x80;
+  *(uint8_t *)((int)self_ + 0x3b) = 0x80;
+  *(uint32_t *)((int)self_ + 0x3c) = 0x43c80000;
+  *(uint32_t *)((int)self_ + 0x40) = 0x42200000;
+  *(uint8_t *)((int)self_ + 0x4c) = 0x80;
+  *(uint8_t *)((int)self_ + 0x4d) = 0x80;
+  *(uint8_t *)((int)self_ + 0x4e) = 0x80;
+  *(uint8_t *)((int)self_ + 0x4f) = 0x80;
+  puVar2 = (uint32_t *)((int)self_ + 0x2c);
+  puVar3 = (uint32_t *)((int)self_ + 0xc);
   for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar3 = *puVar2;
     puVar2 = puVar2 + 1;
     puVar3 = puVar3 + 1;
   }
-  *(undefined1 *)((int)self_ + 0x5c) = 0;
-  *(undefined1 *)((int)self_ + 0x5d) = 0;
-  *(undefined4 *)((int)self_ + 0x50) = 0x43c80000;
-  *(undefined4 *)((int)self_ + 0x54) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x58) = 0x43c80000;
+  *(uint8_t *)((int)self_ + 0x5c) = 0;
+  *(uint8_t *)((int)self_ + 0x5d) = 0;
+  *(uint32_t *)((int)self_ + 0x50) = 0x43c80000;
+  *(uint32_t *)((int)self_ + 0x54) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x58) = 0x43c80000;
   return self_;
 }
 
@@ -53,7 +53,7 @@ XI_API void * __thiscall fn_10189400(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * param_2, float param_3)
 {
-  longlong lVar1;
+  int64_t lVar1;
   char xi_frame[112] __attribute__((aligned(4)));
   float  &local_70 = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_6c = *reinterpret_cast<float  *>(xi_frame + 4);
@@ -61,54 +61,54 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
   float  &local_60 = *reinterpret_cast<float  *>(xi_frame + 16);
   float  &local_5c = *reinterpret_cast<float  *>(xi_frame + 20);
   float  &local_58 = *reinterpret_cast<float  *>(xi_frame + 24);
-  undefined1  (&local_50)[16] = *reinterpret_cast<undefined1  (*)[16]>(xi_frame + 32);
+  uint8_t  (&local_50)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 32);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 48);
   
-  *(uint *)self_ = ((*param_1 | *param_2) ^ *(uint *)self_) & 1 ^ *(uint *)self_;
+  *(uint32_t *)self_ = ((*param_1 | *param_2) ^ *(uint32_t *)self_) & 1 ^ *(uint32_t *)self_;
   orig::FUN_101898e0((void *)((int)self_ + 0xc),(int)(param_1 + 3),(int)(param_2 + 3),param_3);
   orig::FUN_101898e0((void *)((int)self_ + 0x2c),(int)(param_1 + 0xb),(int)(param_2 + 0xb),param_3);
-  if ((*(byte *)self_ & 1) != 0) {
-    local_70 = (float)(float10)(int)(char)param_2[0xc];
-    local_6c = (float)(float10)(int)*(char *)((int)param_2 + 0x31);
-    local_68 = (float)(float10)(int)*(char *)((int)param_2 + 0x32);
-    orig::FUN_100274b0(&local_70);
-    local_60 = (float)(float10)(int)(char)param_1[0xc];
-    local_5c = (float)(float10)(int)*(char *)((int)param_1 + 0x31);
-    local_58 = (float)(float10)(int)*(char *)((int)param_1 + 0x32);
-    orig::FUN_100274b0(&local_60);
+  if ((*(uint8_t *)self_ & 1) != 0) {
+    local_70 = (float)(long double)(int)(char)param_2[0xc];
+    local_6c = (float)(long double)(int)*(char *)((int)param_2 + 0x31);
+    local_68 = (float)(long double)(int)*(char *)((int)param_2 + 0x32);
+    orig::FUN_100274b0(&local_70,&local_70);
+    local_60 = (float)(long double)(int)(char)param_1[0xc];
+    local_5c = (float)(long double)(int)*(char *)((int)param_1 + 0x31);
+    local_58 = (float)(long double)(int)*(char *)((int)param_1 + 0x32);
+    orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x32));
     orig::FUN_10032a40(local_50);
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
-    orig::fn_10027990_v1(local_40);
+    orig::FUN_10027990(local_40);
     orig::FUN_10032fe0(local_50,local_40);
     orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_70 * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x30) = (char)lVar1;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_6c * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);
     *(char *)((int)self_ + 0x31) = (char)lVar1;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_68 * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_68 * (long double)127.0f);
     *(char *)((int)self_ + 0x32) = (char)lVar1;
-    local_70 = (float)(float10)(int)(char)param_2[4];
-    local_6c = (float)(float10)(int)*(char *)((int)param_2 + 0x11);
-    local_68 = (float)(float10)(int)*(char *)((int)param_2 + 0x12);
-    orig::FUN_100274b0(&local_70);
-    local_60 = (float)(float10)(int)(char)param_1[4];
-    local_5c = (float)(float10)(int)*(char *)((int)param_1 + 0x11);
-    local_58 = (float)(float10)(int)*(char *)((int)param_1 + 0x12);
-    orig::FUN_100274b0(&local_60);
+    local_70 = (float)(long double)(int)(char)param_2[4];
+    local_6c = (float)(long double)(int)*(char *)((int)param_2 + 0x11);
+    local_68 = (float)(long double)(int)*(char *)((int)param_2 + 0x12);
+    orig::FUN_100274b0(&local_70,&local_70);
+    local_60 = (float)(long double)(int)(char)param_1[4];
+    local_5c = (float)(long double)(int)*(char *)((int)param_1 + 0x11);
+    local_58 = (float)(long double)(int)*(char *)((int)param_1 + 0x12);
+    orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x12));
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
     orig::FUN_10032fe0(local_50,local_40);
     orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_70 * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x10) = (char)lVar1;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_6c * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);
     *(char *)((int)self_ + 0x11) = (char)lVar1;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)local_68 * (float10)xi_k4(0x42FE0000ull));
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_68 * (long double)127.0f);
     *(char *)((int)self_ + 0x12) = (char)lVar1;
     orig::nullsub_1();
     orig::FUN_10032a70();
   }
-  if ((((void *)((int)self_ + 0x4c) != (void *)0x0) && (param_1 + 0x13 != (uint *)0x0)) &&
-     (param_2 + 0x13 != (uint *)0x0)) {
+  if ((((void *)((int)self_ + 0x4c) != (void *)0x0) && (param_1 + 0x13 != (uint32_t *)0x0)) &&
+     (param_2 + 0x13 != (uint32_t *)0x0)) {
     orig::FUN_10189980((void *)((int)self_ + 0x4c),(int)(param_1 + 0x13),(int)(param_2 + 0x13),param_3);
   }
   return;
@@ -118,7 +118,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10189810(float * param_1, float param_2, float param_3, float param_4)
 {
-  *param_1 = (float)(((float10)param_2 - (float10)param_3) * (float10)param_4 + (float10)param_3);
+  *param_1 = (float)(((long double)param_2 - (long double)param_3) * (long double)param_4 + (long double)param_3);
   return param_1;
 }
 
@@ -143,16 +143,16 @@ XI_API void __thiscall fn_101898E0(void * self_, int param_1, int param_2, undef
 // GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall fn_10189BD0(int param_1)
 {
-  uint uVar1;
-  undefined4 xi_entry_eax = 0;
-  uint uVar2;
-  uint uVar4;
+  uint32_t uVar1;
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar2;
+  uint32_t uVar4;
   int iVar5;
-  uint3 uVar3;
+  uint32_t uVar3;
   
-  uVar3 = (uint3)((uint)xi_entry_eax >> 8);
-  uVar2 = CONCAT31(uVar3,1);
-  uVar1 = *(uint *)(param_1 + 0x20);
+  uVar3 = (uint32_t)((uint32_t)xi_entry_eax >> 8);
+  uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(1)));
+  uVar1 = *(uint32_t *)(param_1 + 0x20);
   if (*(int **)(param_1 + 0x28) == (int *)0x0) {
     iVar5 = 0;
   }
@@ -160,7 +160,7 @@ XI_API undefined4 __stdcall fn_10189BD0(int param_1)
     iVar5 = **(int **)(param_1 + 0x28);
   }
   if (*(int *)(iVar5 + 0x20) == 0x72747865) {
-    uVar2 = (uint)uVar3 << 8;
+    uVar2 = (uint32_t)uVar3 << 8;
   }
   iVar5 = 0;
   uVar4 = uVar1;
@@ -204,12 +204,13 @@ XI_API void __stdcall Zone_GetClock(int * param_1)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
-  int *piVar1;
-  void *pvVar2;
-  int iVar3;
-  undefined4 uVar4;
-  int iVar5;
-  void *pvVar6;
+  void *pvVar1;
+  int *piVar2;
+  void *pvVar3;
+  int iVar4;
+  uint32_t uVar5;
+  int iVar6;
+  void *pvVar7;
   char xi_frame[64] __attribute__((aligned(4)));
   int  &local_40 = *reinterpret_cast<int  *>(xi_frame + 0);
   int  &local_3c = *reinterpret_cast<int  *>(xi_frame + 4);
@@ -217,72 +218,72 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
   void * &local_34 = *reinterpret_cast<void * *>(xi_frame + 12);
   int  &local_30 = *reinterpret_cast<int  *>(xi_frame + 16);
   int  &local_2c = *reinterpret_cast<int  *>(xi_frame + 20);
-  undefined4  &local_28 = *reinterpret_cast<undefined4  *>(xi_frame + 24);
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
-  undefined4  &local_20 = *reinterpret_cast<undefined4  *>(xi_frame + 32);
-  undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 36);
+  uint32_t  &local_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  uint32_t  &local_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 32);
+  uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 36);
   
   local_34 = self_;
   orig::FUN_10189c60(&local_40);
-  orig::FUN_1018bbc0(&local_3c,0x6f3c9000);
-  pvVar2 = *(void **)((int)self_ + 0xc);
-  iVar5 = 0;
-  pvVar6 = (void *)0x0;
+  pvVar1 = orig::FUN_1018bbc0(&local_3c,0x6f3c9000);
+  pvVar3 = *(void **)((int)self_ + 0xc);
+  iVar6 = 0;
+  pvVar7 = (void *)0x0;
   local_38 = (void *)0x0;
-  if (pvVar2 != (void *)0x0) {
-    piVar1 = (int *)orig::YmResourceFile_FindResourceUnder_v1(pvVar2,&local_2c,1,0x6f646e69);
-    if ((int *)*piVar1 != (int *)0x0) {
-      iVar5 = *(int *)*piVar1;
+  if (pvVar3 != (void *)0x0) {
+    piVar2 = (int *)orig::YmResourceFile_FindResourceUnder_v1(pvVar3,&local_2c,1,0x6f646e69,pvVar1);
+    if ((int *)*piVar2 != (int *)0x0) {
+      iVar6 = *(int *)*piVar2;
     }
     orig::FUN_100742a0(local_1c);
-    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
-    pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
-    if (pvVar2 != (void *)0x0) {
+    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar3,0x3d,0,0xffffffff);
+    pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
+    if (pvVar3 != (void *)0x0) {
       do {
-        piVar1 = *(int **)((int)pvVar2 + 0x28);
-        if (piVar1 == (int *)0x0) {
-          iVar3 = 0;
+        piVar2 = *(int **)((int)pvVar3 + 0x28);
+        if (piVar2 == (int *)0x0) {
+          iVar4 = 0;
         }
         else {
-          iVar3 = *piVar1;
+          iVar4 = *piVar2;
         }
-        if ((iVar3 != iVar5) || (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) {
-          if (iVar5 != 0) {
-            if (piVar1 == (int *)0x0) {
-              iVar3 = 0;
+        if ((iVar4 != iVar6) || (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) {
+          if (iVar6 != 0) {
+            if (piVar2 == (int *)0x0) {
+              iVar4 = 0;
             }
             else {
-              iVar3 = *piVar1;
+              iVar4 = *piVar2;
             }
-            if ((iVar3 != iVar5) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_10189de4;
+            if ((iVar4 != iVar6) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_10189de4;
           }
-          uVar4 = orig::FUN_10189bd0((int)pvVar2);
-          iVar3 = local_40;
-          if (((char)uVar4 != '\0') &&
-             (piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_28), pvVar6 = pvVar2, *piVar1 < iVar3)) {
-            piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_24);
-            orig::FUN_1018bbc0(&local_30,local_40 - *piVar1);
+          uVar5 = orig::FUN_10189bd0((int)pvVar3);
+          iVar4 = local_40;
+          if (((char)uVar5 != '\0') &&
+             (piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_28), pvVar7 = pvVar3, *piVar2 < iVar4)) {
+            piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_24);
+            orig::FUN_1018bbc0(&local_30,local_40 - *piVar2);
             if (local_30 < local_3c) {
-              piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_20);
-              orig::FUN_1018bbc0(&local_2c,local_40 - *piVar1);
-              orig::FUN_1018bc40(&local_3c,local_2c);
-              local_38 = pvVar2;
+              piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_20);
+              pvVar1 = orig::FUN_1018bbc0(&local_2c,local_40 - *piVar2);
+              orig::FUN_1018bc40(&local_3c,local_2c,pvVar1);
+              local_38 = pvVar3;
             }
           }
         }
 LAB_10189de4:
-        pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
-      } while (pvVar2 != (void *)0x0);
+        pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
+      } while (pvVar3 != (void *)0x0);
       if (local_38 != (void *)0x0) goto LAB_10189e17;
     }
   }
-  local_38 = pvVar6;
+  local_38 = pvVar7;
   if (local_38 == (void *)0x0) {
     *param_1 = 0;
     return;
   }
 LAB_10189e17:
-  *param_1 = *(undefined4 *)((int)local_38 + 0x14);
+  *param_1 = *(uint32_t *)((int)local_38 + 0x14);
   return;
 }
 
@@ -300,10 +301,10 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
   int  &local_34 = *reinterpret_cast<int  *>(xi_frame + 4);
   int  &local_30 = *reinterpret_cast<int  *>(xi_frame + 8);
   int  &local_2c = *reinterpret_cast<int  *>(xi_frame + 12);
-  undefined4  &local_28 = *reinterpret_cast<undefined4  *>(xi_frame + 16);
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 20);
-  undefined4  &local_20 = *reinterpret_cast<undefined4  *>(xi_frame + 24);
-  undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 28);
+  uint32_t  &local_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 28);
   
   orig::FUN_10189c60(&local_38);
   orig::FUN_1018bbc0(&local_34,0x6f3c9000);
@@ -323,8 +324,8 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
         orig::FUN_1018bbc0(&local_30,local_38 - *piVar3);
         if (local_30 < local_34) {
           piVar3 = (int *)orig::FUN_10072180(this_00,&local_20);
-          orig::FUN_1018bbc0(&local_2c,local_38 - *piVar3);
-          orig::FUN_1018bc40(&local_34,local_2c);
+          pvVar4 = orig::FUN_1018bbc0(&local_2c,local_38 - *piVar3);
+          orig::FUN_1018bc40(&local_34,local_2c,pvVar4);
           pvVar4 = this_00;
         }
       }
@@ -341,12 +342,13 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
-  int *piVar1;
-  void *pvVar2;
-  int iVar3;
-  undefined4 uVar4;
-  int iVar5;
-  void *pvVar6;
+  void *pvVar1;
+  int *piVar2;
+  void *pvVar3;
+  int iVar4;
+  uint32_t uVar5;
+  int iVar6;
+  void *pvVar7;
   char xi_frame[76] __attribute__((aligned(4)));
   int  &local_4c = *reinterpret_cast<int  *>(xi_frame + 0);
   int  &local_48 = *reinterpret_cast<int  *>(xi_frame + 4);
@@ -355,85 +357,85 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
   void * &local_3c = *reinterpret_cast<void * *>(xi_frame + 16);
   int  &local_38 = *reinterpret_cast<int  *>(xi_frame + 20);
   int  &local_34 = *reinterpret_cast<int  *>(xi_frame + 24);
-  undefined4  &local_30 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
-  undefined4  &local_2c = *reinterpret_cast<undefined4  *>(xi_frame + 32);
-  undefined4  &local_28 = *reinterpret_cast<undefined4  *>(xi_frame + 36);
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 40);
-  undefined4  &local_20 = *reinterpret_cast<undefined4  *>(xi_frame + 44);
-  undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 48);
+  uint32_t  &local_30 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  uint32_t  &local_2c = *reinterpret_cast<uint32_t  *>(xi_frame + 32);
+  uint32_t  &local_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 40);
+  uint32_t  &local_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 44);
+  uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 48);
   
   local_3c = self_;
   orig::FUN_10189c60(&local_4c);
   orig::FUN_1018bbc0(&local_44,0x6f3c9000);
-  orig::FUN_1018bbc0(&local_48,0x6f3c9000);
-  pvVar2 = *(void **)((int)self_ + 0xc);
-  iVar5 = 0;
-  pvVar6 = (void *)0x0;
+  pvVar1 = orig::FUN_1018bbc0(&local_48,0x6f3c9000);
+  pvVar3 = *(void **)((int)self_ + 0xc);
+  iVar6 = 0;
+  pvVar7 = (void *)0x0;
   local_40 = (void *)0x0;
-  if (pvVar2 != (void *)0x0) {
-    piVar1 = (int *)orig::YmResourceFile_FindResourceUnder_v1(pvVar2,&local_34,1,0x6f646e69);
-    if ((int *)*piVar1 != (int *)0x0) {
-      iVar5 = *(int *)*piVar1;
+  if (pvVar3 != (void *)0x0) {
+    piVar2 = (int *)orig::YmResourceFile_FindResourceUnder_v1(pvVar3,&local_34,1,0x6f646e69,pvVar1);
+    if ((int *)*piVar2 != (int *)0x0) {
+      iVar6 = *(int *)*piVar2;
     }
     orig::FUN_100742a0(local_1c);
-    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar2,0x3d,0,0xffffffff);
-    pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
-    if (pvVar2 != (void *)0x0) {
+    orig::ResourceIter_FindFirst_v1(local_1c,(int)pvVar3,0x3d,0,0xffffffff);
+    pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
+    if (pvVar3 != (void *)0x0) {
       do {
-        piVar1 = *(int **)((int)pvVar2 + 0x28);
-        if (piVar1 == (int *)0x0) {
-          iVar3 = 0;
+        piVar2 = *(int **)((int)pvVar3 + 0x28);
+        if (piVar2 == (int *)0x0) {
+          iVar4 = 0;
         }
         else {
-          iVar3 = *piVar1;
+          iVar4 = *piVar2;
         }
-        if ((iVar3 != iVar5) || (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) {
-          if (iVar5 != 0) {
-            if (piVar1 == (int *)0x0) {
-              iVar3 = 0;
+        if ((iVar4 != iVar6) || (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) {
+          if (iVar6 != 0) {
+            if (piVar2 == (int *)0x0) {
+              iVar4 = 0;
             }
             else {
-              iVar3 = *piVar1;
+              iVar4 = *piVar2;
             }
-            if ((iVar3 != iVar5) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_1018a0a6;
+            if ((iVar4 != iVar6) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_1018a0a6;
           }
-          uVar4 = orig::FUN_10189bd0((int)pvVar2);
-          iVar3 = local_48;
-          if ((char)uVar4 != '\0') {
-            piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_30);
-            if (*piVar1 < iVar3) {
-              piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_2c);
-              orig::FUN_1018bc40(&local_48,*piVar1);
+          uVar5 = orig::FUN_10189bd0((int)pvVar3);
+          iVar4 = local_48;
+          if ((char)uVar5 != '\0') {
+            piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_30);
+            if (*piVar2 < iVar4) {
+              piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_2c);
+              orig::FUN_1018bc40(&local_48,*piVar2,*piVar2);
             }
-            iVar3 = local_4c;
-            piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_28);
-            pvVar6 = pvVar2;
-            if (iVar3 < *piVar1) {
-              piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_24);
-              orig::FUN_1018bbc0(&local_38,*piVar1 - local_4c);
-              iVar3 = local_4c;
+            iVar4 = local_4c;
+            piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_28);
+            pvVar7 = pvVar3;
+            if (iVar4 < *piVar2) {
+              piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_24);
+              orig::FUN_1018bbc0(&local_38,*piVar2 - local_4c);
+              iVar4 = local_4c;
               if (local_38 < local_44) {
-                piVar1 = (int *)orig::FUN_10072180(pvVar2,&local_20);
-                orig::FUN_1018bbc0(&local_34,*piVar1 - iVar3);
-                orig::FUN_1018bc40(&local_44,local_34);
-                local_40 = pvVar2;
+                piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_20);
+                pvVar1 = orig::FUN_1018bbc0(&local_34,*piVar2 - iVar4);
+                orig::FUN_1018bc40(&local_44,local_34,pvVar1);
+                local_40 = pvVar3;
               }
             }
           }
         }
 LAB_1018a0a6:
-        pvVar2 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
-      } while (pvVar2 != (void *)0x0);
+        pvVar3 = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
+      } while (pvVar3 != (void *)0x0);
       if (local_40 != (void *)0x0) goto LAB_1018a0d9;
     }
   }
-  local_40 = pvVar6;
+  local_40 = pvVar7;
   if (local_40 == (void *)0x0) {
     *param_1 = 0;
     return;
   }
 LAB_1018a0d9:
-  *param_1 = *(undefined4 *)((int)local_40 + 0x14);
+  *param_1 = *(uint32_t *)((int)local_40 + 0x14);
   return;
 }
 
@@ -452,12 +454,12 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
   int  &local_3c = *reinterpret_cast<int  *>(xi_frame + 8);
   int  &local_38 = *reinterpret_cast<int  *>(xi_frame + 12);
   int  &local_34 = *reinterpret_cast<int  *>(xi_frame + 16);
-  undefined4  &local_30 = *reinterpret_cast<undefined4  *>(xi_frame + 20);
-  undefined4  &local_2c = *reinterpret_cast<undefined4  *>(xi_frame + 24);
-  undefined4  &local_28 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 32);
-  undefined4  &local_20 = *reinterpret_cast<undefined4  *>(xi_frame + 36);
-  undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 40);
+  uint32_t  &local_30 = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_2c = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 32);
+  uint32_t  &local_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 40);
   
   orig::FUN_10189c60(&local_44);
   orig::FUN_1018bbc0(&local_3c,0x6f3c9000);
@@ -474,7 +476,7 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
       piVar2 = (int *)orig::FUN_10072180(this_00,&local_30);
       if (*piVar2 < iVar1) {
         piVar2 = (int *)orig::FUN_10072180(this_00,&local_2c);
-        orig::FUN_1018bc40(&local_40,*piVar2);
+        orig::FUN_1018bc40(&local_40,*piVar2,*piVar2);
         pvVar4 = this_00;
       }
       iVar1 = local_44;
@@ -486,7 +488,7 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
         if (local_38 < local_3c) {
           piVar2 = (int *)orig::FUN_10072180(this_00,&local_20);
           orig::FUN_1018bbc0(&local_34,*piVar2 - iVar1);
-          orig::FUN_1018bc40(&local_3c,local_34);
+          orig::FUN_1018bc40(&local_3c,local_34,local_34);
           pvVar3 = this_00;
         }
       }
@@ -507,12 +509,12 @@ XI_API void __thiscall fn_1018A220(void * self_)
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
   
   local_4 = self_;
-  orig::FUN_10189ca0(self_,&local_4,*(undefined4 *)((int)self_ + 0x10));
+  orig::FUN_10189ca0(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
     orig::FUN_1018a2e0(self_,local_4);
     return;
   }
-  *(undefined1 *)((int)self_ + 0x35) = 1;
+  *(uint8_t *)((int)self_ + 0x35) = 1;
   return;
 }
 
@@ -524,12 +526,12 @@ XI_API void __thiscall fn_1018A260(void * self_)
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
   
   local_4 = self_;
-  orig::FUN_10189f20(self_,&local_4,*(undefined4 *)((int)self_ + 0x10));
+  orig::FUN_10189f20(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
     orig::FUN_1018a2f0(self_,local_4);
     return;
   }
-  *(undefined1 *)((int)self_ + 0x35) = 1;
+  *(uint8_t *)((int)self_ + 0x35) = 1;
   return;
 }
 
@@ -539,7 +541,7 @@ XI_API void __thiscall fn_1018A2A0(void * self_)
 {
   void *pvVar1;
   
-  pvVar1 = orig::FUN_10189e30(self_,*(undefined4 *)((int)self_ + 0x10));
+  pvVar1 = orig::FUN_10189e30(self_,*(uint32_t *)((int)self_ + 0x10));
   if (pvVar1 != (void *)0x0) {
     orig::FUN_1018a300(self_,pvVar1);
   }
@@ -548,22 +550,24 @@ XI_API void __thiscall fn_1018A2A0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018A2C0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A2C0(void * self_)
+XI_API undefined4 __thiscall fn_1018A2C0(void * self_)
 {
   void *pvVar1;
+  uint32_t uVar2;
   
-  pvVar1 = orig::FUN_1018a0f0(self_,*(undefined4 *)((int)self_ + 0x10));
+  pvVar1 = orig::FUN_1018a0f0(self_,*(uint32_t *)((int)self_ + 0x10));
+  uVar2 = 0;
   if (pvVar1 != (void *)0x0) {
-    orig::FUN_1018a310(self_,pvVar1);
+    uVar2 = orig::FUN_1018a310(self_,pvVar1);
   }
-  return;
+  return uVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2E0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018A2E0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x2c) = param_1;
+  *(uint32_t *)((int)self_ + 0x2c) = param_1;
   return;
 }
 
@@ -571,7 +575,7 @@ XI_API void __thiscall fn_1018A2E0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018A2F0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x30) = param_1;
+  *(uint32_t *)((int)self_ + 0x30) = param_1;
   return;
 }
 
@@ -579,27 +583,29 @@ XI_API void __thiscall fn_1018A2F0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018A300(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x24) = param_1;
+  *(uint32_t *)((int)self_ + 0x24) = param_1;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A310  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A310(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall fn_1018A310(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x28) = param_1;
-  return;
+  *(uint32_t *)((int)self_ + 0x28) = param_1;
+  return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A320  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A320(void * self_)
+XI_API undefined4 __thiscall fn_1018A320(void * self_)
 {
+  uint32_t uVar1;
+  
   orig::FUN_1018a220(self_);
   orig::FUN_1018a260(self_);
   orig::FUN_1018a2a0(self_);
-  orig::FUN_1018a2c0(self_);
-  return;
+  uVar1 = orig::FUN_1018a2c0(self_);
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A340  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
@@ -607,20 +613,20 @@ XI_API void __thiscall fn_1018A320(void * self_)
 XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
 {
   int *piVar1;
-  void *this_00;
-  void *this_01;
   int iVar2;
   int *piVar3;
-  undefined4 uVar4;
+  uint32_t uVar4;
+  void *pvVar5;
+  void *pvVar6;
   char xi_frame[32] __attribute__((aligned(4)));
   int  &local_20 = *reinterpret_cast<int  *>(xi_frame + 0);
   int  &local_1c = *reinterpret_cast<int  *>(xi_frame + 4);
   float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 8);
   int  &local_14 = *reinterpret_cast<int  *>(xi_frame + 12);
-  int  &local_10 = *reinterpret_cast<int  *>(xi_frame + 16);
-  uint * &local_c = *reinterpret_cast<uint * *>(xi_frame + 20);
-  uint * &local_8 = *reinterpret_cast<uint * *>(xi_frame + 24);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
+  void * &local_10 = *reinterpret_cast<void * *>(xi_frame + 16);
+  uint32_t * &local_c = *reinterpret_cast<uint32_t * *>(xi_frame + 20);
+  uint32_t * &local_8 = *reinterpret_cast<uint32_t * *>(xi_frame + 24);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
   
   orig::FUN_10189c60(&local_14);
   if ((*(int *)((int)self_ + 0x2c) == 0) && (*(char *)((int)self_ + 0x35) == '\0')) {
@@ -634,21 +640,21 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
       (piVar1 = *(int **)((int)self_ + 0x2c), piVar1 != (int *)0x0)) &&
      ((*piVar1 != 0 && (piVar3 != piVar1)))) {
     orig::FUN_10189c60(&local_1c);
-    orig::unknown_libname_158_v1(&local_18);
-    orig::unknown_libname_158_v1(&local_20);
-    piVar3 = (int *)orig::FUN_10072180((void *)**(undefined4 **)((int)self_ + 0x2c),&local_8);
-    orig::FUN_1018bc40(&local_18,*piVar3);
-    piVar3 = (int *)orig::FUN_10072180((void *)**(undefined4 **)((int)self_ + 0x30),&local_8);
-    orig::FUN_1018bc40(&local_20,*piVar3);
-    orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18));
-    orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18));
+    orig::unknown_libname_158(&local_18);
+    orig::unknown_libname_158(&local_20);
+    piVar3 = (int *)orig::FUN_10072180((void *)**(uint32_t **)((int)self_ + 0x2c),&local_8);
+    orig::FUN_1018bc40(&local_18,*piVar3,*piVar3);
+    piVar3 = (int *)orig::FUN_10072180((void *)**(uint32_t **)((int)self_ + 0x30),&local_8);
+    uVar4 = orig::FUN_1018bc40(&local_20,*piVar3,*piVar3);
+    orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18),uVar4);
+    orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18),local_20 - xi_castbits<int>(local_18));
     if (local_20 < 0) {
-      orig::FUN_1018bbc0(&local_10,0x4f1a00);
-      orig::FUN_1018bc40(&local_20,local_10 + local_20);
+      pvVar5 = orig::FUN_1018bbc0(&local_10,0x4f1a00);
+      orig::FUN_1018bc40(&local_20,(int)local_10 + local_20,pvVar5);
     }
     if (local_1c < 0) {
       orig::FUN_1018bbc0(&local_10,0x4f1a00);
-      orig::FUN_1018bc40(&local_1c,local_10 + local_1c);
+      orig::FUN_1018bc40(&local_1c,(int)local_10 + local_1c,local_1c);
     }
     if (local_20 < local_1c) {
       orig::FUN_1018a220(self_);
@@ -658,77 +664,78 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
   if (*(int *)((int)self_ + 0x24) != 0) {
     if (*(int *)((int)self_ + 0x28) == *(int *)((int)self_ + 0x24)) goto LAB_1018a595;
     orig::FUN_10189c60(&local_1c);
-    orig::unknown_libname_158_v1(&local_18);
-    orig::unknown_libname_158_v1(&local_20);
+    orig::unknown_libname_158(&local_18);
+    orig::unknown_libname_158(&local_20);
     piVar3 = (int *)orig::FUN_10072180(*(void **)((int)self_ + 0x24),&local_8);
-    orig::FUN_1018bc40(&local_18,*piVar3);
+    orig::FUN_1018bc40(&local_18,*piVar3,*piVar3);
     piVar3 = (int *)orig::FUN_10072180(*(void **)((int)self_ + 0x28),&local_8);
-    orig::FUN_1018bc40(&local_20,*piVar3);
-    orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18));
-    orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18));
+    uVar4 = orig::FUN_1018bc40(&local_20,*piVar3,*piVar3);
+    uVar4 = orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18),uVar4);
+    orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18),uVar4);
     if (local_20 < 0) {
       orig::FUN_1018bbc0(&local_10,0x4f1a00);
-      orig::FUN_1018bc40(&local_20,local_10 + local_20);
+      orig::FUN_1018bc40(&local_20,(int)local_10 + local_20,local_20);
     }
     if (local_1c < 0) {
       orig::FUN_1018bbc0(&local_10,0x4f1a00);
-      orig::FUN_1018bc40(&local_1c,local_10 + local_1c);
+      orig::FUN_1018bc40(&local_1c,(int)local_10 + local_1c,(int)local_10 + local_1c);
     }
     if (local_1c <= local_20) goto LAB_1018a595;
   }
   orig::FUN_1018a2a0(self_);
   orig::FUN_1018a2c0(self_);
 LAB_1018a595:
-  this_00 = *(void **)((int)self_ + 0x24);
-  this_01 = *(void **)((int)self_ + 0x28);
-  if ((this_00 != (void *)0x0) && (this_01 != (void *)0x0)) {
+  pvVar5 = *(void **)((int)self_ + 0x24);
+  pvVar6 = *(void **)((int)self_ + 0x28);
+  if ((pvVar5 != (void *)0x0) && (pvVar6 != (void *)0x0)) {
     orig::FUN_1018ada0(self_);
-    if (this_00 != this_01) {
-      local_8 = (uint *)((int)this_01 + 0x30);
-      local_c = (uint *)((int)this_00 + 0x30);
+    if (pvVar5 != pvVar6) {
+      local_8 = (uint32_t *)((int)pvVar6 + 0x30);
+      local_c = (uint32_t *)((int)pvVar5 + 0x30);
       uVar4 = orig::FUN_1018aeb0(local_c,local_8);
-      *(undefined4 *)((int)self_ + 0x20) = uVar4;
-      orig::unknown_libname_158_v1(&local_1c);
-      orig::unknown_libname_158_v1(&local_20);
-      piVar3 = (int *)orig::FUN_10072180(this_00,&local_10);
+      *(uint32_t *)((int)self_ + 0x20) = uVar4;
+      orig::unknown_libname_158(&local_1c);
+      orig::unknown_libname_158(&local_20);
+      piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_10);
       iVar2 = *piVar3;
-      piVar3 = (int *)orig::FUN_10072180(this_01,&local_18);
+      piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_18);
       if (*piVar3 < iVar2) {
         orig::FUN_1018bbc0(&local_18,0x4f1a00);
-        piVar3 = (int *)orig::FUN_10072180(this_00,&local_10);
-        orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3);
-        piVar3 = (int *)orig::FUN_10072180(this_01,&local_4);
-        orig::FUN_1018bbc0(&local_10,*piVar3 + xi_castbits<int>(local_18));
+        piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_10);
+        orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3,*piVar3);
+        piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_4);
+        pvVar6 = orig::FUN_1018bbc0(&local_10,*piVar3 + xi_castbits<int>(local_18));
       }
       else {
-        piVar3 = (int *)orig::FUN_10072180(this_00,&local_4);
+        piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
         iVar2 = *piVar3;
-        piVar3 = (int *)orig::FUN_10072180(this_01,&local_18);
+        piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_18);
         orig::FUN_1018bbc0(&local_10,*piVar3 - iVar2);
+        pvVar6 = local_10;
       }
-      orig::FUN_1018bc40(&local_1c,local_10);
-      piVar3 = (int *)orig::FUN_10072180(this_00,&local_4);
+      orig::FUN_1018bc40(&local_1c,(int)local_10,pvVar6);
+      piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
       if (local_14 < *piVar3) {
         orig::FUN_1018bbc0(&local_18,0x4f1a00);
-        piVar3 = (int *)orig::FUN_10072180(this_00,&local_4);
-        orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3);
-        orig::FUN_1018bbc0(&local_10,xi_castbits<int>(local_18) + local_14);
+        piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
+        orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3,*piVar3);
+        pvVar5 = orig::FUN_1018bbc0(&local_10,xi_castbits<int>(local_18) + local_14);
       }
       else {
-        piVar3 = (int *)orig::FUN_10072180(this_00,&local_4);
-        orig::FUN_1018bbc0(&local_10,local_14 - *piVar3);
+        piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
+        pvVar5 = orig::FUN_1018bbc0(&local_10,local_14 - *piVar3);
       }
-      orig::FUN_1018bc40(&local_20,local_10);
+      orig::FUN_1018bc40(&local_20,(int)local_10,pvVar5);
       if (local_1c == 0) {
-        local_18 = xi_k4(0x0ull);
+        local_18 = 0.0f;
       }
       else {
-        local_18 = (float)((float10)local_20 / (float10)local_1c);
+        local_18 = (float)((long double)local_20 / (long double)local_1c);
       }
       orig::FUN_10189490(*(void **)((int)self_ + 0x20),local_8,local_c,local_18);
       return;
     }
-    *(int *)((int)self_ + 0x20) = (int)this_00 + 0x30;
+    *(int *)((int)self_ + 0x20) = (int)pvVar5 + 0x30;
   }
   return;
 }

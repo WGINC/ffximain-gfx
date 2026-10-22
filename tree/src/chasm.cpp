@@ -67,7 +67,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 XI_API undefined4 __cdecl fn_10273D60(int param_1, undefined4 param_2, undefined4 param_3)
 {
   int iVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
   iVar1 = *(int *)(param_1 + 0x14);
   if ((-1 < iVar1) && (iVar1 < *(int *)(param_1 + 0x18))) {
@@ -81,22 +81,22 @@ XI_API undefined4 __cdecl fn_10273D60(int param_1, undefined4 param_2, undefined
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10273E80(int param_1, int param_2, int param_3)
 {
-  uint *puVar1;
-  uint uVar2;
+  uint32_t *puVar1;
+  uint32_t uVar2;
   
-  puVar1 = (uint *)(*(int *)(param_1 + 0x10) + param_2 * 0xc);
-  uVar2 = *(uint *)(*(int *)(param_1 + 0x10) + param_2 * 0xc);
+  puVar1 = (uint32_t *)(*(int *)(param_1 + 0x10) + param_2 * 0xc);
+  uVar2 = *(uint32_t *)(*(int *)(param_1 + 0x10) + param_2 * 0xc);
   if ((uVar2 & 2) != 0) {
     if (param_3 == -1) {
       if ((uVar2 & 4) != 0) {
         orig::FUN_10273e80(param_1,param_2,0);
-        return *(undefined4 *)(param_1 + 4);
+        return *(uint32_t *)(param_1 + 4);
       }
       orig::FUN_10273e80(param_1,param_2,1);
-      return *(undefined4 *)(param_1 + 4);
+      return *(uint32_t *)(param_1 + 4);
     }
     if (param_3 == 0) {
-      *(undefined4 *)(param_1 + 4) = 0xffffffff;
+      *(uint32_t *)(param_1 + 4) = 0xffffffff;
       if ((*puVar1 & 4) != 0) {
         orig::FUN_1026f900(puVar1[1],0,0);
         orig::FUN_1026f900(puVar1[2],0,0);
@@ -109,9 +109,9 @@ XI_API undefined4 __cdecl fn_10273E80(int param_1, int param_2, int param_3)
         orig::FUN_1026f900(puVar1[1],4,1);
         orig::FUN_1026f900(puVar1[2],4,1);
         *puVar1 = *puVar1 | 4;
-        return *(undefined4 *)(param_1 + 4);
+        return *(uint32_t *)(param_1 + 4);
       }
     }
   }
-  return *(undefined4 *)(param_1 + 4);
+  return *(uint32_t *)(param_1 + 4);
 }

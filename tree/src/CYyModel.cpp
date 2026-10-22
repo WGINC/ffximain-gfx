@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100298C0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyModel::GetRuntimeClass()
 {
   return &CYyModel_classdesc;
@@ -14,26 +14,26 @@ char ** __cdecl CYyModel::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModel::Constructor(void * self)
 {
-  *(undefined ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
+  *(uint8_t ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::FUN_10033710((void *)((int)self + 0x48));
   orig::FUN_1001d170((void *)((int)self + 0x74));
   orig::FUN_10025bf0((void *)((int)self + 0x8c));
   orig::FUN_10025260((void *)((int)self + 0x90));
   orig::FUN_10038a20((void *)((int)self + 0x9c));
-  *(undefined ***)self = &PTR_CYyModel_GetRuntimeClass_1032a75c;
-  *(undefined4 *)((int)self + 0x30) = 0;
-  *(undefined4 *)((int)self + 0x40) = 0x40000000;
-  *(undefined4 *)((int)self + 0x44) = 0;
-  *(undefined4 *)((int)self + 0xa8) = 0;
-  *(undefined4 *)((int)self + 0xac) = 0;
-  *(undefined1 *)((int)self + 0xb0) = 0;
-  *(undefined4 *)((int)self + 0xb4) = 0;
-  *(undefined1 *)((int)self + 0xb8) = 0;
+  *(uint8_t ***)self = &PTR_CYyModel_GetRuntimeClass_1032a75c;
+  *(uint32_t *)((int)self + 0x30) = 0;
+  *(uint32_t *)((int)self + 0x40) = 0x40000000;
+  *(uint32_t *)((int)self + 0x44) = 0;
+  *(uint32_t *)((int)self + 0xa8) = 0;
+  *(uint32_t *)((int)self + 0xac) = 0;
+  *(uint8_t *)((int)self + 0xb0) = 0;
+  *(uint32_t *)((int)self + 0xb4) = 0;
+  *(uint8_t *)((int)self + 0xb8) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1002B530  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModel::ScalarDeletingDtor(char a2)
 {
   orig::CYyModel_Destructor((int *)this);
@@ -49,10 +49,10 @@ void __thiscall CYyModel::Destructor(void * self)
   int *this_00;
   
   this_00 = *(int **)((int)self + 0x44);
-  *(undefined ***)self = &PTR_CYyModel_GetRuntimeClass_1032a75c;
+  *(uint8_t ***)self = &PTR_CYyModel_GetRuntimeClass_1032a75c;
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(undefined4 *)((int)self + 0x44) = 0;
+    *(uint32_t *)((int)self + 0x44) = 0;
   }
   orig::FUN_10038a60((void *)((int)self + 0x9c));
   orig::ProjTex_Destructor_v1((void *)((int)self + 0x90));

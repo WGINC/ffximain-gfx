@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10063450  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoSpline::GetRuntimeClass()
 {
   return &CMoSpline_classdesc;
@@ -14,17 +14,17 @@ char ** __cdecl CMoSpline::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10063460(void * self_)
 {
-  *(undefined ***)self_ = &PTR_CMoSpline_GetRuntimeClass_1032c088;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
+  *(uint8_t ***)self_ = &PTR_CMoSpline_GetRuntimeClass_1032c088;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10063480  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoSpline::ScalarDeletingDtor(char a2)
 {
   orig::CMoSpline_Destructor((int *)this);
@@ -37,7 +37,7 @@ int * CMoSpline::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoSpline::Destructor(void * self)
 {
-  *(undefined ***)self = &PTR_CMoSpline_GetRuntimeClass_1032c088;
+  *(uint8_t ***)self = &PTR_CMoSpline_GetRuntimeClass_1032c088;
   orig::FUN_10063550(self);
   return;
 }

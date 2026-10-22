@@ -8,29 +8,29 @@ XI_API uint32_t __thiscall fn_100C8280(void * self_)
 {
   float *pfVar1;
   int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
+  uint32_t uVar3;
+  uint32_t uVar4;
   char xi_frame[112] __attribute__((aligned(4)));
   float  (&local_70)[10] = *reinterpret_cast<float  (*)[10]>(xi_frame + 0);
   float  &local_48 = *reinterpret_cast<float  *>(xi_frame + 40);
-  undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 48);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 48);
   
   iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-  uVar3 = orig::CXiActor_ModelTest95680_v1(self_,iVar2);
+  uVar3 = orig::CXiActor_ModelTest95680_v1(self_,iVar2,iVar2);
   if ((char)uVar3 == '\0') {
     iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-    uVar4 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2);
+    uVar4 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2,iVar2);
     if ((char)uVar4 == '\0') goto LAB_100c83b3;
   }
-  local_70[0] = xi_k4(0x3F8CCCCDull);
-  local_70[1] = xi_k4(0xBF800000ull);
-  local_70[2] = xi_k4(0x0ull);
-  local_70[3] = xi_k4(0x3F800000ull);
-  local_70[4] = xi_k4(0x3F4CCCCDull);
-  local_70[5] = xi_k4(0xBF800000ull);
-  local_70[6] = xi_k4(0x0ull);
-  local_70[7] = xi_k4(0x3F800000ull);
-  orig::fn_10027990_v1(local_40);
+  local_70[0] = 1.10000002384185791015625f;
+  local_70[1] = (-1.0f);
+  local_70[2] = 0.0f;
+  local_70[3] = 1.0f;
+  local_70[4] = 0.800000011920928955078125f;
+  local_70[5] = (-1.0f);
+  local_70[6] = 0.0f;
+  local_70[7] = 1.0f;
+  orig::FUN_10027990(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   orig::Mat4_PostRotateX_v1(local_40,*(float *)((int)self_ + 0x61c));
   orig::Mat4_PostRotateY_v1(local_40,*(float *)((int)self_ + 0x620));
@@ -41,20 +41,20 @@ XI_API uint32_t __thiscall fn_100C8280(void * self_)
   orig::Mat4_TransformPointInPlace_v1(local_40,local_70 + 4);
   uVar4 = orig::FUN_10181590(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
   if ((char)uVar4 != '\0') {
-    *pfVar1 = (float)(((float10)local_70[8] - (float10)local_70[0]) + (float10)*pfVar1);
+    *pfVar1 = (float)(((long double)local_70[8] - (long double)local_70[0]) + (long double)*pfVar1);
     *(float *)((int)self_ + 0x604) =
-         (float)(((float10)local_48 - (float10)local_70[2]) + (float10)*(float *)((int)self_ + 0x604)
+         (float)(((long double)local_48 - (long double)local_70[2]) + (long double)*(float *)((int)self_ + 0x604)
                 );
     orig::nullsub_1();
     return uVar4 & 0xffffff00;
   }
   orig::nullsub_1();
 LAB_100c83b3:
-  return CONCAT31((int3)(uVar4 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar4 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100CB4E0  (unit unit_100C8280: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 99 returned normally, 547 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Actor_SelectNearestLights(void *self_)
 {
   _BYTE *v1;

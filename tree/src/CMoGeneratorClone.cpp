@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10047C30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -26,7 +26,7 @@ int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047CE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32, town PASS 58, town2 PASS 74, combat PASS 56, zonetoinn PASS 90
+// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoGeneratorClone::FixupClonedPointers()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -163,13 +163,13 @@ LABEL_49:
 void __thiscall CMoGeneratorClone::UnlinkElemListA(void * self, int param_1)
 {
   if (*(int *)(param_1 + 0x14c) == 0) {
-    *(undefined4 *)((int)self + 0xb0) = *(undefined4 *)(param_1 + 0x150);
+    *(uint32_t *)((int)self + 0xb0) = *(uint32_t *)(param_1 + 0x150);
   }
   else {
-    *(undefined4 *)(*(int *)(param_1 + 0x14c) + 0x150) = *(undefined4 *)(param_1 + 0x150);
+    *(uint32_t *)(*(int *)(param_1 + 0x14c) + 0x150) = *(uint32_t *)(param_1 + 0x150);
   }
   if (*(int *)(param_1 + 0x150) != 0) {
-    *(undefined4 *)(*(int *)(param_1 + 0x150) + 0x14c) = *(undefined4 *)(param_1 + 0x14c);
+    *(uint32_t *)(*(int *)(param_1 + 0x150) + 0x14c) = *(uint32_t *)(param_1 + 0x14c);
   }
   orig::CMoResource_ReleaseChain_v1(self);
   return;
@@ -179,18 +179,18 @@ void __thiscall CMoGeneratorClone::UnlinkElemListA(void * self, int param_1)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint32_t * __thiscall CMoGeneratorClone::FindCmdByType(void * self, uint32_t param_1)
 {
-  uint *puVar1;
-  uint uVar2;
+  uint32_t *puVar1;
+  uint32_t uVar2;
   
-  puVar1 = *(uint **)((int)self + 0xe4);
+  puVar1 = *(uint32_t **)((int)self + 0xe4);
   while( true ) {
-    if (puVar1 == (uint *)0x0) {
-      return (uint *)0x0;
+    if (puVar1 == (uint32_t *)0x0) {
+      return (uint32_t *)0x0;
     }
     uVar2 = *puVar1 & 0xff;
     if (uVar2 == param_1) break;
     if (uVar2 == 0) {
-      return (uint *)0x0;
+      return (uint32_t *)0x0;
     }
     puVar1 = puVar1 + (*puVar1 >> 8 & 0x1f);
   }
@@ -204,11 +204,11 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
   int iVar1;
   int iVar2;
   int *piVar3;
-  undefined4 *puVar4;
+  uint32_t *puVar4;
   int iVar5;
   int *piVar6;
-  xi_bool bVar7;
-  undefined8 uVar8;
+  uint8_t bVar7;
+  uint64_t uVar8;
   char xi_frame[4] __attribute__((aligned(4)));
   void * &local_4 = *reinterpret_cast<void * *>(xi_frame + 0);
   
@@ -229,31 +229,31 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
     case 0x1d:
       iVar5 = 0x25;
     }
-    *(undefined1 *)(iVar1 + 0x28) = 0;
+    *(uint8_t *)(iVar1 + 0x28) = 0;
     if ((((iVar5 == 0x57) || (iVar5 == 0x47)) || (iVar5 == 0x22)) ||
        ((iVar5 == 0x24 || (iVar5 == 0x5c)))) {
-      *(undefined4 *)(*(int *)((int)self + 0xe4) + 8) = 1;
+      *(uint32_t *)(*(int *)((int)self + 0xe4) + 8) = 1;
       return 0;
     }
     iVar1 = *(int *)((int)self + 0xe4);
     local_4 = self;
-    uVar8 = orig::CMoResource_FindByTypeAndId_v1(self,&local_4,iVar5,*(undefined4 *)(iVar1 + 0xc));
+    uVar8 = orig::CMoResource_FindByTypeAndId_v1(self,&local_4,iVar5,*(uint32_t *)(iVar1 + 0xc));
     iVar2 = *(int *)uVar8;
     *(int *)(iVar1 + 8) = iVar2;
     if ((iVar2 == 0) && (iVar5 == 0x1f)) {
-      *(undefined4 *)(*(int *)((int)self + 0xe4) + 8) = 0;
+      *(uint32_t *)(*(int *)((int)self + 0xe4) + 8) = 0;
       piVar6 = *(int **)((int)self + 0x14);
       do {
         if ((piVar6 == (int *)0x0) || ((void *)*piVar6 == (void *)0x0)) break;
         uVar8 = orig::CMoResource_FindByTypeAndId_v1
                           ((void *)*piVar6,&local_4,0x2e,
-                           *(undefined4 *)(*(int *)((int)self + 0xe4) + 0xc));
+                           *(uint32_t *)(*(int *)((int)self + 0xe4) + 0xc));
         piVar3 = (int *)*(int *)uVar8;
         if ((piVar3 != (int *)0x0) && (*piVar3 != 0)) {
           iVar1 = *(int *)((int)self + 0xe4);
           iVar5 = orig::FUN_10183420(g_pZoneMap,*piVar3 + 0x30);
           *(int *)(iVar1 + 8) = iVar5;
-          *(undefined1 *)(*(int *)((int)self + 0xe4) + 0x28) = 1;
+          *(uint8_t *)(*(int *)((int)self + 0xe4) + 0x28) = 1;
           break;
         }
         bVar7 = *(int **)(*piVar6 + 0x28) != piVar6;
@@ -261,8 +261,8 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
       } while (bVar7);
     }
   }
-  puVar4 = *(undefined4 **)(*(int *)((int)self + 0xe4) + 8);
-  if (((undefined4 *)0x1 < puVar4) && (puVar4 != (undefined4 *)0x0)) {
+  puVar4 = *(uint32_t **)(*(int *)((int)self + 0xe4) + 8);
+  if (((uint32_t *)0x1 < puVar4) && (puVar4 != (uint32_t *)0x0)) {
     return *puVar4;
   }
   return 0;
@@ -273,86 +273,86 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
 void __thiscall CMoGeneratorClone::CopyParams(void * self, int param_1)
 {
   int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined4 *puVar5;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  uint32_t *puVar5;
   
-  *(undefined4 *)((int)self + 0x20) = *(undefined4 *)(param_1 + 0x20);
-  *(undefined4 *)((int)self + 0x24) = *(undefined4 *)(param_1 + 0x24);
-  *(undefined4 *)((int)self + 0x28) = *(undefined4 *)(param_1 + 0x28);
-  *(undefined4 *)((int)self + 0x2c) = *(undefined4 *)(param_1 + 0x2c);
+  *(uint32_t *)((int)self + 0x20) = *(uint32_t *)(param_1 + 0x20);
+  *(uint32_t *)((int)self + 0x24) = *(uint32_t *)(param_1 + 0x24);
+  *(uint32_t *)((int)self + 0x28) = *(uint32_t *)(param_1 + 0x28);
+  *(uint32_t *)((int)self + 0x2c) = *(uint32_t *)(param_1 + 0x2c);
   orig::FUN_1003c740((void *)((int)self + 0x30),param_1 + 0x30);
-  *(undefined4 *)((int)self + 0x70) = *(undefined4 *)(param_1 + 0x70);
-  *(undefined4 *)((int)self + 0x74) = *(undefined4 *)(param_1 + 0x74);
-  *(undefined4 *)((int)self + 0x78) = *(undefined4 *)(param_1 + 0x78);
-  *(undefined4 *)((int)self + 0x7c) = *(undefined4 *)(param_1 + 0x7c);
-  *(undefined4 *)((int)self + 0x80) = *(undefined4 *)(param_1 + 0x80);
-  *(undefined4 *)((int)self + 0x84) = *(undefined4 *)(param_1 + 0x84);
-  *(undefined4 *)((int)self + 0x88) = *(undefined4 *)(param_1 + 0x88);
-  *(undefined4 *)((int)self + 0x8c) = *(undefined4 *)(param_1 + 0x8c);
-  *(undefined4 *)((int)self + 0x90) = *(undefined4 *)(param_1 + 0x90);
-  *(undefined4 *)((int)self + 0x94) = *(undefined4 *)(param_1 + 0x94);
-  *(undefined4 *)((int)self + 0x98) = *(undefined4 *)(param_1 + 0x98);
-  *(undefined4 *)((int)self + 0x98) = *(undefined4 *)(param_1 + 0x98);
-  *(undefined4 *)((int)self + 0x9c) = *(undefined4 *)(param_1 + 0x9c);
-  *(undefined4 *)((int)self + 0xa0) = *(undefined4 *)(param_1 + 0xa0);
-  *(undefined4 *)((int)self + 0xa4) = *(undefined4 *)(param_1 + 0xa4);
-  *(undefined4 *)((int)self + 0xa8) = *(undefined4 *)(param_1 + 0xa8);
-  *(undefined4 *)((int)self + 0xac) = *(undefined4 *)(param_1 + 0xac);
-  *(undefined4 *)((int)self + 0xb0) = *(undefined4 *)(param_1 + 0xb0);
-  puVar5 = (undefined4 *)((int)self + 0xb4);
+  *(uint32_t *)((int)self + 0x70) = *(uint32_t *)(param_1 + 0x70);
+  *(uint32_t *)((int)self + 0x74) = *(uint32_t *)(param_1 + 0x74);
+  *(uint32_t *)((int)self + 0x78) = *(uint32_t *)(param_1 + 0x78);
+  *(uint32_t *)((int)self + 0x7c) = *(uint32_t *)(param_1 + 0x7c);
+  *(uint32_t *)((int)self + 0x80) = *(uint32_t *)(param_1 + 0x80);
+  *(uint32_t *)((int)self + 0x84) = *(uint32_t *)(param_1 + 0x84);
+  *(uint32_t *)((int)self + 0x88) = *(uint32_t *)(param_1 + 0x88);
+  *(uint32_t *)((int)self + 0x8c) = *(uint32_t *)(param_1 + 0x8c);
+  *(uint32_t *)((int)self + 0x90) = *(uint32_t *)(param_1 + 0x90);
+  *(uint32_t *)((int)self + 0x94) = *(uint32_t *)(param_1 + 0x94);
+  *(uint32_t *)((int)self + 0x98) = *(uint32_t *)(param_1 + 0x98);
+  *(uint32_t *)((int)self + 0x98) = *(uint32_t *)(param_1 + 0x98);
+  *(uint32_t *)((int)self + 0x9c) = *(uint32_t *)(param_1 + 0x9c);
+  *(uint32_t *)((int)self + 0xa0) = *(uint32_t *)(param_1 + 0xa0);
+  *(uint32_t *)((int)self + 0xa4) = *(uint32_t *)(param_1 + 0xa4);
+  *(uint32_t *)((int)self + 0xa8) = *(uint32_t *)(param_1 + 0xa8);
+  *(uint32_t *)((int)self + 0xac) = *(uint32_t *)(param_1 + 0xac);
+  *(uint32_t *)((int)self + 0xb0) = *(uint32_t *)(param_1 + 0xb0);
+  puVar5 = (uint32_t *)((int)self + 0xb4);
   iVar1 = 3;
   do {
-    *puVar5 = *(undefined4 *)(((param_1 + 0x70) - ((int)self + 0x70)) + (int)puVar5);
+    *puVar5 = *(uint32_t *)(((param_1 + 0x70) - ((int)self + 0x70)) + (int)puVar5);
     puVar5 = puVar5 + 1;
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
-  *(undefined4 *)((int)self + 0xb0) = 0;
-  *(undefined4 *)((int)self + 0xac) = 0;
-  *(undefined4 *)((int)self + 0xa8) = 0;
-  *(undefined4 *)((int)self + 0xa4) = 0;
-  *(undefined4 *)((int)self + 0xc0) = *(undefined4 *)(param_1 + 0xc0);
-  *(undefined4 *)((int)self + 0xc4) = *(undefined4 *)(param_1 + 0xc4);
-  *(undefined4 *)((int)self + 200) = *(undefined4 *)(param_1 + 200);
-  *(undefined4 *)((int)self + 0xcc) = *(undefined4 *)(param_1 + 0xcc);
-  *(undefined4 *)((int)self + 0xd0) = *(undefined4 *)(param_1 + 0xd0);
-  *(undefined2 *)((int)self + 0xd4) = *(undefined2 *)(param_1 + 0xd4);
-  *(undefined2 *)((int)self + 0xd6) = *(undefined2 *)(param_1 + 0xd6);
-  uVar3 = *(uint *)((int)self + 0xd8);
-  uVar4 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x1ff ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar4;
-  uVar2 = (*(uint *)(param_1 + 0xd8) ^ uVar4) & 0x200 ^ uVar4;
-  *(uint *)((int)self + 0xd8) = uVar2;
-  uVar3 = CONCAT22((short)(uVar3 >> 0x10),CONCAT11((char)(uVar2 >> 8),(char)uVar4)) & 0xfffff3ff ^
-          *(uint *)(param_1 + 0xd8) & 0x400;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x1000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x2000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0xfffc000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x10000000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x20000000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  uVar3 = (*(uint *)(param_1 + 0xd8) ^ uVar3) & 0x40000000 ^ uVar3;
-  *(uint *)((int)self + 0xd8) = uVar3;
-  *(uint *)((int)self + 0xd8) =
-       (uVar3 ^ *(uint *)(param_1 + 0xd8)) & 0x7fffffff ^ *(uint *)(param_1 + 0xd8);
-  *(undefined2 *)((int)self + 0xdc) = *(undefined2 *)(param_1 + 0xdc);
-  *(undefined1 *)((int)self + 0xde) = *(undefined1 *)(param_1 + 0xde);
-  *(undefined1 *)((int)self + 0xdf) = *(undefined1 *)(param_1 + 0xdf);
-  *(undefined4 *)((int)self + 0xe0) = *(undefined4 *)(param_1 + 0xe0);
-  *(undefined4 *)((int)self + 0xe4) = *(undefined4 *)(param_1 + 0xe4);
-  *(undefined4 *)((int)self + 0xe8) = *(undefined4 *)(param_1 + 0xe8);
-  *(undefined4 *)((int)self + 0xec) = *(undefined4 *)(param_1 + 0xec);
+  *(uint32_t *)((int)self + 0xb0) = 0;
+  *(uint32_t *)((int)self + 0xac) = 0;
+  *(uint32_t *)((int)self + 0xa8) = 0;
+  *(uint32_t *)((int)self + 0xa4) = 0;
+  *(uint32_t *)((int)self + 0xc0) = *(uint32_t *)(param_1 + 0xc0);
+  *(uint32_t *)((int)self + 0xc4) = *(uint32_t *)(param_1 + 0xc4);
+  *(uint32_t *)((int)self + 200) = *(uint32_t *)(param_1 + 200);
+  *(uint32_t *)((int)self + 0xcc) = *(uint32_t *)(param_1 + 0xcc);
+  *(uint32_t *)((int)self + 0xd0) = *(uint32_t *)(param_1 + 0xd0);
+  *(uint16_t *)((int)self + 0xd4) = *(uint16_t *)(param_1 + 0xd4);
+  *(uint16_t *)((int)self + 0xd6) = *(uint16_t *)(param_1 + 0xd6);
+  uVar3 = *(uint32_t *)((int)self + 0xd8);
+  uVar4 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x1ff ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar4;
+  uVar2 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar4) & 0x200 ^ uVar4;
+  *(uint32_t *)((int)self + 0xd8) = uVar2;
+  uVar3 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar3 >> 0x10)) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)((char)(uVar2 >> 8)) << 8) | (uint8_t)((char)uVar4)))))) & 0xfffff3ff ^
+          *(uint32_t *)(param_1 + 0xd8) & 0x400;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x1000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x2000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0xfffc000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x10000000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x20000000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  uVar3 = (*(uint32_t *)(param_1 + 0xd8) ^ uVar3) & 0x40000000 ^ uVar3;
+  *(uint32_t *)((int)self + 0xd8) = uVar3;
+  *(uint32_t *)((int)self + 0xd8) =
+       (uVar3 ^ *(uint32_t *)(param_1 + 0xd8)) & 0x7fffffff ^ *(uint32_t *)(param_1 + 0xd8);
+  *(uint16_t *)((int)self + 0xdc) = *(uint16_t *)(param_1 + 0xdc);
+  *(uint8_t *)((int)self + 0xde) = *(uint8_t *)(param_1 + 0xde);
+  *(uint8_t *)((int)self + 0xdf) = *(uint8_t *)(param_1 + 0xdf);
+  *(uint32_t *)((int)self + 0xe0) = *(uint32_t *)(param_1 + 0xe0);
+  *(uint32_t *)((int)self + 0xe4) = *(uint32_t *)(param_1 + 0xe4);
+  *(uint32_t *)((int)self + 0xe8) = *(uint32_t *)(param_1 + 0xe8);
+  *(uint32_t *)((int)self + 0xec) = *(uint32_t *)(param_1 + 0xec);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100536C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44, town PASS 43, town2 PASS 43, combat PASS 43, zonetoinn PASS 43
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -419,7 +419,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10053E00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoGeneratorClone::InitDefaultParams()
 {
   _DWORD *v2;
@@ -442,18 +442,18 @@ int CMoGeneratorClone::InitDefaultParams()
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
-  *(undefined ***)self = &CMoGeneratorClone_vtbl_as_v0;
-  *(undefined4 *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
-  orig::YmGenerater_Stop_v1(self,(undefined4 *)0x0);
-  orig::FUN_1003b690((undefined4 *)((int)self + 0x30));
+  *(uint8_t ***)self = &CMoGeneratorClone_vtbl_as_v0;
+  *(uint32_t *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
+  orig::YmGenerater_Stop_v2(self,(uint32_t *)0x0);
+  orig::FUN_1003b690_v1((uint32_t *)((int)self + 0x30));
   if (*(int **)((int)self + 0xa8) != (int *)0x0) {
     (**(code **)(**(int **)((int)self + 0xa8) + 0x18))(1);
-    *(undefined4 *)((int)self + 0xa8) = 0;
+    *(uint32_t *)((int)self + 0xa8) = 0;
   }
   if (*(int *)((int)self + 0xf8) != 0) {
-    *(undefined4 *)(*(int *)((int)self + 0xf8) + 0x164) = 0;
+    *(uint32_t *)(*(int *)((int)self + 0xf8) + 0x164) = 0;
   }
-  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self + 0x14));
+  orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
   orig::CMoGeneratorClone_VT_1032B114_Destructor_v1(self);
   return;
 }

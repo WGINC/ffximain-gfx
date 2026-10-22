@@ -7,8 +7,8 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1003B420(void * self_)
 {
-  *(undefined ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
-  *(undefined4 *)((int)self_ + 8) = 0;
+  *(uint8_t ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
+  *(uint32_t *)((int)self_ + 8) = 0;
   return self_;
 }
 
@@ -27,15 +27,15 @@ XI_API void * __thiscall fn_1003B430(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CYyVb::Constructor(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
-  *(undefined ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
-  *(undefined4 *)((int)self + 8) = 0;
+  *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
+  *(uint32_t *)((int)self + 8) = 0;
   orig::FUN_1003b4d0(self);
-  *(undefined4 *)((int)self + 0xc) = param_1;
-  *(undefined4 *)((int)self + 0x10) = param_2;
-  *(undefined4 *)((int)self + 0x18) = param_4;
-  *(undefined4 *)((int)self + 4) = 3;
-  *(undefined4 *)((int)self + 0x14) = param_3;
-  *(undefined4 *)((int)self + 0x1c) = param_5;
+  *(uint32_t *)((int)self + 0xc) = param_1;
+  *(uint32_t *)((int)self + 0x10) = param_2;
+  *(uint32_t *)((int)self + 0x18) = param_4;
+  *(uint32_t *)((int)self + 4) = 3;
+  *(uint32_t *)((int)self + 0x14) = param_3;
+  *(uint32_t *)((int)self + 0x1c) = param_5;
   return self;
 }
 
@@ -45,12 +45,12 @@ XI_API void __thiscall fn_1003B4A0(void * self_)
 {
   int *a1;
   
-  *(undefined ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
+  *(uint8_t ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
   if (self_ != g_pVertexBufferListHead_as_v0) {
     a1 = *(int **)((int)self_ + 0x1c);
     if (a1 != (int *)0x0) {
       ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
-      *(undefined4 *)((int)self_ + 0x1c) = 0;
+      *(uint32_t *)((int)self_ + 0x1c) = 0;
     }
     orig::FUN_1003b4e0();
     return;

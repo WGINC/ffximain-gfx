@@ -222,13 +222,6 @@
 "symbol": "fn_10003710",
 "unit": "Debug"
 },
-"0x100037d0": {
-"class": null,
-"method": null,
-"why": "unit: asserts Debug.cpp",
-"symbol": "fn_100037D0",
-"unit": "Debug"
-},
 "0x10003890": {
 "class": null,
 "method": null,
@@ -276,6 +269,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
 "symbol": "fn_10005A00",
+"unit": "unit_10003890_DirectInput"
+},
+"0x10007830": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "fn_10007830",
 "unit": "unit_10003890_DirectInput"
 },
 "0x10007860": {
@@ -341,6 +341,20 @@
 "symbol": "fn_100089D0",
 "unit": "unit_10003890_DirectInput"
 },
+"0x10008d90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "fn_10008D90",
+"unit": "unit_10003890_DirectInput"
+},
+"0x10008e10": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file",
+"symbol": "fn_10008E10",
+"unit": "unit_10003890_DirectInput"
+},
 "0x10008f80": {
 "class": "CDx",
 "method": "GetRuntimeClass",
@@ -389,12 +403,6 @@
 "why": "IDB name",
 "symbol": "CDx::TestCooperativeLevel"
 },
-"0x10009720": {
-"class": "CDx",
-"method": "Present",
-"why": "IDB name; static (takes no this)",
-"symbol": "CDx::Present"
-},
 "0x10009730": {
 "class": "CDx",
 "method": "BeginScene",
@@ -433,12 +441,6 @@
 "why": "unit: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB",
 "symbol": "fn_100098E0",
 "unit": "CDx"
-},
-"0x10009920": {
-"class": "CDx",
-"method": "SetDefaultRenderState",
-"why": "IDB name",
-"symbol": "CDx::SetDefaultRenderState"
 },
 "0x10009d20": {
 "class": null,
@@ -479,6 +481,12 @@
 "symbol": "fn_10009EE0",
 "unit": "CDx"
 },
+"0x10009f20": {
+"class": "CDx",
+"method": "PushRenderTargetTexture",
+"why": "IDB name",
+"symbol": "CDx::PushRenderTargetTexture"
+},
 "0x1000a070": {
 "class": null,
 "method": null,
@@ -511,12 +519,6 @@
 "method": "PopRenderTargetDefault",
 "why": "IDB name; static (takes no this)",
 "symbol": "CDx::PopRenderTargetDefault"
-},
-"0x1000a2b0": {
-"class": "CDx",
-"method": "PopRenderTarget",
-"why": "IDB name; static (takes no this)",
-"symbol": "CDx::PopRenderTarget"
 },
 "0x1000a390": {
 "class": null,
@@ -844,12 +846,6 @@
 "why": "tree manifest",
 "symbol": "CMoTaskMng::ScalarDeletingDtor"
 },
-"0x100119a0": {
-"class": "CMoTask_VT_10329C70",
-"method": "ScalarDeletingDtor",
-"why": "tree manifest",
-"symbol": "CMoTask_VT_10329C70::ScalarDeletingDtor"
-},
 "0x10011a00": {
 "class": null,
 "method": null,
@@ -898,13 +894,6 @@
 "symbol": "fn_10013AC0",
 "unit": "unit_10011A00_Post"
 },
-"0x10013ad0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
-"symbol": "App_StepGameState5Connect",
-"unit": "unit_10011A00_Post"
-},
 "0x10013df0": {
 "class": null,
 "method": null,
@@ -947,6 +936,13 @@
 "symbol": "fn_100141C0",
 "unit": "unit_10011A00_Post"
 },
+"0x10014200": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file",
+"symbol": "fn_10014200",
+"unit": "unit_10011A00_Post"
+},
 "0x10014220": {
 "class": null,
 "method": null,
@@ -967,13 +963,6 @@
 "why": "unit: stores CAtelIdleTask vtable (ctor/dtor)",
 "symbol": "fn_100142B0",
 "unit": "CAtelIdleTask"
-},
-"0x10014350": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
-"symbol": "fn_10014350",
-"unit": "unit_10014350_Camera"
 },
 "0x100149b0": {
 "class": null,
@@ -1206,13 +1195,6 @@
 "symbol": "fn_10015490",
 "unit": "unit_10014350_Camera"
 },
-"0x10015510": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
-"symbol": "Camera_ApplyViewProjection",
-"unit": "unit_10014350_Camera"
-},
 "0x100155d0": {
 "class": null,
 "method": null,
@@ -1283,13 +1265,6 @@
 "symbol": "fn_100157B0",
 "unit": "unit_10014350_Camera"
 },
-"0x100157e0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
-"symbol": "App_WinMain",
-"unit": "unit_10014350_Camera"
-},
 "0x100161b0": {
 "class": null,
 "method": null,
@@ -1337,6 +1312,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
 "symbol": "fn_10016410",
+"unit": "unit_10014350_Camera"
+},
+"0x100164b0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
+"symbol": "fn_100164B0",
 "unit": "unit_10014350_Camera"
 },
 "0x100164c0": {
@@ -1399,7 +1381,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file",
-"symbol": "fn_10017630",
+"symbol": "setPolUrl",
 "unit": "unit_10014350_Camera"
 },
 "0x10017670": {
@@ -1470,13 +1452,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file",
 "symbol": "fn_10017D30",
-"unit": "unit_10017C10"
-},
-"0x100180d0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file",
-"symbol": "fn_100180D0",
 "unit": "unit_10017C10"
 },
 "0x10018180": {
@@ -1778,13 +1753,6 @@
 "why": "IDB name; static (takes no this)",
 "symbol": "CMoTask::GetRuntimeClass_variant1"
 },
-"0x1001c930": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file",
-"symbol": "fn_1001C930",
-"unit": "unit_1001B890"
-},
 "0x1001cf80": {
 "class": null,
 "method": null,
@@ -1897,10 +1865,11 @@
 "symbol": "CYyCamMng2::CreateGlobal"
 },
 "0x1001e4b0": {
-"class": "CYyCamMng2",
-"method": "CallGlobalVfunc1",
-"why": "IDB name; static (takes no this)",
-"symbol": "CYyCamMng2::CallGlobalVfunc1"
+"class": null,
+"method": null,
+"why": "unit: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB",
+"symbol": "CYyCamMng2_CallGlobalVfunc1",
+"unit": "CYyCamMng2"
 },
 "0x1001e4d0": {
 "class": null,
@@ -2164,27 +2133,6 @@
 "store rewritten": 2
 }
 },
-"0x100262c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
-"symbol": "Dbg_DrawGroundGrid",
-"unit": "unit_100252F0"
-},
-"0x100263f0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
-"symbol": "Dbg_DrawViewAxisGizmo",
-"unit": "unit_100252F0"
-},
-"0x100266c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file",
-"symbol": "Dbg_DrawAxesAt",
-"unit": "unit_100252F0"
-},
 "0x10026990": {
 "class": "CYyIcon",
 "method": "Draw",
@@ -2330,13 +2278,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
 "symbol": "fn_10027620",
-"unit": "unit_10026C70_Vec3"
-},
-"0x100276f0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file",
-"symbol": "Gfx_ProjectWorldToClip",
 "unit": "unit_10026C70_Vec3"
 },
 "0x100277e0": {
@@ -2577,6 +2518,13 @@
 "symbol": "MemBlock_GetSize",
 "unit": "unit_10028A50"
 },
+"0x10028bf0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file",
+"symbol": "fn_10028BF0",
+"unit": "unit_10028A50"
+},
 "0x10028c30": {
 "class": null,
 "method": null,
@@ -2741,12 +2689,6 @@
 "method": "PrepareRenderStateV2Entry",
 "why": "IDB name; static (takes no this)",
 "symbol": "CYyModelDt::PrepareRenderStateV2Entry"
-},
-"0x1002a040": {
-"class": "CYyModelDt",
-"method": "PrepareRenderStateV2SimpleEntry",
-"why": "IDB name; static (takes no this)",
-"symbol": "CYyModelDt::PrepareRenderStateV2SimpleEntry"
 },
 "0x1002a080": {
 "class": null,
@@ -2997,13 +2939,6 @@
 "why": "callers pass their own this (CYyOs2VtxBuffer)",
 "symbol": "CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor"
 },
-"0x1002d7f0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1002D700 (CYyOs2VtxBuffer) and 0x1002D880 (CMoResource_VT_1032C854) -- an unnamed source file",
-"symbol": "fn_1002D7F0",
-"unit": "unit_1002D7F0"
-},
 "0x1002d860": {
 "class": null,
 "method": null,
@@ -3158,6 +3093,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file",
 "symbol": "fn_10033DA0",
+"unit": "unit_100310A0"
+},
+"0x10033ea0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file",
+"symbol": "Shadow_SmoothLightDirection",
 "unit": "unit_100310A0"
 },
 "0x10034170": {
@@ -3394,6 +3336,20 @@
 "symbol": "fn_10036230",
 "unit": "unit_10035B00"
 },
+"0x10036360": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file",
+"symbol": "fn_10036360",
+"unit": "unit_10035B00"
+},
+"0x10036420": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file",
+"symbol": "fn_10036420",
+"unit": "unit_10035B00"
+},
 "0x100364a0": {
 "class": null,
 "method": null,
@@ -3413,6 +3369,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file",
 "symbol": "fn_10036770",
+"unit": "unit_10035B00"
+},
+"0x100367c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file",
+"symbol": "fn_100367C0",
+"unit": "unit_10035B00"
+},
+"0x100367f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file",
+"symbol": "fn_100367F0",
 "unit": "unit_10035B00"
 },
 "0x10036830": {
@@ -3479,6 +3449,13 @@
 "method": "GetRuntimeClass_variant0",
 "why": "IDB name; static (takes no this)",
 "symbol": "CMoResource::GetRuntimeClass_variant0"
+},
+"0x10036b90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file",
+"symbol": "fn_10036B90",
+"unit": "unit_10036B90"
 },
 "0x10036f00": {
 "class": null,
@@ -3563,6 +3540,13 @@
 "symbol": "fn_100382A0",
 "unit": "unit_10037AC0_SetMusicTrackVolume"
 },
+"0x10038470": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file",
+"symbol": "fn_10038470",
+"unit": "unit_10037AC0_SetMusicTrackVolume"
+},
 "0x100384b0": {
 "class": null,
 "method": null,
@@ -3626,10 +3610,7 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file",
 "symbol": "Post_DrawRotatingGhostLayers",
-"unit": "unit_10038930",
-"partial_regs": {
-"store rewritten": 4
-}
+"unit": "unit_10038930"
 },
 "0x10039440": {
 "class": null,
@@ -4394,27 +4375,11 @@
 "symbol": "fn_10041160",
 "unit": "unit_10041160"
 },
-"0x100412b0": {
-"class": "CMoD3mSpecularElem",
-"method": "vf18",
-"why": "IDB name",
-"symbol": "CMoD3mSpecularElem::vf18",
-"partial_regs": {
-"read left: operand type float is not an integer type": 3
-}
-},
 "0x10041af0": {
 "class": "CMoElem_VT_1032ADE8",
 "method": "vf18",
 "why": "IDB name",
 "symbol": "CMoElem_VT_1032ADE8::vf18"
-},
-"0x10041c20": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10041A30 (CMoD3mSpecularElem) and 0x10041F30 (CMoElem_VT_1032ADE8) -- an unnamed source file",
-"symbol": "Font_DrawProjectedText3D",
-"unit": "unit_10041A40"
 },
 "0x10041f40": {
 "class": null,
@@ -4526,12 +4491,6 @@
 "why": "unit: between 0x100431A0 (class model places it in CMoDistModelElem) and 0x10043310 (class model places it in CMoDistModelElem), both within 4 KB",
 "symbol": "fn_100431B0",
 "unit": "CMoDistModelElem"
-},
-"0x10043320": {
-"class": "CMoDistModelElem",
-"method": "BuildDistortedMesh",
-"why": "IDB name",
-"symbol": "CMoDistModelElem::BuildDistortedMesh"
 },
 "0x10043570": {
 "class": "CMoElem",
@@ -4697,13 +4656,6 @@
 "symbol": "Mo_InitSharedRenderResources",
 "unit": "unit_10043E40",
 "reloc_literals": 4
-},
-"0x10044540": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file",
-"symbol": "fn_10044540",
-"unit": "unit_10043E40"
 },
 "0x100446a0": {
 "class": null,
@@ -4985,12 +4937,6 @@
 "why": "tree manifest",
 "symbol": "CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor"
 },
-"0x10048000": {
-"class": "CMoGeneratorClone_VT_1032B114",
-"method": "Destructor",
-"why": "IDB name; static (takes no this)",
-"symbol": "CMoGeneratorClone_VT_1032B114::Destructor"
-},
 "0x100480d0": {
 "class": null,
 "method": null,
@@ -5056,6 +5002,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file",
 "symbol": "fn_1004E210",
+"unit": "unit_10048000"
+},
+"0x1004e250": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file",
+"symbol": "fn_1004E250",
 "unit": "unit_10048000"
 },
 "0x1004e260": {
@@ -5905,6 +5858,13 @@
 "why": "tree manifest",
 "symbol": "CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor"
 },
+"0x10053890": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file",
+"symbol": "fn_10053890",
+"unit": "unit_10053860"
+},
 "0x100538e0": {
 "class": null,
 "method": null,
@@ -5931,6 +5891,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file",
 "symbol": "fn_10053C80",
+"unit": "unit_10053860"
+},
+"0x10053dd0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file",
+"symbol": "fn_10053DD0",
 "unit": "unit_10053860"
 },
 "0x10053e00": {
@@ -6390,21 +6357,6 @@
 "why": "IDB name; static (takes no this)",
 "symbol": "CMoSchedularTask::vf8"
 },
-"0x10057fb0": {
-"class": "CMoSchedularTask",
-"method": "Interpret",
-"why": "IDB name",
-"symbol": "CMoSchedularTask::Interpret",
-"partial_regs": {
-"store rewritten": 16,
-"store left: operand not a local or parameter": 2,
-"store left: the variable's address is taken": 2,
-"read rewritten": 6,
-"read left: operand not a local or parameter": 31,
-"lvalue use left": 5,
-"read left: operand type float is not an integer type": 4
-}
-},
 "0x1005e110": {
 "class": null,
 "method": null,
@@ -6436,6 +6388,12 @@
 "method": "vf8",
 "why": "IDB name",
 "symbol": "CMoLockLookAtDriveTask::vf8"
+},
+"0x1005fb30": {
+"class": "CMoActorRotationDriveTask",
+"method": "vf8",
+"why": "IDB name",
+"symbol": "CMoActorRotationDriveTask::vf8"
 },
 "0x100602a0": {
 "class": "CMoTask_VT_1032BB0C",
@@ -7082,24 +7040,11 @@
 "why": "IDB name",
 "symbol": "CMoDX::CreateAndInitSystem"
 },
-"0x1006b3b0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file",
-"symbol": "fn_1006B3B0",
-"unit": "unit_1006B3B0"
-},
 "0x1006b480": {
 "class": "CMoTask_VT_10329C70",
 "method": "vf8",
 "why": "IDB name",
 "symbol": "CMoTask_VT_10329C70::vf8"
-},
-"0x1006b4c0": {
-"class": "CMoTask_VT_10329C70",
-"method": "vf1",
-"why": "IDB name; static (takes no this)",
-"symbol": "CMoTask_VT_10329C70::vf1"
 },
 "0x1006bd90": {
 "class": null,
@@ -7201,6 +7146,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
 "symbol": "Occlusion_DrawQuery",
+"unit": "unit_1006C210_Occlusion"
+},
+"0x1006c8b0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file",
+"symbol": "Occlusion_ReadbackCount",
 "unit": "unit_1006C210_Occlusion"
 },
 "0x1006c9b0": {
@@ -7319,10 +7271,11 @@
 "unit": "CMoProcessor_VT_1032C368"
 },
 "0x1006d5d0": {
-"class": "CMoProcessor",
-"method": "Vec3Normalize",
-"why": "IDB name; static (takes no this)",
-"symbol": "CMoProcessor::Vec3Normalize"
+"class": null,
+"method": null,
+"why": "unit: between 0x1006D4F0 (class model places it in CMoProcessor_VT_1032C368) and 0x1006D680 (class model places it in CMoProcessor_VT_1032C368), both within 4 KB",
+"symbol": "CMoProcessor_Vec3Normalize",
+"unit": "CMoProcessor_VT_1032C368"
 },
 "0x1006d680": {
 "class": "CMoProcessor_VT_1032C368",
@@ -7348,6 +7301,20 @@
 "method": "vf021",
 "why": "tree manifest; does not use this",
 "symbol": "CMoProcessor_VT_1032C368::vf021"
+},
+"0x1006e140": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006D980 (CMoProcessor_VT_1032C368) and 0x1006E6B0 (CMoProcessor) -- an unnamed source file",
+"symbol": "fn_1006E140",
+"unit": "unit_1006D9C0"
+},
+"0x1006e260": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1006D980 (CMoProcessor_VT_1032C368) and 0x1006E6B0 (CMoProcessor) -- an unnamed source file",
+"symbol": "fn_1006E260",
+"unit": "unit_1006D9C0"
 },
 "0x1006e6b0": {
 "class": "CMoProcessor",
@@ -7400,6 +7367,20 @@
 "method": "vf021",
 "why": "tree manifest; does not use this",
 "symbol": "CMoProcessor_VT_1032C298::vf021"
+},
+"0x1006fae0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x1006FA30 (class model places it in CMoProcessor_VT_1032C298) and 0x10070020 (class model places it in CMoProcessor_VT_1032C298), both within 4 KB",
+"symbol": "fn_1006FAE0",
+"unit": "CMoProcessor_VT_1032C298"
+},
+"0x1006fc40": {
+"class": null,
+"method": null,
+"why": "unit: between 0x1006FA30 (class model places it in CMoProcessor_VT_1032C298) and 0x10070020 (class model places it in CMoProcessor_VT_1032C298), both within 4 KB",
+"symbol": "fn_1006FC40",
+"unit": "CMoProcessor_VT_1032C298"
 },
 "0x10070020": {
 "class": "CMoProcessor_VT_1032C298",
@@ -7604,16 +7585,6 @@
 "why": "tree manifest; does not use this",
 "symbol": "CMoResource_VT_1032C7A4::vf009"
 },
-"0x10071a20": {
-"class": "CMoResource_VT_1032C778",
-"method": "vf008",
-"why": "tree manifest",
-"symbol": "CMoResource_VT_1032C778::vf008",
-"partial_regs": {
-"store left: operand not a local or parameter": 1,
-"lvalue use left": 1
-}
-},
 "0x10071a30": {
 "class": "CMoResource_VT_1032C778",
 "method": "vf009",
@@ -7775,6 +7746,13 @@
 "symbol": "WeatherRes_GetTimeKey",
 "unit": "unit_10071E50"
 },
+"0x100721f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file",
+"symbol": "CMoResource_Destroy",
+"unit": "unit_10071E50"
+},
 "0x10072240": {
 "class": null,
 "method": null,
@@ -7802,10 +7780,11 @@
 "unit": "unit_10071E50"
 },
 "0x10072430": {
-"class": "CMoResource",
-"method": "FindInScope",
-"why": "IDB name; static (takes no this)",
-"symbol": "CMoResource::FindInScope"
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file",
+"symbol": "CMoResource_FindInScope",
+"unit": "unit_10071E50"
 },
 "0x100724c0": {
 "class": null,
@@ -7880,6 +7859,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file",
 "symbol": "fn_100730E0",
+"unit": "unit_10072D10"
+},
+"0x10073430": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file",
+"symbol": "MeshResourceMng_ResolveTree",
 "unit": "unit_10072D10"
 },
 "0x10073730": {
@@ -8255,6 +8241,13 @@
 "symbol": "fn_10076A70",
 "unit": "unit_10074CA0"
 },
+"0x10076ab0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file",
+"symbol": "preprocessArg",
+"unit": "unit_10074CA0"
+},
 "0x10077a00": {
 "class": null,
 "method": null,
@@ -8381,6 +8374,13 @@
 "symbol": "fn_10080C70",
 "unit": "unit_10078260"
 },
+"0x10080d00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file",
+"symbol": "fn_10080D00",
+"unit": "unit_10078260"
+},
 "0x10080d20": {
 "class": null,
 "method": null,
@@ -8393,6 +8393,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file",
 "symbol": "fn_10080D90",
+"unit": "unit_10078260"
+},
+"0x10081230": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file",
+"symbol": "fn_10081230",
 "unit": "unit_10078260"
 },
 "0x10081440": {
@@ -8492,11 +8499,10 @@
 "unit": "unit_10081A30"
 },
 "0x10081ba0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file",
-"symbol": "fn_10081BA0",
-"unit": "unit_10081A30"
+"class": "CXiActor",
+"method": "Init",
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiActor::Init"
 },
 "0x10081cf0": {
 "class": null,
@@ -8661,12 +8667,11 @@
 "symbol": "fn_10082FA0",
 "unit": "unit_10082F60"
 },
-"0x10082fb0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file",
-"symbol": "fn_10082FB0",
-"unit": "unit_10082F60"
+"0x100830c0": {
+"class": "CXiActor",
+"method": "NameCalc",
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiActor::NameCalc"
 },
 "0x100832d0": {
 "class": "CXiActor",
@@ -8704,13 +8709,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file",
 "symbol": "fn_10083430",
-"unit": "unit_100833F0"
-},
-"0x10083620": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file",
-"symbol": "fn_10083620",
 "unit": "unit_100833F0"
 },
 "0x10083750": {
@@ -8774,6 +8772,27 @@
 "method": "IsModelMissingOrFlag2000",
 "why": "IDB name; static (takes no this)",
 "symbol": "CXiActor::IsModelMissingOrFlag2000"
+},
+"0x10084330": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB",
+"symbol": "CXiActor_ModelTest95790",
+"unit": "CXiActor"
+},
+"0x10084350": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB",
+"symbol": "CXiActor_ModelTest95680",
+"unit": "CXiActor"
+},
+"0x10084370": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB",
+"symbol": "CXiActor_ModelTest956A0",
+"unit": "CXiActor"
 },
 "0x10084390": {
 "class": "CXiActor",
@@ -8902,12 +8921,6 @@
 "symbol": "fn_10085010",
 "unit": "CXiActor"
 },
-"0x10085060": {
-"class": "CXiActor",
-"method": "SpawnResourceGenerators",
-"why": "IDB name; static (takes no this)",
-"symbol": "CXiActor::SpawnResourceGenerators"
-},
 "0x10085490": {
 "class": "CXiActor",
 "method": "IsInModelSlotTable",
@@ -8929,16 +8942,18 @@
 "unit": "CXiActor"
 },
 "0x10085c90": {
-"class": "CXiAtelActor",
-"method": "UnlinkCasterAttachments",
-"why": "IDB name; static (takes no this)",
-"symbol": "CXiAtelActor::UnlinkCasterAttachments"
+"class": null,
+"method": null,
+"why": "unit: name CXiAtelActor_UnlinkCasterAttachments",
+"symbol": "CXiAtelActor_UnlinkCasterAttachments",
+"unit": "CXiAtelActor"
 },
 "0x10085cf0": {
-"class": "CXiAtelActor",
-"method": "UnlinkTargetAttachments",
-"why": "IDB name; static (takes no this)",
-"symbol": "CXiAtelActor::UnlinkTargetAttachments"
+"class": null,
+"method": null,
+"why": "unit: name CXiAtelActor_UnlinkTargetAttachments",
+"symbol": "CXiAtelActor_UnlinkTargetAttachments",
+"unit": "CXiAtelActor"
 },
 "0x10085d50": {
 "class": null,
@@ -8968,27 +8983,18 @@
 },
 "reloc_literals": 1
 },
-"0x10086900": {
-"class": null,
-"method": null,
-"why": "unit: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB",
-"symbol": "fn_10086900",
-"unit": "CXiAtelActor",
-"partial_regs": {
-"store left: operand type float is not an integer type": 2,
-"store rewritten": 1,
-"read left: operand type float is not an integer type": 9,
-"lvalue use left": 4,
-"read rewritten": 2,
-"read left: operand not a local or parameter": 1
-},
-"reloc_literals": 1
-},
 "0x10086e90": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
 "symbol": "fn_10086E90",
+"unit": "unit_10086E90"
+},
+"0x10086fc0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_10086FC0",
 "unit": "unit_10086E90"
 },
 "0x10086fe0": {
@@ -9017,6 +9023,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
 "symbol": "fn_100870E0",
+"unit": "unit_10086E90"
+},
+"0x10087110": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_10087110",
 "unit": "unit_10086E90"
 },
 "0x100872c0": {
@@ -9052,6 +9065,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
 "symbol": "fn_10087610",
+"unit": "unit_10086E90"
+},
+"0x10087660": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_10087660",
 "unit": "unit_10086E90"
 },
 "0x10087670": {
@@ -9257,6 +9277,13 @@
 "symbol": "fn_1008DA00",
 "unit": "unit_10086E90"
 },
+"0x1008e130": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_1008E130",
+"unit": "unit_10086E90"
+},
 "0x1008e140": {
 "class": null,
 "method": null,
@@ -9278,18 +9305,18 @@
 "symbol": "fn_1008E260",
 "unit": "unit_10086E90"
 },
-"0x1008e3f0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
-"symbol": "fn_1008E3F0",
-"unit": "unit_10086E90"
-},
 "0x1008e740": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
 "symbol": "fn_1008E740",
+"unit": "unit_10086E90"
+},
+"0x1008e8d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_1008E8D0",
 "unit": "unit_10086E90"
 },
 "0x1008e9a0": {
@@ -9311,13 +9338,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
 "symbol": "fn_1008F2A0",
-"unit": "unit_10086E90"
-},
-"0x1008f740": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
-"symbol": "fn_1008F740",
 "unit": "unit_10086E90"
 },
 "0x100926c0": {
@@ -9485,7 +9505,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
-"symbol": "fn_100955D0",
+"symbol": "CallMotd",
 "unit": "unit_10086E90"
 },
 "0x10095680": {
@@ -9649,6 +9669,13 @@
 "symbol": "fn_100991F0",
 "unit": "unit_10086E90"
 },
+"0x10099730": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file",
+"symbol": "fn_10099730",
+"unit": "unit_10086E90"
+},
 "0x100997b0": {
 "class": null,
 "method": null,
@@ -9761,21 +9788,21 @@
 },
 "0x100a4670": {
 "class": null,
-"method": "IsFreeRun",
+"method": null,
 "why": "unit: class model places it in CXiControlActor",
 "symbol": "CXiControlActor_IsFreeRun",
 "unit": "CXiControlActor"
 },
 "0x100a4690": {
 "class": null,
-"method": "IsWalkLock",
+"method": null,
 "why": "unit: class model places it in CXiControlActor",
 "symbol": "CXiControlActor_IsWalkLock",
 "unit": "CXiControlActor"
 },
 "0x100a46b0": {
 "class": null,
-"method": "IsParallelMove",
+"method": null,
 "why": "unit: class model places it in CXiControlActor",
 "symbol": "CXiControlActor_IsParallelMove",
 "unit": "CXiControlActor"
@@ -9789,14 +9816,14 @@
 },
 "0x100a46d0": {
 "class": null,
-"method": "IsTouchDown",
+"method": null,
 "why": "unit: class model places it in CXiCollisionActor",
 "symbol": "CXiCollisionActor_IsTouchDown",
 "unit": "CXiCollisionActor"
 },
 "0x100a46f0": {
 "class": null,
-"method": "IsOnLift",
+"method": null,
 "why": "unit: class model places it in CXiCollisionActor",
 "symbol": "CXiCollisionActor_IsOnLift",
 "unit": "CXiCollisionActor"
@@ -10203,6 +10230,13 @@
 "symbol": "fn_100A5EF0",
 "unit": "unit_100A57F0"
 },
+"0x100a6070": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file",
+"symbol": "fn_100A6070",
+"unit": "unit_100A57F0"
+},
 "0x100a78d0": {
 "class": null,
 "method": null,
@@ -10330,25 +10364,11 @@
 "symbol": "fn_100AC380",
 "unit": "XiDoorActor"
 },
-"0x100ac390": {
-"class": null,
-"method": null,
-"why": "unit: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB",
-"symbol": "fn_100AC390",
-"unit": "XiDoorActor"
-},
 "0x100ac4e0": {
 "class": null,
 "method": null,
 "why": "unit: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB",
 "symbol": "fn_100AC4E0",
-"unit": "XiDoorActor"
-},
-"0x100ac5a0": {
-"class": null,
-"method": null,
-"why": "unit: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB",
-"symbol": "fn_100AC5A0",
 "unit": "XiDoorActor"
 },
 "0x100ad6d0": {
@@ -10398,6 +10418,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file",
 "symbol": "fn_100C2E20",
+"unit": "unit_100ACAB0_XiEvent"
+},
+"0x100c3020": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file",
+"symbol": "fn_100C3020",
+"unit": "unit_100ACAB0_XiEvent"
+},
+"0x100c3030": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file",
+"symbol": "fn_100C3030",
 "unit": "unit_100ACAB0_XiEvent"
 },
 "0x100c3050": {
@@ -10505,13 +10539,6 @@
 "symbol": "fn_100C4C20",
 "unit": "unit_100C4410"
 },
-"0x100c4ce0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100C4400 (XiModelActor) and 0x100C5190 (CXiSkeletonActor) -- an unnamed source file",
-"symbol": "fn_100C4CE0",
-"unit": "unit_100C4410"
-},
 "0x100c5190": {
 "class": "CXiSkeletonActor",
 "method": "GetRuntimeClass_variant1",
@@ -10617,18 +10644,6 @@
 "read left: operand type float is not an integer type": 2
 }
 },
-"0x100c63d0": {
-"class": "CXiSkeletonActor",
-"method": "OnMove",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::OnMove",
-"partial_regs": {
-"store left: operand not a local or parameter": 1,
-"store rewritten": 1,
-"lvalue use left": 1,
-"read left: operand not a local or parameter": 2
-}
-},
 "0x100c8280": {
 "class": null,
 "method": null,
@@ -10685,11 +10700,10 @@
 "unit": "CXiSkeletonActor"
 },
 "0x100cd540": {
-"class": null,
-"method": null,
-"why": "unit: between 0x100CD490 (name CXiSkeletonActor_SetMotion) and 0x100CE0B0 (class model places it in CXiSkeletonActor), both within 4 KB",
-"symbol": "fn_100CD540",
-"unit": "CXiSkeletonActor"
+"class": "CXiSkeletonActor",
+"method": "SetMotion",
+"why": "IDB name; static (takes no this)",
+"symbol": "CXiSkeletonActor::SetMotion"
 },
 "0x100cdf90": {
 "class": null,
@@ -10795,12 +10809,6 @@
 "symbol": "fn_100CFAD0",
 "unit": "CXiSkeletonActor"
 },
-"0x100cfc10": {
-"class": "CXiSkeletonActor",
-"method": "Slot244_Unknown",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::Slot244_Unknown"
-},
 "0x100d04b0": {
 "class": "CXiSkeletonActor",
 "method": "GetField878Ptr_Candidate",
@@ -10813,26 +10821,11 @@
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::GetNamePos"
 },
-"0x100d0510": {
-"class": "CXiSkeletonActor",
-"method": "OnDrawName",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::OnDrawName",
-"partial_regs": {
-"lvalue use left": 1
-}
-},
 "0x100d06f0": {
 "class": "CXiSkeletonActor",
 "method": "GetArrowPos",
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::GetArrowPos"
-},
-"0x100d0740": {
-"class": "CXiSkeletonActor",
-"method": "ProjectToScreen",
-"why": "IDB name; static (takes no this)",
-"symbol": "CXiSkeletonActor::ProjectToScreen"
 },
 "0x100d0880": {
 "class": "CXiSkeletonActor",
@@ -10841,10 +10834,11 @@
 "symbol": "CXiSkeletonActor::DrawNameIfVisible"
 },
 "0x100d08b0": {
-"class": "CXiSkeletonActor",
-"method": "DrawName2IfVisible",
-"why": "IDB name; static (takes no this)",
-"symbol": "CXiSkeletonActor::DrawName2IfVisible"
+"class": null,
+"method": null,
+"why": "unit: between 0x100D0740 (name CXiSkeletonActor_ProjectToScreen) and 0x100D08E0 (name CXiSkeletonActor_GetWidthScale), both within 4 KB",
+"symbol": "CXiSkeletonActor_DrawName2IfVisible",
+"unit": "CXiSkeletonActor"
 },
 "0x100d08e0": {
 "class": "CXiSkeletonActor",
@@ -10869,6 +10863,20 @@
 "method": null,
 "why": "unit: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB",
 "symbol": "fn_100D0D40",
+"unit": "CXiSkeletonActor"
+},
+"0x100d0d70": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB",
+"symbol": "fn_100D0D70",
+"unit": "CXiSkeletonActor"
+},
+"0x100d0fc0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB",
+"symbol": "fn_100D0FC0",
 "unit": "CXiSkeletonActor"
 },
 "0x100d12d0": {
@@ -10897,15 +10905,6 @@
 "why": "IDB name; static (takes no this)",
 "symbol": "CXiSkeletonActor::OnSkeletonLoaded"
 },
-"0x100d2f60": {
-"class": "CXiSkeletonActor",
-"method": "LoadSkeletonSync",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::LoadSkeletonSync",
-"partial_regs": {
-"lvalue use left": 1
-}
-},
 "0x100d4330": {
 "class": "CXiSkeletonActor",
 "method": "LoadSkeletonResource",
@@ -10926,6 +10925,13 @@
 "symbol": "fn_100D4410",
 "unit": "CXiSkeletonActor"
 },
+"0x100d44b0": {
+"class": null,
+"method": null,
+"why": "unit: between 0x100D4330 (name CXiSkeletonActor_LoadSkeletonResource) and 0x100D4560 (name CXiSkeletonActor_GetElem), both within 4 KB",
+"symbol": "fn_100D44B0",
+"unit": "CXiSkeletonActor"
+},
 "0x100d4540": {
 "class": null,
 "method": null,
@@ -10944,12 +10950,6 @@
 "method": "GetElemLocal",
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::GetElemLocal"
-},
-"0x100d49b0": {
-"class": "CXiSkeletonActor",
-"method": "GetEidMatrix",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::GetEidMatrix"
 },
 "0x100d5430": {
 "class": null,
@@ -10979,12 +10979,6 @@
 "method": "DrawResourceShadows",
 "why": "IDB name",
 "symbol": "CXiSkeletonActor::DrawResourceShadows"
-},
-"0x100d6370": {
-"class": "CXiSkeletonActor",
-"method": "KillAllGenerater",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::KillAllGenerater"
 },
 "0x100d6f90": {
 "class": "CXiSkeletonActor",
@@ -11155,6 +11149,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_100D9950",
+"unit": "unit_100D7420"
+},
+"0x100d9a70": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100D9A70",
 "unit": "unit_100D7420"
 },
 "0x100d9ad0": {
@@ -11393,6 +11394,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_100DC420",
+"unit": "unit_100D7420"
+},
+"0x100dc6c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100DC6C0",
 "unit": "unit_100D7420"
 },
 "0x100dc6d0": {
@@ -12144,6 +12152,13 @@
 "symbol": "fn_100F00A0",
 "unit": "unit_100D7420"
 },
+"0x100f02a0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100F02A0",
+"unit": "unit_100D7420"
+},
 "0x100f04f0": {
 "class": null,
 "method": null,
@@ -12382,6 +12397,13 @@
 "symbol": "fn_100F2B80",
 "unit": "unit_100D7420"
 },
+"0x100f2c40": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100F2C40",
+"unit": "unit_100D7420"
+},
 "0x100f2c80": {
 "class": null,
 "method": null,
@@ -12436,6 +12458,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_100F76B0",
+"unit": "unit_100D7420"
+},
+"0x100f76d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100F76D0",
 "unit": "unit_100D7420"
 },
 "0x100f7700": {
@@ -12571,6 +12600,13 @@
 "symbol": "fn_100F9E10",
 "unit": "unit_100D7420"
 },
+"0x100fa940": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_100FA940",
+"unit": "unit_100D7420"
+},
 "0x100fa950": {
 "class": null,
 "method": null,
@@ -12634,11 +12670,11 @@
 "symbol": "fn_100FC320",
 "unit": "unit_100D7420"
 },
-"0x100fc3b0": {
+"0x100fc370": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_100FC3B0",
+"symbol": "fn_100FC370",
 "unit": "unit_100D7420"
 },
 "0x100fc4d0": {
@@ -13170,7 +13206,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_10114B60",
+"symbol": "FDtXiInit",
 "unit": "unit_100D7420"
 },
 "0x10114f10": {
@@ -13184,7 +13220,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_10115020",
+"symbol": "FDtGmNoticeProc",
 "unit": "unit_100D7420"
 },
 "0x101152d0": {
@@ -13565,6 +13601,20 @@
 "symbol": "fn_10118CB0",
 "unit": "unit_100D7420"
 },
+"0x10118db0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10118DB0",
+"unit": "unit_100D7420"
+},
+"0x10118e90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10118E90",
+"unit": "unit_100D7420"
+},
 "0x10118f20": {
 "class": null,
 "method": null,
@@ -13689,13 +13739,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10119AD0",
-"unit": "unit_100D7420"
-},
-"0x10119bc0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_10119BC0",
 "unit": "unit_100D7420"
 },
 "0x10119c00": {
@@ -13998,11 +14041,25 @@
 "symbol": "fn_1011D010",
 "unit": "unit_100D7420"
 },
+"0x1011d840": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "Font_AddGlyphAdvance",
+"unit": "unit_100D7420"
+},
 "0x1011d8b0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_1011D8B0",
+"unit": "unit_100D7420"
+},
+"0x1011d990": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_1011D990",
 "unit": "unit_100D7420"
 },
 "0x1011da30": {
@@ -14338,6 +14395,13 @@
 "symbol": "fn_10123EA0",
 "unit": "unit_100D7420"
 },
+"0x10123ee0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10123EE0",
+"unit": "unit_100D7420"
+},
 "0x10123f40": {
 "class": null,
 "method": null,
@@ -14450,6 +14514,13 @@
 "symbol": "fn_10124360",
 "unit": "unit_100D7420"
 },
+"0x10124390": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10124390",
+"unit": "unit_100D7420"
+},
 "0x10124440": {
 "class": null,
 "method": null,
@@ -14556,17 +14627,18 @@
 "symbol": "fn_10124BC0",
 "unit": "unit_100D7420"
 },
-"0x10124eb0": {
-"class": "Obj_104E1D4C",
-"method": "Cursor_Draw",
-"why": "callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified",
-"symbol": "Obj_104E1D4C::Cursor_Draw"
-},
 "0x10125040": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10125040",
+"unit": "unit_100D7420"
+},
+"0x10125170": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10125170",
 "unit": "unit_100D7420"
 },
 "0x101252c0": {
@@ -14582,18 +14654,6 @@
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Cursor_SetVisible",
 "unit": "unit_100D7420"
-},
-"0x10125360": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_10125360",
-"unit": "unit_100D7420",
-"partial_regs": {
-"store rewritten": 4,
-"read left: operand not a local or parameter": 2,
-"lvalue use left": 1
-}
 },
 "0x10125f70": {
 "class": null,
@@ -14805,6 +14865,13 @@
 "symbol": "fn_10127190",
 "unit": "unit_100D7420"
 },
+"0x101271c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_101271C0",
+"unit": "unit_100D7420"
+},
 "0x10127250": {
 "class": null,
 "method": null,
@@ -14865,7 +14932,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_10127990",
+"symbol": "GetCallNum",
 "unit": "unit_100D7420"
 },
 "0x10127ab0": {
@@ -14922,6 +14989,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "fn_10129BB0",
+"unit": "unit_100D7420"
+},
+"0x10129c60": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
+"symbol": "fn_10129C60",
 "unit": "unit_100D7420"
 },
 "0x10129d00": {
@@ -15057,6 +15131,13 @@
 "symbol": "fn_10130390",
 "unit": "unit_1012AC80"
 },
+"0x101304d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101304D0",
+"unit": "unit_1012AC80"
+},
 "0x10130f90": {
 "class": null,
 "method": null,
@@ -15104,6 +15185,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10136380",
+"unit": "unit_1012AC80"
+},
+"0x10136560": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10136560",
 "unit": "unit_1012AC80"
 },
 "0x10136870": {
@@ -16170,6 +16258,34 @@
 "symbol": "fn_10157860",
 "unit": "unit_1012AC80"
 },
+"0x10157880": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10157880",
+"unit": "unit_1012AC80"
+},
+"0x10157890": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10157890",
+"unit": "unit_1012AC80"
+},
+"0x101578a0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101578A0",
+"unit": "unit_1012AC80"
+},
+"0x101578b0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101578B0",
+"unit": "unit_1012AC80"
+},
 "0x101578c0": {
 "class": null,
 "method": null,
@@ -16331,11 +16447,32 @@
 "symbol": "fn_10158AA0",
 "unit": "unit_1012AC80"
 },
+"0x10158ae0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10158AE0",
+"unit": "unit_1012AC80"
+},
+"0x10158b00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10158B00",
+"unit": "unit_1012AC80"
+},
 "0x10158b40": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10158B40",
+"unit": "unit_1012AC80"
+},
+"0x10158b60": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10158B60",
 "unit": "unit_1012AC80"
 },
 "0x10158c40": {
@@ -16371,6 +16508,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10158FF0",
+"unit": "unit_1012AC80"
+},
+"0x10159040": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10159040",
 "unit": "unit_1012AC80"
 },
 "0x101590a0": {
@@ -16462,6 +16606,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10159530",
+"unit": "unit_1012AC80"
+},
+"0x10159540": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10159540",
+"unit": "unit_1012AC80"
+},
+"0x101595d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101595D0",
 "unit": "unit_1012AC80"
 },
 "0x10159660": {
@@ -16574,6 +16732,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10159DE0",
+"unit": "unit_1012AC80"
+},
+"0x10159e10": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10159E10",
 "unit": "unit_1012AC80"
 },
 "0x10159fb0": {
@@ -16779,25 +16944,11 @@
 "symbol": "fn_1015E030",
 "unit": "unit_1012AC80"
 },
-"0x1015e530": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
-"symbol": "fn_1015E530",
-"unit": "unit_1012AC80"
-},
 "0x1015e7e0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_1015E7E0",
-"unit": "unit_1012AC80"
-},
-"0x1015e830": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
-"symbol": "fn_1015E830",
 "unit": "unit_1012AC80"
 },
 "0x1015e850": {
@@ -16919,6 +17070,13 @@
 "symbol": "fn_1015F3E0",
 "unit": "unit_1012AC80"
 },
+"0x1015f6a0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_1015F6A0",
+"unit": "unit_1012AC80"
+},
 "0x1015f790": {
 "class": null,
 "method": null,
@@ -17008,6 +17166,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "Gfx_DisableFogAndAlphaBlend",
+"unit": "unit_1012AC80"
+},
+"0x101606f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_101606F0",
+"unit": "unit_1012AC80"
+},
+"0x10160700": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10160700",
 "unit": "unit_1012AC80"
 },
 "0x10160710": {
@@ -17101,6 +17273,13 @@
 "symbol": "fn_10161BC0",
 "unit": "unit_1012AC80"
 },
+"0x10161c70": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10161C70",
+"unit": "unit_1012AC80"
+},
 "0x10161d60": {
 "class": null,
 "method": null,
@@ -17151,6 +17330,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
 "symbol": "fn_10162F60",
+"unit": "unit_1012AC80"
+},
+"0x10162fb0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
+"symbol": "fn_10162FB0",
 "unit": "unit_1012AC80"
 },
 "0x10163080": {
@@ -17397,13 +17583,6 @@
 "symbol": "Dbg_DrawTriangleLines",
 "unit": "unit_10163E60"
 },
-"0x1016e930": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file",
-"symbol": "fn_1016E930",
-"unit": "unit_10163E60"
-},
 "0x1016f0e0": {
 "class": null,
 "method": null,
@@ -17545,6 +17724,13 @@
 "method": null,
 "why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
 "symbol": "ZoneMap_SetOverlayProjection",
+"unit": "CTsZoneMap"
+},
+"0x10177770": {
+"class": null,
+"method": null,
+"why": "unit: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB",
+"symbol": "fn_10177770",
 "unit": "CTsZoneMap"
 },
 "0x101779b0": {
@@ -17718,38 +17904,6 @@
 "symbol": "ZoneMap_TeardownStep",
 "unit": "unit_10178790_ZoneMap"
 },
-"0x1017b510": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "Zone_RenderEnvironment",
-"unit": "unit_10178790_ZoneMap",
-"partial_regs": {
-"store rewritten": 1
-}
-},
-"0x1017c9c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_1017C9C0",
-"unit": "unit_10178790_ZoneMap"
-},
-"0x1017de20": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_1017DE20",
-"unit": "unit_10178790_ZoneMap",
-"partial_regs": {
-"store left: the variable's address is taken": 20,
-"store left: operand not a local or parameter": 4,
-"lvalue use left": 43,
-"read left: operand type float is not an integer type": 8,
-"read left: operand not a local or parameter": 31,
-"read rewritten": 10
-}
-},
 "0x101811d0": {
 "class": null,
 "method": null,
@@ -17857,23 +18011,6 @@
 "why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
 "symbol": "fn_10183420",
 "unit": "unit_10178790_ZoneMap"
-},
-"0x10183490": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_10183490",
-"unit": "unit_10178790_ZoneMap"
-},
-"0x10183760": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
-"symbol": "fn_10183760",
-"unit": "unit_10178790_ZoneMap",
-"partial_regs": {
-"store rewritten": 3
-}
 },
 "0x10183da0": {
 "class": null,
@@ -18135,6 +18272,13 @@
 "symbol": "fn_10187600",
 "unit": "unit_10178790_ZoneMap"
 },
+"0x10187720": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file",
+"symbol": "fn_10187720",
+"unit": "unit_10178790_ZoneMap"
+},
 "0x101880c0": {
 "class": null,
 "method": null,
@@ -18239,6 +18383,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
 "symbol": "Env_ComputeAmbientFloat4",
+"unit": "unit_10188CA0"
+},
+"0x10189120": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file",
+"symbol": "Env_ComputeFog",
 "unit": "unit_10188CA0"
 },
 "0x101893d0": {
@@ -18839,7 +18990,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_1018E1D0",
+"symbol": "FsLogPage_load",
 "unit": "unit_1018BA60"
 },
 "0x1018e310": {
@@ -18961,6 +19112,20 @@
 "symbol": "fn_1018FB00",
 "unit": "unit_1018BA60"
 },
+"0x1018fd90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_1018FD90",
+"unit": "unit_1018BA60"
+},
+"0x10190140": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_10190140",
+"unit": "unit_1018BA60"
+},
 "0x101907a0": {
 "class": null,
 "method": null,
@@ -19042,7 +19207,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_10193830",
+"symbol": "SetConfig",
 "unit": "unit_1018BA60"
 },
 "0x10193850": {
@@ -19098,7 +19263,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_10193BF0",
+"symbol": "FsConfig_Constructor",
 "unit": "unit_1018BA60"
 },
 "0x10195220": {
@@ -19451,6 +19616,13 @@
 "symbol": "fn_1019CE70",
 "unit": "unit_1018BA60"
 },
+"0x1019cf60": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_1019CF60",
+"unit": "unit_1018BA60"
+},
 "0x1019d150": {
 "class": null,
 "method": null,
@@ -19561,13 +19733,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "fn_101A0760",
-"unit": "unit_1018BA60"
-},
-"0x101a07d0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101A07D0",
 "unit": "unit_1018BA60"
 },
 "0x101a0910": {
@@ -19745,20 +19910,6 @@
 "symbol": "fn_101A1CC0",
 "unit": "unit_1018BA60"
 },
-"0x101a2660": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101A2660",
-"unit": "unit_1018BA60"
-},
-"0x101a26c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101A26C0",
-"unit": "unit_1018BA60"
-},
 "0x101a2890": {
 "class": null,
 "method": null,
@@ -19799,6 +19950,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "fn_101A3300",
+"unit": "unit_1018BA60"
+},
+"0x101a33e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101A33E0",
 "unit": "unit_1018BA60"
 },
 "0x101a3500": {
@@ -19976,6 +20134,13 @@
 "symbol": "fn_101AB770",
 "unit": "unit_1018BA60"
 },
+"0x101ab7d0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101AB7D0",
+"unit": "unit_1018BA60"
+},
 "0x101ab810": {
 "class": null,
 "method": null,
@@ -20002,6 +20167,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "fn_101ABC50",
+"unit": "unit_1018BA60"
+},
+"0x101abe40": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101ABE40",
 "unit": "unit_1018BA60"
 },
 "0x101abe50": {
@@ -20204,7 +20376,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101AD290",
+"symbol": "FsPreParser_Constructor",
 "unit": "unit_1018BA60"
 },
 "0x101ad4b0": {
@@ -20312,6 +20484,13 @@
 "symbol": "fn_101AFF40",
 "unit": "unit_1018BA60"
 },
+"0x101b2710": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B2710",
+"unit": "unit_1018BA60"
+},
 "0x101b27f0": {
 "class": null,
 "method": null,
@@ -20326,6 +20505,27 @@
 "symbol": "fn_101B2800",
 "unit": "unit_1018BA60"
 },
+"0x101b36f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B36F0",
+"unit": "unit_1018BA60"
+},
+"0x101b3b50": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B3B50",
+"unit": "unit_1018BA60"
+},
+"0x101b3f70": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B3F70",
+"unit": "unit_1018BA60"
+},
 "0x101b4260": {
 "class": null,
 "method": null,
@@ -20338,6 +20538,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "fn_101B4350",
+"unit": "unit_1018BA60"
+},
+"0x101b4450": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "FsSjisToAscii",
 "unit": "unit_1018BA60"
 },
 "0x101b4570": {
@@ -20421,14 +20628,14 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101B5210",
+"symbol": "FsTextInput_init",
 "unit": "unit_1018BA60"
 },
 "0x101b5bc0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101B5BC0",
+"symbol": "FsTextInput_copyDecidedString",
 "unit": "unit_1018BA60"
 },
 "0x101b5c80": {
@@ -20459,11 +20666,25 @@
 "symbol": "fn_101B6C00",
 "unit": "unit_1018BA60"
 },
+"0x101b6d50": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B6D50",
+"unit": "unit_1018BA60"
+},
 "0x101b6e40": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "fn_101B6E40",
+"unit": "unit_1018BA60"
+},
+"0x101b6e90": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
+"symbol": "fn_101B6E90",
 "unit": "unit_1018BA60"
 },
 "0x101b6ea0": {
@@ -20603,7 +20824,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101B9690",
+"symbol": "FsTinyString_init",
 "unit": "unit_1018BA60"
 },
 "0x101b9880": {
@@ -20890,14 +21111,14 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101BBE60",
+"symbol": "FsWordCompletion_getEntryList",
 "unit": "unit_1018BA60"
 },
 "0x101bc520": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101BC520",
+"symbol": "FsWordCompletion__prepareAllData",
 "unit": "unit_1018BA60"
 },
 "0x101bc6f0": {
@@ -20946,7 +21167,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "fn_101BC9E0",
+"symbol": "FsMemory_Constructor",
 "unit": "unit_1018BA60"
 },
 "0x101bca40": {
@@ -21817,6 +22038,13 @@
 "symbol": "fn_101C9780",
 "unit": "unit_101C72E0"
 },
+"0x101c9d50": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file",
+"symbol": "fn_101C9D50",
+"unit": "unit_101C72E0"
+},
 "0x101ca180": {
 "class": null,
 "method": null,
@@ -21908,6 +22136,13 @@
 "symbol": "fn_101CB770",
 "unit": "unit_101C72E0"
 },
+"0x101cbdf0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file",
+"symbol": "fn_101CBDF0",
+"unit": "unit_101C72E0"
+},
 "0x101cbe50": {
 "class": null,
 "method": null,
@@ -21941,6 +22176,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file",
 "symbol": "fn_101CC1D0",
+"unit": "unit_101C72E0"
+},
+"0x101cc220": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file",
+"symbol": "fn_101CC220",
 "unit": "unit_101C72E0"
 },
 "0x101cc350": {
@@ -22181,18 +22423,6 @@
 "symbol": "fn_101D0AB0",
 "unit": "unit_101D0910"
 },
-"0x101d0b00": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file",
-"symbol": "CopyrightText_Draw",
-"unit": "unit_101D0910",
-"partial_regs": {
-"store rewritten": 3,
-"read left: operand not a local or parameter": 2,
-"lvalue use left": 1
-}
-},
 "0x101d0c40": {
 "class": null,
 "method": null,
@@ -22396,13 +22626,6 @@
 "symbol": "fn_101E0A90",
 "unit": "unit_101D7020"
 },
-"0x101e11c0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
-"symbol": "fn_101E11C0",
-"unit": "unit_101D7020"
-},
 "0x101e15f0": {
 "class": null,
 "method": null,
@@ -22422,13 +22645,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
 "symbol": "fn_101E1AE0",
-"unit": "unit_101D7020"
-},
-"0x101e24f0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
-"symbol": "fn_101E24F0",
 "unit": "unit_101D7020"
 },
 "0x101e2b10": {
@@ -22708,6 +22924,13 @@
 "symbol": "fn_101FD000",
 "unit": "unit_101D7020"
 },
+"0x101fd600": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
+"symbol": "fn_101FD600",
+"unit": "unit_101D7020"
+},
 "0x101fe430": {
 "class": null,
 "method": null,
@@ -22778,6 +23001,13 @@
 "symbol": "fn_10201EB0",
 "unit": "unit_101D7020"
 },
+"0x10201f00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
+"symbol": "fn_10201F00",
+"unit": "unit_101D7020"
+},
 "0x10202380": {
 "class": null,
 "method": null,
@@ -22811,6 +23041,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
 "symbol": "fn_10202D80",
+"unit": "unit_101D7020"
+},
+"0x102031f0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
+"symbol": "fn_102031F0",
 "unit": "unit_101D7020"
 },
 "0x102033c0": {
@@ -22867,13 +23104,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
 "symbol": "fn_10203BC0",
-"unit": "unit_101D7020"
-},
-"0x10203be0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
-"symbol": "fn_10203BE0",
 "unit": "unit_101D7020"
 },
 "0x10205500": {
@@ -22964,7 +23194,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file",
-"symbol": "fn_10210310",
+"symbol": "YkWndShop_Constructor",
 "unit": "unit_101D7020"
 },
 "0x10210d60": {
@@ -23065,6 +23295,13 @@
 "symbol": "fn_1021BC30",
 "unit": "unit_10211440"
 },
+"0x1021bcb0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021BCB0",
+"unit": "unit_10211440"
+},
 "0x1021bdb0": {
 "class": null,
 "method": null,
@@ -23091,6 +23328,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
 "symbol": "fn_1021C070",
+"unit": "unit_10211440"
+},
+"0x1021c100": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021C100",
 "unit": "unit_10211440"
 },
 "0x1021c160": {
@@ -23128,11 +23372,39 @@
 "symbol": "fn_1021C350",
 "unit": "unit_10211440"
 },
+"0x1021c380": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021C380",
+"unit": "unit_10211440"
+},
+"0x1021c4c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021C4C0",
+"unit": "unit_10211440"
+},
 "0x1021c5b0": {
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
 "symbol": "fn_1021C5B0",
+"unit": "unit_10211440"
+},
+"0x1021c680": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021C680",
+"unit": "unit_10211440"
+},
+"0x1021c7c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file",
+"symbol": "fn_1021C7C0",
 "unit": "unit_10211440"
 },
 "0x1021c7e0": {
@@ -23182,6 +23454,13 @@
 "method": null,
 "why": "unit: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB",
 "symbol": "fn_1021D440",
+"unit": "CXiMovie"
+},
+"0x1021d460": {
+"class": null,
+"method": null,
+"why": "unit: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB",
+"symbol": "fn_1021D460",
 "unit": "CXiMovie"
 },
 "0x1021d490": {
@@ -23442,6 +23721,13 @@
 "symbol": "fn_1021F410",
 "unit": "unit_1021D930"
 },
+"0x1021f950": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file",
+"symbol": "fn_1021F950",
+"unit": "unit_1021D930"
+},
 "0x1021fa90": {
 "class": null,
 "method": null,
@@ -23468,6 +23754,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file",
 "symbol": "fn_1021FBD0",
+"unit": "unit_1021D930"
+},
+"0x1021fce0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file",
+"symbol": "fn_1021FCE0",
 "unit": "unit_1021D930"
 },
 "0x1021fe10": {
@@ -24156,7 +24449,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file",
-"symbol": "fn_1023E830",
+"symbol": "CIwHnList_Constructor",
 "unit": "unit_10237880"
 },
 "0x1023f890": {
@@ -24502,6 +24795,13 @@
 "symbol": "fn_1024F2C0",
 "unit": "unit_1024D400"
 },
+"0x1024f5e0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
+"symbol": "fn_1024F5E0",
+"unit": "unit_1024D400"
+},
 "0x1024f900": {
 "class": null,
 "method": null,
@@ -24550,16 +24850,6 @@
 "why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
 "symbol": "fn_102502D0",
 "unit": "unit_1024D400"
-},
-"0x102504d0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file",
-"symbol": "StAvatarFini",
-"unit": "unit_1024D400",
-"partial_regs": {
-"store rewritten": 1
-}
 },
 "0x10250580": {
 "class": null,
@@ -24775,7 +25065,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file",
-"symbol": "fn_10251890",
+"symbol": "StDancer_SetJobLock",
 "unit": "unit_10251320"
 },
 "0x10251920": {
@@ -25618,6 +25908,13 @@
 "symbol": "FontGlyphCache_CreateVertexBuffer",
 "unit": "unit_1025C9E0_FontGlyphCache"
 },
+"0x1025e020": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025E020",
+"unit": "unit_1025C9E0_FontGlyphCache"
+},
 "0x1025e050": {
 "class": null,
 "method": null,
@@ -25672,6 +25969,20 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
 "symbol": "fn_1025E240",
+"unit": "unit_1025C9E0_FontGlyphCache"
+},
+"0x1025e260": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025E260",
+"unit": "unit_1025C9E0_FontGlyphCache"
+},
+"0x1025e380": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
+"symbol": "fn_1025E380",
 "unit": "unit_1025C9E0_FontGlyphCache"
 },
 "0x1025f2f0": {
@@ -25765,13 +26076,6 @@
 "symbol": "fn_1026D179",
 "unit": "unit_1025C9E0_FontGlyphCache"
 },
-"0x1026d1b4": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
-"symbol": "fn_1026D1B4",
-"unit": "unit_1025C9E0_FontGlyphCache"
-},
 "0x1026d70c": {
 "class": null,
 "method": null,
@@ -25784,20 +26088,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
 "symbol": "fn_1026D866",
-"unit": "unit_1025C9E0_FontGlyphCache"
-},
-"0x1026d9b1": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
-"symbol": "fn_1026D9B1",
-"unit": "unit_1025C9E0_FontGlyphCache"
-},
-"0x1026dac6": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file",
-"symbol": "fn_1026DAC6",
 "unit": "unit_1025C9E0_FontGlyphCache"
 },
 "0x1026db24": {
@@ -26290,6 +26580,13 @@
 "symbol": "fn_10273490",
 "unit": "unit_10272F20"
 },
+"0x10273560": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file",
+"symbol": "fn_10273560",
+"unit": "unit_10272F20"
+},
 "0x102736d0": {
 "class": null,
 "method": null,
@@ -26442,6 +26739,13 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file",
 "symbol": "fn_10275320",
+"unit": "unit_10275140"
+},
+"0x102755c0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file",
+"symbol": "fn_102755C0",
 "unit": "unit_10275140"
 },
 "0x10275670": {
@@ -26617,6 +26921,41 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
 "symbol": "fn_1027A9D0",
+"unit": "unit_1027A4B0"
+},
+"0x1027aae0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
+"symbol": "fn_1027AAE0",
+"unit": "unit_1027A4B0"
+},
+"0x1027aba0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
+"symbol": "fn_1027ABA0",
+"unit": "unit_1027A4B0"
+},
+"0x1027abd0": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
+"symbol": "fn_1027ABD0",
+"unit": "unit_1027A4B0"
+},
+"0x1027ac00": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
+"symbol": "fn_1027AC00",
+"unit": "unit_1027A4B0"
+},
+"0x1027ac30": {
+"class": null,
+"method": null,
+"why": "unit: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file",
+"symbol": "fn_1027AC30",
 "unit": "unit_1027A4B0"
 },
 "0x1027ae50": {

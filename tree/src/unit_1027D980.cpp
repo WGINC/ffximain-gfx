@@ -7,7 +7,7 @@
 XI_API void __cdecl fn_1027DAE0(undefined4 * param_1)
 {
   *param_1 = 1;
-  *(undefined1 *)(param_1 + 1) = 0;
+  *(uint8_t *)(param_1 + 1) = 0;
   param_1[0x21] = 0;
   param_1[0x22] = 0;
   param_1[0x24] = 0;

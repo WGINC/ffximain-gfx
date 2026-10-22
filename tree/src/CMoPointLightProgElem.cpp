@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100562E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
 {
   return &CMoPointLightProgElem_classdesc;
@@ -12,32 +12,32 @@ char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x100562F0  (unit CMoPointLightProgElem: stores CMoPointLightProgElem vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_100562F0(void * self_, uint32_t param_1, undefined4 param_2)
+XI_API uint64_t __thiscall fn_100562F0(void * self_, uint32_t param_1, undefined4 param_2)
 {
   orig::CMoElem_Constructor(self_);
-  *(uint *)((int)self_ + 0x194) = param_1;
-  *(undefined ***)self_ = &PTR_CMoPointLightProgElem_GetRuntimeClass_1032b758;
-  *(undefined2 *)((int)self_ + 0x176) = 0x1b4;
-  *(undefined1 *)((int)self_ + 0x1b0) = 0;
-  *(undefined4 *)((int)self_ + 0x1ac) = 0xffffffff;
-  *(undefined4 *)((int)self_ + 0x198) = param_2;
+  *(uint32_t *)((int)self_ + 0x194) = param_1;
+  *(uint8_t ***)self_ = &PTR_CMoPointLightProgElem_GetRuntimeClass_1032b758;
+  *(uint16_t *)((int)self_ + 0x176) = 0x1b4;
+  *(uint8_t *)((int)self_ + 0x1b0) = 0;
+  *(uint32_t *)((int)self_ + 0x1ac) = 0xffffffff;
+  *(uint32_t *)((int)self_ + 0x198) = param_2;
   if (((param_1 & 0xff) != 99) && ((param_1 & 0xff) != 0x43)) {
-    *(undefined1 *)((int)self_ + 0x1b1) = 0;
-    return CONCAT44(param_2,self_);
+    *(uint8_t *)((int)self_ + 0x1b1) = 0;
+    return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self_)));
   }
-  *(undefined1 *)((int)self_ + 0x1b1) = 1;
-  return CONCAT44(param_2,self_);
+  *(uint8_t *)((int)self_ + 0x1b1) = 1;
+  return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self_)));
 }
 
 // FUNCTION: FFXIMAIN 0x10056360  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 BOOL CMoPointLightProgElem::vf012(int a1)
 {
   return a1 == 11;
 }
 
 // FUNCTION: FFXIMAIN 0x10056370  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoPointLightProgElem_Destructor(this);

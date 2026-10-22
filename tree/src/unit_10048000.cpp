@@ -11,7 +11,7 @@ XI_API void __thiscall fn_100480D0(void * self_)
   this_00 = *(int **)((int)self_ + 0xa8);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(undefined4 *)((int)self_ + 0xa8) = 0;
+    *(uint32_t *)((int)self_ + 0xa8) = 0;
   }
   orig::FUN_100720b0(self_);
   return;
@@ -21,95 +21,95 @@ XI_API void __thiscall fn_100480D0(void * self_)
 // GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10048220(void * self_)
 {
-  undefined1 *puVar1;
-  uint *puVar2;
-  undefined8 uVar3;
+  uint8_t *puVar1;
+  uint32_t *puVar2;
+  uint64_t uVar3;
   char xi_frame[308] __attribute__((aligned(4)));
-  undefined4  &uVar4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  uint  &uVar5 = *reinterpret_cast<uint  *>(xi_frame + 4);
-  undefined1  (&local_124)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 16);
-  undefined1  (&local_120)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 20);
-  undefined1  (&local_11c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 24);
-  undefined1  (&local_118)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 28);
-  undefined1  (&local_114)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 32);
-  undefined1  (&local_110)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 36);
-  undefined1  (&local_10c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 40);
-  undefined1  (&local_108)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 44);
-  undefined1  (&local_104)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 48);
-  undefined1  (&local_100)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 52);
-  undefined1  (&local_fc)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 56);
-  undefined1  (&local_f8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 60);
-  undefined1  (&local_f4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 64);
-  undefined1  (&local_f0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 68);
-  undefined1  (&local_ec)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 72);
-  undefined1  (&local_e8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 76);
-  undefined1  (&local_e4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 80);
-  undefined1  (&local_e0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 84);
-  undefined1  (&local_dc)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 88);
-  undefined1  (&local_d8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 92);
-  undefined1  (&local_d4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 96);
-  undefined1  (&local_d0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 100);
-  undefined1  (&local_cc)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 104);
-  undefined1  (&local_c8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 108);
-  undefined1  (&local_c4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 112);
-  undefined1  (&local_c0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 116);
-  undefined1  (&local_bc)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 120);
-  undefined1  (&local_b8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 124);
-  undefined1  (&local_b4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 128);
-  undefined1  (&local_b0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 132);
-  undefined1  (&local_ac)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 136);
-  undefined1  (&local_a8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 140);
-  undefined1  (&local_a4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 144);
-  undefined1  (&local_a0)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 148);
-  undefined1  (&local_9c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 152);
-  undefined1  (&local_98)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 156);
-  undefined1  (&local_94)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 160);
-  undefined1  (&local_90)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 164);
-  undefined1  (&local_8c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 168);
-  undefined1  (&local_88)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 172);
-  undefined1  (&local_84)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 176);
-  undefined1  (&local_80)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 180);
-  undefined1  (&local_7c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 184);
-  undefined1  (&local_78)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 188);
-  undefined1  (&local_74)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 192);
-  undefined1  (&local_70)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 196);
-  undefined1  (&local_6c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 200);
-  undefined1  (&local_68)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 204);
-  undefined1  (&local_64)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 208);
-  undefined1  (&local_60)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 212);
-  undefined1  (&local_5c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 216);
-  undefined1  (&local_58)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 220);
-  undefined1  (&local_54)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 224);
-  undefined1  (&local_50)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 228);
-  undefined1  (&local_4c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 232);
-  undefined1  (&local_48)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 236);
-  undefined1  (&local_44)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 240);
-  undefined1  (&local_40)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 244);
-  undefined1  (&local_3c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 248);
-  undefined1  (&local_38)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 252);
-  undefined1  (&local_34)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 256);
-  undefined1  (&local_30)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 260);
-  undefined1  (&local_2c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 264);
-  undefined1  (&local_28)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 268);
-  undefined1  (&local_24)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 272);
-  undefined1  (&local_20)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 276);
-  undefined1  (&local_1c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 280);
-  undefined1  (&local_18)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 284);
-  undefined1  (&local_14)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 288);
-  undefined1  (&local_10)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 292);
-  undefined1  (&local_c)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 296);
-  undefined1  (&local_8)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 300);
-  undefined1  (&local_4)[4] = *reinterpret_cast<undefined1  (*)[4]>(xi_frame + 304);
+  uint32_t  &uVar4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &uVar5 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint8_t  (&local_124)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 16);
+  uint8_t  (&local_120)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 20);
+  uint8_t  (&local_11c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 24);
+  uint8_t  (&local_118)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 28);
+  uint8_t  (&local_114)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 32);
+  uint8_t  (&local_110)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 36);
+  uint8_t  (&local_10c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 40);
+  uint8_t  (&local_108)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 44);
+  uint8_t  (&local_104)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 48);
+  uint8_t  (&local_100)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 52);
+  uint8_t  (&local_fc)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 56);
+  uint8_t  (&local_f8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 60);
+  uint8_t  (&local_f4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 64);
+  uint8_t  (&local_f0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 68);
+  uint8_t  (&local_ec)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 72);
+  uint8_t  (&local_e8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 76);
+  uint8_t  (&local_e4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 80);
+  uint8_t  (&local_e0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 84);
+  uint8_t  (&local_dc)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 88);
+  uint8_t  (&local_d8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 92);
+  uint8_t  (&local_d4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 96);
+  uint8_t  (&local_d0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 100);
+  uint8_t  (&local_cc)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 104);
+  uint8_t  (&local_c8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 108);
+  uint8_t  (&local_c4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 112);
+  uint8_t  (&local_c0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 116);
+  uint8_t  (&local_bc)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 120);
+  uint8_t  (&local_b8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 124);
+  uint8_t  (&local_b4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 128);
+  uint8_t  (&local_b0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 132);
+  uint8_t  (&local_ac)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 136);
+  uint8_t  (&local_a8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 140);
+  uint8_t  (&local_a4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 144);
+  uint8_t  (&local_a0)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 148);
+  uint8_t  (&local_9c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 152);
+  uint8_t  (&local_98)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 156);
+  uint8_t  (&local_94)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 160);
+  uint8_t  (&local_90)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 164);
+  uint8_t  (&local_8c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 168);
+  uint8_t  (&local_88)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 172);
+  uint8_t  (&local_84)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 176);
+  uint8_t  (&local_80)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 180);
+  uint8_t  (&local_7c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 184);
+  uint8_t  (&local_78)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 188);
+  uint8_t  (&local_74)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 192);
+  uint8_t  (&local_70)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 196);
+  uint8_t  (&local_6c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 200);
+  uint8_t  (&local_68)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 204);
+  uint8_t  (&local_64)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 208);
+  uint8_t  (&local_60)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 212);
+  uint8_t  (&local_5c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 216);
+  uint8_t  (&local_58)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 220);
+  uint8_t  (&local_54)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 224);
+  uint8_t  (&local_50)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 228);
+  uint8_t  (&local_4c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 232);
+  uint8_t  (&local_48)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 236);
+  uint8_t  (&local_44)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 240);
+  uint8_t  (&local_40)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 244);
+  uint8_t  (&local_3c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 248);
+  uint8_t  (&local_38)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 252);
+  uint8_t  (&local_34)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 256);
+  uint8_t  (&local_30)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 260);
+  uint8_t  (&local_2c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 264);
+  uint8_t  (&local_28)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 268);
+  uint8_t  (&local_24)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 272);
+  uint8_t  (&local_20)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 276);
+  uint8_t  (&local_1c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 280);
+  uint8_t  (&local_18)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 284);
+  uint8_t  (&local_14)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 288);
+  uint8_t  (&local_10)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 292);
+  uint8_t  (&local_c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 296);
+  uint8_t  (&local_8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 300);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 304);
   
   orig::CMoGeneratorClone_ResolveTarget_v1(self_);
-  puVar2 = *(uint **)((int)self_ + 0xe0);
-  *(undefined4 *)((int)self_ + 0x78) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x7c) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x80) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x84) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x88) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x8c) = 0x3f800000;
-  for (; puVar2 != (uint *)0x0; puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f)) {
+  puVar2 = *(uint32_t **)((int)self_ + 0xe0);
+  *(uint32_t *)((int)self_ + 0x78) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x7c) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x80) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x84) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x88) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x8c) = 0x3f800000;
+  for (; puVar2 != (uint32_t *)0x0; puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f)) {
     switch(*puVar2 & 0xff) {
     case 5:
       if (puVar2[1] == 0) {
@@ -117,7 +117,7 @@ XI_API void __thiscall fn_10048220(void * self_)
         puVar1 = local_f0;
 LAB_100483c4:
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,0x19,uVar5);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 6:
@@ -217,145 +217,145 @@ LAB_100483bd:
     }
     if ((char)*puVar2 == '\0') break;
   }
-  puVar2 = *(uint **)((int)self_ + 0xe4);
-  while (puVar2 != (uint *)0x0) {
+  puVar2 = *(uint32_t **)((int)self_ + 0xe4);
+  while (puVar2 != (uint32_t *)0x0) {
     switch(*puVar2 & 0xff) {
     case 0x21:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_fc,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x22:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x23:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x24:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_28,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x25:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_dc,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x26:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_48,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x27:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_88,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x28:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x29:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_80,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2a:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_40,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2b:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_78,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_20,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2d:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_70,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2e:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_bc,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x2f:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x33:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_ac,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x34:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x35:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_9c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x36:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_94,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x37:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_8c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x38:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_84,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x39:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_7c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x3c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_110,5,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x44:
@@ -363,7 +363,7 @@ LAB_100483bd:
     case 0x6a:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_118,5,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x4e:
@@ -374,31 +374,31 @@ LAB_100483bd:
         uVar4 = 0x3e;
 LAB_1004845e:
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,uVar4,uVar5);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       goto LAB_1004846b;
     case 0x50:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_24,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x51:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_1c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x52:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x54:
       if (puVar2[4] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_100,0x3e,puVar2[5]);
-        puVar2[4] = *(uint *)uVar3;
+        puVar2[4] = *(uint32_t *)uVar3;
       }
       uVar5 = puVar2[2];
       if ((uVar5 != 0) && (puVar2[1] == 0)) {
@@ -407,301 +407,301 @@ LAB_1004845e:
         goto LAB_1004845e;
       }
 LAB_1004846b:
-      *(uint *)((int)self_ + 0xa0) = puVar2[1];
+      *(uint32_t *)((int)self_ + 0xa0) = puVar2[1];
       break;
     case 0x55:
       if ((puVar2[4] != 0) && (puVar2[5] == 0)) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_120,10,puVar2[4]);
-        puVar2[5] = *(uint *)uVar3;
+        puVar2[5] = *(uint32_t *)uVar3;
       }
       break;
     case 0x59:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_74,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5a:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_6c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5b:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_64,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_5c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5d:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_54,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5e:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_4c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x5f:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_44,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x60:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_60,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x61:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x62:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_30,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 99:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_b0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 100:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x65:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_10,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x66:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x68:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_58,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x69:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_3c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x6b:
       if (puVar2[2] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_124,0x4a,puVar2[1]);
-        puVar2[2] = *(uint *)uVar3;
+        puVar2[2] = *(uint32_t *)uVar3;
       }
       break;
     case 0x6c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a8,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x6d:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_18,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x6e:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_a0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x6f:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_50,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x70:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_98,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x74:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x75:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_38,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x76:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_11c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x77:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_104,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x78:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_f4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x7c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_cc,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x7d:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x80:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_d0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x81:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_68,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x82:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_2c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x83:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_10c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x84:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_ec,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x85:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_114,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x8b:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_90,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x8c:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_14,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x8d:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_c,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x93:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_34,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x95:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x96:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e4,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       break;
     case 0x97:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_f0,0x19,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
     }
     if ((char)*puVar2 == '\0') {
-      puVar2 = (uint *)0x0;
+      puVar2 = (uint32_t *)0x0;
     }
     else {
       puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f);
     }
   }
-  puVar2 = *(uint **)((int)self_ + 0xe8);
-  while (puVar2 != (uint *)0x0) {
+  puVar2 = *(uint32_t **)((int)self_ + 0xe8);
+  while (puVar2 != (uint32_t *)0x0) {
     if ((*puVar2 & 0xff) == 0x47) {
       if (puVar2[3] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_e8,10,puVar2[2]);
-        puVar2[3] = *(uint *)uVar3;
+        puVar2[3] = *(uint32_t *)uVar3;
       }
     }
     else if ((*puVar2 & 0xff) == 0x65) {
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_120,7,puVar2[2]);
-        puVar2[1] = *(uint *)uVar3;
+        puVar2[1] = *(uint32_t *)uVar3;
       }
       if ((puVar2[1] != 0) && (puVar2[2] == 0)) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,local_124,5,puVar2[1]);
-        puVar2[2] = *(uint *)uVar3;
+        puVar2[2] = *(uint32_t *)uVar3;
       }
     }
     if ((char)*puVar2 == '\0') {
-      puVar2 = (uint *)0x0;
+      puVar2 = (uint32_t *)0x0;
     }
     else {
       puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f);
     }
   }
-  puVar2 = *(uint **)((int)self_ + 0xec);
+  puVar2 = *(uint32_t **)((int)self_ + 0xec);
   do {
-    if (puVar2 == (uint *)0x0) {
+    if (puVar2 == (uint32_t *)0x0) {
       return;
     }
     if ((*puVar2 & 0xff) == 1) {
@@ -718,10 +718,10 @@ LAB_1004846b:
       uVar4 = 7;
 LAB_1004907c:
       uVar3 = orig::CMoResource_FindByTypeAndId_v1(self_,puVar1,uVar4,uVar5);
-      puVar2[1] = *(uint *)uVar3;
+      puVar2[1] = *(uint32_t *)uVar3;
     }
     if ((char)*puVar2 == '\0') {
-      puVar2 = (uint *)0x0;
+      puVar2 = (uint32_t *)0x0;
     }
     else {
       puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f);
@@ -733,18 +733,18 @@ LAB_1004907c:
 // GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t * __thiscall fn_10049330(void * self_, uint32_t param_1)
 {
-  uint *puVar1;
-  uint uVar2;
+  uint32_t *puVar1;
+  uint32_t uVar2;
   
-  puVar1 = *(uint **)((int)self_ + 0xe8);
+  puVar1 = *(uint32_t **)((int)self_ + 0xe8);
   while( true ) {
-    if (puVar1 == (uint *)0x0) {
-      return (uint *)0x0;
+    if (puVar1 == (uint32_t *)0x0) {
+      return (uint32_t *)0x0;
     }
     uVar2 = *puVar1 & 0xff;
     if (uVar2 == param_1) break;
     if (uVar2 == 0) {
-      return (uint *)0x0;
+      return (uint32_t *)0x0;
     }
     puVar1 = puVar1 + (*puVar1 >> 8 & 0x1f);
   }
@@ -762,7 +762,7 @@ XI_API int __thiscall fn_100493B0(void * self_)
 // GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API void __thiscall fn_10049520(void * self_, uint32_t * param_1)
 {
-  uint *puVar1;
+  uint32_t *puVar1;
   
   puVar1 = orig::CMoGeneratorClone_FindCmdByType_v1(self_,1);
   *param_1 = puVar1[5];
@@ -774,7 +774,7 @@ XI_API void __thiscall fn_10049520(void * self_, uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1004A870  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
 {
   __int16 v5; // fps
@@ -825,6 +825,14 @@ XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
 XI_API undefined4 __thiscall fn_1004E210(void * self_)
 {
   return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x1004E250  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1004E250(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
+{
+  *(uint8_t *)self_ = (uint8_t)param_2;
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_2)));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E260  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -887,9 +895,9 @@ XI_API int __thiscall fn_1004E2D0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1004E320(void * self_, undefined4 * param_1)
 {
-  *(undefined4 *)self_ = *param_1;
-  *(undefined4 *)((int)self_ + 4) = param_1[1];
-  *(undefined4 *)((int)self_ + 8) = param_1[2];
+  *(uint32_t *)self_ = *param_1;
+  *(uint32_t *)((int)self_ + 4) = param_1[1];
+  *(uint32_t *)((int)self_ + 8) = param_1[2];
   return;
 }
 
@@ -897,32 +905,32 @@ XI_API void __thiscall fn_1004E320(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1004E360(void * self_, float * param_1)
 {
-  *(float *)self_ = (float)((float10)*param_1 + (float10)*(float *)self_);
-  *(float *)((int)self_ + 4) = (float)((float10)param_1[1] + (float10)*(float *)((int)self_ + 4));
-  *(float *)((int)self_ + 8) = (float)((float10)param_1[2] + (float10)*(float *)((int)self_ + 8));
+  *(float *)self_ = (float)((long double)*param_1 + (long double)*(float *)self_);
+  *(float *)((int)self_ + 4) = (float)((long double)param_1[1] + (long double)*(float *)((int)self_ + 4));
+  *(float *)((int)self_ + 8) = (float)((long double)param_1[2] + (long double)*(float *)((int)self_ + 8));
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E3B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_1004E3B0(void * self_, int param_1)
+XI_API uint64_t __thiscall fn_1004E3B0(void * self_, int param_1)
 {
-  return CONCAT44(param_1,(uint)(*(int *)self_ != param_1));
+  return ((uint64_t)(((uint64_t)(uint32_t)(param_1) << 32) | (uint32_t)((uint32_t)(*(int *)self_ != param_1))));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E3F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Pool_FreeSlot(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   int iVar2;
   int iVar3;
   
   iVar2 = g_pProcessor_as_s32;
-  uVar1 = *(undefined4 *)self_;
+  uVar1 = *(uint32_t *)self_;
   iVar3 = *(int *)(g_pProcessor_as_s32 + 0xa90) + -1;
   *(int *)(g_pProcessor_as_s32 + 0xa90) = iVar3;
-  *(undefined4 *)(iVar2 + 0xa10 + iVar3 * 4) = uVar1;
+  *(uint32_t *)(iVar2 + 0xa10 + iVar3 * 4) = uVar1;
   return iVar2;
 }
 
@@ -930,17 +938,17 @@ XI_API undefined4 __thiscall Pool_FreeSlot(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1004E470(void * self_)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
-  uVar1 = *(uint *)((int)self_ + 0xd8) & 0x20000000;
-  return CONCAT31((int3)(uVar1 >> 8),uVar1 == 0x20000000);
+  uVar1 = *(uint32_t *)((int)self_ + 0xd8) & 0x20000000;
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(uVar1 == 0x20000000)));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E490  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall fn_1004E490(void * self_)
 {
-  return *(uint *)self_ >> 0xb & 0xfc;
+  return *(uint32_t *)self_ >> 0xb & 0xfc;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E4E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -948,22 +956,22 @@ XI_API uint32_t __thiscall fn_1004E490(void * self_)
 XI_API long double __thiscall fn_1004E4E0(void * self_, float param_2)
 {
   void *this_00;
-  float10 fVar1;
+  long double fVar1;
   
-  if (*(undefined4 **)self_ == (undefined4 *)0x0) {
-    return (float10)xi_k4(0x0ull);
+  if (*(uint32_t **)self_ == (uint32_t *)0x0) {
+    return (long double)0.0f;
   }
-  this_00 = (void *)**(undefined4 **)self_;
-  if ((*(byte *)((int)self_ + 4) & 0xf) != 0) {
-    fVar1 = orig::FUN_100546f0(this_00,param_2,*(undefined4 *)((int)self_ + 8));
+  this_00 = (void *)**(uint32_t **)self_;
+  if ((*(uint8_t *)((int)self_ + 4) & 0xf) != 0) {
+    fVar1 = orig::FUN_100546f0(this_00,param_2,*(uint32_t *)((int)self_ + 8));
     return fVar1;
   }
-  fVar1 = orig::FUN_100544d0(this_00,param_2,*(undefined4 *)((int)self_ + 8));
+  fVar1 = orig::FUN_100544d0(this_00,param_2,*(uint32_t *)((int)self_ + 8));
   return fVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E630  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API double __cdecl fn_1004E630(int a1, int a2, __int16 *a3)
 {
   int v4;
@@ -997,7 +1005,7 @@ XI_API double __cdecl fn_1004E630(int a1, int a2, __int16 *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E720  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 76, town2 PASS 76, combat PASS 77, zonetoinn PASS 76
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1004E720(_DWORD *self_, int a2)
 {
   int v2;
@@ -1105,17 +1113,17 @@ LABEL_20:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100527B0(void * self_)
 {
-  return (uint)*(byte *)self_;
+  return (uint32_t)*(uint8_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100527C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100527C0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
-  *(undefined4 *)((int)self_ + 0x30) = param_1;
-  *(undefined4 *)((int)self_ + 0x34) = param_2;
-  *(undefined4 *)((int)self_ + 0x38) = param_3;
-  *(undefined4 *)((int)self_ + 0x3c) = param_4;
+  *(uint32_t *)((int)self_ + 0x30) = param_1;
+  *(uint32_t *)((int)self_ + 0x34) = param_2;
+  *(uint32_t *)((int)self_ + 0x38) = param_3;
+  *(uint32_t *)((int)self_ + 0x3c) = param_4;
   return;
 }
 
@@ -1138,9 +1146,9 @@ XI_API void __thiscall fn_100527F0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052800(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
-  *(undefined4 *)self_ = param_1;
-  *(undefined4 *)((int)self_ + 4) = param_2;
-  *(undefined4 *)((int)self_ + 8) = param_3;
+  *(uint32_t *)self_ = param_1;
+  *(uint32_t *)((int)self_ + 4) = param_2;
+  *(uint32_t *)((int)self_ + 8) = param_3;
   return;
 }
 
@@ -1157,9 +1165,9 @@ XI_API undefined4 __thiscall fn_10052820(void * self_, float * param_1, float * 
   fVar2 = param_2[1];
   fVar3 = *(float *)((int)self_ + 8);
   fVar4 = param_2[2];
-  *param_1 = (float)((float10)*(float *)self_ - (float10)*param_2);
-  param_1[1] = (float)((float10)fVar1 - (float10)fVar2);
-  param_1[2] = (float)((float10)fVar3 - (float10)fVar4);
+  *param_1 = (float)((long double)*(float *)self_ - (long double)*param_2);
+  param_1[1] = (float)((long double)fVar1 - (long double)fVar2);
+  param_1[2] = (float)((long double)fVar3 - (long double)fVar4);
   return param_1;
 }
 
@@ -1167,7 +1175,7 @@ XI_API undefined4 __thiscall fn_10052820(void * self_, float * param_1, float * 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052870(void * self_, undefined4 * param_1, undefined4 param_2)
 {
-  *(undefined4 *)self_ = param_2;
+  *(uint32_t *)self_ = param_2;
   *param_1 = param_2;
   return param_1;
 }
@@ -1176,7 +1184,7 @@ XI_API undefined4 __thiscall fn_10052870(void * self_, undefined4 * param_1, und
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052880(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)self_ = param_1;
+  *(uint32_t *)self_ = param_1;
   return;
 }
 
@@ -1184,14 +1192,14 @@ XI_API void __thiscall fn_10052880(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052890(void * self_)
 {
-  return **(undefined4 **)self_;
+  return **(uint32_t **)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528A0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100528A0(void * self_)
 {
-  return *(undefined4 *)self_;
+  return *(uint32_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -1216,15 +1224,15 @@ XI_API undefined4 __thiscall fn_100528C0(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100528E0(void * self_)
 {
-  return **(undefined4 **)self_;
+  return **(uint32_t **)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100528F0(void * self_)
 {
-  if (*(undefined4 **)self_ != (undefined4 *)0x0) {
-    return **(undefined4 **)self_;
+  if (*(uint32_t **)self_ != (uint32_t *)0x0) {
+    return **(uint32_t **)self_;
   }
   return 0;
 }
@@ -1240,11 +1248,11 @@ XI_API int __thiscall fn_10052900(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052910(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  uVar1 = *(undefined4 *)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
+  uVar1 = *(uint32_t *)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
   *(int *)(g_pProcessor_as_s32 + 0xa90) = *(int *)(g_pProcessor_as_s32 + 0xa90) + 1;
-  *(undefined4 *)self_ = uVar1;
+  *(uint32_t *)self_ = uVar1;
   return;
 }
 
@@ -1252,23 +1260,23 @@ XI_API void __thiscall fn_10052910(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052940(void * self_)
 {
-  return *(undefined4 *)self_;
+  return *(uint32_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10052950  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052950(void * self_)
 {
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   
-  return CONCAT22((short)((uint)xi_entry_eax >> 0x10),*(undefined2 *)((int)self_ + 0x176));
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_entry_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x176))));
 }
 
 // FUNCTION: FFXIMAIN 0x10052960  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052960(void * self_, undefined4 param_1)
 {
-  *(uint *)((int)self_ + 0x17b) = param_1 & 1 | *(uint *)((int)self_ + 0x17b) & 0xfffffffe;
+  *(uint32_t *)((int)self_ + 0x17b) = param_1 & 1 | *(uint32_t *)((int)self_ + 0x17b) & 0xfffffffe;
   return;
 }
 
@@ -1276,7 +1284,7 @@ XI_API void __thiscall fn_10052960(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052980(void * self_, undefined4 param_1)
 {
-  *(uint *)((int)self_ + 0x17b) = (param_1 & 1) * 2 ^ *(uint *)((int)self_ + 0x17b) & 0xfffffffd;
+  *(uint32_t *)((int)self_ + 0x17b) = (param_1 & 1) * 2 ^ *(uint32_t *)((int)self_ + 0x17b) & 0xfffffffd;
   return;
 }
 
@@ -1291,8 +1299,8 @@ XI_API int __thiscall fn_100529A0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100529B0(void * self_, uint32_t param_1)
 {
-  *(uint *)((int)self_ + 0x17b) =
-       (*(uint *)((int)self_ + 0x17b) ^ param_1) & 3 ^ *(uint *)((int)self_ + 0x17b);
+  *(uint32_t *)((int)self_ + 0x17b) =
+       (*(uint32_t *)((int)self_ + 0x17b) ^ param_1) & 3 ^ *(uint32_t *)((int)self_ + 0x17b);
   return;
 }
 
@@ -1300,7 +1308,7 @@ XI_API void __thiscall fn_100529B0(void * self_, uint32_t param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100529D0(void * self_, undefined4 param_1)
 {
-  *(undefined1 *)((int)self_ + 0x179) = (undefined1)param_1;
+  *(uint8_t *)((int)self_ + 0x179) = (uint8_t)param_1;
   return;
 }
 
@@ -1308,8 +1316,8 @@ XI_API void __thiscall fn_100529D0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100529E0(void * self_, undefined4 param_1, undefined4 param_2)
 {
-  *(undefined4 *)((int)self_ + 300) = param_1;
-  *(undefined4 *)((int)self_ + 0x130) = param_2;
+  *(uint32_t *)((int)self_ + 300) = param_1;
+  *(uint32_t *)((int)self_ + 0x130) = param_2;
   return;
 }
 
@@ -1317,14 +1325,14 @@ XI_API void __thiscall fn_100529E0(void * self_, undefined4 param_1, undefined4 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_10052A00(void * self_)
 {
-  return (float10)*(float *)((int)self_ + 300);
+  return (long double)*(float *)((int)self_ + 300);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A10  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052A10(void * self_, undefined4 param_1)
 {
-  *(undefined2 *)((int)self_ + 0x172) = (undefined2)param_1;
+  *(uint16_t *)((int)self_ + 0x172) = (uint16_t)param_1;
   return;
 }
 
@@ -1332,7 +1340,7 @@ XI_API void __thiscall fn_10052A10(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052A20(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x120) = param_1;
+  *(uint32_t *)((int)self_ + 0x120) = param_1;
   return;
 }
 
@@ -1340,7 +1348,7 @@ XI_API void __thiscall fn_10052A20(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052A30(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x124) = param_1;
+  *(uint32_t *)((int)self_ + 0x124) = param_1;
   return;
 }
 
@@ -1348,21 +1356,21 @@ XI_API void __thiscall fn_10052A30(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_10052A40(void * self_)
 {
-  return (float10)*(float *)((int)self_ + 0x120);
+  return (long double)*(float *)((int)self_ + 0x120);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A50  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_10052A50(void * self_)
 {
-  return (float10)*(float *)((int)self_ + 0x124);
+  return (long double)*(float *)((int)self_ + 0x124);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A60  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_10052A60(int param_1, int param_2)
+XI_API uint64_t __cdecl fn_10052A60(int param_1, int param_2)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::Mem_AllocWithFallback_v1(param_1 + param_2 * 4,3);
   return uVar1;
@@ -1375,36 +1383,36 @@ XI_API undefined4 __thiscall fn_10052A80(void * self_)
   int iVar1;
   
   iVar1 = orig::FUN_100473f0(self_);
-  return (uint)(iVar1 != 0);
+  return (uint32_t)(iVar1 != 0);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A90  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_10052A90(void * self_)
 {
-  uint uVar1;
-  uint3 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
-  uVar1 = *(uint *)((int)self_ + 0x10c);
-  uVar2 = (uint3)(uVar1 >> 8);
+  uVar1 = *(uint32_t *)((int)self_ + 0x10c);
+  uVar2 = (uint32_t)(uVar1 >> 8);
   if (((uVar1 & 4) != 0) && ((uVar1 & 8) != 0)) {
-    return CONCAT31(uVar2,1);
+    return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
   }
-  return (uint)uVar2 << 8;
+  return (uint32_t)uVar2 << 8;
 }
 
 // FUNCTION: FFXIMAIN 0x10052AB0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052AB0(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 0x9c);
+  return *(uint32_t *)((int)self_ + 0x9c);
 }
 
 // FUNCTION: FFXIMAIN 0x10052AC0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052AC0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x9c) = param_1;
+  *(uint32_t *)((int)self_ + 0x9c) = param_1;
   return;
 }
 
@@ -1412,7 +1420,7 @@ XI_API void __thiscall fn_10052AC0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052AD0(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 0xc4);
+  return *(uint32_t *)((int)self_ + 0xc4);
 }
 
 // FUNCTION: FFXIMAIN 0x10052AE0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -1426,14 +1434,14 @@ XI_API int __thiscall fn_10052AE0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052AF0(void * self_)
 {
-  return (uint)(*(int *)((int)self_ + 0xa4) != 0);
+  return (uint32_t)(*(int *)((int)self_ + 0xa4) != 0);
 }
 
 // FUNCTION: FFXIMAIN 0x10052B00  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052B00(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 0xa4);
+  return *(uint32_t *)((int)self_ + 0xa4);
 }
 
 // FUNCTION: FFXIMAIN 0x10052B10  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -1454,7 +1462,7 @@ XI_API int __thiscall fn_10052B20(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10052B30(void * self_, undefined4 * param_1)
 {
-  *param_1 = *(undefined4 *)((int)self_ + 0xf4);
+  *param_1 = *(uint32_t *)((int)self_ + 0xf4);
   return param_1;
 }
 
@@ -1462,7 +1470,7 @@ XI_API undefined4 __thiscall fn_10052B30(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B40(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)self_ = param_1;
+  *(uint32_t *)self_ = param_1;
   return;
 }
 
@@ -1470,7 +1478,7 @@ XI_API void __thiscall fn_10052B40(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B50(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 4) = param_1;
+  *(uint32_t *)((int)self_ + 4) = param_1;
   return;
 }
 
@@ -1478,7 +1486,7 @@ XI_API void __thiscall fn_10052B50(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B60(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 8) = param_1;
+  *(uint32_t *)((int)self_ + 8) = param_1;
   return;
 }
 
@@ -1486,7 +1494,7 @@ XI_API void __thiscall fn_10052B60(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B70(void * self_, float param_1)
 {
-  *(float *)((int)self_ + 8) = (float)((float10)param_1 * (float10)xi_k4(0x3EA2FABEull));
+  *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.318319261074066162109375f);
   return;
 }
 
@@ -1494,7 +1502,7 @@ XI_API void __thiscall fn_10052B70(void * self_, float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B80(void * self_, int param_1)
 {
-  *(float *)((int)self_ + 8) = (float)((float10)param_1 * (float10)xi_k4(0x3B808081ull));
+  *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.0039215688593685626983642578125f);
   return;
 }
 
@@ -1502,7 +1510,7 @@ XI_API void __thiscall fn_10052B80(void * self_, int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052B90(void * self_, float param_1)
 {
-  *(float *)((int)self_ + 8) = (float)((float10)param_1 * (float10)xi_k4(0x3C088889ull));
+  *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.008333333767950534820556640625f);
   return;
 }
 
@@ -1510,7 +1518,7 @@ XI_API void __thiscall fn_10052B90(void * self_, float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052BA0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 8) = param_1;
+  *(uint32_t *)((int)self_ + 8) = param_1;
   return;
 }
 
@@ -1518,6 +1526,6 @@ XI_API void __thiscall fn_10052BA0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10052BB0(void * self_, undefined4 param_1)
 {
-  *(undefined2 *)((int)self_ + 0x46) = (undefined2)param_1;
+  *(uint16_t *)((int)self_ + 0x46) = (uint16_t)param_1;
   return;
 }

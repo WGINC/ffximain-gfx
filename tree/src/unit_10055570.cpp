@@ -4,16 +4,16 @@
 
 // FUNCTION: FFXIMAIN 0x10055570  (unit unit_10055570: no unit evidence of its own; in the gap between 0x10055560 (CMoOtTask) and 0x10055780 (CMoPathObject) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10055570(void * self_)
+XI_API uint64_t __thiscall fn_10055570(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoTask_Constructor_v1(self_);
   orig::LinkNode_Init_v1((void *)((int)self_ + 0x34));
-  *(undefined ***)self_ = &CMoOtTask_vtbl_ambiguous1_as_v0;
-  *(undefined1 **)((int)self_ + 0x3c) =(undefined1*)(&LAB_100555a0);
+  *(uint8_t ***)self_ = &CMoOtTask_vtbl_ambiguous1_as_v0;
+  *(uint8_t **)((int)self_ + 0x3c) =(uint8_t*)(&LAB_100555a0);
   *(void **)((int)self_ + 0x40) = self_;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }
 
 // FUNCTION: FFXIMAIN 0x100555D0  (unit unit_10055570: no unit evidence of its own; in the gap between 0x10055560 (CMoOtTask) and 0x10055780 (CMoPathObject) -- an unnamed source file)
@@ -24,12 +24,12 @@ XI_API void __cdecl fn_100555D0(void)
   
   self_ = (void *)orig::Mem_AllocDefault_v1(0x18);
   if (self_ == (void *)0x0) {
-    dword_1047BC94_as_v0 = (void *)0x0;
+    dword_1047BC94 = (void *)0x0;
   }
   else {
-    dword_1047BC94_as_v0 = orig::FUN_100552a0(self_);
+    dword_1047BC94 = orig::FUN_100552a0(self_);
   }
-  orig::FUN_10055300(dword_1047BC94_as_v0,0x200,xi_k4(0x0ull),xi_k4(0x44000000ull));
+  orig::FUN_10055300(dword_1047BC94,0x200,0.0f,512.0f);
   orig::FUN_10074cc0(dword_1047D140_as_v1,XI_CODE(FUN_10055620),0xc);
   return;
 }
@@ -39,8 +39,8 @@ XI_API void __cdecl fn_100555D0(void)
 XI_API void __cdecl fn_10055620(void)
 {
   orig::FUN_10046380();
-  orig::FUN_10055520(dword_1047BC94_as_v0);
-  orig::FUN_100554b0(dword_1047BC94_as_v0);
+  orig::FUN_10055520(dword_1047BC94);
+  orig::FUN_100554b0(dword_1047BC94);
   return;
 }
 
@@ -48,8 +48,8 @@ XI_API void __cdecl fn_10055620(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10055640(void * self_)
 {
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)self_ = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)self_ = 0;
   return;
 }

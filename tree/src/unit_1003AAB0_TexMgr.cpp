@@ -25,7 +25,7 @@ XI_API int * __thiscall fn_1003AAF0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1003AB70  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall TexMgr_UploadPumpEntry(void * self_)
+XI_API uint8_t __thiscall TexMgr_UploadPumpEntry(void * self_)
 {
   orig::TexMgr_UploadPump(self_);
   return 0;
@@ -35,7 +35,7 @@ XI_API undefined1 __thiscall TexMgr_UploadPumpEntry(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexMgr_Enqueue(void * self_, int param_1)
 {
-  *(undefined4 *)(param_1 + 0x3c) = 1;
+  *(uint32_t *)(param_1 + 0x3c) = 1;
   orig::FUN_1003ab40(param_1);
   return;
 }
@@ -66,7 +66,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
       piVar2 = (int *)*piVar4;
       *piVar1 = (int)piVar2;
       if (((*g_pSceneState_as_v0 == 0x60) &&
-          (piVar2 = (int *)CONCAT31((int3)((uint)piVar2 >> 8),*(char *)((int)self_ + 0x10)),
+          (piVar2 = (int *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x10)))),
           *(char *)((int)self_ + 0x10) == '\0')) && (iVar3 = iVar3 + 1, 0x14 < iVar3)) break;
     }
     else if (piVar2 == (int *)0x2) {
@@ -84,7 +84,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
     piVar4 = (int *)(*piVar4 + 0x38);
     this_00 = (void *)*piVar4;
   }
-  return CONCAT31((int3)((uint)piVar2 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1003AEA0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
@@ -93,7 +93,7 @@ XI_API int __thiscall TexMgr_FindByName(void * self_, int param_1, int param_2, 
 {
   int iVar1;
   int *piVar2;
-  uint uVar3;
+  uint32_t uVar3;
   int iVar4;
   
   piVar2 = (int *)orig::FUN_1003aab0(self_);
@@ -102,7 +102,7 @@ XI_API int __thiscall TexMgr_FindByName(void * self_, int param_1, int param_2, 
     if (iVar1 == 0) {
       return 0;
     }
-    uVar3 = *(uint *)(iVar1 + 0x2c) >> 3;
+    uVar3 = *(uint32_t *)(iVar1 + 0x2c) >> 3;
     if ((char)param_3 == '\x01') {
       if ((uVar3 & 1) != 0) {
 LAB_1003aed2:

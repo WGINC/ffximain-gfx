@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10282350  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxZTest(int a1)
 {
   int *result;
@@ -34,7 +34,7 @@ XI_API void __cdecl sqgxAlphaDstTest(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102823F0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 279 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 279 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxAlphaTest(unsigned int a1, unsigned int a2)
 {
   int result;
@@ -52,7 +52,7 @@ XI_API int __cdecl sqgxAlphaTest(unsigned int a1, unsigned int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10282470  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 96 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 96 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxZMask(int a1)
 {
   int *result;
@@ -76,7 +76,7 @@ XI_API int * __cdecl sqgxZMask(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102824C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxFBMask(int a1, int a2, int a3, int a4)
 {
   int *result;
@@ -119,9 +119,9 @@ XI_API void __cdecl fn_10282590(void)
   iVar3 = 0xa20;
   do {
     iVar2 = iVar1 + 4;
-    *(undefined4 *)(iVar1 + g_pSqgxContext_as_s32) = 0xffffffff;
-    *(undefined4 *)(iVar3 + g_pSqgxContext_as_s32) = 0xffffffff;
-    *(undefined4 *)(iVar3 + 4 + g_pSqgxContext_as_s32) = 0xffffffff;
+    *(uint32_t *)(iVar1 + g_pSqgxContext_as_s32) = 0xffffffff;
+    *(uint32_t *)(iVar3 + g_pSqgxContext_as_s32) = 0xffffffff;
+    *(uint32_t *)(iVar3 + 4 + g_pSqgxContext_as_s32) = 0xffffffff;
     iVar1 = iVar2;
     iVar3 = iVar3 + 8;
   } while (iVar2 < 0x8b8);
@@ -136,7 +136,7 @@ XI_API void __cdecl fn_10282630(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282640  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 248 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 248 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10282640(void)
 {
   int result;
@@ -154,7 +154,7 @@ XI_API int __cdecl fn_10282640(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102826C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendAdd(void)
 {
   unsigned int v0;
@@ -178,7 +178,7 @@ XI_API int __cdecl sqgxBlendAdd(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102827D0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_102827D0(void)
 {
   unsigned int v0;
@@ -203,7 +203,7 @@ XI_API int __cdecl fn_102827D0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282910  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendSub(void)
 {
   unsigned int v0;
@@ -227,7 +227,7 @@ XI_API int __cdecl sqgxBlendSub(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282A30  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 568 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxBlendLin(float a1)
 {
   int v1;
@@ -259,7 +259,7 @@ XI_API void __cdecl sqgxBlendLin(float a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10282B90  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendTrsp(void)
 {
   unsigned int v0;
@@ -283,7 +283,7 @@ XI_API int __cdecl sqgxBlendTrsp(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282CB0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendTrspInv(void)
 {
   unsigned int v0;
@@ -307,7 +307,7 @@ XI_API int __cdecl sqgxBlendTrspInv(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282DC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 {
   unsigned int v0;
@@ -331,7 +331,7 @@ XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282ED0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10282ED0(void)
 {
   unsigned int v0;
@@ -356,7 +356,7 @@ XI_API int __cdecl fn_10282ED0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10282FF0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendMultAlpha(void)
 {
   unsigned int v0;
@@ -381,7 +381,7 @@ XI_API int __cdecl sqgxBlendMultAlpha(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283110  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 524 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendMul(void)
 {
   unsigned int v0;
@@ -405,7 +405,7 @@ XI_API int __cdecl sqgxBlendMul(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10283220  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxBlendOff(void)
 {
   return g_pDancerDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -430,8 +430,8 @@ XI_API void __cdecl ___setargv_9(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283260(undefined4 param_1, undefined4 param_2)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x78c) = param_1;
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x790) = param_2;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x78c) = param_1;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x790) = param_2;
   return;
 }
 
@@ -439,14 +439,14 @@ XI_API void __cdecl fn_10283260(undefined4 param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283280(undefined4 * param_1)
 {
-  *(undefined4 *)
+  *(uint32_t *)
    (g_pSqgxContext_as_s32 + 0x794 +
    (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 0xc) = *param_1;
-  *(undefined4 *)
+  *(uint32_t *)
    (g_pSqgxContext_as_s32 +
    (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + 0xa2 + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 0xc) =
        param_1[1];
-  *(undefined4 *)
+  *(uint32_t *)
    (g_pSqgxContext_as_s32 + 0x79c +
    (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 0xc) = param_1[2];
   dword_109A2720_as_v0 = 1;
@@ -457,7 +457,7 @@ XI_API void __cdecl fn_10283280(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283300(undefined4 param_1)
 {
-  *(undefined4 *)
+  *(uint32_t *)
    (g_pSqgxContext_as_s32 + 0x854 +
    (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 4) = param_1;
   dword_109A2720_as_v0 = 1;
@@ -468,10 +468,10 @@ XI_API void __cdecl fn_10283300(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxColor(undefined4 * param_1)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x758) = *param_1;
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x75c) = param_1[1];
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x760) = param_1[2];
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x764) = param_1[3];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x758) = *param_1;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x75c) = param_1[1];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x760) = param_1[2];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x764) = param_1[3];
   dword_109A2720_as_v0 = 1;
   return;
 }
@@ -480,7 +480,7 @@ XI_API void __cdecl sqgxColor(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxAmbient(float param_1)
 {
-  *(float *)(g_pSqgxContext_as_s32 + 0x768) = (float)(float10)param_1;
+  *(float *)(g_pSqgxContext_as_s32 + 0x768) = (float)(long double)param_1;
   dword_109A2720_as_v0 = 1;
   return;
 }
@@ -489,7 +489,7 @@ XI_API void __cdecl sqgxAmbient(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102833A0(float param_1)
 {
-  *(float *)(g_pSqgxContext_as_s32 + 0x76c) = (float)(float10)param_1;
+  *(float *)(g_pSqgxContext_as_s32 + 0x76c) = (float)(long double)param_1;
   dword_109A2720_as_v0 = 1;
   return;
 }
@@ -498,14 +498,14 @@ XI_API void __cdecl fn_102833A0(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102833C0(undefined4 param_1, float param_2, undefined4 param_3)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x774) = param_3;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x774) = param_3;
   orig::FUN_10283f20(param_2);
   dword_109A2720_as_v0 = 1;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10283420  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1168 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1168 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxColorUpdate(void)
 {
   __int16 v0; // fps
@@ -618,12 +618,12 @@ XI_API void __cdecl ___setargv_16(void)
 XI_API void __cdecl sqgxPixelSize(float param_1, float param_2)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x74c) =
-       (float)((float10)*(float *)(g_pSqgxContext_as_s32 + 0x2dc) *
-              (float10)*(float *)(g_pSqgxContext_as_s32 + 0x74c));
-  *(float *)(g_pSqgxContext_as_s32 + 0x2dc) = (float)((float10)param_1 / (float10)param_2);
+       (float)((long double)*(float *)(g_pSqgxContext_as_s32 + 0x2dc) *
+              (long double)*(float *)(g_pSqgxContext_as_s32 + 0x74c));
+  *(float *)(g_pSqgxContext_as_s32 + 0x2dc) = (float)((long double)param_1 / (long double)param_2);
   *(float *)(g_pSqgxContext_as_s32 + 0x74c) =
-       (float)((float10)*(float *)(g_pSqgxContext_as_s32 + 0x74c) /
-              (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2dc));
+       (float)((long double)*(float *)(g_pSqgxContext_as_s32 + 0x74c) /
+              (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2dc));
   return;
 }
 
@@ -631,16 +631,16 @@ XI_API void __cdecl sqgxPixelSize(float param_1, float param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283970(undefined4 * param_1)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x9ac) = *param_1;
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x9b0) = param_1[1];
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x9b4) = param_1[2];
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0x9b8) = param_1[3];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9ac) = *param_1;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9b0) = param_1[1];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9b4) = param_1[2];
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9b8) = param_1[3];
   g_sqgxViewportDirty_as_v0 = 1;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10283A10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
 {
   int *result;
@@ -669,8 +669,8 @@ XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxMatrixCamera(undefined4 * param_1)
 {
-  orig::M4fTranspose_v1((undefined4 *)(g_pSqgxContext_as_s32 + 0x188),param_1);
-  orig::sqMatrix4_1027F0E0_v1((float *)(g_pSqgxContext_as_s32 + 0x208),(undefined4 *)(g_pSqgxContext_as_s32 + 0x188));
+  orig::M4fTranspose_v1((uint32_t *)(g_pSqgxContext_as_s32 + 0x188),param_1);
+  orig::sqMatrix4_1027F0E0_v1((float *)(g_pSqgxContext_as_s32 + 0x208),(uint32_t *)(g_pSqgxContext_as_s32 + 0x188));
   g_sqgxViewportDirty_as_v0 = 1;
   return;
 }
@@ -679,7 +679,7 @@ XI_API void __cdecl sqgxMatrixCamera(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283DA0(undefined4 * param_1)
 {
-  orig::M4fTranspose_v1((undefined4 *)
+  orig::M4fTranspose_v1((uint32_t *)
                ((*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 0x40 +
                 0x32c + g_pSqgxContext_as_s32),param_1);
   g_sqgxViewportDirty_as_v0 = 1;
@@ -691,7 +691,7 @@ XI_API void __cdecl fn_10283DA0(undefined4 * param_1)
 XI_API void __cdecl fn_10283DE0(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x72c + *(int *)(g_pSqgxContext_as_s32 + 0x78c) * 4) =
-       (float)(float10)param_1;
+       (float)(long double)param_1;
   return;
 }
 
@@ -699,7 +699,7 @@ XI_API void __cdecl fn_10283DE0(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxMatrixShape(undefined4 * param_1)
 {
-  orig::M4fTranspose_v1((undefined4 *)(g_pSqgxContext_as_s32 + 0x1c8),param_1);
+  orig::M4fTranspose_v1((uint32_t *)(g_pSqgxContext_as_s32 + 0x1c8),param_1);
   g_sqgxViewportDirty_as_v0 = 1;
   return;
 }
@@ -708,13 +708,13 @@ XI_API void __cdecl sqgxMatrixShape(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10283F20(float param_1)
 {
-  *(float *)(g_pSqgxContext_as_s32 + 0x14) = (float)((float10)xi_k4(0x3F800000ull) - (float10)param_1);
+  *(float *)(g_pSqgxContext_as_s32 + 0x14) = (float)((long double)1.0f - (long double)param_1);
   g_sqgxViewportDirty_as_v0 = 1;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10283F70  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxPassAdd(int a1)
 {
   int result;
@@ -728,7 +728,7 @@ XI_API int __cdecl sqgxPassAdd(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10283FC0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxPass(int a1)
 {
   int *result;
@@ -746,13 +746,13 @@ XI_API int * __cdecl sqgxPass(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10284000(float * param_1, float param_2)
 {
-  float10 fVar1;
-  float10 fVar2;
-  xi_bool bVar3;
-  float10 fVar4;
-  float10 fVar5;
-  float10 fVar6;
-  float10 fVar7;
+  long double fVar1;
+  long double fVar2;
+  uint8_t bVar3;
+  long double fVar4;
+  long double fVar5;
+  long double fVar6;
+  long double fVar7;
   char xi_frame[180] __attribute__((aligned(4)));
   float  &local_b4 = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_b0 = *reinterpret_cast<float  *>(xi_frame + 4);
@@ -772,64 +772,62 @@ XI_API undefined4 __cdecl fn_10284000(float * param_1, float param_2)
   local_8c = param_2;
   local_88 = param_2;
   local_84 = param_2;
-  local_98 = (float)-(float10)local_98;
+  local_98 = (float)-(long double)local_98;
   orig::FUN_1027ef80(&local_b4,local_80,&local_8c);
-  bVar3 = NAN((float10)local_b4) || NAN((float10)xi_k8(0x0ull));
-  if ((bVar3 || (float10)local_b4 < (float10)xi_k8(0x0ull)) != bVar3) {
-    local_b4 = (float)-(float10)local_b4;
+  bVar3 = NAN((long double)local_b4) || NAN((long double)0.0);
+  if ((bVar3 || (long double)local_b4 < (long double)0.0) != bVar3) {
+    local_b4 = (float)-(long double)local_b4;
   }
-  bVar3 = NAN((float10)local_b0) || NAN((float10)xi_k8(0x0ull));
-  if ((bVar3 || (float10)local_b0 < (float10)xi_k8(0x0ull)) != bVar3) {
-    local_b0 = (float)-(float10)local_b0;
+  bVar3 = NAN((long double)local_b0) || NAN((long double)0.0);
+  if ((bVar3 || (long double)local_b0 < (long double)0.0) != bVar3) {
+    local_b0 = (float)-(long double)local_b0;
   }
-  bVar3 = NAN((float10)local_ac) || NAN((float10)xi_k8(0x0ull));
-  if ((bVar3 || (float10)local_ac < (float10)xi_k8(0x0ull)) != bVar3) {
-    local_ac = (float)-(float10)local_ac;
+  bVar3 = NAN((long double)local_ac) || NAN((long double)0.0);
+  if ((bVar3 || (long double)local_ac < (long double)0.0) != bVar3) {
+    local_ac = (float)-(long double)local_ac;
   }
-  if ((NAN((float10)local_b4) || NAN((float10)local_b0)) || (float10)local_b4 <= (float10)local_b0)
+  if (!((long double)local_b4 > (long double)local_b0))
   {
-    if ((!NAN((float10)local_b0) && !NAN((float10)local_ac)) &&
-        (float10)local_ac < (float10)local_b0) {
-      fVar4 = (float10)local_b0;
+    if ((long double)local_b0 > (long double)local_ac) {
+      fVar4 = (long double)local_b0;
       goto LAB_10284117;
     }
   }
-  else if ((!NAN((float10)local_b4) && !NAN((float10)local_ac)) &&
-           (float10)local_ac < (float10)local_b4) {
-    fVar4 = (float10)local_b4;
+  else if ((long double)local_b4 > (long double)local_ac) {
+    fVar4 = (long double)local_b4;
     goto LAB_10284117;
   }
-  fVar4 = (float10)local_ac;
+  fVar4 = (long double)local_ac;
 LAB_10284117:
-  fVar1 = (float)((float10)local_98 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2c4));
-  fVar5 = fVar4 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2cc);
-  fVar6 = fVar5 + (float10)fVar1;
-  if (((NAN((float10)local_9c) || NAN(fVar6)) || (float10)local_9c <= fVar6) &&
-     ((NAN(-fVar6) || NAN((float10)local_9c)) || -fVar6 <= (float10)local_9c)) {
-    fVar2 = (float)((float10)local_98 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2c0));
-    fVar6 = fVar4 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2c8);
-    fVar7 = fVar6 + (float10)fVar2;
-    if (((NAN((float10)local_a0) || NAN(fVar7)) || (float10)local_a0 <= fVar7) &&
-       ((((NAN(-fVar7) || NAN((float10)local_a0)) || -fVar7 <= (float10)local_a0 &&
-         (fVar7 = fVar4 + (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2b8),
-         bVar3 = NAN(fVar7) || NAN((float10)local_98), (bVar3 || fVar7 < (float10)local_98) == bVar3
-         )) && (fVar7 = (float10)*(float *)(g_pSqgxContext_as_s32 + 700) - fVar4,
-               (NAN(fVar7) || NAN((float10)local_98)) || fVar7 <= (float10)local_98)))) {
-      fVar1 = (float)((float10)fVar1 - (float10)(float)fVar5);
-      fVar2 = (float)((float10)fVar2 - (float10)(float)fVar6);
-      fVar5 = (float10)*(float *)(g_pSqgxContext_as_s32 + 0x2b8) - fVar4;
-      if ((((((!NAN(fVar5) && !NAN((float10)local_98)) && (float10)local_98 < fVar5) &&
-            (fVar4 = fVar4 + (float10)*(float *)(g_pSqgxContext_as_s32 + 700),
-            bVar3 = NAN(fVar4) || NAN((float10)local_98),
-            (bVar3 || fVar4 < (float10)local_98) != bVar3)) &&
-           (fVar4 = (float10)fVar1, bVar3 = NAN((float10)local_9c) || NAN(fVar4),
-           (bVar3 || (float10)local_9c < fVar4) != bVar3)) &&
-          ((fVar4 = -(float10)fVar1, bVar3 = NAN(fVar4) || NAN((float10)local_9c),
-           (bVar3 || fVar4 < (float10)local_9c) != bVar3 &&
-           (fVar4 = (float10)fVar2, bVar3 = NAN((float10)local_a0) || NAN(fVar4),
-           (bVar3 || (float10)local_a0 < fVar4) != bVar3)))) &&
-         (fVar4 = -(float10)fVar2, bVar3 = NAN(fVar4) || NAN((float10)local_a0),
-         (bVar3 || fVar4 < (float10)local_a0) != bVar3)) {
+  fVar1 = (float)((long double)local_98 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c4));
+  fVar5 = fVar4 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2cc);
+  fVar6 = fVar5 + (long double)fVar1;
+  if ((!((long double)local_9c > fVar6)) &&
+     (!(-fVar6 > (long double)local_9c))) {
+    fVar2 = (float)((long double)local_98 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c0));
+    fVar6 = fVar4 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c8);
+    fVar7 = fVar6 + (long double)fVar2;
+    if ((!((long double)local_a0 > fVar7)) &&
+       ((((NAN(-fVar7) || NAN((long double)local_a0)) || -fVar7 <= (long double)local_a0 &&
+         (fVar7 = fVar4 + (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2b8),
+         bVar3 = NAN(fVar7) || NAN((long double)local_98), (bVar3 || fVar7 < (long double)local_98) == bVar3
+         )) && (fVar7 = (long double)*(float *)(g_pSqgxContext_as_s32 + 700) - fVar4,
+               (NAN(fVar7) || NAN((long double)local_98)) || fVar7 <= (long double)local_98)))) {
+      fVar1 = (float)((long double)fVar1 - (long double)(float)fVar5);
+      fVar2 = (float)((long double)fVar2 - (long double)(float)fVar6);
+      fVar5 = (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2b8) - fVar4;
+      if (((((fVar5 > (long double)local_98) &&
+            (fVar4 = fVar4 + (long double)*(float *)(g_pSqgxContext_as_s32 + 700),
+            bVar3 = NAN(fVar4) || NAN((long double)local_98),
+            (bVar3 || fVar4 < (long double)local_98) != bVar3)) &&
+           (fVar4 = (long double)fVar1, bVar3 = NAN((long double)local_9c) || NAN(fVar4),
+           (bVar3 || (long double)local_9c < fVar4) != bVar3)) &&
+          ((fVar4 = -(long double)fVar1, bVar3 = NAN(fVar4) || NAN((long double)local_9c),
+           (bVar3 || fVar4 < (long double)local_9c) != bVar3 &&
+           (fVar4 = (long double)fVar2, bVar3 = NAN((long double)local_a0) || NAN(fVar4),
+           (bVar3 || (long double)local_a0 < fVar4) != bVar3)))) &&
+         (fVar4 = -(long double)fVar2, bVar3 = NAN(fVar4) || NAN((long double)local_a0),
+         (bVar3 || fVar4 < (long double)local_a0) != bVar3)) {
         return 1;
       }
       return 3;
@@ -839,7 +837,7 @@ LAB_10284117:
 }
 
 // FUNCTION: FFXIMAIN 0x10284410  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1528 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1528 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxMatrixUpdate(void)
 {
   int v0;

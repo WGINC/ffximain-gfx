@@ -7,22 +7,22 @@
 XI_API undefined4 __thiscall fn_100369F0(void * self_)
 {
   orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_LAB_1032a930;
-  *(undefined4 *)((int)self_ + 0x138) = 0;
-  *(undefined4 *)((int)self_ + 0x1e0) = 0;
-  *(undefined4 *)((int)self_ + 0x1c0) = 0;
-  *(undefined4 *)((int)self_ + 0x1c4) = 0;
-  *(undefined4 *)((int)self_ + 0x1c8) = 0;
-  *(undefined4 *)((int)self_ + 0x1cc) = 0;
-  *(undefined2 *)((int)self_ + 0x1bc) = 0;
-  *(undefined4 *)((int)self_ + 0x198) = 0;
+  *(uint8_t ***)self_ = &PTR_LAB_1032a930;
+  *(uint32_t *)((int)self_ + 0x138) = 0;
+  *(uint32_t *)((int)self_ + 0x1e0) = 0;
+  *(uint32_t *)((int)self_ + 0x1c0) = 0;
+  *(uint32_t *)((int)self_ + 0x1c4) = 0;
+  *(uint32_t *)((int)self_ + 0x1c8) = 0;
+  *(uint32_t *)((int)self_ + 0x1cc) = 0;
+  *(uint16_t *)((int)self_ + 0x1bc) = 0;
+  *(uint32_t *)((int)self_ + 0x198) = 0;
   orig::FUN_10044aa0(self_,0);
-  *(undefined4 *)((int)self_ + 0x19c) = 0;
-  *(undefined4 *)((int)self_ + 0x108) = 0;
-  *(undefined1 *)((int)self_ + 0x1e8) = 0;
-  *(undefined4 *)((int)self_ + 0x1e9) = 0;
-  *(undefined4 *)((int)self_ + 0x1e4) = 0x40400000;
+  *(uint32_t *)((int)self_ + 0x19c) = 0;
+  *(uint32_t *)((int)self_ + 0x108) = 0;
+  *(uint8_t *)((int)self_ + 0x1e8) = 0;
+  *(uint32_t *)((int)self_ + 0x1e9) = 0;
+  *(uint32_t *)((int)self_ + 0x1e4) = 0x40400000;
   orig::FUN_10036980(self_);
-  *(undefined2 *)((int)self_ + 0x176) = 0x1ed;
+  *(uint16_t *)((int)self_ + 0x176) = 0x1ed;
   return self_;
 }

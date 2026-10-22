@@ -21,7 +21,7 @@ XI_API void __cdecl fn_1029B120(undefined4 * param_1)
   param_1[2] = &LAB_1029b170;
   param_1[3] = XI_CODE(FUN_1029b1a0);
   param_1[4] = &LAB_1029b230;
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &sqshTriStrip_ThrottledZSortUpdate;
   param_1[7] = 0;
   param_1[8] = 0;
@@ -35,7 +35,7 @@ XI_API void __cdecl fn_1029B120(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B310  (unit sqmdSort: asserts sqmdSort.c)
-// GATE: PASS -- 50 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1029B310(int * param_1, int * param_2, int param_3)
 {
   int iVar1;

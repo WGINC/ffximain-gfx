@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
@@ -53,14 +53,14 @@ XI_API void __cdecl fn_100389C0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10038A20(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_1032a9ec;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_1032a9ec;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1022 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1022 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -141,196 +141,188 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API int __thiscall Post_DrawRotatingGhostLayers(void *self_)
+// GATE: PASS -- 100 trials, 100 returned normally, 10062 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Post_DrawRotatingGhostLayers(void * self_)
 {
-  _DWORD *v1;
-  int result;
-  int v3;
-  int v4;
-  int v5;
-  float *v6;
-  long double v7;
-  unsigned int v8;
-  __int16 v9; // fps
-  long double v10;
-  bool v11; // c0
-  char v12; // c2
-  bool v13; // c3
-  double v14;
-  unsigned __int16 v15;
-  unsigned __int8 v16;
-  CDx *v17;
-  alignas(16) unsigned char xi_frame[0x5B8];  // address-taken locals at their original offsets
-  unsigned __int8 &v18 = *reinterpret_cast<unsigned __int8 *>(xi_frame + 0x113);
-  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x114);
-  unsigned int &v20 = *reinterpret_cast<unsigned int *>(xi_frame + 0x118);
-  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x11C);
-  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x120);
-  __int64 &v24 = *reinterpret_cast<__int64 *>(xi_frame + 0x130);
-  int (&v25)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x138);
-  __int64 &v26 = *reinterpret_cast<__int64 *>(xi_frame + 0x140);
-  int (&v27)[2] = *reinterpret_cast<int (*)[2]>(xi_frame + 0x148);
-  int &a3 = *reinterpret_cast<int *>(xi_frame + 0x150);
-  float &v29 = *reinterpret_cast<float *>(xi_frame + 0x154);
-  unsigned int &v30 = *reinterpret_cast<unsigned int *>(xi_frame + 0x158);
-  int &v31 = *reinterpret_cast<int *>(xi_frame + 0x15C);
-  int &v32 = *reinterpret_cast<int *>(xi_frame + 0x160);
-  float &v33 = *reinterpret_cast<float *>(xi_frame + 0x164);
-  float &v34 = *reinterpret_cast<float *>(xi_frame + 0x168);
-  float &v35 = *reinterpret_cast<float *>(xi_frame + 0x16C);
-  int &v36 = *reinterpret_cast<int *>(xi_frame + 0x170);
-  unsigned int &v37 = *reinterpret_cast<unsigned int *>(xi_frame + 0x174);
-  int &v38 = *reinterpret_cast<int *>(xi_frame + 0x178);
-  int &v39 = *reinterpret_cast<int *>(xi_frame + 0x17C);
-  float &v40 = *reinterpret_cast<float *>(xi_frame + 0x180);
-  float &v41 = *reinterpret_cast<float *>(xi_frame + 0x184);
-  int &v42 = *reinterpret_cast<int *>(xi_frame + 0x188);
-  float &v43 = *reinterpret_cast<float *>(xi_frame + 0x18C);
-  unsigned int &v44 = *reinterpret_cast<unsigned int *>(xi_frame + 0x190);
-  int &v45 = *reinterpret_cast<int *>(xi_frame + 0x194);
-  int &v46 = *reinterpret_cast<int *>(xi_frame + 0x198);
-  float &v47 = *reinterpret_cast<float *>(xi_frame + 0x19C);
-  float &v48 = *reinterpret_cast<float *>(xi_frame + 0x1A0);
-  float &v49 = *reinterpret_cast<float *>(xi_frame + 0x1A4);
-  float &v50 = *reinterpret_cast<float *>(xi_frame + 0x1A8);
-  unsigned int &v51 = *reinterpret_cast<unsigned int *>(xi_frame + 0x1AC);
-  int &v52 = *reinterpret_cast<int *>(xi_frame + 0x1B0);
-  int &v53 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
-  bool xi_fpu_unord = false;
-
-  v1 = self_;
-  result = orig::Settings_GetValue(200);
-  if ( result == 0
-    || (result = v1[1]) == 0
-    || (v3 = *(_DWORD *)result, result = g_sceneCaptureTex, g_sceneCaptureTex == 0)
-    || (result = (int)pTexture, pTexture == nullptr) )
-  {
-    result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
-    return result;
-  }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 5u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 5u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 6u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 2u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 2u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
-  v4 = 0;
-  v5 = *(unsigned __int8 *)(v3 + 49);
-  if ( *(_BYTE *)(v3 + 49) != 0 )
-  {
-    v22 = 0;
-    v6 = (float *)(v3 + 64);
-    do
-    {
-      if ( v4 == v5 - 1 )
-      {
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 3u);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 3u);
-        v7 = 0.0;
-        v8 = v20;
-        v19 = 0.0;
-      }
-      else
-      {
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
-        v10 = (double)(v1[2] + v22 / v5) * 0x1.1df2420000000p-6;
-        (xi_fpu_unord = __builtin_isunordered(v10, 0x1.921cac0000000p+1), v11 = v10 < 0x1.921cac0000000p+1);
-        v12 = 0;
-        v13 = v10 == 0x1.921cac0000000p+1;
-        if ( ((__int16)(((v11 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v13 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
-          v10 = v10 - 0x1.921cac0000000p+2;
-        if ( v10 < -0x1.921cac0000000p+1 )
-          v10 = v10 + 0x1.921cac0000000p+2;
-        v14 = *(v6 - 1) * 0.0625;
-        v15 = (unsigned __int16)(((uint16_t)(v15) & 0xFFu) | ((uint16_t)(uint8_t)(*((_BYTE *)v6 + 3)) << 8));
-        v15 = (unsigned __int16)(((uint16_t)(v15) & 0xFF00u) | ((uint16_t)(uint8_t)(*(_BYTE *)v6) << 0));
-        v8 = *(_DWORD *)v6 & 0xFF00 | ((*(_DWORD *)v6 & 0xFFFFFFu) >> 16) | (v15 << 16);
-        v20 = v8;
-        v19 = sin(v10) * v14;
-        v7 = cos(v10) * v14;
-      }
-      v21 = v7;
-      *(float *)&v27[1] = v7;
-      *(float *)v27 = v19;
-      a3 = 0;
-      v29 = 1.0;
-      v30 = v8;
-      v31 = 0;
-      v32 = 0;
-      v24 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2);
-      v34 = v21;
-      v35 = 0.0;
-      v36 = 1065353216;
-      v37 = v8;
-      v38 = 1065353216;
-      v39 = 0;
-      v40 = v19;
-      v33 = (double)v24 + v19;
-      v26 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3);
-      v42 = 0;
-      v43 = 1.0;
-      v44 = v8;
-      v45 = 0;
-      v46 = 1065353216;
-      v41 = (double)v26 + v21;
-      v47 = (double)*((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 2) + v19;
-      *(_QWORD *)v25 = *((unsigned int *)orig::CDx_GetRenderTargetTop((unsigned __int8 *)g_pCDx) + 3);
-      v49 = 0.0;
-      v50 = 1.0;
-      v51 = v8;
-      v52 = 1065353216;
-      v53 = 1065353216;
-      v48 = (double)*(__int64 *)v25 + v21;
-      v16 = (*(unsigned __int8 *)((char *)g_pCDx + 0x828));
-      (*(unsigned __int8 *)((char *)g_pCDx + 0x828)) = 0;
-      v18 = v16;
-      if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 && g_sceneCaptureTexEye2 != 0 )
-      {
-        v17 = g_pCDx;
-        if ( *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)) == 0 || *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)) == 0 )
-          goto LABEL_21;
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, (IDirect3DBaseTexture8 *)g_sceneCaptureTexEye2);
-        orig::CDx_PushRenderTarget(
-          g_pCDx,
-          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)),
-          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A0)),
-          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)));
-        orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v27, 28);
-        orig::CDx_SetTexture(g_pCDx, 0, 0);
-      }
-      v17 = g_pCDx;
-LABEL_21:
-      (*(IDirect3DDevice8 * *)((char *)v17 + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)v17 + 0xC)), 0, (IDirect3DBaseTexture8 *)g_sceneCaptureTex);
-      orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)v27, 28);
-      v1 = self_;
-      ++v4;
-      v6 += 2;
-      (*(unsigned __int8 *)((char *)g_pCDx + 0x828)) = v18;
-      v22 += 360;
+  long double fVar1;
+  uint8_t uVar2;
+  int *piVar3;
+  void *xi_eax;
+  uint32_t uVar4;
+  int iVar5;
+  uint32_t uVar6;
+  uint32_t uVar7;
+  int iVar8;
+  uint32_t *puVar9;
+  uint8_t bVar10;
+  long double fVar11;
+  long double fVar12;
+  uint64_t uVar13;
+  int64_t lVar14;
+  char xi_frame[164] __attribute__((aligned(4)));
+  float  &fStack_a4 = *reinterpret_cast<float  *>(xi_frame + 0);
+  uint32_t  &uStack_a0 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  int  &iStack_98 = *reinterpret_cast<int  *>(xi_frame + 12);
+  float  &fStack_70 = *reinterpret_cast<float  *>(xi_frame + 52);
+  float  &fStack_6c = *reinterpret_cast<float  *>(xi_frame + 56);
+  uint32_t  &uStack_68 = *reinterpret_cast<uint32_t  *>(xi_frame + 60);
+  uint32_t  &uStack_64 = *reinterpret_cast<uint32_t  *>(xi_frame + 64);
+  uint32_t  &uStack_60 = *reinterpret_cast<uint32_t  *>(xi_frame + 68);
+  uint32_t  &uStack_5c = *reinterpret_cast<uint32_t  *>(xi_frame + 72);
+  uint32_t  &uStack_58 = *reinterpret_cast<uint32_t  *>(xi_frame + 76);
+  float  &fStack_54 = *reinterpret_cast<float  *>(xi_frame + 80);
+  float  &fStack_50 = *reinterpret_cast<float  *>(xi_frame + 84);
+  uint32_t  &uStack_4c = *reinterpret_cast<uint32_t  *>(xi_frame + 88);
+  uint32_t  &uStack_48 = *reinterpret_cast<uint32_t  *>(xi_frame + 92);
+  uint32_t  &uStack_44 = *reinterpret_cast<uint32_t  *>(xi_frame + 96);
+  uint32_t  &uStack_40 = *reinterpret_cast<uint32_t  *>(xi_frame + 100);
+  uint32_t  &uStack_3c = *reinterpret_cast<uint32_t  *>(xi_frame + 104);
+  float  &fStack_38 = *reinterpret_cast<float  *>(xi_frame + 108);
+  float  &fStack_34 = *reinterpret_cast<float  *>(xi_frame + 112);
+  uint32_t  &uStack_30 = *reinterpret_cast<uint32_t  *>(xi_frame + 116);
+  uint32_t  &uStack_2c = *reinterpret_cast<uint32_t  *>(xi_frame + 120);
+  uint32_t  &uStack_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 124);
+  uint32_t  &uStack_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 128);
+  uint32_t  &uStack_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 132);
+  float  &fStack_1c = *reinterpret_cast<float  *>(xi_frame + 136);
+  float  &fStack_18 = *reinterpret_cast<float  *>(xi_frame + 140);
+  uint32_t  &uStack_14 = *reinterpret_cast<uint32_t  *>(xi_frame + 144);
+  uint32_t  &uStack_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 148);
+  uint32_t  &uStack_c = *reinterpret_cast<uint32_t  *>(xi_frame + 152);
+  uint32_t  &uStack_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 156);
+  uint32_t  &uStack_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 160);
+  
+  uVar13 = orig::Settings_GetValue_v1(200);
+  if (((int)uVar13 != 0) && (piVar3 = *(int **)((int)self_ + 4), piVar3 != (int *)0x0)) {
+    if (piVar3 == (int *)0x0) {
+      iVar5 = 0;
     }
-    while ( v4 < v5 );
+    else {
+      iVar5 = *piVar3;
+    }
+    if ((g_sceneCaptureTex != 0) && (pTexture_as_s32 != 0)) {
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x19,5);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x18,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0xe,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),7,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,1);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x13,5);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x14,6);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,1,5);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,2,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,3,2);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,4,6);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,5,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,6,2);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,4,1);
+      xi_eax = (void *)((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+                                 ))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,1,1);
+      iVar8 = 0;
+      uVar7 = (uint32_t)*(uint8_t *)(iVar5 + 0x31);
+      if (uVar7 != 0) {
+        iStack_98 = 0;
+        puVar9 = (uint32_t *)(iVar5 + 0x40);
+        do {
+          if (iVar8 == uVar7 - 1) {
+            ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0x130))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x144)
+            ;
+            ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                      ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x18,0x60);
+            ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,0);
+            ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,1,3);
+            ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,4,3);
+            fVar11 = (long double)0.0f;
+            fStack_a4 = 0.0f;
+          }
+          else {
+            ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0x130))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x144)
+            ;
+            fVar11 = (long double)(iStack_98 / (int)uVar7 + *(int *)((int)self_ + 8)) *
+                     (long double)0.01745277829468250274658203125f;
+            if (fVar11 > (long double)3.141499996185302734375f) {
+              fVar11 = fVar11 - (long double)6.28299999237060546875f;
+            }
+            bVar10 = NAN(fVar11) || NAN((long double)(-3.141499996185302734375f));
+            if ((bVar10 || fVar11 < (long double)(-3.141499996185302734375f)) != bVar10) {
+              fVar11 = fVar11 + (long double)6.28299999237060546875f;
+            }
+            fVar12 = xi_castbits<long double>(fsin(fVar11));
+            uVar4 = *puVar9 & 0xffffff;
+            uStack_a0 = (uint32_t)((uint16_t)(((uint16_t)(uint8_t)(*(uint8_t *)((int)puVar9 + 3)) << 8) | (uint8_t)((char)uVar4))) << 0x10 |
+                        uVar4 >> 0x10 | *puVar9 & 0xff00;
+            fStack_a4 = (float)(fVar12 * (long double)xi_castbits<float>(puVar9[-1]) * (long double)0.0625f);
+            fVar11 = xi_castbits<long double>(fcos(fVar11));
+            fVar11 = fVar11 * (long double)xi_castbits<float>(puVar9[-1]) * (long double)0.0625f;
+          }
+          fVar1 = (float)fVar11;
+          fStack_6c = (float)fVar11;
+          fStack_70 = fStack_a4;
+          uStack_68 = 0;
+          uStack_64 = 0x3f800000;
+          uStack_5c = 0;
+          uStack_58 = 0;
+          uStack_60 = uStack_a0;
+          iVar5 = orig::CDx_GetRenderTargetTop_v1(g_pCDx_as_v1);
+          uStack_4c = 0;
+          uStack_48 = 0x3f800000;
+          uStack_40 = 0x3f800000;
+          uStack_3c = 0;
+          fStack_38 = fStack_a4;
+          fStack_54 = (float)((long double)*(uint32_t *)(iVar5 + 8) + (long double)fStack_a4);
+          fStack_50 = fVar1;
+          uStack_44 = uStack_a0;
+          iVar5 = orig::CDx_GetRenderTargetTop_v1(g_pCDx_as_v1);
+          uStack_30 = 0;
+          uStack_2c = 0x3f800000;
+          uStack_24 = 0;
+          uStack_20 = 0x3f800000;
+          fStack_34 = (float)((long double)*(uint32_t *)(iVar5 + 0xc) + (long double)fVar1);
+          uStack_28 = uStack_a0;
+          iVar5 = orig::CDx_GetRenderTargetTop_v1(g_pCDx_as_v1);
+          fStack_1c = (float)((long double)*(uint32_t *)(iVar5 + 8) + (long double)fStack_a4);
+          iVar5 = orig::CDx_GetRenderTargetTop_v1(g_pCDx_as_v1);
+          uStack_14 = 0;
+          uStack_10 = 0x3f800000;
+          uStack_8 = 0x3f800000;
+          uStack_4 = 0x3f800000;
+          fStack_18 = (float)((long double)*(uint32_t *)(iVar5 + 0xc) + (long double)fVar1);
+          uVar2 = *(uint8_t *)((int)g_pCDx_as_v1 + 0x828);
+          *(uint8_t *)((int)g_pCDx_as_v1 + 0x828) = 0;
+          uStack_c = uStack_a0;
+          uVar6 = orig::CEnv_IsStereoMode_v1(g_pEnv_as_v0);
+          if (((((char)uVar6 != '\0') && (g_sceneCaptureTexEye2 != 0)) &&
+              (*(int *)((int)g_pCDx_as_v1 + 0x198) != 0)) && (*(int *)((int)g_pCDx_as_v1 + 0x1a8) != 0)) {
+            ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xf4))
+                      ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,g_sceneCaptureTexEye2);
+            orig::CDx_PushRenderTarget_v1
+                      (g_pCDx_as_v1,*(uint32_t *)((int)g_pCDx_as_v1 + 0x198),
+                       *(uint32_t *)((int)g_pCDx_as_v1 + 0x1a0),*(uint32_t *)((int)g_pCDx_as_v1 + 0x1a8));
+            orig::CDx_DrawPrimitiveUP_v1(g_pCDx_as_v1,5,2,&fStack_70,0x1c);
+            orig::CDx_SetTexture_v1(g_pCDx_as_v1,0,0);
+          }
+          ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xf4))
+                    ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,g_sceneCaptureTex);
+          orig::CDx_DrawPrimitiveUP_v1(g_pCDx_as_v1,5,2,&fStack_70,0x1c);
+          xi_eax = g_pCDx_as_v1;
+          iVar8 = iVar8 + 1;
+          iStack_98 = iStack_98 + 0x168;
+          puVar9 = puVar9 + 2;
+          *(uint8_t *)((int)g_pCDx_as_v1 + 0x828) = uVar2;
+        } while (iVar8 < (int)uVar7);
+      }
+      fVar11 = orig::Camera_GetFrameScale_v1(xi_eax);
+      lVar14 = XI_CALL_ST0(0x10311C2Cu)(fVar11);
+      *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + (int)lVar14;
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,0);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x18,0x60);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),0xe,1);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),7,1);
+      uVar6 = ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x19,8);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+    }
   }
-  v1[2] += (__int64)orig::Camera_GetFrameScale();
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAREF, 96u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 1u);
-  result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHAFUNC, 8u);
-  result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(1) << 0));
-  return result;
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10039440  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
@@ -338,15 +330,15 @@ LABEL_21:
 XI_API void * __thiscall fn_10039440(void * self_)
 {
   int iVar1;
-  undefined4 *puVar2;
+  uint32_t *puVar2;
   
-  *(undefined ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_1032a9f8;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  puVar2 = (undefined4 *)((int)self_ + 0xc);
+  *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_1032a9f8;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 0xc);
   for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
-  *(undefined1 *)((int)self_ + 4) = 1;
+  *(uint8_t *)((int)self_ + 4) = 1;
   return self_;
 }

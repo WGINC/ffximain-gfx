@@ -4,10 +4,13 @@
 
 // FUNCTION: FFXIMAIN 0x10043DD0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10043DD0(void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10043DD0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  *(char *)((int)self_ + 0x45) = '\x01' - *(char *)((int)self_ + 0x45);
-  return;
+  char cVar1;
+  
+  cVar1 = '\x01' - *(char *)((int)self_ + 0x45);
+  *(char *)((int)self_ + 0x45) = cVar1;
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(cVar1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10043DE0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
@@ -19,20 +22,20 @@ XI_API undefined4 __cdecl fn_10043DE0(void)
 
 // FUNCTION: FFXIMAIN 0x10043DF0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall DynVB_Constructor(void * self_)
+XI_API uint64_t __thiscall DynVB_Constructor(void * self_)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   
   iVar2 = 2;
-  *(undefined ***)self_ = &PTR_CMoTask_VT_1032AFA8_ScalarDeletingDtor_2_1032afd4;
-  puVar1 = (undefined4 *)((int)self_ + 4);
+  *(uint8_t ***)self_ = &PTR_CMoTask_VT_1032AFA8_ScalarDeletingDtor_2_1032afd4;
+  puVar1 = (uint32_t *)((int)self_ + 4);
   do {
     *puVar1 = 0;
     puVar1 = puVar1 + 8;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  *(undefined1 *)((int)self_ + 0x44) = 0;
-  *(undefined1 *)((int)self_ + 0x45) = 0;
-  return CONCAT44(puVar1,self_);
+  *(uint8_t *)((int)self_ + 0x44) = 0;
+  *(uint8_t *)((int)self_ + 0x45) = 0;
+  return ((uint64_t)(((uint64_t)(uint32_t)(puVar1) << 32) | (uint32_t)(self_)));
 }

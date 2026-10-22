@@ -24,7 +24,7 @@ XI_API void __cdecl sqMemInit(void)
 XI_API void __cdecl fn_10275190(undefined4 * param_1)
 {
   *param_1 = 0;
-  *(undefined1 *)(param_1 + 1) = 0;
+  *(uint8_t *)(param_1 + 1) = 0;
   param_1[0x15] = 0;
   param_1[0x16] = 0;
   param_1[0x17] = 0;
@@ -44,7 +44,7 @@ XI_API undefined4 __cdecl fn_102752F0(int param_1)
   if (iVar1 == -0x21524111) {
     return 2;
   }
-  return -(uint)(iVar1 != -0x35010113) & 3;
+  return -(uint32_t)(iVar1 != -0x35010113) & 3;
 }
 
 // FUNCTION: FFXIMAIN 0x10275320  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
@@ -52,6 +52,33 @@ XI_API undefined4 __cdecl fn_102752F0(int param_1)
 XI_API int __cdecl fn_10275320(int param_1)
 {
   return *(int *)(param_1 + 4) + 0x10 + param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x102755C0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((cdecl, regparm(2))) fn_102755C0(undefined4 xi_eax, undefined4 xi_edx, int param_1, int param_2)
+{
+  int iVar1;
+  uint64_t uVar2;
+  char xi_frame[152] __attribute__((aligned(4)));
+  int  &iVar3 = *reinterpret_cast<int  *>(xi_frame + 0);
+  uint8_t * &puVar4 = *reinterpret_cast<uint8_t * *>(xi_frame + 4);
+  uint32_t  &uVar5 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint8_t  (&local_80)[128] = *reinterpret_cast<uint8_t  (*)[128]>(xi_frame + 24);
+  
+  iVar1 = 0;
+  if (0 < param_2) {
+    do {
+      puVar4 = local_80;
+      uVar5 = 1;
+      iVar3 = iVar1 + param_1;
+      orig::FUN_102756a0(iVar3,xi_edx);
+      uVar2 = orig::sqDebugPrintf_v4(&DAT_10361dc0,local_80,iVar3,puVar4,uVar5);
+      xi_edx = (uint32_t)((uint64_t)uVar2 >> 0x20);
+      iVar1 = iVar1 + 0x10;
+    } while (iVar1 < param_2);
+  }
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10275670  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
@@ -63,7 +90,7 @@ XI_API undefined4 * __cdecl fn_10275670(uint32_t param_1)
   
   puVar1 = &DAT_1099cef8;
   iVar2 = 0;
-  while ((param_1 < (uint)puVar1[0x15] || ((uint)puVar1[0x17] <= param_1))) {
+  while ((param_1 < (uint32_t)puVar1[0x15] || ((uint32_t)puVar1[0x17] <= param_1))) {
     puVar1 = puVar1 + 0x18;
     iVar2 = iVar2 + 1;
     if (7 < iVar2) {
@@ -74,22 +101,22 @@ XI_API undefined4 * __cdecl fn_10275670(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10275D40  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 20 trials, 13 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl fn_10275D40(int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint32_t uVar2;
   undefined4 *puVar3;
   
   puVar1 = orig::FUN_10275d80(param_1,param_2,param_3,param_4);
   if (puVar1 != (undefined4 *)0x0) {
     puVar3 = puVar1;
-    for (uVar2 = (uint)(param_1 * param_2) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+    for (uVar2 = (uint32_t)(param_1 * param_2) >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
       *puVar3 = 0;
       puVar3 = puVar3 + 1;
     }
     for (uVar2 = param_1 * param_2 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
-      *(undefined1 *)puVar3 = 0;
+      *(uint8_t *)puVar3 = 0;
       puVar3 = (undefined4 *)((int)puVar3 + 1);
     }
   }

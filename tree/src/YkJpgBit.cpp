@@ -6,11 +6,11 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101D08E0(void * self_, undefined4 param_1, undefined4 param_2)
 {
-  *(undefined1 *)((int)self_ + 5) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined ***)self_ = &PTR_YkJpgBit_GetRuntimeClass_10337e98;
-  *(undefined1 *)((int)self_ + 4) = 0x80;
-  *(undefined4 *)((int)self_ + 0x10) = param_2;
-  *(undefined4 *)((int)self_ + 8) = param_1;
+  *(uint8_t *)((int)self_ + 5) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint8_t ***)self_ = &PTR_YkJpgBit_GetRuntimeClass_10337e98;
+  *(uint8_t *)((int)self_ + 4) = 0x80;
+  *(uint32_t *)((int)self_ + 0x10) = param_2;
+  *(uint32_t *)((int)self_ + 8) = param_1;
   return self_;
 }

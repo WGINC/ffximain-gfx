@@ -6,7 +6,6 @@
 class XI_API CYyCamMng2 {
 public:
     static undefined4 __cdecl CreateGlobal();  // 0x1001E470
-    static void __cdecl CallGlobalVfunc1();  // 0x1001E4B0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x114];

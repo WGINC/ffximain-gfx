@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102915B0(int param_1, undefined4 * param_2)
 {
-  orig::FUN_10274650((undefined4 *)(param_1 + 0x5c),param_2);
+  orig::FUN_10274650((uint32_t *)(param_1 + 0x5c),param_2);
   return;
 }
 
@@ -14,7 +14,7 @@ XI_API void __cdecl fn_102915B0(int param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102915E0(int param_1, undefined4 * param_2)
 {
-  orig::FUN_1027a700((undefined4 *)(param_1 + 0x68),param_2);
+  orig::FUN_1027a700((uint32_t *)(param_1 + 0x68),param_2);
   return;
 }
 
@@ -22,7 +22,7 @@ XI_API void __cdecl fn_102915E0(int param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102915F0(int param_1, undefined4 * param_2)
 {
-  orig::FUN_10274650((undefined4 *)(param_1 + 0x78),param_2);
+  orig::FUN_10274650((uint32_t *)(param_1 + 0x78),param_2);
   return;
 }
 
@@ -41,7 +41,7 @@ XI_API void __cdecl fn_102916D0(int param_1, int * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10291780(int param_1, float param_2)
 {
-  *(float *)(param_1 + 0x94) = (float)(float10)param_2;
+  *(float *)(param_1 + 0x94) = (float)(long double)param_2;
   return;
 }
 
@@ -49,6 +49,6 @@ XI_API void __cdecl fn_10291780(int param_1, float param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10291790(int param_1, float param_2)
 {
-  *(float *)(param_1 + 0x98) = (float)(float10)param_2;
+  *(float *)(param_1 + 0x98) = (float)(long double)param_2;
   return;
 }

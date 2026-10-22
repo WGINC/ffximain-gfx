@@ -7,8 +7,6 @@ class XI_API CXiAtelActor {
 public:
     static undefined4 __thiscall IsAtelType82(void * self);  // 0x10082960
     static undefined4 __thiscall IsAtelType83(void * self);  // 0x100829C0
-    static void __thiscall UnlinkCasterAttachments(void * self, void * param_1);  // 0x10085C90
-    static void __thiscall UnlinkTargetAttachments(void * self, void * param_1);  // 0x10085CF0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xD0];

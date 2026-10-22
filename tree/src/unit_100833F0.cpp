@@ -7,16 +7,16 @@
 XI_API undefined4 __cdecl fn_10083430(void * param_1, int param_2, uint32_t param_3, uint32_t param_4, undefined4 param_5)
 {
   void *self_;
-  float10 fVar1;
+  long double fVar1;
   void *pvVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 uVar5;
-  uint3 uVar6;
-  xi_bool bVar7;
-  xi_bool bVar8;
-  float10 fVar9;
-  undefined8 uVar10;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  int iVar5;
+  uint32_t uVar6;
+  uint8_t bVar7;
+  uint8_t bVar8;
+  long double fVar9;
+  uint64_t uVar10;
   int local_8;
   
   uVar10 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
@@ -31,123 +31,67 @@ XI_API undefined4 __cdecl fn_10083430(void * param_1, int param_2, uint32_t para
   }
   self_ = *(void **)((int)param_1 + 0x70);
   if (self_ != (void *)0x0) {
-    uVar3 = *(uint *)((int)self_ + 0x1d0);
+    uVar3 = *(uint32_t *)((int)self_ + 0x1d0);
     if ((uVar3 & param_4) != 0) {
       return uVar3 & 0xffffff00;
     }
     if ((((param_3 & uVar3) == 0) &&
-        ((uVar3 = orig::FUN_101cc1d0((int)self_), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self_), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
+        ((uVar3 = orig::FUN_101cc1d0((int)self_,uVar3), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
+       ((uVar3 = orig::FUN_101cc220((int)self_,uVar3), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
       return uVar3 & 0xffffff00;
     }
-    iVar4 = orig::Settings_GetValue_v1(0x97);
-    if (((((iVar4 != 0) && ((*(uint *)((int)self_ + 0x1d0) & 0x100) != 0)) &&
-         (uVar3 = *(uint *)((int)self_ + 300), (uVar3 >> 0xd & 1) != 0)) &&
+    uVar10 = orig::Settings_GetValue_v1(0x97);
+    if ((((((int)uVar10 != 0) && ((*(uint32_t *)((int)self_ + 0x1d0) & 0x100) != 0)) &&
+         (uVar3 = *(uint32_t *)((int)self_ + 300), (uVar3 >> 0xd & 1) != 0)) &&
         (((uVar3 >> 0x1e & 1) == 0 && (-1 < (int)uVar3)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self_), (char)uVar3 == '\0' && ((void *)param_2 != self_)))) {
+       ((uVar3 = orig::FUN_101cc220((int)self_,0), (char)uVar3 == '\0' && ((void *)param_2 != self_)))) {
       return uVar3 & 0xffffff00;
     }
-    iVar4 = orig::Settings_GetValue_v1(0xaa);
-    if (((iVar4 != 0) && ((*(uint *)((int)self_ + 300) >> 0x16 & 1) != 0)) &&
-       ((*(byte *)((int)self_ + 0x1d0) & 0xc) == 0)) {
-      return (*(uint *)((int)self_ + 300) >> 0x1e) << 8;
+    uVar10 = orig::Settings_GetValue_v1(0xaa);
+    if ((((int)uVar10 != 0) && ((*(uint32_t *)((int)self_ + 300) >> 0x16 & 1) != 0)) &&
+       ((*(uint8_t *)((int)self_ + 0x1d0) & 0xc) == 0)) {
+      return (*(uint32_t *)((int)self_ + 300) >> 0x1e) << 8;
     }
-    if ((((!bVar7) && (pvVar2 != (void *)0x0)) && (uVar5 = orig::FUN_1008e140(self_), (char)uVar5 != '\0'))
+    if ((((!bVar7) && (pvVar2 != (void *)0x0)) && (uVar4 = orig::FUN_1008e140(self_), (char)uVar4 != '\0'))
        && (uVar3 = orig::FUN_1008e8d0(self_,local_8), (char)uVar3 != '\0')) {
       bVar7 = true;
     }
   }
-  iVar4 = orig::CXiActor_GetModelField170_v1(param_1);
-  uVar6 = (uint3)((uint)iVar4 >> 8);
-  if ((bVar7) && ((iVar4 == 2 || (iVar4 == 3)))) {
-    return (uint)uVar6 << 8;
+  iVar5 = orig::CXiActor_GetModelField170_v1(param_1);
+  uVar6 = (uint32_t)((uint32_t)iVar5 >> 8);
+  if ((bVar7) && ((iVar5 == 2 || (iVar5 == 3)))) {
+    return (uint32_t)uVar6 << 8;
   }
   if (((char)param_5 != '\0') && (param_1 == pvVar2)) {
-    return (uint)uVar6 << 8;
+    return (uint32_t)uVar6 << 8;
   }
   if (*(short *)((int)param_1 + 0xb2) != 0) {
-    return (uint)uVar6 << 8;
+    return (uint32_t)uVar6 << 8;
   }
   if (*(char *)((int)param_1 + 0xc0) != '\x02') {
     uVar3 = orig::CXiActor_IsModelMissingOrSuppressed_v1(param_1);
     if (uVar3 != 0) {
       return uVar3 & 0xffffff00;
     }
-    fVar9 = (float10)*(float *)((int)param_1 + 0x8c);
-    fVar1 = (float10)xi_k4(0x0ull);
+    fVar9 = (long double)*(float *)((int)param_1 + 0x8c);
+    fVar1 = (long double)0.0f;
     bVar8 = NAN(fVar9) || NAN(fVar1);
     bVar7 = bVar8 || fVar9 < fVar1;
-    uVar6 = (uint3)(byte)(bVar7 | (byte)((ushort)((ushort)bVar8 << 10) >> 8) |
-                         (byte)((ushort)((ushort)(bVar8 || fVar9 == fVar1) << 0xe) >> 8));
+    uVar6 = (uint32_t)(uint8_t)(bVar7 | (uint8_t)((uint16_t)((uint16_t)bVar8 << 10) >> 8) |
+                         (uint8_t)((uint16_t)((uint16_t)(bVar8 || fVar9 == fVar1) << 0xe) >> 8));
     if (bVar7 == bVar8) {
-      return CONCAT31(uVar6,1);
+      return ((uint32_t)(((uint32_t)(uVar6) << 8) | (uint8_t)(1)));
     }
-    return (uint)uVar6 << 8;
+    return (uint32_t)uVar6 << 8;
   }
-  return (uint)uVar6 << 8;
-}
-
-// FUNCTION: FFXIMAIN 0x10083620  (unit unit_100833F0: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int * __cdecl fn_10083620(uint32_t param_1, uint32_t param_2)
-{
-  int iVar1;
-  undefined4 *puVar2;
-  int *self_;
-  undefined4 uVar3;
-  float *pfVar4;
-  xi_bool bVar5;
-  float10 fVar6;
-  undefined8 uVar7;
-  char xi_frame[84] __attribute__((aligned(4)));
-  float  &fStack_54 = *reinterpret_cast<float  *>(xi_frame + 0);
-  int * &piStack_50 = *reinterpret_cast<int * *>(xi_frame + 4);
-  float  (&afStack_4c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 8);
-  undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 20);
-  
-  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
-  if ((int)uVar7 == 0) {
-    return (int *)0x0;
-  }
-  orig::fn_10027990_v1(local_40);
-  orig::Mat4_SetIdentity_v1(local_40);
-  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
-  iVar1 = (**(code **)(*(int *)uVar7 + 0x1c0))();
-  orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar1 + 4));
-  uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
-  puVar2 = (undefined4 *)(**(code **)(*(int *)uVar7 + 0x1bc))();
-  orig::Mat4_SetRow3_v1(local_40,puVar2);
-  orig::Mat4_InvertOrthonormal_v1(local_40);
-  piStack_50 = (int *)0x0;
-  fStack_54 = xi_k4(0x451C4000ull);
-  iVar1 = orig::FUN_101cc510();
-  uVar7 = orig::FUN_10085240();
-  self_ = (int *)uVar7;
-  while (self_ != (int *)0x0) {
-    uVar3 = orig::FUN_10083430(self_,iVar1,param_1,param_2,1);
-    if ((char)uVar3 != '\0') {
-      pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*self_ + 0x1bc))))((void *)(self_));
-      orig::FUN_10028230(local_40,afStack_4c,pfVar4);
-      bVar5 = NAN((float10)afStack_4c[0]) || NAN((float10)xi_k4(0x0ull));
-      if (((bVar5 || (float10)afStack_4c[0] < (float10)xi_k4(0x0ull)) == bVar5) &&
-         (fVar6 = orig::FUN_10027530(afStack_4c,afStack_4c), bVar5 = NAN(fVar6) || NAN((float10)fStack_54)
-         , (bVar5 || fVar6 < (float10)fStack_54) != bVar5)) {
-        fStack_54 = (float)fVar6;
-        piStack_50 = self_;
-      }
-    }
-    uVar7 = orig::FUN_10085270(self_);
-    self_ = (int *)uVar7;
-  }
-  orig::nullsub_1();
-  return piStack_50;
+  return (uint32_t)uVar6 << 8;
 }
 
 // FUNCTION: FFXIMAIN 0x100845E0  (unit unit_100833F0: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100845E0(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   if (*(int *)((int)self_ + 0x70) != 0) {
     uVar1 = orig::FUN_10098360();
@@ -161,7 +105,7 @@ XI_API undefined4 __thiscall fn_100845E0(void * self_)
 XI_API uint32_t __thiscall fn_10084670(void * self_)
 {
   if (*(int *)((int)self_ + 0x70) != 0) {
-    return *(uint *)(*(int *)((int)self_ + 0x70) + 0x120) >> 5 & 1;
+    return *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x120) >> 5 & 1;
   }
   return 0;
 }
@@ -174,7 +118,7 @@ XI_API undefined4 __thiscall fn_10084690(void * self_)
   
   iVar1 = *(int *)((int)self_ + 0x70);
   if (iVar1 != 0) {
-    return CONCAT22((short)((uint)iVar1 >> 0x10),*(undefined2 *)(iVar1 + 0x166));
+    return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar1 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(iVar1 + 0x166))));
   }
   return 0;
 }

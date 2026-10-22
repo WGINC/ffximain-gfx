@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A2130(int param_1, int param_2)
 {
-  orig::FUN_1028d9c0((undefined4 *)(param_1 + 0x14),(undefined4 *)(param_2 + 0x14));
+  orig::FUN_1028d9c0((uint32_t *)(param_1 + 0x14),(uint32_t *)(param_2 + 0x14));
   orig::FUN_1029bb50();
   return;
 }

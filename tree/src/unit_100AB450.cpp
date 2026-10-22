@@ -6,12 +6,12 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100AB550(int param_1)
 {
-  ushort uVar1;
+  uint16_t uVar1;
   void *self_;
   
   self_ = *(void **)(param_1 + 0x70);
   if (self_ != (void *)0x0) {
-    uVar1 = *(ushort *)((int)self_ + 0x74);
+    uVar1 = *(uint16_t *)((int)self_ + 0x74);
     orig::FUN_1008a7b0(self_);
     orig::thunk_sub_10028AA0_v1((int)self_);
     (&ActerBuffPtr_as_v0)[uVar1] = 0;

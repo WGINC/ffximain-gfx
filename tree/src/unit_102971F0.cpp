@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 {
   int result;
@@ -50,7 +50,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10297EC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 674 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 674 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 {
   g_pSqgxContext[73] = a1;
@@ -73,7 +73,7 @@ XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102981E0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 29 returned normally, 258 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 29, town PASS 29, town2 PASS 29, combat PASS 29, zonetoinn PASS 29
+// GATE: PASS -- 100 trials, 29 returned normally, 258 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
   g_pSqgxContext[81] = 0;
@@ -102,7 +102,7 @@ XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 XI_API void __cdecl sqgxShadowPlaneMatrix(float * param_1)
 {
   float fVar1;
-  float10 fVar2;
+  long double fVar2;
   char xi_frame[12] __attribute__((aligned(4)));
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 4);
@@ -113,22 +113,22 @@ XI_API void __cdecl sqgxShadowPlaneMatrix(float * param_1)
   local_4 = *(float *)(g_pSqgxContext_as_s32 + 0x354);
   orig::FUN_102748f0(&local_c);
   fVar2 = orig::FUN_10274870((float *)(g_pSqgxContext_as_s32 + 300),&local_c);
-  *param_1 = (float)(fVar2 - (float10)local_c * (float10)*(float *)(g_pSqgxContext_as_s32 + 300));
-  param_1[4] = (float)-((float10)local_c * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x130));
-  param_1[8] = (float)-((float10)local_c * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x134));
-  param_1[0xc] = (float)-((float10)local_c * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x138));
-  param_1[1] = (float)-((float10)local_8 * (float10)*(float *)(g_pSqgxContext_as_s32 + 300));
-  param_1[5] = (float)(fVar2 - (float10)local_8 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x130));
-  param_1[9] = (float)-((float10)local_8 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x134));
-  param_1[0xd] = (float)-((float10)local_8 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x138));
-  param_1[2] = (float)-((float10)local_4 * (float10)*(float *)(g_pSqgxContext_as_s32 + 300));
-  param_1[6] = (float)-((float10)local_4 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x130));
-  param_1[10] = (float)(fVar2 - (float10)local_4 * (float10)*(float *)(g_pSqgxContext_as_s32 + 0x134));
+  *param_1 = (float)(fVar2 - (long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 300));
+  param_1[4] = (float)-((long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x130));
+  param_1[8] = (float)-((long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x134));
+  param_1[0xc] = (float)-((long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x138));
+  param_1[1] = (float)-((long double)local_8 * (long double)*(float *)(g_pSqgxContext_as_s32 + 300));
+  param_1[5] = (float)(fVar2 - (long double)local_8 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x130));
+  param_1[9] = (float)-((long double)local_8 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x134));
+  param_1[0xd] = (float)-((long double)local_8 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x138));
+  param_1[2] = (float)-((long double)local_4 * (long double)*(float *)(g_pSqgxContext_as_s32 + 300));
+  param_1[6] = (float)-((long double)local_4 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x130));
+  param_1[10] = (float)(fVar2 - (long double)local_4 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x134));
   fVar1 = *(float *)(g_pSqgxContext_as_s32 + 0x138);
-  param_1[3] = xi_k4(0x0ull);
-  param_1[7] = xi_k4(0x0ull);
-  param_1[0xe] = (float)-((float10)local_4 * (float10)fVar1);
-  param_1[0xb] = xi_k4(0x0ull);
+  param_1[3] = 0.0f;
+  param_1[7] = 0.0f;
+  param_1[0xe] = (float)-((long double)local_4 * (long double)fVar1);
+  param_1[0xb] = 0.0f;
   param_1[0xf] = (float)fVar2;
   return;
 }

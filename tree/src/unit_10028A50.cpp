@@ -14,15 +14,15 @@ XI_API void __cdecl fn_10028AA0(int param_1)
   iVar3 = orig::FUN_10028730_v1(param_1);
   if (*(int *)(iVar3 + 4) != 0) {
     iVar4 = *(int *)(iVar3 + 0xc);
-    *(undefined4 *)(iVar3 + 4) = 0;
+    *(uint32_t *)(iVar3 + 4) = 0;
     if ((iVar4 != 0) && (*(int *)(iVar4 + 4) == 0)) {
-      *(undefined4 *)(iVar4 + 8) = *(undefined4 *)(iVar3 + 8);
+      *(uint32_t *)(iVar4 + 8) = *(uint32_t *)(iVar3 + 8);
       *(int *)(*(int *)(iVar3 + 8) + 0xc) = iVar4;
       iVar3 = iVar4;
     }
     iVar4 = *(int *)(iVar3 + 8);
     if (*(int *)(iVar4 + 4) == 0) {
-      *(undefined4 *)(iVar3 + 8) = *(undefined4 *)(iVar4 + 8);
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(iVar4 + 8);
       *(int *)(*(int *)(iVar4 + 8) + 0xc) = iVar3;
     }
     iVar2 = *(int *)(iVar3 + 0xc);
@@ -67,15 +67,15 @@ XI_API void __cdecl fn_10028AC0(int param_1)
   
   if (*(int *)(param_1 + 4) != 0) {
     iVar3 = *(int *)(param_1 + 0xc);
-    *(undefined4 *)(param_1 + 4) = 0;
+    *(uint32_t *)(param_1 + 4) = 0;
     if ((iVar3 != 0) && (*(int *)(iVar3 + 4) == 0)) {
-      *(undefined4 *)(iVar3 + 8) = *(undefined4 *)(param_1 + 8);
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(param_1 + 8);
       *(int *)(*(int *)(param_1 + 8) + 0xc) = iVar3;
       param_1 = iVar3;
     }
     iVar3 = *(int *)(param_1 + 8);
     if (*(int *)(iVar3 + 4) == 0) {
-      *(undefined4 *)(param_1 + 8) = *(undefined4 *)(iVar3 + 8);
+      *(uint32_t *)(param_1 + 8) = *(uint32_t *)(iVar3 + 8);
       *(int *)(*(int *)(iVar3 + 8) + 0xc) = param_1;
     }
     iVar2 = *(int *)(param_1 + 0xc);
@@ -120,13 +120,27 @@ XI_API int __thiscall MemBlock_GetSize(void * self_)
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x10028BF0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 24 returned normally, 9 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10028BF0(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3)
+{
+  do {
+    if ((*(int *)(param_2 + 4) == 1) && (xi_eax = *(uint32_t *)(param_2 + 0x18) >> 1, (xi_eax & 1) == 0)
+       ) {
+      xi_eax = ((int (__stdcall *)(XI_ANY))((**(code **)(*(int *)(param_2 + 0x20) + 4))))(param_1);
+    }
+    param_2 = *(int *)(param_2 + 8);
+  } while (param_2 != param_3);
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x10028C30  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10028C30(undefined4 param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  uVar1 = orig::FUN_10028bf0(param_1,DAT_104570b4_as_s32,DAT_104570b8_as_s32);
+  uVar1 = orig::FUN_10028bf0(param_1,DAT_104570b4_as_s32,DAT_104570b8_as_s32,DAT_104570b8_as_s32);
   return uVar1;
 }
 
@@ -134,7 +148,7 @@ XI_API undefined4 __cdecl fn_10028C30(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10028C50(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570bc_as_s32,DAT_104570c0_as_s32);
+  orig::FUN_10028bf0(param_1,DAT_104570bc_as_s32,DAT_104570c0_as_s32,DAT_104570c0_as_s32);
   return;
 }
 
@@ -142,7 +156,7 @@ XI_API void __cdecl fn_10028C50(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10028C70(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570c4_as_s32,DAT_104570c8_as_s32);
+  orig::FUN_10028bf0(param_1,DAT_104570c4_as_s32,DAT_104570c8_as_s32,DAT_104570c8_as_s32);
   return;
 }
 
@@ -150,6 +164,6 @@ XI_API void __cdecl fn_10028C70(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10028C90(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570cc_as_s32,DAT_104570d0_as_s32);
+  orig::FUN_10028bf0(param_1,DAT_104570cc_as_s32,DAT_104570d0_as_s32,DAT_104570d0_as_s32);
   return;
 }

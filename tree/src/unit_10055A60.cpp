@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10056260  (unit unit_10055A60: no unit evidence of its own; in the gap between 0x10055A50 (CMoPathObject) and 0x100562A0 (CMoSphRes) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char ** __cdecl CMoRabRes_GetRuntimeClass(void)
 {
   return &CMoRabRes_classdesc;

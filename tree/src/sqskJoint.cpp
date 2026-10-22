@@ -22,11 +22,11 @@ XI_API void __cdecl fn_10291390(undefined4 * param_1)
   param_1[2] = &LAB_10291420;
   param_1[3] = XI_CODE(FUN_10291430);
   param_1[4] = XI_CODE(FUN_10291470);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_10291ad0;
   orig::FUN_10274640(param_1 + 0x17);
   orig::thunk_FUN_1027ae50(param_1 + 0x1a);
-  orig::FUN_10274670((float *)(param_1 + 0x1e),xi_k4(0x3F800000ull),xi_k4(0x3F800000ull),xi_k4(0x3F800000ull));
+  orig::FUN_10274670((float *)(param_1 + 0x1e),1.0f,1.0f,1.0f);
   param_1[0x21] = 0;
   param_1[0x22] = 0;
   param_1[0x23] = 0;

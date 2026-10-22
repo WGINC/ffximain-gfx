@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C8AC.hpp"
 
 // FUNCTION: FFXIMAIN 0x1001DC20  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource_VT_1032C8AC::vf004(int a2)
 {
   *this->field_14 = a2;
@@ -11,7 +11,7 @@ int CMoResource_VT_1032C8AC::vf004(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10071A40  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource_VT_1032C8AC::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);

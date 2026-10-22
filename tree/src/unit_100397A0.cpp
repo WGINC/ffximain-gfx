@@ -7,12 +7,12 @@
 XI_API void __thiscall fn_100397A0(void * self_, char * param_1)
 {
   char cVar1;
-  undefined1 *puVar2;
-  uint uVar3;
+  uint8_t *puVar2;
+  uint32_t uVar3;
   int iVar4;
   char *pcVar5;
   int iVar6;
-  undefined4 *puVar7;
+  uint32_t *puVar7;
   
   uVar3 = 0xffffffff;
   pcVar5 = param_1;
@@ -50,14 +50,14 @@ XI_API void __thiscall fn_100397A0(void * self_, char * param_1)
       return;
     }
   }
-  puVar7 = (undefined4 *)((int)self_ + iVar6);
+  puVar7 = (uint32_t *)((int)self_ + iVar6);
   for (uVar3 = 0x10U - iVar6 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
     *puVar7 = 0;
     puVar7 = puVar7 + 1;
   }
   for (uVar3 = 0x10U - iVar6 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-    *(undefined1 *)puVar7 = 0;
-    puVar7 = (undefined4 *)((int)puVar7 + 1);
+    *(uint8_t *)puVar7 = 0;
+    puVar7 = (uint32_t *)((int)puVar7 + 1);
   }
   return;
 }
@@ -72,7 +72,7 @@ XI_API void __thiscall Util_Copy16Bytes(void * self_, int param_1)
   iVar1 = param_1 - (int)self_;
   iVar2 = 0x10;
   do {
-    *(undefined1 *)self_ = *(undefined1 *)((int)self_ + iVar1);
+    *(uint8_t *)self_ = *(uint8_t *)((int)self_ + iVar1);
     self_ = (void *)((int)self_ + 1);
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
@@ -84,23 +84,23 @@ XI_API void __thiscall Util_Copy16Bytes(void * self_, int param_1)
 XI_API void * __thiscall fn_10039830(void * self_)
 {
   int iVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
-  *(undefined ***)self_ = &PTR_CYyTexBase_GetRuntimeClass_variant0_1032aa4c;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined2 *)((int)self_ + 0x24) = 0;
-  *(undefined2 *)((int)self_ + 0x26) = 0;
-  *(undefined1 *)((int)self_ + 0x28) = 0;
-  *(undefined1 *)((int)self_ + 0x29) = 0;
+  *(uint8_t ***)self_ = &PTR_CYyTexBase_GetRuntimeClass_variant0_1032aa4c;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint16_t *)((int)self_ + 0x24) = 0;
+  *(uint16_t *)((int)self_ + 0x26) = 0;
+  *(uint8_t *)((int)self_ + 0x28) = 0;
+  *(uint8_t *)((int)self_ + 0x29) = 0;
   uVar2 = orig::FUN_100155d0();
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
   *(char *)((int)self_ + 0x2a) = '\x02' - ((char)uVar2 != '\x01');
-  *(uint *)((int)self_ + 0x2c) = *(uint *)((int)self_ + 0x2c) & 0xfffffe00;
+  *(uint32_t *)((int)self_ + 0x2c) = *(uint32_t *)((int)self_ + 0x2c) & 0xfffffe00;
   iVar1 = DAT_1047b96c;
   DAT_1047b96c = DAT_1047b96c + 1;
-  orig::_sprintf_v1(&DAT_10351c89,&DAT_10351cbc,iVar1);
-  orig::CYyTexBase_SetName_v1(self_,(undefined4 *)&DAT_10351c84);
+  orig::_sprintf(&DAT_10351c89,&DAT_10351cbc,iVar1);
+  orig::CYyTexBase_SetName_v1(self_,(uint32_t *)&DAT_10351c84);
   return self_;
 }

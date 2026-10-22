@@ -8,10 +8,10 @@ XI_API void __cdecl fn_102B2CA0(int param_1, int * param_2)
 {
   int iVar1;
   char xi_frame[16] __attribute__((aligned(4)));
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   
   if ((*(int *)(param_1 + 0x4c) != 0) && (iVar1 = orig::FUN_102a1fa0(*param_2), iVar1 == 2)) {
     return;
@@ -20,13 +20,13 @@ XI_API void __cdecl fn_102B2CA0(int param_1, int * param_2)
   local_c = 0x3f800000;
   local_8 = 0x3f800000;
   local_4 = 0x3f800000;
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0xa48) = *(undefined4 *)(param_1 + 0x54);
-  *(undefined4 *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x1044) = *(undefined4 *)(param_1 + 0x3c);
-  *(undefined4 *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x103c) = *(undefined4 *)(param_1 + 0x40);
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0xa48) = *(uint32_t *)(param_1 + 0x54);
+  *(uint32_t *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x1044) = *(uint32_t *)(param_1 + 0x3c);
+  *(uint32_t *)(*(int *)(g_pSqgxContext_as_s32 + 0xa48) + 0x103c) = *(uint32_t *)(param_1 + 0x40);
   orig::sqgxColor_v1(&local_10);
   orig::sqgxAmbient_v1(*(float *)(param_1 + 0x34));
   orig::FUN_102833a0(*(float *)(param_1 + 0x38));
-  orig::FUN_102833c0(0,xi_k4(0x0ull),0);
+  orig::FUN_102833c0(0,0.0f,0);
   orig::sqgxTextureDecal_v1(0);
   orig::FUN_102a34d0(param_1 + 0x14);
   if (*(int *)(param_1 + 0x50) == 0) {

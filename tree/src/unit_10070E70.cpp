@@ -7,7 +7,7 @@
 XI_API void * __thiscall fn_10070F40(void * self_)
 {
   orig::CMoTask_Constructor_v1(self_);
-  *(undefined ***)self_ = &PTR_CMoTask_GetRuntimeClass_variant12_1032c490;
-  *(undefined4 *)((int)self_ + 0x3c) = 0;
+  *(uint8_t ***)self_ = &PTR_CMoTask_GetRuntimeClass_variant12_1032c490;
+  *(uint32_t *)((int)self_ + 0x3c) = 0;
   return self_;
 }

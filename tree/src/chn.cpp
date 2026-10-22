@@ -27,18 +27,18 @@ XI_API void __cdecl fn_1027DB80(uint32_t * param_1)
 XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
 {
   int iVar1;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
-  float10 fVar4;
+  long double fVar4;
   
   iVar1 = orig::FUN_10275090();
   uVar2 = orig::FUN_102960a0(param_2,0);
   fVar4 = orig::FUN_10284f20(param_2);
   *(float *)(uVar2 + 0x24) = (float)fVar4;
   orig::_strncpy_v1((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
-  param_1[0x29] = *(uint *)(uVar2 + 0x20);
+  param_1[0x29] = *(uint32_t *)(uVar2 + 0x20);
   fVar4 = orig::FUN_1028d990(uVar2);
-  param_1[0x2a] = xi_castbits<uint>((float)fVar4);
+  param_1[0x2a] = xi_castbits<uint32_t>((float)fVar4);
   param_1[0x2d] = param_2;
   param_1[0x2e] = uVar2;
   iVar3 = orig::FUN_1027df70((int)param_1);
@@ -46,7 +46,7 @@ XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
     param_1[0x2c] = 0x3d088889;
   }
   else {
-    param_1[0x2c] = xi_castbits<uint>((float)((float10)xi_castbits<float>(param_1[0x2a]) / (float10)(iVar3 + -1)));
+    param_1[0x2c] = xi_castbits<uint32_t>((float)((long double)xi_castbits<float>(param_1[0x2a]) / (long double)(iVar3 + -1)));
   }
   iVar3 = orig::FUN_10275090();
   param_1[0x21] = iVar3 - iVar1;
@@ -59,7 +59,7 @@ XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
 XI_API void __cdecl fn_1027DD70(uint8_t * param_1, undefined4 xi_s2)
 {
   if ((*param_1 & 2) != 0) {
-    orig::FUN_1027dd90((uint *)param_1,xi_s2);
+    orig::FUN_1027dd90((uint32_t *)param_1,xi_s2);
     return;
   }
   return;
@@ -106,7 +106,7 @@ XI_API void __cdecl fn_1027E060(undefined4 * param_1)
 XI_API void __cdecl fn_1027E0D0(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {
-    orig::FUN_1027e3b0((byte *)param_1);
+    orig::FUN_1027e3b0((uint8_t *)param_1);
     return;
   }
   return;

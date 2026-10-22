@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10041AF0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 95 returned normally, 30 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95, town PASS 95, town2 PASS 95, combat PASS 82, zonetoinn PASS 95
+// GATE: PASS -- 100 trials, 95 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
 void CMoElem_VT_1032ADE8::vf18()
 {
   int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
@@ -54,42 +54,42 @@ void CMoElem_VT_1032ADE8::vf18()
 }
 
 // FUNCTION: FFXIMAIN 0x10041F40  (unit CMoElem_VT_1032ADE8: between 0x10041F30 (class model places it in CMoElem_VT_1032ADE8) and 0x10041FE0 (class model places it in CMoElem_VT_1032ADE8), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint64_t __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
 {
-  undefined1 *puVar1;
+  uint8_t *puVar1;
   int iVar2;
-  undefined4 uVar3;
-  undefined8 uVar4;
+  uint32_t uVar3;
+  uint64_t uVar4;
   
   uVar4 = orig::CMoElem_Constructor(self_);
-  uVar3 = (undefined4)((ulonglong)uVar4 >> 0x20);
-  puVar1 = (undefined1 *)((int)self_ + 0x198);
-  *(undefined ***)self_ = &PTR_CMoElem_GetRuntimeClass_variant8_1032ade8;
-  *(undefined2 *)((int)self_ + 0x176) = 0x1a8;
+  uVar3 = (uint32_t)((uint64_t)uVar4 >> 0x20);
+  puVar1 = (uint8_t *)((int)self_ + 0x198);
+  *(uint8_t ***)self_ = &PTR_CMoElem_GetRuntimeClass_variant8_1032ade8;
+  *(uint16_t *)((int)self_ + 0x176) = 0x1a8;
   *puVar1 = 0;
   if ((param_1 != 0) && (*(void **)(param_1 + 100) != (void *)0x0)) {
     uVar4 = orig::CYyObject_IsKindOf_v1(*(void **)(param_1 + 100),0x1032b7f8);
-    uVar3 = (undefined4)((ulonglong)uVar4 >> 0x20);
+    uVar3 = (uint32_t)((uint64_t)uVar4 >> 0x20);
     if ((char)uVar4 != '\0') {
       iVar2 = *(int *)(param_1 + 100);
       if (*(int *)(**(int **)(iVar2 + 0x80) + 0x20) == 0x7673696d) {
         *puVar1 = 0x3a;
-        *(undefined1 *)((int)self_ + 0x199) = 0;
-        uVar3 = *(undefined4 *)(iVar2 + 0xa4);
-        *(undefined4 *)((int)self_ + 0x194) = uVar3;
-        return CONCAT44(uVar3,self_);
+        *(uint8_t *)((int)self_ + 0x199) = 0;
+        uVar3 = *(uint32_t *)(iVar2 + 0xa4);
+        *(uint32_t *)((int)self_ + 0x194) = uVar3;
+        return ((uint64_t)(((uint64_t)(uint32_t)(uVar3) << 32) | (uint32_t)(self_)));
       }
-      orig::_sprintf_v1(puVar1,&aD_4,*(undefined4 *)(iVar2 + 0xa8));
-      uVar3 = *(undefined4 *)(iVar2 + 0xa4);
-      *(undefined4 *)((int)self_ + 0x194) = uVar3;
+      orig::_sprintf(puVar1,&aD_4,*(uint32_t *)(iVar2 + 0xa8));
+      uVar3 = *(uint32_t *)(iVar2 + 0xa4);
+      *(uint32_t *)((int)self_ + 0x194) = uVar3;
     }
   }
-  return CONCAT44(uVar3,self_);
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar3) << 32) | (uint32_t)(self_)));
 }
 
 // FUNCTION: FFXIMAIN 0x10041FE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoElem_VT_1032ADE8::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

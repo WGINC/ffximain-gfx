@@ -10,7 +10,7 @@ XI_API void __cdecl fn_10289F50(undefined4 * param_1)
   param_1[2] = &LAB_10289fa0;
   param_1[3] = XI_CODE(FUN_10289fb0);
   param_1[4] = XI_CODE(FUN_1028a040);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &DAT_1028a0a0;
   orig::FUN_1027ebd0(param_1 + 7);
   return;

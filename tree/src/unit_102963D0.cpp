@@ -8,7 +8,7 @@ XI_API void __cdecl fn_10296410(float * param_1, float param_2, float param_3, f
 {
   param_1[1] = param_3;
   param_1[2] = param_4;
-  *param_1 = (float)(float10)param_2;
+  *param_1 = (float)(long double)param_2;
   param_1[3] = param_5;
   param_1[4] = param_6;
   param_1[5] = param_7;

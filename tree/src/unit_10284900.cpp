@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x10284950  (unit unit_10284900: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
 {
   int v1;
@@ -76,7 +76,7 @@ XI_API int __cdecl sqgxVertexShaderCreate(_DWORD *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10284A80  (unit unit_10284900: no unit evidence of its own; in the gap between 0x102848A0 (sqgxShader) and 0x10284B20 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxVertexShaderSelect(void)
 {
   int v0;

@@ -7,9 +7,9 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CAcc::Constructor(void * self)
 {
-  *(undefined ***)self = &PTR_CAcc_GetRuntimeClass_10329a3c;
-  *(undefined4 *)((int)self + 4) = 0;
-  *(undefined4 *)((int)self + 0xc) = 0;
-  *(undefined4 *)((int)self + 8) = 0;
+  *(uint8_t ***)self = &PTR_CAcc_GetRuntimeClass_10329a3c;
+  *(uint32_t *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 0xc) = 0;
+  *(uint32_t *)((int)self + 8) = 0;
   return self;
 }

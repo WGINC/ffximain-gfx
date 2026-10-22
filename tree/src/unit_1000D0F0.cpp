@@ -18,10 +18,10 @@ XI_API uint32_t __cdecl fn_1000D120(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x1000D150  (unit unit_1000D0F0: no unit evidence of its own; in the gap between 0x1000D080 (CAcc2) and 0x1000D370 (CEnv) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_1000D150(uint32_t param_1)
+XI_API uint64_t __cdecl fn_1000D150(uint32_t param_1)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
   uVar1 = (param_1 & 0xff0000 | param_1 >> 0x10) >> 8;
-  return CONCAT44(uVar1,(param_1 & 0xff00 | param_1 << 0x10) << 8 | uVar1);
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)((param_1 & 0xff00 | param_1 << 0x10) << 8 | uVar1)));
 }

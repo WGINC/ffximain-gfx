@@ -15,9 +15,9 @@ XI_API void __thiscall fn_10056AA0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   void *pvVar2;
-  undefined8 uVar3;
+  uint64_t uVar3;
   
   uVar3 = orig::Mem_AllocFromArea_v1(0x14a,4);
   pvVar2 = (void *)uVar3;
@@ -29,24 +29,24 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
   else {
     pvVar2 = orig::FUN_10057270(pvVar2,self_,param_4,param_3);
   }
-  uVar1 = *(undefined4 *)((int)self_ + 0x74);
-  *(undefined4 *)((int)pvVar2 + 0x8c) = uVar1;
-  *(undefined4 *)((int)pvVar2 + 0x88) = uVar1;
+  uVar1 = *(uint32_t *)((int)self_ + 0x74);
+  *(uint32_t *)((int)pvVar2 + 0x8c) = uVar1;
+  *(uint32_t *)((int)pvVar2 + 0x88) = uVar1;
   if ((param_1 == 0) || (*(int *)(param_1 + 0x70) == 0)) {
-    *(undefined4 *)((int)pvVar2 + 0x18) = 0;
+    *(uint32_t *)((int)pvVar2 + 0x18) = 0;
   }
   else {
-    *(undefined4 *)((int)pvVar2 + 0x18) = *(undefined4 *)(*(int *)(param_1 + 0x70) + 0x78);
+    *(uint32_t *)((int)pvVar2 + 0x18) = *(uint32_t *)(*(int *)(param_1 + 0x70) + 0x78);
   }
-  *(undefined4 *)((int)pvVar2 + 0x1c) = 0x4d730000;
+  *(uint32_t *)((int)pvVar2 + 0x1c) = 0x4d730000;
   if (param_1 != 0) {
     orig::FUN_10062830(pvVar2,param_1);
   }
   if (param_2 != 0) {
     orig::FUN_10062880(pvVar2,param_2);
   }
-  *(undefined4 *)((int)pvVar2 + 0x94) = 0;
-  *(undefined4 *)((int)pvVar2 + 0x98) = 0;
+  *(uint32_t *)((int)pvVar2 + 0x94) = 0;
+  *(uint32_t *)((int)pvVar2 + 0x98) = 0;
   return (int)pvVar2;
 }
 

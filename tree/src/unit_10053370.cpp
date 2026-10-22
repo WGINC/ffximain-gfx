@@ -4,47 +4,51 @@
 
 // FUNCTION: FFXIMAIN 0x10053370  (unit unit_10053370: no unit evidence of its own; in the gap between 0x10053350 (CMoTask_VT_1032B654) and 0x100536C0 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 51 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10053370(void * self_)
+XI_API undefined4 __thiscall fn_10053370(void * self_)
 {
   int *this_00;
-  undefined4 *this_01;
-  undefined8 uVar1;
+  uint32_t uVar1;
+  uint32_t uVar2;
+  uint32_t *this_01;
+  uint64_t uVar3;
   
-  *(undefined4 *)((int)self_ + 0x9c) = 0;
-  *(undefined4 *)((int)self_ + 0xcc) = 0;
-  *(undefined4 *)((int)self_ + 200) = 0;
-  if ((*(byte *)((int)self_ + 0xdc) & 1) != 0) {
+  *(uint32_t *)((int)self_ + 0x9c) = 0;
+  *(uint32_t *)((int)self_ + 0xcc) = 0;
+  *(uint32_t *)((int)self_ + 200) = 0;
+  if ((*(uint8_t *)((int)self_ + 0xdc) & 1) != 0) {
     if (*(int *)((int)self_ + 0xa8) != 0) {
-      *(undefined4 *)(*(int *)((int)self_ + 0xa8) + 0x14) = 0;
+      *(uint32_t *)(*(int *)((int)self_ + 0xa8) + 0x14) = 0;
     }
-    *(byte *)((int)self_ + 0xdc) = *(byte *)((int)self_ + 0xdc) & 0xfe;
-    *(uint *)((int)self_ + 0xd8) = *(uint *)((int)self_ + 0xd8) | 0x800;
-    return;
+    *(uint8_t *)((int)self_ + 0xdc) = *(uint8_t *)((int)self_ + 0xdc) & 0xfe;
+    uVar2 = *(uint32_t *)((int)self_ + 0xd8) | 0x800;
+    *(uint32_t *)((int)self_ + 0xd8) = uVar2;
+    return uVar2;
   }
-  *(byte *)((int)self_ + 0xdc) = *(byte *)((int)self_ + 0xdc) & 0xfe;
-  *(uint *)((int)self_ + 0xd8) = *(uint *)((int)self_ + 0xd8) | 0x800;
+  *(uint8_t *)((int)self_ + 0xdc) = *(uint8_t *)((int)self_ + 0xdc) & 0xfe;
+  *(uint32_t *)((int)self_ + 0xd8) = *(uint32_t *)((int)self_ + 0xd8) | 0x800;
   this_00 = *(int **)((int)self_ + 0xa8);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(undefined4 *)((int)self_ + 0xa8) = 0;
+    *(uint32_t *)((int)self_ + 0xa8) = 0;
   }
-  uVar1 = orig::Mem_AllocFromArea_v1(0x3d,4);
-  this_01 = (undefined4 *)uVar1;
+  uVar3 = orig::Mem_AllocFromArea_v1(0x3d,4);
+  this_01 = (uint32_t *)uVar3;
   orig::CMoTask_ResetFields_v1(this_01);
   g_resourcesDirty_as_v0 = 1;
-  if (this_01 == (undefined4 *)0x0) {
-    this_01 = (undefined4 *)0x0;
+  if (this_01 == (uint32_t *)0x0) {
+    this_01 = (uint32_t *)0x0;
   }
   else {
     orig::CMoTask_Constructor_v1(this_01);
     *this_01 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
-    *(undefined1 *)(this_01 + 0xf) = 0;
+    *(uint8_t *)(this_01 + 0xf) = 0;
   }
-  *(undefined4 **)((int)self_ + 0xa8) = this_01;
+  *(uint32_t **)((int)self_ + 0xa8) = this_01;
   orig::FUN_10074a00();
-  this_01[0xd] = *(undefined4 *)((int)self_ + 0x14);
-  this_01[0xe] = *(undefined4 *)((int)self_ + 0x14);
-  this_01[6] = *(undefined4 *)((int)self_ + 0x14);
+  this_01[0xd] = *(uint32_t *)((int)self_ + 0x14);
+  uVar1 = *(uint32_t *)((int)self_ + 0x14);
+  this_01[0xe] = uVar1;
+  this_01[6] = *(uint32_t *)((int)self_ + 0x14);
   this_01[7] = 0x4d670000;
-  return;
+  return uVar1;
 }

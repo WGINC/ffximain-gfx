@@ -17,7 +17,7 @@ XI_API undefined4 * __cdecl fn_102984B0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10298570(undefined4 * param_1)
 {
-  *(undefined1 *)(param_1 + 5) = 0;
+  *(uint8_t *)(param_1 + 5) = 0;
   param_1[6] = 0;
   *param_1 = 0x180001;
   param_1[9] = 0;

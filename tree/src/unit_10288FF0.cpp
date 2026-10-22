@@ -6,23 +6,23 @@
 // GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102894E0(int param_1, int param_2, uint32_t param_3)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   int iVar4;
   
   iVar4 = 0;
   if (0 < *(int *)(param_1 + 0x58)) {
     do {
-      if ((*(byte *)(*(int *)(param_1 + 0x54) + iVar4 * 4) & 0x20) == 0) {
-        uVar3 = *(uint *)(*(int *)(param_1 + 0x50) + iVar4 * 4);
+      if ((*(uint8_t *)(*(int *)(param_1 + 0x54) + iVar4 * 4) & 0x20) == 0) {
+        uVar3 = *(uint32_t *)(*(int *)(param_1 + 0x50) + iVar4 * 4);
         uVar1 = uVar3 & 0xffff;
         uVar3 = uVar3 >> 0x10;
         if (uVar3 == param_3) {
           iVar2 = orig::FUN_1027c980(param_2,uVar1);
           if (iVar2 == 0) {
             orig::sqDebugPrintf_v2(s_____Error__sqmdDMBResolveSkelRef_103b9444,uVar3,uVar1);
-            *(undefined4 *)(*(int *)(param_1 + 0x50) + iVar4 * 4) = 0;
+            *(uint32_t *)(*(int *)(param_1 + 0x50) + iVar4 * 4) = 0;
           }
           else {
             *(int *)(*(int *)(param_1 + 0x50) + iVar4 * 4) = iVar2 + 0x24;

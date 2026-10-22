@@ -10,9 +10,9 @@ XI_API int __cdecl fn_10079A00(char * param_1)
   int iVar2;
   int iVar3;
   int iVar4;
-  xi_bool bVar5;
-  xi_bool bVar6;
-  xi_bool bVar7;
+  uint8_t bVar5;
+  uint8_t bVar6;
+  uint8_t bVar7;
   
   if ((param_1 == (char *)0x0) || (cVar1 = *param_1, cVar1 == '\0')) {
     return -1;
@@ -125,14 +125,14 @@ XI_API int __cdecl fn_1007A440(int param_1, int param_2, int param_3)
 XI_API int __cdecl fn_1007A4C0(char * param_1, uint32_t param_2, int param_3, int param_4, undefined4 param_5)
 {
   void *self_;
-  undefined4 uVar1;
+  uint32_t uVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   char *pcVar4;
   char xi_frame[32] __attribute__((aligned(4)));
   int  &local_20 = *reinterpret_cast<int  *>(xi_frame + 0);
   char  (&local_1c)[23] = *reinterpret_cast<char  (*)[23]>(xi_frame + 4);
-  undefined1  &local_5 = *reinterpret_cast<undefined1  *>(xi_frame + 27);
+  uint8_t  &local_5 = *reinterpret_cast<uint8_t  *>(xi_frame + 27);
   
   local_20 = 0;
   if ((((param_1 != (char *)0x0) && (*param_1 != '\0')) && (0 < (int)param_2)) &&
@@ -153,7 +153,7 @@ XI_API int __cdecl fn_1007A4C0(char * param_1, uint32_t param_2, int param_3, in
     }
     pcVar4 = local_1c;
     for (uVar3 = param_2 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
-      *(undefined4 *)pcVar4 = *(undefined4 *)param_1;
+      *(uint32_t *)pcVar4 = *(uint32_t *)param_1;
       param_1 = param_1 + 4;
       pcVar4 = pcVar4 + 4;
     }
@@ -167,11 +167,11 @@ XI_API int __cdecl fn_1007A4C0(char * param_1, uint32_t param_2, int param_3, in
       while ((((((self_ = (void *)(&ActerBuffPtr_as_v0)[param_3], self_ == (void *)0x0 ||
                  (local_20 = (int)self_ + 0x74, local_20 == 0)) ||
                 ((*(int *)((int)self_ + 0x78) == 0 ||
-                 (((*(uint *)((int)self_ + 0x124) >> 0xc & 1) != 0 ||
-                  ((*(uint *)((int)self_ + 0x120) >> 7 & 1) != 0)))))) ||
-               ((*(uint *)((int)self_ + 0x120) >> 8 & 1) != 0)) ||
+                 (((*(uint32_t *)((int)self_ + 0x124) >> 0xc & 1) != 0 ||
+                  ((*(uint32_t *)((int)self_ + 0x120) >> 7 & 1) != 0)))))) ||
+               ((*(uint32_t *)((int)self_ + 0x120) >> 8 & 1) != 0)) ||
               ((((char)param_5 != '\0' && (0x6ff < param_3)) &&
-               (((*(uint *)((int)self_ + 300) >> 0x16 & 1) == 0 ||
+               (((*(uint32_t *)((int)self_ + 300) >> 0x16 & 1) == 0 ||
                 (uVar1 = orig::FUN_1008e260(self_), (char)uVar1 == '\0')))))) ||
              (iVar2 = orig::FUN_1008b270(self_,local_1c,param_5), iVar2 == 0))) {
         param_3 = param_3 + 1;
@@ -189,13 +189,14 @@ XI_API int __cdecl fn_1007A4C0(char * param_1, uint32_t param_2, int param_3, in
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param_3, undefined4 param_4)
 {
-  undefined4 uVar1;
-  ushort *puVar2;
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar1;
+  uint16_t *puVar2;
   int iVar3;
-  uint uVar4;
-  undefined8 uVar5;
+  uint32_t uVar4;
+  uint64_t uVar5;
   
-  uVar1 = orig::FUN_101cc0d0(99,0);
+  uVar1 = orig::FUN_101cc0d0(99,0,xi_entry_eax);
   if ((char)uVar1 == '\0') {
     return 0;
   }
@@ -207,27 +208,27 @@ XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param
   }
   uVar1 = orig::FUN_1007cf80();
   if ((char)uVar1 == '\0') {
-    *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+    *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
     iVar3 = *(int *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0x170);
     if (((iVar3 != 0) && (iVar3 != 0x21)) && (iVar3 != 7)) {
       return 0;
     }
     uVar5 = orig::FUN_100fc3c0(0xe7,0,0);
-    puVar2 = (ushort *)uVar5;
-    if (puVar2 != (ushort *)0x0) {
+    puVar2 = (uint16_t *)uVar5;
+    if (puVar2 != (uint16_t *)0x0) {
       orig::FUN_10160a50();
-      iVar3 = orig::FUN_10079170(*(byte **)(PTR_DAT_103551e0 + 4));
-      puVar2[2] = (ushort)iVar3;
+      iVar3 = orig::FUN_10079170(*(uint8_t **)(PTR_DAT_103551e0 + 4));
+      puVar2[2] = (uint16_t)iVar3;
       if ((char)param_4 == '\x01') {
         uVar4 = orig::FUN_100fc160();
         if ((uVar4 & 0x100000) == 0) {
           uVar4 = orig::FUN_100fc160();
-          if (((uVar4 & 0x80000) == 0) && (uVar1 = orig::FUN_100fc160(), -1 < (char)((uint)uVar1 >> 8))) {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) | 8;
+          if (((uVar4 & 0x80000) == 0) && (uVar1 = orig::FUN_100fc160(), -1 < (char)((uint32_t)uVar1 >> 8))) {
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) | 8;
             orig::FUN_100fc180(0x80000);
           }
           else {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
             orig::FUN_100fc2b0(0x80000);
             orig::FUN_100fc180(0x100000);
           }
@@ -235,11 +236,11 @@ XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param
         else {
           uVar4 = orig::FUN_100fc160();
           if ((uVar4 & 0x80000) == 0) {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) | 8;
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) | 8;
             orig::FUN_100fc180(0x80000);
           }
           else {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
             orig::FUN_100fc2b0(0x80000);
           }
         }
@@ -254,19 +255,19 @@ XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param
         uVar4 = orig::FUN_100fc160();
         if ((uVar4 & 0x10000) == 0) {
           uVar4 = orig::FUN_100fc160();
-          if (((uVar4 & 0x80000) == 0) && (uVar1 = orig::FUN_100fc160(), -1 < (char)((uint)uVar1 >> 8))) {
+          if (((uVar4 & 0x80000) == 0) && (uVar1 = orig::FUN_100fc160(), -1 < (char)((uint32_t)uVar1 >> 8))) {
             orig::FUN_100fc180(0x8000);
           }
           else {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
             orig::FUN_100fc2b0(0x8000);
             orig::FUN_100fc180(0x10000);
           }
         }
         else {
           uVar1 = orig::FUN_100fc160();
-          if ((char)((uint)uVar1 >> 8) < '\0') {
-            *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+          if ((char)((uint32_t)uVar1 >> 8) < '\0') {
+            *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
             orig::FUN_100fc2b0(0x8000);
           }
           else {
@@ -274,7 +275,7 @@ XI_API int __cdecl fn_1007CD60(undefined4 param_1, undefined4 param_2, int param
           }
         }
         puVar2[3] = 1;
-        *(uint *)(g_pSceneState + 0x18) = *(uint *)(g_pSceneState + 0x18) & 0xfffffff7;
+        *(uint32_t *)(g_pSceneState + 0x18) = *(uint32_t *)(g_pSceneState + 0x18) & 0xfffffff7;
         orig::FUN_100fc2b0(0x80000);
         uVar4 = 0x100000;
       }
@@ -305,42 +306,49 @@ XI_API undefined4 __cdecl fn_10080C70(char * param_1)
 {
   int *piVar1;
   
-  piVar1 = orig::SeekIdByString(param_1,1,0,0);
+  piVar1 = orig::SeekIdByString(param_1,1,0,0,param_1);
   if ((piVar1 != (int *)0x0) && ((&ActerBuffPtr_as_v0)[*piVar1] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*piVar1] + 0xa0);
+    return *(uint32_t *)((&ActerBuffPtr_as_v0)[*piVar1] + 0xa0);
   }
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10080D00  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10080D00(undefined4 xi_eax)
+{
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(DAT_1047d3fc)));
 }
 
 // FUNCTION: FFXIMAIN 0x10080D20  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10080D20(int param_1)
 {
-  ushort *puVar1;
-  uint xi_entry_eax = 0;
-  uint uVar2;
-  undefined4 *puVar3;
-  undefined8 uVar4;
+  uint16_t *puVar1;
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar2;
+  uint32_t *puVar3;
+  uint64_t uVar4;
   
   if (-1 < (short)DAT_10357bb8) {
-    puVar3 =(undefined4*)(&DAT_10357bb8);
+    puVar3 =(uint32_t*)(&DAT_10357bb8);
     uVar2 = DAT_10357bb8;
     do {
       if (((short)uVar2 == 0x32) && (*(short *)(param_1 + 0x14) == 0x32)) {
         uVar4 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
-        xi_entry_eax = (uint)uVar4;
-        if (((xi_entry_eax != 0) && (xi_entry_eax = *(uint *)(xi_entry_eax + 0x70), xi_entry_eax != 0)) &&
-           ((xi_entry_eax = *(uint *)(xi_entry_eax + 0x170), xi_entry_eax == 0x21 || (xi_entry_eax == 7)))) break;
+        xi_entry_eax = (uint32_t)uVar4;
+        if (((xi_entry_eax != 0) && (xi_entry_eax = *(uint32_t *)(xi_entry_eax + 0x70), xi_entry_eax != 0)) &&
+           ((xi_entry_eax = *(uint32_t *)(xi_entry_eax + 0x170), xi_entry_eax == 0x21 || (xi_entry_eax == 7)))) break;
       }
       if (*(short *)(param_1 + 0x14) == (short)uVar2) {
         return xi_entry_eax & 0xffffff00;
       }
-      puVar1 = (ushort *)((int)puVar3 + 2);
-      uVar2 = (uint)*puVar1;
-      puVar3 = (undefined4 *)((int)puVar3 + 2);
+      puVar1 = (uint16_t *)((int)puVar3 + 2);
+      uVar2 = (uint32_t)*puVar1;
+      puVar3 = (uint32_t *)((int)puVar3 + 2);
     } while (-1 < (short)*puVar1);
   }
-  return CONCAT31((int3)(xi_entry_eax >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10080D90  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
@@ -348,29 +356,133 @@ XI_API undefined4 __cdecl fn_10080D20(int param_1)
 XI_API uint32_t __cdecl fn_10080D90(int param_1)
 {
   short *psVar1;
-  uint uVar2;
-  undefined4 *puVar3;
+  uint32_t uVar2;
+  uint32_t *puVar3;
   
   uVar2 = DAT_10357bdc;
   if (-1 < (short)DAT_10357bdc) {
-    puVar3 =(undefined4*)(&DAT_10357bdc);
+    puVar3 =(uint32_t*)(&DAT_10357bdc);
     do {
       if (*(short *)(param_1 + 0x14) == (short)uVar2) {
         return uVar2 & 0xffffff00;
       }
       psVar1 = (short *)((int)puVar3 + 2);
-      uVar2 = CONCAT22((short)(uVar2 >> 0x10),*psVar1);
-      puVar3 = (undefined4 *)((int)puVar3 + 2);
+      uVar2 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar2 >> 0x10)) << 16) | (uint16_t)(*psVar1)));
+      puVar3 = (uint32_t *)((int)puVar3 + 2);
     } while (-1 < *psVar1);
   }
-  return CONCAT31((int3)(uVar2 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+}
+
+// FUNCTION: FFXIMAIN 0x10081230  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10081230(undefined4 xi_eax, int param_1)
+{
+  uint16_t uVar1;
+  void *self_;
+  uint8_t bVar2;
+  uint32_t uVar3;
+  int xi_eax_00;
+  uint32_t uVar4;
+  uint32_t uVar5;
+  uint64_t uVar6;
+  
+  bVar2 = false;
+  if (param_1 == 0) {
+    return xi_eax & 0xffffff00;
+  }
+  uVar3 = orig::FUN_10080d00(xi_eax);
+  xi_eax_00 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar3 >> 0x10)) << 16) | (uint16_t)(DAT_10485f7a)));
+  if (DAT_10485f7a == 0) goto LAB_100812b0;
+  xi_eax_00 = (int)DAT_10485f7a;
+  self_ = (void *)(&ActerBuffPtr_as_v0)[xi_eax_00];
+  if (self_ == (void *)0x0) goto LAB_100812b0;
+  xi_eax_00 = *(int *)((int)self_ + 0x170);
+  if ((xi_eax_00 < 2) || (3 < xi_eax_00)) {
+    xi_eax_00 = orig::FUN_10095680(self_,xi_eax_00);
+    if ((char)xi_eax_00 == '\0') {
+      xi_eax_00 = orig::FUN_100956a0(self_,*(int *)((int)self_ + 0x170));
+      if ((char)xi_eax_00 == '\0') goto LAB_1008129d;
+    }
+    uVar3 = uVar3 | 0x40;
+  }
+  else {
+    uVar3 = uVar3 | 0x20;
+  }
+LAB_1008129d:
+  if ((*(uint32_t *)((int)self_ + 300) >> 0xd & 1) != 0) {
+    bVar2 = true;
+  }
+LAB_100812b0:
+  uVar6 = orig::IsEvent(0,xi_eax_00);
+  if ((char)uVar6 != '\0') {
+    uVar3 = uVar3 | 0x80;
+  }
+  uVar1 = *(uint16_t *)(param_1 + 0x16);
+  if (((uVar1 & 0x1000) == 0) && ((uVar3 & 0xffff & ~(uint32_t)uVar1) != 0)) {
+    if ((uVar3 & 0x20) != 0) {
+      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xc);
+      return uVar3 & 0xffffff00;
+    }
+    if ((uVar3 & 0x40) != 0) {
+      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,9);
+      return uVar3 & 0xffffff00;
+    }
+    uVar4 = orig::FUN_101cbe70(((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar6 >> 0x10)) << 16) | (uint16_t)(uVar1))));
+    if ((char)uVar4 != '\0') {
+      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xb);
+      return uVar3 & 0xffffff00;
+    }
+    if ((char)uVar3 < '\0') {
+      if (bVar2) {
+        uVar3 = orig::FUN_10129e30(g_pTkMsgWinData_as_v1,0x97);
+        return uVar3 & 0xffffff00;
+      }
+      uVar4 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,1);
+    }
+    return uVar4 & 0xffffff00;
+  }
+  if ((uVar1 & 0x10) != 0) {
+    uVar5 = orig::FUN_10081480(0);
+    if ((char)uVar5 == '\0') {
+      if ((g_pTargetMng_as_s32 != 0) && (*(short *)(g_pTargetMng_as_s32 + 0x68) != 0)) {
+        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0);
+        return uVar3 & 0xffffff00;
+      }
+      if ((g_C_106631D4 != 0) && (*(short *)(g_C_106631D4 + 0x1c) == 1)) {
+        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xd);
+        return uVar3 & 0xffffff00;
+      }
+      uVar5 = orig::FUN_1015ecc0(0x20000);
+      if ((char)uVar5 != '\0') {
+        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,3);
+        return uVar3 & 0xffffff00;
+      }
+    }
+  }
+  uVar5 = orig::FUN_10097d50();
+  if ((char)uVar5 != '\0') {
+    uVar5 = orig::FUN_10080d20(param_1);
+    if ((char)uVar5 == '\0') {
+      return uVar5;
+    }
+  }
+  uVar3 = orig::FUN_10201f00(uVar5);
+  if ((char)uVar3 != '\0') {
+    uVar3 = orig::FUN_10080d90(param_1);
+    if ((char)uVar3 == '\0') {
+      uVar3 = orig::FUN_10129e30(g_pTkMsgWinData_as_v1,0x9e);
+      return uVar3 & 0xffffff00;
+    }
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10081440  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10081440(undefined4 param_1)
 {
-  DAT_1047d498 = (undefined1)param_1;
+  DAT_1047d498 = (uint8_t)param_1;
   return;
 }
 
@@ -380,18 +492,18 @@ XI_API undefined4 __cdecl fn_10081480(undefined4 param_1)
 {
   int iVar1;
   
-  iVar1 = 1 << ((byte)param_1 & 0x1f);
-  return CONCAT31((int3)((uint)iVar1 >> 8),(DAT_1047d499 & (byte)iVar1) != 0);
+  iVar1 = 1 << ((uint8_t)param_1 & 0x1f);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)((DAT_1047d499 & (uint8_t)iVar1) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100814A0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ActorHandle_Constructor(void * self_)
 {
-  *(undefined1 *)((int)self_ + 0xb) = 4;
-  *(undefined ***)self_ = &PTR_FUN_1032cf5c;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(uint *)((int)self_ + 8) = *(uint *)((int)self_ + 8) & 0xff000000;
+  *(uint8_t *)((int)self_ + 0xb) = 4;
+  *(uint8_t ***)self_ = &PTR_FUN_1032cf5c;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = *(uint32_t *)((int)self_ + 8) & 0xff000000;
   return;
 }
 
@@ -399,7 +511,7 @@ XI_API void __thiscall ActorHandle_Constructor(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ActorHandle_Destructor(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_1032cf5c;
+  *(uint8_t ***)self_ = &PTR_FUN_1032cf5c;
   return;
 }
 
@@ -407,8 +519,8 @@ XI_API void __thiscall ActorHandle_Destructor(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10081530(void * self_, undefined4 param_1, undefined4 param_2)
 {
-  *(undefined4 *)((int)self_ + 4) = param_1;
-  *(undefined4 *)((int)self_ + 8) = param_2;
+  *(uint32_t *)((int)self_ + 4) = param_1;
+  *(uint32_t *)((int)self_ + 8) = param_2;
   return param_1;
 }
 
@@ -419,23 +531,23 @@ XI_API undefined4 __thiscall fn_10081600(void * self_)
   int iVar1;
   int iVar2;
   char xi_frame[12] __attribute__((aligned(4)));
-  undefined1  (&local_c)[12] = *reinterpret_cast<undefined1  (*)[12]>(xi_frame + 0);
+  uint8_t  (&local_c)[12] = *reinterpret_cast<uint8_t  (*)[12]>(xi_frame + 0);
   
   iVar2 = (&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 4)];
   if ((iVar2 != 0) && (*(char *)((int)self_ + 0xb) != '\x04')) {
-    if (((*(uint *)(iVar2 + 0x120) >> 9 & 1) != 0) &&
+    if (((*(uint32_t *)(iVar2 + 0x120) >> 9 & 1) != 0) &&
        (*(int *)(iVar2 + 0x78) == *(int *)((int)self_ + 8))) {
-      return *(undefined4 *)(iVar2 + 0xa0);
+      return *(uint32_t *)(iVar2 + 0xa0);
     }
     iVar2 = 0;
     do {
       iVar1 = (&ActerBuffPtr_as_v0)[iVar2];
-      if ((((iVar1 != 0) && ((*(uint *)(iVar1 + 0x120) >> 9 & 1) != 0)) &&
+      if ((((iVar1 != 0) && ((*(uint32_t *)(iVar1 + 0x120) >> 9 & 1) != 0)) &&
           (*(int *)(iVar1 + 0x78) != 0x4000000)) &&
          (*(int *)(iVar1 + 0x78) == *(int *)((int)self_ + 8))) {
-        orig::FUN_10081530(self_,*(undefined4 *)((&ActerBuffPtr_as_v0)[iVar2] + 0x74),
-                     *(undefined4 *)((&ActerBuffPtr_as_v0)[iVar2] + 0x78));
-        return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 4)] + 0xa0);
+        orig::FUN_10081530(self_,*(uint32_t *)((&ActerBuffPtr_as_v0)[iVar2] + 0x74),
+                     *(uint32_t *)((&ActerBuffPtr_as_v0)[iVar2] + 0x78));
+        return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(int *)((int)self_ + 4)] + 0xa0);
       }
       iVar2 = iVar2 + 1;
     } while (iVar2 < 0x900);

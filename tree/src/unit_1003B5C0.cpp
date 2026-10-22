@@ -4,18 +4,19 @@
 
 // FUNCTION: FFXIMAIN 0x1003B690  (unit unit_1003B5C0: no unit evidence of its own; in the gap between 0x1003B5A0 (CMoAttachments) and 0x1003C6D0 (CMoAttachments) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003B690(void * self_)
+XI_API undefined4 __thiscall fn_1003B690(void * self_)
 {
-  undefined8 uVar1;
+  uint32_t uVar1;
+  uint64_t uVar2;
   
-  uVar1 = orig::FUN_1003b6d0(self_);
-  if ((int)uVar1 != 0) {
+  uVar2 = orig::FUN_1003b6d0(self_);
+  if ((int)uVar2 != 0) {
     orig::CMoAttachments_ClearCaster_v1(self_,1);
   }
-  uVar1 = orig::FUN_1003b700(self_);
-  if ((int)uVar1 != 0) {
+  uVar2 = orig::FUN_1003b700(self_);
+  if ((int)uVar2 != 0) {
     orig::CMoAttachments_ClearTarget_v1(self_,1);
   }
-  orig::CMoAttachments_Reset_v1(self_);
-  return;
+  uVar1 = orig::CMoAttachments_Reset_v1(self_);
+  return uVar1;
 }

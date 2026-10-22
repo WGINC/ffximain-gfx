@@ -29,7 +29,7 @@ XI_API void __cdecl fn_1029A000(undefined4 * param_1)
   param_1[2] = &LAB_1029a050;
   param_1[3] = XI_CODE(FUN_1029a060);
   param_1[4] = XI_CODE(FUN_1029a0e0);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_1029a9b0;
   orig::FUN_102aec50(param_1 + 9);
   param_1[0xd] = 0x3f000000;
@@ -37,11 +37,11 @@ XI_API void __cdecl fn_1029A000(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A160  (unit sqinSkin: asserts sqinSkin.c)
-// GATE: PASS -- 17 trials, 8 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
 {
   undefined4 *puVar1;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
   
   if ((param_1 != 0) && (param_3 != (undefined4 *)0x0)) {
@@ -51,7 +51,7 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
     *(int *)(*(int *)(param_1 + 0x24) + 0x28) = param_2;
     *(undefined4 **)(*(int *)(param_1 + 0x24) + 0x18) = param_3;
     *(undefined4 **)(*(int *)(param_1 + 0x24) + 0x20) = param_4;
-    *(uint *)(*(int *)(param_1 + 0x24) + 0x34) = param_6 & 0xfffffffd;
+    *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x34) = param_6 & 0xfffffffd;
     puVar1 = orig::FUN_10275d80(1,param_2 * 0xc,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x122);
     *(undefined4 **)(param_1 + 0x28) = puVar1;
     for (uVar2 = param_2 * 3 & 0x3fffffff; uVar2 != 0; uVar2 = uVar2 - 1) {
@@ -60,7 +60,7 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
       puVar1 = puVar1 + 1;
     }
     for (iVar3 = 0; iVar3 != 0; iVar3 = iVar3 + -1) {
-      *(undefined1 *)puVar1 = *(undefined1 *)param_3;
+      *(uint8_t *)puVar1 = *(uint8_t *)param_3;
       param_3 = (undefined4 *)((int)param_3 + 1);
       puVar1 = (undefined4 *)((int)puVar1 + 1);
     }
@@ -73,12 +73,12 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
         puVar1 = puVar1 + 1;
       }
       for (iVar3 = 0; iVar3 != 0; iVar3 = iVar3 + -1) {
-        *(undefined1 *)puVar1 = *(undefined1 *)param_4;
+        *(uint8_t *)puVar1 = *(uint8_t *)param_4;
         param_4 = (undefined4 *)((int)param_4 + 1);
         puVar1 = (undefined4 *)((int)puVar1 + 1);
       }
     }
-    *(uint *)(param_1 + 0x30) = *(uint *)(param_1 + 0x30) | 1;
+    *(uint32_t *)(param_1 + 0x30) = *(uint32_t *)(param_1 + 0x30) | 1;
   }
   return;
 }
@@ -93,12 +93,12 @@ XI_API void __cdecl fn_1029A230(int param_1, undefined4 param_2)
   
   if ((param_1 != 0) && (*(int *)(param_1 + 0x24) != 0)) {
     iVar3 = 0;
-    *(undefined4 *)(*(int *)(param_1 + 0x24) + 0x38) = param_2;
+    *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x38) = param_2;
     if (0 < *(int *)(param_1 + 0x3c)) {
       do {
         piVar1 = *(int **)(*(int *)(param_1 + 0x38) + iVar3 * 4);
         if ((*piVar1 == 0x150002) && (iVar2 = piVar1[0x15], iVar2 != 0)) {
-          *(undefined4 *)(iVar2 + 0x38) = param_2;
+          *(uint32_t *)(iVar2 + 0x38) = param_2;
         }
         iVar3 = iVar3 + 1;
       } while (iVar3 < *(int *)(param_1 + 0x3c));
@@ -111,7 +111,7 @@ XI_API void __cdecl fn_1029A230(int param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_1029A330(int param_1, int param_2)
 {
-  uint xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   undefined4 *puVar1;
   
   if ((param_1 != 0) && (0 < param_2)) {
@@ -121,7 +121,7 @@ XI_API undefined4 __cdecl fn_1029A330(int param_1, int param_2)
     if (puVar1 != (undefined4 *)0x0) {
       *(int *)(param_1 + 0x40) = param_2;
       *(undefined4 **)(param_1 + 0x38) = puVar1;
-      return CONCAT31((int3)((uint)puVar1 >> 8),0xff);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(0xff)));
     }
   }
   return xi_entry_eax & 0xffffff00;
@@ -131,7 +131,7 @@ XI_API undefined4 __cdecl fn_1029A330(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1029A450(int param_1)
 {
-  uint *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   int iVar3;
   float *pfVar4;
@@ -186,7 +186,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
             } while (iVar10 < iVar8);
           }
         }
-        puVar1 = (uint *)(*(int *)(iVar5 + 0x54) + 0x34);
+        puVar1 = (uint32_t *)(*(int *)(iVar5 + 0x54) + 0x34);
         *puVar1 = *puVar1 & 0xfffffffa;
         iVar6 = orig::FUN_10275090();
         orig::sqMatrix4_1027F0E0_v1(local_80,(undefined4 *)(*(int *)(iVar5 + 0x9c) + 0x24));
@@ -210,14 +210,14 @@ XI_API void __cdecl fn_1029A450(int param_1)
         local_9c = local_9c + 1;
       } while (local_9c < iVar9);
     }
-    if (((*(byte *)(*(int *)(param_1 + 0x24) + 0x34) & 4) != 0) &&
+    if (((*(uint8_t *)(*(int *)(param_1 + 0x24) + 0x34) & 4) != 0) &&
        (iVar9 = *(int *)(*(int *)(param_1 + 0x24) + 0x14), iVar9 != 0)) {
       orig::sqFree_v1(iVar9,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x250);
       *(undefined4 *)(*(int *)(param_1 + 0x24) + 0x14) = 0;
     }
     *(float **)(*(int *)(param_1 + 0x24) + 0x14) = pfVar4;
-    *(uint *)(*(int *)(param_1 + 0x24) + 0x34) = *(uint *)(*(int *)(param_1 + 0x24) + 0x34) | 4;
-    *(undefined1 *)(param_1 + 0x44) = 0xff;
+    *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x34) = *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x34) | 4;
+    *(uint8_t *)(param_1 + 0x44) = 0xff;
     iVar9 = orig::FUN_10275090();
     DAT_109a2844 = DAT_109a2844 + (iVar9 - iVar3);
   }

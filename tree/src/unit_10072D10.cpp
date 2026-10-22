@@ -6,32 +6,32 @@
 // GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API void __thiscall MeshResourceMng_LoadSystemResources(void * self_, undefined4 * param_1)
 {
-  undefined4 *puVar1;
-  int *piVar2;
-  undefined8 uVar3;
+  undefined4 *xi_eax;
+  int *piVar1;
+  uint64_t uVar2;
   
-  piVar2 = (int *)orig::FUN_10072fd0(self_,&param_1,param_1);
-  puVar1 = (undefined4 *)*piVar2;
-  *(undefined4 **)((int)self_ + 0x40008) = puVar1;
-  if (puVar1 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain_v1((void *)*puVar1);
+  piVar1 = (int *)orig::FUN_10072fd0(self_,&param_1,param_1);
+  xi_eax = (undefined4 *)*piVar1;
+  *(undefined4 **)((int)self_ + 0x40008) = xi_eax;
+  if (xi_eax != (undefined4 *)0x0) {
+    orig::CMoResource_AddRefChain_v1((void *)*xi_eax,xi_eax);
     orig::FUN_10071e50();
   }
-  piVar2 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0x1b);
-  DAT_1047d118 = (undefined4 *)*piVar2;
+  piVar1 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0x1b);
+  DAT_1047d118 = (undefined4 *)*piVar1;
   if (DAT_1047d118 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d118);
-    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x766d6164);
-    DAT_1047d108 = *(undefined4 *)uVar3;
-    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x7673696d);
-    DAT_1047d120 = *(undefined4 *)uVar3;
-    uVar3 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x76727563);
-    DAT_1047d11c = *(undefined4 *)uVar3;
+    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d118,DAT_1047d118);
+    uVar2 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x766d6164);
+    DAT_1047d108 = *(undefined4 *)uVar2;
+    uVar2 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x7673696d);
+    DAT_1047d120 = *(undefined4 *)uVar2;
+    uVar2 = orig::CMoResource_FindByTypeAndId_v1((void *)*DAT_1047d118,&param_1,7,0x76727563);
+    DAT_1047d11c = *(undefined4 *)uVar2;
   }
-  piVar2 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0xce07);
-  DAT_1047d104 = (undefined4 *)*piVar2;
+  piVar1 = (int *)orig::FUN_100731b0(self_,&param_1,(undefined4 *)0xce07);
+  DAT_1047d104 = (undefined4 *)*piVar1;
   if (DAT_1047d104 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d104);
+    orig::CMoResource_AddRefChain_v1((void *)*DAT_1047d104,DAT_1047d104);
   }
   return;
 }
@@ -54,7 +54,7 @@ XI_API undefined4 * __stdcall fn_100730E0(undefined4 * param_1, int param_2)
   void *pvVar2;
   void *self_;
   undefined4 *this_00;
-  undefined8 uVar3;
+  uint64_t uVar3;
   
   iVar1 = param_2;
   if (DAT_1047cf84_as_v0 == (undefined4 *)0x0) {
@@ -97,7 +97,168 @@ XI_API undefined4 * __stdcall fn_100730E0(undefined4 * param_1, int param_2)
       self_ = (void *)**(undefined4 **)((int)self_ + 0x10);
     }
   }
-  *(byte *)((int)self_ + 0x19) = *(byte *)((int)self_ + 0x19) | 0x80;
+  *(uint8_t *)((int)self_ + 0x19) = *(uint8_t *)((int)self_ + 0x19) | 0x80;
   *param_1 = *(undefined4 *)((int)self_ + 0x14);
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x10073430  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * param_1, void * param_2, undefined4 * param_3)
+{
+  int *piVar1;
+  int *piVar2;
+  uint32_t uVar3;
+  int iVar4;
+  int iVar5;
+  void *this_00;
+  undefined4 *this_01;
+  int *piVar6;
+  uint64_t uVar7;
+  char xi_frame[1044] __attribute__((aligned(4)));
+  int  &local_414 = *reinterpret_cast<int  *>(xi_frame + 0);
+  int  &local_408 = *reinterpret_cast<int  *>(xi_frame + 12);
+  int  &local_404 = *reinterpret_cast<int  *>(xi_frame + 16);
+  int  (&local_400)[256] = *reinterpret_cast<int  (*)[256]>(xi_frame + 20);
+  
+  iVar5 = 0;
+  if (((uint8_t)*(undefined4 *)((int)param_2 + 4) & 0x7f) == 1) {
+    piVar1 = orig::FUN_10071270(param_2,0);
+    if (piVar1 == (int *)0x0) {
+      *param_1 = 0;
+      return param_1;
+    }
+    if (param_3 != (undefined4 *)0x0) {
+      *param_3 = piVar1;
+      orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,(uint32_t *)piVar1[5]);
+      piVar1[5] = (int)param_3;
+    }
+    orig::CMoResource_RegisterInTypeList_v1(piVar1);
+    piVar1[10] = piVar1[5];
+    orig::FUN_10071f70(piVar1,0);
+    iVar5 = piVar1[5];
+    local_414 = 0;
+    local_400[0] = iVar5;
+    piVar6 = piVar1;
+    for (this_00 = (void *)((*(uint32_t *)((int)param_2 + 4) >> 7 & 0x7ffff) * 0x10 + (int)param_2);
+        this_00 != (void *)0x0;
+        this_00 = (void *)((int)this_00 + (*(uint32_t *)((int)this_00 + 4) >> 7 & 0x7ffff) * 0x10)) {
+      piVar2 = orig::FUN_10071270(this_00,piVar1);
+      orig::MeshResourceMng_AllocHandle_v1(self_,&local_408,(int)piVar2);
+      uVar3 = piVar2[9] & 0x7f;
+      if (uVar3 == 1) {
+        local_414 = local_414 + 1;
+        local_400[local_414] = piVar2[5];
+        piVar1 = piVar2;
+      }
+      if ((uVar3 == 0x20) || (uVar3 == 0x1b)) {
+        uVar7 = orig::Mem_AllocWithFallback_v1(0x40,1);
+        this_01 = (undefined4 *)uVar7;
+        byte_1047D12C_as_v0 = 1;
+        if (this_01 == (undefined4 *)0x0) {
+          this_01 = (undefined4 *)0x0;
+        }
+        else {
+          orig::FUN_10071d80(this_01,(int)((uint64_t)uVar7 >> 0x20));
+          *this_01 = &PTR_CMoResource_GetRuntimeClass_variant3_1032c934;
+        }
+        this_01[8] = 0;
+        this_01[9] = 0;
+        this_01[10] = 0;
+        this_01[0xb] = 0;
+        this_01[9] = this_01[9] & 0xffffff80 ^ 10;
+        this_01[9] = ((uint32_t)(((uint32_t)(uint16_t)((short)((this_01[9] & 0xfc00027f) >> 0x10)) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)(2) << 8) | (uint8_t)((char)(this_01[9] & 0xfc00027f)))))));
+        this_01[8] = piVar2[8];
+        orig::FUN_10076750(this_01,(undefined4 *)((int)piVar2 + 0x31));
+        this_01[10] = piVar1[5];
+        *(uint16_t *)((int)this_01 + 0x1a) = *(uint16_t *)((int)this_01 + 0x1a) & 0xfff9 | 1;
+        orig::MeshResourceMng_AllocHandle_v1(self_,&local_404,(int)this_01);
+        orig::FUN_100711e0(piVar6 + 1,(int)this_01);
+        orig::FUN_100711d0(this_01 + 1,(int)piVar6);
+        orig::FUN_100711e0(this_01 + 1,(int)piVar2);
+        orig::FUN_100711d0(piVar2 + 1,(int)this_01);
+      }
+      else {
+        orig::FUN_100711e0(piVar6 + 1,(int)piVar2);
+        orig::FUN_100711d0(piVar2 + 1,(int)piVar6);
+      }
+      *(uint8_t *)((int)piVar2 + 0x1a) = *(uint8_t *)((int)piVar2 + 0x1a) & 0xfd;
+      if ((*(uint8_t *)(piVar2 + 9) & 0x7f) == 0) {
+        if ((undefined4 *)piVar1[10] == (undefined4 *)0x0) {
+          piVar1 = (int *)0x0;
+        }
+        else {
+          piVar1 = *(int **)piVar1[10];
+        }
+        if ((int *)local_400[local_414] == (int *)0x0) {
+          iVar4 = 0;
+        }
+        else {
+          iVar4 = *(int *)local_400[local_414];
+        }
+        *(int *)(iVar4 + 0x3c) = piVar2[5];
+        if (local_414 < 1) break;
+        local_414 = local_414 + -1;
+      }
+      piVar6 = piVar2;
+    }
+    if ((undefined4 *)piVar1[2] == (undefined4 *)0x0) {
+      piVar6 = (int *)0x0;
+    }
+    else {
+      piVar6 = *(int **)piVar1[2];
+    }
+    while (piVar6 != (int *)0x0) {
+      orig::FUN_10073a60(piVar6,1);
+      if ((undefined4 *)piVar6[2] == (undefined4 *)0x0) {
+        piVar6 = (int *)0x0;
+      }
+      else {
+        piVar6 = *(int **)piVar6[2];
+      }
+    }
+    if ((undefined4 *)piVar1[2] == (undefined4 *)0x0) {
+      piVar6 = (int *)0x0;
+    }
+    else {
+      piVar6 = *(int **)piVar1[2];
+    }
+    while (piVar6 != (int *)0x0) {
+      orig::FUN_10073a60(piVar6,2);
+      if ((undefined4 *)piVar6[2] == (undefined4 *)0x0) {
+        piVar6 = (int *)0x0;
+      }
+      else {
+        piVar6 = *(int **)piVar6[2];
+      }
+    }
+    if ((undefined4 *)piVar1[2] == (undefined4 *)0x0) {
+      piVar1 = (int *)0x0;
+    }
+    else {
+      piVar1 = *(int **)piVar1[2];
+    }
+    while (piVar1 != (int *)0x0) {
+      orig::FUN_10073a60(piVar1,4);
+      if ((undefined4 *)piVar1[2] == (undefined4 *)0x0) {
+        piVar1 = (int *)0x0;
+      }
+      else {
+        piVar1 = *(int **)piVar1[2];
+      }
+    }
+  }
+  else {
+    piVar1 = orig::FUN_10071270(param_2,0);
+    if (piVar1 == (int *)0x0) {
+      *param_1 = 0;
+      return param_1;
+    }
+    orig::FUN_10073a60(piVar1,7);
+  }
+  if (*(int *)((int)self_ + 0x40008) != 0) {
+    orig::FUN_10071e50();
+  }
+  *param_1 = iVar5;
   return param_1;
 }

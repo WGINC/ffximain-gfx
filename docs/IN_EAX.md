@@ -81,24 +81,27 @@ Callers not all known:
 
   It is the safe side for what a reconstruction must pass, and the left-out rule and the wrapper check use it.
 - `reads_seen`: the bytes an instruction is shown to examine, in the function or in a direct callee:
-  - a compare or test;
-  - a multiply or divide;
-  - a use as an address.
+  - a compare or test (only the bits the test's mask keeps), `bt`;
+  - a multiply or divide, `scas`/`cmps`;
+  - a use as an address;
+  - a flag read after flags were computed from the value.
 
-  These are not examinations:
-  - copies (`mov`, `push`, `stos`);
-  - "upward" arithmetic (add, sub, inc, dec, and, or, xor, shl, lea), where a byte reaches only the same or higher
-    bytes;
-  - shifts and rotates down, whose bits MSVC usually masks off next (`mov al, [x]; shr eax, 4; and eax, 7`).
-
-  Showing that the bytes reach something would take tracking bits through them, which the walk does not do.
+  The walk (`pipeline/byte_flow.py`, used by `caller_reads.py`) follows each entry bit through EAX, ECX, EDX, EBX,
+  ESI, EDI and EBP. For each register and source byte it keeps two bit masks, the bits that may have changed and
+  the bits that may still be the entry bits; where paths meet, the masks are joined (union). Copies (`mov`,
+  `movzx`, `xchg`) move the masks. `add`/`sub`/`inc` carry bits upward only. `and`/`or`/`xor` with a constant (an
+  immediate, or a register holding a known constant) keep only the bits the constant lets through. Shifts by a
+  constant move bits exactly. A value masked off before anything examines it (`mov al, [x]; shr eax, 4;
+  and eax, 7`) is therefore not seen. Copies stored to memory or pushed, instructions the walk does not model,
+  and code it does not follow count toward `reads` only.
 
 In the gate, a stubbed callee's entry EAX is compared like an argument only in its seen bytes. If the runs agree
 on everything else and differ only in bytes the callee is assumed to read, the trial is not a pass. Its verdict is
 UNRESOLVED, naming the callee: whether that is a difference is not known.
 
-Of 2,657 functions whose entry EAX is an input, 444 may read it and 16 are seen to: all 15 in the C runtime's
-range (helpers that take a value in EAX, `_alloca_probe` and the 64-bit shifts among them), plus 0x10B7193C.
+Of 2,581 functions whose entry EAX is an input, 381 may read it and 22 are seen to: 20 between 0x102F218F and
+0x1031E0B7 in the C runtime (helpers that take a value in EAX, `_alloca_probe` and the 64-bit shifts among them),
+plus 0x102D3B10 and 0x10B7193C. (The byte-level walk this replaced counted 444 and 16.)
 
 Corrections made on the way, each from the Intel SDM:
 - `sbb r, r` gives −CF whatever r held, so it is a write only, like `xor`/`sub r, r`;

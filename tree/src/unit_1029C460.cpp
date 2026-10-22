@@ -6,6 +6,6 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1029C460(undefined4 param_1)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0xe24) = param_1;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0xe24) = param_1;
   return;
 }

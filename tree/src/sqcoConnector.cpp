@@ -21,7 +21,7 @@ XI_API void __cdecl fn_1028D6F0(undefined4 * param_1)
   param_1[2] = &LAB_1028d740;
   param_1[3] = XI_CODE(FUN_1028d750);
   param_1[4] = XI_CODE(sqcoConnectorPrint);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_1028d820;
   param_1[7] = 0;
   param_1[8] = 0;

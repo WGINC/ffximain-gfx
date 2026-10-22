@@ -6,29 +6,29 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10018840(void * self_)
 {
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   
-  return CONCAT31((int3)((uint)xi_entry_eax >> 8),*(int *)((int)self_ + 0x108) == 4);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 0x108) == 4)));
 }
 
 // FUNCTION: FFXIMAIN 0x10018A50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int *piVar2;
-  undefined4 uVar3;
+  uint64_t uVar3;
   
-  *(undefined ***)self_ = &PTR_FUN_10329fdc;
-  *(undefined4 *)((int)self_ + 4) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_10329fdc;
+  *(uint32_t *)((int)self_ + 4) = 0;
   if (param_1 == 0) {
-    puVar1 = (undefined4 *)0x9a6b;
+    puVar1 = (uint32_t *)0x9a6b;
   }
   else if (param_1 == 2) {
     if (*(char *)(g_pSceneState + 0x18) < '\0') {
       return self_;
     }
-    puVar1 = (undefined4 *)0xd9c3;
+    puVar1 = (uint32_t *)0xd9c3;
   }
   else {
     if (param_1 != 3) {
@@ -37,15 +37,15 @@ XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
     if (*(char *)(g_pSceneState + 0x18) < '\0') {
       return self_;
     }
-    puVar1 = (undefined4 *)0xdb67;
+    puVar1 = (uint32_t *)0xdb67;
   }
   piVar2 = (int *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_1,puVar1);
-  puVar1 = (undefined4 *)*piVar2;
-  *(undefined4 **)((int)self_ + 4) = puVar1;
-  if (puVar1 != (undefined4 *)0x0) {
-    orig::CMoResource_AddRefChain_v1((void *)*puVar1);
+  puVar1 = (uint32_t *)*piVar2;
+  *(uint32_t **)((int)self_ + 4) = puVar1;
+  if (puVar1 != (uint32_t *)0x0) {
+    orig::CMoResource_AddRefChain_v1((void *)*puVar1,puVar1);
     uVar3 = orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_screens_subtites_10350fd8);
-    *(undefined4 *)((int)self_ + 8) = uVar3;
+    *(int *)((int)self_ + 8) = (int)uVar3;
   }
   orig::OpeningSubtitle_Reset_v1(self_);
   return self_;
@@ -56,8 +56,8 @@ XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
 XI_API void __thiscall OpeningSubtitle_Reset(void * self_)
 {
   if ((*(int **)((int)self_ + 4) != (int *)0x0) && (**(int **)((int)self_ + 4) != 0)) {
-    *(undefined4 *)((int)self_ + 0xc) = 0;
-    *(undefined4 *)((int)self_ + 0x10) = 0;
+    *(uint32_t *)((int)self_ + 0xc) = 0;
+    *(uint32_t *)((int)self_ + 0x10) = 0;
   }
   return;
 }
@@ -67,41 +67,39 @@ XI_API void __thiscall OpeningSubtitle_Reset(void * self_)
 XI_API void __thiscall fn_10018B50(void * self_)
 {
   void *this_00;
-  float10 fVar1;
+  long double fVar1;
   int iVar2;
-  float10 fVar3;
-  longlong lVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
+  long double fVar3;
+  int64_t lVar4;
+  uint32_t uVar5;
+  uint32_t uVar6;
   int iVar7;
   
   if ((*(int *)((int)self_ + 4) != 0) && (iVar2 = *(int *)((int)self_ + 0xc), iVar2 < 0x18)) {
-    fVar3 = (float10)*(int *)(((char *)&DAT_10350e60) + iVar2 * 8);
-    fVar1 = (float10)*(float *)((int)self_ + 0x10);
-    if (((!NAN(fVar3) && !NAN(fVar1)) && fVar3 < fVar1 != (fVar3 == fVar1)) &&
-       ((!NAN((float10)*(int *)(((char *)&DAT_10350e64) + iVar2 * 8)) &&
-        !NAN((float10)*(float *)((int)self_ + 0x10))) &&
-        (float10)*(float *)((int)self_ + 0x10) < (float10)*(int *)(((char *)&DAT_10350e64) + iVar2 * 8))) {
+    fVar3 = (long double)*(int *)(((char *)&DAT_10350e60) + iVar2 * 8);
+    fVar1 = (long double)*(float *)((int)self_ + 0x10);
+    if ((fVar3 <= fVar1) &&
+       ((long double)*(int *)(((char *)&DAT_10350e64) + iVar2 * 8) > (long double)*(float *)((int)self_ + 0x10))) {
       iVar7 = 0;
       uVar6 = 0;
       uVar5 = 0x80808080;
       this_00 = *(void **)(**(int **)((int)self_ + 8) + iVar2 * 4);
       iVar2 = (short)(XI_PIECE_S(g_screenRectBottomRight_as_v0, 2, 2) - XI_PIECE_S(g_screenRectTopLeft_as_v0, 2, 2)) * 400;
       iVar2 = (int)(iVar2 + (iVar2 >> 0x1f & 0x1ffU)) >> 9;
-      lVar4 = XI_CALL_ST0(0x10311C2Cu)((float10)((int)(short)((short)g_screenRectBottomRight_as_v0 -
+      lVar4 = XI_CALL_ST0(0x10311C2Cu)((long double)((int)(short)((short)g_screenRectBottomRight_as_v0 -
                                            (short)g_screenRectTopLeft_as_v0) / 2) -
-                     (float10)((int)*(short *)((int)this_00 + 0x22) -
-                              (int)*(short *)((int)this_00 + 0x20)) * (float10)xi_k4(0x3F000000ull));
+                     (long double)((int)*(short *)((int)this_00 + 0x22) -
+                              (int)*(short *)((int)this_00 + 0x20)) * (long double)0.5f);
       orig::FUN_1011fb60(this_00,(int)lVar4,iVar2,uVar5,uVar6,iVar7);
     }
     iVar2 = *(int *)((int)self_ + 0xc);
-    fVar3 = (float10)*(int *)(((char *)&DAT_10350e64) + iVar2 * 8);
-    fVar1 = (float10)*(float *)((int)self_ + 0x10);
-    if ((!NAN(fVar3) && !NAN(fVar1)) && fVar3 < fVar1 != (fVar3 == fVar1)) {
+    fVar3 = (long double)*(int *)(((char *)&DAT_10350e64) + iVar2 * 8);
+    fVar1 = (long double)*(float *)((int)self_ + 0x10);
+    if (fVar3 <= fVar1) {
       *(int *)((int)self_ + 0xc) = iVar2 + 1;
-      fVar3 = (float10)*(int *)(((char *)&DAT_10350e64) + (iVar2 + 1) * 8);
-      fVar1 = (float10)*(float *)((int)self_ + 0x10);
-      if ((!NAN(fVar3) && !NAN(fVar1)) && fVar3 < fVar1 != (fVar3 == fVar1)) {
+      fVar3 = (long double)*(int *)(((char *)&DAT_10350e64) + (iVar2 + 1) * 8);
+      fVar1 = (long double)*(float *)((int)self_ + 0x10);
+      if (fVar3 <= fVar1) {
         *(int *)((int)self_ + 0xc) = iVar2 + 2;
       }
     }
@@ -114,10 +112,10 @@ XI_API void __thiscall fn_10018B50(void * self_)
 XI_API void * __thiscall Vt10329FE0_Constructor(void * self_)
 {
   int iVar1;
-  undefined4 *puVar2;
+  uint32_t *puVar2;
   
-  *(undefined ***)self_ = &PTR_FUN_10329fe0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_10329fe0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
   puVar2 = self_;
   for (iVar1 = 6; puVar2 = puVar2 + 1, iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
@@ -132,10 +130,10 @@ XI_API void __thiscall Vt10329FE0_Reset(void * self_)
 {
   int iVar1;
   
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
   for (iVar1 = 6; self_ = (void *)((int)self_ + 4), iVar1 != 0; iVar1 = iVar1 + -1) {
-    *(undefined4 *)self_ = 0;
+    *(uint32_t *)self_ = 0;
   }
   return;
 }

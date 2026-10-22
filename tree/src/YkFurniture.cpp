@@ -25,42 +25,42 @@ XI_API int __cdecl fn_101CCE00(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CD900  (unit YkFurniture: stores YkFurniture vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 99 returned normally, 146 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 145 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CD900(void * self_)
 {
   int *piVar1;
   int iVar2;
   void *pvVar3;
   
-  *(undefined ***)self_ = &PTR_YkFurniture_GetRuntimeClass_10337e08;
+  *(uint8_t ***)self_ = &PTR_YkFurniture_GetRuntimeClass_10337e08;
   iVar2 = orig::FUN_101cda30(self_);
   if (iVar2 != 0) {
     iVar2 = orig::FUN_101cda30(self_);
     orig::FUN_100ab550(iVar2);
-    *(undefined2 *)((int)self_ + 0x5a) = 0;
+    *(uint16_t *)((int)self_ + 0x5a) = 0;
   }
   iVar2 = orig::FUN_101cd9d0(self_);
   if (iVar2 != 0) {
     pvVar3 = (void *)orig::FUN_101cd9d0(self_);
     orig::FUN_100c3e70(pvVar3);
-    *(undefined2 *)((int)self_ + 0x54) = 0;
+    *(uint16_t *)((int)self_ + 0x54) = 0;
   }
   iVar2 = orig::FUN_101cda00(self_);
   if (iVar2 != 0) {
     iVar2 = orig::FUN_101cda00(self_);
     orig::FUN_100ab320(iVar2);
-    *(undefined2 *)((int)self_ + 0x56) = 0;
+    *(uint16_t *)((int)self_ + 0x56) = 0;
   }
   piVar1 = *(int **)((int)self_ + 100);
-  *(undefined2 *)((int)self_ + 0x58) = 0;
+  *(uint16_t *)((int)self_ + 0x58) = 0;
   if (piVar1 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x18))))((void *)(piVar1),1);
-    *(undefined4 *)((int)self_ + 100) = 0;
+    *(uint32_t *)((int)self_ + 100) = 0;
   }
   piVar1 = *(int **)((int)self_ + 0x68);
   if (piVar1 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x18))))((void *)(piVar1),1);
-    *(undefined4 *)((int)self_ + 0x68) = 0;
+    *(uint32_t *)((int)self_ + 0x68) = 0;
   }
   return;
 }

@@ -24,7 +24,7 @@ XI_API void __thiscall fn_101889E0(void * self_)
   void *this_00;
   
   if (*(void **)((int)self_ + 4) != (void *)0x0) {
-    orig::FUN_101889e0(*(void **)((int)self_ + 4));
+    orig::FUN_101889e0_v1(*(void **)((int)self_ + 4));
   }
   for (this_00 = *(void **)((int)self_ + 0x10); this_00 != (void *)0x0;
       this_00 = *(void **)((int)this_00 + 8)) {
@@ -41,7 +41,7 @@ XI_API void __thiscall fn_10188A10(void * self_)
   void *this_00;
   
   if (*(void **)((int)self_ + 4) != (void *)0x0) {
-    orig::FUN_10188a10(*(void **)((int)self_ + 4));
+    orig::FUN_10188a10_v1(*(void **)((int)self_ + 4));
   }
   this_00 = *(void **)((int)self_ + 0x10);
   while (this_00 != (void *)0x0) {
@@ -50,7 +50,7 @@ XI_API void __thiscall fn_10188A10(void * self_)
     orig::thunk_sub_10028AA0_v1((int)this_00);
     this_00 = pvVar1;
   }
-  *(undefined4 *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
   return;
 }
 
@@ -58,42 +58,43 @@ XI_API void __thiscall fn_10188A10(void * self_)
 // GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
 {
-  uint *puVar1;
+  uint32_t *puVar1;
+  uint32_t xi_entry_eax = 0;
   int iVar2;
-  xi_bool bVar3;
-  xi_bool bVar4;
-  float10 fVar5;
-  float10 fVar6;
+  uint8_t bVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  long double fVar6;
   
-  fVar5 = orig::Camera_GetFrameScale_v1();
-  fVar5 = (float10)*(float *)((int)self_ + 0x144) - fVar5;
+  fVar5 = orig::Camera_GetFrameScale_v1(xi_entry_eax);
+  fVar5 = (long double)*(float *)((int)self_ + 0x144) - fVar5;
   *(float *)((int)self_ + 0x144) = (float)fVar5;
-  bVar3 = NAN(fVar5) || NAN((float10)xi_k4(0x0ull));
-  if ((bVar3 || fVar5 < (float10)xi_k4(0x0ull)) != bVar3) {
+  bVar3 = NAN(fVar5) || NAN((long double)0.0f);
+  if ((bVar3 || fVar5 < (long double)0.0f) != bVar3) {
     iVar2 = orig::_rand();
-    puVar1 = (uint *)((int)self_ + 0x140);
+    puVar1 = (uint32_t *)((int)self_ + 0x140);
     *puVar1 = *puVar1 ^ 1;
-    *(float *)((int)self_ + 0x144) = (float)(float10)(iVar2 % 0x3c);
+    *(float *)((int)self_ + 0x144) = (float)(long double)(iVar2 % 0x3c);
     if (*puVar1 != 0) {
-      *(float *)((int)self_ + 0x144) = (float)((float10)(iVar2 % 0x3c) * (float10)xi_k4(0x3F99999Aull));
+      *(float *)((int)self_ + 0x144) = (float)((long double)(iVar2 % 0x3c) * (long double)1.2000000476837158203125f);
     }
   }
   if (*(int *)((int)self_ + 0x140) == 0) {
-    fVar6 = (float10)*(float *)((int)self_ + 0x134) - (float10)xi_k4(0x3C23D70Aull);
+    fVar6 = (long double)*(float *)((int)self_ + 0x134) - (long double)0.00999999977648258209228515625f;
     *(float *)((int)self_ + 0x134) = (float)fVar6;
-    fVar5 = (float10)xi_k4(0x0ull);
+    fVar5 = (long double)0.0f;
     bVar4 = NAN(fVar6) || NAN(fVar5);
     bVar3 = bVar4 || fVar6 < fVar5;
     if (bVar3 != bVar4) {
-      *(undefined4 *)((int)self_ + 0x134) = 0;
+      *(uint32_t *)((int)self_ + 0x134) = 0;
     }
-    return (uint)(ushort)((ushort)bVar3 << 8 | (ushort)bVar4 << 10 |
-                         (ushort)(bVar4 || fVar6 == fVar5) << 0xe);
+    return (uint32_t)(uint16_t)((uint16_t)bVar3 << 8 | (uint16_t)bVar4 << 10 |
+                         (uint16_t)(bVar4 || fVar6 == fVar5) << 0xe);
   }
   iVar2 = orig::_rand();
   *(float *)((int)self_ + 0x134) =
-       (float)((float10)(iVar2 % *(int *)((int)self_ + 0x13c) + *(int *)((int)self_ + 0x138)) *
-              (float10)xi_k4(0x3B23D70Aull));
+       (float)((long double)(iVar2 % *(int *)((int)self_ + 0x13c) + *(int *)((int)self_ + 0x138)) *
+              (long double)0.0024999999441206455230712890625f);
   return iVar2 / *(int *)((int)self_ + 0x13c);
 }
 
@@ -101,38 +102,38 @@ XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall fn_10188B10(void * self_)
 {
-  byte *pbVar1;
+  uint8_t *pbVar1;
   void *pvVar2;
   
   if ((*(int *)(g_pXiZone_as_s32 + 0x1b4) != 0xb6) && (*(int *)(g_pXiZone_as_s32 + 0x1b4) != 0x84)) {
-    if (*(byte **)((int)self_ + 0x18) != (byte *)0x0) {
-      return (byte)~**(byte **)((int)self_ + 0x18) & 1;
+    if (*(uint8_t **)((int)self_ + 0x18) != (uint8_t *)0x0) {
+      return (uint8_t)~**(uint8_t **)((int)self_ + 0x18) & 1;
     }
     return 0;
   }
-  pbVar1 = *(byte **)((int)self_ + 0x18);
+  pbVar1 = *(uint8_t **)((int)self_ + 0x18);
   pvVar2 = (void *)0x0;
-  if (pbVar1 != (byte *)0x0) {
+  if (pbVar1 != (uint8_t *)0x0) {
     if ((*pbVar1 & 1) == 0) {
-      return CONCAT31((int3)((uint)pbVar1 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pbVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
     pvVar2 = *(void **)(g_pXiZone_as_s32 + 0x1c4);
     if ((pvVar2 != (void *)0x0) && (self_ == pvVar2)) {
-      return CONCAT31((int3)((uint)pvVar2 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
-  return (uint)pvVar2 & 0xffffff00;
+  return (uint32_t)pvVar2 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x10188B70  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefined4 * param_2)
 {
-  float10 fVar1;
+  long double fVar1;
   char xi_frame[16] __attribute__((aligned(4)));
   float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 0);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   
   fVar1 = orig::FUN_10186fd0(self);
   orig::Vec3_Scale_v1(&local_10,(float *)((int)self + 0xe4),(float)fVar1);
@@ -149,9 +150,9 @@ void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefine
   param_1[6] = 0;
   param_1[7] = 0;
   param_1[8] = 0;
-  param_1[0x10] = *(undefined4 *)((int)self + 0xa4);
-  param_1[0x11] = *(undefined4 *)((int)self + 0xa8);
-  param_1[0x12] = *(undefined4 *)((int)self + 0xac);
+  param_1[0x10] = *(uint32_t *)((int)self + 0xa4);
+  param_1[0x11] = *(uint32_t *)((int)self + 0xa8);
+  param_1[0x12] = *(uint32_t *)((int)self + 0xac);
   param_1[0x19] = 0x3f800000;
   param_1[0x18] = 0x3f800000;
   param_1[0x17] = 0x3f800000;
@@ -174,9 +175,9 @@ void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefine
   param_2[6] = 0;
   param_2[7] = 0;
   param_2[8] = 0;
-  param_2[0x10] = *(undefined4 *)((int)self + 0xc4);
-  param_2[0x11] = *(undefined4 *)((int)self + 200);
-  param_2[0x12] = *(undefined4 *)((int)self + 0xcc);
+  param_2[0x10] = *(uint32_t *)((int)self + 0xc4);
+  param_2[0x11] = *(uint32_t *)((int)self + 200);
+  param_2[0x12] = *(uint32_t *)((int)self + 0xcc);
   param_2[0x19] = 0x3f800000;
   param_2[0x18] = 0x3f800000;
   param_2[0x17] = 0x3f800000;
@@ -208,19 +209,21 @@ void __cdecl XiZone::GetInstance()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall XiZone::Constructor(void * self)
 {
+  uint32_t xi_eax;
+  
   orig::FUN_10187380(self);
-  orig::unknown_libname_158_v1((void *)((int)self + 0x1c8));
-  *(undefined ***)self = &PTR_LAB_10336838;
+  xi_eax = orig::unknown_libname_158((void *)((int)self + 0x1c8));
+  *(uint8_t ***)self = &PTR_LAB_10336838;
   DAT_1065cb08 = 0;
-  *(undefined4 *)((int)self + 0x1c4) = 0;
-  *(undefined1 *)((int)self + 0x1ce) = 0;
-  orig::FUN_1018bc40((void *)((int)self + 0x1c8),-1);
-  *(undefined2 *)((int)self + 0x1cc) = 0;
-  *(undefined4 *)((int)self + 0x1d0) = 0x422c0000;
-  *(undefined4 *)((int)self + 0x1d4) = 0;
+  *(uint32_t *)((int)self + 0x1c4) = 0;
+  *(uint8_t *)((int)self + 0x1ce) = 0;
+  orig::FUN_1018bc40((void *)((int)self + 0x1c8),-1,xi_eax);
+  *(uint16_t *)((int)self + 0x1cc) = 0;
+  *(uint32_t *)((int)self + 0x1d0) = 0x422c0000;
+  *(uint32_t *)((int)self + 0x1d4) = 0;
   *(void **)((int)self + 0x1c0) = self;
-  *(undefined4 *)((int)self + 0x1ac) = 0;
-  *(undefined4 *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 0x1ac) = 0;
+  *(uint32_t *)((int)self + 4) = 0;
   DAT_1065ca58_as_v0 = DAT_1065ca58_as_v0 & 0xfffffffc;
   _DAT_1065ca60 = 0;
   DAT_1065ca64 = 0x80;
@@ -285,15 +288,19 @@ void * __thiscall XiZone::Constructor(void * self)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018B5E0(void * self_, int param_1)
 {
-  if (*(int *)((int)self_ + 0x1bc) != param_1) {
+  uint32_t xi_eax;
+  int xi_eax_00;
+  
+  xi_eax_00 = *(int *)((int)self_ + 0x1bc);
+  if (xi_eax_00 != param_1) {
     *(int *)((int)self_ + 0x1bc) = param_1;
     do {
-      orig::FUN_101889e0(self_);
+      xi_eax = orig::FUN_101889e0(self_,xi_eax_00);
       if (param_1 == 0) {
-        orig::FUN_101875e0(self_);
+        xi_eax_00 = orig::FUN_101875e0(self_,xi_eax);
       }
       else {
-        orig::FUN_101875c0(self_);
+        xi_eax_00 = orig::FUN_101875c0(self_,xi_eax);
       }
       self_ = *(void **)((int)self_ + 4);
     } while (self_ != (void *)0x0);
@@ -306,22 +313,23 @@ XI_API void __thiscall fn_1018B5E0(void * self_, int param_1)
 XI_API void __thiscall fn_1018B620(void * self_)
 {
   int iVar1;
+  uint32_t xi_eax;
   
   orig::FUN_10081a30();
   orig::FUN_10187030(self_);
   orig::FUN_10186db0(g_pZoneMap);
-  orig::FUN_10188a10(self_);
-  orig::FUN_1018bc40((void *)((int)self_ + 0x1c8),-1);
-  *(undefined2 *)((int)self_ + 0x1cc) = 0;
+  xi_eax = orig::FUN_10188a10(self_);
+  orig::FUN_1018bc40((void *)((int)self_ + 0x1c8),-1,xi_eax);
+  *(uint16_t *)((int)self_ + 0x1cc) = 0;
   orig::FUN_10178f70(g_pZoneMap);
-  *(undefined4 *)((int)self_ + 0x1ac) = 0;
+  *(uint32_t *)((int)self_ + 0x1ac) = 0;
   iVar1 = g_pCamera_as_s32;
   if (g_pCamera_as_s32 != 0) {
-    *(undefined4 *)(g_pCamera_as_s32 + 0x330) = 0x3f800000;
-    *(undefined1 *)(iVar1 + 0x32e) = 0x80;
-    *(undefined1 *)(iVar1 + 0x32d) = 0x80;
-    *(undefined1 *)(iVar1 + 0x32c) = 0x80;
-    *(undefined1 *)(iVar1 + 0x32f) = 0;
+    *(uint32_t *)(g_pCamera_as_s32 + 0x330) = 0x3f800000;
+    *(uint8_t *)(iVar1 + 0x32e) = 0x80;
+    *(uint8_t *)(iVar1 + 0x32d) = 0x80;
+    *(uint8_t *)(iVar1 + 0x32c) = 0x80;
+    *(uint8_t *)(iVar1 + 0x32f) = 0;
   }
   return;
 }
@@ -361,26 +369,25 @@ XI_API void __stdcall fn_1018B8B0(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_1018B8F0(void * self_, undefined4 param_2)
 {
-  xi_bool bVar1;
-  float10 fVar2;
-  float10 fVar3;
+  uint8_t bVar1;
+  long double fVar2;
+  long double fVar3;
   undefined4 local_4;
   
-  local_4 = xi_k4(0x42C80000ull);
+  local_4 = 1e+02f;
   fVar2 = orig::FUN_101892b0(self_,param_2);
   if (*(int *)((int)self_ + 0x1c) != 0) {
     fVar3 = orig::FUN_10187020(self_);
     local_4 = (float)fVar3;
   }
-  fVar2 = (float10)(float)fVar2 * (float10)local_4;
-  if ((NAN((float10)*(float *)((int)self_ + 0x1d0)) || NAN((float10)xi_k4(0x0ull))) ||
-      (float10)*(float *)((int)self_ + 0x1d0) <= (float10)xi_k4(0x0ull)) {
-    fVar2 = (float10)local_4;
+  fVar2 = (long double)(float)fVar2 * (long double)local_4;
+  if (!((long double)*(float *)((int)self_ + 0x1d0) > (long double)0.0f)) {
+    fVar2 = (long double)local_4;
   }
   else {
-    bVar1 = NAN(fVar2) || NAN((float10)*(float *)((int)self_ + 0x1d0));
-    if ((bVar1 || fVar2 < (float10)*(float *)((int)self_ + 0x1d0)) != bVar1) {
-      return (float10)*(float *)((int)self_ + 0x1d0);
+    bVar1 = NAN(fVar2) || NAN((long double)*(float *)((int)self_ + 0x1d0));
+    if ((bVar1 || fVar2 < (long double)*(float *)((int)self_ + 0x1d0)) != bVar1) {
+      return (long double)*(float *)((int)self_ + 0x1d0);
     }
   }
   return fVar2;

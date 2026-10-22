@@ -7,39 +7,39 @@
 XI_API undefined4 __cdecl fn_102999A0(int param_1, int param_2)
 {
   int iVar1;
-  undefined4 uVar2;
-  float10 fVar3;
+  uint32_t uVar2;
+  long double fVar3;
   char xi_frame[48] __attribute__((aligned(4)));
-  uint  &local_30 = *reinterpret_cast<uint  *>(xi_frame + 0);
+  uint32_t  &local_30 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   float  &local_28 = *reinterpret_cast<float  *>(xi_frame + 8);
   float  &local_24 = *reinterpret_cast<float  *>(xi_frame + 12);
   float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 16);
   float  (&local_1c)[7] = *reinterpret_cast<float  (*)[7]>(xi_frame + 20);
   
-  local_1c[1] = xi_k4(0x40800000ull);
-  local_1c[2] = xi_k4(0x41800000ull);
-  local_1c[3] = xi_k4(0x43800000ull);
-  local_1c[4] = xi_k4(0x47800000ull);
-  local_1c[5] = xi_k4(0x4F800005ull);
-  local_1c[6] = xi_k4(0x5F7FFFD8ull);
+  local_1c[1] = 4.0f;
+  local_1c[2] = 16.0f;
+  local_1c[3] = 256.0f;
+  local_1c[4] = 65536.0f;
+  local_1c[5] = 4294969856.0f;
+  local_1c[6] = 18446700093244440576.0f;
   if ((*(int *)(param_1 + 0x60) != 0) && (iVar1 = orig::FUN_102a1fa0(param_2), iVar1 == 2)) {
     return 0;
   }
-  local_30 = *(uint *)(param_1 + 0x5c);
-  fVar3 = (float10)*(float *)(param_1 + 0x58);
+  local_30 = *(uint32_t *)(param_1 + 0x5c);
+  fVar3 = (long double)*(float *)(param_1 + 0x58);
   if (local_30 != 0) {
     if (((int)local_30 < 0) || (5 < local_30)) {
       local_30 = 6;
     }
-    fVar3 = fVar3 * (float10)local_1c[local_30];
+    fVar3 = fVar3 * (long double)local_1c[local_30];
   }
-  local_28 = (float)(fVar3 * (float10)*(float *)(param_1 + 0x4c));
-  local_24 = (float)(fVar3 * (float10)*(float *)(param_1 + 0x50));
-  local_20 = (float)(fVar3 * (float10)*(float *)(param_1 + 0x54));
-  local_1c[0] = (float)(float10)(int)local_30;
+  local_28 = (float)(fVar3 * (long double)*(float *)(param_1 + 0x4c));
+  local_24 = (float)(fVar3 * (long double)*(float *)(param_1 + 0x50));
+  local_20 = (float)(fVar3 * (long double)*(float *)(param_1 + 0x54));
+  local_1c[0] = (float)(long double)(int)local_30;
   orig::FUN_10283970(&local_28);
   uVar2 = orig::sqgxShader_v1(0x400000,0);
-  return CONCAT31((int3)((uint)uVar2 >> 8),0xff);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(0xff)));
 }
 
 // FUNCTION: FFXIMAIN 0x10299AB0  (unit sqsdGlow: name sqsdGlow_BakeOntoShape)

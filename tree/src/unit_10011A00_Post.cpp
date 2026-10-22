@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 536 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
+// GATE: PASS -- 100 trials, 68 returned normally, 560 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
 {
   double v2;
@@ -826,7 +826,7 @@ LABEL_102:
 }
 
 // FUNCTION: FFXIMAIN 0x10012F40  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2268 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2268 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Post_Afterimage(void)
 {
   int result;
@@ -930,7 +930,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x100132B0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 3334 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3334 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
 {
   int result;
@@ -1121,7 +1121,6 @@ XI_API undefined4 __thiscall fn_100139E0(void * self_)
 {
   int *piVar1;
   void *this_00;
-  undefined4 xi_edx;
   
   if (*(short *)((int)self_ + 4) == 0) {
     if ((*(int *)(g_pAppSettings + 0x20) < 1) || (2 < *(int *)(g_pAppSettings + 0x20))) {
@@ -1129,7 +1128,7 @@ XI_API undefined4 __thiscall fn_100139E0(void * self_)
     }
     else {
       GetCurrentDirectoryA(0x104,(LPSTR)(&DAT_10456798));
-      orig::_strncat(&DAT_10456798,&DAT_10350324,0x103,xi_edx);
+      orig::_strncat(&DAT_10456798,&DAT_10350324,0x103);
     }
     this_00 = (void *)orig::Mem_AllocDefault_v1(0x128);
     if (this_00 == (void *)0x0) {
@@ -1152,146 +1151,24 @@ XI_API undefined4 __thiscall fn_100139E0(void * self_)
           piVar1 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pXiOpening_as_v0 + 0x18))))((void *)(g_pXiOpening_as_v0),1);
           g_pXiOpening_as_v0 = (int *)0x0;
         }
-        return CONCAT31((int3)((uint)piVar1 >> 8),1);
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
       }
     }
   }
-  return (uint)piVar1 & 0xffffff00;
+  return (uint32_t)piVar1 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x10013AC0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10013AC0(void)
 {
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   
-  return CONCAT31((int3)((uint)xi_entry_eax >> 8),1);
-}
-
-// FUNCTION: FFXIMAIN 0x10013AD0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 102 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API char __thiscall App_StepGameState5Connect(int self_, int a2)
-{
-  __int16 v3;
-  CDx *v4;
-  IDirect3DDevice8 *pDevice;
-  int v7;
-  int v8;
-  bool v9; // cc
-  int v10;
-  int v11;
-  alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
-  int (&v12)[4] = *reinterpret_cast<int (*)[4]>(xi_frame + 0x4C);
-  float (&v13)[2] = *reinterpret_cast<float (*)[2]>(xi_frame + 0x5C);
-
-  v3 = *(_WORD *)(self_ + 4);
-  switch ( v3 )
-  {
-    case 0:
-      orig::Call1008A0E0With2();
-      orig::sub_101AB6D0();
-      if ( orig::GameMode_GetField98(g_pGameMode) < 3 )
-        goto LABEL_25;
-      orig::CYyCamMng2_CreateGlobal();
-      orig::Actor_ResetDrawLists();
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGCOLOR, -2139062144u);
-      v4 = g_pCDx;
-      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
-      {
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 0);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 3u);
-        pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
-      }
-      else
-      {
-        if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) == 0 )
-          goto LABEL_7;
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 0);
-        pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
-        if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) != 0 )
-        {
-          pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
-          goto LABEL_6;
-        }
-      }
-      pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
-LABEL_6:
-      v4 = g_pCDx;
-LABEL_7:
-      (*(IDirect3DDevice8 * *)((char *)v4 + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)v4 + 0xC)), D3DRS_FOGSTART, 1117782016u);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGEND, 1120403456u);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGDENSITY, 0);
-      orig::CDx_SetClearColor(g_pCDx, 0x80000000);
-      orig::GameSystems_InitializeAll();
-      orig::LobbyThread_Start(dword_1045694C);
-      dword_1045694C = 1;
-      orig::App_AdvanceSeqStep((_WORD *)self_);
-      return 0;
-    case 1:
-      v7 = *(_DWORD *)(self_ + 80);
-      if ( v7 != 0 && g_pZoneMap != nullptr )
-      {
-        orig::Vec3_Copy(v12, (_DWORD *)(v7 + 68));
-        orig::ZoneMap_FindGroundHeight((char *)g_pZoneMap, v12[0], *(float *)&v12[1], v12[2], 100.0, v13);
-        orig::CTsZoneMap_UpdateViewerPosition(g_pZoneMap);
-        orig::ZoneMap_CopyField342C8ToField39450(g_pZoneMap);
-      }
-      v8 = orig::Lobby_DestroyThreadPool();
-      v9 = v8 <= 0;
-      if ( v8 != 0 )
-      {
-        orig::sub_101AB720();
-        orig::thunk_sub_10245BB0();
-        v9 = v8 <= 0;
-        if ( v8 < 0 )
-        {
-          dword_10669014 = 0;
-          if ( v8 == -2 )
-          {
-            orig::GameMode_OpenTacticsUrl((int *)g_pGameMode, 0);
-            orig::App_SetGlobal_104569C8(2);
-          }
-          *(_DWORD *)(self_ + 68) = 13;
-          v9 = v8 <= 0;
-        }
-      }
-      if ( v9 )
-        return 0;
-      dword_10669014 = 0;
-      orig::App_AdvanceSeqStep((_WORD *)self_);
-      return 0;
-    case 2:
-      *(_DWORD *)(self_ + 820) = -2139062144;
-      g_countdown_10456978 = 60;
-      orig::App_AdvanceSeqStep((_WORD *)self_);
-      return 0;
-    case 3:
-      if ( g_countdown_10456978 != 0 )
-      {
-        --g_countdown_10456978;
-        return 0;
-      }
-      if ( *(_DWORD *)(self_ + 796) == -2139062144 )
-      {
-        orig::CYyCamMng2_CallGlobalVfunc1();
-        orig::Game_DestroyGlobalObjects(v11, v10);
-LABEL_25:
-        *(_DWORD *)(self_ + 820) = -2139062144;
-        return 1;
-      }
-      else
-      {
-        *(_WORD *)(self_ + 4) = v3 - 1;
-        return 0;
-      }
-    default:
-      return 0;
-  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
@@ -1341,7 +1218,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
@@ -1390,7 +1267,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
@@ -1434,7 +1311,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70, town PASS 70, town2 PASS 70, combat PASS 70, zonetoinn PASS 70
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();
@@ -1448,15 +1325,15 @@ XI_API bool __cdecl App_StepGameState9(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10014170(void * self_)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
-  uVar1 = (uint)*(short *)((int)self_ + 4);
+  uVar1 = (uint32_t)*(short *)((int)self_ + 4);
   switch(uVar1) {
   case 0:
     uVar1 = orig::Game_InGameSubState0(self_);
     break;
   case 1:
-    uVar1 = orig::FUN_10014200(self_);
+    uVar1 = orig::FUN_10014200(self_,uVar1);
     return uVar1 & 0xffffff00;
   case 2:
     uVar1 = orig::FUN_100142a0(self_);
@@ -1467,14 +1344,14 @@ XI_API undefined4 __thiscall fn_10014170(void * self_)
   case 4:
     uVar1 = orig::FUN_10014350(self_);
     if ((char)uVar1 != '\0') {
-      return CONCAT31((int3)(uVar1 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x100141C0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall fn_100141C0(_WORD *self_)
 {
   if ( *(_DWORD *)(g_pAppSettings + 8) != 0 )
@@ -1484,12 +1361,26 @@ XI_API char __thiscall fn_100141C0(_WORD *self_)
   return 1;
 }
 
+// FUNCTION: FFXIMAIN 0x10014200  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10014200(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::FUN_10014220(self_,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(word_104568F8_as_v0))));
+  if ((char)uVar1 == '\0') {
+    return uVar1;
+  }
+  orig::App_AdvanceSeqStep_v1(self_);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+}
+
 // FUNCTION: FFXIMAIN 0x10014220  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10014220(void * self_, undefined4 param_1)
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   uVar1 = orig::FUN_100fc160();
   if ((uVar1 & 0x100) == 0) {
@@ -1497,29 +1388,29 @@ XI_API undefined4 __thiscall fn_10014220(void * self_, undefined4 param_1)
       uVar2 = orig::FUN_100db930();
       DAT_104570e0 = (int)(short)uVar2;
       *(int *)((int)self_ + 0x4c) = DAT_104570e0;
-      uVar2 = orig::CYyCamMng2_CreateGlobal_v1();
-      return CONCAT31((int3)((uint)uVar2 >> 8),1);
+      uVar2 = orig::CYyCamMng2_CreateGlobal();
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
     DAT_104570e0 = (int)(short)((short)param_1 + -1);
     *(int *)((int)self_ + 0x4c) = DAT_104570e0;
-    uVar2 = orig::CYyCamMng2_CreateGlobal_v1();
-    return CONCAT31((int3)((uint)uVar2 >> 8),1);
+    uVar2 = orig::CYyCamMng2_CreateGlobal();
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
   }
-  if (dword_104DFD98_as_s32 == 0) {
+  if (DAT_104dfd98 == 0) {
     return 0;
   }
-  DAT_104570e0 = (int)*(short *)(dword_104DFD98_as_s32 + 0x40d80);
+  DAT_104570e0 = (int)*(short *)(DAT_104dfd98 + 0x40d80);
   *(int *)((int)self_ + 0x4c) = DAT_104570e0;
-  uVar2 = orig::CYyCamMng2_CreateGlobal_v1();
-  return CONCAT31((int3)((uint)uVar2 >> 8),1);
+  uVar2 = orig::CYyCamMng2_CreateGlobal();
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100142A0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100142A0(void * self_)
 {
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   
   orig::App_AdvanceSeqStep_v1(self_);
-  return CONCAT31((int3)((uint)xi_entry_eax >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
 }

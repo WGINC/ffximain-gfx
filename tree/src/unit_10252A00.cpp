@@ -8,7 +8,7 @@ XI_API undefined4 __cdecl fn_10252A00(uint8_t * param_1, uint32_t param_2)
 {
   int iVar1;
   
-  if ((param_1 != (byte *)0x0) && ((*param_1 & 4) != 0)) {
+  if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 4) != 0)) {
     iVar1 = orig::FUN_1026ebf0(*(int *)(param_1 + 0x20),0);
     *(int *)(param_1 + 8) = iVar1;
     if (-1 < iVar1) {
@@ -23,8 +23,8 @@ XI_API undefined4 __cdecl fn_10252A00(uint8_t * param_1, uint32_t param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10252A40(uint32_t * param_1)
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   if (((*param_1 & 1) != 0) && (uVar1 = param_1[1], -1 < (int)uVar1)) {
     uVar2 = orig::FUN_101c4a30(g_pFileMng_as_v1,uVar1);
@@ -48,7 +48,7 @@ XI_API undefined4 __cdecl fn_10252AC0(uint8_t * param_1, undefined4 * param_2, u
   int *piVar3;
   int iVar4;
   
-  if ((param_1 != (byte *)0x0) && ((*param_1 & 4) != 0)) {
+  if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 4) != 0)) {
     iVar1 = *(int *)(param_1 + 0x20);
     iVar4 = 0;
     if (0 < *(int *)(iVar1 + 0x44)) {
@@ -75,7 +75,7 @@ XI_API undefined4 __cdecl fn_10252B50(uint8_t * param_1, undefined4 param_2)
   int *piVar3;
   int iVar4;
   
-  if ((param_1 != (byte *)0x0) && ((*param_1 & 4) != 0)) {
+  if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 4) != 0)) {
     iVar1 = *(int *)(param_1 + 0x20);
     iVar4 = 0;
     if (0 < *(int *)(iVar1 + 0x44)) {
@@ -97,7 +97,7 @@ XI_API undefined4 __cdecl fn_10252B50(uint8_t * param_1, undefined4 param_2)
 XI_API undefined4 __cdecl fn_10252C10(uint8_t * param_1)
 {
   if ((*param_1 & 1) != 0) {
-    orig::StModelItemClear((uint *)param_1);
+    orig::StModelItemClear((uint32_t *)param_1);
   }
   return 0;
 }
@@ -106,13 +106,13 @@ XI_API undefined4 __cdecl fn_10252C10(uint8_t * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10252C30(uint32_t * param_1, undefined4 param_2)
 {
-  uint *puVar1;
+  uint32_t *puVar1;
   
   puVar1 = param_1;
-  if ((param_1 != (uint *)0x0) && ((*param_1 & 4) != 0)) {
+  if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 4) != 0)) {
     orig::FUN_10270410(param_1[2],param_2);
     orig::FUN_10270290(puVar1[2],&param_1);
-    if (((uint)param_1 & 4) != 0) {
+    if (((uint32_t)param_1 & 4) != 0) {
       *puVar1 = *puVar1 | 8;
       return 0;
     }

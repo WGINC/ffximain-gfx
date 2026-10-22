@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 104 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 100 returned normally, 104 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10029A50(void)
 {
   int result;
@@ -97,17 +97,17 @@ XI_API void __cdecl fn_10029B60(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10029BB0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_1032a6dc;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0x24) = 0;
-  *(undefined4 *)((int)self_ + 0x28) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_1032a6dc;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x24) = 0;
+  *(uint32_t *)((int)self_ + 0x28) = 0;
   return;
 }
 
@@ -116,9 +116,9 @@ XI_API void __thiscall fn_10029BB0(void * self_)
 XI_API undefined4 * __thiscall fn_10029C90(void * self_)
 {
   orig::FUN_10029bb0((void *)((int)self_ + 0x10));
-  *(undefined ***)self_ = &PTR_CYyModelDt_GetRuntimeClass_1032a6e0;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
+  *(uint8_t ***)self_ = &PTR_CYyModelDt_GetRuntimeClass_1032a6e0;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
   return self_;
 }

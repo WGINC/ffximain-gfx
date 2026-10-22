@@ -41,14 +41,14 @@ XI_API void __thiscall fn_1002C2A0(void * self_, undefined4 param_1)
 XI_API undefined4 __thiscall fn_1002C400(void * self_, int param_1, int param_2, float * param_3)
 {
   int *xi_entry_eax = 0;
-  undefined4 uVar1;
+  uint32_t uVar1;
   int iVar2;
   int iVar3;
   char xi_frame[32] __attribute__((aligned(4)));
   float  (&local_20)[5] = *reinterpret_cast<float  (*)[5]>(xi_frame + 0);
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 20);
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 24);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 28);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
   
   iVar3 = 0;
   if (param_2 == 2) {
@@ -61,21 +61,21 @@ XI_API undefined4 __thiscall fn_1002C400(void * self_, int param_1, int param_2,
         iVar2 = *(int *)(iVar2 + 4);
         iVar3 = iVar3 + 1;
       } while (iVar2 != 0);
-      local_20[0] = xi_k4(0x0ull);
-      local_20[1] = xi_k4(0x0ull);
-      local_20[2] = xi_k4(0x0ull);
-      local_20[3] = xi_k4(0x3F800000ull);
+      local_20[0] = 0.0f;
+      local_20[1] = 0.0f;
+      local_20[2] = 0.0f;
+      local_20[3] = 1.0f;
       orig::FUN_1002a8b0((void *)*xi_entry_eax,2,local_20);
-      local_20[4] = (float)(float10)*(float *)((int)self_ + 0x24);
-      local_c = (float)(float10)*(float *)((int)self_ + 0x2c);
-      local_8 = (float)(float10)*(float *)((int)self_ + 0x28);
+      local_20[4] = (float)(long double)*(float *)((int)self_ + 0x24);
+      local_c = (float)(long double)*(float *)((int)self_ + 0x2c);
+      local_8 = (float)(long double)*(float *)((int)self_ + 0x28);
       local_4 = 0x3f800000;
       orig::Vec3_MulInPlace_v1(local_20,local_20 + 4);
       uVar1 = orig::Vec3_AddInPlace_v1(param_3,local_20);
-      return CONCAT31((int3)((uint)uVar1 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
-  else if ((*(byte *)((int)self_ + 0x30) & 0x10) != 0) {
+  else if ((*(uint8_t *)((int)self_ + 0x30) & 0x10) != 0) {
     xi_entry_eax = (int *)orig::CYyModel_GetField44Addr_v1(self_);
     iVar2 = *xi_entry_eax;
     if (iVar2 != 0) {
@@ -86,10 +86,10 @@ XI_API undefined4 __thiscall fn_1002C400(void * self_, int param_1, int param_2,
         iVar3 = iVar3 + 1;
       } while (iVar2 != 0);
       uVar1 = orig::FUN_1002a750((void *)*xi_entry_eax,param_2,param_3);
-      return CONCAT31((int3)((uint)uVar1 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
-  return (uint)xi_entry_eax & 0xffffff00;
+  return (uint32_t)xi_entry_eax & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x1002C600  (unit unit_1002C270: no unit evidence of its own; in the gap between 0x1002B6E0 (CXiSkeletonActor) and 0x1002C780 (CYyNode) -- an unnamed source file)
@@ -121,7 +121,7 @@ XI_API undefined4 __thiscall fn_1002C600(void * self_, undefined4 param_1, int p
 XI_API undefined4 __thiscall fn_1002C710(void * self_, undefined4 xi_s1)
 {
   int *piVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
   piVar1 = (int *)orig::CYyModel_GetField44Addr_v1(self_);
   if (*piVar1 == 0) {
@@ -136,11 +136,11 @@ XI_API undefined4 __thiscall fn_1002C710(void * self_, undefined4 xi_s1)
 XI_API uint32_t __thiscall fn_1002C750(void * self_, undefined4 xi_s1)
 {
   int *piVar1;
-  uint uVar2;
+  uint32_t uVar2;
   
   piVar1 = (int *)orig::CYyModel_GetField44Addr_v1(self_);
   if (*piVar1 == 0) {
-    return (uint)piVar1 & 0xffffff00;
+    return (uint32_t)piVar1 & 0xffffff00;
   }
   uVar2 = orig::FUN_1002b470(xi_s1);
   return uVar2;

@@ -11,11 +11,11 @@ XI_API void __thiscall fn_101D30B0(void * self_)
   this_00 = *(int **)((int)self_ + 0x38);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(undefined4 *)((int)self_ + 0x38) = 0;
-    *(undefined4 *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
+    *(uint32_t *)((int)self_ + 0x38) = 0;
+    *(uint32_t *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
     return;
   }
-  *(undefined4 *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
+  *(uint32_t *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
   return;
 }
 
@@ -23,9 +23,9 @@ XI_API void __thiscall fn_101D30B0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101D30F0(void * self_)
 {
-  if ((*(ushort *)((int)self_ + 0x7e6) != 0) &&
-     ((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x7e6)] != 0)) {
-    return *(undefined4 *)((&ActerBuffPtr_as_v0)[*(ushort *)((int)self_ + 0x7e6)] + 0xa0);
+  if ((*(uint16_t *)((int)self_ + 0x7e6) != 0) &&
+     ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x7e6)] != 0)) {
+    return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x7e6)] + 0xa0);
   }
   return 0;
 }
@@ -34,10 +34,10 @@ XI_API undefined4 __thiscall fn_101D30F0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101D31B0(void * self_)
 {
-  if (*(undefined4 **)((int)self_ + 8) != (undefined4 *)0x0) {
-    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self_ + 8));
-    orig::ResHandle_FreeIfUnreferenced_v1((undefined4 *)((int)self_ + 8));
-    *(undefined4 *)((int)self_ + 8) = 0;
+  if (*(uint32_t **)((int)self_ + 8) != (uint32_t *)0x0) {
+    orig::CMoResource_ReleaseChain_v1((void *)**(uint32_t **)((int)self_ + 8));
+    orig::ResHandle_FreeIfUnreferenced_v1((uint32_t *)((int)self_ + 8));
+    *(uint32_t *)((int)self_ + 8) = 0;
   }
   return;
 }
@@ -49,10 +49,10 @@ XI_API void __thiscall fn_101D3DC0(void * self_)
   void *this_00;
   int iVar1;
   int iVar2;
-  undefined4 *puVar3;
+  uint32_t *puVar3;
   
-  *(undefined2 *)((int)self_ + 0x7e6) = 0;
-  puVar3 = (undefined4 *)((int)self_ + 0x4c);
+  *(uint16_t *)((int)self_ + 0x7e6) = 0;
+  puVar3 = (uint32_t *)((int)self_ + 0x4c);
   iVar2 = 2;
   do {
     iVar1 = 0x51;
@@ -76,10 +76,10 @@ XI_API void __thiscall fn_101D3DC0(void * self_)
 XI_API void __thiscall fn_101D3FC0(void * self_, int * param_1)
 {
   char cVar1;
-  undefined4 *puVar2;
+  uint32_t *puVar2;
   char cVar3;
-  float10 st0;
-  longlong lVar4;
+  long double st0;
+  int64_t lVar4;
   char xi_frame[16] __attribute__((aligned(4)));
   void ** &ppvVar5 = *reinterpret_cast<void ** *>(xi_frame + 0);
   int ** &ppiVar6 = *reinterpret_cast<int ** *>(xi_frame + 4);
@@ -89,15 +89,15 @@ XI_API void __thiscall fn_101D3FC0(void * self_, int * param_1)
   if (param_1 != (int *)0x0) {
     ppiVar6 = &param_1;
     local_4 = self_;
-    puVar2 = (undefined4 *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
-    orig::Gfx_ProjectWorldToScreen(puVar2,(undefined2 *)ppvVar5,(undefined2 *)ppiVar6);
+    puVar2 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
+    orig::Gfx_ProjectWorldToScreen(puVar2,(uint16_t *)ppvVar5,(uint16_t *)ppiVar6);
     if ((short)local_4 < 0) {
       local_4 = (void *)0x64;
     }
     if ((short)param_1 < 0) {
       param_1 = (int *)0x64;
     }
-    st0 = orig::Camera_GetFrameScale_v1();
+    st0 = orig::Camera_GetFrameScale_v1(100);
     lVar4 = XI_CALL_ST0(0x10311C2Cu)(st0);
     cVar3 = *(char *)((int)self_ + 0x858) + (char)lVar4;
     *(char *)((int)self_ + 0x858) = cVar3;

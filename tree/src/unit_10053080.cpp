@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10053080(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x19c) = param_1;
+  *(uint32_t *)((int)self_ + 0x19c) = param_1;
   return;
 }
 
@@ -14,7 +14,7 @@ XI_API void __thiscall fn_10053080(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10053090(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x1a0) = param_1;
+  *(uint32_t *)((int)self_ + 0x1a0) = param_1;
   return;
 }
 
@@ -22,28 +22,28 @@ XI_API void __thiscall fn_10053090(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_100530A0(void * self_)
 {
-  return (float10)*(float *)((int)self_ + 0x19c);
+  return (long double)*(float *)((int)self_ + 0x19c);
 }
 
 // FUNCTION: FFXIMAIN 0x100530B0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_100530B0(void * self_)
 {
-  return (float10)*(float *)((int)self_ + 0x1a0);
+  return (long double)*(float *)((int)self_ + 0x1a0);
 }
 
 // FUNCTION: FFXIMAIN 0x100530C0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100530C0(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 0x194);
+  return *(uint32_t *)((int)self_ + 0x194);
 }
 
 // FUNCTION: FFXIMAIN 0x100530D0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100530D0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x1a4) = param_1;
+  *(uint32_t *)((int)self_ + 0x1a4) = param_1;
   return;
 }
 
@@ -51,6 +51,6 @@ XI_API void __thiscall fn_100530D0(void * self_, undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100530E0(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)((int)self_ + 0x1a8) = param_1;
+  *(uint32_t *)((int)self_ + 0x1a8) = param_1;
   return;
 }

@@ -5,15 +5,15 @@
 
 // FUNCTION: FFXIMAIN 0x1003FB70  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined8 __thiscall CXi471011C8_VT_1032AC90::Ctor(void * self)
+uint64_t __thiscall CXi471011C8_VT_1032AC90::Ctor(void * self)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   
   orig::CMoElem_Constructor(self);
-  *(undefined ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032ac90;
-  *(undefined2 *)((int)self + 0x176) = 0x1c0;
-  puVar1 = (undefined4 *)((int)self + 0x1a8);
+  *(uint8_t ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032ac90;
+  *(uint16_t *)((int)self + 0x176) = 0x1c0;
+  puVar1 = (uint32_t *)((int)self + 0x1a8);
   iVar2 = 5;
   do {
     puVar1[-5] = 0;
@@ -21,6 +21,6 @@ undefined8 __thiscall CXi471011C8_VT_1032AC90::Ctor(void * self)
     puVar1 = puVar1 + 1;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  *(undefined4 *)((int)self + 0x1bc) = 0;
-  return ZEXT48(self);
+  *(uint32_t *)((int)self + 0x1bc) = 0;
+  return ((uint64_t)(uint32_t)(self));
 }

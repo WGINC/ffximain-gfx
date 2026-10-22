@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall fn_10029390(undefined4 param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   orig::FUN_10028c70(param_1);
   orig::FUN_10028c90(param_1);
@@ -16,7 +16,7 @@ XI_API undefined4 __stdcall fn_10029390(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100295A0  (unit unit_10029260: no unit evidence of its own; in the gap between 0x10029240 (CYyLowerMemory) and 0x10029880 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1754 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1754 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall Mem_DrawHeapUsageBar(int a1, int a2, int a3, int a4, int a5)
 {
   _DWORD *v5;

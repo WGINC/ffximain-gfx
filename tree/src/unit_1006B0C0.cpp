@@ -7,11 +7,11 @@
 XI_API void * __thiscall VBPool_Constructor(void * self_)
 {
   int iVar1;
-  undefined4 *puVar2;
+  uint32_t *puVar2;
   
-  *(undefined ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_1032c128;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  puVar2 = (undefined4 *)((int)self_ + 8);
+  *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_1032c128;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 8);
   for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
@@ -25,17 +25,17 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
 {
   int *a1;
   int iVar1;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
-  uint *puVar4;
-  uint uVar5;
-  uint uVar6;
-  undefined4 *puVar7;
+  uint32_t *puVar4;
+  uint32_t uVar5;
+  uint32_t uVar6;
+  uint32_t *puVar7;
   
   iVar1 = 0;
   do {
     if (*(char *)((int)self_ + iVar1 + 8) == '\0') {
-      puVar7 = (undefined4 *)(iVar1 * 0x20 + 0x28 + (int)self_);
+      puVar7 = (uint32_t *)(iVar1 * 0x20 + 0x28 + (int)self_);
       for (iVar3 = 8; iVar3 != 0; iVar3 = iVar3 + -1) {
         *puVar7 = *param_1;
         param_1 = param_1 + 1;
@@ -44,15 +44,15 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
       iVar3 = *(int *)((int)self_ + 4) + 1;
       *(int *)((int)self_ + 4) = iVar3;
       *(int *)((int)self_ + iVar1 * 4 + 0x428) = iVar3;
-      *(undefined1 *)(iVar1 + 8 + (int)self_) = 1;
-      return CONCAT31((int3)((uint)iVar1 >> 8),1);
+      *(uint8_t *)(iVar1 + 8 + (int)self_) = 1;
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
     iVar1 = iVar1 + 1;
   } while (iVar1 < 0x20);
   uVar5 = 0xffffffff;
   uVar6 = 0xffffffff;
   uVar2 = 0;
-  puVar4 = (uint *)((int)self_ + 0x428);
+  puVar4 = (uint32_t *)((int)self_ + 0x428);
   do {
     if (*puVar4 < uVar6) {
       uVar5 = uVar2;
@@ -64,7 +64,7 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
   if (uVar5 != 0xffffffff) {
     a1 = *(int **)(uVar5 * 0x20 + 0x28 + (int)self_);
     ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
-    puVar7 = (undefined4 *)(uVar5 * 0x20 + 0x28 + (int)self_);
+    puVar7 = (uint32_t *)(uVar5 * 0x20 + 0x28 + (int)self_);
     for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
       *puVar7 = *param_1;
       param_1 = param_1 + 1;
@@ -73,7 +73,7 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
     iVar1 = *(int *)((int)self_ + 4) + 1;
     *(int *)((int)self_ + 4) = iVar1;
     *(int *)((int)self_ + uVar5 * 4 + 0x428) = iVar1;
-    return CONCAT31((int3)((uint)iVar1 >> 8),1);
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
   }
   return uVar2 & 0xffffff00;
 }
@@ -83,15 +83,15 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
 XI_API int __thiscall fn_1006B1D0(void * self_, int param_1)
 {
   int iVar1;
-  uint *puVar2;
+  uint32_t *puVar2;
   int iVar3;
   int *piVar4;
-  uint local_4;
+  uint32_t local_4;
   
   iVar3 = -1;
   local_4 = 0xffffffff;
   iVar1 = 0;
-  puVar2 = (uint *)((int)self_ + 0x428);
+  puVar2 = (uint32_t *)((int)self_ + 0x428);
   piVar4 = (int *)((int)self_ + 0x40);
   do {
     if ((((*(char *)((int)self_ + iVar1 + 8) != '\0') && (piVar4[-1] == *(int *)(param_1 + 0x14))) &&
@@ -104,8 +104,8 @@ XI_API int __thiscall fn_1006B1D0(void * self_, int param_1)
     piVar4 = piVar4 + 8;
   } while (iVar1 < 0x20);
   if (iVar3 != -1) {
-    *(undefined1 *)(iVar3 + 8 + (int)self_) = 0;
-    *(undefined4 *)((int)self_ + iVar3 * 0x20 + 0x2c) = 0;
+    *(uint8_t *)(iVar3 + 8 + (int)self_) = 0;
+    *(uint32_t *)((int)self_ + iVar3 * 0x20 + 0x2c) = 0;
     return (int)self_ + iVar3 * 0x20 + 0x28;
   }
   return 0;

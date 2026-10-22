@@ -3,7 +3,7 @@
 #include "Obj_104E1D4C.hpp"
 
 // FUNCTION: FFXIMAIN 0x10124700  (placed by callers pass the object in dword_104E1D4C as this (9 of 11 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -64,96 +64,5 @@ void Obj_104E1D4C::Cursor_SetPosition(_DWORD *a2, float a3)
         orig::SetCursorPos((__int64)v4, (__int64)v5);
       }
     }
-  }
-}
-
-// FUNCTION: FFXIMAIN 0x10124EB0  (placed by callers pass the object in dword_104E1D4C as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10124440); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-void Obj_104E1D4C::Cursor_Draw()
-{
-  int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
-  int *v2;
-  _DWORD *v3;
-  int v4;
-  alignas(16) unsigned char xi_frame[0x464];  // address-taken locals at their original offsets
-  float (&v5)[4] = *reinterpret_cast<float (*)[4]>(xi_frame + 0x14);
-  float (&self_v)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x24);
-
-  if ( this->field_4E != 0 )
-  {
-    v2 = nullptr;
-    v3 = (_DWORD *)g_cursorShapes[16 * this->shapeIndex];
-    if ( v3 != nullptr )
-    {
-      v2 = *(int **)(*v3 + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->shapeIndex]);
-      if ( v2 != nullptr )
-      {
-        ++g_cursorShapeFrame[32 * this->shapeIndex];
-      }
-      else
-      {
-        g_cursorShapeFrame[32 * this->shapeIndex] = 0;
-        v2 = *(int **)(*(_DWORD *)g_cursorShapes[16 * this->shapeIndex]
-                     + 4 * (unsigned __int16)g_cursorShapeFrame[32 * this->shapeIndex]);
-      }
-    }
-    if ( g_cfgHardwareMouse != 0 )
-    {
-      if ( g_pCDx != nullptr )
-      {
-        orig::CDx_SetCursorShape(g_pCDx, this->shapeIndex, 0);
-        if ( g_pCDx != nullptr )
-          orig::CDx_ShowCursor(g_pCDx, 1u);
-      }
-    }
-    else
-    {
-      if ( g_pCDx != nullptr )
-        orig::CDx_ShowCursor(g_pCDx, 0);
-      orig::fn_10027990((Iostream_init *)self_v);
-      orig::Mat4_SetIdentity(self_v);
-      orig::Mat4_PostRotateZ(self_v, *(float *)&g_cursorShapeRotation[16 * this->shapeIndex]);
-      v4 = this->shapeIndex;
-      v5[3] = 0.0;
-      v5[0] = (float)c_cursorDefs_b12[32 * v4];
-      v5[1] = v5[0];
-      v5[2] = v5[0];
-      orig::Mat4_PostScale(self_v, v5);
-      if ( v2 != nullptr )
-        orig::Shape_DrawTransformed(
-          v2,
-          this->field_C,
-          this->field_10,
-          self_v[0],
-          SLODWORD(self_v[1]),
-          SLODWORD(self_v[2]),
-          SLODWORD(self_v[3]),
-          SLODWORD(self_v[4]),
-          SLODWORD(self_v[5]),
-          SLODWORD(self_v[6]),
-          SLODWORD(self_v[7]),
-          SLODWORD(self_v[8]),
-          SLODWORD(self_v[9]),
-          SLODWORD(self_v[10]),
-          SLODWORD(self_v[11]),
-          SLODWORD(self_v[12]),
-          SLODWORD(self_v[13]),
-          SLODWORD(self_v[14]),
-          SLODWORD(self_v[15]),
-          c_cursorDefs[16 * this->shapeIndex],
-          0);
-      orig::nullsub_1();
-    }
-    if ( this->field_4D == 6 )
-      orig::Shape_DrawScaled(
-        *(_DWORD *)(**(_DWORD **)(self + 64) + 4 * this->field_44),
-        this->field_2C,
-        this->field_30,
-        1065353216,
-        1065353216,
-        -2139062144,
-        0,
-        0,
-        0);
   }
 }

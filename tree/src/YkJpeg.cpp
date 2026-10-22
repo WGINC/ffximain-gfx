@@ -37,7 +37,7 @@ XI_API void __thiscall fn_101CF870(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall fn_101CFDB0(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
@@ -48,10 +48,10 @@ XI_API void __stdcall fn_101CFDB0(int param_1, int param_2, int param_3, int par
   iVar2 = param_4;
   do {
     if ((((-1 < iVar2) && (-1 < param_5)) && (iVar2 < param_1)) && (param_5 < param_2)) {
-      uVar1 = *(undefined4 *)(param_3 + (iVar3 + iVar2) * 4);
+      uVar1 = *(uint32_t *)(param_3 + (iVar3 + iVar2) * 4);
     }
     iVar2 = iVar2 + 1;
-    *(undefined4 *)(param_6 + iVar4 * 4) = uVar1;
+    *(uint32_t *)(param_6 + iVar4 * 4) = uVar1;
     if (param_4 + 0x10 <= iVar2) {
       param_5 = param_5 + 1;
       iVar3 = iVar3 + param_1;
@@ -67,7 +67,7 @@ XI_API void __stdcall fn_101CFDB0(int param_1, int param_2, int param_3, int par
 XI_API int __stdcall fn_101CFE20(uint32_t param_1, int * param_2, int * param_3, int param_4)
 {
   int iVar1;
-  uint uVar2;
+  uint32_t uVar2;
   
   uVar2 = param_1 >> 0x10;
   if (param_2 != (int *)0x0) {
@@ -86,9 +86,9 @@ XI_API int __stdcall fn_101CFE20(uint32_t param_1, int * param_2, int * param_3,
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CFEB0(void * self_, int param_1, int param_2, int param_3, int param_4, int param_5, int * param_6)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   int iVar4;
   int iVar5;
   
@@ -101,7 +101,7 @@ XI_API void __thiscall fn_101CFEB0(void * self_, int param_1, int param_2, int p
       *param_6 = iVar2;
     }
     else {
-      uVar1 = *(uint *)(param_3 + ((iVar4 + iVar5) / 2) * 4);
+      uVar1 = *(uint32_t *)(param_3 + ((iVar4 + iVar5) / 2) * 4);
       if ((uVar3 & 1) == 0) {
         iVar2 = orig::FUN_101cfe20(uVar1,param_6,(int *)0x0,iVar2);
       }
@@ -212,27 +212,27 @@ XI_API void __stdcall fn_101CFF60(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
 {
-  undefined2 *puVar1;
-  uint uVar2;
+  uint16_t *puVar1;
+  uint32_t uVar2;
   int iVar3;
-  undefined2 uVar4;
+  uint16_t uVar4;
   int iVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
+  uint32_t uVar6;
+  uint32_t uVar7;
+  uint32_t uVar8;
   int *local_4;
   
   if (param_2 == (char *)0x0) {
     param_2 = (char *)((int)self_ + 0x6ac);
     iVar3 = (int)self_ + 0x69c;
     iVar5 = (int)self_ + 0x8bc;
-    puVar1 = (undefined2 *)((int)self_ + 0x8dc);
+    puVar1 = (uint16_t *)((int)self_ + 0x8dc);
   }
   else {
     param_2 = (char *)((int)self_ + 0x7bc);
     iVar3 = (int)self_ + 0x7ac;
     iVar5 = (int)self_ + 0xadc;
-    puVar1 = (undefined2 *)((int)self_ + 0xafc);
+    puVar1 = (uint16_t *)((int)self_ + 0xafc);
   }
   uVar6 = *param_1;
   uVar2 = uVar6;
@@ -245,7 +245,7 @@ XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
     uVar7 = uVar7 + 1;
   }
   orig::FUN_101d0970(*(void **)((int)self_ + 8),
-               CONCAT22((short)((uint)iVar5 >> 0x10),*(undefined2 *)(iVar5 + uVar7 * 2)),
+               ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar5 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(iVar5 + uVar7 * 2)))),
                (int)*(char *)(uVar7 + iVar3));
   if (uVar7 != 0) {
     orig::FUN_101d0970(*(void **)((int)self_ + 8),uVar6,uVar7);
@@ -254,7 +254,7 @@ XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
   local_4 =(int*)(&DAT_1037e334);
   do {
     uVar2 = param_1[*local_4];
-    uVar4 = (undefined2)((uint)param_2 >> 0x10);
+    uVar4 = (uint16_t)((uint32_t)param_2 >> 0x10);
     if (uVar2 == 0) {
       uVar6 = uVar6 + 1;
     }
@@ -263,7 +263,7 @@ XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
         uVar7 = uVar6 >> 4;
         uVar6 = uVar6 + uVar7 * -0x10;
         do {
-          orig::FUN_101d0970(*(void **)((int)self_ + 8),CONCAT22(uVar4,puVar1[0xf0]),(int)param_2[0xf0]);
+          orig::FUN_101d0970(*(void **)((int)self_ + 8),((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)(puVar1[0xf0]))),(int)param_2[0xf0]);
           uVar7 = uVar7 - 1;
         } while (uVar7 != 0);
       }
@@ -277,7 +277,7 @@ XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
         uVar8 = uVar8 + 1;
       }
       iVar3 = uVar6 * 0x10 + uVar8;
-      orig::FUN_101d0970(*(void **)((int)self_ + 8),CONCAT22((short)((uint)iVar3 >> 0x10),puVar1[iVar3]),
+      orig::FUN_101d0970(*(void **)((int)self_ + 8),((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar3 >> 0x10)) << 16) | (uint16_t)(puVar1[iVar3]))),
                    (int)param_2[iVar3]);
       orig::FUN_101d0970(*(void **)((int)self_ + 8),uVar2,uVar8);
       uVar6 = 0;
@@ -285,25 +285,25 @@ XI_API void __thiscall fn_101D0210(void * self_, int * param_1, char * param_2)
     local_4 = local_4 + 1;
   } while ((int)local_4 < 0x1037e430);
   if (0 < (int)uVar6) {
-    orig::FUN_101d0970(*(void **)((int)self_ + 8),CONCAT22(uVar4,*puVar1),(int)*param_2);
+    orig::FUN_101d0970(*(void **)((int)self_ + 8),((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)(*puVar1))),(int)*param_2);
   }
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x101D0370  (unit YkJpeg: between 0x101CF650 (class model places it in YkJpeg) and 0x101D08C0 (stores YkJpeg vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 50 trials, 10 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 13 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_t param_2, int param_3, int param_4)
 {
   char cVar1;
   void *pvVar2;
   char *pcVar3;
-  undefined *puVar4;
-  uint uVar5;
+  uint8_t *puVar4;
+  uint32_t uVar5;
   int iVar6;
   int iVar7;
   int *piVar8;
-  xi_bool bVar9;
-  undefined8 uVar10;
+  uint8_t bVar9;
+  uint64_t uVar10;
   char xi_frame[1028] __attribute__((aligned(4)));
   int  &local_404 = *reinterpret_cast<int  *>(xi_frame + 0);
   int  (&local_400)[256] = *reinterpret_cast<int  (*)[256]>(xi_frame + 4);
@@ -326,7 +326,7 @@ XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_
     pvVar2 = (void *)0x0;
   }
   else {
-    pvVar2 = (void *)orig::FUN_101d08e0(pvVar2,*(undefined4 *)((int)self_ + 4),0xa00000);
+    pvVar2 = (void *)orig::FUN_101d08e0(pvVar2,*(uint32_t *)((int)self_ + 4),0xa00000);
   }
   *(void **)((int)self_ + 8) = pvVar2;
   if (pvVar2 == (void *)0x0) {
@@ -364,7 +364,7 @@ XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_
           else {
             orig::FUN_101cfdb0(param_1,param_2,param_3,iVar7,local_404,(int)local_400);
           }
-          orig::FUN_101cfa00(self_,local_400);
+          orig::YkJpeg_CutColor(self_,local_400);
           piVar8 = (int *)((int)self_ + 0x1c);
           iVar6 = 4;
           do {
@@ -390,17 +390,17 @@ XI_API undefined4 __thiscall fn_101D0370(void * self_, uint32_t param_1, uint32_
   }
   orig::FUN_101d0a60(*(void **)((int)self_ + 8));
   orig::FUN_101d09e0(*(void **)((int)self_ + 8),0x1037e32a,2);
-  return (uint)(*(int *)(*(int *)((int)self_ + 8) + 0x10) <= *(int *)(*(int *)((int)self_ + 8) + 0xc))
+  return (uint32_t)(*(int *)(*(int *)((int)self_ + 8) + 0x10) <= *(int *)(*(int *)((int)self_ + 8) + 0xc))
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x101D05E0  (unit YkJpeg: between 0x101CF650 (class model places it in YkJpeg) and 0x101D08C0 (stores YkJpeg vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined * __cdecl fn_101D05E0(void)
+XI_API uint8_t * __cdecl fn_101D05E0(void)
 {
   orig::FUN_101c8d70();
-  orig::_sprintf_v4(&DAT_10662f78,s__C__SQUARE_ENIX_1037e878);
-  return(undefined*)(&DAT_10662f78);
+  orig::_sprintf_v3(&DAT_10662f78,s__C__SQUARE_ENIX_1037e878);
+  return(uint8_t*)(&DAT_10662f78);
 }
 
 // FUNCTION: FFXIMAIN 0x101D0600  (unit YkJpeg: between 0x101CF650 (class model places it in YkJpeg) and 0x101D08C0 (stores YkJpeg vtable (ctor/dtor)), both within 4 KB)
@@ -420,7 +420,7 @@ XI_API int __thiscall fn_101D0600(void * self_, uint32_t param_1, uint32_t param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101D08C0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_YkJpeg_GetRuntimeClass_10337e80;
+  *(uint8_t ***)self_ = &PTR_YkJpeg_GetRuntimeClass_10337e80;
   orig::FUN_101d0860(self_);
   return self_;
 }
@@ -429,7 +429,7 @@ XI_API undefined4 __thiscall fn_101D08C0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101D08D0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_YkJpeg_GetRuntimeClass_10337e80;
+  *(uint8_t ***)self_ = &PTR_YkJpeg_GetRuntimeClass_10337e80;
   orig::FUN_101d0880(self_);
   return;
 }

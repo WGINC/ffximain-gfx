@@ -7,18 +7,18 @@
 XI_API void __thiscall fn_10188CA0(void * self_, undefined4 * param_1, int param_2)
 {
   float *pfVar1;
-  float10 fVar2;
+  long double fVar2;
   char xi_frame[48] __attribute__((aligned(4)));
-  undefined4  &local_30 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_2c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_28 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
+  uint32_t  &local_30 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_2c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_28 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 16);
-  undefined4  &local_1c = *reinterpret_cast<undefined4  *>(xi_frame + 20);
-  undefined4  &local_18 = *reinterpret_cast<undefined4  *>(xi_frame + 24);
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 32);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 36);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 40);
+  uint32_t  &local_1c = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_18 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 32);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 40);
   
   param_1[0xd] = 0;
   param_1[0xe] = 0;
@@ -45,16 +45,16 @@ XI_API void __thiscall fn_10188CA0(void * self_, undefined4 * param_1, int param
     goto LAB_10188dd7;
   }
   if (param_2 == 0) {
-    orig::Vec4_Copy_v1(&local_30,(undefined4 *)&DAT_1065ca34);
-    orig::Vec4_Copy_v1(&local_10,(undefined4 *)((int)self_ + 0x14c));
+    orig::Vec4_Copy_v1(&local_30,(uint32_t *)&DAT_1065ca34);
+    orig::Vec4_Copy_v1(&local_10,(uint32_t *)((int)self_ + 0x14c));
     fVar2 = orig::FUN_10186fd0(self_);
     pfVar1 = (float *)((int)self_ + 0x16c);
 LAB_10188d82:
     orig::Vec3_Scale_v1(&local_20,pfVar1,(float)fVar2);
   }
   else if (param_2 == 1) {
-    orig::Vec4_Copy_v1(&local_30,(undefined4 *)&DAT_1065ca34);
-    orig::Vec4_Copy_v1(&local_10,(undefined4 *)((int)self_ + 0x17c));
+    orig::Vec4_Copy_v1(&local_30,(uint32_t *)&DAT_1065ca34);
+    orig::Vec4_Copy_v1(&local_10,(uint32_t *)((int)self_ + 0x17c));
     fVar2 = orig::FUN_10186f60(self_);
     pfVar1 = (float *)((int)self_ + 0x19c);
     goto LAB_10188d82;
@@ -80,7 +80,7 @@ LAB_10188dd7:
 }
 
 // FUNCTION: FFXIMAIN 0x10188E00  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 {
   __int64 v3; // rax
@@ -175,7 +175,7 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10188FA0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
 {
   float *AmbientColorPtr;
@@ -254,4 +254,74 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
     *a2 = 255.0;
     return a2;
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10189120  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * param_2, float * param_3, int param_4)
+{
+  float *pfVar1;
+  float *pfVar2;
+  long double fVar3;
+  long double fVar4;
+  int64_t lVar5;
+  int64_t lVar6;
+  int iVar7;
+  
+  pfVar1 = param_3;
+  if (*(int *)((int)self_ + -0x1c) != 1) {
+    *param_1 = 0xffffffff;
+    *param_2 = 4e+02f;
+    *param_3 = 0.0f;
+    return;
+  }
+  *param_1 = 0x808080;
+  *param_2 = 4e+02f;
+  *param_3 = 3e+02f;
+  if (*(int *)((int)self_ + 0x18) == 0) {
+    return;
+  }
+  if (param_4 == 0) {
+    pfVar2 = (float *)orig::FUN_10186f90(self_);
+    lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[2] * (long double)255.0f);
+    lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[1] * (long double)255.0f);
+    XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
+    lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)*pfVar2 * (long double)255.0f);
+    XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
+    param_3 = (float *)(uint32_t)(uint32_t)param_3;
+    *param_1 = (uint32_t)param_3;
+    pfVar2 = (float *)orig::FUN_10186fb0(self_);
+    *param_2 = *pfVar2;
+    fVar3 = orig::FUN_101892b0(self_,0);
+    *param_2 = (float)(fVar3 * (long double)*param_2);
+    pfVar2 = (float *)orig::FUN_10186fc0(self_);
+    iVar7 = 0;
+  }
+  else {
+    if (param_4 != 1) goto LAB_10189287;
+    pfVar2 = (float *)orig::FUN_10186f90(self_);
+    lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[2] * (long double)255.0f);
+    lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[1] * (long double)255.0f);
+    XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
+    lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)*pfVar2 * (long double)255.0f);
+    XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
+    param_3 = (float *)(uint32_t)(uint32_t)param_3;
+    *param_1 = (uint32_t)param_3;
+    pfVar2 = (float *)orig::FUN_10186f40(self_);
+    *param_2 = *pfVar2;
+    fVar3 = orig::FUN_101892b0(self_,1);
+    *param_2 = (float)(fVar3 * (long double)*param_2);
+    pfVar2 = (float *)orig::FUN_10186f50(self_);
+    iVar7 = 1;
+  }
+  *pfVar1 = *pfVar2;
+  fVar3 = orig::FUN_101892b0(self_,iVar7);
+  *pfVar1 = (float)(fVar3 * (long double)*pfVar1);
+LAB_10189287:
+  fVar4 = (long double)*param_2;
+  fVar3 = (long double)*pfVar1;
+  if (fVar4 <= fVar3) {
+    *param_2 = (float)((long double)*pfVar1 + (long double)1.0f);
+  }
+  return;
 }

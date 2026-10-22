@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006B040  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
 {
   return &CMoDxStatusMng_classdesc;
@@ -14,13 +14,13 @@ char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CMoDxStatusMng::Constructor(void * self)
 {
-  orig::fn_1006AD90_v1((void *)((int)self + 4));
-  *(undefined ***)self = &PTR_CMoDxStatusMng_GetRuntimeClass_1032c10c;
+  orig::FUN_1006ad90((void *)((int)self + 4));
+  *(uint8_t ***)self = &PTR_CMoDxStatusMng_GetRuntimeClass_1032c10c;
   return self;
 }
 
 // FUNCTION: FFXIMAIN 0x1006B070  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoDxStatusMng::ScalarDeletingDtor(char a2)
 {
   orig::CMoDxStatusMng_Destructor(this);

@@ -7,12 +7,12 @@
 XI_API undefined4 __cdecl fn_100142B0(void)
 {
   undefined4 *self_;
-  uint uVar1;
+  uint32_t uVar1;
   undefined4 uVar2;
-  undefined8 uVar3;
+  uint64_t uVar3;
   
   orig::FUN_1015e910(&g_menuMng_as_v0,aMenuChdummy);
-  *g_pSceneState_as_v1 = 0x60;
+  *g_pSceneState_as_v2 = 0x60;
   orig::FUN_101ab730();
   uVar3 = orig::Mem_AllocFromArea_v1(0x34,4);
   self_ = (undefined4 *)uVar3;
@@ -24,7 +24,7 @@ XI_API undefined4 __cdecl fn_100142B0(void)
     DAT_1045690c = self_;
     uVar2 = orig::CMoTask_RegisterWithMng_v1(0xd);
     orig::App_AdvanceSeqStep_v1(g_pCamera_as_v2);
-    return CONCAT31((int3)((uint)uVar2 >> 8),1);
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
   }
   DAT_1045690c = (undefined4 *)0x0;
   return uVar1 & 0xffffff00;

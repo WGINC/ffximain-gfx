@@ -4,11 +4,11 @@
 
 // FUNCTION: FFXIMAIN 0x10052C90  (unit unit_10052C90: no unit evidence of its own; in the gap between 0x10052C70 (CMoD3aLightmapElem) and 0x10052CB0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10052C90(void * self_)
+XI_API uint64_t __thiscall fn_10052C90(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  *(uint8_t ***)self_ = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }

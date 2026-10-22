@@ -7,7 +7,7 @@
 XI_API uint32_t __thiscall fn_10083340(void * self_)
 {
   if (*(int *)((int)self_ + 0x70) != 0) {
-    return *(uint *)(*(int *)((int)self_ + 0x70) + 0x130) >> 0x15 & 1;
+    return *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x130) >> 0x15 & 1;
   }
   return 0;
 }

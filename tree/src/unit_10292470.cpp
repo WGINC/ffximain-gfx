@@ -6,14 +6,14 @@
 // GATE: PASS -- 100 trials, 39 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10292490(int param_1, uint32_t param_2)
 {
-  byte bVar1;
-  uint uVar2;
+  uint8_t bVar1;
+  uint32_t uVar2;
   
   uVar2 = 0;
   if (param_2 != 0) {
     do {
-      bVar1 = *(byte *)(uVar2 + param_1) ^ DAT_103bb0c8;
-      *(byte *)(uVar2 + param_1) = bVar1 >> 4 ^ bVar1 << 4;
+      bVar1 = *(uint8_t *)(uVar2 + param_1) ^ DAT_103bb0c8;
+      *(uint8_t *)(uVar2 + param_1) = bVar1 >> 4 ^ bVar1 << 4;
       uVar2 = uVar2 + 1;
     } while (uVar2 < param_2);
   }

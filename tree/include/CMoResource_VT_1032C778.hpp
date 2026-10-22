@@ -5,7 +5,6 @@
 #pragma pack(push, 1)
 class XI_API CMoResource_VT_1032C778 {
 public:
-    char vf008();  // 0x10071A20
     char vf009();  // 0x10071A30
 
     void **vftable;  // +0x0

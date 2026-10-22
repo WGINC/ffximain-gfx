@@ -5,18 +5,18 @@
 
 // FUNCTION: FFXIMAIN 0x10052F80  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined8 __thiscall CXi471011C8_VT_1032B478::Ctor(void * self)
+uint64_t __thiscall CXi471011C8_VT_1032B478::Ctor(void * self)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self);
-  *(undefined ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032b478;
-  *(undefined2 *)((int)self + 0x176) = 0x1b6;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self);
+  *(uint8_t ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032b478;
+  *(uint16_t *)((int)self + 0x176) = 0x1b6;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x100565A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CXi471011C8_VT_1032B478::RebuildBlendWeights()
 {
   char result;

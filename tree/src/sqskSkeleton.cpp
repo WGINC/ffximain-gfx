@@ -21,7 +21,7 @@ XI_API void __cdecl fn_1027B5A0(undefined4 * param_1)
   param_1[2] = &LAB_1027b5e0;
   param_1[3] = XI_CODE(FUN_1027b610);
   param_1[4] = &LAB_1027b650;
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = XI_CODE(FUN_1027c9d0);
   param_1[7] = 0;
   param_1[8] = 0;
@@ -70,7 +70,7 @@ XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
         *(int *)(*(int *)(param_1 + 0x20) + 100 + iVar4) = *(int *)(param_1 + 0x24) + iVar3;
         iVar2 = iVar2 + 1;
         iVar3 = iVar3 + 0x9c;
-        *(undefined1 *)(*(int *)(param_1 + 0x20) + 0x74 + iVar4) = 0;
+        *(uint8_t *)(*(int *)(param_1 + 0x20) + 0x74 + iVar4) = 0;
         iVar4 = iVar4 + 0xf8;
       } while (iVar2 < *(int *)(param_1 + 0x28));
     }
@@ -88,7 +88,7 @@ XI_API int __cdecl fn_1027C980(int param_1, int param_2)
     return *(int *)(param_1 + 0x20) + param_2 * 0xf8;
   }
   orig::sqDebugPrintf_v2(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x3b4);
-  orig::sqDebugPrintf_v2(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(undefined4 *)(param_1 + 0x28))
+  orig::sqDebugPrintf_v2(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(uint32_t *)(param_1 + 0x28))
   ;
   return 0;
 }

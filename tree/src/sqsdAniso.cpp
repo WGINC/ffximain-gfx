@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int *piVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
+  uint32_t uVar5;
   char xi_frame[56] __attribute__((aligned(4)));
-  undefined4  &uVar6 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
+  uint32_t  &uVar6 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   float  &local_24 = *reinterpret_cast<float  *>(xi_frame + 20);
   float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 24);
   float  &local_1c = *reinterpret_cast<float  *>(xi_frame + 28);
@@ -68,21 +68,21 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   orig::sqgxTextureDecal_v1(0);
   orig::FUN_102827d0();
   if (param_1[0x19] == 0) {
-    local_c = (float)((float10)xi_castbits<float>(param_1[10]) * (float10)xi_castbits<float>(param_1[0xd]));
-    local_8 = (float)((float10)xi_castbits<float>(param_1[0xb]) * (float10)xi_castbits<float>(param_1[0xd]));
-    local_4 = (float)((float10)xi_castbits<float>(param_1[0xc]) * (float10)xi_castbits<float>(param_1[0xd]));
-    local_18 = (float)((float10)xi_castbits<float>(param_1[10]) * (float10)xi_castbits<float>(param_1[0xe]));
-    local_14 = (float)((float10)xi_castbits<float>(param_1[0xb]) * (float10)xi_castbits<float>(param_1[0xe]));
-    local_10 = (float)((float10)xi_castbits<float>(param_1[0xc]) * (float10)xi_castbits<float>(param_1[0xe]));
+    local_c = (float)((long double)xi_castbits<float>(param_1[10]) * (long double)xi_castbits<float>(param_1[0xd]));
+    local_8 = (float)((long double)xi_castbits<float>(param_1[0xb]) * (long double)xi_castbits<float>(param_1[0xd]));
+    local_4 = (float)((long double)xi_castbits<float>(param_1[0xc]) * (long double)xi_castbits<float>(param_1[0xd]));
+    local_18 = (float)((long double)xi_castbits<float>(param_1[10]) * (long double)xi_castbits<float>(param_1[0xe]));
+    local_14 = (float)((long double)xi_castbits<float>(param_1[0xb]) * (long double)xi_castbits<float>(param_1[0xe]));
+    local_10 = (float)((long double)xi_castbits<float>(param_1[0xc]) * (long double)xi_castbits<float>(param_1[0xe]));
     if ((char)param_1[0x12] == '\0') {
       local_24 = xi_castbits<float>(param_1[0xf]);
       local_20 = local_24;
       local_1c = local_24;
     }
     else {
-      local_24 = (float)((float10)xi_castbits<float>(param_1[10]) * (float10)xi_castbits<float>(param_1[0xf]));
-      local_20 = (float)((float10)xi_castbits<float>(param_1[0xb]) * (float10)xi_castbits<float>(param_1[0xf]));
-      local_1c = (float)((float10)xi_castbits<float>(param_1[0xc]) * (float10)xi_castbits<float>(param_1[0xf]));
+      local_24 = (float)((long double)xi_castbits<float>(param_1[10]) * (long double)xi_castbits<float>(param_1[0xf]));
+      local_20 = (float)((long double)xi_castbits<float>(param_1[0xb]) * (long double)xi_castbits<float>(param_1[0xf]));
+      local_1c = (float)((long double)xi_castbits<float>(param_1[0xc]) * (long double)xi_castbits<float>(param_1[0xf]));
     }
     iVar4 = orig::FUN_10298e10(0x80,param_1[0x10],&local_c,&local_18,&local_24);
     param_1[0x19] = iVar4;

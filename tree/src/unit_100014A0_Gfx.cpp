@@ -6,8 +6,8 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   uVar1 = orig::FUN_10311c7a(0,0);
   orig::FUN_10311c7a(0x8001f,0x8001f);
@@ -17,18 +17,18 @@ XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
     return uVar1 & 0xffffff00;
   }
   uVar1 = orig::FUN_10311c7a(uVar1,0x8001f);
-  if (g_pGameMode_as_v0 != (undefined *)0x0) {
+  if (g_pGameMode_as_v0 != (uint8_t *)0x0) {
     uVar1 = orig::FUN_100daf30(g_pGameMode_as_v0);
   }
-  return CONCAT31((int3)(uVar1 >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10001BB0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
 {
-  uint uVar1;
-  undefined8 uVar2;
+  uint32_t uVar1;
+  uint64_t uVar2;
   
   uVar2 = orig::Allocator_Generic_v1(0xdc4);
   if ((void *)uVar2 == (void *)0x0) {
@@ -41,7 +41,7 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
     if (g_pAppInputState_as_v0 != (void *)0x0) {
       uVar1 = orig::FUN_100058f0(g_pAppInputState_as_v0,param_1);
       if ((char)uVar1 != '\0') {
-        return CONCAT31((int3)(uVar1 >> 8),1);
+        return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -60,7 +60,7 @@ XI_API void __cdecl fn_10001D90(undefined4 param_1)
   if ((char)iVar1 != '\0') {
     local_8[0] = 0;
     local_8[1] = 0;
-    orig::CTkMouse_OnMouseMove(g_pCursor_as_v1,local_8,(int)(short)param_1 / 0x78);
+    orig::CTkMouse_OnMouseMove(g_pCursor_as_v2,local_8,(int)(short)param_1 / 0x78);
     return;
   }
   orig::FUN_1025e210((int)(short)param_1 / 0x78);
@@ -72,15 +72,15 @@ XI_API void __cdecl fn_10001D90(undefined4 param_1)
 XI_API undefined4 __cdecl fn_10001E70(char * param_1)
 {
   char cVar1;
-  undefined4 xi_entry_eax = 0;
+  uint32_t xi_entry_eax = 0;
   char *pcVar2;
-  uint uVar3;
-  uint uVar4;
+  uint32_t uVar3;
+  uint32_t uVar4;
   char *pcVar5;
   int iVar6;
   char *pcVar7;
   char *pcVar8;
-  undefined8 uVar9;
+  uint64_t uVar9;
   
   pcVar2 = DAT_103d3c88;
   if (param_1 != (char *)0x0) {
@@ -104,7 +104,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
     pcVar5 = DAT_103d3c88;
     pcVar7 = pcVar2;
     if (pcVar2 == (char *)0x0) {
-      return (uint)(uint3)((ulonglong)uVar9 >> 8) << 8;
+      return (uint32_t)(uint32_t)((uint64_t)uVar9 >> 8) << 8;
     }
     do {
       cVar1 = *pcVar5;
@@ -122,7 +122,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
       cVar1 = *pcVar5;
       pcVar5 = pcVar7;
     } while (cVar1 != '\0');
-    *(undefined2 *)(pcVar7 + -1) = c_strSpace_as_v0;
+    *(uint16_t *)(pcVar7 + -1) = c_strSpace_as_v0;
     uVar3 = 0xffffffff;
     do {
       pcVar5 = param_1;
@@ -146,7 +146,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
     pcVar5 = pcVar5 + -uVar3;
     pcVar7 = pcVar8 + -1;
     for (uVar4 = uVar3 >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
-      *(undefined4 *)pcVar7 = *(undefined4 *)pcVar5;
+      *(uint32_t *)pcVar7 = *(uint32_t *)pcVar5;
       pcVar5 = pcVar5 + 4;
       pcVar7 = pcVar7 + 4;
     }
@@ -158,11 +158,11 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
     xi_entry_eax = 0;
     if (DAT_103d3c88 != (char *)0x0) {
       uVar9 = orig::operator_delete_10311BB0_v1(DAT_103d3c88);
-      xi_entry_eax = (undefined4)uVar9;
+      xi_entry_eax = (uint32_t)uVar9;
     }
   }
   DAT_103d3c88 = pcVar2;
-  return CONCAT31((int3)((uint)xi_entry_eax >> 8),1);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10001F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -180,13 +180,13 @@ XI_API undefined4 __cdecl fn_10001F20(undefined4 param_1, undefined4 param_2)
 XI_API char * __cdecl fn_10001F40(char * param_1, char * param_2, int param_3)
 {
   char cVar1;
-  xi_bool bVar2;
-  uint *puVar3;
+  uint8_t bVar2;
+  uint32_t *puVar3;
   char *pcVar4;
-  uint uVar5;
-  xi_bool bVar6;
+  uint32_t uVar5;
+  uint8_t bVar6;
   
-  if (DAT_103d3c88_as_v0 != (uint *)0x0) {
+  if (DAT_103d3c88_as_v0 != (uint32_t *)0x0) {
     uVar5 = 0xffffffff;
     pcVar4 = param_1;
     do {
@@ -196,9 +196,9 @@ XI_API char * __cdecl fn_10001F40(char * param_1, char * param_2, int param_3)
       pcVar4 = pcVar4 + 1;
     } while (cVar1 != '\0');
     puVar3 = orig::FUN_10311eb0(DAT_103d3c88_as_v0,param_1);
-    if (puVar3 != (uint *)0x0) {
-      for (puVar3 = orig::FUN_10311eb0(DAT_103d3c88_as_v0,param_1); puVar3 != (uint *)0x0;
-          puVar3 = orig::FUN_10311eb0((uint *)((int)puVar3 + 1),param_1)) {
+    if (puVar3 != (uint32_t *)0x0) {
+      for (puVar3 = orig::FUN_10311eb0(DAT_103d3c88_as_v0,param_1); puVar3 != (uint32_t *)0x0;
+          puVar3 = orig::FUN_10311eb0((uint32_t *)((int)puVar3 + 1),param_1)) {
         cVar1 = *(char *)((int)puVar3 + (~uVar5 - 1));
         if ((((((cVar1 == ' ') || (cVar1 == '\0')) || (cVar1 == '0')) ||
              ((cVar1 == '1' || (cVar1 == '2')))) ||
@@ -249,7 +249,7 @@ LAB_10002023:
 }
 
 // FUNCTION: FFXIMAIN 0x10002040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 257 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98, town PASS 97, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 263 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
 {
   unsigned __int16 v4;
@@ -287,7 +287,7 @@ XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, c
 }
 
 // FUNCTION: FFXIMAIN 0x10002130  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 21 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 21, town PASS 21, town2 PASS 21, combat PASS 21, zonetoinn PASS 21
+// GATE: PASS -- 100 trials, 21 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_ProbeDeviceCaps(int a1, unsigned int *a2, int *a3)
 {
   int v4;
@@ -482,7 +482,7 @@ XI_API uint32_t __cdecl fn_10002440(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002BE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned __int8 __cdecl Gfx_IsGammaSupported(void)
 {
   if ( g_pCDx != nullptr )
@@ -492,7 +492,7 @@ XI_API unsigned __int8 __cdecl Gfx_IsGammaSupported(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C00  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 {
   CDx *result;
@@ -503,7 +503,7 @@ XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C30  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 {
   CDx *result;
@@ -523,7 +523,7 @@ XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 {
   CDx *result;
@@ -543,7 +543,7 @@ XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002CD0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 {
   CDx *result;
@@ -563,7 +563,7 @@ XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 {
   int result;
@@ -575,15 +575,15 @@ XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10002D80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10002D80(void)
+XI_API long double __attribute__((cdecl, regparm(1))) fn_10002D80(undefined4 xi_eax)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  uVar1 = orig::FUN_10087110();
+  uVar1 = orig::FUN_10087110(xi_eax);
   if ((char)uVar1 != '\0') {
-    return (float10)xi_k4(0x3F800000ull);
+    return (long double)1.0f;
   }
-  return (float10)_DAT_10456a68;
+  return (long double)_DAT_10456a68;
 }
 
 // FUNCTION: FFXIMAIN 0x10002E60  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -599,7 +599,7 @@ XI_API void __cdecl fn_10002E60(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002E80(undefined4 param_1)
 {
-  float10 fVar1;
+  long double fVar1;
   float fVar2;
   
   fVar1 = orig::FUN_10002ee0(param_1);
@@ -616,7 +616,7 @@ XI_API long double __cdecl fn_10002EC0(int param_1)
   if (5 < param_1) {
     param_1 = 5;
   }
-  return (float10)xi_castbits<float>((&DAT_1034f4a0)[param_1 * 2]);
+  return (long double)xi_castbits<float>((&DAT_1034f4a0)[param_1 * 2]);
 }
 
 // FUNCTION: FFXIMAIN 0x10002EE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -626,11 +626,11 @@ XI_API long double __cdecl fn_10002EE0(int param_1)
   if (5 < param_1) {
     param_1 = 5;
   }
-  return (float10)xi_castbits<float>((&DAT_1034f4a4)[param_1 * 2]);
+  return (long double)xi_castbits<float>((&DAT_1034f4a4)[param_1 * 2]);
 }
 
 // FUNCTION: FFXIMAIN 0x10002F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5)
 {
   _DWORD *v5;
@@ -685,7 +685,7 @@ XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5
 }
 
 // FUNCTION: FFXIMAIN 0x10003040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 {
   int result;
@@ -702,7 +702,7 @@ XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100031F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27, town PASS 27, town2 PASS 27, combat PASS 27, zonetoinn PASS 27
+// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char a5, char a6, int a7)
 {
   int v8;
@@ -796,7 +796,7 @@ XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char 
 }
 
 // FUNCTION: FFXIMAIN 0x100033C0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3, int a4, char a5, char a6, int a7, int a8)
 {
   int *i;
@@ -829,7 +829,7 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
 }
 
 // FUNCTION: FFXIMAIN 0x100034B0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, int a5, int a6, char a7, char a8, int a9)
 {
   _DWORD *v10;
@@ -906,7 +906,7 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
 XI_API void * __thiscall fn_100035F0(void * self_)
 {
   orig::FUN_10003660((void *)((int)self_ + 4));
-  *(undefined ***)self_ = &PTR_FUN_1032965c;
+  *(uint8_t ***)self_ = &PTR_FUN_1032965c;
   orig::FUN_10003640(self_);
   return self_;
 }

@@ -8,7 +8,7 @@ XI_API void __thiscall fn_1001ACB0(void * self_, undefined4 param_1, undefined4 
 {
   int iVar1;
   
-  orig::FUN_1001ad00(self_,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
+  orig::KzMotionQueList_AppendSync(self_,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
   iVar1 = orig::FUN_1001b1a0(self_);
   if (iVar1 != 0) {
     *(int *)(iVar1 + 0x24) = param_7;
@@ -34,7 +34,7 @@ XI_API void __thiscall fn_1001B170(void * self_, float param_1)
 XI_API void __thiscall fn_1001B1F0(void * self_, undefined4 param_1, undefined4 param_2)
 {
   int *this_00;
-  uint uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_10084620(param_1);
   if (uVar1 == 0) {

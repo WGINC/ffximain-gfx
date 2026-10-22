@@ -8,7 +8,7 @@ XI_API undefined4 __cdecl fn_10270B60(void)
 {
   int iVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   int iVar4;
   undefined4 *puVar5;
   undefined4 *puVar6;
@@ -39,8 +39,8 @@ XI_API undefined4 __cdecl fn_10270B60(void)
   DAT_1099b1ac = 0;
   _DAT_1099b1b0 = 0;
   DAT_1099bb70 = 0;
-  DAT_1099b12c = 0;
-  DAT_1099b130 = 0;
+  DAT_1099b12c_as_v0 = 0;
+  DAT_1099b130_as_v0 = 0;
   _DAT_1099b134 = 0;
   DAT_1099b138 = 0;
   orig::FUN_1028e350((undefined4 *)&DAT_1099b13c);
@@ -87,7 +87,7 @@ XI_API undefined4 __cdecl fn_10270B60(void)
     iVar4 = iVar1 * 0x7c;
     iVar2 = orig::FUN_1028ed50(0x1099b13c,((char *)&DAT_1099bb9c) + iVar1 * 0x38,((char *)&DAT_1099bcd0) + iVar4);
     (&DAT_1099bb74)[iVar1] = iVar2;
-    orig::FUN_1028ecc0(0x1099b13c,iVar2,(uint)(iVar1 != 4));
+    orig::FUN_1028ecc0(0x1099b13c,iVar2,(uint32_t)(iVar1 != 4));
     orig::FUN_10290910((undefined4 *)(((char *)&DAT_1099c578) + iVar1 * 0x180));
     (&DAT_1099c5a0)[iVar1 * 0x60] = (&DAT_1099bbb0)[iVar1 * 0xe];
     (&DAT_1099c5a4)[iVar1 * 0x60] = (&DAT_1099bbb4)[iVar1 * 0xe];
@@ -127,10 +127,10 @@ XI_API void __cdecl fn_10270EC0(void)
   iVar1 = DAT_1099b0f4 * 0x7c;
   _DAT_1099cd98 = (&DAT_1099b39c)[DAT_1099b0f4 * 0x1f];
   _DAT_1099cd9c = (&DAT_1099b3a0)[DAT_1099b0f4 * 0x1f];
-  _DAT_1099cda0 = *(undefined4 *)(((char *)&DAT_1099b3a4) + iVar1);
-  _DAT_1099cda4 = *(undefined4 *)(((char *)&DAT_1099b3a8) + iVar1);
-  _DAT_1099cda8 = *(undefined4 *)(((char *)&DAT_1099b3ac) + iVar1);
-  _DAT_1099cdac = *(undefined4 *)(((char *)&DAT_1099b3b0) + iVar1);
+  _DAT_1099cda0 = *(uint32_t *)(((char *)&DAT_1099b3a4) + iVar1);
+  _DAT_1099cda4 = *(uint32_t *)(((char *)&DAT_1099b3a8) + iVar1);
+  _DAT_1099cda8 = *(uint32_t *)(((char *)&DAT_1099b3ac) + iVar1);
+  _DAT_1099cdac = *(uint32_t *)(((char *)&DAT_1099b3b0) + iVar1);
   _DAT_1099cdb0 = (&DAT_1099b3b4)[DAT_1099b0f4 * 0x1f];
   orig::sqxfXformTD_Update(0x1099cd38);
   return;
@@ -138,11 +138,12 @@ XI_API void __cdecl fn_10270EC0(void)
 
 // FUNCTION: FFXIMAIN 0x10270F30  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10270F30(undefined4 param_1)
+XI_API undefined4 __cdecl fn_10270F30(undefined4 param_1)
 {
   int iVar1;
-  float *pfVar2;
+  int iVar2;
   float *pfVar3;
+  float *pfVar4;
   
   if ((DAT_1099b0d8 & 8) != 0) {
     orig::FUN_10271030(param_1);
@@ -155,28 +156,29 @@ XI_API void __cdecl fn_10270F30(undefined4 param_1)
   DAT_1099b0d8 = DAT_1099b0d8 & 0xffffff0f;
   orig::FUN_1026e590(param_1);
   iVar1 = DAT_1099b0f4;
-  pfVar2 = (float *)&DAT_1099bf88;
-  pfVar3 = (float *)&DAT_1099c518;
+  pfVar3 = (float *)&DAT_1099bf88;
+  pfVar4 = (float *)&DAT_1099c518;
+  iVar2 = DAT_1099b0f4;
   do {
-    if ((xi_castbits<uint>(pfVar3[-1]) & 2) != 0) {
-      orig::FUN_1027b170(pfVar2 + -0x9b,(float *)(((char *)&DAT_1099b3a4) + iVar1 * 0x7c),pfVar3);
-      orig::sqxfXformTD_Update((int)(pfVar2 + -0xb5));
-      orig::FUN_1027b170(pfVar2,(float *)(((char *)&DAT_1099b3a4) + iVar1 * 0x7c),pfVar3);
-      orig::sqxfXformTD_Update((int)(pfVar2 + -0x1a));
-      orig::FUN_102806b0((int)(pfVar2 + -0x13),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull));
+    if ((xi_castbits<uint32_t>(pfVar4[-1]) & 2) != 0) {
+      orig::FUN_1027b170(pfVar3 + -0x9b,(float *)(((char *)&DAT_1099b3a4) + iVar1 * 0x7c),pfVar4);
+      orig::sqxfXformTD_Update((int)(pfVar3 + -0xb5));
+      orig::FUN_1027b170(pfVar3,(float *)(((char *)&DAT_1099b3a4) + iVar1 * 0x7c),pfVar4);
+      orig::sqxfXformTD_Update((int)(pfVar3 + -0x1a));
+      iVar2 = orig::FUN_102806b0((int)(pfVar3 + -0x13),0.25f,0.25f,0.25f);
     }
-    pfVar3 = pfVar3 + 5;
-    pfVar2 = pfVar2 + 0x1f;
-  } while ((int)pfVar3 < 0x1099c57c);
-  return;
+    pfVar4 = pfVar4 + 5;
+    pfVar3 = pfVar3 + 0x1f;
+  } while ((int)pfVar4 < 0x1099c57c);
+  return iVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x10271030  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10271030(undefined4 param_1)
 {
-  uint uVar1;
-  byte bVar2;
+  uint32_t uVar1;
+  uint8_t bVar2;
   
   if ((DAT_1099b0d8 & 0x200) != 0) {
     orig::FUN_102712e0(DAT_1099b0e8_as_s32,DAT_1099b0f0_as_s32,DAT_1099b0e4,DAT_1099b0ec_as_s32,param_1);
@@ -186,7 +188,7 @@ XI_API void __cdecl fn_10271030(undefined4 param_1)
   if ((char)DAT_1099b0d8 < '\0') {
     bVar2 = bVar2 | 2;
   }
-  uVar1 = (uint)bVar2;
+  uVar1 = (uint32_t)bVar2;
   if ((DAT_1099b0d8 & 0x20) == 0) {
     if (uVar1 == 0) {
       return;
@@ -204,14 +206,14 @@ XI_API void __cdecl fn_10271030(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102715F0(undefined4 param_1)
 {
-  byte bVar1;
+  uint8_t bVar1;
   
   bVar1 = (DAT_1099b0d8_as_v0 & 0x10) != 0;
   if ((DAT_1099b0d8_as_v0 & 0x20) != 0) {
     bVar1 = bVar1 | 2;
   }
   if (bVar1 != 0) {
-    orig::FUN_10271630(DAT_1099b0e4_as_s32,DAT_1099b0ec_as_s32,(uint)bVar1,param_1);
+    orig::FUN_10271630(DAT_1099b0e4_as_s32,DAT_1099b0ec_as_s32,(uint32_t)bVar1,param_1);
   }
   return;
 }
@@ -221,47 +223,47 @@ XI_API void __cdecl fn_102715F0(undefined4 param_1)
 XI_API void __cdecl fn_10271630(int param_1, int param_2, undefined4 param_3, float param_4)
 {
   int iVar1;
-  float10 fVar2;
+  long double fVar2;
   char xi_frame[76] __attribute__((aligned(4)));
   float  &local_4c = *reinterpret_cast<float  *>(xi_frame + 0);
-  undefined4  &local_48 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_44 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
+  uint32_t  &local_48 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_44 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   float  (&local_40)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 12);
   float  (&local_30)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 28);
   float  (&local_20)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 44);
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 60);
   
   if (((&DAT_1099c514)[DAT_1099b0f8 * 0x14] & 2) == 0) {
-    fVar2 = (float10)xi_k4(0x49742400ull) / (float10)xi_castbits<int>(param_4);
-    if ((NAN(fVar2) || NAN((float10)xi_k4(0x41200000ull))) || fVar2 <= (float10)xi_k4(0x41200000ull)) {
-      param_4 = xi_k4(0x3F800000ull);
+    fVar2 = (long double)1e+06f / (long double)xi_castbits<int>(param_4);
+    if (!(fVar2 > (long double)1e+01f)) {
+      param_4 = 1.0f;
     }
     else {
-      param_4 = (float)((float10)xi_k4(0x42700000ull) / fVar2);
+      param_4 = (float)((long double)6e+01f / fVar2);
     }
     iVar1 = DAT_1099b0f4 * 0x7c;
     local_4c = *(float *)(((char *)&DAT_1099b35c) + iVar1);
-    local_48 = *(undefined4 *)(((char *)&DAT_1099b36c) + iVar1);
-    local_44 = *(undefined4 *)(((char *)&DAT_1099b37c) + iVar1);
+    local_48 = *(uint32_t *)(((char *)&DAT_1099b36c) + iVar1);
+    local_44 = *(uint32_t *)(((char *)&DAT_1099b37c) + iVar1);
     orig::FUN_1027ac30(local_10,&local_4c,
-                 (float)((float10)(param_1 >> 1) * (float10)param_4 * (float10)xi_k4(0x3C8EFA35ull)));
+                 (float)((long double)(param_1 >> 1) * (long double)param_4 * (long double)0.01745329238474369049072265625f));
     iVar1 = DAT_1099b0f4 * 0x7c;
     local_4c = *(float *)(((char *)&DAT_1099b358) + iVar1);
-    local_48 = *(undefined4 *)(((char *)&DAT_1099b368) + iVar1);
-    local_44 = *(undefined4 *)(((char *)&DAT_1099b378) + iVar1);
+    local_48 = *(uint32_t *)(((char *)&DAT_1099b368) + iVar1);
+    local_44 = *(uint32_t *)(((char *)&DAT_1099b378) + iVar1);
     orig::FUN_1027ac30(local_20,&local_4c,
-                 (float)((float10)(param_2 >> 1) * (float10)param_4 * (float10)xi_k4(0xBC8EFA35ull)));
+                 (float)((long double)(param_2 >> 1) * (long double)param_4 * (long double)(-0.01745329238474369049072265625f)));
     iVar1 = DAT_1099b0f8 * 0x7c;
     orig::FUN_1027b170(local_40,local_10,local_20);
     orig::FUN_1027b170(local_30,local_40,(float *)(((char *)&DAT_1099bd1c) + iVar1));
-    orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099bd1c) + iVar1),local_30);
+    orig::FUN_1027a700((uint32_t *)(((char *)&DAT_1099bd1c) + iVar1),local_30);
     orig::sqxfXformTD_Update((int)(((char *)&DAT_1099bcb4) + iVar1));
     iVar1 = DAT_1099b0f8 * 0x7c;
     orig::FUN_1027b170(local_40,local_10,local_20);
     orig::FUN_1027b170(local_30,local_40,(float *)(((char *)&DAT_1099bf88) + iVar1));
-    orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099bf88) + iVar1),local_30);
+    orig::FUN_1027a700((uint32_t *)(((char *)&DAT_1099bf88) + iVar1),local_30);
     orig::sqxfXformTD_Update((int)(((char *)&DAT_1099bf20) + iVar1));
-    orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar1),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull));
+    orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar1),0.25f,0.25f,0.25f);
   }
   return;
 }
@@ -276,14 +278,14 @@ XI_API void __cdecl fn_102717F0(void)
 
 // FUNCTION: FFXIMAIN 0x10271B40  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl scnFini(void)
+XI_API undefined4 __cdecl scnFini(void)
 {
   if (DAT_1099ccf8 != 0) {
     orig::FUN_10285740(&DAT_1099ccf8);
   }
   orig::FUN_1028e1b0(0x1099b13c);
   DAT_1099b0d8 = DAT_1099b0d8 & 0xfffffffe;
-  return;
+  return DAT_1099b0d8;
 }
 
 // FUNCTION: FFXIMAIN 0x10271B90  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
@@ -350,8 +352,8 @@ XI_API void __cdecl fn_10271CA0(undefined4 param_1, undefined4 param_2, undefine
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10271D00(void)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   int iVar3;
   
   iVar3 = DAT_1099b128;
@@ -407,60 +409,60 @@ XI_API void __cdecl scnGetFlags(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10271F20(int param_1)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
+  uint32_t *puVar1;
+  uint32_t *puVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  uint32_t uVar5;
   int iVar6;
   int iVar7;
   char xi_frame[24] __attribute__((aligned(4)));
   float  (&local_18)[6] = *reinterpret_cast<float  (*)[6]>(xi_frame + 0);
   
   iVar6 = param_1 * 0x7c;
-  puVar1 = (undefined4 *)(((char *)&DAT_1099bcb4) + iVar6);
-  puVar2 = (undefined4 *)(((char *)&DAT_1099bf20) + iVar6);
+  puVar1 = (uint32_t *)(((char *)&DAT_1099bcb4) + iVar6);
+  puVar2 = (uint32_t *)(((char *)&DAT_1099bf20) + iVar6);
   if (DAT_1099bb70_as_s32 < 1) {
     iVar7 = param_1 * 0x10;
-    orig::FUN_102727f0(param_1,(undefined4 *)(((char *)&DAT_103b1b70) + iVar7));
+    orig::FUN_102727f0(param_1,(uint32_t *)(((char *)&DAT_103b1b70) + iVar7));
     orig::sqxfXformTD_Init(puVar1);
-    uVar3 = *(undefined4 *)(((char *)&DAT_103b1bc4) + iVar7);
-    uVar4 = *(undefined4 *)(((char *)&DAT_103b1bc8) + iVar7);
-    *(undefined4 *)(((char *)&DAT_1099bd1c) + iVar6) = *(undefined4 *)(((char *)&DAT_103b1bc0) + iVar7);
-    uVar5 = *(undefined4 *)(((char *)&DAT_103b1bcc) + iVar7);
-    *(undefined4 *)(((char *)&DAT_1099bd20) + iVar6) = uVar3;
-    *(undefined4 *)(((char *)&DAT_1099bd24) + iVar6) = uVar4;
-    *(undefined4 *)(((char *)&DAT_1099bd28) + iVar6) = uVar5;
+    uVar3 = *(uint32_t *)(((char *)&DAT_103b1bc4) + iVar7);
+    uVar4 = *(uint32_t *)(((char *)&DAT_103b1bc8) + iVar7);
+    *(uint32_t *)(((char *)&DAT_1099bd1c) + iVar6) = *(uint32_t *)(((char *)&DAT_103b1bc0) + iVar7);
+    uVar5 = *(uint32_t *)(((char *)&DAT_103b1bcc) + iVar7);
+    *(uint32_t *)(((char *)&DAT_1099bd20) + iVar6) = uVar3;
+    *(uint32_t *)(((char *)&DAT_1099bd24) + iVar6) = uVar4;
+    *(uint32_t *)(((char *)&DAT_1099bd28) + iVar6) = uVar5;
     (&DAT_1099bd2c)[param_1 * 0x1f] = 0x41a00000;
     orig::sqxfXformTD_Update((int)puVar1);
     orig::sqxfXformTD_Init(puVar2);
-    uVar3 = *(undefined4 *)(((char *)&DAT_103b1bc4) + iVar7);
-    uVar4 = *(undefined4 *)(((char *)&DAT_103b1bc8) + iVar7);
-    *(undefined4 *)(((char *)&DAT_1099bf88) + iVar6) = *(undefined4 *)(((char *)&DAT_103b1bc0) + iVar7);
-    uVar5 = *(undefined4 *)(((char *)&DAT_103b1bcc) + iVar7);
-    *(undefined4 *)(((char *)&DAT_1099bf8c) + iVar6) = uVar3;
-    *(undefined4 *)(((char *)&DAT_1099bf90) + iVar6) = uVar4;
-    *(undefined4 *)(((char *)&DAT_1099bf94) + iVar6) = uVar5;
-    *(undefined4 *)(((char *)&DAT_1099bf98) + iVar6) = DAT_1099c510;
+    uVar3 = *(uint32_t *)(((char *)&DAT_103b1bc4) + iVar7);
+    uVar4 = *(uint32_t *)(((char *)&DAT_103b1bc8) + iVar7);
+    *(uint32_t *)(((char *)&DAT_1099bf88) + iVar6) = *(uint32_t *)(((char *)&DAT_103b1bc0) + iVar7);
+    uVar5 = *(uint32_t *)(((char *)&DAT_103b1bcc) + iVar7);
+    *(uint32_t *)(((char *)&DAT_1099bf8c) + iVar6) = uVar3;
+    *(uint32_t *)(((char *)&DAT_1099bf90) + iVar6) = uVar4;
+    *(uint32_t *)(((char *)&DAT_1099bf94) + iVar6) = uVar5;
+    *(uint32_t *)(((char *)&DAT_1099bf98) + iVar6) = DAT_1099c510;
   }
   else {
-    orig::FUN_102727f0(param_1,(undefined4 *)(((char *)&DAT_1099c1a0) + param_1 * 0x38));
+    orig::FUN_102727f0(param_1,(uint32_t *)(((char *)&DAT_1099c1a0) + param_1 * 0x38));
     orig::sqxfXformTD_Init(puVar1);
-    *(undefined4 *)(((char *)&DAT_1099bd1c) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c30c) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bd20) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c310) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bd24) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c314) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bd28) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c318) + iVar6);
-    (&DAT_1099bd2c)[param_1 * 0x1f] = *(undefined4 *)(((char *)&DAT_1099c31c) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bd1c) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c30c) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bd20) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c310) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bd24) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c314) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bd28) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c318) + iVar6);
+    (&DAT_1099bd2c)[param_1 * 0x1f] = *(uint32_t *)(((char *)&DAT_1099c31c) + iVar6);
     orig::sqxfXformTD_Update((int)puVar1);
     orig::sqxfXformTD_Init(puVar2);
-    *(undefined4 *)(((char *)&DAT_1099bf88) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c30c) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bf8c) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c310) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bf90) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c314) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bf94) + iVar6) = *(undefined4 *)(((char *)&DAT_1099c318) + iVar6);
-    *(undefined4 *)(((char *)&DAT_1099bf98) + iVar6) = DAT_1099c510;
+    *(uint32_t *)(((char *)&DAT_1099bf88) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c30c) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bf8c) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c310) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bf90) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c314) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bf94) + iVar6) = *(uint32_t *)(((char *)&DAT_1099c318) + iVar6);
+    *(uint32_t *)(((char *)&DAT_1099bf98) + iVar6) = DAT_1099c510;
   }
   orig::sqxfXformTD_Update((int)puVar2);
-  orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar6),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull));
+  orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar6),0.25f,0.25f,0.25f);
   iVar6 = orig::FUN_1026fbb0(local_18);
   if (iVar6 == 0) {
     orig::FUN_102725a0(param_1,local_18);
@@ -482,7 +484,7 @@ XI_API void __cdecl fn_102725A0(int param_1, undefined4 param_2)
   int iVar1;
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[2] = *reinterpret_cast<float  (*)[2]>(xi_frame + 0);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   
   if (param_1 == -1) {
     param_1 = DAT_1099b0f8;
@@ -490,10 +492,10 @@ XI_API void __cdecl fn_102725A0(int param_1, undefined4 param_2)
   orig::FUN_1028dbb0(param_2,local_c);
   iVar1 = param_1 * 0x7c;
   *(float *)(((char *)&DAT_1099bf7c) + iVar1) = local_c[0];
-  *(undefined4 *)(((char *)&DAT_1099bf80) + iVar1) = 0;
-  *(undefined4 *)(((char *)&DAT_1099bf84) + iVar1) = local_4;
+  *(uint32_t *)(((char *)&DAT_1099bf80) + iVar1) = 0;
+  *(uint32_t *)(((char *)&DAT_1099bf84) + iVar1) = local_4;
   orig::sqxfXformTD_Update((int)(((char *)&DAT_1099bf20) + iVar1));
-  orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar1),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull),xi_k4(0x3E800000ull));
+  orig::FUN_102806b0((int)(((char *)&DAT_1099bf3c) + iVar1),0.25f,0.25f,0.25f);
   return;
 }
 
@@ -540,14 +542,14 @@ XI_API void __cdecl fn_102726E0(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10272750(int param_1, int param_2)
 {
-  uint uVar1;
+  uint32_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   
   if (param_1 == -1) {
     param_1 = DAT_1099b0f8;
   }
-  uVar1 = *(uint *)(&DAT_1099c514 + param_1 * 0x14);
+  uVar1 = *(uint32_t *)(&DAT_1099c514 + param_1 * 0x14);
   if ((uVar1 & 1) != 0) {
     if (param_2 == -1) {
       uVar1 = uVar1 ^ 2;
@@ -558,9 +560,9 @@ XI_API void __cdecl fn_10272750(int param_1, int param_2)
     else {
       uVar1 = uVar1 | 2;
     }
-    *(uint *)(&DAT_1099c514 + param_1 * 0x14) = uVar1;
+    *(uint32_t *)(&DAT_1099c514 + param_1 * 0x14) = uVar1;
     if ((uVar1 & 2) != 0) {
-      orig::FUN_1027a700(local_10,(undefined4 *)(((char *)&DAT_1099b3a4) + DAT_1099b0f4 * 0x7c));
+      orig::FUN_1027a700(local_10,(uint32_t *)(((char *)&DAT_1099b3a4) + DAT_1099b0f4 * 0x7c));
       orig::FUN_1027afb0(local_10);
       orig::FUN_1027b170((float *)(&DAT_1099c518 + param_1 * 5),local_10,
                    (float *)(((char *)&DAT_1099bd1c) + param_1 * 0x7c));
@@ -582,10 +584,10 @@ XI_API void __cdecl fn_102727F0(int param_1, undefined4 * param_2)
   if (DAT_1099ccf8 != 0) {
     iVar1 = *(int *)(*(int *)(DAT_1099b184 + 0x28 + ((int)(&DAT_1099bb88)[param_1] >> 0x10) * 0x2c)
                      + 0x18 + ((&DAT_1099bb88)[param_1] & 0xffff) * 0x90);
-    *(undefined4 *)(iVar1 + 0x28) = (&DAT_1099bbb0)[param_1 * 0xe];
-    *(undefined4 *)(iVar1 + 0x2c) = (&DAT_1099bbb4)[param_1 * 0xe];
-    *(undefined4 *)(iVar1 + 0x30) = (&DAT_1099bbb8)[param_1 * 0xe];
-    *(float *)(iVar1 + 0x44) = (float)((float10)xi_k4(0x3F800000ull) - (float10)xi_castbits<float>(param_2[3]));
+    *(uint32_t *)(iVar1 + 0x28) = (&DAT_1099bbb0)[param_1 * 0xe];
+    *(uint32_t *)(iVar1 + 0x2c) = (&DAT_1099bbb4)[param_1 * 0xe];
+    *(uint32_t *)(iVar1 + 0x30) = (&DAT_1099bbb8)[param_1 * 0xe];
+    *(float *)(iVar1 + 0x44) = (float)((long double)1.0f - (long double)xi_castbits<float>(param_2[3]));
   }
   return;
 }
@@ -598,20 +600,20 @@ XI_API void __cdecl fn_10272880(int param_1, int param_2, int param_3)
     param_1 = DAT_1099b0f8;
   }
   if (param_2 != 0) {
-    (&DAT_1099bbb0)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x14);
-    (&DAT_1099bbb4)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x18);
-    (&DAT_1099bbb8)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x1c);
-    (&DAT_1099bbbc)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x20);
-    (&DAT_1099bbc0)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x24);
-    (&DAT_1099bbc4)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x28);
-    (&DAT_1099bbc8)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x2c);
-    (&DAT_1099bbcc)[param_1 * 0xe] = *(undefined4 *)(param_2 + 0x30);
+    (&DAT_1099bbb0)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x14);
+    (&DAT_1099bbb4)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x18);
+    (&DAT_1099bbb8)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x1c);
+    (&DAT_1099bbbc)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x20);
+    (&DAT_1099bbc0)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x24);
+    (&DAT_1099bbc4)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x28);
+    (&DAT_1099bbc8)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x2c);
+    (&DAT_1099bbcc)[param_1 * 0xe] = *(uint32_t *)(param_2 + 0x30);
   }
   if (param_3 != 0) {
-    orig::M4fSet_v1((undefined4 *)(((char *)&DAT_1099bcd0) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
-    orig::FUN_10274650(&DAT_1099bd10 + param_1 * 0x1f,(undefined4 *)(param_3 + 0x5c));
-    orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099bd1c) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x68));
-    (&DAT_1099bd2c)[param_1 * 0x1f] = *(undefined4 *)(param_3 + 0x78);
+    orig::M4fSet_v1((uint32_t *)(((char *)&DAT_1099bcd0) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x1c));
+    orig::FUN_10274650(&DAT_1099bd10 + param_1 * 0x1f,(uint32_t *)(param_3 + 0x5c));
+    orig::FUN_1027a700((uint32_t *)(((char *)&DAT_1099bd1c) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x68));
+    (&DAT_1099bd2c)[param_1 * 0x1f] = *(uint32_t *)(param_3 + 0x78);
   }
   return;
 }
@@ -639,7 +641,7 @@ XI_API void __cdecl fn_10272A10(int param_1)
     DAT_1099b100 = orig::FUN_1028f130(0x1099b13c,(&DAT_1099bb74)[param_1]);
   }
   else {
-    *(undefined4 *)(DAT_1099b100 * 0x30 + DAT_1099b17c) = (&DAT_1099bb74)[param_1];
+    *(uint32_t *)(DAT_1099b100 * 0x30 + DAT_1099b17c) = (&DAT_1099bb74)[param_1];
   }
   orig::FUN_1028f220(0x1099b13c,DAT_1099b100,4);
   return;

@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100298A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyModelBase::GetRuntimeClass()
 {
   return &CYyModelBase_classdesc;
@@ -17,7 +17,7 @@ XI_API void * __thiscall fn_10029D30(void * self_)
   int iVar1;
   void *this_00;
   
-  *(undefined ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
+  *(uint8_t ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::FUN_10034230((void *)((int)self_ + 8));
   this_00 = (void *)((int)self_ + 0x24);
   iVar1 = 7;
@@ -26,20 +26,20 @@ XI_API void * __thiscall fn_10029D30(void * self_)
     this_00 = (void *)((int)this_00 + 0x14);
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
-  *(undefined ***)self_ = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0xc0) = 0;
-  *(undefined4 *)((int)self_ + 0xb0) = DAT_103514f4;
-  *(undefined4 *)((int)self_ + 0xb4) = DAT_103514f8;
-  *(undefined4 *)((int)self_ + 0xb8) = DAT_103514fc;
-  *(undefined4 *)((int)self_ + 0xbc) = 0xbf800000;
-  *(undefined4 *)((int)self_ + 0xc4) = 0xffffffff;
+  *(uint8_t ***)self_ = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0xc0) = 0;
+  *(uint32_t *)((int)self_ + 0xb0) = DAT_103514f4;
+  *(uint32_t *)((int)self_ + 0xb4) = DAT_103514f8;
+  *(uint32_t *)((int)self_ + 0xb8) = DAT_103514fc;
+  *(uint32_t *)((int)self_ + 0xbc) = 0xbf800000;
+  *(uint32_t *)((int)self_ + 0xc4) = 0xffffffff;
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10029DB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModelBase::ScalarDeletingDtor(char a1)
 {
   int v2;
@@ -57,19 +57,19 @@ void __thiscall CYyModelBase::Destructor(void * self)
   int iVar2;
   void *pvVar3;
   
-  *(undefined ***)self = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
-  if (*(undefined4 **)((int)self + 0xc) != (undefined4 *)0x0) {
-    orig::CMoResource_ReleaseChain_v1((void *)**(undefined4 **)((int)self + 0xc));
+  *(uint8_t ***)self = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
+  if (*(uint32_t **)((int)self + 0xc) != (uint32_t *)0x0) {
+    orig::CMoResource_ReleaseChain_v1((void *)**(uint32_t **)((int)self + 0xc));
   }
   piVar1 = *(int **)((int)self + 4);
   if (piVar1 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x18))))((void *)(piVar1),1);
-    *(undefined4 *)((int)self + 4) = 0;
+    *(uint32_t *)((int)self + 4) = 0;
   }
   piVar1 = *(int **)((int)self + 0x20);
   if (piVar1 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x18))))((void *)(piVar1),1);
-    *(undefined4 *)((int)self + 0x20) = 0;
+    *(uint32_t *)((int)self + 0x20) = 0;
   }
   pvVar3 = (void *)((int)self + 0x24);
   iVar2 = 7;
@@ -93,7 +93,7 @@ void __thiscall CYyModelBase::Destructor(void * self)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelBase::SetResourceAndRebuild(void * self, undefined4 param_1)
 {
-  *(undefined4 *)((int)self + 0xc) = param_1;
+  *(uint32_t *)((int)self + 0xc) = param_1;
   orig::FUN_100342a0((void *)((int)self + 8));
   orig::FUN_1002a0c0(self);
   return;
@@ -116,7 +116,7 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
   
   this_01 = (undefined4 *)0x0;
   iVar1 = orig::ResourceHandle_Deref_v1(param_1);
-  if ((*(byte *)(iVar1 + 0x32) & 0x7f) == 0) {
+  if ((*(uint8_t *)(iVar1 + 0x32) & 0x7f) == 0) {
     this_01 = (undefined4 *)orig::Mem_AllocDefault_v1(0x3c);
     if (this_01 == (undefined4 *)0x0) {
       return (undefined4 *)0x0;
@@ -124,7 +124,7 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
     orig::FUN_10029c90(this_01);
     *this_01 = &PTR_CYyModelDt_GetRuntimeClass_1032a72c;
   }
-  else if ((*(byte *)(iVar1 + 0x32) & 0x7f) == 1) {
+  else if ((*(uint8_t *)(iVar1 + 0x32) & 0x7f) == 1) {
     this_00 = (void *)orig::Mem_AllocDefault_v1(0x1c8);
     if ((this_00 == (void *)0x0) || (this_01 = orig::FUN_10025010(this_00), this_01 == (undefined4 *)0x0))
     {
@@ -139,7 +139,7 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 53 returned normally, 844 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53, town PASS 100, town2 PASS 81, combat PASS 94, zonetoinn PASS 94
+// GATE: PASS -- 100 trials, 79 returned normally, 984 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

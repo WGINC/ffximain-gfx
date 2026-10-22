@@ -6,12 +6,12 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param_3)
 {
-  float10 fVar1;
-  uint *puVar2;
-  uint *puVar3;
-  uint uVar4;
-  float10 fVar5;
-  longlong lVar6;
+  long double fVar1;
+  uint32_t *puVar2;
+  uint32_t *puVar3;
+  uint32_t uVar4;
+  long double fVar5;
+  int64_t lVar6;
   
   puVar2 = param_1;
   if (param_1[6] == 0) {
@@ -33,13 +33,13 @@ XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param
       puVar3 = param_1;
       uVar4 = puVar2[3];
       param_1[uVar4 * 0x30 + 0x28] = 0x3f800000;
-      if ((!NAN((float10)param_3) && !NAN((float10)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x29]))) &&
-          (float10)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x29]) <= (float10)param_3) {
-        fVar5 = (float10)param_3;
-        fVar1 = (float10)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x2a]);
-        if ((!NAN(fVar5) && !NAN(fVar1)) && fVar5 < fVar1 != (fVar5 == fVar1)) {
-          param_1[uVar4 * 0x30 + 0x2b] = xi_castbits<uint>(param_3);
-          lVar6 = XI_CALL_ST0(0x10311C2Cu)((float10)param_3 / (float10)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x2c]));
+      if ((!NAN((long double)param_3) && !NAN((long double)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x29]))) &&
+          (long double)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x29]) <= (long double)param_3) {
+        fVar5 = (long double)param_3;
+        fVar1 = (long double)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x2a]);
+        if (fVar5 <= fVar1) {
+          param_1[uVar4 * 0x30 + 0x2b] = xi_castbits<uint32_t>(param_3);
+          lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)param_3 / (long double)xi_castbits<float>(param_1[uVar4 * 0x30 + 0x2c]));
           puVar3[uVar4 * 0x30 + 0x26] = (int)lVar6 * 2;
         }
       }
@@ -62,7 +62,7 @@ XI_API undefined4 __cdecl fn_10251160(uint32_t * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10251180(uint32_t * param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[1])) {
     uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[1]);
@@ -78,7 +78,7 @@ XI_API undefined4 __cdecl fn_10251180(uint32_t * param_1)
 XI_API undefined4 __cdecl fn_102511B0(uint8_t * param_1, float param_2)
 {
   int iVar1;
-  byte *pbVar2;
+  uint8_t *pbVar2;
   char xi_frame[4] __attribute__((aligned(4)));
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 0);
   
@@ -87,7 +87,7 @@ XI_API undefined4 __cdecl fn_102511B0(uint8_t * param_1, float param_2)
     orig::FUN_1026f4f0(&local_4,(int *)&param_1);
     iVar1 = *(int *)(pbVar2 + 0xc);
     if ((-1 < iVar1) && (iVar1 < (int)param_1)) {
-      *(float *)(iVar1 * 0xc0 + 0x9c + local_4) = (float)(float10)param_2;
+      *(float *)(iVar1 * 0xc0 + 0x9c + local_4) = (float)(long double)param_2;
     }
   }
   return 0;
@@ -97,23 +97,23 @@ XI_API undefined4 __cdecl fn_102511B0(uint8_t * param_1, float param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10251200(uint8_t * param_1, undefined4 param_2, int param_3)
 {
-  byte *pbVar1;
-  undefined4 uVar2;
-  uint *puVar3;
+  uint8_t *pbVar1;
+  uint32_t uVar2;
+  uint32_t *puVar3;
   
   pbVar1 = param_1;
-  if ((param_1 != (byte *)0x0) && ((*param_1 & 0x10) != 0)) {
+  if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 0x10) != 0)) {
     orig::FUN_1026f4f0((int *)&param_1,(int *)0x0);
-    puVar3 = (uint *)(param_1 + *(int *)(pbVar1 + 0xc) * 0xc0);
+    puVar3 = (uint32_t *)(param_1 + *(int *)(pbVar1 + 0xc) * 0xc0);
     if ((*puVar3 & 2) == 0) {
       *puVar3 = *puVar3 | 2;
-      orig::FUN_1027dd70((byte *)puVar3,param_2);
+      orig::FUN_1027dd70((uint8_t *)puVar3,param_2);
       if ((param_3 == 0) && (puVar3[0x2f] != 0)) {
         uVar2 = orig::FUN_102857d0(puVar3[0x2f]);
         if ((char)uVar2 == '\0') {
-          orig::FUN_102857e0(puVar3[0x2f],1);
-          orig::FUN_102857f0(puVar3[0x2f]);
-          orig::FUN_102857e0(puVar3[0x2f],0);
+          orig::FUN_102857e0(puVar3[0x2f],1,uVar2);
+          uVar2 = orig::FUN_102857f0(puVar3[0x2f]);
+          orig::FUN_102857e0(puVar3[0x2f],0,uVar2);
         }
       }
       *puVar3 = *puVar3 & 0xfffffffd;
@@ -127,7 +127,7 @@ XI_API undefined4 __cdecl fn_10251200(uint8_t * param_1, undefined4 param_2, int
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl StChannelItemClear(uint32_t * param_1)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
   uVar1 = *param_1;
   if ((uVar1 & 1) == 0) {

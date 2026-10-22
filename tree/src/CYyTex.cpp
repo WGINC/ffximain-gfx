@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10039790  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _UNKNOWN ** __cdecl CYyTex::GetRuntimeClass()
 {
   return &CYyTex_classdesc;
@@ -15,17 +15,17 @@ _UNKNOWN ** __cdecl CYyTex::GetRuntimeClass()
 XI_API undefined4 __thiscall TexObj_Constructor(void * self_)
 {
   orig::FUN_10039830(self_);
-  *(undefined ***)self_ = &PTR_CYyTex_GetRuntimeClass_1032aa68;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)((int)self_ + 0x3c) = 0;
-  *(undefined4 *)((int)self_ + 0x40) = 0;
-  *(undefined4 *)((int)self_ + 0x44) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = DAT_1047b968;
+  *(uint8_t ***)self_ = &PTR_CYyTex_GetRuntimeClass_1032aa68;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)((int)self_ + 0x3c) = 0;
+  *(uint32_t *)((int)self_ + 0x40) = 0;
+  *(uint32_t *)((int)self_ + 0x44) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = DAT_1047b968;
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10039950  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTex::ScalarDeletingDtor(char a2)
 {
   orig::CYyTex_Destructor(this);

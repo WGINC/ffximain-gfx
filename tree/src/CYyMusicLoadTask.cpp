@@ -6,8 +6,8 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100378B0(int param_1)
 {
-  longlong lVar1;
-  undefined4 uVar2;
+  int64_t lVar1;
+  uint32_t uVar2;
   
   if (DAT_10463948 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
@@ -17,12 +17,12 @@ XI_API void __cdecl fn_100378B0(int param_1)
     orig::FUN_102467a0(0xffffffff,0);
   }
   DAT_10463944 = param_1;
-  lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)_DAT_103517f8 * (float10)_DAT_103517f4 * (float10)xi_k4(0x42FE0000ull));
-  orig::FUN_100382a0(param_1,(int)lVar1);
+  lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
+  orig::FUN_100382a0(param_1,(int)lVar1,(int)lVar1);
   if (DAT_1046393c != 0) {
     uVar2 = 0;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((float10)_DAT_103517f8 * (float10)_DAT_103517f4 * (float10)xi_k4(0x42FE0000ull));
-    orig::FUN_10246770(0xffffffff,(uint)lVar1,uVar2);
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
+    orig::FUN_10246770(0xffffffff,(uint32_t)lVar1,uVar2);
   }
   DAT_10463940 = param_1;
   DAT_10463909 = 1;
@@ -34,7 +34,7 @@ XI_API void __cdecl fn_100378B0(int param_1)
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
 {
   int *self_;
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   if (DAT_10463944 != param_1) {
     DAT_10463944 = param_1;
@@ -48,15 +48,15 @@ XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
       if (DAT_10463948 != (int *)0x0) {
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
       }
-      *(undefined1 *)((int)self_ + 0x35) = 1;
-      *(undefined1 *)(self_ + 0xd) = 0;
+      *(uint8_t *)((int)self_ + 0x35) = 1;
+      *(uint8_t *)(self_ + 0xd) = 0;
       DAT_10463948 = self_;
       self_[0xf] = param_1;
       self_[0x10] = 0x7f;
       self_[0x11] = 0x7f;
       self_[0x12] = 0;
       self_[0x14] = 0;
-      *(undefined1 *)(self_ + 0x15) = 0;
+      *(uint8_t *)(self_ + 0x15) = 0;
       self_[0x13] = 0x1e;
       self_[0xe] = 0;
       orig::CMoTask_RegisterWithMng_v1(5);

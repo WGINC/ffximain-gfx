@@ -11,17 +11,17 @@ XI_API void __thiscall fn_100396A0(void * self_)
   if (*(int *)((int)self_ + 8) != 0) {
     if (*(char *)((int)self_ + 4) == '\x01') {
       ResumeThread(*(int *)((int)self_ + 8));
-      *(undefined1 *)((int)self_ + 4) = 0;
-      *(undefined1 *)((int)self_ + 5) = 1;
+      *(uint8_t *)((int)self_ + 4) = 0;
+      *(uint8_t *)((int)self_ + 5) = 1;
     }
     if (*(char *)((int)self_ + 5) == '\x01') {
-      while (iVar1 = WaitForSingleObject(*(undefined4 *)((int)self_ + 8),0), iVar1 == 0x102) {
+      while (iVar1 = WaitForSingleObject(*(uint32_t *)((int)self_ + 8),0), iVar1 == 0x102) {
         Sleep(1);
         if (*(char *)((int)self_ + 5) != '\x01') {
           return;
         }
       }
-      *(undefined1 *)((int)self_ + 5) = 0;
+      *(uint8_t *)((int)self_ + 5) = 0;
     }
   }
   return;

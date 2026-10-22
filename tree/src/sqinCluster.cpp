@@ -21,7 +21,7 @@ XI_API void __cdecl sqinCluster_Init(undefined4 * param_1)
   param_1[2] = &LAB_102af5d0;
   param_1[3] = XI_CODE(FUN_102af5e0);
   param_1[4] = XI_CODE(sqinCluster_Dump);
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_102af900;
   orig::FUN_102af170(param_1 + 7);
   param_1[0x16] = 0;

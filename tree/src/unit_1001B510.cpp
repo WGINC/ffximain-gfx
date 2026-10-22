@@ -6,26 +6,26 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1001B520(void * self_, float param_1)
 {
-  float10 fVar1;
-  float10 fVar2;
+  long double fVar1;
+  long double fVar2;
   
-  switch(*(undefined1 *)((int)self_ + 8)) {
+  switch(*(uint8_t *)((int)self_ + 8)) {
   case 0:
-    *(undefined1 *)((int)self_ + 8) = 2;
+    *(uint8_t *)((int)self_ + 8) = 2;
     *(float *)((int)self_ + 0xc) = param_1;
     return;
   case 1:
-    *(undefined1 *)((int)self_ + 8) = 3;
+    *(uint8_t *)((int)self_ + 8) = 3;
     *(float *)((int)self_ + 0x14) = param_1;
     *(float *)((int)self_ + 0xc) = param_1;
     return;
   case 2:
   case 3:
-    fVar2 = (float10)param_1;
-    fVar1 = (float10)xi_k4(0x3F800000ull);
-    if ((!NAN(fVar2) && !NAN(fVar1)) && fVar2 < fVar1 != (fVar2 == fVar1)) {
-      *(undefined4 *)((int)self_ + 0xc) = 0;
-      *(undefined1 *)((int)self_ + 8) = 2;
+    fVar2 = (long double)param_1;
+    fVar1 = (long double)1.0f;
+    if (fVar2 <= fVar1) {
+      *(uint32_t *)((int)self_ + 0xc) = 0;
+      *(uint8_t *)((int)self_ + 8) = 2;
     }
   }
   return;
@@ -35,70 +35,70 @@ XI_API void __thiscall fn_1001B520(void * self_, float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1001B5D0(void * self_)
 {
-  float10 fVar1;
+  long double fVar1;
   char cVar2;
-  xi_bool bVar3;
-  float10 fVar4;
-  float10 fVar5;
-  float10 fVar6;
-  float10 fVar7;
+  uint32_t xi_entry_eax = 0;
+  uint8_t bVar3;
+  long double fVar4;
+  long double fVar5;
+  long double fVar6;
+  long double fVar7;
   
-  fVar4 = orig::Camera_GetFrameScale_v1();
+  fVar4 = orig::Camera_GetFrameScale_v1(xi_entry_eax);
   fVar1 = (float)fVar4;
   cVar2 = *(char *)((int)self_ + 8);
   if (cVar2 == '\x01') {
-    fVar5 = (float10)fVar1 * (float10)*(float *)((int)self_ + 0x18) +
-            (float10)*(float *)((int)self_ + 0x10);
+    fVar5 = (long double)fVar1 * (long double)*(float *)((int)self_ + 0x18) +
+            (long double)*(float *)((int)self_ + 0x10);
     *(float *)((int)self_ + 0x10) = (float)fVar5;
-    fVar6 = (float10)*(float *)((int)self_ + 0x14) - (float10)fVar1;
+    fVar6 = (long double)*(float *)((int)self_ + 0x14) - (long double)fVar1;
     *(float *)((int)self_ + 0x14) = (float)fVar6;
-    fVar4 = (float10)xi_k4(0x0ull);
-    if ((NAN(fVar6) || NAN(fVar4)) || fVar6 < fVar4 == (fVar6 == fVar4)) goto LAB_1001b6b8;
-    *(undefined1 *)((int)self_ + 8) = 0;
+    fVar4 = (long double)0.0f;
+    if (!(fVar6 <= fVar4)) goto LAB_1001b6b8;
+    *(uint8_t *)((int)self_ + 8) = 0;
   }
   else {
     if (cVar2 == '\x02') {
-      fVar6 = (float10)*(float *)((int)self_ + 0xc) - (float10)fVar1;
+      fVar6 = (long double)*(float *)((int)self_ + 0xc) - (long double)fVar1;
       *(float *)((int)self_ + 0xc) = (float)fVar6;
-      fVar4 = (float10)xi_k4(0x0ull);
-      if ((!NAN(fVar6) && !NAN(fVar4)) && fVar6 < fVar4 != (fVar6 == fVar4)) {
-        *(undefined1 *)((int)self_ + 8) = 2;
+      fVar4 = (long double)0.0f;
+      if (fVar6 <= fVar4) {
+        *(uint8_t *)((int)self_ + 8) = 2;
         return 0;
       }
       goto LAB_1001b6b8;
     }
     if (cVar2 != '\x03') goto LAB_1001b6b8;
-    fVar5 = (float10)fVar1 * (float10)*(float *)((int)self_ + 0x18) +
-            (float10)*(float *)((int)self_ + 0x10);
+    fVar5 = (long double)fVar1 * (long double)*(float *)((int)self_ + 0x18) +
+            (long double)*(float *)((int)self_ + 0x10);
     *(float *)((int)self_ + 0x10) = (float)fVar5;
-    fVar6 = (float10)*(float *)((int)self_ + 0x14) - (float10)fVar1;
+    fVar6 = (long double)*(float *)((int)self_ + 0x14) - (long double)fVar1;
     *(float *)((int)self_ + 0x14) = (float)fVar6;
-    fVar7 = (float10)*(float *)((int)self_ + 0xc) - (float10)fVar1;
+    fVar7 = (long double)*(float *)((int)self_ + 0xc) - (long double)fVar1;
     *(float *)((int)self_ + 0xc) = (float)fVar7;
-    fVar4 = (float10)xi_k4(0x0ull);
-    if ((!NAN(fVar7) && !NAN(fVar4)) && fVar7 < fVar4 != (fVar7 == fVar4)) {
-      *(undefined1 *)((int)self_ + 8) = 2;
-      if ((!NAN(fVar5) && !NAN((float10)xi_k4(0x3F800000ull))) && (float10)xi_k4(0x3F800000ull) < fVar5) {
-        *(undefined4 *)((int)self_ + 0x10) = 0x3f800000;
+    fVar4 = (long double)0.0f;
+    if (fVar7 <= fVar4) {
+      *(uint8_t *)((int)self_ + 8) = 2;
+      if (fVar5 > (long double)1.0f) {
+        *(uint32_t *)((int)self_ + 0x10) = 0x3f800000;
       }
       return 0;
     }
-    fVar4 = (float10)xi_k4(0x0ull);
-    if ((NAN(fVar6) || NAN(fVar4)) || fVar6 < fVar4 == (fVar6 == fVar4)) goto LAB_1001b6b8;
-    *(undefined1 *)((int)self_ + 8) = 2;
+    fVar4 = (long double)0.0f;
+    if (!(fVar6 <= fVar4)) goto LAB_1001b6b8;
+    *(uint8_t *)((int)self_ + 8) = 2;
   }
-  if ((!NAN(fVar5) && !NAN((float10)xi_k4(0x3F800000ull))) && (float10)xi_k4(0x3F800000ull) < fVar5) {
-    *(undefined4 *)((int)self_ + 0x10) = 0x3f800000;
+  if (fVar5 > (long double)1.0f) {
+    *(uint32_t *)((int)self_ + 0x10) = 0x3f800000;
   }
 LAB_1001b6b8:
-  if ((NAN((float10)*(float *)((int)self_ + 0x10)) || NAN((float10)xi_k4(0x3F800000ull))) ||
-      (float10)*(float *)((int)self_ + 0x10) <= (float10)xi_k4(0x3F800000ull)) {
-    bVar3 = NAN((float10)*(float *)((int)self_ + 0x10)) || NAN((float10)xi_k4(0x0ull));
-    if ((bVar3 || (float10)*(float *)((int)self_ + 0x10) < (float10)xi_k4(0x0ull)) != bVar3) {
-      *(undefined4 *)((int)self_ + 0x10) = 0;
+  if (!((long double)*(float *)((int)self_ + 0x10) > (long double)1.0f)) {
+    bVar3 = NAN((long double)*(float *)((int)self_ + 0x10)) || NAN((long double)0.0f);
+    if ((bVar3 || (long double)*(float *)((int)self_ + 0x10) < (long double)0.0f) != bVar3) {
+      *(uint32_t *)((int)self_ + 0x10) = 0;
     }
     return 1;
   }
-  *(undefined4 *)((int)self_ + 0x10) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x10) = 0x3f800000;
   return 1;
 }

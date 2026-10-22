@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10253210(uint32_t * param_1)
 {
-  uint *self_;
+  uint32_t *self_;
   
   if ((*param_1 & 1) != 0) {
     self_ = param_1 + 5;
@@ -14,7 +14,7 @@ XI_API undefined4 __cdecl fn_10253210(uint32_t * param_1)
     param_1[4] = 0xffffffff;
     param_1[1] = 0;
     param_1[2] = 0;
-    if ((undefined4 *)*self_ != (undefined4 *)0x0) {
+    if ((uint32_t *)*self_ != (uint32_t *)0x0) {
       orig::CMoResource_ReleaseChain_v1(*(void **)*self_);
       orig::ResHandle_FreeIfUnreferenced_v1(self_);
       *self_ = 0;
@@ -43,7 +43,7 @@ XI_API undefined4 __cdecl fn_102532A0(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_102532E0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_1033ce34;
+  *(uint8_t ***)self_ = &PTR_FUN_1033ce34;
   orig::FUN_10253330();
   return self_;
 }
@@ -56,35 +56,35 @@ XI_API void __cdecl fn_10253330(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10253360  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 50 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall fn_10253360(int param_1)
 {
   int iVar1;
-  undefined **ppuVar2;
-  undefined4 *puVar3;
+  uint8_t **ppuVar2;
+  uint32_t *puVar3;
   int iVar4;
-  uint uVar5;
-  undefined8 uVar6;
+  uint32_t uVar5;
+  uint64_t uVar6;
   char xi_frame[32] __attribute__((aligned(4)));
-  undefined1  (&local_20)[32] = *reinterpret_cast<undefined1  (*)[32]>(xi_frame + 0);
+  uint8_t  (&local_20)[32] = *reinterpret_cast<uint8_t  (*)[32]>(xi_frame + 0);
   
   if (param_1 < 4) {
     iVar1 = param_1 * 0x14;
-    ppuVar2 =(undefined**)(&PTR_s_info00_bin_10389d08 + param_1 * 5);
+    ppuVar2 =(uint8_t**)(&PTR_s_info00_bin_10389d08 + param_1 * 5);
     if (((uint8_t *)((&DAT_10389d0d)))[param_1 * 0x14] != '\0') {
       if (*(int *)(((char *)&DAT_10389d14) + iVar1) == 0) {
         uVar6 = orig::Allocator_Generic_v1(*(int *)(((char *)&DAT_10389d10) + iVar1) + 1);
-        puVar3 = (undefined4 *)uVar6;
-        *(undefined4 **)(((char *)&DAT_10389d14) + iVar1) = puVar3;
-        if (puVar3 != (undefined4 *)0x0) {
+        puVar3 = (uint32_t *)uVar6;
+        *(uint32_t **)(((char *)&DAT_10389d14) + iVar1) = puVar3;
+        if (puVar3 != (uint32_t *)0x0) {
           iVar4 = *(int *)(((char *)&DAT_10389d10) + iVar1);
           for (uVar5 = iVar4 + 1U >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
             *puVar3 = 0;
             puVar3 = puVar3 + 1;
           }
           for (uVar5 = iVar4 + 1U & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
-            *(undefined1 *)puVar3 = 0;
-            puVar3 = (undefined4 *)((int)puVar3 + 1);
+            *(uint8_t *)puVar3 = 0;
+            puVar3 = (uint32_t *)((int)puVar3 + 1);
           }
         }
       }
@@ -94,7 +94,7 @@ XI_API void __stdcall fn_10253360(int param_1)
         iVar4 = orig::FUN_101c4bf0(g_pFileMng_as_v1,*ppuVar2,local_20);
         if (-1 < iVar4) {
           iVar4 = orig::FUN_101c47b0(g_pFileMng_as_v1,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
-                               *(undefined4 *)(((char *)&DAT_10389d10) + iVar1),0);
+                               *(uint32_t *)(((char *)&DAT_10389d10) + iVar1),0);
           if (-1 < iVar4) {
             orig::FUN_101c49f0(g_pFileMng_as_v1,*ppuVar2);
           }
@@ -103,7 +103,7 @@ XI_API void __stdcall fn_10253360(int param_1)
           return;
         }
         orig::operator_delete_10311BB0_v1(*(LPVOID *)(((char *)&DAT_10389d14) + iVar1));
-        *(undefined4 *)(((char *)&DAT_10389d14) + iVar1) = 0;
+        *(uint32_t *)(((char *)&DAT_10389d14) + iVar1) = 0;
         orig::FUN_101be2a0(local_20);
       }
     }
@@ -142,12 +142,12 @@ XI_API void __cdecl fn_102535B0(void)
 
 // FUNCTION: FFXIMAIN 0x102535F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_102535F0(undefined4 param_1, undefined4 param_2)
+XI_API uint64_t __attribute__((cdecl, regparm(1))) fn_102535F0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
-  XI_PIECE(param_1, 0, 2) = CONCAT11((undefined1)param_2,(undefined1)param_1);
-  uVar1 = orig::FUN_102532c0(0,&param_1,2);
+  XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
+  uVar1 = orig::FUN_102532c0(0,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
   return uVar1;
 }
 
@@ -155,7 +155,7 @@ XI_API undefined8 __cdecl fn_102535F0(undefined4 param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10253620(void)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_102532a0(0);
   return uVar1;
@@ -175,8 +175,10 @@ XI_API void __cdecl fn_10253630(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10253670(undefined4 param_1, undefined4 param_2)
 {
-  XI_PIECE(param_1, 0, 2) = CONCAT11((undefined1)param_2,(undefined1)param_1);
-  orig::FUN_102532c0(2,&param_1,2);
+  uint32_t xi_entry_eax = 0;
+  
+  XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
+  orig::FUN_102532c0(2,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
   return;
 }
 
@@ -184,7 +186,7 @@ XI_API void __cdecl fn_10253670(undefined4 param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_102536A0(void)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::FUN_102532a0(2);
   return uVar1;

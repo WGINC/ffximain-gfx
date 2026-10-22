@@ -3059,3 +3059,41 @@ options. Every code section of the two objects was compared byte for byte, reloc
 - every file one front end compiled, the other compiled too.
 
 What this shows is that corpus. It does not cover every construct the game's source may use.
+
+## 22 Oct: entry EAX bit by bit, and the tree regenerated (4,205 functions)
+
+**Entry EAX.** `pipeline/byte_flow.py` follows each entry bit of EAX through the registers (`docs/IN_EAX.md`, "Reads
+seen and reads assumed"). `data/eax_inputs.json` now has 381 functions that may read their entry EAX and 22 that are
+seen to (before: 444 and 16). The gate compares a stubbed callee's entry EAX only in its seen bytes. Where runs differ
+only in bytes a callee is assumed to read, the verdict is UNRESOLVED (`combine_gates.py`'s NEWER keeps it so).
+Imports' declared returns come from Microsoft's headers (`pipeline/sdk_protos.py`).
+
+**Raw gates rerun** with those facts: the IDA route 770 PASS, the frame set (frameset9) 3,626 PASS, and the previous
+frame-set export (`ghidra_frameset_prev`, for functions frameset9 no longer passes) 39 of 50.
+
+**The tree** is regenerated from four exports (IDA, Ghidra, frameset9, frameset_prev; `tree/source.json`): 4,205
+functions in 419 files, 51 left out (`tree/left_out.json`: a callee may read a register the wrapper does not pass).
+
+**Clean gate, on this build:** 4,198 PASS. `// NOT VERIFIED` marks 7:
+- 0x10040220, 0x1006F0A0, 0x1006F800: FAIL, as before.
+- 0x1003C7D0 and 0x100CD540: FAIL in the clean build, PASS in the raw one. The cause is not found yet.
+- 0x10003890: UNRESOLVED (the call at 0x10003A50 has no known pop count).
+- 0x10016320: INCONCLUSIVE.
+
+One function, 0x10257FF0, had no result because its worker process exited. A rerun on its own gave PASS.
+
+Of the 12 not verified before, 5 now PASS on this build: 0x10038E10, 0x100CB4E0, 0x10053A00, 0x101B9BC0, 0x1021DD20.
+0x10038E10's code now comes from the frame-set export (the IDA route's translation FAILs the raw gate). 0x100412B0
+is no longer in the tree (raw FAIL on the IDA route), and 0x1006B3B0 is left out.
+
+**Live gates not carried over.** `verification/gate_clean_final.jsonl` now holds only this build's fuzz verdicts.
+The four dumps' gates (`verification/live/gate_clean_*.jsonl`) were run on the 4 Oct tree. Some functions' code has
+changed since then under the same symbol (0x10038E10 among them), so those verdicts do not verify this build. The
+dumps are not in this environment, so the gates were not rerun. `combine_gates.py` would have lifted 0x10003890 and
+0x10016320 to PASS on those old runs, and that was not done.
+
+Consequence for the kit: `kit/xikit/make_manifest.py` takes the PASSes of `gate_clean_final.jsonl` and its docstring
+says "fuzz and the four dumps". The kit is not rebuilt from this file until the dumps' gates are rerun on this build
+or the owner decides that fuzz alone is enough.
+
+`data/reg_kept_audit.json` is regenerated over the new gated set: 247 sites in 71 functions (230 used, 17 overwritten).

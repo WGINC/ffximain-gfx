@@ -20,7 +20,7 @@ XI_API void __cdecl fn_10289BA0(int param_1)
   if (*(int *)(param_1 + 0xc) != 0) {
     orig::sqFree_v1(*(int *)(param_1 + 0xc),s_C__dev_dancer_modules_sqOpcode_s_103b9618,0x69);
   }
-  orig::FUN_10289b40((undefined4 *)param_1);
+  orig::FUN_10289b40((uint32_t *)param_1);
   return;
 }
 

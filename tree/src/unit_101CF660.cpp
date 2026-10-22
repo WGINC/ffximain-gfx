@@ -8,9 +8,9 @@ XI_API void __thiscall fn_101CF660(void * self_, int param_1)
 {
   short sVar1;
   int iVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  uint uVar5;
+  uint8_t *pbVar3;
+  uint8_t *pbVar4;
+  uint32_t uVar5;
   int iVar6;
   int *piVar7;
   short *psVar8;
@@ -21,7 +21,7 @@ XI_API void __thiscall fn_101CF660(void * self_, int param_1)
   else {
     if (param_1 < 0x65) {
       if (param_1 < 0x32) {
-        iVar2 = (int)(5000 / (longlong)param_1);
+        iVar2 = (int)(5000 / (int64_t)param_1);
         goto LAB_101cf692;
       }
     }
@@ -31,7 +31,7 @@ XI_API void __thiscall fn_101CF660(void * self_, int param_1)
     iVar2 = (100 - param_1) * 2;
   }
 LAB_101cf692:
-  pbVar3 = (byte *)((int)self_ + 0x65c);
+  pbVar3 = (uint8_t *)((int)self_ + 0x65c);
   iVar6 = 0;
   pbVar4 = pbVar3;
   do {
@@ -42,7 +42,7 @@ LAB_101cf692:
     else if (0xff < uVar5) {
       uVar5 = 0xff;
     }
-    pbVar4[-0x40] = (byte)uVar5;
+    pbVar4[-0x40] = (uint8_t)uVar5;
     uVar5 = (*(int *)((int)&DAT_1037e530 + iVar6) * iVar2 + 0x32U) / 100;
     if (uVar5 == 0) {
       uVar5 = 1;
@@ -50,7 +50,7 @@ LAB_101cf692:
     else if (0xff < uVar5) {
       uVar5 = 0xff;
     }
-    *pbVar4 = (byte)uVar5;
+    *pbVar4 = (uint8_t)uVar5;
     iVar6 = iVar6 + 4;
     pbVar4 = pbVar4 + 1;
   } while ((int)(pbVar4 + (-0x65c - (int)self_)) < 0x40);
@@ -59,7 +59,7 @@ LAB_101cf692:
   orig::FUN_101d09c0(*(void **)((int)self_ + 8),0);
   piVar7 =(int*)(&DAT_1037e330);
   do {
-    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint)*(byte *)(*piVar7 + 0x61c + (int)self_));
+    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x61c + (int)self_));
     piVar7 = piVar7 + 1;
   } while ((int)piVar7 < 0x1037e430);
   orig::FUN_101d0a40(*(void **)((int)self_ + 8),0xdb);
@@ -67,22 +67,22 @@ LAB_101cf692:
   orig::FUN_101d09c0(*(void **)((int)self_ + 8),1);
   piVar7 =(int*)(&DAT_1037e330);
   do {
-    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint)*(byte *)(*piVar7 + 0x65c + (int)self_));
+    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x65c + (int)self_));
     piVar7 = piVar7 + 1;
   } while ((int)piVar7 < 0x1037e430);
-  pbVar4 = (byte *)((int)self_ + 0x61c);
+  pbVar4 = (uint8_t *)((int)self_ + 0x61c);
   psVar8 = &DAT_1037e630;
   do {
     sVar1 = *psVar8;
     psVar8 = psVar8 + 1;
-    *pbVar4 = (byte)((int)((int)sVar1 * (uint)*pbVar4 + 0x400) >> 0xb);
+    *pbVar4 = (uint8_t)((int)((int)sVar1 * (uint32_t)*pbVar4 + 0x400) >> 0xb);
     pbVar4 = pbVar4 + 1;
   } while ((int)(pbVar4 + (-0x61c - (int)self_)) < 0x40);
   psVar8 = &DAT_1037e630;
   do {
     sVar1 = *psVar8;
     psVar8 = psVar8 + 1;
-    *pbVar3 = (byte)((int)((int)sVar1 * (uint)*pbVar3 + 0x400) >> 0xb);
+    *pbVar3 = (uint8_t)((int)((int)sVar1 * (uint32_t)*pbVar3 + 0x400) >> 0xb);
     pbVar3 = pbVar3 + 1;
   } while ((int)(pbVar3 + (-0x65c - (int)self_)) < 0x40);
   return;
@@ -92,21 +92,21 @@ LAB_101cf692:
 // GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API void __stdcall fn_101CF820(int param_1, int param_2, int param_3, int param_4)
 {
-  byte bVar1;
+  uint8_t bVar1;
   short sVar2;
   int iVar3;
   int iVar4;
-  uint uVar5;
+  uint32_t uVar5;
   
   sVar2 = 0;
   iVar4 = 0;
   iVar3 = 1;
   do {
-    for (uVar5 = (uint)*(byte *)(iVar3 + param_4); uVar5 != 0; uVar5 = uVar5 - 1) {
-      bVar1 = *(byte *)(iVar4 + param_3);
+    for (uVar5 = (uint32_t)*(uint8_t *)(iVar3 + param_4); uVar5 != 0; uVar5 = uVar5 - 1) {
+      bVar1 = *(uint8_t *)(iVar4 + param_3);
       iVar4 = iVar4 + 1;
-      *(char *)((uint)bVar1 + param_2) = (char)iVar3;
-      *(short *)(param_1 + (uint)bVar1 * 2) = sVar2;
+      *(char *)((uint32_t)bVar1 + param_2) = (char)iVar3;
+      *(short *)(param_1 + (uint32_t)bVar1 * 2) = sVar2;
       sVar2 = sVar2 + 1;
     }
     sVar2 = sVar2 * 2;
@@ -119,11 +119,11 @@ XI_API void __stdcall fn_101CF820(int param_1, int param_2, int param_3, int par
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101D0860(void * self_)
 {
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
   return;
 }
 
@@ -133,11 +133,11 @@ XI_API void __thiscall fn_101D0880(void * self_)
 {
   if (*(int *)((int)self_ + 8) != 0) {
     orig::thunk_sub_10028AA0_v1(*(int *)((int)self_ + 8));
-    *(undefined4 *)((int)self_ + 8) = 0;
+    *(uint32_t *)((int)self_ + 8) = 0;
   }
   if (*(LPVOID *)((int)self_ + 4) != (LPVOID)0x0) {
     orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
-    *(undefined4 *)((int)self_ + 4) = 0;
+    *(uint32_t *)((int)self_ + 4) = 0;
   }
   return;
 }

@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10047560  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoNullProgElem::GetRuntimeClass()
 {
   return &CMoNullProgElem_classdesc;
@@ -12,24 +12,24 @@ char ** __cdecl CMoNullProgElem::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x10053180  (unit CMoNullProgElem: stores CMoNullProgElem vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10053180(void * self_)
+XI_API uint64_t __thiscall fn_10053180(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_CMoNullProgElem_GetRuntimeClass_1032b5f8;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  *(uint8_t ***)self_ = &PTR_CMoNullProgElem_GetRuntimeClass_1032b5f8;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }
 
 // FUNCTION: FFXIMAIN 0x100531A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoNullProgElem::SetField138()
 {
   (*(unsigned __int32 *)((char *)this + 0x138)) = 1065353216;
 }
 
 // FUNCTION: FFXIMAIN 0x100531B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoNullProgElem::Destructor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

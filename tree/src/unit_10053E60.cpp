@@ -8,7 +8,7 @@ XI_API void __thiscall fn_10054220(void * self_)
 {
   int *piVar1;
   void *this_00;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
   
   piVar1 = *(int **)((int)self_ + 0x38);
@@ -19,27 +19,27 @@ XI_API void __thiscall fn_10054220(void * self_)
     else {
       iVar3 = *piVar1;
     }
-    if ((*(byte *)(iVar3 + 0xdc) & 1) != 0) {
+    if ((*(uint8_t *)(iVar3 + 0xdc) & 1) != 0) {
       return;
     }
   }
   if (*(int *)((int)self_ + 0x14) == 0) {
-    if (*(undefined4 **)((int)self_ + 0x38) == (undefined4 *)0x0) {
+    if (*(uint32_t **)((int)self_ + 0x38) == (uint32_t *)0x0) {
       this_00 = (void *)0x0;
     }
     else {
-      this_00 = (void *)**(undefined4 **)((int)self_ + 0x38);
+      this_00 = (void *)**(uint32_t **)((int)self_ + 0x38);
     }
-    uVar2 = orig::FUN_100496f0(this_00,0);
+    uVar2 = orig::FUN_100496f0(this_00,0,this_00);
     if ((char)uVar2 != '\0') {
-      *(undefined1 *)((int)self_ + 0x3c) = 1;
+      *(uint8_t *)((int)self_ + 0x3c) = 1;
       if (*(int **)((int)self_ + 0x38) == (int *)0x0) {
         iVar3 = 0;
       }
       else {
         iVar3 = **(int **)((int)self_ + 0x38);
       }
-      if ((*(ushort *)(iVar3 + 0x18) & 0x7fff) == 0) {
+      if ((*(uint16_t *)(iVar3 + 0x18) & 0x7fff) == 0) {
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
         if (*(int **)((int)self_ + 0x38) == (int *)0x0) {
           iVar3 = 0;
@@ -47,7 +47,7 @@ XI_API void __thiscall fn_10054220(void * self_)
         else {
           iVar3 = **(int **)((int)self_ + 0x38);
         }
-        if ((*(byte *)(iVar3 + 0x1a) >> 2 & 1) != 0) {
+        if ((*(uint8_t *)(iVar3 + 0x1a) >> 2 & 1) != 0) {
           if (*(int **)((int)self_ + 0x38) != (int *)0x0) {
             orig::MoRes_FreeIfUnreferenced_v1(*(int **)(**(int **)((int)self_ + 0x38) + 0x14));
             return;

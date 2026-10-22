@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10054D70  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 25 returned normally, 225 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 25, town PASS 25, town2 PASS 26, combat PASS 26, zonetoinn PASS 27
+// GATE: PASS -- 100 trials, 25 returned normally, 225 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl fn_10054D70(void)
 {
   int v0;
@@ -89,7 +89,7 @@ XI_API char __cdecl fn_10054D70(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10054F80  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API float * __stdcall fn_10054F80(float *a1, int a2)
 {
   orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, (const void *)(g_pResourceMng + 2896));
@@ -105,26 +105,26 @@ XI_API float * __stdcall fn_10054F80(float *a1, int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10054FC0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_1032b6d8;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_1032b6d8;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100550F0  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100550F0(void * self_)
+XI_API void __attribute__((stdcall, regparm(3))) fn_100550F0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int iVar1;
   
   iVar1 = *(int *)((int)self_ + 0x14);
-  *(undefined4 *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
   if (iVar1 != 0) {
     orig::CMoSpline_Destructor_v1((void *)(iVar1 + 0x54));
     orig::CMoSpline_Destructor_v1((void *)(iVar1 + 0x2c));
     orig::CMoSpline_Destructor_v1((void *)(iVar1 + 4));
     orig::thunk_sub_10028AA0_v1(iVar1);
-    *(undefined4 *)((int)self_ + 0x14) = 0;
+    *(uint32_t *)((int)self_ + 0x14) = 0;
   }
   return;
 }
@@ -133,8 +133,8 @@ XI_API void __thiscall fn_100550F0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall LinkNode_Init(void * self_)
 {
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 4) = 0;
   return;
 }

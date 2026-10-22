@@ -45,7 +45,7 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
               iVar6 = *(int *)(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) + 0x14 + iVar3);
               if (iVar6 != 0) {
                 orig::sqFree_v1(iVar6,s_C__dev_dancer_modules_sqScene_sr_103ba694,0x6b);
-                *(undefined4 *)(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) + 0x14 + iVar3) = 0;
+                *(uint32_t *)(*(int *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) + 0x14 + iVar3) = 0;
               }
               iVar6 = *(int *)(iVar1 + 0x48);
               iVar4 = iVar4 + 1;
@@ -56,8 +56,8 @@ XI_API void __cdecl fn_1028E1B0(int param_1)
                  s_C__dev_dancer_modules_sqScene_sr_103ba694,0x6f);
           orig::sqFree_v1(*(int *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5),
                  s_C__dev_dancer_modules_sqScene_sr_103ba694,0x70);
-          *(undefined4 *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) = 0;
-          *(undefined4 *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5) = 0;
+          *(uint32_t *)(*(int *)(iVar1 + 0x48) + 0x28 + iVar5) = 0;
+          *(uint32_t *)(*(int *)(iVar1 + 0x48) + 0x24 + iVar5) = 0;
         }
         param_1 = param_1 + 1;
         iVar5 = iVar5 + 0x2c;
@@ -104,7 +104,7 @@ XI_API void __cdecl fn_1028E350(undefined4 * param_1)
   param_1[0x11] = 0;
   param_1[0x12] = 0;
   param_1[0xc] = 0x100;
-  *(undefined1 *)(param_1 + 0xb) = 1;
+  *(uint8_t *)(param_1 + 0xb) = 1;
   orig::FUN_10298b90(param_1 + 0x13);
   return;
 }
@@ -113,7 +113,7 @@ XI_API void __cdecl fn_1028E350(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028EBF0(int param_1, int param_2, float param_3)
 {
-  *(float *)(*(int *)(param_1 + 0x48) + 0x14 + param_2 * 0x2c) = (float)(float10)param_3;
+  *(float *)(*(int *)(param_1 + 0x48) + 0x14 + param_2 * 0x2c) = (float)(long double)param_3;
   return;
 }
 
@@ -121,7 +121,7 @@ XI_API void __cdecl fn_1028EBF0(int param_1, int param_2, float param_3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028EC30(int param_1, int param_2, undefined4 param_3)
 {
-  *(undefined4 *)(*(int *)(param_1 + 0x48) + 8 + param_2 * 0x2c) = param_3;
+  *(uint32_t *)(*(int *)(param_1 + 0x48) + 8 + param_2 * 0x2c) = param_3;
   return;
 }
 
@@ -129,7 +129,7 @@ XI_API void __cdecl fn_1028EC30(int param_1, int param_2, undefined4 param_3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028EC50(int param_1, int param_2, undefined4 param_3)
 {
-  *(undefined1 *)(*(int *)(param_1 + 0x48) + 0x19 + param_2 * 0x2c) = (undefined1)param_3;
+  *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x19 + param_2 * 0x2c) = (uint8_t)param_3;
   return;
 }
 
@@ -137,7 +137,7 @@ XI_API void __cdecl fn_1028EC50(int param_1, int param_2, undefined4 param_3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028ECC0(int param_1, int param_2, undefined4 param_3)
 {
-  *(undefined1 *)(param_2 + *(int *)(param_1 + 0x28)) = (undefined1)param_3;
+  *(uint8_t *)(param_2 + *(int *)(param_1 + 0x28)) = (uint8_t)param_3;
   return;
 }
 
@@ -145,7 +145,7 @@ XI_API void __cdecl fn_1028ECC0(int param_1, int param_2, undefined4 param_3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028ECE0(int param_1, int param_2, undefined4 param_3)
 {
-  *(undefined1 *)(*(int *)(param_1 + 0x48) + 0x18 + param_2 * 0x2c) = (undefined1)param_3;
+  *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x18 + param_2 * 0x2c) = (uint8_t)param_3;
   return;
 }
 
@@ -178,17 +178,17 @@ XI_API int __cdecl fn_1028ED50(int param_1, undefined4 param_2, undefined4 param
   puVar2 = orig::FUN_10275e90(*(undefined4 **)(param_1 + 0x24),(iVar1 + 1) * 0xc,
                         s_C__dev_dancer_modules_sqScene_sr_103ba694,0x197);
   *(undefined4 **)(param_1 + 0x24) = puVar2;
-  puVar2 = orig::FUN_10275e90(*(undefined4 **)(param_1 + 0x28),*(uint *)(param_1 + 0x20),
+  puVar2 = orig::FUN_10275e90(*(undefined4 **)(param_1 + 0x28),*(uint32_t *)(param_1 + 0x20),
                         s_C__dev_dancer_modules_sqScene_sr_103ba694,0x198);
   *(undefined4 **)(param_1 + 0x28) = puVar2;
   *(undefined4 *)(iVar1 * 0xc + *(int *)(param_1 + 0x24)) = param_2;
-  *(undefined1 *)(iVar1 + *(int *)(param_1 + 0x28)) = 1;
+  *(uint8_t *)(iVar1 + *(int *)(param_1 + 0x28)) = 1;
   *(undefined4 *)(*(int *)(param_1 + 0x24) + 4 + iVar1 * 0xc) = param_3;
   return iVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1028EDE0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 50 trials, 15 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_1028EDE0(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, int param_5)
 {
   int iVar1;
@@ -235,8 +235,8 @@ XI_API int __cdecl fn_1028EDE0(int param_1, undefined4 param_2, undefined4 param
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 0x10 + iVar4) = 0;
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 4 + iVar4) = param_3;
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 8 + iVar4) = 0;
-  *(undefined1 *)(iVar4 + 0x1c + *(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6)) = 0xff;
-  *(undefined1 *)(iVar4 + 0x1d + *(int *)(iVar6 + 0x28 + *(int *)(iVar2 + 0x48))) = 0xff;
+  *(uint8_t *)(iVar4 + 0x1c + *(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6)) = 0xff;
+  *(uint8_t *)(iVar4 + 0x1d + *(int *)(iVar6 + 0x28 + *(int *)(iVar2 + 0x48))) = 0xff;
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 0x18 + iVar4) = param_4;
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 0x20 + iVar4) = 0;
   *(undefined4 *)(*(int *)(*(int *)(iVar2 + 0x48) + 0x28 + iVar6) + 0x44 + iVar4) = 0;
@@ -262,8 +262,8 @@ XI_API void __cdecl fn_1028EFB0(undefined4 * param_1)
     param_1[1] = 0;
     param_1[2] = 0;
     param_1[4] = 8;
-    *(undefined1 *)(param_1 + 6) = 1;
-    *(undefined1 *)((int)param_1 + 0x19) = 0;
+    *(uint8_t *)(param_1 + 6) = 1;
+    *(uint8_t *)((int)param_1 + 0x19) = 0;
     param_1[5] = 0x3f800000;
     param_1[7] = 0;
     param_1[8] = 0;
@@ -294,7 +294,7 @@ XI_API int __cdecl fn_1028F130(int param_1, undefined4 param_2)
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0xc + iVar3) = 0xffffffff;
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x10 + iVar3) = 0;
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x14 + iVar3) = 0;
-  *(undefined1 *)(*(int *)(param_1 + 0x40) + 0x24 + iVar3) = 0;
+  *(uint8_t *)(*(int *)(param_1 + 0x40) + 0x24 + iVar3) = 0;
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x18 + iVar3) = 0x40000000;
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x1c + iVar3) = 0x3f4ccccd;
   *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x28 + iVar3) = 0;
@@ -307,7 +307,7 @@ XI_API int __cdecl fn_1028F130(int param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028F220(int param_1, int param_2, undefined4 param_3)
 {
-  *(undefined4 *)(*(int *)(param_1 + 0x40) + 0x28 + param_2 * 0x30) = param_3;
+  *(uint32_t *)(*(int *)(param_1 + 0x40) + 0x28 + param_2 * 0x30) = param_3;
   return;
 }
 
@@ -353,7 +353,7 @@ XI_API void __cdecl fn_1028F4A0(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1028F4C0(undefined4 param_1, int * param_2)
 {
-  orig::sqgxMatrixShape_v1((undefined4 *)param_2[1]);
+  orig::sqgxMatrixShape_v1((uint32_t *)param_2[1]);
   orig::FUN_102a1f20((int *)param_2[6],param_2);
   return;
 }
@@ -365,8 +365,8 @@ XI_API void __cdecl sqsnScene_1028F5F0(int param_1, int param_2, int param_3)
   int iVar1;
   int iVar2;
   int iVar3;
-  uint uVar4;
-  uint uVar5;
+  uint32_t uVar4;
+  uint32_t uVar5;
   
   iVar1 = *(int *)(param_1 + 0x24);
   uVar4 = 0;
@@ -385,11 +385,11 @@ XI_API void __cdecl sqsnScene_1028F5F0(int param_1, int param_2, int param_3)
   uVar5 = 0;
   uVar4 = 1;
 LAB_1028f62e:
-  orig::FUN_10283260(0,(uint)(iVar3 == 0));
+  orig::FUN_10283260(0,(uint32_t)(iVar3 == 0));
   orig::FUN_1026e3d0(iVar2);
-  orig::FUN_10283da0(*(undefined4 **)(iVar1 + param_2 * 0xc + 4));
+  orig::FUN_10283da0(*(uint32_t **)(iVar1 + param_2 * 0xc + 4));
   orig::FUN_10283de0(*(float *)(iVar2 + 0x24));
-  orig::FUN_10283300((uint)(*(char *)(*(int *)(param_1 + 0x28) + param_2) != '\0'));
+  orig::FUN_10283300((uint32_t)(*(char *)(*(int *)(param_1 + 0x28) + param_2) != '\0'));
   if (uVar5 < 4) {
     do {
       orig::FUN_10283260(uVar5,0);
@@ -404,7 +404,7 @@ LAB_1028f62e:
       uVar4 = uVar4 + 1;
     } while ((int)uVar4 < 4);
   }
-  orig::FUN_10283260(0,(uint)(*(int *)(iVar2 + 0x30) == 0));
+  orig::FUN_10283260(0,(uint32_t)(*(int *)(iVar2 + 0x30) == 0));
   return;
 }
 
@@ -440,9 +440,9 @@ XI_API void __cdecl fn_1028F6E0(int * param_1, int param_2)
           local_8 = local_8 + 1;
         }
         if ((iVar3 < 4) && (-1 < iVar3)) {
-          orig::FUN_10283260(iVar3,(uint)(*(int *)(iVar4 + 0x30) == 0));
+          orig::FUN_10283260(iVar3,(uint32_t)(*(int *)(iVar4 + 0x30) == 0));
           orig::FUN_1026e3d0(iVar4);
-          orig::FUN_10283da0((undefined4 *)piVar1[1]);
+          orig::FUN_10283da0((uint32_t *)piVar1[1]);
           orig::FUN_10283de0(*(float *)(iVar4 + 0x24));
           orig::FUN_10283300(1);
         }
@@ -467,9 +467,9 @@ XI_API void __cdecl fn_1028F6E0(int * param_1, int param_2)
           local_8 = local_8 + 1;
         }
         if ((iVar4 < 4) && (-1 < iVar4)) {
-          orig::FUN_10283260(iVar4,(uint)(*(int *)(iVar3 + 0x30) == 0));
+          orig::FUN_10283260(iVar4,(uint32_t)(*(int *)(iVar3 + 0x30) == 0));
           orig::FUN_1026e3d0(iVar3);
-          orig::FUN_10283da0((undefined4 *)piVar1[1]);
+          orig::FUN_10283da0((uint32_t *)piVar1[1]);
           orig::FUN_10283de0(*(float *)(iVar3 + 0x24));
           orig::FUN_10283300(1);
         }
@@ -490,7 +490,7 @@ XI_API void __cdecl fn_1028F6E0(int * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 64 returned normally, 267 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64, town PASS 71, town2 PASS 72, combat PASS 71, zonetoinn PASS 72
+// GATE: PASS -- 100 trials, 64 returned normally, 267 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnSceneDraw(int a1)
 {
   int v2;
@@ -744,14 +744,14 @@ XI_API void __cdecl sqsnSceneLayerDraw(int * param_1, int param_2)
   int iVar4;
   int iVar5;
   int *piVar6;
-  uint local_4;
+  uint32_t local_4;
   
   piVar2 = param_1;
   iVar4 = 0;
   local_4 = 0;
   iVar5 = param_2 * 0x2c;
   orig::sqrdCamera_Apply_v1(*(int *)(param_1[6] + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
-  orig::sqgxMatrixCamera_v1(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
+  orig::sqgxMatrixCamera_v1(*(uint32_t **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
   iVar3 = param_1[0x12];
   if (0 < *(int *)(iVar3 + 4 + iVar5)) {
     do {
@@ -762,8 +762,8 @@ XI_API void __cdecl sqsnSceneLayerDraw(int * param_1, int param_2)
           orig::FUN_102a2130(*piVar6,piVar6[3]);
         }
         piVar1 = (int *)piVar6[6];
-        if (((*piVar1 == 0xf0001) && ((*(byte *)(piVar1 + 0x21) & 2) != 0)) ||
-           ((*piVar1 == 0xf0002 && ((*(byte *)(piVar1 + 0x59) & 4) != 0)))) {
+        if (((*piVar1 == 0xf0001) && ((*(uint8_t *)(piVar1 + 0x21) & 2) != 0)) ||
+           ((*piVar1 == 0xf0002 && ((*(uint8_t *)(piVar1 + 0x59) & 4) != 0)))) {
           orig::FUN_1028f6e0(param_1,(int)piVar6);
           orig::FUN_1028f4c0(param_1,piVar6);
         }
@@ -836,7 +836,7 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
   int iVar5;
   int iVar6;
   int *piVar7;
-  uint local_8;
+  uint32_t local_8;
   
   piVar3 = param_1;
   iVar4 = 0;
@@ -844,7 +844,7 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
   iVar5 = param_2 * 0x2c;
   iVar1 = *(int *)(param_1[6] + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc);
   orig::sqrdCamera_Apply_v1(iVar1);
-  orig::sqgxMatrixCamera_v1(*(undefined4 **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
+  orig::sqgxMatrixCamera_v1(*(uint32_t **)(param_1[6] + 4 + *(int *)(param_1[0x12] + 8 + iVar5) * 0xc));
   if (*(int *)(param_1[0x12] + 4 + iVar5) != 0) {
     iVar6 = 0;
     if (0 < param_1[0xd]) {
@@ -867,8 +867,8 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
             orig::FUN_102a2130(*piVar7,piVar7[3]);
           }
           piVar2 = (int *)piVar7[6];
-          if (((*piVar2 == 0xf0001) && ((*(byte *)(piVar2 + 0x21) & 2) != 0)) ||
-             ((*piVar2 == 0xf0002 && ((*(byte *)(piVar2 + 0x59) & 4) != 0)))) {
+          if (((*piVar2 == 0xf0001) && ((*(uint8_t *)(piVar2 + 0x21) & 2) != 0)) ||
+             ((*piVar2 == 0xf0002 && ((*(uint8_t *)(piVar2 + 0x59) & 4) != 0)))) {
             orig::FUN_1028f6e0(param_1,(int)piVar7);
             orig::FUN_1028f4c0(param_1,piVar7);
           }
@@ -923,7 +923,7 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
               if ((((char)piVar7[7] != '\0') && (piVar7[0x11] != 0)) &&
                  (iVar6 = orig::FUN_102a2160((int)piVar7,iVar4), iVar6 != 0)) {
                 orig::sqrdCamera_Apply_v1(iVar1);
-                orig::sqgxMatrixCamera_v1(*(undefined4 **)
+                orig::sqgxMatrixCamera_v1(*(uint32_t **)
                                   (piVar3[6] + 4 + *(int *)(piVar3[0x12] + 8 + iVar5) * 0xc));
                 orig::FUN_102a2c00((int)piVar3,piVar7,iVar4,0);
               }
@@ -950,55 +950,55 @@ XI_API void __cdecl sqsnSceneLayerSnapShotComposite(int param_1, int param_2)
   int iVar1;
   int iVar2;
   int iVar3;
-  float10 fVar4;
+  long double fVar4;
   char xi_frame[256] __attribute__((aligned(4)));
   float  (&local_100)[64] = *reinterpret_cast<float  (*)[64]>(xi_frame + 0);
   
-  local_100[0] = xi_k4(0xBF7CB3F6ull);
-  local_100[1] = xi_k4(0xBA67FF58ull);
-  local_100[2] = xi_k4(0xBF489396ull);
-  local_100[3] = xi_k4(0xBF2C0757ull);
-  local_100[4] = xi_k4(0xBE31F96Aull);
-  local_100[5] = xi_k4(0x3EEC2DCFull);
-  local_100[6] = xi_k4(0xBF376B6Eull);
-  local_100[7] = xi_k4(0x3E925D29ull);
+  local_100[0] = (-0.98712098598480224609375f);
+  local_100[1] = (-0.0008849999867379665374755859375f);
+  local_100[2] = (-0.78350198268890380859375f);
+  local_100[3] = (-0.671986997127532958984375f);
+  local_100[4] = (-0.1738030016422271728515625f);
+  local_100[5] = 0.4612869918346405029296875f;
+  local_100[6] = (-0.71648299694061279296875f);
+  local_100[7] = 0.2858670055866241455078125f;
   iVar1 = *(int *)(param_1 + 0x48);
-  local_100[8] = xi_k4(0x3F6AF7D3ull);
-  local_100[9] = xi_k4(0x3F77ABEBull);
-  local_100[10] = xi_k4(0xBF1AE32Eull);
-  fVar4 = (float10)*(float *)(iVar1 + param_2 * 0x2c);
-  local_100[0xb] = xi_k4(0x3E13393Bull);
-  local_100[0xc] = xi_k4(0xBEF54DE8ull);
-  local_100[0xd] = xi_k4(0x3EBB3D6Cull);
-  local_100[0xe] = xi_k4(0x3EB9DD7Full);
-  local_100[0xf] = xi_k4(0xBF1A933Aull);
-  local_100[0x10] = xi_k4(0x3EB8956Cull);
-  local_100[0x11] = xi_k4(0x3F5B5BB4ull);
-  local_100[0x12] = xi_k4(0xBF0B0718ull);
-  local_100[0x13] = xi_k4(0xBEC31D93ull);
-  local_100[0x14] = xi_k4(0xBEE24DD3ull);
-  local_100[0x15] = xi_k4(0x3F07F716ull);
-  local_100[0x16] = xi_k4(0x3D352114ull);
-  local_100[0x17] = xi_k4(0x3F4BE39Full);
-  local_100[0x18] = xi_k4(0xBDCF31B1ull);
-  local_100[0x19] = xi_k4(0xBE3E3971ull);
-  local_100[0x1a] = xi_k4(0xBEFF9DF5ull);
-  local_100[0x1b] = xi_k4(0xBE22C94Bull);
-  local_100[0x1c] = xi_k4(0x3F06B713ull);
-  local_100[0x1d] = xi_k4(0x3F230F49ull);
-  local_100[0x1e] = xi_k4(0x3F7417ECull);
-  local_100[0x1f] = xi_k4(0x0ull);
+  local_100[8] = 0.917843997478485107421875f;
+  local_100[9] = 0.967467010021209716796875f;
+  local_100[10] = (-0.60502898693084716796875f);
+  fVar4 = (long double)*(float *)(iVar1 + param_2 * 0x2c);
+  local_100[0xb] = 0.14377300441265106201171875f;
+  local_100[0xc] = (-0.4791100025177001953125f);
+  local_100[0xd] = 0.36570298671722412109375f;
+  local_100[0xe] = 0.3630180060863494873046875f;
+  local_100[0xf] = (-0.60380899906158447265625f);
+  local_100[0x10] = 0.36051499843597412109375f;
+  local_100[0x11] = 0.8568680286407470703125f;
+  local_100[0x12] = (-0.543076992034912109375f);
+  local_100[0x13] = (-0.3810850083827972412109375f);
+  local_100[0x14] = (-0.4420000016689300537109375f);
+  local_100[0x15] = 0.53111398220062255859375f;
+  local_100[0x16] = 0.04422099888324737548828125f;
+  local_100[0x17] = 0.796441972255706787109375f;
+  local_100[0x18] = (-0.101168997585773468017578125f);
+  local_100[0x19] = (-0.18576599657535552978515625f);
+  local_100[0x1a] = (-0.4992519915103912353515625f);
+  local_100[0x1b] = (-0.15897099673748016357421875f);
+  local_100[0x1c] = 0.526230990886688232421875f;
+  local_100[0x1d] = 0.636951982975006103515625f;
+  local_100[0x1e] = 0.9534900188446044921875f;
+  local_100[0x1f] = 0.0f;
   iVar2 = 0;
   do {
     iVar3 = iVar2 + 8;
     *(float *)((int)local_100 + iVar2 + 0x80) =
-         (float)(fVar4 * (float10)*(float *)((int)local_100 + iVar2));
+         (float)(fVar4 * (long double)*(float *)((int)local_100 + iVar2));
     *(float *)((int)local_100 + iVar2 + 0x84) =
-         (float)(fVar4 * (float10)*(float *)((int)local_100 + iVar2 + 4));
+         (float)(fVar4 * (long double)*(float *)((int)local_100 + iVar2 + 4));
     iVar2 = iVar3;
   } while (iVar3 < 0x80);
   iVar1 = *(int *)(iVar1 + param_2 * 0x2c + 0x10);
-  orig::FUN_102813b0(iVar1,(float)(float10)iVar1);
+  orig::FUN_102813b0(iVar1,(float)(long double)iVar1);
   return;
 }
 
@@ -1010,7 +1010,7 @@ XI_API void __cdecl fn_10290430(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10290440  (unit sqsnScene: name sqsnSceneLayerSort)
-// GATE: PASS -- 20 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
 {
   int iVar1;
@@ -1018,7 +1018,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
   int iVar3;
   int iVar4;
   int iVar5;
-  xi_bool bVar6;
+  uint8_t bVar6;
   char xi_frame[2156] __attribute__((aligned(4)));
   int  &local_86c = *reinterpret_cast<int  *>(xi_frame + 0);
   float  (&local_868)[2] = *reinterpret_cast<float  (*)[2]>(xi_frame + 4);
@@ -1029,7 +1029,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
   float  (&afStack_7d0)[500] = *reinterpret_cast<float  (*)[500]>(xi_frame + 156);
   
   iVar5 = param_2 * 0x2c;
-  orig::sqgxMatrixCamera_v1(*(undefined4 **)
+  orig::sqgxMatrixCamera_v1(*(uint32_t **)
                     (*(int *)(param_1 + 0x18) + 4 +
                     *(int *)(iVar5 + 8 + *(int *)(param_1 + 0x48)) * 0xc));
   iVar2 = *(int *)(param_1 + 0x48);
@@ -1038,7 +1038,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
     iVar4 = 0;
     do {
       orig::FUN_1028dbb0((float *)(*(int *)(*(int *)(iVar5 + iVar2 + 0x28) + iVar4) + 0x14),local_85c);
-      orig::sqgxMatrixShape_v1(*(undefined4 **)
+      orig::sqgxMatrixShape_v1(*(uint32_t **)
                        (*(int *)(iVar5 + 0x28 + *(int *)(param_1 + 0x48)) + 4 + iVar4));
       orig::sqMatrix4_10280140_v1(local_850,(float *)(g_pSqgxContext_as_s32 + 0x1c8),
                          (float *)(g_pSqgxContext_as_s32 + 0x208));
@@ -1046,7 +1046,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
       orig::M4fTransform_v1(local_868,local_810,local_85c);
       iVar2 = *(int *)(param_1 + 0x48);
       iVar1 = *(int *)(iVar5 + 4 + iVar2);
-      afStack_7d0[iVar3] = (float)-(float10)local_860;
+      afStack_7d0[iVar3] = (float)-(long double)local_860;
       iVar3 = iVar3 + 1;
       iVar4 = iVar4 + 0x90;
     } while (iVar3 < iVar1);
@@ -1069,18 +1069,18 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
         do {
           if (((iVar3 + -1 < 0) ||
               (iVar4 = *(int *)(iVar5 + 0x24 + *(int *)(param_1 + 0x48)),
-              bVar6 = NAN((float10)afStack_7d0[*(int *)(local_86c + iVar4)]) ||
-                      NAN((float10)afStack_7d0[*(int *)(iVar4 + -4 + iVar3 * 4)]),
-              (bVar6 || (float10)afStack_7d0[*(int *)(local_86c + iVar4)] <
-                        (float10)afStack_7d0[*(int *)(iVar4 + -4 + iVar3 * 4)]) != bVar6)) &&
+              bVar6 = NAN((long double)afStack_7d0[*(int *)(local_86c + iVar4)]) ||
+                      NAN((long double)afStack_7d0[*(int *)(iVar4 + -4 + iVar3 * 4)]),
+              (bVar6 || (long double)afStack_7d0[*(int *)(local_86c + iVar4)] <
+                        (long double)afStack_7d0[*(int *)(iVar4 + -4 + iVar3 * 4)]) != bVar6)) &&
              (iVar4 = *(int *)(iVar5 + 0x24 + *(int *)(param_1 + 0x48)), iVar1 = iVar2,
-             (!NAN((float10)afStack_7d0[*(int *)(local_86c + iVar4)]) &&
-             !NAN((float10)afStack_7d0[*(int *)(iVar4 + iVar3 * 4)])) &&
-             (float10)afStack_7d0[*(int *)(iVar4 + iVar3 * 4)] <
-             (float10)afStack_7d0[*(int *)(local_86c + iVar4)])) {
+             (!NAN((long double)afStack_7d0[*(int *)(local_86c + iVar4)]) &&
+             !NAN((long double)afStack_7d0[*(int *)(iVar4 + iVar3 * 4)])) &&
+             (long double)afStack_7d0[*(int *)(iVar4 + iVar3 * 4)] <
+             (long double)afStack_7d0[*(int *)(local_86c + iVar4)])) {
             for (; iVar3 < iVar1; iVar1 = iVar1 + -1) {
               iVar4 = *(int *)(iVar5 + 0x24 + *(int *)(param_1 + 0x48));
-              *(undefined4 *)(iVar4 + iVar1 * 4) = *(undefined4 *)(iVar4 + -4 + iVar1 * 4);
+              *(uint32_t *)(iVar4 + iVar1 * 4) = *(uint32_t *)(iVar4 + -4 + iVar1 * 4);
             }
             *(int *)(*(int *)(iVar5 + 0x24 + *(int *)(param_1 + 0x48)) + iVar3 * 4) = iVar2;
           }
@@ -1095,7 +1095,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10290610  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param_4, int param_5)
 {
   undefined4 *puVar1;
@@ -1162,7 +1162,7 @@ XI_API void __cdecl fn_10290610(int param_1, int param_2, int param_3, int param
           *(undefined4 *)(iVar3 + 0xc + *(int *)(param_1 + 0x40)) = 0xffffffff;
           *(undefined4 *)(iVar3 + 0x10 + *(int *)(param_1 + 0x40)) = 0;
           *(undefined4 *)(iVar3 + 0x14 + *(int *)(param_1 + 0x40)) = 0;
-          *(undefined1 *)(iVar3 + 0x24 + *(int *)(param_1 + 0x40)) = 0;
+          *(uint8_t *)(iVar3 + 0x24 + *(int *)(param_1 + 0x40)) = 0;
           *(undefined4 *)(iVar3 + 0x18 + *(int *)(param_1 + 0x40)) = 0x40000000;
           *(undefined4 *)(iVar3 + 0x28 + *(int *)(param_1 + 0x40)) = 0;
           iVar3 = iVar3 + 0x30;

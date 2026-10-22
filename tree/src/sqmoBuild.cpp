@@ -35,13 +35,13 @@ XI_API int __cdecl fn_102851C0(undefined4 * param_1, int param_2)
   orig::FUN_1028a0f0(puVar6,4,iVar2 * iVar3,puVar4,iVar7);
   puVar4 = orig::FUN_10275d40(*piVar1,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x3e);
   puVar5[0xc] = puVar4;
-  *(undefined1 *)(puVar5 + 0xf) = 0;
+  *(uint8_t *)(puVar5 + 0xf) = 0;
   puVar4 = orig::FUN_10275d40(*piVar1,1,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x40);
   puVar5[0xe] = puVar4;
   iVar7 = 0;
   if (0 < *piVar1) {
     do {
-      *(undefined1 *)(iVar7 + puVar5[0xe]) = 0;
+      *(uint8_t *)(iVar7 + puVar5[0xe]) = 0;
       orig::FUN_102944e0((int)puVar5,iVar7);
       iVar7 = iVar7 + 1;
     } while (iVar7 < *piVar1);

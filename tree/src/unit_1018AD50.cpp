@@ -6,14 +6,14 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1018AD50(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 4);
+  return *(uint32_t *)((int)self_ + 4);
 }
 
 // FUNCTION: FFXIMAIN 0x1018AD60  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018AD60(void * self_, undefined4 param_1)
 {
-  *(undefined4 *)(*(int *)((int)self_ + 4) + 0x10) = param_1;
+  *(uint32_t *)(*(int *)((int)self_ + 4) + 0x10) = param_1;
   return;
 }
 
@@ -41,13 +41,13 @@ XI_API void * __thiscall fn_1018AD80(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018ADA0(void * self_)
 {
-  uint *xi_s1;
+  uint32_t *xi_s1;
   
-  xi_s1 = *(uint **)((int)self_ + 0x20);
-  if ((xi_s1 != (uint *)0x0) && ((*xi_s1 >> 2 & 1) != 0)) {
+  xi_s1 = *(uint32_t **)((int)self_ + 0x20);
+  if ((xi_s1 != (uint32_t *)0x0) && ((*xi_s1 >> 2 & 1) != 0)) {
     orig::Mem_FreeObject_v1(xi_s1);
   }
-  *(undefined4 *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
   return;
 }
 
@@ -65,42 +65,42 @@ XI_API void __thiscall fn_1018ADE0(void * self_)
 {
   int *this_00;
   int xi_s1;
-  undefined4 uVar1;
-  void *pvVar2;
+  uint32_t xi_eax;
+  void *pvVar1;
   
   if (*(void **)((int)self_ + 8) != (void *)0x0) {
     orig::FUN_1018ade0(*(void **)((int)self_ + 8));
   }
   this_00 = (int *)((int)self_ + 0x14);
   if (*(int *)((int)self_ + 0x14) == 0) {
-    pvVar2 = *(void **)((int)self_ + 8);
-    if (pvVar2 != (void *)0x0) {
-      orig::FUN_1018abf0(pvVar2);
-      orig::thunk_sub_10028AA0_v1((int)pvVar2);
-      *(undefined4 *)((int)self_ + 8) = 0;
+    pvVar1 = *(void **)((int)self_ + 8);
+    if (pvVar1 != (void *)0x0) {
+      orig::FUN_1018abf0(pvVar1);
+      orig::thunk_sub_10028AA0_v1((int)pvVar1);
+      *(uint32_t *)((int)self_ + 8) = 0;
     }
   }
   else {
-    uVar1 = orig::FUN_1018c290(this_00);
-    if ((char)uVar1 != '\0') {
-      orig::FUN_1018bc40(this_00,0);
+    xi_eax = orig::FUN_1018c290(this_00);
+    if ((char)xi_eax != '\0') {
+      orig::FUN_1018bc40(this_00,0,xi_eax);
     }
   }
-  *(undefined4 *)((int)self_ + 0x1c) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x1c) = 0x3f800000;
   orig::FUN_1018a340(self_);
   if (*(int *)((int)self_ + 8) != 0) {
     *(float *)((int)self_ + 0x1c) =
-         (float)((float10)(*(int *)((int)self_ + 0x18) - *this_00) /
-                (float10)*(int *)((int)self_ + 0x18));
+         (float)((long double)(*(int *)((int)self_ + 0x18) - *this_00) /
+                (long double)*(int *)((int)self_ + 0x18));
     xi_s1 = *(int *)(*(int *)((int)self_ + 8) + 0x20);
     if ((xi_s1 != 0) && (*(int *)((int)self_ + 0x20) != 0)) {
-      pvVar2 = (void *)orig::FUN_1018aeb0(xi_s1,*(int *)((int)self_ + 0x20));
-      orig::FUN_10189490(pvVar2,*(uint **)((int)self_ + 0x20),*(uint **)(*(int *)((int)self_ + 8) + 0x20),
+      pvVar1 = (void *)orig::FUN_1018aeb0(xi_s1,*(int *)((int)self_ + 0x20));
+      orig::FUN_10189490(pvVar1,*(uint32_t **)((int)self_ + 0x20),*(uint32_t **)(*(int *)((int)self_ + 8) + 0x20),
                    *(float *)((int)self_ + 0x1c));
       orig::FUN_1018ada0(self_);
-      *(void **)((int)self_ + 0x20) = pvVar2;
+      *(void **)((int)self_ + 0x20) = pvVar1;
       *(float *)(*(int *)((int)self_ + 8) + 0x1c) =
-           (float)((float10)xi_k4(0x3F800000ull) - (float10)*(float *)((int)self_ + 0x1c));
+           (float)((long double)1.0f - (long double)*(float *)((int)self_ + 0x1c));
     }
   }
   return;
@@ -110,10 +110,10 @@ XI_API void __thiscall fn_1018ADE0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall fn_1018AEB0(undefined4 xi_s1, undefined4 xi_s2)
 {
-  uint *puVar1;
+  uint32_t *puVar1;
   
-  puVar1 =(uint*)(orig::Mem_AllocObject_v1(0xac,2));
-  if (puVar1 != (uint *)0x0) {
+  puVar1 =(uint32_t*)(orig::Mem_AllocObject_v1(0xac,2));
+  if (puVar1 != (uint32_t *)0x0) {
     *puVar1 = *puVar1 | 4;
   }
   return puVar1;

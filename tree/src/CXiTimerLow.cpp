@@ -9,12 +9,12 @@ XI_API void * __thiscall fn_10019490(void * self_)
   DWORD DVar1;
   
   orig::FUN_10019210(self_);
-  *(undefined ***)self_ = &PTR_CXiTimerLow_GetRuntimeClass_1032a118;
+  *(uint8_t ***)self_ = &PTR_CXiTimerLow_GetRuntimeClass_1032a118;
   DVar1 = timeGetTime();
   *(DWORD *)((int)self_ + 0xc) = DVar1;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
   orig::FUN_100194f0(self_);
   return self_;
 }

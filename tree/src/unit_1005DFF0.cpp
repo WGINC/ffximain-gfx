@@ -4,8 +4,8 @@
 
 // FUNCTION: FFXIMAIN 0x1005E110  (unit unit_1005DFF0: no unit evidence of its own; in the gap between 0x10057FB0 (CMoSchedularTask) and 0x1005E800 (CYyAfterImage) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1005E110(void * self_, undefined4 xi_s1)
+XI_API undefined4 __thiscall fn_1005E110(void * self_, undefined4 xi_s1)
 {
-  *(undefined4 *)self_ = 0;
-  return;
+  *(uint32_t *)self_ = 0;
+  return self_;
 }

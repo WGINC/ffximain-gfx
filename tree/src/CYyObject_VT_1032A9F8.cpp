@@ -7,7 +7,7 @@
 XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   void *this_00;
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   if (8 < *(int *)((int)self_ + 8)) {
     orig::nullsub_13_v1(s_Thread_Num_Over___10351c70);
@@ -40,7 +40,7 @@ XI_API void __thiscall fn_10039550(void * self_)
   piVar1 = piVar3;
   do {
     if (*piVar1 != 0) {
-      *(undefined1 *)(*piVar1 + 5) = 1;
+      *(uint8_t *)(*piVar1 + 5) = 1;
     }
     piVar1 = piVar1 + 1;
     iVar2 = iVar2 + -1;
@@ -60,11 +60,11 @@ XI_API void __thiscall fn_10039550(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100395D0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_CYyObject_VT_1032A9F8_ScalarDeletingDtor_2_1032aa14;
-  *(undefined1 *)((int)self_ + 4) = 1;
-  *(undefined1 *)((int)self_ + 5) = 0;
-  *(undefined1 *)((int)self_ + 6) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
+  *(uint8_t ***)self_ = &PTR_CYyObject_VT_1032A9F8_ScalarDeletingDtor_2_1032aa14;
+  *(uint8_t *)((int)self_ + 4) = 1;
+  *(uint8_t *)((int)self_ + 5) = 0;
+  *(uint8_t *)((int)self_ + 6) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
   return self_;
 }

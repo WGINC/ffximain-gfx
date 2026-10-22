@@ -3,35 +3,35 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10019A50  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall MotionQueue_ApplyPolicy(void * self_, undefined4 param_1, undefined4 param_2, float param_3, undefined4 param_4)
+// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5)
 {
-  byte bVar1;
+  uint8_t bVar1;
   short sVar2;
   int iVar3;
   int *piVar4;
-  undefined4 uVar5;
+  uint32_t uVar5;
   int *piVar6;
-  xi_bool bVar7;
+  uint8_t bVar7;
   
-  bVar7 = NAN((float10)param_3) || NAN((float10)xi_k4(0x38D1B717ull));
+  bVar7 = NAN((long double)param_4) || NAN((long double)xi_k4(0x38D1B717ull));
   sVar2 = *(short *)((int)self_ + 0x32);
-  if ((bVar7 || (float10)param_3 < (float10)xi_k4(0x38D1B717ull)) == bVar7) {
+  if ((bVar7 || (long double)param_4 < (long double)xi_k4(0x38D1B717ull)) == bVar7) {
     piVar6 = (int *)0x0;
     piVar4 = (int *)((int)self_ + 0x3a);
     if ((int *)(int)sVar2 != (int *)0x0) {
       do {
         iVar3 = *piVar4;
-        bVar1 = *(byte *)(DAT_1045f028 + iVar3);
+        bVar1 = *(uint8_t *)(DAT_1045f028 + iVar3);
         if (((char)bVar1 < '\0') && ((bVar1 & 0x40) != 0x40)) {
           if ((bVar1 & 0x3f) == 0) {
-            uVar5 = orig::SampleAnimationTrack_ToBuffer(self_,param_1,piVar6,iVar3,param_2,param_4);
+            uVar5 = orig::SampleAnimationTrack_ToBuffer(self_,param_2,piVar6,iVar3,param_3,param_5);
             if ((char)uVar5 != '\0') {
-              *(byte *)(DAT_1045f028 + iVar3) = *(byte *)(DAT_1045f028 + iVar3) | 1;
+              *(uint8_t *)(DAT_1045f028 + iVar3) = *(uint8_t *)(DAT_1045f028 + iVar3) | 1;
             }
           }
           else if ((bVar1 & 0x3f) == 1) {
-            orig::SampleAnimationTrack_Live(self_,param_1,piVar6,iVar3,param_2,param_3,param_4);
+            orig::SampleAnimationTrack_Live(self_,param_2,piVar6,iVar3,param_3,param_4,param_5);
           }
         }
         piVar6 = (int *)((int)piVar6 + 1);
@@ -47,7 +47,7 @@ XI_API void __thiscall MotionQueue_ApplyPolicy(void * self_, undefined4 param_1,
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5)
 {
   float *pfVar1;
-  float10 fVar2;
+  long double fVar2;
   int iVar3;
   int iVar4;
   int iVar5;
@@ -56,23 +56,23 @@ XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int par
   float *pfVar8;
   float *pfVar9;
   float fVar10;
-  uint uVar11;
-  uint uVar12;
-  ulonglong uVar13;
+  uint32_t uVar11;
+  uint32_t uVar12;
+  uint64_t uVar13;
   char xi_frame[73] __attribute__((aligned(4)));
-  undefined1  &local_49 = *reinterpret_cast<undefined1  *>(xi_frame + 0);
-  uint * &local_44 = *reinterpret_cast<uint * *>(xi_frame + 5);
+  uint8_t  &local_49 = *reinterpret_cast<uint8_t  *>(xi_frame + 0);
+  uint32_t * &local_44 = *reinterpret_cast<uint32_t * *>(xi_frame + 5);
   float  (&afStack_2c)[7] = *reinterpret_cast<float  (*)[7]>(xi_frame + 29);
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 57);
   
   local_49 = 1;
-  uVar13 = XI_CALL_ST0(0x10311C2Cu)((float10)param_4);
+  uVar13 = XI_CALL_ST0(0x10311C2Cu)((long double)param_4);
   iVar5 = (int)uVar13;
-  fVar2 = (float)((float10)param_4 - (float10)(uVar13 & 0xffffffff));
+  fVar2 = (float)((long double)param_4 - (long double)(uVar13 & 0xffffffff));
   orig::FUN_10032a40(local_10);
   puVar6 = (undefined4 *)0x0;
   iVar4 = (int)param_2 * 0x15;
-  local_44 = (uint *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
+  local_44 = (uint32_t *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
   do {
     uVar11 = *local_44;
     if (uVar11 == 0) {
@@ -99,7 +99,7 @@ LAB_10019be3:
           orig::FUN_10032a70();
         }
         orig::FUN_10032a70();
-        return (uint)puVar6 & 0xffffff00;
+        return (uint32_t)puVar6 & 0xffffff00;
       }
       uVar11 = uVar11 & 0x7fffffff;
       if (uVar11 == 0) goto LAB_10019be3;
@@ -123,18 +123,18 @@ LAB_10019be3:
         param_2 = (int *)((int)self_ + (int)param_2 * 0x54 + 0x76);
         pfVar9 = (float *)(puVar6 + 7);
         do {
-          pfVar9[-3] = xi_k4(0x0ull);
+          pfVar9[-3] = 0.0f;
           iVar3 = *param_2;
           if (iVar3 == 0) {
-            afStack_2c[uVar11] = xi_k4(0x0ull);
+            afStack_2c[uVar11] = 0.0f;
             *pfVar9 = *(float *)((int)self_ + (iVar4 + uVar11) * 4 + 0x82);
           }
           else {
             pfVar8 = (float *)((int)self_ + (iVar3 + iVar5) * 4 + 0x3a);
             *pfVar9 = *pfVar8;
             afStack_2c[uVar11] =
-                 (float)((float10)*(float *)((int)self_ + (iVar3 + 1 + iVar5) * 4 + 0x3a) -
-                        (float10)*pfVar8);
+                 (float)((long double)*(float *)((int)self_ + (iVar3 + 1 + iVar5) * 4 + 0x3a) -
+                        (long double)*pfVar8);
           }
           uVar11 = uVar11 + 1;
           param_2 = param_2 + 1;
@@ -145,7 +145,7 @@ LAB_10019be3:
         do {
           pfVar1 = afStack_2c + (int)pfVar8;
           pfVar8 = (float *)((int)pfVar8 + 1);
-          *pfVar9 = (float)((float10)fVar2 * (float10)*pfVar1 + (float10)*pfVar9);
+          *pfVar9 = (float)((long double)fVar2 * (long double)*pfVar1 + (long double)*pfVar9);
           pfVar9 = pfVar9 + 1;
         } while (pfVar8 < (float *)0x3);
         local_49 = 0;
@@ -157,25 +157,25 @@ LAB_10019be3:
         do {
           uVar12 = param_2[-6] & 0x7fffffff;
           if (uVar12 == 0) {
-            afStack_2c[uVar11 + 3] = xi_k4(0x0ull);
+            afStack_2c[uVar11 + 3] = 0.0f;
             pfVar9[-3] = *(float *)((int)self_ + (iVar4 + uVar11) * 4 + 0x6a);
           }
           else {
             pfVar9[-3] = *(float *)((int)self_ + (iVar5 + uVar12) * 4 + 0x3a);
             afStack_2c[uVar11 + 3] =
-                 (float)((float10)*(float *)((int)self_ + (uVar12 + 1 + iVar5) * 4 + 0x3a) -
-                        (float10)*(float *)((int)self_ + (iVar5 + uVar12) * 4 + 0x3a));
+                 (float)((long double)*(float *)((int)self_ + (uVar12 + 1 + iVar5) * 4 + 0x3a) -
+                        (long double)*(float *)((int)self_ + (iVar5 + uVar12) * 4 + 0x3a));
           }
           iVar3 = *param_2;
           if (iVar3 == 0) {
-            afStack_2c[uVar11] = xi_k4(0x0ull);
+            afStack_2c[uVar11] = 0.0f;
             *pfVar9 = *(float *)((int)self_ + (iVar4 + uVar11) * 4 + 0x82);
           }
           else {
             *pfVar9 = *(float *)((int)self_ + (iVar3 + iVar5) * 4 + 0x3a);
             afStack_2c[uVar11] =
-                 (float)((float10)*(float *)((int)self_ + (iVar5 + 1 + iVar3) * 4 + 0x3a) -
-                        (float10)*(float *)((int)self_ + (iVar3 + iVar5) * 4 + 0x3a));
+                 (float)((long double)*(float *)((int)self_ + (iVar5 + 1 + iVar3) * 4 + 0x3a) -
+                        (long double)*(float *)((int)self_ + (iVar3 + iVar5) * 4 + 0x3a));
           }
           uVar11 = uVar11 + 1;
           param_2 = param_2 + 1;
@@ -186,10 +186,10 @@ LAB_10019be3:
         do {
           uVar12 = uVar11 + 4;
           pfVar8 = pfVar9 + 1;
-          pfVar9[-3] = (float)((float10)fVar2 * (float10)*(float *)((int)afStack_2c + uVar11 + 0xc)
-                              + (float10)pfVar9[-3]);
-          *pfVar9 = (float)((float10)fVar2 * (float10)*(float *)((int)afStack_2c + uVar11) +
-                           (float10)*pfVar9);
+          pfVar9[-3] = (float)((long double)fVar2 * (long double)*(float *)((int)afStack_2c + uVar11 + 0xc)
+                              + (long double)pfVar9[-3]);
+          *pfVar9 = (float)((long double)fVar2 * (long double)*(float *)((int)afStack_2c + uVar11) +
+                           (long double)*pfVar9);
           pfVar9 = pfVar8;
           uVar11 = uVar12;
         } while (uVar12 < 0xc);
@@ -201,7 +201,7 @@ LAB_10019be3:
         pfVar8 = (float *)param_5;
       }
       orig::FUN_10032a70();
-      return CONCAT31((int3)((uint)pfVar8 >> 8),local_49);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pfVar8 >> 8)) << 8) | (uint8_t)(local_49)));
     }
   } while( true );
 }
@@ -211,33 +211,33 @@ LAB_10019be3:
 XI_API undefined4 __thiscall SampleAnimationTrack_Live(void * self_, int param_1, int * param_2, int param_3, float param_4, float param_5, int param_6)
 {
   undefined4 *puVar1;
-  float10 fVar2;
+  long double fVar2;
   float fVar3;
   int iVar4;
   int iVar5;
   int iVar6;
-  uint uVar7;
+  uint32_t uVar7;
   float *pfVar8;
   undefined4 *puVar9;
-  uint uVar10;
+  uint32_t uVar10;
   float fVar11;
-  uint *puVar12;
-  float10 fVar13;
-  float10 fVar14;
-  longlong lVar15;
+  uint32_t *puVar12;
+  long double fVar13;
+  long double fVar14;
+  int64_t lVar15;
   char xi_frame[84] __attribute__((aligned(4)));
   float  (&local_54)[13] = *reinterpret_cast<float  (*)[13]>(xi_frame + 0);
   float  (&local_20)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 52);
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 68);
   
-  lVar15 = XI_CALL_ST0(0x10311C2Cu)((float10)param_4);
+  lVar15 = XI_CALL_ST0(0x10311C2Cu)((long double)param_4);
   iVar6 = (int)lVar15;
-  fVar2 = (float)((float10)param_4 - (float10)iVar6);
+  fVar2 = (float)((long double)param_4 - (long double)iVar6);
   orig::FUN_10032a40(local_10);
   orig::FUN_10032a40(local_20);
   uVar7 = 0;
   iVar5 = (int)param_2 * 0x15;
-  puVar12 = (uint *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
+  puVar12 = (uint32_t *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
   do {
     uVar10 = *puVar12;
     if (uVar10 == 0) {
@@ -256,20 +256,20 @@ LAB_10019f63:
           uVar7 = puVar9[3];
           puVar1[3] = uVar7;
           orig::FUN_10032a70();
-          fVar14 = (float10)xi_k4(0x3F800000ull) - (float10)param_5;
-          fVar13 = (float10)param_5 * (float10)xi_k4(0x0ull);
-          puVar1[4] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[4]) + fVar13);
-          puVar1[5] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[5]) + fVar13);
-          puVar1[6] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[6]) + fVar13);
+          fVar14 = (long double)1.0f - (long double)param_5;
+          fVar13 = (long double)param_5 * (long double)0.0f;
+          puVar1[4] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[4]) + fVar13);
+          puVar1[5] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[5]) + fVar13);
+          puVar1[6] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[6]) + fVar13);
           if (param_3 == 0) {
             *(undefined4 *)(param_6 + 0x1c) = 0x3f800000;
             *(undefined4 *)(param_6 + 0x20) = 0x3f800000;
             *(undefined4 *)(param_6 + 0x24) = 0x3f800000;
           }
           else {
-            puVar1[7] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[7]) + (float10)param_5);
-            puVar1[8] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[8]) + (float10)param_5);
-            puVar1[9] = (float)(fVar14 * (float10)xi_castbits<float>(puVar1[9]) + (float10)param_5);
+            puVar1[7] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[7]) + (long double)param_5);
+            puVar1[8] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[8]) + (long double)param_5);
+            puVar1[9] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[9]) + (long double)param_5);
           }
         }
         orig::FUN_10032a70();
@@ -303,25 +303,25 @@ LAB_10019f63:
       do {
         uVar10 = param_2[-6] & 0x7fffffff;
         if (uVar10 == 0) {
-          local_54[uVar7 + 6] = xi_k4(0x0ull);
+          local_54[uVar7 + 6] = 0.0f;
           local_54[uVar7] = *(float *)((int)self_ + (iVar5 + uVar7) * 4 + 0x6a);
         }
         else {
           fVar11 = *(float *)((int)self_ + (uVar10 + 1 + iVar6) * 4 + 0x3a);
           fVar3 = *(float *)((int)self_ + (uVar10 + iVar6) * 4 + 0x3a);
           local_54[uVar7] = fVar3;
-          local_54[uVar7 + 6] = (float)((float10)fVar11 - (float10)fVar3);
+          local_54[uVar7 + 6] = (float)((long double)fVar11 - (long double)fVar3);
         }
         iVar4 = *param_2;
         if (iVar4 == 0) {
-          local_54[uVar7 + 9] = xi_k4(0x0ull);
+          local_54[uVar7 + 9] = 0.0f;
           local_54[uVar7 + 3] = *(float *)((int)self_ + (iVar5 + uVar7) * 4 + 0x82);
         }
         else {
           fVar11 = *(float *)((int)self_ + (iVar4 + 1 + iVar6) * 4 + 0x3a);
           fVar3 = *(float *)((int)self_ + (iVar4 + iVar6) * 4 + 0x3a);
           local_54[uVar7 + 3] = fVar3;
-          local_54[uVar7 + 9] = (float)((float10)fVar11 - (float10)fVar3);
+          local_54[uVar7 + 9] = (float)((long double)fVar11 - (long double)fVar3);
         }
         uVar7 = uVar7 + 1;
         param_2 = param_2 + 1;
@@ -330,37 +330,37 @@ LAB_10019f63:
       do {
         uVar10 = uVar7 + 4;
         *(float *)((int)local_54 + uVar7) =
-             (float)((float10)fVar2 * (float10)*(float *)((int)local_54 + uVar7 + 0x18) +
-                    (float10)*(float *)((int)local_54 + uVar7));
+             (float)((long double)fVar2 * (long double)*(float *)((int)local_54 + uVar7 + 0x18) +
+                    (long double)*(float *)((int)local_54 + uVar7));
         *(float *)((int)local_54 + uVar7 + 0xc) =
-             (float)((float10)fVar2 * (float10)*(float *)((int)local_54 + uVar7 + 0x24) +
-                    (float10)*(float *)((int)local_54 + uVar7 + 0xc));
+             (float)((long double)fVar2 * (long double)*(float *)((int)local_54 + uVar7 + 0x24) +
+                    (long double)*(float *)((int)local_54 + uVar7 + 0xc));
         uVar7 = uVar10;
       } while (uVar10 < 0xc);
-      fVar14 = (float10)xi_k4(0x3F800000ull) - (float10)param_5;
-      puVar1[4] = (float)((float10)local_54[0] * (float10)param_5 +
-                         fVar14 * (float10)xi_castbits<float>(puVar1[4]));
-      puVar1[5] = (float)((float10)local_54[1] * (float10)param_5 +
-                         fVar14 * (float10)xi_castbits<float>(puVar1[5]));
-      puVar1[6] = (float)((float10)local_54[2] * (float10)param_5 +
-                         fVar14 * (float10)xi_castbits<float>(puVar1[6]));
+      fVar14 = (long double)1.0f - (long double)param_5;
+      puVar1[4] = (float)((long double)local_54[0] * (long double)param_5 +
+                         fVar14 * (long double)xi_castbits<float>(puVar1[4]));
+      puVar1[5] = (float)((long double)local_54[1] * (long double)param_5 +
+                         fVar14 * (long double)xi_castbits<float>(puVar1[5]));
+      puVar1[6] = (float)((long double)local_54[2] * (long double)param_5 +
+                         fVar14 * (long double)xi_castbits<float>(puVar1[6]));
       if (param_3 == 0) {
         *(undefined4 *)(param_6 + 0x1c) = 0x3f800000;
         *(undefined4 *)(param_6 + 0x20) = 0x3f800000;
         *(undefined4 *)(param_6 + 0x24) = 0x3f800000;
       }
       else {
-        puVar1[7] = (float)((float10)local_54[3] * (float10)param_5 +
-                           fVar14 * (float10)xi_castbits<float>(puVar1[7]));
-        puVar1[8] = (float)((float10)local_54[4] * (float10)param_5 +
-                           fVar14 * (float10)xi_castbits<float>(puVar1[8]));
-        puVar1[9] = (float)((float10)local_54[5] * (float10)param_5 +
-                           fVar14 * (float10)xi_castbits<float>(puVar1[9]));
+        puVar1[7] = (float)((long double)local_54[3] * (long double)param_5 +
+                           fVar14 * (long double)xi_castbits<float>(puVar1[7]));
+        puVar1[8] = (float)((long double)local_54[4] * (long double)param_5 +
+                           fVar14 * (long double)xi_castbits<float>(puVar1[8]));
+        puVar1[9] = (float)((long double)local_54[5] * (long double)param_5 +
+                           fVar14 * (long double)xi_castbits<float>(puVar1[9]));
         param_6 = param_3;
       }
       orig::FUN_10032a70();
       orig::FUN_10032a70();
-      return CONCAT31((int3)((uint)param_6 >> 8),1);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_6 >> 8)) << 8) | (uint8_t)(1)));
     }
   } while( true );
 }
@@ -385,19 +385,19 @@ XI_API void __thiscall fn_1001A3E0(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1001A420  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 34 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefined4 xi_s1)
 {
-  byte bVar1;
+  uint8_t bVar1;
   float fVar2;
   undefined4 uVar3;
   undefined4 uVar4;
-  uint uVar5;
+  uint32_t uVar5;
   int iVar6;
   void *this_00;
   undefined4 *puVar7;
   void *this_01;
-  uint uVar8;
+  uint32_t uVar8;
   int iVar9;
   float *pfVar10;
   char xi_frame[28] __attribute__((aligned(4)));
@@ -446,8 +446,8 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
         uVar8 = DAT_10462430;
         if (DAT_10462430 != 0) {
           do {
-            if ((*(byte *)(DAT_1045f028 + uVar5) & 0x3f) != 0) {
-              *(byte *)(DAT_1045f028 + uVar5) = *(byte *)(DAT_1045f028 + uVar5) | 0x40;
+            if ((*(uint8_t *)(DAT_1045f028 + uVar5) & 0x3f) != 0) {
+              *(uint8_t *)(DAT_1045f028 + uVar5) = *(uint8_t *)(DAT_1045f028 + uVar5) | 0x40;
               uVar8 = DAT_10462430;
             }
             uVar5 = uVar5 + 1;
@@ -461,11 +461,11 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
     pfVar10 = (float *)((int)self_ + 0x70);
     do {
       uVar4 = 0;
-      if (pfVar10[-2] != xi_k4(0x0ull)) {
+      if (pfVar10[-2] != 0.0f) {
         uVar5 = 0;
         if (uVar8 != 0) {
           do {
-            *(byte *)(DAT_1045f028 + uVar5) = *(byte *)(DAT_1045f028 + uVar5) & 0x80;
+            *(uint8_t *)(DAT_1045f028 + uVar5) = *(uint8_t *)(DAT_1045f028 + uVar5) & 0x80;
             uVar5 = uVar5 + 1;
           } while (uVar5 < DAT_10462430);
         }
@@ -476,8 +476,8 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
         if (DAT_10462430 != 0) {
           iVar6 = 0;
           do {
-            bVar1 = *(byte *)(DAT_1045f028 + uVar5);
-            uVar4 = CONCAT31((int3)((uint)DAT_1045f028 >> 8),bVar1);
+            bVar1 = *(uint8_t *)(DAT_1045f028 + uVar5);
+            uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_1045f028 >> 8)) << 8) | (uint8_t)(bVar1)));
             if (((char)bVar1 < '\0') && ((bVar1 & 0x3f) != 0)) {
               puVar7 = (undefined4 *)
                        orig::Quat_NLerp((undefined4 *)((int)&g_poseScratch_as_v0 + iVar6),local_10,
@@ -501,7 +501,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
       local_1c = local_1c + 1;
       pfVar10 = pfVar10 + 5;
     } while (local_1c < 7);
-    return CONCAT31((int3)((uint)uVar4 >> 8),1);
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
   }
   return uVar8 & 0xffffff00;
 }
@@ -510,15 +510,15 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
 // GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1001A6E0(void * self_, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
-  uint uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   uVar1 = orig::FUN_10084620(param_1);
   if ((uVar1 != 0) && (uVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x200))))((void *)(param_1)), (char)uVar2 == '\0')) {
     return;
   }
   if ((((-1 < param_8) && (param_8 < 7)) &&
-      (orig::FUN_1001ad00((void *)((int)self_ + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
+      (orig::KzMotionQueList_AppendSync((void *)((int)self_ + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
                     param_7,param_9,param_10), param_8 == 0)) && (param_1 != (int *)0x0)) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),0);
   }

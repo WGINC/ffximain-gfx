@@ -7,7 +7,6 @@
 class XI_API CMoProcessor {
 public:
     _DWORD * InitRotationMatrices();  // 0x1006CE70
-    static void __stdcall Vec3Normalize(float * param_1);  // 0x1006D5D0
     int ScratchMatrixOp(int a2, int a3, int a4);  // 0x1006E6B0
     static CMoProcessor * __stdcall CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5);  // 0x1006E970
 

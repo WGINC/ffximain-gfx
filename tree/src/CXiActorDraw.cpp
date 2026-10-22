@@ -5,7 +5,7 @@
 
 // FUNCTION: FFXIMAIN 0x100817E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined1 __cdecl CXiActorDraw::Update()
+uint8_t __cdecl CXiActorDraw::Update()
 {
   orig::CXiActorDraw_UpdateDrawList();
   return 0;
@@ -18,10 +18,12 @@ void __cdecl CXiActorDraw::UpdateDrawList()
   int *self;
   int *this_00;
   int *piVar1;
-  xi_bool bVar2;
+  uint8_t bVar2;
+  uint64_t uVar3;
   
   g_actorUpdateCounter_as_v0 = 0;
-  g_actorUpdateInterval_as_v0 = orig::Settings_GetValue_v1(0x3c);
+  uVar3 = orig::Settings_GetValue_v1(0x3c);
+  g_actorUpdateInterval_as_v0 = (uint32_t)uVar3;
   _DAT_1048a324 = 0;
   this_00 = g_pActorDrawListHead_as_v0;
   do {
@@ -32,11 +34,11 @@ void __cdecl CXiActorDraw::UpdateDrawList()
     piVar1 = this_00 + 0x15;
     if (self == (int *)0x0) {
       if (*(short *)((int)this_00 + 0xb2) == 0) {
-        if ((NAN((float10)xi_castbits<float>(this_00[0x23])) || NAN((float10)xi_k4(0x0ull))) ||
-            (float10)xi_castbits<float>(this_00[0x23]) < (float10)xi_k4(0x0ull)) {
+        if ((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
+            (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f) {
 LAB_10082e90:
-          *(undefined1 *)(this_00 + 0x2c) = 1;
-          *(byte *)((int)this_00 + 0xb2) = *(byte *)((int)this_00 + 0xb2) | 1;
+          *(uint8_t *)(this_00 + 0x2c) = 1;
+          *(uint8_t *)((int)this_00 + 0xb2) = *(uint8_t *)((int)this_00 + 0xb2) | 1;
         }
         else {
           ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x288))))((void *)(this_00));
@@ -44,20 +46,20 @@ LAB_10082e90:
       }
     }
     else {
-      bVar2 = NAN((float10)xi_castbits<float>(self[0x23])) || NAN((float10)xi_castbits<float>(this_00[0x23]));
-      if ((bVar2 || (float10)xi_castbits<float>(self[0x23]) < (float10)xi_castbits<float>(this_00[0x23])) == bVar2) {
+      bVar2 = NAN((long double)xi_castbits<float>(self[0x23])) || NAN((long double)xi_castbits<float>(this_00[0x23]));
+      if ((bVar2 || (long double)xi_castbits<float>(self[0x23]) < (long double)xi_castbits<float>(this_00[0x23])) == bVar2) {
         if (*(short *)((int)this_00 + 0xb2) == 0) {
-          if ((NAN((float10)xi_castbits<float>(this_00[0x23])) || NAN((float10)xi_k4(0x0ull))) ||
-              (float10)xi_castbits<float>(this_00[0x23]) < (float10)xi_k4(0x0ull)) goto LAB_10082e90;
+          if ((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
+              (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f) goto LAB_10082e90;
           ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x288))))((void *)(this_00));
         }
       }
       else {
         if (*(short *)((int)self + 0xb2) == 0) {
-          if ((NAN((float10)xi_castbits<float>(self[0x23])) || NAN((float10)xi_k4(0x0ull))) ||
-              (float10)xi_castbits<float>(self[0x23]) < (float10)xi_k4(0x0ull)) {
-            *(undefined1 *)(self + 0x2c) = 1;
-            *(byte *)((int)self + 0xb2) = *(byte *)((int)self + 0xb2) | 1;
+          if ((NAN((long double)xi_castbits<float>(self[0x23])) || NAN((long double)0.0f)) ||
+              (long double)xi_castbits<float>(self[0x23]) < (long double)0.0f) {
+            *(uint8_t *)(self + 0x2c) = 1;
+            *(uint8_t *)((int)self + 0xb2) = *(uint8_t *)((int)self + 0xb2) | 1;
           }
           else {
             ((int (__thiscall *)(void *))((**(code **)(*self + 0x288))))((void *)(self));

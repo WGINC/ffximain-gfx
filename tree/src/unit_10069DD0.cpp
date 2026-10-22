@@ -13,11 +13,11 @@ XI_API void __cdecl fn_10069E90(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10069EA0(void * self_)
 {
-  undefined1 *puVar1;
-  undefined4 *puVar2;
+  uint8_t *puVar1;
+  uint32_t *puVar2;
   
-  puVar1 = (undefined1 *)((int)self_ + 0x110);
-  puVar2 = (undefined4 *)((int)self_ + 0x310);
+  puVar1 = (uint8_t *)((int)self_ + 0x110);
+  puVar2 = (uint32_t *)((int)self_ + 0x310);
   do {
     puVar1[0x100] = 0;
     *puVar1 = 0;
@@ -34,29 +34,29 @@ XI_API void __thiscall fn_10069EA0(void * self_)
 XI_API void __thiscall fn_10069F90(void * self_)
 {
   int iVar1;
-  DWORD DVar2;
-  float10 fVar3;
+  DWORD xi_eax;
+  long double fVar2;
   
-  DVar2 = timeGetTime();
-  if (DVar2 < *(uint *)((int)self_ + 0xea8)) {
-    DVar2 = 0x10;
-    *(undefined4 *)((int)self_ + 0xea8) = 0;
+  xi_eax = timeGetTime();
+  if (xi_eax < *(uint32_t *)((int)self_ + 0xea8)) {
+    xi_eax = 0x10;
+    *(uint32_t *)((int)self_ + 0xea8) = 0;
   }
   iVar1 = *(int *)((int)self_ + 0xea8);
-  *(DWORD *)((int)self_ + 0xea8) = DVar2;
-  fVar3 = (float10)(DVar2 - iVar1) * (float10)xi_k4(0x3A83126Full);
-  *(float *)((int)self_ + 0xeac) = (float)fVar3;
-  *(float *)((int)self_ + 0xeb0) = (float)(fVar3 * (float10)xi_k4(0x42700000ull));
+  *(DWORD *)((int)self_ + 0xea8) = xi_eax;
+  fVar2 = (long double)(xi_eax - iVar1) * (long double)0.001000000047497451305389404296875f;
+  *(float *)((int)self_ + 0xeac) = (float)fVar2;
+  *(float *)((int)self_ + 0xeb0) = (float)(fVar2 * (long double)6e+01f);
   *(double *)((int)self_ + 0xeb4) =
-       (double)((float10)*(float *)((int)self_ + 0xeac) * (float10)xi_k4(0x42700000ull) +
-               (float10)*(double *)((int)self_ + 0xeb4));
-  fVar3 = orig::Camera_GetFrameScale_v1();
-  *(float *)((int)self_ + 0xeb0) = (float)fVar3;
+       (double)((long double)*(float *)((int)self_ + 0xeac) * (long double)6e+01f +
+               (long double)*(double *)((int)self_ + 0xeb4));
+  fVar2 = orig::Camera_GetFrameScale_v1(xi_eax);
+  *(float *)((int)self_ + 0xeb0) = (float)fVar2;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1006A020  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 98, town2 PASS 98, combat PASS 98, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned int __stdcall fn_1006A020(unsigned int a1, int a2, int a3, int a4)
 {
   unsigned int v4;
@@ -77,31 +77,31 @@ XI_API unsigned int __stdcall fn_1006A020(unsigned int a1, int a2, int a3, int a
 // GATE: PASS -- 100 trials, 64 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1006A180(void * self_, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   float fVar2;
-  undefined4 uVar3;
+  uint32_t uVar3;
   int iVar4;
-  undefined4 *puVar5;
-  undefined4 *puVar6;
-  undefined4 *puVar7;
+  uint32_t *puVar5;
+  uint32_t *puVar6;
+  uint32_t *puVar7;
   
-  puVar1 = (undefined4 *)((int)self_ + 0xb50);
+  puVar1 = (uint32_t *)((int)self_ + 0xb50);
   orig::CDx_GetTransformCached_v1(*(void **)((int)self_ + 0xdc8),2,puVar1);
   puVar5 = puVar1;
-  puVar6 = (undefined4 *)((int)self_ + 0xb90);
+  puVar6 = (uint32_t *)((int)self_ + 0xb90);
   for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
     *puVar6 = *puVar5;
     puVar5 = puVar5 + 1;
     puVar6 = puVar6 + 1;
   }
-  *(undefined4 *)((int)self_ + 0xbc0) = 0;
-  *(undefined4 *)((int)self_ + 0xbc4) = 0;
-  *(undefined4 *)((int)self_ + 0xbc8) = 0;
-  *(undefined4 *)((int)self_ + 0xbcc) = 0x3f800000;
-  *(float *)((int)self_ + 0xdb4) = (float)-(float10)*(float *)((int)self_ + 0xb58);
-  *(float *)((int)self_ + 0xdb8) = (float)-(float10)*(float *)((int)self_ + 0xb68);
+  *(uint32_t *)((int)self_ + 0xbc0) = 0;
+  *(uint32_t *)((int)self_ + 0xbc4) = 0;
+  *(uint32_t *)((int)self_ + 0xbc8) = 0;
+  *(uint32_t *)((int)self_ + 0xbcc) = 0x3f800000;
+  *(float *)((int)self_ + 0xdb4) = (float)-(long double)*(float *)((int)self_ + 0xb58);
+  *(float *)((int)self_ + 0xdb8) = (float)-(long double)*(float *)((int)self_ + 0xb68);
   fVar2 = *(float *)((int)self_ + 0xb78);
-  puVar5 = (undefined4 *)((int)self_ + 0xd50);
+  puVar5 = (uint32_t *)((int)self_ + 0xd50);
   puVar6 = puVar1;
   puVar7 = puVar5;
   for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
@@ -110,34 +110,34 @@ XI_API undefined4 __thiscall fn_1006A180(void * self_, undefined4 xi_s1, undefin
     puVar7 = puVar7 + 1;
   }
   *puVar5 = 0x3f800000;
-  *(float *)((int)self_ + 0xdbc) = (float)-(float10)fVar2;
+  *(float *)((int)self_ + 0xdbc) = (float)-(long double)fVar2;
   puVar6 = puVar1;
-  puVar7 = (undefined4 *)((int)self_ + 0xd10);
+  puVar7 = (uint32_t *)((int)self_ + 0xd10);
   for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
     *puVar7 = *puVar6;
     puVar6 = puVar6 + 1;
     puVar7 = puVar7 + 1;
   }
-  *(undefined4 *)((int)self_ + 0xd54) = 0;
-  *(undefined4 *)((int)self_ + 0xd58) = 0;
-  *(undefined4 *)((int)self_ + 0xd70) = 0;
-  *(undefined4 *)((int)self_ + 0xd74) = 0;
-  *(undefined4 *)((int)self_ + 0xd78) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0xd20) = 0;
-  *(undefined4 *)((int)self_ + 0xd24) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0xd28) = 0;
-  *(undefined4 *)((int)self_ + 0xd14) = 0;
-  *(undefined4 *)((int)self_ + 0xd34) = 0;
+  *(uint32_t *)((int)self_ + 0xd54) = 0;
+  *(uint32_t *)((int)self_ + 0xd58) = 0;
+  *(uint32_t *)((int)self_ + 0xd70) = 0;
+  *(uint32_t *)((int)self_ + 0xd74) = 0;
+  *(uint32_t *)((int)self_ + 0xd78) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0xd20) = 0;
+  *(uint32_t *)((int)self_ + 0xd24) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0xd28) = 0;
+  *(uint32_t *)((int)self_ + 0xd14) = 0;
+  *(uint32_t *)((int)self_ + 0xd34) = 0;
   ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x24))))((void *)(g_pProcessor_as_v1),(int)self_ + 0xc10,(int)self_ + 0xd10,puVar5);
   orig::FUN_1006ad50((int)self_ + 0xc50,(int)self_ + 0xc10);
   orig::FUN_1006ad50((int)self_ + 0xbd0,(int)puVar1);
   orig::FUN_1006ad50((int)self_ + 0xc90,(int)self_ + 0xd10);
   orig::FUN_1006ad50((int)self_ + 0xcd0,(int)self_ + 0xd50);
   iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)((int)self_ + 0xdc8));
-  *(float *)((int)self_ + 0xdc0) = (float)((float10)*(int *)(iVar4 + 8) * (float10)xi_k4(0x3F000000ull));
+  *(float *)((int)self_ + 0xdc0) = (float)((long double)*(int *)(iVar4 + 8) * (long double)0.5f);
   iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)((int)self_ + 0xdc8));
-  *(float *)((int)self_ + 0xdc4) = (float)((float10)*(int *)(iVar4 + 0xc) * (float10)xi_k4(0x3F000000ull));
-  uVar3 = orig::CDx_GetTransformCached_v1(*(void **)((int)self_ + 0xdc8),3,(undefined4 *)((int)self_ + 0xb10));
+  *(float *)((int)self_ + 0xdc4) = (float)((long double)*(int *)(iVar4 + 0xc) * (long double)0.5f);
+  uVar3 = orig::CDx_GetTransformCached_v1(*(void **)((int)self_ + 0xdc8),3,(uint32_t *)((int)self_ + 0xb10));
   return uVar3;
 }
 
@@ -188,7 +188,7 @@ XI_API int __cdecl Gfx_CalcFVFStride(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AA30  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 16, town PASS 16, town2 PASS 16, combat PASS 16, zonetoinn PASS 16
+// GATE: PASS -- 100 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
 {
   int v3;
@@ -231,9 +231,9 @@ XI_API int __thiscall fn_1006AA30(_DWORD *self_, int arg0)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1006AD30(int param_1, undefined4 * param_2)
 {
-  *(undefined4 *)(param_1 + 0x30) = *param_2;
-  *(undefined4 *)(param_1 + 0x34) = param_2[1];
-  *(undefined4 *)(param_1 + 0x38) = param_2[2];
+  *(uint32_t *)(param_1 + 0x30) = *param_2;
+  *(uint32_t *)(param_1 + 0x34) = param_2[1];
+  *(uint32_t *)(param_1 + 0x38) = param_2[2];
   return;
 }
 
@@ -253,14 +253,14 @@ XI_API int __cdecl fn_1006AD50(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1006AD90(void * self_)
 {
-  *(undefined4 *)self_ = 0xffffffff;
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
+  *(uint32_t *)self_ = 0xffffffff;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1006ADC0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 62 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
+// GATE: PASS -- 100 trials, 58 returned normally, 62 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1006ADC0(int *self_)
 {
   int v2;
@@ -286,7 +286,7 @@ XI_API void __thiscall fn_1006ADC0(int *self_)
 // GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1006ADF0(void * self_)
 {
-  *(undefined4 *)((int)self_ + 8) = *(undefined4 *)(g_pDxStatusMng + 0xc);
+  *(uint32_t *)((int)self_ + 8) = *(uint32_t *)(g_pDxStatusMng + 0xc);
   *(void **)(g_pDxStatusMng + 0xc) = self_;
   if (*(int *)((int)self_ + 8) != 0) {
     *(void **)(*(int *)((int)self_ + 8) + 4) = self_;
@@ -295,7 +295,7 @@ XI_API void __thiscall fn_1006ADF0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF00  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86, town PASS 83, town2 PASS 83, combat PASS 83, zonetoinn PASS 83
+// GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
 {
   int v4;
@@ -327,7 +327,7 @@ XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 86 returned normally, 61466 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86, town PASS 83, town2 PASS 83, combat PASS 83, zonetoinn PASS 83
+// GATE: PASS -- 100 trials, 86 returned normally, 61466 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
 {
   int v4;

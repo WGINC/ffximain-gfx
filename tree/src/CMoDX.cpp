@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10069D60  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoDX::GetRuntimeClass()
 {
   return &CMoDX_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10069DB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 {
   orig::CMoDX_Destructor(this);
@@ -24,7 +24,7 @@ _BYTE * CMoDX::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CMoDX::CreateTexture(void * self, undefined4 param_1, undefined4 param_2, undefined4 * param_3)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CDx_CreateTexture_v1(*(void **)((int)self + 0xdc8),param_1,param_2,param_3,1,0);
   return (int)uVar1;
@@ -43,7 +43,7 @@ void __thiscall CMoDX::SetWorldMatrix(void * self, undefined4 * param_1)
 void __thiscall CMoDX::PushViewMatrix(void * self)
 {
   if (*(int *)((int)self + 0xea4) != 8) {
-    orig::FUN_1006a540(self,(undefined4 *)(*(int *)((int)self + 0xea4) * 0x40 + 0x910 + (int)self));
+    orig::FUN_1006a540(self,(uint32_t *)(*(int *)((int)self + 0xea4) * 0x40 + 0x910 + (int)self));
     *(int *)((int)self + 0xea4) = *(int *)((int)self + 0xea4) + 1;
   }
   return;
@@ -58,7 +58,7 @@ void __thiscall CMoDX::PopViewMatrix(void * self)
   if (*(int *)((int)self + 0xea4) != 0) {
     iVar1 = *(int *)((int)self + 0xea4) + -1;
     *(int *)((int)self + 0xea4) = iVar1;
-    orig::CMoDX_SetViewMatrix_v1(self,(undefined4 *)(iVar1 * 0x40 + 0x910 + (int)self));
+    orig::CMoDX_SetViewMatrix_v1(self,(uint32_t *)(iVar1 * 0x40 + 0x910 + (int)self));
   }
   return;
 }
@@ -72,7 +72,7 @@ void __thiscall CMoDX::SetViewMatrix(void * self, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B2B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 96, town2 PASS 96, combat PASS 96, zonetoinn PASS 96
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoDX::CreateAndInitSystem()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

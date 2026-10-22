@@ -22,8 +22,8 @@ XI_API void __cdecl fn_1027E150(uint32_t * param_1, uint32_t param_2, int param_
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027E190(int param_1, undefined4 param_2, undefined4 param_3)
 {
-  *(undefined4 *)(param_1 + 0x60) = param_2;
-  *(undefined4 *)(param_1 + 100) = param_3;
+  *(uint32_t *)(param_1 + 0x60) = param_2;
+  *(uint32_t *)(param_1 + 100) = param_3;
   return;
 }
 
@@ -31,19 +31,19 @@ XI_API void __cdecl fn_1027E190(int param_1, undefined4 param_2, undefined4 para
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_1027E3B0(uint8_t * param_1)
 {
-  byte *pbVar1;
+  uint8_t *pbVar1;
   
   pbVar1 = param_1;
   if ((*param_1 & 2) != 0) {
-    param_1 = *(byte **)(param_1 + 0x1c);
-    if (param_1 != (byte *)0x0) {
+    param_1 = *(uint8_t **)(param_1 + 0x1c);
+    if (param_1 != (uint8_t *)0x0) {
       if (*(int *)(param_1 + 0x28) != 0) {
         orig::FUN_10285740((int *)(param_1 + 0x28));
       }
       orig::FUN_10285740((int *)&param_1);
     }
-    orig::FUN_1028d6f0((undefined4 *)(pbVar1 + 0x20));
-    orig::FUN_1027e150((uint *)pbVar1,2,0);
+    orig::FUN_1028d6f0((uint32_t *)(pbVar1 + 0x20));
+    orig::FUN_1027e150((uint32_t *)pbVar1,2,0);
   }
   return 1;
 }
@@ -57,23 +57,23 @@ XI_API undefined4 __cdecl fn_1027E440(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027E450  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E450(uint8_t * param_1)
+XI_API undefined4 __cdecl fn_1027E450(uint8_t * param_1)
 {
   float fVar1;
   int iVar2;
-  float10 fVar3;
+  long double fVar3;
   
   if ((*param_1 & 4) != 0) {
     iVar2 = *(int *)(param_1 + 0x18);
-    fVar3 = ((float10)*(float *)(iVar2 + 0xac) /
-            ((float10)*(float *)(iVar2 + 0xa8) - (float10)*(float *)(iVar2 + 0xa4))) *
-            (float10)*(float *)(*(int *)(*(int *)(param_1 + 0x14) + 0xb8) + 0x24);
+    fVar3 = ((long double)*(float *)(iVar2 + 0xac) /
+            ((long double)*(float *)(iVar2 + 0xa8) - (long double)*(float *)(iVar2 + 0xa4))) *
+            (long double)*(float *)(*(int *)(*(int *)(param_1 + 0x14) + 0xb8) + 0x24);
     *(float *)(param_1 + 8) = (float)fVar3;
     fVar1 = *(float *)(*(int *)(param_1 + 0x1c) + 0x24);
-    *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(param_1 + 8);
-    *(float *)(param_1 + 0xc) = (float)(fVar3 + (float10)fVar1);
+    *(uint32_t *)(param_1 + 0x10) = *(uint32_t *)(param_1 + 8);
+    *(float *)(param_1 + 0xc) = (float)(fVar3 + (long double)fVar1);
   }
-  return;
+  return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x1027E490  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
@@ -81,9 +81,9 @@ XI_API void __cdecl fn_1027E450(uint8_t * param_1)
 XI_API void __cdecl fn_1027E490(uint8_t * param_1, int param_2)
 {
   int iVar1;
-  undefined4 uVar2;
-  xi_bool bVar3;
-  float10 fVar4;
+  uint32_t uVar2;
+  uint8_t bVar3;
+  long double fVar4;
   
   iVar1 = orig::FUN_1027e440(param_1);
   if (iVar1 == 0) {
@@ -93,40 +93,41 @@ XI_API void __cdecl fn_1027E490(uint8_t * param_1, int param_2)
   if ((char)uVar2 == '\0') {
     return;
   }
-  fVar4 = (float10)param_2 * (float10)*(float *)(param_1 + 4) * (float10)xi_k4(0x358637BDull) +
-          (float10)*(float *)(param_1 + 0x10);
+  fVar4 = (long double)param_2 * (long double)*(float *)(param_1 + 4) * (long double)xi_k4(0x358637BDull) +
+          (long double)*(float *)(param_1 + 0x10);
   *(float *)(param_1 + 0x10) = (float)fVar4;
-  if ((NAN(fVar4) || NAN((float10)*(float *)(param_1 + 0xc))) ||
-      fVar4 <= (float10)*(float *)(param_1 + 0xc)) {
-    bVar3 = NAN(fVar4) || NAN((float10)*(float *)(param_1 + 8));
-    if ((bVar3 || fVar4 < (float10)*(float *)(param_1 + 8)) == bVar3) goto LAB_1027e543;
-    *(undefined4 *)(*(int *)(param_1 + 0x14) + 0xac) = *(undefined4 *)(param_1 + 8);
+  if (!(fVar4 > (long double)*(float *)(param_1 + 0xc))) {
+    bVar3 = NAN(fVar4) || NAN((long double)*(float *)(param_1 + 8));
+    if ((bVar3 || fVar4 < (long double)*(float *)(param_1 + 8)) == bVar3) goto LAB_1027e543;
+    uVar2 = *(uint32_t *)(param_1 + 8);
+    *(uint32_t *)(*(int *)(param_1 + 0x14) + 0xac) = uVar2;
     iVar1 = *(int *)(param_1 + 0x1c);
     param_1[8] = 0;
     param_1[9] = 0;
     param_1[10] = 0;
     param_1[0xb] = 0;
-    *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(iVar1 + 0x24);
+    *(uint32_t *)(param_1 + 0xc) = *(uint32_t *)(iVar1 + 0x24);
   }
   else {
-    *(undefined4 *)(*(int *)(param_1 + 0x14) + 0xac) = *(undefined4 *)(param_1 + 0xc);
+    *(uint32_t *)(*(int *)(param_1 + 0x14) + 0xac) = *(uint32_t *)(param_1 + 0xc);
     iVar1 = *(int *)(param_1 + 0x1c);
     param_1[8] = 0;
     param_1[9] = 0;
     param_1[10] = 0;
     param_1[0xb] = 0;
-    *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(iVar1 + 0x24);
+    uVar2 = *(uint32_t *)(iVar1 + 0x24);
+    *(uint32_t *)(param_1 + 0xc) = uVar2;
   }
   param_1[0x10] = 0;
   param_1[0x11] = 0;
   param_1[0x12] = 0;
   param_1[0x13] = 0;
-  orig::FUN_102857e0((int)(param_1 + 0x20),0);
+  orig::FUN_102857e0((int)(param_1 + 0x20),0,uVar2);
   if (*(code **)(param_1 + 0x60) != (code *)0x0) {
-    (**(code **)(param_1 + 0x60))(param_1,*(undefined4 *)(param_1 + 100));
+    (**(code **)(param_1 + 0x60))(param_1,*(uint32_t *)(param_1 + 100));
   }
 LAB_1027e543:
-  orig::FUN_1027dd90(*(uint **)(param_1 + 0x18),param_2);
+  orig::FUN_1027dd90(*(uint32_t **)(param_1 + 0x18),param_2);
   return;
 }
 
@@ -178,7 +179,7 @@ XI_API void __cdecl fn_1027EB50(float * param_1, float param_2, float param_3, f
   param_1[7] = param_9;
   param_1[8] = param_10;
   param_1[9] = param_11;
-  *param_1 = (float)(float10)param_2;
+  *param_1 = (float)(long double)param_2;
   param_1[10] = param_12;
   param_1[0xb] = param_13;
   param_1[0xc] = param_14;
@@ -192,15 +193,15 @@ XI_API void __cdecl fn_1027EB50(float * param_1, float param_2, float param_3, f
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl M4fTransform(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*param_3 +
-                     (float10)param_2[1] * (float10)param_3[1] +
-                     (float10)param_2[2] * (float10)param_3[2] + (float10)param_2[3]);
-  param_1[1] = (float)((float10)param_2[5] * (float10)param_3[1] +
-                       (float10)param_2[4] * (float10)*param_3 +
-                       (float10)param_2[6] * (float10)param_3[2] + (float10)param_2[7]);
-  param_1[2] = (float)((float10)param_2[9] * (float10)param_3[1] +
-                       (float10)param_2[8] * (float10)*param_3 +
-                       (float10)param_2[10] * (float10)param_3[2] + (float10)param_2[0xb]);
+  *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
+                     (long double)param_2[1] * (long double)param_3[1] +
+                     (long double)param_2[2] * (long double)param_3[2] + (long double)param_2[3]);
+  param_1[1] = (float)((long double)param_2[5] * (long double)param_3[1] +
+                       (long double)param_2[4] * (long double)*param_3 +
+                       (long double)param_2[6] * (long double)param_3[2] + (long double)param_2[7]);
+  param_1[2] = (float)((long double)param_2[9] * (long double)param_3[1] +
+                       (long double)param_2[8] * (long double)*param_3 +
+                       (long double)param_2[10] * (long double)param_3[2] + (long double)param_2[0xb]);
   return;
 }
 
@@ -208,15 +209,15 @@ XI_API void __cdecl M4fTransform(float * param_1, float * param_2, float * param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027EF80(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*param_3 +
-                    (float10)param_2[1] * (float10)param_3[1] +
-                    (float10)param_2[2] * (float10)param_3[2]);
-  param_1[1] = (float)((float10)param_2[5] * (float10)param_3[1] +
-                      (float10)param_2[4] * (float10)*param_3 +
-                      (float10)param_2[6] * (float10)param_3[2]);
-  param_1[2] = (float)((float10)param_2[9] * (float10)param_3[1] +
-                      (float10)param_2[8] * (float10)*param_3 +
-                      (float10)param_2[10] * (float10)param_3[2]);
+  *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
+                    (long double)param_2[1] * (long double)param_3[1] +
+                    (long double)param_2[2] * (long double)param_3[2]);
+  param_1[1] = (float)((long double)param_2[5] * (long double)param_3[1] +
+                      (long double)param_2[4] * (long double)*param_3 +
+                      (long double)param_2[6] * (long double)param_3[2]);
+  param_1[2] = (float)((long double)param_2[9] * (long double)param_3[1] +
+                      (long double)param_2[8] * (long double)*param_3 +
+                      (long double)param_2[10] * (long double)param_3[2]);
   return;
 }
 
@@ -224,22 +225,22 @@ XI_API void __cdecl fn_1027EF80(float * param_1, float * param_2, float * param_
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Mat4x4_TransformVec4(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*param_3 +
-                    (float10)param_2[1] * (float10)param_3[1] +
-                    (float10)param_2[2] * (float10)param_3[2] +
-                    (float10)param_2[3] * (float10)param_3[3]);
-  param_1[1] = (float)((float10)param_2[5] * (float10)param_3[1] +
-                      (float10)param_2[6] * (float10)param_3[2] +
-                      (float10)param_2[4] * (float10)*param_3 +
-                      (float10)param_2[7] * (float10)param_3[3]);
-  param_1[2] = (float)((float10)param_2[9] * (float10)param_3[1] +
-                      (float10)param_2[10] * (float10)param_3[2] +
-                      (float10)param_2[8] * (float10)*param_3 +
-                      (float10)param_2[0xb] * (float10)param_3[3]);
-  param_1[3] = (float)((float10)param_2[0xd] * (float10)param_3[1] +
-                      (float10)param_2[0xe] * (float10)param_3[2] +
-                      (float10)param_2[0xc] * (float10)*param_3 +
-                      (float10)param_2[0xf] * (float10)param_3[3]);
+  *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
+                    (long double)param_2[1] * (long double)param_3[1] +
+                    (long double)param_2[2] * (long double)param_3[2] +
+                    (long double)param_2[3] * (long double)param_3[3]);
+  param_1[1] = (float)((long double)param_2[5] * (long double)param_3[1] +
+                      (long double)param_2[6] * (long double)param_3[2] +
+                      (long double)param_2[4] * (long double)*param_3 +
+                      (long double)param_2[7] * (long double)param_3[3]);
+  param_1[2] = (float)((long double)param_2[9] * (long double)param_3[1] +
+                      (long double)param_2[10] * (long double)param_3[2] +
+                      (long double)param_2[8] * (long double)*param_3 +
+                      (long double)param_2[0xb] * (long double)param_3[3]);
+  param_1[3] = (float)((long double)param_2[0xd] * (long double)param_3[1] +
+                      (long double)param_2[0xe] * (long double)param_3[2] +
+                      (long double)param_2[0xc] * (long double)*param_3 +
+                      (long double)param_2[0xf] * (long double)param_3[3]);
   return;
 }
 

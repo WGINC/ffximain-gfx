@@ -6,10 +6,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl fn_102967E0(float * param_1)
 {
-  return ((((float10)param_1[8] * (float10)*param_1 * (float10)param_1[4] +
-           (float10)param_1[2] * (float10)param_1[3] * (float10)param_1[7] +
-           (float10)param_1[6] * (float10)param_1[1] * (float10)param_1[5]) -
-          (float10)*param_1 * (float10)param_1[7] * (float10)param_1[5]) -
-         (float10)param_1[8] * (float10)param_1[1] * (float10)param_1[3]) -
-         (float10)param_1[6] * (float10)param_1[2] * (float10)param_1[4];
+  return ((((long double)param_1[8] * (long double)*param_1 * (long double)param_1[4] +
+           (long double)param_1[2] * (long double)param_1[3] * (long double)param_1[7] +
+           (long double)param_1[6] * (long double)param_1[1] * (long double)param_1[5]) -
+          (long double)*param_1 * (long double)param_1[7] * (long double)param_1[5]) -
+         (long double)param_1[8] * (long double)param_1[1] * (long double)param_1[3]) -
+         (long double)param_1[6] * (long double)param_1[2] * (long double)param_1[4];
 }

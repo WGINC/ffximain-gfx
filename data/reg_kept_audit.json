@@ -311,66 +311,6 @@
 "kind": "overwritten"
 },
 {
-"callee": "0x1018BC40",
-"function": "0x10057FB0",
-"use": "0x10058048",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x1005803E",
-"kept_across": "0x10058043",
-"kind": "address-passed"
-},
-{
-"callee": "0x1005E190",
-"function": "0x10057FB0",
-"use": "0x10059A96",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x10059A8B",
-"kept_across": "0x10059A8D",
-"kind": "address-passed"
-},
-{
-"callee": "0x1005E1F0",
-"function": "0x10057FB0",
-"use": "0x10059D33",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x10059CFF",
-"kept_across": "0x10059D05",
-"kind": "address-passed"
-},
-{
-"callee": "0x1005E1F0",
-"function": "0x10057FB0",
-"use": "0x10059D89",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x10059D63",
-"kept_across": "0x10059D69",
-"kind": "address-passed"
-},
-{
-"callee": "0x10084390",
-"function": "0x10057FB0",
-"use": "0x1005AC59",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x1005AC37",
-"kept_across": "0x1005AC39",
-"kind": "address-passed"
-},
-{
-"callee": "0x10060940",
-"function": "0x10057FB0",
-"use": "0x1005D303",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x1005D2F8",
-"kept_across": "0x1005D2FE",
-"kind": "overwritten"
-},
-{
 "callee": "0x10063B50",
 "function": "0x10063B80",
 "use": "0x10063BEC",
@@ -431,16 +371,6 @@
 "kind": "use"
 },
 {
-"callee": "0x10069E90",
-"function": "0x1006B4C0",
-"use": "0x1006B4D4",
-"register": "eax",
-"instruction": "ret 4",
-"defined": "0x1006B4C0",
-"kept_across": "0x1006B4CF",
-"kind": "return"
-},
-{
 "callee": "0x10071200",
 "function": "0x10072030",
 "use": "0x10072075",
@@ -678,6 +608,16 @@
 "instruction": "mov ecx, dword ptr [edx + 0x14]",
 "defined": "0x10073113",
 "kept_across": "0x100730FA",
+"kind": "use"
+},
+{
+"callee": "0x100711D0",
+"function": "0x10073430",
+"use": "0x100735D7",
+"register": "ecx",
+"instruction": "call 0x100711e0",
+"defined": "0x100735CD",
+"kept_across": "0x100735D1",
 "kind": "use"
 },
 {
@@ -1161,16 +1101,6 @@
 "kind": "use"
 },
 {
-"callee": "0x1008A160",
-"function": "0x1008F740",
-"use": "0x1008FD39",
-"register": "ecx",
-"instruction": "call 0x1008a1a0",
-"defined": "0x1008FD2C",
-"kept_across": "0x1008FD34",
-"kind": "use"
-},
-{
 "callee": "0x10095680",
 "function": "0x10095E30",
 "use": "0x10095E4A",
@@ -1229,26 +1159,6 @@
 "defined": "0x100978C3",
 "kept_across": "0x100978B5",
 "kind": "use"
-},
-{
-"callee": "0x10015690",
-"function": "0x100AC5A0",
-"use": "0x100AC862",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x100AC84C",
-"kept_across": "0x100AC858",
-"kind": "overwritten"
-},
-{
-"callee": "0x10015680",
-"function": "0x100AC5A0",
-"use": "0x100AC878",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x100AC84C",
-"kept_across": "0x100AC86E",
-"kind": "overwritten"
 },
 {
 "callee": "0x100C3140",
@@ -1399,36 +1309,6 @@
 "defined": "0x100C37F8",
 "kept_across": "0x100C3806",
 "kind": "use"
-},
-{
-"callee": "0x100279A0",
-"function": "0x100C63D0",
-"use": "0x100C7CA9",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x100C7C5C",
-"kept_across": "0x100C7C9D",
-"kind": "overwritten"
-},
-{
-"callee": "0x100279A0",
-"function": "0x100C63D0",
-"use": "0x100C7CA9",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x100C7C96",
-"kept_across": "0x100C7C9D",
-"kind": "overwritten"
-},
-{
-"callee": "0x10085000",
-"function": "0x100C63D0",
-"use": "0x100C7CBD",
-"register": "ecx",
-"instruction": "push ecx",
-"defined": "0x100C7CAA",
-"kept_across": "0x100C7CB1",
-"kind": "overwritten"
 },
 {
 "callee": "0x10015690",
@@ -1711,176 +1591,6 @@
 "kind": "overwritten"
 },
 {
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "eax",
-"instruction": "cmp edx, eax",
-"defined": "0x1016EC77",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "eax",
-"instruction": "cmp edx, eax",
-"defined": "0x1016EC86",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "eax",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECD8",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "eax",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECDD",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "eax",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECE9",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016EC75",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016EC7F",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016EC84",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECCA",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECD1",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF6",
-"register": "edx",
-"instruction": "cmp edx, eax",
-"defined": "0x1016ECD6",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016EC75",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016EC7F",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016EC84",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016ECCA",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016ECD1",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
-"callee": "0x1016C5C0",
-"function": "0x1016E930",
-"use": "0x1016ECF8",
-"register": "edx",
-"instruction": "mov dword ptr [esp + 0x48], edx",
-"defined": "0x1016ECD6",
-"kept_across": "0x1016ECF1",
-"kind": "use"
-},
-{
 "callee": "0x101781D0",
 "function": "0x10178B30",
 "use": "0x10178CEF",
@@ -1979,6 +1689,26 @@
 "defined": "0x10188D6B",
 "kept_across": "0x10188D6D",
 "kind": "overwritten"
+},
+{
+"callee": "0x10186F40",
+"function": "0x10189120",
+"use": "0x101891EB",
+"register": "ecx",
+"instruction": "call 0x101892b0",
+"defined": "0x101891DE",
+"kept_across": "0x101891E0",
+"kind": "use"
+},
+{
+"callee": "0x10186FB0",
+"function": "0x10189120",
+"use": "0x10189263",
+"register": "ecx",
+"instruction": "call 0x101892b0",
+"defined": "0x10189256",
+"kept_across": "0x10189258",
+"kind": "use"
 },
 {
 "callee": "0x1018E7F0",
@@ -2161,6 +1891,56 @@
 "kind": "use"
 },
 {
+"callee": "0x101C8C30",
+"function": "0x101C9D50",
+"use": "0x101C9D71",
+"register": "edx",
+"instruction": "mov edi, edx",
+"defined": "0x101C9D50",
+"kept_across": "0x101C9D6A",
+"kind": "use"
+},
+{
+"callee": "0x101C8C30",
+"function": "0x101C9D50",
+"use": "0x101C9DC0",
+"register": "edx",
+"instruction": "mov cl, byte ptr [ebx + edx - 1]",
+"defined": "0x101C9D50",
+"kept_across": "0x101C9D6A",
+"kind": "use"
+},
+{
+"callee": "0x101C8C30",
+"function": "0x101C9D50",
+"use": "0x101C9DC4",
+"register": "edx",
+"instruction": "mov al, byte ptr [ebx + edx]",
+"defined": "0x101C9D50",
+"kept_across": "0x101C9D6A",
+"kind": "use"
+},
+{
+"callee": "0x101C8C30",
+"function": "0x101C9D50",
+"use": "0x101C9EB6",
+"register": "edx",
+"instruction": "mov cl, byte ptr [ebx + edx - 1]",
+"defined": "0x101C9D50",
+"kept_across": "0x101C9D6A",
+"kind": "use"
+},
+{
+"callee": "0x101C8C30",
+"function": "0x101C9D50",
+"use": "0x101C9EBA",
+"register": "edx",
+"instruction": "mov al, byte ptr [ebx + edx]",
+"defined": "0x101C9D50",
+"kept_across": "0x101C9D6A",
+"kind": "use"
+},
+{
 "callee": "0x101D0860",
 "function": "0x101D08C0",
 "use": "0x101D08CD",
@@ -2188,6 +1968,46 @@
 "instruction": "mov dword ptr [0x1066377c], edx",
 "defined": "0x101F1AE1",
 "kept_across": "0x101F1AEC",
+"kind": "use"
+},
+{
+"callee": "0x10201EB0",
+"function": "0x10201F00",
+"use": "0x10201F23",
+"register": "edx",
+"instruction": "add edx, 0x7c",
+"defined": "0x10201F06",
+"kept_across": "0x10201F13",
+"kind": "use"
+},
+{
+"callee": "0x10201EB0",
+"function": "0x10201F00",
+"use": "0x10201F23",
+"register": "edx",
+"instruction": "add edx, 0x7c",
+"defined": "0x10201F23",
+"kept_across": "0x10201F13",
+"kind": "use"
+},
+{
+"callee": "0x10201EB0",
+"function": "0x102031F0",
+"use": "0x1020323A",
+"register": "edx",
+"instruction": "add edx, 0x7c",
+"defined": "0x1020320F",
+"kept_across": "0x1020322D",
+"kind": "use"
+},
+{
+"callee": "0x10201EB0",
+"function": "0x102031F0",
+"use": "0x1020323A",
+"register": "edx",
+"instruction": "add edx, 0x7c",
+"defined": "0x1020323A",
+"kept_across": "0x1020322D",
 "kind": "use"
 },
 {
@@ -2228,6 +2048,36 @@
 "instruction": "mov eax, edx",
 "defined": "0x1021BC33",
 "kept_across": "0x1021BC35",
+"kind": "use"
+},
+{
+"callee": "0x1021BCB0",
+"function": "0x1021C4C0",
+"use": "0x1021C54E",
+"register": "edx",
+"instruction": "xor ebx, edx",
+"defined": "0x1021C52F",
+"kept_across": "0x1021C53F",
+"kind": "use"
+},
+{
+"callee": "0x1021BCB0",
+"function": "0x1021C4C0",
+"use": "0x1021C553",
+"register": "edx",
+"instruction": "xor ebx, edx",
+"defined": "0x1021C52F",
+"kept_across": "0x1021C53F",
+"kind": "use"
+},
+{
+"callee": "0x1021BCB0",
+"function": "0x1021C4C0",
+"use": "0x1021C555",
+"register": "ecx",
+"instruction": "mov dword ptr [ecx + 0x28], ebx",
+"defined": "0x1021C526",
+"kept_across": "0x1021C53F",
 "kind": "use"
 },
 {
@@ -2622,11 +2472,9 @@
 }
 ],
 "_summary": {
-"sites": 262,
-"functions_with_use": 67,
-"use": 233,
-"overwritten": 23,
-"address-passed": 5,
-"return": 1
+"sites": 247,
+"functions_with_use": 71,
+"use": 230,
+"overwritten": 17
 }
 }

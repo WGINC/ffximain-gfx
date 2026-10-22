@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10055290  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoOT::GetRuntimeClass()
 {
   return &CMoOT_classdesc;
@@ -14,13 +14,13 @@ char ** __cdecl CMoOT::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_100552A0(void * self_)
 {
-  *(undefined ***)self_ = &PTR_CMoOT_GetRuntimeClass_1032b6f4;
+  *(uint8_t ***)self_ = &PTR_CMoOT_GetRuntimeClass_1032b6f4;
   orig::FUN_100552f0(self_);
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100552C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoOT::ScalarDeletingDtor(char a2)
 {
   orig::CMoOT_Destructor(this);

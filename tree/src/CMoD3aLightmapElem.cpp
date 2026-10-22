@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003EE60  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoD3aLightmapElem::GetRuntimeClass()
 {
   return &CMoD3aLightmapElem_classdesc;
@@ -12,18 +12,18 @@ char ** __cdecl CMoD3aLightmapElem::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x10052C30  (unit CMoD3aLightmapElem: stores CMoD3aLightmapElem vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10052C30(void * self_)
+XI_API uint64_t __thiscall fn_10052C30(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8;
-  *(undefined2 *)((int)self_ + 0x176) = 0x198;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  *(uint8_t ***)self_ = &PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8;
+  *(uint16_t *)((int)self_ + 0x176) = 0x198;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052C50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoD3aLightmapElem::set_field_194(int a2)
 {
   (*(unsigned __int32 *)((char *)this + 0x194)) = a2;
@@ -31,14 +31,14 @@ int CMoD3aLightmapElem::set_field_194(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052C60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoD3aLightmapElem::get_field_194()
 {
   return (*(unsigned __int32 *)((char *)this + 0x194));
 }
 
 // FUNCTION: FFXIMAIN 0x10052C70  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoD3aLightmapElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

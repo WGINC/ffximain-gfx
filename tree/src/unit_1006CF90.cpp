@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1006D0A0  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1006D0A0(undefined4 * param_1)
+XI_API void __attribute__((stdcall, regparm(1))) fn_1006D0A0(undefined4 xi_eax, undefined4 * param_1)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -52,7 +52,7 @@ XI_API void __stdcall fn_1006D270(float * param_1, int param_2, float * param_3)
   int iVar8;
   float *pfVar9;
   float *pfVar10;
-  float10 fVar11;
+  long double fVar11;
   char xi_frame[64] __attribute__((aligned(4)));
   float  (&afStack_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 0);
   
@@ -64,8 +64,8 @@ XI_API void __stdcall fn_1006D270(float * param_1, int param_2, float * param_3)
     iVar8 = 4;
     pfVar10 = param_3;
     do {
-      fVar11 = (float10)xi_k4(0x0ull);
-      *pfVar9 = xi_k4(0x0ull);
+      fVar11 = (long double)0.0f;
+      *pfVar9 = 0.0f;
       iVar5 = 4;
       pfVar3 = pfVar10;
       pfVar4 = pfVar7;
@@ -75,7 +75,7 @@ XI_API void __stdcall fn_1006D270(float * param_1, int param_2, float * param_3)
         pfVar3 = pfVar3 + 4;
         pfVar4 = pfVar4 + 1;
         iVar5 = iVar5 + -1;
-        fVar11 = (float10)fVar1 * (float10)fVar2 + fVar11;
+        fVar11 = (long double)fVar1 * (long double)fVar2 + fVar11;
       } while (iVar5 != 0);
       *pfVar9 = (float)fVar11;
       pfVar9 = pfVar9 + 1;

@@ -21,7 +21,7 @@ XI_API void __cdecl fn_1028DC20(undefined4 * param_1)
   param_1[2] = &LAB_1028dc70;
   param_1[3] = XI_CODE(FUN_1028dca0);
   param_1[4] = &LAB_1028dd20;
-  *(undefined1 *)(param_1 + 5) = 0xff;
+  *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_1028dd50;
   param_1[7] = 0;
   param_1[8] = 0;

@@ -6,9 +6,9 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027B060(float * param_1)
 {
-  *param_1 = (float)-(float10)*param_1;
-  param_1[1] = (float)-(float10)param_1[1];
-  param_1[2] = (float)-(float10)param_1[2];
+  *param_1 = (float)-(long double)*param_1;
+  param_1[1] = (float)-(long double)param_1[1];
+  param_1[2] = (float)-(long double)param_1[2];
   return;
 }
 
@@ -16,10 +16,10 @@ XI_API void __cdecl fn_1027B060(float * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_3)
 {
-  float10 fVar1;
-  float10 fVar2;
-  float10 fVar3;
-  float10 fVar4;
+  long double fVar1;
+  long double fVar2;
+  long double fVar3;
+  long double fVar4;
   char xi_frame[16] __attribute__((aligned(4)));
   float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 4);
@@ -28,23 +28,23 @@ XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_
   
   orig::FUN_1027a700(&local_10,param_2);
   orig::FUN_1027b060(&local_10);
-  fVar1 = ((float10)param_2[3] * (float10)*param_3 + (float10)param_3[2] * (float10)param_2[1]) -
-          (float10)param_3[1] * (float10)param_2[2];
-  fVar2 = ((float10)param_2[3] * (float10)param_3[1] + (float10)param_2[2] * (float10)*param_3) -
-          (float10)param_3[2] * (float10)*param_2;
-  fVar3 = ((float10)param_3[1] * (float10)*param_2 + (float10)param_2[3] * (float10)param_3[2]) -
-          (float10)*param_3 * (float10)param_2[1];
-  fVar4 = (-((float10)*param_2 * (float10)*param_3) - (float10)param_3[1] * (float10)param_2[1]) -
-          (float10)param_2[2] * (float10)param_3[2];
-  *param_1 = (float)(((float10)local_4 * fVar1 +
-                     (float10)local_8 * fVar2 + (float10)local_10 * fVar4) -
-                    (float10)local_c * fVar3);
-  param_1[1] = (float)(((float10)local_4 * fVar2 +
-                       (float10)local_10 * fVar3 + (float10)local_c * fVar4) -
-                      (float10)local_8 * fVar1);
-  param_1[2] = (float)(((float10)local_c * fVar1 +
-                       (float10)local_4 * fVar3 + (float10)local_8 * fVar4) -
-                      (float10)local_10 * fVar2);
+  fVar1 = ((long double)param_2[3] * (long double)*param_3 + (long double)param_3[2] * (long double)param_2[1]) -
+          (long double)param_3[1] * (long double)param_2[2];
+  fVar2 = ((long double)param_2[3] * (long double)param_3[1] + (long double)param_2[2] * (long double)*param_3) -
+          (long double)param_3[2] * (long double)*param_2;
+  fVar3 = ((long double)param_3[1] * (long double)*param_2 + (long double)param_2[3] * (long double)param_3[2]) -
+          (long double)*param_3 * (long double)param_2[1];
+  fVar4 = (-((long double)*param_2 * (long double)*param_3) - (long double)param_3[1] * (long double)param_2[1]) -
+          (long double)param_2[2] * (long double)param_3[2];
+  *param_1 = (float)(((long double)local_4 * fVar1 +
+                     (long double)local_8 * fVar2 + (long double)local_10 * fVar4) -
+                    (long double)local_c * fVar3);
+  param_1[1] = (float)(((long double)local_4 * fVar2 +
+                       (long double)local_10 * fVar3 + (long double)local_c * fVar4) -
+                      (long double)local_8 * fVar1);
+  param_1[2] = (float)(((long double)local_c * fVar1 +
+                       (long double)local_4 * fVar3 + (long double)local_8 * fVar4) -
+                      (long double)local_10 * fVar2);
   return;
 }
 
@@ -52,21 +52,21 @@ XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027B170(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)(((float10)param_3[3] * (float10)*param_2 +
-                     (float10)param_3[2] * (float10)param_2[1] +
-                     (float10)param_2[3] * (float10)*param_3) -
-                    (float10)param_3[1] * (float10)param_2[2]);
-  param_1[1] = (float)(((float10)param_2[2] * (float10)*param_3 +
-                       (float10)param_2[3] * (float10)param_3[1] +
-                       (float10)param_3[3] * (float10)param_2[1]) -
-                      (float10)param_3[2] * (float10)*param_2);
-  param_1[2] = (float)(((float10)param_3[1] * (float10)*param_2 +
-                       (float10)param_2[3] * (float10)param_3[2] +
-                       (float10)param_3[3] * (float10)param_2[2]) -
-                      (float10)*param_3 * (float10)param_2[1]);
-  param_1[3] = (float)((((float10)param_3[3] * (float10)param_2[3] -
-                        (float10)*param_2 * (float10)*param_3) -
-                       (float10)param_3[1] * (float10)param_2[1]) -
-                      (float10)param_2[2] * (float10)param_3[2]);
+  *param_1 = (float)(((long double)param_3[3] * (long double)*param_2 +
+                     (long double)param_3[2] * (long double)param_2[1] +
+                     (long double)param_2[3] * (long double)*param_3) -
+                    (long double)param_3[1] * (long double)param_2[2]);
+  param_1[1] = (float)(((long double)param_2[2] * (long double)*param_3 +
+                       (long double)param_2[3] * (long double)param_3[1] +
+                       (long double)param_3[3] * (long double)param_2[1]) -
+                      (long double)param_3[2] * (long double)*param_2);
+  param_1[2] = (float)(((long double)param_3[1] * (long double)*param_2 +
+                       (long double)param_2[3] * (long double)param_3[2] +
+                       (long double)param_3[3] * (long double)param_2[2]) -
+                      (long double)*param_3 * (long double)param_2[1]);
+  param_1[3] = (float)((((long double)param_3[3] * (long double)param_2[3] -
+                        (long double)*param_2 * (long double)*param_3) -
+                       (long double)param_3[1] * (long double)param_2[1]) -
+                      (long double)param_2[2] * (long double)param_3[2]);
   return;
 }

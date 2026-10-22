@@ -22,10 +22,10 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
   float fVar14;
   float fVar15;
   float fVar16;
-  float10 fVar17;
-  float10 fVar18;
-  float10 fVar19;
-  float10 fVar20;
+  long double fVar17;
+  long double fVar18;
+  long double fVar19;
+  long double fVar20;
   char xi_frame[36] __attribute__((aligned(4)));
   float  (&local_24)[9] = *reinterpret_cast<float  (*)[9]>(xi_frame + 0);
   
@@ -53,79 +53,79 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
   fVar19 = orig::FUN_102967e0(local_24);
   orig::FUN_10296410(local_24,fVar1,fVar4,fVar3,fVar5,fVar8,fVar7,fVar9,fVar12,fVar11);
   fVar20 = orig::FUN_102967e0(local_24);
-  return (float10)(float)(fVar19 * (float10)fVar10 +
-                         (float10)(float)((float10)(float)(fVar17 * (float10)fVar2) -
-                                         fVar18 * (float10)fVar6)) - fVar20 * (float10)fVar14;
+  return (long double)(float)(fVar19 * (long double)fVar10 +
+                         (long double)(float)((long double)(float)(fVar17 * (long double)fVar2) -
+                                         fVar18 * (long double)fVar6)) - fVar20 * (long double)fVar14;
 }
 
 // FUNCTION: FFXIMAIN 0x10280140  (unit sqMatrix4: name sqMatrix4_10280140)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqMatrix4_10280140(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)param_2[3] * (float10)param_3[0xc] +
-                    (float10)*param_2 * (float10)*param_3 +
-                    (float10)param_2[1] * (float10)param_3[4] +
-                    (float10)param_3[8] * (float10)param_2[2]);
-  param_1[1] = (float)((float10)param_3[0xd] * (float10)param_2[3] +
-                      (float10)*param_2 * (float10)param_3[1] +
-                      (float10)param_2[1] * (float10)param_3[5] +
-                      (float10)param_3[9] * (float10)param_2[2]);
-  param_1[2] = (float)((float10)param_3[0xe] * (float10)param_2[3] +
-                      (float10)param_3[2] * (float10)*param_2 +
-                      (float10)param_2[1] * (float10)param_3[6] +
-                      (float10)param_3[10] * (float10)param_2[2]);
-  param_1[3] = (float)((float10)param_3[3] * (float10)*param_2 +
-                      (float10)param_3[0xb] * (float10)param_2[2] +
-                      (float10)param_2[1] * (float10)param_3[7] +
-                      (float10)param_2[3] * (float10)param_3[0xf]);
-  param_1[4] = (float)((float10)param_2[4] * (float10)*param_3 +
-                      (float10)param_3[8] * (float10)param_2[6] +
-                      (float10)param_2[7] * (float10)param_3[0xc] +
-                      (float10)param_2[5] * (float10)param_3[4]);
-  param_1[5] = (float)((float10)param_3[9] * (float10)param_2[6] +
-                      (float10)param_3[0xd] * (float10)param_2[7] +
-                      (float10)param_2[4] * (float10)param_3[1] +
-                      (float10)param_3[5] * (float10)param_2[5]);
-  param_1[6] = (float)((float10)param_2[4] * (float10)param_3[2] +
-                      (float10)param_3[10] * (float10)param_2[6] +
-                      (float10)param_3[0xe] * (float10)param_2[7] +
-                      (float10)param_2[5] * (float10)param_3[6]);
-  param_1[7] = (float)((float10)param_2[5] * (float10)param_3[7] +
-                      (float10)param_2[6] * (float10)param_3[0xb] +
-                      (float10)param_2[7] * (float10)param_3[0xf] +
-                      (float10)param_2[4] * (float10)param_3[3]);
-  param_1[8] = (float)((float10)param_2[8] * (float10)*param_3 +
-                      (float10)param_3[8] * (float10)param_2[10] +
-                      (float10)param_2[0xb] * (float10)param_3[0xc] +
-                      (float10)param_2[9] * (float10)param_3[4]);
-  param_1[9] = (float)((float10)param_3[9] * (float10)param_2[10] +
-                      (float10)param_3[0xd] * (float10)param_2[0xb] +
-                      (float10)param_2[8] * (float10)param_3[1] +
-                      (float10)param_3[5] * (float10)param_2[9]);
-  param_1[10] = (float)((float10)param_2[8] * (float10)param_3[2] +
-                       (float10)param_3[10] * (float10)param_2[10] +
-                       (float10)param_3[0xe] * (float10)param_2[0xb] +
-                       (float10)param_2[9] * (float10)param_3[6]);
-  param_1[0xb] = (float)((float10)param_2[9] * (float10)param_3[7] +
-                        (float10)param_2[10] * (float10)param_3[0xb] +
-                        (float10)param_2[0xb] * (float10)param_3[0xf] +
-                        (float10)param_2[8] * (float10)param_3[3]);
-  param_1[0xc] = (float)((float10)param_2[0xc] * (float10)*param_3 +
-                        (float10)param_3[8] * (float10)param_2[0xe] +
-                        (float10)param_2[0xf] * (float10)param_3[0xc] +
-                        (float10)param_2[0xd] * (float10)param_3[4]);
-  param_1[0xd] = (float)((float10)param_3[9] * (float10)param_2[0xe] +
-                        (float10)param_3[0xd] * (float10)param_2[0xf] +
-                        (float10)param_2[0xc] * (float10)param_3[1] +
-                        (float10)param_3[5] * (float10)param_2[0xd]);
-  param_1[0xe] = (float)((float10)param_2[0xc] * (float10)param_3[2] +
-                        (float10)param_3[10] * (float10)param_2[0xe] +
-                        (float10)param_3[0xe] * (float10)param_2[0xf] +
-                        (float10)param_2[0xd] * (float10)param_3[6]);
-  param_1[0xf] = (float)((float10)param_2[0xd] * (float10)param_3[7] +
-                        (float10)param_2[0xe] * (float10)param_3[0xb] +
-                        (float10)param_2[0xf] * (float10)param_3[0xf] +
-                        (float10)param_2[0xc] * (float10)param_3[3]);
+  *param_1 = (float)((long double)param_2[3] * (long double)param_3[0xc] +
+                    (long double)*param_2 * (long double)*param_3 +
+                    (long double)param_2[1] * (long double)param_3[4] +
+                    (long double)param_3[8] * (long double)param_2[2]);
+  param_1[1] = (float)((long double)param_3[0xd] * (long double)param_2[3] +
+                      (long double)*param_2 * (long double)param_3[1] +
+                      (long double)param_2[1] * (long double)param_3[5] +
+                      (long double)param_3[9] * (long double)param_2[2]);
+  param_1[2] = (float)((long double)param_3[0xe] * (long double)param_2[3] +
+                      (long double)param_3[2] * (long double)*param_2 +
+                      (long double)param_2[1] * (long double)param_3[6] +
+                      (long double)param_3[10] * (long double)param_2[2]);
+  param_1[3] = (float)((long double)param_3[3] * (long double)*param_2 +
+                      (long double)param_3[0xb] * (long double)param_2[2] +
+                      (long double)param_2[1] * (long double)param_3[7] +
+                      (long double)param_2[3] * (long double)param_3[0xf]);
+  param_1[4] = (float)((long double)param_2[4] * (long double)*param_3 +
+                      (long double)param_3[8] * (long double)param_2[6] +
+                      (long double)param_2[7] * (long double)param_3[0xc] +
+                      (long double)param_2[5] * (long double)param_3[4]);
+  param_1[5] = (float)((long double)param_3[9] * (long double)param_2[6] +
+                      (long double)param_3[0xd] * (long double)param_2[7] +
+                      (long double)param_2[4] * (long double)param_3[1] +
+                      (long double)param_3[5] * (long double)param_2[5]);
+  param_1[6] = (float)((long double)param_2[4] * (long double)param_3[2] +
+                      (long double)param_3[10] * (long double)param_2[6] +
+                      (long double)param_3[0xe] * (long double)param_2[7] +
+                      (long double)param_2[5] * (long double)param_3[6]);
+  param_1[7] = (float)((long double)param_2[5] * (long double)param_3[7] +
+                      (long double)param_2[6] * (long double)param_3[0xb] +
+                      (long double)param_2[7] * (long double)param_3[0xf] +
+                      (long double)param_2[4] * (long double)param_3[3]);
+  param_1[8] = (float)((long double)param_2[8] * (long double)*param_3 +
+                      (long double)param_3[8] * (long double)param_2[10] +
+                      (long double)param_2[0xb] * (long double)param_3[0xc] +
+                      (long double)param_2[9] * (long double)param_3[4]);
+  param_1[9] = (float)((long double)param_3[9] * (long double)param_2[10] +
+                      (long double)param_3[0xd] * (long double)param_2[0xb] +
+                      (long double)param_2[8] * (long double)param_3[1] +
+                      (long double)param_3[5] * (long double)param_2[9]);
+  param_1[10] = (float)((long double)param_2[8] * (long double)param_3[2] +
+                       (long double)param_3[10] * (long double)param_2[10] +
+                       (long double)param_3[0xe] * (long double)param_2[0xb] +
+                       (long double)param_2[9] * (long double)param_3[6]);
+  param_1[0xb] = (float)((long double)param_2[9] * (long double)param_3[7] +
+                        (long double)param_2[10] * (long double)param_3[0xb] +
+                        (long double)param_2[0xb] * (long double)param_3[0xf] +
+                        (long double)param_2[8] * (long double)param_3[3]);
+  param_1[0xc] = (float)((long double)param_2[0xc] * (long double)*param_3 +
+                        (long double)param_3[8] * (long double)param_2[0xe] +
+                        (long double)param_2[0xf] * (long double)param_3[0xc] +
+                        (long double)param_2[0xd] * (long double)param_3[4]);
+  param_1[0xd] = (float)((long double)param_3[9] * (long double)param_2[0xe] +
+                        (long double)param_3[0xd] * (long double)param_2[0xf] +
+                        (long double)param_2[0xc] * (long double)param_3[1] +
+                        (long double)param_3[5] * (long double)param_2[0xd]);
+  param_1[0xe] = (float)((long double)param_2[0xc] * (long double)param_3[2] +
+                        (long double)param_3[10] * (long double)param_2[0xe] +
+                        (long double)param_3[0xe] * (long double)param_2[0xf] +
+                        (long double)param_2[0xd] * (long double)param_3[6]);
+  param_1[0xf] = (float)((long double)param_2[0xd] * (long double)param_3[7] +
+                        (long double)param_2[0xe] * (long double)param_3[0xb] +
+                        (long double)param_2[0xf] * (long double)param_3[0xf] +
+                        (long double)param_2[0xc] * (long double)param_3[3]);
   return;
 }
 
@@ -134,27 +134,29 @@ XI_API void __cdecl sqMatrix4_10280140(float * param_1, float * param_2, float *
 XI_API void __cdecl fn_10280650(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   orig::FUN_1027ebd0(param_1);
-  *(undefined4 *)(param_1 + 0xc) = param_2;
-  *(undefined4 *)(param_1 + 0x1c) = param_3;
-  *(undefined4 *)(param_1 + 0x2c) = param_4;
+  *(uint32_t *)(param_1 + 0xc) = param_2;
+  *(uint32_t *)(param_1 + 0x1c) = param_3;
+  *(uint32_t *)(param_1 + 0x2c) = param_4;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102806B0  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102806B0(int param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl fn_102806B0(int param_1, float param_2, float param_3, float param_4)
 {
   float *pfVar1;
-  int iVar2;
+  float *pfVar2;
+  int iVar3;
   
-  iVar2 = 3;
+  iVar3 = 3;
   pfVar1 = (float *)(param_1 + 8);
   do {
-    iVar2 = iVar2 + -1;
-    pfVar1[-2] = (float)((float10)param_2 * (float10)pfVar1[-2]);
-    pfVar1[-1] = (float)((float10)param_3 * (float10)pfVar1[-1]);
-    *pfVar1 = (float)((float10)param_4 * (float10)*pfVar1);
-    pfVar1 = pfVar1 + 4;
-  } while (iVar2 != 0);
-  return;
+    pfVar2 = pfVar1 + 4;
+    iVar3 = iVar3 + -1;
+    pfVar1[-2] = (float)((long double)param_2 * (long double)pfVar1[-2]);
+    pfVar1[-1] = (float)((long double)param_3 * (long double)pfVar1[-1]);
+    *pfVar1 = (float)((long double)param_4 * (long double)*pfVar1);
+    pfVar1 = pfVar2;
+  } while (iVar3 != 0);
+  return pfVar2;
 }

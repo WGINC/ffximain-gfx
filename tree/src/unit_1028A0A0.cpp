@@ -3,8 +3,8 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1028A0B0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 34 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1028A0B0(int param_1)
+// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((cdecl, regparm(1))) fn_1028A0B0(undefined4 xi_eax, int param_1)
 {
   if (0 < param_1) {
     do {
@@ -23,12 +23,12 @@ XI_API undefined4 __cdecl fn_1028A0E0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1028A0F0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 9 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int param_3, undefined4 * param_4, int param_5)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
-  uint uVar3;
+  uint32_t uVar3;
   undefined4 *puVar4;
   undefined4 *puVar5;
   
@@ -41,7 +41,7 @@ XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int p
     puVar5 = puVar5 + 1;
   }
   for (uVar3 = uVar1 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-    *(undefined1 *)puVar5 = *(undefined1 *)puVar4;
+    *(uint8_t *)puVar5 = *(uint8_t *)puVar4;
     puVar4 = (undefined4 *)((int)puVar4 + 1);
     puVar5 = (undefined4 *)((int)puVar5 + 1);
   }
@@ -50,7 +50,7 @@ XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int p
   }
   iVar2 = orig::FUN_1028a0e0();
   if (iVar2 != 0) {
-    orig::FUN_10292130((undefined1 *)param_1,param_2,param_3);
+    orig::FUN_10292130((uint8_t *)param_1,param_2,param_3,param_3);
   }
   return (undefined4 *)((int)param_4 + uVar1);
 }
@@ -59,8 +59,8 @@ XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int p
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqScript_TokenEquals(char * param_1, char * param_2)
 {
-  uint uVar1;
-  uint local_4;
+  uint32_t uVar1;
+  uint32_t local_4;
   
   local_4 = orig::FUN_103145a4((int)*param_1);
   uVar1 = orig::FUN_103145a4((int)*param_2);

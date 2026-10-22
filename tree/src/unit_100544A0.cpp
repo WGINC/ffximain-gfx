@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_100544D0(void * self_, undefined4 param_2, undefined4 param_3)
 {
-  undefined4 uVar1;
-  float10 fVar2;
+  uint32_t uVar1;
+  long double fVar2;
   
-  uVar1 = *(undefined4 *)((int)self_ + 0x34);
-  *(undefined4 *)((int)self_ + 0x34) = param_3;
+  uVar1 = *(uint32_t *)((int)self_ + 0x34);
+  *(uint32_t *)((int)self_ + 0x34) = param_3;
   fVar2 = orig::FUN_10054500(self_,param_2);
-  *(undefined4 *)((int)self_ + 0x34) = uVar1;
+  *(uint32_t *)((int)self_ + 0x34) = uVar1;
   return fVar2;
 }
 
@@ -22,40 +22,40 @@ XI_API long double __thiscall fn_10054500(void * self_, float param_2)
 {
   float *pfVar1;
   float *pfVar2;
-  xi_bool bVar3;
+  uint8_t bVar3;
   
   pfVar2 = (float *)((int)self_ + 0x30);
   pfVar1 = (float *)((int)self_ + 0x38);
-  if ((NAN((float10)param_2) || NAN((float10)xi_k4(0x3F800000ull))) || (float10)param_2 <= (float10)xi_k4(0x3F800000ull)) {
-    bVar3 = NAN((float10)param_2) || NAN((float10)xi_k4(0x0ull));
-    if ((bVar3 || (float10)param_2 < (float10)xi_k4(0x0ull)) != bVar3) {
-      param_2 = xi_k4(0x0ull);
+  if (!((long double)param_2 > (long double)1.0f)) {
+    bVar3 = NAN((long double)param_2) || NAN((long double)0.0f);
+    if ((bVar3 || (long double)param_2 < (long double)0.0f) != bVar3) {
+      param_2 = 0.0f;
     }
   }
   else {
-    param_2 = xi_k4(0x3F800000ull);
+    param_2 = 1.0f;
   }
-  bVar3 = NAN((float10)*pfVar1) || NAN((float10)param_2);
-  if ((bVar3 || (float10)*pfVar1 < (float10)param_2) != bVar3) {
+  bVar3 = NAN((long double)*pfVar1) || NAN((long double)param_2);
+  if ((bVar3 || (long double)*pfVar1 < (long double)param_2) != bVar3) {
     do {
       pfVar2 = pfVar1;
-      bVar3 = NAN((float10)*pfVar2) || NAN((float10)xi_k4(0x3F800000ull));
-      if ((bVar3 || (float10)*pfVar2 < (float10)xi_k4(0x3F800000ull)) == bVar3) {
+      bVar3 = NAN((long double)*pfVar2) || NAN((long double)1.0f);
+      if ((bVar3 || (long double)*pfVar2 < (long double)1.0f) == bVar3) {
         pfVar1 = (float *)0x0;
       }
       else {
         pfVar1 = pfVar2 + 2;
       }
-      bVar3 = NAN((float10)*pfVar1) || NAN((float10)param_2);
-    } while ((bVar3 || (float10)*pfVar1 < (float10)param_2) != bVar3);
+      bVar3 = NAN((long double)*pfVar1) || NAN((long double)param_2);
+    } while ((bVar3 || (long double)*pfVar1 < (long double)param_2) != bVar3);
   }
-  bVar3 = NAN((float10)*pfVar2) || NAN((float10)*pfVar1);
-  if (bVar3 != (bVar3 || (float10)*pfVar2 == (float10)*pfVar1)) {
-    return (float10)pfVar1[1];
+  bVar3 = NAN((long double)*pfVar2) || NAN((long double)*pfVar1);
+  if (bVar3 != (bVar3 || (long double)*pfVar2 == (long double)*pfVar1)) {
+    return (long double)pfVar1[1];
   }
-  return ((float10)pfVar1[1] - (float10)pfVar2[1]) *
-         (((float10)param_2 - (float10)*pfVar2) / ((float10)*pfVar1 - (float10)*pfVar2)) +
-         (float10)pfVar2[1];
+  return ((long double)pfVar1[1] - (long double)pfVar2[1]) *
+         (((long double)param_2 - (long double)*pfVar2) / ((long double)*pfVar1 - (long double)*pfVar2)) +
+         (long double)pfVar2[1];
 }
 
 // FUNCTION: FFXIMAIN 0x100546F0  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
@@ -67,42 +67,42 @@ XI_API long double __thiscall fn_100546F0(void * self_, float param_2, undefined
   float fVar3;
   float *pfVar4;
   float *pfVar5;
-  xi_bool bVar6;
-  float10 fVar7;
+  uint8_t bVar6;
+  long double fVar7;
   
   pfVar4 = (float *)((int)self_ + 0x38);
   fVar1 = *(float *)((int)self_ + 0x34);
-  *(undefined4 *)((int)self_ + 0x34) = param_3;
-  bVar6 = NAN((float10)*pfVar4) || NAN((float10)param_2);
+  *(uint32_t *)((int)self_ + 0x34) = param_3;
+  bVar6 = NAN((long double)*pfVar4) || NAN((long double)param_2);
   pfVar5 = (float *)((int)self_ + 0x30);
-  if ((bVar6 || (float10)*pfVar4 < (float10)param_2) != bVar6) {
+  if ((bVar6 || (long double)*pfVar4 < (long double)param_2) != bVar6) {
     do {
       pfVar5 = pfVar4;
-      bVar6 = NAN((float10)*pfVar5) || NAN((float10)xi_k4(0x3F800000ull));
-      if ((bVar6 || (float10)*pfVar5 < (float10)xi_k4(0x3F800000ull)) == bVar6) {
+      bVar6 = NAN((long double)*pfVar5) || NAN((long double)1.0f);
+      if ((bVar6 || (long double)*pfVar5 < (long double)1.0f) == bVar6) {
         pfVar4 = (float *)0x0;
       }
       else {
         pfVar4 = pfVar5 + 2;
       }
-      bVar6 = NAN((float10)*pfVar4) || NAN((float10)param_2);
-    } while ((bVar6 || (float10)*pfVar4 < (float10)param_2) != bVar6);
+      bVar6 = NAN((long double)*pfVar4) || NAN((long double)param_2);
+    } while ((bVar6 || (long double)*pfVar4 < (long double)param_2) != bVar6);
   }
-  fVar7 = ((float10)param_2 - (float10)*pfVar5) / ((float10)*pfVar4 - (float10)*pfVar5);
-  bVar6 = NAN(fVar7) || NAN((float10)xi_k4(0x3F000000ull));
-  if ((bVar6 || fVar7 < (float10)xi_k4(0x3F000000ull)) != bVar6) {
+  fVar7 = ((long double)param_2 - (long double)*pfVar5) / ((long double)*pfVar4 - (long double)*pfVar5);
+  bVar6 = NAN(fVar7) || NAN((long double)0.5f);
+  if ((bVar6 || fVar7 < (long double)0.5f) != bVar6) {
     fVar7 = fVar7 * fVar7 + fVar7 * fVar7;
     fVar2 = pfVar5[1];
     fVar3 = pfVar4[1];
-    *(float *)((int)self_ + 0x34) = (float)(float10)fVar1;
-    return (float10)fVar3 * fVar7 + ((float10)xi_k4(0x3F800000ull) - fVar7) * (float10)fVar2;
+    *(float *)((int)self_ + 0x34) = (float)(long double)fVar1;
+    return (long double)fVar3 * fVar7 + ((long double)1.0f - fVar7) * (long double)fVar2;
   }
-  fVar7 = ((float10)xi_k4(0x3F800000ull) - fVar7) * ((float10)xi_k4(0x3F800000ull) - fVar7);
+  fVar7 = ((long double)1.0f - fVar7) * ((long double)1.0f - fVar7);
   fVar7 = fVar7 + fVar7;
   fVar2 = pfVar4[1];
   fVar3 = pfVar5[1];
-  *(float *)((int)self_ + 0x34) = (float)(float10)fVar1;
-  return (float10)fVar3 * fVar7 + ((float10)xi_k4(0x3F800000ull) - fVar7) * (float10)fVar2;
+  *(float *)((int)self_ + 0x34) = (float)(long double)fVar1;
+  return (long double)fVar3 * fVar7 + ((long double)1.0f - fVar7) * (long double)fVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x100547A0  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
@@ -111,32 +111,32 @@ XI_API long double __thiscall fn_100547A0(void * self_, float param_2)
 {
   float *pfVar1;
   float *pfVar2;
-  xi_bool bVar3;
-  float10 fVar4;
+  uint8_t bVar3;
+  long double fVar4;
   
   pfVar2 = (float *)((int)self_ + 0x30);
   pfVar1 = (float *)((int)self_ + 0x38);
-  bVar3 = NAN((float10)*(float *)((int)self_ + 0x38)) || NAN((float10)param_2);
-  if ((bVar3 || (float10)*(float *)((int)self_ + 0x38) < (float10)param_2) != bVar3) {
+  bVar3 = NAN((long double)*(float *)((int)self_ + 0x38)) || NAN((long double)param_2);
+  if ((bVar3 || (long double)*(float *)((int)self_ + 0x38) < (long double)param_2) != bVar3) {
     do {
       pfVar2 = pfVar1;
-      bVar3 = NAN((float10)*pfVar2) || NAN((float10)xi_k4(0x3F800000ull));
-      if ((bVar3 || (float10)*pfVar2 < (float10)xi_k4(0x3F800000ull)) == bVar3) {
+      bVar3 = NAN((long double)*pfVar2) || NAN((long double)1.0f);
+      if ((bVar3 || (long double)*pfVar2 < (long double)1.0f) == bVar3) {
         pfVar1 = (float *)0x0;
       }
       else {
         pfVar1 = pfVar2 + 2;
       }
-      bVar3 = NAN((float10)*pfVar1) || NAN((float10)param_2);
-    } while ((bVar3 || (float10)*pfVar1 < (float10)param_2) != bVar3);
+      bVar3 = NAN((long double)*pfVar1) || NAN((long double)param_2);
+    } while ((bVar3 || (long double)*pfVar1 < (long double)param_2) != bVar3);
   }
-  fVar4 = ((float10)param_2 - (float10)*pfVar2) / ((float10)*pfVar1 - (float10)*pfVar2);
-  bVar3 = NAN(fVar4) || NAN((float10)xi_k4(0x3F000000ull));
-  if ((bVar3 || fVar4 < (float10)xi_k4(0x3F000000ull)) != bVar3) {
+  fVar4 = ((long double)param_2 - (long double)*pfVar2) / ((long double)*pfVar1 - (long double)*pfVar2);
+  bVar3 = NAN(fVar4) || NAN((long double)0.5f);
+  if ((bVar3 || fVar4 < (long double)0.5f) != bVar3) {
     fVar4 = fVar4 * fVar4 + fVar4 * fVar4;
-    return (float10)pfVar1[1] * fVar4 + ((float10)xi_k4(0x3F800000ull) - fVar4) * (float10)pfVar2[1];
+    return (long double)pfVar1[1] * fVar4 + ((long double)1.0f - fVar4) * (long double)pfVar2[1];
   }
-  fVar4 = ((float10)xi_k4(0x3F800000ull) - fVar4) * ((float10)xi_k4(0x3F800000ull) - fVar4);
+  fVar4 = ((long double)1.0f - fVar4) * ((long double)1.0f - fVar4);
   fVar4 = fVar4 + fVar4;
-  return (float10)pfVar2[1] * fVar4 + ((float10)xi_k4(0x3F800000ull) - fVar4) * (float10)pfVar1[1];
+  return (long double)pfVar2[1] * fVar4 + ((long double)1.0f - fVar4) * (long double)pfVar1[1];
 }

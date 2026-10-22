@@ -6,11 +6,11 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100A3CD0(void)
 {
-  undefined2 *puVar1;
+  uint16_t *puVar1;
   
   puVar1 = &DAT_10485bb6;
   do {
-    *(undefined1 *)(puVar1 + -1) = 0;
+    *(uint8_t *)(puVar1 + -1) = 0;
     *puVar1 = 0;
     puVar1 = puVar1 + 0xa0;
   } while ((int)puVar1 < 0x104860b6);

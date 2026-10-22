@@ -3,12 +3,12 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102813B0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 25 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102813B0(int param_1, float param_2)
 {
   char xi_frame[8] __attribute__((aligned(4)));
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   
   orig::sqgxTextureDecal_v1(1);
   orig::sqgxZMask_v1(0);
@@ -37,7 +37,7 @@ XI_API void __cdecl ___setargv_3(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10281510  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 78 returned normally, 256 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78, town PASS 77, town2 PASS 77, combat PASS 78, zonetoinn PASS 77
+// GATE: PASS -- 100 trials, 78 returned normally, 256 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 {
   int v2;
@@ -130,7 +130,7 @@ XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102816E0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 79 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82, town PASS 42, town2 PASS 42, combat PASS 42, zonetoinn PASS 42
+// GATE: PASS -- 100 trials, 82 returned normally, 79 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
 {
   int v3;

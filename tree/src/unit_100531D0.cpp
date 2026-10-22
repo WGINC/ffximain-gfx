@@ -7,68 +7,68 @@
 XI_API void __thiscall SharedConditionalStateReset(void * self_)
 {
   int *this_00;
-  undefined4 uVar1;
-  uint uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   int iVar3;
-  undefined8 uVar4;
-  undefined4 *puVar5;
+  uint64_t uVar4;
+  uint32_t *puVar5;
   
-  if (((*(byte *)((int)self_ + 0xdc) & 1) != 0) || ((*(uint *)((int)self_ + 0xd8) & 0x800) != 0)) {
+  if (((*(uint8_t *)((int)self_ + 0xdc) & 1) != 0) || ((*(uint32_t *)((int)self_ + 0xd8) & 0x800) != 0)) {
     uVar1 = orig::FUN_100539e0(self_);
     if ((char)uVar1 != '\0') {
-      orig::YmGenerater_Stop_v1(self_,(undefined4 *)0x0);
-      uVar2 = (*(byte *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint *)((int)self_ + 0x34) & 0xf);
+      orig::YmGenerater_Stop_v2(self_,(uint32_t *)0x0);
+      uVar2 = (*(uint8_t *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint32_t *)((int)self_ + 0x34) & 0xf);
       if ((uVar2 != 0x14) && (((uVar2 != 0 && (uVar2 < 0xe)) || (0xf < uVar2)))) {
         uVar1 = 0;
-        puVar5 = (undefined4 *)0x0;
+        puVar5 = (uint32_t *)0x0;
         uVar4 = orig::FUN_1003b700((void *)((int)self_ + 0x30));
         iVar3 = (int)uVar4;
         uVar4 = orig::FUN_1003b6d0((void *)((int)self_ + 0x30));
         orig::FUN_10053a00(self_,(int)uVar4,iVar3,uVar1,puVar5);
       }
     }
-    *(undefined4 *)((int)self_ + 0x9c) = 0;
-    *(undefined4 *)((int)self_ + 0xcc) = 0;
-    *(undefined4 *)((int)self_ + 200) = 0;
+    *(uint32_t *)((int)self_ + 0x9c) = 0;
+    *(uint32_t *)((int)self_ + 0xcc) = 0;
+    *(uint32_t *)((int)self_ + 200) = 0;
   }
-  if ((*(byte *)((int)self_ + 0xdc) & 1) != 0) {
+  if ((*(uint8_t *)((int)self_ + 0xdc) & 1) != 0) {
     if (*(int *)((int)self_ + 0xa8) != 0) {
-      *(undefined4 *)(*(int *)((int)self_ + 0xa8) + 0x14) = 0;
+      *(uint32_t *)(*(int *)((int)self_ + 0xa8) + 0x14) = 0;
     }
-    *(byte *)((int)self_ + 0xdc) = *(byte *)((int)self_ + 0xdc) & 0xfe;
-    *(uint *)((int)self_ + 0xd8) = *(uint *)((int)self_ + 0xd8) | 0x800;
+    *(uint8_t *)((int)self_ + 0xdc) = *(uint8_t *)((int)self_ + 0xdc) & 0xfe;
+    *(uint32_t *)((int)self_ + 0xd8) = *(uint32_t *)((int)self_ + 0xd8) | 0x800;
     return;
   }
-  *(byte *)((int)self_ + 0xdc) = *(byte *)((int)self_ + 0xdc) & 0xfe;
-  *(uint *)((int)self_ + 0xd8) = *(uint *)((int)self_ + 0xd8) | 0x800;
+  *(uint8_t *)((int)self_ + 0xdc) = *(uint8_t *)((int)self_ + 0xdc) & 0xfe;
+  *(uint32_t *)((int)self_ + 0xd8) = *(uint32_t *)((int)self_ + 0xd8) | 0x800;
   this_00 = *(int **)((int)self_ + 0xa8);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(undefined4 *)((int)self_ + 0xa8) = 0;
+    *(uint32_t *)((int)self_ + 0xa8) = 0;
   }
   uVar4 = orig::Mem_AllocFromArea_v1(0x3d,4);
-  puVar5 = (undefined4 *)uVar4;
+  puVar5 = (uint32_t *)uVar4;
   orig::CMoTask_ResetFields_v1(puVar5);
   g_resourcesDirty_as_v0 = 1;
-  if (puVar5 == (undefined4 *)0x0) {
-    puVar5 = (undefined4 *)0x0;
+  if (puVar5 == (uint32_t *)0x0) {
+    puVar5 = (uint32_t *)0x0;
   }
   else {
     orig::CMoTask_Constructor_v1(puVar5);
     *puVar5 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
-    *(undefined1 *)(puVar5 + 0xf) = 0;
+    *(uint8_t *)(puVar5 + 0xf) = 0;
   }
-  *(undefined4 **)((int)self_ + 0xa8) = puVar5;
-  puVar5[0xd] = *(undefined4 *)((int)self_ + 0x14);
-  puVar5[0xe] = *(undefined4 *)((int)self_ + 0x14);
-  puVar5[6] = *(undefined4 *)((int)self_ + 0x14);
+  *(uint32_t **)((int)self_ + 0xa8) = puVar5;
+  puVar5[0xd] = *(uint32_t *)((int)self_ + 0x14);
+  puVar5[0xe] = *(uint32_t *)((int)self_ + 0x14);
+  puVar5[6] = *(uint32_t *)((int)self_ + 0x14);
   puVar5[7] = 0x4d670000;
   orig::FUN_10053e60(self_);
-  uVar2 = (*(byte *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint *)((int)self_ + 0x34) & 0xf);
+  uVar2 = (*(uint8_t *)((int)self_ + 0x36) & 1) * 0x10 + (*(uint32_t *)((int)self_ + 0x34) & 0xf);
   if ((uVar2 != 0x14) && (((uVar2 != 0 && (uVar2 < 0xe)) || (0xf < uVar2)))) {
     orig::CMoTask_RegisterWithMng_v1(9);
     return;
   }
-  orig::FUN_10074a00();
+  orig::FUN_10074a00_v1();
   return;
 }

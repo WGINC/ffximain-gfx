@@ -7,26 +7,26 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 148 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   void *this_00;
-  undefined4 *puVar2;
-  undefined4 uVar3;
+  uint32_t *puVar2;
+  uint32_t uVar3;
   int iVar4;
   int iVar5;
-  undefined4 *puVar6;
+  uint32_t *puVar6;
   char xi_frame[36] __attribute__((aligned(4)));
-  undefined4  &local_24 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_20 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_1c = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &local_18 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
-  undefined4  &local_14 = *reinterpret_cast<undefined4  *>(xi_frame + 16);
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 20);
+  uint32_t  &local_24 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_20 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_1c = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &local_18 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
+  uint32_t  &local_14 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 24);
   
   if (*(int *)((int)self + 0x104) != 0) {
-    puVar1 = *(undefined4 **)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
+    puVar1 = *(uint32_t **)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
     *(int *)(g_pProcessor_as_s32 + 0xa90) = *(int *)(g_pProcessor_as_s32 + 0xa90) + 1;
-    puVar2 = (undefined4 *)((int)self + 0x60);
+    puVar2 = (uint32_t *)((int)self + 0x60);
     puVar6 = puVar1;
     for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
       *puVar6 = *puVar2;
@@ -36,18 +36,18 @@ void __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
     orig::CMoDX_SetWorldMatrix_v1(g_pResourceMng_as_v0,puVar1);
     orig::BeginEffectOffscreenPass();
     if (*(char *)((int)self + 0x179) == '\0') {
-      if (*(undefined4 **)((int)self + 0x104) == (undefined4 *)0x0) {
+      if (*(uint32_t **)((int)self + 0x104) == (uint32_t *)0x0) {
         this_00 = (void *)0x0;
       }
       else {
-        this_00 = (void *)**(undefined4 **)((int)self + 0x104);
+        this_00 = (void *)**(uint32_t **)((int)self + 0x104);
       }
       orig::FUN_10040220(this_00,&g_scratchValue_as_v1,(int)self);
     }
     else {
-      orig::CMoElemFamily_SharedEarlyExit_v1(self);
+      orig::CMoElemFamily_SharedEarlyExit(self);
     }
-    puVar2 = (undefined4 *)orig::FUN_10044c40(self,local_c);
+    puVar2 = (uint32_t *)orig::FUN_10044c40(self,local_c);
     local_18 = *puVar2;
     local_14 = puVar2[1];
     local_10 = puVar2[2];
@@ -66,19 +66,19 @@ void __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
     iVar4 = g_pProcessor_as_s32;
     iVar5 = *(int *)(g_pProcessor_as_s32 + 0xa90) + -1;
     *(int *)(g_pProcessor_as_s32 + 0xa90) = iVar5;
-    *(undefined4 **)(iVar4 + 0xa10 + iVar5 * 4) = puVar1;
+    *(uint32_t **)(iVar4 + 0xa10 + iVar5 * 4) = puVar1;
   }
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E90  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined8 __thiscall CXi471011C8_VT_1032B3B8::Ctor(void * self)
+uint64_t __thiscall CXi471011C8_VT_1032B3B8::Ctor(void * self)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self);
-  *(undefined ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032b3b8;
-  *(undefined2 *)((int)self + 0x176) = 0x19c;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self);
+  *(uint8_t ***)self = &PTR_CMoElem_GetRuntimeClass_variant8_1032b3b8;
+  *(uint16_t *)((int)self + 0x176) = 0x19c;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }

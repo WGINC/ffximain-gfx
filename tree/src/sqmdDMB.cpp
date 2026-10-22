@@ -40,7 +40,7 @@ XI_API uint32_t __cdecl fn_10288680(uint32_t param_1)
 XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
 {
   int iVar1;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
   
   iVar3 = DAT_109a2788;
@@ -57,7 +57,7 @@ XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
   if (0 < iVar3) {
     do {
       if (*(int *)(*(int *)(param_1 + 0x50) + iVar1 * 4) == -0x10412246) {
-        *(uint *)(*(int *)(param_1 + 0x50) + iVar1 * 4) = uVar2;
+        *(uint32_t *)(*(int *)(param_1 + 0x50) + iVar1 * 4) = uVar2;
         uVar2 = uVar2 + 0x40;
       }
       iVar1 = iVar1 + 1;
@@ -67,7 +67,7 @@ XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288C20  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 17 trials, 2 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 12 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
 {
   char cVar1;
@@ -75,7 +75,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
   char *pcVar3;
   int iVar4;
   int iVar5;
-  uint uVar6;
+  uint32_t uVar6;
   int iVar7;
   char *pcVar8;
   
@@ -104,8 +104,8 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
         pcVar8 = pcVar8 + 1;
       } while (cVar1 != '\0');
       pcVar3 = pcVar3 + ~uVar6;
-      if (((uint)pcVar3 & 3) != 0) {
-        iVar4 = 4 - ((uint)pcVar3 & 3);
+      if (((uint32_t)pcVar3 & 3) != 0) {
+        iVar4 = 4 - ((uint32_t)pcVar3 & 3);
         if (DAT_109a2788 != 0) {
           iVar5 = orig::FUN_10288660((int)pcVar3);
           orig::FUN_10314d55(iVar2,s__06ld__adding__d_align_bytes_103b8850,iVar5);
@@ -121,7 +121,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
   if (iVar7 < *(int *)(param_1 + 0x80)) {
     do {
       iVar7 = iVar7 + 1;
-      *(undefined4 *)(*(int *)(param_1 + 0x70) + -4 + iVar7 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 0x70) + -4 + iVar7 * 4) = 0;
     } while (iVar7 < *(int *)(param_1 + 0x80));
   }
   iVar7 = 0;
@@ -143,8 +143,8 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
         pcVar8 = pcVar8 + 1;
       } while (cVar1 != '\0');
       pcVar3 = pcVar3 + ~uVar6;
-      if (((uint)pcVar3 & 3) != 0) {
-        iVar4 = 4 - ((uint)pcVar3 & 3);
+      if (((uint32_t)pcVar3 & 3) != 0) {
+        iVar4 = 4 - ((uint32_t)pcVar3 & 3);
         if (DAT_109a2788 != 0) {
           iVar5 = orig::FUN_10288660((int)pcVar3);
           orig::FUN_10314d55(iVar2,s__06ld__adding__d_align_bytes_103b8850,iVar5);
@@ -160,14 +160,14 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
   if (iVar7 < *(int *)(param_1 + 0x94)) {
     do {
       iVar7 = iVar7 + 1;
-      *(undefined4 *)(*(int *)(param_1 + 0x84) + -4 + iVar7 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 0x84) + -4 + iVar7 * 4) = 0;
     } while (iVar7 < *(int *)(param_1 + 0x94));
   }
   return pcVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x10288DC0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 15 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10288DC0(int param_1)
 {
   int iVar1;
@@ -181,16 +181,16 @@ XI_API void __cdecl fn_10288DC0(int param_1)
   if (0 < iVar2) {
     do {
       iVar1 = iVar1 + 1;
-      *(undefined4 *)(*(int *)(param_1 + 100) + -4 + iVar1 * 4) = 0;
-      *(undefined4 *)(*(int *)(param_1 + 0x60) + -4 + iVar1 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 100) + -4 + iVar1 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 0x60) + -4 + iVar1 * 4) = 0;
     } while (iVar1 < iVar2);
   }
-  *(undefined4 *)(param_1 + 0x68) = 0;
+  *(uint32_t *)(param_1 + 0x68) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10288E00  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 25 trials, 8 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10288E00(int param_1)
 {
   int iVar1;
@@ -204,7 +204,7 @@ XI_API void __cdecl fn_10288E00(int param_1)
   if (0 < iVar2) {
     do {
       iVar1 = iVar1 + 1;
-      *(undefined4 *)(*(int *)(param_1 + 0x9c) + -4 + iVar1 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 0x9c) + -4 + iVar1 * 4) = 0;
     } while (iVar1 < iVar2);
   }
   iVar2 = *(int *)(param_1 + 0x58);
@@ -215,9 +215,9 @@ XI_API void __cdecl fn_10288E00(int param_1)
   if (0 < iVar2) {
     do {
       iVar1 = iVar1 + 1;
-      *(undefined4 *)(*(int *)(param_1 + 0xa0) + -4 + iVar1 * 4) = 0;
+      *(uint32_t *)(*(int *)(param_1 + 0xa0) + -4 + iVar1 * 4) = 0;
     } while (iVar1 < iVar2);
   }
-  *(undefined4 *)(param_1 + 0xa4) = 0;
+  *(uint32_t *)(param_1 + 0xa4) = 0;
   return;
 }

@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl fn_10052D20(void)
 {
-  return (float10)xi_k4(0x3F800000ull);
+  return (long double)1.0f;
 }
 
 // FUNCTION: FFXIMAIN 0x10052D30  (unit unit_10052D20: no unit evidence of its own; in the gap between 0x10052CD0 (CMoVuAnmElem) and 0x10052D60 (CMoDist) -- an unnamed source file)
@@ -18,12 +18,12 @@ XI_API undefined4 __thiscall fn_10052D30(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10052D40  (unit unit_10052D20: no unit evidence of its own; in the gap between 0x10052CD0 (CMoVuAnmElem) and 0x10052D60 (CMoDist) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10052D40(void * self_)
+XI_API uint64_t __thiscall fn_10052D40(void * self_)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   uVar1 = orig::CMoElem_Constructor(self_);
-  *(undefined ***)self_ = &PTR_CMoDist_GetRuntimeClass_variant0_1032b298;
-  *(undefined2 *)((int)self_ + 0x176) = 0x198;
-  return CONCAT44((int)((ulonglong)uVar1 >> 0x20),self_);
+  *(uint8_t ***)self_ = &PTR_CMoDist_GetRuntimeClass_variant0_1032b298;
+  *(uint16_t *)((int)self_ + 0x176) = 0x198;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }

@@ -8,6 +8,6 @@ XI_API undefined4 __thiscall fn_1002A080(void * self_)
 {
   int iVar1;
   
-  iVar1 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 8));
-  return *(undefined4 *)(iVar1 + 0x5e);
+  iVar1 = orig::ResourceHandle_Deref_v1(*(uint32_t **)((int)self_ + 8));
+  return *(uint32_t *)(iVar1 + 0x5e);
 }

@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_1026FBB0(float * param_1)
 {
-  xi_bool bVar1;
+  uint8_t bVar1;
   float *pfVar2;
   int iVar3;
   float *pfVar4;
   int iVar5;
-  xi_bool bVar6;
-  float10 fVar7;
+  uint8_t bVar6;
+  long double fVar7;
   char xi_frame[24] __attribute__((aligned(4)));
   float  (&local_18)[6] = *reinterpret_cast<float  (*)[6]>(xi_frame + 0);
   
@@ -29,13 +29,13 @@ XI_API undefined4 __cdecl fn_1026FBB0(float * param_1)
         iVar3 = 3;
         pfVar4 = pfVar2;
         do {
-          fVar7 = (float10)*(float *)(((int)local_18 - (int)pfVar2) + (int)pfVar4);
-          bVar6 = NAN(fVar7) || NAN((float10)*pfVar4);
-          if ((bVar6 || fVar7 < (float10)*pfVar4) != bVar6) {
+          fVar7 = (long double)*(float *)(((int)local_18 - (int)pfVar2) + (int)pfVar4);
+          bVar6 = NAN(fVar7) || NAN((long double)*pfVar4);
+          if ((bVar6 || fVar7 < (long double)*pfVar4) != bVar6) {
             *pfVar4 = *(float *)(((int)local_18 - (int)pfVar2) + (int)pfVar4);
           }
-          fVar7 = (float10)*(float *)(iVar5 + (int)pfVar4);
-          if ((!NAN(fVar7) && !NAN((float10)pfVar4[3])) && (float10)pfVar4[3] < fVar7) {
+          fVar7 = (long double)*(float *)(iVar5 + (int)pfVar4);
+          if (fVar7 > (long double)pfVar4[3]) {
             pfVar4[3] = *(float *)(iVar5 + (int)pfVar4);
           }
           pfVar4 = pfVar4 + 1;

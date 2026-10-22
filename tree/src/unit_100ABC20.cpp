@@ -8,29 +8,32 @@ XI_API void * __thiscall fn_100ABC20(void * self_, char * param_1, int param_2)
 {
   int iVar1;
   int iVar2;
-  undefined2 *puVar3;
+  uint16_t *puVar3;
   
   orig::_strncpy_v1(self_,param_1,0xf);
   iVar2 = 0;
-  *(undefined1 *)((int)self_ + 0xf) = 0;
-  *(undefined2 *)((int)self_ + 0x22) = *(undefined2 *)(param_2 + 0x12);
-  puVar3 = (undefined2 *)((int)self_ + 0x10);
+  *(uint8_t *)((int)self_ + 0xf) = 0;
+  *(uint16_t *)((int)self_ + 0x22) = *(uint16_t *)(param_2 + 0x12);
+  puVar3 = (uint16_t *)((int)self_ + 0x10);
   do {
     iVar1 = iVar2 * 2;
     iVar2 = iVar2 + 1;
-    *puVar3 = *(undefined2 *)(param_2 + iVar1);
+    *puVar3 = *(uint16_t *)(param_2 + iVar1);
     puVar3 = puVar3 + 1;
   } while (iVar2 < 9);
-  *(undefined1 *)((int)self_ + 0x24) = *(undefined1 *)(param_2 + 0x14);
+  *(uint8_t *)((int)self_ + 0x24) = *(uint8_t *)(param_2 + 0x14);
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100ABC70  (unit unit_100ABC20: no unit evidence of its own; in the gap between 0x100ABC10 (CXiDancerActor) and 0x100ABCA0 (CXiDollActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100ABC70(undefined4 * param_1, undefined4 * param_2)
+XI_API undefined4 __cdecl fn_100ABC70(undefined4 * param_1, undefined4 * param_2)
 {
+  uint32_t uVar1;
+  
   *param_1 = *param_2;
   param_1[1] = param_2[1];
-  param_1[2] = param_2[2];
-  return;
+  uVar1 = param_2[2];
+  param_1[2] = uVar1;
+  return uVar1;
 }

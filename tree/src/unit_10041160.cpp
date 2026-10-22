@@ -6,16 +6,16 @@
 // GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10041160(void * self_)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
-  uint uVar3;
-  longlong lVar4;
-  longlong lVar5;
-  longlong lVar6;
-  undefined1 uStack_7;
-  undefined1 uStack_5;
+  uint32_t uVar3;
+  int64_t lVar4;
+  int64_t lVar5;
+  int64_t lVar6;
+  uint8_t uStack_7;
+  uint8_t uStack_5;
   
-  *(uint *)((int)self_ + 0x10c) = *(uint *)((int)self_ + 0x10c) & 0xfffeffff | 0x2000000;
+  *(uint32_t *)((int)self_ + 0x10c) = *(uint32_t *)((int)self_ + 0x10c) & 0xfffeffff | 0x2000000;
   if (*(char *)((int)self_ + 0x179) == '\0') {
     if (*(int **)((int)self_ + 0x104) == (int *)0x0) {
       iVar2 = 0;
@@ -24,20 +24,20 @@ XI_API void __thiscall fn_10041160(void * self_)
       iVar2 = **(int **)((int)self_ + 0x104);
     }
     if (*(char *)(iVar2 + 0x34) == '\0') {
-      *(undefined1 *)((int)self_ + 0x1bc) = 0;
-      *(undefined1 *)((int)self_ + 0x1bd) = 1;
+      *(uint8_t *)((int)self_ + 0x1bc) = 0;
+      *(uint8_t *)((int)self_ + 0x1bd) = 1;
     }
-    uVar3 = *(uint *)((int)self_ + 0x1ac);
-    uStack_7 = (undefined1)(uVar3 >> 8);
-    uStack_5 = (undefined1)(uVar3 >> 0x18);
-    if ((*(byte *)((int)self_ + 0x198) & 1) == 0) {
-      lVar4 = XI_CALL_ST0(0x10311C2Cu)((float10)(g_scratchValue_as_v0 >> 0x10 & 0xff) *
-                     (float10)((ushort)(uVar3 >> 0x10) & 0xff) * (float10)xi_k4(0x3C000000ull));
+    uVar3 = *(uint32_t *)((int)self_ + 0x1ac);
+    uStack_7 = (uint8_t)(uVar3 >> 8);
+    uStack_5 = (uint8_t)(uVar3 >> 0x18);
+    if ((*(uint8_t *)((int)self_ + 0x198) & 1) == 0) {
+      lVar4 = XI_CALL_ST0(0x10311C2Cu)((long double)(g_scratchValue_as_v0 >> 0x10 & 0xff) *
+                     (long double)((uint16_t)(uVar3 >> 0x10) & 0xff) * (long double)0.0078125f);
       uVar1 = g_scratchValue_as_v0;
-      lVar5 = XI_CALL_ST0(0x10311C2Cu)((float10)(g_scratchValue_as_v0 >> 8 & 0xff) *
-                     (float10)(CONCAT11((char)lVar4,uStack_7) & 0xff) * (float10)xi_k4(0x3C000000ull));
-      lVar6 = XI_CALL_ST0(0x10311C2Cu)((float10)(uVar1 & 0xff) * (float10)(uVar3 & 0xff) * (float10)xi_k4(0x3C000000ull));
-      uVar3 = CONCAT13(uStack_5,CONCAT12((char)lVar4,CONCAT11((char)lVar5,(char)lVar6)));
+      lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)(g_scratchValue_as_v0 >> 8 & 0xff) *
+                     (long double)(((uint16_t)(((uint16_t)(uint8_t)((char)lVar4) << 8) | (uint8_t)(uStack_7))) & 0xff) * (long double)0.0078125f);
+      lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)(uVar1 & 0xff) * (long double)(uVar3 & 0xff) * (long double)0.0078125f);
+      uVar3 = CONCAT13(uStack_5,((uint32_t)(((uint32_t)(uint8_t)((char)lVar4) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)((char)lVar5) << 8) | (uint8_t)((char)lVar6)))))));
     }
     if ((*(int **)((int)self_ + 0x1a8) != (int *)0x0) &&
        (*(int *)(**(int **)((int)self_ + 0x1a8) + 0x30) != 0)) {

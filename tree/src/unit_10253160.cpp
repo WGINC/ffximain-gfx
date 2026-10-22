@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_10253160(uint32_t * param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[4])) {
     param_1[1] = 0;

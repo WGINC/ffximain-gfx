@@ -5,23 +5,23 @@
 
 // FUNCTION: FFXIMAIN 0x100A46D0  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall CXiCollisionActor_IsTouchDown(void * self_)
+XI_API uint8_t __attribute__((stdcall, regparm(3))) CXiCollisionActor_IsTouchDown(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  return *(undefined1 *)((int)self_ + 0x5e0);
+  return *(uint8_t *)((int)self_ + 0x5e0);
 }
 
 // FUNCTION: FFXIMAIN 0x100A46F0  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall CXiCollisionActor_IsOnLift(void * self_)
+XI_API uint8_t __attribute__((stdcall, regparm(3))) CXiCollisionActor_IsOnLift(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  return *(undefined1 *)((int)self_ + 0x5e2);
+  return *(uint8_t *)((int)self_ + 0x5e2);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4710  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall CXiCollisionActor_GetCurrentAreaId(void * self_)
 {
-  return *(undefined4 *)((int)self_ + 0x5e4);
+  return *(uint32_t *)((int)self_ + 0x5e4);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4C20  (placed by IDB name; static (takes no this))
@@ -31,20 +31,20 @@ void * __thiscall CXiCollisionActor::Constructor(void * self)
   int iVar1;
   
   orig::CXiControlActor_Constructor(self);
-  *(undefined ***)self = &PTR_CXiCollisionActor_GetRuntimeClass_variant0_1032db40;
-  *(undefined4 *)((int)self + 0x5e4) = 0;
-  *(undefined1 *)((int)self + 0x5e0) = 0;
-  *(undefined1 *)((int)self + 0x5e1) = 0;
-  *(undefined1 *)((int)self + 0x5e2) = 0;
+  *(uint8_t ***)self = &PTR_CXiCollisionActor_GetRuntimeClass_variant0_1032db40;
+  *(uint32_t *)((int)self + 0x5e4) = 0;
+  *(uint8_t *)((int)self + 0x5e0) = 0;
+  *(uint8_t *)((int)self + 0x5e1) = 0;
+  *(uint8_t *)((int)self + 0x5e2) = 0;
   iVar1 = orig::_rand();
   *(int *)((int)self + 0x5e8) = iVar1 % 0x78;
-  orig::Vec4_Set_v1((float *)((int)self + 0x160),xi_k4(0x0ull),xi_k4(0xBF800000ull),xi_k4(0x0ull),xi_k4(0x3F800000ull));
-  *(undefined4 *)((int)self + 0x174) = 0;
-  *(undefined4 *)((int)self + 0x178) = *(undefined4 *)((int)self + 0x5c8);
-  *(undefined1 *)((int)self + 0x17c) = 0;
-  *(undefined1 *)((int)self + 0x5ec) = 1;
+  orig::Vec4_Set_v1((float *)((int)self + 0x160),0.0f,(-1.0f),0.0f,1.0f);
+  *(uint32_t *)((int)self + 0x174) = 0;
+  *(uint32_t *)((int)self + 0x178) = *(uint32_t *)((int)self + 0x5c8);
+  *(uint8_t *)((int)self + 0x17c) = 0;
+  *(uint8_t *)((int)self + 0x5ec) = 1;
   iVar1 = orig::_rand();
-  *(undefined1 *)((int)self + 0x5f4) = 0;
+  *(uint8_t *)((int)self + 0x5f4) = 0;
   *(int *)((int)self + 0x5f0) = iVar1 % 0x78;
   return self;
 }

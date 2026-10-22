@@ -20,9 +20,9 @@ XI_API int __thiscall fn_10029EB0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10029F00(void * self_, undefined4 param_1)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   
-  puVar1 = (undefined4 *)orig::FUN_10029eb0(self_);
+  puVar1 = (uint32_t *)orig::FUN_10029eb0(self_);
   *puVar1 = param_1;
   return;
 }

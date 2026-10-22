@@ -22,17 +22,17 @@ XI_API void __cdecl scnCameraGetInfo(int param_1, undefined4 * param_2, undefine
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102733B0(int param_1)
 {
-  float10 fVar1;
+  long double fVar1;
   int iVar2;
-  float10 fVar3;
+  long double fVar3;
   
   iVar2 = DAT_1099b0f4;
-  fVar3 = (float10)DAT_1099b138_as_f32;
-  fVar1 = (float10)xi_k4(0x0ull);
-  DAT_1099b12c_as_s32 = DAT_1099b0f4;
+  fVar3 = (long double)DAT_1099b138_as_f32;
+  fVar1 = (long double)0.0f;
+  DAT_1099b12c = DAT_1099b0f4;
   DAT_1099b0f4 = param_1;
-  DAT_1099b130_as_s32 = param_1;
-  if ((!NAN(fVar3) && !NAN(fVar1)) && fVar3 < fVar1 != (fVar3 == fVar1)) {
+  DAT_1099b130 = param_1;
+  if (fVar3 <= fVar1) {
     orig::FUN_1028f4a0(0x1099b13c,(&DAT_1099b1b4)[param_1]);
     iVar2 = 0;
     do {
@@ -64,22 +64,65 @@ XI_API void __cdecl fn_10273490(int param_1, int param_2, int param_3)
   }
   if (param_2 != 0) {
     iVar1 = param_1 * 0x34;
-    (&DAT_1099b1e4)[param_1 * 0xd] = *(undefined4 *)(param_2 + 0x14);
-    (&DAT_1099b1e8)[param_1 * 0xd] = *(undefined4 *)(param_2 + 0x18);
-    (&DAT_1099b1ec)[param_1 * 0xd] = *(undefined4 *)(param_2 + 0x1c);
-    *(undefined4 *)(((char *)&DAT_1099b1f0) + iVar1) = *(undefined4 *)(param_2 + 0x20);
-    *(undefined4 *)(((char *)&DAT_1099b1f4) + iVar1) = *(undefined4 *)(param_2 + 0x24);
-    *(undefined4 *)(((char *)&DAT_1099b1f8) + iVar1) = *(undefined4 *)(param_2 + 0x28);
-    *(undefined4 *)(((char *)&DAT_1099b1fc) + iVar1) = *(undefined4 *)(param_2 + 0x2c);
-    *(undefined4 *)(((char *)&DAT_1099b200) + iVar1) = *(undefined4 *)(param_2 + 0x30);
+    (&DAT_1099b1e4)[param_1 * 0xd] = *(uint32_t *)(param_2 + 0x14);
+    (&DAT_1099b1e8)[param_1 * 0xd] = *(uint32_t *)(param_2 + 0x18);
+    (&DAT_1099b1ec)[param_1 * 0xd] = *(uint32_t *)(param_2 + 0x1c);
+    *(uint32_t *)(((char *)&DAT_1099b1f0) + iVar1) = *(uint32_t *)(param_2 + 0x20);
+    *(uint32_t *)(((char *)&DAT_1099b1f4) + iVar1) = *(uint32_t *)(param_2 + 0x24);
+    *(uint32_t *)(((char *)&DAT_1099b1f8) + iVar1) = *(uint32_t *)(param_2 + 0x28);
+    *(uint32_t *)(((char *)&DAT_1099b1fc) + iVar1) = *(uint32_t *)(param_2 + 0x2c);
+    *(uint32_t *)(((char *)&DAT_1099b200) + iVar1) = *(uint32_t *)(param_2 + 0x30);
   }
   if (param_3 != 0) {
-    orig::M4fSet_v1((undefined4 *)(((char *)&DAT_1099b358) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x1c));
-    orig::FUN_10274650(&DAT_1099b398 + param_1 * 0x1f,(undefined4 *)(param_3 + 0x5c));
-    orig::FUN_1027a700((undefined4 *)(((char *)&DAT_1099b3a4) + param_1 * 0x7c),(undefined4 *)(param_3 + 0x68));
-    (&DAT_1099b3b4)[param_1 * 0x1f] = *(undefined4 *)(param_3 + 0x78);
+    orig::M4fSet_v1((uint32_t *)(((char *)&DAT_1099b358) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x1c));
+    orig::FUN_10274650(&DAT_1099b398 + param_1 * 0x1f,(uint32_t *)(param_3 + 0x5c));
+    orig::FUN_1027a700((uint32_t *)(((char *)&DAT_1099b3a4) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x68));
+    (&DAT_1099b3b4)[param_1 * 0x1f] = *(uint32_t *)(param_3 + 0x78);
     orig::sqxfXformTD_Update(param_3);
   }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10273560  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10273560(int param_1)
+{
+  int iVar1;
+  long double fVar2;
+  int iVar3;
+  long double fVar4;
+  
+  if (DAT_1099b12c != DAT_1099b130) {
+    fVar4 = (long double)param_1 * (long double)xi_k4(0x387BA883ull) + (long double)_DAT_1099b134_as_f32;
+    _DAT_1099b134_as_f32 = (float)fVar4;
+    if (!(fVar4 >= (long double)DAT_1099b138_as_f32)) {
+      iVar3 = DAT_1099b12c * 0x7c;
+      iVar1 = DAT_1099b130 * 0x7c;
+      fVar4 = xi_castbits<long double>(fcos(((long double)_DAT_1099b134_as_f32 / (long double)DAT_1099b138_as_f32) * (long double)3.1415927410125732421875f));
+      fVar4 = (fVar4 + (long double)1.0f) * (long double)0.5f;
+      fVar2 = (float)((long double)1.0f - fVar4);
+      _DAT_1099b31c =
+           (float)(fVar4 * (long double)xi_castbits<float>((&DAT_1099b1e4)[DAT_1099b12c * 0xd]) +
+                  (long double)fVar2 * (long double)xi_castbits<float>((&DAT_1099b1e4)[DAT_1099b130 * 0xd]));
+      _DAT_1099b69c =
+           (float)(fVar4 * (long double)xi_castbits<float>((&DAT_1099b3b4)[DAT_1099b12c * 0x1f]) +
+                  (long double)fVar2 * (long double)xi_castbits<float>((&DAT_1099b3b4)[DAT_1099b130 * 0x1f]));
+      orig::FUN_10274a20((float *)&DAT_1099b680,(float *)(&DAT_1099b398 + DAT_1099b12c * 0x1f),
+                   (float *)(&DAT_1099b398 + DAT_1099b130 * 0x1f),fVar2);
+      orig::FUN_1027b2c0((float *)&DAT_1099b68c,(float *)(((char *)&DAT_1099b3a4) + iVar3),
+                   (float *)(((char *)&DAT_1099b3a4) + iVar1),fVar2);
+      orig::sqxfXformTD_Update(0x1099b624);
+      return;
+    }
+  }
+  orig::FUN_1028f4a0(0x1099b13c,(&DAT_1099b1b4)[DAT_1099b0f4]);
+  iVar3 = 0;
+  do {
+    orig::FUN_1028ec30(0x1099b13c,iVar3,(&DAT_1099b1b4)[DAT_1099b0f4]);
+    iVar3 = iVar3 + 1;
+  } while (iVar3 < 4);
+  _DAT_1099b134_as_f32 = 0.0f;
+  DAT_1099b0d8 = DAT_1099b0d8 & 0xfffffeff;
   return;
 }
 
@@ -98,10 +141,10 @@ XI_API void __cdecl fn_102736D0(undefined4 * param_1)
 XI_API void __cdecl fn_102736E0(undefined4 param_1, int param_2)
 {
   int *piVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
   orig::FUN_10278710(param_1,&DAT_1099b13c,param_2,0xff);
-  orig::FUN_10278e10(param_1,(uint)(param_2 == 2));
+  orig::FUN_10278e10(param_1,(uint32_t)(param_2 == 2));
   orig::FUN_10278b50(param_1,&DAT_1099b13c,param_2,DAT_1099b100,0xff);
   orig::FUN_10272a10(4);
   piVar1 =(int*)(&DAT_1099bb74);

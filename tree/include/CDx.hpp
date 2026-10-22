@@ -13,17 +13,15 @@ public:
     int SetClearColor(int a2);  // 0x10009670
     int EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x100096B0
     bool TestCooperativeLevel();  // 0x10009710
-    static int __cdecl Present();  // 0x10009720
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
     HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
-    int SetDefaultRenderState();  // 0x10009920
     int SetViewport(const void *a2);  // 0x10009DC0
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
+    int PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8);  // 0x10009F20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     static void __thiscall PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A290
-    static undefined4 __thiscall PopRenderTarget(void * self, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4);  // 0x1000A2B0
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
     static void __thiscall DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3);  // 0x1000A4F0
     int DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5);  // 0x1000A5A0
@@ -70,10 +68,7 @@ public:
     uint32_t sceneTargetB;  // +0x198 texture: the second scene target
     uint8_t _pad_19C[0xC];
     uint32_t sceneTargetBDepth;  // +0x1A8 depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget
-    uint8_t _pad_1AC[0x40];
-    uint32_t field_1EC;  // +0x1EC
-    uint32_t field_1F0;  // +0x1F0
-    uint8_t _pad_1F4[0x61C];
+    uint8_t _pad_1AC[0x664];
     uint32_t stereoEye;  // +0x810 0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting
     uint8_t field_814;  // +0x814
     uint8_t _pad_815[0x3];
@@ -157,8 +152,6 @@ static_assert(XI_OFFSETOF(CDx, clearStencil) == 0x170, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetA) == 0x194, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetB) == 0x198, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, sceneTargetBDepth) == 0x1A8, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_1EC) == 0x1EC, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_1F0) == 0x1F0, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoEye) == 0x810, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_814) == 0x814, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_818) == 0x818, "CDx: layout");

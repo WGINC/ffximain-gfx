@@ -37,7 +37,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   param_1[0x4f] = 0;
   param_1[0x51] = 0;
   param_1[0x50] = 0;
-  orig::PackVec4_v1((float *)(param_1 + 0x4b),xi_k4(0x0ull),xi_k4(0x3F800000ull),xi_k4(0x0ull),xi_k4(0x0ull));
+  orig::PackVec4_v1((float *)(param_1 + 0x4b),0.0f,1.0f,0.0f,0.0f);
   param_1[0xb4] = 0;
   orig::FUN_1027ebd0(param_1 + 0x62);
   orig::FUN_1027ebd0(param_1 + 0x82);
@@ -54,8 +54,8 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   param_1[0xb8] = 0;
   param_1[0xb9] = 0;
   param_1[0xba] = 0;
-  orig::FUN_1027eb50((float *)(param_1 + 0xbb),xi_k4(0x3F800000ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x3F800000ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0xBF800000ull),xi_k4(0x0ull),xi_k4(0x0ull),
-               xi_k4(0x0ull),xi_k4(0x0ull));
+  orig::FUN_1027eb50((float *)(param_1 + 0xbb),1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,(-1.0f),0.0f,0.0f,
+               0.0f,0.0f);
   puVar3 = param_1 + 0xcb;
   puVar2 = param_1 + 0x1cb;
   local_4 = 2;
@@ -72,13 +72,13 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   } while (local_4 != 0);
   puVar1[0x1d3] = 0x3f800000;
   puVar1[0x1d4] = 0x3f800000;
-  *(undefined1 *)(puVar1 + 0x1d5) = 0;
-  orig::PackVec4_v1((float *)(puVar1 + 0x1d6),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull));
+  *(uint8_t *)(puVar1 + 0x1d5) = 0;
+  orig::PackVec4_v1((float *)(puVar1 + 0x1d6),0.0f,0.0f,0.0f,0.0f);
   puVar1[0x1da] = 0;
   puVar1[0x1db] = 0;
   puVar1[0x1dc] = 0;
   puVar1[0x1dd] = 0;
-  orig::PackVec4_v1((float *)(puVar1 + 0x1de),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull));
+  orig::PackVec4_v1((float *)(puVar1 + 0x1de),0.0f,0.0f,0.0f,0.0f);
   puVar1[0x1e2] = 0;
   puVar1[0x1e3] = 0;
   pfVar5 = (float *)(puVar1 + 0x1e5);
@@ -87,7 +87,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   do {
     param_1 = (undefined4 *)&DAT_00000008;
     do {
-      orig::FUN_10274670(pfVar5,xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull));
+      orig::FUN_10274670(pfVar5,0.0f,0.0f,0.0f);
       *puVar3 = 0;
       pfVar5 = pfVar5 + 3;
       puVar3 = puVar3 + 1;
@@ -173,8 +173,8 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   puVar1[0x268] = 0;
   puVar1[0x269] = 0x3c23d70a;
   puVar1[0x26a] = 0;
-  orig::PackVec4_v1((float *)(puVar1 + 0x26b),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull));
-  orig::PackVec4_v1((float *)(puVar1 + 0x26f),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull));
+  orig::PackVec4_v1((float *)(puVar1 + 0x26b),0.0f,0.0f,0.0f,0.0f);
+  orig::PackVec4_v1((float *)(puVar1 + 0x26f),0.0f,0.0f,0.0f,0.0f);
   puVar1[0x273] = 0x3d4ccccd;
   puVar1[0x274] = 0;
   puVar1[0x275] = 0;
@@ -232,7 +232,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10284B20  (unit sqgxContext: name sqgxContext_SelectShaderMode)
-// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxShader(int a1, int a2)
 {
   int v2;

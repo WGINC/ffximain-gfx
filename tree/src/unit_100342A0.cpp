@@ -3,21 +3,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100342A0  (unit unit_100342A0: no unit evidence of its own; in the gap between 0x10034270 (CYySkl) and 0x100343C0 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 15 trials, 8 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100342A0(void * self_)
 {
   int iVar1;
   undefined4 *puVar2;
-  uint uVar3;
-  uint uVar4;
+  uint32_t uVar3;
+  uint32_t uVar4;
   
   if (*(undefined4 **)((int)self_ + 4) != (undefined4 *)0x0) {
     iVar1 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
-    uVar4 = (uint)*(ushort *)(iVar1 + 0x32);
+    uVar4 = (uint32_t)*(uint16_t *)(iVar1 + 0x32);
     puVar2 = orig::Mem_AllocObject_v1((uVar4 + 1) * 0x40,2);
     *(undefined4 **)((int)self_ + 8) = puVar2;
     if (puVar2 != (undefined4 *)0x0) {
-      *(uint *)((int)self_ + 0xc) = (int)puVar2 + 0xfU & 0xfffffff0;
+      *(uint32_t *)((int)self_ + 0xc) = (int)puVar2 + 0xfU & 0xfffffff0;
       if (uVar4 != 0) {
         iVar1 = 0;
         uVar3 = uVar4;
@@ -47,29 +47,29 @@ XI_API void __thiscall fn_100342A0(void * self_)
 // GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Skel_BindShared(void * self_)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
-  byte *pbVar3;
+  uint8_t *pbVar3;
   
   if (*(int *)((int)self_ + 4) == 0) {
     return 0;
   }
   if (*(int *)((int)self_ + 8) != 0) {
     if (*(int *)((int)self_ + 0x14) != 0) {
-      g_pSharedSkeleton_as_s32 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self_ + 4));
-      uVar1 = (uint)*(ushort *)(g_pSharedSkeleton_as_s32 + 0x32);
-      g_boneWeightMatrixTable_as_v1 = *(undefined4 *)((int)self_ + 0xc);
+      g_pSharedSkeleton_as_s32 = orig::ResourceHandle_Deref_v1(*(uint32_t **)((int)self_ + 4));
+      uVar1 = (uint32_t)*(uint16_t *)(g_pSharedSkeleton_as_s32 + 0x32);
+      g_boneWeightMatrixTable_as_v1 = *(uint32_t *)((int)self_ + 0xc);
       iVar2 = 0;
       DAT_10462430 = uVar1;
       if (uVar1 != 0) {
         do {
-          pbVar3 = (byte *)(*(int *)((int)self_ + 0x14) + iVar2);
+          pbVar3 = (uint8_t *)(*(int *)((int)self_ + 0x14) + iVar2);
           iVar2 = iVar2 + 1;
           *pbVar3 = *pbVar3 & 0x80;
           (&g_pSharedSkeleton_as_s32)[iVar2] = 1;
         } while (iVar2 < (int)uVar1);
       }
-      DAT_1045f028_as_v0 = *(undefined4 *)((int)self_ + 0x14);
+      DAT_1045f028_as_v0 = *(uint32_t *)((int)self_ + 0x14);
       return 1;
     }
     return 0;

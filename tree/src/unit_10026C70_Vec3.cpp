@@ -29,27 +29,27 @@ XI_API void __cdecl Vec4_Set(float * param_1, float param_2, float param_3, floa
 {
   param_1[1] = param_3;
   param_1[2] = param_4;
-  *param_1 = (float)(float10)param_2;
+  *param_1 = (float)(long double)param_2;
   param_1[3] = param_5;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10026E50  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10026E50(float * param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl fn_10026E50(float * param_1, float param_2, float param_3, float param_4)
 {
-  *param_1 = (float)(float10)param_2;
+  *param_1 = (float)(long double)param_2;
   param_1[1] = param_3;
   param_1[2] = param_4;
-  return;
+  return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x10026E90  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl Vec4_Copy(undefined4 * param_1, undefined4 * param_2)
+XI_API uint64_t __cdecl Vec4_Copy(undefined4 * param_1, undefined4 * param_2)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
+  uint32_t uVar1;
+  uint32_t uVar2;
   
   *param_1 = *param_2;
   param_1[1] = param_2[1];
@@ -57,14 +57,14 @@ XI_API undefined8 __cdecl Vec4_Copy(undefined4 * param_1, undefined4 * param_2)
   param_1[2] = uVar1;
   uVar2 = param_2[3];
   param_1[3] = uVar2;
-  return CONCAT44(uVar1,uVar2);
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)(uVar2)));
 }
 
 // FUNCTION: FFXIMAIN 0x10026EB0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Vec3_Copy(undefined4 * param_1, undefined4 * param_2)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   *param_1 = *param_2;
   param_1[1] = param_2[1];
@@ -77,9 +77,9 @@ XI_API undefined4 __cdecl Vec3_Copy(undefined4 * param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Vec3_AddInPlace(float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_1 + (float10)*param_2);
-  param_1[1] = (float)((float10)param_2[1] + (float10)param_1[1]);
-  param_1[2] = (float)((float10)param_2[2] + (float10)param_1[2]);
+  *param_1 = (float)((long double)*param_1 + (long double)*param_2);
+  param_1[1] = (float)((long double)param_2[1] + (long double)param_1[1]);
+  param_1[2] = (float)((long double)param_2[2] + (long double)param_1[2]);
   return param_1;
 }
 
@@ -87,9 +87,9 @@ XI_API undefined4 __cdecl Vec3_AddInPlace(float * param_1, float * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Vec3_Add_10026FA0(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 + (float10)*param_3);
-  param_1[1] = (float)((float10)param_2[1] + (float10)param_3[1]);
-  param_1[2] = (float)((float10)param_2[2] + (float10)param_3[2]);
+  *param_1 = (float)((long double)*param_2 + (long double)*param_3);
+  param_1[1] = (float)((long double)param_2[1] + (long double)param_3[1]);
+  param_1[2] = (float)((long double)param_2[2] + (long double)param_3[2]);
   return;
 }
 
@@ -97,28 +97,28 @@ XI_API void __cdecl Vec3_Add_10026FA0(float * param_1, float * param_2, float * 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Vec2_Add(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 + (float10)*param_3);
-  param_1[1] = (float)((float10)param_2[1] + (float10)param_3[1]);
+  *param_1 = (float)((long double)*param_2 + (long double)*param_3);
+  param_1[1] = (float)((long double)param_2[1] + (long double)param_3[1]);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100270A0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100270A0(float * param_1, float * param_2)
+XI_API undefined4 __cdecl fn_100270A0(float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_1 - (float10)*param_2);
-  param_1[1] = (float)((float10)param_1[1] - (float10)param_2[1]);
-  param_1[2] = (float)((float10)param_1[2] - (float10)param_2[2]);
-  return;
+  *param_1 = (float)((long double)*param_1 - (long double)*param_2);
+  param_1[1] = (float)((long double)param_1[1] - (long double)param_2[1]);
+  param_1[2] = (float)((long double)param_1[2] - (long double)param_2[2]);
+  return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x10027120  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Vec3_Sub(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 - (float10)*param_3);
-  param_1[1] = (float)((float10)param_2[1] - (float10)param_3[1]);
-  param_1[2] = (float)((float10)param_2[2] - (float10)param_3[2]);
+  *param_1 = (float)((long double)*param_2 - (long double)*param_3);
+  param_1[1] = (float)((long double)param_2[1] - (long double)param_3[1]);
+  param_1[2] = (float)((long double)param_2[2] - (long double)param_3[2]);
   return param_2;
 }
 
@@ -126,9 +126,9 @@ XI_API undefined4 __cdecl Vec3_Sub(float * param_1, float * param_2, float * par
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100272B0(float * param_1, float param_2)
 {
-  *param_1 = (float)((float10)param_2 * (float10)*param_1);
-  param_1[1] = (float)((float10)param_2 * (float10)param_1[1]);
-  param_1[2] = (float)((float10)param_2 * (float10)param_1[2]);
+  *param_1 = (float)((long double)param_2 * (long double)*param_1);
+  param_1[1] = (float)((long double)param_2 * (long double)param_1[1]);
+  param_1[2] = (float)((long double)param_2 * (long double)param_1[2]);
   return;
 }
 
@@ -136,9 +136,9 @@ XI_API void __cdecl fn_100272B0(float * param_1, float param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Vec3_Scale(float * param_1, float * param_2, float param_3)
 {
-  *param_1 = (float)((float10)param_3 * (float10)*param_2);
-  param_1[1] = (float)((float10)param_3 * (float10)param_2[1]);
-  param_1[2] = (float)((float10)param_3 * (float10)param_2[2]);
+  *param_1 = (float)((long double)param_3 * (long double)*param_2);
+  param_1[1] = (float)((long double)param_3 * (long double)param_2[1]);
+  param_1[2] = (float)((long double)param_3 * (long double)param_2[2]);
   return param_2;
 }
 
@@ -146,86 +146,65 @@ XI_API undefined4 __cdecl Vec3_Scale(float * param_1, float * param_2, float par
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Vec3_MulInPlace(float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_1 * (float10)*param_2);
-  param_1[1] = (float)((float10)param_2[1] * (float10)param_1[1]);
-  param_1[2] = (float)((float10)param_2[2] * (float10)param_1[2]);
+  *param_1 = (float)((long double)*param_1 * (long double)*param_2);
+  param_1[1] = (float)((long double)param_2[1] * (long double)param_1[1]);
+  param_1[2] = (float)((long double)param_2[2] * (long double)param_1[2]);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10027340  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10027340(float * param_1, float * param_2, float * param_3)
+XI_API undefined4 __cdecl fn_10027340(float * param_1, float * param_2, float * param_3)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*param_3);
-  param_1[1] = (float)((float10)param_2[1] * (float10)param_3[1]);
-  param_1[2] = (float)((float10)param_2[2] * (float10)param_3[2]);
-  return;
+  *param_1 = (float)((long double)*param_2 * (long double)*param_3);
+  param_1[1] = (float)((long double)param_2[1] * (long double)param_3[1]);
+  param_1[2] = (float)((long double)param_2[2] * (long double)param_3[2]);
+  return param_2;
 }
 
 // FUNCTION: FFXIMAIN 0x10027510  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10027510(float * param_1, undefined4 * param_2)
 {
-  orig::Vec3_Copy_v1(param_1,param_2);
-  orig::FUN_100274b0(param_1);
+  uint32_t xi_eax;
+  
+  xi_eax = orig::Vec3_Copy_v1(param_1,param_2);
+  orig::FUN_100274b0(param_1,xi_eax);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10027550  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10027550(undefined4 * param_1, float * param_2, float * param_3)
+XI_API undefined4 __cdecl fn_10027550(undefined4 * param_1, float * param_2, float * param_3)
 {
+  uint32_t uVar1;
   char xi_frame[12] __attribute__((aligned(4)));
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 4);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 8);
   
-  local_c = (float)((float10)param_3[2] * (float10)param_2[1] -
-                   (float10)param_2[2] * (float10)param_3[1]);
-  local_8 = (float)((float10)param_2[2] * (float10)*param_3 -
-                   (float10)param_3[2] * (float10)*param_2);
-  local_4 = (float)((float10)*param_2 * (float10)param_3[1] -
-                   (float10)*param_3 * (float10)param_2[1]);
-  orig::Vec3_Copy_v1(param_1,&local_c);
-  return;
+  local_c = (float)((long double)param_3[2] * (long double)param_2[1] -
+                   (long double)param_2[2] * (long double)param_3[1]);
+  local_8 = (float)((long double)param_2[2] * (long double)*param_3 -
+                   (long double)param_3[2] * (long double)*param_2);
+  local_4 = (float)((long double)*param_2 * (long double)param_3[1] -
+                   (long double)*param_3 * (long double)param_2[1]);
+  uVar1 = orig::Vec3_Copy_v1(param_1,&local_c);
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10027620  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl fn_10027620(undefined4 param_1, undefined4 param_2)
 {
-  float10 fVar1;
+  long double fVar1;
   
   fVar1 = orig::FUN_100275d0(param_1,param_2);
   return fVar1;
 }
 
-// FUNCTION: FFXIMAIN 0x100276F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
-{
-  alignas(16) unsigned char xi_frame[0x4C4];  // address-taken locals at their original offsets
-  float (&v2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4);
-  _BYTE (&v3)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x44);
-  _BYTE (&v4)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x84);
-
-  orig::fn_10027990((Iostream_init *)v2);
-  orig::fn_10027990((Iostream_init *)v4);
-  orig::fn_10027990((Iostream_init *)v3);
-  orig::CDx_GetTransformCached(g_pCDx, 256, v2);
-  orig::CDx_GetTransformCached(g_pCDx, 2, v4);
-  orig::CDx_GetTransformCached(g_pCDx, 3, v3);
-  orig::Mat4_PostMultiply((int)v2, (int)v4);
-  orig::Mat4_PostMultiply((int)v2, (int)v3);
-  orig::Vec4_Copy(a1, a2);
-  orig::Mat4_TransformCoordInPlace(v2, a1);
-  orig::nullsub_1();
-  orig::nullsub_1();
-  orig::nullsub_1();
-}
-
 // FUNCTION: FFXIMAIN 0x100277E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
 {
   alignas(16) unsigned char xi_frame[0x484];  // address-taken locals at their original offsets
@@ -244,7 +223,7 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10027870  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
 {
   float v2[16];
@@ -256,7 +235,7 @@ XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100278E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API float * __cdecl Gfx_NdcToScreen(float *a1)
 {
   unsigned __int8 *RenderTargetTop;
@@ -271,7 +250,7 @@ XI_API float * __cdecl Gfx_NdcToScreen(float *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10027930  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API float * __cdecl Gfx_ScreenDeltaToNdc(float *a1, float *a2)
 {
   float *result;
@@ -305,22 +284,22 @@ XI_API void __cdecl fn_100279A0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Mat4_SetIdentity(void * self_)
 {
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0x24) = 0;
-  *(undefined4 *)((int)self_ + 0x2c) = 0;
-  *(undefined4 *)((int)self_ + 0x30) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)self_ = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x14) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x28) = 0x3f800000;
-  *(undefined4 *)((int)self_ + 0x3c) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x24) = 0;
+  *(uint32_t *)((int)self_ + 0x2c) = 0;
+  *(uint32_t *)((int)self_ + 0x30) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)self_ = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x14) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x28) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x3c) = 0x3f800000;
   return;
 }
 
@@ -328,25 +307,25 @@ XI_API void __thiscall Mat4_SetIdentity(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_Copy(void * self_, undefined4 * param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  *(undefined4 *)self_ = *param_1;
-  *(undefined4 *)((int)self_ + 4) = param_1[1];
-  *(undefined4 *)((int)self_ + 8) = param_1[2];
-  *(undefined4 *)((int)self_ + 0xc) = param_1[3];
-  *(undefined4 *)((int)self_ + 0x10) = param_1[4];
-  *(undefined4 *)((int)self_ + 0x14) = param_1[5];
-  *(undefined4 *)((int)self_ + 0x18) = param_1[6];
-  *(undefined4 *)((int)self_ + 0x1c) = param_1[7];
-  *(undefined4 *)((int)self_ + 0x20) = param_1[8];
-  *(undefined4 *)((int)self_ + 0x24) = param_1[9];
-  *(undefined4 *)((int)self_ + 0x28) = param_1[10];
-  *(undefined4 *)((int)self_ + 0x2c) = param_1[0xb];
-  *(undefined4 *)((int)self_ + 0x30) = param_1[0xc];
-  *(undefined4 *)((int)self_ + 0x34) = param_1[0xd];
-  *(undefined4 *)((int)self_ + 0x38) = param_1[0xe];
+  *(uint32_t *)self_ = *param_1;
+  *(uint32_t *)((int)self_ + 4) = param_1[1];
+  *(uint32_t *)((int)self_ + 8) = param_1[2];
+  *(uint32_t *)((int)self_ + 0xc) = param_1[3];
+  *(uint32_t *)((int)self_ + 0x10) = param_1[4];
+  *(uint32_t *)((int)self_ + 0x14) = param_1[5];
+  *(uint32_t *)((int)self_ + 0x18) = param_1[6];
+  *(uint32_t *)((int)self_ + 0x1c) = param_1[7];
+  *(uint32_t *)((int)self_ + 0x20) = param_1[8];
+  *(uint32_t *)((int)self_ + 0x24) = param_1[9];
+  *(uint32_t *)((int)self_ + 0x28) = param_1[10];
+  *(uint32_t *)((int)self_ + 0x2c) = param_1[0xb];
+  *(uint32_t *)((int)self_ + 0x30) = param_1[0xc];
+  *(uint32_t *)((int)self_ + 0x34) = param_1[0xd];
+  *(uint32_t *)((int)self_ + 0x38) = param_1[0xe];
   uVar1 = param_1[0xf];
-  *(undefined4 *)((int)self_ + 0x3c) = uVar1;
+  *(uint32_t *)((int)self_ + 0x3c) = uVar1;
   return uVar1;
 }
 
@@ -355,10 +334,10 @@ XI_API undefined4 __thiscall Mat4_Copy(void * self_, undefined4 * param_1)
 XI_API void __thiscall Mat4_PostScale(void * self_, undefined4 * param_1)
 {
   char xi_frame[64] __attribute__((aligned(4)));
-  undefined4  (&local_40)[5] = *reinterpret_cast<undefined4  (*)[5]>(xi_frame + 0);
-  undefined4  &local_2c = *reinterpret_cast<undefined4  *>(xi_frame + 20);
-  undefined4  &local_18 = *reinterpret_cast<undefined4  *>(xi_frame + 40);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 60);
+  uint32_t  (&local_40)[5] = *reinterpret_cast<uint32_t  (*)[5]>(xi_frame + 0);
+  uint32_t  &local_2c = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_18 = *reinterpret_cast<uint32_t  *>(xi_frame + 40);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 60);
   
   orig::Mat4_SetIdentity_v1(local_40);
   local_40[0] = *param_1;
@@ -373,22 +352,22 @@ XI_API void __thiscall Mat4_PostScale(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Mat4_BuildScale(void * self_, undefined4 * param_1)
 {
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0x24) = 0;
-  *(undefined4 *)((int)self_ + 0x2c) = 0;
-  *(undefined4 *)((int)self_ + 0x30) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)self_ = *param_1;
-  *(undefined4 *)((int)self_ + 0x14) = param_1[1];
-  *(undefined4 *)((int)self_ + 0x28) = param_1[2];
-  *(undefined4 *)((int)self_ + 0x3c) = param_1[3];
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x24) = 0;
+  *(uint32_t *)((int)self_ + 0x2c) = 0;
+  *(uint32_t *)((int)self_ + 0x30) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)self_ = *param_1;
+  *(uint32_t *)((int)self_ + 0x14) = param_1[1];
+  *(uint32_t *)((int)self_ + 0x28) = param_1[2];
+  *(uint32_t *)((int)self_ + 0x3c) = param_1[3];
   return;
 }
 
@@ -396,22 +375,22 @@ XI_API void __thiscall Mat4_BuildScale(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Mat4_SetScale(void * self_, undefined4 * param_1)
 {
-  *(undefined4 *)((int)self_ + 4) = 0;
-  *(undefined4 *)((int)self_ + 8) = 0;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
-  *(undefined4 *)((int)self_ + 0x1c) = 0;
-  *(undefined4 *)((int)self_ + 0x20) = 0;
-  *(undefined4 *)((int)self_ + 0x24) = 0;
-  *(undefined4 *)((int)self_ + 0x2c) = 0;
-  *(undefined4 *)((int)self_ + 0x30) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)self_ = *param_1;
-  *(undefined4 *)((int)self_ + 0x14) = param_1[1];
-  *(undefined4 *)((int)self_ + 0x28) = param_1[2];
-  *(undefined4 *)((int)self_ + 0x3c) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x24) = 0;
+  *(uint32_t *)((int)self_ + 0x2c) = 0;
+  *(uint32_t *)((int)self_ + 0x30) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)self_ = *param_1;
+  *(uint32_t *)((int)self_ + 0x14) = param_1[1];
+  *(uint32_t *)((int)self_ + 0x28) = param_1[2];
+  *(uint32_t *)((int)self_ + 0x3c) = 0x3f800000;
   return;
 }
 
@@ -419,10 +398,10 @@ XI_API void __thiscall Mat4_SetScale(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Mat4_SetRow3(void * self_, undefined4 * param_1)
 {
-  *(undefined4 *)((int)self_ + 0x30) = *param_1;
-  *(undefined4 *)((int)self_ + 0x34) = param_1[1];
-  *(undefined4 *)((int)self_ + 0x38) = param_1[2];
-  *(undefined4 *)((int)self_ + 0x3c) = param_1[3];
+  *(uint32_t *)((int)self_ + 0x30) = *param_1;
+  *(uint32_t *)((int)self_ + 0x34) = param_1[1];
+  *(uint32_t *)((int)self_ + 0x38) = param_1[2];
+  *(uint32_t *)((int)self_ + 0x3c) = param_1[3];
   return;
 }
 
@@ -430,12 +409,12 @@ XI_API void __thiscall Mat4_SetRow3(void * self_, undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_SetTranslation(void * self_, undefined4 * param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  *(undefined4 *)((int)self_ + 0x30) = *param_1;
-  *(undefined4 *)((int)self_ + 0x34) = param_1[1];
+  *(uint32_t *)((int)self_ + 0x30) = *param_1;
+  *(uint32_t *)((int)self_ + 0x34) = param_1[1];
   uVar1 = param_1[2];
-  *(undefined4 *)((int)self_ + 0x38) = uVar1;
+  *(uint32_t *)((int)self_ + 0x38) = uVar1;
   return uVar1;
 }
 
@@ -457,25 +436,25 @@ XI_API void __thiscall Mat4_PostMultiply(void * self_, int param_1)
     iVar4 = iVar3 + 1;
     pfVar2 = pfVar1 + 1;
     local_40[iVar3] =
-         (float)((float10)pfVar1[4] * (float10)*(float *)((int)self_ + 0xc) +
-                (float10)*(float *)self_ * (float10)pfVar1[-8] +
-                (float10)*(float *)((int)self_ + 4) * (float10)pfVar1[-4] +
-                (float10)*pfVar1 * (float10)*(float *)((int)self_ + 8));
+         (float)((long double)pfVar1[4] * (long double)*(float *)((int)self_ + 0xc) +
+                (long double)*(float *)self_ * (long double)pfVar1[-8] +
+                (long double)*(float *)((int)self_ + 4) * (long double)pfVar1[-4] +
+                (long double)*pfVar1 * (long double)*(float *)((int)self_ + 8));
     local_40[iVar3 + 4] =
-         (float)((float10)pfVar1[4] * (float10)*(float *)((int)self_ + 0x1c) +
-                (float10)*(float *)((int)self_ + 0x10) * (float10)pfVar1[-8] +
-                (float10)*pfVar1 * (float10)*(float *)((int)self_ + 0x18) +
-                (float10)*(float *)((int)self_ + 0x14) * (float10)pfVar1[-4]);
+         (float)((long double)pfVar1[4] * (long double)*(float *)((int)self_ + 0x1c) +
+                (long double)*(float *)((int)self_ + 0x10) * (long double)pfVar1[-8] +
+                (long double)*pfVar1 * (long double)*(float *)((int)self_ + 0x18) +
+                (long double)*(float *)((int)self_ + 0x14) * (long double)pfVar1[-4]);
     *(float *)((int)local_40 + (-4 - param_1) + (int)pfVar2) =
-         (float)((float10)pfVar1[-4] * (float10)*(float *)((int)self_ + 0x24) +
-                (float10)*(float *)((int)self_ + 0x2c) * (float10)pfVar1[4] +
-                (float10)*(float *)((int)self_ + 0x20) * (float10)pfVar1[-8] +
-                (float10)*pfVar1 * (float10)*(float *)((int)self_ + 0x28));
+         (float)((long double)pfVar1[-4] * (long double)*(float *)((int)self_ + 0x24) +
+                (long double)*(float *)((int)self_ + 0x2c) * (long double)pfVar1[4] +
+                (long double)*(float *)((int)self_ + 0x20) * (long double)pfVar1[-8] +
+                (long double)*pfVar1 * (long double)*(float *)((int)self_ + 0x28));
     *(float *)((int)local_40 + (0xc - param_1) + (int)pfVar2) =
-         (float)((float10)*(float *)((int)self_ + 0x34) * (float10)pfVar1[-4] +
-                (float10)*pfVar1 * (float10)*(float *)((int)self_ + 0x38) +
-                (float10)*(float *)((int)self_ + 0x3c) * (float10)pfVar1[4] +
-                (float10)*(float *)((int)self_ + 0x30) * (float10)pfVar1[-8]);
+         (float)((long double)*(float *)((int)self_ + 0x34) * (long double)pfVar1[-4] +
+                (long double)*pfVar1 * (long double)*(float *)((int)self_ + 0x38) +
+                (long double)*(float *)((int)self_ + 0x3c) * (long double)pfVar1[4] +
+                (long double)*(float *)((int)self_ + 0x30) * (long double)pfVar1[-8]);
     pfVar1 = pfVar2;
     iVar3 = iVar4;
   } while (iVar4 < 4);
@@ -501,23 +480,23 @@ XI_API void __thiscall Mat4_PreMultiply(void * self_, float * param_1)
     iVar4 = iVar3 + 1;
     pfVar2 = pfVar1 + 1;
     local_40[iVar3] =
-         (float)((float10)*param_1 * (float10)pfVar1[-8] +
-                (float10)param_1[3] * (float10)pfVar1[4] +
-                (float10)param_1[1] * (float10)pfVar1[-4] + (float10)*pfVar1 * (float10)param_1[2]);
+         (float)((long double)*param_1 * (long double)pfVar1[-8] +
+                (long double)param_1[3] * (long double)pfVar1[4] +
+                (long double)param_1[1] * (long double)pfVar1[-4] + (long double)*pfVar1 * (long double)param_1[2]);
     local_40[iVar3 + 4] =
-         (float)((float10)pfVar1[-4] * (float10)param_1[5] +
-                (float10)pfVar1[4] * (float10)param_1[7] +
-                (float10)*pfVar1 * (float10)param_1[6] + (float10)param_1[4] * (float10)pfVar1[-8]);
+         (float)((long double)pfVar1[-4] * (long double)param_1[5] +
+                (long double)pfVar1[4] * (long double)param_1[7] +
+                (long double)*pfVar1 * (long double)param_1[6] + (long double)param_1[4] * (long double)pfVar1[-8]);
     *(float *)((int)local_40 + (-4 - (int)self_) + (int)pfVar2) =
-         (float)((float10)param_1[8] * (float10)pfVar1[-8] +
-                (float10)param_1[9] * (float10)pfVar1[-4] +
-                (float10)*pfVar1 * (float10)param_1[10] + (float10)param_1[0xb] * (float10)pfVar1[4]
+         (float)((long double)param_1[8] * (long double)pfVar1[-8] +
+                (long double)param_1[9] * (long double)pfVar1[-4] +
+                (long double)*pfVar1 * (long double)param_1[10] + (long double)param_1[0xb] * (long double)pfVar1[4]
                 );
     *(float *)((int)local_40 + (0xc - (int)self_) + (int)pfVar2) =
-         (float)((float10)param_1[0xc] * (float10)pfVar1[-8] +
-                (float10)*pfVar1 * (float10)param_1[0xe] +
-                (float10)param_1[0xd] * (float10)pfVar1[-4] +
-                (float10)param_1[0xf] * (float10)pfVar1[4]);
+         (float)((long double)param_1[0xc] * (long double)pfVar1[-8] +
+                (long double)*pfVar1 * (long double)param_1[0xe] +
+                (long double)param_1[0xd] * (long double)pfVar1[-4] +
+                (long double)param_1[0xf] * (long double)pfVar1[4]);
     pfVar1 = pfVar2;
     iVar3 = iVar4;
   } while (iVar4 < 4);
@@ -529,7 +508,7 @@ XI_API void __thiscall Mat4_PreMultiply(void * self_, float * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_TransformVec4InPlace(void * self_, undefined4 * param_1)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   
@@ -542,139 +521,139 @@ XI_API undefined4 __thiscall Mat4_TransformVec4InPlace(void * self_, undefined4 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10028170(void * self_, float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*(float *)self_ +
-                    (float10)*(float *)((int)self_ + 0x20) * (float10)param_2[2] +
-                    (float10)*(float *)((int)self_ + 0x10) * (float10)param_2[1] +
-                    (float10)*(float *)((int)self_ + 0x30) * (float10)param_2[3]);
-  param_1[1] = (float)((float10)*(float *)((int)self_ + 0x24) * (float10)param_2[2] +
-                      (float10)*(float *)((int)self_ + 4) * (float10)*param_2 +
-                      (float10)*(float *)((int)self_ + 0x14) * (float10)param_2[1] +
-                      (float10)*(float *)((int)self_ + 0x34) * (float10)param_2[3]);
-  param_1[2] = (float)((float10)*(float *)((int)self_ + 0x28) * (float10)param_2[2] +
-                      (float10)*(float *)((int)self_ + 8) * (float10)*param_2 +
-                      (float10)*(float *)((int)self_ + 0x18) * (float10)param_2[1] +
-                      (float10)*(float *)((int)self_ + 0x38) * (float10)param_2[3]);
-  param_1[3] = (float)((float10)*(float *)((int)self_ + 0x2c) * (float10)param_2[2] +
-                      (float10)*(float *)((int)self_ + 0xc) * (float10)*param_2 +
-                      (float10)*(float *)((int)self_ + 0x1c) * (float10)param_2[1] +
-                      (float10)*(float *)((int)self_ + 0x3c) * (float10)param_2[3]);
+  *param_1 = (float)((long double)*param_2 * (long double)*(float *)self_ +
+                    (long double)*(float *)((int)self_ + 0x20) * (long double)param_2[2] +
+                    (long double)*(float *)((int)self_ + 0x10) * (long double)param_2[1] +
+                    (long double)*(float *)((int)self_ + 0x30) * (long double)param_2[3]);
+  param_1[1] = (float)((long double)*(float *)((int)self_ + 0x24) * (long double)param_2[2] +
+                      (long double)*(float *)((int)self_ + 4) * (long double)*param_2 +
+                      (long double)*(float *)((int)self_ + 0x14) * (long double)param_2[1] +
+                      (long double)*(float *)((int)self_ + 0x34) * (long double)param_2[3]);
+  param_1[2] = (float)((long double)*(float *)((int)self_ + 0x28) * (long double)param_2[2] +
+                      (long double)*(float *)((int)self_ + 8) * (long double)*param_2 +
+                      (long double)*(float *)((int)self_ + 0x18) * (long double)param_2[1] +
+                      (long double)*(float *)((int)self_ + 0x38) * (long double)param_2[3]);
+  param_1[3] = (float)((long double)*(float *)((int)self_ + 0x2c) * (long double)param_2[2] +
+                      (long double)*(float *)((int)self_ + 0xc) * (long double)*param_2 +
+                      (long double)*(float *)((int)self_ + 0x1c) * (long double)param_2[1] +
+                      (long double)*(float *)((int)self_ + 0x3c) * (long double)param_2[3]);
   return param_2;
 }
 
 // FUNCTION: FFXIMAIN 0x10028200  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Mat4_TransformPointInPlace(void * self_, float * param_1)
+XI_API undefined4 __thiscall Mat4_TransformPointInPlace(void * self_, float * param_1)
 {
+  uint64_t uVar1;
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
   orig::Vec3_Copy_v1(local_c,param_1);
-  orig::FUN_10028230(self_,param_1,local_c);
-  return;
+  uVar1 = orig::FUN_10028230(self_,param_1,local_c);
+  return (int)uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10028230  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10028230(void * self_, float * param_1, float * param_2)
+XI_API uint64_t __thiscall fn_10028230(void * self_, float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*(float *)self_ +
-                     (float10)*(float *)((int)self_ + 0x10) * (float10)param_2[1] +
-                     (float10)*(float *)((int)self_ + 0x20) * (float10)param_2[2] +
-                    (float10)*(float *)((int)self_ + 0x30));
-  param_1[1] = (float)((float10)*(float *)((int)self_ + 4) * (float10)*param_2 +
-                       (float10)*(float *)((int)self_ + 0x14) * (float10)param_2[1] +
-                       (float10)*(float *)((int)self_ + 0x24) * (float10)param_2[2] +
-                      (float10)*(float *)((int)self_ + 0x34));
-  param_1[2] = (float)((float10)*(float *)((int)self_ + 8) * (float10)*param_2 +
-                       (float10)*(float *)((int)self_ + 0x18) * (float10)param_2[1] +
-                       (float10)*(float *)((int)self_ + 0x28) * (float10)param_2[2] +
-                      (float10)*(float *)((int)self_ + 0x38));
-  return CONCAT44(param_1,param_2);
+  *param_1 = (float)((long double)*param_2 * (long double)*(float *)self_ +
+                     (long double)*(float *)((int)self_ + 0x10) * (long double)param_2[1] +
+                     (long double)*(float *)((int)self_ + 0x20) * (long double)param_2[2] +
+                    (long double)*(float *)((int)self_ + 0x30));
+  param_1[1] = (float)((long double)*(float *)((int)self_ + 4) * (long double)*param_2 +
+                       (long double)*(float *)((int)self_ + 0x14) * (long double)param_2[1] +
+                       (long double)*(float *)((int)self_ + 0x24) * (long double)param_2[2] +
+                      (long double)*(float *)((int)self_ + 0x34));
+  param_1[2] = (float)((long double)*(float *)((int)self_ + 8) * (long double)*param_2 +
+                       (long double)*(float *)((int)self_ + 0x18) * (long double)param_2[1] +
+                       (long double)*(float *)((int)self_ + 0x28) * (long double)param_2[2] +
+                      (long double)*(float *)((int)self_ + 0x38));
+  return ((uint64_t)(((uint64_t)(uint32_t)(param_1) << 32) | (uint32_t)(param_2)));
 }
 
 // FUNCTION: FFXIMAIN 0x10028290  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Mat4_TransformNormalInPlace(void * self_, undefined4 * param_1)
+XI_API undefined4 __thiscall Mat4_TransformNormalInPlace(void * self_, undefined4 * param_1)
 {
+  uint32_t uVar1;
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
   orig::Vec3_Copy_v1(local_c,param_1);
-  orig::Mat4_TransformNormal_v1(self_,(float *)param_1,local_c);
-  return;
+  uVar1 = orig::Mat4_TransformNormal_v1(self_,(float *)param_1,local_c);
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x100282C0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Mat4_TransformNormal(void * self_, float * param_1, float * param_2)
+XI_API undefined4 __thiscall Mat4_TransformNormal(void * self_, float * param_1, float * param_2)
 {
-  *param_1 = (float)((float10)*param_2 * (float10)*(float *)self_ +
-                    (float10)*(float *)((int)self_ + 0x10) * (float10)param_2[1] +
-                    (float10)*(float *)((int)self_ + 0x20) * (float10)param_2[2]);
-  param_1[1] = (float)((float10)*(float *)((int)self_ + 4) * (float10)*param_2 +
-                      (float10)*(float *)((int)self_ + 0x14) * (float10)param_2[1] +
-                      (float10)*(float *)((int)self_ + 0x24) * (float10)param_2[2]);
-  param_1[2] = (float)((float10)*(float *)((int)self_ + 8) * (float10)*param_2 +
-                      (float10)*(float *)((int)self_ + 0x18) * (float10)param_2[1] +
-                      (float10)*(float *)((int)self_ + 0x28) * (float10)param_2[2]);
-  return;
+  *param_1 = (float)((long double)*param_2 * (long double)*(float *)self_ +
+                    (long double)*(float *)((int)self_ + 0x10) * (long double)param_2[1] +
+                    (long double)*(float *)((int)self_ + 0x20) * (long double)param_2[2]);
+  param_1[1] = (float)((long double)*(float *)((int)self_ + 4) * (long double)*param_2 +
+                      (long double)*(float *)((int)self_ + 0x14) * (long double)param_2[1] +
+                      (long double)*(float *)((int)self_ + 0x24) * (long double)param_2[2]);
+  param_1[2] = (float)((long double)*(float *)((int)self_ + 8) * (long double)*param_2 +
+                      (long double)*(float *)((int)self_ + 0x18) * (long double)param_2[1] +
+                      (long double)*(float *)((int)self_ + 0x28) * (long double)param_2[2]);
+  return param_2;
 }
 
 // FUNCTION: FFXIMAIN 0x10028320  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_TransformCoordInPlace(void * self_, float * param_1)
 {
-  float10 fVar1;
-  undefined4 uVar2;
-  xi_bool bVar3;
-  xi_bool bVar4;
-  float10 fVar5;
-  float10 fVar6;
+  long double fVar1;
+  uint32_t uVar2;
+  uint8_t bVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  long double fVar6;
   
   uVar2 = orig::Mat4_TransformVec4InPlace_v1(self_,param_1);
-  fVar5 = (float10)param_1[3];
-  fVar1 = (float10)xi_k4(0x0ull);
+  fVar5 = (long double)param_1[3];
+  fVar1 = (long double)0.0f;
   bVar3 = NAN(fVar5) || NAN(fVar1);
   bVar4 = bVar3 || fVar5 == fVar1;
   if (bVar3 == bVar4) {
-    fVar6 = (float10)xi_k4(0x3F800000ull) / (float10)param_1[3];
+    fVar6 = (long double)1.0f / (long double)param_1[3];
   }
   else {
-    fVar6 = (float10)xi_k4(0x0ull);
+    fVar6 = (long double)0.0f;
   }
-  *param_1 = (float)(fVar6 * (float10)*param_1);
-  param_1[1] = (float)(fVar6 * (float10)param_1[1]);
-  param_1[2] = (float)(fVar6 * (float10)param_1[2]);
-  return CONCAT22((short)((uint)uVar2 >> 0x10),
-                  (ushort)(bVar3 || fVar5 < fVar1) << 8 | (ushort)bVar3 << 10 | (ushort)bVar4 << 0xe
-                 );
+  *param_1 = (float)(fVar6 * (long double)*param_1);
+  param_1[1] = (float)(fVar6 * (long double)param_1[1]);
+  param_1[2] = (float)(fVar6 * (long double)param_1[2]);
+  return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar2 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar3 || fVar5 < fVar1) << 8 | (uint16_t)bVar3 << 10 | (uint16_t)bVar4 << 0xe)));
 }
 
 // FUNCTION: FFXIMAIN 0x100283C0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
+  uint32_t *puVar1;
+  uint32_t uVar2;
+  uint32_t *puVar3;
   int iVar4;
   int iVar5;
-  undefined4 *puVar6;
+  uint32_t *puVar6;
   char xi_frame[80] __attribute__((aligned(4)));
   float  &local_50 = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_4c = *reinterpret_cast<float  *>(xi_frame + 4);
   float  &local_48 = *reinterpret_cast<float  *>(xi_frame + 8);
-  undefined4  (&local_40)[12] = *reinterpret_cast<undefined4  (*)[12]>(xi_frame + 16);
+  uint32_t  (&local_40)[12] = *reinterpret_cast<uint32_t  (*)[12]>(xi_frame + 16);
   float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 64);
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 68);
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 72);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 76);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 76);
   
-  orig::Vec4_Copy_v1(&local_50,(undefined4 *)((int)self_ + 0x30));
-  *(undefined4 *)((int)self_ + 0x3c) = 0;
-  *(undefined4 *)((int)self_ + 0x38) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = 0;
-  *(undefined4 *)((int)self_ + 0x30) = 0;
+  orig::Vec4_Copy_v1(&local_50,(uint32_t *)((int)self_ + 0x30));
+  *(uint32_t *)((int)self_ + 0x3c) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x30) = 0;
   puVar1 = local_40;
   iVar5 = 4;
   puVar6 = self_;
@@ -692,9 +671,9 @@ XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
     iVar5 = iVar5 + -1;
   } while (iVar5 != 0);
   orig::Mat4_TransformVec4InPlace_v1(local_40,&local_50);
-  local_10 = (float)-(float10)local_50;
-  local_c = (float)-(float10)local_4c;
-  local_8 = (float)-(float10)local_48;
+  local_10 = (float)-(long double)local_50;
+  local_c = (float)-(long double)local_4c;
+  local_8 = (float)-(long double)local_48;
   local_4 = 0x3f800000;
   uVar2 = orig::Mat4_Copy_v1(self_,local_40);
   return uVar2;
@@ -705,7 +684,7 @@ XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
 XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;
-  undefined8 uVar2;
+  uint64_t uVar2;
   
   if ((DAT_10456fa8 & 1) == 0) {
     DAT_10456fa8 = DAT_10456fa8 | 1;
@@ -723,21 +702,21 @@ XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x100286B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl Mem_AllocWithFallback(int param_1, int param_2)
+XI_API uint64_t __cdecl Mem_AllocWithFallback(int param_1, int param_2)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  uint32_t uVar1;
+  uint64_t uVar2;
+  uint64_t uVar3;
   
   uVar2 = orig::Mem_AllocFromArea_v1(param_1,param_2);
   if (((int)uVar2 == 0) && ((param_2 == 2 || (param_2 == 3)))) {
     uVar2 = orig::Mem_AllocFromArea_v1(param_1,0);
-    uVar1 = (undefined4)((ulonglong)uVar2 >> 0x20);
+    uVar1 = (uint32_t)((uint64_t)uVar2 >> 0x20);
     if ((int)uVar2 == 0) {
       uVar3 = orig::_exit_0_v1(0x7d2);
-      uVar1 = (undefined4)((ulonglong)uVar3 >> 0x20);
+      uVar1 = (uint32_t)((uint64_t)uVar3 >> 0x20);
     }
-    uVar2 = CONCAT44(uVar1,(int)uVar2);
+    uVar2 = ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)((int)uVar2)));
   }
   return uVar2;
 }
@@ -775,13 +754,13 @@ XI_API int __cdecl fn_10028730(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10028850  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_10028850(int param_1, int param_2, int param_3)
+XI_API uint64_t __cdecl fn_10028850(int param_1, int param_2, int param_3)
 {
   int iVar1;
-  uint uVar2;
+  uint32_t uVar2;
   int iVar3;
-  undefined4 uVar4;
-  uint uVar5;
+  uint32_t uVar4;
+  uint32_t uVar5;
   
   uVar2 = DAT_104570dc;
   iVar3 = param_1 + DAT_104570dc;
@@ -795,25 +774,25 @@ XI_API undefined8 __cdecl fn_10028850(int param_1, int param_2, int param_3)
          iVar3 < (int)(uVar5 + 0x20)))) {
     param_2 = *(int *)(param_2 + 0x10);
     if (param_2 == param_3) {
-      return (ulonglong)uVar2 << 0x20;
+      return (uint64_t)uVar2 << 0x20;
     }
   }
   iVar1 = *(int *)(param_2 + 8);
   iVar3 = param_2 + uVar5 + 0x20;
-  *(undefined4 *)(param_2 + 0x1c) = DAT_104570e0_as_v0;
-  *(undefined4 *)(param_2 + 4) = 1;
-  *(uint *)(param_2 + 0x18) = *(uint *)(param_2 + 0x18) & 0xfffffffc;
+  *(uint32_t *)(param_2 + 0x1c) = DAT_104570e0_as_v0;
+  *(uint32_t *)(param_2 + 4) = 1;
+  *(uint32_t *)(param_2 + 0x18) = *(uint32_t *)(param_2 + 0x18) & 0xfffffffc;
   if (iVar1 == iVar3) {
     if (*(int *)(param_2 + 0x14) != 0) {
-      uVar4 = *(undefined4 *)(param_2 + 0x10);
-      *(undefined4 *)(*(int *)(param_2 + 0x14) + 0x10) = uVar4;
-      *(undefined4 *)(*(int *)(param_2 + 0x10) + 0x14) = *(undefined4 *)(param_2 + 0x14);
+      uVar4 = *(uint32_t *)(param_2 + 0x10);
+      *(uint32_t *)(*(int *)(param_2 + 0x14) + 0x10) = uVar4;
+      *(uint32_t *)(*(int *)(param_2 + 0x10) + 0x14) = *(uint32_t *)(param_2 + 0x14);
     }
-    return CONCAT44(uVar4,param_2);
+    return ((uint64_t)(((uint64_t)(uint32_t)(uVar4) << 32) | (uint32_t)(param_2)));
   }
-  *(undefined4 *)(iVar3 + 4) = 0;
-  uVar4 = *(undefined4 *)(param_2 + 8);
-  *(undefined4 *)(iVar3 + 8) = uVar4;
+  *(uint32_t *)(iVar3 + 4) = 0;
+  uVar4 = *(uint32_t *)(param_2 + 8);
+  *(uint32_t *)(iVar3 + 8) = uVar4;
   *(int *)(iVar3 + 0xc) = param_2;
   *(int *)(iVar1 + 0xc) = iVar3;
   iVar1 = *(int *)(param_2 + 0x10);
@@ -824,23 +803,23 @@ XI_API undefined8 __cdecl fn_10028850(int param_1, int param_2, int param_3)
   if (iVar1 == 0) {
     *(int *)(iVar3 + 0x14) = param_2;
     *(int *)(param_2 + 0x10) = iVar3;
-    return CONCAT44(uVar4,param_2);
+    return ((uint64_t)(((uint64_t)(uint32_t)(uVar4) << 32) | (uint32_t)(param_2)));
   }
   *(int *)(iVar3 + 0x14) = iVar1;
   *(int *)(iVar1 + 0x10) = iVar3;
-  return CONCAT44(uVar4,param_2);
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar4) << 32) | (uint32_t)(param_2)));
 }
 
 // FUNCTION: FFXIMAIN 0x10028930  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_10028930(int param_1, undefined4 param_2, void * param_3)
+XI_API uint64_t __cdecl fn_10028930(int param_1, undefined4 param_2, void * param_3)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int iVar2;
   int iVar3;
   int iVar4;
   void *pvVar5;
-  uint uVar6;
+  uint32_t uVar6;
   
   uVar1 = DAT_104570dc;
   iVar2 = param_1 + DAT_104570dc;
@@ -851,7 +830,7 @@ XI_API undefined8 __cdecl fn_10028930(int param_1, undefined4 param_2, void * pa
   }
   do {
     if (*(int *)((int)param_3 + 0xc) == 0) {
-      return (ulonglong)uVar1 << 0x20;
+      return (uint64_t)uVar1 << 0x20;
     }
     param_3 = *(void **)((int)param_3 + 0x14);
   } while ((*(int *)((int)param_3 + 4) != 0) ||
@@ -862,19 +841,19 @@ XI_API undefined8 __cdecl fn_10028930(int param_1, undefined4 param_2, void * pa
   *(int *)(iVar4 + -4) = DAT_104570e0;
   if (pvVar5 == param_3) {
     if (*(int *)((int)param_3 + 0x14) != 0) {
-      *(undefined4 *)(*(int *)((int)param_3 + 0x14) + 0x10) = *(undefined4 *)((int)param_3 + 0x10);
+      *(uint32_t *)(*(int *)((int)param_3 + 0x14) + 0x10) = *(uint32_t *)((int)param_3 + 0x10);
       iVar2 = *(int *)((int)param_3 + 0x10);
-      *(undefined4 *)(iVar2 + 0x14) = *(undefined4 *)((int)param_3 + 0x14);
+      *(uint32_t *)(iVar2 + 0x14) = *(uint32_t *)((int)param_3 + 0x14);
     }
-    *(undefined4 *)((int)param_3 + 4) = 1;
-    *(uint *)((int)param_3 + 0x18) = *(uint *)((int)param_3 + 0x18) & 0xfffffffc;
-    return CONCAT44(iVar2,param_3);
+    *(uint32_t *)((int)param_3 + 4) = 1;
+    *(uint32_t *)((int)param_3 + 0x18) = *(uint32_t *)((int)param_3 + 0x18) & 0xfffffffc;
+    return ((uint64_t)(((uint64_t)(uint32_t)(iVar2) << 32) | (uint32_t)(param_3)));
   }
   *(int *)(iVar4 + -0x18) = iVar3;
   *(void **)(iVar4 + -0x14) = param_3;
   *(void **)(iVar3 + 0xc) = pvVar5;
   *(void **)((int)param_3 + 8) = pvVar5;
-  *(undefined4 *)(iVar4 + -0x1c) = 1;
-  *(uint *)(iVar4 + -8) = *(uint *)(iVar4 + -8) & 0xfffffffc;
-  return CONCAT44(iVar2,pvVar5);
+  *(uint32_t *)(iVar4 + -0x1c) = 1;
+  *(uint32_t *)(iVar4 + -8) = *(uint32_t *)(iVar4 + -8) & 0xfffffffc;
+  return ((uint64_t)(((uint64_t)(uint32_t)(iVar2) << 32) | (uint32_t)(pvVar5)));
 }

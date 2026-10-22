@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10082F60  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 * __thiscall fn_10082F60(void * self_)
+XI_API uint8_t * __thiscall fn_10082F60(void * self_)
 {
   char cVar1;
   int iVar2;
@@ -26,7 +26,7 @@ XI_API undefined1 * __thiscall fn_10082F60(void * self_)
     }
     return &DAT_1047d4f8;
   }
-  return (undefined1 *)((int)self_ + 0xb8);
+  return (uint8_t *)((int)self_ + 0xb8);
 }
 
 // FUNCTION: FFXIMAIN 0x10082FA0  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
@@ -34,61 +34,7 @@ XI_API undefined1 * __thiscall fn_10082F60(void * self_)
 XI_API undefined4 __thiscall fn_10082FA0(void * self_)
 {
   if (*(int *)((int)self_ + 0x70) != 0) {
-    return *(undefined4 *)(*(int *)((int)self_ + 0x70) + 0x78);
+    return *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x78);
   }
   return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x10082FB0  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10082FB0(undefined4 * param_1, undefined4 * param_2)
-{
-  float10 fVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 uVar4;
-  xi_bool bVar5;
-  xi_bool bVar6;
-  float10 fVar7;
-  longlong lVar8;
-  char xi_frame[80] __attribute__((aligned(4)));
-  float  &local_50 = *reinterpret_cast<float  *>(xi_frame + 0);
-  float  &local_4c = *reinterpret_cast<float  *>(xi_frame + 4);
-  float  &local_48 = *reinterpret_cast<float  *>(xi_frame + 8);
-  float  &local_44 = *reinterpret_cast<float  *>(xi_frame + 12);
-  undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 16);
-  
-  orig::fn_10027990_v1(local_40);
-  orig::Vec3_Copy_v1(&local_50,param_1);
-  local_44 = xi_k4(0x3F800000ull);
-  puVar2 = (undefined4 *)orig::Camera_GetViewMatrixPtr_v1();
-  orig::Mat4_Copy_v1(local_40,puVar2);
-  orig::Mat4_TransformPointInPlace_v1(local_40,&local_50);
-  if ((!NAN((float10)local_48) && !NAN((float10)xi_k4(0x0ull))) && (float10)xi_k4(0x0ull) <= (float10)local_48) {
-    orig::nullsub_1();
-    return 0;
-  }
-  orig::Vec3_Copy_v1(&local_50,param_1);
-  iVar3 = orig::Camera_GetMatrix154Ptr_v1();
-  orig::Mat4_PostMultiply_v1(local_40,iVar3);
-  uVar4 = orig::Mat4_TransformCoordInPlace_v1(local_40,&local_50);
-  fVar7 = (float10)local_44;
-  fVar1 = (float10)xi_k4(0x3F800000ull);
-  bVar6 = NAN(fVar7) || NAN(fVar1);
-  bVar5 = bVar6 || fVar7 < fVar1;
-  if (bVar5 != bVar6) {
-    orig::nullsub_1();
-    return CONCAT22((short)((uint)uVar4 >> 0x10),
-                    (ushort)bVar5 << 8 | (ushort)bVar6 << 10 |
-                    (ushort)(bVar6 || fVar7 == fVar1) << 0xe);
-  }
-  lVar8 = XI_CALL_ST0(0x10311C2Cu)((float10)local_50 * (float10)xi_k4(0x45800000ull));
-  *param_2 = (int)lVar8;
-  lVar8 = XI_CALL_ST0(0x10311C2Cu)((float10)local_4c * (float10)xi_k4(0x45800000ull));
-  param_2[1] = (int)lVar8;
-  lVar8 = XI_CALL_ST0(0x10311C2Cu)((float10)local_48 * (float10)xi_k4(0x45800000ull));
-  param_2[2] = (int)lVar8;
-  param_2[3] = 0;
-  orig::nullsub_1();
-  return CONCAT31((int3)((ulonglong)lVar8 >> 8),1);
 }

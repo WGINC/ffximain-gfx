@@ -154,22 +154,22 @@ XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, un
 
 // FUNCTION: FFXIMAIN 0x1006F560  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1006F560(undefined8 * param_1, undefined4 * param_2)
+XI_API void __stdcall fn_1006F560(uint64_t * param_1, undefined4 * param_2)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 uVar9;
-  undefined4 uVar10;
-  undefined4 uVar11;
-  undefined4 uVar12;
-  undefined4 uVar13;
-  undefined4 uVar14;
+  uint32_t uVar1;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  uint32_t uVar5;
+  uint32_t uVar6;
+  uint32_t uVar7;
+  uint32_t uVar8;
+  uint32_t uVar9;
+  uint32_t uVar10;
+  uint32_t uVar11;
+  uint32_t uVar12;
+  uint32_t uVar13;
+  uint32_t uVar14;
   
   uVar1 = param_2[1];
   uVar2 = param_2[2];
@@ -185,13 +185,13 @@ XI_API void __stdcall fn_1006F560(undefined8 * param_1, undefined4 * param_2)
   uVar12 = param_2[0xd];
   uVar13 = param_2[0xe];
   uVar14 = param_2[0xf];
-  *param_1 = CONCAT44(param_2[4],*param_2);
-  param_1[2] = CONCAT44(uVar4,uVar1);
-  param_1[4] = CONCAT44(uVar5,uVar2);
-  param_1[6] = CONCAT44(uVar6,uVar3);
-  param_1[1] = CONCAT44(uVar11,uVar7);
-  param_1[3] = CONCAT44(uVar12,uVar8);
-  param_1[5] = CONCAT44(uVar13,uVar9);
-  param_1[7] = CONCAT44(uVar14,uVar10);
+  *param_1 = ((uint64_t)(((uint64_t)(uint32_t)(param_2[4]) << 32) | (uint32_t)(*param_2)));
+  param_1[2] = ((uint64_t)(((uint64_t)(uint32_t)(uVar4) << 32) | (uint32_t)(uVar1)));
+  param_1[4] = ((uint64_t)(((uint64_t)(uint32_t)(uVar5) << 32) | (uint32_t)(uVar2)));
+  param_1[6] = ((uint64_t)(((uint64_t)(uint32_t)(uVar6) << 32) | (uint32_t)(uVar3)));
+  param_1[1] = ((uint64_t)(((uint64_t)(uint32_t)(uVar11) << 32) | (uint32_t)(uVar7)));
+  param_1[3] = ((uint64_t)(((uint64_t)(uint32_t)(uVar12) << 32) | (uint32_t)(uVar8)));
+  param_1[5] = ((uint64_t)(((uint64_t)(uint32_t)(uVar13) << 32) | (uint32_t)(uVar9)));
+  param_1[7] = ((uint64_t)(((uint64_t)(uint32_t)(uVar14) << 32) | (uint32_t)(uVar10)));
   return;
 }

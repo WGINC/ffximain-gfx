@@ -6,28 +6,30 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_102857D0(int param_1)
 {
-  return CONCAT31((int3)((uint)param_1 >> 8),*(undefined1 *)(param_1 + 0x14));
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(param_1 + 0x14))));
 }
 
 // FUNCTION: FFXIMAIN 0x102857E0  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102857E0(int param_1, undefined4 param_2)
+XI_API void __attribute__((cdecl, regparm(1))) fn_102857E0(undefined4 xi_eax, int param_1, undefined4 param_2)
 {
-  *(undefined1 *)(param_1 + 0x14) = (undefined1)param_2;
+  *(uint8_t *)(param_1 + 0x14) = (uint8_t)param_2;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102857F0  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102857F0(int param_1)
+XI_API undefined4 __cdecl fn_102857F0(int param_1)
 {
+  uint32_t uVar1;
+  
   if (*(code **)(param_1 + 0x18) != (code *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x102857ff. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-    (**(code **)(param_1 + 0x18))();
-    return;
+    uVar1 = (**(code **)(param_1 + 0x18))();
+    return uVar1;
   }
-  return;
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10285850  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)

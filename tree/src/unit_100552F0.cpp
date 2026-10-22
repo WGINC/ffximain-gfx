@@ -6,40 +6,40 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100552F0(void * self_)
 {
-  *(undefined4 *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 4) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10055300  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
-// GATE: PASS -- 50 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10055300(void * self_, int param_1, float param_2, float param_3)
 {
   int iVar1;
   undefined4 *puVar2;
   int iVar3;
-  float10 fVar4;
-  float10 fVar5;
+  long double fVar4;
+  long double fVar5;
   
-  fVar4 = (float10)param_3;
+  fVar4 = (long double)param_3;
   *(int *)((int)self_ + 8) = param_1;
   *(float *)((int)self_ + 0xc) = param_2;
   *(float *)((int)self_ + 0x10) = param_3;
   *(float *)((int)self_ + 0x14) =
-       (float)((float10)(param_1 + 1) / (float10)(float)(fVar4 - (float10)param_2));
+       (float)((long double)(param_1 + 1) / (long double)(float)(fVar4 - (long double)param_2));
   puVar2 = orig::Mem_AllocObject_v1((param_1 + 1) * 0x20,4);
   *(undefined4 **)((int)self_ + 4) = puVar2;
   orig::FUN_100554b0(self_);
   iVar1 = *(int *)((int)self_ + 8);
-  param_3 = xi_k4(0x0ull);
+  param_3 = 0.0f;
   if (-1 < iVar1) {
     iVar3 = 0;
     do {
-      fVar5 = (float10)xi_castbits<int>(param_3);
+      fVar5 = (long double)xi_castbits<int>(param_3);
       param_3 = xi_castbits<float>((xi_castbits<int>(param_3) + 1));
       *(float *)(iVar3 + *(int *)((int)self_ + 4)) =
-           (float)(fVar5 * (float10)(float)((float10)(float)(fVar4 - (float10)param_2) /
-                                           (float10)iVar1));
-      *(undefined **)(*(int *)((int)self_ + 4) + -0x18 + iVar3 + 0x20) =(undefined*)(&DAT_100554a0);
+           (float)(fVar5 * (long double)(float)((long double)(float)(fVar4 - (long double)param_2) /
+                                           (long double)iVar1));
+      *(uint8_t **)(*(int *)((int)self_ + 4) + -0x18 + iVar3 + 0x20) =(uint8_t*)(&DAT_100554a0);
       iVar3 = iVar3 + 0x20;
     } while (xi_castbits<int>(param_3) <= *(int *)((int)self_ + 8));
   }
@@ -62,15 +62,15 @@ XI_API void __thiscall fn_100554B0(void * self_)
         iVar2 = *(int *)((int)self_ + 4) + iVar1;
         *(int *)(iVar2 + 4) = iVar2 + -0x20;
         *(int *)(iVar1 + 0x10 + *(int *)((int)self_ + 4)) = iVar1 + 0x20 + *(int *)((int)self_ + 4);
-        *(undefined4 *)(iVar1 + 0x14 + *(int *)((int)self_ + 4)) = 0;
+        *(uint32_t *)(iVar1 + 0x14 + *(int *)((int)self_ + 4)) = 0;
         iVar1 = iVar1 + -0x20;
         iVar3 = iVar3 + -1;
       } while (iVar3 != 0);
     }
     *(int *)(*(int *)((int)self_ + 4) + 0x10) = *(int *)((int)self_ + 4) + 0x20;
-    *(undefined4 *)(*(int *)((int)self_ + 4) + 4) = 0;
-    *(undefined4 *)(*(int *)((int)self_ + 4) + 0x14) = 0;
-    *(undefined4 *)(*(int *)((int)self_ + 8) * 0x20 + 0x10 + *(int *)((int)self_ + 4)) = 0;
+    *(uint32_t *)(*(int *)((int)self_ + 4) + 4) = 0;
+    *(uint32_t *)(*(int *)((int)self_ + 4) + 0x14) = 0;
+    *(uint32_t *)(*(int *)((int)self_ + 8) * 0x20 + 0x10 + *(int *)((int)self_ + 4)) = 0;
   }
   DAT_1047bc90 = 0;
   return;
@@ -87,8 +87,8 @@ XI_API void __thiscall fn_10055520(void * self_)
     iVar2 = *(int *)((int)self_ + 8) * 0x20 + *(int *)((int)self_ + 4);
     while (iVar2 != 0) {
       iVar1 = *(int *)(iVar2 + 4);
-      (**(code **)(iVar2 + 8))(*(undefined4 *)(iVar2 + 0xc));
-      *(undefined4 *)(iVar2 + 0x14) = 0;
+      (**(code **)(iVar2 + 8))(*(uint32_t *)(iVar2 + 0xc));
+      *(uint32_t *)(iVar2 + 0x14) = 0;
       iVar2 = iVar1;
     }
   }

@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10072A70(void * self_)
 {
-  uint *puVar1;
-  uint xi_s3;
-  undefined4 uVar2;
+  uint32_t *puVar1;
+  uint32_t xi_s3;
+  uint32_t uVar2;
   int *piVar3;
   int iVar4;
   void *xi_s2;
-  undefined8 uVar5;
+  uint64_t uVar5;
   char xi_frame[4] __attribute__((aligned(4)));
   void * &pvStack_4 = *reinterpret_cast<void * *>(xi_frame + 0);
   
@@ -33,35 +33,35 @@ XI_API void __thiscall fn_10072A70(void * self_)
       }
       *(void **)((int)self_ + 0x45) = xi_s2;
       if ((xi_s2 != (void *)0x0) &&
-         (iVar4 = orig::FUN_101c4bc0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
+         (iVar4 = orig::FUN_101c4bc0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
         *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
         return;
       }
     }
 LAB_10072c0c:
-    puVar1 = *(uint **)((int)self_ + 0x3d);
+    puVar1 = *(uint32_t **)((int)self_ + 0x3d);
   }
   else {
     if (iVar4 == 1) {
-      uVar2 = orig::FUN_101c4ad0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34));
+      uVar2 = orig::FUN_101c4ad0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34));
       if ((char)uVar2 != '\0') {
         return;
       }
       if (*(char *)((int)self_ + 0x3c) == '\0') {
-        xi_s3 = *(uint *)(*(int *)((int)self_ + 0x45) + 4);
+        xi_s3 = *(uint32_t *)(*(int *)((int)self_ + 0x45) + 4);
         if (0 < (int)xi_s3) {
           uVar5 = orig::Allocator_Generic_v1(xi_s3);
           iVar4 = (int)uVar5;
           *(int *)((int)self_ + 0x38) = iVar4;
           if ((iVar4 != 0) &&
-             (iVar4 = orig::FUN_101c46d0(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),iVar4,xi_s3,0),
+             (iVar4 = orig::FUN_101c46d0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),iVar4,xi_s3,0),
              -1 < iVar4)) {
             *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
             return;
           }
         }
-        if (*(uint **)((int)self_ + 0x3d) != (uint *)0x0) {
-          orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint **)((int)self_ + 0x3d));
+        if (*(uint32_t **)((int)self_ + 0x3d) != (uint32_t *)0x0) {
+          orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self_ + 0x3d));
         }
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
         return;
@@ -69,32 +69,32 @@ LAB_10072c0c:
       goto LAB_10072c0c;
     }
     if (iVar4 == 2) {
-      uVar2 = orig::FUN_101c4a10(g_pFileMng_as_v1,*(undefined4 *)((int)self_ + 0x34),0,0);
+      uVar2 = orig::FUN_101c4a10(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),0,0);
       if ((char)uVar2 != '\0') {
         return;
       }
       if (*(char *)((int)self_ + 0x3c) != '\0') goto LAB_10072c0c;
       if (*(int *)((int)self_ + 0x38) != 0) {
-        orig::FUN_10074280(*(undefined4 *)((int)self_ + 0x34));
+        orig::FUN_10074280(*(uint32_t *)((int)self_ + 0x34));
         piVar3 = (int *)orig::MeshResourceMng_ResolveTree
                                   (g_pMeshResourceMng_as_v1,(int *)&pvStack_4,*(void **)((int)self_ + 0x38)
-                                   ,*(undefined4 **)((int)self_ + 0x3d));
+                                   ,*(uint32_t **)((int)self_ + 0x3d));
         if (((int *)*piVar3 != (int *)0x0) && (iVar4 = *(int *)*piVar3, iVar4 != 0)) {
-          *(byte *)(iVar4 + 0x1a) = *(byte *)(iVar4 + 0x1a) | 1;
-          *(undefined4 *)(iVar4 + 0x34) = *(undefined4 *)((int)self_ + 0x34);
+          *(uint8_t *)(iVar4 + 0x1a) = *(uint8_t *)(iVar4 + 0x1a) | 1;
+          *(uint32_t *)(iVar4 + 0x34) = *(uint32_t *)((int)self_ + 0x34);
           ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
           return;
         }
         goto LAB_10072c21;
       }
       orig::nullsub_13_v1(&DAT_10354658);
-      puVar1 = *(uint **)((int)self_ + 0x3d);
+      puVar1 = *(uint32_t **)((int)self_ + 0x3d);
     }
     else {
-      puVar1 = *(uint **)((int)self_ + 0x3d);
+      puVar1 = *(uint32_t **)((int)self_ + 0x3d);
     }
   }
-  if (puVar1 != (uint *)0x0) {
+  if (puVar1 != (uint32_t *)0x0) {
     orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,puVar1);
   }
 LAB_10072c21:
@@ -104,20 +104,20 @@ LAB_10072c21:
 
 // FUNCTION: FFXIMAIN 0x10072C30  (unit unit_10072A50: no unit evidence of its own; in the gap between 0x10072A30 (CMoTask_VT_1032C908) and 0x10072D00 (CMoResourceMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10072C30(void * self_, undefined4 * param_1, undefined4 param_2)
+XI_API uint64_t __thiscall fn_10072C30(void * self_, undefined4 * param_1, undefined4 param_2)
 {
-  undefined4 uVar1;
-  undefined8 uVar2;
+  uint32_t uVar1;
+  uint64_t uVar2;
   
-  *(undefined1 *)((int)self_ + 0x3c) = 0;
-  *(undefined4 *)((int)self_ + 0x41) = 0;
-  *(undefined4 *)((int)self_ + 0x34) = param_2;
-  *(undefined4 *)((int)self_ + 0x18) = param_2;
-  *(undefined4 *)((int)self_ + 0x1c) = 0x4d727400;
+  *(uint8_t *)((int)self_ + 0x3c) = 0;
+  *(uint32_t *)((int)self_ + 0x41) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = param_2;
+  *(uint32_t *)((int)self_ + 0x18) = param_2;
+  *(uint32_t *)((int)self_ + 0x1c) = 0x4d727400;
   orig::CMoTask_RegisterWithMng_v1(0);
   uVar2 = orig::FUN_10074110(g_pMeshResourceMng_as_v1,&param_2);
-  uVar1 = *(undefined4 *)uVar2;
-  *(undefined4 *)((int)self_ + 0x3d) = uVar1;
+  uVar1 = *(uint32_t *)uVar2;
+  *(uint32_t *)((int)self_ + 0x3d) = uVar1;
   *param_1 = uVar1;
-  return CONCAT44((int)((ulonglong)uVar2 >> 0x20),param_1);
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar2 >> 0x20)) << 32) | (uint32_t)(param_1)));
 }

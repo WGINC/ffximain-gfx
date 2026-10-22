@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006D380  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C298::vf007(float *a1, float a2)
 {
   *a1 = a2 * *a1;
@@ -14,7 +14,7 @@ float * CMoProcessor_VT_1032C298::vf007(float *a1, float a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006F5B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
 double CMoProcessor_VT_1032C298::vf014(float *a1, float *a2)
 {
   return a1[2] * a2[2] + a1[1] * a2[1] + *a1 * *a2;
@@ -54,14 +54,83 @@ XI_API float * __stdcall fn_1006F800(float * param_1, float * param_2, float * p
 }
 
 // FUNCTION: FFXIMAIN 0x1006FA30  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C298::vf021(float *a1, float *a2, float *a3, float a4)
 {
   return orig::CMoProcessor_VT_1032C368_vf021(a1, a2, a3, a4);
 }
 
+// FUNCTION: FFXIMAIN 0x1006FAE0  (unit CMoProcessor_VT_1032C298: between 0x1006FA30 (class model places it in CMoProcessor_VT_1032C298) and 0x10070020 (class model places it in CMoProcessor_VT_1032C298), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1006FAE0(void * self_, undefined4 param_1, float param_2, float param_3, float param_4)
+{
+  int iVar1;
+  uint32_t a2;
+  long double fVar2;
+  int a3;
+  
+  fVar2 = xi_castbits<long double>(fsin((long double)param_2));
+  a3 = (int)self_ + 0x850;
+  *(float *)((int)self_ + 0x868) = (float)fVar2;
+  *(float *)((int)self_ + 0x874) = (float)-fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_2));
+  *(float *)((int)self_ + 0x878) = (float)fVar2;
+  *(float *)((int)self_ + 0x864) = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_3));
+  *(float *)((int)self_ + 0x8b8) = (float)fVar2;
+  *(float *)((int)self_ + 0x890) = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fsin((long double)param_3));
+  *(float *)((int)self_ + 0x8b0) = (float)fVar2;
+  *(float *)((int)self_ + 0x898) = (float)-fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_4));
+  *(float *)((int)self_ + 0x8e4) = (float)fVar2;
+  *(float *)((int)self_ + 0x8d0) = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fsin((long double)param_4));
+  *(float *)((int)self_ + 0x8d4) = (float)fVar2;
+  *(float *)((int)self_ + 0x8e0) = (float)-fVar2;
+  iVar1 = *(int *)self_;
+  a2 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))
+                 ))((void *)(self_),param_1,(float *)((int)self_ + 0x8d0),(float *)((int)self_ + 0x890));
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))))((void *)(self_),param_1,a2,a3);
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x1006FC40  (unit CMoProcessor_VT_1032C298: between 0x1006FA30 (class model places it in CMoProcessor_VT_1032C298) and 0x10070020 (class model places it in CMoProcessor_VT_1032C298), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1006FC40(void * self_, undefined4 param_1, float param_2, float param_3, float param_4)
+{
+  int iVar1;
+  uint32_t a2;
+  long double fVar2;
+  float *a3;
+  
+  fVar2 = xi_castbits<long double>(fsin((long double)param_2));
+  a3 = (float *)((int)self_ + 0x8d0);
+  *(float *)((int)self_ + 0x868) = (float)fVar2;
+  *(float *)((int)self_ + 0x874) = (float)-fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_2));
+  *(float *)((int)self_ + 0x878) = (float)fVar2;
+  *(float *)((int)self_ + 0x864) = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_3));
+  *(float *)((int)self_ + 0x8b8) = (float)fVar2;
+  *(float *)((int)self_ + 0x890) = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fsin((long double)param_3));
+  *(float *)((int)self_ + 0x8b0) = (float)fVar2;
+  *(float *)((int)self_ + 0x898) = (float)-fVar2;
+  fVar2 = xi_castbits<long double>(fcos((long double)param_4));
+  *(float *)((int)self_ + 0x8e4) = (float)fVar2;
+  *a3 = (float)fVar2;
+  fVar2 = xi_castbits<long double>(fsin((long double)param_4));
+  *(float *)((int)self_ + 0x8d4) = (float)fVar2;
+  *(float *)((int)self_ + 0x8e0) = (float)-fVar2;
+  iVar1 = *(int *)self_;
+  a2 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))))((void *)(self_),param_1,(int)self_ + 0x850,(float *)((int)self_ + 0x890));
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))))((void *)(self_),param_1,a2,a3);
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x10070020  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CMoProcessor * CMoProcessor_VT_1032C298::vf035(float *a2, float *a3, int a4, int a5, int a6, float a7, float a8)
 {
   float * self = reinterpret_cast<float *>(this);  // byte-exact view for the rest
@@ -69,7 +138,7 @@ CMoProcessor * CMoProcessor_VT_1032C298::vf035(float *a2, float *a3, int a4, int
 }
 
 // FUNCTION: FFXIMAIN 0x10070040  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CMoProcessor * CMoProcessor_VT_1032C298::vf036(float *a1, float *a2, int a3, int a4, const void *a5)
 {
   return orig::CMoProcessor_CalcScreenBounds(a1, a2, a3, a4, a5);

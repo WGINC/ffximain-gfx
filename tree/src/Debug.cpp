@@ -14,24 +14,24 @@ XI_API void __thiscall DebugOverlay_Draw(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10003660(void * self_)
 {
-  *(undefined ***)self_ = &PTR_FUN_10329660;
-  *(undefined4 *)((int)self_ + 0xc) = 0;
-  *(undefined4 *)((int)self_ + 0x10) = 0;
-  *(undefined4 *)((int)self_ + 0x14) = 0;
-  *(undefined4 *)((int)self_ + 0x18) = 0;
+  *(uint8_t ***)self_ = &PTR_FUN_10329660;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10003710  (unit Debug: between 0x10003650 (name DebugOverlay_Draw) and 0x100037D0 (asserts Debug.cpp), both within 4 KB)
-// GATE: PASS -- 50 trials, 43 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10003710(void * self_)
 {
   int iVar1;
-  uint uVar2;
-  undefined4 *puVar3;
-  undefined8 uVar4;
+  uint32_t uVar2;
+  uint32_t *puVar3;
+  uint64_t uVar4;
   char xi_frame[8] __attribute__((aligned(4)));
-  uint  (&local_8)[2] = *reinterpret_cast<uint  (*)[2]>(xi_frame + 0);
+  uint32_t  (&local_8)[2] = *reinterpret_cast<uint32_t  (*)[2]>(xi_frame + 0);
   
   if (*(char *)((int)self_ + 4) != '\0') {
     if (*(int *)((int)self_ + 8) == 0) {
@@ -43,7 +43,7 @@ XI_API void __thiscall fn_10003710(void * self_)
       *(int *)((int)self_ + 0x14) = (int)uVar4;
       uVar4 = orig::Allocator_Generic_v1(0x2400);
       *(int *)((int)self_ + 0x18) = (int)uVar4;
-      puVar3 = *(undefined4 **)((int)self_ + 0x14);
+      puVar3 = *(uint32_t **)((int)self_ + 0x14);
       for (iVar1 = 0x90000; iVar1 != 0; iVar1 = iVar1 + -1) {
         *puVar3 = 0;
         puVar3 = puVar3 + 1;
@@ -52,7 +52,7 @@ XI_API void __thiscall fn_10003710(void * self_)
       do {
         local_8[1] = 0xffffffff;
         local_8[0] = uVar2;
-        orig::FUN_100037d0(self_,local_8,xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),xi_k4(0x0ull),&DAT_1034f6bc,0x80808080);
+        orig::FUN_100037d0(self_,local_8,0.0f,0.0f,0.0f,0.0f,&DAT_1034f6bc,0x80808080,local_8);
         uVar2 = uVar2 + 1;
       } while ((int)uVar2 < 0x900);
       *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + 1;
@@ -66,35 +66,8 @@ XI_API void __thiscall fn_10003710(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100037D0  (unit Debug: asserts Debug.cpp)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100037D0(void * self_, uint32_t * param_1, float param_2, float param_3, float param_4, float param_5, char * param_6, undefined4 param_7)
-{
-  uint uVar1;
-  char *_Dest;
-  
-  if (*(int *)((int)self_ + 0xc) != 0) {
-    uVar1 = *param_1;
-    if (0x900 < uVar1) {
-      orig::nullsub_13_v4(aErrorSSD,s_D__build0001_FFXi_Win_Main_Debug_1034f788,0x92,uVar1);
-      return;
-    }
-    *(uint *)(*(int *)((int)self_ + 0xc) + uVar1 * 8) = uVar1;
-    *(uint *)(*(int *)((int)self_ + 0xc) + 4 + *param_1 * 8) = param_1[1];
-    *(float *)(*param_1 * 0x10 + *(int *)((int)self_ + 0x10)) = (float)(float10)param_2;
-    *(float *)(*param_1 * 0x10 + 4 + *(int *)((int)self_ + 0x10)) = (float)(float10)param_3;
-    *(float *)(*param_1 * 0x10 + 8 + *(int *)((int)self_ + 0x10)) = (float)(float10)param_4;
-    *(float *)(*param_1 * 0x10 + 0xc + *(int *)((int)self_ + 0x10)) = (float)(float10)param_5;
-    _Dest = (char *)(*param_1 * 0x400 + *(int *)((int)self_ + 0x14));
-    orig::_strncpy_v1(_Dest,param_6,0x400);
-    _Dest[0x3ff] = '\0';
-    *(undefined4 *)(*(int *)((int)self_ + 0x18) + *param_1 * 4) = param_7;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10003B60  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 42 returned normally, 1726 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 42, town PASS 42, town2 PASS 42, combat PASS 42, zonetoinn PASS 42
+// GATE: PASS -- 100 trials, 42 returned normally, 1726 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 {
   int v1;
@@ -137,7 +110,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 292 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 292 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
 {
   int v3;

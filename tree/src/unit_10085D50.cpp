@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10085D50(void * self_, int param_1)
 {
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)((int)self_ + 0x68);
+  *(uint32_t *)(param_1 + 0x2c) = *(uint32_t *)((int)self_ + 0x68);
   *(int *)((int)self_ + 0x68) = param_1;
   return;
 }
@@ -15,7 +15,7 @@ XI_API void __thiscall fn_10085D50(void * self_, int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10085D60(void * self_, int param_1)
 {
-  *(undefined4 *)(param_1 + 0x30) = *(undefined4 *)((int)self_ + 0x6c);
+  *(uint32_t *)(param_1 + 0x30) = *(uint32_t *)((int)self_ + 0x6c);
   *(int *)((int)self_ + 0x6c) = param_1;
   return param_1;
 }

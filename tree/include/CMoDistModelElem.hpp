@@ -7,7 +7,6 @@ class XI_API CMoDistModelElem {
 public:
     int DrawMesh(int a1, int a2, int a3, int a4);  // 0x10040670
     static char ** __cdecl GetRuntimeClass();  // 0x100431A0
-    void BuildDistortedMesh();  // 0x10043320
     BOOL vf012(int a1);  // 0x10052F40
     int set_field_194(int a2);  // 0x10052F50
     int * ScalarDeletingDtor(char a2);  // 0x10052F60
@@ -19,11 +18,7 @@ public:
     uint8_t field_34;  // +0x34
     uint8_t field_35;  // +0x35
     uint16_t field_36;  // +0x36
-    uint8_t _pad_38[0xC4];
-    uint8_t field_FC;  // +0xFC
-    uint8_t _pad_FD[0x7C];
-    uint8_t field_179;  // +0x179
-    uint8_t _pad_17A[0x1E];
+    uint8_t _pad_38[0x160];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoDistModelElem) == 0x198, "CMoDistModelElem: sizeof");
@@ -31,5 +26,3 @@ static_assert(XI_OFFSETOF(CMoDistModelElem, field_32) == 0x32, "CMoDistModelElem
 static_assert(XI_OFFSETOF(CMoDistModelElem, field_34) == 0x34, "CMoDistModelElem: layout");
 static_assert(XI_OFFSETOF(CMoDistModelElem, field_35) == 0x35, "CMoDistModelElem: layout");
 static_assert(XI_OFFSETOF(CMoDistModelElem, field_36) == 0x36, "CMoDistModelElem: layout");
-static_assert(XI_OFFSETOF(CMoDistModelElem, field_FC) == 0xFC, "CMoDistModelElem: layout");
-static_assert(XI_OFFSETOF(CMoDistModelElem, field_179) == 0x179, "CMoDistModelElem: layout");

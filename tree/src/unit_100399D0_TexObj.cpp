@@ -14,14 +14,14 @@ XI_API void __thiscall fn_100399D0(void * self_)
     piVar1 = *(int **)((int)self_ + 0x40);
     if (piVar1 != (int *)0x0) {
       ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
-      *(undefined4 *)((int)self_ + 0x40) = 0;
+      *(uint32_t *)((int)self_ + 0x40) = 0;
     }
     piVar1 = *(int **)((int)self_ + 0x44);
     if (piVar1 != (int *)0x0) {
       ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
-      *(undefined4 *)((int)self_ + 0x44) = 0;
+      *(uint32_t *)((int)self_ + 0x44) = 0;
     }
-    *(undefined4 *)((int)self_ + 0x38) = 0;
+    *(uint32_t *)((int)self_ + 0x38) = 0;
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
   }
   return;
@@ -29,15 +29,15 @@ XI_API void __thiscall fn_100399D0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10039A30  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall TexObj_CreateAndUpload(void * self_)
+XI_API uint8_t __thiscall TexObj_CreateAndUpload(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::TexObj_Create(self_);
   if ((char)uVar1 == '\0') {
     return 0;
   }
-  *(undefined4 *)((int)self_ + 0x3c) = 3;
+  *(uint32_t *)((int)self_ + 0x3c) = 3;
   if (*(void **)((int)self_ + 8) != (void *)0x0) {
     orig::FUN_10071f60(*(void **)((int)self_ + 8));
   }
@@ -46,20 +46,20 @@ XI_API undefined1 __thiscall TexObj_CreateAndUpload(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10039A60  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 __thiscall TexObj_Reupload(void * self_)
+XI_API uint8_t __thiscall TexObj_Reupload(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   uVar1 = orig::TexObj_Upload_v1(self_);
   if ((char)uVar1 == '\0') {
     return 0;
   }
-  *(undefined4 *)((int)self_ + 0x3c) = 3;
+  *(uint32_t *)((int)self_ + 0x3c) = 3;
   return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x10039A80  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 65 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65, town PASS 63, town2 PASS 63, combat PASS 63, zonetoinn PASS 63
+// GATE: PASS -- 100 trials, 65 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall TexObj_Create(int self_)
 {
   unsigned __int16 v2;
@@ -267,7 +267,7 @@ LABEL_58:
 }
 
 // FUNCTION: FFXIMAIN 0x10039E50  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 5 returned normally, 24 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 5, town PASS 4, town2 PASS 4, combat PASS 4, zonetoinn PASS 4
+// GATE: PASS -- 100 trials, 11 returned normally, 47 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexObj_Upload(void *self_)
 {
   int v1;

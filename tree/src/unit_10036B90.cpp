@@ -2,47 +2,68 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10036B90  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
+{
+  uint32_t xi_entry_eax = 0;
+  int iVar1;
+  
+  iVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_104638f5)));
+  DAT_10463909 = 1;
+  if (DAT_104638f5 != '\0') {
+    if (DAT_1046393c != 0) {
+      orig::FUN_10246000(param_1,*(uint32_t *)((int)self_ + 0x38));
+    }
+    iVar1 = *(int *)((int)self_ + 0x38);
+    if ((iVar1 == 0x8bf) || (iVar1 == 0x80f)) {
+      DAT_104638f4 = 0;
+    }
+  }
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10036F00  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10036F00(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API uint64_t __thiscall fn_10036F00(void * self_, undefined4 param_1, undefined4 param_2)
 {
-  undefined8 uVar1;
+  uint64_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   
-  local_10[2] = xi_k4(0x0ull);
-  local_10[0] = (float)(float10)(int)(short)param_1;
-  local_10[1] = xi_k4(0x0ull);
-  local_10[3] = xi_k4(0x0ull);
+  local_10[2] = 0.0f;
+  local_10[0] = (float)(long double)(int)(short)param_1;
+  local_10[1] = 0.0f;
+  local_10[3] = 0.0f;
   uVar1 = orig::FUN_10036f50(self_,local_10,param_2);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10037020  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 37 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10037020(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
-  int iVar1;
-  undefined8 uVar2;
+  int xi_eax;
+  uint64_t uVar1;
   
-  uVar2 = orig::Mem_AllocWithFallback_v1(0x2ed,3);
-  if ((void *)uVar2 != (void *)0x0) {
-    iVar1 = orig::FUN_100369f0((void *)uVar2);
-    if (iVar1 != 0) {
-      orig::CMoResource_AddRefChain_v1(self_);
-      *(undefined4 *)(iVar1 + 0x104) = *(undefined4 *)((int)self_ + 0x14);
-      *(undefined4 *)(iVar1 + 0x54) = *param_1;
-      *(undefined4 *)(iVar1 + 0x58) = param_1[1];
-      *(undefined4 *)(iVar1 + 0x5c) = param_1[2];
-      *(undefined4 *)(iVar1 + 0x60) = param_1[3];
-      *(undefined4 *)(iVar1 + 0x1b0) = param_2;
-      *(undefined4 *)(iVar1 + 0x1b4) = param_3;
-      *(undefined4 *)(iVar1 + 0x1b8) = param_4;
-      *(undefined4 *)(iVar1 + 0x1d0) = param_5;
-      *(undefined4 *)(iVar1 + 0x1d4) = param_6;
-      *(undefined4 *)(iVar1 + 0x1d8) = param_7;
-      *(undefined4 *)(iVar1 + 0x1dc) = 0;
-      *(undefined2 *)(iVar1 + 0x1be) = (undefined2)param_8;
+  uVar1 = orig::Mem_AllocWithFallback_v1(0x2ed,3);
+  if ((void *)uVar1 != (void *)0x0) {
+    xi_eax = orig::FUN_100369f0((void *)uVar1);
+    if (xi_eax != 0) {
+      orig::CMoResource_AddRefChain_v1(self_,xi_eax);
+      *(uint32_t *)(xi_eax + 0x104) = *(uint32_t *)((int)self_ + 0x14);
+      *(uint32_t *)(xi_eax + 0x54) = *param_1;
+      *(uint32_t *)(xi_eax + 0x58) = param_1[1];
+      *(uint32_t *)(xi_eax + 0x5c) = param_1[2];
+      *(uint32_t *)(xi_eax + 0x60) = param_1[3];
+      *(uint32_t *)(xi_eax + 0x1b0) = param_2;
+      *(uint32_t *)(xi_eax + 0x1b4) = param_3;
+      *(uint32_t *)(xi_eax + 0x1b8) = param_4;
+      *(uint32_t *)(xi_eax + 0x1d0) = param_5;
+      *(uint32_t *)(xi_eax + 0x1d4) = param_6;
+      *(uint32_t *)(xi_eax + 0x1d8) = param_7;
+      *(uint32_t *)(xi_eax + 0x1dc) = 0;
+      *(uint16_t *)(xi_eax + 0x1be) = (uint16_t)param_8;
     }
   }
   return;

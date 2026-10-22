@@ -6,9 +6,9 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
 {
-  uint uVar1;
+  uint32_t uVar1;
   
-  if ((param_1 == (uint *)0x0) || ((*param_1 & 4) == 0)) {
+  if ((param_1 == (uint32_t *)0x0) || ((*param_1 & 4) == 0)) {
     uVar1 = param_1[6];
     if ((uVar1 != 0) || ((param_1[7] != 0 || (param_1[8] != 0)))) {
       param_1[2] = 0xffffffff;

@@ -30,7 +30,7 @@ XI_API void __cdecl fn_102A9550(undefined4 * param_1)
   do {
     puVar2[-0xf] = 0;
     *puVar2 = 0;
-    *(undefined1 *)((int)param_1 + iVar1 + 0x48) = 0;
+    *(uint8_t *)((int)param_1 + iVar1 + 0x48) = 0;
     iVar1 = iVar1 + 1;
     puVar2 = puVar2 + 1;
   } while (iVar1 < 0xc);
@@ -38,10 +38,10 @@ XI_API void __cdecl fn_102A9550(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9EF0  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
-// GATE: PASS -- 34 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A9EF0(int param_1)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   
   if (*(int *)(param_1 + 0x58) == 0) {
@@ -49,7 +49,7 @@ XI_API void __cdecl fn_102A9EF0(int param_1)
   }
   iVar2 = 0;
   if (0 < *(int *)(param_1 + 0x14)) {
-    puVar1 = (undefined4 *)(*(int *)(param_1 + 0x58) + 8);
+    puVar1 = (uint32_t *)(*(int *)(param_1 + 0x58) + 8);
     do {
       puVar1[-2] = 0;
       puVar1[-1] = 0;
@@ -62,10 +62,10 @@ XI_API void __cdecl fn_102A9EF0(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9F30  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
-// GATE: PASS -- 34 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A9F30(int param_1)
 {
-  undefined4 *puVar1;
+  uint32_t *puVar1;
   int iVar2;
   
   if (*(int *)(param_1 + 100) == 0) {
@@ -73,7 +73,7 @@ XI_API void __cdecl fn_102A9F30(int param_1)
   }
   iVar2 = 0;
   if (0 < *(int *)(param_1 + 0x14)) {
-    puVar1 = (undefined4 *)(*(int *)(param_1 + 100) + 8);
+    puVar1 = (uint32_t *)(*(int *)(param_1 + 100) + 8);
     do {
       puVar1[-2] = 0;
       puVar1[-1] = 0;
@@ -86,17 +86,17 @@ XI_API void __cdecl fn_102A9F30(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9FB0  (unit sqVtx: asserts sqVtx.c)
-// GATE: PASS -- 50 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A9FB0(int param_1, int param_2)
 {
   int iVar1;
-  byte bVar2;
+  uint8_t bVar2;
   undefined4 *puVar3;
   int iVar4;
   float *pfVar5;
-  byte bVar6;
-  longlong lVar7;
-  uint local_10;
+  uint8_t bVar6;
+  int64_t lVar7;
+  uint32_t local_10;
   int local_c;
   
   if ((param_1 != 0) && (iVar1 = *(int *)(param_1 + 0x54 + param_2 * 4), iVar1 != 0)) {
@@ -111,7 +111,7 @@ XI_API void __cdecl fn_102A9FB0(int param_1, int param_2)
           bVar6 = 0;
           pfVar5 = (float *)(iVar1 + iVar4 * local_c * 4);
           do {
-            lVar7 = XI_CALL_ST0(0x10311C2Cu)((float10)*pfVar5 * (float10)xi_k4(0x437F0000ull));
+            lVar7 = XI_CALL_ST0(0x10311C2Cu)((long double)*pfVar5 * (long double)255.0f);
             pfVar5 = pfVar5 + 1;
             bVar2 = bVar6 & 0x1f;
             bVar6 = bVar6 + 8;

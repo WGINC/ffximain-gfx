@@ -9,9 +9,9 @@ XI_API void __cdecl fn_1027CCF0(undefined4 param_1, undefined4 param_2, undefine
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
-  local_c[0] = xi_k4(0x0ull);
-  local_c[1] = xi_k4(0x0ull);
-  local_c[2] = xi_k4(0x0ull);
+  local_c[0] = 0.0f;
+  local_c[1] = 0.0f;
+  local_c[2] = 0.0f;
   orig::FUN_1027cfd0(param_1,param_2,local_c,param_3);
   return;
 }
@@ -36,9 +36,9 @@ XI_API void __cdecl fn_1027CD30(int param_1, int param_2, float * param_3, undef
     iVar1 = orig::FUN_1027c900(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
-  local_8c[0] = xi_k4(0x0ull);
-  local_8c[1] = xi_k4(0x0ull);
-  local_8c[2] = xi_k4(0x0ull);
+  local_8c[0] = 0.0f;
+  local_8c[1] = 0.0f;
+  local_8c[2] = 0.0f;
   orig::M4fTransform_v1(param_3,local_8c + 3,local_8c);
   orig::FUN_1027a8a0(param_4,local_8c + 3);
   return;

@@ -7,20 +7,20 @@
 XI_API void __cdecl fn_102A34D0(int param_1)
 {
   char xi_frame[16] __attribute__((aligned(4)));
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 12);
   
-  local_10 = *(undefined4 *)(param_1 + 0x14);
-  local_c = *(undefined4 *)(param_1 + 0x18);
-  local_8 = *(undefined4 *)(param_1 + 0x1c);
-  local_4 = (float)((float10)xi_k4(0x3F800000ull) - (float10)*(float *)(param_1 + 0x30));
+  local_10 = *(uint32_t *)(param_1 + 0x14);
+  local_c = *(uint32_t *)(param_1 + 0x18);
+  local_8 = *(uint32_t *)(param_1 + 0x1c);
+  local_4 = (float)((long double)1.0f - (long double)*(float *)(param_1 + 0x30));
   orig::sqgxColor_v1(&local_10);
   orig::sqgxAmbient_v1(*(float *)(param_1 + 0x20));
   orig::FUN_102833a0(*(float *)(param_1 + 0x24));
-  orig::FUN_102833c0(*(undefined4 *)(param_1 + 0x28),*(float *)(param_1 + 0x2c),
-               (uint)*(byte *)(param_1 + 0x34));
+  orig::FUN_102833c0(*(uint32_t *)(param_1 + 0x28),*(float *)(param_1 + 0x2c),
+               (uint32_t)*(uint8_t *)(param_1 + 0x34));
   return;
 }
 
@@ -28,7 +28,7 @@ XI_API void __cdecl fn_102A34D0(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A3540(float param_1)
 {
-  *(float *)(g_pSqgxContext_as_s32 + 0x9cc) = (float)(float10)param_1;
+  *(float *)(g_pSqgxContext_as_s32 + 0x9cc) = (float)(long double)param_1;
   return;
 }
 
@@ -36,7 +36,7 @@ XI_API void __cdecl fn_102A3540(float param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102A3760(void)
 {
-  *(undefined4 *)(g_pSqgxContext_as_s32 + 0xb18) = 0;
+  *(uint32_t *)(g_pSqgxContext_as_s32 + 0xb18) = 0;
   return;
 }
 

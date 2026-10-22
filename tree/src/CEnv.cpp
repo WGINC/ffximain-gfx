@@ -23,9 +23,9 @@ XI_API void __cdecl fn_1000D620(void)
 void __thiscall CEnv::UpdateStereoMode(void * self, undefined4 xi_s1)
 {
   short sVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   
-  *(undefined4 *)((int)self + 0x18) = DAT_10456abc;
+  *(uint32_t *)((int)self + 0x18) = DAT_10456abc;
   uVar2 = orig::CEnv_IsStereoMode_v1(self);
   if ((char)uVar2 != '\0') {
     sVar1 = *(short *)((int)self + 0x1c) + 1;
@@ -41,5 +41,5 @@ void __thiscall CEnv::UpdateStereoMode(void * self, undefined4 xi_s1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CEnv::IsStereoMode(void * self)
 {
-  return CONCAT31((int3)((uint)*(int *)((int)self + 0x18) >> 8),*(int *)((int)self + 0x18) != 0);
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self + 0x18) >> 8)) << 8) | (uint8_t)(*(int *)((int)self + 0x18) != 0)));
 }

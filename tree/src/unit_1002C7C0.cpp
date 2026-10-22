@@ -30,7 +30,7 @@ XI_API void __thiscall fn_1002C800(void * self_, int * param_1)
     if (*(int *)((int)self_ + 4) != 0) {
       iVar1 = *(int *)((int)self_ + 4);
       *param_1 = iVar1;
-      *(undefined4 *)(iVar1 + 8) = 0;
+      *(uint32_t *)(iVar1 + 8) = 0;
       return;
     }
     *param_1 = 0;
@@ -39,9 +39,9 @@ XI_API void __thiscall fn_1002C800(void * self_, int * param_1)
   iVar2 = *(int *)((int)self_ + 4);
   if (iVar2 != 0) {
     *(int *)(iVar1 + 4) = iVar2;
-    *(undefined4 *)(iVar2 + 8) = *(undefined4 *)((int)self_ + 8);
+    *(uint32_t *)(iVar2 + 8) = *(uint32_t *)((int)self_ + 8);
     return;
   }
-  *(undefined4 *)(iVar1 + 4) = 0;
+  *(uint32_t *)(iVar1 + 4) = 0;
   return;
 }

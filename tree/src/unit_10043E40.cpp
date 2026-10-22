@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10043E50  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 56 returned normally, 26 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 56, town2 PASS 56, combat PASS 56, zonetoinn PASS 56
+// GATE: PASS -- 100 trials, 56 returned normally, 26 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a4)
 {
   _DWORD *v4;
@@ -49,7 +49,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
 // GATE: PASS -- 100 trials, 99 returned normally, 64 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10043F00(void * self_)
 {
-  uint uVar1;
+  uint32_t uVar1;
   int *piVar2;
   int iVar3;
   
@@ -70,7 +70,7 @@ XI_API void __thiscall fn_10043F00(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10043F40  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 138 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 138 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigned int a5, int a6)
 {
   int v7;
@@ -119,12 +119,12 @@ XI_API void __thiscall DynVB_Reserve(void * self_, int param_1)
   iVar1 = orig::FUN_10043de0();
   if (*(int *)((int)self_ + iVar1 * 0x20 + 4) != 0) {
     *(int *)((int)self_ + iVar1 * 0x20 + 0x10) = *(int *)((iVar1 + 1) * 0x20 + (int)self_) * param_1;
-    *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0xc) = *(undefined4 *)((int)self_ + iVar1 * 0x20 + 8);
-    *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0x14) = 0;
+    *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0xc) = *(uint32_t *)((int)self_ + iVar1 * 0x20 + 8);
+    *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0x14) = 0;
     if (*(int *)((int)self_ + iVar1 * 0x20 + 0x1c) < *(int *)((int)self_ + iVar1 * 0x20 + 8) + param_1
        ) {
-      *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0xc) = 0;
-      *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0x14) = 0x2000;
+      *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0xc) = 0;
+      *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0x14) = 0x2000;
     }
     *(int *)((int)self_ + iVar1 * 0x20 + 8) = *(int *)((int)self_ + iVar1 * 0x20 + 0xc) + param_1;
   }
@@ -133,32 +133,32 @@ XI_API void __thiscall DynVB_Reserve(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10044130  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined1 * __thiscall DynVB_Lock(void * self_)
+XI_API uint8_t * __thiscall DynVB_Lock(void * self_)
 {
   int *a1;
   int a5;
   int iVar1;
   int iVar2;
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined1 * &local_4 = *reinterpret_cast<undefined1 * *>(xi_frame + 0);
+  uint8_t * &local_4 = *reinterpret_cast<uint8_t * *>(xi_frame + 0);
   
   local_4 = self_;
   iVar1 = orig::FUN_10043de0();
   a1 = *(int **)((int)self_ + iVar1 * 0x20 + 4);
   if (a1 == (int *)0x0) {
-    return (undefined1 *)0x0;
+    return (uint8_t *)0x0;
   }
   a5 = *(int *)((int)self_ + iVar1 * 0x20 + 0x14);
   iVar2 = (iVar1 + 1) * 0x20;
   if (a5 != 0) {
     ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*a1 + 0x2c))
               ))(a1,*(int *)(iVar2 + (int)self_) * *(int *)((int)self_ + iVar1 * 0x20 + 0xc),
-               *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0x10),&local_4,a5);
+               *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0x10),&local_4,a5);
     return local_4;
   }
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*a1 + 0x2c))
             ))(a1,*(int *)(iVar2 + (int)self_) * *(int *)((int)self_ + iVar1 * 0x20 + 0xc),
-             *(undefined4 *)((int)self_ + iVar1 * 0x20 + 0x10),&local_4,0x1000);
+             *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0x10),&local_4,0x1000);
   return local_4;
 }
 
@@ -178,7 +178,7 @@ XI_API void __thiscall DynVB_Unlock(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100441C0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_100441C0(_DWORD *self_)
 {
   _DWORD *v1;
@@ -197,21 +197,21 @@ XI_API int __thiscall fn_100441C0(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10044210  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_SetViewMatrixFromField10(int self_)
 {
   return orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 2, (const void *)(self_ + 16));
 }
 
 // FUNCTION: FFXIMAIN 0x10044230  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_SetViewMatrixFromField90(int self_)
 {
   return orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 2, (const void *)(self_ + 144));
 }
 
 // FUNCTION: FFXIMAIN 0x10044270  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 99, town2 PASS 99, combat PASS 99, zonetoinn PASS 98
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
 {
   int *v0;
@@ -287,29 +287,6 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x10044540  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10044540(void)
-{
-  if (g_pDynVB_FVF42_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF42_as_v0);
-  }
-  if (g_pDynVB_FVF44_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF44_as_v0);
-  }
-  if (g_pDynVB_FVF144_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF144_as_v0);
-  }
-  if (g_pDynVB_FVF142_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF142_as_v0);
-  }
-  if (g_pDynVB_FVF152_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF152_as_v0);
-    return;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100446A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100446A0(int param_1)
@@ -318,9 +295,9 @@ XI_API void __cdecl fn_100446A0(int param_1)
   void *self_;
   int iVar2;
   char xi_frame[56] __attribute__((aligned(4)));
-  undefined1  (&local_38)[20] = *reinterpret_cast<undefined1  (*)[20]>(xi_frame + 0);
+  uint8_t  (&local_38)[20] = *reinterpret_cast<uint8_t  (*)[20]>(xi_frame + 0);
   int  &local_24 = *reinterpret_cast<int  *>(xi_frame + 20);
-  undefined1  (&local_1c)[28] = *reinterpret_cast<undefined1  (*)[28]>(xi_frame + 28);
+  uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 28);
   
   if (param_1 != 0) {
     orig::FUN_100742a0(local_38);
@@ -334,18 +311,18 @@ LAB_100446e6:
           do {
             self_ = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
             if (self_ == (void *)0x0) {
-              orig::YmGenerater_Stop_v1(pvVar1,(undefined4 *)0x0);
-              orig::FUN_10053890(pvVar1,1);
+              orig::YmGenerater_Stop_v2(pvVar1,(uint32_t *)0x0);
+              orig::FUN_10053890_v1(pvVar1,1);
               pvVar1 = (void *)orig::ResourceIter_FindNext_v1(local_38,0);
               if (pvVar1 == (void *)0x0) goto LAB_10044784;
               goto LAB_100446e6;
             }
-          } while (((*(byte *)((int)self_ + 0x1a) >> 2 & 1) == 0) ||
+          } while (((*(uint8_t *)((int)self_ + 0x1a) >> 2 & 1) == 0) ||
                   (*(int *)((int)self_ + 0x28) != *(int *)((int)pvVar1 + 0x14)));
-          orig::CMoResource_AddRefChain_v1(self_);
-          orig::YmGenerater_Stop_v1(self_,(undefined4 *)0x0);
+          orig::CMoResource_AddRefChain_v2(self_);
+          orig::YmGenerater_Stop_v2(self_,(uint32_t *)0x0);
           orig::CMoResource_ReleaseChain_v1(self_);
-        } while ((*(ushort *)((int)self_ + 0x18) & 0x7fff) != 0);
+        } while ((*(uint16_t *)((int)self_ + 0x18) & 0x7fff) != 0);
         orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)self_ + 0x14));
       } while( true );
     }

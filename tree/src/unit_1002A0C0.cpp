@@ -8,7 +8,7 @@ XI_API void __thiscall fn_1002A0C0(void * self_)
 {
   int a1;
   int *this_00;
-  undefined4 uVar1;
+  uint32_t uVar1;
   int *piVar2;
   int iVar3;
   
@@ -26,11 +26,11 @@ XI_API void __thiscall fn_1002A0C0(void * self_)
   }
   iVar3 = orig::FUN_1002a9b0(self_,0x7f);
   if (iVar3 != 0) {
-    *(undefined1 *)(iVar3 + a1) = 0x80;
+    *(uint8_t *)(iVar3 + a1) = 0x80;
   }
   iVar3 = orig::FUN_1002a9b0(self_,0x7e);
   if (iVar3 != 0) {
-    *(undefined1 *)(iVar3 + a1) = 0x80;
+    *(uint8_t *)(iVar3 + a1) = 0x80;
   }
   orig::FUN_100352f0((void *)((int)self_ + 8));
   return;
@@ -43,8 +43,8 @@ XI_API void __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 
   int *this_00;
   int *piVar1;
   char xi_frame[8] __attribute__((aligned(4)));
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   
   local_4 = 0;
   local_8 = 0;
@@ -62,9 +62,9 @@ XI_API void __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1002A750(void * self_, undefined4 param_1, undefined4 * param_2)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  orig::Quat_SetIdentity_v1(param_2);
+  orig::Quat_SetIdentity(param_2);
   uVar1 = orig::FUN_1002a780(self_,param_1,param_2);
   return uVar1;
 }
@@ -74,12 +74,12 @@ XI_API undefined4 __thiscall fn_1002A750(void * self_, undefined4 param_1, undef
 XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undefined4 * param_2)
 {
   short *psVar1;
-  undefined4 uVar2;
+  uint32_t uVar2;
   char xi_frame[76] __attribute__((aligned(4)));
-  undefined4  (&local_4c)[3] = *reinterpret_cast<undefined4  (*)[3]>(xi_frame + 0);
-  undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 12);
+  uint32_t  (&local_4c)[3] = *reinterpret_cast<uint32_t  (*)[3]>(xi_frame + 0);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 12);
   
-  orig::fn_10027990_v1(local_40);
+  orig::FUN_10027990(local_40);
   psVar1 = (short *)orig::FUN_100351f0((void *)((int)self_ + 8),param_1);
   uVar2 = 0;
   if (psVar1 != (short *)0x0) {
@@ -100,7 +100,7 @@ XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undef
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall fn_1002A890(int param_1, undefined4 * param_2)
 {
-  orig::Vec3_Copy_v1(param_2,(undefined4 *)(param_1 + 0xe));
+  orig::Vec3_Copy_v1(param_2,(uint32_t *)(param_1 + 0xe));
   return;
 }
 
@@ -110,9 +110,9 @@ XI_API void __thiscall fn_1002A8B0(void * self_, int param_1, float * param_2)
 {
   int iVar1;
   char xi_frame[64] __attribute__((aligned(4)));
-  undefined1  (&local_40)[64] = *reinterpret_cast<undefined1  (*)[64]>(xi_frame + 0);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 0);
   
-  orig::fn_10027990_v1(local_40);
+  orig::FUN_10027990(local_40);
   iVar1 = orig::FUN_100351f0((void *)((int)self_ + 8),param_1);
   if (iVar1 != 0) {
     orig::Vec3_AddInPlace_v1(param_2,(float *)(iVar1 + 0xe));

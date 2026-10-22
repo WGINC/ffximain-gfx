@@ -80,7 +80,7 @@ XI_API void __cdecl fn_102AD990(int param_1)
     iVar3 = *(int *)(param_1 + 0x34);
     orig::FUN_102a9f30(iVar3);
     orig::FUN_102ad770_v1(param_1,iVar3);
-    *(undefined1 **)(param_1 + 0x30) =(undefined1*)(&LAB_102b3340);
+    *(uint8_t **)(param_1 + 0x30) =(uint8_t*)(&LAB_102b3340);
   }
   return;
 }

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10061110  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall fn_10061110(float *self_)
 {
   double v1;
@@ -17,18 +17,18 @@ XI_API char __thiscall fn_10061110(float *self_)
 
 // FUNCTION: FFXIMAIN 0x10062770  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_10062770(void * self_)
+XI_API uint64_t __thiscall fn_10062770(void * self_)
 {
   char cVar1;
   void *this_00;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  uint64_t uVar2;
+  uint64_t uVar3;
   
   uVar2 = orig::FUN_1003b6d0((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
     uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
-    uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
+    uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
       uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
@@ -38,7 +38,7 @@ XI_API undefined8 __thiscall fn_10062770(void * self_)
         return uVar2;
       }
       uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
-      uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
+      uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
       cVar1 = (char)uVar3;
     }
   }
@@ -47,18 +47,18 @@ XI_API undefined8 __thiscall fn_10062770(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100627D0  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __thiscall fn_100627D0(void * self_)
+XI_API uint64_t __thiscall fn_100627D0(void * self_)
 {
   char cVar1;
   void *this_00;
-  undefined8 uVar2;
-  undefined8 uVar3;
+  uint64_t uVar2;
+  uint64_t uVar3;
   
   uVar2 = orig::FUN_1003b700((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
     uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
-    uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
+    uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
       uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
@@ -68,7 +68,7 @@ XI_API undefined8 __thiscall fn_100627D0(void * self_)
         return uVar2;
       }
       uVar3 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
-      uVar2 = CONCAT44((int)((ulonglong)uVar3 >> 0x20),this_00);
+      uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
       cVar1 = (char)uVar3;
     }
   }
@@ -76,11 +76,11 @@ XI_API undefined8 __thiscall fn_100627D0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10062830  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 135 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 126 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10062830(void * self_, int param_1)
 {
   void *this_00;
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   this_00 = (void *)((int)self_ + 0x34);
   uVar1 = orig::FUN_1003b6d0(this_00);
@@ -98,11 +98,11 @@ XI_API void __thiscall fn_10062830(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10062880  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 135 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 126 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10062880(void * self_, int param_1)
 {
   void *this_00;
-  undefined8 uVar1;
+  uint64_t uVar1;
   
   this_00 = (void *)((int)self_ + 0x34);
   uVar1 = orig::FUN_1003b700(this_00);
@@ -121,42 +121,42 @@ XI_API void __thiscall fn_10062880(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10062E20  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_10062E20(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+XI_API uint64_t __cdecl fn_10062E20(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
-  byte *pbVar1;
+  uint8_t *pbVar1;
   int *piVar2;
-  undefined4 *puVar3;
-  undefined8 uVar4;
+  uint32_t *puVar3;
+  uint64_t uVar4;
   
-  puVar3 = (undefined4 *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_1,param_1);
+  puVar3 = (uint32_t *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_1,param_1);
   piVar2 = (int *)*puVar3;
-  pbVar1 = (byte *)(*piVar2 + 0x1a);
+  pbVar1 = (uint8_t *)(*piVar2 + 0x1a);
   *pbVar1 = *pbVar1 | 0x10;
   uVar4 = orig::CMoResource_FindByTypeAndId_v1((void *)*piVar2,&param_1,7,param_2);
-  puVar3 = (undefined4 *)*(int *)uVar4;
-  uVar4 = CONCAT44((int)((ulonglong)uVar4 >> 0x20),puVar3);
-  if (puVar3 != (undefined4 *)0x0) {
-    uVar4 = orig::Scheduler_Execute_v1((void *)*puVar3,param_3,param_4,param_5,0);
+  puVar3 = (uint32_t *)*(int *)uVar4;
+  uVar4 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar4 >> 0x20)) << 32) | (uint32_t)(puVar3)));
+  if (puVar3 != (uint32_t *)0x0) {
+    uVar4 = orig::Scheduler_Execute_v1((void *)*puVar3,param_3,param_4,param_5,0,(void *)*puVar3);
   }
   return uVar4;
 }
 
 // FUNCTION: FFXIMAIN 0x10062E80  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined8 __cdecl fn_10062E80(undefined4 param_1, undefined4 param_2, int param_3, int param_4)
+XI_API uint64_t __cdecl fn_10062E80(undefined4 param_1, undefined4 param_2, int param_3, int param_4)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
+  uint32_t *puVar1;
+  uint64_t uVar2;
   
   uVar2 = orig::FUN_10073d80(&param_1,param_1,1);
-  puVar1 = (undefined4 *)*(int *)uVar2;
-  uVar2 = CONCAT44((int)((ulonglong)uVar2 >> 0x20),puVar1);
-  if (puVar1 != (undefined4 *)0x0) {
+  puVar1 = (uint32_t *)*(int *)uVar2;
+  uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar2 >> 0x20)) << 32) | (uint32_t)(puVar1)));
+  if (puVar1 != (uint32_t *)0x0) {
     uVar2 = orig::CMoResource_FindByTypeAndId_v1((void *)*puVar1,&param_1,7,param_2);
-    puVar1 = (undefined4 *)*(int *)uVar2;
-    uVar2 = CONCAT44((int)((ulonglong)uVar2 >> 0x20),puVar1);
-    if (puVar1 != (undefined4 *)0x0) {
-      uVar2 = orig::Scheduler_Kill_v1((void *)*puVar1,param_3,param_4);
+    puVar1 = (uint32_t *)*(int *)uVar2;
+    uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar2 >> 0x20)) << 32) | (uint32_t)(puVar1)));
+    if (puVar1 != (uint32_t *)0x0) {
+      uVar2 = orig::Scheduler_Kill((void *)*puVar1,param_3,param_4);
     }
   }
   return uVar2;

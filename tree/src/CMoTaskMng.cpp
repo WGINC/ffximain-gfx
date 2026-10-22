@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10011950  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoTaskMng::ScalarDeletingDtor(char a2)
 {
   orig::CMoTaskMng_Destructor(this);
@@ -15,14 +15,16 @@ _DWORD * CMoTaskMng::ScalarDeletingDtor(char a2)
 
 // FUNCTION: FFXIMAIN 0x10074A10  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __stdcall CMoTaskMng::Forward10075120(undefined4 xi_s1)
+undefined4 __stdcall CMoTaskMng::Forward10075120(undefined4 xi_s1)
 {
-  orig::FUN_10075120(dword_1047D140_as_v1,xi_s1);
-  return;
+  int iVar1;
+  
+  iVar1 = orig::FUN_10075120(dword_1047D140_as_v1,xi_s1);
+  return iVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10074B50  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoTaskMng::GetRuntimeClass()
 {
   return &CMoTaskMng_classdesc;
@@ -53,9 +55,9 @@ XI_API void __thiscall fn_10074BA0(void * self_)
   orig::CMoTask_ResetFields_v1((void *)((int)self_ + 0xcd0));
   *(int *)((int)self_ + 0xcd8) = (int)self_ + 0xc9c;
   *(void **)((int)self_ + 0xd58) = this_00;
-  *(undefined4 *)((int)self_ + 0xd54) = 0;
-  *(undefined4 *)((int)self_ + 0xd50) = 0;
-  *(undefined4 *)((int)self_ + 0xd44) = 0;
+  *(uint32_t *)((int)self_ + 0xd54) = 0;
+  *(uint32_t *)((int)self_ + 0xd50) = 0;
+  *(uint32_t *)((int)self_ + 0xd44) = 0;
   piVar4 = (int *)((int)self_ + 0xd04);
   iVar2 = 0x10;
   do {
@@ -64,7 +66,7 @@ XI_API void __thiscall fn_10074BA0(void * self_)
     piVar4 = piVar4 + 1;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  *(undefined4 *)((int)self_ + 0xd4c) = *(undefined4 *)((int)self_ + 0xd50);
+  *(uint32_t *)((int)self_ + 0xd4c) = *(uint32_t *)((int)self_ + 0xd50);
   return;
 }
 
@@ -75,11 +77,11 @@ undefined4 __thiscall CMoTaskMng::DrawAll(void * self)
   int iVar1;
   
   iVar1 = *(int *)((int)self + 0xd50);
-  *(undefined4 *)((int)self + 0xd48) = 0;
+  *(uint32_t *)((int)self + 0xd48) = 0;
   *(int *)((int)self + 0xd4c) = iVar1;
   while (iVar1 != 0) {
     iVar1 = *(int *)((int)self + 0xd4c);
-    *(undefined4 *)((int)self + 0xd5c) = *(undefined4 *)(iVar1 + 0xc);
+    *(uint32_t *)((int)self + 0xd5c) = *(uint32_t *)(iVar1 + 0xc);
     if ((*(code **)(iVar1 + 4) != (code *)0x0) && (*(short *)(iVar1 + 0x22) == 0)) {
       (**(code **)(iVar1 + 4))(iVar1);
     }
@@ -87,6 +89,6 @@ undefined4 __thiscall CMoTaskMng::DrawAll(void * self)
     *(int *)((int)self + 0xd4c) = iVar1;
     *(int *)((int)self + 0xd48) = *(int *)((int)self + 0xd48) + 1;
   }
-  *(undefined4 *)((int)self + 0xd4c) = 0;
-  return *(undefined4 *)((int)self + 0xd48);
+  *(uint32_t *)((int)self + 0xd4c) = 0;
+  return *(uint32_t *)((int)self + 0xd48);
 }

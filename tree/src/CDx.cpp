@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10008F80  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _UNKNOWN ** __cdecl CDx::GetRuntimeClass()
 {
   return &CDx_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10009100  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CDx::ScalarDeletingDtor(char a2)
 {
   orig::CDx_Destructor(this);
@@ -21,7 +21,7 @@ void * CDx::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100091B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build)
 char CDx::Initialize()
 {
   unsigned __int8 *v2;
@@ -218,7 +218,7 @@ LABEL_69:
 }
 
 // FUNCTION: FFXIMAIN 0x10009620  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 {
   *(_DWORD *)&at<uint8_t>(this, 0x90) = a3;
@@ -227,7 +227,7 @@ char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10009640  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetClearParams(int a2, int a3, int a4, int a5)
 {
   *(_DWORD *)&this->clearFlags = a2;
@@ -238,7 +238,7 @@ int CDx::SetClearParams(int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x10009670  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetClearColor(int a2)
 {
   *(_DWORD *)&this->clearColor = a2;
@@ -246,7 +246,7 @@ int CDx::SetClearColor(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100096B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -267,43 +267,21 @@ int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 }
 
 // FUNCTION: FFXIMAIN 0x10009710  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 bool CDx::TestCooperativeLevel()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 12))(at<_DWORD *>(this, 0xC)) == 0;
 }
 
-// FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-int __cdecl CDx::Present()
-{
-  D3DHolder *v0;
-  int v1;
-  int result;
-  v0 = g_pD3DHolder;
-  v1 = 100;
-  do
-  {
-    --v1;
-    result = v0->pDevice->Present(nullptr, nullptr, 0, nullptr);
-    if ( result == 0 )
-      break;
-    if ( result == -2005530520 )
-      result = orig::nullsub_13(aDeviceLost);
-  }
-  while ( v1 != 0 );
-  return result;
-}
-
 // FUNCTION: FFXIMAIN 0x10009730  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::BeginScene()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 136))(at<_DWORD *>(this, 0xC));
 }
 
 // FUNCTION: FFXIMAIN 0x10009740  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::EndScene()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 140))(at<_DWORD *>(this, 0xC));
@@ -323,7 +301,7 @@ XI_API void __stdcall fn_10009750(HCURSOR param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 HCURSOR CDx::SetCursorShape(int a2, int a3)
 {
   HCURSOR result;
@@ -383,129 +361,43 @@ XI_API undefined4 __thiscall fn_10009870(void * self_, undefined4 param_1, int *
 }
 
 // FUNCTION: FFXIMAIN 0x100098E0  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 69 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100098E0(void * self_, undefined4 param_1, int * param_2, undefined4 param_3)
+// GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((stdcall, regparm(3))) fn_100098E0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
 {
   int a2;
   
-  if ((char)param_3 == '\x01') {
-    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd4))))(*(int **)((int)self_ + 0xc),param_2);
+  if ((char)param_4 == '\x01') {
+    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd4))))(*(int **)((int)self_ + 0xc),param_3);
   }
-  a2 = *param_2;
+  a2 = *param_3;
   if ((a2 != 0) && (a2 != -1)) {
     ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd8))))(*(int **)((int)self_ + 0xc),a2);
   }
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10009920  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 2384 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-int CDx::SetDefaultRenderState()
-{
-  unsigned int *v2;
-  IDirect3DDevice8 *pDevice;
-  char v5;
-  char v6;
-  v2 = &this->field_1F0;
-  v5 = orig::sub_10009870((int)this, 3, &this->field_1F0);
-  if ( v5 != 0 )
-  {
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGENABLE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CLIPPING, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LIGHTING, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_AMBIENT, 0);
-    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
-    {
-      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGVERTEXMODE, 0);
-      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGTABLEMODE, 3u);
-    }
-    else
-    {
-      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) == 0 )
-        goto LABEL_5;
-      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
-      (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FOGTABLEMODE, 0);
-      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) != 0 )
-      {
-        (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 1u);
-        goto LABEL_5;
-      }
-    }
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_RANGEFOGENABLE, 0);
-LABEL_5:
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_COLORVERTEX, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LOCALVIEWER, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_NORMALIZENORMALS, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DIFFUSEMATERIALSOURCE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SPECULARMATERIALSOURCE, 2u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_AMBIENTMATERIALSOURCE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_EMISSIVEMATERIALSOURCE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_VERTEXBLEND, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CLIPPLANEENABLE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_CULLMODE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SPECULARENABLE, 0);
-  }
-  orig::sub_100098E0(this, 3, v2, v5);
-  v6 = orig::sub_10009870((int)this, 2, &this->field_1EC);
-  if ( v6 != 0 )
-  {
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZENABLE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_FILLMODE, 3u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SHADEMODE, 2u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LINEPATTERN, (unsigned int)&g_linePattern);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZWRITEENABLE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHATESTENABLE, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_LASTPIXEL, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_SRCBLEND, 2u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_DESTBLEND, 1u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZFUNC, 4u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHAREF, 96u);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHAFUNC, 8u);
-    pDevice = (*(IDirect3DDevice8 * *)((char *)this + 0xC));
-    if ( *(_DWORD *)&this->field_830 == 32 )
-      pDevice->SetRenderState(D3DRS_DITHERENABLE, FALSE);
-    else
-      pDevice->SetRenderState(D3DRS_DITHERENABLE, TRUE);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_EDGEANTIALIAS, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_ZBIAS, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_STENCILENABLE, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP0, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP1, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP2, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP3, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP4, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP5, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_WRAP6, 0);
-    (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), 0, D3DTSS_MIPFILTER, 0);
-  }
-  orig::sub_100098E0(this, 2, &this->field_1EC, v6);
-  return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DRS_BLENDOP, 1u);
-}
-
 // FUNCTION: FFXIMAIN 0x10009D20  (unit CDx: between 0x10009920 (name CDx_SetDefaultRenderState) and 0x10009DC0 (name CDx_SetViewport), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10009D20(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  *(undefined4 *)((int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0x98) = 0;
-  *(undefined4 *)((int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0x9c) = 0;
-  *(undefined4 *)((int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0xa0) =
-       *(undefined4 *)((int)self_ + 0x15c);
-  *(undefined4 *)((int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0xa4) =
-       *(undefined4 *)((int)self_ + 0x160);
-  *(undefined4 *)((int)self_ + (*(byte *)((int)self_ + 0x158) + 7) * 0x18) = 0;
-  *(undefined4 *)((int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0xac) = 0x3f800000;
+  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x98) = 0;
+  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x9c) = 0;
+  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xa0) =
+       *(uint32_t *)((int)self_ + 0x15c);
+  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xa4) =
+       *(uint32_t *)((int)self_ + 0x160);
+  *(uint32_t *)((int)self_ + (*(uint8_t *)((int)self_ + 0x158) + 7) * 0x18) = 0;
+  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xac) = 0x3f800000;
   uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xa0))
                     ))(*(int **)((int)self_ + 0xc),
-                     (int)self_ + (uint)*(byte *)((int)self_ + 0x158) * 0x18 + 0x98);
+                     (int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x98);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10009DC0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetViewport(const void *a2)
 {
   qmemcpy(&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 136], a2, 0x18u);
@@ -513,7 +405,7 @@ int CDx::SetViewport(const void *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10009E00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int8 * CDx::GetRenderTargetTop()
 {
   unsigned __int8 * self = reinterpret_cast<unsigned __int8 *>(this);  // byte-exact view for the rest
@@ -521,7 +413,7 @@ unsigned __int8 * CDx::GetRenderTargetTop()
 }
 
 // FUNCTION: FFXIMAIN 0x10009E20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::PushRenderTarget(int a2, int a3, int a4)
 {
   __int16 v5[2];
@@ -535,7 +427,7 @@ int CDx::PushRenderTarget(int a2, int a3, int a4)
 XI_API void __thiscall fn_10009EA0(void * self_, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
   orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,1,0);
@@ -547,11 +439,51 @@ XI_API void __thiscall fn_10009EA0(void * self_, int * param_1, undefined4 xi_s2
 XI_API void __thiscall fn_10009EE0(void * self_, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
   orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,0,0);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10009F20  (placed by IDB name)
+// GATE: PASS -- 100 trials, 80 returned normally, 438 D3D calls compared (diffemu_gfx, clean build)
+int CDx::PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8)
+{
+  int v9;
+  int v10;
+  __int16 *v11;
+  __int16 *v12;
+  int v13;
+  int result;
+  alignas(16) unsigned char xi_frame[0x43C];  // address-taken locals at their original offsets
+  _BYTE (&v15)[24] = *reinterpret_cast<_BYTE (*)[24]>(xi_frame + 0x1C);
+  int &v16 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x38);
+
+  v9 = a2;
+  ++this->renderTargetDepth;
+  (*(void (__stdcall **)(int, _DWORD, int *))(*(_DWORD *)v9 + 60))(v9, 0, &a2);
+  v10 = a4;
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetRenderTarget((*(IDirect3DDevice8 * *)((char *)this + 0xC)), (IDirect3DSurface8 *)a2, (IDirect3DSurface8 *)a4);
+  (*(void (__stdcall **)(int))(*(_DWORD *)a2 + 8))(a2);
+  (*(void (__stdcall **)(int, _BYTE *))(*(_DWORD *)a2 + 32))(a2, v15);
+  v11 = a5;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 136] = *a5;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 140] = v11[1];
+  v12 = a6;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 144] = v16 + *a6;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 148] = v17 + v12[1];
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 152] = 0;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 156] = 1065353216;
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetViewport((*(IDirect3DDevice8 * *)((char *)this + 0xC)), &((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 136]);
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[4 * this->renderTargetDepth] = v9;
+  v13 = a3;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[4 * this->renderTargetDepth + 32] = 0;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[4 * this->renderTargetDepth + 64] = v13;
+  result = this->renderTargetDepth;
+  *(_DWORD *)&((unsigned __int8 *)((char *)this + 0x10))[4 * result + 96] = v10;
+  return result;
 }
 
 // FUNCTION: FFXIMAIN 0x1000A070  (unit CDx: between 0x10009F20 (name CDx_PushRenderTargetTexture) and 0x1000A1D0 (name CDx_SetTexture), both within 4 KB)
@@ -559,7 +491,7 @@ XI_API void __thiscall fn_10009EE0(void * self_, int * param_1, undefined4 xi_s2
 XI_API void __thiscall fn_1000A070(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
   orig::FUN_1000a0a0(self_,param_1,param_2,param_3,&local_4,&local_4);
@@ -567,7 +499,7 @@ XI_API void __thiscall fn_1000A070(void * self_, undefined4 param_1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1000A1D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetTexture(int a2, int a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -601,52 +533,6 @@ void __thiscall CDx::PopRenderTargetDefault(void * self, undefined4 xi_s1, undef
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000A2B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 34 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
-undefined4 __thiscall CDx::PopRenderTarget(void * self, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
-{
-  int *piVar1;
-  int a2;
-  byte bVar2;
-  undefined4 uVar4;
-  char xi_frame[16] __attribute__((aligned(4)));
-  int * &piVar5 = *reinterpret_cast<int * *>(xi_frame + 0);
-  void * &local_4 = *reinterpret_cast<void * *>(xi_frame + 12);
-  uint uVar3;
-  
-  bVar2 = *(char *)((int)self + 0x158) - 1;
-  uVar3 = (uint)bVar2;
-  *(byte *)((int)self + 0x158) = bVar2;
-  local_4 = self;
-  if (bVar2 == 0) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0x7c))
-              ))(*(int **)((int)self + 0xc),*(undefined4 *)((int)self + 0x90),
-               *(undefined4 *)((int)self + 0x94));
-  }
-  else {
-    piVar1 = *(int **)((int)self + uVar3 * 4 + 0x10);
-    if (piVar1 == (int *)0x0) {
-      a2 = *(int *)((int)self + uVar3 * 4 + 0x30);
-      if (a2 != 0) {
-        ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0x7c))
-                  ))(*(int **)((int)self + 0xc),a2,*(undefined4 *)((int)self + uVar3 * 4 + 0x70));
-      }
-    }
-    else {
-      piVar5 = (int *)0x0;
-      (**(code **)(*piVar1 + 0x3c))(piVar1,0,&local_4);
-      (**(code **)(**(int **)((int)self + 0xc) + 0x7c))
-                (*(int **)((int)self + 0xc),piVar5,
-                 *(undefined4 *)((int)self + (uint)*(byte *)((int)self + 0x158) * 4 + 0x70));
-      (**(code **)(*piVar5 + 8))(piVar5);
-    }
-  }
-  uVar4 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xa0))
-                    ))(*(int **)((int)self + 0xc),
-                     (int)self + (uint)*(byte *)((int)self + 0x158) * 0x18 + 0x98);
-  return uVar4;
-}
-
 // FUNCTION: FFXIMAIN 0x1000A390  (unit CDx: between 0x1000A1D0 (name CDx_SetTexture) and 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1000A390(void * self_, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
@@ -656,7 +542,7 @@ XI_API void __thiscall fn_1000A390(void * self_, uint32_t param_1, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x1000A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -727,18 +613,18 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CDx::DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3)
 {
-  uint uVar1;
+  uint32_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   
-  uVar1 = (uint)*(byte *)((int)self + 0x158);
-  local_c = *(undefined4 *)((int)self + uVar1 * 0x18 + 0x9c);
-  local_4 = *(undefined4 *)((int)self + uVar1 * 0x18 + 0xa4);
-  local_10 = *(undefined4 *)((int)self + uVar1 * 0x18 + 0x98);
-  local_8 = *(undefined4 *)((int)self + uVar1 * 0x18 + 0xa0);
+  uVar1 = (uint32_t)*(uint8_t *)((int)self + 0x158);
+  local_c = *(uint32_t *)((int)self + uVar1 * 0x18 + 0x9c);
+  local_4 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0xa4);
+  local_10 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0x98);
+  local_8 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0xa0);
   orig::FUN_1000a550(self,param_1,param_2,&local_10,0xffffffff);
   return;
 }
@@ -748,10 +634,10 @@ void __thiscall CDx::DrawTextureToViewport(void * self, undefined4 param_1, unde
 XI_API void __thiscall fn_1000A550(void * self_, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
 {
   char xi_frame[16] __attribute__((aligned(4)));
-  undefined4  &local_10 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
-  undefined4  &local_c = *reinterpret_cast<undefined4  *>(xi_frame + 4);
-  undefined4  &local_8 = *reinterpret_cast<undefined4  *>(xi_frame + 8);
-  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 12);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   
   local_10 = 0;
   local_c = 0x3f800000;
@@ -762,7 +648,7 @@ XI_API void __thiscall fn_1000A550(void * self_, undefined4 param_1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1000A5A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -848,7 +734,7 @@ int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 229 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town UNRESOLVED 0, town2 UNRESOLVED 0, combat UNRESOLVED 0, zonetoinn UNRESOLVED 0
+// GATE: PASS -- 100 trials, 100 returned normally, 229 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6)
 {
   int v7;
@@ -912,7 +798,7 @@ _DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DW
 }
 
 // FUNCTION: FFXIMAIN 0x1000A800  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
 {
   orig::CDx_PushRenderTarget(this, a2, a3, a4);
@@ -920,7 +806,7 @@ char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A820  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1552 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1552 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawFadeQuad(int a1, int a2)
 {
   int v4;
@@ -977,7 +863,7 @@ int CDx::DrawFadeQuad(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000AAB0  (placed by typed this)
-// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build)
 int CDx::Post_DepthBlurComposite(int a1, int a2)
 {
   orig::CDx_SetDefaultRenderState(this);
@@ -1003,34 +889,34 @@ int CDx::Post_DepthBlurComposite(int a1, int a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint32_t __thiscall CDx::StepFadeCounter(void * self, float param_1, float param_2, int param_3)
 {
-  float10 fVar1;
-  uint uVar2;
-  xi_bool bVar3;
-  ushort uVar4;
-  float10 fVar5;
+  long double fVar1;
+  uint32_t uVar2;
+  uint8_t bVar3;
+  uint16_t uVar4;
+  long double fVar5;
   
   if (param_3 == 0) {
-    *(undefined4 *)((int)self + 0x174) = 0x43000000;
+    *(uint32_t *)((int)self + 0x174) = 0x43000000;
     uVar2 = 0;
   }
   else {
     uVar2 = param_3 - 1;
     if (uVar2 == 0) {
-      fVar5 = (float10)param_1 * (float10)param_2;
-      fVar1 = (float10)xi_k4(0x0ull);
-      if ((!NAN(fVar5) && !NAN(fVar1)) && fVar5 < fVar1 != (fVar5 == fVar1)) {
-        fVar5 = (float10)xi_k4(0x3C23D70Aull);
+      fVar5 = (long double)param_1 * (long double)param_2;
+      fVar1 = (long double)0.0f;
+      if (fVar5 <= fVar1) {
+        fVar5 = (long double)0.00999999977648258209228515625f;
       }
-      fVar5 = (float10)*(float *)((int)self + 0x174) - fVar5;
+      fVar5 = (long double)*(float *)((int)self + 0x174) - fVar5;
       *(float *)((int)self + 0x174) = (float)fVar5;
-      fVar1 = (float10)xi_k4(0x0ull);
+      fVar1 = (long double)0.0f;
       bVar3 = NAN(fVar5) || NAN(fVar1);
-      uVar4 = (ushort)(bVar3 || fVar5 < fVar1) << 8 | (ushort)bVar3 << 10 |
-              (ushort)(bVar3 || fVar5 == fVar1) << 0xe;
-      uVar2 = (uint)uVar4;
-      if ((!NAN(fVar5) && !NAN(fVar1)) && fVar5 < fVar1 != (fVar5 == fVar1)) {
-        *(undefined4 *)((int)self + 0x174) = 0;
-        return CONCAT31((uint3)(byte)(uVar4 >> 8),1);
+      uVar4 = (uint16_t)(bVar3 || fVar5 < fVar1) << 8 | (uint16_t)bVar3 << 10 |
+              (uint16_t)(bVar3 || fVar5 == fVar1) << 0xe;
+      uVar2 = (uint32_t)uVar4;
+      if (fVar5 <= fVar1) {
+        *(uint32_t *)((int)self + 0x174) = 0;
+        return ((uint32_t)(((uint32_t)((uint32_t)(uint8_t)(uVar4 >> 8)) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -1052,7 +938,7 @@ XI_API void __cdecl fn_1000BB20(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 384 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 384 D3D calls compared (diffemu_gfx, clean build)
 char CDx::DrawStereoOddFrameOverlay(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1120,7 +1006,7 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BD50  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetTransform(int a2, const void *a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -1145,7 +1031,7 @@ LABEL_7:
 }
 
 // FUNCTION: FFXIMAIN 0x1000BDB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::GetTransformCached(int a2, void *a3)
 {
   int result;
@@ -1173,15 +1059,15 @@ int CDx::GetTransformCached(int a2, void *a3)
 
 // FUNCTION: FFXIMAIN 0x1000BE10  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000BE10(void * self_, int param_1)
+XI_API void __attribute__((stdcall, regparm(3))) fn_1000BE10(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
-  if (param_1 == 0) {
-    *(undefined4 *)((int)self_ + 0x9fc) = 0;
+  if (param_2 == 0) {
+    *(uint32_t *)((int)self_ + 0x9fc) = 0;
     return;
   }
-  if (*(int *)((int)self_ + 0x9fc) != param_1) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0x130))))(*(int **)((int)self_ + 0xc),param_1);
-    *(int *)((int)self_ + 0x9fc) = param_1;
+  if (*(int *)((int)self_ + 0x9fc) != param_2) {
+    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0x130))))(*(int **)((int)self_ + 0xc),param_2);
+    *(int *)((int)self_ + 0x9fc) = param_2;
   }
   return;
 }
@@ -1190,13 +1076,13 @@ XI_API void __thiscall fn_1000BE10(void * self_, int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
 {
-  undefined4 uVar1;
-  undefined2 uVar2;
-  xi_bool bVar3;
-  xi_bool bVar4;
-  float10 fVar5;
-  float10 fVar6;
-  float10 fVar7;
+  uint32_t uVar1;
+  uint16_t uVar2;
+  uint8_t bVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  long double fVar6;
+  long double fVar7;
   char xi_frame[12] __attribute__((aligned(4)));
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 0);
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 4);
@@ -1205,47 +1091,47 @@ XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
   uVar1 = 0;
   if (g_windowMode != 0) {
     uVar1 = orig::GammaRamp_GetChannelSamples_v1((void *)((int)self_ + 500),&local_c,&local_8,&local_4);
-    fVar5 = (float10)*(float *)(param_1 + 4);
-    fVar6 = (float10)xi_k4(0x3F4CCCCDull);
+    fVar5 = (long double)*(float *)(param_1 + 4);
+    fVar6 = (long double)0.800000011920928955078125f;
     bVar4 = NAN(fVar5) || NAN(fVar6);
     bVar3 = bVar4 || fVar5 < fVar6;
-    uVar2 = (undefined2)((uint)uVar1 >> 0x10);
-    uVar1 = CONCAT22(uVar2,(ushort)bVar3 << 8 | (ushort)bVar4 << 10 |
-                           (ushort)(bVar4 || fVar5 == fVar6) << 0xe);
+    uVar2 = (uint16_t)((uint32_t)uVar1 >> 0x10);
+    uVar1 = ((uint32_t)(((uint32_t)(uint16_t)(uVar2) << 16) | (uint16_t)((uint16_t)bVar3 << 8 | (uint16_t)bVar4 << 10 |
+                           (uint16_t)(bVar4 || fVar5 == fVar6) << 0xe)));
     if (bVar3 != bVar4) {
-      fVar5 = (float10)*(float *)(param_1 + 8);
-      fVar6 = (float10)xi_k4(0x3F4CCCCDull);
+      fVar5 = (long double)*(float *)(param_1 + 8);
+      fVar6 = (long double)0.800000011920928955078125f;
       bVar4 = NAN(fVar5) || NAN(fVar6);
       bVar3 = bVar4 || fVar5 < fVar6;
-      uVar1 = CONCAT22(uVar2,(ushort)bVar3 << 8 | (ushort)bVar4 << 10 |
-                             (ushort)(bVar4 || fVar5 == fVar6) << 0xe);
+      uVar1 = ((uint32_t)(((uint32_t)(uint16_t)(uVar2) << 16) | (uint16_t)((uint16_t)bVar3 << 8 | (uint16_t)bVar4 << 10 |
+                             (uint16_t)(bVar4 || fVar5 == fVar6) << 0xe)));
       if (bVar3 != bVar4) {
-        fVar5 = (float10)*(float *)(param_1 + 0xc);
-        fVar6 = (float10)xi_k4(0x3F4CCCCDull);
+        fVar5 = (long double)*(float *)(param_1 + 0xc);
+        fVar6 = (long double)0.800000011920928955078125f;
         bVar4 = NAN(fVar5) || NAN(fVar6);
         bVar3 = bVar4 || fVar5 < fVar6;
-        uVar1 = CONCAT22(uVar2,(ushort)bVar3 << 8 | (ushort)bVar4 << 10 |
-                               (ushort)(bVar4 || fVar5 == fVar6) << 0xe);
+        uVar1 = ((uint32_t)(((uint32_t)(uint16_t)(uVar2) << 16) | (uint16_t)((uint16_t)bVar3 << 8 | (uint16_t)bVar4 << 10 |
+                               (uint16_t)(bVar4 || fVar5 == fVar6) << 0xe)));
         if (bVar3 != bVar4) {
-          fVar6 = (float10)local_c * (float10)*(float *)(param_1 + 4);
+          fVar6 = (long double)local_c * (long double)*(float *)(param_1 + 4);
           *(float *)(param_1 + 4) = (float)fVar6;
-          fVar5 = (float10)local_8 * (float10)*(float *)(param_1 + 8);
+          fVar5 = (long double)local_8 * (long double)*(float *)(param_1 + 8);
           *(float *)(param_1 + 8) = (float)fVar5;
-          fVar7 = (float10)local_4 * (float10)*(float *)(param_1 + 0xc);
+          fVar7 = (long double)local_4 * (long double)*(float *)(param_1 + 0xc);
           *(float *)(param_1 + 0xc) = (float)fVar7;
-          fVar6 = (float10)(float)fVar6;
-          if ((!NAN(fVar6) && !NAN((float10)xi_k4(0x3F800000ull))) && (float10)xi_k4(0x3F800000ull) <= fVar6) {
-            *(undefined4 *)(param_1 + 4) = 0x3f800000;
+          fVar6 = (long double)(float)fVar6;
+          if (fVar6 >= (long double)1.0f) {
+            *(uint32_t *)(param_1 + 4) = 0x3f800000;
           }
-          if ((!NAN(fVar5) && !NAN((float10)xi_k4(0x3F800000ull))) && (float10)xi_k4(0x3F800000ull) <= fVar5) {
-            *(undefined4 *)(param_1 + 8) = 0x3f800000;
+          if (fVar5 >= (long double)1.0f) {
+            *(uint32_t *)(param_1 + 8) = 0x3f800000;
           }
-          fVar5 = (float10)(float)fVar7;
-          fVar6 = (float10)xi_k4(0x3F800000ull);
-          if ((!NAN(fVar5) && !NAN(fVar6)) && fVar5 >= fVar6) {
-            *(undefined4 *)(param_1 + 0xc) = 0x3f800000;
+          fVar5 = (long double)(float)fVar7;
+          fVar6 = (long double)1.0f;
+          if (fVar5 >= fVar6) {
+            *(uint32_t *)(param_1 + 0xc) = 0x3f800000;
           }
-          return CONCAT31((uint3)((NAN(fVar5) || NAN(fVar6)) || fVar5 < fVar6),1);
+          return ((uint32_t)(((uint32_t)((uint32_t)(!(fVar5 >= fVar6))) << 8) | (uint8_t)(1)));
         }
       }
     }
@@ -1254,7 +1140,7 @@ XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BF30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
 int CDx::SetLight(int a2, float *a3)
 {
   float v5[26];
@@ -1280,7 +1166,7 @@ int CDx::SetLight(int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 3394 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3394 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1469,7 +1355,7 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1509,7 +1395,7 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C7C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 464 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 464 D3D calls compared (diffemu_gfx, clean build)
 int CDx::ReleaseStereoResources()
 {
   int v2;
@@ -1558,7 +1444,7 @@ int CDx::ReleaseStereoResources()
 }
 
 // FUNCTION: FFXIMAIN 0x1000C850  (placed by IDB name)
-// GATE: PASS -- 100 trials, 32 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32, town PASS 32, town2 PASS 32, combat PASS 32, zonetoinn PASS 32
+// GATE: PASS -- 100 trials, 83 returned normally, 119 D3D calls compared (diffemu_gfx, clean build)
 int CDx::CreateRampTexture1x16(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1622,7 +1508,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x1000C900  (placed by IDB name)
-// GATE: PASS -- 100 trials, 32 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32, town PASS 34, town2 PASS 34, combat PASS 34, zonetoinn PASS 34
+// GATE: PASS -- 100 trials, 58 returned normally, 138 D3D calls compared (diffemu_gfx, clean build)
 char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 {
   IDirect3DTexture8 **v3;
@@ -1674,7 +1560,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CA00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 44 returned normally, 56 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 44 returned normally, 56 D3D calls compared (diffemu_gfx, clean build)
 char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 {
   char v4;
@@ -1727,7 +1613,7 @@ char CDx::GetStereoSecondEyeTarget(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CB20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawPrimitive(int a1, int a2, int a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1759,7 +1645,7 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CC00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 169 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 169 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1805,7 +1691,7 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CD00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build)
 int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1848,7 +1734,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CF20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
@@ -1874,7 +1760,7 @@ void CDx::ApplyStereoEyeProjection()
 }
 
 // FUNCTION: FFXIMAIN 0x1000CF90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::RestoreProjection()
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest

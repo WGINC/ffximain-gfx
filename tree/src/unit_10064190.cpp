@@ -14,14 +14,14 @@ XI_API void __thiscall fn_100684F0(void * self_, undefined4 xi_s1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10068590(void * self_, undefined4 * param_1, undefined4 param_2)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
   if (*(int *)((int)self_ + 4) == 4) {
     orig::operator_delete_10311BB0_v1(*(LPVOID *)self_);
-    *(undefined4 *)((int)self_ + 4) = 0;
+    *(uint32_t *)((int)self_ + 4) = 0;
   }
   uVar1 = *param_1;
-  *(undefined4 *)((int)self_ + 4) = param_2;
-  *(undefined4 *)self_ = uVar1;
+  *(uint32_t *)((int)self_ + 4) = param_2;
+  *(uint32_t *)self_ = uVar1;
   return;
 }

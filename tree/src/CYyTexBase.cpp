@@ -4,21 +4,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10039770  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyTexBase::GetRuntimeClass_variant0()
 {
   return &CYyTexBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10039780  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyTexBase::GetRuntimeClass_variant1()
 {
   return &CYyTexBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100398B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
 {
   orig::CYyTexBase_Destructor(this);
@@ -31,9 +31,9 @@ _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyTexBase::SetName(void * self, undefined4 * param_1)
 {
-  *(undefined4 *)((int)self + 0xc) = *param_1;
-  *(undefined4 *)((int)self + 0x10) = param_1[1];
-  *(undefined4 *)((int)self + 0x14) = param_1[2];
-  *(undefined4 *)((int)self + 0x18) = param_1[3];
+  *(uint32_t *)((int)self + 0xc) = *param_1;
+  *(uint32_t *)((int)self + 0x10) = param_1[1];
+  *(uint32_t *)((int)self + 0x14) = param_1[2];
+  *(uint32_t *)((int)self + 0x18) = param_1[3];
   return;
 }

@@ -8,18 +8,18 @@ XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t
 {
   int *piVar1;
   void *self_;
-  uint uVar2;
+  uint32_t uVar2;
   undefined4 *puVar3;
   int *piVar4;
   int iVar5;
   char *pcVar6;
   char *pcVar7;
-  xi_bool bVar8;
-  undefined8 uVar9;
+  uint8_t bVar8;
+  uint64_t uVar9;
   char xi_frame[28] __attribute__((aligned(4)));
   int  &local_1c = *reinterpret_cast<int  *>(xi_frame + 0);
   int  &local_18 = *reinterpret_cast<int  *>(xi_frame + 4);
-  uint  &local_14 = *reinterpret_cast<uint  *>(xi_frame + 8);
+  uint32_t  &local_14 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   undefined4  (&local_10)[4] = *reinterpret_cast<undefined4  (*)[4]>(xi_frame + 12);
   
   uVar2 = param_2;
@@ -41,7 +41,7 @@ XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t
         if (local_1c == 0) {
           piVar1 = (int *)param_1[5];
           if ((piVar1 != (int *)0x0) && (*piVar1 != 0)) {
-            orig::_sprintf_v1((undefined1 *)local_10,&DAT_10350958,local_14);
+            orig::_sprintf((uint8_t *)local_10,&DAT_10350958,local_14);
             uVar9 = orig::CMoResource_FindByTypeAndId_v1((void *)*piVar1,&param_4,0x3d,local_10[0]);
             if (((undefined4 *)*(int *)uVar9 != (undefined4 *)0x0) &&
                (self_ = *(void **)*(int *)uVar9, self_ != (void *)0x0)) {
@@ -86,15 +86,15 @@ LAB_10252e08:
     uVar2 = param_1[1];
     if (0 < (int)uVar2) {
       piVar4 = (int *)(g_pAppInputState + 0xdb4);
-      *(undefined1 *)(g_pAppInputState + 0xdbc) = 1;
-      *(uint *)(iVar5 + 0xdb4) = *piVar4 + uVar2;
+      *(uint8_t *)(g_pAppInputState + 0xdbc) = 1;
+      *(uint32_t *)(iVar5 + 0xdb4) = *piVar4 + uVar2;
     }
     iVar5 = g_pAppInputState;
     uVar2 = param_1[2];
     if (0 < (int)uVar2) {
       piVar4 = (int *)(g_pAppInputState + 0xdb4);
-      *(undefined1 *)(g_pAppInputState + 0xdbc) = 1;
-      *(uint *)(iVar5 + 0xdb4) = *piVar4 + (uint)(0x7f < (int)uVar2);
+      *(uint8_t *)(g_pAppInputState + 0xdbc) = 1;
+      *(uint32_t *)(iVar5 + 0xdb4) = *piVar4 + (uint32_t)(0x7f < (int)uVar2);
     }
   }
   return param_2;
@@ -137,8 +137,8 @@ XI_API undefined4 __cdecl StTrigger_RegisterCallbacks(int param_1, uint32_t para
 {
   int iVar1;
   
-  *(uint *)(param_1 + 0xc) = param_3;
-  *(uint *)(param_1 + 0x10) = param_2;
+  *(uint32_t *)(param_1 + 0xc) = param_3;
+  *(uint32_t *)(param_1 + 0x10) = param_2;
   orig::FUN_101c4820(g_pFileMng_as_v1,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
   iVar1 = orig::FUN_101c4820(g_pFileMng_as_v1,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
   if (iVar1 < 0) {

@@ -6,10 +6,10 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1003B4D0(void * self_)
 {
-  undefined4 uVar1;
+  uint32_t uVar1;
   
-  uVar1 = *(undefined4 *)(g_pVertexBufferListHead + 8);
+  uVar1 = *(uint32_t *)(g_pVertexBufferListHead + 8);
   *(void **)(g_pVertexBufferListHead + 8) = self_;
-  *(undefined4 *)((int)self_ + 8) = uVar1;
+  *(uint32_t *)((int)self_ + 8) = uVar1;
   return;
 }

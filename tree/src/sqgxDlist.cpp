@@ -18,7 +18,7 @@ XI_API void __cdecl fn_1029B5C0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B620  (unit sqgxDlist: asserts sqgxDlist.c)
-// GATE: PASS -- 100 trials, 9 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 9, town PASS 9, town2 PASS 9, combat PASS 9, zonetoinn PASS 9
+// GATE: PASS -- 100 trials, 9 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 {
   _DWORD *v0;
@@ -134,7 +134,7 @@ XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B9D0  (unit sqgxDlist: between 0x1029B620 (asserts sqgxDlist.c) and 0x1029BB60 (asserts sqgxDlist.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 553 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 553 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxDlistDraw(IDirect3DVertexBuffer8 **a1)
 {
   unsigned int v1;

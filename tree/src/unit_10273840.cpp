@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10273840(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
-  *(undefined4 *)
+  *(uint32_t *)
    (*(int *)(DAT_1099b184 + 0x28 + ((int)param_2 >> 0x10) * 0x2c) + 0x18 + (param_2 & 0xffff) * 0x90
    ) = param_3;
   return;
@@ -17,7 +17,7 @@ XI_API void __cdecl fn_10273840(undefined4 param_1, uint32_t param_2, undefined4
 XI_API void __cdecl fn_10273870(int param_1)
 {
   if ((-1 < param_1) && (param_1 < DAT_1099b180)) {
-    *(undefined4 *)(DAT_1099b184 + 4 + param_1 * 0x2c) = 0;
+    *(uint32_t *)(DAT_1099b184 + 4 + param_1 * 0x2c) = 0;
   }
   return;
 }
@@ -30,7 +30,7 @@ XI_API void __cdecl fn_102738A0(void)
   
   iVar1 = DAT_1099b100 * 0x30 + DAT_1099b17c;
   if (*(int *)(iVar1 + 8) != 0) {
-    *(undefined4 *)(iVar1 + 4) = 0;
+    *(uint32_t *)(iVar1 + 4) = 0;
   }
   return;
 }

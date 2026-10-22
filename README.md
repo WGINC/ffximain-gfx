@@ -27,8 +27,8 @@ corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 419 files) | **4,138** of the tree's 4,150. The 773 earlier functions still PASS: 771 on fuzz and all four dumps, plus the step getters 0x10014CF0 and 0x10014D20 on fuzz. The frame set's 3,365 (frameset6, Ghidra route, 21 Oct) PASS on fuzz and are not yet gated on the dumps |
-| In the tree, not verified (`// NOT VERIFIED`) | 12. The earlier 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), and 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs). 3 earlier PASSes that the 21 Oct gate run on the new build reverses: 0x100412B0 FAIL, 0x10003890 and 0x100CB4E0 UNRESOLVED. 6 of the frame set: 5 FAIL, 1 UNRESOLVED |
+| **Verified in the clean tree, as built** (`tree/`, 419 files) | **4,198** of the tree's 4,205, on the fuzz gate run on this build (22 Oct). The four dumps' live gates (`verification/live/`) were run on the 4 Oct tree and have not been rerun on this build (the dumps are not in this environment) |
+| In the tree, not verified (`// NOT VERIFIED`) | 7: 0x10040220, 0x1006F0A0 and 0x1006F800 FAIL (as before); 0x1003C7D0 and 0x100CD540 FAIL in the clean build only (PASS in the raw one; the cause is not found yet); 0x10003890 UNRESOLVED (pop count of the call at 0x10003A50 unknown); 0x10016320 INCONCLUSIVE (the original never returns under the gate's inputs). `tree/left_out.json` lists 51 gate-passed functions left out: each calls a game function that may read a register its wrapper does not pass (49 EAX, 1 ECX, 1 EDX) |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
 | Did not compile (8), or compiles with no gate case (1) | 9 |

@@ -1,0 +1,8 @@
+{
+  "0x1003AA50": {
+    "name": "CYyTexMng_Init",
+    "confidence": "medium",
+    "evidence": "sets the CYyTexMng vtable (PTR_CYyTexMng_GetRuntimeClass_1032aa90), clears the word at +4, the dwords at +8 and +0xC, and the byte at +0x10",
+    "summary": "Initialises the texture manager's vtable and its fields to empty."
+  }
+}

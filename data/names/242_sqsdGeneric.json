@@ -2,7 +2,7 @@
   "0x10290910": {
     "name": "SqsdGeneric_Init",
     "confidence": "medium",
-    "evidence": "sets the header word at +0 to 0xF0001, the callbacks at +8, +0xC and +0x10, the default values at +0x74 to +0x84, clears the arrays at +0x4C to +0xA8, and calls SqrdMaterial_Init on the embedded material at +0x14",
-    "summary": "Initialises a sqsdGeneric object's header, callbacks, default values and embedded material."
+    "evidence": "sets the header word at +0 to 0xF0001, the callbacks at +8, +0xC and +0x10, several default values between +0x6C and +0xA0, clears fields and arrays between +0x4C and +0x158, and calls SqrdMaterial_Init on the embedded material at +0x14",
+    "summary": "Initialises a sqsdGeneric object's header, callbacks, default values, arrays and embedded material."
   }
 }

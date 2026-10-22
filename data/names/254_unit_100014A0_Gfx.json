@@ -20,7 +20,7 @@
   "0x10002440": {
     "name": "Color_SwapRedBlue",
     "confidence": "medium",
-    "evidence": "returns the argument with its low and high bytes of the low word exchanged: (x & 0xFF00FF00) | ((x >> 16) & 0xFF) | ((x & 0xFF) << 16)",
+    "evidence": "returns (x & 0xFF00FF00) | ((x >> 16) & 0xFF) | ((x & 0xFF) << 16), which exchanges the byte at bits 0 to 7 with the byte at bits 16 to 23",
     "summary": "Swaps the red and blue channels of a packed 32-bit colour."
   },
   "0x10002E60": {

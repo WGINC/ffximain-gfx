@@ -1,0 +1,5 @@
+{
+"0x10055300": {"name": "RangeTable_Init", "confidence": "low", "evidence": "stores the count argument at this+8, the two floats at +0xC and +0x10 and 1 / (count + 1) scaled by (param_3 - param_2) at +0x14, then allocates (count + 1) 0x20-byte nodes with Mem_AllocObject and fills them through FUN_100554b0", "summary": "Initialises a range table with evenly spaced entries."},
+"0x10055520": {"name": "RangeTable_Free", "confidence": "low", "evidence": "walks the node chain from the entry at this+4 + count*0x20, calls the release function at +8 on each node's +0xC, and clears each node's +0x14", "summary": "Releases the nodes of a range table."},
+"0x100552F0": {"name": "RangeTable_ClearLink", "confidence": "low", "evidence": "stores 0 at this+4", "summary": "Clears the table's node pointer at +4."}
+}

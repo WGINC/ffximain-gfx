@@ -1,0 +1,4 @@
+{
+"0x10082F60": {"name": "CXiActor_GetName", "confidence": "medium", "evidence": "virtual slot 52 of the actor classes; returns the actor's own name at this+0xB8 when the actor has no model at +0x70, otherwise copies the name of the model at +0x70 (through FUN_100979b0) into DAT_1047D4F8 and returns that", "summary": "Returns the actor's name, copied from its model when it has one."},
+"0x10082FA0": {"name": "CXiActor_GetField78Of70", "confidence": "low", "evidence": "returns the dword at +0x78 of the object at this+0x70, or 0 when that object is null; called by fn_10083F20 and CXiControlActor_SetTarget", "summary": "Returns the +0x78 field of the actor's model object."}
+}

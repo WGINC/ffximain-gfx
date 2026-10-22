@@ -26,6 +26,7 @@ Each function's dossier holds only what a committed file or the DLL says, and na
     FFXI_DLL=... python3 batch.py TREE OUT_DIR [SIZE] [SCOPE] [ID_PREFIX]
 SCOPE is `frame` (the default: only functions in data/frame_set.json) or `all`; `frame+low` also takes again the
 frame-set functions a naming session named only with `low` confidence or whose prefix reprefix_names.py replaced.
+`list:FILE` takes exactly the functions FILE lists (a JSON list of addresses; pipeline/name_bench.py).
 ID_PREFIX starts every batch id (a second round, `r2_`, in its own OUT_DIR, so its names files never collide).
 Writes OUT_DIR/NNN_<group>.md (one per batch) and OUT_DIR/index.json."""
 import collections, glob, json, os, re, sys
@@ -110,8 +111,11 @@ def main(tree, outdir, size='40', scope='frame', idprefix=''):
                         (gw if n_ == 0 and i.mnemonic.startswith('mov') else gr).add(g)
         calls[f], globs[f], imps[f] = cs, (gr, gw), ip
     redo = {a for a, v in rv.items() if scope == 'frame+low' and (v.get('confidence') == 'low' or 'invented_prefix_name' in v)}
-    todo = [a for a in tf if (placeholder(tf[a][1]) and a not in dm and a not in rv or a in redo)
-            and (scope == 'all' or '0x%08X' % a in fs)]
+    if scope.startswith('list:'):                      # exactly these functions (name_bench.py)
+        todo = [int(x, 16) for x in json.load(open(scope[5:])) if int(x, 16) in tf]
+    else:
+        todo = [a for a in tf if (placeholder(tf[a][1]) and a not in dm and a not in rv or a in redo)
+                and (scope == 'all' or '0x%08X' % a in fs)]
     # shortest chain of direct calls from the frame root
     parent, q = {r: None for r in roots}, list(roots)
     for x in q:

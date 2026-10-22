@@ -1,0 +1,4 @@
+{
+  "0x10284EB0": {"name": "Unit10284EB0_NoOp", "confidence": "low", "evidence": "body is a bare return; sqgxContext_SelectShaderMode calls it", "summary": "Does nothing."},
+  "0x10284F20": {"name": "Unit10284EB0_GetFloat20", "confidence": "low", "evidence": "returns the float at +0x20 of the argument as a long double; called by StChannelItemResolve", "summary": "Returns the float at +0x20 of its argument."}
+}

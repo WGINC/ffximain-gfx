@@ -1,0 +1,14 @@
+{
+  "0x10053A00": {
+    "name": "MeshRes_StopGenerators",
+    "confidence": "medium",
+    "evidence": "walks the mesh resource manager (ResourceIter_FindNext over type 5) for resources with bit 2 of +0x1A whose owner at +0xF4 matches, and calls YmGenerater_Stop, CMoResource_ReleaseChain and MoRes_FreeIfUnreferenced on each",
+    "summary": "Stops the generators of the mesh resources owned by an object and releases them."
+  },
+  "0x10053C80": {
+    "name": "YmGenerater_UpdateAttach",
+    "confidence": "medium",
+    "evidence": "calls YmGenerater_BuildAttachMatrix on this+0x30 and stores the result at +0x90; then blends four floats and three rows of four floats toward the attach matrix by the weight (param_1 + 4) >> 2 and 1/255 steps, depending on the bits of param_1 + 4",
+    "summary": "Rebuilds the generator's attach matrix and blends the attached transform toward it by the weight."
+  }
+}

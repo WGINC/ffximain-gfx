@@ -1,0 +1,3 @@
+{
+  "0x102960A0": {"name": "SqObj_CreateWithOwner", "confidence": "low", "evidence": "allocates an object with FUN_10295E70, stores the first argument at +0x28, the second at +0x20 and the owner word at +0x24 from the first argument at +0x20", "summary": "Creates an object tied to the given owner and stores its arguments."}
+}

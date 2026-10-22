@@ -424,6 +424,23 @@ class Thunk(unittest.TestCase):
         H._THUNKS = None
 
 
+class CleanCaseArity(unittest.TestCase):
+    """map_clean_cases.py tells overloads apart by the declaration's parameter count"""
+    def test_counts(self):
+        import map_clean_cases as M
+        self.assertEqual(M.n_params(''), 0)
+        self.assertEqual(M.n_params('void'), 0)
+        self.assertEqual(M.n_params('int*, float'), 2)
+        self.assertEqual(M.n_params('int (*f)(int, int), char'), 2)
+        self.assertEqual(M.n_params('std::pair<int, int>, char'), 2)
+
+    def test_declaration(self):
+        import map_clean_cases as M
+        a = 'static undefined4 __thiscall SetMotion(void * self, int * rf, uint32_t resid);  // 0x100CD540'
+        self.assertEqual(M.n_params(M.outer_params(a)), 3)
+        self.assertEqual(M.n_params(M.outer_params('CXiSkeletonActor::SetMotion(int*, float)')), 2)
+
+
 if __name__ == '__main__':
     unittest.main()
 
@@ -486,3 +503,33 @@ class ByteFlow(unittest.TestCase):
         code = '89c1230e21d985c9'                                   # mov ecx, eax; and ecx, [esi]; and ecx, ebx; test ecx, ecx
         self.assertEqual(self.run_code(code)[0], [0, 1, 2, 3])
         self.assertEqual(self.run_code(code, strict=True)[0], [])
+
+
+class MsvcUnit(unittest.TestCase):
+    """msvc_tu.py writes a tree function in the form Visual C++ 6.0 compiles"""
+    def test_expand_at(self):
+        import msvc_tu as T
+        self.assertEqual(T.expand_at('at<uint8_t>(this, 0xA04) = 1;'), '(*(uint8_t *)((uint8_t *)(this) + (0xA04))) = 1;')
+        self.assertEqual(T.expand_at('at<int>(at<int *>(p, 4), f(1, 2))'),
+                         '(*(int *)((uint8_t *)((*(int * *)((uint8_t *)(p) + (4)))) + (f(1, 2))))')
+
+    def test_left_out(self):
+        import msvc_tu as T
+        d = 'int fn_1(int a)\n{\n  return orig::X(a);\n}'
+        self.assertEqual(T.unit(1, d, {}, {}), (None, 'calls the game (orig::)'))
+        self.assertEqual(T.unit(1, 'float fn_1(float a)\n{\n  return a;\n}', {}, {}), (None, 'floating point'))
+
+    def test_thiscall_free_function(self):
+        import msvc_tu as T
+        src, sym = T.unit(0x1000, 'XI_API undefined4 __thiscall fn_00001000(void * self_, int b)\n{\n  return b;\n}', {}, {})
+        self.assertEqual(sym, '?fn_00001000@XI_00001000@@')
+        self.assertIn('struct XI_00001000 { undefined4 fn_00001000(int b); };', src)
+        self.assertIn('void * self_ = (void *)this;', src)
+
+    def test_member_field(self):
+        import msvc_tu as T
+        src, sym = T.unit(0x2000, 'void C::f()\n{\n  this->field_34 = 0;\n}', {0x2000: 'void f();  // 0x00002000'},
+                          {'C': {'field_34': ('uint32_t', 0x34)}})
+        self.assertEqual(sym, '?f@C@@')
+        self.assertIn('(*(uint32_t *)((uint8_t *)(this) + (0x34))) = 0;', src)
+        self.assertEqual(T.unit(0x2000, 'void C::f()\n{\n  this->m = 0;\n}', {}, {})[1], 'this->m: no offset in the header')

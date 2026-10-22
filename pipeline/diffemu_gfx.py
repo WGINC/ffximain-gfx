@@ -175,6 +175,10 @@ class GfxMachine(G.Machine):
                 (G.TRAP_BASE, G.TRAP_BASE + 0x10000), (G.RET_SENTINEL, G.RET_SENTINEL + G.PAGE)]
         for path in (game_dll, recon_dll):
             if path: code += _exec_ranges(path)
+        # the reconstruction's code is not the game's: in the original's run (guard_recon) it is not executable, so a
+        # call through a fuzzed pointer that lands there is execution of data, as anywhere else outside the game's code
+        self.recon_exec = [(a & ~0xFFF, (b + 0xFFF) & ~0xFFF) for a, b in _exec_ranges(recon_dll)] if recon_dll else []
+        self.recon_guarded = False
         self.foreign = []
         if LIVE_CFG:
             # live mode: the dump's other modules are not data (they are called through real objects'
@@ -258,6 +262,12 @@ class GfxMachine(G.Machine):
         c = self.key_n.get(h, 0); self.key_n[h] = c + 1
         self.rng = random.Random(h + struct.pack('<QI', self.key_seed & 0xFFFFFFFFFFFFFFFF, c))
 
+    def guard_recon(self, on):
+        """on: the reconstruction DLL's code is readable and writable but not executable (the original's run)"""
+        if on == self.recon_guarded: return
+        for a, b in self.recon_exec: self.uc.mem_protect(a, b - a, UC_PROT_READ | UC_PROT_WRITE if on else UC_PROT_ALL)
+        self.recon_guarded = on
+
     def _on_data_exec(self, uc, addr, size, _):
         self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
         self.stop_reason = 'fault'
@@ -337,6 +347,8 @@ class GfxMachine(G.Machine):
         #   and returned from; identical for both runs, so equivalent code stays equivalent
         # * unmapped data reads/writes above 64 KB: a demand page
         # * anything else (null-ish pointers, budgets spent): a fault
+        if access == UC_MEM_FETCH_PROT and self.recon_guarded and any(a <= addr < b for a, b in self.recon_exec):
+            self._on_data_exec(uc, addr, size, _); return False
         if access in (UC_MEM_FETCH_UNMAPPED, UC_MEM_FETCH_PROT):
             try: self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
             except Exception: pass
@@ -967,7 +979,11 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
     m.cur_args = args
     def run():
         if getattr(m, 'cov_run', None) is not None: m.cov_run.clear()    # coverage: this run's instructions only
-        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0; return m.call(orig, conv, this, args, limit)
+        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0
+        # the game never runs the reconstruction's code; a fork case's setup may patch game code to jump into it
+        m.guard_recon(not getattr(m, 'setup_case', False))
+        try: return m.call(orig, conv, this, args, limit)
+        finally: m.guard_recon(False)
     for _ in range(3 + repairs):
         before = len(m.demand); r = run()
         if len(m.demand) != before: continue
@@ -1125,6 +1141,7 @@ def run_case(m, case, trials, seed):
                     "verdict": "ERROR", "reason": "setup %s did not return: %s %s" % (case["setup"], r0.status, r0.detail)}
         for a, v in r0.changes.items(): m.uc.mem_write(a, bytes([v]))
         m.setup_done = getattr(m, "setup_done", set()) | {case["setup"]}
+    m.setup_case = bool(case.get("setup"))
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}

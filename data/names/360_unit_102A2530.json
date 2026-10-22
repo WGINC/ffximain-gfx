@@ -1,0 +1,4 @@
+{
+  "0x102A2A30": {"name": "Sqgx_SetTextureAt", "confidence": "low", "evidence": "calls sqgxTextureSet with the texture at +0xC of the entry at index param_2 (0x30 bytes each) in the table at +0x40 of the first argument", "summary": "Sets the graphics texture from the table entry at an index."},
+  "0x102A2A50": {"name": "Sqgx_CheckShadowGroupMember", "confidence": "low", "evidence": "returns when the argument matches one of the count at +0x44 entries from +0x48 of the third argument, else reports the error shadow group does not cast through sqDebugPrintf", "summary": "Checks that a value is in a shadow group's list and reports an error when it is not."}
+}

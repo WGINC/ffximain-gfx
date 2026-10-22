@@ -1,0 +1,5 @@
+{
+"0x1006BE20": {"name": "Mt19937_Next", "confidence": "high", "evidence": "the Mersenne Twister generator: seeds with Rand_SeedMT19937(0x1105) on first use, regenerates the 624-word state (0x26F limit, 0xE3 split), and applies the standard tempering (shifts 11, 7 with 0x9D2C5680-style mask 0xFF3A58AD, 15 with 0xFFFFDF8C, 18)", "summary": "Returns the next 32-bit value from the Mersenne Twister."},
+"0x1006BF40": {"name": "Rand_NextMod", "confidence": "medium", "evidence": "returns Mt19937_Next() % param_1 as a signed int, 0 when param_1 is 0; called by sub_1004E8D0", "summary": "Returns a random value in the range 0 to n minus 1."},
+"0x1006BF60": {"name": "Rand_NextModUnsigned", "confidence": "medium", "evidence": "returns the unsigned Mt19937_Next() % param_1, 0 when param_1 is 0; called by sub_100496F0, sub_1004E8D0, CMoSchedularTask_Interpret", "summary": "Returns an unsigned random value in the range 0 to n minus 1."}
+}

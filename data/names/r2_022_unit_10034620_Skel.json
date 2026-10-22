@@ -1,0 +1,14 @@
+{
+  "0x10035210": {
+    "name": "Skel_GetRecordTable",
+    "confidence": "medium",
+    "evidence": "returns resource+0x34+count*0x1E (count = uint16 at +0x32), the address past the bone records Skel_MarkChain indexes; Skel_GetRecordAt indexes the table it returns at +4+i*0x1A; replaces the old 'bone table base' reading, which the code contradicts",
+    "summary": "Returns the header of the 0x1A-byte record table, which starts just after the bone array of the skeleton's resource, or 0 if the handle is absent or not resident."
+  },
+  "0x10035250": {
+    "name": "Skel_GetRecordTableEnd",
+    "confidence": "medium",
+    "evidence": "returns Skel_GetRecordTable result + count*0xD uint16 + 2, i.e. base+4+count*0x1A, the address past the last record; Skel_GetEntryAt uses it as the base of the entry table",
+    "summary": "Returns the address just past the last 0x1A-byte record of the skeleton's record table, or 0 when there is no table."
+  }
+}

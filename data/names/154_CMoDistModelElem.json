@@ -1,0 +1,20 @@
+{
+  "0x100431B0": {
+    "name": "CMoDistModelElem_Draw",
+    "confidence": "medium",
+    "evidence": "when the flags at +0x17B & 3 are set it takes a scratch matrix from the processor stack, fills its translation from +0x120 and +0x124 and applies it with CDx_SetTransform; then applies the state block and calls RegisterWithProcessor and XiZone_DrawModelAtMatrix on self + 0xA0 with the value at +0x104",
+    "summary": "Draws the distant model element through the processor, applying its transform and render state."
+  },
+  "0x10052F20": {
+    "name": "CMoDistModelElem_Init",
+    "confidence": "medium",
+    "evidence": "calls CMoElem::Constructor on self, sets the vtable to PTR_CMoDistModelElem_GetRuntimeClass_1032b418, and stores 0x198 at +0x176",
+    "summary": "Constructs the base element and sets the CMoDistModelElem vtable and its field at 0x176."
+  },
+  "0x10052F40": {
+    "name": "CMoDistModelElem_IsType4",
+    "confidence": "low",
+    "evidence": "vtable slot 12 of CMoDistModelElem; returns 1 when the argument equals 4",
+    "summary": "Reports whether the argument is 4."
+  }
+}

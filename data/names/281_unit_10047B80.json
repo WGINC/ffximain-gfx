@@ -1,0 +1,1 @@
+{"0x10047B80": {"name": "CMoElem_GetOffsetVec", "confidence": "low", "evidence": "returns the vector at the first entry's +0x30 when this+4 is set, else the default vector g_vec4_m1_m1_m1_1; called by sub_100496F0", "summary": "Returns the element's offset vector, or the default vector when it has none."}}

@@ -1,0 +1,3 @@
+{
+  "0x1003F430": {"name": "CMoResource_VT1032C6F4_NoOp9", "confidence": "low", "evidence": "body is empty; slot 9 (+0x24) of CMoResource_VT_1032C6F4", "summary": "Does nothing; the vtable's slot 9."}
+}

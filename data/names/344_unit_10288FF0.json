@@ -1,0 +1,3 @@
+{
+  "0x102894E0": {"name": "SqmdDMB_ResolveSkelRefs", "confidence": "medium", "evidence": "for each entry of the table at +0x50 (count at +0x58) whose flag at +0x54 lacks bit 0x20 and whose high word matches the argument, resolves the low word with FUN_1027C980 and stores the result plus 0x24, or clears the entry and reports an error through sqDebugPrintf when it fails", "summary": "Resolves the skeleton references of a DMB entry, clearing those that fail."}
+}

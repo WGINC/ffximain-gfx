@@ -1,0 +1,3 @@
+{
+  "0x102736D0": {"name": "Unit10272F20_SetVtable1099B138", "confidence": "low", "evidence": "when the pointer argument is nonnull, stores &DAT_1099B138 at its first dword; fn_10250800 calls it", "summary": "Sets the first word of the given object to a fixed table address."}
+}

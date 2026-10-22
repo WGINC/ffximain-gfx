@@ -403,8 +403,8 @@ def main(exp, gate, manf, incdir, outdir):
                      name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True, _exp=_exp)
             r['text'] = re.sub(r'\bFUN_%08x\b' % r['ea'], r['name'], r['text'])
         dmn = _dm.get(hex(r['ea']))
-        if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
-            r['name'] = dmn[0]                       # DancingMad's newer name (Sep 2026 update)
+        if dmn and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
+            r['name'] = dmn[0]                       # DancingMad's name (data/dm_names.json, pipeline/dm_names.py)
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
         R[r['ea']] = r

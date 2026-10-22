@@ -62,7 +62,8 @@ def main(out_jsonl, out_txt):
         return img[a - base:a - base + n] if off + n <= s.SizeOfRawData else None   # bss: no file bytes
     # names for functions
     names = {}
-    for k, v in json.load(open(os.path.join(D, 'dm_names.json'))).items(): names[int(k, 16)] = v[0]
+    for k, v in json.load(open(os.path.join(D, 'dm_names.json'))).items():
+        if not k.startswith('_'): names[int(k, 16)] = v[0]
     R = [json.loads(l) for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl'))]
     for r in R: names[r['ea']] = r['name']
     pend = json.load(open(os.path.join(D, 'names_pending_idb.json')))

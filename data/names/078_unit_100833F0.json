@@ -1,0 +1,26 @@
+{
+  "0x10083430": {
+    "name": "CXiActor_ComputeDrawState",
+    "confidence": "low",
+    "evidence": "computes a byte result from the target actor handle, the model flags at +0x1D0 and +0x12C, the settings values 0x97 and 0xAA, and the model field at +0x170; returns the result in the high byte of the return value",
+    "summary": "Computes a draw-state byte for the actor from its model flags and settings."
+  },
+  "0x100845E0": {
+    "name": "CXiActor_GetSubModelResult",
+    "confidence": "low",
+    "evidence": "returns the result of FUN_10098360 when the model pointer at +0x70 is non-null, otherwise 0",
+    "summary": "Returns the value of the actor's model sub-object, or 0 when there is no model."
+  },
+  "0x10084670": {
+    "name": "CXiActor_GetModelFlag120Bit5",
+    "confidence": "low",
+    "evidence": "returns bit 5 of the dword at +0x120 of the model at +0x70, or 0 when there is no model",
+    "summary": "Returns bit 5 of the model's flags word at offset 0x120."
+  },
+  "0x10084690": {
+    "name": "CXiActor_GetModelWord166",
+    "confidence": "low",
+    "evidence": "returns the word at +0x166 of the model at +0x70, or 0 when there is no model",
+    "summary": "Returns the word stored at offset 0x166 of the actor's model."
+  }
+}

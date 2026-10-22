@@ -1,0 +1,3 @@
+{
+  "0x102819C0": {"name": "SqgxTexture_ClearPaletteUsed", "confidence": "low", "evidence": "stores 0 in the byte at index param_1 of the table g_sqgxPaletteUsed", "summary": "Marks the texture palette slot at the index as unused."}
+}

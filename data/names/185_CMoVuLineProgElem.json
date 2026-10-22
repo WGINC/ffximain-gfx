@@ -1,0 +1,4 @@
+{
+"0x10052BC0": {"name": "CMoVuLineProgElem_Constructor", "confidence": "medium", "evidence": "calls CMoElem_Constructor on this, clears the fields at +0x198, +0x1D4 and +0x1DA, sets the CMoVuLineProgElem vtable and stores 0x1E8 at +0x176; called by sub_1004E8D0", "summary": "Constructs a CMoVuLineProgElem on top of its CMoElem base."},
+"0x10052BF0": {"name": "CMoVuLineProgElem_TestArg9", "confidence": "low", "evidence": "vtable slot 12 of CMoVuLineProgElem; returns 1 iff param_1 equals 9", "summary": "Tests whether its argument is 9."}
+}

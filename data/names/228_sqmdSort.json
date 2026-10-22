@@ -1,0 +1,4 @@
+{
+  "0x1029B100": {"name": "SqmdSort_Create", "confidence": "medium", "evidence": "allocates a 0x3C-byte object with FUN_10275D80 using the module path string and size 0x1D, then runs sqmdSort_Init on it", "summary": "Allocates a Squirrel sort object and initialises it."},
+  "0x1029B120": {"name": "SqmdSort_Init", "confidence": "medium", "evidence": "sets the type word to 0x1C0003, the callbacks at +8, +0xC and +0x10 (FUN_1029B1A0), +0x18 (sqshTriStrip_ThrottledZSortUpdate), the byte at +0x14 to 0xFF and zeroes the fields from +0x1C to +0x38", "summary": "Sets the sort object's type code, callbacks and defaults."}
+}

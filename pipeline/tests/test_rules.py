@@ -578,3 +578,30 @@ class MsvcCasts(unittest.TestCase):
         self.assertEqual(n, 2)
         self.assertEqual(out.split('\n')[1:], ['  x = (unsigned char **)(p);', '  return (unsigned int)(q);',
                                                '  y = 1.5;', '  f(r); g(s);'])
+
+
+class MsvcFrames(unittest.TestCase):
+    """msvc_tu.unframe: the tree's address-taken frame as ordinary locals"""
+    def test_unframe(self):
+        import msvc_tu as T
+        d = ('int f(int a)\n{\n  int i;\n  char xi_frame[264] __attribute__((aligned(4)));\n'
+             '  char  (&local_100)[256] = *reinterpret_cast<char  (*)[256]>(xi_frame + 0);\n'
+             '  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 256);\n  return local_100[a];\n}')
+        t, why = T.unframe(d)
+        self.assertIsNone(why)
+        self.assertIn('  char local_100[256];\n  uint32_t local_4;\n', t)
+        self.assertNotIn('xi_frame', t)
+        dup = d.replace('xi_frame + 256', 'xi_frame + 0')
+        self.assertEqual(T.unframe(dup), (None, 'address-taken frame: two locals at offset 0'))
+
+    def test_globals_keyed_by_own_typedef(self):
+        import msvc_tu as T, tempfile
+        d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, 'include'))
+        open(os.path.join(d, 'include', 'gfx_globals.hpp'), 'w').write(
+            'typedef uint32_t (__stdcall *CreateDirectoryA_t)(XI_ANY, XI_ANY);\n'
+            '#define CreateDirectoryA XI_EA(CreateDirectoryA_t, 0x10329208u)\n'
+            'typedef uint32_t g_x_t;\n#define g_x XI_EA(g_x_t, 0x10400000u)\n')
+        g = T.globals_table(d)
+        self.assertEqual(g['CreateDirectoryA'][1], 0x10329208)
+        self.assertEqual(g['g_x'], ('typedef uint32_t g_x_t;', 0x10400000))
+        self.assertEqual(T.any_calls('CreateDirectoryA(p, 0);', g), 'CreateDirectoryA(xi_any(p), xi_any(0));')

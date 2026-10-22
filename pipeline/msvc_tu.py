@@ -120,11 +120,13 @@ def globals_table(tree):
     """{name: (typedef line, address)} from include/gfx_globals.hpp (`typedef T NAME_t;` and
     `#define NAME XI_EA(NAME_t, 0xADDRu)`)"""
     t = open(os.path.join(tree, 'include', 'gfx_globals.hpp'), errors='replace').read()
-    tds = {}
-    for m in re.finditer(r'^typedef\s.*?\b(\w+)_t\b[^;]*;$', t, re.M): tds[m.group(1)] = m.group(0)
+    tds = {}                    # every `..._t` a typedef line names -> that line (the defined one among them is NAME_t)
+    for m in re.finditer(r'^typedef\s[^;]*;$', t, re.M):
+        for w in re.findall(r'\b(\w+_t)\b', m.group(0)): tds.setdefault(w, []).append(m.group(0))
     res = {}
     for m in re.finditer(r'^#define (\w+) XI_EA\(\1_t, (0x[0-9A-Fa-f]+)u\)$', t, re.M):
-        if m.group(1) in tds: res[m.group(1)] = (tds[m.group(1)], int(m.group(2), 16))
+        own = [l for l in tds.get(m.group(1) + '_t', []) if re.search(r'\b%s_t\s*(\)|;|\[)' % re.escape(m.group(1)), l)]
+        if len(own) == 1: res[m.group(1)] = (own[0], int(m.group(2), 16))
     return res
 
 
@@ -141,10 +143,24 @@ def global_decls(body, globs):
     fwd, lines, addr = set(), [], {}
     for n in used:
         td, a = globs[n]
+        td = td.replace('XI_ANY', 'unsigned int')      # a function pointer's untyped parameters (see any_calls)
         for w in re.findall(r'\b[A-Za-z_]\w*\b', td.split(n + '_t')[0]):
-            if w not in KNOWN: fwd.add(w)
+            if w not in KNOWN and w not in CONVS: fwd.add(w)
         lines.append(td); lines.append('extern %s_t %s;' % (n, n)); addr[n] = a
     return ''.join('class %s;\n' % w for w in sorted(fwd)) + '\n'.join(lines) + ('\n' if lines else ''), addr
+
+
+def any_calls(body, globs):
+    """body with each call through a global function pointer whose parameters are untyped (XI_ANY: an import slot
+    the tree calls as `Name(...)`) passing its arguments as xi_any(arg), as for game calls"""
+    for n in sorted(n for n in set(re.findall(r'\b([A-Za-z_]\w*)\s*\(', body)) if n in globs and 'XI_ANY' in globs[n][0]):
+        out, i = [], 0
+        for m in re.finditer(r'\b%s\s*\(' % re.escape(n), body):
+            if m.start() < i: continue
+            args, end = call_args(body, m.end() - 1)
+            out.append(body[i:m.start()] + '%s(%s)' % (n, ', '.join('xi_any(%s)' % x for x in args))); i = end
+        body = ''.join(out) + body[i:]
+    return body
 
 
 def orig_table(tree):
@@ -224,8 +240,36 @@ def expand_at(text):
         text = text[:m.start()] + new + text[j + 1:]
 
 
+FRAME_DECL = re.compile(r'^\s*(?:alignas\(\d+\)\s+unsigned char|char)\s+xi_frame\[[^\]]+\][^;]*;[^\n]*$', re.M)
+FRAME_BIND = re.compile(r'^(\s*)(.+?)\s*(?:\(&(\w+)\)\[(\d+)\]|&(\w+))\s*=\s*\*reinterpret_cast<[^;]*>\(xi_frame \+ '
+                        r'(0x[0-9A-Fa-f]+|\d+)\);[^\n]*$', re.M)
+
+
+def unframe(defn):
+    """(definition, None) with the address-taken frame written as ordinary locals, or (None, reason).
+    The tree keeps such locals at their original offsets in one `xi_frame` buffer, each bound by a reference. In
+    the unit each binding is the local it stands for (`T name;` / `T name[N];`, in offset order) and the compiler
+    lays them out; the byte comparison then shows whether that is the game's layout. Two bindings at one offset,
+    or a use of the buffer other than through a binding, are left out."""
+    if len(FRAME_DECL.findall(defn)) != 1: return None, 'address-taken frame (xi_frame) not in the expected form'
+    t = FRAME_DECL.sub('', defn, count=1); offs = set()
+    def local(m):
+        off = int(m.group(6), 0)
+        if off in offs: raise ValueError(off)
+        offs.add(off)
+        return '%s%s %s[%s];' % (m.group(1), m.group(2), m.group(3), m.group(4)) if m.group(3) else \
+               '%s%s %s;' % (m.group(1), m.group(2), m.group(5))
+    try: t = FRAME_BIND.sub(local, t)
+    except ValueError as e: return None, 'address-taken frame: two locals at offset %s' % e.args[0]
+    if 'xi_frame' in t: return None, 'address-taken frame used other than through its locals'
+    return t, None
+
+
 def unit(a, defn, decl, fields, globs=None, origs=None):
     """(source, symbol prefix) or (None, reason)"""
+    if 'xi_frame' in defn:
+        defn, why = unframe(defn)
+        if defn is None: return None, why
     for k, why in LEAVE_OUT:
         if k in defn: return None, why
     if FLOAT.search(defn): return None, 'floating point'
@@ -242,6 +286,8 @@ def unit(a, defn, decl, fields, globs=None, origs=None):
     body = '{' + body
     body, gdecl, gaddr = game_calls(body, origs or {})
     if body is None: return None, gdecl
+    try: body = any_calls(body, globs or {})
+    except ValueError as e: return None, str(e)
     if '::' in name:
         cls, meth = name.split('::')
         hd = decl.get(a, '')

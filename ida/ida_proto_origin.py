@@ -26,6 +26,13 @@
 #    "helper": kind other, an inlined helper (memset, strlen, ...): its name
 #    "name", "object": the call target's name; kind other, a data target (import slot ...): its address
 #    "insn": the instruction at the site, as IDA prints it (without comments)
+#    "insn_call": whether that instruction is a call (ida: is_call_insn); a few site keys are jmps that Hex-Rays
+#                 gave a call expression's address (21 on 22 Oct)
+#    "insn_target": the instruction's own target, from the xref IDA stores (direct call/jmp, or a [mem] slot such
+#                   as an import); null for an indirect call
+#    "target_agrees": whether "callee"/"object" is "insn_target"; false means the type above belongs to a different
+#                     target than the instruction's (Hex-Rays reads 8 import calls 0x30 bytes past their IAT slot,
+#                     e.g. 0x10001563 call ds:GetWindowRect as __imp_recv); null when either is missing
 #    "hexrays": "typed" | "cast" | null, the src this walk finds in today's decompilation; null: no call
 #               expression for the site ("why": the function did not decompile, or the call is not there), and
 #               the entry holds only what the instruction and the IDB say (a direct target's prototype)}
@@ -136,6 +143,16 @@ def target(rec, oea, ov):
     if ov is None and same: rec['til'] = lib
 
 
+def insn_target(ea):
+    # the instruction's own target, from the xref IDA stores (see from_insn for why not insn_t.ops[0].addr)
+    ins = idaapi.insn_t()
+    kind = idaapi.decode_insn(ins, ea) and ins.ops[0].type
+    if kind in (idaapi.o_near, idaapi.o_far): refs = list(idautils.CodeRefsFrom(ea, 0))
+    elif kind == idaapi.o_mem: refs = list(idautils.DataRefsFrom(ea))
+    else: return None
+    return refs[0] if len(refs) == 1 else None
+
+
 def from_insn(ea):
     # no call expression for this site in the decompilation (the function did not decompile, or the call is not
     # there): what the instruction itself and the IDB say
@@ -236,6 +253,10 @@ def main():
                 if fea is not None and hx(fea) in errs: r['why'] = 'the function did not decompile'
             r['op_type'] = op_type(ea)
             r['insn'] = ida_lines.tag_remove(idc.generate_disasm_line(ea, idc.GENDSM_FORCE_CODE) or '').split(';')[0].rstrip()
+            r['insn_call'] = bool(idaapi.is_call_insn(ea))
+            t = insn_target(ea); rt = r.get('callee') or r.get('object')
+            r['insn_target'] = hx(t)
+            r['target_agrees'] = None if t is None or rt is None else int(rt, 16) == t
             out[hx(ea)] = r
     kinds = {}
     for r in out.values(): kinds[r['kind']] = kinds.get(r['kind'], 0) + 1
@@ -247,6 +268,8 @@ def main():
            'date': datetime.date.today().isoformat(), 'input_file': ida_nalt.get_root_filename(),
            'base_tils': [b.name for b in BASES], 'local_til': IDATI.name, 'sites': len(out), 'kinds': kinds,
            'functions': len(funcs), 'decompile_errors': errs,
+           'not_call_insn': sorted(k for k, r in out.items() if not r['insn_call']),
+           'target_disagrees': sorted(k for k, r in out.items() if r['target_agrees'] is False),
            'source': 'ida/ida_proto_origin.py over data/callsite_args.json (src "typed")'}
     res = {'_doc': doc}
     res.update(sorted(out.items()))

@@ -1,0 +1,3 @@
+{
+"0x100700E0": {"name": "CMoProcessor_InitMatrices", "confidence": "medium", "evidence": "on first call copies a 16-float identity default into the global at DAT_1047CC38 and registers an atexit handler; then copies that default into the four 0x40-byte matrix slots at this+0x810, +0x850, +0x890 and +0x8D0 and calls FUN_1006CE40; called by CreateProcessorInstance", "summary": "Initialises a processor's four matrix slots from the identity default."}
+}

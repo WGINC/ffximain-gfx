@@ -1,0 +1,8 @@
+{
+  "0x1002C270": {"name": "CYyModel_ApplyToParts", "confidence": "medium", "evidence": "walks the linked list at CYyModel::GetField44Addr and calls FUN_1002A700 on each part with self and 0", "summary": "Calls the part handler on every part of the model, passing the model and zero."},
+  "0x1002C2A0": {"name": "CYyModel_ForEachPart130", "confidence": "low", "evidence": "walks the same part list and calls FUN_1002A130 with the argument on each part", "summary": "Calls the part handler FUN_1002A130 on every part of the model."},
+  "0x1002C400": {"name": "CYyModel_GetPartOffset", "confidence": "low", "evidence": "for mode 2 walks the part list to the given index, transforms a unit point by FUN_1002A8B0 and adds the scaled offsets at +0x24, +0x28 and +0x2C with Vec3_AddInPlace; other modes return FUN_1002A750 of the part", "summary": "Adds the transformed offset of a part to the given vector."},
+  "0x1002C600": {"name": "CYyModel_CallPartIndex", "confidence": "low", "evidence": "walks the part list to the given index and returns FUN_1002A9E0 called on that part with the argument", "summary": "Calls the handler on the part at an index."},
+  "0x1002C710": {"name": "CYyModel_QueryPartsA", "confidence": "low", "evidence": "returns 0 when the part list is empty, else FUN_1002B3F0 of the argument", "summary": "Returns FUN_1002B3F0 of the argument when the model has parts."},
+  "0x1002C750": {"name": "CYyModel_QueryPartsB", "confidence": "low", "evidence": "returns 0 when the part list is empty, else FUN_1002B470 of the argument", "summary": "Returns FUN_1002B470 of the argument when the model has parts."}
+}

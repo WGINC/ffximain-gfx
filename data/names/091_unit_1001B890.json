@@ -1,0 +1,4 @@
+{
+"0x1001D170": {"name": "TranslucentSet_Construct", "confidence": "low", "evidence": "sets vtable PTR_FUN_1032a340, copies the eight pointers in pTexture and g_translucentTarget into this+0x8..+0x1C taking an AddRef on each non-null one, clears this+4 and g_translucentForce", "summary": "Constructs a translucent set and takes references to its textures."},
+"0x1001D390": {"name": "Translucent_SetColorForce", "confidence": "low", "evidence": "stores the first argument in g_translucentColor and the low byte of the second in g_translucentForce", "summary": "Sets the translucent colour and force flag."}
+}

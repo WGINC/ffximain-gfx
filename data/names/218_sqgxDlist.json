@@ -1,0 +1,8 @@
+{
+  "0x1029B5C0": {
+    "name": "SqgxDlist_CreateContextList",
+    "confidence": "medium",
+    "evidence": "creates a list with FUN_10275D80 (1, 0x2C, the name string and 0x1A) and stores it at the sqgx context's +0xA04, then zeroes the four dwords at +0xA08 to +0xA14",
+    "summary": "Creates the display list for the sqgx context and clears its counters."
+  }
+}

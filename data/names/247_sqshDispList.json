@@ -1,0 +1,4 @@
+{
+"0x102A2000": {"name": "SqshDispList_Create", "confidence": "medium", "evidence": "allocates 0x48 bytes with FUN_10275d40 from the source file C:\\dev\\dancer\\modules\\sqShape\\sr line 0x20, then calls SqshDispList_Init on it", "summary": "Allocates and initialises a display-list shape record."},
+"0x102A2020": {"name": "SqshDispList_Init", "confidence": "medium", "evidence": "stores the type 0xA000B, sets the function pointers at +8, +0xC and +0x10 (LAB_102a2070, FUN_102a2080, sqshDispListPrint), sets +0xC4 to LAB_102b3320, initialises the sub-object at +0x14 with FUN_1028d9a0 and clears +0x34 to +0x44", "summary": "Initialises a display-list shape record and its function table."}
+}

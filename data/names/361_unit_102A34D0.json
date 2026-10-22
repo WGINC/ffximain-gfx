@@ -1,0 +1,6 @@
+{
+"0x102A34D0": {"name": "Sq_ApplyLighting", "confidence": "medium", "evidence": "builds a colour from the three bytes at param_1+0x14..+0x18 and 1 minus the value at +0x30, calls sqgxColor and sqgxAmbient with the ambient at +0x20, then FUN_102833A0 with +0x24 and FUN_102833C0 with +0x28, +0x2C and the byte at +0x34; called by sub_10290B60, fn_10299090, fn_102993B0, fn_102997A0, sub_102A1F20 and fn_102B2CA0", "summary": "Applies a lighting description to the rendering context."},
+"0x102A3540": {"name": "Sqgx_SetParam9cc", "confidence": "low", "evidence": "stores the float argument at the context's +0x9CC; called by sub_10290B60", "summary": "Stores a float setting in the rendering context."},
+"0x102A3760": {"name": "Sqgx_ResetCounter", "confidence": "low", "evidence": "sets the dword at the context's +0xB18 to 0; called by sub_10290B60, sqsdGeneric_BakeOntoShape, fn_102993B0 and sqsdAniso_BakeOntoShape", "summary": "Resets a counter in the rendering context."},
+"0x102A3770": {"name": "Sqgx_IncCounter", "confidence": "low", "evidence": "adds one to the dword at the context's +0xB18; called by fn_102993B0", "summary": "Increments the counter in the rendering context."}
+}

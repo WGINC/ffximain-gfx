@@ -1,0 +1,6 @@
+{
+"0x101D30F0": {"name": "Actor_GetObjectAtIndex", "confidence": "low", "evidence": "returns the +0xA0 field of the actor at the index in this+0x7E6 when that index is nonzero and the actor exists, else 0", "summary": "Returns the object of the actor stored at this object's index."},
+"0x101D3DC0": {"name": "Actor_ReleaseTable", "confidence": "low", "evidence": "walks the two tables of 0x51 entries from this+0x4C, calling FUN_101CD900 and the free thunk on each non-null entry and clearing it, and clears the index at +0x7E6", "summary": "Releases every actor held in a table."},
+"0x101D3FC0": {"name": "Marker_Draw", "confidence": "low", "evidence": "projects the object at param_1 with Gfx_ProjectWorldToScreen, advances the counter at +0x858 by the frame scale, and draws a quad at the projected position with FUN_1011FB60 in colour 0x80808080", "summary": "Draws a marker at an object's projected screen position."},
+"0x101D5680": {"name": "Marker_Update", "confidence": "low", "evidence": "when the state at +0x1C is 1, calls FUN_101D30F0 and passes its result to Marker_Draw", "summary": "Draws the marker while the state is active."}
+}

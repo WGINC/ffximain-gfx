@@ -162,6 +162,18 @@ The causes of the three FAILs have not been looked into yet.
   - an IDB prototype counts only with a recorded definitive origin (SDK, PS2 DWARF, owner-typed);
   - the rest become UNRESOLVED where the gate needs them.
 
+### P14. The Ghidra-route methods do not know their class (22 Oct)
+- **Known:** in the regenerated tree, 1,477 functions reach fields by raw offset from `self_` (9,543 accesses), as
+  free `__thiscall` functions. Fields need the class.
+- **Measured** (`pipeline/this_class.py`, `data/this_class.json`; vcall_resolve's classes(F), vtables named by
+  `class_vtables.json`):
+  - 21 of them have a settled class (256 accesses);
+  - 1,412 have none: either no vtable reaches them (methods of classes without one; 2,734 such functions in the DLL),
+    or a caller passes an object the code does not type (TOP);
+  - 3,438 functions DLL-wide see a vtable `class_vtables.json` does not name.
+- **Needed for more:** the class from where the object is built (its constructor or allocation site), and names for
+  the unnamed vtables. Both are larger analyses, not started.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

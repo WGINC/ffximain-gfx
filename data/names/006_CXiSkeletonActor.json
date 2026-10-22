@@ -1,0 +1,134 @@
+{
+  "0x100A47F0": {
+    "name": "CXiSkeletonActor_GetField864",
+    "confidence": "low",
+    "evidence": "vtable slot 256 of CXiSkeletonActor; writes this->field_864 to the out-pointer and returns it",
+    "summary": "Returns the value stored at offset 0x864 of the skeleton actor."
+  },
+  "0x100A4850": {
+    "name": "CXiSkeletonActor_GetField663",
+    "confidence": "low",
+    "evidence": "vtable slot 17; returns the byte at offset 0x663 and nothing else",
+    "summary": "Returns the byte stored at offset 0x663 of the skeleton actor."
+  },
+  "0x100A4970": {
+    "name": "CXiSkeletonActor_GetField750",
+    "confidence": "low",
+    "evidence": "vtable slot 258; writes the dword at offset 0x750 to the out-pointer and returns it",
+    "summary": "Returns the dword stored at offset 0x750 of the skeleton actor."
+  },
+  "0x100A4A00": {
+    "name": "CXiSkeletonActor_IsEffectFlag8",
+    "confidence": "low",
+    "evidence": "vtable slot 30; returns (effectFlags & 8) != 0",
+    "summary": "Tests bit 8 of the actor's effect flags."
+  },
+  "0x100A4A90": {
+    "name": "CXiSkeletonActor_GetField8A5",
+    "confidence": "low",
+    "evidence": "vtable slot 41; returns the byte at field_8A5",
+    "summary": "Returns the byte stored at offset 0x8A5 of the skeleton actor."
+  },
+  "0x100A4AA0": {
+    "name": "CXiSkeletonActor_SetField8A5",
+    "confidence": "low",
+    "evidence": "vtable slot 42; stores its argument in field_8A5 and returns it",
+    "summary": "Stores a byte at offset 0x8A5 of the skeleton actor."
+  },
+  "0x100A4AB0": {
+    "name": "CXiSkeletonActor_GetField8A6",
+    "confidence": "low",
+    "evidence": "vtable slot 43; returns the byte at field_8A6",
+    "summary": "Returns the byte stored at offset 0x8A6 of the skeleton actor."
+  },
+  "0x100A4AC0": {
+    "name": "CXiSkeletonActor_SetField8A6",
+    "confidence": "low",
+    "evidence": "vtable slot 44; stores its argument in field_8A6 and returns it",
+    "summary": "Stores a byte at offset 0x8A6 of the skeleton actor."
+  },
+  "0x100A4AD0": {
+    "name": "CXiSkeletonActor_GetField8A7",
+    "confidence": "low",
+    "evidence": "vtable slot 45; returns the byte at field_8A7",
+    "summary": "Returns the byte stored at offset 0x8A7 of the skeleton actor."
+  },
+  "0x100A4AE0": {
+    "name": "CXiSkeletonActor_SetField8A7",
+    "confidence": "low",
+    "evidence": "vtable slot 46; stores its argument in field_8A7 and returns it",
+    "summary": "Stores a byte at offset 0x8A7 of the skeleton actor."
+  },
+  "0x100A4AF0": {
+    "name": "CXiSkeletonActor_GetField8A8",
+    "confidence": "low",
+    "evidence": "vtable slot 47; returns the byte at field_8A8",
+    "summary": "Returns the byte stored at offset 0x8A8 of the skeleton actor."
+  },
+  "0x100A4B20": {
+    "name": "CXiSkeletonActor_SetField8A9",
+    "confidence": "low",
+    "evidence": "vtable slot 50; stores its argument in field_8A9 and returns it",
+    "summary": "Stores a byte at offset 0x8A9 of the skeleton actor."
+  },
+  "0x100A4B30": {
+    "name": "CXiSkeletonActor_SetForceUpdate",
+    "confidence": "medium",
+    "evidence": "vtable slot 99; sets the field forceUpdateFlag to 1",
+    "summary": "Sets the flag that forces the skeleton actor to update."
+  },
+  "0x100A4B40": {
+    "name": "CXiSkeletonActor_SetFieldA04",
+    "confidence": "low",
+    "evidence": "vtable slot 100; writes 1 to the byte at offset 0xA04",
+    "summary": "Sets the byte at offset 0xA04 of the skeleton actor to 1."
+  },
+  "0x100CD4E0": {
+    "name": "CXiSkeletonActor_SetSlotMotion",
+    "confidence": "medium",
+    "evidence": "calls CYyModel::GetField44Addr on this+0x674, then CYyMotionQue::SetSlotMotion on the motion queue it points to",
+    "summary": "Sets a motion on the model's motion queue slot."
+  },
+  "0x100CDF90": {
+    "name": "CXiSkeletonActor_UpdateRandomTimer",
+    "confidence": "medium",
+    "evidence": "subtracts Camera_GetFrameScale from the float at +0x8B8; when it goes negative, sets it to rand() % 0x1E0 and, if IsReadCompleteBody holds, calls CXiSkeletonActor_SetSlotMotion with a resource found by CMoResource_FindInScope",
+    "summary": "Counts down a random interval by the frame scale and, when it expires, starts a motion found in the actor's resources."
+  },
+  "0x100CF200": {
+    "name": "CXiSkeletonActor_ForwardToModelField24",
+    "confidence": "medium",
+    "evidence": "vtable slot 172; calls CYyModel::GetField44Addr on self+0x674 and forwards its argument to CYyModelBase_ForwardToField24 when the pointer is non-null",
+    "summary": "Forwards a call to the model's field-24 handler."
+  },
+  "0x100CFA50": {
+    "name": "CXiSkeletonActor_AddResourceParts",
+    "confidence": "medium",
+    "evidence": "iterates resources of type 0x2A with ResourceIter_FindFirst and FindNext, calling CYyModelBase_AddPartFromResource and CMoResource_AddRefChain for each, then spawns resource generators when the flag at +0x24 is 1",
+    "summary": "Adds a part to the model for each resource of the given type, and spawns generators when the resource asks for them."
+  },
+  "0x100D0FC0": {
+    "name": "CXiSkeletonActor_SelectStateMessage",
+    "confidence": "low",
+    "evidence": "calls the vtable slots +0x394, +0x378, +0x36C and +0x3A4, then sends one of the four-character messages 'init', 'con0', 'con1' or 'con2' through slot +0x298",
+    "summary": "Chooses one of the state messages to send to the skeleton actor from its current flags."
+  },
+  "0x100D4410": {
+    "name": "CXiSkeletonActor_AddListEntry",
+    "confidence": "medium",
+    "evidence": "allocates a 0x24-byte object with Mem_AllocDefault, initialises it with FUN_1001B710, stores the arguments at +0x10, +0x14, +0x1C and +0xC, and links it into the list at this+0x7E4 with FUN_1002C7E0",
+    "summary": "Allocates a list entry, fills it from the arguments and adds it to the actor's list."
+  },
+  "0x100D4540": {
+    "name": "CXiSkeletonActor_FindListEntry",
+    "confidence": "medium",
+    "evidence": "walks the list at this+0x7E4 through the next pointer at +4 and returns the first entry whose +0xC equals param_1, or 0",
+    "summary": "Finds the entry in the actor's list whose key matches the argument."
+  },
+  "0x100D6240": {
+    "name": "CXiSkeletonActor_FindPartValue",
+    "confidence": "low",
+    "evidence": "walks the part lists from CYyModel::GetField44Addr on this+0x674, comparing each part's FUN_1002C710 result with a tag built from param_1 and 0x706577; returns FUN_1002C750 of the matching index",
+    "summary": "Finds the part whose tag matches the argument and returns its value."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "0x100473F0": {
+    "name": "CMoElem_GetActiveField0A4",
+    "confidence": "low",
+    "evidence": "returns the dword at +0xA4 of the object selected from the fields at +0x108, +0x100 and +0xFC, or the value at +0xA4 of the first of those that is non-null; returns 0 when none is set",
+    "summary": "Returns the value at offset 0xA4 of the element's active object."
+  },
+  "0x10047450": {
+    "name": "CMoElem_GetAddr78",
+    "confidence": "low",
+    "evidence": "returns this+0x108 + 0x40 when +0x108 is set, otherwise the address at offset 0x78 of the object at +0x100 or +0xFC, or 0x78 when none is set",
+    "summary": "Returns the address at offset 0x78 of the element's active object."
+  },
+  "0x10047490": {
+    "name": "CMoElem_GetAddr84",
+    "confidence": "low",
+    "evidence": "returns this+0x108 + 0x50 when +0x108 is set, otherwise the address at offset 0x84 of the object at +0x100 or +0xFC, or 0x84 when none is set",
+    "summary": "Returns the address at offset 0x84 of the element's active object."
+  },
+  "0x100474D0": {
+    "name": "Lightmap_InitFromRenderTarget",
+    "confidence": "medium",
+    "evidence": "clears g_lightmapFrameTable and flt_1047BBCC, then sets flt_1047BBD0 and flt_1047BBD4 from the render target's dwords at +8 and +0xC returned by CDx_GetRenderTargetTop",
+    "summary": "Resets the lightmap's frame values and sets them from the render target's size."
+  }
+}

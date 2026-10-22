@@ -1,0 +1,26 @@
+{
+  "0x1002A0C0": {
+    "name": "CYyModelBase_ApplyToPartsAndMarkChains",
+    "confidence": "medium",
+    "evidence": "clears the marks at self+8 (Skel_ClearMarks); loops over GetPartList calling each part's vtable slot 0x28 with the value at self+0x1C; sets bytes to 0x80 at FindPartIndex(0x7F) and FindPartIndex(0x7E); then Skel_MarkMarkedChains",
+    "summary": "Applies the model's value at +0x1C to every part, marks two indexed parts, then marks the skeleton's chains."
+  },
+  "0x1002A750": {
+    "name": "CYyModelBase_SetIdentityAndApplyPart",
+    "confidence": "medium",
+    "evidence": "calls Quat_SetIdentity on the output vector (param_2), then Unit1002A0C0_ApplyToVec4 on the same vector, and returns its result",
+    "summary": "Sets the output vector to the identity quaternion and applies the part's transform to it."
+  },
+  "0x1002A780": {
+    "name": "CYyModelBase_ApplyPartTransformToVec4",
+    "confidence": "medium",
+    "evidence": "gets the part record with Skel_GetRecordAt(self+8, id); if non-null builds a 4x4 from rotations X, Y, Z of the record, translation from Part_CopyTranslation, and the bone table entry (Skel_GetBoneTableBase via the *psVar1*0x40 term), then Mat4_TransformVec4InPlace on param_2; returns 0 when the record is missing",
+    "summary": "Builds the part's rotation-and-translation matrix from its record and transforms the vector by it."
+  },
+  "0x1002A8B0": {
+    "name": "Part_AddTranslationToVec3",
+    "confidence": "medium",
+    "evidence": "Skel_GetRecordAt(self+8, index); if non-null calls Vec3_AddInPlace(param_2, record+0xE), where Part_CopyTranslation reads the translation from the same kind of record",
+    "summary": "Adds the part record's translation (at +0x0E) to the given vector."
+  }
+}

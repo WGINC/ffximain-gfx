@@ -1,0 +1,158 @@
+{
+  "0x100DC250": {
+    "name": "Unit100D7420_GetWrapCount",
+    "confidence": "medium",
+    "evidence": "returns the dword at DAT_10492e10+0x4c, which Unit100D7420_Update (0x100DC210) increments when the sampled time goes backward",
+    "summary": "Returns the wrap counter of the timer."
+  },
+  "0x100DC260": {
+    "name": "Unit100D7420_GetLastTick",
+    "confidence": "medium",
+    "evidence": "returns the dword at DAT_10492e10+0x50, the value Unit100D7420_Update (0x100DC210) stores each sample",
+    "summary": "Returns the last time sample of the timer."
+  },
+  "0x100DC270": {
+    "name": "Unit100D7420_InitContext",
+    "confidence": "medium",
+    "evidence": "stores &DAT_10492e18 in DAT_104ae8ac, zeroes 0x6BF2 dwords from it, and calls FUN_100dc3b0 on ctx+0x6BF0; Unit100D7420_IsInitialized (0x100DC2C0) tests the same global",
+    "summary": "Makes the block at 0x10492E18 the current context and zeroes it."
+  },
+  "0x100DC2C0": {
+    "name": "Unit100D7420_IsInitialized",
+    "confidence": "medium",
+    "evidence": "returns nonzero exactly when the global DAT_104ae8ac, set by Unit100D7420_InitContext, is not null",
+    "summary": "Tests whether the context pointer is set."
+  },
+  "0x100DC420": {
+    "name": "Unit100D7420_GetContextField1AFC0",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_104ae8ac+0x1afc0, the context global set by Unit100D7420_InitContext",
+    "summary": "Returns the dword at offset 0x1AFC0 of the context."
+  },
+  "0x100DC6D0": {
+    "name": "Unit100D7420_GetAddress104ADDE0",
+    "confidence": "low",
+    "evidence": "returns the address of DAT_104adde0 and nothing else",
+    "summary": "Returns the address of the global at 0x104ADDE0."
+  },
+  "0x100DCA00": {
+    "name": "Unit100D7420_EncryptBlocks",
+    "confidence": "medium",
+    "evidence": "loops over 8-byte blocks applying key words param_1[0] up to [0x11] in ascending order with tables at +0x112, +0x212, +0x312; Unit100D7420_DecryptBlocks (0x100DCF60) runs the same loop with the key words in descending order; called from Unit100D7420_EncodeMd5",
+    "summary": "Runs the block cipher forward over 8-byte blocks."
+  },
+  "0x100DCF60": {
+    "name": "Unit100D7420_DecryptBlocks",
+    "confidence": "medium",
+    "evidence": "the same 8-byte block loop as Unit100D7420_EncryptBlocks (0x100DCA00) with the key words taken in descending order from param_1[0x11]; called from Unit100D7420_DecodeMd5",
+    "summary": "Runs the block cipher in reverse over 8-byte blocks."
+  },
+  "0x100DD570": {
+    "name": "Unit100D7420_IncrementField109C",
+    "confidence": "low",
+    "evidence": "adds 1 to the dword at param_1+0x109c and returns 1",
+    "summary": "Increments the dword at offset 0x109C of its argument."
+  },
+  "0x100DD590": {
+    "name": "Unit100D7420_EncodeMd5",
+    "confidence": "medium",
+    "evidence": "copies the 7-dword header from param_4; encodes the body with Unit100D7420_Encode or copies it raw; appends the 16 bytes of the three hash calls (FUN_100dde90, FUN_100ddec0, FUN_100ddf60) after it; optionally calls Unit100D7420_EncryptBlocks",
+    "summary": "Builds a packet from a 7-dword header and a body, appends the hash of the packet, and optionally encrypts it."
+  },
+  "0x100DD6C0": {
+    "name": "Unit100D7420_DecodeMd5",
+    "confidence": "medium",
+    "evidence": "hashes the packet body with FUN_100dde90, FUN_100ddec0 and FUN_100ddf60, compares the 4-dword result with the stored trailer and returns 0 on mismatch; then calls Unit100D7420_Decode",
+    "summary": "Checks a packet's hash trailer and decodes its body."
+  },
+  "0x100DDE90": {
+    "name": "Unit100D7420_Md5Init",
+    "confidence": "medium",
+    "evidence": "zeroes the two count dwords at +0 and +4 and writes 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 to +8..+0x14; its callers pair it with FUN_100ddec0 and FUN_100ddf60 in Unit100D7420_EncodeMd5, Unit100D7420_DecodeMd5 and Unit100D7420_HashPair",
+    "summary": "Resets a hash state to its initial words."
+  },
+  "0x100DF5D0": {
+    "name": "Unit100D7420_Decode",
+    "confidence": "medium",
+    "evidence": "if the first byte is 1, walks a binary tree bit by bit (child pointers at +0 and +4, a leaf when both are zero, symbol at leaf+0xC); otherwise copies the bytes raw",
+    "summary": "Decodes a packet body by walking a bit tree, or copies it raw."
+  },
+  "0x100DF6E0": {
+    "name": "Unit100D7420_CopyBits",
+    "confidence": "medium",
+    "evidence": "copies bits one at a time from param_4 at bit param_6+i to param_1 at bit param_3+i after bounds checks, and returns 0xFF when a check fails; called by Unit100D7420_Encode",
+    "summary": "Copies a run of bits between two bit arrays."
+  },
+  "0x100DF780": {
+    "name": "Unit100D7420_EstimateBytes",
+    "confidence": "medium",
+    "evidence": "sums the per-symbol bit cost from the table at param_3+0x600 over param_2 bytes and returns (bits+7)/8",
+    "summary": "Estimates the number of bytes the coded form of an input takes."
+  },
+  "0x100DF7C0": {
+    "name": "Unit100D7420_Encode",
+    "confidence": "medium",
+    "evidence": "for each input byte appends its code (table at +0x200) of the length in table +0x600 through Unit100D7420_CopyBits; writes flag 1 on success, or flag 0 and the raw bytes when the coded size overflows",
+    "summary": "Codes an input into a bit array, or stores it raw when the coded form does not fit."
+  },
+  "0x100E08D0": {
+    "name": "Entry_FindByNormalizedName",
+    "confidence": "medium",
+    "evidence": "walks the entry chain from DAT_104dfd98+0x1a6a0 (next index at each entry's first word, name at +6), normalises the key and each entry name with Name_Normalize, compares them, and returns the index or -1",
+    "summary": "Returns the index of the entry whose normalised name matches, or -1."
+  },
+  "0x100E09A0": {
+    "name": "Name_Normalize",
+    "confidence": "medium",
+    "evidence": "copies the characters that pass a class test (mask 0x103 on the table at PTR_DAT_103d0030) and stops after 16 characters, then NUL-terminates; Entry_FindByNormalizedName compares two such copies",
+    "summary": "Copies a name keeping only the characters that pass the class test, up to 16."
+  },
+  "0x100E0A00": {
+    "name": "Unit100D7420_ClearFlag1A698",
+    "confidence": "low",
+    "evidence": "when DAT_104dfd98 is non-null, clears the byte at DAT_104dfd98+0x1a698 and returns 1; the byte is tested for 1 in the caller at 0x100E0A50",
+    "summary": "Clears the state byte at offset 0x1A698 of the global block."
+  },
+  "0x100E13C0": {
+    "name": "Entry_ResetFields",
+    "confidence": "medium",
+    "evidence": "calls the callback at self+0x14 with self+0x18 when it is set, then zeroes the fields at self+0x4 to self+0x7B4 and sets the word at +0x7B2 to 2",
+    "summary": "Runs the entry's callback and clears its fields."
+  },
+  "0x100E1470": {
+    "name": "Unit100D7420_InitAll",
+    "confidence": "medium",
+    "evidence": "clears the globals, writes four constants into the tables at 0x104B0718..0x104B0740, runs an MD5-style init/update/final loop over 0x14 bytes a count of times taken from Unit100D7420_GetTotalMilliseconds, sets the callback pointers, and calls FUN_100d8490",
+    "summary": "Clears the unit's globals, seeds its tables, and initialises the object."
+  },
+  "0x100E1790": {
+    "name": "Unit100D7420_InitWithMd5",
+    "confidence": "medium",
+    "evidence": "hashes the 0x14 bytes at param_1+0x7A3*4 with FUN_100dde90, FUN_100ddec0 and FUN_100ddf60 and stores the 4-dword digest there, then calls Mutex_WriteRecordLocked on the object",
+    "summary": "Stores an MD5 digest of 0x14 bytes in the object and writes a record with Mutex_WriteRecordLocked."
+  },
+  "0x100E19C0": {
+    "name": "Unit100D7420_AllocEntry4",
+    "confidence": "medium",
+    "evidence": "loops over four entries of stride 0x794 with an id word at +0x7A0, takes a free one, stamps it from the counter at +0x0A, and returns entry+0x10",
+    "summary": "Takes one of four table entries, stamps it with a new id, and returns its data."
+  },
+  "0x100E1AD0": {
+    "name": "Unit100D7420_AllocEntryFromTable",
+    "confidence": "medium",
+    "evidence": "returns Unit100D7420_AllocEntry4 on the table at DAT_104df770+0x1369c, or 0 when the global DAT_104df770 is null",
+    "summary": "Allocates an entry from the table the global points to, or returns 0 when there is none."
+  },
+  "0x100E1B50": {
+    "name": "Unit100D7420_CountActive",
+    "confidence": "medium",
+    "evidence": "counts the two entries at table+0x1F20 (stride 0x7D4) whose first word is nonzero, when the global table exists",
+    "summary": "Counts the active entries among the two at +0x1F20."
+  },
+  "0x100E1C00": {
+    "name": "Unit100D7420_ClearMatching",
+    "confidence": "medium",
+    "evidence": "for each of four entries (data at +0x10, stride 0x794), when the argument equals the entry's data pointer it zeroes the id word at +0x7A0; returns the end pointer",
+    "summary": "Clears the id of the table entry whose data pointer is the argument."
+  }
+}

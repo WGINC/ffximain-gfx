@@ -10,7 +10,7 @@ replaces. The function itself is exported as xi_<ADDR> with the original calling
 
 Usage: python3 hx2cpp.py gfx_export2.jsonl outdir/
 """
-import json, os, re, struct, sys
+import collections, json, os, re, struct, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from msvc_demangle import demangle
 import hx_patches
@@ -620,7 +620,7 @@ def ghidra_prepare(rec):
     rec = ghidra_fix_convention(rec)
     t, why = ghidra_icalls(rec)
     if t is None: return None, 'untranslatable', why
-    rec = dict(rec, text=t)
+    rec = dict(rec, text=ghidra_vcall_this(rec['ea'], t))
     if rec.get('x87_locals'):
         # locals that hold an x87 register value (GfxExport.x87Locals): the precision of ST, not of float
         head, brace, rest = rec['text'].partition('\n{')
@@ -702,6 +702,58 @@ def ghidra_icalls(rec):
         call = '((%s (%s *)(%s))(%s))(%s)' % ('float10' if ret == 'float' else 'int', cc, ', '.join(params) or 'void',
                                              text[i:j], ','.join(args))
         text = text[:m.start()] + call + text[k:]
+
+_VC = {}
+
+
+def ghidra_vcall_this(ea, text):
+    """a virtual call Ghidra printed without its object, `(**(code **)(*V + K))(args)`, where the export did not mark
+    it (its convention was not established when it was exported): called with V in ECX (__thiscall) when every call
+    site of the function through slot K/4 is entered with ECX = the object whose vtable it calls through, not also
+    pushed (data/ecx_this_sites.json), and pops what the text passes, from a definitive source that agrees (sp_solved,
+    real_sp, game_sp, vcalls, com_calls). Ghidra printed the vtable's object, *V, so V is that object. Anything less
+    leaves the text as it is (the gate then stops at the call as unresolved, or compares what it can)."""
+    if not _VC:
+        d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
+        _VC['ecx'] = {k: v for k, v in ld('ecx_this_sites.json').items() if not k.startswith('_')}
+        pops = collections.defaultdict(set)
+        for f in ('sp_solved.json', 'vcalls.json', 'com_calls.json', 'game_sp.json'):
+            for k, v in ld(f).items():
+                if not k.startswith('_') and isinstance(v, dict) and 'pops' in v: pops[k].add(v['pops'])
+        for fk, r in ld('real_sp.json').items():
+            for ck, pp in (r.get('calls') or {}).items(): pops[ck].add(pp)
+        _VC['pops'] = pops
+        _VC['by_func'] = collections.defaultdict(list)
+        for k, v in _VC['ecx'].items(): _VC['by_func'][v.get('func')].append((k, v))
+    sites = _VC['by_func'].get('0x%08X' % ea)
+    if not sites: return text
+    def slot_conv(slot):
+        ss = [(k, v) for k, v in sites if v.get('slot') == slot]
+        if not ss or not all(v.get('ecx') and not v.get('pushed') for k, v in ss): return None
+        pp = set().union(*[_VC['pops'].get(k, set()) for k, v in ss])
+        if len(pp) != 1 or not all(_VC['pops'].get(k) for k, v in ss): return None
+        p = next(iter(pp))
+        return p // 4 if p % 4 == 0 else None
+    out, i = '', 0
+    for m in re.finditer(r'\(\*\*\(code \*\*\)\(\*(\w+) \+ (0x[0-9a-f]+|\d+)\)\)\(', text):
+        if m.start() < i: continue
+        n = slot_conv(int(m.group(2), 0) // 4)
+        if n is None: continue
+        j = m.end() - 1; k = _balanced(text, j)
+        args, depth, cur = [], 0, ''
+        for c in text[j + 1:k - 1]:
+            if c in '([': depth += 1
+            elif c in ')]': depth -= 1
+            if c == ',' and depth == 0: args.append(cur); cur = ''
+            else: cur += c
+        if cur.strip(): args.append(cur)
+        if len(args) != n: continue
+        call = '((int (__thiscall *)(%s))(*(code **)(*%s + %s)))(%s)' % (
+            ', '.join(['void *'] + ['XI_ANY'] * n), m.group(1), m.group(2), ', '.join(['(void *)(%s)' % m.group(1)] + [a.strip() for a in args]))
+        out += text[i:m.start()] + call; i = k
+    return out + text[i:]
+
 
 GHIDRA_AUTO = re.compile(r'\b((DAT|PTR|FUN|s|u|UNK|BYTE|WORD|DWORD)_(?:\w*?_)?([0-9a-f]{8}))\b')
 

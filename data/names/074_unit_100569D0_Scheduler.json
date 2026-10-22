@@ -1,0 +1,20 @@
+{
+  "0x10056AA0": {
+    "name": "Scheduler_AddTask",
+    "confidence": "medium",
+    "evidence": "calls FUN_10074CF0 with the scheduler list at DAT_1047D140 and the tag 0x4D730000, then FUN_100720B0 on the task",
+    "summary": "Adds a task to the scheduler's list."
+  },
+  "0x10056CE0": {
+    "name": "Scheduler_CreateTask",
+    "confidence": "medium",
+    "evidence": "allocates a 0x14A-byte task with Mem_AllocFromArea, resets it with CMoTask::ResetFields, sets its tag at +0x1C to 0x4D730000 and its times from the owner's +0x74, then links it to the owner through FUN_10062830 and FUN_10062880",
+    "summary": "Allocates and initialises a scheduler task for an owner."
+  },
+  "0x10056EB0": {
+    "name": "Scheduler_RemoveTasksFor",
+    "confidence": "medium",
+    "evidence": "walks the scheduler list at DAT_1047D140 + 0xD50, and for each task tagged 0x4D730000 whose owner at +0x80 equals the argument, calls FUN_10074AB0 on it and restarts the walk",
+    "summary": "Removes every scheduler task that belongs to the given object."
+  }
+}

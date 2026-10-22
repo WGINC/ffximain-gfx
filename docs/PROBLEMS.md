@@ -67,6 +67,25 @@ The causes of the three FAILs have not been looked into yet.
 - **Not known:** the global's real type. It is left as declared until a source gives one (the class
   `App_Constructor` builds, from its vtable or the PS2 debug data).
 
+### P9. A function's tree code and its clean-gate case can come from different routes (22 Oct)
+- **Known:** the clean cases come from `verification/cases_raw_final.json`, where a function with an IDA case keeps
+  it. 3 tree functions take their code from another route because the IDA route's raw gate does not pass them, and
+  for 2 the routes disagree on the return: 0x10040220 (IDA `bool`, frame set `void`) and 0x1003E910 (IDA `int`,
+  frame set `void`).
+- **Effect:** the clean gate holds the frame set's code to the IDB's prototype. For 0x10040220 that is a FAIL: AL
+  differs, so the Ghidra translation does not return the value the IDB declares. Its frame-set raw PASS was gated
+  against Ghidra's `void`, which is no fact.
+- **Open:** which case should hold. The IDB's typed prototype is a declared type, so the stricter IDA case stays.
+
+### P10. The gate compared EAX only as wide as the decompiler's prototype (22 Oct; changed in b4d1d31)
+- **Known:** a case's `returns` of void, bool or a word limited the EAX comparison. Where `caller_reads.json` does
+  not list the function, that width is only the prototype's. In the tree: 309 Ghidra-route `void` functions and 73
+  IDA-route ones whose callers may read EAX, and 92 `bool` functions whose callers may read more than AL.
+- **Change:** those bytes are now compared too. A difference only there makes the trial, and so the function,
+  UNRESOLVED. On a sample of 24, 5 differ there.
+- **Pending:** the four raw gates and then the clean gate rerun with it (started 22 Oct). Counts will drop where
+  functions were PASS only because EAX went unseen.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

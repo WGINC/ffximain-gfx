@@ -1,0 +1,176 @@
+{
+  "0x102572E0": {
+    "name": "Blob_InvertBytes",
+    "confidence": "medium",
+    "evidence": "when param_1 is 1, replaces each of the param_3 bytes at param_2 with its bitwise complement",
+    "summary": "Inverts each byte of a block when the mode argument is 1."
+  },
+  "0x102573C0": {
+    "name": "Header_SwapEndianPair",
+    "confidence": "medium",
+    "evidence": "replaces the dwords at param_1[0] and param_1[1] with the results of FUN_1000D150 on each",
+    "summary": "Byte-swaps the two dwords of a table header."
+  },
+  "0x102574F0": {
+    "name": "Tbl_GetEntryPtr",
+    "confidence": "low",
+    "evidence": "returns the address 14 bytes into the entry at index param_2 when the index is below the count at offset 0, its size field at +4 is zero and its tag word is 1; otherwise null",
+    "summary": "Returns the data pointer of a valid table entry, or null."
+  },
+  "0x10257550": {
+    "name": "Tbl_GetCellData",
+    "confidence": "low",
+    "evidence": "computes the row block from the stride at +0x20 and the row index, returns null when the cell index is out of range or its flag is set, otherwise the address 14 bytes into the cell when its tag word is 1",
+    "summary": "Returns the data pointer of a cell in a row of the table, or null."
+  },
+  "0x10257590": {
+    "name": "Util_Align4",
+    "confidence": "medium",
+    "evidence": "returns (param_1 + 3) rounded down to a multiple of 4",
+    "summary": "Rounds a size up to the next multiple of four."
+  },
+  "0x102575B0": {
+    "name": "Str_IsNotHashOrDot",
+    "confidence": "low",
+    "evidence": "returns 1 when the string is non-null and its first byte is neither '#' nor '.', otherwise 0",
+    "summary": "Reports whether a string does not start with '#' or '.'."
+  },
+  "0x102575D0": {
+    "name": "Tbl_GetWord40",
+    "confidence": "low",
+    "evidence": "returns the word at +0x40 of the argument",
+    "summary": "Returns the word stored at offset 0x40 of the table."
+  },
+  "0x102575E0": {
+    "name": "Tbl_ComputeTotalSize",
+    "confidence": "medium",
+    "evidence": "sums 0x40 plus eight bytes per cell plus Util_Align4 of each cell's string length, over every row and column, using the counts at +0x28 and +0x40",
+    "summary": "Computes the total size of the table's data block."
+  },
+  "0x10257670": {
+    "name": "Tbl_Clone",
+    "confidence": "medium",
+    "evidence": "sizes the copy with Tbl_ComputeTotalSize, allocates it with Allocator_Generic, copies the 0x40-byte header, then rebuilds each cell's string offset and length from the source cells",
+    "summary": "Allocates and fills a compact copy of the table."
+  },
+  "0x102577C0": {
+    "name": "Tbl_GetDataOrDefault",
+    "confidence": "low",
+    "evidence": "returns PTR_Read_10389dac when the table is null or the cell's size field is zero, otherwise the cell's data pointer",
+    "summary": "Returns a cell's data, or the default string when the table or cell is empty."
+  },
+  "0x10257800": {
+    "name": "Tbl_GetDwordEntry",
+    "confidence": "low",
+    "evidence": "returns 0 for a null table or an index at or past the count, or when the entry's tag is not 1; otherwise the dword at the entry's data offset",
+    "summary": "Returns the dword stored in a table entry, or 0 when the entry is not valid."
+  },
+  "0x10257850": {
+    "name": "Buf_FreeData",
+    "confidence": "medium",
+    "evidence": "calls operator_delete on the pointer at the object's first dword when it is non-null",
+    "summary": "Frees the data block held by the object."
+  },
+  "0x10257870": {
+    "name": "Tbl_GetRowBase",
+    "confidence": "medium",
+    "evidence": "returns 0 when the index is at or past the row count at +0x28 of the source; otherwise the base address of the row from the stride at +0x20 or the row offset table, plus the table's data pointer",
+    "summary": "Returns the base address of a row of the table."
+  },
+  "0x102578B0": {
+    "name": "Tbl_GetCell",
+    "confidence": "medium",
+    "evidence": "returns 0 when the row index is past the row count; for a table of type 0x10 it calls Tbl_GetDataOrDefault on the row block, otherwise it gets the row base with Tbl_GetRowBase and then the cell with Tbl_GetEntryPtr",
+    "summary": "Returns the cell at a row and column of the table."
+  },
+  "0x10257920": {
+    "name": "Tbl_GetDwordCell",
+    "confidence": "low",
+    "evidence": "returns 0 when the row index is past the row count, otherwise the dword from Tbl_GetDwordEntry on the row base",
+    "summary": "Returns the dword stored in a cell of the table."
+  },
+  "0x10257980": {
+    "name": "Tbl_Assign",
+    "confidence": "low",
+    "evidence": "calls Tbl_Bind with its two arguments, stores param_1 at +0 when the source is non-null, and returns the source pointer",
+    "summary": "Binds the table to a new source and returns the source pointer."
+  },
+  "0x102579B0": {
+    "name": "Tbl_Bind",
+    "confidence": "low",
+    "evidence": "compares the argument with the string at DAT_1033CE74 as a sorted key, sets the source pointer at +4 on a match, and for a table of type 0x10 sets the data block at +0xC to the argument's +0x40; otherwise it calls Header_SwapEndianPair and Tbl_BindData on the other tables",
+    "summary": "Binds the table's source to the given table header and locates its data."
+  },
+  "0x10257AF0": {
+    "name": "Tbl_GetRowCount",
+    "confidence": "medium",
+    "evidence": "returns the dword at +0x28 of the table's source",
+    "summary": "Returns the number of rows in the table."
+  },
+  "0x10257B10": {
+    "name": "Tbl_IsBound",
+    "confidence": "medium",
+    "evidence": "returns 1 when the source pointer at +4 is non-null, otherwise 0",
+    "summary": "Reports whether the table has a source bound."
+  },
+  "0x10257B60": {
+    "name": "Tbl_Clear",
+    "confidence": "medium",
+    "evidence": "zeroes the byte at +0, the dword at +4, the byte at +8 and the dword at +0xC",
+    "summary": "Clears the table's source and data fields."
+  },
+  "0x10257BA0": {
+    "name": "Tbl_BindSource",
+    "confidence": "low",
+    "evidence": "stores param_1 at +4 and calls Header_SwapEndianPair on it when its type word at +8 is not 1",
+    "summary": "Stores the table source and byte-swaps its header when needed."
+  },
+  "0x10257BC0": {
+    "name": "Tbl_GetRowBytes",
+    "confidence": "low",
+    "evidence": "returns the row count at +0x28 of the source times 8",
+    "summary": "Returns the size in bytes of the table's row index."
+  },
+  "0x10257BF0": {
+    "name": "Tbl_BindData",
+    "confidence": "medium",
+    "evidence": "stores param_1 at +0xC, inverts the row index with Blob_InvertBytes when the type word is not 1, and for each row whose flag at +0x1C is set calls Header_SwapEndianPair on its block",
+    "summary": "Stores the table's data block and prepares its row index."
+  },
+  "0x10257C70": {
+    "name": "Tbl_GetStride",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x20 of the table's source",
+    "summary": "Returns the row stride of the table."
+  },
+  "0x10257C80": {
+    "name": "Tbl_GetRowInfo",
+    "confidence": "low",
+    "evidence": "for a table with a stride, writes stride * param_2 + 0x40 to the out-pointer and returns the stride; otherwise it writes the row's offset and size from the row index at +0xC and returns the size",
+    "summary": "Returns the offset and size of a row of the table."
+  },
+  "0x10257FE0": {
+    "name": "Tbl_IsTypeOne",
+    "confidence": "low",
+    "evidence": "returns 1 when the byte at param_1 equals 1, otherwise 0",
+    "summary": "Reports whether a value's type byte is 1."
+  },
+  "0x10257FF0": {
+    "name": "Tbl_IsTypeRange",
+    "confidence": "low",
+    "evidence": "returns 1 when the byte at param_1 is greater than 1 and less than 0x10, otherwise 0",
+    "summary": "Reports whether a value's type byte is in the range 2 to 15."
+  },
+  "0x102586F0": {
+    "name": "Tbl_GetDataPtr",
+    "confidence": "low",
+    "evidence": "returns the dword at +4 of the argument",
+    "summary": "Returns the source pointer stored at offset 4 of the table."
+  },
+  "0x10258990": {
+    "name": "Str_IsInSjisSet",
+    "confidence": "medium",
+    "evidence": "walks the character list at DAT_10389EC0, comparing one-byte entries with the first byte of the argument and two-byte SJIS entries with its first two bytes using Sjis_GetCharByteLen, and returns 1 on a match",
+    "summary": "Reports whether the string's first character is in a Shift-JIS character set."
+  }
+}

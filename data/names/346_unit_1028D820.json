@@ -1,0 +1,8 @@
+{
+  "0x1028D870": {
+    "name": "Node_CreateFromFields",
+    "confidence": "low",
+    "evidence": "calls FUN_1028D6D0 and, when it returns a non-null object, stores the five arguments at its dword offsets 7, 8, 9, 0xA and 0xB, then returns the object",
+    "summary": "Creates a node and stores five values in its fields."
+  }
+}

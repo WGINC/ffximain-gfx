@@ -1,0 +1,14 @@
+{
+  "0x10298B30": {
+    "name": "SqrdTexture_Create",
+    "confidence": "medium",
+    "evidence": "allocates 0x24 bytes with FUN_10275d80 from the source file C:\\dev\\dancer\\modules\\sqRend\\src line 0x22, then calls SqrdTexture_Init on it",
+    "summary": "Allocates and initialises a texture render record."
+  },
+  "0x10298B90": {
+    "name": "SqrdTexture_Init",
+    "confidence": "medium",
+    "evidence": "stores the type 0x70004, sets the function pointers at +8, +0xC and +0x10 (LAB_10298b50, FUN_10298b60, sqrdTexturePrint), sets +0x14 and +0x18 to -1 and clears +0x1C and +0x20",
+    "summary": "Initialises a texture render record and its function table."
+  }
+}

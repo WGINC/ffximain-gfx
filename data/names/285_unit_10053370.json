@@ -1,0 +1,8 @@
+{
+  "0x10053370": {
+    "name": "CMoTask_Restart",
+    "confidence": "low",
+    "evidence": "clears the fields at +0x9C, +0xCC and +0xC8, sets the flag at +0x800 of +0xD8 when the task is active, else destroys the task at +0xA8 through its vtable slot 0x18, allocates a new CMoTask with Mem_AllocFromArea and sets its vtable, then sets its fields from +0x14; called by fn_1004E720 and YmGenerater_Stop",
+    "summary": "Restarts the task, replacing its current child task with a new one."
+  }
+}

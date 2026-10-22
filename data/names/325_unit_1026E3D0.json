@@ -1,0 +1,20 @@
+{
+  "0x1026E460": {
+    "name": "StAvatar_AllocArrays",
+    "confidence": "medium",
+    "evidence": "sets the counts at DAT_1099AEC8 and DAT_1099AED4 and allocates the model array (0xAC per entry, name s_mdlArray) and the channel array (0xC0 per entry, name s_chnArray) through FUN_10275D80, initialising each with FUN_1026E530 and FUN_1027DAE0; called by StAvatarInit",
+    "summary": "Allocates the avatar's model and channel arrays."
+  },
+  "0x1026E530": {
+    "name": "StAvatar_InitModel",
+    "confidence": "low",
+    "evidence": "sets the words at +0x88 and +0x94 to -1, the flag at +4 to 0, the scale at +0x84 to 1.0f and the value at +0x94 to 0x3F060A92, and calls FUN_10274640 on +0x98",
+    "summary": "Initialises one entry of the avatar's model array."
+  },
+  "0x1026E590": {
+    "name": "StAvatar_UpdateModels",
+    "confidence": "low",
+    "evidence": "calls FUN_1027E440 and FUN_1027E490 on the global block at DAT_1099AEE0 with the argument, updates the entries of the model array through FUN_1027DD70 and FUN_102857D0 and FUN_102857F0, and sums the per-model values at +0x98 into DAT_1099AF48 to DAT_1099AF54; called by fn_10270F30",
+    "summary": "Updates the avatar's models and accumulates their values."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "0x101C33E0": {
+    "name": "Unit1018BA60_ReleaseAt1F0",
+    "confidence": "low",
+    "evidence": "calls FUN_1019FA90 on the pointer at +0x1F0",
+    "summary": "Calls the release helper on the object at +0x1F0.",
+    "invented_prefix_name": "Obj_ReleaseAt1F0"
+  },
+  "0x101C33F0": {
+    "name": "Unit1018BA60_GetValueAt1F0",
+    "confidence": "low",
+    "evidence": "returns the result of FUN_1019FAB0 on the pointer at +0x1F0",
+    "summary": "Returns the value that FUN_1019FAB0 gives for the object at +0x1F0.",
+    "invented_prefix_name": "Obj_GetValueAt1F0"
+  },
+  "0x101C3DB0": {
+    "name": "Unit1018BA60_FormatStrAt2F4",
+    "confidence": "low",
+    "evidence": "calls _sprintf with the format s__s__s_1037CBA0, the string at self+0x2F4 and the argument, and returns 1",
+    "summary": "Formats the string at +0x2F4 into the output buffer.",
+    "invented_prefix_name": "Obj_FormatStrAt2F4"
+  },
+  "0x101C3DE0": {
+    "name": "Unit1018BA60_FormatStrAt3F4",
+    "confidence": "low",
+    "evidence": "calls _sprintf with the format s__s__s_1037CBA0, the string at self+0x3F4 and the argument",
+    "summary": "Formats the string at +0x3F4 into the output buffer.",
+    "invented_prefix_name": "Obj_FormatStrAt3F4"
+  },
+  "0x101C3E10": {
+    "name": "Unit1018BA60_FormatStrAt4F4",
+    "confidence": "low",
+    "evidence": "calls _sprintf with the format s__s__s_1037CBA0, the string at self+0x4F4 and the argument, and returns 1",
+    "summary": "Formats the string at +0x4F4 into the output buffer.",
+    "invented_prefix_name": "Obj_FormatStrAt4F4"
+  },
+  "0x101C3FB0": {
+    "name": "Unit1018BA60_MapCode012",
+    "confidence": "low",
+    "evidence": "returns 1 for argument 0, 2 for 1 and 0 for any other value",
+    "summary": "Maps the codes 0 and 1 to 1 and 2, and any other code to 0.",
+    "invented_prefix_name": "Enum_MapCode012"
+  },
+  "0x101C4740": {
+    "name": "Unit1018BA60_ForwardOrExit",
+    "confidence": "low",
+    "evidence": "forwards its arguments to FUN_101BF280 on the object at +4 and, when the result is negative, calls FUN_10253670 and _exit with code 0x7D3",
+    "summary": "Forwards the call to the inner object and exits the process when it fails.",
+    "invented_prefix_name": "Inner_ForwardOrExit"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "0x100684F0": {
+    "name": "Unit10064190_SetDwordValue",
+    "confidence": "low",
+    "evidence": "calls Slot_AssignTyped (FUN_10068590) with the address of its argument and type 0",
+    "summary": "Sets a slot to a dword value with type 0.",
+    "invented_prefix_name": "Cell_SetDwordValue"
+  },
+  "0x10068590": {
+    "name": "Unit10064190_AssignTyped",
+    "confidence": "medium",
+    "evidence": "frees the value at the slot when its type at +4 is 4, then stores the value from param_1 at the slot and the type param_2 at +4",
+    "summary": "Stores a value and its type in a slot, freeing the previous value when its type requires it.",
+    "invented_prefix_name": "Cell_AssignTyped"
+  }
+}

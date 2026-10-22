@@ -1,0 +1,23 @@
+{
+  "0x101CD9D0": {
+    "name": "Unit101CD990_GetValueAt54",
+    "confidence": "low",
+    "evidence": "returns the dword at +0xA0 of the acter entry indexed by the word at +0x54, or 0 when the index or entry is null",
+    "summary": "Returns the value at offset 0xA0 of the acter selected by the index at offset 0x54.",
+    "invented_prefix_name": "ActerRef_GetValueAt54"
+  },
+  "0x101CDA00": {
+    "name": "Unit101CD990_GetValueAt56",
+    "confidence": "low",
+    "evidence": "returns the dword at +0xA0 of the acter entry indexed by the word at +0x56, or 0 when the index or entry is null",
+    "summary": "Returns the value at offset 0xA0 of the acter selected by the index at offset 0x56.",
+    "invented_prefix_name": "ActerRef_GetValueAt56"
+  },
+  "0x101CDA30": {
+    "name": "Unit101CD990_GetValueAt5A",
+    "confidence": "low",
+    "evidence": "returns the dword at +0xA0 of the acter entry indexed by the word at +0x5A, or 0 when the index or entry is null",
+    "summary": "Returns the value at offset 0xA0 of the acter selected by the index at offset 0x5A.",
+    "invented_prefix_name": "ActerRef_GetValueAt5A"
+  }
+}

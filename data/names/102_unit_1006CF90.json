@@ -1,0 +1,9 @@
+{
+  "0x1006D270": {
+    "name": "Unit1006CF90_MultiplyTo",
+    "confidence": "medium",
+    "evidence": "computes the 4x4 product of the matrix at param_2 and the matrix at param_3 into a 16-float stack buffer by dot products of rows and columns, then copies the buffer to param_1; vtable slot 9 of CMoProcessor_VT_1032C368",
+    "summary": "Multiplies two 4x4 matrices and writes the product to the output.",
+    "invented_prefix_name": "Mat4_MultiplyTo"
+  }
+}

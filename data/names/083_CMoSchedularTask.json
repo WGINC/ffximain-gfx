@@ -1,0 +1,26 @@
+{
+  "0x10057270": {
+    "name": "CMoSchedularTask_Construct",
+    "confidence": "medium",
+    "evidence": "calls CMoTask_Constructor, fn_1003B540 and fn_10055640 on its members, zeroes the 0x10 slots at +0xC0, sets vtable PTR_CMoSchedularTask_GetRuntimeClass, then calls fn_100573B0 and fn_100573E0 with its arguments",
+    "summary": "Constructs a schedular task and initialises its members."
+  },
+  "0x100573B0": {
+    "name": "CMoSchedularTask_ResetFlags",
+    "confidence": "low",
+    "evidence": "clears the bytes at this+0x140, +0x141, +0x143, +0x144, +0x145 and the dword at +0x146",
+    "summary": "Clears the schedular task's flag bytes."
+  },
+  "0x10057CC0": {
+    "name": "CMoSchedularTask_SetSharedRef",
+    "confidence": "low",
+    "evidence": "when the argument is non-null, stores it at this+0x90, increments its short count and calls FUN_100684f0 on this+0xC0",
+    "summary": "Stores a shared reference in the schedular task and takes a count on it."
+  },
+  "0x10057E10": {
+    "name": "CMoSchedularTask_Tick",
+    "confidence": "medium",
+    "evidence": "virtual slot 8 of CMoSchedularTask: returns early when the flag at +0x145 is set; otherwise checks residency of the handle at +0x80, advances the timer at +0x98 and steps the schedule with CMoSchedularTask_Interpret and FUN_10062de0 while the time is at or below zero",
+    "summary": "Advances the schedular task's timer and runs its due schedule entries."
+  }
+}

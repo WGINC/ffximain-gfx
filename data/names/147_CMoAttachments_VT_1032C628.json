@@ -1,0 +1,8 @@
+{
+  "0x10074600": {
+    "name": "CMoAttachments_VT_1032C628_DeletingDtorThunk",
+    "confidence": "low",
+    "evidence": "virtual slot 1 (+0x4) of CMoAttachments_VT_1032C628: forwards to CMoAttachments_VT_1032C628_ScalarDeletingDtor with this minus 12 dwords",
+    "summary": "Deleting-destructor thunk for this vtable."
+  }
+}

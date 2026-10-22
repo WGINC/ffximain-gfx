@@ -1,0 +1,68 @@
+{
+  "0x10187030": {
+    "name": "ZoneMap_ReleaseChain",
+    "confidence": "medium",
+    "evidence": "calls itself on the object at +4 when set, then FUN_10188A10 on this and clears the byte at +0x148",
+    "summary": "Releases a zone map and the chain of zone maps linked at +4."
+  },
+  "0x10187470": {
+    "name": "ZoneMap_Destroy",
+    "confidence": "medium",
+    "evidence": "sets the vtable, clears g_pXiZone+0x1C4 when it is this object, then calls FUN_10188A10 and FUN_10188940",
+    "summary": "Destroys a zone map and unlinks it from the active zone."
+  },
+  "0x101874A0": {
+    "name": "ZoneMap_Update",
+    "confidence": "medium",
+    "evidence": "called by XiZone_DrawScene; recurses on the object at +4, calls FUN_10187600, thunk_FUN_1018ADE0, FUN_101880C0 with the record at +0x20, then FUN_10188A50",
+    "summary": "Updates a zone map and its chained maps, and applies the current record."
+  },
+  "0x10187600": {
+    "name": "ZoneMap_SaveState",
+    "confidence": "medium",
+    "evidence": "when there is no record and the flag at byte 0 of the record at +0x18 is clear, copies 26 dwords from +0xA4..+0x70 into +0x14C..+0x1A8; otherwise calls FUN_10187720",
+    "summary": "Saves the zone map's current state into its previous-state block."
+  },
+  "0x101880C0": {
+    "name": "ZoneMap_SetRecord",
+    "confidence": "medium",
+    "evidence": "stores the record at +0x18 (or the default record at 0x1065CA58 when null) and the end pointer at +0x1C, applies the colour bytes through XI_CALL_ST0 and FUN_10014E00, and calls FUN_10188190",
+    "summary": "Sets the zone map's current record and applies its colours."
+  },
+  "0x10188190": {
+    "name": "ZoneMap_ApplyColors",
+    "confidence": "medium",
+    "evidence": "copies record bytes scaled by 1/255 into the colour slots at +0x64..+0x120 and, for the active zone, into the Env colour pointers from Env_GetColorPtr84, Env_GetAmbientColorPtr and FUN_10186F30 to FUN_10186FC0",
+    "summary": "Converts a zone record's colour bytes into the zone map and the environment colours."
+  },
+  "0x10187720": {
+    "name": "ZoneMap_UpdateOrbit",
+    "confidence": "low",
+    "evidence": "computes sin and cos of an angle from param_1 and 6.283 scaled by a constant, places the result at +0xA4 and +0xA8 and at +0x44 and +0x48 from Camera_GetField50 offsets of 900 and 1000, and transforms with Mat4_TransformPointInPlace when the rotation is nonzero",
+    "summary": "Places the zone's light positions on a circle around the camera from an angle."
+  },
+  "0x10188900": {
+    "name": "ZoneMap_GetCurrent",
+    "confidence": "medium",
+    "evidence": "returns the global g_pXiZone when nonzero, else 0",
+    "summary": "Returns the active zone map, if one exists."
+  },
+  "0x10188910": {
+    "name": "ZoneMap_AppendToList",
+    "confidence": "medium",
+    "evidence": "when g_pXiZone exists and is not this object, links this object at the tail of the list headed at g_pXiZone+4 and clears its +4",
+    "summary": "Appends a zone map to the end of the active zone's list."
+  },
+  "0x10188970": {
+    "name": "ZoneMap_FindPrevious",
+    "confidence": "medium",
+    "evidence": "walks the list from ZoneMap_GetCurrent through +4 and returns the entry before this object, or 0 when it is not in the list",
+    "summary": "Returns the zone map before this one in the active list."
+  },
+  "0x101889A0": {
+    "name": "ZoneMap_GetTail",
+    "confidence": "medium",
+    "evidence": "walks the list from ZoneMap_GetCurrent through +4 and returns its last entry, or 0 when the list is empty",
+    "summary": "Returns the last zone map in the active list."
+  }
+}

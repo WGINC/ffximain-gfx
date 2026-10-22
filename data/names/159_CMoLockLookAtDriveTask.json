@@ -1,0 +1,14 @@
+{
+  "0x10062F80": {
+    "name": "CMoLockLookAtDriveTask_GetBaseClass",
+    "confidence": "low",
+    "evidence": "virtual slot 11 of CMoLockLookAtDriveTask: returns CMoActorColorDriveTask_GetRuntimeClass()",
+    "summary": "Returns the runtime class of the base drive task."
+  },
+  "0x10062F90": {
+    "name": "CMoLockLookAtDriveTask_DeletingDtorThunk",
+    "confidence": "low",
+    "evidence": "virtual slot 12 of CMoLockLookAtDriveTask: forwards to CMoActorColorDriveTask_ScalarDeletingDtor with this minus 13 dwords",
+    "summary": "Deleting-destructor thunk for the drive task."
+  }
+}

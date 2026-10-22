@@ -1,0 +1,14 @@
+{
+  "0x10289620": {
+    "name": "SqopSystem_Init",
+    "confidence": "medium",
+    "evidence": "stores the type 0x1D0001, sets the function pointers at +8 and +0xC (LAB_10289660, FUN_10289670), sets +0x10 to sqopSystemPrint, +0x14 to 1, +0x18 to -1 and clears the rest",
+    "summary": "Initialises the opcode system and its function table."
+  },
+  "0x102896A0": {
+    "name": "SqopSystem_ClearOpcodes",
+    "confidence": "medium",
+    "evidence": "for each of the +0x1C opcode entries at +0x24 calls FUN_10289ba0, frees the array at +0x24 with sqFree from the source file C:\\dev\\dancer\\modules\\sqOpcode line 0x97, then calls SqopSystem_Init",
+    "summary": "Frees the opcode entries and re-initialises the system."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "0x10052C90": {
+    "name": "CMoD3aElem_Init",
+    "confidence": "medium",
+    "evidence": "calls CMoElem::Constructor on self, then sets the object's vtable to PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238",
+    "summary": "Constructs the base element and sets the CMoD3aElem vtable."
+  }
+}

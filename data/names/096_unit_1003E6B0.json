@@ -1,0 +1,8 @@
+{
+  "0x1003E910": {
+    "name": "YmElem_DrawD3ASegment",
+    "confidence": "low",
+    "evidence": "its caller is YmElem_DrawD3AFromBatch; it sets the element's draw state, binds the texture at +0x38 with TexRef_SetTexture, sets render state 0xE through the device vtable slot 200 and draws the vertex batch at +0x3C with VertexBatch_BindAndDraw",
+    "summary": "Draws one D3A segment of an element batch with its draw state and vertex batch."
+  }
+}

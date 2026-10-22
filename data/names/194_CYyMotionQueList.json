@@ -1,0 +1,8 @@
+{
+  "0x1001ABF0": {
+    "name": "CYyMotionQueList_Init",
+    "confidence": "medium",
+    "evidence": "sets the CYyMotionQueList vtable (PTR_CYyMotionQueList_GetRuntimeClass_1032a210), clears the dword at +4 and sets the dword at +8 to 1.0f",
+    "summary": "Initialises a motion queue list with an empty list and a rate of 1.0."
+  }
+}

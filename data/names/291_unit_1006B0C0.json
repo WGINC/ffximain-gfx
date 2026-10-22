@@ -1,0 +1,16 @@
+{
+  "0x1006B120": {
+    "name": "Unit1006B0C0_Insert",
+    "confidence": "low",
+    "evidence": "finds a free one of the 0x20 entries (flag byte at +8), copies the eight dwords of the argument into its record at +0x28, takes the next stamp into +4 and +0x428, marks it used; when none is free calls the release at vtable slot 8 of the oldest entry and reuses it; called by fn_10043F00",
+    "summary": "Inserts a record into the dynamic vertex-buffer pool, evicting the oldest when full.",
+    "invented_prefix_name": "DynVBPool_Insert"
+  },
+  "0x1006B1D0": {
+    "name": "Unit1006B0C0_FindMatch",
+    "confidence": "low",
+    "evidence": "searches the 0x20 used entries for one whose fields at +0x40 and +0x3C match the argument's +0x14 and +0x18, keeps the one with the smallest stamp, then clears its used flag and returns its record; called by DynVB_Create",
+    "summary": "Finds the oldest pool entry that matches a request and releases it.",
+    "invented_prefix_name": "DynVBPool_FindMatch"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "0x1028D990": {
+    "name": "Unit1028D970_SumAxis",
+    "confidence": "low",
+    "evidence": "returns the float at +0x24 plus the float at +0x20",
+    "summary": "Returns the sum of two bounds fields.",
+    "invented_prefix_name": "SqBounds_SumAxis"
+  },
+  "0x1028D9A0": {
+    "name": "Unit1028D970_Reset",
+    "confidence": "medium",
+    "evidence": "sets the first three dwords to 0x7F7FFFFF (FLT_MAX) and the next three to 0xFF7FFFFF (-FLT_MAX)",
+    "summary": "Resets a bounding box to empty (inverted extremes).",
+    "invented_prefix_name": "SqBounds_Reset"
+  },
+  "0x1028D9C0": {
+    "name": "Unit1028D970_Copy",
+    "confidence": "medium",
+    "evidence": "copies six dwords from the second argument to the first",
+    "summary": "Copies a bounding box.",
+    "invented_prefix_name": "SqBounds_Copy"
+  },
+  "0x1028DBB0": {
+    "name": "Unit1028D970_GetCenter",
+    "confidence": "medium",
+    "evidence": "when the argument is null writes zeros, else writes the midpoint of each min and max pair (0.5 times their sum) into the output",
+    "summary": "Returns the centre of a bounding box.",
+    "invented_prefix_name": "SqBounds_GetCenter"
+  }
+}

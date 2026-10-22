@@ -1,0 +1,8 @@
+{
+  "0x10017810": {
+    "name": "Shader_CreateVertexShader",
+    "confidence": "high",
+    "evidence": "calls IDirect3DDevice8::CreateVertexShader on the device at g_pCDx+0xC with the declaration from the argument and the function bytes from the object at +8, returning its HRESULT as a success flag",
+    "summary": "Creates a Direct3D vertex shader from the object's declaration and function."
+  }
+}

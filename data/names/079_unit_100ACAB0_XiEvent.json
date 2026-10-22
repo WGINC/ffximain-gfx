@@ -1,0 +1,100 @@
+{
+  "0x100AD6D0": {
+    "name": "XiEvent_Spawn",
+    "confidence": "low",
+    "evidence": "allocates 0x1304 bytes, builds the record with fn_100C2E20 and queues it with fn_100C3300 on the list from fn_100C3190 when fn_100C3210 reports a non-empty list",
+    "summary": "Creates an event record and queues it."
+  },
+  "0x100AE350": {
+    "name": "XiEvent_GetGlobalDword",
+    "confidence": "low",
+    "evidence": "returns the global DAT_104896E4 as an int",
+    "summary": "Returns the event global at DAT_104896E4."
+  },
+  "0x100AE3A0": {
+    "name": "XiEvent_ResetPending",
+    "confidence": "low",
+    "evidence": "when DAT_1047D3EC is set, calls fn_1015EB60 on g_menuMng with DAT_1047D3E8, clears DAT_1047D3EC, DAT_104898F8 and DAT_104897F4, and clears DAT_104886F4 unless it is 2; then calls fn_10127EA0",
+    "summary": "Clears the pending event state and its menu."
+  },
+  "0x100BA080": {
+    "name": "XiZone_RestoreSavedFields",
+    "confidence": "low",
+    "evidence": "when DAT_10488978 is set, copies DAT_104882B0 and DAT_104897EC into the XiZone object at +0x138 and +0x13C, then clears DAT_10488978",
+    "summary": "Restores two saved zone fields and clears the saved flag."
+  },
+  "0x100BD5F0": {
+    "name": "XiEvent_RestoreActer",
+    "confidence": "low",
+    "evidence": "copies the saved fields at +4 and +0 into +8 and +2, frees the buffer at +0x25C and, for the acter at ActerBuffPtr[+2], clears flags at +0x12C and +0x148 and calls fn_10087D40, fn_10087E40 and fn_100D5430",
+    "summary": "Restores the acter referenced by an event record."
+  },
+  "0x100BD760": {
+    "name": "XiEvent_GetSingleton",
+    "confidence": "low",
+    "evidence": "on first call runs fn_100BD820 on the static object at 0x104899B8 and registers its atexit cleanup, then returns that object",
+    "summary": "Returns the XiEvent singleton, creating it on first use."
+  },
+  "0x100C2E20": {
+    "name": "XiEvent_Init",
+    "confidence": "low",
+    "evidence": "clears this, stores the arguments in the fields at +0xBFD, +0xC04, +0xC08 and +0xC0C..+0xC10 (strncpy of 0x40 bytes), copies 0x177 dwords into +0x621 and sets the short fields at +0xBFE and +0xC00 through fn_10086FC0",
+    "summary": "Initialises an event record from its arguments."
+  },
+  "0x100C3050": {
+    "name": "Unit100ACAB0_FreeData",
+    "confidence": "low",
+    "evidence": "frees the buffer at this+0x40 when set",
+    "summary": "Frees an event record's data buffer.",
+    "invented_prefix_name": "XiEventRec_FreeData"
+  },
+  "0x100C3060": {
+    "name": "Unit100ACAB0_Init",
+    "confidence": "low",
+    "evidence": "stores the fields at +0x40 to +0x58 from the arguments and copies 0x10 dwords from param_1 into the record (or zeroes them when param_1 is null)",
+    "summary": "Initialises an event list record.",
+    "invented_prefix_name": "XiEventRec_Init"
+  },
+  "0x100C3190": {
+    "name": "Unit100ACAB0_GetSingleton",
+    "confidence": "low",
+    "evidence": "on first call runs fn_100C31F0 on the static object at 0x1048A2F8 and registers its atexit cleanup, then returns it",
+    "summary": "Returns the event list singleton, creating it on first use.",
+    "invented_prefix_name": "XiEventList_GetSingleton"
+  },
+  "0x100C3210": {
+    "name": "Unit100ACAB0_HasItems",
+    "confidence": "low",
+    "evidence": "returns 1 iff the dword at this+8 is non-zero",
+    "summary": "Tests whether the event list has an entry.",
+    "invented_prefix_name": "XiEventList_HasItems"
+  },
+  "0x100C3220": {
+    "name": "Unit100ACAB0_Clear",
+    "confidence": "low",
+    "evidence": "walks the linked list from the head at this, frees each node through fn_100C3050 and operator_delete, and resets the head and tail",
+    "summary": "Frees all event records in the list.",
+    "invented_prefix_name": "XiEventList_Clear"
+  },
+  "0x100C3200": {
+    "name": "Unit100ACAB0_SetFlag8",
+    "confidence": "low",
+    "evidence": "stores 1 at this+8",
+    "summary": "Sets the list's flag at +8.",
+    "invented_prefix_name": "XiEventList_SetFlag8"
+  },
+  "0x100C3260": {
+    "name": "Unit100ACAB0_Append",
+    "confidence": "medium",
+    "evidence": "clears the links at param+0x5C and +0x60 of the new record, then appends it after the tail at this+4 (or makes it both head and tail when the list is empty)",
+    "summary": "Appends an event record to the end of the list.",
+    "invented_prefix_name": "XiEventList_Append"
+  },
+  "0x100C3300": {
+    "name": "Unit100ACAB0_AddEvent",
+    "confidence": "low",
+    "evidence": "resolves the two actor ids through fn_100C3020, fn_10086FC0 and fn_100C3030, allocates a 100-byte record, initialises it with fn_100C3060 and appends it with fn_100C3260",
+    "summary": "Creates an event record from actor ids and appends it to the list.",
+    "invented_prefix_name": "XiEventList_AddEvent"
+  }
+}

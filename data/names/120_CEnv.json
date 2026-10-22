@@ -1,0 +1,8 @@
+{
+  "0x1000D620": {
+    "name": "CEnv_Nop",
+    "confidence": "low",
+    "evidence": "body is a bare return; it is called from CDx_CreateStereoResources, sub_1000D3D0 and App_InitScene",
+    "summary": "Does nothing."
+  }
+}

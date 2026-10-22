@@ -1,0 +1,9 @@
+{
+  "0x1029A380": {
+    "name": "Unit1029A380_Append",
+    "confidence": "medium",
+    "evidence": "when the array at +0x38 is missing or full, grows it through FUN_1029a330 to at least count+0x10 entries, then stores the argument at index +0x3C and increments the count; returns the index or -1",
+    "summary": "Appends an entry to a growable pointer array and returns its index.",
+    "invented_prefix_name": "SqArray_Append"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "0x10052D40": {
+    "name": "CMoDist_Init",
+    "confidence": "medium",
+    "evidence": "calls CMoElem::Constructor on self, sets the vtable to PTR_CMoDist_GetRuntimeClass_variant0_1032b298, and stores 0x198 at +0x176",
+    "summary": "Constructs the base element and sets the CMoDist vtable and its field at 0x176."
+  }
+}

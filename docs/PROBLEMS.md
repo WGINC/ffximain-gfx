@@ -174,6 +174,18 @@ The causes of the three FAILs have not been looked into yet.
 - **Needed for more:** the class from where the object is built (its constructor or allocation site), and names for
   the unnamed vtables. Both are larger analyses, not started.
 
+### P15. Naming sessions invented area words (22 Oct)
+- **Found:** 653 of the 1,739 names the four naming sessions wrote (and 2 of my own pilot's) begin with an area word
+  their batch's dossier never shows (`Crypt_` with no crypt anywhere in batch 031; `Pool_`, `Layout_`, `Ui_`).
+  The README rule against it reached the sessions after most batches were written.
+- **Done:** `check_names.py` now refuses such a prefix mechanically: it must be the batch's class, `Unit<address>`
+  or the batch's label, or whole CamelCase parts of a name the dossier shows (`StAvatar` from `StAvatarInit`).
+  `reprefix_names.py` applies the README's fallback (the batch's prefix) and keeps the session's name under
+  `invented_prefix_name`; `merge_names.py` runs it on every merge. Where two names then collide, or two sessions
+  gave one name to two functions, the entry is dropped (51): which one was meant is not known.
+- **Not known:** the words after the prefix are not checked mechanically; `low` names (most) describe code
+  mechanically by the README's own definition.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

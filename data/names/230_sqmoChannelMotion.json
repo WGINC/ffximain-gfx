@@ -1,0 +1,14 @@
+{
+  "0x10295E70": {
+    "name": "SqmoChannelMotion_Create",
+    "confidence": "medium",
+    "evidence": "creates a 0x2C-byte object with FUN_10275D40 (type 1, the sqMotion source name, 0x1B) and initialises it with FUN_10295E90",
+    "summary": "Creates and initialises a new sqmo channel motion object."
+  },
+  "0x10295E90": {
+    "name": "SqmoChannelMotion_Init",
+    "confidence": "medium",
+    "evidence": "sets the header word at +0 to 0x50004, the function pointers at +8 to +0x1C, and the fields at +0x20, +0x24 (1.0f) and +0x28 to zero",
+    "summary": "Initialises a channel motion object's header, callbacks and fields."
+  }
+}

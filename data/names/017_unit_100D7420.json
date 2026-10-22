@@ -1,0 +1,57 @@
+{
+  "0x100E8C70": {
+    "name": "Unit100D7420_SelectNext",
+    "confidence": "low",
+    "evidence": "scans the 20-entry table at DAT_104DFD98+0x9548 from the cursor at +0x97FC, returns the first entry whose record at +0x14 is nonzero and whose state test passes, and advances the cursor",
+    "summary": "Returns the next entry of a 20-entry table that passes the state test.",
+    "invented_prefix_name": "Pool_SelectNext"
+  },
+  "0x100EBF80": {
+    "name": "Unit100D7420_FindOrRemove",
+    "confidence": "medium",
+    "evidence": "searches the 16-entry table at +0x198D1 for the key (byte param_1 and char param_2); without param_3 returns the matching record, with it zeroes the record and moves the last record into the freed slot, decrementing the count at +0x19A50",
+    "summary": "Finds a keyed record, or removes it by moving the last record into its place.",
+    "invented_prefix_name": "Pool_FindOrRemove"
+  },
+  "0x100EC060": {
+    "name": "Unit100D7420_RemoveRecord",
+    "confidence": "medium",
+    "evidence": "calls FUN_100EBF80 with param_3 equal to 1, the removing form",
+    "summary": "Removes the keyed record from the pool.",
+    "invented_prefix_name": "Pool_RemoveRecord"
+  },
+  "0x100EDEB0": {
+    "name": "Unit100D7420_Advance",
+    "confidence": "low",
+    "evidence": "increments the global counter at DAT_104CA648 and returns 1 when it exceeds 0xE0F",
+    "summary": "Advances the global counter and tests whether it passed 0xE0F.",
+    "invented_prefix_name": "Tick_Advance"
+  },
+  "0x100EFCE0": {
+    "name": "Name_LookupByKey",
+    "confidence": "medium",
+    "evidence": "walks the table at DAT+0x14148 (stride 0x14, count at +0x14140) comparing the dword at +0x14144 with param_1, returns the matching name string, else the constant s_unknown_1036203c",
+    "summary": "Returns the name stored for a key, or the unknown-name string."
+  },
+  "0x100EFD20": {
+    "name": "Unit100D7420_FindFree",
+    "confidence": "low",
+    "evidence": "tries up to 0x40 times, calling FUN_1030FF75 and checking the 8 flag bytes of each result, and returns the first index that is free, else -1",
+    "summary": "Returns the index of a free entry, or -1 when none is free.",
+    "invented_prefix_name": "Pool_FindFree"
+  },
+  "0x100EFDF0": {
+    "name": "Unit100D7420_FindMatchingEntry",
+    "confidence": "low",
+    "evidence": "tries up to 0x40 times with FUN_1030FFA1, comparing the entry's flag, type word, owner and two dwords with the arguments, and returns the index, else -1",
+    "summary": "Returns the index of the entry matching the given key fields, or -1.",
+    "invented_prefix_name": "Pool_FindMatchingEntry"
+  },
+  "0x100F0000": {
+    "name": "Unit100D7420_CopyToGlobalBuffer",
+    "confidence": "medium",
+    "evidence": "copies the NUL-terminated string at param_1 byte by byte to DAT_104CA438 through an offset, returning 0",
+    "summary": "Copies a string into the global buffer at 0x104CA438.",
+    "invented_prefix_name": "Str_CopyToGlobalBuffer"
+  }
+}

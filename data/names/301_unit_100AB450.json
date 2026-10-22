@@ -1,0 +1,9 @@
+{
+  "0x100AB550": {
+    "name": "Unit100AB450_ReleaseSlot",
+    "confidence": "medium",
+    "evidence": "when the object at this+0x70 is set, reads its index at +0x74, calls FUN_1008A7B0 and the free thunk on the object and clears ActerBuffPtr at that index; called by fn_101CD900",
+    "summary": "Frees the actor held at a slot and clears the slot.",
+    "invented_prefix_name": "Actor_ReleaseSlot"
+  }
+}

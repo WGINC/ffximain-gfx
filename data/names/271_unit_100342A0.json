@@ -1,0 +1,8 @@
+{
+  "0x100342A0": {
+    "name": "CYyModelBase_AllocMatrixBuffers",
+    "confidence": "medium",
+    "evidence": "reads the count at +0x32 of the resource from ResourceHandle_Deref, allocates (count + 1) * 0x40 bytes with Mem_AllocObject and sets each 0x40-byte matrix there to the identity with Mat4_SetIdentity, then allocates a second buffer of count bytes; frees both on failure; called by CYyModelBase::SetResourceAndRebuild",
+    "summary": "Allocates the matrix buffers for a model's resource."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "0x10277AB0": {
+    "name": "SqmdModel_Free",
+    "confidence": "medium",
+    "evidence": "calls FUN_10277B70 to release the model's parts, then frees the model with sqFree, or when flag 0x200 is set checks the 'DMB' header before freeing its two buffers; sets *param_1 to 0",
+    "summary": "Releases a sqmdModel and its buffers, checking its DMB header when it has one."
+  },
+  "0x10278E90": {
+    "name": "SqmdModel_LookAt",
+    "confidence": "medium",
+    "evidence": "walks the model's item list at +0x44, selecting entries of type 0xB0001 whose owner matches param_2, and rotates the entry at index param_3 toward the target using FUN_1027CD30, FUN_102749C0 and the quaternion helpers; reports an error through sqDebugPrintf for an invalid index with the text 'sqmdModelLookAt called'",
+    "summary": "Aims a model item at a target, clamping the angle to the given limit."
+  },
+  "0x10279530": {
+    "name": "SqmdModel_AppendPair44",
+    "confidence": "low",
+    "evidence": "grows the arrays at +0x40 and +0x3C when the count at +0x44 reaches the capacity at +0x48, stores zero in the first and param_2 in the second at the count, then increments the count",
+    "summary": "Appends a pair of values to the model's item arrays at offsets 0x3C and 0x40."
+  },
+  "0x102796A0": {
+    "name": "SqmdModel_AppendPair68",
+    "confidence": "low",
+    "evidence": "grows the arrays at +0x60 and +0x64 when the count at +0x68 reaches the capacity at +0x6C, stores zero in the first and param_2 in the second, then increments the count",
+    "summary": "Appends a pair of values to the model's item arrays at offsets 0x60 and 0x64."
+  },
+  "0x10279830": {
+    "name": "SqmdModel_GetItemKind0",
+    "confidence": "low",
+    "evidence": "returns FUN_10279710 called with kind 0 and the argument",
+    "summary": "Returns the item of kind 0 for the given id."
+  },
+  "0x10279850": {
+    "name": "SqmdModel_GetItemKind1",
+    "confidence": "low",
+    "evidence": "returns FUN_10279710 called with kind 1 and the argument",
+    "summary": "Returns the item of kind 1 for the given id."
+  },
+  "0x10279870": {
+    "name": "SqmdModel_GetItemKind2",
+    "confidence": "low",
+    "evidence": "returns FUN_10279710 called with kind 2 and the argument",
+    "summary": "Returns the item of kind 2 for the given id."
+  },
+  "0x10279890": {
+    "name": "SqmdModel_GetItemKind3",
+    "confidence": "low",
+    "evidence": "returns FUN_10279710 called with kind 3 and the argument",
+    "summary": "Returns the item of kind 3 for the given id."
+  },
+  "0x102798B0": {
+    "name": "SqmdModel_GetItemKind4",
+    "confidence": "low",
+    "evidence": "returns FUN_10279710 called with kind 4 and the argument",
+    "summary": "Returns the item of kind 4 for the given id."
+  },
+  "0x10279B40": {
+    "name": "SqmdModel_GetItemNameKind3",
+    "confidence": "low",
+    "evidence": "returns sqmdModel_GetItemName called with kind 3 and the argument",
+    "summary": "Returns the name of the kind-3 item for the given id."
+  },
+  "0x10279BA0": {
+    "name": "SqmdModel_FindItemName",
+    "confidence": "medium",
+    "evidence": "walks the name list at +0x84 comparing the id at +0x88 and the type at +0x8C with the arguments, returns the matching name, or the default string 'untitled'",
+    "summary": "Returns the name of the item with the given id and type, or 'untitled' when none matches."
+  },
+  "0x10279D50": {
+    "name": "SqmdModel_LookupKind2",
+    "confidence": "low",
+    "evidence": "returns FUN_10279BF0 called with kind 2 and the two arguments",
+    "summary": "Looks up a kind-2 item for the given arguments."
+  },
+  "0x1027A250": {
+    "name": "SqmdModel_FreeItems",
+    "confidence": "medium",
+    "evidence": "walks the two item lists at +0x60 and +0x68 backwards, releasing entries whose flag 0x100 is set through FUN_10285740 or sqFree depending on their type word, and clears the list slots",
+    "summary": "Releases the model's item entries that it owns."
+  }
+}

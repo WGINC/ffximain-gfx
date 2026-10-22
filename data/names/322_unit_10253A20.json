@@ -1,0 +1,252 @@
+{
+  "0x10258D70": {
+    "name": "Unit10253A20_SelectQuantifierForm",
+    "confidence": "low",
+    "evidence": "returns one of the strings from the tables PTR_s_einige and PTR_s_einiger by the arguments, or the string s_etwas when the first argument is non-zero",
+    "summary": "Selects a quantifier word form from the argument values.",
+    "invented_prefix_name": "Text_SelectQuantifierForm"
+  },
+  "0x10258E50": {
+    "name": "Unit10253A20_SelectNounForm",
+    "confidence": "low",
+    "evidence": "returns an entry from one of three tables chosen by the first two arguments, indexed by the last argument",
+    "summary": "Selects a noun form from a table by the argument values.",
+    "invented_prefix_name": "Text_SelectNounForm"
+  },
+  "0x10258ED0": {
+    "name": "Unit10253A20_GetQuantifierByIndex",
+    "confidence": "low",
+    "evidence": "returns one of three constant strings for an index of 0, 1 or 2, or an empty string otherwise",
+    "summary": "Returns the quantifier string for an index from 0 to 2.",
+    "invented_prefix_name": "Text_GetQuantifierByIndex"
+  },
+  "0x10258F00": {
+    "name": "Unit10253A20_SelectAdjectiveForm",
+    "confidence": "low",
+    "evidence": "returns one of four constant strings chosen by the first and third arguments when the second is zero, otherwise an empty string",
+    "summary": "Selects an adjective form from the argument values.",
+    "invented_prefix_name": "Text_SelectAdjectiveForm"
+  },
+  "0x10258F60": {
+    "name": "Unit10253A20_SelectGenderForm",
+    "confidence": "low",
+    "evidence": "returns one of two constant strings when the second argument is zero and the third is 2, otherwise an empty string",
+    "summary": "Selects a gendered form from the argument values.",
+    "invented_prefix_name": "Text_SelectGenderForm"
+  },
+  "0x10259100": {
+    "name": "Unit10253A20_Append",
+    "confidence": "medium",
+    "evidence": "links the node at param_1 after the tail at +8 (or makes it the head and tail when the list is empty)",
+    "summary": "Appends a node to the end of a text list.",
+    "invented_prefix_name": "TextList_Append"
+  },
+  "0x10259130": {
+    "name": "Unit10253A20_IsEmpty",
+    "confidence": "medium",
+    "evidence": "returns 1 when the head at offset 0 is null",
+    "summary": "Reports whether a text list has no nodes.",
+    "invented_prefix_name": "TextList_IsEmpty"
+  },
+  "0x10259150": {
+    "name": "Unit10253A20_FindNextTyped",
+    "confidence": "low",
+    "evidence": "walks the list from the node at param_1 through the next link at +4 and returns the first node whose type at +8 is neither 0 nor 8, or 0",
+    "summary": "Finds the next node of a non-empty type after the given node.",
+    "invented_prefix_name": "TextList_FindNextTyped"
+  },
+  "0x10259180": {
+    "name": "Unit10253A20_AppendNodeType2",
+    "confidence": "low",
+    "evidence": "allocates a 0x14-byte node with type 2 and value param_1, appends it with TextList_Append and sets the list's flag at +0 to 1 then calls TextList_IsEmpty",
+    "summary": "Appends a type-2 node holding a value to a text list.",
+    "invented_prefix_name": "TextList_AppendNodeType2"
+  },
+  "0x102593F0": {
+    "name": "Unit10253A20_AppendString",
+    "confidence": "medium",
+    "evidence": "allocates a 0x18-byte node with type 1, copies the string into it with FUN_1018D2D0, sets its type to 7 when the string starts with a space, appends it with TextList_Append and updates the list's flag with TextList_IsEmpty",
+    "summary": "Appends a string node to a text list.",
+    "invented_prefix_name": "TextList_AppendString"
+  },
+  "0x10259460": {
+    "name": "Unit10253A20_AppendValueNode",
+    "confidence": "low",
+    "evidence": "allocates a 0x38-byte node with type 6, stores the two values and an object at +0xC and +0x10, takes a value from the object's vtable (slot 2 or 3) at +0x1C, appends it and updates the list's flag",
+    "summary": "Appends a value node that takes its value from an object.",
+    "invented_prefix_name": "TextList_AppendValueNode"
+  },
+  "0x1025A580": {
+    "name": "Unit10253A20_IsTypeTwoZero",
+    "confidence": "low",
+    "evidence": "returns 1 when param_1 is 2 and param_2 is zero, otherwise 0",
+    "summary": "Reports whether a type is 2 and a flag is clear.",
+    "invented_prefix_name": "Text_IsTypeTwoZero"
+  },
+  "0x1025A5A0": {
+    "name": "Unit10253A20_GetFormById",
+    "confidence": "low",
+    "evidence": "for type 1 or 2 selects one of six table entries from DAT_10669454 by the two flag arguments, returning the string for ids 1 to 6, or an empty string",
+    "summary": "Returns the text form selected by a type and two flags.",
+    "invented_prefix_name": "Text_GetFormById"
+  },
+  "0x1025A610": {
+    "name": "Unit10253A20_GetFormAlt",
+    "confidence": "low",
+    "evidence": "for types 0 to 2 selects one of nine entries from DAT_10669454 by the two flag arguments, returning the string for ids 9 to 0x14",
+    "summary": "Returns the alternative text form selected by a type and two flags.",
+    "invented_prefix_name": "Text_GetFormAlt"
+  },
+  "0x1025A6C0": {
+    "name": "Unit10253A20_GetSuffixByFlag",
+    "confidence": "low",
+    "evidence": "returns DAT_1038A378 when the second argument is non-zero, otherwise DAT_1038A374, and an empty string when the first argument is not 0",
+    "summary": "Returns one of two suffix strings selected by a flag.",
+    "invented_prefix_name": "Text_GetSuffixByFlag"
+  },
+  "0x1025A6F0": {
+    "name": "Unit10253A20_GetEntryById",
+    "confidence": "low",
+    "evidence": "returns the entry with id 9, 10 or 11 from DAT_10669454 by the argument, or an empty string",
+    "summary": "Returns the text entry for an id from 9 to 11.",
+    "invented_prefix_name": "Text_GetEntryById"
+  },
+  "0x1025A730": {
+    "name": "Unit10253A20_GetPrefixByFlags",
+    "confidence": "low",
+    "evidence": "returns one of four pointers chosen by the three arguments, PTR_DAT_1038A2F0, PTR_s_cette_1038A2EC, PTR_DAT_1038A2E8 and PTR_DAT_1038A2F4",
+    "summary": "Returns the prefix string selected by three flags.",
+    "invented_prefix_name": "Text_GetPrefixByFlags"
+  },
+  "0x1025A760": {
+    "name": "Unit10253A20_GetPrefixByFlags2",
+    "confidence": "low",
+    "evidence": "returns one of nine pointers chosen by the type and three flag arguments",
+    "summary": "Returns the prefix string selected by a type and three flags.",
+    "invented_prefix_name": "Text_GetPrefixByFlags2"
+  },
+  "0x1025A810": {
+    "name": "Unit10253A20_ClearHead",
+    "confidence": "low",
+    "evidence": "zeroes the three dwords at the start of the object",
+    "summary": "Clears a text list's head, tail and count.",
+    "invented_prefix_name": "TextList_ClearHead"
+  },
+  "0x1025A860": {
+    "name": "Unit10253A20_AppendNode",
+    "confidence": "medium",
+    "evidence": "links the node at param_1 after the tail at +8, or makes it the head and tail when the list is empty",
+    "summary": "Appends a node to the end of a text list.",
+    "invented_prefix_name": "TextList_AppendNode"
+  },
+  "0x1025A890": {
+    "name": "Unit10253A20_FindNextTyped9",
+    "confidence": "low",
+    "evidence": "walks the list from the argument through the next link at +4 and returns the first node whose type at +8 is neither 0 nor 9, or 0",
+    "summary": "Finds the next node of a non-empty type, other than 9, after the given node.",
+    "invented_prefix_name": "TextList_FindNextTyped9"
+  },
+  "0x1025A8C0": {
+    "name": "Unit10253A20_ContainsChar",
+    "confidence": "medium",
+    "evidence": "walks the string at DAT_10669454 entry 0 with Sjis_GetCharByteLen and returns 1 when a character equals the argument's first character, or both bytes of a two-byte character match",
+    "summary": "Reports whether the first character of the argument occurs in the reference string.",
+    "invented_prefix_name": "Text_ContainsChar"
+  },
+  "0x1025A930": {
+    "name": "Unit10253A20_BuildNodeString",
+    "confidence": "low",
+    "evidence": "selects the string for a node by its type, copies its first character and returns 1 or 0 by the first character and the type of its neighbouring node",
+    "summary": "Builds the display string for a text node and reports whether it should be shown.",
+    "invented_prefix_name": "Text_BuildNodeString"
+  },
+  "0x1025AA90": {
+    "name": "Unit10253A20_HasNoHead",
+    "confidence": "low",
+    "evidence": "returns 1 when the head at offset 0 of the object is null",
+    "summary": "Reports whether a text list has no head.",
+    "invented_prefix_name": "TextList_HasNoHead"
+  },
+  "0x1025AEF0": {
+    "name": "Unit10253A20_AppendStringNode",
+    "confidence": "medium",
+    "evidence": "when the argument starts with two spaces it allocates a type-8 node, otherwise a type-1 node with a copy of the string; appends it with TextList_AppendNode and updates the list flag with TextList_HasNoHead",
+    "summary": "Appends a string node to a text list, with a special node for leading spaces.",
+    "invented_prefix_name": "TextList_AppendStringNode"
+  },
+  "0x1025AFB0": {
+    "name": "Unit10253A20_AppendIdString",
+    "confidence": "low",
+    "evidence": "returns after updating the list when param_2 is -1, otherwise allocates a 0x28-byte node with type 7 holding the id and a copy of the string, and links it with TextList_LinkNode",
+    "summary": "Appends a node holding an id and a string to a text list.",
+    "invented_prefix_name": "TextList_AppendIdString"
+  },
+  "0x1025B100": {
+    "name": "Unit10253A20_LinkNode",
+    "confidence": "medium",
+    "evidence": "appends the node to the list, sets the pending value of type-2, type-5 and type-6 nodes that have none, clears the list's flag at offset 0, and updates it with TextList_HasNoHead",
+    "summary": "Links a node into a text list and fills the pending values of the matching nodes.",
+    "invented_prefix_name": "TextList_LinkNode"
+  },
+  "0x1025B1E0": {
+    "name": "Unit10253A20_AppendTypeTwo",
+    "confidence": "low",
+    "evidence": "allocates a 0x14-byte node with type 2 and value param_1, appends it with TextList_AppendNode, sets the list's flag at +0 to 1 and updates it with TextList_HasNoHead",
+    "summary": "Appends a type-2 node holding a value to a text list.",
+    "invented_prefix_name": "TextList_AppendTypeTwo"
+  },
+  "0x1025B560": {
+    "name": "Scene_GetTableValue",
+    "confidence": "low",
+    "evidence": "sets a scene index from the scene state (2 or 3 mapped to 1 when the flag at +0x18 is negative), calls FUN_1025B4F0 with it, and returns the dword at DAT_10669464 + param_1 * 4",
+    "summary": "Returns the scene-specific table value for an index."
+  },
+  "0x1025B5A0": {
+    "name": "Scene_GetMenuFrameName",
+    "confidence": "low",
+    "evidence": "returns 0 when the index is outside 0 to 7, otherwise the string in the menu-frame table PTR_s_menu_frames_1038A8D0 at iVar1 + index * 4 for the scene index",
+    "summary": "Returns the menu frame name for an index in the current scene."
+  },
+  "0x1025B5E0": {
+    "name": "Unit10253A20_CopyWithoutMarker",
+    "confidence": "low",
+    "evidence": "copies up to param_2 bytes of the string at param_3 to param_1, skipping the marker byte 0x15 and advancing by each Shift-JIS character length, and returns the number of bytes copied",
+    "summary": "Copies a string up to a length, dropping the marker byte 0x15.",
+    "invented_prefix_name": "Text_CopyWithoutMarker"
+  },
+  "0x1025B680": {
+    "name": "Unit10253A20_CountChars",
+    "confidence": "low",
+    "evidence": "walks the string for param_2 bytes, skipping marker bytes 0x15, and returns the number of characters counted with Sjis_GetCharByteLen",
+    "summary": "Counts the characters in a string up to a byte length, ignoring markers.",
+    "invented_prefix_name": "Text_CountChars"
+  },
+  "0x1025BB00": {
+    "name": "Unit10253A20_HasKnownPrefix",
+    "confidence": "low",
+    "evidence": "returns 1 when the argument begins with one of the two-byte prefixes in the table at PTR_DAT_1038ACCC, otherwise 0",
+    "summary": "Reports whether a string starts with one of the known two-byte prefixes.",
+    "invented_prefix_name": "Text_HasKnownPrefix"
+  },
+  "0x1025BB60": {
+    "name": "Unit10253A20_IsDashNotDigit",
+    "confidence": "medium",
+    "evidence": "returns 1 when the first byte is '-' and the second is not a digit between '0' and '9', otherwise 0",
+    "summary": "Reports whether a string starts with a dash that is not followed by a digit.",
+    "invented_prefix_name": "Text_IsDashNotDigit"
+  },
+  "0x1025BB80": {
+    "name": "Unit10253A20_FindPrefixEntry",
+    "confidence": "low",
+    "evidence": "walks the prefix table at param_3, comparing each entry's length and text with param_1 with _strncmp, and returns the length of the matching entry or 0",
+    "summary": "Finds the table entry whose text starts the given string and returns its length.",
+    "invented_prefix_name": "Text_FindPrefixEntry"
+  },
+  "0x1025BDE0": {
+    "name": "Unit10253A20_FindMarker",
+    "confidence": "low",
+    "evidence": "walks the string up to param_2 bytes by Shift-JIS character length and returns the offset of the first marker byte 0x15, or -1",
+    "summary": "Returns the offset of the first marker byte in a string, or -1.",
+    "invented_prefix_name": "Text_FindMarker"
+  }
+}

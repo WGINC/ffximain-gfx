@@ -1,0 +1,33 @@
+{
+  "0x10044AA0": {
+    "name": "CMoElem_SetSourceAt0FC",
+    "confidence": "low",
+    "evidence": "when param_1 is nonzero stores param_1+0x14 at this+0xFC and calls FUN_10048100; otherwise returns this",
+    "summary": "Stores a source pointer at offset 0xFC and refreshes the element."
+  },
+  "0x10044AE0": {
+    "name": "CMoElem_AdvanceTimer",
+    "confidence": "medium",
+    "evidence": "subtracts the frame delta at g_pResourceMng+0xEB0 from this+0x110 each call, then, when it passes 1.0, calls the virtual at slot 6 and FUN_1004E720 on the object at +0xFC",
+    "summary": "Advances the element's timer by the frame delta and acts when it expires."
+  },
+  "0x10044C20": {
+    "name": "CMoElem_SetSourceAt100",
+    "confidence": "low",
+    "evidence": "stores param_1+0x14 at this+0x100 and calls FUN_10048190",
+    "summary": "Stores a source pointer at offset 0x100 and refreshes the element."
+  },
+  "0x10045800": {
+    "name": "CMoElem_InvertInPlace",
+    "confidence": "medium",
+    "evidence": "Gauss-Jordan elimination on a 4x4 float matrix: each pivot is replaced by its reciprocal, the row is scaled and the other rows are reduced; called by YmElem_SetupDevice",
+    "summary": "Inverts the 4x4 matrix in place.",
+    "invented_prefix_name": "Mat4_InvertInPlace"
+  },
+  "0x10045A40": {
+    "name": "CMoElem_PrepareDraw",
+    "confidence": "medium",
+    "evidence": "calls CMoElem_AdvanceTimer, YmElem_ComputeViewDepthKey, FUN_10045190, YmElem_BuildDrawMatrixAndTest and FUN_100458F0; vtable slot 8 of 17 classes",
+    "summary": "Computes the element's draw key and draw matrix for this frame, and tests it."
+  }
+}

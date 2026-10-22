@@ -1,0 +1,8 @@
+{
+  "0x100369F0": {
+    "name": "CYySoundElem_Constructor",
+    "confidence": "medium",
+    "evidence": "calls CMoElem_Constructor and FUN_10036980, sets the CYySoundElem vtable and clears the fields at +0x108, +0x138 and +0x198 to +0x1CC, sets +0x1E4 to 3.0f and +0x176 to 0x1ED; called by fn_10037020, sub_100370D0 and sub_1004E8D0",
+    "summary": "Constructs a CYySoundElem and sets its default state."
+  }
+}

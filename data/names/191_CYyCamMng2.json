@@ -1,0 +1,26 @@
+{
+  "0x1001E4D0": {
+    "name": "CYyCamMng2_GetYaw",
+    "confidence": "low",
+    "evidence": "returns atan2(-(field at Camera_GetField50 +0x2C), field at Camera_GetField50 +0x24) as a long double",
+    "summary": "Returns the camera yaw from two camera fields."
+  },
+  "0x1001E4F0": {
+    "name": "CYyCamMng2_Reset",
+    "confidence": "low",
+    "evidence": "copies the vector at DAT_1035122C into this+0x44, calls fn_10015290 with 0x43AF0000 and the vector helpers, adds 1.0f to the float at +0x58, sets +0xA8 to (0, -1, 0) through fn_10026E50, copies vectors to +0x50, +0x6C and +0x60, clears +0x5C, +0x78, +0x7C to +0x8A and +0xF4, and returns the dword at +0x5C",
+    "summary": "Resets the camera manager's position and state vectors to their defaults."
+  },
+  "0x1001E590": {
+    "name": "CYyCamMng2_SetDefaultDistances",
+    "confidence": "low",
+    "evidence": "calls CYyCamMng2_Reset and then stores 0x40400000 (3.0f) at this+0xB4 and 0x40C00000 (6.0f) at this+0xB8; called by CYyCamMng2::CreateGlobal",
+    "summary": "Resets the camera and sets its default distances."
+  },
+  "0x1001E600": {
+    "name": "CYyCamMng2_Construct",
+    "confidence": "medium",
+    "evidence": "sets vtable PTR_CYyCamMng2_GetRuntimeClass_1032a37c, calls fn_10027990 on this+4, clears the flag at +0xF0, calls fn_1001E590, clears the global camera block DAT_10456D70..DAT_10456DA8 and calls fn_1001E2F0; called by CYyCamMng2::CreateGlobal",
+    "summary": "Constructs the camera manager and clears its global state."
+  }
+}

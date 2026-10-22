@@ -1,0 +1,32 @@
+{
+  "0x1001E760": {
+    "name": "Camera_SetPosition",
+    "confidence": "medium",
+    "evidence": "copies the vector argument into +0x44 with Vec3_Copy; its callers include Camera_UpdateController and CMoSchedularTask_Interpret",
+    "summary": "Stores the argument as the camera's position at +0x44."
+  },
+  "0x1001E780": {
+    "name": "Camera_SetTargetIfMoved",
+    "confidence": "medium",
+    "evidence": "computes the vector from +0x44 to the argument with Vec3_Sub, takes its length with FUN_10027600, and copies the argument to +0x50 when the length is above zero",
+    "summary": "Stores the argument as the camera's target at +0x50 when it differs from the position."
+  },
+  "0x10021B70": {
+    "name": "Camera_SnapshotState",
+    "confidence": "low",
+    "evidence": "calls fn_10021C10, then copies +0x44 to +0x60, +0x50 to +0x6C and the dword at +0x5C to +0x78, and returns self+4",
+    "summary": "Runs the camera update and copies its position, target and value into the saved state."
+  },
+  "0x100220E0": {
+    "name": "Actor_ClearIndexTable",
+    "confidence": "low",
+    "evidence": "stores 0xFF in each of the sixteen bytes from self to self+0xF",
+    "summary": "Sets the sixteen index bytes of the table to 0xFF."
+  },
+  "0x10022170": {
+    "name": "Actor_MapPercentScaleIndex",
+    "confidence": "low",
+    "evidence": "returns 0 for the argument 7, 2 for 8, and -1 otherwise",
+    "summary": "Maps the percent-scale codes 7 and 8 to indices 0 and 2, and anything else to -1."
+  }
+}

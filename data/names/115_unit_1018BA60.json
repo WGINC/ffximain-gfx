@@ -1,0 +1,228 @@
+{
+  "0x101B9910": {
+    "name": "Unit1018BA60_InitWithCallback",
+    "confidence": "low",
+    "evidence": "same layout as DatEntry_Init but stores the third argument at +0x114 and clears the buffer size and callback fields",
+    "summary": "Initialises a DAT entry that uses a callback instead of a buffer.",
+    "invented_prefix_name": "DatEntry_InitWithCallback"
+  },
+  "0x101B9980": {
+    "name": "Unit1018BA60_CopyFrom",
+    "confidence": "low",
+    "evidence": "copies the id, name and the fields at +0x108..+0x11C from the argument entry",
+    "summary": "Copies a DAT entry's fields from another entry.",
+    "invented_prefix_name": "DatEntry_CopyFrom"
+  },
+  "0x101B9A00": {
+    "name": "Unit1018BA60_ClearVtable",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_10337b20 on the object and returns",
+    "summary": "Resets a DAT entry's vtable.",
+    "invented_prefix_name": "DatEntry_ClearVtable"
+  },
+  "0x101B9A10": {
+    "name": "Unit1018BA60_LoadFromFile",
+    "confidence": "medium",
+    "evidence": "returns 1 when the name is mix.dat; otherwise hashes the buffer at +0x108 with MD5 (fn_100DDE90, sub_100DDEC0, sub_100DDF60), reads the 0x18-byte header and the body through FileMng (FUN_101c4920) and returns the result",
+    "summary": "Loads a DAT entry's header and body from its file.",
+    "invented_prefix_name": "DatEntry_LoadFromFile"
+  },
+  "0x101B9BC0": {
+    "name": "Unit1018BA60_Read",
+    "confidence": "low",
+    "evidence": "allocates a buffer when none is set, zeroes it when the flag at +0x11C is set, reads the header and body through FileMng (FUN_101c4790) and verifies the id at +4 and the MD5 digest; calls the callbacks at +0x110 and +0x114 on success or failure",
+    "summary": "Reads a DAT entry from its file, verifies it and runs its callbacks.",
+    "invented_prefix_name": "DatEntry_Read"
+  },
+  "0x101B9E00": {
+    "name": "Unit1018BA60_InitCopy",
+    "confidence": "low",
+    "evidence": "calls DatEntry_CopyFrom with the argument, sets vtable PTR_FUN_10337b24 and clears +0x120 (the next link)",
+    "summary": "Initialises a DAT list node as a copy of another entry.",
+    "invented_prefix_name": "DatEntryNode_InitCopy"
+  },
+  "0x101B9EC0": {
+    "name": "Unit1018BA60_AppendToList",
+    "confidence": "medium",
+    "evidence": "allocates the node with the caller's id through DatEntryNode_InitCopy and appends it at the end of the list at this+4, following the links at +0x120",
+    "summary": "Appends a DAT entry node to the end of the list.",
+    "invented_prefix_name": "DatEntry_AppendToList"
+  },
+  "0x101B9F20": {
+    "name": "Unit1018BA60_Register",
+    "confidence": "medium",
+    "evidence": "builds a DAT entry with DatEntry_Init from the arguments, appends it with DatEntry_AppendToList and clears the temporary entry",
+    "summary": "Registers a DAT entry with the DAT manager.",
+    "invented_prefix_name": "DatMng_Register"
+  },
+  "0x101B9F90": {
+    "name": "Unit1018BA60_RemoveById",
+    "confidence": "medium",
+    "evidence": "walks the list at this+4 for the node whose id at +0x108 equals the argument, unlinks it through the link at +0x120 and calls its vtable destructor with 1",
+    "summary": "Removes the DAT entry with the given id from the list.",
+    "invented_prefix_name": "DatMng_RemoveById"
+  },
+  "0x101B9FF0": {
+    "name": "Unit1018BA60_LoadAll",
+    "confidence": "low",
+    "evidence": "when the flag at +8 is set and the list is not empty, calls DatEntry_LoadFromFile on the head and each following node, then clears the flag at +9",
+    "summary": "Loads every DAT entry in the list.",
+    "invented_prefix_name": "DatMng_LoadAll"
+  },
+  "0x101BA030": {
+    "name": "Unit1018BA60_ReadAll",
+    "confidence": "low",
+    "evidence": "when the list at +4 is not empty, calls DatEntry_Read on the head and each following node and sets the flags at +8 and +9",
+    "summary": "Reads every DAT entry in the list.",
+    "invented_prefix_name": "DatMng_ReadAll"
+  },
+  "0x101BA180": {
+    "name": "Unit1018BA60_Construct",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_10337b28 and clears the fields at +4, +8 and +9",
+    "summary": "Constructs the DAT cache object.",
+    "invented_prefix_name": "DatCache_Construct"
+  },
+  "0x101BA2D0": {
+    "name": "Unit1018BA60_ClearBufferA",
+    "confidence": "low",
+    "evidence": "frees the buffer at +0xC when set and clears +8, +0xC and +0x10",
+    "summary": "Frees the first buffer of the DAT manager.",
+    "invented_prefix_name": "DatMng2_ClearBufferA"
+  },
+  "0x101BA300": {
+    "name": "Unit1018BA60_ClearBufferB",
+    "confidence": "low",
+    "evidence": "frees the buffer at +0x18 when set and clears +0x14, +0x18 and +0x1C",
+    "summary": "Frees the second buffer of the DAT manager.",
+    "invented_prefix_name": "DatMng2_ClearBufferB"
+  },
+  "0x101BA5B0": {
+    "name": "Unit1018BA60_Destruct",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_LAB_10337b4c and calls FUN_101badd0 on the object; called by fn_101BAF90",
+    "summary": "Releases a DAT block.",
+    "invented_prefix_name": "DatBlock_Destruct"
+  },
+  "0x101BA5C0": {
+    "name": "Unit1018BA60_ResetCounters",
+    "confidence": "low",
+    "evidence": "clears the dwords at +0x18 and +0x20 and returns 1; called by FsWordCompletion_Init",
+    "summary": "Resets a DAT block's counters.",
+    "invented_prefix_name": "DatBlock_ResetCounters"
+  },
+  "0x101BAE20": {
+    "name": "FsWordCompletion_GetCount18",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x18",
+    "summary": "Returns the count at +0x18."
+  },
+  "0x101BAE30": {
+    "name": "FsWordCompletion_GetCount1C",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x1C",
+    "summary": "Returns the count at +0x1C."
+  },
+  "0x101BAE40": {
+    "name": "FsWordCompletion_FindNextByKey",
+    "confidence": "low",
+    "evidence": "walks the list at +0x18 from the entry whose key byte matches the low byte of the argument (bits 24 to 31 of the entry's dword at +0x14) and returns the next entry in that group, or 0",
+    "summary": "Finds the next completion entry with the same key byte."
+  },
+  "0x101BAEB0": {
+    "name": "FsWordCompletion_GetField20",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x20",
+    "summary": "Returns the field at +0x20."
+  },
+  "0x101BAEC0": {
+    "name": "FsWordCompletion_GetField28",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x28",
+    "summary": "Returns the field at +0x28."
+  },
+  "0x101BAED0": {
+    "name": "FsWordCompletion_Construct",
+    "confidence": "low",
+    "evidence": "calls FUN_101bc740 on this+0x18, initialises 0x40 entries at this+0x22C (FUN_101ba570) and clears the counters and flags, sets this+4 to 1 and this+0x214..+0x220 to -1",
+    "summary": "Constructs a word completion object and its entries."
+  },
+  "0x101BAF90": {
+    "name": "FsWordCompletion_ClearEntries",
+    "confidence": "low",
+    "evidence": "when the flag at this+0 is set calls fn_101BB9E0, then runs DatBlock_Destruct on the 0x40 entries from this+0x7E2C backwards",
+    "summary": "Clears the completion entries."
+  },
+  "0x101BAFC0": {
+    "name": "FsWordCompletion_Init",
+    "confidence": "low",
+    "evidence": "calls fn_101BB9E0, clears the count at +0x204, runs DatBlock_ResetCounters on the 0x40 entries from +0x22C, sets +4 to the argument and +0x214..+0x220 to -1, copies the name string into the object and clears the counters; called by FsTextInput_init",
+    "summary": "Initialises a word completion object and its entries."
+  },
+  "0x101BB100": {
+    "name": "FsWordCompletion_IsEntryValid",
+    "confidence": "low",
+    "evidence": "returns 0 when the byte at +0x1B4 is '.', otherwise 1 when the first dword is between 0x73FF and 0xFFFF exclusive, else 0",
+    "summary": "Tests whether a completion entry is usable."
+  },
+  "0x101BB130": {
+    "name": "FsWordCompletion_CountEntries",
+    "confidence": "low",
+    "evidence": "walks the table of 0x294-byte records from DAT_1060161B, counts those for which FsWordCompletion_IsEntryValid is true and sums their string lengths into param+0x48",
+    "summary": "Counts the usable completion entries and their total length."
+  },
+  "0x101BB1A0": {
+    "name": "FsWordCompletion_PackEntries",
+    "confidence": "low",
+    "evidence": "for each usable record in the table at DAT_1060161B writes a 4-byte header (the type from the first short) and a length byte followed by the string into the output buffer",
+    "summary": "Packs the usable completion entries into a buffer."
+  },
+  "0x101BB430": {
+    "name": "FsWordCompletion_CountSupported",
+    "confidence": "low",
+    "evidence": "walks the list from fn_10153FF0 and counts the entries whose second value is not in 0x181..0x183, storing the count times 8 at param+0x48 and the count at +0x44",
+    "summary": "Counts the supported completion items and records the total size."
+  },
+  "0x101BB4B0": {
+    "name": "FsWordCompletion_BuildItems",
+    "confidence": "low",
+    "evidence": "walks the same list as FsWordCompletion_CountSupported and writes an 8-byte record (a packed code and a pointer from FUN_10154550) for each supported entry up to the requested count",
+    "summary": "Builds the completion item records."
+  },
+  "0x101BB5A0": {
+    "name": "FsWordCompletion_AddItem",
+    "confidence": "low",
+    "evidence": "when the record at param_1+0x44 is non-zero finds a completion object with fn_101BCA40 and fn_101BCAC0, builds the items with FsWordCompletion_BuildItems and stores the index at *param_2; called by sub_101BB680",
+    "summary": "Adds a completion item to the word completion object."
+  },
+  "0x101BB740": {
+    "name": "FsWordCompletion_Refresh",
+    "confidence": "low",
+    "evidence": "clears the indexes at +0x214 and +0x218, copies +0x228 to +0x224, runs sub_101BB680 and sub_101BB2B0 and, when either succeeds, calls FsWordCompletion__prepareAllData and fn_101BC6F0; called by fn_101BBA90",
+    "summary": "Rebuilds the completion data after a change."
+  },
+  "0x101BB7A0": {
+    "name": "FsWordCompletion_LoadData",
+    "confidence": "low",
+    "evidence": "allocates an FsMemory object of 0x1B800 bytes (FsMemory_Constructor) when none exists, resolves the file id 0x18 with FileMng_ResolveOrExit, reads it, copies each 0x4C-byte record that matches the current mode into a new completion entry and then calls FsWordCompletion__prepareAllData; called by FsTextInput_init and sub_101BB050",
+    "summary": "Loads the word completion data file and builds its entries."
+  },
+  "0x101BB9E0": {
+    "name": "FsWordCompletion_Release",
+    "confidence": "low",
+    "evidence": "when the flag at this+0 is set frees the FsMemory object at +0x208 and calls fn_101BC720; in either case frees the buffers at +0x210 and +0x20C and resets their indexes; called by FsWordCompletion_ClearEntries and FsWordCompletion_Init",
+    "summary": "Frees the word completion buffers."
+  },
+  "0x101BBA90": {
+    "name": "FsWordCompletion_SetWord",
+    "confidence": "low",
+    "evidence": "when the argument string is non-null and the flags are zero stores the first byte at +0x1F8 and resets the counters, otherwise looks up the entry with the value at +0x1F8 through sub_101BB070 and refreshes via FsWordCompletion_Refresh; called by fn_101B6EE0",
+    "summary": "Sets the current word for completion and refreshes the candidates."
+  },
+  "0x101BBC60": {
+    "name": "FsWordCompletion_Update",
+    "confidence": "low",
+    "evidence": "returns unless the state at +0x204 is 1; when the object is enabled, finds the entry for the current word through sub_101BB070 and binary-searches its sorted list with the vtable compare (slot 8) against this+0x30, storing the result; called by fn_101B6EE0",
+    "summary": "Looks up the current word in the sorted completion list each frame."
+  }
+}

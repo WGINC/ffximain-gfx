@@ -1,14 +1,76 @@
 {
-"0x10026E00": {"name": "Vec3_SetZero", "confidence": "medium", "evidence": "stores 0 to the three dwords at param_1; in the Vec3 unit, called by SkinVertices", "summary": "Sets a 3-component vector to zero."},
-"0x10026E50": {"name": "Vec3_Set", "confidence": "medium", "evidence": "stores its three float arguments to param_1[0..2] and returns param_1", "summary": "Sets a 3-component vector from three floats and returns it."},
-"0x100270A0": {"name": "Vec3_SubInPlace", "confidence": "medium", "evidence": "param_1[i] = param_1[i] - param_2[i] for i 0..2, returns param_1", "summary": "Subtracts one 3-component vector from another in place."},
-"0x100272B0": {"name": "Vec3_ScaleInPlace", "confidence": "medium", "evidence": "param_1[i] = param_2 * param_1[i] for i 0..2", "summary": "Multiplies a 3-component vector by a scalar in place."},
-"0x10027340": {"name": "Vec3_MulComponents", "confidence": "medium", "evidence": "param_1[i] = param_2[i] * param_3[i] for i 0..2 (returns param_2)", "summary": "Writes the component-wise product of two 3-component vectors."},
-"0x10027550": {"name": "Vec3_Cross", "confidence": "medium", "evidence": "computes (b.z*a.y... ) the three cross-product terms of param_2 and param_3 into a local, then Vec3_Copy to param_1", "summary": "Writes the cross product of two 3-component vectors."},
-"0x10027990": {"name": "Shared_ReturnThis", "confidence": "low", "evidence": "returns its `this` (ECX) unchanged; 102 callers across unrelated code", "summary": "Returns its this pointer; a shared trivial method."},
-"0x100279A0": {"name": "Shared_Nop", "confidence": "low", "evidence": "empty body; 106 callers across unrelated code", "summary": "Does nothing; a shared empty function."},
-"0x10028170": {"name": "Mat4_TransformVec4", "confidence": "medium", "evidence": "out[i] = sum_j v[j] * M[j][i] over a 4x4 float matrix at this and a 4-component v; called by Mat4_TransformVec4InPlace", "summary": "Multiplies a 4-component row vector by the 4x4 matrix at this."},
-"0x10028230": {"name": "Mat4_TransformPoint", "confidence": "medium", "evidence": "out.xyz = v.xyz times the matrix's upper 3x3 plus its translation row (+0x30..0x38); called by Mat4_TransformPointInPlace", "summary": "Transforms a 3-component point by the 4x4 matrix at this, translation included."},
-"0x10028850": {"name": "MemBlock_AllocFromFront", "confidence": "medium", "evidence": "rounds the size up to 16 (min 0x20), walks blocks forward via +0x10 to the first free one (+4 == 0) MemBlock_GetSize >= size+0x20, marks it used (+4 = 1), tags it with the global at 0x104570E0, splits off the rest", "summary": "Allocates from the first free block that fits, walking forward."},
-"0x10028930": {"name": "MemBlock_AllocFromBack", "confidence": "medium", "evidence": "same size rounding as MemBlock_AllocFromFront, walks backward via +0x14 and carves the block from the end of the free block", "summary": "Allocates from the end of a free block that fits, walking backward."}
+  "0x10026E00": {
+    "name": "Vec3_SetZero",
+    "confidence": "medium",
+    "evidence": "stores 0 to the three dwords at param_1; in the Vec3 unit, called by SkinVertices",
+    "summary": "Sets a 3-component vector to zero."
+  },
+  "0x10026E50": {
+    "name": "Vec3_Set",
+    "confidence": "medium",
+    "evidence": "stores its three float arguments to param_1[0..2] and returns param_1",
+    "summary": "Sets a 3-component vector from three floats and returns it."
+  },
+  "0x100270A0": {
+    "name": "Vec3_SubInPlace",
+    "confidence": "medium",
+    "evidence": "param_1[i] = param_1[i] - param_2[i] for i 0..2, returns param_1",
+    "summary": "Subtracts one 3-component vector from another in place."
+  },
+  "0x100272B0": {
+    "name": "Vec3_ScaleInPlace",
+    "confidence": "medium",
+    "evidence": "param_1[i] = param_2 * param_1[i] for i 0..2",
+    "summary": "Multiplies a 3-component vector by a scalar in place."
+  },
+  "0x10027340": {
+    "name": "Vec3_MulComponents",
+    "confidence": "medium",
+    "evidence": "param_1[i] = param_2[i] * param_3[i] for i 0..2 (returns param_2)",
+    "summary": "Writes the component-wise product of two 3-component vectors."
+  },
+  "0x10027550": {
+    "name": "Vec3_Cross",
+    "confidence": "medium",
+    "evidence": "computes (b.z*a.y... ) the three cross-product terms of param_2 and param_3 into a local, then Vec3_Copy to param_1",
+    "summary": "Writes the cross product of two 3-component vectors."
+  },
+  "0x10027990": {
+    "name": "Unit10026C70_ReturnThis",
+    "confidence": "low",
+    "evidence": "returns its `this` (ECX) unchanged; 102 callers across unrelated code",
+    "summary": "Returns its this pointer; a shared trivial method.",
+    "invented_prefix_name": "Shared_ReturnThis"
+  },
+  "0x100279A0": {
+    "name": "Unit10026C70_Nop",
+    "confidence": "low",
+    "evidence": "empty body; 106 callers across unrelated code",
+    "summary": "Does nothing; a shared empty function.",
+    "invented_prefix_name": "Shared_Nop"
+  },
+  "0x10028170": {
+    "name": "Mat4_TransformVec4",
+    "confidence": "medium",
+    "evidence": "out[i] = sum_j v[j] * M[j][i] over a 4x4 float matrix at this and a 4-component v; called by Mat4_TransformVec4InPlace",
+    "summary": "Multiplies a 4-component row vector by the 4x4 matrix at this."
+  },
+  "0x10028230": {
+    "name": "Mat4_TransformPoint",
+    "confidence": "medium",
+    "evidence": "out.xyz = v.xyz times the matrix's upper 3x3 plus its translation row (+0x30..0x38); called by Mat4_TransformPointInPlace",
+    "summary": "Transforms a 3-component point by the 4x4 matrix at this, translation included."
+  },
+  "0x10028850": {
+    "name": "MemBlock_AllocFromFront",
+    "confidence": "medium",
+    "evidence": "rounds the size up to 16 (min 0x20), walks blocks forward via +0x10 to the first free one (+4 == 0) MemBlock_GetSize >= size+0x20, marks it used (+4 = 1), tags it with the global at 0x104570E0, splits off the rest",
+    "summary": "Allocates from the first free block that fits, walking forward."
+  },
+  "0x10028930": {
+    "name": "MemBlock_AllocFromBack",
+    "confidence": "medium",
+    "evidence": "same size rounding as MemBlock_AllocFromFront, walks backward via +0x14 and carves the block from the end of the free block",
+    "summary": "Allocates from the end of a free block that fits, walking backward."
+  }
 }

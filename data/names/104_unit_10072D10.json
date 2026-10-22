@@ -1,0 +1,8 @@
+{
+  "0x100730E0": {
+    "name": "CMoResource_FindOrCreateTask",
+    "confidence": "medium",
+    "evidence": "walks the resource list at DAT_1047CF84 for an entry whose parent is itself with the id at +0x34 equal to the argument, returning its +0x14 when found; otherwise looks up FUN_10074F30 with the tag 0x4D727400 and, when absent, allocates a 0x49-byte task, sets its vtable to CMoTask_GetRuntimeClass_variant12, and adds it with FUN_10072C30",
+    "summary": "Finds the resource with the given id, or creates and registers a new task for it."
+  }
+}

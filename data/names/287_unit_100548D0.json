@@ -1,0 +1,8 @@
+{
+  "0x10054FC0": {
+    "name": "Unit100548D0_Init",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1032b6d8 and clears the dwords at +0xC and +0x14; called by fn_10177D00",
+    "summary": "Sets the object's vtable and clears two fields."
+  }
+}

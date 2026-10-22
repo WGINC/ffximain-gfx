@@ -1,0 +1,26 @@
+{
+  "0x1018AD80": {
+    "name": "Blend_FindPrevious",
+    "confidence": "medium",
+    "evidence": "walks the list from owner+0x10 through +8 and returns the entry before this one, or 0 when it is not in the list",
+    "summary": "Returns the blend before this one in the owner's list."
+  },
+  "0x1018ADA0": {
+    "name": "Blend_FreeResult",
+    "confidence": "low",
+    "evidence": "when the object at +0x20 has bit 2 of its first dword set, frees it with Mem_FreeObject, then clears +0x20",
+    "summary": "Frees the blend's result object when it owns it."
+  },
+  "0x1018ADE0": {
+    "name": "Blend_Update",
+    "confidence": "medium",
+    "evidence": "called by Blend_UpdateOnce; updates the chained blend at +8, takes the blend fraction from (+0x18 minus +0x14) over +0x18, and when the two sources are set blends them with FUN_10189490 into a new result from FUN_1018AEB0 after freeing the old one",
+    "summary": "Advances a blend and blends its two sources into a new result."
+  },
+  "0x1018AEB0": {
+    "name": "Blend_AllocResult",
+    "confidence": "medium",
+    "evidence": "allocates a 0xAC-byte object with Mem_AllocObject and sets bit 2 of its first dword; called by Blend_Update and Env_BlendTimeOfDay",
+    "summary": "Allocates a blend result object that the blend owns."
+  }
+}

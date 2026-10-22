@@ -1,0 +1,14 @@
+{
+  "0x102AEE90": {
+    "name": "SqdfShape_Create",
+    "confidence": "medium",
+    "evidence": "allocates a 0x40-byte object through FUN_10275D80 with the file name s_C__dev_dancer_modules_sqDeform and initialises it with SqdfShape_Init",
+    "summary": "Creates a sqdfShape object."
+  },
+  "0x102AEEB0": {
+    "name": "SqdfShape_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word 0x30009, the vtable entries at +8, +0xC and +0x10 and clears the fields from +0x14 to +0x3C; called by SqdfShape_Create",
+    "summary": "Initialises a sqdfShape object's vtable and fields."
+  }
+}

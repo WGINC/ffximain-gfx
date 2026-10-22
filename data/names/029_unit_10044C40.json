@@ -1,0 +1,42 @@
+{
+  "0x10044C40": {
+    "name": "Unit10044C40_ComputeWorldPos",
+    "confidence": "low",
+    "evidence": "copies the vector at +0x54 and scales each component by one of three values from FUN_10047450, then calls the processor's vtable slot 20 on it when FUN_100473F0 and +0xFC are set",
+    "summary": "Computes the element's position scaled by its matrix row values and writes it to the output.",
+    "invented_prefix_name": "CMoElem_ComputeWorldPos"
+  },
+  "0x10044CF0": {
+    "name": "Unit10044C40_IsActive",
+    "confidence": "low",
+    "evidence": "returns 1 when the byte at +0x187 is set, else the nonzero value at +0x108, else whether the dword at +0xA4 of the object at +0xFC (or the global at 0xA4) is nonzero",
+    "summary": "Tests whether the element is active.",
+    "invented_prefix_name": "CMoElem_IsActive"
+  },
+  "0x10044D40": {
+    "name": "Unit10044C40_UpdateTransform",
+    "confidence": "medium",
+    "evidence": "called only after CMoElem_IsActive is true; calls MoProcessor_CallVSlot49 on +0x60, computes the vector from +0xEC, +0xF0, +0xF4 and FUN_10047490 values, and calls processor vtable slots 0x58, 0x6C and 0x20",
+    "summary": "Updates the element's transform on the processor for this frame.",
+    "invented_prefix_name": "CMoElem_UpdateTransform"
+  },
+  "0x10045C50": {
+    "name": "Unit10044C40_GetFlaggedMatrix",
+    "confidence": "low",
+    "evidence": "returns g_pProcessor+0x810 when flag 8 of the element's flags at +0x108 is set; otherwise pushes the processor's matrix stack at +0xA10, chooses one of three resource matrices by flags 0x2000 and 0x4000, then pops",
+    "summary": "Returns the matrix the element's flags select.",
+    "invented_prefix_name": "CMoElem_GetFlaggedMatrix"
+  },
+  "0x10046380": {
+    "name": "Zone_UpdateFogAmbient",
+    "confidence": "low",
+    "evidence": "calls XiZone_GetFog and XiZone_GetAmbient on g_pXiZone, sets fog and material globals to 1.0, 0.7 and 0 and the value 50.0, then doubles the ambient colour bytes with clamping at 0xFF",
+    "summary": "Sets the zone's fog and ambient colours from the zone's values."
+  },
+  "0x100464D0": {
+    "name": "Fog_SetRenderStates",
+    "confidence": "high",
+    "evidence": "calls IDirect3DDevice8::SetRenderState (vtable offset 200) three times with render states 34 (FOGCOLOR), 36 (FOGSTART) and 37 (FOGEND) and the values in g_zoneFogOut1, g_zoneFogOut3 and g_zoneFogOut2",
+    "summary": "Sets the Direct3D fog colour, start and end render states."
+  }
+}

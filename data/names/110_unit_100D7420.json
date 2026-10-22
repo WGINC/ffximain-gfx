@@ -1,0 +1,196 @@
+{
+  "0x10101BF0": {
+    "name": "Unit100D7420_CeilDiv10Max10",
+    "confidence": "medium",
+    "evidence": "returns ceil((param_1 & 0xFF) / 10), capped at 10",
+    "summary": "Returns the byte argument divided by ten, rounded up and capped at ten.",
+    "invented_prefix_name": "Util_CeilDiv10Max10"
+  },
+  "0x10103700": {
+    "name": "Game_GetField438",
+    "confidence": "low",
+    "evidence": "writes the dword at DAT_104E0AF4 + 0x438 to the out-pointer and returns 1, or 0 when the state is null",
+    "summary": "Returns the value stored at offset 0x438 of the game state."
+  },
+  "0x10103740": {
+    "name": "Game_ClearFlagsBits",
+    "confidence": "low",
+    "evidence": "clears bits 3, 2 and 1 of the dword at DAT_104E0AF4 + 0x46C when the state is non-null",
+    "summary": "Clears three flag bits in the game state."
+  },
+  "0x101037F0": {
+    "name": "Game_SetSlot44C",
+    "confidence": "low",
+    "evidence": "stores param_2 in the dword at DAT_104E0AF4 + 0x44C + index * 4 when the index is below 8 and the state is non-null",
+    "summary": "Stores a value in one of eight slots of the game state."
+  },
+  "0x10103870": {
+    "name": "Unit100D7420_CopyFirstToken",
+    "confidence": "medium",
+    "evidence": "skips leading spaces and tabs, copies the following non-blank characters to param_1 until a space, tab or NUL, NUL-terminates the copy and returns the number of characters read",
+    "summary": "Copies the first blank-delimited token of a string and returns the number of characters consumed.",
+    "invented_prefix_name": "Str_CopyFirstToken"
+  },
+  "0x101038D0": {
+    "name": "Game_GetField4",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_104E0AF4 + 4, or 0 when the state is null",
+    "summary": "Returns the value stored at offset 4 of the game state."
+  },
+  "0x101039C0": {
+    "name": "Unit100D7420_SetOffset",
+    "confidence": "low",
+    "evidence": "stores param_1 minus the value returned by FUN_100DC130 in DAT_104E0AF8",
+    "summary": "Stores the offset between the argument and the current timer value.",
+    "invented_prefix_name": "Timer_SetOffset"
+  },
+  "0x10103A90": {
+    "name": "Time_ModDiv12FC00Div19500",
+    "confidence": "low",
+    "evidence": "returns (param_1 % 0x12FC00) / 0x19500",
+    "summary": "Returns a time value modulo 0x12FC00, divided by 0x19500."
+  },
+  "0x10103AB0": {
+    "name": "Time_ModDiv19500Scaled",
+    "confidence": "low",
+    "evidence": "returns (((param_1 % 0x19500) - q) / 2 + q) / 0x800 with q = high 32 bits of param_1 % 0x19500 times 0x2F684BDB",
+    "summary": "Returns a time value modulo 0x19500 scaled to a smaller unit."
+  },
+  "0x10103AE0": {
+    "name": "Time_ModDiv6C00Scaled",
+    "confidence": "low",
+    "evidence": "returns (((param_1 % 0x6C00) - q) / 2 + q) / 0x800 with q as in Time_ModDiv19500Scaled",
+    "summary": "Returns a time value modulo 0x6C00 scaled to a smaller unit."
+  },
+  "0x10103B10": {
+    "name": "Time_ModDivD80Div90",
+    "confidence": "low",
+    "evidence": "returns (param_1 % 0xD80) / 0x90",
+    "summary": "Returns a time value modulo 0xD80, divided by 0x90."
+  },
+  "0x10103B30": {
+    "name": "Time_ModMul3CDiv90",
+    "confidence": "low",
+    "evidence": "returns ((param_1 % 0x90) * 0x3C) / 0x90",
+    "summary": "Returns a time value modulo 0x90 scaled to 0 to 0x3C."
+  },
+  "0x10103F50": {
+    "name": "Unit100D7420_SetZero",
+    "confidence": "low",
+    "evidence": "stores 0 in the word at param_1",
+    "summary": "Clears the word at the given address.",
+    "invented_prefix_name": "Word_SetZero"
+  },
+  "0x10107610": {
+    "name": "Unit100D7420_AppendMax20",
+    "confidence": "low",
+    "evidence": "appends param_2 as a dword after the count word at param_1 and increments the count when the count is below 20, otherwise returns 0",
+    "summary": "Appends a dword to a list of at most twenty entries.",
+    "invented_prefix_name": "Dwords_AppendMax20"
+  },
+  "0x10108150": {
+    "name": "Unit100D7420_DumpHexBytes",
+    "confidence": "low",
+    "evidence": "for each block of the table at DAT_104E0B00, formats its bytes as two-digit hex with _sprintf, writes printable characters through FUN_1031482F, then frees the table",
+    "summary": "Formats the stored byte blocks as hex and text, then releases the table.",
+    "invented_prefix_name": "Dbg_DumpHexBytes"
+  },
+  "0x10108300": {
+    "name": "Unit100D7420_InitDumpTable",
+    "confidence": "low",
+    "evidence": "calls Dbg_DumpHexBytes, allocates a 0x14-byte record with Allocator_Generic, stores the two arguments and the word at +0x10 in it and sets the count at DAT_104E0AFC to 1",
+    "summary": "Replaces the dump table with a new record.",
+    "invented_prefix_name": "Dbg_InitDumpTable"
+  },
+  "0x10108590": {
+    "name": "Unit100D7420_AllocEntry",
+    "confidence": "low",
+    "evidence": "takes the larger of param_1 and param_2 and calls FUN_10108460 with the entry at DAT_104E0B00 + (param_3 & 0xFFFF) * 0x14",
+    "summary": "Allocates an entry from the table at the given index.",
+    "invented_prefix_name": "Table_AllocEntry"
+  },
+  "0x101086C0": {
+    "name": "Unit100D7420_InitBlock",
+    "confidence": "medium",
+    "evidence": "sets the size fields at +0x8 and +0xA, the next and previous links at +0 and +4, the sentinel at +0x10 to the node's own +0x14 and clears the counts at +0x18 and +0x1C",
+    "summary": "Initialises a heap block node as an empty free-list head.",
+    "invented_prefix_name": "Heap_InitBlock"
+  },
+  "0x10108700": {
+    "name": "Unit100D7420_InsertBlock",
+    "confidence": "medium",
+    "evidence": "walks the free list at +0x10 to the first block at or past param_1's size, then links param_1 before it, or makes it the list head, and updates its size field at +8",
+    "summary": "Inserts a free block into the heap's size-ordered free list.",
+    "invented_prefix_name": "Heap_InsertBlock"
+  },
+  "0x10108780": {
+    "name": "Unit100D7420_InsertAndCoalesce",
+    "confidence": "medium",
+    "evidence": "finds the neighbouring blocks by their size links, calls Heap_UnlinkBlock, Heap_LinkBefore and Heap_LinkAfter to merge or reinsert the block, then sets the free-list size at +8",
+    "summary": "Inserts a freed block into the heap, merging it with adjacent free blocks.",
+    "invented_prefix_name": "Heap_InsertAndCoalesce"
+  },
+  "0x10108870": {
+    "name": "Unit100D7420_GetNextBlock",
+    "confidence": "medium",
+    "evidence": "returns param_1 + the size at +6 when that address is inside the heap, otherwise 0",
+    "summary": "Returns the block that follows a heap block, or 0 at the end of the heap.",
+    "invented_prefix_name": "Heap_GetNextBlock"
+  },
+  "0x101088A0": {
+    "name": "Unit100D7420_GetPrevBlock",
+    "confidence": "medium",
+    "evidence": "returns param_1 minus the word at +4 when it is non-zero, otherwise 0",
+    "summary": "Returns the block that precedes a heap block, or 0 at the start of the heap.",
+    "invented_prefix_name": "Heap_GetPrevBlock"
+  },
+  "0x101088C0": {
+    "name": "Unit100D7420_RebalanceList",
+    "confidence": "medium",
+    "evidence": "moves blocks between the two ends of the free list until their size fields are in order, using the link and size fields at +4, +8 and +0xA",
+    "summary": "Re-sorts the heap's free list after a block changes size.",
+    "invented_prefix_name": "Heap_RebalanceList"
+  },
+  "0x10108A50": {
+    "name": "Unit100D7420_Free",
+    "confidence": "medium",
+    "evidence": "clears the links of param_1, merges it with the previous block when that block is free, otherwise re-inserts it with Heap_InsertBlock, then calls Heap_RebalanceList",
+    "summary": "Returns a block to the heap, merging it with adjacent free blocks.",
+    "invented_prefix_name": "Heap_Free"
+  },
+  "0x10108D80": {
+    "name": "Unit100D7420_UnlinkBlock",
+    "confidence": "medium",
+    "evidence": "removes param_2 from the neighbour links at +8 and +0xA of its previous and next blocks and updates the list head at +0x10 and size at +8",
+    "summary": "Removes a block from the heap's linked list.",
+    "invented_prefix_name": "Heap_UnlinkBlock"
+  },
+  "0x10108E80": {
+    "name": "Unit100D7420_LinkAfter",
+    "confidence": "medium",
+    "evidence": "links param_2 after the block param_3 in the heap's neighbour links at +8 and +0xA",
+    "summary": "Links a heap block after another block in the list.",
+    "invented_prefix_name": "Heap_LinkAfter"
+  },
+  "0x10108F40": {
+    "name": "Unit100D7420_LinkBefore",
+    "confidence": "medium",
+    "evidence": "links param_2 before the block param_3 in the heap's neighbour links at +8 and +0xA",
+    "summary": "Links a heap block before another block in the list.",
+    "invented_prefix_name": "Heap_LinkBefore"
+  },
+  "0x10109000": {
+    "name": "Unit100D7420_AllocCopy",
+    "confidence": "medium",
+    "evidence": "returns the existing buffer when it is large enough, otherwise gets the maximum size from FUN_101083C0, allocates with FUN_10108590, copies param_2 bytes into it, NUL-terminates it and releases the old buffer",
+    "summary": "Allocates a buffer from the pool and copies the given bytes into it.",
+    "invented_prefix_name": "Pool_AllocCopy"
+  },
+  "0x101090A0": {
+    "name": "Unit100D7420_Release",
+    "confidence": "medium",
+    "evidence": "sets the vtable to PTR_FUN_10332E30, decrements the reference count at +2 of the buffer at +4, and frees the buffer and its partner through thunk_FUN_10108600 when the count reaches zero",
+    "summary": "Releases a reference-counted buffer and frees it when its count reaches zero.",
+    "invented_prefix_name": "RefBuf_Release"
+  }
+}

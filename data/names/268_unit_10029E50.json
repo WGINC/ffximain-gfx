@@ -1,0 +1,16 @@
+{
+  "0x10029EB0": {
+    "name": "Unit10029E50_FindTailLink",
+    "confidence": "medium",
+    "evidence": "starts at this+0x20 and walks the list through the next pointers at +4, returning the address of the last link",
+    "summary": "Returns the address of the last link of the list at +0x20.",
+    "invented_prefix_name": "List_FindTailLink"
+  },
+  "0x10029F00": {
+    "name": "Unit10029E50_AppendAtTail",
+    "confidence": "low",
+    "evidence": "calls List_FindTailLink and stores the argument in the link it returns",
+    "summary": "Appends a value at the tail of the list.",
+    "invented_prefix_name": "List_AppendAtTail"
+  }
+}

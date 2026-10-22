@@ -47,5 +47,6 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
 ```
 python3 pipeline/check_names.py batches/index.json data/names/NNN_<group>.json
 ```
-It must print `OK`. Then commit only that file to your branch, with a message `names: batch NNN_<group> (N named,
+It must print `OK`; it refuses a prefix the dossier does not show (the batch's class, `Unit<address>`, the batch's
+label, or whole CamelCase parts of a name in the dossier). Then commit only that file to your branch, with a message `names: batch NNN_<group> (N named,
 M skipped)`, and push. Do the next batch you were given.

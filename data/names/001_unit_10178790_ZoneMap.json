@@ -60,16 +60,18 @@
     "summary": "Tests a box against the zone map and returns the height of the hit."
   },
   "0x10181F60": {
-    "name": "Mat4_MulPointXyz",
+    "name": "Unit10178790_MulPointXyz",
     "confidence": "medium",
     "evidence": "param_1[0..2] = M * (x, y, z, 1) for the 4x4 M at param_2 and the point at param_3; returns the w component",
-    "summary": "Transforms a point by a 4x4 matrix, writing the xyz result and returning w."
+    "summary": "Transforms a point by a 4x4 matrix, writing the xyz result and returning w.",
+    "invented_prefix_name": "Mat4_MulPointXyz"
   },
   "0x10182490": {
-    "name": "Mat4_BuildPerspective",
+    "name": "Unit10178790_BuildPerspective",
     "confidence": "medium",
     "evidence": "starts from the identity, writes the 2*near/width and 2*near/height terms and the far-plane terms, then multiplies the result into the 4x4 at param_1",
-    "summary": "Builds a 4x4 perspective projection from the width, height, near and far values."
+    "summary": "Builds a 4x4 perspective projection from the width, height, near and far values.",
+    "invented_prefix_name": "Mat4_BuildPerspective"
   },
   "0x10183420": {
     "name": "ZoneMap_FindSlotByName",

@@ -1,0 +1,51 @@
+{
+  "0x10210D60": {
+    "name": "Unit101D7020_ResetState",
+    "confidence": "low",
+    "evidence": "when the dialog's flag at +0x34 is set and the title at +0x1C is set, calls thunk_FUN_10150CE0 on g_pTkTitle; then clears the dwords at +0x1C, +0x14, +0x18 and +0x40",
+    "summary": "Clears the dialog's callback, title and state fields.",
+    "invented_prefix_name": "MenuDialog_ResetState"
+  },
+  "0x10210DA0": {
+    "name": "Unit101D7020_Init",
+    "confidence": "medium",
+    "evidence": "calls the base constructor FUN_10126320, sets the vtable to PTR_FUN_1033bc30, copies four dwords from the argument into +0x20 to +0x2C, stores the flag at +0x38 and calls MenuDialog_ResetState",
+    "summary": "Initialises a menu dialog with its four-value layout and flag.",
+    "invented_prefix_name": "MenuDialog_Init"
+  },
+  "0x10210E30": {
+    "name": "Unit101D7020_Open",
+    "confidence": "medium",
+    "evidence": "returns early when the callback at +0x14 is set; stores its arguments at +0x14, +0x18, +0x1C and +0x34, opens the menu named at self+0x20 with MenuMng_OpenByName, sets the flag at +0x40 and the control byte at +0x86 of the menu, and calls FUN_102112B0 with the mode",
+    "summary": "Opens the menu dialog with its callback and flags.",
+    "invented_prefix_name": "MenuDialog_Open"
+  },
+  "0x10210FC0": {
+    "name": "Unit101D7020_Close",
+    "confidence": "medium",
+    "evidence": "calls the callback at +0x14 with the value at +0x18 and clears it, clears the flag at +0x3A, destroys the draw menu through CTkMenuMng_DestroyDrawMenu and calls FUN_1015E910 with the hold-time menu name",
+    "summary": "Closes the menu dialog, running its callback and destroying its menu.",
+    "invented_prefix_name": "MenuDialog_Close"
+  },
+  "0x102112B0": {
+    "name": "Unit101D7020_HandleChoice",
+    "confidence": "low",
+    "evidence": "switches on the mode at +0x40 and the argument (1 or 2), using FUN_1011BA40 on DAT_10578188 to choose between FUN_10211340 and FUN_1015E910",
+    "summary": "Handles the chosen menu option for the dialog's mode.",
+    "invented_prefix_name": "MenuDialog_HandleChoice"
+  },
+  "0x10211340": {
+    "name": "Unit101D7020_ApplyMusicVolume",
+    "confidence": "low",
+    "evidence": "when FUN_1011BA40 reports true for DAT_10578188 and its flag at +0x24 is set, calls SetMusicTrackVolume_B, then returns the result of FUN_1012CAD0",
+    "summary": "Applies the music volume for the dialog when its flag is set.",
+    "invented_prefix_name": "MenuDialog_ApplyMusicVolume"
+  },
+  "0x10211370": {
+    "name": "Unit101D7020_Refresh",
+    "confidence": "low",
+    "evidence": "calls SetMusicTrackVolume_A when the mode at +0x40 is set; when the callback is set, calls it with the value at +0x18 and a flag from the menu state, and then either destroys the draw menu or reopens it through MenuMng_OpenByName",
+    "summary": "Refreshes the menu dialog, re-running its callback and redrawing the menu.",
+    "invented_prefix_name": "MenuDialog_Refresh"
+  }
+}

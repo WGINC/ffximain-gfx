@@ -1,0 +1,8 @@
+{
+  "0x102999A0": {
+    "name": "SqsdGlow_ApplyShader",
+    "confidence": "low",
+    "evidence": "scales the glow strength at this+0x58 by a power-of-four factor from a table selected by the mode at +0x5C, stores the scaled colour at +0x4C..+0x54, calls FUN_10283970 on it and then sqgxShader(0x400000, 0); returns 0 when the flag at +0x60 is set and FUN_102a1fa0 returns 2",
+    "summary": "Sets the glow parameters and applies the glow shader."
+  }
+}

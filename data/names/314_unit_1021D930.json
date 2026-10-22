@@ -1,0 +1,135 @@
+{
+  "0x10229430": {
+    "name": "Unit1021D930_InitGlobals",
+    "confidence": "medium",
+    "evidence": "allocates a 0x94-byte object into DAT_106671D4 with FUN_10229670 and a 0x174-byte object into DAT_106671D8 initialised with FUN_102217C0 and a vtable, then builds the table at DAT_103862C4 with FUN_1021E480",
+    "summary": "Creates the UI's global objects and builds their lookup table.",
+    "invented_prefix_name": "Ui_InitGlobals"
+  },
+  "0x1022A6D0": {
+    "name": "Unit1021D930_ClearMenu",
+    "confidence": "low",
+    "evidence": "clears the byte at +0x89 and the word at +0x8E and destroys the draw menu at +8 through CTkMenuMng_DestroyDrawMenu",
+    "summary": "Clears the item's flags and destroys its draw menu.",
+    "invented_prefix_name": "UiItem94_ClearMenu"
+  },
+  "0x1022AFB0": {
+    "name": "Unit1021D930_GetBitIndexForId",
+    "confidence": "low",
+    "evidence": "gets an object from FUN_10153FF0 and computes, for the id, the word index (value >> 5) and the bit mask (1 << (value & 0x1F)) from FUN_101549F0",
+    "summary": "Returns the word index and bit mask for an id.",
+    "invented_prefix_name": "Ui_GetBitIndexForId"
+  },
+  "0x1022AFF0": {
+    "name": "Unit1021D930_IsBitSetForId",
+    "confidence": "low",
+    "evidence": "returns 1 when Ui_TestBitForId (FUN_1022AF80) returns 1, otherwise 0",
+    "summary": "Reports whether the bit for an id is set.",
+    "invented_prefix_name": "Ui_IsBitSetForId"
+  },
+  "0x1022AF80": {
+    "name": "Unit1021D930_TestBitForId",
+    "confidence": "low",
+    "evidence": "gets the word index and bit mask for the id with Ui_GetBitIndexForId, then returns the result of FUN_10097E50 on them",
+    "summary": "Tests the bit for an id and returns the result.",
+    "invented_prefix_name": "Ui_TestBitForId"
+  },
+  "0x1022B080": {
+    "name": "Unit1021D930_InitSubsystems",
+    "confidence": "medium",
+    "evidence": "allocates and initialises the objects for the UI subsystems at DAT_10667A68, DAT_10667A6C, DAT_10667A70, DAT_10667A7C and DAT_10667A80 with FUN_10126320, FUN_1022C350, FUN_1022BFB0 and FUN_1022BD50, then calls FUN_1022B260",
+    "summary": "Creates the UI's subsystem objects and clears their tables.",
+    "invented_prefix_name": "Ui_InitSubsystems"
+  },
+  "0x1022B260": {
+    "name": "Unit1021D930_ClearCounters",
+    "confidence": "low",
+    "evidence": "zeroes the 0x200 dwords at DAT_106671E0 and the word after them",
+    "summary": "Clears the UI's counter table.",
+    "invented_prefix_name": "Ui_ClearCounters"
+  },
+  "0x1022B290": {
+    "name": "Unit1021D930_TickCounters",
+    "confidence": "medium",
+    "evidence": "subtracts the value of FUN_10014D60 from each counter at DAT_106671E0 while it is positive, clamps it at zero, then calls FUN_100FCD70 and, when the result changes, FUN_1022B3B0 with 60",
+    "summary": "Counts the UI's timers down each frame and updates the timer length when it changes.",
+    "invented_prefix_name": "Ui_TickCounters"
+  },
+  "0x1022B2F0": {
+    "name": "Unit1021D930_GetMinutesCeil",
+    "confidence": "low",
+    "evidence": "for an index from 0 to 0x400, returns (counter + 59) / 60 at DAT_106671E0 + index * 2, otherwise -1",
+    "summary": "Returns a timer counter converted to whole minutes, rounded up.",
+    "invented_prefix_name": "Ui_GetMinutesCeil"
+  },
+  "0x1022B3B0": {
+    "name": "Unit1021D930_SetTimerSeconds",
+    "confidence": "low",
+    "evidence": "stores the argument times 60 in DAT_106679E0",
+    "summary": "Sets the timer length to the given number of minutes in seconds.",
+    "invented_prefix_name": "Ui_SetTimerSeconds"
+  },
+  "0x1022BDA0": {
+    "name": "Unit1021D930_GetSingleton",
+    "confidence": "medium",
+    "evidence": "on its first call initialises the object at DAT_106679E8 with FUN_1022BE10 and registers its exit function with _atexit, then returns the address",
+    "summary": "Returns the UI singleton, initialising it on first use.",
+    "invented_prefix_name": "Ui_GetSingleton"
+  },
+  "0x1022ED00": {
+    "name": "Unit1021D930_Clear",
+    "confidence": "low",
+    "evidence": "zeroes the three dwords at the start of the object",
+    "summary": "Clears a UI string list's three counters.",
+    "invented_prefix_name": "UiStrList_Clear"
+  },
+  "0x1022ED30": {
+    "name": "Unit1021D930_Alloc",
+    "confidence": "medium",
+    "evidence": "stores the two sizes at +0 and +4, allocates a buffer of size param_2 + param_1 * 4 with Allocator_Generic and sets the pointers at +8, +0xC and +0x10 into it, then clears the counters at +0x14 and +0x18",
+    "summary": "Allocates the storage for a UI string list.",
+    "invented_prefix_name": "UiStrList_Alloc"
+  },
+  "0x1022ED70": {
+    "name": "Unit1021D930_Append",
+    "confidence": "medium",
+    "evidence": "returns 0 when the list is full or the string buffer has no room; otherwise stores the current string offset in the offset array, copies the string after the strings, and increments the count at +0x14",
+    "summary": "Appends a string to a UI string list, returning 1 on success.",
+    "invented_prefix_name": "UiStrList_Append"
+  },
+  "0x1022F240": {
+    "name": "Unit1021D930_ReadChunk",
+    "confidence": "low",
+    "evidence": "reads up to 0x200 bytes into DAT_10668CC8 with FUN_101C4740 from the file named by FUN_1025B560(0x5A), returning 1 when the read succeeds",
+    "summary": "Reads a block of a UI data file and reports success.",
+    "invented_prefix_name": "UiFile_ReadChunk"
+  },
+  "0x10230410": {
+    "name": "Unit1021D930_Reset",
+    "confidence": "medium",
+    "evidence": "clears the dwords and bytes at +4, +8, +0xA and +0x1B, sets five words at +0xC to 0xF200 with the bytes at +0x16 to +0x1A zeroed, and clears +0x1C, +0x1E and +0x1F",
+    "summary": "Resets a UI object's counters and its five table entries.",
+    "invented_prefix_name": "UiObjA_Reset"
+  },
+  "0x10234660": {
+    "name": "Unit1021D930_DrawProgressBar",
+    "confidence": "medium",
+    "evidence": "when the count at +0x10 is non-zero, computes the bar's position from the fields at +0, +4, +0xC and +8, and draws its quads with FUN_10120000 through the textures from FUN_10220CF0",
+    "summary": "Draws a progress bar and its segments from the object's values.",
+    "invented_prefix_name": "Ui_DrawProgressBar"
+  },
+  "0x10234A00": {
+    "name": "Unit1021D930_ComputeClampedIndex",
+    "confidence": "low",
+    "evidence": "computes an index from the argument and the scale at +0x10 and +8, clamps it between 0 and the count minus the value at +0xC, stores it at +0x14 when it changed, and returns the clamped index",
+    "summary": "Computes a clamped index into the UI list from a position.",
+    "invented_prefix_name": "Ui_ComputeClampedIndex"
+  },
+  "0x10234A70": {
+    "name": "Unit1021D930_SetPair",
+    "confidence": "low",
+    "evidence": "stores the two arguments at +0 and +4 and clears the byte at +8",
+    "summary": "Stores two values and clears a flag.",
+    "invented_prefix_name": "Ui_SetPair"
+  }
+}

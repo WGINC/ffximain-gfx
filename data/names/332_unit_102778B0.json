@@ -1,0 +1,8 @@
+{
+  "0x102778C0": {
+    "name": "Shader_SetFlagBit0",
+    "confidence": "low",
+    "evidence": "replaces bit 0 of the dword at +0x68 of the first argument with the low bit of the second",
+    "summary": "Sets bit 0 of the flags at +0x68 from the argument."
+  }
+}

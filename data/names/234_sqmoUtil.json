@@ -1,0 +1,8 @@
+{
+  "0x1027D650": {
+    "name": "SqmoUtil_MarkSlot",
+    "confidence": "medium",
+    "evidence": "for an index inside the range of the count param_2, sets the byte at param_1 + index to 0xFF, and sets the output byte to 0xFF when a zero entry remains in the array; reports an out-of-range index with sqDebugPrintf",
+    "summary": "Marks a slot of a slot array as used and reports whether any slot is still free."
+  }
+}

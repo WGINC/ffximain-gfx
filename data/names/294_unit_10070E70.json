@@ -1,0 +1,8 @@
+{
+  "0x10070F40": {
+    "name": "CMoTask_InitVariant12",
+    "confidence": "medium",
+    "evidence": "calls CMoTask_Constructor on self, sets the vtable to PTR_CMoTask_GetRuntimeClass_variant12_1032c490, and clears the dword at +0x3C",
+    "summary": "Constructs the base task and sets the variant-12 CMoTask vtable with its field at 0x3C cleared."
+  }
+}

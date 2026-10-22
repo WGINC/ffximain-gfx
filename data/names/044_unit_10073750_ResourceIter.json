@@ -1,0 +1,50 @@
+{
+  "0x10073A60": {
+    "name": "CMoResource_RegisterAndMark",
+    "confidence": "medium",
+    "evidence": "calls CMoResource_RegisterInTypeList, then when the flag bits of the argument match and the type word at +0x24 is in a listed set, calls vtable slot 0x20 and sets bit 8 of the byte at +0x1A",
+    "summary": "Registers a resource in its type list and marks it when its type is in a set."
+  },
+  "0x10073B80": {
+    "name": "CMoResource_InitAndGetFlag",
+    "confidence": "low",
+    "evidence": "calls FUN_100720B0 on the argument and returns the result of vtable slot 0x24",
+    "summary": "Initialises the resource and returns the result of its virtual query."
+  },
+  "0x10073BA0": {
+    "name": "ResourceIter_FindById",
+    "confidence": "medium",
+    "evidence": "when the type argument is 0 walks the list at DAT_1047D124 comparing the id at +0x20; otherwise walks the chain at DAT_1047CF80[type] comparing the id at +0x20 and stores the node's +0x14 or the node itself in the result",
+    "summary": "Finds the resource with a given id within a type's chain and returns it."
+  },
+  "0x10074110": {
+    "name": "ResourceIter_PopFreeNode",
+    "confidence": "medium",
+    "evidence": "takes the first node from the free list at self+4, sets the list head to the node's next pointer, clears the node's first word and returns it, or returns 0 when the list is empty",
+    "summary": "Pops a node from the free list and returns it."
+  },
+  "0x10074280": {
+    "name": "ResourceIter_SetCurrentGlobal",
+    "confidence": "low",
+    "evidence": "stores its argument in DAT_1047D114",
+    "summary": "Stores a value in the current-iterator global at DAT_1047D114."
+  },
+  "0x100741E0": {
+    "name": "ResourceIter_InPoolRange",
+    "confidence": "low",
+    "evidence": "returns 1 when the pointer argument lies between self+8 and self+0x40004 and the node it points to lies in the same range, else 0",
+    "summary": "Tests whether a pointer and the node it links to lie within the iterator's pool."
+  },
+  "0x10074310": {
+    "name": "ResourceIter_Start",
+    "confidence": "medium",
+    "evidence": "increments g_resourceFindDepth, stores the argument fields at +4, +8, +0xC (masked), +0x10, zeroes +0x18, sets the chain head at +0x14 from DAT_1047CF80[type], then calls ResourceIter_MatchCurrent and, when it fails, fn_100743D0",
+    "summary": "Starts a resource iteration for a type and id and advances it to the first match."
+  },
+  "0x10074380": {
+    "name": "ResourceIter_MatchCurrent",
+    "confidence": "medium",
+    "evidence": "when the head at +0x14 is set, compares the type bits 0x7F of the node at head+0x24 with the type at +8 (or, when the mask at +0xC is nonzero, the type and the masked value at head+0x20), returning 1 on a match",
+    "summary": "Tests whether the current node matches the iterator's type and mask."
+  }
+}

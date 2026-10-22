@@ -1,0 +1,37 @@
+{
+  "0x1027B580": {
+    "name": "SqskSkeleton_Create",
+    "confidence": "medium",
+    "evidence": "allocates 0x30 bytes with FUN_10275d80 from the source file C:\\dev\\dancer\\modules\\sqSkeleton line 0x1D, then calls SqSkeleton_Init on it",
+    "summary": "Allocates and initialises a skeleton record.",
+    "invented_prefix_name": "SqSkeleton_Create"
+  },
+  "0x1027B5A0": {
+    "name": "SqskSkeleton_Init",
+    "confidence": "medium",
+    "evidence": "stores the type 0xB0001, sets the function pointers at +8, +0xC, +0x10 and +0x18 (FUN_1027c9d0 among them), sets +0x14 to 0xFF and clears +0x18..+0x2C",
+    "summary": "Initialises a skeleton record and its function table.",
+    "invented_prefix_name": "SqSkeleton_Init"
+  },
+  "0x1027C4C0": {
+    "name": "SqskSkeleton_SetNodeCount",
+    "confidence": "medium",
+    "evidence": "when the existing count at +0x28 is non-zero, releases each node (FUN_10291c50, FUN_10291460) and frees the arrays at +0x20 and +0x24 with sqFree; when the new count is positive, allocates 0xF8-byte nodes at +0x20 and 0x9C-byte entries at +0x24 (FUN_10275d40), initialises them and links each node to its entry",
+    "summary": "Resizes a skeleton's node arrays to a new count.",
+    "invented_prefix_name": "SqSkeleton_SetNodeCount"
+  },
+  "0x1027C980": {
+    "name": "SqskSkeleton_GetNode",
+    "confidence": "medium",
+    "evidence": "returns the node at index param_2 (0xF8 bytes each from +0x20) when the index is in range; otherwise logs the out-of-range error with sqDebugPrintf and returns 0",
+    "summary": "Returns the skeleton node at an index, or 0 when the index is out of range.",
+    "invented_prefix_name": "SqSkeleton_GetNode"
+  },
+  "0x1027C9D0": {
+    "name": "SqskSkeleton_Release",
+    "confidence": "low",
+    "evidence": "when the object at +0x1C is set, calls its vtable slot 0x18",
+    "summary": "Releases the skeleton's linked object through its vtable.",
+    "invented_prefix_name": "SqSkeleton_Release"
+  }
+}

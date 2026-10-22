@@ -1,0 +1,8 @@
+{
+  "0x10034170": {
+    "name": "CMoResource_SetValue",
+    "confidence": "low",
+    "evidence": "vtable slot 4 of CMoResource_VT_1032C828; stores param_1 through the pointer at this+0x14 and returns it",
+    "summary": "Stores its argument through the pointer held at +0x14 and returns it."
+  }
+}

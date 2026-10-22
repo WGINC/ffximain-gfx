@@ -1,0 +1,8 @@
+{
+  "0x10244DF0": {
+    "name": "YkZip_Construct",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on self+4, sets the word at +0xE to 0xFFFF, the dword at +8 to 0, the byte at +0xC to 1, sets the vtable to PTR_FUN_1033CB98 and calls fn_10244F20",
+    "summary": "Constructs the zip object and sets its vtable and defaults."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "0x100562F0": {
+    "name": "CMoPointLightProgElem_Construct",
+    "confidence": "medium",
+    "evidence": "calls CMoElem_Constructor, sets the dword at +0x194 to the argument, vtable PTR_CMoPointLightProgElem_GetRuntimeClass_1032b758 and the type word at +0x176 to 0x1B4, clears +0x1B0 and sets +0x1AC to -1 and +0x198 to the second argument; +0x1B1 is set when the low byte of the argument is 0x63 or 0x43",
+    "summary": "Constructs a point-light programme element with its type id."
+  },
+  "0x10056360": {
+    "name": "CMoPointLightProgElem_IsType11",
+    "confidence": "low",
+    "evidence": "returns 1 iff its argument equals 11; virtual slot 12 (+0x30) of CMoPointLightProgElem",
+    "summary": "Tests whether the argument equals 11."
+  }
+}

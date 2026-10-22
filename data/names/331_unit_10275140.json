@@ -1,0 +1,32 @@
+{
+  "0x10275190": {
+    "name": "SqMem_InitBlock",
+    "confidence": "low",
+    "evidence": "zeroes the dword at param_1, the byte at +4 and the dwords at +0x54, +0x58 and +0x5C; called by sqMemInit",
+    "summary": "Clears the fields of a memory block record."
+  },
+  "0x102752F0": {
+    "name": "SqMem_ClassifyBlock",
+    "confidence": "low",
+    "evidence": "reads the signature dword at the block minus 0x10: 0x54452546 returns 1, 0x21524111 returns 2, 0x35010113 returns 0, and other values return 3; called by sqFree and others",
+    "summary": "Classifies an allocation by its signature word."
+  },
+  "0x10275320": {
+    "name": "SqMem_GetPayloadEnd",
+    "confidence": "low",
+    "evidence": "returns the block address plus the size dword at +4 plus 0x10; called by sqFree and others",
+    "summary": "Returns the end address of a block's payload."
+  },
+  "0x10275670": {
+    "name": "SqMem_FindArena",
+    "confidence": "low",
+    "evidence": "walks up to eight arena records of 0x18 bytes from DAT_1099CEF8 and returns the first whose address range (the dwords at +0x54 and +0x5C) contains the argument, else 0",
+    "summary": "Finds the arena that contains an address."
+  },
+  "0x10275D40": {
+    "name": "SqMem_AllocZeroed",
+    "confidence": "medium",
+    "evidence": "allocates through FUN_10275d80 with the same arguments, then zeroes param_1 * param_2 bytes of the block, dword by dword and then byte by byte; called by sub_102790C0, sub_102791A0 and others",
+    "summary": "Allocates a zeroed block of count times size bytes."
+  }
+}

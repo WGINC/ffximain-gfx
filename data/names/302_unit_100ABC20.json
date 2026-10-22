@@ -1,0 +1,16 @@
+{
+  "0x100ABC20": {
+    "name": "Unit100ABC20_CopyFrom",
+    "confidence": "low",
+    "evidence": "copies up to 15 bytes of the name param_1 into self, clears the byte at +0xF, copies the word at param_2 + 0x12 to +0x22, copies nine words from param_2 to +0x10 through +0x20, and copies the byte at param_2 + 0x14 to +0x24",
+    "summary": "Fills an acter record from a template record and a name.",
+    "invented_prefix_name": "ActerRecord_CopyFrom"
+  },
+  "0x100ABC70": {
+    "name": "Unit100ABC20_CopyReturnZ",
+    "confidence": "low",
+    "evidence": "copies three dwords from param_2 to param_1 and returns the third",
+    "summary": "Copies a three-dword value and returns its last element.",
+    "invented_prefix_name": "Vec3_CopyReturnZ"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "0x1028D6D0": {
+    "name": "SqcoConnector_Create",
+    "confidence": "medium",
+    "evidence": "allocates a 0x40-byte object with FUN_10275D40 using the module path string and size 0x1C, then runs sqcoConnector_Init on it",
+    "summary": "Allocates a Squirrel connector object and initialises it."
+  },
+  "0x1028D6F0": {
+    "name": "SqcoConnector_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word to 0x130001, the callbacks at +8, +0xC and +0x10 (sqcoConnectorPrint), the byte at +0x14 to 0xFF, the callback at +0x18 and zeroes the fields from +0x1C to +0x2C",
+    "summary": "Sets the connector's type code, callbacks and defaults."
+  }
+}

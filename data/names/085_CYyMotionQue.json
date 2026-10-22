@@ -1,0 +1,8 @@
+{
+  "0x1001B2E0": {
+    "name": "CYyMotionQue_Update",
+    "confidence": "medium",
+    "evidence": "walks the list at this+4; for each entry FUN_1001B5D0 decides whether it is done: a finished last entry with param_2 below 3 notifies param_1 through vtable slot 0x1FC, a finished entry is removed by FUN_1001B0F0, and a live entry gets vtable slot 0x24 called on it; called by fn_1001A3E0",
+    "summary": "Advances the motion queue, finishing or removing entries whose motion has completed."
+  }
+}

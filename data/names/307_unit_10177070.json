@@ -1,0 +1,14 @@
+{
+  "0x101771B0": {
+    "name": "Gfx_CompileVertexShader",
+    "confidence": "medium",
+    "evidence": "assembles the shader source named by the string at aCTestVsh with fn_102DA79B, takes the bytecode through its vtable slot 12, calls IDirect3DDevice8::CreateVertexShader on g_pCDx+0xC with the two arguments, and reports the compiler message through fn_102DAA71",
+    "summary": "Assembles a vertex shader and creates it on the Direct3D device."
+  },
+  "0x101772E0": {
+    "name": "Gfx_CompilePixelShader",
+    "confidence": "medium",
+    "evidence": "gets the text and length from Gfx_ShaderSrc_GetText and Gfx_ShaderSrc_GetTextLength, assembles it with fn_102DAA0D (version 2), and calls IDirect3DDevice8::CreatePixelShader on g_pCDx+0xC with the bytecode; called by sub_10178250",
+    "summary": "Assembles a pixel shader from source text and creates it on the device."
+  }
+}

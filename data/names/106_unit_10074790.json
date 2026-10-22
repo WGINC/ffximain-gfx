@@ -1,0 +1,27 @@
+{
+  "0x100747F0": {
+    "name": "Unit10074790_Remove",
+    "confidence": "medium",
+    "evidence": "walks the list from this+0x24 through the next link at +0x28 to find param_1, unlinks it, and clears its +0x28 and +0x10 fields",
+    "summary": "Removes a task from the task list.",
+    "invented_prefix_name": "CMoTaskList_Remove"
+  },
+  "0x10074890": {
+    "name": "CMoTask_DestroyChain",
+    "confidence": "medium",
+    "evidence": "calls itself on the next task at +0x28 when it is non-null, sets this+0x10 to 0, and deletes this through its vtable slot 6 with 1",
+    "summary": "Destroys a task and every task chained after it."
+  },
+  "0x10074920": {
+    "name": "CMoTask_Clone",
+    "confidence": "medium",
+    "evidence": "allocates a task of size param_1 with Mem_AllocFromArea, constructs it with CMoTask_Constructor, copies param_1 bytes of this into it, clears its +0x8, +0xC, +0x10, +0x24 and +0x28 links, and calls FUN_10074850 and vtable slot 0x28 on it",
+    "summary": "Allocates a copy of a task of the given size and links it into the task system."
+  },
+  "0x10074AB0": {
+    "name": "CMoTask_Release",
+    "confidence": "medium",
+    "evidence": "deletes the task through its vtable slot 6 with 1 when the flag at +0x20 is set, otherwise calls FUN_10074AD0 with 1",
+    "summary": "Releases a task, deleting it when its owner flag is set."
+  }
+}

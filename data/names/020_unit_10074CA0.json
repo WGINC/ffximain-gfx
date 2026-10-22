@@ -1,0 +1,136 @@
+{
+  "0x10074CF0": {
+    "name": "CMoTaskMng_RemoveByKey",
+    "confidence": "medium",
+    "evidence": "walks the list from +0xD50 and calls fn_10074AB0 on the node whose fields +0x18 and +0x1C equal the two arguments",
+    "summary": "Finds the task whose two keys match the arguments and removes it."
+  },
+  "0x10074DF0": {
+    "name": "CMoTaskMng_AllocTask",
+    "confidence": "medium",
+    "evidence": "takes a node from the free list at +0xD58, calls CMoTask_ResetFields on it, links it at the tail of the list at +0xD54, sets +0x4 to the argument and increments the count at +0xD44",
+    "summary": "Takes a task node from the free list, resets it and appends it to the task list."
+  },
+  "0x10074F80": {
+    "name": "CMoTaskMng_InsertIntoBucket",
+    "confidence": "medium",
+    "evidence": "clamps the index argument to 0..15, links the node into the bucket at +0xD04 + index*4 and sets its flag byte at +0x20 to 1",
+    "summary": "Links a task node into one of sixteen buckets."
+  },
+  "0x10075000": {
+    "name": "CMoTask_Dispatch",
+    "confidence": "low",
+    "evidence": "calls vtable slot 0x20 on the task and, when it returns 0, calls vtable slot 0x24",
+    "summary": "Calls the task's virtual test and its fallback when the test fails."
+  },
+  "0x100750B0": {
+    "name": "CMoTaskMng_EnqueueTask",
+    "confidence": "medium",
+    "evidence": "calls CMoTaskMng_UnlinkTask then, when the queue at +0xD4C is empty, fn_10074F80 with bucket 9, else appends the node to the queue at +0xD4C and sets the cursor +0xD5C",
+    "summary": "Appends a task to the queue at +0xD4C, or to bucket 9 when the queue is empty."
+  },
+  "0x10075120": {
+    "name": "CMoTaskMng_InsertAfterCursor",
+    "confidence": "low",
+    "evidence": "calls CMoTaskMng_UnlinkTask, then inserts the node after the cursor at +0xD28 or after the queue head at +0xD4C, moving the tail +0xD50 when the cursor was the tail",
+    "summary": "Inserts a task node after the current cursor in the task list."
+  },
+  "0x100751B0": {
+    "name": "CMoTaskMng_UnlinkTask",
+    "confidence": "medium",
+    "evidence": "fixes the neighbour links at +0x8 and +0xC of the node and moves the head +0xD4C, tail +0xD54, cursor +0xD50 and +0xD5C off the node when they point at it",
+    "summary": "Removes a task node from the doubly linked lists and repairs their head and tail pointers."
+  },
+  "0x10076030": {
+    "name": "CMoTask_DrawQuadStates",
+    "confidence": "low",
+    "evidence": "fills a 0x5D4-byte frame with 1.0f and -2.14e38 constants, sets nine render states and fifteen texture stage states on the device, then calls CDx_DrawPrimitiveUP twice",
+    "summary": "Draws a textured quad with a fixed render state setup."
+  },
+  "0x10076520": {
+    "name": "CMoTask_DrawQuadDynVB",
+    "confidence": "low",
+    "evidence": "reserves four vertices in the FVF144 dynamic vertex buffer, writes two rectangles' corners, sets ten texture stage states and calls VertexBatch_BindAndDraw",
+    "summary": "Writes a quad into the dynamic vertex buffer and draws it."
+  },
+  "0x10076750": {
+    "name": "CMoTask_SetRect30",
+    "confidence": "low",
+    "evidence": "copies four dwords from the argument into +0x30 through +0x3C",
+    "summary": "Copies a four-value rectangle into the task's +0x30 block."
+  },
+  "0x10076830": {
+    "name": "Arg_SplitQuoted",
+    "confidence": "medium",
+    "evidence": "splits the input at spaces and the separator byte, keeps quoted runs whole (quote bytes 0x22 and 0x27), fills the argument arrays and runs fn_10076A70 on each argument",
+    "summary": "Splits a command line into arguments, keeping quoted text together."
+  },
+  "0x100769F0": {
+    "name": "Arg_CopyCharOrPair",
+    "confidence": "low",
+    "evidence": "copies one byte, a two-byte pair when the lead byte is negative, or a six-byte run when the byte is 0xFD, returning the number of bytes copied",
+    "summary": "Copies one character or pair of bytes and returns the byte count."
+  },
+  "0x10076A70": {
+    "name": "Arg_StripQuotes",
+    "confidence": "medium",
+    "evidence": "when the first byte is a double or single quote and the last byte matches it, clears the last byte and returns the pointer past the first byte",
+    "summary": "Removes matching surrounding quotes from an argument."
+  },
+  "0x10077AD0": {
+    "name": "Arg_FindInSortedTable",
+    "confidence": "low",
+    "evidence": "binary-searches a table of 0x18-byte records by a two-byte key from the argument, returning the matching record or 0",
+    "summary": "Looks up a word in a sorted table of records."
+  },
+  "0x10077B40": {
+    "name": "Arg_LookupWord",
+    "confidence": "low",
+    "evidence": "skips leading spaces, copies the next word of up to 31 bytes into a local buffer and calls Arg_FindInSortedTable on the table at DAT_10355408",
+    "summary": "Copies the next word of a string and looks it up in the table."
+  },
+  "0x10077CF0": {
+    "name": "Acter_CopyNameToBuffer",
+    "confidence": "low",
+    "evidence": "stores the first argument in DAT_1047D49C and the second in DAT_1047D4A0, then copies a name from the actor at +0x214 (or +0x7C when the word at +0x210 is 0) into DAT_103553E8",
+    "summary": "Copies an actor's name into the global name buffer."
+  },
+  "0x10077D40": {
+    "name": "Acter_GetCurrentIdRef",
+    "confidence": "low",
+    "evidence": "returns the address of DAT_1047D49C when its actor exists and has a nonzero sub-object at +0xA0, else 0",
+    "summary": "Returns the current actor's id reference when the actor is valid."
+  },
+  "0x10077D70": {
+    "name": "Acter_ClearCurrentName",
+    "confidence": "low",
+    "evidence": "stores 0 in DAT_1047D49C and DAT_103553E8",
+    "summary": "Clears the current actor id and name globals."
+  },
+  "0x10077D80": {
+    "name": "Acter_FindMatchingActor",
+    "confidence": "low",
+    "evidence": "when DAT_10485F7A names an actor, collects the +0x14 values from fn_100E8B80 and fn_100E8C70, then returns the first actor whose +0x188 matches one and whose +0x170 is not 2 or 3",
+    "summary": "Finds an actor whose id matches one from a list and whose state is not 2 or 3."
+  },
+  "0x10077E30": {
+    "name": "ChatLog_AddFormattedMessage",
+    "confidence": "medium",
+    "evidence": "formats a message with FUN_10314942 into a 1024-byte buffer and passes it to ChatLog_AddMessage on g_pTkMsgWinData",
+    "summary": "Formats a message and adds it to the chat log."
+  },
+  "0x100780A0": {
+    "name": "Unit10074CA0_BuildPacket1A_Default",
+    "confidence": "low",
+    "evidence": "calls fn_100780D0 with its first four arguments, the fifth argument and zeros for the three next",
+    "summary": "Builds a type 0x1A packet with default trailing fields.",
+    "invented_prefix_name": "Net_BuildPacket1A_Default"
+  },
+  "0x100780D0": {
+    "name": "Unit10074CA0_BuildPacket1A",
+    "confidence": "low",
+    "evidence": "gets a buffer with type 0x1A and size 0x1C from FUN_100FC3C0, stores the seven arguments at fixed offsets and sends it through thunk_FUN_100DDD20",
+    "summary": "Builds and sends a type 0x1A packet from seven values.",
+    "invented_prefix_name": "Net_BuildPacket1A"
+  }
+}

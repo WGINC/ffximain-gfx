@@ -1,0 +1,8 @@
+{
+  "0x10063C50": {
+    "name": "CMoResource_ClearField34",
+    "confidence": "low",
+    "evidence": "vtable slot 8 of CMoResource_VT_1032C55C; sets the dword at this+0x34 to 0 and nothing else",
+    "summary": "Clears the dword at offset 0x34 of the resource."
+  }
+}

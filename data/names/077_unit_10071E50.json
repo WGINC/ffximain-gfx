@@ -1,0 +1,14 @@
+{
+  "0x10071FD0": {
+    "name": "MoRes_FindPrevious",
+    "confidence": "low",
+    "evidence": "walks the list from the root at DAT_1047D124 through the link at +0x2C and returns the entry before this object, or 0 when it is not in the list",
+    "summary": "Returns the resource before this one in the global list."
+  },
+  "0x100722C0": {
+    "name": "CMoResource_FindWorker",
+    "confidence": "medium",
+    "evidence": "matches entries by their type bits at +0x24 and 0x7F against param_2, their key at +0x20 against param_3 and their owner at +0x38 against param_4, walking the tree through GetParent and the links at +8, +0x28 and +0x3C; called by CMoResource::FindByTypeAndId",
+    "summary": "Searches the resource tree for an entry matching a type, an id and an owner."
+  }
+}

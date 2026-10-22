@@ -1,0 +1,9 @@
+{
+  "0x100A3CD0": {
+    "name": "Unit100A2810_ResetRecords",
+    "confidence": "low",
+    "evidence": "walks the records of 0xA0 words from DAT_10485BB6 to DAT_104860B6, zeroing the byte before and the word at each, then sets DAT_10487F0C and DAT_10487F14 to 0",
+    "summary": "Clears the fields of each record in the table and two globals.",
+    "invented_prefix_name": "Table_ResetRecords"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "0x1002A0C0": {
+    "name": "CYyModelBase_RefreshParts",
+    "confidence": "low",
+    "evidence": "calls CYyModelBase::GetPartList and calls vtable slot 0x28 on each part with the value at this+0x1C, then sets the byte at that offset for part ids 0x7F and 0x7E to 0x80",
+    "summary": "Passes a value to every model part and marks two fixed parts."
+  },
+  "0x1002A750": {
+    "name": "CYyModelBase_TransformVec4ByPart",
+    "confidence": "low",
+    "evidence": "calls Quat_SetIdentity on param_2 and then fn_1002A780 with the same arguments",
+    "summary": "Resets the vector and transforms it by a part's transform."
+  },
+  "0x1002A780": {
+    "name": "Unit1002A0C0_ApplyToVec4",
+    "confidence": "low",
+    "evidence": "builds a 4x4 matrix with Mat4_PostRotateX, Mat4_PostRotateY and Mat4_PostRotateZ from the part's floats, sets its translation from the part's vector at +0xE, and calls Mat4_TransformVec4InPlace on param_2",
+    "summary": "Applies a part's rotation and translation to a 4-component vector.",
+    "invented_prefix_name": "PartTransform_ApplyToVec4"
+  },
+  "0x1002A890": {
+    "name": "Part_CopyTranslation",
+    "confidence": "medium",
+    "evidence": "calls Vec3_Copy from param_1+0xE into param_2",
+    "summary": "Copies a part's translation vector to the output."
+  },
+  "0x1002A8B0": {
+    "name": "Part_AddTranslation",
+    "confidence": "low",
+    "evidence": "calls Vec3_AddInPlace on param_2 with the part's vector at +0xE, when the part is found by fn_100351F0",
+    "summary": "Adds a part's translation to a vector in place."
+  },
+  "0x1002A9B0": {
+    "name": "CYyModelBase_FindPartIndex",
+    "confidence": "low",
+    "evidence": "returns the short at the part found by fn_100351F0 for id param_1, or 0 when the part is missing or the id is above 0x7F",
+    "summary": "Returns the index for a model part id."
+  }
+}

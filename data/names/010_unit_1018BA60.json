@@ -1,134 +1,146 @@
 {
- "0x1018BC90": {
-  "name": "Time_GetModulo60",
-  "confidence": "low",
-  "evidence": "returns the int at this % 60 and nothing else",
-  "summary": "Returns the time value at this modulo 60."
- },
- "0x1018BCA0": {
-  "name": "Time_GetModulo3600Div60",
-  "confidence": "low",
-  "evidence": "returns (this % 3600) / 60",
-  "summary": "Returns the time value at this modulo 3600, divided by 60."
- },
- "0x1018BCD0": {
-  "name": "Time_GetModulo216000Div3600",
-  "confidence": "low",
-  "evidence": "returns (this % 216000) / 3600",
-  "summary": "Returns the time value at this modulo 216000, divided by 3600."
- },
- "0x1018BD00": {
-  "name": "Time_GetModulo5184000Div216000",
-  "confidence": "low",
-  "evidence": "returns (this % 5184000) / 216000",
-  "summary": "Returns the time value at this modulo 5184000, divided by 216000."
- },
- "0x1018BD30": {
-  "name": "Unit1018BA60_GetDiv5184000",
-  "confidence": "low",
-  "evidence": "returns the int at *this divided by 5184000 (0x4F1A00) and nothing else",
-  "summary": "Returns the dword at this, divided by 5184000."
- },
- "0x1018BE80": {
-  "name": "Time_SetModulo60",
-  "confidence": "low",
-  "evidence": "calls FUN_1018BC40 with param_1 + (this / 60) * 60 and param_1, so the value modulo 60 becomes param_1",
-  "summary": "Sets the time value modulo 60 to the argument, keeping the rest."
- },
- "0x1018BEB0": {
-  "name": "Time_SetModulo3600Div60",
-  "confidence": "low",
-  "evidence": "calls FUN_1018BC40 with the value rebuilt from param_1 in the (this / 60) % 60 position and this % 60 kept",
-  "summary": "Sets the time value's modulo-3600 component divided by 60 to the argument, keeping the rest."
- },
- "0x1018BF00": {
-  "name": "Time_SetModulo216000Div3600",
-  "confidence": "low",
-  "evidence": "calls FUN_1018BC40 with (param_1 + (this / 216000) * 60) * 3600 + this % 3600",
-  "summary": "Sets the time value's modulo-216000 component divided by 3600 to the argument, keeping the rest."
- },
- "0x1018C270": {
-  "name": "Time_AddFrameScale",
-  "confidence": "medium",
-  "evidence": "adds the int of Camera_GetFrameScale times 25.0 (through XI_CALL_ST0 0x10311C2C) to the int at this",
-  "summary": "Advances the time value by the frame scale times 25."
- },
- "0x1018C290": {
-  "name": "Time_SubtractFrameScale",
-  "confidence": "medium",
-  "evidence": "adds the int of Camera_GetFrameScale times -25.0 to the int at this, and returns whether the result is negative",
-  "summary": "Moves the time value back by the frame scale times 25, and reports whether it went below zero."
- },
- "0x1018D230": {
-  "name": "StrBuf_GrowCapacity",
-  "confidence": "medium",
-  "evidence": "returns 0x40 when the requested size is below 0x40, otherwise size * 3 / 2; called by the buffer assign and append functions",
-  "summary": "Returns the capacity to grow a string buffer to for a requested size."
- },
- "0x1018D250": {
-  "name": "StrBuf_Free",
-  "confidence": "medium",
-  "evidence": "clears the length and capacity at +4 and +8, frees the data pointer with operator_delete, and zeroes the pointer",
-  "summary": "Frees a string buffer's data and empties it."
- },
- "0x1018D280": {
-  "name": "StrBuf_InitEmpty",
-  "confidence": "medium",
-  "evidence": "sets the capacity at +8 to 0x40, allocates 0x40 bytes with Allocator_Generic, stores the pointer, sets the length to 0 and writes a NUL",
-  "summary": "Gives a string buffer a 0x40-byte empty allocation."
- },
- "0x1018D2B0": {
-  "name": "StrBuf_Init",
-  "confidence": "medium",
-  "evidence": "clears the length and capacity fields and calls StrBuf_InitEmpty",
-  "summary": "Initialises a string buffer to an empty string."
- },
- "0x1018D2D0": {
-  "name": "StrBuf_AssignCStr",
-  "confidence": "medium",
-  "evidence": "measures the NUL-terminated argument, sizes the buffer with StrBuf_GrowCapacity, allocates, and copies the characters; a null argument calls StrBuf_InitEmpty",
-  "summary": "Replaces the buffer's contents with a NUL-terminated string."
- },
- "0x1018D440": {
-  "name": "StrBuf_Append",
-  "confidence": "medium",
-  "evidence": "calls StrBuf_AppendN with length 0xFFFFFFFF, which measures the argument",
-  "summary": "Appends a NUL-terminated string to the buffer."
- },
- "0x1018D450": {
-  "name": "StrBuf_AppendBuf",
-  "confidence": "medium",
-  "evidence": "reads the length at +4 of param_1, gets its string with StrBuf_GetCStr and appends it with StrBuf_AppendN",
-  "summary": "Appends the contents of another string buffer."
- },
- "0x1018D470": {
-  "name": "StrBuf_GetCStr",
-  "confidence": "medium",
-  "evidence": "returns the data pointer when the length at +4 is non-zero, otherwise the constant empty string Read_as_v0",
-  "summary": "Returns the buffer's contents as a C string."
- },
- "0x1018D480": {
-  "name": "StrBuf_GetLength",
-  "confidence": "medium",
-  "evidence": "returns the dword at +4, which StrBuf_AssignN and StrBuf_AppendN set to the string length",
-  "summary": "Returns the length of the string in the buffer."
- },
- "0x1018D4A0": {
-  "name": "StrBuf_AssignN",
-  "confidence": "medium",
-  "evidence": "computes the length when the argument is -1, returns after clearing when the argument is null or empty, copies within the existing buffer when the source lies inside it, otherwise grows the buffer with StrBuf_GrowCapacity, then copies with _strncpy",
-  "summary": "Replaces the buffer's contents with the first n characters of a string, or the whole string when n is -1."
- },
- "0x1018D580": {
-  "name": "StrBuf_AppendN",
-  "confidence": "medium",
-  "evidence": "computes the length when the argument is 0xFFFFFFFF, appends in place when the capacity allows, otherwise allocates a grown buffer, copies the old contents, _strncat's the argument and frees the old buffer",
-  "summary": "Appends the first n characters of a string to the buffer, or the whole string when n is 0xFFFFFFFF."
- },
- "0x1018E1A0": {
-  "name": "Dat_AllocBuffer",
-  "confidence": "medium",
-  "evidence": "calls FUN_1018E660 and then Allocator_Generic(0xC80), storing the pointer at +0xCC and the size 0xC80 at +0xD4",
-  "summary": "Allocates the 0xC80-byte buffer for the data file and records its size."
- }
+  "0x1018BC90": {
+    "name": "Time_GetModulo60",
+    "confidence": "low",
+    "evidence": "returns the int at this % 60 and nothing else",
+    "summary": "Returns the time value at this modulo 60."
+  },
+  "0x1018BCA0": {
+    "name": "Time_GetModulo3600Div60",
+    "confidence": "low",
+    "evidence": "returns (this % 3600) / 60",
+    "summary": "Returns the time value at this modulo 3600, divided by 60."
+  },
+  "0x1018BCD0": {
+    "name": "Time_GetModulo216000Div3600",
+    "confidence": "low",
+    "evidence": "returns (this % 216000) / 3600",
+    "summary": "Returns the time value at this modulo 216000, divided by 3600."
+  },
+  "0x1018BD00": {
+    "name": "Time_GetModulo5184000Div216000",
+    "confidence": "low",
+    "evidence": "returns (this % 5184000) / 216000",
+    "summary": "Returns the time value at this modulo 5184000, divided by 216000."
+  },
+  "0x1018BD30": {
+    "name": "Time_GetDiv5184000",
+    "confidence": "low",
+    "evidence": "returns this / 5184000 and nothing else",
+    "summary": "Returns the time value at this divided by 5184000."
+  },
+  "0x1018BE80": {
+    "name": "Time_SetModulo60",
+    "confidence": "low",
+    "evidence": "calls FUN_1018BC40 with param_1 + (this / 60) * 60 and param_1, so the value modulo 60 becomes param_1",
+    "summary": "Sets the time value modulo 60 to the argument, keeping the rest."
+  },
+  "0x1018BEB0": {
+    "name": "Time_SetModulo3600Div60",
+    "confidence": "low",
+    "evidence": "calls FUN_1018BC40 with the value rebuilt from param_1 in the (this / 60) % 60 position and this % 60 kept",
+    "summary": "Sets the time value's modulo-3600 component divided by 60 to the argument, keeping the rest."
+  },
+  "0x1018BF00": {
+    "name": "Time_SetModulo216000Div3600",
+    "confidence": "low",
+    "evidence": "calls FUN_1018BC40 with (param_1 + (this / 216000) * 60) * 3600 + this % 3600",
+    "summary": "Sets the time value's modulo-216000 component divided by 3600 to the argument, keeping the rest."
+  },
+  "0x1018C270": {
+    "name": "Time_AddFrameScale",
+    "confidence": "medium",
+    "evidence": "adds the int of Camera_GetFrameScale times 25.0 (through XI_CALL_ST0 0x10311C2C) to the int at this",
+    "summary": "Advances the time value by the frame scale times 25."
+  },
+  "0x1018C290": {
+    "name": "Time_SubtractFrameScale",
+    "confidence": "medium",
+    "evidence": "adds the int of Camera_GetFrameScale times -25.0 to the int at this, and returns whether the result is negative",
+    "summary": "Moves the time value back by the frame scale times 25, and reports whether it went below zero."
+  },
+  "0x1018D230": {
+    "name": "Unit1018BA60_GrowCapacity",
+    "confidence": "medium",
+    "evidence": "returns 0x40 when the requested size is below 0x40, otherwise size * 3 / 2; called by the buffer assign and append functions",
+    "summary": "Returns the capacity to grow a string buffer to for a requested size.",
+    "invented_prefix_name": "StrBuf_GrowCapacity"
+  },
+  "0x1018D250": {
+    "name": "Unit1018BA60_Free",
+    "confidence": "medium",
+    "evidence": "clears the length and capacity at +4 and +8, frees the data pointer with operator_delete, and zeroes the pointer",
+    "summary": "Frees a string buffer's data and empties it.",
+    "invented_prefix_name": "StrBuf_Free"
+  },
+  "0x1018D280": {
+    "name": "Unit1018BA60_InitEmpty",
+    "confidence": "medium",
+    "evidence": "sets the capacity at +8 to 0x40, allocates 0x40 bytes with Allocator_Generic, stores the pointer, sets the length to 0 and writes a NUL",
+    "summary": "Gives a string buffer a 0x40-byte empty allocation.",
+    "invented_prefix_name": "StrBuf_InitEmpty"
+  },
+  "0x1018D2B0": {
+    "name": "Unit1018BA60_Init",
+    "confidence": "medium",
+    "evidence": "clears the length and capacity fields and calls StrBuf_InitEmpty",
+    "summary": "Initialises a string buffer to an empty string.",
+    "invented_prefix_name": "StrBuf_Init"
+  },
+  "0x1018D2D0": {
+    "name": "Unit1018BA60_AssignCStr",
+    "confidence": "medium",
+    "evidence": "measures the NUL-terminated argument, sizes the buffer with StrBuf_GrowCapacity, allocates, and copies the characters; a null argument calls StrBuf_InitEmpty",
+    "summary": "Replaces the buffer's contents with a NUL-terminated string.",
+    "invented_prefix_name": "StrBuf_AssignCStr"
+  },
+  "0x1018D440": {
+    "name": "Unit1018BA60_Append",
+    "confidence": "medium",
+    "evidence": "calls StrBuf_AppendN with length 0xFFFFFFFF, which measures the argument",
+    "summary": "Appends a NUL-terminated string to the buffer.",
+    "invented_prefix_name": "StrBuf_Append"
+  },
+  "0x1018D450": {
+    "name": "Unit1018BA60_AppendBuf",
+    "confidence": "medium",
+    "evidence": "reads the length at +4 of param_1, gets its string with StrBuf_GetCStr and appends it with StrBuf_AppendN",
+    "summary": "Appends the contents of another string buffer.",
+    "invented_prefix_name": "StrBuf_AppendBuf"
+  },
+  "0x1018D470": {
+    "name": "Unit1018BA60_GetCStr",
+    "confidence": "medium",
+    "evidence": "returns the data pointer when the length at +4 is non-zero, otherwise the constant empty string Read_as_v0",
+    "summary": "Returns the buffer's contents as a C string.",
+    "invented_prefix_name": "StrBuf_GetCStr"
+  },
+  "0x1018D480": {
+    "name": "Unit1018BA60_GetLength",
+    "confidence": "medium",
+    "evidence": "returns the dword at +4, which StrBuf_AssignN and StrBuf_AppendN set to the string length",
+    "summary": "Returns the length of the string in the buffer.",
+    "invented_prefix_name": "StrBuf_GetLength"
+  },
+  "0x1018D4A0": {
+    "name": "Unit1018BA60_AssignN",
+    "confidence": "medium",
+    "evidence": "computes the length when the argument is -1, returns after clearing when the argument is null or empty, copies within the existing buffer when the source lies inside it, otherwise grows the buffer with StrBuf_GrowCapacity, then copies with _strncpy",
+    "summary": "Replaces the buffer's contents with the first n characters of a string, or the whole string when n is -1.",
+    "invented_prefix_name": "StrBuf_AssignN"
+  },
+  "0x1018D580": {
+    "name": "Unit1018BA60_AppendN",
+    "confidence": "medium",
+    "evidence": "computes the length when the argument is 0xFFFFFFFF, appends in place when the capacity allows, otherwise allocates a grown buffer, copies the old contents, _strncat's the argument and frees the old buffer",
+    "summary": "Appends the first n characters of a string to the buffer, or the whole string when n is 0xFFFFFFFF.",
+    "invented_prefix_name": "StrBuf_AppendN"
+  },
+  "0x1018E1A0": {
+    "name": "Unit1018BA60_AllocBuffer",
+    "confidence": "medium",
+    "evidence": "calls FUN_1018E660 and then Allocator_Generic(0xC80), storing the pointer at +0xCC and the size 0xC80 at +0xD4",
+    "summary": "Allocates the 0xC80-byte buffer for the data file and records its size.",
+    "invented_prefix_name": "Dat_AllocBuffer"
+  }
 }

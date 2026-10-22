@@ -1,0 +1,8 @@
+{
+  "0x102967E0": {
+    "name": "SqMatrix3_Determinant",
+    "confidence": "medium",
+    "evidence": "returns m0*m4*m8 + m2*m3*m7 + m6*m1*m5 - m0*m7*m5 - m8*m1*m3 - m6*m2*m4 over the nine floats at param_1, the determinant of a 3 by 3 matrix",
+    "summary": "Returns the determinant of a 3 by 3 float matrix."
+  }
+}

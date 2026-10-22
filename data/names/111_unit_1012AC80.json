@@ -1,0 +1,57 @@
+{
+  "0x10146930": {
+    "name": "Unit1012AC80_Set",
+    "confidence": "low",
+    "evidence": "stores its four 16-bit arguments at this+0, +2, +4 and +6; called by fn_10146340",
+    "summary": "Stores four 16-bit values in a 4-short block.",
+    "invented_prefix_name": "Quad16_Set"
+  },
+  "0x10146960": {
+    "name": "Unit1012AC80_SetCopy",
+    "confidence": "low",
+    "evidence": "stores its four 16-bit arguments at this+0, +2, +4 and +6; called by fn_10146340 and sub_10165070",
+    "summary": "Stores four 16-bit values in a 4-short block.",
+    "invented_prefix_name": "Quad16_SetCopy"
+  },
+  "0x10144F40": {
+    "name": "Unit1012AC80_Construct",
+    "confidence": "low",
+    "evidence": "calls fn_10126320 on this+4, sets vtable PTR_FUN_10333360, the short at +0xE to 0xFFFF, the dword at +8 to 0 and the byte at +0xC to 1; called by fn_10144D60, fn_10146340 and GameSystems_InitializeAll",
+    "summary": "Constructs a base UI object and sets its common fields.",
+    "invented_prefix_name": "UiBase_Construct"
+  },
+  "0x1013FBE0": {
+    "name": "Unit1012AC80_InitFromShape",
+    "confidence": "low",
+    "evidence": "constructs the base object and reads three fields (+0x5C, +0xB0, +0x6EC) of the shape named menu_windowps from ShapeMng_FindShape into this+0x18, +0x1C and +0x20; called by sub_10165070",
+    "summary": "Initialises a window object from its named shape.",
+    "invented_prefix_name": "UiWindow_InitFromShape"
+  },
+  "0x10141AD0": {
+    "name": "Unit1012AC80_DestroyDrawMenu",
+    "confidence": "medium",
+    "evidence": "calls CTkMenuMng_DestroyDrawMenu on g_menuMng with the value at this+8 and the flag 1; called by sub_10096C90 and sub_10141A20",
+    "summary": "Destroys the draw menu for this object.",
+    "invented_prefix_name": "UiMenu_DestroyDrawMenu"
+  },
+  "0x10144D60": {
+    "name": "Unit1012AC80_CreateAll",
+    "confidence": "low",
+    "evidence": "constructs the base object, then allocates and constructs the shared UI resources at DAT_105782B8..DAT_105782D0 with their vtables (FUN_10144f40 and FUN_10126320 initialisers); called by sub_10165070",
+    "summary": "Creates the shared UI resource objects.",
+    "invented_prefix_name": "UiResources_CreateAll"
+  },
+  "0x10148ED0": {
+    "name": "YkWndList_Construct",
+    "confidence": "low",
+    "evidence": "calls fn_101F67C0 with 0, sets vtable PTR_FUN_10334a48 and the fields at +0x47, +0x48, +0x50..+0x54, +0x58..+0x68, calls YkWndList_SetLine with 0xB, and sets the short at +0x16 to 7",
+    "summary": "Constructs a window list object and sets its line and default values."
+  },
+  "0x10150A30": {
+    "name": "Unit1012AC80_SetName",
+    "confidence": "low",
+    "evidence": "copies up to 0x31 bytes of its string argument to this+0x14 when the object is enabled",
+    "summary": "Stores a name string of up to 0x31 bytes in a UI item.",
+    "invented_prefix_name": "UiItem_SetName"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "0x1029BCD0": {
+    "name": "Sqgx_CopyBlockToContext",
+    "confidence": "low",
+    "evidence": "copies four dwords for each of 16 entries from the argument-relative block into the context at g_pSqgxContext at offsets from +0x14 to +0x20",
+    "summary": "Copies a 16-entry block of values into the graphics context."
+  },
+  "0x1029BD40": {
+    "name": "Sqgx_SetFloat18",
+    "confidence": "low",
+    "evidence": "stores the float argument at +0x18 of g_pSqgxContext",
+    "summary": "Stores a float at +0x18 of the graphics context."
+  },
+  "0x1029C180": {
+    "name": "Sqgx_ResetPendingList",
+    "confidence": "low",
+    "evidence": "zeroes the count at +0xAEC of g_pSqgxContext and the ten dwords from +0xAF0 to +0xB14",
+    "summary": "Clears the pending-entry count and its list."
+  },
+  "0x1029C1B0": {
+    "name": "Sqgx_AddPendingEntry",
+    "confidence": "medium",
+    "evidence": "when the count at +0xAEC is 10 reports the error cannot allocate more than 10 through sqDebugPrintf, then stores the float argument at +0xA4C, two dwords at the stride-0xC entries from +0xA78 and +0xA7C and the first argument at +0xAF0, and increments the count",
+    "summary": "Adds an entry to the pending list, reporting an error when the list is full."
+  }
+}

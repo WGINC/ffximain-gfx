@@ -1,0 +1,206 @@
+{
+  "0x1011E2A0": {
+    "name": "Cell_ResolveSubCells",
+    "confidence": "low",
+    "evidence": "loops over the pointer array at +0x20 (count word at +0x3C) and calls fn_10120070 on each non-null entry",
+    "summary": "Runs the texture resolve on each entry of the sub-cell array."
+  },
+  "0x1011E6D0": {
+    "name": "Cell_ResolveTextureUV",
+    "confidence": "medium",
+    "evidence": "lowercases the name at +0x32, looks it up with CYyTexMng::FindByName, stores the texture at +0x4C and computes UV scale values from the texture's size fields (+0x24, +0x26)",
+    "summary": "Looks up the cell's texture by name and computes its UV scale and offsets."
+  },
+  "0x1011E980": {
+    "name": "Cell_DrawTexturedQuad",
+    "confidence": "medium",
+    "evidence": "binds the texture at +0x4C or looks it up by name, sets D3D stage 0 ADDRESSU/ADDRESSV to 1, builds four vertices from +0x60..+0xC8 and modulates their colour with Color_ModulateArgb128",
+    "summary": "Binds the cell's texture and draws a four-vertex quad with modulated colour."
+  },
+  "0x1011FA80": {
+    "name": "Cell_GetFrameBounds",
+    "confidence": "low",
+    "evidence": "gets the sub-object at +4 via FUN_10126520, copies four (x, y) pairs from its +0x68 array to param_1 and writes width and height words from +0xC0..+0xCC to param_2",
+    "summary": "Returns the frame's four vertex pairs and its width and height."
+  },
+  "0x10120000": {
+    "name": "Cell_DrawFirstStretched",
+    "confidence": "low",
+    "evidence": "gets the sub-object via FUN_10126520 and calls Cell_DrawStretchedWrapped on it when it is non-null",
+    "summary": "Draws the first sub-object with the stretched-wrap draw when it exists."
+  },
+  "0x10120070": {
+    "name": "Cell_ResolveTextureList",
+    "confidence": "medium",
+    "evidence": "loops count times over the list at +0x14, calls FUN_10126520 for each item and passes non-null items to fn_1011E6D0",
+    "summary": "Resolves the texture of each item in the cell's list."
+  },
+  "0x101204B0": {
+    "name": "Cell_FindEntryByName",
+    "confidence": "low",
+    "evidence": "loops count times at +0x10 over the entries from FUN_10126550 comparing 16 bytes at +0x24 with the argument via FUN_10325D00, returns FUN_1011E290 of the first match",
+    "summary": "Finds the entry whose 16-byte name matches the argument and returns its result."
+  },
+  "0x10120950": {
+    "name": "Cell_ResolveAllSubCells",
+    "confidence": "low",
+    "evidence": "loops count times at +0x10 over the list from FUN_10126520 and calls fn_1011E2A0 on each item",
+    "summary": "Runs the sub-cell resolve over each item of the cell's list."
+  },
+  "0x10120B80": {
+    "name": "Cell_TestAny38Or0B8",
+    "confidence": "low",
+    "evidence": "returns 1 iff FUN_10124130 of DAT_104E1C40 is true for 0x38 or 0xB8",
+    "summary": "Tests a flag table at DAT_104E1C40 for ids 0x38 or 0xB8."
+  },
+  "0x10120BB0": {
+    "name": "Cell_TestAny1DOr9D",
+    "confidence": "low",
+    "evidence": "returns 1 iff FUN_10124130 of DAT_104E1C40 is true for 0x1D or 0x9D",
+    "summary": "Tests a flag table at DAT_104E1C40 for ids 0x1D or 0x9D."
+  },
+  "0x10120BE0": {
+    "name": "Cell_TestAny2AOr36",
+    "confidence": "low",
+    "evidence": "returns 1 iff FUN_10124130 of DAT_104E1C40 is true for 0x2A or 0x36",
+    "summary": "Tests a flag table at DAT_104E1C40 for ids 0x2A or 0x36."
+  },
+  "0x10120C40": {
+    "name": "Cell_GetByte253Scaled",
+    "confidence": "low",
+    "evidence": "returns (byte at +0x253 of the object at DAT_104E1D44 minus 0x80) times 2^-7",
+    "summary": "Returns a byte at +0x253 of a global object, offset and scaled to a float."
+  },
+  "0x10123350": {
+    "name": "Cell_TestFlagAny2AOr36",
+    "confidence": "low",
+    "evidence": "returns the result of Cell_TestFlagKind(0x2A, param) or, failing that, Cell_TestFlagKind(0x36, param)",
+    "summary": "Tests the flag kind for ids 0x2A or 0x36 with the given kind."
+  },
+  "0x10123380": {
+    "name": "Cell_TestFlagKind",
+    "confidence": "low",
+    "evidence": "switch on the kind argument 0 to 5 calling bit tests FUN_101240D0, 101240F0, 10124090, 10124130, 10124070 and 101240B0 on DAT_104E1C40; a list of ids short-circuits when FUN_101B5C90 holds",
+    "summary": "Dispatches to one of six bit tests on the flag table by the kind argument."
+  },
+  "0x10123640": {
+    "name": "Cell_GetByte1036E0F0",
+    "confidence": "low",
+    "evidence": "returns the byte at DAT_1036E0F0 indexed by (char)param * 16",
+    "summary": "Returns a byte from the table at DAT_1036E0F0."
+  },
+  "0x10123650": {
+    "name": "Cell_SetByte1036E0F0",
+    "confidence": "low",
+    "evidence": "stores the low byte of param_2 at DAT_1036E0F0 indexed by (char)param_1 * 16 and returns that index",
+    "summary": "Stores a byte in the table at DAT_1036E0F0."
+  },
+  "0x10123670": {
+    "name": "Cell_GetWord1036D6B0",
+    "confidence": "low",
+    "evidence": "returns the byte at DAT_1036D6B0 indexed by (short)param * 6, in the form of a 16-bit word",
+    "summary": "Returns the byte entry of the table at DAT_1036D6B0 at index param."
+  },
+  "0x10123680": {
+    "name": "Cell_SetWord1036D6B0",
+    "confidence": "low",
+    "evidence": "zeroes the word at DAT_1036D6B0 + index*6 and sets it to 0x10 << 8 | param_2 when param_2 is nonzero",
+    "summary": "Sets a word entry in the table at DAT_1036D6B0."
+  },
+  "0x101236E0": {
+    "name": "Cell_SetGlobal1036E3A0",
+    "confidence": "low",
+    "evidence": "stores param_1 in DAT_1036E3A0",
+    "summary": "Stores a value in the global at DAT_1036E3A0."
+  },
+  "0x10123E50": {
+    "name": "Cell_TestGlobal1036E3A0Mask",
+    "confidence": "low",
+    "evidence": "returns 1 iff DAT_1036E3A0 AND param_1 is nonzero",
+    "summary": "Tests a mask against the global at DAT_1036E3A0."
+  },
+  "0x10123E80": {
+    "name": "Cell_Nop",
+    "confidence": "low",
+    "evidence": "body is a bare return",
+    "summary": "Does nothing."
+  },
+  "0x10123E90": {
+    "name": "Cell_ClearFlag104E1C3C",
+    "confidence": "low",
+    "evidence": "stores 0 in DAT_104E1C3C",
+    "summary": "Clears the flag at DAT_104E1C3C."
+  },
+  "0x10123EA0": {
+    "name": "Cell_SetFlag104E1C3C",
+    "confidence": "low",
+    "evidence": "stores 1 in DAT_104E1C3C",
+    "summary": "Sets the flag at DAT_104E1C3C."
+  },
+  "0x10123F40": {
+    "name": "Cell_SetFlagBit2",
+    "confidence": "low",
+    "evidence": "ORs 2 into the byte at this + (param & 0xFF)",
+    "summary": "Sets bit 2 of the byte selected by the argument."
+  },
+  "0x10123F60": {
+    "name": "Cell_SetFlagBit8",
+    "confidence": "low",
+    "evidence": "ORs 8 into the byte at this + (param & 0xFF)",
+    "summary": "Sets bit 8 of the byte selected by the argument."
+  },
+  "0x10123FC0": {
+    "name": "Cell_SetFlagBit4Dirty",
+    "confidence": "low",
+    "evidence": "ORs 4 into the byte at this + (param & 0xFF) and sets the byte at +0x100 to 1",
+    "summary": "Sets bit 4 of a byte and marks the object dirty."
+  },
+  "0x10123FE0": {
+    "name": "Cell_SetFlagBit10",
+    "confidence": "low",
+    "evidence": "ORs 0x10 into the byte at this + (param & 0xFF)",
+    "summary": "Sets bit 0x10 of the byte selected by the argument."
+  },
+  "0x10124000": {
+    "name": "Cell_ClearByte",
+    "confidence": "low",
+    "evidence": "stores 0 at this + (param & 0xFF)",
+    "summary": "Clears the byte selected by the argument."
+  },
+  "0x10124010": {
+    "name": "Cell_ClearFlag01And08",
+    "confidence": "low",
+    "evidence": "ANDs the byte at this + (param & 0xFF) with 0xF4, clearing bits 0x01 and 0x08",
+    "summary": "Clears bits 0x01 and 0x08 of the byte selected by the argument."
+  },
+  "0x10124050": {
+    "name": "Cell_ClearAllFlags",
+    "confidence": "low",
+    "evidence": "calls Cell_ClearFlag01And08 for each index 0 to 255, then clears the byte at +0x100",
+    "summary": "Clears the flag bytes for all 256 indices."
+  },
+  "0x10124070": {
+    "name": "Cell_TestFlagBit1",
+    "confidence": "low",
+    "evidence": "returns bit 1 of the byte at this + (param & 0xFF)",
+    "summary": "Returns bit 0x02 of the byte selected by the argument."
+  },
+  "0x10124090": {
+    "name": "Cell_TakeFlagBit2",
+    "confidence": "low",
+    "evidence": "returns 1 and clears bit 2 when the byte at this + (param & 0xFF) has bit 0x02 set, else 0",
+    "summary": "Tests and clears bit 0x02 of the byte selected by the argument."
+  },
+  "0x101240B0": {
+    "name": "Cell_TestFlagBit3",
+    "confidence": "low",
+    "evidence": "returns bit 3 of the byte at this + (param & 0xFF)",
+    "summary": "Returns bit 0x08 of the byte selected by the argument."
+  },
+  "0x101240D0": {
+    "name": "Cell_TestFlagBit0",
+    "confidence": "low",
+    "evidence": "returns bit 0 of the byte at this + (param & 0xFF)",
+    "summary": "Returns bit 0x01 of the byte selected by the argument."
+  }
+}

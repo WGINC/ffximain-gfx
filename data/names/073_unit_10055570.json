@@ -1,0 +1,26 @@
+{
+  "0x10055570": {
+    "name": "CMoOtTask_Constructor",
+    "confidence": "medium",
+    "evidence": "calls CMoTask_Constructor and LinkNode_Init on this+0x34, sets the CMoOtTask vtable, the callback at +0x3C to 0x100555A0 and the owner at +0x40; called by CMoElem::Constructor",
+    "summary": "Constructs the CMoOt task and links it into its list."
+  },
+  "0x100555D0": {
+    "name": "CMoOt_InitSystem",
+    "confidence": "medium",
+    "evidence": "allocates a 0x18-byte object with Mem_AllocDefault and stores its initialiser's result in DAT_1047BC94, sets it up with FUN_10055300 for 0x200 and 0 to 512, and registers the callback FUN_10055620 with priority 0xC on DAT_1047D140 through FUN_10074CC0",
+    "summary": "Creates the CMoOt object and registers its update callback."
+  },
+  "0x10055620": {
+    "name": "CMoOt_Update",
+    "confidence": "medium",
+    "evidence": "registered as the callback of CMoOt_InitSystem; calls Zone_UpdateFogAmbient, FUN_10055520 and FUN_100554B0 on the CMoOt object at DAT_1047BC94",
+    "summary": "Per-frame update of the CMoOt object and the zone fog and ambient."
+  },
+  "0x10055640": {
+    "name": "CMoOtTask_Clear",
+    "confidence": "low",
+    "evidence": "zeroes the three dwords at this, this+4 and this+8",
+    "summary": "Clears the three link fields of a CMoOt task."
+  }
+}

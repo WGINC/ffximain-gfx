@@ -1,0 +1,9 @@
+{
+  "0x102738D0": {
+    "name": "Unit10273840_InitRecord",
+    "confidence": "low",
+    "evidence": "sets the first word to 1, the next four to -1, and the remaining words to 0; called by StAvatarInit and sub_10273900",
+    "summary": "Initialises a record to its unset state.",
+    "invented_prefix_name": "Sq_InitRecord"
+  }
+}

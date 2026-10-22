@@ -1,0 +1,4 @@
+{
+  "0x10052FD0": {"name": "CMoDistRingElem_Construct", "confidence": "medium", "evidence": "calls CMoElem_Constructor, sets the vtable to CMoDistRingElem_GetRuntimeClass and sets the word at +0x176 to 0x1BA", "summary": "Constructs the distortion ring element and sets its vtable and type word."},
+  "0x10052FF0": {"name": "CMoDistRingElem_TestParam5", "confidence": "low", "evidence": "returns 1 iff the argument equals 5; the function is slot 12 (+0x30) of CMoDistRingElem", "summary": "Tests whether the argument equals 5."}
+}

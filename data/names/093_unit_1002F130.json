@@ -1,0 +1,3 @@
+{
+"0x100303B0": {"name": "Skin_BlendWeightMatrices", "confidence": "medium", "evidence": "called by Model_SkinVerticesCpu; for each vertex record it reads the bone indices from the vertex data and calls FUN_100309B0 for the single-weight entries and FUN_10030A40 for the two-weight ones, writing into g_boneWeightMatrixTableCur at 0x40-byte and 4-byte strides", "summary": "Blends the bone matrices of each skinned vertex into the weight-matrix table."}
+}

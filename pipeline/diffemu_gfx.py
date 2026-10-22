@@ -788,7 +788,11 @@ def site_pops(m, ret):
                             the call minus ESP before it, recorded only where every observed call agreed);
       data/vcalls.json      a virtual call on `this` whose every possible callee is proven (vcall_resolve.py);
       data/com_calls.json   a D3D8 method on an object proven to hold that interface (com_calls.py);
-      data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up).
+      data/purges.json      a direct call: the callee's own `ret N`;
+      data/callsite_args.json  the call's declared type in the IDB ('typed', not a type Hex-Rays made up), only
+                            where data/ida_proto_origin.json shows that type identical to the SDK type library's.
+                            Other IDB types include ones earlier sessions inferred, and the IDB does not say
+                            which (docs/PROBLEMS.md P13), so they are no source.
     Returns (stack dwords popped, ECX carries `this`, dwords to compare) or None when no source has the
     call, or the sources disagree (recorded in m.site_conflicts). Nothing is guessed: a None stops the run
     as unresolved (run_original), naming the call site."""
@@ -818,7 +822,9 @@ def site_pops(m, ret):
     k = '0x%08X' % call.address; m.last_site = k
     if getattr(m, 'dep_sites', None) is not None: m.dep_sites.add(k)       # gate_cache: a dependency of this run
     typed = _CALLSITES['typed'].get(k)
+    direct = int(call.op_str, 16) if re.fullmatch(r'0x[0-9a-f]+', call.op_str) else None
     srcs = {}
+    if direct is not None and '0x%08X' % direct in _CALLSITES['purges']: srcs['callee'] = _CALLSITES['purges']['0x%08X' % direct]
     if k in _CALLSITES['solved']: srcs['solved'] = _CALLSITES['solved'][k]
     if k in _CALLSITES['real']: srcs['real'] = _CALLSITES['real'][k]
     if k in _CALLSITES['game']: srcs['game'] = _CALLSITES['game'][k]
@@ -835,7 +841,6 @@ def site_pops(m, ret):
     # or where the call is direct to a function data/type_fixes.json corrects to __thiscall (each entry names the
     # instructions that read or pass on ECX): the reconstruction must then pass that object in ECX too.
     # Otherwise ECX is not compared (no claim either way)
-    direct = int(call.op_str, 16) if re.fullmatch(r'0x[0-9a-f]+', call.op_str) else None
     this = (bool(typed) and typed['cc'] == 'thiscall') or k in _CALLSITES['ecx_this'] or direct in _CALLSITES['thiscall_fix']
     return pops // 4, this, (typed['args'] if typed else pops // 4)
 
@@ -850,7 +855,9 @@ def site_pops_init():
     if not _CALLSITES:
         d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
         ld = lambda f: json.load(open(os.path.join(d, f))) if os.path.exists(os.path.join(d, f)) else {}
-        _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed'}
+        sdk = {k for k, v in ld('ida_proto_origin.json').items() if not k.startswith('_') and v.get('til')}
+        _CALLSITES['typed'] = {k: v for k, v in ld('callsite_args.json').items() if v.get('src') == 'typed' and k in sdk}
+        _CALLSITES['purges'] = {k: v for k, v in ld('purges.json').items() if not k.startswith('_') and isinstance(v, int)}
         _CALLSITES['ecx_this'] = {k for k, v in ld('ecx_this_sites.json').items()
                                   if not k.startswith('_') and v['ecx'] and not v['pushed']}
         _CALLSITES['thiscall_fix'] = {int(k, 16) for k, v in ld('type_fixes.json').items()

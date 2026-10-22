@@ -1,0 +1,4 @@
+{
+  "0x102957B0": {"name": "SqmoKeyChannel_Create", "confidence": "medium", "evidence": "allocates a 0x38-byte object with FUN_10275D40 using the module path string and size 0x1B, then runs sqmoKeyChannel_Init on it", "summary": "Allocates a Squirrel key-channel object and initialises it."},
+  "0x102957D0": {"name": "SqmoKeyChannel_Init", "confidence": "medium", "evidence": "sets the type word to 0x50002, the callbacks at +8, +0xC, +0x10 (sqmoKeyChannel_Dump), +0x14 and +0x18, zeroes +0x1C, +0x20 and +0x30, and sets +0x24 to 1", "summary": "Sets the key channel's type code, callbacks and defaults."}
+}

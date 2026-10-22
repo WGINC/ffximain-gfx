@@ -1,0 +1,92 @@
+{
+  "0x101641B0": {
+    "name": "Unit10163E60_ConstructVt10335CE8",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10335ce8 as the object's vtable, clears fields at +0x8 and +0xe, calls fn_10126320 on the sub-object at +0x4 and returns this",
+    "summary": "Constructs the object: sets its vtable to PTR_FUN_10335ce8 and initialises its fields."
+  },
+  "0x10164660": {
+    "name": "Unit10163E60_ConstructVt10335D30",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10335d30 as the object's vtable, clears fields at +0x8, +0x14, +0x18, +0x20, +0x30, +0x34, sets +0xe and +0xc, calls fn_10126320 on +0x4 and returns this",
+    "summary": "Constructs the object: sets its vtable to PTR_FUN_10335d30 and initialises its fields."
+  },
+  "0x10164A30": {
+    "name": "Unit10163E60_ConstructVt10335D78",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10335d78 as the object's vtable, clears fields at +0x8, sets +0xe and +0xc, calls fn_10126320 on +0x4 and returns this",
+    "summary": "Constructs the object: sets its vtable to PTR_FUN_10335d78 and initialises its fields."
+  },
+  "0x10164AF0": {
+    "name": "Unit10163E60_ConstructVt10335DC0",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10335dc0 as the object's vtable, clears fields at +0x8 and +0x14, sets +0xe and +0xc, calls fn_10126320 on +0x4 and returns this",
+    "summary": "Constructs the object: sets its vtable to PTR_FUN_10335dc0 and initialises its fields."
+  },
+  "0x101671D0": {
+    "name": "Unit10163E60_InitMeshResourceTables",
+    "confidence": "medium",
+    "evidence": "iterates resources of g_pMeshResourceMng (ResourceIter_Start, types 0x49, 0x53 and four ids) into five globals, fills two tables with FUN_1021e870, then initialises the UI singleton, 0x10223930 and 0x10226180 tables; called from App_InitScene",
+    "summary": "Looks up the mesh resource tables by id and initialises the global tables they point to."
+  },
+  "0x10167340": {
+    "name": "Unit10163E60_LoadSceneFileAndBind",
+    "confidence": "medium",
+    "evidence": "Scene_GetTableValue(0x14) gives the file id; FileMng_ResolveOrExit sizes it, Allocator_Generic buffers it, Unit1018BA60_ForwardOrExit reads it, the buffer is compared with the string at fn_10257830, and on a match Unit10253A20_Assign binds it (Unit10253A20_Bind)",
+    "summary": "Reads the scene's file (table entry 0x14) into a new buffer, checks it against a constant string and binds the table to the buffer if it matches."
+  },
+  "0x10167440": {
+    "name": "ZoneMap_ConstructVt10336614",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10336614 as the vtable, clears the 0x460 dwords from +0x8, calls FUN_10001070 for 0x20 entries at +0x10 with stride 0x8c; called from CTsZoneMap_Init",
+    "summary": "Constructs the zone map sub-object: sets its vtable, initialises its entry array and clears its fields."
+  },
+  "0x10167800": {
+    "name": "ZoneMap_ConstructVt10336634",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10336634 as the vtable, clears 0x1b dwords from +0x8, fills the table at DAT_10621994 with 0x80800808 and writes DAT_106219F4 and DAT_10621A04; called from CTsZoneMap_Init",
+    "summary": "Constructs the zone map sub-object: sets its vtable, clears its fields and fills its tables with default values."
+  },
+  "0x101679A0": {
+    "name": "ZoneMap_UnlinkSlotCells",
+    "confidence": "medium",
+    "evidence": "for each entry of the record at param_1+0xc it computes the cell from the entry's coordinates and clears that cell's head pointer or the flagged node after it in the cell list; called from ZoneMap_ReleaseSlot",
+    "summary": "Removes a slot's entries from the zone map's cell lists."
+  },
+  "0x1016C150": {
+    "name": "ZoneMap_GetFloat1807C",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x1807c, which fn_101693B0, fn_1016A2D0 and fn_1016B1D0 write as a float from the record's +0xA8 field; the earlier name ZoneMap_GetHitCount assumed a count",
+    "summary": "Returns the float stored at offset 0x1807c of the zone map."
+  },
+  "0x1016C390": {
+    "name": "ZoneMap_IsPointInTriangle",
+    "confidence": "medium",
+    "evidence": "three cross-product sign tests of the point against the vertices at record +0x30, +0x34, +0x38, with a constant tolerance (xi_k4 0xB8D1B717) and a height test on +0x24/+0x28/+0x2c; returns AL; called from fn_101693B0, fn_10169B40, fn_1016A2D0, fn_1016B1D0",
+    "summary": "Returns whether a point lies inside a triangle of the zone map's record."
+  },
+  "0x1016FC40": {
+    "name": "ZoneMap_ConstructVt10336668",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_10336668 as the vtable, calls fn_1016FC90 on this, returns this; called from CTsZoneMap_Init",
+    "summary": "Constructs the zone map sub-object: sets its vtable and runs its base initialisation."
+  },
+  "0x101718E0": {
+    "name": "ZoneMap_ConstructVt1033668C",
+    "confidence": "medium",
+    "evidence": "stores PTR_FUN_1033668c as the vtable and calls fn_10174770 on this, returns this; called from CTsZoneMap_Init",
+    "summary": "Constructs the zone map sub-object: sets its vtable and resets its debug box list."
+  },
+  "0x10174770": {
+    "name": "ZoneMap_ResetDbgBoxList",
+    "confidence": "medium",
+    "evidence": "writes 0 to the named global g_dbgBoxList, DAT_10621a0c, dword_10621A10 and to the object's fields at +0x4, +0x8, +0xc, +0x10; called from fn_101718E0 and ZoneMap_TeardownStep",
+    "summary": "Clears the debug box list globals and the object's list fields."
+  },
+  "0x10168FD0": {
+    "name": "ZoneMap_GetField34154",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x34154, which fn_101693B0 builds from bit fields of the record's flag word at +0x29 (shifts 0x1a, 0x3, mask 3 and 7); the earlier name ZoneMap_GetCount34154 assumed a count",
+    "summary": "Returns the packed bit field stored at offset 0x34154 of the zone map."
+  }
+}

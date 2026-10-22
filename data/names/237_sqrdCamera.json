@@ -1,0 +1,3 @@
+{
+"0x10291110": {"name": "SqrdCamera_Init", "confidence": "medium", "evidence": "sets the type word 0x70001 and the vtable entries, then the default values 100.0 at +0x14, 0.1 at +0x18, 1000.0 at +0x1C, 0.1 at +0x2C and 1.0 at +0x30; called by fn_10270B60 and sub_102910B0", "summary": "Initialises a sqrdCamera with its default near, far and field values."}
+}

@@ -1,0 +1,3 @@
+{
+  "0x101CCE00": {"name": "Yk_MapCodeOffset", "confidence": "low", "evidence": "returns the argument plus 0x809F for values below 0x100, plus 0xC7EF below 0x200, 0 below 0xE00 and plus 0xE75B above that up to 0x1000", "summary": "Maps a code in ranges to a fixed offset, or 0 for codes in a gap."}
+}

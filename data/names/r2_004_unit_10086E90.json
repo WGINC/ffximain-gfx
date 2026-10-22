@@ -1,0 +1,176 @@
+{
+  "0x10086FC0": {
+    "name": "Unit10086E90_IsParamBelow901",
+    "confidence": "low",
+    "evidence": "returns (param_1 < 0x901) in AL, keeping the high bits of the first argument; ret 0",
+    "summary": "Returns 1 when its second argument is below 0x901, keeping the first argument's high bits."
+  },
+  "0x10087010": {
+    "name": "Unit10086E90_GetGlobalFlag",
+    "confidence": "low",
+    "evidence": "returns DAT_104859e4 & 0xffffff00 when DAT_104859e4 is nonzero, else (DAT_10482f43 != 0)",
+    "summary": "Returns a value from one of two globals, preferring the first when it is set."
+  },
+  "0x10087060": {
+    "name": "Acter_IsEvent",
+    "confidence": "low",
+    "evidence": "returns orig::IsEvent(0xff, argument); callers Acter_UpdateAllLists (low) and CXiSkeletonActor_OnMove",
+    "summary": "Returns the result of IsEvent for the given argument with 0xff as the first operand."
+  },
+  "0x100870E0": {
+    "name": "Menu_HasAnyFlag",
+    "confidence": "low",
+    "evidence": "returns 1 unless both (DAT_1047fb40 & param_1) and (DAT_104804c4 & param_2) are zero; caller Menu_ApplyFlagsToItems (low)",
+    "summary": "Returns 1 when either global mask shares a bit with the arguments."
+  },
+  "0x10087110": {
+    "name": "Unit10086E90_GetGlobalByte",
+    "confidence": "low",
+    "evidence": "returns DAT_10487ef5 combined with the high bits of the argument",
+    "summary": "Returns a byte global, keeping the argument's high bits."
+  },
+  "0x100872C0": {
+    "name": "Help_UpdateFromFlags",
+    "confidence": "medium",
+    "evidence": "reads flag bits 0x1000, 0x800 and 0x200000 through Unit100D7420_GetFlags and drives g_pTkHelp+0x20 with the orig::FUN_10221xxx/FUN_102212xx calls",
+    "summary": "Syncs the help object at g_pTkHelp with the session flag bits."
+  },
+  "0x100875D0": {
+    "name": "Unit10086E90_IsIdMatchGlobal",
+    "confidence": "low",
+    "evidence": "reads the short at +0x1fa of the object from orig::FUN_101cc4f0 and compares it with DAT_10482f30; returns 1 on a match",
+    "summary": "Returns 1 when the id at +0x1fa of the object from FUN_101cc4f0 equals a global."
+  },
+  "0x100875F0": {
+    "name": "Unit10086E90_GetByteIfIdMatch",
+    "confidence": "low",
+    "evidence": "returns DAT_10482f33 when fn_100875D0 returns a nonzero low byte, else 0",
+    "summary": "Returns a byte global when the id test of fn_100875D0 passes, else 0."
+  },
+  "0x10087610": {
+    "name": "Unit10086E90_GetDwordIfIdMatch",
+    "confidence": "low",
+    "evidence": "returns DAT_10482f34 masked by -(fn_100875D0 low byte != 0)",
+    "summary": "Returns a dword global when the id test of fn_100875D0 passes, else 0."
+  },
+  "0x10087660": {
+    "name": "Unit10086E90_GetMaskedFlagByte",
+    "confidence": "low",
+    "evidence": "returns (argument high bits | DAT_104808a8) & 0xffffff01",
+    "summary": "Returns a byte global with bits 1 to 7 cleared, keeping the argument's high bits."
+  },
+  "0x10087670": {
+    "name": "Unit10086E90_IsGlobalNonzero",
+    "confidence": "low",
+    "evidence": "returns (DAT_10480818 != 0) in AL, with the high bits of DAT_10480818",
+    "summary": "Returns 1 when the dword global DAT_10480818 is nonzero."
+  },
+  "0x10087DC0": {
+    "name": "CXiActor_GetTwoBitField",
+    "confidence": "low",
+    "evidence": "returns bits 20-21 of +0x12C when bit 19 of +0x12C is set, else bits 13-14 of +0x124; callers CXiActor_SelectMotionTags (medium) and Acter_UpdateAllLists",
+    "summary": "Returns a 2-bit field from the actor's flag words, chosen by one flag bit."
+  },
+  "0x10087E40": {
+    "name": "Acter_ResetMotionCounters",
+    "confidence": "low",
+    "evidence": "clears the shorts at +0x14e and +0x150 after optionally calling fn_100CE160 (which calls KzMotionQueList_AdvanceAll) when CYyObject_IsKindOf(+0xa0, 0x10330ebc)",
+    "summary": "Clears two motion counters of the actor, advancing its motion queue first when the flag and type test pass."
+  },
+  "0x10087E80": {
+    "name": "Acter_AdvanceMotionTimer",
+    "confidence": "low",
+    "evidence": "when flag 0x20000 is set, subtracts Camera_GetFrameScale-based steps from +0x150 and resets it to 0x8e on expiry; otherwise calls fn_10087E40",
+    "summary": "Advances the actor's motion timer by the camera frame scale, or resets its counters when the flag is clear."
+  },
+  "0x1008A0E0": {
+    "name": "Camera_SetField30",
+    "confidence": "medium",
+    "evidence": "stores the argument in DAT_1035b5e8 and g_pCamera+0x30 when it differs from the stored value; callers Call1008A0E0With2 and sub_100883E0",
+    "summary": "Stores a value in the camera object at +0x30 and in a cached global, when it changes."
+  },
+  "0x1008A120": {
+    "name": "CXiActor_Construct",
+    "confidence": "medium",
+    "evidence": "sets the object's vtable to PTR_CYyObject_GetRuntimeClass_variant18 and calls CXiActor_InitDefaults(self, 0); called by CXiDancerActor_Construct (medium)",
+    "summary": "Sets the actor's vtable and runs its default initialisation."
+  },
+  "0x1008A7B0": {
+    "name": "CXiActor_Destroy",
+    "confidence": "medium",
+    "evidence": "sets the vtable, calls fn_1008EE30 (which calls CXiActor_SelectMotionTags, XiEvent_RestoreActer, operator_delete) and then Acter_ReleaseAllSlots; callers Unit100AB450_ReleaseSlot (medium), Acter_ShutdownGlobals (medium)",
+    "summary": "Tears down an actor object: its base cleanup, then release of its slots."
+  },
+  "0x1008A8E0": {
+    "name": "ActerBuff_FindByMaskedId",
+    "confidence": "low",
+    "evidence": "scans DAT_10480AE8 entries from DAT_10487E60 (stride 0x20) for (word+0x1c & 0x3ff) equal to (argument & 0x3ff); returns the entry or 0; caller preprocessArg (chain)",
+    "summary": "Finds the ActerBuff entry whose 10-bit id matches the argument, or returns 0."
+  },
+  "0x1008A930": {
+    "name": "ActerBuff_FindById",
+    "confidence": "medium",
+    "evidence": "scans the ActerBuff table (DAT_10480AE8 entries from DAT_10487E60, stride 0x20) for the word at +0x1c equal to the argument; called by ActerBuff_GetStringByIdLookup (medium)",
+    "summary": "Finds the ActerBuff entry whose id equals the argument, or returns 0."
+  },
+  "0x1008A9E0": {
+    "name": "Unit10086E90_SetFlagBit2",
+    "confidence": "low",
+    "evidence": "sets bit 2 of element param_1 of DAT_1047d6a8 to bit 0 of param_2",
+    "summary": "Sets or clears bit 2 of one entry of a flag array."
+  },
+  "0x1008B270": {
+    "name": "Actor_FindByNameEntry",
+    "confidence": "medium",
+    "evidence": "returns self+0x74 when fn_1008B2B0 (a name compare) matches the name at self+0x7c; caller Actor_FindByName (medium)",
+    "summary": "Returns the entry at +0x74 of an actor whose name at +0x7c matches the given name, or 0."
+  },
+  "0x1008B2B0": {
+    "name": "Actor_CompareNames",
+    "confidence": "medium",
+    "evidence": "compares two byte strings; when the third argument is nonzero it normalises both with getLegalPCname before comparing; returns 1 when equal; caller fn_1008B270 (Actor_FindByName)",
+    "summary": "Compares two actor names, optionally after converting them to legal PC names, and returns 1 when they are equal."
+  },
+  "0x1008B380": {
+    "name": "Actor_FindByField78Entry",
+    "confidence": "low",
+    "evidence": "returns self+0x74 when the dword at self+0x78 equals the argument, else 0; caller Actor_FindInRange (medium)",
+    "summary": "Returns the entry at +0x74 of an actor whose field at +0x78 equals the argument, or 0."
+  },
+  "0x1008D980": {
+    "name": "CXiActor_ResetRandomTimer",
+    "confidence": "low",
+    "evidence": "sets +0x1ba to rand() % 600 + 600 unless flag 0x2000 is set (then 0); copies +0x1a8 to +0x1a4; called by CXiActor_InitDefaults (medium)",
+    "summary": "Resets the actor's random timer to 600 to 1199 and copies one candidate value to the current value."
+  },
+  "0x1008DA00": {
+    "name": "CXiActor_TickRandomTimer",
+    "confidence": "low",
+    "evidence": "subtracts Camera_GetFrameScale from the short at +0x1ba; when it goes negative, resets it with rand() % 600 + 600 and picks +0x1a8 or +0x1ac by rand() & 1; callers fn_1008E9A0 and sub_100B7070",
+    "summary": "Ticks the actor's random timer by the camera frame scale and re-picks its value when it expires."
+  },
+  "0x1008E130": {
+    "name": "CXiActor_IsIdAbove6ff",
+    "confidence": "low",
+    "evidence": "returns (0x6ff < the short at +0x74); caller CXiActor_SelectMotionTags (medium)",
+    "summary": "Returns 1 when the actor's short id at +0x74 is above 0x6ff."
+  },
+  "0x1008E140": {
+    "name": "CXiActor_IsField78HighZero",
+    "confidence": "low",
+    "evidence": "returns ((dword at +0x78 & 0xff000000) == 0); caller CXiActor_ComputeDrawState (low)",
+    "summary": "Returns 1 when the high byte of the actor's field at +0x78 is zero."
+  },
+  "0x1008E150": {
+    "name": "CXiActor_IsFlag1d0Clear",
+    "confidence": "low",
+    "evidence": "returns 1 when bits 0 and 8 of the dword at +0x1d0 are clear and the byte at +0x1ff is 1; callers fn_10158DB0 and fn_101CC1D0",
+    "summary": "Returns 1 when two flags in the actor's field at +0x1d0 are clear and its byte at +0x1ff is 1."
+  },
+  "0x1008E260": {
+    "name": "Actor_FindByField2a4",
+    "confidence": "low",
+    "evidence": "walks the 20-entry table from orig::FUN_100e8b80 with Unit100D7420_SelectNext, returning the entry whose short at +0x18 equals the short at self+0x2a4; caller Actor_FindByName (medium)",
+    "summary": "Finds the table entry whose id equals the actor's short at +0x2a4, or returns 0."
+  }
+}

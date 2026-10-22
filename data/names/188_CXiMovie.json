@@ -1,0 +1,6 @@
+{
+  "0x1021D3D0": {"name": "CXiMovie_Create", "confidence": "medium", "evidence": "looks up the movie file with FUN_10311FDE, allocates a 0x28-byte object with Mem_AllocDefault, runs CXiMovie_Construct on it and stores it at g_pMovie, then calls FUN_1021D930 on it with the argument", "summary": "Creates the movie object for a file and stores it as the current movie."},
+  "0x1021D490": {"name": "CXiMovie_GetField4", "confidence": "low", "evidence": "returns the dword at +4 of g_pMovie when it is nonzero, else 0", "summary": "Returns the field at +4 of the current movie."},
+  "0x1021D4A0": {"name": "CXiMovie_GetDoubleField8", "confidence": "low", "evidence": "returns the double at +8 of g_pMovie when it is nonzero, else 0.0", "summary": "Returns the double at +8 of the current movie."},
+  "0x1021D7F0": {"name": "CXiMovie_Construct", "confidence": "medium", "evidence": "zeroes the fields at +4, +0x10..+0x20, sets the vtable to CXiMovie_GetRuntimeClass, and releases each of the four objects at +0x10, +0x14, +0x18 and +0x1C through vtable slot 8 before clearing them", "summary": "Constructs the movie object, clearing its fields and releasing the four held objects."}
+}

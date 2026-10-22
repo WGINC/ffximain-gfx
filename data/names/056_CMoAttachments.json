@@ -1,0 +1,6 @@
+{
+  "0x1003B540": {"name": "CMoAttachments_Construct", "confidence": "medium", "evidence": "constructs the two ActorHandle members at +0x14 and +0x20, sets the vtable to CMoAttachments_GetRuntimeClass and calls CMoAttachments::Reset", "summary": "Constructs the attachments object's handles and resets it."},
+  "0x1003B8B0": {"name": "CMoAttachments_FindKindInChain", "confidence": "low", "evidence": "starts from FUN_1003B6D0 of self, then follows the link at +0xC4 while the object is not kind-of class 0x1032F910, returning the first object that is or 0", "summary": "Walks the link chain from self and returns the first object of the given class."},
+  "0x1003B900": {"name": "CMoAttachments_FindKindFromRoot", "confidence": "low", "evidence": "same walk as CMoAttachments_FindKindInChain, starting from FUN_1003B700 instead of FUN_1003B6D0", "summary": "Walks the link chain from the root object and returns the first object of the given class."},
+  "0x1003BD90": {"name": "CMoAttachments_SetMappedSlot", "confidence": "low", "evidence": "maps the id 0x36..0x3C to 0x7E, 0x7F, 0x66..0x6A (others unchanged) and calls vtable slot 0x1D0 on the object with the mapped id and the first argument", "summary": "Maps an attachment id to its slot number and forwards it to the target."}
+}

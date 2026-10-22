@@ -1,0 +1,7 @@
+{
+"0x1027E150": {"name": "Bits_UpdateMask", "confidence": "medium", "evidence": "with param_3 -1 toggles the bits of param_2 in *param_1, with a nonzero param_3 sets them and with zero clears them", "summary": "Sets, clears or toggles a bit mask in a flag word."},
+"0x1027E490": {"name": "Anim_Advance", "confidence": "low", "evidence": "returns when FUN_1027E440 is 0 or FUN_102857D0 on the block at +0x20 is false; otherwise adds param_2 times the rate at +4 times a constant to the value at +0x10, and when it passes the bound at +0xC or the bound at +8 resets it to the start and calls the callback at +0x60 with the stored argument", "summary": "Advances an animation's position by a time step and wraps it at its bounds."},
+"0x1027EB00": {"name": "Mat4_Zero", "confidence": "medium", "evidence": "writes 16 zero dwords through the pointer argument", "summary": "Zeroes a 4 by 4 float matrix."},
+"0x1027EB50": {"name": "Mat4_Set", "confidence": "medium", "evidence": "stores its sixteen float arguments at param_1[0] to param_1[15] in order, the first from param_2", "summary": "Sets all sixteen entries of a 4 by 4 matrix from arguments."},
+"0x1027EF80": {"name": "Mat4_TransformVec3", "confidence": "low", "evidence": "computes three dot products of the vector at param_3 with the rows of the matrix at param_2 (entries 0 to 2, 4 to 6 and 8 to 10) and stores them at param_1[0] to param_1[2]", "summary": "Multiplies a three-component vector by the matrix's upper three rows."}
+}

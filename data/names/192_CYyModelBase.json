@@ -1,0 +1,3 @@
+{
+  "0x10029D30": {"name": "CYyModelBase_Construct", "confidence": "medium", "evidence": "sets the vtable to CYyObject_vtbl_ambiguous0, runs CYySkl_Construct on self+8 and fn_1001ABF0 on seven 0x14-byte entries from +0x24, then sets the vtable to CYyModelBase_GetRuntimeClass, clears +4, +0x20 and +0xC0, copies three globals into +0xB0..+0xB8, and sets +0xBC to -1.0f and +0xC4 to -1", "summary": "Constructs the model base object and sets its vtable and defaults."}
+}

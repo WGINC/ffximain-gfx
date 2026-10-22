@@ -1,0 +1,8 @@
+{
+  "0x102853F0": {
+    "name": "PlaybackChannel_Load",
+    "confidence": "low",
+    "evidence": "reads a version dword and returns 0 with the error 'PlaybackChannel version' unless it is 3, then reads the channel fields through FUN_1028A0F0, allocates the accum, previous and tmpValues buffers and the per-entry data, entry and playback blocks, and the dataType and entryEnabled arrays, calling FUN_10293000 for each entry",
+    "summary": "Loads a playback channel of version 3 from a stream, allocating its buffers."
+  }
+}

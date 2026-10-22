@@ -1,0 +1,170 @@
+{
+  "0x10229430": {
+    "name": "Ui_InitGlobals",
+    "confidence": "medium",
+    "evidence": "allocates a 0x94-byte object into DAT_106671D4 with FUN_10229670 and a 0x174-byte object into DAT_106671D8 initialised with FUN_102217C0 and a vtable, then builds the table at DAT_103862C4 with FUN_1021E480",
+    "summary": "Creates the UI's global objects and builds their lookup table."
+  },
+  "0x10229670": {
+    "name": "UiItem94_Init",
+    "confidence": "medium",
+    "evidence": "calls FUN_102217C0 on the object, initialises the sub-object at +0x64 with FUN_1018D2B0, sets the vtable to PTR_FUN_1033c418, sets +0x70 to -1 and clears the fields from +0x78 to +0x8E",
+    "summary": "Initialises a UI item object and its fields."
+  },
+  "0x1022A6D0": {
+    "name": "UiItem94_ClearMenu",
+    "confidence": "low",
+    "evidence": "clears the byte at +0x89 and the word at +0x8E and destroys the draw menu at +8 through CTkMenuMng_DestroyDrawMenu",
+    "summary": "Clears the item's flags and destroys its draw menu."
+  },
+  "0x1022AFB0": {
+    "name": "Ui_GetBitIndexForId",
+    "confidence": "low",
+    "evidence": "gets an object from FUN_10153FF0 and computes, for the id, the word index (value >> 5) and the bit mask (1 << (value & 0x1F)) from FUN_101549F0",
+    "summary": "Returns the word index and bit mask for an id."
+  },
+  "0x1022AFF0": {
+    "name": "Ui_IsBitSetForId",
+    "confidence": "low",
+    "evidence": "returns 1 when Ui_TestBitForId (FUN_1022AF80) returns 1, otherwise 0",
+    "summary": "Reports whether the bit for an id is set."
+  },
+  "0x1022AF80": {
+    "name": "Ui_TestBitForId",
+    "confidence": "low",
+    "evidence": "gets the word index and bit mask for the id with Ui_GetBitIndexForId, then returns the result of FUN_10097E50 on them",
+    "summary": "Tests the bit for an id and returns the result."
+  },
+  "0x1022B080": {
+    "name": "Ui_InitSubsystems",
+    "confidence": "medium",
+    "evidence": "allocates and initialises the objects for the UI subsystems at DAT_10667A68, DAT_10667A6C, DAT_10667A70, DAT_10667A7C and DAT_10667A80 with FUN_10126320, FUN_1022C350, FUN_1022BFB0 and FUN_1022BD50, then calls FUN_1022B260",
+    "summary": "Creates the UI's subsystem objects and clears their tables."
+  },
+  "0x1022B260": {
+    "name": "Ui_ClearCounters",
+    "confidence": "low",
+    "evidence": "zeroes the 0x200 dwords at DAT_106671E0 and the word after them",
+    "summary": "Clears the UI's counter table."
+  },
+  "0x1022B290": {
+    "name": "Ui_TickCounters",
+    "confidence": "medium",
+    "evidence": "subtracts the value of FUN_10014D60 from each counter at DAT_106671E0 while it is positive, clamps it at zero, then calls FUN_100FCD70 and, when the result changes, FUN_1022B3B0 with 60",
+    "summary": "Counts the UI's timers down each frame and updates the timer length when it changes."
+  },
+  "0x1022B2F0": {
+    "name": "Ui_GetMinutesCeil",
+    "confidence": "low",
+    "evidence": "for an index from 0 to 0x400, returns (counter + 59) / 60 at DAT_106671E0 + index * 2, otherwise -1",
+    "summary": "Returns a timer counter converted to whole minutes, rounded up."
+  },
+  "0x1022B3B0": {
+    "name": "Ui_SetTimerSeconds",
+    "confidence": "low",
+    "evidence": "stores the argument times 60 in DAT_106679E0",
+    "summary": "Sets the timer length to the given number of minutes in seconds."
+  },
+  "0x1022BDA0": {
+    "name": "Ui_GetSingleton",
+    "confidence": "medium",
+    "evidence": "on its first call initialises the object at DAT_106679E8 with FUN_1022BE10 and registers its exit function with _atexit, then returns the address",
+    "summary": "Returns the UI singleton, initialising it on first use."
+  },
+  "0x1022BE10": {
+    "name": "UiSingleton_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_10257860 on the object and FUN_101C8070 on the sub-object at +0x10",
+    "summary": "Initialises the UI singleton and its sub-object."
+  },
+  "0x1022BFB0": {
+    "name": "UiMix_Init",
+    "confidence": "medium",
+    "evidence": "calls FUN_1021E500 to clear the 0x400-entry table at +0x80, clears +0x880, and, when DAT_10662DB0 is set, registers the 'mix.dat' data through FUN_101B9F20",
+    "summary": "Initialises the mix table and registers its data file."
+  },
+  "0x1022C350": {
+    "name": "UiMsg_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_102217C0 on the object and sets the vtable to PTR_FUN_1033c510",
+    "summary": "Initialises a UI message object."
+  },
+  "0x1022DB80": {
+    "name": "UiItem70_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_102217C0 on the object, clears the dword at +0x70 and sets the vtable to PTR_FUN_1033c5c0",
+    "summary": "Initialises a UI item object with a cleared field at 0x70."
+  },
+  "0x1022ED00": {
+    "name": "UiStrList_Clear",
+    "confidence": "low",
+    "evidence": "zeroes the three dwords at the start of the object",
+    "summary": "Clears a UI string list's three counters."
+  },
+  "0x1022ED30": {
+    "name": "UiStrList_Alloc",
+    "confidence": "medium",
+    "evidence": "stores the two sizes at +0 and +4, allocates a buffer of size param_2 + param_1 * 4 with Allocator_Generic and sets the pointers at +8, +0xC and +0x10 into it, then clears the counters at +0x14 and +0x18",
+    "summary": "Allocates the storage for a UI string list."
+  },
+  "0x1022ED70": {
+    "name": "UiStrList_Append",
+    "confidence": "medium",
+    "evidence": "returns 0 when the list is full or the string buffer has no room; otherwise stores the current string offset in the offset array, copies the string after the strings, and increments the count at +0x14",
+    "summary": "Appends a string to a UI string list, returning 1 on success."
+  },
+  "0x1022F240": {
+    "name": "UiFile_ReadChunk",
+    "confidence": "low",
+    "evidence": "reads up to 0x200 bytes into DAT_10668CC8 with FUN_101C4740 from the file named by FUN_1025B560(0x5A), returning 1 when the read succeeds",
+    "summary": "Reads a block of a UI data file and reports success."
+  },
+  "0x1022F610": {
+    "name": "UiObj70_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_102217C0 on the object, clears the dword at +0x68 and sets the vtable to PTR_FUN_1033c6b0",
+    "summary": "Initialises a UI object with a cleared field at 0x68."
+  },
+  "0x102303B0": {
+    "name": "UiObjA_Init",
+    "confidence": "low",
+    "evidence": "clears its fields, sets the vtable to PTR_FUN_1033c718 and calls FUN_10230410",
+    "summary": "Initialises a UI object by clearing its fields and resetting its table."
+  },
+  "0x10230410": {
+    "name": "UiObjA_Reset",
+    "confidence": "medium",
+    "evidence": "clears the dwords and bytes at +4, +8, +0xA and +0x1B, sets five words at +0xC to 0xF200 with the bytes at +0x16 to +0x1A zeroed, and clears +0x1C, +0x1E and +0x1F",
+    "summary": "Resets a UI object's counters and its five table entries."
+  },
+  "0x10233BE0": {
+    "name": "UiObj66_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_102217C0 on the object, clears the byte at +0x66 and sets the vtable to PTR_FUN_1033c720",
+    "summary": "Initialises a UI object with a cleared byte at 0x66."
+  },
+  "0x102340A0": {
+    "name": "UiObj100_Init",
+    "confidence": "low",
+    "evidence": "calls FUN_102217C0 on the object, clears the dword at +0x64 and sets the vtable to PTR_FUN_1033c788",
+    "summary": "Initialises a UI object with a cleared field at 0x64."
+  },
+  "0x10234660": {
+    "name": "Ui_DrawProgressBar",
+    "confidence": "medium",
+    "evidence": "when the count at +0x10 is non-zero, computes the bar's position from the fields at +0, +4, +0xC and +8, and draws its quads with FUN_10120000 through the textures from FUN_10220CF0",
+    "summary": "Draws a progress bar and its segments from the object's values."
+  },
+  "0x10234A00": {
+    "name": "Ui_ComputeClampedIndex",
+    "confidence": "low",
+    "evidence": "computes an index from the argument and the scale at +0x10 and +8, clamps it between 0 and the count minus the value at +0xC, stores it at +0x14 when it changed, and returns the clamped index",
+    "summary": "Computes a clamped index into the UI list from a position."
+  },
+  "0x10234A70": {
+    "name": "Ui_SetPair",
+    "confidence": "low",
+    "evidence": "stores the two arguments at +0 and +4 and clears the byte at +8",
+    "summary": "Stores two values and clears a flag."
+  }
+}

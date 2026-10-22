@@ -1,0 +1,14 @@
+{
+  "0x10025220": {
+    "name": "ProjTex_Release",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 2 on the projection texture and on the target at DAT_10456E70, releasing each and clearing both pointers",
+    "summary": "Releases the projection texture and its target."
+  },
+  "0x10025260": {
+    "name": "ProjTex_Init",
+    "confidence": "medium",
+    "evidence": "sets the vtable to Vtbl_1032A460, and when the projection texture is not yet created calls CDx_CreateTexture with the camera's viewport width and height; stores the texture and its target in the object and clears g_projTexTarget",
+    "summary": "Initialises the projection texture object, creating its texture at the viewport size if needed."
+  }
+}

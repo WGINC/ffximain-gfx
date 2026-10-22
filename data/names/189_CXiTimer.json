@@ -1,0 +1,3 @@
+{
+"0x10019210": {"name": "CXiTimer_Constructor", "confidence": "medium", "evidence": "sets the CXiTimer vtable at this and the two floats at +4 and +8 to 1.0f; called by sub_10019280 and fn_10019490", "summary": "Constructs a CXiTimer and sets its two scale fields to 1.0."}
+}

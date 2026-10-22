@@ -1,0 +1,5 @@
+{
+  "0x10052DA0": {"name": "CMoVuDist_Construct", "confidence": "medium", "evidence": "calls CMoElem_Constructor, zeroes the fields at +0x19C and +0x1D8 and the word at +0x1DE, sets the vtable to CMoVuDist_GetRuntimeClass and sets the word at +0x176 to 0x1E0", "summary": "Constructs the VU distortion element and sets its vtable and defaults."},
+  "0x10052DD0": {"name": "CMoVuDist_TestParam10", "confidence": "low", "evidence": "returns 1 iff the argument equals 10; slot 12 (+0x30) of CMoVuDist", "summary": "Tests whether the argument equals 10."},
+  "0x10052DE0": {"name": "CMoVuDist_CallVt10", "confidence": "low", "evidence": "calls virtual slot 10 of the object's CMoTask vtable (the entry at vtable[1]) on this and returns its result; slot 8 (+0x20) of CMoVuDist", "summary": "Forwards to the virtual method in slot 10 of the task base."}
+}

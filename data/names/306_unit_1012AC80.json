@@ -1,0 +1,146 @@
+{
+  "0x101551C0": {
+    "name": "StrTriple_Assign",
+    "confidence": "medium",
+    "evidence": "allocates a buffer for the three string arguments with Allocator_Generic, copies each into it, records the start of each piece at +4, +8 and the pointers, then calls FUN_10154FC0 with the pieces",
+    "summary": "Stores three strings in one buffer and records their positions."
+  },
+  "0x10155360": {
+    "name": "StrHolder_FreeBuffer",
+    "confidence": "medium",
+    "evidence": "calls operator_delete on the buffer at +4",
+    "summary": "Frees the string buffer held by the object."
+  },
+  "0x10155400": {
+    "name": "StrQuad_Assign",
+    "confidence": "medium",
+    "evidence": "allocates one buffer for three strings, copies them, stores the field at +8 and the positions in it, and calls FUN_101569F0 with the pieces and the remaining arguments",
+    "summary": "Stores three strings and their attributes in one buffer."
+  },
+  "0x10155540": {
+    "name": "StrQuad_FreeBuffer",
+    "confidence": "medium",
+    "evidence": "calls operator_delete on the buffer at +4",
+    "summary": "Frees the string buffer of a string quad."
+  },
+  "0x101555B0": {
+    "name": "StrHolder_Assign",
+    "confidence": "medium",
+    "evidence": "allocates a buffer the length of the argument, copies the string into it, and calls FUN_10156BF0 with the buffer length",
+    "summary": "Stores a copy of a string and records its length."
+  },
+  "0x10155BD0": {
+    "name": "StrRecord_Pack",
+    "confidence": "medium",
+    "evidence": "returns 0 when the record size param_2 cannot hold the two strings, otherwise writes the fields at +4, +0xC, +0x14 and +0x18 and copies both strings into the record after its header",
+    "summary": "Packs two strings and four values into a record of the given size, reporting whether it fits."
+  },
+  "0x10156540": {
+    "name": "StrPair_Pack",
+    "confidence": "medium",
+    "evidence": "returns 0 when the two strings do not fit in the param_2 bytes, otherwise stores param_3 at +0 and copies both strings after the header, recording their positions at +4 and +8",
+    "summary": "Packs two strings and a value into a record, reporting whether they fit."
+  },
+  "0x101569F0": {
+    "name": "TkItem_SetFields",
+    "confidence": "medium",
+    "evidence": "sets the type at +4 to 2 when the optional string at param_8 is non-empty and to 3 otherwise, stores the string pointer at +0x20 and the other arguments at +8, +0xC, +0x10, +0x14, +0x18 and +0x1C",
+    "summary": "Sets a menu item's type and its position and text fields."
+  },
+  "0x10157720": {
+    "name": "Gfx_SetNormalizedPos",
+    "confidence": "medium",
+    "evidence": "sets the floats at +0x8C and +0x90 to (x - W/2) / (W/2) and (y - H/2) / (H/2), where W and H are the screen rectangle's size, and sets the flag at +0x55",
+    "summary": "Stores a screen position as values normalised to -1 to 1 about the screen centre."
+  },
+  "0x10156440": {
+    "name": "TkItem_GetField0C",
+    "confidence": "low",
+    "evidence": "returns the dword at +0xC",
+    "summary": "Returns the value stored at offset 0xC of the menu item."
+  },
+  "0x10156450": {
+    "name": "TkItem_GetField10",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x10",
+    "summary": "Returns the value stored at offset 0x10 of the menu item."
+  },
+  "0x10156470": {
+    "name": "TkItem_GetField24",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x24",
+    "summary": "Returns the value stored at offset 0x24 of the menu item."
+  },
+  "0x10156480": {
+    "name": "TkItem_GetField28",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x28",
+    "summary": "Returns the value stored at offset 0x28 of the menu item."
+  },
+  "0x10156840": {
+    "name": "TkItem_GetField04",
+    "confidence": "low",
+    "evidence": "returns the dword at +4",
+    "summary": "Returns the value stored at offset 4 of the menu item."
+  },
+  "0x10156850": {
+    "name": "TkItem_GetField08",
+    "confidence": "low",
+    "evidence": "returns the dword at +8",
+    "summary": "Returns the value stored at offset 8 of the menu item."
+  },
+  "0x10156B30": {
+    "name": "TkItem_GetField14",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x14",
+    "summary": "Returns the value stored at offset 0x14 of the menu item."
+  },
+  "0x10156B40": {
+    "name": "TkItem_GetField20",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x20",
+    "summary": "Returns the value stored at offset 0x20 of the menu item."
+  },
+  "0x10156BF0": {
+    "name": "StrHolder_SetField04",
+    "confidence": "low",
+    "evidence": "stores its argument at +4",
+    "summary": "Stores a value at offset 4 of the string holder."
+  },
+  "0x101554E0": {
+    "name": "StrQuad_GetField0C",
+    "confidence": "low",
+    "evidence": "returns this + 0xC",
+    "summary": "Returns the address of the string quad's field at offset 0xC."
+  },
+  "0x10155600": {
+    "name": "StrHolder_GetField8",
+    "confidence": "low",
+    "evidence": "returns this + 8",
+    "summary": "Returns the address of the string holder's field at offset 8."
+  },
+  "0x101552D0": {
+    "name": "StrTriple_GetField14",
+    "confidence": "low",
+    "evidence": "returns this + 0x14",
+    "summary": "Returns the address of the string triple's field at offset 0x14."
+  },
+  "0x10157780": {
+    "name": "TkWidget_SetValues3",
+    "confidence": "low",
+    "evidence": "clears the dwords at +0x6C and +0x70 and copies up to three values from the array at param_1 into +0x6C onwards when param_2 is between 1 and 2",
+    "summary": "Copies up to three values into the widget's value array."
+  },
+  "0x10157860": {
+    "name": "TkWidget_SetFields78D0",
+    "confidence": "low",
+    "evidence": "stores param_1 at +0xD0 and param_2 at +0x78 and returns param_1",
+    "summary": "Stores two values at offsets 0x78 and 0xD0 of the widget."
+  },
+  "0x101578C0": {
+    "name": "TkWidget_GetField7C",
+    "confidence": "low",
+    "evidence": "returns the dword at +0x7C",
+    "summary": "Returns the value stored at offset 0x7C of the widget."
+  }
+}

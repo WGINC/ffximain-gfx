@@ -1,0 +1,8 @@
+{
+  "0x10052C30": {
+    "name": "CMoD3aLightmapElem_Init",
+    "confidence": "medium",
+    "evidence": "calls CMoElem::Constructor on self, sets the vtable to PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8, and stores 0x198 at +0x176",
+    "summary": "Constructs the base element and sets the CMoD3aLightmapElem vtable and its field at 0x176."
+  }
+}

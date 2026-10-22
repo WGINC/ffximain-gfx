@@ -563,3 +563,18 @@ class CallsiteArgs(unittest.TestCase):
         self.assertEqual(r['0x2'], {'args': 2, 'cc': 'thiscall', 'src': 'typed'})
         self.assertEqual(r['0x3'], {'args': 0, 'cc': 'fastcall', 'src': 'typed'})
         self.assertEqual(r['0x4']['src'], 'cast')
+
+
+class MsvcCasts(unittest.TestCase):
+    """msvc_tu.add_casts: only same-bits conversions, only a line's one assignment or return"""
+    def test_add_casts(self):
+        import msvc_tu as T
+        src = 'a\n  x = p;\n  return q;\n  y = 1.5;\n  f(r); g(s);'
+        log = ("m.cpp(2) : error C2440: '=' : cannot convert from 'void ** ' to 'unsigned char ** '\n"
+               "m.cpp(3) : error C2440: 'return' : cannot convert from 'char *' to 'unsigned int'\n"
+               "m.cpp(4) : error C2440: '=' : cannot convert from 'double' to 'int *'\n"
+               "m.cpp(5) : error C2440: '=' : cannot convert from 'int' to 'char *'\n")
+        out, n = T.add_casts(src, log)
+        self.assertEqual(n, 2)
+        self.assertEqual(out.split('\n')[1:], ['  x = (unsigned char **)(p);', '  return (unsigned int)(q);',
+                                               '  y = 1.5;', '  f(r); g(s);'])

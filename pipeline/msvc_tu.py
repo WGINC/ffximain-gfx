@@ -282,6 +282,31 @@ def unit(a, defn, decl, fields, globs=None, origs=None):
     return SHIM + g + ''.join('class %s;\n' % w for w in fwd) + ''.join(d + '\n' for d in gdecl) + src, sym
 
 
+CONV_ERR = re.compile(r"m\.cpp\((\d+)\) : error C2440: '(=|return|initializing)' : cannot convert from '([^']*)' to '([^']*)'")
+SAME_BITS = {'int', 'unsigned int', 'long', 'unsigned long'}
+
+
+def add_casts(src, log):
+    """(source, casts added) for MSVC6's C2440 errors on an implicit conversion GCC's -fpermissive makes: between
+    pointer types, or between a pointer and a 4-byte integer. Each gets the explicit C cast to the type MSVC names,
+    which gives the same bits: -fpermissive's conversion is that cast. Only the right-hand side of a line's one
+    `=`, initializer or `return` is cast; anything else is left (the unit then stays a compile error)."""
+    lines = src.split('\n'); n = 0
+    for m in CONV_ERR.finditer(log):
+        k, op, frm, to = int(m.group(1)) - 1, m.group(2), m.group(3).strip(), m.group(4).strip()
+        ptr = lambda t: t.endswith('*')
+        if not ((ptr(to) or to in SAME_BITS) and (ptr(frm) or frm in SAME_BITS)): continue
+        line = lines[k]
+        if line.count(';') != 1: continue
+        if op == 'return':
+            mm = re.match(r'^(\s*return\s+)(.*?)(;\s*)$', line)
+        else:
+            mm = re.match(r'^(.*?[^=!<>+\-*/%&|^]=(?!=)\s*)(.*?)(;\s*)$', line)
+        if not mm or not mm.group(2): continue
+        lines[k] = '%s(%s)(%s)%s' % (mm.group(1), to, mm.group(2), mm.group(3)); n += 1
+    return '\n'.join(lines), n
+
+
 def main(tree, out, *addrs):
     import msvc_match as M
     fn = functions(tree); decl, fields = header_info(tree); globs = globals_table(tree); origs = orig_table(tree)
@@ -294,8 +319,14 @@ def main(tree, out, *addrs):
         if not ok: res['0x%08X' % a] = {'result': 'LEFT OUT', 'why': 'not verified by the gate'}; continue
         src, sym = unit(a, defn, decl, fields, globs, origs)
         if src is None: res['0x%08X' % a] = {'result': 'LEFT OUT', 'why': sym}; continue
+        addr = unit.addr; casts = 0
+        good, why = M.match(src, sym, a, addr)
+        while why.startswith('compile failed') and casts < 64:     # implicit conversions MSVC6 rejects, as casts
+            src, k = add_casts(src, why)
+            if not k: break
+            casts += k; good, why = M.match(src, sym, a, addr)
+        if casts: why += ' (%d implicit conversion%s written as casts)' % (casts, 's' if casts > 1 else '')
         if keep: open(os.path.join(keep, '%08X.cpp' % a), 'w').write(src)
-        good, why = M.match(src, sym, a, unit.addr)
         r = 'MATCH' if good else ('COMPILE' if why.startswith('compile failed') or why.startswith('symbol') else 'DIFFER')
         res['0x%08X' % a] = {'result': r, 'why': why[-600:]}
         print('0x%08X %s %s' % (a, r, why.splitlines()[-1][:120] if why else ''), flush=True)

@@ -1,0 +1,4 @@
+{
+  "0x10289B40": {"name": "SqopTrack_Reset", "confidence": "medium", "evidence": "stores -1 at offset 0 and zero at offsets 4, 8 and 0xC of the argument", "summary": "Resets the track's first word to -1 and clears its other three fields."},
+  "0x10289BA0": {"name": "SqopTrack_Free", "confidence": "medium", "evidence": "when the pointer at +0xC is nonnull, releases it with sqFree using the module path string and line 0x69, then calls sqopTrack_Reset", "summary": "Frees the track's buffer and resets the track."}
+}

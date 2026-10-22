@@ -1,0 +1,5 @@
+{
+"0x10017C20": {"name": "TexCopy_Step", "confidence": "low", "evidence": "when the state at +4 is 1, calls Gfx_CopySurfaceRectToTexture with the rect at +0xC and sets the state to 2 or 3 by its result; called by TexCopy_Begin", "summary": "Advances a texture copy by copying the surface rectangle when it is ready."},
+"0x10017C60": {"name": "TexCopy_Begin", "confidence": "medium", "evidence": "sets the state at +4 to 1, fills the viewport rectangle from Camera_GetViewportWidth and Camera_GetViewportHeight and the given offsets, gets the render surface through the vtable of g_pCDx and calls TexCopy_Step", "summary": "Starts a copy of the viewport rectangle into a texture."},
+"0x100185A0": {"name": "File_LoadChecksum", "confidence": "low", "evidence": "gets the size with FUN_101BE510, allocates a buffer, loads it through FUN_101BE470 and FUN_101BE590, then sums the bytes shifted by four bits per position into this+8", "summary": "Loads a file and stores a checksum of its bytes."}
+}

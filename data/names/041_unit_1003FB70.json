@@ -1,0 +1,5 @@
+{
+"0x1003FCB0": {"name": "CMoDistModelElem_IsDistortedMode", "confidence": "low", "evidence": "returns 1 iff the byte at +0x34 is zero and the low nibble of the byte at +0x30 is between 5 and 7", "summary": "Tests whether the element's mode nibble is in the distorted range."},
+"0x1003FCE0": {"name": "CMoDistModelElem_GetVertexBase", "confidence": "low", "evidence": "returns this+0x38 and nothing else", "summary": "Returns the address of the element's vertex data block at +0x38."},
+"0x1003FCF0": {"name": "CMoDistModelElem_GetDataEnd", "confidence": "low", "evidence": "returns this+0x38 plus a size computed from the counts at +0x34 and +0x35 for the modes 5 to 7, or this+0x40 for other modes", "summary": "Returns the end of the element's data block, from its counts and mode."}
+}

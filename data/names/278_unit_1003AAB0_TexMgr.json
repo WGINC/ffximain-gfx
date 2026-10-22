@@ -1,0 +1,14 @@
+{
+  "0x1003AAB0": {
+    "name": "TexMgr_GetField8",
+    "confidence": "low",
+    "evidence": "returns self + 8, the address of the manager's field at offset 8",
+    "summary": "Returns the address of the texture manager's field at offset 8."
+  },
+  "0x1003AAF0": {
+    "name": "TexMgr_GetTailLink",
+    "confidence": "medium",
+    "evidence": "starts at the address returned by TexMgr_GetField8 and walks the list through the next link at +0x38 until the last entry, returning the address of that entry's link",
+    "summary": "Returns the address of the last link in the texture list, for appending a texture."
+  }
+}

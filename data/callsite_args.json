@@ -217,7 +217,7 @@
 "0x1000304A": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1000305D": {
 "args": 1,
@@ -312,7 +312,7 @@
 "0x100035DB": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100038AB": {
 "args": 3,
@@ -2852,7 +2852,7 @@
 "0x10010DEB": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10010DF5": {
 "args": 1,
@@ -3677,7 +3677,7 @@
 "0x10011EB5": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10011EBF": {
 "args": 1,
@@ -4962,7 +4962,7 @@
 "0x10013CE7": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10013D07": {
 "args": 1,
@@ -5392,7 +5392,7 @@
 "0x10015A3A": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10015A3F": {
 "args": 0,
@@ -5932,7 +5932,7 @@
 "0x1001CFBB": {
 "args": 2,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1001D0A9": {
 "args": 0,
@@ -8087,7 +8087,7 @@
 "0x10029B4D": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10029CB3": {
 "args": 0,
@@ -11657,7 +11657,7 @@
 "0x1003D48E": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1003D4B2": {
 "args": 4,
@@ -12872,7 +12872,7 @@
 "0x10040F30": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10040F3B": {
 "args": 0,
@@ -12912,7 +12912,7 @@
 "0x10040F86": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10041023": {
 "args": 0,
@@ -13447,7 +13447,7 @@
 "0x1004233C": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10042345": {
 "args": 0,
@@ -14402,7 +14402,7 @@
 "0x10044BF2": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10044FC3": {
 "args": 3,
@@ -14822,7 +14822,7 @@
 "0x10046353": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100464E7": {
 "args": 3,
@@ -16432,17 +16432,17 @@
 "0x1004BAA9": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BAD1": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BAF9": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BB43": {
 "args": 2,
@@ -16497,17 +16497,17 @@
 "0x1004BDAE": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BDCF": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BDF0": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004BE11": {
 "args": 1,
@@ -16687,7 +16687,7 @@
 "0x1004C56E": {
 "args": 6,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004C588": {
 "args": 3,
@@ -18327,7 +18327,7 @@
 "0x1004F783": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1004F78F": {
 "args": 1,
@@ -21102,7 +21102,7 @@
 "0x1005244C": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10052453": {
 "args": 0,
@@ -21112,7 +21112,7 @@
 "0x1005245C": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10052465": {
 "args": 0,
@@ -24117,7 +24117,7 @@
 "0x1005A6A1": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1005A6B8": {
 "args": 0,
@@ -24267,7 +24267,7 @@
 "0x1005A949": {
 "args": 2,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1005A960": {
 "args": 0,
@@ -25002,7 +25002,7 @@
 "0x1005B4CE": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1005B4E3": {
 "args": 0,
@@ -31362,37 +31362,37 @@
 "0x100C5A7D": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5A9C": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5ABB": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5ADA": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5AF6": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5B12": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5B27": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100C5B8B": {
 "args": 2,
@@ -34202,7 +34202,7 @@
 "0x100CF53B": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100CF544": {
 "args": 0,
@@ -34217,7 +34217,7 @@
 "0x100CF577": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100CF580": {
 "args": 0,
@@ -34267,7 +34267,7 @@
 "0x100CF61F": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100CF628": {
 "args": 0,
@@ -34287,7 +34287,7 @@
 "0x100CF65A": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100CF65E": {
 "args": 0,
@@ -34312,7 +34312,7 @@
 "0x100CF6B3": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100CF6D6": {
 "args": 3,
@@ -34487,7 +34487,7 @@
 "0x100D066A": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D068C": {
 "args": 5,
@@ -34502,7 +34502,7 @@
 "0x100D06A6": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D06BF": {
 "args": 3,
@@ -34762,7 +34762,7 @@
 "0x100D2FC6": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D2FED": {
 "args": 2,
@@ -34812,7 +34812,7 @@
 "0x100D3112": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D3209": {
 "args": 2,
@@ -34972,7 +34972,7 @@
 "0x100D34A9": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D34D0": {
 "args": 2,
@@ -35022,7 +35022,7 @@
 "0x100D35A2": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D35AD": {
 "args": 2,
@@ -35182,7 +35182,7 @@
 "0x100D387B": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D38A2": {
 "args": 2,
@@ -35207,7 +35207,7 @@
 "0x100D38F5": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D391C": {
 "args": 2,
@@ -35252,7 +35252,7 @@
 "0x100D3A1F": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D3B16": {
 "args": 2,
@@ -35317,7 +35317,7 @@
 "0x100D3C9C": {
 "args": 4,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D3E18": {
 "args": 2,
@@ -35492,7 +35492,7 @@
 "0x100D40C8": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x100D435A": {
 "args": 0,
@@ -36012,22 +36012,22 @@
 "0x1011C28C": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C29E": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C2B0": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C2D9": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C2E8": {
 "args": 3,
@@ -36037,12 +36037,12 @@
 "0x1011C309": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C31B": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C362": {
 "args": 3,
@@ -36077,22 +36077,22 @@
 "0x1011C3C7": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C3D9": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C3EB": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C410": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C42D": {
 "args": 3,
@@ -36142,12 +36142,12 @@
 "0x1011C4E1": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C506": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C523": {
 "args": 3,
@@ -36177,17 +36177,17 @@
 "0x1011C578": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C587": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C596": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011C5B0": {
 "args": 3,
@@ -36437,22 +36437,22 @@
 "0x1011F397": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F3A9": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F3BB": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F3E0": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F406": {
 "args": 3,
@@ -36477,7 +36477,7 @@
 "0x1011F47B": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F4A1": {
 "args": 3,
@@ -36532,7 +36532,7 @@
 "0x1011F5B8": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F603": {
 "args": 3,
@@ -36567,17 +36567,17 @@
 "0x1011F68D": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F69F": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F6C8": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F6EE": {
 "args": 3,
@@ -36707,7 +36707,7 @@
 "0x1011F9AB": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011F9C8": {
 "args": 3,
@@ -36737,17 +36737,17 @@
 "0x1011FA49": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011FA5B": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1011FA6D": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1012059A": {
 "args": 0,
@@ -42977,27 +42977,27 @@
 "0x10250239": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1025023E": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10250243": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10250248": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1025024D": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10250252": {
 "args": 0,
@@ -43092,22 +43092,22 @@
 "0x10251AB1": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10251AD2": {
 "args": 2,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10251AE2": {
 "args": 3,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10251AED": {
 "args": 2,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10251B27": {
 "args": 0,
@@ -43267,7 +43267,7 @@
 "0x10280E04": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10280E09": {
 "args": 0,
@@ -43342,7 +43342,7 @@
 "0x10281023": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028103A": {
 "args": 3,
@@ -43357,7 +43357,7 @@
 "0x10281067": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10281079": {
 "args": 2,
@@ -43367,7 +43367,7 @@
 "0x10281088": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x102810AB": {
 "args": 5,
@@ -43377,7 +43377,7 @@
 "0x102810B7": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028118C": {
 "args": 6,
@@ -43422,7 +43422,7 @@
 "0x10281556": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028156D": {
 "args": 5,
@@ -43452,7 +43452,7 @@
 "0x10281739": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10281769": {
 "args": 1,
@@ -43472,12 +43472,12 @@
 "0x102817F1": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10281885": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x102818B5": {
 "args": 1,
@@ -43497,7 +43497,7 @@
 "0x1028194A": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028197A": {
 "args": 8,
@@ -43507,7 +43507,7 @@
 "0x10281986": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10281A49": {
 "args": 3,
@@ -44527,7 +44527,7 @@
 "0x10284BA9": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10284CB2": {
 "args": 1,
@@ -44787,12 +44787,12 @@
 "0x1028B2F6": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028B2FB": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028B300": {
 "args": 0,
@@ -45182,7 +45182,7 @@
 "0x1028FC48": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028FC80": {
 "args": 2,
@@ -45202,7 +45202,7 @@
 "0x1028FCD4": {
 "args": 0,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1028FD01": {
 "args": 1,
@@ -45472,7 +45472,7 @@
 "0x10298248": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x1029825A": {
 "args": 2,
@@ -45482,7 +45482,7 @@
 "0x10298269": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x10298290": {
 "args": 5,
@@ -45632,7 +45632,7 @@
 "0x102A222C": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x102A225C": {
 "args": 2,
@@ -45667,7 +45667,7 @@
 "0x102A2419": {
 "args": 1,
 "cc": "other",
-"src": "typed"
+"src": "regs"
 },
 "0x102A256E": {
 "args": 3,

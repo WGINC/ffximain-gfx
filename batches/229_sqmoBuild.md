@@ -1,0 +1,102 @@
+# Batch 229_sqmoBuild: 2 functions of `sqmoBuild`
+
+Name these functions: see `batches/README.md`. Write `data/names/229_sqmoBuild.json`.
+0 of them were sampled in a running frame (data/frame_set.json).
+
+## `0x102851C0` fn_102851C0
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `fn_10275D40` x4, `sqDebugPrintf`, `fn_1028A0F0` x6, `fn_10293F80`, `fn_102944E0`
+- **Called by:** `sqmoChannelBuildSQO`
+
+```cpp
+XI_API int __cdecl fn_102851C0(undefined4 * param_1, int param_2)
+{
+  int *piVar1;
+  int iVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  undefined4 *puVar5;
+  undefined4 *puVar6;
+  int iVar7;
+  
+  iVar7 = param_2;
+  puVar4 = orig::FUN_1028a0f0(&param_2,4,1,param_1,param_2);
+  if (param_2 != 4) {
+    orig::sqDebugPrintf_v2(s_____Error__FrameChannel_version_m_103b7b08,param_2,4);
+    return 0;
+  }
+  puVar5 = orig::FUN_10293f80();
+  puVar4 = orig::FUN_1028a0f0(puVar5 + 8,4,1,puVar4 + 0x14,iVar7);
+  piVar1 =(int*)(puVar5 + 7);
+  puVar4 = orig::FUN_1028a0f0(piVar1,4,1,puVar4,iVar7);
+  puVar6 = orig::FUN_10275d40(*piVar1,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x31);
+  puVar5[0xd] = puVar6;
+  puVar4 = orig::FUN_1028a0f0(puVar6,4,*piVar1,puVar4,iVar7);
+  puVar4 = orig::FUN_1028a0f0(puVar5 + 9,4,1,puVar4,iVar7);
+  iVar2 = *piVar1;
+  iVar3 = puVar5[9];
+  puVar6 = orig::FUN_10275d40(iVar2 * iVar3,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x39);
+  puVar5[0xb] = puVar6;
+  orig::FUN_1028a0f0(puVar6,4,iVar2 * iVar3,puVar4,iVar7);
+  puVar4 = orig::FUN_10275d40(*piVar1,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x3e);
+  puVar5[0xc] = puVar4;
+  *(uint8_t *)(puVar5 + 0xf) = 0;
+  puVar4 = orig::FUN_10275d40(*piVar1,1,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x40);
+  puVar5[0xe] = puVar4;
+  iVar7 = 0;
+  if (0 < *piVar1) {
+    do {
+      *(uint8_t *)(iVar7 + puVar5[0xe]) = 0;
+      orig::FUN_102944e0((int)puVar5,iVar7);
+      iVar7 = iVar7 + 1;
+    } while (iVar7 < *piVar1);
+  }
+  return (int)puVar5;
+}
+```
+
+## `0x102852E0` fn_102852E0
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `fn_10275D40` x3, `sqDebugPrintf`, `fn_1028A0F0` x6, `fn_102957B0`
+- **Called by:** `sqmoChannelBuildSQO`
+
+```cpp
+XI_API int __cdecl fn_102852E0(undefined4 * param_1, int param_2)
+{
+  int *piVar1;
+  int iVar2;
+  undefined4 *puVar3;
+  undefined4 *puVar4;
+  undefined4 *puVar5;
+  int iVar6;
+  
+  iVar2 = param_2;
+  puVar3 = orig::FUN_1028a0f0(&param_2,4,1,param_1,param_2);
+  if (param_2 != 3) {
+    orig::sqDebugPrintf_v2(s_____Error__KeyChannel_version_mi_103b7b44,param_2,3);
+    return 0;
+  }
+  puVar4 = orig::FUN_102957b0();
+  puVar3 = orig::FUN_1028a0f0(puVar4 + 8,4,1,puVar3 + 0x14,iVar2);
+  puVar3 = orig::FUN_1028a0f0(puVar4 + 7,4,1,puVar3,iVar2);
+  piVar1 =(int*)(puVar4 + 10);
+  puVar3 = orig::FUN_1028a0f0(piVar1,4,1,puVar3,iVar2);
+  puVar5 = orig::FUN_10275d40(*piVar1,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x68);
+  puVar4[0xb] = puVar5;
+  puVar3 = orig::FUN_1028a0f0(puVar5,4,*piVar1,puVar3,iVar2);
+  if (param_2 == 1) {
+    puVar4[8] = *(undefined4 *)(puVar4[0xb] + -4 + *piVar1 * 4);
+  }
+  iVar6 = puVar4[7] * *piVar1;
+  puVar5 = orig::FUN_10275d40(iVar6,4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x70);
+  puVar4[0xc] = puVar5;
+  orig::FUN_1028a0f0(puVar5,4,iVar6,puVar3,iVar2);
+  puVar3 = orig::FUN_10275d40(puVar4[7],4,s_C__dev_dancer_modules_sqMotion_s_103b7ad8,0x72);
+  puVar4[0xd] = puVar3;
+  return (int)puVar4;
+}
+```

@@ -20,7 +20,7 @@ WEAK_NAME = re.compile(r'_VT_[0-9A-F]+|_vf\d+|_Slot\d+|_Unk|_variant\d*|^sub_|^n
 def main(evf, manf, dmf, incdir, outf):
     E = json.load(open(evf))
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
-    dm = {int(k, 16): v for k, v in json.load(open(dmf)).items()}
+    dm = {int(k, 16): v for k, v in json.load(open(dmf)).items() if not k.startswith('_')}
     classes = {fn[:-4] for fn in os.listdir(incdir) if fn.endswith('.hpp')}
     for e in E:
         classes.update(e[4])                                   # every class with a named vtable

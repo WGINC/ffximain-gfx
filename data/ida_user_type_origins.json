@@ -1,0 +1,2378 @@
+{
+"_doc": {
+"rules": "session  the type was changed by a session's script, recorded in the script's own data: the fix script's class pass\n           (DATA[\"classes\"] methods) typed `this` as the class struct it made, and the prototype shows that struct; or\n           the function carries the script's own `[conv ...]` note (made __thiscall); or DATA[\"types\"].\n  library  the prototype prints identically to the SDK type library's symbol of that name (ida_proto_origin.json \"til\").\n  mine     never set here: only the owner can say so; a `mine` already in the table is kept.\n  (blank)  nothing recorded.",
+"DancingMad": "../DancingMad",
+"rows": 372
+},
+"0x10009E00": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000CD00": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100279A0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10027990": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10313486": {
+"origin": "library",
+"evidence": [
+"type: identical to mssdk_win7 symbol"
+]
+},
+"0x1000BF30": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000BDB0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10071060": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10009E20": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1005E510": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x100544D0": {
+"origin": null,
+"evidence": []
+},
+"0x1000CC00": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x103138BA": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10015680": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10015690": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1005E1F0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1005E4C0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1018BC40": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000CB20": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1005E4A0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10009920": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000D660": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1005E110": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10009DC0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000CF20": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x102E72EA": {
+"origin": null,
+"evidence": [
+"comment: FLIRT name removed"
+]
+},
+"0x102E7317": {
+"origin": "session",
+"evidence": [
+"type: `[conv ...]` note, script made it __thiscall",
+"comment: byte-identical to d3dx8.1"
+]
+},
+"0x100528A0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x100182E0": {
+"origin": null,
+"evidence": []
+},
+"0x1005E4B0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x102D2C16": {
+"origin": null,
+"evidence": []
+},
+"0x10315AA8": {
+"origin": "library",
+"evidence": [
+"type: identical to mssdk_win7 symbol"
+]
+},
+"0x1000BB10": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1000CA00": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10057FB0": {
+"origin": null,
+"evidence": [
+"type: PS2 DWARF params ['YmSchCodeTag*'] do not match",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1017C9C0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CTsZoneMap *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: ffxi_ida_fix.py names (medium confidence)"
+]
+},
+"0x1017DE20": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CTsZoneMap) but `this` is not CTsZoneMap *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)"
+]
+},
+"0x102D538A": {
+"origin": null,
+"evidence": []
+},
+"0x10009870": {
+"origin": null,
+"evidence": []
+},
+"0x1000BB20": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1000C900": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000D620": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10046550": {
+"origin": null,
+"evidence": []
+},
+"0x100467E0": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (medium confidence)"
+]
+},
+"0x10052AB0": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x10052AD0": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x1005E1C0": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x10085000": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x100CBDE0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100D7090": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXiSkeletonActorRes *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10150CC0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1015DFC0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x101606F0": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x10281DB0": {
+"origin": null,
+"evidence": [
+"comment: PS2 counterpart note"
+]
+},
+"0x10283420": {
+"origin": null,
+"evidence": [
+"comment: PS2 counterpart note"
+]
+},
+"0x102E0E52": {
+"origin": null,
+"evidence": [
+"comment: byte-identical to d3dx8.1"
+]
+},
+"0x103127C0": {
+"origin": "library",
+"evidence": [
+"type: identical to mssdk_win7 symbol"
+]
+},
+"0x10312C90": {
+"origin": null,
+"evidence": []
+},
+"0x10008F90": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100091B0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10009770": {
+"origin": "library",
+"evidence": [
+"type: identical to mssdk_win7 symbol"
+]
+},
+"0x10009F20": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000A3B0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000A820": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000AAB0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x1000ABE0": {
+"origin": null,
+"evidence": []
+},
+"0x1000BB90": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000C0B0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000C7C0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1000C850": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10012F40": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100132B0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10013AC0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10015480": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10015510": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10015740": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10021280": {
+"origin": null,
+"evidence": []
+},
+"0x10021900": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10033DA0": {
+"origin": null,
+"evidence": []
+},
+"0x10039E50": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x1003C8A0": {
+"origin": null,
+"evidence": []
+},
+"0x1003D160": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoCameraTask *, the struct the class pass made"
+]
+},
+"0x1003EBF0": {
+"origin": null,
+"evidence": []
+},
+"0x10041110": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3mSpecularElem *, the struct the class pass made",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10052A80": {
+"origin": "session",
+"evidence": [
+"type: `[conv ...]` note, script made it __thiscall"
+]
+},
+"0x1005E180": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x1005EEF0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoPathDriveActorTask *, the struct the class pass made"
+]
+},
+"0x10060940": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1006C530": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (medium confidence)"
+]
+},
+"0x100A4ED0": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (proven confidence)",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x100A5E10": {
+"origin": null,
+"evidence": []
+},
+"0x100C5C00": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100C8ED0": {
+"origin": null,
+"evidence": []
+},
+"0x100C9330": {
+"origin": null,
+"evidence": []
+},
+"0x100C9810": {
+"origin": null,
+"evidence": []
+},
+"0x100C9C10": {
+"origin": null,
+"evidence": []
+},
+"0x100CA310": {
+"origin": null,
+"evidence": []
+},
+"0x100CA730": {
+"origin": null,
+"evidence": []
+},
+"0x100CAA60": {
+"origin": null,
+"evidence": []
+},
+"0x100CAF90": {
+"origin": null,
+"evidence": []
+},
+"0x100D7050": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CXiSkeletonActorRes) but `this` is not CXiSkeletonActorRes *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100FD3A0": {
+"origin": null,
+"evidence": []
+},
+"0x10118520": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10118DB0": {
+"origin": null,
+"evidence": []
+},
+"0x10125170": {
+"origin": null,
+"evidence": []
+},
+"0x10126290": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10152F80": {
+"origin": null,
+"evidence": []
+},
+"0x101579C0": {
+"origin": null,
+"evidence": []
+},
+"0x1015F6A0": {
+"origin": null,
+"evidence": []
+},
+"0x101772E0": {
+"origin": null,
+"evidence": []
+},
+"0x1017C8B0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CTsZoneMap *, the struct the class pass made"
+]
+},
+"0x1018B860": {
+"origin": null,
+"evidence": []
+},
+"0x10251500": {
+"origin": null,
+"evidence": [
+"type: PS2 DWARF params [] do not match",
+"comment: PS2 counterpart note"
+]
+},
+"0x1025E0C0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1025E0E0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1025E0F0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10282A30": {
+"origin": null,
+"evidence": [
+"comment: PS2 counterpart note"
+]
+},
+"0x1028BBD0": {
+"origin": null,
+"evidence": []
+},
+"0x102D4BF7": {
+"origin": null,
+"evidence": [
+"comment: byte-identical to d3dx8.1"
+]
+},
+"0x10312050": {
+"origin": "library",
+"evidence": [
+"type: identical to mssdk_win7 symbol"
+]
+},
+"0x10312F96": {
+"origin": null,
+"evidence": []
+},
+"0x10009100": {
+"origin": "session",
+"evidence": [
+"type: `this` is CDx *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10011950": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTaskMng *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10015100": {
+"origin": null,
+"evidence": []
+},
+"0x10015490": {
+"origin": null,
+"evidence": []
+},
+"0x10017310": {
+"origin": null,
+"evidence": []
+},
+"0x10017780": {
+"origin": "session",
+"evidence": [
+"type: `this` is CShader *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10017810": {
+"origin": null,
+"evidence": []
+},
+"0x100182C0": {
+"origin": null,
+"evidence": []
+},
+"0x10019A30": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CMoResource_VT_1032C7FC) but `this` is not CMoResource_VT_1032C7FC *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10019B30": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10019EE0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1001DBD0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C8AC *, the struct the class pass made"
+]
+},
+"0x1001DC20": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CMoResource_VT_1032C8AC) but `this` is not CMoResource_VT_1032C8AC *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1001E050": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CMoResource_VT_1032C880) but `this` is not CMoResource_VT_1032C880 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10021C10": {
+"origin": null,
+"evidence": []
+},
+"0x10025030": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CYyModelDt_VT_1032A430) but `this` is not CYyModelDt_VT_1032A430 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10025060": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CYyModelDt_VT_1032A430) but `this` is not CYyModelDt_VT_1032A430 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100250A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelDt_VT_1032A430 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10025180": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CYyModelDt_VT_1032A430) but `this` is not CYyModelDt_VT_1032A430 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100251A0": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CYyModelDt_VT_1032A430) but `this` is not CYyModelDt_VT_1032A430 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100252D0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032A460 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10026AD0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10027620": {
+"origin": null,
+"evidence": []
+},
+"0x10028730": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10029CB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelDt *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10029DB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelBase *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1002A000": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelDt_VT_1032A72C *, the struct the class pass made"
+]
+},
+"0x1002A080": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelDt_VT_1032A72C *, the struct the class pass made"
+]
+},
+"0x1002A0A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModelDt_VT_1032A72C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1002B530": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyModel *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1002D660": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyOs2VtxBuffer *, the struct the class pass made",
+"comment: tree verification"
+]
+},
+"0x1002D860": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C854 *, the struct the class pass made"
+]
+},
+"0x1002D880": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C854 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1002D8F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C854 *, the struct the class pass made"
+]
+},
+"0x10034170": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CMoResource_VT_1032C828) but `this` is not CMoResource_VT_1032C828 *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10035AE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032A904 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100398B0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyTexBase *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10039950": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyTex *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1003AA70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CYyTexMng *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1003B5A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1003CB30": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CMoCamera) but `this` is not CMoCamera *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1003D010": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1003D960": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoCelestial *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1003E660": {
+"origin": null,
+"evidence": []
+},
+"0x1003EF90": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoVuAnmElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1003EFA0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoVuAnmElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10040E70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXi471011C8_VT_1032B3B8 *, the struct the class pass made",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x100410F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3mSpecularElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10041160": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3mSpecularElem *, the struct the class pass made"
+]
+},
+"0x10041FE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoElem_VT_1032ADE8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10042690": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032AE94 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100431B0": {
+"origin": null,
+"evidence": []
+},
+"0x10043590": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistMorphElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10043720": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistRingElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10043DB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032AF44 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10043E20": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032AFD4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10044950": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10047940": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoSkeletonElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052C50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3aLightmapElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052C60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3aLightmapElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052C70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3aLightmapElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052CB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoD3aElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052D80": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDist *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052DE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoVuDist *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052DF0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoVuDist *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052E50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistMorphElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052E60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistMorphElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052F50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistModelElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10052F60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistModelElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10053000": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDistRingElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10053140": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDisintegrateProgElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10053150": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDisintegrateProgElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100531A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoNullProgElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100531B0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoNullProgElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10053350": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032B654 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10054220": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032B654 *, the struct the class pass made"
+]
+},
+"0x10054450": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032B140 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10054460": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032B680 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10054470": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032B680 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100552C0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoOT *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100552F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoOT *, the struct the class pass made",
+"comment: tree verification"
+]
+},
+"0x100562B0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoSphRes *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10056370": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoPointLightProgElem *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10056400": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoPointLightProgElem *, the struct the class pass made"
+]
+},
+"0x100565A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXi471011C8_VT_1032B478 *, the struct the class pass made",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x10062F50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BCCC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062F60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BAF0 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062F70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BBAC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062F80": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BA60 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062F90": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BA60 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FA0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BF0C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BD14 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FC0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BF54 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FD0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BBF4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BAA8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10062FF0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BAA8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063000": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BD5C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063020": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BC68 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063030": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BDA4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063040": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BFE4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063070": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BB38 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063080": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BDEC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063090": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032C02C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032B9D0 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630B0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032B9D0 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630C0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BE34 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630D0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BE7C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630E0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032B940 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100630F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BA18 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063100": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032BA18 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063110": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BC84 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063120": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032BEC4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063130": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032B988 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063140": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10063480": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoSpline *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10063C50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C55C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10069DB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDX *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1006B070": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoDxStatusMng *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1006C1C0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoOcclusionMng *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1006F0A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoProcessor_VT_1032C298 *, the struct the class pass made",
+"name: DancingMad apply_name (evidence in its comment)"
+]
+},
+"0x1006FAE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoProcessor_VT_1032C298 *, the struct the class pass made"
+]
+},
+"0x1006FC40": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoProcessor_VT_1032C298 *, the struct the class pass made"
+]
+},
+"0x10070E40": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoProcessor_VT_1032C1C8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10070F60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032C490 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071A40": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C8AC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071A60": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C880 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071A80": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C854 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071AA0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C828 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071AC0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C7FC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071AE0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C7D0 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071B00": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C7A4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071B50": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C74C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071B70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C720 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071B90": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C6F4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071BB0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C6C8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071BD0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C69C *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071BF0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C670 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071C40": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C5FC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071C90": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C588 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071D00": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoSphRes *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10071DC0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10072A30": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032C908 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10072A70": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032C908 *, the struct the class pass made"
+]
+},
+"0x10073730": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C934 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100745D0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032C4E8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100745E0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032C5B4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100745F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is Vt_1032C5B4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10074600": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032C628 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10074620": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_1032C588 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10074770": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100817F0": {
+"origin": null,
+"evidence": [
+"type: listed in class pass (CXiActorNameDraw) but `this` is not CXiActorNameDraw *",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x10082080": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x10082090": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100820A0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100820C0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x1008A2F0": {
+"origin": null,
+"evidence": []
+},
+"0x100A27F0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoTask_VT_1032D6D4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100A4830": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4840": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4860": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4870": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4880": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4890": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A48A0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A48C0": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4910": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4920": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4930": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4940": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4950": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100A4960": {
+"origin": null,
+"evidence": [
+"name: DancingMad apply_name (PS2)",
+"comment: tree verification"
+]
+},
+"0x100AB060": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoAttachments_VT_1032E7EC *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100C5540": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXiSkeletonActor *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100D7000": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXiSkeletonActorRes *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x100D70A0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CXiSkeletonActorRes *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"name: DancingMad apply_name (evidence in its comment)",
+"comment: tree verification"
+]
+},
+"0x100D9950": {
+"origin": null,
+"evidence": []
+},
+"0x100D9A70": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x100D9AD0": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x100D9B00": {
+"origin": null,
+"evidence": []
+},
+"0x100DBE00": {
+"origin": null,
+"evidence": []
+},
+"0x100DD920": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x100E2EE0": {
+"origin": null,
+"evidence": []
+},
+"0x101085E0": {
+"origin": null,
+"evidence": []
+},
+"0x1011D000": {
+"origin": null,
+"evidence": []
+},
+"0x1011D010": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1011E980": {
+"origin": null,
+"evidence": []
+},
+"0x10122E20": {
+"origin": null,
+"evidence": []
+},
+"0x10124640": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (high confidence)"
+]
+},
+"0x1013A030": {
+"origin": null,
+"evidence": []
+},
+"0x10152FA0": {
+"origin": null,
+"evidence": []
+},
+"0x10152FC0": {
+"origin": null,
+"evidence": []
+},
+"0x10152FF0": {
+"origin": null,
+"evidence": []
+},
+"0x10153090": {
+"origin": null,
+"evidence": []
+},
+"0x101530C0": {
+"origin": null,
+"evidence": []
+},
+"0x10159970": {
+"origin": null,
+"evidence": []
+},
+"0x10159A20": {
+"origin": null,
+"evidence": []
+},
+"0x10159B10": {
+"origin": null,
+"evidence": []
+},
+"0x1015AF60": {
+"origin": null,
+"evidence": []
+},
+"0x1015AF80": {
+"origin": null,
+"evidence": []
+},
+"0x10176EA0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_10336698 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10176F80": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_103366C4 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x10177000": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_103366F0 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x101771B0": {
+"origin": null,
+"evidence": []
+},
+"0x10181A10": {
+"origin": null,
+"evidence": []
+},
+"0x10184C90": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (medium confidence)"
+]
+},
+"0x10185CA0": {
+"origin": null,
+"evidence": [
+"name: ffxi_ida_fix.py names (medium confidence)"
+]
+},
+"0x10186F30": {
+"origin": null,
+"evidence": [
+"comment: tree verification",
+"comment: FLIRT name removed"
+]
+},
+"0x101893D0": {
+"origin": "session",
+"evidence": [
+"type: `this` is CMoResource_VT_103367E8 *, the struct the class pass made",
+"type: a pre-class prototype is recorded in the script data (its origin is not)",
+"comment: tree verification"
+]
+},
+"0x1018C270": {
+"origin": null,
+"evidence": []
+},
+"0x1018C290": {
+"origin": null,
+"evidence": []
+},
+"0x1019D150": {
+"origin": null,
+"evidence": []
+},
+"0x1019D1C0": {
+"origin": null,
+"evidence": []
+},
+"0x101ACF40": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x101CAF00": {
+"origin": null,
+"evidence": []
+},
+"0x101CB000": {
+"origin": null,
+"evidence": []
+},
+"0x101CB090": {
+"origin": null,
+"evidence": []
+},
+"0x101CB1B0": {
+"origin": null,
+"evidence": []
+},
+"0x101CB230": {
+"origin": null,
+"evidence": []
+},
+"0x101CB430": {
+"origin": null,
+"evidence": []
+},
+"0x101CB500": {
+"origin": null,
+"evidence": []
+},
+"0x101CB550": {
+"origin": null,
+"evidence": []
+},
+"0x102014F0": {
+"origin": null,
+"evidence": []
+},
+"0x10205500": {
+"origin": null,
+"evidence": []
+},
+"0x10206420": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10207730": {
+"origin": null,
+"evidence": []
+},
+"0x10208500": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x10209300": {
+"origin": null,
+"evidence": []
+},
+"0x10209B90": {
+"origin": null,
+"evidence": []
+},
+"0x1020B500": {
+"origin": null,
+"evidence": []
+},
+"0x1020BA40": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1020BE90": {
+"origin": null,
+"evidence": []
+},
+"0x1021EDC0": {
+"origin": null,
+"evidence": []
+},
+"0x1021EDD0": {
+"origin": null,
+"evidence": []
+},
+"0x1021EDE0": {
+"origin": null,
+"evidence": []
+},
+"0x1021EE00": {
+"origin": null,
+"evidence": []
+},
+"0x1021EE20": {
+"origin": null,
+"evidence": []
+},
+"0x1021EE70": {
+"origin": null,
+"evidence": []
+},
+"0x1021EEB0": {
+"origin": null,
+"evidence": []
+},
+"0x1021EF10": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1021F950": {
+"origin": null,
+"evidence": []
+},
+"0x1021FB80": {
+"origin": null,
+"evidence": []
+},
+"0x10220350": {
+"origin": null,
+"evidence": []
+},
+"0x102214D0": {
+"origin": null,
+"evidence": []
+},
+"0x1022B080": {
+"origin": null,
+"evidence": []
+},
+"0x1022B260": {
+"origin": null,
+"evidence": []
+},
+"0x1022BF00": {
+"origin": null,
+"evidence": []
+},
+"0x10257950": {
+"origin": null,
+"evidence": []
+},
+"0x1025E020": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1025E230": {
+"origin": null,
+"evidence": [
+"comment: tree verification"
+]
+},
+"0x1025E240": {
+"origin": null,
+"evidence": []
+},
+"0x1028AB50": {
+"origin": null,
+"evidence": [
+"comment: PS2 counterpart note"
+]
+}
+}

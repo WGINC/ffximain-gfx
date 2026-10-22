@@ -19,7 +19,7 @@ Per function:
 
 Usage: python3 hx2clean.py export.jsonl gate.jsonl manifest.json tree_include_dir out_dir
 """
-import json, os, re, sys
+import glob, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import collections
 from msvc_demangle import demangle
@@ -29,6 +29,7 @@ import partial_regs
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 PS2_NAMES = {}
+REVIEWED = {}                  # reviewed_names(): this repository's reviewed names, by address
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
          'unsigned __int16': 2, '_DWORD': 4, 'int': 4, 'float': 4, 'unsigned int': 4, '__int32': 4,
          'double': 8, '__int64': 8, '_QWORD': 8}
@@ -356,10 +357,26 @@ def canonicalise_names(R, pending):
             o['printed'] = [new if p == nm else p for p in o.get('printed', [])]
             r['objs'].setdefault(new, o); del r['objs'][nm]
 
+def reviewed_names():
+    """{address: entry} of this repository's reviewed names: data/names_pending_idb.json, and each batch's file under
+    data/names/ (pipeline/batch.py; one file per batch, so parallel work does not collide). An address named twice
+    differently is an error to resolve, not a choice to make here."""
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+    out, src = {}, {}
+    for p in [os.path.join(d, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(d, 'names', '*.json'))):
+        for k, v in json.load(open(p)).items():
+            if k.startswith('_'): continue
+            k = '0x%08X' % int(k, 16)
+            if k in out and out[k]['name'] != v['name']:
+                raise SystemExit('%s named %r in %s and %r in %s' % (k, out[k]['name'], src[k], v['name'], p))
+            out[k] = v; src[k] = os.path.basename(p)
+    return out
+
+
 # ------------------------------------------------------------------ main
 def main(exp, gate, manf, incdir, outdir):
     R = {}
-    PS2_NAMES.update(ps2_names())
+    PS2_NAMES.update(ps2_names()); REVIEWED.update(reviewed_names())
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     # EXP and GATE may each be a comma-separated list: the IDA export first, then Ghidra exports (GfxExport.java) of
     # functions it does not hold; a later record of an address already read is ignored
@@ -403,12 +420,15 @@ def main(exp, gate, manf, incdir, outdir):
                      name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True, _exp=_exp)
             r['text'] = re.sub(r'\bFUN_%08x\b' % r['ea'], r['name'], r['text'])
         dmn = _dm.get(hex(r['ea']))
-        if dmn and r['name'].startswith('sub_') and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
-            r['name'] = dmn[0]                       # DancingMad's newer name (Sep 2026 update)
+        if dmn and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
+            r['name'] = dmn[0]                       # DancingMad's name (data/dm_names.json, pipeline/dm_names.py)
+        rv = REVIEWED.get('0x%08X' % r['ea'])
+        if rv and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', rv['name']):
+            r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
         R[r['ea']] = r
-    canonicalise_names(R, json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'names_pending_idb.json'))))
+    canonicalise_names(R, REVIEWED)
     passed = set()
     for gf in gate.split(','):
         for l in open(gf):

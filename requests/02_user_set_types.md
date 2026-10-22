@@ -43,3 +43,17 @@ Produced: `ida/ida_user_types.py`, `data/ida_user_types.json`, `requests/review/
 - `DATA["types"]` has 31 keys; 13 are not user-set in the IDB (listed in `_doc.fix_script_types_not_user_set`). Not
   known why: the fix script's types may not have been applied to this IDB, or were later replaced.
 - `comment` is the regular comment, then the repeatable one, joined by a newline when both exist.
+
+### Addendum, 2026-10-21: Origin filled where the repos record it
+The owner could not say who typed these and asked for the repos to be checked. `pipeline/user_type_origins.py`
+(plain Python) fills the table's **Origin** from recorded sources only and adds an **Evidence** column; it also writes
+`data/ida_user_type_origins.json`.
+- 143 `session`: 141 are methods whose `this` is the struct the class pass of `ida/ffxi_ida_fix.py` made (it is in
+  `DATA["classes"]` and the prototype shows the struct); 2 carry the script's `[conv 2026-10-03]` note.
+- 5 `library`: the prototype prints identically to the SDK symbol (`_atexit`, `__strlwr`, `_strrchr`, `_strncpy`,
+  `SetCursorPos`).
+- 224 blank. Nothing records who typed them. Names do not decide it: DancingMad's `ffxi_symbols_ida.py` applies names
+  and comments from the PS2 symbols and sets no function prototypes, and the two rows with PS2 DWARF entries
+  (0x10057FB0, 0x10251500) do not have the DWARF parameters in their prototypes.
+- These blank rows carry 773 of the table's 849 gate sites, including 31 of the top 34. `session` rows carry 16 and
+  `library` rows 60.

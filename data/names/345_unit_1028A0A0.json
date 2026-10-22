@@ -1,0 +1,3 @@
+{
+"0x1028A0F0": {"name": "Sq_ReadBlock", "confidence": "medium", "evidence": "copies param_2 times param_3 bytes from param_4 to param_1, calls FUN_10292490 when param_5 is nonzero, then FUN_10292130 when FUN_1028A0E0 is nonzero; returns the source pointer advanced past the block; called by sqmoChannelBuildSQO, fn_102851C0, fn_102852E0 and fn_10299D60", "summary": "Reads a block from a stream into a buffer and returns the position after it."}
+}

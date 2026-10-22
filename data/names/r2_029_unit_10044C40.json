@@ -1,0 +1,14 @@
+{
+  "0x10044C40": {
+    "name": "Unit10044C40_ComputeScaledPos",
+    "confidence": "low",
+    "evidence": "copies the floats at this+0x54/0x58/0x5C into the output, multiplies each by one of the three floats of CMoElem_GetAddr78 when CMoElem_GetActiveField0A4 is nonzero and this+0xFC is set, then passes the vector to processor vtable +0x50; the old name's 'world' is not shown",
+    "summary": "Writes the element's position vector at +0x54, scaled per axis by the CMoElem_GetAddr78 floats when the element has an active field, to the output pointer."
+  },
+  "0x10046380": {
+    "name": "Zone_ResetMaterialUpdateFogAmbient",
+    "confidence": "medium",
+    "evidence": "zeroes the 17 dwords at the named global Fn100467E0_material, writes fixed values 1.0, 0.7, 0 and 50.0 to 0x1047BC28-0x1047BC68, then calls XiZone_GetFog and XiZone_GetAmbient and doubles the ambient bytes with saturation",
+    "summary": "Resets the material block and the fog and ambient globals to fixed values, then loads the zone's fog and ambient and stores the ambient colour doubled with saturation."
+  }
+}

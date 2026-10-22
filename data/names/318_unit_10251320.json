@@ -1,0 +1,80 @@
+{
+  "0x10251320": {
+    "name": "StAvatar_UpdateFlag2",
+    "confidence": "low",
+    "evidence": "when the flag at +0 has bit 0x10 set, calls FUN_1026F900 with 4 on the sub-object at +0xC and sets or clears bit 2 of the flag from FUN_1026F7B0",
+    "summary": "Updates the avatar's flag from its sub-object's state."
+  },
+  "0x10251370": {
+    "name": "StAvatar_GetValue2B",
+    "confidence": "low",
+    "evidence": "when the flag at +0 has bit 0x10 set, stores the dword at index param_1 * 0x30 + 0x2B of the table into the out-pointer",
+    "summary": "Returns a value from the avatar's table entry at offset 0x2B."
+  },
+  "0x102513C0": {
+    "name": "StAvatar_GetValue2A",
+    "confidence": "low",
+    "evidence": "when the flag at +0 has bit 0x10 set, stores the dword at index param_1 * 0x30 + 0x2A of the table into the out-pointer",
+    "summary": "Returns a value from the avatar's table entry at offset 0x2A."
+  },
+  "0x10251410": {
+    "name": "StAvatar_ComputeRatioValue",
+    "confidence": "low",
+    "evidence": "when the flag at +0 has bit 0x10 set, computes (field 0xAC - the value at +0x20 of the sub-object) / the value at +0x24, passes it with FUN_1027DF70 and FUN_1027D110 and stores the result in the out-pointer",
+    "summary": "Computes a ratio from the avatar's field and its sub-object's range."
+  },
+  "0x102514C0": {
+    "name": "StAvatarState_Init",
+    "confidence": "low",
+    "evidence": "sets the dword at +4 to 1 and clears the dwords at +0, +8 through +0x20",
+    "summary": "Initialises the avatar state block."
+  },
+  "0x10251620": {
+    "name": "StAvatar_SetActive",
+    "confidence": "low",
+    "evidence": "when the flag at +4 bit 0 is set, toggles, sets or clears bit 2 by the argument (-1, 0 or other), and when bit 2 becomes set calls FUN_10251920 after storing the arguments; otherwise calls StAvatarFini and FUN_10251CE0",
+    "summary": "Activates or deactivates the avatar, clearing its state when it is turned off."
+  },
+  "0x102516B0": {
+    "name": "StAvatar_SetStateTeardown",
+    "confidence": "low",
+    "evidence": "for a state from 0 to 7, stores it at +8 with the argument at +0x10 and, when bit 4 of the flag at +4 is set, calls StAvatar_Teardown",
+    "summary": "Sets the avatar's state and tears it down when it is active."
+  },
+  "0x10251720": {
+    "name": "StAvatar_SetMode",
+    "confidence": "medium",
+    "evidence": "for an argument from 0 to 2, stores it at +0x14 and, when bit 4 of the flag at +4 is set, calls FUN_102507C0 on the avatar with the argument",
+    "summary": "Sets the avatar's mode, passing it to the avatar when it is active."
+  },
+  "0x10251750": {
+    "name": "StAvatar_SetLevel",
+    "confidence": "low",
+    "evidence": "for an argument from 0 to 4, stores it at +0x18 and, when bit 4 of the flag at +4 is set, returns the result of FUN_10250800 on the avatar",
+    "summary": "Sets the avatar's level, applying it to the avatar when it is active."
+  },
+  "0x10251920": {
+    "name": "StAvatar_ResetOrSetFlag2",
+    "confidence": "low",
+    "evidence": "when the argument is -1 clears the dword at +0 and bit 1 of the flag at +4; otherwise sets bit 1 of the flag",
+    "summary": "Resets the avatar's state or sets its second flag bit."
+  },
+  "0x10251960": {
+    "name": "StAvatar_IsFlag20",
+    "confidence": "low",
+    "evidence": "returns the flag at +4 masked with 0x20",
+    "summary": "Returns bit 0x20 of the avatar's flag word."
+  },
+  "0x10251CE0": {
+    "name": "StAvatar_ReleaseMemory",
+    "confidence": "medium",
+    "evidence": "calls FUN_10282590 and FUN_10285740 on the sqgx context, frees the main memory block with Mem_FreeObject and clears its size and base, and clears the work-memory size and base",
+    "summary": "Releases the avatar's memory blocks and clears their globals."
+  },
+  "0x102524B0": {
+    "name": "StAvatarCfg_Init",
+    "confidence": "low",
+    "evidence": "sets the dword at +0 to 1, +8 to 0xFFFFFFFF, and clears the dwords at +4 and +0xC through +0x20",
+    "summary": "Initialises the avatar configuration block."
+  }
+}

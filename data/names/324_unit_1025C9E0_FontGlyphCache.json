@@ -1,0 +1,13 @@
+{
+  "0x1025E050": {"name": "FontGlyphCache_IsStateTwo", "confidence": "low", "evidence": "returns 1 iff DAT_1066276C is nonnull and the dword at its +0x44 is 2", "summary": "Tests whether the object at DAT_1066276C is in state 2."},
+  "0x1025E0B0": {"name": "FontGlyphCache_GetCounterBlock", "confidence": "low", "evidence": "returns the address of DAT_1067A294", "summary": "Returns the address of the counter block at DAT_1067A294."},
+  "0x1025E0C0": {"name": "FontGlyphCache_ResetCounter", "confidence": "low", "evidence": "calls fn_1025E230, which clears DAT_1067A298", "summary": "Clears the counter at DAT_1067A298."},
+  "0x1025E0E0": {"name": "FontGlyphCache_StepCounter", "confidence": "low", "evidence": "calls fn_1025E240, which moves DAT_1067A298 one step toward zero", "summary": "Moves the counter at DAT_1067A298 one step toward zero."},
+  "0x1025E210": {"name": "FontGlyphCache_AddToCounter", "confidence": "low", "evidence": "adds twice the argument to DAT_1067A298", "summary": "Adds twice the argument to the counter at DAT_1067A298."},
+  "0x1025E230": {"name": "FontGlyphCache_ClearCounter", "confidence": "low", "evidence": "stores 0 in DAT_1067A298", "summary": "Sets the counter at DAT_1067A298 to zero."},
+  "0x1025E240": {"name": "FontGlyphCache_DecayCounter", "confidence": "low", "evidence": "when DAT_1067A298 is negative adds 1; when positive subtracts 1", "summary": "Moves the counter at DAT_1067A298 one step toward zero."},
+  "0x1025FF10": {"name": "FontGlyphCache_StoreElapsed158", "confidence": "low", "evidence": "stores timeGetTime minus the dword previously at +0x158 back at +0x158 and returns 0", "summary": "Stores the time elapsed since the last value at +0x158."},
+  "0x10260360": {"name": "FontGlyphCache_NoOpZero", "confidence": "low", "evidence": "body returns 0", "summary": "Returns 0."},
+  "0x1026D179": {"name": "FontGlyphCache_PeekRing", "confidence": "low", "evidence": "returns 0xFFFFFFFF when the read and write indices at +0x4004 and +0x4000 are equal, else the dword at +8 of the entry at the read index (0x10 bytes each)", "summary": "Returns the value at the head of the ring, or -1 when it is empty."},
+  "0x1026DB24": {"name": "FontGlyphCache_MarkState3", "confidence": "low", "evidence": "when the argument is nonnull stores 3 at the byte pointed to by the pointer at +0xC; returns whether the argument is nonnull", "summary": "Sets the state byte at the pointer at +0xC to 3 and returns whether the object exists."}
+}

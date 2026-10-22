@@ -1,0 +1,3 @@
+{
+  "0x1005E110": {"name": "Obj_ClearDword0", "confidence": "low", "evidence": "stores 0 in the dword at offset 0 of the argument object and returns it", "summary": "Clears the first dword of the object."}
+}

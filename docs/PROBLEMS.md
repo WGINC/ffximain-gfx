@@ -119,10 +119,39 @@ The causes of the three FAILs have not been looked into yet.
 - **Dependency:** the gate takes a call's pop count, ECX-as-`this` and compared argument count from
   `callsite_args.json` `"src": "typed"`. Of 8,381 such sites, 4,784 have no other source (2,960 `__thiscall`, 823
   `__stdcall`, 629 `__cdecl`, 301 `__fastcall`, 71 other).
-- **Proposed, awaiting the owner:**
+- **Origins, from the IDB itself** (`data/ida_proto_origin.json`, `ida/ida_proto_origin.py`, run by the owner's
+  local session on `FFXiMain_recon.i64`):
+  - The IDB was checked to be the analysed build: the `.text` sha256 is `b55f8b4c…`, the PE timestamp is
+    `0x6A995428`, and there are no patched bytes.
+  - Of the 4,784 sites with no other source:
+
+    | Origin | Sites |
+    |---|---|
+    | IDA's own default, not user-set | 3,331 |
+    | User-set (owner or a session; IDA does not say which) | 553 |
+    | Inlined helpers, or not in today's decompilation | 623 |
+    | Computed address (now a cast) | 186 |
+    | Identical to the SDK library | 43 |
+    | A session's `[type]` note | 32 |
+    | D3D vtable members (local copies) | 15 |
+    | A local variable | 1 |
+- **Where the gate uses them:** `site_pops` is consulted only for:
+  - calls to imports with no SDK argument count;
+  - calls into other modules (live mode);
+  - calls through a fuzzed function pointer that input repair aims at a trap.
+
+  A direct call to a game function is stubbed with its pops from the callee's `ret N` (`purges.json`), never from
+  this file. So the IDB type decides a pop count only at indirect sites.
+- **Direct sites checked against the callees' `ret N`:**
+  - 3,531 agree;
+  - 275 have no known `ret N`;
+  - 66 disagree. All 66 are `__usercall`/`__userpurge` types (plus `_sprintf`), whose count `callsites.py` took as
+    stack dwords, although such a type places arguments in registers. That rule is removed: those 107 sites are now
+    `"src": "regs"`, not `typed`. They were direct calls, so no verdict used them.
+- **Still open:** 912 indirect typed-only sites. Their count comes only from the IDB type, and 553 user-set types
+  cannot be told apart between the owner and sessions. The proposal stands, awaiting the owner:
   - an IDB prototype counts only with a recorded definitive origin (SDK, PS2 DWARF, owner-typed);
-  - direct calls take their pops from the callee's `ret N` and `this` from `ecx_this_sites`;
-  - the rest become UNRESOLVED.
+  - the rest become UNRESOLVED where the gate needs them.
 
 ## Resolved
 

@@ -549,3 +549,17 @@ class MsvcUnit(unittest.TestCase):
         d, a = T.global_decls('return g_p;', g)
         self.assertEqual(d, 'class CDx;\ntypedef CDx * g_p_t;\nextern g_p_t g_p;\n')
         self.assertEqual(a, {'g_p': 0x10400000})
+
+
+class CallsiteArgs(unittest.TestCase):
+    """callsites.py: a stack count only for a standard convention"""
+    def test_usercall_is_not_a_stack_count(self):
+        import callsites as C, tempfile, json as J
+        d = tempfile.mkdtemp(); e = os.path.join(d, 'e.jsonl'); o = os.path.join(d, 'o.json')
+        open(e, 'w').write(J.dumps({'calls': {'0x1': [3, 'other', 'typed'], '0x2': [3, 'thiscall', 'typed'],
+                                              '0x3': [2, 'fastcall', 'typed'], '0x4': [2, 'other', 'cast']}}) + '\n')
+        C.main(e, o); r = J.load(open(o))
+        self.assertEqual(r['0x1'], {'args': 3, 'cc': 'other', 'src': 'regs'})
+        self.assertEqual(r['0x2'], {'args': 2, 'cc': 'thiscall', 'src': 'typed'})
+        self.assertEqual(r['0x3'], {'args': 0, 'cc': 'fastcall', 'src': 'typed'})
+        self.assertEqual(r['0x4']['src'], 'cast')

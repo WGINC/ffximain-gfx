@@ -1,4 +1,4 @@
-# Batch r2_135_sqsnScene: 22 functions of `sqsnScene`
+# Batch r2_135_sqsnScene: 13 functions of `sqsnScene`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_135_sqsnScene.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
@@ -135,85 +135,6 @@ XI_API void __cdecl fn_1028E350(undefined4 * param_1)
   param_1[0xc] = 0x100;
   *(uint8_t *)(param_1 + 0xb) = 1;
   SqrdTexture_Init(param_1 + 0x13);
-  return;
-}
-```
-
-## `0x1028EBF0` fn_1028EBF0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_1024FDF0`
-- **Named before** (a naming session's reading, low): `SqsnScene_SetItemFloat14`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `fn_1024DB60` → `sub_1024FDF0` → `SqsnScene_SetItemFloat14`
-
-```cpp
-XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float param_3)
-{
-  *(float *)(*(int *)(param_1 + 0x48) + 0x14 + param_2 * 0x2c) = (float)(long double)param_3;
-  return;
-}
-```
-
-## `0x1028EC50` fn_1028EC50
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `fn_10270B60`
-- **Named before** (a naming session's reading, low): `SqsnScene_SetItemByte19`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatarInit` → `fn_10270B60` → `SqsnScene_SetItemByte19`
-- **Named callers' callers:** `StAvatarInit`
-- **How its callers call it** (their verified code):
-  - in `fn_10270B60`: `SqsnScene_SetItemByte19(0x1099b13c,2,1);`
-
-```cpp
-XI_API void __cdecl SqsnScene_SetItemByte19(int param_1, int param_2, undefined4 param_3)
-{
-  *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x19 + param_2 * 0x2c) = (uint8_t)param_3;
-  return;
-}
-```
-
-## `0x1028ECC0` fn_1028ECC0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `fn_10270B60`, `StAvatar_SetEntryFlag` (low)
-- **Named before** (a naming session's reading, low): `SqsnScene_SetByteAt28`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatarInit` → `fn_10270B60` → `SqsnScene_SetByteAt28`
-- **Named callers' callers:** `StAvatarInit`
-- **How its callers call it** (their verified code):
-  - in `fn_10270B60`: `SqsnScene_SetByteAt28(0x1099b13c,iVar2,(uint32_t)(iVar1 != 4));`
-  - in `StAvatar_SetEntryFlag` (low): `SqsnScene_SetByteAt28(0x1099b13c,iVar1,1);`
-  - in `StAvatar_SetEntryFlag` (low): `SqsnScene_SetByteAt28(0x1099b13c,iVar1,1);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `StAvatar_SetEntryFlag` (low): Sets or clears the scene flag for one avatar part.
-
-```cpp
-XI_API void __cdecl SqsnScene_SetByteAt28(int param_1, int param_2, undefined4 param_3)
-{
-  *(uint8_t *)(param_2 + *(int *)(param_1 + 0x28)) = (uint8_t)param_3;
-  return;
-}
-```
-
-## `0x1028ECE0` fn_1028ECE0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `StAvatar_SetFlag3` (low)
-- **Named before** (a naming session's reading, low): `SqsnScene_SetItemByte18`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatarInit` → `fn_10270B60` → `StAvatar_SetFlag3` → `SqsnScene_SetItemByte18`
-- **How its callers call it** (their verified code):
-  - in `StAvatar_SetFlag3` (low): `SqsnScene_SetItemByte18(0x1099b13c,3,1);`
-  - in `StAvatar_SetFlag3` (low): `SqsnScene_SetItemByte18(0x1099b13c,3,1);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `StAvatar_SetFlag3` (low): Sets or clears scene flag 3.
-
-```cpp
-XI_API void __cdecl SqsnScene_SetItemByte18(int param_1, int param_2, undefined4 param_3)
-{
-  *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x18 + param_2 * 0x2c) = (uint8_t)param_3;
   return;
 }
 ```
@@ -440,26 +361,6 @@ XI_API int __cdecl fn_1028F130(int param_1, undefined4 param_2)
 }
 ```
 
-## `0x1028F220` fn_1028F220
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `StAvatar_SelectIndex` (low)
-- **Named before** (a naming session's reading, low): `SqsnScene_SetItemDword28`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatarInit` → `fn_10270B60` → `StAvatar_SelectIndex` → `SqsnScene_SetItemDword28`
-- **How its callers call it** (their verified code):
-  - in `StAvatar_SelectIndex` (low): `SqsnScene_SetItemDword28(0x1099b13c,DAT_1099b100,4);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `StAvatar_SelectIndex` (low): Selects the scene slot for an avatar part.
-
-```cpp
-XI_API void __cdecl SqsnScene_SetItemDword28(int param_1, int param_2, undefined4 param_3)
-{
-  *(uint32_t *)(*(int *)(param_1 + 0x40) + 0x28 + param_2 * 0x30) = param_3;
-  return;
-}
-```
-
 ## `0x1028F3C0` fn_1028F3C0
 
 - **Gate:** none; **frame set:** static
@@ -487,80 +388,6 @@ XI_API void __cdecl fn_1028F3C0(int param_1, int param_2, undefined4 param_3)
                         s_C__dev_dancer_modules_sqScene_sr_103ba694,0x2c2);
   *(undefined4 **)(iVar4 + 8) = puVar3;
   puVar3[iVar2] = param_3;
-  return;
-}
-```
-
-## `0x1028F430` fn_1028F430
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_10273810`, `sub_10278BF0`, `sub_10278C80`, `sub_10278D90`, `sub_1028F280`, `sub_1028F2A0`
-- **Named before** (a naming session's reading, low): `SqsnScene_GetEntryAddr`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_SetStateTeardown` → `StAvatar_Teardown` → `StAvatar_Reset` → `sub_1026ECC0` → `sub_10273810` → `SqsnScene_GetEntryAddr`
-
-```cpp
-XI_API int __cdecl SqsnScene_GetEntryAddr(int param_1, uint32_t param_2)
-{
-  return (param_2 & 0x7fff) * 0x90 +
-         *(int *)(*(int *)(param_1 + 0x48) + 0x28 + ((int)param_2 >> 0x10) * 0x2c);
-}
-```
-
-## `0x1028F4A0` fn_1028F4A0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_10273160`, `fn_102733B0`, `fn_10273560`
-- **Named before** (a naming session's reading, low): `SqsnScene_SetCursorIfInRange`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `fn_1024DB60` → `StAvatar_Start` → `fn_102733B0` → `SqsnScene_SetCursorIfInRange`
-- **Named callers' callers:** `StAvatar_Start`
-- **How its callers call it** (their verified code):
-  - in `fn_102733B0`: `SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[param_1]);`
-  - in `fn_102733B0`: `SqsnScene_SetCursorIfInRange(0x1099b13c,DAT_1099b1cc);`
-  - in `fn_10273560`: `SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[DAT_1099b0f4]);`
-
-```cpp
-XI_API void __cdecl SqsnScene_SetCursorIfInRange(int param_1, int param_2)
-{
-  if (param_2 < *(int *)(param_1 + 0x14)) {
-    *(int *)(param_1 + 0x1c) = param_2;
-  }
-  return;
-}
-```
-
-## `0x1028F4C0` fn_1028F4C0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `sqgxMatrixShape`, `sub_102A1F20`
-- **Called by:** `sqsnSceneLayerDraw`, `sqsnSceneLayerDrawShadowed`
-- **Named before** (a naming session's reading, low): `SqsnScene_DrawMatrixShape`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `Frame_Render` → `Dancer_WorldEnd` → `StAvatar_RenderIfEnabled` → `StAvatarRender` → `StAvatar_DrawScene` → `sqsnSceneDraw` → `sqsnSceneLayerDraw` → `SqsnScene_DrawMatrixShape`
-- **Named callers' callers:** `sqsnSceneDraw`
-- **Named callees' callees:** `M4fTranspose`, `sqgxBlendAdd`, `sqgxBlendOff`, `sqgxPassAdd`, `sqgxPass`, `sqgxContext_SelectShaderMode`, `sqDrawableDraw`, `SqsdGlow_ApplyShader`, `Sqgx_ResetPendingList`, `Sqgx_AddPendingEntry`, `Unit102A34D0_ApplyLighting`
-- **How its callers call it** (their verified code):
-  - in `sqsnSceneLayerDraw`: `SqsnScene_DrawMatrixShape(param_1,piVar6);`
-  - in `sqsnSceneLayerDraw`: `SqsnScene_DrawMatrixShape(piVar2,piVar6);`
-  - in `sqsnSceneLayerDrawShadowed`: `SqsnScene_DrawMatrixShape(param_1,piVar7);`
-  - in `sqsnSceneLayerDrawShadowed`: `SqsnScene_DrawMatrixShape(piVar3,piVar7);`
-
-Short callee `sqgxMatrixShape`:
-```cpp
-XI_API void __cdecl sqgxMatrixShape(undefined4 * param_1)
-{
-  orig::M4fTranspose_v1((uint32_t *)(g_pSqgxContext_as_s32 + 0x1c8),param_1);
-  g_sqgxViewportDirty_as_v0 = 1;
-  return;
-}
-```
-
-```cpp
-XI_API void __cdecl SqsnScene_DrawMatrixShape(undefined4 param_1, int * param_2)
-{
-  orig::sqgxMatrixShape_v1((uint32_t *)param_2[1]);
-  orig::FUN_102a1f20((int *)param_2[6],param_2);
   return;
 }
 ```
@@ -725,22 +552,6 @@ XI_API void __cdecl fn_1028FF80(int param_1)
   orig::sqgxSprite_v1(0,0,0x100,0x100,0,0,-1,-1);
   orig::sqgxTextureDraw_v1(iVar1,1);
   orig::sqgxZTest_v1(1);
-  return;
-}
-```
-
-## `0x10290430` fn_10290430
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sqsnSceneDraw`
-- **Named before** (a naming session's reading, low): `SqsnScene_NoOp`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldEnd` → `StAvatar_RenderIfEnabled` → `StAvatarRender` → `StAvatar_DrawScene` → `sqsnSceneDraw` → `SqsnScene_NoOp`
-- **Named callers' callers:** `StAvatar_DrawScene`
-
-```cpp
-XI_API void __cdecl SqsnScene_NoOp(void)
-{
   return;
 }
 ```

@@ -1,27 +1,7 @@
-# Batch r2_193_unit_10244EA0_LobbyThread: 19 functions of `unit_10244EA0_LobbyThread`
+# Batch r2_193_unit_10244EA0_LobbyThread: 10 functions of `unit_10244EA0_LobbyThread`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_193_unit_10244EA0_LobbyThread.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
-
-## `0x10244F20` fn_10244F20
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `YkZip_Construct` (medium)
-- **Named before** (a naming session's reading, low): `LobbyThread_NoOp`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `sub_10013AD0` → `GameSystems_InitializeAll` → `YkZip_Construct` → `LobbyThread_NoOp`
-- **Named callers' callers:** `GameSystems_InitializeAll`
-- **How its callers call it** (their verified code):
-  - in `YkZip_Construct` (medium): `LobbyThread_NoOp();`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `YkZip_Construct` (medium): Constructs the zip object and sets its vtable and defaults.
-
-```cpp
-XI_API void __cdecl LobbyThread_NoOp(void)
-{
-  return;
-}
-```
 
 ## `0x10245040` fn_10245040
 
@@ -40,26 +20,6 @@ XI_API void __thiscall fn_10245040(void * self_)
 {
   *(uint32_t *)((int)self_ + 0x14) = 2;
   return;
-}
-```
-
-## `0x10245B50` fn_10245B50
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `Frame_Render`
-- **Writes globals:** `0x106690AC`
-- **Named before** (a naming session's reading, low): `LobbyThread_SetGlobal106690AC`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `LobbyThread_SetGlobal106690AC`
-- **Named callers' callers:** `App_RenderFrameMaskedFPU`
-- **How its callers call it** (their verified code):
-  - in `Frame_Render`: `LobbyThread_SetGlobal106690AC(1);`
-
-```cpp
-XI_API undefined4 __cdecl LobbyThread_SetGlobal106690AC(undefined4 param_1)
-{
-  _DAT_106690ac = param_1;
-  return 0;
 }
 ```
 
@@ -115,30 +75,6 @@ XI_API undefined4 __cdecl fn_10245BE0(void)
   
   uVar1 = orig::FUN_10039590(DAT_10669098,1);
   return uVar1;
-}
-```
-
-## `0x10246000` fn_10246000
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 8`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `fn_100360F0`, `fn_10036B90`, `sub_10245EB0`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd0`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `XiZone_DrawScene` → `fn_1018B8B0` → `fn_10036170` → `fn_10036B90` → `LobbyThread_SendCmd0`
-- **Named callers' callers:** `CYySoundElem_ClearHandle`, `CMoSchedularTask_Interpret`
-- **How its callers call it** (their verified code):
-  - in `fn_100360F0`: `uVar2 = LobbyThread_SendCmd0(DAT_10463920,DAT_1046391c);`
-  - in `fn_10036B90`: `LobbyThread_SendCmd0(param_1,*(uint32_t *)((int)self_ + 0x38));`
-
-```cpp
-XI_API undefined4 __stdcall LobbyThread_SendCmd0(undefined4 param_1, undefined4 param_2)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::FUN_1024c060(0,param_1,param_2,0,0,0,0,0);
-  return (int)uVar1;
 }
 ```
 
@@ -300,68 +236,6 @@ XI_API uint64_t __stdcall fn_10246160(undefined4 param_1, int param_2, int param
 }
 ```
 
-## `0x102462F0` fn_102462F0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 12`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `sub_10038440`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd3`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `fn_10036230` → `fn_100364A0` → `fn_100364E0` → `sub_10038440` → `LobbyThread_SendCmd3`
-
-```cpp
-XI_API void __stdcall LobbyThread_SendCmd3(undefined4 param_1, uint32_t param_2, undefined4 param_3)
-{
-  orig::FUN_1024c060(3,param_1,0,param_2 & 0x7f,param_3,0,0,0);
-  return;
-}
-```
-
-## `0x10246320` fn_10246320
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 12`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `fn_10038470`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd4`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `fn_10036230` → `fn_100364A0` → `fn_100364E0` → `fn_10038470` → `LobbyThread_SendCmd4`
-- **How its callers call it** (their verified code):
-  - in `fn_10038470`: `xi_eax = LobbyThread_SendCmd4(param_1,xi_eax,param_3);`
-
-```cpp
-XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t param_2, undefined4 param_3)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::FUN_1024c060(4,param_1,0,param_2 & 0x7f,param_3,0,0,0);
-  return (int)uVar1;
-}
-```
-
-## `0x102463C0` fn_102463C0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 4`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `fn_100149B0`, `sub_10037400`, `fn_10037A10`, `LobbyThread_Proc`, `sub_10245EB0`, `sub_10250030`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd6`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `fn_100149B0` → `LobbyThread_SendCmd6`
-- **Named callers' callers:** `Frame_Render`
-- **How its callers call it** (their verified code):
-  - in `fn_100149B0`: `LobbyThread_SendCmd6(0xffffffff);`
-  - in `fn_10037A10`: `LobbyThread_SendCmd6(0xffffffff);`
-
-```cpp
-XI_API void __stdcall LobbyThread_SendCmd6(undefined4 param_1)
-{
-  orig::FUN_1024c060(6,param_1,0,0,0,0,0,0);
-  return;
-}
-```
-
 ## `0x102463F0` fn_102463F0
 
 - **Gate:** none; **frame set:** static
@@ -497,68 +371,6 @@ LAB_10246691:
     }
   }
   return param_1;
-}
-```
-
-## `0x10246770` fn_10246770
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 12`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `sub_10017690`, `sub_100372A0`, `sub_100372E0`, `sub_10037400`, `sub_100378B0`, `sub_10037A30`, `sub_10250030`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd8`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `fn_1024DB60` → `sub_10250030` → `LobbyThread_SendCmd8`
-
-```cpp
-XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2, undefined4 param_3)
-{
-  orig::FUN_1024c060(8,param_1,param_2 & 0x7f,param_3,0,0,0,0);
-  return;
-}
-```
-
-## `0x102467A0` fn_102467A0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 8`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `sub_10018850`, `sub_10037400`, `sub_100378B0`, `sub_10037A70`, `LobbyThread_Proc`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd9`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `sub_10018850` → `LobbyThread_SendCmd9`
-- **Named callers' callers:** `Frame_Render`
-
-```cpp
-XI_API void __stdcall LobbyThread_SendCmd9(undefined4 param_1, undefined4 param_2)
-{
-  orig::FUN_1024c060(9,param_1,param_2,0,0,0,0,0);
-  return;
-}
-```
-
-## `0x102467F0` fn_102467F0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 4`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_1024C060`
-- **Called by:** `Acter_ShutdownGlobals` (medium), `sub_10093E50`
-- **Reads globals:** `0x106690B0`
-- **Named before** (a naming session's reading, low): `LobbyThread_SendCmd11`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `fn_10014C10` → `Acter_ShutdownGlobals` → `LobbyThread_SendCmd11`
-- **How its callers call it** (their verified code):
-  - in `Acter_ShutdownGlobals` (medium): `LobbyThread_SendCmd11(0xffffffff);`
-  - in `Acter_ShutdownGlobals` (medium): `LobbyThread_SendCmd11(0xffffffff);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `Acter_ShutdownGlobals` (medium): Tears down the module's global objects and actor slots.
-
-```cpp
-XI_API uint64_t __stdcall LobbyThread_SendCmd11(undefined4 param_1)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::FUN_1024c060(0xb,param_1,0,0,0,0,0,0);
-  return uVar1;
 }
 ```
 

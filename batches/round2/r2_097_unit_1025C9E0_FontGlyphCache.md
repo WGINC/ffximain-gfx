@@ -1,4 +1,4 @@
-# Batch r2_097_unit_1025C9E0_FontGlyphCache: 33 functions of `unit_1025C9E0_FontGlyphCache`
+# Batch r2_097_unit_1025C9E0_FontGlyphCache: 22 functions of `unit_1025C9E0_FontGlyphCache`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_097_unit_1025C9E0_FontGlyphCache.json`.
 1 of them were sampled in a running frame (data/frame_set.json).
@@ -20,94 +20,6 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1025E020(undefined4 xi_e
 }
 ```
 
-## `0x1025E050` fn_1025E050
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_100016C0`, `sub_1001EE60`, `sub_100A6240`, `sub_10122E30`, `Cursor_HandleMouseMove` (medium), `Cursor_EnterMode1` (low), `Cursor_EnterMode2` (low), `Cursor_EnterMode4` (low), `sub_10124BC0`, `fn_10125040`, `fn_10125170`, `sub_10125360`, `sub_10125FE0`, `fn_101585F0`, `Menu_DispatchEvent7` (low), `sub_1019D320`, `sub_1019D3B0`, `sub_101B4270`
-- **Reads globals:** `0x1066276C`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_IsStateTwo`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `sub_100016C0` → `FontGlyphCache_IsStateTwo`
-- **Named callers' callers:** `CApp::RunMainLoop`, `Input_DispatchButtons`, `XiControlActor_UpdateCamera`, `Target_Update`, `Menu_DrawLayers`, `Menu_DrawAll`, `Config_LoadAltTable`
-- **How its callers call it** (their verified code):
-  - in `Cursor_HandleMouseMove` (medium): `uVar1 = FontGlyphCache_IsStateTwo();`
-  - in `Cursor_EnterMode1` (low): `uVar1 = FontGlyphCache_IsStateTwo();`
-  - in `Cursor_EnterMode1` (low): `uVar1 = FontGlyphCache_IsStateTwo();`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `Cursor_HandleMouseMove` (medium): Passes a mouse move to the cursor's mouse handler, first updating the menu when the cursor is active.
-  - `Cursor_EnterMode1` (low): Enters cursor mode 1 once, recording the current position.
-  - `Cursor_EnterMode2` (low): Enters cursor mode 2 once, recording the current position.
-  - `Cursor_EnterMode4` (low): Enters cursor mode 4 once, recording the current position.
-  - `Menu_DispatchEvent7` (low): Sends menu event 7 under a condition.
-
-```cpp
-XI_API undefined4 __cdecl FontGlyphCache_IsStateTwo(void)
-{
-  if ((DAT_1066276c != 0) && (*(int *)(DAT_1066276c + 0x44) == 2)) {
-    return 1;
-  }
-  return 0;
-}
-```
-
-## `0x1025E0B0` fn_1025E0B0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `App_Destructor`, `App_InitScene`, `Frame_Render`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_GetCounterBlock`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_InitScene` → `FontGlyphCache_GetCounterBlock`
-- **Named callers' callers:** `CApp::RunMainLoop`, `App_RenderFrameMaskedFPU`
-- **How its callers call it** (their verified code):
-  - in `App_InitScene`: `FontGlyphCache_GetCounterBlock();`
-  - in `Frame_Render`: `FontGlyphCache_GetCounterBlock();`
-  - in `Frame_Render`: `FontGlyphCache_GetCounterBlock();`
-
-```cpp
-XI_API uint8_t * __cdecl FontGlyphCache_GetCounterBlock(void)
-{
-  return(uint8_t*)(&DAT_1067a294);
-}
-```
-
-## `0x1025E0C0` fn_1025E0C0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `App_InitScene`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_ResetCounter`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_InitScene` → `FontGlyphCache_ResetCounter`
-- **Named callers' callers:** `CApp::RunMainLoop`
-- **How its callers call it** (their verified code):
-  - in `App_InitScene`: `FontGlyphCache_ResetCounter();`
-
-```cpp
-XI_API void __cdecl FontGlyphCache_ResetCounter(void)
-{
-  FontGlyphCache_ClearCounter();
-  return;
-}
-```
-
-## `0x1025E0E0` fn_1025E0E0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `Frame_Render`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_StepCounter`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `FontGlyphCache_StepCounter`
-- **Named callers' callers:** `App_RenderFrameMaskedFPU`
-- **How its callers call it** (their verified code):
-  - in `Frame_Render`: `FontGlyphCache_StepCounter();`
-
-```cpp
-XI_API void __cdecl FontGlyphCache_StepCounter(void)
-{
-  FontGlyphCache_DecayCounter();
-  return;
-}
-```
-
 ## `0x1025E0F0` fn_1025E0F0
 
 - **Gate:** none; **frame set:** static
@@ -122,79 +34,6 @@ XI_API void __cdecl FontGlyphCache_StepCounter(void)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1025E0F0(undefined4 xi_eax)
 {
   return orig::FUN_1025e020(xi_eax);
-}
-```
-
-## `0x1025E210` fn_1025E210
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `Unit100014A0_ForwardMouseMove` (low), `Cursor_HandleMouseMove` (medium)
-- **Writes globals:** `0x1067A298`
-- **Reads globals:** `0x1067A298`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_AddToCounter`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `sub_100016C0` → `Unit100014A0_ForwardMouseMove` → `FontGlyphCache_AddToCounter`
-- **How its callers call it** (their verified code):
-  - in `Unit100014A0_ForwardMouseMove` (low): `FontGlyphCache_AddToCounter((int)(short)param_1 / 0x78);`
-  - in `Cursor_HandleMouseMove` (medium): `FontGlyphCache_AddToCounter((int)(short)param_2);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `Unit100014A0_ForwardMouseMove` (low): Forwards a vertical mouse movement to the menu cursor or to the input handler.
-  - `Cursor_HandleMouseMove` (medium): Passes a mouse move to the cursor's mouse handler, first updating the menu when the cursor is active.
-
-```cpp
-XI_API void __cdecl FontGlyphCache_AddToCounter(int param_1)
-{
-  DAT_1067a298 = DAT_1067a298 + param_1 * 2;
-  return;
-}
-```
-
-## `0x1025E230` fn_1025E230
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_1001EE60`, `FontGlyphCache_ResetCounter` (low)
-- **Writes globals:** `0x1067A298`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_ClearCounter`; name it again from this dossier, or leave it out to keep that name
-- **Named callers' callers:** `App_InitScene`, `XiControlActor_UpdateCamera`
-- **How its callers call it** (their verified code):
-  - in `FontGlyphCache_ResetCounter` (low): `FontGlyphCache_ClearCounter();`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `FontGlyphCache_ResetCounter` (low): Clears the counter at DAT_1067A298.
-
-```cpp
-XI_API void __cdecl FontGlyphCache_ClearCounter(void)
-{
-  DAT_1067a298_as_v0 = 0;
-  return;
-}
-```
-
-## `0x1025E240` fn_1025E240
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `FontGlyphCache_StepCounter` (low)
-- **Writes globals:** `0x1067A298`
-- **Reads globals:** `0x1067A298`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_DecayCounter`; name it again from this dossier, or leave it out to keep that name
-- **Named callers' callers:** `Frame_Render`
-- **How its callers call it** (their verified code):
-  - in `FontGlyphCache_StepCounter` (low): `FontGlyphCache_DecayCounter();`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `FontGlyphCache_StepCounter` (low): Moves the counter at DAT_1067A298 one step toward zero.
-
-```cpp
-XI_API void __cdecl FontGlyphCache_DecayCounter(void)
-{
-  if (DAT_1067a298 < 0) {
-    DAT_1067a298 = DAT_1067a298 + 1;
-    return;
-  }
-  if (0 < DAT_1067a298) {
-    DAT_1067a298 = DAT_1067a298 + -1;
-  }
-  return;
 }
 ```
 
@@ -425,37 +264,6 @@ XI_API void __thiscall fn_1025FE40(void * self_)
   *(uint32_t *)((int)self_ + 0x118) = 0;
   *(uint32_t *)((int)self_ + 0x11c) = 0;
   return;
-}
-```
-
-## `0x1025FF10` fn_1025FF10
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Imports:** `timeGetTime`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_StoreElapsed158`; name it again from this dossier, or leave it out to keep that name
-
-```cpp
-XI_API undefined4 __thiscall FontGlyphCache_StoreElapsed158(void * self_)
-{
-  DWORD DVar1;
-  
-  DVar1 = timeGetTime();
-  *(DWORD *)((int)self_ + 0x158) = DVar1 - *(int *)((int)self_ + 0x158);
-  return 0;
-}
-```
-
-## `0x10260360` fn_10260360
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Named before** (a naming session's reading, low): `FontGlyphCache_NoOpZero`; name it again from this dossier, or leave it out to keep that name
-
-```cpp
-XI_API undefined4 __cdecl FontGlyphCache_NoOpZero(void)
-{
-  return 0;
 }
 ```
 
@@ -712,32 +520,6 @@ XI_API undefined4 __cdecl fn_1026D0CA(int param_1, undefined4 param_2)
 }
 ```
 
-## `0x1026D179` fn_1026D179
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_1026A8AD`, `sub_1026BE54`, `fn_1026DB8F`, `fn_1026DBF0`
-- **Named before** (a naming session's reading, low): `FontGlyphCache_PeekRing`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `sub_100DAF30` → `sub_100DA750` → `sub_100ED7E0` → `fn_10115610` → `fn_1026DBF0` → `FontGlyphCache_PeekRing`
-- **How its callers call it** (their verified code):
-  - in `fn_1026DB8F`: `xi_eax = FontGlyphCache_PeekRing(param_1 + 0xc044);`
-  - in `fn_1026DBF0`: `uVar1 = FontGlyphCache_PeekRing(param_1 + 0x4034);`
-
-```cpp
-XI_API undefined4 __cdecl FontGlyphCache_PeekRing(int param_1)
-{
-  uint32_t uVar1;
-  
-  if (*(int *)(param_1 + 0x4004) == *(int *)(param_1 + 0x4000)) {
-    uVar1 = 0xffffffff;
-  }
-  else {
-    uVar1 = *(uint32_t *)(param_1 + 8 + *(int *)(param_1 + 0x4004) * 0x10);
-  }
-  return uVar1;
-}
-```
-
 ## `0x1026D70C` fn_1026D70C
 
 - **Gate:** none; **frame set:** static
@@ -806,28 +588,6 @@ XI_API undefined4 __cdecl fn_1026D866(int param_1, undefined4 * param_2, uint8_t
   local_8 = (uint8_t *)0x1026d9ad;
   uVar1 = orig::FUN_10316d6b(1);
   return uVar1;
-}
-```
-
-## `0x1026DB24` fn_1026DB24
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `Unit100D7420_ArmCounter10` (low)
-- **Named before** (a naming session's reading, low): `FontGlyphCache_MarkState3`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `sub_100DAF30` → `sub_100DA750` → `sub_100EE160` → `Unit100D7420_ArmCounter10` → `FontGlyphCache_MarkState3`
-- **How its callers call it** (their verified code):
-  - in `Unit100D7420_ArmCounter10` (low): `FontGlyphCache_MarkState3(param_1 + 0x3f12c);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `Unit100D7420_ArmCounter10` (low): Arms the counter at +0x4F1A8 to 10 and marks the object at +0x3F12C.
-
-```cpp
-XI_API unsigned char __cdecl FontGlyphCache_MarkState3(int param_1)
-{
-  if (param_1 != 0) {
-    **(uint8_t **)(param_1 + 0xc) = 3;
-  }
-  return param_1 != 0;
 }
 ```
 

@@ -47,6 +47,8 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
 Only frame-time functions (`data/frame_set.json`). The dossiers carry more: strings, named globals, the callers'
 call lines, named functions two calls away, the chain of calls from the frame root, short callees' code, and calls
 written with their callees' current names. The rules above are unchanged.
+- **Trimmed (22 Oct):** retaking round 1's names changed none of them, so the batches not yet done no longer hold
+  functions named in round 1; batches that held only those are gone. Skip a batch whose file is missing.
 - **Named before:** a function named in round 1 only with `low` confidence, or whose area word was replaced, shows
   that name. Write a better name only when this dossier shows more than the old name says; otherwise leave the
   function out of your file and the old name stays.

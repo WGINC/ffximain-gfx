@@ -1,41 +1,7 @@
-# Batch r2_110_YkFurniture: 2 functions of `YkFurniture`
+# Batch r2_110_YkFurniture: 1 functions of `YkFurniture`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_110_YkFurniture.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
-
-## `0x101CCE00` fn_101CCE00
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `Unit100C51C0_ForwardToCce00` (low), `sub_101CD3B0`, `sub_101CDA60`
-- **Named before** (a naming session's reading, low): `Yk_MapCodeOffset`; name it again from this dossier, or leave it out to keep that name
-- **Named callers' callers:** `Unit100C51C0_MapCodeIndex`
-- **How its callers call it** (their verified code):
-  - in `Unit100C51C0_ForwardToCce00` (low): `return Yk_MapCodeOffset(param_1);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `Unit100C51C0_ForwardToCce00` (low): Forwards its argument to FUN_101cce00.
-
-```cpp
-XI_API int __cdecl Yk_MapCodeOffset(int param_1)
-{
-  int iVar1;
-  
-  iVar1 = 0x809f;
-  if (param_1 < 0x100) {
-    return param_1 + 0x809f;
-  }
-  if (param_1 < 0x200) {
-    return param_1 + 0xc7ef;
-  }
-  if (param_1 < 0xe00) {
-    return 0;
-  }
-  if ((param_1 < 0xf00) || (param_1 < 0x1000)) {
-    iVar1 = param_1 + 0xe75b;
-  }
-  return iVar1;
-}
-```
 
 ## `0x101CD900` fn_101CD900
 

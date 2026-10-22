@@ -1,4 +1,4 @@
-# Batch r2_106_StChannel: 5 functions of `StChannel`
+# Batch r2_106_StChannel: 2 functions of `StChannel`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_106_StChannel.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
@@ -72,105 +72,6 @@ XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param
     }
   }
   return 0xffffffff;
-}
-```
-
-## `0x10251160` fn_10251160
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `StAvatar_Reset` (medium)
-- **Named before** (a naming session's reading, low): `StChannel_ClearFlags`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_SetStateTeardown` → `StAvatar_Teardown` → `StAvatar_Reset` → `StChannel_ClearFlags`
-- **Named callers' callers:** `StAvatar_Teardown`, `StAvatar_Unload`
-- **How its callers call it** (their verified code):
-  - in `StAvatar_Reset` (medium): `StChannel_ClearFlags(puVar2);`
-  - in `StAvatar_Reset` (medium): `StChannel_ClearFlags(puVar2 + -0x1c);`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `StAvatar_Reset` (medium): Resets an avatar's indices and channel entries.
-
-```cpp
-XI_API undefined4 __cdecl StChannel_ClearFlags(uint32_t * param_1)
-{
-  param_1[3] = 0xffffffff;
-  *param_1 = *param_1 & 0xffffffed;
-  return 0;
-}
-```
-
-## `0x10251180` fn_10251180
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `fn_101C4A30`
-- **Called by:** `StAvatar_StopAndFreeBuffers`
-- **Reads globals:** `0x10662DCC`
-- **Named before** (a naming session's reading, low): `StChannel_MarkIfLoaded`; name it again from this dossier, or leave it out to keep that name
-- **Named globals** (TREE/include/gfx_globals.hpp): `g_pFileMng`
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `fn_10014C10` → `StAvatar_SetActive` → `StAvatarFini` → `StAvatar_StopAndFreeBuffers` → `StChannel_MarkIfLoaded`
-- **Named callers' callers:** `StAvatar_Teardown`, `StAvatar_SetPending`, `StAvatarFini`
-- **How its callers call it** (their verified code):
-  - in `StAvatar_StopAndFreeBuffers`: `StChannel_MarkIfLoaded(puVar4);`
-  - in `StAvatar_StopAndFreeBuffers`: `StChannel_MarkIfLoaded(puVar4 + -0x1c);`
-
-Short callee `fn_101C4A30`:
-```cpp
-XI_API undefined4 __thiscall fn_101C4A30(void * self_, uint32_t param_1)
-{
-  uint32_t uVar1;
-  
-  uVar1 = orig::FUN_101c13a0(*(void **)((int)self_ + 4),param_1);
-  return uVar1;
-}
-```
-
-```cpp
-XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
-{
-  uint32_t uVar1;
-  
-  if (((*param_1 & 1) != 0) && (-1 < (int)param_1[1])) {
-    uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[1]);
-    if ((char)uVar1 != '\0') {
-      *param_1 = *param_1 | 0x20;
-    }
-  }
-  return 0;
-}
-```
-
-## `0x102511B0` fn_102511B0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Calls:** `Mdl_GetEntryTable` (medium)
-- **Called by:** `StAvatar_AdvanceTimers` (low)
-- **Named before** (a naming session's reading, low): `StChannel_SetValue9C`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `fn_1024DB60` → `StAvatar_AdvanceTimers` → `StChannel_SetValue9C`
-- **How its callers call it** (their verified code):
-  - in `StAvatar_AdvanceTimers` (low): `StChannel_SetValue9C((uint8_t *)(puVar4 + -2),(float)((long double)1.0f / (long double)fVar1));`
-  - in `StAvatar_AdvanceTimers` (low): `StChannel_SetValue9C((uint8_t *)(puVar4 + -2),(float)((long double)1.0f / (long double)fVar1));`
-- **Neighbours' readings** (naming sessions' summaries, not facts):
-  - `StAvatar_AdvanceTimers` (low): Advances the avatar's timers and clamps them to their range.
-  - `Mdl_GetEntryTable` (medium): Returns the entry table and its count when the table is populated.
-
-```cpp
-XI_API undefined4 __cdecl StChannel_SetValue9C(uint8_t * param_1, float param_2)
-{
-  int iVar1;
-  uint8_t *pbVar2;
-  char xi_frame[4] __attribute__((aligned(4)));
-  int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 0);
-  
-  pbVar2 = param_1;
-  if ((*param_1 & 1) != 0) {
-    Mdl_GetEntryTable(&local_4,(int *)&param_1);
-    iVar1 = *(int *)(pbVar2 + 0xc);
-    if ((-1 < iVar1) && (iVar1 < (int)param_1)) {
-      *(float *)(iVar1 * 0xc0 + 0x9c + local_4) = (float)(long double)param_2;
-    }
-  }
-  return 0;
 }
 ```
 

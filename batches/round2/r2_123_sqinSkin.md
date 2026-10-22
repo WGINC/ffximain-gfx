@@ -1,4 +1,4 @@
-# Batch r2_123_sqinSkin: 3 functions of `sqinSkin`
+# Batch r2_123_sqinSkin: 2 functions of `sqinSkin`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_123_sqinSkin.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
@@ -70,38 +70,6 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
       }
     }
     *(uint32_t *)(param_1 + 0x30) = *(uint32_t *)(param_1 + 0x30) | 1;
-  }
-  return;
-}
-```
-
-## `0x1029A230` fn_1029A230
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `sub_10288FF0`, `sub_102A0950`
-- **Named before** (a naming session's reading, low): `SqinSkin_PropagateValue38`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `Frame_Render` → `Dancer_WorldBegin` → `fn_1024DB60` → `sub_1024D850` → `sub_102528D0` → `sub_10287FB0` → `sub_10288FF0` → `SqinSkin_PropagateValue38`
-
-```cpp
-XI_API void __cdecl SqinSkin_PropagateValue38(int param_1, undefined4 param_2)
-{
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  if ((param_1 != 0) && (*(int *)(param_1 + 0x24) != 0)) {
-    iVar3 = 0;
-    *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x38) = param_2;
-    if (0 < *(int *)(param_1 + 0x3c)) {
-      do {
-        piVar1 = *(int **)(*(int *)(param_1 + 0x38) + iVar3 * 4);
-        if ((*piVar1 == 0x150002) && (iVar2 = piVar1[0x15], iVar2 != 0)) {
-          *(uint32_t *)(iVar2 + 0x38) = param_2;
-        }
-        iVar3 = iVar3 + 1;
-      } while (iVar3 < *(int *)(param_1 + 0x3c));
-    }
   }
   return;
 }

@@ -1,26 +1,7 @@
-# Batch r2_120_sqgxTexture: 2 functions of `sqgxTexture`
+# Batch r2_120_sqgxTexture: 1 functions of `sqgxTexture`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_120_sqgxTexture.json`.
 0 of them were sampled in a running frame (data/frame_set.json).
-
-## `0x102819C0` fn_102819C0
-
-- **Gate:** none; **frame set:** static
-- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **Called by:** `fn_10277B70`
-- **Named before** (a naming session's reading, low): `SqgxTexture_ClearPaletteUsed`; name it again from this dossier, or leave it out to keep that name
-- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `fn_10014C10` → `StAvatar_SetActive` → `StAvatarFini` → `mdl_1026E900` → `SqmdModel_Free` → `fn_10277B70` → `SqgxTexture_ClearPaletteUsed`
-- **Named callers' callers:** `SqmdModel_Free`
-- **How its callers call it** (their verified code):
-  - in `fn_10277B70`: `SqgxTexture_ClearPaletteUsed(iVar1);`
-
-```cpp
-XI_API void __cdecl SqgxTexture_ClearPaletteUsed(int param_1)
-{
-  ((uint8_t *)((&g_sqgxPaletteUsed_as_v0)))[param_1] = 0;
-  return;
-}
-```
 
 ## `0x10281A70` fn_10281A70
 

@@ -1,64 +1,7 @@
-# Batch r2_026_CMoProcessor_VT_1032C298: 4 functions of `CMoProcessor_VT_1032C298`
+# Batch r2_026_CMoProcessor_VT_1032C298: 2 functions of `CMoProcessor_VT_1032C298`
 
 Name these functions: see `batches/README.md`. Write `data/names/r2_026_CMoProcessor_VT_1032C298.json`.
 4 of them were sampled in a running frame (data/frame_set.json).
-
-## `0x1006D380` CMoProcessor_VT_1032C298::vf007
-
-- **Gate:** none; **frame set:** self
-- **Facts:** `ret 8`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **In vtables** (class_vtables.json): `CMoProcessor_VT_1032C368` slot 7 (+0x1C), `CMoProcessor_VT_1032C298` slot 7 (+0x1C)
-- **Named before** (a naming session's reading, medium): `CMoProcessor_ScaleByScalarInPlace`; name it again from this dossier, or leave it out to keep that name
-
-```cpp
-float * CMoProcessor_VT_1032C298::vf007(float *a1, float a2)
-{
-  *a1 = a2 * *a1;
-  a1[1] = a2 * a1[1];
-  a1[2] = a2 * a1[2];
-  return a1;
-}
-```
-
-## `0x1006F800` fn_1006F800
-
-- **Gate:** none; **frame set:** self
-- **Facts:** `ret 12`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
-- **In vtables** (class_vtables.json): `CMoProcessor_VT_1032C298` slot 20 (+0x50)
-- **Named before** (a naming session's reading, medium): `CMoProcessor_MulPointVec3`; name it again from this dossier, or leave it out to keep that name
-
-```cpp
-XI_API float * __stdcall CMoProcessor_MulPointVec3(float * param_1, float * param_2, float * param_3)
-{
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  
-  fVar4 = param_2[1];
-  fVar5 = param_2[2];
-  fVar6 = param_2[5];
-  fVar7 = param_2[6];
-  fVar8 = param_2[9];
-  fVar9 = param_2[10];
-  fVar10 = param_2[0xd];
-  fVar11 = param_2[0xe];
-  fVar1 = *param_3;
-  fVar2 = param_3[1];
-  fVar3 = param_3[2];
-  *param_1 = fVar1 * *param_2 + fVar2 * param_2[4] + fVar3 * param_2[8] + param_2[0xc];
-  param_1[1] = fVar1 * fVar4 + fVar2 * fVar6 + fVar3 * fVar8 + fVar10;
-  param_1[2] = fVar1 * fVar5 + fVar2 * fVar7 + fVar3 * fVar9 + fVar11;
-  return param_1;
-}
-```
 
 ## `0x1006FC40` fn_1006FC40
 

@@ -1,0 +1,8 @@
+{
+  "0x10028730": {
+    "name": "Mem_GetPtrMinus0x20",
+    "confidence": "low",
+    "evidence": "body is only `return param_1 + -0x20`; called by sub_10028A80, sub_10028AA0, sub_10028B70, whose named callers' callers are Mem_FreeObject and SharedDeleteHelper",
+    "summary": "Returns its pointer argument minus 0x20."
+  }
+}

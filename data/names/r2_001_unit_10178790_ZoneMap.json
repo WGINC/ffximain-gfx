@@ -1,0 +1,32 @@
+{
+  "0x101811D0": {
+    "name": "ZoneMap_QueryBoxHeightBandThenGetCount34154",
+    "confidence": "low",
+    "evidence": "returns 0 when ZoneMap_QueryBoxHeightBand(this, p1, p2, p3, 10.0, &p3) is false; otherwise returns ZoneMap_GetCount34154 applied to this+0x178, the dword at +0x178+0x34154",
+    "summary": "Returns the dword at +0x34154 of the sub-object at +0x178 when the box-height band query hits, else 0."
+  },
+  "0x10181370": {
+    "name": "ZoneMap_QueryExpandedBox",
+    "confidence": "low",
+    "evidence": "adds the constant xi_k4(0x358637BD) to p1 and p3 for the box, takes p2 - p4 as the low edge, calls orig::FUN_1016b1d0 on this+0x178, and on a hit writes local_8 to *param_5",
+    "summary": "Tests a box around the given point, expanded by a constant, against the sub-object at +0x178 and writes the hit height to *param_5."
+  },
+  "0x101819B0": {
+    "name": "ZoneMap_IsBoxHeightHitByRadius",
+    "confidence": "low",
+    "evidence": "calls ZoneMap_QueryBoxHeight with x = p2 - *(this+0x170) and height 19.0, and returns its success flag as a bool in the low byte",
+    "summary": "Tests whether the zone map box at x minus the radius at +0x170, height 19.0, hits."
+  },
+  "0x10187020": {
+    "name": "ZoneMap_GetFloatRef1CPlus0C",
+    "confidence": "low",
+    "evidence": "returns (long double)*(float *)(*(int *)(this+0x1C) + 0xC), the same chain as the named ZoneMap_GetFloatRef1CPlus4 and ZoneMap_GetFloatRef1CPlus8 at +0x4 and +0x8",
+    "summary": "Returns the float at +0x0C of the record pointed to by this+0x1C."
+  },
+  "0x10187380": {
+    "name": "ZoneMap_SetVtableApplyRecord",
+    "confidence": "low",
+    "evidence": "stores PTR_CYyObject_GetRuntimeClass_variant18 at the object's first dword, calls Env_ApplyRecord(self_), and returns self_; called by XiZone_Constructor",
+    "summary": "Sets the object's vtable, applies its record through Env_ApplyRecord, and returns the object."
+  }
+}

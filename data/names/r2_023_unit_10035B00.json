@@ -1,0 +1,62 @@
+{
+  "0x10035F80": {
+    "name": "Unit10035B00_ClearGlobal10463930",
+    "confidence": "low",
+    "evidence": "if DAT_10463930 is nonzero, calls its vtable slot +0x18 with 1 and stores 0 there; then returns fn_10035FB0(xi_s1)",
+    "summary": "Calls a method on the object held in global 0x10463930, clears that global, then calls fn_10035FB0."
+  },
+  "0x10035FB0": {
+    "name": "Unit10035B00_SetScaled10351708",
+    "confidence": "low",
+    "evidence": "stores the argument times two constants (_DAT_103516fc, _DAT_103516f8) into DAT_10351708; if a current object and its flag are set and the value changed, calls FUN_10038470 on handle DAT_10463910",
+    "summary": "Stores its scaled float argument in global 0x10351708 and, when a current object exists and the value changed, passes the new value to its handle."
+  },
+  "0x10036050": {
+    "name": "Unit10035B00_SetScaled10351704",
+    "confidence": "low",
+    "evidence": "the whole body is DAT_10351704 = _DAT_103516fc * _DAT_103516f8 * param_1",
+    "summary": "Stores its argument, scaled by two constants, in global 0x10351704."
+  },
+  "0x100360A0": {
+    "name": "Unit10035B00_SetScaled10351700",
+    "confidence": "low",
+    "evidence": "the whole body is DAT_10351700 = _DAT_103516fc * _DAT_103516f8 * param_1",
+    "summary": "Stores its argument, scaled by two constants, in global 0x10351700."
+  },
+  "0x100360C0": {
+    "name": "Unit10035B00_ClearGlobal10463934",
+    "confidence": "low",
+    "evidence": "if DAT_10463934 is nonzero, calls its vtable slot +0x18 with 1, keeps the result, and stores 0; then returns fn_100360F0(xi_s1, that result)",
+    "summary": "Calls a method on the object held in global 0x10463934, clears that global, then calls fn_100360F0."
+  },
+  "0x10036170": {
+    "name": "Unit10035B00_SetCurrent10463914",
+    "confidence": "low",
+    "evidence": "argument 0 with a nonzero global at 0x10463914: calls FUN_10036b90 on (0x10463914, 0x10463910) and stores 0; a new nonzero argument: stores its +0x38 field at 0x10463918, creates 0x10463910 via FUN_10036f00, and stores the argument at 0x10463914",
+    "summary": "Replaces the object held in global 0x10463914: a zero argument releases the current one, a new pointer becomes the current one with a companion value at 0x10463910."
+  },
+  "0x100361D0": {
+    "name": "Unit10035B00_ResetGlobals",
+    "confidence": "medium",
+    "evidence": "writes 0 to globals 0x10463914, 0x10463910, 0x10463918, 0x1046391C and 0x10463920 and nothing else; called once per frame by Frame_Render",
+    "summary": "Zeroes the five globals 0x10463910 to 0x10463920 that hold the current object and its companion state."
+  },
+  "0x10036230": {
+    "name": "CYySoundElem_UpdateQueue",
+    "confidence": "low",
+    "evidence": "frame-time (Frame_Render chain); walks the element list at DAT_104638F8 (links at +0x194) and fills the array at 0x10462590, calls FUN_10246160 and fn_100364A0 per element, queues entries with CYySoundElem_QueueIfAbsent, then clears DAT_1046390C",
+    "summary": "Each frame, rebuilds the sound-element queue from the active list, runs fn_100364A0 on each element, and clears the pending count."
+  },
+  "0x100364E0": {
+    "name": "CYySoundElem_UpdateTimerAndPosition",
+    "confidence": "low",
+    "evidence": "decrements the float at +0x1E4 while DAT_104638908 is set; copies +0x54 from +0x1A0 when +0x19C is set; computes a vector from +0x1D0..+0x1DC via FUN_10036c70 and g_pProcessor; stores it at +0x1C0 when changed; then calls CMoGeneratorClone_ExecuteCmdList on +0xFC",
+    "summary": "Decrements the element's timer, updates its position and related values from the camera-based computation, and runs its generator's command list."
+  },
+  "0x100367F0": {
+    "name": "CYySoundElem_IsHandleInFrameList",
+    "confidence": "medium",
+    "evidence": "linear search of the array at 0x10462590, length DAT_104638FC, for the argument; the same array and count are filled by fn_10036230",
+    "summary": "Searches the frame's handle array at 0x10462590 for the argument and returns whether it is present."
+  }
+}

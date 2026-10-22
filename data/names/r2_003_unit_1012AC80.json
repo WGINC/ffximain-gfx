@@ -1,0 +1,104 @@
+{
+  "0x10157880": {
+    "name": "Unit1012AC80_GetByte75",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0x75 in AL, the high bits of EAX kept; the caller passes it along with +0x76/+0x77 in fn_101582F0",
+    "summary": "Returns the byte at this+0x75."
+  },
+  "0x10157890": {
+    "name": "Unit1012AC80_GetByte76",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0x76 in AL, the high bits of EAX kept; called from fn_101582F0",
+    "summary": "Returns the byte at this+0x76."
+  },
+  "0x101578A0": {
+    "name": "Unit1012AC80_GetByte77",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0x77 in AL, the high bits of EAX kept; called from fn_101582F0",
+    "summary": "Returns the byte at this+0x77."
+  },
+  "0x101578B0": {
+    "name": "Unit1012AC80_GetWord80",
+    "confidence": "low",
+    "evidence": "returns the uint16 at this+0x80 in AX, the high half of EAX kept; called from fn_101582F0",
+    "summary": "Returns the 16-bit value at this+0x80."
+  },
+  "0x101579B0": {
+    "name": "Unit1012AC80_ClearFields84And88",
+    "confidence": "low",
+    "evidence": "stores 0 to this+0x84 and this+0x88; called from fn_101575E0 and Target_Update",
+    "summary": "Sets the two fields at +0x84 and +0x88 to zero."
+  },
+  "0x10157D20": {
+    "name": "Menu_IsFocusNotInList",
+    "confidence": "low",
+    "evidence": "calls Menu_GetFocusedItem; returns 0 when it is 0 or when a node of the list at PTR_DAT_10371ecc (walked by its next pointer) matches its +8 field; otherwise returns 1",
+    "summary": "Returns 1 when the focused menu item is nonzero and is not found in the list at 0x10371ECC, otherwise 0."
+  },
+  "0x10157E20": {
+    "name": "Target_CycleMenuStep",
+    "confidence": "low",
+    "evidence": "increments the word at this+0x68 and wraps it to 0 above 2, then dispatches menu calls keyed by the globals at 0x1062193C and 0x106671B8; called from Target_Update",
+    "summary": "When a key check passes, advances the three-step counter at +0x68 (wrapping) and dispatches the menu for the new step."
+  },
+  "0x10157FA0": {
+    "name": "Target_IssueStateCommand",
+    "confidence": "medium",
+    "evidence": "strings /heal, /sit and /sitchair; the target actor's state at +0x170 (7 and 0x21 heal, 0x3F-0x53 sit) picks the command, which goes through CommandCalc",
+    "summary": "Runs a heal or sit command for the target actor, chosen by the actor's state."
+  },
+  "0x101581E0": {
+    "name": "Target_UpdateSelectionByState",
+    "confidence": "low",
+    "evidence": "when the target actor's state at +0x170 is 1 and the record's +8 is empty, calls Target_FindCandidate and Target_SelectByIndex; also toggles Target_DispatchByIndex 2/3 by the byte at +0x50",
+    "summary": "Each frame, when the target actor is in state 1 and no selection is held, selects the first candidate found."
+  },
+  "0x101582F0": {
+    "name": "Target_InvokeFieldCallback",
+    "confidence": "low",
+    "evidence": "calls the function pointer at this+0xd0 with the fields at +0x78, +0x75, +0x76, +0x77, +0x80, +0x7c, +0x82 and +0x83, then passes the results to FUN_1009ADE0",
+    "summary": "Calls the callback stored at +0xd0 with the target's fields and passes the results on to another call."
+  },
+  "0x10158AE0": {
+    "name": "Unit1012AC80_MoveByDirectionIf58",
+    "confidence": "low",
+    "evidence": "calls Unit1012AC80_MoveByDirection (named callee) only when the byte at this+0x58 is nonzero and this+0x59 or +0xc4 is set",
+    "summary": "Calls Unit1012AC80_MoveByDirection with the second argument when the flag at +0x58 is set and a condition on +0x59 or +0xc4 holds."
+  },
+  "0x10159170": {
+    "name": "Target_SetFlagsFromMask",
+    "confidence": "low",
+    "evidence": "walks the table at 0x103720C0 (entries of three dwords), ORs the matching entries into this+0x64 and this+0x60; ORs bit 8 into +0x60 when FUN_101CC350 returns true and the input has bit 4; called from fn_10159440",
+    "summary": "Sets the flags at +0x60 and +0x64 from the table entries whose key matches the input mask."
+  },
+  "0x10159370": {
+    "name": "Unit1012AC80_GetField84Ptr",
+    "confidence": "low",
+    "evidence": "returns this+0x84 as an address (no load); called from fn_10159380",
+    "summary": "Returns the address of the field at this+0x84."
+  },
+  "0x10159380": {
+    "name": "Yk_GetActiveEntryById",
+    "confidence": "medium",
+    "evidence": "fn_10159370 gives this+0x84; the id at +4 of that (this+0x88) goes to Yk_FindIndexById, then Yk_GetActiveEntry returns the entry",
+    "summary": "Returns the active Yk table entry whose id is the value at this+0x88, or 0 when there is none."
+  },
+  "0x10159440": {
+    "name": "Target_SetIfUsable",
+    "confidence": "low",
+    "evidence": "stores param_1 at this+0xc4 only when Target_IsUsable is true; otherwise sets this+0x60 to -1 and this+0x64 to 0, and calls Target_ResetRecord when the byte at +0x52 is 1",
+    "summary": "Stores the given value at +0xc4 when the target is usable, otherwise resets the target's flags and record."
+  },
+  "0x101590A0": {
+    "name": "Target_ClearAndSetFlag53",
+    "confidence": "low",
+    "evidence": "calls Target_Clear, then sets the byte at this+0x53 to 1; called from fn_100875C0 and Target_Select",
+    "summary": "Clears the target, then sets the flag at +0x53."
+  },
+  "0x10159530": {
+    "name": "Target_ResetRecordReturnSelf",
+    "confidence": "low",
+    "evidence": "calls Target_ResetRecord on its argument and returns that argument; called from fn_101575E0 on this and this+0x28",
+    "summary": "Resets the target record and returns the same object pointer."
+  }
+}

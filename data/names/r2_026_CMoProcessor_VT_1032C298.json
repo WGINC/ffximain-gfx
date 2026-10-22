@@ -1,0 +1,8 @@
+{
+  "0x1006FC40": {
+    "name": "CMoProcessor_SetRotationFromAngles",
+    "confidence": "medium",
+    "evidence": "takes three float angles; writes sin and cos of each into the 2x2 slots of three 3x3 blocks at +0x864..+0x8E4 (cos/-sin/sin pattern); then calls vtable slot 9 (+0x24) twice on those blocks",
+    "summary": "Builds three sine/cosine rotation blocks from its three float arguments and combines them through two calls to vtable slot 9."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "0x10159780": {
+    "name": "Target_RefreshActor",
+    "confidence": "medium",
+    "evidence": "calls Entry_ResolveValid; when the entry is valid and +0x21 is 0 it stores the ActerBuffPtr actor at this+8 and its dword at +0xA0 at this+0xC, else calls Target_ResetRecord; callers are Target_Update and Target_SetActor",
+    "summary": "Resolves the entry, refreshes the cached actor and its field from it, or resets the target record."
+  },
+  "0x101598A0": {
+    "name": "Target_GetCachedIfValid",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0xC when the byte at this+0x20 is nonzero, else 0; the same +0x20 test is in Entry_ValidateKey",
+    "summary": "Returns the cached pointer at +0xC when the valid flag at +0x20 is set, otherwise 0."
+  },
+  "0x101598B0": {
+    "name": "Target_GetActorPtr",
+    "confidence": "medium",
+    "evidence": "returns the dword at this+8 without a test; Target_RefreshActor stores the ActerBuffPtr actor pointer there",
+    "summary": "Returns the actor pointer stored at this+8."
+  },
+  "0x10159D40": {
+    "name": "Target_GetPosShorts",
+    "confidence": "low",
+    "evidence": "gets the object from the valid pointer at +0xC; calls its vtable slot 0x27C or 0x280 with two floats; writes two shorts via the 0x10311C2C conversion and returns 1, or writes 0 to both and returns 0",
+    "summary": "Asks the cached object for a point through its vtable and returns it as two shorts, or zeros with failure."
+  },
+  "0x10159E10": {
+    "name": "Entry_IsActorFieldMatch",
+    "confidence": "low",
+    "evidence": "returns 0 when ActerBuffPtr[param_1[0]] is null or its flag bit 0x200 at +0x120 is clear; otherwise compares its dword at +0x78 with param_1[1]",
+    "summary": "Tests whether the actor indexed by the pair's first value has its +0x78 field equal to the pair's second value."
+  },
+  "0x1015B190": {
+    "name": "Unit1012AC80_IsCachedPtrMatch",
+    "confidence": "low",
+    "evidence": "reads the pointer at this+0x14F0, requires its first byte to be 0xFF and the flags at +0x15A8 and +0x15A9 to be set, then compares the pointer at +0x14B0 with the dword read through +0x14B8",
+    "summary": "Tests whether the cached pointer at +0x14B0 matches the value read through +0x14B8 while the state flags are set."
+  },
+  "0x1015B270": {
+    "name": "Unit1012AC80_GetObjectPtr",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0x14CC; Unit1012AC80_ResetState calls vtable slot 0 of that pointer and Unit1012AC80_Init zeroes it",
+    "summary": "Returns the object pointer stored at this+0x14CC."
+  },
+  "0x1015B3C0": {
+    "name": "Unit1012AC80_RotateBufferOnce",
+    "confidence": "low",
+    "evidence": "when the flag at +0x15A8 is clear it calls Unit1012AC80_RotateBits3 on the buffer at +0xB0, calls vtable slot +0x10 of the object from sub_10159EB0, calls sub_1015B410, and sets +0x15A8",
+    "summary": "Once per state, rotates the 0x1400-byte buffer at +0xB0 and runs the object's and the helper's follow-up calls."
+  },
+  "0x1015B720": {
+    "name": "Unit1012AC80_FillSceneTable",
+    "confidence": "medium",
+    "evidence": "clears the object, calls sub_101265D0, sets the global DAT_1062180C to DAT_10372150 and fills it with about 30 Scene_GetTableValue results at fixed dword offsets",
+    "summary": "Clears the object and fills the global table at DAT_1062180C with scene table values."
+  },
+  "0x1015BAF0": {
+    "name": "Unit1012AC80_FindEmptySlot",
+    "confidence": "medium",
+    "evidence": "scans the table at DAT_1057B1E8 with a stride of 0x56B dwords from index DAT_10621810 and wraps to the start; returns the matching address in the DAT_10579D38 table with stride 0x15AC when the first dword is zero",
+    "summary": "Returns the address of the first slot whose first dword is zero, searching from the current index and wrapping, or 0."
+  },
+  "0x1015BD40": {
+    "name": "Unit1012AC80_LookupObjectPtr",
+    "confidence": "low",
+    "evidence": "calls sub_1015B9E0 with the global DAT_10621808 and the parameter; returns 0 when it finds nothing, otherwise returns Unit1012AC80_GetObjectPtr of the result",
+    "summary": "Looks up a record by the parameter and returns its object pointer, or 0."
+  },
+  "0x1015DB10": {
+    "name": "Unit100D7420_InsertSortedBy60",
+    "confidence": "low",
+    "evidence": "tail-walks the list from Unit100D7420_GetTail while the node's byte at +0x60 is above 4, then calls Unit100D7420_InsertAfter; otherwise calls FUN_10126480",
+    "summary": "Inserts a node into the list after the last node whose byte at +0x60 is 4 or less."
+  },
+  "0x1015DBD0": {
+    "name": "Unit100D7420_RemoveMatching",
+    "confidence": "medium",
+    "evidence": "walks the list from Unit100D7420_GetHead, calls FUN_10126520 on each node, and calls Unit100D7420_Remove on nodes whose value equals the parameter",
+    "summary": "Removes every list node whose value equals the given value."
+  },
+  "0x1015DFC0": {
+    "name": "Unit1012AC80_Nop",
+    "confidence": "low",
+    "evidence": "the body is only a return; it is called from App_InitScene and takes one stdcall argument",
+    "summary": "Does nothing."
+  }
+}

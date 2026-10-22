@@ -1,0 +1,44 @@
+{
+  "0x1011DB40": {
+    "name": "Sjis_IsCodeInSet",
+    "confidence": "low",
+    "evidence": "returns 1 iff the uint16 argument is in 0x41-0x5A, 0x854A, 0x854C, 0x854E, 0x855F, 0x859F-0x85B5 or 0x85B7-0x85BD, else 0; calls FUN_1011DAA0 first, whose callee is Sjis_IsLeadByte (named callees' callees)",
+    "summary": "Tests whether a 16-bit code is one of a fixed set of ranges and values."
+  },
+  "0x1011E290": {
+    "name": "Cell_GetField20Ptr",
+    "confidence": "low",
+    "evidence": "body is return (int)self + 0x20 only (entry ECX read); called by Cell_FindEntryByName (low) and ShapeMng_FindShape, which return or use that result",
+    "summary": "Returns the address of the object's field at offset +0x20."
+  },
+  "0x10123DC0": {
+    "name": "Cursor_TestAny1DOr9D",
+    "confidence": "medium",
+    "evidence": "returns 1 iff Cursor_GetFlagBit2(&DAT_104E1C40, 0x1D) or Cursor_GetFlagBit2(&DAT_104E1C40, 0x9D) is set; same code as Cell_TestAny1DOr9D at 0x10120BB0",
+    "summary": "Tests the flag table at DAT_104E1C40 for ids 0x1D or 0x9D, bit 2."
+  },
+  "0x10123DF0": {
+    "name": "Cursor_TestAnyB8Or38",
+    "confidence": "medium",
+    "evidence": "returns 1 iff Cursor_GetFlagBit2(&DAT_104E1C40, 0xB8) or Cursor_GetFlagBit2(&DAT_104E1C40, 0x38) is set; same code as Cell_TestAny38Or0B8 at 0x10120B80 with the tests in the other order",
+    "summary": "Tests the flag table at DAT_104E1C40 for ids 0xB8 or 0x38, bit 2."
+  },
+  "0x10123E20": {
+    "name": "Cell_TestFlagAny2AOr36Kind4",
+    "confidence": "medium",
+    "evidence": "returns Cell_TestFlagKind(0x2A, 4) or, failing that, Cell_TestFlagKind(0x36, 4); the same as Cell_TestFlagAny2AOr36 (0x10123350) called with 4",
+    "summary": "Tests the flag kind for ids 0x2A or 0x36 with kind 4."
+  },
+  "0x10123E60": {
+    "name": "Cell_SetByte104E1C3E",
+    "confidence": "medium",
+    "evidence": "stores the low byte of param_1 into DAT_104E1C3E and returns it in AL; called from fn_10096640 as FUN_10123e60(1, DAT_104dfd98); same byte-global setter family as Cell_SetFlag104E1C3C",
+    "summary": "Stores the low byte of its second argument in DAT_104E1C3E and returns that byte in AL."
+  },
+  "0x10123EE0": {
+    "name": "Cell_GetByte1036CF5C",
+    "confidence": "medium",
+    "evidence": "returns the byte at DAT_1036CF5C in AL with the rest of EAX kept (entry ECX read is not used); called by sub_10123A70, sub_1025E100 and sub_1025E170 (dossier 'Called by')",
+    "summary": "Returns the byte at DAT_1036CF5C."
+  }
+}

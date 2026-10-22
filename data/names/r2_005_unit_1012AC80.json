@@ -1,0 +1,92 @@
+{
+  "0x1015E850": {
+    "name": "Menu_SetItemAt54",
+    "confidence": "low",
+    "evidence": "stores the argument at this+0x54, keeps the previous value at +0x58, releases both through FUN_10119200, then calls Cursor_ResetPositionToMenu",
+    "summary": "Replaces the item stored at this+0x54 with the argument, releases the old and new items, and resets the cursor to the menu when the new item is non-null."
+  },
+  "0x1015E8A0": {
+    "name": "Menu_RemoveAndFreeItem",
+    "confidence": "medium",
+    "evidence": "walks the list from Unit100D7420_GetTail to find the item, then calls Unit100D7420_ClearEntries, Unit100D7420_FreeChild, operator_delete; Unit100D7420_Remove is a callee's callee; called from YkMyroom_Destructor",
+    "summary": "Finds the item in the menu list, removes it, clears its entries and child, and deletes it."
+  },
+  "0x1015EEF0": {
+    "name": "Menu_CallSlot30ForEachEntry",
+    "confidence": "low",
+    "evidence": "loops over the entry table at PTR_DAT_103722F8 (stride 0x2C, while the flag is set) and calls the virtual slot at +0x30 on each object, under the 'menu menuwind' flag",
+    "summary": "For each non-null object in the menu entry table, calls its virtual method at offset 0x30."
+  },
+  "0x1015EF20": {
+    "name": "Menu_CallChildSlot34ForEachItem",
+    "confidence": "low",
+    "evidence": "walks the list from Unit100D7420_GetHead with FUN_10126520; FUN_10117F30 calls the virtual slot at +0x34 of each item's child at +0xC",
+    "summary": "For each item in the list, calls the virtual method at offset 0x34 on the item's child object if present."
+  },
+  "0x1015F960": {
+    "name": "Menu_GetDwordAt8C",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0x8C + 4*index, where index comes from fn_1015F980 (which calls Settings_GetValue)",
+    "summary": "Returns the dword in the table at this+0x8C, indexed by the value fn_1015F980 yields."
+  },
+  "0x1015F9E0": {
+    "name": "Menu_GetWordPtrAtA0",
+    "confidence": "low",
+    "evidence": "returns this + 0xA0 + 2*index, index from fn_1015F980 (which calls Settings_GetValue)",
+    "summary": "Returns a pointer into the word table at this+0xA0, indexed by the value fn_1015F980 yields."
+  },
+  "0x101606F0": {
+    "name": "Menu_GetStateB4",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0xB4; called by CTkMouse_OnMouseMove (high) and Cursor_UpdateTimer (medium), which the dossier names as using pending flags",
+    "summary": "Returns the byte stored at this+0xB4."
+  },
+  "0x10160700": {
+    "name": "Menu_IsStateB4Eq1",
+    "confidence": "medium",
+    "evidence": "returns 1 iff the byte at this+0xB4 equals 1; the same field is set by Menu_SetStateB4 (0x10160710)",
+    "summary": "Tests whether the byte at this+0xB4 equals 1."
+  },
+  "0x10160710": {
+    "name": "Menu_SetStateB4",
+    "confidence": "low",
+    "evidence": "stores the argument at this+0xB4 only when it is below 2 and the bytes at +0xB2 and +0xB3 are zero, otherwise stores 0",
+    "summary": "Sets the byte at this+0xB4 to the argument when the value is below 2 and the bytes at +0xB2 and +0xB3 are zero."
+  },
+  "0x101609C0": {
+    "name": "Unit101D7020_DestroyDrawMenuIfAt14",
+    "confidence": "medium",
+    "evidence": "operates on DAT_10664520, the object fn_10160A50 passes to Unit101D7020_Close; if this+0x14 equals LAB_101608B0 it clears +0x3A and +0x14 and calls CTkMenuMng_DestroyDrawMenu on this+8",
+    "summary": "If the callback slot at +0x14 is LAB_101608B0, clears it and destroys the drawn menu at +0x8."
+  },
+  "0x10160A50": {
+    "name": "Unit101D7020_CloseIfAt14",
+    "confidence": "medium",
+    "evidence": "calls Unit101D7020_Close(DAT_10664520, 0) only when the +0x14 slot equals LAB_101608D0",
+    "summary": "Closes the dialog on DAT_10664520 when its +0x14 slot equals LAB_101608D0."
+  },
+  "0x10161C70": {
+    "name": "Menu_PositionWindowBySetting",
+    "confidence": "low",
+    "evidence": "reads the window locates through CTkMenuCtrlData_GetWindowLocate, reads Settings_GetValue(0xB4) which selects one of two placements, then calls FUN_10119110 on this+8; Cursor_SetPosition appears among its callees' callees",
+    "summary": "Places this object's window relative to another window, choosing the offset by the setting value 0xB4."
+  },
+  "0x10161ED0": {
+    "name": "Unit1012AC80_InitFromScreenRect",
+    "confidence": "low",
+    "evidence": "sets the layout fields from g_screenRectTopLeft and g_screenRectBottomRight (named globals in gfx_globals.hpp) and writes the vtable PTR_FUN_103354D0",
+    "summary": "Initialises the object's fields and vtable, sizing two fields from the screen rectangle less 0xA0."
+  },
+  "0x10163080": {
+    "name": "Unit1012AC80_GetShortAt56",
+    "confidence": "low",
+    "evidence": "returns the signed short at this+0x56 as an int",
+    "summary": "Returns the short stored at this+0x56."
+  },
+  "0x10163350": {
+    "name": "Unit1012AC80_ZeroWordsAndDwords",
+    "confidence": "low",
+    "evidence": "writes zero to four uint16 fields at offsets 0, 2, 4, 6, then calls Unit1012AC80_ZeroDwords on self",
+    "summary": "Zeroes four word fields at the start of the object and then the three dwords through Unit1012AC80_ZeroDwords."
+  }
+}

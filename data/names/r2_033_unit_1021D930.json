@@ -1,0 +1,74 @@
+{
+  "0x102238E0": {
+    "name": "Unit1021D930_ConstructFromScene",
+    "confidence": "medium",
+    "evidence": "calls fn_1021E690 (base init), sets vtable PTR_FUN_1033c0ac, then calls Unit1021D930_Init(self, Scene_GetTableValue(0x38), 0x400, 1, -1); called on a 0x38-byte allocation in Unit1021D930_CreateSubsystems",
+    "summary": "Constructs the object and initialises its index tables from the scene table value 0x38 with 0x400 entries."
+  },
+  "0x10223930": {
+    "name": "Unit1021D930_GetObjectOnce",
+    "confidence": "medium",
+    "evidence": "returns &DAT_10667050 after a once-only guard on bit 0 of DAT_10666EA8: the first call runs fn_102239A0 on DAT_10667050 and registers LAB_10223970 with _atexit",
+    "summary": "Returns the static object at DAT_10667050, constructing it on the first call."
+  },
+  "0x10223E60": {
+    "name": "Unit1021D930_ConstructFillMinus1",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Construct, sets vtable PTR_FUN_1033c0b0, then writes 0xFFFFFFFF to 24 dwords from +0x70; called on a 0xD4-byte allocation in Unit1021D930_CreateSubsystems",
+    "summary": "Constructs the base object, sets its vtable and fills 24 dwords from offset 0x70 with -1."
+  },
+  "0x102254D0": {
+    "name": "Unit1021D930_ConstructSetGlobals",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Construct, zeroes fields +0x64..+0x70, sets vtable PTR_FUN_1033c118, then writes nine globals (DAT_10666EAC..DAT_10667040) to 0, -1 and 0xFFFF0000",
+    "summary": "Constructs the base object, clears its fields and writes its nine global words."
+  },
+  "0x10226550": {
+    "name": "Unit1021D930_ConstructZeroFields",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Construct, sets vtable PTR_FUN_1033c180, zeroes the dwords at +0x64 and +0x68; called on a 0x6C-byte allocation in Unit1021D930_CreateSubsystems",
+    "summary": "Constructs the base object, sets its vtable and zeroes two of its fields."
+  },
+  "0x102271B0": {
+    "name": "Unit1021D930_ConstructAllocEntries",
+    "confidence": "low",
+    "evidence": "calls FUN_10257860 on self, then fn_101C5920 on self+0x14 which calls Unit1018BA60_AllocEntries(self, 0); zeroes +0x10",
+    "summary": "Constructs the object and allocates its entry array at offset 0x14."
+  },
+  "0x10227750": {
+    "name": "Unit1021D930_CreateAndLoadEntries",
+    "confidence": "low",
+    "evidence": "allocates 0x378, 0x27C and 0x20 byte objects into DAT_106671B8, DAT_106671BC and DAT_106671B4 via fn_102278B0, fn_10228200 and fn_102271B0, then calls Unit1021D930_LoadNamedEntries",
+    "summary": "Creates three objects into globals and loads the named entries into the first of them."
+  },
+  "0x102278B0": {
+    "name": "Unit1021D930_ConstructBuffersAt68",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Construct, then Unit1021D930_Alloc1800 on 32 entries starting at +0x68 with stride 0x10; sets vtable PTR_FUN_1033c218 and zeroes 8 dwords at +0x268",
+    "summary": "Constructs the object and allocates 32 buffers of 0x1800 bytes at offset 0x68."
+  },
+  "0x10228200": {
+    "name": "Unit1021D930_ConstructBuffersAt8",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Alloc1800 on 32 entries starting at +0x8 with stride 0x10, then fn_102281C0 on +0x228; sets vtable PTR_LAB_1033c284 and zeroes 8 dwords at +0x208",
+    "summary": "Constructs the object and allocates 32 buffers of 0x1800 bytes at offset 0x8."
+  },
+  "0x102281C0": {
+    "name": "Unit1021D930_ClearHeaderFields",
+    "confidence": "low",
+    "evidence": "stores zero to the dwords at self and self+4 and a zero byte at self+8",
+    "summary": "Clears the two dwords and the byte at the start of the object."
+  },
+  "0x10229670": {
+    "name": "Unit1021D930_ConstructInitAt64",
+    "confidence": "low",
+    "evidence": "calls Unit1021D930_Construct, then Unit1018BA60_Init on self+0x64; sets fields +0x70..+0x8E and vtable PTR_FUN_1033c418; called from Unit1021D930_InitGlobals",
+    "summary": "Constructs the object, initialises the sub-object at offset 0x64 and clears its fields."
+  },
+  "0x10227F70": {
+    "name": "Unit1021D930_DrawMovie",
+    "confidence": "medium",
+    "evidence": "calls CXiMovie_Draw with a movie found by FUN_10227930, at offset +1 of the position, with a scale from DAT_106671B8 and a tint from Settings_GetValue(0xC3) and ntGameTimeGet",
+    "summary": "Draws a movie at a position offset by one pixel, with a scale and tint that depend on the game timer."
+  }
+}

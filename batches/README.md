@@ -43,6 +43,18 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
 - **evidence:** what in the dossier shows it, in one line. **summary:** one sentence of what the function does.
 - Change nothing else: no code, no other files.
 
+## Round 2 (`batches/round2/`, files `r2_NNN_<group>`)
+Only frame-time functions (`data/frame_set.json`). The dossiers carry more: strings, named globals, the callers'
+call lines, named functions two calls away, the chain of calls from the frame root, short callees' code, and calls
+written with their callees' current names. The rules above are unchanged.
+- **Named before:** a function named in round 1 only with `low` confidence, or whose area word was replaced, shows
+  that name. Write a better name only when this dossier shows more than the old name says; otherwise leave the
+  function out of your file and the old name stays.
+- **Neighbours' readings** are what a naming session understood, not facts. They can tell you where to look; the
+  evidence for a name must be what the code, a call, a string or a DancingMad/PS2 name shows.
+- Write `data/names/r2_NNN_<group>.json` and check it with
+  `python3 pipeline/check_names.py batches/round2/index.json data/names/r2_NNN_<group>.json`.
+
 ## Check, commit, push
 ```
 python3 pipeline/check_names.py batches/index.json data/names/NNN_<group>.json

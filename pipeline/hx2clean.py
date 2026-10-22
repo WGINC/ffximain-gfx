@@ -360,16 +360,20 @@ def canonicalise_names(R, pending):
 def reviewed_names():
     """{address: entry} of this repository's reviewed names: data/names_pending_idb.json, and each batch's file under
     data/names/ (pipeline/batch.py; one file per batch, so parallel work does not collide). An address named twice
-    differently is an error to resolve, not a choice to make here."""
+    differently in one round is an error to resolve, not a choice to make here; a later round's file (rN_..., the
+    batches of batches/roundN/) took the earlier name and its dossier again, and its entry replaces the earlier one."""
     d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
-    out, src = {}, {}
-    for p in [os.path.join(d, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(d, 'names', '*.json'))):
+    out, src, rnd = {}, {}, {}
+    rnd_of = lambda p: int(re.match(r'r(\d+)_', os.path.basename(p)).group(1)) if re.match(r'r\d+_', os.path.basename(p)) else 1
+    for p in [os.path.join(d, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(d, 'names', '*.json')), key=lambda p: (rnd_of(p), p)):
         for k, v in json.load(open(p)).items():
             if k.startswith('_'): continue
             k = '0x%08X' % int(k, 16)
+            if k in out and out[k]['name'] != v['name'] and rnd_of(p) > rnd.get(k, 1):
+                out[k] = dict(v, replaces=out[k]['name']); src[k] = os.path.basename(p); rnd[k] = rnd_of(p); continue
             if k in out and out[k]['name'] != v['name']:
                 raise SystemExit('%s named %r in %s and %r in %s' % (k, out[k]['name'], src[k], v['name'], p))
-            out[k] = v; src[k] = os.path.basename(p)
+            out[k] = v; src[k] = os.path.basename(p); rnd[k] = rnd_of(p)
     return out
 
 

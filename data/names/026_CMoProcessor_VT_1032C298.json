@@ -1,0 +1,26 @@
+{
+  "0x1006D380": {
+    "name": "Vec3_ScaleByScalarInPlace",
+    "confidence": "medium",
+    "evidence": "multiplies the three floats at a1 by a2 in place and returns a1; vtable slot 7 of CMoProcessor_VT_1032C298",
+    "summary": "Scales a three-float vector by a scalar in place."
+  },
+  "0x1006F5B0": {
+    "name": "Vec3_Dot",
+    "confidence": "medium",
+    "evidence": "returns a1[0]*a2[0] + a1[1]*a2[1] + a1[2]*a2[2]; vtable slot 14 of CMoProcessor_VT_1032C298",
+    "summary": "Returns the dot product of two three-float vectors."
+  },
+  "0x1006F800": {
+    "name": "Mat4_MulPointVec3",
+    "confidence": "medium",
+    "evidence": "writes param_1[0..2] = M * (p, 1) for the 4x4 at param_2 and the point at param_3; vtable slot 20 of CMoProcessor_VT_1032C298",
+    "summary": "Transforms a point by a 4x4 matrix, writing the three-float result."
+  },
+  "0x1006FAE0": {
+    "name": "CMoProcessor_BuildRotationXYZ",
+    "confidence": "medium",
+    "evidence": "stores the sine and cosine of param_2, param_3 and param_4 into the rotation fields at +0x850 to +0x8E4, then composes them through the vtable slot at +0x24; vtable slot 22 of CMoProcessor_VT_1032C298",
+    "summary": "Builds the processor's three-axis rotation from three angles."
+  }
+}

@@ -86,6 +86,17 @@ The causes of the three FAILs have not been looked into yet.
 - **Pending:** the four raw gates and then the clean gate rerun with it (started 22 Oct). Counts will drop where
   functions were PASS only because EAX went unseen.
 
+### P11. Ghidra's `CONCAT22(param >> 16, K)` returns: the source construct is not found (22 Oct)
+- **Known:** 0x10005A00's game code loads its argument into EAX and returns with only AX written (`xor ax, ax` /
+  `mov ax, 0x7f` / `mov ax, 0xff81`, then `ret`). The top half of EAX is the argument's.
+- **Tried, none gives that code:**
+  - a 16-bit write through the parameter's address;
+  - a 4-byte struct by value and a union by value;
+  - a local struct or union copy;
+  - and/or masks;
+  - early-return and if/else orders.
+- **Not known:** what source MSVC6 compiles to a partial-register write like this.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

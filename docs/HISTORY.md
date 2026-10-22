@@ -3097,3 +3097,36 @@ says "fuzz and the four dumps". The kit is not rebuilt from this file until the 
 or the owner decides that fuzz alone is enough.
 
 `data/reg_kept_audit.json` is regenerated over the new gated set: 247 sites in 71 functions (230 used, 17 overwritten).
+
+## 22 Oct (later): the game's compiler over the whole tree, and two gate errors
+
+**Byte matching.** `pipeline/msvc_tu.py` writes each tree function as a Visual C++ 6.0 translation unit:
+- types as MSVC6 spells them;
+- `at<T>` as a plain cast;
+- a `__thiscall` free function as a member of a struct of its own;
+- globals declared from `gfx_globals.hpp`, and game calls from `gfx_orig.hpp`, each checked by address;
+- XI_ANY arguments through `xi_any()` overloads that give the same dword.
+
+`msvc_match.py` then compiles each unit with the Processor Pack code generator and `/O2`, and compares it with the
+DLL. Of 4,205 functions:
+- 1,313 compile to every byte the DLL holds;
+- 943 compile to different bytes;
+- 499 do not compile yet, mostly implicit pointer conversions GCC's `-fpermissive` accepts;
+- 1,450 are left out with reasons: 446 address-taken frames, 360 floating point, 191 calls through a pointer, 150
+  GCC attributes, 106 untyped game calls, 69 entry-EAX reads, 59 `static __thiscall` members, and fewer others.
+
+Negative control: in each of 6 sampled matches, a constant changed by 4, or every relocation moved by 16 bytes, gives
+DIFFER. Results: `verification/msvc_match_tree.json`.
+
+**Gate errors found through the two clean-only FAILs** (`docs/PROBLEMS.md` R1, R2):
+- the clean cases mapped overloads to the first export of their name;
+- a fuzzed function pointer into the reconstruction DLL's padding was executed in the original's run.
+
+**A verification hole** (P10): the gate compared EAX only as wide as the decompiler's prototype. 309 Ghidra-route and
+73 IDA-route `void` functions, and 92 `bool` ones, have callers that may read more. Those bytes are now compared, and a
+difference there gives UNRESOLVED. The four raw gates and the clean gate are being rerun with it.
+
+**Source shape, what the compiler shows** (P11): Ghidra's `CONCAT22(param >> 16, K)` returns are, in the game's code,
+`mov ax, K` with the argument's top half left in EAX. Nine spellings tried (a write through the parameter's address,
+4-byte structs and unions by value, local copies, and/or masks) do not give that code. The source construct is not
+found yet.

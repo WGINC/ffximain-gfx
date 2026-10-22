@@ -104,9 +104,13 @@ The causes of the three FAILs have not been looked into yet.
 - **Why the facts do not cover them:** `caller_reads.py` lists a function only if every reference to it is a direct
   call or a tail jump. Of the 111 functions UNRESOLVED this way, 90 have their address stored as data in the image,
   mostly vtable slots, so their callers are not all known.
-- **Path to recover them:** extend caller_reads to a function whose every reference is a vtable slot, where every
-  call through that slot is settled (`vcalls.json`). The callers through the slot then join the walk. No guess: a
-  slot with a call site vcall_resolve does not settle leaves the function out, as now.
+- **Paths, measured:**
+  - Through vtable slots: callers through a slot are known only if every indirect call with that slot's offset is
+    settled. vcalls.json settles 555 of the DLL's 7,774 `call [reg+disp]` sites. For example, 72 of 478 at +0x18
+    and 3 of 528 at +0x8, so this recovers few until vcall_resolve settles more.
+  - Declared prototypes: the export records do not say which IDB prototypes a person declared and which Hex-Rays
+    inferred, so the IDB's `bool` is not usable as a declared type here. The owner could mark the ones they typed.
+  - Otherwise they stay UNRESOLVED, which is what is known.
 
 ## Resolved
 

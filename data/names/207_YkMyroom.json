@@ -1,0 +1,3 @@
+{
+"0x101D2F00": {"name": "YkMyroom_Destructor", "confidence": "medium", "evidence": "sets vtable PTR_YkMyroom_GetRuntimeClass_103384a4, calls fn_101d3dc0 and fn_101d30b0 on this, clears the target manager (fn_101594d0), closes and releases the three menu objects at DAT_106631DC, DAT_106631E0 and DAT_106631E4 through fn_1015e8a0, frees this+0x14 and calls fn_101d31b0, then the title and help teardowns", "summary": "Destroys the Myroom object and releases its menus."}
+}

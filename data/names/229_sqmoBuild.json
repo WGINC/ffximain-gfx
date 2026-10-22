@@ -1,0 +1,4 @@
+{
+"0x102851C0": {"name": "SqmoBuild_ReadFrameChannel", "confidence": "medium", "evidence": "reads a version dword and reports an error naming the FrameChannel version when it is not 4; reads the frame count and sizes, allocates the channel arrays through FUN_10275D40 with the file name s_C__dev_dancer_modules_sqMotion and calls FUN_102944E0 per frame; called by sqmoChannelBuildSQO", "summary": "Reads a frame channel from a motion stream."},
+"0x102852E0": {"name": "SqmoBuild_ReadKeyChannel", "confidence": "medium", "evidence": "reads a version dword and reports an error naming the KeyChannel version when it is not 3; reads the key count and allocates the key arrays through FUN_10275D40; called by sqmoChannelBuildSQO", "summary": "Reads a key channel from a motion stream."}
+}

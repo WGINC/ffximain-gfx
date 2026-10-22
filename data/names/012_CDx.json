@@ -1,0 +1,12 @@
+{
+  "0x10009750": {"name": "CDx_SetHardwareCursor", "confidence": "high", "evidence": "imports SetCursor and calls it only when g_cfgHardwareMouse is nonzero", "summary": "Sets the cursor through the Win32 SetCursor call when hardware mouse is enabled."},
+  "0x10009D20": {"name": "CDx_AppendStateRecord", "confidence": "low", "evidence": "writes a 0x18-byte record at this + index*0x18 + 0x98 from the fields at +0x15C and +0x160 and calls vtable slot 0xA0 on the device at +0xC with it", "summary": "Writes a state record at the current index and passes it to the device."},
+  "0x10009EA0": {"name": "CDx_PushRenderTargetTexture_Flag1", "confidence": "low", "evidence": "calls CDx_PushRenderTargetTexture with the last two arguments 1 and 0", "summary": "Pushes a render target texture with the first flag set."},
+  "0x10009EE0": {"name": "CDx_PushRenderTargetTexture_Flag0", "confidence": "low", "evidence": "calls CDx_PushRenderTargetTexture with the last two arguments 0 and 0", "summary": "Pushes a render target texture with the first flag clear."},
+  "0x1000A200": {"name": "CDx_PopRenderTargetA", "confidence": "low", "evidence": "calls vtable slot 0xF4 on the device at +0xC with (0,0), then CDx_PopRenderTarget with flags 1 and 0", "summary": "Pops the render target after the device call, with flags 1 and 0."},
+  "0x1000A230": {"name": "CDx_PopRenderTargetB", "confidence": "low", "evidence": "calls vtable slot 0xF4 on the device at +0xC with (0,0), then CDx_PopRenderTarget with flags 0 and 1", "summary": "Pops the render target after the device call, with flags 0 and 1."},
+  "0x1000A390": {"name": "CDx_EndAndClearBegin", "confidence": "low", "evidence": "calls CDx_EndClearBegin with the first two arguments 0 and 0 and the rest passed through", "summary": "Calls CDx_EndClearBegin with zero clear arguments."},
+  "0x1000A550": {"name": "CDx_DrawTexturedScreenQuadUnit", "confidence": "medium", "evidence": "fills a 4-float block with 0, 1, 0, 1 and calls CDx::DrawTexturedScreenQuad with it and 0xFFFFFFFF", "summary": "Draws a textured screen quad using the unit rectangle."},
+  "0x1000BB10": {"name": "CDx_NopA", "confidence": "low", "evidence": "body is a bare return", "summary": "Does nothing."},
+  "0x1000BB20": {"name": "CDx_NopB", "confidence": "low", "evidence": "body is a bare return", "summary": "Does nothing."}
+}

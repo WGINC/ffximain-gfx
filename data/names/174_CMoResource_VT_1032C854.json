@@ -1,0 +1,8 @@
+{
+  "0x1002D880": {
+    "name": "CMoResource_ConvertOffsets",
+    "confidence": "medium",
+    "evidence": "rewrites six stored pointers in the object (at +0x36, +0x3C, +0x42, +0x48, +0x4E and +0x54) as half their distance from the object base less 0x30, then stores its argument at the address held at +0x14",
+    "summary": "Converts the object's stored pointers to offsets from its base and stores a value through its reference."
+  }
+}

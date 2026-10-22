@@ -1,0 +1,128 @@
+{
+  "0x1018E9B0": {
+    "name": "Unit1018BA60_ConstructKind1",
+    "confidence": "low",
+    "evidence": "calls fn_1018EA50(self,1) then sets vtable PTR_FUN_103368c8; sibling fn_1018EA00 does the same with 2 and PTR_FUN_103368cc; called from Unit1018BA60_CreateAll",
+    "summary": "Runs the base initialiser with argument 1 and sets the object's vtable."
+  },
+  "0x1018EA00": {
+    "name": "Unit1018BA60_ConstructKind2",
+    "confidence": "low",
+    "evidence": "calls fn_1018EA50(self,2) then sets vtable PTR_FUN_103368cc; sibling fn_1018E9B0 does the same with 1 and PTR_FUN_103368c8; called from Unit1018BA60_CreateAll",
+    "summary": "Runs the base initialiser with argument 2 and sets the object's vtable."
+  },
+  "0x1018EA50": {
+    "name": "Unit1018BA60_InitFields",
+    "confidence": "low",
+    "evidence": "stores its argument at +0x14, sets vtable PTR_FUN_103368d0, zeroes the fields at +4, +8, +0xC, +0x10, +0x18, +0x1C; called by fn_1018E9B0 and fn_1018EA00",
+    "summary": "Stores its argument at +0x14 and zeroes the object's fields at +4 to +0x1C."
+  },
+  "0x1018EB00": {
+    "name": "Unit1018BA60_RecreateMembers",
+    "confidence": "medium",
+    "evidence": "frees and reallocates the member at +4 (fn_1018E0E0, operator_delete, Allocator_Generic, fn_1018E0A0), releases and reallocates the member at +0xC (vtable slot 0, fn_1018E6F0), calls Unit1018BA60_AllocBuffer, and resets globals g_pTkMsgWinData / dword_1057815C / dword_10578160",
+    "summary": "Frees and recreates the two member objects and the data buffer, then resets the related globals."
+  },
+  "0x1018EE40": {
+    "name": "Unit1018BA60_ConstructLarge",
+    "confidence": "low",
+    "evidence": "calls fn_10126320 on +4 and fn_101B4710 on +0x18, sets vtable PTR_FUN_10333360 then PTR_FUN_103368f0, and writes fields up to +0x2220 (a large object); called only from sub_101B8E70",
+    "summary": "Initialises a large object's base subobjects, its vtable and its fields from the two arguments."
+  },
+  "0x1018FA80": {
+    "name": "Text_GetCharLength",
+    "confidence": "medium",
+    "evidence": "returns 0 for NUL, 1 for control codes, 2 or 1 by Sjis_IsLeadByte, and special values 3, 4, 6 for 0x7F and 0xFD codes; Text_CountChars advances its byte offset by this result",
+    "summary": "Returns the byte length of the text character at a position, given its lead byte and the next byte."
+  },
+  "0x1018FB00": {
+    "name": "Text_GetLastCharLength",
+    "confidence": "medium",
+    "evidence": "steps through the bytes with fn_1018FA80 (Text_GetCharLength) until the offset reaches the limit and returns the last step; callers fn_101ABEF0, fn_101ABF40, fn_101AD0D0 and fn_101B7C20 use it as a byte-length, not a count",
+    "summary": "Walks the text from its start up to the given byte limit and returns the byte length of the last character."
+  },
+  "0x1018FD90": {
+    "name": "Sjis_Remap82To83",
+    "confidence": "medium",
+    "evidence": "for each character whose lead byte is 0x82 (-0x7E) and trail byte is in 0x9F-0xF1, writes lead 0x83 and adjusts the trail by -0x5F or -0x5E; steps through characters with fn_1018FA80; caller FsWordCompletion_SetWord",
+    "summary": "Rewrites Shift-JIS two-byte characters with lead 0x82 as lead 0x83 with an adjusted trail byte, in place."
+  },
+  "0x101907D0": {
+    "name": "Unit1018BA60_FreeBlock",
+    "confidence": "low",
+    "evidence": "its only action is to return operator_delete of its argument; called by Unit1018BA60_ClearBufferA, Unit1018BA60_ClearBufferB, Unit1018BA60_FreeBuffer and FsLogPage_EnsurePage's callers",
+    "summary": "Frees the block it is given by calling operator_delete."
+  },
+  "0x101908D0": {
+    "name": "Unit1018BA60_Nop",
+    "confidence": "low",
+    "evidence": "body is a bare return; called by FsTextInput_init and several sub_101B5xxx routines",
+    "summary": "Does nothing."
+  },
+  "0x10192380": {
+    "name": "Unit1018BA60_FindShapeKey2Top",
+    "confidence": "medium",
+    "evidence": "searches the shape manager with ShapeMng_FindShape for the string 'menu    key2top' and stores the result at +0x14, the argument at +0x18 and clears +0x1E; sibling Unit1018BA60_FindTopShape searches the same string",
+    "summary": "Stores its argument and looks up the 'key2top' menu shape, keeping the result at +0x14."
+  },
+  "0x10193800": {
+    "name": "Unit1018BA60_AddPairChecked",
+    "confidence": "low",
+    "evidence": "when the global object DAT_106626cc is set, calls fn_10195240 with its three arguments and returns 1; otherwise returns -1; called by fn_101AA300 with entry indices 0x1B and 0x1D",
+    "summary": "Forwards its three arguments to the pair-adding routine when the object exists, else returns -1."
+  },
+  "0x10193890": {
+    "name": "Unit1018BA60_GetSetting99",
+    "confidence": "medium",
+    "evidence": "calls fn_101938B0 with the constant key 0x99 and its argument; fn_101938B0 calls Settings_GetValue; sibling Unit1018BA60_GetSetting41 is named by a caller of fn_10195330",
+    "summary": "Returns the setting with key 0x99, passed through fn_101938B0 with the caller's argument."
+  },
+  "0x10193B00": {
+    "name": "Unit1018BA60_InitPairNode",
+    "confidence": "medium",
+    "evidence": "sets vtable PTR_FUN_10336a00, the next pointer at +4 to 0, and stores its two arguments at +8 and +0xC; used by Unit1018BA60_FindOrAdd and fn_10195240 to allocate 0x10-byte pair nodes",
+    "summary": "Initialises a pair node: next pointer null, first and second values stored at +8 and +0xC."
+  },
+  "0x10195240": {
+    "name": "Unit1018BA60_AddPairAndCall",
+    "confidence": "medium",
+    "evidence": "gets the entry at index param_1 with Unit1018BA60_GetEntry2C; when param_2 is nonzero, adds the pair (param_2,param_3) to the entry's list with Unit1018BA60_FindOrAdd or fn_10193B00, then calls Unit1018BA60_ForEach with the entry's values at +4 and +8",
+    "summary": "Adds a pair to an entry's list when its second argument is nonzero, then calls the list's callbacks with the entry's two values."
+  },
+  "0x101952C0": {
+    "name": "Unit1018BA60_SetEntryValue",
+    "confidence": "medium",
+    "evidence": "gets the entry with Unit1018BA60_GetEntry2C; returns -1 when missing or when its value at +8 already equals the new one (except index 0xCE); otherwise calls fn_10196040 and sets the dirty flag at +8 for entry types 1 and 2; called by SetConfig",
+    "summary": "Stores a new value in a config entry when it differs from the current one, and marks the table dirty for types 1 and 2."
+  },
+  "0x10195330": {
+    "name": "Unit1018BA60_GetEntryValue",
+    "confidence": "medium",
+    "evidence": "gets the entry with Unit1018BA60_GetEntry2C and returns its value at +8, or -1 when there is no entry; called by Settings_GetValue",
+    "summary": "Returns the value stored in the entry at the given index, or -1 when the entry is missing."
+  },
+  "0x10195460": {
+    "name": "Unit1018BA60_DefineEntry",
+    "confidence": "medium",
+    "evidence": "writes an index, a default, a type, an optional 8-byte string or value at +0x10, and four further fields into the 0x2C-byte entry array at +4; FsConfig_Constructor calls it with the strings LSKF1JHT and LSKF1JRK",
+    "summary": "Fills in the entry at the given index of the entry array with its default, type and value fields."
+  },
+  "0x101954F0": {
+    "name": "Unit1018BA60_WriteTigDat",
+    "confidence": "medium",
+    "evidence": "copies the value of every type-6 entry into a 0xCF-slot array (first slot 1), then writes 4 times the count bytes to tig.dat through g_pFileMng with fn_101C4920",
+    "summary": "Collects the values of the type-6 entries and writes them to tig.dat."
+  },
+  "0x10195570": {
+    "name": "Unit1018BA60_ReadTigDat",
+    "confidence": "medium",
+    "evidence": "reads 0x33C bytes from tig.dat through g_pFileMng with fn_101C4790, requires the first word to be 1, then for each type-6 entry applies the stored value with fn_10196040 (entry 0xAB uses Settings_GetValue when its type is 0x43) and calls Unit1018BA60_ForEach; called by fn_101953A0",
+    "summary": "Reads tig.dat and applies its stored values to the type-6 entries."
+  },
+  "0x101953A0": {
+    "name": "Unit1018BA60_ReadTigDatSetFlag",
+    "confidence": "low",
+    "evidence": "calls Unit1018BA60_ReadTigDat and then sets the flag byte at +10 to 1; called by fn_101AB6D0",
+    "summary": "Runs Unit1018BA60_ReadTigDat and sets the flag at +10."
+  }
+}

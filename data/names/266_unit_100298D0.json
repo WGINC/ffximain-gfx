@@ -1,0 +1,20 @@
+{
+  "0x10029B60": {
+    "name": "VtxBuf_ReleaseAll",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 2 on each vertex buffer in the table at g_vertexBuffer_7148 up to 0x10457158 and clears it, zeroes DWORD_10457548, then calls __sub_10095B10, FUN_10025BE0, FUN_100389C0, FUN_100336D0 and FUN_1001D110",
+    "summary": "Releases every vertex buffer and resets the related graphics state."
+  },
+  "0x10029BB0": {
+    "name": "CYyModelDt_InitBase",
+    "confidence": "medium",
+    "evidence": "sets the vtable to PTR_FUN_1032a6dc and clears the ten dwords from +4 to +0x28 of the base at self+0x10",
+    "summary": "Initialises the base part of a CYyModelDt object."
+  },
+  "0x10029C90": {
+    "name": "CYyModelDt_Init",
+    "confidence": "medium",
+    "evidence": "calls CYyModelDt_InitBase on the sub-object at +0x10, sets the vtable to PTR_CYyModelDt_GetRuntimeClass_1032a6e0, and clears the dwords at +4, +8 and +0xC",
+    "summary": "Initialises a CYyModelDt object and its base part."
+  }
+}

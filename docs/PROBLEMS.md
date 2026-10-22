@@ -97,6 +97,17 @@ The causes of the three FAILs have not been looked into yet.
   - early-return and if/else orders.
 - **Not known:** what source MSVC6 compiles to a partial-register write like this.
 
+### P12. Functions called through vtables are UNRESOLVED on EAX past their declared return (22 Oct)
+- **Known:** with P10's rule, the IDA route's raw gate goes from 770 PASS to 666 (ida9, gate_raw10):
+  - 99 functions differ in EAX bytes past their declared return: 69 `bool`, 22 `void`, 8 word;
+  - 5 are made UNRESOLVED by an entry-EAX difference that one trial showed.
+- **Why the facts do not cover them:** `caller_reads.py` lists a function only if every reference to it is a direct
+  call or a tail jump. Of the 111 functions UNRESOLVED this way, 90 have their address stored as data in the image,
+  mostly vtable slots, so their callers are not all known.
+- **Path to recover them:** extend caller_reads to a function whose every reference is a vtable slot, where every
+  call through that slot is settled (`vcalls.json`). The callers through the slot then join the walk. No guess: a
+  slot with a call site vcall_resolve does not settle leaves the function out, as now.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

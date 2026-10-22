@@ -1,0 +1,3 @@
+{
+"0x10292490": {"name": "SqCipher_SwapNibblesXor", "confidence": "low", "evidence": "for each byte of the buffer XORs it with the key byte at DAT_103BB0C8 and swaps its two nibbles", "summary": "Scrambles a buffer by XOR with a key and swapping nibbles."}
+}

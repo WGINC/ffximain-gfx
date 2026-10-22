@@ -1,0 +1,3 @@
+{
+  "0x10034230": {"name": "CYySkl_Construct", "confidence": "medium", "evidence": "sets the vtable to CYySkl_GetRuntimeClass and zeroes the dwords at +4, +8, +0xC and +0x14 and the byte at +0x10", "summary": "Constructs the skeleton object and clears its fields."}
+}

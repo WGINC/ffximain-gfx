@@ -1,0 +1,5 @@
+{
+"0x100389C0": {"name": "SceneCapture_ReleaseTextures", "confidence": "medium", "evidence": "for each of the four capture objects (g_sceneCaptureTex, g_sceneCaptureTexEye2, g_sceneCaptureDepth, g_sceneCaptureDepthEye2) calls its vtable slot 8 (Release) when non-null and clears the global; called by fn_10029B60", "summary": "Releases the scene capture textures and depth buffers."},
+"0x10038A20": {"name": "CYyObjectBase_Init", "confidence": "low", "evidence": "sets vtable PTR_FUN_1032a9ec and clears the dwords at this+4 and +8; called by CYyModel::Constructor", "summary": "Sets the base vtable and clears two fields."},
+"0x10039440": {"name": "CYyObject_Init", "confidence": "low", "evidence": "sets vtable PTR_CYyObject_GetRuntimeClass_variant18_1032a9f8, clears the dword at +8 and the eight dwords from +0xC, and sets the byte at +4 to 1; called by LobbyThread_Start", "summary": "Initialises a CYyObject with its vtable and clears its fields."}
+}

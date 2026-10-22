@@ -1,0 +1,14 @@
+{
+  "0x10018840": {
+    "name": "Ui_IsStateFour",
+    "confidence": "low",
+    "evidence": "returns 1 when the dword at +0x108 equals 4, otherwise 0",
+    "summary": "Reports whether the object's state at offset 0x108 is 4."
+  },
+  "0x10018B50": {
+    "name": "Ui_UpdateRangeEntries",
+    "confidence": "low",
+    "evidence": "for the current index at +0xC below 0x18, when the value at +0x10 is inside the range given by the table at DAT_10350E60 and DAT_10350E64, positions the entry with FUN_1011FB60 and moves the index forward past the ranges the value has passed",
+    "summary": "Positions the timed UI entries whose time range the current value falls in and advances the index past finished ranges."
+  }
+}

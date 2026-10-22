@@ -111,6 +111,15 @@ The causes of the three FAILs have not been looked into yet.
   - Declared prototypes: the export records do not say which IDB prototypes a person declared and which Hex-Rays
     inferred, so the IDB's `bool` is not usable as a declared type here. The owner could mark the ones they typed.
   - Otherwise they stay UNRESOLVED, which is what is known.
+- **The raw gates' 244 such functions** (ida9, frameset9, fsfall9; 22 Oct):
+  - 130 are referenced as data (vtables, tables). Only 47 slot offsets below 0x400 have every `call [reg+disp]`
+    through them settled, while the busiest have hundreds unsettled (923 at +200, 712 at +0).
+  - 114 have no data reference. In a sample of 3:
+    - one has no direct caller either, so how it is reached is not known;
+    - two have a caller that returns right after the call (`ret 0x18`; `pop …; ret`), passing EAX up to callers
+      that are not all known.
+
+  For these, UNRESOLVED is correct. Recovering them needs the callers along the whole chain, not a local fix.
 
 ### P13. IDB prototypes include types previous sessions inferred (22 Oct, from the owner)
 - **Known:** the owner confirms some IDB types were inferred by earlier sessions. The ones `ida/ffxi_ida_fix.py`

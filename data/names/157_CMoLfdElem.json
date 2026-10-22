@@ -1,0 +1,4 @@
+{
+"0x10053030": {"name": "CMoLfdElem_Constructor", "confidence": "medium", "evidence": "calls CMoElem_Constructor on this, sets the CMoLfdElem vtable and stores 0x1A0 at +0x176; called by sub_1004E8D0", "summary": "Constructs a CMoLfdElem on top of its CMoElem base and sets its type field."},
+"0x10053050": {"name": "CMoLfdElem_TestArg12", "confidence": "low", "evidence": "vtable slot 12 of CMoLfdElem; returns 1 iff param_1 equals 12", "summary": "Tests whether its argument is 12."}
+}

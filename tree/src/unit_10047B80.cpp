@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10047B80  (unit unit_10047B80: no unit evidence of its own; in the gap between 0x10047960 (CMoSkeletonElem) and 0x10047C30 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __thiscall fn_10047B80(void * self_)
+XI_API uint8_t * __thiscall Unit10047B80_GetOffsetVec(void * self_)
 {
   int *piVar1;
   uint8_t *puVar2;
@@ -14,9 +14,9 @@ XI_API uint8_t * __thiscall fn_10047B80(void * self_)
     return(uint8_t*)(&g_vec4_m1_m1_m1_1);
   }
   if (piVar1 != (int *)0x0) {
-    puVar2 = (uint8_t *)orig::FUN_10063b70((void *)(*piVar1 + 0x30));
+    puVar2 = (uint8_t *)orig::CMoSpline_GetData((void *)(*piVar1 + 0x30));
     return puVar2;
   }
-  puVar2 = (uint8_t *)orig::FUN_10063b70((void *)0x30);
+  puVar2 = (uint8_t *)orig::CMoSpline_GetData((void *)0x30);
   return puVar2;
 }

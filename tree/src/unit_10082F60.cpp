@@ -2,39 +2,55 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x10082F60  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
+// FUNCTION: FFXIMAIN 0x10082FB0  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __thiscall fn_10082F60(void * self_)
+XI_API undefined4 __stdcall fn_10082FB0(undefined4 * param_1, undefined4 * param_2)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  char *pcVar4;
+  long double fVar1;
+  uint32_t *puVar2;
+  int iVar3;
+  uint32_t uVar4;
+  uint8_t bVar5;
+  uint8_t bVar6;
+  long double fVar7;
+  int64_t lVar8;
+  char xi_frame[80] __attribute__((aligned(4)));
+  float  &local_50 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_4c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_48 = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &local_44 = *reinterpret_cast<float  *>(xi_frame + 12);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 16);
   
-  DAT_1047d4f8 = 0;
-  if (*(int *)((int)self_ + 0x70) != 0) {
-    iVar2 = orig::CXiActor_IsInModelSlotTable_v1(self_);
-    if ((char)iVar2 == '\0') {
-      pcVar3 = orig::FUN_100979b0(*(void **)((int)self_ + 0x70));
-      pcVar4 = &DAT_1047d4f8;
-      do {
-        cVar1 = *pcVar3;
-        pcVar3 = pcVar3 + 1;
-        *pcVar4 = cVar1;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-    }
-    return &DAT_1047d4f8;
+  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Vec3_Copy_v1(&local_50,param_1);
+  local_44 = 1.0f;
+  puVar2 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
+  orig::Mat4_Copy_v1(local_40,puVar2);
+  orig::Mat4_TransformPointInPlace_v1(local_40,&local_50);
+  if ((long double)local_48 >= (long double)0.0f) {
+    orig::Unit10026C70_Nop();
+    return 0;
   }
-  return (uint8_t *)((int)self_ + 0xb8);
-}
-
-// FUNCTION: FFXIMAIN 0x10082FA0  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10082FA0(void * self_)
-{
-  if (*(int *)((int)self_ + 0x70) != 0) {
-    return *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x78);
+  orig::Vec3_Copy_v1(&local_50,param_1);
+  iVar3 = orig::Camera_GetMatrix154Ptr_v1();
+  orig::Mat4_PostMultiply_v1(local_40,iVar3);
+  uVar4 = orig::Mat4_TransformCoordInPlace_v1(local_40,&local_50);
+  fVar7 = (long double)local_44;
+  fVar1 = (long double)1.0f;
+  bVar6 = NAN(fVar7) || NAN(fVar1);
+  bVar5 = bVar6 || fVar7 < fVar1;
+  if (bVar5 != bVar6) {
+    orig::Unit10026C70_Nop();
+    return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar4 >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar5 << 8 | (uint16_t)bVar6 << 10 |
+                    (uint16_t)(bVar6 || fVar7 == fVar1) << 0xe)));
   }
-  return 0;
+  lVar8 = XI_CALL_ST0(0x10311C2Cu)((long double)local_50 * (long double)4096.0f);
+  *param_2 = (int)lVar8;
+  lVar8 = XI_CALL_ST0(0x10311C2Cu)((long double)local_4c * (long double)4096.0f);
+  param_2[1] = (int)lVar8;
+  lVar8 = XI_CALL_ST0(0x10311C2Cu)((long double)local_48 * (long double)4096.0f);
+  param_2[2] = (int)lVar8;
+  param_2[3] = 0;
+  orig::Unit10026C70_Nop();
+  return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)lVar8 >> 8)) << 8) | (uint8_t)(1)));
 }

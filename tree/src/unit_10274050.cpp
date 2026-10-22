@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102741F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102741F0(int param_1, int param_2)
+XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -21,7 +21,7 @@ XI_API int __cdecl fn_102741F0(int param_1, int param_2)
     if (0 < *(int *)(param_1 + 0x18)) {
       do {
         if ((*piVar4 == iVar1) && (piVar4[1] == param_2)) {
-          orig::FUN_10273e80(param_1,iVar1,0);
+          orig::Chasm_ToggleLayerState(param_1,iVar1,0);
           uVar2 = orig::FUN_1027e450((uint8_t *)(piVar4 + 2));
           orig::FUN_102857e0((int)(piVar4 + 10),0xff,uVar2);
           orig::FUN_1027e190((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
@@ -35,15 +35,15 @@ XI_API int __cdecl fn_102741F0(int param_1, int param_2)
       } while (iVar3 < *(int *)(param_1 + 0x18));
     }
     orig::sqDebugPrintf_v2(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
-    orig::FUN_10273e80(param_1,*(int *)(param_1 + 4),0);
-    orig::FUN_10273e80(param_1,param_2,1);
+    orig::Chasm_ToggleLayerState(param_1,*(int *)(param_1 + 4),0);
+    orig::Chasm_ToggleLayerState(param_1,param_2,1);
   }
   return -1;
 }
 
 // FUNCTION: FFXIMAIN 0x10274370  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 87 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10274370(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4)
+XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4)
 {
   uint8_t *pbVar1;
   int iVar2;
@@ -70,7 +70,7 @@ XI_API undefined4 __cdecl fn_10274370(int param_1, int param_2, undefined4 * par
 
 // FUNCTION: FFXIMAIN 0x10274640  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10274640(undefined4 * param_1)
+XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
 {
   *param_1 = 0;
   param_1[1] = 0;
@@ -80,7 +80,7 @@ XI_API void __cdecl fn_10274640(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10274670  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10274670(float * param_1, float param_2, float param_3, float param_4)
+XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float param_3, float param_4)
 {
   *param_1 = (float)(long double)param_2;
   param_1[1] = param_3;
@@ -90,7 +90,7 @@ XI_API void __cdecl fn_10274670(float * param_1, float param_2, float param_3, f
 
 // FUNCTION: FFXIMAIN 0x10274890  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10274890(float * param_1, float * param_2, float * param_3)
+XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)param_3[2] * (long double)param_2[1] -
                     (long double)param_3[1] * (long double)param_2[2]);
@@ -103,7 +103,7 @@ XI_API void __cdecl fn_10274890(float * param_1, float * param_2, float * param_
 
 // FUNCTION: FFXIMAIN 0x102749C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102749C0(float * param_1, float * param_2, float * param_3)
+XI_API void __cdecl Unit10274050_Sub(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 - (long double)*param_3);
   param_1[1] = (float)((long double)param_2[1] - (long double)param_3[1]);
@@ -113,7 +113,7 @@ XI_API void __cdecl fn_102749C0(float * param_1, float * param_2, float * param_
 
 // FUNCTION: FFXIMAIN 0x10274A20  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10274A20(float * param_1, float * param_2, float * param_3, float param_4)
+XI_API void __cdecl Unit10274050_LerpFactor(float * param_1, float * param_2, float * param_3, float param_4)
 {
   *param_1 = (float)(((long double)*param_3 - (long double)*param_2) * (long double)param_4 + (long double)*param_2)
   ;

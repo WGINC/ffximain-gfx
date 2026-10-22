@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001ABF0  (unit CYyMotionQueList: stores CYyMotionQueList vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001ABF0(void * self_)
+XI_API void __thiscall CYyMotionQueList_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyMotionQueList_GetRuntimeClass_1032a210;
   *(uint32_t *)((int)self_ + 4) = 0;

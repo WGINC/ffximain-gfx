@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10288660  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10288660(int param_1)
+XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
 {
   if (DAT_109a278c == 0) {
     DAT_109a278c = param_1;
@@ -15,7 +15,7 @@ XI_API int __cdecl fn_10288660(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10288680  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_10288680(uint32_t param_1)
+XI_API uint32_t __cdecl SqmdDMB_AlignMem(uint32_t param_1)
 {
   int iVar1;
   int xi_s3;
@@ -25,7 +25,7 @@ XI_API uint32_t __cdecl fn_10288680(uint32_t param_1)
   if ((param_1 & 0xf) != 0) {
     iVar2 = 0x10 - (param_1 & 0xf);
     if (DAT_109a2788 != 0) {
-      xi_s3 = orig::FUN_10288660(param_1);
+      xi_s3 = orig::SqmdDMB_TraceDelta(param_1);
       orig::FUN_10314d55(iVar1,s__06ld__sqmdDMBAlignMem___adding___103b8ec8,xi_s3);
     }
     if (iVar2 != 0) {
@@ -37,7 +37,7 @@ XI_API uint32_t __cdecl fn_10288680(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10288BB0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
+XI_API undefined4 __cdecl SqmdDMB_ResolveMatrices(int param_1, uint32_t param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -45,10 +45,10 @@ XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
   
   iVar3 = DAT_109a2788;
   if (DAT_109a2788 != 0) {
-    iVar1 = orig::FUN_10288660(param_2);
+    iVar1 = orig::SqmdDMB_TraceDelta(param_2);
     orig::FUN_10314d55(iVar3,s__06ld_____sqmdDMBResolveMatrices_103b9134,iVar1);
   }
-  uVar2 = orig::FUN_10288680(param_2);
+  uVar2 = orig::SqmdDMB_AlignMem(param_2);
   iVar3 = *(int *)(param_1 + 0x5c);
   if (*(int *)(param_1 + 0x5c) <= *(int *)(param_1 + 0x58)) {
     iVar3 = *(int *)(param_1 + 0x58);
@@ -68,7 +68,7 @@ XI_API undefined4 __cdecl fn_10288BB0(int param_1, uint32_t param_2)
 
 // FUNCTION: FFXIMAIN 0x10288C20  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 12 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
+XI_API char * __cdecl SqmdDMB_ResolveStrings(int param_1, uint32_t param_2)
 {
   char cVar1;
   int iVar2;
@@ -81,16 +81,16 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
   
   iVar7 = DAT_109a2788;
   if (DAT_109a2788 != 0) {
-    iVar2 = orig::FUN_10288660(param_2);
+    iVar2 = orig::SqmdDMB_TraceDelta(param_2);
     orig::FUN_10314d55(iVar7,s__06ld_____sqmdDMBResolveStrings__103b9190,iVar2);
   }
-  pcVar3 = (char *)orig::FUN_10288680(param_2);
+  pcVar3 = (char *)orig::SqmdDMB_AlignMem(param_2);
   iVar7 = 0;
   if (0 < *(int *)(param_1 + 0x7c)) {
     do {
       iVar2 = DAT_109a2788;
       if (DAT_109a2788 != 0) {
-        iVar4 = orig::FUN_10288660((int)pcVar3);
+        iVar4 = orig::SqmdDMB_TraceDelta((int)pcVar3);
         orig::FUN_10314d55(iVar2,s__06ld__tag_string__s_103b9174,iVar4);
       }
       uVar6 = 0xffffffff;
@@ -107,7 +107,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
       if (((uint32_t)pcVar3 & 3) != 0) {
         iVar4 = 4 - ((uint32_t)pcVar3 & 3);
         if (DAT_109a2788 != 0) {
-          iVar5 = orig::FUN_10288660((int)pcVar3);
+          iVar5 = orig::SqmdDMB_TraceDelta((int)pcVar3);
           orig::FUN_10314d55(iVar2,s__06ld__adding__d_align_bytes_103b8850,iVar5);
         }
         if (iVar4 != 0) {
@@ -129,7 +129,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
     do {
       iVar2 = DAT_109a2788;
       if (DAT_109a2788 != 0) {
-        iVar4 = orig::FUN_10288660((int)pcVar3);
+        iVar4 = orig::SqmdDMB_TraceDelta((int)pcVar3);
         orig::FUN_10314d55(iVar2,s__06ld__file_string__s_103b9158,iVar4);
       }
       uVar6 = 0xffffffff;
@@ -146,7 +146,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
       if (((uint32_t)pcVar3 & 3) != 0) {
         iVar4 = 4 - ((uint32_t)pcVar3 & 3);
         if (DAT_109a2788 != 0) {
-          iVar5 = orig::FUN_10288660((int)pcVar3);
+          iVar5 = orig::SqmdDMB_TraceDelta((int)pcVar3);
           orig::FUN_10314d55(iVar2,s__06ld__adding__d_align_bytes_103b8850,iVar5);
         }
         if (iVar4 != 0) {
@@ -168,7 +168,7 @@ XI_API char * __cdecl fn_10288C20(int param_1, uint32_t param_2)
 
 // FUNCTION: FFXIMAIN 0x10288DC0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10288DC0(int param_1)
+XI_API void __cdecl SqmdDMB_ClearTables(int param_1)
 {
   int iVar1;
   int iVar2;
@@ -191,7 +191,7 @@ XI_API void __cdecl fn_10288DC0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10288E00  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
 // GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10288E00(int param_1)
+XI_API void __cdecl SqmdDMB_ResetCounts(int param_1)
 {
   int iVar1;
   int iVar2;

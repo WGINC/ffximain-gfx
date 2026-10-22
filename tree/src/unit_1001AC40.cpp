@@ -2,23 +2,9 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1001ACB0  (unit unit_1001AC40: no unit evidence of its own; in the gap between 0x1001AC30 (CYyMotionQueList) and 0x1001B230 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001ACB0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
-{
-  int iVar1;
-  
-  orig::KzMotionQueList_AppendSync(self_,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
-  iVar1 = orig::FUN_1001b1a0(self_);
-  if (iVar1 != 0) {
-    *(int *)(iVar1 + 0x24) = param_7;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1001B170  (unit unit_1001AC40: no unit evidence of its own; in the gap between 0x1001AC30 (CYyMotionQueList) and 0x1001B230 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001B170(void * self_, float param_1)
+XI_API void __thiscall KzMotionQueList_AdvanceAll(void * self_, float param_1)
 {
   void *this_00;
   
@@ -31,7 +17,7 @@ XI_API void __thiscall fn_1001B170(void * self_, float param_1)
 
 // FUNCTION: FFXIMAIN 0x1001B1F0  (unit unit_1001AC40: no unit evidence of its own; in the gap between 0x1001AC30 (CYyMotionQueList) and 0x1001B230 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 57 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001B1F0(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API void __thiscall KzMotionQueList_NotifyAll(void * self_, undefined4 param_1, undefined4 param_2)
 {
   int *this_00;
   uint32_t uVar1;

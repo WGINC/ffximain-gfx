@@ -2,62 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1003FCB0  (unit unit_1003FB70: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1003FCB0(void * self_)
-{
-  uint32_t xi_entry_eax = 0;
-  uint32_t uVar1;
-  uint8_t bVar2;
-  
-  uVar1 = xi_entry_eax & 0xffffff00;
-  if (((*(char *)((int)self_ + 0x34) == '\0') &&
-      (bVar2 = *(uint8_t *)((int)self_ + 0x30) & 0xf, 4 < bVar2)) && (bVar2 < 8)) {
-    uVar1 = ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
-  }
-  return uVar1;
-}
-
-// FUNCTION: FFXIMAIN 0x1003FCE0  (unit unit_1003FB70: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003FCE0(void * self_)
-{
-  return (int)self_ + 0x38;
-}
-
-// FUNCTION: FFXIMAIN 0x1003FCF0  (unit unit_1003FB70: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003FCF0(void * self_)
-{
-  uint8_t bVar1;
-  int iVar2;
-  uint32_t uVar3;
-  
-  bVar1 = *(uint8_t *)((int)self_ + 0x30) & 0xf;
-  if (4 < bVar1) {
-    if (bVar1 < 7) {
-      iVar2 = orig::FUN_1003fce0(self_);
-      uVar3 = (uint32_t)*(uint8_t *)((int)self_ + 0x35) + (uint32_t)*(uint8_t *)((int)self_ + 0x34);
-      if ((uVar3 & 3) != 0) {
-        return iVar2 + 6 + (uVar3 - (uVar3 & 3)) * 2;
-      }
-      return iVar2 + uVar3 * 2;
-    }
-    if (bVar1 == 7) {
-      iVar2 = orig::FUN_1003fce0(self_);
-      if (*(uint8_t *)((int)self_ + 0x34) == 0) {
-        return iVar2;
-      }
-      uVar3 = (uint32_t)*(uint8_t *)((int)self_ + 0x35) + (uint32_t)*(uint8_t *)((int)self_ + 0x34);
-      if ((uVar3 & 3) != 0) {
-        return iVar2 + 6 + (uVar3 - (uVar3 & 3)) * 2;
-      }
-      return iVar2 + uVar3 * 2;
-    }
-  }
-  return (int)self_ + 0x40;
-}
-
 // FUNCTION: FFXIMAIN 0x1003FD70  (unit unit_1003FB70: no unit evidence of its own; in the gap between 0x1003FB50 (CXi471011C8_VT_1032AC90) and 0x10041010 (CMoD3mSpecularElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall MoElem_GetVertexData(void * self_)
@@ -67,7 +11,7 @@ XI_API int __thiscall MoElem_GetVertexData(void * self_)
   
   bVar1 = *(uint8_t *)((int)self_ + 0x30) & 0xf;
   if ((4 < bVar1) && (bVar1 < 8)) {
-    iVar2 = orig::FUN_1003fcf0(self_);
+    iVar2 = orig::CMoDistModelElem_GetDataEnd_v1(self_);
     return iVar2 + (uint32_t)*(uint8_t *)((int)self_ + 0x34) * 0x10;
   }
   return (int)self_ + 0x80;

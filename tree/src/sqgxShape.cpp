@@ -42,7 +42,7 @@ XI_API int * __cdecl sqgxShapeIndexBufferBegin(void)
 
 // FUNCTION: FFXIMAIN 0x1028AB50  (unit sqgxShape: between 0x1028A800 (asserts sqgxShape.c) and 0x1028AFE0 (name sqgxShape_1028AFE0), both within 4 KB)
 // GATE: PASS -- 100 trials, 29 returned normally, 11 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1028AB50(void)
+XI_API int __cdecl SqgxShape_FillBuffers(void)
 {
   int result;
   int *v1;
@@ -363,7 +363,7 @@ XI_API int * __cdecl sqgxShapeBegin(void)
     v0 = g_pSqgxContext;
   }
   orig::j_sqgxVertexShaderSelect();
-  orig::nullsub_31();
+  orig::SqgxContext_NoOpA();
   orig::sqgxMatrixUpdate();
   orig::sqgxColorUpdate();
   orig::sqgxTextureUpdate();

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100396A0  (unit unit_10039610: no unit evidence of its own; in the gap between 0x100395F0 (CYyObject_VT_1032A9F8) and 0x10039770 (CYyTexBase) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100396A0(void * self_)
+XI_API void __thiscall Thread_ResumeAndWait(void * self_)
 {
   int iVar1;
   

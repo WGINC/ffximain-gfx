@@ -39,7 +39,7 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 
 // FUNCTION: FFXIMAIN 0x1001D170  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 98 returned normally, 187 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001D170(void * self_)
+XI_API void __thiscall Unit1001B890_Construct(void * self_)
 {
   int *piVar1;
   int iVar2;
@@ -119,7 +119,7 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x1001D390  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1001D390(undefined4 param_1, undefined4 param_2)
+XI_API void __stdcall Unit1001B890_SetColorForce(undefined4 param_1, undefined4 param_2)
 {
   g_translucentColor_as_v0 = param_1;
   g_translucentForce_as_v0 = (uint8_t)param_2;

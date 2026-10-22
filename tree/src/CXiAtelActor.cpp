@@ -357,5 +357,46 @@ LABEL_62:
     }
   }
 LABEL_63:
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
+}
+
+// FUNCTION: FFXIMAIN 0x10086E90  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CXiAtelActor::CopyAndWrapAngles(void * self)
+{
+  float *pfVar1;
+  long double fVar2;
+  uint8_t bVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  
+  orig::Vec4_Copy_v1((uint32_t *)((int)self + 0xc4),(uint32_t *)((int)self + 0x34));
+  pfVar1 = (float *)((int)self + 0x44);
+  orig::Vec4_Copy_v1(pfVar1,pfVar1);
+  if ((long double)*pfVar1 > (long double)3.141499996185302734375f) {
+    *pfVar1 = (float)((long double)*pfVar1 - (long double)6.28299999237060546875f);
+  }
+  bVar3 = NAN((long double)*pfVar1) || NAN((long double)(-3.141499996185302734375f));
+  if ((bVar3 || (long double)*pfVar1 < (long double)(-3.141499996185302734375f)) != bVar3) {
+    *pfVar1 = (float)((long double)*pfVar1 + (long double)6.28299999237060546875f);
+  }
+  if ((long double)*(float *)((int)self + 0x48) > (long double)3.141499996185302734375f) {
+    *(float *)((int)self + 0x48) = (float)((long double)*(float *)((int)self + 0x48) - (long double)6.28299999237060546875f);
+  }
+  bVar3 = NAN((long double)*(float *)((int)self + 0x48)) || NAN((long double)(-3.141499996185302734375f));
+  if ((bVar3 || (long double)*(float *)((int)self + 0x48) < (long double)(-3.141499996185302734375f)) != bVar3) {
+    *(float *)((int)self + 0x48) = (float)((long double)*(float *)((int)self + 0x48) + (long double)6.28299999237060546875f);
+  }
+  if ((long double)*(float *)((int)self + 0x4c) > (long double)3.141499996185302734375f) {
+    *(float *)((int)self + 0x4c) = (float)((long double)*(float *)((int)self + 0x4c) - (long double)6.28299999237060546875f);
+  }
+  fVar5 = (long double)*(float *)((int)self + 0x4c);
+  fVar2 = (long double)(-3.141499996185302734375f);
+  bVar4 = NAN(fVar5) || NAN(fVar2);
+  bVar3 = bVar4 || fVar5 < fVar2;
+  if (bVar3 != bVar4) {
+    *(float *)((int)self + 0x4c) = (float)((long double)*(float *)((int)self + 0x4c) + (long double)6.28299999237060546875f);
+  }
+  return (uint32_t)(uint8_t)(bVar3 | (uint8_t)((uint16_t)((uint16_t)bVar4 << 10) >> 8) |
+                     (uint8_t)((uint16_t)((uint16_t)(bVar4 || fVar5 == fVar2) << 0xe) >> 8)) << 8;
 }

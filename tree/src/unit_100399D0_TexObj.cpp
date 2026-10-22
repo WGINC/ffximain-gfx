@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100399D0  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 165 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100399D0(void * self_)
+XI_API void __thiscall TexObj_Release(void * self_)
 {
   int *piVar1;
   

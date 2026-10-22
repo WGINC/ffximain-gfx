@@ -27,9 +27,9 @@ undefined4 __cdecl CYyCamMng2::CreateGlobal()
     DAT_10456d6c = (void *)0x0;
   }
   else {
-    DAT_10456d6c = orig::FUN_1001e600(self);
+    DAT_10456d6c = orig::CYyCamMng2_Construct(self);
   }
-  orig::FUN_1001e590(DAT_10456d6c);
+  orig::CYyCamMng2_SetDefaultDistances(DAT_10456d6c);
   uVar1 = orig::FUN_10015100(DAT_10456d6c);
   return uVar1;
 }
@@ -44,9 +44,9 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_CallGlobalVfunc1
   return xi_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x1001E4D0  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1001E4D0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_1001E4D0(void)
+long double __cdecl CYyCamMng2::GetYaw()
 {
   int iVar1;
   int iVar2;
@@ -58,55 +58,55 @@ XI_API long double __cdecl fn_1001E4D0(void)
   return fVar3;
 }
 
-// FUNCTION: FFXIMAIN 0x1001E4F0  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1001E4F0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1001E4F0(void * self_)
+undefined4 __thiscall CYyCamMng2::Reset(void * self)
 {
   uint32_t *puVar1;
   
-  puVar1 = (uint32_t *)((int)self_ + 0x44);
+  puVar1 = (uint32_t *)((int)self + 0x44);
   orig::Vec3_Copy_v1(puVar1,(uint32_t *)&DAT_1035122c);
   orig::FUN_10015290(0x43af0000);
-  orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x50),puVar1);
-  *(float *)((int)self_ + 0x58) = (float)((long double)*(float *)((int)self_ + 0x58) + (long double)1.0f);
-  *(uint32_t *)((int)self_ + 0x5c) = 0;
-  orig::FUN_10026e50((float *)((int)self_ + 0xa8),0.0f,(-1.0f),0.0f);
-  orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x6c),(uint32_t *)((int)self_ + 0x50));
-  orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x60),puVar1);
-  *(uint32_t *)((int)self_ + 0x78) = *(uint32_t *)((int)self_ + 0x5c);
-  *(uint32_t *)((int)self_ + 0x84) = 0;
-  *(uint32_t *)((int)self_ + 0x80) = 0;
-  *(uint32_t *)((int)self_ + 0x7c) = 0;
-  *(uint8_t *)((int)self_ + 0x88) = 0;
-  *(uint8_t *)((int)self_ + 0x89) = 0;
-  *(uint8_t *)((int)self_ + 0x8a) = 0;
-  *(uint8_t *)((int)self_ + 0xf4) = 0;
-  return *(uint32_t *)((int)self_ + 0x5c);
+  orig::Vec3_Copy_v1((uint32_t *)((int)self + 0x50),puVar1);
+  *(float *)((int)self + 0x58) = (float)((long double)*(float *)((int)self + 0x58) + (long double)1.0f);
+  *(uint32_t *)((int)self + 0x5c) = 0;
+  orig::Vec3_Set((float *)((int)self + 0xa8),0.0f,(-1.0f),0.0f);
+  orig::Vec3_Copy_v1((uint32_t *)((int)self + 0x6c),(uint32_t *)((int)self + 0x50));
+  orig::Vec3_Copy_v1((uint32_t *)((int)self + 0x60),puVar1);
+  *(uint32_t *)((int)self + 0x78) = *(uint32_t *)((int)self + 0x5c);
+  *(uint32_t *)((int)self + 0x84) = 0;
+  *(uint32_t *)((int)self + 0x80) = 0;
+  *(uint32_t *)((int)self + 0x7c) = 0;
+  *(uint8_t *)((int)self + 0x88) = 0;
+  *(uint8_t *)((int)self + 0x89) = 0;
+  *(uint8_t *)((int)self + 0x8a) = 0;
+  *(uint8_t *)((int)self + 0xf4) = 0;
+  return *(uint32_t *)((int)self + 0x5c);
 }
 
-// FUNCTION: FFXIMAIN 0x1001E590  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1001E590  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1001E590(void * self_)
+undefined4 __thiscall CYyCamMng2::SetDefaultDistances(void * self)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_1001e4f0(self_);
-  *(uint32_t *)((int)self_ + 0xb4) = 0x40400000;
-  *(uint32_t *)((int)self_ + 0xb8) = 0x40c00000;
+  uVar1 = orig::CYyCamMng2_Reset(self);
+  *(uint32_t *)((int)self + 0xb4) = 0x40400000;
+  *(uint32_t *)((int)self + 0xb8) = 0x40c00000;
   return uVar1;
 }
 
-// FUNCTION: FFXIMAIN 0x1001E600  (unit CYyCamMng2: stores CYyCamMng2 vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x1001E600  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1001E600(void * self_)
+void * __thiscall CYyCamMng2::Construct(void * self)
 {
   uint32_t xi_eax;
   
-  *(uint8_t ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
-  orig::FUN_10027990((void *)((int)self_ + 4));
-  *(uint8_t *)((int)self_ + 0xf0) = 0;
-  *(uint8_t ***)self_ = &PTR_CYyCamMng2_GetRuntimeClass_1032a37c;
-  xi_eax = orig::FUN_1001e590(self_);
+  *(uint8_t ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
+  orig::Unit10026C70_ReturnThis((void *)((int)self + 4));
+  *(uint8_t *)((int)self + 0xf0) = 0;
+  *(uint8_t ***)self = &PTR_CYyCamMng2_GetRuntimeClass_1032a37c;
+  xi_eax = orig::CYyCamMng2_SetDefaultDistances(self);
   DAT_10456d70 = 0;
   DAT_10456d74 = 0;
   _DAT_10456d78 = 0;
@@ -123,5 +123,5 @@ XI_API void * __thiscall fn_1001E600(void * self_)
   _DAT_10456d98 = 0;
   _DAT_10456da8 = 0;
   orig::FUN_1001e2f0(0,1,0,xi_eax);
-  return self_;
+  return self;
 }

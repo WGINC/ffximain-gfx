@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102915B0  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102915B0(int param_1, undefined4 * param_2)
+XI_API void __cdecl Unit102915B0_CopyVec3At5C(int param_1, undefined4 * param_2)
 {
   orig::FUN_10274650((uint32_t *)(param_1 + 0x5c),param_2);
   return;
@@ -12,15 +12,15 @@ XI_API void __cdecl fn_102915B0(int param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x102915E0  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102915E0(int param_1, undefined4 * param_2)
+XI_API void __cdecl Unit102915B0_CopyQuatAt68(int param_1, undefined4 * param_2)
 {
-  orig::FUN_1027a700((uint32_t *)(param_1 + 0x68),param_2);
+  orig::Unit1027A4B0_Copy((uint32_t *)(param_1 + 0x68),param_2);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102915F0  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102915F0(int param_1, undefined4 * param_2)
+XI_API void __cdecl Unit102915B0_CopyVec3At78(int param_1, undefined4 * param_2)
 {
   orig::FUN_10274650((uint32_t *)(param_1 + 0x78),param_2);
   return;
@@ -28,7 +28,7 @@ XI_API void __cdecl fn_102915F0(int param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x102916D0  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102916D0(int param_1, int * param_2)
+XI_API void __cdecl Unit102915B0_SetTripleAt84(int param_1, int * param_2)
 {
   *(int *)(param_1 + 0x84) = *param_2;
   *(int *)(param_1 + 0x88) = param_2[1];
@@ -39,7 +39,7 @@ XI_API void __cdecl fn_102916D0(int param_1, int * param_2)
 
 // FUNCTION: FFXIMAIN 0x10291780  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291780(int param_1, float param_2)
+XI_API void __cdecl Unit102915B0_SetFloatAt94(int param_1, float param_2)
 {
   *(float *)(param_1 + 0x94) = (float)(long double)param_2;
   return;
@@ -47,7 +47,7 @@ XI_API void __cdecl fn_10291780(int param_1, float param_2)
 
 // FUNCTION: FFXIMAIN 0x10291790  (unit unit_102915B0: no unit evidence of its own; in the gap between 0x10291470 (sqskJoint) and 0x10291B70 (sqhiNode) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291790(int param_1, float param_2)
+XI_API void __cdecl Unit102915B0_SetFloatAt98(int param_1, float param_2)
 {
   *(float *)(param_1 + 0x98) = (float)(long double)param_2;
   return;

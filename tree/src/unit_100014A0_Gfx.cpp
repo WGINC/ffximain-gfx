@@ -36,7 +36,7 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
     uVar1 = 0;
   }
   else {
-    g_pAppInputState_as_v0 = orig::FUN_10005660((void *)uVar2);
+    g_pAppInputState_as_v0 = orig::Input_InitState((void *)uVar2);
     uVar1 = 0;
     if (g_pAppInputState_as_v0 != (void *)0x0) {
       uVar1 = orig::FUN_100058f0(g_pAppInputState_as_v0,param_1);
@@ -50,26 +50,26 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10001D90  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10001D90(undefined4 param_1)
+XI_API void __cdecl Unit100014A0_ForwardMouseMove(undefined4 param_1)
 {
   int iVar1;
   char xi_frame[8] __attribute__((aligned(4)));
   int  (&local_8)[2] = *reinterpret_cast<int  (*)[2]>(xi_frame + 0);
   
-  iVar1 = orig::FUN_1015edb0(&g_menuMng_as_v0);
+  iVar1 = orig::Menu_HasFocusedItem(&g_menuMng_as_v0);
   if ((char)iVar1 != '\0') {
     local_8[0] = 0;
     local_8[1] = 0;
     orig::CTkMouse_OnMouseMove(g_pCursor_as_v2,local_8,(int)(short)param_1 / 0x78);
     return;
   }
-  orig::FUN_1025e210((int)(short)param_1 / 0x78);
+  orig::FontGlyphCache_AddToCounter((int)(short)param_1 / 0x78);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10001E70  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10001E70(char * param_1)
+XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
 {
   char cVar1;
   uint32_t xi_entry_eax = 0;
@@ -157,7 +157,7 @@ XI_API undefined4 __cdecl fn_10001E70(char * param_1)
     }
     xi_entry_eax = 0;
     if (DAT_103d3c88 != (char *)0x0) {
-      uVar9 = orig::operator_delete_10311BB0_v1(DAT_103d3c88);
+      uVar9 = orig::operator_delete_v1(DAT_103d3c88);
       xi_entry_eax = (uint32_t)uVar9;
     }
   }
@@ -171,13 +171,13 @@ XI_API undefined4 __cdecl fn_10001F20(undefined4 param_1, undefined4 param_2)
 {
   char *pcVar1;
   
-  pcVar1 = orig::FUN_10001f40(param_1,param_2,0);
+  pcVar1 = orig::Unit100014A0_FindTokenCopy(param_1,param_2,0);
   return pcVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10001F40  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char * __cdecl fn_10001F40(char * param_1, char * param_2, int param_3)
+XI_API char * __cdecl Unit100014A0_FindTokenCopy(char * param_1, char * param_2, int param_3)
 {
   char cVar1;
   uint8_t bVar2;
@@ -425,7 +425,7 @@ LABEL_25:
       {
         v10 = v21;
         for ( j = (char *)(v23 + i * v22); v10 != 0; --v10 )
-          *a2++ = orig::sub_10002440(*j++);
+          *a2++ = orig::Unit100014A0_SwapRedBlue(*j++);
       }
       break;
     case 2:
@@ -436,7 +436,7 @@ LABEL_25:
         {
           for ( m = v21; m != 0; --m )
           {
-            *a2++ = orig::sub_10002440(8 * (*v13 & 0x1F | (8 * (*v13 & 0x3E0 | (8 * (*v13 & 0x7C00))))));
+            *a2++ = orig::Unit100014A0_SwapRedBlue(8 * (*v13 & 0x1F | (8 * (*v13 & 0x3E0 | (8 * (*v13 & 0x7C00))))));
             ++v13;
           }
         }
@@ -450,7 +450,7 @@ LABEL_25:
         {
           for ( ii = v21; ii != 0; --ii )
           {
-            *a2++ = orig::sub_10002440(*v16 & 0xFFFFFF);
+            *a2++ = orig::Unit100014A0_SwapRedBlue(*v16 & 0xFFFFFF);
             v16 = (_DWORD *)((char *)v16 + 3);
           }
         }
@@ -463,7 +463,7 @@ LABEL_25:
         if ( v21 != 0 )
         {
           for ( kk = v21; kk != 0; --kk )
-            *a2++ = orig::sub_10002440(*v19++);
+            *a2++ = orig::Unit100014A0_SwapRedBlue(*v19++);
         }
       }
       break;
@@ -476,7 +476,7 @@ LABEL_25:
 
 // FUNCTION: FFXIMAIN 0x10002440  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_10002440(uint32_t param_1)
+XI_API uint32_t __cdecl Unit100014A0_SwapRedBlue(uint32_t param_1)
 {
   return param_1 & 0xff00ff00 | param_1 >> 0x10 & 0xff | (param_1 & 0xff) << 0x10;
 }
@@ -569,7 +569,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) fn_10002D80(undefined4 xi_
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10087110(xi_eax);
+  uVar1 = orig::Unit10086E90_GetGlobalByte(xi_eax);
   if ((char)uVar1 != '\0') {
     return (long double)1.0f;
   }
@@ -578,30 +578,30 @@ XI_API long double __attribute__((cdecl, regparm(1))) fn_10002D80(undefined4 xi_
 
 // FUNCTION: FFXIMAIN 0x10002E60  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10002E60(undefined4 param_1)
+XI_API void __cdecl Gfx_SetAspectIndex(undefined4 param_1)
 {
   _DAT_10456be8 = param_1;
-  orig::FUN_10002e80(param_1);
+  orig::Gfx_ApplyAspectScale(param_1);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10002E80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10002E80(undefined4 param_1)
+XI_API void __cdecl Gfx_ApplyAspectScale(undefined4 param_1)
 {
   long double fVar1;
   float fVar2;
   
-  fVar1 = orig::FUN_10002ee0(param_1);
+  fVar1 = orig::Gfx_GetAspectTableB(param_1);
   fVar2 = (float)fVar1;
-  fVar1 = orig::FUN_10002ec0(param_1);
-  orig::FUN_100153a0((float)fVar1,fVar2);
+  fVar1 = orig::Gfx_GetAspectTableA(param_1);
+  orig::Camera_SetField2F0_v1((float)fVar1,fVar2);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10002EC0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10002EC0(int param_1)
+XI_API long double __cdecl Gfx_GetAspectTableA(int param_1)
 {
   if (5 < param_1) {
     param_1 = 5;
@@ -611,7 +611,7 @@ XI_API long double __cdecl fn_10002EC0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10002EE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10002EE0(int param_1)
+XI_API long double __cdecl Gfx_GetAspectTableB(int param_1)
 {
   if (5 < param_1) {
     param_1 = 5;
@@ -893,17 +893,17 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
 
 // FUNCTION: FFXIMAIN 0x100035F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100035F0(void * self_)
+XI_API void * __thiscall Gfx_InitObject(void * self_)
 {
-  orig::FUN_10003660((void *)((int)self_ + 4));
+  orig::Debug_Construct((void *)((int)self_ + 4));
   *(uint8_t ***)self_ = &PTR_FUN_1032965c;
-  orig::FUN_10003640(self_);
+  orig::Gfx_ResetObject(self_);
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10003640  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10003640(void * self_)
+XI_API void __thiscall Gfx_ResetObject(void * self_)
 {
   orig::FUN_10003700();
   return;

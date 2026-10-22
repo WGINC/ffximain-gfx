@@ -63,8 +63,8 @@ XI_API void __thiscall fn_1006EF70(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006F0A0  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API __attribute__((target("sse,fpmath=sse"))) float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3)
 {
   float fVar1;
   float fVar2;
@@ -148,6 +148,6 @@ XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, un
   param_1[0xd] = fVar1 * fVar6 + fVar2 * fVar10 + fVar3 * fVar14 + fVar4 * fVar18;
   param_1[0xe] = fVar1 * fVar7 + fVar2 * fVar11 + fVar3 * fVar15 + fVar4 * fVar19;
   param_1[0xf] = fVar1 * fVar8 + fVar2 * fVar12 + fVar3 * fVar16 + fVar4 * fVar20;
-  orig::FUN_1006d3e0((int)param_1);
+  orig::CMoProcessor_TransposeInPlace((int)param_1);
   return param_1;
 }

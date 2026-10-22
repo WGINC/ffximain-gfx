@@ -78,7 +78,10 @@ public:
     void RunStaggeredUpdates();  // 0x100CBD60
     void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char * SetMotion(int *a2, float a3);  // 0x100CD490
+    static void __thiscall SetSlotMotion(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, int param_7);  // 0x100CD4E0
     static undefined4 __thiscall SetMotion(void * self, int * param_1, uint32_t param_2, undefined4 param_3, float param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, int param_9, undefined4 param_10, undefined4 param_11);  // 0x100CD540
+    static void __thiscall UpdateRandomTimer(void * self);  // 0x100CDF90
+    static void __thiscall AdvanceMotionQueue(void * self);  // 0x100CE160
     _DWORD * ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7);  // 0x100CE480
     _DWORD * ActorFindResource(_DWORD *a2, int a3, int a4);  // 0x100CE9B0
     _DWORD * ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5);  // 0x100CEB00
@@ -88,16 +91,24 @@ public:
     static undefined4 __thiscall SetAction(void * self, undefined4 * param_1, undefined4 param_2, int param_3);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
     void vf172(int a2);  // 0x100CF200
+    static void __thiscall AddResourceParts(void * self, int * param_1, void * param_2);  // 0x100CFA50
+    static undefined * __thiscall GetTableOrDefault(void * self, int param_1);  // 0x100CFAD0
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
+    static undefined4 __stdcall ProjectToScreen(float * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x100D0740
     static void __thiscall DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5);  // 0x100D0880
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80
+    static undefined4 __thiscall SetField0B4IfField9EC(void * self, int * param_1, int param_2);  // 0x100D0D40
+    static void __thiscall SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x100D0FC0
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
     char LoadSkeletonResource(int a2);  // 0x100D4330
+    static int __thiscall AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100D4410
+    static int __thiscall FindListEntry(void * self, int param_1);  // 0x100D4540
     char IsDirectionLock_Set(char a2);  // 0x100D5460
+    static uint32_t __thiscall FindPartValue(void * self, int * param_1);  // 0x100D6240
     char * DrawResourceShadows();  // 0x100D62C0
     void vf033();  // 0x100D6F90
     void vf034();  // 0x100D6FA0

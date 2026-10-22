@@ -10,16 +10,16 @@ char ** __cdecl CMoD3aLightmapElem::GetRuntimeClass()
   return &CMoD3aLightmapElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10052C30  (unit CMoD3aLightmapElem: stores CMoD3aLightmapElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052C30  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052C30(void * self_)
+uint64_t __thiscall CMoD3aLightmapElem::Init(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8;
-  *(uint16_t *)((int)self_ + 0x176) = 0x198;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CMoElem_Constructor(self);
+  *(uint8_t ***)self = &PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8;
+  *(uint16_t *)((int)self + 0x176) = 0x198;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052C50  (placed by tree manifest)

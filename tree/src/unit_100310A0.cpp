@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10032A40  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10032A40(void * self_)
+XI_API void * __thiscall Quat_SetIdentityChained(void * self_)
 {
   orig::FUN_10032a50(self_);
   return self_;
@@ -30,7 +30,7 @@ XI_API void __cdecl fn_10032A70(void)
 
 // FUNCTION: FFXIMAIN 0x10032B50  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10032B50(void * self_, float * param_1, float * param_2)
+XI_API undefined4 __thiscall Quat_Multiply(void * self_, float * param_1, float * param_2)
 {
   float fVar1;
   float fVar2;
@@ -59,7 +59,7 @@ XI_API undefined4 __thiscall fn_10032B50(void * self_, float * param_1, float * 
   char xi_frame[16] __attribute__((aligned(4)));
   uint8_t  (&local_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
   
-  orig::FUN_10032a40(local_10);
+  orig::Quat_SetIdentityChained(local_10);
   fVar1 = *param_2;
   fVar2 = *(float *)((int)self_ + 8);
   fVar3 = *(float *)self_;
@@ -101,7 +101,7 @@ XI_API undefined4 __thiscall fn_10032B50(void * self_, float * param_1, float * 
 
 // FUNCTION: FFXIMAIN 0x10032DA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10032DA0(void * self_)
+XI_API void __thiscall Quat_NormalizeInPlace(void * self_)
 {
   long double fVar1;
   
@@ -124,7 +124,7 @@ XI_API void __thiscall fn_10032DA0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10032FE0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10032FE0(void * self_, float * param_1)
+XI_API void __thiscall Unit100310A0_FromQuat(void * self_, float * param_1)
 {
   long double fVar1;
   long double fVar2;
@@ -220,7 +220,7 @@ XI_API undefined4 __thiscall Quat_NLerp(void * self_, float * param_1, float * p
     local_14 = (float)-(long double)param_2[3];
   }
   fVar1 = (float)((long double)1.0f - (long double)param_3);
-  orig::FUN_10032a40(local_10);
+  orig::Quat_SetIdentityChained(local_10);
   fVar2 = *(float *)((int)self_ + 4);
   fVar3 = *(float *)((int)self_ + 8);
   fVar4 = *(float *)((int)self_ + 0xc);
@@ -234,7 +234,7 @@ XI_API undefined4 __thiscall Quat_NLerp(void * self_, float * param_1, float * p
 
 // FUNCTION: FFXIMAIN 0x100336B0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100336B0(void)
+XI_API void __cdecl Unit100310A0_InitTargets(void)
 {
   Fn10033710_targetTex_as_v1 = 0;
   dword_1045B81C_as_v0 = g_translucentTarget_as_v0;
@@ -246,7 +246,7 @@ XI_API void __cdecl fn_100336B0(void)
 
 // FUNCTION: FFXIMAIN 0x100336D0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100336D0(void)
+XI_API void __cdecl Unit100310A0_ReleaseTargets(void)
 {
   if (Fn10033710_targetTex_as_v0 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*Fn10033710_targetTex_as_v0 + 8))))(Fn10033710_targetTex_as_v0);
@@ -261,7 +261,7 @@ XI_API void __cdecl fn_100336D0(void)
 
 // FUNCTION: FFXIMAIN 0x10033710  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 187 D3D calls compared (diffemu_gfx, clean build)
-XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
+XI_API _DWORD * __thiscall Unit100310A0_Construct(_DWORD *self_)
 {
   _DWORD *Texture;
   unsigned __int16 ViewportWidth;
@@ -287,8 +287,8 @@ XI_API _DWORD * __thiscall fn_10033710(_DWORD *self_)
     v4 = dword_1045B81C;
   }
   *(self_ + 3) = v4;
-  orig::sub_10026E00(self_ + 5);
-  orig::sub_10026E00(self_ + 8);
+  orig::Vec3_SetZero(self_ + 5);
+  orig::Vec3_SetZero(self_ + 8);
   dword_1045B810 = 1065353216;
   *((_BYTE *)self_ + 4) = 0;
   return self_;
@@ -335,14 +335,14 @@ XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
     orig::CDx_SetTransform(g_pCDx, 3, v5);
     orig::CDx_SetTransform(g_pCDx, 2, g_lightViewMatrix);
     orig::CDx_SetTransform(g_pCDx, 256, g_offscreenWorldMatrix);
-    orig::nullsub_1();
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
+    orig::Unit10026C70_Nop();
     return 1;
   }
   else
   {
-    orig::nullsub_1();
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
+    orig::Unit10026C70_Nop();
     return 0;
   }
 }
@@ -423,7 +423,7 @@ XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
 
 // FUNCTION: FFXIMAIN 0x10033DA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10033DA0(void * self_, float * param_1)
+XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
 {
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
@@ -505,13 +505,13 @@ XI_API void __thiscall Shadow_SmoothLightDirection(void * self_, float * param_1
     param_1 = (float *)&DAT_3f800000;
   }
   pfVar1 = (float *)((int)self_ + 0x20);
-  orig::FUN_100270a0(pfVar2,pfVar1);
-  orig::FUN_100272b0(pfVar2,xi_castbits<float>(param_1));
+  orig::Vec3_SubInPlace(pfVar2,pfVar1);
+  orig::Vec3_ScaleInPlace(pfVar2,xi_castbits<float>(param_1));
   orig::Vec3_AddInPlace_v1(pfVar1,pfVar2);
   orig::FUN_10027510(&local_c,pfVar1);
   fVar9 = SQRT((long double)local_c * (long double)local_c + (long double)local_4 * (long double)local_4);
   if ((NAN(fVar9) || NAN((long double)xi_k4(0x38D1B717ull))) || fVar9 <= (long double)xi_k4(0x38D1B717ull)) {
-    uVar4 = orig::FUN_10026e50(&local_c,0.0f,(-1.0f),0.0f);
+    uVar4 = orig::Vec3_Set(&local_c,0.0f,(-1.0f),0.0f);
     goto LAB_10033fab;
   }
   fVar10 = (long double)local_8;
@@ -544,8 +544,8 @@ LAB_10033fab:
     param_1 = (float *)&DAT_3f800000;
   }
   pfVar2 = (float *)((int)self_ + 0x14);
-  orig::FUN_100270a0(&local_c,pfVar2);
-  orig::FUN_100272b0(&local_c,xi_castbits<float>(param_1));
+  orig::Vec3_SubInPlace(&local_c,pfVar2);
+  orig::Vec3_ScaleInPlace(&local_c,xi_castbits<float>(param_1));
   uVar4 = orig::Vec3_AddInPlace_v1(pfVar2,&local_c);
   bVar6 = NAN((long double)*pfVar2) || NAN((long double)0.0f);
   fVar9 = (long double)*pfVar2;

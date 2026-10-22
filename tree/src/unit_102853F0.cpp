@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102853F0  (unit unit_102853F0: no unit evidence of its own; in the gap between 0x102852E0 (sqmoBuild) and 0x10285700 (sqObject) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
+XI_API int __cdecl PlaybackChannel_Load(undefined4 * param_1, undefined4 * param_2)
 {
   int *piVar1;
   int *piVar2;
@@ -22,15 +22,15 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
   int  (&local_10)[4] = *reinterpret_cast<int  (*)[4]>(xi_frame + 20);
   
   puVar7 = param_2;
-  puVar4 = orig::FUN_1028a0f0(&local_20,4,1,param_1,(int)param_2);
+  puVar4 = orig::Unit1028A0A0_ReadBlock(&local_20,4,1,param_1,(int)param_2);
   if (local_20 == 3) {
-    puVar5 = orig::FUN_102924f0();
-    puVar4 = orig::FUN_1028a0f0(puVar5 + 8,4,1,puVar4 + 0x14,(int)param_2);
+    puVar5 = orig::SqmoPlaybackChannel_Create();
+    puVar4 = orig::Unit1028A0A0_ReadBlock(puVar5 + 8,4,1,puVar4 + 0x14,(int)param_2);
     piVar1 =(int*)(puVar5 + 7);
-    puVar4 = orig::FUN_1028a0f0(piVar1,4,1,puVar4,(int)param_2);
-    puVar4 = orig::FUN_1028a0f0(puVar5 + 9,4,1,puVar4,(int)param_2);
-    puVar4 = orig::FUN_1028a0f0(puVar5 + 0xc,4,1,puVar4,(int)param_2);
-    puVar4 = orig::FUN_1028a0f0(local_1c,4,1,puVar4,(int)param_2);
+    puVar4 = orig::Unit1028A0A0_ReadBlock(piVar1,4,1,puVar4,(int)param_2);
+    puVar4 = orig::Unit1028A0A0_ReadBlock(puVar5 + 9,4,1,puVar4,(int)param_2);
+    puVar4 = orig::Unit1028A0A0_ReadBlock(puVar5 + 0xc,4,1,puVar4,(int)param_2);
+    puVar4 = orig::Unit1028A0A0_ReadBlock(local_1c,4,1,puVar4,(int)param_2);
     iVar8 = *piVar1 << 2;
     puVar6 = orig::FUN_10275d80(1,iVar8,s_accum__103b7be8,0x9f);
     puVar5[0xe] = puVar6;
@@ -45,14 +45,14 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
       iVar3 = puVar5[9];
       puVar6 = orig::FUN_10275d80(1,iVar8 * iVar3 * 4,s_data_103b7b9c,0xd2);
       puVar5[0xb] = puVar6;
-      param_1 = orig::FUN_1028a0f0(puVar6,4,iVar8 * iVar3,puVar4,(int)param_2);
+      param_1 = orig::Unit1028A0A0_ReadBlock(puVar6,4,iVar8 * iVar3,puVar4,(int)param_2);
     }
     else {
       param_2 = (undefined4 *)0x0;
       param_1 = puVar4;
       if (0 < *piVar1) {
         do {
-          puVar6 = orig::FUN_1028a0f0(local_10,4,1,param_1,(int)puVar7);
+          puVar6 = orig::Unit1028A0A0_ReadBlock(local_10,4,1,param_1,(int)puVar7);
           param_1 = (undefined4 *)((int)puVar6 + local_10[0] + 0xc);
           param_2 = (undefined4 *)((int)param_2 + local_10[0]);
           iVar8 = iVar8 + 1;
@@ -67,14 +67,14 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
       if (0 < *piVar1) {
         piVar9 =(int*)(puVar6 + 2);
         do {
-          puVar4 = orig::FUN_1028a0f0(piVar9,4,1,param_1,(int)puVar7);
-          puVar4 = orig::FUN_1028a0f0(piVar9 + 1,4,1,puVar4,(int)puVar7);
+          puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9,4,1,param_1,(int)puVar7);
+          puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + 1,4,1,puVar4,(int)puVar7);
           orig::FUN_10293f00((int)(piVar9 + -2),piVar9[1]);
-          puVar4 = orig::FUN_1028a0f0(piVar9 + 2,4,1,puVar4,(int)puVar7);
-          puVar4 = orig::FUN_1028a0f0(piVar9 + -2,4,1,puVar4,(int)puVar7);
+          puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + 2,4,1,puVar4,(int)puVar7);
+          puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + -2,4,1,puVar4,(int)puVar7);
           piVar9[-1] = (int)param_2;
           param_2 = (undefined4 *)((int)param_2 + *piVar9);
-          param_1 = orig::FUN_1028a0f0((undefined4 *)piVar9[-1],1,*piVar9,puVar4,(int)puVar7);
+          param_1 = orig::Unit1028A0A0_ReadBlock((undefined4 *)piVar9[-1],1,*piVar9,puVar4,(int)puVar7);
           piVar2 = piVar9 + -2;
           piVar9 = piVar9 + 6;
           *(int **)(puVar5[0xd] + local_24 * 4) = piVar2;
@@ -85,7 +85,7 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
     }
     puVar4 = orig::FUN_10275d80(1,*piVar1 << 2,s_dataType_103b7b90,0xd6);
     puVar5[0x13] = puVar4;
-    orig::FUN_1028a0f0(puVar4,4,*piVar1,param_1,(int)puVar7);
+    orig::Unit1028A0A0_ReadBlock(puVar4,4,*piVar1,param_1,(int)puVar7);
     *(uint8_t *)(puVar5 + 0x15) = 0;
     *(uint8_t *)((int)puVar5 + 0x55) = 0xff;
     puVar7 = orig::FUN_10275d80(1,*piVar1,s_entryEnabled_103b7b80,0xdd);
@@ -93,7 +93,7 @@ XI_API int __cdecl fn_102853F0(undefined4 * param_1, undefined4 * param_2)
     iVar8 = 0;
     if (0 < *piVar1) {
       do {
-        orig::FUN_10293000((int)puVar5,iVar8);
+        orig::SqmoPlaybackChannel_Update((int)puVar5,iVar8);
         iVar8 = iVar8 + 1;
       } while (iVar8 < *piVar1);
     }

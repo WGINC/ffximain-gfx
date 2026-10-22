@@ -2,6 +2,34 @@
 #include "gfx_all.hpp"
 #include "CMoResource_VT_1032C778.hpp"
 
+// FUNCTION: FFXIMAIN 0x10071A20  (placed by tree manifest)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+char CMoResource_VT_1032C778::vf008()
+{
+  char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
+  char *v1;
+  char *v2;
+  char *v3;
+  char *v4;
+  v4 = self + 48;
+  v1 = v4;
+  if ( v4[31] != 0 )
+  {
+    orig::nullsub_90(v4);
+    orig::nullsub_13(aAfbVersionErro, (unsigned __int8)v1[31]);
+  }
+  LOBYTE(v2) = v1[28];
+  if ( (_BYTE)v2 == 0 )
+  {
+    v3 = &v1[*((_DWORD *)v1 + 5)];
+    v2 = &v1[*((_DWORD *)v1 + 6)];
+    v1[28] = 1;
+    *((_DWORD *)v1 + 5) = v3;
+    *((_DWORD *)v1 + 6) = v2;
+  }
+  return (char)v2;
+}
+
 // FUNCTION: FFXIMAIN 0x10071A30  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoResource_VT_1032C778::vf009()

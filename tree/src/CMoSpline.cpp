@@ -12,7 +12,7 @@ char ** __cdecl CMoSpline::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x10063460  (unit CMoSpline: stores CMoSpline vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10063460(void * self_)
+XI_API undefined4 __thiscall CMoSpline_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CMoSpline_GetRuntimeClass_1032c088;
   *(uint32_t *)((int)self_ + 0x18) = 0;
@@ -38,6 +38,157 @@ int * CMoSpline::ScalarDeletingDtor(char a2)
 void __thiscall CMoSpline::Destructor(void * self)
 {
   *(uint8_t ***)self = &PTR_CMoSpline_GetRuntimeClass_1032c088;
-  orig::FUN_10063550(self);
+  orig::CMoSpline_FreeBuffers(self);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100634B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoSpline::Init(void * self, int param_1, uint32_t param_2, undefined4 param_3, undefined4 param_4)
+{
+  undefined4 *puVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  int iVar4;
+  
+  orig::CMoSpline_FreeBuffers(self);
+  iVar4 = param_1 + (uint32_t)((char)param_3 != '\0');
+  *(char *)((int)self + 0x24) = (char)param_3;
+  *(int *)((int)self + 4) = iVar4;
+  iVar4 = iVar4 + 2;
+  *(uint8_t *)((int)self + 0x25) = (uint8_t)param_4;
+  iVar3 = 0;
+  puVar2 = (undefined4 *)((int)self + 0xc);
+  do {
+    if ((param_2 & 1 << ((uint8_t)iVar3 & 0x1f)) != 0) {
+      puVar1 = orig::Mem_AllocObject_v1(iVar4 * 4,4);
+      *puVar2 = puVar1;
+    }
+    iVar3 = iVar3 + 1;
+    puVar2 = puVar2 + 1;
+  } while (iVar3 < 3);
+  puVar2 = orig::Mem_AllocObject_v1(iVar4 * 4 + -4,4);
+  *(undefined4 **)((int)self + 0x18) = puVar2;
+  puVar2 = orig::Mem_AllocObject_v1(iVar4 * 0x40 + -0xb4,4);
+  *(undefined4 **)((int)self + 0x20) = puVar2;
+  *(undefined4 **)((int)self + 0x1c) = puVar2 + 3;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10063550  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoSpline::FreeBuffers(void * self)
+{
+  int iVar1;
+  int *piVar2;
+  
+  iVar1 = 3;
+  piVar2 = (int *)((int)self + 0xc);
+  do {
+    if (*piVar2 != 0) {
+      orig::Mem_FreeObject_v1(*piVar2);
+      *piVar2 = 0;
+    }
+    piVar2 = piVar2 + 1;
+    iVar1 = iVar1 + -1;
+  } while (iVar1 != 0);
+  if (*(int *)((int)self + 0x20) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self + 0x20));
+    *(uint32_t *)((int)self + 0x20) = 0;
+  }
+  if (*(int *)((int)self + 0x18) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self + 0x18));
+    *(uint32_t *)((int)self + 0x18) = 0;
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10063B20  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 11 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoSpline::ReleaseRef(void * self)
+{
+  int *this_00;
+  int iVar1;
+  
+  iVar1 = *(int *)((int)self + 8) + -1;
+  *(int *)((int)self + 8) = iVar1;
+  if (iVar1 == 0) {
+    this_00 = *(int **)((int)self + 4);
+    if (this_00 != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
+    }
+    *(uint32_t *)((int)self + 4) = 0;
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10063B50  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int * __thiscall CMoSpline::GetWrapped(void * self, int param_1)
+{
+  return (int *)((param_1 % *(int *)self + 1) * 0x10 + (int)self);
+}
+
+// FUNCTION: FFXIMAIN 0x10063B70  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoSpline::GetData(void * self)
+{
+  return (int)self + 0x10;
+}
+
+// FUNCTION: FFXIMAIN 0x10063B80  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoSpline::EnsureSamples(void * self)
+{
+  int iVar1;
+  void *pvVar2;
+  int *piVar3;
+  int *piVar4;
+  int *piVar5;
+  int iVar6;
+  int *local_4;
+  
+  if (*(int *)((int)self + 4) == 0) {
+    pvVar2 = (void *)orig::Mem_AllocDefault_v1(0x28);
+    if (pvVar2 == (void *)0x0) {
+      pvVar2 = (void *)0x0;
+    }
+    else {
+      pvVar2 = (void *)orig::CMoSpline_Construct(pvVar2);
+    }
+    *(void **)((int)self + 4) = pvVar2;
+    orig::CMoSpline_Init(pvVar2,*(int *)self,7,0,0);
+    iVar1 = *(int *)((int)self + 4);
+    iVar6 = 0;
+    piVar4 = *(int **)(iVar1 + 0xc);
+    piVar5 = *(int **)(iVar1 + 0x10);
+    local_4 = *(int **)(iVar1 + 0x14);
+    if (0 < *(int *)self) {
+      do {
+        local_4 = local_4 + 1;
+        piVar5 = piVar5 + 1;
+        piVar4 = piVar4 + 1;
+        piVar3 = orig::CMoSpline_GetWrapped_v1(self,iVar6);
+        *piVar4 = *piVar3;
+        piVar3 = orig::CMoSpline_GetWrapped_v1(self,iVar6);
+        *piVar5 = piVar3[1];
+        piVar3 = orig::CMoSpline_GetWrapped_v1(self,iVar6);
+        *local_4 = piVar3[2];
+        iVar6 = iVar6 + 1;
+      } while (iVar6 < *(int *)self);
+    }
+    orig::FUN_100635b0(*(void **)((int)self + 4));
+  }
+  return *(uint32_t *)((int)self + 4);
+}
+
+// FUNCTION: FFXIMAIN 0x10063C30  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoSpline::SetValue(void * self, undefined4 param_1, undefined4 param_2)
+{
+  void *this_00;
+  
+  this_00 = (void *)orig::CMoSpline_EnsureSamples(self);
+  orig::FUN_10063a60(this_00,param_2,param_1);
   return;
 }

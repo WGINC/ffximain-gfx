@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027DB80  (unit chn: between 0x1027DB50 (asserts chn.c) and 0x1027DBE0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027DB80(uint32_t * param_1)
+XI_API void __cdecl Chn_ReleaseRefs(uint32_t * param_1)
 {
   if (param_1[0x2f] != 0) {
     orig::FUN_10285740((int *)(param_1 + 0x2f));
@@ -24,7 +24,7 @@ XI_API void __cdecl fn_1027DB80(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027DCC0  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
+XI_API uint32_t * __cdecl Chn_RegisterItem(uint32_t * param_1, uint32_t param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -32,16 +32,16 @@ XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
   long double fVar4;
   
   iVar1 = orig::FUN_10275090();
-  uVar2 = orig::FUN_102960a0(param_2,0);
-  fVar4 = orig::FUN_10284f20(param_2);
+  uVar2 = orig::Unit10296080_CreateWithOwner(param_2,0);
+  fVar4 = orig::Unit10284EB0_GetFloat20(param_2);
   *(float *)(uVar2 + 0x24) = (float)fVar4;
   orig::_strncpy_v1((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
   param_1[0x29] = *(uint32_t *)(uVar2 + 0x20);
-  fVar4 = orig::FUN_1028d990(uVar2);
+  fVar4 = orig::Unit1028D970_SumAxis(uVar2);
   param_1[0x2a] = xi_castbits<uint32_t>((float)fVar4);
   param_1[0x2d] = param_2;
   param_1[0x2e] = uVar2;
-  iVar3 = orig::FUN_1027df70((int)param_1);
+  iVar3 = orig::Chn_GetSubIndex((int)param_1);
   if (iVar3 == -1) {
     param_1[0x2c] = 0x3d088889;
   }
@@ -56,7 +56,7 @@ XI_API uint32_t * __cdecl fn_1027DCC0(uint32_t * param_1, uint32_t param_2)
 
 // FUNCTION: FFXIMAIN 0x1027DD70  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027DD70(uint8_t * param_1, undefined4 xi_s2)
+XI_API void __cdecl Chn_ForwardIfFlag2(uint8_t * param_1, undefined4 xi_s2)
 {
   if ((*param_1 & 2) != 0) {
     orig::FUN_1027dd90((uint32_t *)param_1,xi_s2);
@@ -67,7 +67,7 @@ XI_API void __cdecl fn_1027DD70(uint8_t * param_1, undefined4 xi_s2)
 
 // FUNCTION: FFXIMAIN 0x1027DF70  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1027DF70(int param_1)
+XI_API int __cdecl Chn_GetSubIndex(int param_1)
 {
   int *piVar1;
   int iVar2;
@@ -85,7 +85,7 @@ XI_API int __cdecl fn_1027DF70(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1027E060  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E060(undefined4 * param_1)
+XI_API void __cdecl Chn_InitDefaults(undefined4 * param_1)
 {
   *param_1 = 1;
   param_1[1] = 0x3f800000;
@@ -97,13 +97,13 @@ XI_API void __cdecl fn_1027E060(undefined4 * param_1)
   param_1[7] = 0;
   param_1[0x18] = 0;
   param_1[0x19] = 0;
-  orig::FUN_1028d6f0(param_1 + 8);
+  orig::SqcoConnector_Init(param_1 + 8);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1027E0D0  (unit chn: between 0x1027E0A0 (asserts chn.c) and 0x1027E0F0 (asserts chn.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E0D0(int param_1)
+XI_API void __cdecl Chn_ReleaseIfSet(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {
     orig::FUN_1027e3b0((uint8_t *)param_1);

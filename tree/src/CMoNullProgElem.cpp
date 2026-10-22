@@ -10,15 +10,15 @@ char ** __cdecl CMoNullProgElem::GetRuntimeClass()
   return &CMoNullProgElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10053180  (unit CMoNullProgElem: stores CMoNullProgElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10053180  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10053180(void * self_)
+uint64_t __thiscall CMoNullProgElem::Construct(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoNullProgElem_GetRuntimeClass_1032b5f8;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CMoElem_Constructor(self);
+  *(uint8_t ***)self = &PTR_CMoNullProgElem_GetRuntimeClass_1032b5f8;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x100531B0  (placed by tree manifest)

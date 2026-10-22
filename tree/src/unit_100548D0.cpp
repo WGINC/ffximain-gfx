@@ -103,7 +103,7 @@ XI_API float * __stdcall EndEffectOffscreenPass(float *a1, int a2)
 
 // FUNCTION: FFXIMAIN 0x10054FC0  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10054FC0(void * self_)
+XI_API void __thiscall Unit100548D0_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032b6d8;
   *(uint32_t *)((int)self_ + 0xc) = 0;

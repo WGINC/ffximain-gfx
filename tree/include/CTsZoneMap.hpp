@@ -5,8 +5,11 @@
 #pragma pack(push, 1)
 class XI_API CTsZoneMap {
 public:
+    static void * __thiscall Init(void * self);  // 0x10177D00
+    static void __thiscall SetLayerOrder(void * self);  // 0x10177FA0
     char CTsZoneMap_Destructor();  // 0x10178070
     int InitZBiasPresets();  // 0x101781D0
+    static uint32_t __thiscall Render(void * self);  // 0x10178B30
     static void __thiscall UpdateViewerPosition(void * self);  // 0x10179390
     float * DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5);  // 0x10182700
     int DrawProjectedShadow(int a1, int a2);  // 0x10184FE0

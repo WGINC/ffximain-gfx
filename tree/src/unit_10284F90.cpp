@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10284FD0  (unit unit_10284F90: no unit evidence of its own; in the gap between 0x10284F50 (sqmoChannel) and 0x10285040 (sqmoBuild) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10284FD0(int * param_1, int param_2)
+XI_API void __cdecl Unit10284F90_SetValueByType(int * param_1, int param_2)
 {
   int iVar1;
   

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100A5E10  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100A5E10(int * param_1)
+XI_API undefined4 __cdecl XiControlActor_UpdateCamera(int * param_1)
 {
   void *pvVar1;
   uint32_t uVar2;
@@ -21,7 +21,7 @@ XI_API undefined4 __cdecl fn_100A5E10(int * param_1)
       piVar4 = param_1;
       pvVar1 = (void *)orig::Camera_GetField50_v1();
       orig::FUN_10021110(pvVar1,piVar4);
-      uVar2 = orig::FUN_100a5ef0(param_1);
+      uVar2 = orig::XiControlActor_UpdateView(param_1);
       return uVar2;
     }
     uVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x340))))((void *)(param_1));
@@ -33,13 +33,13 @@ XI_API undefined4 __cdecl fn_100A5E10(int * param_1)
         orig::Vec3_Add_10026FA0_v1(afStack_c,afStack_18,(float *)(iVar3 + 0x50));
         pfVar5 = afStack_c;
         pvVar1 = (void *)orig::Camera_GetField50_v1();
-        orig::FUN_1001e760(pvVar1,pfVar5);
+        orig::Camera_SetPosition(pvVar1,pfVar5);
       }
     }
     piVar4 = param_1;
     pvVar1 = (void *)orig::Camera_GetField50_v1();
     orig::YmCameraManager_Follow(pvVar1,piVar4);
-    piVar4 = (int *)orig::FUN_100a5ef0(param_1);
+    piVar4 = (int *)orig::XiControlActor_UpdateView(param_1);
   }
   return piVar4;
 }
@@ -61,7 +61,7 @@ XI_API void __thiscall fn_100A5EC0(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x100A5EF0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100A5EF0(void * self_)
+XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
 {
   int iVar1;
   int xi_eax;
@@ -72,7 +72,7 @@ XI_API undefined4 __thiscall fn_100A5EF0(void * self_)
      (((*(uint32_t *)(iVar1 + 0x120) >> 7 & 1) == 0 && ((*(uint32_t *)(iVar1 + 300) >> 0xd & 1) == 0)))) {
     uVar2 = orig::FUN_10123a70(0x3f,0x1c,1,-1,iVar1);
     if ((char)uVar2 != '\0') {
-      orig::FUN_100a6070((uint32_t)(XiControlActor_isAutoRunning == '\0'),
+      orig::XiControlActor_SetAutoRunning((uint32_t)(XiControlActor_isAutoRunning == '\0'),
                    ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar2 >> 8)) << 8) | (uint8_t)(XiControlActor_isAutoRunning))));
     }
     iVar1 = orig::CXiActor_GetModelField170_v1(self_);
@@ -124,7 +124,7 @@ XI_API undefined4 __thiscall fn_100A5EF0(void * self_)
     case 0x51:
     case 0x52:
     case 0x53:
-      xi_eax = orig::FUN_100a6070(0,xi_eax);
+      xi_eax = orig::XiControlActor_SetAutoRunning(0,xi_eax);
     }
     uVar2 = orig::FUN_10123a70(0x3f,0x10,1,-1,xi_eax);
     if ((char)uVar2 != '\0') {
@@ -149,7 +149,7 @@ XI_API undefined4 __thiscall fn_100A5EF0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100A6070  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_100A6070(undefined4 xi_eax, undefined4 param_1)
+XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRunning(undefined4 xi_eax, undefined4 param_1)
 {
   uint64_t uVar1;
   
@@ -171,7 +171,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_100A6070(undefined4 xi
 
 // FUNCTION: FFXIMAIN 0x100A78D0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100A78D0(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
+XI_API void __thiscall XiControlActor_NormalizeInput(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
 {
   float *pfVar1;
   uint32_t uVar2;

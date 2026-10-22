@@ -1,27 +1,11 @@
 {
-"0x10009720": "CDx_Present: calls 0x10017D20 reads EAX, which its wrapper does not pass",
 "0x10009920": "CDx_SetDefaultRenderState: calls 0x100098E0 reads EAX, which its wrapper does not pass",
 "0x10013AD0": "App_StepGameState5Connect: calls 0x1001E4B0 reads EAX, which its wrapper does not pass",
-"0x100263F0": "Dbg_DrawViewAxisGizmo: calls 0x100279A0 reads EAX, which its wrapper does not pass",
-"0x100266C0": "Dbg_DrawAxesAt: calls 0x100279A0 reads EAX, which its wrapper does not pass",
-"0x100276F0": "Gfx_ProjectWorldToClip: calls 0x100279A0 reads EAX, which its wrapper does not pass",
 "0x10042D00": "CMoDistMorphElem_ValidateMorphData: calls 0x1006AE30 reads ECX, which its wrapper does not pass",
-"0x10044540": "sub_10044540: calls 0x10043DD0 reads EAX, which its wrapper does not pass",
 "0x10048000": "CMoGeneratorClone_VT_1032B114_Destructor: calls 0x100538E0 reads EAX, which its wrapper does not pass",
 "0x10057FB0": "CMoSchedularTask_Interpret: calls 0x10062D50 reads EAX, which its wrapper does not pass",
 "0x1006B3B0": "sub_1006B3B0: calls 0x10044490 reads EAX, which its wrapper does not pass",
-"0x1006B4C0": "CMoTask_VT_10329C70_vf1: calls 0x10069E90 reads EAX, which its wrapper does not pass",
-"0x10071A20": "CMoResource_VT_1032C778_vf008: calls 0x10017D20 reads EAX, which its wrapper does not pass",
-"0x10082FB0": "sub_10082FB0: calls 0x100279A0 reads EAX, which its wrapper does not pass",
-"0x10085060": "CXiActor_SpawnResourceGenerators: calls 0x10017D20 reads EAX, which its wrapper does not pass",
 "0x100A1AB0": "sub_100A1AB0: calls 0x100A19B0 reads EDX, which its wrapper does not pass",
 "0x100C63D0": "CXiSkeletonActor_OnMove: calls 0x10084350 reads EAX, which its wrapper does not pass",
-"0x100D0740": "CXiSkeletonActor_ProjectToScreen: calls 0x100279A0 reads EAX, which its wrapper does not pass",
-"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass",
-"0x10127C00": "ChatLog_AddMessage: calls 0x1012A340 reads EAX, which its wrapper does not pass",
-"0x10155100": "sub_10155100: calls 0x10154F30 reads EAX, which its wrapper does not pass",
-"0x1016E930": "sub_1016E930: calls 0x1016C5C0 reads EAX, which its wrapper does not pass",
-"0x101A26C0": "sub_101A26C0: calls 0x101B9A00 reads EAX, which its wrapper does not pass",
-"0x101E24F0": "sub_101E24F0: calls 0x101B9A00 reads EAX, which its wrapper does not pass",
-"0x1021D9A0": "sub_1021D9A0: calls 0x1021DDC0 reads EAX, which its wrapper does not pass"
+"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass"
 }

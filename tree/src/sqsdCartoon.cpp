@@ -4,20 +4,20 @@
 
 // FUNCTION: FFXIMAIN 0x102997A0  (unit sqsdCartoon: between 0x10299780 (asserts sqsdCartoon.c) and 0x10299840 (name sqsdCartoon_BakeOntoShape_Stub), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102997A0(int param_1, int * param_2)
+XI_API void __cdecl SqsdCartoon_Draw(int param_1, int * param_2)
 {
   int iVar1;
   
-  if ((*(int *)(param_1 + 0x54) != 0) && (iVar1 = orig::FUN_102a1fa0(*param_2), iVar1 == 2)) {
+  if ((*(int *)(param_1 + 0x54) != 0) && (iVar1 = orig::Unit102A1F20_TestSeparationHalf(*param_2), iVar1 == 2)) {
     return;
   }
-  orig::FUN_102a34d0(param_1 + 0x14);
-  orig::FUN_10298c50(*(int *)(param_1 + 0x50));
+  orig::Unit102A34D0_ApplyLighting(param_1 + 0x14);
+  orig::Texture_BindFromObject(*(int *)(param_1 + 0x50));
   orig::sqgxShader_v1(0x10000,0);
   orig::sqDrawableDraw_v1(*param_2);
   orig::sqgxPassAdd_v1(2);
   orig::sqgxBlendSub();
-  orig::FUN_10298c50(*(int *)(param_1 + 0x4c));
+  orig::Texture_BindFromObject(*(int *)(param_1 + 0x4c));
   orig::sqgxShader_v1(0x800000,0);
   orig::sqDrawableDraw_v1(*param_2);
   orig::sqgxPassAdd_v1(-2);

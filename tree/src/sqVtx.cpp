@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x102A9520  (unit sqVtx: asserts sqVtx.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_102A9520(void)
+XI_API undefined4 * __cdecl SqVtx_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x84,s_C__dev_dancer_modules_sqBase_src_103be750,0x37);
-  orig::FUN_102a9550(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x84,s_C__dev_dancer_modules_sqBase_src_103be750,0x37);
+  orig::SqVtx_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x102A9550  (unit sqVtx: between 0x102A9520 (asserts sqVtx.c) and 0x102A95A0 (asserts sqVtx.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A9550(undefined4 * param_1)
+XI_API void __cdecl SqVtx_Init(undefined4 * param_1)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -39,7 +39,7 @@ XI_API void __cdecl fn_102A9550(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x102A9EF0  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A9EF0(int param_1)
+XI_API void __cdecl SqVtx_ClearEntries(int param_1)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -63,7 +63,7 @@ XI_API void __cdecl fn_102A9EF0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102A9F30  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A9F30(int param_1)
+XI_API void __cdecl SqVtx_ClearEntriesAlt(int param_1)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -87,7 +87,7 @@ XI_API void __cdecl fn_102A9F30(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102A9FB0  (unit sqVtx: asserts sqVtx.c)
 // GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A9FB0(int param_1, int param_2)
+XI_API void __cdecl SqVtx_PackFloatsToBytes(int param_1, int param_2)
 {
   int iVar1;
   uint8_t bVar2;

@@ -4,19 +4,19 @@
 
 // FUNCTION: FFXIMAIN 0x1003AAB0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003AAB0(void * self_)
+XI_API int __thiscall TexMgr_GetField8(void * self_)
 {
   return (int)self_ + 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1003AAF0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int * __thiscall fn_1003AAF0(void * self_)
+XI_API int * __thiscall TexMgr_GetTailLink(void * self_)
 {
   int iVar1;
   int *piVar2;
   
-  piVar2 = (int *)orig::FUN_1003aab0(self_);
+  piVar2 = (int *)orig::TexMgr_GetField8(self_);
   for (iVar1 = *piVar2; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x38)) {
     piVar2 = (int *)(iVar1 + 0x38);
   }
@@ -55,7 +55,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
   piVar1 = (int *)((int)self_ + 0xc);
   piVar4 = piVar1;
   if (piVar2 == (int *)0x0) {
-    piVar2 = (int *)orig::FUN_1003aab0(self_);
+    piVar2 = (int *)orig::TexMgr_GetField8(self_);
     piVar4 = piVar2;
   }
   this_00 = (void *)*piVar4;
@@ -96,7 +96,7 @@ XI_API int __thiscall TexMgr_FindByName(void * self_, int param_1, int param_2, 
   uint32_t uVar3;
   int iVar4;
   
-  piVar2 = (int *)orig::FUN_1003aab0(self_);
+  piVar2 = (int *)orig::TexMgr_GetField8(self_);
   iVar1 = *piVar2;
   do {
     if (iVar1 == 0) {

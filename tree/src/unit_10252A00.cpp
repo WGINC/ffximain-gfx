@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10252A00  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252A00(uint8_t * param_1, uint32_t param_2)
+XI_API undefined4 __cdecl Unit10252A00_Activate(uint8_t * param_1, uint32_t param_2)
 {
   int iVar1;
   
@@ -12,7 +12,7 @@ XI_API undefined4 __cdecl fn_10252A00(uint8_t * param_1, uint32_t param_2)
     iVar1 = orig::FUN_1026ebf0(*(int *)(param_1 + 0x20),0);
     *(int *)(param_1 + 8) = iVar1;
     if (-1 < iVar1) {
-      orig::FUN_102703c0(iVar1,param_2 | 0x100,1);
+      orig::Mdl_UpdateSlotFlags(iVar1,param_2 | 0x100,1);
       return 0;
     }
   }
@@ -21,7 +21,7 @@ XI_API undefined4 __cdecl fn_10252A00(uint8_t * param_1, uint32_t param_2)
 
 // FUNCTION: FFXIMAIN 0x10252A40  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252A40(uint32_t * param_1)
+XI_API undefined4 __cdecl Unit10252A00_CheckFileRefs(uint32_t * param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -41,7 +41,7 @@ XI_API undefined4 __cdecl fn_10252A40(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10252AC0  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252AC0(uint8_t * param_1, undefined4 * param_2, undefined4 * param_3)
+XI_API undefined4 __cdecl Unit10252A00_SetPositionAndScale(uint8_t * param_1, undefined4 * param_2, undefined4 * param_3)
 {
   int iVar1;
   int iVar2;
@@ -53,10 +53,10 @@ XI_API undefined4 __cdecl fn_10252AC0(uint8_t * param_1, undefined4 * param_2, u
     iVar4 = 0;
     if (0 < *(int *)(iVar1 + 0x44)) {
       do {
-        piVar3 = (int *)orig::FUN_10279870(iVar1,iVar4);
+        piVar3 = (int *)orig::SqmdModel_GetItemKind2(iVar1,iVar4);
         if (((*piVar3 == 0xb0001) && (*(int *)(piVar3[7] + 0x68) != 0)) &&
            (iVar2 = *(int *)(*(int *)(piVar3[7] + 0x68) + 100), iVar2 != 0)) {
-          orig::FUN_10274670((float *)(iVar2 + 0x5c),xi_castbits<float>(*param_2),xi_castbits<float>(param_2[1]),xi_castbits<float>(param_2[2]));
+          orig::Unit10274050_SetXyz((float *)(iVar2 + 0x5c),xi_castbits<float>(*param_2),xi_castbits<float>(param_2[1]),xi_castbits<float>(param_2[2]));
           orig::FUN_1027aae0((float *)(iVar2 + 0x68),xi_castbits<float>(*param_3),xi_castbits<float>(param_3[1]),xi_castbits<float>(param_3[2]));
         }
         iVar4 = iVar4 + 1;
@@ -68,7 +68,7 @@ XI_API undefined4 __cdecl fn_10252AC0(uint8_t * param_1, undefined4 * param_2, u
 
 // FUNCTION: FFXIMAIN 0x10252B50  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252B50(uint8_t * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit10252A00_SetVec78(uint8_t * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -80,10 +80,10 @@ XI_API undefined4 __cdecl fn_10252B50(uint8_t * param_1, undefined4 param_2)
     iVar4 = 0;
     if (0 < *(int *)(iVar1 + 0x44)) {
       do {
-        piVar3 = (int *)orig::FUN_10279870(iVar1,iVar4);
+        piVar3 = (int *)orig::SqmdModel_GetItemKind2(iVar1,iVar4);
         if (((*piVar3 == 0xb0001) && (*(int *)(piVar3[7] + 0x68) != 0)) &&
            (iVar2 = *(int *)(*(int *)(piVar3[7] + 0x68) + 100), iVar2 != 0)) {
-          orig::FUN_10274670((float *)(iVar2 + 0x78),param_2,param_2,param_2);
+          orig::Unit10274050_SetXyz((float *)(iVar2 + 0x78),param_2,param_2,param_2);
         }
         iVar4 = iVar4 + 1;
       } while (iVar4 < *(int *)(iVar1 + 0x44));
@@ -94,7 +94,7 @@ XI_API undefined4 __cdecl fn_10252B50(uint8_t * param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10252C10  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252C10(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit10252A00_ClearModelItem(uint8_t * param_1)
 {
   if ((*param_1 & 1) != 0) {
     orig::StModelItemClear((uint32_t *)param_1);
@@ -104,14 +104,14 @@ XI_API undefined4 __cdecl fn_10252C10(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10252C30  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252C30(uint32_t * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit10252A00_Refresh(uint32_t * param_1, undefined4 param_2)
 {
   uint32_t *puVar1;
   
   puVar1 = param_1;
   if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 4) != 0)) {
     orig::FUN_10270410(param_1[2],param_2);
-    orig::FUN_10270290(puVar1[2],&param_1);
+    orig::Mdl_GetSlotWord0(puVar1[2],&param_1);
     if (((uint32_t)param_1 & 4) != 0) {
       *puVar1 = *puVar1 | 8;
       return 0;
@@ -124,7 +124,7 @@ XI_API undefined4 __cdecl fn_10252C30(uint32_t * param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10252C80  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10252C80(undefined4 * param_1)
+XI_API undefined4 __cdecl Unit10252A00_Init(undefined4 * param_1)
 {
   if (param_1 == (undefined4 *)0x0) {
     return 0xffffffff;
@@ -135,6 +135,6 @@ XI_API undefined4 __cdecl fn_10252C80(undefined4 * param_1)
   param_1[3] = 0xffffffff;
   param_1[4] = 0xffffffff;
   param_1[5] = 0;
-  orig::FUN_10289620(param_1 + 6);
+  orig::SqopSystem_Init(param_1 + 6);
   return 0;
 }

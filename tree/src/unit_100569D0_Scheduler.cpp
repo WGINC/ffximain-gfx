@@ -4,16 +4,16 @@
 
 // FUNCTION: FFXIMAIN 0x10056AA0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10056AA0(void * self_)
+XI_API void __thiscall Scheduler_AddTask(void * self_)
 {
-  orig::FUN_10074cf0(dword_1047D140_as_v1,(int)self_,0x4d730000);
+  orig::CMoTaskMng_RemoveByKey(dword_1047D140_as_v1,(int)self_,0x4d730000);
   orig::FUN_100720b0(self_);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10056CE0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
+XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
   uint32_t uVar1;
   void *pvVar2;
@@ -27,7 +27,7 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
     pvVar2 = (void *)0x0;
   }
   else {
-    pvVar2 = orig::FUN_10057270(pvVar2,self_,param_4,param_3);
+    pvVar2 = orig::CMoSchedularTask_Construct(pvVar2,self_,param_4,param_3);
   }
   uVar1 = *(uint32_t *)((int)self_ + 0x74);
   *(uint32_t *)((int)pvVar2 + 0x8c) = uVar1;
@@ -40,10 +40,10 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
   }
   *(uint32_t *)((int)pvVar2 + 0x1c) = 0x4d730000;
   if (param_1 != 0) {
-    orig::FUN_10062830(pvVar2,param_1);
+    orig::AfterimageTask_SetCaster(pvVar2,param_1);
   }
   if (param_2 != 0) {
-    orig::FUN_10062880(pvVar2,param_2);
+    orig::AfterimageTask_SetTarget(pvVar2,param_2);
   }
   *(uint32_t *)((int)pvVar2 + 0x94) = 0;
   *(uint32_t *)((int)pvVar2 + 0x98) = 0;
@@ -52,7 +52,7 @@ XI_API int __thiscall fn_10056CE0(void * self_, int param_1, int param_2, undefi
 
 // FUNCTION: FFXIMAIN 0x10056EB0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10056EB0(void * self_)
+XI_API void __thiscall Scheduler_RemoveTasksFor(void * self_)
 {
   void *pvVar1;
   void *this_00;
@@ -74,6 +74,6 @@ LAB_10056eb9:
     }
     this_00 = *(void **)((int)this_00 + 0xc);
   } while( true );
-  orig::FUN_10074ab0(this_00);
+  orig::CMoTask_Release(this_00);
   goto LAB_10056eb9;
 }

@@ -102,7 +102,7 @@ LAB_10252e08:
 
 // FUNCTION: FFXIMAIN 0x10252EA0  (unit StTrigger: between 0x10252CC0 (name StTrigger_ProcessOpcodesUpToTime) and 0x10252F00 (name StTrigger_RegisterCallbacks), both within 4 KB)
 // GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10252EA0(uint32_t * param_1, int param_2, int param_3)
+XI_API int __cdecl StTrigger_FindIndexAtLeast(uint32_t * param_1, int param_2, int param_3)
 {
   int *piVar1;
   int iVar2;

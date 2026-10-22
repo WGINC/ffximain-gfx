@@ -7,7 +7,7 @@
 XI_API void __cdecl fn_10037A10(void)
 {
   if (DAT_1046393c != 0) {
-    orig::FUN_102463c0(0xffffffff);
+    orig::LobbyThread_SendCmd6(0xffffffff);
   }
   return;
 }

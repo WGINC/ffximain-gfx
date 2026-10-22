@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1006D270  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 45 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1006D270(float * param_1, int param_2, float * param_3)
+XI_API void __stdcall Unit1006CF90_MultiplyTo(float * param_1, int param_2, float * param_3)
 {
   float fVar1;
   float fVar2;

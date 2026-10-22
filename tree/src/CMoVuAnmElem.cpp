@@ -34,20 +34,20 @@ void * CMoVuAnmElem::ScalarDeletingDtor(char a2)
   return this;
 }
 
-// FUNCTION: FFXIMAIN 0x10052CD0  (unit CMoVuAnmElem: stores CMoVuAnmElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052CD0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052CD0(void * self_)
+uint64_t __thiscall CMoVuAnmElem::Construct(void * self)
 {
   uint64_t uVar1;
   
-  orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
-  *(uint32_t *)((int)self_ + 0x198) = 0;
-  *(uint32_t *)((int)self_ + 0x1d4) = 0;
-  *(uint16_t *)((int)self_ + 0x1da) = 0;
-  uVar1 = orig::DynVB_Constructor_v1((void *)((int)self_ + 0x1dd));
-  *(uint8_t ***)self_ = &PTR_CMoVuAnmElem_GetRuntimeClass_1032ac10;
-  *(uint16_t *)((int)self_ + 0x176) = 0x231;
-  *(uint8_t *)((int)self_ + 0x1dc) = 0;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  orig::CMoElem_Constructor(self);
+  *(uint8_t ***)self = &PTR_CMoD3aElem_GetRuntimeClass_variant0_1032b238;
+  *(uint32_t *)((int)self + 0x198) = 0;
+  *(uint32_t *)((int)self + 0x1d4) = 0;
+  *(uint16_t *)((int)self + 0x1da) = 0;
+  uVar1 = orig::DynVB_Constructor_v1((void *)((int)self + 0x1dd));
+  *(uint8_t ***)self = &PTR_CMoVuAnmElem_GetRuntimeClass_1032ac10;
+  *(uint16_t *)((int)self + 0x176) = 0x231;
+  *(uint8_t *)((int)self + 0x1dc) = 0;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }

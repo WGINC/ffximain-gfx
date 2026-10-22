@@ -28,9 +28,9 @@ XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a
   v11 = (*(unsigned __int8 *)((char *)g_pCDx + 0x828));
   (*(unsigned __int8 *)((char *)g_pCDx + 0x828)) = 0;
   orig::OcclusionMng_Prepare(self_);
-  orig::nullsub_37();
+  orig::CDx_NopB();
   ScreenRectImpl = orig::Occlusion_QueryScreenRectImpl(self_, a2, a3, a4, a5, a6, a7, a8, a9, a10);
-  orig::nullsub_36();
+  orig::CDx_NopA();
   (*(unsigned __int8 *)((char *)g_pCDx + 0x828)) = v11;
   return ScreenRectImpl;
 }
@@ -173,7 +173,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
     orig::_atexit(XI_CODE(unknown_libname_60));
   }
   orig::StateBlock_ApplyRSTSS(Fn1006C530_stateBlock, (int)Fn1006C530_renderStates, (int)Fn1006C530_textureStageStates);
-  orig::sub_10009EA0(*(void **)(g_pResourceMng + 3528), a7, a8, *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
+  orig::CDx_PushRenderTargetTexture_Flag1(*(void **)(g_pResourceMng + 3528), a7, a8, *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
   v15 = g_pResourceMng;
   (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
     *(_DWORD *)(g_pResourceMng + 3772),
@@ -192,8 +192,8 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
   v19 = *(void **)(v18 + 3528);
   v20 = orig::Gfx_CalcFVFStride(0x44u);
   orig::CDx_DrawPrimitiveUP(v19, 5, 2, (int)&Fn1006C530_quadVerts2, v20);
-  orig::sub_1000A200(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
-  orig::sub_10009EE0(
+  orig::CDx_PopRenderTargetA(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
+  orig::CDx_PushRenderTargetTexture_Flag0(
     *(void **)(g_pResourceMng + 3528),
     *(_DWORD *)(g_pOcclusionMng + 12),
     *(_DWORD *)(g_pOcclusionMng + 16),
@@ -202,7 +202,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
     *(_DWORD *)(g_pResourceMng + 3772),
     0,
     a7);
-  orig::sub_1000A390(*(_DWORD ***)(g_pResourceMng + 3528), 1, 0, 1065353216, 0);
+  orig::CDx_EndAndClearBegin(*(_DWORD ***)(g_pResourceMng + 3528), 1, 0, 1065353216, 0);
   if ( (Fn1006C530_staticGuards & 2) == 0 )
   {
     Fn1006C530_staticGuards |= 2u;
@@ -217,7 +217,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
   v22 = *(void **)(v21 + 3528);
   v23 = orig::Gfx_CalcFVFStride(0x104u);
   orig::CDx_DrawPrimitiveUP(v22, 5, 2, (int)&Fn1006C530_quadVerts3, v23);
-  return orig::sub_1000A230(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
+  return orig::CDx_PopRenderTargetB(*(_DWORD ***)(g_pResourceMng + 3528), 0, 0);
 }
 
 // FUNCTION: FFXIMAIN 0x1006C8B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)

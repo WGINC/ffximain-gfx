@@ -15,7 +15,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
   }
   uVar1 = orig::Allocator_Generic_v1(0x10);
   if ((void *)uVar1 != (void *)0x0) {
-    this_00 = (void *)orig::FUN_100395d0((void *)uVar1);
+    this_00 = (void *)orig::CYyObject_VT_1032A9F8_Construct((void *)uVar1);
     if (this_00 != (void *)0x0) {
       orig::FUN_10039670(this_00,param_1,param_2,param_3);
       *(void **)((int)self_ + *(int *)((int)self_ + 8) * 4 + 0xc) = this_00;
@@ -29,7 +29,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
 
 // FUNCTION: FFXIMAIN 0x10039550  (unit CYyObject_VT_1032A9F8: between 0x10039470 (class model places it in CYyObject_VT_1032A9F8) and 0x100395D0 (class model places it in CYyObject_VT_1032A9F8), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10039550(void * self_)
+XI_API void __thiscall ThreadPool_Shutdown(void * self_)
 {
   int *piVar1;
   int iVar2;
@@ -48,7 +48,7 @@ XI_API void __thiscall fn_10039550(void * self_)
   iVar2 = 8;
   do {
     if ((void *)*piVar3 != (void *)0x0) {
-      orig::FUN_100396a0((void *)*piVar3);
+      orig::Thread_ResumeAndWait((void *)*piVar3);
     }
     piVar3 = piVar3 + 1;
     iVar2 = iVar2 + -1;
@@ -58,7 +58,7 @@ XI_API void __thiscall fn_10039550(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100395D0  (unit CYyObject_VT_1032A9F8: class model places it in CYyObject_VT_1032A9F8)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100395D0(void * self_)
+XI_API undefined4 __thiscall CYyObject_VT_1032A9F8_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_VT_1032A9F8_ScalarDeletingDtor_2_1032aa14;
   *(uint8_t *)((int)self_ + 4) = 1;

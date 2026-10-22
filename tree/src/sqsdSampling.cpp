@@ -15,10 +15,10 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
   uVar1 = *(uint32_t *)(param_1 + 0x4c);
   uVar4 = 0x40000;
   if ((((uVar1 & 2) == 0) || ((uVar1 & 4) == 0)) &&
-     ((uVar1 == 0 || (iVar3 = orig::FUN_102a1fa0(*param_2), iVar3 != 2)))) {
-    orig::FUN_102a34d0(param_1 + 0x14);
-    orig::FUN_1029bd40(*(float *)(param_1 + 0x58));
-    orig::FUN_1029bcd0(param_1 + 0x5c);
+     ((uVar1 == 0 || (iVar3 = orig::Unit102A1F20_TestSeparationHalf(*param_2), iVar3 != 2)))) {
+    orig::Unit102A34D0_ApplyLighting(param_1 + 0x14);
+    orig::Sqgx_SetFloat18(*(float *)(param_1 + 0x58));
+    orig::Sqgx_CopyBlockToContext(param_1 + 0x5c);
     if (*(int *)(param_1 + 0x50) == 0) {
       orig::sqgxTextureSet_v1(-1);
     }
@@ -51,7 +51,7 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
     if ((*(int *)(param_1 + 0x54) != 0) &&
        ((!NAN((long double)*(float *)(param_1 + 0x160)) && !NAN((long double)xi_k8(0x3F50624DD2F1A9FCull))) &&
         (long double)xi_k8(0x3F50624DD2F1A9FCull) < (long double)*(float *)(param_1 + 0x160))) {
-      orig::FUN_10283f20(*(float *)(param_1 + 0x15c));
+      orig::SqgxContext_SetInverseFactor(*(float *)(param_1 + 0x15c));
       if ((*(uint8_t *)(param_1 + 0x164) & 2) == 0) {
         orig::sqgxBlendAdd();
       }
@@ -94,12 +94,12 @@ XI_API int __cdecl sqsdSampling_BakeOntoShape(int param_1, int param_2)
     uVar3 = 0x40004;
   }
   orig::sqgxShader_v1(uVar3,0);
-  orig::FUN_1029b5c0();
+  orig::SqgxDlist_CreateContextList();
   orig::sqDrawableDraw_v1(param_2);
   puVar1 = orig::FUN_1029b620();
-  puVar2 = orig::FUN_102a2000();
+  puVar2 = orig::SqshDispList_Create();
   puVar2[0x11] = puVar1;
-  orig::FUN_1028d9c0(puVar2 + 5,(undefined4 *)(param_2 + 0x14));
+  orig::Unit1028D970_Copy(puVar2 + 5,(undefined4 *)(param_2 + 0x14));
   orig::FUN_10285740(&param_2);
   return (int)puVar2;
 }

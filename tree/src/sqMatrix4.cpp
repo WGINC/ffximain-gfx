@@ -45,14 +45,14 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
   fVar14 = param_1[0xc];
   fVar15 = param_1[0xf];
   fVar16 = param_1[0xe];
-  orig::FUN_10296410(local_24,fVar5,fVar8,fVar7,fVar9,fVar12,fVar11,fVar13,fVar16,fVar15);
-  fVar17 = orig::FUN_102967e0(local_24);
-  orig::FUN_10296410(local_24,fVar1,fVar4,fVar3,fVar9,fVar12,fVar11,fVar13,fVar16,fVar15);
-  fVar18 = orig::FUN_102967e0(local_24);
-  orig::FUN_10296410(local_24,fVar1,fVar4,fVar3,fVar5,fVar8,fVar7,fVar13,fVar16,fVar15);
-  fVar19 = orig::FUN_102967e0(local_24);
-  orig::FUN_10296410(local_24,fVar1,fVar4,fVar3,fVar5,fVar8,fVar7,fVar9,fVar12,fVar11);
-  fVar20 = orig::FUN_102967e0(local_24);
+  orig::Unit102963D0_Set(local_24,fVar5,fVar8,fVar7,fVar9,fVar12,fVar11,fVar13,fVar16,fVar15);
+  fVar17 = orig::SqMatrix3_Determinant(local_24);
+  orig::Unit102963D0_Set(local_24,fVar1,fVar4,fVar3,fVar9,fVar12,fVar11,fVar13,fVar16,fVar15);
+  fVar18 = orig::SqMatrix3_Determinant(local_24);
+  orig::Unit102963D0_Set(local_24,fVar1,fVar4,fVar3,fVar5,fVar8,fVar7,fVar13,fVar16,fVar15);
+  fVar19 = orig::SqMatrix3_Determinant(local_24);
+  orig::Unit102963D0_Set(local_24,fVar1,fVar4,fVar3,fVar5,fVar8,fVar7,fVar9,fVar12,fVar11);
+  fVar20 = orig::SqMatrix3_Determinant(local_24);
   return (long double)(float)(fVar19 * (long double)fVar10 +
                          (long double)(float)((long double)(float)(fVar17 * (long double)fVar2) -
                                          fVar18 * (long double)fVar6)) - fVar20 * (long double)fVar14;
@@ -60,7 +60,7 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
 
 // FUNCTION: FFXIMAIN 0x10280650  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10280650(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+XI_API void __cdecl SqMatrix4_SetFields(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   orig::FUN_1027ebd0(param_1);
   *(uint32_t *)(param_1 + 0xc) = param_2;
@@ -71,7 +71,7 @@ XI_API void __cdecl fn_10280650(int param_1, undefined4 param_2, undefined4 para
 
 // FUNCTION: FFXIMAIN 0x102806B0  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102806B0(int param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl SqMatrix4_ScaleAxes(int param_1, float param_2, float param_3, float param_4)
 {
   float *pfVar1;
   float *pfVar2;

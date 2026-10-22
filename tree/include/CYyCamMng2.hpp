@@ -6,6 +6,10 @@
 class XI_API CYyCamMng2 {
 public:
     static undefined4 __cdecl CreateGlobal();  // 0x1001E470
+    static long double __cdecl GetYaw();  // 0x1001E4D0
+    static undefined4 __thiscall Reset(void * self);  // 0x1001E4F0
+    static undefined4 __thiscall SetDefaultDistances(void * self);  // 0x1001E590
+    static void * __thiscall Construct(void * self);  // 0x1001E600
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x114];

@@ -76,7 +76,7 @@ LABEL_31:
     v11 = (_DWORD *)*orig::sub_10039410((_DWORD *)(self + 156), &v20);
     if ( v11 != nullptr )
       v19 = *v11 != 0;
-    orig::sub_1001D390(g_modelColor, v19);
+    orig::Unit1001B890_SetColorForce(g_modelColor, v19);
     orig::Model_BeginTranslucentPass(self + 116);
     if ( g_envMapEnabled != 0 )
     {
@@ -94,7 +94,7 @@ LABEL_31:
       orig::Mat4_SetTranslation(v27, &v22);
       orig::Mat4_PostMultiply((int)g_envMapTexMatrix, (int)v27);
       orig::sub_10026210(dword_104574B0, dword_10457268, dword_10457100, dword_104570F8);
-      orig::nullsub_1();
+      orig::Unit10026C70_Nop();
     }
     if ( g_projTexEnabled != 0 )
     {
@@ -117,7 +117,7 @@ LABEL_31:
       v13 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
       if ( v13 != 0 )
         orig::ProjTex_CaptureToTarget((void *)(self + 144), dword_104574B4, v13, g_lightTable_End, dword_1045726C);
-      orig::nullsub_1();
+      orig::Unit10026C70_Nop();
     }
     if ( g_skinningCapabilityFlag == 0 && this->field_B8 == 1 )
     {
@@ -230,7 +230,7 @@ LABEL_24:
     orig::Model_CompositeTranslucentPass((void *)(self + 116));
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
-    orig::sub_10033DA0(self + 72, a1);
+    orig::Shadow_DrawByMode(self + 72, a1);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
     result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 2u);
     goto LABEL_31;
@@ -306,7 +306,7 @@ undefined4 __thiscall CXiSkeletonActor::GetElemThunk(void * self, undefined4 par
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_1002c400(self,param_2,param_3,param_4);
+  uVar1 = orig::CYyModel_GetPartOffset(self,param_2,param_3,param_4);
   return uVar1;
 }
 
@@ -330,7 +330,7 @@ int __thiscall CXiSkeletonActor::GetModelElem(void * self, uint32_t param_1, int
     iVar2 = *(int *)(iVar2 + 4);
     iVar3 = iVar3 + 1;
   } while (iVar2 != 0);
-  iVar2 = orig::FUN_1002a9b0((void *)*piVar1,param_1);
+  iVar2 = orig::CYyModelBase_FindPartIndex((void *)*piVar1,param_1);
   return iVar2;
 }
 
@@ -1253,7 +1253,7 @@ char CXiSkeletonActor::DestructorBody()
     (*(void (__thiscall **)(int, int))(*(_DWORD *)v13 + 24))(v13, 1);
     this->pSkeletonRes = 0;
   }
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
   orig::OcclusionQuery_Release((int *)(self + 2288));
   orig::LinkNode_Unlink((_DWORD *)(self + 2248));
   orig::ActorHandle_Destructor((_DWORD *)(self + 1960));
@@ -1467,7 +1467,7 @@ int CXiSkeletonActor::Init()
   this->field_8B4 = 1;
   this->field_8AA = 0;
   this->field_8AB = 0;
-  orig::sub_100D6240((char *)self, 0);
+  orig::CXiSkeletonActor_FindPartValue((char *)self, 0);
   v39 = this->lockFlags;
   v40 = this->posHandle;
   this->field_8AC &= 0xF8u;
@@ -1938,7 +1938,7 @@ LABEL_50:
     (float *)&g_lightLookAtEye,
     (float *)&g_lightLookAtTarget,
     (float *)&g_lightLookAtUp);
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
   if ( (*(unsigned __int8 (__thiscall **)(void *))(*(_DWORD *)self + 772))(self) != 0 )
     goto LABEL_155;
   if ( v88 || v93 != 0 )
@@ -2298,17 +2298,17 @@ char * CXiSkeletonActor::SetMotion(int *a2, float a3)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x100CD4E0  (unit CXiSkeletonActor: between 0x100CD490 (name CXiSkeletonActor_SetMotion) and 0x100CE0B0 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CD4E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100CD4E0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, int param_7)
+void __thiscall CXiSkeletonActor::SetSlotMotion(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, int param_7)
 {
   int *piVar1;
   
-  piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
+  piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
   if (*piVar1 != 0) {
-    piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
+    piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
     orig::CYyMotionQue_SetSlotMotion_v1
-              ((void *)(*piVar1 + 0x24),self_,param_1,param_2,param_3,param_4,param_5,param_6,param_7
+              ((void *)(*piVar1 + 0x24),self,param_1,param_2,param_3,param_4,param_5,param_6,param_7
                ,0,0);
   }
   return;
@@ -2377,7 +2377,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
             piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
             if (*piVar6 != 0) {
               piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
-              orig::FUN_1001a6e0((void *)(*piVar6 + 0x24),self,piVar1,wt,sp,lp,in,
+              orig::MotionQueList_QueueMotion((void *)(*piVar6 + 0x24),self,piVar1,wt,sp,lp,in,
                            out,iVar2,sframe,eframe);
             }
           }
@@ -2437,7 +2437,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
               piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
               if (*piVar6 != 0) {
                 piVar6 = (int *)orig::CYyModel_GetField44Addr_v1(pvVar4);
-                orig::FUN_1001a6e0((void *)(*piVar6 + 0x24),self,piVar1,wt,
+                orig::MotionQueList_QueueMotion((void *)(*piVar6 + 0x24),self,piVar1,wt,
                              (float)((long double)sp * (long double)0.4000000059604644775390625f),lp,in,out,1,
                              sframe,eframe);
               }
@@ -2460,9 +2460,9 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar4 >> 8)) << 8) | (uint8_t)(local_40)));
 }
 
-// FUNCTION: FFXIMAIN 0x100CDF90  (unit CXiSkeletonActor: between 0x100CD490 (name CXiSkeletonActor_SetMotion) and 0x100CE0B0 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CDF90  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 25 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100CDF90(void * self_)
+void __thiscall CXiSkeletonActor::UpdateRandomTimer(void * self)
 {
   uint32_t xi_entry_eax = 0;
   int iVar1;
@@ -2474,19 +2474,19 @@ XI_API void __thiscall fn_100CDF90(void * self_)
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   
   fVar4 = orig::Camera_GetFrameScale_v1(xi_entry_eax);
-  fVar4 = (long double)*(float *)((int)self_ + 0x8b8) - fVar4;
-  *(float *)((int)self_ + 0x8b8) = (float)fVar4;
+  fVar4 = (long double)*(float *)((int)self + 0x8b8) - fVar4;
+  *(float *)((int)self + 0x8b8) = (float)fVar4;
   bVar3 = NAN(fVar4) || NAN((long double)0.0f);
   if ((bVar3 || fVar4 < (long double)0.0f) != bVar3) {
     iVar1 = orig::_rand();
     local_8 = (int *)(iVar1 % 0x1e0);
-    *(float *)((int)self_ + 0x8b8) = (float)(long double)(int)local_8;
-    if (*(char *)((int)self_ + 0x8aa) == '\0') {
+    *(float *)((int)self + 0x8b8) = (float)(long double)(int)local_8;
+    if (*(char *)((int)self + 0x8aa) == '\0') {
       uVar2 = orig::CXiSkeletonActor_IsReadCompleteBody
-                        (self_,((uint32_t)(((uint32_t)((int32_t)((uint32_t)(iVar1 / 0x1e0) >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x8aa)))));
+                        (self,((uint32_t)(((uint32_t)((int32_t)((uint32_t)(iVar1 / 0x1e0) >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x8aa)))));
       if ((char)uVar2 != '\0') {
         DAT_1048a38c_as_v0 = 0;
-        local_8 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x1e0))))((void *)(self_),&local_4);
+        local_8 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1e0))))((void *)(self),&local_4);
         local_8 = (int *)*local_8;
         if (local_8 != (int *)0x0) {
           uVar2 = orig::ResourceHandle_IsResident_v1(&local_8);
@@ -2500,7 +2500,7 @@ XI_API void __thiscall fn_100CDF90(void * self_)
             local_8 = (int *)orig::CMoResource_FindInScope(&local_4,iVar1,0x2b,0x33657965,local_8);
             local_8 = (int *)*local_8;
             if (local_8 != (int *)0x0) {
-              orig::FUN_100cd4e0(self_,local_8,0x3f800000,0x3f800000,1,0x3f800000,0x3f800000,3);
+              orig::CXiSkeletonActor_SetSlotMotion(self,local_8,0x3f800000,0x3f800000,1,0x3f800000,0x3f800000,3);
             }
           }
         }
@@ -2510,15 +2510,15 @@ XI_API void __thiscall fn_100CDF90(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100CE160  (unit CXiSkeletonActor: between 0x100CE0B0 (class model places it in CXiSkeletonActor) and 0x100CE470 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CE160  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100CE160(void * self_)
+void __thiscall CXiSkeletonActor::AdvanceMotionQueue(void * self)
 {
   int *piVar1;
   
-  piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
+  piVar1 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
   if (*piVar1 != 0) {
-    orig::FUN_1001b170((void *)(*piVar1 + 0x74),8.0f);
+    orig::KzMotionQueList_AdvanceAll((void *)(*piVar1 + 0x74),8.0f);
   }
   return;
 }
@@ -3082,7 +3082,7 @@ undefined4 __thiscall CXiSkeletonActor::SetAction(void * self, undefined4 * para
   uVar3 = 0;
   if (param_3 != 0) {
     orig::CXiSchStatus_Destructor((void *)param_3);
-    uVar4 = orig::operator_delete_10311BB0_v1((LPVOID)iVar7);
+    uVar4 = orig::operator_delete_v1((LPVOID)iVar7);
     uVar3 = (uint32_t)uVar4;
   }
   return uVar3 & 0xffffff00;
@@ -3119,7 +3119,7 @@ XI_API uint64_t __thiscall fn_100CF100(void * self_, undefined4 xi_s1)
       if (iVar1 != 1) goto LAB_100cf141;
       uVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 800))))((void *)(self_));
       if ((short)uVar2 == 0) goto LAB_100cf141;
-      uVar3 = orig::FUN_100d6240(self_,piVar4);
+      uVar3 = orig::CXiSkeletonActor_FindPartValue_v1(self_,piVar4);
       if ((char)uVar3 != '\0') goto LAB_100cf141;
       uVar5 = orig::FUN_100d5fe0(self_,(int)piVar4);
     }
@@ -3145,9 +3145,9 @@ void CXiSkeletonActor::vf172(int a2)
     orig::CYyModelBase_ForwardToField24(v2, a2, 0);
 }
 
-// FUNCTION: FFXIMAIN 0x100CFA50  (unit CXiSkeletonActor: between 0x100CF210 (name CXiSkeletonActor_SetModel) and 0x100D04B0 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CFA50  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100CFA50(void * self_, int * param_1, void * param_2)
+void __thiscall CXiSkeletonActor::AddResourceParts(void * self, int * param_1, void * param_2)
 {
   undefined4 *puVar1;
   int iVar2;
@@ -3170,18 +3170,18 @@ XI_API void __thiscall fn_100CFA50(void * self_, int * param_1, void * param_2)
     orig::ResourceIter_FindNext_v1(local_1c,0);
   }
   if (((uint8_t)*(undefined4 *)(*param_1 + 0x24) & 0x7f) == 1) {
-    orig::CXiActor_SpawnResourceGenerators_v1(self_,param_1);
+    orig::CXiActor_SpawnResourceGenerators_v1(self,param_1);
   }
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100CFAD0  (unit CXiSkeletonActor: between 0x100CF210 (name CXiSkeletonActor_SetModel) and 0x100D04B0 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CFAD0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __thiscall fn_100CFAD0(void * self_, int param_1)
+uint8_t * __thiscall CXiSkeletonActor::GetTableOrDefault(void * self, int param_1)
 {
   uint16_t *puVar1;
   
-  puVar1 = orig::FUN_100cfb40(self_);
+  puVar1 = orig::FUN_100cfb40(self);
   if (puVar1 == (uint16_t *)0x0) {
     if ((param_1 != 0) && (param_1 == 1)) {
       return (uint8_t *)0x0;
@@ -3228,6 +3228,55 @@ char CXiSkeletonActor::GetArrowPos(int a2, int a3, int a4)
   return (*(char (__stdcall **)(int, int, int))(*(_DWORD *)self + 640))(a2, a3, a4);
 }
 
+// FUNCTION: FFXIMAIN 0x100D0740  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __stdcall CXiSkeletonActor::ProjectToScreen(float * param_1, undefined4 xi_s2, undefined4 xi_s3)
+{
+  long double fVar1;
+  uint32_t *puVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  uint8_t bVar5;
+  uint8_t bVar6;
+  long double fVar7;
+  char xi_frame[192] __attribute__((aligned(4)));
+  uint32_t  (&auStack_c0)[16] = *reinterpret_cast<uint32_t  (*)[16]>(xi_frame + 0);
+  uint32_t  (&auStack_80)[16] = *reinterpret_cast<uint32_t  (*)[16]>(xi_frame + 64);
+  uint32_t  (&auStack_40)[16] = *reinterpret_cast<uint32_t  (*)[16]>(xi_frame + 128);
+  
+  orig::Unit10026C70_ReturnThis(auStack_40);
+  orig::Unit10026C70_ReturnThis(auStack_80);
+  orig::Unit10026C70_ReturnThis(auStack_c0);
+  orig::CDx_GetTransformCached_v1(g_pCDx_as_v1,2,auStack_80);
+  orig::CDx_GetTransformCached_v1(g_pCDx_as_v1,0x100,auStack_40);
+  orig::Mat4_SetIdentity_v1(auStack_c0);
+  orig::Mat4_SetTranslation_v1(auStack_c0,param_1);
+  puVar2 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
+  orig::CDx_SetTransform_v1(g_pCDx_as_v1,2,puVar2);
+  orig::CDx_SetTransform_v1(g_pCDx_as_v1,0x100,auStack_c0);
+  orig::Vec4_Set_v1(param_1,0.0f,0.0f,0.0f,1.0f);
+  orig::Gfx_ProjectWorldToClip_v1(param_1,param_1);
+  orig::Gfx_NdcToScreen_v1(param_1);
+  orig::CDx_SetTransform_v1(g_pCDx_as_v1,2,auStack_80);
+  uVar3 = orig::CDx_SetTransform_v1(g_pCDx_as_v1,0x100,auStack_40);
+  fVar7 = (long double)param_1[3];
+  fVar1 = (long double)0.0f;
+  bVar6 = NAN(fVar7) || NAN(fVar1);
+  bVar5 = bVar6 || fVar7 < fVar1;
+  uVar4 = (uint32_t)(((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar3 >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar5 << 8 | (uint16_t)bVar6 << 10 |
+                           (uint16_t)(bVar6 || fVar7 == fVar1) << 0xe))) >> 8);
+  if (bVar5 != bVar6) {
+    orig::Unit10026C70_Nop();
+    orig::Unit10026C70_Nop();
+    orig::Unit10026C70_Nop();
+    return (uint32_t)uVar4 << 8;
+  }
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  return ((uint32_t)(((uint32_t)(uVar4) << 8) | (uint8_t)(1)));
+}
+
 // FUNCTION: FFXIMAIN 0x100D0880  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CXiSkeletonActor::DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5)
@@ -3260,7 +3309,7 @@ double CXiSkeletonActor::GetWidthScale()
   v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
   if ( v2 == 0 )
     return 1.0;
-  v4 = orig::sub_10035250(v2 + 8, v3);
+  v4 = orig::Skel_GetTableAfterBones(v2 + 8, v3);
   if ( v4 == nullptr )
     return 1.0;
   v6 = *((float *)v4 + 2) - *((float *)v4 + 3);
@@ -3286,7 +3335,7 @@ double CXiSkeletonActor::GetHeightScale()
   v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
   if ( v2 == 0 )
     return 1.0;
-  v4 = (float *)orig::sub_10035250(v2 + 8, v3);
+  v4 = (float *)orig::Skel_GetTableAfterBones(v2 + 8, v3);
   if ( v4 == nullptr )
     return 1.0;
   v6 = v4[1] - *v4;
@@ -3312,7 +3361,7 @@ double CXiSkeletonActor::GetDepthScale()
   v2 = *(_DWORD *)orig::CYyModel_GetField44Addr(self + 1652);
   if ( v2 == 0 )
     return 1.0;
-  v4 = orig::sub_10035250(v2 + 8, v3);
+  v4 = orig::Skel_GetTableAfterBones(v2 + 8, v3);
   if ( v4 == nullptr )
     return 1.0;
   v6 = *((float *)v4 + 4) - *((float *)v4 + 5);
@@ -3326,20 +3375,20 @@ double CXiSkeletonActor::GetDepthScale()
   return ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) * v6 * 0x1.0d79440000000p-1;
 }
 
-// FUNCTION: FFXIMAIN 0x100D0D40  (unit CXiSkeletonActor: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D0D40  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100D0D40(void * self_, int * param_1, int param_2)
+undefined4 __thiscall CXiSkeletonActor::SetField0B4IfField9EC(void * self, int * param_1, int param_2)
 {
-  if ((param_2 == *(int *)((int)self_ + 0x9ec)) && (param_1 != (int *)0x0)) {
-    orig::CXiActor_set_field_B4(self_,param_1);
-    param_2 = (int)orig::FUN_100cf750(self_,param_1);
+  if ((param_2 == *(int *)((int)self + 0x9ec)) && (param_1 != (int *)0x0)) {
+    orig::CXiActor_SetField0B4(self,param_1);
+    param_2 = (int)orig::FUN_100cf750(self,param_1);
   }
   return param_2;
 }
 
 // FUNCTION: FFXIMAIN 0x100D0D70  (unit CXiSkeletonActor: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D0D70(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, int * param_3)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_AttachPartResource(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, int * param_3)
 {
   int *xi_s2;
   uint32_t uVar1;
@@ -3351,17 +3400,17 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D0D70(undefined4 xi
   xi_s2 = param_3;
   if (param_3 == *(int **)((int)self_ + 0x9ec)) {
     if (param_2 != 0) {
-      orig::CXiActor_set_field_B4(self_,param_2);
+      orig::CXiActor_SetField0B4(self_,param_2);
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x290))))((void *)(self_),param_2);
     }
-    orig::FUN_100d0fc0(self_,param_2,xi_s2);
+    orig::CXiSkeletonActor_SelectStateMessage(self_,param_2,xi_s2);
     xi_eax = orig::CXiActor_GetModelByteEE_v1(self_);
     if (xi_eax == 7) {
       uVar1 = orig::CXiActor_GetModelPartWord(self_,9);
       xi_eax = 0;
       if ((uVar1 & 0xfff) != 0) {
-        iVar2 = orig::FUN_100c51c0(0,uVar1 & 0xfff);
-        orig::FUN_100730e0(&param_3,iVar2);
+        iVar2 = orig::Unit100C51C0_MapCodeIndex(0,uVar1 & 0xfff);
+        orig::CMoResource_FindOrCreateTask(&param_3,iVar2);
         uVar3 = orig::ResourceHandle_IsResident_v1(&param_3);
         if ((char)uVar3 != '\0') {
           uVar3 = orig::FUN_100d0b50(self_,param_3,uVar1 | 0x9000,*(int *)((int)self_ + 0x9ec),1);
@@ -3378,7 +3427,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D0D70(undefined4 xi
           puVar4[4] = 0;
           puVar4[6] = uVar1 | 0x9000;
           puVar4[7] = iVar2;
-          xi_eax = orig::FUN_100710f0(&param_3,XI_CODE(FUN_100d0e80),puVar4,(int)self_,0);
+          xi_eax = orig::Unit10070F90_Create(&param_3,XI_CODE(FUN_100d0e80),puVar4,(int)self_,0);
         }
       }
     }
@@ -3386,27 +3435,27 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D0D70(undefined4 xi
   return xi_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x100D0FC0  (unit CXiSkeletonActor: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D0FC0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 365 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100D0FC0(void * self_, undefined4 xi_s1, undefined4 xi_s2)
+void __thiscall CXiSkeletonActor::SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
   uint8_t bVar1;
   int iVar2;
   int iVar3;
   uint32_t uVar4;
   
-  iVar2 = (**(code **)(*(int *)self_ + 0x394))();
-  iVar3 = (**(code **)(*(int *)self_ + 0x378))();
-  if ((iVar3 == 0) && (iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x36c))))((void *)(self_)), iVar3 == 0)) {
+  iVar2 = (**(code **)(*(int *)self + 0x394))();
+  iVar3 = (**(code **)(*(int *)self + 0x378))();
+  if ((iVar3 == 0) && (iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x36c))))((void *)(self)), iVar3 == 0)) {
     bVar1 = false;
   }
   else {
     bVar1 = true;
   }
-  iVar3 = (**(code **)(*(int *)self_ + 0x3a4))();
+  iVar3 = (**(code **)(*(int *)self + 0x3a4))();
   if (iVar2 == 0) {
     if (bVar1) {
-      ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self_ + 0x298))))((void *)(self_),0x74696e69,self_,0);
+      ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self + 0x298))))((void *)(self),0x74696e69,self,0);
       return;
     }
     if (iVar3 == 0) {
@@ -3414,19 +3463,19 @@ XI_API void __thiscall fn_100D0FC0(void * self_, undefined4 xi_s1, undefined4 xi
     }
   }
   else {
-    if (*(int *)((int)self_ + 0x70) == 0) {
+    if (*(int *)((int)self + 0x70) == 0) {
       return;
     }
-    uVar4 = *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x134) >> 0x15 & 0xf;
+    uVar4 = *(uint32_t *)(*(int *)((int)self + 0x70) + 0x134) >> 0x15 & 0xf;
     if (uVar4 != 2) {
       if (uVar4 != 3) {
         return;
       }
-      ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self_ + 0x298))))((void *)(self_),0x316e6f63,self_,0);
+      ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self + 0x298))))((void *)(self),0x316e6f63,self,0);
       return;
     }
   }
-  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self_ + 0x298))))((void *)(self_),0x306e6f63,self_,0);
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*(int *)self + 0x298))))((void *)(self),0x306e6f63,self,0);
   return;
 }
 
@@ -3545,9 +3594,9 @@ XI_API int __cdecl fn_100D43E0(void)
   return (uint16_t)(&DAT_10330f34)[uVar1] + 0xca53;
 }
 
-// FUNCTION: FFXIMAIN 0x100D4410  (unit CXiSkeletonActor: between 0x100D4330 (name CXiSkeletonActor_LoadSkeletonResource) and 0x100D4560 (name CXiSkeletonActor_GetElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D4410  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100D4410(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+int __thiscall CXiSkeletonActor::AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   void *pvVar1;
   
@@ -3559,7 +3608,7 @@ XI_API int __thiscall fn_100D4410(void * self_, undefined4 param_1, undefined4 p
       *(uint32_t *)((int)pvVar1 + 0x14) = param_3;
       *(uint32_t *)((int)pvVar1 + 0x1c) = param_1;
       *(uint32_t *)((int)pvVar1 + 0xc) = param_4;
-      orig::FUN_1002c7e0(pvVar1,(uint32_t *)((int)self_ + 0x7e4));
+      orig::FUN_1002c7e0(pvVar1,(uint32_t *)((int)self + 0x7e4));
       return (int)pvVar1;
     }
   }
@@ -3568,7 +3617,7 @@ XI_API int __thiscall fn_100D4410(void * self_, undefined4 param_1, undefined4 p
 
 // FUNCTION: FFXIMAIN 0x100D44B0  (unit CXiSkeletonActor: between 0x100D4330 (name CXiSkeletonActor_LoadSkeletonResource) and 0x100D4560 (name CXiSkeletonActor_GetElem), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 14 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D44B0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_ReleaseListEntriesMatching(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   int *piVar1;
   int *this_00;
@@ -3578,20 +3627,20 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D44B0(undefined4 xi
     xi_eax = this_00[3];
     piVar1 = (int *)this_00[1];
     if (xi_eax == param_2) {
-      orig::FUN_1002c800(this_00,(int *)((int)self_ + 0x7e4));
+      orig::Unit1002C7C0_PopHead(this_00,(int *)((int)self_ + 0x7e4));
       xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
     }
   }
   return xi_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x100D4540  (unit CXiSkeletonActor: between 0x100D4330 (name CXiSkeletonActor_LoadSkeletonResource) and 0x100D4560 (name CXiSkeletonActor_GetElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D4540  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100D4540(void * self_, int param_1)
+int __thiscall CXiSkeletonActor::FindListEntry(void * self, int param_1)
 {
   int iVar1;
   
-  iVar1 = *(int *)((int)self_ + 0x7e4);
+  iVar1 = *(int *)((int)self + 0x7e4);
   while( true ) {
     if (iVar1 == 0) {
       return 0;
@@ -3622,9 +3671,9 @@ char CXiSkeletonActor::IsDirectionLock_Set(char a2)
   return v2;
 }
 
-// FUNCTION: FFXIMAIN 0x100D6240  (unit CXiSkeletonActor: between 0x100D5460 (name CXiSkeletonActor_IsDirectionLock_Set) and 0x100D62C0 (name CXiSkeletonActor_DrawResourceShadows), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D6240  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 46 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_100D6240(void * self_, int * param_1)
+uint32_t __thiscall CXiSkeletonActor::FindPartValue(void * self, int * param_1)
 {
   int *piVar1;
   void *this_00;
@@ -3635,16 +3684,16 @@ XI_API uint32_t __thiscall fn_100D6240(void * self_, int * param_1)
   
   if ((-1 < (int)param_1) || ((int)param_1 < 10)) {
     piVar1 = param_1 + 0xc;
-    this_01 = (void *)((int)self_ + 0x674);
+    this_01 = (void *)((int)self + 0x674);
     param_1 = (int *)orig::CYyModel_GetField44Addr_v1(this_01);
     for (this_00 = (void *)*param_1; this_00 != (void *)0x0; this_00 = *(void **)((int)this_00 + 4))
     {
       xi_s1 = 0;
       param_1 = (int *)orig::CYyModelBase_GetPartList_v1(this_00);
       for (iVar2 = *param_1; iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-        param_1 = (int *)orig::FUN_1002c710(this_01,xi_s1);
+        param_1 = (int *)orig::CYyModel_QueryPartsA(this_01,xi_s1);
         if (param_1 == (int *)((int)piVar1 * 0x1000000 | 0x706577U)) {
-          uVar3 = orig::FUN_1002c750(this_01,xi_s1);
+          uVar3 = orig::CYyModel_QueryPartsB(this_01,xi_s1);
           return uVar3;
         }
         xi_s1 = xi_s1 + 1;

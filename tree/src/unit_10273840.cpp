@@ -37,7 +37,7 @@ XI_API void __cdecl fn_102738A0(void)
 
 // FUNCTION: FFXIMAIN 0x102738D0  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102738D0(undefined4 * param_1)
+XI_API void __cdecl Unit10273840_InitRecord(undefined4 * param_1)
 {
   *param_1 = 1;
   param_1[1] = 0xffffffff;

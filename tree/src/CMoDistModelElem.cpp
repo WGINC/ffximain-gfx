@@ -3,6 +3,62 @@
 #include "CMoDistModelElem.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x1003FCB0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoDistModelElem::IsDistortedMode(void * self)
+{
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar1;
+  uint8_t bVar2;
+  
+  uVar1 = xi_entry_eax & 0xffffff00;
+  if (((*(char *)((int)self + 0x34) == '\0') &&
+      (bVar2 = *(uint8_t *)((int)self + 0x30) & 0xf, 4 < bVar2)) && (bVar2 < 8)) {
+    uVar1 = ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  }
+  return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x1003FCE0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoDistModelElem::GetVertexBase(void * self)
+{
+  return (int)self + 0x38;
+}
+
+// FUNCTION: FFXIMAIN 0x1003FCF0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoDistModelElem::GetDataEnd(void * self)
+{
+  uint8_t bVar1;
+  int iVar2;
+  uint32_t uVar3;
+  
+  bVar1 = *(uint8_t *)((int)self + 0x30) & 0xf;
+  if (4 < bVar1) {
+    if (bVar1 < 7) {
+      iVar2 = orig::CMoDistModelElem_GetVertexBase_v1(self);
+      uVar3 = (uint32_t)*(uint8_t *)((int)self + 0x35) + (uint32_t)*(uint8_t *)((int)self + 0x34);
+      if ((uVar3 & 3) != 0) {
+        return iVar2 + 6 + (uVar3 - (uVar3 & 3)) * 2;
+      }
+      return iVar2 + uVar3 * 2;
+    }
+    if (bVar1 == 7) {
+      iVar2 = orig::CMoDistModelElem_GetVertexBase_v1(self);
+      if (*(uint8_t *)((int)self + 0x34) == 0) {
+        return iVar2;
+      }
+      uVar3 = (uint32_t)*(uint8_t *)((int)self + 0x35) + (uint32_t)*(uint8_t *)((int)self + 0x34);
+      if ((uVar3 & 3) != 0) {
+        return iVar2 + 6 + (uVar3 - (uVar3 & 3)) * 2;
+      }
+      return iVar2 + uVar3 * 2;
+    }
+  }
+  return (int)self + 0x40;
+}
+
 // FUNCTION: FFXIMAIN 0x10040670  (placed by IDB name)
 // GATE: PASS -- 100 trials, 85 returned normally, 160 D3D calls compared (diffemu_gfx, clean build)
 int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
@@ -34,7 +90,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   float v29;
   float v30;
   int v31;
-  result = (int)orig::sub_1003FCF0((char *)self);
+  result = (int)orig::CMoDistModelElem_GetDataEnd((char *)self);
   if ( *(_DWORD *)(result + 4) == 0 )
     return result;
   if ( (this->field_32 & 1) != 0 )
@@ -88,7 +144,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
       orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock2, (int)CMoDistModelElem_DrawMesh_textureStageStates2);
     }
     v28 = this->field_36;
-    v9 = orig::sub_1003FCF0((char *)self);
+    v9 = orig::CMoDistModelElem_GetDataEnd((char *)self);
     return orig::VertexBatch_BindAndDraw(*((int **)v9 + 1), 0, v28, 4, 0, -1);
   }
   if ( (CMoDistModelElem_DrawMesh_staticGuards & 4) == 0 )
@@ -136,7 +192,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   v15 = 0;
   if ( this->field_34 != 0 )
   {
-    v16 = orig::sub_1003FCE0((char *)self);
+    v16 = orig::CMoDistModelElem_GetVertexBase((char *)self);
     do
     {
       if ( (_BYTE)a4 != 0 )
@@ -144,7 +200,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
         v30 = *(float *)(a3 + 328);
         v29 = *(float *)(a3 + 324);
         v27 = *(float *)(a3 + 320);
-        v17 = (int *)orig::sub_1003FCF0((char *)self);
+        v17 = (int *)orig::CMoDistModelElem_GetDataEnd((char *)self);
         orig::TextureHolder_BindWarped(v17, 1, v27, v29, v30);
       }
       orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, *(unsigned __int16 *)&v16[2 * v15], 4, 0, -1);
@@ -170,7 +226,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     }
     if ( a1 != 0 )
     {
-      if ( v19 != 0 || !orig::sub_1003FCB0(self) )
+      if ( v19 != 0 || !orig::CMoDistModelElem_IsDistortedMode(self) )
       {
         orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, this->field_36 - v14 / 3, 4, 0, -1);
       }
@@ -185,13 +241,13 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     {
       if ( v19 == 0 )
       {
-        if ( orig::sub_1003FCB0(self) )
+        if ( orig::CMoDistModelElem_IsDistortedMode(self) )
         {
-          v21 = *(_WORD *)&orig::sub_1003FCE0((char *)self)[2 * v15];
+          v21 = *(_WORD *)&orig::CMoDistModelElem_GetVertexBase((char *)self)[2 * v15];
           if ( v21 - 1 > 0 )
           {
             v25 = v21 - 1;
-            v22 = orig::sub_1003FCF0((char *)self);
+            v22 = orig::CMoDistModelElem_GetDataEnd((char *)self);
             orig::VertexBatch_BindAndDraw(*((int **)v22 + 1), v14 + 3, v25, 4, 0, -1);
           }
           v7 = a3;
@@ -199,8 +255,8 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
         }
         v7 = a3;
       }
-      v26 = *(unsigned __int16 *)&orig::sub_1003FCE0((char *)self)[2 * v15];
-      v24 = orig::sub_1003FCF0((char *)self);
+      v26 = *(unsigned __int16 *)&orig::CMoDistModelElem_GetVertexBase((char *)self)[2 * v15];
+      v24 = orig::CMoDistModelElem_GetDataEnd((char *)self);
       orig::VertexBatch_BindAndDraw(*((int **)v24 + 1), v14, v26, 4, 0, -1);
     }
   }
@@ -235,22 +291,23 @@ char ** __cdecl CMoDistModelElem::GetRuntimeClass()
   return &CMoDistModelElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x100431B0  (unit CMoDistModelElem: between 0x100431A0 (class model places it in CMoDistModelElem) and 0x10043310 (class model places it in CMoDistModelElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100431B0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 388 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100431B0(void *self_)
+int CMoDistModelElem::Draw()
 {
+  void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int ScratchMatrixStackTop;
   float *v3;
   CMoProcessor *v4;
   int v5;
-  if ( (*((_BYTE *)self_ + 379) & 3) != 0 )
+  if ( (this->field_17B & 3) != 0 )
   {
     ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
     v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
     (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v3);
-    v3[8] = *((float *)self_ + 72);
-    v3[9] = *((float *)self_ + 73);
+    v3[8] = this->field_120;
+    v3[9] = this->field_124;
     (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
@@ -286,8 +343,8 @@ XI_API int __thiscall fn_100431B0(void *self_)
     *(_DWORD *)(g_pResourceMng + 3772),
     60,
     g_scratchValue);
-  orig::RegisterWithProcessor((int)self_);
-  orig::XiZone_DrawModelAtMatrix((float *)g_pZoneMap, (float *)self_ + 40, *((_DWORD *)self_ + 65));
+  orig::RegisterWithProcessor((int)self);
+  orig::XiZone_DrawModelAtMatrix((float *)g_pZoneMap, (float *)self + 40, this->field_104);
   return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
            *(_DWORD *)(g_pResourceMng + 3772),
            0,
@@ -295,16 +352,16 @@ XI_API int __thiscall fn_100431B0(void *self_)
            0);
 }
 
-// FUNCTION: FFXIMAIN 0x10052F20  (unit CMoDistModelElem: stores CMoDistModelElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052F20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052F20(void * self_)
+uint64_t __thiscall CMoDistModelElem::Init(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoDistModelElem_GetRuntimeClass_1032b418;
-  *(uint16_t *)((int)self_ + 0x176) = 0x198;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CMoElem_Constructor(self);
+  *(uint8_t ***)self = &PTR_CMoDistModelElem_GetRuntimeClass_1032b418;
+  *(uint16_t *)((int)self + 0x176) = 0x198;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052F40  (placed by tree manifest; does not use this)

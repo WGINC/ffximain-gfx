@@ -7,6 +7,7 @@ class XI_API CMoDisintegrateProgElem {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x100426B0
     void vf018();  // 0x100426C0
+    static undefined8 __thiscall Construct(void * self, undefined4 param_1);  // 0x100530F0
     BOOL vf012(int a1);  // 0x10053130
     int vf008();  // 0x10053140
     int * ScalarDeletingDtor(char a2);  // 0x10053150

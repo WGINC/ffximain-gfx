@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x101787C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101787C0(void * self_)
+XI_API void __thiscall ZoneMap_UpdateLoadState(void * self_)
 {
   int *piVar1;
   int iVar2;
@@ -23,7 +23,7 @@ XI_API void __thiscall fn_101787C0(void * self_)
   else {
     if (iVar5 == 1) {
       if (*(int *)((int)self_ + *(int *)((int)self_ + 0x38) * 0x78 + 0x60) != 0) {
-        orig::FUN_10178ac0(self_,*(int *)((int)self_ + 0x38));
+        orig::ZoneMap_ReleaseSlot(self_,*(int *)((int)self_ + 0x38));
       }
       *(undefined4 *)((int)self_ + 0x54) = 1;
       puVar4 = orig::FUN_10178d90(self_,&local_8,*(int *)((int)self_ + 0x48));
@@ -55,7 +55,7 @@ XI_API void __thiscall fn_101787C0(void * self_)
         uVar6 = orig::CMoResource_AddRefChain_v1((void *)piVar1[0x15],iVar5);
         iVar5 = (int)uVar6;
       }
-      uVar3 = orig::FUN_100fc680(1,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar5 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x48)))));
+      uVar3 = orig::Unit100D7420_SendTypeF2(1,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar5 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x48)))));
       DAT_10376ee8 = (uint8_t)uVar3;
       *(undefined4 *)((int)self_ + 0x17c) = *(undefined4 *)((int)self_ + 0x48);
       orig::FUN_10176dd0(1,uVar3);
@@ -73,7 +73,7 @@ XI_API void __thiscall fn_101787C0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10178A20  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10178A20(void * self_, int param_1, int param_2)
+XI_API undefined4 __thiscall ZoneMap_SetArea(void * self_, int param_1, int param_2)
 {
   uint32_t uVar1;
   int xi_eax;
@@ -88,10 +88,10 @@ XI_API undefined4 __thiscall fn_10178A20(void * self_, int param_1, int param_2)
       if (param_2 == 0) {
         if (iVar2 != -1) {
           if (*(int *)((int)self_ + param_1 * 0x78 + 0x60) != 0) {
-            orig::FUN_10178ac0(self_,param_1);
+            orig::ZoneMap_ReleaseSlot(self_,param_1);
           }
           *(uint32_t *)((int)self_ + 0x17c) = 0xffffffff;
-          uVar1 = orig::FUN_100fc680(1,0);
+          uVar1 = orig::Unit100D7420_SendTypeF2(1,0);
           DAT_10376ee8 = (char)uVar1;
           return uVar1;
         }
@@ -113,113 +113,19 @@ XI_API undefined4 __thiscall fn_10178A20(void * self_, int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10178AC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10178AC0(void * self_, int param_1)
+XI_API void __thiscall ZoneMap_ReleaseSlot(void * self_, int param_1)
 {
   if (*(int *)((int)self_ + param_1 * 0x78 + 0x6c) != 0) {
-    orig::FUN_101679a0((void *)((int)self_ + 0x178),(int)self_ + param_1 * 0x78 + 0x60);
+    orig::ZoneMap_UnlinkSlotCells((void *)((int)self_ + 0x178),(int)self_ + param_1 * 0x78 + 0x60);
   }
-  orig::FUN_1017b110(self_,param_1);
+  orig::ZoneMap_FreeSlot(self_,param_1);
   *(uint32_t *)((int)self_ + 0x50) = 0;
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10178B30  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10178B30(void * self_)
-{
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  uint32_t uVar3;
-  int iVar4;
-  float *pfVar5;
-  undefined4 *puVar6;
-  float *pfVar7;
-  uint8_t bVar8;
-  long double fVar9;
-  float local_4;
-  
-  if (*(short *)((int)self_ + 0x34) == 0) {
-    orig::FUN_10178250(self_);
-    *(undefined4 *)((int)self_ + 0x394a0) = *(undefined4 *)((int)self_ + 0x3949c);
-    orig::CTsZoneMap_InitZBiasPresets(self_);
-    orig::ZoneMap_CreateVertexShaders(self_);
-    *(short *)((int)self_ + 0x34) = *(short *)((int)self_ + 0x34) + 1;
-    goto LAB_10178cf8;
-  }
-  if (*(short *)((int)self_ + 0x34) != 2) goto LAB_10178cf8;
-  bVar8 = NAN((long double)DAT_1065ca2c) || NAN((long double)0.0f);
-  if ((bVar8 || (long double)DAT_1065ca2c < (long double)0.0f) == bVar8) {
-    local_4 = DAT_1065ca2c;
-  }
-  else {
-    local_4 = 0.0f;
-  }
-  if (DAT_1047bc8c == 0) {
-    uVar1 = orig::FUN_10055130((void *)((int)self_ + 0x3959c),local_4,
-                         ((uint32_t)(((uint32_t)((int32_t)((uint32_t)self_ >> 8)) << 8) | (uint8_t)(DAT_1065ca28))));
-    if ((char)uVar1 == '\0') goto LAB_10178c10;
-    puVar2 = (undefined4 *)orig::FUN_10055160((void *)((int)self_ + 0x3959c));
-    puVar6 = &DAT_10631ed0;
-    for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
-      *puVar6 = *puVar2;
-      puVar2 = puVar2 + 1;
-      puVar6 = puVar6 + 1;
-    }
-    uVar1 = orig::FUN_10183370((float *)((int)self_ + 0x38e1c),(float *)&DAT_10631ed0);
-    pfVar5 = (float *)((int)self_ + 0x38e1c);
-    pfVar7 = (float *)&DAT_10631ed0;
-    for (iVar4 = 0x10; iVar4 != 0; iVar4 = iVar4 + -1) {
-      *pfVar7 = *pfVar5;
-      pfVar5 = pfVar5 + 1;
-      pfVar7 = pfVar7 + 1;
-    }
-    fVar9 = orig::Camera_GetFrameScale_v1(uVar1);
-    fVar9 = fVar9 * (long double)_DAT_10376ff0 + (long double)DAT_1065ca2c;
-    DAT_1065ca2c = (float)fVar9;
-    if (fVar9 > (long double)1.0f) {
-      DAT_1065ca2c = 0.0f;
-    }
-    *(undefined4 *)((int)self_ + 0x158) = 1;
-  }
-  else {
-LAB_10178c10:
-    DAT_10631ed0 = 0x3f800000;
-    DAT_10631ed4 = 0;
-    _DAT_10631ed8 = 0;
-    _DAT_10631edc = 0;
-    _DAT_10631ee0 = 0;
-    _DAT_10631ee4 = 0x3f800000;
-    _DAT_10631ee8 = 0;
-    _DAT_10631eec = 0;
-    _DAT_10631ef0 = 0;
-    _DAT_10631ef4 = 0;
-    _DAT_10631ef8 = 0x3f800000;
-    _DAT_10631efc = 0;
-    _DAT_10631f00 = 0;
-    _DAT_10631f04 = 0;
-    _DAT_10631f08 = 0;
-    _DAT_10631f0c = 0x3f800000;
-    *(undefined4 *)((int)self_ + 0x158) = 0;
-  }
-  orig::FUN_101787c0(self_);
-  if (*(int *)((int)self_ + 0x150) != 0) {
-    orig::XiZone_Draw(self_);
-  }
-LAB_10178cf8:
-  if (DAT_1065c4cc_as_s32 != 0) {
-    orig::CTsZoneMap_LogZoneMetrics(DAT_1065c4cc_as_s32);
-  }
-  uVar3 = orig::FUN_101d29c0(0x1000,0);
-  if ((char)uVar3 != '\0') {
-    orig::FUN_10186e70();
-    uVar3 = orig::FUN_101d2260(0x1000,0);
-  }
-  return uVar3 & 0xffffff00;
-}
-
 // FUNCTION: FFXIMAIN 0x10178F70  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10178F70(void * self_)
+XI_API void __thiscall ZoneMap_Reset(void * self_)
 {
   uint32_t xi_eax;
   
@@ -260,7 +166,7 @@ XI_API void __thiscall ZoneMap_CopyField342C8ToField39450(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10179420  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10179420(void * self_)
+XI_API undefined4 __thiscall ZoneMap_GetField342C8(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x342c8);
 }
@@ -328,7 +234,7 @@ LABEL_4:
 
 // FUNCTION: FFXIMAIN 0x1017B110  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 30 returned normally, 48 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1017B110(void * self_, int param_1)
+XI_API undefined4 __thiscall ZoneMap_FreeSlot(void * self_, int param_1)
 {
   int *this_00;
   int iVar1;
@@ -346,7 +252,7 @@ XI_API undefined4 __thiscall fn_1017B110(void * self_, int param_1)
       piVar2[0xf] = 0;
     }
     orig::FUN_10170cd0(piVar2 + 0x11,(uint32_t *)0x0);
-    orig::FUN_10186dd0(piVar2);
+    orig::ZoneMap_FreeSubAreas(piVar2);
     orig::FUN_1017a690(piVar2[0x19]);
     if (piVar2[0x15] != 0) {
       orig::FUN_100446a0(piVar2[0x15]);
@@ -377,7 +283,7 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
   orig::FUN_10174a60((void *)((int)self_ + 0x34330));
   iVar1 = 0;
   do {
-    orig::FUN_1017b110(self_,iVar1);
+    orig::ZoneMap_FreeSlot(self_,iVar1);
     iVar1 = iVar1 + 1;
   } while (iVar1 < 2);
   *(undefined4 *)((int)self_ + 0x38) = 0;
@@ -386,7 +292,7 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
   _DAT_1065c5d8 = 0;
   *(undefined4 *)((int)self_ + 0x154) = 0;
   *(undefined4 *)((int)self_ + 0x158) = 0;
-  orig::FUN_101784e0();
+  orig::ZoneMap_ResetGlobalTables();
   *(undefined4 *)((int)self_ + 0x38e54) = 0;
   *(undefined4 *)((int)self_ + 0x38e50) = 0;
   *(undefined4 *)((int)self_ + 0x38e4c) = 0;
@@ -403,7 +309,7 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
   *(undefined4 *)((int)self_ + 0x38e44) = 0x3f800000;
   *(undefined4 *)((int)self_ + 0x38e30) = 0x3f800000;
   *(undefined4 *)((int)self_ + 0x38e1c) = 0x3f800000;
-  orig::FUN_10167950((void *)((int)self_ + 0x178));
+  orig::ZoneMap_ReleaseBuffers((void *)((int)self_ + 0x178));
   if (*(void **)((int)self_ + 0x174) != (void *)0x0) {
     orig::CMoResource_ReleaseChain_v1(*(void **)((int)self_ + 0x174));
     orig::MoRes_FreeIfUnreferenced_v1(*(int **)(*(int *)((int)self_ + 0x174) + 0x14));
@@ -430,21 +336,21 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101811D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101811D0(void * self_, undefined4 param_1, float param_2, float param_3)
+XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBandThenGetCount34154(void * self_, undefined4 param_1, float param_2, float param_3)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10181290(self_,param_1,param_2,param_3,1e+01f,&param_3);
+  uVar1 = orig::ZoneMap_QueryBoxHeightBand(self_,param_1,param_2,param_3,1e+01f,&param_3);
   if ((char)uVar1 == '\0') {
     return 0;
   }
-  uVar1 = orig::FUN_10168fd0((void *)((int)self_ + 0x178));
+  uVar1 = orig::ZoneMap_GetCount34154((void *)((int)self_ + 0x178));
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10181210  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10181210(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
+XI_API undefined4 __thiscall ZoneMap_QueryBoxHeight(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
   char xi_frame[36] __attribute__((aligned(4)));
@@ -474,15 +380,15 @@ XI_API undefined4 __thiscall fn_10181210(void * self_, undefined4 param_1, float
 
 // FUNCTION: FFXIMAIN 0x10181290  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10181290(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
+XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBand(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
   
   *param_5 = (float)(long double)param_2;
-  uVar1 = orig::FUN_10181210(self_,param_1,(float)((long double)param_2 - (long double)0.5099999904632568359375f),param_3,param_4,
+  uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,(float)((long double)param_2 - (long double)0.5099999904632568359375f),param_3,param_4,
                        param_5);
   if ((char)uVar1 == '\0') {
-    uVar1 = orig::FUN_10181210(self_,param_1,(float)((long double)param_2 + (long double)0.5099999904632568359375f),param_3,(-15.0f),
+    uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,(float)((long double)param_2 + (long double)0.5099999904632568359375f),param_3,(-15.0f),
                          param_5);
   }
   return uVar1;
@@ -490,17 +396,17 @@ XI_API undefined4 __thiscall fn_10181290(void * self_, undefined4 param_1, float
 
 // FUNCTION: FFXIMAIN 0x10181300  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10181300(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
+XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightByRadius(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
 {
   uint32_t uVar1;
   
   *param_4 = (float)(long double)param_2;
-  uVar1 = orig::FUN_10181210(self_,param_1,
+  uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,
                        (float)((long double)param_2 - (long double)*(float *)((int)self_ + 0x170)),param_3,
                        (float)((long double)_DAT_1037731c + (long double)*(float *)((int)self_ + 0x170)),
                        param_4);
   if ((char)uVar1 == '\0') {
-    uVar1 = orig::FUN_10181210(self_,param_1,
+    uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,
                          (float)((long double)param_2 + (long double)*(float *)((int)self_ + 0x170)),param_3,
                          (-15.0f),param_4);
   }
@@ -509,7 +415,7 @@ XI_API undefined4 __thiscall fn_10181300(void * self_, undefined4 param_1, float
 
 // FUNCTION: FFXIMAIN 0x10181370  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10181370(void * self_, float param_1, float param_2, float param_3, float param_4, float * param_5)
+XI_API undefined4 __thiscall ZoneMap_QueryExpandedBox(void * self_, float param_1, float param_2, float param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
   char xi_frame[36] __attribute__((aligned(4)));
@@ -595,11 +501,11 @@ XI_API undefined4 __thiscall fn_10181590(void * self_, undefined4 xi_s1, undefin
 
 // FUNCTION: FFXIMAIN 0x101819B0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101819B0(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
+XI_API undefined4 __thiscall ZoneMap_IsBoxHeightHitByRadius(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10181210(self_,param_1,
+  uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,
                        (float)((long double)param_2 - (long double)*(float *)((int)self_ + 0x170)),param_3,
                        19.0f,param_4);
   return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),(char)uVar1 != '\0');
@@ -617,7 +523,7 @@ XI_API undefined4 __thiscall fn_10181A10(void * self_, undefined4 param_1, undef
 
 // FUNCTION: FFXIMAIN 0x10181F60  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10181F60(float * param_1, float * param_2, float * param_3)
+XI_API long double __cdecl Unit10178790_MulPointXyz(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
                      (long double)param_2[4] * (long double)param_3[1] +
@@ -635,7 +541,7 @@ XI_API long double __cdecl fn_10181F60(float * param_1, float * param_2, float *
 
 // FUNCTION: FFXIMAIN 0x10182490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10182490(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6)
+XI_API void __stdcall Unit10178790_BuildPerspective(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6)
 {
   float fVar1;
   float fVar2;
@@ -882,7 +788,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 
 // FUNCTION: FFXIMAIN 0x10183420  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10183420(void * self_, int param_1)
+XI_API int __thiscall ZoneMap_FindSlotByName(void * self_, int param_1)
 {
   int *piVar1;
   int *piVar2;
@@ -891,7 +797,7 @@ XI_API int __thiscall fn_10183420(void * self_, int param_1)
   iVar3 = 0;
   piVar2 = (int *)((int)self_ + 0x60);
   while ((*piVar2 == 0 ||
-         (piVar1 = orig::FUN_10170f30(piVar2 + 0x11,(char *)(param_1 + 0x10),1), piVar1 == (int *)0x0))) {
+         (piVar1 = orig::ZoneMap_FindEntryByName(piVar2 + 0x11,(char *)(param_1 + 0x10),1), piVar1 == (int *)0x0))) {
     iVar3 = iVar3 + 1;
     piVar2 = piVar2 + 0x1e;
     if (1 < iVar3) {
@@ -1083,7 +989,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                       }
                       else
                       {
-                        orig::sub_10188CA0(v31, (_DWORD *)(self_ + 234304), 0);
+                        orig::ZoneMap_FillDirLight(v31, (_DWORD *)(self_ + 234304), 0);
                         orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 234304));
                       }
                       orig::Env_ComputeAmbient(*(char **)(self_ + 80), (_DWORD *)(self_ + 234512), 0);
@@ -1124,7 +1030,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                           }
                           else
                           {
-                            orig::sub_10188CA0(v32, (_DWORD *)(self_ + 234080), 0);
+                            orig::ZoneMap_FillDirLight(v32, (_DWORD *)(self_ + 234080), 0);
                             orig::CDx_SetLight(g_pCDx, *(_DWORD *)(self_ + 234664), (float *)(self_ + 234080));
                           }
                           orig::Env_ComputeAmbient(*(char **)(self_ + 233784), (_DWORD *)(self_ + 234288), 0);
@@ -1240,7 +1146,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10186DB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10186DB0(void * self_)
+XI_API void __thiscall ZoneMap_ClearSlots(void * self_)
 {
   int iVar1;
   int *piVar2;
@@ -1248,7 +1154,7 @@ XI_API void __thiscall fn_10186DB0(void * self_)
   iVar1 = 2;
   piVar2 = (int *)((int)self_ + 0x60);
   do {
-    orig::FUN_10186dd0(piVar2);
+    orig::ZoneMap_FreeSubAreas(piVar2);
     piVar2 = piVar2 + 0x1e;
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
@@ -1257,7 +1163,7 @@ XI_API void __thiscall fn_10186DB0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10186DD0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10186DD0(int * param_1)
+XI_API void __stdcall ZoneMap_FreeSubAreas(int * param_1)
 {
   void *self_;
   int iVar1;
@@ -1268,14 +1174,14 @@ XI_API void __stdcall fn_10186DD0(int * param_1)
       do {
         self_ = (void *)orig::FUN_101889c0(*(int *)(param_1[0x1b] + iVar1 * 4));
         if ((self_ != g_pXiZone) && (self_ != (void *)0x0)) {
-          orig::FUN_10187470(self_);
+          orig::ZoneMap_Destroy(self_);
           orig::thunk_sub_10028AA0_v1((int)self_);
         }
         iVar1 = iVar1 + 1;
       } while (iVar1 < param_1[0x1a]);
     }
     if ((LPVOID)param_1[0x1b] != (LPVOID)0x0) {
-      orig::operator_delete_10311BB0_v1((LPVOID)param_1[0x1b]);
+      orig::operator_delete_v1((LPVOID)param_1[0x1b]);
       param_1[0x1b] = 0;
       param_1[0x1a] = 0;
       param_1[0x1c] = 0;
@@ -1286,49 +1192,49 @@ XI_API void __stdcall fn_10186DD0(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x10186E90  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186E90(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr0B4(void * self_)
 {
   return (int)self_ + 0xb4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186EA0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr0C4(void * self_)
 {
   return (int)self_ + 0xc4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186EB0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr0D4(void * self_)
 {
   return (int)self_ + 0xd4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186EC0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr024(void * self_)
 {
   return (int)self_ + 0x24;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186EE0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr044(void * self_)
 {
   return (int)self_ + 0x44;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F00  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F00(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr064(void * self_)
 {
   return (int)self_ + 100;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F10(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr074(void * self_)
 {
   return (int)self_ + 0x74;
 }
@@ -1342,42 +1248,42 @@ XI_API int __thiscall Env_GetColorPtr84(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10186F30  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F30(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr094(void * self_)
 {
   return (int)self_ + 0x94;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F40  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F40(void * self_)
+XI_API int __thiscall ZoneMap_GetAddrRef18Plus1C(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x1c;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F50  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F50(void * self_)
+XI_API int __thiscall ZoneMap_GetAddrRef18Plus20(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x20;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F70  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F70(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr0E4(void * self_)
 {
   return (int)self_ + 0xe4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F80  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F80(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr0F4(void * self_)
 {
   return (int)self_ + 0xf4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F90  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186F90(void * self_)
+XI_API int __thiscall ZoneMap_GetAddr114(void * self_)
 {
   return (int)self_ + 0x114;
 }
@@ -1391,61 +1297,61 @@ XI_API int __thiscall Env_GetAmbientColorPtr(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10186FB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186FB0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddrRef18Plus3C(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x3c;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10186FC0(void * self_)
+XI_API int __thiscall ZoneMap_GetAddrRef18Plus40(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x40;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FD0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_10186FD0(void * self_)
+XI_API long double __thiscall ZoneMap_GetFloatRef18Plus44(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x18) + 0x44);
 }
 
 // FUNCTION: FFXIMAIN 0x10186FE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_10186FE0(void * self_)
+XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus4(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 4);
 }
 
 // FUNCTION: FFXIMAIN 0x10186FF0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_10186FF0(void * self_)
+XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus8(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 8);
 }
 
 // FUNCTION: FFXIMAIN 0x10187000  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10187000(void * self_)
+XI_API undefined4 __thiscall ZoneMap_GetByteRef1CPlus10(void * self_)
 {
   return (uint32_t)*(uint8_t *)(*(int *)((int)self_ + 0x1c) + 0x10);
 }
 
 // FUNCTION: FFXIMAIN 0x10187020  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_10187020(void * self_)
+XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus0C(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 0xc);
 }
 
 // FUNCTION: FFXIMAIN 0x10187030  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10187030(void * self_)
+XI_API void __thiscall ZoneMap_ReleaseChain(void * self_)
 {
   if (*(void **)((int)self_ + 4) != (void *)0x0) {
     orig::FUN_10187030(*(void **)((int)self_ + 4));
   }
-  orig::FUN_10188a10(self_);
+  orig::XiZone_DestroyChildList(self_);
   *(uint8_t *)((int)self_ + 0x148) = 0;
   return;
 }
@@ -1461,7 +1367,7 @@ XI_API void __thiscall Env_ApplyRecord(void * self_)
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint32_t *)((int)self_ + 0x18) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 0;
-  orig::FUN_10188910(self_);
+  orig::ZoneMap_AppendToList(self_);
   *(uint32_t *)((int)self_ + 0x124) = DAT_10377894;
   *(uint32_t *)((int)self_ + 0x128) = DAT_10377898;
   *(uint32_t *)((int)self_ + 300) = DAT_1037789c;
@@ -1541,7 +1447,7 @@ XI_API void __thiscall Env_ApplyRecord(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10187380  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10187380(void * self_)
+XI_API void * __thiscall ZoneMap_SetVtableApplyRecord(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
   orig::FUN_10187050(self_);
@@ -1550,32 +1456,32 @@ XI_API void * __thiscall fn_10187380(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10187470  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10187470(void * self_)
+XI_API void __thiscall ZoneMap_Destroy(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
   if (*(void **)(g_pXiZone_as_s32 + 0x1c4) == self_) {
     *(uint32_t *)(g_pXiZone_as_s32 + 0x1c4) = 0;
   }
-  orig::FUN_10188a10(self_);
+  orig::XiZone_DestroyChildList(self_);
   orig::FUN_10188940();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x101874A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_101874A0(void * self_)
+XI_API uint32_t __thiscall ZoneMap_Update(void * self_)
 {
   uint32_t uVar1;
   
   if (*(void **)((int)self_ + 4) != (void *)0x0) {
     orig::FUN_101874a0(*(void **)((int)self_ + 4));
   }
-  orig::FUN_10187600(self_);
+  orig::ZoneMap_SaveState(self_);
   if (*(void **)((int)self_ + 0x10) != (void *)0x0) {
     orig::thunk_FUN_1018ade0(*(void **)((int)self_ + 0x10));
   }
   if (*(int *)((int)self_ + 0x10) != 0) {
-    orig::FUN_101880c0(self_,*(uint32_t **)(*(int *)((int)self_ + 0x10) + 0x20));
+    orig::ZoneMap_SetRecord(self_,*(uint32_t **)(*(int *)((int)self_ + 0x10) + 0x20));
     *(uint32_t *)((int)self_ + 0x20) = *(uint32_t *)(*(int *)((int)self_ + 0x10) + 0x2c);
   }
   uVar1 = orig::FUN_10188a50(self_);
@@ -1610,7 +1516,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101875E0(undefined4 xi
 
 // FUNCTION: FFXIMAIN 0x10187600  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10187600(void * self_)
+XI_API void __thiscall ZoneMap_SaveState(void * self_)
 {
   if ((*(int *)((int)self_ + 0x10) == 0) && ((**(uint8_t **)((int)self_ + 0x18) & 1) == 0)) {
     *(uint32_t *)((int)self_ + 0x14c) = *(uint32_t *)((int)self_ + 0xa4);
@@ -1639,13 +1545,13 @@ XI_API void __thiscall fn_10187600(void * self_)
     *(uint32_t *)((int)self_ + 0x1a8) = *(uint32_t *)((int)self_ + 0x70);
     return;
   }
-  orig::FUN_10187720(self_,dword_1065CB18);
+  orig::ZoneMap_UpdateOrbit(self_,dword_1065CB18);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10187720  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10187720(void * self_, int param_1)
+XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
 {
   float *pfVar1;
   long double fVar2;
@@ -1693,7 +1599,7 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
   }
   fVar2 = (float)((long double)param_1 * (long double)xi_k4(0x344F204Aull) * (long double)6.28299999237060546875f);
   if ((**(uint8_t **)((int)self_ + 0x18) & 1) == 0) {
-    orig::FUN_10027990(local_40);
+    orig::Unit10026C70_ReturnThis(local_40);
     bVar9 = *(short *)(g_pXiZone_as_s32 + 0x1cc) != 0;
     if (bVar9) {
       orig::Mat4_SetIdentity_v1(local_40);
@@ -1837,14 +1743,14 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
       }
       else {
         pfVar8 = (float *)((int)self_ + 0x14c);
-        orig::FUN_100270a0(&local_b4,pfVar8);
+        orig::Vec3_SubInPlace(&local_b4,pfVar8);
         orig::Vec3_Copy_v1(local_50,&local_b4);
-        orig::FUN_100272b0(&local_b4,0.100000001490116119384765625f);
+        orig::Vec3_ScaleInPlace(&local_b4,0.100000001490116119384765625f);
         uVar6 = orig::Vec3_AddInPlace_v1(pfVar8,&local_b4);
         orig::FUN_100274b0(pfVar8,uVar6);
         fVar11 = orig::FUN_10027530(local_50,pfVar8);
-        orig::FUN_100270a0(&local_94,(float *)((int)self_ + 0x15c));
-        orig::FUN_100272b0(&local_94,0.100000001490116119384765625f);
+        orig::Vec3_SubInPlace(&local_94,(float *)((int)self_ + 0x15c));
+        orig::Vec3_ScaleInPlace(&local_94,0.100000001490116119384765625f);
         orig::Vec3_AddInPlace_v1((float *)((int)self_ + 0x15c),&local_94);
         fVar12 = (long double)(float)fVar11;
         bVar9 = NAN(fVar12) || NAN((long double)0.0f);
@@ -1854,22 +1760,22 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
         }
         bVar9 = NAN(fVar11) || NAN((long double)0.5f);
         if ((bVar9 || fVar11 < (long double)0.5f) == bVar9) {
-          orig::FUN_100272b0((float *)((int)self_ + 0x16c),0.699999988079071044921875f);
+          orig::Vec3_ScaleInPlace((float *)((int)self_ + 0x16c),0.699999988079071044921875f);
         }
         else {
-          orig::FUN_100270a0(&local_64,(float *)((int)self_ + 0x16c));
-          orig::FUN_100272b0(&local_64,0.100000001490116119384765625f);
+          orig::Vec3_SubInPlace(&local_64,(float *)((int)self_ + 0x16c));
+          orig::Vec3_ScaleInPlace(&local_64,0.100000001490116119384765625f);
           orig::Vec3_AddInPlace_v1((float *)((int)self_ + 0x16c),&local_64);
         }
         pfVar8 = (float *)((int)self_ + 0x17c);
-        orig::FUN_100270a0(&local_a4,pfVar8);
+        orig::Vec3_SubInPlace(&local_a4,pfVar8);
         orig::Vec3_Copy_v1(local_50,&local_a4);
-        orig::FUN_100272b0(&local_a4,0.100000001490116119384765625f);
+        orig::Vec3_ScaleInPlace(&local_a4,0.100000001490116119384765625f);
         uVar6 = orig::Vec3_AddInPlace_v1(pfVar8,&local_a4);
         orig::FUN_100274b0(pfVar8,uVar6);
         fVar11 = orig::FUN_10027530(local_50,pfVar8);
-        orig::FUN_100270a0(&local_84,(float *)((int)self_ + 0x18c));
-        orig::FUN_100272b0(&local_84,0.100000001490116119384765625f);
+        orig::Vec3_SubInPlace(&local_84,(float *)((int)self_ + 0x18c));
+        orig::Vec3_ScaleInPlace(&local_84,0.100000001490116119384765625f);
         orig::Vec3_AddInPlace_v1((float *)((int)self_ + 0x18c),&local_84);
         fVar12 = (long double)(float)fVar11;
         bVar9 = NAN(fVar12) || NAN((long double)0.0f);
@@ -1880,11 +1786,11 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
         bVar9 = NAN(fVar11) || NAN((long double)0.5f);
         pfVar8 = (float *)((int)self_ + 0x19c);
         if ((bVar9 || fVar11 < (long double)0.5f) == bVar9) {
-          orig::FUN_100272b0(pfVar8,0.699999988079071044921875f);
+          orig::Vec3_ScaleInPlace(pfVar8,0.699999988079071044921875f);
         }
         else {
-          orig::FUN_100270a0(&local_74,pfVar8);
-          orig::FUN_100272b0(&local_74,0.100000001490116119384765625f);
+          orig::Vec3_SubInPlace(&local_74,pfVar8);
+          orig::Vec3_ScaleInPlace(&local_74,0.100000001490116119384765625f);
           orig::Vec3_AddInPlace_v1(pfVar8,&local_74);
         }
       }
@@ -1946,7 +1852,7 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
       *(uint32_t *)((int)self_ + 0x1a4) = uVar5;
       *(uint32_t *)((int)self_ + 0x1a8) = uVar7;
     }
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     return;
   }
   *(uint32_t *)((int)self_ + 0x14c) = *(uint32_t *)((int)self_ + 0xa4);
@@ -1978,7 +1884,7 @@ XI_API void __thiscall fn_10187720(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x101880C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101880C0(void * self_, undefined4 * param_1)
+XI_API void __thiscall ZoneMap_SetRecord(void * self_, undefined4 * param_1)
 {
   undefined4 uVar1;
   undefined4 uVar2;
@@ -1998,19 +1904,19 @@ XI_API void __thiscall fn_101880C0(void * self_, undefined4 * param_1)
   uVar2 = (undefined4)lVar4;
   lVar4 = XI_CALL_ST0(0x10311C2Cu)((long double)*(uint8_t *)(param_1 + 0xe) * (long double)255.0f);
   orig::FUN_10014e00((int)lVar4,uVar2,uVar1);
-  orig::FUN_10014e80(*(float *)(*(int *)((int)self_ + 0x18) + 0x3c));
-  orig::FUN_10014e60(*(float *)(*(int *)((int)self_ + 0x18) + 0x40));
-  fVar3 = orig::FUN_10186ff0(self_);
-  orig::FUN_10014eb0((float)fVar3);
-  fVar3 = orig::FUN_10186fe0(self_);
-  orig::FUN_10014ed0((float)fVar3);
-  orig::FUN_10188190(self_,*(uint8_t **)((int)self_ + 0x18));
+  orig::Camera_SetField300(*(float *)(*(int *)((int)self_ + 0x18) + 0x3c));
+  orig::Camera_SetField2FC(*(float *)(*(int *)((int)self_ + 0x18) + 0x40));
+  fVar3 = orig::ZoneMap_GetFloatRef1CPlus8(self_);
+  orig::Camera_SetField314((float)fVar3);
+  fVar3 = orig::ZoneMap_GetFloatRef1CPlus4_v1(self_);
+  orig::Camera_SetField318((float)fVar3);
+  orig::ZoneMap_ApplyColors(self_,*(uint8_t **)((int)self_ + 0x18));
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10188190  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10188190(void * self_, uint8_t * param_1)
+XI_API void __thiscall ZoneMap_ApplyColors(void * self_, uint8_t * param_1)
 {
   uint8_t bVar1;
   void *this_00;
@@ -2086,42 +1992,42 @@ XI_API void __thiscall fn_10188190(void * self_, uint8_t * param_1)
       pfVar2[1] = (float)((long double)param_1[0x15] * (long double)0.0039215688593685626983642578125f);
       pfVar2[2] = (float)((long double)param_1[0x16] * (long double)0.0039215688593685626983642578125f);
       pfVar2[3] = 1.0f;
-      pfVar2 = (float *)orig::FUN_10186f90(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr114(this_00);
       *pfVar2 = (float)((long double)param_1[0x38] * (long double)0.0039215688593685626983642578125f);
       pfVar2[1] = (float)((long double)param_1[0x39] * (long double)0.0039215688593685626983642578125f);
       pfVar2[2] = (float)((long double)param_1[0x3a] * (long double)0.0039215688593685626983642578125f);
       pfVar2[3] = 1.0f;
-      pfVar2 = (float *)orig::FUN_10186f30(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr094(this_00);
       *pfVar2 = (float)((long double)param_1[0x18] * (long double)0.0039215688593685626983642578125f);
       pfVar2[1] = (float)((long double)param_1[0x19] * (long double)0.0039215688593685626983642578125f);
       pfVar2[2] = (float)((long double)param_1[0x1a] * (long double)0.0039215688593685626983642578125f);
       pfVar2[3] = 1.0f;
-      puVar3 = (uint32_t *)orig::FUN_10186fb0(this_00);
+      puVar3 = (uint32_t *)orig::ZoneMap_GetAddrRef18Plus3C(this_00);
       *puVar3 = *(uint32_t *)(param_1 + 0x3c);
-      puVar3 = (uint32_t *)orig::FUN_10186fc0(this_00);
+      puVar3 = (uint32_t *)orig::ZoneMap_GetAddrRef18Plus40(this_00);
       *puVar3 = *(uint32_t *)(param_1 + 0x40);
-      puVar3 = (uint32_t *)orig::FUN_10186f40(this_00);
+      puVar3 = (uint32_t *)orig::ZoneMap_GetAddrRef18Plus1C(this_00);
       *puVar3 = *(uint32_t *)(param_1 + 0x1c);
-      puVar3 = (uint32_t *)orig::FUN_10186f50(this_00);
+      puVar3 = (uint32_t *)orig::ZoneMap_GetAddrRef18Plus20(this_00);
       *puVar3 = *(uint32_t *)(param_1 + 0x20);
-      pfVar2 = (float *)orig::FUN_10186f80(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr0F4(this_00);
       *pfVar2 = (float)((long double)param_1[0x2c] * (long double)0.0039215688593685626983642578125f);
       pfVar2[1] = (float)((long double)param_1[0x2d] * (long double)0.0039215688593685626983642578125f);
       pfVar2[2] = (float)((long double)param_1[0x2e] * (long double)0.0039215688593685626983642578125f);
       pfVar2[3] = 1.0f;
-      pfVar2 = (float *)orig::FUN_10186f10(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr074(this_00);
       *pfVar2 = (float)((long double)param_1[0xc] * (long double)0.0039215688593685626983642578125f);
       pfVar2[1] = (float)((long double)param_1[0xd] * (long double)0.0039215688593685626983642578125f);
       pfVar2[2] = (float)((long double)param_1[0xe] * (long double)0.0039215688593685626983642578125f);
       pfVar2[3] = 1.0f;
-      pfVar2 = (float *)orig::FUN_10186ea0(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr0C4(this_00);
       *pfVar2 = (float)(long double)(int)(char)param_1[0x30];
       pfVar2[1] = (float)(long double)(int)(char)param_1[0x31];
       bVar1 = param_1[0x32];
       pfVar2[3] = 1.0f;
       pfVar2[2] = (float)(long double)(int)(char)bVar1;
       orig::FUN_100274b0(pfVar2,pfVar2);
-      pfVar2 = (float *)orig::FUN_10186ee0(this_00);
+      pfVar2 = (float *)orig::ZoneMap_GetAddr044(this_00);
       *pfVar2 = (float)(long double)(int)(char)param_1[0x10];
       pfVar2[1] = (float)(long double)(int)(char)param_1[0x11];
       bVar1 = param_1[0x12];
@@ -2130,12 +2036,12 @@ XI_API void __thiscall fn_10188190(void * self_, uint8_t * param_1)
       orig::FUN_100274b0(pfVar2,pfVar2);
       if ((*(int *)((int)g_pXiZone + 0x1b4) == 0xb6) || (*(int *)((int)g_pXiZone + 0x1b4) == 0x84))
       {
-        pfVar2 = (float *)orig::FUN_10186f00(this_00);
+        pfVar2 = (float *)orig::ZoneMap_GetAddr064(this_00);
         *pfVar2 = (float)((long double)param_1[0xc] * (long double)0.0039215688593685626983642578125f);
         pfVar2[1] = (float)((long double)param_1[0xd] * (long double)0.0039215688593685626983642578125f);
         pfVar2[2] = (float)((long double)param_1[0xe] * (long double)0.0039215688593685626983642578125f);
         pfVar2[3] = 1.0f;
-        pfVar2 = (float *)orig::FUN_10186ec0(this_00);
+        pfVar2 = (float *)orig::ZoneMap_GetAddr024(this_00);
         *pfVar2 = (float)(long double)(int)(char)param_1[0x10];
         pfVar2[1] = (float)(long double)(int)(char)param_1[0x11];
         bVar1 = param_1[0x12];
@@ -2177,7 +2083,7 @@ XI_API void __thiscall fn_10188190(void * self_, uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10188900  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10188900(void)
+XI_API int __cdecl ZoneMap_GetCurrent(void)
 {
   int iVar1;
   
@@ -2190,15 +2096,15 @@ XI_API int __cdecl fn_10188900(void)
 
 // FUNCTION: FFXIMAIN 0x10188910  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10188910(void * self_)
+XI_API void __thiscall ZoneMap_AppendToList(void * self_)
 {
   void *pvVar1;
   int iVar2;
   
   if (g_pXiZone_as_s32 != 0) {
-    pvVar1 = (void *)orig::FUN_10188900();
+    pvVar1 = (void *)orig::ZoneMap_GetCurrent();
     if (pvVar1 != self_) {
-      iVar2 = orig::FUN_101889a0();
+      iVar2 = orig::ZoneMap_GetTail();
       *(void **)(iVar2 + 4) = self_;
       *(uint32_t *)((int)self_ + 4) = 0;
     }
@@ -2208,12 +2114,12 @@ XI_API void __thiscall fn_10188910(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10188970  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10188970(void * self_)
+XI_API void * __thiscall ZoneMap_FindPrevious(void * self_)
 {
   void *pvVar1;
   void *pvVar2;
   
-  pvVar2 = (void *)orig::FUN_10188900();
+  pvVar2 = (void *)orig::ZoneMap_GetCurrent();
   pvVar1 = (void *)0x0;
   while( true ) {
     if (pvVar2 == (void *)0x0) {
@@ -2228,12 +2134,12 @@ XI_API void * __thiscall fn_10188970(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101889A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101889A0(void)
+XI_API int __cdecl ZoneMap_GetTail(void)
 {
   int iVar1;
   int iVar2;
   
-  iVar1 = orig::FUN_10188900();
+  iVar1 = orig::ZoneMap_GetCurrent();
   if (iVar1 != 0) {
     do {
       iVar2 = iVar1;

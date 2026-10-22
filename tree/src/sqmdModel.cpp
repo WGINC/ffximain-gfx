@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10277AB0  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10277AB0(int * param_1)
+XI_API void __cdecl SqmdModel_Free(int * param_1)
 {
   int iVar1;
   uint64_t uVar2;
@@ -45,7 +45,7 @@ XI_API void __cdecl fn_10277B70(int param_1)
   int iVar2;
   int iVar3;
   
-  orig::FUN_1027a250((int *)param_1);
+  orig::SqmdModel_FreeItems((int *)param_1);
   if ((*(int *)(param_1 + 0x24) != 0) || (*(int *)(param_1 + 0x28) != 0)) {
     if ((*(uint32_t *)(param_1 + 0xa8) & 0x200) == 0) {
       if (*(int *)(param_1 + 0x1c) != 0) {
@@ -68,7 +68,7 @@ XI_API void __cdecl fn_10277B70(int param_1)
           }
           iVar1 = *(int *)(iVar1 + 0x18);
           if (-1 < iVar1) {
-            orig::FUN_102819c0(iVar1);
+            orig::SqgxTexture_ClearPaletteUsed(iVar1);
           }
           iVar3 = iVar3 + 1;
         } while (iVar3 < *(int *)(param_1 + 0x24));
@@ -231,7 +231,7 @@ LAB_10277c2c:
 
 // FUNCTION: FFXIMAIN 0x10278E90  (unit sqmdModel: between 0x10278E10 (asserts sqmdModel.c) and 0x102790C0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10278E90(int param_1, int param_2, int param_3, undefined4 param_4, float param_5)
+XI_API void __cdecl SqmdModel_LookAt(int param_1, int param_2, int param_3, undefined4 param_4, float param_5)
 {
   int iVar1;
   int iVar2;
@@ -263,7 +263,7 @@ XI_API void __cdecl fn_10278E90(int param_1, int param_2, int param_3, undefined
   }
   do {
     fVar4 = local_6c;
-    piVar5 = (int *)orig::FUN_10279870(param_1,local_6c);
+    piVar5 = (int *)orig::SqmdModel_GetItemKind2(param_1,local_6c);
     if (*piVar5 == 0xb0001) {
       if (local_68 == param_2) {
         if ((param_3 < 0) || (piVar5[10] <= param_3)) {
@@ -273,24 +273,24 @@ XI_API void __cdecl fn_10278E90(int param_1, int param_2, int param_3, undefined
         iVar2 = *(int *)(piVar5[7] + 0x68);
         *(uint32_t *)(piVar5[7] + 0x68) = 0;
         iVar1 = piVar5[8] + param_3 * 0xf8;
-        orig::FUN_1027cd30((int)piVar5,iVar1,local_4c,local_10);
-        orig::FUN_102749c0(&local_64,param_4,local_4c);
+        orig::Unit1027CCF0_ComputeTransform((int)piVar5,iVar1,local_4c,local_10);
+        orig::Unit10274050_Sub(&local_64,param_4,local_4c);
         if (iVar2 != 0) {
           iVar3 = *(int *)(iVar2 + 100);
-          orig::FUN_1027a700(local_40,(uint32_t *)(iVar3 + 0x68));
-          orig::FUN_1027b060(local_40);
+          orig::Unit1027A4B0_Copy(local_40,(uint32_t *)(iVar3 + 0x68));
+          orig::Unit1027B060_NegateInPlace(local_40);
           local_64 = (float)((long double)local_64 - (long double)*(float *)(iVar3 + 0x5c));
           local_60 = (float)((long double)local_60 - (long double)*(float *)(iVar3 + 0x60));
           local_5c = (float)((long double)local_5c - (long double)*(float *)(iVar3 + 100));
-          orig::FUN_1027b080(&local_64,local_40,&local_64);
+          orig::Unit1027B060_RotateVec(&local_64,local_40,&local_64);
         }
         if (*(int *)(iVar1 + 0x68) != 0) {
-          orig::FUN_1027cd30((int)piVar5,*(int *)(iVar1 + 0x68),&local_58,local_30);
-          orig::FUN_1027b060(local_30);
+          orig::Unit1027CCF0_ComputeTransform((int)piVar5,*(int *)(iVar1 + 0x68),&local_58,local_30);
+          orig::Unit1027B060_NegateInPlace(local_30);
           local_64 = (float)((long double)local_64 - (long double)local_58);
           local_60 = (float)((long double)local_60 - (long double)local_54);
           local_5c = (float)((long double)local_5c - (long double)local_50);
-          orig::FUN_1027b080(&local_64,local_30,&local_64);
+          orig::Unit1027B060_RotateVec(&local_64,local_30,&local_64);
         }
         fVar8 = xi_castbits<long double>(fpatan((long double)local_64,(long double)local_5c));
         local_6c = (float)fVar8;
@@ -304,10 +304,10 @@ XI_API void __cdecl fn_10278E90(int param_1, int param_2, int param_3, undefined
         }
         iVar1 = *(int *)(iVar1 + 100);
         if (iVar1 != 0) {
-          orig::FUN_1027aba0(local_20,local_6c);
+          orig::Unit1027A4B0_FromRotationX(local_20,local_6c);
           pfVar6 = (float *)(iVar1 + 0x68);
-          orig::FUN_1027b170(local_40,local_20,pfVar6);
-          orig::FUN_1027a700(pfVar6,local_40);
+          orig::Unit1027B060_Mul(local_40,local_20,pfVar6);
+          orig::Unit1027A4B0_Copy(pfVar6,local_40);
         }
         *(int *)(piVar5[7] + 0x68) = iVar2;
       }
@@ -322,7 +322,7 @@ XI_API void __cdecl fn_10278E90(int param_1, int param_2, int param_3, undefined
 
 // FUNCTION: FFXIMAIN 0x10279530  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10279530(int param_1, undefined4 param_2)
+XI_API void __cdecl SqmdModel_AppendPair44(int param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   int iVar2;
@@ -346,7 +346,7 @@ XI_API void __cdecl fn_10279530(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x102796A0  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102796A0(int param_1, undefined4 param_2)
+XI_API void __cdecl SqmdModel_AppendPair68(int param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   int iVar2;
@@ -370,7 +370,7 @@ XI_API void __cdecl fn_102796A0(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10279830  (unit sqmdModel: between 0x10279710 (asserts sqmdModel.c) and 0x102798F0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279830(int param_1, int param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemKind0(int param_1, int param_2)
 {
   uint32_t uVar1;
   
@@ -380,7 +380,7 @@ XI_API undefined4 __cdecl fn_10279830(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10279850  (unit sqmdModel: between 0x10279710 (asserts sqmdModel.c) and 0x102798F0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279850(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemKind1(undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
@@ -390,7 +390,7 @@ XI_API undefined4 __cdecl fn_10279850(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10279870  (unit sqmdModel: between 0x10279710 (asserts sqmdModel.c) and 0x102798F0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279870(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemKind2(undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
@@ -400,7 +400,7 @@ XI_API undefined4 __cdecl fn_10279870(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10279890  (unit sqmdModel: between 0x10279710 (asserts sqmdModel.c) and 0x102798F0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279890(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemKind3(undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
@@ -410,7 +410,7 @@ XI_API undefined4 __cdecl fn_10279890(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x102798B0  (unit sqmdModel: between 0x10279710 (asserts sqmdModel.c) and 0x102798F0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102798B0(int param_1, int param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemKind4(int param_1, int param_2)
 {
   uint32_t uVar1;
   
@@ -439,7 +439,7 @@ XI_API char * __cdecl sqmdModel_GetItemName(int param_1, int param_2, int param_
 
 // FUNCTION: FFXIMAIN 0x10279B40  (unit sqmdModel: between 0x10279AB0 (name sqmdModel_GetItemName) and 0x10279BF0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279B40(int param_1, int param_2)
+XI_API undefined4 __cdecl SqmdModel_GetItemNameKind3(int param_1, int param_2)
 {
   char *pcVar1;
   
@@ -449,7 +449,7 @@ XI_API undefined4 __cdecl fn_10279B40(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10279BA0  (unit sqmdModel: between 0x10279AB0 (name sqmdModel_GetItemName) and 0x10279BF0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char * __cdecl fn_10279BA0(int param_1, int param_2, int param_3)
+XI_API char * __cdecl SqmdModel_FindItemName(int param_1, int param_2, int param_3)
 {
   int iVar1;
   
@@ -468,7 +468,7 @@ XI_API char * __cdecl fn_10279BA0(int param_1, int param_2, int param_3)
 
 // FUNCTION: FFXIMAIN 0x10279D50  (unit sqmdModel: between 0x10279BF0 (asserts sqmdModel.c) and 0x10279D90 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10279D50(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl SqmdModel_LookupKind2(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t uVar1;
   
@@ -478,7 +478,7 @@ XI_API undefined4 __cdecl fn_10279D50(undefined4 param_1, undefined4 param_2, un
 
 // FUNCTION: FFXIMAIN 0x1027A250  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027A250(int * param_1)
+XI_API void __cdecl SqmdModel_FreeItems(int * param_1)
 {
   int iVar1;
   int *piVar2;

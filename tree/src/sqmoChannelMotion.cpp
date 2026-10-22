@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x10295E70  (unit sqmoChannelMotion: asserts sqmoChannelMotion.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10295E70(void)
+XI_API undefined4 * __cdecl SqmoChannelMotion_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x2c,s_C__dev_dancer_modules_sqMotion_s_103bbab4,0x1b);
-  orig::FUN_10295e90(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x2c,s_C__dev_dancer_modules_sqMotion_s_103bbab4,0x1b);
+  orig::SqmoChannelMotion_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10295E90  (unit sqmoChannelMotion: between 0x10295E70 (asserts sqmoChannelMotion.c) and 0x10295EF0 (asserts sqmoChannelMotion.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10295E90(undefined4 * param_1)
+XI_API void __cdecl SqmoChannelMotion_Init(undefined4 * param_1)
 {
   *param_1 = 0x50004;
   param_1[2] = &LAB_10295ee0;

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x101CD9D0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
+XI_API undefined4 __thiscall Unit101CD990_GetValueAt54(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x54) != 0) &&
      ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x54)] != 0)) {
@@ -15,7 +15,7 @@ XI_API undefined4 __thiscall fn_101CD9D0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101CDA00  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101CDA00(void * self_)
+XI_API undefined4 __thiscall Unit101CD990_GetValueAt56(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x56) != 0) &&
      ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x56)] != 0)) {
@@ -26,7 +26,7 @@ XI_API undefined4 __thiscall fn_101CDA00(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101CDA30  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101CDA30(void * self_)
+XI_API undefined4 __thiscall Unit101CD990_GetValueAt5A(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x5a) != 0) &&
      ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x5a)] != 0)) {

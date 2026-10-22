@@ -47,7 +47,7 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
       param_1[7] = uVar1;
     }
     if (param_1[8] != 0) {
-      orig::FUN_10277ab0((int *)(param_1 + 8));
+      orig::SqmdModel_Free((int *)(param_1 + 8));
       return 0;
     }
   }

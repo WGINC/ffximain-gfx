@@ -15,7 +15,7 @@ void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefine
     return;
   }
   if ((((-1 < param_8) && (param_8 < 7)) &&
-      (orig::FUN_1001acb0((void *)((int)self + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
+      (orig::CYyMotionQue_AppendSync((void *)((int)self + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
                     param_7,param_9,param_10), param_8 == 0)) && (param_1 != (int *)0x0)) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),0);
   }
@@ -49,6 +49,20 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
       this_00 = (void *)orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 0x34));
       orig::FUN_10019a50(this_00,param_1,uVar1,uStack_4,param_3,this_00);
     }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x1001ACB0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYyMotionQue::AppendSync(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+{
+  int iVar1;
+  
+  orig::KzMotionQueList_AppendSync(self,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
+  iVar1 = orig::FUN_1001b1a0(self);
+  if (iVar1 != 0) {
+    *(int *)(iVar1 + 0x24) = param_7;
   }
   return;
 }
@@ -95,9 +109,9 @@ undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefin
   return xi_entry_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x1001B2E0  (unit CYyMotionQue: between 0x1001B230 (name CYyMotionQue_SampleInto) and 0x1001B340 (name CYyMotionQue_IsActive), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1001B2E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 96 returned normally, 157 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
+void __thiscall CYyMotionQue::Update(void * self, int * param_1, int param_2)
 {
   int *piVar1;
   int *this_00;
@@ -105,10 +119,10 @@ XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
   int iVar2;
   
   this_01 = param_1;
-  this_00 = *(int **)((int)self_ + 4);
+  this_00 = *(int **)((int)self + 4);
   while (this_00 != (int *)0x0) {
     piVar1 = (int *)this_00[1];
-    iVar2 = orig::FUN_1001b5d0(this_00);
+    iVar2 = orig::Unit1001B510_Update(this_00);
     if (iVar2 == 0) {
       if ((piVar1 == (int *)0x0) && (param_2 < 3)) {
         this_00 = piVar1;
@@ -117,7 +131,7 @@ XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
         }
       }
       else {
-        orig::FUN_1001b0f0(self_,this_00);
+        orig::FUN_1001b0f0(self,this_00);
         this_00 = piVar1;
       }
     }

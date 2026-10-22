@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027B060  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027B060(float * param_1)
+XI_API void __cdecl Unit1027B060_NegateInPlace(float * param_1)
 {
   *param_1 = (float)-(long double)*param_1;
   param_1[1] = (float)-(long double)param_1[1];
@@ -14,7 +14,7 @@ XI_API void __cdecl fn_1027B060(float * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027B080  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_3)
+XI_API void __cdecl Unit1027B060_RotateVec(float * param_1, float * param_2, float * param_3)
 {
   long double fVar1;
   long double fVar2;
@@ -26,8 +26,8 @@ XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 8);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 12);
   
-  orig::FUN_1027a700(&local_10,param_2);
-  orig::FUN_1027b060(&local_10);
+  orig::Unit1027A4B0_Copy(&local_10,param_2);
+  orig::Unit1027B060_NegateInPlace(&local_10);
   fVar1 = ((long double)param_2[3] * (long double)*param_3 + (long double)param_3[2] * (long double)param_2[1]) -
           (long double)param_3[1] * (long double)param_2[2];
   fVar2 = ((long double)param_2[3] * (long double)param_3[1] + (long double)param_2[2] * (long double)*param_3) -
@@ -50,7 +50,7 @@ XI_API void __cdecl fn_1027B080(float * param_1, float * param_2, float * param_
 
 // FUNCTION: FFXIMAIN 0x1027B170  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027B170(float * param_1, float * param_2, float * param_3)
+XI_API void __cdecl Unit1027B060_Mul(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)(((long double)param_3[3] * (long double)*param_2 +
                      (long double)param_3[2] * (long double)param_2[1] +

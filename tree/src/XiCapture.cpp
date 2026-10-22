@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10017BB0  (unit XiCapture: stores XiCapture vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10017BB0(void * self_)
+XI_API undefined4 __thiscall XiCapture_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_LAB_10329f34;
   *(uint32_t *)((int)self_ + 4) = 0;

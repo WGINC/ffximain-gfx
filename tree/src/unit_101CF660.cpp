@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x101CF660  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101CF660(void * self_, int param_1)
+XI_API void __thiscall Unit101CF660_BuildTables(void * self_, int param_1)
 {
   short sVar1;
   int iVar2;
@@ -54,20 +54,20 @@ LAB_101cf692:
     iVar6 = iVar6 + 4;
     pbVar4 = pbVar4 + 1;
   } while ((int)(pbVar4 + (-0x65c - (int)self_)) < 0x40);
-  orig::FUN_101d0a40(*(void **)((int)self_ + 8),0xdb);
-  orig::FUN_101d0a20(*(void **)((int)self_ + 8),0x43);
-  orig::FUN_101d09c0(*(void **)((int)self_ + 8),0);
+  orig::Unit101D0910_PutFFThenByte(*(void **)((int)self_ + 8),0xdb);
+  orig::Unit101D0910_PutWordBE(*(void **)((int)self_ + 8),0x43);
+  orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),0);
   piVar7 =(int*)(&DAT_1037e330);
   do {
-    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x61c + (int)self_));
+    orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x61c + (int)self_));
     piVar7 = piVar7 + 1;
   } while ((int)piVar7 < 0x1037e430);
-  orig::FUN_101d0a40(*(void **)((int)self_ + 8),0xdb);
-  orig::FUN_101d0a20(*(void **)((int)self_ + 8),0x43);
-  orig::FUN_101d09c0(*(void **)((int)self_ + 8),1);
+  orig::Unit101D0910_PutFFThenByte(*(void **)((int)self_ + 8),0xdb);
+  orig::Unit101D0910_PutWordBE(*(void **)((int)self_ + 8),0x43);
+  orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),1);
   piVar7 =(int*)(&DAT_1037e330);
   do {
-    orig::FUN_101d09c0(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x65c + (int)self_));
+    orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x65c + (int)self_));
     piVar7 = piVar7 + 1;
   } while ((int)piVar7 < 0x1037e430);
   pbVar4 = (uint8_t *)((int)self_ + 0x61c);
@@ -90,7 +90,7 @@ LAB_101cf692:
 
 // FUNCTION: FFXIMAIN 0x101CF820  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API void __stdcall fn_101CF820(int param_1, int param_2, int param_3, int param_4)
+XI_API void __stdcall Unit101CF660_BuildCodeTable(int param_1, int param_2, int param_3, int param_4)
 {
   uint8_t bVar1;
   short sVar2;
@@ -117,7 +117,7 @@ XI_API void __stdcall fn_101CF820(int param_1, int param_2, int param_3, int par
 
 // FUNCTION: FFXIMAIN 0x101D0860  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0860(void * self_)
+XI_API void __thiscall Unit101CF660_Reset(void * self_)
 {
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -129,14 +129,14 @@ XI_API void __thiscall fn_101D0860(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101D0880  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0880(void * self_)
+XI_API void __thiscall Unit101CF660_Free(void * self_)
 {
   if (*(int *)((int)self_ + 8) != 0) {
     orig::thunk_sub_10028AA0_v1(*(int *)((int)self_ + 8));
     *(uint32_t *)((int)self_ + 8) = 0;
   }
   if (*(LPVOID *)((int)self_ + 4) != (LPVOID)0x0) {
-    orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 4));
+    orig::operator_delete_v1(*(LPVOID *)((int)self_ + 4));
     *(uint32_t *)((int)self_ + 4) = 0;
   }
   return;

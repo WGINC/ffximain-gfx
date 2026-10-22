@@ -28,7 +28,7 @@ XI_API undefined4 __cdecl sqopSystemActivate(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10289620  (unit sqopSystem: between 0x10289600 (asserts sqopSystem.c) and 0x10289670 (asserts sqopSystem.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10289620(undefined4 * param_1)
+XI_API void __cdecl SqopSystem_Init(undefined4 * param_1)
 {
   *param_1 = 0x1d0001;
   param_1[2] = &LAB_10289660;
@@ -44,7 +44,7 @@ XI_API void __cdecl fn_10289620(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x102896A0  (unit sqopSystem: asserts sqopSystem.c)
 // GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102896A0(undefined4 * param_1)
+XI_API void __cdecl SqopSystem_ClearOpcodes(undefined4 * param_1)
 {
   int iVar1;
   int iVar2;
@@ -54,13 +54,13 @@ XI_API void __cdecl fn_102896A0(undefined4 * param_1)
     if (0 < (int)param_1[7]) {
       iVar1 = 0;
       do {
-        orig::FUN_10289ba0(param_1[9] + iVar1);
+        orig::SqopTrack_Free(param_1[9] + iVar1);
         iVar2 = iVar2 + 1;
         iVar1 = iVar1 + 0x10;
       } while (iVar2 < (int)param_1[7]);
     }
     orig::sqFree_v1(param_1[9],s_C__dev_dancer_modules_sqOpcode_s_103b9484,0x97);
   }
-  orig::FUN_10289620(param_1);
+  orig::SqopSystem_Init(param_1);
   return;
 }

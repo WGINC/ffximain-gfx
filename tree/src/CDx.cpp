@@ -273,6 +273,28 @@ bool CDx::TestCooperativeLevel()
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 12))(at<_DWORD *>(this, 0xC)) == 0;
 }
 
+// FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+int __cdecl CDx::Present()
+{
+  D3DHolder *v0;
+  int v1;
+  int result;
+  v0 = g_pD3DHolder;
+  v1 = 100;
+  do
+  {
+    --v1;
+    result = v0->pDevice->Present(nullptr, nullptr, 0, nullptr);
+    if ( result == 0 )
+      break;
+    if ( result == -2005530520 )
+      result = orig::nullsub_13(aDeviceLost);
+  }
+  while ( v1 != 0 );
+  return result;
+}
+
 // FUNCTION: FFXIMAIN 0x10009730  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CDx::BeginScene()
@@ -287,9 +309,9 @@ int CDx::EndScene()
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 140))(at<_DWORD *>(this, 0xC));
 }
 
-// FUNCTION: FFXIMAIN 0x10009750  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10009750  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10009750(HCURSOR param_1)
+void __stdcall CDx::SetHardwareCursor(HCURSOR param_1)
 {
   if (g_cfgHardwareMouse != 0) {
                     /* WARNING: Could not recover jumptable at 0x10009759. Too many branches */
@@ -360,23 +382,23 @@ XI_API undefined4 __thiscall fn_10009870(void * self_, undefined4 param_1, int *
   return 1;
 }
 
-// FUNCTION: FFXIMAIN 0x10009D20  (unit CDx: between 0x10009920 (name CDx_SetDefaultRenderState) and 0x10009DC0 (name CDx_SetViewport), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10009D20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10009D20(void * self_)
+undefined4 __thiscall CDx::AppendStateRecord(void * self)
 {
   uint32_t uVar1;
   
-  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x98) = 0;
-  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x9c) = 0;
-  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xa0) =
-       *(uint32_t *)((int)self_ + 0x15c);
-  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xa4) =
-       *(uint32_t *)((int)self_ + 0x160);
-  *(uint32_t *)((int)self_ + (*(uint8_t *)((int)self_ + 0x158) + 7) * 0x18) = 0;
-  *(uint32_t *)((int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0xac) = 0x3f800000;
-  uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xa0))
-                    ))(*(int **)((int)self_ + 0xc),
-                     (int)self_ + (uint32_t)*(uint8_t *)((int)self_ + 0x158) * 0x18 + 0x98);
+  *(uint32_t *)((int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0x98) = 0;
+  *(uint32_t *)((int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0x9c) = 0;
+  *(uint32_t *)((int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0xa0) =
+       *(uint32_t *)((int)self + 0x15c);
+  *(uint32_t *)((int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0xa4) =
+       *(uint32_t *)((int)self + 0x160);
+  *(uint32_t *)((int)self + (*(uint8_t *)((int)self + 0x158) + 7) * 0x18) = 0;
+  *(uint32_t *)((int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0xac) = 0x3f800000;
+  uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xa0))
+                    ))(*(int **)((int)self + 0xc),
+                     (int)self + (uint32_t)*(uint8_t *)((int)self + 0x158) * 0x18 + 0x98);
   return uVar1;
 }
 
@@ -406,27 +428,27 @@ int CDx::PushRenderTarget(int a2, int a3, int a4)
   return orig::CDx_PushRenderTargetTexture(this, a2, a3, a4, v5, v5, 1, 1);
 }
 
-// FUNCTION: FFXIMAIN 0x10009EA0  (unit CDx: between 0x10009E20 (name CDx_PushRenderTarget) and 0x10009F20 (name CDx_PushRenderTargetTexture), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10009EA0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10009EA0(void * self_, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
+void __thiscall CDx::PushRenderTargetTexture_Flag1(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
-  orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,1,0);
+  orig::CDx_PushRenderTargetTexture_v1(self,param_1,xi_s2,xi_s3,&local_4,&local_4,1,0);
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10009EE0  (unit CDx: between 0x10009E20 (name CDx_PushRenderTarget) and 0x10009F20 (name CDx_PushRenderTargetTexture), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10009EE0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10009EE0(void * self_, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
+void __thiscall CDx::PushRenderTargetTexture_Flag0(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
-  orig::CDx_PushRenderTargetTexture_v1(self_,param_1,xi_s2,xi_s3,&local_4,&local_4,0,0);
+  orig::CDx_PushRenderTargetTexture_v1(self,param_1,xi_s2,xi_s3,&local_4,&local_4,0,0);
   return;
 }
 
@@ -491,21 +513,21 @@ int CDx::SetTexture(int a2, int a3)
   return orig::CDx_PopRenderTarget((int)self, a2, a3, 1, 1);
 }
 
-// FUNCTION: FFXIMAIN 0x1000A200  (unit CDx: between 0x1000A1D0 (name CDx_SetTexture) and 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000A200  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000A200(void * self_, undefined4 xi_s1, undefined4 xi_s2)
+void __thiscall CDx::PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
-  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xf4))))(*(int **)((int)self_ + 0xc),0,0);
-  orig::CDx_PopRenderTarget_v1(self_,xi_s1,xi_s2,1,0);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xf4))))(*(int **)((int)self + 0xc),0,0);
+  orig::CDx_PopRenderTarget_v1(self,xi_s1,xi_s2,1,0);
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000A230  (unit CDx: between 0x1000A1D0 (name CDx_SetTexture) and 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000A230  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000A230(void * self_, undefined4 xi_s1, undefined4 xi_s2)
+void __thiscall CDx::PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
-  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xf4))))(*(int **)((int)self_ + 0xc),0,0);
-  orig::CDx_PopRenderTarget_v1(self_,xi_s1,xi_s2,0,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xf4))))(*(int **)((int)self + 0xc),0,0);
+  orig::CDx_PopRenderTarget_v1(self,xi_s1,xi_s2,0,1);
   return;
 }
 
@@ -517,11 +539,11 @@ void __thiscall CDx::PopRenderTargetDefault(void * self, undefined4 xi_s1, undef
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000A390  (unit CDx: between 0x1000A1D0 (name CDx_SetTexture) and 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000A390  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000A390(void * self_, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+void __thiscall CDx::EndAndClearBegin(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
-  orig::CDx_EndClearBegin_v1(self_,0,0,param_1,param_2,param_3,param_4);
+  orig::CDx_EndClearBegin_v1(self,0,0,param_1,param_2,param_3,param_4);
   return;
 }
 
@@ -609,13 +631,13 @@ void __thiscall CDx::DrawTextureToViewport(void * self, undefined4 param_1, unde
   local_4 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0xa4);
   local_10 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0x98);
   local_8 = *(uint32_t *)((int)self + uVar1 * 0x18 + 0xa0);
-  orig::FUN_1000a550(self,param_1,param_2,&local_10,0xffffffff);
+  orig::CDx_DrawTexturedScreenQuadUnit(self,param_1,param_2,&local_10,0xffffffff);
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000A550  (unit CDx: between 0x1000A3B0 (name CDx_DrawScreenQuadAtDepth) and 0x1000A6E0 (name CDx_CreateTexture), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000A550  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000A550(void * self_, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
+void __thiscall CDx::DrawTexturedScreenQuadUnit(void * self, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
 {
   char xi_frame[16] __attribute__((aligned(4)));
   uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
@@ -627,7 +649,7 @@ XI_API void __thiscall fn_1000A550(void * self_, undefined4 param_1, undefined4 
   local_c = 0x3f800000;
   local_8 = 0;
   local_4 = 0x3f800000;
-  orig::CDx_DrawTexturedScreenQuad_v1(self_,param_1,xi_s2,xi_s3,&local_10,0xffffffff);
+  orig::CDx_DrawTexturedScreenQuad_v1(self,param_1,xi_s2,xi_s3,&local_10,0xffffffff);
   return;
 }
 
@@ -907,16 +929,16 @@ uint32_t __thiscall CDx::StepFadeCounter(void * self, float param_1, float param
   return uVar2 & 0xffffff00;
 }
 
-// FUNCTION: FFXIMAIN 0x1000BB10  (unit CDx: between 0x1000ABE0 (name CDx_CompositeUITarget) and 0x1000BB90 (name CDx_DrawStereoOddFrameOverlay), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000BB10  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1000BB10(void)
+void __cdecl CDx::NopA()
 {
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000BB20  (unit CDx: between 0x1000ABE0 (name CDx_CompositeUITarget) and 0x1000BB90 (name CDx_DrawStereoOddFrameOverlay), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000BB20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1000BB20(void)
+void __cdecl CDx::NopB()
 {
   return;
 }
@@ -1356,7 +1378,7 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
           at<uint32_t>(this, 0x824) = result,
           result == 0) )
     {
-      orig::nullsub_38();
+      orig::CEnv_Nop();
       return orig::CDx_ReleaseStereoResources((CDx *)self);
     }
   }
@@ -1672,7 +1694,7 @@ void CDx::ApplyStereoEyeProjection()
   }
   orig::Mat4_PreMultiply(v3, (float *)&this->cachedProjection);
   (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DTS_PROJECTION, v3);
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
 }
 
 // FUNCTION: FFXIMAIN 0x1000CF90  (placed by IDB name)

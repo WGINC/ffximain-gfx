@@ -29,7 +29,7 @@ XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int par
   uVar13 = XI_CALL_ST0(0x10311C2Cu)((long double)param_4);
   iVar5 = (int)uVar13;
   fVar2 = (float)((long double)param_4 - (long double)(uVar13 & 0xffffffff));
-  orig::FUN_10032a40(local_10);
+  orig::Quat_SetIdentityChained(local_10);
   puVar6 = (undefined4 *)0x0;
   iVar4 = (int)param_2 * 0x15;
   local_44 = (uint32_t *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
@@ -44,7 +44,7 @@ LAB_10019be3:
     else {
       if (((int)uVar11 < 0) && (param_1 != 0)) {
         if (param_1 < 5) {
-          orig::FUN_10032a40(afStack_2c + 3);
+          orig::Quat_SetIdentityChained(afStack_2c + 3);
           puVar6 = (undefined4 *)(param_5 + param_3 * 0x34);
           *puVar6 = afStack_2c[3];
           puVar6[1] = afStack_2c[4];
@@ -193,8 +193,8 @@ XI_API undefined4 __thiscall SampleAnimationTrack_Live(void * self_, int param_1
   lVar15 = XI_CALL_ST0(0x10311C2Cu)((long double)param_4);
   iVar6 = (int)lVar15;
   fVar2 = (float)((long double)param_4 - (long double)iVar6);
-  orig::FUN_10032a40(local_10);
-  orig::FUN_10032a40(local_20);
+  orig::Quat_SetIdentityChained(local_10);
+  orig::Quat_SetIdentityChained(local_20);
   uVar7 = 0;
   iVar5 = (int)param_2 * 0x15;
   puVar12 = (uint32_t *)((int)self_ + (int)param_2 * 0x54 + 0x3e);
@@ -327,7 +327,7 @@ LAB_10019f63:
 
 // FUNCTION: FFXIMAIN 0x1001A3E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001A3E0(void * self_, undefined4 param_1)
+XI_API void __thiscall MotionQueList_ProcessAll(void * self_, undefined4 param_1)
 {
   int iVar1;
   void *this_00;
@@ -335,9 +335,9 @@ XI_API void __thiscall fn_1001A3E0(void * self_, undefined4 param_1)
   iVar1 = 6;
   this_00 = (void *)((int)self_ + 0x78);
   do {
-    orig::FUN_1001b2e0(this_00,param_1,iVar1);
+    orig::CYyMotionQue_Update(this_00,param_1,iVar1);
     orig::FUN_1001ac40(this_00);
-    orig::FUN_1001b1f0(this_00,param_1,iVar1);
+    orig::KzMotionQueList_NotifyAll(this_00,param_1,iVar1);
     iVar1 = iVar1 + -1;
     this_00 = (void *)((int)this_00 + -0x14);
   } while (-1 < iVar1);
@@ -366,7 +366,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
   
   if ((DAT_10456d28 & 1) == 0) {
     DAT_10456d28 = DAT_10456d28 | 1;
-    orig::FUN_10032a40(&DAT_10456d2c);
+    orig::Quat_SetIdentityChained(&DAT_10456d2c);
     orig::_atexit_v1(&LAB_1001a650);
   }
   uVar8 = 0;
@@ -468,7 +468,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
 
 // FUNCTION: FFXIMAIN 0x1001A6E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001A6E0(void * self_, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
+XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
   uint32_t uVar1;
   uint32_t uVar2;

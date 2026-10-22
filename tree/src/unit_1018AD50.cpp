@@ -19,7 +19,7 @@ XI_API void __thiscall fn_1018AD60(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1018AD80  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1018AD80(void * self_)
+XI_API void * __thiscall Blend_FindPrevious(void * self_)
 {
   void *pvVar1;
   void *pvVar2;
@@ -39,7 +39,7 @@ XI_API void * __thiscall fn_1018AD80(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018ADA0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018ADA0(void * self_)
+XI_API void __thiscall Blend_FreeResult(void * self_)
 {
   uint32_t *xi_s1;
   
@@ -55,13 +55,13 @@ XI_API void __thiscall fn_1018ADA0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1018ADD0(void * self_)
 {
-  orig::FUN_1018ade0(self_);
+  orig::Blend_Update(self_);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1018ADE0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018ADE0(void * self_)
+XI_API void __thiscall Blend_Update(void * self_)
 {
   int *this_00;
   int xi_s1;
@@ -75,13 +75,13 @@ XI_API void __thiscall fn_1018ADE0(void * self_)
   if (*(int *)((int)self_ + 0x14) == 0) {
     pvVar1 = *(void **)((int)self_ + 8);
     if (pvVar1 != (void *)0x0) {
-      orig::FUN_1018abf0(pvVar1);
+      orig::YmCombineWeather_Release(pvVar1);
       orig::thunk_sub_10028AA0_v1((int)pvVar1);
       *(uint32_t *)((int)self_ + 8) = 0;
     }
   }
   else {
-    xi_eax = orig::FUN_1018c290(this_00);
+    xi_eax = orig::Time_SubtractFrameScale(this_00);
     if ((char)xi_eax != '\0') {
       orig::FUN_1018bc40(this_00,0,xi_eax);
     }
@@ -94,10 +94,10 @@ XI_API void __thiscall fn_1018ADE0(void * self_)
                 (long double)*(int *)((int)self_ + 0x18));
     xi_s1 = *(int *)(*(int *)((int)self_ + 8) + 0x20);
     if ((xi_s1 != 0) && (*(int *)((int)self_ + 0x20) != 0)) {
-      pvVar1 = (void *)orig::FUN_1018aeb0(xi_s1,*(int *)((int)self_ + 0x20));
+      pvVar1 = (void *)orig::Blend_AllocResult(xi_s1,*(int *)((int)self_ + 0x20));
       orig::FUN_10189490(pvVar1,*(uint32_t **)((int)self_ + 0x20),*(uint32_t **)(*(int *)((int)self_ + 8) + 0x20),
                    *(float *)((int)self_ + 0x1c));
-      orig::FUN_1018ada0(self_);
+      orig::Blend_FreeResult(self_);
       *(void **)((int)self_ + 0x20) = pvVar1;
       *(float *)(*(int *)((int)self_ + 8) + 0x1c) =
            (float)((long double)1.0f - (long double)*(float *)((int)self_ + 0x1c));
@@ -108,7 +108,7 @@ XI_API void __thiscall fn_1018ADE0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018AEB0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_1018AEB0(undefined4 xi_s1, undefined4 xi_s2)
+XI_API undefined4 __stdcall Blend_AllocResult(undefined4 xi_s1, undefined4 xi_s2)
 {
   uint32_t *puVar1;
   

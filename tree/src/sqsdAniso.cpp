@@ -34,7 +34,7 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   else {
     iVar4 = piVar2[0xd];
   }
-  if ((uVar1 != 0) && (iVar3 = orig::FUN_102a1fa0((int)piVar2), iVar3 == 2)) {
+  if ((uVar1 != 0) && (iVar3 = orig::Unit102A1F20_TestSeparationHalf((int)piVar2), iVar3 == 2)) {
     return;
   }
   if ((((param_1[0x16] != 0) && (*param_1 != 0xa000b)) && (iVar4 != 0)) &&
@@ -47,7 +47,7 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   if ((param_1[0x13] & 4U) != 0) {
     uVar5 = uVar5 | 0x8000;
   }
-  orig::FUN_102a34d0((int)(param_1 + 5));
+  orig::Unit102A34D0_ApplyLighting((int)(param_1 + 5));
   if (param_1[0x18] == 0) {
     orig::sqgxShader_v1(uVar5 | 2,0);
   }
@@ -64,9 +64,9 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   if (param_1[0x15] != 0) {
     orig::sqgxSetAlphaTest(1,0x5f);
   }
-  orig::FUN_102a3770();
+  orig::Sqgx_IncCounter();
   orig::sqgxTextureDecal_v1(0);
-  orig::FUN_102827d0();
+  orig::Unit102822A0_SetMultiplyAdd();
   if (param_1[0x19] == 0) {
     local_c = (float)((long double)xi_castbits<float>(param_1[10]) * (long double)xi_castbits<float>(param_1[0xd]));
     local_8 = (float)((long double)xi_castbits<float>(param_1[0xb]) * (long double)xi_castbits<float>(param_1[0xd]));
@@ -84,7 +84,7 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
       local_20 = (float)((long double)xi_castbits<float>(param_1[0xb]) * (long double)xi_castbits<float>(param_1[0xf]));
       local_1c = (float)((long double)xi_castbits<float>(param_1[0xc]) * (long double)xi_castbits<float>(param_1[0xf]));
     }
-    iVar4 = orig::FUN_10298e10(0x80,param_1[0x10],&local_c,&local_18,&local_24);
+    iVar4 = orig::Texture_CreateEntry(0x80,param_1[0x10],&local_c,&local_18,&local_24);
     param_1[0x19] = iVar4;
   }
   orig::sqgxShader_v1(uVar5 | 0x100000,0);
@@ -109,7 +109,7 @@ LAB_102995c9:
     orig::sqgxSetAlphaTest(0,0);
   }
   orig::sqgxBlendOff_v1();
-  orig::FUN_102a3760();
+  orig::Sqgx_ResetCounter();
   return;
 }
 
@@ -149,14 +149,14 @@ XI_API int * __cdecl sqsdAniso_BakeOntoShape(int param_1, int * param_2)
     }
     uVar6 = *(undefined4 *)(iVar1 + 100);
     *(undefined4 *)(iVar1 + 100) = uVar5;
-    orig::FUN_1029b5c0();
+    orig::SqgxDlist_CreateContextList();
     orig::sqDrawableDraw_v1((int)param_2);
     puVar3 = orig::FUN_1029b620();
-    orig::FUN_102a3760();
+    orig::Sqgx_ResetCounter();
     *(undefined4 *)(iVar1 + 100) = uVar6;
-    piVar4 =(int*)(orig::FUN_102a2000());
+    piVar4 =(int*)(orig::SqshDispList_Create());
     piVar4[0x11] = (int)puVar3;
-    orig::FUN_1028d9c0(piVar4 + 5,param_2 + 5);
+    orig::Unit1028D970_Copy(piVar4 + 5,param_2 + 5);
     orig::FUN_10285740((int *)&param_2);
   }
   return piVar4;

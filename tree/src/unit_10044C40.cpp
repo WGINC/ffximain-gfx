@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10044C40  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10044C40(void * self_, float * param_1)
+XI_API undefined4 __thiscall Unit10044C40_ComputeWorldPos(void * self_, float * param_1)
 {
   int iVar1;
   float *pfVar2;
@@ -17,17 +17,17 @@ XI_API undefined4 __thiscall fn_10044C40(void * self_, float * param_1)
   local_c = *(float *)((int)self_ + 0x54);
   local_8 = *(float *)((int)self_ + 0x58);
   local_4 = *(float *)((int)self_ + 0x5c);
-  iVar1 = orig::FUN_100473f0(self_);
+  iVar1 = orig::CMoElem_GetActiveField0A4_v1(self_);
   if ((iVar1 != 0) && (*(int *)((int)self_ + 0xfc) != 0)) {
-    pfVar2 = (float *)orig::FUN_10047450(self_);
+    pfVar2 = (float *)orig::CMoElem_GetAddr78(self_);
     local_c = (float)((long double)local_c * (long double)*pfVar2);
-    iVar1 = orig::FUN_10047450(self_);
+    iVar1 = orig::CMoElem_GetAddr78(self_);
     local_8 = (float)((long double)local_8 * (long double)*(float *)(iVar1 + 4));
-    iVar1 = orig::FUN_10047450(self_);
+    iVar1 = orig::CMoElem_GetAddr78(self_);
     pfVar2 = &local_c;
     local_4 = (float)((long double)local_4 * (long double)*(float *)(iVar1 + 8));
     iVar1 = *g_pProcessor_as_v1;
-    a2 = orig::FUN_100473f0(self_);
+    a2 = orig::CMoElem_GetActiveField0A4_v1(self_);
     ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x50))))(&local_c,a2,pfVar2);
   }
   *param_1 = local_c;
@@ -38,7 +38,7 @@ XI_API undefined4 __thiscall fn_10044C40(void * self_, float * param_1)
 
 // FUNCTION: FFXIMAIN 0x10044CF0  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10044CF0(void * self_)
+XI_API undefined4 __thiscall Unit10044C40_IsActive(void * self_)
 {
   uint32_t xi_entry_eax = 0;
   
@@ -56,7 +56,7 @@ XI_API undefined4 __thiscall fn_10044CF0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10044D40  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10044D40(void * self_)
+XI_API void __thiscall Unit10044C40_UpdateTransform(void * self_)
 {
   float *this_00;
   int *piVar1;
@@ -66,7 +66,7 @@ XI_API void __thiscall fn_10044D40(void * self_)
   float *pfVar5;
   long double fVar6;
   
-  uVar2 = orig::FUN_10044cf0(self_);
+  uVar2 = orig::Unit10044C40_IsActive(self_);
   *(uint8_t *)((int)self_ + 0x187) = 0;
   if ((char)uVar2 == '\0') {
     return;
@@ -83,12 +83,12 @@ XI_API void __thiscall fn_10044D40(void * self_)
         iVar4 = *piVar1;
       }
       if ((*(uint8_t *)(iVar4 + 0x37) & 0xf) != 0) {
-        pfVar3 = (float *)orig::FUN_10047490(self_);
+        pfVar3 = (float *)orig::CMoElem_GetAddr84(self_);
         *this_00 = (float)((long double)*(float *)((int)self_ + 0xec) * (long double)*pfVar3);
-        iVar4 = orig::FUN_10047490(self_);
+        iVar4 = orig::CMoElem_GetAddr84(self_);
         *(float *)((int)self_ + 0x74) =
              (float)((long double)*(float *)(iVar4 + 4) * (long double)*(float *)((int)self_ + 0xf0));
-        iVar4 = orig::FUN_10047490(self_);
+        iVar4 = orig::CMoElem_GetAddr84(self_);
         *(float *)((int)self_ + 0x88) =
              (float)((long double)*(float *)(iVar4 + 8) * (long double)*(float *)((int)self_ + 0xf4));
         goto LAB_10044de9;
@@ -109,7 +109,7 @@ LAB_10044de9:
   else {
     (**(code **)(*g_pProcessor_as_v1 + 0x6c))();
   }
-  (**(code **)(*g_pProcessor_as_v1 + 0x20))(this_00,this_00,pfVar3);
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))(*(code **)(*g_pProcessor_as_v1 + 0x20)))((void *)(g_pProcessor_as_v1), this_00, this_00, pfVar3);
   if ((*(uint32_t *)((int)self_ + 0x10c) >> 1 & 1) == 0) goto LAB_10044ee5;
   orig::MoProcessor_CallVSlot49_v1(pfVar3);
   piVar1 = *(int **)((int)self_ + 0xfc);
@@ -127,12 +127,12 @@ LAB_10044eb5:
       iVar4 = *piVar1;
     }
     if ((*(uint8_t *)(iVar4 + 0x37) & 0xf) == 0) goto LAB_10044eb5;
-    pfVar5 = (float *)orig::FUN_10047490(self_);
+    pfVar5 = (float *)orig::CMoElem_GetAddr84(self_);
     *pfVar3 = (float)((long double)*(float *)((int)self_ + 0xec) * (long double)*pfVar5 * (long double)*pfVar3);
-    iVar4 = orig::FUN_10047490(self_);
+    iVar4 = orig::CMoElem_GetAddr84(self_);
     pfVar3[5] = (float)((long double)*(float *)(iVar4 + 4) * (long double)*(float *)((int)self_ + 0xf0) *
                        (long double)pfVar3[5]);
-    iVar4 = orig::FUN_10047490(self_);
+    iVar4 = orig::CMoElem_GetAddr84(self_);
     fVar6 = (long double)*(float *)(iVar4 + 8) * (long double)*(float *)((int)self_ + 0xf4);
   }
   pfVar3[10] = (float)(fVar6 * (long double)pfVar3[10]);
@@ -170,7 +170,7 @@ XI_API undefined4 __thiscall YmElem_ComputeViewDepthKey(void * self_)
     if ((uVar1 >> 0x11 & 1) == 0) {
       iVar2 = *g_pProcessor_as_v1;
       iVar4 = g_pResourceMng + 0xb50;
-      a3 = orig::FUN_10044c40(self_,&local_c);
+      a3 = orig::Unit10044C40_ComputeWorldPos_v1(self_,&local_c);
       piVar5 = (int *)((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar2 + 0x50))))((int)self_ + 0x188,iVar4,a3);
     }
     else {
@@ -181,9 +181,9 @@ LAB_1004500d:
         local_4 = 0;
       }
       else {
-        iVar4 = orig::FUN_100473f0(self_);
+        iVar4 = orig::CMoElem_GetActiveField0A4_v1(self_);
         if (iVar4 == 0) goto LAB_1004500d;
-        iVar4 = orig::FUN_100473f0(self_);
+        iVar4 = orig::CMoElem_GetActiveField0A4_v1(self_);
         local_c = *(float *)(iVar4 + 0x30);
         local_8 = *(uint32_t *)(iVar4 + 0x34);
         local_4 = *(uint32_t *)(iVar4 + 0x38);
@@ -279,7 +279,7 @@ LAB_1004513e:
 
 // FUNCTION: FFXIMAIN 0x10045C50  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API CMoProcessor * __thiscall fn_10045C50(_DWORD *self_)
+XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_)
 {
   int v1;
   CMoProcessor *result;
@@ -342,19 +342,19 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
   if ((((*(uint8_t *)((int)self_ + 0x10c) & 1) == 0) ||
       (uVar1 = *(uint32_t *)((int)self_ + 0x10c), (uVar1 & 0x1c0) != 0)) &&
      ((uVar1 = *(uint32_t *)((int)self_ + 0x10c), (uVar1 >> 2 & 1) == 0 || ((uVar1 >> 3 & 1) == 0)))) {
-    iVar4 = orig::FUN_10045c50(self_);
+    iVar4 = orig::Unit10044C40_GetFlaggedMatrix_v1(self_);
     uVar1 = *(uint32_t *)((int)self_ + 0x10c);
     if ((uVar1 >> 2 & 1) == 0) {
       if ((uVar1 >> 0x11 & 1) == 0) {
         if ((((uVar1 >> 0xd & 1) == 0) && ((uVar1 >> 0xe & 1) == 0)) &&
-           (iVar5 = orig::FUN_100473f0(self_), iVar5 != 0)) {
+           (iVar5 = orig::CMoElem_GetActiveField0A4_v1(self_), iVar5 != 0)) {
           piVar2 = *(int **)((int)self_ + 0x100);
           if (piVar2 == (int *)0x0) {
             piVar2 = *(int **)((int)self_ + 0xfc);
           }
-          if (((piVar2 != (int *)0x0) && (*piVar2 != 0)) && (iVar5 = orig::FUN_100473f0(self_), iVar5 != 0)
+          if (((piVar2 != (int *)0x0) && (*piVar2 != 0)) && (iVar5 = orig::CMoElem_GetActiveField0A4_v1(self_), iVar5 != 0)
              ) {
-            puVar3 = (uint32_t *)orig::FUN_100473f0(self_);
+            puVar3 = (uint32_t *)orig::CMoElem_GetActiveField0A4_v1(self_);
             puVar6 = this_00;
             for (iVar5 = 0x10; iVar5 != 0; iVar5 = iVar5 + -1) {
               *puVar6 = *puVar3;
@@ -463,7 +463,7 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10046380  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10046380(void)
+XI_API void __cdecl Zone_UpdateFogAmbient(void)
 {
   char cVar1;
   char cVar2;
@@ -525,7 +525,7 @@ XI_API void __cdecl fn_10046380(void)
 
 // FUNCTION: FFXIMAIN 0x100464D0  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100464D0(void)
+XI_API int __cdecl Fog_SetRenderStates(void)
 {
   (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
     *(_DWORD *)(g_pResourceMng + 3772),

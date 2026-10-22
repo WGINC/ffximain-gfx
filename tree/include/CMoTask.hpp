@@ -11,9 +11,13 @@ public:
     void vf010(int a1);  // 0x10011940
     static char ** __cdecl GetRuntimeClass_variant1();  // 0x1001B800
     static char ** __cdecl GetRuntimeClass_variant2();  // 0x1002C950
+    static void __cdecl CreateMode2(undefined4 param_1, int param_2);  // 0x10035D40
+    static void __cdecl CreateMode1(undefined4 param_1, int param_2);  // 0x10035D90
+    static void __cdecl CreateMode4(undefined4 param_1, int param_2);  // 0x10035DE0
     static char ** __cdecl GetRuntimeClass_variant3();  // 0x10037280
     static char ** __cdecl GetRuntimeClass_variant4();  // 0x1003CC60
     char vf008();  // 0x10042640
+    static undefined4 __thiscall Restart(void * self);  // 0x10053370
     static char ** __cdecl GetRuntimeClass_variant5();  // 0x10055550
     static char ** __cdecl GetRuntimeClass_variant6();  // 0x10056930
     static char ** __cdecl GetRuntimeClass_variant7();  // 0x10056950
@@ -21,9 +25,18 @@ public:
     static char ** __cdecl GetRuntimeClass_variant9();  // 0x10056990
     static char ** __cdecl GetRuntimeClass_variant10();  // 0x100569B0
     static char ** __cdecl GetRuntimeClass_variant11();  // 0x10057080
+    static void * __thiscall InitVariant12(void * self);  // 0x10070F40
+    static void __thiscall InitAndRegister(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x10070F90
     static char ** __cdecl GetRuntimeClass_variant12();  // 0x10074730
     _DWORD * ScalarDeletingDtor(char a2);  // 0x10074770
+    static void __thiscall DestroyChain(void * self);  // 0x10074890
     static undefined4 __thiscall ResetFields(void * self);  // 0x100748F0
+    static undefined4 * __thiscall Clone(void * self, uint32_t param_1);  // 0x10074920
+    static void __thiscall Release(void * self);  // 0x10074AB0
+    static void __cdecl Dispatch(int * param_1);  // 0x10075000
+    int DrawQuadStates(float *a2, char arg4);  // 0x10076030
+    int DrawQuadDynVB(float *a2, float *a3, char a4);  // 0x10076520
+    static void __thiscall SetRect30(void * self, undefined4 * param_1);  // 0x10076750
     static char ** __cdecl GetRuntimeClass_variant13();  // 0x10081710
     static char ** __cdecl GetRuntimeClass_variant14();  // 0x10081730
     static char ** __cdecl GetRuntimeClass_variant15();  // 0x10081750

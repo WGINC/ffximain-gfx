@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10083340  (unit unit_10083300: no unit evidence of its own; in the gap between 0x100832E0 (CXiSkeletonActor) and 0x10083390 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10083340(void * self_)
+XI_API uint32_t __thiscall Unit10083300_GetModelFlag130Bit21(void * self_)
 {
   if (*(int *)((int)self_ + 0x70) != 0) {
     return *(uint32_t *)(*(int *)((int)self_ + 0x70) + 0x130) >> 0x15 & 1;

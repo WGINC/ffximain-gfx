@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10053890  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 62 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10053890(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Generator_ClearSubobjectOrSetFlag(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   int *this_00;
   uint32_t uVar1;
@@ -64,9 +64,9 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_Stop(undefine
         lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)*(float *)(g_pResourceMng + 0xeb0) + (long double)1.0f);
         *(short *)((int)this_00 + 0xd6) = (short)lVar6;
         *(undefined4 *)((int)this_00 + 0xcc) = 0;
-        uVar4 = orig::FUN_10053370(this_00);
+        uVar4 = orig::CMoTask_Restart_v1(this_00);
         uVar5 = orig::FUN_100496f0(this_00,*(int *)((int)self_ + 0xb0),uVar4);
-        orig::FUN_10053890(this_00,0,uVar5);
+        orig::Generator_ClearSubobjectOrSetFlag_v1(this_00,0,uVar5);
         *(uint16_t *)((int)this_00 + 0xd6) = uVar1;
         local_1 = 1;
       }
@@ -84,20 +84,20 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_Stop(undefine
 
 // FUNCTION: FFXIMAIN 0x100539E0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100539E0(void * self_)
+XI_API undefined4 __thiscall Generator_IsFlag400OrField22Zero(void * self_)
 {
   int iVar1;
   
   if ((*(uint32_t *)((int)self_ + 0xd8) & 0x400) != 0) {
     return ((uint32_t)(((uint32_t)((int32_t)(*(uint32_t *)((int)self_ + 0xd8) >> 8)) << 8) | (uint8_t)(1)));
   }
-  iVar1 = orig::FUN_100493b0(self_);
+  iVar1 = orig::Unit10048000_GetShort22ViaPtrE4(self_);
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 == 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10053A00  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 83 returned normally, 254 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10053A00(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 * param_4)
+XI_API undefined4 __thiscall Unit10053860_StopGenerators(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 * param_4)
 {
   uint16_t uVar1;
   uint16_t uVar2;
@@ -130,7 +130,7 @@ XI_API undefined4 __thiscall fn_10053A00(void * self_, int param_1, int param_2,
   if (param_1 == 0) {
 LAB_10053b91:
     do {
-      orig::FUN_10074310(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
+      orig::ResourceIter_Start(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
       do {
         do {
           do {
@@ -153,7 +153,7 @@ LAB_10053b91:
           orig::MoRes_FreeIfUnreferenced_v1(*(int **)((int)pvVar4 + 0x14));
           goto LAB_10053b91;
         }
-        orig::FUN_10053890(pvVar4,0,pvVar5);
+        orig::Generator_ClearSubobjectOrSetFlag_v1(pvVar4,0,pvVar5);
         bVar7 = NAN((long double)*(float *)((int)pvVar4 + 0xd0)) || NAN((long double)0.0f);
       } while (((bVar7 != (bVar7 || (long double)*(float *)((int)pvVar4 + 0xd0) == (long double)0.0f)) ||
                (!((long double)*(float *)((int)pvVar4 + 0xd0) > (long double)*(float *)((int)pvVar4 + 200))))
@@ -187,7 +187,7 @@ LAB_10053b50:
         this_00 = (int *)this_00[0xb];
       }
       else {
-        orig::FUN_10053890(self_,0,uVar6);
+        orig::Generator_ClearSubobjectOrSetFlag_v1(self_,0,uVar6);
         fVar9 = (long double)*(float *)((int)self_ + 0xd0);
         fVar3 = (long double)*(float *)((int)self_ + 200);
         uVar1 = (uint16_t)(!(fVar9 >= fVar3));
@@ -216,7 +216,7 @@ LAB_10053b50:
     }
     uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar5 >> 8)) << 8) | (uint8_t)((char)param_3)));
     if ((char)param_3 != '\0') {
-      uVar6 = orig::FUN_10053890(pvVar4,0,uVar6);
+      uVar6 = orig::Generator_ClearSubobjectOrSetFlag_v1(pvVar4,0,uVar6);
       fVar9 = (long double)*(float *)((int)pvVar4 + 0xd0);
       fVar3 = (long double)0.0f;
       bVar7 = NAN(fVar9) || NAN(fVar3);
@@ -245,7 +245,7 @@ LAB_10053b75:
 
 // FUNCTION: FFXIMAIN 0x10053C80  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10053C80(void * self_, int param_1, float * param_2)
+XI_API undefined4 __thiscall YmGenerater_UpdateAttach(void * self_, int param_1, float * param_2)
 {
   uint32_t *puVar1;
   uint64_t uVar2;
@@ -332,7 +332,7 @@ XI_API undefined4 __thiscall fn_10053C80(void * self_, int param_1, float * para
 
 // FUNCTION: FFXIMAIN 0x10053DD0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10053DD0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_UpdateAttachIfPresent(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   uint32_t *puVar1;
   
@@ -340,7 +340,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10053DD0(undefined4 xi
     puVar1 = orig::FUN_100492b0(self_,0x11);
     xi_eax = 0;
     if (puVar1 != (uint32_t *)0x0) {
-      xi_eax = orig::FUN_10053c80(self_,(int)puVar1,(float *)param_2);
+      xi_eax = orig::YmGenerater_UpdateAttach(self_,(int)puVar1,(float *)param_2);
     }
   }
   return xi_eax;

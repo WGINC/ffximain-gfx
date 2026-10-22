@@ -105,7 +105,7 @@ XI_API int * __cdecl sqgxFBMask(int a1, int a2, int a3, int a4)
 
 // FUNCTION: FFXIMAIN 0x10282590  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10282590(void)
+XI_API void __cdecl SqgxContext_ResetHandles(void)
 {
   int iVar1;
   int iVar2;
@@ -137,7 +137,7 @@ XI_API void __cdecl fn_10282630(void)
 
 // FUNCTION: FFXIMAIN 0x10282640  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 248 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282640(void)
+XI_API int __cdecl Unit102822A0_SetSelectArg1(void)
 {
   int result;
   unsigned int v1;
@@ -179,7 +179,7 @@ XI_API int __cdecl sqgxBlendAdd(void)
 
 // FUNCTION: FFXIMAIN 0x102827D0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_102827D0(void)
+XI_API int __cdecl Unit102822A0_SetMultiplyAdd(void)
 {
   unsigned int v0;
   v0 = g_pSqgxContext[710];
@@ -332,7 +332,7 @@ XI_API int __cdecl sqgxBlendAddDestAlpha(void)
 
 // FUNCTION: FFXIMAIN 0x10282ED0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 586 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10282ED0(void)
+XI_API int __cdecl Unit102822A0_SetModulateAlphaAdd(void)
 {
   unsigned int v0;
   v0 = g_pSqgxContext[710];
@@ -413,7 +413,7 @@ XI_API int __cdecl sqgxBlendOff(void)
 
 // FUNCTION: FFXIMAIN 0x10283240  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283240(void)
+XI_API void __cdecl SqgxContext_NoOpA(void)
 {
   return;
 }
@@ -428,7 +428,7 @@ XI_API void __cdecl ___setargv_9(void)
 
 // FUNCTION: FFXIMAIN 0x10283260  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283260(undefined4 param_1, undefined4 param_2)
+XI_API void __cdecl SqgxContext_SetCurrentIndex(undefined4 param_1, undefined4 param_2)
 {
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x78c) = param_1;
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x790) = param_2;
@@ -437,7 +437,7 @@ XI_API void __cdecl fn_10283260(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10283280  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283280(undefined4 * param_1)
+XI_API void __cdecl SqgxContext_StoreEntryVec(undefined4 * param_1)
 {
   *(uint32_t *)
    (g_pSqgxContext_as_s32 + 0x794 +
@@ -476,7 +476,7 @@ XI_API void __cdecl sqgxAmbient(float param_1)
 
 // FUNCTION: FFXIMAIN 0x102833A0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102833A0(float param_1)
+XI_API void __cdecl SqgxContext_SetFloat76C(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x76c) = (float)(long double)param_1;
   dword_109A2720_as_v0 = 1;
@@ -485,10 +485,10 @@ XI_API void __cdecl fn_102833A0(float param_1)
 
 // FUNCTION: FFXIMAIN 0x102833C0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102833C0(undefined4 param_1, float param_2, undefined4 param_3)
+XI_API void __cdecl SqgxContext_SetDword774AndFactor(undefined4 param_1, float param_2, undefined4 param_3)
 {
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x774) = param_3;
-  orig::FUN_10283f20(param_2);
+  orig::SqgxContext_SetInverseFactor(param_2);
   dword_109A2720_as_v0 = 1;
   return;
 }
@@ -618,7 +618,7 @@ XI_API void __cdecl sqgxPixelSize(float param_1, float param_2)
 
 // FUNCTION: FFXIMAIN 0x10283970  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283970(undefined4 * param_1)
+XI_API void __cdecl SqgxContext_SetViewportVec4(undefined4 * param_1)
 {
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9ac) = *param_1;
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x9b0) = param_1[1];
@@ -666,7 +666,7 @@ XI_API void __cdecl sqgxMatrixCamera(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10283DA0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283DA0(undefined4 * param_1)
+XI_API void __cdecl SqgxContext_SetTransposedMatrix(undefined4 * param_1)
 {
   orig::M4fTranspose_v1((uint32_t *)
                ((*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 0x40 +
@@ -677,7 +677,7 @@ XI_API void __cdecl fn_10283DA0(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10283DE0  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283DE0(float param_1)
+XI_API void __cdecl SqgxContext_SetFloat72C(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x72c + *(int *)(g_pSqgxContext_as_s32 + 0x78c) * 4) =
        (float)(long double)param_1;
@@ -695,7 +695,7 @@ XI_API void __cdecl sqgxMatrixShape(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10283F20  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283F20(float param_1)
+XI_API void __cdecl SqgxContext_SetInverseFactor(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x14) = (float)((long double)1.0f - (long double)param_1);
   g_sqgxViewportDirty_as_v0 = 1;
@@ -733,7 +733,7 @@ XI_API int * __cdecl sqgxPass(int a1)
 
 // FUNCTION: FFXIMAIN 0x10284000  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10284000(float * param_1, float param_2)
+XI_API undefined4 __cdecl SqgxContext_TestClipBounds(float * param_1, float param_2)
 {
   long double fVar1;
   long double fVar2;
@@ -762,7 +762,7 @@ XI_API undefined4 __cdecl fn_10284000(float * param_1, float param_2)
   local_88 = param_2;
   local_84 = param_2;
   local_98 = (float)-(long double)local_98;
-  orig::FUN_1027ef80(&local_b4,local_80,&local_8c);
+  orig::Unit1027E120_TransformVec3(&local_b4,local_80,&local_8c);
   bVar3 = NAN((long double)local_b4) || NAN((long double)0.0);
   if ((bVar3 || (long double)local_b4 < (long double)0.0) != bVar3) {
     local_b4 = (float)-(long double)local_b4;

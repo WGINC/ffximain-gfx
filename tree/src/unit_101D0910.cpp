@@ -49,7 +49,7 @@ XI_API void __thiscall fn_101D0970(void * self_, uint32_t param_1, uint32_t para
 
 // FUNCTION: FFXIMAIN 0x101D09C0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D09C0(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit101D0910_PutByte(void * self_, undefined4 param_1)
 {
   if (*(int *)((int)self_ + 0xc) < *(int *)((int)self_ + 0x10)) {
     *(uint8_t *)(*(int *)((int)self_ + 0xc) + *(int *)((int)self_ + 8)) = (uint8_t)param_1;
@@ -81,19 +81,19 @@ XI_API void __thiscall fn_101D09E0(void * self_, int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x101D0A20  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0A20(void * self_, uint32_t param_1)
+XI_API void __thiscall Unit101D0910_PutWordBE(void * self_, uint32_t param_1)
 {
-  orig::FUN_101d09c0(self_,(int)param_1 >> 8);
-  orig::FUN_101d09c0(self_,param_1 & 0xff);
+  orig::Unit101D0910_PutByte(self_,(int)param_1 >> 8);
+  orig::Unit101D0910_PutByte(self_,param_1 & 0xff);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x101D0A40  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0A40(void * self_, undefined4 xi_s1)
+XI_API void __thiscall Unit101D0910_PutFFThenByte(void * self_, undefined4 xi_s1)
 {
-  orig::FUN_101d09c0(self_,0xff);
-  orig::FUN_101d09c0(self_,xi_s1 & 0xff);
+  orig::Unit101D0910_PutByte(self_,0xff);
+  orig::Unit101D0910_PutByte(self_,xi_s1 & 0xff);
   return;
 }
 
@@ -133,7 +133,7 @@ XI_API undefined4 __cdecl fn_101D0AB0(void)
   
   piVar1 = (int *)0x0;
   if ((DAT_104dfd98 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
-    piVar1 = (int *)orig::FUN_10160700(&g_menuMng_as_v0,g_pSceneState_as_v0);
+    piVar1 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar1 != '\0') && (piVar1 = *(int **)(DAT_10663888 + 8), piVar1 == (int *)0x0)) {
       DAT_10663178_as_v0 = 2;
       uVar2 = orig::FUN_10037fb0();
@@ -166,7 +166,7 @@ XI_API int * __cdecl CopyrightText_Draw(void)
   
   piVar3 = (int *)0x0;
   if ((DAT_104dfd98 != 0) && (piVar3 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
-    piVar3 = (int *)orig::FUN_10160700(&g_menuMng_as_v0,g_pSceneState_as_v0);
+    piVar3 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar3 != '\0') &&
        ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178 != 0)))) {
       iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
@@ -187,7 +187,7 @@ XI_API int * __cdecl CopyrightText_Draw(void)
       sVar1 = (short)g_screenRectBottomRight_as_v0;
       fVar12 = local_8;
       fVar13 = local_c;
-      pcVar5 = orig::FUN_101d0c40();
+      pcVar5 = orig::CopyrightText_Format();
       lVar9 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)sVar7 - (long double)local_c * (long double)3e+01f);
       uVar6 = (uint32_t)lVar9;
       lVar9 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)(short)(sVar1 - sVar2) - (long double)local_8 * (long double)16.0f);
@@ -200,9 +200,9 @@ XI_API int * __cdecl CopyrightText_Draw(void)
 
 // FUNCTION: FFXIMAIN 0x101D0C40  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_101D0C40(void)
+XI_API uint8_t * __cdecl CopyrightText_Format(void)
 {
-  orig::FUN_101c8d70();
+  orig::Unit101C72E0_GetOffset();
   orig::_sprintf(&DAT_10663078,s__c_SQUARE_ENIX_1037e88c,0x83);
   return(uint8_t*)(&DAT_10663078);
 }
@@ -222,10 +222,10 @@ XI_API undefined4 __cdecl fn_101D1060(void * param_1, uint32_t param_2, uint32_t
   pvVar1 = (LPVOID)uVar5;
   uVar3 = 0;
   if (pvVar1 != (LPVOID)0x0) {
-    orig::FUN_101cb770(pvVar1,param_2,param_3);
-    iVar2 = orig::FUN_101d0600(param_1,param_2,param_3,(int)pvVar1,0x5a);
+    orig::Unit101C72E0_BeginCapture(pvVar1,param_2,param_3);
+    iVar2 = orig::YkJpeg_EncodeChecked(param_1,param_2,param_3,(int)pvVar1,0x5a);
     bVar4 = iVar2 == 0;
-    uVar5 = orig::operator_delete_10311BB0_v1(pvVar1);
+    uVar5 = orig::operator_delete_v1(pvVar1);
     uVar3 = (uint32_t)uVar5;
   }
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(bVar4)));
@@ -377,7 +377,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664520 = (void *)0x0;
     }
     else {
-      DAT_10664520 = orig::FUN_10210da0((void *)uVar3,(undefined4 *)s_menu_comyn_1037e8e0,1);
+      DAT_10664520 = orig::Unit101D7020_Init((void *)uVar3,(undefined4 *)s_menu_comyn_1037e8e0,1);
     }
   }
   if (DAT_10664524 == (void *)0x0) {
@@ -387,8 +387,8 @@ XI_API void __cdecl YkInit(void)
     }
     else {
       uVar4 = 0;
-      puVar1 = (undefined4 *)orig::FUN_1025b5a0(2);
-      DAT_10664524 = orig::FUN_10210da0((void *)uVar3,puVar1,uVar4);
+      puVar1 = (undefined4 *)orig::Scene_GetMenuFrameName(2);
+      DAT_10664524 = orig::Unit101D7020_Init((void *)uVar3,puVar1,uVar4);
     }
   }
   if (DAT_10664404 == (undefined4 *)0x0) {
@@ -450,7 +450,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663480 = (void *)0x0;
     }
     else {
-      DAT_10663480 = orig::FUN_101dce20((void *)uVar3);
+      DAT_10663480 = orig::Yk_CreateSecondaryObjects((void *)uVar3);
     }
   }
   if (DAT_106636ac == (void *)0x0) {
@@ -468,7 +468,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663400 = (void *)0x0;
     }
     else {
-      DAT_10663400 = orig::FUN_101d9b10((void *)uVar3);
+      DAT_10663400 = orig::Yk_CreateCommonObjects((void *)uVar3);
     }
   }
   if (DAT_10664444 == (void *)0x0) {
@@ -495,7 +495,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066349c = (void *)0x0;
     }
     else {
-      DAT_1066349c = orig::FUN_101df210((void *)uVar3);
+      DAT_1066349c = orig::YkWndList_Init((void *)uVar3);
     }
   }
   if (DAT_1066442c == (void *)0x0) {
@@ -714,23 +714,23 @@ XI_API void __cdecl YkInit(void)
       DAT_10663180 = (void *)0x0;
     }
     else {
-      DAT_10663180 = orig::FUN_101c8260((void *)uVar3);
+      DAT_10663180 = orig::Unit101C72E0_Init((void *)uVar3);
     }
   }
-  orig::FUN_101c8290(DAT_10663180,10);
-  iVar2 = orig::FUN_1025b560(0x21);
-  orig::FUN_101c8380(DAT_10663180,iVar2);
+  orig::Unit101C72E0_ResizeEntries(DAT_10663180,10);
+  iVar2 = orig::Scene_GetTableValue_v1(0x21);
+  orig::Unit101C72E0_LoadTable(DAT_10663180,iVar2);
   if (DAT_10663184 == (void *)0x0) {
     uVar3 = orig::Allocator_Generic_v1(0x68);
     if ((void *)uVar3 == (void *)0x0) {
       DAT_10663184 = (void *)0x0;
     }
     else {
-      DAT_10663184 = orig::FUN_101c8260((void *)uVar3);
+      DAT_10663184 = orig::Unit101C72E0_Init((void *)uVar3);
     }
   }
-  orig::FUN_101c8290(DAT_10663184,0x10);
-  orig::FUN_101c8380(DAT_10663184,0xd8b1);
+  orig::Unit101C72E0_ResizeEntries(DAT_10663184,0x10);
+  orig::Unit101C72E0_LoadTable(DAT_10663184,0xd8b1);
   if (DAT_106634bc == (undefined4 *)0x0) {
     uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
@@ -765,7 +765,7 @@ XI_API void __cdecl YkInit(void)
 
 // FUNCTION: FFXIMAIN 0x101D29C0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101D29C0(uint32_t param_1, uint32_t param_2)
+XI_API undefined4 __cdecl Unit101D0910_TestMask10663188(uint32_t param_1, uint32_t param_2)
 {
   uint32_t uVar1;
   

@@ -22,7 +22,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
     v5[5] = a3;
     v5[6] = a2;
     v5[7] = orig::Gfx_CalcFVFStride(a3);
-    v6 = (const void *)orig::sub_1006B1D0((char *)g_pVbPool, (int)v5);
+    v6 = (const void *)orig::Unit1006B0C0_FindMatch((char *)g_pVbPool, (int)v5);
     if ( v6 != nullptr )
     {
       qmemcpy(v5, v6, 0x20u);
@@ -57,7 +57,7 @@ XI_API void __thiscall fn_10043F00(void * self_)
   iVar3 = 2;
   do {
     if (*piVar2 != 0) {
-      uVar1 = orig::FUN_1006b120(g_pVbPool_as_v0,piVar2);
+      uVar1 = orig::Unit1006B0C0_Insert(g_pVbPool_as_v0,piVar2);
       if ((char)uVar1 == '\0') {
         ((int (__stdcall *)(XI_ANY))((**(code **)(*(int *)*piVar2 + 8))))((int *)*piVar2);
       }
@@ -287,6 +287,29 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x10044540  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __stdcall fn_10044540(void)
+{
+  if (g_pDynVB_FVF42_as_v0 != (void *)0x0) {
+    orig::FUN_10043dd0(g_pDynVB_FVF42_as_v0);
+  }
+  if (g_pDynVB_FVF44_as_v0 != (void *)0x0) {
+    orig::FUN_10043dd0(g_pDynVB_FVF44_as_v0);
+  }
+  if (g_pDynVB_FVF144_as_v0 != (void *)0x0) {
+    orig::FUN_10043dd0(g_pDynVB_FVF144_as_v0);
+  }
+  if (g_pDynVB_FVF142_as_v0 != (void *)0x0) {
+    orig::FUN_10043dd0(g_pDynVB_FVF142_as_v0);
+  }
+  if (g_pDynVB_FVF152_as_v0 != (void *)0x0) {
+    orig::FUN_10043dd0(g_pDynVB_FVF152_as_v0);
+    return;
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100446A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_100446A0(int param_1)
@@ -306,13 +329,13 @@ XI_API void __cdecl fn_100446A0(int param_1)
     if (pvVar1 != (void *)0x0) {
 LAB_100446e6:
       do {
-        orig::FUN_10074310(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
+        orig::ResourceIter_Start(local_1c,g_pMeshResourceMng_as_v0,5,0,0xffffffff);
         do {
           do {
             self_ = (void *)orig::ResourceIter_FindNext_v1(local_1c,0);
             if (self_ == (void *)0x0) {
               orig::YmGenerater_Stop_v2(pvVar1,(uint32_t *)0x0);
-              orig::FUN_10053890_v1(pvVar1,1);
+              orig::Generator_ClearSubobjectOrSetFlag_v2(pvVar1,1);
               pvVar1 = (void *)orig::ResourceIter_FindNext_v1(local_38,0);
               if (pvVar1 == (void *)0x0) goto LAB_10044784;
               goto LAB_100446e6;
@@ -352,6 +375,6 @@ LAB_100447a1:
   }
   return;
 LAB_100447ce:
-  orig::FUN_10074ab0(pvVar1);
+  orig::CMoTask_Release(pvVar1);
   goto LAB_100447a1;
 }

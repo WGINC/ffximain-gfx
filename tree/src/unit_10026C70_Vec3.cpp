@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10026E00  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10026E00(undefined4 * param_1)
+XI_API void __cdecl Vec3_SetZero(undefined4 * param_1)
 {
   param_1[2] = 0;
   param_1[1] = 0;
@@ -36,7 +36,7 @@ XI_API void __cdecl Vec4_Set(float * param_1, float param_2, float param_3, floa
 
 // FUNCTION: FFXIMAIN 0x10026E50  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10026E50(float * param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl Vec3_Set(float * param_1, float param_2, float param_3, float param_4)
 {
   *param_1 = (float)(long double)param_2;
   param_1[1] = param_3;
@@ -104,7 +104,7 @@ XI_API void __cdecl Vec2_Add(float * param_1, float * param_2, float * param_3)
 
 // FUNCTION: FFXIMAIN 0x100270A0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100270A0(float * param_1, float * param_2)
+XI_API undefined4 __cdecl Vec3_SubInPlace(float * param_1, float * param_2)
 {
   *param_1 = (float)((long double)*param_1 - (long double)*param_2);
   param_1[1] = (float)((long double)param_1[1] - (long double)param_2[1]);
@@ -124,7 +124,7 @@ XI_API undefined4 __cdecl Vec3_Sub(float * param_1, float * param_2, float * par
 
 // FUNCTION: FFXIMAIN 0x100272B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100272B0(float * param_1, float param_2)
+XI_API void __cdecl Vec3_ScaleInPlace(float * param_1, float param_2)
 {
   *param_1 = (float)((long double)param_2 * (long double)*param_1);
   param_1[1] = (float)((long double)param_2 * (long double)param_1[1]);
@@ -154,7 +154,7 @@ XI_API void __cdecl Vec3_MulInPlace(float * param_1, float * param_2)
 
 // FUNCTION: FFXIMAIN 0x10027340  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10027340(float * param_1, float * param_2, float * param_3)
+XI_API undefined4 __cdecl Vec3_MulComponents(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*param_3);
   param_1[1] = (float)((long double)param_2[1] * (long double)param_3[1]);
@@ -175,7 +175,7 @@ XI_API void __cdecl fn_10027510(float * param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x10027550  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10027550(undefined4 * param_1, float * param_2, float * param_3)
+XI_API undefined4 __cdecl Vec3_Cross(undefined4 * param_1, float * param_2, float * param_3)
 {
   uint32_t uVar1;
   char xi_frame[12] __attribute__((aligned(4)));
@@ -203,6 +203,30 @@ XI_API long double __cdecl fn_10027620(undefined4 param_1, undefined4 param_2)
   return fVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x100276F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2)
+{
+  alignas(16) unsigned char xi_frame[0x4C4];  // address-taken locals at their original offsets
+  float (&v2)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0x4);
+  _BYTE (&v3)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x44);
+  _BYTE (&v4)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x84);
+
+  orig::fn_10027990((Iostream_init *)v2);
+  orig::fn_10027990((Iostream_init *)v4);
+  orig::fn_10027990((Iostream_init *)v3);
+  orig::CDx_GetTransformCached(g_pCDx, 256, v2);
+  orig::CDx_GetTransformCached(g_pCDx, 2, v4);
+  orig::CDx_GetTransformCached(g_pCDx, 3, v3);
+  orig::Mat4_PostMultiply((int)v2, (int)v4);
+  orig::Mat4_PostMultiply((int)v2, (int)v3);
+  orig::Vec4_Copy(a1, a2);
+  orig::Mat4_TransformCoordInPlace(v2, a1);
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+}
+
 // FUNCTION: FFXIMAIN 0x100277E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
@@ -218,8 +242,8 @@ XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2)
   orig::Mat4_PostMultiply((int)v2, (int)v3);
   orig::Vec4_Copy(a1, a2);
   orig::Mat4_TransformVec4InPlace(v2, a1);
-  orig::nullsub_1();
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
 }
 
 // FUNCTION: FFXIMAIN 0x10027870  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
@@ -231,7 +255,7 @@ XI_API void __cdecl Gfx_ProjectViewToClip(float *a1, _DWORD *a2)
   orig::CDx_GetTransformCached(g_pCDx, 3, v2);
   orig::Vec4_Copy(a1, a2);
   orig::Mat4_TransformCoordInPlace(v2, a1);
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
 }
 
 // FUNCTION: FFXIMAIN 0x100278E0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
@@ -268,14 +292,14 @@ XI_API float * __cdecl Gfx_ScreenDeltaToNdc(float *a1, float *a2)
 
 // FUNCTION: FFXIMAIN 0x10027990  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10027990(void * self_)
+XI_API undefined4 __thiscall Unit10026C70_ReturnThis(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100279A0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100279A0(void)
+XI_API void __cdecl Unit10026C70_Nop(void)
 {
   return;
 }
@@ -490,13 +514,13 @@ XI_API undefined4 __thiscall Mat4_TransformVec4InPlace(void * self_, undefined4 
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   
   orig::Vec4_Copy_v1(local_10,param_1);
-  uVar1 = orig::FUN_10028170(self_,(float *)param_1,local_10);
+  uVar1 = orig::Mat4_TransformVec4(self_,(float *)param_1,local_10);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10028170  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10028170(void * self_, float * param_1, float * param_2)
+XI_API undefined4 __thiscall Mat4_TransformVec4(void * self_, float * param_1, float * param_2)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*(float *)self_ +
                     (long double)*(float *)((int)self_ + 0x20) * (long double)param_2[2] +
@@ -526,13 +550,13 @@ XI_API undefined4 __thiscall Mat4_TransformPointInPlace(void * self_, float * pa
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   
   orig::Vec3_Copy_v1(local_c,param_1);
-  uVar1 = orig::FUN_10028230(self_,param_1,local_c);
+  uVar1 = orig::Mat4_TransformPoint(self_,param_1,local_c);
   return (int)uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10028230  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10028230(void * self_, float * param_1, float * param_2)
+XI_API uint64_t __thiscall Mat4_TransformPoint(void * self_, float * param_1, float * param_2)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*(float *)self_ +
                      (long double)*(float *)((int)self_ + 0x10) * (long double)param_2[1] +
@@ -724,14 +748,14 @@ XI_API void __cdecl fn_10028720(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10028730  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10028730(int param_1)
+XI_API int __cdecl Mem_GetPtrMinus0x20(int param_1)
 {
   return param_1 + -0x20;
 }
 
 // FUNCTION: FFXIMAIN 0x10028850  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl fn_10028850(int param_1, int param_2, int param_3)
+XI_API uint64_t __cdecl MemBlock_AllocFromFront(int param_1, int param_2, int param_3)
 {
   int iVar1;
   uint32_t uVar2;
@@ -789,7 +813,7 @@ XI_API uint64_t __cdecl fn_10028850(int param_1, int param_2, int param_3)
 
 // FUNCTION: FFXIMAIN 0x10028930  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl fn_10028930(int param_1, undefined4 param_2, void * param_3)
+XI_API uint64_t __cdecl MemBlock_AllocFromBack(int param_1, undefined4 param_2, void * param_3)
 {
   uint32_t uVar1;
   int iVar2;

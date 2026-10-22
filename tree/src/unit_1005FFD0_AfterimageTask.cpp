@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10062770  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10062770(void * self_)
+XI_API uint64_t __thiscall AfterimageTask_FindFirstKind(void * self_)
 {
   char cVar1;
   void *this_00;
@@ -64,7 +64,7 @@ XI_API uint64_t __thiscall fn_100627D0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10062830  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 97 returned normally, 126 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10062830(void * self_, int param_1)
+XI_API void __thiscall AfterimageTask_SetCaster(void * self_, int param_1)
 {
   void *this_00;
   uint64_t uVar1;
@@ -86,7 +86,7 @@ XI_API void __thiscall fn_10062830(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10062880  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 97 returned normally, 126 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10062880(void * self_, int param_1)
+XI_API void __thiscall AfterimageTask_SetTarget(void * self_, int param_1)
 {
   void *this_00;
   uint64_t uVar1;
@@ -108,7 +108,7 @@ XI_API void __thiscall fn_10062880(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10062E20  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl fn_10062E20(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+XI_API uint64_t __cdecl AfterimageTask_Execute(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   uint8_t *pbVar1;
   int *piVar2;
@@ -130,7 +130,7 @@ XI_API uint64_t __cdecl fn_10062E20(undefined4 * param_1, undefined4 param_2, un
 
 // FUNCTION: FFXIMAIN 0x10062E80  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl fn_10062E80(undefined4 param_1, undefined4 param_2, int param_3, int param_4)
+XI_API uint64_t __cdecl AfterimageTask_Kill(undefined4 param_1, undefined4 param_2, int param_3, int param_4)
 {
   uint32_t *puVar1;
   uint64_t uVar2;

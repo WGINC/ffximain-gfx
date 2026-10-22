@@ -13,7 +13,7 @@ XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
   DAT_10463909 = 1;
   if (DAT_104638f5 != '\0') {
     if (DAT_1046393c != 0) {
-      orig::FUN_10246000(param_1,*(uint32_t *)((int)self_ + 0x38));
+      orig::LobbyThread_SendCmd0(param_1,*(uint32_t *)((int)self_ + 0x38));
     }
     iVar1 = *(int *)((int)self_ + 0x38);
     if ((iVar1 == 0x8bf) || (iVar1 == 0x80f)) {
@@ -48,7 +48,7 @@ XI_API void __thiscall fn_10037020(void * self_, undefined4 * param_1, undefined
   
   uVar1 = orig::Mem_AllocWithFallback_v1(0x2ed,3);
   if ((void *)uVar1 != (void *)0x0) {
-    xi_eax = orig::FUN_100369f0((void *)uVar1);
+    xi_eax = orig::CYySoundElem_Constructor((void *)uVar1);
     if (xi_eax != 0) {
       orig::CMoResource_AddRefChain_v1(self_,xi_eax);
       *(uint32_t *)(xi_eax + 0x104) = *(uint32_t *)((int)self_ + 0x14);

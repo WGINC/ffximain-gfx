@@ -2,6 +2,7 @@
 #pragma once
 class CAcc;
 class CApp;
+class CAtelIdleTask;
 class CDx;
 class CEnv;
 class CMoActorColorDriveTask;
@@ -121,10 +122,12 @@ class CXiActorNameDraw;
 class CXiAtelActor;
 class CXiCollisionActor;
 class CXiControlActor;
+class CXiDancerActor;
 class CXiMovie;
 class CXiOpening;
 class CXiSkeletonActor;
 class CXiSkeletonActorRes;
+class CXiTimerLow;
 class CYyCamMng2;
 class CYyIcon;
 class CYyModel;
@@ -133,7 +136,10 @@ class CYyModelDt;
 class CYyModelDt_VT_1032A430;
 class CYyModelDt_VT_1032A72C;
 class CYyMotionQue;
+class CYyObject;
 class CYyOs2VtxBuffer;
+class CYySkl;
+class CYySoundElem;
 class CYyTex;
 class CYyTexBase;
 class CYyTexMng;
@@ -142,7 +148,15 @@ class CYyVbMng;
 class Obj_104E1B90;
 class Obj_104E1BF8;
 class Obj_10621944;
+class XiFurnitureActor;
+class XiModelActor;
 class XiZone;
+class YkJpeg;
+class YkJpgBit;
+class YkMyroom;
+class YkZip;
+class YmCombineWeather;
+struct CMoProcessor_recon;
 struct CMoTask_VT_1032B890;
 struct CMoTask_VT_1032B8BC;
 struct CMoTask_VT_1032B914;
@@ -458,15 +472,6 @@ struct tm
 };
 #pragma pack(pop)
 
-/* 237 */
-#pragma pack(push, 1)
-/// recon: tree/include/CYyObject.hpp, sizeof 0x4 from the binary's descriptor
-struct CYyObject
-{
-  void **vftable;
-};
-#pragma pack(pop)
-
 /* 632 */
 struct CMoTask_vtbl
 {
@@ -582,16 +587,6 @@ struct CMoOcclusionMng_vtbl
   void *vf5_CApp_vf005;
   int *(__thiscall *vf6_CMoOcclusionMng_ScalarDeletingDtor)(CMoOcclusionMng *C, char);
 };
-
-/* 309 */
-#pragma pack(push, 1)
-/// recon: tree/include/CMoProcessor.hpp, sizeof 0x10 from the binary's descriptor
-struct CMoProcessor_recon
-{
-  CYyObject base;
-  unsigned __int8 _pad_4[12];
-};
-#pragma pack(pop)
 
 /* 607 */
 struct CMoResourceMng_vtbl

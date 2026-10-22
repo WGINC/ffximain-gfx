@@ -15,15 +15,3 @@ XI_API undefined4 __thiscall fn_10052D30(void * self_)
 {
   return self_;
 }
-
-// FUNCTION: FFXIMAIN 0x10052D40  (unit unit_10052D20: no unit evidence of its own; in the gap between 0x10052CD0 (CMoVuAnmElem) and 0x10052D60 (CMoDist) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052D40(void * self_)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoDist_GetRuntimeClass_variant0_1032b298;
-  *(uint16_t *)((int)self_ + 0x176) = 0x198;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
-}

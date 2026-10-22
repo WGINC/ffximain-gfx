@@ -162,7 +162,7 @@ XI_API void __cdecl fn_102A2720(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x102A2A30  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2A30(int param_1, int param_2)
+XI_API void __cdecl Sqgx_SetTextureAt(int param_1, int param_2)
 {
   orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x40) + 0xc + param_2 * 0x30));
   return;
@@ -170,7 +170,7 @@ XI_API void __cdecl fn_102A2A30(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x102A2A50  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2A50(undefined4 param_1, int param_2, int param_3)
+XI_API void __cdecl Sqgx_CheckShadowGroupMember(undefined4 param_1, int param_2, int param_3)
 {
   int iVar1;
   int *piVar2;
@@ -199,10 +199,10 @@ XI_API void __cdecl fn_102A2C00(int param_1, int * param_2, int param_3, int par
   iVar1 = *(int *)(param_1 + 0x40);
   orig::sqsnScene_1028F5F0_v1(param_1,*(int *)(iVar1 + param_3 * 0x30),1);
   if (param_4 == 1) {
-    orig::FUN_102a2a50(param_1,param_3,(int)param_2);
+    orig::Sqgx_CheckShadowGroupMember(param_1,param_3,(int)param_2);
   }
   else if (param_4 == 0) {
-    orig::FUN_102a2a30(param_1,param_3);
+    orig::Sqgx_SetTextureAt(param_1,param_3);
   }
   orig::sqgxBlendZeroSrcAlpha();
   orig::sqgxPassAdd_v1(0x14);

@@ -2,37 +2,9 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1003C6E0  (unit unit_1003C6E0: no unit evidence of its own; in the gap between 0x1003C6D0 (CMoAttachments) and 0x1003C880 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003C6E0(void * self_)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::FUN_1003b6d0(self_);
-  if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b6d0(self_);
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 1000))))((void *)((int *)uVar1),self_);
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1003C700  (unit unit_1003C6E0: no unit evidence of its own; in the gap between 0x1003C6D0 (CMoAttachments) and 0x1003C880 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003C700(void * self_)
-{
-  uint64_t uVar1;
-  
-  uVar1 = orig::FUN_1003b700(self_);
-  if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b700(self_);
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 0x3ec))))((void *)((int *)uVar1),self_);
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1003C740  (unit unit_1003C6E0: no unit evidence of its own; in the gap between 0x1003C6D0 (CMoAttachments) and 0x1003C880 (CMoCamera) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003C740(void * self_, int param_1)
+XI_API void __thiscall Unit1003C6E0_CopyFields(void * self_, int param_1)
 {
   uint32_t uVar1;
   
@@ -66,13 +38,13 @@ XI_API long double __attribute__((stdcall, regparm(3))) fn_1003C7D0(undefined4 x
   long double fVar6;
   
   bVar4 = 0;
-  if (((*param_2 & 2) == 0) && (iVar1 = orig::FUN_1003b8b0(self_), iVar1 != 0)) {
-    piVar2 = (int *)orig::FUN_1003b8b0(self_);
+  if (((*param_2 & 2) == 0) && (iVar1 = orig::CMoAttachments_FindKindInChain(self_), iVar1 != 0)) {
+    piVar2 = (int *)orig::CMoAttachments_FindKindInChain(self_);
     uVar3 = ((int (__thiscall *)(void *))((**(code **)(*piVar2 + 0x304))))((void *)(piVar2));
     bVar4 = (uint8_t)uVar3;
   }
-  if (((*param_2 & 4) == 0) && (iVar1 = orig::FUN_1003b900(self_), iVar1 != 0)) {
-    piVar2 = (int *)orig::FUN_1003b900(self_);
+  if (((*param_2 & 4) == 0) && (iVar1 = orig::CMoAttachments_FindKindFromRoot(self_), iVar1 != 0)) {
+    piVar2 = (int *)orig::CMoAttachments_FindKindFromRoot(self_);
     uVar3 = ((int (__thiscall *)(void *))((**(code **)(*piVar2 + 0x304))))((void *)(piVar2));
     bVar4 = bVar4 | (uint8_t)uVar3;
   }

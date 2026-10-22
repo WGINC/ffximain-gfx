@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100552F0  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100552F0(void * self_)
+XI_API void __thiscall Unit100552F0_ClearLink(void * self_)
 {
   *(uint32_t *)((int)self_ + 4) = 0;
   return;
@@ -12,7 +12,7 @@ XI_API void __thiscall fn_100552F0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10055300  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10055300(void * self_, int param_1, float param_2, float param_3)
+XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_2, float param_3)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -48,7 +48,7 @@ XI_API void __thiscall fn_10055300(void * self_, int param_1, float param_2, flo
 
 // FUNCTION: FFXIMAIN 0x10055520  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 292 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10055520(void * self_)
+XI_API void __thiscall Unit100552F0_Free(void * self_)
 {
   int iVar1;
   int iVar2;

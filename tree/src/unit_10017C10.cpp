@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10017C20  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10017C20(void * self_, undefined4 param_1, undefined4 param_2, short * param_3)
+XI_API void __thiscall Unit10017C10_Step(void * self_, undefined4 param_1, undefined4 param_2, short * param_3)
 {
   uint32_t uVar1;
   
@@ -18,7 +18,7 @@ XI_API void __thiscall fn_10017C20(void * self_, undefined4 param_1, undefined4 
 
 // FUNCTION: FFXIMAIN 0x10017C60  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 98 returned normally, 253 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10017C60(int *self_, int a2, int a3, int a4)
+XI_API int __thiscall Unit10017C10_Begin(int *self_, int a2, int a3, int a4)
 {
   unsigned __int16 ViewportHeight;
   int v6;
@@ -47,7 +47,7 @@ XI_API int __thiscall fn_10017C60(int *self_, int a2, int a3, int a4)
          *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)),
          0,
          &v8) >= 0 )
-    orig::sub_10017C20((int)self_, v8, v10, (int)v9);
+    orig::Unit10017C10_Step((int)self_, v8, v10, (int)v9);
   if ( v8 != nullptr )
   {
     (*(void (__stdcall **)(_DWORD *))(*v8 + 8))(v8);
@@ -172,7 +172,7 @@ XI_API void * __thiscall fn_10018550(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100185A0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100185A0(void * self_, undefined4 param_1, uint32_t param_2)
+XI_API void __thiscall Unit10017C10_LoadChecksum(void * self_, undefined4 param_1, uint32_t param_2)
 {
   uint32_t uVar1;
   LPVOID pvVar2;
@@ -187,11 +187,11 @@ XI_API void __thiscall fn_100185A0(void * self_, undefined4 param_1, uint32_t pa
     uVar6 = orig::Allocator_Generic_v1(uVar1);
     pvVar2 = (LPVOID)uVar6;
     if (pvVar2 != (LPVOID)0x0) {
-      iVar3 = orig::FUN_101be470((void *)((int)self_ + 4),&param_1,iVar3,0);
+      iVar3 = orig::File_FindByKind((void *)((int)self_ + 4),&param_1,iVar3,0);
       if (0 < iVar3) {
-        iVar3 = orig::FUN_101be590(param_1,(int)pvVar2,uVar1);
+        iVar3 = orig::File_WriteChunked(param_1,(int)pvVar2,uVar1);
         if (iVar3 < 0) {
-          orig::operator_delete_10311BB0_v1(pvVar2);
+          orig::operator_delete_v1(pvVar2);
           orig::FUN_101be500(param_1);
           return;
         }
@@ -210,7 +210,7 @@ XI_API void __thiscall fn_100185A0(void * self_, undefined4 param_1, uint32_t pa
           uVar4 = uVar4 + 1;
         } while (iVar3 < (int)uVar1);
       }
-      orig::operator_delete_10311BB0_v1(pvVar2);
+      orig::operator_delete_v1(pvVar2);
       *(int *)((int)self_ + 8) = iVar5;
     }
   }

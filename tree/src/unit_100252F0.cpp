@@ -39,12 +39,12 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_COLOROP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ALPHAOP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, g_projTexFactor);
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     return 1;
   }
   else
   {
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     return 0;
   }
 }
@@ -235,7 +235,7 @@ XI_API void __cdecl fn_10025BE0(void)
 
 // FUNCTION: FFXIMAIN 0x10025BF0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10025BF0(void * self_)
+XI_API void __thiscall Unit100252F0_ClearCounter(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032a480;
   dword_10456E88_as_v0 = 0;
@@ -287,12 +287,12 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_COLOROP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 2u, D3DTSS_ALPHAOP, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_TEXTUREFACTOR, g_envMapFactor);
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     return 1;
   }
   else
   {
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     return 0;
   }
 }
@@ -368,4 +368,123 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
     result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x100263F0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
+{
+  alignas(16) unsigned char xi_frame[0x588];  // address-taken locals at their original offsets
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x90);
+  int &v1 = *reinterpret_cast<int *>(xi_frame + 0x9C);
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0xA0);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0xA4);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0xA8);
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0xAC);
+  float (&v6)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0xB0);
+  _DWORD (&v7)[3] = *reinterpret_cast<_DWORD (*)[3]>(xi_frame + 0xBC);
+  float (&v8)[16] = *reinterpret_cast<float (*)[16]>(xi_frame + 0xC8);
+  _DWORD (&v9)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x108);
+  _BYTE (&v10)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x148);
+
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
+  orig::fn_10027990((Iostream_init *)v9);
+  orig::fn_10027990((Iostream_init *)v10);
+  orig::fn_10027990((Iostream_init *)v8);
+  v7[0] = 1065353216;
+  v7[1] = 1065353216;
+  v7[2] = 1065353216;
+  orig::CDx_GetTransformCached(g_pCDx, 256, v10);
+  orig::CDx_GetTransformCached(g_pCDx, 2, v8);
+  orig::Mat4_InvertOrthonormal((int *)v8);
+  v6[0] = 0.0;
+  v6[1] = 0.0;
+  v6[2] = -4.0;
+  orig::Mat4_TransformPointInPlace(v8, v6);
+  orig::Mat4_SetScale(v9, v7);
+  orig::Mat4_SetTranslation(v9, v6);
+  orig::CDx_SetTransform(g_pCDx, 256, v9);
+  memset(a3, 0, sizeof(a3));
+  v2 = 1065353216;
+  v3 = 0;
+  v4 = 0;
+  v1 = -2139095040;
+  v5 = -2139095040;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  v2 = 0;
+  v1 = -2147450880;
+  v5 = -2147450880;
+  v3 = 1065353216;
+  v4 = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  v2 = 0;
+  v1 = -2147483520;
+  v5 = -2147483520;
+  v3 = 0;
+  v4 = 1065353216;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  orig::CDx_SetTransform(g_pCDx, 256, v10);
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+}
+
+// FUNCTION: FFXIMAIN 0x100266C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __stdcall Dbg_DrawAxesAt(int a1)
+{
+  alignas(16) unsigned char xi_frame[0x4F8];  // address-taken locals at their original offsets
+  int (&a3)[3] = *reinterpret_cast<int (*)[3]>(xi_frame + 0x18);
+  int &v2 = *reinterpret_cast<int *>(xi_frame + 0x24);
+  int &v3 = *reinterpret_cast<int *>(xi_frame + 0x28);
+  int &v4 = *reinterpret_cast<int *>(xi_frame + 0x2C);
+  int &v5 = *reinterpret_cast<int *>(xi_frame + 0x30);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x34);
+  _DWORD (&v7)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0x38);
+  _BYTE (&v8)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x78);
+  _BYTE (&v9)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0xB8);
+
+  orig::fn_10027990((Iostream_init *)v7);
+  orig::fn_10027990((Iostream_init *)v8);
+  orig::fn_10027990((Iostream_init *)v9);
+  orig::CDx_GetTransformCached(g_pCDx, 256, v8);
+  orig::Mat4_SetIdentity(v7);
+  orig::Mat4_SetTranslation(v7, (_DWORD *)a1);
+  orig::CDx_SetTransform(g_pCDx, 256, v7);
+  memset(a3, 0, sizeof(a3));
+  v2 = -2139095040;
+  v6 = -2139095040;
+  v3 = 1065353216;
+  v4 = 0;
+  v5 = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  v3 = 0;
+  v2 = -2147450880;
+  v6 = -2147450880;
+  v4 = 1065353216;
+  v5 = 0;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  v3 = 0;
+  v2 = -2147483520;
+  v6 = -2147483520;
+  v4 = 0;
+  v5 = 1065353216;
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+  orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 1, (int)a3, 16);
+  orig::CDx_SetTransform(g_pCDx, 256, v8);
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
 }

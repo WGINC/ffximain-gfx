@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10081A30  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 96 returned normally, 194 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10081A30(void)
+XI_API void __cdecl Unit10081A30_ReleaseQueued(void)
 {
   int *self_;
   uint64_t uVar1;

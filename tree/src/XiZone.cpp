@@ -3,6 +3,18 @@
 #include "XiZone.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100BA080  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl XiZone::RestoreSavedFields()
+{
+  if (DAT_10488978 != 0) {
+    *(uint32_t *)(g_pXiZone_as_s32 + 0x138) = DAT_104882b0;
+    *(uint32_t *)(g_pXiZone_as_s32 + 0x13c) = DAT_104897ec;
+  }
+  DAT_10488978 = 0;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10177CD0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int XiZone::DrawMarkerForward(float *a2, int a3, float a4)
@@ -652,47 +664,47 @@ int __cdecl XiZone::FindSubArea(int param_1)
   int iVar1;
   int iVar2;
   
-  for (iVar1 = orig::FUN_10188900();
+  for (iVar1 = orig::ZoneMap_GetCurrent();
       (iVar2 = g_pXiZone_as_s32, iVar1 != 0 && (iVar2 = iVar1, *(int *)(iVar1 + 8) != param_1));
       iVar1 = *(int *)(iVar1 + 4)) {
   }
   return iVar2;
 }
 
-// FUNCTION: FFXIMAIN 0x101889E0  (unit XiZone: between 0x101889C0 (name XiZone_FindSubArea) and 0x10188B70 (name XiZone_GetDirLights), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x101889E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101889E0(void * self_)
+void __thiscall XiZone::UpdateTree(void * self)
 {
   void *this_00;
   
-  if (*(void **)((int)self_ + 4) != (void *)0x0) {
-    orig::FUN_101889e0_v1(*(void **)((int)self_ + 4));
+  if (*(void **)((int)self + 4) != (void *)0x0) {
+    orig::FUN_101889e0(*(void **)((int)self + 4));
   }
-  for (this_00 = *(void **)((int)self_ + 0x10); this_00 != (void *)0x0;
+  for (this_00 = *(void **)((int)self + 0x10); this_00 != (void *)0x0;
       this_00 = *(void **)((int)this_00 + 8)) {
-    orig::FUN_1018a320(this_00);
+    orig::Env_UpdateTimeKeys(this_00);
   }
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10188A10  (unit XiZone: between 0x101889C0 (name XiZone_FindSubArea) and 0x10188B70 (name XiZone_GetDirLights), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10188A10  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10188A10(void * self_)
+void __thiscall XiZone::DestroyChildList(void * self)
 {
   void *pvVar1;
   void *this_00;
   
-  if (*(void **)((int)self_ + 4) != (void *)0x0) {
-    orig::FUN_10188a10_v1(*(void **)((int)self_ + 4));
+  if (*(void **)((int)self + 4) != (void *)0x0) {
+    orig::FUN_10188a10(*(void **)((int)self + 4));
   }
-  this_00 = *(void **)((int)self_ + 0x10);
+  this_00 = *(void **)((int)self + 0x10);
   while (this_00 != (void *)0x0) {
     pvVar1 = *(void **)((int)this_00 + 8);
-    orig::FUN_1018abf0(this_00);
+    orig::YmCombineWeather_Release(this_00);
     orig::thunk_sub_10028AA0_v1((int)this_00);
     this_00 = pvVar1;
   }
-  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self + 0x10) = 0;
   return;
 }
 
@@ -740,27 +752,27 @@ XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
   return iVar2 / *(int *)((int)self_ + 0x13c);
 }
 
-// FUNCTION: FFXIMAIN 0x10188B10  (unit XiZone: between 0x101889C0 (name XiZone_FindSubArea) and 0x10188B70 (name XiZone_GetDirLights), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10188B10  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10188B10(void * self_)
+uint32_t __thiscall XiZone::TestHeadFlag(void * self)
 {
   uint8_t *pbVar1;
   void *pvVar2;
   
   if ((*(int *)(g_pXiZone_as_s32 + 0x1b4) != 0xb6) && (*(int *)(g_pXiZone_as_s32 + 0x1b4) != 0x84)) {
-    if (*(uint8_t **)((int)self_ + 0x18) != (uint8_t *)0x0) {
-      return (uint8_t)~**(uint8_t **)((int)self_ + 0x18) & 1;
+    if (*(uint8_t **)((int)self + 0x18) != (uint8_t *)0x0) {
+      return (uint8_t)~**(uint8_t **)((int)self + 0x18) & 1;
     }
     return 0;
   }
-  pbVar1 = *(uint8_t **)((int)self_ + 0x18);
+  pbVar1 = *(uint8_t **)((int)self + 0x18);
   pvVar2 = (void *)0x0;
   if (pbVar1 != (uint8_t *)0x0) {
     if ((*pbVar1 & 1) == 0) {
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pbVar1 >> 8)) << 8) | (uint8_t)(1)));
     }
     pvVar2 = *(void **)(g_pXiZone_as_s32 + 0x1c4);
-    if ((pvVar2 != (void *)0x0) && (self_ == pvVar2)) {
+    if ((pvVar2 != (void *)0x0) && (self == pvVar2)) {
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
@@ -777,7 +789,7 @@ void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefine
   uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   
-  fVar1 = orig::FUN_10186fd0(self);
+  fVar1 = orig::ZoneMap_GetFloatRef18Plus44(self);
   orig::Vec3_Scale_v1(&local_10,(float *)((int)self + 0xe4),(float)fVar1);
   param_1[1] = local_10;
   *param_1 = 3;
@@ -802,7 +814,7 @@ void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefine
   param_1[0x15] = 0x3f800000;
   param_1[0x14] = 0x3f800000;
   param_1[0x13] = 0x3f800000;
-  fVar1 = orig::FUN_10186fd0(self);
+  fVar1 = orig::ZoneMap_GetFloatRef18Plus44(self);
   orig::Vec3_Scale_v1(&local_10,(float *)((int)self + 0xf4),(float)fVar1);
   param_2[1] = local_10;
   *param_2 = 3;
@@ -853,7 +865,7 @@ void * __thiscall XiZone::Constructor(void * self)
 {
   uint32_t xi_eax;
   
-  orig::FUN_10187380(self);
+  orig::ZoneMap_SetVtableApplyRecord(self);
   xi_eax = orig::unknown_libname_158((void *)((int)self + 0x1c8));
   *(uint8_t ***)self = &PTR_LAB_10336838;
   DAT_1065cb08 = 0;
@@ -921,50 +933,50 @@ void * __thiscall XiZone::Constructor(void * self)
   DAT_1065caba = 0x80;
   DAT_1065cabb = 0x80;
   _DAT_1065cabc = 0;
-  orig::FUN_101880c0(self,&DAT_1065ca58_as_v0);
-  orig::FUN_1018bae0(self,0);
+  orig::ZoneMap_SetRecord(self,&DAT_1065ca58_as_v0);
+  orig::XiZone_SetPtr1D8FromTable(self,0);
   return self;
 }
 
-// FUNCTION: FFXIMAIN 0x1018B5E0  (unit XiZone: between 0x1018B360 (name XiZone_OnMessage) and 0x1018B860 (name XiZone_DrawScene), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1018B5E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018B5E0(void * self_, int param_1)
+void __thiscall XiZone::SetTreeState1BC(void * self, int param_1)
 {
   uint32_t xi_eax;
   int xi_eax_00;
   
-  xi_eax_00 = *(int *)((int)self_ + 0x1bc);
+  xi_eax_00 = *(int *)((int)self + 0x1bc);
   if (xi_eax_00 != param_1) {
-    *(int *)((int)self_ + 0x1bc) = param_1;
+    *(int *)((int)self + 0x1bc) = param_1;
     do {
-      xi_eax = orig::FUN_101889e0(self_,xi_eax_00);
+      xi_eax = orig::XiZone_UpdateTree(self,xi_eax_00);
       if (param_1 == 0) {
-        xi_eax_00 = orig::FUN_101875e0(self_,xi_eax);
+        xi_eax_00 = orig::FUN_101875e0(self,xi_eax);
       }
       else {
-        xi_eax_00 = orig::FUN_101875c0(self_,xi_eax);
+        xi_eax_00 = orig::FUN_101875c0(self,xi_eax);
       }
-      self_ = *(void **)((int)self_ + 4);
-    } while (self_ != (void *)0x0);
+      self = *(void **)((int)self + 4);
+    } while (self != (void *)0x0);
   }
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1018B620  (unit XiZone: between 0x1018B360 (name XiZone_OnMessage) and 0x1018B860 (name XiZone_DrawScene), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1018B620  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018B620(void * self_)
+void __thiscall XiZone::ResetState(void * self)
 {
   int iVar1;
   uint32_t xi_eax;
   
-  orig::FUN_10081a30();
-  orig::FUN_10187030(self_);
-  orig::FUN_10186db0(g_pZoneMap);
-  xi_eax = orig::FUN_10188a10(self_);
-  orig::FUN_1018bc40((void *)((int)self_ + 0x1c8),-1,xi_eax);
-  *(uint16_t *)((int)self_ + 0x1cc) = 0;
-  orig::FUN_10178f70(g_pZoneMap);
-  *(uint32_t *)((int)self_ + 0x1ac) = 0;
+  orig::Unit10081A30_ReleaseQueued();
+  orig::ZoneMap_ReleaseChain(self);
+  orig::ZoneMap_ClearSlots(g_pZoneMap);
+  xi_eax = orig::XiZone_DestroyChildList(self);
+  orig::FUN_1018bc40((void *)((int)self + 0x1c8),-1,xi_eax);
+  *(uint16_t *)((int)self + 0x1cc) = 0;
+  orig::ZoneMap_Reset(g_pZoneMap);
+  *(uint32_t *)((int)self + 0x1ac) = 0;
   iVar1 = g_pCamera_as_s32;
   if (g_pCamera_as_s32 != 0) {
     *(uint32_t *)(g_pCamera_as_s32 + 0x330) = 0x3f800000;
@@ -983,7 +995,7 @@ void __thiscall XiZone::DrawScene(void * self)
   int *piVar1;
   
   if (g_pXiZone_as_s32 != 0) {
-    orig::FUN_101874a0(self);
+    orig::ZoneMap_Update(self);
     if (*(int *)((int)self + 0x18) != 0) {
       orig::Sky_DrawDomeViewCentered();
     }
@@ -1003,13 +1015,13 @@ void __thiscall XiZone::DrawScene(void * self)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall fn_1018B8B0(int param_1)
 {
-  orig::FUN_10036170(param_1);
+  orig::Unit10035B00_SetCurrent10463914(param_1);
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1018B8F0  (unit XiZone: between 0x1018B860 (name XiZone_DrawScene) and 0x1018B9A0 (name XiZone_GetDirLight), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1018B8F0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_1018B8F0(void * self_, undefined4 param_2)
+long double __thiscall XiZone::ComputeFogDistance(void * self, undefined4 param_2)
 {
   uint8_t bVar1;
   long double fVar2;
@@ -1017,35 +1029,35 @@ XI_API long double __thiscall fn_1018B8F0(void * self_, undefined4 param_2)
   undefined4 local_4;
   
   local_4 = 1e+02f;
-  fVar2 = orig::FUN_101892b0(self_,param_2);
-  if (*(int *)((int)self_ + 0x1c) != 0) {
-    fVar3 = orig::FUN_10187020(self_);
+  fVar2 = orig::FUN_101892b0(self,param_2);
+  if (*(int *)((int)self + 0x1c) != 0) {
+    fVar3 = orig::ZoneMap_GetFloatRef1CPlus0C(self);
     local_4 = (float)fVar3;
   }
   fVar2 = (long double)(float)fVar2 * (long double)local_4;
-  if (!((long double)*(float *)((int)self_ + 0x1d0) > (long double)0.0f)) {
+  if (!((long double)*(float *)((int)self + 0x1d0) > (long double)0.0f)) {
     fVar2 = (long double)local_4;
   }
   else {
-    bVar1 = NAN(fVar2) || NAN((long double)*(float *)((int)self_ + 0x1d0));
-    if ((bVar1 || fVar2 < (long double)*(float *)((int)self_ + 0x1d0)) != bVar1) {
-      return (long double)*(float *)((int)self_ + 0x1d0);
+    bVar1 = NAN(fVar2) || NAN((long double)*(float *)((int)self + 0x1d0));
+    if ((bVar1 || fVar2 < (long double)*(float *)((int)self + 0x1d0)) != bVar1) {
+      return (long double)*(float *)((int)self + 0x1d0);
     }
   }
   return fVar2;
 }
 
-// FUNCTION: FFXIMAIN 0x1018B960  (unit XiZone: between 0x1018B860 (name XiZone_DrawScene) and 0x1018B9A0 (name XiZone_GetDirLight), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1018B960  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018B960(void * self_, undefined4 param_1, undefined4 param_2, int param_3)
+void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 param_1, undefined4 param_2, int param_3)
 {
   void *this_00;
   
-  this_00 = self_;
+  this_00 = self;
   if (param_3 != 0) {
     this_00 = (void *)orig::FUN_101889c0(param_3);
     if (this_00 == (void *)0x0) {
-      this_00 = self_;
+      this_00 = self;
     }
   }
   orig::XiZone_GetDirLights_v1(this_00,param_1,param_2);
@@ -1065,7 +1077,7 @@ void __thiscall XiZone::GetDirLight(void * self, undefined4 param_1, undefined4 
       this_00 = self;
     }
   }
-  orig::FUN_10188ca0(this_00,param_1,param_2);
+  orig::ZoneMap_FillDirLight_v1(this_00,param_1,param_2);
   return;
 }
 
@@ -1100,5 +1112,17 @@ void __thiscall XiZone::GetFog(void * self, undefined4 param_1, undefined4 param
     }
   }
   orig::FUN_10189120(this_00,param_1,param_2,param_3,param_4);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x1018BAE0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall XiZone::SetPtr1D8FromTable(void * self, uint32_t param_1)
+{
+  if (1 < param_1) {
+    *(uint8_t **)((int)self + 0x1d8) = PTR_DAT_10377c58;
+    return;
+  }
+  *(uint8_t **)((int)self + 0x1d8) = (&PTR_DAT_10377c58)[param_1];
   return;
 }

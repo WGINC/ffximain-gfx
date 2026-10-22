@@ -26,6 +26,6 @@ int CYyModelDt_VT_1032A430::ScalarDeletingDtor_2(int a1)
   Vt_1032A460 * self = reinterpret_cast<Vt_1032A460 *>(this);  // byte-exact view for the rest
   orig::ProjTex_Destructor((int *)self);
   if ( (a1 & 1) != 0 )
-    orig::operator_delete_10311BB0(self);
+    orig::operator_delete(self);
   return (int)self;
 }

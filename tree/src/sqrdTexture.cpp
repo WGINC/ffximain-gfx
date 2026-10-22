@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x10298B30  (unit sqrdTexture: asserts sqrdTexture.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10298B30(void)
+XI_API undefined4 * __cdecl SqrdTexture_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0x24,s_C__dev_dancer_modules_sqRend_src_103bbde4,0x22);
-  orig::FUN_10298b90(puVar1);
+  orig::SqrdTexture_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10298B90  (unit sqrdTexture: between 0x10298B60 (asserts sqrdTexture.c) and 0x10298C10 (name sqrdTexturePrint), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10298B90(undefined4 * param_1)
+XI_API void __cdecl SqrdTexture_Init(undefined4 * param_1)
 {
   param_1[5] = 0xffffffff;
   param_1[6] = 0xffffffff;

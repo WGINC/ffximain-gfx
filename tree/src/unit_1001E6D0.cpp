@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001E760  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1001E760(void * self_, undefined4 * param_1)
+XI_API undefined4 __thiscall Camera_SetPosition(void * self_, undefined4 * param_1)
 {
   uint32_t uVar1;
   
@@ -14,7 +14,7 @@ XI_API undefined4 __thiscall fn_1001E760(void * self_, undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1001E780  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1001E780(void * self_, float * param_1)
+XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param_1)
 {
   uint16_t uVar1;
   long double fVar2;
@@ -119,7 +119,7 @@ XI_API undefined4 __thiscall fn_10021AE0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10021B70  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10021B70(void * self_)
+XI_API int __thiscall Camera_SnapshotState(void * self_)
 {
   orig::FUN_10021c10(self_);
   orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x60),(uint32_t *)((int)self_ + 0x44));
@@ -150,7 +150,7 @@ XI_API int __thiscall fn_10021C10(void * self_)
   orig::Vec3_Copy_v1(local_90,(float *)((int)self_ + 0x50));
   pfVar1 = (float *)((int)self_ + 0x44);
   orig::Vec3_Sub_v1(&local_c0,(float *)((int)self_ + 0x50),pfVar1);
-  orig::FUN_10027990(local_80);
+  orig::Unit10026C70_ReturnThis(local_80);
   orig::Mat4_SetIdentity_v1(local_80);
   fVar4 = xi_castbits<long double>(fpatan(-(long double)local_c0,-(long double)local_b8));
   local_a8 = *(float *)((int)self_ + 0x5c);
@@ -173,13 +173,13 @@ XI_API int __thiscall fn_10021C10(void * self_)
   if ((char)uVar2 != '\0') {
     orig::Mat4_Copy_v1((void *)((int)self_ + 4),local_40);
   }
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
   return (int)self_ + 4;
 }
 
 // FUNCTION: FFXIMAIN 0x100220E0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100220E0(void * self_)
+XI_API void __thiscall Actor_ClearIndexTable(void * self_)
 {
   *(uint8_t *)self_ = 0xff;
   *(uint8_t *)((int)self_ + 1) = 0xff;
@@ -219,7 +219,7 @@ XI_API long double __thiscall Actor_GetPercentScaleByIndex(void * self_, int no)
 
 // FUNCTION: FFXIMAIN 0x10022170  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10022170(int param_1)
+XI_API undefined4 __cdecl Actor_MapPercentScaleIndex(int param_1)
 {
   uint32_t uVar1;
   
@@ -239,7 +239,7 @@ XI_API long double __thiscall Actor_LookupPercentScaleA(void * self_, int param_
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10022170(param_2);
+  iVar1 = orig::Actor_MapPercentScaleIndex(param_2);
   if (iVar1 < 0) {
     return (long double)1.0f;
   }
@@ -256,7 +256,7 @@ XI_API long double __thiscall Actor_LookupPercentScaleB(void * self_, int param_
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10022170(param_2);
+  iVar1 = orig::Actor_MapPercentScaleIndex(param_2);
   if (iVar1 < 0) {
     return (long double)1.0f;
   }
@@ -273,7 +273,7 @@ XI_API void * __thiscall Actor_InitIndexTable(void * self_)
 {
   uint8_t *puVar1;
   
-  orig::FUN_100220e0(self_);
+  orig::Actor_ClearIndexTable(self_);
   *(uint8_t *)((int)self_ + 0x10) = 0xff;
   *(uint8_t *)((int)self_ + 0x11) = 0xff;
   *(uint8_t *)((int)self_ + 0x12) = 0xff;

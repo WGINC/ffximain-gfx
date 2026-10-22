@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102A1FA0  (unit unit_102A1F20: no unit evidence of its own; in the gap between 0x102A1EC0 (sqsdShader) and 0x102A2000 (sqshDispList) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102A1FA0(int param_1)
+XI_API undefined4 __cdecl Unit102A1F20_TestSeparationHalf(int param_1)
 {
   uint32_t uVar1;
   long double fVar2;
@@ -18,7 +18,7 @@ XI_API undefined4 __cdecl fn_102A1FA0(int param_1)
   local_14 = (float)((long double)*(float *)(param_1 + 0x18) - (long double)*(float *)(param_1 + 0x24));
   local_10 = (float)((long double)*(float *)(param_1 + 0x1c) - (long double)*(float *)(param_1 + 0x28));
   fVar2 = orig::FUN_102746c0(&local_18);
-  orig::FUN_1028dbb0((float *)(param_1 + 0x14),local_c);
-  uVar1 = orig::FUN_10284000(local_c,(float)(fVar2 * (long double)0.5f));
+  orig::Unit1028D970_GetCenter((float *)(param_1 + 0x14),local_c);
+  uVar1 = orig::SqgxContext_TestClipBounds(local_c,(float)(fVar2 * (long double)0.5f));
   return uVar1;
 }

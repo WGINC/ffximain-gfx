@@ -3,8 +3,8 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10003890  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API void __thiscall fn_10003890(_DWORD *self_)
+// NOT VERIFIED -- INCONCLUSIVE
+XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
 {
   int v2;
   int v3;
@@ -71,14 +71,14 @@ XI_API void __thiscall fn_10003890(_DWORD *self_)
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 1u);
   orig::CDx_SetTransform(g_pCDx, 256, v11);
-  orig::nullsub_1();
-  orig::nullsub_1();
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
+  orig::Unit10026C70_Nop();
 }
 
 // FUNCTION: FFXIMAIN 0x10005600  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10005600(void * self_, undefined4 param_1)
+XI_API void __thiscall Input_SetFlagToggle(void * self_, undefined4 param_1)
 {
   char cVar1;
   
@@ -106,7 +106,7 @@ XI_API void __thiscall fn_10005600(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10005660  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10005660(void * self_)
+XI_API void * __thiscall Input_InitState(void * self_)
 {
   int iVar1;
   uint32_t *puVar2;
@@ -152,7 +152,7 @@ XI_API void * __thiscall fn_10005660(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100059C0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100059C0(uint32_t param_1)
+XI_API undefined4 __cdecl Input_MapAxisLow(uint32_t param_1)
 {
   uint16_t uVar1;
   
@@ -170,7 +170,7 @@ XI_API undefined4 __cdecl fn_100059C0(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10005A00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10005A00(uint32_t param_1)
+XI_API undefined4 __cdecl Input_MapAxisHigh(uint32_t param_1)
 {
   uint16_t uVar1;
   
@@ -188,7 +188,7 @@ XI_API undefined4 __cdecl fn_10005A00(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10007830  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10007830(char * param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 param_2, undefined4 param_3)
 {
   char cVar1;
   uint32_t xi_entry_eax = 0;
@@ -214,7 +214,7 @@ XI_API undefined4 __cdecl fn_10007830(char * param_1, undefined4 param_2, undefi
 
 // FUNCTION: FFXIMAIN 0x10007860  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10007860(uint32_t param_1, undefined4 xi_s2)
+XI_API void __stdcall Input_HandleChar(uint32_t param_1, undefined4 xi_s2)
 {
   uint8_t bVar1;
   int iVar2;
@@ -230,7 +230,7 @@ XI_API void __stdcall fn_10007860(uint32_t param_1, undefined4 xi_s2)
   char xi_frame[256] __attribute__((aligned(4)));
   uint32_t  (&local_100)[64] = *reinterpret_cast<uint32_t  (*)[64]>(xi_frame + 0);
   
-  orig::FUN_101b36f0(DAT_10662d40,param_1);
+  orig::Unit1018BA60_OnChar(DAT_10662d40,param_1);
   if (DAT_10578490 == 0) {
     return;
   }
@@ -537,10 +537,10 @@ XI_API undefined4 __thiscall DirectInput_InstallJoystick(void * self_)
   uint32_t  (&auStack_38)[14] = *reinterpret_cast<uint32_t  (*)[14]>(xi_frame + 185);
   
   if (DAT_10455c38 != '\0') {
-    uVar2 = orig::FUN_10008d90(self_);
+    uVar2 = orig::XInput_ProbeDll(self_);
     *(char *)((int)self_ + 0xc9a) = (char)uVar2;
     if ((char)uVar2 == '\0') goto LAB_10008752;
-    orig::FUN_10008e10(self_);
+    orig::XInput_LoadFunctions(self_);
   }
   DAT_10455c28 = 0;
   *(uint32_t *)((int)self_ + 0x90) = 0;
@@ -581,13 +581,13 @@ LAB_10008440:
     auStack_64[2] = 0x140;
     iVar4 = (**(code **)(**(int **)((int)self_ + 0x90) + 0x18))();
     if (iVar4 < 0) {
-      uVar3 = orig::FUN_10008770(self_,iVar4);
+      uVar3 = orig::DirectInput_ReleaseDevice(self_,iVar4);
       return uVar3;
     }
     iVar4 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0x90) + 0x2c))
                       ))(*(int **)((int)self_ + 0x90),&DAT_1034a0fc);
     if (iVar4 < 0) {
-      uVar3 = orig::FUN_10008770(self_,iVar4);
+      uVar3 = orig::DirectInput_ReleaseDevice(self_,iVar4);
       return uVar3;
     }
     puStack_b0 = (uint8_t *)0x1000854b;
@@ -595,7 +595,7 @@ LAB_10008440:
                       ))(*(int **)((int)self_ + 0x90),*(uint32_t *)(g_pApp_as_s32 + 0x18),
                        (uint32_t)(DAT_10455c37 != '\0') * 4 + 4 | 1);
     if (iVar4 < 0) {
-      uVar3 = orig::FUN_10008770(self_,iVar4);
+      uVar3 = orig::DirectInput_ReleaseDevice(self_,iVar4);
       return uVar3;
     }
     puVar5 = auStack_64;
@@ -650,7 +650,7 @@ LAB_10008752:
 
 // FUNCTION: FFXIMAIN 0x10008770  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10008770(void * self_, int param_1)
+XI_API undefined4 __thiscall DirectInput_ReleaseDevice(void * self_, int param_1)
 {
   if (param_1 < 0) {
     if (DAT_10455c28_as_v0 != (int *)0x0) {
@@ -667,7 +667,7 @@ XI_API undefined4 __thiscall fn_10008770(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x100087D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 146 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_100087D0(int param_1, int param_2, undefined4 xi_s3)
+XI_API void __stdcall Input_SetActive(int param_1, int param_2, undefined4 xi_s3)
 {
   int *piVar1;
   uint8_t bVar2;
@@ -696,13 +696,13 @@ XI_API void __stdcall fn_100087D0(int param_1, int param_2, undefined4 xi_s3)
 
 // FUNCTION: FFXIMAIN 0x10008830  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10008830(void * self_, uint32_t param_1)
+XI_API undefined4 __thiscall Input_IsCursorActive(void * self_, uint32_t param_1)
 {
   int iVar1;
   uint32_t uVar2;
   
   if ((char)param_1 != '\0') {
-    uVar2 = orig::FUN_10124130(&DAT_104e1c40,param_1);
+    uVar2 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,param_1);
     return uVar2;
   }
   iVar1 = *(int *)((int)self_ + 0xc94);
@@ -714,7 +714,7 @@ XI_API undefined4 __thiscall fn_10008830(void * self_, uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x100088F0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100088F0(void * self_)
+XI_API void __thiscall Input_DispatchButtons(void * self_)
 {
   int iVar1;
   int *piVar2;
@@ -729,38 +729,38 @@ LAB_10008963:
         iVar1 = *piVar2;
         if (iVar1 == 0xc) {
           if (DAT_10455c3a == '\0') {
-            orig::FUN_101249e0(g_pCursor_as_v2);
+            orig::Cursor_ToggleFlag1(g_pCursor_as_v2);
           }
           else {
 LAB_100089a9:
-            orig::FUN_10124ab0(g_pCursor_as_v2);
+            orig::Cursor_ToggleFlag2(g_pCursor_as_v2);
           }
         }
         else if (iVar1 == 0xd) {
           if (DAT_10455c3a == '\0') goto LAB_100089a9;
-          orig::FUN_101249e0(g_pCursor_as_v2);
+          orig::Cursor_ToggleFlag1(g_pCursor_as_v2);
         }
         else if (iVar1 == 0xe) {
-          orig::FUN_10124b50(g_pCursor_as_v2);
+          orig::Cursor_ToggleFlag4(g_pCursor_as_v2);
         }
       }
       else {
         iVar1 = *piVar2;
         if (iVar1 == 0xc) {
           if (DAT_10455c3a == '\0') {
-            orig::FUN_10124930(g_pCursor_as_v2);
+            orig::Cursor_EnterMode1(g_pCursor_as_v2);
           }
           else {
 LAB_10008959:
-            orig::FUN_10124a00(g_pCursor_as_v2);
+            orig::Cursor_EnterMode2(g_pCursor_as_v2);
           }
         }
         else if (iVar1 == 0xd) {
           if (DAT_10455c3a == '\0') goto LAB_10008959;
-          orig::FUN_10124930(g_pCursor_as_v2);
+          orig::Cursor_EnterMode1(g_pCursor_as_v2);
         }
         else if (iVar1 == 0xe) {
-          orig::FUN_10124ad0(g_pCursor_as_v2);
+          orig::Cursor_EnterMode4(g_pCursor_as_v2);
         }
         if ((*(uint8_t *)(piVar2 + 1) & 0x80) == 0) goto LAB_10008963;
       }
@@ -773,7 +773,7 @@ LAB_10008959:
 
 // FUNCTION: FFXIMAIN 0x100089D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100089D0(void * self_)
+XI_API void __thiscall DirectInput_PollMouse(void * self_)
 {
   uint32_t *a4;
   int *a1;
@@ -824,7 +824,7 @@ XI_API void __thiscall fn_100089D0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10008D90  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10008D90(void * self_)
+XI_API undefined4 __thiscall XInput_ProbeDll(void * self_)
 {
   char *a1;
   char cVar1;
@@ -857,11 +857,11 @@ XI_API undefined4 __thiscall fn_10008D90(void * self_)
       cVar1 = *pcVar4;
       pcVar4 = pcVar6;
     } while (cVar1 != '\0');
-    *(uint32_t *)(pcVar6 + -1) = XI_PIECE(s_K___xinputdll_dll_1034fb65, 3, 4);
-    *(uint32_t *)(pcVar6 + 3) = XI_PIECE(s_K___xinputdll_dll_1034fb65, 7, 4);
-    *(uint32_t *)(pcVar6 + 7) = XI_PIECE(s_K___xinputdll_dll_1034fb65, 11, 4);
-    *(uint16_t *)(pcVar6 + 0xb) = XI_PIECE(s_K___xinputdll_dll_1034fb65, 15, 2);
-    pcVar6[0xd] = s_K___xinputdll_dll_1034fb65[0x11];
+    *(uint32_t *)(pcVar6 + -1) = XI_PIECE(g_1034FB65, 3, 4);
+    *(uint32_t *)(pcVar6 + 3) = XI_PIECE(g_1034FB65, 7, 4);
+    *(uint32_t *)(pcVar6 + 7) = XI_PIECE(g_1034FB65, 11, 4);
+    *(uint16_t *)(pcVar6 + 0xb) = XI_PIECE(g_1034FB65, 15, 2);
+    pcVar6[0xd] = g_1034FB65[0x11];
     iVar5 = LoadLibraryA(a1);
     uVar2 = 0;
     if (iVar5 != 0) {
@@ -874,7 +874,7 @@ XI_API undefined4 __thiscall fn_10008D90(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10008E10  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10008E10(void * self_)
+XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
 {
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;

@@ -4,22 +4,22 @@
 
 // FUNCTION: FFXIMAIN 0x100C51C0  (unit unit_100C51C0: no unit evidence of its own; in the gap between 0x100C51B0 (CXiSkeletonActorRes) and 0x100C52A0 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100C51C0(undefined4 param_1, int param_2)
+XI_API int __cdecl Unit100C51C0_MapCodeIndex(undefined4 param_1, int param_2)
 {
   int iVar1;
   
   switch(param_1) {
   case 1:
-    iVar1 = orig::FUN_100c5260(param_2);
+    iVar1 = orig::Unit100C51C0_AddOffset996B(param_2);
     return iVar1;
   case 2:
-    iVar1 = orig::thunk_FUN_101cce00(param_2);
+    iVar1 = orig::Unit100C51C0_ForwardToCce00(param_2);
     return iVar1;
   case 3:
-    iVar1 = orig::FUN_100c5280(param_2);
+    iVar1 = orig::Unit100C51C0_AddOffset1889B(param_2);
     return iVar1;
   case 4:
-    iVar1 = orig::FUN_100c5270(param_2);
+    iVar1 = orig::Unit100C51C0_AddOffset19131(param_2);
     return iVar1;
   }
   iVar1 = 0x514;
@@ -38,28 +38,28 @@ XI_API int __cdecl fn_100C51C0(undefined4 param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x100C5260  (unit unit_100C51C0: no unit evidence of its own; in the gap between 0x100C51B0 (CXiSkeletonActorRes) and 0x100C52A0 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100C5260(int param_1)
+XI_API int __cdecl Unit100C51C0_AddOffset996B(int param_1)
 {
   return param_1 + 0x996b;
 }
 
 // FUNCTION: FFXIMAIN 0x100C5270  (unit unit_100C51C0: no unit evidence of its own; in the gap between 0x100C51B0 (CXiSkeletonActorRes) and 0x100C52A0 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100C5270(int param_1)
+XI_API int __cdecl Unit100C51C0_AddOffset19131(int param_1)
 {
   return param_1 + 0x19131;
 }
 
 // FUNCTION: FFXIMAIN 0x100C5280  (unit unit_100C51C0: no unit evidence of its own; in the gap between 0x100C51B0 (CXiSkeletonActorRes) and 0x100C52A0 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100C5280(int param_1)
+XI_API int __cdecl Unit100C51C0_AddOffset1889B(int param_1)
 {
   return param_1 + 0x1889b;
 }
 
 // FUNCTION: FFXIMAIN 0x100C5290  (unit unit_100C51C0: no unit evidence of its own; in the gap between 0x100C51B0 (CXiSkeletonActorRes) and 0x100C52A0 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100C5290(int param_1)
+XI_API int __cdecl Unit100C51C0_ForwardToCce00(int param_1)
 {
-  return orig::FUN_101cce00(param_1);
+  return orig::Yk_MapCodeOffset(param_1);
 }

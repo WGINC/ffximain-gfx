@@ -159,11 +159,11 @@ XI_API int __thiscall YmElem_ForEachInstance(__int16 *self_, void (__cdecl *a2)(
         if ( *((int *)self_ + 5) < 0 )
         {
           v24 = orig::sub_1006BC80(v54);
-          v23 = (float *)orig::sub_10063B50((_DWORD *)(LODWORD(v37) + 48), v24 % LODWORD(v35));
+          v23 = (float *)orig::CMoSpline_GetWrapped((_DWORD *)(LODWORD(v37) + 48), v24 % LODWORD(v35));
         }
         else
         {
-          v23 = (float *)orig::sub_10063B50((_DWORD *)(LODWORD(v37) + 48), *((_DWORD *)self_ + 5));
+          v23 = (float *)orig::CMoSpline_GetWrapped((_DWORD *)(LODWORD(v37) + 48), *((_DWORD *)self_ + 5));
         }
         v29 = v29 + *v23;
         v30 = v30 + v23[1];

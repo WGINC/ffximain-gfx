@@ -220,7 +220,7 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
       *(_DWORD *)(g_pResourceMng + 3772),
       0,
       0);
-    orig::sub_10009EA0(
+    orig::CDx_PushRenderTargetTexture_Flag1(
       *(void **)(g_pResourceMng + 3528),
       *(_DWORD *)(g_pMoAccumTarget + 4),
       *(_DWORD *)(g_pMoAccumTarget + 8),

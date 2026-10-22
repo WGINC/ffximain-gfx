@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10072A70  (unit unit_10072A50: no unit evidence of its own; in the gap between 0x10072A30 (CMoTask_VT_1032C908) and 0x10072D00 (CMoResourceMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10072A70(void * self_)
+XI_API void __thiscall Unit10072A50_Step(void * self_)
 {
   uint32_t *puVar1;
   uint32_t xi_s3;
@@ -75,7 +75,7 @@ LAB_10072c0c:
       }
       if (*(char *)((int)self_ + 0x3c) != '\0') goto LAB_10072c0c;
       if (*(int *)((int)self_ + 0x38) != 0) {
-        orig::FUN_10074280(*(uint32_t *)((int)self_ + 0x34));
+        orig::ResourceIter_SetCurrentGlobal(*(uint32_t *)((int)self_ + 0x34));
         piVar3 = (int *)orig::MeshResourceMng_ResolveTree
                                   (g_pMeshResourceMng_as_v1,(int *)&pvStack_4,*(void **)((int)self_ + 0x38)
                                    ,*(uint32_t **)((int)self_ + 0x3d));
@@ -104,7 +104,7 @@ LAB_10072c21:
 
 // FUNCTION: FFXIMAIN 0x10072C30  (unit unit_10072A50: no unit evidence of its own; in the gap between 0x10072A30 (CMoTask_VT_1032C908) and 0x10072D00 (CMoResourceMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10072C30(void * self_, undefined4 * param_1, undefined4 param_2)
+XI_API uint64_t __thiscall Unit10072A50_Start(void * self_, undefined4 * param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   uint64_t uVar2;
@@ -115,7 +115,7 @@ XI_API uint64_t __thiscall fn_10072C30(void * self_, undefined4 * param_1, undef
   *(uint32_t *)((int)self_ + 0x18) = param_2;
   *(uint32_t *)((int)self_ + 0x1c) = 0x4d727400;
   orig::CMoTask_RegisterWithMng_v1(0);
-  uVar2 = orig::FUN_10074110(g_pMeshResourceMng_as_v1,&param_2);
+  uVar2 = orig::ResourceIter_PopFreeNode(g_pMeshResourceMng_as_v1,&param_2);
   uVar1 = *(uint32_t *)uVar2;
   *(uint32_t *)((int)self_ + 0x3d) = uVar1;
   *param_1 = uVar1;

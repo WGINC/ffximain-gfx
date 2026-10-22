@@ -21,7 +21,7 @@ XI_API void __thiscall fn_101D30B0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101D30F0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101D30F0(void * self_)
+XI_API undefined4 __thiscall Unit101D2FF0_GetObjectAtIndex(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x7e6) != 0) &&
      ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x7e6)] != 0)) {
@@ -44,7 +44,7 @@ XI_API void __thiscall fn_101D31B0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101D3DC0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D3DC0(void * self_)
+XI_API void __thiscall Unit101D2FF0_ReleaseTable(void * self_)
 {
   void *this_00;
   int iVar1;
@@ -73,7 +73,7 @@ XI_API void __thiscall fn_101D3DC0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101D3FC0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 93 returned normally, 93 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D3FC0(void * self_, int * param_1)
+XI_API void __thiscall Unit101D2FF0_Draw(void * self_, int * param_1)
 {
   char cVar1;
   uint32_t *puVar2;
@@ -121,13 +121,13 @@ XI_API void __thiscall fn_101D3FC0(void * self_, int * param_1)
 
 // FUNCTION: FFXIMAIN 0x101D5680  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D5680(void * self_)
+XI_API void __thiscall Unit101D2FF0_Update(void * self_)
 {
   int *piVar1;
   
   if (*(short *)((int)self_ + 0x1c) == 1) {
-    piVar1 = (int *)orig::FUN_101d30f0(self_);
-    orig::FUN_101d3fc0(self_,piVar1);
+    piVar1 = (int *)orig::Unit101D2FF0_GetObjectAtIndex(self_);
+    orig::Unit101D2FF0_Draw(self_,piVar1);
   }
   return;
 }

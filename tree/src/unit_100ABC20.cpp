@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100ABC20  (unit unit_100ABC20: no unit evidence of its own; in the gap between 0x100ABC10 (CXiDancerActor) and 0x100ABCA0 (CXiDollActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100ABC20(void * self_, char * param_1, int param_2)
+XI_API void * __thiscall Unit100ABC20_CopyFrom(void * self_, char * param_1, int param_2)
 {
   int iVar1;
   int iVar2;
@@ -27,7 +27,7 @@ XI_API void * __thiscall fn_100ABC20(void * self_, char * param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x100ABC70  (unit unit_100ABC20: no unit evidence of its own; in the gap between 0x100ABC10 (CXiDancerActor) and 0x100ABCA0 (CXiDollActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100ABC70(undefined4 * param_1, undefined4 * param_2)
+XI_API undefined4 __cdecl Unit100ABC20_CopyReturnZ(undefined4 * param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
   

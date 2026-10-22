@@ -22,7 +22,16 @@ public:
     static undefined8 __thiscall Constructor(void * self);  // 0x10044890
     int * ScalarDeletingDtor(char a2);  // 0x10044950
     char CMoElemFamily_SharedCleanup();  // 0x10044970
+    static undefined4 __thiscall SetSourceAt0FC(void * self, int param_1);  // 0x10044AA0
+    static unsigned char __thiscall IsSourceAt0FCTest(void * self);  // 0x10044AC0
+    static undefined4 __thiscall AdvanceTimer(void * self);  // 0x10044AE0
+    static int __cdecl InvertInPlace(float * param_1);  // 0x10045800
+    static undefined4 __thiscall CheckAt138ThenCall(void * self);  // 0x100458F0
+    static undefined4 __thiscall PrepareDraw(void * self);  // 0x10045A40
     void vf018();  // 0x100472E0
+    static int __thiscall GetActiveField0A4(void * self);  // 0x100473F0
+    static int __thiscall GetAddr78(void * self);  // 0x10047450
+    static int __thiscall GetAddr84(void * self);  // 0x10047490
     static char ** __cdecl GetRuntimeClass_variant9();  // 0x10047550
     static char ** __cdecl GetRuntimeClass_variant10();  // 0x10047570
     static char ** __cdecl GetRuntimeClass_variant11();  // 0x100548A0

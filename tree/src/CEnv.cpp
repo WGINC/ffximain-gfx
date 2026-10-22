@@ -11,9 +11,9 @@ XI_API void __thiscall j_CEnv_UpdateDualTargetMode(void * self_, undefined4 xi_s
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1000D620  (unit CEnv: between 0x1000D400 (name CEnv_DetectCpuFeatures) and 0x1000D630 (name CEnv_UpdateStereoMode), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000D620  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1000D620(void)
+void __cdecl CEnv::Nop()
 {
   return;
 }

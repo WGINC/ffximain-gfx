@@ -53,7 +53,7 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
           dword_10457548 = 1;
 LABEL_7:
           orig::Model_CreateTranslucentTargets();
-          orig::sub_100336B0();
+          orig::Unit100310A0_InitTargets();
           orig::Post_CreateScreenEffectTargets();
           orig::nullsub_39();
           result = g_translucentTarget;
@@ -70,7 +70,7 @@ LABEL_7:
 
 // FUNCTION: FFXIMAIN 0x10029B60  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10029B60(void)
+XI_API void __cdecl Unit100298D0_ReleaseAll(void)
 {
   int *a1;
   int *piVar1;
@@ -85,40 +85,10 @@ XI_API void __cdecl fn_10029B60(void)
     piVar1 = piVar1 + 1;
   } while ((int)piVar1 < 0x10457158);
   dword_10457548_as_v0 = 0;
-  orig::__sub_10095B10();
+  orig::Unit10025220_Release();
   orig::FUN_10025be0();
-  orig::FUN_100389c0();
-  orig::FUN_100336d0();
+  orig::Unit10038930_ReleaseTextures();
+  orig::Unit100310A0_ReleaseTargets();
   orig::FUN_1001d110();
   return;
-}
-
-// FUNCTION: FFXIMAIN 0x10029BB0  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10029BB0(void * self_)
-{
-  *(uint8_t ***)self_ = &PTR_FUN_1032a6dc;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0xc) = 0;
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  *(uint32_t *)((int)self_ + 0x14) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x24) = 0;
-  *(uint32_t *)((int)self_ + 0x28) = 0;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10029C90  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __thiscall fn_10029C90(void * self_)
-{
-  orig::FUN_10029bb0((void *)((int)self_ + 0x10));
-  *(uint8_t ***)self_ = &PTR_CYyModelDt_GetRuntimeClass_1032a6e0;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0xc) = 0;
-  return self_;
 }

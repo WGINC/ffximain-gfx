@@ -40,7 +40,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1025E020(undefined4 xi_e
 
 // FUNCTION: FFXIMAIN 0x1025E050  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1025E050(void)
+XI_API undefined4 __cdecl FontGlyphCache_IsStateTwo(void)
 {
   if ((DAT_1066276c != 0) && (*(int *)(DAT_1066276c + 0x44) == 2)) {
     return 1;
@@ -50,24 +50,24 @@ XI_API undefined4 __cdecl fn_1025E050(void)
 
 // FUNCTION: FFXIMAIN 0x1025E0B0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_1025E0B0(void)
+XI_API uint8_t * __cdecl FontGlyphCache_GetCounterBlock(void)
 {
   return(uint8_t*)(&DAT_1067a294);
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0C0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1025E0C0(void)
+XI_API void __cdecl FontGlyphCache_ResetCounter(void)
 {
-  orig::FUN_1025e230();
+  orig::FontGlyphCache_ClearCounter();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0E0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1025E0E0(void)
+XI_API void __cdecl FontGlyphCache_StepCounter(void)
 {
-  orig::FUN_1025e240();
+  orig::FontGlyphCache_DecayCounter();
   return;
 }
 
@@ -80,7 +80,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1025E0F0(undefined4 xi_e
 
 // FUNCTION: FFXIMAIN 0x1025E210  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1025E210(int param_1)
+XI_API void __cdecl FontGlyphCache_AddToCounter(int param_1)
 {
   DAT_1067a298 = DAT_1067a298 + param_1 * 2;
   return;
@@ -88,7 +88,7 @@ XI_API void __cdecl fn_1025E210(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1025E230  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1025E230(void)
+XI_API void __cdecl FontGlyphCache_ClearCounter(void)
 {
   DAT_1067a298_as_v0 = 0;
   return;
@@ -96,7 +96,7 @@ XI_API void __cdecl fn_1025E230(void)
 
 // FUNCTION: FFXIMAIN 0x1025E240  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1025E240(void)
+XI_API void __cdecl FontGlyphCache_DecayCounter(void)
 {
   if (DAT_1067a298 < 0) {
     DAT_1067a298 = DAT_1067a298 + 1;
@@ -291,7 +291,7 @@ XI_API void __thiscall fn_1025FE40(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1025FF10  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1025FF10(void * self_)
+XI_API undefined4 __thiscall FontGlyphCache_StoreElapsed158(void * self_)
 {
   DWORD DVar1;
   
@@ -302,7 +302,7 @@ XI_API undefined4 __thiscall fn_1025FF10(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10260360  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10260360(void)
+XI_API undefined4 __cdecl FontGlyphCache_NoOpZero(void)
 {
   return 0;
 }
@@ -345,7 +345,7 @@ XI_API void __thiscall fn_102612D0(void * self_)
   pvStack_c = ExceptionList;
   local_4 = 0;
   ExceptionList = &pvStack_c;
-  orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x3c));
+  orig::operator_delete_v1(*(LPVOID *)((int)self_ + 0x3c));
   a1 = *(int **)((int)self_ + 0x18);
   if (a1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
@@ -476,7 +476,7 @@ XI_API undefined4 __cdecl fn_1026D0CA(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x1026D179  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1026D179(int param_1)
+XI_API undefined4 __cdecl FontGlyphCache_PeekRing(int param_1)
 {
   uint32_t uVar1;
   
@@ -542,7 +542,7 @@ XI_API undefined4 __cdecl fn_1026D866(int param_1, undefined4 * param_2, uint8_t
 
 // FUNCTION: FFXIMAIN 0x1026DB24  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned char __cdecl fn_1026DB24(int param_1)
+XI_API unsigned char __cdecl FontGlyphCache_MarkState3(int param_1)
 {
   if (param_1 != 0) {
     **(uint8_t **)(param_1 + 0xc) = 3;
@@ -567,7 +567,7 @@ XI_API void __cdecl fn_1026DB8F(int param_1)
 {
   uint32_t xi_eax;
   
-  xi_eax = orig::FUN_1026d179(param_1 + 0xc044);
+  xi_eax = orig::FontGlyphCache_PeekRing(param_1 + 0xc044);
   orig::FUN_10316d6b(xi_eax);
   return;
 }
@@ -600,7 +600,7 @@ XI_API undefined4 __cdecl fn_1026DBF0(int param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_1026d179(param_1 + 0x4034);
+  uVar1 = orig::FontGlyphCache_PeekRing(param_1 + 0x4034);
   uVar1 = orig::FUN_10316d6b(uVar1);
   return uVar1;
 }

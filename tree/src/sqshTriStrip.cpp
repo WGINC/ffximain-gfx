@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x102AA2D0  (unit sqshTriStrip: asserts sqshTriStrip.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_102AA2D0(void)
+XI_API undefined4 * __cdecl SqshTriStrip_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x60,s_C__dev_dancer_modules_sqShape_sr_103be980,0x28);
-  orig::FUN_102aa2f0(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x60,s_C__dev_dancer_modules_sqShape_sr_103be980,0x28);
+  orig::SqshTriStrip_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x102AA2F0  (unit sqshTriStrip: between 0x102AA2D0 (asserts sqshTriStrip.c) and 0x102AA370 (asserts sqshTriStrip.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102AA2F0(undefined4 * param_1)
+XI_API void __cdecl SqshTriStrip_Init(undefined4 * param_1)
 {
   *param_1 = 0xa0009;
   param_1[2] = &LAB_102aa360;
@@ -23,7 +23,7 @@ XI_API void __cdecl fn_102AA2F0(undefined4 * param_1)
   param_1[4] = XI_CODE(FUN_102aa420);
   param_1[0xb] = &LAB_10291260;
   param_1[0xc] = &LAB_102b3090;
-  orig::FUN_1028d9a0(param_1 + 5);
+  orig::Unit1028D970_Reset(param_1 + 5);
   param_1[0xd] = 0;
   param_1[0xe] = XI_CODE(FUN_102aa580);
   param_1[0xf] = &LAB_102aaa60;
@@ -40,7 +40,7 @@ XI_API void __cdecl fn_102AA2F0(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x102ABEB0  (unit sqshTriStrip: between 0x102ABDA0 (asserts sqshTriStrip.c) and 0x102AC030 (asserts sqshTriStrip.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102ABEB0(void)
+XI_API undefined4 __cdecl SqshTriStrip_GetGlobal(void)
 {
   return DAT_109aaac0;
 }

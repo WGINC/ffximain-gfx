@@ -28,7 +28,7 @@ XI_API void __thiscall CYyModelDtBase_Destructor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10029D20  (unit unit_10029CD0: no unit evidence of its own; in the gap between 0x10029CB0 (CYyModelDt) and 0x10029D30 (CYyModelBase) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10029D20(void * self_)
+XI_API undefined4 __thiscall Unit10029CD0_GetField20(void * self_)
 {
   if (*(int **)((int)self_ + 8) != (int *)0x0) {
     return *(uint32_t *)(**(int **)((int)self_ + 8) + 0x20);

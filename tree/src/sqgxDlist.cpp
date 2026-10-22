@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1029B5C0  (unit sqgxDlist: asserts sqgxDlist.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029B5C0(void)
+XI_API void __cdecl SqgxDlist_CreateContextList(void)
 {
   undefined4 *puVar1;
   

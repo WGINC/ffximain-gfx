@@ -353,16 +353,16 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
   return &CMoDistMorphElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10052E20  (unit CMoDistMorphElem: stores CMoDistMorphElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052E20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052E20(void * self_)
+uint64_t __thiscall CMoDistMorphElem::Construct(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CXi471011C8_VT_1032AC90_Ctor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoDistMorphElem_GetRuntimeClass_1032b358;
-  *(uint16_t *)((int)self_ + 0x176) = 0x1c4;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CXi471011C8_VT_1032AC90_Ctor(self);
+  *(uint8_t ***)self = &PTR_CMoDistMorphElem_GetRuntimeClass_1032b358;
+  *(uint16_t *)((int)self + 0x176) = 0x1c4;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)

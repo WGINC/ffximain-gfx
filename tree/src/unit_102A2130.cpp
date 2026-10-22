@@ -4,16 +4,16 @@
 
 // FUNCTION: FFXIMAIN 0x102A2130  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2130(int param_1, int param_2)
+XI_API void __cdecl Unit102A2130_CopyBounds(int param_1, int param_2)
 {
-  orig::FUN_1028d9c0((uint32_t *)(param_1 + 0x14),(uint32_t *)(param_2 + 0x14));
+  orig::Unit1028D970_Copy((uint32_t *)(param_1 + 0x14),(uint32_t *)(param_2 + 0x14));
   orig::FUN_1029bb50();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102A2160  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102A2160(int param_1, int param_2)
+XI_API undefined4 __cdecl Unit102A2130_ContainsInt(int param_1, int param_2)
 {
   int iVar1;
   int *piVar2;
@@ -34,7 +34,7 @@ XI_API undefined4 __cdecl fn_102A2160(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x102A2190  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102A2190(int param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit102A2130_ContainsInAnyEntry(int param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -46,7 +46,7 @@ XI_API undefined4 __cdecl fn_102A2190(int param_1, undefined4 param_2)
   if (0 < iVar1) {
     iVar4 = *(int *)(param_1 + 0x28);
     do {
-      iVar2 = orig::FUN_102a2160(iVar4,param_2);
+      iVar2 = orig::Unit102A2130_ContainsInt(iVar4,param_2);
       if (iVar2 != 0) {
         return 1;
       }

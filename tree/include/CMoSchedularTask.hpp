@@ -7,7 +7,9 @@ class XI_API CMoSchedularTask {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x10057090
     void * ScalarDeletingDtor(char a2);  // 0x10057250
+    static void * __thiscall Construct(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10057270
     static void __thiscall Destructor(void * self);  // 0x100574A0
+    static void __thiscall SetSharedRef(void * self, short * param_1);  // 0x10057CC0
     static undefined4 __thiscall vf8(void * self);  // 0x10057E10
 
     void **vftable;  // +0x0

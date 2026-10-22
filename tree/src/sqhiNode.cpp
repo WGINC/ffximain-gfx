@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x10291B70  (unit sqhiNode: asserts sqhiNode.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10291B70(void)
+XI_API undefined4 * __cdecl SqhiNode_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0xf8,s_C__dev_dancer_modules_sqHierarch_103baf34,0x1a);
-  orig::FUN_10291ba0(puVar1);
+  orig::SqhiNode_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10291BA0  (unit sqhiNode: between 0x10291B70 (asserts sqhiNode.c) and 0x10291C20 (asserts sqhiNode.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291BA0(undefined4 * param_1)
+XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
 {
   *param_1 = 0xd0001;
   param_1[2] = &LAB_10291c10;
@@ -31,7 +31,7 @@ XI_API void __cdecl fn_10291BA0(undefined4 * param_1)
   param_1[0x1c] = 0;
   orig::FUN_1027ebd0(param_1 + 9);
   *(uint8_t *)(param_1 + 0x1d) = 0xff;
-  orig::FUN_1027eb00_v1(param_1 + 0x1e);
+  orig::Unit1027E120_Zero(param_1 + 0x1e);
   orig::M4fSet_v1(param_1 + 0x2e,param_1 + 9);
   return;
 }
@@ -55,7 +55,7 @@ XI_API void __cdecl fn_10291F00(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10291F10  (unit sqhiNode: between 0x10291E90 (asserts sqhiNode.c) and 0x10291F40 (asserts sqhiNode.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291F10(int param_1, int param_2)
+XI_API void __cdecl SqhiNode_AppendChild(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;

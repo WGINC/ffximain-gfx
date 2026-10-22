@@ -136,9 +136,9 @@ XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
   }
   orig::CDx_BeginScene(g_pCDx);
   orig::CDx_SetDefaultRenderState(g_pCDx);
-  orig::nullsub_36();
+  orig::CDx_NopA();
   orig::TexMgr_UploadPumpEntry(g_pTextureMng);
-  if ( g_pAppInputState != 0 && orig::sub_10008830((_DWORD *)g_pAppInputState, 0) != 0 )
+  if ( g_pAppInputState != 0 && orig::Input_IsCursorActive((_DWORD *)g_pAppInputState, 0) != 0 )
     orig::sub_1019C5B0();
   if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
@@ -147,7 +147,7 @@ XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)),
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A0)),
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)));
-    orig::sub_1000A390(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
+    orig::CDx_EndAndClearBegin(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
     orig::CDx_SetTexture(g_pCDx, 0, 0);
   }
   v99 = orig::CDx_PushRenderTargetRet1(
@@ -155,7 +155,7 @@ XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)),
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x19C)),
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
-  orig::sub_1000A390(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
+  orig::CDx_EndAndClearBegin(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
   v4 = g_pSceneState;
   if ( *(_DWORD *)g_pSceneState == 160 )
   {
@@ -178,14 +178,14 @@ LABEL_40:
         case 0:
           if ( *(_DWORD *)(g_pAppSettings + 96) != 0 )
           {
-            v8 = orig::sub_1025B560(1);
+            v8 = orig::Scene_GetTableValue(1);
             g_frameMeshRes = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &a4, v8);
             orig::CMoResource_AddRefChain(*(_DWORD *)g_frameMeshRes);
           }
           if ( *(_DWORD *)(g_pAppSettings + 40) != 0 )
           {
             dword_10669014 = 0;
-            v9 = orig::sub_10016410();
+            v9 = orig::App_GetGlobal_104569C8();
             if ( v9 != 0 )
             {
               v10 = v9 - 1;
@@ -197,12 +197,12 @@ LABEL_40:
                   dword_10669014 = 1;
                   if ( byte_10669420 == 1 )
                     dword_10456950 = 1;
-                  orig::sub_10245B50(1);
+                  orig::LobbyThread_SetGlobal106690AC(1);
                   orig::App_SetGlobal_104569C8(0);
                   *((_BYTE *)g_pCamera + 9) = 1;
                   *((_DWORD *)self_ + 205) = 0x80000000;
                   *((_DWORD *)self_ + 17) = 2;
-                  orig::sub_1019C3E0();
+                  orig::Unit1018BA60_RunPairA();
                 }
               }
               else
@@ -212,7 +212,7 @@ LABEL_40:
                 *((_BYTE *)g_pCamera + 9) = 1;
                 if ( byte_10669420 == 1 )
                   dword_10456950 = 1;
-                orig::sub_1019C3E0();
+                orig::Unit1018BA60_RunPairA();
               }
             }
             else
@@ -224,25 +224,25 @@ LABEL_40:
           {
             *((_BYTE *)g_pCamera + 9) = 0;
             *((_DWORD *)self_ + 17) = 10;
-            orig::sub_100DBE50();
+            orig::Unit100D7420_InitTimer();
           }
           break;
         case 1:
-          if ( g_cfg0022 == 0 || orig::sub_100139E0(self_) != 0 )
+          if ( g_cfg0022 == 0 || orig::App_RunOpening(self_) != 0 )
             *((_DWORD *)self_ + 17) = 2;
           break;
         case 2:
           orig::__snprintf(Buffer, 0x200u, aNet3Port54001);
-          orig::sub_10001E70(Buffer);
+          orig::Unit100014A0_AppendWithSpace(Buffer);
           *(_DWORD *)(g_pAppSettings + 40) = 3;
           *((_DWORD *)self_ + 17) = 3;
           *((_WORD *)self_ + 2) = 0;
           if ( *(_DWORD *)(g_pAppSettings + 40) != 0 )
           {
-            if ( orig::sub_100DA6A0((int)g_pGameMode) != 0 )
+            if ( orig::Game_InitSceneState((int)g_pGameMode) != 0 )
             {
               *((_BYTE *)g_pCamera + 9) = 1;
-              orig::sub_1019C3E0();
+              orig::Unit1018BA60_RunPairA();
             }
             else
             {
@@ -262,7 +262,7 @@ LABEL_40:
               g_cfg0023 = 1;
             if ( g_pObj_Vtbl10329F8C != 0 )
             {
-              orig::sub_100185A0((_DWORD *)(g_pObj_Vtbl10329F8C + 388), (FILE *)&Stream._file, 7u);
+              orig::Unit10017C10_LoadChecksum((_DWORD *)(g_pObj_Vtbl10329F8C + 388), (FILE *)&Stream._file, 7u);
               *(_DWORD *)(g_pSceneState + 28) = *(_DWORD *)(g_pObj_Vtbl10329F8C + 396);
             }
             *((_DWORD *)self_ + 17) = 5;
@@ -319,13 +319,13 @@ LABEL_40:
             *((_DWORD *)self_ + 17) = 10;
           break;
         case 0xA:
-          orig::sub_10014170(self_);
+          orig::App_DispatchSubState(self_);
           break;
         case 0xB:
           if ( (*(_BYTE *)(v4 + 24) & 8) != 0 )
           {
             *((_DWORD *)self_ + 17) = 13;
-            orig::sub_100163C0(1);
+            orig::App_SetGlobal_104569C5(1);
           }
           else
           {
@@ -340,7 +340,7 @@ LABEL_40:
           *(_DWORD *)g_pSceneState = 112;
           if ( orig::sub_10014A20(self_) )
           {
-            orig::sub_100361D0();
+            orig::Unit10035B00_ResetGlobals();
             orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
             orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
             *((_DWORD *)self_ + 17) = 7;
@@ -386,7 +386,7 @@ LABEL_38:
     orig::sub_1018B860(g_pXiZone);
     orig::sub_10074C30((_DWORD *)dword_1047D140);
     orig::sub_102515F0(g_pStDancer, 1);
-    orig::sub_10036230();
+    orig::CYySoundElem_UpdateQueue();
     goto LABEL_39;
   }
   if ( g_pGameMode == nullptr )
@@ -432,7 +432,7 @@ LABEL_102:
     && g_pMovie == 0
     && *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1C0)) != 0
     && g_pXiZone != nullptr
-    && orig::sub_10187000(g_pXiZone) != 0 )
+    && orig::ZoneMap_GetByteRef1CPlus10(g_pXiZone) != 0 )
   {
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_TEXCOORDINDEX, 0);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
@@ -460,7 +460,7 @@ LABEL_102:
     v102 = 0;
     *(float *)&a2 = 0.0;
     v104 = 1065353216;
-    *(float *)&a2 = -orig::sub_10186FE0(g_pXiZone);
+    *(float *)&a2 = -orig::ZoneMap_GetFloatRef1CPlus4(g_pXiZone);
     orig::Mat4_TransformPointInPlace((float *)self_ + 165, (float *)&a4);
     orig::CDx_SetTransform(g_pCDx, 256, g_frameWorldMatrix);
     orig::CDx_SetTransform(g_pCDx, 2, (char *)self_ + 148);
@@ -533,7 +533,7 @@ LABEL_102:
   orig::CDx_CompositeSceneToBackBuffer(g_pCDx, (int)&(*(unsigned __int8 *)((char *)g_pCDx + 0x190)), v94, (int)&SystemTime, (int)&a4);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
-  orig::nullsub_37();
+  orig::CDx_NopB();
   if ( g_pGameMode != nullptr )
   {
     v24 = *((_DWORD *)g_pGameMode + 46);
@@ -541,7 +541,7 @@ LABEL_102:
     {
       Code = *((_DWORD *)g_pGameMode + 46);
       if ( v24 == -1056 )
-        orig::sub_100163E0(1);
+        orig::App_SetGlobal_104569C6(1);
     }
   }
   v25 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0));
@@ -558,12 +558,12 @@ LABEL_102:
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_COLORWRITEENABLE, 15u);
   }
-  orig::sub_101BCE30((int)ArgList);
+  orig::Unit1018BA60_WatchConfigWindow((int)ArgList);
   orig::sub_10005A40(g_pAppInputState);
-  orig::sub_10123E90();
-  orig::sub_100088F0((_DWORD *)g_pAppInputState);
+  orig::Cell_ClearFlag104E1C3C();
+  orig::Input_DispatchButtons((_DWORD *)g_pAppInputState);
   if ( g_pTargetMng != nullptr )
-    orig::sub_101579C0(g_pTargetMng);
+    orig::Target_Update(g_pTargetMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
     if ( dword_106627EC != 0 )
@@ -571,13 +571,13 @@ LABEL_102:
     if ( dword_10662DA8 != 0 )
       orig::sub_101AE3E0((void *)dword_10662DA8);
     if ( dword_1066279C != 0 )
-      orig::sub_101A2E80(dword_1066279C);
+      orig::Unit1018BA60_UpdateMenuState(dword_1066279C);
   }
   if ( *((_BYTE *)g_pCamera + 8) != 0 && g_pFileMng != 0 )
     orig::sub_101C46A0((_DWORD *)g_pFileMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
     orig::sub_101AB770();
-  v27 = orig::sub_10153FF0();
+  v27 = orig::Unit1012AC80_GetInstance();
   orig::sub_10154860(v27);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
@@ -586,19 +586,19 @@ LABEL_102:
       orig::Gfx_SetDefault2DStates();
       *(_BYTE *)dword_106627EC = 1;
       orig::sub_1015FA00((int *)g_menuMng);
-      orig::sub_1015F6A0(g_menuMng);
+      orig::Menu_DrawLayers(g_menuMng);
       orig::Gfx_DisableFogAndAlphaBlend();
     }
-    orig::sub_1025E0B0();
-    orig::sub_1025E0E0();
-    orig::sub_1025E0B0();
+    orig::FontGlyphCache_GetCounterBlock();
+    orig::FontGlyphCache_StepCounter();
+    orig::FontGlyphCache_GetCounterBlock();
     orig::sub_1025E0F0();
     if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && g_C_106631D4 != 0 )
-      orig::sub_101D5680((_WORD *)g_C_106631D4);
+      orig::Unit101D2FF0_Update((_WORD *)g_C_106631D4);
     if ( g_pXiOpening != 0 )
       orig::sub_10018850(g_pXiOpening);
   }
-  orig::sub_101248A0((float *)g_pCursor);
+  orig::Cursor_UpdateTimer((float *)g_pCursor);
   v28 = g_pCDx;
   if ( *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0)) != 0 && *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E8)) != 0 )
   {
@@ -780,7 +780,7 @@ LABEL_102:
               if ( ++dword_10456954 > 45 )
               {
                 dword_10456954 = 0;
-                orig::sub_101037F0(0, 1);
+                orig::Game_SetSlot44C(0, 1);
               }
             }
           }
@@ -1117,7 +1117,7 @@ LABEL_28:
 
 // FUNCTION: FFXIMAIN 0x100139E0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100139E0(void * self_)
+XI_API undefined4 __thiscall App_RunOpening(void * self_)
 {
   int *piVar1;
   void *this_00;
@@ -1145,7 +1145,7 @@ XI_API undefined4 __thiscall fn_100139E0(void * self_)
   else {
     piVar1 = (int *)(*(short *)((int)self_ + 4) + -1);
     if (piVar1 == (int *)0x0) {
-      piVar1 = (int *)orig::FUN_10018840(g_pXiOpening_as_v0);
+      piVar1 = (int *)orig::Unit10018840_IsStateFour(g_pXiOpening_as_v0);
       if ((char)piVar1 == '\x01') {
         if (g_pXiOpening_as_v0 != (int *)0x0) {
           piVar1 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pXiOpening_as_v0 + 0x18))))((void *)(g_pXiOpening_as_v0),1);
@@ -1323,7 +1323,7 @@ XI_API bool __cdecl App_StepGameState9(void)
 
 // FUNCTION: FFXIMAIN 0x10014170  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10014170(void * self_)
+XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
 {
   uint32_t uVar1;
   
@@ -1339,7 +1339,7 @@ XI_API undefined4 __thiscall fn_10014170(void * self_)
     uVar1 = orig::FUN_100142a0(self_);
     return uVar1 & 0xffffff00;
   case 3:
-    uVar1 = orig::FUN_100142b0();
+    uVar1 = orig::CAtelIdleTask_Create();
     return uVar1 & 0xffffff00;
   case 4:
     uVar1 = orig::FUN_10014350(self_);
@@ -1367,7 +1367,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10014200(undefined4 xi
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10014220(self_,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(word_104568F8_as_v0))));
+  uVar1 = orig::App_InitCamera(self_,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(word_104568F8_as_v0))));
   if ((char)uVar1 == '\0') {
     return uVar1;
   }
@@ -1377,15 +1377,15 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10014200(undefined4 xi
 
 // FUNCTION: FFXIMAIN 0x10014220  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10014220(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
   
-  uVar1 = orig::FUN_100fc160();
+  uVar1 = orig::Unit100D7420_GetFlags();
   if ((uVar1 & 0x100) == 0) {
     if ((short)param_1 == 0) {
-      uVar2 = orig::FUN_100db930();
+      uVar2 = orig::Unit100D7420_GetWord40D7C();
       DAT_104570e0 = (int)(short)uVar2;
       *(int *)((int)self_ + 0x4c) = DAT_104570e0;
       uVar2 = orig::CYyCamMng2_CreateGlobal();

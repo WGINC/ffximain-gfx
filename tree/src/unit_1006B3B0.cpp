@@ -25,7 +25,7 @@ XI_API void __cdecl Rand_SeedMT19937(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x1006BE20  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_1006BE20(void)
+XI_API uint32_t __cdecl Unit1006B3B0_Next(void)
 {
   uint32_t uVar1;
   int iVar2;
@@ -67,27 +67,27 @@ XI_API uint32_t __cdecl fn_1006BE20(void)
 
 // FUNCTION: FFXIMAIN 0x1006BF40  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1006BF40(int param_1)
+XI_API int __cdecl Rand_NextMod(int param_1)
 {
   uint32_t uVar1;
   
   if (param_1 == 0) {
     return 0;
   }
-  uVar1 = orig::FUN_1006be20();
+  uVar1 = orig::Unit1006B3B0_Next();
   return (int)uVar1 % param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x1006BF60  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_1006BF60(uint32_t param_1)
+XI_API uint32_t __cdecl Rand_NextModUnsigned(uint32_t param_1)
 {
   uint32_t uVar1;
   
   if (param_1 == 0) {
     return 0;
   }
-  uVar1 = orig::FUN_1006be20();
+  uVar1 = orig::Unit1006B3B0_Next();
   return uVar1 % param_1;
 }
 
@@ -102,7 +102,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) fn_1006BF80(undefined4 xi_
   if (bVar2 != (bVar2 || (long double)param_1 == (long double)0.0f)) {
     return (long double)0.0f;
   }
-  uVar1 = orig::FUN_1006be20();
+  uVar1 = orig::Unit1006B3B0_Next();
   return (long double)(uVar1 % 100000) * (long double)xi_k4(0x3727C5ACull) * (long double)param_1;
 }
 
@@ -117,7 +117,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) fn_1006BFD0(undefined4 xi_
   if (bVar2 != (bVar2 || (long double)param_1 == (long double)0.0f)) {
     return (long double)0.0f;
   }
-  uVar1 = orig::FUN_1006be20();
+  uVar1 = orig::Unit1006B3B0_Next();
   return ((long double)(uVar1 % 200000) * (long double)xi_k4(0x3727C5ACull) - (long double)1.0f) * (long double)param_1;
 }
 

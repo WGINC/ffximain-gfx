@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoVuLineProgElem {
 public:
+    static undefined8 __thiscall Constructor(void * self);  // 0x10052BC0
     BOOL vf012(int a1);  // 0x10052BF0
     int * ScalarDeletingDtor(char a2);  // 0x10052C00
     static char ** __cdecl GetRuntimeClass();  // 0x10064170

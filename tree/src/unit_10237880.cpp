@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102380A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_102380A0(void * self_)
+XI_API void * __thiscall Unit10237880_ConstructTable2(void * self_)
 {
   char cVar1;
   char *pcVar2;
@@ -37,7 +37,7 @@ XI_API void * __thiscall fn_102380A0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x102388C0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_102388C0(void * self_)
+XI_API void * __thiscall Unit10237880_ConstructNamed(void * self_)
 {
   char cVar1;
   char *pcVar2;
@@ -63,7 +63,7 @@ XI_API void * __thiscall fn_102388C0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10238B30  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10238B30(void * self_)
+XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
 {
   char cVar1;
   char *pcVar2;
@@ -98,7 +98,7 @@ XI_API void * __thiscall fn_10238B30(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10239170  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10239170(void * self_)
+XI_API void * __thiscall KeyPrompt_Construct(void * self_)
 {
   orig::FUN_10126320((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
@@ -125,7 +125,7 @@ XI_API void __thiscall Ui_KeyPrompt_Init(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10239490  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10239490(void)
+XI_API undefined4 __cdecl Unit10237880_GetGlobalDword(void)
 {
   return DAT_10668fe4;
 }
@@ -221,7 +221,7 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
 
 // FUNCTION: FFXIMAIN 0x1023BF20  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1023BF20(undefined4 param_1)
+XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1)
 {
   orig::FUN_1023be10(param_1,1);
   return;
@@ -229,9 +229,9 @@ XI_API void __cdecl fn_1023BF20(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1023D610  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1023D610(void * self_)
+XI_API void * __thiscall Unit10237880_ConstructBase(void * self_)
 {
-  orig::FUN_101f67c0(self_,0);
+  orig::Yk_InitBase(self_,0);
   *(uint8_t ***)self_ = &PTR_FUN_1033c9b0;
   *(uint8_t *)((int)self_ + 0x51) = 1;
   *(uint8_t *)((int)self_ + 0x52) = 0;
@@ -242,7 +242,7 @@ XI_API void * __thiscall fn_1023D610(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1023E4B0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1023E4B0(int * param_1)
+XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1)
 {
   char cVar1;
   uint32_t uVar2;
@@ -311,7 +311,7 @@ XI_API void * __thiscall CIwHnList_Constructor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1023F890  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1023F890(void * self_)
+XI_API void * __thiscall Unit10237880_ConstructTable3(void * self_)
 {
   char cVar1;
   char *pcVar2;

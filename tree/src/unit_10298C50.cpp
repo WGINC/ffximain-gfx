@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10298C50  (unit unit_10298C50: no unit evidence of its own; in the gap between 0x10298C10 (sqrdTexture) and 0x10298EA0 (sqsdSampling) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10298C50(int param_1)
+XI_API void __cdecl Texture_BindFromObject(int param_1)
 {
   if (param_1 != 0) {
     orig::sqgxTextureSet_v1(*(int *)(param_1 + 0x14));
@@ -18,15 +18,15 @@ XI_API void __cdecl fn_10298C50(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10298E10  (unit unit_10298C50: no unit evidence of its own; in the gap between 0x10298C10 (sqrdTexture) and 0x10298EA0 (sqsdSampling) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10298E10(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+XI_API int __cdecl Texture_CreateEntry(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
   undefined4 *puVar3;
   int iVar4;
   
-  puVar1 = orig::FUN_102984b0();
-  puVar2 = orig::FUN_10298b30();
+  puVar1 = orig::SqimImage_Create();
+  puVar2 = orig::SqrdTexture_Create();
   puVar3 = orig::FUN_1029c260(param_1,param_2,param_3,param_4,param_5);
   puVar1[10] = puVar3;
   puVar1[7] = param_1;

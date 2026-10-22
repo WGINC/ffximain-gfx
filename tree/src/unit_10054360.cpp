@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x10054410  (unit unit_10054360: no unit evidence of its own; in the gap between 0x100542F0 (CMoGeneratorClone) and 0x10054450 (CMoAttachments_VT_1032B140) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10054410(void)
+XI_API undefined4 __cdecl Unit10054360_Get10353710(void)
 {
   return DAT_10353710;
 }
 
 // FUNCTION: FFXIMAIN 0x10054430  (unit unit_10054360: no unit evidence of its own; in the gap between 0x100542F0 (CMoGeneratorClone) and 0x10054450 (CMoAttachments_VT_1032B140) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10054430(undefined4 * param_1, undefined4 * param_2)
+XI_API void __cdecl Unit10054360_CopyFromPtr(undefined4 * param_1, undefined4 * param_2)
 {
   *param_1 = *param_2;
   param_1[1] = param_2[1];

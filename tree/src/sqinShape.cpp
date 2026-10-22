@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102AEC50  (unit sqinShape: between 0x102AEC30 (asserts sqinShape.c) and 0x102AEC80 (asserts sqinShape.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102AEC50(undefined4 * param_1)
+XI_API void __cdecl SqinShape_Reset(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
     *param_1 = 0;

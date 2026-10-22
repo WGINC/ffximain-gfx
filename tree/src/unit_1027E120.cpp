@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027E150  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E150(uint32_t * param_1, uint32_t param_2, int param_3)
+XI_API void __cdecl Unit1027E120_UpdateMask(uint32_t * param_1, uint32_t param_2, int param_3)
 {
   if (param_3 == -1) {
     *param_1 = *param_1 ^ param_2;
@@ -42,8 +42,8 @@ XI_API undefined4 __cdecl fn_1027E3B0(uint8_t * param_1)
       }
       orig::FUN_10285740((int *)&param_1);
     }
-    orig::FUN_1028d6f0((uint32_t *)(pbVar1 + 0x20));
-    orig::FUN_1027e150((uint32_t *)pbVar1,2,0);
+    orig::SqcoConnector_Init((uint32_t *)(pbVar1 + 0x20));
+    orig::Unit1027E120_UpdateMask((uint32_t *)pbVar1,2,0);
   }
   return 1;
 }
@@ -78,7 +78,7 @@ XI_API undefined4 __cdecl fn_1027E450(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027E490  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 87 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E490(uint8_t * param_1, int param_2)
+XI_API void __cdecl Unit1027E120_Advance(uint8_t * param_1, int param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -89,7 +89,7 @@ XI_API void __cdecl fn_1027E490(uint8_t * param_1, int param_2)
   if (iVar1 == 0) {
     return;
   }
-  uVar2 = orig::FUN_102857d0((int)(param_1 + 0x20));
+  uVar2 = orig::Unit102857D0_GetFlagByte14((int)(param_1 + 0x20));
   if ((char)uVar2 == '\0') {
     return;
   }
@@ -141,7 +141,7 @@ XI_API void __cdecl fn_1027EAF0(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1027EB00  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027EB00(undefined4 * param_1)
+XI_API void __cdecl Unit1027E120_Zero(undefined4 * param_1)
 {
   int iVar1;
   
@@ -154,7 +154,7 @@ XI_API void __cdecl fn_1027EB00(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027EB50  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027EB50(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10, float param_11, float param_12, float param_13, float param_14, float param_15, float param_16, float param_17)
+XI_API void __cdecl Unit1027E120_Set(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10, float param_11, float param_12, float param_13, float param_14, float param_15, float param_16, float param_17)
 {
   param_1[1] = param_3;
   param_1[2] = param_4;
@@ -193,7 +193,7 @@ XI_API void __cdecl M4fTransform(float * param_1, float * param_2, float * param
 
 // FUNCTION: FFXIMAIN 0x1027EF80  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027EF80(float * param_1, float * param_2, float * param_3)
+XI_API void __cdecl Unit1027E120_TransformVec3(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
                     (long double)param_2[1] * (long double)param_3[1] +

@@ -107,7 +107,7 @@ uint64_t __thiscall CMoElem::Constructor(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_10055570(self);
+  uVar1 = orig::CMoOtTask_Constructor(self);
   orig::OcclusionQuery_Init_v1((void *)((int)self + 0x17f));
   *(uint8_t ***)self = &CMoElem_vtbl_ambiguous3_as_v0;
   *(uint16_t *)((int)self + 0x176) = 0x194;
@@ -213,43 +213,43 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   return orig::CMoTask_Destructor(self);
 }
 
-// FUNCTION: FFXIMAIN 0x10044AA0  (unit CMoElem: between 0x10044950 (class model places it in CMoElem) and 0x10044C20 (class model places it in CMoElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10044AA0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10044AA0(void * self_, int param_1)
+undefined4 __thiscall CMoElem::SetSourceAt0FC(void * self, int param_1)
 {
   uint32_t uVar1;
   
   if (param_1 != 0) {
-    *(uint32_t *)((int)self_ + 0xfc) = *(uint32_t *)(param_1 + 0x14);
-    uVar1 = orig::FUN_10048100((int)self_);
+    *(uint32_t *)((int)self + 0xfc) = *(uint32_t *)(param_1 + 0x14);
+    uVar1 = orig::FUN_10048100((int)self);
     return uVar1;
   }
-  return self_;
+  return self;
 }
 
-// FUNCTION: FFXIMAIN 0x10044AC0  (unit CMoElem: between 0x10044950 (class model places it in CMoElem) and 0x10044C20 (class model places it in CMoElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10044AC0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned char __thiscall fn_10044AC0(void * self_)
+unsigned char __thiscall CMoElem::IsSourceAt0FCTest(void * self)
 {
   void *this_00;
   uint32_t uVar1;
   
-  if (*(uint32_t **)((int)self_ + 0xfc) == (uint32_t *)0x0) {
+  if (*(uint32_t **)((int)self + 0xfc) == (uint32_t *)0x0) {
     this_00 = (void *)0x0;
   }
   else {
-    this_00 = (void *)**(uint32_t **)((int)self_ + 0xfc);
+    this_00 = (void *)**(uint32_t **)((int)self + 0xfc);
   }
   if (this_00 != (void *)0x0) {
-    uVar1 = orig::FUN_100539e0(this_00);
+    uVar1 = orig::Generator_IsFlag400OrField22Zero_v1(this_00);
     return SUB41(uVar1,0);
   }
   return false;
 }
 
-// FUNCTION: FFXIMAIN 0x10044AE0  (unit CMoElem: between 0x10044950 (class model places it in CMoElem) and 0x10044C20 (class model places it in CMoElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10044AE0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 95 returned normally, 74 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10044AE0(void * self_)
+undefined4 __thiscall CMoElem::AdvanceTimer(void * self)
 {
   uint32_t *puVar1;
   uint32_t uVar2;
@@ -262,45 +262,45 @@ XI_API undefined4 __thiscall fn_10044AE0(void * self_)
   long double fVar7;
   long double fVar8;
   
-  puVar1 = *(uint32_t **)((int)self_ + 0xfc);
+  puVar1 = *(uint32_t **)((int)self + 0xfc);
   if (puVar1 == (uint32_t *)0x0) {
     this_00 = (void *)0x0;
   }
   else {
     this_00 = (void *)*puVar1;
   }
-  fVar7 = (long double)*(float *)((int)self_ + 0x114);
+  fVar7 = (long double)*(float *)((int)self + 0x114);
   fVar8 = (long double)0.0f;
   bVar5 = NAN(fVar7) || NAN(fVar8);
   bVar6 = bVar5 || fVar7 == fVar8;
-  *(uint8_t *)((int)self_ + 0x178) = 1;
+  *(uint8_t *)((int)self + 0x178) = 1;
   uVar4 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)puVar1 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar8) << 8 | (uint16_t)bVar5 << 10 |
                    (uint16_t)bVar6 << 0xe)));
   if (bVar5 == bVar6) {
-    fVar8 = (long double)*(float *)((int)self_ + 0x110) - (long double)*(float *)(g_pResourceMng + 0xeb0);
-    *(float *)((int)self_ + 0x110) = (float)fVar8;
+    fVar8 = (long double)*(float *)((int)self + 0x110) - (long double)*(float *)(g_pResourceMng + 0xeb0);
+    *(float *)((int)self + 0x110) = (float)fVar8;
     bVar5 = NAN(fVar8) || NAN((long double)1.0f);
     if ((bVar5 || fVar8 < (long double)1.0f) != bVar5) {
       if (this_00 == (void *)0x0) {
 LAB_10044b8c:
-        uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
+        uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
         return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
       }
-      orig::FUN_1004e720(this_00,(int)self_);
-      bVar5 = NAN((long double)*(float *)((int)self_ + 0x110)) || NAN((long double)1.0f);
-      if ((bVar5 || (long double)*(float *)((int)self_ + 0x110) < (long double)1.0f) != bVar5) {
-        *(uint8_t *)((int)self_ + 0x178) = 0;
-        if ((*(uint32_t *)((int)self_ + 0x10c) >> 0x1d & 1) == 0) {
-          uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
+      orig::CMoGeneratorClone_ExecuteCmdList(this_00,(int)self);
+      bVar5 = NAN((long double)*(float *)((int)self + 0x110)) || NAN((long double)1.0f);
+      if ((bVar5 || (long double)*(float *)((int)self + 0x110) < (long double)1.0f) != bVar5) {
+        *(uint8_t *)((int)self + 0x178) = 0;
+        if ((*(uint32_t *)((int)self + 0x10c) >> 0x1d & 1) == 0) {
+          uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
           return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
         }
-        *(uint32_t *)((int)self_ + 0x110) = 0;
-        if ((*(int **)((int)self_ + 0x164) != (int *)0x0) &&
-           ((*(uint16_t *)(**(int **)((int)self_ + 0x164) + 0x18) & 0x7fff) < 2)) goto LAB_10044b8c;
-        *(uint8_t *)((int)self_ + 0x178) = 1;
+        *(uint32_t *)((int)self + 0x110) = 0;
+        if ((*(int **)((int)self + 0x164) != (int *)0x0) &&
+           ((*(uint16_t *)(**(int **)((int)self + 0x164) + 0x18) & 0x7fff) < 2)) goto LAB_10044b8c;
+        *(uint8_t *)((int)self + 0x178) = 1;
       }
     }
-    uVar4 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_));
+    uVar4 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x40))))((void *)(self));
     if ((char)uVar4 != '\0') {
       uVar2 = *(uint32_t *)((int)this_00 + 0xd8);
       goto LAB_10044bda;
@@ -311,36 +311,36 @@ LAB_10044b8c:
     uVar2 = *(uint32_t *)((int)this_00 + 0xd8);
 LAB_10044bda:
     if ((uVar2 >> 9 & 1) != 0) {
-      xi_eax = orig::FUN_100473f0(self_);
-      uVar4 = orig::FUN_10053dd0(this_00,xi_eax,xi_eax);
+      xi_eax = orig::CMoElem_GetActiveField0A4_v1(self);
+      uVar4 = orig::YmGenerater_UpdateAttachIfPresent(this_00,xi_eax,xi_eax);
     }
   }
   if (this_00 != (void *)0x0) {
-    uVar4 = orig::FUN_1004a980(this_00,self_);
+    uVar4 = orig::FUN_1004a980(this_00,self);
     return uVar4 & 0xffffff00;
   }
 LAB_10044bfd:
-  *(uint32_t *)((int)self_ + 0x54) = 0;
-  *(uint32_t *)((int)self_ + 0x58) = 0;
-  *(uint32_t *)((int)self_ + 0x5c) = 0;
-  *(uint32_t *)((int)self_ + 0x188) = 0;
-  *(uint32_t *)((int)self_ + 0x18c) = 0;
-  *(uint32_t *)((int)self_ + 400) = 0;
+  *(uint32_t *)((int)self + 0x54) = 0;
+  *(uint32_t *)((int)self + 0x58) = 0;
+  *(uint32_t *)((int)self + 0x5c) = 0;
+  *(uint32_t *)((int)self + 0x188) = 0;
+  *(uint32_t *)((int)self + 0x18c) = 0;
+  *(uint32_t *)((int)self + 400) = 0;
   return uVar4 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x10044C20  (unit CMoElem: class model places it in CMoElem)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10044C20(void * self_, int param_1)
+XI_API void __thiscall CMoElem_SetSourceAt100(void * self_, int param_1)
 {
   *(uint32_t *)((int)self_ + 0x100) = *(uint32_t *)(param_1 + 0x14);
   orig::FUN_10048190((int)self_);
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10045800  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
-// NOT VERIFIED -- UNRESOLVED
-XI_API void __cdecl fn_10045800(float * param_1)
+// FUNCTION: FFXIMAIN 0x10045800  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __cdecl CMoElem::InvertInPlace(float * param_1)
 {
   float fVar1;
   int iVar2;
@@ -413,22 +413,22 @@ XI_API void __cdecl fn_10045800(float * param_1)
     local_8 = local_8 + 1;
     pfVar8 = pfVar6;
   } while (local_10 < 4);
-  return;
+  return 4;
 }
 
-// FUNCTION: FFXIMAIN 0x100458F0  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100458F0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100458F0(void * self_)
+undefined4 __thiscall CMoElem::CheckAt138ThenCall(void * self)
 {
   uint32_t uVar1;
   uint32_t uVar2;
   
-  uVar1 = (uint32_t)(!((long double)*(float *)((int)self_ + 0x138) >= (long double)0.00999999977648258209228515625f));
+  uVar1 = (uint32_t)(!((long double)*(float *)((int)self + 0x138) >= (long double)0.00999999977648258209228515625f));
   if (uVar1 == 0) {
-    uVar2 = orig::FUN_100555b0(self_,(float)(long double)*(float *)((int)self_ + 300));
+    uVar2 = orig::FUN_100555b0(self,(float)(long double)*(float *)((int)self + 300));
     return uVar2;
   }
-  *(uint32_t *)((int)self_ + 0x138) = 0x3f800000;
+  *(uint32_t *)((int)self + 0x138) = 0x3f800000;
   return uVar1 << 8;
 }
 
@@ -478,9 +478,9 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAnd
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
-// FUNCTION: FFXIMAIN 0x10045A40  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10045A40  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10045A40(void * self_)
+undefined4 __thiscall CMoElem::PrepareDraw(void * self)
 {
   float fVar1;
   float fVar2;
@@ -492,28 +492,28 @@ XI_API undefined4 __thiscall fn_10045A40(void * self_)
   uint8_t bVar8;
   long double fVar9;
   
-  fVar1 = *(float *)((int)self_ + 0x54);
-  fVar2 = *(float *)((int)self_ + 0x58);
-  fVar3 = *(float *)((int)self_ + 0x5c);
-  uVar5 = orig::FUN_10044ae0(self_);
+  fVar1 = *(float *)((int)self + 0x54);
+  fVar2 = *(float *)((int)self + 0x58);
+  fVar3 = *(float *)((int)self + 0x5c);
+  uVar5 = orig::CMoElem_AdvanceTimer(self);
   if ((char)uVar5 != '\0') {
     return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
   }
-  uVar5 = orig::YmElem_ComputeViewDepthKey(self_);
-  fVar9 = (long double)*(float *)((int)self_ + 0x138);
+  uVar5 = orig::YmElem_ComputeViewDepthKey(self);
+  fVar9 = (long double)*(float *)((int)self + 0x138);
   fVar4 = (long double)0.0f;
   bVar7 = NAN(fVar9) || NAN(fVar4);
   bVar8 = bVar7 || fVar9 == fVar4;
   if (bVar7 != bVar8) {
-    *(uint32_t *)((int)self_ + 0x138) = 0x3f800000;
+    *(uint32_t *)((int)self + 0x138) = 0x3f800000;
     return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar5 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar7 || fVar9 < fVar4) << 8 | (uint16_t)bVar7 << 10 |
                     (uint16_t)bVar8 << 0xe)));
   }
-  orig::FUN_10044d40(self_);
-  uVar5 = orig::FUN_10045190(self_,fVar1,fVar2,fVar3);
-  uVar6 = orig::YmElem_BuildDrawMatrixAndTest(self_,uVar5);
+  orig::Unit10044C40_UpdateTransform(self);
+  uVar5 = orig::FUN_10045190(self,fVar1,fVar2,fVar3);
+  uVar6 = orig::YmElem_BuildDrawMatrixAndTest(self,uVar5);
   if ((char)uVar6 != '\0') {
-    uVar6 = orig::FUN_100458f0(self_);
+    uVar6 = orig::CMoElem_CheckAt138ThenCall(self);
   }
   return uVar6 & 0xffffff00;
 }
@@ -690,7 +690,7 @@ LABEL_9:
     (*(void (__stdcall **)(int, int, _DWORD))(*(_DWORD *)v6 + 200))(v6, 14, 0);
   if ( (*((_BYTE *)v2 + 270) & 1) != 0 )
   {
-    qmemcpy(v4, (const void *)orig::sub_10045C50(v2), 0x40u);
+    qmemcpy(v4, (const void *)orig::Unit10044C40_GetFlaggedMatrix(v2), 0x40u);
     v4[12] = 0.0;
     v4[13] = 0.0;
     v4[14] = 0.0;
@@ -699,18 +699,18 @@ LABEL_9:
     v8 = false;
     if ( v7 != nullptr && *v7 != 0 )
       v8 = (*(_BYTE *)(*v7 + 223) & 2) != 0;
-    if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::sub_100473F0(v2) != 0 )
+    if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::CMoElem_GetActiveField0A4(v2) != 0 )
     {
       v9 = (*(int *)((char *)g_pProcessor + 0xA90));
       v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
       (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
-      qmemcpy(v10, (const void *)orig::sub_100473F0((int **)v35), 0x40u);
+      qmemcpy(v10, (const void *)orig::CMoElem_GetActiveField0A4((int **)v35), 0x40u);
       (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
         v4,
         1083624418);
-      orig::sub_10045800(v10);
+      orig::CMoElem_InvertInPlace(v10);
       (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 8))(
         g_pProcessor,
         v4,
@@ -780,7 +780,7 @@ LABEL_9:
           v19 = *v18;
         else
           v19 = 0;
-        orig::sub_1018B960(g_pXiZone, &v36, v38, *(_DWORD *)(v19 + 196));
+        orig::XiZone_GetDirLightsForArea(g_pXiZone, &v36, v38, *(_DWORD *)(v19 + 196));
       }
       else
       {
@@ -905,7 +905,7 @@ LABEL_9:
         *(_DWORD *)(*v24 + 196));
     else
       orig::XiZone_GetFog(g_pXiZone, &g_zoneFogOut1, (float *)&g_zoneFogOut2, (float *)&g_zoneFogOut3, 0, 0);
-    orig::sub_100464D0();
+    orig::Fog_SetRenderStates();
     (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
       *(_DWORD *)(g_pResourceMng + 3772),
       28,
@@ -1009,6 +1009,82 @@ XI_API int __thiscall YmElem_RestoreDevice(_WORD *a1, __int16 a4)
            *(_DWORD *)(g_pResourceMng + 3772),
            3,
            v6);
+}
+
+// FUNCTION: FFXIMAIN 0x100473F0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoElem::GetActiveField0A4(void * self)
+{
+  int *piVar1;
+  int iVar2;
+  int *piVar3;
+  
+  iVar2 = *(int *)((int)self + 0x108);
+  if (iVar2 == 0) {
+    piVar3 = *(int **)((int)self + 0x100);
+    piVar1 = piVar3;
+    if (piVar3 == (int *)0x0) {
+      piVar1 = *(int **)((int)self + 0xfc);
+    }
+    if (piVar1 == (int *)0x0) {
+      iVar2 = 0;
+    }
+    else {
+      iVar2 = *piVar1;
+    }
+    if (*(int *)(iVar2 + 0xa4) != 0) {
+      if (piVar3 == (int *)0x0) {
+        piVar3 = *(int **)((int)self + 0xfc);
+      }
+      else {
+        piVar3 = *(int **)((int)self + 0x100);
+      }
+      if (piVar3 == (int *)0x0) {
+        return iRam000000a4;
+      }
+      return *(int *)(*piVar3 + 0xa4);
+    }
+    iVar2 = 0;
+  }
+  return iVar2;
+}
+
+// FUNCTION: FFXIMAIN 0x10047450  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoElem::GetAddr78(void * self)
+{
+  int *piVar1;
+  
+  if (*(int *)((int)self + 0x108) != 0) {
+    return *(int *)((int)self + 0x108) + 0x40;
+  }
+  piVar1 = *(int **)((int)self + 0x100);
+  if (piVar1 == (int *)0x0) {
+    piVar1 = *(int **)((int)self + 0xfc);
+  }
+  if (piVar1 == (int *)0x0) {
+    return 0x78;
+  }
+  return *piVar1 + 0x78;
+}
+
+// FUNCTION: FFXIMAIN 0x10047490  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoElem::GetAddr84(void * self)
+{
+  int *piVar1;
+  
+  if (*(int *)((int)self + 0x108) != 0) {
+    return *(int *)((int)self + 0x108) + 0x50;
+  }
+  piVar1 = *(int **)((int)self + 0x100);
+  if (piVar1 == (int *)0x0) {
+    piVar1 = *(int **)((int)self + 0xfc);
+  }
+  if (piVar1 == (int *)0x0) {
+    return 0x84;
+  }
+  return *piVar1 + 0x84;
 }
 
 // FUNCTION: FFXIMAIN 0x10047550  (placed by IDB name; static (takes no this))

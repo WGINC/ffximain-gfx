@@ -13,23 +13,34 @@ public:
     int SetClearColor(int a2);  // 0x10009670
     int EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x100096B0
     bool TestCooperativeLevel();  // 0x10009710
+    static int __cdecl Present();  // 0x10009720
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
+    static void __stdcall SetHardwareCursor(HCURSOR param_1);  // 0x10009750
     HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
+    static undefined4 __thiscall AppendStateRecord(void * self);  // 0x10009D20
     int SetViewport(const void *a2);  // 0x10009DC0
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
+    static void __thiscall PushRenderTargetTexture_Flag1(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EA0
+    static void __thiscall PushRenderTargetTexture_Flag0(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EE0
     int PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8);  // 0x10009F20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
+    static void __thiscall PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A200
+    static void __thiscall PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A230
     static void __thiscall PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A290
+    static void __thiscall EndAndClearBegin(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x1000A390
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
     static void __thiscall DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3);  // 0x1000A4F0
+    static void __thiscall DrawTexturedScreenQuadUnit(void * self, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4);  // 0x1000A550
     int DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5);  // 0x1000A5A0
     _DWORD * CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6);  // 0x1000A6E0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int DrawFadeQuad(int a1, int a2);  // 0x1000A820
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
     static uint32_t __thiscall StepFadeCounter(void * self, float param_1, float param_2, int param_3);  // 0x1000AE40
+    static void __cdecl NopA();  // 0x1000BB10
+    static void __cdecl NopB();  // 0x1000BB20
     char DrawStereoOddFrameOverlay(int a1);  // 0x1000BB90
     int SetTransform(int a2, const void *a3);  // 0x1000BD50
     int GetTransformCached(int a2, void *a3);  // 0x1000BDB0

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10296410  (unit unit_102963D0: no unit evidence of its own; in the gap between 0x10296270 (sqmoIO) and 0x102966C0 (sqMatrix3) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10296410(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10)
+XI_API void __cdecl Unit102963D0_Set(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10)
 {
   param_1[1] = param_3;
   param_1[2] = param_4;

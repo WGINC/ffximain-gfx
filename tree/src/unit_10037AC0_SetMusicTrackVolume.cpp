@@ -31,7 +31,7 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
 
 // FUNCTION: FFXIMAIN 0x10037D70  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10037D70(void)
+XI_API void __cdecl MusicTrack_SetVolumeId0009(void)
 {
   void *self_;
   uint64_t uVar1;
@@ -58,7 +58,7 @@ XI_API void __cdecl fn_10037D70(void)
 
 // FUNCTION: FFXIMAIN 0x10037E30  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10037E30(void)
+XI_API void __cdecl MusicTrack_SetVolumeId0011(void)
 {
   void *self_;
   uint64_t uVar1;
@@ -85,7 +85,7 @@ XI_API void __cdecl fn_10037E30(void)
 
 // FUNCTION: FFXIMAIN 0x10037E90  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10037E90(void)
+XI_API void __cdecl MusicTrack_SetVolumeId0013(void)
 {
   void *self_;
   uint64_t uVar1;
@@ -112,7 +112,7 @@ XI_API void __cdecl fn_10037E90(void)
 
 // FUNCTION: FFXIMAIN 0x100380F0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100380F0(uint32_t param_1, undefined4 param_2, undefined4 param_3)
+XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, undefined4 param_3)
 {
   void *self_;
   undefined4 *this_00;
@@ -173,7 +173,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038470(undefined4 xi_e
       }
     }
     if (DAT_1046393c != 0) {
-      xi_eax = orig::FUN_10246320(param_1,xi_eax,param_3);
+      xi_eax = orig::LobbyThread_SendCmd4(param_1,xi_eax,param_3);
     }
   }
   return xi_eax;

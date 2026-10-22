@@ -61,7 +61,7 @@ char ** __cdecl CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf012(float *a1, float *a2, float a3)
 {
-  return orig::CMoProcessor_VT_1032C368_vf012(a1, a2, a3);
+  return orig::CMoProcessor_AddScaled3(a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10070790  (placed by tree manifest; does not use this)
@@ -96,7 +96,7 @@ float * CMoProcessor_VT_1032C1C8::vf016(float *a1, float *a2, float *a3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf021(float *a1, float *a2, float *a3, float a4)
 {
-  return orig::CMoProcessor_VT_1032C368_vf021(a1, a2, a3, a4);
+  return orig::CMoProcessor_Lerp3(a1, a2, a3, a4);
 }
 
 // FUNCTION: FFXIMAIN 0x10070E20  (placed by tree manifest; does not use this)

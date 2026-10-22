@@ -86,9 +86,9 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
   void *pvVar5;
   
   do {
-    uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
+    uVar4 = orig::ResourceIter_InPoolRange(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
     if (((char)uVar4 == '\0') &&
-       (uVar4 = orig::FUN_100741e0(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14)),
+       (uVar4 = orig::ResourceIter_InPoolRange(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14)),
        (char)uVar4 == '\0')) {
       return uVar4;
     }
@@ -157,6 +157,203 @@ uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 param_1
   uint64_t uVar1;
   
   g_resourceFindDepth = g_resourceFindDepth + 1;
-  uVar1 = orig::FUN_100722c0(self,param_1,param_2,param_3,g_resourceFindDepth);
+  uVar1 = orig::CMoResource_FindWorker(self,param_1,param_2,param_3,g_resourceFindDepth);
   return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(param_1)));
+}
+
+// FUNCTION: FFXIMAIN 0x100722C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+uint64_t __thiscall CMoResource::FindWorker(void * self, undefined4 * param_1, uint32_t param_2, int param_3, int param_4)
+{
+  uint32_t uVar1;
+  uint32_t *puVar2;
+  uint32_t uVar3;
+  void *pvVar4;
+  void *pvVar5;
+  void *pvVar6;
+  uint8_t bVar7;
+  uint64_t uVar8;
+  
+  uVar3 = *(uint32_t *)((int)self + 0x24) & 0x7f;
+  pvVar4 = self;
+  pvVar6 = self;
+  if (uVar3 != 1) {
+    pvVar4 = orig::CMoResource_GetParent_v1(self);
+    pvVar6 = pvVar4;
+  }
+  while (pvVar4 != (void *)0x0) {
+    if (*(uint32_t **)((int)pvVar6 + 0x3c) == (uint32_t *)0x0) {
+      pvVar5 = (void *)0x0;
+    }
+    else {
+      pvVar5 = (void *)**(uint32_t **)((int)pvVar6 + 0x3c);
+    }
+    if (pvVar4 == pvVar5) {
+      if (*(uint32_t **)((int)pvVar6 + 0x28) == (uint32_t *)0x0) {
+        pvVar4 = (void *)0x0;
+      }
+      else {
+        pvVar4 = (void *)**(uint32_t **)((int)pvVar6 + 0x28);
+      }
+      bVar7 = pvVar4 == pvVar6;
+      pvVar6 = pvVar4;
+      if (bVar7) break;
+    }
+    else {
+      if ((((uint8_t)*(uint32_t *)((int)pvVar4 + 0x24) & 0x7f) == 1) &&
+         (*(int *)((int)pvVar4 + 0x38) == param_4)) {
+        if (*(uint32_t **)((int)pvVar4 + 0x3c) == (uint32_t *)0x0) {
+          pvVar4 = (void *)0x0;
+        }
+        else {
+          pvVar4 = (void *)**(uint32_t **)((int)pvVar4 + 0x3c);
+        }
+      }
+      if (param_2 == 0) {
+        if (*(int *)((int)pvVar4 + 0x20) == param_3) {
+LAB_10072343:
+          uVar1 = *(uint32_t *)((int)pvVar4 + 0x14);
+          *param_1 = uVar1;
+          return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)(param_1)));
+        }
+      }
+      else if ((*(uint32_t *)((int)pvVar4 + 0x24) & 0x7f) == param_2) {
+        if (param_3 == 0) goto LAB_10072343;
+        if (*(int *)((int)pvVar4 + 0x20) == param_3) {
+          *param_1 = *(uint32_t *)((int)pvVar4 + 0x14);
+          return ((uint64_t)(((uint64_t)(uint32_t)(pvVar6) << 32) | (uint32_t)(param_1)));
+        }
+      }
+    }
+    if (*(int **)((int)pvVar4 + 8) == (int *)0x0) {
+      pvVar4 = (void *)0x0;
+    }
+    else {
+      pvVar4 = (void *)**(int **)((int)pvVar4 + 8);
+    }
+  }
+  pvVar4 = self;
+  if (uVar3 != 1) {
+    pvVar4 = orig::CMoResource_GetParent_v1(self);
+  }
+  puVar2 = *(uint32_t **)((int)pvVar4 + 0x28);
+  *(int *)((int)pvVar4 + 0x38) = param_4;
+  if (puVar2 == (uint32_t *)0x0) {
+    pvVar6 = (void *)0x0;
+  }
+  else {
+    pvVar6 = (void *)*puVar2;
+  }
+  if (pvVar4 != pvVar6) {
+    if (puVar2 != (uint32_t *)0x0) {
+      uVar8 = orig::FUN_100722c0((void *)*puVar2,param_1,param_2,param_3,param_4);
+      return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
+    }
+    uVar8 = orig::FUN_100722c0((void *)0x0,param_1,param_2,param_3,param_4);
+    return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
+  }
+  if (*(uint32_t **)(g_pMeshResourceMng + 0x40008) != *(uint32_t **)((int)self + 0x14)) {
+    uVar8 = orig::FUN_100722c0((void *)**(uint32_t **)(g_pMeshResourceMng + 0x40008),param_1,param_2,
+                         param_3,param_4);
+    return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
+  }
+  *param_1 = 0;
+  return ((uint64_t)(((uint64_t)(uint32_t)(pvVar6) << 32) | (uint32_t)(param_1)));
+}
+
+// FUNCTION: FFXIMAIN 0x100730E0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int param_2)
+{
+  int iVar1;
+  void *pvVar2;
+  void *self;
+  undefined4 *this_00;
+  uint64_t uVar3;
+  
+  iVar1 = param_2;
+  if (DAT_1047cf84_as_v0 == (undefined4 *)0x0) {
+    self = (void *)0x0;
+  }
+  else {
+    self = (void *)*DAT_1047cf84_as_v0;
+  }
+  while( true ) {
+    if (self == (void *)0x0) {
+      uVar3 = orig::FUN_10074f30(dword_1047D140_as_v1,iVar1,0x4d727400);
+      if ((int)uVar3 == 0) {
+        uVar3 = orig::Mem_AllocFromArea_v1(0x49,4);
+        this_00 = (undefined4 *)uVar3;
+        orig::CMoTask_ResetFields_v1(this_00);
+        g_resourcesDirty_as_v0 = 1;
+        if (this_00 == (undefined4 *)0x0) {
+          this_00 = (undefined4 *)0x0;
+        }
+        else {
+          orig::CMoTask_Constructor_v1(this_00);
+          *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
+          this_00[0xe] = 0;
+          *(undefined4 *)((int)this_00 + 0x45) = 0;
+        }
+        orig::FUN_10074a00();
+        uVar3 = orig::Unit10072A50_Start(this_00,&param_2,iVar1);
+        *param_1 = *(undefined4 *)uVar3;
+        return param_1;
+      }
+      *param_1 = *(undefined4 *)((int)uVar3 + 0x3d);
+      return param_1;
+    }
+    pvVar2 = orig::CMoResource_GetParent_v1(self);
+    if ((pvVar2 == self) && (*(int *)((int)self + 0x34) == iVar1)) break;
+    if (*(undefined4 **)((int)self + 0x10) == (undefined4 *)0x0) {
+      self = (void *)0x0;
+    }
+    else {
+      self = (void *)**(undefined4 **)((int)self + 0x10);
+    }
+  }
+  *(uint8_t *)((int)self + 0x19) = *(uint8_t *)((int)self + 0x19) | 0x80;
+  *param_1 = *(undefined4 *)((int)self + 0x14);
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x10073A60  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build)
+void __stdcall CMoResource::RegisterAndMark(int * param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  
+  orig::CMoResource_RegisterInTypeList_v1(param_1);
+  uVar1 = param_1[9] & 0x7f;
+  if (((param_2 & 1) != 0) &&
+     ((((uVar1 == 0x58 || (uVar1 == 0x3d)) || (uVar1 == 0x20)) ||
+      (((uVar1 == 0x5d || (uVar1 == 0x1b)) || (uVar1 == 0x18)))))) {
+    ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
+    *(uint8_t *)((int)param_1 + 0x1a) = *(uint8_t *)((int)param_1 + 0x1a) | 8;
+    return;
+  }
+  if ((((param_2 & 2) != 0) &&
+      ((((uVar1 == 10 || (uVar1 == 0x2e)) ||
+        ((uVar1 == 0x36 ||
+         ((((uVar1 == 0x2a || (uVar1 == 0x29)) || (uVar1 == 0x2b)) ||
+          ((uVar1 == 0x1f || (uVar1 == 0x21)))))))) ||
+       (((uVar1 == 0x25 || ((uVar1 == 0x39 || (uVar1 == 0x31)))) ||
+        (((uVar1 == 0x30 || (((uVar1 == 0x13 || (uVar1 == 0x49)) || (uVar1 == 0x44)))) ||
+         (uVar1 == 0x3e)))))))) ||
+     (((param_2 & 4) != 0 && ((*(uint8_t *)((int)param_1 + 0x1a) >> 3 & 1) == 0)))) {
+    ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
+    *(uint8_t *)((int)param_1 + 0x1a) = *(uint8_t *)((int)param_1 + 0x1a) | 8;
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10073B80  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __stdcall CMoResource::InitAndGetFlag(int * param_1)
+{
+  uint32_t uVar1;
+  
+  orig::FUN_100720b0(param_1);
+  uVar1 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x24))))((void *)(param_1));
+  return uVar1;
 }

@@ -14,7 +14,7 @@ _UNKNOWN ** __cdecl CYyTex::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall TexObj_Constructor(void * self_)
 {
-  orig::FUN_10039830(self_);
+  orig::CYyTexBase_Constructor(self_);
   *(uint8_t ***)self_ = &PTR_CYyTex_GetRuntimeClass_1032aa68;
   *(uint32_t *)((int)self_ + 0x38) = 0;
   *(uint32_t *)((int)self_ + 0x3c) = 0;

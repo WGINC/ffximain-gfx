@@ -14,6 +14,17 @@ int __cdecl CYyModelDt::SetVertexShader(int a1)
     return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x10025010  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CYyModelDt::Construct(void * self)
+{
+  orig::CYyModelDt_Init(self);
+  *(uint8_t ***)self = &PTR_CYyModelDt_GetRuntimeClass_1032a430;
+  *(uint32_t *)((int)self + 0x40) = 0;
+  *(uint8_t *)((int)self + 0x3c) = 1;
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x10025030  (placed by IDB name)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6, int a7)
@@ -64,6 +75,36 @@ char ** __cdecl CYyModelDt::GetRuntimeClass()
   return &CYyModelDt_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10029BB0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYyModelDt::InitBase(void * self)
+{
+  *(uint8_t ***)self = &PTR_FUN_1032a6dc;
+  *(uint32_t *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 8) = 0;
+  *(uint32_t *)((int)self + 0xc) = 0;
+  *(uint32_t *)((int)self + 0x10) = 0;
+  *(uint32_t *)((int)self + 0x14) = 0;
+  *(uint32_t *)((int)self + 0x18) = 0;
+  *(uint32_t *)((int)self + 0x1c) = 0;
+  *(uint32_t *)((int)self + 0x20) = 0;
+  *(uint32_t *)((int)self + 0x24) = 0;
+  *(uint32_t *)((int)self + 0x28) = 0;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10029C90  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 * __thiscall CYyModelDt::Init(void * self)
+{
+  orig::CYyModelDt_InitBase((void *)((int)self + 0x10));
+  *(uint8_t ***)self = &PTR_CYyModelDt_GetRuntimeClass_1032a6e0;
+  *(uint32_t *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 8) = 0;
+  *(uint32_t *)((int)self + 0xc) = 0;
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x10029CB0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
@@ -84,6 +125,16 @@ void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 pa
   this_00 = (void *)orig::ResourceHandle_Deref_v1(*(uint32_t **)((int)self + 8));
   orig::CYyModelDt_SkinAndDrawV2(this_00,param_1,param_2,param_3,param_4,param_5,param_6);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x1002A080  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CYyModelDt::GetResourceWord5E(void * self)
+{
+  int iVar1;
+  
+  iVar1 = orig::ResourceHandle_Deref_v1(*(uint32_t **)((int)self + 8));
+  return *(uint32_t *)(iVar1 + 0x5e);
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)

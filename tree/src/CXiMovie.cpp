@@ -71,23 +71,23 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D3D0  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1021D3D0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1021D3D0(undefined4 param_1)
+undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
 {
   int iVar1;
-  void *self_;
+  void *self;
   uint32_t uVar2;
   
   iVar1 = orig::FUN_10311fde(param_1,&DAT_1034f2d0);
   if (iVar1 != 0) {
     orig::FUN_10311f30(iVar1);
-    self_ = (void *)orig::Mem_AllocDefault_v1(0x28);
-    if (self_ == (void *)0x0) {
+    self = (void *)orig::Mem_AllocDefault_v1(0x28);
+    if (self == (void *)0x0) {
       g_pMovie_as_v1 = (void *)0x0;
     }
     else {
-      g_pMovie_as_v1 = orig::FUN_1021d7f0(self_);
+      g_pMovie_as_v1 = orig::CXiMovie_Construct(self);
       if (g_pMovie_as_v1 != (void *)0x0) {
         uVar2 = orig::FUN_1021d930(g_pMovie_as_v1,param_1);
         if ((char)uVar2 == '\0') {
@@ -129,9 +129,9 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1021D460(undefined4 xi_e
   return xi_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D490  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1021D490  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1021D490(void)
+undefined4 __cdecl CXiMovie::GetField4()
 {
   if (g_pMovie != 0) {
     return *(uint32_t *)(g_pMovie + 4);
@@ -139,9 +139,9 @@ XI_API undefined4 __cdecl fn_1021D490(void)
   return 0;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D4A0  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1021D4A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_1021D4A0(void)
+long double __cdecl CXiMovie::GetDoubleField8()
 {
   if (g_pMovie != 0) {
     return (long double)*(double *)(g_pMovie + 8);
@@ -260,38 +260,38 @@ int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D7F0  (unit CXiMovie: stores CXiMovie vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x1021D7F0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1021D7F0(void * self_)
+void * __thiscall CXiMovie::Construct(void * self)
 {
   int *piVar1;
   
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  *(uint32_t *)((int)self_ + 0x14) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint8_t ***)self_ = &PTR_CXiMovie_GetRuntimeClass_1033bdd0;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  piVar1 = *(int **)((int)self_ + 0x10);
+  *(uint32_t *)((int)self + 0x10) = 0;
+  *(uint32_t *)((int)self + 0x14) = 0;
+  *(uint32_t *)((int)self + 0x18) = 0;
+  *(uint32_t *)((int)self + 0x1c) = 0;
+  *(uint8_t ***)self = &PTR_CXiMovie_GetRuntimeClass_1033bdd0;
+  *(uint32_t *)((int)self + 4) = 0;
+  piVar1 = *(int **)((int)self + 0x10);
   if (piVar1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
   }
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  piVar1 = *(int **)((int)self_ + 0x14);
+  *(uint32_t *)((int)self + 0x10) = 0;
+  piVar1 = *(int **)((int)self + 0x14);
   if (piVar1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
   }
-  *(uint32_t *)((int)self_ + 0x14) = 0;
-  piVar1 = *(int **)((int)self_ + 0x18);
+  *(uint32_t *)((int)self + 0x14) = 0;
+  piVar1 = *(int **)((int)self + 0x18);
   if (piVar1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
   }
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  piVar1 = *(int **)((int)self_ + 0x1c);
+  *(uint32_t *)((int)self + 0x18) = 0;
+  piVar1 = *(int **)((int)self + 0x1c);
   if (piVar1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar1 + 8))))(piVar1);
   }
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  return self_;
+  *(uint32_t *)((int)self + 0x1c) = 0;
+  *(uint32_t *)((int)self + 0x20) = 0;
+  return self;
 }

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10292490  (unit unit_10292470: no unit evidence of its own; in the gap between 0x10292400 (sqIO) and 0x102924F0 (sqmoPlaybackChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 39 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10292490(int param_1, uint32_t param_2)
+XI_API void __cdecl Unit10292470_SwapNibblesXor(int param_1, uint32_t param_2)
 {
   uint8_t bVar1;
   uint32_t uVar2;

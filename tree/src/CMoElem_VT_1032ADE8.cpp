@@ -31,7 +31,7 @@ void CMoElem_VT_1032ADE8::vf18()
   if ( v4 != nullptr )
   {
     v7 = 1.0;
-    v5 = (int *)orig::sub_10044C40((int)self, v12);
+    v5 = (int *)orig::Unit10044C40_ComputeWorldPos((int)self, v12);
     a1[0] = *v5;
     a1[1] = v5[1];
     a1[2] = v5[2];

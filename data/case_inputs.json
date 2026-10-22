@@ -17,15 +17,5 @@
   ],
   "note": "the object-pointer table 0x10456A00..0x10456A27, g_pApp and g_pCDx held empty: for each non-null one the function calls slot 6 (+0x18) of its vtable (0x10016330, 0x10016358, 0x10016373), a destructor of a class the gate has no model of, so a fuzzed pointer makes the original jump to arbitrary code; compared: the empty-slot paths and the three direct calls",
   "evidence": "Disassembly of 0x10016320..0x10016399."
- },
- "0x10003890": {
-  "zero_ranges": [
-   [
-    "0x10480AF0",
-    9216
-   ]
-  ],
-  "note": "the entity table 0x10480AF0 (0x900 pointers) held empty: for each listed entity the function calls slot 102 (+0x198) and +0x1BC of the actor at entity+0xA0 (0x10003A50, 0x10003A6D), methods of classes the gate has no model of, so a fuzzed table makes the original jump to arbitrary code; compared: the paths where the entity slots are empty, and everything else the function does",
-  "evidence": "Disassembly of 0x10003890..0x10003B55: 0x10003A1D mov eax, [eax*4 + 0x10480AF0]; test eax, eax; je 0x10003AD4."
  }
 }

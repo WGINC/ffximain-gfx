@@ -116,13 +116,13 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                          4;
               }
             }
-            orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar10 * 0x40),pfVar27,pfVar14);
+            orig::Mat4_TransformPoint((void *)(g_boneWeightMatrixTableCur + uVar10 * 0x40),pfVar27,pfVar14);
             orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + iVar13 * 4),pfVar9,pfVar14 + 3);
             pfVar27 = pfVar27 + 3;
             pfVar9 = pfVar9 + 3;
             if ((*(uint8_t *)((int)self_ + 0x34) & 1) != 0) {
               pfVar7 = (float *)(*(int *)(iVar18 + 0x76) + iVar31);
-              orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar7);
+              orig::Mat4_TransformPoint((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar7);
               orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar7 + 3);
               pfVar11 = pfVar11 + 3;
               pfVar29 = pfVar29 + 3;
@@ -321,7 +321,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
                 }
               }
               iVar13 = uVar10 * 0x18;
-              orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar16 * 0x40),pfVar27,pfVar22 + uVar10 * 6);
+              orig::Mat4_TransformPoint((void *)(g_boneWeightMatrixTableCur + uVar16 * 0x40),pfVar27,pfVar22 + uVar10 * 6);
               pfVar7 = pfVar14;
               orig::Mat4_TransformNormal_v1
                         ((void *)(g_boneWeightMatrixTableCur + iVar31 * 4),pfVar9,pfVar22 + uVar10 * 6 + 3);
@@ -330,7 +330,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
               pfVar14 = pfVar11;
               if ((*(uint8_t *)((int)self_ + 0x34) & 1) != 0) {
                 pfVar9 = (float *)(*(int *)(iVar18 + 0x76) + iVar13);
-                orig::FUN_10028230((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar9);
+                orig::Mat4_TransformPoint((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar11,pfVar9);
                 orig::Mat4_TransformNormal_v1((void *)(g_boneWeightMatrixTableCur + uVar20 * 4),pfVar29,pfVar9 + 3);
                 pfVar14 = pfVar11 + 3;
                 pfVar29 = pfVar29 + 3;
@@ -759,7 +759,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100303B0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100303B0(void * self_)
+XI_API void __thiscall Skin_BlendWeightMatrices(void * self_)
 {
   int iVar1;
   int iVar2;

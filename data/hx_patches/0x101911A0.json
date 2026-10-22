@@ -15,5 +15,9 @@
    "  *(uint *)((int)this + 0x20) = uVar2;\n  return;",
    "  *(uint *)((int)this + 0x20) = uVar2;\n  return uVar2;"
   ]
- ]
+ ],
+ "set": {
+  "type": "uint __thiscall FUN_101911a0(void)",
+  "ret": "uint"
+ }
 }

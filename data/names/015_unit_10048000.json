@@ -11,12 +11,6 @@
     "evidence": "calls CMoGeneratorClone::ResolveTarget, then walks the command list at this+0xE0 and, for each command whose target id at +4 is zero, fills it from CMoResource::FindByTypeAndId (77 call sites); sets this+0x78..0x8C to 1.0f",
     "summary": "Resolves each command's resource id to its target object."
   },
-  "0x10049330": {
-    "name": "CMoGeneratorClone_FindCmdByType",
-    "confidence": "medium",
-    "evidence": "walks the command list at this+0xE8 (entries advance by (word >> 8 & 0x1F) dwords, stop at type byte 0) and returns the entry whose low byte equals the argument, else 0",
-    "summary": "Finds the first command of the given type in the command list."
-  },
   "0x10049520": {
     "name": "CMoGeneratorClone_CopyType1Dwords",
     "confidence": "low",

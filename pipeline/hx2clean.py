@@ -353,6 +353,9 @@ def canonicalise_names(R, pending):
             new = canon.get(o['ea'])
             if not new or new == nm or o['ea'] == r['ea']: continue
             if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
+            # the text prints the object some other way (Hex-Rays writes `??0X@@QAE@XZ` as `X::X`): renaming it
+            # would part the reference from its record; the translation names it as before
+            if not re.search(r'\b%s\b' % re.escape(nm), r['text']): continue
             r['text'] = re.sub(r'\b%s\b' % re.escape(nm), lambda _m: new, r['text'])
             o['printed'] = [new if p == nm else p for p in o.get('printed', [])]
             r['objs'].setdefault(new, o); del r['objs'][nm]

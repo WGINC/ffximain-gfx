@@ -5,12 +5,6 @@
     "evidence": "calls fn_10032A50 on this and returns this",
     "summary": "Sets a quaternion to identity and returns it."
   },
-  "0x10032A50": {
-    "name": "Quat_SetIdentity",
-    "confidence": "medium",
-    "evidence": "stores 0 to the first three floats and 1.0f (0x3F800000) to the fourth at this+0xC",
-    "summary": "Sets a quaternion to the identity rotation (0, 0, 0, 1)."
-  },
   "0x10032B50": {
     "name": "Quat_Multiply",
     "confidence": "medium",

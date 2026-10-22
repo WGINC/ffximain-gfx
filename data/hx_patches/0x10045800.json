@@ -11,5 +11,9 @@
    "  return;\n}",
    "  return 4;\n}"
   ]
- ]
+ ],
+ "set": {
+  "type": "int __cdecl FUN_10045800(float * param_1)",
+  "ret": "int"
+ }
 }

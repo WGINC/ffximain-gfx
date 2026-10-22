@@ -11,7 +11,8 @@ Checks, each a hard error:
     is shown by the batch's dossier (batches/NNN_group.md) as whole CamelCase parts of a name there (StAvatar in
     StAvatarInit, Time in Time_Normalize), not as letters inside another word: an area word the dossier does not
     show is invented. A unit batch's label (ZoneMap in unit_10178790_ZoneMap) counts as its own;
-  * no name is used twice in the file, by DancingMad (data/dm_names.json), or by another reviewed name
+  * no name is used twice in the file, by DancingMad (data/dm_names.json), by the IDB or the Ghidra project
+    (data/exports/gfx_export.jsonl, runs/ghidra/names.json), or by another reviewed name
     (data/names_pending_idb.json, the other files in data/names/) for a different address.
 Prints OK, or each problem and exits 1."""
 import glob, json, os, re, sys
@@ -44,6 +45,13 @@ def main(index, path):
     own_lc = {o.lower() for o in own}
     for k, v in json.load(open(os.path.join(D, 'dm_names.json'))).items():
         if not k.startswith('_'): taken.setdefault(v[0], '0x%08X' % int(k, 16))
+    # the project's own names: the IDB's (the committed export's function objects) and the Ghidra project's
+    for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
+        for nm_, o in (json.loads(l).get('objs') or {}).items():
+            if o.get('func') and not o.get('import'): taken.setdefault(nm_, '0x%08X' % o['ea'])
+    _g = os.path.join(D, '..', 'runs', 'ghidra', 'names.json')
+    for k, v in (json.load(open(_g)).items() if os.path.exists(_g) else ()):
+        if not BAD.match(v) and not v.startswith('j_'): taken.setdefault(v, '0x%08X' % int(k, 16))
     for p in [os.path.join(D, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(D, 'names', '*.json'))):
         if os.path.abspath(p) == os.path.abspath(path): continue
         for k, v in json.load(open(p)).items():

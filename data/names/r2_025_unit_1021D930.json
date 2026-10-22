@@ -1,0 +1,50 @@
+{
+  "0x1021DE90": {
+    "name": "Unit1021D930_ConstructWithBase",
+    "confidence": "medium",
+    "evidence": "calls base initializer fn_1025FD50 on DAT_10385EB0, stores five vtable pointers, zeroes fields +0x170..+0x180, returns self",
+    "summary": "Initializes the object: base initializer, vtable pointers and zeroed fields."
+  },
+  "0x1021E3B0": {
+    "name": "MeshResource_FindByName",
+    "confidence": "medium",
+    "evidence": "iterates ResourceIter_Start/FindNext over g_pMeshResourceMng (TREE gfx_globals) comparing each entry's name at +0x30",
+    "summary": "Returns the mesh resource whose name matches the given name, or 0 if none does."
+  },
+  "0x1021E550": {
+    "name": "Unit1021D930_UpdateIndexList",
+    "confidence": "low",
+    "evidence": "updates two bitmasks (param_1, param_2) and a 16-bit index list (param_3) in place and returns the new count",
+    "summary": "Updates a 16-bit index list from a bitmask and returns the new count."
+  },
+  "0x1021E690": {
+    "name": "Unit1021D930_ResetFields",
+    "confidence": "low",
+    "evidence": "stores vtable PTR_FUN_1033bf54 and zeroes the six dwords at +0x4..+0x18",
+    "summary": "Resets the object's vtable and six fields to zero."
+  },
+  "0x1021F360": {
+    "name": "Menu_GetWindowRect",
+    "confidence": "medium",
+    "evidence": "calls CTkMenuMng_IsDrawWindow and CTkMenuCtrlData_GetWindowLocate; starts from a fixed rectangle (0x10, 0x10, 0x10, 0x2E) offset by the draw window",
+    "summary": "Fills a menu's window rectangle, offset by the draw window and the menu control's locate."
+  },
+  "0x1021FBD0": {
+    "name": "Unit1021D930_DrawNameRows",
+    "confidence": "low",
+    "evidence": "loops over count entries, draws each name string at +0x7C or +0x214 with Unit101C72E0_DrawString, and a smoothed item at +0xA0 when set",
+    "summary": "Draws a column of rows, each with a name string from the entry list."
+  },
+  "0x1021FCE0": {
+    "name": "ActerBuff_DrawNearby",
+    "confidence": "medium",
+    "evidence": "calls ActerBuff_CollectNearby twice (filters 1 and 0) and passes each result to fn_1021FBD0",
+    "summary": "Collects the nearby acters for each of two filters and draws each group."
+  },
+  "0x102201F0": {
+    "name": "Unit1021D930_DrawGameTime",
+    "confidence": "medium",
+    "evidence": "formats '%d:%02d  %s' from ntGameTimeGet through Time_ModMul3CDiv90 and Time_ModDivD80Div90, and a label from fn_10220350",
+    "summary": "Draws the game time as '%d:%02d' followed by a text label."
+  }
+}

@@ -1,0 +1,3 @@
+{
+"0x10188CA0": {"name": "ZoneMap_FillDirLight", "confidence": "medium", "evidence": "clears the light fields at param_1 and, when the zone's kind at this-0x1C is not 1, fills a fixed light with the 0x437F0000 values; otherwise, for param_2 0 or 1, copies the direction from DAT_1065CA34 and the colour from this+0x14C or this+0x17C with Vec4_Copy and scales the vector by FUN_10186FD0 or FUN_10186F60; sets the light type to 3; called by XiZone_DrawElement and XiZone::GetDirLight", "summary": "Fills a directional light record from one of the zone's two light sets."}
+}

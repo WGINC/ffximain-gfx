@@ -1,0 +1,9 @@
+{
+"0x1006D3B0": {"name": "CMoProcessor_AddScaled3", "confidence": "medium", "evidence": "a1[i] = a3 * a2[i] + a1[i] for i 0..2 (virtual slot 12 of CMoProcessor_VT_1032C368, called by CMoProcessor_VT_1032C1C8::vf012)", "summary": "Adds a scaled 3-component vector to another in place."},
+"0x1006D3E0": {"name": "Mat4_TransposeInPlace", "confidence": "medium", "evidence": "swaps the matrix elements at +4 with +0x10, +8 with +0x20, +0xC with +0x30, +0x18 with +0x24, +0x1C with +0x34 and +0x2C with +0x38, which is an in-place transpose of a 4x4 matrix; called by Mat4x4_SafeTranspose", "summary": "Transposes a 4x4 matrix in place."},
+"0x1006D4D0": {"name": "CMoProcessor_Dot3", "confidence": "medium", "evidence": "returns a1[0]*a2[0] + a1[1]*a2[1] + a1[2]*a2[2] (virtual slot 14)", "summary": "Returns the dot product of two 3-component vectors."},
+"0x1006D580": {"name": "Vec3_LengthSafe", "confidence": "medium", "evidence": "computes the squared length of the three floats, returns 0 when it is zero or NaN and sqrt of it otherwise (virtual slot 37)", "summary": "Returns the length of a 3-component vector, or 0 when it is zero."},
+"0x1006D680": {"name": "CMoProcessor_Add3", "confidence": "medium", "evidence": "a1[i] = a2[i] + a3[i] for i 0..2 (virtual slot 42)", "summary": "Adds two 3-component vectors into the first output."},
+"0x1006D6B0": {"name": "CMoProcessor_Mul3", "confidence": "medium", "evidence": "a1[i] = a2[i] * a3[i] for i 0..2 (virtual slot 43)", "summary": "Multiplies two 3-component vectors component-wise."},
+"0x1006D980": {"name": "CMoProcessor_Lerp3", "confidence": "medium", "evidence": "a1[i] = (a3[i] - a2[i]) * a4 + a2[i] for i 0..2 (virtual slot 21)", "summary": "Linearly interpolates between two 3-component vectors."}
+}

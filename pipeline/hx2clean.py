@@ -474,6 +474,9 @@ def main(exp, gate, manf, incdir, outdir):
     _eu, _du, _er = (json.load(open(os.path.join(_D, f))) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
     _ei = json.load(open(os.path.join(_D, 'eax_inputs.json')))
     _kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in json.load(open(os.path.join(_D, 'eax_kept_sites.json'))).values()}
+    # a kept-EAX call the gate runs as the game does (gate_sees_eax.py) is the gate's to judge, not left out
+    import gate_sees_eax
+    _cases = gate_sees_eax.load_cases(os.path.join(_D, '..', 'verification', 'cases_raw_final.json'))
     def wrapper_bad(cea, fea, ft):
         """the registers game function fea needs from caller cea that a wrapper typed ft does not pass (a list,
         empty if none). Needs: its own code reads ECX / EDX / another register at entry (ecx_use, edx_use,
@@ -493,7 +496,8 @@ def main(exp, gate, manf, incdir, outdir):
         bad += ['EDX' for _ in [0] if 'EDX' not in given and direct(_du.get(k))]
         bad += [r.upper() for r, ins in (_er.get(k) or {}).items()
                 if ' push ' not in ' ' + ins[11:] + ' ' and r.upper() not in given and r.upper() != 'EAX']
-        if 'EAX' not in given and ((_ei.get(k) or {}).get('reads') or (cea, fea) in _kept): bad.append('EAX')
+        if 'EAX' not in given and (_ei.get(k) or {}).get('reads'): bad.append('EAX')
+        elif 'EAX' not in given and (cea, fea) in _kept and not gate_sees_eax.seen(_cases, cea, fea): bad.append('EAX')
         return bad
     left_out = {}
     while True:

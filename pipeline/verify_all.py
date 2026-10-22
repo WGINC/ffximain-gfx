@@ -120,12 +120,15 @@ def main():
     # (eax_kept_sites.json) must call it through a wrapper that passes EAX
     kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in load(os.path.join(D, 'eax_kept_sites.json')).values()}
     by_name = {name: a for a, (name, cc) in wr.items()}
+    # unless the clean gate runs that call as the game does (gate_sees_eax.py): its verdict then judges it
+    sys.path.insert(0, P); import gate_sees_eax
+    gcases = gate_sees_eax.load_cases(os.path.join(V, 'cases_clean_final.json'))
     for fn in sorted(os.listdir(os.path.join(ROOT, 'tree', 'src'))):
         for part in _re.split(r'(?m)^(?=// FUNCTION: FFXIMAIN )', open(os.path.join(ROOT, 'tree', 'src', fn)).read())[1:]:
             cea = int(part.split()[3], 16)
             for name in set(_re.findall(r'\borig::(\w+)\(', part)):
                 a = by_name.get(name)
-                if a is not None and (cea, a) in kept and 'EAX' not in given[a]:
+                if a is not None and (cea, a) in kept and 'EAX' not in given[a] and not gate_sees_eax.seen(gcases, cea, a):
                     bad.append('0x%08X calls %s (0x%08X) without EAX, and reads back what it hands back (eax_kept_sites.json)' % (cea, name, a))
     report('wrapper-regs', not bad, wrappers=len(wr), reads_a_register_it_is_not_given=bad, via_a_callee=via)
 

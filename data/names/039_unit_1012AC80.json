@@ -1,0 +1,5 @@
+{
+"0x10162010": {"name": "Viewport_SetClipped", "confidence": "medium", "evidence": "copies the current render target viewport (CDx_GetRenderTargetTop) into g_viewport_1904, clamps the x and y range from the two arguments to that viewport and calls CDx_SetViewport", "summary": "Sets the viewport to the requested range clipped to the render target."},
+"0x101620D0": {"name": "Font_SetupAdditiveDraw", "confidence": "medium", "evidence": "calls Gfx_SetAdditiveBlend and then Font_BindGlyphTexture with g_pFontGlyphs", "summary": "Sets additive blending and binds the font glyph texture for drawing."},
+"0x101633D0": {"name": "Vec3_ZeroDwords", "confidence": "medium", "evidence": "stores 0 to the three dwords at this, +4 and +8", "summary": "Zeroes a 3-component dword vector."}
+}

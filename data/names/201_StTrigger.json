@@ -1,0 +1,3 @@
+{
+"0x10252EA0": {"name": "StTrigger_FindIndexAtLeast", "confidence": "low", "evidence": "when param_2 is in range and the flags at +0 have bits 4 and 8 set, walks the entries at +0xF for the first one whose key at +4 is at least param_3, stores its index at +0 and returns it, else -1", "summary": "Finds the first trigger entry whose key is at least a given value."}
+}

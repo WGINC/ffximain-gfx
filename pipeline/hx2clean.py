@@ -350,8 +350,9 @@ def canonicalise_names(R, pending):
                     r['text'] = head + '\n{' + re.sub(r'(?<![\w:])(?:::)?\b%s\b(?!::)' % re.escape(nm), new, body)
                 o['printed'] = [new]; r['objs'][new] = r['objs'].pop(nm)
                 continue
-            new = canon.get(o['ea'])
-            if not new or new == nm or o['ea'] == r['ea']: continue
+            # a recursive call names the function itself: it takes the record's own name (DancingMad's, reviewed)
+            new = r['name'] if o['ea'] == r['ea'] else canon.get(o['ea'])
+            if not new or new == nm or not re.match(r'^[A-Za-z_]\w*$', new): continue
             if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
             # the text prints the object some other way (Hex-Rays writes `??0X@@QAE@XZ` as `X::X`): renaming it
             # would part the reference from its record; the translation names it as before
@@ -427,6 +428,7 @@ def main(exp, gate, manf, incdir, outdir):
             r = dict(r, objs=hx2cpp.ghidra_auto_objs(r, r['text'].partition('\n{')[2]),
                      name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True, _exp=_exp)
             r['text'] = re.sub(r'\bFUN_%08x\b' % r['ea'], r['name'], r['text'])
+        _gname0 = r['name']
         dmn = _dm.get(hex(r['ea']))
         if dmn and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
             r['name'] = dmn[0]                       # DancingMad's name (data/dm_names.json, pipeline/dm_names.py)
@@ -435,6 +437,9 @@ def main(exp, gate, manf, incdir, outdir):
             r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
+        if r.get('ghidra') and r['name'] != _gname0 and re.match(r'^[A-Za-z_]\w*$', r['name']):
+            # a Ghidra record's recursive calls were written with its first name (above): they take the new one
+            r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
     passed = set()

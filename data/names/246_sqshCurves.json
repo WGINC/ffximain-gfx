@@ -1,0 +1,20 @@
+{
+  "0x102ACF20": {
+    "name": "SqshCurves_Create",
+    "confidence": "medium",
+    "evidence": "creates a 0x6C-byte object with FUN_10275D40 (type 1, the sqShape source name, 0x24) and initialises it with SqshCurves_Init (FUN_102ACF40)",
+    "summary": "Creates and initialises a new sqshCurves object."
+  },
+  "0x102ACF40": {
+    "name": "SqshCurves_Init",
+    "confidence": "medium",
+    "evidence": "sets the header word at +0 to 0xA0002, the callbacks at +8, +0xC, +0x10 and +0x2C, the pointer at +0x30, initialises the sub-object at +0x14 with FUN_1028D9A0, clears the fields at +0x34 to +0x68 and sets +0x54 to 1.0f",
+    "summary": "Initialises a sqshCurves object's header, callbacks and default fields."
+  },
+  "0x102AD990": {
+    "name": "SqshCurves_RebuildIndex",
+    "confidence": "medium",
+    "evidence": "when the flag at +0x4C is zero, finds the largest value in the array at +0x48, reallocates the index array at +0x50 with that many entries, fills it with 0 to n-1, then calls FUN_102A9EF0, FUN_102AD1D0, FUN_102A9F30 and FUN_102AD770 on the object",
+    "summary": "Rebuilds the curve index array from the largest value in its source array."
+  }
+}

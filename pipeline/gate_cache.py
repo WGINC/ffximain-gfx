@@ -5,12 +5,13 @@ and each case gets a fresh emulator. Its result is therefore a function of exact
 
   static   the harness code (diffemu_gfx.py, diffemu_fixed.py, live_state.py, this file), the unicorn /
            capstone / pefile versions, the game DLL, the case record, trials and seed, the data files the
-           harness reads whole (com_spec.json, import_nargs.json, func_extents.json), and in live mode the
+           harness reads whole (com_spec.json, import_nargs.json, func_extents.json, type_fixes.json,
+           com_vtables.json, purges.json), the function's own caller_reads and ret_width entries, and in live mode the
            live config, its dump and build map;
   dynamic  the bytes of the reconstruction DLL the run touched -- every address executed, read or written in
            the reconstruction's window (0x60000000-0x61000000) by either side, with whether it lies in the
            image and in an executable section -- and the call-site facts site_pops looked up (each lookup's
-           entries in callsite_args / sp_solved / real_sp / vcalls / com_calls / ecx_this_sites).
+           entries in callsite_args / sp_solved / real_sp / game_sp / vcalls / com_calls / ecx_this_sites).
 
 A cached verdict is reused when the static key matches and every recorded dynamic dependency has the same
 value now (the new DLL holds the same bytes at the touched addresses, the facts give the same entries). The
@@ -50,9 +51,10 @@ def base_key(game_dll, live_cfg):
     h = hashlib.sha256()
     for f in ('diffemu_gfx.py', 'diffemu_fixed.py', 'live_state.py', 'gate_cache.py'):
         h.update(f.encode()); h.update(_sha_file(os.path.join(P, f)).encode())
-    for f in ('com_spec.json', 'import_nargs.json', 'func_extents.json', 'type_fixes.json', 'caller_reads.json',
-              'com_vtables.json', 'purges.json', 'ida_proto_origin.json',
-              'ret_width.json'):
+    # (caller_reads.json and ret_width.json are read one entry per case: case_key holds the case's own entries;
+    # ida_proto_origin.json acts through the "typed" entries site_pops looks up, recorded per run as sites)
+    for f in ('com_spec.json', 'import_nargs.json', 'func_extents.json', 'type_fixes.json', 'com_vtables.json',
+              'purges.json'):
         p = os.path.join(D, f); h.update(f.encode()); h.update(_sha_file(p).encode() if os.path.exists(p) else b'-')
     h.update(('%s %s %s' % (unicorn.__version__, capstone.__version__, pefile.__version__)).encode())
     h.update(_sha_file(game_dll).encode())
@@ -66,8 +68,10 @@ def base_key(game_dll, live_cfg):
     return h.hexdigest()
 
 
-def case_key(base, case, trials, seed):
-    return hashlib.sha256(('%s|%d|%d|' % (base, trials, seed) + json.dumps(case, sort_keys=True)).encode()).hexdigest()
+def case_key(base, case, trials, seed, facts=None):
+    """facts: the per-function fact entries the run reads (diffemu_gfx: its caller_reads and ret_width entries)"""
+    return hashlib.sha256(('%s|%d|%d|' % (base, trials, seed) + json.dumps(case, sort_keys=True)
+                           + '|' + json.dumps(facts, sort_keys=True)).encode()).hexdigest()
 
 
 class Image:
@@ -104,7 +108,7 @@ def ranges(points):
 
 
 def site_record(callsites, k):
-    return [callsites.get(s, {}).get(k) for s in ('typed', 'solved', 'real', 'vtable', 'com')] + [k in callsites.get('ecx_this', ())]
+    return [callsites.get(s, {}).get(k) for s in ('typed', 'solved', 'real', 'game', 'vtable', 'com')] + [k in callsites.get('ecx_this', ())]
 
 
 class Tracker:

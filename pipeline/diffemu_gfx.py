@@ -1440,7 +1440,8 @@ def gate_file(o, cases_path, out_path):
         if use_cache:
             st = os.stat(recon); ik = (recon, st.st_size, st.st_mtime_ns)     # a worker outlives files: key by version
             img = images.get(ik) or images.setdefault(ik, GC.Image(recon))
-            c = chunk[0]; key = GC.case_key(base, c, o.trials, o.seed)
+            c = chunk[0]; _o = int(c['original'], 16)
+            key = GC.case_key(base, c, o.trials, o.seed, [CALLER_READS.get(_o), RET_WIDTH.get(_o)])
             r = GC.lookup(key, img, _CALLSITES) if len(chunk) == 1 else None
             if r is not None:
                 hits += 1; f.write(json.dumps(r) + '\n'); f.flush(); k += len(chunk)

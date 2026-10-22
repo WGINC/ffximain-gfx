@@ -1,0 +1,62 @@
+{
+  "0x10001D90": {
+    "name": "Input_ForwardMouseMove",
+    "confidence": "low",
+    "evidence": "divides the argument by 0x78 and passes it to CTkMouse_OnMouseMove on the cursor when the menu manager reports true from FUN_1015EDB0, otherwise to FUN_1025E210",
+    "summary": "Forwards a vertical mouse movement to the menu cursor or to the input handler."
+  },
+  "0x10001E70": {
+    "name": "Str_AppendWithSpace",
+    "confidence": "medium",
+    "evidence": "allocates a buffer for the global string at DAT_103D3C88, a space and the argument, copies the global, appends a space and the argument, frees the old global and stores the new buffer in DAT_103D3C88",
+    "summary": "Appends a space and a string to the global string."
+  },
+  "0x10001F40": {
+    "name": "Str_FindTokenCopy",
+    "confidence": "low",
+    "evidence": "searches the global string at DAT_103D3C88 for the argument with FUN_10311EB0, copies the following token into param_2 up to param_3 characters, and returns the position after it",
+    "summary": "Finds a word in the global string and copies the token after it."
+  },
+  "0x10002440": {
+    "name": "Color_SwapRedBlue",
+    "confidence": "medium",
+    "evidence": "returns the argument with its low and high bytes of the low word exchanged: (x & 0xFF00FF00) | ((x >> 16) & 0xFF) | ((x & 0xFF) << 16)",
+    "summary": "Swaps the red and blue channels of a packed 32-bit colour."
+  },
+  "0x10002E60": {
+    "name": "Gfx_SetAspectIndex",
+    "confidence": "low",
+    "evidence": "stores the argument at DAT_10456BE8 and calls Gfx_ApplyAspectScale with it",
+    "summary": "Stores an aspect-ratio index and applies its scale."
+  },
+  "0x10002E80": {
+    "name": "Gfx_ApplyAspectScale",
+    "confidence": "medium",
+    "evidence": "reads the two aspect values for the index from Gfx_GetAspectTableB and Gfx_GetAspectTableA, and calls FUN_100153A0 with them to set the camera's scale",
+    "summary": "Sets the camera scale from the aspect-ratio table entry for an index."
+  },
+  "0x10002EC0": {
+    "name": "Gfx_GetAspectTableA",
+    "confidence": "low",
+    "evidence": "returns the float at DAT_1034F4A0 + min(index, 5) * 8",
+    "summary": "Returns the first value of the aspect-ratio table entry for an index, clamped to five."
+  },
+  "0x10002EE0": {
+    "name": "Gfx_GetAspectTableB",
+    "confidence": "low",
+    "evidence": "returns the float at DAT_1034F4A4 + min(index, 5) * 8",
+    "summary": "Returns the second value of the aspect-ratio table entry for an index, clamped to five."
+  },
+  "0x100035F0": {
+    "name": "Gfx_InitObject",
+    "confidence": "medium",
+    "evidence": "calls FUN_10003660 on the sub-object at +4, sets the vtable to PTR_FUN_1032965c, and calls FUN_10003640 on the object",
+    "summary": "Initialises the graphics helper object and its sub-object."
+  },
+  "0x10003640": {
+    "name": "Gfx_ResetObject",
+    "confidence": "low",
+    "evidence": "calls FUN_10003700 and returns",
+    "summary": "Resets the graphics helper object."
+  }
+}

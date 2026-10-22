@@ -1,0 +1,83 @@
+# Problems log
+
+Open problems found while working, each with what is known, from where, and what is not known. A problem moves
+to **Resolved** with what fixed it (and the commit) once that is shown, not when it seems likely.
+
+## Open
+
+### P1. The live-dump gates were not run on the current tree (22 Oct)
+- **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree.
+  Some functions' code has changed since under the same symbol (0x10038E10 now comes from the frame-set export).
+- **Not known:** whether this build's functions pass on the dumps. The dumps are not in this environment.
+- **Consequence:** `verification/gate_clean_final.jsonl` holds fuzz verdicts only. The kit
+  (`kit/xikit/make_manifest.py`, "PASS on fuzz and the four dumps") is not rebuilt from it until the dumps are
+  rerun or the owner accepts fuzz alone.
+
+### P2. 0x1001A850 (`CYyMotionQue_GetResource`): the game's load order is not reproduced (22 Oct)
+- **Known:** the game's code is `mov eax,[esp+4]; mov ecx,[ecx+34h]; mov [eax],ecx; ret 4`, the parameter loaded
+  before the field. Visual C++ 6.0 + c2.dll 13.0.9044 compiles `*p = field_34` the other way round.
+- **Tried, all compile to the other order:**
+  - spellings: through a `self_` copy, through `this`, a member field, an `int` member, a 4-byte struct copy, an
+    inline getter, a reference parameter;
+  - options: `/O1`, `/Ox`, `/O2 /G5`, `/O2 /G6`, `/O2 /GX` (`/Oy-`, `/Og /Oi /Ot` and `/Od` add a frame).
+- **Not known:** what source or build gives that order.
+
+### P3. A gate worker process exited mid-piece (22 Oct)
+- **Known:** in the clean gate of 22 Oct (runs/promo9), the worker for the piece holding 0x10257FF0 exited and left
+  no result. Run on its own, 0x10257FF0 gave PASS.
+- **Not known:** why the worker exited. Nothing in its log says.
+
+### P4. Clean-tree functions not verified (22 Oct, clean gate before the R2 fix)
+| Function | Verdict | What is known |
+|---|---|---|
+| 0x10040220 | FAIL | trial 1: AL 128 vs 144 (return byte differs) |
+| 0x1006F0A0 | FAIL | trial 1: memory differs at 0x30004FA4: original 224 / reconstruction 223 |
+| 0x1006F800 | FAIL | trial 25: memory differs at 0x30000F54: original 132 / reconstruction 131 |
+| 0x10003890 | UNRESOLVED | the call at 0x10003A50 has no definitive pop count |
+| 0x10016320 | INCONCLUSIVE | the original never returns under the gate's inputs |
+
+The causes of the three FAILs have not been looked into yet.
+
+### P5. verify_all `export-sp`: IDA's stack depths wrong in 0x100412B0 (before 21 Oct)
+- **Known:** from 0x100419F4 on, IDA's SP is 4 more than the exact depth (`data/ida_sp_audit.json`). The function's
+  IDA-route raw gate FAILs, and it is not in the tree.
+- **Open:** verify_all reports this as a failure, because no correction is recorded for it.
+
+### P6. 51 gate-passed functions left out of the tree (22 Oct)
+- **Known:** each calls a game function that may read a register its wrapper does not pass: 49 EAX, 1 ECX, 1 EDX
+  (`tree/left_out.json`).
+- **Needed to bring them back:** all callers known (`data/eax_inputs.json` `callers_known`), or declared void
+  prototypes from the IDB, or the reads shown to be masked off.
+
+### P7. msvc_tu.py covers only part of the tree (22 Oct)
+- **Covered:** integer code, member and free functions, globals (declared from `gfx_globals.hpp` and checked by
+  address), calls to the game (`orig::`, typed wrappers and untyped XI_ANY arguments, checked by address).
+- **Left out, each with its reason:** floating point, address-taken frames (`xi_frame`), calls through a pointer,
+  entry-EAX reads, calls whose wrapper returns XI_ANY, `orig_void::` calls.
+- **Compile errors still met:**
+  - implicit pointer conversions that GCC's `-fpermissive` accepts and MSVC6 rejects (`void *` to `T *`, between
+    unrelated pointer types);
+  - a few globals the body names that `gfx_globals.hpp` does not bind (e.g. `DAT_10485643`).
+
+### P8. The IDB declares `g_pCamera` (0x104568FC) as `std::codecvt_base *` (22 Oct)
+- **Known:** the IDA export's code writes it from `App_Constructor`'s result: `g_pCamera = (std::codecvt_base *)v3;`
+  (`data/exports/gfx_export.jsonl`). `tree/include/gfx_globals.hpp` carries that type. A C++ library facet type
+  for an object the game's own constructor makes contradicts the code, so the declaration looks like a wrong
+  library-signature match in the IDB.
+- **Not known:** the global's real type. It is left as declared until a source gives one (the class
+  `App_Constructor` builds, from its vtable or the PS2 debug data).
+
+## Resolved
+
+### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)
+- **Cause:** `pipeline/map_clean_cases.py` took the first export for each demangled name. Two `SetMotion` overloads
+  share it, so 0x100CD540 was gated against 0x100CD490's code.
+- **Fix:** an overloaded name is resolved by the parameter count of the function's declaration in the tree's
+  headers; a name still ambiguous is not mapped. Gated against its own code: PASS (commit 4c7729e).
+
+### R2. 0x1003C7D0 FAILed in the clean build only, 1 trial in 100 (22 Oct)
+- **Cause:** trial 43 set a vtable slot to 0x60253808, inside the reconstruction DLL's zero padding. Both runs
+  executed the padding (`add [esi], cl`), whose writes depend on leftover registers.
+- **Fix:** the game never runs the reconstruction's code, so in the original's run that code is not executable.
+  Landing there is execution of data, repaired like any other (`pipeline/diffemu_gfx.py`, commit 4c7729e). The trial
+  then passes. The whole clean gate is being rerun with the fix.

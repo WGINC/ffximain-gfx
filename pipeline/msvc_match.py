@@ -8,7 +8,7 @@ c2.dll), run under wine.
 A function's source is compiled to an object (one COMDAT per function, /Gy), and the function's bytes are compared
 with the DLL's bytes at its address. A field the object relocates (an address: a global, a called function, a jump
 table) holds the linker's value in the DLL, so it is compared by its target, not its bytes: the caller supplies
-{symbol: address} for the symbols the source names, and each relocation's target must be that address
+{symbol: address} for the symbols the source names (also by its undecorated name), and each relocation's target must be that address
 (REL32: the DLL's field is target - (field + 4); DIR32: the DLL's field is the target itself). A compiler-made
 constant (`__real@...`, a floating literal) needs no address: the bytes the object defines for it must be the
 bytes at the address the DLL's field holds.
@@ -90,8 +90,12 @@ def match(src_text, symbol, ea, symaddr, opts=None):
                 if bytes(im.img[got - im.base:got - im.base + len(cv)]) != cv:
                     return False, 'byte %d: constant %s is not the DLL\'s bytes at 0x%08X' % (i, t, got)
                 i += 4; continue
-            if t not in symaddr: return False, 'byte %d: relocation to %s, whose address is not given' % (i, t)
-            want = symaddr[t] if k == 'dir32' else (symaddr[t] - (ea + i + 4)) & 0xFFFFFFFF
+            # a symbol given by its undecorated name: `?NAME@@...` (a variable or function at file scope) as NAME,
+            # `?NAME@CLASS@@...` (a member) as CLASS::NAME
+            v = symaddr.get(t); um = re.match(r'^\?(\w+)@(?:(\w+)@)?@', t)
+            if v is None and um: v = symaddr.get('%s::%s' % (um.group(2), um.group(1)) if um.group(2) else um.group(1))
+            if v is None: return False, 'byte %d: relocation to %s, whose address is not given' % (i, t)
+            want = v if k == 'dir32' else (v - (ea + i + 4)) & 0xFFFFFFFF
             if k not in ('rel32', 'dir32') or got != want:
                 return False, 'byte %d: %s to %s: DLL holds 0x%08X, expected 0x%08X' % (i, k, t, got, want)
             i += 4; continue

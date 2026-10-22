@@ -516,7 +516,7 @@ class MsvcUnit(unittest.TestCase):
     def test_left_out(self):
         import msvc_tu as T
         d = 'int fn_1(int a)\n{\n  return orig::X(a);\n}'
-        self.assertEqual(T.unit(1, d, {}, {}), (None, 'calls the game (orig::)'))
+        self.assertEqual(T.unit(1, d, {}, {}), (None, 'calls X, whose wrapper is not typed'))
         self.assertEqual(T.unit(1, 'float fn_1(float a)\n{\n  return a;\n}', {}, {}), (None, 'floating point'))
 
     def test_thiscall_free_function(self):
@@ -533,3 +533,19 @@ class MsvcUnit(unittest.TestCase):
         self.assertEqual(sym, '?f@C@@')
         self.assertIn('(*(uint32_t *)((uint8_t *)(this) + (0x34))) = 0;', src)
         self.assertEqual(T.unit(0x2000, 'void C::f()\n{\n  this->m = 0;\n}', {}, {})[1], 'this->m: no offset in the header')
+
+    def test_game_calls(self):
+        import msvc_tu as T
+        origs = {'F': ('int', '__thiscall', ['void *', 'int'], 0x10001000), 'G': ('void', '__cdecl', ['XI_ANY'], 0x10002000)}
+        body, decls, addr = T.game_calls('{ x = orig::F(p, 2); orig::G(c); }', origs)
+        self.assertEqual(body, '{ x = ((XI_C_F *)(p))->F(2); G(xi_any(c)); }')
+        self.assertEqual(decls, ['struct XI_C_F { int F(int); };', 'void __cdecl G(unsigned int);'])
+        self.assertEqual(addr, {'XI_C_F::F': 0x10001000, 'G': 0x10002000})
+        self.assertEqual(T.game_calls('{ orig::H(); }', origs)[1], 'calls H, whose wrapper is not typed')
+
+    def test_globals(self):
+        import msvc_tu as T
+        g = {'g_p': ('typedef CDx * g_p_t;', 0x10400000)}
+        d, a = T.global_decls('return g_p;', g)
+        self.assertEqual(d, 'class CDx;\ntypedef CDx * g_p_t;\nextern g_p_t g_p;\n')
+        self.assertEqual(a, {'g_p': 0x10400000})

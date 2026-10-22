@@ -1,0 +1,8 @@
+{
+  "0x1002C800": {
+    "name": "ListPair_PopHead",
+    "confidence": "low",
+    "evidence": "when the list at +8 is non-empty, links its head to the list at +4 and stores the head in the out-pointer; otherwise stores the head of the list at +4 or 0",
+    "summary": "Takes the head entry from one of the object's two lists."
+  }
+}

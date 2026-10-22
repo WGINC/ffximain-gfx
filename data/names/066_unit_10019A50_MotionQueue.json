@@ -1,0 +1,14 @@
+{
+  "0x1001A3E0": {
+    "name": "MotionQueList_ProcessAll",
+    "confidence": "medium",
+    "evidence": "loops over seven queues at self+0x78 stepping back 0x14 bytes, calling FUN_1001B2E0, FUN_1001AC40 and FUN_1001B1F0 on each",
+    "summary": "Runs each of the seven motion queues in turn."
+  },
+  "0x1001A6E0": {
+    "name": "MotionQueList_QueueMotion",
+    "confidence": "medium",
+    "evidence": "returns early when FUN_10084620 reports a motion and the object's vtable slot 0x200 says it is not ready; otherwise appends the motion to the queue at self + index * 0x14 with KzMotionQueList_AppendSync, and for index 0 calls the object's vtable slot 0x1FC with 0",
+    "summary": "Appends a motion to one of the seven motion queues and starts the first queue's motion on the object."
+  }
+}

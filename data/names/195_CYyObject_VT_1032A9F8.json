@@ -1,0 +1,4 @@
+{
+"0x10039550": {"name": "ThreadPool_Shutdown", "confidence": "low", "evidence": "sets the byte at +5 of each of the eight non-null entries at this+0xC to 1, then calls fn_100396A0 on each of them; called by Lobby_DestroyThreadPool", "summary": "Signals the pool's workers to stop and waits for them."},
+"0x100395D0": {"name": "CYyObject_VT_1032A9F8_Construct", "confidence": "low", "evidence": "sets vtable PTR_CYyObject_VT_1032A9F8_ScalarDeletingDtor_2_1032aa14, the bytes at +4 and +5 to 1 and 0, zeroes +6, +8 and +0xC; called by ThreadPool_StartThread", "summary": "Constructs the thread-pool object and clears its state."}
+}

@@ -1,0 +1,26 @@
+{
+  "0x10037D70": {
+    "name": "MusicTrack_SetVolumeId0009",
+    "confidence": "low",
+    "evidence": "finds and caches the resource with the id 0x39303030 through CMoResource_FindByTypeAndId, then sets its volume with FUN_10036F00 to DAT_10351700 times 127",
+    "summary": "Sets the volume of the music track with resource id 0009."
+  },
+  "0x10037E30": {
+    "name": "MusicTrack_SetVolumeId0011",
+    "confidence": "low",
+    "evidence": "finds and caches the resource with the id 0x31313030 through CMoResource_FindByTypeAndId, then sets its volume with FUN_10036F00 to DAT_10351700 times 127",
+    "summary": "Sets the volume of the music track with resource id 0011."
+  },
+  "0x10037E90": {
+    "name": "MusicTrack_SetVolumeId0013",
+    "confidence": "low",
+    "evidence": "finds and caches the resource with the id 0x33313030 through CMoResource_FindByTypeAndId, then sets its volume with FUN_10036F00 to DAT_10351700 times 127",
+    "summary": "Sets the volume of the music track with resource id 0013."
+  },
+  "0x100380F0": {
+    "name": "MusicTrackTask_Create",
+    "confidence": "medium",
+    "evidence": "when the cached task at DAT_10463938 is null, allocates a 0x40-byte task, resets it with CMoTask_ResetFields, constructs it, sets its vtable to PTR_CMoTask_GetRuntimeClass_variant12_1032a9bc, looks up the resource by the byte-swapped id, and sets the task's volume from DAT_10351710 times the second argument times 127",
+    "summary": "Creates the music track task for a resource and sets its volume."
+  }
+}

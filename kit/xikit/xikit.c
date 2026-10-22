@@ -232,7 +232,16 @@ static const char DEFAULT_INI[] =
   "ab=0\r\nab_after=60\r\nab_phase=30\r\nab_rounds=4\r\nab_settle=60\r\n"
   "; every frame slower than this many ms (Present to Present) goes to xikit_spikes_<pid>.csv with its frame number (the\r\n"
   ";    resource log's frame numbers match, with profile=1: what was created in a stutter); 0 = off\r\n"
-  "spike_ms=50\r\n";
+  "spike_ms=50\r\n"
+  "; [watch]: record game memory values to xikit_watch.csv (kit/README.md, Recording fields). enabled=1 turns it on; every=N\r\n"
+  ";    records every N frames, a line only when a value changed. w1..w64 = NAME BASE CHAIN TYPE: BASE an analysed-build\r\n"
+  ";    address (0x10480AF0), or BASE[i] for slot i of an array of 4-byte pointers at BASE, or BASE[@ADDR] for the slot\r\n"
+  ";    whose index is the signed 16-bit word at the analysed address ADDR, read each time; CHAIN comma-separated offsets,\r\n"
+  ";    p = BASE; every offset but the last: p = *(uint32_t*)(p + off); the field is at p + the last one; '-' = BASE itself\r\n"
+  ";    (not with [i]); TYPE u8 u16 u32 i32 f32 ptr. An unreadable value is '?'. Ctrl+Alt+F7 writes a '#MARK n' line\r\n"
+  ";    (with bisect=1 that key is also bisect's 'bad' answer)\r\n"
+  "[watch]\r\nenabled=0\r\nevery=1\r\n"
+  ";w1=ent0_x 0x10480AF0[0] 0x98 f32\r\n";
 
 static void read_cfg(void) {
   Cfg c; memset(&c, 0, sizeof c);
@@ -1014,6 +1023,130 @@ static void ab_frame(double ms) {       /* each frame's time, after Present */
   if (g_ab_seen++ >= g_ab_settle && g_ab_n < AB_MAX) g_ab_ft[g_ab_n++] = ms;
 }
 
+/* ------------------------------------------------------------------------------------------------ watch
+   [watch] in xikit.ini: record game memory values to xikit_watch.csv (kit/README.md, Recording fields). Off (enabled=0): nothing
+   below runs per frame. Every read is checked with VirtualQuery first, so a bad pointer gives "?" and never a fault. */
+#define W_MAX 64
+#define W_CHAIN 8
+typedef struct { char name[48], spec[200]; uint32_t base, idx_at; int idx, nch, off[W_CHAIN], type; } WEntry;   /* idx_at: index read from there */
+enum { WT_U8, WT_U16, WT_U32, WT_I32, WT_F32, WT_PTR };
+static const char *const W_TYPES[] = {"u8", "u16", "u32", "i32", "f32", "ptr"};
+static WEntry g_w[W_MAX]; static int g_w_n, g_w_on, g_w_every = 1, g_w_hdr = 1, g_w_mark, g_w_keydown;
+static int g_w_have; static uint32_t g_w_raw[W_MAX]; static char g_w_ok[W_MAX];     /* the last line written */
+
+static int w_readable(uint32_t a, uint32_t n) {
+  MEMORY_BASIC_INFORMATION m; uint32_t end = a + n;
+  if (end < a) return 0;
+  while (a < end) {
+    if (!VirtualQuery((void *)(uintptr_t)a, &m, sizeof m) || m.State != MEM_COMMIT || (m.Protect & (PAGE_NOACCESS | PAGE_GUARD))) return 0;
+    if (!(m.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY))) return 0;
+    uint32_t r = (uint32_t)((uintptr_t)m.BaseAddress + m.RegionSize);
+    if (r <= a) return 0;
+    a = r;
+  }
+  return 1;
+}
+static int w_u32(uint32_t a, uint32_t *v) { if (!w_readable(a, 4)) return 0; memcpy(v, (void *)(uintptr_t)a, 4); return 1; }
+
+static void watch_read(void) {                  /* the [watch] section; a changed list starts a new header */
+  int on = GetPrivateProfileIntA("watch", "enabled", 0, g_ini) != 0, n = 0;
+  g_w_every = GetPrivateProfileIntA("watch", "every", 1, g_ini); if (g_w_every < 1) g_w_every = 1;
+  static WEntry e[W_MAX]; memset(e, 0, sizeof e);
+  if (on) for (int i = 1; i <= W_MAX; i++) {
+    char key[16], val[256], nm[48], bs[64], ch[128], ty[8];
+    snprintf(key, sizeof key, "w%d", i);
+    GetPrivateProfileStringA("watch", key, "", val, sizeof val, g_ini);
+    if (!val[0]) continue;
+    if (sscanf(val, "%47s %63s %127s %7s", nm, bs, ch, ty) != 4) { klog("watch: %s: expected NAME BASE CHAIN TYPE, ignored", key); continue; }
+    WEntry *w = &e[n]; snprintf(w->name, sizeof w->name, "%s", nm); w->idx = -1; w->idx_at = 0;
+    char *end; unsigned long b = strtoul(bs, &end, 0);
+    if (end == bs || !b) { klog("watch: %s: bad BASE '%s', ignored", key, bs); continue; }
+    w->base = (uint32_t)b;
+    if (end[0] == '[' && end[1] == '@') {          /* BASE[@ADDR]: the index is the signed 16-bit word at ADDR, read each time */
+      char *e2; unsigned long ia = strtoul(end + 2, &e2, 0);
+      if (e2 == end + 2 || *e2 != ']' || e2[1] || !ia) { klog("watch: %s: bad index address in '%s', ignored", key, bs); continue; }
+      w->idx = 0; w->idx_at = (uint32_t)ia;
+    }
+    else if (*end == '[') { char *e2; long ix = strtol(end + 1, &e2, 10); if (e2 == end + 1 || *e2 != ']' || e2[1] || ix < 0 || ix > 0xFFFFF) { klog("watch: %s: bad index in '%s', ignored", key, bs); continue; } w->idx = (int)ix; }
+    else if (*end) { klog("watch: %s: bad BASE '%s', ignored", key, bs); continue; }
+    w->nch = 0;
+    if (strcmp(ch, "-")) {
+      char *p = ch; int bad = 0;
+      while (*p) {
+        if (w->nch >= W_CHAIN) { bad = 1; break; }
+        char *e3; long o = strtol(p, &e3, 0);
+        if (e3 == p || (*e3 && *e3 != ',')) { bad = 1; break; }
+        w->off[w->nch++] = (int)o; p = *e3 ? e3 + 1 : e3;
+      }
+      if (bad || !w->nch) { klog("watch: %s: bad CHAIN '%s' (at most %d offsets), ignored", key, ch, W_CHAIN); continue; }
+    } else if (w->idx >= 0) { klog("watch: %s: CHAIN '-' with an index [i] is not defined, ignored", key); continue; }
+    int t = -1; for (int k = 0; k < 6; k++) if (!strcmp(ty, W_TYPES[k])) t = k;
+    if (t < 0) { klog("watch: %s: bad TYPE '%s' (u8,u16,u32,i32,f32,ptr), ignored", key, ty); continue; }
+    w->type = t; snprintf(w->spec, sizeof w->spec, "%s %s %s %s", nm, bs, ch, ty); n++;
+  }
+  int same = on == g_w_on && n == g_w_n;
+  for (int i = 0; same && i < n; i++) if (strcmp(e[i].spec, g_w[i].spec)) same = 0;
+  if (!same) {
+    memcpy(g_w, e, sizeof g_w); g_w_n = n; g_w_hdr = 1; g_w_have = 0;
+    if (on) klog("watch: recording %d value(s) every %d frame(s) to xikit_watch.csv; Ctrl+Alt+F7 marks", n, g_w_every);
+    else if (g_w_on) klog("watch: off");
+  }
+  g_w_on = on;
+}
+
+static int w_value(const WEntry *w, uint32_t *raw) {      /* 0: unreadable */
+  uint32_t p = live_of(w->base);
+  uint32_t ix = (uint32_t)w->idx;
+  if (w->idx_at) { int16_t v16; uint32_t ia = live_of(w->idx_at); if (!w_readable(ia, 2)) return 0; memcpy(&v16, (void *)(uintptr_t)ia, 2); if (v16 < 0) return 0; ix = (uint32_t)v16; }
+  if (w->idx >= 0) { if (!w_u32(p + 4u * ix, &p)) return 0; }
+  for (int i = 0; i < w->nch; i++) {
+    if (i < w->nch - 1) { if (!w_u32(p + (uint32_t)w->off[i], &p)) return 0; }
+    else p += (uint32_t)w->off[i];
+  }
+  uint32_t n = w->type == WT_U8 ? 1 : w->type == WT_U16 ? 2 : 4;
+  *raw = 0; if (!w_readable(p, n)) return 0;
+  memcpy(raw, (void *)(uintptr_t)p, n); return 1;
+}
+
+static void w_out(const char *line) {
+  char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_watch.csv", g_out);
+  FILE *f = fopen(path, "ab"); if (!f) return;
+  fputs(line, f); fclose(f);
+}
+
+static void watch_frame(void) {            /* on the render thread, each frame, only when [watch] enabled=1 */
+  int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F7) & 0x8000);
+  unsigned long long ms = (unsigned long long)GetTickCount64();
+  if (down && !g_w_keydown) { g_w_mark++; char l[96]; snprintf(l, sizeof l, "%u,%llu,#MARK %d\n", g_frame, ms, g_w_mark); w_out(l); klog("watch: #MARK %d at frame %u", g_w_mark, g_frame); }
+  g_w_keydown = down;
+  if (!g_w_n || g_frame % (uint32_t)g_w_every) return;
+  uint32_t raw[W_MAX]; char ok[W_MAX]; int changed = !g_w_have;
+  for (int i = 0; i < g_w_n; i++) { ok[i] = (char)w_value(&g_w[i], &raw[i]); if (!ok[i]) raw[i] = 0;
+    if (g_w_have && (ok[i] != g_w_ok[i] || raw[i] != g_w_raw[i])) changed = 1; }
+  if (g_w_hdr) {
+    char h[8192]; int k = 0;
+    for (int i = 0; i < g_w_n && k < (int)sizeof h - 300; i++) k += snprintf(h + k, sizeof h - k, "#watch %s\n", g_w[i].spec);
+    k += snprintf(h + k, sizeof h - k, "frame,ms");
+    for (int i = 0; i < g_w_n && k < (int)sizeof h - 80; i++) k += snprintf(h + k, sizeof h - k, ",%s", g_w[i].name);
+    snprintf(h + k, sizeof h - k, "\n"); w_out(h); g_w_hdr = 0;
+  }
+  if (!changed) return;
+  char l[8192]; int k = snprintf(l, sizeof l, "%u,%llu", g_frame, ms);
+  for (int i = 0; i < g_w_n && k < (int)sizeof l - 120; i++) {
+    k += snprintf(l + k, sizeof l - k, ",%s=", g_w[i].name);
+    if (!ok[i]) { k += snprintf(l + k, sizeof l - k, "?"); continue; }
+    uint32_t v = raw[i]; float fl;
+    switch (g_w[i].type) {
+      case WT_I32: k += snprintf(l + k, sizeof l - k, "%d", (int32_t)v); break;
+      case WT_F32: memcpy(&fl, &v, 4); k += snprintf(l + k, sizeof l - k, "%.6g", (double)fl); break;
+      case WT_PTR: k += snprintf(l + k, sizeof l - k, "0x%08X", v); break;
+      default: k += snprintf(l + k, sizeof l - k, "%u", v);
+    }
+  }
+  snprintf(l + k, sizeof l - k, "\n"); w_out(l);
+  memcpy(g_w_raw, raw, sizeof raw); memcpy(g_w_ok, ok, sizeof ok); g_w_have = 1;
+}
+
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
   if (g_sampling == 2 && !g_native_started) start_native_sampler();
@@ -1048,7 +1181,8 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
     }
     if (g_trace_attached) trace_step();
     if (fcap_enabled) fcap_step();
-    if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
+    if (g_frame % 60 == 0 && ini_changed()) { read_cfg(); watch_read(); g_dirty = 1; klog("xikit.ini changed: re-read"); }
+    if (g_w_on) watch_frame();
     if (g_nmods) mods_watch();
     ab_control();
     if (g_dirty) apply();
@@ -1901,7 +2035,7 @@ static DWORD WINAPI start(LPVOID self) {
     klog("kit build: %s", line[0] ? line : "no VERSION.txt next to xikit.dll");
   }
   if (strcmp(g_out, g_dir)) klog("this start's files go to %s (log_folder=1)", g_out);
-  ini_changed(); read_cfg();
+  ini_changed(); read_cfg(); watch_read();
   HMODULE game;
   while (!(game = GetModuleHandleA("FFXiMain.dll"))) Sleep(100);   /* injected possibly long before it loads */
   IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)game + ((IMAGE_DOS_HEADER *)game)->e_lfanew);

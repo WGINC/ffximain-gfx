@@ -1,0 +1,3950 @@
+{
+ "_sources": {
+  "ashita": "Ashita v4 SDK, plugins/sdk/ffxi/*.h (LGPL-3.0); offsets by offsetof, compiled for i686",
+  "windower5": "Windower 5 packages, libraries/memory/types.lua; offsets as written"
+ },
+ "ashita": {
+  "abilityrecast_t": {
+   "0x2": {
+    "name": "RecastCalc1",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x3": {
+    "name": "TimerId",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x4": {
+    "name": "RecastCalc2",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x6": {
+    "name": "unknown0006",
+    "size": 2,
+    "type": "int16_t"
+   }
+  },
+  "allianceinfo_t": {
+   "0x10": {
+    "name": "PartyVisible1",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x11": {
+    "name": "PartyVisible2",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x12": {
+    "name": "PartyVisible3",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x13": {
+    "name": "PartyMemberCount1",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x14": {
+    "name": "PartyMemberCount2",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x15": {
+    "name": "PartyMemberCount3",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x16": {
+    "name": "Invited",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x17": {
+    "name": "InviteParty",
+    "size": 1,
+    "type": "int8_t"
+   },
+   "0x4": {
+    "name": "PartyLeaderServerId1",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "PartyLeaderServerId2",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC": {
+    "name": "PartyLeaderServerId3",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  },
+  "arrowposition_t": {
+   "0x4": {
+    "name": "Z",
+    "size": 4,
+    "type": "float"
+   },
+   "0x8": {
+    "name": "Y",
+    "size": 4,
+    "type": "float"
+   },
+   "0xC": {
+    "name": "W",
+    "size": 4,
+    "type": "float"
+   }
+  },
+  "autofollow_t": {
+   "0x10": {
+    "name": "FollowDeltaZ",
+    "size": 4,
+    "type": "float"
+   },
+   "0x14": {
+    "name": "FollowDeltaY",
+    "size": 4,
+    "type": "float"
+   },
+   "0x18": {
+    "name": "FollowDeltaW",
+    "size": 4,
+    "type": "float"
+   },
+   "0x1C": {
+    "name": "VTablePointer2",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x20": {
+    "name": "FollowTargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x24": {
+    "name": "FollowTargetServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x28": {
+    "name": "IsFirstPersonCamera",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x29": {
+    "name": "IsAutoRunning",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x2A": {
+    "name": "padding002A",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x2C": {
+    "name": "unknown002C",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x30": {
+    "name": "IsCameraLocked",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x31": {
+    "name": "IsCameraLockedOn",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x32": {
+    "name": "padding0032",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "TargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "TargetServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC": {
+    "name": "FollowDeltaX",
+    "size": 4,
+    "type": "float"
+   }
+  },
+  "castbar_t": {
+   "0x10": {
+    "name": "m_Reposition",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x11": {
+    "name": "unknown0011",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x14": {
+    "name": "Max",
+    "size": 4,
+    "type": "float"
+   },
+   "0x18": {
+    "name": "Count",
+    "size": 4,
+    "type": "float"
+   },
+   "0x1C": {
+    "name": "Percent",
+    "size": 4,
+    "type": "float"
+   },
+   "0x20": {
+    "name": "CastType",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x4": {
+    "name": "m_BaseObj",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x8": {
+    "name": "m_pParentMCD",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xC": {
+    "name": "m_InputEnable",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xD": {
+    "name": "unknown000D",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xE": {
+    "name": "m_SaveCursol",
+    "size": 2,
+    "type": "uint16_t"
+   }
+  },
+  "combatskills_t": {
+   "0x10": {
+    "name": "Polearm",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x12": {
+    "name": "Katana",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x14": {
+    "name": "GreatKatana",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x16": {
+    "name": "Club",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x18": {
+    "name": "Staff",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x1A": {
+    "name": "Unused0000",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x1C": {
+    "name": "Unused0001",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x1E": {
+    "name": "Unused0002",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x2": {
+    "name": "HandToHand",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x20": {
+    "name": "Unused0003",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x22": {
+    "name": "Unused0004",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x24": {
+    "name": "Unused0005",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x26": {
+    "name": "Unused0006",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x28": {
+    "name": "Unused0007",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x2A": {
+    "name": "Unused0008",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x2C": {
+    "name": "AutomatonMelee",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x2E": {
+    "name": "AutomatonRanged",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x30": {
+    "name": "AutomatonMagic",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x32": {
+    "name": "Archery",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x34": {
+    "name": "Marksmanship",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x36": {
+    "name": "Throwing",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x38": {
+    "name": "Guarding",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x3A": {
+    "name": "Evasion",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x3C": {
+    "name": "Shield",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x3E": {
+    "name": "Parrying",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x4": {
+    "name": "Dagger",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x40": {
+    "name": "Divine",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x42": {
+    "name": "Healing",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x44": {
+    "name": "Enhancing",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x46": {
+    "name": "Enfeebling",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x48": {
+    "name": "Elemental",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x4A": {
+    "name": "Dark",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x4C": {
+    "name": "Summon",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x4E": {
+    "name": "Ninjutsu",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x50": {
+    "name": "Singing",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x52": {
+    "name": "String",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x54": {
+    "name": "Wind",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x56": {
+    "name": "BlueMagic",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x58": {
+    "name": "Geomancy",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x5A": {
+    "name": "Handbell",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x5C": {
+    "name": "Unused0009",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x5E": {
+    "name": "Unused0010",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x6": {
+    "name": "Sword",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0x8": {
+    "name": "GreatSword",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0xA": {
+    "name": "Axe",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0xC": {
+    "name": "GreatAxe",
+    "size": 2,
+    "type": "combatskill_t"
+   },
+   "0xE": {
+    "name": "Scythe",
+    "size": 2,
+    "type": "combatskill_t"
+   }
+  },
+  "craftskills_t": {
+   "0x10": {
+    "name": "Cooking",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x12": {
+    "name": "Synergy",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x14": {
+    "name": "Riding",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x16": {
+    "name": "Digging",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x18": {
+    "name": "Unused0000",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x1A": {
+    "name": "Unused0001",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x1C": {
+    "name": "Unused0002",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x1E": {
+    "name": "Unused0003",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x2": {
+    "name": "Woodworking",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x4": {
+    "name": "Smithing",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x6": {
+    "name": "Goldsmithing",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0x8": {
+    "name": "Clothcraft",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0xA": {
+    "name": "Leathercraft",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0xC": {
+    "name": "Bonecraft",
+    "size": 2,
+    "type": "craftskill_t"
+   },
+   "0xE": {
+    "name": "Alchemy",
+    "size": 2,
+    "type": "craftskill_t"
+   }
+  },
+  "entity_t": {
+   "0x11C": {
+    "name": "ActionTimer1",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x11E": {
+    "name": "ActionTimer2",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x120": {
+    "name": "Render",
+    "size": 36,
+    "type": "render_t"
+   },
+   "0x144": {
+    "name": "PopEffect",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x145": {
+    "name": "UpdateMask",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x146": {
+    "name": "InteractionTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x148": {
+    "name": "NpcSpeechFrame",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x14A": {
+    "name": "LookAxisX",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x14C": {
+    "name": "LookAxisY",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x14E": {
+    "name": "MouthCounter",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x150": {
+    "name": "MouthWaitCounter",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x152": {
+    "name": "CraftTimerUnknown",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x154": {
+    "name": "CraftServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x158": {
+    "name": "CraftAnimationEffect",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x15A": {
+    "name": "CraftAnimationStep",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x15B": {
+    "name": "CraftParam",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x15C": {
+    "name": "MovementSpeed2",
+    "size": 4,
+    "type": "float"
+   },
+   "0x160": {
+    "name": "NpcWalkPosition1",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x162": {
+    "name": "NpcWalkPosition2",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x164": {
+    "name": "NpcWalkMode",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x166": {
+    "name": "CostumeId",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x168": {
+    "name": "Mou4",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x16C": {
+    "name": "StatusServer",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x170": {
+    "name": "Status",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x174": {
+    "name": "StatusEvent",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x178": {
+    "name": "unknown0178",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x17C": {
+    "name": "unknown017C",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x180": {
+    "name": "ModelTime",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x184": {
+    "name": "ModelStartTime",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x188": {
+    "name": "ClaimStatus",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x18C": {
+    "name": "ZoneId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x190": {
+    "name": "Animations",
+    "size": 40,
+    "type": "uint32_t"
+   },
+   "0x1B8": {
+    "name": "AnimationTime",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1BA": {
+    "name": "AnimationStep",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1BC": {
+    "name": "AnimationPlay",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1BD": {
+    "name": "unknown01BD",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1BE": {
+    "name": "EmoteTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1C0": {
+    "name": "EmoteId",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1C2": {
+    "name": "padding01C2",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1C4": {
+    "name": "EmoteIdString",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1C8": {
+    "name": "EmoteTargetActorPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x1CC": {
+    "name": "unknown01CC",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1D0": {
+    "name": "SpawnFlags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1D4": {
+    "name": "LinkshellColor",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1D8": {
+    "name": "NameColor",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1DA": {
+    "name": "CampaignNameFlag",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1DB": {
+    "name": "MountId",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1DC": {
+    "name": "FishingUnknown0000",
+    "size": 4,
+    "type": "int32_t"
+   },
+   "0x1E0": {
+    "name": "FishingUnknown0001",
+    "size": 4,
+    "type": "int32_t"
+   },
+   "0x1E4": {
+    "name": "FishingActionCountdown",
+    "size": 4,
+    "type": "int32_t"
+   },
+   "0x1E8": {
+    "name": "FishingRodCastTime",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x1EA": {
+    "name": "FishingUnknown0002",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x1EC": {
+    "name": "LastActionId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1F0": {
+    "name": "MogMotionId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1F4": {
+    "name": "LastActionActorPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x1F8": {
+    "name": "TargetedIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1FA": {
+    "name": "PetTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1FC": {
+    "name": "UpdateRequestDelay",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1FE": {
+    "name": "IsDirty",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1FF": {
+    "name": "BallistaFlags",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x200": {
+    "name": "PankrationEnabled",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x201": {
+    "name": "PankrationFlagFlip",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x202": {
+    "name": "unknown0202",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x204": {
+    "name": "ModelSize",
+    "size": 4,
+    "type": "float"
+   },
+   "0x208": {
+    "name": "ModelHitboxSize",
+    "size": 4,
+    "type": "float"
+   },
+   "0x20C": {
+    "name": "EnvironmentAreaId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x210": {
+    "name": "MonstrosityFlag",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x212": {
+    "name": "MonstrosityNameId",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x214": {
+    "name": "MonstrosityName",
+    "size": 32,
+    "type": "int8_t"
+   },
+   "0x234": {
+    "name": "MonstrosityNameEnd",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x235": {
+    "name": "MonstrosityNameAbbr",
+    "size": 24,
+    "type": "uint8_t"
+   },
+   "0x24D": {
+    "name": "MonstrosityNameAbbrEnd",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x24E": {
+    "name": "padding024E",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x250": {
+    "name": "CustomProperties",
+    "size": 44,
+    "type": "uint8_t"
+   },
+   "0x27C": {
+    "name": "BallistaInfo",
+    "size": 36,
+    "type": "uint8_t"
+   },
+   "0x2A0": {
+    "name": "FellowTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x2A2": {
+    "name": "WarpTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x2A4": {
+    "name": "TrustOwnerTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x2A6": {
+    "name": "AreaDisplayTargetIndex",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x2A8": {
+    "name": "unknown02A8",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x4": {
+    "name": "Movement",
+    "size": 112,
+    "type": "movement_t"
+   },
+   "0x74": {
+    "name": "TargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x78": {
+    "name": "ServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x7C": {
+    "name": "Name",
+    "size": 28,
+    "type": "int8_t"
+   },
+   "0x98": {
+    "name": "MovementSpeed",
+    "size": 4,
+    "type": "float"
+   },
+   "0x9C": {
+    "name": "AnimationSpeed",
+    "size": 4,
+    "type": "float"
+   },
+   "0xA0": {
+    "name": "ActorPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xA4": {
+    "name": "Attachments",
+    "size": 48,
+    "type": "uintptr_t"
+   },
+   "0xD4": {
+    "name": "EventPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xD8": {
+    "name": "Distance",
+    "size": 4,
+    "type": "float"
+   },
+   "0xDC": {
+    "name": "TurnSpeed",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xE0": {
+    "name": "TurnSpeedHead",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xE4": {
+    "name": "Heading",
+    "size": 4,
+    "type": "float"
+   },
+   "0xE8": {
+    "name": "Next",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xEC": {
+    "name": "HPPercent",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xED": {
+    "name": "unknown00ED",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xEE": {
+    "name": "Type",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xEF": {
+    "name": "Race",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xF0": {
+    "name": "LocalMoveCount",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xF2": {
+    "name": "ActorLockFlag",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xF4": {
+    "name": "ModelUpdateFlags",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xF6": {
+    "name": "unknown00F6",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xF7": {
+    "name": "padding00F7",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xF8": {
+    "name": "DoorId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xFC": {
+    "name": "Look",
+    "size": 32,
+    "type": "look_t"
+   }
+  },
+  "equipmententry_t": {
+   "0x4": {
+    "name": "Index",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  },
+  "inventory_t": {
+   "0x10024": {
+    "name": "TreasurePoolStatus",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10028": {
+    "name": "TreasurePoolItemCount",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x10060": {
+    "name": "ContainerUpdateCounter",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10064": {
+    "name": "ContainerUpdateFlags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10068": {
+    "name": "ContainerUpdateBuffer",
+    "size": 384,
+    "type": "uint8_t"
+   },
+   "0x101E8": {
+    "name": "ContainerUpdateIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1026C": {
+    "name": "DisplayItemSlot",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10270": {
+    "name": "DisplayItemPointer",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104B4": {
+    "name": "CheckTargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104B8": {
+    "name": "CheckServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104BC": {
+    "name": "CheckFlags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104C0": {
+    "name": "CheckMainJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C1": {
+    "name": "CheckSubJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C2": {
+    "name": "CheckMainJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C3": {
+    "name": "CheckSubJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C4": {
+    "name": "CheckMainJob2",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C5": {
+    "name": "CheckMasteryLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C6": {
+    "name": "CheckMasteryFlags",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C7": {
+    "name": "padding104C7",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104C8": {
+    "name": "CheckLinkshellName",
+    "size": 16,
+    "type": "uint8_t"
+   },
+   "0x104D8": {
+    "name": "CheckLinkshellColor",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x104DA": {
+    "name": "CheckLinkshellIconSetId",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104DB": {
+    "name": "CheckLinkshellIconSetIndex",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x104DC": {
+    "name": "CheckBallistaChevronCount",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104E0": {
+    "name": "CheckBallistaChevronFlags",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x104E2": {
+    "name": "CheckBallistaFlags",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x104E4": {
+    "name": "UserMessageCount",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x104E8": {
+    "name": "SearchComment",
+    "size": 132,
+    "type": "char"
+   },
+   "0x1056C": {
+    "name": "CraftStatus",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10570": {
+    "name": "CraftCallback",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x10574": {
+    "name": "CraftTimestampResponse",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x10578": {
+    "name": "CraftTimestampAttempt",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xFA98": {
+    "name": "iLookItem",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xFA9C": {
+    "name": "pItem",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xFAA0": {
+    "name": "unknownFAA0",
+    "size": 532,
+    "type": "uint8_t"
+   },
+   "0xFCB4": {
+    "name": "TreasurePool",
+    "size": 880,
+    "type": "treasureitem_t"
+   }
+  },
+  "item_t": {
+   "0x10": {
+    "name": "Extra",
+    "size": 28,
+    "type": "uint8_t"
+   },
+   "0x2": {
+    "name": "Index",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "Count",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "Flags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC": {
+    "name": "Price",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  },
+  "itemcheck_t": {
+   "0x4": {
+    "name": "ItemId",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x6": {
+    "name": "padding0006",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x8": {
+    "name": "Extra",
+    "size": 28,
+    "type": "uint8_t"
+   }
+  },
+  "jobpointentry_t": {
+   "0x2": {
+    "name": "Points",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "PointsSpent",
+    "size": 2,
+    "type": "uint16_t"
+   }
+  },
+  "jobpointsinfo_t": {
+   "0x1": {
+    "name": "unknown0001",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x4": {
+    "name": "Jobs",
+    "size": 144,
+    "type": "jobpointentry_t"
+   }
+  },
+  "look_t": {
+   "0x10": {
+    "name": "Ranged",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x12": {
+    "name": "unknown0012",
+    "size": 14,
+    "type": "uint8_t"
+   },
+   "0x2": {
+    "name": "Head",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "Body",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x6": {
+    "name": "Hands",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x8": {
+    "name": "Legs",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xA": {
+    "name": "Feet",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xC": {
+    "name": "Main",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xE": {
+    "name": "Sub",
+    "size": 2,
+    "type": "uint16_t"
+   }
+  },
+  "mountrecast_t": {
+   "0x4": {
+    "name": "TimerId",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  },
+  "move_t": {
+   "0x10": {
+    "name": "DeltaX",
+    "size": 4,
+    "type": "float"
+   },
+   "0x14": {
+    "name": "DeltaZ",
+    "size": 4,
+    "type": "float"
+   },
+   "0x18": {
+    "name": "DeltaY",
+    "size": 4,
+    "type": "float"
+   },
+   "0x1C": {
+    "name": "DeltaW",
+    "size": 4,
+    "type": "float"
+   },
+   "0x20": {
+    "name": "DeltaRoll",
+    "size": 4,
+    "type": "float"
+   },
+   "0x24": {
+    "name": "DeltaYaw",
+    "size": 4,
+    "type": "float"
+   },
+   "0x28": {
+    "name": "DeltaPitch",
+    "size": 4,
+    "type": "float"
+   },
+   "0x2C": {
+    "name": "unknown002C",
+    "size": 4,
+    "type": "float"
+   },
+   "0x4": {
+    "name": "Z",
+    "size": 4,
+    "type": "float"
+   },
+   "0x8": {
+    "name": "Y",
+    "size": 4,
+    "type": "float"
+   },
+   "0xC": {
+    "name": "W",
+    "size": 4,
+    "type": "float"
+   }
+  },
+  "movement_t": {
+   "0x20": {
+    "name": "LastPosition",
+    "size": 32,
+    "type": "position_t"
+   },
+   "0x40": {
+    "name": "Move",
+    "size": 48,
+    "type": "move_t"
+   }
+  },
+  "partymember_t": {
+   "0x18": {
+    "name": "ServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1C": {
+    "name": "TargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x20": {
+    "name": "LastUpdatedTimestamp",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x24": {
+    "name": "HP",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x28": {
+    "name": "MP",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x2C": {
+    "name": "TP",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x30": {
+    "name": "HPPercent",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x31": {
+    "name": "MPPercent",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x32": {
+    "name": "Zone",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x34": {
+    "name": "Zone2",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x36": {
+    "name": "unknown0036",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x38": {
+    "name": "FlagMask",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x3C": {
+    "name": "TreasureLots",
+    "size": 20,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "Index",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x5": {
+    "name": "MemberNumber",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x50": {
+    "name": "MonstrosityItemId",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x52": {
+    "name": "MonstrosityPrefixFlag1",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x53": {
+    "name": "MonstrosityPrefixFlag2",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x54": {
+    "name": "MonstrosityName",
+    "size": 25,
+    "type": "uint8_t"
+   },
+   "0x6": {
+    "name": "Name",
+    "size": 18,
+    "type": "int8_t"
+   },
+   "0x6D": {
+    "name": "MainJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6E": {
+    "name": "MainJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6F": {
+    "name": "SubJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x70": {
+    "name": "SubJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x71": {
+    "name": "MasterLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x72": {
+    "name": "MasterBreaker",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x73": {
+    "name": "unknown0073",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x74": {
+    "name": "ServerId2",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x78": {
+    "name": "HPPercent2",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x79": {
+    "name": "MPPercent2",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x7A": {
+    "name": "IsActive",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x7B": {
+    "name": "padding007B",
+    "size": 1,
+    "type": "uint8_t"
+   }
+  },
+  "player_t": {
+   "0x10": {
+    "name": "Stats",
+    "size": 14,
+    "type": "playerstats_t"
+   },
+   "0x1E": {
+    "name": "StatsModifiers",
+    "size": 14,
+    "type": "playerstats_t"
+   },
+   "0x1E4": {
+    "name": "MountRecast",
+    "size": 8,
+    "type": "mountrecast_t"
+   },
+   "0x1EC": {
+    "name": "DataLoadedFlags",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1ED": {
+    "name": "padding01ED",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1EE": {
+    "name": "LimitPoints",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1F2": {
+    "name": "MeritPointsMax",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x1F3": {
+    "name": "unknown01F3",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x1F6": {
+    "name": "padding01F6",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x1F8": {
+    "name": "JobPoints",
+    "size": 148,
+    "type": "jobpointsinfo_t"
+   },
+   "0x28C": {
+    "name": "HomepointMasks",
+    "size": 64,
+    "type": "uint8_t"
+   },
+   "0x2C": {
+    "name": "Attack",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x2CC": {
+    "name": "StatusIcons",
+    "size": 64,
+    "type": "int16_t"
+   },
+   "0x2E": {
+    "name": "Defense",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x30": {
+    "name": "Resists",
+    "size": 16,
+    "type": "playerresists_t"
+   },
+   "0x30C": {
+    "name": "StatusTimers",
+    "size": 128,
+    "type": "uint32_t"
+   },
+   "0x38C": {
+    "name": "unknown038C",
+    "size": 32,
+    "type": "uint8_t"
+   },
+   "0x3AC": {
+    "name": "IsZoning",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x3B0": {
+    "name": "StatusOffset1",
+    "size": 16,
+    "type": "statusoffset_t"
+   },
+   "0x3C0": {
+    "name": "StatusOffset2",
+    "size": 16,
+    "type": "statusoffset_t"
+   },
+   "0x3D0": {
+    "name": "StatusOffset3",
+    "size": 16,
+    "type": "statusoffset_t"
+   },
+   "0x3E0": {
+    "name": "StatusOffset4",
+    "size": 16,
+    "type": "statusoffset_t"
+   },
+   "0x3F0": {
+    "name": "SubMapNum",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x3F4": {
+    "name": "unknown03F4",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x3F8": {
+    "name": "Buffs",
+    "size": 64,
+    "type": "int16_t"
+   },
+   "0x4": {
+    "name": "MPMax",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x40": {
+    "name": "Title",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x42": {
+    "name": "Rank",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x44": {
+    "name": "RankPoints",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x46": {
+    "name": "Homepoint",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x48": {
+    "name": "MonsterBuster",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x4C": {
+    "name": "Nation",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x4D": {
+    "name": "Residence",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x4E": {
+    "name": "SuLevel",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x50": {
+    "name": "HighestItemLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x51": {
+    "name": "ItemLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x52": {
+    "name": "MainHandItemLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x53": {
+    "name": "RangedItemLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x54": {
+    "name": "UnityInfo",
+    "size": 4,
+    "type": "unityinfo_t"
+   },
+   "0x58": {
+    "name": "UnityPartialPersonalEvalutionPoints",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x5A": {
+    "name": "UnityPersonalEvaluationPoints",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x5C": {
+    "name": "UnityChatColorFlag",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x60": {
+    "name": "MasteryJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x61": {
+    "name": "MasteryJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x62": {
+    "name": "MasteryFlags",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x63": {
+    "name": "padding0063",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x64": {
+    "name": "MasteryExp",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x68": {
+    "name": "MasteryExpNeeded",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x6C": {
+    "name": "CombatSkills",
+    "size": 96,
+    "type": "combatskills_t"
+   },
+   "0x8": {
+    "name": "MainJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x9": {
+    "name": "MainJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xA": {
+    "name": "SubJob",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xB": {
+    "name": "SubJobLevel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xC": {
+    "name": "ExpCurrent",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xCC": {
+    "name": "CraftSkills",
+    "size": 32,
+    "type": "craftskills_t"
+   },
+   "0xE": {
+    "name": "ExpNeeded",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0xEC": {
+    "name": "AbilityInfo",
+    "size": 248,
+    "type": "abilityrecast_t"
+   }
+  },
+  "playerresists_t": {
+   "0x2": {
+    "name": "Ice",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x4": {
+    "name": "Wind",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x6": {
+    "name": "Earth",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x8": {
+    "name": "Lightning",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xA": {
+    "name": "Water",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xC": {
+    "name": "Light",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xE": {
+    "name": "Dark",
+    "size": 2,
+    "type": "int16_t"
+   }
+  },
+  "playerstats_t": {
+   "0x2": {
+    "name": "Dexterity",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x4": {
+    "name": "Vitality",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x6": {
+    "name": "Agility",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0x8": {
+    "name": "Intelligence",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xA": {
+    "name": "Mind",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xC": {
+    "name": "Charisma",
+    "size": 2,
+    "type": "int16_t"
+   }
+  },
+  "position_t": {
+   "0x10": {
+    "name": "Roll",
+    "size": 4,
+    "type": "float"
+   },
+   "0x14": {
+    "name": "Yaw",
+    "size": 4,
+    "type": "float"
+   },
+   "0x18": {
+    "name": "Pitch",
+    "size": 4,
+    "type": "float"
+   },
+   "0x1C": {
+    "name": "unknown001C",
+    "size": 4,
+    "type": "float"
+   },
+   "0x4": {
+    "name": "Z",
+    "size": 4,
+    "type": "float"
+   },
+   "0x8": {
+    "name": "Y",
+    "size": 4,
+    "type": "float"
+   },
+   "0xC": {
+    "name": "W",
+    "size": 4,
+    "type": "float"
+   }
+  },
+  "render_t": {
+   "0x10": {
+    "name": "Flags4",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x14": {
+    "name": "Flags5",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x18": {
+    "name": "Flags6",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x1C": {
+    "name": "Flags7",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x20": {
+    "name": "Flags8",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x4": {
+    "name": "Flags1",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "Flags2",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC": {
+    "name": "Flags3",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  },
+  "statusiconsentry_t": {
+   "0x10": {
+    "name": "StatusIcons",
+    "size": 32,
+    "type": "uint8_t"
+   },
+   "0x4": {
+    "name": "TargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "BitMask",
+    "size": 8,
+    "type": "uint64_t"
+   }
+  },
+  "statusoffset_t": {
+   "0x4": {
+    "name": "Z",
+    "size": 4,
+    "type": "float"
+   },
+   "0x8": {
+    "name": "Y",
+    "size": 4,
+    "type": "float"
+   },
+   "0xC": {
+    "name": "W",
+    "size": 4,
+    "type": "float"
+   }
+  },
+  "target_t": {
+   "0x50": {
+    "name": "IsWalk",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x51": {
+    "name": "IsAutoNotice",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x52": {
+    "name": "IsSubTargetActive",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x53": {
+    "name": "DeactivateTarget",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x54": {
+    "name": "ModeChangeLock",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x55": {
+    "name": "IsMouseRequestStack",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x56": {
+    "name": "IsMouseRequestCancel",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x57": {
+    "name": "IsPlayerMoving",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x58": {
+    "name": "unknown0058",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x59": {
+    "name": "unknown0059",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x5A": {
+    "name": "unknown005A",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x5B": {
+    "name": "unknown005B",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x5C": {
+    "name": "LockedOnFlags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x60": {
+    "name": "SubTargetFlags",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x64": {
+    "name": "OldNotice",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x68": {
+    "name": "DefaultMode",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x6A": {
+    "name": "MenuTargetLock",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x6C": {
+    "name": "ActionTargetActive",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6D": {
+    "name": "ActionTargetMaxYalms",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6E": {
+    "name": "unknown006E",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6F": {
+    "name": "unknown006F",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x70": {
+    "name": "unknown0070",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x71": {
+    "name": "unknown0071",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x72": {
+    "name": "unknown0072",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x73": {
+    "name": "unknown0073",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x74": {
+    "name": "IsMenuOpen",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x75": {
+    "name": "IsActionAoe",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x76": {
+    "name": "ActionType",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x77": {
+    "name": "ActionAoeRange",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x78": {
+    "name": "ActionId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x7C": {
+    "name": "ActionTargetServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x80": {
+    "name": "unknown0080",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x82": {
+    "name": "unknown0082",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x83": {
+    "name": "unknown0083",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x84": {
+    "name": "FocusTargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x88": {
+    "name": "FocusTargetServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8C": {
+    "name": "TargetPosF",
+    "size": 16,
+    "type": "float"
+   },
+   "0x9C": {
+    "name": "LastTargetName",
+    "size": 25,
+    "type": "int8_t"
+   },
+   "0xB5": {
+    "name": "padding00B5",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0xB8": {
+    "name": "LastTargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xBC": {
+    "name": "LastTargetServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC0": {
+    "name": "LastTargetChecksum",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC4": {
+    "name": "ActionCallback",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xC8": {
+    "name": "CancelCallback",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xCC": {
+    "name": "MyroomCallback",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xD0": {
+    "name": "ActionAoeCallback",
+    "size": 4,
+    "type": "uintptr_t"
+   }
+  },
+  "targetentry_t": {
+   "0x10": {
+    "name": "ArrowPosition",
+    "size": 16,
+    "type": "arrowposition_t"
+   },
+   "0x20": {
+    "name": "IsActive",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x21": {
+    "name": "IsModelActor",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x22": {
+    "name": "IsArrowActive",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x23": {
+    "name": "unknown0023",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x24": {
+    "name": "Checksum",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x26": {
+    "name": "unknown0026",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4": {
+    "name": "ServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "EntityPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xC": {
+    "name": "ActorPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   }
+  },
+  "targetwindow_t": {
+   "0x10": {
+    "name": "m_Reposition",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x11": {
+    "name": "unknown0011",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x14": {
+    "name": "Name",
+    "size": 49,
+    "type": "int8_t"
+   },
+   "0x4": {
+    "name": "m_BaseObj",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x45": {
+    "name": "padding0045",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x48": {
+    "name": "EntityPointer",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0x4C": {
+    "name": "FrameChildrenOffsetX",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x4E": {
+    "name": "FrameChildrenOffsetY",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x50": {
+    "name": "IconPositionX",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x52": {
+    "name": "IconPositionY",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x54": {
+    "name": "FrameOffsetX",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x56": {
+    "name": "FrameOffsetY",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x58": {
+    "name": "unknown0058",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x5C": {
+    "name": "LockShape",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x60": {
+    "name": "ServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x64": {
+    "name": "HPPercent",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x65": {
+    "name": "DeathFlag",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x66": {
+    "name": "ReraiseFlag",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x67": {
+    "name": "padding0067",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x68": {
+    "name": "DeathNameColor",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x6C": {
+    "name": "IsWindowLoaded",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0x6D": {
+    "name": "padding006D",
+    "size": 3,
+    "type": "uint8_t"
+   },
+   "0x70": {
+    "name": "HelpString",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x74": {
+    "name": "HelpTitle",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x78": {
+    "name": "m_pAnkShape",
+    "size": 64,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "m_pParentMCD",
+    "size": 4,
+    "type": "uintptr_t"
+   },
+   "0xB8": {
+    "name": "m_Sub",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xB9": {
+    "name": "unknown00B9",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xBA": {
+    "name": "m_AnkNum",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xBB": {
+    "name": "unknown00BB",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xBC": {
+    "name": "m_AnkX",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xBE": {
+    "name": "m_AnkY",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xC": {
+    "name": "m_InputEnable",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xC0": {
+    "name": "m_SubAnkX",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xC2": {
+    "name": "m_SubAnkY",
+    "size": 2,
+    "type": "int16_t"
+   },
+   "0xD": {
+    "name": "unknown000D",
+    "size": 1,
+    "type": "uint8_t"
+   },
+   "0xE": {
+    "name": "m_SaveCursol",
+    "size": 2,
+    "type": "uint16_t"
+   }
+  },
+  "treasureitem_t": {
+   "0x10": {
+    "name": "Price",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x14": {
+    "name": "Extra",
+    "size": 28,
+    "type": "uint8_t"
+   },
+   "0x30": {
+    "name": "Status",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x34": {
+    "name": "Lot",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x36": {
+    "name": "WinningLot",
+    "size": 2,
+    "type": "uint16_t"
+   },
+   "0x38": {
+    "name": "WinningEntityServerId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x3C": {
+    "name": "WinningEntityTargetIndex",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x4": {
+    "name": "ItemId",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x40": {
+    "name": "WinningEntityName",
+    "size": 16,
+    "type": "int8_t"
+   },
+   "0x50": {
+    "name": "TimeToLive",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x54": {
+    "name": "DropTime",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0x8": {
+    "name": "Count",
+    "size": 4,
+    "type": "uint32_t"
+   },
+   "0xC": {
+    "name": "Flags",
+    "size": 4,
+    "type": "uint32_t"
+   }
+  }
+ },
+ "windower5": {
+  "account_info": {
+   "0x248": {
+    "name": "version",
+    "type": "string(0x10)"
+   },
+   "0x260": {
+    "name": "ip",
+    "type": "ip"
+   },
+   "0x26C": {
+    "name": "port",
+    "type": "uint16"
+   },
+   "0x314": {
+    "name": "id",
+    "type": "entity_id"
+   },
+   "0x318": {
+    "name": "name",
+    "type": "pc_name"
+   },
+   "0x390": {
+    "name": "server_id",
+    "type": "int16"
+   }
+  },
+  "action_strings": {
+   "0x14": {
+    "name": "abilities",
+    "type": "ptr()"
+   },
+   "0x94": {
+    "name": "mounts",
+    "type": "ptr()"
+   },
+   "0x9B4": {
+    "name": "spells",
+    "type": "ptr()"
+   }
+  },
+  "alliance_info": {
+   "0x0": {
+    "name": "alliance_leader_id",
+    "type": "entity_id"
+   },
+   "0x10": {
+    "name": "party_1_index",
+    "type": "uint8"
+   },
+   "0x11": {
+    "name": "party_2_index",
+    "type": "uint8"
+   },
+   "0x12": {
+    "name": "party_3_index",
+    "type": "uint8"
+   },
+   "0x13": {
+    "name": "party_1_count",
+    "type": "uint8"
+   },
+   "0x14": {
+    "name": "party_2_count",
+    "type": "uint8"
+   },
+   "0x15": {
+    "name": "party_3_count",
+    "type": "uint8"
+   },
+   "0x4": {
+    "name": "party_1_leader_id",
+    "type": "entity_id"
+   },
+   "0x50": {
+    "name": "st_selection",
+    "type": "uint8"
+   },
+   "0x63": {
+    "comment": "6 for <stpt>, 18 for <stal>",
+    "name": "st_selection_max",
+    "type": "uint8"
+   },
+   "0x64": {
+    "comment": "Seems to be FF when in <stpt> or <stal>, otherwise 00",
+    "name": "_unknown_5F",
+    "type": "uint8"
+   },
+   "0x8": {
+    "name": "party_2_leader_id",
+    "type": "entity_id"
+   },
+   "0xC": {
+    "name": "party_3_leader_id",
+    "type": "entity_id"
+   }
+  },
+  "auto_disconnect": {
+   "0x0": {
+    "name": "enabled",
+    "type": "bool"
+   },
+   "0x10": {
+    "name": "active",
+    "type": "bool"
+   },
+   "0x4": {
+    "comment": "in ms, unknown offset",
+    "name": "last_active_time",
+    "type": "uint32"
+   },
+   "0x8": {
+    "comment": "in ms",
+    "name": "timeout_time",
+    "type": "uint32"
+   }
+  },
+  "chat_input": {
+   "0x7EDC": {
+    "name": "temporary_buffer",
+    "type": "chat_input_buffer"
+   },
+   "0x7F73": {
+    "name": "history",
+    "type": "chat_input_buffer[9]"
+   },
+   "0x84C4": {
+    "name": "temporary_length",
+    "type": "uint8"
+   },
+   "0x84C8": {
+    "name": "history_lengths",
+    "type": "uint8[9]"
+   },
+   "0x84EC": {
+    "name": "history_length",
+    "type": "uint8"
+   },
+   "0x84F0": {
+    "name": "history_index",
+    "type": "uint8"
+   },
+   "0x84F4": {
+    "name": "internal",
+    "type": "chat_input_buffer"
+   },
+   "0x86B8": {
+    "name": "length_internal",
+    "type": "uint8"
+   },
+   "0x86BC": {
+    "name": "stripped",
+    "type": "chat_input_buffer"
+   },
+   "0x8880": {
+    "name": "length_stripped",
+    "type": "uint8"
+   },
+   "0x8884": {
+    "name": "length_internal_max",
+    "type": "uint8"
+   },
+   "0x8888": {
+    "name": "position_internal",
+    "type": "uint8"
+   },
+   "0x8AA8": {
+    "name": "update_history",
+    "type": "bool"
+   },
+   "0x8C81": {
+    "name": "tab_menu_open",
+    "type": "bool"
+   },
+   "0x8C84": {
+    "name": "menu_selection",
+    "type": "uint8"
+   },
+   "0x8C88": {
+    "name": "menu_entries",
+    "type": "chat_menu_entry[0x3FC]"
+   },
+   "0xEC28": {
+    "name": "menu_length",
+    "type": "uint8"
+   },
+   "0xEC30": {
+    "name": "move_counter",
+    "type": "uint8"
+   },
+   "0xEC34": {
+    "name": "display",
+    "type": "chat_input_buffer"
+   },
+   "0xEF22": {
+    "name": "open",
+    "type": "bool"
+   }
+  },
+  "chat_menu_entry": {
+   "0x0": {
+    "comment": "This pointer to the parent struct of the chat input struct",
+    "name": "_ptr_chat_input_this",
+    "type": "ptr()"
+   },
+   "0x10": {
+    "comment": "Length (in bytes) of the internal buffer associated with this entry",
+    "name": "length_internal",
+    "type": "uint16"
+   },
+   "0x14": {
+    "comment": "Auto-translate code, 0 if the phrase is a regular string",
+    "name": "auto_translate",
+    "type": "string(0x04)"
+   },
+   "0x4": {
+    "comment": "Pointer to a null-terminated string for display in the menu",
+    "name": "display",
+    "type": "ptr()"
+   },
+   "0x8": {
+    "comment": "Length (in bytes) of the display buffer associated with this entry",
+    "name": "length_display",
+    "type": "uint16"
+   },
+   "0xC": {
+    "comment": "Pointer to a null-terminated string which will be copied to the internal buffer",
+    "name": "internal",
+    "type": "ptr()"
+   }
+  },
+  "chat_window_data": {
+   "0x40": {
+    "name": "dimensions",
+    "type": "window_dimensions"
+   },
+   "0x4D": {
+    "name": "active",
+    "type": "bool"
+   },
+   "0x4E": {
+    "name": "max_lines",
+    "type": "uint16"
+   },
+   "0x50": {
+    "name": "min_lines",
+    "type": "uint16"
+   },
+   "0x52": {
+    "name": "width",
+    "type": "uint16"
+   },
+   "0x54": {
+    "name": "resize_time",
+    "type": "uint16"
+   },
+   "0x56": {
+    "comment": "0 off, 1 HH:MM, 2 HH:MM:SS",
+    "name": "timestamp_format",
+    "type": "uint8"
+   },
+   "0x58": {
+    "name": "reactive_sizing",
+    "type": "bool"
+   }
+  },
+  "chat_window_info": {
+   "0x0": {
+    "name": "window_1",
+    "type": "ptr(chat_window_data)"
+   },
+   "0x4": {
+    "name": "window_2",
+    "type": "ptr(chat_window_data)"
+   }
+  },
+  "d_msg_table": {
+   "0x0": {
+    "comment": "[1] = Failed to read data. [2] = Checking the size of the files to download and",
+    "name": "str0",
+    "type": "ptr(ptr())"
+   },
+   "0x10": {
+    "comment": "nullptr",
+    "name": "str2",
+    "type": "ptr(ptr())"
+   },
+   "0x18": {
+    "comment": "[1] = You are currently not in a party. [2] = This region is not under any country's control.",
+    "name": "str3",
+    "type": "ptr(ptr())"
+   },
+   "0x20": {
+    "comment": "nullptr",
+    "name": "str4",
+    "type": "ptr(ptr())"
+   },
+   "0x28": {
+    "comment": "[1] = Race [2] = Job",
+    "name": "str5",
+    "type": "ptr(ptr())"
+   },
+   "0x30": {
+    "comment": "[1] = Shout [2] = Tell",
+    "name": "str6",
+    "type": "ptr(ptr())"
+   },
+   "0x38": {
+    "comment": "[1] = Activate Linkshell item and participate in its chat channel. [2] = Deactivate Linkshell item and quit its chat channel.",
+    "name": "str7",
+    "type": "ptr(ptr())"
+   },
+   "0x40": {
+    "comment": "[1] = Region Info [2] = Items",
+    "name": "str8",
+    "type": "ptr(ptr())"
+   },
+   "0x48": {
+    "comment": "[1] = All [2] All",
+    "name": "str9",
+    "type": "ptr(ptr())"
+   },
+   "0x50": {
+    "name": "regions",
+    "type": "ptr(ptr())"
+   },
+   "0x58": {
+    "name": "zones",
+    "type": "ptr(ptr())"
+   },
+   "0x60": {
+    "name": "zone_autotranslates",
+    "type": "ptr(ptr())"
+   },
+   "0x68": {
+    "name": "servers",
+    "type": "ptr(ptr())"
+   },
+   "0x70": {
+    "name": "jobs",
+    "type": "ptr(ptr())"
+   },
+   "0x78": {
+    "name": "days",
+    "type": "ptr(ptr())"
+   },
+   "0x8": {
+    "comment": "[1] = Error code: FFXI-%04d [2] = Could not connect to lobby server.",
+    "name": "str1",
+    "type": "ptr(ptr())"
+   },
+   "0x80": {
+    "name": "directions",
+    "type": "ptr(ptr())"
+   },
+   "0x88": {
+    "name": "moon_phases",
+    "type": "ptr(ptr())"
+   },
+   "0x90": {
+    "name": "_dupe_jobs",
+    "note": "a duplicate",
+    "type": "ptr(ptr())"
+   },
+   "0x98": {
+    "name": "job_abbreviations",
+    "type": "ptr(ptr())"
+   },
+   "0xA0": {
+    "name": "_dupe_zones",
+    "note": "a duplicate",
+    "type": "ptr(ptr())"
+   },
+   "0xA8": {
+    "name": "zone_search_names",
+    "type": "ptr(ptr())"
+   },
+   "0xB0": {
+    "name": "races",
+    "type": "ptr(ptr())"
+   },
+   "0xB8": {
+    "comment": "nullptr",
+    "name": "str23",
+    "type": "ptr(ptr())"
+   },
+   "0xC0": {
+    "name": "equipment_slots",
+    "type": "ptr(ptr())"
+   },
+   "0xC8": {
+    "name": "_dupe_equipment_slots",
+    "note": "a duplicate",
+    "type": "ptr(ptr())"
+   },
+   "0xD0": {
+    "name": "einherjar_chambers",
+    "type": "ptr(ptr())"
+   },
+   "0xD8": {
+    "comment": "[1] = Objectives [2] = Get grinding!",
+    "name": "str27",
+    "type": "ptr(ptr())"
+   }
+  },
+  "entity": {
+   "0x11C": {
+    "name": "freeze",
+    "type": "bool"
+   },
+   "0x120": {
+    "name": "flags",
+    "type": "flags({size = 0x18}, {"
+   },
+   "0x14": {
+    "comment": "y: E = 0  N = +pi/2   W = +/-pi S = -pi/2",
+    "name": "rotation",
+    "type": "vector_4f"
+   },
+   "0x150": {
+    "comment": "Sometimes same as _unknown_1, sometimes nullptr",
+    "name": "_unkonwn_0x150",
+    "type": "ptr()"
+   },
+   "0x154": {
+    "comment": "-60.0 observed",
+    "name": "_unknown_0x154",
+    "type": "float"
+   },
+   "0x158": {
+    "comment": "Always 4.0? Old movement speed \"base\"?",
+    "name": "_unknown_0x158",
+    "type": "float"
+   },
+   "0x15C": {
+    "name": "movement_speed",
+    "type": "float"
+   },
+   "0x16C": {
+    "comment": "Is this type correct?",
+    "name": "state_id",
+    "type": "uint32"
+   },
+   "0x170": {
+    "comment": "Is this type correct?",
+    "name": "_dupe_state_id",
+    "note": "a duplicate",
+    "type": "uint32"
+   },
+   "0x174": {
+    "comment": "1000000.0 observed",
+    "name": "_unknown_0x174",
+    "type": "float"
+   },
+   "0x188": {
+    "name": "claim_id",
+    "type": "entity_id"
+   },
+   "0x190": {
+    "name": "animation",
+    "type": "fourcc[0x0A]"
+   },
+   "0x1B8": {
+    "name": "animation_time",
+    "type": "uint16"
+   },
+   "0x1BA": {
+    "name": "animation_step",
+    "type": "uint16"
+   },
+   "0x1C0": {
+    "name": "emote_id",
+    "type": "uint16"
+   },
+   "0x1C4": {
+    "name": "emote_name",
+    "type": "fourcc"
+   },
+   "0x1D0": {
+    "name": "entity_flags",
+    "type": "flags({size = 0x02}, {"
+   },
+   "0x1D4": {
+    "name": "linkshell_color",
+    "type": "linkshell_color"
+   },
+   "0x1DA": {
+    "name": "campaign_mode",
+    "type": "bool"
+   },
+   "0x1DC": {
+    "comment": "counts down during fishing, goes 0xFFFFFFFF after 0, time until the fish bites",
+    "name": "fishing_timer",
+    "type": "uint32"
+   },
+   "0x1F8": {
+    "name": "target_index",
+    "type": "entity_index"
+   },
+   "0x1FA": {
+    "name": "pet_index",
+    "type": "entity_index"
+   },
+   "0x204": {
+    "name": "model_scale",
+    "type": "float"
+   },
+   "0x208": {
+    "name": "model_size",
+    "type": "float"
+   },
+   "0x20C": {
+    "name": "monstrosity_flags",
+    "type": "uint16"
+   },
+   "0x20E": {
+    "name": "monstrosity_name_id_1",
+    "type": "uint8"
+   },
+   "0x20F": {
+    "name": "monstrosity_name_id_2",
+    "type": "uint8"
+   },
+   "0x210": {
+    "name": "monstrosity_name",
+    "type": "string(0x1C)"
+   },
+   "0x231": {
+    "name": "monstrosity_name_short",
+    "type": "string(0x18)"
+   },
+   "0x24": {
+    "name": "position",
+    "type": "world_coord"
+   },
+   "0x2A0": {
+    "name": "fellow_index",
+    "type": "entity_index"
+   },
+   "0x2A2": {
+    "name": "owner_index",
+    "type": "entity_index"
+   },
+   "0x34": {
+    "name": "_dupe_rotation",
+    "note": "a duplicate",
+    "type": "vector_3f"
+   },
+   "0x4": {
+    "name": "position_display",
+    "type": "world_coord"
+   },
+   "0x40": {
+    "comment": "Sometimes a single world coordinate, sometimes a pointer...",
+    "name": "_unknown_1",
+    "type": "data(0x04)"
+   },
+   "0x44": {
+    "comment": "Seems unused! w-coordinate is occasionally overwritten by pointer value...",
+    "name": "_dupe_position",
+    "note": "a duplicate",
+    "type": "vector_3f"
+   },
+   "0x50": {
+    "comment": "Data in here varies! Sometimes the same field is a pointer, sometimes coordinates. Seems to depend on the entity",
+    "name": "_unknown_variable",
+    "type": "data(0x24)"
+   },
+   "0x74": {
+    "name": "index",
+    "type": "entity_index"
+   },
+   "0x78": {
+    "name": "id",
+    "type": "entity_id"
+   },
+   "0x7C": {
+    "name": "name",
+    "type": "npc_name"
+   },
+   "0x94": {
+    "name": "_unknown_0x094",
+    "type": "ptr()"
+   },
+   "0x98": {
+    "name": "dupe_movement_speed",
+    "type": "float"
+   },
+   "0x9C": {
+    "comment": "Movement speed \"base\"?",
+    "name": "_unknown_0x09C",
+    "type": "float"
+   },
+   "0xA0": {
+    "name": "display",
+    "type": "ptr(display)"
+   },
+   "0xD8": {
+    "name": "distance",
+    "type": "float"
+   },
+   "0xE4": {
+    "name": "_dupe_heading2",
+    "note": "a duplicate",
+    "type": "float"
+   },
+   "0xE8": {
+    "name": "owner",
+    "type": "entity_id"
+   },
+   "0xEC": {
+    "name": "hp_percent",
+    "type": "percent"
+   },
+   "0xEE": {
+    "comment": "0 = PC, 1 = NPC, 2 = NPC with fixed model (including various types of books), 3 = Doors and similar objects",
+    "name": "target_type",
+    "type": "uint8"
+   },
+   "0xEF": {
+    "name": "race_id",
+    "type": "uint8"
+   },
+   "0xFC": {
+    "name": "face_model_id",
+    "type": "uint16"
+   },
+   "0xFE": {
+    "name": "model",
+    "type": "model"
+   }
+  },
+  "entity_string": {
+   "0x0": {
+    "name": "name",
+    "type": "string(0x18)"
+   },
+   "0x1C": {
+    "name": "id",
+    "type": "uint32"
+   }
+  },
+  "follow": {
+   "0x20": {
+    "name": "follow_index",
+    "type": "entity_index"
+   },
+   "0x24": {
+    "comment": "Once set will overwrite pos with directional values",
+    "name": "follow_id",
+    "type": "entity_id"
+   },
+   "0x28": {
+    "name": "first_person_view",
+    "type": "bool"
+   },
+   "0x29": {
+    "name": "auto_run",
+    "type": "bool"
+   },
+   "0x4": {
+    "name": "target_index",
+    "type": "entity_index"
+   },
+   "0x8": {
+    "name": "target_id",
+    "type": "entity_id"
+   },
+   "0xC": {
+    "name": "postion",
+    "type": "world_coord"
+   }
+  },
+  "gamma": {
+   "0x7F8": {
+    "name": "red",
+    "type": "float"
+   },
+   "0x7FC": {
+    "name": "green",
+    "type": "float"
+   },
+   "0x800": {
+    "name": "blue",
+    "type": "float"
+   },
+   "0x804": {
+    "name": "_dupe_red",
+    "note": "a duplicate",
+    "type": "float"
+   },
+   "0x808": {
+    "name": "_dupe_green",
+    "note": "a duplicate",
+    "type": "float"
+   },
+   "0x80C": {
+    "name": "_dupe_blue",
+    "note": "a duplicate",
+    "type": "float"
+   }
+  },
+  "generator_point": {
+   "0x0": {
+    "name": "bone_index",
+    "type": "uint8"
+   },
+   "0xE": {
+    "name": "offset",
+    "type": "vector_3f"
+   }
+  },
+  "graphics": {
+   "0x0": {
+    "name": "gamma",
+    "type": "ptr(gamma)"
+   },
+   "0x290": {
+    "name": "render",
+    "type": "ptr(render)"
+   },
+   "0x404": {
+    "name": "footstep_effects",
+    "type": "bool"
+   },
+   "0x43C": {
+    "name": "clipping_plane_entity",
+    "type": "float"
+   },
+   "0x44C": {
+    "name": "clipping_plane_map",
+    "type": "float"
+   },
+   "0x57C": {
+    "name": "aspect_ratio_option",
+    "type": "uint32"
+   },
+   "0x594": {
+    "name": "animation_framerate",
+    "type": "uint32"
+   },
+   "0xBBC": {
+    "name": "view_matrix",
+    "type": "matrix"
+   },
+   "0xDFC": {
+    "name": "projection_matrix",
+    "type": "matrix"
+   }
+  },
+  "item_display": {
+   "0x14": {
+    "name": "_active_ptr",
+    "type": "ptr()"
+   },
+   "0x1B8": {
+    "name": "augment",
+    "type": "string(0xC0)"
+   },
+   "0x24": {
+    "name": "id",
+    "type": "uint16"
+   },
+   "0x26": {
+    "name": "index",
+    "type": "uint8"
+   },
+   "0x2C": {
+    "name": "signature",
+    "type": "string(0x80)"
+   },
+   "0x340": {
+    "name": "bag",
+    "type": "uint8"
+   }
+  },
+  "language_filter": {
+   "0x4": {
+    "name": "disabled",
+    "type": "bool"
+   }
+  },
+  "linkshell_color": {
+   "0x0": {
+    "name": "red",
+    "type": "uint8"
+   },
+   "0x1": {
+    "name": "green",
+    "type": "uint8"
+   },
+   "0x2": {
+    "name": "blue",
+    "type": "uint8"
+   }
+  },
+  "map_entry": {
+   "0x0": {
+    "name": "zone_id",
+    "type": "int16"
+   },
+   "0x2": {
+    "name": "map_id",
+    "type": "int8"
+   },
+   "0x3": {
+    "name": "count",
+    "type": "int8"
+   },
+   "0x4": {
+    "comment": "[0] = 384, [1] = 1855, [2] = 2301",
+    "name": "key_item_offset",
+    "type": "bit(uint8, 4), offset = 4"
+   },
+   "0x5": {
+    "name": "scale",
+    "type": "int8"
+   },
+   "0x6": {
+    "name": "key_item_index",
+    "type": "int8"
+   },
+   "0x8": {
+    "name": "dat_index",
+    "type": "int16"
+   },
+   "0xA": {
+    "name": "offset_x",
+    "type": "int16"
+   },
+   "0xC": {
+    "name": "offset_y",
+    "type": "int16"
+   }
+  },
+  "map_table": {
+   "0x0": {
+    "name": "ptr",
+    "type": "ptr(map_entry)"
+   }
+  },
+  "model": {
+   "0x0": {
+    "name": "head_model_id",
+    "type": "uint16"
+   },
+   "0x2": {
+    "name": "body_model_id",
+    "type": "uint16"
+   },
+   "0x4": {
+    "name": "hands_model_id",
+    "type": "uint16"
+   },
+   "0x6": {
+    "name": "legs_model_id",
+    "type": "uint16"
+   },
+   "0x8": {
+    "name": "feet_model_id",
+    "type": "uint16"
+   },
+   "0xA": {
+    "name": "main_model_id",
+    "type": "uint16"
+   },
+   "0xC": {
+    "name": "sub_model_id",
+    "type": "uint16"
+   },
+   "0xE": {
+    "name": "range_model_id",
+    "type": "uint16"
+   }
+  },
+  "music": {
+   "0x0": {
+    "name": "day",
+    "type": "uint16"
+   },
+   "0x2": {
+    "name": "night",
+    "type": "uint16"
+   },
+   "0x4": {
+    "name": "solo_combat",
+    "type": "uint16"
+   },
+   "0x6": {
+    "name": "party_combat",
+    "type": "uint16"
+   },
+   "0x8": {
+    "name": "mount",
+    "type": "uint16"
+   },
+   "0xA": {
+    "name": "knockout",
+    "type": "uint16"
+   },
+   "0xC": {
+    "name": "mog_house",
+    "type": "uint16"
+   },
+   "0xE": {
+    "name": "fishing",
+    "type": "uint16"
+   }
+  },
+  "party": {
+   "0x2C": {
+    "name": "members",
+    "type": "party_member[18]"
+   }
+  },
+  "party_member": {
+   "0x0": {
+    "name": "alliance_info",
+    "type": "ptr(alliance_info)"
+   },
+   "0x18": {
+    "name": "id",
+    "type": "entity_id"
+   },
+   "0x1C": {
+    "name": "index",
+    "type": "entity_index"
+   },
+   "0x24": {
+    "name": "hp",
+    "type": "uint32"
+   },
+   "0x28": {
+    "name": "mp",
+    "type": "uint32"
+   },
+   "0x2C": {
+    "name": "tp",
+    "type": "uint32"
+   },
+   "0x30": {
+    "name": "hp_percent",
+    "type": "percent"
+   },
+   "0x31": {
+    "name": "mp_percent",
+    "type": "percent"
+   },
+   "0x32": {
+    "name": "zone_id",
+    "type": "zone"
+   },
+   "0x34": {
+    "name": "_zone_id2",
+    "type": "zone"
+   },
+   "0x38": {
+    "name": "flags",
+    "type": "uint32"
+   },
+   "0x6": {
+    "name": "name",
+    "type": "pc_name"
+   },
+   "0x74": {
+    "name": "_id2",
+    "type": "entity_id"
+   },
+   "0x78": {
+    "name": "_hp_percent2",
+    "type": "percent"
+   },
+   "0x79": {
+    "name": "_mp_percent2",
+    "type": "percent"
+   },
+   "0x7A": {
+    "name": "active",
+    "type": "bool"
+   }
+  },
+  "render": {
+   "0x2F0": {
+    "name": "aspect_ratio",
+    "type": "float"
+   },
+   "0x2F8": {
+    "name": "zoom",
+    "type": "float"
+   },
+   "0x30": {
+    "name": "framerate_divisor",
+    "type": "uint32"
+   }
+  },
+  "screen_coord": {
+   "0x0": {
+    "name": "x",
+    "type": "float"
+   },
+   "0x4": {
+    "name": "z",
+    "type": "float"
+   }
+  },
+  "status_effect_strings": {
+   "0x4": {
+    "name": "d_msg",
+    "type": "ptr()"
+   }
+  },
+  "string_tables": {
+   "0x10": {
+    "name": "skills",
+    "type": "ptr()"
+   },
+   "0x14": {
+    "name": "elements",
+    "type": "ptr()"
+   },
+   "0x18": {
+    "name": "entities",
+    "type": "ptr(entity_string)"
+   },
+   "0x1C": {
+    "name": "emotes",
+    "type": "ptr()"
+   },
+   "0x20": {
+    "name": "actions",
+    "type": "ptr()"
+   },
+   "0x24": {
+    "name": "status_effects",
+    "type": "ptr()"
+   },
+   "0x28": {
+    "name": "gameplay",
+    "type": "ptr()"
+   },
+   "0x34": {
+    "name": "abilities",
+    "type": "ptr()"
+   },
+   "0x38": {
+    "name": "unity",
+    "type": "ptr()"
+   },
+   "0x3C": {
+    "name": "zone",
+    "type": "ptr()"
+   }
+  },
+  "target": {
+   "0x14": {
+    "name": "name",
+    "type": "npc_name"
+   },
+   "0x48": {
+    "name": "entity",
+    "type": "ptr(entity)"
+   },
+   "0x60": {
+    "name": "id",
+    "type": "entity_id"
+   },
+   "0x64": {
+    "name": "hp_percent",
+    "type": "uint8"
+   },
+   "0x8": {
+    "name": "window",
+    "type": "ptr()"
+   }
+  },
+  "target_array": {
+   "0x0": {
+    "name": "targets",
+    "type": "target_array_entry[2]"
+   },
+   "0x51": {
+    "name": "auto_target",
+    "type": "bool"
+   },
+   "0x52": {
+    "name": "both_targets_active",
+    "type": "bool"
+   },
+   "0x57": {
+    "comment": "True whenever character moves (or tries to move) via user input",
+    "name": "movement_input",
+    "type": "bool"
+   },
+   "0x59": {
+    "comment": "This includes party targeting",
+    "name": "alliance_target_active",
+    "type": "bool"
+   },
+   "0x5C": {
+    "name": "target_locked",
+    "type": "boolbit(uint32), offset = 0"
+   },
+   "0x60": {
+    "comment": "Bit mask indicating valid sub target selection",
+    "name": "sub_target_mask",
+    "type": "uint32"
+   },
+   "0x6C": {
+    "name": "action_target_active",
+    "type": "bool"
+   },
+   "0x6D": {
+    "comment": "One less than the distance in yalms (including 0xFF for self-targeting spells)",
+    "name": "action_range",
+    "type": "uint8"
+   },
+   "0x74": {
+    "name": "menu_open",
+    "type": "bool"
+   },
+   "0x76": {
+    "comment": "1 for JA/WS, 2 for spells",
+    "name": "action_category",
+    "type": "uint8"
+   },
+   "0x77": {
+    "comment": "Base range for AoE modifiers, this is not directly related to the distance drawn on the screen",
+    "name": "action_aoe_range",
+    "type": "uint8"
+   },
+   "0x78": {
+    "comment": "The ID of the JA, WS or spell",
+    "name": "action_id",
+    "type": "uint16"
+   },
+   "0x7C": {
+    "name": "action_target_id",
+    "type": "entity_id"
+   },
+   "0x84": {
+    "comment": "Only set when the target exists in the entity array",
+    "name": "focus_index",
+    "type": "entity_index"
+   },
+   "0x88": {
+    "comment": "Always set, even if target not in zone",
+    "name": "focus_id",
+    "type": "entity_id"
+   },
+   "0x8C": {
+    "name": "mouse_pos",
+    "type": "screen_coord"
+   },
+   "0x9C": {
+    "name": "last_st_name",
+    "type": "npc_name"
+   },
+   "0xB8": {
+    "name": "last_st_id",
+    "type": "entity_id"
+   },
+   "0xC0": {
+    "comment": "Something related to LastST, address seems to differ for PC and NPC",
+    "name": "_unknown_ptr1",
+    "type": "ptr()"
+   },
+   "0xC4": {
+    "comment": "Something related to action target, seems there's one address for spells and one for JA/WS",
+    "name": "_unknown_ptr2",
+    "type": "ptr()"
+   },
+   "0xC8": {
+    "comment": "Something related to action target, seems there's one address for spells and one for JA/WS",
+    "name": "_unknown_ptr3",
+    "type": "ptr()"
+   },
+   "0xD0": {
+    "comment": "Something related to action target, seems there's one address for spells and one for JA/WS",
+    "name": "_unknown_ptr4",
+    "type": "ptr()"
+   }
+  },
+  "target_array_entry": {
+   "0x0": {
+    "name": "index",
+    "type": "entity_index"
+   },
+   "0x10": {
+    "name": "arrow_pos",
+    "type": "world_coord"
+   },
+   "0x20": {
+    "name": "active",
+    "type": "bool"
+   },
+   "0x22": {
+    "name": "arrow_active",
+    "type": "bool"
+   },
+   "0x24": {
+    "name": "checksum",
+    "type": "uint16"
+   },
+   "0x4": {
+    "name": "id",
+    "type": "entity_id"
+   },
+   "0x8": {
+    "name": "entity",
+    "type": "ptr(entity)"
+   },
+   "0xC": {
+    "name": "display",
+    "type": "ptr(display)"
+   }
+  },
+  "tell_history": {
+   "0x10D": {
+    "name": "chatlog_open",
+    "type": "bool"
+   },
+   "0x10E": {
+    "comment": "Only set when /chatmode tell",
+    "name": "chatmode_tell_target",
+    "type": "pc_name"
+   },
+   "0x11E": {
+    "name": "senders",
+    "type": "pc_name[8]"
+   },
+   "0x4": {
+    "name": "recipient_count",
+    "type": "uint16"
+   },
+   "0x8": {
+    "comment": "last 8 /tell recipients",
+    "name": "recipients",
+    "type": "pc_name[8]"
+   },
+   "0x88": {
+    "name": "_dupe_recipient_count",
+    "note": "a duplicate",
+    "type": "uint16"
+   },
+   "0x8C": {
+    "name": "_dupe_recipients",
+    "note": "a duplicate",
+    "type": "pc_name[8]"
+   }
+  },
+  "vector_3f": {
+   "0x0": {
+    "name": "x",
+    "type": "float"
+   },
+   "0x4": {
+    "name": "z",
+    "type": "float"
+   },
+   "0x8": {
+    "name": "y",
+    "type": "float"
+   }
+  },
+  "vector_4f": {
+   "0x0": {
+    "name": "x",
+    "type": "float"
+   },
+   "0x4": {
+    "name": "z",
+    "type": "float"
+   },
+   "0x8": {
+    "name": "y",
+    "type": "float"
+   },
+   "0xC": {
+    "name": "w",
+    "type": "float"
+   }
+  },
+  "volumes": {
+   "0x1C": {
+    "name": "menu",
+    "type": "float"
+   },
+   "0x20": {
+    "name": "footsteps",
+    "type": "float"
+   }
+  },
+  "weather_strings": {
+   "0x0": {
+    "name": "d_msg",
+    "type": "ptr()"
+   }
+  },
+  "window_dimensions": {
+   "0x0": {
+    "name": "x",
+    "type": "uint16"
+   },
+   "0x2": {
+    "name": "y",
+    "type": "uint16"
+   },
+   "0x4": {
+    "name": "width",
+    "type": "uint16"
+   },
+   "0x6": {
+    "name": "height",
+    "type": "uint16"
+   }
+  }
+ }
+}

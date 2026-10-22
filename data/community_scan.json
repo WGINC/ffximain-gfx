@@ -1,0 +1,704 @@
+{
+ "ambiguous": [
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "chat.parseautotranslate.this",
+   "offset": 19,
+   "pattern": "8B??83C9FF33C06A00F2AEF7D1496A01518B0D",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "chat.logfile",
+   "offset": -4,
+   "pattern": "50E8????????84C075388B0D",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "entitymap.size",
+   "offset": 3,
+   "pattern": "4781FF????????7C??89",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "inventory.selecteditem",
+   "offset": 2,
+   "pattern": "8B0D????????85C9742B",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "player",
+   "offset": 28,
+   "pattern": "6A018D44242C68808080806683????506683????5152E8????????A1",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "player.haskeyitem",
+   "offset": 22,
+   "pattern": "8B44240485C07C??3D800000007D??8B4C2408",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 4,
+   "name": "target.settarget",
+   "offset": 0,
+   "pattern": "8B0D????????83C40885C974??85C074??6A006A0150E8",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "config/ashita/ashita.pointers.ini",
+   "matches": 2,
+   "name": "config.languagefilter",
+   "offset": 2,
+   "pattern": "8B0D????????85C975??83C8??C38B44240450E8????????C3",
+   "source": "ashita pointers.ini"
+  },
+  {
+   "count": 0,
+   "file": "addons/libs/ffxi/macros.lua",
+   "matches": 2,
+   "name": "g_pFsMacroController",
+   "offset": 1,
+   "pattern": "A3????????EB??891D????????6A50E8",
+   "source": "ashita addon"
+  },
+  {
+   "count": 0,
+   "file": "libraries/memory/types.lua",
+   "matches": 2,
+   "name": "windower5 types.language_filter",
+   "offset": 0,
+   "offsets": [
+    32
+   ],
+   "pattern": "84C0750333C0C38B0D",
+   "source": "windower5 types.lua"
+  }
+ ],
+ "functions": {
+  "0x10077D80": [
+   {
+    "file": "addons/libs/ffxi/targets.lua",
+    "match": "0x10077D80",
+    "name": "SeekBattleActor",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10080DC0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10080DC0",
+    "name": "chat.parseinputtext",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x1008A8E0": [
+   {
+    "file": "addons/libs/ffxi/targets.lua",
+    "match": "0x1008A8E0",
+    "name": "GetMonsterName",
+    "source": "ashita addon"
+   }
+  ],
+  "0x100D9B00": [
+   {
+    "file": "addons/libs/ffxi/targets.lua",
+    "match": "0x100D9B00",
+    "name": "ntSysGetLastTeller",
+    "source": "ashita addon"
+   }
+  ],
+  "0x100DBE10": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x100DBE10",
+    "name": "xiGetTime",
+    "source": "ashita addon"
+   }
+  ],
+  "0x100DD590": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100DD59C",
+    "name": "packets.encryptbuffer",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100DD6C0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100DD6CA",
+    "name": "packets.decryptbuffer",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100DDD20": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100DDD20",
+    "name": "packets.queuepacket2",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100E6020": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100E6020",
+    "name": "player.hasability",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100F00A0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100F00A0",
+    "name": "player.hasspell",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100F0FB0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100F0FB0",
+    "name": "player.joblevels",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100F0FF0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100F0FF0",
+    "name": "player.jobmasterlevels",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x100F94D0": [
+   {
+    "file": "addons/libs/ffxi/targets.lua",
+    "match": "0x100F94D0",
+    "name": "gcTrackingPosGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x100FC3C0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100FC3C0",
+    "name": "packets.queuepacket1",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x101039E0": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x101039E0",
+    "name": "ntGameTimeGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103A50": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103A50",
+    "name": "ntGameTimeDiff",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103A80": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103A80",
+    "name": "ntGameYearGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103A90": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103A90",
+    "name": "ntGameMonthGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103AB0": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103AB0",
+    "name": "ntGameDayGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103AE0": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103AE0",
+    "name": "ntGameDayWeekGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103B10": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103B10",
+    "name": "ntGameHourGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103B30": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103B30",
+    "name": "ntGameMinGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103B60": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103B60",
+    "name": "ntGameMoonGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10103BA0": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x10103BA0",
+    "name": "ntGameMoonPerGet",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10127C00": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10127C00",
+    "name": "chat.addchatmessage",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x101A1BD0": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A1BD0",
+    "name": "FsMacroContainer::getLine",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A1C30": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A1C30",
+    "name": "FsMacroContainer::getName",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A1CB0": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A1CB0",
+    "name": "FsMacroContainer::stopMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A25D0": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A25D0",
+    "name": "FsMacroContainer::setMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A2890": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A2890",
+    "name": "FsMacroContainer::setPage",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A2920": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A2920",
+    "name": "FsMacroContainer::setBook",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A2A90": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A2A90",
+    "name": "FsMacroContainer::clearMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A3300": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A3300",
+    "name": "FsMacroContainer::runMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101A33E0": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x101A33E0",
+    "name": "FsMacroController::canUseMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101BC100": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x101BC100",
+    "name": "chat.parseautotranslate",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x101C8D10": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x101C8D10",
+    "name": "sqLocalTime",
+    "source": "ashita addon"
+   }
+  ],
+  "0x101C8FD0": [
+   {
+    "file": "addons/libs/ffxi/time.lua",
+    "match": "0x101C8FD0",
+    "name": "YkGetTimeString",
+    "source": "ashita addon"
+   }
+  ]
+ },
+ "globals": {
+  "0x103516E4": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x100355FE",
+    "name": "windower5 types.volumes",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x103551E0": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x100786E5",
+    "name": "windower5 types.tell_history",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10371DAC": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10152F3E",
+    "name": "windower5 types.d_msg_table",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x103821F0": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x101F743F",
+    "name": "windower5 types.map_table",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x1045666C": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10010D20",
+    "name": "windower5 types.graphics",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x1047D6A8": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x1008A9F2",
+    "name": "windower5 types.entity_chat_info_array",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x104809A0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10098F56",
+    "name": "party.statusicons",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10480AF0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10003A17",
+    "name": "entitymap",
+    "source": "ashita pointers.ini"
+   },
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10003A17",
+    "name": "windower5 types.entities",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10482F28": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1009CEE0",
+    "name": "player.pettp",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10482F33": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100875F5",
+    "name": "player.petmp",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10485FE4": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x100999FE",
+    "name": "windower5 types.music",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10487E48": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x1008AEC0",
+    "name": "windower5 types.string_tables",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10487EB4": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10088BD6",
+    "name": "windower5 types.target",
+    "offsets": [
+     "0x18",
+     "0x0"
+    ],
+    "source": "windower5 types.lua"
+   },
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10088BD6",
+    "name": "windower5 types.target_array",
+    "offsets": [
+     "0x18",
+     "0x2F4"
+    ],
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10487F58": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1001F253",
+    "name": "autofollow",
+    "source": "ashita pointers.ini"
+   },
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x1001F253",
+    "name": "windower5 types.follow",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x104CA3F0": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x100E8690",
+    "name": "windower5 types.account_info",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x104DFD98": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x100EB555",
+    "name": "inventory",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x1057817C": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1007B4E0",
+    "name": "castbar",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10578204": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x1012E7E1",
+    "name": "windower5 types.item_display",
+    "offsets": [
+     "0x0"
+    ],
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10578478": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10088BD6",
+    "name": "target.target",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10621808": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1008E88F",
+    "name": "player.loginstatus",
+    "source": "ashita pointers.ini"
+   },
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x1007B2B9",
+    "name": "windower5 types.weather_strings",
+    "offsets": [
+     "0x148"
+    ],
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x1062188C": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1015FDE2",
+    "name": "menu",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x1062193C": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10126DB3",
+    "name": "windower5 types.chat_window_info",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10662794": [
+   {
+    "file": "addons/libs/ffxi/macros.lua",
+    "match": "0x10079F6A",
+    "name": "g_pFsMacro",
+    "source": "ashita addon"
+   }
+  ],
+  "0x10662D40": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x101B8EEE",
+    "name": "chat.inputtext.this",
+    "source": "ashita pointers.ini"
+   },
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10245763",
+    "name": "windower5 types.chat_input",
+    "offsets": [
+     "0x0"
+    ],
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10662DA4": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10080DC0",
+    "name": "chat.parseinputtext.this",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10662DCC": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10078170",
+    "name": "clientversion",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10663AAC": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x100B942B",
+    "name": "windower5 types.party",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x10663AD8": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x10202BA4",
+    "name": "party",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10666EC0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1022471B",
+    "name": "recast.abilities",
+    "source": "ashita pointers.ini"
+   }
+  ],
+  "0x10667044": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10226DC7",
+    "name": "windower5 types.action_strings",
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x106671B4": [
+   {
+    "file": "libraries/memory/types.lua",
+    "match": "0x10228918",
+    "name": "windower5 types.status_effect_strings",
+    "offsets": [
+     "0x0"
+    ],
+    "source": "windower5 types.lua"
+   }
+  ],
+  "0x106671E0": [
+   {
+    "file": "config/ashita/ashita.pointers.ini",
+    "match": "0x1022B290",
+    "name": "recast.spells",
+    "source": "ashita pointers.ini"
+   }
+  ]
+ },
+ "unmatched": []
+}

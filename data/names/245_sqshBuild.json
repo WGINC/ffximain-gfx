@@ -1,0 +1,3 @@
+{
+"0x10299D60": {"name": "SqshBuild_Read", "confidence": "medium", "evidence": "reads the vertex count from the stream through FUN_1028A0F0, reports an error naming the invalid vertex number when it is not positive, otherwise allocates the block with FUN_102A9520 and reads each vertex's index and count through FUN_102A9980; called by sub_10299C30, sub_10299E40 and sub_10299EE0", "summary": "Reads a shape build block from a stream, vertex by vertex."}
+}

@@ -1,0 +1,3 @@
+{
+"0x1001E050": {"name": "CMoResource_VT_1032C880_SetField14", "confidence": "low", "evidence": "virtual slot 4 (+0x10) of CMoResource_VT_1032C880: stores its argument through the pointer at this+0x14 and returns it", "summary": "Stores its argument through the resource's +0x14 pointer."}
+}

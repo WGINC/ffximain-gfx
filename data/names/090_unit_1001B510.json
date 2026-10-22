@@ -1,0 +1,8 @@
+{
+  "0x1001B5D0": {
+    "name": "Fade_Update",
+    "confidence": "medium",
+    "evidence": "scales the frame scale by the rate at +0x18 and adds it to the value at +0x10 in states 1 and 3, counts the timers at +0x14 and +0xC down by the frame scale, sets the state at +8 to 2 when they expire, and clamps the value at +0x10 to the range 0 to 1",
+    "summary": "Advances a fade value by its rate each frame, moving between the fade states and clamping the value to 0 to 1."
+  }
+}

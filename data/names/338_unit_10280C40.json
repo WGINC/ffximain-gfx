@@ -1,0 +1,8 @@
+{
+  "0x102813B0": {
+    "name": "Snapshot_CompositeBlendPasses",
+    "confidence": "low",
+    "evidence": "enables decal texturing with Z-mask off, updates the texture and reads its size from the context at 0x8B0, then calls sqgxBlendAdd and nullsub_31 once per pass for the count argument, restores the Z-mask, turns blending off and clears the texture",
+    "summary": "Composites a snapshot texture with a number of additive blend passes."
+  }
+}

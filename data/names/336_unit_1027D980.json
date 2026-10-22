@@ -1,0 +1,3 @@
+{
+  "0x1027DAE0": {"name": "SqObj_InitDefaults", "confidence": "low", "evidence": "sets the dword at offset 0 to 1, the byte at +4 to 0, the float 1.0f at +0x9C and +0xA0, and zeroes the other dwords from +0x84 to +0xBC", "summary": "Sets the default values of a Squirrel object record."}
+}

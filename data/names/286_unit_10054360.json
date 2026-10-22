@@ -1,0 +1,14 @@
+{
+  "0x10054410": {
+    "name": "Global_Get10353710",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_10353710 and nothing else",
+    "summary": "Returns the value of the global at 0x10353710."
+  },
+  "0x10054430": {
+    "name": "Vec3_CopyFromPtr",
+    "confidence": "medium",
+    "evidence": "copies three dwords from the vector at param_2 to the vector at param_1",
+    "summary": "Copies a three-float vector from one address to another."
+  }
+}

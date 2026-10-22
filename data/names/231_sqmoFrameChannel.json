@@ -1,0 +1,5 @@
+{
+"0x10293F80": {"name": "SqmoFrameChannel_Create", "confidence": "medium", "evidence": "allocates 0x40 bytes with FUN_10275d40 from the source file string C:\\dev\\dancer\\modules\\sqMotion line 0x1C, then calls SqmoFrameChannel_Init on it", "summary": "Allocates and initialises a motion frame channel."},
+"0x10293FA0": {"name": "SqmoFrameChannel_Init", "confidence": "medium", "evidence": "stores the type 0x50001, sets the function pointers at +8, +0xC, +0x10 and +0x14 (sqmoFrameChannel_Dump among them), sets +0x24 to 1 and clears the rest", "summary": "Initialises a motion frame channel and its function table."},
+"0x102944E0": {"name": "SqmoFrameChannel_Apply", "confidence": "low", "evidence": "calls FUN_1027d650 with the fields at +0x38 and +0x1C, the argument and the byte at +0x3C", "summary": "Applies a frame channel's value to its target."}
+}

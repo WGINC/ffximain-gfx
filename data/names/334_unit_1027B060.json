@@ -1,0 +1,20 @@
+{
+  "0x1027B060": {
+    "name": "Vec3_NegateInPlace",
+    "confidence": "medium",
+    "evidence": "replaces each of the three floats at the argument with its negation",
+    "summary": "Negates a three-float vector in place."
+  },
+  "0x1027B080": {
+    "name": "Quat_RotateVec",
+    "confidence": "low",
+    "evidence": "copies the first quaternion argument through FUN_1027A700 and negates it with Vec3_NegateInPlace, then writes the four components of the result from products of the quaternion and the second argument's components, with the fourth component of the vector used as the w term",
+    "summary": "Rotates a vector by a quaternion into a four-float destination."
+  },
+  "0x1027B170": {
+    "name": "Quat_Mul",
+    "confidence": "medium",
+    "evidence": "writes four components to the first argument, each a sum of products of the components of the second and third arguments, with the fourth component as the w term, in the usual quaternion product order",
+    "summary": "Multiplies two four-float quaternions into a destination."
+  }
+}

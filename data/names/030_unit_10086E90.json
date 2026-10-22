@@ -1,0 +1,14 @@
+{
+  "0x100A1770": {
+    "name": "ActerList_FindStringById",
+    "confidence": "medium",
+    "evidence": "walks the list from FUN_100E8B80(5) and FUN_100E8C70, returning this+2 of the entry whose +0x14 equals the argument; otherwise searches the ActerBuffPtr table for +0x78 equal to the argument and returns the string at +0x214 or +0x7C",
+    "summary": "Returns the display string for an acter id, searching the acter list first and then the acter buffers."
+  },
+  "0x100A1D50": {
+    "name": "ActerBuff_GetStringByIdLookup",
+    "confidence": "medium",
+    "evidence": "searches the ActerBuffPtr table for the entry whose +0x78 equals the argument, returning the string at +0x214 or +0x7C; when no entry matches it returns the result of FUN_1008A930, or the empty string",
+    "summary": "Returns the display string for an acter id from the acter buffers, falling back to a lookup."
+  }
+}

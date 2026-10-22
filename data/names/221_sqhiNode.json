@@ -1,0 +1,5 @@
+{
+"0x10291B70": {"name": "SqhiNode_Create", "confidence": "medium", "evidence": "allocates a 0xF8-byte object through FUN_10275D80 with the file name s_C__dev_dancer_modules_sqHierarch and initialises it with FUN_10291BA0; called by sub_10288FF0 and sub_1029FFF0", "summary": "Creates a sqhiNode object."},
+"0x10291BA0": {"name": "SqhiNode_Init", "confidence": "medium", "evidence": "sets the type word 0xD0001 and the vtable entries, clears the fields from +0x64 to +0x70, initialises the matrix at +0x24 with FUN_1027EBD0 and FUN_1027EB00 and copies it with M4fSet; called by SqhiNode_Create", "summary": "Initialises a sqhiNode object and its transform matrix."},
+"0x10291F10": {"name": "SqhiNode_AppendChild", "confidence": "medium", "evidence": "walks the list at this+0x6C through the next link at +0x70 to its end and links param_2 there, setting param_2's parent link at +0x68 to param_1", "summary": "Appends a node to the end of a node's child list."}
+}

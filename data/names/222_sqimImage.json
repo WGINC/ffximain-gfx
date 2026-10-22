@@ -1,0 +1,14 @@
+{
+  "0x102984B0": {
+    "name": "SqimImage_Create",
+    "confidence": "medium",
+    "evidence": "creates a 0x3C-byte object with FUN_10275D80 (type 1, the sqImage source name, 0x1B) and initialises it with FUN_10298570",
+    "summary": "Creates and initialises a new sqImage object."
+  },
+  "0x10298570": {
+    "name": "SqimImage_Init",
+    "confidence": "medium",
+    "evidence": "sets the header word at +0 to 0x180001 and clears the fields at +0x14 to +0x20 and +0x28, sets +0x30 to 3, and clears +0x34 and +0x38",
+    "summary": "Initialises a sqImage object's header and fields."
+  }
+}

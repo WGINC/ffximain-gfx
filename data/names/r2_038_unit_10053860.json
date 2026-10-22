@@ -1,0 +1,26 @@
+{
+  "0x10053890": {
+    "name": "Generator_ClearSubobjectOrSetFlag",
+    "confidence": "low",
+    "evidence": "clears bit 0x800 of the int at self+0xD8; if the pointer at self+0xA8 is set, a true arg calls its vtable slot 6 with 1 and clears the pointer, else sets bit 0x1 of the short at self+0xDC and stores 1 at the pointee's +0x14; callers are generator stop paths (YmGenerater_Stop, Unit10053860_StopGenerators, CMoGeneratorClone_ExecuteCmdList)",
+    "summary": "Clears a state flag on the generator and either releases its attached sub-object or marks it as stopped, depending on the argument."
+  },
+  "0x100539E0": {
+    "name": "Generator_IsFlag400OrField22Zero",
+    "confidence": "low",
+    "evidence": "returns true if the int at self+0xD8 has bit 0x400; otherwise returns true iff the short at +0x22 of the object at self+0xE4 is zero (fn_100493B0); called from CYySoundElem_IsFinished and CMoGeneratorClone_ExecuteCmdList",
+    "summary": "Reports whether the generator is flagged 0x400 or the short field at +0x22 of its sub-object is zero."
+  },
+  "0x10053A00": {
+    "name": "Generator_StopByObjectOrPool",
+    "confidence": "medium",
+    "evidence": "with a zero first argument, walks the mesh resource pool (ResourceIter_Start on g_pMeshResourceMng, type 5) and stops generators of resources whose owner matches this object's owner; otherwise walks the child list at param_1+0x68 for CYyObject kind 0x1032B108; calls YmGenerater_Stop on matches, releases the chain and frees unreferenced resources",
+    "summary": "Stops the generators of the object's matching resources, either across the mesh resource pool or across the object's child list, and frees the resources that become unreferenced."
+  },
+  "0x10053DD0": {
+    "name": "YmGenerater_UpdateAttachIfPresent",
+    "confidence": "medium",
+    "evidence": "if the second argument is nonzero, looks up the element at self via FUN_100492B0(self, 0x11) and calls YmGenerater_UpdateAttach with it and the argument, else returns 0; called from CMoElem_AdvanceTimer",
+    "summary": "When given a nonzero weight, updates the generator's attach transform if its 0x11 element exists, and returns 0 otherwise."
+  }
+}

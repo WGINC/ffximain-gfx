@@ -1,0 +1,3 @@
+{
+"0x100410E0": {"name": "CMoD3mSpecularElem_IsType7", "confidence": "low", "evidence": "returns 1 iff its argument equals 7; virtual slot 12 (+0x30) of CMoD3mSpecularElem", "summary": "Tests whether the argument equals 7."}
+}

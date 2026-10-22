@@ -1,0 +1,6 @@
+{
+  "0x100544D0": {"name": "KeyCurve_EvaluateWithFlag34", "confidence": "low", "evidence": "saves the dword at +0x34, stores the third argument there, calls fn_10054500 with the second argument and restores +0x34", "summary": "Evaluates the curve with a temporarily replaced value at +0x34."},
+  "0x10054500": {"name": "KeyCurve_Evaluate", "confidence": "medium", "evidence": "clamps the argument to 0..1, walks the (time, value) pairs from +0x30 by 2 dwords to the segment that contains it, and interpolates between the two values", "summary": "Evaluates the key curve at a time between 0 and 1 by linear interpolation."},
+  "0x100546F0": {"name": "KeyCurve_EvaluateEaseIn", "confidence": "low", "evidence": "finds the key segment containing the argument as in KeyCurve_Evaluate, and for the first half of the segment blends with a quadratic weight of 2t squared", "summary": "Evaluates the key curve with an ease-in weighting on the first half of the segment."},
+  "0x100547A0": {"name": "KeyCurve_EvaluateEaseInOut", "confidence": "low", "evidence": "finds the key segment containing the argument as in KeyCurve_Evaluate, then weights the segment by 2t squared in its first half and by the complement squared in its second half", "summary": "Evaluates the key curve with an ease-in-out weighting across the segment."}
+}

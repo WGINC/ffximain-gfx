@@ -1,0 +1,9 @@
+{
+  "0x10053080": {"name": "Unit10053080_SetField19C", "confidence": "low", "evidence": "stores the dword argument at +0x19C", "summary": "Stores a value at +0x19C."},
+  "0x10053090": {"name": "Unit10053080_SetField1A0", "confidence": "low", "evidence": "stores the dword argument at +0x1A0", "summary": "Stores a value at +0x1A0."},
+  "0x100530A0": {"name": "Unit10053080_GetFloat19C", "confidence": "low", "evidence": "returns the float at +0x19C as a long double", "summary": "Returns the float at +0x19C."},
+  "0x100530B0": {"name": "Unit10053080_GetFloat1A0", "confidence": "low", "evidence": "returns the float at +0x1A0 as a long double", "summary": "Returns the float at +0x1A0."},
+  "0x100530C0": {"name": "Unit10053080_GetDword194", "confidence": "low", "evidence": "returns the dword at +0x194", "summary": "Returns the dword at +0x194."},
+  "0x100530D0": {"name": "Unit10053080_SetField1A4", "confidence": "low", "evidence": "stores the dword argument at +0x1A4", "summary": "Stores a value at +0x1A4."},
+  "0x100530E0": {"name": "Unit10053080_SetField1A8", "confidence": "low", "evidence": "stores the dword argument at +0x1A8", "summary": "Stores a value at +0x1A8."}
+}

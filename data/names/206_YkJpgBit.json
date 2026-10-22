@@ -1,0 +1,8 @@
+{
+  "0x101D08E0": {
+    "name": "YkJpgBit_Init",
+    "confidence": "medium",
+    "evidence": "sets the YkJpgBit vtable (PTR_YkJpgBit_GetRuntimeClass_10337e98), stores param_1 at +8 and param_2 at +0x10, clears +5 and +0xC, and sets the byte at +4 to 0x80",
+    "summary": "Initialises a JPEG bit object with its two parameters and default flags."
+  }
+}

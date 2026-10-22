@@ -1,0 +1,4 @@
+{
+"0x10019550": {"name": "CXiTimerLow_GetFrameRate", "confidence": "medium", "evidence": "vtable slot 9 of CXiTimerLow; takes timeGetTime minus this+0x1C minus this+0xC, uses 1 when that is 0, stores 1000 divided by it at this+4 and returns it", "summary": "Returns the rate in events per second, from the time since the timer was last reset."},
+"0x10019590": {"name": "CXiTimerLow_GetElapsed", "confidence": "medium", "evidence": "vtable slot 10 of CXiTimerLow; returns timeGetTime minus this+0x1C minus this+0xC", "summary": "Returns the milliseconds elapsed on the timer, from timeGetTime."}
+}

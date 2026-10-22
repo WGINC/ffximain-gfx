@@ -22,7 +22,6 @@ public:
     int IsFlag8ACSet();  // 0x100A47B0
     char GetField79C();  // 0x100A47C0
     char SetField79C(char a2);  // 0x100A47D0
-    bool IsReadComplete();  // 0x100A47E0
     _DWORD * vf256(_DWORD *a2);  // 0x100A47F0
     __int16 SetField670(__int16 a2);  // 0x100A4800
     __int16 GetField670();  // 0x100A4810
@@ -31,17 +30,12 @@ public:
     unsigned int GetColor();  // 0x100A4840
     int vf017();  // 0x100A4850
     void SetMultiTexAlpha(int alpha);  // 0x100A4860
-    char GetMultiTexAlpha();  // 0x100A4870
     void SetSahdowAlpha(int alpha);  // 0x100A4880
-    char GetShadowAlpha();  // 0x100A4890
     void EnableEffect(unsigned int flagBit);  // 0x100A48A0
     void DisableEffect(unsigned int flagBit);  // 0x100A48C0
-    void DisableEffectAll();  // 0x100A48E0
     int SetUVOffset(int a2, int a3);  // 0x100A48F0
-    void SetDistAmount(float amount);  // 0x100A4910
     void SetEmapColor(unsigned int color);  // 0x100A4920
     void SetEmapTexture(void *texture);  // 0x100A4930
-    void SetSeparateValue(float value);  // 0x100A4940
     void SetEmapAlphaMode(int mode);  // 0x100A4950
     int GetEmapAlphaMode();  // 0x100A4960
     _DWORD * vf258(_DWORD *a2);  // 0x100A4970
@@ -58,7 +52,6 @@ public:
     __int16 IsConstrain();  // 0x100A4A20
     bool IsConstrain_Set(char a2, int a3);  // 0x100A4A30
     __int16 IsConstrain2();  // 0x100A4A50
-    char IsConstrain2_Get(int a2);  // 0x100A4A60
     bool IsConstrain2_Set(char a2, int a3);  // 0x100A4A70
     char vf041();  // 0x100A4A90
     char vf042(char a2);  // 0x100A4AA0
@@ -84,7 +77,6 @@ public:
     int Init();  // 0x100C5D60
     void RunStaggeredUpdates();  // 0x100CBD60
     void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
-    char OcclusionClip();  // 0x100CCF50
     char * SetMotion(int *a2, float a3);  // 0x100CD490
     static undefined4 __thiscall SetMotion(void * self, int * param_1, uint32_t param_2, undefined4 param_3, float param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, int param_9, undefined4 param_10, undefined4 param_11);  // 0x100CD540
     _DWORD * ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7);  // 0x100CE480
@@ -93,10 +85,9 @@ public:
     int ActorGetResourceCount(int a2, int a3);  // 0x100CEC90
     void ReplaceAttack(int a1, int a2, int a3, int a4);  // 0x100CEDF0
     char SetAttack(int a2, int a3, int a4, char *Source);  // 0x100CEE00
-    char SetAction(int a2, _DWORD *a3, void *a4);  // 0x100CEE40
+    static undefined4 __thiscall SetAction(void * self, undefined4 * param_1, undefined4 param_2, int param_3);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
     void vf172(int a2);  // 0x100CF200
-    char SetModel(int a2);  // 0x100CF210
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
@@ -104,11 +95,8 @@ public:
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80
-    bool IsReadCompleteBody();  // 0x100D12D0
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
     char LoadSkeletonResource(int a2);  // 0x100D4330
-    char GetElem(unsigned int a2, int a3);  // 0x100D4560
-    char GetElemLocal(unsigned int a2, int a3);  // 0x100D4800
     char IsDirectionLock_Set(char a2);  // 0x100D5460
     char * DrawResourceShadows();  // 0x100D62C0
     void vf033();  // 0x100D6F90
@@ -177,11 +165,7 @@ public:
     unsigned int multiTexAlpha;  // +0x668
     unsigned int shadowAlpha;  // +0x66C
     uint16_t field_670;  // +0x670
-    uint8_t _pad_672[0x26];
-    float field_698;  // +0x698
-    float field_69C;  // +0x69C
-    float field_6A0;  // +0x6A0
-    uint8_t _pad_6A4[0x84];
+    uint8_t _pad_672[0xB6];
     int32_t field_728;  // +0x728
     uint8_t _pad_72C[0x4];
     int emapAlphaMode;  // +0x730
@@ -217,7 +201,7 @@ public:
     uint16_t field_7DA;  // +0x7DA
     int32_t field_7DC;  // +0x7DC
     int32_t field_7E0;  // +0x7E0
-    uint32_t resourceList;  // +0x7E4 list walked with List_GetTail in IsReadCompleteBody
+    int32_t resourceList;  // +0x7E4 list walked with List_GetTail in IsReadCompleteBody
     int32_t field_7E8;  // +0x7E8
     int32_t field_7EC;  // +0x7EC
     int32_t field_7F0;  // +0x7F0
@@ -255,26 +239,7 @@ public:
     int32_t field_870;  // +0x870
     int32_t field_874;  // +0x874
     uint8_t field_878;  // +0x878
-    int8_t field_879;  // +0x879
-    int8_t field_87A;  // +0x87A
-    int8_t field_87B;  // +0x87B
-    int8_t field_87C;  // +0x87C
-    int8_t field_87D;  // +0x87D
-    int8_t field_87E;  // +0x87E
-    uint8_t _pad_87F[0x2];
-    int8_t field_881;  // +0x881
-    uint8_t field_882;  // +0x882
-    uint8_t field_883;  // +0x883
-    uint8_t field_884;  // +0x884
-    uint8_t field_885;  // +0x885
-    int8_t field_886;  // +0x886
-    uint8_t _pad_887[0x1];
-    int8_t field_888;  // +0x888
-    int8_t field_889;  // +0x889
-    uint8_t _pad_88A[0x12];
-    uint8_t field_89C;  // +0x89C
-    uint8_t field_89D;  // +0x89D
-    uint8_t _pad_89E[0x2];
+    uint8_t _pad_879[0x27];
     int32_t field_8A0;  // +0x8A0
     uint8_t field_8A4;  // +0x8A4
     uint8_t field_8A5;  // +0x8A5
@@ -367,9 +332,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_664) == 0x664, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, multiTexAlpha) == 0x668, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, shadowAlpha) == 0x66C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_670) == 0x670, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_698) == 0x698, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_69C) == 0x69C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_6A0) == 0x6A0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_728) == 0x728, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, emapAlphaMode) == 0x730, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, effectFlags) == 0x734, "CXiSkeletonActor: layout");
@@ -436,22 +398,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_86C) == 0x86C, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_870) == 0x870, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_874) == 0x874, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_878) == 0x878, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_879) == 0x879, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_87A) == 0x87A, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_87B) == 0x87B, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_87C) == 0x87C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_87D) == 0x87D, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_87E) == 0x87E, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_881) == 0x881, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_882) == 0x882, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_883) == 0x883, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_884) == 0x884, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_885) == 0x885, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_886) == 0x886, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_888) == 0x888, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_889) == 0x889, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_89C) == 0x89C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_89D) == 0x89D, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A0) == 0x8A0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A4) == 0x8A4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A5) == 0x8A5, "CXiSkeletonActor: layout");

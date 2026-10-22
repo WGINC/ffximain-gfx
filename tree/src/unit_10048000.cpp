@@ -775,7 +775,7 @@ XI_API void __thiscall fn_10049520(void * self_, uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x1004A870  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API bool __cdecl fn_1004A870(int a1, int a2, __int16 a3, __int16 *a4)
+XI_API bool __cdecl GateEffectBoxProjection(int a1, int a2, __int16 a3, __int16 *a4)
 {
   __int16 v5; // fps
   double v6;
@@ -972,7 +972,7 @@ XI_API long double __thiscall fn_1004E4E0(void * self_, float param_2)
 
 // FUNCTION: FFXIMAIN 0x1004E630  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
-XI_API double __cdecl fn_1004E630(int a1, int a2, __int16 *a3)
+XI_API double __cdecl ScaleElemVisibilityByProbe(int a1, int a2, __int16 *a3)
 {
   int v4;
   int v5;
@@ -1132,13 +1132,6 @@ XI_API void __thiscall fn_100527C0(void * self_, undefined4 param_1, undefined4 
 XI_API void __thiscall fn_100527E0(void * self_, undefined4 xi_s1)
 {
   orig::MoProcessor_CallVSlot49_v1(self_);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x100527F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100527F0(void * self_)
-{
   return;
 }
 

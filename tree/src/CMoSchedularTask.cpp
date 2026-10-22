@@ -59,41 +59,6 @@ XI_API void __thiscall fn_100573B0(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100573E0  (unit CMoSchedularTask: between 0x100573B0 (class model places it in CMoSchedularTask) and 0x100574A0 (stores CMoSchedularTask vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100573E0(void * self_, int param_1, uint32_t param_2, undefined4 param_3)
-{
-  int iVar1;
-  
-  *(uint32_t *)((int)self_ + 0x90) = 0;
-  *(uint8_t *)((int)self_ + 0x140) = 0;
-  *(uint32_t *)((int)self_ + 0xac) = 0;
-  orig::FUN_10057cc0(self_,param_3);
-  *(uint32_t *)((int)self_ + 0x80) = *(uint32_t *)(param_1 + 0x14);
-  if (param_2 != 0) {
-    if (param_2 != 1) {
-      if (*(int **)((int)self_ + 0x80) == (int *)0x0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = **(int **)((int)self_ + 0x80);
-      }
-      *(float *)((int)self_ + 0x9c) = (float)((long double)param_2 / (long double)*(int *)(iVar1 + 0x7c));
-      goto LAB_1005742f;
-    }
-    *(uint8_t *)((int)self_ + 0x141) = 1;
-  }
-  *(uint32_t *)((int)self_ + 0x9c) = 0x3f800000;
-LAB_1005742f:
-  *(uint32_t *)((int)self_ + 0xa0) = 0;
-  *(uint32_t *)((int)self_ + 0x84) = 0;
-  *(uint32_t *)((int)self_ + 0x80) = *(uint32_t *)(param_1 + 0x14);
-  *(uint32_t *)((int)self_ + 0x94) = 0;
-  *(uint32_t *)((int)self_ + 0x98) = 0;
-  *(uint32_t *)((int)self_ + 0x88) = *(uint32_t *)(param_1 + 0x74);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100574A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 28 returned normally, 144 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoSchedularTask::Destructor(void * self)

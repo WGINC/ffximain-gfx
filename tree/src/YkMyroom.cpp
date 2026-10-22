@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101D2F00  (unit YkMyroom: stores YkMyroom vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101D2F00(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_YkMyroom_GetRuntimeClass_103384a4;
@@ -34,6 +34,6 @@ XI_API void __thiscall fn_101D2F00(void * self_)
   orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x14));
   orig::FUN_101d31b0(self_);
   orig::thunk_FUN_10150ce0(g_pTkTitle,0,0);
-  orig::FUN_1013a320(g_pTkHelp_as_v0,0,0);
+  orig::FUN_1013a320(g_pTkHelp,0,0);
   return;
 }

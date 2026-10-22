@@ -166,7 +166,7 @@ XI_API int __thiscall fn_1003B8B0(void * self_)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -175,7 +175,7 @@ XI_API int __thiscall fn_1003B8B0(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
@@ -196,7 +196,7 @@ XI_API int __thiscall fn_1003B900(void * self_)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -205,7 +205,7 @@ XI_API int __thiscall fn_1003B900(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
@@ -243,8 +243,8 @@ XI_API void __cdecl fn_1003BD90(undefined4 param_1, undefined4 param_2, int * pa
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
-XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
+// GATE: PASS -- 100 trials, 90 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
+XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;
   float *v6;

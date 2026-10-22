@@ -280,29 +280,6 @@ XI_API void __cdecl fn_100279A0(void)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100279B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Mat4_SetIdentity(void * self_)
-{
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0xc) = 0;
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x24) = 0;
-  *(uint32_t *)((int)self_ + 0x2c) = 0;
-  *(uint32_t *)((int)self_ + 0x30) = 0;
-  *(uint32_t *)((int)self_ + 0x34) = 0;
-  *(uint32_t *)((int)self_ + 0x38) = 0;
-  *(uint32_t *)self_ = 0x3f800000;
-  *(uint32_t *)((int)self_ + 0x14) = 0x3f800000;
-  *(uint32_t *)((int)self_ + 0x28) = 0x3f800000;
-  *(uint32_t *)((int)self_ + 0x3c) = 0x3f800000;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100279F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_Copy(void * self_, undefined4 * param_1)

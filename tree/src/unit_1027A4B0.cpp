@@ -84,38 +84,6 @@ XI_API void __cdecl fn_1027A9D0(float * param_1, float * param_2)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1027AAE0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027AAE0(float * param_1, float param_2, float param_3, float param_4)
-{
-  long double fVar1;
-  long double fVar2;
-  long double fVar3;
-  long double fVar4;
-  long double fVar5;
-  long double fVar6;
-  
-  fVar5 = xi_castbits<long double>(fcos((long double)param_4 * (long double)0.5f));
-  fVar1 = (float)fVar5;
-  fVar5 = xi_castbits<long double>(fcos((long double)param_3 * (long double)0.5f));
-  fVar2 = (float)fVar5;
-  fVar5 = xi_castbits<long double>(fcos((long double)(float)((long double)param_2 * (long double)0.5f)));
-  fVar3 = (float)fVar5;
-  fVar5 = xi_castbits<long double>(fsin((long double)param_4 * (long double)0.5f));
-  fVar4 = (float)fVar5;
-  fVar5 = xi_castbits<long double>(fsin((long double)param_3 * (long double)0.5f));
-  fVar6 = xi_castbits<long double>(fsin((long double)(float)((long double)param_2 * (long double)0.5f)));
-  *param_1 = (float)((long double)fVar2 * fVar6 * (long double)fVar1 -
-                    fVar5 * (long double)fVar4 * (long double)fVar3);
-  param_1[1] = (float)(fVar5 * (long double)fVar3 * (long double)fVar1 +
-                      (long double)fVar4 * fVar6 * (long double)fVar2);
-  param_1[2] = (float)((long double)fVar4 * (long double)fVar3 * (long double)fVar2 -
-                      fVar6 * fVar5 * (long double)fVar1);
-  param_1[3] = (float)(fVar6 * fVar5 * (long double)fVar4 +
-                      (long double)fVar3 * (long double)fVar2 * (long double)fVar1);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1027ABA0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027ABA0(float * param_1, float param_2)
@@ -195,30 +163,5 @@ XI_API void __cdecl fn_1027AEF0(float * param_1)
   param_1[1] = (float)-(long double)param_1[1];
   param_1[2] = (float)-(long double)param_1[2];
   param_1[3] = (float)-(long double)param_1[3];
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1027AF20  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027AF20(float * param_1)
-{
-  long double fVar1;
-  
-  fVar1 = (long double)param_1[3] * (long double)param_1[3] +
-          (long double)param_1[2] * (long double)param_1[2] +
-          (long double)param_1[1] * (long double)param_1[1] + (long double)*param_1 * (long double)*param_1;
-  if (fVar1 > (long double)0.0f) {
-    fVar1 = (long double)1.0f / SQRT(fVar1);
-    *param_1 = (float)(fVar1 * (long double)*param_1);
-    param_1[1] = (float)(fVar1 * (long double)param_1[1]);
-    param_1[2] = (float)(fVar1 * (long double)param_1[2]);
-    param_1[3] = (float)(fVar1 * (long double)param_1[3]);
-    return;
-  }
-  param_1[3] = 0.0f;
-  fVar1 = (long double)1.0f / SQRT((long double)3.0);
-  *param_1 = (float)fVar1;
-  param_1[1] = (float)fVar1;
-  param_1[2] = (float)fVar1;
   return;
 }

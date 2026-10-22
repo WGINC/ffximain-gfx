@@ -134,14 +134,68 @@ XI_API undefined4 __cdecl fn_101D0AB0(void)
   piVar1 = (int *)0x0;
   if ((DAT_104dfd98 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
     piVar1 = (int *)orig::FUN_10160700(&g_menuMng_as_v0,g_pSceneState_as_v0);
-    if (((char)piVar1 != '\0') && (piVar1 = *(int **)(DAT_10663888_as_s32 + 8), piVar1 == (int *)0x0)) {
-      DAT_10663178 = 2;
+    if (((char)piVar1 != '\0') && (piVar1 = *(int **)(DAT_10663888 + 8), piVar1 == (int *)0x0)) {
+      DAT_10663178_as_v0 = 2;
       uVar2 = orig::FUN_10037fb0();
       DAT_106218ea = 1;
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
   }
   return (uint32_t)piVar1 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x101D0B00  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __cdecl CopyrightText_Draw(void)
+{
+  short sVar1;
+  short sVar2;
+  int *piVar3;
+  int iVar4;
+  char *pcVar5;
+  uint32_t uVar6;
+  short sVar7;
+  uint8_t bVar8;
+  int64_t lVar9;
+  uint64_t uVar10;
+  uint32_t uVar11;
+  float fVar12;
+  float fVar13;
+  float local_c;
+  float local_8;
+  
+  piVar3 = (int *)0x0;
+  if ((DAT_104dfd98 != 0) && (piVar3 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
+    piVar3 = (int *)orig::FUN_10160700(&g_menuMng_as_v0,g_pSceneState_as_v0);
+    if (((char)piVar3 != '\0') &&
+       ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178 != 0)))) {
+      iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
+      local_8 = (float)((long double)*(int *)(iVar4 + 8) * (long double)0.0009765625f);
+      iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
+      local_c = (float)((long double)*(int *)(iVar4 + 0xc) * (long double)0.0009765625f);
+      bVar8 = NAN((long double)local_8) || NAN((long double)1.0f);
+      if (((bVar8 || (long double)local_8 < (long double)1.0f) != bVar8) ||
+         (bVar8 = NAN((long double)local_c) || NAN((long double)1.0f),
+         (bVar8 || (long double)local_c < (long double)1.0f) != bVar8)) {
+        local_8 = 1.0f;
+        local_c = 1.0f;
+      }
+      sVar7 = XI_PIECE_S(g_screenRectBottomRight_as_v0, 2, 2) - XI_PIECE_S(g_screenRectTopLeft_as_v0, 2, 2);
+      uVar11 = 1;
+      iVar4 = -0x7f7f7f80;
+      sVar2 = (short)g_screenRectTopLeft_as_v0;
+      sVar1 = (short)g_screenRectBottomRight_as_v0;
+      fVar12 = local_8;
+      fVar13 = local_c;
+      pcVar5 = orig::FUN_101d0c40();
+      lVar9 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)sVar7 - (long double)local_c * (long double)3e+01f);
+      uVar6 = (uint32_t)lVar9;
+      lVar9 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)(short)(sVar1 - sVar2) - (long double)local_8 * (long double)16.0f);
+      uVar10 = orig::FUN_101c9b50((int)lVar9,uVar6,pcVar5,iVar4,uVar11,fVar12,fVar13);
+      piVar3 = (int *)uVar10;
+    }
+  }
+  return piVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x101D0C40  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
@@ -225,13 +279,13 @@ XI_API void __cdecl YkInit(void)
   undefined4 uVar4;
   
   orig::YkCommonInit();
-  if (DAT_10663888 == (void *)0x0) {
+  if (DAT_10663888_as_v0 == (void *)0x0) {
     uVar3 = orig::Allocator_Generic_v1(0xa54);
     if ((void *)uVar3 == (void *)0x0) {
-      DAT_10663888 = (void *)0x0;
+      DAT_10663888_as_v0 = (void *)0x0;
     }
     else {
-      DAT_10663888 = orig::FUN_101f86c0((void *)uVar3);
+      DAT_10663888_as_v0 = orig::FUN_101f86c0((void *)uVar3);
     }
   }
   if (DAT_10663648 == (void *)0x0) {

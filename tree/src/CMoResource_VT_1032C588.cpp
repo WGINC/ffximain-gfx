@@ -33,10 +33,3 @@ void CMoResource_VT_1032C588::vf008()
 {
   ;
 }
-
-// FUNCTION: FFXIMAIN 0x10074620  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-__int16 CMoResource_VT_1032C588::vf009()
-{
-  return orig::CMoResource_Destroy((int)this);
-}

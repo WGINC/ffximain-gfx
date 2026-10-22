@@ -25,7 +25,7 @@ XI_API int __cdecl fn_101CCE00(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CD900  (unit YkFurniture: stores YkFurniture vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 99 returned normally, 145 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 147 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CD900(void * self_)
 {
   int *piVar1;

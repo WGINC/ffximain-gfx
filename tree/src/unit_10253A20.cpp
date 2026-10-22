@@ -923,14 +923,6 @@ XI_API uint8_t * __cdecl fn_10258F60(int param_1, int param_2, int param_3)
   return &Read_as_v0;
 }
 
-// FUNCTION: FFXIMAIN 0x102590E0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 199 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_102590E0(void * self_)
-{
-  orig::FUN_10259de0(self_);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x102590F0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_102590F0(void * self_)
@@ -1324,7 +1316,7 @@ LAB_10259b89:
 }
 
 // FUNCTION: FFXIMAIN 0x10259DE0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 199 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) fn_10259DE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t *this_00;
@@ -1522,14 +1514,6 @@ XI_API uint8_t * __cdecl fn_1025A760(int param_1, int param_2, int param_3, int 
   return PTR_DAT_1038a310;
 }
 
-// FUNCTION: FFXIMAIN 0x1025A800  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 199 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1025A800(void * self_)
-{
-  orig::FUN_1025a820(self_);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1025A810  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1025A810(void * self_)
@@ -1541,7 +1525,7 @@ XI_API void __thiscall fn_1025A810(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1025A820  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 199 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) fn_1025A820(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t *this_00;

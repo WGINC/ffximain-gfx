@@ -152,20 +152,6 @@ XI_API void __cdecl fn_1027EB00(undefined4 * param_1)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1027EB10  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl M4fSet(undefined4 * param_1, undefined4 * param_2)
-{
-  int iVar1;
-  
-  for (iVar1 = 0x10; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *param_1 = *param_2;
-    param_2 = param_2 + 1;
-    param_1 = param_1 + 1;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1027EB50  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027EB50(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10, float param_11, float param_12, float param_13, float param_14, float param_15, float param_16, float param_17)

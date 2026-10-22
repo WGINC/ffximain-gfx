@@ -2,46 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x10019A50  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5)
-{
-  uint8_t bVar1;
-  short sVar2;
-  int iVar3;
-  int *piVar4;
-  uint32_t uVar5;
-  int *piVar6;
-  uint8_t bVar7;
-  
-  bVar7 = NAN((long double)param_4) || NAN((long double)xi_k4(0x38D1B717ull));
-  sVar2 = *(short *)((int)self_ + 0x32);
-  if ((bVar7 || (long double)param_4 < (long double)xi_k4(0x38D1B717ull)) == bVar7) {
-    piVar6 = (int *)0x0;
-    piVar4 = (int *)((int)self_ + 0x3a);
-    if ((int *)(int)sVar2 != (int *)0x0) {
-      do {
-        iVar3 = *piVar4;
-        bVar1 = *(uint8_t *)(DAT_1045f028 + iVar3);
-        if (((char)bVar1 < '\0') && ((bVar1 & 0x40) != 0x40)) {
-          if ((bVar1 & 0x3f) == 0) {
-            uVar5 = orig::SampleAnimationTrack_ToBuffer(self_,param_2,piVar6,iVar3,param_3,param_5);
-            if ((char)uVar5 != '\0') {
-              *(uint8_t *)(DAT_1045f028 + iVar3) = *(uint8_t *)(DAT_1045f028 + iVar3) | 1;
-            }
-          }
-          else if ((bVar1 & 0x3f) == 1) {
-            orig::SampleAnimationTrack_Live(self_,param_2,piVar6,iVar3,param_3,param_4,param_5);
-          }
-        }
-        piVar6 = (int *)((int)piVar6 + 1);
-        piVar4 = piVar4 + 0x15;
-      } while (piVar6 < (int *)(int)sVar2);
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10019B30  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5)
@@ -446,8 +406,8 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
         uVar8 = DAT_10462430;
         if (DAT_10462430 != 0) {
           do {
-            if ((*(uint8_t *)(DAT_1045f028 + uVar5) & 0x3f) != 0) {
-              *(uint8_t *)(DAT_1045f028 + uVar5) = *(uint8_t *)(DAT_1045f028 + uVar5) | 0x40;
+            if ((*(uint8_t *)(DAT_1045f028_as_s32 + uVar5) & 0x3f) != 0) {
+              *(uint8_t *)(DAT_1045f028_as_s32 + uVar5) = *(uint8_t *)(DAT_1045f028_as_s32 + uVar5) | 0x40;
               uVar8 = DAT_10462430;
             }
             uVar5 = uVar5 + 1;
@@ -465,7 +425,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
         uVar5 = 0;
         if (uVar8 != 0) {
           do {
-            *(uint8_t *)(DAT_1045f028 + uVar5) = *(uint8_t *)(DAT_1045f028 + uVar5) & 0x80;
+            *(uint8_t *)(DAT_1045f028_as_s32 + uVar5) = *(uint8_t *)(DAT_1045f028_as_s32 + uVar5) & 0x80;
             uVar5 = uVar5 + 1;
           } while (uVar5 < DAT_10462430);
         }
@@ -476,8 +436,8 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
         if (DAT_10462430 != 0) {
           iVar6 = 0;
           do {
-            bVar1 = *(uint8_t *)(DAT_1045f028 + uVar5);
-            uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_1045f028 >> 8)) << 8) | (uint8_t)(bVar1)));
+            bVar1 = *(uint8_t *)(DAT_1045f028_as_s32 + uVar5);
+            uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_1045f028_as_s32 >> 8)) << 8) | (uint8_t)(bVar1)));
             if (((char)bVar1 < '\0') && ((bVar1 & 0x3f) != 0)) {
               puVar7 = (undefined4 *)
                        orig::Quat_NLerp((undefined4 *)((int)&g_poseScratch_as_v0 + iVar6),local_10,

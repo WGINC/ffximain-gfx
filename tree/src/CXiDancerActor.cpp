@@ -61,55 +61,6 @@ XI_API void __thiscall fn_100AB830(void * self_, undefined4 * param_1)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100AB880  (unit CXiDancerActor: between 0x100AB6E0 (class model places it in CXiDancerActor) and 0x100ABC10 (class model places it in CXiDancerActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_100AB880(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2)
-{
-  float *pfVar1;
-  void *this_00;
-  int iVar2;
-  uint8_t bVar3;
-  
-  this_00 = *(void **)((int)self_ + 0x70);
-  if (this_00 != (void *)0x0) {
-    *(uint32_t *)((int)this_00 + 0x34) = *param_2;
-    *(uint32_t *)((int)this_00 + 0x38) = param_2[1];
-    *(uint32_t *)((int)this_00 + 0x3c) = param_2[2];
-    orig::FUN_100929a0(this_00);
-  }
-  iVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x318))))((void *)(self_));
-  if (iVar2 == 0) {
-    pfVar1 = (float *)((int)self_ + 0x61c);
-    orig::Vec4_Copy_v1(pfVar1,param_2);
-    if ((long double)*pfVar1 > (long double)3.141499996185302734375f) {
-      *pfVar1 = (float)((long double)*pfVar1 - (long double)6.28299999237060546875f);
-    }
-    bVar3 = NAN((long double)*pfVar1) || NAN((long double)(-3.141499996185302734375f));
-    if ((bVar3 || (long double)*pfVar1 < (long double)(-3.141499996185302734375f)) != bVar3) {
-      *pfVar1 = (float)((long double)*pfVar1 + (long double)6.28299999237060546875f);
-    }
-    if ((long double)*(float *)((int)self_ + 0x620) > (long double)3.141499996185302734375f) {
-      *(float *)((int)self_ + 0x620) =
-           (float)((long double)*(float *)((int)self_ + 0x620) - (long double)6.28299999237060546875f);
-    }
-    bVar3 = NAN((long double)*(float *)((int)self_ + 0x620)) || NAN((long double)(-3.141499996185302734375f));
-    if ((bVar3 || (long double)*(float *)((int)self_ + 0x620) < (long double)(-3.141499996185302734375f)) != bVar3) {
-      *(float *)((int)self_ + 0x620) =
-           (float)((long double)*(float *)((int)self_ + 0x620) + (long double)6.28299999237060546875f);
-    }
-    if ((long double)*(float *)((int)self_ + 0x624) > (long double)3.141499996185302734375f) {
-      *(float *)((int)self_ + 0x624) =
-           (float)((long double)*(float *)((int)self_ + 0x624) - (long double)6.28299999237060546875f);
-    }
-    bVar3 = NAN((long double)*(float *)((int)self_ + 0x624)) || NAN((long double)(-3.141499996185302734375f));
-    if ((bVar3 || (long double)*(float *)((int)self_ + 0x624) < (long double)(-3.141499996185302734375f)) != bVar3) {
-      *(float *)((int)self_ + 0x624) =
-           (float)((long double)*(float *)((int)self_ + 0x624) + (long double)6.28299999237060546875f);
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100AB9A0  (unit CXiDancerActor: between 0x100AB6E0 (class model places it in CXiDancerActor) and 0x100ABC10 (class model places it in CXiDancerActor), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100AB9A0(void * self_, void * param_1, undefined4 param_2, undefined4 param_3, undefined4 * param_4)

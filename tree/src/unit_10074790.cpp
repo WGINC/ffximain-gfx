@@ -102,27 +102,3 @@ XI_API void __thiscall fn_10074AB0(void * self_)
   orig::FUN_10074ad0(self_,1);
   return;
 }
-
-// FUNCTION: FFXIMAIN 0x10074AD0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074AD0(void * self_, int param_1)
-{
-  if (*(void **)((int)self_ + 0x10) != (void *)0x0) {
-    orig::FUN_100747f0(*(void **)((int)self_ + 0x10),(int)self_);
-  }
-  if (*(void **)((int)self_ + 0x24) != (void *)0x0) {
-    orig::FUN_10074890(*(void **)((int)self_ + 0x24));
-  }
-  if (*(int *)((int)self_ + 4) != 0) {
-    if (param_1 != 0) {
-      orig::FUN_10074a20();
-    }
-    if (*(char *)((int)self_ + 0x20) == '\0') {
-      *(uint32_t *)(dword_1047D140 + 0xd5c) = *(uint32_t *)(dword_1047D140 + 0xd50);
-      *(void **)(dword_1047D140 + 0xd50) = self_;
-      *(uint32_t *)((int)self_ + 4) = 0;
-      *(int *)(dword_1047D140 + 0xd44) = *(int *)(dword_1047D140 + 0xd44) + -1;
-    }
-  }
-  return;
-}

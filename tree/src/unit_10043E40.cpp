@@ -179,7 +179,7 @@ XI_API void __thiscall DynVB_Unlock(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100441C0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100441C0(_DWORD *self_)
+XI_API int __thiscall CameraCache_CacheViewProjection(_DWORD *self_)
 {
   _DWORD *v1;
   _DWORD *v2;

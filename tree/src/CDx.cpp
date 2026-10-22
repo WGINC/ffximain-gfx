@@ -360,22 +360,6 @@ XI_API undefined4 __thiscall fn_10009870(void * self_, undefined4 param_1, int *
   return 1;
 }
 
-// FUNCTION: FFXIMAIN 0x100098E0  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
-// GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_100098E0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
-{
-  int a2;
-  
-  if ((char)param_4 == '\x01') {
-    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd4))))(*(int **)((int)self_ + 0xc),param_3);
-  }
-  a2 = *param_3;
-  if ((a2 != 0) && (a2 != -1)) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd8))))(*(int **)((int)self_ + 0xc),a2);
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10009D20  (unit CDx: between 0x10009920 (name CDx_SetDefaultRenderState) and 0x10009DC0 (name CDx_SetViewport), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10009D20(void * self_)
@@ -1057,21 +1041,6 @@ int CDx::GetTransformCached(int a2, void *a3)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x1000BE10  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_1000BE10(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
-{
-  if (param_2 == 0) {
-    *(uint32_t *)((int)self_ + 0x9fc) = 0;
-    return;
-  }
-  if (*(int *)((int)self_ + 0x9fc) != param_2) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0x130))))(*(int **)((int)self_ + 0xc),param_2);
-    *(int *)((int)self_ + 0x9fc) = param_2;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1000BE50  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
@@ -1557,59 +1526,6 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
     v3 = a2;
   }
   return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x1000CA00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 44 returned normally, 56 D3D calls compared (diffemu_gfx, clean build)
-char CDx::GetStereoSecondEyeTarget(int a1, int a2)
-{
-  char v4;
-  IDirect3DSurface8 *v5;
-  int v6;
-  IDirect3DSurface8 *v7;
-  int v8;
-  IDirect3DSurface8 *v10;
-  IDirect3DSurface8 *v11;
-  IDirect3DSurface8 *v12;
-  v4 = 0;
-  if ( this->stereoTargetsReady != 0 && orig::CEnv_IsStereoMode(g_pEnv) != 0 )
-  {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetRenderTarget((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &v11);
-    (*(void (__stdcall **)(_DWORD, _DWORD, IDirect3DSurface8 **))(*this->sceneTargetA + 60))(
-      at<uint32_t>(this, 0x194),
-      0,
-      &v10);
-    (*(void (__stdcall **)(_DWORD, _DWORD, IDirect3DSurface8 **))(*at<_DWORD *>(this, 0x198) + 60))(
-      this->sceneTargetB,
-      0,
-      &v12);
-    v5 = v10;
-    if ( v11 == v10 || v11 == v12 )
-    {
-      *(_DWORD *)a1 = this->sceneTargetB;
-      v6 = this->sceneTargetBDepth;
-      *(_DWORD *)a2 = v6;
-      v4 = *(_DWORD *)a1 != 0 && v6 != 0;
-    }
-    v5->Release();
-    v12->Release();
-    if ( v4 != 1 )
-    {
-      pTexture->GetSurfaceLevel(0, &v10);
-      v7 = v10;
-      if ( v11 == v10 )
-      {
-        *(_DWORD *)a1 = g_translucentTargetEye2;
-        v8 = this->sceneTargetBDepth;
-        *(_DWORD *)a2 = v8;
-        v4 = *(_DWORD *)a1 != 0 && v8 != 0;
-      }
-      v7->Release();
-    }
-    if ( v11 != nullptr )
-      v11->Release();
-  }
-  return v4;
 }
 
 // FUNCTION: FFXIMAIN 0x1000CB20  (placed by IDB name)

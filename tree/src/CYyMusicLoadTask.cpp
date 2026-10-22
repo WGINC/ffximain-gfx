@@ -2,33 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x100378B0  (unit CYyMusicLoadTask: between 0x100377A0 (stores CYyMusicLoadTask vtable (ctor/dtor)) and 0x10037960 (stores CYyMusicLoadTask vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100378B0(int param_1)
-{
-  int64_t lVar1;
-  uint32_t uVar2;
-  
-  if (DAT_10463948 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
-    DAT_10463948 = (int *)0x0;
-  }
-  if ((DAT_10463944 != param_1) && (DAT_1046393c != 0)) {
-    orig::FUN_102467a0(0xffffffff,0);
-  }
-  DAT_10463944 = param_1;
-  lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
-  orig::FUN_100382a0(param_1,(int)lVar1,(int)lVar1);
-  if (DAT_1046393c != 0) {
-    uVar2 = 0;
-    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
-    orig::FUN_10246770(0xffffffff,(uint32_t)lVar1,uVar2);
-  }
-  DAT_10463940 = param_1;
-  DAT_10463909 = 1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10037960  (unit CYyMusicLoadTask: stores CYyMusicLoadTask vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)

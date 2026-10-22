@@ -2,66 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x100397A0  (unit unit_100397A0: no unit evidence of its own; in the gap between 0x10039790 (CYyTex) and 0x100398B0 (CYyTexBase) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100397A0(void * self_, char * param_1)
-{
-  char cVar1;
-  uint8_t *puVar2;
-  uint32_t uVar3;
-  int iVar4;
-  char *pcVar5;
-  int iVar6;
-  uint32_t *puVar7;
-  
-  uVar3 = 0xffffffff;
-  pcVar5 = param_1;
-  do {
-    if (uVar3 == 0) break;
-    uVar3 = uVar3 - 1;
-    cVar1 = *pcVar5;
-    pcVar5 = pcVar5 + 1;
-  } while (cVar1 != '\0');
-  if (~uVar3 - 1 < 0x10) {
-    uVar3 = 0xffffffff;
-    pcVar5 = param_1;
-    do {
-      if (uVar3 == 0) break;
-      uVar3 = uVar3 - 1;
-      cVar1 = *pcVar5;
-      pcVar5 = pcVar5 + 1;
-    } while (cVar1 != '\0');
-    iVar4 = ~uVar3 - 1;
-  }
-  else {
-    iVar4 = 0x10;
-  }
-  iVar6 = 0;
-  if (0 < iVar4) {
-    puVar2 = self_;
-    iVar6 = iVar4;
-    do {
-      *puVar2 = puVar2[(int)param_1 - (int)self_];
-      puVar2 = puVar2 + 1;
-      iVar6 = iVar6 + -1;
-    } while (iVar6 != 0);
-    iVar6 = iVar4;
-    if (0xf < iVar4) {
-      return;
-    }
-  }
-  puVar7 = (uint32_t *)((int)self_ + iVar6);
-  for (uVar3 = 0x10U - iVar6 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
-    *puVar7 = 0;
-    puVar7 = puVar7 + 1;
-  }
-  for (uVar3 = 0x10U - iVar6 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-    *(uint8_t *)puVar7 = 0;
-    puVar7 = (uint32_t *)((int)puVar7 + 1);
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10039810  (unit unit_100397A0: no unit evidence of its own; in the gap between 0x10039790 (CYyTex) and 0x100398B0 (CYyTexBase) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Util_Copy16Bytes(void * self_, int param_1)
@@ -101,6 +41,6 @@ XI_API void * __thiscall fn_10039830(void * self_)
   iVar1 = DAT_1047b96c;
   DAT_1047b96c = DAT_1047b96c + 1;
   orig::_sprintf(&DAT_10351c89,&DAT_10351cbc,iVar1);
-  orig::CYyTexBase_SetName_v1(self_,(uint32_t *)&DAT_10351c84);
+  orig::CYyTexBase_SetName(self_,(uint32_t *)&DAT_10351c84);
   return self_;
 }

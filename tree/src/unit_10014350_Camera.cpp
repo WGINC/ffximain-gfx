@@ -468,7 +468,7 @@ XI_API void __stdcall fn_100157B0(undefined4 param_1, undefined4 param_2, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 29 returned normally, 69 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 29 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl App_CreateRendererAndApp(void)
 {
   CDx *v0;
@@ -540,7 +540,7 @@ XI_API void __cdecl fn_10016300(void)
 
 // FUNCTION: FFXIMAIN 0x10016320  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // NOT VERIFIED -- INCONCLUSIVE
-XI_API _DWORD * __cdecl fn_10016320(void)
+XI_API _DWORD * __cdecl App_DestroyGlobalObjects(void)
 {
   int *v0;
   v0 = (int *)&g_sceneStateStorage_7C;
@@ -631,16 +631,6 @@ XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefi
   *(uint32_t *)((int)self_ + 0x604) = param_1;
   *(uint32_t *)((int)self_ + 0x608) = param_2;
   *(uint32_t *)((int)self_ + 0x60c) = param_3;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x100170D0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall GammaRamp_GetRGB(void * self_, undefined4 * param_1, undefined4 * param_2, undefined4 * param_3)
-{
-  *param_1 = *(uint32_t *)((int)self_ + 0x604);
-  *param_2 = *(uint32_t *)((int)self_ + 0x608);
-  *param_3 = *(uint32_t *)((int)self_ + 0x60c);
   return;
 }
 

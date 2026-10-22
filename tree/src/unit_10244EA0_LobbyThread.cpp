@@ -531,7 +531,7 @@ XI_API void * __thiscall fn_1024C930(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1024CF50  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1024CF50(_DWORD *a1)
+XI_API int __cdecl StAvatarInit(_DWORD *a1)
 {
   int v2;
   int *v3;

@@ -476,18 +476,6 @@ XI_API undefined4 __cdecl fn_10279D50(undefined4 param_1, undefined4 param_2, un
   return uVar1;
 }
 
-// FUNCTION: FFXIMAIN 0x1027A220  (unit sqmdModel: between 0x1027A090 (asserts sqmdModel.c) and 0x1027A250 (asserts sqmdModel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027A220(int param_1, undefined4 param_2)
-{
-  uint32_t *puVar1;
-  
-  orig::FUN_102796a0(param_1,param_2);
-  puVar1 = (uint32_t *)(*(int *)(param_1 + 100) + -4 + *(int *)(param_1 + 0x68) * 4);
-  *puVar1 = *puVar1 | 0x100;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1027A250  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1027A250(int * param_1)

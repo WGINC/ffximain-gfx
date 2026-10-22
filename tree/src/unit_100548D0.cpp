@@ -3,8 +3,8 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10054D70  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 25 returned normally, 225 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __cdecl fn_10054D70(void)
+// GATE: PASS -- 100 trials, 25 returned normally, 150 D3D calls compared (diffemu_gfx, clean build)
+XI_API char __cdecl BeginEffectOffscreenPass(void)
 {
   int v0;
   int ScratchMatrixStackTop;
@@ -90,7 +90,7 @@ XI_API char __cdecl fn_10054D70(void)
 
 // FUNCTION: FFXIMAIN 0x10054F80  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API float * __stdcall fn_10054F80(float *a1, int a2)
+XI_API float * __stdcall EndEffectOffscreenPass(float *a1, int a2)
 {
   orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, (const void *)(g_pResourceMng + 2896));
   return orig::CTsZoneMap_DrawProjectedTexture(

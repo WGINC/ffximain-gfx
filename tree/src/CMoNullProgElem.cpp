@@ -21,13 +21,6 @@ XI_API uint64_t __thiscall fn_10053180(void * self_)
   return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
 }
 
-// FUNCTION: FFXIMAIN 0x100531A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void CMoNullProgElem::SetField138()
-{
-  (*(unsigned __int32 *)((char *)this + 0x138)) = 1065353216;
-}
-
 // FUNCTION: FFXIMAIN 0x100531B0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoNullProgElem::Destructor(char a2)

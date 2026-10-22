@@ -2,25 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x101C7C50  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101C7C50(void * self_)
-{
-  uint16_t *puVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  puVar1 = (uint16_t *)((int)self_ + 0x10);
-  do {
-    *(uint32_t *)((int)self_ + iVar2 * 4) = 0;
-    *(uint32_t *)((int)self_ + iVar2 * 4 + 0x18) = 0;
-    *puVar1 = 0xffff;
-    iVar2 = iVar2 + 1;
-    puVar1 = puVar1 + 1;
-  } while (iVar2 < 4);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x101C7F80  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101C7F80(void * self_)

@@ -69,7 +69,7 @@ XI_API undefined4 __thiscall Skel_BindShared(void * self_)
           (&g_pSharedSkeleton_as_s32)[iVar2] = 1;
         } while (iVar2 < (int)uVar1);
       }
-      DAT_1045f028_as_v0 = *(uint32_t *)((int)self_ + 0x14);
+      DAT_1045f028 = *(uint32_t *)((int)self_ + 0x14);
       return 1;
     }
     return 0;

@@ -179,39 +179,6 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038470(undefined4 xi_e
   return xi_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x100384B0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
-{
-  char cVar1;
-  char *pcVar2;
-  uint32_t uVar3;
-  
-  if ((char)param_4 != '\0') {
-    (&dword_10463950_as_v0)[dword_1047B950] = 3;
-    (&DAT_10463951)[dword_1047B950] = (char)param_4;
-    dword_1047B950 = dword_1047B950 + 2;
-  }
-  *(uint32_t *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
-  *(uint32_t *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
-  pcVar2 = param_1;
-  do {
-    cVar1 = *pcVar2;
-    pcVar2[(dword_1047B950 + 0x10463958) - (int)param_1] = cVar1;
-    pcVar2 = pcVar2 + 1;
-  } while (cVar1 != '\0');
-  uVar3 = 0xffffffff;
-  do {
-    if (uVar3 == 0) break;
-    uVar3 = uVar3 - 1;
-    cVar1 = *param_1;
-    param_1 = param_1 + 1;
-  } while (cVar1 != '\0');
-  dword_1047B950 = dword_1047B950 + ~uVar3 + 9;
-  ((uint8_t *)((&DAT_1046394f)))[dword_1047B950] = 1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Font_DrawPass(void)

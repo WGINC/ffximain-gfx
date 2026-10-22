@@ -126,23 +126,6 @@ XI_API long double __attribute__((stdcall, regparm(3))) fn_10063890(undefined4 x
          (long double)*(float *)(param_3 + 0xc + iVar3 * 4) * (long double)xi_castbits<float>(g_pProcessor_as_v1[0x24b]);
 }
 
-// FUNCTION: FFXIMAIN 0x10063A60  (unit unit_100634B0: no unit evidence of its own; in the gap between 0x100634A0 (CMoSpline) and 0x10063C50 (CMoResource_VT_1032C55C) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10063A60(void * self_, float param_1, float * param_2)
-{
-  uint32_t xi_eax;
-  uint32_t xi_eax_00;
-  long double fVar1;
-  
-  fVar1 = orig::FUN_10063890(self_,param_1,*(int *)((int)self_ + 0xc),*(int *)((int)self_ + 0xc));
-  *param_2 = (float)fVar1;
-  fVar1 = orig::FUN_10063890(self_,param_1,*(int *)((int)self_ + 0x10),xi_eax);
-  param_2[1] = (float)fVar1;
-  fVar1 = orig::FUN_10063890(self_,param_1,*(int *)((int)self_ + 0x14),xi_eax_00);
-  param_2[2] = (float)fVar1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10063B20  (unit unit_100634B0: no unit evidence of its own; in the gap between 0x100634A0 (CMoSpline) and 0x10063C50 (CMoResource_VT_1032C55C) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 11 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10063B20(void * self_)

@@ -36,28 +36,6 @@ XI_API void __thiscall fn_1002A0C0(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1002A700  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 param_2)
-{
-  int *this_00;
-  int *piVar1;
-  char xi_frame[8] __attribute__((aligned(4)));
-  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
-  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
-  
-  local_4 = 0;
-  local_8 = 0;
-  piVar1 = (int *)orig::CYyModelBase_GetPartList_v1(self_);
-  this_00 = (int *)*piVar1;
-  while (this_00 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x20))))((void *)(this_00),param_1,self_,param_2,&local_4,&local_8);
-    piVar1 = (int *)(*piVar1 + 4);
-    this_00 = (int *)*piVar1;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1002A750  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1002A750(void * self_, undefined4 param_1, undefined4 * param_2)

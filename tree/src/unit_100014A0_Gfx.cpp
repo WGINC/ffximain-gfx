@@ -481,16 +481,6 @@ XI_API uint32_t __cdecl fn_10002440(uint32_t param_1)
   return param_1 & 0xff00ff00 | param_1 >> 0x10 & 0xff | (param_1 & 0xff) << 0x10;
 }
 
-// FUNCTION: FFXIMAIN 0x10002BE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API unsigned __int8 __cdecl Gfx_IsGammaSupported(void)
-{
-  if ( g_pCDx != nullptr )
-    return (*(unsigned __int8 *)((char *)g_pCDx + 0x915));
-  else
-    return 0;
-}
-
 // FUNCTION: FFXIMAIN 0x10002C00  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)

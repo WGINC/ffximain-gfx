@@ -296,37 +296,6 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x10075520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall TexRef_ResolveByName(void * self_, int param_1)
-{
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  
-  iVar2 = orig::CYyTexMng_FindByNameInResource_v1(g_pTextureMng_as_v2,self_,param_1);
-  if (iVar2 == 0) {
-    piVar3 = (int *)orig::FUN_1003aab0(g_pTextureMng_as_v2);
-    for (iVar1 = *piVar3; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x38)) {
-      if (((*(uint32_t *)(iVar1 + 0x2c) & 0x100) != 0) || (*(int *)(iVar1 + 0x34) == 1)) {
-        iVar4 = 8;
-        do {
-          if (*(char *)(iVar1 + 0xc + iVar4) != *(char *)(iVar4 + (int)self_)) break;
-          iVar4 = iVar4 + 1;
-        } while (iVar4 < 0x10);
-        if (iVar4 == 0x10) {
-          *(int *)self_ = *piVar3;
-          return;
-        }
-      }
-      piVar3 = (int *)(iVar1 + 0x38);
-    }
-  }
-  *(int *)self_ = iVar2;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 93 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
@@ -369,7 +338,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 
 // FUNCTION: FFXIMAIN 0x10075700  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 64 returned normally, 238 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float a5)
+XI_API int __thiscall TextureHolder_BindWarped(int *self_, int a2, float a3, float a4, float a5)
 {
   int v6;
   int v7;
@@ -480,7 +449,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
 }
 
 // FUNCTION: FFXIMAIN 0x10075960  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 {
   int v2;
@@ -503,7 +472,7 @@ XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 
 // FUNCTION: FFXIMAIN 0x100759C0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 382 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100759C0(int *self_, int a2, int a3)
+XI_API int __thiscall TextureHolder_BindTinted(int *self_, int a2, int a3)
 {
   int v4;
   int v5;
@@ -1394,17 +1363,6 @@ LAB_10076d36:
     return (int)local_10 - (int)outbuf;
   }
   goto LAB_10076b29;
-}
-
-// FUNCTION: FFXIMAIN 0x10077A00  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) fn_10077A00(undefined4 xi_eax)
-{
-  if (DAT_1047d496_as_s8 != '\0') {
-    orig::FUN_101a1cb0(DAT_10662794_as_v0);
-    return;
-  }
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10077AD0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)

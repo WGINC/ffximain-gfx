@@ -462,50 +462,6 @@ XI_API undefined4 __cdecl fn_1026FF80(int param_1, float * param_2)
   return 0xffffffff;
 }
 
-// FUNCTION: FFXIMAIN 0x102700C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102700C0(int param_1, int param_2, undefined4 param_3)
-{
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  
-  piVar4 = (int *)0x0;
-  iVar1 = DAT_1099aed0 + param_1 * 0xac;
-  iVar5 = *(int *)(DAT_1099aed0 + 0xa8 + param_2 * 0xac);
-  iVar2 = DAT_1099aed0 + param_2 * 0xac;
-  *(uint32_t *)(iVar2 + 0x88) = param_3;
-  if ((iVar5 != 0) && (iVar6 = 0, 0 < *(int *)(iVar5 + 0x44))) {
-    do {
-      piVar3 = (int *)orig::FUN_10279870(iVar5,iVar6);
-      if (*piVar3 == 0xb0001) {
-        iVar6 = *(int *)(iVar5 + 0x44);
-        piVar4 = piVar3;
-      }
-      iVar6 = iVar6 + 1;
-    } while (iVar6 < *(int *)(iVar5 + 0x44));
-    if (((piVar4 != (int *)0x0) && (iVar1 = *(int *)(iVar1 + 0xa8), iVar1 != 0)) &&
-       (iVar5 = 0, 0 < *(int *)(iVar1 + 0x44))) {
-      do {
-        piVar3 = (int *)orig::FUN_10279870(iVar1,iVar5);
-        if (*piVar3 == 0xb0001) {
-          iVar5 = orig::FUN_1028de10((int)piVar3,piVar4,0,*(uint32_t *)(iVar2 + 0x88));
-          if (iVar5 != 0) {
-            orig::FUN_10279530(iVar1,iVar5);
-            orig::FUN_1027a220(iVar1,iVar5);
-          }
-          iVar5 = *(int *)(iVar1 + 0x44);
-        }
-        iVar5 = iVar5 + 1;
-      } while (iVar5 < *(int *)(iVar1 + 0x44));
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x102701B0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102701B0(int param_1, uint32_t param_2, undefined4 * param_3, uint32_t param_4, int param_5)

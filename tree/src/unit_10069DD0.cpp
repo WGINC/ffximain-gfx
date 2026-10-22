@@ -238,7 +238,7 @@ XI_API void __cdecl fn_1006AD30(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AD50  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 98 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_1006AD50(int param_1, int param_2)
 {
   if (param_1 == param_2) {
@@ -259,29 +259,6 @@ XI_API void __thiscall fn_1006AD90(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x1006ADC0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 62 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1006ADC0(int *self_)
-{
-  int v2;
-  int v3;
-  int v4;
-  v2 = *self_;
-  if ( v2 != -1 )
-  {
-    (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 224))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      v2);
-    *self_ = -1;
-    v3 = *(self_ + 1);
-    if ( v3 != 0 )
-      *(_DWORD *)(v3 + 8) = *(self_ + 2);
-    v4 = *(self_ + 2);
-    if ( v4 != 0 )
-      *(_DWORD *)(v4 + 4) = *(self_ + 1);
-  }
-}
-
 // FUNCTION: FFXIMAIN 0x1006ADF0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1006ADF0(void * self_)
@@ -296,7 +273,7 @@ XI_API void __thiscall fn_1006ADF0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1006AF00  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1006AF00(_DWORD *self_, int *a2)
+XI_API int __thiscall StateBlockHolder_ApplyRenderStates(_DWORD *self_, int *a2)
 {
   int v4;
   while ( *self_ == -1 )

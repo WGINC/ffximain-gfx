@@ -16,7 +16,7 @@ XI_API uint32_t __thiscall fn_100C8280(void * self_)
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 48);
   
   iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-  uVar3 = orig::CXiActor_ModelTest95680_v1(self_,iVar2,iVar2);
+  uVar3 = orig::CXiActor_ModelTest95680(self_,iVar2,iVar2);
   if ((char)uVar3 == '\0') {
     iVar2 = orig::CXiActor_GetModelField170_v1(self_);
     uVar4 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2,iVar2);

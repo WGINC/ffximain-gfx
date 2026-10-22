@@ -91,7 +91,7 @@ XI_API void __thiscall fn_100BD5F0(void * self_)
     orig::FUN_10087d40(this_00);
     *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
          *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffeffff;
-    uVar1 = orig::CYyObject_IsKindOf_v1(this_01,0x10330ebc);
+    uVar1 = orig::CYyObject_IsKindOf(this_01,0x10330ebc);
     if ((char)uVar1 != '\0') {
       *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
            *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffffcff;

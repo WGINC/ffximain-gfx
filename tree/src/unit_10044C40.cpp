@@ -147,134 +147,134 @@ LAB_10044ee5:
 
 // FUNCTION: FFXIMAIN 0x10044F10  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10044F10(int self_)
+XI_API undefined4 __thiscall YmElem_ComputeViewDepthKey(void * self_)
 {
-  int v2;
-  int v3;
-  int v4;
-  _DWORD *v5;
-  _DWORD *v6;
-  float *v7;
-  void (__thiscall **vftable)(CMoProcessor *, int, int, float *);
-  int v9;
-  float *v10;
-  int v11;
-  double v12;
-  __int16 v13; // fps
-  double v14;
-  unsigned __int8 v15; // c0
-  unsigned __int8 v16; // c2
-  bool v17; // c0
-  char v18; // c2
-  bool v19; // c3
-  double v20;
-  double v21;
-  alignas(16) unsigned char xi_frame[0x41C];  // address-taken locals at their original offsets
-  int &v22 = *reinterpret_cast<int *>(xi_frame + 0x10);
-  int &v23 = *reinterpret_cast<int *>(xi_frame + 0x14);
-  int &v24 = *reinterpret_cast<int *>(xi_frame + 0x18);
-  bool xi_fpu_unord = false;
-
-  v2 = *(_DWORD *)(self_ + 268);
-  if ( (v2 & 4) != 0 )
-  {
-    if ( (v2 & 8) != 0 )
-    {
-      *(_DWORD *)(self_ + 392) = *(_DWORD *)(self_ + 84);
-      v3 = *(_DWORD *)(self_ + 92);
-      *(_DWORD *)(self_ + 396) = *(_DWORD *)(self_ + 88);
-      *(_DWORD *)(self_ + 400) = v3;
-      v4 = *(_DWORD *)(self_ + 252);
-      if ( v4 != 0
-        && *(_DWORD *)v4 != 0
-        && (*(_BYTE *)(*(_DWORD *)v4 + 223) & 1) != 0
-        && *(float *)(self_ + 400) < 0x1.3333340000000p-1 )
-      {
-        *(_DWORD *)(self_ + 400) = 1058642330;
+  float *a1;
+  uint32_t uVar1;
+  int iVar2;
+  uint16_t uVar3;
+  int iVar4;
+  uint32_t a3;
+  int *piVar5;
+  uint8_t bVar6;
+  uint8_t bVar7;
+  long double fVar8;
+  long double fVar9;
+  char xi_frame[12] __attribute__((aligned(4)));
+  float  &local_c = *reinterpret_cast<float  *>(xi_frame + 0);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  
+  uVar1 = *(uint32_t *)((int)self_ + 0x10c);
+  if ((uVar1 >> 2 & 1) == 0) {
+    if ((uVar1 >> 0x11 & 1) == 0) {
+      iVar2 = *g_pProcessor_as_v1;
+      iVar4 = g_pResourceMng + 0xb50;
+      a3 = orig::FUN_10044c40(self_,&local_c);
+      piVar5 = (int *)((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar2 + 0x50))))((int)self_ + 0x188,iVar4,a3);
+    }
+    else {
+      if ((*(int **)((int)self_ + 0xfc) == (int *)0x0) || (**(int **)((int)self_ + 0xfc) == 0)) {
+LAB_1004500d:
+        local_c = 0.0f;
+        local_8 = 0;
+        local_4 = 0;
+      }
+      else {
+        iVar4 = orig::FUN_100473f0(self_);
+        if (iVar4 == 0) goto LAB_1004500d;
+        iVar4 = orig::FUN_100473f0(self_);
+        local_c = *(float *)(iVar4 + 0x30);
+        local_8 = *(uint32_t *)(iVar4 + 0x34);
+        local_4 = *(uint32_t *)(iVar4 + 0x38);
+      }
+      a1 = (float *)((int)self_ + 0x188);
+      piVar5 = (int *)((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x50))
+                                ))((void *)(g_pProcessor_as_v1),a1,g_pResourceMng + 0xb50,&local_c);
+      if (((*(uint8_t *)((int)self_ + 0x10c) & 1) == 0) || ((*(uint32_t *)((int)self_ + 0x10c) & 0x1c0) != 0)
+         ) {
+        *a1 = (float)((long double)*(float *)((int)self_ + 0x54) + (long double)*a1);
+        *(float *)((int)self_ + 0x18c) =
+             (float)((long double)*(float *)((int)self_ + 0x58) + (long double)*(float *)((int)self_ + 0x18c))
+        ;
+        *(float *)((int)self_ + 400) =
+             (float)((long double)*(float *)((int)self_ + 0x5c) + (long double)*(float *)((int)self_ + 400));
+      }
+      else {
+        *a1 = (float)((long double)*(float *)((int)self_ + 0x54) + (long double)*a1);
+        *(float *)((int)self_ + 0x18c) =
+             (float)((long double)*(float *)((int)self_ + 0x18c) - (long double)*(float *)((int)self_ + 0x58))
+        ;
+        *(float *)((int)self_ + 400) =
+             (float)((long double)*(float *)((int)self_ + 0x5c) + (long double)*(float *)((int)self_ + 400));
       }
     }
-    else
-    {
-      (*((void (__thiscall **)(CMoProcessor *, int, int, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
-        g_pProcessor,
-        self_ + 392,
-        g_pResourceMng + 2960,
-        self_ + 84);
+  }
+  else if ((uVar1 >> 3 & 1) == 0) {
+    piVar5 = (int *)((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x50))
+                              ))((void *)(g_pProcessor_as_v1),(int)self_ + 0x188,g_pResourceMng + 0xb90,
+                               (uint32_t *)((int)self_ + 0x54));
+  }
+  else {
+    *(uint32_t *)((int)self_ + 0x188) = *(uint32_t *)((int)self_ + 0x54);
+    *(uint32_t *)((int)self_ + 0x18c) = *(uint32_t *)((int)self_ + 0x58);
+    *(uint32_t *)((int)self_ + 400) = *(uint32_t *)((int)self_ + 0x5c);
+    piVar5 = *(int **)((int)self_ + 0xfc);
+    if ((piVar5 != (int *)0x0) && (*piVar5 != 0)) {
+      if (piVar5 == (int *)0x0) {
+        piVar5 = (int *)0x0;
+      }
+      else {
+        piVar5 = (int *)*piVar5;
+      }
+      if ((*(uint8_t *)((int)piVar5 + 0xdf) & 1) != 0) {
+        fVar8 = (long double)*(float *)((int)self_ + 400);
+        fVar9 = (long double)0.60000002384185791015625f;
+        bVar7 = NAN(fVar8) || NAN(fVar9);
+        bVar6 = bVar7 || fVar8 < fVar9;
+        piVar5 = (int *)((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)piVar5 >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar6 << 8 | (uint16_t)bVar7 << 10 |
+                                 (uint16_t)(bVar7 || fVar8 == fVar9) << 0xe)));
+        if (bVar6 != bVar7) {
+          *(uint32_t *)((int)self_ + 400) = 0x3f19999a;
+        }
+      }
     }
   }
-  else if ( (v2 & 0x20000) != 0 )
-  {
-    v5 = *(_DWORD **)(self_ + 252);
-    if ( v5 != nullptr && *v5 != 0 && orig::sub_100473F0((int **)self_) != 0 )
-    {
-      v6 = (_DWORD *)orig::sub_100473F0((int **)self_);
-      v22 = v6[12];
-      v23 = v6[13];
-      v24 = v6[14];
+  uVar1 = *(uint32_t *)((int)self_ + 0x10c);
+  if ((uVar1 >> 0x16 & 1) != 0) {
+    fVar9 = (long double)*(float *)((int)self_ + 0x128);
+    goto LAB_1004513e;
+  }
+  piVar5 = (int *)(uVar1 >> 2);
+  if ((((uint32_t)piVar5 & 1) == 0) || ((uVar1 >> 3 & 1) == 0)) {
+LAB_10045132:
+    fVar9 = (long double)*(float *)((int)self_ + 0x128);
+  }
+  else {
+    bVar6 = NAN((long double)*(float *)((int)self_ + 0x128)) || NAN((long double)0.0f);
+    fVar9 = (long double)*(float *)((int)self_ + 0x128);
+    if ((bVar6 || (long double)*(float *)((int)self_ + 0x128) < (long double)0.0f) != bVar6) {
+      fVar9 = -fVar9;
     }
-    else
-    {
-      v22 = 0;
-      v23 = 0;
-      v24 = 0;
-    }
-    v7 = (float *)(self_ + 392);
-    (*((void (__thiscall **)(CMoProcessor *, int, int, int *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
-      g_pProcessor,
-      self_ + 392,
-      g_pResourceMng + 2896,
-      &v22);
-    if ( (*(_BYTE *)(self_ + 268) & 1) == 0 || (*(_DWORD *)(self_ + 268) & 0x1C0) != 0 )
-    {
-      *v7 = *(float *)(self_ + 84) + *v7;
-      *(float *)(self_ + 396) = *(float *)(self_ + 88) + *(float *)(self_ + 396);
-      *(float *)(self_ + 400) = *(float *)(self_ + 92) + *(float *)(self_ + 400);
-    }
-    else
-    {
-      *v7 = *(float *)(self_ + 84) + *v7;
-      *(float *)(self_ + 396) = *(float *)(self_ + 396) - *(float *)(self_ + 88);
-      *(float *)(self_ + 400) = *(float *)(self_ + 92) + *(float *)(self_ + 400);
-    }
+    fVar8 = (long double)0.02999999932944774627685546875f;
+    bVar6 = !(fVar9 >= fVar8);
+    uVar3 = (uint16_t)((NAN(fVar9) || NAN(fVar8)) || fVar9 == fVar8);
+    piVar5 = (int *)(uint32_t)(uint16_t)((uint16_t)bVar6 << 8 | uVar3 << 0xe);
+    if (bVar6 || uVar3 != 0) goto LAB_10045132;
+    fVar9 = (long double)1.0f - (long double)*(float *)((int)self_ + 0x128);
   }
-  else
-  {
-    vftable = (void (__thiscall **)(CMoProcessor *, int, int, float *))(*(void * *)((char *)g_pProcessor + 0x0));
-    v9 = g_pResourceMng + 2896;
-    v10 = orig::sub_10044C40(self_, (float *)&v22);
-    vftable[20](g_pProcessor, self_ + 392, v9, v10);
+  fVar9 = fVar9 - (long double)*(float *)((int)self_ + 400);
+LAB_1004513e:
+  *(float *)((int)self_ + 300) = (float)fVar9;
+  *(uint32_t *)((int)self_ + 0x130) = 0;
+  if ((uVar1 >> 0x1b & 1) != 0) {
+    *(uint32_t *)((int)self_ + 0x130) = 0;
+    *(float *)((int)self_ + 300) =
+         (float)(((long double)*(float *)((int)self_ + 0x128) - (long double)*(float *)((int)self_ + 400)) +
+                (long double)4e+02f);
   }
-  v11 = *(_DWORD *)(self_ + 268);
-  if ( (v11 & 0x400000) != 0 )
-  {
-    v12 = *(float *)(self_ + 296);
-  }
-  else
-  {
-    if ( (v11 & 4) == 0 || (v11 & 8) == 0 )
-      goto LABEL_28;
-    v14 = *(float *)(self_ + 296);
-    if ( v14 < 0.0 )
-      v14 = -v14;
-    (xi_fpu_unord = __builtin_isunordered(v14, 0x1.eb851e0000000p-6), v17 = v14 < 0x1.eb851e0000000p-6);
-    v18 = 0;
-    v19 = v14 == 0x1.eb851e0000000p-6;
-    if ( ((__int16)(((v17 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v19 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 )
-      v20 = 1.0 - *(float *)(self_ + 296);
-    else
-LABEL_28:
-      v20 = *(float *)(self_ + 296);
-    v12 = v20 - *(float *)(self_ + 400);
-  }
-  *(float *)(self_ + 300) = v12;
-  *(_DWORD *)(self_ + 304) = 0;
-  if ( (v11 & 0x8000000) != 0 )
-  {
-    v21 = *(float *)(self_ + 296) - *(float *)(self_ + 400);
-    *(_DWORD *)(self_ + 304) = 0;
-    *(float *)(self_ + 300) = v21 + 400.0;
-  }
-  *(float *)(self_ + 316) = *(float *)(self_ + 400);
+  *(float *)((int)self_ + 0x13c) = (float)(long double)*(float *)((int)self_ + 400);
+  return piVar5;
 }
 
 // FUNCTION: FFXIMAIN 0x10045C50  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
@@ -458,116 +458,6 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
   iVar4 = g_pProcessor_as_v1[0x2a4];
   g_pProcessor_as_v1[0x2a4] = iVar4 + -1;
   piVar2[iVar4 + 0x283] = (int)this_00;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10046070  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 142 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10046070(void * self_)
-{
-  float *pfVar1;
-  uint8_t bVar2;
-  uint32_t *puVar3;
-  uint32_t uVar4;
-  long double fVar5;
-  uint32_t a3;
-  int iVar6;
-  int iVar7;
-  float *pfVar8;
-  int *a1;
-  float *pfVar9;
-  uint8_t bVar10;
-  uint8_t bVar11;
-  long double fVar12;
-  char xi_frame[76] __attribute__((aligned(4)));
-  float  &fStack_4c = *reinterpret_cast<float  *>(xi_frame + 0);
-  float  &fStack_48 = *reinterpret_cast<float  *>(xi_frame + 4);
-  float  &local_44 = *reinterpret_cast<float  *>(xi_frame + 8);
-  uint32_t  (&auStack_40)[16] = *reinterpret_cast<uint32_t  (*)[16]>(xi_frame + 12);
-  
-  puVar3 = orig::FUN_1003e330((void *)((int)self_ + 0xf8),(uint32_t *)&local_44,
-                        (float)((long double)*(float *)((int)self_ + 0x138) *
-                               (long double)*(float *)((int)self_ + 0x134)));
-  g_scratchValue_as_v0 = *puVar3;
-  if (*(char *)((int)self_ + 0x17a) != '\0') {
-    return;
-  }
-  bVar2 = false;
-  bVar10 = (*(uint32_t *)((int)self_ + 0x10c) >> 0x1b & 1) == 0;
-  bVar11 = NAN((long double)*(float *)((int)self_ + 0x128)) || NAN((long double)0.0f);
-  if ((bVar11 != (bVar11 || (long double)*(float *)((int)self_ + 0x128) == (long double)0.0f)) ||
-     ((*(uint32_t *)((int)self_ + 0x10c) >> 0x16 & 1) != 0)) {
-    bVar10 = false;
-  }
-  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pResourceMng + 0xebc) + 200))))(*(int **)(g_pResourceMng + 0xebc),0xab,1);
-  ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x4c))))((void *)(self_));
-  pfVar1 = *(float **)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
-  *(int *)(g_pProcessor_as_s32 + 0xa90) = *(int *)(g_pProcessor_as_s32 + 0xa90) + 1;
-  uVar4 = orig::YmElem_SetupDevice(self_,0xffff);
-  if ((char)uVar4 != '\0') goto LAB_10046358;
-  if (bVar10) {
-    orig::CDx_GetTransformCached_v1(*(void **)(g_pResourceMng + 0xdc8),3,auStack_40);
-    bVar2 = true;
-    orig::RegisterWithProcessor_v1(self_);
-    pfVar8 = (float *)((int)self_ + 0xa0);
-    pfVar9 = pfVar1;
-    for (iVar6 = 0x10; iVar6 != 0; iVar6 = iVar6 + -1) {
-      *pfVar9 = *pfVar8;
-      pfVar8 = pfVar8 + 1;
-      pfVar9 = pfVar9 + 1;
-    }
-    fVar12 = ABS((long double)pfVar1[0xe]);
-    if (!(fVar12 > (long double)32.0f)) {
-      fVar12 = (long double)1.0f - fVar12 * (long double)0.03125f;
-      fVar12 = fVar12 * fVar12 * fVar12 * (long double)c_flt_0_03 *
-               (long double)*(float *)((int)self_ + 0x128);
-      fStack_48 = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2dc) - fVar12);
-      fStack_4c = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2e0) - fVar12);
-      fVar12 = xi_castbits<long double>(fpatan((long double)192.0,(long double)*(float *)(g_pCamera_as_s32 + 0x2f4)));
-      fVar5 = (float)(fVar12 + fVar12);
-      if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
-        fStack_48 = (float)((long double)fStack_48 + (long double)*(float *)(g_pZoneMap_as_s32 + 0x39594));
-        fStack_4c = (float)((long double)*(float *)(g_pZoneMap_as_s32 + 0x39594) + (long double)fStack_4c);
-      }
-      a1 = *(int **)(g_pResourceMng + 0xebc);
-      fVar12 = (long double)*(float *)(g_pCamera_as_s32 + 0x2f0) * (long double)*(float *)(g_pCamera_as_s32 + 0x2e8);
-      local_44 = fVar5;
-LAB_100462ff:
-      bVar2 = true;
-      iVar6 = *a1;
-      a3 = orig::D3DXMatrixPerspectiveFovLH_static_v1
-                     (pfVar1,fVar5,(float)((long double)1.0f / fVar12),fStack_48,fStack_4c);
-      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar6 + 0x94))))(a1,3,a3);
-    }
-  }
-  else if (((((*(uint8_t *)((int)self_ + 0x10c) & 1) != 0) &&
-            (uVar4 = *(uint32_t *)((int)self_ + 0x10c), (uVar4 & 0x1c0) == 0)) && ((uVar4 & 4) != 0)) &&
-          ((uVar4 & 8) != 0)) {
-    orig::CDx_GetTransformCached_v1(*(void **)(g_pResourceMng + 0xdc8),3,auStack_40);
-    fVar12 = xi_castbits<long double>(fpatan((long double)192.0,(long double)3.5e+02));
-    fVar5 = (float)(fVar12 + fVar12);
-    fVar12 = (long double)0.0f;
-    if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
-      fVar12 = (long double)*(float *)(g_pZoneMap_as_s32 + 0x39594);
-    }
-    local_44 = *(float *)(g_pCamera_as_s32 + 0x2dc);
-    a1 = *(int **)(g_pResourceMng + 0xebc);
-    fStack_4c = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2e0) + fVar12);
-    fStack_48 = (float)((long double)local_44 + fVar12);
-    fVar12 = (long double)*(float *)(g_pCamera_as_s32 + 0x2f0) * (long double)*(float *)(g_pCamera_as_s32 + 0x2e8);
-    goto LAB_100462ff;
-  }
-  ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x48))))((void *)(self_));
-  if (bVar2) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pResourceMng + 0xebc) + 0x94))
-              ))(*(int **)(g_pResourceMng + 0xebc),3,auStack_40);
-  }
-  orig::YmElem_RestoreDevice(self_,0xffff);
-LAB_10046358:
-  iVar6 = g_pProcessor_as_s32;
-  iVar7 = *(int *)(g_pProcessor_as_s32 + 0xa90) + -1;
-  *(int *)(g_pProcessor_as_s32 + 0xa90) = iVar7;
-  *(float **)(iVar6 + 0xa10 + iVar7 * 4) = pfVar1;
   return;
 }
 

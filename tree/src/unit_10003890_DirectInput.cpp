@@ -234,7 +234,7 @@ XI_API void __stdcall fn_10007860(uint32_t param_1, undefined4 xi_s2)
   if (DAT_10578490 == 0) {
     return;
   }
-  if (DAT_1062193c == 0) {
+  if (DAT_1062193c_as_s32 == 0) {
     return;
   }
   iVar2 = orig::FUN_10312bdb(param_1);

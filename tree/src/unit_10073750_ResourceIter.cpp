@@ -66,11 +66,11 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
         else {
           pvVar3 = (void *)*puVar2;
         }
-        puVar2 = (uint32_t *)orig::CMoResource_Destroy_v1(this_00,puVar2);
+        puVar2 = (uint32_t *)orig::CMoResource_Destroy(this_00,puVar2);
         this_00 = pvVar3;
       }
     }
-    param_1 = (int *)orig::CMoResource_Destroy_v1(self_,puVar2);
+    param_1 = (int *)orig::CMoResource_Destroy(self_,puVar2);
   }
   return param_1;
 }
@@ -204,42 +204,6 @@ XI_API void __thiscall MeshResourceMng_AllocHandle(void * self_, int * param_1, 
     *(int *)((int)self_ + 0x4000c) = *(int *)((int)self_ + 0x4000c) + 1;
   }
   *param_1 = (int)piVar1;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10074180  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall NodePool_ReleaseNode(void * self_, uint32_t * param_1)
-{
-  int iVar1;
-  uint32_t uVar2;
-  
-  if (param_1 == (uint32_t *)0x0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = *param_1;
-  }
-  if ((int)self_ + 8U <= uVar2) {
-    if (param_1 == (uint32_t *)0x0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = *param_1;
-    }
-    if (uVar2 <= (int)self_ + 0x40004U) {
-      return;
-    }
-  }
-  if (param_1 != (uint32_t *)0x0) {
-    *param_1 = *(uint32_t *)((int)self_ + 4);
-    *(uint32_t **)((int)self_ + 4) = param_1;
-    iVar1 = *(int *)((int)self_ + 0x4000c) + -1;
-    *(int *)((int)self_ + 0x4000c) = iVar1;
-    if (iVar1 < 0) {
-      *(uint32_t *)((int)self_ + 0x4000c) = 0;
-    }
-  }
   return;
 }
 

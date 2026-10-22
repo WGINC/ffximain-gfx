@@ -69,7 +69,7 @@ XI_API uint64_t __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
   *(uint16_t *)((int)self_ + 0x176) = 0x1a8;
   *puVar1 = 0;
   if ((param_1 != 0) && (*(void **)(param_1 + 100) != (void *)0x0)) {
-    uVar4 = orig::CYyObject_IsKindOf_v1(*(void **)(param_1 + 100),0x1032b7f8);
+    uVar4 = orig::CYyObject_IsKindOf(*(void **)(param_1 + 100),0x1032b7f8);
     uVar3 = (uint32_t)((uint64_t)uVar4 >> 0x20);
     if ((char)uVar4 != '\0') {
       iVar2 = *(int *)(param_1 + 100);

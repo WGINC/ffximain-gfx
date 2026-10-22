@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 104 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10029A50(void)
+XI_API int __cdecl CreateSharedVertexBuffers(void)
 {
   int result;
   orig::Mat4_SetIdentity(g_identityWorldMatrix);

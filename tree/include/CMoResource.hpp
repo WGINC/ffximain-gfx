@@ -15,7 +15,6 @@ public:
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071DC0
     static void __thiscall Destructor(void * self);  // 0x10071DE0
     static undefined4 __thiscall ReleaseChain(void * self);  // 0x10071EC0
-    static void __thiscall RegisterInTypeList(void * self);  // 0x10072030
     static void * __thiscall GetParent(void * self);  // 0x10072270
     static undefined8 __thiscall FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10072290
 

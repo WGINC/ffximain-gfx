@@ -70,7 +70,7 @@ void __thiscall CMoResource::Destructor(void * self)
   uint32_t xi_entry_eax = 0;
   
   *(uint8_t ***)self = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
-  orig::CMoResource_Destroy_v1(self,xi_entry_eax);
+  orig::CMoResource_Destroy(self,xi_entry_eax);
   orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self + 0x14));
   return;
 }
@@ -127,33 +127,6 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
     }
     self = (void *)*puVar3;
   } while( true );
-}
-
-// FUNCTION: FFXIMAIN 0x10072030  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CMoResource::RegisterInTypeList(void * self)
-{
-  uint32_t uVar1;
-  char xi_frame[4] __attribute__((aligned(4)));
-  void * &local_4 = *reinterpret_cast<void * *>(xi_frame + 0);
-  
-  if ((*(uint32_t *)((int)self + 0x24) >> 0x1b & 1) == 0) {
-    local_4 = self;
-    orig::MeshResourceMng_AllocHandle_v1(g_pMeshResourceMng_as_v1,(int *)&local_4,(int)self);
-    uVar1 = *(uint32_t *)((int)self + 0x24) & 0x7f;
-    if (0x60 < uVar1) {
-      uVar1 = 4;
-    }
-    if ((int *)(&DAT_1047cf80)[uVar1] != (int *)0x0) {
-      orig::FUN_10071200((void *)(*(int *)(&DAT_1047cf80)[uVar1] + 4),(int)self);
-    }
-    *(uint32_t *)((int)self + 0x10) = (&DAT_1047cf80)[uVar1];
-    (&DAT_1047cf80)[uVar1] = *(uint32_t *)((int)self + 0x14);
-    *(uint32_t *)((int)self + 0x2c) = DAT_1047d124_as_v0;
-    DAT_1047d124_as_v0 = *(uint32_t *)((int)self + 0x14);
-    *(uint32_t *)((int)self + 0x24) = *(uint32_t *)((int)self + 0x24) | 0x8000000;
-  }
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10072270  (placed by IDB name; static (takes no this))

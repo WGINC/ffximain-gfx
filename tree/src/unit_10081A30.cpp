@@ -23,7 +23,7 @@ XI_API void __cdecl fn_10081A30(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Actor_ResetDrawLists(void)
 {
-  g_pActorDrawListHead_as_v1 = 0;
+  g_pActorDrawListHead_as_v0 = 0;
   orig::FUN_100814f0(&g_targetActorHandle_as_v0,0);
   g_actorUpdateBucketCountA_as_v0 = 0;
   g_actorUpdateBucketCountB_as_v0 = 0;
@@ -36,26 +36,6 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
   g_actorUpdateInterval_as_v0 = 0x32;
   _DAT_1048a364 = 0;
   _DAT_1048a374 = 0;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10081AE0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_10081AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
-{
-  int iVar1;
-  
-  if ((*(uint8_t *)((int)self_ + 0x88) & 2) == 0) {
-    if (g_pActorDrawListHead_as_v2 != (void *)0x0) {
-      *(void **)((int)g_pActorDrawListHead_as_v2 + 0x58) = self_;
-    }
-    *(void **)((int)self_ + 0x54) = g_pActorDrawListHead_as_v2;
-    *(uint32_t *)((int)self_ + 0x58) = 0;
-    g_pActorDrawListHead_as_v2 = self_;
-    iVar1 = orig::FUN_10082bf0();
-    *(int *)((int)self_ + 0x74) = iVar1;
-    *(uint32_t *)((int)self_ + 0x88) = *(uint32_t *)((int)self_ + 0x88) | 2;
-  }
   return;
 }
 

@@ -121,7 +121,7 @@ LAB_1005ed09:
   if ((int)uVar10 != 0) {
     ppuVar11 = &PTR_s_CXiControlActor_1032df68;
     uVar10 = orig::FUN_1003b6d0(pvVar4);
-    uVar10 = orig::CYyObject_IsKindOf_v1((void *)uVar10,(int)ppuVar11);
+    uVar10 = orig::CYyObject_IsKindOf((void *)uVar10,(int)ppuVar11);
     if ((char)uVar10 != '\0') {
       if (*(char *)((int)self + 0xa1) == '\0') {
         if (*(char *)((int)self + 0xa0) != '\0') {
@@ -145,9 +145,9 @@ LAB_1005eb95:
       }
       if ((*(int *)((int)self + 0x9c) != 0) && (*(char *)((int)self + 0xa0) != '\0')) {
         if (*(char *)((int)self + 0xa3) == '\0') {
-          ppuVar11 = &XiModelActor_classdesc_as_v0;
+          ppuVar11 = &XiModelActor_classdesc;
           uVar10 = orig::FUN_1003b6d0(pvVar4);
-          uVar10 = orig::CYyObject_IsKindOf_v1((void *)uVar10,(int)ppuVar11);
+          uVar10 = orig::CYyObject_IsKindOf((void *)uVar10,(int)ppuVar11);
           if ((char)uVar10 != '\0') {
             puVar12 = &uStack_40;
             uVar10 = orig::FUN_1003b6d0(pvVar4);
@@ -256,7 +256,7 @@ XI_API undefined4 __thiscall fn_1005EEF0(void * self_, undefined4 param_1)
   if ((int)uVar8 == 0) goto LAB_1005f289;
   ppuVar9 = &PTR_s_CXiControlActor_1032df68;
   uVar8 = orig::FUN_1003b6d0(this_00);
-  uVar8 = orig::CYyObject_IsKindOf_v1((void *)uVar8,(int)ppuVar9);
+  uVar8 = orig::CYyObject_IsKindOf((void *)uVar8,(int)ppuVar9);
   if ((char)uVar8 == '\0') goto LAB_1005f289;
   if (*(char *)((int)self_ + 0xa1) == '\0') {
     if (*(char *)((int)self_ + 0xa0) != '\0') {
@@ -286,9 +286,9 @@ LAB_1005f0d9:
   }
   if ((*(int *)((int)self_ + 0x9c) != 0) && (*(char *)((int)self_ + 0xa0) != '\0')) {
     if (*(char *)((int)self_ + 0xa3) == '\0') {
-      ppuVar9 = &XiModelActor_classdesc_as_v0;
+      ppuVar9 = &XiModelActor_classdesc;
       uVar8 = orig::FUN_1003b6d0(this_00);
-      uVar8 = orig::CYyObject_IsKindOf_v1((void *)uVar8,(int)ppuVar9);
+      uVar8 = orig::CYyObject_IsKindOf((void *)uVar8,(int)ppuVar9);
       if ((char)uVar8 != '\0') {
         uVar8 = orig::FUN_1003b6d0(this_00);
         iVar1 = (int)uVar8;

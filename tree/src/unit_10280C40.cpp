@@ -28,14 +28,6 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10281500  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl ___setargv_3(void)
-{
-  g_sqgxRenderStateDirty_as_v0 = 1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10281510  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 78 returned normally, 256 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)

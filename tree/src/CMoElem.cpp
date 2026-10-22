@@ -339,7 +339,7 @@ XI_API void __thiscall fn_10044C20(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10045800  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl fn_10045800(float * param_1)
 {
   float fVar1;
@@ -434,45 +434,48 @@ XI_API undefined4 __thiscall fn_100458F0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10045920  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
-XI_API bool __thiscall fn_10045920(int self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAndTest(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  int v2;
-  int v4;
-  int v5;
-  _BYTE v6[16];
-  if ( *(_BYTE *)(self_ + 377) != 0 )
-    return true;
-  v2 = *(_DWORD *)(self_ + 252);
-  if ( v2 == 0 )
-    return true;
-  if ( *(_DWORD *)v2 == 0 )
-    return true;
-  if ( *(char *)(*(_DWORD *)v2 + 222) < 0 )
-    return true;
-  orig::RegisterWithProcessor(self_);
-  if ( (*(_DWORD *)(self_ + 268) & 0x40000) == 0 )
-    return true;
-  if ( (Fn10045920_staticGuards & 1) == 0 )
-  {
-    Fn10045920_static_BC10 = 0;
-    Fn10045920_staticGuards |= 1u;
-    Fn10045920_static_BC14 = 0;
-    Fn10045920_static_BC18 = 0;
-    orig::_atexit(XI_CODE(nullsub_140));
+  uint32_t a7;
+  uint32_t a6;
+  int *piVar1;
+  char xi_frame[16] __attribute__((aligned(4)));
+  uint8_t  (&local_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
+  
+  piVar1 = (int *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x179))));
+  if (((*(char *)((int)self_ + 0x179) == '\0') &&
+      (piVar1 = *(int **)((int)self_ + 0xfc), piVar1 != (int *)0x0)) && (*piVar1 != 0)) {
+    if (piVar1 == (int *)0x0) {
+      piVar1 = (int *)0x0;
+    }
+    else {
+      piVar1 = (int *)*piVar1;
+    }
+    if (-1 < *(char *)((int)piVar1 + 0xde)) {
+      orig::RegisterWithProcessor_v1(self_);
+      piVar1 = (int *)(*(uint32_t *)((int)self_ + 0x10c) >> 0x12);
+      if (((uint32_t)piVar1 & 1) != 0) {
+        if ((Fn10045920_staticGuards & 1) == 0) {
+          Fn10045920_staticGuards = Fn10045920_staticGuards | 1;
+          Fn10045920_static_BC10 = 0;
+          Fn10045920_static_BC14 = 0;
+          Fn10045920_static_BC18 = 0;
+          orig::_atexit_v1(&DAT_10045a30);
+        }
+        a7 = *(uint32_t *)(g_pResourceMng + 0xdc4);
+        a6 = *(uint32_t *)(g_pResourceMng + 0xdc0);
+        orig::RegisterWithProcessor_v1(self_);
+        ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x8c))
+                  ))((void *)(g_pProcessor_as_v1),local_10,&Fn10045920_static_BC10,1,(int)self_ + 0xa0,g_pResourceMng + 0xb10,a6,
+                   a7);
+        piVar1 = g_pProcessor_as_v1;
+        if (g_pProcessor_as_v1[0x2a5] == 0) {
+          return (uint32_t)g_pProcessor_as_v1 & 0xffffff00;
+        }
+      }
+    }
   }
-  v4 = *(_DWORD *)(g_pResourceMng + 3524);
-  v5 = *(_DWORD *)(g_pResourceMng + 3520);
-  orig::RegisterWithProcessor(self_);
-  (*((void (__thiscall **)(CMoProcessor *, _BYTE *, int *, int, int, int, int, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 35))(
-    g_pProcessor,
-    v6,
-    &Fn10045920_static_BC10,
-    1,
-    self_ + 160,
-    g_pResourceMng + 2832,
-    v5,
-    v4);
-  return *(_DWORD *)((unsigned __int8 *)((char *)g_pProcessor + 0xA94)) != 0;
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10045A40  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
@@ -516,8 +519,8 @@ XI_API undefined4 __thiscall fn_10045A40(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 78 returned normally, 1452 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100467E0(void *self_, int a1)
+// GATE: PASS -- 100 trials, 76 returned normally, 1409 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall YmElem_SetupDevice(void *self_, int a1)
 {
   int **v2;
   int ScratchMatrixStackTop;
@@ -979,7 +982,7 @@ void CMoElem::vf018()
 
 // FUNCTION: FFXIMAIN 0x100472F0  (unit CMoElem: between 0x100472E0 (class model places it in CMoElem) and 0x100473E0 (class model places it in CMoElem), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100472F0(_WORD *a1, __int16 a4)
+XI_API int __thiscall YmElem_RestoreDevice(_WORD *a1, __int16 a4)
 {
   __int16 v4;
   _BYTE v6[64];

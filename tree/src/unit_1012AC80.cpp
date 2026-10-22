@@ -640,14 +640,6 @@ XI_API void * __thiscall fn_10139EE0(void * self_)
   return self_;
 }
 
-// FUNCTION: FFXIMAIN 0x10139FE0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10139FE0(void * self_)
-{
-  orig::FUN_1013a100_v1(self_);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10139FF0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_10139FF0(void * self_, int param_1)
@@ -716,13 +708,13 @@ XI_API undefined4 __thiscall fn_1013A070(void * self_)
   int iVar3;
   
   uVar1 = 0;
-  if ((g_pTkHelp_as_v0 != (void *)0x0) && (uVar1 = 0, g_pTkTitle != (void *)0x0)) {
+  if ((g_pTkHelp != (void *)0x0) && (uVar1 = 0, g_pTkTitle != (void *)0x0)) {
     uVar1 = orig::FUN_1013a060(g_pTkTitle);
     if ((char)uVar1 == '\0') {
       if (*(char *)((int)self_ + 0x18) != '\0') {
         return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
       }
-      uVar2 = orig::FUN_1013a470(g_pTkHelp_as_v0);
+      uVar2 = orig::FUN_1013a470(g_pTkHelp);
       if ((char)uVar2 != '\0') {
         uVar2 = orig::FUN_10150d60(g_pTkTitle);
         if ((char)uVar2 != '\0') {
@@ -734,22 +726,6 @@ XI_API undefined4 __thiscall fn_1013A070(void * self_)
     }
   }
   return uVar1 & 0xffffff00;
-}
-
-// FUNCTION: FFXIMAIN 0x1013A100  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_1013A100(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
-{
-  if (*(char *)((int)self_ + 0x18) != '\0') {
-    orig::thunk_FUN_10150ce0(g_pTkTitle,0,3);
-    orig::FUN_1013a320(g_pTkHelp_as_v0,0,3);
-    orig::FUN_10221680((void *)((int)g_pTkTitle + 0xa4));
-    orig::FUN_10221680((void *)((int)g_pTkHelp_as_v0 + 0x20));
-    *(uint8_t *)((int)self_ + 0x18) = 0;
-  }
-  *(uint32_t *)((int)self_ + 0xc) = 0x5a;
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1013A1E0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
@@ -900,38 +876,6 @@ XI_API void * __thiscall fn_1013BE50(void * self_)
   *(uint32_t *)((int)self_ + 0x378) = 0;
   *(uint32_t *)((int)self_ + 0x37c) = 0;
   return self_;
-}
-
-// FUNCTION: FFXIMAIN 0x1013BF40  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1013BF40(void * self_)
-{
-  int iVar1;
-  uint32_t *puVar2;
-  
-  *(uint16_t *)((int)self_ + 0x24) = 0;
-  *(uint8_t *)((int)self_ + 0x26) = 0;
-  *(uint32_t *)((int)self_ + 0x340) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint8_t *)((int)self_ + 0x33c) = 0;
-  *(uint32_t *)((int)self_ + 0x28) = 0x80808080;
-  *(uint32_t *)((int)self_ + 0x338) = 0x80808080;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint8_t *)((int)self_ + 0x2c) = 0;
-  *(uint8_t *)((int)self_ + 0xac) = 0;
-  *(uint8_t *)((int)self_ + 0x1b8) = 0;
-  *(uint8_t *)((int)self_ + 300) = 0;
-  *(uint8_t *)((int)self_ + 0x278) = 0;
-  *(uint32_t *)((int)self_ + 0x348) = 0;
-  *(uint8_t *)((int)self_ + 0x380) = 0;
-  *(uint8_t *)((int)self_ + 0x381) = 0;
-  *(uint8_t *)((int)self_ + 0x382) = 0;
-  puVar2 = (uint32_t *)((int)self_ + 899);
-  for (iVar1 = 9; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0xffffffff;
-    puVar2 = puVar2 + 1;
-  }
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1013E7F0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
@@ -1873,37 +1817,6 @@ XI_API void * __thiscall fn_1014DD30(void * self_)
   *(uint16_t *)((int)self_ + 0x54a) = 0;
   orig::FUN_1014e020(self_);
   return self_;
-}
-
-// FUNCTION: FFXIMAIN 0x1014E020  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1014E020(void * self_)
-{
-  int iVar1;
-  uint32_t *puVar2;
-  
-  iVar1 = 0x20;
-  puVar2 = (uint32_t *)((int)self_ + 0x13c);
-  do {
-    orig::FUN_1014e050(puVar2);
-    puVar2 = puVar2 + 8;
-    iVar1 = iVar1 + -1;
-  } while (iVar1 != 0);
-  *(uint32_t *)((int)self_ + 0x53c) = 0;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1014E050  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1014E050(undefined4 * param_1)
-{
-  int iVar1;
-  
-  for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *param_1 = 0xffffffff;
-    param_1 = param_1 + 1;
-  }
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1014EDC0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
@@ -3751,14 +3664,6 @@ XI_API void __thiscall fn_10156970(void * self_)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x101569A0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101569A0(void * self_)
-{
-  *(uint8_t ***)self_ = &PTR_FUN_103351d8;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x101569F0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101569F0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, char * param_8)
@@ -3836,15 +3741,6 @@ XI_API void __thiscall fn_10156BB0(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_103351fc;
   orig::FUN_10258bb0();
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10156BE0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10156BE0(void * self_)
-{
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint8_t ***)self_ = &PTR_FUN_103351fc;
   return;
 }
 
@@ -4446,7 +4342,7 @@ LAB_10157e96:
     *(uint16_t *)((int)self_ + 0x68) = 0;
   }
   if (*(uint16_t *)((int)self_ + 0x68) == 1) {
-    orig::FUN_1015dbb0(&g_menuMng_as_v0,DAT_1062193c,1);
+    orig::FUN_1015dbb0(&g_menuMng_as_v0,DAT_1062193c_as_s32,1);
     return;
   }
   iVar2 = *(uint16_t *)((int)self_ + 0x68) - 2;
@@ -5962,20 +5858,6 @@ XI_API undefined4 * __cdecl fn_10159FB0(int param_1)
     } while ((int)piVar1 < 0x10621808);
   }
   return (undefined4 *)0x0;
-}
-
-// FUNCTION: FFXIMAIN 0x1015AF60  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 75 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_1015AF60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
-{
-  uint32_t *this_00;
-  
-  this_00 = *(uint32_t **)((int)self_ + 0x14cc);
-  if (this_00 != (uint32_t *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)*this_00)))((void *)(this_00),1);
-  }
-  orig::FUN_10126330();
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1015AF80  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
@@ -7537,51 +7419,6 @@ XI_API void __thiscall fn_10161970(void * self_, undefined4 param_1)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10161990  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_10161990(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
-{
-  short sVar1;
-  void *this_00;
-  short sVar2;
-  short sVar3;
-  int iVar4;
-  long double fVar5;
-  uint64_t uVar6;
-  int64_t lVar7;
-  char xi_frame[8] __attribute__((aligned(4)));
-  short  &sStack_8 = *reinterpret_cast<short  *>(xi_frame + 0);
-  short  &sStack_6 = *reinterpret_cast<short  *>(xi_frame + 2);
-  uint16_t  &uStack_4 = *reinterpret_cast<uint16_t  *>(xi_frame + 4);
-  uint16_t  &uStack_2 = *reinterpret_cast<uint16_t  *>(xi_frame + 6);
-  
-  orig::FUN_10162510(self_,xi_eax);
-  if ('\0' < *(char *)((int)self_ + 0x31)) {
-    sStack_8 = 0;
-    sStack_6 = 0;
-    uStack_4 = 0;
-    uStack_2 = 0;
-    uVar6 = orig::Settings_GetValue_v1(0xb4);
-    iVar4 = orig::FUN_1014ff70();
-    this_00 = *(void **)(DAT_10578474 + 0x5c + (iVar4 + (uint32_t)((int)uVar6 != 0) * 9) * 4);
-    orig::CTkMenuCtrlData_GetWindowLocate(*(void **)((int)self_ + 8),(uint32_t *)&sStack_8);
-    sVar1 = *(short *)((int)self_ + 0x32);
-    sVar3 = (short)g_screenRectTopLeft_as_v1;
-    sVar2 = (short)g_screenRectBottomRight_as_v1;
-    fVar5 = orig::MenuMng_GetOffsetX_v1(&g_menuMng_as_v0,0);
-    lVar7 = XI_CALL_ST0(0x10311C2Cu)(((((long double)1.0f - fVar5) *
-                     (long double)(int)(short)((short)g_screenRectBottomRight_as_v1 -
-                                          (short)g_screenRectTopLeft_as_v1) - (long double)512.0f) -
-                   (long double)(((int)(short)(sVar2 - sVar3) - (int)sVar1) + -0xa0)) +
-                   (long double)(int)sStack_8);
-    sStack_8 = (short)lVar7;
-    if (this_00 != (void *)0x0) {
-      orig::FUN_1011fb60(this_00,(int)sStack_8,(int)sStack_6,0x80808080,0,0);
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10161B80  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_10161B80(void * self_, undefined4 param_1)
@@ -7625,7 +7462,7 @@ XI_API void __thiscall fn_10161C70(void * self_, undefined4 xi_s1)
     uVar3 = orig::FUN_101295d0(*(void **)((int)self_ + 0x18),8,*(int *)((int)self_ + 0x5c),1,0);
     *(uint32_t *)((int)self_ + 0x5c) = uVar3;
   }
-  uVar3 = ((int (__thiscall *)(void *))((**(code **)(*DAT_1062193c_as_v0 + 0x48))))((void *)(DAT_1062193c_as_v0));
+  uVar3 = ((int (__thiscall *)(void *))((**(code **)(*DAT_1062193c + 0x48))))((void *)(DAT_1062193c));
   xi_s1 = ((uint32_t)(((uint32_t)(XI_PIECE(xi_s1, 1, 3)) << 8) | (uint8_t)((char)uVar3)));
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x44))))((void *)(self_),xi_s1);
   sStack_8 = 0;
@@ -7636,8 +7473,8 @@ XI_API void __thiscall fn_10161C70(void * self_, undefined4 xi_s1)
   sStack_e = 0;
   uStack_c = 0;
   sStack_a = 0;
-  if ((void *)DAT_1062193c_as_v0[2] != (void *)0x0) {
-    orig::CTkMenuCtrlData_GetWindowLocate((void *)DAT_1062193c_as_v0[2],(uint32_t *)&sStack_8);
+  if ((void *)DAT_1062193c[2] != (void *)0x0) {
+    orig::CTkMenuCtrlData_GetWindowLocate((void *)DAT_1062193c[2],(uint32_t *)&sStack_8);
     orig::CTkMenuCtrlData_GetWindowLocate(*(void **)((int)self_ + 8),(uint32_t *)&uStack_10);
     uVar5 = orig::Settings_GetValue_v1(0xb4);
     if ((int)uVar5 == 1) {
@@ -7655,47 +7492,6 @@ XI_API void __thiscall fn_10161C70(void * self_, undefined4 xi_s1)
   }
 LAB_10161d45:
   orig::FUN_101626e0(self_,xi_s1);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10161D60  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_10161D60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
-{
-  short sVar1;
-  void *this_00;
-  short sVar2;
-  short sVar3;
-  long double fVar4;
-  int64_t lVar5;
-  char xi_frame[8] __attribute__((aligned(4)));
-  short  &sStack_8 = *reinterpret_cast<short  *>(xi_frame + 0);
-  short  &sStack_6 = *reinterpret_cast<short  *>(xi_frame + 2);
-  uint16_t  &uStack_4 = *reinterpret_cast<uint16_t  *>(xi_frame + 4);
-  uint16_t  &uStack_2 = *reinterpret_cast<uint16_t  *>(xi_frame + 6);
-  
-  orig::FUN_10162510(self_,xi_eax);
-  if ('\0' < *(char *)((int)self_ + 0x31)) {
-    sStack_8 = 0;
-    sStack_6 = 0;
-    uStack_4 = 0;
-    uStack_2 = 0;
-    this_00 = *(void **)(DAT_10578474 + 0xa4);
-    orig::CTkMenuCtrlData_GetWindowLocate(*(void **)((int)self_ + 8),(uint32_t *)&sStack_8);
-    sVar1 = *(short *)((int)self_ + 0x32);
-    sVar3 = (short)g_screenRectTopLeft_as_v1;
-    sVar2 = (short)g_screenRectBottomRight_as_v1;
-    fVar4 = orig::MenuMng_GetOffsetX_v1(&g_menuMng_as_v0,0);
-    lVar5 = XI_CALL_ST0(0x10311C2Cu)(((((long double)1.0f - fVar4) *
-                     (long double)(int)(short)((short)g_screenRectBottomRight_as_v1 -
-                                          (short)g_screenRectTopLeft_as_v1) - (long double)512.0f) -
-                   (long double)(((int)(short)(sVar2 - sVar3) - (int)sVar1) + -0xa0)) +
-                   (long double)(int)sStack_8);
-    sStack_8 = (short)lVar5;
-    if (this_00 != (void *)0x0) {
-      orig::FUN_1011fb60(this_00,(int)sStack_8,(int)sStack_6,0x80808080,0,0);
-    }
-  }
   return;
 }
 
@@ -7807,11 +7603,11 @@ XI_API uint64_t __thiscall fn_10162F60(void * self_)
   
   uVar1 = orig::FUN_10162fb0(self_,DAT_10621940_as_v0);
   if ((int)uVar1 != 0) {
-    orig::FUN_10162f30((int)DAT_1062193c_as_v0,0);
-    uVar1 = orig::FUN_10162f30((int)DAT_1062193c_as_v0,1);
+    orig::FUN_10162f30((int)DAT_1062193c,0);
+    uVar1 = orig::FUN_10162f30((int)DAT_1062193c,1);
     return uVar1;
   }
-  uVar1 = orig::FUN_10162fb0(self_,DAT_1062193c_as_v0);
+  uVar1 = orig::FUN_10162fb0(self_,DAT_1062193c);
   return uVar1;
 }
 

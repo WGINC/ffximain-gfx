@@ -2,31 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x100D1450  (unit unit_100D13B0: no unit evidence of its own; in the gap between 0x100D12D0 (CXiSkeletonActor) and 0x100D2F40 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100D1450(void * self_, int * param_1, int param_2)
-{
-  void *pvVar1;
-  void *this_00;
-  uint32_t uVar2;
-  
-  if (param_2 == *(int *)((int)self_ + 0x9ec)) {
-    if (((uint8_t)*(uint32_t *)(*param_1 + 0x24) & 0x7f) == 1) {
-      orig::CXiActor_SpawnResourceGenerators_v1(self_,param_1);
-    }
-    pvVar1 = *(void **)((int)self_ + 0x7e4);
-    while (this_00 = pvVar1, this_00 != (void *)0x0) {
-      param_2 = *(int *)((int)this_00 + 0x1c);
-      pvVar1 = *(void **)((int)this_00 + 4);
-      if (((param_2 != 0) && (uVar2 = orig::ResourceHandle_IsResident_v1(&param_2), (char)uVar2 == '\x01'))
-         && (*(char *)((int)this_00 + 0x20) == '\0')) {
-        orig::FUN_1001b7b0(this_00,((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)this_00 + 0x20)))));
-      }
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100D14C0  (unit unit_100D13B0: no unit evidence of its own; in the gap between 0x100D12D0 (CXiSkeletonActor) and 0x100D2F40 (CXiSkeletonActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_100D14C0(void * self_)
@@ -44,7 +19,7 @@ XI_API void __thiscall fn_100D14C0(void * self_)
   
   iVar2 = orig::CXiActor_GetModelByteEE_v1(self_);
   if (iVar2 != 2) {
-    iVar2 = orig::CXiActor_GetModelByteEF_v1(self_);
+    iVar2 = orig::CXiActor_GetModelByteEF(self_);
     if (8 < iVar2) {
       iVar2 = 1;
     }
@@ -117,7 +92,7 @@ XI_API void __thiscall fn_100D14C0(void * self_)
       }
     }
     iVar2 = orig::CXiActor_GetModelField170_v1(self_);
-    uVar5 = orig::CXiActor_ModelTest95680_v1(self_,iVar2,iVar2);
+    uVar5 = orig::CXiActor_ModelTest95680(self_,iVar2,iVar2);
     if ((char)uVar5 == '\0') {
       iVar2 = orig::CXiActor_GetModelField170_v1(self_);
       uVar5 = orig::CXiActor_ModelTest956A0_v1(self_,iVar2,iVar2);

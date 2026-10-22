@@ -453,17 +453,6 @@ XI_API void __cdecl fn_10283280(undefined4 * param_1)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10283300  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10283300(undefined4 param_1)
-{
-  *(uint32_t *)
-   (g_pSqgxContext_as_s32 + 0x854 +
-   (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 4) = param_1;
-  dword_109A2720_as_v0 = 1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10283330  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxColor(undefined4 * param_1)

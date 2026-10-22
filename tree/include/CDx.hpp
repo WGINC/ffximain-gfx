@@ -39,7 +39,6 @@ public:
     int ReleaseStereoResources();  // 0x1000C7C0
     int CreateRampTexture1x16(int a1);  // 0x1000C850
     char CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3);  // 0x1000C900
-    char GetStereoSecondEyeTarget(int a1, int a2);  // 0x1000CA00
     int DrawPrimitive(int a1, int a2, int a3);  // 0x1000CB20
     int DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5);  // 0x1000CC00
     int DrawPrimitiveUP(int a1, int a2, int a3, int a4);  // 0x1000CD00
@@ -63,12 +62,7 @@ public:
     uint8_t clearZ;  // +0x16C third Clear value (Z)
     uint8_t _pad_16D[0x3];
     uint8_t clearStencil;  // +0x170 fourth Clear value (Stencil)
-    uint8_t _pad_171[0x23];
-    _DWORD * sceneTargetA;  // +0x194 texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0
-    uint32_t sceneTargetB;  // +0x198 texture: the second scene target
-    uint8_t _pad_19C[0xC];
-    uint32_t sceneTargetBDepth;  // +0x1A8 depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget
-    uint8_t _pad_1AC[0x664];
+    uint8_t _pad_171[0x69F];
     uint32_t stereoEye;  // +0x810 0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting
     uint8_t field_814;  // +0x814
     uint8_t _pad_815[0x3];
@@ -79,9 +73,7 @@ public:
     uint8_t field_820;  // +0x820
     uint8_t _pad_821[0x3];
     uint8_t field_824;  // +0x824
-    uint8_t _pad_825[0x3];
-    uint8_t stereoTargetsReady;  // +0x828 CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode
-    uint8_t _pad_829[0x3];
+    uint8_t _pad_825[0x7];
     uint8_t stereoOddLineTexture;  // +0x82C the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I
     uint8_t _pad_82D[0x3];
     uint8_t field_830;  // +0x830
@@ -149,16 +141,12 @@ static_assert(XI_OFFSETOF(CDx, clearFlags) == 0x164, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearColor) == 0x168, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearZ) == 0x16C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearStencil) == 0x170, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetA) == 0x194, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetB) == 0x198, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetBDepth) == 0x1A8, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoEye) == 0x810, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_814) == 0x814, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_818) == 0x818, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_81C) == 0x81C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_820) == 0x820, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_824) == 0x824, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, stereoTargetsReady) == 0x828, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoOddLineTexture) == 0x82C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_830) == 0x830, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_834) == 0x834, "CDx: layout");

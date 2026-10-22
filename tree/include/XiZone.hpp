@@ -5,6 +5,9 @@
 #pragma pack(push, 1)
 class XI_API XiZone {
 public:
+    int DrawMarkerForward(float *a2, int a3, float a4);  // 0x10177CD0
+    int DrawGroundShadowQuad(int a1, int a2, int a3);  // 0x10184C90
+    int DrawDecalOnTriangles(float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4);  // 0x10185CA0
     static int __cdecl FindSubArea(int param_1);  // 0x101889C0
     static void __thiscall GetDirLights(void * self, undefined4 * param_1, undefined4 * param_2);  // 0x10188B70
     static void __cdecl GetInstance();  // 0x1018B130

@@ -136,35 +136,11 @@ XI_API undefined4 __cdecl fn_10035FB0(float param_1)
   return uVar6;
 }
 
-// FUNCTION: FFXIMAIN 0x10036020  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) fn_10036020(undefined4 xi_eax, undefined4 xi_s1)
-{
-  if (DAT_10463928 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463928 + 0x18))))((void *)(DAT_10463928),1);
-    DAT_10463928 = (int *)0x0;
-  }
-  orig::FUN_10036050(xi_s1);
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10036050  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10036050(float param_1)
 {
   DAT_10351704 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10036070  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) MoTask_KillGlobalSlot1(undefined4 xi_eax, undefined4 xi_s1)
-{
-  if (DAT_1046392c != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1046392c + 0x18))))((void *)(DAT_1046392c),1);
-    DAT_1046392c = (int *)0x0;
-  }
-  orig::FUN_100360a0(xi_s1);
   return;
 }
 
@@ -212,10 +188,10 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100360F0(undefined4 xi_e
       uVar2 = 0;
       lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)(float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 *
                                       (long double)param_1 * (long double)127.0f));
-      uVar2 = orig::FUN_10038470(DAT_10463920_as_s32,(int)lVar5,uVar2,DAT_10463920_as_s32);
+      uVar2 = orig::FUN_10038470(DAT_10463920,(int)lVar5,uVar2,DAT_10463920);
     }
     else if (DAT_1046393c != 0) {
-      uVar2 = orig::FUN_10246000(DAT_10463920_as_s32,DAT_1046391c);
+      uVar2 = orig::FUN_10246000(DAT_10463920,DAT_1046391c);
       DAT_10463909 = 1;
       return uVar2;
     }
@@ -256,7 +232,7 @@ XI_API void __cdecl fn_100361D0(void)
   DAT_10463910 = 0;
   _DAT_10463918 = 0;
   DAT_1046391c = 0;
-  DAT_10463920 = 0;
+  DAT_10463920_as_v0 = 0;
   return;
 }
 

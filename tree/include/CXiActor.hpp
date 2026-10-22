@@ -7,11 +7,8 @@ class XI_API CXiActor {
 public:
     static void __thiscall Init(void * self);  // 0x10081BA0
     double CXiSkeletonActor_GetMoveSpeed();  // 0x10082070
-    void CXiSkeletonActor_SetMoveSpeed(float speed);  // 0x10082080
     float CXiSkeletonActor_GetMoveSpeedBase();  // 0x10082090
-    void CXiSkeletonActor_SetMoveSpeedBase(float speed);  // 0x100820A0
     double CXiSkeletonActor_GetWalkSpeed();  // 0x100820B0
-    void CXiSkeletonActor_SetWalkSpeed(float speed);  // 0x100820C0
     int CXiSkeletonActor_GetEquip(int a1);  // 0x100820D0
     static undefined4 __thiscall IsChocobo(void * self);  // 0x100827A0
     static uint32_t __thiscall NameCalc(void * self, undefined4 * param_1, int param_2, float * param_3, uint32_t * param_4);  // 0x100830C0
@@ -39,8 +36,7 @@ public:
     uint8_t _pad_88[0xC];
     float field_94;  // +0x94
     float field_98;  // +0x98
-    float field_9C;  // +0x9C
-    uint8_t _pad_A0[0x24];
+    uint8_t _pad_9C[0x28];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXiActor) == 0xC4, "CXiActor: sizeof");
@@ -48,4 +44,3 @@ static_assert(XI_OFFSETOF(CXiActor, field_80) == 0x80, "CXiActor: layout");
 static_assert(XI_OFFSETOF(CXiActor, field_84) == 0x84, "CXiActor: layout");
 static_assert(XI_OFFSETOF(CXiActor, field_94) == 0x94, "CXiActor: layout");
 static_assert(XI_OFFSETOF(CXiActor, field_98) == 0x98, "CXiActor: layout");
-static_assert(XI_OFFSETOF(CXiActor, field_9C) == 0x9C, "CXiActor: layout");

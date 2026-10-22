@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100191D0  (unit unit_10019140: no unit evidence of its own; in the gap between 0x10019130 (CXiTimerLow) and 0x10019200 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl fn_100191D0(void)
 {
   void *self_;

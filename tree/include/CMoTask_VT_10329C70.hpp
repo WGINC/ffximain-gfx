@@ -5,7 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoTask_VT_10329C70 {
 public:
-    char vf8();  // 0x1006B480
+    static uint32_t __thiscall vf8(void * self);  // 0x1006B480
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x30];

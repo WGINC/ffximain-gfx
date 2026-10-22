@@ -72,11 +72,12 @@ double CXiActor::CXiSkeletonActor_GetMoveSpeed()
   return this->field_98;
 }
 
-// FUNCTION: FFXIMAIN 0x10082080  (placed by tree manifest)
+// FUNCTION: FFXIMAIN 0x10082080  (unit CXiActor: class model places it in CXiActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void CXiActor::CXiSkeletonActor_SetMoveSpeed(float speed)
+XI_API void __thiscall CXiSkeletonActor_SetMoveSpeed(void * self_, undefined4 param_1)
 {
-  this->field_98 = speed;
+  *(uint32_t *)((int)self_ + 0x98) = param_1;
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10082090  (placed by tree manifest)
@@ -86,11 +87,12 @@ float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
   return this->field_94;
 }
 
-// FUNCTION: FFXIMAIN 0x100820A0  (placed by tree manifest)
+// FUNCTION: FFXIMAIN 0x100820A0  (unit CXiActor: class model places it in CXiActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void CXiActor::CXiSkeletonActor_SetMoveSpeedBase(float speed)
+XI_API void __thiscall CXiSkeletonActor_SetMoveSpeedBase(void * self_, undefined4 param_1)
 {
-  this->field_94 = speed;
+  *(uint32_t *)((int)self_ + 0x94) = param_1;
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100820B0  (placed by tree manifest)
@@ -100,11 +102,12 @@ double CXiActor::CXiSkeletonActor_GetWalkSpeed()
   return this->field_98 * 0x1.5555560000000p-2;
 }
 
-// FUNCTION: FFXIMAIN 0x100820C0  (placed by tree manifest)
+// FUNCTION: FFXIMAIN 0x100820C0  (unit CXiActor: class model places it in CXiActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void CXiActor::CXiSkeletonActor_SetWalkSpeed(float speed)
+XI_API void __thiscall CXiSkeletonActor_SetWalkSpeed(void * self_, undefined4 param_1)
 {
-  this->field_9C = speed;
+  *(uint32_t *)((int)self_ + 0x9c) = param_1;
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100820D0  (placed by tree manifest; does not use this)

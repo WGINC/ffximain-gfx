@@ -2,35 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1001B520  (unit unit_1001B510: no unit evidence of its own; in the gap between 0x1001B4F0 (CYyQue) and 0x1001B700 (CYyResfList) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001B520(void * self_, float param_1)
-{
-  long double fVar1;
-  long double fVar2;
-  
-  switch(*(uint8_t *)((int)self_ + 8)) {
-  case 0:
-    *(uint8_t *)((int)self_ + 8) = 2;
-    *(float *)((int)self_ + 0xc) = param_1;
-    return;
-  case 1:
-    *(uint8_t *)((int)self_ + 8) = 3;
-    *(float *)((int)self_ + 0x14) = param_1;
-    *(float *)((int)self_ + 0xc) = param_1;
-    return;
-  case 2:
-  case 3:
-    fVar2 = (long double)param_1;
-    fVar1 = (long double)1.0f;
-    if (fVar2 <= fVar1) {
-      *(uint32_t *)((int)self_ + 0xc) = 0;
-      *(uint8_t *)((int)self_ + 8) = 2;
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1001B5D0  (unit unit_1001B510: no unit evidence of its own; in the gap between 0x1001B4F0 (CYyQue) and 0x1001B700 (CYyResfList) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_1001B5D0(void * self_)

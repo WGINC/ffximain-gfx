@@ -1790,7 +1790,7 @@ XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * 
           uVar18 = orig::FUN_10085240();
           this_00 = (void *)uVar18;
           while (uVar9 = 0, this_00 != (void *)0x0) {
-            uVar18 = orig::CYyObject_IsKindOf_v1(this_00,0x10330684);
+            uVar18 = orig::CYyObject_IsKindOf(this_00,0x10330684);
             if ((((char)uVar18 != '\0') && (this_00 != (void *)0x0)) &&
                ((iVar12 = orig::FUN_100c4bc0(this_00,local_20,local_10), iVar12 != 0 &&
                 (uVar9 = orig::FUN_1016c5d0(self_,&local_bc,iVar12,local_20,local_10,param_1,param_2,
@@ -2169,19 +2169,9 @@ XI_API void * __thiscall fn_1016FC40(void * self_)
   return self_;
 }
 
-// FUNCTION: FFXIMAIN 0x1016FC90  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1016FC90(void * self_)
-{
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0xc) = 0;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 9 returned normally, 345 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API _DWORD * __thiscall fn_1016FCD0(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
+XI_API _DWORD * __thiscall ParseZoneMeshData(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
   int v9;
@@ -2856,106 +2846,6 @@ LABEL_18:
   return v20;
 }
 
-// FUNCTION: FFXIMAIN 0x10170CD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10170CD0(void * self_, undefined4 * param_1)
-{
-  undefined4 *puVar1;
-  int *a1;
-  undefined4 *puVar2;
-  int iVar3;
-  int *piVar4;
-  int *piVar5;
-  int *piVar6;
-  int local_10;
-  int local_c;
-  undefined4 *local_8;
-  
-  local_8 = (undefined4 *)0x0;
-  puVar1 = *(undefined4 **)((int)self_ + 4);
-  do {
-    do {
-      puVar2 = local_8;
-      local_8 = puVar1;
-      if (local_8 == (undefined4 *)0x0) {
-        if (param_1 == (undefined4 *)0x0) {
-          orig::FUN_1016fc90(self_);
-        }
-        return;
-      }
-      puVar1 = (undefined4 *)*local_8;
-    } while ((param_1 != (undefined4 *)0x0) && (param_1 != local_8));
-    piVar4 = (int *)local_8[0x18];
-    local_c = 0;
-    if (0 < (int)local_8[0x11]) {
-      do {
-        if (piVar4[1] != 0) {
-          local_10 = 0;
-          if (0 < *piVar4) {
-            piVar5 = (int *)(piVar4[1] + 0x28);
-            do {
-              if (piVar5[-8] != 0) {
-                piVar6 = (int *)*piVar5;
-                if (piVar6 != (int *)0x0) {
-                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
-                }
-                piVar6 = (int *)piVar5[0x24];
-                if (piVar6 != (int *)0x0) {
-                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
-                }
-                piVar6 = (int *)piVar5[1];
-                if (piVar6 != (int *)0x0) {
-                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
-                }
-                piVar6 = (int *)piVar5[0x22];
-                if (piVar6 != (int *)0x0) {
-                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
-                }
-                piVar6 = piVar5 + 2;
-                iVar3 = 0x20;
-                do {
-                  a1 = (int *)*piVar6;
-                  if (a1 != (int *)0x0) {
-                    ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
-                  }
-                  piVar6 = piVar6 + 1;
-                  iVar3 = iVar3 + -1;
-                } while (iVar3 != 0);
-                piVar6 = (int *)piVar5[0x23];
-                if (piVar6 != (int *)0x0) {
-                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
-                }
-              }
-              local_10 = local_10 + 1;
-              piVar5 = piVar5 + 0x30;
-            } while (local_10 < *piVar4);
-          }
-          orig::Mem_FreeObject_v1(piVar4[1]);
-          piVar4[1] = 0;
-        }
-        local_c = local_c + 1;
-        piVar4 = piVar4 + 9;
-      } while (local_c < (int)local_8[0x11]);
-    }
-    if (local_8[0x18] != 0) {
-      orig::Mem_FreeObject_v1(local_8[0x18]);
-      local_8[0x18] = 0;
-    }
-    orig::Mem_FreeObject_v1(local_8);
-  } while (param_1 == (undefined4 *)0x0);
-  if (puVar2 == (undefined4 *)0x0) {
-    *(undefined4 **)((int)self_ + 4) = puVar1;
-  }
-  else {
-    *puVar2 = puVar1;
-  }
-  if (*(undefined4 **)((int)self_ + 8) == param_1) {
-    *(undefined4 **)((int)self_ + 8) = puVar2;
-  }
-  *(int *)((int)self_ + 0xc) = *(int *)((int)self_ + 0xc) + -1;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10170F30  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __thiscall fn_10170F30(void * self_, char * param_1, int param_2)
@@ -3015,127 +2905,6 @@ XI_API void __thiscall fn_10174770(void * self_)
   *(uint32_t *)((int)self_ + 4) = 0;
   *(uint32_t *)((int)self_ + 8) = 0;
   return;
-}
-
-// FUNCTION: FFXIMAIN 0x10174B10  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 40 returned normally, 770 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Dbg_DrawOverheadMapMarkers(_DWORD *self_, float *a2)
-{
-  int v3;
-  int v4;
-  double v5;
-  double v6;
-  double v7;
-  int v8;
-  int v9;
-  double v10;
-  double v11;
-  double v12;
-  double v13;
-  double v14;
-  double v15;
-  double v16;
-  alignas(16) unsigned char xi_frame[0x514];  // address-taken locals at their original offsets
-  int &v17 = *reinterpret_cast<int *>(xi_frame + 0xA0);
-  int &v18 = *reinterpret_cast<int *>(xi_frame + 0xA0);
-  int (&a3)[7] = *reinterpret_cast<int (*)[7]>(xi_frame + 0xA4);
-  float (&v20)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xC0);
-  float (&v21)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xDC);
-  float (&v22)[7] = *reinterpret_cast<float (*)[7]>(xi_frame + 0xF8);
-
-  v3 = 0;
-  if ( *(self_ + 4) != 0 )
-  {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, 5u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, 2u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG2, 1u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, 6u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, 2u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG2, 1u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, 1u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, 1u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
-    if ( (int)*(self_ + 4) > 0 )
-    {
-      v17 = 0;
-      do
-      {
-        v4 = *(self_ + 3);
-        v5 = *(float *)(v4 + v17) * 0x1.767dce0000000p-3 + 256.0;
-        v6 = *(float *)(v4 + v17 + 8) * 0x1.767dce0000000p-3;
-        a3[2] = 981668463;
-        a3[3] = 1065353216;
-        a3[4] = -2139095040;
-        a3[6] = 0;
-        v7 = 256.0 - v6;
-        a3[5] = 0;
-        *(float *)a3 = v5;
-        *(float *)&a3[1] = v7 - 4.0;
-        qmemcpy(v20, a3, sizeof(v20));
-        qmemcpy(v21, a3, sizeof(v21));
-        v20[0] = v5 + 4.0;
-        v20[1] = v7 + 4.0;
-        v21[0] = v5 - 4.0;
-        v21[1] = v20[1];
-        orig::CDx_DrawPrimitiveUP(g_pCDx, 4, 1, (int)a3, 28);
-        ++v3;
-        v17 += 64;
-      }
-      while ( (int)(v3) < (int)(*(self_ + 4)) );
-    }
-    v8 = 0;
-    if ( (int)*(self_ + 2) > 0 )
-    {
-      v18 = 0;
-      do
-      {
-        v9 = *(self_ + 1);
-        v10 = *(float *)(v9 + v18) * 0x1.767dce0000000p-3 + 256.0;
-        v11 = *(float *)(v9 + v18 + 8) * 0x1.767dce0000000p-3;
-        a3[2] = 981668463;
-        a3[3] = 1065353216;
-        a3[4] = -2139062272;
-        a3[6] = 0;
-        v12 = 256.0 - v11;
-        a3[5] = 0;
-        *(float *)a3 = v10 - 2.0;
-        *(float *)&a3[1] = v12 - 2.0;
-        qmemcpy(v20, a3, sizeof(v20));
-        qmemcpy(v21, a3, sizeof(v21));
-        v20[0] = v10 + 2.0;
-        v20[1] = *(float *)&a3[1];
-        v21[0] = v10;
-        v21[1] = v12 + 2.0;
-        orig::CDx_DrawPrimitiveUP(g_pCDx, 4, 1, (int)a3, 28);
-        ++v8;
-        v18 += 64;
-      }
-      while ( (int)(v8) < (int)(*(self_ + 2)) );
-    }
-    v13 = *a2 * 0x1.767dce0000000p-3;
-    a3[2] = 981668463;
-    a3[3] = 1065353216;
-    a3[4] = -2147450752;
-    a3[6] = 0;
-    v14 = v13 + 256.0;
-    v15 = a2[2] * 0x1.767dce0000000p-3;
-    a3[5] = 0;
-    v16 = 256.0 - v15;
-    *(float *)a3 = v14;
-    *(float *)&a3[1] = v16 - 3.0;
-    qmemcpy(v20, a3, sizeof(v20));
-    qmemcpy(v21, a3, sizeof(v21));
-    qmemcpy(v22, a3, sizeof(v22));
-    v20[0] = v14 + 3.0;
-    v20[1] = v16;
-    v21[0] = v14 - 3.0;
-    v21[1] = v16;
-    v22[0] = v14;
-    v22[1] = v16 + 3.0;
-    orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)a3, 28);
-  }
 }
 
 // FUNCTION: FFXIMAIN 0x10174EC0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)

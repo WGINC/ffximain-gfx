@@ -82,7 +82,7 @@ int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int 
       iVar4 = **(int **)(param_2 + 0x28);
     }
   }
-  piVar2 = (int *)orig::CMoResource_FindInScope_v1(&param_2,iVar4,0x20,0,xi_eax);
+  piVar2 = (int *)orig::CMoResource_FindInScope(&param_2,iVar4,0x20,0,xi_eax);
   pcVar1 = param_1;
   if ((int *)*piVar2 == (int *)0x0) {
     iVar4 = 0;
@@ -116,7 +116,7 @@ int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int 
     else {
       iVar4 = **(int **)(iVar4 + 8);
     }
-    piVar2 = (int *)orig::CMoResource_FindInScope_v1(&param_1,iVar4,0x20,0,&param_1);
+    piVar2 = (int *)orig::CMoResource_FindInScope(&param_1,iVar4,0x20,0,&param_1);
     if ((int *)*piVar2 == (int *)0x0) {
       iVar4 = 0;
     }

@@ -1352,7 +1352,7 @@ XI_API undefined4 __thiscall fn_10014170(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100141C0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_100141C0(_WORD *self_)
+XI_API char __thiscall Game_InGameSubState0(_WORD *self_)
 {
   if ( *(_DWORD *)(g_pAppSettings + 8) != 0 )
     word_104568F8 = *(_WORD *)(g_pAppSettings + 8) + 1;

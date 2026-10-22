@@ -1652,7 +1652,7 @@ static void setup_captures(void) {
    where it went (the call's target, read as the call reads it; for `call [reg+disp]` also reg, the vtable, and
    disp/4, the slot). xikit_facts_<pid>.csv every window; fact_sites.py ingest turns agreeing observations into
    data/game_sp.json, a source the gate reads. */
-#define MAXSITE 256
+#define MAXSITE 4096
 #define SITE_OBS 8
 typedef struct { uint32_t pops, target, vt, slot; volatile LONG n; } SiteObs;
 typedef struct {

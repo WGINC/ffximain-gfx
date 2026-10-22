@@ -1,0 +1,1335 @@
+{
+"AdjustWindowRectEx": {
+"ret": "BOOL",
+"size": 4
+},
+"AttachThreadInput": {
+"ret": "BOOL",
+"size": 4
+},
+"CLSIDFromString": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"CallNextHookEx": {
+"ret": "LRESULT",
+"size": 4,
+"src": "sdk"
+},
+"CharNextA": {
+"ret": "LPSTR",
+"size": 4,
+"src": "sdk"
+},
+"CloseClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"CloseHandle": {
+"ret": "BOOL",
+"size": 4
+},
+"CoCreateInstance": {
+"ret": "HRESULT",
+"size": 4
+},
+"CoFreeUnusedLibraries": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"CoInitialize": {
+"ret": "HRESULT",
+"size": 4
+},
+"CoSetProxyBlanket": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"CoTaskMemAlloc": {
+"ret": "LPVOID",
+"size": 4,
+"src": "sdk"
+},
+"CoTaskMemFree": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"CoTaskMemRealloc": {
+"ret": "LPVOID",
+"size": 4,
+"src": "sdk"
+},
+"CoUninitialize": {
+"ret": "void",
+"size": 0
+},
+"CompareStringA": {
+"ret": "int",
+"size": 4
+},
+"CompareStringW": {
+"ret": "int",
+"size": 4
+},
+"CopyFileA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"CreateCompatibleDC": {
+"ret": "HDC",
+"size": 4,
+"src": "sdk"
+},
+"CreateDIBSection": {
+"ret": "HBITMAP",
+"size": 4,
+"src": "sdk"
+},
+"CreateDirectoryA": {
+"ret": "BOOL",
+"size": 4
+},
+"CreateEventA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateFileA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateFileMappingA": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"CreateFileW": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"CreateFontIndirectA": {
+"ret": "HFONT",
+"size": 4,
+"src": "sdk"
+},
+"CreateMutexA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateProcessA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"CreateSemaphoreA": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateThread": {
+"ret": "HANDLE",
+"size": 4
+},
+"CreateWindowExA": {
+"ret": "HWND",
+"size": 4,
+"src": "sdk"
+},
+"DefWindowProcA": {
+"ret": "LRESULT",
+"size": 4
+},
+"DeleteCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"DeleteDC": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"DeleteFileA": {
+"ret": "BOOL",
+"size": 4
+},
+"DeleteObject": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"DestroyWindow": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"Direct3DCreate8": {
+"ret": "IDirect3D8 *",
+"size": 4,
+"src": "sdk"
+},
+"DirectInput8Create": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"DisableThreadLibraryCalls": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"DispatchMessageA": {
+"ret": "LRESULT",
+"size": 4
+},
+"DrawTextA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"DrawTextW": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"DuplicateHandle": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"EmptyClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"EnterCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"EnumSystemLocalesA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"ExitProcess": {
+"ret": "noreturn void",
+"size": null
+},
+"ExitThread": {
+"ret": "noreturn void",
+"size": null
+},
+"FatalAppExitA": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"FileTimeToLocalFileTime": {
+"ret": "BOOL",
+"size": 4
+},
+"FileTimeToSystemTime": {
+"ret": "BOOL",
+"size": 4
+},
+"FindClose": {
+"ret": "BOOL",
+"size": 4
+},
+"FindFirstFileA": {
+"ret": "HANDLE",
+"size": 4
+},
+"FindNextFileA": {
+"ret": "BOOL",
+"size": 4
+},
+"FindResourceA": {
+"ret": "HRSRC",
+"size": 4,
+"src": "sdk"
+},
+"FindResourceW": {
+"ret": "HRSRC",
+"size": 4,
+"src": "sdk"
+},
+"FindWindowA": {
+"ret": "HWND",
+"size": 4
+},
+"FlushFileBuffers": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"FreeEnvironmentStringsA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"FreeEnvironmentStringsW": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"FreeLibrary": {
+"ret": "BOOL",
+"size": 4
+},
+"GetACP": {
+"ret": "UINT",
+"size": 4,
+"src": "sdk"
+},
+"GetAsyncKeyState": {
+"ret": "SHORT",
+"size": 2,
+"src": "sdk"
+},
+"GetCPInfo": {
+"ret": "BOOL",
+"size": 4
+},
+"GetCommandLineA": {
+"ret": "LPSTR",
+"size": 4,
+"src": "sdk"
+},
+"GetCurrentDirectoryA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetCurrentProcess": {
+"ret": "HANDLE",
+"size": 4
+},
+"GetCurrentThread": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"GetCurrentThreadId": {
+"ret": "DWORD",
+"size": 4
+},
+"GetDriveTypeA": {
+"ret": "UINT",
+"size": 4
+},
+"GetEnvironmentStrings": {
+"ret": "LPSTR",
+"size": 4,
+"src": "sdk"
+},
+"GetEnvironmentStringsW": {
+"ret": "LPWSTR",
+"size": 4,
+"src": "sdk"
+},
+"GetEnvironmentVariableA": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetExitCodeThread": {
+"ret": "BOOL",
+"size": 4
+},
+"GetFileAttributesA": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetFileSize": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetFileType": {
+"ret": "DWORD",
+"size": 4
+},
+"GetForegroundWindow": {
+"ret": "HWND",
+"size": 4
+},
+"GetFullPathNameA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetKeyboardLayout": {
+"ret": "HKL",
+"size": 4
+},
+"GetKeyboardState": {
+"ret": "BOOL",
+"size": 4
+},
+"GetLastError": {
+"ret": "DWORD",
+"size": 4
+},
+"GetLocalTime": {
+"ret": "void",
+"size": 0
+},
+"GetLocaleInfoA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"GetLocaleInfoW": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"GetModuleFileNameA": {
+"ret": "DWORD",
+"size": 4
+},
+"GetModuleHandleA": {
+"ret": "HMODULE",
+"size": 4,
+"src": "sdk"
+},
+"GetOEMCP": {
+"ret": "UINT",
+"size": 4,
+"src": "sdk"
+},
+"GetObjectA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"GetProcAddress": {
+"ret": "FARPROC",
+"size": 4
+},
+"GetProcessHeap": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"GetQueueStatus": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetShortPathNameA": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetStartupInfoA": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"GetStdHandle": {
+"ret": "HANDLE",
+"size": 4
+},
+"GetStringTypeA": {
+"ret": "BOOL",
+"size": 4
+},
+"GetStringTypeW": {
+"ret": "BOOL",
+"size": 4
+},
+"GetSystemInfo": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"GetSystemMenu": {
+"ret": "HMENU",
+"size": 4,
+"src": "sdk"
+},
+"GetSystemMetrics": {
+"ret": "int",
+"size": 4
+},
+"GetSystemTime": {
+"ret": "void",
+"size": 0
+},
+"GetThreadPriority": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"GetTickCount": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetTimeZoneInformation": {
+"ret": "DWORD",
+"size": 4
+},
+"GetUserDefaultLCID": {
+"ret": "LCID",
+"size": 4,
+"src": "sdk"
+},
+"GetVersion": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"GetVersionExA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"GetWindowPlacement": {
+"ret": "BOOL",
+"size": 4
+},
+"GetWindowRect": {
+"ret": "BOOL",
+"size": 4
+},
+"GetWindowThreadProcessId": {
+"ret": "DWORD",
+"size": 4
+},
+"GlobalAlloc": {
+"ret": "HGLOBAL",
+"size": 4
+},
+"GlobalLock": {
+"ret": "LPVOID",
+"size": 4
+},
+"GlobalMemoryStatus": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"GlobalUnlock": {
+"ret": "BOOL",
+"size": 4
+},
+"HeapAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"HeapCreate": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"HeapDestroy": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"HeapFree": {
+"ret": "BOOL",
+"size": 4
+},
+"HeapReAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"HeapSize": {
+"ret": "SIZE_T",
+"size": 4
+},
+"ImmGetCandidateListA": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"ImmGetCandidateListCountA": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"ImmGetCompositionStringA": {
+"ret": "LONG",
+"size": 4
+},
+"ImmGetContext": {
+"ret": "HIMC",
+"size": 4
+},
+"ImmGetConversionStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmGetDescriptionA": {
+"ret": "UINT",
+"size": 4
+},
+"ImmGetOpenStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmGetVirtualKey": {
+"ret": "UINT",
+"size": 4
+},
+"ImmNotifyIME": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmReleaseContext": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCandidateWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCompositionStringA": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetCompositionWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetConversionStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"ImmSetOpenStatus": {
+"ret": "BOOL",
+"size": 4
+},
+"InitializeCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"InsertMenuItemA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"InterlockedDecrement": {
+"ret": "LONG",
+"size": 4
+},
+"InterlockedExchange": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"InterlockedIncrement": {
+"ret": "LONG",
+"size": 4
+},
+"IsBadCodePtr": {
+"ret": "BOOL",
+"size": 4
+},
+"IsBadReadPtr": {
+"ret": "BOOL",
+"size": 4
+},
+"IsBadWritePtr": {
+"ret": "BOOL",
+"size": 4
+},
+"IsDBCSLeadByte": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"IsProcessorFeaturePresent": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"IsValidCodePage": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"IsValidLocale": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"LCMapStringA": {
+"ret": "int",
+"size": 4
+},
+"LCMapStringW": {
+"ret": "int",
+"size": 4
+},
+"LeaveCriticalSection": {
+"ret": "void",
+"size": 0
+},
+"LoadCursorA": {
+"ret": "HCURSOR",
+"size": 4
+},
+"LoadCursorFromFileA": {
+"ret": "HCURSOR",
+"size": 4
+},
+"LoadIconA": {
+"ret": "HICON",
+"size": 4,
+"src": "sdk"
+},
+"LoadLibraryA": {
+"ret": "HMODULE",
+"size": 4
+},
+"LoadLibraryExA": {
+"ret": "HMODULE",
+"size": 4,
+"src": "sdk"
+},
+"LoadResource": {
+"ret": "HGLOBAL",
+"size": 4,
+"src": "sdk"
+},
+"LoadStringA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"LoadTypeLib": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"LockResource": {
+"ret": "LPVOID",
+"size": 4,
+"src": "sdk"
+},
+"MapViewOfFile": {
+"ret": "LPVOID",
+"size": 4,
+"src": "sdk"
+},
+"MapVirtualKeyA": {
+"ret": "UINT",
+"size": 4
+},
+"MoveWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"MsgWaitForMultipleObjects": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"MulDiv": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"MultiByteToWideChar": {
+"ret": "int",
+"size": 4
+},
+"OpenClipboard": {
+"ret": "BOOL",
+"size": 4
+},
+"OutputDebugStringA": {
+"ret": "void",
+"size": 0
+},
+"PeekMessageA": {
+"ret": "BOOL",
+"size": 4
+},
+"PostMessageA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"PostQuitMessage": {
+"ret": "void",
+"size": 0
+},
+"PostThreadMessageA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"QueryPerformanceCounter": {
+"ret": "BOOL",
+"size": 4
+},
+"QueryPerformanceFrequency": {
+"ret": "BOOL",
+"size": 4
+},
+"RaiseException": {
+"ret": "void",
+"size": 0
+},
+"ReadFile": {
+"ret": "BOOL",
+"size": 4
+},
+"RegCloseKey": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegCreateKeyExA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegDeleteKeyA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegDeleteValueA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegEnumKeyExA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegEnumValueA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegOpenKeyA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegOpenKeyExA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegQueryInfoKeyA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegQueryValueExA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegSetValueExA": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"RegisterClassA": {
+"ret": "ATOM",
+"size": 2,
+"src": "sdk"
+},
+"RegisterTypeLib": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"RegisterWindowMessageA": {
+"ret": "UINT",
+"size": 4,
+"src": "sdk"
+},
+"ReleaseMutex": {
+"ret": "BOOL",
+"size": 4
+},
+"ReleaseSemaphore": {
+"ret": "BOOL",
+"size": 4
+},
+"RemoveDirectoryA": {
+"ret": "BOOL",
+"size": 4
+},
+"RemoveMenu": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"ResetEvent": {
+"ret": "BOOL",
+"size": 4
+},
+"ResumeThread": {
+"ret": "DWORD",
+"size": 4
+},
+"RtlUnwind": {
+"ret": "void",
+"size": 0
+},
+"SelectObject": {
+"ret": "HGDIOBJ",
+"size": 4,
+"src": "sdk"
+},
+"SendMessageA": {
+"ret": "LRESULT",
+"size": 4,
+"src": "sdk"
+},
+"SetBkColor": {
+"ret": "COLORREF",
+"size": 4,
+"src": "sdk"
+},
+"SetBkMode": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"SetClipboardData": {
+"ret": "HANDLE",
+"size": 4
+},
+"SetConsoleCtrlHandler": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"SetCurrentDirectoryA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"SetCursor": {
+"ret": "HCURSOR",
+"size": 4
+},
+"SetCursorPos": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEndOfFile": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEnvironmentVariableA": {
+"ret": "BOOL",
+"size": 4
+},
+"SetEvent": {
+"ret": "BOOL",
+"size": 4
+},
+"SetFileAttributesA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"SetFilePointer": {
+"ret": "DWORD",
+"size": 4
+},
+"SetForegroundWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"SetHandleCount": {
+"ret": "UINT",
+"size": 4,
+"src": "sdk"
+},
+"SetLastError": {
+"ret": "void",
+"size": 0
+},
+"SetPriorityClass": {
+"ret": "BOOL",
+"size": 4
+},
+"SetRect": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"SetStdHandle": {
+"ret": "BOOL",
+"size": 4
+},
+"SetTextColor": {
+"ret": "COLORREF",
+"size": 4,
+"src": "sdk"
+},
+"SetThreadPriority": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"SetUnhandledExceptionFilter": {
+"ret": "LPTOP_LEVEL_EXCEPTION_FILTER",
+"size": 4,
+"src": "sdk"
+},
+"SetWindowsHookExA": {
+"ret": "HHOOK",
+"size": 4,
+"src": "sdk"
+},
+"ShowWindow": {
+"ret": "BOOL",
+"size": 4
+},
+"SizeofResource": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"Sleep": {
+"ret": "void",
+"size": 0
+},
+"SysAllocString": {
+"ret": "BSTR",
+"size": 4,
+"src": "sdk"
+},
+"SysFreeString": {
+"ret": "void",
+"size": 0,
+"src": "sdk"
+},
+"SystemParametersInfoA": {
+"ret": "BOOL",
+"size": 4
+},
+"TerminateProcess": {
+"ret": "BOOL",
+"size": 4
+},
+"TerminateThread": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"TlsAlloc": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"TlsFree": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"TlsGetValue": {
+"ret": "LPVOID",
+"size": 4
+},
+"TlsSetValue": {
+"ret": "BOOL",
+"size": 4
+},
+"TranslateMessage": {
+"ret": "BOOL",
+"size": 4
+},
+"UnhandledExceptionFilter": {
+"ret": "LONG",
+"size": 4,
+"src": "sdk"
+},
+"UnhookWindowsHookEx": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"UnmapViewOfFile": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"UnregisterClassA": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"UpdateWindow": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"VarUI4FromStr": {
+"ret": "HRESULT",
+"size": 4,
+"src": "sdk"
+},
+"VirtualAlloc": {
+"ret": "LPVOID",
+"size": 4
+},
+"VirtualFree": {
+"ret": "BOOL",
+"size": 4
+},
+"WSACleanup": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"WSACloseEvent": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"WSACreateEvent": {
+"ret": "HANDLE",
+"size": 4,
+"src": "sdk"
+},
+"WSAEnumNetworkEvents": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"WSAEventSelect": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"WSAGetLastError": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"WSAResetEvent": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"WSASetEvent": {
+"ret": "BOOL",
+"size": 4,
+"src": "sdk"
+},
+"WSAStartup": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"WSAWaitForMultipleEvents": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"WaitForMultipleObjects": {
+"ret": "DWORD",
+"size": 4,
+"src": "sdk"
+},
+"WaitForSingleObject": {
+"ret": "DWORD",
+"size": 4
+},
+"WideCharToMultiByte": {
+"ret": "int",
+"size": 4
+},
+"WriteFile": {
+"ret": "BOOL",
+"size": 4
+},
+"__WSAFDIsSet": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"accept": {
+"ret": "SOCKET",
+"size": 4,
+"src": "sdk"
+},
+"bind": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"closesocket": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"connect": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"gethostbyname": {
+"ret": "struct hostent *",
+"size": 4,
+"src": "sdk"
+},
+"gethostname": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"getsockopt": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"htonl": {
+"ret": "u_long",
+"size": 4,
+"src": "sdk"
+},
+"htons": {
+"ret": "u_short",
+"size": 2,
+"src": "sdk"
+},
+"inet_ntoa": {
+"ret": "char *",
+"size": 4,
+"src": "sdk"
+},
+"ioctlsocket": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"keybd_event": {
+"ret": "void",
+"size": 0
+},
+"listen": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"lstrcatA": {
+"ret": "LPSTR",
+"size": 4,
+"src": "sdk"
+},
+"lstrcmpiA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"lstrcpyA": {
+"ret": "LPSTR",
+"size": 4
+},
+"lstrcpynA": {
+"ret": "LPSTR",
+"size": 4,
+"src": "sdk"
+},
+"lstrlenA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"lstrlenW": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"ntohs": {
+"ret": "u_short",
+"size": 2,
+"src": "sdk"
+},
+"recv": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"recvfrom": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"select": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"send": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"sendto": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"setsockopt": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"shutdown": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"socket": {
+"ret": "SOCKET",
+"size": 4,
+"src": "sdk"
+},
+"timeBeginPeriod": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeEndPeriod": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeGetDevCaps": {
+"ret": "MMRESULT",
+"size": 4
+},
+"timeGetTime": {
+"ret": "DWORD",
+"size": 4
+},
+"timeKillEvent": {
+"ret": "MMRESULT",
+"size": 4,
+"src": "sdk"
+},
+"timeSetEvent": {
+"ret": "MMRESULT",
+"size": 4,
+"src": "sdk"
+},
+"wsprintfA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+},
+"wvsprintfA": {
+"ret": "int",
+"size": 4,
+"src": "sdk"
+}
+}

@@ -7,6 +7,13 @@ DATADIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
 # what each callee can really return (ret_kinds.py): stubs answer within that range
 RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_kinds.json')) else {}
+RET_WIDTH = json.load(open(os.path.join(DATADIR, 'ret_width.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_width.json')) else {}
+# the bytes of EAX the callers read after the function returns (caller_reads.py): 0 none, 1 AL, 2 AX
+CALLER_READS = json.load(open(os.path.join(DATADIR, 'caller_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'caller_reads.json')) else {}
+# the bytes of each stack argument a callee's code reads (arg_reads.py): a stub compares only those
+EAX_INPUTS = json.load(open(os.path.join(DATADIR, 'eax_inputs.json'))) if os.path.exists(os.path.join(DATADIR, 'eax_inputs.json')) else {}
+mask_of = lambda bs: sum(0xFF << (8 * b) for b in bs)
+ARG_READS = json.load(open(os.path.join(DATADIR, 'arg_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'arg_reads.json')) else {}
 # calls whose x87 result the original caller consumes (fp_callsites.py): their stubs push a value
 FPRET = json.load(open(os.path.join(DATADIR, 'fpret.json')))
 FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.path.exists(os.path.join(DATADIR, 'fp_callsites.json')) else {}
@@ -46,9 +53,13 @@ def ret_kind(t):
     t = t.strip()
     if t == 'void': return 'void'
     if t in ('float', 'double', 'long double', 'float10'): return 'float'      # float10: Ghidra's ST0 (conv_facts.py, fpret)
-    if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE'): return 'bool'
-    if t in ('__int64', 'unsigned __int64', '_QWORD'): return 'int64'
-    if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short'): return 'word'
+    if t in ('bool', 'char', 'unsigned __int8', '_BOOL1', '__int8', 'unsigned char', '_BYTE',
+             'undefined1', 'byte', 'uchar', 'xi_bool', 'undefined'): return 'bool'          # Ghidra's 1-byte names
+    # EDX:EAX. Ghidra's 8-byte names: GfxExport widens a callee's return to 8 bytes where a caller's code reads the
+    # EDX the call left (widenReturns), so EDX is part of the result and is compared
+    if t in ('__int64', 'unsigned __int64', '_QWORD', 'undefined8', 'ulonglong', 'longlong'): return 'int64'
+    if t in ('__int16', 'unsigned __int16', '_WORD', 'short', 'unsigned short',
+             'undefined2', 'ushort', 'word'): return 'word'                                  # Ghidra's 2-byte names
     return 'int'
 
 def arg_kind(t, psize):
@@ -81,6 +92,13 @@ def arg_masks(ftype, cc):
         elif re.search(r'__int8|\bchar\b|_BYTE|\bbool\b|_BOOL1', p): out.append(0xFF)
         else: out.append(0xFFFFFFFF)
     return out[:16]
+
+def stub_masks(ea, ftype, cc):
+    """the argument masks of a stub for the function at ea: the bytes its code reads (arg_reads.py; an argument it
+    never reads is not compared), else the declared type's (arg_masks)"""
+    r = ARG_READS.get('0x%08X' % ea)
+    if r is not None: return r + [0] * (16 - len(r))
+    return arg_masks(ftype, cc) if ftype else []
 
 def conv_of(ftype):
     m = re.search(r'__(cdecl|stdcall|thiscall|fastcall)', ftype)
@@ -126,7 +144,8 @@ def main(exp, metaf, protof, out):
     meta = json.load(open(metaf)); protos = json.load(open(protof))
     cases = []
     for line in open(exp):
-        r = hx_patches.fix_types(ghidra_record(json.loads(line))); key = '%08X' % r['ea']
+        r = ghidra_record(json.loads(line)); key = '%08X' % r['ea']
+        if r.get('source') != 'ghidra': r = hx_patches.fix_types(r)    # IDA prototype corrections (hx2cpp the same)
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']
@@ -135,8 +154,28 @@ def main(exp, metaf, protof, out):
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],
              'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret'])}
         if c['returns'] == 'float' and FPRET.get('0x%x' % r['ea']) == 'none': c['returns'] = 'void'   # see hx2cpp
+        # the bytes of EAX the function's own code sets on every path (ret_width.py): the rest is its caller's
+        # leftover, which the reconstruction cannot have; compared only where the code sets them (narrows, never widens)
+        w = RET_WIDTH.get('0x%08X' % r['ea'])
+        if '0x%08X' % r['ea'] in EAX_INPUTS:
+            # its entry EAX is an input (eax_inputs.json): drawn per trial, the same for both runs, so the bytes it
+            # hands back from it are the reconstruction's to produce; only what no caller reads is left out
+            c['eax_in'] = 1; w = None
+        # a register input of the record's own signature (GfxExport, conv.txt `regin`): drawn per trial, as EAX above
+        if 'EAX' in (r.get('storage') or []): c['eax_in'] = 1; w = None
+        if 'EDX' in (r.get('storage') or []) and conv != 'fastcall': c['edx_in'] = 1
+        cr = CALLER_READS.get('0x%08X' % r['ea'])
+        if cr is not None and (w is None or cr < w): w = cr
+        if w == 0 and c['returns'] in ('int', 'word', 'bool', 'ptr'): c['returns'] = 'unread'   # no caller reads EAX
+        elif w == 1 and c['returns'] in ('int', 'word', 'ptr'): c['returns'] = 'bool'
+        elif w == 2 and c['returns'] in ('int', 'ptr'): c['returns'] = 'word'
         if c['returns'] == 'float': c['fret'] = 'float' if r['ret'].strip() == 'float' else 'double' if r['ret'].strip() == 'double' else 'ldouble'
         stack_args = args[1:] if conv == 'thiscall' else args
+        st = r.get('storage') or []
+        if len(st) == len(args) and any(x not in ('stack', 'ECX') for x in st):
+            # a record with register inputs: only its stack parameters are pushed (`this` stays first for a thiscall)
+            stack_args = [a for a, x in zip(args, st) if x == 'stack']
+            if conv == 'thiscall': args = [a for a, x in zip(args, st) if x == 'ECX'] + stack_args
         if conv == 'thiscall':
             ps = args[0][4] if args and args[0][4] and args[0][4] >= 16 else 0x4000
             c['this_size'] = hex(min(max(ps, 0x100), 0x4000))
@@ -158,10 +197,12 @@ def main(exp, metaf, protof, out):
             if o['func']:
                 if ea == r['ea']: continue
                 if '0x%08X' % ea in LEAF: ran.add('0x%08X' % ea); continue      # a trivial leaf runs for real
-                cc = conv_of(o['type']); pops = (o.get('purged') or 0) // 4
-                if PURGES.get('0x%08X' % ea) and not pops:     # the callee's own `ret N` (D3DX dispatch thunks:
-                    pops = PURGES['0x%08X' % ea] // 4            # IDA sees only `jmp [ptr]` and says 0)
-                    if cc == 'cdecl': cc = 'stdcall'
+                cc = conv_of(o['type']); pops = max(o.get('purged') or 0, 0) // 4
+                # the callee's own `ret N` (purges.json) over the decompiler's count: D3DX dispatch thunks, where IDA sees
+                # only `jmp [ptr]` and says 0, and a function Ghidra could not resolve, whose purge it reports as -1
+                if '0x%08X' % ea in PURGES and PURGES['0x%08X' % ea] // 4 != pops:
+                    pops = PURGES['0x%08X' % ea] // 4
+                    if cc == 'cdecl' and pops: cc = 'stdcall'
                 p = protos.get(hex(ea))
                 nargs = pops if cc != 'cdecl' else (p[1] if p and p[1] is not None else 0)
                 # a cdecl callee's arguments are the slots its code reads (cdecl_args.py): slots past them are stale
@@ -172,7 +213,7 @@ def main(exp, metaf, protof, out):
                     nargs = CDECL_ARGS['0x%08X' % ea]
                 elif cc == 'cdecl' and '0x%08X' % ea in CDECL_LOW:
                     nargs = CDECL_LOW['0x%08X' % ea]
-                if cc == 'cdecl' and ea in hx_patches.type_fixes():  # a corrected prototype (each with its evidence)
+                if cc == 'cdecl' and ea in hx_patches.type_fixes() and r.get('source') != 'ghidra':  # a corrected IDA prototype (each with its evidence)
                     ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
                     nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past
@@ -180,8 +221,19 @@ def main(exp, metaf, protof, out):
                     # them read whatever the caller's frame holds (saved registers etc.)
                 stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 16),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
-                                        'masks': arg_masks(o['type'], cc)}
+                                        'masks': stub_masks(ea, o['type'], cc)}
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
+                ei = EAX_INPUTS.get('0x%08X' % ea)
+                # the entry EAX bytes the callee is seen to read are compared like an argument; those it is only
+                # assumed to read (code caller_reads does not follow) are compared apart (diffemu_gfx: unresolved)
+                if ei and ei.get('reads_seen', ei['reads']): stubs['0x%08X' % ea]['eax_reads'] = mask_of(ei.get('reads_seen', ei['reads']))
+                if ei and set(ei['reads']) - set(ei.get('reads_seen', ei['reads'])):
+                    stubs['0x%08X' % ea]['eax_may'] = mask_of(sorted(set(ei['reads']) - set(ei['reads_seen'])))
+                if ei and ei['hands_back']: stubs['0x%08X' % ea]['eax_keeps'] = mask_of(ei['hands_back'])
+                # a callee whose result is 8 bytes (EDX:EAX; Ghidra widens a return where a caller reads the EDX the
+                # call left): its EDX is a result too, drawn like its EAX
+                if ret_kind(re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '').group(1) if re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '') else '') == 'int64':
+                    stubs['0x%08X' % ea]['edx_out'] = 1
                 if stubs['0x%08X' % ea]['conv'] != 'thiscall' and '0x%08X' % ea in ECX_READ: stubs['0x%08X' % ea]['ecx'] = 1
                 outs = com_outs(o['type'])
                 if outs: stubs['0x%08X' % ea]['com_out'] = outs
@@ -205,7 +257,7 @@ def main(exp, metaf, protof, out):
             if not p or p[0] not in ('thiscall', 'stdcall', 'cdecl') or p[1] is None: continue
             pops = 0 if p[0] == 'cdecl' else p[1]
             stubs['0x%08X' % sa] = {'returns': 'fuzz', 'pops': pops, 'args': min(p[1], 16),
-                                    'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': []}
+                                    'conv': 'thiscall' if p[0] == 'thiscall' else p[0], 'masks': stub_masks(sa, None, None)}
             if RET_KINDS.get('0x%08X' % sa): stubs['0x%08X' % sa]['ret'] = RET_KINDS['0x%08X' % sa]
             if 'indirect' in FP_SITES.get('0x%08X' % r['ea'], ()) and FPRET.get('0x%x' % sa) in ('float', 'double'):
                 stubs['0x%08X' % sa]['fpret'] = 1

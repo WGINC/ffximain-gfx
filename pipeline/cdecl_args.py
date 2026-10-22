@@ -43,7 +43,7 @@ def nargs(md, img, base, ranges, pops=None, site_pops=None, entry=None):
     if entry is None: entry = min(ins)
     if entry not in ins: return None
     depth = {entry: (0, None)}                            # address -> (ESP depth below entry, EBP depth or None)
-    work, top, complete = [entry], 0, True
+    work, top, complete, tails = [entry], 0, True, []
     prev = {i.address + i.size: i for i in ins.values()}  # the instruction falling through to each address
     while work:
         a = work.pop(); i = ins[a]; m = i.mnemonic; ops = i.operands
@@ -57,8 +57,12 @@ def nargs(md, img, base, ranges, pops=None, site_pops=None, entry=None):
             elif b == 'ebp' and eb is not None and op.mem.index == 0 and op.mem.disp > 0:
                 slot = (op.mem.disp - eb) // 4               # EBP = ESP at depth eb
                 if slot >= 1: top = max(top, slot)
-        if m == 'jmp' and (not ops or ops[0].type != X86_OP_IMM or ops[0].imm not in ins):
-            complete = False; continue                    # tail call or jump table: arguments may be forwarded
+        if m == 'jmp' and ops and ops[0].type == X86_OP_IMM and ops[0].imm not in ins:
+            if d == 0: tails.append(ops[0].imm)           # a tail jump with this function's frame passed on:
+            else: complete = False                        # its target reads the same argument slots
+            continue
+        if m == 'jmp' and (not ops or ops[0].type != X86_OP_IMM):
+            complete = False; continue                    # a jump table or through a pointer: arguments may be forwarded
         if m.startswith('ret'): continue
         if m == 'call' and ops and ops[0].type == X86_OP_IMM and ops[0].imm in STACK_PROBES:
             p = prev.get(a)
@@ -103,7 +107,7 @@ def nargs(md, img, base, ranges, pops=None, site_pops=None, entry=None):
                 if depth[t] != (d, eb): return None       # paths meet at different depths
                 continue
             depth[t] = (d, eb); work.append(t)
-    return top, complete
+    return top, complete, tails
 
 
 def main(dll, out):
@@ -115,14 +119,29 @@ def main(dll, out):
     for f in ('sp_solved.json', 'vcalls.json', 'com_calls.json'):
         for k, v in json.load(open(os.path.join(D, f))).items():
             if not k.startswith('_') and isinstance(v, dict) and 'pops' in v: site.setdefault('0x%08X' % int(k, 16), v['pops'])
-    res, low = {}, {}
+    # a function that ends in tail jumps pops what its target pops (data/tail_purges.json); one that pops 0 is caller-
+    # cleanup like any other, its arguments the slots it reads and, through a tail jump at depth 0, the slots its
+    # target reads (0x10028700: reads [esp+4], then `jmp 0x10028AA0`). Taken to a fixpoint over the targets; a
+    # target with no exact count leaves the function a lower bound.
+    tp = os.path.join(D, 'tail_purges.json')
+    zero = {k for k, v in purges.items() if v == 0} | ({k for k, v in json.load(open(tp)).items() if v['pops'] == 0} if os.path.exists(tp) else set())
+    calls = {}
     for k, ranges in json.load(open(os.path.join(D, 'func_extents.json'))).items():
         key = '0x%08X' % int(k, 16)
-        if purges.get(key) != 0: continue
+        if key not in zero: continue
         n = nargs(md, img, base, ranges, purges, site, int(k, 16))
-        if n is None: continue
-        if n[1]: res[key] = n[0]
-        else: low[key] = n[0]
+        if n is not None: calls[key] = n
+    res, low = {}, {}
+    while True:
+        new = False
+        for key, (top, complete, tails) in calls.items():
+            if key in res or key in low and not complete: continue
+            ts = ['0x%08X' % t for t in tails]
+            if complete and all(t in res for t in ts):
+                res[key] = max([top] + [res[t] for t in ts]); low.pop(key, None); new = True
+        if not new: break
+    for key, (top, complete, tails) in calls.items():
+        if key not in res: low[key] = max([top] + [res.get('0x%08X' % t, 0) for t in tails])
     res['_at_least'] = low
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
     print(len(res) - 1, 'cdecl functions exact,', len(low), 'a lower bound')

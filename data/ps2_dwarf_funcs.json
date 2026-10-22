@@ -1,0 +1,5876 @@
+{
+ "0x10017630": {
+  "ps2": "setPolUrl__FPvi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\boot\\polinterface.cpp",
+  "this": null,
+  "params": [
+   [
+    "url",
+    "void*"
+   ],
+   [
+    "pat",
+    "signed int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10017D90": {
+  "ps2": "XiErrMsgGetErrCode__Fi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\XiErr.cpp",
+  "this": null,
+  "params": [
+   [
+    "ErrCode",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1001AD00": {
+  "ps2": "AppendSync__15KzMotionQueListFP8YmModResffiffff",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\kazumi\\KzMotionQueList.cpp",
+  "this": "KzMotionQueList*",
+  "params": [
+   [
+    "mod",
+    "YmModRes*"
+   ],
+   [
+    "blend",
+    "float"
+   ],
+   [
+    "speed",
+    "float"
+   ],
+   [
+    "nloop",
+    "signed int"
+   ],
+   [
+    "nbframe",
+    "float"
+   ],
+   [
+    "ret_idle_nbframe",
+    "float"
+   ],
+   [
+    "sframe",
+    "float"
+   ],
+   [
+    "eframe",
+    "float"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "que2",
+    "KzQue*"
+   ],
+   [
+    "rf",
+    "YmResourceFile*"
+   ],
+   [
+    "sframe",
+    "float"
+   ],
+   [
+    "t",
+    "float"
+   ],
+   [
+    "ad_frame",
+    "float"
+   ],
+   [
+    "nbframe1",
+    "float"
+   ],
+   [
+    "nbframe0",
+    "float"
+   ],
+   [
+    "mod1",
+    "KzMOD*"
+   ],
+   [
+    "mod0",
+    "KzMOD*"
+   ],
+   [
+    "que",
+    "KzMotionQue*"
+   ],
+   [
+    "tail",
+    "KzQue*"
+   ]
+  ]
+ },
+ "0x1001EE60": {
+  "ps2": "Follow__15YmCameraManagerFP7XiActor",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\miyagawa\\ymcameraman.cpp",
+  "this": "YmCameraManager*",
+  "params": [
+   [
+    "actor",
+    "XiActor*"
+   ]
+  ],
+  "locals": [
+   [
+    "l",
+    "float"
+   ],
+   [
+    "far",
+    "array"
+   ],
+   [
+    "near",
+    "array"
+   ],
+   [
+    "newEye",
+    "array"
+   ],
+   [
+    "far",
+    "array"
+   ],
+   [
+    "near",
+    "array"
+   ],
+   [
+    "newEye",
+    "array"
+   ],
+   [
+    "vec",
+    "array"
+   ],
+   [
+    "icmat",
+    "array"
+   ],
+   [
+    "cmat",
+    "array"
+   ],
+   [
+    "resy",
+    "float"
+   ],
+   [
+    "isCorrect",
+    "char"
+   ],
+   [
+    "l",
+    "float"
+   ],
+   [
+    "far",
+    "array"
+   ],
+   [
+    "near",
+    "array"
+   ],
+   [
+    "newEye",
+    "array"
+   ],
+   [
+    "my_pos",
+    "array"
+   ],
+   [
+    "acc",
+    "float"
+   ],
+   [
+    "neck",
+    "float"
+   ],
+   [
+    "vq0",
+    "KzFQuat"
+   ],
+   [
+    "q0_",
+    "KzFQuat"
+   ],
+   [
+    "q0",
+    "KzFQuat"
+   ],
+   [
+    "_ang",
+    "float"
+   ],
+   [
+    "ang",
+    "float"
+   ],
+   [
+    "tang",
+    "float"
+   ],
+   [
+    "ofs_max",
+    "float"
+   ],
+   [
+    "ofs_min",
+    "float"
+   ],
+   [
+    "proj",
+    "float"
+   ],
+   [
+    "d1",
+    "float"
+   ],
+   [
+    "d0",
+    "float"
+   ],
+   [
+    "dis1",
+    "float"
+   ],
+   [
+    "dis0",
+    "float"
+   ],
+   [
+    "n2",
+    "array"
+   ],
+   [
+    "n1",
+    "array"
+   ],
+   [
+    "v2",
+    "array"
+   ],
+   [
+    "v1",
+    "array"
+   ],
+   [
+    "neck",
+    "signed int"
+   ],
+   [
+    "ma",
+    "array"
+   ],
+   [
+    "v0",
+    "array"
+   ],
+   [
+    "fv1",
+    "array"
+   ],
+   [
+    "fv0",
+    "array"
+   ],
+   [
+    "l",
+    "float"
+   ],
+   [
+    "far",
+    "array"
+   ],
+   [
+    "near",
+    "array"
+   ],
+   [
+    "ydelta",
+    "float"
+   ],
+   [
+    "l",
+    "float"
+   ],
+   [
+    "eye",
+    "array&"
+   ],
+   [
+    "neck",
+    "signed int"
+   ],
+   [
+    "__scrz",
+    "float"
+   ],
+   [
+    "lpos",
+    "array"
+   ],
+   [
+    "l",
+    "float"
+   ],
+   [
+    "eye",
+    "array&"
+   ],
+   [
+    "lpos",
+    "array"
+   ],
+   [
+    "neck",
+    "signed int"
+   ],
+   [
+    "newEye",
+    "array"
+   ],
+   [
+    "IsVisible",
+    "signed int"
+   ],
+   [
+    "v1",
+    "array"
+   ],
+   [
+    "neck",
+    "signed int"
+   ],
+   [
+    "flg",
+    "char"
+   ],
+   [
+    "v2",
+    "array"
+   ],
+   [
+    "v1",
+    "array"
+   ],
+   [
+    "isfreerun_save",
+    "char"
+   ],
+   [
+    "h_delta",
+    "float"
+   ],
+   [
+    "v",
+    "array"
+   ],
+   [
+    "tar",
+    "XiSkeletonActor*"
+   ],
+   [
+    "cpos",
+    "array"
+   ],
+   [
+    "delta",
+    "float"
+   ],
+   [
+    "dis",
+    "float"
+   ],
+   [
+    "v",
+    "array"
+   ],
+   [
+    "delta",
+    "float"
+   ],
+   [
+    "ang_v",
+    "float"
+   ],
+   [
+    "ang_h",
+    "float"
+   ],
+   [
+    "skl_actor",
+    "XiSkeletonActor*"
+   ],
+   [
+    "TgtPos",
+    "array"
+   ],
+   [
+    "PrevAt",
+    "array"
+   ],
+   [
+    "PrevEye",
+    "array"
+   ]
+  ]
+ },
+ "0x10020BA0": {
+  "ps2": "GetOwnViewCamera__15YmCameraManagerFP7XiActorPfPf",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\miyagawa\\ymcameraman.cpp",
+  "this": null,
+  "params": [
+   [
+    "actor",
+    "XiActor*"
+   ],
+   [
+    "dis_eye",
+    "float*"
+   ],
+   [
+    "dis_at",
+    "float*"
+   ]
+  ],
+  "locals": [
+   [
+    "tar",
+    "XiActor*"
+   ],
+   [
+    "mtx",
+    "array"
+   ],
+   [
+    "_eye_y",
+    "float"
+   ],
+   [
+    "mat",
+    "array"
+   ],
+   [
+    "sub",
+    "XiSkeletonActor*"
+   ],
+   [
+    "ofs",
+    "float"
+   ],
+   [
+    "flg",
+    "char"
+   ],
+   [
+    "skl_actor",
+    "XiSkeletonActor*"
+   ],
+   [
+    "v1",
+    "array"
+   ],
+   [
+    "v",
+    "array"
+   ],
+   [
+    "fv",
+    "array"
+   ],
+   [
+    "eye_z",
+    "float"
+   ],
+   [
+    "eye_y",
+    "float"
+   ],
+   [
+    "fv",
+    "array"
+   ]
+  ]
+ },
+ "0x10022120": {
+  "ps2": "GetScale__5KzCibFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\kazumi\\KzCib.cpp",
+  "this": "KzCib*",
+  "params": [
+   [
+    "no",
+    "signed int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10057FB0": {
+  "ps2": "ExecuteTag__15YmSchedulerTaskFP12YmSchCodeTag",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\miyagawa\\effect\\ymschdecript.cpp",
+  "this": "YmSchedulerTask*",
+  "params": [
+   [
+    "tag",
+    "YmSchCodeTag*"
+   ]
+  ],
+  "locals": [
+   [
+    "task",
+    "PathDriveActorTask*"
+   ],
+   [
+    "object",
+    "YmObject*"
+   ],
+   [
+    "next",
+    "YmAttachments*"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "num",
+    "signed int"
+   ],
+   [
+    "res",
+    "YmScheduler*"
+   ],
+   [
+    "res",
+    "YmScheduler*"
+   ],
+   [
+    "at",
+    "array"
+   ],
+   [
+    "eye",
+    "array"
+   ],
+   [
+    "res",
+    "YmCamera*"
+   ],
+   [
+    "clone",
+    "YmGeneraterClone*"
+   ],
+   [
+    "res2",
+    "YmGenerater*"
+   ],
+   [
+    "res",
+    "YmGenerater*"
+   ],
+   [
+    "elem",
+    "YmElem*"
+   ],
+   [
+    "res",
+    "YmGenerater*"
+   ],
+   [
+    "flg",
+    "char"
+   ],
+   [
+    "res",
+    "YmGenerater*"
+   ],
+   [
+    "res",
+    "YmScheduler*"
+   ],
+   [
+    "clone",
+    "YmGeneraterClone*"
+   ],
+   [
+    "flg",
+    "char"
+   ],
+   [
+    "res",
+    "YmGenerater*"
+   ],
+   [
+    "sch",
+    "YmScheduler*"
+   ],
+   [
+    "task",
+    "YmSchedulerTask*"
+   ],
+   [
+    "mod",
+    "KzMOD*"
+   ],
+   [
+    "res",
+    "YmModRes*"
+   ],
+   [
+    "sklactor",
+    "XiSkeletonActor*"
+   ],
+   [
+    "res",
+    "YmModRes*"
+   ],
+   [
+    "eframe",
+    "float"
+   ],
+   [
+    "sframe",
+    "float"
+   ],
+   [
+    "speed",
+    "float"
+   ],
+   [
+    "t",
+    "float"
+   ],
+   [
+    "sklactor",
+    "XiSkeletonActor*"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "mod",
+    "KzMOD*"
+   ],
+   [
+    "sep",
+    "YmSepRes*"
+   ],
+   [
+    "sep",
+    "YmSepRes*"
+   ],
+   [
+    "sep",
+    "YmSepRes*"
+   ],
+   [
+    "elem",
+    "YmSoundElem*"
+   ],
+   [
+    "sep",
+    "YmSepRes*"
+   ],
+   [
+    "len",
+    "float"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "most_near",
+    "float"
+   ],
+   [
+    "caster",
+    "XiActor*"
+   ],
+   [
+    "near_target",
+    "XiActor*"
+   ],
+   [
+    "actor",
+    "XiActor*"
+   ],
+   [
+    "target",
+    "XiActor*"
+   ],
+   [
+    "actor",
+    "XiActor*"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "data_header",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "data_header",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "task",
+    "ScreenOverRapTask*"
+   ],
+   [
+    "actor",
+    "XiDollActor*"
+   ],
+   [
+    "actor",
+    "XiDollActor*"
+   ],
+   [
+    "actor",
+    "XiDollActor*"
+   ],
+   [
+    "old_actor",
+    "XiActor*"
+   ],
+   [
+    "actor",
+    "XiDollActor*"
+   ],
+   [
+    "old_actor",
+    "XiActor*"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "sp",
+    "float"
+   ],
+   [
+    "wt",
+    "float"
+   ],
+   [
+    "rad",
+    "float"
+   ],
+   [
+    "sp",
+    "float"
+   ],
+   [
+    "kind",
+    "signed int"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "scale",
+    "signed int"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "dumper",
+    "float"
+   ],
+   [
+    "pow",
+    "float"
+   ],
+   [
+    "sch_stat",
+    "CXiSchStatus*"
+   ],
+   [
+    "resid",
+    "signed int"
+   ],
+   [
+    "no",
+    "signed int"
+   ],
+   [
+    "flg",
+    "signed int"
+   ],
+   [
+    "resid_tbl",
+    "array"
+   ],
+   [
+    "ry",
+    "float"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "cnt",
+    "signed int"
+   ],
+   [
+    "resid_prev",
+    "unsigned int"
+   ],
+   [
+    "no",
+    "signed int"
+   ],
+   [
+    "sch_stat",
+    "CXiSchStatus*"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "id",
+    "array"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "sch_stat",
+    "CXiSchStatus*"
+   ],
+   [
+    "sch_stat",
+    "CXiSchStatus*"
+   ],
+   [
+    "afp",
+    "KzAfterImage*"
+   ],
+   [
+    "fm",
+    "float"
+   ],
+   [
+    "sp",
+    "float"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "disofs",
+    "array"
+   ],
+   [
+    "colvec1",
+    "array"
+   ],
+   [
+    "colvec0",
+    "array"
+   ],
+   [
+    "col1",
+    "array"
+   ],
+   [
+    "col0",
+    "array"
+   ],
+   [
+    "res",
+    "YmAfbRes*"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "flg",
+    "signed int"
+   ],
+   [
+    "act",
+    "XiSkeletonActor*"
+   ],
+   [
+    "rf",
+    "YmResourceFile*"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "footmat",
+    "signed int"
+   ],
+   [
+    "sep",
+    "YmSepRes*"
+   ],
+   [
+    "act",
+    "XiSkeletonActor*"
+   ],
+   [
+    "no",
+    "signed int"
+   ],
+   [
+    "nbframe",
+    "float"
+   ],
+   [
+    "alpha_mode",
+    "unsigned long"
+   ],
+   [
+    "mode",
+    "YmAlphaMode*"
+   ],
+   [
+    "stat",
+    "CXiSchStatus*"
+   ],
+   [
+    "weather",
+    "XiWeather*"
+   ],
+   [
+    "rot",
+    "array"
+   ],
+   [
+    "fv",
+    "array"
+   ],
+   [
+    "resfile",
+    "YmResourceFile*"
+   ],
+   [
+    "time",
+    "XiDateTime"
+   ],
+   [
+    "tar",
+    "XiSkeletonActor*"
+   ],
+   [
+    "cas",
+    "XiSkeletonActor*"
+   ],
+   [
+    "actor",
+    "XiActor*"
+   ],
+   [
+    "sklactor",
+    "XiSkeletonActor*"
+   ],
+   [
+    "res",
+    "YmResource*"
+   ],
+   [
+    "task",
+    "YmSchedulerTask*"
+   ],
+   [
+    "sch",
+    "YmScheduler*"
+   ],
+   [
+    "v0",
+    "array"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask35LightDriveTask",
+    "@anon20"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask36LockActorStatus",
+    "@anon3"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask33BondageActor",
+    "@anon1"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask39DoorSlideDriveTask",
+    "@anon25"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask39DoorAngleDriveTask",
+    "@anon27"
+   ],
+   [
+    "current_display_color_task",
+    "void*"
+   ],
+   [
+    "current_flash_color_task",
+    "void*"
+   ],
+   [
+    "current_screen_color_task",
+    "void*"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask41ScreenColorDriveTask",
+    "@anon13"
+   ],
+   [
+    "current_focus_task",
+    "void*"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask41ChangeFocusDriveTask",
+    "@anon8"
+   ],
+   [
+    "save_focus_near",
+    "float"
+   ],
+   [
+    "save_near_focus_power",
+    "signed int"
+   ],
+   [
+    "save_focus_far",
+    "float"
+   ],
+   [
+    "save_focus_power",
+    "signed int"
+   ],
+   [
+    "current_screen_blur_task",
+    "void*"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask40ScreenBlurDriveTask",
+    "@anon22"
+   ],
+   [
+    "current_screen_overrap_task",
+    "void*"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38ScreenOverRapTask",
+    "@anon6"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38LiftMoveDriveTask",
+    "@anon5"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38IdleAdjustDirTask",
+    "@anon11"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask39IdleAfterImageTask",
+    "@anon7"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask36LockCasterMagic",
+    "@anon23"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask39LockCasterRotation",
+    "@anon17"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38LockCasterControl",
+    "@anon0"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask35EidLinkControl",
+    "@anon2"
+   ],
+   [
+    "id_tab",
+    "array"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask35HideWepControl",
+    "@anon9"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask39EffectTextureActor",
+    "@anon10"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask32YmActorTask",
+    "@anon18"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38DisintegrateActor",
+    "@anon16"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask38EffectScrollActor",
+    "@anon19"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask44SpecularPowerDriveActor",
+    "@anon26"
+   ],
+   [
+    "__vt__Q215YmSchedulerTask42EffectDistortionActor",
+    "@anon21"
+   ]
+  ]
+ },
+ "0x10076AB0": {
+  "ps2": "preprocessArg__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "orgstr",
+    "char*"
+   ],
+   [
+    "outbuf",
+    "char*"
+   ],
+   [
+    "bufsize",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "len",
+    "signed int"
+   ],
+   [
+    "targetinfo",
+    "unsigned int"
+   ],
+   [
+    "subtarget",
+    "char"
+   ],
+   [
+    "keepChr",
+    "char"
+   ],
+   [
+    "pPronounTail",
+    "char*"
+   ],
+   [
+    "pTmp",
+    "char*"
+   ],
+   [
+    "pPronounHead",
+    "char*"
+   ],
+   [
+    "pCommand",
+    "COMMANDTBL*"
+   ],
+   [
+    "target",
+    "char"
+   ],
+   [
+    "c",
+    "char"
+   ],
+   [
+    "cpcnt",
+    "signed int"
+   ],
+   [
+    "pa",
+    "signed int"
+   ],
+   [
+    "pout",
+    "char*"
+   ],
+   [
+    "pin",
+    "char*"
+   ],
+   [
+    "limit",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10076FF0": {
+  "ps2": "getNounFromPronoun__FPcc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "pPronoun",
+    "char*"
+   ],
+   [
+    "target",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "GC_GROUP_MEMBER*"
+   ],
+   [
+    "info",
+    "GC_GROUP_MEMBER*"
+   ],
+   [
+    "info",
+    "GC_GROUP_MEMBER*"
+   ],
+   [
+    "info",
+    "GC_GROUP_MEMBER*"
+   ],
+   [
+    "info",
+    "GC_GROUP_MEMBER*"
+   ],
+   [
+    "pAtel",
+    "XiAtelBuff*"
+   ],
+   [
+    "scan",
+    "GC_TRACKING_NOW*"
+   ],
+   [
+    "pet",
+    "XiAtelBuff*"
+   ],
+   [
+    "pet",
+    "XiAtelBuff*"
+   ],
+   [
+    "mon",
+    "XiAtelBuff*"
+   ],
+   [
+    "pTargetAW",
+    "XiAtelBuff*"
+   ],
+   [
+    "result",
+    "char*"
+   ],
+   [
+    "pTbl",
+    "TOKEN_TBL*"
+   ]
+  ]
+ },
+ "0x10078170": {
+  "ps2": "cmdf_COM_VER__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "stat",
+    "XiFileStat"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "ver_str",
+    "array"
+   ]
+  ]
+ },
+ "0x100785A0": {
+  "ps2": "cmdf_COM_CHAT_TALK__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "ptr",
+    "char*"
+   ]
+  ]
+ },
+ "0x10078720": {
+  "ps2": "cmdf_COM_CHAT_PARTY__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "ptr",
+    "char*"
+   ]
+  ]
+ },
+ "0x10079420": {
+  "ps2": "cmdf_COM_SWITCH_PROPOSAL__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "str",
+    "char*"
+   ],
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "argv_start",
+    "unsigned char"
+   ],
+   [
+    "Kind",
+    "unsigned char"
+   ],
+   [
+    "p",
+    "unsigned char*"
+   ]
+  ]
+ },
+ "0x10079810": {
+  "ps2": "cmdf_COM_VOLUNTEER__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "str",
+    "char*"
+   ],
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "pTargetAW",
+    "XiAtelBuff*"
+   ],
+   [
+    "pactor",
+    "CTkXiActor*"
+   ],
+   [
+    "pID",
+    "CHAR_ID*"
+   ],
+   [
+    "ret",
+    "char"
+   ],
+   [
+    "Buf",
+    "array"
+   ],
+   [
+    "p",
+    "unsigned char*"
+   ]
+  ]
+ },
+ "0x1007A1C0": {
+  "ps2": "SeekIdByString__FPcc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "str",
+    "char*"
+   ],
+   [
+    "search",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "pXAB",
+    "XiAtelBuff*"
+   ],
+   [
+    "pId",
+    "CHAR_ID*"
+   ],
+   [
+    "pAtel",
+    "XiAtelBuff*"
+   ],
+   [
+    "scan",
+    "GC_TRACKING_NOW*"
+   ],
+   [
+    "pet",
+    "XiAtelBuff*"
+   ],
+   [
+    "mon",
+    "XiAtelBuff*"
+   ],
+   [
+    "tempname",
+    "array"
+   ],
+   [
+    "temp",
+    "signed int"
+   ],
+   [
+    "uId",
+    "unsigned int"
+   ],
+   [
+    "id_ptr",
+    "CHAR_ID*"
+   ]
+  ]
+ },
+ "0x1007C6C0": {
+  "ps2": "cmdf_COM_BLACK_LIST__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryInfo"
+   ]
+  ]
+ },
+ "0x1007FF30": {
+  "ps2": "cmdf_COM_EMOTE_ACTION_common__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "pId",
+    "CHAR_ID*"
+   ],
+   [
+    "pProt_motion",
+    "GP_CLI_MOTION*"
+   ]
+  ]
+ },
+ "0x10080830": {
+  "ps2": "cmdf_COM_CHATMODE__FPcPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\commandcalc.cpp",
+  "this": null,
+  "params": [
+   [
+    "cmdnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "pPCname",
+    "char*"
+   ],
+   [
+    "pSub",
+    "TOKEN_TBL*"
+   ]
+  ]
+ },
+ "0x10081BA0": {
+  "ps2": "Init__7XiActorFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiactor.cpp",
+  "this": "XiActor*",
+  "params": [],
+  "locals": []
+ },
+ "0x10084400": {
+  "ps2": "GetType__7XiActorFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiactor.cpp",
+  "this": "XiActor*",
+  "params": [],
+  "locals": []
+ },
+ "0x10085060": {
+  "ps2": "StartGeneraters__7XiActorFP14YmResourceFile",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiactor.cpp",
+  "this": "XiActor*",
+  "params": [
+   [
+    "file",
+    "YmResourceFile*"
+   ]
+  ],
+  "locals": [
+   [
+    "clone",
+    "YmGeneraterClone*"
+   ],
+   [
+    "res",
+    "YmGeneraterRes*"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "res",
+    "YmGeneraterRes*"
+   ],
+   [
+    "res_list",
+    "array"
+   ]
+  ]
+ },
+ "0x10087070": {
+  "ps2": "IsEvent__FUc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiatelnet.cpp",
+  "this": null,
+  "params": [
+   [
+    "ignore",
+    "unsigned char"
+   ]
+  ],
+  "locals": []
+ },
+ "0x100955D0": {
+  "ps2": "CallMotd__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiatelnet.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x10098610": {
+  "ps2": "RecvGmScitem__FP7GC_ZONEP19GP_GAME_PACKET_HEADP16GP_SERV_GMSCITEM",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xiatelnet.cpp",
+  "this": null,
+  "params": [
+   [
+    "pProt",
+    "GP_SERV_GMSCITEM*"
+   ]
+  ],
+  "locals": [
+   [
+    "flag",
+    "unsigned int"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "buffer",
+    "array"
+   ]
+  ]
+ },
+ "0x100A8490": {
+  "ps2": "GetDirId_Div8__14XiControlActorFfPf",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xicontrolactor.cpp",
+  "this": "XiControlActor*",
+  "params": [
+   [
+    "ry",
+    "float"
+   ],
+   [
+    "tpos",
+    "float*"
+   ]
+  ],
+  "locals": [
+   [
+    "ang",
+    "float"
+   ],
+   [
+    "ma",
+    "array"
+   ],
+   [
+    "len",
+    "float"
+   ],
+   [
+    "c0",
+    "array"
+   ],
+   [
+    "id",
+    "DIR_ID"
+   ]
+  ]
+ },
+ "0x100A9F40": {
+  "ps2": "SetTarget__14XiControlActorFP7XiActor",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xicontrolactor.cpp",
+  "this": "XiControlActor*",
+  "params": [
+   [
+    "actor",
+    "XiActor*"
+   ]
+  ],
+  "locals": [
+   [
+    "id",
+    "unsigned int"
+   ],
+   [
+    "command",
+    "array"
+   ]
+  ]
+ },
+ "0x100AD550": {
+  "ps2": "ReqEventInfo",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xievent.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "actp",
+    "XiActor*"
+   ]
+  ]
+ },
+ "0x100AE2D0": {
+  "ps2": "_EventMessReadCallBack__FPciPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xievent.cpp",
+  "this": null,
+  "params": [
+   [
+    "MemPtr",
+    "char*"
+   ],
+   [
+    "resultLen",
+    "signed int"
+   ],
+   [
+    "userData",
+    "void*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x100AEC20": {
+  "ps2": "_EventDataReadCallBack__FPciPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xievent.cpp",
+  "this": null,
+  "params": [
+   [
+    "MemPtr",
+    "char*"
+   ],
+   [
+    "resultLen",
+    "signed int"
+   ],
+   [
+    "userData",
+    "void*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x100B0510": {
+  "ps2": "ExecProg__7XiEventFs",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xievent.cpp",
+  "this": "XiEvent*",
+  "params": [
+   [
+    "n",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x100B84B0": {
+  "ps2": "CodeGETWEATER__7XiEventFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xievent.cpp",
+  "this": "XiEvent*",
+  "params": [],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "ofs",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x100CD540": {
+  "ps2": "SetMotion__15XiSkeletonActorFP14YmResourceFileUiffiffiiff",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xisklactor.cpp",
+  "this": "XiSkeletonActor*",
+  "params": [
+   [
+    "rf",
+    "YmResourceFile*"
+   ],
+   [
+    "resid",
+    "unsigned int"
+   ],
+   [
+    "wt",
+    "float"
+   ],
+   [
+    "sp",
+    "float"
+   ],
+   [
+    "lp",
+    "signed int"
+   ],
+   [
+    "in",
+    "float"
+   ],
+   [
+    "out",
+    "float"
+   ],
+   [
+    "layno",
+    "signed int"
+   ],
+   [
+    "sync",
+    "signed int"
+   ],
+   [
+    "sframe",
+    "float"
+   ],
+   [
+    "eframe",
+    "float"
+   ]
+  ],
+  "locals": [
+   [
+    "r",
+    "YmModRes*"
+   ],
+   [
+    "mask",
+    "unsigned int"
+   ],
+   [
+    "s",
+    "array"
+   ]
+  ]
+ },
+ "0x100CF210": {
+  "ps2": "SetModel__15XiSkeletonActorFP10YmResource",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xisklactor.cpp",
+  "this": "XiSkeletonActor*",
+  "params": [
+   [
+    "r",
+    "YmResource*"
+   ]
+  ],
+  "locals": [
+   [
+    "clone",
+    "YmGeneraterClone*"
+   ],
+   [
+    "res",
+    "YmGenerater*"
+   ],
+   [
+    "pc_size",
+    "float"
+   ],
+   [
+    "cho_size",
+    "float"
+   ],
+   [
+    "act",
+    "XiSkeletonActor*"
+   ],
+   [
+    "cres",
+    "YmCibRes*"
+   ],
+   [
+    "hd",
+    "KzModelHd*"
+   ],
+   [
+    "osm",
+    "YmOsmRes*"
+   ],
+   [
+    "nest",
+    "signed int"
+   ],
+   [
+    "res",
+    "YmResource*"
+   ],
+   [
+    "rf",
+    "YmResourceFile*"
+   ]
+  ]
+ },
+ "0x100D2220": {
+  "ps2": "ReadTpcEventMotionRes__15XiSkeletonActorFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xisklactor.cpp",
+  "this": "XiSkeletonActor*",
+  "params": [
+   [
+    "ofs",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "dvdno2",
+    "signed int"
+   ],
+   [
+    "resf",
+    "YmResourceFile*"
+   ],
+   [
+    "dvdno1",
+    "signed int"
+   ],
+   [
+    "resf",
+    "YmResourceFile*"
+   ]
+  ]
+ },
+ "0x100D2F10": {
+  "ps2": "GetEmotionSchResId__15XiSkeletonActorFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xisklactor.cpp",
+  "this": null,
+  "params": [
+   [
+    "no",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "resid",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x100D2F60": {
+  "ps2": "SetUp__15XiSkeletonActorFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\actor\\xisklactor.cpp",
+  "this": "XiSkeletonActor*",
+  "params": [
+   [
+    "dvdno1",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "no",
+    "signed int"
+   ],
+   [
+    "judge_2swordno",
+    "array"
+   ],
+   [
+    "tab",
+    "unsigned short*"
+   ],
+   [
+    "category_no",
+    "signed int"
+   ],
+   [
+    "item",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "race",
+    "signed int"
+   ],
+   [
+    "race",
+    "signed int"
+   ],
+   [
+    "dvdno",
+    "signed int"
+   ],
+   [
+    "resfile",
+    "YmResourceFile*"
+   ]
+  ]
+ },
+ "0x100D8250": {
+  "ps2": "err_print",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\sys_ps2\\ntsys.cpp",
+  "this": null,
+  "params": [
+   [
+    "sFormat",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "Buf2",
+    "array"
+   ],
+   [
+    "buf",
+    "array"
+   ],
+   [
+    "ret",
+    "signed int"
+   ],
+   [
+    "marker",
+    "char*"
+   ]
+  ]
+ },
+ "0x100DBB50": {
+  "ps2": "setDataFileParam__6NT_SYSFPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\sys_ps2\\ntsysloop.cpp",
+  "this": "NT_SYS*",
+  "params": [
+   [
+    "pData",
+    "void*"
+   ]
+  ],
+  "locals": [
+   [
+    "pdatafile",
+    "data_file_t*"
+   ],
+   [
+    "url",
+    "array"
+   ]
+  ]
+ },
+ "0x100E2060": {
+  "ps2": "gcStepRecvReply__FP18FFWCaCacheCommStepP19FFWCaCacheQueryCommP11GC_MAIN_SYS",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gccache.cpp",
+  "this": null,
+  "params": [
+   [
+    "stp",
+    "FFWCaCacheCommStep*"
+   ],
+   [
+    "qcp",
+    "FFWCaCacheQueryComm*"
+   ],
+   [
+    "pGcMain",
+    "GC_MAIN_SYS*"
+   ]
+  ],
+  "locals": [
+   [
+    "cnt",
+    "unsigned short"
+   ],
+   [
+    "rmInfo",
+    "FFWCaReplyUserMessageInfo"
+   ],
+   [
+    "rpl",
+    "FFWCaReplyInfo"
+   ],
+   [
+    "loopCount",
+    "unsigned char"
+   ],
+   [
+    "cnt",
+    "unsigned short"
+   ],
+   [
+    "dmyInfo",
+    "FFWCaReplyItemHistInfo"
+   ],
+   [
+    "cnt",
+    "unsigned short"
+   ],
+   [
+    "dmyInfo",
+    "FFWCaReplyItemInfo"
+   ],
+   [
+    "cnt",
+    "unsigned short"
+   ],
+   [
+    "ptr",
+    "unsigned char*"
+   ],
+   [
+    "bEndOfSeq",
+    "char"
+   ],
+   [
+    "rpl",
+    "ffwca_ReplyPacket*"
+   ],
+   [
+    "cbDesc",
+    "GcCacheCallbackDesc"
+   ],
+   [
+    "status",
+    "signed int"
+   ],
+   [
+    "cc",
+    "_wca_Cache_Client*"
+   ]
+  ]
+ },
+ "0x100E3220": {
+  "ps2": "gcCacheGetInstallTime",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gccache.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "rdSize",
+    "signed int"
+   ],
+   [
+    "cliInst",
+    "SAVE_CLIENT_INSTALL_TIME_STRUCT"
+   ]
+  ]
+ },
+ "0x100E37A0": {
+  "ps2": "RecvStdChat__FP7GC_ZONEP19GP_GAME_PACKET_HEADP16GP_SERV_CHAT_STD",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcchat.c",
+  "this": null,
+  "params": [
+   [
+    "pRecv",
+    "GP_SERV_CHAT_STD*"
+   ]
+  ],
+  "locals": [
+   [
+    "sGM",
+    "array"
+   ],
+   [
+    "sName",
+    "array"
+   ],
+   [
+    "sMes",
+    "array"
+   ],
+   [
+    "StrLen",
+    "signed int"
+   ]
+  ]
+ },
+ "0x100E7BD0": {
+  "ps2": "gcFriendPolDbTableUseStart",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcfriend.c",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "PathBase",
+    "array"
+   ],
+   [
+    "Result",
+    "signed int"
+   ]
+  ]
+ },
+ "0x100E7EE0": {
+  "ps2": "gcFriendPolDbFormUseStart",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcfriend.c",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "PathBase",
+    "array"
+   ],
+   [
+    "Result",
+    "signed int"
+   ]
+  ]
+ },
+ "0x100E8650": {
+  "ps2": "ReqChar__FPUc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcgm.c",
+  "this": null,
+  "params": [
+   [
+    "pCommand",
+    "unsigned char*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x100E88C0": {
+  "ps2": "RecvGmCommand__FP7GC_ZONEP19GP_GAME_PACKET_HEADP17GP_SERV_GMCOMMAND",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcgm.c",
+  "this": null,
+  "params": [
+   [
+    "pZone",
+    "GC_ZONE*"
+   ],
+   [
+    "pRecv",
+    "GP_SERV_GMCOMMAND*"
+   ]
+  ],
+  "locals": [
+   [
+    "pStr",
+    "unsigned char*"
+   ],
+   [
+    "sStr",
+    "array"
+   ],
+   [
+    "len",
+    "unsigned int"
+   ],
+   [
+    "iTbl",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x100ED7E0": {
+  "ps2": "gcLoginProc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gclogin.cpp",
+  "this": null,
+  "params": [
+   [
+    "localPhase",
+    "signed int*"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "excode_server",
+    "unsigned int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "excode_client",
+    "unsigned int"
+   ],
+   [
+    "clientCode",
+    "array"
+   ],
+   [
+    "Server",
+    "sqInternetAddress"
+   ],
+   [
+    "Result",
+    "signed long"
+   ],
+   [
+    "passwdbuf",
+    "array"
+   ],
+   [
+    "authbuf",
+    "array"
+   ],
+   [
+    "i32SessionRet",
+    "signed int"
+   ]
+  ]
+ },
+ "0x100F8FF0": {
+  "ps2": "RecvProc__FP7GC_ZONEP19GP_GAME_PACKET_HEADP19GP_SERV_SWITCH_PROC",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gcswitch.c",
+  "this": null,
+  "params": [
+   [
+    "pRecv",
+    "GP_SERV_SWITCH_PROC*"
+   ]
+  ],
+  "locals": [
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Buf",
+    "array"
+   ],
+   [
+    "ChatKind",
+    "unsigned char"
+   ],
+   [
+    "StrLen",
+    "unsigned int"
+   ],
+   [
+    "iVote",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x100FB660": {
+  "ps2": "RecvLogIn__FP7GC_ZONEP19GP_GAME_PACKET_HEADP13GP_SERV_LOGIN",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gczone.c",
+  "this": null,
+  "params": [
+   [
+    "pZone",
+    "GC_ZONE*"
+   ],
+   [
+    "pLogIn",
+    "GP_SERV_LOGIN*"
+   ]
+  ],
+  "locals": [
+   [
+    "dummy",
+    "array"
+   ],
+   [
+    "dummy",
+    "array"
+   ],
+   [
+    "pAriaName",
+    "char*"
+   ],
+   [
+    "dummy",
+    "array"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "pDel",
+    "GP_CLI_LOGIN*"
+   ]
+  ]
+ },
+ "0x100FBD40": {
+  "ps2": "RecvMessage__FP7GC_ZONEP19GP_GAME_PACKET_HEADP15GP_SERV_MESSAGE",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gczone.c",
+  "this": null,
+  "params": [
+   [
+    "pRecv",
+    "GP_SERV_MESSAGE*"
+   ]
+  ],
+  "locals": [
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "p",
+    "unsigned char*"
+   ]
+  ]
+ },
+ "0x100FBEB0": {
+  "ps2": "gcZonePingTime",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_cli\\gczone.c",
+  "this": null,
+  "params": [
+   [
+    "pMes",
+    "unsigned char*"
+   ]
+  ],
+  "locals": [
+   [
+    "MyIP",
+    "unsigned int"
+   ],
+   [
+    "StrLen",
+    "signed int"
+   ],
+   [
+    "t",
+    "unsigned int"
+   ],
+   [
+    "str",
+    "array"
+   ]
+  ]
+ },
+ "0x10102340": {
+  "ps2": "ntGameInit",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\game_prot\\ntgame.c",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "argbuf",
+    "array"
+   ],
+   [
+    "oraflg",
+    "unsigned int"
+   ],
+   [
+    "startflg",
+    "unsigned int"
+   ],
+   [
+    "year",
+    "unsigned int"
+   ],
+   [
+    "mon",
+    "unsigned int"
+   ],
+   [
+    "day",
+    "unsigned int"
+   ],
+   [
+    "hour",
+    "unsigned int"
+   ],
+   [
+    "min",
+    "unsigned int"
+   ],
+   [
+    "sec",
+    "unsigned int"
+   ],
+   [
+    "POLCON",
+    "signed int"
+   ],
+   [
+    "ProcessID",
+    "unsigned int"
+   ],
+   [
+    "ZCliPort",
+    "unsigned short"
+   ],
+   [
+    "PacketCnt",
+    "unsigned int"
+   ],
+   [
+    "LobbyMode",
+    "signed int"
+   ],
+   [
+    "WorldMode",
+    "signed int"
+   ],
+   [
+    "ZoneMode",
+    "signed int"
+   ],
+   [
+    "CliMode",
+    "signed int"
+   ],
+   [
+    "sPass",
+    "array"
+   ],
+   [
+    "sAccunt",
+    "array"
+   ],
+   [
+    "WorldNo",
+    "unsigned int"
+   ],
+   [
+    "ZoneNo",
+    "unsigned int"
+   ],
+   [
+    "mode",
+    "unsigned int"
+   ],
+   [
+    "ServPort",
+    "unsigned short"
+   ],
+   [
+    "MyIP",
+    "unsigned int"
+   ],
+   [
+    "ServIP",
+    "unsigned int"
+   ],
+   [
+    "CenterIP",
+    "unsigned int"
+   ],
+   [
+    "CenterPort",
+    "unsigned short"
+   ],
+   [
+    "p",
+    "char*"
+   ]
+  ]
+ },
+ "0x1010C990": {
+  "ps2": "DoFileParse__13FDtFileParserFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtFileParser.cpp",
+  "this": "FDtFileParser*",
+  "params": [],
+  "locals": [
+   [
+    "hdr",
+    "FDtFileFormV1_FileHeader*"
+   ],
+   [
+    "stat",
+    "FDtFileReadStat"
+   ]
+  ]
+ },
+ "0x10110180": {
+  "ps2": "writeSection__7FDtLinkCFR13FDtFileWriter",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtLink.cpp",
+  "this": "FDtLink*",
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10110970": {
+  "ps2": "ParseLine__7FDtSlotFUcPC8GNStringUsR8GNString",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtNode.cpp",
+  "this": "FDtSlot*",
+  "params": [
+   [
+    "av",
+    "GNString*"
+   ],
+   [
+    "an",
+    "unsigned short"
+   ]
+  ],
+  "locals": [
+   [
+    "subSlot",
+    "FDtSubSlot*"
+   ],
+   [
+    "subId",
+    "unsigned long"
+   ]
+  ]
+ },
+ "0x10110C30": {
+  "ps2": "writeSection__10FDtSubSlotCFR13FDtFileWriter",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtNode.cpp",
+  "this": "FDtSubSlot*",
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ]
+  ],
+  "locals": [
+   [
+    "label",
+    "GNString"
+   ]
+  ]
+ },
+ "0x10110F00": {
+  "ps2": "writeCommonSection__7FDtNodeCFR13FDtFileWriter",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtNode.cpp",
+  "this": "FDtNode*",
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ]
+  ],
+  "locals": [
+   [
+    "iter",
+    "CGnLinkIter"
+   ],
+   [
+    "nameStr",
+    "GNString"
+   ]
+  ]
+ },
+ "0x10112780": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtObject.cpp",
+  "this": null,
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ],
+   [
+    "indent",
+    "signed int"
+   ],
+   [
+    "cmd",
+    "char*"
+   ],
+   [
+    "label",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "loop",
+    "signed int"
+   ],
+   [
+    "lineBuf",
+    "array"
+   ]
+  ]
+ },
+ "0x10112810": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcPCcUl",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtObject.cpp",
+  "this": null,
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ],
+   [
+    "indent",
+    "signed int"
+   ],
+   [
+    "cmd",
+    "char*"
+   ],
+   [
+    "label",
+    "char*"
+   ],
+   [
+    "id",
+    "unsigned long"
+   ]
+  ],
+  "locals": [
+   [
+    "loop",
+    "signed int"
+   ],
+   [
+    "lineBuf",
+    "array"
+   ]
+  ]
+ },
+ "0x10112880": {
+  "ps2": "writeLine__9FDtObjectCFR13FDtFileWriteriPCcUlUlUl",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\LibFDt\\fdtObject.cpp",
+  "this": null,
+  "params": [
+   [
+    "writer",
+    "FDtFileWriter&"
+   ],
+   [
+    "indent",
+    "signed int"
+   ],
+   [
+    "label",
+    "char*"
+   ],
+   [
+    "id1",
+    "unsigned long"
+   ],
+   [
+    "id2",
+    "unsigned long"
+   ],
+   [
+    "id3",
+    "unsigned long"
+   ]
+  ],
+  "locals": [
+   [
+    "loop",
+    "signed int"
+   ],
+   [
+    "lineBuf",
+    "array"
+   ]
+  ]
+ },
+ "0x10113D30": {
+  "ps2": "__ct__20FDtXiErrorReportCtrlFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\FDtFFXi\\fdtFFXiService.cpp",
+  "this": "FDtXiErrorReportCtrl*",
+  "params": [],
+  "locals": [
+   [
+    "cnt",
+    "signed int"
+   ],
+   [
+    "ehdr",
+    "FDtXiERRORINFOHDR"
+   ],
+   [
+    "curTime",
+    "unsigned int"
+   ],
+   [
+    "sparam",
+    "SemaParam"
+   ]
+  ]
+ },
+ "0x10114B60": {
+  "ps2": "FDtXiInit",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\FDtFFXi\\fdtFFXiService.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "pCtrl",
+    "FDtXiErrorReportCtrl*"
+   ]
+  ]
+ },
+ "0x10114D00": {
+  "ps2": "FDtGetVersionCB__FPvPCcPCcR8GNString",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\FDtFFXi\\fdtFFXiService.cpp",
+  "this": null,
+  "params": [
+   [
+    "resultBuf",
+    "GNString&"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "buf",
+    "array"
+   ],
+   [
+    "exCli",
+    "unsigned int"
+   ],
+   [
+    "exSrv",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x10115020": {
+  "ps2": "FDtGmNoticeProc__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\bug_db\\FDtFFXi\\fdtFFXiService.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "len",
+    "unsigned int"
+   ],
+   [
+    "len",
+    "unsigned int"
+   ],
+   [
+    "len",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x10118900": {
+  "ps2": "GetButtonLocate__15CTkMenuCtrlDataFR6TKRECTi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMenuCtrlData.cpp",
+  "this": "CTkMenuCtrlData*",
+  "params": [
+   [
+    "rect",
+    "TKRECT&"
+   ],
+   [
+    "button_no",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "LocY",
+    "signed int"
+   ],
+   [
+    "LocX",
+    "signed int"
+   ],
+   [
+    "pos",
+    "__POSITION*"
+   ],
+   [
+    "pOb",
+    "CTkObject*"
+   ],
+   [
+    "pDCB",
+    "CTkDrawCtrlButton*"
+   ]
+  ]
+ },
+ "0x10120450": {
+  "ps2": "FindMenuShapeFile__F1",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\miyagawa\\ymmenushape.cpp",
+  "this": null,
+  "params": [
+   [
+    "id",
+    "fund0xa510"
+   ]
+  ],
+  "locals": [
+   [
+    "res",
+    "YmYshRes*"
+   ]
+  ]
+ },
+ "0x10123970": {
+  "ps2": "GetAnalogKey__FUi7KEYTYPE",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkInput.cpp",
+  "this": null,
+  "params": [
+   [
+    "key",
+    "KEYTYPE"
+   ]
+  ],
+  "locals": [
+   [
+    "keyValue",
+    "float"
+   ],
+   [
+    "padValue",
+    "float"
+   ],
+   [
+    "mode",
+    "unsigned short"
+   ]
+  ]
+ },
+ "0x10124440": {
+  "ps2": "__ct__8CTkMouseFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMouse.cpp",
+  "this": "CTkMouse*",
+  "params": [],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10124700": {
+  "ps2": "SetMousePoint__8CTkMouseFR8tagPOINTf",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMouse.cpp",
+  "this": "CTkMouse*",
+  "params": [
+   [
+    "pt",
+    "tagPOINT&"
+   ],
+   [
+    "trainNeck",
+    "float"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10127990": {
+  "ps2": "GetCallNum__FPCcP13TK_DATAHEDDER",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMsgWinData.cpp",
+  "this": null,
+  "params": [
+   [
+    "str",
+    "char*"
+   ],
+   [
+    "pDataHedder",
+    "TK_DATAHEDDER*"
+   ]
+  ],
+  "locals": [
+   [
+    "st",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "toji",
+    "char*"
+   ],
+   [
+    "ch",
+    "signed int"
+   ],
+   [
+    "pwk",
+    "char*"
+   ],
+   [
+    "strwk",
+    "array"
+   ]
+  ]
+ },
+ "0x1012AB00": {
+  "ps2": "Open__14CTkMagicSelectFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMagicSelect.h",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x1012BCA0": {
+  "ps2": "StepoutCallBack__FPvc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkBattleMode.cpp",
+  "this": null,
+  "params": [
+   [
+    "yes",
+    "char"
+   ]
+  ],
+  "locals": []
+ },
+ "0x1012D8C0": {
+  "ps2": "OnDrawPrimitive__12CTkDbAccountFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkDbAccount.cpp",
+  "this": "CTkDbAccount*",
+  "params": [],
+  "locals": [
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "dataTbl",
+    "array"
+   ]
+  ]
+ },
+ "0x1012EFF0": {
+  "ps2": "RequestEnterDeliveryMode__11CTkDeliveryFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkDelivery.cpp",
+  "this": "CTkDelivery*",
+  "params": [],
+  "locals": [
+   [
+    "game_status",
+    "GAME_STATUS"
+   ],
+   [
+    "pXAB",
+    "XiAtelBuff*"
+   ]
+  ]
+ },
+ "0x10133130": {
+  "ps2": "OpenEquip__8CTkEquipFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkEquip.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x10133A80": {
+  "ps2": "OnDrawCalc__10CTkInspectFc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkEquip.cpp",
+  "this": "CTkInspect*",
+  "params": [
+   [
+    "isActive",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "jobName",
+    "char*"
+   ],
+   [
+    "sptr",
+    "char*"
+   ],
+   [
+    "pOpt",
+    "GC_EQUIP_OPT*"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "atel",
+    "XiAtelBuff*"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "targetNo",
+    "unsigned int"
+   ],
+   [
+    "cur",
+    "signed short"
+   ],
+   [
+    "pInfo",
+    "GC_EQUIP_INFO*"
+   ]
+  ]
+ },
+ "0x10134760": {
+  "ps2": "CloseWindows__10CTkInspectFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkEquip.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x10139DC0": {
+  "ps2": "HandOverStart__11CTkHandOverFRC7CHAR_ID",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkHandOver.cpp",
+  "this": "CTkHandOver*",
+  "params": [
+   [
+    "id",
+    "CHAR_ID&"
+   ]
+  ],
+  "locals": []
+ },
+ "0x1013F060": {
+  "ps2": "OpenLoot__7CTkLootFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkLoot.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x1013F9E0": {
+  "ps2": "ShootCallBack__FP10CTkXiActorP7CHAR_ID",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkMagicselect.cpp",
+  "this": null,
+  "params": [
+   [
+    "pId",
+    "CHAR_ID*"
+   ]
+  ],
+  "locals": [
+   [
+    "buf",
+    "array"
+   ]
+  ]
+ },
+ "0x1014CE80": {
+  "ps2": "RequestEnterPostMode__7CTkPostFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkPost.cpp",
+  "this": "CTkPost*",
+  "params": [],
+  "locals": [
+   [
+    "game_status",
+    "GAME_STATUS"
+   ],
+   [
+    "pXAB",
+    "XiAtelBuff*"
+   ]
+  ]
+ },
+ "0x10151CB0": {
+  "ps2": "RequestEnterTradeMode__8CTkTradeFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkTrade.cpp",
+  "this": "CTkTrade*",
+  "params": [],
+  "locals": []
+ },
+ "0x10151D90": {
+  "ps2": "RequestExitTradeMode__8CTkTradeFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkTrade.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x101874F0": {
+  "ps2": "SetWeather__6XiAreaFUi10XiDateTime10XiDateTime",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\zone\\xiarea.cpp",
+  "this": "XiArea*",
+  "params": [
+   [
+    "res_id",
+    "unsigned int"
+   ],
+   [
+    "time",
+    "XiDateTime"
+   ],
+   [
+    "transition",
+    "XiDateTime"
+   ]
+  ],
+  "locals": [
+   [
+    "result",
+    "char"
+   ]
+  ]
+ },
+ "0x1018E1D0": {
+  "ps2": "load__9FsLogPageFPc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsBufferedLog.cpp",
+  "this": "FsLogPage*",
+  "params": [
+   [
+    "fileNameString",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "result",
+    "signed int"
+   ],
+   [
+    "bufferLen",
+    "signed int"
+   ],
+   [
+    "buffer",
+    "char*"
+   ]
+  ]
+ },
+ "0x1018F550": {
+  "ps2": "OnDrawPrimitive__15FsCandidateMenuFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsCandidateMenu.cpp",
+  "this": "FsCandidateMenu*",
+  "params": [],
+  "locals": [
+   [
+    "len",
+    "signed int"
+   ],
+   [
+    "word",
+    "char*"
+   ],
+   [
+    "dat",
+    "FsCandidate*"
+   ],
+   [
+    "tempStr",
+    "array"
+   ],
+   [
+    "tempLen",
+    "signed int"
+   ],
+   [
+    "wordBuffer",
+    "array"
+   ],
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "curserNum",
+    "signed int"
+   ],
+   [
+    "endNum",
+    "signed int"
+   ],
+   [
+    "startingNum",
+    "signed int"
+   ],
+   [
+    "selectedNum",
+    "signed int"
+   ],
+   [
+    "candidateNum",
+    "signed int"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "pt",
+    "tagPOINT"
+   ],
+   [
+    "width",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10190980": {
+  "ps2": "openCSK__10FsCSKLogicF12FS_INPUTSTEP",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fscompactskb.cpp",
+  "this": "FsCSKLogic*",
+  "params": [
+   [
+    "step",
+    "FS_INPUTSTEP"
+   ]
+  ],
+  "locals": [
+   [
+    "logRect",
+    "TKRECT"
+   ]
+  ]
+ },
+ "0x10190B50": {
+  "ps2": "closeCSK__10FsCSKLogicFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fscompactskb.cpp",
+  "this": "FsCSKLogic*",
+  "params": [],
+  "locals": []
+ },
+ "0x101911F0": {
+  "ps2": "_handleToolButton__10FsCSKLogicF15fsCSKToolButton",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fscompactskb.cpp",
+  "this": "FsCSKLogic*",
+  "params": [
+   [
+    "button",
+    "fsCSKToolButton"
+   ]
+  ],
+  "locals": [
+   [
+    "mask",
+    "FS_INPUTMASK"
+   ]
+  ]
+ },
+ "0x10193830": {
+  "ps2": "SetConfig__F9FS_CONFIGi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsConfig.cpp",
+  "this": null,
+  "params": [
+   [
+    "configKey",
+    "FS_CONFIG"
+   ],
+   [
+    "configValue",
+    "signed int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10193BF0": {
+  "ps2": "__ct__8FsConfigFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsConfig.cpp",
+  "this": "FsConfig*",
+  "params": [],
+  "locals": []
+ },
+ "0x10196770": {
+  "ps2": "OnKeyDown__16FsMainConfigMenuFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsConfigMenu.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "id",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101984F0": {
+  "ps2": "OnKeyDown__21FsTextColorConfigMenuFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsConfigMenu.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "id",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10198800": {
+  "ps2": "OnKeyDown__23FsTextColorCategoryMenuFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsConfigMenu.cpp",
+  "this": "FsTextColorCategoryMenu*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "id",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "cursor",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1019DFF0": {
+  "ps2": "OnDrawPrimitive__10FsIBarMenuFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsInstallerMenu.cpp",
+  "this": "FsIBarMenu*",
+  "params": [],
+  "locals": [
+   [
+    "fPercent",
+    "float"
+   ],
+   [
+    "percent",
+    "signed int"
+   ],
+   [
+    "pShape",
+    "CShape*"
+   ],
+   [
+    "shapeList",
+    "YmYshRes*"
+   ]
+  ]
+ },
+ "0x1019F1E0": {
+  "ps2": "OnDrawPrimitive__12FsFepPaletteFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsFepPalette.cpp",
+  "this": "FsFepPalette*",
+  "params": [],
+  "locals": [
+   [
+    "shape",
+    "YmMenuShape*"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ]
+  ]
+ },
+ "0x1019FD50": {
+  "ps2": "handleFileEvent__19FsFileThreadManagerF11FsFileEvent",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsFileThread.cpp",
+  "this": null,
+  "params": [
+   [
+    "event",
+    "FsFileEvent&"
+   ]
+  ],
+  "locals": [
+   [
+    "sleeper",
+    "FsSleeper"
+   ],
+   [
+    "errorString",
+    "array"
+   ],
+   [
+    "retry",
+    "signed int"
+   ],
+   [
+    "result",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101A1FE0": {
+  "ps2": "loadCallback__16FsMacroContainerF13FS_LOADRESULTPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsMacro.cpp",
+  "this": null,
+  "params": [
+   [
+    "result",
+    "FS_LOADRESULT"
+   ],
+   [
+    "data",
+    "void*"
+   ]
+  ],
+  "locals": [
+   [
+    "Macro",
+    "array"
+   ],
+   [
+    "container",
+    "FsMacroContainer*"
+   ]
+  ]
+ },
+ "0x101AB6A0": {
+  "ps2": "FsGameServerStart__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fsmain.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "result",
+    "char"
+   ]
+  ]
+ },
+ "0x101AD290": {
+  "ps2": "__ct__11FsPreParserFP11FsTextInput",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsPreParser.cpp",
+  "this": "FsPreParser*",
+  "params": [
+   [
+    "textInput",
+    "FsTextInput*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101ADC30": {
+  "ps2": "_setHeader__11FsPreParserFPc12FS_CMD_INDEX",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsPreParser.cpp",
+  "this": null,
+  "params": [
+   [
+    "buffer",
+    "char*"
+   ],
+   [
+    "index",
+    "FS_CMD_INDEX"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101AE010": {
+  "ps2": "CanUseShortcut__10FsShortcutF16FS_SHORTCUTLEVEL",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsShortcut.cpp",
+  "this": null,
+  "params": [
+   [
+    "level",
+    "FS_SHORTCUTLEVEL"
+   ]
+  ],
+  "locals": [
+   [
+    "pAct",
+    "CTkXiControlActor*"
+   ],
+   [
+    "pAtel",
+    "XiAtelBuff*"
+   ]
+  ]
+ },
+ "0x101AE140": {
+  "ps2": "__ct__17FsShortcutManagerFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsShortcut.cpp",
+  "this": "FsShortcutManager*",
+  "params": [],
+  "locals": []
+ },
+ "0x101AE8E0": {
+  "ps2": "DoReply__17FsShortcutManagerFPCc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsShortcut.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "tmp",
+    "array"
+   ],
+   [
+    "pName",
+    "char*"
+   ]
+  ]
+ },
+ "0x101B00B0": {
+  "ps2": "_handleKeyboardInputs__14FsPs2TextInputFcccc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": "FsPs2TextInput*",
+  "params": [
+   [
+    "keycode",
+    "char"
+   ],
+   [
+    "shift",
+    "char"
+   ],
+   [
+    "alt",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "candidateList",
+    "sqtagCANDIDATELIST*"
+   ],
+   [
+    "loop",
+    "signed int"
+   ],
+   [
+    "size",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "loop",
+    "signed int"
+   ],
+   [
+    "sentence",
+    "unsigned int"
+   ],
+   [
+    "conversion",
+    "unsigned int"
+   ],
+   [
+    "candidateCount",
+    "unsigned int"
+   ],
+   [
+    "result",
+    "signed int"
+   ],
+   [
+    "len",
+    "signed int"
+   ],
+   [
+    "buffer",
+    "array"
+   ]
+  ]
+ },
+ "0x101B4450": {
+  "ps2": "FsSjisToAscii__Fi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": null,
+  "params": [
+   [
+    "sjisCode",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "asciiCode",
+    "unsigned char"
+   ],
+   [
+    "sjisCodeTemp",
+    "signed int"
+   ],
+   [
+    "LoopCnt",
+    "signed int"
+   ],
+   [
+    "p_sjisToAscii",
+    "unsigned char*"
+   ]
+  ]
+ },
+ "0x101B5210": {
+  "ps2": "init__11FsTextInputFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": "FsTextInput*",
+  "params": [],
+  "locals": []
+ },
+ "0x101B5370": {
+  "ps2": "onSoftKeyEvent__11FsTextInputFUiUiUi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": "FsTextInput*",
+  "params": [
+   [
+    "argument",
+    "unsigned int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101B5470": {
+  "ps2": "getDisplayString__11FsTextInputFPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": "FsTextInput*",
+  "params": [
+   [
+    "bufferPtr",
+    "char*"
+   ],
+   [
+    "bufferLen",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "p",
+    "char*"
+   ],
+   [
+    "cursorPos",
+    "signed int"
+   ],
+   [
+    "contentLen",
+    "signed int"
+   ],
+   [
+    "workingLen",
+    "signed int"
+   ],
+   [
+    "workingBuffer",
+    "array"
+   ],
+   [
+    "tempLen",
+    "signed int"
+   ],
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "indexLen",
+    "signed int"
+   ],
+   [
+    "indexString",
+    "char*"
+   ]
+  ]
+ },
+ "0x101B5BC0": {
+  "ps2": "copyDecidedString__11FsTextInputFPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\fstextinput.cpp",
+  "this": "FsTextInput*",
+  "params": [
+   [
+    "buffer",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "indexedStringLen",
+    "signed int"
+   ],
+   [
+    "indexedStringPtr",
+    "char*"
+   ]
+  ]
+ },
+ "0x101B7FD0": {
+  "ps2": "OnDrawPrimitive__18FsTextInputDisplayFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsTextInputDisplay.cpp",
+  "this": "FsTextInputDisplay*",
+  "params": [],
+  "locals": [
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "tempIndex",
+    "FS_CMD_INDEX"
+   ],
+   [
+    "cursor",
+    "char"
+   ],
+   [
+    "commandBuffer",
+    "array"
+   ],
+   [
+    "displayBufferLen",
+    "signed int"
+   ],
+   [
+    "displayBuffer",
+    "array"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "yCoord",
+    "signed int"
+   ],
+   [
+    "xCoord",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101B9690": {
+  "ps2": "init__12FsTinyStringFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsTinyString.cpp",
+  "this": "FsTinyString*",
+  "params": [],
+  "locals": []
+ },
+ "0x101BAAC0": {
+  "ps2": "loadData__14FsWordCategoryFR17FS_CATEGORYHEADERPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsWordCategory.cpp",
+  "this": "FsWordCategory*",
+  "params": [
+   [
+    "header",
+    "FS_CATEGORYHEADER&"
+   ],
+   [
+    "data",
+    "char*"
+   ],
+   [
+    "dataLen",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "wordIndex",
+    "signed int"
+   ],
+   [
+    "tempWord",
+    "FsWordEntry*"
+   ],
+   [
+    "bestSoFar",
+    "signed int"
+   ],
+   [
+    "searcher",
+    "signed int"
+   ],
+   [
+    "index",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101BBE60": {
+  "ps2": "getEntryList__16FsWordCompletionFP11FsWordEntryPi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsWordCompletion.cpp",
+  "this": "FsWordCompletion*",
+  "params": [
+   [
+    "list",
+    "FsWordEntry*"
+   ],
+   [
+    "listNum",
+    "signed int*"
+   ]
+  ],
+  "locals": [
+   [
+    "catePtr",
+    "FsWordCategory*"
+   ],
+   [
+    "cate",
+    "signed int"
+   ],
+   [
+    "same",
+    "char"
+   ],
+   [
+    "n",
+    "signed int"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101BC100": {
+  "ps2": "lookUp__16FsWordCompletionF5FS_IDPci",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsWordCompletion.cpp",
+  "this": "FsWordCompletion*",
+  "params": [
+   [
+    "id",
+    "FS_ID"
+   ],
+   [
+    "buffer",
+    "char*"
+   ],
+   [
+    "bufferLen",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "word",
+    "FsWordEntry*"
+   ],
+   [
+    "pIDM",
+    "TKITEM_BINDATA*"
+   ],
+   [
+    "item",
+    "unsigned short"
+   ],
+   [
+    "len",
+    "signed int"
+   ],
+   [
+    "categoryID",
+    "FS_ID"
+   ],
+   [
+    "categoryPtr",
+    "FsWordCategory*"
+   ]
+  ]
+ },
+ "0x101BC520": {
+  "ps2": "_prepareAllData__16FsWordCompletionF11FS_LANGUAGE",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsWordCompletion.cpp",
+  "this": "FsWordCompletion*",
+  "params": [],
+  "locals": [
+   [
+    "c",
+    "signed int"
+   ],
+   [
+    "d",
+    "signed int"
+   ],
+   [
+    "k",
+    "signed int"
+   ],
+   [
+    "stringPtr",
+    "char*"
+   ],
+   [
+    "lastEntry",
+    "FsWordEntry*"
+   ],
+   [
+    "tempWord",
+    "FsWordEntry*"
+   ],
+   [
+    "bestSoFar",
+    "signed int"
+   ],
+   [
+    "searcher",
+    "signed int"
+   ],
+   [
+    "index",
+    "signed int"
+   ],
+   [
+    "totalWordNum",
+    "signed int"
+   ],
+   [
+    "ptr",
+    "signed int"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "wordListLen",
+    "array"
+   ],
+   [
+    "wordListPtr",
+    "array"
+   ]
+  ]
+ },
+ "0x101BC9E0": {
+  "ps2": "__ct__8FsMemoryFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\FsWordEntry.cpp",
+  "this": "FsMemory*",
+  "params": [
+   [
+    "size",
+    "signed int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101C3400": {
+  "ps2": "_readNumFile__10XiFileImplFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\XiFileImpl.cpp",
+  "this": "XiFileImpl*",
+  "params": [],
+  "locals": [
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "fileSize",
+    "signed int"
+   ],
+   [
+    "versionBuffer",
+    "unsigned char*"
+   ],
+   [
+    "ftableBuffer",
+    "unsigned short*"
+   ],
+   [
+    "tempBuffer",
+    "array"
+   ],
+   [
+    "event",
+    "FsFileEvent"
+   ]
+  ]
+ },
+ "0x101C3900": {
+  "ps2": "_readCdvdNumFile__10XiFileImplFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\XiFileImpl.cpp",
+  "this": "XiFileImpl*",
+  "params": [],
+  "locals": [
+   [
+    "event",
+    "FsFileEvent"
+   ]
+  ]
+ },
+ "0x101C3A90": {
+  "ps2": "_getFileName__10XiFileImplFiPPc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\XiFileImpl.cpp",
+  "this": "XiFileImpl*",
+  "params": [
+   [
+    "fileNo",
+    "signed int"
+   ],
+   [
+    "pFileName",
+    "char**"
+   ]
+  ],
+  "locals": [
+   [
+    "done",
+    "char"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "temp",
+    "array"
+   ],
+   [
+    "nVersion",
+    "unsigned char"
+   ],
+   [
+    "numPath",
+    "unsigned short"
+   ],
+   [
+    "offset",
+    "unsigned int"
+   ]
+  ]
+ },
+ "0x101C43A0": {
+  "ps2": "_addNameFile__10XiFileImplFPCc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\fshira\\XiFileImpl.cpp",
+  "this": "XiFileImpl*",
+  "params": [
+   [
+    "datFile",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "event",
+    "FsFileEvent"
+   ],
+   [
+    "readSize",
+    "signed int"
+   ],
+   [
+    "fileSize",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101C8950": {
+  "ps2": "YkCommonInit__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykCommon.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101C93C0": {
+  "ps2": "DrawTime__12CTkSubWindowFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\TkSubWindow.cpp",
+  "this": "CTkSubWindow*",
+  "params": [],
+  "locals": [
+   [
+    "y",
+    "signed short"
+   ],
+   [
+    "x",
+    "signed short"
+   ],
+   [
+    "buf",
+    "array"
+   ]
+  ]
+ },
+ "0x101CFA00": {
+  "ps2": "CutColor__6YkJpegFPUi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykJpeg.cpp",
+  "this": "YkJpeg*",
+  "params": [
+   [
+    "blk",
+    "unsigned int*"
+   ]
+  ],
+  "locals": [
+   [
+    "b",
+    "float"
+   ],
+   [
+    "g",
+    "float"
+   ],
+   [
+    "r",
+    "float"
+   ],
+   [
+    "c",
+    "array"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101D11C0": {
+  "ps2": "YkInit__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMain.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x101D22D0": {
+  "ps2": "YkChangeDebugByStr__FPc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMain.cpp",
+  "this": null,
+  "params": [
+   [
+    "str",
+    "char*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101D2CC0": {
+  "ps2": "__ct__8YkMyroomFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMyroom.cpp",
+  "this": "YkMyroom*",
+  "params": [
+   [
+    "mapno",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "act",
+    "CTkXiActor*"
+   ],
+   [
+    "trg",
+    "array"
+   ],
+   [
+    "id",
+    "array"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101D3380": {
+  "ps2": "ChangeMode__8YkMyroomFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMyroom.cpp",
+  "this": "YkMyroom*",
+  "params": [
+   [
+    "mode",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "v",
+    "array"
+   ]
+  ]
+ },
+ "0x101D4080": {
+  "ps2": "SetCamera__8YkMyroomFP10CTkXiActorff",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMyroom.cpp",
+  "this": null,
+  "params": [
+   [
+    "pAct",
+    "CTkXiActor*"
+   ]
+  ],
+  "locals": [
+   [
+    "pCam",
+    "YmCameraManager*"
+   ],
+   [
+    "eye",
+    "array"
+   ],
+   [
+    "at",
+    "array"
+   ],
+   [
+    "tmp",
+    "array"
+   ]
+  ]
+ },
+ "0x101D6040": {
+  "ps2": "TargetActionTk__FP10CTkXiActor",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMyroom.cpp",
+  "this": null,
+  "params": [
+   [
+    "pAct",
+    "CTkXiActor*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101D6110": {
+  "ps2": "OpenMyroomMenu__Fc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykMyroom.cpp",
+  "this": null,
+  "params": [
+   [
+    "outside",
+    "char"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101D82C0": {
+  "ps2": "CloseWindow__16YkWndAuctionItemFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndAuction.cpp",
+  "this": "YkWndAuctionItem*",
+  "params": [],
+  "locals": [
+   [
+    "wk",
+    "_YK_SEARCH_DATA*"
+   ]
+  ]
+ },
+ "0x101D8580": {
+  "ps2": "OnKeyOK__16YkWndAuctionItemFs",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndAuction.cpp",
+  "this": "YkWndAuctionItem*",
+  "params": [],
+  "locals": [
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "Mes",
+    "SYSMES"
+   ],
+   [
+    "pAD",
+    "GP_AUC_BOX*"
+   ],
+   [
+    "box",
+    "signed int"
+   ],
+   [
+    "wk",
+    "_YK_SEARCH_DATA*"
+   ],
+   [
+    "wk",
+    "GP_AUC_BOX*"
+   ]
+  ]
+ },
+ "0x101D88D0": {
+  "ps2": "CloseWindow__19YkWndAuctionHistoryFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndAuction.cpp",
+  "this": "YkWndAuctionHistory*",
+  "params": [],
+  "locals": []
+ },
+ "0x101D9330": {
+  "ps2": "OnKeyDown__18YkWndAuctionMarketFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndAuction.cpp",
+  "this": "YkWndAuctionMarket*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "pIDM",
+    "CTkItemDataMenber*"
+   ],
+   [
+    "_type",
+    "signed int"
+   ],
+   [
+    "item",
+    "unsigned short"
+   ],
+   [
+    "wk",
+    "_YK_SEARCH_DATA*"
+   ]
+  ]
+ },
+ "0x101DA770": {
+  "ps2": "OnOK__15YkWndAuctionSubFs",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndAuction.cpp",
+  "this": null,
+  "params": [
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaAuctionQInfo*"
+   ]
+  ]
+ },
+ "0x101DC880": {
+  "ps2": "Open__9YkWndBankFP13YkWndItemCtrl",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndBank.cpp",
+  "this": "YkWndBank*",
+  "params": [
+   [
+    "ctrl",
+    "YkWndItemCtrl*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101DD780": {
+  "ps2": "DecodePrint__17YkWndBazarMessageFPUcP14FFWCaReplyInfo",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndBazar.cpp",
+  "this": null,
+  "params": [
+   [
+    "mess",
+    "unsigned char*"
+   ],
+   [
+    "info",
+    "FFWCaReplyInfo*"
+   ]
+  ],
+  "locals": [
+   [
+    "buf2",
+    "array"
+   ],
+   [
+    "buf",
+    "array"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "k",
+    "signed int"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101DEF70": {
+  "ps2": "CloseBlack__14YkWndBlackMainFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndBlack.cpp",
+  "this": "YkWndBlackMain*",
+  "params": [],
+  "locals": []
+ },
+ "0x101E0940": {
+  "ps2": "Recv__12YkWndCombineFP15_GP_COMBINE_ANS",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndCombine.cpp",
+  "this": null,
+  "params": [
+   [
+    "ans",
+    "_GP_COMBINE_ANS*"
+   ]
+  ],
+  "locals": [
+   [
+    "buf",
+    "array"
+   ]
+  ]
+ },
+ "0x101E3B40": {
+  "ps2": "MakeList__14YkWndClinkItemFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndComlink.cpp",
+  "this": "YkWndClinkItem*",
+  "params": [],
+  "locals": [
+   [
+    "color",
+    "unsigned long"
+   ],
+   [
+    "usecolor",
+    "unsigned long"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "itemmax",
+    "signed short"
+   ],
+   [
+    "equip",
+    "unsigned char"
+   ],
+   [
+    "ext",
+    "NETCOMMON_COMLINK_DATA*"
+   ],
+   [
+    "data",
+    "_YK_COMLINK_ITEM_DATA*"
+   ],
+   [
+    "pIDM",
+    "TKITEM_BINDATA*"
+   ],
+   [
+    "pID",
+    "GC_ITEM_DATA*"
+   ],
+   [
+    "wk",
+    "YkWndListItem*"
+   ]
+  ]
+ },
+ "0x101E4570": {
+  "ps2": "CloseClinkItem__14YkWndClinkItemFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndComlink.cpp",
+  "this": "YkWndClinkItem*",
+  "params": [],
+  "locals": []
+ },
+ "0x101E5030": {
+  "ps2": "CloseWindow__14YkWndClinkListFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndComlink.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x101E5490": {
+  "ps2": "OnKeyDown__14YkWndClinkNameFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndComlink.cpp",
+  "this": "YkWndClinkName*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "cur",
+    "_YK_COMLINK_ITEM_DATA*"
+   ]
+  ]
+ },
+ "0x101E61B0": {
+  "ps2": "OnKeyDown__20YkWndClinkItemMenu1AFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndComlink.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "cur",
+    "_YK_COMLINK_ITEM_DATA*"
+   ]
+  ]
+ },
+ "0x101EB040": {
+  "ps2": "MakeList__15YkWndFriendMainFc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndFriend.cpp",
+  "this": "YkWndFriendMain*",
+  "params": [],
+  "locals": [
+   [
+    "info",
+    "tagFriendInfo*"
+   ],
+   [
+    "data",
+    "_YK_FRIEND_DATA*"
+   ],
+   [
+    "wk",
+    "YkWndListItem*"
+   ],
+   [
+    "first",
+    "array"
+   ],
+   [
+    "type",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101EB600": {
+  "ps2": "OnDestroy__15YkWndFriendMainFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndFriend.cpp",
+  "this": "YkWndFriendMain*",
+  "params": [],
+  "locals": []
+ },
+ "0x101EB660": {
+  "ps2": "OpenFriend__15YkWndFriendMainFc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndFriend.cpp",
+  "this": "YkWndFriendMain*",
+  "params": [
+   [
+    "search",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "wk",
+    "YmMenuShapeFile*"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101EB9D0": {
+  "ps2": "OnKeyDown__19YkWndFriendMenuMessFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndFriend.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "str",
+    "char*"
+   ],
+   [
+    "wk",
+    "_YK_FRIEND_DATA*"
+   ]
+  ]
+ },
+ "0x101EBC80": {
+  "ps2": "OnKeyDown__19YkWndFriendMenuMainFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndFriend.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101ED810": {
+  "ps2": "RecvGuildOpen__14YkWndGuildMainFP7GC_ZONEP19GP_GAME_PACKET_HEADP14_GP_GUILD_OPEN",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndGuild.cpp",
+  "this": null,
+  "params": [
+   [
+    "pData",
+    "_GP_GUILD_OPEN*"
+   ]
+  ],
+  "locals": [
+   [
+    "actIndex",
+    "unsigned short"
+   ],
+   [
+    "buf",
+    "array"
+   ],
+   [
+    "tmp",
+    "signed int"
+   ],
+   [
+    "end",
+    "signed int"
+   ],
+   [
+    "start",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101EF0A0": {
+  "ps2": "OnDrawCalc__10YkWndImageFc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndImage.cpp",
+  "this": "YkWndImage*",
+  "params": [
+   [
+    "isActive",
+    "char"
+   ]
+  ],
+  "locals": [
+   [
+    "pos",
+    "tagPOINT"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "pos",
+    "tagPOINT"
+   ],
+   [
+    "ly",
+    "float"
+   ],
+   [
+    "lx",
+    "float"
+   ],
+   [
+    "ds",
+    "float"
+   ],
+   [
+    "dy",
+    "float"
+   ],
+   [
+    "dx",
+    "float"
+   ]
+  ]
+ },
+ "0x101F23A0": {
+  "ps2": "Open__9YkWndItemFP13YkWndItemCtrl",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndItem.cpp",
+  "this": "YkWndItem*",
+  "params": [
+   [
+    "ctrl",
+    "YkWndItemCtrl*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x101FC070": {
+  "ps2": "OnKeyDown__12YkWndMapListFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndMap.cpp",
+  "this": "YkWndMapList*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "pData",
+    "_YK_MARK_DATA*"
+   ],
+   [
+    "kind",
+    "signed int"
+   ]
+  ]
+ },
+ "0x101FF3E0": {
+  "ps2": "OnKeyDown__12YkWndMessageFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndMessage.cpp",
+  "this": "YkWndMessage*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "PolMsgTitle2",
+    "array"
+   ],
+   [
+    "PolMsgTitle",
+    "array"
+   ],
+   [
+    "knockname",
+    "array"
+   ],
+   [
+    "world",
+    "char*"
+   ],
+   [
+    "ret",
+    "FFPolMsg_STATUS"
+   ]
+  ]
+ },
+ "0x10200BE0": {
+  "ps2": "Open__16YkWndMessageListFUli",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndMessage.cpp",
+  "this": "YkWndMessageList*",
+  "params": [
+   [
+    "polid",
+    "unsigned long"
+   ],
+   [
+    "hnnum",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "wk",
+    "YmMenuShapeFile*"
+   ]
+  ]
+ },
+ "0x10200C90": {
+  "ps2": "Close__16YkWndMessageListFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndMessage.cpp",
+  "this": "YkWndMessageList*",
+  "params": [],
+  "locals": []
+ },
+ "0x10200DE0": {
+  "ps2": "YkRecvCallBack__FPvUs15FFPolMsg_STATUSUsPC18FFPolMsg_MsgStruct",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndMessage.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "unsigned short"
+   ],
+   [
+    "status",
+    "FFPolMsg_STATUS"
+   ],
+   [
+    "msg",
+    "FFPolMsg_MsgStruct*"
+   ]
+  ],
+  "locals": [
+   [
+    "str",
+    "array"
+   ],
+   [
+    "th",
+    "TK_DATAHEDDER"
+   ],
+   [
+    "yktype",
+    "signed int"
+   ]
+  ]
+ },
+ "0x102016E0": {
+  "ps2": "OpenPartyMenu__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndParty.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "pty",
+    "_YK_PARTY_INFO*"
+   ]
+  ]
+ },
+ "0x10205ED0": {
+  "ps2": "OnOK__17YkWndPartyLeader1Fs",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndParty.cpp",
+  "this": "YkWndPartyLeader1*",
+  "params": [
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10206540": {
+  "ps2": "Open__11YkWndPasswdFPFPvPc_vPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndPasswd.cpp",
+  "this": "YkWndPasswd*",
+  "params": [
+   [
+    "func",
+    "func_type*"
+   ],
+   [
+    "user",
+    "void*"
+   ]
+  ],
+  "locals": []
+ },
+ "0x1020D5E0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuRankFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020D670": {
+  "ps2": "OnKeyDown__18YkWndSearchMenuJobFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020D6E0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuLandFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020D750": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuRaceFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020D7F0": {
+  "ps2": "OnKeyDown__22YkWndSearchMenuCommentFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": "YkWndSearchMenuComment*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020DD50": {
+  "ps2": "OnKeyDown__17YkWndSearchMenuLvFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": "YkWndSearchMenuLv*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x1020E3A0": {
+  "ps2": "OnKeyDown__19YkWndSearchMenuNameFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndSearch.cpp",
+  "this": "YkWndSearchMenuName*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "idx",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "info",
+    "FFWCaQueryExInfo*"
+   ]
+  ]
+ },
+ "0x10210310": {
+  "ps2": "__ct__9YkWndShopFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndShop.cpp",
+  "this": "YkWndShop*",
+  "params": [],
+  "locals": []
+ },
+ "0x10210CA0": {
+  "ps2": "RecvShopOpen__13YkWndShopMainFP7GC_ZONEP19GP_GAME_PACKET_HEADP17GP_SERV_SHOP_OPEN",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\yk\\ykWndShop.cpp",
+  "this": null,
+  "params": [
+   [
+    "pData",
+    "GP_SERV_SHOP_OPEN*"
+   ]
+  ],
+  "locals": [
+   [
+    "actIndex",
+    "unsigned short"
+   ]
+  ]
+ },
+ "0x102197F0": {
+  "ps2": "beginFinalOperation__11FaqWndMainWFP14FDtFFXiBrowser",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\faq\\faqMainWindow.cpp",
+  "this": "FaqWndMainW*",
+  "params": [
+   [
+    "bp",
+    "FDtFFXiBrowser*"
+   ]
+  ],
+  "locals": [
+   [
+    "msg",
+    "SYSMES"
+   ],
+   [
+    "pAttrVal",
+    "GNString*"
+   ],
+   [
+    "doExecGiveup",
+    "unsigned char"
+   ],
+   [
+    "doExecPolExit",
+    "unsigned char"
+   ],
+   [
+    "doExecLogout",
+    "unsigned char"
+   ],
+   [
+    "hp",
+    "FDtHist*"
+   ]
+  ]
+ },
+ "0x1021AD50": {
+  "ps2": "onFileViewDraw__11FaqWndMainWFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\faq\\faqMainWindow.cpp",
+  "this": "FaqWndMainW*",
+  "params": [],
+  "locals": [
+   [
+    "ftm",
+    "FaqTime*"
+   ],
+   [
+    "ftm",
+    "FaqTime*"
+   ],
+   [
+    "tp",
+    "tm*"
+   ],
+   [
+    "t",
+    "signed long"
+   ],
+   [
+    "cnt",
+    "signed int"
+   ],
+   [
+    "tbl",
+    "FDtXiERRORINFO*"
+   ],
+   [
+    "size",
+    "unsigned int"
+   ],
+   [
+    "markTextBox",
+    "FaqWndTextBox"
+   ],
+   [
+    "nameTextBox",
+    "FaqWndTextBox"
+   ],
+   [
+    "errString",
+    "array"
+   ],
+   [
+    "y",
+    "signed short"
+   ],
+   [
+    "pos",
+    "unsigned short"
+   ],
+   [
+    "i",
+    "unsigned short"
+   ],
+   [
+    "y",
+    "signed short"
+   ],
+   [
+    "fileName",
+    "array"
+   ],
+   [
+    "markTextBox",
+    "FaqWndTextBox"
+   ],
+   [
+    "nameTextBox",
+    "FaqWndTextBox"
+   ]
+  ]
+ },
+ "0x10221300": {
+  "ps2": "ResetLoadMes__9KaHelpMesFUi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kahelp.cpp",
+  "this": "KaHelpMes*",
+  "params": [
+   [
+    "id",
+    "unsigned int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10224EF0": {
+  "ps2": "UseCallBack__FP10CTkXiActorP7CHAR_ID",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kamenuability.cpp",
+  "this": null,
+  "params": [
+   [
+    "pId",
+    "CHAR_ID*"
+   ]
+  ],
+  "locals": [
+   [
+    "pDat",
+    "KaDataAbility*"
+   ],
+   [
+    "buff",
+    "array"
+   ]
+  ]
+ },
+ "0x1022AAA0": {
+  "ps2": "OnKeyDown__12KaMenuEvitemFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kamenuevitem.cpp",
+  "this": "KaMenuEvitem*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "id",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "idx",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1022B220": {
+  "ps2": "KaMenuMagicOpenMenu__Fic",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kamenumagic.cpp",
+  "this": null,
+  "params": [
+   [
+    "type",
+    "signed int"
+   ],
+   [
+    "exchg",
+    "char"
+   ]
+  ],
+  "locals": []
+ },
+ "0x1022D140": {
+  "ps2": "CastCallBack__FP10CTkXiActorP7CHAR_ID",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kamenumagic.cpp",
+  "this": null,
+  "params": [
+   [
+    "pId",
+    "CHAR_ID*"
+   ]
+  ],
+  "locals": [
+   [
+    "pDat",
+    "KaDataMagic*"
+   ],
+   [
+    "buff",
+    "array"
+   ]
+  ]
+ },
+ "0x10230230": {
+  "ps2": "OnKeyDown__11KaMenuQuestFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\akaza\\kamenuquest.cpp",
+  "this": "KaMenuQuest*",
+  "params": [
+   [
+    "type",
+    "signed short"
+   ],
+   [
+    "id",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x102352F0": {
+  "ps2": "Create_Galka_Names__FPc",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\RhGalka.c",
+  "this": null,
+  "params": [
+   [
+    "namestring",
+    "char*"
+   ]
+  ],
+  "locals": [
+   [
+    "tempstring_n",
+    "array"
+   ],
+   [
+    "tempstring_a",
+    "array"
+   ],
+   [
+    "result",
+    "signed int"
+   ],
+   [
+    "last_total",
+    "signed int"
+   ],
+   [
+    "curr_total",
+    "signed int"
+   ],
+   [
+    "chosen_file_segment",
+    "signed int"
+   ],
+   [
+    "chosen_file",
+    "signed int"
+   ],
+   [
+    "chosen_word",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10237580": {
+  "ps2": "DispRace__11CIwRaceMenuFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwCharMake.cpp",
+  "this": "CIwRaceMenu*",
+  "params": [
+   [
+    "no",
+    "signed int"
+   ]
+  ],
+  "locals": []
+ },
+ "0x10238F30": {
+  "ps2": "OnKeyDown__11CIwTownMenuFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwCharMake.cpp",
+  "this": "CIwTownMenu*",
+  "params": [
+   [
+    "onKey",
+    "signed short"
+   ],
+   [
+    "buttonNo",
+    "signed short"
+   ]
+  ],
+  "locals": []
+ },
+ "0x1023AC40": {
+  "ps2": "clearmenuall__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwCharMake.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x1023E400": {
+  "ps2": "IwConfirmConst__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwEtcMenu.cpp",
+  "this": null,
+  "params": [],
+  "locals": []
+ },
+ "0x1023E7E0": {
+  "ps2": "PatchStartProc__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwEtcMenu.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "msg1",
+    "array"
+   ],
+   [
+    "dstix",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1023E830": {
+  "ps2": "__ct__9CIwHnListFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwHn.cpp",
+  "this": "CIwHnList*",
+  "params": [],
+  "locals": []
+ },
+ "0x10241250": {
+  "ps2": "OnDrawPrimitive__12CIwPatchSub4Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwPatch.cpp",
+  "this": "CIwPatchSub4*",
+  "params": [],
+  "locals": [
+   [
+    "tmp",
+    "array"
+   ],
+   [
+    "ofs",
+    "signed int"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "helpmes",
+    "array"
+   ]
+  ]
+ },
+ "0x10241E00": {
+  "ps2": "OnDrawPrimitive__13CIwSelectMenuFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\tk\\IwSelectMenu.cpp",
+  "this": "CIwSelectMenu*",
+  "params": [],
+  "locals": [
+   [
+    "lastY",
+    "signed int"
+   ],
+   [
+    "orgY",
+    "signed int"
+   ],
+   [
+    "orgX",
+    "signed int"
+   ],
+   [
+    "multY",
+    "float"
+   ],
+   [
+    "multX",
+    "float"
+   ],
+   [
+    "color",
+    "unsigned int"
+   ],
+   [
+    "actor",
+    "XiDancerActor*"
+   ],
+   [
+    "len",
+    "unsigned short"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ],
+   [
+    "tmp",
+    "array"
+   ],
+   [
+    "select",
+    "signed int"
+   ],
+   [
+    "diffX",
+    "signed short"
+   ],
+   [
+    "y",
+    "signed int"
+   ],
+   [
+    "x",
+    "signed int"
+   ],
+   [
+    "rect",
+    "TKRECT"
+   ],
+   [
+    "wk",
+    "YmMenuShapeFile*"
+   ]
+  ]
+ },
+ "0x1024C530": {
+  "ps2": "OnInitialUpdatePrimitive__15JkJobChangeRootFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\JkJobChange.cpp",
+  "this": "JkJobChangeRoot*",
+  "params": [],
+  "locals": [
+   [
+    "myroomInfo",
+    "GP_MYROOM_DANCER*"
+   ],
+   [
+    "wk",
+    "YmMenuShapeFile*"
+   ],
+   [
+    "name",
+    "char*"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1024C680": {
+  "ps2": "OnDestroyPrimitive__15JkJobChangeRootFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\JkJobChange.cpp",
+  "this": "JkJobChangeRoot*",
+  "params": [],
+  "locals": []
+ },
+ "0x1024C710": {
+  "ps2": "OnKeyDown__15JkJobChangeRootFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\JkJobChange.cpp",
+  "this": "JkJobChangeRoot*",
+  "params": [
+   [
+    "onKey",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "scrPos",
+    "array"
+   ],
+   [
+    "nxtJobNdx",
+    "signed int"
+   ],
+   [
+    "dir",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1024C9F0": {
+  "ps2": "OnKeyDown__15JkJobChangeKindFss",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\JkJobChange.cpp",
+  "this": null,
+  "params": [
+   [
+    "onKey",
+    "signed short"
+   ],
+   [
+    "buttonNo",
+    "signed short"
+   ]
+  ],
+  "locals": [
+   [
+    "jobNdx",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1024CC30": {
+  "ps2": "_JkJobChangeInit__Fv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\JkJobChange.cpp",
+  "this": null,
+  "params": [],
+  "locals": [
+   [
+    "myroomInfo",
+    "GP_MYROOM_DANCER*"
+   ],
+   [
+    "hairNdx",
+    "signed int"
+   ],
+   [
+    "sizeNdx",
+    "signed int"
+   ],
+   [
+    "faceNdx",
+    "signed int"
+   ],
+   [
+    "raceNdx",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10251500": {
+  "ps2": "Update__8StDancerFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\StDancer.cpp",
+  "this": "StDancer*",
+  "params": [],
+  "locals": [
+   [
+    "doSet",
+    "signed int"
+   ],
+   [
+    "i",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10251890": {
+  "ps2": "SetJobLock__8StDancerFi",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\StDancer.cpp",
+  "this": "StDancer*",
+  "params": [
+   [
+    "jobNdx",
+    "signed int"
+   ]
+  ],
+  "locals": [
+   [
+    "doSet",
+    "signed int"
+   ]
+  ]
+ },
+ "0x10251A80": {
+  "ps2": "_dancerInit__8StDancerFv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\dancer\\StDancer.cpp",
+  "this": "StDancer*",
+  "params": [],
+  "locals": [
+   [
+    "memAddr",
+    "char*"
+   ],
+   [
+    "memMainSize",
+    "signed int"
+   ],
+   [
+    "memAvailable",
+    "signed int"
+   ]
+  ]
+ },
+ "0x1026BE54": {
+  "ps2": "ntTcpClient__FPv",
+  "file": "C:\\home\\miyagawa\\src\\FFXi\\FFXi_PS2\\main\\net\\sys_ps2\\nttcp.c",
+  "this": null,
+  "params": [
+   [
+    "cs",
+    "void*"
+   ]
+  ],
+  "locals": [
+   [
+    "ret",
+    "signed int"
+   ],
+   [
+    "DstAddr",
+    "sqInternetAddress"
+   ],
+   [
+    "j",
+    "signed int"
+   ],
+   [
+    "realbufsz",
+    "signed int"
+   ],
+   [
+    "totalsize",
+    "signed int"
+   ],
+   [
+    "msglen",
+    "signed int"
+   ],
+   [
+    "command",
+    "signed int"
+   ],
+   [
+    "Q",
+    "NT_TCP_QUE"
+   ],
+   [
+    "pQ",
+    "NT_TCP_QUE*"
+   ],
+   [
+    "ptcpList",
+    "NT_TCP_LIST*"
+   ],
+   [
+    "pTCP_SYS",
+    "NT_TCP_SYS*"
+   ]
+  ]
+ }
+}

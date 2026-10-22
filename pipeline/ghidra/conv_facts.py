@@ -10,14 +10,21 @@ Sources (all whole-DLL facts in data/):
   entry_regs.json reads of EAX/EBX/ESI/EDI/EBP on entry (a __usercall): no standard convention says that
   fpret.json      the value left in ST0 on return ('float') or none; 'consumes': pops a value the caller left in ST0 (RET st0in)
   reg_keeps.json  which of EAX/ECX/EDX the function leaves untouched, its callees included (reg_keeps.py)
+  exports/gfx_export.jsonl  the IDB's typed prototypes: a variadic one (`...`) for a function that pops 0
 
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
-  neither read            -> __stdcall if ret N > 0, else __cdecl
+  neither read            -> __stdcall if ret N > 0, else __cdecl; a __cdecl one's stack arguments are the slots
+                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
+  eax_inputs.json lists it (its entry EAX is read, or handed back to a caller that reads it: caller_reads.py) and
+  reg_keeps.json does not say it leaves all of EAX untouched (that case is the `keeps` model below)
+                          -> EAX a register input too
   ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
+Variadic: `0xADDR varargs N` (N fixed parameters, the IDB's declared prototype; only where ret N pops 0, as a
+caller-cleanup variadic call must), so Ghidra reads each call's own pushes past the fixed ones.
 Kept registers: `0xADDR keeps eax,edx` for every function reg_keeps.json lists (a caller reading the register
 after the call reads its own value from before it; GfxExport gives the callee a prototype model saying so).
 
@@ -38,6 +45,9 @@ D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
 load = lambda f: json.load(open(os.path.join(D, f)))
 
 
+EI, RK = {}, {}          # eax_inputs.json, reg_keeps.json (main loads them)
+
+
 def decide(k, eu, du, pu, er, fp):
     regin = []
     if k in er:
@@ -53,8 +63,23 @@ def decide(k, eu, du, pu, er, fp):
     else:
         cc = '__stdcall' if pu[k] else '__cdecl'
         if d: regin.append('EDX')
+    if 'EAX' not in regin and k in EI and 'eax' not in RK.get(k, ()): regin.insert(0, 'EAX')
     f = fp.get(k.lower())
     return (cc, pu[k], 'float' if f == 'float' else 'st0in' if f == 'consumes' else '-', regin), None
+
+
+def variadic():
+    """{0xADDR: fixed parameter count} for the non-import functions the IDB declares with `...`"""
+    out = {}
+    for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
+        r = json.loads(l)
+        ts = [(r['ea'], r.get('type') or '')] + [(o['ea'], o.get('type') or '') for o in r.get('objs', {}).values()
+                                                  if o.get('func') and not o.get('import')]
+        for ea, t in ts:
+            if '...' not in t: continue
+            ps = [x for x in t[t.index('(') + 1:t.rindex(')')].split(',') if x.strip()]
+            out['0x%08X' % ea] = len(ps) - 1
+    return out
 
 
 def icalls():
@@ -83,6 +108,7 @@ def icalls():
 
 def main(out):
     eu, du, pu, er, fp = (load(f) for f in ('ecx_use.json', 'edx_use.json', 'purges.json', 'entry_regs.json', 'fpret.json'))
+    EI.update(load('eax_inputs.json')); RK.update(load('reg_keeps.json'))
     pu.update({k: v['pops'] for k, v in load('tail_purges.json').items() if k not in pu})
     n = {}
     with open(out, 'w') as f:
@@ -90,8 +116,37 @@ def main(out):
             r, why = decide(k, eu, du, pu, er, fp)
             f.write('%s %s %d %s\n' % ((k,) + r[:3]) if r else '%s - %s\n' % (k, why))
             if r and r[3]: f.write('%s regin %s\n' % (k, ','.join(r[3]))); n['regin'] = n.get('regin', 0) + 1
+            elif not r and k in EI and 'eax' not in RK.get(k, ()):
+                # no convention decided, but the entry EAX is an input all the same (eax_inputs.json): a register
+                # parameter on whatever prototype the function has, so its callers pass it (hx2cpp's asm call needs
+                # only the callee's ret N)
+                f.write('%s regin EAX\n' % k); n['regin EAX alone'] = n.get('regin EAX alone', 0) + 1
             key = r[0] if r else why.split(':')[0].split(' (')[0]
             n[key] = n.get(key, 0) + 1
+        ca = {k: v for k, v in load('cdecl_args.json').items() if not k.startswith('_')}   # exact counts only
+        va = variadic()
+        for k in sorted(set(ca) - set(va), key=lambda s: int(s, 16)):
+            r, why = decide(k, eu, du, pu, er, fp)
+            if not r or r[0] != '__cdecl': continue
+            f.write('%s cargs %d\n' % (k, ca[k])); n['cargs'] = n.get('cargs', 0) + 1
+        # no convention decided (ECX or EDX use not established), the stack bytes known: `ret N`, or for one that
+        # pops 0 the slots it reads (exact)
+        for k in sorted(set(pu), key=lambda s: int(s, 16)):
+            r, why = decide(k, eu, du, pu, er, fp)
+            if r or not why.startswith(('ECX use not established', 'EDX use not established')): continue
+            if pu[k]: f.write('%s spops %d ret\n' % (k, pu[k]))
+            elif k in ca: f.write('%s spops %d reads\n' % (k, 4 * ca[k]))
+            else: continue
+            n['spops'] = n.get('spops', 0) + 1
+        # no convention decided, the value left in ST0 on return known (fpret.json `float`): the return alone
+        for k in sorted(fp, key=lambda s: int(s, 16)):
+            if fp[k] != 'float': continue
+            r, why = decide(k, eu, du, pu, er, fp)
+            if r: continue
+            f.write('0x%08X fret float\n' % int(k, 16)); n['fret'] = n.get('fret', 0) + 1
+        for k, nfix in sorted(va.items(), key=lambda kv: int(kv[0], 16)):
+            if pu.get(k) != 0: continue
+            f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1
         for k, v in sorted(load('reg_keeps.json').items(), key=lambda kv: int(kv[0], 16)):
             f.write('%s keeps %s\n' % (k, ','.join(v))); n['keeps'] = n.get('keeps', 0) + 1
         for k, (r, why) in icalls().items():

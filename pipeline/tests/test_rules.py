@@ -252,6 +252,75 @@ class EcxUse(unittest.TestCase):
         self.assertFalse(V.covered('ecx', frozenset(wr)))                 # the upper half is still the input
 
 
+    def run_paths(self, join_hex):
+        """`je` to `mov ecx, [eax]` or fall through to `mov cl, [eax]`; both reach the join instruction, then `ret`"""
+        import vcall_resolve as V
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        ins = {i.address: i for i in md.disasm(bytes.fromhex('85C0' '7404' '8A08' 'EB02' '8B08' + join_hex + 'C3'), 0x1000)}
+        V.FIRST_READ.clear()
+        return V.ecx_inputs(None, {0x1000: ins}, {0x1000})[0x1000]
+
+    def test_join_keeps_the_parts_both_paths_write(self):
+        self.assertFalse(self.run_paths('8808'))      # mov [eax], cl: CL is written on both paths (as CL and as ECX)
+        self.assertTrue(self.run_paths('8908'))       # mov [eax], ecx: the upper bytes are the input on one path
+
+
+class RegparmEntry(unittest.TestCase):
+    """hx2cpp.regparm_entry: a register input becomes GCC regparm with the convention's own pop rule"""
+    def test_thiscall_with_eax(self):
+        H.PURGES['0x0BADF00D'] = 4
+        (a, p), _ = H.regparm_entry(0x0BADF00D, '__thiscall', 'void *self, int a, undefined4 xi_eax', ['ECX', 'stack', 'EAX'])
+        self.assertEqual(a, '__attribute__((stdcall, regparm(3)))')
+        self.assertEqual(p, 'undefined4 xi_eax, uint32_t xi_edx_unused, void *self, int a')
+
+    def test_cdecl_with_eax(self):
+        H.PURGES['0x0BADF00E'] = 0
+        (a, p), _ = H.regparm_entry(0x0BADF00E, '__cdecl', 'int a, undefined4 xi_eax', ['stack', 'EAX'])
+        self.assertEqual((a, p), ('__attribute__((cdecl, regparm(1)))', 'undefined4 xi_eax, int a'))
+
+    def test_pop_count_must_match(self):
+        H.PURGES['0x0BADF00F'] = 8
+        a, why = H.regparm_entry(0x0BADF00F, '__stdcall', 'int a, undefined4 xi_eax', ['stack', 'EAX'])
+        self.assertIsNone(a)
+
+
+class Ps2Demangle(unittest.TestCase):
+    """ps2_match.demangle: CodeWarrior (cfront-style) names to (class, method)"""
+    def test_names(self):
+        import ps2_match as M
+        self.assertEqual(M.demangle('ExecuteTag__15YmSchedulerTaskFP12YmSchCodeTag'), ('YmSchedulerTask', 'ExecuteTag'))
+        self.assertEqual(M.demangle('__ct__8CTkMouseFv'), ('CTkMouse', 'Constructor'))
+        self.assertEqual(M.demangle('OnMove__Q211YmSoundElem18YmVolumeChangeTaskFv'), ('YmSoundElem::YmVolumeChangeTask', 'OnMove'))
+        self.assertEqual(M.demangle('IsEvent__FUc'), (None, 'IsEvent'))
+        self.assertIsNone(M.demangle('ReqEventInfo'))
+
+
+class FcmpSimplify(unittest.TestCase):
+    """fcmp_simplify.equivalent: NaN-test spellings to the one comparison with the same IEEE truth table"""
+    def test_forms(self):
+        import fcmp_simplify as F
+        self.assertEqual(F.equivalent('(!NAN(a) && !NAN(b)) && a < b != (a == b)'), 'a <= b')
+        self.assertEqual(F.equivalent('NAN(a) || NAN(b) || a < b'), '!(a >= b)')
+        self.assertEqual(F.equivalent('!NAN(a) && !NAN(b) && a == b'), 'a == b')
+
+    def test_not_one_comparison(self):
+        import fcmp_simplify as F
+        self.assertIsNone(F.equivalent('NAN(a) || NAN(b)'))                  # unordered: no single comparison
+        self.assertIsNone(F.equivalent('!NAN(f(a)) && f(a) < b'))            # a call: evaluated once, not twice
+
+    def test_runs_the_table_in_c(self):
+        # the six states evaluated by the compiler, not by this file's model of C
+        import fcmp_simplify as F, subprocess, tempfile, os
+        src = '#include <math.h>\n#include <stdio.h>\n#define NAN_(x) ((x) != (x))\nint main(){double v[][2]={{1,2},{2,2},{3,2},{NAN,2},{2,NAN},{NAN,NAN}};int bad=0;\nfor(int i=0;i<6;i++){double a=v[i][0],b=v[i][1];\n'
+        for e in ['(!NAN_(a) && !NAN_(b)) && a < b != (a == b)', 'NAN_(a) || NAN_(b) || a < b', '!NAN_(a) && !NAN_(b) && a == b']:
+            r = F.equivalent(e.replace('NAN_', 'NAN'))
+            src += 'if ((%s) != (%s)) bad++;\n' % (e, r)
+        src += '}printf("%d", bad);return 0;}\n'
+        d = tempfile.mkdtemp(); open(os.path.join(d, 't.c'), 'w').write(src)
+        subprocess.run(['gcc', '-O2', os.path.join(d, 't.c'), '-o', os.path.join(d, 't')], check=True)
+        self.assertEqual(subprocess.run([os.path.join(d, 't')], capture_output=True, text=True).stdout, '0')
+
 class PartialRegs(unittest.TestCase):
     """partial_regs.py: each rewrite is compiled next to the macro it replaces (pipeline/xi_hexrays.hpp) and both
     are run over values that exercise every bit of every part"""
@@ -306,5 +375,177 @@ class PartialRegs(unittest.TestCase):
         self.assertEqual(P.rewrite('{\n  r = a & BYTE1(p);\n}', {'p': 'int'})[0], '{\n  r = a & (_BYTE)((uint32_t)(p) >> 8);\n}')
 
 
+
+class GhidraIndexAndAdd(unittest.TestCase):
+    # p-code PTRADD with an element size other than the printed base's pointee, and INT_ADD (bytes) on a wide pointer
+    def test_ptradd_element_size(self):
+        self.assertEqual(H.ghidra_ptradds('r = (char)(&DAT_1)/*XI_PA:1*/[i];')[0], 'r = (char)((uint8_t *)((&DAT_1)))[i];')
+        self.assertEqual(H.ghidra_ptradds('r = p/*XI_PA:2*/[i];')[0], 'r = ((uint16_t *)(p))[i];')
+
+    def test_ptradd_base_not_parsed(self):
+        self.assertIsNone(H.ghidra_ptradds('r = f(x)/*XI_PA:1*/[i];')[0])
+
+    def test_byte_add(self):
+        self.assertEqual(H.ghidra_byte_adds('g((int *)(&DAT_1 /*XI_BA:1*/+ i * 0x38));'), 'g((int *)(((char *)&DAT_1) + i * 0x38));')
+        self.assertEqual(H.ghidra_byte_adds('*(int *)(&g /*XI_BA:1*/+ p * 4) = x;'), '*(int *)(((char *)&g) + p * 4) = x;')
+        self.assertEqual(H.ghidra_byte_adds('q = &g /*XI_BA:2*/+ i;'), 'q = ((uint16_t *)&g) + i;')
+
+
+class BitCasts(unittest.TestCase):
+    # p-code CAST between floating and non-floating keeps the bits; the definition and the cast are one CAST
+    def test_written_and_printed_cast(self):
+        self.assertEqual(H.ghidra_bitcasts('/*XI_BC:2*/f = /*XI_BC:3*/(float)p[0x16];')[0], 'f = xi_castbits<float>(p[0x16]);')
+
+    def test_written_without_type(self):
+        self.assertIsNone(H.ghidra_bitcasts('/*XI_BC:2*/f = g(x);')[0])
+
+
+class EntryEax(unittest.TestCase):
+    # in_EAX where no code sees EAX's entry value: started at 0
+    def test_unseen(self):
+        H._EAX_UNSEEN = {'0x00001000'}
+        r = H.ghidra_entry_eax({'ea': 0x1000, 'text': '\nundefined4 f(void)\n\n{\n  undefined4 in_EAX;\n  \n  return CONCAT31((int3)((uint)in_EAX >> 8),1);\n}\n'})
+        self.assertIn('undefined4 xi_entry_eax = 0;', r['text'])
+        self.assertNotIn('in_EAX', r['text'])
+        self.assertIsNone(H.ghidra_entry_eax({'ea': 0x2000, 'text': '\nundefined4 f(void)\n\n{\n  undefined4 in_EAX;\n}\n'}))
+        H._EAX_UNSEEN = None
+
+
+class Thunk(unittest.TestCase):
+    # a function that is one `jmp T`: a call to T with its own parameters
+    def test_thunk_body(self):
+        H._THUNKS = {0x1000: 0x2000}
+        r = H.ghidra_thunk({'ea': 0x1000, 'name': 'thunk_f', 'type': 'int __stdcall thunk_f(int a, int b)', 'ret': 'int',
+                            'args': [['a', 'int'], ['b', 'int']], 'objs': {}, 'purged': 8,
+                            'text': '\nint __stdcall thunk_f(int a,int b)\n\n{\n  return g(a) + b;\n}\n'})
+        self.assertIn('return FUN_00002000(a, b);', r['text'])
+        self.assertEqual(r['objs']['FUN_00002000']['type'], 'int __stdcall(int a, int b)')
+        self.assertIsNone(H.ghidra_thunk({'ea': 0x3000, 'text': ''}))
+        H._THUNKS = None
+
+
+class CleanCaseArity(unittest.TestCase):
+    """map_clean_cases.py tells overloads apart by the declaration's parameter count"""
+    def test_counts(self):
+        import map_clean_cases as M
+        self.assertEqual(M.n_params(''), 0)
+        self.assertEqual(M.n_params('void'), 0)
+        self.assertEqual(M.n_params('int*, float'), 2)
+        self.assertEqual(M.n_params('int (*f)(int, int), char'), 2)
+        self.assertEqual(M.n_params('std::pair<int, int>, char'), 2)
+
+    def test_declaration(self):
+        import map_clean_cases as M
+        a = 'static undefined4 __thiscall SetMotion(void * self, int * rf, uint32_t resid);  // 0x100CD540'
+        self.assertEqual(M.n_params(M.outer_params(a)), 3)
+        self.assertEqual(M.n_params(M.outer_params('CXiSkeletonActor::SetMotion(int*, float)')), 2)
+
+
 if __name__ == '__main__':
     unittest.main()
+
+
+class FloatLiteral(unittest.TestCase):
+    """source_shape.float_literal: a literal of exactly the constant's value (GCC evaluates constants in long double)"""
+    def lit(self, b, n=4):
+        import source_shape as SS
+        return SS.float_literal(b, n)
+
+    def test_exact(self):
+        self.assertEqual(self.lit(0x43000000), '128.0f')
+        self.assertEqual(self.lit(0x3F000000), '0.5f')
+        self.assertEqual(self.lit(0xBF800000), '(-1.0f)')
+
+    def test_not_shortest_when_inexact(self):
+        self.assertEqual(self.lit(0x3EA2FABE), '0.318319261074066162109375f')   # not 0.31831926f
+        self.assertIsNone(self.lit(0x3FB999999999999A, 8))                       # 0.1: its exact value is too long
+
+
+class ByteFlow(unittest.TestCase):
+    """byte_flow.step: the value's bits through the registers, from entry EAX; (examined, escaped, EAX bytes kept)"""
+    CASES = [
+        ('the DX-only store (0x10071E90)', '668b41188d500131c281e2ff7f000031c266895118', [], [], [2, 3]),
+        ('a bitfield read', '8a4630c1e80483e00783f803', [], [], []),
+        ('a short pushed: its upper bytes escape', '668b0750', [], [2, 3], [2, 3]),
+        ('a compare', '3d00100000', [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]),
+        ('an address', '8b4804', [0, 1, 2, 3], [0, 1, 2, 3], [0, 1, 2, 3]),
+        ('a flag read after arithmetic', '480f84f91f0000', [0, 1, 2, 3], [0, 1, 2, 3], []),
+        ('sbb r, r', '19c0', [], [], []),
+        ('test with an immediate', 'a9ff000000', [0], [0], [0, 1, 2, 3]),
+        ('a byte moved down, compared', 'c1e8083c01', [1], [1], []),
+        ('a constant mask in a register (0x103239F8)', '668b4206bfff07000089c1c1e90421f90fb7d985db', [], [], [2, 3]),
+    ]
+
+    def run_code(self, hexbytes, strict=False):
+        import byte_flow as B
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        st, ex, es = B.entry_state(), set(), set()
+        for i in md.disasm(bytes.fromhex(hexbytes), 0x1000):
+            if i.mnemonic.startswith('j'):                       # a conditional jump reads the flags
+                ex |= st.flags; es |= st.flags; continue
+            st, e, s = B.step(i, st, strict); ex |= e; es |= s
+        kept = [k for k in range(4) if (st.p('eax')[k] >> (8 * k)) & 0xFF]
+        return sorted(ex), sorted(es), kept
+
+    def test_cases(self):
+        for name, code, ex, es, kept in self.CASES:
+            self.assertEqual(self.run_code(code), (ex, es, kept), name)
+
+    def test_join_keeps_unchanged_or_absent(self):
+        import byte_flow as B
+        a = B.entry_state(); b = B.State({})                        # one path: AH unchanged; the other: overwritten
+        j = B.join(a, b)
+        self.assertEqual([x for x in j.c('eax')], [0, 0, 0, 0])      # never "changed"
+        self.assertEqual(j.p('eax')[1], 0xFF00)
+
+    def test_unknown_mask_strict(self):
+        code = '89c1230e21d985c9'                                   # mov ecx, eax; and ecx, [esi]; and ecx, ebx; test ecx, ecx
+        self.assertEqual(self.run_code(code)[0], [0, 1, 2, 3])
+        self.assertEqual(self.run_code(code, strict=True)[0], [])
+
+
+class MsvcUnit(unittest.TestCase):
+    """msvc_tu.py writes a tree function in the form Visual C++ 6.0 compiles"""
+    def test_expand_at(self):
+        import msvc_tu as T
+        self.assertEqual(T.expand_at('at<uint8_t>(this, 0xA04) = 1;'), '(*(uint8_t *)((uint8_t *)(this) + (0xA04))) = 1;')
+        self.assertEqual(T.expand_at('at<int>(at<int *>(p, 4), f(1, 2))'),
+                         '(*(int *)((uint8_t *)((*(int * *)((uint8_t *)(p) + (4)))) + (f(1, 2))))')
+
+    def test_left_out(self):
+        import msvc_tu as T
+        d = 'int fn_1(int a)\n{\n  return orig::X(a);\n}'
+        self.assertEqual(T.unit(1, d, {}, {}), (None, 'calls X, whose wrapper is not typed'))
+        self.assertEqual(T.unit(1, 'float fn_1(float a)\n{\n  return a;\n}', {}, {}), (None, 'floating point'))
+
+    def test_thiscall_free_function(self):
+        import msvc_tu as T
+        src, sym = T.unit(0x1000, 'XI_API undefined4 __thiscall fn_00001000(void * self_, int b)\n{\n  return b;\n}', {}, {})
+        self.assertEqual(sym, '?fn_00001000@XI_00001000@@')
+        self.assertIn('struct XI_00001000 { undefined4 fn_00001000(int b); };', src)
+        self.assertIn('void * self_ = (void *)this;', src)
+
+    def test_member_field(self):
+        import msvc_tu as T
+        src, sym = T.unit(0x2000, 'void C::f()\n{\n  this->field_34 = 0;\n}', {0x2000: 'void f();  // 0x00002000'},
+                          {'C': {'field_34': ('uint32_t', 0x34)}})
+        self.assertEqual(sym, '?f@C@@')
+        self.assertIn('(*(uint32_t *)((uint8_t *)(this) + (0x34))) = 0;', src)
+        self.assertEqual(T.unit(0x2000, 'void C::f()\n{\n  this->m = 0;\n}', {}, {})[1], 'this->m: no offset in the header')
+
+    def test_game_calls(self):
+        import msvc_tu as T
+        origs = {'F': ('int', '__thiscall', ['void *', 'int'], 0x10001000), 'G': ('void', '__cdecl', ['XI_ANY'], 0x10002000)}
+        body, decls, addr = T.game_calls('{ x = orig::F(p, 2); orig::G(c); }', origs)
+        self.assertEqual(body, '{ x = ((XI_C_F *)(p))->F(2); G(xi_any(c)); }')
+        self.assertEqual(decls, ['struct XI_C_F { int F(int); };', 'void __cdecl G(unsigned int);'])
+        self.assertEqual(addr, {'XI_C_F::F': 0x10001000, 'G': 0x10002000})
+        self.assertEqual(T.game_calls('{ orig::H(); }', origs)[1], 'calls H, whose wrapper is not typed')
+
+    def test_globals(self):
+        import msvc_tu as T
+        g = {'g_p': ('typedef CDx * g_p_t;', 0x10400000)}
+        d, a = T.global_decls('return g_p;', g)
+        self.assertEqual(d, 'class CDx;\ntypedef CDx * g_p_t;\nextern g_p_t g_p;\n')
+        self.assertEqual(a, {'g_p': 0x10400000})

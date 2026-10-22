@@ -10,7 +10,8 @@ A function is listed only if (docs/KIT.md):
 Flags, which leave a function out by default:
   1  SEH: the original installs an exception frame (reads fs:[0] in its first 64 bytes); the reconstruction has none
   2  speedfix: speedfix_hook patches an instruction inside it (its documented sites)
-  8  register input: the original reads EDX at its entry (data/edx_use.json), or ECX while the tree declares it
+  8  register input: the original reads EDX at its entry (data/edx_use.json), takes its entry EAX as an input
+     (data/eax_inputs.json: reads it, or hands it back to a caller that reads it), or ECX while the tree declares it
      neither __thiscall nor __fastcall (data/ecx_use.json): a value its declaration does not carry. Swapping is
      unaffected (the reconstruction was gated as it is); a mod may not hook it (its replacement could not see the
      register, nor pass it on to the previous code)
@@ -42,9 +43,13 @@ SPEEDFIX_SITES = [0x1006C4D7, 0x100CC688, 0x100CD011, 0x1006CDDC]   # speedfix_h
 BASE = 0x10000000
 
 
+EAX_INPUTS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data', 'eax_inputs.json')))
+
+
 def reg_input(ea, place, edx_use, ecx_use, free_conv):
     k = '0x%08X' % ea; p = place.get('0x%x' % ea, {})
     if edx_use.get(k) not in (None, False): return True
+    if k in EAX_INPUTS: return True
     if ecx_use.get(k) in (None, False): return False
     if p.get('class'): return False                                     # a member: __thiscall, ECX is `this`
     return free_conv.get(p.get('symbol')) not in ('__thiscall', '__fastcall')

@@ -3,7 +3,7 @@
 #include "CMoProcessor.hpp"
 
 // FUNCTION: FFXIMAIN 0x1006CE70  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoProcessor::InitRotationMatrices()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -47,7 +47,7 @@ _DWORD * CMoProcessor::InitRotationMatrices()
 }
 
 // FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 50, town2 PASS 50, combat PASS 50, zonetoinn PASS 50
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -69,7 +69,7 @@ int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1006E970  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56, town PASS 55, town2 PASS 55, combat PASS 54, zonetoinn PASS 55
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5)
 {
   CMoProcessor *result;

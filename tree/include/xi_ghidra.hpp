@@ -2,10 +2,8 @@
 // Ghidra decompilations (pipeline/ghidra/GfxExport.java) with the same pipeline as Hex-Rays output.
 #pragma once
 #include <stdint.h>
+#include "xi_ghidra_shared.hpp"  // undefinedN, undefined4, XI_ANY (also in the clean tree's shared headers)
 
-typedef unsigned char undefined; typedef unsigned char undefined1; typedef uint16_t undefined2;
-typedef uint32_t undefined3; typedef uint32_t undefined4; typedef uint64_t undefined5; typedef uint64_t undefined6;
-typedef uint64_t undefined7; typedef uint64_t undefined8;
 typedef unsigned char byte; typedef unsigned char uchar; typedef unsigned short ushort; typedef unsigned int uint;
 typedef unsigned long ulong; typedef long long longlong; typedef unsigned long long ulonglong;
 typedef unsigned short word; typedef uint32_t dword; typedef uint64_t qword;
@@ -25,12 +23,19 @@ typedef void *pointer; typedef void *addr;
 #define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT26(h, l) ((uint64_t)(((uint64_t)(uint16_t)(h) << 48) | ((uint64_t)(l) & 0xFFFFFFFFFFFFull)))
 #define CONCAT17(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 56) | ((uint64_t)(l) & 0xFFFFFFFFFFFFFFull)))
-#define SUB41(x, b) ((uint8_t)((uint32_t)(x) >> (8 * (b))))
-#define SUB42(x, b) ((uint16_t)((uint32_t)(x) >> (8 * (b))))
+// p-code CAST between a floating and a non-floating type of one size: the same bits (GfxExport `/*XI_BC*/`)
+template <class To, class From> static inline To xi_castbits(From f) { static_assert(sizeof(To) == sizeof(From), "xi_castbits: one size"); To t; __builtin_memcpy(&t, &f, sizeof(t)); return t; }
+// SUBnm is p-code SUBPIECE, the bytes of x: a floating x gives its encoding, not its value converted
+template <class T> static inline uint32_t xi_b32(T x) { return (uint32_t)x; }
+static inline uint32_t xi_b32(float x) { uint32_t u; __builtin_memcpy(&u, &x, 4); return u; }
+template <class T> static inline uint64_t xi_b64(T x) { return (uint64_t)x; }
+static inline uint64_t xi_b64(double x) { uint64_t u; __builtin_memcpy(&u, &x, 8); return u; }
+#define SUB41(x, b) ((uint8_t)(xi_b32(x) >> (8 * (b))))
+#define SUB42(x, b) ((uint16_t)(xi_b32(x) >> (8 * (b))))
 #define SUB21(x, b) ((uint8_t)((uint16_t)(x) >> (8 * (b))))
-#define SUB81(x, b) ((uint8_t)((uint64_t)(x) >> (8 * (b))))
-#define SUB84(x, b) ((uint32_t)((uint64_t)(x) >> (8 * (b))))
-#define SUB82(x, b) ((uint16_t)((uint64_t)(x) >> (8 * (b))))
+#define SUB81(x, b) ((uint8_t)(xi_b64(x) >> (8 * (b))))
+#define SUB84(x, b) ((uint32_t)(xi_b64(x) >> (8 * (b))))
+#define SUB82(x, b) ((uint16_t)(xi_b64(x) >> (8 * (b))))
 #define ZEXT14(x) ((uint32_t)(uint8_t)(x))
 #define ZEXT24(x) ((uint32_t)(uint16_t)(x))
 #define ZEXT48(x) ((uint64_t)(uint32_t)(x))
@@ -59,6 +64,10 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
     long double r; __asm__("fpatan" : "=t"(r) : "0"(x), "u"(y) : "st(1)"); return r;
 }
 #define fpatan(y, x) xi_fpatan((y), (x))
+static inline long double xi_fsin(long double x) { long double r; __asm__("fsin" : "=t"(r) : "0"(x)); return r; }   // x87 fsin
+static inline long double xi_fcos(long double x) { long double r; __asm__("fcos" : "=t"(r) : "0"(x)); return r; }   // x87 fcos
+#define fsin(x) xi_fsin((x))
+#define fcos(x) xi_fcos((x))
 
 // A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
 // the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
@@ -66,22 +75,25 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
 static inline long long xi_call_st0(uint32_t fn, long double x) {
     long long r; __asm__ volatile("call *%1" : "=A"(r) : "r"(fn), "t"(x) : "st", "ecx", "memory", "cc"); return r;
 }
+// the clean tree's form (hx2clean.py): the game function at ea, through XI_GAME (rebased in the in-game build)
+#define XI_CALL_ST0(ea) [](long double x_) { return xi_call_st0((uint32_t)XI_GAME(ea), x_); }
 
-// An argument slot of a called game function: 4 bytes on the stack, holding the bits of whatever the
-// caller passes (int, pointer or float), exactly as the original pushes them.
-struct XI_ANY {
-    uint32_t bits;
-    template <class T> XI_ANY(T v) { static_assert(sizeof(T) <= 4, "XI_ANY: 4-byte argument"); bits = 0; __builtin_memcpy(&bits, &v, sizeof(T)); }
-    XI_ANY(float v) { __builtin_memcpy(&bits, &v, 4); }       // a float parameter is pushed as 4 bytes
-    XI_ANY(double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
-    XI_ANY(long double v) { float f = (float)v; __builtin_memcpy(&bits, &f, 4); }
-};
 
 // Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)
 template<int S> struct xi_piece_t; template<> struct xi_piece_t<1> { typedef uint8_t t; };
 template<> struct xi_piece_t<2> { typedef uint16_t t; }; template<> struct xi_piece_t<4> { typedef uint32_t t; };
 template<> struct xi_piece_t<8> { typedef uint64_t t; };
+// a 3-byte piece (Ghidra's undefined3, `x._1_3_`): its bytes copied in and out, read zero- or sign-extended
+struct xi_u24 { uint8_t b[3]; operator uint32_t() const { uint32_t v = 0; __builtin_memcpy(&v, b, 3); return v; }
+                xi_u24 &operator=(uint32_t v) { __builtin_memcpy(b, &v, 3); return *this; } };
+struct xi_s24 { uint8_t b[3]; operator int32_t() const { uint32_t v = 0; __builtin_memcpy(&v, b, 3); return (int32_t)(v << 8) >> 8; }
+                xi_s24 &operator=(int32_t v) { __builtin_memcpy(b, &v, 3); return *this; } };
+template<> struct xi_piece_t<3> { typedef xi_u24 t; };
 #define XI_PIECE(x, o, s) (*reinterpret_cast<xi_piece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))
+template<int S> struct xi_spiece_t; template<> struct xi_spiece_t<1> { typedef int8_t t; };
+template<> struct xi_spiece_t<2> { typedef int16_t t; }; template<> struct xi_spiece_t<4> { typedef int32_t t; };
+template<> struct xi_spiece_t<8> { typedef int64_t t; }; template<> struct xi_spiece_t<3> { typedef xi_s24 t; };
+#define XI_PIECE_S(x, o, s) (*reinterpret_cast<xi_spiece_t<s>::t *>(reinterpret_cast<char *>(&(x)) + (o)))   // a signed piece
 
 // a floating constant by its encoding (GfxExport `/*XI_K:size:bits*/`): the float or double the code loads
 static inline float xi_k4(unsigned long long b) { uint32_t u = (uint32_t)b; float f; __builtin_memcpy(&f, &u, 4); return f; }

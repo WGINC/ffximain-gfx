@@ -7,6 +7,8 @@ typedef HINSTANCE__ *HINSTANCE; typedef HINSTANCE HMODULE; typedef HWND__ *HWND;
 typedef HICON__ *HICON; typedef HICON HCURSOR; typedef HBRUSH__ *HBRUSH; typedef HMENU__ *HMENU;
 typedef HBITMAP__ *HBITMAP; typedef HFONT__ *HFONT; typedef HKEY__ *HKEY; typedef HPEN__ *HPEN;
 typedef HRGN__ *HRGN; typedef HMONITOR__ *HMONITOR; typedef void *HANDLE; typedef void *HGDIOBJ;
+struct HIMC__; typedef HIMC__ *HIMC;                 // imm.h: DECLARE_HANDLE(HIMC)
+typedef int (__stdcall *FARPROC)();                  // minwindef.h: INT_PTR (WINAPI *FARPROC)(), INT_PTR = int on x86
 typedef void *LPVOID; typedef const void *LPCVOID; typedef char *LPSTR; typedef const char *LPCSTR;
 struct _SYSTEMTIME; typedef struct _SYSTEMTIME *LPSYSTEMTIME;
 typedef unsigned short *LPWSTR; typedef const unsigned short *LPCWSTR; typedef const unsigned short *LPCWCH;

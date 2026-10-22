@@ -19,6 +19,7 @@ public:
     static char ** __cdecl GetRuntimeClass_variant6();  // 0x10043570
     static char ** __cdecl GetRuntimeClass_variant7();  // 0x10043700
     static char ** __cdecl GetRuntimeClass_variant8();  // 0x10044880
+    static undefined8 __thiscall Constructor(void * self);  // 0x10044890
     int * ScalarDeletingDtor(char a2);  // 0x10044950
     char CMoElemFamily_SharedCleanup();  // 0x10044970
     void vf018();  // 0x100472E0

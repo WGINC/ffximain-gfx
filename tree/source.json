@@ -8,6 +8,18 @@
    "path": "data/exports/ghidra_export.jsonl",
    "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
    "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export"
+  },
+  {
+   "path": "data/exports/ghidra_frameset.jsonl",
+   "sha1": "31fa3241a1e8339e547f3baed87b746fcfdcc047",
+   "raw_gate": "verification/gate_raw_frameset.jsonl",
+   "_doc": "the frame set's functions (data/frame_set.json) the other exports do not hold, decompiled by GfxExport.java (frameset9: entry-EAX inputs, PS2 names), with their raw gate"
+  },
+  {
+   "path": "data/exports/ghidra_frameset_prev.jsonl",
+   "sha1": "73e5a5463aeaa18ebf5a0c15738540b398f8ca67",
+   "raw_gate": "verification/gate_raw_frameset_prev.jsonl",
+   "_doc": "records of the previous frame-set export (frameset6) for functions it passes and frameset9's export does not (its translation fails or is skipped), less those frameset9 fails only on the 8-byte return's EDX, which that export never compared; gated under the current rules"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl"

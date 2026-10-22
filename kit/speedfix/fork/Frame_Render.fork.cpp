@@ -40,7 +40,7 @@ extern "C" __declspec(dllexport) void xi_step_make(void *self_, double avg)
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 68 returned normally, 536 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
-XI_API int __thiscall Frame_Render(void *self_)
+XI_API unsigned __int8 __thiscall Frame_Render(void *self_)
 {
   double v2;
   int result;
@@ -431,7 +431,7 @@ LABEL_38:
   {
 LABEL_34:
     if ( *((int *)self_ + 17) >= 5 && *(_DWORD *)v4 != 64 && Code < 0 )
-      orig::_exit_0(2001);
+      { orig::_exit_0(2001); goto LABEL_102; }
     goto LABEL_38;
   }
   v6 = orig::GameMode_PollPendingState((int *)g_pGameMode);
@@ -444,14 +444,14 @@ LABEL_34:
         dword_10456948 = 21;
         goto LABEL_102;
       case 202:
-        orig::_exit_0(4003);
+        orig::_exit_0(4003); goto LABEL_102;
       case 203:
         v4 = g_pSceneState;
         if ( *(_DWORD *)g_pSceneState != 64 )
-          orig::_exit_0(4004);
+          { orig::_exit_0(4004); goto LABEL_102; }
         break;
       case 201:
-        orig::_exit_0(4005);
+        orig::_exit_0(4005); goto LABEL_102;
       default:
         v4 = g_pSceneState;
         break;

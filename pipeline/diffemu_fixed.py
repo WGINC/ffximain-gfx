@@ -79,6 +79,7 @@ class RunResult:
     changes: dict = field(default_factory=dict)   # addr -> final byte (outside the stack)
     stop_eip: int = 0
     calls: list = field(default_factory=list)       # stubbed callees, in call order
+    eax_unk: list = field(default_factory=list)     # (callee, entry EAX bytes it is only assumed to read), in call order
 
 
 _F2S = struct.Struct('<f'); _I32 = struct.Struct('<I')
@@ -209,6 +210,7 @@ class Machine:
         u.context_restore(self.ctx)
         self.writes.clear()
         self.calls = []
+        self.eax_unk = []
         self.stop_reason, self.stop_detail = None, ""
         esp = STACK_TOP - 0x1000
         frame = struct.pack("<I", RET_SENTINEL) + b"".join(struct.pack("<I", a & 0xFFFFFFFF) for a in args)
@@ -217,8 +219,9 @@ class Machine:
         u.reg_write(UC_X86_REG_ESP, esp)
         for r, v in CANARY.items():
             u.reg_write(r, v)
-        u.reg_write(UC_X86_REG_EAX, 0xEEEEEEEE)
-        u.reg_write(UC_X86_REG_EDX, 0xDDDDDDDD)
+        # EAX at entry: a case whose function takes it as an input (data/eax_inputs.json) draws it per trial (entry_eax)
+        u.reg_write(UC_X86_REG_EAX, 0xEEEEEEEE if getattr(self, "entry_eax", None) is None else self.entry_eax)
+        u.reg_write(UC_X86_REG_EDX, 0xDDDDDDDD if getattr(self, "entry_edx", None) is None else self.entry_edx)
         u.reg_write(UC_X86_REG_ECX, this if conv == "thiscall" else 0xCCCCCCCC)
         start_esp = esp
         try:
@@ -254,6 +257,7 @@ class Machine:
                 r.changes[a] = now
         r.stop_eip = eip
         r.calls = list(self.calls)
+        r.eax_unk = list(getattr(self, 'eax_unk', ()))
         # undo every write, newest first, so the next run starts from the same bytes
         for a, old in reversed(self.writes):
             u.mem_write(a, old)

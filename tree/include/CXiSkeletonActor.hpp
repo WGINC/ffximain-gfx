@@ -6,7 +6,10 @@
 class XI_API CXiSkeletonActor {
 public:
     char DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8);  // 0x1002B6E0
+    static uint32_t __thiscall AnimateModels(void * self, int * param_1, int param_2, uint32_t param_3, undefined4 xi_s4);  // 0x1002C2D0
     void PrepareModelsOnce(int a2, int a3);  // 0x1002C360
+    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
+    static int __thiscall GetModelElem(void * self, uint32_t param_1, int param_2);  // 0x1002C5C0
     _BYTE * PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6);  // 0x100343C0
     char * GetEnglishName();  // 0x10082F20
     int SubRef();  // 0x100832E0
@@ -79,11 +82,11 @@ public:
     int Constructor_Factory(_DWORD *a2, int a3, int a4);  // 0x100C59B0
     char DestructorBody();  // 0x100C5C00
     int Init();  // 0x100C5D60
-    int OnMove();  // 0x100C63D0
     void RunStaggeredUpdates();  // 0x100CBD60
     void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char OcclusionClip();  // 0x100CCF50
     char * SetMotion(int *a2, float a3);  // 0x100CD490
+    static undefined4 __thiscall SetMotion(void * self, int * param_1, uint32_t param_2, undefined4 param_3, float param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, int param_9, undefined4 param_10, undefined4 param_11);  // 0x100CD540
     _DWORD * ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7);  // 0x100CE480
     _DWORD * ActorFindResource(_DWORD *a2, int a3, int a4);  // 0x100CE9B0
     _DWORD * ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5);  // 0x100CEB00
@@ -94,25 +97,20 @@ public:
     int SetAttack_SchStatus(int a2);  // 0x100CF030
     void vf172(int a2);  // 0x100CF200
     char SetModel(int a2);  // 0x100CF210
-    char Slot244_Unknown(int a2, int a3, int a4);  // 0x100CFC10
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
-    void OnDrawName();  // 0x100D0510
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
-    static char __stdcall ProjectToScreen(int a1, int a2, int a3);  // 0x100D0740
+    static void __thiscall DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5);  // 0x100D0880
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80
     bool IsReadCompleteBody();  // 0x100D12D0
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
-    char LoadSkeletonSync(int arg0);  // 0x100D2F60
     char LoadSkeletonResource(int a2);  // 0x100D4330
     char GetElem(unsigned int a2, int a3);  // 0x100D4560
     char GetElemLocal(unsigned int a2, int a3);  // 0x100D4800
-    char GetEidMatrix(int a2, _DWORD *a3);  // 0x100D49B0
     char IsDirectionLock_Set(char a2);  // 0x100D5460
     char * DrawResourceShadows();  // 0x100D62C0
-    void KillAllGenerater();  // 0x100D6370
     void vf033();  // 0x100D6F90
     void vf034();  // 0x100D6FA0
     void vf035(int a1, int a2);  // 0x100D6FB0
@@ -130,8 +128,7 @@ public:
     float field_4C;  // +0x4C
     uint8_t _pad_50[0x20];
     uint32_t pModelInfo;  // +0x70 model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0
-    uint8_t _pad_74[0x8];
-    int32_t field_7C;  // +0x7C
+    uint8_t _pad_74[0xC];
     uint32_t refCount;  // +0x80 CXiSkeletonActor::SubRef decrements and returns it
     uint8_t _pad_84[0x4];
     int posHandle;  // +0x88
@@ -151,15 +148,10 @@ public:
     float distanceToCamera;  // +0xBC copied to g_shadowCasterDistance
     uint8_t _pad_C0[0x39];
     uint8_t field_F9;  // +0xF9
-    uint8_t _pad_FA[0x7];
-    uint8_t field_101;  // +0x101
-    uint8_t field_102;  // +0x102
-    uint8_t field_103;  // +0x103
-    uint8_t field_104;  // +0x104
-    uint8_t _pad_105[0x77];
+    uint8_t _pad_FA[0x82];
     uint8_t field_17C;  // +0x17C
     uint8_t _pad_17D[0x41F];
-    float field_59C;  // +0x59C
+    int32_t field_59C;  // +0x59C
     uint8_t _pad_5A0[0x58];
     uint32_t field_5F8;  // +0x5F8
     int32_t field_5FC;  // +0x5FC
@@ -170,9 +162,9 @@ public:
     int32_t field_610;  // +0x610
     int32_t field_614;  // +0x614
     int32_t field_618;  // +0x618
-    float field_61C;  // +0x61C
-    float field_620;  // +0x620
-    float field_624;  // +0x624
+    int32_t field_61C;  // +0x61C
+    int32_t field_620;  // +0x620
+    int32_t field_624;  // +0x624
     int32_t field_628;  // +0x628
     int32_t field_62C;  // +0x62C
     int32_t field_630;  // +0x630
@@ -181,7 +173,7 @@ public:
     uint8_t _pad_63C[0x20];
     int32_t field_65C;  // +0x65C
     unsigned int color;  // +0x660
-    float field_664;  // +0x664
+    int32_t field_664;  // +0x664
     unsigned int multiTexAlpha;  // +0x668
     unsigned int shadowAlpha;  // +0x66C
     uint16_t field_670;  // +0x670
@@ -189,8 +181,7 @@ public:
     float field_698;  // +0x698
     float field_69C;  // +0x69C
     float field_6A0;  // +0x6A0
-    uint32_t field_6A4;  // +0x6A4
-    uint8_t _pad_6A8[0x80];
+    uint8_t _pad_6A4[0x84];
     int32_t field_728;  // +0x728
     uint8_t _pad_72C[0x4];
     int emapAlphaMode;  // +0x730
@@ -214,7 +205,7 @@ public:
     uint8_t field_79C;  // +0x79C
     uint8_t _pad_79D[0x3];
     int32_t field_7A0;  // +0x7A0
-    uint32_t field_7A4;  // +0x7A4
+    int32_t field_7A4;  // +0x7A4
     uint8_t _pad_7A8[0xC];
     int32_t field_7B4;  // +0x7B4
     int32_t field_7B8;  // +0x7B8
@@ -261,8 +252,8 @@ public:
     uint32_t field_864;  // +0x864
     int32_t field_868;  // +0x868
     int32_t field_86C;  // +0x86C
-    float field_870;  // +0x870
-    float field_874;  // +0x874
+    int32_t field_870;  // +0x870
+    int32_t field_874;  // +0x874
     uint8_t field_878;  // +0x878
     int8_t field_879;  // +0x879
     int8_t field_87A;  // +0x87A
@@ -301,13 +292,11 @@ public:
     uint8_t field_8B6;  // +0x8B6
     uint8_t _pad_8B7[0x1];
     int32_t field_8B8;  // +0x8B8
-    float field_8BC;  // +0x8BC
+    int32_t field_8BC;  // +0x8BC
     float nameHeightOffset;  // +0x8C0 added to the Y of the position returned by GetNamePos and GetArrowPos
     uint32_t field_8C4;  // +0x8C4
-    float field_8C8;  // +0x8C8
-    uint8_t _pad_8CC[0x4];
-    uint32_t field_8D0;  // +0x8D0
-    uint32_t field_8D4;  // +0x8D4
+    uint8_t _pad_8C8[0xC];
+    int32_t field_8D4;  // +0x8D4
     uint8_t _pad_8D8[0x10];
     uint8_t field_8E8;  // +0x8E8
     uint8_t _pad_8E9[0x3];
@@ -316,39 +305,7 @@ public:
     float boundRadius;  // +0x900
     char boundUnk1[12];  // +0x904
     float field_910;  // +0x910
-    uint8_t _pad_914[0x4];
-    float field_918;  // +0x918
-    float field_91C;  // +0x91C
-    float field_920;  // +0x920
-    uint8_t _pad_924[0x4];
-    float field_928;  // +0x928
-    float field_92C;  // +0x92C
-    float field_930;  // +0x930
-    uint8_t _pad_934[0x4];
-    float field_938;  // +0x938
-    float field_93C;  // +0x93C
-    uint32_t field_940;  // +0x940
-    uint8_t _pad_944[0x4];
-    float field_948;  // +0x948
-    float field_94C;  // +0x94C
-    uint32_t field_950;  // +0x950
-    uint8_t _pad_954[0x4];
-    float field_958;  // +0x958
-    float field_95C;  // +0x95C
-    float field_960;  // +0x960
-    uint8_t _pad_964[0x4];
-    float field_968;  // +0x968
-    float field_96C;  // +0x96C
-    float field_970;  // +0x970
-    uint8_t _pad_974[0x4];
-    float field_978;  // +0x978
-    float field_97C;  // +0x97C
-    uint32_t field_980;  // +0x980
-    uint8_t _pad_984[0x4];
-    float field_988;  // +0x988
-    float field_98C;  // +0x98C
-    uint32_t field_990;  // +0x990
-    uint8_t _pad_994[0x44];
+    uint8_t _pad_914[0xC4];
     int32_t field_9D8;  // +0x9D8
     int32_t field_9DC;  // +0x9DC
     int32_t field_9E0;  // +0x9E0
@@ -373,7 +330,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_44) == 0x44, "CXiSkeletonActor
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_48) == 0x48, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_4C) == 0x4C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, pModelInfo) == 0x70, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_7C) == 0x7C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, refCount) == 0x80, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, posHandle) == 0x88, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, moveSpeedBase) == 0x94, "CXiSkeletonActor: layout");
@@ -386,10 +342,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_B4) == 0xB4, "CXiSkeletonActor
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_B8) == 0xB8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, distanceToCamera) == 0xBC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_F9) == 0xF9, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_101) == 0x101, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_102) == 0x102, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_103) == 0x103, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_104) == 0x104, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_17C) == 0x17C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_59C) == 0x59C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_5F8) == 0x5F8, "CXiSkeletonActor: layout");
@@ -418,7 +370,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_670) == 0x670, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_698) == 0x698, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_69C) == 0x69C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_6A0) == 0x6A0, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_6A4) == 0x6A4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_728) == 0x728, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, emapAlphaMode) == 0x730, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, effectFlags) == 0x734, "CXiSkeletonActor: layout");
@@ -519,8 +470,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B8) == 0x8B8, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8BC) == 0x8BC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, nameHeightOffset) == 0x8C0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8C4) == 0x8C4, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8C8) == 0x8C8, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8D0) == 0x8D0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8D4) == 0x8D4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8E8) == 0x8E8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8EC) == 0x8EC, "CXiSkeletonActor: layout");
@@ -528,30 +477,6 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, boundUnk0) == 0x8F0, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundRadius) == 0x900, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundUnk1) == 0x904, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_910) == 0x910, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_918) == 0x918, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_91C) == 0x91C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_920) == 0x920, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_928) == 0x928, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_92C) == 0x92C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_930) == 0x930, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_938) == 0x938, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_93C) == 0x93C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_940) == 0x940, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_948) == 0x948, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_94C) == 0x94C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_950) == 0x950, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_958) == 0x958, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_95C) == 0x95C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_960) == 0x960, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_968) == 0x968, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_96C) == 0x96C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_970) == 0x970, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_978) == 0x978, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_97C) == 0x97C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_980) == 0x980, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_988) == 0x988, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_98C) == 0x98C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_990) == 0x990, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_9D8) == 0x9D8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_9DC) == 0x9DC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_9E0) == 0x9E0, "CXiSkeletonActor: layout");

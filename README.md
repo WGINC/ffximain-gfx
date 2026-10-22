@@ -27,8 +27,9 @@ corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
 
 | | Count |
 |---|---|
-| **Verified in the clean tree, as built** (`tree/`, 217 files) | **776** of the tree's 779: 774 PASS on fuzz and all four dumps; the step getters 0x10014CF0 and 0x10014D20 (Ghidra route, 18 Oct) PASS on fuzz, 10 of 10 instructions covered, not yet gated on the dumps |
-| In the tree, not verified (`// NOT VERIFIED`) | 3: `Post_DrawRotatingGhostLayers` FAIL (-0.0 / +0.0), 0x10016320 and 0x1006B3B0 INCONCLUSIVE (the original never returns under the gate's inputs) |
+| **Verified in the clean tree, as built** (`tree/`, 419 files) | **4,198** of the tree's 4,205, on the fuzz gate run on this build (22 Oct). The four dumps' live gates (`verification/live/`) were run on the 4 Oct tree and have not been rerun on this build (the dumps are not in this environment) |
+| In the tree, not verified (`// NOT VERIFIED`) | 7: 0x10040220, 0x1006F0A0 and 0x1006F800 FAIL (as before); 0x1003C7D0 and 0x100CD540 FAIL in the clean build only: both were the gate's errors, since fixed and being re-gated (`docs/PROBLEMS.md` R1, R2); 0x10003890 UNRESOLVED (pop count of the call at 0x10003A50 unknown); 0x10016320 INCONCLUSIVE (the original never returns under the gate's inputs). `tree/left_out.json` lists 51 gate-passed functions left out: each calls a game function that may read a register its wrapper does not pass (49 EAX, 1 ECX, 1 EDX) |
+| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the tree's 4,205 (22 Oct): the function's tree text, rewritten only as `pipeline/msvc_tu.py` states for Visual C++ 6.0, compiles with the Processor Pack code generator and `/O2` to every byte the DLL holds, relocations by target (`verification/msvc_match_tree.json`). 943 compile to different bytes, 499 do not compile yet, 1,450 are left out with reasons (floating point, address-taken frames, calls through pointers, ...) |
 | Microsoft D3DX 8.1 (statically linked) | 48 |
 | Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
 | Did not compile (8), or compiles with no gate case (1) | 9 |

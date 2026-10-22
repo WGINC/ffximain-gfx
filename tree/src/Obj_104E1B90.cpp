@@ -3,7 +3,7 @@
 #include "Obj_104E1B90.hpp"
 
 // FUNCTION: FFXIMAIN 0x1011C080  (placed by callers pass the object in dword_104E1B90 as this (3 of 3 call sites); singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 47 returned normally, 94 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 47, town PASS 61, town2 PASS 61, combat PASS 61, zonetoinn PASS 61
+// GATE: PASS -- 100 trials, 47 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
 int Obj_104E1B90::Obj_104E1B90_DrawString(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

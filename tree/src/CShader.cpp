@@ -3,14 +3,14 @@
 #include "CShader.hpp"
 
 // FUNCTION: FFXIMAIN 0x10017750  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CShader::GetRuntimeClass()
 {
   return &CShader_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10017780  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int * CShader::ScalarDeletingDtor(char a2)
 {
   orig::CShader_Destructor(this);
@@ -20,7 +20,7 @@ unsigned int * CShader::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100177A0  (placed by callers pass their own this (CShader))
-// GATE: PASS -- 100 trials, 100 returned normally, 143 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 143 D3D calls compared (diffemu_gfx, clean build)
 int CShader::CShader_Destructor()
 {
   int result;

@@ -551,9 +551,69 @@ def callee_pops_fix(o, pt):
     return pt
 
 
+_THUNKS = None
+
+
+def ghidra_thunk(rec):
+    """a function whose whole body is one `jmp T` to another function (data/func_extents.json: its one range is that
+    5-byte instruction, read from the image) is a tail call: T runs with the caller's own stack and registers.
+    Ghidra decompiles such a thunk as T's body inlined, which runs T's callees where the original runs T. The
+    record's body becomes a call to T with the thunk's own parameters, the prototype Ghidra gives the thunk (T's);
+    the gate then compares that call. None when the function is not such a thunk or FFXI_DLL is not set."""
+    global _THUNKS
+    if _THUNKS is None:
+        _THUNKS = {}
+        dll = os.environ.get('FFXI_DLL')
+        if dll and os.path.exists(dll):
+            import pefile
+            pe = pefile.PE(dll, fast_load=True); base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_mapped_image()
+            ext = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
+            starts = {int(k, 16) for k in ext}
+            for k, rs in ext.items():
+                a = int(k, 16)
+                if len(rs) == 1 and rs[0][1] - rs[0][0] == 5 and img[a - base] == 0xE9:
+                    t = (a + 5 + struct.unpack('<i', img[a - base + 1:a - base + 5])[0]) & 0xFFFFFFFF
+                    if t in starts and t != a: _THUNKS[a] = t
+    t = _THUNKS.get(rec['ea'])
+    if t is None: return None
+    head = rec['text'].partition('\n{')[0]
+    objs = dict(rec.get('objs') or {})
+    name = next((n for n, o in objs.items() if o.get('func') and o['ea'] == t), None)
+    if name is None:
+        name = 'FUN_%08x' % t
+        typ = re.sub(r'\s+%s\s*\(' % re.escape(rec['name']), '(', rec['type'], count=1)
+        objs[name] = {'ea': t, 'func': True, 'type': typ, 'printed': [name], 'size': 0, 'is_str': False,
+                      'purged': rec.get('purged', 0), 'storage': []}
+    call = '%s(%s)' % (name, ', '.join(a[0] for a in rec.get('args') or []))
+    body = '\n{\n  %s%s;%s\n}\n\n' % ('' if rec['ret'].strip() == 'void' else 'return ', call,
+                                         '\n  return;' if rec['ret'].strip() == 'void' else '')
+    return dict(rec, text=head + body, objs=objs, icalls={}, x87_locals=[], stack_locals=[], thunk_of='0x%08X' % t)
+
+
+_EAX_UNSEEN = None
+
+
+def ghidra_entry_eax(rec):
+    """`in_EAX` (EAX's value at entry, which Ghidra could not tie to a parameter) in a function where no code sees
+    that value: data/eax_entry_unseen.json (caller_reads.py: the function and its callees read no byte of it, and
+    the bytes it can hand back unchanged are bytes no caller reads). The C++ starts it at 0; any value is the same
+    to every caller. Only when in_EAX is the record's one such input."""
+    global _EAX_UNSEEN
+    if _EAX_UNSEEN is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'eax_entry_unseen.json')
+        _EAX_UNSEEN = set(json.load(open(p))) if os.path.exists(p) else set()
+    head, brace, body = rec.get('text', '').partition('\n{')
+    if set(GHIDRA_REG.findall(body)) != {'in_EAX'} or '0x%08X' % rec['ea'] not in _EAX_UNSEEN: return None
+    body, n = re.subn(r'^(\s*[A-Za-z_][\w ]*?\s*\**)\s*in_EAX;', r'\1xi_entry_eax = 0;', body, count=1, flags=re.M)
+    if n != 1: return None
+    return dict(rec, text=head + brace + re.sub(r'\bin_EAX\b', 'xi_entry_eax', body))
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
+    rec = ghidra_thunk(rec) or rec
+    rec = ghidra_entry_eax(rec) or rec
     if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
         return None, 'skipped', 'register or stack input Ghidra could not tie to a parameter: ' + \
             ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))
@@ -567,8 +627,17 @@ def ghidra_prepare(rec):
         for n in rec['x87_locals']:
             rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
         rec = dict(rec, text=head + brace + rest)
+    if rec.get('stack_locals'):
+        head, brace, rest = rec['text'].partition('\n{')
+        rec = dict(rec, text=head + brace + ghidra_frame(rest, rec['stack_locals']))
     head, brace, rest = rec['text'].partition('\n{')
     rest, why = ghidra_consts(rest)
+    if rest is None: return None, 'untranslatable', why
+    rest = ghidra_pieces(rest)                    # (before the casts: their operands are then plain C++)
+    rest, why = ghidra_bitcasts(rest)
+    if rest is None: return None, 'untranslatable', why
+    rest = ghidra_byte_adds(rest)
+    rest, why = ghidra_ptradds(rest)
     if rest is None: return None, 'untranslatable', why
     rec = dict(rec, text=head + brace + ghidra_pieces(rest))
     if rec.get('type'):
@@ -675,11 +744,110 @@ def ghidra_bool(text):
     parts = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', text)
     return ''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts))
 
+_GTYPE = re.compile(r'\(\s*((?:unsigned |signed |const |struct )*[A-Za-z_]\w*(?:\s*\*)*)\s*\)')
+
+
+def _cast_operand_end(text, i):
+    """the end of the operand of a C cast whose `)` ends just before i: a cast-expression (prefix operators and
+    casts, a primary -- a name, a number, a string, a parenthesised group -- then postfix [..] (..) . -> ++ --)"""
+    n = len(text)
+    def blank(i):                                     # spaces and comments (markers)
+        while True:
+            while i < n and text[i].isspace(): i += 1
+            if text.startswith('/*', i) and text.find('*/', i) > 0: i = text.find('*/', i) + 2; continue
+            return i
+    while True:
+        i = blank(i)
+        if text.startswith(('++', '--'), i): i += 2; continue
+        if i < n and text[i] in '-!~*&+': i += 1; continue
+        m = _GTYPE.match(text, i)
+        if m and re.match(r'\s*[\w(&*\-!~]', text[m.end():]): i = m.end(); continue     # another cast
+        break
+    if i >= n: return None
+    if text[i] == '(':
+        i = _balanced(text, i)
+        if i is None: return None
+    elif text[i] == '"':
+        m = re.match(r'"(?:\\.|[^"\\])*"', text[i:]); i += m.end() if m else 1
+    else:
+        m = re.match(r'[A-Za-z_]\w*|0x[0-9A-Fa-f]+|\d+(?:\.\d*)?(?:[eE][-+]?\d+)?', text[i:])
+        if not m: return None
+        i += m.end()
+    while i < n:
+        j = blank(i)
+        if j < n and text[j] in '[(':
+            k = _balanced(text, j)
+            if k is None: return None
+            i = k; continue
+        m = re.match(r'(?:\.|->)\s*[A-Za-z_]\w*|\+\+|--', text[j:])
+        if m and not text.startswith(('++ ', '-- '), j) or (m and text[j:j + 2] not in ('++', '--')):
+            i = j + m.end(); continue
+        break
+    return i
+
+
+def ghidra_bitcasts(text):
+    # GfxExport `/*XI_BC:1*/v`: v is read through p-code CAST between a floating and a non-floating type, which keeps
+    # the bits; the C cast Ghidra prints in front, `(T)v`, would convert the value. Without a printed cast the
+    # type the bits become is not in the text: (None, why).
+    # `/*XI_BC:3*/(T)operand`: a cast Ghidra prints for p-code CAST, whatever the operand (GfxExport); the
+    # variable markers inside it are part of the same CAST
+    while True:
+        m = re.search(r'/\*XI_BC:3\*/\s*' + _GTYPE.pattern, text)
+        if not m: break
+        e = _cast_operand_end(text, m.end())
+        if e is None: return None, 'a cast Ghidra prints for p-code CAST (bits kept): its operand not parsed'
+        operand = text[m.end():e].strip().replace('/*XI_BC:1*/', '')
+        text = text[:m.start()] + 'xi_castbits<%s>(%s)' % (m.group(1).strip(), operand) + text[e:]
+    if '/*XI_BC:3*/' in text:
+        return None, 'a cast Ghidra prints for p-code CAST (bits kept): no cast type after its marker'
+    out = re.sub(r'\(\s*([A-Za-z_][\w ]*?\s*\**)\s*\)\s*/\*XI_BC:1\*/\s*([A-Za-z_]\w*)',
+                 lambda m: 'xi_castbits<%s>(%s)' % (m.group(1).strip(), m.group(2)), text)
+    # `/*XI_BC:2*/v = (T)rest;`: v is what the cast defines, the whole right side
+    while True:
+        m = re.search(r'/\*XI_BC:2\*/\s*([A-Za-z_]\w*)\s*=\s*\(\s*([A-Za-z_][\w ]*?\s*\**)\s*\)', out)
+        if not m: break
+        depth, k = 0, m.end()
+        while k < len(out) and not (out[k] == ';' and depth == 0):
+            depth += (out[k] in '([') - (out[k] in ')]'); k += 1
+        out = out[:m.start()] + '%s = xi_castbits<%s>(%s)' % (m.group(1), m.group(2).strip(), out[m.end():k].strip()) + out[k:]
+    # `/*XI_BC:2*/v = xi_castbits<T>(...)`: the same CAST, its printed cast already made a bit copy by XI_BC:3
+    out = re.sub(r'/\*XI_BC:2\*/(\s*[A-Za-z_]\w*\s*=\s*xi_castbits<)', r'\1', out)
+    if '/*XI_BC:2*/' in out:
+        return None, 'a value written through p-code CAST (bits kept) with no printed type: ' + \
+            re.search(r'/\*XI_BC:2\*/\s*(\w+)', out).group(1)
+    if '/*XI_BC:1*/' in out:
+        return None, 'a value read through p-code CAST (bits kept) with no printed type: ' + \
+            re.search(r'/\*XI_BC:1\*/\s*(\w+)', out).group(1)
+    return out, None
+
+def ghidra_byte_adds(text):
+    # GfxExport `/*XI_BA:1*/+`: p-code INT_ADD on a pointer to something wider than a byte (a byte offset, where C++
+    # scales by the pointee): an `&name` operand before it becomes a byte pointer; the cast Ghidra prints around the
+    # sum gives the type back. Any other left operand is left as printed (the marker dropped).
+    # `/*XI_BA:N*/` (N 2, 4, 8): p-code PTRADD of N-byte elements on a base pointing to something of another size
+    W = {'1': 'char', '2': 'uint16_t', '4': 'uint32_t', '8': 'uint64_t'}
+    text = re.sub(r'(&\s*[A-Za-z_]\w*)\s*/\*XI_BA:([1248])\*/\s*\+', lambda m: '((%s *)%s) +' % (W[m.group(2)], m.group(1)), text)
+    text = re.sub(r'(\(\s*&\s*[A-Za-z_]\w*\s*\))\s*/\*XI_BA:([1248])\*/\s*\+', lambda m: '((%s *)%s) +' % (W[m.group(2)], m.group(1)), text)
+    return re.sub(r'/\*XI_BA:[1248]\*/', '', text)
+
+def ghidra_ptradds(text):
+    # GfxExport `base/*XI_PA:N*/[i]`: p-code PTRADD with element size N where the printed base points to something of
+    # another size; the element is N bytes (unsigned, the bits; a cast Ghidra prints around it converts them). The
+    # base must be `(&name)`, `&name` or a name; any other: (None, why)
+    out = re.sub(r'(\(\s*&\s*[A-Za-z_]\w*\s*\)|&\s*[A-Za-z_]\w*|\b[A-Za-z_]\w*)\s*/\*XI_PA:([1248])\*/\s*\[',
+                 lambda m: '((%s *)(%s))[' % ({'1': 'uint8_t', '2': 'uint16_t', '4': 'uint32_t', '8': 'uint64_t'}[m.group(2)],
+                                              m.group(1)), text)
+    if '/*XI_PA:' in out:
+        return None, 'an index whose element size differs from the base\'s pointee (p-code PTRADD) on a base not parsed'
+    return out, None
+
 def ghidra_pieces(text):
     # Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (little-endian x86), an lvalue
-    # (xi_ghidra.hpp XI_PIECE); x is the postfix expression before the `.`
+    # (xi_ghidra.hpp XI_PIECE, XI_PIECE_S when GfxExport marks the piece's own type signed); x is the postfix
+    # expression before the `.`
     while True:
-        m = re.search(r'\._(\d+)_(\d+)_(?!\w)', text)
+        m = re.search(r'\.(?:/\*XI_PS:(\d)\*/)?_(\d+)_(\d+)_(?!\w)', text)
         if not m: return text
         i = m.start()
         while True:
@@ -700,7 +868,32 @@ def ghidra_pieces(text):
                 i = mm.start()
                 if i >= 1 and text[i - 1] == '.' or text[max(0, i - 2):i] == '->': i -= 1 if text[i - 1] == '.' else 2; continue
             break
-        text = text[:i] + 'XI_PIECE(%s, %s, %s)' % (text[i:m.start()], m.group(1), m.group(2)) + text[m.end():]
+        sg = 'XI_PIECE_S' if m.group(1) == '1' else 'XI_PIECE'   # GfxExport's /*XI_PS*/: the piece varnode's sign
+        text = text[:i] + '%s(%s, %s, %s)' % (sg, text[i:m.start()], m.group(2), m.group(3)) + text[m.end():]
+
+def ghidra_frame(rest, locs):
+    # the stack locals of a function with a stack array or an address-taken stack local, laid out as the code
+    # lays them out: one buffer, each local a reference at its stack offset (GfxExport `stack_locals`, from each symbol's storage). Ghidra splits
+    # one buffer into pieces (Mat4_PostMultiply's 64 bytes are local_40[4] and local_30[12]) and the code indexes
+    # across them; as separate C++ objects the compiler may place them anywhere.
+    decl = {}
+    for n, off, sz in locs:
+        m = re.search(r'^([ \t]*)([A-Za-z_][\w ]*?)\s*(\**)\s*%s((?:\s*\[\d+\])*);[ \t]*$' % re.escape(n), rest, re.M)
+        if m: decl[n] = (m, off, sz)
+    # a stack array, or a stack local whose address the code takes (a callee may read past it: 0x1000A3B0 passes
+    # &local_90 with a size of 0x1C to 0x1000CD00, and Ghidra split those 28 bytes into separate locals)
+    taken = any(re.search(r'&\s*%s\b' % re.escape(n), rest) for n in decl)
+    if not taken and not any(m.group(4) for m, off, sz in decl.values()): return rest
+    # up to the entry ESP (offset 0): the frame is everything from the lowest local to the return address, and the
+    # code may reach bytes no declared local covers (0x101D7AC0 zeroes 0x15 dwords from local_54, 24 bytes declared)
+    lo = min(off for m, off, sz in decl.values()); hi = max([0] + [off + sz for m, off, sz in decl.values()])
+    first = min(m.start() for m, off, sz in decl.values())
+    for n, (m, off, sz) in sorted(decl.items(), key=lambda x: -x[1][0].start()):
+        ind, t, st, dims = m.group(1), m.group(2).strip() + ' ' + m.group(3), m.group(3), re.sub(r'\s+', '', m.group(4))
+        if dims: r = '%s%s (&%s)%s = *reinterpret_cast<%s (*)%s>(xi_frame + %d);' % (ind, t, n, dims, t, dims, off - lo)
+        else: r = '%s%s &%s = *reinterpret_cast<%s *>(xi_frame + %d);' % (ind, t, n, t, off - lo)
+        rest = rest[:m.start()] + r + rest[m.end():]
+    return rest[:first] + '  char xi_frame[%d] __attribute__((aligned(4)));\n' % (hi - lo) + rest[first:]
 
 def call_arg_counts(body, name):
     # number of arguments at each call `name(...)` in the body (top-level commas)
@@ -741,13 +934,43 @@ def extra_regs(cc, storage):
     own = CC_REGS.get(cc, [])
     return [(i, r) for i, r in enumerate(storage or []) if r != 'stack' and (i >= len(own) or own[i] != r)]
 
+def _params(args):
+    parts, depth, cur = [], 0, ''
+    for ch in args:
+        if ch == ',' and depth == 0: parts.append(cur.strip()); cur = ''; continue
+        depth += (ch == '(') - (ch == ')'); cur += ch
+    if cur.strip(): parts.append(cur.strip())
+    return [] if parts == ['void'] else parts
+
+def regparm_entry(ea, cc, params, storage):
+    # an entry that takes a register its convention does not pass (GfxExport's register input: conv.txt `regin`,
+    # from entry_regs / edx_use / eax_inputs). GCC's regparm(n) passes the first n parameters in EAX, EDX, ECX
+    # (GCC manual, x86 function attributes), with the rest on the stack under the convention's own pop rule: the
+    # reconstruction then has the original's ABI exactly, so the gate calls it and the game jumps to it as it is.
+    # (attribute, parameters) or (None, why)
+    ps, st = _params(params), list(storage or [])
+    if len(ps) != len(st): return None, 'entry: %d parameters for %d storage entries' % (len(ps), len(st))
+    regs = [r for r in st if r != 'stack']
+    if any(r not in ('EAX', 'ECX', 'EDX') for r in regs) or len(set(regs)) != len(regs):
+        return None, 'entry takes parameters in %s' % ', '.join(regs)
+    reg = {r: ps[i] for i, r in enumerate(st) if r != 'stack'}
+    stack = [ps[i] for i, r in enumerate(st) if r == 'stack']
+    pops = cc in ('__stdcall', '__thiscall', '__fastcall')
+    slots = sum(2 if re.match(r'\s*(double|longlong|ulonglong|undefined8|__int64|unsigned __int64)\b', x) else 1 for x in stack)
+    real = PURGES.get('0x%08X' % ea)
+    if real is None or real != (4 * slots if pops else 0):
+        return None, 'entry takes a register input; its ret N (%s) does not match %d stack slots under %s' % (real, slots, cc)
+    n = 3 if 'ECX' in reg else 2 if 'EDX' in reg else 1
+    new = [reg.get(r) or 'uint32_t xi_%s_unused' % r.lower() for r in ('EAX', 'EDX', 'ECX')[:n]] + stack
+    return ('__attribute__((%s, regparm(%d)))' % ('stdcall' if pops else 'cdecl', n), ', '.join(new)), None
+
 def ghidra_reg_call(name, o, body, tok):
     # a call to a callee that takes a register its convention does not cover: an asm call that loads EAX, ECX,
     # EDX as the callee's storage says, pushes the stack arguments, and pops them itself when the callee does not
     # (its `ret N`, purges.json). The callee returns EDX:EAX; ESI/EDI/EBX/EBP are callee-saved in the game's code.
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', SPOILS.sub('', o['type']), re.S)
     ret = (m.group(1).strip() if m else 'int') or 'int'
-    if re.search(r'float|double', ret): return None, 'callee %s returns in ST0 and takes a register input' % name
+    fp = bool(re.search(r'float|double', ret))           # returns in ST0 (its type, as conv.txt `float` set it)
     st = o.get('storage') or []
     regs = [r for r in st if r != 'stack']
     if any(r not in ('EAX', 'ECX', 'EDX') for r in regs) or len(set(regs)) != len(regs):
@@ -763,13 +986,14 @@ def ghidra_reg_call(name, o, body, tok):
     args = ', '.join('XI_ANY a%d' % i for i in range(n))
     stk = [i for i, w in enumerate(where) if w == 'stack']
     rv = {r: 'a%d.bits' % i for i, r in enumerate(where) if r != 'stack'}
-    lines = ['static inline unsigned long long %s(%s) {' % (fn, args),
-             '    uint32_t xs[%d] = {%s}; uint32_t ra = %s, rc = %s, rd = %s;' % (max(len(stk), 1), ', '.join('a%d.bits' % i for i in stk) or '0',
-                 rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0')),
+    lines = ['static inline %s %s(%s) {' % ('long double' if fp else 'unsigned long long', fn, args),
+             '    uint32_t xs[%d] = {%s}; uint32_t ra = %s, rc = %s, rd = %s;%s' % (max(len(stk), 1), ', '.join('a%d.bits' % i for i in stk) or '0',
+                 rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0'), ' long double st0;' if fp else ''),
              '    __asm__ volatile(' + ''.join('"pushl %d(%%%%esi)\\n\\t"' % (4 * k) for k in reversed(range(len(stk))))
              + '"call *%%edi\\n\\t"' + ('"addl $%d, %%%%esp\\n\\t"' % (4 * len(stk)) if stk and not purge else ''),
-             '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' % o['ea'],
-             '    return ((unsigned long long)rd << 32) | ra;', '}',
+             ('        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' if fp else
+              '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");') % o['ea'],
+             '    return st0;' if fp else '    return ((unsigned long long)rd << 32) | ra;', '}',
              '#define %s %s' % (tok, fn)]
     return lines, None
 
@@ -804,8 +1028,7 @@ def translate(rec):
     body = ctree_signs(rec, '{' + body)          # on Hex-Rays' own text, before any name is replaced
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
-    if rec.get('source') == 'ghidra' and extra_regs(rec.get('cc'), rec.get('storage')):
-        return None, 'entry takes %s in a register its convention does not pass' % ', '.join(r for i, r in extra_regs(rec.get('cc'), rec.get('storage')))
+    regentry = rec.get('source') == 'ghidra' and bool(extra_regs(rec.get('cc'), rec.get('storage')))
     for nm, o in rec.get('objs', {}).items():
         oea = o['ea']
         if o['func']:
@@ -829,10 +1052,14 @@ def translate(rec):
                 pt = callee_pops_fix(o, pt)
                 syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
+            if rec.get('source') == 'ghidra' and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), body):
+                continue                                # a goto target of the body (LAB_...), not a global
             tok = 'G_%08X' % oea
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
             if re.sub(r'^(struct\s+)?(std::)?', '', ot.strip()) in OPAQUE:
                 ot = 'char[1]'   # a FLIRT runtime type (layout unknown) on a game object: use it as its address
+            if rec.get('source') == 'ghidra':   # a global undefined4 is storage the text addresses as any pointer type
+                ot = re.sub(r'^undefined4\b', 'uint32_t', ot.strip())
             syms.append(typedef_for('T_%08X' % oea, ot))
             syms.append('#define %s XI_EA(T_%08X, 0x%08Xu)' % (tok, oea, oea))
         forms = set(o.get('printed', [nm])) | {nm}
@@ -875,7 +1102,15 @@ def translate(rec):
     out += comments
     ret, body = drop_float_return(ea, ret, body)
     syms, body = unconsumed_fp_calls(ea, syms, body)
-    out.append('extern "C" __declspec(dllexport) %s %s %s(%s)' % (ret.strip(), cc, fname, params.strip() or 'void'))
+    # GfxExport `sse`: the original's float arithmetic is SSE (its code uses XMM registers), each operation rounded
+    # to float; x87 code (the build's default) rounds only at a store
+    sse = '__attribute__((target("sse,fpmath=sse"))) ' if rec.get('sse') else ''
+    if regentry:
+        rp, why = regparm_entry(ea, cc, params, rec.get('storage'))
+        if rp is None: return None, why
+        dcc, params = rp
+    else: dcc = cc
+    out.append('extern "C" __declspec(dllexport) %s%s %s %s(%s)' % (sse, ret.strip(), dcc, fname, params.strip() or 'void'))
     out.append(body.rstrip())
     return {'syms': syms, 'code': '\n'.join(out), 'export': fname, 'cc': cc, 'ret': ret.strip()}, None
 
@@ -925,7 +1160,8 @@ def main(src, outdir):
                 meta['%08X' % ea] = {'status': 'skipped', 'why': 'unsupported construct ' + (m.group(0) if m else rec.get('skip', '?'))}; continue
         if False:
             meta['%08X' % ea] = {'status': 'library', 'why': 'D3DX / C++ runtime code, not game code'}; continue
-        rec = hx_patches.apply(rec)
+        if rec.get('source') != 'ghidra':   # corrections to Hex-Rays' text and IDA's prototypes
+            rec = hx_patches.apply(rec)
         if rec.get('source') == 'ghidra':
             rec, status, why = ghidra_prepare(rec)
             if rec is None:

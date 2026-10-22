@@ -281,7 +281,7 @@
    "CMoResource_ReleaseChain(*v3, v1);",
    "CMoResource_ReleaseChain(*v5, v1);"
   ],
-  "gate": "PASS",
+  "gate": "UNRESOLVED",
   "class": "harmless"
  },
  {

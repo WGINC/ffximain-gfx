@@ -59,6 +59,21 @@ def arg_size(ty, ea):
     raise ValueError('type_fixes.json 0x%08X: no defined size for an added parameter of type %r' % (ea, ty))
 
 
+_R = None
+
+
+def _raw_fixes():
+    global _R
+    if _R is None: _R = json.load(open(TYPE_FIXES)) if os.path.exists(TYPE_FIXES) else {}
+    return _R
+
+
+def fix_flag(ea, name):
+    """a flag of the type_fixes.json entry for ea (its full record, not just the type)"""
+    v = _raw_fixes().get('0x%08X' % ea)
+    return isinstance(v, dict) and bool(v.get(name))
+
+
 def fix_types(rec):
     t = type_fixes()
     objs = rec.get('objs', {})
@@ -90,6 +105,13 @@ def fix_types(rec):
             params = ', '.join(re.sub(r'^(.*?)(\**\s*\b(\w+))$', lambda q: (new[q.group(3)] + ' ' + q.group(3)) if q.group(3) in new else q.group(0), x.strip())
                                for x in m.group(1).split(','))
             rec['text'] = text[:m.start(1)] + params + text[m.end(1):]
+            # with "code_return": true in the entry, the corrected return type on the same header line too (before
+            # the convention or the name): `ret` alone does not reach the code, which takes its signature from this
+            # line (Frame_Render 0x10011A00). Opt-in: other entries' returns differ from the IDB's only in spelling.
+            if '(' in t[rec['ea']] and rec.get('ret') and fix_flag(rec['ea'], 'code_return'):
+                text = rec['text']; m = re.search(r'^([^\n(]*?)(\s*(?:\b__\w+\s+)?\b%s\()' % re.escape(rec['name']), text, re.M)
+                if m and m.group(1).strip() and m.group(1).strip() != rec['ret']:
+                    rec['text'] = text[:m.start(1)] + rec['ret'] + text[m.end(1):]
         cc = re.search(r'__(cdecl|stdcall|thiscall|fastcall)\b', t[rec['ea']][:t[rec['ea']].index('(')])
         if cc: rec['cc'] = cc.group(1)              # the corrected convention, as declared
         if rec.get('args') is not None:

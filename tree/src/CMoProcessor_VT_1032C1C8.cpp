@@ -3,7 +3,7 @@
 #include "CMoProcessor_VT_1032C1C8.hpp"
 
 // FUNCTION: FFXIMAIN 0x1006CC40  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf008(void * a1, void * a2, void * a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -11,7 +11,7 @@ int CMoProcessor_VT_1032C1C8::vf008(void * a1, void * a2, void * a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CC50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf010(void * a1, void * a2, void * a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -19,7 +19,7 @@ int CMoProcessor_VT_1032C1C8::vf010(void * a1, void * a2, void * a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CC60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf040(float * a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -27,7 +27,7 @@ int CMoProcessor_VT_1032C1C8::vf040(float * a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CC70  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf038(float * a1, float * a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -35,7 +35,7 @@ int CMoProcessor_VT_1032C1C8::vf038(float * a1, float * a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CC80  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf046(void * a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -43,7 +43,7 @@ int CMoProcessor_VT_1032C1C8::vf046(void * a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CC90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoProcessor_VT_1032C1C8::vf045(void * a1, void * a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -51,63 +51,63 @@ int CMoProcessor_VT_1032C1C8::vf045(void * a1, void * a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CCD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass()
 {
   return &CMoProcessor_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10070780  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf012(float *a1, float *a2, float a3)
 {
   return orig::CMoProcessor_VT_1032C368_vf012(a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10070790  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
 double CMoProcessor_VT_1032C1C8::vf014(float *a1, float *a2)
 {
   return a1[2] * a2[2] + a1[1] * a2[1] + *a1 * *a2;
 }
 
 // FUNCTION: FFXIMAIN 0x10070860  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoProcessor_VT_1032C1C8::vf041(float *a1)
 {
   orig::CMoProcessor_Vec3Normalize(a1);
 }
 
 // FUNCTION: FFXIMAIN 0x10070AA0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf018(float *a1, float *a2, float *a3)
 {
   return orig::CMoProcessor_Vec4TransformB(a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10070AB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf017(float *a1, float *a2, float *a3)
 {
   return orig::CMoProcessor_Vec4Transform(a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10070AC0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf016(float *a1, float *a2, float *a3)
 {
   return orig::CMoProcessor_Vec3Transform(a1, a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x10070AD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf021(float *a1, float *a2, float *a3, float a4)
 {
   return orig::CMoProcessor_VT_1032C368_vf021(a1, a2, a3, a4);
 }
 
 // FUNCTION: FFXIMAIN 0x10070D80  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoProcessor_VT_1032C1C8::vf032(float * a1, int a2, int a3, float * a4, float * a5, float a6, float a7)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -115,21 +115,21 @@ void CMoProcessor_VT_1032C1C8::vf032(float * a1, int a2, int a3, float * a4, flo
 }
 
 // FUNCTION: FFXIMAIN 0x10070E20  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C1C8::vf033(float *a1, float *a2, int a3, float *a4, float *a5, float a6, float a7)
 {
   return orig::CMoProcessor_ProjectVertsAndBounds(a1, a2, a3, a4, a5, a6, a7);
 }
 
 // FUNCTION: FFXIMAIN 0x10070E40  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CMoProcessor * CMoProcessor_VT_1032C1C8::vf035(float *a2, float *a3, int a4, int a5, int a6, float a7, float a8)
 {
   return orig::CMoProcessor_CalcScreenBoundsAndVisible((float *)this, a2, a3, a4, a5, a6, a7, a8);
 }
 
 // FUNCTION: FFXIMAIN 0x10070E60  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 CMoProcessor * CMoProcessor_VT_1032C1C8::vf036(float *a1, float *a2, int a3, int a4, const void *a5)
 {
   return orig::CMoProcessor_CalcScreenBounds(a1, a2, a3, a4, a5);

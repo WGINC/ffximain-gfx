@@ -2,18 +2,8 @@
 #include "gfx_all.hpp"
 #include "CMoTask_VT_10329C70.hpp"
 
-// FUNCTION: FFXIMAIN 0x100119A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-_DWORD * CMoTask_VT_10329C70::ScalarDeletingDtor(char a2)
-{
-  orig::CMoTask_VT_10329C70_Destructor(this);
-  if ( (a2 & 1) != 0 )
-    orig::SharedDeleteHelper((int)this);
-  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
-}
-
 // FUNCTION: FFXIMAIN 0x1006B480  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoTask_VT_10329C70::vf8()
 {
   unsigned int v1;
@@ -33,18 +23,4 @@ char CMoTask_VT_10329C70::vf8()
     ++at<uint32_t>(this, 0x34);
   }
   return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x1006B4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
-_DWORD * __stdcall CMoTask_VT_10329C70::vf1(_DWORD *a1)
-{
-  _DWORD *result;
-  result = a1;
-  if ( *a1 == 6 )
-  {
-    orig::nullsub_43(g_pResourceMng);
-    return result;
-  }
-  return result;
 }

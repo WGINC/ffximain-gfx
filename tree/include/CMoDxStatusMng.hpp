@@ -6,6 +6,7 @@
 class XI_API CMoDxStatusMng {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x1006B040
+    static undefined4 * __thiscall Constructor(void * self);  // 0x1006B050
     int * ScalarDeletingDtor(char a2);  // 0x1006B070
 
     void **vftable;  // +0x0

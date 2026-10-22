@@ -19,7 +19,7 @@ Output {"0xFUNC": {"eax": "0xADDR instruction", ...}} for functions with at leas
 import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sp_solve as S
-from vcall_resolve import written_exact, r32
+from vcall_resolve import written_exact, r32, succs as succs_v
 from reg_preserve import table
 from capstone.x86 import X86_OP_IMM, X86_OP_REG
 
@@ -30,13 +30,17 @@ SAVED = ('ebx', 'esi', 'edi', 'ebp')
 
 def analyse(im, ins):
     order = sorted(ins)
+    labels = S.labels_of(ins)
 
     def succ(a):
         i = ins[a]; m = i.mnemonic; o = i.operands
         if m.startswith('ret'): return []
         if m.startswith('j') or m == 'loop':
             if not (o and o[0].type == X86_OP_IMM):
-                t = table(im, ins, a, order) if m == 'jmp' else None
+                # a switch: the targets where the code bounds its index (vcall_resolve.succs, the successors every
+                # other fact uses), else reg_preserve's two forms
+                t = succs_v(im, ins, a, i, labels) if m == 'jmp' else None
+                if t is None: t = table(im, ins, a, order) if m == 'jmp' else None
                 return [x for x in t if x in ins] if t and all(x in ins for x in t) else []
             t = [o[0].imm] if o[0].imm in ins else []
             return t if m == 'jmp' else t + ([a + i.size] if a + i.size in ins else [])

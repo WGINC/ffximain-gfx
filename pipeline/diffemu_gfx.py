@@ -86,6 +86,12 @@ def _stackref(v):
     which a reconstruction may legitimately change; compare it as 'some stack address'"""
     return 0x5717C000 if STACK_LO <= v < STACK_HI else v
 
+# the bytes of a function's EAX result its callers read, where every caller is known (caller_reads.py: 0 none,
+# 1 AL, 2 AX). Where a function is not listed, a return narrower than EAX is only its prototype's word.
+_CR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'caller_reads.json')
+CALLER_READS = {int(k, 16): v for k, v in json.load(open(_CR_PATH)).items() if k.startswith('0x')} \
+    if os.path.exists(_CR_PATH) else {}
+RET_BYTES = {'void': 0, 'unread': 0, 'bool': 1, 'word': 2}
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
 
@@ -120,6 +126,23 @@ def _live_state():
             import live_state
             _LIVE.append(live_state.LiveState(LIVE_CFG['dump'], LIVE_CFG['build_map']))
     return _LIVE[0]
+
+
+_CS = None
+_NO_ST0 = {'fld', 'fild', 'fbld', 'fldz', 'fld1', 'fldpi', 'fldl2e', 'fldl2t', 'fldlg2', 'fldln2', 'fldcw', 'fnstcw', 'fstcw',
+           'fninit', 'finit', 'fnclex', 'fclex', 'fwait', 'wait', 'ffree', 'fincstp', 'fdecstp', 'fnstsw', 'fstsw', 'fnop',
+           'fnstenv', 'fstenv', 'fldenv', 'fnsave', 'fsave', 'frstor'}
+
+
+def _reads_st0(uc, a):
+    """the x87 instruction at a reads ST(0) (any x87 instruction but those that only load, or touch control state)"""
+    global _CS
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    if _CS is None: _CS = Cs(CS_ARCH_X86, CS_MODE_32)
+    try: code = bytes(uc.mem_read(a, 16))
+    except Exception: return False
+    i = next(_CS.disasm(code, a, 1), None)
+    return i is not None and i.mnemonic.startswith('f') and i.mnemonic not in _NO_ST0
 
 
 class GfxMachine(G.Machine):
@@ -158,6 +181,10 @@ class GfxMachine(G.Machine):
                 (G.TRAP_BASE, G.TRAP_BASE + 0x10000), (G.RET_SENTINEL, G.RET_SENTINEL + G.PAGE)]
         for path in (game_dll, recon_dll):
             if path: code += _exec_ranges(path)
+        # the reconstruction's code is not the game's: in the original's run (guard_recon) it is not executable, so a
+        # call through a fuzzed pointer that lands there is execution of data, as anywhere else outside the game's code
+        self.recon_exec = [(a & ~0xFFF, (b + 0xFFF) & ~0xFFF) for a, b in _exec_ranges(recon_dll)] if recon_dll else []
+        self.recon_guarded = False
         self.foreign = []
         if LIVE_CFG:
             # live mode: the dump's other modules are not data (they are called through real objects'
@@ -241,6 +268,12 @@ class GfxMachine(G.Machine):
         c = self.key_n.get(h, 0); self.key_n[h] = c + 1
         self.rng = random.Random(h + struct.pack('<QI', self.key_seed & 0xFFFFFFFFFFFFFFFF, c))
 
+    def guard_recon(self, on):
+        """on: the reconstruction DLL's code is readable and writable but not executable (the original's run)"""
+        if on == self.recon_guarded: return
+        for a, b in self.recon_exec: self.uc.mem_protect(a, b - a, UC_PROT_READ | UC_PROT_WRITE if on else UC_PROT_ALL)
+        self.recon_guarded = on
+
     def _on_data_exec(self, uc, addr, size, _):
         self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
         self.stop_reason = 'fault'
@@ -320,6 +353,8 @@ class GfxMachine(G.Machine):
         #   and returned from; identical for both runs, so equivalent code stays equivalent
         # * unmapped data reads/writes above 64 KB: a demand page
         # * anything else (null-ish pointers, budgets spent): a fault
+        if access == UC_MEM_FETCH_PROT and self.recon_guarded and any(a <= addr < b for a, b in self.recon_exec):
+            self._on_data_exec(uc, addr, size, _); return False
         if access in (UC_MEM_FETCH_UNMAPPED, UC_MEM_FETCH_PROT):
             try: self.fault_ret = struct.unpack('<I', uc.mem_read(uc.reg_read(UC_X86_REG_ESP), 4))[0]
             except Exception: pass
@@ -506,6 +541,11 @@ class GfxMachine(G.Machine):
         logged = tuple(_stackref(a) for a in logged)
         if addr in STUB_DATA and len(args) >= 4:
             logged += tuple(_data_hash(uc, args[i], sz) for i, sz in STUB_DATA[addr](args))
+        eax_in = uc.reg_read(UC_X86_REG_EAX)
+        if spec.get('eax_reads'): logged += (_stackref(eax_in & spec['eax_reads']),)
+        # bytes the callee is only assumed to read (eax_inputs.json "reads" past "reads_seen": code caller_reads does
+        # not follow): kept apart, a difference in them is not a difference shown (the gate's trial is unresolved)
+        if spec.get('eax_may'): self.eax_unk.append((addr, _stackref(eax_in & spec['eax_may'])))
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -519,6 +559,10 @@ class GfxMachine(G.Machine):
             v = (v & ~0xFF) | (v & 1)
         n = self.stub_n.get(addr, 0); self.stub_n[addr] = n + 1
         if (addr, n) in self.stub_ret: v = self.stub_ret[(addr, n)]       # input repair (run_original)
+        # a callee that takes its entry EAX as an input (eax_inputs.json): the bytes it reads are logged with the
+        # call, and the bytes it may hand back unchanged come back from the caller's EAX, as the callee's code does
+        if spec.get('eax_keeps'): v = (v & ~spec['eax_keeps']) | (eax_in & spec['eax_keeps'])
+        if spec.get('edx_out'): uc.reg_write(UC_X86_REG_EDX, self.rng.getrandbits(32))     # an 8-byte result's EDX
         if self.src_log is not None: self.src_log.append(('stub', (addr, n), v))
         for idx, iface in spec.get('com_out', ()):
             # an `I...**` output (D3DXAssembleShader's ID3DXBuffer **): on success the callee stores an
@@ -560,6 +604,13 @@ class GfxMachine(G.Machine):
             pops, this_, nlog = slot & 31, (slot >> 5) & 1, (slot >> 6) - 1
             n = max(pops, nlog, 0)
             vals = struct.unpack('<%dI' % (1 + n), uc.mem_read(esp, 4 * (1 + n)))
+            # its x87 result read where it returns (`fst`, `fcomp`, ... on ST0: 0x10012CC8 after Frame_Render's call
+            # through [[this+0x20]+0x28]): the trap has no float to give, and each side would read what its own x87
+            # stack held. The target is unknown, so the run stops as unresolved, naming the site.
+            if _reads_st0(uc, vals[0]):
+                self.stop_reason = 'unresolved'
+                self.stop_detail = 'virtual call on a fuzzed object returning to 0x%08X: target unknown, its x87 result read' % vals[0]
+                uc.emu_stop(); return
             ecx = _stackref(uc.reg_read(UC_X86_REG_ECX)) if this_ else 0       # a stack-`this` call leaves ECX undefined
             self.calls.append((0xD0000000 | pops, ecx, tuple(_stackref(a) for a in vals[1:1 + max(nlog, 0)]))); self._keyed(self.calls[-1])
             for a in vals[1:1 + (nlog if nlog >= 0 else pops)]:
@@ -934,7 +985,11 @@ def run_original(m, orig, conv, this, args, limit, ts, repairs=16, debug=False):
     m.cur_args = args
     def run():
         if getattr(m, 'cov_run', None) is not None: m.cov_run.clear()    # coverage: this run's instructions only
-        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0; return m.call(orig, conv, this, args, limit)
+        m.rng = random.Random(ts); m.key_seed = ts; m.wild = 0
+        # the game never runs the reconstruction's code; a fork case's setup may patch game code to jump into it
+        m.guard_recon(not getattr(m, 'setup_case', False))
+        try: return m.call(orig, conv, this, args, limit)
+        finally: m.guard_recon(False)
     for _ in range(3 + repairs):
         before = len(m.demand); r = run()
         if len(m.demand) != before: continue
@@ -1056,6 +1111,10 @@ def setup_trial(m, case, fz):
             for off, iface in case.get("this_com", {}).items():
                 m.uc.mem_write(this + int(off, 0), struct.pack("<I", m.obj[iface]))
     args = [int(a, 16) for a in rp["args"]] if rp else [fz.arg(s) for s in case.get("args", [])]
+    # entry EAX, for a function that takes it as an input (eax_inputs.json): drawn like an argument, an integer or a
+    # pointer to a fuzzed buffer; the same value for the original and the reconstruction
+    m.entry_eax = (fz.arg('ptr:0x400' if fz.rng.random() < 0.5 else 'int') & 0xFFFFFFFF) if case.get('eax_in') and not rp else None
+    m.entry_edx = (fz.arg('ptr:0x400' if fz.rng.random() < 0.5 else 'int') & 0xFFFFFFFF) if case.get('edx_in') and not rp else None
     trial_seed = fz.rng.getrandbits(32)
     m.page_seed = trial_seed; m.reset_demand()
     for a, b in patches: m.live_write(a, b)
@@ -1074,6 +1133,10 @@ def run_case(m, case, trials, seed):
                 "verdict": "ERROR", "reason": "export not found"}
     cand = m.exports[case["candidate"]]
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
+    # EAX bytes past a return narrower than a dword (void, bool, a word) where no fact says no caller reads them: the
+    # width is the decompiler's prototype, so a difference there is not counted as a pass (below)
+    ret_unproven = (0xFFFFFFFF << 8 * RET_BYTES[ret]) & 0xFFFFFFFF \
+        if ret in RET_BYTES and orig not in CALLER_READS and case.get('fret') is None else 0
     limit = case.get("insn_limit", 300000)
     # "setup": an export of the candidate DLL run once before the trials, its writes kept (fork.py gate-hook: the
     # mod's xikit_mod_init with a gate host, which records the replacement the candidate's entry jumps to). It
@@ -1088,9 +1151,11 @@ def run_case(m, case, trials, seed):
                     "verdict": "ERROR", "reason": "setup %s did not return: %s %s" % (case["setup"], r0.status, r0.detail)}
         for a, v in r0.changes.items(): m.uc.mem_write(a, bytes([v]))
         m.setup_done = getattr(m, "setup_done", set()) | {case["setup"]}
+    m.setup_case = bool(case.get("setup"))
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
+    seen_unproven = 0
     # declared differences (declared.py): a changed function against the original, every difference stated
     decl = None
     if case.get('declared') is not None:
@@ -1135,6 +1200,7 @@ def run_case(m, case, trials, seed):
             unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared
         com_calls += sum(1 for c in a.calls if c[0] >= 0xC0000000)
         statuses[a.status.split(":")[0]] = statuses.get(a.status.split(":")[0], 0) + 1
+        eax_full = (a.eax, b.eax) if b is not None else None
         if ret == 'word' and b is not None:
             a.eax &= 0xFFFF; b.eax &= 0xFFFF
         fret = case.get('fret')
@@ -1157,6 +1223,20 @@ def run_case(m, case, trials, seed):
                 declared_trials += bool(seen)
         if cov is not None and b is not None and a.status not in ('fault', 'limit', 'unresolved'):
             cov |= ran
+        if not why and b is not None and a.status not in ('fault', 'limit', 'unresolved') and a.eax_unk != b.eax_unk:
+            # the runs agree on everything compared, but a callee got a different entry EAX in bytes it is only
+            # assumed to read: whether that is a difference is not known, so the trial is not counted as a pass
+            n_ = next((i for i, (x, y) in enumerate(zip(a.eax_unk, b.eax_unk)) if x != y), min(len(a.eax_unk), len(b.eax_unk)))
+            c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
+            k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
+            unresolved[k_] = unresolved.get(k_, 0) + 1
+            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
+        if not why and b is not None and a.status == 'return' and ret_unproven and (eax_full[0] ^ eax_full[1]) & ret_unproven:
+            # the runs agree on everything compared, but EAX at the return differs in bytes the prototype's return
+            # type leaves out, and no fact says no caller reads them: whether that is a difference is not known
+            k_ = 'EAX at return differs past the declared %s; no fact says no caller reads it (caller_reads.json)' % ret
+            unresolved[k_] = unresolved.get(k_, 0) + 1
+            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
         if why:
             fails += 1
             if first_fail is None:
@@ -1171,10 +1251,13 @@ def run_case(m, case, trials, seed):
                     "uncovered": ['0x%08X' % x for x in sorted(cov_ins - cov)],
                     "calls": len(cov_calls), "calls_uncovered": ['0x%08X' % x for x in sorted(cov_calls - cov)]}
     ok_runs = statuses.get("return", 0)
-    verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
+    # a trial whose runs were seen to differ in bytes only assumed to matter (seen_unproven) is not a pass, and the
+    # trials that did pass do not outweigh it: whether the function's behaviour differs is not known
+    verdict = "FAIL" if fails else "UNRESOLVED" if seen_unproven else "PASS" if ok_runs > 0 else \
+        "UNRESOLVED" if unresolved else "INCONCLUSIVE"
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
-            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
+            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded, "seen_unproven": seen_unproven,
             "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
             **({"coverage": coverage} if coverage is not None else {}),
             **({"declared": {"trials_with_declared_differences": declared_trials, "seen": declared_seen,

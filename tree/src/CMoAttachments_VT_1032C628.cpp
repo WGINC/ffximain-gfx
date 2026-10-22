@@ -3,7 +3,7 @@
 #include "CMoAttachments_VT_1032C628.hpp"
 
 // FUNCTION: FFXIMAIN 0x10074600  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoAttachments_VT_1032C628::vf001(char a2)
 {
   return orig::CMoAttachments_VT_1032C628_ScalarDeletingDtor((unsigned int **)this - 12, a2);

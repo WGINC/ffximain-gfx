@@ -86,6 +86,12 @@ def _stackref(v):
     which a reconstruction may legitimately change; compare it as 'some stack address'"""
     return 0x5717C000 if STACK_LO <= v < STACK_HI else v
 
+# the bytes of a function's EAX result its callers read, where every caller is known (caller_reads.py: 0 none,
+# 1 AL, 2 AX). Where a function is not listed, a return narrower than EAX is only its prototype's word.
+_CR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'caller_reads.json')
+CALLER_READS = {int(k, 16): v for k, v in json.load(open(_CR_PATH)).items() if k.startswith('0x')} \
+    if os.path.exists(_CR_PATH) else {}
+RET_BYTES = {'void': 0, 'unread': 0, 'bool': 1, 'word': 2}
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
 
@@ -1127,6 +1133,10 @@ def run_case(m, case, trials, seed):
                 "verdict": "ERROR", "reason": "export not found"}
     cand = m.exports[case["candidate"]]
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
+    # EAX bytes past a return narrower than a dword (void, bool, a word) where no fact says no caller reads them: the
+    # width is the decompiler's prototype, so a difference there is not counted as a pass (below)
+    ret_unproven = (0xFFFFFFFF << 8 * RET_BYTES[ret]) & 0xFFFFFFFF \
+        if ret in RET_BYTES and orig not in CALLER_READS and case.get('fret') is None else 0
     limit = case.get("insn_limit", 300000)
     # "setup": an export of the candidate DLL run once before the trials, its writes kept (fork.py gate-hook: the
     # mod's xikit_mod_init with a gate host, which records the replacement the candidate's entry jumps to). It
@@ -1145,6 +1155,7 @@ def run_case(m, case, trials, seed):
     fz = G.Fuzzer(m, seed)
     fz.dict = m.dict = _cmp_consts(orig)
     statuses, first_fail, fails, com_calls, rounded, unresolved, faults = {}, None, 0, 0, 0, {}, {}
+    seen_unproven = 0
     # declared differences (declared.py): a changed function against the original, every difference stated
     decl = None
     if case.get('declared') is not None:
@@ -1189,6 +1200,7 @@ def run_case(m, case, trials, seed):
             unresolved[b.detail] = unresolved.get(b.detail, 0) + 1; a.status = 'unresolved'; b = None   # not compared
         com_calls += sum(1 for c in a.calls if c[0] >= 0xC0000000)
         statuses[a.status.split(":")[0]] = statuses.get(a.status.split(":")[0], 0) + 1
+        eax_full = (a.eax, b.eax) if b is not None else None
         if ret == 'word' and b is not None:
             a.eax &= 0xFFFF; b.eax &= 0xFFFF
         fret = case.get('fret')
@@ -1218,7 +1230,13 @@ def run_case(m, case, trials, seed):
             c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
             k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
             unresolved[k_] = unresolved.get(k_, 0) + 1
-            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1
+            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
+        if not why and b is not None and a.status == 'return' and ret_unproven and (eax_full[0] ^ eax_full[1]) & ret_unproven:
+            # the runs agree on everything compared, but EAX at the return differs in bytes the prototype's return
+            # type leaves out, and no fact says no caller reads them: whether that is a difference is not known
+            k_ = 'EAX at return differs past the declared %s; no fact says no caller reads it (caller_reads.json)' % ret
+            unresolved[k_] = unresolved.get(k_, 0) + 1
+            statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
         if why:
             fails += 1
             if first_fail is None:
@@ -1233,10 +1251,13 @@ def run_case(m, case, trials, seed):
                     "uncovered": ['0x%08X' % x for x in sorted(cov_ins - cov)],
                     "calls": len(cov_calls), "calls_uncovered": ['0x%08X' % x for x in sorted(cov_calls - cov)]}
     ok_runs = statuses.get("return", 0)
-    verdict = "PASS" if fails == 0 and ok_runs > 0 else ("FAIL" if fails else "UNRESOLVED" if unresolved else "INCONCLUSIVE")
+    # a trial whose runs were seen to differ in bytes only assumed to matter (seen_unproven) is not a pass, and the
+    # trials that did pass do not outweigh it: whether the function's behaviour differs is not known
+    verdict = "FAIL" if fails else "UNRESOLVED" if seen_unproven else "PASS" if ok_runs > 0 else \
+        "UNRESOLVED" if unresolved else "INCONCLUSIVE"
     return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
             "trials": trials, **({"_trial_first": first} if '_trial_first' in case else {}), "original_outcomes": statuses, "mismatches": fails, "d3d_calls_checked": com_calls,
-            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded,
+            "verdict": verdict, "first_mismatch": first_fail, "x87_rounded_trials": rounded, "seen_unproven": seen_unproven,
             "unresolved": unresolved, **({"original_faults": dict(sorted(faults.items(), key=lambda x: -x[1])[:5])} if faults else {}),
             **({"coverage": coverage} if coverage is not None else {}),
             **({"declared": {"trials_with_declared_differences": declared_trials, "seen": declared_seen,

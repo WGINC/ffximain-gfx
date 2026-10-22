@@ -48,8 +48,8 @@ def merge_pieces(res, trials):
     """one record per function from the pieces of a split case (gate_some cuts slow cases into trial ranges):
     outcomes, mismatches, D3D calls and unresolved/fault counts added; the earliest mismatch; coverage: an
     instruction is covered if any piece covered it. The verdict as run_case gives it for the whole: FAIL if any
-    trial differed, PASS if some trial returned and none differed, else UNRESOLVED if any trial was, else
-    INCONCLUSIVE. A function missing a piece is reported INCOMPLETE, never PASS."""
+    trial differed, UNRESOLVED if any trial differed only in bytes assumed to matter (seen_unproven), PASS if some
+    trial returned and none differed, else UNRESOLVED if any trial was, else INCONCLUSIVE. A function missing a piece is reported INCOMPLETE, never PASS."""
     by = collections.OrderedDict()
     for r in res: by.setdefault(norm(r['original']), []).append(r)
     out = []
@@ -59,7 +59,7 @@ def merge_pieces(res, trials):
         m = {kk: v for kk, v in rs[0].items() if kk != '_trial_first'}
         add = lambda key: sum(r.get(key, 0) for r in rs)
         m['trials'] = add('trials'); m['mismatches'] = add('mismatches'); m['d3d_calls_checked'] = add('d3d_calls_checked')
-        m['x87_rounded_trials'] = add('x87_rounded_trials')
+        m['x87_rounded_trials'] = add('x87_rounded_trials'); m['seen_unproven'] = add('seen_unproven')
         for key in ('original_outcomes', 'unresolved', 'original_faults'):
             c = collections.Counter()
             for r in rs: c.update(r.get(key, {}))
@@ -73,6 +73,7 @@ def merge_pieces(res, trials):
                              'calls': c0['calls'], 'calls_uncovered': sorted(cu)}
         if m['trials'] != trials or any(r['verdict'] == 'ERROR' for r in rs): m['verdict'] = 'INCOMPLETE'
         elif m['mismatches']: m['verdict'] = 'FAIL'
+        elif m['seen_unproven']: m['verdict'] = 'UNRESOLVED'
         elif m['original_outcomes'].get('return', 0): m['verdict'] = 'PASS'
         else: m['verdict'] = 'UNRESOLVED' if m['unresolved'] else 'INCONCLUSIVE'
         m['pieces'] = len(rs)

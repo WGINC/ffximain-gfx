@@ -12,7 +12,7 @@ import json, sys, collections
 
 # a fuzz verdict left UNRESOLVED by a comparison the committed live gates predate: the entry EAX handed to a callee
 # that may read it (eax_inputs.json, 22 Oct). Those gates never compared it, so their PASS does not answer it.
-NEWER = ('entry EAX passed to',)
+NEWER = ('entry EAX passed to', 'EAX at return differs past the declared')
 
 
 def main(fuzz, out, *lives):

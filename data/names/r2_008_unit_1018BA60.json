@@ -1,0 +1,80 @@
+{
+  "0x1018BAE0": {
+    "name": "XiZone_SetPtr1D8FromTable",
+    "confidence": "low",
+    "evidence": "stores into this+0x1D8 the table entry at index param_1 (indices 0 and 1), and table entry 0 for any larger index; XiZone_Constructor calls it with 0",
+    "summary": "Stores a table pointer chosen by its argument into the object's field at +0x1D8."
+  },
+  "0x1018BBC0": {
+    "name": "Time_SetNormalized",
+    "confidence": "medium",
+    "evidence": "ECX object receives Time_Normalize of the stack argument; fn_1018BDE0 calls it as fn_1018BBC0(&local_4,0x278d00) and then reads local_4",
+    "summary": "Stores the normalized time value in the object and returns the object."
+  },
+  "0x1018BFA0": {
+    "name": "Time_SetModulo155520000Div5184000",
+    "confidence": "medium",
+    "evidence": "sets the field (v/5184000) mod 30 to param_1 and keeps the rest: (param_1 + (v/0x9450C00)*0x1E)*0x4F1A00 + v%0x4F1A00, with 0x9450C00 = 30*0x4F1A00; same form as the named Time_SetModulo216000Div3600",
+    "summary": "Sets the count of 5184000-second units within each 155520000-second block to the argument, keeping the rest of the time."
+  },
+  "0x1018C020": {
+    "name": "Time_SetDiv155520000",
+    "confidence": "medium",
+    "evidence": "Time_Normalize(self, v % 0x9450C00 + param_1*0x9450C00, param_1*0x9450C00): the quotient of v by 0x9450C00 becomes param_1, the remainder is kept",
+    "summary": "Sets the number of 155520000-second blocks in the time to the argument, keeping the remainder."
+  },
+  "0x1018C1B0": {
+    "name": "Time_GetDiv5184000Mul5184000",
+    "confidence": "medium",
+    "evidence": "clears a local, sets its 5184000-second count to Time_GetDiv5184000(DAT_1065CB1C) through fn_1018BFA0, and writes it to *param_1; the result is that time with the remainder below 5184000 dropped",
+    "summary": "Writes the time at DAT_1065CB1C rounded down to a multiple of 5184000 through the pointer argument."
+  },
+  "0x1018D430": {
+    "name": "Unit1018BA60_AssignWhole",
+    "confidence": "medium",
+    "evidence": "calls Unit1018BA60_AssignN with n = -1, which AssignN's code treats as the whole NUL-terminated string (it computes the string's length when n is -1)",
+    "summary": "Replaces the buffer's contents with a whole NUL-terminated string."
+  },
+  "0x1018D640": {
+    "name": "Unit1018BA60_InitAcqDat",
+    "confidence": "medium",
+    "evidence": "string acq.dat; calls Unit1018BA60_Register with a 0x80-byte buffer at this+8 when the DAT manager global is set; stores its vtable, zeroes its fields, then calls fn_1018DCB0",
+    "summary": "Sets the object's vtable and fields, registers the acq.dat entry with the DAT manager, and clears its entries."
+  },
+  "0x1018DC70": {
+    "name": "Unit1018BA60_GetEntryMod",
+    "confidence": "medium",
+    "evidence": "returns the 0x10-byte entry at this+0x11E indexed by param_1 modulo the count byte at this+0x19E, or 0 when the count is 0 or the index is out of range",
+    "summary": "Returns the entry at the argument modulo the entry count, or null when there is none."
+  },
+  "0x1018DCB0": {
+    "name": "Unit1018BA60_ClearEntries",
+    "confidence": "medium",
+    "evidence": "zeroes the first byte of each of the eight 0x10-byte entries from this+0x11E, then the count byte at this+0x19E",
+    "summary": "Clears the first byte of each of the object's eight entries and sets the entry count to zero."
+  },
+  "0x1018DCD0": {
+    "name": "Unit1018BA60_InitPecDat",
+    "confidence": "medium",
+    "evidence": "string pec.dat; zeroes 0x140 dwords from this+8, calls Unit1018BA60_Register with a 0x500-byte buffer when the DAT manager global is set, and stores its vtable",
+    "summary": "Sets the object's vtable, zeroes its 0x500-byte table, and registers the pec.dat entry with the DAT manager."
+  },
+  "0x1018E0A0": {
+    "name": "FsLogPage_InitPage",
+    "confidence": "medium",
+    "evidence": "stores the argument at this+0xDC and zeroes the fields at +0xCC, +0xD0, +0xD4, +0xD8, +0xDA and +0xC8; called by FsLogPage_EnsurePage (medium) and fn_1018EB00",
+    "summary": "Stores the argument at +0xDC and clears the page's buffer fields."
+  },
+  "0x1018E1A0": {
+    "name": "FsLogPage_AllocBuffer",
+    "confidence": "medium",
+    "evidence": "calls FsLogPage_ClearBuffer on this, then stores Allocator_Generic(0xC80) at +0xCC and 0xC80 at +0xD4; called by fn_1018EB00 and FsLogPage_AddEntry (low)",
+    "summary": "Frees the log page's buffer and allocates a new 0xC80-byte buffer for it."
+  },
+  "0x1018E6F0": {
+    "name": "FsLogPage_Init",
+    "confidence": "medium",
+    "evidence": "stores the argument at this+0x5C, a vtable at this, zeroes the counts at +0x58 and +0x54 and 0x14 dwords; called by fn_1018EB00",
+    "summary": "Initialises a log page object with the argument at +0x5C and an empty state."
+  }
+}

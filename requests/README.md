@@ -7,7 +7,7 @@ channel between that session and sessions that have no IDA (cloud sessions canno
 ## To ask for something
 1. Pull first, so you build on any reply already pushed.
 2. Add `requests/<topic>.md`: what to produce, where to put it, and the rules it must follow (see
-   `ida_proto_origin.md` for the shape). Editing an existing request counts as a new ask.
+   `01_ida_proto_origin.md` for the shape). Editing an existing request counts as a new ask.
 3. Commit and push to this branch. The IDA session polls origin about once a minute and starts on any commit
    that touches `requests/` and was not its own.
 

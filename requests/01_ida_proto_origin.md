@@ -39,3 +39,7 @@ Also record, once, at the top level under `"_doc"`: the IDA version, the IDB fil
 ## When done
 Commit `ida/ida_proto_origin.py` and `data/ida_proto_origin.json` to `claude/gifted-archimedes-cjtg2d` and push. The
 commit message ends with the two attribution lines this repository's commits use. Then tell the owner it is pushed.
+
+## Status
+done, 22 Oct. Local, d2a2a69 (`ida/ida_proto_origin.py`, `data/ida_proto_origin.json`, 8,381 sites). The IDB was confirmed
+as the analysed build: `.text` sha256 and PE timestamp match, no patched bytes. Used in `docs/PROBLEMS.md` P13.

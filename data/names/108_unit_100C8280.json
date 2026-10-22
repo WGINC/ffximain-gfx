@@ -1,0 +1,3 @@
+{
+  "0x100C8280": {"name": "CXiActor_CorrectOnZoneMap", "confidence": "medium", "evidence": "when a model test on the model field at +0x170 passes, builds the actor's rotation and translation (+0x61C..+0x624, +0x5FC), transforms two local points, queries g_pZoneMap with fn_10181590, and when the query hits adds the offset to the translation at +0x5FC and +0x604", "summary": "Moves the actor's position by the offset from a zone-map query at its two probe points."}
+}

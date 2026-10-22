@@ -1,0 +1,8 @@
+{
+  "0x10019490": {
+    "name": "CXiTimerLow_Init",
+    "confidence": "medium",
+    "evidence": "calls the base constructor FUN_10019210, sets the CXiTimerLow vtable, stores timeGetTime in +0xC, clears +0x14, +0x18 and +0x1C, and calls FUN_100194F0",
+    "summary": "Constructs the low-resolution timer and starts it at the current time."
+  }
+}

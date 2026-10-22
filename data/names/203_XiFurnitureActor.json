@@ -1,0 +1,3 @@
+{
+"0x100C3E70": {"name": "XiFurnitureActor_Release", "confidence": "low", "evidence": "finds this actor in the actor list (FUN_10085240 and FUN_10085270), then for its +0x70 object calls fn_1008A7B0 and thunk_sub_10028AA0, and clears the ActerBuffPtr entry for its +0x74 index; called by fn_101CD900", "summary": "Removes the furniture actor from the list and releases its model object."}
+}

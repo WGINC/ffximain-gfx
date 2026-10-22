@@ -1,0 +1,3 @@
+{
+  "0x1002A080": {"name": "CYyModelDt_GetResourceWord5E", "confidence": "medium", "evidence": "dereferences the resource handle at +8 with ResourceHandle_Deref and returns the dword at +0x5E of the resource; it is vtable slot 11 (+0x2C) of CYyModelDt_VT_1032A72C", "summary": "Returns the dword at +0x5E of the model's resource."}
+}

@@ -1,0 +1,7 @@
+{
+"0x102A9520": {"name": "SqVtx_Create", "confidence": "medium", "evidence": "allocates 0x84 bytes with FUN_10275d40 using the source file string C:\\dev\\dancer\\modules\\sqBase\\src line 0x37, then calls sqVtx_Init on it", "summary": "Allocates and initialises a vertex record."},
+"0x102A9550": {"name": "SqVtx_Init", "confidence": "medium", "evidence": "stores the type 0x10001, sets the function pointers at +8, +0xC and +0x10 (LAB_102a9590, FUN_102a95a0, sqVtxPrint), clears +0x14 and the arrays at +0x48 and +0x54", "summary": "Initialises a vertex record and sets its function table."},
+"0x102A9EF0": {"name": "SqVtx_ClearEntries", "confidence": "low", "evidence": "allocates the table at +0x58 through FUN_102a9980(this, 1, 3) when it is null, then zeroes the three dwords of each of the +0x14 entries", "summary": "Clears the vertex entries of the first table."},
+"0x102A9F30": {"name": "SqVtx_ClearEntriesAlt", "confidence": "low", "evidence": "same as sqVtx_ClearEntries but for the table at +0x64, allocated through FUN_102a9980(this, 4, 3)", "summary": "Clears the vertex entries of the second table."},
+"0x102A9FB0": {"name": "SqVtx_PackFloatsToBytes", "confidence": "low", "evidence": "allocates an array of +0x14 dwords with FUN_10275d80, packs each group of float channels times 255 into bytes with FUN_10311C2C, stores it at +0x54 + index*4 and frees the old buffer with sqFree", "summary": "Packs float channel values into bytes and replaces the stored buffer."}
+}

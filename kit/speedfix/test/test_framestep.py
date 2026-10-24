@@ -1,5 +1,5 @@
 """test_framestep.py -- speedfix's frame_step and uncap forks against the game's functions (fork/Frame_Render.fork.cpp,
-fork/Camera_GetFrameScale.fork.cpp, fork/fn_10014D20.fork.cpp; all three from the verified tree):
+fork/Camera_GetFrameScale.fork.cpp, fork/Camera_GetClampedField28.fork.cpp; all three from the verified tree):
 
   1. switches off (xi_step_mode 0, xi_uncap 0, as speedfix leaves them with frame_step=0 and uncap=0): fork.py gate,
      no declarations -- each fork must be the game's function;
@@ -17,7 +17,7 @@ fork/Camera_GetFrameScale.fork.cpp, fork/fn_10014D20.fork.cpp; all three from th
 import glob, json, os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); SF = os.path.join(H, '..'); ROOT = os.path.abspath(os.path.join(SF, '..', '..'))
 FORKS = [('Frame_Render', 'framestep.declare.json'), ('Camera_GetFrameScale', 'framestep_getter.declare.json'),
-         ('fn_10014D20', 'framestep_getter.declare.json')]
+         ('Camera_GetClampedField28', 'framestep_getter.declare.json')]
 bad = 0
 
 

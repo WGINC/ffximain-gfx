@@ -272,7 +272,7 @@ static int step_test(void) {
         "frame_step=2 at the start: Frame_Render and the getters 10014CF0, 10014D20 jump into speedfix.dll (the forks)");
   check(*(uint8_t *)GAME(0x10012C3Cu) == 0xE8 && (uint8_t *)GAME(0x10012C3Cu) + 5 + *(int32_t *)GAME(0x10012C3Du) == (uint8_t *)GAME(0x10311C2Cu),
         "... and the game's own code is not patched (the call of _ftol at 10012C3C is the game's)");
-  check(log_has("frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and fn_10014D20 (0x10014D20) run speedfix's gated forks"), "... logged");
+  check(log_has("frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks"), "... logged");
   g_step_make = (StepMake)GetProcAddress(sf, "xi_step_make"); g_xi_uncap = (volatile int *)GetProcAddress(sf, "xi_uncap"); g_xi_mode = (volatile int *)GetProcAddress(sf, "xi_step_mode");
   check(g_step_make && g_xi_uncap && g_xi_mode, "the fork's step (xi_step_make) and its switches are found");
   if (!g_step_make || !g_xi_uncap || !g_xi_mode) { printf("FAILED (%d)\n", fails); return 1; }

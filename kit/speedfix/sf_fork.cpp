@@ -17,14 +17,14 @@ extern "C" int sf_fork_skinmerge(const XikitHost *host) {
 
 
 // frame_step and uncap: Frame_Render (fork/Frame_Render.fork.cpp) and the getters 0x10014CF0, 0x10014D20
-// (fork/Camera_GetFrameScale.fork.cpp, fork/fn_10014D20.fork.cpp), gated with fork.py gate (switches off, no
+// (fork/Camera_GetFrameScale.fork.cpp, fork/Camera_GetClampedField28.fork.cpp), gated with fork.py gate (switches off, no
 // declarations) and with --declare fork/framestep*.declare.json (switches on); xi_step_mode and xi_uncap set by
 // sf_main.cpp each frame. All three or none: the getters answer what the Frame_Render fork makes.
 extern "C" int sf_framestep_installed;
 int sf_framestep_installed;
 extern "C" int sf_fork_framestep(const XikitHost *host) {
   int r = XI_FORK(host, Camera_GetFrameScale);
-  if (r == XIKIT_OK) r = XI_FORK(host, fn_10014D20);
+  if (r == XIKIT_OK) r = XI_FORK(host, Camera_GetClampedField28);
   if (r == XIKIT_OK) r = XI_FORK(host, Frame_Render);
   sf_framestep_installed = r == XIKIT_OK;
   return r;

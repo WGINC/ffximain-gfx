@@ -420,7 +420,7 @@ static void pp_stats(void) {
                      f, ms, w, late, s, (int)g_pp_ticks, (double)g_pp_scale);
 }
 // uncap and frame_step (the comment at the top of the file): forks of the game's verified functions (sf_fork.cpp;
-// fork/Frame_Render.fork.cpp, Camera_GetFrameScale.fork.cpp, fn_10014D20.fork.cpp), each the game's function with its
+// fork/Frame_Render.fork.cpp, Camera_GetFrameScale.fork.cpp, Camera_GetClampedField28.fork.cpp), each the game's function with its
 // switch at 0 (the gate without declarations) and with it on differing only as declared (fork/framestep*.declare.json).
 // Here, each frame (render thread, inside Present): the switches, on only while the kit's hooks are live, and the
 // figures for the statistics line.
@@ -650,7 +650,7 @@ extern "C" int sf_init(const XikitHost *host) {
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
   if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
   if ((sf_cfg.frame_step || sf_cfg.uncap) && sf_fork_framestep(host) != XIKIT_OK) LOG("speedfix: Frame_Render and the step getters not forked: frame_step and uncap do nothing");
-  else if (sf_framestep_installed) LOG("speedfix: frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and fn_10014D20 (0x10014D20) run speedfix's gated forks");
+  else if (sf_framestep_installed) LOG("speedfix: frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks");
   return 0;
 }
 

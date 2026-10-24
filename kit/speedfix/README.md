@@ -110,7 +110,7 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     it with `frame_cap_fps` (two pacers).
 - **uncap and frame_step: above 60, with the game's time following real time** (docs/RENDERER.md 3a).
   - How it is made: as edits to verified code. With either key on, speedfix forks three functions of the verified
-    tree (`fork/Frame_Render.fork.cpp`, `fork/Camera_GetFrameScale.fork.cpp`, `fork/fn_10014D20.fork.cpp`, made by
+    tree (`fork/Frame_Render.fork.cpp`, `fork/Camera_GetFrameScale.fork.cpp`, `fork/Camera_GetClampedField28.fork.cpp`, made by
     `sdk/fork.py new`). Each was gated both ways: with the switches off it is the game's function (fork.py gate, no
     declarations); with them on, every difference from the game's is one its declaration names
     (`fork/framestep.declare.json`, `fork/framestep_getter.declare.json`). No game byte is patched for these keys.

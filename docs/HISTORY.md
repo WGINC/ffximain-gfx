@@ -3176,3 +3176,19 @@ kit/xikit `[watch]` and docs/MEASURE.md.
 **Naming accuracy measured** (PROBLEMS P16): Haiku 63, Sonnet 61 correct of 100 known names; the loss is vagueness
 from facts the code does not hold, which field dossiers (pipeline/field_batch.py) did not recover; class_flow.py and
 obj_flow.py settle classes from vtables and calls (983 functions).
+
+## 24 Oct: captures of a translated build: pointers into moved code mapped back (`xcap.py --build`)
+
+The 21 Oct entry calls replaying 6AC37846's captures on the analysed build's code sound because the data sections
+do not move. That holds for data addresses. A capture also holds values pointing into code, and in 6AC37846 two
+code ranges moved (+32 from 0x10232A90, +64 from 0x10309EC0). One capture of Frame_Render (the owner's 18 Oct
+session) holds 1,336 such dwords. They were replayed as they were, so a call through one ran other code than
+the game's, on both sides alike. That does not make a verdict wrong (input preparation, the same for both
+sides), but the input was less real than stated.
+- `pipeline/xcap.py --build kit/xikit/builds/<stamp>.json`: a value into the image that lies in one of that
+  build's moved ranges is moved back by the range's shift. The capture holds no header page, so the build is the
+  one xikit.log names at the start. Values in inserted code (no analysed counterpart) stay as they are.
+- Checked on that capture: exactly the 1,336 values change, each now inside the analysed build's moved ranges;
+  the other 20,478,664 values are unchanged.
+- `test_framestep.py`: `CAPTURE_BUILD=...` passes it on. The captures replayed on 21 Oct have not been
+  replayed again with it.

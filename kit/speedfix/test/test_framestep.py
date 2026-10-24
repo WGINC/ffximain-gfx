@@ -12,7 +12,8 @@ fork/Camera_GetFrameScale.fork.cpp, fork/fn_10014D20.fork.cpp; all three from th
      Until the timer calls in the wait (0x10012B28, 0x10012B86, 0x10012B91, 0x10012BCB, 0x10012BF5) have measured
      facts (xikit facts=1), a trial reaching them is UNRESOLVED and says so.
 
-    FFXI_DLL=... [CAPTURES=dir] python3 test_framestep.py"""
+    FFXI_DLL=... [CAPTURES=dir [CAPTURE_BUILD=kit/xikit/builds/<stamp>.json]] python3 test_framestep.py
+  (CAPTURE_BUILD: the captures were taken on that translated build, as xikit.log names it; pipeline/xcap.py --build)"""
 import glob, json, os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); SF = os.path.join(H, '..'); ROOT = os.path.abspath(os.path.join(SF, '..', '..'))
 FORKS = [('Frame_Render', 'framestep.declare.json'), ('Camera_GetFrameScale', 'framestep_getter.declare.json'),
@@ -59,7 +60,8 @@ else:
     for x in caps:
         out = os.path.join(w, 'cap_' + os.path.basename(x)[:-5])
         subprocess.run([sys.executable, os.path.join(ROOT, 'pipeline', 'xcap.py'), x, case, os.path.join(G, 'gfx_recon_fork.dll'), out,
-                        '--trials', '8', '--insn-limit', '20000000'], capture_output=True, text=True)
+                        '--trials', '8', '--insn-limit', '20000000'] + (['--build', os.environ['CAPTURE_BUILD']] if os.environ.get('CAPTURE_BUILD') else []),
+                       capture_output=True, text=True)
         rs = glob.glob(os.path.join(out, '*.gate.jsonl'))
         if not rs: say(False, '%s: no result' % os.path.basename(x)); continue
         r = last(rs[0])

@@ -12,10 +12,15 @@ and the pages of memory reachable from the registers and the stack (kit/xikit/xi
     declaration has), each translated like any dump value; the live config (the capture's FFXiMain .data);
     and the gate run (diffemu_gfx.py, with coverage), into OUT_DIR.
 
-The capture comes from the analysed build: xikit runs only when FFXiMain.dll's TimeDateStamp is the analysed
-one and checks each entry's bytes before writing (xikit.c start, check_bytes).
+The capture comes from the analysed build, or from a build the kit translates (docs/KIT.md, build translation):
+xikit checks each entry's bytes before writing (xikit.c start, check_bytes). For another build, --build names its
+translation (kit/xikit/builds/<stamp>.json; the build is the one xikit.log names at the start, the capture holds no
+header page). Its data addresses are the analysed ones; a value pointing into one of its moved code ranges is
+moved back by that range's shift, as translate() prepares any dump value. A value in code with no analysed
+counterpart (inserted bytes) stays as it is: the same on both sides.
 
-    python3 xcap.py CAPTURE.xcap CASES.json RECON.dll OUT_DIR [--trials 8] [--insn-limit N]     (uses $FFXI_DLL)
+    python3 xcap.py CAPTURE.xcap CASES.json RECON.dll OUT_DIR [--trials 8] [--insn-limit N] [--build BUILD.json]
+                                                                                                 (uses $FFXI_DLL)
 prints the verdict and the coverage of the original's instructions in the compared trials."""
 import argparse, json, os, struct, subprocess, sys
 P = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, P)
@@ -51,6 +56,17 @@ class CaptureState(live_state.LiveState):
             else: self.segs.append((a, 4096, None))
         self.starts = [s[0] for s in self.segs]
 
+    def set_build(self, path):
+        """a capture of a translated build: [(lo, hi, shift)] in that build's numbering, the shifted ranges only"""
+        self.moved = [(int(lo, 16) + d, int(hi, 16) + d, d) for lo, hi, d in json.load(open(path))['ranges'] if d]
+
+    def translate(self, v):
+        a = super().translate(v)
+        if not (self.base <= v < self.base + self.size): return a        # not into the image: as it is
+        for lo, hi, d in getattr(self, 'moved', ()):
+            if lo <= a < hi: return a - d
+        return a
+
     def read(self, a, n):
         out = b''
         while n > 0:
@@ -79,9 +95,11 @@ def main():
     ap.add_argument('--trials', type=int, default=8)
     ap.add_argument('--insn-limit', type=int, help="the original's instruction budget a trial (the gate's default: "
                     "300000); a real call can need more (SkinAndDrawV2 skinning a whole model). A trial over it is not compared")
+    ap.add_argument('--build', help="the translation of the build the capture was taken on (kit/xikit/builds/<stamp>.json)")
     o = ap.parse_args()
     os.makedirs(o.out, exist_ok=True)
     cs = CaptureState(o.xcap)
+    if o.build: cs.set_build(o.build)
     case = replay_case(cs, json.load(open(o.cases)))
     if o.insn_limit: case['insn_limit'] = o.insn_limit
     stem = os.path.join(o.out, os.path.basename(o.xcap).rsplit('.', 1)[0])

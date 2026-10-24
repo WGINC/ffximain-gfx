@@ -157,10 +157,15 @@ The causes of the three FAILs have not been looked into yet.
   - 66 disagree. All 66 are `__usercall`/`__userpurge` types (plus `_sprintf`), whose count `callsites.py` took as
     stack dwords, although such a type places arguments in registers. That rule is removed: those 107 sites are now
     `"src": "regs"`, not `typed`. They were direct calls, so no verdict used them.
-- **Still open:** 912 indirect typed-only sites. Their count comes only from the IDB type, and 553 user-set types
-  cannot be told apart between the owner and sessions. The proposal stands, awaiting the owner:
-  - an IDB prototype counts only with a recorded definitive origin (SDK, PS2 DWARF, owner-typed);
-  - the rest become UNRESOLVED where the gate needs them.
+- **Applied (22 Oct 03:01, 8a68276):** the gate takes an IDB call type as a source only where
+  `data/ida_proto_origin.json` shows it identical to the SDK type library's (`diffemu_gfx.site_pops`). None of the 912
+  indirect sites that rested on an IDB type alone has such an origin, so each is UNRESOLVED wherever the gate reaches
+  it. Every verdict since, the tree's 4,049 PASS included, is under this rule. (The note that stood here, "the
+  proposal stands, awaiting the owner", was written 32 minutes before that commit.)
+- **Still open, for the owner:** `requests/review/02_user_types.md` lists the 372 user-set types the gate's sites or the
+  tree use. 148 have a recorded origin (143 `session`, 5 `library`); 224 are blank, and only the owner can say which
+  are theirs. The gate does not yet read the marks: once there are `mine` entries, `site_pops` can take those types
+  as a source too (an owner-typed prototype is a declared type), and the sites they settle re-gated.
 
 ### P14. The Ghidra-route methods do not know their class (22 Oct)
 - **Known:** in the regenerated tree, 1,477 functions reach fields by raw offset from `self_` (9,543 accesses), as
@@ -189,15 +194,15 @@ The causes of the three FAILs have not been looked into yet.
 ### P16. How accurate the naming sessions are, measured (22 Oct)
 - **Method:** `pipeline/name_bench.py` builds the round-2 dossier for 100 functions whose names are known (23 PS2
   symbols matched on a unique literal; 77 DancingMad names in the frame set), with every spelling of the known name
-  removed; the answer key is kept apart. Haiku and Sonnet each named all 100 under `batches/README.md`. A third
+  removed; the answer key is kept apart. Two models, a smaller (A) and a larger (B), each named all 100 under `batches/README.md`. A third
   session judged each name against the true one, blind to the model: correct (same action and object), vague (true
   but generic), partial, wrong. `pipeline/name_bench_score.py` scores word overlap.
 - **Result:**
 
   | | correct | vague | partial | wrong | skipped |
   |---|---|---|---|---|---|
-  | Haiku | 63 | 24 | 12 | 1 | 0 |
-  | Sonnet | 61 | 24 | 10 | 2 | 4 |
+  | model A (smaller) | 63 | 24 | 12 | 1 | 0 |
+  | model B (larger) | 61 | 24 | 10 | 2 | 4 |
 
   By confidence (both models): `high` 12 of 12 correct; `medium` 87 of 110 correct, 2 wrong; `low` mostly vague.
 - **Read:** the larger model does not name better. Wrong names are rare; the loss is vagueness, and it comes from

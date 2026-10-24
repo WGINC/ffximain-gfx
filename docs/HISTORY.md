@@ -3173,7 +3173,7 @@ builds (Ashita asserts 684); the IDB's "CXiActor" for it is not the runtime clas
 entity fields our code uses, 103 named at the offset, 51 inside a named member, 7 undocumented. The measuring:
 kit/xikit `[watch]` and docs/MEASURE.md.
 
-**Naming accuracy measured** (PROBLEMS P16): Haiku 63, Sonnet 61 correct of 100 known names; the loss is vagueness
+**Naming accuracy measured** (PROBLEMS P16): 63 and 61 correct of 100 known names (a smaller and a larger model); the loss is vagueness
 from facts the code does not hold, which field dossiers (pipeline/field_batch.py) did not recover; class_flow.py and
 obj_flow.py settle classes from vtables and calls (983 functions).
 

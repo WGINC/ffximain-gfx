@@ -1,0 +1,8 @@
+{
+  "0x10074BA0": {
+    "name": "CMoTaskMng_InitPool",
+    "confidence": "medium",
+    "evidence": "resets the list heads and nodes, links a pool of 0x3E task nodes from this+0x38 and sets the free list at +0xD58, then fills 16 bucket heads at +0xD04 with fn_10074DF0",
+    "summary": "Initialises the task manager's node pool, free list and sixteen buckets."
+  }
+}

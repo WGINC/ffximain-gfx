@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10289F50  (unit sqxfXformM: between 0x10289F30 (asserts sqxfXformM.c) and 0x10289FB0 (asserts sqxfXformM.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10289F50(undefined4 * param_1)
+XI_API void __cdecl SqxfXformM_Init(undefined4 * param_1)
 {
   *param_1 = 0xc0001;
   param_1[2] = &LAB_10289fa0;

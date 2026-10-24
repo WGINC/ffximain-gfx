@@ -1,0 +1,19 @@
+{
+ "why": "The original leaves 4 in EAX at its `ret` on every path, and the void the export declares lets the reconstruction leave something else. EAX is the inner loop's counter: 0x10045881 `xor eax, eax` .. 0x1004589B `inc eax` .. 0x100458A2 `cmp eax, 4; jl`, and the last outer iteration (ecx = 3) runs that loop for ebx = 0, 1, 2 (ebx = ecx skips it, 0x1004587B), so the loop's exit value 4 is the last write to EAX before 0x100458EC `ret`; the NaN tests (0x10045829..0x10045855) choose a constant and change no control flow that reaches past it. A caller does not show it ignores EAX: 0x10046B19 in 0x100467E0 is followed by `call [edx+0x20]` through g_pProcessor (0x10046B2C), a call vcall_resolve does not settle, which may read it (caller_reads.json leaves 0x10045800 out). The reconstruction returns that 4, so EAX is the original's.",
+ "evidence": "Disassembly of 0x10045800..0x100458EC (the only writes to EAX: 0x1004582F and 0x1004584C `fnstsw ax`, 0x1004585D `mov eax, 4` .. `dec eax` to 0, and the inner loop 0x10045881..0x100458A5); caller_reads.py traced: of the five call sites only 0x10046B19 reads, at the unsettled virtual call 0x10046B2C.",
+ "text_sha1": "6acb1a79a54b52c6310bcdb7943e04c229a2cea0",
+ "replace": [
+  [
+   "void __cdecl FUN_10045800(float *param_1)",
+   "int __cdecl FUN_10045800(float *param_1)"
+  ],
+  [
+   "  return;\n}",
+   "  return 4;\n}"
+  ]
+ ],
+ "set": {
+  "type": "int __cdecl FUN_10045800(float * param_1)",
+  "ret": "int"
+ }
+}

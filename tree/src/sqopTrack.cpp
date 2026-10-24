@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10289B40  (unit sqopTrack: between 0x10289B20 (asserts sqopTrack.c) and 0x10289B70 (asserts sqopTrack.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10289B40(undefined4 * param_1)
+XI_API void __cdecl SqopTrack_Reset(undefined4 * param_1)
 {
   *param_1 = 0xffffffff;
   param_1[1] = 0;
@@ -15,12 +15,12 @@ XI_API void __cdecl fn_10289B40(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10289BA0  (unit sqopTrack: asserts sqopTrack.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10289BA0(int param_1)
+XI_API void __cdecl SqopTrack_Free(int param_1)
 {
   if (*(int *)(param_1 + 0xc) != 0) {
     orig::sqFree_v1(*(int *)(param_1 + 0xc),s_C__dev_dancer_modules_sqOpcode_s_103b9618,0x69);
   }
-  orig::FUN_10289b40((uint32_t *)param_1);
+  orig::SqopTrack_Reset((uint32_t *)param_1);
   return;
 }
 

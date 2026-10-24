@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x102ACB60  (unit sqshPoints: asserts sqshPoints.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_102ACB60(void)
+XI_API undefined4 * __cdecl SqshPoints_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x44,s_C__dev_dancer_modules_sqShape_sr_103bec10,0x1d);
-  orig::FUN_102acb80(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x44,s_C__dev_dancer_modules_sqShape_sr_103bec10,0x1d);
+  orig::SqshPoints_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x102ACB80  (unit sqshPoints: between 0x102ACB60 (asserts sqshPoints.c) and 0x102ACBE0 (asserts sqshPoints.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102ACB80(undefined4 * param_1)
+XI_API void __cdecl SqshPoints_Init(undefined4 * param_1)
 {
   *param_1 = 0xa0005;
   param_1[2] = &LAB_102acbd0;
@@ -23,7 +23,7 @@ XI_API void __cdecl fn_102ACB80(undefined4 * param_1)
   param_1[4] = XI_CODE(sqshPointsPrint);
   param_1[0xb] = &LAB_10291260;
   param_1[0xc] = &LAB_102b3770;
-  orig::FUN_1028d9a0(param_1 + 5);
+  orig::Unit1028D970_Reset(param_1 + 5);
   param_1[0xd] = 0;
   param_1[0xe] = 0;
   param_1[0xf] = 0;

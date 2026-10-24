@@ -6,6 +6,7 @@
 class XI_API CMoOT {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x10055290
+    static void * __thiscall Constructor(void * self);  // 0x100552A0
     int * ScalarDeletingDtor(char a2);  // 0x100552C0
 
     void **vftable;  // +0x0

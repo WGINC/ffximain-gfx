@@ -1,0 +1,56 @@
+{
+  "0x100F0C50": {
+    "name": "Unit100D7420_GetFlagsMasked",
+    "confidence": "low",
+    "evidence": "returns (Unit100D7420_GetFlags() >> 8) & 0xffff01, or 0 when the global DAT_104dfd98 is null",
+    "summary": "Returns the session flags word shifted right by 8 and masked to bits 0, 8-15 and 24-31, or 0 when the global is null."
+  },
+  "0x100F10A0": {
+    "name": "Unit100D7420_InitRecordStorage",
+    "confidence": "medium",
+    "evidence": "writes the record base global DAT_104df774 = &DAT_109f76a0 and zeroes 0x2C1 dwords from it; the same base is read by Unit100D7420_UpdateActive and Unit100D7420_IsBitSet",
+    "summary": "Points the record-table global at its static buffer and zeroes that buffer."
+  },
+  "0x100F1300": {
+    "name": "Unit100D7420_AllocRecord",
+    "confidence": "medium",
+    "evidence": "scans 0x40 records of stride 0x2C from DAT_104df774+4 for a first byte of 0, sets it to 1, stores param_1, param_2, param_3 and param_4 in it, and returns it or 0",
+    "summary": "Takes the first free 0x2C-byte record from the record table, marks it in use, stores the four arguments in it and returns it, or returns 0 when none is free."
+  },
+  "0x100F1950": {
+    "name": "Unit100D7420_GetLow16",
+    "confidence": "low",
+    "evidence": "returns the result of sub_103100EB() & 0xffff; the callee is unnamed",
+    "summary": "Returns the low 16 bits of the result of sub_103100EB."
+  },
+  "0x100F1C40": {
+    "name": "Unit100D7420_Destroy",
+    "confidence": "medium",
+    "evidence": "calls fn_100F1E70 first, completes the request chain at +0x28 through fn_100F2C80, DestroyNode and operator_delete on the nodes at +0x20, +0x24 and +0x1C, and clears DAT_104df908 when self is that global",
+    "summary": "Tears down a pool object: finishes its pending requests and frees its nodes, clearing the global pointer if the object is the global."
+  },
+  "0x100F1E70": {
+    "name": "Unit100D7420_ResetPending",
+    "confidence": "medium",
+    "evidence": "called first by Unit100D7420_InitTwoNodes and by fn_100F1C40 (destroy); clears the byte at +4, cancels the nodes in the list at +0x1C through FUN_100f2a70, runs Unit100D7420_Complete on the current request at +0x28 when its conditions hold, and clears the byte at +7",
+    "summary": "Clears the pool object's pending state and completes its current request, as the first step of initialising or destroying it."
+  },
+  "0x100F2C80": {
+    "name": "Unit100D7420_RunCallbacks",
+    "confidence": "medium",
+    "evidence": "calls the callback at table[+0x105A] of the table at +0x105C with a mode value, advances the index when the callback returns 0x17, and calls the completion callbacks at +0x104C, +0x1050 and +0x1054 when done",
+    "summary": "Steps through the object's callback table, calling each callback until one does not ask to advance, then runs its completion callbacks."
+  },
+  "0x100F32B0": {
+    "name": "Unit100D7420_StartCallbacks",
+    "confidence": "medium",
+    "evidence": "sets the table pointer at +0x105C and index +0x105A, calls the table's first entry with mode 0, advances the index on 0x17 and returns on 0x16, and clears the flag at +0x1058 otherwise; called by fn_100F3BB0, fn_100F3C20, fn_100F3C90 and fn_100F3D00",
+    "summary": "Installs a callback table on a pool object and runs its first callback to start the request."
+  },
+  "0x100F76D0": {
+    "name": "Unit100D7420_DestroyGlobal",
+    "confidence": "medium",
+    "evidence": "if the global DAT_104df908 is set, calls fn_100F1C40 (Unit100D7420_Destroy) on it and clears the global unless the flag is 0 and the destroy did not finish; the global is the one Unit100D7420_EnsureGlobal creates",
+    "summary": "Destroys the global pool object and clears the global pointer when the destroy finishes."
+  }
+}

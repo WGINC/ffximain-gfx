@@ -1,0 +1,100 @@
+{
+  "0x10116520": {
+    "name": "Unit100D7420_GetVerifiedSize",
+    "confidence": "low",
+    "evidence": "returns the size word at +8 with bit 31 cleared when FUN_10116540 returns 0 for the block, else 0",
+    "summary": "Returns a block's size when its digest verifies.",
+    "invented_prefix_name": "Blob_GetVerifiedSize"
+  },
+  "0x10116540": {
+    "name": "Unit100D7420_VerifyMd4",
+    "confidence": "medium",
+    "evidence": "when the block's size at +0 is between 0x1B and 0xFC0, computes the MD4 digest of the block with PHP_MD4Init and _opiemd4update, compares it with the four dwords at +0xC, and returns 0 when they match",
+    "summary": "Checks a block's MD4 digest against the stored one.",
+    "invented_prefix_name": "Blob_VerifyMd4"
+  },
+  "0x101165F0": {
+    "name": "Unit100D7420_InitHeader",
+    "confidence": "medium",
+    "evidence": "writes the tag 0x46465849 at +4 (the bytes XIFF) and the size with bit 31 cleared at +8",
+    "summary": "Writes the XIFF header tag and size of a block.",
+    "invented_prefix_name": "Blob_InitHeader"
+  },
+  "0x10116C90": {
+    "name": "Unit100D7420_ComputeMd4",
+    "confidence": "medium",
+    "evidence": "when the block's size at +0 is between 0x1B and 0xFC0, computes its MD4 digest with PHP_MD4Init and _opiemd4update and stores the four digest dwords at +0xC to +0x18, returning 0",
+    "summary": "Computes and stores a block's MD4 digest.",
+    "invented_prefix_name": "Blob_ComputeMd4"
+  },
+  "0x10117F40": {
+    "name": "Unit100D7420_Rebuild",
+    "confidence": "medium",
+    "evidence": "builds the layout from the source at +4: creates a layout with 0x50 bytes through Layout_InitScaled and Layout_SetSource, then one layout per entry of the source through Layout_Init, Layout_SetNames, Layout_ComputeOffsets, Layout_UpdateState and Layout_Update, and a final layout through Layout_AttachTo",
+    "summary": "Rebuilds a menu's layouts from its source entries.",
+    "invented_prefix_name": "Layout_Rebuild"
+  },
+  "0x101180F0": {
+    "name": "Unit100D7420_ClearEntries",
+    "confidence": "low",
+    "evidence": "walks the list at this+0x14, freeing each entry whose type word is 0 or whose type is 1 or 2, then calls FUN_101265D0",
+    "summary": "Frees the entries of a layout list.",
+    "invented_prefix_name": "Layout_ClearEntries"
+  },
+  "0x10118220": {
+    "name": "Unit100D7420_FindFreeEntry",
+    "confidence": "low",
+    "evidence": "walks the list at this+0x14 and returns the first entry whose type word is 0, else 0",
+    "summary": "Returns the first unused entry of a layout list.",
+    "invented_prefix_name": "Layout_FindFreeEntry"
+  },
+  "0x10118B60": {
+    "name": "Unit100D7420_SetStateByIndex",
+    "confidence": "medium",
+    "evidence": "walks the list at this+0x14 for the entry of type 1 whose index at +0x3A equals param_2, and calls Layout_SetState on it with param_1",
+    "summary": "Sets the state of the layout entry with a given index.",
+    "invented_prefix_name": "Layout_SetStateByIndex"
+  },
+  "0x10118C10": {
+    "name": "Unit100D7420_HitTest",
+    "confidence": "medium",
+    "evidence": "returns 1 with the point's x and y in the ranges of this+0x3A to +0x40, and 0 otherwise; called by sub_10125360 and sub_1012B4B0",
+    "summary": "Tests whether a point lies inside the layout's rectangle.",
+    "invented_prefix_name": "Layout_HitTest"
+  },
+  "0x10118CB0": {
+    "name": "Unit100D7420_PickEntry",
+    "confidence": "medium",
+    "evidence": "walks the list at this+0x14 for type 1 entries whose source rectangle contains the point, clears their flag at +0x49, sets it when picked and returns their index",
+    "summary": "Returns the layout entry under a point.",
+    "invented_prefix_name": "Layout_PickEntry"
+  },
+  "0x10118F40": {
+    "name": "Unit100D7420_FreeChild",
+    "confidence": "low",
+    "evidence": "calls the vtable slot 0xC of the child at this+0xC, clears the child's back link and the child pointer",
+    "summary": "Releases the child layout of an object.",
+    "invented_prefix_name": "Layout_FreeChild"
+  },
+  "0x10118F70": {
+    "name": "Unit100D7420_GetRect",
+    "confidence": "medium",
+    "evidence": "when this+0x99 is set, scales the entry's extents by the factor from FUN_101601D0 and writes the rectangle to param_1; otherwise copies the stored rectangle",
+    "summary": "Returns a layout entry's on-screen rectangle.",
+    "invented_prefix_name": "Layout_GetRect"
+  },
+  "0x101192E0": {
+    "name": "Unit100D7420_MarkDirty",
+    "confidence": "low",
+    "evidence": "sets the bytes at +0x3C and +0x4A of the entry found by FUN_101181D0 to 1",
+    "summary": "Marks a layout entry as needing an update.",
+    "invented_prefix_name": "Layout_MarkDirty"
+  },
+  "0x10119300": {
+    "name": "Unit100D7420_InitScaled",
+    "confidence": "low",
+    "evidence": "calls FUN_10126320 on the base, zeroes the fields from +0x0 to +0x48 and sets the scale fields at +0xC, +0x10 and +0x14 to 1.0f",
+    "summary": "Initialises a layout object with unit scales.",
+    "invented_prefix_name": "Layout_InitScaled"
+  }
+}

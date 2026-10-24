@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100AB550  (unit unit_100AB450: no unit evidence of its own; in the gap between 0x100AB440 (CXiSklFurnitureActor) and 0x100AB590 (CXiMannequinActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100AB550(int param_1)
+XI_API void __cdecl Unit100AB450_ReleaseSlot(int param_1)
 {
   uint16_t uVar1;
   void *self_;
@@ -12,7 +12,7 @@ XI_API void __cdecl fn_100AB550(int param_1)
   self_ = *(void **)(param_1 + 0x70);
   if (self_ != (void *)0x0) {
     uVar1 = *(uint16_t *)((int)self_ + 0x74);
-    orig::FUN_1008a7b0(self_);
+    orig::CXiActor_Destroy(self_);
     orig::thunk_sub_10028AA0_v1((int)self_);
     (&ActerBuffPtr_as_v0)[uVar1] = 0;
   }

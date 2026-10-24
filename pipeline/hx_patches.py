@@ -5,7 +5,9 @@ for stack variables, a wrong pointer). A patch is data/hx_patches/0xADDR.json:
 
   {"why": "...", "evidence": "...", "text_sha1": "<sha1 of the export text it was written against>",
    "replace": [["exact text in the export", "corrected text"], ...],
-   "variants": [{"text_sha1": ..., "replace": [...]}, ...]}        (optional: the same defect in other exports)
+   "variants": [{"text_sha1": ..., "replace": [...]}, ...],        (optional: the same defect in other exports)
+   "set": {"type": ..., "ret": ...}}     (optional: record fields to set with the text; a Ghidra record's signature
+                                         comes from its `type`)
 
 It is applied only while the export's text still has that sha1, so a re-export (for example after
 the IDB was fixed) is never silently overridden: the patch is reported as stale instead.
@@ -180,12 +182,14 @@ def variant(p, text):
     return next((v for v in [p] + p.get('variants', []) if v.get('text_sha1') == h), None)
 
 
-def patch_text(rec):
+def patch_text(rec, quiet=False):
+    """quiet: a Ghidra record (GfxExport) of an address whose patch was written against another export's text is
+    left as it is without a report; a patch for the Ghidra text carries that text's sha1 as a variant"""
     p = load().get(rec['ea'])
     if not p: return rec
     v = variant(p, rec['text'])
     if v is None:
-        print('hx_patches: 0x%08X stale (export text changed), not applied' % rec['ea'], file=sys.stderr)
+        if not quiet: print('hx_patches: 0x%08X stale (export text changed), not applied' % rec['ea'], file=sys.stderr)
         return rec
     text = rec['text']
     for old, new in v['replace']:
@@ -193,4 +197,4 @@ def patch_text(rec):
             print('hx_patches: 0x%08X snippet not found exactly once, not applied' % rec['ea'], file=sys.stderr)
             return rec
         text = text.replace(old, new)
-    return dict(rec, text=text)
+    return dict(rec, text=text, **v.get('set', {}))     # record fields the text change goes with (a Ghidra `type`)

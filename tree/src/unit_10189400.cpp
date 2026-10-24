@@ -65,8 +65,8 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 48);
   
   *(uint32_t *)self_ = ((*param_1 | *param_2) ^ *(uint32_t *)self_) & 1 ^ *(uint32_t *)self_;
-  orig::FUN_101898e0((void *)((int)self_ + 0xc),(int)(param_1 + 3),(int)(param_2 + 3),param_3);
-  orig::FUN_101898e0((void *)((int)self_ + 0x2c),(int)(param_1 + 0xb),(int)(param_2 + 0xb),param_3);
+  orig::Env_LerpKeyValues((void *)((int)self_ + 0xc),(int)(param_1 + 3),(int)(param_2 + 3),param_3);
+  orig::Env_LerpKeyValues((void *)((int)self_ + 0x2c),(int)(param_1 + 0xb),(int)(param_2 + 0xb),param_3);
   if ((*(uint8_t *)self_ & 1) != 0) {
     local_70 = (float)(long double)(int)(char)param_2[0xc];
     local_6c = (float)(long double)(int)*(char *)((int)param_2 + 0x31);
@@ -76,10 +76,10 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     local_5c = (float)(long double)(int)*(char *)((int)param_1 + 0x31);
     local_58 = (float)(long double)(int)*(char *)((int)param_1 + 0x32);
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x32));
-    orig::FUN_10032a40(local_50);
+    orig::Quat_SetIdentityChained(local_50);
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
-    orig::FUN_10027990(local_40);
-    orig::FUN_10032fe0(local_50,local_40);
+    orig::Unit10026C70_ReturnThis(local_40);
+    orig::Unit100310A0_FromQuat(local_50,local_40);
     orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x30) = (char)lVar1;
@@ -96,7 +96,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     local_58 = (float)(long double)(int)*(char *)((int)param_1 + 0x12);
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x12));
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
-    orig::FUN_10032fe0(local_50,local_40);
+    orig::Unit100310A0_FromQuat(local_50,local_40);
     orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x10) = (char)lVar1;
@@ -104,7 +104,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     *(char *)((int)self_ + 0x11) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_68 * (long double)127.0f);
     *(char *)((int)self_ + 0x12) = (char)lVar1;
-    orig::nullsub_1();
+    orig::Unit10026C70_Nop();
     orig::FUN_10032a70();
   }
   if ((((void *)((int)self_ + 0x4c) != (void *)0x0) && (param_1 + 0x13 != (uint32_t *)0x0)) &&
@@ -116,7 +116,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
 
 // FUNCTION: FFXIMAIN 0x10189810  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10189810(float * param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl Env_LerpFloat(float * param_1, float param_2, float param_3, float param_4)
 {
   *param_1 = (float)(((long double)param_2 - (long double)param_3) * (long double)param_4 + (long double)param_3);
   return param_1;
@@ -124,17 +124,17 @@ XI_API undefined4 __cdecl fn_10189810(float * param_1, float param_2, float para
 
 // FUNCTION: FFXIMAIN 0x101898E0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101898E0(void * self_, int param_1, int param_2, undefined4 param_3)
+XI_API void __thiscall Env_LerpKeyValues(void * self_, int param_1, int param_2, undefined4 param_3)
 {
   orig::FUN_10189750(self_,param_1,(char *)param_2,param_3);
   orig::FUN_10189750((char *)((int)self_ + 4),param_1 + 4,(char *)(param_2 + 4),param_3);
   orig::FUN_10189750((char *)((int)self_ + 8),param_1 + 8,(char *)(param_2 + 8),param_3);
   orig::FUN_10189750((char *)((int)self_ + 0xc),param_1 + 0xc,(char *)(param_2 + 0xc),param_3);
-  orig::FUN_10189810((float *)((int)self_ + 0x10),*(float *)(param_1 + 0x10),*(float *)(param_2 + 0x10),
+  orig::Env_LerpFloat((float *)((int)self_ + 0x10),*(float *)(param_1 + 0x10),*(float *)(param_2 + 0x10),
                param_3);
-  orig::FUN_10189810((float *)((int)self_ + 0x14),*(float *)(param_1 + 0x14),*(float *)(param_2 + 0x14),
+  orig::Env_LerpFloat((float *)((int)self_ + 0x14),*(float *)(param_1 + 0x14),*(float *)(param_2 + 0x14),
                param_3);
-  orig::FUN_10189810((float *)((int)self_ + 0x18),*(float *)(param_1 + 0x18),*(float *)(param_2 + 0x18),
+  orig::Env_LerpFloat((float *)((int)self_ + 0x18),*(float *)(param_1 + 0x18),*(float *)(param_2 + 0x18),
                param_3);
   return;
 }
@@ -225,7 +225,7 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
   
   local_34 = self_;
   orig::FUN_10189c60(&local_40);
-  pvVar1 = orig::FUN_1018bbc0(&local_3c,0x6f3c9000);
+  pvVar1 = orig::Time_SetNormalized(&local_3c,0x6f3c9000);
   pvVar3 = *(void **)((int)self_ + 0xc);
   iVar6 = 0;
   pvVar7 = (void *)0x0;
@@ -262,10 +262,10 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
           if (((char)uVar5 != '\0') &&
              (piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_28), pvVar7 = pvVar3, *piVar2 < iVar4)) {
             piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_24);
-            orig::FUN_1018bbc0(&local_30,local_40 - *piVar2);
+            orig::Time_SetNormalized(&local_30,local_40 - *piVar2);
             if (local_30 < local_3c) {
               piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_20);
-              pvVar1 = orig::FUN_1018bbc0(&local_2c,local_40 - *piVar2);
+              pvVar1 = orig::Time_SetNormalized(&local_2c,local_40 - *piVar2);
               orig::FUN_1018bc40(&local_3c,local_2c,pvVar1);
               local_38 = pvVar3;
             }
@@ -307,7 +307,7 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
   uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 28);
   
   orig::FUN_10189c60(&local_38);
-  orig::FUN_1018bbc0(&local_34,0x6f3c9000);
+  orig::Time_SetNormalized(&local_34,0x6f3c9000);
   iVar1 = *(int *)((int)self_ + 0xc);
   this_00 = (void *)0x0;
   pvVar4 = (void *)0x0;
@@ -321,10 +321,10 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
       piVar3 = (int *)orig::FUN_10072180(this_00,&local_28);
       if (*piVar3 <= iVar1) {
         piVar3 = (int *)orig::FUN_10072180(this_00,&local_24);
-        orig::FUN_1018bbc0(&local_30,local_38 - *piVar3);
+        orig::Time_SetNormalized(&local_30,local_38 - *piVar3);
         if (local_30 < local_34) {
           piVar3 = (int *)orig::FUN_10072180(this_00,&local_20);
-          pvVar4 = orig::FUN_1018bbc0(&local_2c,local_38 - *piVar3);
+          pvVar4 = orig::Time_SetNormalized(&local_2c,local_38 - *piVar3);
           orig::FUN_1018bc40(&local_34,local_2c,pvVar4);
           pvVar4 = this_00;
         }
@@ -366,8 +366,8 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
   
   local_3c = self_;
   orig::FUN_10189c60(&local_4c);
-  orig::FUN_1018bbc0(&local_44,0x6f3c9000);
-  pvVar1 = orig::FUN_1018bbc0(&local_48,0x6f3c9000);
+  orig::Time_SetNormalized(&local_44,0x6f3c9000);
+  pvVar1 = orig::Time_SetNormalized(&local_48,0x6f3c9000);
   pvVar3 = *(void **)((int)self_ + 0xc);
   iVar6 = 0;
   pvVar7 = (void *)0x0;
@@ -412,11 +412,11 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
             pvVar7 = pvVar3;
             if (iVar4 < *piVar2) {
               piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_24);
-              orig::FUN_1018bbc0(&local_38,*piVar2 - local_4c);
+              orig::Time_SetNormalized(&local_38,*piVar2 - local_4c);
               iVar4 = local_4c;
               if (local_38 < local_44) {
                 piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_20);
-                pvVar1 = orig::FUN_1018bbc0(&local_34,*piVar2 - iVar4);
+                pvVar1 = orig::Time_SetNormalized(&local_34,*piVar2 - iVar4);
                 orig::FUN_1018bc40(&local_44,local_34,pvVar1);
                 local_40 = pvVar3;
               }
@@ -462,8 +462,8 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
   uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 40);
   
   orig::FUN_10189c60(&local_44);
-  orig::FUN_1018bbc0(&local_3c,0x6f3c9000);
-  orig::FUN_1018bbc0(&local_40,0x6f3c9000);
+  orig::Time_SetNormalized(&local_3c,0x6f3c9000);
+  orig::Time_SetNormalized(&local_40,0x6f3c9000);
   iVar1 = *(int *)((int)self_ + 0xc);
   pvVar3 = (void *)0x0;
   pvVar4 = (void *)0x0;
@@ -483,11 +483,11 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
       piVar2 = (int *)orig::FUN_10072180(this_00,&local_28);
       if (iVar1 < *piVar2) {
         piVar2 = (int *)orig::FUN_10072180(this_00,&local_24);
-        orig::FUN_1018bbc0(&local_38,*piVar2 - local_44);
+        orig::Time_SetNormalized(&local_38,*piVar2 - local_44);
         iVar1 = local_44;
         if (local_38 < local_3c) {
           piVar2 = (int *)orig::FUN_10072180(this_00,&local_20);
-          orig::FUN_1018bbc0(&local_34,*piVar2 - iVar1);
+          orig::Time_SetNormalized(&local_34,*piVar2 - iVar1);
           orig::FUN_1018bc40(&local_3c,local_34,local_34);
           pvVar3 = this_00;
         }
@@ -503,7 +503,7 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
 
 // FUNCTION: FFXIMAIN 0x1018A220  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A220(void * self_)
+XI_API void __thiscall Env_UpdatePrevKey(void * self_)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
@@ -511,7 +511,7 @@ XI_API void __thiscall fn_1018A220(void * self_)
   local_4 = self_;
   orig::FUN_10189ca0(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
-    orig::FUN_1018a2e0(self_,local_4);
+    orig::Env_SetKeyField2C(self_,local_4);
     return;
   }
   *(uint8_t *)((int)self_ + 0x35) = 1;
@@ -520,7 +520,7 @@ XI_API void __thiscall fn_1018A220(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018A260  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A260(void * self_)
+XI_API void __thiscall Env_UpdateNextKey(void * self_)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
@@ -528,7 +528,7 @@ XI_API void __thiscall fn_1018A260(void * self_)
   local_4 = self_;
   orig::FUN_10189f20(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
-    orig::FUN_1018a2f0(self_,local_4);
+    orig::Env_SetKeyField30(self_,local_4);
     return;
   }
   *(uint8_t *)((int)self_ + 0x35) = 1;
@@ -537,20 +537,20 @@ XI_API void __thiscall fn_1018A260(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018A2A0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A2A0(void * self_)
+XI_API void __thiscall Env_UpdateKeyAtOrBefore(void * self_)
 {
   void *pvVar1;
   
   pvVar1 = orig::FUN_10189e30(self_,*(uint32_t *)((int)self_ + 0x10));
   if (pvVar1 != (void *)0x0) {
-    orig::FUN_1018a300(self_,pvVar1);
+    orig::Env_SetKeyField24(self_,pvVar1);
   }
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2C0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1018A2C0(void * self_)
+XI_API undefined4 __thiscall Env_UpdateKeyNeighbor(void * self_)
 {
   void *pvVar1;
   uint32_t uVar2;
@@ -558,14 +558,14 @@ XI_API undefined4 __thiscall fn_1018A2C0(void * self_)
   pvVar1 = orig::FUN_1018a0f0(self_,*(uint32_t *)((int)self_ + 0x10));
   uVar2 = 0;
   if (pvVar1 != (void *)0x0) {
-    uVar2 = orig::FUN_1018a310(self_,pvVar1);
+    uVar2 = orig::Env_SetKeyField28(self_,pvVar1);
   }
   return uVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2E0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A2E0(void * self_, undefined4 param_1)
+XI_API void __thiscall Env_SetKeyField2C(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x2c) = param_1;
   return;
@@ -573,7 +573,7 @@ XI_API void __thiscall fn_1018A2E0(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1018A2F0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A2F0(void * self_, undefined4 param_1)
+XI_API void __thiscall Env_SetKeyField30(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x30) = param_1;
   return;
@@ -581,7 +581,7 @@ XI_API void __thiscall fn_1018A2F0(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1018A300  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018A300(void * self_, undefined4 param_1)
+XI_API void __thiscall Env_SetKeyField24(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x24) = param_1;
   return;
@@ -589,7 +589,7 @@ XI_API void __thiscall fn_1018A300(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1018A310  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1018A310(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall Env_SetKeyField28(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x28) = param_1;
   return param_1;
@@ -597,14 +597,14 @@ XI_API undefined4 __thiscall fn_1018A310(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1018A320  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1018A320(void * self_)
+XI_API undefined4 __thiscall Env_UpdateTimeKeys(void * self_)
 {
   uint32_t uVar1;
   
-  orig::FUN_1018a220(self_);
-  orig::FUN_1018a260(self_);
-  orig::FUN_1018a2a0(self_);
-  uVar1 = orig::FUN_1018a2c0(self_);
+  orig::Env_UpdatePrevKey(self_);
+  orig::Env_UpdateNextKey(self_);
+  orig::Env_UpdateKeyAtOrBefore(self_);
+  uVar1 = orig::Env_UpdateKeyNeighbor(self_);
   return uVar1;
 }
 
@@ -630,10 +630,10 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
   
   orig::FUN_10189c60(&local_14);
   if ((*(int *)((int)self_ + 0x2c) == 0) && (*(char *)((int)self_ + 0x35) == '\0')) {
-    orig::FUN_1018a220(self_);
+    orig::Env_UpdatePrevKey(self_);
   }
   if ((*(int *)((int)self_ + 0x30) == 0) && (*(char *)((int)self_ + 0x35) == '\0')) {
-    orig::FUN_1018a260(self_);
+    orig::Env_UpdateNextKey(self_);
   }
   piVar3 = *(int **)((int)self_ + 0x30);
   if ((((piVar3 != (int *)0x0) && (*piVar3 != 0)) &&
@@ -649,16 +649,16 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
     orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18),uVar4);
     orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18),local_20 - xi_castbits<int>(local_18));
     if (local_20 < 0) {
-      pvVar5 = orig::FUN_1018bbc0(&local_10,0x4f1a00);
+      pvVar5 = orig::Time_SetNormalized(&local_10,0x4f1a00);
       orig::FUN_1018bc40(&local_20,(int)local_10 + local_20,pvVar5);
     }
     if (local_1c < 0) {
-      orig::FUN_1018bbc0(&local_10,0x4f1a00);
+      orig::Time_SetNormalized(&local_10,0x4f1a00);
       orig::FUN_1018bc40(&local_1c,(int)local_10 + local_1c,local_1c);
     }
     if (local_20 < local_1c) {
-      orig::FUN_1018a220(self_);
-      orig::FUN_1018a260(self_);
+      orig::Env_UpdatePrevKey(self_);
+      orig::Env_UpdateNextKey(self_);
     }
   }
   if (*(int *)((int)self_ + 0x24) != 0) {
@@ -673,26 +673,26 @@ XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
     uVar4 = orig::FUN_1018bc40(&local_1c,local_1c - xi_castbits<int>(local_18),uVar4);
     orig::FUN_1018bc40(&local_20,local_20 - xi_castbits<int>(local_18),uVar4);
     if (local_20 < 0) {
-      orig::FUN_1018bbc0(&local_10,0x4f1a00);
+      orig::Time_SetNormalized(&local_10,0x4f1a00);
       orig::FUN_1018bc40(&local_20,(int)local_10 + local_20,local_20);
     }
     if (local_1c < 0) {
-      orig::FUN_1018bbc0(&local_10,0x4f1a00);
+      orig::Time_SetNormalized(&local_10,0x4f1a00);
       orig::FUN_1018bc40(&local_1c,(int)local_10 + local_1c,(int)local_10 + local_1c);
     }
     if (local_1c <= local_20) goto LAB_1018a595;
   }
-  orig::FUN_1018a2a0(self_);
-  orig::FUN_1018a2c0(self_);
+  orig::Env_UpdateKeyAtOrBefore(self_);
+  orig::Env_UpdateKeyNeighbor(self_);
 LAB_1018a595:
   pvVar5 = *(void **)((int)self_ + 0x24);
   pvVar6 = *(void **)((int)self_ + 0x28);
   if ((pvVar5 != (void *)0x0) && (pvVar6 != (void *)0x0)) {
-    orig::FUN_1018ada0(self_);
+    orig::Blend_FreeResult(self_);
     if (pvVar5 != pvVar6) {
       local_8 = (uint32_t *)((int)pvVar6 + 0x30);
       local_c = (uint32_t *)((int)pvVar5 + 0x30);
-      uVar4 = orig::FUN_1018aeb0(local_c,local_8);
+      uVar4 = orig::Blend_AllocResult(local_c,local_8);
       *(uint32_t *)((int)self_ + 0x20) = uVar4;
       orig::unknown_libname_158(&local_1c);
       orig::unknown_libname_158(&local_20);
@@ -700,30 +700,30 @@ LAB_1018a595:
       iVar2 = *piVar3;
       piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_18);
       if (*piVar3 < iVar2) {
-        orig::FUN_1018bbc0(&local_18,0x4f1a00);
+        orig::Time_SetNormalized(&local_18,0x4f1a00);
         piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_10);
         orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3,*piVar3);
         piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_4);
-        pvVar6 = orig::FUN_1018bbc0(&local_10,*piVar3 + xi_castbits<int>(local_18));
+        pvVar6 = orig::Time_SetNormalized(&local_10,*piVar3 + xi_castbits<int>(local_18));
       }
       else {
         piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
         iVar2 = *piVar3;
         piVar3 = (int *)orig::FUN_10072180(pvVar6,&local_18);
-        orig::FUN_1018bbc0(&local_10,*piVar3 - iVar2);
+        orig::Time_SetNormalized(&local_10,*piVar3 - iVar2);
         pvVar6 = local_10;
       }
       orig::FUN_1018bc40(&local_1c,(int)local_10,pvVar6);
       piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
       if (local_14 < *piVar3) {
-        orig::FUN_1018bbc0(&local_18,0x4f1a00);
+        orig::Time_SetNormalized(&local_18,0x4f1a00);
         piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
         orig::FUN_1018bc40(&local_18,xi_castbits<int>(local_18) - *piVar3,*piVar3);
-        pvVar5 = orig::FUN_1018bbc0(&local_10,xi_castbits<int>(local_18) + local_14);
+        pvVar5 = orig::Time_SetNormalized(&local_10,xi_castbits<int>(local_18) + local_14);
       }
       else {
         piVar3 = (int *)orig::FUN_10072180(pvVar5,&local_4);
-        pvVar5 = orig::FUN_1018bbc0(&local_10,local_14 - *piVar3);
+        pvVar5 = orig::Time_SetNormalized(&local_10,local_14 - *piVar3);
       }
       orig::FUN_1018bc40(&local_20,(int)local_10,pvVar5);
       if (local_1c == 0) {

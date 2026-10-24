@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x10299FE0  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10299FE0(void)
+XI_API undefined4 * __cdecl SqinSkin_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0x48,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x69);
-  orig::FUN_1029a000(puVar1);
+  orig::SqinSkin_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1029A000  (unit sqinSkin: between 0x10299FE0 (asserts sqinSkin.c) and 0x1029A060 (asserts sqinSkin.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A000(undefined4 * param_1)
+XI_API void __cdecl SqinSkin_Init(undefined4 * param_1)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -31,7 +31,7 @@ XI_API void __cdecl fn_1029A000(undefined4 * param_1)
   param_1[4] = XI_CODE(FUN_1029a0e0);
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_1029a9b0;
-  orig::FUN_102aec50(param_1 + 9);
+  orig::SqinShape_Reset(param_1 + 9);
   param_1[0xd] = 0x3f000000;
   return;
 }
@@ -45,7 +45,7 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
   int iVar3;
   
   if ((param_1 != 0) && (param_3 != (undefined4 *)0x0)) {
-    puVar1 = orig::FUN_102aee90();
+    puVar1 = orig::SqdfShape_Create();
     *(undefined4 **)(param_1 + 0x24) = puVar1;
     puVar1[5] = param_5;
     *(int *)(*(int *)(param_1 + 0x24) + 0x28) = param_2;
@@ -85,7 +85,7 @@ XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, 
 
 // FUNCTION: FFXIMAIN 0x1029A230  (unit sqinSkin: between 0x1029A160 (asserts sqinSkin.c) and 0x1029A2E0 (asserts sqinSkin.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A230(int param_1, undefined4 param_2)
+XI_API void __cdecl SqinSkin_PropagateValue38(int param_1, undefined4 param_2)
 {
   int *piVar1;
   int iVar2;
@@ -109,7 +109,7 @@ XI_API void __cdecl fn_1029A230(int param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x1029A330  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1029A330(int param_1, int param_2)
+XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
 {
   uint32_t xi_entry_eax = 0;
   undefined4 *puVar1;
@@ -151,7 +151,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
     iVar3 = orig::FUN_10275090();
     pfVar4 = (float *)orig::FUN_10275d80(1,0x40,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x216);
     if (*(int *)(param_1 + 0x1c) != 0) {
-      orig::FUN_1027c9d0_v1(*(int *)(param_1 + 0x1c));
+      orig::SqskSkeleton_Release_v1(*(int *)(param_1 + 0x1c));
     }
     iVar9 = *(int *)(param_1 + 0x3c);
     iVar5 = orig::FUN_10275090();
@@ -164,7 +164,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
         iVar5 = *(int *)(*(int *)(param_1 + 0x38) + local_9c * 4);
         iVar6 = *(int *)(iVar5 + 0x30);
         iVar8 = *(int *)(iVar5 + 0x50);
-        puVar7 = orig::FUN_102aee90();
+        puVar7 = orig::SqdfShape_Create();
         *(undefined4 **)(iVar5 + 0x54) = puVar7;
         puVar7[5] = pfVar4;
         *(undefined4 *)(*(int *)(iVar5 + 0x54) + 0x28) =
@@ -226,7 +226,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1029A6F0  (unit sqinSkin: between 0x1029A450 (asserts sqinSkin.c) and 0x1029A710 (asserts sqinSkin.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A6F0(int param_1)
+XI_API void __cdecl SqinSkin_ReleaseIfHasData(int param_1)
 {
   if ((param_1 != 0) && (*(int *)(param_1 + 0x3c) != 0)) {
     orig::FUN_1029a450(param_1);

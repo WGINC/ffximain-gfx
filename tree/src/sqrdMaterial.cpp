@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102A3390  (unit sqrdMaterial: between 0x102A3360 (asserts sqrdMaterial.c) and 0x102A33F0 (name sqrdMaterialPrint), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A3390(undefined4 * param_1)
+XI_API void __cdecl SqrdMaterial_Init(undefined4 * param_1)
 {
   param_1[5] = 0x3f000000;
   param_1[6] = 0x3f000000;

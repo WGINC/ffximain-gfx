@@ -1,0 +1,26 @@
+{
+  "0x100AB700": {
+    "name": "CXiDancerActor_Construct",
+    "confidence": "medium",
+    "evidence": "calls CXiSkeletonActor_Constructor_1Arg, FUN_1008a120 on this+0xA0C, sets vtable PTR_CXiDancerActor_GetRuntimeClass_variant0_1032f4f0, calls fn_100AB750 and CXiSkeletonActor_LoadSkeletonResource(-1)",
+    "summary": "Constructs a dancer actor and loads its skeleton resource."
+  },
+  "0x100AB750": {
+    "name": "CXiDancerActor_InitBind",
+    "confidence": "low",
+    "evidence": "when the id argument is negative, binds the actor to its own sub-object at +0xA0C with a new counter value in +0xA80 and +0xA84; otherwise binds it to ActerBuffPtr[id], sets its +0x74, +0x78 and +0xA0 and flag 0x200 at +0x120; both paths call fn_100AB9A0",
+    "summary": "Binds the dancer actor to its slot or its own sub-object."
+  },
+  "0x100AB830": {
+    "name": "CXiDancerActor_SetPosition",
+    "confidence": "medium",
+    "evidence": "copies the three floats of the argument to the bound actor's +0x24, +0x28, +0x2C, calls fn_100929a0 on it, copies the Vec4 to this+0x5FC and sets this+0x608 to 1.0f",
+    "summary": "Sets the dancer actor's position and its stored vector."
+  },
+  "0x100AB9A0": {
+    "name": "CXiDancerActor_ApplyStateBlock",
+    "confidence": "low",
+    "evidence": "applies a state block: copies the two 0x1C-byte sub-blocks through fn_10093430, fn_100abc70 and fn_100ab830, and then compares 12 shorts at +0xFC..+0x10C with the block's values, setting the dirty bits at +0xF4 and +0xF5 and the copies at +0x250..+0x262",
+    "summary": "Applies a state block to the dancer actor and marks the changed fields."
+  }
+}

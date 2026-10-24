@@ -1,0 +1,37 @@
+{
+  "0x100C51C0": {
+    "name": "Unit100C51C0_MapCodeIndex",
+    "confidence": "low",
+    "evidence": "dispatches on the code argument 1 to 4 to fn_100C5260, the thunk to FUN_101cce00, fn_100C5280 and fn_100C5270, and otherwise maps the index in ranges to offsets (adding 0x514, 0xCA53 or 0x17A8B and 0x17FBF)",
+    "summary": "Maps a code and index to a table offset.",
+    "invented_prefix_name": "Lookup_MapCodeIndex"
+  },
+  "0x100C5260": {
+    "name": "Unit100C51C0_AddOffset996B",
+    "confidence": "low",
+    "evidence": "returns the argument plus 0x996B",
+    "summary": "Adds 0x996B to its argument.",
+    "invented_prefix_name": "Lookup_AddOffset996B"
+  },
+  "0x100C5270": {
+    "name": "Unit100C51C0_AddOffset19131",
+    "confidence": "low",
+    "evidence": "returns the argument plus 0x19131",
+    "summary": "Adds 0x19131 to its argument.",
+    "invented_prefix_name": "Lookup_AddOffset19131"
+  },
+  "0x100C5280": {
+    "name": "Unit100C51C0_AddOffset1889B",
+    "confidence": "low",
+    "evidence": "returns the argument plus 0x1889B",
+    "summary": "Adds 0x1889B to its argument.",
+    "invented_prefix_name": "Lookup_AddOffset1889B"
+  },
+  "0x100C5290": {
+    "name": "Unit100C51C0_ForwardToCce00",
+    "confidence": "low",
+    "evidence": "returns orig::FUN_101cce00(argument)",
+    "summary": "Forwards its argument to FUN_101cce00.",
+    "invented_prefix_name": "Lookup_ForwardToCce00"
+  }
+}

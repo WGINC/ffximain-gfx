@@ -1,0 +1,92 @@
+{
+  "0x101953C0": {
+    "name": "Unit1018BA60_FlushThenTrue",
+    "confidence": "low",
+    "evidence": "calls FUN_101956F0 on the object and returns 1",
+    "summary": "Runs the flush helper and returns 1."
+  },
+  "0x101953F0": {
+    "name": "Unit1018BA60_UpdateIfFlag9",
+    "confidence": "low",
+    "evidence": "when the byte at +9 is 1, calls FUN_10195640 and FUN_10195900 on the object; returns 1",
+    "summary": "Runs two update helpers when the flag at +9 is set and returns 1."
+  },
+  "0x101954D0": {
+    "name": "Unit1018BA60_GetEntry2C",
+    "confidence": "low",
+    "evidence": "returns the array at +4 plus index*0x2C when the array is nonnull, else 0",
+    "summary": "Returns the entry at an index of the 0x2C-byte array at +4."
+  },
+  "0x101962D0": {
+    "name": "Unit1018BA60_ConstructVt10336A0C",
+    "confidence": "low",
+    "evidence": "sets the vtable to PTR_FUN_10336A0C and clears the byte at +4",
+    "summary": "Sets the object's vtable and clears its flag byte."
+  },
+  "0x10196BF0": {
+    "name": "Unit1018BA60_ClearWords3C",
+    "confidence": "low",
+    "evidence": "calls FUN_10196980 on the object and zeroes the four words from +0x3C to +0x42",
+    "summary": "Runs the base initialiser and clears four words."
+  },
+  "0x10197F00": {
+    "name": "Unit1018BA60_ConstructVt10336B60",
+    "confidence": "low",
+    "evidence": "calls FUN_10197A90 on the object, sets the vtable to PTR_FUN_10336B60 and zeroes the dwords at +0x30 and +0x34",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x10198320": {
+    "name": "Unit1018BA60_ConstructVt10336BB0",
+    "confidence": "low",
+    "evidence": "calls FUN_10197A90 on the object, sets the vtable to PTR_FUN_10336BB0 and zeroes the dword at +0x30",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x101991B0": {
+    "name": "Unit1018BA60_ConstructVt10336C90",
+    "confidence": "low",
+    "evidence": "calls FUN_10126320 on self+4, sets the word at +0xE to 0xFFFF, the dwords at +8 to 0, the byte at +0xC to 1, and the vtable to PTR_FUN_10336C90",
+    "summary": "Constructs the object and sets its vtable."
+  },
+  "0x101992A0": {
+    "name": "Unit1018BA60_ConstructVt10336CD8",
+    "confidence": "low",
+    "evidence": "calls FUN_10196980 on the object, sets the vtable to PTR_FUN_10336CD8 and zeroes the dwords at +0x2C, +0x30 and +0x34",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x10199F40": {
+    "name": "Unit1018BA60_ConstructVt10336D70",
+    "confidence": "low",
+    "evidence": "calls FUN_10199710 on the object and sets the vtable to PTR_FUN_10336D70",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x1019A010": {
+    "name": "Unit1018BA60_ConstructVt10336DC0",
+    "confidence": "low",
+    "evidence": "calls FUN_10199710 on the object and sets the vtable to PTR_FUN_10336DC0",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x1019BC90": {
+    "name": "Unit1018BA60_ConstructVt10336EE8",
+    "confidence": "low",
+    "evidence": "calls FUN_10196980 on the object, sets the vtable to PTR_FUN_10336EE8 and zeroes the dwords at +0x20, +0x24 and +0x28",
+    "summary": "Constructs the object on its base and sets its vtable."
+  },
+  "0x1019C3E0": {
+    "name": "Unit1018BA60_RunPairA",
+    "confidence": "low",
+    "evidence": "calls FUN_103113D3 and then FUN_10311386",
+    "summary": "Runs two helpers in order."
+  },
+  "0x1019C4F0": {
+    "name": "Unit1018BA60_RunPairB",
+    "confidence": "low",
+    "evidence": "calls FUN_10311386 and then FUN_103113D3",
+    "summary": "Runs the same two helpers in the reverse order."
+  },
+  "0x1019C590": {
+    "name": "Unit1018BA60_GetSetting41",
+    "confidence": "low",
+    "evidence": "calls Settings_GetValue with the key 0x41",
+    "summary": "Returns the setting for key 0x41."
+  }
+}

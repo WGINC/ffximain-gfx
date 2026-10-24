@@ -2,36 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x10073A60  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10073A60(int * param_1, undefined4 param_2)
-{
-  uint32_t uVar1;
-  
-  orig::CMoResource_RegisterInTypeList_v1(param_1);
-  uVar1 = param_1[9] & 0x7f;
-  if (((param_2 & 1) != 0) &&
-     ((((uVar1 == 0x58 || (uVar1 == 0x3d)) || (uVar1 == 0x20)) ||
-      (((uVar1 == 0x5d || (uVar1 == 0x1b)) || (uVar1 == 0x18)))))) {
-    ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
-    *(uint8_t *)((int)param_1 + 0x1a) = *(uint8_t *)((int)param_1 + 0x1a) | 8;
-    return;
-  }
-  if ((((param_2 & 2) != 0) &&
-      ((((uVar1 == 10 || (uVar1 == 0x2e)) ||
-        ((uVar1 == 0x36 ||
-         ((((uVar1 == 0x2a || (uVar1 == 0x29)) || (uVar1 == 0x2b)) ||
-          ((uVar1 == 0x1f || (uVar1 == 0x21)))))))) ||
-       (((uVar1 == 0x25 || ((uVar1 == 0x39 || (uVar1 == 0x31)))) ||
-        (((uVar1 == 0x30 || (((uVar1 == 0x13 || (uVar1 == 0x49)) || (uVar1 == 0x44)))) ||
-         (uVar1 == 0x3e)))))))) ||
-     (((param_2 & 4) != 0 && ((*(uint8_t *)((int)param_1 + 0x1a) >> 3 & 1) == 0)))) {
-    ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
-    *(uint8_t *)((int)param_1 + 0x1a) = *(uint8_t *)((int)param_1 + 0x1a) | 8;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10073B20  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
@@ -66,29 +36,18 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
         else {
           pvVar3 = (void *)*puVar2;
         }
-        puVar2 = (uint32_t *)orig::CMoResource_Destroy_v1(this_00,puVar2);
+        puVar2 = (uint32_t *)orig::CMoResource_Destroy(this_00,puVar2);
         this_00 = pvVar3;
       }
     }
-    param_1 = (int *)orig::CMoResource_Destroy_v1(self_,puVar2);
+    param_1 = (int *)orig::CMoResource_Destroy(self_,puVar2);
   }
   return param_1;
 }
 
-// FUNCTION: FFXIMAIN 0x10073B80  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10073B80(int * param_1)
-{
-  uint32_t uVar1;
-  
-  orig::FUN_100720b0(param_1);
-  uVar1 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x24))))((void *)(param_1));
-  return uVar1;
-}
-
 // FUNCTION: FFXIMAIN 0x10073BA0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10073BA0(undefined4 * param_1, int param_2, int param_3)
+XI_API undefined4 __stdcall ResourceIter_FindById(undefined4 * param_1, int param_2, int param_3)
 {
   int iVar1;
   int *piVar2;
@@ -170,7 +129,7 @@ XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10074110  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10074110(void * self_, undefined4 * param_1)
+XI_API uint64_t __thiscall ResourceIter_PopFreeNode(void * self_, undefined4 * param_1)
 {
   uint32_t *puVar1;
   
@@ -207,45 +166,9 @@ XI_API void __thiscall MeshResourceMng_AllocHandle(void * self_, int * param_1, 
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10074180  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall NodePool_ReleaseNode(void * self_, uint32_t * param_1)
-{
-  int iVar1;
-  uint32_t uVar2;
-  
-  if (param_1 == (uint32_t *)0x0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = *param_1;
-  }
-  if ((int)self_ + 8U <= uVar2) {
-    if (param_1 == (uint32_t *)0x0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = *param_1;
-    }
-    if (uVar2 <= (int)self_ + 0x40004U) {
-      return;
-    }
-  }
-  if (param_1 != (uint32_t *)0x0) {
-    *param_1 = *(uint32_t *)((int)self_ + 4);
-    *(uint32_t **)((int)self_ + 4) = param_1;
-    iVar1 = *(int *)((int)self_ + 0x4000c) + -1;
-    *(int *)((int)self_ + 0x4000c) = iVar1;
-    if (iVar1 < 0) {
-      *(uint32_t *)((int)self_ + 0x4000c) = 0;
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100741E0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100741E0(void * self_, undefined4 * param_1)
+XI_API undefined4 __thiscall ResourceIter_InPoolRange(void * self_, undefined4 * param_1)
 {
   undefined4 *puVar1;
   
@@ -274,7 +197,7 @@ LAB_10074218:
 
 // FUNCTION: FFXIMAIN 0x10074280  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10074280(undefined4 param_1)
+XI_API void __cdecl ResourceIter_SetCurrentGlobal(undefined4 param_1)
 {
   DAT_1047d114 = param_1;
   return;
@@ -296,7 +219,7 @@ XI_API void __thiscall ResourceIter_FindFirst(void * self_, int param_1, int par
   uVar1 = *(uint32_t *)(param_1 + 0x24);
   *(int *)((int)self_ + 0x14) = param_1;
   *(uint32_t *)((int)self_ + 0x18) = -(uint32_t)(((uint8_t)uVar1 & 0x7f) != 1);
-  uVar2 = orig::FUN_10074380(self_);
+  uVar2 = orig::ResourceIter_MatchCurrent(self_);
   if ((char)uVar2 == '\0') {
     orig::FUN_100743d0(self_);
   }
@@ -305,7 +228,7 @@ XI_API void __thiscall ResourceIter_FindFirst(void * self_, int param_1, int par
 
 // FUNCTION: FFXIMAIN 0x10074310  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074310(void * self_, undefined4 param_1, int param_2, uint32_t param_3, uint32_t param_4)
+XI_API void __thiscall ResourceIter_Start(void * self_, undefined4 param_1, int param_2, uint32_t param_3, uint32_t param_4)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -324,7 +247,7 @@ XI_API void __thiscall fn_10074310(void * self_, undefined4 param_1, int param_2
     uVar1 = *(uint32_t *)(&DAT_1047cf80)[param_2];
   }
   *(uint32_t *)((int)self_ + 0x14) = uVar1;
-  uVar2 = orig::FUN_10074380(self_);
+  uVar2 = orig::ResourceIter_MatchCurrent(self_);
   if ((char)uVar2 == '\0') {
     orig::FUN_100743d0(self_);
   }
@@ -333,7 +256,7 @@ XI_API void __thiscall fn_10074310(void * self_, undefined4 param_1, int param_2
 
 // FUNCTION: FFXIMAIN 0x10074380  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10074380(void * self_)
+XI_API uint32_t __thiscall ResourceIter_MatchCurrent(void * self_)
 {
   uint32_t *puVar1;
   uint32_t uVar2;

@@ -1,0 +1,23 @@
+{
+ "why": "The original's EAX at each `ret` is what the C code already computes: 0x101911C5 returns the result of FUN_1015ec50 (uVar1, EAX untouched after the call), 0x101911DB returns uVar2 (0x101911C9 `mov eax, 1` .. `xor eax, eax`, then stored). The void the export declares lets the reconstruction leave something else. A caller does not show it ignores EAX: 0x1019101D in 0x10190C70 is followed by `call [edx+4]` through [esi+0x18] (0x1019102C), a call vcall_resolve does not settle, which may read it (caller_reads.json leaves 0x101911A0 out). The reconstruction returns those values, so EAX is the original's.",
+ "evidence": "Disassembly of 0x101911A0..0x101911DB; caller_reads.py traced: of the five call sites only 0x1019101D reads, at the unsettled virtual call 0x1019102C.",
+ "text_sha1": "bb936b51dd908f7511f79d100b2e1ec763deb625",
+ "replace": [
+  [
+   "void __thiscall FUN_101911a0(void *this)",
+   "uint __thiscall FUN_101911a0(void *this)"
+  ],
+  [
+   "    *(undefined4 *)((int)this + 0x20) = 2;\n    return;",
+   "    *(undefined4 *)((int)this + 0x20) = 2;\n    return uVar1;"
+  ],
+  [
+   "  *(uint *)((int)this + 0x20) = uVar2;\n  return;",
+   "  *(uint *)((int)this + 0x20) = uVar2;\n  return uVar2;"
+  ]
+ ],
+ "set": {
+  "type": "uint __thiscall FUN_101911a0(void)",
+  "ret": "uint"
+ }
+}

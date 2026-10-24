@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102967E0  (unit sqMatrix3: between 0x102966C0 (asserts sqMatrix3.c) and 0x10296DC0 (asserts sqMatrix3.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_102967E0(float * param_1)
+XI_API long double __cdecl SqMatrix3_Determinant(float * param_1)
 {
   return ((((long double)param_1[8] * (long double)*param_1 * (long double)param_1[4] +
            (long double)param_1[2] * (long double)param_1[3] * (long double)param_1[7] +

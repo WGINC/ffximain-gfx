@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100747F0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100747F0(void * self_, int param_1)
+XI_API void __thiscall Unit10074790_Remove(void * self_, int param_1)
 {
   int iVar1;
   int iVar2;
@@ -29,100 +29,6 @@ XI_API void __thiscall fn_100747F0(void * self_, int param_1)
     *(uint32_t *)((int)self_ + 0x24) = *(uint32_t *)(iVar2 + 0x28);
     *(uint32_t *)(param_1 + 0x28) = 0;
     *(uint32_t *)(param_1 + 0x10) = 0;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10074890  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 48 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074890(void * self_)
-{
-  if (*(void **)((int)self_ + 0x28) != (void *)0x0) {
-    orig::FUN_10074890(*(void **)((int)self_ + 0x28));
-  }
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10074920  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 17 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __thiscall fn_10074920(void * self_, uint32_t param_1)
-{
-  uint32_t uVar1;
-  undefined4 *a1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  uint64_t uVar4;
-  
-  byte_1047D13D_as_v0 = 1;
-  uVar4 = orig::Mem_AllocFromArea_v1(param_1,4);
-  g_resourcesDirty_as_v0 = 1;
-  if ((void *)uVar4 == (void *)0x0) {
-    a1 = (undefined4 *)0x0;
-  }
-  else {
-    uVar4 = orig::CMoTask_Constructor_v1((void *)uVar4);
-    a1 = (undefined4 *)uVar4;
-  }
-  byte_1047D13D_as_v0 = 0;
-  puVar2 = self_;
-  puVar3 = a1;
-  for (uVar1 = param_1 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {
-    *puVar3 = *puVar2;
-    puVar2 = puVar2 + 1;
-    puVar3 = puVar3 + 1;
-  }
-  for (uVar1 = param_1 & 3; uVar1 != 0; uVar1 = uVar1 - 1) {
-    *(uint8_t *)puVar3 = *(uint8_t *)puVar2;
-    puVar2 = (undefined4 *)((int)puVar2 + 1);
-    puVar3 = (undefined4 *)((int)puVar3 + 1);
-  }
-  a1[2] = 0;
-  a1[3] = 0;
-  a1[4] = 0;
-  a1[9] = 0;
-  a1[10] = 0;
-  if (*(void **)((int)self_ + 0x10) != (void *)0x0) {
-    orig::FUN_10074850(*(void **)((int)self_ + 0x10),(int)a1);
-  }
-  orig::FUN_100749f0();
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x28))))((void *)(self_),a1);
-  return a1;
-}
-
-// FUNCTION: FFXIMAIN 0x10074AB0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074AB0(void * self_)
-{
-  if (*(char *)((int)self_ + 0x20) != '\0') {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x18))))((void *)(self_),1);
-    return;
-  }
-  orig::FUN_10074ad0(self_,1);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10074AD0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074AD0(void * self_, int param_1)
-{
-  if (*(void **)((int)self_ + 0x10) != (void *)0x0) {
-    orig::FUN_100747f0(*(void **)((int)self_ + 0x10),(int)self_);
-  }
-  if (*(void **)((int)self_ + 0x24) != (void *)0x0) {
-    orig::FUN_10074890(*(void **)((int)self_ + 0x24));
-  }
-  if (*(int *)((int)self_ + 4) != 0) {
-    if (param_1 != 0) {
-      orig::FUN_10074a20();
-    }
-    if (*(char *)((int)self_ + 0x20) == '\0') {
-      *(uint32_t *)(dword_1047D140 + 0xd5c) = *(uint32_t *)(dword_1047D140 + 0xd50);
-      *(void **)(dword_1047D140 + 0xd50) = self_;
-      *(uint32_t *)((int)self_ + 4) = 0;
-      *(int *)(dword_1047D140 + 0xd44) = *(int *)(dword_1047D140 + 0xd44) + -1;
-    }
   }
   return;
 }

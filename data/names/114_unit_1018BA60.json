@@ -1,0 +1,176 @@
+{
+  "0x101B2710": {
+    "name": "Unit1018BA60_OnMessage",
+    "confidence": "medium",
+    "evidence": "for message codes 3 and 5 it sends ImmNotifyIME 0x17 and 0x16 on the window's IME context, then opens the menu named by s_menu_fep through MenuMng_OpenByName and increments the counter at +0xF128",
+    "summary": "Handles an IME message by clearing the composition and opening the input menu.",
+    "invented_prefix_name": "Ime_OnMessage"
+  },
+  "0x101B36F0": {
+    "name": "Unit1018BA60_OnChar",
+    "confidence": "medium",
+    "evidence": "handles the backspace character 0x08 and the space character separately, otherwise passes the character to FUN_101B6810 when the IME is open or the conversion status allows it, and plays a beep when that fails",
+    "summary": "Handles a typed character in the text input, using the IME state.",
+    "invented_prefix_name": "TextInput_OnChar"
+  },
+  "0x101B3B50": {
+    "name": "Unit1018BA60_ResetComposition",
+    "confidence": "medium",
+    "evidence": "gets the IME context, and either sets an empty composition string through ImmSetCompositionStringA or sends ImmNotifyIME 0x15, then clears the flags at +0xEF22 and +0xF120 and calls FUN_101B7190",
+    "summary": "Resets the IME composition and the input state.",
+    "invented_prefix_name": "Ime_ResetComposition"
+  },
+  "0x101B3F70": {
+    "name": "Unit1018BA60_HasComposition",
+    "confidence": "medium",
+    "evidence": "returns 1 when ImmGetCompositionStringA reports a positive length for the IME context",
+    "summary": "Reports whether the IME has a composition string.",
+    "invented_prefix_name": "Ime_HasComposition"
+  },
+  "0x101B4260": {
+    "name": "Unit1018BA60_IsOemSlash",
+    "confidence": "low",
+    "evidence": "returns 1 when the argument equals 0xBF",
+    "summary": "Reports whether a key code is 0xBF.",
+    "invented_prefix_name": "Key_IsOemSlash"
+  },
+  "0x101B4350": {
+    "name": "Scene_IsState70",
+    "confidence": "low",
+    "evidence": "returns 1 when the scene state at g_pSceneState is 0x70",
+    "summary": "Reports whether the scene state is 0x70."
+  },
+  "0x101B4BB0": {
+    "name": "Unit1018BA60_Reset",
+    "confidence": "low",
+    "evidence": "zeroes 0x70 dwords from self, clears the word and byte at the end, and zeroes the counts at +0x1C4 and +0x1C8",
+    "summary": "Clears an input buffer and its counts.",
+    "invented_prefix_name": "InputBuf_Reset"
+  },
+  "0x101B4C20": {
+    "name": "Unit1018BA60_AppendByte",
+    "confidence": "medium",
+    "evidence": "stores the byte at the end of the buffer at +0x1C4 with the cursor at +0x1C8 when the cursor is at the end, otherwise shifts the bytes after the cursor by one and inserts it; both counts increase by one up to 0x1C1",
+    "summary": "Inserts a byte at the cursor of the input buffer.",
+    "invented_prefix_name": "InputBuf_AppendByte"
+  },
+  "0x101B4D30": {
+    "name": "Unit1018BA60_DeleteLast",
+    "confidence": "medium",
+    "evidence": "removes the character before the cursor at +0x1C8, handling a two-byte SJIS sequence through FUN_1011C900, and shifts the bytes after it down",
+    "summary": "Deletes the character before the cursor in the input buffer.",
+    "invented_prefix_name": "InputBuf_DeleteLast"
+  },
+  "0x101B4E70": {
+    "name": "Unit1018BA60_DeleteForward",
+    "confidence": "medium",
+    "evidence": "removes the character at the cursor at +0x1C8, handling a two-byte SJIS sequence through FUN_1011C900, and shifts the bytes after it down",
+    "summary": "Deletes the character at the cursor in the input buffer.",
+    "invented_prefix_name": "InputBuf_DeleteForward"
+  },
+  "0x101B4F90": {
+    "name": "Unit1018BA60_ClearAll",
+    "confidence": "low",
+    "evidence": "zeroes 0x70 dwords from self, clears the word and byte at the end, and zeroes the counts at +0x1C4 and +0x1C8",
+    "summary": "Clears an input buffer and its counts.",
+    "invented_prefix_name": "InputBuf_ClearAll"
+  },
+  "0x101B4FC0": {
+    "name": "Unit1018BA60_MoveBack",
+    "confidence": "medium",
+    "evidence": "moves the cursor at +0x1C8 back by one character, or by two when the preceding bytes are a two-byte SJIS sequence as tested by FUN_1011C900",
+    "summary": "Moves the input cursor back one character.",
+    "invented_prefix_name": "InputBuf_MoveBack"
+  },
+  "0x101B5C80": {
+    "name": "Unit1018BA60_IsModeTwo",
+    "confidence": "low",
+    "evidence": "returns 1 when the dword at +0xF108 equals 2",
+    "summary": "Reports whether the UI mode is 2.",
+    "invented_prefix_name": "Ui_IsModeTwo"
+  },
+  "0x101B5C90": {
+    "name": "Unit1018BA60_IsModeFourOrFive",
+    "confidence": "low",
+    "evidence": "returns 1 when the dword at +0xF108 is 4 or 5",
+    "summary": "Reports whether the UI mode is 4 or 5.",
+    "invented_prefix_name": "Ui_IsModeFourOrFive"
+  },
+  "0x101B5CC0": {
+    "name": "Unit1018BA60_IsModeThree",
+    "confidence": "low",
+    "evidence": "returns 1 when the dword at +0xF108 equals 3",
+    "summary": "Reports whether the UI mode is 3.",
+    "invented_prefix_name": "Ui_IsModeThree"
+  },
+  "0x101B6EA0": {
+    "name": "Unit1018BA60_ResetCursor",
+    "confidence": "low",
+    "evidence": "clears the byte at +0x8C81 and the dwords at +0xEC30 and +0x8C84, and returns 1",
+    "summary": "Resets the text input's cursor and flag.",
+    "invented_prefix_name": "TextInput_ResetCursor"
+  },
+  "0x101B6EC0": {
+    "name": "Unit1018BA60_GetEntry",
+    "confidence": "low",
+    "evidence": "returns the address of the entry at index +0x8C84 in the table at +0x1191 with stride 0x18, or 0 when the index is past the count at +0xEC28",
+    "summary": "Returns the text entry at the current index, or 0 when it is out of range.",
+    "invented_prefix_name": "TextInput_GetEntry"
+  },
+  "0x101B70A0": {
+    "name": "List_Advance",
+    "confidence": "low",
+    "evidence": "increments the index at +0x8C84, wrapping to 0 when it reaches the count at +0xEC28, and increments the counter at +0xEC30",
+    "summary": "Advances the list index by one, wrapping at the end."
+  },
+  "0x101B70D0": {
+    "name": "List_Retreat",
+    "confidence": "low",
+    "evidence": "decrements the index at +0x8C84, wrapping to the count at +0xEC28 when it is zero, and increments the counter at +0xEC30",
+    "summary": "Moves the list index back by one, wrapping at the start."
+  },
+  "0x101B7100": {
+    "name": "List_PageDown",
+    "confidence": "low",
+    "evidence": "adds 7 to the index at +0x8C84, clamps it to the count minus one at +0xEC28, and increments the counter at +0xEC30",
+    "summary": "Moves the list index forward by a page of seven entries."
+  },
+  "0x101B7130": {
+    "name": "List_PageUp",
+    "confidence": "low",
+    "evidence": "subtracts 7 from the index at +0x8C84, clamping it at zero, and increments the counter at +0xEC30",
+    "summary": "Moves the list index back by a page of seven entries."
+  },
+  "0x101B7190": {
+    "name": "Unit1018BA60_ResetBuffer",
+    "confidence": "low",
+    "evidence": "calls FUN_101B4F90 on the buffer at +0x8AAC",
+    "summary": "Clears the text input buffer.",
+    "invented_prefix_name": "TextInput_ResetBuffer"
+  },
+  "0x101B7EE0": {
+    "name": "Unit1018BA60_IsState1Or3",
+    "confidence": "low",
+    "evidence": "returns 1 when the object at DAT_1066276C has a non-zero state at +0x44 equal to 1 or 3",
+    "summary": "Reports whether the session state is 1 or 3.",
+    "invented_prefix_name": "Session_IsState1Or3"
+  },
+  "0x101B9550": {
+    "name": "Event_Wait",
+    "confidence": "medium",
+    "evidence": "calls WaitForSingleObject on the handle at +4 with the timeout argument and returns 1 when it did not fail, otherwise -1",
+    "summary": "Waits on the event handle, returning a success or failure code."
+  },
+  "0x101B95D0": {
+    "name": "Event_ResetAndWait",
+    "confidence": "medium",
+    "evidence": "calls ResetEvent on the handle at +4, returning -1 when it fails, then calls WaitForSingleObject on it with the timeout argument",
+    "summary": "Resets the event and then waits on it."
+  },
+  "0x101B9610": {
+    "name": "Event_Signal",
+    "confidence": "medium",
+    "evidence": "calls SetEvent on the handle at +4 and returns 1 when it succeeds, otherwise -1",
+    "summary": "Signals the event handle, returning a success or failure code."
+  }
+}

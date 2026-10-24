@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10299D60  (unit sqshBuild: between 0x10299C30 (asserts sqshBuild.c) and 0x10299EE0 (asserts sqshBuild.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10299D60(undefined4 * param_1, undefined4 * param_2, int param_3)
+XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, int param_3)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -15,18 +15,18 @@ XI_API int __cdecl fn_10299D60(undefined4 * param_1, undefined4 * param_2, int p
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 4);
   
   iVar1 = param_3;
-  puVar2 = orig::FUN_1028a0f0(&param_3,4,1,param_1,param_3);
+  puVar2 = orig::Unit1028A0A0_ReadBlock(&param_3,4,1,param_1,param_3);
   if (0 < param_3) {
-    puVar3 = orig::FUN_102a9520();
+    puVar3 = orig::SqVtx_Create();
     puVar3[5] = param_3;
-    puVar2 = orig::FUN_1028a0f0(&local_4,4,1,puVar2,iVar1);
+    puVar2 = orig::Unit1028A0A0_ReadBlock(&local_4,4,1,puVar2,iVar1);
     iVar4 = 0;
     if (0 < local_4) {
       do {
-        puVar2 = orig::FUN_1028a0f0(&param_1,4,1,puVar2,iVar1);
-        puVar2 = orig::FUN_1028a0f0(&local_8,4,1,puVar2,iVar1);
+        puVar2 = orig::Unit1028A0A0_ReadBlock(&param_1,4,1,puVar2,iVar1);
+        puVar2 = orig::Unit1028A0A0_ReadBlock(&local_8,4,1,puVar2,iVar1);
         orig::FUN_102a9980((int)puVar3,(int)param_1,local_8);
-        puVar2 = orig::FUN_1028a0f0((undefined4 *)puVar3[(int)param_1 + 0x15],4,local_8 * param_3,puVar2,
+        puVar2 = orig::Unit1028A0A0_ReadBlock((undefined4 *)puVar3[(int)param_1 + 0x15],4,local_8 * param_3,puVar2,
                               iVar1);
         iVar4 = iVar4 + 1;
       } while (iVar4 < local_4);

@@ -2,6 +2,7 @@
 #pragma once
 class CAcc;
 class CApp;
+class CAtelIdleTask;
 class CDx;
 class CEnv;
 class CMoActorColorDriveTask;
@@ -102,21 +103,7 @@ class CMoTask_VT_1032A904;
 class CMoTask_VT_1032AF60;
 class CMoTask_VT_1032AFA8;
 class CMoTask_VT_1032B654;
-class CMoTask_VT_1032B8BC;
 class CMoTask_VT_1032B95C;
-class CMoTask_VT_1032BB0C;
-class CMoTask_VT_1032BB54;
-class CMoTask_VT_1032BC10;
-class CMoTask_VT_1032BC3C;
-class CMoTask_VT_1032BE08;
-class CMoTask_VT_1032BE50;
-class CMoTask_VT_1032BE98;
-class CMoTask_VT_1032BEE0;
-class CMoTask_VT_1032BF28;
-class CMoTask_VT_1032BF70;
-class CMoTask_VT_1032BFB8;
-class CMoTask_VT_1032C000;
-class CMoTask_VT_1032C048;
 class CMoTask_VT_1032C490;
 class CMoTask_VT_1032C908;
 class CMoTask_VT_1032D6D4;
@@ -131,15 +118,16 @@ class CXi471011C8_VT_1032AD80;
 class CXi471011C8_VT_1032B3B8;
 class CXi471011C8_VT_1032B478;
 class CXiActor;
-class CXiActorDraw;
 class CXiActorNameDraw;
 class CXiAtelActor;
 class CXiCollisionActor;
 class CXiControlActor;
+class CXiDancerActor;
 class CXiMovie;
 class CXiOpening;
 class CXiSkeletonActor;
 class CXiSkeletonActorRes;
+class CXiTimerLow;
 class CYyCamMng2;
 class CYyIcon;
 class CYyModel;
@@ -148,7 +136,10 @@ class CYyModelDt;
 class CYyModelDt_VT_1032A430;
 class CYyModelDt_VT_1032A72C;
 class CYyMotionQue;
+class CYyObject;
 class CYyOs2VtxBuffer;
+class CYySkl;
+class CYySoundElem;
 class CYyTex;
 class CYyTexBase;
 class CYyTexMng;
@@ -156,13 +147,34 @@ class CYyVb;
 class CYyVbMng;
 class Obj_104E1B90;
 class Obj_104E1BF8;
-class Obj_104E1D4C;
 class Obj_10621944;
-class XiActorTimerTask;
+class XiFurnitureActor;
+class XiModelActor;
 class XiZone;
+class YkJpeg;
+class YkJpgBit;
+class YkMyroom;
+class YkZip;
+class YmCombineWeather;
+struct CMoProcessor_recon;
 struct CMoTask_VT_1032B890;
+struct CMoTask_VT_1032B8BC;
 struct CMoTask_VT_1032B914;
+struct CMoTask_VT_1032BB0C;
+struct CMoTask_VT_1032BB54;
 struct CMoTask_VT_1032BB80;
+struct CMoTask_VT_1032BC10;
+struct CMoTask_VT_1032BC3C;
+struct CMoTask_VT_1032BE08;
+struct CMoTask_VT_1032BE50;
+struct CMoTask_VT_1032BE98;
+struct CMoTask_VT_1032BEE0;
+struct CMoTask_VT_1032BF28;
+struct CMoTask_VT_1032BF70;
+struct CMoTask_VT_1032BFB8;
+struct CMoTask_VT_1032C000;
+struct CMoTask_VT_1032C048;
+struct XiActorTimerTask;
 struct XiDoorActor;
 // Game types exported from the IDB (IDA print_decls); D3D types come from xi_d3d8.hpp.
 
@@ -460,15 +472,6 @@ struct tm
 };
 #pragma pack(pop)
 
-/* 237 */
-#pragma pack(push, 1)
-/// recon: tree/include/CYyObject.hpp, sizeof 0x4 from the binary's descriptor
-struct CYyObject
-{
-  void **vftable;
-};
-#pragma pack(pop)
-
 /* 632 */
 struct CMoTask_vtbl
 {
@@ -584,16 +587,6 @@ struct CMoOcclusionMng_vtbl
   void *vf5_CApp_vf005;
   int *(__thiscall *vf6_CMoOcclusionMng_ScalarDeletingDtor)(CMoOcclusionMng *C, char);
 };
-
-/* 309 */
-#pragma pack(push, 1)
-/// recon: tree/include/CMoProcessor.hpp, sizeof 0x10 from the binary's descriptor
-struct CMoProcessor_recon
-{
-  CYyObject base;
-  unsigned __int8 _pad_4[12];
-};
-#pragma pack(pop)
 
 /* 607 */
 struct CMoResourceMng_vtbl

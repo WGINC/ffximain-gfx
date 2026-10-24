@@ -1,0 +1,141 @@
+{
+  "0x10014CE0": {
+    "name": "Camera_ClearByte0A",
+    "confidence": "low",
+    "evidence": "writes 0 to the byte at camera+0x0A and returns the camera pointer",
+    "summary": "Clears the byte at offset 0x0A of the camera."
+  },
+  "0x10014D20": {
+    "name": "Camera_GetClampedField28",
+    "confidence": "low",
+    "evidence": "returns the float at camera+0x28, or 1.0 when it is below 1.0",
+    "summary": "Returns the camera's field at offset 0x28, clamped to at least 1.0."
+  },
+  "0x10014D60": {
+    "name": "Camera_GetField38",
+    "confidence": "low",
+    "evidence": "returns the dword at camera+0x38 and nothing else",
+    "summary": "Returns the value stored at offset 0x38 of the camera."
+  },
+  "0x10014DB0": {
+    "name": "Camera_SetClearColorPacked",
+    "confidence": "medium",
+    "evidence": "packs the three byte arguments into the dword at self+0x308 with a 0xFF8000-style high part; called by Camera_SetClearColorRGB",
+    "summary": "Stores the clear colour as one packed value."
+  },
+  "0x10014E20": {
+    "name": "Camera_SetField304Bytes",
+    "confidence": "low",
+    "evidence": "packs two byte arguments and a third into the dword at self+0x304",
+    "summary": "Stores three byte values packed into the field at offset 0x304."
+  },
+  "0x10014E60": {
+    "name": "Camera_SetField2FC",
+    "confidence": "low",
+    "evidence": "stores its float argument at camera+0x2FC",
+    "summary": "Stores a float at offset 0x2FC of the camera."
+  },
+  "0x10014E80": {
+    "name": "Camera_SetField300",
+    "confidence": "low",
+    "evidence": "stores its float argument at camera+0x300",
+    "summary": "Stores a float at offset 0x300 of the camera."
+  },
+  "0x10014EB0": {
+    "name": "Camera_SetField314",
+    "confidence": "low",
+    "evidence": "stores its float argument at camera+0x314",
+    "summary": "Stores a float at offset 0x314 of the camera."
+  },
+  "0x10014ED0": {
+    "name": "Camera_SetField318",
+    "confidence": "low",
+    "evidence": "stores its float argument at camera+0x318",
+    "summary": "Stores a float at offset 0x318 of the camera."
+  },
+  "0x100152B0": {
+    "name": "Camera_SetField2F8",
+    "confidence": "low",
+    "evidence": "stores its dword argument at self+0x2F8 and nothing else",
+    "summary": "Stores a dword at offset 0x2F8 of the camera."
+  },
+  "0x100152C0": {
+    "name": "Camera_GetField2F4",
+    "confidence": "low",
+    "evidence": "returns the float at camera+0x2F4 and nothing else",
+    "summary": "Returns the float stored at offset 0x2F4 of the camera."
+  },
+  "0x10015120": {
+    "name": "Camera_SetViewMatrices",
+    "confidence": "medium",
+    "evidence": "copies its 16-float argument into the matrices at +0x54, +0x94 and +0xD4, sets the identity at +0x114 and +0x294 to the inverse of the +0x94 matrix, and clears +0x104 to +0x10C",
+    "summary": "Sets the camera's view matrices from a 4x4 matrix and derives its inverse."
+  },
+  "0x100151D0": {
+    "name": "Camera_SetProjectionMatrix",
+    "confidence": "medium",
+    "evidence": "copies its 16-float argument into the matrix at self+0x154, which Camera_BuildPerspectiveFov writes as the projection",
+    "summary": "Sets the camera's projection matrix from a 4x4 matrix."
+  },
+  "0x10015360": {
+    "name": "Camera_SetField2E4",
+    "confidence": "low",
+    "evidence": "sets the float at camera+0x2E4 to 1.0 or 1/0.75 by its argument, then calls FUN_100153D0",
+    "summary": "Stores a scale at offset 0x2E4 of the camera, chosen by a flag."
+  },
+  "0x100153A0": {
+    "name": "Camera_SetField2F0",
+    "confidence": "low",
+    "evidence": "stores param_2 / (param_1 * 0.25 * 3.0) as a float at camera+0x2F0",
+    "summary": "Stores a value derived from two arguments at offset 0x2F0 of the camera."
+  },
+  "0x10015490": {
+    "name": "Camera_BuildPerspectiveFov",
+    "confidence": "medium",
+    "evidence": "calls D3DXMatrixPerspectiveFovLH with a field-of-view from atan of camera+0x2F4, an aspect from +0x2F0 and +0x2E8, and the near and far planes at +0x2DC and +0x2E0, then copies the result to +0x1D4",
+    "summary": "Builds the camera's perspective projection with D3DX from its field of view, aspect and clip planes."
+  },
+  "0x100155D0": {
+    "name": "Camera_GetByte0B",
+    "confidence": "low",
+    "evidence": "returns the byte at camera+0x0B",
+    "summary": "Returns the byte stored at offset 0x0B of the camera."
+  },
+  "0x10015600": {
+    "name": "Camera_GetWord10",
+    "confidence": "low",
+    "evidence": "returns the word at camera+0x10",
+    "summary": "Returns the word stored at offset 0x10 of the camera."
+  },
+  "0x10015610": {
+    "name": "Camera_GetWord12",
+    "confidence": "low",
+    "evidence": "returns the word at camera+0x12",
+    "summary": "Returns the word stored at offset 0x12 of the camera."
+  },
+  "0x10015640": {
+    "name": "Camera_GetWord14",
+    "confidence": "low",
+    "evidence": "returns the word at camera+0x14",
+    "summary": "Returns the word stored at offset 0x14 of the camera."
+  },
+  "0x10015650": {
+    "name": "Camera_GetWord16",
+    "confidence": "low",
+    "evidence": "returns the word at camera+0x16",
+    "summary": "Returns the word stored at offset 0x16 of the camera."
+  },
+  "0x100156A0": {
+    "name": "Camera_PickNearestAspect",
+    "confidence": "medium",
+    "evidence": "compares the ratio param_1 / param_2 with six table entries at DAT_1034F4A0 and keeps the closest, writing that entry's two values to the out-pointers and returning its index, or -1 for non-positive inputs",
+    "summary": "Picks the table entry whose aspect ratio is closest to the given width and height."
+  },
+  "0x10017310": {
+    "name": "Unit10014350_Draw",
+    "confidence": "medium",
+    "evidence": "sets the D3D texture stages and render states for a ramp, then draws 255 line segments with CDx_DrawPrimitiveUP using g_rampGraphVerts, plotting the 16-bit values at a1 in a 480-pixel-high graph",
+    "summary": "Draws a 256-entry ramp as a line graph with Direct3D.",
+    "invented_prefix_name": "RampGraph_Draw"
+  }
+}

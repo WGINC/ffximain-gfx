@@ -1,0 +1,23 @@
+{
+  "0x1027CCF0": {
+    "name": "Unit1027CCF0_TransformOrigin",
+    "confidence": "low",
+    "evidence": "zeroes a 3-float vector and calls FUN_1027cfd0 with it and the two arguments",
+    "summary": "Transforms the chain origin by the chain's matrices.",
+    "invented_prefix_name": "SqChain_TransformOrigin"
+  },
+  "0x1027CD30": {
+    "name": "Unit1027CCF0_ComputeTransform",
+    "confidence": "low",
+    "evidence": "walks the chain of records linked at +0x68 from the first record (FUN_1027c900), multiplying each record's matrix at +0x1C with sqMatrix4_10280140 into a running matrix via M4fSet, transforms the origin with M4fTransform and writes the result with FUN_1027a8a0",
+    "summary": "Accumulates a chain's matrices and transforms a point through them.",
+    "invented_prefix_name": "SqChain_ComputeTransform"
+  },
+  "0x1027CFD0": {
+    "name": "Unit1027CCF0_TransformPoint",
+    "confidence": "low",
+    "evidence": "walks the chain of records linked at +0x68 (FUN_1027c900) accumulating their matrices at +0x1C into a running matrix with sqMatrix4_10280140 and M4fSet, then applies it to the input vector with M4fTransform",
+    "summary": "Transforms a point through a chain of matrices.",
+    "invented_prefix_name": "SqChain_TransformPoint"
+  }
+}

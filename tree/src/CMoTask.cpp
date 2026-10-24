@@ -45,6 +45,66 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant2()
   return &CMoTask_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10035D40  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
+{
+  void *pvVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
+  pvVar1 = (void *)uVar2;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
+  if (pvVar1 != (void *)0x0) {
+    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,2);
+    if (pvVar1 != (void *)0x0) {
+      orig::CMoTask_RegisterWithMng_v1(5);
+    }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10035D90  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
+{
+  void *pvVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
+  pvVar1 = (void *)uVar2;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
+  if (pvVar1 != (void *)0x0) {
+    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,1);
+    if (pvVar1 != (void *)0x0) {
+      orig::CMoTask_RegisterWithMng_v1(5);
+    }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10035DE0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl CMoTask::CreateMode4(undefined4 param_1, int param_2)
+{
+  void *pvVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
+  pvVar1 = (void *)uVar2;
+  orig::CMoTask_ResetFields_v1(pvVar1);
+  g_resourcesDirty_as_v0 = 1;
+  if (pvVar1 != (void *)0x0) {
+    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,4);
+    if (pvVar1 != (void *)0x0) {
+      orig::CMoTask_RegisterWithMng_v1(5);
+    }
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10037280  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoTask::GetRuntimeClass_variant3()
@@ -64,6 +124,57 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant4()
 char CMoTask::vf008()
 {
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10053370  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 99 returned normally, 51 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoTask::Restart(void * self)
+{
+  int *this_00;
+  uint32_t uVar1;
+  uint32_t uVar2;
+  uint32_t *this_01;
+  uint64_t uVar3;
+  
+  *(uint32_t *)((int)self + 0x9c) = 0;
+  *(uint32_t *)((int)self + 0xcc) = 0;
+  *(uint32_t *)((int)self + 200) = 0;
+  if ((*(uint8_t *)((int)self + 0xdc) & 1) != 0) {
+    if (*(int *)((int)self + 0xa8) != 0) {
+      *(uint32_t *)(*(int *)((int)self + 0xa8) + 0x14) = 0;
+    }
+    *(uint8_t *)((int)self + 0xdc) = *(uint8_t *)((int)self + 0xdc) & 0xfe;
+    uVar2 = *(uint32_t *)((int)self + 0xd8) | 0x800;
+    *(uint32_t *)((int)self + 0xd8) = uVar2;
+    return uVar2;
+  }
+  *(uint8_t *)((int)self + 0xdc) = *(uint8_t *)((int)self + 0xdc) & 0xfe;
+  *(uint32_t *)((int)self + 0xd8) = *(uint32_t *)((int)self + 0xd8) | 0x800;
+  this_00 = *(int **)((int)self + 0xa8);
+  if (this_00 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
+    *(uint32_t *)((int)self + 0xa8) = 0;
+  }
+  uVar3 = orig::Mem_AllocFromArea_v1(0x3d,4);
+  this_01 = (uint32_t *)uVar3;
+  orig::CMoTask_ResetFields_v1(this_01);
+  g_resourcesDirty_as_v0 = 1;
+  if (this_01 == (uint32_t *)0x0) {
+    this_01 = (uint32_t *)0x0;
+  }
+  else {
+    orig::CMoTask_Constructor_v1(this_01);
+    *this_01 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
+    *(uint8_t *)(this_01 + 0xf) = 0;
+  }
+  *(uint32_t **)((int)self + 0xa8) = this_01;
+  orig::FUN_10074a00();
+  this_01[0xd] = *(uint32_t *)((int)self + 0x14);
+  uVar1 = *(uint32_t *)((int)self + 0x14);
+  this_01[0xe] = uVar1;
+  this_01[6] = *(uint32_t *)((int)self + 0x14);
+  this_01[7] = 0x4d670000;
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10055550  (placed by IDB name; static (takes no this))
@@ -115,6 +226,28 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant11()
   return &CMoTask_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10070F40  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CMoTask::InitVariant12(void * self)
+{
+  orig::CMoTask_Constructor_v1(self);
+  *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032c490;
+  *(uint32_t *)((int)self + 0x3c) = 0;
+  return self;
+}
+
+// FUNCTION: FFXIMAIN 0x10070F90  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::InitAndRegister(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+{
+  *(uint32_t *)((int)self + 0x34) = param_1;
+  *(uint32_t *)((int)self + 0x38) = param_2;
+  *(uint32_t *)((int)self + 0x3c) = param_3;
+  *(uint8_t *)((int)self + 0x40) = (uint8_t)param_4;
+  orig::CMoTask_RegisterWithMng_v1(0);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10074730  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoTask::GetRuntimeClass_variant12()
@@ -130,6 +263,18 @@ _DWORD * CMoTask::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);
   return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+}
+
+// FUNCTION: FFXIMAIN 0x10074890  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 48 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::DestroyChain(void * self)
+{
+  if (*(void **)((int)self + 0x28) != (void *)0x0) {
+    orig::FUN_10074890(*(void **)((int)self + 0x28));
+  }
+  *(uint32_t *)((int)self + 0x10) = 0;
+  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100748F0  (placed by IDB name; static (takes no this))
@@ -149,6 +294,401 @@ undefined4 __thiscall CMoTask::ResetFields(void * self)
   *(uint32_t *)((int)self + 0x24) = 0;
   *(uint32_t *)((int)self + 0x28) = 0;
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10074920  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 17 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
+undefined4 * __thiscall CMoTask::Clone(void * self, uint32_t param_1)
+{
+  uint32_t uVar1;
+  undefined4 *a1;
+  undefined4 *puVar2;
+  undefined4 *puVar3;
+  uint64_t uVar4;
+  
+  byte_1047D13D_as_v0 = 1;
+  uVar4 = orig::Mem_AllocFromArea_v1(param_1,4);
+  g_resourcesDirty_as_v0 = 1;
+  if ((void *)uVar4 == (void *)0x0) {
+    a1 = (undefined4 *)0x0;
+  }
+  else {
+    uVar4 = orig::CMoTask_Constructor_v1((void *)uVar4);
+    a1 = (undefined4 *)uVar4;
+  }
+  byte_1047D13D_as_v0 = 0;
+  puVar2 = self;
+  puVar3 = a1;
+  for (uVar1 = param_1 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {
+    *puVar3 = *puVar2;
+    puVar2 = puVar2 + 1;
+    puVar3 = puVar3 + 1;
+  }
+  for (uVar1 = param_1 & 3; uVar1 != 0; uVar1 = uVar1 - 1) {
+    *(uint8_t *)puVar3 = *(uint8_t *)puVar2;
+    puVar2 = (undefined4 *)((int)puVar2 + 1);
+    puVar3 = (undefined4 *)((int)puVar3 + 1);
+  }
+  a1[2] = 0;
+  a1[3] = 0;
+  a1[4] = 0;
+  a1[9] = 0;
+  a1[10] = 0;
+  if (*(void **)((int)self + 0x10) != (void *)0x0) {
+    orig::FUN_10074850(*(void **)((int)self + 0x10),(int)a1);
+  }
+  orig::FUN_100749f0();
+  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x28))))((void *)(self),a1);
+  return a1;
+}
+
+// FUNCTION: FFXIMAIN 0x10074AB0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::Release(void * self)
+{
+  if (*(char *)((int)self + 0x20) != '\0') {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
+    return;
+  }
+  orig::FUN_10074ad0(self,1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10075000  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 70 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl CMoTask::Dispatch(int * param_1)
+{
+  uint32_t uVar1;
+  
+  uVar1 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
+  if ((char)uVar1 == '\0') {
+                    /* WARNING: Could not recover jumptable at 0x10075015. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (**(code **)(*param_1 + 0x24))();
+    return;
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10076030  (placed by IDB name)
+// GATE: PASS -- 100 trials, 96 returned normally, 2603 D3D calls compared (diffemu_gfx, clean build)
+int CMoTask::DrawQuadStates(float *a2, char arg4)
+{
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  double v3;
+  alignas(16) unsigned char xi_frame[0x5D4];  // address-taken locals at their original offsets
+  int (&a3)[6] = *reinterpret_cast<int (*)[6]>(xi_frame + 0x170);
+  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x188);
+  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x18C);
+  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x190);
+  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x194);
+  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x198);
+  float &v11 = *reinterpret_cast<float *>(xi_frame + 0x19C);
+  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x1A0);
+  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x1A4);
+  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x1A8);
+  float &v15 = *reinterpret_cast<float *>(xi_frame + 0x1AC);
+  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x1B0);
+  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
+  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x1B8);
+  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x1BC);
+  _BYTE (&v20)[20] = *reinterpret_cast<_BYTE (*)[20]>(xi_frame + 0x1C0);
+
+  Fn10076030_static_D1DC = 0;
+  Fn10076030_static_D1C0 = 0;
+  Fn10076030_static_D1A4 = 0;
+  Fn10076030_static_D188 = 0;
+  Fn10076030_static_D1E0 = 1065353216;
+  Fn10076030_static_D1C4 = 1065353216;
+  Fn10076030_static_D1A8 = 1065353216;
+  Fn10076030_static_D18C = 1065353216;
+  Fn10076030_static_D1E4 = -2139062144;
+  Fn10076030_static_D1C8 = -2139062144;
+  Fn10076030_static_D1AC = -2139062144;
+  Fn10076030_static_D190 = -2139062144;
+  Fn10076030_static_D1B8 = *a2;
+  Fn10076030_static_D180 = Fn10076030_static_D1B8;
+  Fn10076030_static_D1D4 = a2[2] + *a2;
+  Fn10076030_static_D19C = Fn10076030_static_D1D4;
+  Fn10076030_static_D1A0 = a2[1];
+  Fn10076030_static_D184 = Fn10076030_static_D1A0;
+  v3 = a2[1] + a2[3];
+  Fn10076030_static_D1CC = 0;
+  Fn10076030_static_D194 = 0;
+  Fn10076030_static_D1E8 = 1065353216;
+  Fn10076030_static_D1B0 = 1065353216;
+  Fn10076030_static_D1B4 = 0;
+  Fn10076030_static_D198 = 0;
+  Fn10076030_static_D1D8 = v3;
+  Fn10076030_static_D1BC = v3;
+  Fn10076030_static_D1EC = 1065353216;
+  Fn10076030_static_D1D0 = 1065353216;
+  if ( arg4 != 0 )
+    orig::TexRef_SetTexture(self, 0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    24,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    11,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    4,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    5,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    7,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    52,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    15,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    27,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    22,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    137,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    28,
+    0);
+  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    48,
+    0);
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    324);
+  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 5, 2, (int)&Fn10076030_static_D180, 28);
+  v17 = 0;
+  v12 = 0;
+  v7 = 0;
+  a3[2] = 0;
+  v18 = 1065353216;
+  v13 = 1065353216;
+  v8 = 1065353216;
+  a3[3] = 1065353216;
+  v19 = -2130771968;
+  v14 = -2130771968;
+  v9 = -2130771968;
+  a3[4] = -2130771968;
+  v15 = *a2;
+  *(float *)a3 = v15;
+  *(float *)&v10 = a2[2] + *a2;
+  a3[5] = v10;
+  v6 = *((int *)a2 + 1);
+  a3[1] = v6;
+  v16 = a2[1] + a2[3];
+  v11 = v16;
+  qmemcpy(v20, a3, sizeof(v20));
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    68);
+  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 3, 4, (int)a3, 20);
+  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
+           *(_DWORD *)(g_pResourceMng + 3772),
+           7,
+           1);
+}
+
+// FUNCTION: FFXIMAIN 0x10076520  (placed by IDB name)
+// GATE: PASS -- 100 trials, 100 returned normally, 1000 D3D calls compared (diffemu_gfx, clean build)
+int CMoTask::DrawQuadDynVB(float *a2, float *a3, char a4)
+{
+  int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
+  float *v5;
+  double v7;
+  double v8;
+  double v9;
+  double v10;
+  double v11;
+  double v12;
+  double v13;
+  double v14;
+  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
+  v5 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
+  v5[24] = 1.0;
+  v5[17] = 1.0;
+  v5[10] = 1.0;
+  v5[3] = 1.0;
+  v5[23] = 0.0;
+  v5[25] = -2.3418052e-38;
+  v5[18] = -2.3418052e-38;
+  v5[11] = -2.3418052e-38;
+  v5[4] = -2.3418052e-38;
+  v5[16] = 0.0;
+  v5[9] = 0.0;
+  v5[2] = 0.0;
+  v7 = *a2;
+  v5[14] = *a2;
+  *v5 = v7;
+  v8 = a2[2] + *a2;
+  v5[21] = v8;
+  v5[7] = v8;
+  v9 = a2[1];
+  v5[8] = a2[1];
+  v5[1] = v9;
+  v10 = a2[3] + a2[1];
+  v5[22] = v10;
+  v5[15] = v10;
+  v11 = *a3;
+  v5[19] = *a3;
+  v5[5] = v11;
+  v12 = a3[2];
+  v5[26] = a3[2];
+  v5[12] = v12;
+  v13 = a3[1];
+  v5[13] = a3[1];
+  v5[6] = v13;
+  v14 = a3[3];
+  v5[27] = a3[3];
+  v5[20] = v14;
+  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
+  if ( a4 != 0 )
+    orig::TexRef_SetTexture(self, 0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    24,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    11,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    1,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    2,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    4,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    5,
+    0);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    16,
+    2);
+  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    0,
+    17,
+    2);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    1,
+    1);
+  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
+    *(_DWORD *)(g_pResourceMng + 3772),
+    1,
+    4,
+    1);
+  return orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
+}
+
+// FUNCTION: FFXIMAIN 0x10076750  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::SetRect30(void * self, undefined4 * param_1)
+{
+  *(uint32_t *)((int)self + 0x38) = param_1[2];
+  *(uint32_t *)((int)self + 0x3c) = param_1[3];
+  *(uint32_t *)((int)self + 0x30) = *param_1;
+  *(uint32_t *)((int)self + 0x34) = param_1[1];
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10081710  (placed by IDB name; static (takes no this))

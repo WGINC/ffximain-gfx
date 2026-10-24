@@ -12,7 +12,7 @@ char ** __cdecl CYyTexMng::GetRuntimeClass()
 
 // FUNCTION: FFXIMAIN 0x1003AA50  (unit CYyTexMng: stores CYyTexMng vtable (ctor/dtor))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1003AA50(void * self_)
+XI_API undefined4 __thiscall CYyTexMng_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyTexMng_GetRuntimeClass_1032aa90;
   *(uint16_t *)((int)self_ + 4) = 0;
@@ -40,7 +40,7 @@ uint64_t __thiscall CYyTexMng::FindByName(void * self, int param_1)
   int *piVar2;
   int iVar3;
   
-  piVar2 = (int *)orig::FUN_1003aab0(self);
+  piVar2 = (int *)orig::TexMgr_GetField8(self);
   iVar1 = *piVar2;
   do {
     if (iVar1 == 0) {
@@ -82,7 +82,7 @@ int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int 
       iVar4 = **(int **)(param_2 + 0x28);
     }
   }
-  piVar2 = (int *)orig::CMoResource_FindInScope_v1(&param_2,iVar4,0x20,0,xi_eax);
+  piVar2 = (int *)orig::CMoResource_FindInScope(&param_2,iVar4,0x20,0,xi_eax);
   pcVar1 = param_1;
   if ((int *)*piVar2 == (int *)0x0) {
     iVar4 = 0;
@@ -102,7 +102,7 @@ int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int 
       pcVar3 = pcVar3 + 1;
     } while (iVar5 < 0x10);
     if (iVar5 == 0x10) {
-      piVar2 = (int *)orig::FUN_1003aab0(self);
+      piVar2 = (int *)orig::TexMgr_GetField8(self);
       for (iVar5 = *piVar2; iVar5 != 0; iVar5 = *(int *)(iVar5 + 0x38)) {
         if (*(int *)(iVar5 + 8) == iVar4) {
           return *piVar2;
@@ -116,7 +116,7 @@ int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int 
     else {
       iVar4 = **(int **)(iVar4 + 8);
     }
-    piVar2 = (int *)orig::CMoResource_FindInScope_v1(&param_1,iVar4,0x20,0,&param_1);
+    piVar2 = (int *)orig::CMoResource_FindInScope(&param_1,iVar4,0x20,0,&param_1);
     if ((int *)*piVar2 == (int *)0x0) {
       iVar4 = 0;
     }

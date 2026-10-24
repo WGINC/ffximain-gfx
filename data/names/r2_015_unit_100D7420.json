@@ -1,0 +1,50 @@
+{
+  "0x100D7420": {
+    "name": "Unit100D7420_Md5Init",
+    "confidence": "medium",
+    "evidence": "stores 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 in words 0-3 and zeroes words 4-5 (the bit count); the same context goes to Unit100D7420_Md5Update and the block function, which uses MD5 table constants",
+    "summary": "Initialises an MD5 context: loads the four standard state words and zeroes the bit count."
+  },
+  "0x100D7450": {
+    "name": "Unit100D7420_Md5Update",
+    "confidence": "medium",
+    "evidence": "adds len*8 to the 64-bit bit count at +0x10/+0x14, buffers bytes at +0x18 and passes each full 64-byte block to 0x100D75A0; callers call orig::_opiemd4update(ctx, data, len) with this shape",
+    "summary": "Adds a run of bytes to the MD5 context and passes each full 64-byte block to the block function."
+  },
+  "0x100D75A0": {
+    "name": "Unit100D7420_Md5ComputeBlock",
+    "confidence": "medium",
+    "evidence": "four 16-step rounds with the MD5 table constants 0xD76AA478 (-0x28955B88), 0xE8C7B756, 0x242070DB, 0xC1BDCEEE and rotations 7/12/17/22; folds the 16-word block at param_2 into the state at param_1",
+    "summary": "Runs the MD5 compression function over one 64-byte block and updates the state words."
+  },
+  "0x100D9410": {
+    "name": "Game_InitGlobal",
+    "confidence": "low",
+    "evidence": "writes global 0x1048FDF4 once, only when it is zero, to &DAT_1048F490; returns 0",
+    "summary": "Sets one game global to its address if it is still zero."
+  },
+  "0x100D9830": {
+    "name": "Game_ResetGlobals",
+    "confidence": "medium",
+    "evidence": "zeroes 0xD76 dwords from 0x1048BEB8 and writes globals 0x1048BEBC to 0x1048BF8C, including pointer globals set to other globals; reached only from fn_100D9430 in the Game_InitOnce chain",
+    "summary": "Clears the game's global block and resets its pointer globals."
+  },
+  "0x100DBAA0": {
+    "name": "Unit100D7420_GetField0xA4",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0xA4 and nothing else; its only named caller chain is Unit10237880_ForwardFlag1",
+    "summary": "Returns the field at offset 0xA4 of its object."
+  },
+  "0x100DBE50": {
+    "name": "Unit100D7420_InitTimer",
+    "confidence": "medium",
+    "evidence": "zeroes 0x16 dwords at DAT_10492DB8, the block Unit100D7420_AdvanceClock updates, stores orig::timeGetTime_100DBE00 into its first word, then calls Unit100D7420_Reset",
+    "summary": "Initialises the timer block at 0x10492DB8 from the system clock and resets its wrap counter."
+  },
+  "0x100DC1B0": {
+    "name": "Unit100D7420_SetOffsetMilliseconds",
+    "confidence": "medium",
+    "evidence": "stores (p1 - seconds at +0xC)*1000 + (p2 - milliseconds at +0x10) into the offset at +0x14, the same fields Unit100D7420_GetTotalMilliseconds reads; caller passes (x >> 1) + y",
+    "summary": "Stores the millisecond offset between the given seconds and milliseconds and the timer's current values."
+  }
+}

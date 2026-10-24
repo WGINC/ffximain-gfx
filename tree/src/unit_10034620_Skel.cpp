@@ -21,7 +21,7 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
   float  (&local_50)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 16);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 32);
   
-  orig::FUN_10032a40(&local_60);
+  orig::Quat_SetIdentityChained(&local_60);
   if (*(int *)((int)self_ + 4) != 0) {
     iVar5 = 0;
     uVar1 = *(uint16_t *)(g_pSharedSkeleton_as_s32 + 0x32);
@@ -33,13 +33,13 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         local_58 = puVar6[1];
         local_54 = puVar6[2];
         this_00 = &g_poseScratch_as_v0 + iVar5 * 0xd;
-        puVar4 = (undefined4 *)orig::FUN_10032b50(this_00,local_50,&local_60);
+        puVar4 = (undefined4 *)orig::Quat_Multiply(this_00,local_50,&local_60);
         *this_00 = *puVar4;
         (&DAT_1045f034)[iVar5 * 0xd] = puVar4[1];
         (&DAT_1045f038)[iVar5 * 0xd] = puVar4[2];
         (&DAT_1045f03c)[iVar5 * 0xd] = puVar4[3];
         orig::FUN_10032a70();
-        orig::FUN_10032da0(this_00);
+        orig::Quat_NormalizeInPlace(this_00);
         fVar2 = xi_castbits<float>(puVar6[4]);
         fVar3 = xi_castbits<float>(puVar6[5]);
         (&g_poseTranslation_as_v0)[iVar5 * 0xd] =
@@ -49,11 +49,11 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         (&DAT_1045f048)[iVar5 * 0xd] =
              (float)((long double)fVar3 + (long double)xi_castbits<float>((&DAT_1045f048)[iVar5 * 0xd]));
         if (iVar5 == 0) {
-          orig::FUN_10027990(local_40);
+          orig::Unit10026C70_ReturnThis(local_40);
           orig::Mat4_SetIdentity_v1(local_40);
           orig::Mat4_PostRotateY_v1(local_40,4.7123889923095703125f);
           orig::Mat4_TransformPointInPlace_v1(local_40,(float *)&g_poseTranslation_as_v0);
-          orig::nullsub_1();
+          orig::Unit10026C70_Nop();
         }
         puVar6 = (undefined4 *)((int)puVar6 + 0x1e);
         iVar5 = iVar5 + 1;
@@ -106,7 +106,7 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
           uVar2 = (uint32_t)*local_48;
           if (iVar5 == 0) {
             orig::Vec3_Copy_v1((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale_as_v0);
-            orig::FUN_10032fe0(&g_poseScratch_as_v0,g_boneWeightMatrixTable_as_v0);
+            orig::Unit100310A0_FromQuat(&g_poseScratch_as_v0,g_boneWeightMatrixTable_as_v0);
             orig::Mat4_SetTranslation_v1(g_boneWeightMatrixTable_as_v0,&g_poseTranslation_as_v0);
             orig::Mat4_PostMultiply_v1(g_boneWeightMatrixTable_as_v0,param_1);
           }
@@ -114,11 +114,11 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
             (&g_boneTouched_as_v0)[iVar5] = 0;
           }
           else {
-            orig::FUN_10027340((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
+            orig::Vec3_MulComponents_v1((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
                          (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34),
                          (float *)(((char *)&g_poseScale_as_v0) + iVar5 * 0x34));
-            orig::FUN_10032fe0(&g_poseScratch_as_v0 + iVar5 * 0xd,g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10);
-            orig::FUN_10027340(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10 + 0xc,
+            orig::Unit100310A0_FromQuat(&g_poseScratch_as_v0 + iVar5 * 0xd,g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10);
+            orig::Vec3_MulComponents_v1(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10 + 0xc,
                          (float *)(&g_poseTranslation_as_v0 + iVar5 * 0xd),
                          (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34));
             orig::Mat4_PostMultiply_v1(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10,
@@ -158,9 +158,9 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
         do {
           bVar1 = *local_48;
           if ((pfVar8 != (float *)&DAT_1045f058) && ((&g_boneTouched_as_v0)[param_4] == 0)) {
-            orig::FUN_10027340(pfVar8,(float *)(((char *)&DAT_1045f058) + (uint32_t)bVar1 * 0x34),pfVar8 + -3);
-            orig::FUN_10032fe0(pfVar8 + -10,(float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4));
-            orig::FUN_10027340((float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4 + 0x30),pfVar8 + -6,
+            orig::Vec3_MulComponents_v1(pfVar8,(float *)(((char *)&DAT_1045f058) + (uint32_t)bVar1 * 0x34),pfVar8 + -3);
+            orig::Unit100310A0_FromQuat(pfVar8 + -10,(float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4));
+            orig::Vec3_MulComponents_v1((float *)((int)g_boneWeightMatrixTable_as_v0 + iVar4 + 0x30),pfVar8 + -6,
                          (float *)(((char *)&DAT_1045f058) + (uint32_t)bVar1 * 0x34));
             orig::Mat4_PostMultiply_v1((void *)((int)g_boneWeightMatrixTable_as_v0 + iVar4),
                               (int)(g_boneWeightMatrixTable_as_v0 + (uint32_t)bVar1 * 0x10));
@@ -185,15 +185,15 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
               orig::Vec3_Copy_v1((undefined4 *)&DAT_1045f058,(undefined4 *)&g_poseScale_as_v0);
             }
             else {
-              orig::FUN_10027340((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
+              orig::Vec3_MulComponents_v1((float *)(((char *)&DAT_1045f058) + iVar5 * 0x34),
                            (float *)(((char *)&DAT_1045f058) + (uint32_t)*local_48 * 0x34),
                            (float *)(((char *)&g_poseScale_as_v0) + iVar5 * 0x34));
             }
-            orig::FUN_10027990(local_40);
+            orig::Unit10026C70_ReturnThis(local_40);
             orig::Mat4_SetScale_v1(local_40,(undefined4 *)(((char *)&DAT_1045f058) + iVar5 * 0x34));
             orig::Mat4_PreMultiply_v1(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10,local_40);
             local_48 = local_48 + 0x1e;
-            orig::nullsub_1();
+            orig::Unit10026C70_Nop();
             iVar5 = iVar5 + 1;
           } while (iVar5 <= param_2);
           return param_2;
@@ -223,10 +223,10 @@ XI_API void __stdcall Skel_ComposeFromBone(uint8_t * param_1)
     do {
       uVar2 = (uint32_t)*param_1;
       if ((&g_boneTouched_as_v0)[(int)pbVar3] == 0) {
-        orig::FUN_10027340(pfVar4,(float *)(((char *)&DAT_1045f058) + uVar2 * 0x34),pfVar4 + -3);
+        orig::Vec3_MulComponents_v1(pfVar4,(float *)(((char *)&DAT_1045f058) + uVar2 * 0x34),pfVar4 + -3);
       }
-      orig::FUN_10032fe0(pfVar4 + -10,(float *)(iVar5 + g_boneWeightMatrixTable));
-      orig::FUN_10027340((float *)(iVar5 + 0x30 + g_boneWeightMatrixTable),pfVar4 + -6,
+      orig::Unit100310A0_FromQuat(pfVar4 + -10,(float *)(iVar5 + g_boneWeightMatrixTable));
+      orig::Vec3_MulComponents_v1((float *)(iVar5 + 0x30 + g_boneWeightMatrixTable),pfVar4 + -6,
                    (float *)(((char *)&DAT_1045f058) + uVar2 * 0x34));
       orig::Mat4_PostMultiply_v1((void *)(iVar5 + g_boneWeightMatrixTable),
                         uVar2 * 0x40 + g_boneWeightMatrixTable);
@@ -276,11 +276,11 @@ XI_API void __thiscall Skel_OffsetAllTranslations(void * self_, float * param_1,
 
 // FUNCTION: FFXIMAIN 0x100351F0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100351F0(void * self_, int param_1)
+XI_API int __thiscall Skel_GetRecordAt(void * self_, int param_1)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10035210(self_);
+  iVar1 = orig::Skel_GetBoneTableBase(self_);
   if (iVar1 == 0) {
     return 0;
   }
@@ -289,7 +289,7 @@ XI_API int __thiscall fn_100351F0(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10035210  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10035210(void * self_)
+XI_API int __thiscall Skel_GetBoneTableBase(void * self_)
 {
   uint32_t uVar1;
   int iVar2;
@@ -306,11 +306,11 @@ XI_API int __thiscall fn_10035210(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10035250  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint16_t * __thiscall fn_10035250(void * self_)
+XI_API uint16_t * __thiscall Skel_GetTableAfterBones(void * self_)
 {
   uint16_t *puVar1;
   
-  puVar1 = (uint16_t *)orig::FUN_10035210(self_);
+  puVar1 = (uint16_t *)orig::Skel_GetBoneTableBase(self_);
   if (puVar1 == (uint16_t *)0x0) {
     return (uint16_t *)0x0;
   }
@@ -319,11 +319,11 @@ XI_API uint16_t * __thiscall fn_10035250(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10035270  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10035270(void * self_, int param_1)
+XI_API int __thiscall Skel_GetEntryAt(void * self_, int param_1)
 {
   uint16_t *puVar1;
   
-  puVar1 = orig::FUN_10035250(self_);
+  puVar1 = orig::Skel_GetTableAfterBones_v1(self_);
   if (puVar1 == (uint16_t *)0x0) {
     return 0;
   }
@@ -332,7 +332,7 @@ XI_API int __thiscall fn_10035270(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x100352A0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100352A0(void * self_)
+XI_API undefined4 __thiscall Skel_ClearMarks(void * self_)
 {
   uint16_t uVar1;
   int iVar2;
@@ -358,7 +358,7 @@ XI_API undefined4 __thiscall fn_100352A0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100352F0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100352F0(void * self_)
+XI_API void __thiscall Skel_MarkMarkedChains(void * self_)
 {
   uint16_t uVar1;
   uint32_t uVar2;
@@ -369,7 +369,7 @@ XI_API void __thiscall fn_100352F0(void * self_)
   uVar2 = (uint32_t)uVar1;
   while (uVar2 = uVar2 - 1, -1 < (int)uVar2) {
     if (*(char *)(uVar2 + *(int *)((int)self_ + 0x14)) != '\0') {
-      orig::FUN_10035330(self_,iVar3,(uint32_t)uVar1,uVar2);
+      orig::Skel_MarkChain(self_,iVar3,(uint32_t)uVar1,uVar2);
     }
   }
   return;
@@ -377,7 +377,7 @@ XI_API void __thiscall fn_100352F0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10035330  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10035330(void * self_, int param_1, undefined4 param_2, uint32_t param_3)
+XI_API void __thiscall Skel_MarkChain(void * self_, int param_1, undefined4 param_2, uint32_t param_3)
 {
   uint32_t uVar1;
   

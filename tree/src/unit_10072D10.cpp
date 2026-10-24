@@ -46,62 +46,6 @@ XI_API undefined4 __stdcall ResourceHandle_Deref(undefined4 * param_1)
   return 0;
 }
 
-// FUNCTION: FFXIMAIN 0x100730E0  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __stdcall fn_100730E0(undefined4 * param_1, int param_2)
-{
-  int iVar1;
-  void *pvVar2;
-  void *self_;
-  undefined4 *this_00;
-  uint64_t uVar3;
-  
-  iVar1 = param_2;
-  if (DAT_1047cf84_as_v0 == (undefined4 *)0x0) {
-    self_ = (void *)0x0;
-  }
-  else {
-    self_ = (void *)*DAT_1047cf84_as_v0;
-  }
-  while( true ) {
-    if (self_ == (void *)0x0) {
-      uVar3 = orig::FUN_10074f30(dword_1047D140_as_v1,iVar1,0x4d727400);
-      if ((int)uVar3 == 0) {
-        uVar3 = orig::Mem_AllocFromArea_v1(0x49,4);
-        this_00 = (undefined4 *)uVar3;
-        orig::CMoTask_ResetFields_v1(this_00);
-        g_resourcesDirty_as_v0 = 1;
-        if (this_00 == (undefined4 *)0x0) {
-          this_00 = (undefined4 *)0x0;
-        }
-        else {
-          orig::CMoTask_Constructor_v1(this_00);
-          *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
-          this_00[0xe] = 0;
-          *(undefined4 *)((int)this_00 + 0x45) = 0;
-        }
-        orig::FUN_10074a00();
-        uVar3 = orig::FUN_10072c30(this_00,&param_2,iVar1);
-        *param_1 = *(undefined4 *)uVar3;
-        return param_1;
-      }
-      *param_1 = *(undefined4 *)((int)uVar3 + 0x3d);
-      return param_1;
-    }
-    pvVar2 = orig::CMoResource_GetParent_v1(self_);
-    if ((pvVar2 == self_) && (*(int *)((int)self_ + 0x34) == iVar1)) break;
-    if (*(undefined4 **)((int)self_ + 0x10) == (undefined4 *)0x0) {
-      self_ = (void *)0x0;
-    }
-    else {
-      self_ = (void *)**(undefined4 **)((int)self_ + 0x10);
-    }
-  }
-  *(uint8_t *)((int)self_ + 0x19) = *(uint8_t *)((int)self_ + 0x19) | 0x80;
-  *param_1 = *(undefined4 *)((int)self_ + 0x14);
-  return param_1;
-}
-
 // FUNCTION: FFXIMAIN 0x10073430  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * param_1, void * param_2, undefined4 * param_3)
@@ -169,18 +113,18 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
         this_01[9] = this_01[9] & 0xffffff80 ^ 10;
         this_01[9] = ((uint32_t)(((uint32_t)(uint16_t)((short)((this_01[9] & 0xfc00027f) >> 0x10)) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)(2) << 8) | (uint8_t)((char)(this_01[9] & 0xfc00027f)))))));
         this_01[8] = piVar2[8];
-        orig::FUN_10076750(this_01,(undefined4 *)((int)piVar2 + 0x31));
+        orig::CMoTask_SetRect30(this_01,(undefined4 *)((int)piVar2 + 0x31));
         this_01[10] = piVar1[5];
         *(uint16_t *)((int)this_01 + 0x1a) = *(uint16_t *)((int)this_01 + 0x1a) & 0xfff9 | 1;
         orig::MeshResourceMng_AllocHandle_v1(self_,&local_404,(int)this_01);
-        orig::FUN_100711e0(piVar6 + 1,(int)this_01);
-        orig::FUN_100711d0(this_01 + 1,(int)piVar6);
-        orig::FUN_100711e0(this_01 + 1,(int)piVar2);
-        orig::FUN_100711d0(piVar2 + 1,(int)this_01);
+        orig::Unit10070F90_CopyField14At4(piVar6 + 1,(int)this_01);
+        orig::Unit10070F90_CopyField14At0(this_01 + 1,(int)piVar6);
+        orig::Unit10070F90_CopyField14At4(this_01 + 1,(int)piVar2);
+        orig::Unit10070F90_CopyField14At0(piVar2 + 1,(int)this_01);
       }
       else {
-        orig::FUN_100711e0(piVar6 + 1,(int)piVar2);
-        orig::FUN_100711d0(piVar2 + 1,(int)piVar6);
+        orig::Unit10070F90_CopyField14At4(piVar6 + 1,(int)piVar2);
+        orig::Unit10070F90_CopyField14At0(piVar2 + 1,(int)piVar6);
       }
       *(uint8_t *)((int)piVar2 + 0x1a) = *(uint8_t *)((int)piVar2 + 0x1a) & 0xfd;
       if ((*(uint8_t *)(piVar2 + 9) & 0x7f) == 0) {
@@ -209,7 +153,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
       piVar6 = *(int **)piVar1[2];
     }
     while (piVar6 != (int *)0x0) {
-      orig::FUN_10073a60(piVar6,1);
+      orig::CMoResource_RegisterAndMark(piVar6,1);
       if ((undefined4 *)piVar6[2] == (undefined4 *)0x0) {
         piVar6 = (int *)0x0;
       }
@@ -224,7 +168,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
       piVar6 = *(int **)piVar1[2];
     }
     while (piVar6 != (int *)0x0) {
-      orig::FUN_10073a60(piVar6,2);
+      orig::CMoResource_RegisterAndMark(piVar6,2);
       if ((undefined4 *)piVar6[2] == (undefined4 *)0x0) {
         piVar6 = (int *)0x0;
       }
@@ -239,7 +183,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
       piVar1 = *(int **)piVar1[2];
     }
     while (piVar1 != (int *)0x0) {
-      orig::FUN_10073a60(piVar1,4);
+      orig::CMoResource_RegisterAndMark(piVar1,4);
       if ((undefined4 *)piVar1[2] == (undefined4 *)0x0) {
         piVar1 = (int *)0x0;
       }
@@ -254,7 +198,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
       *param_1 = 0;
       return param_1;
     }
-    orig::FUN_10073a60(piVar1,7);
+    orig::CMoResource_RegisterAndMark(piVar1,7);
   }
   if (*(int *)((int)self_ + 0x40008) != 0) {
     orig::FUN_10071e50();

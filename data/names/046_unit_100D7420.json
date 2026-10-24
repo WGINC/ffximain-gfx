@@ -1,0 +1,114 @@
+{
+  "0x100FA9C0": {
+    "name": "Unit100D7420_IncrementBucket",
+    "confidence": "medium",
+    "evidence": "increments the dword at this + 0x40DF4 + min(param_2, 9) * 4",
+    "summary": "Increments the counter for a bucket, capping the index at 9.",
+    "invented_prefix_name": "Stat_IncrementBucket"
+  },
+  "0x100FB920": {
+    "name": "Unit100D7420_BuildType1",
+    "confidence": "low",
+    "evidence": "allocates a 0x5C-byte packet with FUN_100FC3C0, fills the name, the two strings and the checksum from bytes 8 to 0x5B, and sends it through FUN_100FA940 with type 1",
+    "summary": "Builds and sends a type 1 packet carrying two strings and a checksum.",
+    "invented_prefix_name": "Packet_BuildType1"
+  },
+  "0x100FBA40": {
+    "name": "Unit100D7420_BuildType2",
+    "confidence": "low",
+    "evidence": "allocates a 0x5C-byte packet with FUN_100FC3C0, fills the name and string fields, the checksum, and sends it through FUN_100FA940 with type 2",
+    "summary": "Builds and sends a type 2 packet carrying a name and a string.",
+    "invented_prefix_name": "Packet_BuildType2"
+  },
+  "0x100FBB40": {
+    "name": "Unit100D7420_BuildShort",
+    "confidence": "low",
+    "evidence": "allocates a 0x11-byte buffer with FUN_100FC3C0, sets byte 2 to 2 and byte 5 to 0, sends six bytes through FUN_100DDD20, and sets the byte at this + 0xD to 1",
+    "summary": "Builds and sends a six-byte packet and records that it was sent.",
+    "invented_prefix_name": "Packet_BuildShort"
+  },
+  "0x100FC160": {
+    "name": "Unit100D7420_GetFlags",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_104DFD98 + 0x3C35C, or 0 when the state is null",
+    "summary": "Returns the session's flags word.",
+    "invented_prefix_name": "Session_GetFlags"
+  },
+  "0x100FC180": {
+    "name": "Unit100D7420_ApplyStatusText",
+    "confidence": "medium",
+    "evidence": "ORs param_1 into the flags at +0x3C35C, selects a status string from the flag bits, formats it with _sprintf and passes it to FUN_100F0550",
+    "summary": "Adds flags to the session and shows the status text for the combined flags.",
+    "invented_prefix_name": "Session_ApplyStatusText"
+  },
+  "0x100FC320": {
+    "name": "Unit100D7420_SetWord40DAA",
+    "confidence": "low",
+    "evidence": "stores its argument as a word at DAT_104DFD98 + 0x40DAA and returns the state pointer",
+    "summary": "Stores a word at offset 0x40DAA of the session state.",
+    "invented_prefix_name": "Session_SetWord40DAA"
+  },
+  "0x100FC4D0": {
+    "name": "Unit100D7420_SendRaw",
+    "confidence": "low",
+    "evidence": "forwards its three arguments to FUN_100DDD20 and returns the result",
+    "summary": "Sends a raw packet through the common send routine.",
+    "invented_prefix_name": "Packet_SendRaw"
+  },
+  "0x100FC680": {
+    "name": "Unit100D7420_SendTypeF2",
+    "confidence": "low",
+    "evidence": "allocates a packet with FUN_100FC3C0 (type 0xF2), stores its two arguments as words at +4 and +6, and sends eight bytes through FUN_100DDD20",
+    "summary": "Sends an eight-byte type 0xF2 packet carrying two words.",
+    "invented_prefix_name": "Packet_SendTypeF2"
+  },
+  "0x100FC9C0": {
+    "name": "Unit100D7420_SendType1C",
+    "confidence": "low",
+    "evidence": "allocates a packet with FUN_100FC3C0 (type 0x1C), stores the word argument at +4 and the dword argument at +8, and sends twelve bytes through FUN_100DDD20",
+    "summary": "Sends a twelve-byte type 0x1C packet carrying a word and a dword.",
+    "invented_prefix_name": "Packet_SendType1C"
+  },
+  "0x100FCA20": {
+    "name": "Unit100D7420_SetPerMille",
+    "confidence": "low",
+    "evidence": "stores (param_2 * 1000) / param_3 at the dword pointed to by param_1",
+    "summary": "Stores a value as a per-mille ratio of a total.",
+    "invented_prefix_name": "Stat_SetPerMille"
+  },
+  "0x100FCA40": {
+    "name": "Unit100D7420_SetPerMilleAt4",
+    "confidence": "low",
+    "evidence": "stores (param_2 * 1000) / param_3 at param_1 + 4",
+    "summary": "Stores a per-mille ratio at offset 4 of the given block.",
+    "invented_prefix_name": "Stat_SetPerMilleAt4"
+  },
+  "0x100FCA60": {
+    "name": "Unit100D7420_AdjustLevel",
+    "confidence": "low",
+    "evidence": "when param_2 is below 10000 it adds param_3 * 4 / 1000 to the value at +8 and caps it at 100; otherwise it subtracts param_3 * 2 / 1000 and clamps at 0",
+    "summary": "Raises or lowers a 0-to-100 level by an amount depending on the input value.",
+    "invented_prefix_name": "Stat_AdjustLevel"
+  },
+  "0x100FCAC0": {
+    "name": "Unit100D7420_AddAt10",
+    "confidence": "low",
+    "evidence": "adds param_2 to the dword at param_1 + 0x10",
+    "summary": "Adds a value to the counter at offset 0x10 of the given block.",
+    "invented_prefix_name": "Stat_AddAt10"
+  },
+  "0x100FCAD0": {
+    "name": "Unit100D7420_AddAt0C",
+    "confidence": "low",
+    "evidence": "adds param_2 to the dword at param_1 + 0xC",
+    "summary": "Adds a value to the counter at offset 0xC of the given block.",
+    "invented_prefix_name": "Stat_AddAt0C"
+  },
+  "0x100FCAE0": {
+    "name": "Unit100D7420_UpdateRates",
+    "confidence": "low",
+    "evidence": "when FUN_100DBFE0(1, 3000) reports true, sets the rates from the counters at +0xC and +0x10 with Stat_SetPerMille and Stat_SetPerMilleAt4 over 3000, clears both counters and calls Stat_AdjustLevel with the value at DAT_104DFD98 + 0x4190",
+    "summary": "Recomputes the per-mille rates from the counters over a 3000-unit window and clears the counters.",
+    "invented_prefix_name": "Stat_UpdateRates"
+  }
+}

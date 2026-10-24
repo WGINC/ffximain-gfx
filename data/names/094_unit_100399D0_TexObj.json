@@ -1,0 +1,8 @@
+{
+  "0x100399D0": {
+    "name": "TexObj_Release",
+    "confidence": "medium",
+    "evidence": "finds the object in the texture manager with FUN_1003AB10 and unlinks it by copying its +0x38 link into the found entry; releases the reference-counted objects at +0x40 and +0x44 through their vtable slot 2 and clears them; clears +0x38 and calls the object's vtable slot 6 with 1 to delete it",
+    "summary": "Removes a texture object from the texture manager and releases its references."
+  }
+}

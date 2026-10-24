@@ -1,0 +1,30 @@
+{
+  "0x101CF660": {
+    "name": "Unit101CF660_BuildTables",
+    "confidence": "low",
+    "evidence": "computes a gain from the argument (5000 / value below 0x32, or (100 - value) * 2 above), scales 64 bytes from the tables at DAT_1037E430 and DAT_1037E530 into this+0x65C and this+0x61C, uses the output with FUN_101d09c0, FUN_101d0a20 and FUN_101d0a40 and rescales with the table at DAT_1037E630; called by fn_101D0370 and sub_101D0640",
+    "summary": "Builds the fade lookup tables from a level.",
+    "invented_prefix_name": "Fade_BuildTables"
+  },
+  "0x101CF820": {
+    "name": "Unit101CF660_BuildCodeTable",
+    "confidence": "low",
+    "evidence": "walks the code lengths 1 to 0x10 with the counts at param_4 + length, assigning each symbol in param_3 a running code in the short table at param_1 and the length in the byte table at param_2 (the code doubles at each length)",
+    "summary": "Builds a canonical prefix-code table from code lengths.",
+    "invented_prefix_name": "Canonical_BuildCodeTable"
+  },
+  "0x101D0860": {
+    "name": "Unit101CF660_Reset",
+    "confidence": "low",
+    "evidence": "clears the dwords at this+4, +8, +0x10, +0x14 and +0x18",
+    "summary": "Resets a bit buffer's fields.",
+    "invented_prefix_name": "BitBuf_Reset"
+  },
+  "0x101D0880": {
+    "name": "Unit101CF660_Free",
+    "confidence": "low",
+    "evidence": "calls thunk_sub_10028AA0 on the buffer at +8 and frees the one at +4 with operator_delete, clearing both",
+    "summary": "Frees a bit buffer's two allocations.",
+    "invented_prefix_name": "BitBuf_Free"
+  }
+}

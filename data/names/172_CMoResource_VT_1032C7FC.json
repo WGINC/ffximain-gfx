@@ -1,0 +1,20 @@
+{
+  "0x10019A30": {
+    "name": "CMoResource_VT1032C7FC_Set14",
+    "confidence": "low",
+    "evidence": "stores the argument at the pointer held in the field +0x14 of this and returns the argument; slot 4 (+0x10) of CMoResource_VT_1032C7FC",
+    "summary": "Stores the argument through the object's pointer at +0x14 and returns it."
+  },
+  "0x10019A40": {
+    "name": "CMoResource_VT1032C7FC_NoOp5",
+    "confidence": "low",
+    "evidence": "body is empty; slot 5 (+0x14) of CMoResource_VT_1032C7FC",
+    "summary": "Does nothing; the vtable's slot 5."
+  },
+  "0x10071A00": {
+    "name": "CMoResource_VT1032C7FC_NoOp9",
+    "confidence": "low",
+    "evidence": "body is empty; slot 9 (+0x24) of CMoResource_VT_1032C7FC",
+    "summary": "Does nothing; the vtable's slot 9."
+  }
+}

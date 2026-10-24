@@ -15,7 +15,7 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
   if (((param_2 == param_1[2]) && (param_1 + 0x2a != (uint32_t *)0x0)) && ((param_1[0x2a] & 4) != 0)) {
     if (param_3 != param_1[3]) {
       *param_1 = *param_1 | 0x80;
-      uVar1 = orig::FUN_1024d5c0(param_1,param_3);
+      uVar1 = orig::StAvatar_SetPending(param_1,param_3);
       return uVar1;
     }
     return param_3;
@@ -26,9 +26,9 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
     xi_eax = (uint32_t *)orig::StAvatar_StopAndFreeBuffers((int)param_1);
   }
   orig::FUN_102506c0(param_1,0,xi_eax);
-  orig::FUN_1024d400((int)param_1);
+  orig::StAvatar_Reset((int)param_1);
   orig::StAvatar_ReleaseResources(param_1,1);
-  orig::FUN_1024d470((int)param_1,param_2);
+  orig::StAvatar_RegisterTriggers((int)param_1,param_2);
   if ((*param_1 & 0x20) == 0) {
     uVar1 = (uint32_t)(uint8_t)((uint8_t *)((&DAT_10389578)))[param_2];
   }
@@ -36,7 +36,7 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
     uVar1 = 0xa9;
   }
   orig::FUN_10037960(uVar1);
-  orig::FUN_1024d4a0((uint8_t *)param_1,param_2);
+  orig::StAvatar_SetTableValues((uint8_t *)param_1,param_2);
   param_1[2] = param_2;
   param_1[3] = param_3;
   param_1[1] = 1;
@@ -45,7 +45,7 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
     uVar1 = uVar1 + 2;
   }
   orig::FUN_10252610((int)(param_1 + 0x2a),uVar1);
-  orig::FUN_1024d540((uint8_t *)param_1,param_2,param_3);
+  orig::StAvatar_SetChannel((uint8_t *)param_1,param_2,param_3);
   orig::FUN_10252610((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_2 * 4) + 4 + param_3 * 2);
   param_1[0x13] = 0x47c35000;
   *param_1 = *param_1 & 0xfffff9ff;
@@ -65,9 +65,9 @@ XI_API undefined4 __cdecl StAvatar_ReleaseResources(uint32_t * param_1, int para
   uint32_t uVar3;
   int iVar4;
   
-  orig::FUN_10252c10((uint8_t *)(param_1 + 0x33));
+  orig::Unit10252A00_ClearModelItem((uint8_t *)(param_1 + 0x33));
   if (param_2 != 0) {
-    orig::FUN_10252c10((uint8_t *)(param_1 + 0x2a));
+    orig::Unit10252A00_ClearModelItem((uint8_t *)(param_1 + 0x2a));
   }
   puVar2 = param_1 + 0x89;
   iVar4 = 4;
@@ -93,7 +93,7 @@ XI_API undefined4 __cdecl StAvatar_ReleaseResources(uint32_t * param_1, int para
       *puVar2 = -uVar1 - 1;
       puVar2 = puVar2 + -7;
     } while (-1 < (int)uVar3);
-    orig::FUN_10253210(param_1 + 0x90);
+    orig::StAvatar_ClearResource(param_1 + 0x90);
   }
   iVar4 = 0x934;
   *param_1 = *param_1 & 0xffffdfff;

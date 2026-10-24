@@ -2,76 +2,9 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1002A0C0  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 128 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1002A0C0(void * self_)
-{
-  int a1;
-  int *this_00;
-  uint32_t uVar1;
-  int *piVar2;
-  int iVar3;
-  
-  uVar1 = orig::FUN_100352a0((void *)((int)self_ + 8));
-  if ((char)uVar1 == '\0') {
-    return;
-  }
-  a1 = *(int *)((int)self_ + 0x1c);
-  piVar2 = (int *)orig::CYyModelBase_GetPartList_v1(self_);
-  this_00 = (int *)*piVar2;
-  while (this_00 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x28))))((void *)(this_00),a1);
-    piVar2 = (int *)(*piVar2 + 4);
-    this_00 = (int *)*piVar2;
-  }
-  iVar3 = orig::FUN_1002a9b0(self_,0x7f);
-  if (iVar3 != 0) {
-    *(uint8_t *)(iVar3 + a1) = 0x80;
-  }
-  iVar3 = orig::FUN_1002a9b0(self_,0x7e);
-  if (iVar3 != 0) {
-    *(uint8_t *)(iVar3 + a1) = 0x80;
-  }
-  orig::FUN_100352f0((void *)((int)self_ + 8));
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1002A700  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 param_2)
-{
-  int *this_00;
-  int *piVar1;
-  char xi_frame[8] __attribute__((aligned(4)));
-  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
-  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
-  
-  local_4 = 0;
-  local_8 = 0;
-  piVar1 = (int *)orig::CYyModelBase_GetPartList_v1(self_);
-  this_00 = (int *)*piVar1;
-  while (this_00 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x20))))((void *)(this_00),param_1,self_,param_2,&local_4,&local_8);
-    piVar1 = (int *)(*piVar1 + 4);
-    this_00 = (int *)*piVar1;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1002A750  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1002A750(void * self_, undefined4 param_1, undefined4 * param_2)
-{
-  uint32_t uVar1;
-  
-  orig::Quat_SetIdentity(param_2);
-  uVar1 = orig::FUN_1002a780(self_,param_1,param_2);
-  return uVar1;
-}
-
 // FUNCTION: FFXIMAIN 0x1002A780  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undefined4 * param_2)
+XI_API undefined4 __thiscall Unit1002A0C0_ApplyToVec4(void * self_, undefined4 param_1, undefined4 * param_2)
 {
   short *psVar1;
   uint32_t uVar2;
@@ -79,26 +12,26 @@ XI_API undefined4 __thiscall fn_1002A780(void * self_, undefined4 param_1, undef
   uint32_t  (&local_4c)[3] = *reinterpret_cast<uint32_t  (*)[3]>(xi_frame + 0);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 12);
   
-  orig::FUN_10027990(local_40);
-  psVar1 = (short *)orig::FUN_100351f0((void *)((int)self_ + 8),param_1);
+  orig::Unit10026C70_ReturnThis(local_40);
+  psVar1 = (short *)orig::Skel_GetRecordAt((void *)((int)self_ + 8),param_1);
   uVar2 = 0;
   if (psVar1 != (short *)0x0) {
     orig::Mat4_SetIdentity_v1(local_40);
     orig::Mat4_PostRotateX_v1(local_40,*(float *)(psVar1 + 1));
     orig::Mat4_PostRotateY_v1(local_40,*(float *)(psVar1 + 3));
     orig::Mat4_PostRotateZ_v1(local_40,*(float *)(psVar1 + 5));
-    orig::FUN_1002a890((int)psVar1,local_4c);
+    orig::Part_CopyTranslation((int)psVar1,local_4c);
     orig::Mat4_SetTranslation_v1(local_40,local_4c);
     orig::Mat4_PostMultiply_v1(local_40,*psVar1 * 0x40 + *(int *)((int)self_ + 0x14));
     uVar2 = orig::Mat4_TransformVec4InPlace_v1(local_40,param_2);
   }
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
   return uVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x1002A890  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1002A890(int param_1, undefined4 * param_2)
+XI_API void __stdcall Part_CopyTranslation(int param_1, undefined4 * param_2)
 {
   orig::Vec3_Copy_v1(param_2,(uint32_t *)(param_1 + 0xe));
   return;
@@ -106,33 +39,17 @@ XI_API void __stdcall fn_1002A890(int param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x1002A8B0  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1002A8B0(void * self_, int param_1, float * param_2)
+XI_API void __thiscall Part_AddTranslation(void * self_, int param_1, float * param_2)
 {
   int iVar1;
   char xi_frame[64] __attribute__((aligned(4)));
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 0);
   
-  orig::FUN_10027990(local_40);
-  iVar1 = orig::FUN_100351f0((void *)((int)self_ + 8),param_1);
+  orig::Unit10026C70_ReturnThis(local_40);
+  iVar1 = orig::Skel_GetRecordAt((void *)((int)self_ + 8),param_1);
   if (iVar1 != 0) {
     orig::Vec3_AddInPlace_v1(param_2,(float *)(iVar1 + 0xe));
   }
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
   return;
-}
-
-// FUNCTION: FFXIMAIN 0x1002A9B0  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1002A9B0(void * self_, uint32_t param_1)
-{
-  short *psVar1;
-  
-  psVar1 = (short *)orig::FUN_100351f0((void *)((int)self_ + 8),param_1);
-  if (psVar1 == (short *)0x0) {
-    return 0;
-  }
-  if (0x7f < param_1) {
-    return 0;
-  }
-  return (int)*psVar1;
 }

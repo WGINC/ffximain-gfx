@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100AD6D0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100AD6D0(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9)
+XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9)
 {
   uint8_t *puVar1;
   int iVar2;
@@ -13,40 +13,40 @@ XI_API void __cdecl fn_100AD6D0(undefined4 param_1, undefined4 param_2, undefine
   uint32_t uVar5;
   uint32_t uVar6;
   
-  puVar1 = orig::FUN_100c3190();
-  iVar2 = orig::FUN_100c3210(puVar1);
+  puVar1 = orig::Unit100ACAB0_GetSingleton();
+  iVar2 = orig::Unit100ACAB0_HasItems(puVar1);
   if (iVar2 != 0) {
     uVar4 = orig::Allocator_Generic_v1(0x1304);
     if ((void *)uVar4 == (void *)0x0) {
       pvVar3 = (void *)0x0;
     }
     else {
-      pvVar3 = orig::FUN_100c2e20((void *)uVar4,param_2,param_3,
+      pvVar3 = orig::XiEvent_Init((void *)uVar4,param_2,param_3,
                             ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)param_7 >> 0x10)) << 16) | (uint16_t)(DAT_10482f40))),
                             ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)param_8 >> 0x10)) << 16) | (uint16_t)(DAT_104855aa))),param_7,param_8,
                             param_9);
     }
     uVar6 = 0;
     uVar5 = 0;
-    puVar1 = orig::FUN_100c3190();
-    orig::FUN_100c3300(puVar1,param_1,pvVar3,param_4,uVar5,param_5,uVar6);
+    puVar1 = orig::Unit100ACAB0_GetSingleton();
+    orig::Unit100ACAB0_AddEvent(puVar1,param_1,pvVar3,param_4,uVar5,param_5,uVar6);
   }
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100AE350  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100AE350(void)
+XI_API int __cdecl XiEvent_GetGlobalDword(void)
 {
   return (int)DAT_104896e4;
 }
 
 // FUNCTION: FFXIMAIN 0x100AE3A0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100AE3A0(void)
+XI_API void __cdecl XiEvent_ResetPending(void)
 {
   if (DAT_1047d3ec != '\0') {
-    orig::FUN_1015eb60(&g_menuMng_as_v0,DAT_1047d3e8);
+    orig::Menu_CloseQuery(&g_menuMng_as_v0,DAT_1047d3e8);
     DAT_1047d3ec = '\0';
     DAT_104898f8 = 0;
     DAT_104897f4 = 0;
@@ -58,21 +58,9 @@ XI_API void __cdecl fn_100AE3A0(void)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100BA080  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100BA080(void)
-{
-  if (DAT_10488978 != 0) {
-    *(uint32_t *)(g_pXiZone_as_s32 + 0x138) = DAT_104882b0;
-    *(uint32_t *)(g_pXiZone_as_s32 + 0x13c) = DAT_104897ec;
-  }
-  DAT_10488978 = 0;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100BD5F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100BD5F0(void * self_)
+XI_API void __thiscall XiEvent_RestoreActer(void * self_)
 {
   void *this_00;
   void *this_01;
@@ -82,7 +70,7 @@ XI_API void __thiscall fn_100BD5F0(void * self_)
   *(uint32_t *)((int)self_ + 8) = *(uint32_t *)((int)self_ + 4);
   *(uint16_t *)((int)self_ + 2) = *(uint16_t *)self_;
   if (*(LPVOID *)((int)self_ + 0x25c) != (LPVOID)0x0) {
-    orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x25c));
+    orig::operator_delete_v1(*(LPVOID *)((int)self_ + 0x25c));
   }
   *(uint32_t *)((int)self_ + 0x25c) = 0;
   this_00 = (void *)(&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)];
@@ -91,13 +79,13 @@ XI_API void __thiscall fn_100BD5F0(void * self_)
     orig::FUN_10087d40(this_00);
     *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
          *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffeffff;
-    uVar1 = orig::CYyObject_IsKindOf_v1(this_01,0x10330ebc);
+    uVar1 = orig::CYyObject_IsKindOf(this_01,0x10330ebc);
     if ((char)uVar1 != '\0') {
       *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
            *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffffcff;
       *(uint16_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0x148) = 0xffff;
-      xi_eax = orig::FUN_10087e40((void *)(&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)]);
-      orig::FUN_100d44b0(this_01,2,xi_eax);
+      xi_eax = orig::Acter_ResetMotionCounters((void *)(&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)]);
+      orig::CXiSkeletonActor_ReleaseListEntriesMatching(this_01,2,xi_eax);
       *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0x1a4) =
            *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0x1a8);
       *(uint32_t *)(*(int *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0xa0) + 0x7d8) =
@@ -110,7 +98,7 @@ XI_API void __thiscall fn_100BD5F0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100BD760  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_100BD760(void)
+XI_API uint8_t * __cdecl XiEvent_GetSingleton(void)
 {
   if ((DAT_1048a2e1 & 1) == 0) {
     DAT_1048a2e1 = DAT_1048a2e1 | 1;
@@ -122,7 +110,7 @@ XI_API uint8_t * __cdecl fn_100BD760(void)
 
 // FUNCTION: FFXIMAIN 0x100C2E20  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100C2E20(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, char * param_5, undefined4 param_6, undefined4 param_7)
+XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, char * param_5, undefined4 param_6, undefined4 param_7)
 {
   undefined4 uVar1;
   undefined4 *puVar2;
@@ -142,14 +130,14 @@ XI_API void * __thiscall fn_100C2E20(void * self_, undefined4 * param_1, undefin
     param_1 = param_1 + 1;
     puVar3 = puVar3 + 1;
   }
-  uVar1 = orig::FUN_10086fc0((uint32_t)(uint16_t)param_3,(uint32_t)(uint16_t)param_3);
+  uVar1 = orig::Unit10086E90_IsParamBelow901((uint32_t)(uint16_t)param_3,(uint32_t)(uint16_t)param_3);
   if ((char)uVar1 == '\x01') {
     *(uint16_t *)((int)self_ + 0xbfe) = (uint16_t)param_3;
   }
   else {
     *(uint16_t *)((int)self_ + 0xbfe) = DAT_10485f7a_as_v0;
   }
-  uVar1 = orig::FUN_10086fc0((uint32_t)(uint16_t)param_4,uVar1);
+  uVar1 = orig::Unit10086E90_IsParamBelow901((uint32_t)(uint16_t)param_4,uVar1);
   if ((char)uVar1 == '\x01') {
     *(uint16_t *)((int)self_ + 0xc00) = (uint16_t)param_4;
   }
@@ -234,17 +222,17 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100C3030(undefined4 xi
 
 // FUNCTION: FFXIMAIN 0x100C3050  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100C3050(void * self_)
+XI_API void __thiscall Unit100ACAB0_FreeData(void * self_)
 {
   if (*(LPVOID *)((int)self_ + 0x40) != (LPVOID)0x0) {
-    orig::operator_delete_10311BB0_v1(*(LPVOID *)((int)self_ + 0x40));
+    orig::operator_delete_v1(*(LPVOID *)((int)self_ + 0x40));
   }
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100C3060  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100C3060(void * self_, undefined4 * param_1, undefined4 param_2, uint16_t * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+XI_API void * __thiscall Unit100ACAB0_Init(void * self_, undefined4 * param_1, undefined4 param_2, uint16_t * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -278,7 +266,7 @@ XI_API void * __thiscall fn_100C3060(void * self_, undefined4 * param_1, undefin
 
 // FUNCTION: FFXIMAIN 0x100C3190  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_100C3190(void)
+XI_API uint8_t * __cdecl Unit100ACAB0_GetSingleton(void)
 {
   if ((DAT_1048a2e0 & 1) == 0) {
     DAT_1048a2e0 = DAT_1048a2e0 | 1;
@@ -290,7 +278,7 @@ XI_API uint8_t * __cdecl fn_100C3190(void)
 
 // FUNCTION: FFXIMAIN 0x100C3200  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100C3200(void * self_)
+XI_API void __thiscall Unit100ACAB0_SetFlag8(void * self_)
 {
   *(uint32_t *)((int)self_ + 8) = 1;
   return;
@@ -298,14 +286,14 @@ XI_API void __thiscall fn_100C3200(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100C3210  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100C3210(void * self_)
+XI_API undefined4 __thiscall Unit100ACAB0_HasItems(void * self_)
 {
   return (uint32_t)(*(int *)((int)self_ + 8) != 0);
 }
 
 // FUNCTION: FFXIMAIN 0x100C3220  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100C3220(void * self_)
+XI_API undefined4 __thiscall Unit100ACAB0_Clear(void * self_)
 {
   void *pvVar1;
   void *this_00;
@@ -315,8 +303,8 @@ XI_API undefined4 __thiscall fn_100C3220(void * self_)
   this_00 = *(void **)self_;
   while (this_00 != (void *)0x0) {
     pvVar1 = *(void **)((int)this_00 + 0x5c);
-    orig::FUN_100c3050(this_00);
-    uVar2 = orig::operator_delete_10311BB0_v1(this_00);
+    orig::Unit100ACAB0_FreeData(this_00);
+    uVar2 = orig::operator_delete_v1(this_00);
     xi_entry_eax = (uint32_t)uVar2;
     this_00 = pvVar1;
   }
@@ -327,7 +315,7 @@ XI_API undefined4 __thiscall fn_100C3220(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100C3260  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100C3260(void * self_, int param_1)
+XI_API void __thiscall Unit100ACAB0_Append(void * self_, int param_1)
 {
   *(uint32_t *)(param_1 + 0x5c) = 0;
   *(uint32_t *)(param_1 + 0x60) = 0;
@@ -344,7 +332,7 @@ XI_API void __thiscall fn_100C3260(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x100C3300  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100C3300(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
+XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
 {
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
@@ -356,7 +344,7 @@ XI_API void __thiscall fn_100C3300(void * self_, undefined4 param_1, undefined4 
   
   pvVar3 = param_2;
   uVar1 = orig::FUN_100c3020(param_2,xi_entry_eax);
-  uVar2 = orig::FUN_10086fc0(uVar1 & 0xffff,uVar1 & 0xffff);
+  uVar2 = orig::Unit10086E90_IsParamBelow901(uVar1 & 0xffff,uVar1 & 0xffff);
   if ((char)uVar2 == '\x01') {
     xi_eax = (void *)orig::FUN_100c3020(param_2,uVar2);
     pvVar4 = xi_eax;
@@ -367,7 +355,7 @@ XI_API void __thiscall fn_100C3300(void * self_, undefined4 param_1, undefined4 
     pvVar4 = param_2;
   }
   uVar1 = orig::FUN_100c3030(pvVar3,xi_eax);
-  uVar2 = orig::FUN_10086fc0(uVar1 & 0xffff,uVar1 & 0xffff);
+  uVar2 = orig::Unit10086E90_IsParamBelow901(uVar1 & 0xffff,uVar1 & 0xffff);
   if ((char)uVar2 == '\x01') {
     param_2 = (void *)orig::FUN_100c3030(pvVar3,uVar2);
   }
@@ -376,12 +364,12 @@ XI_API void __thiscall fn_100C3300(void * self_, undefined4 param_1, undefined4 
   }
   uVar5 = orig::Allocator_Generic_v1(100);
   if ((void *)uVar5 != (void *)0x0) {
-    pvVar3 = orig::FUN_100c3060((void *)uVar5,param_1,pvVar3,param_3,param_4,param_5,param_2,pvVar4,
+    pvVar3 = orig::Unit100ACAB0_Init((void *)uVar5,param_1,pvVar3,param_3,param_4,param_5,param_2,pvVar4,
                           param_6);
-    orig::FUN_100c3260(self_,(int)pvVar3);
+    orig::Unit100ACAB0_Append(self_,(int)pvVar3);
     return;
   }
-  orig::FUN_100c3260(self_,0);
+  orig::Unit100ACAB0_Append(self_,0);
   return;
 }
 

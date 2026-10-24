@@ -1,0 +1,14 @@
+{
+  "0x102ACB60": {
+    "name": "SqshPoints_Create",
+    "confidence": "medium",
+    "evidence": "allocates a 0x44-byte object with FUN_10275D40 using the module path string and size 0x1D, then runs SqshPoints_Init on it",
+    "summary": "Allocates a Squirrel points-shape object and initialises it."
+  },
+  "0x102ACB80": {
+    "name": "SqshPoints_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word to 0xA0005, the callbacks at +8, +0xC, +0x10 (sqshPointsPrint), +0x2C and +0x30, calls FUN_1028D9A0 on the sub-object at +0x14 and zeroes the fields from +0x34 to +0x40",
+    "summary": "Sets the points shape's type code, callbacks and defaults."
+  }
+}

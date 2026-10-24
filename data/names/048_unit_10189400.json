@@ -1,0 +1,68 @@
+{
+  "0x10189810": {
+    "name": "Env_LerpFloat",
+    "confidence": "medium",
+    "evidence": "stores (a - b) * t + b in the float at the first argument, the linear interpolation between two floats",
+    "summary": "Linearly interpolates between two floats by a factor and stores the result."
+  },
+  "0x101898E0": {
+    "name": "Env_LerpKeyValues",
+    "confidence": "low",
+    "evidence": "interpolates four words at offsets 0, 4, 8, 0xC with FUN_10189750 and three floats at 0x10, 0x14, 0x18 with Env_LerpFloat, using the factor argument",
+    "summary": "Interpolates one key's values toward another by a factor."
+  },
+  "0x1018A220": {
+    "name": "Env_UpdatePrevKey",
+    "confidence": "medium",
+    "evidence": "calls fn_10189CA0 to find the key at or before the time at +0x10, stores it at +0x2C through Env_SetKeyField2C when it is valid, else sets the byte at +0x35 to 1",
+    "summary": "Finds the key at or before the current time and stores it as the previous key."
+  },
+  "0x1018A260": {
+    "name": "Env_UpdateNextKey",
+    "confidence": "medium",
+    "evidence": "calls fn_10189F20 to find the next key for the time at +0x10, stores it at +0x30 through Env_SetKeyField30 when valid, else sets the byte at +0x35 to 1",
+    "summary": "Finds the next key for the current time and stores it."
+  },
+  "0x1018A2A0": {
+    "name": "Env_UpdateKeyAtOrBefore",
+    "confidence": "medium",
+    "evidence": "calls WeatherRes_FindAtOrBefore for the time at +0x10 and stores the result at +0x24 through Env_SetKeyField24 when it is nonzero",
+    "summary": "Looks up the weather key at or before the current time and stores it at +0x24."
+  },
+  "0x1018A2C0": {
+    "name": "Env_UpdateKeyNeighbor",
+    "confidence": "medium",
+    "evidence": "calls WeatherRes_FindNeighbor for the time at +0x10 and stores the result at +0x28 through Env_SetKeyField28, returning it, or 0 when none is found",
+    "summary": "Looks up the neighbouring weather key for the current time and stores it at +0x28."
+  },
+  "0x1018A2E0": {
+    "name": "Env_SetKeyField2C",
+    "confidence": "low",
+    "evidence": "stores its argument at +0x2C",
+    "summary": "Stores a key pointer at +0x2C."
+  },
+  "0x1018A2F0": {
+    "name": "Env_SetKeyField30",
+    "confidence": "low",
+    "evidence": "stores its argument at +0x30",
+    "summary": "Stores a key pointer at +0x30."
+  },
+  "0x1018A300": {
+    "name": "Env_SetKeyField24",
+    "confidence": "low",
+    "evidence": "stores its argument at +0x24",
+    "summary": "Stores a key pointer at +0x24."
+  },
+  "0x1018A310": {
+    "name": "Env_SetKeyField28",
+    "confidence": "low",
+    "evidence": "stores its argument at +0x28 and returns it",
+    "summary": "Stores a key pointer at +0x28 and returns it."
+  },
+  "0x1018A320": {
+    "name": "Env_UpdateTimeKeys",
+    "confidence": "medium",
+    "evidence": "calls Env_UpdatePrevKey, Env_UpdateNextKey, Env_UpdateKeyAtOrBefore and returns the result of Env_UpdateKeyNeighbor",
+    "summary": "Refreshes the previous, next and neighbouring weather keys for the current time."
+  }
+}

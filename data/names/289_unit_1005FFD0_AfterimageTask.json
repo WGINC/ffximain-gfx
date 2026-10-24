@@ -1,0 +1,32 @@
+{
+  "0x10062770": {
+    "name": "AfterimageTask_FindFirstKind",
+    "confidence": "low",
+    "evidence": "returns the first object reached from this+0x34 whose kind passes CYyObject_IsKindOf with 0x1032F910, following the link at +0xC4; called by Scheduler_Kill, Scheduler_IsMoving and CMoSchedularTask_Interpret",
+    "summary": "Returns the first object of the expected kind in the chain from the task's +0x34 link."
+  },
+  "0x10062830": {
+    "name": "AfterimageTask_SetCaster",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 0x16C on the current object at +0x34, sets the caster with CMoAttachments_SetCaster, then calls vtable slot 0x168 on the new object; called by fn_10056CE0 and CMoSchedularTask_Interpret",
+    "summary": "Sets the caster of the afterimage task, notifying the old and new objects."
+  },
+  "0x10062880": {
+    "name": "AfterimageTask_SetTarget",
+    "confidence": "medium",
+    "evidence": "calls vtable slot 0x16C on the current target at +0x34, sets it with CMoAttachments_SetTarget, then calls vtable slot 0x168 on the new one; called by fn_10056CE0 and CMoSchedularTask_Interpret",
+    "summary": "Sets the target of the afterimage task, notifying the old and new objects."
+  },
+  "0x10062E20": {
+    "name": "AfterimageTask_Execute",
+    "confidence": "medium",
+    "evidence": "gets the resource from g_pMeshResourceMng, sets bit 0x10 of its flags, finds the resource of type 7 with CMoResource_FindByTypeAndId and runs it through Scheduler_Execute",
+    "summary": "Runs the afterimage scheduler entry for a resource."
+  },
+  "0x10062E80": {
+    "name": "AfterimageTask_Kill",
+    "confidence": "medium",
+    "evidence": "finds the resource through FUN_10073D80, finds its type 7 entry with CMoResource_FindByTypeAndId and stops it with Scheduler_Kill",
+    "summary": "Stops the afterimage scheduler entry for a resource."
+  }
+}

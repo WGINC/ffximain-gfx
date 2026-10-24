@@ -1,0 +1,20 @@
+{
+  "0x102924F0": {
+    "name": "SqmoPlaybackChannel_Create",
+    "confidence": "medium",
+    "evidence": "allocates a 0x5C-byte object through FUN_10275D40 with the file name s_C__dev_dancer_modules_sqMotion and initialises it with FUN_10292520; called by fn_102853F0, sub_10292B80 and sub_10293D00",
+    "summary": "Creates a sqmoPlaybackChannel object."
+  },
+  "0x10292520": {
+    "name": "SqmoPlaybackChannel_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word 0x50003 and the vtable entries, sets the flags at +0x54 and +0x55 to 0 and clears the fields from +0x1C to +0x58; called by SqmoPlaybackChannel_Create",
+    "summary": "Initialises a sqmoPlaybackChannel object."
+  },
+  "0x10293000": {
+    "name": "SqmoPlaybackChannel_Update",
+    "confidence": "low",
+    "evidence": "calls FUN_1027D650 with the values at +0x50 and +0x1C, the argument and the flag at +0x54; called by fn_102853F0, sub_10292C00 and sub_10293E40",
+    "summary": "Updates a playback channel from its owner's values."
+  }
+}

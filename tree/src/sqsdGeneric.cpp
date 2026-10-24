@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10290910  (unit sqsdGeneric: between 0x102908E0 (asserts sqsdGeneric.c) and 0x10290A10 (asserts sqsdGeneric.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10290910(undefined4 * param_1)
+XI_API void __cdecl SqsdGeneric_Init(undefined4 * param_1)
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
@@ -54,7 +54,7 @@ XI_API void __cdecl fn_10290910(undefined4 * param_1)
   } while (iVar3 != 0);
   param_1[0x18] = 0;
   param_1[0x1a] = 0;
-  orig::FUN_102a3390(param_1 + 5);
+  orig::SqrdMaterial_Init(param_1 + 5);
   return;
 }
 
@@ -83,13 +83,13 @@ XI_API int * __cdecl sqsdGeneric_BakeOntoShape(int param_1, int * param_2)
     orig::sqDebugPrintf_v1(s_ERROR__model_is_missing_vertex_c_103bace4);
   }
   orig::sqgxShader_v1(uVar4,0);
-  orig::FUN_1029b5c0();
+  orig::SqgxDlist_CreateContextList();
   orig::sqDrawableDraw_v1((int)param_2);
   puVar2 = orig::FUN_1029b620();
-  orig::FUN_102a3760();
-  piVar3 =(int*)(orig::FUN_102a2000());
+  orig::Sqgx_ResetCounter();
+  piVar3 =(int*)(orig::SqshDispList_Create());
   piVar3[0x11] = (int)puVar2;
-  orig::FUN_1028d9c0(piVar3 + 5,param_2 + 5);
+  orig::Unit1028D970_Copy(piVar3 + 5,param_2 + 5);
   orig::FUN_10285740((int *)&param_2);
   return piVar3;
 }

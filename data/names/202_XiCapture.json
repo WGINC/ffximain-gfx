@@ -1,0 +1,8 @@
+{
+  "0x10017BB0": {
+    "name": "XiCapture_Init",
+    "confidence": "medium",
+    "evidence": "sets the XiCapture vtable (PTR_LAB_10329f34) and clears the dwords at +4 and +8",
+    "summary": "Initialises the capture object's vtable and its two fields to zero."
+  }
+}

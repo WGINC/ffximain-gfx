@@ -1,0 +1,8 @@
+{
+  "0x102AEC50": {
+    "name": "SqinShape_Reset",
+    "confidence": "low",
+    "evidence": "zeroes the four dwords at the argument and clears the low bit of the fourth; called by fn_1029A000 and sub_102AEC30",
+    "summary": "Resets a shape input record."
+  }
+}

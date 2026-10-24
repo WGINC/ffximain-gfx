@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102813B0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102813B0(int param_1, float param_2)
+XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2)
 {
   char xi_frame[8] __attribute__((aligned(4)));
   uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
@@ -17,7 +17,7 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
   if (0 < param_1) {
     do {
       orig::sqgxBlendAdd();
-      orig::nullsub_31_v1();
+      orig::SqgxContext_NoOpA_v1();
       param_1 = param_1 + -1;
     } while (param_1 != 0);
   }
@@ -25,14 +25,6 @@ XI_API void __cdecl fn_102813B0(int param_1, float param_2)
   orig::sqgxBlendOff_v1();
   orig::sqgxTextureSet_v1(-1);
   orig::sqgxTextureDecal_v1(0);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10281500  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl ___setargv_3(void)
-{
-  g_sqgxRenderStateDirty_as_v0 = 1;
   return;
 }
 

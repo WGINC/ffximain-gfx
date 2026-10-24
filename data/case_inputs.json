@@ -1,0 +1,21 @@
+{
+ "_doc": "Inputs the gate (diffemu_gfx.py) holds fixed for a function instead of fuzzing them, each with why. zero_ranges: [address, bytes] written as zero after the fuzzed globals. A verdict under such inputs carries `inputs_limited` (the note), and the tree's GATE line says so: it covers only the paths these inputs reach.",
+ "0x10016320": {
+  "zero_ranges": [
+   [
+    "0x10456A00",
+    40
+   ],
+   [
+    "0x103D3C64",
+    4
+   ],
+   [
+    "0x1045666C",
+    4
+   ]
+  ],
+  "note": "the object-pointer table 0x10456A00..0x10456A27, g_pApp and g_pCDx held empty: for each non-null one the function calls slot 6 (+0x18) of its vtable (0x10016330, 0x10016358, 0x10016373), a destructor of a class the gate has no model of, so a fuzzed pointer makes the original jump to arbitrary code; compared: the empty-slot paths and the three direct calls",
+  "evidence": "Disassembly of 0x10016320..0x10016399."
+ }
+}

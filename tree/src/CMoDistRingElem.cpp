@@ -156,20 +156,20 @@ void CMoDistRingElem::AllocRingGeometry()
       while ( v20 != 0 );
       v19 = (char *)a3;
     }
-    orig::operator_delete_10311BB0(v19);
+    orig::operator_delete(v19);
   }
 }
 
-// FUNCTION: FFXIMAIN 0x10052FD0  (unit CMoDistRingElem: stores CMoDistRingElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052FD0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052FD0(void * self_)
+uint64_t __thiscall CMoDistRingElem::Construct(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoDistRingElem_GetRuntimeClass_1032b4d8;
-  *(uint16_t *)((int)self_ + 0x176) = 0x1ba;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CMoElem_Constructor(self);
+  *(uint8_t ***)self = &PTR_CMoDistRingElem_GetRuntimeClass_1032b4d8;
+  *(uint16_t *)((int)self + 0x176) = 0x1ba;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052FF0  (placed by tree manifest; does not use this)

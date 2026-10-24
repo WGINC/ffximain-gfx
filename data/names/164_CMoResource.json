@@ -1,0 +1,14 @@
+{
+  "0x10047FD0": {
+    "name": "CMoResource_NoOp5",
+    "confidence": "low",
+    "evidence": "body is empty and takes one argument; slot 5 (+0x14) of CMoResource and of about 24 other resource vtables",
+    "summary": "Does nothing; the base implementation of virtual slot 5."
+  },
+  "0x10071DB0": {
+    "name": "CMoResource_NoOp8",
+    "confidence": "low",
+    "evidence": "body is empty; slot 8 (+0x20) of CMoResource",
+    "summary": "Does nothing; the base implementation of virtual slot 8."
+  }
+}

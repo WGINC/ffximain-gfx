@@ -1,0 +1,8 @@
+{
+  "0x102997A0": {
+    "name": "SqsdCartoon_Draw",
+    "confidence": "medium",
+    "evidence": "returns early when the flag at +0x54 is set and FUN_102A1FA0 gives 2; otherwise runs two passes: the first with the shader at 0x10000 and blend sub, drawing the drawable at +0x50, the second with the shader at 0x800000 and the drawable at +0x4C, using sqgxPassAdd, sqgxBlendSub and sqgxBlendOff; called by sub_102A1F20",
+    "summary": "Draws a cartoon-shaded drawable in two passes."
+  }
+}

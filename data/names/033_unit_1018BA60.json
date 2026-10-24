@@ -1,0 +1,98 @@
+{
+  "0x1018E4D0": {
+    "name": "FsLogPage_AddString",
+    "confidence": "medium",
+    "evidence": "appends the NUL-terminated string param_1 to the growing buffer at +0xCC, records its offset in the table at this+0 and advances the count at +0xC8; returns 1; callers are fn_1018ED80",
+    "summary": "Appends a string to the log page's buffer and records its offset."
+  },
+  "0x1018E660": {
+    "name": "FsLogPage_ClearBuffer",
+    "confidence": "medium",
+    "evidence": "when the buffer at +0xCC is set, frees it and zeroes its pointer, size, length and count",
+    "summary": "Frees the log page's string buffer and resets it."
+  },
+  "0x1018E6A0": {
+    "name": "FsLogPage_PruneOffsets",
+    "confidence": "medium",
+    "evidence": "walks the 50 offsets in the table at this+0 and sets to 0xFFFF each one that is negative, past the buffer length, or whose buffer byte before it is nonzero, counting the rest into +0xC8",
+    "summary": "Invalidates the log page offsets that no longer point at a string."
+  },
+  "0x1018E7F0": {
+    "name": "FsLogPage_HasPage",
+    "confidence": "medium",
+    "evidence": "returns 1 iff the page pointer at this+4+param_1*4 is nonzero",
+    "summary": "Tests whether a log page slot holds a page."
+  },
+  "0x1018E800": {
+    "name": "FsLogPage_EnsurePage",
+    "confidence": "medium",
+    "evidence": "when the slot at this+4+param_1*4 is empty, builds the page name with FUN_1018E170, allocates a 0xE0-byte page with Allocator_Generic and FUN_1018E0A0, stores it and calls FsLogPage_load; returns 1 when the slot is set",
+    "summary": "Creates and loads the log page in a slot when it is empty."
+  },
+  "0x1018ED80": {
+    "name": "FsLogPage_AddEntry",
+    "confidence": "low",
+    "evidence": "calls FUN_1018E4D0 with param_1; when that fails, FUN_1018E8D0 on the page, and on success the entry is added with FUN_1018E800 and FUN_1018E1A0",
+    "summary": "Adds an entry to the log page, creating a page when needed."
+  },
+  "0x1018FA20": {
+    "name": "Text_ClassifyChar",
+    "confidence": "low",
+    "evidence": "returns 4 for 0xFD, 0 for 0x7F with a second byte in 0xFB to 0xFC, 2 for most other bytes, 3 for 0xEF and the value of FUN_1011DA30 otherwise",
+    "summary": "Classifies a text character code into a small category."
+  },
+  "0x1018FB00": {
+    "name": "Text_CountChars",
+    "confidence": "low",
+    "evidence": "advances over the bytes at param_1 by the length each one takes from FUN_1018FA80, until param_3 bytes have been covered; returns the last length",
+    "summary": "Counts the characters in a byte range."
+  },
+  "0x10190140": {
+    "name": "Text_EncodeQuotes",
+    "confidence": "low",
+    "evidence": "copies param_2 bytes from param_1 into a temporary buffer, replacing each double quote with an alternating pair of codes 0x85 and S or D, then copies back with _strncpy",
+    "summary": "Rewrites double quotes in a text buffer as alternating marker codes."
+  },
+  "0x101907A0": {
+    "name": "Unit1018BA60_AllocZeroed",
+    "confidence": "medium",
+    "evidence": "allocates param_2 bytes with Allocator_Generic, stores the pointer at *param_1 and zeroes the block dword by dword then byte by byte",
+    "summary": "Allocates a zeroed block and stores its pointer.",
+    "invented_prefix_name": "Mem_AllocZeroed"
+  },
+  "0x101911A0": {
+    "name": "Unit1018BA60_UpdateFromMenu",
+    "confidence": "medium",
+    "evidence": "calls FUN_1015EC50 with the constant s_menu_keypad3_10379908; when it is open sets this+8 to 0 and this+0x20 to 2, otherwise sets both to 1 when this+0x1C is not 1",
+    "summary": "Updates the keypad state from whether the keypad menu is open.",
+    "invented_prefix_name": "Keypad_UpdateFromMenu"
+  },
+  "0x10191B20": {
+    "name": "Unit1018BA60_FindTopShape",
+    "confidence": "low",
+    "evidence": "stores param_1 at this+0x18, clears this+0x20, and looks up the shape named s_menu_key2top_10379958 with ShapeMng_FindShape, storing the result at this+0x14",
+    "summary": "Looks up the top-row keypad shape.",
+    "invented_prefix_name": "Keypad_FindTopShape"
+  },
+  "0x10193A10": {
+    "name": "Unit1018BA60_TestBit64",
+    "confidence": "low",
+    "evidence": "returns a 64-bit value whose low dword is 1 when bit param_1 of the two-dword mask at param_2 is set; bits 32 and up use the second dword",
+    "summary": "Tests one bit of a 64-bit mask.",
+    "invented_prefix_name": "Mask_TestBit64"
+  },
+  "0x10193B60": {
+    "name": "Unit1018BA60_FindOrAdd",
+    "confidence": "low",
+    "evidence": "walks the list from this+4 for an entry whose +8 and +0xC equal the two arguments and returns when found; otherwise allocates a 0x10-byte node with Allocator_Generic and FUN_10193B00 and links it at +4",
+    "summary": "Finds a pair of values in a list, adding it when absent.",
+    "invented_prefix_name": "Pairs_FindOrAdd"
+  },
+  "0x10193BC0": {
+    "name": "Unit1018BA60_ForEach",
+    "confidence": "medium",
+    "evidence": "walks the list from this through +4 and calls the callback at +8 with the two arguments and the node's +0xC on each entry",
+    "summary": "Calls a callback for every pair in the list.",
+    "invented_prefix_name": "Pairs_ForEach"
+  }
+}

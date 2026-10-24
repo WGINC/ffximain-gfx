@@ -10,13 +10,13 @@ char ** __cdecl CMoOT::GetRuntimeClass()
   return &CMoOT_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x100552A0  (unit CMoOT: stores CMoOT vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x100552A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100552A0(void * self_)
+void * __thiscall CMoOT::Constructor(void * self)
 {
-  *(uint8_t ***)self_ = &PTR_CMoOT_GetRuntimeClass_1032b6f4;
-  orig::FUN_100552f0(self_);
-  return self_;
+  *(uint8_t ***)self = &PTR_CMoOT_GetRuntimeClass_1032b6f4;
+  orig::Unit100552F0_ClearLink(self);
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x100552C0  (placed by tree manifest)

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10071FD0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10071FD0(void * self_)
+XI_API undefined4 __thiscall MoRes_FindPrevious(void * self_)
 {
   void *pvVar1;
   void *pvVar2;
@@ -41,7 +41,7 @@ XI_API undefined4 __thiscall WeatherRes_GetTimeKey(void * self_, undefined4 * pa
   local_4 = uVar1;
   orig::unknown_libname_158(&local_8);
   orig::FUN_1018bf50(&local_8,((uVar1 >> 8 & 0xff) - 0x210) + (uVar1 & 0xff) * 10);
-  orig::FUN_1018bf00(&local_8,((uVar1 >> 0x18) - 0x210) + (local_4 >> 0x10 & 0xff) * 10);
+  orig::Time_SetModulo216000Div3600(&local_8,((uVar1 >> 0x18) - 0x210) + (local_4 >> 0x10 & 0xff) * 10);
   *param_1 = local_8;
   return param_1;
 }
@@ -57,7 +57,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undef
   bVar1 = (uint8_t)*(uint16_t *)((int)self_ + 0x1a);
   if ((bVar1 >> 1 & 1) == 0) {
     *(uint16_t *)((int)self_ + 0x1a) = (uint16_t)((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(bVar1))) | 2;
-    uVar2 = orig::FUN_10073b80(self_);
+    uVar2 = orig::CMoResource_InitAndGetFlag(self_);
     if ((*(uint8_t *)((int)self_ + 0x1a) & 1) != 0) {
       *(uint8_t *)((int)self_ + 0x1a) = *(uint8_t *)((int)self_ + 0x1a) & 0xfe;
       orig::NodePool_ReleaseNode_v1(g_pMeshResourceMng_as_v1,*(uint32_t **)((int)self_ + 0x14));
@@ -87,106 +87,6 @@ XI_API void * __thiscall fn_10072240(void * self_)
     self_ = (void *)**(int **)((int)self_ + 0x28);
   }
   return self_;
-}
-
-// FUNCTION: FFXIMAIN 0x100722C0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API uint64_t __thiscall fn_100722C0(void * self_, undefined4 * param_1, uint32_t param_2, int param_3, int param_4)
-{
-  uint32_t uVar1;
-  uint32_t *puVar2;
-  uint32_t uVar3;
-  void *pvVar4;
-  void *pvVar5;
-  void *pvVar6;
-  uint8_t bVar7;
-  uint64_t uVar8;
-  
-  uVar3 = *(uint32_t *)((int)self_ + 0x24) & 0x7f;
-  pvVar4 = self_;
-  pvVar6 = self_;
-  if (uVar3 != 1) {
-    pvVar4 = orig::CMoResource_GetParent_v1(self_);
-    pvVar6 = pvVar4;
-  }
-  while (pvVar4 != (void *)0x0) {
-    if (*(uint32_t **)((int)pvVar6 + 0x3c) == (uint32_t *)0x0) {
-      pvVar5 = (void *)0x0;
-    }
-    else {
-      pvVar5 = (void *)**(uint32_t **)((int)pvVar6 + 0x3c);
-    }
-    if (pvVar4 == pvVar5) {
-      if (*(uint32_t **)((int)pvVar6 + 0x28) == (uint32_t *)0x0) {
-        pvVar4 = (void *)0x0;
-      }
-      else {
-        pvVar4 = (void *)**(uint32_t **)((int)pvVar6 + 0x28);
-      }
-      bVar7 = pvVar4 == pvVar6;
-      pvVar6 = pvVar4;
-      if (bVar7) break;
-    }
-    else {
-      if ((((uint8_t)*(uint32_t *)((int)pvVar4 + 0x24) & 0x7f) == 1) &&
-         (*(int *)((int)pvVar4 + 0x38) == param_4)) {
-        if (*(uint32_t **)((int)pvVar4 + 0x3c) == (uint32_t *)0x0) {
-          pvVar4 = (void *)0x0;
-        }
-        else {
-          pvVar4 = (void *)**(uint32_t **)((int)pvVar4 + 0x3c);
-        }
-      }
-      if (param_2 == 0) {
-        if (*(int *)((int)pvVar4 + 0x20) == param_3) {
-LAB_10072343:
-          uVar1 = *(uint32_t *)((int)pvVar4 + 0x14);
-          *param_1 = uVar1;
-          return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)(param_1)));
-        }
-      }
-      else if ((*(uint32_t *)((int)pvVar4 + 0x24) & 0x7f) == param_2) {
-        if (param_3 == 0) goto LAB_10072343;
-        if (*(int *)((int)pvVar4 + 0x20) == param_3) {
-          *param_1 = *(uint32_t *)((int)pvVar4 + 0x14);
-          return ((uint64_t)(((uint64_t)(uint32_t)(pvVar6) << 32) | (uint32_t)(param_1)));
-        }
-      }
-    }
-    if (*(int **)((int)pvVar4 + 8) == (int *)0x0) {
-      pvVar4 = (void *)0x0;
-    }
-    else {
-      pvVar4 = (void *)**(int **)((int)pvVar4 + 8);
-    }
-  }
-  pvVar4 = self_;
-  if (uVar3 != 1) {
-    pvVar4 = orig::CMoResource_GetParent_v1(self_);
-  }
-  puVar2 = *(uint32_t **)((int)pvVar4 + 0x28);
-  *(int *)((int)pvVar4 + 0x38) = param_4;
-  if (puVar2 == (uint32_t *)0x0) {
-    pvVar6 = (void *)0x0;
-  }
-  else {
-    pvVar6 = (void *)*puVar2;
-  }
-  if (pvVar4 != pvVar6) {
-    if (puVar2 != (uint32_t *)0x0) {
-      uVar8 = orig::FUN_100722c0((void *)*puVar2,param_1,param_2,param_3,param_4);
-      return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
-    }
-    uVar8 = orig::FUN_100722c0((void *)0x0,param_1,param_2,param_3,param_4);
-    return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
-  }
-  if (*(uint32_t **)(g_pMeshResourceMng + 0x40008) != *(uint32_t **)((int)self_ + 0x14)) {
-    uVar8 = orig::FUN_100722c0((void *)**(uint32_t **)(g_pMeshResourceMng + 0x40008),param_1,param_2,
-                         param_3,param_4);
-    return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar8 >> 0x20)) << 32) | (uint32_t)(param_1)));
-  }
-  *param_1 = 0;
-  return ((uint64_t)(((uint64_t)(uint32_t)(pvVar6) << 32) | (uint32_t)(param_1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10072430  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)

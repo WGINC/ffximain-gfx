@@ -19,7 +19,7 @@ undefined4 __stdcall CMoTaskMng::Forward10075120(undefined4 xi_s1)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10075120(dword_1047D140_as_v1,xi_s1);
+  iVar1 = orig::CMoTaskMng_InsertAfterCursor(dword_1047D140_as_v1,xi_s1);
   return iVar1;
 }
 
@@ -30,9 +30,9 @@ char ** __cdecl CMoTaskMng::GetRuntimeClass()
   return &CMoTaskMng_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10074BA0  (unit CMoTaskMng: between 0x10074B60 (stores CMoTaskMng vtable (ctor/dtor)) and 0x10074C30 (name CMoTaskMng_DrawAll), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10074BA0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074BA0(void * self_)
+void __thiscall CMoTaskMng::InitPool(void * self)
 {
   void *this_00;
   int iVar1;
@@ -40,9 +40,9 @@ XI_API void __thiscall fn_10074BA0(void * self_)
   void *pvVar3;
   int *piVar4;
   
-  this_00 = (void *)((int)self_ + 4);
+  this_00 = (void *)((int)self + 4);
   orig::CMoTask_ResetFields_v1(this_00);
-  *(int *)((int)self_ + 0x10) = (int)self_ + 0x38;
+  *(int *)((int)self + 0x10) = (int)self + 0x38;
   iVar2 = 0x3e;
   pvVar3 = this_00;
   do {
@@ -52,21 +52,21 @@ XI_API void __thiscall fn_10074BA0(void * self_)
     iVar2 = iVar2 + -1;
     pvVar3 = (void *)((int)pvVar3 + 0x34);
   } while (iVar2 != 0);
-  orig::CMoTask_ResetFields_v1((void *)((int)self_ + 0xcd0));
-  *(int *)((int)self_ + 0xcd8) = (int)self_ + 0xc9c;
-  *(void **)((int)self_ + 0xd58) = this_00;
-  *(uint32_t *)((int)self_ + 0xd54) = 0;
-  *(uint32_t *)((int)self_ + 0xd50) = 0;
-  *(uint32_t *)((int)self_ + 0xd44) = 0;
-  piVar4 = (int *)((int)self_ + 0xd04);
+  orig::CMoTask_ResetFields_v1((void *)((int)self + 0xcd0));
+  *(int *)((int)self + 0xcd8) = (int)self + 0xc9c;
+  *(void **)((int)self + 0xd58) = this_00;
+  *(uint32_t *)((int)self + 0xd54) = 0;
+  *(uint32_t *)((int)self + 0xd50) = 0;
+  *(uint32_t *)((int)self + 0xd44) = 0;
+  piVar4 = (int *)((int)self + 0xd04);
   iVar2 = 0x10;
   do {
-    iVar1 = orig::FUN_10074df0(self_,0);
+    iVar1 = orig::CMoTaskMng_AllocTask(self,0);
     *piVar4 = iVar1;
     piVar4 = piVar4 + 1;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  *(uint32_t *)((int)self_ + 0xd4c) = *(uint32_t *)((int)self_ + 0xd50);
+  *(uint32_t *)((int)self + 0xd4c) = *(uint32_t *)((int)self + 0xd50);
   return;
 }
 
@@ -91,4 +91,173 @@ undefined4 __thiscall CMoTaskMng::DrawAll(void * self)
   }
   *(uint32_t *)((int)self + 0xd4c) = 0;
   return *(uint32_t *)((int)self + 0xd48);
+}
+
+// FUNCTION: FFXIMAIN 0x10074CF0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTaskMng::RemoveByKey(void * self, int param_1, int param_2)
+{
+  void *this_00;
+  
+  if (param_1 == 0) {
+    return;
+  }
+  do {
+    this_00 = *(void **)((int)self + 0xd50);
+    while( true ) {
+      if (this_00 == (void *)0x0) {
+        return;
+      }
+      if ((*(int *)((int)this_00 + 0x18) == param_1) && (*(int *)((int)this_00 + 0x1c) == param_2))
+      break;
+      this_00 = *(void **)((int)this_00 + 0xc);
+    }
+    orig::CMoTask_Release(this_00);
+  } while( true );
+}
+
+// FUNCTION: FFXIMAIN 0x10074DF0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoTaskMng::AllocTask(void * self, undefined4 param_1)
+{
+  void *this_00;
+  int iVar1;
+  
+  this_00 = *(void **)((int)self + 0xd58);
+  *(uint32_t *)((int)self + 0xd58) = *(uint32_t *)((int)this_00 + 0xc);
+  orig::CMoTask_ResetFields_v1(this_00);
+  *(uint32_t *)((int)this_00 + 8) = *(uint32_t *)((int)self + 0xd54);
+  iVar1 = *(int *)((int)self + 0xd54);
+  if (iVar1 == *(int *)((int)self + 0xd4c)) {
+    *(void **)((int)self + 0xd5c) = this_00;
+  }
+  if (iVar1 != 0) {
+    *(void **)(iVar1 + 0xc) = this_00;
+  }
+  *(void **)((int)self + 0xd54) = this_00;
+  if (*(int *)((int)self + 0xd50) == 0) {
+    *(void **)((int)self + 0xd50) = this_00;
+  }
+  *(uint32_t *)((int)this_00 + 4) = param_1;
+  *(int *)((int)self + 0xd44) = *(int *)((int)self + 0xd44) + 1;
+  return (int)this_00;
+}
+
+// FUNCTION: FFXIMAIN 0x10074F80  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+uint64_t __thiscall CMoTaskMng::InsertIntoBucket(void * self, int param_1, int param_2)
+{
+  int iVar1;
+  
+  orig::CMoTaskMng_UnlinkTask(self,param_1);
+  if (param_2 < 0x10) {
+    if (param_2 < 0) {
+      param_2 = 0;
+    }
+  }
+  else {
+    param_2 = 0xf;
+  }
+  *(uint32_t *)(param_1 + 0xc) = *(uint32_t *)(*(int *)((int)self + param_2 * 4 + 0xd04) + 0xc);
+  iVar1 = *(int *)(*(int *)((int)self + param_2 * 4 + 0xd04) + 0xc);
+  if (iVar1 != 0) {
+    *(int *)(iVar1 + 8) = param_1;
+  }
+  *(uint32_t *)(param_1 + 8) = *(uint32_t *)((int)self + param_2 * 4 + 0xd04);
+  *(int *)(*(int *)((int)self + param_2 * 4 + 0xd04) + 0xc) = param_1;
+  *(code **)(param_1 + 4) = XI_CODE(CMoTask_Dispatch);
+  *(uint8_t *)(param_1 + 0x20) = 1;
+  iVar1 = *(int *)((int)self + param_2 * 4 + 0xd04);
+  if (iVar1 == *(int *)((int)self + 0xd54)) {
+    *(int *)((int)self + 0xd54) = param_1;
+  }
+  return ((uint64_t)(((uint64_t)(uint32_t)(iVar1) << 32) | (uint32_t)(param_1)));
+}
+
+// FUNCTION: FFXIMAIN 0x100750B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+uint64_t __thiscall CMoTaskMng::EnqueueTask(void * self, int param_1)
+{
+  int iVar1;
+  uint32_t uVar2;
+  uint64_t uVar3;
+  
+  orig::CMoTaskMng_UnlinkTask(self,param_1);
+  if (*(int *)((int)self + 0xd4c) == 0) {
+    uVar3 = orig::CMoTaskMng_InsertIntoBucket(self,param_1,9);
+    return uVar3;
+  }
+  *(uint32_t *)(param_1 + 0xc) = *(uint32_t *)(*(int *)((int)self + 0xd4c) + 0xc);
+  iVar1 = *(int *)(*(int *)((int)self + 0xd4c) + 0xc);
+  if (iVar1 != 0) {
+    *(int *)(iVar1 + 8) = param_1;
+  }
+  uVar2 = *(uint32_t *)((int)self + 0xd4c);
+  *(uint32_t *)(param_1 + 8) = uVar2;
+  *(int *)(*(int *)((int)self + 0xd4c) + 0xc) = param_1;
+  *(int *)((int)self + 0xd5c) = param_1;
+  *(code **)(param_1 + 4) = XI_CODE(CMoTask_Dispatch);
+  *(uint8_t *)(param_1 + 0x20) = 1;
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar2) << 32) | (uint32_t)(param_1)));
+}
+
+// FUNCTION: FFXIMAIN 0x10075120  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CMoTaskMng::InsertAfterCursor(void * self, int param_1)
+{
+  int iVar1;
+  uint8_t bVar2;
+  
+  orig::CMoTaskMng_UnlinkTask(self,param_1);
+  if (*(int *)((int)self + 0xd4c) == 0) {
+    iVar1 = *(int *)((int)self + 0xd28);
+    *(int *)(param_1 + 0xc) = iVar1;
+    if (*(int *)(iVar1 + 8) != 0) {
+      *(int *)(*(int *)(iVar1 + 8) + 0xc) = param_1;
+    }
+    *(uint32_t *)(param_1 + 8) = *(uint32_t *)(iVar1 + 8);
+    *(int *)(iVar1 + 8) = param_1;
+    bVar2 = *(int *)((int)self + 0xd50) == iVar1;
+  }
+  else {
+    *(int *)(param_1 + 0xc) = *(int *)((int)self + 0xd4c);
+    iVar1 = *(int *)(*(int *)((int)self + 0xd4c) + 8);
+    if (iVar1 != 0) {
+      *(int *)(iVar1 + 0xc) = param_1;
+    }
+    *(uint32_t *)(param_1 + 8) = *(uint32_t *)(*(int *)((int)self + 0xd4c) + 8);
+    *(int *)(*(int *)((int)self + 0xd4c) + 8) = param_1;
+    bVar2 = *(int *)((int)self + 0xd50) == *(int *)((int)self + 0xd4c);
+  }
+  if (bVar2) {
+    *(int *)((int)self + 0xd50) = param_1;
+  }
+  *(code **)(param_1 + 4) = XI_CODE(CMoTask_Dispatch);
+  *(uint8_t *)(param_1 + 0x20) = 1;
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x100751B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTaskMng::UnlinkTask(void * self, int param_1)
+{
+  if (param_1 == *(int *)((int)self + 0xd4c)) {
+    *(uint32_t *)((int)self + 0xd4c) = *(uint32_t *)(param_1 + 8);
+  }
+  if (*(int *)(param_1 + 8) != 0) {
+    *(uint32_t *)(*(int *)(param_1 + 8) + 0xc) = *(uint32_t *)(param_1 + 0xc);
+  }
+  if (*(int *)(param_1 + 0xc) != 0) {
+    *(uint32_t *)(*(int *)(param_1 + 0xc) + 8) = *(uint32_t *)(param_1 + 8);
+  }
+  if (*(int *)((int)self + 0xd50) == param_1) {
+    *(uint32_t *)((int)self + 0xd50) = *(uint32_t *)(param_1 + 0xc);
+  }
+  if (*(int *)((int)self + 0xd54) == param_1) {
+    *(uint32_t *)((int)self + 0xd54) = *(uint32_t *)(param_1 + 8);
+  }
+  if (*(int *)((int)self + 0xd5c) == param_1) {
+    *(uint32_t *)((int)self + 0xd5c) = *(uint32_t *)(param_1 + 0xc);
+  }
+  return;
 }

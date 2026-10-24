@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CEnv {
 public:
+    static void __cdecl Nop();  // 0x1000D620
     static void __thiscall UpdateStereoMode(void * self, undefined4 xi_s1);  // 0x1000D630
     static undefined4 __thiscall IsStereoMode(void * self);  // 0x1000D660
 

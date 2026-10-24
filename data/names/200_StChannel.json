@@ -1,0 +1,20 @@
+{
+  "0x10251160": {
+    "name": "StChannel_ClearFlags",
+    "confidence": "low",
+    "evidence": "stores -1 at +0xC of the channel and clears bits 0x12 of the word at +0",
+    "summary": "Clears the channel's flag bits and sets its index to -1."
+  },
+  "0x10251180": {
+    "name": "StChannel_MarkIfLoaded",
+    "confidence": "low",
+    "evidence": "when bit 0 of the word at +0 is set and the index at +4 is nonnegative, calls FUN_101C4A30 on the file manager with that index and sets bit 0x20 when it returns nonzero",
+    "summary": "Sets the channel's loaded flag when its file index resolves."
+  },
+  "0x102511B0": {
+    "name": "StChannel_SetValue9C",
+    "confidence": "low",
+    "evidence": "when bit 0 of the word at +0 is set, resolves a table with FUN_1026F4F0 and stores the float argument at index*0xC0+0x9C, where the index is at +0xC of the channel and is in range",
+    "summary": "Stores a float in the channel's table entry at index*0xC0+0x9C."
+  }
+}

@@ -10,19 +10,19 @@ char ** __cdecl CMoVuDist::GetRuntimeClass()
   return &CMoVuDist_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10052DA0  (unit CMoVuDist: stores CMoVuDist vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052DA0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052DA0(void * self_)
+uint64_t __thiscall CMoVuDist::Construct(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CMoElem_Constructor(self_);
-  *(uint32_t *)((int)self_ + 0x19c) = 0;
-  *(uint32_t *)((int)self_ + 0x1d8) = 0;
-  *(uint16_t *)((int)self_ + 0x1de) = 0;
-  *(uint8_t ***)self_ = &PTR_CMoVuDist_GetRuntimeClass_1032b2f8;
-  *(uint16_t *)((int)self_ + 0x176) = 0x1e0;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CMoElem_Constructor(self);
+  *(uint32_t *)((int)self + 0x19c) = 0;
+  *(uint32_t *)((int)self + 0x1d8) = 0;
+  *(uint16_t *)((int)self + 0x1de) = 0;
+  *(uint8_t ***)self = &PTR_CMoVuDist_GetRuntimeClass_1032b2f8;
+  *(uint16_t *)((int)self + 0x176) = 0x1e0;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052DD0  (placed by tree manifest; does not use this)

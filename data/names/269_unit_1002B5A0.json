@@ -1,0 +1,14 @@
+{
+  "0x1002B5E0": {
+    "name": "CYyModel_TailLink",
+    "confidence": "low",
+    "evidence": "walks the list headed at this+0x44 through the next link at +4 and returns the address of the last link",
+    "summary": "Returns the address of the last link in a model's list."
+  },
+  "0x1002B630": {
+    "name": "CYyModel_AppendBase",
+    "confidence": "medium",
+    "evidence": "stores param_1 in the tail link returned by CYyModel_TailLink; called by CYyModel::CreateModelBase",
+    "summary": "Appends a model base to the end of a model's list."
+  }
+}

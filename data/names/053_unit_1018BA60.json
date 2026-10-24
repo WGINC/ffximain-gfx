@@ -1,0 +1,81 @@
+{
+  "0x101BC720": {
+    "name": "Unit1018BA60_FreeBuffer",
+    "confidence": "medium",
+    "evidence": "when the pointer at +0xC is set, frees it with the Mem_Free routine at 0x101907D0 and returns 1",
+    "summary": "Frees the buffer owned by this object.",
+    "invented_prefix_name": "Buf_FreeBuffer"
+  },
+  "0x101BC7B0": {
+    "name": "Unit1018BA60_Set",
+    "confidence": "low",
+    "evidence": "returns -1 when param_2 is negative; otherwise stores param_2 at +8 and +0x10, param_1 at +4 and +0xC, and the four bytes of param_3 at +0x14..+0x17",
+    "summary": "Sets the range fields and four byte values of a span.",
+    "invented_prefix_name": "Span_Set"
+  },
+  "0x101BC900": {
+    "name": "Entry_CompareKey",
+    "confidence": "low",
+    "evidence": "returns 1 when the length at +8 differs from the length of the key, else compares the stored name at +4 with the key using _strncmp, or FUN_10325D00 when the scene state byte at 0x10456A28+8 is 2 or 3",
+    "summary": "Compares an entry's stored key with a key string."
+  },
+  "0x101BC9B0": {
+    "name": "Unit1018BA60_GetUsed",
+    "confidence": "medium",
+    "evidence": "returns the dword at this+8, the used length that the buffer appends update",
+    "summary": "Returns how many bytes of the buffer are in use.",
+    "invented_prefix_name": "Buf_GetUsed"
+  },
+  "0x101BCA40": {
+    "name": "Unit1018BA60_AppendPadded",
+    "confidence": "medium",
+    "evidence": "rounds the length up to a multiple of 32, copies param_2 bytes from param_1 at the used offset, zeroes the padding and advances +8 by the padded length; returns the pointer, or 0 when the buffer is full",
+    "summary": "Appends bytes to the buffer, padded to 32-byte alignment.",
+    "invented_prefix_name": "Buf_AppendPadded"
+  },
+  "0x101BCAC0": {
+    "name": "Unit1018BA60_ReserveZeroed",
+    "confidence": "medium",
+    "evidence": "rounds the length up to a multiple of 32, zeroes that many bytes at the used offset, advances +8 and returns the offset; returns 0 when the buffer is full",
+    "summary": "Reserves a zeroed, 32-byte aligned block at the end of the buffer.",
+    "invented_prefix_name": "Buf_ReserveZeroed"
+  },
+  "0x101BCB30": {
+    "name": "Unit1018BA60_Clear",
+    "confidence": "medium",
+    "evidence": "sets +8 to 0 and zeroes the buffer at *this for its size at +4",
+    "summary": "Empties the buffer and zeroes its contents.",
+    "invented_prefix_name": "Buf_Clear"
+  },
+  "0x101BCE30": {
+    "name": "Unit1018BA60_WatchConfigWindow",
+    "confidence": "medium",
+    "evidence": "checks the worker thread's exit code, then after a count at +8 above 0x5A calls FindWindowA with the constant s_FINAL_FANTASY_XI_GAMEPAD_Config_1037ca70 and, when it is not found, calls FUN_10005600 on g_pAppInputState",
+    "summary": "Watches the gamepad configuration window and clears the input state when it closes.",
+    "invented_prefix_name": "Gamepad_WatchConfigWindow"
+  },
+  "0x101BE470": {
+    "name": "File_FindByKind",
+    "confidence": "low",
+    "evidence": "returns -1 for a null size argument; for kind 0 uses the table at DAT_1034F2D0, for kind 1 uses DAT_1034F7FC with a retry after FUN_101BE730, for kind 2 uses DAT_1037CB34, else -1",
+    "summary": "Looks up a file entry in one of three tables by kind."
+  },
+  "0x101BE590": {
+    "name": "File_WriteChunked",
+    "confidence": "medium",
+    "evidence": "writes param_3 bytes through FUN_1031217F in 0x40000-byte chunks, calling Sleep(0) after each chunk and a final partial chunk, returning -1 when the handle's flag 0x20 is set",
+    "summary": "Writes a large block in 256 KB chunks, yielding between them."
+  },
+  "0x101BE730": {
+    "name": "File_CreateParentDirs",
+    "confidence": "medium",
+    "evidence": "copies the path at param_1 into a 256-byte buffer and calls CreateDirectoryA on each prefix that ends before a '/'",
+    "summary": "Creates each parent directory of a file path."
+  },
+  "0x101BECC0": {
+    "name": "XiFileImpl_QueueLoad",
+    "confidence": "low",
+    "evidence": "builds a 0x40-entry request record, gets the file name with XiFileImpl_getFileName, sets its kind to 1, and queues it with FUN_1019F8B0 on the object at +0x1F0",
+    "summary": "Builds a file load request and queues it."
+  }
+}

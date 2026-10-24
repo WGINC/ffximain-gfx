@@ -1,0 +1,20 @@
+{
+  "0x100A5E10": {
+    "name": "XiControlActor_UpdateCamera",
+    "confidence": "medium",
+    "evidence": "outside scene state 0x40: in first-person view calls FUN_10021110 on the camera and FUN_100A5EF0; otherwise checks the actor's vtable slots 0x340 and 0x330, moves the camera by FUN_1025E090 and Vec3_Add, then calls YmCameraManager_Follow on the camera",
+    "summary": "Updates the camera for the control actor, first-person or following."
+  },
+  "0x100A5EF0": {
+    "name": "XiControlActor_UpdateView",
+    "confidence": "low",
+    "evidence": "reads the actor's model field 170 through CXiActor_GetModelField170 and, for the listed values, calls FUN_100A6070; sets the first-person state by FUN_100A8CC0, takes the setting 0x49 for FUN_10015290 when not first-person, and calls FUN_10037EF0",
+    "summary": "Updates the control actor's view mode from its model state."
+  },
+  "0x100A78D0": {
+    "name": "XiControlActor_NormalizeInput",
+    "confidence": "low",
+    "evidence": "normalises the two floats at param_1 and param_2 by their length, takes a factor of 1 above 0.9, 1/3 above 0.05 and 0 otherwise, scales the pair by it and stores the factor at this+0x594",
+    "summary": "Normalises a 2D input direction and stores its magnitude factor."
+  }
+}

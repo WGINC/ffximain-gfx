@@ -4,29 +4,29 @@
 
 // FUNCTION: FFXIMAIN 0x10291360  (unit sqskJoint: asserts sqskJoint.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10291360(void)
+XI_API undefined4 * __cdecl SqskJoint_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0x9c,s_C__dev_dancer_modules_sqSkeleton_103bae5c,0x1e);
-  orig::FUN_10291390(puVar1);
+  orig::SqskJoint_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10291390  (unit sqskJoint: between 0x10291360 (asserts sqskJoint.c) and 0x10291430 (asserts sqskJoint.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291390(undefined4 * param_1)
+XI_API void __cdecl SqskJoint_Init(undefined4 * param_1)
 {
-  orig::FUN_10289f50(param_1);
+  orig::SqxfXformM_Init(param_1);
   *param_1 = 0xb0002;
   param_1[2] = &LAB_10291420;
   param_1[3] = XI_CODE(FUN_10291430);
   param_1[4] = XI_CODE(FUN_10291470);
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_10291ad0;
-  orig::FUN_10274640(param_1 + 0x17);
+  orig::Unit10274050_ZeroDwords(param_1 + 0x17);
   orig::thunk_FUN_1027ae50(param_1 + 0x1a);
-  orig::FUN_10274670((float *)(param_1 + 0x1e),1.0f,1.0f,1.0f);
+  orig::Unit10274050_SetXyz((float *)(param_1 + 0x1e),1.0f,1.0f,1.0f);
   param_1[0x21] = 0;
   param_1[0x22] = 0;
   param_1[0x23] = 0;

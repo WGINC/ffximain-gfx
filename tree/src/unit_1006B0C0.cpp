@@ -21,7 +21,7 @@ XI_API void * __thiscall VBPool_Constructor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1006B120  (unit unit_1006B0C0: no unit evidence of its own; in the gap between 0x1006B090 (CMoDxStatusMng) and 0x1006B2B0 (CMoDX) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
+XI_API uint32_t __thiscall Unit1006B0C0_Insert(void * self_, undefined4 * param_1)
 {
   int *a1;
   int iVar1;
@@ -80,7 +80,7 @@ XI_API uint32_t __thiscall fn_1006B120(void * self_, undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1006B1D0  (unit unit_1006B0C0: no unit evidence of its own; in the gap between 0x1006B090 (CMoDxStatusMng) and 0x1006B2B0 (CMoDX) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1006B1D0(void * self_, int param_1)
+XI_API int __thiscall Unit1006B0C0_FindMatch(void * self_, int param_1)
 {
   int iVar1;
   uint32_t *puVar2;

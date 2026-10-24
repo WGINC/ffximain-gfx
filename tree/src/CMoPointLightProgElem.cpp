@@ -10,23 +10,23 @@ char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
   return &CMoPointLightProgElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x100562F0  (unit CMoPointLightProgElem: stores CMoPointLightProgElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x100562F0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_100562F0(void * self_, uint32_t param_1, undefined4 param_2)
+uint64_t __thiscall CMoPointLightProgElem::Construct(void * self, uint32_t param_1, undefined4 param_2)
 {
-  orig::CMoElem_Constructor(self_);
-  *(uint32_t *)((int)self_ + 0x194) = param_1;
-  *(uint8_t ***)self_ = &PTR_CMoPointLightProgElem_GetRuntimeClass_1032b758;
-  *(uint16_t *)((int)self_ + 0x176) = 0x1b4;
-  *(uint8_t *)((int)self_ + 0x1b0) = 0;
-  *(uint32_t *)((int)self_ + 0x1ac) = 0xffffffff;
-  *(uint32_t *)((int)self_ + 0x198) = param_2;
+  orig::CMoElem_Constructor(self);
+  *(uint32_t *)((int)self + 0x194) = param_1;
+  *(uint8_t ***)self = &PTR_CMoPointLightProgElem_GetRuntimeClass_1032b758;
+  *(uint16_t *)((int)self + 0x176) = 0x1b4;
+  *(uint8_t *)((int)self + 0x1b0) = 0;
+  *(uint32_t *)((int)self + 0x1ac) = 0xffffffff;
+  *(uint32_t *)((int)self + 0x198) = param_2;
   if (((param_1 & 0xff) != 99) && ((param_1 & 0xff) != 0x43)) {
-    *(uint8_t *)((int)self_ + 0x1b1) = 0;
-    return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self_)));
+    *(uint8_t *)((int)self + 0x1b1) = 0;
+    return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self)));
   }
-  *(uint8_t *)((int)self_ + 0x1b1) = 1;
-  return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self_)));
+  *(uint8_t *)((int)self + 0x1b1) = 1;
+  return ((uint64_t)(((uint64_t)(uint32_t)(param_2) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10056360  (placed by tree manifest; does not use this)
@@ -44,4 +44,47 @@ int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);
   return (int *)this;
+}
+
+// FUNCTION: FFXIMAIN 0x10056400  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoPointLightProgElem::Update(void * self)
+{
+  int iVar1;
+  uint8_t bVar2;
+  long double fVar3;
+  char xi_frame[20] __attribute__((aligned(4)));
+  float  &fStack_14 = *reinterpret_cast<float  *>(xi_frame + 0);
+  int  &iStack_10 = *reinterpret_cast<int  *>(xi_frame + 4);
+  uint32_t  &uStack_c = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint32_t  &uStack_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
+  
+  iStack_10 = *(int *)((int)self + 0x54);
+  uStack_c = *(uint32_t *)((int)self + 0x58);
+  uStack_8 = *(uint32_t *)((int)self + 0x5c);
+  if (*(char *)((int)self + 0x1b0) == '\0') {
+    iVar1 = orig::FUN_10178610(*(int *)((int)self + 0x194),&iStack_10,*(uint32_t *)((int)self + 0xf8),0.0f,
+                         xi_castbits<int>((float)((long double)*(float *)((int)self + 0x1a8) *
+                                     (long double)*(float *)((int)self + 0x19c))));
+    *(int *)((int)self + 0x1ac) = iVar1;
+    *(uint8_t *)((int)self + 0x1b0) = 1;
+    return;
+  }
+  bVar2 = NAN((long double)*(float *)((int)self + 0x1a0)) || NAN((long double)0.0f);
+  if ((bVar2 || (long double)*(float *)((int)self + 0x1a0) < (long double)0.0f) == bVar2) {
+    fVar3 = (long double)*(float *)((int)self + 0x1a0);
+  }
+  else {
+    fVar3 = (long double)0.0f;
+  }
+  fVar3 = fVar3 * (long double)*(float *)((int)self + 0x1a4) * (long double)*(float *)((int)self + 0x138);
+  fStack_14 = (float)fVar3;
+  bVar2 = NAN(fVar3) || NAN((long double)0.0f);
+  if ((bVar2 || fVar3 < (long double)0.0f) != bVar2) {
+    fStack_14 = 0.0f;
+  }
+  orig::FUN_10178530(*(int *)((int)self + 0x1ac),&iStack_10,*(uint32_t *)((int)self + 0xf8),fStack_14,
+               (float)((long double)*(float *)((int)self + 0x1a8) *
+                      (long double)*(float *)((int)self + 0x19c)));
+  return;
 }

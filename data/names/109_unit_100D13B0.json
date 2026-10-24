@@ -1,0 +1,8 @@
+{
+  "0x100D14C0": {
+    "name": "CXiActor_RequestModelParts",
+    "confidence": "medium",
+    "evidence": "for the model byte at +0xEF (capped at 8, then 1) it looks up two resources through FUN_100730E0, and when each is not resident it queues a 0x14-byte request built from the actor's serial at +0x9EC with FUN_100710F0; called by sub_1008B460 and sub_100D1070",
+    "summary": "Requests an actor's model parts from the resource manager, loading any that are not resident."
+  }
+}

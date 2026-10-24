@@ -1,0 +1,182 @@
+{
+  "0x100529A0": {
+    "name": "Unit10048000_GetPtr188",
+    "confidence": "low",
+    "evidence": "returns this+0x188",
+    "summary": "Returns the address of the +0x188 sub-object."
+  },
+  "0x100529B0": {
+    "name": "Unit10048000_SetBits17B",
+    "confidence": "low",
+    "evidence": "replaces the low two bits of the dword at this+0x17B with the low two bits of the argument",
+    "summary": "Sets the two low flag bits at +0x17B."
+  },
+  "0x100529D0": {
+    "name": "Unit10048000_Set179Byte",
+    "confidence": "low",
+    "evidence": "stores the low byte of its argument at this+0x179",
+    "summary": "Stores a byte at +0x179."
+  },
+  "0x100529E0": {
+    "name": "Unit10048000_SetFields300And130",
+    "confidence": "low",
+    "evidence": "stores its two arguments at this+0x12C (300) and this+0x130",
+    "summary": "Stores two dwords at +0x12C and +0x130."
+  },
+  "0x10052A00": {
+    "name": "Unit10048000_GetFloat300",
+    "confidence": "low",
+    "evidence": "returns the float at this+0x12C",
+    "summary": "Returns the float at +0x12C."
+  },
+  "0x10052A10": {
+    "name": "Unit10048000_Set172Short",
+    "confidence": "low",
+    "evidence": "stores the low short of its argument at this+0x172",
+    "summary": "Stores a short at +0x172."
+  },
+  "0x10052A20": {
+    "name": "Unit10048000_Set120",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0x120",
+    "summary": "Stores a dword at +0x120."
+  },
+  "0x10052A30": {
+    "name": "Unit10048000_Set124",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0x124",
+    "summary": "Stores a dword at +0x124."
+  },
+  "0x10052A40": {
+    "name": "Unit10048000_GetFloat120",
+    "confidence": "low",
+    "evidence": "returns the float at this+0x120",
+    "summary": "Returns the float at +0x120."
+  },
+  "0x10052A50": {
+    "name": "Unit10048000_GetFloat124",
+    "confidence": "low",
+    "evidence": "returns the float at this+0x124",
+    "summary": "Returns the float at +0x124."
+  },
+  "0x10052A60": {
+    "name": "Unit10048000_AllocWithFallback",
+    "confidence": "low",
+    "evidence": "calls Mem_AllocWithFallback with param_1 + param_2*4 and the constant 3",
+    "summary": "Allocates a block at an offset computed from its arguments."
+  },
+  "0x10052A80": {
+    "name": "Unit10048000_TestFn473F0",
+    "confidence": "low",
+    "evidence": "returns 1 iff FUN_100473f0(this) is non-zero",
+    "summary": "Returns whether FUN_100473f0 reports non-zero for this object."
+  },
+  "0x10052A90": {
+    "name": "Unit10048000_HasFlags4And8",
+    "confidence": "low",
+    "evidence": "returns 1 iff both bits 0x4 and 0x8 are set in the dword at this+0x10C",
+    "summary": "Tests bits 0x4 and 0x8 of the flags at +0x10C."
+  },
+  "0x10052AB0": {
+    "name": "Unit10048000_Get9C",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0x9C",
+    "summary": "Returns the dword at +0x9C."
+  },
+  "0x10052AC0": {
+    "name": "Unit10048000_Set9C",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0x9C",
+    "summary": "Stores a dword at +0x9C."
+  },
+  "0x10052AD0": {
+    "name": "Unit10048000_GetC4",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0xC4",
+    "summary": "Returns the dword at +0xC4."
+  },
+  "0x10052AE0": {
+    "name": "Unit10048000_GetPtrDE",
+    "confidence": "low",
+    "evidence": "returns this+0xDE",
+    "summary": "Returns the address of the +0xDE sub-object."
+  },
+  "0x10052AF0": {
+    "name": "Unit10048000_IsA4NonZero",
+    "confidence": "low",
+    "evidence": "returns 1 iff the dword at this+0xA4 is non-zero",
+    "summary": "Tests whether the +0xA4 field is non-zero."
+  },
+  "0x10052B00": {
+    "name": "Unit10048000_GetA4",
+    "confidence": "low",
+    "evidence": "returns the dword at this+0xA4",
+    "summary": "Returns the dword at +0xA4."
+  },
+  "0x10052B10": {
+    "name": "Unit10048000_GetPtr78",
+    "confidence": "low",
+    "evidence": "returns this+0x78",
+    "summary": "Returns the address of the +0x78 sub-object."
+  },
+  "0x10052B20": {
+    "name": "Unit10048000_GetPtr84",
+    "confidence": "low",
+    "evidence": "returns this+0x84",
+    "summary": "Returns the address of the +0x84 sub-object."
+  },
+  "0x10052B30": {
+    "name": "Unit10048000_CopyF4Out",
+    "confidence": "low",
+    "evidence": "stores the dword at this+0xF4 into the output pointer and returns it",
+    "summary": "Copies the +0xF4 dword to the output."
+  },
+  "0x10052B40": {
+    "name": "Unit10048000_Set0",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0",
+    "summary": "Stores a dword at +0."
+  },
+  "0x10052B50": {
+    "name": "Unit10048000_Set4",
+    "confidence": "low",
+    "evidence": "stores its argument at this+4",
+    "summary": "Stores a dword at +4."
+  },
+  "0x10052B60": {
+    "name": "Unit10048000_Set8",
+    "confidence": "low",
+    "evidence": "stores its argument at this+8",
+    "summary": "Stores a dword at +8."
+  },
+  "0x10052B70": {
+    "name": "Unit10048000_SetFloat8FromRadians",
+    "confidence": "medium",
+    "evidence": "stores the argument times 0.31831926 (1/pi) at this+8",
+    "summary": "Stores a radian value at +8 as a fraction of a turn (divided by pi)."
+  },
+  "0x10052B80": {
+    "name": "Unit10048000_SetFloat8FromByte",
+    "confidence": "medium",
+    "evidence": "stores the integer argument times 0.0039215689 (1/255) at this+8",
+    "summary": "Stores a byte-range integer at +8 as a float in 0..1."
+  },
+  "0x10052B90": {
+    "name": "Unit10048000_SetFloat8Scaled120",
+    "confidence": "low",
+    "evidence": "stores the argument times 0.0083333338 (1/120) at this+8",
+    "summary": "Stores its argument divided by 120 at +8."
+  },
+  "0x10052BA0": {
+    "name": "Unit10048000_SetField8Dword",
+    "confidence": "low",
+    "evidence": "stores its argument at this+8 as a dword",
+    "summary": "Stores a dword at +8."
+  },
+  "0x10052BB0": {
+    "name": "Unit10048000_Set46Short",
+    "confidence": "low",
+    "evidence": "stores the low short of its argument at this+0x46",
+    "summary": "Stores a short at +0x46."
+  }
+}

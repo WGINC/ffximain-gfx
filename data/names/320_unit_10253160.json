@@ -1,0 +1,8 @@
+{
+  "0x10253160": {
+    "name": "StAvatar_CheckBuffersReady",
+    "confidence": "low",
+    "evidence": "when bit 0 of the flags word is set and the index at +0x10 is nonnegative, clears the words at +4 and +8, asks the file manager (FUN_101C4A30) about the indices at +0xC and +0x10, and sets bit 0x10 on each positive answer",
+    "summary": "Checks the two buffer indices against the file manager and marks the buffers ready."
+  }
+}

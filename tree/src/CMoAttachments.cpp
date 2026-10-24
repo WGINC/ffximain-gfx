@@ -10,15 +10,15 @@ char ** __cdecl CMoAttachments::GetRuntimeClass()
   return &CMoAttachments_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x1003B540  (unit CMoAttachments: between 0x1003B530 (class model places it in CMoAttachments) and 0x1003B570 (class model places it in CMoAttachments), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1003B540  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1003B540(void * self_)
+void * __thiscall CMoAttachments::Construct(void * self)
 {
-  orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x14));
-  orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x20));
-  *(uint8_t ***)self_ = &PTR_CMoAttachments_GetRuntimeClass_1032ab08;
-  orig::CMoAttachments_Reset_v1(self_);
-  return self_;
+  orig::ActorHandle_Constructor_v1((void *)((int)self + 0x14));
+  orig::ActorHandle_Constructor_v1((void *)((int)self + 0x20));
+  *(uint8_t ***)self = &PTR_CMoAttachments_GetRuntimeClass_1032ab08;
+  orig::CMoAttachments_Reset_v1(self);
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B570  (placed by tree manifest; does not use this)
@@ -48,7 +48,7 @@ _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 {
   orig::ReleaseSubObjectIfPresent(this);
   if ( (a2 & 1) != 0 )
-    orig::operator_delete_10311BB0(this);
+    orig::operator_delete(this);
   return(_DWORD*)(&(*(CMoAttachments_vtbl * *)((char *)this + 0x0)));
 }
 
@@ -62,9 +62,28 @@ undefined4 __thiscall CMoAttachments::Reset(void * self)
   *(uint32_t *)((int)self + 0x10) = 0;
   *(uint32_t *)((int)self + 0x2c) = 0;
   *(uint32_t *)((int)self + 0x30) = 0;
-  orig::FUN_10081530((void *)((int)self + 0x14),DAT_10351d00,DAT_10351d04);
-  uVar1 = orig::FUN_10081530((void *)((int)self + 0x20),DAT_10351d00,DAT_10351d04);
+  orig::ActorHandle_SetFields((void *)((int)self + 0x14),DAT_10351d00,DAT_10351d04);
+  uVar1 = orig::ActorHandle_SetFields((void *)((int)self + 0x20),DAT_10351d00,DAT_10351d04);
   *(uint32_t *)((int)self + 0x34) = 0;
+  return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B690  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoAttachments::ResetAll(void * self)
+{
+  uint32_t uVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::FUN_1003b6d0(self);
+  if ((int)uVar2 != 0) {
+    orig::CMoAttachments_ClearCaster_v1(self,1);
+  }
+  uVar2 = orig::FUN_1003b700(self);
+  if ((int)uVar2 != 0) {
+    orig::CMoAttachments_ClearTarget_v1(self,1);
+  }
+  uVar1 = orig::CMoAttachments_Reset_v1(self);
   return uVar1;
 }
 
@@ -73,10 +92,10 @@ undefined4 __thiscall CMoAttachments::Reset(void * self)
 void __thiscall CMoAttachments::ClearCaster(void * self, undefined4 param_1)
 {
   if ((char)param_1 != '\0') {
-    orig::FUN_1003c6e0(self);
+    orig::CMoAttachments_NotifyCaster(self);
   }
   *(uint32_t *)((int)self + 0xc) = 0;
-  orig::FUN_10081530((void *)((int)self + 0x14),DAT_10351d08,DAT_10351d0c);
+  orig::ActorHandle_SetFields((void *)((int)self + 0x14),DAT_10351d08,DAT_10351d0c);
   return;
 }
 
@@ -85,10 +104,10 @@ void __thiscall CMoAttachments::ClearCaster(void * self, undefined4 param_1)
 void __thiscall CMoAttachments::ClearTarget(void * self, undefined4 param_1)
 {
   if ((char)param_1 != '\0') {
-    orig::FUN_1003c700(self);
+    orig::CMoAttachments_NotifyTarget(self);
   }
   *(uint32_t *)((int)self + 0x10) = 0;
-  orig::FUN_10081530((void *)((int)self + 0x20),DAT_10351d10,DAT_10351d14);
+  orig::ActorHandle_SetFields((void *)((int)self + 0x20),DAT_10351d10,DAT_10351d14);
   return;
 }
 
@@ -106,16 +125,16 @@ void __thiscall CMoAttachments::SetCaster(void * self, int param_1)
       uVar2 = orig::FUN_1003b6d0(self);
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar2 + 1000))))((void *)((int *)uVar2),self);
     }
-    orig::FUN_10081530((void *)((int)self + 0x14),DAT_10351d18,DAT_10351d1c);
+    orig::ActorHandle_SetFields((void *)((int)self + 0x14),DAT_10351d18,DAT_10351d1c);
     *(int *)((int)self + 0xc) = param_1;
     if (param_1 != 0) {
       if (*(int *)(param_1 + 0x70) != 0) {
-        uVar1 = orig::FUN_10085500((void *)param_1);
+        uVar1 = orig::CXiActor_GetField88Bit3((void *)param_1);
         if ((char)uVar1 == '\0') {
           orig::FUN_100814f0((void *)((int)self + 0x14),*(int *)((int)self + 0xc));
         }
       }
-      orig::FUN_10085d50((void *)param_1,(int)self);
+      orig::CMoAttachments_PushCasterLink((void *)param_1,(int)self);
     }
   }
   return;
@@ -137,36 +156,36 @@ undefined4 __thiscall CMoAttachments::SetTarget(void * self, int param_1)
       uVar3 = orig::FUN_1003b700(self);
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar3 + 0x3ec))))((void *)((int *)uVar3),self);
     }
-    iVar1 = orig::FUN_10081530((void *)((int)self + 0x20),DAT_10351d20,DAT_10351d24);
+    iVar1 = orig::ActorHandle_SetFields((void *)((int)self + 0x20),DAT_10351d20,DAT_10351d24);
     *(int *)((int)self + 0x10) = param_1;
     if (param_1 != 0) {
       if (*(int *)(param_1 + 0x70) != 0) {
-        uVar2 = orig::FUN_10085500((void *)param_1);
+        uVar2 = orig::CXiActor_GetField88Bit3((void *)param_1);
         if ((char)uVar2 == '\0') {
           orig::FUN_100814f0((void *)((int)self + 0x20),*(int *)((int)self + 0x10));
         }
       }
-      iVar1 = orig::FUN_10085d60((void *)param_1,(int)self);
+      iVar1 = orig::CMoAttachments_PushTargetLink((void *)param_1,(int)self);
     }
   }
   return iVar1;
 }
 
-// FUNCTION: FFXIMAIN 0x1003B8B0  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1003B8B0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003B8B0(void * self_)
+int __thiscall CMoAttachments::FindKindInChain(void * self)
 {
   char cVar1;
   void *this_00;
   void *this_01;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b6d0(self_);
+  uVar2 = orig::FUN_1003b6d0(self);
   this_00 = (void *)uVar2;
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -175,28 +194,28 @@ XI_API int __thiscall fn_1003B8B0(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
   return (int)this_00;
 }
 
-// FUNCTION: FFXIMAIN 0x1003B900  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1003B900  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003B900(void * self_)
+int __thiscall CMoAttachments::FindKindFromRoot(void * self)
 {
   char cVar1;
   void *this_00;
   void *this_01;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b700(self_);
+  uVar2 = orig::FUN_1003b700(self);
   this_00 = (void *)uVar2;
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf_v1(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -205,16 +224,16 @@ XI_API int __thiscall fn_1003B900(void * self_)
     uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf_v1(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
   return (int)this_00;
 }
 
-// FUNCTION: FFXIMAIN 0x1003BD90  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1003BD90  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1003BD90(undefined4 param_1, undefined4 param_2, int * param_3)
+void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_2, int * param_3)
 {
   switch(param_2) {
   case 0x36:
@@ -243,8 +262,8 @@ XI_API void __cdecl fn_1003BD90(undefined4 param_1, undefined4 param_2, int * pa
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
-XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
+// GATE: PASS -- 100 trials, 90 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
+XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;
   float *v6;
@@ -314,7 +333,7 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
   v55 = v8;
   v9 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
   v10 = (int *)orig::sub_1003B700((_DWORD *)self_);
-  if ( v9 == nullptr || (v11 = orig::sub_100845E0(v9)) == 0 )
+  if ( v9 == nullptr || (v11 = orig::CXiActor_GetSubModelResult(v9)) == 0 )
     v11 = (int)v10;
   v12 = *(_DWORD *)(self_ + 4);
   switch ( (v12 & 0xF) + 16 * (*(_BYTE *)(self_ + 6) & 1) )
@@ -374,20 +393,20 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
         goto LABEL_63;
       v30 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
       v31 = orig::sub_1003B6D0((_DWORD *)self_);
-      orig::sub_1003BD90((int)a2, v30, v31);
+      orig::CMoAttachments_SetMappedSlot((int)a2, v30, v31);
       break;
     case 0xAu:
       if ( v10 == nullptr )
         goto LABEL_63;
       v32 = orig::sub_1003B700((_DWORD *)self_);
-      orig::sub_1003BD90((int)a2, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v32);
+      orig::CMoAttachments_SetMappedSlot((int)a2, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v32);
       break;
     case 0xBu:
       if ( v9 == nullptr )
         goto LABEL_56;
       v33 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
       v34 = orig::sub_1003B6D0((_DWORD *)self_);
-      orig::sub_1003BD90(v54, v33, v34);
+      orig::CMoAttachments_SetMappedSlot(v54, v33, v34);
       v35 = ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6);
       v49 = (int *)orig::sub_1003B700((_DWORD *)self_);
       v36 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
@@ -407,7 +426,7 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
       if ( v10 == nullptr )
         goto LABEL_56;
       v39 = orig::sub_1003B700((_DWORD *)self_);
-      orig::sub_1003BD90(v54, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v39);
+      orig::CMoAttachments_SetMappedSlot(v54, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v39);
       v50 = (int *)orig::sub_1003B6D0((_DWORD *)self_);
       v40 = (float *)orig::sub_1003B700((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, v40, v50, 0);
@@ -422,27 +441,27 @@ XI_API double __thiscall fn_1003BE10(int self_, _DWORD *a2, int a3, int a4)
       goto LABEL_6;
     case 0xEu:
       v41 = a2;
-      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      qmemcpy(a2, orig::ZoneMap_GetMatrixGlobal(), 0x40u);
       a2[12] = 0;
       a2[13] = 0;
       a2[14] = 0;
       a2[15] = 1065353216;
       v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
-      v43 = orig::sub_10186E90((char *)g_pXiZone);
+      v43 = orig::ZoneMap_GetAddr0B4((char *)g_pXiZone);
       goto LABEL_62;
     case 0xFu:
       v41 = a2;
-      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      qmemcpy(a2, orig::ZoneMap_GetMatrixGlobal(), 0x40u);
       a2[12] = 0;
       a2[13] = 0;
       a2[14] = 0;
       a2[15] = 1065353216;
       v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
-      v43 = orig::sub_10186EB0((char *)g_pXiZone);
+      v43 = orig::ZoneMap_GetAddr0D4((char *)g_pXiZone);
 LABEL_62:
       v42[20](g_pProcessor, &v56, v41, v43);
       orig::MoProcessor_CallVSlot49(v41);
-      orig::sub_1006AD30(v41, &v56);
+      orig::Attach_SetTranslation(v41, &v56);
       break;
     case 0x10u:
       if ( v9 == nullptr )
@@ -477,10 +496,10 @@ LABEL_56:
       }
       break;
     case 0x14u:
-      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      qmemcpy(a2, orig::ZoneMap_GetMatrixGlobal(), 0x40u);
       break;
     case 0x15u:
-      qmemcpy(a2, orig::sub_101773F0(), 0x40u);
+      qmemcpy(a2, orig::ZoneMap_GetMatrixGlobal(), 0x40u);
       a2[15] = 1065353216;
       a2[12] = 0;
       a2[13] = 0;
@@ -579,4 +598,50 @@ LABEL_63:
   (*(int *)((char *)g_pProcessor + 0xA90)) = v48;
   ((float * *)((char *)v47 + 0xA10))[v48] = (float *)v54;
   return v53;
+}
+
+// FUNCTION: FFXIMAIN 0x1003C6E0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoAttachments::NotifyCaster(void * self)
+{
+  uint64_t uVar1;
+  
+  uVar1 = orig::FUN_1003b6d0(self);
+  if ((int)uVar1 != 0) {
+    uVar1 = orig::FUN_1003b6d0(self);
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 1000))))((void *)((int *)uVar1),self);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x1003C700  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoAttachments::NotifyTarget(void * self)
+{
+  uint64_t uVar1;
+  
+  uVar1 = orig::FUN_1003b700(self);
+  if ((int)uVar1 != 0) {
+    uVar1 = orig::FUN_1003b700(self);
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 0x3ec))))((void *)((int *)uVar1),self);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10085D50  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoAttachments::PushCasterLink(void * self, int param_1)
+{
+  *(uint32_t *)(param_1 + 0x2c) = *(uint32_t *)((int)self + 0x68);
+  *(int *)((int)self + 0x68) = param_1;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10085D60  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoAttachments::PushTargetLink(void * self, int param_1)
+{
+  *(uint32_t *)(param_1 + 0x30) = *(uint32_t *)((int)self + 0x6c);
+  *(int *)((int)self + 0x6c) = param_1;
+  return param_1;
 }

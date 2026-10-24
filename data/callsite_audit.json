@@ -240,20 +240,18 @@
 }
 },
 "0x10003A50": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10003890",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x10003A6D": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10003890",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x10003AF9": {
 "func": "0x10003890",
@@ -10386,60 +10384,53 @@
 }
 },
 "0x1005AF86": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005AF92": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005AFA5": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005AFAF": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005AFB9": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005AFC5": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B036": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B52A": {
 "evidence": [
@@ -10832,52 +10823,46 @@
 }
 },
 "0x1005F564": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F587": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F59F": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F5C6": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F5EA": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F603": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x1005F540",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005F64F": {
 "func": "0x1005F540",
@@ -13021,12 +13006,11 @@
 }
 },
 "0x100CBF6F": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CBF8D": {
 "func": "0x100CBDE0",
@@ -13154,12 +13138,11 @@
 }
 },
 "0x100CC28D": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC2C0": {
 "func": "0x100CBDE0",
@@ -13183,20 +13166,18 @@
 }
 },
 "0x100CC34D": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC54B": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC5D0": {
 "func": "0x100CBDE0",
@@ -13206,12 +13187,11 @@
 }
 },
 "0x100CC6B8": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC6E2": {
 "func": "0x100CBDE0",
@@ -13228,12 +13208,11 @@
 }
 },
 "0x100CC71B": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC745": {
 "func": "0x100CBDE0",
@@ -13257,12 +13236,11 @@
 }
 },
 "0x100CC78A": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC7B4": {
 "func": "0x100CBDE0",
@@ -13300,12 +13278,11 @@
 }
 },
 "0x100CC96D": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CC983": {
 "func": "0x100CBDE0",
@@ -13315,20 +13292,18 @@
 }
 },
 "0x100CC993": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCA13": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCA45": {
 "func": "0x100CBDE0",
@@ -13352,12 +13327,11 @@
 }
 },
 "0x100CCAED": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCB17": {
 "func": "0x100CBDE0",
@@ -13381,12 +13355,11 @@
 }
 },
 "0x100CCB5C": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCB86": {
 "func": "0x100CBDE0",
@@ -13424,44 +13397,39 @@
 }
 },
 "0x100CCD23": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCDA2": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCDAD": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCDD6": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCDE1": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x100CBDE0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100CCF71": {
 "func": "0x100CCF50",
@@ -13689,14 +13657,16 @@
 "func": "0x100D0510",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D0695": {
 "func": "0x100D0510",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D06FC": {
@@ -13886,14 +13856,16 @@
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D3484": {
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D3548": {
@@ -13908,16 +13880,16 @@
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D357D": {
-"evidence": [
-"none"
-],
 "func": "0x100D2F60",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100D361E": {
 "func": "0x100D2F60",
@@ -13929,50 +13901,53 @@
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D3649": {
-"evidence": [
-"none"
-],
 "func": "0x100D2F60",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100D3662": {
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D3670": {
-"evidence": [
-"none"
-],
 "func": "0x100D2F60",
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x100D3689": {
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D3697": {
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D36B2": {
 "func": "0x100D2F60",
 "hexrays_cast": 0,
 "sources": {
-"measured": 0
+"measured": 0,
+"solved": 0
 }
 },
 "0x100D36CA": {
@@ -22123,8 +22098,8 @@
 "_export_has_call_sources": true,
 "_stats": {
 "conflict": 11,
-"definitive": 2786,
+"definitive": 2821,
 "hexrays cast differs": 2,
-"no source": 335
+"no source": 300
 }
 }

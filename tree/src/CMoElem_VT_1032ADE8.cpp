@@ -31,7 +31,7 @@ void CMoElem_VT_1032ADE8::vf18()
   if ( v4 != nullptr )
   {
     v7 = 1.0;
-    v5 = (int *)orig::sub_10044C40((int)self, v12);
+    v5 = (int *)orig::Unit10044C40_ComputeWorldPos((int)self, v12);
     a1[0] = *v5;
     a1[1] = v5[1];
     a1[2] = v5[2];
@@ -69,7 +69,7 @@ XI_API uint64_t __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
   *(uint16_t *)((int)self_ + 0x176) = 0x1a8;
   *puVar1 = 0;
   if ((param_1 != 0) && (*(void **)(param_1 + 100) != (void *)0x0)) {
-    uVar4 = orig::CYyObject_IsKindOf_v1(*(void **)(param_1 + 100),0x1032b7f8);
+    uVar4 = orig::CYyObject_IsKindOf(*(void **)(param_1 + 100),0x1032b7f8);
     uVar3 = (uint32_t)((uint64_t)uVar4 >> 0x20);
     if ((char)uVar4 != '\0') {
       iVar2 = *(int *)(param_1 + 100);

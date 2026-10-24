@@ -1,0 +1,15 @@
+{
+  "0x100106C0": {
+    "name": "CAtelIdleTask_UpdateFrame",
+    "confidence": "medium",
+    "evidence": "in the vtable of CAtelIdleTask at slot 8; when the byte at g_pCamera+9 is set it calls fn_10096640, then fn_101D4A20 on g_C_106631D4 or fn_101D5370 on DAT_106631D8",
+    "summary": "Runs the per-frame update for the idle task when the camera's flag is set."
+  },
+  "0x10010D10": {
+    "name": "Unit10010370_IncrementShort6",
+    "confidence": "low",
+    "evidence": "adds 1 to the short at +6 of the object",
+    "summary": "Increments the counter at +6.",
+    "invented_prefix_name": "Counter_IncrementShort6"
+  }
+}

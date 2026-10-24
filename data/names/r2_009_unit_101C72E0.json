@@ -1,0 +1,74 @@
+{
+  "0x101C7F80": {
+    "name": "Unit101C72E0_Construct",
+    "confidence": "medium",
+    "evidence": "stores the vtable PTR_LAB_10337d44 at this and zeroes the fields at +4, +8, +0xc and +0x10; called from five sites including YkWndList_Init",
+    "summary": "Sets the object's vtable pointer and zeroes its four fields."
+  },
+  "0x101C8070": {
+    "name": "Unit101C72E0_Clear",
+    "confidence": "medium",
+    "evidence": "calls Unit10253A20_Clear on this, sets +0x50 to -1, zeroes +0x54 and +0x58, and calls fn_101C5920 (Unit1018BA60_AllocEntries with 0) on +0x5c",
+    "summary": "Clears the object's source and data fields and empties its entry array."
+  },
+  "0x101C80A0": {
+    "name": "Unit101C72E0_FreeBuffer",
+    "confidence": "medium",
+    "evidence": "calls operator_delete on the pointer at +0x54, then zeroes +0x54 and +0x58 and sets +0x50 to -1",
+    "summary": "Frees the buffer at +0x54 and resets its size and status fields."
+  },
+  "0x101C8260": {
+    "name": "Unit101C72E0_Init",
+    "confidence": "medium",
+    "evidence": "allocates 0x10 entries at +0xc (fn_101C5930), clears the source at +0x58 (Unit10253A20_Clear), zeroes +4 and +8, and calls Unit101C72E0_ResizeEntries(self, 1); called from YkInit",
+    "summary": "Sets up the object's entry arrays and clears its table source."
+  },
+  "0x101C8380": {
+    "name": "Unit101C72E0_LoadTable",
+    "confidence": "medium",
+    "evidence": "reads the entry size from g_pFileMng (FileMng_ResolveOrExit), reads a 0x40-byte header into +0x18 and binds it to the table at +0x58, returns 0 unless the size equals +0x2c, then reads the row data and binds it",
+    "summary": "Loads a table's header and row data from a file entry and binds them to the table at +0x58."
+  },
+  "0x101C8C30": {
+    "name": "Unit101C72E0_GetIndexed",
+    "confidence": "low",
+    "evidence": "returns DAT_10662e50[index] when 0 <= index < 0x12, else 0; callers dereference the result as an object with a vtable",
+    "summary": "Returns the pointer stored at the given index of the 18-entry global array at 0x10662E50, or 0 when the index is out of range."
+  },
+  "0x101C8C50": {
+    "name": "Unit101C72E0_Checksum",
+    "confidence": "medium",
+    "evidence": "loops over param_2 bytes at param_1, updating a 32-bit accumulator with a 256-entry table at 0x1037CE90 indexed by (accumulator ^ byte), and returns the inverted accumulator",
+    "summary": "Computes a table-driven 32-bit checksum over a byte range."
+  },
+  "0x101C8D70": {
+    "name": "Unit101C72E0_GetOffset",
+    "confidence": "low",
+    "evidence": "returns the constant 0x76c plus the field at +0x14 of the record fn_101C8D10 returns, or 0x76c when that record is null",
+    "summary": "Returns the offset 0x76C plus a field of a looked-up record, or 0x76C when there is no record."
+  },
+  "0x101CA180": {
+    "name": "Unit101C72E0_DrawTruncated",
+    "confidence": "medium",
+    "evidence": "when the string is longer than 8 bytes it copies the first 7 bytes into a local buffer and draws that with Unit101C72E0_DrawUnscaled, then draws the shape from table slot 0x1b0 after it",
+    "summary": "Draws a string unscaled, truncated to 7 characters with a trailing shape when it is longer than 8 bytes."
+  },
+  "0x101CAD00": {
+    "name": "Unit101C72E0_DrawFractionRange",
+    "confidence": "medium",
+    "evidence": "clamps param_5 and param_6 to 0..1, draws a fill to param_5, then a second band from param_5 to param_6 with the 0x30808080 colour, and a marker at param_4 when it is non-null",
+    "summary": "Draws a bar gauge filled to the first fraction, with a band from the first fraction to the second and an optional marker."
+  },
+  "0x101CB770": {
+    "name": "Unit101C72E0_BeginCapture",
+    "confidence": "medium",
+    "evidence": "calls Unit10017C10_Begin on g_pXiCapture with param_1 and the two shorts, then returns 1",
+    "summary": "Starts a capture on g_pXiCapture for the given rectangle and returns true."
+  },
+  "0x101CC520": {
+    "name": "Acter_GetByIndexAt1FA",
+    "confidence": "medium",
+    "evidence": "returns ActerBuffPtr[*(uint16_t *)(actor + 0x1fa)] when the actor is non-null and that index is non-zero, else 0; called from fn_101CC510 and CXiActor_FindNearestToTarget callers",
+    "summary": "Returns the actor-table entry indexed by the 16-bit field at +0x1FA of the given actor, or 0."
+  }
+}

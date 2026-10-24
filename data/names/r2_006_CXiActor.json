@@ -1,0 +1,44 @@
+{
+  "0x10083750": {
+    "name": "CXiActor_FindNearestToPoint",
+    "confidence": "medium",
+    "evidence": "scans the actor list (sub_10085240/sub_10085270), keeps the actor whose bounds (vtable +0x3D0) contain the point's x and y and that has the smallest distance from vtable +0x3D4; caller chain reaches Cursor_HasTargetHover",
+    "summary": "Returns the nearest actor whose bounds contain the given point, or null."
+  },
+  "0x10083B40": {
+    "name": "CXiActor_FindNearestLowerInView",
+    "confidence": "low",
+    "evidence": "projects each actor with the camera view matrix (Camera_GetViewMatrixPtr, Mat4_TransformPoint) and keeps the one with the smallest positive gap below this actor's view-space ratio, within 50 units (FUN_10027600)",
+    "summary": "Returns the actor nearest below this actor in the camera view, within 50 units."
+  },
+  "0x10083D00": {
+    "name": "CXiActor_FindNearestHigherInView",
+    "confidence": "low",
+    "evidence": "same structure as CXiActor_FindNearestLowerInView (view matrix, FUN_10027600 < 50) but keeps the smallest positive gap above this actor's view-space ratio",
+    "summary": "Returns the actor nearest above this actor in the camera view, within 50 units."
+  },
+  "0x10084100": {
+    "name": "CXiActor_IsWithinRadius",
+    "confidence": "medium",
+    "evidence": "called by Unit1012AC80_IsWithinRadius; compares the squared distance (FUN_100275D0 of the two +0x34 positions) with the squared radius argument; returns the result in the high byte and (+0xC0 != 2) in the low byte",
+    "summary": "Tests whether the squared distance between two actors' positions is under the given squared radius."
+  },
+  "0x100849A0": {
+    "name": "CXiActor_GetModelField204",
+    "confidence": "low",
+    "evidence": "reads the float at +0x204 of the object at +0x70; returns -1.0 when +0x70 is null; same pattern as the named callee CXiActor::GetModelField170",
+    "summary": "Returns the float at +0x204 of the actor's model, or -1 when the actor has no model."
+  },
+  "0x10084BA0": {
+    "name": "CXiActor_GetModelField12CBit17",
+    "confidence": "low",
+    "evidence": "returns bit 17 of the dword at +0x70 -> +300 (0x12C); returns the global at 0x1047D631 when +0x70 is null",
+    "summary": "Returns bit 17 of the dword at offset 0x12C of the actor's model, or the global byte when there is no model."
+  },
+  "0x10084BC0": {
+    "name": "CXiActor_IsModelField210Set",
+    "confidence": "low",
+    "evidence": "returns (short at +0x70 -> +0x210 != 0) in the low byte, with the upper bits of the +0x70 pointer kept; returns 0 when +0x70 is null",
+    "summary": "Tests whether the 16-bit field at offset 0x210 of the actor's model is nonzero; the result also carries the upper bits of the model pointer."
+  }
+}

@@ -28,7 +28,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 
 // FUNCTION: FFXIMAIN 0x100389C0  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100389C0(void)
+XI_API void __cdecl Unit10038930_ReleaseTextures(void)
 {
   if (g_sceneCaptureTex_as_v0 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*g_sceneCaptureTex_as_v0 + 8))))(g_sceneCaptureTex_as_v0);
@@ -51,7 +51,7 @@ XI_API void __cdecl fn_100389C0(void)
 
 // FUNCTION: FFXIMAIN 0x10038A20  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10038A20(void * self_)
+XI_API void __thiscall Unit10038930_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032a9ec;
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -323,22 +323,4 @@ XI_API undefined4 __thiscall Post_DrawRotatingGhostLayers(void * self_)
     }
   }
   return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x10039440  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10039440(void * self_)
-{
-  int iVar1;
-  uint32_t *puVar2;
-  
-  *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_1032a9f8;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  puVar2 = (uint32_t *)((int)self_ + 0xc);
-  for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + 1;
-  }
-  *(uint8_t *)((int)self_ + 4) = 1;
-  return self_;
 }

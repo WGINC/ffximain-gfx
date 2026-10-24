@@ -1,0 +1,16 @@
+{
+  "0x102857D0": {
+    "name": "Unit102857D0_GetFlagByte14",
+    "confidence": "low",
+    "evidence": "returns the byte at param_1+0x14",
+    "summary": "Returns the object's byte field at +0x14.",
+    "invented_prefix_name": "SqObj_GetFlagByte14"
+  },
+  "0x102857F0": {
+    "name": "Unit102857D0_InvokeCallback18",
+    "confidence": "low",
+    "evidence": "when the pointer at param_1+0x18 is non-null calls it and returns its result, else 0",
+    "summary": "Calls the object's callback at +0x18 when one is set.",
+    "invented_prefix_name": "SqObj_InvokeCallback18"
+  }
+}

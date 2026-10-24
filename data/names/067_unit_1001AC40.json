@@ -1,0 +1,20 @@
+{
+  "0x1001ACB0": {
+    "name": "CYyMotionQue_AppendSync",
+    "confidence": "low",
+    "evidence": "calls KzMotionQueList_AppendSync with its arguments, then stores param_7 at +0x24 of the element FUN_1001b1a0 returns; called by CYyMotionQue::SetSlotMotion",
+    "summary": "Appends a synchronised motion entry and sets its field at +0x24."
+  },
+  "0x1001B170": {
+    "name": "KzMotionQueList_AdvanceAll",
+    "confidence": "low",
+    "evidence": "walks the list at this+4 (link at +4 of each node) and calls FUN_1001b520 on each node with the float argument; called by fn_100CE160",
+    "summary": "Advances every node of the motion queue list by a time step."
+  },
+  "0x1001B1F0": {
+    "name": "KzMotionQueList_NotifyAll",
+    "confidence": "low",
+    "evidence": "when FUN_10084620(param_1) returns 0, walks the list at this+4 and calls vtable slot 0x34 of each node with the two arguments; called by fn_1001A3E0",
+    "summary": "Calls a notification method on every node of the motion queue list."
+  }
+}

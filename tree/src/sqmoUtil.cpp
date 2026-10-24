@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027D650  (unit sqmoUtil: asserts sqmoUtil.c)
 // GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027D650(int param_1, int param_2, int param_3, uint8_t * param_4)
+XI_API void __cdecl SqmoUtil_MarkSlot(int param_1, int param_2, int param_3, uint8_t * param_4)
 {
   int iVar1;
   

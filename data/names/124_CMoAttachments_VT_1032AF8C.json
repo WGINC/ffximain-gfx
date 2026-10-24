@@ -1,0 +1,8 @@
+{
+  "0x10043DC0": {
+    "name": "CMoAttachments_DeleteThunk_VT1032AF8C",
+    "confidence": "medium",
+    "evidence": "the body returns CMoTask_VT_1032AFA8_ScalarDeletingDtor on this minus a fixed offset, a deleting-destructor thunk in slot 1 (+0x4) of the vtable named in the batch",
+    "summary": "Deleting-destructor thunk: adjusts this and forwards to CMoTask_VT_1032AFA8_ScalarDeletingDtor."
+  }
+}

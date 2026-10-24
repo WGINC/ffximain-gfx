@@ -77,6 +77,31 @@ every 60 frames. Ctrl+Alt+F9 switches all swaps off and on. `xikit.log` says wha
 exception is put back and listed in `xikit_quarantine.txt`, and left out at the next start. `profile=1`
 runs d3dprof inside it.
 
+### Recording fields
+
+`[watch]` in `xikit.ini` records values from the game's memory to `xikit_watch.csv` (in the start's log folder),
+for lining up what a value does with what you did. `enabled=0` (default) costs the frame nothing.
+
+```
+[watch]
+enabled=1
+every=1                       ; look every N frames
+w1=NAME BASE CHAIN TYPE       ; up to w64
+```
+
+`BASE` is an analysed-build address (`0x10480AF0`, mapped to the running game like every address in the kit), or
+`BASE[i]`: slot `i` (decimal) of an array of 4-byte pointers at `BASE`, or `BASE[@ADDR]`: the slot whose index is
+the signed 16-bit word at the analysed address `ADDR`, read each time (the player's own entity: `0x10480AF0[@0x10485F7A]`,
+see docs/MEASURE.md). `CHAIN` is comma-separated offsets:
+`p = BASE` (with `[i]`: `p = *(uint32_t*)(BASE + 4*i)`); for each offset but the last, `p = *(uint32_t*)(p + off)`;
+the field is at `p` + the last offset. `-` means the field is at `BASE` itself (not defined with `[i]`, refused).
+`TYPE` is `u8 u16 u32 i32 f32 ptr`. Every read is checked with `VirtualQuery` first; an unreadable value is `?`.
+
+The file has `#watch NAME BASE CHAIN TYPE` lines and a `frame,ms,NAME,...` header (written when recording starts
+or the list changes), then `frame,ms,NAME=value,...` lines, one every `every` frames and only when a value
+changed (the first look always). `ms` is `GetTickCount64`. Ctrl+Alt+F7 writes `frame,ms,#MARK n` (n counts up)
+and logs it, to mark when an action begins.
+
 Each build writes `dist/VERSION.txt`: the source commit, the date, the tree's gate result and every file's
 SHA-256. `xikit.log` repeats its first line, so a log says which kit wrote it.
 

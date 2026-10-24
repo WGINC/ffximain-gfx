@@ -1,0 +1,8 @@
+{
+  "0x10082BF0": {
+    "name": "Actor_CountAll",
+    "confidence": "low",
+    "evidence": "walks the list from FUN_10085240 through FUN_10085270 and returns how many entries it visits; called by sub_10081AE0 and CXiActor::Init",
+    "summary": "Returns the number of entries in the actor list."
+  }
+}

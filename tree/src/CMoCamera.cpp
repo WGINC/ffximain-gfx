@@ -53,17 +53,3 @@ void CMoCamera::vf009()
 {
   ;
 }
-
-// FUNCTION: FFXIMAIN 0x10071E30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-__int16 CMoCamera::GetLinkedObject(_DWORD *a2)
-{
-  __int16 result;
-  result = (__int16)a2;
-  if ( *a2 == 6 )
-  {
-    a2 = (_DWORD *)this->field_14;
-    return orig::ResHandle_FreeIfUnreferenced(&a2);
-  }
-  return result;
-}

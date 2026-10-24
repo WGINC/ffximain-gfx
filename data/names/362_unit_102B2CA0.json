@@ -1,0 +1,8 @@
+{
+  "0x102B2CA0": {
+    "name": "Drawable_DrawTwoPass",
+    "confidence": "low",
+    "evidence": "returns early when the flag at +0x4C is set and FUN_102A1FA0 on the drawable returns 2; otherwise sets a white colour, the context's field at 0xA48 from the object's fields at +0x54, +0x3C and +0x40, applies ambient and the values at +0x34 and +0x38, binds the texture at +0x50 through FUN_10298C50 when set, draws the drawable with sqDrawableDraw_v1 in a blended pass at pass 2000 and again at pass 0, then turns blending off",
+    "summary": "Draws a drawable in two passes with its colour, ambient and optional texture."
+  }
+}

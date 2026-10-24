@@ -8,37 +8,3 @@ XI_API void __cdecl fn_100AC380(void)
 {
   return;
 }
-
-// FUNCTION: FFXIMAIN 0x100AC4E0  (unit XiDoorActor: between 0x100AC380 (class model places it in XiDoorActor) and 0x100AC8E0 (stores XiDoorActor vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char __thiscall fn_100AC4E0(void * self_)
-{
-  uint32_t uVar1;
-  int iVar2;
-  long double st0;
-  int64_t lVar3;
-  
-  uVar1 = orig::FUN_100a57f0(self_);
-  *(uint32_t *)((int)self_ + 0x5c4) = *(uint32_t *)((int)self_ + 0xd4);
-  *(uint32_t *)((int)self_ + 0x5c8) = *(uint32_t *)((int)self_ + 0xd8);
-  *(uint32_t *)((int)self_ + 0x5cc) = *(uint32_t *)((int)self_ + 0xdc);
-  *(uint32_t *)((int)self_ + 0x5d0) = 0x3f800000;
-  *(uint32_t *)((int)self_ + 0x5d4) = *(uint32_t *)((int)self_ + 0xe4);
-  *(uint32_t *)((int)self_ + 0x5d8) = *(uint32_t *)((int)self_ + 0xe8);
-  *(uint32_t *)((int)self_ + 0x5dc) = *(uint32_t *)((int)self_ + 0xec);
-  *(uint32_t *)((int)self_ + 0x5e0) = 0x3f800000;
-  *(uint8_t *)((int)self_ + 0xb2) = *(uint8_t *)((int)self_ + 0xb2) & 0xfe;
-  if (0 < *(int *)((int)self_ + 0x87c)) {
-    st0 = orig::Camera_GetFrameScale_v1(*(int *)((int)self_ + 0x87c));
-    lVar3 = XI_CALL_ST0(0x10311C2Cu)(st0);
-    iVar2 = *(int *)((int)self_ + 0x87c) - (int)lVar3;
-    *(int *)((int)self_ + 0x87c) = iVar2;
-    if (iVar2 < 1) {
-      if (*(code **)((int)self_ + 0x880) != (code *)0x0) {
-        (**(code **)((int)self_ + 0x880))();
-      }
-      *(uint32_t *)((int)self_ + 0x880) = 0;
-    }
-  }
-  return (char)uVar1;
-}

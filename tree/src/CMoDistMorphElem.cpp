@@ -346,142 +346,6 @@ LABEL_13:
   return v30;
 }
 
-// FUNCTION: FFXIMAIN 0x10042D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 39 returned normally, 156 D3D calls compared (diffemu_gfx, clean build)
-char __stdcall CMoDistMorphElem::ValidateMorphData(int a1, int a2, int a3, int a4)
-{
-  int v4;
-  double v5;
-  int v6;
-  double v7;
-  int v8;
-  float *v9;
-  unsigned __int8 *RenderTargetTop;
-  unsigned __int8 *v11;
-  unsigned __int8 *v12;
-  unsigned __int8 *v13;
-  unsigned __int8 *v14;
-  unsigned __int8 *v15;
-  unsigned __int8 *v16;
-  double v17;
-  alignas(16) unsigned char xi_frame[0x438];  // address-taken locals at their original offsets
-  float &v19 = *reinterpret_cast<float *>(xi_frame + 0x28);
-  float &v20 = *reinterpret_cast<float *>(xi_frame + 0x2C);
-  float &v21 = *reinterpret_cast<float *>(xi_frame + 0x30);
-  float &v22 = *reinterpret_cast<float *>(xi_frame + 0x34);
-  float v23;
-  float v24;
-  float v25;
-  float v26;
-  int v27;
-  v4 = a2;
-  (*((void (__thiscall **)(void *, float *, int, int, int, int, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 33))(g_pProcessor, 
-    &v19,
-    a1,
-    a2,
-    a3,
-    g_pResourceMng + 2832,
-    *(float *)(g_pResourceMng + 3520),
-    *(float *)(g_pResourceMng + 3524));
-  v19 = -0.5;
-  v5 = (double)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
-  v22 = -0.5;
-  v21 = v5 - 0.5;
-  v20 = (double)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 3) - 0.5;
-  v25 = v21 - v19;
-  v23 = v22 - v20;
-  if ( v25 == 0.0 || v23 == 0.0 )
-    return 0;
-  v26 = 1.0 / v25;
-  v24 = 1.0 / v23;
-  if ( v4 > 0 )
-  {
-    v6 = a1 + 32;
-    do
-    {
-      v7 = *(float *)(v6 - 4) - v19;
-      v6 += 36;
-      --v4;
-      *(float *)(v6 - 40) = v7 * v26;
-      *(float *)(v6 - 36) = (*(float *)(v6 - 36) - v20) * v24;
-    }
-    while ( v4 != 0 );
-  }
-  v8 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
-  if ( v8 == 0 )
-    return 0;
-  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
-  v9 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
-  RenderTargetTop = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[5] = v19 / (double)*((int *)RenderTargetTop + 2);
-  v11 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[6] = v20 / (double)*((int *)v11 + 3);
-  v12 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[12] = v21 / (double)*((int *)v12 + 2);
-  v13 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[13] = v20 / (double)*((int *)v13 + 3);
-  v14 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[19] = v19 / (double)*((int *)v14 + 2);
-  v15 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[20] = v22 / (double)*((int *)v15 + 3);
-  v16 = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  v9[26] = v21 / (double)*((int *)v16 + 2);
-  v27 = *((_DWORD *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 3);
-  v17 = v22 / (double)v27;
-  *v9 = 0.0;
-  v9[1] = 0.0;
-  v9[2] = 0.0;
-  v9[3] = 1.0;
-  v9[7] = 256.0;
-  v9[8] = 0.0;
-  v9[9] = 0.0;
-  v9[10] = 1.0;
-  v9[14] = 0.0;
-  v9[27] = v17;
-  v9[15] = 256.0;
-  v9[16] = 0.0;
-  v9[17] = 1.0;
-  v9[21] = 256.0;
-  v9[22] = 256.0;
-  v9[23] = 0.0;
-  v9[24] = 1.0;
-  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
-  orig::sub_1006A060(
-    (void **)g_pResourceMng,
-    *(_DWORD *)(g_pMoAccumTarget + 4),
-    *(_DWORD *)(g_pMoAccumTarget + 8),
-    *(_DWORD *)(g_pMoAccumTarget + 12));
-  (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    v8);
-  if ( (CMoDistMorphElem_ValidateMorphData_staticGuards & 1) == 0 )
-  {
-    CMoDistMorphElem_ValidateMorphData_staticGuards |= 1u;
-    orig::fn_1006AD90((exception *)CMoDistMorphElem_ValidateMorphData_stateBlock);
-    orig::_atexit(XI_CODE(unknown_libname_48));
-  }
-  orig::StateBlock_ApplyRSTSS(
-    CMoDistMorphElem_ValidateMorphData_stateBlock,
-    (int)CMoDistMorphElem_ValidateMorphData_renderStates,
-    (int)CMoDistMorphElem_ValidateMorphData_textureStageStates);
-  orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
-  orig::sub_1006A0E0(g_pResourceMng, 0, 0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    27,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    a4,
-    *(_DWORD *)(g_pMoAccumTarget + 4));
-  return 1;
-}
-
 // FUNCTION: FFXIMAIN 0x10043580  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
@@ -489,89 +353,16 @@ char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
   return &CMoDistMorphElem_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10043590  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 53 D3D calls compared (diffemu_gfx, clean build)
-char CMoDistMorphElem::UpdateMorphBlend()
-{
-  CMoProcessor *v2;
-  int vftable;
-  int v4;
-  unsigned int *v5;
-  int ScratchMatrixStackTop;
-  float *v7;
-  double v8;
-  int v9;
-  float *v10;
-  CMoProcessor *v11;
-  int v12;
-  int v13;
-  int v15;
-  v2 = *(CMoProcessor **)((unsigned __int8 *)((char *)this + 0x104));
-  if ( v2 != nullptr )
-  {
-    vftable = (int)(*(void * *)((char *)v2 + 0x0));
-    v15 = (int)(*(void * *)((char *)v2 + 0x0));
-    if ( this->morphHandle == 0 )
-      this->morphHandle = (unsigned int)orig::CMoDistMorphElem_ComputeMorphHandle(
-                                        vftable,
-                                        (int)((unsigned __int8 *)((char *)this + 0x194)),
-                                        (int)&this->field_1A8);
-    orig::RegisterWithProcessor((int)this);
-    v4 = *(__int16 *)(vftable + 52);
-    v5 = &this->field_1C0;
-    LOBYTE(v2) = orig::CMoDistMorphElem_ValidateMorphData(this->morphHandle, v4, (int)&this->field_A0, 0);
-    if ( (_BYTE)v2 != 0 )
-    {
-      ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
-      v7 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-      (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
-      orig::MoProcessor_CallVSlot49(v7);
-      v8 = *(float *)v5;
-      v7[13] = *(float *)v5;
-      v7[12] = v8;
-      v9 = (*(int *)((char *)g_pProcessor + 0xA90));
-      v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
-      (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
-      orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v10);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
-        g_pProcessor,
-        v7,
-        v7,
-        v10);
-      orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v7);
-      orig::CMoDistMorphElem_ApplyMorph(
-        v15,
-        (int)this,
-        &g_scratchValue,
-        (int)((unsigned __int8 *)((char *)this + 0x194)),
-        (int)&this->field_1A8,
-        (_DWORD *)this->morphHandle,
-        1);
-      this->morphHandle = 0;
-      qmemcpy(&this->field_1A8, ((unsigned __int8 *)((char *)this + 0x194)), 0x14u);
-      v11 = g_pProcessor;
-      v12 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-      (*(int *)((char *)g_pProcessor + 0xA90)) = v12;
-      ((float * *)((char *)v11 + 0xA10))[v12] = v10;
-      v2 = g_pProcessor;
-      v13 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-      (*(int *)((char *)g_pProcessor + 0xA90)) = v13;
-      ((float * *)((char *)v2 + 0xA10))[v13] = v7;
-    }
-  }
-  return (char)v2;
-}
-
-// FUNCTION: FFXIMAIN 0x10052E20  (unit CMoDistMorphElem: stores CMoDistMorphElem vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10052E20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10052E20(void * self_)
+uint64_t __thiscall CMoDistMorphElem::Construct(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::CXi471011C8_VT_1032AC90_Ctor(self_);
-  *(uint8_t ***)self_ = &PTR_CMoDistMorphElem_GetRuntimeClass_1032b358;
-  *(uint16_t *)((int)self_ + 0x176) = 0x1c4;
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self_)));
+  uVar1 = orig::CXi471011C8_VT_1032AC90_Ctor(self);
+  *(uint8_t ***)self = &PTR_CMoDistMorphElem_GetRuntimeClass_1032b358;
+  *(uint16_t *)((int)self + 0x176) = 0x1c4;
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar1 >> 0x20)) << 32) | (uint32_t)(self)));
 }
 
 // FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)

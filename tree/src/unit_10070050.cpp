@@ -2,56 +2,9 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x100700A0  (unit unit_10070050: no unit evidence of its own; in the gap between 0x10070040 (CMoProcessor_VT_1032C298) and 0x10070780 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100700A0(void * self_, undefined4 * param_1)
-{
-  uint32_t uVar1;
-  uint32_t uVar2;
-  uint32_t uVar3;
-  uint32_t uVar4;
-  uint32_t uVar5;
-  uint32_t uVar6;
-  uint32_t uVar7;
-  uint32_t uVar8;
-  
-  uVar1 = *(uint32_t *)((int)self_ + 0x814);
-  uVar2 = *(uint32_t *)((int)self_ + 0x818);
-  uVar3 = *(uint32_t *)((int)self_ + 0x81c);
-  uVar4 = *(uint32_t *)((int)self_ + 0x820);
-  uVar5 = *(uint32_t *)((int)self_ + 0x824);
-  uVar6 = *(uint32_t *)((int)self_ + 0x828);
-  uVar7 = *(uint32_t *)((int)self_ + 0x82c);
-  *param_1 = *(uint32_t *)((int)self_ + 0x810);
-  param_1[1] = uVar1;
-  param_1[2] = uVar2;
-  param_1[3] = uVar3;
-  uVar1 = *(uint32_t *)((int)self_ + 0x830);
-  uVar2 = *(uint32_t *)((int)self_ + 0x834);
-  uVar3 = *(uint32_t *)((int)self_ + 0x838);
-  uVar8 = *(uint32_t *)((int)self_ + 0x83c);
-  param_1[4] = uVar4;
-  param_1[5] = uVar5;
-  param_1[6] = uVar6;
-  param_1[7] = uVar7;
-  uVar4 = *(uint32_t *)((int)self_ + 0x840);
-  uVar5 = *(uint32_t *)((int)self_ + 0x844);
-  uVar6 = *(uint32_t *)((int)self_ + 0x848);
-  uVar7 = *(uint32_t *)((int)self_ + 0x84c);
-  param_1[8] = uVar1;
-  param_1[9] = uVar2;
-  param_1[10] = uVar3;
-  param_1[0xb] = uVar8;
-  param_1[0xc] = uVar4;
-  param_1[0xd] = uVar5;
-  param_1[0xe] = uVar6;
-  param_1[0xf] = uVar7;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100700E0  (unit unit_10070050: no unit evidence of its own; in the gap between 0x10070040 (CMoProcessor_VT_1032C298) and 0x10070780 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100700E0(void * self_)
+XI_API void __thiscall Unit10070050_InitMatrices(void * self_)
 {
   int iVar1;
   undefined4 *puVar2;

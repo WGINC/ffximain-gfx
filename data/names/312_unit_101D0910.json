@@ -1,0 +1,36 @@
+{
+  "0x101D09C0": {
+    "name": "Unit101D0910_PutByte",
+    "confidence": "medium",
+    "evidence": "when the write count at +0xC is below the capacity at +0x10, stores the low byte of the argument at the buffer at +8 plus the count and increments the count",
+    "summary": "Appends one byte to the writer's buffer when it has room.",
+    "invented_prefix_name": "ByteWriter_PutByte"
+  },
+  "0x101D0A20": {
+    "name": "Unit101D0910_PutWordBE",
+    "confidence": "medium",
+    "evidence": "calls ByteWriter_PutByte with the high byte and then the low byte of the argument",
+    "summary": "Appends a 16-bit value to the buffer, high byte first.",
+    "invented_prefix_name": "ByteWriter_PutWordBE"
+  },
+  "0x101D0A40": {
+    "name": "Unit101D0910_PutFFThenByte",
+    "confidence": "low",
+    "evidence": "calls ByteWriter_PutByte with 0xFF and then with the low byte of the argument",
+    "summary": "Appends a 0xFF byte followed by the argument's low byte.",
+    "invented_prefix_name": "ByteWriter_PutFFThenByte"
+  },
+  "0x101D0C40": {
+    "name": "CopyrightText_Format",
+    "confidence": "medium",
+    "evidence": "calls fn_101C8D70, then formats the copyright string s__c_SQUARE_ENIX into the buffer at DAT_10663078 with the value 0x83 and returns the buffer",
+    "summary": "Formats the copyright line into a shared buffer and returns it."
+  },
+  "0x101D29C0": {
+    "name": "Unit101D0910_TestMask10663188",
+    "confidence": "low",
+    "evidence": "returns 1 iff the argument pair ANDed with DAT_10663188 and DAT_1066318C is nonzero",
+    "summary": "Tests two arguments against a pair of global masks.",
+    "invented_prefix_name": "Flags_TestMask10663188"
+  }
+}

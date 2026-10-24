@@ -43,7 +43,7 @@ void __thiscall CMoDX::SetWorldMatrix(void * self, undefined4 * param_1)
 void __thiscall CMoDX::PushViewMatrix(void * self)
 {
   if (*(int *)((int)self + 0xea4) != 8) {
-    orig::FUN_1006a540(self,(uint32_t *)(*(int *)((int)self + 0xea4) * 0x40 + 0x910 + (int)self));
+    orig::Dx_GetCachedTransform2(self,(uint32_t *)(*(int *)((int)self + 0xea4) * 0x40 + 0x910 + (int)self));
     *(int *)((int)self + 0xea4) = *(int *)((int)self + 0xea4) + 1;
   }
   return;
@@ -111,7 +111,7 @@ _DWORD * CMoDX::CreateAndInitSystem()
   else
     g_pDxStatusMng = 0;
   orig::Gfx_InitCubeMapTextures();
-  orig::sub_100555D0();
+  orig::CMoOt_InitSystem();
   v6 = (CMoOcclusionMng_vtbl **)orig::Mem_AllocDefault(28);
   if ( v6 != nullptr )
   {

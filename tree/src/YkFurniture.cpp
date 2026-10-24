@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x101CCE00  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101CCE00(int param_1)
+XI_API int __cdecl Yk_MapCodeOffset(int param_1)
 {
   int iVar1;
   
@@ -25,7 +25,7 @@ XI_API int __cdecl fn_101CCE00(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CD900  (unit YkFurniture: stores YkFurniture vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 99 returned normally, 145 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 147 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CD900(void * self_)
 {
   int *piVar1;
@@ -33,21 +33,21 @@ XI_API void __thiscall fn_101CD900(void * self_)
   void *pvVar3;
   
   *(uint8_t ***)self_ = &PTR_YkFurniture_GetRuntimeClass_10337e08;
-  iVar2 = orig::FUN_101cda30(self_);
+  iVar2 = orig::Unit101CD990_GetValueAt5A(self_);
   if (iVar2 != 0) {
-    iVar2 = orig::FUN_101cda30(self_);
-    orig::FUN_100ab550(iVar2);
+    iVar2 = orig::Unit101CD990_GetValueAt5A(self_);
+    orig::Unit100AB450_ReleaseSlot(iVar2);
     *(uint16_t *)((int)self_ + 0x5a) = 0;
   }
-  iVar2 = orig::FUN_101cd9d0(self_);
+  iVar2 = orig::Unit101CD990_GetValueAt54(self_);
   if (iVar2 != 0) {
-    pvVar3 = (void *)orig::FUN_101cd9d0(self_);
-    orig::FUN_100c3e70(pvVar3);
+    pvVar3 = (void *)orig::Unit101CD990_GetValueAt54(self_);
+    orig::XiFurnitureActor_Release(pvVar3);
     *(uint16_t *)((int)self_ + 0x54) = 0;
   }
-  iVar2 = orig::FUN_101cda00(self_);
+  iVar2 = orig::Unit101CD990_GetValueAt56(self_);
   if (iVar2 != 0) {
-    iVar2 = orig::FUN_101cda00(self_);
+    iVar2 = orig::Unit101CD990_GetValueAt56(self_);
     orig::FUN_100ab320(iVar2);
     *(uint16_t *)((int)self_ + 0x56) = 0;
   }

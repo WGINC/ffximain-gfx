@@ -6,7 +6,7 @@
 class XI_API CMoNullProgElem {
 public:
     static char ** __cdecl GetRuntimeClass();  // 0x10047560
-    void SetField138();  // 0x100531A0
+    static undefined8 __thiscall Construct(void * self);  // 0x10053180
     int * Destructor(char a2);  // 0x100531B0
 
     void **vftable;  // +0x0

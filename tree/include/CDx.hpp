@@ -13,23 +13,34 @@ public:
     int SetClearColor(int a2);  // 0x10009670
     int EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7);  // 0x100096B0
     bool TestCooperativeLevel();  // 0x10009710
+    static int __cdecl Present();  // 0x10009720
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
+    static void __stdcall SetHardwareCursor(HCURSOR param_1);  // 0x10009750
     HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
+    static undefined4 __thiscall AppendStateRecord(void * self);  // 0x10009D20
     int SetViewport(const void *a2);  // 0x10009DC0
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
     int PushRenderTarget(int a2, int a3, int a4);  // 0x10009E20
+    static void __thiscall PushRenderTargetTexture_Flag1(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EA0
+    static void __thiscall PushRenderTargetTexture_Flag0(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EE0
     int PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8);  // 0x10009F20
     int SetTexture(int a2, int a3);  // 0x1000A1D0
+    static void __thiscall PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A200
+    static void __thiscall PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A230
     static void __thiscall PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A290
+    static void __thiscall EndAndClearBegin(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x1000A390
     int DrawScreenQuadAtDepth(int a1, int a2);  // 0x1000A3B0
     static void __thiscall DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3);  // 0x1000A4F0
+    static void __thiscall DrawTexturedScreenQuadUnit(void * self, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4);  // 0x1000A550
     int DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5);  // 0x1000A5A0
     _DWORD * CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6);  // 0x1000A6E0
     char PushRenderTargetRet1(int a2, int a3, int a4);  // 0x1000A800
     int DrawFadeQuad(int a1, int a2);  // 0x1000A820
     int Post_DepthBlurComposite(int a1, int a2);  // 0x1000AAB0
     static uint32_t __thiscall StepFadeCounter(void * self, float param_1, float param_2, int param_3);  // 0x1000AE40
+    static void __cdecl NopA();  // 0x1000BB10
+    static void __cdecl NopB();  // 0x1000BB20
     char DrawStereoOddFrameOverlay(int a1);  // 0x1000BB90
     int SetTransform(int a2, const void *a3);  // 0x1000BD50
     int GetTransformCached(int a2, void *a3);  // 0x1000BDB0
@@ -39,7 +50,6 @@ public:
     int ReleaseStereoResources();  // 0x1000C7C0
     int CreateRampTexture1x16(int a1);  // 0x1000C850
     char CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3);  // 0x1000C900
-    char GetStereoSecondEyeTarget(int a1, int a2);  // 0x1000CA00
     int DrawPrimitive(int a1, int a2, int a3);  // 0x1000CB20
     int DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5);  // 0x1000CC00
     int DrawPrimitiveUP(int a1, int a2, int a3, int a4);  // 0x1000CD00
@@ -63,12 +73,7 @@ public:
     uint8_t clearZ;  // +0x16C third Clear value (Z)
     uint8_t _pad_16D[0x3];
     uint8_t clearStencil;  // +0x170 fourth Clear value (Stencil)
-    uint8_t _pad_171[0x23];
-    _DWORD * sceneTargetA;  // +0x194 texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0
-    uint32_t sceneTargetB;  // +0x198 texture: the second scene target
-    uint8_t _pad_19C[0xC];
-    uint32_t sceneTargetBDepth;  // +0x1A8 depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget
-    uint8_t _pad_1AC[0x664];
+    uint8_t _pad_171[0x69F];
     uint32_t stereoEye;  // +0x810 0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting
     uint8_t field_814;  // +0x814
     uint8_t _pad_815[0x3];
@@ -79,9 +84,7 @@ public:
     uint8_t field_820;  // +0x820
     uint8_t _pad_821[0x3];
     uint8_t field_824;  // +0x824
-    uint8_t _pad_825[0x3];
-    uint8_t stereoTargetsReady;  // +0x828 CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode
-    uint8_t _pad_829[0x3];
+    uint8_t _pad_825[0x7];
     uint8_t stereoOddLineTexture;  // +0x82C the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I
     uint8_t _pad_82D[0x3];
     uint8_t field_830;  // +0x830
@@ -149,16 +152,12 @@ static_assert(XI_OFFSETOF(CDx, clearFlags) == 0x164, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearColor) == 0x168, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearZ) == 0x16C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearStencil) == 0x170, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetA) == 0x194, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetB) == 0x198, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, sceneTargetBDepth) == 0x1A8, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoEye) == 0x810, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_814) == 0x814, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_818) == 0x818, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_81C) == 0x81C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_820) == 0x820, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_824) == 0x824, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, stereoTargetsReady) == 0x828, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoOddLineTexture) == 0x82C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_830) == 0x830, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_834) == 0x834, "CDx: layout");

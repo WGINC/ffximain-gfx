@@ -1,0 +1,16 @@
+{
+  "0x1000D100": {
+    "name": "Unit1000D0F0_Swap16",
+    "confidence": "medium",
+    "evidence": "returns the low 16 bits of the argument with their two bytes exchanged",
+    "summary": "Swaps the bytes of a 16-bit value.",
+    "invented_prefix_name": "Endian_Swap16"
+  },
+  "0x1000D120": {
+    "name": "Unit1000D0F0_Swap32",
+    "confidence": "medium",
+    "evidence": "returns the argument with its four bytes reversed ((x & 0xFF00 | x << 16) << 8 | (x & 0xFF0000 | x >> 16) >> 8)",
+    "summary": "Reverses the byte order of a 32-bit value.",
+    "invented_prefix_name": "Endian_Swap32"
+  }
+}

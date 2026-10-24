@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1029A380  (unit unit_1029A380: no unit evidence of its own; in the gap between 0x1029A330 (sqinSkin) and 0x1029A420 (sqskSkeleton) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1029A380(int param_1, int param_2)
+XI_API int __cdecl Unit1029A380_Append(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;
@@ -17,7 +17,7 @@ XI_API int __cdecl fn_1029A380(int param_1, int param_2)
       if (iVar2 < iVar1) {
         iVar2 = iVar1;
       }
-      orig::FUN_1029a330(param_1,iVar2);
+      orig::SqinSkin_ResizeItemArray(param_1,iVar2);
     }
     if (*(int *)(param_1 + 0x38) != 0) {
       *(int *)(param_1 + 0x3c) = *(int *)(param_1 + 0x3c) + 1;

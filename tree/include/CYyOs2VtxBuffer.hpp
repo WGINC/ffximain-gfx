@@ -5,7 +5,6 @@
 #pragma pack(push, 1)
 class XI_API CYyOs2VtxBuffer {
 public:
-    char CreateBuffersStep(int a2);  // 0x1002CCB0
     int Constructor(_DWORD **a2);  // 0x1002D680
     char CYyOs2VtxBuffer_Destructor();  // 0x1002D700
 
@@ -13,7 +12,7 @@ public:
     uint8_t _pad_4[0x30];
     uint32_t field_34;  // +0x34
     uint32_t field_38;  // +0x38
-    uint32_t createStep;  // +0x3C state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an
+    uint8_t _pad_3C[0x4];
     uint32_t field_40;  // +0x40
     uint32_t field_44;  // +0x44
     uint32_t field_48;  // +0x48
@@ -37,7 +36,6 @@ public:
 static_assert(sizeof(CYyOs2VtxBuffer) == 0x9E, "CYyOs2VtxBuffer: sizeof");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_34) == 0x34, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_38) == 0x38, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, createStep) == 0x3C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_40) == 0x40, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_44) == 0x44, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_48) == 0x48, "CYyOs2VtxBuffer: layout");

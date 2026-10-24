@@ -1,0 +1,50 @@
+{
+  "0x1008E8D0": {
+    "name": "Acter_IsBytes1FFBothIn89NotEqual",
+    "confidence": "low",
+    "evidence": "returns 0 for a null param; otherwise 1 iff both actors' bytes at +0x1FF are 8 or 9 and differ (code); called from Target_FindCandidate and Target_CanTarget (low)",
+    "summary": "Returns 1 when the actor and the argument both have a +0x1FF byte of 8 or 9 and the two bytes differ."
+  },
+  "0x1008E9A0": {
+    "name": "Acter_UpdateOne",
+    "confidence": "low",
+    "evidence": "called once per actor slot in the loop of fn_10096640 (code); calls the actor's sub-steps (fn_1008E740, fn_1008EE30 callers' code); links the actor into the DAT_10486020 table at index from its distance (code)",
+    "summary": "Runs the per-frame step for one actor and inserts it into its distance bucket."
+  },
+  "0x1008EE30": {
+    "name": "Acter_ReleaseEventRecord",
+    "confidence": "medium",
+    "evidence": "when the sign bit of +0x120 is set: calls CXiActor_SelectMotionTags, then XiEvent_RestoreActer and operator_delete on the object at +0xD4, and clears +0xD4 (code)",
+    "summary": "Selects the actor's motion tags, then restores and frees its event record at +0xD4 and clears its state bits."
+  },
+  "0x10096640": {
+    "name": "Acter_UpdateFrame",
+    "confidence": "low",
+    "evidence": "called by CAtelIdleTask_UpdateFrame (medium); loops over the actor table calling fn_1008E9A0 and calls Acter_UpdateAllLists (code); also camera, target and network calls (code)",
+    "summary": "Runs the per-frame update of the actor table, with the camera, target and network steps around it."
+  },
+  "0x1009AAF0": {
+    "name": "Acter_IsByte123Mask7In234",
+    "confidence": "low",
+    "evidence": "returns 0 when Acter_IsState55 holds, else 1 iff the low three bits of the byte at +0x123 are 2, 3 or 4 (code); called from CXiActor_SelectMotionTags (medium) and Acter_ClearPending272 (low)",
+    "summary": "Tests whether the state is not 0x55 and the low three bits of the byte at +0x123 are 2, 3 or 4."
+  },
+  "0x1009AD20": {
+    "name": "Acter_SetFieldsAt130And134",
+    "confidence": "low",
+    "evidence": "writes bits 26-29 and 30-31 of +0x130 and bit 0 of +0x134 from the parameters; calls Acter_ReleaseSlotA8 when the bit-0 flag matches and the fields change (code)",
+    "summary": "Stores two bit fields in +0x130 and a flag bit in +0x134, releasing the A8 slot when a matching flag changes the fields."
+  },
+  "0x1009ADE0": {
+    "name": "Acter_SetFieldsAt134And138",
+    "confidence": "low",
+    "evidence": "writes bit fields of +0x134 and +0x138 and the low byte of +0x138 from the parameters; stores ActerBuff_FindByField78(param_6) at +0x2A6; calls Acter_ReleaseSlotCC on change (code)",
+    "summary": "Stores the parameters into bit fields of +0x134 and +0x138, looks up the index at +0x2A6, and releases the CC slot when the fields change."
+  },
+  "0x1009AEC0": {
+    "name": "Acter_GetField138Clamped",
+    "confidence": "low",
+    "evidence": "the signed bits 12-21 of +0x138, scaled by a table entry at DAT_10364488 indexed by bits 8-11, clamped to 0..0x28 (code); called from CXiActor::GetModelFloat9AEC0",
+    "summary": "Returns a float from 0 to 40 computed from the actor's field at +0x138."
+  }
+}

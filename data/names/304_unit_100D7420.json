@@ -1,0 +1,26 @@
+{
+  "0x1010FEB0": {
+    "name": "Unit100D7420_ForwardToGlobal1708",
+    "confidence": "low",
+    "evidence": "when DAT_104E1708 is nonnull, calls fn_1010FBD0 on it with the two arguments",
+    "summary": "Forwards its two arguments to the object at DAT_104E1708 when it exists."
+  },
+  "0x101133A0": {
+    "name": "Unit100D7420_ClearTable1710",
+    "confidence": "low",
+    "evidence": "stores 0 in the 0x10D dwords starting at DAT_104E1710",
+    "summary": "Clears the table at DAT_104E1710."
+  },
+  "0x10115870": {
+    "name": "Unit100D7420_ArmCounter10",
+    "confidence": "low",
+    "evidence": "calls fn_1026DB24 on the pointer at +0x3F12C, sets the dword at +0x4F1A8 to 10 and returns 1",
+    "summary": "Arms the counter at +0x4F1A8 to 10 and marks the object at +0x3F12C."
+  },
+  "0x101158A0": {
+    "name": "Unit100D7420_QueueState11",
+    "confidence": "low",
+    "evidence": "returns 0 when the dword at +0x4F1A8 is nonzero; otherwise stores the argument at +0x134 of the object at +0x4F1AC, sets +0x4F1A8 to 0xB and returns 1",
+    "summary": "Queues a value and sets the state to 0xB when the object is idle."
+  }
+}

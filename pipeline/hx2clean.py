@@ -350,9 +350,13 @@ def canonicalise_names(R, pending):
                     r['text'] = head + '\n{' + re.sub(r'(?<![\w:])(?:::)?\b%s\b(?!::)' % re.escape(nm), new, body)
                 o['printed'] = [new]; r['objs'][new] = r['objs'].pop(nm)
                 continue
-            new = canon.get(o['ea'])
-            if not new or new == nm or o['ea'] == r['ea']: continue
+            # a recursive call names the function itself: it takes the record's own name (DancingMad's, reviewed)
+            new = r['name'] if o['ea'] == r['ea'] else canon.get(o['ea'])
+            if not new or new == nm or not re.match(r'^[A-Za-z_]\w*$', new): continue
             if new in r['objs'] and r['objs'][new]['ea'] != o['ea']: continue   # would collide
+            # the text prints the object some other way (Hex-Rays writes `??0X@@QAE@XZ` as `X::X`): renaming it
+            # would part the reference from its record; the translation names it as before
+            if not re.search(r'\b%s\b' % re.escape(nm), r['text']): continue
             r['text'] = re.sub(r'\b%s\b' % re.escape(nm), lambda _m: new, r['text'])
             o['printed'] = [new if p == nm else p for p in o.get('printed', [])]
             r['objs'].setdefault(new, o); del r['objs'][nm]
@@ -360,16 +364,20 @@ def canonicalise_names(R, pending):
 def reviewed_names():
     """{address: entry} of this repository's reviewed names: data/names_pending_idb.json, and each batch's file under
     data/names/ (pipeline/batch.py; one file per batch, so parallel work does not collide). An address named twice
-    differently is an error to resolve, not a choice to make here."""
+    differently in one round is an error to resolve, not a choice to make here; a later round's file (rN_..., the
+    batches of batches/roundN/) took the earlier name and its dossier again, and its entry replaces the earlier one."""
     d = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
-    out, src = {}, {}
-    for p in [os.path.join(d, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(d, 'names', '*.json'))):
+    out, src, rnd = {}, {}, {}
+    rnd_of = lambda p: int(re.match(r'r(\d+)_', os.path.basename(p)).group(1)) if re.match(r'r\d+_', os.path.basename(p)) else 1
+    for p in [os.path.join(d, 'names_pending_idb.json')] + sorted(glob.glob(os.path.join(d, 'names', '*.json')), key=lambda p: (rnd_of(p), p)):
         for k, v in json.load(open(p)).items():
             if k.startswith('_'): continue
             k = '0x%08X' % int(k, 16)
+            if k in out and out[k]['name'] != v['name'] and rnd_of(p) > rnd.get(k, 1):
+                out[k] = dict(v, replaces=out[k]['name']); src[k] = os.path.basename(p); rnd[k] = rnd_of(p); continue
             if k in out and out[k]['name'] != v['name']:
                 raise SystemExit('%s named %r in %s and %r in %s' % (k, out[k]['name'], src[k], v['name'], p))
-            out[k] = v; src[k] = os.path.basename(p)
+            out[k] = v; src[k] = os.path.basename(p); rnd[k] = rnd_of(p)
     return out
 
 
@@ -414,11 +422,13 @@ def main(exp, gate, manf, incdir, outdir):
             r = hx_patches.apply(r)
         if r.get('source') == 'ghidra':
             # the same preparation as the raw translation (hx2cpp.ghidra_prepare); its names: the IDB's, else fn_
+            r = hx_patches.patch_text(r, quiet=True)          # only a patch written against this Ghidra text
             _exp = r['_exp']; r, status, why = hx2cpp.ghidra_prepare(r)
             if r is None: continue
             r = dict(r, objs=hx2cpp.ghidra_auto_objs(r, r['text'].partition('\n{')[2]),
                      name=idb_fn.get(r['ea'], 'sub_%X' % r['ea']), ghidra=True, _exp=_exp)
             r['text'] = re.sub(r'\bFUN_%08x\b' % r['ea'], r['name'], r['text'])
+        _gname0 = r['name']
         dmn = _dm.get(hex(r['ea']))
         if dmn and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', dmn[0]):
             r['name'] = dmn[0]                       # DancingMad's name (data/dm_names.json, pipeline/dm_names.py)
@@ -427,6 +437,9 @@ def main(exp, gate, manf, incdir, outdir):
             r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
+        if r.get('ghidra') and r['name'] != _gname0 and re.match(r'^[A-Za-z_]\w*$', r['name']):
+            # a Ghidra record's recursive calls were written with its first name (above): they take the new one
+            r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
     passed = set()
@@ -461,6 +474,9 @@ def main(exp, gate, manf, incdir, outdir):
     _eu, _du, _er = (json.load(open(os.path.join(_D, f))) for f in ('ecx_use.json', 'edx_use.json', 'entry_regs.json'))
     _ei = json.load(open(os.path.join(_D, 'eax_inputs.json')))
     _kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in json.load(open(os.path.join(_D, 'eax_kept_sites.json'))).values()}
+    # a kept-EAX call the gate runs as the game does (gate_sees_eax.py) is the gate's to judge, not left out
+    import gate_sees_eax
+    _cases = gate_sees_eax.load_cases(os.path.join(_D, '..', 'verification', 'cases_raw_final.json'))
     def wrapper_bad(cea, fea, ft):
         """the registers game function fea needs from caller cea that a wrapper typed ft does not pass (a list,
         empty if none). Needs: its own code reads ECX / EDX / another register at entry (ecx_use, edx_use,
@@ -480,7 +496,8 @@ def main(exp, gate, manf, incdir, outdir):
         bad += ['EDX' for _ in [0] if 'EDX' not in given and direct(_du.get(k))]
         bad += [r.upper() for r, ins in (_er.get(k) or {}).items()
                 if ' push ' not in ' ' + ins[11:] + ' ' and r.upper() not in given and r.upper() != 'EAX']
-        if 'EAX' not in given and ((_ei.get(k) or {}).get('reads') or (cea, fea) in _kept): bad.append('EAX')
+        if 'EAX' not in given and (_ei.get(k) or {}).get('reads'): bad.append('EAX')
+        elif 'EAX' not in given and (cea, fea) in _kept and not gate_sees_eax.seen(_cases, cea, fea): bad.append('EAX')
         return bad
     left_out = {}
     while True:
@@ -754,6 +771,8 @@ def main(exp, gate, manf, incdir, outdir):
     per_file = collections.defaultdict(list); decls = collections.defaultdict(list); report = {}
     for ea, (cls, meth, why) in sorted(place.items()):
         r = R[ea]; text = r['text']
+        # GfxExport `sse`: the original's float arithmetic is SSE, each operation rounded to float (as hx2cpp.py)
+        sse = '__attribute__((target("sse,fpmath=sse"))) ' if r.get('sse') else ''
         head, _, body = text.partition('\n{')
         body = hx2cpp.ctree_signs(r, '{' + body)
         # the IDB's own status lines ([gfx-recon ...]) describe a previous build; don't copy them
@@ -821,7 +840,7 @@ def main(exp, gate, manf, incdir, outdir):
             st = nothis[ea] == 'static'
             ccs = (' ' + cc) if st else ''   # a static member keeps the original convention
             decls[cls].append('    %s%s%s %s(%s);  // 0x%08X' % ('static ' if st else '', ret, ccs, meth, mp, ea))
-            code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, ccs, cls, meth, mp, body.rstrip())
+            code = '%s  (%s)\n%s%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, sse, ret, ccs, cls, meth, mp, body.rstrip())
             per_file['src/%s.cpp' % cls].append((ea, code))
         elif cls:
             pname = re.findall(r'(\w+)\s*$', ps[0])[0] if ps else 'self'
@@ -836,7 +855,7 @@ def main(exp, gate, manf, incdir, outdir):
                 body = body.replace('{', '{\n  %s self = reinterpret_cast<%s>(this);  // byte-exact view for the rest' % (self_t, self_t), 1)
             mp = ', '.join(ps[1:])
             decls[cls].append('    %s %s(%s);  // 0x%08X' % (ret, meth, mp, ea))
-            code = '%s  (%s)\n%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, ret, cls, meth, mp, body.rstrip())
+            code = '%s  (%s)\n%s%s %s::%s(%s)\n%s' % (note, 'placed by ' + why, sse, ret, cls, meth, mp, body.rstrip())
             per_file['src/%s.cpp' % cls].append((ea, code))
         else:
             fname = r['name'] if re.match(r'^[A-Za-z_]\w*$', r['name']) and not r['name'].startswith(('sub_', 'nullsub_')) else 'fn_%08X' % ea
@@ -850,7 +869,7 @@ def main(exp, gate, manf, incdir, outdir):
                 rp, _why = hx2cpp.regparm_entry(ea, cc, ', '.join(ps), r.get('storage'))
                 if rp is None: raise SystemExit('0x%08X: %s (the raw translation refused it too)' % (ea, _why))
                 cc, ps = rp[0], hx2cpp._params(rp[1])
-            code = '%s\nXI_API %s %s %s(%s)\n%s' % (note, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
+            code = '%s\nXI_API %s%s %s %s(%s)\n%s' % (note, sse, ret, cc, fname, ', '.join(ps) or 'void', body.rstrip())
             # a free function goes into the source unit the binary places it in (unit_place.py);
             # with no evidence it stays in a file named for its 64 KB slice of the image
             per_file['src/%s.cpp' % u['unit'] if u else 'src/gfx_free_%03X.cpp' % ((ea >> 16) & 0xFFF)].append((ea, code))

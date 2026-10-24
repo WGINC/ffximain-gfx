@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10018840  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10018840(void * self_)
+XI_API undefined4 __thiscall Unit10018840_IsStateFour(void * self_)
 {
   uint32_t xi_entry_eax = 0;
   
@@ -64,7 +64,7 @@ XI_API void __thiscall OpeningSubtitle_Reset(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10018B50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10018B50(void * self_)
+XI_API void __thiscall Unit10018840_UpdateRangeEntries(void * self_)
 {
   void *this_00;
   long double fVar1;

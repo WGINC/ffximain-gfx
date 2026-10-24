@@ -1,0 +1,14 @@
+{
+  "0x10273D60": {
+    "name": "Chasm_ApplyAtCurrentIndex",
+    "confidence": "low",
+    "evidence": "when the index at +0x14 is between 0 and the count at +0x18, returns the result of FUN_10274370 on it; otherwise returns -1",
+    "summary": "Applies an operation to the current chasm entry when its index is valid."
+  },
+  "0x10273E80": {
+    "name": "Chasm_ToggleLayerState",
+    "confidence": "low",
+    "evidence": "for an entry with flag 2 set, sets the current index at +4 to -1 or to the entry index depending on the argument, and toggles flag 4 with FUN_1026F900 on the two linked entries at +4 and +8; recurses on entries it was passed",
+    "summary": "Switches an entry's layer state, updating its linked entries and the current index."
+  }
+}

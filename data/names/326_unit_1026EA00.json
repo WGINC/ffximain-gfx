@@ -1,0 +1,9 @@
+{
+  "0x1026FBB0": {
+    "name": "Unit1026EA00_ComputeMinMax",
+    "confidence": "medium",
+    "evidence": "initialises the bounds at param_1 with FUN_1028D9A0, then for each of the DAT_1099AECC entries reads its bounds with FUN_1026FF80 and widens the minimum and maximum of the six floats",
+    "summary": "Computes the minimum and maximum bounds over all entries and returns 0 when any entry was found.",
+    "invented_prefix_name": "Bounds_ComputeMinMax"
+  }
+}

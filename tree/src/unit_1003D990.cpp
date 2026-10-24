@@ -203,7 +203,7 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
 
 // FUNCTION: FFXIMAIN 0x1003E0D0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1003E0D0(void * self_, undefined4 * param_1, float * param_2)
+XI_API undefined4 __thiscall Unit1003D990_ScaleBytesByVec4(void * self_, undefined4 * param_1, float * param_2)
 {
   uint8_t bVar1;
   uint32_t uVar2;
@@ -258,7 +258,7 @@ XI_API undefined4 __thiscall fn_1003E0D0(void * self_, undefined4 * param_1, flo
 
 // FUNCTION: FFXIMAIN 0x1003E1D0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003E1D0(void * self_, char * param_1)
+XI_API void __thiscall Unit1003D990_AddBytes(void * self_, char * param_1)
 {
   *(char *)((int)self_ + 2) = *(char *)((int)self_ + 2) + param_1[2];
   *(char *)((int)self_ + 1) = *(char *)((int)self_ + 1) + param_1[1];
@@ -280,7 +280,7 @@ XI_API void __thiscall Color_SetFromU32SwapRB(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1003E330  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t * __thiscall fn_1003E330(void * self_, uint32_t * param_1, float param_2)
+XI_API uint32_t * __thiscall Unit1003D990_ScaleAlpha(void * self_, uint32_t * param_1, float param_2)
 {
   uint32_t uVar1;
   uint8_t bVar2;
@@ -307,7 +307,7 @@ XI_API uint32_t * __thiscall fn_1003E330(void * self_, uint32_t * param_1, float
 
 // FUNCTION: FFXIMAIN 0x1003E3A0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API __int64 __thiscall fn_1003E3A0(unsigned __int8 *self_, unsigned __int8 *a2)
+XI_API __int64 __thiscall Unit1003D990_AddScaledBytes(unsigned __int8 *self_, unsigned __int8 *a2)
 {
   double v2;
   __int64 result; // rax
@@ -323,7 +323,7 @@ XI_API __int64 __thiscall fn_1003E3A0(unsigned __int8 *self_, unsigned __int8 *a
 
 // FUNCTION: FFXIMAIN 0x1003E450  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2)
+XI_API __int64 __thiscall Unit1003D990_AddScaledWords(unsigned __int8 *self_, __int16 *a2)
 {
   double v2;
   __int64 result; // rax
@@ -339,7 +339,7 @@ XI_API __int64 __thiscall fn_1003E450(unsigned __int8 *self_, __int16 *a2)
 
 // FUNCTION: FFXIMAIN 0x1003E500  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1003E500(unsigned __int8 *self_, __int16 *a2)
+XI_API int __thiscall Unit1003D990_AddScaledWordsSaturated(unsigned __int8 *self_, __int16 *a2)
 {
   double v2;
   int v4;
@@ -382,7 +382,7 @@ XI_API int __thiscall fn_1003E500(unsigned __int8 *self_, __int16 *a2)
 
 // FUNCTION: FFXIMAIN 0x1003E630  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003E630(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit1003D990_AddToByte2(void * self_, undefined4 param_1)
 {
   *(char *)((int)self_ + 2) = *(char *)((int)self_ + 2) + (char)param_1;
   return;
@@ -390,7 +390,7 @@ XI_API void __thiscall fn_1003E630(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1003E640  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003E640(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit1003D990_AddToByte1(void * self_, undefined4 param_1)
 {
   *(char *)((int)self_ + 1) = *(char *)((int)self_ + 1) + (char)param_1;
   return;
@@ -398,7 +398,7 @@ XI_API void __thiscall fn_1003E640(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1003E650  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003E650(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit1003D990_AddToByte0(void * self_, undefined4 param_1)
 {
   *(char *)self_ = *(char *)self_ + (char)param_1;
   return;
@@ -406,7 +406,7 @@ XI_API void __thiscall fn_1003E650(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1003E660  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003E660(void *self_, int a1)
+XI_API void __thiscall Unit1003D990_AddScaledToByte3(void *self_, int a1)
 {
   double v2;
   v2 = *(float *)(g_pResourceMng + 3756) * (double)a1 + (double)*((unsigned __int8 *)self_ + 3);

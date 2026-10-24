@@ -1,0 +1,20 @@
+{
+  "0x1003B420": {
+    "name": "CYyVb_Init",
+    "confidence": "medium",
+    "evidence": "sets the CYyVb vtable (PTR_CYyVb_GetRuntimeClass_1032aae0) and clears the dword at +8",
+    "summary": "Initialises a CYyVb object's vtable and its field at offset 8."
+  },
+  "0x1003B430": {
+    "name": "CYyVb_ScalarDelete",
+    "confidence": "medium",
+    "evidence": "calls CYyVb_Destroy (FUN_1003B4A0) on the object, then frees it with thunk_sub_10028AA0 when bit 0 of param_1 is set",
+    "summary": "Destroys a CYyVb object and frees its storage when the delete flag is set."
+  },
+  "0x1003B4A0": {
+    "name": "CYyVb_Destroy",
+    "confidence": "medium",
+    "evidence": "restores the CYyVb vtable, releases the object at +0x1C through its vtable slot 2 and clears the pointer, then calls FUN_1003B4E0 unless the object is the global vertex buffer list head",
+    "summary": "Releases a CYyVb object's resources and unlinks it from the vertex buffer list."
+  }
+}

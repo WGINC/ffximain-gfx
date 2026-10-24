@@ -9,6 +9,7 @@ public:
     BOOL vf012(int a1);  // 0x1003EF80
     int vf008();  // 0x1003EF90
     void * ScalarDeletingDtor(char a2);  // 0x1003EFA0
+    static undefined8 __thiscall Construct(void * self);  // 0x10052CD0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x22D];

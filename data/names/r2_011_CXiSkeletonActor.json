@@ -1,0 +1,38 @@
+{
+  "0x100A4820": {
+    "name": "CXiSkeletonActor_ReturnsZero",
+    "confidence": "low",
+    "evidence": "body is `return 0` (char); same slot 257 (+0x404) in six skeleton-derived classes",
+    "summary": "Returns the constant 0 (false) and does nothing else."
+  },
+  "0x100CE160": {
+    "name": "CXiSkeletonActor_AdvanceMotionQueue",
+    "confidence": "medium",
+    "evidence": "reads the CYyModel at actor +0x674 via CYyModel::GetField44Addr and, when its pointer at +0x44 is nonzero, calls KzMotionQueList_AdvanceAll on the list at +0x74 with step 8.0f; the same +0x674 model is used by CXiSkeletonActor_FindPartValue",
+    "summary": "Advances the actor model's motion queue list by a fixed step of 8.0 when the model has a list."
+  },
+  "0x100CFAD0": {
+    "name": "CXiSkeletonActor_GetTableOrDefault",
+    "confidence": "low",
+    "evidence": "returns the result of sub_100CFB40(self) when non-null; otherwise returns the global &DAT_1048A390, or null when the int argument is 1; vtable slot 242 (+0x3C8) in seven classes",
+    "summary": "Returns the table that sub_100CFB40 gives for this actor, or a fallback address when that is null."
+  },
+  "0x100D0D40": {
+    "name": "CXiSkeletonActor_SetField0B4IfField9EC",
+    "confidence": "low",
+    "evidence": "stores the argument at +0xB4 (CXiActor_set_field_B4) and calls sub_100CF750 only when the int argument equals the field at +0x9EC and the pointer argument is non-null; returns the argument",
+    "summary": "Sets the actor's +0xB4 field and runs sub_100CF750 only when the argument matches the actor's +0x9EC field."
+  },
+  "0x100D0D70": {
+    "name": "CXiSkeletonActor_AttachPartResource",
+    "confidence": "low",
+    "evidence": "sets +0xB4, selects a state message, and when GetModelByteEE is 7 and GetModelPartWord(9) low 12 bits are nonzero it maps the code via Unit100C51C0_MapCodeIndex and either calls FUN_100d0b50 (resident) or builds a 0x20-byte ActorHandle and calls Unit10070F90_Create (an attachments task, CMoAttachments_Construct, SetCaster, SetTarget in its callees)",
+    "summary": "Given a resource handle for this actor, links a part resource to it, either directly when the resource is resident or through a new attachments task."
+  },
+  "0x100D44B0": {
+    "name": "CXiSkeletonActor_ReleaseListEntriesMatching",
+    "confidence": "medium",
+    "evidence": "walks the list at +0x7E4, and for each node whose field at +0xC equals the argument it pops the node with Unit1002C7C0_PopHead and calls its virtual slot 6 with 1; called from Acter_ReleaseSlotA4, Acter_ReleaseAllSlots and XiEvent_RestoreActer",
+    "summary": "Removes every entry from the actor's +0x7E4 list whose field at +0xC equals the argument, and releases each removed entry."
+  }
+}

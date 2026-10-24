@@ -104,21 +104,7 @@
 #include "CMoTask_VT_1032AF60.hpp"
 #include "CMoTask_VT_1032AFA8.hpp"
 #include "CMoTask_VT_1032B654.hpp"
-#include "CMoTask_VT_1032B8BC.hpp"
 #include "CMoTask_VT_1032B95C.hpp"
-#include "CMoTask_VT_1032BB0C.hpp"
-#include "CMoTask_VT_1032BB54.hpp"
-#include "CMoTask_VT_1032BC10.hpp"
-#include "CMoTask_VT_1032BC3C.hpp"
-#include "CMoTask_VT_1032BE08.hpp"
-#include "CMoTask_VT_1032BE50.hpp"
-#include "CMoTask_VT_1032BE98.hpp"
-#include "CMoTask_VT_1032BEE0.hpp"
-#include "CMoTask_VT_1032BF28.hpp"
-#include "CMoTask_VT_1032BF70.hpp"
-#include "CMoTask_VT_1032BFB8.hpp"
-#include "CMoTask_VT_1032C000.hpp"
-#include "CMoTask_VT_1032C048.hpp"
 #include "CMoTask_VT_1032C490.hpp"
 #include "CMoTask_VT_1032C908.hpp"
 #include "CMoTask_VT_1032D6D4.hpp"
@@ -133,7 +119,6 @@
 #include "CXi471011C8_VT_1032B3B8.hpp"
 #include "CXi471011C8_VT_1032B478.hpp"
 #include "CXiActor.hpp"
-#include "CXiActorDraw.hpp"
 #include "CXiActorNameDraw.hpp"
 #include "CXiAtelActor.hpp"
 #include "CXiCollisionActor.hpp"
@@ -158,15 +143,12 @@
 #include "CYyVbMng.hpp"
 #include "Obj_104E1B90.hpp"
 #include "Obj_104E1BF8.hpp"
-#include "Obj_104E1D4C.hpp"
 #include "Obj_10621944.hpp"
-#include "XiActorTimerTask.hpp"
 #include "XiZone.hpp"
 #include "xikit_sdk_types.hpp"
 
 namespace xigame {
 // the game's entry of each reconstructed function, typed by the tree's declaration
-inline ::xikit::fn<decltype(&::fn_10001070)> fn_10001070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10001070)> >(XI_GAME(0x10001070u)); }
 inline ::xikit::fn<decltype(&::CApp::RunMainLoop)> CApp__RunMainLoop() { return reinterpret_cast< ::xikit::fn<decltype(&::CApp::RunMainLoop)> >(XI_GAME(0x10001520u)); }
 inline ::xikit::fn<decltype(&::App_RenderFrameMaskedFPU)> App_RenderFrameMaskedFPU() { return reinterpret_cast< ::xikit::fn<decltype(&::App_RenderFrameMaskedFPU)> >(XI_GAME(0x10001B50u)); }
 inline ::xikit::fn<decltype(&::App_CreateInputSystem)> App_CreateInputSystem() { return reinterpret_cast< ::xikit::fn<decltype(&::App_CreateInputSystem)> >(XI_GAME(0x10001BB0u)); }
@@ -177,7 +159,6 @@ inline ::xikit::fn<decltype(&::fn_10001F40)> fn_10001F40() { return reinterpret_
 inline ::xikit::fn<decltype(&::Gfx_CopySurfaceRectToTexture)> Gfx_CopySurfaceRectToTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_CopySurfaceRectToTexture)> >(XI_GAME(0x10002040u)); }
 inline ::xikit::fn<decltype(&::Gfx_ProbeDeviceCaps)> Gfx_ProbeDeviceCaps() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ProbeDeviceCaps)> >(XI_GAME(0x10002130u)); }
 inline ::xikit::fn<decltype(&::fn_10002440)> fn_10002440() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10002440)> >(XI_GAME(0x10002440u)); }
-inline ::xikit::fn<decltype(&::Gfx_IsGammaSupported)> Gfx_IsGammaSupported() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_IsGammaSupported)> >(XI_GAME(0x10002BE0u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetGammaRGB)> Gfx_SetGammaRGB() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetGammaRGB)> >(XI_GAME(0x10002C00u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetGammaR)> Gfx_SetGammaR() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetGammaR)> >(XI_GAME(0x10002C30u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetGammaG)> Gfx_SetGammaG() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetGammaG)> >(XI_GAME(0x10002C80u)); }
@@ -198,7 +179,6 @@ inline ::xikit::fn<decltype(&::fn_10003640)> fn_10003640() { return reinterpret_
 inline ::xikit::fn<decltype(&::DebugOverlay_Draw)> DebugOverlay_Draw() { return reinterpret_cast< ::xikit::fn<decltype(&::DebugOverlay_Draw)> >(XI_GAME(0x10003650u)); }
 inline ::xikit::fn<decltype(&::fn_10003660)> fn_10003660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10003660)> >(XI_GAME(0x10003660u)); }
 inline ::xikit::fn<decltype(&::fn_10003710)> fn_10003710() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10003710)> >(XI_GAME(0x10003710u)); }
-inline ::xikit::fn<decltype(&::fn_100037D0)> fn_100037D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100037D0)> >(XI_GAME(0x100037D0u)); }
 inline ::xikit::fn<decltype(&::fn_10003890)> fn_10003890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10003890)> >(XI_GAME(0x10003890u)); }
 inline ::xikit::fn<decltype(&::Debug_DrawTextTable)> Debug_DrawTextTable() { return reinterpret_cast< ::xikit::fn<decltype(&::Debug_DrawTextTable)> >(XI_GAME(0x10003B60u)); }
 inline ::xikit::fn<decltype(&::Debug_DrawWorldText)> Debug_DrawWorldText() { return reinterpret_cast< ::xikit::fn<decltype(&::Debug_DrawWorldText)> >(XI_GAME(0x10003D70u)); }
@@ -206,6 +186,7 @@ inline ::xikit::fn<decltype(&::fn_10005600)> fn_10005600() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10005660)> fn_10005660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10005660)> >(XI_GAME(0x10005660u)); }
 inline ::xikit::fn<decltype(&::fn_100059C0)> fn_100059C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100059C0)> >(XI_GAME(0x100059C0u)); }
 inline ::xikit::fn<decltype(&::fn_10005A00)> fn_10005A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10005A00)> >(XI_GAME(0x10005A00u)); }
+inline ::xikit::fn<decltype(&::fn_10007830)> fn_10007830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10007830)> >(XI_GAME(0x10007830u)); }
 inline ::xikit::fn<decltype(&::fn_10007860)> fn_10007860() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10007860)> >(XI_GAME(0x10007860u)); }
 inline ::xikit::fn<decltype(&::DirectInput_InstallKeyboard)> DirectInput_InstallKeyboard() { return reinterpret_cast< ::xikit::fn<decltype(&::DirectInput_InstallKeyboard)> >(XI_GAME(0x10007E20u)); }
 inline ::xikit::fn<decltype(&::DirectInput_InstallMouse)> DirectInput_InstallMouse() { return reinterpret_cast< ::xikit::fn<decltype(&::DirectInput_InstallMouse)> >(XI_GAME(0x10007EF0u)); }
@@ -215,6 +196,8 @@ inline ::xikit::fn<decltype(&::fn_100087D0)> fn_100087D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10008830)> fn_10008830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10008830)> >(XI_GAME(0x10008830u)); }
 inline ::xikit::fn<decltype(&::fn_100088F0)> fn_100088F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100088F0)> >(XI_GAME(0x100088F0u)); }
 inline ::xikit::fn<decltype(&::fn_100089D0)> fn_100089D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100089D0)> >(XI_GAME(0x100089D0u)); }
+inline ::xikit::fn<decltype(&::fn_10008D90)> fn_10008D90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10008D90)> >(XI_GAME(0x10008D90u)); }
+inline ::xikit::fn<decltype(&::fn_10008E10)> fn_10008E10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10008E10)> >(XI_GAME(0x10008E10u)); }
 inline ::xikit::fn<decltype(&::CDx::GetRuntimeClass)> CDx__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::GetRuntimeClass)> >(XI_GAME(0x10008F80u)); }
 inline ::xikit::fn<decltype(&::CDx::ScalarDeletingDtor)> CDx__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::ScalarDeletingDtor)> >(XI_GAME(0x10009100u)); }
 inline ::xikit::fn<decltype(&::CDx::Initialize)> CDx__Initialize() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::Initialize)> >(XI_GAME(0x100091B0u)); }
@@ -223,26 +206,23 @@ inline ::xikit::fn<decltype(&::CDx::SetClearParams)> CDx__SetClearParams() { ret
 inline ::xikit::fn<decltype(&::CDx::SetClearColor)> CDx__SetClearColor() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetClearColor)> >(XI_GAME(0x10009670u)); }
 inline ::xikit::fn<decltype(&::CDx::EndClearBegin)> CDx__EndClearBegin() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::EndClearBegin)> >(XI_GAME(0x100096B0u)); }
 inline ::xikit::fn<decltype(&::CDx::TestCooperativeLevel)> CDx__TestCooperativeLevel() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::TestCooperativeLevel)> >(XI_GAME(0x10009710u)); }
-inline ::xikit::fn<decltype(&::CDx::Present)> CDx__Present() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::Present)> >(XI_GAME(0x10009720u)); }
 inline ::xikit::fn<decltype(&::CDx::BeginScene)> CDx__BeginScene() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::BeginScene)> >(XI_GAME(0x10009730u)); }
 inline ::xikit::fn<decltype(&::CDx::EndScene)> CDx__EndScene() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::EndScene)> >(XI_GAME(0x10009740u)); }
 inline ::xikit::fn<decltype(&::fn_10009750)> fn_10009750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10009750)> >(XI_GAME(0x10009750u)); }
 inline ::xikit::fn<decltype(&::CDx::SetCursorShape)> CDx__SetCursorShape() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetCursorShape)> >(XI_GAME(0x100097F0u)); }
 inline ::xikit::fn<decltype(&::fn_10009870)> fn_10009870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10009870)> >(XI_GAME(0x10009870u)); }
-inline ::xikit::fn<decltype(&::fn_100098E0)> fn_100098E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100098E0)> >(XI_GAME(0x100098E0u)); }
-inline ::xikit::fn<decltype(&::CDx::SetDefaultRenderState)> CDx__SetDefaultRenderState() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetDefaultRenderState)> >(XI_GAME(0x10009920u)); }
 inline ::xikit::fn<decltype(&::fn_10009D20)> fn_10009D20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10009D20)> >(XI_GAME(0x10009D20u)); }
 inline ::xikit::fn<decltype(&::CDx::SetViewport)> CDx__SetViewport() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetViewport)> >(XI_GAME(0x10009DC0u)); }
 inline ::xikit::fn<decltype(&::CDx::GetRenderTargetTop)> CDx__GetRenderTargetTop() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::GetRenderTargetTop)> >(XI_GAME(0x10009E00u)); }
 inline ::xikit::fn<decltype(&::CDx::PushRenderTarget)> CDx__PushRenderTarget() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::PushRenderTarget)> >(XI_GAME(0x10009E20u)); }
 inline ::xikit::fn<decltype(&::fn_10009EA0)> fn_10009EA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10009EA0)> >(XI_GAME(0x10009EA0u)); }
 inline ::xikit::fn<decltype(&::fn_10009EE0)> fn_10009EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10009EE0)> >(XI_GAME(0x10009EE0u)); }
+inline ::xikit::fn<decltype(&::CDx::PushRenderTargetTexture)> CDx__PushRenderTargetTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::PushRenderTargetTexture)> >(XI_GAME(0x10009F20u)); }
 inline ::xikit::fn<decltype(&::fn_1000A070)> fn_1000A070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1000A070)> >(XI_GAME(0x1000A070u)); }
 inline ::xikit::fn<decltype(&::CDx::SetTexture)> CDx__SetTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetTexture)> >(XI_GAME(0x1000A1D0u)); }
 inline ::xikit::fn<decltype(&::fn_1000A200)> fn_1000A200() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1000A200)> >(XI_GAME(0x1000A200u)); }
 inline ::xikit::fn<decltype(&::fn_1000A230)> fn_1000A230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1000A230)> >(XI_GAME(0x1000A230u)); }
 inline ::xikit::fn<decltype(&::CDx::PopRenderTargetDefault)> CDx__PopRenderTargetDefault() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::PopRenderTargetDefault)> >(XI_GAME(0x1000A290u)); }
-inline ::xikit::fn<decltype(&::CDx::PopRenderTarget)> CDx__PopRenderTarget() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::PopRenderTarget)> >(XI_GAME(0x1000A2B0u)); }
 inline ::xikit::fn<decltype(&::fn_1000A390)> fn_1000A390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1000A390)> >(XI_GAME(0x1000A390u)); }
 inline ::xikit::fn<decltype(&::CDx::DrawScreenQuadAtDepth)> CDx__DrawScreenQuadAtDepth() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawScreenQuadAtDepth)> >(XI_GAME(0x1000A3B0u)); }
 inline ::xikit::fn<decltype(&::CDx::DrawTextureToViewport)> CDx__DrawTextureToViewport() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawTextureToViewport)> >(XI_GAME(0x1000A4F0u)); }
@@ -258,7 +238,6 @@ inline ::xikit::fn<decltype(&::fn_1000BB20)> fn_1000BB20() { return reinterpret_
 inline ::xikit::fn<decltype(&::CDx::DrawStereoOddFrameOverlay)> CDx__DrawStereoOddFrameOverlay() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawStereoOddFrameOverlay)> >(XI_GAME(0x1000BB90u)); }
 inline ::xikit::fn<decltype(&::CDx::SetTransform)> CDx__SetTransform() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetTransform)> >(XI_GAME(0x1000BD50u)); }
 inline ::xikit::fn<decltype(&::CDx::GetTransformCached)> CDx__GetTransformCached() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::GetTransformCached)> >(XI_GAME(0x1000BDB0u)); }
-inline ::xikit::fn<decltype(&::fn_1000BE10)> fn_1000BE10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1000BE10)> >(XI_GAME(0x1000BE10u)); }
 inline ::xikit::fn<decltype(&::Light_ApplyTimeOfDayTint)> Light_ApplyTimeOfDayTint() { return reinterpret_cast< ::xikit::fn<decltype(&::Light_ApplyTimeOfDayTint)> >(XI_GAME(0x1000BE50u)); }
 inline ::xikit::fn<decltype(&::CDx::SetLight)> CDx__SetLight() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::SetLight)> >(XI_GAME(0x1000BF30u)); }
 inline ::xikit::fn<decltype(&::CDx::CompositeSceneToBackBuffer)> CDx__CompositeSceneToBackBuffer() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::CompositeSceneToBackBuffer)> >(XI_GAME(0x1000C0B0u)); }
@@ -266,7 +245,6 @@ inline ::xikit::fn<decltype(&::CDx::CreateStereoResources)> CDx__CreateStereoRes
 inline ::xikit::fn<decltype(&::CDx::ReleaseStereoResources)> CDx__ReleaseStereoResources() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::ReleaseStereoResources)> >(XI_GAME(0x1000C7C0u)); }
 inline ::xikit::fn<decltype(&::CDx::CreateRampTexture1x16)> CDx__CreateRampTexture1x16() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::CreateRampTexture1x16)> >(XI_GAME(0x1000C850u)); }
 inline ::xikit::fn<decltype(&::CDx::CreateRampTextures1024x2)> CDx__CreateRampTextures1024x2() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::CreateRampTextures1024x2)> >(XI_GAME(0x1000C900u)); }
-inline ::xikit::fn<decltype(&::CDx::GetStereoSecondEyeTarget)> CDx__GetStereoSecondEyeTarget() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::GetStereoSecondEyeTarget)> >(XI_GAME(0x1000CA00u)); }
 inline ::xikit::fn<decltype(&::CDx::DrawPrimitive)> CDx__DrawPrimitive() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawPrimitive)> >(XI_GAME(0x1000CB20u)); }
 inline ::xikit::fn<decltype(&::CDx::DrawIndexedPrimitive)> CDx__DrawIndexedPrimitive() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawIndexedPrimitive)> >(XI_GAME(0x1000CC00u)); }
 inline ::xikit::fn<decltype(&::CDx::DrawPrimitiveUP)> CDx__DrawPrimitiveUP() { return reinterpret_cast< ::xikit::fn<decltype(&::CDx::DrawPrimitiveUP)> >(XI_GAME(0x1000CD00u)); }
@@ -293,23 +271,21 @@ inline ::xikit::fn<decltype(&::CMoTask::vf007)> CMoTask__vf007() { return reinte
 inline ::xikit::fn<decltype(&::CMoTask::vf009)> CMoTask__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::vf009)> >(XI_GAME(0x10011930u)); }
 inline ::xikit::fn<decltype(&::CMoTask::vf010)> CMoTask__vf010() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::vf010)> >(XI_GAME(0x10011940u)); }
 inline ::xikit::fn<decltype(&::CMoTaskMng::ScalarDeletingDtor)> CMoTaskMng__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTaskMng::ScalarDeletingDtor)> >(XI_GAME(0x10011950u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_10329C70::ScalarDeletingDtor)> CMoTask_VT_10329C70__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_10329C70::ScalarDeletingDtor)> >(XI_GAME(0x100119A0u)); }
 inline ::xikit::fn<decltype(&::Frame_Render)> Frame_Render() { return reinterpret_cast< ::xikit::fn<decltype(&::Frame_Render)> >(XI_GAME(0x10011A00u)); }
 inline ::xikit::fn<decltype(&::Post_Afterimage)> Post_Afterimage() { return reinterpret_cast< ::xikit::fn<decltype(&::Post_Afterimage)> >(XI_GAME(0x10012F40u)); }
 inline ::xikit::fn<decltype(&::Post_FlashAndZoomFeedback)> Post_FlashAndZoomFeedback() { return reinterpret_cast< ::xikit::fn<decltype(&::Post_FlashAndZoomFeedback)> >(XI_GAME(0x100132B0u)); }
 inline ::xikit::fn<decltype(&::fn_100139E0)> fn_100139E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100139E0)> >(XI_GAME(0x100139E0u)); }
 inline ::xikit::fn<decltype(&::fn_10013AC0)> fn_10013AC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10013AC0)> >(XI_GAME(0x10013AC0u)); }
-inline ::xikit::fn<decltype(&::App_StepGameState5Connect)> App_StepGameState5Connect() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState5Connect)> >(XI_GAME(0x10013AD0u)); }
 inline ::xikit::fn<decltype(&::App_StepGameState6)> App_StepGameState6() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState6)> >(XI_GAME(0x10013DF0u)); }
 inline ::xikit::fn<decltype(&::App_StepGameState7)> App_StepGameState7() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState7)> >(XI_GAME(0x10013F10u)); }
 inline ::xikit::fn<decltype(&::App_StepGameState8)> App_StepGameState8() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState8)> >(XI_GAME(0x10014030u)); }
 inline ::xikit::fn<decltype(&::App_StepGameState9)> App_StepGameState9() { return reinterpret_cast< ::xikit::fn<decltype(&::App_StepGameState9)> >(XI_GAME(0x10014120u)); }
 inline ::xikit::fn<decltype(&::fn_10014170)> fn_10014170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014170)> >(XI_GAME(0x10014170u)); }
-inline ::xikit::fn<decltype(&::fn_100141C0)> fn_100141C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100141C0)> >(XI_GAME(0x100141C0u)); }
+inline ::xikit::fn<decltype(&::Game_InGameSubState0)> Game_InGameSubState0() { return reinterpret_cast< ::xikit::fn<decltype(&::Game_InGameSubState0)> >(XI_GAME(0x100141C0u)); }
+inline ::xikit::fn<decltype(&::fn_10014200)> fn_10014200() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014200)> >(XI_GAME(0x10014200u)); }
 inline ::xikit::fn<decltype(&::fn_10014220)> fn_10014220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014220)> >(XI_GAME(0x10014220u)); }
 inline ::xikit::fn<decltype(&::fn_100142A0)> fn_100142A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100142A0)> >(XI_GAME(0x100142A0u)); }
 inline ::xikit::fn<decltype(&::fn_100142B0)> fn_100142B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100142B0)> >(XI_GAME(0x100142B0u)); }
-inline ::xikit::fn<decltype(&::fn_10014350)> fn_10014350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014350)> >(XI_GAME(0x10014350u)); }
 inline ::xikit::fn<decltype(&::fn_100149B0)> fn_100149B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100149B0)> >(XI_GAME(0x100149B0u)); }
 inline ::xikit::fn<decltype(&::fn_10014A20)> fn_10014A20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014A20)> >(XI_GAME(0x10014A20u)); }
 inline ::xikit::fn<decltype(&::fn_10014C10)> fn_10014C10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10014C10)> >(XI_GAME(0x10014C10u)); }
@@ -343,7 +319,6 @@ inline ::xikit::fn<decltype(&::fn_10015360)> fn_10015360() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100153A0)> fn_100153A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100153A0)> >(XI_GAME(0x100153A0u)); }
 inline ::xikit::fn<decltype(&::Camera_BuildProjection)> Camera_BuildProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::Camera_BuildProjection)> >(XI_GAME(0x10015480u)); }
 inline ::xikit::fn<decltype(&::fn_10015490)> fn_10015490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10015490)> >(XI_GAME(0x10015490u)); }
-inline ::xikit::fn<decltype(&::Camera_ApplyViewProjection)> Camera_ApplyViewProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::Camera_ApplyViewProjection)> >(XI_GAME(0x10015510u)); }
 inline ::xikit::fn<decltype(&::fn_100155D0)> fn_100155D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100155D0)> >(XI_GAME(0x100155D0u)); }
 inline ::xikit::fn<decltype(&::fn_10015600)> fn_10015600() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10015600)> >(XI_GAME(0x10015600u)); }
 inline ::xikit::fn<decltype(&::fn_10015610)> fn_10015610() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10015610)> >(XI_GAME(0x10015610u)); }
@@ -354,23 +329,22 @@ inline ::xikit::fn<decltype(&::Camera_GetViewportHeight)> Camera_GetViewportHeig
 inline ::xikit::fn<decltype(&::fn_100156A0)> fn_100156A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100156A0)> >(XI_GAME(0x100156A0u)); }
 inline ::xikit::fn<decltype(&::fn_10015740)> fn_10015740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10015740)> >(XI_GAME(0x10015740u)); }
 inline ::xikit::fn<decltype(&::fn_100157B0)> fn_100157B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100157B0)> >(XI_GAME(0x100157B0u)); }
-inline ::xikit::fn<decltype(&::App_WinMain)> App_WinMain() { return reinterpret_cast< ::xikit::fn<decltype(&::App_WinMain)> >(XI_GAME(0x100157E0u)); }
 inline ::xikit::fn<decltype(&::App_CreateRendererAndApp)> App_CreateRendererAndApp() { return reinterpret_cast< ::xikit::fn<decltype(&::App_CreateRendererAndApp)> >(XI_GAME(0x100161B0u)); }
 inline ::xikit::fn<decltype(&::fn_10016300)> fn_10016300() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10016300)> >(XI_GAME(0x10016300u)); }
-inline ::xikit::fn<decltype(&::fn_10016320)> fn_10016320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10016320)> >(XI_GAME(0x10016320u)); }
+inline ::xikit::fn<decltype(&::App_DestroyGlobalObjects)> App_DestroyGlobalObjects() { return reinterpret_cast< ::xikit::fn<decltype(&::App_DestroyGlobalObjects)> >(XI_GAME(0x10016320u)); }
 inline ::xikit::fn<decltype(&::fn_100163C0)> fn_100163C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100163C0)> >(XI_GAME(0x100163C0u)); }
 inline ::xikit::fn<decltype(&::fn_100163E0)> fn_100163E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100163E0)> >(XI_GAME(0x100163E0u)); }
 inline ::xikit::fn<decltype(&::App_SetGlobal_104569C8)> App_SetGlobal_104569C8() { return reinterpret_cast< ::xikit::fn<decltype(&::App_SetGlobal_104569C8)> >(XI_GAME(0x10016400u)); }
 inline ::xikit::fn<decltype(&::fn_10016410)> fn_10016410() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10016410)> >(XI_GAME(0x10016410u)); }
+inline ::xikit::fn<decltype(&::fn_100164B0)> fn_100164B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100164B0)> >(XI_GAME(0x100164B0u)); }
 inline ::xikit::fn<decltype(&::App_SetErrorCode)> App_SetErrorCode() { return reinterpret_cast< ::xikit::fn<decltype(&::App_SetErrorCode)> >(XI_GAME(0x100164C0u)); }
 inline ::xikit::fn<decltype(&::fn_10016560)> fn_10016560() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10016560)> >(XI_GAME(0x10016560u)); }
 inline ::xikit::fn<decltype(&::GammaRamp_SetRGB)> GammaRamp_SetRGB() { return reinterpret_cast< ::xikit::fn<decltype(&::GammaRamp_SetRGB)> >(XI_GAME(0x100170A0u)); }
-inline ::xikit::fn<decltype(&::GammaRamp_GetRGB)> GammaRamp_GetRGB() { return reinterpret_cast< ::xikit::fn<decltype(&::GammaRamp_GetRGB)> >(XI_GAME(0x100170D0u)); }
 inline ::xikit::fn<decltype(&::GammaRamp_GetChannelSamples)> GammaRamp_GetChannelSamples() { return reinterpret_cast< ::xikit::fn<decltype(&::GammaRamp_GetChannelSamples)> >(XI_GAME(0x10017100u)); }
 inline ::xikit::fn<decltype(&::GammaRamp_BuildRamps)> GammaRamp_BuildRamps() { return reinterpret_cast< ::xikit::fn<decltype(&::GammaRamp_BuildRamps)> >(XI_GAME(0x10017160u)); }
 inline ::xikit::fn<decltype(&::GammaRamp_ApplyIfChanged)> GammaRamp_ApplyIfChanged() { return reinterpret_cast< ::xikit::fn<decltype(&::GammaRamp_ApplyIfChanged)> >(XI_GAME(0x10017230u)); }
 inline ::xikit::fn<decltype(&::fn_10017310)> fn_10017310() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017310)> >(XI_GAME(0x10017310u)); }
-inline ::xikit::fn<decltype(&::fn_10017630)> fn_10017630() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017630)> >(XI_GAME(0x10017630u)); }
+inline ::xikit::fn<decltype(&::setPolUrl)> setPolUrl() { return reinterpret_cast< ::xikit::fn<decltype(&::setPolUrl)> >(XI_GAME(0x10017630u)); }
 inline ::xikit::fn<decltype(&::fn_10017670)> fn_10017670() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017670)> >(XI_GAME(0x10017670u)); }
 inline ::xikit::fn<decltype(&::CShader::GetRuntimeClass)> CShader__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CShader::GetRuntimeClass)> >(XI_GAME(0x10017750u)); }
 inline ::xikit::fn<decltype(&::CShader::ScalarDeletingDtor)> CShader__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CShader::ScalarDeletingDtor)> >(XI_GAME(0x10017780u)); }
@@ -381,7 +355,6 @@ inline ::xikit::fn<decltype(&::fn_10017C20)> fn_10017C20() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10017C60)> fn_10017C60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017C60)> >(XI_GAME(0x10017C60u)); }
 inline ::xikit::fn<decltype(&::fn_10017D20)> fn_10017D20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017D20)> >(XI_GAME(0x10017D20u)); }
 inline ::xikit::fn<decltype(&::fn_10017D30)> fn_10017D30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10017D30)> >(XI_GAME(0x10017D30u)); }
-inline ::xikit::fn<decltype(&::fn_100180D0)> fn_100180D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100180D0)> >(XI_GAME(0x100180D0u)); }
 inline ::xikit::fn<decltype(&::fn_10018180)> fn_10018180() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10018180)> >(XI_GAME(0x10018180u)); }
 inline ::xikit::fn<decltype(&::fn_10018270)> fn_10018270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10018270)> >(XI_GAME(0x10018270u)); }
 inline ::xikit::fn<decltype(&::fn_100182C0)> fn_100182C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100182C0)> >(XI_GAME(0x100182C0u)); }
@@ -402,12 +375,10 @@ inline ::xikit::fn<decltype(&::Vt10329FE0_Reset)> Vt10329FE0_Reset() { return re
 inline ::xikit::fn<decltype(&::fn_100191D0)> fn_100191D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100191D0)> >(XI_GAME(0x100191D0u)); }
 inline ::xikit::fn<decltype(&::fn_10019210)> fn_10019210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10019210)> >(XI_GAME(0x10019210u)); }
 inline ::xikit::fn<decltype(&::fn_10019490)> fn_10019490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10019490)> >(XI_GAME(0x10019490u)); }
-inline ::xikit::fn<decltype(&::fn_100194F0)> fn_100194F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100194F0)> >(XI_GAME(0x100194F0u)); }
 inline ::xikit::fn<decltype(&::fn_10019550)> fn_10019550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10019550)> >(XI_GAME(0x10019550u)); }
 inline ::xikit::fn<decltype(&::fn_10019590)> fn_10019590() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10019590)> >(XI_GAME(0x10019590u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf004)> CMoResource_VT_1032C7FC__vf004() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf004)> >(XI_GAME(0x10019A30u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf005)> CMoResource_VT_1032C7FC__vf005() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf005)> >(XI_GAME(0x10019A40u)); }
-inline ::xikit::fn<decltype(&::MotionQueue_ApplyPolicy)> MotionQueue_ApplyPolicy() { return reinterpret_cast< ::xikit::fn<decltype(&::MotionQueue_ApplyPolicy)> >(XI_GAME(0x10019A50u)); }
 inline ::xikit::fn<decltype(&::SampleAnimationTrack_ToBuffer)> SampleAnimationTrack_ToBuffer() { return reinterpret_cast< ::xikit::fn<decltype(&::SampleAnimationTrack_ToBuffer)> >(XI_GAME(0x10019B30u)); }
 inline ::xikit::fn<decltype(&::SampleAnimationTrack_Live)> SampleAnimationTrack_Live() { return reinterpret_cast< ::xikit::fn<decltype(&::SampleAnimationTrack_Live)> >(XI_GAME(0x10019EE0u)); }
 inline ::xikit::fn<decltype(&::fn_1001A3E0)> fn_1001A3E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001A3E0)> >(XI_GAME(0x1001A3E0u)); }
@@ -415,7 +386,6 @@ inline ::xikit::fn<decltype(&::MotionQueue_UpdateAllChannels)> MotionQueue_Updat
 inline ::xikit::fn<decltype(&::CYyMotionQue::SetSlotMotion)> CYyMotionQue__SetSlotMotion() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyMotionQue::SetSlotMotion)> >(XI_GAME(0x1001A660u)); }
 inline ::xikit::fn<decltype(&::fn_1001A6E0)> fn_1001A6E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001A6E0)> >(XI_GAME(0x1001A6E0u)); }
 inline ::xikit::fn<decltype(&::CYyMotionQue_GetResource)> CYyMotionQue_GetResource() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyMotionQue_GetResource)> >(XI_GAME(0x1001A850u)); }
-inline ::xikit::fn<decltype(&::CYyMotionQue::ComputeFrameAdvance)> CYyMotionQue__ComputeFrameAdvance() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyMotionQue::ComputeFrameAdvance)> >(XI_GAME(0x1001A8E0u)); }
 inline ::xikit::fn<decltype(&::CYyMotionQue::StartMotion)> CYyMotionQue__StartMotion() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyMotionQue::StartMotion)> >(XI_GAME(0x1001AB60u)); }
 inline ::xikit::fn<decltype(&::fn_1001ABF0)> fn_1001ABF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001ABF0)> >(XI_GAME(0x1001ABF0u)); }
 inline ::xikit::fn<decltype(&::fn_1001ACB0)> fn_1001ACB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001ACB0)> >(XI_GAME(0x1001ACB0u)); }
@@ -423,10 +393,8 @@ inline ::xikit::fn<decltype(&::fn_1001B170)> fn_1001B170() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1001B1F0)> fn_1001B1F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001B1F0)> >(XI_GAME(0x1001B1F0u)); }
 inline ::xikit::fn<decltype(&::CYyMotionQue::SampleInto)> CYyMotionQue__SampleInto() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyMotionQue::SampleInto)> >(XI_GAME(0x1001B230u)); }
 inline ::xikit::fn<decltype(&::fn_1001B2E0)> fn_1001B2E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001B2E0)> >(XI_GAME(0x1001B2E0u)); }
-inline ::xikit::fn<decltype(&::fn_1001B520)> fn_1001B520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001B520)> >(XI_GAME(0x1001B520u)); }
 inline ::xikit::fn<decltype(&::fn_1001B5D0)> fn_1001B5D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001B5D0)> >(XI_GAME(0x1001B5D0u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant1)> CMoTask__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant1)> >(XI_GAME(0x1001B800u)); }
-inline ::xikit::fn<decltype(&::fn_1001C930)> fn_1001C930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001C930)> >(XI_GAME(0x1001C930u)); }
 inline ::xikit::fn<decltype(&::fn_1001CF80)> fn_1001CF80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001CF80)> >(XI_GAME(0x1001CF80u)); }
 inline ::xikit::fn<decltype(&::Model_CreateTranslucentTargets)> Model_CreateTranslucentTargets() { return reinterpret_cast< ::xikit::fn<decltype(&::Model_CreateTranslucentTargets)> >(XI_GAME(0x1001D0A0u)); }
 inline ::xikit::fn<decltype(&::fn_1001D170)> fn_1001D170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001D170)> >(XI_GAME(0x1001D170u)); }
@@ -434,8 +402,6 @@ inline ::xikit::fn<decltype(&::Model_BeginTranslucentPass)> Model_BeginTransluce
 inline ::xikit::fn<decltype(&::Model_TranslucentUnbindTexture)> Model_TranslucentUnbindTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::Model_TranslucentUnbindTexture)> >(XI_GAME(0x1001D350u)); }
 inline ::xikit::fn<decltype(&::fn_1001D390)> fn_1001D390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001D390)> >(XI_GAME(0x1001D390u)); }
 inline ::xikit::fn<decltype(&::Model_CompositeTranslucentPass)> Model_CompositeTranslucentPass() { return reinterpret_cast< ::xikit::fn<decltype(&::Model_CompositeTranslucentPass)> >(XI_GAME(0x1001D3B0u)); }
-inline ::xikit::fn<decltype(&::TexObj_InitFromHeader)> TexObj_InitFromHeader() { return reinterpret_cast< ::xikit::fn<decltype(&::TexObj_InitFromHeader)> >(XI_GAME(0x1001D940u)); }
-inline ::xikit::fn<decltype(&::fn_1001DBD0)> fn_1001DBD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001DBD0)> >(XI_GAME(0x1001DBD0u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C8AC::vf004)> CMoResource_VT_1032C8AC__vf004() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C8AC::vf004)> >(XI_GAME(0x1001DC20u)); }
 inline ::xikit::fn<decltype(&::Tex_DrawNamedTexturePreview)> Tex_DrawNamedTexturePreview() { return reinterpret_cast< ::xikit::fn<decltype(&::Tex_DrawNamedTexturePreview)> >(XI_GAME(0x1001DC70u)); }
 inline ::xikit::fn<decltype(&::Gfx_DrawScreenQuad256)> Gfx_DrawScreenQuad256() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_DrawScreenQuad256)> >(XI_GAME(0x1001DD00u)); }
@@ -443,7 +409,7 @@ inline ::xikit::fn<decltype(&::CMoResource_VT_1032C880::vf004)> CMoResource_VT_1
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C880::vf005)> CMoResource_VT_1032C880__vf005() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C880::vf005)> >(XI_GAME(0x1001E060u)); }
 inline ::xikit::fn<decltype(&::fn_1001E2F0)> fn_1001E2F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001E2F0)> >(XI_GAME(0x1001E2F0u)); }
 inline ::xikit::fn<decltype(&::CYyCamMng2::CreateGlobal)> CYyCamMng2__CreateGlobal() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyCamMng2::CreateGlobal)> >(XI_GAME(0x1001E470u)); }
-inline ::xikit::fn<decltype(&::CYyCamMng2::CallGlobalVfunc1)> CYyCamMng2__CallGlobalVfunc1() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyCamMng2::CallGlobalVfunc1)> >(XI_GAME(0x1001E4B0u)); }
+inline ::xikit::fn<decltype(&::CYyCamMng2_CallGlobalVfunc1)> CYyCamMng2_CallGlobalVfunc1() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyCamMng2_CallGlobalVfunc1)> >(XI_GAME(0x1001E4B0u)); }
 inline ::xikit::fn<decltype(&::fn_1001E4D0)> fn_1001E4D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001E4D0)> >(XI_GAME(0x1001E4D0u)); }
 inline ::xikit::fn<decltype(&::fn_1001E4F0)> fn_1001E4F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001E4F0)> >(XI_GAME(0x1001E4F0u)); }
 inline ::xikit::fn<decltype(&::fn_1001E590)> fn_1001E590() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1001E590)> >(XI_GAME(0x1001E590u)); }
@@ -459,16 +425,13 @@ inline ::xikit::fn<decltype(&::fn_10022170)> fn_10022170() { return reinterpret_
 inline ::xikit::fn<decltype(&::Actor_LookupPercentScaleA)> Actor_LookupPercentScaleA() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_LookupPercentScaleA)> >(XI_GAME(0x10022190u)); }
 inline ::xikit::fn<decltype(&::Actor_LookupPercentScaleB)> Actor_LookupPercentScaleB() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_LookupPercentScaleB)> >(XI_GAME(0x100221E0u)); }
 inline ::xikit::fn<decltype(&::Actor_InitIndexTable)> Actor_InitIndexTable() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_InitIndexTable)> >(XI_GAME(0x10022230u)); }
-inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderState)> CYyModelDt__PrepareRenderState() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderState)> >(XI_GAME(0x100224D0u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::SetVertexShader)> CYyModelDt__SetVertexShader() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::SetVertexShader)> >(XI_GAME(0x10022FA0u)); }
-inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateSimple)> CYyModelDt__PrepareRenderStateSimple() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateSimple)> >(XI_GAME(0x100231C0u)); }
 inline ::xikit::fn<decltype(&::fn_10025010)> fn_10025010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10025010)> >(XI_GAME(0x10025010u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateEntry)> CYyModelDt__PrepareRenderStateEntry() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateEntry)> >(XI_GAME(0x10025030u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateSimpleEntry)> CYyModelDt__PrepareRenderStateSimpleEntry() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateSimpleEntry)> >(XI_GAME(0x10025060u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt_VT_1032A430::vf011)> CYyModelDt_VT_1032A430__vf011() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt_VT_1032A430::vf011)> >(XI_GAME(0x10025090u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt_VT_1032A430::ScalarDeletingDtor)> CYyModelDt_VT_1032A430__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt_VT_1032A430::ScalarDeletingDtor)> >(XI_GAME(0x100250A0u)); }
 inline ::xikit::fn<decltype(&::fn_100250F0)> fn_100250F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100250F0)> >(XI_GAME(0x100250F0u)); }
-inline ::xikit::fn<decltype(&::CYyModelDt::GetElementCount)> CYyModelDt__GetElementCount() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::GetElementCount)> >(XI_GAME(0x10025180u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::MarkReferencedBones)> CYyModelDt__MarkReferencedBones() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::MarkReferencedBones)> >(XI_GAME(0x100251A0u)); }
 inline ::xikit::fn<decltype(&::fn_10025220)> fn_10025220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10025220)> >(XI_GAME(0x10025220u)); }
 inline ::xikit::fn<decltype(&::fn_10025260)> fn_10025260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10025260)> >(XI_GAME(0x10025260u)); }
@@ -481,9 +444,6 @@ inline ::xikit::fn<decltype(&::fn_10025BE0)> fn_10025BE0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10025BF0)> fn_10025BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10025BF0)> >(XI_GAME(0x10025BF0u)); }
 inline ::xikit::fn<decltype(&::EnvMap_BeginPass)> EnvMap_BeginPass() { return reinterpret_cast< ::xikit::fn<decltype(&::EnvMap_BeginPass)> >(XI_GAME(0x10025C40u)); }
 inline ::xikit::fn<decltype(&::EnvMap_EndPass)> EnvMap_EndPass() { return reinterpret_cast< ::xikit::fn<decltype(&::EnvMap_EndPass)> >(XI_GAME(0x10025F70u)); }
-inline ::xikit::fn<decltype(&::Dbg_DrawGroundGrid)> Dbg_DrawGroundGrid() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawGroundGrid)> >(XI_GAME(0x100262C0u)); }
-inline ::xikit::fn<decltype(&::Dbg_DrawViewAxisGizmo)> Dbg_DrawViewAxisGizmo() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawViewAxisGizmo)> >(XI_GAME(0x100263F0u)); }
-inline ::xikit::fn<decltype(&::Dbg_DrawAxesAt)> Dbg_DrawAxesAt() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawAxesAt)> >(XI_GAME(0x100266C0u)); }
 inline ::xikit::fn<decltype(&::CYyIcon::Draw)> CYyIcon__Draw() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyIcon::Draw)> >(XI_GAME(0x10026990u)); }
 inline ::xikit::fn<decltype(&::CXiMovie::Draw)> CXiMovie__Draw() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiMovie::Draw)> >(XI_GAME(0x10026AD0u)); }
 inline ::xikit::fn<decltype(&::CYyIcon::DrawSubRect)> CYyIcon__DrawSubRect() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyIcon::DrawSubRect)> >(XI_GAME(0x10026C70u)); }
@@ -505,14 +465,12 @@ inline ::xikit::fn<decltype(&::fn_10027340)> fn_10027340() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10027510)> fn_10027510() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10027510)> >(XI_GAME(0x10027510u)); }
 inline ::xikit::fn<decltype(&::fn_10027550)> fn_10027550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10027550)> >(XI_GAME(0x10027550u)); }
 inline ::xikit::fn<decltype(&::fn_10027620)> fn_10027620() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10027620)> >(XI_GAME(0x10027620u)); }
-inline ::xikit::fn<decltype(&::Gfx_ProjectWorldToClip)> Gfx_ProjectWorldToClip() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ProjectWorldToClip)> >(XI_GAME(0x100276F0u)); }
 inline ::xikit::fn<decltype(&::Gfx_TransformWorldToView)> Gfx_TransformWorldToView() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_TransformWorldToView)> >(XI_GAME(0x100277E0u)); }
 inline ::xikit::fn<decltype(&::Gfx_ProjectViewToClip)> Gfx_ProjectViewToClip() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ProjectViewToClip)> >(XI_GAME(0x10027870u)); }
 inline ::xikit::fn<decltype(&::Gfx_NdcToScreen)> Gfx_NdcToScreen() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_NdcToScreen)> >(XI_GAME(0x100278E0u)); }
 inline ::xikit::fn<decltype(&::Gfx_ScreenDeltaToNdc)> Gfx_ScreenDeltaToNdc() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ScreenDeltaToNdc)> >(XI_GAME(0x10027930u)); }
 inline ::xikit::fn<decltype(&::fn_10027990)> fn_10027990() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10027990)> >(XI_GAME(0x10027990u)); }
 inline ::xikit::fn<decltype(&::fn_100279A0)> fn_100279A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100279A0)> >(XI_GAME(0x100279A0u)); }
-inline ::xikit::fn<decltype(&::Mat4_SetIdentity)> Mat4_SetIdentity() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4_SetIdentity)> >(XI_GAME(0x100279B0u)); }
 inline ::xikit::fn<decltype(&::Mat4_Copy)> Mat4_Copy() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4_Copy)> >(XI_GAME(0x100279F0u)); }
 inline ::xikit::fn<decltype(&::Mat4_PostScale)> Mat4_PostScale() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4_PostScale)> >(XI_GAME(0x10027A60u)); }
 inline ::xikit::fn<decltype(&::Mat4_BuildScale)> Mat4_BuildScale() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4_BuildScale)> >(XI_GAME(0x10027AE0u)); }
@@ -537,9 +495,8 @@ inline ::xikit::fn<decltype(&::fn_10028720)> fn_10028720() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10028730)> fn_10028730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028730)> >(XI_GAME(0x10028730u)); }
 inline ::xikit::fn<decltype(&::fn_10028850)> fn_10028850() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028850)> >(XI_GAME(0x10028850u)); }
 inline ::xikit::fn<decltype(&::fn_10028930)> fn_10028930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028930)> >(XI_GAME(0x10028930u)); }
-inline ::xikit::fn<decltype(&::fn_10028AA0)> fn_10028AA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028AA0)> >(XI_GAME(0x10028AA0u)); }
-inline ::xikit::fn<decltype(&::fn_10028AC0)> fn_10028AC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028AC0)> >(XI_GAME(0x10028AC0u)); }
 inline ::xikit::fn<decltype(&::MemBlock_GetSize)> MemBlock_GetSize() { return reinterpret_cast< ::xikit::fn<decltype(&::MemBlock_GetSize)> >(XI_GAME(0x10028B90u)); }
+inline ::xikit::fn<decltype(&::fn_10028BF0)> fn_10028BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028BF0)> >(XI_GAME(0x10028BF0u)); }
 inline ::xikit::fn<decltype(&::fn_10028C30)> fn_10028C30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028C30)> >(XI_GAME(0x10028C30u)); }
 inline ::xikit::fn<decltype(&::fn_10028C50)> fn_10028C50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028C50)> >(XI_GAME(0x10028C50u)); }
 inline ::xikit::fn<decltype(&::fn_10028C70)> fn_10028C70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10028C70)> >(XI_GAME(0x10028C70u)); }
@@ -549,7 +506,7 @@ inline ::xikit::fn<decltype(&::Mem_DrawHeapUsageBar)> Mem_DrawHeapUsageBar() { r
 inline ::xikit::fn<decltype(&::CYyModelDt::GetRuntimeClass)> CYyModelDt__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::GetRuntimeClass)> >(XI_GAME(0x10029880u)); }
 inline ::xikit::fn<decltype(&::CYyModelBase::GetRuntimeClass)> CYyModelBase__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelBase::GetRuntimeClass)> >(XI_GAME(0x100298A0u)); }
 inline ::xikit::fn<decltype(&::CYyModel::GetRuntimeClass)> CYyModel__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModel::GetRuntimeClass)> >(XI_GAME(0x100298C0u)); }
-inline ::xikit::fn<decltype(&::fn_10029A50)> fn_10029A50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10029A50)> >(XI_GAME(0x10029A50u)); }
+inline ::xikit::fn<decltype(&::CreateSharedVertexBuffers)> CreateSharedVertexBuffers() { return reinterpret_cast< ::xikit::fn<decltype(&::CreateSharedVertexBuffers)> >(XI_GAME(0x10029A50u)); }
 inline ::xikit::fn<decltype(&::fn_10029B60)> fn_10029B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10029B60)> >(XI_GAME(0x10029B60u)); }
 inline ::xikit::fn<decltype(&::fn_10029BB0)> fn_10029BB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10029BB0)> >(XI_GAME(0x10029BB0u)); }
 inline ::xikit::fn<decltype(&::fn_10029C90)> fn_10029C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10029C90)> >(XI_GAME(0x10029C90u)); }
@@ -565,12 +522,10 @@ inline ::xikit::fn<decltype(&::fn_10029EB0)> fn_10029EB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10029F00)> fn_10029F00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10029F00)> >(XI_GAME(0x10029F00u)); }
 inline ::xikit::fn<decltype(&::CYyModelBase::AddPartFromResource)> CYyModelBase__AddPartFromResource() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelBase::AddPartFromResource)> >(XI_GAME(0x10029F70u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateV2Entry)> CYyModelDt__PrepareRenderStateV2Entry() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateV2Entry)> >(XI_GAME(0x1002A000u)); }
-inline ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateV2SimpleEntry)> CYyModelDt__PrepareRenderStateV2SimpleEntry() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::PrepareRenderStateV2SimpleEntry)> >(XI_GAME(0x1002A040u)); }
 inline ::xikit::fn<decltype(&::fn_1002A080)> fn_1002A080() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A080)> >(XI_GAME(0x1002A080u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt_VT_1032A72C::ScalarDeletingDtor)> CYyModelDt_VT_1032A72C__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt_VT_1032A72C::ScalarDeletingDtor)> >(XI_GAME(0x1002A0A0u)); }
 inline ::xikit::fn<decltype(&::fn_1002A0C0)> fn_1002A0C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A0C0)> >(XI_GAME(0x1002A0C0u)); }
 inline ::xikit::fn<decltype(&::CYyModelBase::DrawLit)> CYyModelBase__DrawLit() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelBase::DrawLit)> >(XI_GAME(0x1002A3B0u)); }
-inline ::xikit::fn<decltype(&::fn_1002A700)> fn_1002A700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A700)> >(XI_GAME(0x1002A700u)); }
 inline ::xikit::fn<decltype(&::fn_1002A750)> fn_1002A750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A750)> >(XI_GAME(0x1002A750u)); }
 inline ::xikit::fn<decltype(&::fn_1002A780)> fn_1002A780() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A780)> >(XI_GAME(0x1002A780u)); }
 inline ::xikit::fn<decltype(&::fn_1002A890)> fn_1002A890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002A890)> >(XI_GAME(0x1002A890u)); }
@@ -599,14 +554,10 @@ inline ::xikit::fn<decltype(&::fn_1002C800)> fn_1002C800() { return reinterpret_
 inline ::xikit::fn<decltype(&::Mem_AllocDefault)> Mem_AllocDefault() { return reinterpret_cast< ::xikit::fn<decltype(&::Mem_AllocDefault)> >(XI_GAME(0x1002C890u)); }
 inline ::xikit::fn<decltype(&::thunk_sub_10028AA0)> thunk_sub_10028AA0() { return reinterpret_cast< ::xikit::fn<decltype(&::thunk_sub_10028AA0)> >(XI_GAME(0x1002C8B0u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant2)> CMoTask__GetRuntimeClass_variant2() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant2)> >(XI_GAME(0x1002C950u)); }
-inline ::xikit::fn<decltype(&::CYyOs2VtxBuffer::CreateBuffersStep)> CYyOs2VtxBuffer__CreateBuffersStep() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyOs2VtxBuffer::CreateBuffersStep)> >(XI_GAME(0x1002CCB0u)); }
-inline ::xikit::fn<decltype(&::fn_1002D660)> fn_1002D660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002D660)> >(XI_GAME(0x1002D660u)); }
 inline ::xikit::fn<decltype(&::CYyOs2VtxBuffer::Constructor)> CYyOs2VtxBuffer__Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyOs2VtxBuffer::Constructor)> >(XI_GAME(0x1002D680u)); }
 inline ::xikit::fn<decltype(&::CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor)> CYyOs2VtxBuffer__CYyOs2VtxBuffer_Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor)> >(XI_GAME(0x1002D700u)); }
-inline ::xikit::fn<decltype(&::fn_1002D7F0)> fn_1002D7F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002D7F0)> >(XI_GAME(0x1002D7F0u)); }
 inline ::xikit::fn<decltype(&::fn_1002D860)> fn_1002D860() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002D860)> >(XI_GAME(0x1002D860u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C854::vf004)> CMoResource_VT_1032C854__vf004() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C854::vf004)> >(XI_GAME(0x1002D880u)); }
-inline ::xikit::fn<decltype(&::fn_1002D8F0)> fn_1002D8F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1002D8F0)> >(XI_GAME(0x1002D8F0u)); }
 inline ::xikit::fn<decltype(&::CYyModelDt::SkinAndDrawV2)> CYyModelDt__SkinAndDrawV2() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyModelDt::SkinAndDrawV2)> >(XI_GAME(0x1002DC10u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetStreamSourceCached)> Gfx_SetStreamSourceCached() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetStreamSourceCached)> >(XI_GAME(0x1002F130u)); }
 inline ::xikit::fn<decltype(&::Gfx_ApplyCachedStreamSource)> Gfx_ApplyCachedStreamSource() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ApplyCachedStreamSource)> >(XI_GAME(0x1002F160u)); }
@@ -626,6 +577,7 @@ inline ::xikit::fn<decltype(&::fn_10033710)> fn_10033710() { return reinterpret_
 inline ::xikit::fn<decltype(&::Model_BeginOffscreenPass)> Model_BeginOffscreenPass() { return reinterpret_cast< ::xikit::fn<decltype(&::Model_BeginOffscreenPass)> >(XI_GAME(0x10033800u)); }
 inline ::xikit::fn<decltype(&::Model_EndOffscreenPassBindTextures)> Model_EndOffscreenPassBindTextures() { return reinterpret_cast< ::xikit::fn<decltype(&::Model_EndOffscreenPassBindTextures)> >(XI_GAME(0x10033A70u)); }
 inline ::xikit::fn<decltype(&::fn_10033DA0)> fn_10033DA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10033DA0)> >(XI_GAME(0x10033DA0u)); }
+inline ::xikit::fn<decltype(&::Shadow_SmoothLightDirection)> Shadow_SmoothLightDirection() { return reinterpret_cast< ::xikit::fn<decltype(&::Shadow_SmoothLightDirection)> >(XI_GAME(0x10033EA0u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C828::vf004)> CMoResource_VT_1032C828__vf004() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C828::vf004)> >(XI_GAME(0x10034170u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C828::vf005)> CMoResource_VT_1032C828__vf005() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C828::vf005)> >(XI_GAME(0x10034180u)); }
 inline ::xikit::fn<decltype(&::fn_10034230)> fn_10034230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10034230)> >(XI_GAME(0x10034230u)); }
@@ -651,18 +603,20 @@ inline ::xikit::fn<decltype(&::fn_10035DE0)> fn_10035DE0() { return reinterpret_
 inline ::xikit::fn<decltype(&::MoTask_KillAllGlobalSlots)> MoTask_KillAllGlobalSlots() { return reinterpret_cast< ::xikit::fn<decltype(&::MoTask_KillAllGlobalSlots)> >(XI_GAME(0x10035F00u)); }
 inline ::xikit::fn<decltype(&::fn_10035F80)> fn_10035F80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10035F80)> >(XI_GAME(0x10035F80u)); }
 inline ::xikit::fn<decltype(&::fn_10035FB0)> fn_10035FB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10035FB0)> >(XI_GAME(0x10035FB0u)); }
-inline ::xikit::fn<decltype(&::fn_10036020)> fn_10036020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036020)> >(XI_GAME(0x10036020u)); }
 inline ::xikit::fn<decltype(&::fn_10036050)> fn_10036050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036050)> >(XI_GAME(0x10036050u)); }
-inline ::xikit::fn<decltype(&::MoTask_KillGlobalSlot1)> MoTask_KillGlobalSlot1() { return reinterpret_cast< ::xikit::fn<decltype(&::MoTask_KillGlobalSlot1)> >(XI_GAME(0x10036070u)); }
 inline ::xikit::fn<decltype(&::fn_100360A0)> fn_100360A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100360A0)> >(XI_GAME(0x100360A0u)); }
 inline ::xikit::fn<decltype(&::fn_100360C0)> fn_100360C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100360C0)> >(XI_GAME(0x100360C0u)); }
 inline ::xikit::fn<decltype(&::fn_100360F0)> fn_100360F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100360F0)> >(XI_GAME(0x100360F0u)); }
 inline ::xikit::fn<decltype(&::fn_10036170)> fn_10036170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036170)> >(XI_GAME(0x10036170u)); }
 inline ::xikit::fn<decltype(&::fn_100361D0)> fn_100361D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100361D0)> >(XI_GAME(0x100361D0u)); }
 inline ::xikit::fn<decltype(&::fn_10036230)> fn_10036230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036230)> >(XI_GAME(0x10036230u)); }
+inline ::xikit::fn<decltype(&::fn_10036360)> fn_10036360() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036360)> >(XI_GAME(0x10036360u)); }
+inline ::xikit::fn<decltype(&::fn_10036420)> fn_10036420() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036420)> >(XI_GAME(0x10036420u)); }
 inline ::xikit::fn<decltype(&::fn_100364A0)> fn_100364A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100364A0)> >(XI_GAME(0x100364A0u)); }
 inline ::xikit::fn<decltype(&::fn_100364E0)> fn_100364E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100364E0)> >(XI_GAME(0x100364E0u)); }
 inline ::xikit::fn<decltype(&::fn_10036770)> fn_10036770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036770)> >(XI_GAME(0x10036770u)); }
+inline ::xikit::fn<decltype(&::fn_100367C0)> fn_100367C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100367C0)> >(XI_GAME(0x100367C0u)); }
+inline ::xikit::fn<decltype(&::fn_100367F0)> fn_100367F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100367F0)> >(XI_GAME(0x100367F0u)); }
 inline ::xikit::fn<decltype(&::fn_10036830)> fn_10036830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036830)> >(XI_GAME(0x10036830u)); }
 inline ::xikit::fn<decltype(&::fn_10036870)> fn_10036870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036870)> >(XI_GAME(0x10036870u)); }
 inline ::xikit::fn<decltype(&::fn_100368B0)> fn_100368B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100368B0)> >(XI_GAME(0x100368B0u)); }
@@ -673,10 +627,10 @@ inline ::xikit::fn<decltype(&::CMoElem::vf014)> CMoElem__vf014() { return reinte
 inline ::xikit::fn<decltype(&::CMoElem::vf015)> CMoElem__vf015() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::vf015)> >(XI_GAME(0x10036AA0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::vf019)> CMoElem__vf019() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::vf019)> >(XI_GAME(0x10036AB0u)); }
 inline ::xikit::fn<decltype(&::CMoResource::GetRuntimeClass_variant0)> CMoResource__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::GetRuntimeClass_variant0)> >(XI_GAME(0x10036B70u)); }
+inline ::xikit::fn<decltype(&::fn_10036B90)> fn_10036B90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036B90)> >(XI_GAME(0x10036B90u)); }
 inline ::xikit::fn<decltype(&::fn_10036F00)> fn_10036F00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10036F00)> >(XI_GAME(0x10036F00u)); }
 inline ::xikit::fn<decltype(&::fn_10037020)> fn_10037020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10037020)> >(XI_GAME(0x10037020u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant3)> CMoTask__GetRuntimeClass_variant3() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant3)> >(XI_GAME(0x10037280u)); }
-inline ::xikit::fn<decltype(&::fn_100378B0)> fn_100378B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100378B0)> >(XI_GAME(0x100378B0u)); }
 inline ::xikit::fn<decltype(&::StAvatar_SwitchMusicTask)> StAvatar_SwitchMusicTask() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatar_SwitchMusicTask)> >(XI_GAME(0x10037960u)); }
 inline ::xikit::fn<decltype(&::fn_10037A10)> fn_10037A10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10037A10)> >(XI_GAME(0x10037A10u)); }
 inline ::xikit::fn<decltype(&::SetMusicTrackVolume_C)> SetMusicTrackVolume_C() { return reinterpret_cast< ::xikit::fn<decltype(&::SetMusicTrackVolume_C)> >(XI_GAME(0x10037B30u)); }
@@ -685,7 +639,7 @@ inline ::xikit::fn<decltype(&::fn_10037E30)> fn_10037E30() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10037E90)> fn_10037E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10037E90)> >(XI_GAME(0x10037E90u)); }
 inline ::xikit::fn<decltype(&::fn_100380F0)> fn_100380F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100380F0)> >(XI_GAME(0x100380F0u)); }
 inline ::xikit::fn<decltype(&::fn_100382A0)> fn_100382A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100382A0)> >(XI_GAME(0x100382A0u)); }
-inline ::xikit::fn<decltype(&::Font_QueueText)> Font_QueueText() { return reinterpret_cast< ::xikit::fn<decltype(&::Font_QueueText)> >(XI_GAME(0x100384B0u)); }
+inline ::xikit::fn<decltype(&::fn_10038470)> fn_10038470() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10038470)> >(XI_GAME(0x10038470u)); }
 inline ::xikit::fn<decltype(&::Font_DrawPass)> Font_DrawPass() { return reinterpret_cast< ::xikit::fn<decltype(&::Font_DrawPass)> >(XI_GAME(0x10038520u)); }
 inline ::xikit::fn<decltype(&::Font_DrawString)> Font_DrawString() { return reinterpret_cast< ::xikit::fn<decltype(&::Font_DrawString)> >(XI_GAME(0x10038720u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C7A4::vf008)> CMoResource_VT_1032C7A4__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C7A4::vf008)> >(XI_GAME(0x10038920u)); }
@@ -702,7 +656,6 @@ inline ::xikit::fn<decltype(&::fn_100396A0)> fn_100396A0() { return reinterpret_
 inline ::xikit::fn<decltype(&::CYyTexBase::GetRuntimeClass_variant0)> CYyTexBase__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyTexBase::GetRuntimeClass_variant0)> >(XI_GAME(0x10039770u)); }
 inline ::xikit::fn<decltype(&::CYyTexBase::GetRuntimeClass_variant1)> CYyTexBase__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyTexBase::GetRuntimeClass_variant1)> >(XI_GAME(0x10039780u)); }
 inline ::xikit::fn<decltype(&::CYyTex::GetRuntimeClass)> CYyTex__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyTex::GetRuntimeClass)> >(XI_GAME(0x10039790u)); }
-inline ::xikit::fn<decltype(&::fn_100397A0)> fn_100397A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100397A0)> >(XI_GAME(0x100397A0u)); }
 inline ::xikit::fn<decltype(&::Util_Copy16Bytes)> Util_Copy16Bytes() { return reinterpret_cast< ::xikit::fn<decltype(&::Util_Copy16Bytes)> >(XI_GAME(0x10039810u)); }
 inline ::xikit::fn<decltype(&::fn_10039830)> fn_10039830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10039830)> >(XI_GAME(0x10039830u)); }
 inline ::xikit::fn<decltype(&::CYyTexBase::ScalarDeletingDtor)> CYyTexBase__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyTexBase::ScalarDeletingDtor)> >(XI_GAME(0x100398B0u)); }
@@ -712,7 +665,6 @@ inline ::xikit::fn<decltype(&::CYyTex::ScalarDeletingDtor)> CYyTex__ScalarDeleti
 inline ::xikit::fn<decltype(&::fn_100399D0)> fn_100399D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100399D0)> >(XI_GAME(0x100399D0u)); }
 inline ::xikit::fn<decltype(&::TexObj_CreateAndUpload)> TexObj_CreateAndUpload() { return reinterpret_cast< ::xikit::fn<decltype(&::TexObj_CreateAndUpload)> >(XI_GAME(0x10039A30u)); }
 inline ::xikit::fn<decltype(&::TexObj_Reupload)> TexObj_Reupload() { return reinterpret_cast< ::xikit::fn<decltype(&::TexObj_Reupload)> >(XI_GAME(0x10039A60u)); }
-inline ::xikit::fn<decltype(&::TexObj_Create)> TexObj_Create() { return reinterpret_cast< ::xikit::fn<decltype(&::TexObj_Create)> >(XI_GAME(0x10039A80u)); }
 inline ::xikit::fn<decltype(&::TexObj_Upload)> TexObj_Upload() { return reinterpret_cast< ::xikit::fn<decltype(&::TexObj_Upload)> >(XI_GAME(0x10039E50u)); }
 inline ::xikit::fn<decltype(&::CYyTexMng::GetRuntimeClass)> CYyTexMng__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CYyTexMng::GetRuntimeClass)> >(XI_GAME(0x1003AA40u)); }
 inline ::xikit::fn<decltype(&::fn_1003AA50)> fn_1003AA50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003AA50)> >(XI_GAME(0x1003AA50u)); }
@@ -747,7 +699,7 @@ inline ::xikit::fn<decltype(&::CMoAttachments::SetTarget)> CMoAttachments__SetTa
 inline ::xikit::fn<decltype(&::fn_1003B8B0)> fn_1003B8B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003B8B0)> >(XI_GAME(0x1003B8B0u)); }
 inline ::xikit::fn<decltype(&::fn_1003B900)> fn_1003B900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003B900)> >(XI_GAME(0x1003B900u)); }
 inline ::xikit::fn<decltype(&::fn_1003BD90)> fn_1003BD90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003BD90)> >(XI_GAME(0x1003BD90u)); }
-inline ::xikit::fn<decltype(&::fn_1003BE10)> fn_1003BE10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003BE10)> >(XI_GAME(0x1003BE10u)); }
+inline ::xikit::fn<decltype(&::YmGenerater_BuildAttachMatrix)> YmGenerater_BuildAttachMatrix() { return reinterpret_cast< ::xikit::fn<decltype(&::YmGenerater_BuildAttachMatrix)> >(XI_GAME(0x1003BE10u)); }
 inline ::xikit::fn<decltype(&::fn_1003C6E0)> fn_1003C6E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003C6E0)> >(XI_GAME(0x1003C6E0u)); }
 inline ::xikit::fn<decltype(&::fn_1003C700)> fn_1003C700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003C700)> >(XI_GAME(0x1003C700u)); }
 inline ::xikit::fn<decltype(&::fn_1003C740)> fn_1003C740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003C740)> >(XI_GAME(0x1003C740u)); }
@@ -776,7 +728,7 @@ inline ::xikit::fn<decltype(&::fn_1003E660)> fn_1003E660() { return reinterpret_
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant1)> CMoElem__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant1)> >(XI_GAME(0x1003E690u)); }
 inline ::xikit::fn<decltype(&::CMoD3aElem::GetRuntimeClass_variant0)> CMoD3aElem__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3aElem::GetRuntimeClass_variant0)> >(XI_GAME(0x1003E6A0u)); }
 inline ::xikit::fn<decltype(&::fn_1003E910)> fn_1003E910() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003E910)> >(XI_GAME(0x1003E910u)); }
-inline ::xikit::fn<decltype(&::fn_1003E9A0)> fn_1003E9A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003E9A0)> >(XI_GAME(0x1003E9A0u)); }
+inline ::xikit::fn<decltype(&::YmElem_SetD3ADrawState)> YmElem_SetD3ADrawState() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_SetD3ADrawState)> >(XI_GAME(0x1003E9A0u)); }
 inline ::xikit::fn<decltype(&::CMoD3aElem::vf18)> CMoD3aElem__vf18() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3aElem::vf18)> >(XI_GAME(0x1003EB30u)); }
 inline ::xikit::fn<decltype(&::CMoD3aElem::GetRuntimeClass_variant1)> CMoD3aElem__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3aElem::GetRuntimeClass_variant1)> >(XI_GAME(0x1003EE50u)); }
 inline ::xikit::fn<decltype(&::CMoD3aLightmapElem::GetRuntimeClass)> CMoD3aLightmapElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3aLightmapElem::GetRuntimeClass)> >(XI_GAME(0x1003EE60u)); }
@@ -793,11 +745,7 @@ inline ::xikit::fn<decltype(&::fn_1003FCB0)> fn_1003FCB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1003FCE0)> fn_1003FCE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003FCE0)> >(XI_GAME(0x1003FCE0u)); }
 inline ::xikit::fn<decltype(&::fn_1003FCF0)> fn_1003FCF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1003FCF0)> >(XI_GAME(0x1003FCF0u)); }
 inline ::xikit::fn<decltype(&::MoElem_GetVertexData)> MoElem_GetVertexData() { return reinterpret_cast< ::xikit::fn<decltype(&::MoElem_GetVertexData)> >(XI_GAME(0x1003FD70u)); }
-inline ::xikit::fn<decltype(&::fn_10040220)> fn_10040220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10040220)> >(XI_GAME(0x10040220u)); }
 inline ::xikit::fn<decltype(&::CMoDistModelElem::DrawMesh)> CMoDistModelElem__DrawMesh() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistModelElem::DrawMesh)> >(XI_GAME(0x10040670u)); }
-inline ::xikit::fn<decltype(&::fn_10040BA0)> fn_10040BA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10040BA0)> >(XI_GAME(0x10040BA0u)); }
-inline ::xikit::fn<decltype(&::CMoElemFamily_SharedEarlyExit)> CMoElemFamily_SharedEarlyExit() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElemFamily_SharedEarlyExit)> >(XI_GAME(0x10040C20u)); }
-inline ::xikit::fn<decltype(&::CXi471011C8_VT_1032B3B8::RebuildBlendWeights)> CXi471011C8_VT_1032B3B8__RebuildBlendWeights() { return reinterpret_cast< ::xikit::fn<decltype(&::CXi471011C8_VT_1032B3B8::RebuildBlendWeights)> >(XI_GAME(0x10040E70u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant2)> CMoElem__GetRuntimeClass_variant2() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant2)> >(XI_GAME(0x10041000u)); }
 inline ::xikit::fn<decltype(&::CMoD3mSpecularElem::GetRuntimeClass)> CMoD3mSpecularElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3mSpecularElem::GetRuntimeClass)> >(XI_GAME(0x10041010u)); }
 inline ::xikit::fn<decltype(&::CMoD3mSpecularElem::Ctor)> CMoD3mSpecularElem__Ctor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3mSpecularElem::Ctor)> >(XI_GAME(0x10041020u)); }
@@ -805,10 +753,7 @@ inline ::xikit::fn<decltype(&::CMoD3mSpecularElem::vf012)> CMoD3mSpecularElem__v
 inline ::xikit::fn<decltype(&::CMoD3mSpecularElem::ScalarDeletingDtor)> CMoD3mSpecularElem__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3mSpecularElem::ScalarDeletingDtor)> >(XI_GAME(0x100410F0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::CMoElemFamily_IsKind0)> CMoElem__CMoElemFamily_IsKind0() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::CMoElemFamily_IsKind0)> >(XI_GAME(0x10041120u)); }
 inline ::xikit::fn<decltype(&::CXi471011C8_VT_1032AD80_DeletingDtor)> CXi471011C8_VT_1032AD80_DeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CXi471011C8_VT_1032AD80_DeletingDtor)> >(XI_GAME(0x10041130u)); }
-inline ::xikit::fn<decltype(&::fn_10041160)> fn_10041160() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10041160)> >(XI_GAME(0x10041160u)); }
-inline ::xikit::fn<decltype(&::CMoD3mSpecularElem::vf18)> CMoD3mSpecularElem__vf18() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoD3mSpecularElem::vf18)> >(XI_GAME(0x100412B0u)); }
 inline ::xikit::fn<decltype(&::CMoElem_VT_1032ADE8::vf18)> CMoElem_VT_1032ADE8__vf18() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem_VT_1032ADE8::vf18)> >(XI_GAME(0x10041AF0u)); }
-inline ::xikit::fn<decltype(&::Font_DrawProjectedText3D)> Font_DrawProjectedText3D() { return reinterpret_cast< ::xikit::fn<decltype(&::Font_DrawProjectedText3D)> >(XI_GAME(0x10041C20u)); }
 inline ::xikit::fn<decltype(&::CXiSub_10041E70_Ctor)> CXiSub_10041E70_Ctor() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSub_10041E70_Ctor)> >(XI_GAME(0x10041F40u)); }
 inline ::xikit::fn<decltype(&::CMoElem_VT_1032ADE8::ScalarDeletingDtor)> CMoElem_VT_1032ADE8__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem_VT_1032ADE8::ScalarDeletingDtor)> >(XI_GAME(0x10041FE0u)); }
 inline ::xikit::fn<decltype(&::CMoOtTask_VT_1032AE64::vf8)> CMoOtTask_VT_1032AE64__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoOtTask_VT_1032AE64::vf8)> >(XI_GAME(0x10042020u)); }
@@ -820,17 +765,14 @@ inline ::xikit::fn<decltype(&::CMoDisintegrateProgElem::GetRuntimeClass)> CMoDis
 inline ::xikit::fn<decltype(&::CMoDisintegrateProgElem::vf018)> CMoDisintegrateProgElem__vf018() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDisintegrateProgElem::vf018)> >(XI_GAME(0x100426C0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant4)> CMoElem__GetRuntimeClass_variant4() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant4)> >(XI_GAME(0x100426D0u)); }
 inline ::xikit::fn<decltype(&::CMoDist::GetRuntimeClass_variant0)> CMoDist__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDist::GetRuntimeClass_variant0)> >(XI_GAME(0x100426E0u)); }
-inline ::xikit::fn<decltype(&::fn_100426F0)> fn_100426F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100426F0)> >(XI_GAME(0x100426F0u)); }
-inline ::xikit::fn<decltype(&::CMoDistMorphElem::ValidateMorphData)> CMoDistMorphElem__ValidateMorphData() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistMorphElem::ValidateMorphData)> >(XI_GAME(0x10042D00u)); }
+inline ::xikit::fn<decltype(&::YmElem_DrawScreenDistortion)> YmElem_DrawScreenDistortion() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_DrawScreenDistortion)> >(XI_GAME(0x100426F0u)); }
 inline ::xikit::fn<decltype(&::CMoDist::GetRuntimeClass_variant1)> CMoDist__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDist::GetRuntimeClass_variant1)> >(XI_GAME(0x100430B0u)); }
 inline ::xikit::fn<decltype(&::CMoVuDist::GetRuntimeClass)> CMoVuDist__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoVuDist::GetRuntimeClass)> >(XI_GAME(0x100430C0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant5)> CMoElem__GetRuntimeClass_variant5() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant5)> >(XI_GAME(0x10043190u)); }
 inline ::xikit::fn<decltype(&::CMoDistModelElem::GetRuntimeClass)> CMoDistModelElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistModelElem::GetRuntimeClass)> >(XI_GAME(0x100431A0u)); }
 inline ::xikit::fn<decltype(&::fn_100431B0)> fn_100431B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100431B0)> >(XI_GAME(0x100431B0u)); }
-inline ::xikit::fn<decltype(&::CMoDistModelElem::BuildDistortedMesh)> CMoDistModelElem__BuildDistortedMesh() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistModelElem::BuildDistortedMesh)> >(XI_GAME(0x10043320u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant6)> CMoElem__GetRuntimeClass_variant6() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant6)> >(XI_GAME(0x10043570u)); }
 inline ::xikit::fn<decltype(&::CMoDistMorphElem::GetRuntimeClass)> CMoDistMorphElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistMorphElem::GetRuntimeClass)> >(XI_GAME(0x10043580u)); }
-inline ::xikit::fn<decltype(&::CMoDistMorphElem::UpdateMorphBlend)> CMoDistMorphElem__UpdateMorphBlend() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistMorphElem::UpdateMorphBlend)> >(XI_GAME(0x10043590u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant7)> CMoElem__GetRuntimeClass_variant7() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant7)> >(XI_GAME(0x10043700u)); }
 inline ::xikit::fn<decltype(&::CMoDistRingElem::GetRuntimeClass)> CMoDistRingElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistRingElem::GetRuntimeClass)> >(XI_GAME(0x10043710u)); }
 inline ::xikit::fn<decltype(&::CMoDistRingElem::AllocRingGeometry)> CMoDistRingElem__AllocRingGeometry() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDistRingElem::AllocRingGeometry)> >(XI_GAME(0x10043720u)); }
@@ -848,11 +790,10 @@ inline ::xikit::fn<decltype(&::CMoVuElem_Draw)> CMoVuElem_Draw() { return reinte
 inline ::xikit::fn<decltype(&::DynVB_Reserve)> DynVB_Reserve() { return reinterpret_cast< ::xikit::fn<decltype(&::DynVB_Reserve)> >(XI_GAME(0x10044010u)); }
 inline ::xikit::fn<decltype(&::DynVB_Lock)> DynVB_Lock() { return reinterpret_cast< ::xikit::fn<decltype(&::DynVB_Lock)> >(XI_GAME(0x10044130u)); }
 inline ::xikit::fn<decltype(&::DynVB_Unlock)> DynVB_Unlock() { return reinterpret_cast< ::xikit::fn<decltype(&::DynVB_Unlock)> >(XI_GAME(0x100441A0u)); }
-inline ::xikit::fn<decltype(&::fn_100441C0)> fn_100441C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100441C0)> >(XI_GAME(0x100441C0u)); }
+inline ::xikit::fn<decltype(&::CameraCache_CacheViewProjection)> CameraCache_CacheViewProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::CameraCache_CacheViewProjection)> >(XI_GAME(0x100441C0u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetViewMatrixFromField10)> Gfx_SetViewMatrixFromField10() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetViewMatrixFromField10)> >(XI_GAME(0x10044210u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetViewMatrixFromField90)> Gfx_SetViewMatrixFromField90() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetViewMatrixFromField90)> >(XI_GAME(0x10044230u)); }
 inline ::xikit::fn<decltype(&::Mo_InitSharedRenderResources)> Mo_InitSharedRenderResources() { return reinterpret_cast< ::xikit::fn<decltype(&::Mo_InitSharedRenderResources)> >(XI_GAME(0x10044270u)); }
-inline ::xikit::fn<decltype(&::fn_10044540)> fn_10044540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10044540)> >(XI_GAME(0x10044540u)); }
 inline ::xikit::fn<decltype(&::fn_100446A0)> fn_100446A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100446A0)> >(XI_GAME(0x100446A0u)); }
 inline ::xikit::fn<decltype(&::CMoOtTask::GetRuntimeClass_variant0)> CMoOtTask__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoOtTask::GetRuntimeClass_variant0)> >(XI_GAME(0x10044870u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant8)> CMoElem__GetRuntimeClass_variant8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant8)> >(XI_GAME(0x10044880u)); }
@@ -866,19 +807,18 @@ inline ::xikit::fn<decltype(&::fn_10044C20)> fn_10044C20() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10044C40)> fn_10044C40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10044C40)> >(XI_GAME(0x10044C40u)); }
 inline ::xikit::fn<decltype(&::fn_10044CF0)> fn_10044CF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10044CF0)> >(XI_GAME(0x10044CF0u)); }
 inline ::xikit::fn<decltype(&::fn_10044D40)> fn_10044D40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10044D40)> >(XI_GAME(0x10044D40u)); }
-inline ::xikit::fn<decltype(&::fn_10044F10)> fn_10044F10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10044F10)> >(XI_GAME(0x10044F10u)); }
+inline ::xikit::fn<decltype(&::YmElem_ComputeViewDepthKey)> YmElem_ComputeViewDepthKey() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_ComputeViewDepthKey)> >(XI_GAME(0x10044F10u)); }
 inline ::xikit::fn<decltype(&::fn_10045800)> fn_10045800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10045800)> >(XI_GAME(0x10045800u)); }
 inline ::xikit::fn<decltype(&::fn_100458F0)> fn_100458F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100458F0)> >(XI_GAME(0x100458F0u)); }
-inline ::xikit::fn<decltype(&::fn_10045920)> fn_10045920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10045920)> >(XI_GAME(0x10045920u)); }
+inline ::xikit::fn<decltype(&::YmElem_BuildDrawMatrixAndTest)> YmElem_BuildDrawMatrixAndTest() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_BuildDrawMatrixAndTest)> >(XI_GAME(0x10045920u)); }
 inline ::xikit::fn<decltype(&::fn_10045A40)> fn_10045A40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10045A40)> >(XI_GAME(0x10045A40u)); }
 inline ::xikit::fn<decltype(&::fn_10045C50)> fn_10045C50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10045C50)> >(XI_GAME(0x10045C50u)); }
 inline ::xikit::fn<decltype(&::RegisterWithProcessor)> RegisterWithProcessor() { return reinterpret_cast< ::xikit::fn<decltype(&::RegisterWithProcessor)> >(XI_GAME(0x10045D40u)); }
-inline ::xikit::fn<decltype(&::fn_10046070)> fn_10046070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10046070)> >(XI_GAME(0x10046070u)); }
 inline ::xikit::fn<decltype(&::fn_10046380)> fn_10046380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10046380)> >(XI_GAME(0x10046380u)); }
 inline ::xikit::fn<decltype(&::fn_100464D0)> fn_100464D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100464D0)> >(XI_GAME(0x100464D0u)); }
-inline ::xikit::fn<decltype(&::fn_100467E0)> fn_100467E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100467E0)> >(XI_GAME(0x100467E0u)); }
+inline ::xikit::fn<decltype(&::YmElem_SetupDevice)> YmElem_SetupDevice() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_SetupDevice)> >(XI_GAME(0x100467E0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::vf018)> CMoElem__vf018() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::vf018)> >(XI_GAME(0x100472E0u)); }
-inline ::xikit::fn<decltype(&::fn_100472F0)> fn_100472F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100472F0)> >(XI_GAME(0x100472F0u)); }
+inline ::xikit::fn<decltype(&::YmElem_RestoreDevice)> YmElem_RestoreDevice() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_RestoreDevice)> >(XI_GAME(0x100472F0u)); }
 inline ::xikit::fn<decltype(&::fn_100473F0)> fn_100473F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100473F0)> >(XI_GAME(0x100473F0u)); }
 inline ::xikit::fn<decltype(&::fn_10047450)> fn_10047450() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10047450)> >(XI_GAME(0x10047450u)); }
 inline ::xikit::fn<decltype(&::fn_10047490)> fn_10047490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10047490)> >(XI_GAME(0x10047490u)); }
@@ -894,7 +834,6 @@ inline ::xikit::fn<decltype(&::CMoGeneratorClone::FixupClonedPointers)> CMoGener
 inline ::xikit::fn<decltype(&::CMoResource::CMoCamera_SetLinkedObject)> CMoResource__CMoCamera_SetLinkedObject() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::CMoCamera_SetLinkedObject)> >(XI_GAME(0x10047FC0u)); }
 inline ::xikit::fn<decltype(&::CMoResource::vf005)> CMoResource__vf005() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::vf005)> >(XI_GAME(0x10047FD0u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor)> CMoGeneratorClone_VT_1032B114__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor)> >(XI_GAME(0x10047FE0u)); }
-inline ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B114::Destructor)> CMoGeneratorClone_VT_1032B114__Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B114::Destructor)> >(XI_GAME(0x10048000u)); }
 inline ::xikit::fn<decltype(&::fn_100480D0)> fn_100480D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100480D0)> >(XI_GAME(0x100480D0u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::UnlinkElemListA)> CMoGeneratorClone__UnlinkElemListA() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::UnlinkElemListA)> >(XI_GAME(0x10048140u)); }
 inline ::xikit::fn<decltype(&::fn_10048220)> fn_10048220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10048220)> >(XI_GAME(0x10048220u)); }
@@ -903,8 +842,9 @@ inline ::xikit::fn<decltype(&::fn_10049330)> fn_10049330() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100493B0)> fn_100493B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100493B0)> >(XI_GAME(0x100493B0u)); }
 inline ::xikit::fn<decltype(&::fn_10049520)> fn_10049520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10049520)> >(XI_GAME(0x10049520u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::ResolveTarget)> CMoGeneratorClone__ResolveTarget() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::ResolveTarget)> >(XI_GAME(0x10049570u)); }
-inline ::xikit::fn<decltype(&::fn_1004A870)> fn_1004A870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004A870)> >(XI_GAME(0x1004A870u)); }
+inline ::xikit::fn<decltype(&::GateEffectBoxProjection)> GateEffectBoxProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::GateEffectBoxProjection)> >(XI_GAME(0x1004A870u)); }
 inline ::xikit::fn<decltype(&::fn_1004E210)> fn_1004E210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E210)> >(XI_GAME(0x1004E210u)); }
+inline ::xikit::fn<decltype(&::fn_1004E250)> fn_1004E250() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E250)> >(XI_GAME(0x1004E250u)); }
 inline ::xikit::fn<decltype(&::fn_1004E260)> fn_1004E260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E260)> >(XI_GAME(0x1004E260u)); }
 inline ::xikit::fn<decltype(&::fn_1004E270)> fn_1004E270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E270)> >(XI_GAME(0x1004E270u)); }
 inline ::xikit::fn<decltype(&::fn_1004E280)> fn_1004E280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E280)> >(XI_GAME(0x1004E280u)); }
@@ -920,12 +860,11 @@ inline ::xikit::fn<decltype(&::Pool_FreeSlot)> Pool_FreeSlot() { return reinterp
 inline ::xikit::fn<decltype(&::fn_1004E470)> fn_1004E470() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E470)> >(XI_GAME(0x1004E470u)); }
 inline ::xikit::fn<decltype(&::fn_1004E490)> fn_1004E490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E490)> >(XI_GAME(0x1004E490u)); }
 inline ::xikit::fn<decltype(&::fn_1004E4E0)> fn_1004E4E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E4E0)> >(XI_GAME(0x1004E4E0u)); }
-inline ::xikit::fn<decltype(&::fn_1004E630)> fn_1004E630() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E630)> >(XI_GAME(0x1004E630u)); }
+inline ::xikit::fn<decltype(&::ScaleElemVisibilityByProbe)> ScaleElemVisibilityByProbe() { return reinterpret_cast< ::xikit::fn<decltype(&::ScaleElemVisibilityByProbe)> >(XI_GAME(0x1004E630u)); }
 inline ::xikit::fn<decltype(&::fn_1004E720)> fn_1004E720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1004E720)> >(XI_GAME(0x1004E720u)); }
 inline ::xikit::fn<decltype(&::fn_100527B0)> fn_100527B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100527B0)> >(XI_GAME(0x100527B0u)); }
 inline ::xikit::fn<decltype(&::fn_100527C0)> fn_100527C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100527C0)> >(XI_GAME(0x100527C0u)); }
 inline ::xikit::fn<decltype(&::fn_100527E0)> fn_100527E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100527E0)> >(XI_GAME(0x100527E0u)); }
-inline ::xikit::fn<decltype(&::fn_100527F0)> fn_100527F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100527F0)> >(XI_GAME(0x100527F0u)); }
 inline ::xikit::fn<decltype(&::fn_10052800)> fn_10052800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10052800)> >(XI_GAME(0x10052800u)); }
 inline ::xikit::fn<decltype(&::fn_10052820)> fn_10052820() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10052820)> >(XI_GAME(0x10052820u)); }
 inline ::xikit::fn<decltype(&::fn_10052870)> fn_10052870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10052870)> >(XI_GAME(0x10052870u)); }
@@ -1023,20 +962,19 @@ inline ::xikit::fn<decltype(&::CMoDisintegrateProgElem::vf012)> CMoDisintegrateP
 inline ::xikit::fn<decltype(&::CMoDisintegrateProgElem::vf008)> CMoDisintegrateProgElem__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDisintegrateProgElem::vf008)> >(XI_GAME(0x10053140u)); }
 inline ::xikit::fn<decltype(&::CMoDisintegrateProgElem::ScalarDeletingDtor)> CMoDisintegrateProgElem__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDisintegrateProgElem::ScalarDeletingDtor)> >(XI_GAME(0x10053150u)); }
 inline ::xikit::fn<decltype(&::fn_10053180)> fn_10053180() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053180)> >(XI_GAME(0x10053180u)); }
-inline ::xikit::fn<decltype(&::CMoNullProgElem::SetField138)> CMoNullProgElem__SetField138() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoNullProgElem::SetField138)> >(XI_GAME(0x100531A0u)); }
 inline ::xikit::fn<decltype(&::CMoNullProgElem::Destructor)> CMoNullProgElem__Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoNullProgElem::Destructor)> >(XI_GAME(0x100531B0u)); }
-inline ::xikit::fn<decltype(&::SharedConditionalStateReset)> SharedConditionalStateReset() { return reinterpret_cast< ::xikit::fn<decltype(&::SharedConditionalStateReset)> >(XI_GAME(0x100531D0u)); }
 inline ::xikit::fn<decltype(&::CMoTask_VT_1032B654::ScalarDeletingDtor)> CMoTask_VT_1032B654__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032B654::ScalarDeletingDtor)> >(XI_GAME(0x10053350u)); }
 inline ::xikit::fn<decltype(&::fn_10053370)> fn_10053370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053370)> >(XI_GAME(0x10053370u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::CopyParams)> CMoGeneratorClone__CopyParams() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::CopyParams)> >(XI_GAME(0x10053450u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::CreateInstance)> CMoGeneratorClone__CreateInstance() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::CreateInstance)> >(XI_GAME(0x100536C0u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor)> CMoGeneratorClone_VT_1032B69C__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor)> >(XI_GAME(0x10053840u)); }
-inline ::xikit::fn<decltype(&::fn_100538E0)> fn_100538E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100538E0)> >(XI_GAME(0x100538E0u)); }
+inline ::xikit::fn<decltype(&::fn_10053890)> fn_10053890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053890)> >(XI_GAME(0x10053890u)); }
+inline ::xikit::fn<decltype(&::YmGenerater_Stop)> YmGenerater_Stop() { return reinterpret_cast< ::xikit::fn<decltype(&::YmGenerater_Stop)> >(XI_GAME(0x100538E0u)); }
 inline ::xikit::fn<decltype(&::fn_100539E0)> fn_100539E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100539E0)> >(XI_GAME(0x100539E0u)); }
 inline ::xikit::fn<decltype(&::fn_10053A00)> fn_10053A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053A00)> >(XI_GAME(0x10053A00u)); }
 inline ::xikit::fn<decltype(&::fn_10053C80)> fn_10053C80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053C80)> >(XI_GAME(0x10053C80u)); }
+inline ::xikit::fn<decltype(&::fn_10053DD0)> fn_10053DD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10053DD0)> >(XI_GAME(0x10053DD0u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::InitDefaultParams)> CMoGeneratorClone__InitDefaultParams() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::InitDefaultParams)> >(XI_GAME(0x10053E00u)); }
-inline ::xikit::fn<decltype(&::fn_10054220)> fn_10054220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10054220)> >(XI_GAME(0x10054220u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass)> CMoGeneratorClone_VT_1032B69C__CMoGeneratorClone_GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass)> >(XI_GAME(0x100542E0u)); }
 inline ::xikit::fn<decltype(&::CMoGeneratorClone::Destructor)> CMoGeneratorClone__Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoGeneratorClone::Destructor)> >(XI_GAME(0x100542F0u)); }
 inline ::xikit::fn<decltype(&::fn_10054410)> fn_10054410() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10054410)> >(XI_GAME(0x10054410u)); }
@@ -1052,8 +990,8 @@ inline ::xikit::fn<decltype(&::fn_100546F0)> fn_100546F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100547A0)> fn_100547A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100547A0)> >(XI_GAME(0x100547A0u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant11)> CMoElem__GetRuntimeClass_variant11() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant11)> >(XI_GAME(0x100548A0u)); }
 inline ::xikit::fn<decltype(&::CMoLfdElem::GetRuntimeClass)> CMoLfdElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoLfdElem::GetRuntimeClass)> >(XI_GAME(0x100548B0u)); }
-inline ::xikit::fn<decltype(&::fn_10054D70)> fn_10054D70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10054D70)> >(XI_GAME(0x10054D70u)); }
-inline ::xikit::fn<decltype(&::fn_10054F80)> fn_10054F80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10054F80)> >(XI_GAME(0x10054F80u)); }
+inline ::xikit::fn<decltype(&::BeginEffectOffscreenPass)> BeginEffectOffscreenPass() { return reinterpret_cast< ::xikit::fn<decltype(&::BeginEffectOffscreenPass)> >(XI_GAME(0x10054D70u)); }
+inline ::xikit::fn<decltype(&::EndEffectOffscreenPass)> EndEffectOffscreenPass() { return reinterpret_cast< ::xikit::fn<decltype(&::EndEffectOffscreenPass)> >(XI_GAME(0x10054F80u)); }
 inline ::xikit::fn<decltype(&::fn_10054FC0)> fn_10054FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10054FC0)> >(XI_GAME(0x10054FC0u)); }
 inline ::xikit::fn<decltype(&::fn_100550F0)> fn_100550F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100550F0)> >(XI_GAME(0x100550F0u)); }
 inline ::xikit::fn<decltype(&::LinkNode_Init)> LinkNode_Init() { return reinterpret_cast< ::xikit::fn<decltype(&::LinkNode_Init)> >(XI_GAME(0x10055240u)); }
@@ -1062,7 +1000,6 @@ inline ::xikit::fn<decltype(&::fn_100552A0)> fn_100552A0() { return reinterpret_
 inline ::xikit::fn<decltype(&::CMoOT::ScalarDeletingDtor)> CMoOT__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoOT::ScalarDeletingDtor)> >(XI_GAME(0x100552C0u)); }
 inline ::xikit::fn<decltype(&::fn_100552F0)> fn_100552F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100552F0)> >(XI_GAME(0x100552F0u)); }
 inline ::xikit::fn<decltype(&::fn_10055300)> fn_10055300() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10055300)> >(XI_GAME(0x10055300u)); }
-inline ::xikit::fn<decltype(&::fn_100554B0)> fn_100554B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100554B0)> >(XI_GAME(0x100554B0u)); }
 inline ::xikit::fn<decltype(&::fn_10055520)> fn_10055520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10055520)> >(XI_GAME(0x10055520u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant5)> CMoTask__GetRuntimeClass_variant5() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant5)> >(XI_GAME(0x10055550u)); }
 inline ::xikit::fn<decltype(&::CMoOtTask::GetRuntimeClass_variant1)> CMoOtTask__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoOtTask::GetRuntimeClass_variant1)> >(XI_GAME(0x10055560u)); }
@@ -1083,7 +1020,6 @@ inline ::xikit::fn<decltype(&::fn_100562F0)> fn_100562F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::CMoPointLightProgElem::vf012)> CMoPointLightProgElem__vf012() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoPointLightProgElem::vf012)> >(XI_GAME(0x10056360u)); }
 inline ::xikit::fn<decltype(&::CMoPointLightProgElem::ScalarDeletingDtor)> CMoPointLightProgElem__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoPointLightProgElem::ScalarDeletingDtor)> >(XI_GAME(0x10056370u)); }
 inline ::xikit::fn<decltype(&::fn_10056400)> fn_10056400() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10056400)> >(XI_GAME(0x10056400u)); }
-inline ::xikit::fn<decltype(&::CXi471011C8_VT_1032B478::RebuildBlendWeights)> CXi471011C8_VT_1032B478__RebuildBlendWeights() { return reinterpret_cast< ::xikit::fn<decltype(&::CXi471011C8_VT_1032B478::RebuildBlendWeights)> >(XI_GAME(0x100565A0u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant6)> CMoTask__GetRuntimeClass_variant6() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant6)> >(XI_GAME(0x10056930u)); }
 inline ::xikit::fn<decltype(&::CMoPathDriveActorTask::GetRuntimeClass)> CMoPathDriveActorTask__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoPathDriveActorTask::GetRuntimeClass)> >(XI_GAME(0x10056940u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant7)> CMoTask__GetRuntimeClass_variant7() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant7)> >(XI_GAME(0x10056950u)); }
@@ -1102,31 +1038,12 @@ inline ::xikit::fn<decltype(&::CMoSchedularTask::GetRuntimeClass)> CMoSchedularT
 inline ::xikit::fn<decltype(&::CMoSchedularTask::ScalarDeletingDtor)> CMoSchedularTask__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoSchedularTask::ScalarDeletingDtor)> >(XI_GAME(0x10057250u)); }
 inline ::xikit::fn<decltype(&::fn_10057270)> fn_10057270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10057270)> >(XI_GAME(0x10057270u)); }
 inline ::xikit::fn<decltype(&::fn_100573B0)> fn_100573B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100573B0)> >(XI_GAME(0x100573B0u)); }
-inline ::xikit::fn<decltype(&::fn_100573E0)> fn_100573E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100573E0)> >(XI_GAME(0x100573E0u)); }
 inline ::xikit::fn<decltype(&::CMoSchedularTask::Destructor)> CMoSchedularTask__Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoSchedularTask::Destructor)> >(XI_GAME(0x100574A0u)); }
 inline ::xikit::fn<decltype(&::fn_10057CC0)> fn_10057CC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10057CC0)> >(XI_GAME(0x10057CC0u)); }
 inline ::xikit::fn<decltype(&::CMoSchedularTask::vf8)> CMoSchedularTask__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoSchedularTask::vf8)> >(XI_GAME(0x10057E10u)); }
-inline ::xikit::fn<decltype(&::CMoSchedularTask::Interpret)> CMoSchedularTask__Interpret() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoSchedularTask::Interpret)> >(XI_GAME(0x10057FB0u)); }
 inline ::xikit::fn<decltype(&::fn_1005E110)> fn_1005E110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1005E110)> >(XI_GAME(0x1005E110u)); }
 inline ::xikit::fn<decltype(&::CMoPathDriveActorTask::vf8)> CMoPathDriveActorTask__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoPathDriveActorTask::vf8)> >(XI_GAME(0x1005E9C0u)); }
 inline ::xikit::fn<decltype(&::fn_1005EEF0)> fn_1005EEF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1005EEF0)> >(XI_GAME(0x1005EEF0u)); }
-inline ::xikit::fn<decltype(&::CMoLockColorDriveTask::vf8)> CMoLockColorDriveTask__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoLockColorDriveTask::vf8)> >(XI_GAME(0x1005F3C0u)); }
-inline ::xikit::fn<decltype(&::CMoLockLookAtDriveTask::vf8)> CMoLockLookAtDriveTask__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoLockLookAtDriveTask::vf8)> >(XI_GAME(0x1005F540u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BB0C::vf8)> CMoTask_VT_1032BB0C__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BB0C::vf8)> >(XI_GAME(0x100602A0u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032B8BC::vf8)> CMoTask_VT_1032B8BC__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032B8BC::vf8)> >(XI_GAME(0x100605E0u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BB54::vf8)> CMoTask_VT_1032BB54__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BB54::vf8)> >(XI_GAME(0x10060880u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BC10::vf8)> CMoTask_VT_1032BC10__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BC10::vf8)> >(XI_GAME(0x10060E30u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BC3C::vf8)> CMoTask_VT_1032BC3C__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BC3C::vf8)> >(XI_GAME(0x10060FD0u)); }
-inline ::xikit::fn<decltype(&::fn_10061110)> fn_10061110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10061110)> >(XI_GAME(0x10061110u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BE08::vf8)> CMoTask_VT_1032BE08__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BE08::vf8)> >(XI_GAME(0x100619D0u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BE50::vf8)> CMoTask_VT_1032BE50__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BE50::vf8)> >(XI_GAME(0x10061B50u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BE98::vf8)> CMoTask_VT_1032BE98__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BE98::vf8)> >(XI_GAME(0x10061CD0u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BEE0::vf8)> CMoTask_VT_1032BEE0__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BEE0::vf8)> >(XI_GAME(0x10061E70u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BF28::vf8)> CMoTask_VT_1032BF28__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BF28::vf8)> >(XI_GAME(0x10062060u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BF70::vf8)> CMoTask_VT_1032BF70__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BF70::vf8)> >(XI_GAME(0x100621E0u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032BFB8::vf8)> CMoTask_VT_1032BFB8__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032BFB8::vf8)> >(XI_GAME(0x10062380u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032C000::vf8)> CMoTask_VT_1032C000__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032C000::vf8)> >(XI_GAME(0x10062520u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_1032C048::vf8)> CMoTask_VT_1032C048__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_1032C048::vf8)> >(XI_GAME(0x100626D0u)); }
 inline ::xikit::fn<decltype(&::fn_10062770)> fn_10062770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10062770)> >(XI_GAME(0x10062770u)); }
 inline ::xikit::fn<decltype(&::fn_100627D0)> fn_100627D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100627D0)> >(XI_GAME(0x100627D0u)); }
 inline ::xikit::fn<decltype(&::fn_10062830)> fn_10062830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10062830)> >(XI_GAME(0x10062830u)); }
@@ -1170,14 +1087,13 @@ inline ::xikit::fn<decltype(&::CMoSpline::Destructor)> CMoSpline__Destructor() {
 inline ::xikit::fn<decltype(&::fn_100634B0)> fn_100634B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100634B0)> >(XI_GAME(0x100634B0u)); }
 inline ::xikit::fn<decltype(&::fn_10063550)> fn_10063550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063550)> >(XI_GAME(0x10063550u)); }
 inline ::xikit::fn<decltype(&::fn_10063890)> fn_10063890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063890)> >(XI_GAME(0x10063890u)); }
-inline ::xikit::fn<decltype(&::fn_10063A60)> fn_10063A60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063A60)> >(XI_GAME(0x10063A60u)); }
 inline ::xikit::fn<decltype(&::fn_10063B20)> fn_10063B20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063B20)> >(XI_GAME(0x10063B20u)); }
 inline ::xikit::fn<decltype(&::fn_10063B50)> fn_10063B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063B50)> >(XI_GAME(0x10063B50u)); }
 inline ::xikit::fn<decltype(&::fn_10063B70)> fn_10063B70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063B70)> >(XI_GAME(0x10063B70u)); }
 inline ::xikit::fn<decltype(&::fn_10063B80)> fn_10063B80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063B80)> >(XI_GAME(0x10063B80u)); }
 inline ::xikit::fn<decltype(&::fn_10063C30)> fn_10063C30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063C30)> >(XI_GAME(0x10063C30u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C55C::vf008)> CMoResource_VT_1032C55C__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C55C::vf008)> >(XI_GAME(0x10063C50u)); }
-inline ::xikit::fn<decltype(&::fn_10063C80)> fn_10063C80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10063C80)> >(XI_GAME(0x10063C80u)); }
+inline ::xikit::fn<decltype(&::YmElem_ForEachInstance)> YmElem_ForEachInstance() { return reinterpret_cast< ::xikit::fn<decltype(&::YmElem_ForEachInstance)> >(XI_GAME(0x10063C80u)); }
 inline ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant13)> CMoElem__GetRuntimeClass_variant13() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoElem::GetRuntimeClass_variant13)> >(XI_GAME(0x10064160u)); }
 inline ::xikit::fn<decltype(&::CMoVuLineProgElem::GetRuntimeClass)> CMoVuLineProgElem__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoVuLineProgElem::GetRuntimeClass)> >(XI_GAME(0x10064170u)); }
 inline ::xikit::fn<decltype(&::CMoVuLineProgElem::vf018)> CMoVuLineProgElem__vf018() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoVuLineProgElem::vf018)> >(XI_GAME(0x10064180u)); }
@@ -1201,9 +1117,8 @@ inline ::xikit::fn<decltype(&::fn_1006AA30)> fn_1006AA30() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1006AD30)> fn_1006AD30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006AD30)> >(XI_GAME(0x1006AD30u)); }
 inline ::xikit::fn<decltype(&::fn_1006AD50)> fn_1006AD50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006AD50)> >(XI_GAME(0x1006AD50u)); }
 inline ::xikit::fn<decltype(&::fn_1006AD90)> fn_1006AD90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006AD90)> >(XI_GAME(0x1006AD90u)); }
-inline ::xikit::fn<decltype(&::fn_1006ADC0)> fn_1006ADC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006ADC0)> >(XI_GAME(0x1006ADC0u)); }
 inline ::xikit::fn<decltype(&::fn_1006ADF0)> fn_1006ADF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006ADF0)> >(XI_GAME(0x1006ADF0u)); }
-inline ::xikit::fn<decltype(&::fn_1006AF00)> fn_1006AF00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006AF00)> >(XI_GAME(0x1006AF00u)); }
+inline ::xikit::fn<decltype(&::StateBlockHolder_ApplyRenderStates)> StateBlockHolder_ApplyRenderStates() { return reinterpret_cast< ::xikit::fn<decltype(&::StateBlockHolder_ApplyRenderStates)> >(XI_GAME(0x1006AF00u)); }
 inline ::xikit::fn<decltype(&::StateBlock_ApplyTSS)> StateBlock_ApplyTSS() { return reinterpret_cast< ::xikit::fn<decltype(&::StateBlock_ApplyTSS)> >(XI_GAME(0x1006AF90u)); }
 inline ::xikit::fn<decltype(&::CMoDxStatusMng::GetRuntimeClass)> CMoDxStatusMng__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDxStatusMng::GetRuntimeClass)> >(XI_GAME(0x1006B040u)); }
 inline ::xikit::fn<decltype(&::CMoDxStatusMng::Constructor)> CMoDxStatusMng__Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDxStatusMng::Constructor)> >(XI_GAME(0x1006B050u)); }
@@ -1212,9 +1127,7 @@ inline ::xikit::fn<decltype(&::VBPool_Constructor)> VBPool_Constructor() { retur
 inline ::xikit::fn<decltype(&::fn_1006B120)> fn_1006B120() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006B120)> >(XI_GAME(0x1006B120u)); }
 inline ::xikit::fn<decltype(&::fn_1006B1D0)> fn_1006B1D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006B1D0)> >(XI_GAME(0x1006B1D0u)); }
 inline ::xikit::fn<decltype(&::CMoDX::CreateAndInitSystem)> CMoDX__CreateAndInitSystem() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoDX::CreateAndInitSystem)> >(XI_GAME(0x1006B2B0u)); }
-inline ::xikit::fn<decltype(&::fn_1006B3B0)> fn_1006B3B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006B3B0)> >(XI_GAME(0x1006B3B0u)); }
 inline ::xikit::fn<decltype(&::CMoTask_VT_10329C70::vf8)> CMoTask_VT_10329C70__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_10329C70::vf8)> >(XI_GAME(0x1006B480u)); }
-inline ::xikit::fn<decltype(&::CMoTask_VT_10329C70::vf1)> CMoTask_VT_10329C70__vf1() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask_VT_10329C70::vf1)> >(XI_GAME(0x1006B4C0u)); }
 inline ::xikit::fn<decltype(&::Rand_SeedMT19937)> Rand_SeedMT19937() { return reinterpret_cast< ::xikit::fn<decltype(&::Rand_SeedMT19937)> >(XI_GAME(0x1006BD90u)); }
 inline ::xikit::fn<decltype(&::fn_1006BE20)> fn_1006BE20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006BE20)> >(XI_GAME(0x1006BE20u)); }
 inline ::xikit::fn<decltype(&::fn_1006BF40)> fn_1006BF40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006BF40)> >(XI_GAME(0x1006BF40u)); }
@@ -1230,6 +1143,7 @@ inline ::xikit::fn<decltype(&::OcclusionQuery_Init)> OcclusionQuery_Init() { ret
 inline ::xikit::fn<decltype(&::Occlusion_QueryScreenRect)> Occlusion_QueryScreenRect() { return reinterpret_cast< ::xikit::fn<decltype(&::Occlusion_QueryScreenRect)> >(XI_GAME(0x1006C280u)); }
 inline ::xikit::fn<decltype(&::Occlusion_QueryScreenRectImpl)> Occlusion_QueryScreenRectImpl() { return reinterpret_cast< ::xikit::fn<decltype(&::Occlusion_QueryScreenRectImpl)> >(XI_GAME(0x1006C300u)); }
 inline ::xikit::fn<decltype(&::Occlusion_DrawQuery)> Occlusion_DrawQuery() { return reinterpret_cast< ::xikit::fn<decltype(&::Occlusion_DrawQuery)> >(XI_GAME(0x1006C530u)); }
+inline ::xikit::fn<decltype(&::Occlusion_ReadbackCount)> Occlusion_ReadbackCount() { return reinterpret_cast< ::xikit::fn<decltype(&::Occlusion_ReadbackCount)> >(XI_GAME(0x1006C8B0u)); }
 inline ::xikit::fn<decltype(&::OcclusionMng_Prepare)> OcclusionMng_Prepare() { return reinterpret_cast< ::xikit::fn<decltype(&::OcclusionMng_Prepare)> >(XI_GAME(0x1006C9B0u)); }
 inline ::xikit::fn<decltype(&::fn_1006CA20)> fn_1006CA20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006CA20)> >(XI_GAME(0x1006CA20u)); }
 inline ::xikit::fn<decltype(&::fn_1006CA60)> fn_1006CA60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006CA60)> >(XI_GAME(0x1006CA60u)); }
@@ -1241,38 +1155,33 @@ inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf046)> CMoProcessor_VT
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf045)> CMoProcessor_VT_1032C1C8__vf045() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf045)> >(XI_GAME(0x1006CC90u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass)> CMoProcessor_VT_1032C1C8__CMoProcessor_GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass)> >(XI_GAME(0x1006CCD0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor::InitRotationMatrices)> CMoProcessor__InitRotationMatrices() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor::InitRotationMatrices)> >(XI_GAME(0x1006CE70u)); }
-inline ::xikit::fn<decltype(&::fn_1006D0A0)> fn_1006D0A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006D0A0)> >(XI_GAME(0x1006D0A0u)); }
 inline ::xikit::fn<decltype(&::fn_1006D270)> fn_1006D270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006D270)> >(XI_GAME(0x1006D270u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf007)> CMoProcessor_VT_1032C298__vf007() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf007)> >(XI_GAME(0x1006D380u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf012)> CMoProcessor_VT_1032C368__vf012() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf012)> >(XI_GAME(0x1006D3B0u)); }
 inline ::xikit::fn<decltype(&::fn_1006D3E0)> fn_1006D3E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006D3E0)> >(XI_GAME(0x1006D3E0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf014)> CMoProcessor_VT_1032C368__vf014() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf014)> >(XI_GAME(0x1006D4D0u)); }
 inline ::xikit::fn<decltype(&::fn_1006D580)> fn_1006D580() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006D580)> >(XI_GAME(0x1006D580u)); }
-inline ::xikit::fn<decltype(&::CMoProcessor::Vec3Normalize)> CMoProcessor__Vec3Normalize() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor::Vec3Normalize)> >(XI_GAME(0x1006D5D0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf042)> CMoProcessor_VT_1032C368__vf042() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf042)> >(XI_GAME(0x1006D680u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf043)> CMoProcessor_VT_1032C368__vf043() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf043)> >(XI_GAME(0x1006D6B0u)); }
-inline ::xikit::fn<decltype(&::fn_1006D720)> fn_1006D720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006D720)> >(XI_GAME(0x1006D720u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf021)> CMoProcessor_VT_1032C368__vf021() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C368::vf021)> >(XI_GAME(0x1006D980u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor::ScratchMatrixOp)> CMoProcessor__ScratchMatrixOp() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor::ScratchMatrixOp)> >(XI_GAME(0x1006E6B0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor::CalcScreenBounds)> CMoProcessor__CalcScreenBounds() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor::CalcScreenBounds)> >(XI_GAME(0x1006E970u)); }
 inline ::xikit::fn<decltype(&::fn_1006EF70)> fn_1006EF70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006EF70)> >(XI_GAME(0x1006EF70u)); }
 inline ::xikit::fn<decltype(&::Mat4x4_SafeTranspose)> Mat4x4_SafeTranspose() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4x4_SafeTranspose)> >(XI_GAME(0x1006F0A0u)); }
-inline ::xikit::fn<decltype(&::fn_1006F560)> fn_1006F560() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006F560)> >(XI_GAME(0x1006F560u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf014)> CMoProcessor_VT_1032C298__vf014() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf014)> >(XI_GAME(0x1006F5B0u)); }
 inline ::xikit::fn<decltype(&::fn_1006F800)> fn_1006F800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006F800)> >(XI_GAME(0x1006F800u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf021)> CMoProcessor_VT_1032C298__vf021() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf021)> >(XI_GAME(0x1006FA30u)); }
+inline ::xikit::fn<decltype(&::fn_1006FAE0)> fn_1006FAE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006FAE0)> >(XI_GAME(0x1006FAE0u)); }
+inline ::xikit::fn<decltype(&::fn_1006FC40)> fn_1006FC40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1006FC40)> >(XI_GAME(0x1006FC40u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf035)> CMoProcessor_VT_1032C298__vf035() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf035)> >(XI_GAME(0x10070020u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf036)> CMoProcessor_VT_1032C298__vf036() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C298::vf036)> >(XI_GAME(0x10070040u)); }
-inline ::xikit::fn<decltype(&::fn_100700A0)> fn_100700A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100700A0)> >(XI_GAME(0x100700A0u)); }
 inline ::xikit::fn<decltype(&::fn_100700E0)> fn_100700E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100700E0)> >(XI_GAME(0x100700E0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf012)> CMoProcessor_VT_1032C1C8__vf012() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf012)> >(XI_GAME(0x10070780u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf014)> CMoProcessor_VT_1032C1C8__vf014() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf014)> >(XI_GAME(0x10070790u)); }
-inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf041)> CMoProcessor_VT_1032C1C8__vf041() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf041)> >(XI_GAME(0x10070860u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf018)> CMoProcessor_VT_1032C1C8__vf018() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf018)> >(XI_GAME(0x10070AA0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf017)> CMoProcessor_VT_1032C1C8__vf017() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf017)> >(XI_GAME(0x10070AB0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf016)> CMoProcessor_VT_1032C1C8__vf016() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf016)> >(XI_GAME(0x10070AC0u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf021)> CMoProcessor_VT_1032C1C8__vf021() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf021)> >(XI_GAME(0x10070AD0u)); }
-inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf032)> CMoProcessor_VT_1032C1C8__vf032() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf032)> >(XI_GAME(0x10070D80u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf033)> CMoProcessor_VT_1032C1C8__vf033() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf033)> >(XI_GAME(0x10070E20u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf035)> CMoProcessor_VT_1032C1C8__vf035() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf035)> >(XI_GAME(0x10070E40u)); }
 inline ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf036)> CMoProcessor_VT_1032C1C8__vf036() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoProcessor_VT_1032C1C8::vf036)> >(XI_GAME(0x10070E60u)); }
@@ -1293,7 +1202,6 @@ inline ::xikit::fn<decltype(&::CMoResource_VT_1032C828::vf009)> CMoResource_VT_1
 inline ::xikit::fn<decltype(&::CMoCamera::vf009)> CMoCamera__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoCamera::vf009)> >(XI_GAME(0x100719F0u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf009)> CMoResource_VT_1032C7FC__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C7FC::vf009)> >(XI_GAME(0x10071A00u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C7A4::vf009)> CMoResource_VT_1032C7A4__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C7A4::vf009)> >(XI_GAME(0x10071A10u)); }
-inline ::xikit::fn<decltype(&::CMoResource_VT_1032C778::vf008)> CMoResource_VT_1032C778__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C778::vf008)> >(XI_GAME(0x10071A20u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C778::vf009)> CMoResource_VT_1032C778__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C778::vf009)> >(XI_GAME(0x10071A30u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C8AC::ScalarDeletingDtor)> CMoResource_VT_1032C8AC__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C8AC::ScalarDeletingDtor)> >(XI_GAME(0x10071A40u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C880::ScalarDeletingDtor)> CMoResource_VT_1032C880__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C880::ScalarDeletingDtor)> >(XI_GAME(0x10071A60u)); }
@@ -1315,16 +1223,15 @@ inline ::xikit::fn<decltype(&::CMoResource::GetRuntimeClass_variant3)> CMoResour
 inline ::xikit::fn<decltype(&::CMoResource::vf008)> CMoResource__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::vf008)> >(XI_GAME(0x10071DB0u)); }
 inline ::xikit::fn<decltype(&::CMoResource::ScalarDeletingDtor)> CMoResource__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::ScalarDeletingDtor)> >(XI_GAME(0x10071DC0u)); }
 inline ::xikit::fn<decltype(&::CMoResource::Destructor)> CMoResource__Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::Destructor)> >(XI_GAME(0x10071DE0u)); }
-inline ::xikit::fn<decltype(&::CMoCamera::GetLinkedObject)> CMoCamera__GetLinkedObject() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoCamera::GetLinkedObject)> >(XI_GAME(0x10071E30u)); }
 inline ::xikit::fn<decltype(&::CMoResource::ReleaseChain)> CMoResource__ReleaseChain() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::ReleaseChain)> >(XI_GAME(0x10071EC0u)); }
 inline ::xikit::fn<decltype(&::fn_10071FD0)> fn_10071FD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10071FD0)> >(XI_GAME(0x10071FD0u)); }
-inline ::xikit::fn<decltype(&::CMoResource::RegisterInTypeList)> CMoResource__RegisterInTypeList() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::RegisterInTypeList)> >(XI_GAME(0x10072030u)); }
 inline ::xikit::fn<decltype(&::WeatherRes_GetTimeKey)> WeatherRes_GetTimeKey() { return reinterpret_cast< ::xikit::fn<decltype(&::WeatherRes_GetTimeKey)> >(XI_GAME(0x10072180u)); }
+inline ::xikit::fn<decltype(&::CMoResource_Destroy)> CMoResource_Destroy() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_Destroy)> >(XI_GAME(0x100721F0u)); }
 inline ::xikit::fn<decltype(&::fn_10072240)> fn_10072240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10072240)> >(XI_GAME(0x10072240u)); }
 inline ::xikit::fn<decltype(&::CMoResource::GetParent)> CMoResource__GetParent() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::GetParent)> >(XI_GAME(0x10072270u)); }
 inline ::xikit::fn<decltype(&::CMoResource::FindByTypeAndId)> CMoResource__FindByTypeAndId() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::FindByTypeAndId)> >(XI_GAME(0x10072290u)); }
 inline ::xikit::fn<decltype(&::fn_100722C0)> fn_100722C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100722C0)> >(XI_GAME(0x100722C0u)); }
-inline ::xikit::fn<decltype(&::CMoResource::FindInScope)> CMoResource__FindInScope() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource::FindInScope)> >(XI_GAME(0x10072430u)); }
+inline ::xikit::fn<decltype(&::CMoResource_FindInScope)> CMoResource_FindInScope() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_FindInScope)> >(XI_GAME(0x10072430u)); }
 inline ::xikit::fn<decltype(&::YmResourceFile_FindResourceUnder)> YmResourceFile_FindResourceUnder() { return reinterpret_cast< ::xikit::fn<decltype(&::YmResourceFile_FindResourceUnder)> >(XI_GAME(0x100724C0u)); }
 inline ::xikit::fn<decltype(&::fn_10072540)> fn_10072540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10072540)> >(XI_GAME(0x10072540u)); }
 inline ::xikit::fn<decltype(&::unknown_libname_61)> unknown_libname_61() { return reinterpret_cast< ::xikit::fn<decltype(&::unknown_libname_61)> >(XI_GAME(0x100729C0u)); }
@@ -1336,6 +1243,7 @@ inline ::xikit::fn<decltype(&::CMoResourceMng::GetRuntimeClass)> CMoResourceMng_
 inline ::xikit::fn<decltype(&::MeshResourceMng_LoadSystemResources)> MeshResourceMng_LoadSystemResources() { return reinterpret_cast< ::xikit::fn<decltype(&::MeshResourceMng_LoadSystemResources)> >(XI_GAME(0x10072ED0u)); }
 inline ::xikit::fn<decltype(&::ResourceHandle_Deref)> ResourceHandle_Deref() { return reinterpret_cast< ::xikit::fn<decltype(&::ResourceHandle_Deref)> >(XI_GAME(0x10072FB0u)); }
 inline ::xikit::fn<decltype(&::fn_100730E0)> fn_100730E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100730E0)> >(XI_GAME(0x100730E0u)); }
+inline ::xikit::fn<decltype(&::MeshResourceMng_ResolveTree)> MeshResourceMng_ResolveTree() { return reinterpret_cast< ::xikit::fn<decltype(&::MeshResourceMng_ResolveTree)> >(XI_GAME(0x10073430u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C934::ScalarDeletingDtor)> CMoResource_VT_1032C934__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C934::ScalarDeletingDtor)> >(XI_GAME(0x10073730u)); }
 inline ::xikit::fn<decltype(&::fn_10073A60)> fn_10073A60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10073A60)> >(XI_GAME(0x10073A60u)); }
 inline ::xikit::fn<decltype(&::MoRes_FreeIfUnreferenced)> MoRes_FreeIfUnreferenced() { return reinterpret_cast< ::xikit::fn<decltype(&::MoRes_FreeIfUnreferenced)> >(XI_GAME(0x10073B20u)); }
@@ -1344,7 +1252,6 @@ inline ::xikit::fn<decltype(&::fn_10073BA0)> fn_10073BA0() { return reinterpret_
 inline ::xikit::fn<decltype(&::MeshResourceMng_Evict)> MeshResourceMng_Evict() { return reinterpret_cast< ::xikit::fn<decltype(&::MeshResourceMng_Evict)> >(XI_GAME(0x100740C0u)); }
 inline ::xikit::fn<decltype(&::fn_10074110)> fn_10074110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074110)> >(XI_GAME(0x10074110u)); }
 inline ::xikit::fn<decltype(&::MeshResourceMng_AllocHandle)> MeshResourceMng_AllocHandle() { return reinterpret_cast< ::xikit::fn<decltype(&::MeshResourceMng_AllocHandle)> >(XI_GAME(0x10074140u)); }
-inline ::xikit::fn<decltype(&::NodePool_ReleaseNode)> NodePool_ReleaseNode() { return reinterpret_cast< ::xikit::fn<decltype(&::NodePool_ReleaseNode)> >(XI_GAME(0x10074180u)); }
 inline ::xikit::fn<decltype(&::fn_100741E0)> fn_100741E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100741E0)> >(XI_GAME(0x100741E0u)); }
 inline ::xikit::fn<decltype(&::fn_10074280)> fn_10074280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074280)> >(XI_GAME(0x10074280u)); }
 inline ::xikit::fn<decltype(&::ResourceIter_FindFirst)> ResourceIter_FindFirst() { return reinterpret_cast< ::xikit::fn<decltype(&::ResourceIter_FindFirst)> >(XI_GAME(0x100742B0u)); }
@@ -1357,7 +1264,6 @@ inline ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf011)> CMoResource_VT_1
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf012)> CMoResource_VT_1032C588__vf012() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf012)> >(XI_GAME(0x100745F0u)); }
 inline ::xikit::fn<decltype(&::CMoAttachments_VT_1032C628::vf001)> CMoAttachments_VT_1032C628__vf001() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoAttachments_VT_1032C628::vf001)> >(XI_GAME(0x10074600u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf008)> CMoResource_VT_1032C588__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf008)> >(XI_GAME(0x10074610u)); }
-inline ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf009)> CMoResource_VT_1032C588__vf009() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_1032C588::vf009)> >(XI_GAME(0x10074620u)); }
 inline ::xikit::fn<decltype(&::MoProcessor_CallVSlot49)> MoProcessor_CallVSlot49() { return reinterpret_cast< ::xikit::fn<decltype(&::MoProcessor_CallVSlot49)> >(XI_GAME(0x100746A0u)); }
 inline ::xikit::fn<decltype(&::fn_10074700)> fn_10074700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074700)> >(XI_GAME(0x10074700u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant12)> CMoTask__GetRuntimeClass_variant12() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant12)> >(XI_GAME(0x10074730u)); }
@@ -1368,7 +1274,6 @@ inline ::xikit::fn<decltype(&::CMoTask::ResetFields)> CMoTask__ResetFields() { r
 inline ::xikit::fn<decltype(&::fn_10074920)> fn_10074920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074920)> >(XI_GAME(0x10074920u)); }
 inline ::xikit::fn<decltype(&::CMoTaskMng::Forward10075120)> CMoTaskMng__Forward10075120() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTaskMng::Forward10075120)> >(XI_GAME(0x10074A10u)); }
 inline ::xikit::fn<decltype(&::fn_10074AB0)> fn_10074AB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074AB0)> >(XI_GAME(0x10074AB0u)); }
-inline ::xikit::fn<decltype(&::fn_10074AD0)> fn_10074AD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074AD0)> >(XI_GAME(0x10074AD0u)); }
 inline ::xikit::fn<decltype(&::CMoTaskMng::GetRuntimeClass)> CMoTaskMng__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTaskMng::GetRuntimeClass)> >(XI_GAME(0x10074B50u)); }
 inline ::xikit::fn<decltype(&::fn_10074BA0)> fn_10074BA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10074BA0)> >(XI_GAME(0x10074BA0u)); }
 inline ::xikit::fn<decltype(&::CMoTaskMng::DrawAll)> CMoTaskMng__DrawAll() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTaskMng::DrawAll)> >(XI_GAME(0x10074C30u)); }
@@ -1380,18 +1285,17 @@ inline ::xikit::fn<decltype(&::fn_100750B0)> fn_100750B0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10075120)> fn_10075120() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10075120)> >(XI_GAME(0x10075120u)); }
 inline ::xikit::fn<decltype(&::fn_100751B0)> fn_100751B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100751B0)> >(XI_GAME(0x100751B0u)); }
 inline ::xikit::fn<decltype(&::Gfx_InitCubeMapTextures)> Gfx_InitCubeMapTextures() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_InitCubeMapTextures)> >(XI_GAME(0x10075280u)); }
-inline ::xikit::fn<decltype(&::TexRef_ResolveByName)> TexRef_ResolveByName() { return reinterpret_cast< ::xikit::fn<decltype(&::TexRef_ResolveByName)> >(XI_GAME(0x10075520u)); }
 inline ::xikit::fn<decltype(&::TexRef_EnsureRenderTarget)> TexRef_EnsureRenderTarget() { return reinterpret_cast< ::xikit::fn<decltype(&::TexRef_EnsureRenderTarget)> >(XI_GAME(0x100755A0u)); }
-inline ::xikit::fn<decltype(&::fn_10075700)> fn_10075700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10075700)> >(XI_GAME(0x10075700u)); }
+inline ::xikit::fn<decltype(&::TextureHolder_BindWarped)> TextureHolder_BindWarped() { return reinterpret_cast< ::xikit::fn<decltype(&::TextureHolder_BindWarped)> >(XI_GAME(0x10075700u)); }
 inline ::xikit::fn<decltype(&::TexRef_SetTexture)> TexRef_SetTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::TexRef_SetTexture)> >(XI_GAME(0x10075960u)); }
-inline ::xikit::fn<decltype(&::fn_100759C0)> fn_100759C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100759C0)> >(XI_GAME(0x100759C0u)); }
+inline ::xikit::fn<decltype(&::TextureHolder_BindTinted)> TextureHolder_BindTinted() { return reinterpret_cast< ::xikit::fn<decltype(&::TextureHolder_BindTinted)> >(XI_GAME(0x100759C0u)); }
 inline ::xikit::fn<decltype(&::fn_10076030)> fn_10076030() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10076030)> >(XI_GAME(0x10076030u)); }
 inline ::xikit::fn<decltype(&::fn_10076520)> fn_10076520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10076520)> >(XI_GAME(0x10076520u)); }
 inline ::xikit::fn<decltype(&::fn_10076750)> fn_10076750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10076750)> >(XI_GAME(0x10076750u)); }
 inline ::xikit::fn<decltype(&::fn_10076830)> fn_10076830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10076830)> >(XI_GAME(0x10076830u)); }
 inline ::xikit::fn<decltype(&::fn_100769F0)> fn_100769F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100769F0)> >(XI_GAME(0x100769F0u)); }
 inline ::xikit::fn<decltype(&::fn_10076A70)> fn_10076A70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10076A70)> >(XI_GAME(0x10076A70u)); }
-inline ::xikit::fn<decltype(&::fn_10077A00)> fn_10077A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10077A00)> >(XI_GAME(0x10077A00u)); }
+inline ::xikit::fn<decltype(&::preprocessArg)> preprocessArg() { return reinterpret_cast< ::xikit::fn<decltype(&::preprocessArg)> >(XI_GAME(0x10076AB0u)); }
 inline ::xikit::fn<decltype(&::fn_10077AD0)> fn_10077AD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10077AD0)> >(XI_GAME(0x10077AD0u)); }
 inline ::xikit::fn<decltype(&::fn_10077B40)> fn_10077B40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10077B40)> >(XI_GAME(0x10077B40u)); }
 inline ::xikit::fn<decltype(&::fn_10077C30)> fn_10077C30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10077C30)> >(XI_GAME(0x10077C30u)); }
@@ -1409,8 +1313,10 @@ inline ::xikit::fn<decltype(&::fn_1007A4C0)> fn_1007A4C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1007CD60)> fn_1007CD60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007CD60)> >(XI_GAME(0x1007CD60u)); }
 inline ::xikit::fn<decltype(&::fn_1007CFD0)> fn_1007CFD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007CFD0)> >(XI_GAME(0x1007CFD0u)); }
 inline ::xikit::fn<decltype(&::fn_10080C70)> fn_10080C70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10080C70)> >(XI_GAME(0x10080C70u)); }
+inline ::xikit::fn<decltype(&::fn_10080D00)> fn_10080D00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10080D00)> >(XI_GAME(0x10080D00u)); }
 inline ::xikit::fn<decltype(&::fn_10080D20)> fn_10080D20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10080D20)> >(XI_GAME(0x10080D20u)); }
 inline ::xikit::fn<decltype(&::fn_10080D90)> fn_10080D90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10080D90)> >(XI_GAME(0x10080D90u)); }
+inline ::xikit::fn<decltype(&::fn_10081230)> fn_10081230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081230)> >(XI_GAME(0x10081230u)); }
 inline ::xikit::fn<decltype(&::fn_10081440)> fn_10081440() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081440)> >(XI_GAME(0x10081440u)); }
 inline ::xikit::fn<decltype(&::fn_10081480)> fn_10081480() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081480)> >(XI_GAME(0x10081480u)); }
 inline ::xikit::fn<decltype(&::ActorHandle_Constructor)> ActorHandle_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::ActorHandle_Constructor)> >(XI_GAME(0x100814A0u)); }
@@ -1420,19 +1326,17 @@ inline ::xikit::fn<decltype(&::fn_10081600)> fn_10081600() { return reinterpret_
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant13)> CMoTask__GetRuntimeClass_variant13() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant13)> >(XI_GAME(0x10081710u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant14)> CMoTask__GetRuntimeClass_variant14() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant14)> >(XI_GAME(0x10081730u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant15)> CMoTask__GetRuntimeClass_variant15() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant15)> >(XI_GAME(0x10081750u)); }
-inline ::xikit::fn<decltype(&::CXiActorDraw::Update)> CXiActorDraw__Update() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActorDraw::Update)> >(XI_GAME(0x100817E0u)); }
 inline ::xikit::fn<decltype(&::CXiActorNameDraw::SetRenderState)> CXiActorNameDraw__SetRenderState() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActorNameDraw::SetRenderState)> >(XI_GAME(0x100817F0u)); }
 inline ::xikit::fn<decltype(&::fn_10081A30)> fn_10081A30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081A30)> >(XI_GAME(0x10081A30u)); }
 inline ::xikit::fn<decltype(&::Actor_ResetDrawLists)> Actor_ResetDrawLists() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_ResetDrawLists)> >(XI_GAME(0x10081A50u)); }
-inline ::xikit::fn<decltype(&::fn_10081AE0)> fn_10081AE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081AE0)> >(XI_GAME(0x10081AE0u)); }
-inline ::xikit::fn<decltype(&::fn_10081BA0)> fn_10081BA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081BA0)> >(XI_GAME(0x10081BA0u)); }
+inline ::xikit::fn<decltype(&::CXiActor::Init)> CXiActor__Init() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::Init)> >(XI_GAME(0x10081BA0u)); }
 inline ::xikit::fn<decltype(&::fn_10081CF0)> fn_10081CF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10081CF0)> >(XI_GAME(0x10081CF0u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetMoveSpeed)> CXiActor__CXiSkeletonActor_GetMoveSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetMoveSpeed)> >(XI_GAME(0x10082070u)); }
-inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetMoveSpeed)> CXiActor__CXiSkeletonActor_SetMoveSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetMoveSpeed)> >(XI_GAME(0x10082080u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_SetMoveSpeed)> CXiSkeletonActor_SetMoveSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_SetMoveSpeed)> >(XI_GAME(0x10082080u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetMoveSpeedBase)> CXiActor__CXiSkeletonActor_GetMoveSpeedBase() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetMoveSpeedBase)> >(XI_GAME(0x10082090u)); }
-inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetMoveSpeedBase)> CXiActor__CXiSkeletonActor_SetMoveSpeedBase() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetMoveSpeedBase)> >(XI_GAME(0x100820A0u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_SetMoveSpeedBase)> CXiSkeletonActor_SetMoveSpeedBase() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_SetMoveSpeedBase)> >(XI_GAME(0x100820A0u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetWalkSpeed)> CXiActor__CXiSkeletonActor_GetWalkSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetWalkSpeed)> >(XI_GAME(0x100820B0u)); }
-inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetWalkSpeed)> CXiActor__CXiSkeletonActor_SetWalkSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SetWalkSpeed)> >(XI_GAME(0x100820C0u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_SetWalkSpeed)> CXiSkeletonActor_SetWalkSpeed() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_SetWalkSpeed)> >(XI_GAME(0x100820C0u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetEquip)> CXiActor__CXiSkeletonActor_GetEquip() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_GetEquip)> >(XI_GAME(0x100820D0u)); }
 inline ::xikit::fn<decltype(&::GetEmbeddedMember_0x34)> GetEmbeddedMember_0x34() { return reinterpret_cast< ::xikit::fn<decltype(&::GetEmbeddedMember_0x34)> >(XI_GAME(0x100820E0u)); }
 inline ::xikit::fn<decltype(&::GetEmbeddedMember_0x44)> GetEmbeddedMember_0x44() { return reinterpret_cast< ::xikit::fn<decltype(&::GetEmbeddedMember_0x44)> >(XI_GAME(0x100820F0u)); }
@@ -1447,18 +1351,16 @@ inline ::xikit::fn<decltype(&::fn_10082900)> fn_10082900() { return reinterpret_
 inline ::xikit::fn<decltype(&::CXiAtelActor::IsAtelType82)> CXiAtelActor__IsAtelType82() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiAtelActor::IsAtelType82)> >(XI_GAME(0x10082960u)); }
 inline ::xikit::fn<decltype(&::CXiAtelActor::IsAtelType83)> CXiAtelActor__IsAtelType83() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiAtelActor::IsAtelType83)> >(XI_GAME(0x100829C0u)); }
 inline ::xikit::fn<decltype(&::fn_10082BF0)> fn_10082BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10082BF0)> >(XI_GAME(0x10082BF0u)); }
-inline ::xikit::fn<decltype(&::CXiActorDraw::UpdateDrawList)> CXiActorDraw__UpdateDrawList() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActorDraw::UpdateDrawList)> >(XI_GAME(0x10082D70u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetEnglishName)> CXiSkeletonActor__GetEnglishName() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetEnglishName)> >(XI_GAME(0x10082F20u)); }
 inline ::xikit::fn<decltype(&::fn_10082F60)> fn_10082F60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10082F60)> >(XI_GAME(0x10082F60u)); }
 inline ::xikit::fn<decltype(&::fn_10082FA0)> fn_10082FA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10082FA0)> >(XI_GAME(0x10082FA0u)); }
-inline ::xikit::fn<decltype(&::fn_10082FB0)> fn_10082FB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10082FB0)> >(XI_GAME(0x10082FB0u)); }
+inline ::xikit::fn<decltype(&::CXiActor::NameCalc)> CXiActor__NameCalc() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::NameCalc)> >(XI_GAME(0x100830C0u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_AddRef)> CXiActor__CXiSkeletonActor_AddRef() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_AddRef)> >(XI_GAME(0x100832D0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SubRef)> CXiSkeletonActor__SubRef() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SubRef)> >(XI_GAME(0x100832E0u)); }
 inline ::xikit::fn<decltype(&::fn_10083340)> fn_10083340() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083340)> >(XI_GAME(0x10083340u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_AddSchRef)> CXiActor__CXiSkeletonActor_AddSchRef() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_AddSchRef)> >(XI_GAME(0x10083390u)); }
 inline ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SubSchRef)> CXiActor__CXiSkeletonActor_SubSchRef() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::CXiSkeletonActor_SubSchRef)> >(XI_GAME(0x100833A0u)); }
 inline ::xikit::fn<decltype(&::fn_10083430)> fn_10083430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083430)> >(XI_GAME(0x10083430u)); }
-inline ::xikit::fn<decltype(&::fn_10083620)> fn_10083620() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083620)> >(XI_GAME(0x10083620u)); }
 inline ::xikit::fn<decltype(&::fn_10083750)> fn_10083750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083750)> >(XI_GAME(0x10083750u)); }
 inline ::xikit::fn<decltype(&::fn_10083B40)> fn_10083B40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083B40)> >(XI_GAME(0x10083B40u)); }
 inline ::xikit::fn<decltype(&::fn_10083D00)> fn_10083D00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083D00)> >(XI_GAME(0x10083D00u)); }
@@ -1468,6 +1370,9 @@ inline ::xikit::fn<decltype(&::fn_10083F00)> fn_10083F00() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10083F20)> fn_10083F20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10083F20)> >(XI_GAME(0x10083F20u)); }
 inline ::xikit::fn<decltype(&::fn_10084100)> fn_10084100() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10084100)> >(XI_GAME(0x10084100u)); }
 inline ::xikit::fn<decltype(&::CXiActor::IsModelMissingOrFlag2000)> CXiActor__IsModelMissingOrFlag2000() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::IsModelMissingOrFlag2000)> >(XI_GAME(0x10084140u)); }
+inline ::xikit::fn<decltype(&::CXiActor_ModelTest95790)> CXiActor_ModelTest95790() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor_ModelTest95790)> >(XI_GAME(0x10084330u)); }
+inline ::xikit::fn<decltype(&::CXiActor_ModelTest95680)> CXiActor_ModelTest95680() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor_ModelTest95680)> >(XI_GAME(0x10084350u)); }
+inline ::xikit::fn<decltype(&::CXiActor_ModelTest956A0)> CXiActor_ModelTest956A0() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor_ModelTest956A0)> >(XI_GAME(0x10084370u)); }
 inline ::xikit::fn<decltype(&::CXiActor::GetModelField170)> CXiActor__GetModelField170() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::GetModelField170)> >(XI_GAME(0x10084390u)); }
 inline ::xikit::fn<decltype(&::CXiActor::HasNonzeroField150or158)> CXiActor__HasNonzeroField150or158() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::HasNonzeroField150or158)> >(XI_GAME(0x100843B0u)); }
 inline ::xikit::fn<decltype(&::CXiActor::GetModelByteEE)> CXiActor__GetModelByteEE() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::GetModelByteEE)> >(XI_GAME(0x10084400u)); }
@@ -1486,28 +1391,26 @@ inline ::xikit::fn<decltype(&::fn_100849A0)> fn_100849A0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10084BA0)> fn_10084BA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10084BA0)> >(XI_GAME(0x10084BA0u)); }
 inline ::xikit::fn<decltype(&::fn_10084BC0)> fn_10084BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10084BC0)> >(XI_GAME(0x10084BC0u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant16)> CMoTask__GetRuntimeClass_variant16() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant16)> >(XI_GAME(0x10084E50u)); }
-inline ::xikit::fn<decltype(&::XiActorTimerTask::vf8)> XiActorTimerTask__vf8() { return reinterpret_cast< ::xikit::fn<decltype(&::XiActorTimerTask::vf8)> >(XI_GAME(0x10084F40u)); }
 inline ::xikit::fn<decltype(&::fn_10085010)> fn_10085010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10085010)> >(XI_GAME(0x10085010u)); }
-inline ::xikit::fn<decltype(&::CXiActor::SpawnResourceGenerators)> CXiActor__SpawnResourceGenerators() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::SpawnResourceGenerators)> >(XI_GAME(0x10085060u)); }
 inline ::xikit::fn<decltype(&::CXiActor::IsInModelSlotTable)> CXiActor__IsInModelSlotTable() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiActor::IsInModelSlotTable)> >(XI_GAME(0x10085490u)); }
 inline ::xikit::fn<decltype(&::fn_10085500)> fn_10085500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10085500)> >(XI_GAME(0x10085500u)); }
 inline ::xikit::fn<decltype(&::fn_10085BF0)> fn_10085BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10085BF0)> >(XI_GAME(0x10085BF0u)); }
-inline ::xikit::fn<decltype(&::CXiAtelActor::UnlinkCasterAttachments)> CXiAtelActor__UnlinkCasterAttachments() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiAtelActor::UnlinkCasterAttachments)> >(XI_GAME(0x10085C90u)); }
-inline ::xikit::fn<decltype(&::CXiAtelActor::UnlinkTargetAttachments)> CXiAtelActor__UnlinkTargetAttachments() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiAtelActor::UnlinkTargetAttachments)> >(XI_GAME(0x10085CF0u)); }
 inline ::xikit::fn<decltype(&::fn_10085D50)> fn_10085D50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10085D50)> >(XI_GAME(0x10085D50u)); }
 inline ::xikit::fn<decltype(&::fn_10085D60)> fn_10085D60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10085D60)> >(XI_GAME(0x10085D60u)); }
 inline ::xikit::fn<decltype(&::Actor_DrawWorldText)> Actor_DrawWorldText() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_DrawWorldText)> >(XI_GAME(0x10086210u)); }
-inline ::xikit::fn<decltype(&::fn_10086900)> fn_10086900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10086900)> >(XI_GAME(0x10086900u)); }
 inline ::xikit::fn<decltype(&::fn_10086E90)> fn_10086E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10086E90)> >(XI_GAME(0x10086E90u)); }
+inline ::xikit::fn<decltype(&::fn_10086FC0)> fn_10086FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10086FC0)> >(XI_GAME(0x10086FC0u)); }
 inline ::xikit::fn<decltype(&::fn_10086FE0)> fn_10086FE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10086FE0)> >(XI_GAME(0x10086FE0u)); }
 inline ::xikit::fn<decltype(&::fn_10087010)> fn_10087010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087010)> >(XI_GAME(0x10087010u)); }
 inline ::xikit::fn<decltype(&::fn_10087060)> fn_10087060() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087060)> >(XI_GAME(0x10087060u)); }
 inline ::xikit::fn<decltype(&::fn_100870E0)> fn_100870E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100870E0)> >(XI_GAME(0x100870E0u)); }
+inline ::xikit::fn<decltype(&::fn_10087110)> fn_10087110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087110)> >(XI_GAME(0x10087110u)); }
 inline ::xikit::fn<decltype(&::fn_100872C0)> fn_100872C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100872C0)> >(XI_GAME(0x100872C0u)); }
 inline ::xikit::fn<decltype(&::fn_100875C0)> fn_100875C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100875C0)> >(XI_GAME(0x100875C0u)); }
 inline ::xikit::fn<decltype(&::fn_100875D0)> fn_100875D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100875D0)> >(XI_GAME(0x100875D0u)); }
 inline ::xikit::fn<decltype(&::fn_100875F0)> fn_100875F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100875F0)> >(XI_GAME(0x100875F0u)); }
 inline ::xikit::fn<decltype(&::fn_10087610)> fn_10087610() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087610)> >(XI_GAME(0x10087610u)); }
+inline ::xikit::fn<decltype(&::fn_10087660)> fn_10087660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087660)> >(XI_GAME(0x10087660u)); }
 inline ::xikit::fn<decltype(&::fn_10087670)> fn_10087670() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087670)> >(XI_GAME(0x10087670u)); }
 inline ::xikit::fn<decltype(&::fn_10087690)> fn_10087690() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10087690)> >(XI_GAME(0x10087690u)); }
 inline ::xikit::fn<decltype(&::fn_100876B0)> fn_100876B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100876B0)> >(XI_GAME(0x100876B0u)); }
@@ -1537,15 +1440,15 @@ inline ::xikit::fn<decltype(&::fn_1008B410)> fn_1008B410() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1008CD90)> fn_1008CD90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008CD90)> >(XI_GAME(0x1008CD90u)); }
 inline ::xikit::fn<decltype(&::fn_1008D980)> fn_1008D980() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008D980)> >(XI_GAME(0x1008D980u)); }
 inline ::xikit::fn<decltype(&::fn_1008DA00)> fn_1008DA00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008DA00)> >(XI_GAME(0x1008DA00u)); }
+inline ::xikit::fn<decltype(&::fn_1008E130)> fn_1008E130() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E130)> >(XI_GAME(0x1008E130u)); }
 inline ::xikit::fn<decltype(&::fn_1008E140)> fn_1008E140() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E140)> >(XI_GAME(0x1008E140u)); }
 inline ::xikit::fn<decltype(&::fn_1008E150)> fn_1008E150() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E150)> >(XI_GAME(0x1008E150u)); }
 inline ::xikit::fn<decltype(&::fn_1008E260)> fn_1008E260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E260)> >(XI_GAME(0x1008E260u)); }
-inline ::xikit::fn<decltype(&::fn_1008E3F0)> fn_1008E3F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E3F0)> >(XI_GAME(0x1008E3F0u)); }
 inline ::xikit::fn<decltype(&::fn_1008E740)> fn_1008E740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E740)> >(XI_GAME(0x1008E740u)); }
+inline ::xikit::fn<decltype(&::fn_1008E8D0)> fn_1008E8D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E8D0)> >(XI_GAME(0x1008E8D0u)); }
 inline ::xikit::fn<decltype(&::fn_1008E9A0)> fn_1008E9A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008E9A0)> >(XI_GAME(0x1008E9A0u)); }
 inline ::xikit::fn<decltype(&::fn_1008EE30)> fn_1008EE30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008EE30)> >(XI_GAME(0x1008EE30u)); }
 inline ::xikit::fn<decltype(&::fn_1008F2A0)> fn_1008F2A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008F2A0)> >(XI_GAME(0x1008F2A0u)); }
-inline ::xikit::fn<decltype(&::fn_1008F740)> fn_1008F740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1008F740)> >(XI_GAME(0x1008F740u)); }
 inline ::xikit::fn<decltype(&::fn_100926C0)> fn_100926C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100926C0)> >(XI_GAME(0x100926C0u)); }
 inline ::xikit::fn<decltype(&::fn_10092710)> fn_10092710() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10092710)> >(XI_GAME(0x10092710u)); }
 inline ::xikit::fn<decltype(&::fn_10092760)> fn_10092760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10092760)> >(XI_GAME(0x10092760u)); }
@@ -1555,7 +1458,6 @@ inline ::xikit::fn<decltype(&::fn_10092870)> fn_10092870() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10092900)> fn_10092900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10092900)> >(XI_GAME(0x10092900u)); }
 inline ::xikit::fn<decltype(&::fn_100929A0)> fn_100929A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100929A0)> >(XI_GAME(0x100929A0u)); }
 inline ::xikit::fn<decltype(&::fn_100929D0)> fn_100929D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100929D0)> >(XI_GAME(0x100929D0u)); }
-inline ::xikit::fn<decltype(&::fn_10092C20)> fn_10092C20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10092C20)> >(XI_GAME(0x10092C20u)); }
 inline ::xikit::fn<decltype(&::fn_100933C0)> fn_100933C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100933C0)> >(XI_GAME(0x100933C0u)); }
 inline ::xikit::fn<decltype(&::fn_10093430)> fn_10093430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093430)> >(XI_GAME(0x10093430u)); }
 inline ::xikit::fn<decltype(&::Unit10086E90_ResetGlobals)> Unit10086E90_ResetGlobals() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit10086E90_ResetGlobals)> >(XI_GAME(0x10093720u)); }
@@ -1565,11 +1467,10 @@ inline ::xikit::fn<decltype(&::fn_10093AD0)> fn_10093AD0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10093AF0)> fn_10093AF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093AF0)> >(XI_GAME(0x10093AF0u)); }
 inline ::xikit::fn<decltype(&::fn_10093B10)> fn_10093B10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093B10)> >(XI_GAME(0x10093B10u)); }
 inline ::xikit::fn<decltype(&::fn_10093B30)> fn_10093B30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093B30)> >(XI_GAME(0x10093B30u)); }
-inline ::xikit::fn<decltype(&::fn_10093B50)> fn_10093B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093B50)> >(XI_GAME(0x10093B50u)); }
 inline ::xikit::fn<decltype(&::fn_10093B70)> fn_10093B70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093B70)> >(XI_GAME(0x10093B70u)); }
 inline ::xikit::fn<decltype(&::fn_10093DA0)> fn_10093DA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10093DA0)> >(XI_GAME(0x10093DA0u)); }
 inline ::xikit::fn<decltype(&::Net_SendPacket00COnce)> Net_SendPacket00COnce() { return reinterpret_cast< ::xikit::fn<decltype(&::Net_SendPacket00COnce)> >(XI_GAME(0x10093DB0u)); }
-inline ::xikit::fn<decltype(&::fn_100955D0)> fn_100955D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100955D0)> >(XI_GAME(0x100955D0u)); }
+inline ::xikit::fn<decltype(&::CallMotd)> CallMotd() { return reinterpret_cast< ::xikit::fn<decltype(&::CallMotd)> >(XI_GAME(0x100955D0u)); }
 inline ::xikit::fn<decltype(&::fn_10095680)> fn_10095680() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10095680)> >(XI_GAME(0x10095680u)); }
 inline ::xikit::fn<decltype(&::fn_100956A0)> fn_100956A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100956A0)> >(XI_GAME(0x100956A0u)); }
 inline ::xikit::fn<decltype(&::fn_100956C0)> fn_100956C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100956C0)> >(XI_GAME(0x100956C0u)); }
@@ -1593,8 +1494,8 @@ inline ::xikit::fn<decltype(&::fn_10098180)> fn_10098180() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10098210)> fn_10098210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10098210)> >(XI_GAME(0x10098210u)); }
 inline ::xikit::fn<decltype(&::fn_100983A0)> fn_100983A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100983A0)> >(XI_GAME(0x100983A0u)); }
 inline ::xikit::fn<decltype(&::fn_100991F0)> fn_100991F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100991F0)> >(XI_GAME(0x100991F0u)); }
+inline ::xikit::fn<decltype(&::fn_10099730)> fn_10099730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10099730)> >(XI_GAME(0x10099730u)); }
 inline ::xikit::fn<decltype(&::fn_100997B0)> fn_100997B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100997B0)> >(XI_GAME(0x100997B0u)); }
-inline ::xikit::fn<decltype(&::fn_10099AE0)> fn_10099AE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10099AE0)> >(XI_GAME(0x10099AE0u)); }
 inline ::xikit::fn<decltype(&::fn_1009AAF0)> fn_1009AAF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1009AAF0)> >(XI_GAME(0x1009AAF0u)); }
 inline ::xikit::fn<decltype(&::fn_1009AD20)> fn_1009AD20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1009AD20)> >(XI_GAME(0x1009AD20u)); }
 inline ::xikit::fn<decltype(&::fn_1009ADE0)> fn_1009ADE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1009ADE0)> >(XI_GAME(0x1009ADE0u)); }
@@ -1625,7 +1526,7 @@ inline ::xikit::fn<decltype(&::CXiSkeletonActor::DisableFlag8AC)> CXiSkeletonAct
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsFlag8ACSet)> CXiSkeletonActor__IsFlag8ACSet() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsFlag8ACSet)> >(XI_GAME(0x100A47B0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetField79C)> CXiSkeletonActor__GetField79C() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetField79C)> >(XI_GAME(0x100A47C0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetField79C)> CXiSkeletonActor__SetField79C() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetField79C)> >(XI_GAME(0x100A47D0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsReadComplete)> CXiSkeletonActor__IsReadComplete() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsReadComplete)> >(XI_GAME(0x100A47E0u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_IsReadComplete)> CXiSkeletonActor_IsReadComplete() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_IsReadComplete)> >(XI_GAME(0x100A47E0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf256)> CXiSkeletonActor__vf256() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf256)> >(XI_GAME(0x100A47F0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetField670)> CXiSkeletonActor__SetField670() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetField670)> >(XI_GAME(0x100A4800u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetField670)> CXiSkeletonActor__GetField670() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetField670)> >(XI_GAME(0x100A4810u)); }
@@ -1634,17 +1535,13 @@ inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetColor)> CXiSkeletonActor__Se
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetColor)> CXiSkeletonActor__GetColor() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetColor)> >(XI_GAME(0x100A4840u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf017)> CXiSkeletonActor__vf017() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf017)> >(XI_GAME(0x100A4850u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetMultiTexAlpha)> CXiSkeletonActor__SetMultiTexAlpha() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetMultiTexAlpha)> >(XI_GAME(0x100A4860u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetMultiTexAlpha)> CXiSkeletonActor__GetMultiTexAlpha() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetMultiTexAlpha)> >(XI_GAME(0x100A4870u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetSahdowAlpha)> CXiSkeletonActor__SetSahdowAlpha() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetSahdowAlpha)> >(XI_GAME(0x100A4880u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetShadowAlpha)> CXiSkeletonActor__GetShadowAlpha() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetShadowAlpha)> >(XI_GAME(0x100A4890u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_GetShadowAlpha)> CXiSkeletonActor_GetShadowAlpha() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_GetShadowAlpha)> >(XI_GAME(0x100A4890u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::EnableEffect)> CXiSkeletonActor__EnableEffect() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::EnableEffect)> >(XI_GAME(0x100A48A0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::DisableEffect)> CXiSkeletonActor__DisableEffect() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DisableEffect)> >(XI_GAME(0x100A48C0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::DisableEffectAll)> CXiSkeletonActor__DisableEffectAll() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DisableEffectAll)> >(XI_GAME(0x100A48E0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetUVOffset)> CXiSkeletonActor__SetUVOffset() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetUVOffset)> >(XI_GAME(0x100A48F0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetDistAmount)> CXiSkeletonActor__SetDistAmount() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetDistAmount)> >(XI_GAME(0x100A4910u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapColor)> CXiSkeletonActor__SetEmapColor() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapColor)> >(XI_GAME(0x100A4920u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapTexture)> CXiSkeletonActor__SetEmapTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapTexture)> >(XI_GAME(0x100A4930u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetSeparateValue)> CXiSkeletonActor__SetSeparateValue() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetSeparateValue)> >(XI_GAME(0x100A4940u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapAlphaMode)> CXiSkeletonActor__SetEmapAlphaMode() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetEmapAlphaMode)> >(XI_GAME(0x100A4950u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetEmapAlphaMode)> CXiSkeletonActor__GetEmapAlphaMode() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetEmapAlphaMode)> >(XI_GAME(0x100A4960u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf258)> CXiSkeletonActor__vf258() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf258)> >(XI_GAME(0x100A4970u)); }
@@ -1661,7 +1558,6 @@ inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsDirectionLock)> CXiSkeletonAc
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain)> CXiSkeletonActor__IsConstrain() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain)> >(XI_GAME(0x100A4A20u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain_Set)> CXiSkeletonActor__IsConstrain_Set() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain_Set)> >(XI_GAME(0x100A4A30u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2)> CXiSkeletonActor__IsConstrain2() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2)> >(XI_GAME(0x100A4A50u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2_Get)> CXiSkeletonActor__IsConstrain2_Get() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2_Get)> >(XI_GAME(0x100A4A60u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2_Set)> CXiSkeletonActor__IsConstrain2_Set() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsConstrain2_Set)> >(XI_GAME(0x100A4A70u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf041)> CXiSkeletonActor__vf041() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf041)> >(XI_GAME(0x100A4A90u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf042)> CXiSkeletonActor__vf042() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf042)> >(XI_GAME(0x100A4AA0u)); }
@@ -1681,6 +1577,7 @@ inline ::xikit::fn<decltype(&::fn_100A57C0)> fn_100A57C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100A5E10)> fn_100A5E10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A5E10)> >(XI_GAME(0x100A5E10u)); }
 inline ::xikit::fn<decltype(&::fn_100A5EC0)> fn_100A5EC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A5EC0)> >(XI_GAME(0x100A5EC0u)); }
 inline ::xikit::fn<decltype(&::fn_100A5EF0)> fn_100A5EF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A5EF0)> >(XI_GAME(0x100A5EF0u)); }
+inline ::xikit::fn<decltype(&::fn_100A6070)> fn_100A6070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A6070)> >(XI_GAME(0x100A6070u)); }
 inline ::xikit::fn<decltype(&::fn_100A78D0)> fn_100A78D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A78D0)> >(XI_GAME(0x100A78D0u)); }
 inline ::xikit::fn<decltype(&::fn_100A89E0)> fn_100A89E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100A89E0)> >(XI_GAME(0x100A89E0u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant17)> CMoTask__GetRuntimeClass_variant17() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant17)> >(XI_GAME(0x100A8E10u)); }
@@ -1690,19 +1587,14 @@ inline ::xikit::fn<decltype(&::CXiControlActor::Slot137_Set388)> CXiControlActor
 inline ::xikit::fn<decltype(&::CXiControlActor::Slot138_Scan3F0)> CXiControlActor__Slot138_Scan3F0() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiControlActor::Slot138_Scan3F0)> >(XI_GAME(0x100AAF70u)); }
 inline ::xikit::fn<decltype(&::CMoAttachments_VT_1032E7EC::vf001)> CMoAttachments_VT_1032E7EC__vf001() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoAttachments_VT_1032E7EC::vf001)> >(XI_GAME(0x100AB060u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetRuntimeClass_variant0)> CXiSkeletonActor__GetRuntimeClass_variant0() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetRuntimeClass_variant0)> >(XI_GAME(0x100AB070u)); }
-inline ::xikit::fn<decltype(&::fn_100AB320)> fn_100AB320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB320)> >(XI_GAME(0x100AB320u)); }
 inline ::xikit::fn<decltype(&::fn_100AB550)> fn_100AB550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB550)> >(XI_GAME(0x100AB550u)); }
 inline ::xikit::fn<decltype(&::fn_100AB700)> fn_100AB700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB700)> >(XI_GAME(0x100AB700u)); }
 inline ::xikit::fn<decltype(&::fn_100AB750)> fn_100AB750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB750)> >(XI_GAME(0x100AB750u)); }
 inline ::xikit::fn<decltype(&::fn_100AB830)> fn_100AB830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB830)> >(XI_GAME(0x100AB830u)); }
-inline ::xikit::fn<decltype(&::fn_100AB880)> fn_100AB880() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB880)> >(XI_GAME(0x100AB880u)); }
 inline ::xikit::fn<decltype(&::fn_100AB9A0)> fn_100AB9A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AB9A0)> >(XI_GAME(0x100AB9A0u)); }
 inline ::xikit::fn<decltype(&::fn_100ABC20)> fn_100ABC20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100ABC20)> >(XI_GAME(0x100ABC20u)); }
 inline ::xikit::fn<decltype(&::fn_100ABC70)> fn_100ABC70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100ABC70)> >(XI_GAME(0x100ABC70u)); }
 inline ::xikit::fn<decltype(&::fn_100AC380)> fn_100AC380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AC380)> >(XI_GAME(0x100AC380u)); }
-inline ::xikit::fn<decltype(&::fn_100AC390)> fn_100AC390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AC390)> >(XI_GAME(0x100AC390u)); }
-inline ::xikit::fn<decltype(&::fn_100AC4E0)> fn_100AC4E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AC4E0)> >(XI_GAME(0x100AC4E0u)); }
-inline ::xikit::fn<decltype(&::fn_100AC5A0)> fn_100AC5A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AC5A0)> >(XI_GAME(0x100AC5A0u)); }
 inline ::xikit::fn<decltype(&::fn_100AD6D0)> fn_100AD6D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AD6D0)> >(XI_GAME(0x100AD6D0u)); }
 inline ::xikit::fn<decltype(&::fn_100AE350)> fn_100AE350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AE350)> >(XI_GAME(0x100AE350u)); }
 inline ::xikit::fn<decltype(&::fn_100AE3A0)> fn_100AE3A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100AE3A0)> >(XI_GAME(0x100AE3A0u)); }
@@ -1710,6 +1602,8 @@ inline ::xikit::fn<decltype(&::fn_100BA080)> fn_100BA080() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100BD5F0)> fn_100BD5F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100BD5F0)> >(XI_GAME(0x100BD5F0u)); }
 inline ::xikit::fn<decltype(&::fn_100BD760)> fn_100BD760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100BD760)> >(XI_GAME(0x100BD760u)); }
 inline ::xikit::fn<decltype(&::fn_100C2E20)> fn_100C2E20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C2E20)> >(XI_GAME(0x100C2E20u)); }
+inline ::xikit::fn<decltype(&::fn_100C3020)> fn_100C3020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3020)> >(XI_GAME(0x100C3020u)); }
+inline ::xikit::fn<decltype(&::fn_100C3030)> fn_100C3030() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3030)> >(XI_GAME(0x100C3030u)); }
 inline ::xikit::fn<decltype(&::fn_100C3050)> fn_100C3050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3050)> >(XI_GAME(0x100C3050u)); }
 inline ::xikit::fn<decltype(&::fn_100C3060)> fn_100C3060() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3060)> >(XI_GAME(0x100C3060u)); }
 inline ::xikit::fn<decltype(&::fn_100C3190)> fn_100C3190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3190)> >(XI_GAME(0x100C3190u)); }
@@ -1724,8 +1618,6 @@ inline ::xikit::fn<decltype(&::fn_100C3FB0)> fn_100C3FB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100C3FC0)> fn_100C3FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C3FC0)> >(XI_GAME(0x100C3FC0u)); }
 inline ::xikit::fn<decltype(&::fn_100C4B00)> fn_100C4B00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C4B00)> >(XI_GAME(0x100C4B00u)); }
 inline ::xikit::fn<decltype(&::fn_100C4B50)> fn_100C4B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C4B50)> >(XI_GAME(0x100C4B50u)); }
-inline ::xikit::fn<decltype(&::fn_100C4C20)> fn_100C4C20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C4C20)> >(XI_GAME(0x100C4C20u)); }
-inline ::xikit::fn<decltype(&::fn_100C4CE0)> fn_100C4CE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C4CE0)> >(XI_GAME(0x100C4CE0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetRuntimeClass_variant1)> CXiSkeletonActor__GetRuntimeClass_variant1() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetRuntimeClass_variant1)> >(XI_GAME(0x100C5190u)); }
 inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant18)> CMoTask__GetRuntimeClass_variant18() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant18)> >(XI_GAME(0x100C51A0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActorRes::GetRuntimeClass)> CXiSkeletonActorRes__GetRuntimeClass() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActorRes::GetRuntimeClass)> >(XI_GAME(0x100C51B0u)); }
@@ -1742,15 +1634,11 @@ inline ::xikit::fn<decltype(&::CXiSkeletonActor::Constructor_4Arg)> CXiSkeletonA
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::Constructor_Factory)> CXiSkeletonActor__Constructor_Factory() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::Constructor_Factory)> >(XI_GAME(0x100C59B0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::DestructorBody)> CXiSkeletonActor__DestructorBody() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DestructorBody)> >(XI_GAME(0x100C5C00u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::Init)> CXiSkeletonActor__Init() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::Init)> >(XI_GAME(0x100C5D60u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::OnMove)> CXiSkeletonActor__OnMove() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::OnMove)> >(XI_GAME(0x100C63D0u)); }
 inline ::xikit::fn<decltype(&::fn_100C8280)> fn_100C8280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100C8280)> >(XI_GAME(0x100C8280u)); }
 inline ::xikit::fn<decltype(&::Actor_SelectNearestLights)> Actor_SelectNearestLights() { return reinterpret_cast< ::xikit::fn<decltype(&::Actor_SelectNearestLights)> >(XI_GAME(0x100CB4E0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::RunStaggeredUpdates)> CXiSkeletonActor__RunStaggeredUpdates() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::RunStaggeredUpdates)> >(XI_GAME(0x100CBD60u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate)> CXiSkeletonActor__PerActor_FourBucketStaggeredUpdate() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate)> >(XI_GAME(0x100CBDE0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::OcclusionClip)> CXiSkeletonActor__OcclusionClip() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::OcclusionClip)> >(XI_GAME(0x100CCF50u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetMotion)> CXiSkeletonActor__SetMotion() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetMotion)> >(XI_GAME(0x100CD490u)); }
 inline ::xikit::fn<decltype(&::fn_100CD4E0)> fn_100CD4E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CD4E0)> >(XI_GAME(0x100CD4E0u)); }
-inline ::xikit::fn<decltype(&::fn_100CD540)> fn_100CD540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CD540)> >(XI_GAME(0x100CD540u)); }
 inline ::xikit::fn<decltype(&::fn_100CDF90)> fn_100CDF90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CDF90)> >(XI_GAME(0x100CDF90u)); }
 inline ::xikit::fn<decltype(&::fn_100CE160)> fn_100CE160() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CE160)> >(XI_GAME(0x100CE160u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::ReverseFindRes)> CXiSkeletonActor__ReverseFindRes() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::ReverseFindRes)> >(XI_GAME(0x100CE480u)); }
@@ -1763,38 +1651,30 @@ inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetAction)> CXiSkeletonActor__S
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetAttack_SchStatus)> CXiSkeletonActor__SetAttack_SchStatus() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetAttack_SchStatus)> >(XI_GAME(0x100CF030u)); }
 inline ::xikit::fn<decltype(&::fn_100CF100)> fn_100CF100() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CF100)> >(XI_GAME(0x100CF100u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf172)> CXiSkeletonActor__vf172() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf172)> >(XI_GAME(0x100CF200u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::SetModel)> CXiSkeletonActor__SetModel() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::SetModel)> >(XI_GAME(0x100CF210u)); }
 inline ::xikit::fn<decltype(&::fn_100CFA50)> fn_100CFA50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CFA50)> >(XI_GAME(0x100CFA50u)); }
 inline ::xikit::fn<decltype(&::fn_100CFAD0)> fn_100CFAD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100CFAD0)> >(XI_GAME(0x100CFAD0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::Slot244_Unknown)> CXiSkeletonActor__Slot244_Unknown() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::Slot244_Unknown)> >(XI_GAME(0x100CFC10u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetField878Ptr_Candidate)> CXiSkeletonActor__GetField878Ptr_Candidate() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetField878Ptr_Candidate)> >(XI_GAME(0x100D04B0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetNamePos)> CXiSkeletonActor__GetNamePos() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetNamePos)> >(XI_GAME(0x100D04C0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::OnDrawName)> CXiSkeletonActor__OnDrawName() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::OnDrawName)> >(XI_GAME(0x100D0510u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetArrowPos)> CXiSkeletonActor__GetArrowPos() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetArrowPos)> >(XI_GAME(0x100D06F0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::ProjectToScreen)> CXiSkeletonActor__ProjectToScreen() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::ProjectToScreen)> >(XI_GAME(0x100D0740u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::DrawNameIfVisible)> CXiSkeletonActor__DrawNameIfVisible() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DrawNameIfVisible)> >(XI_GAME(0x100D0880u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::DrawName2IfVisible)> CXiSkeletonActor__DrawName2IfVisible() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DrawName2IfVisible)> >(XI_GAME(0x100D08B0u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_DrawName2IfVisible)> CXiSkeletonActor_DrawName2IfVisible() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_DrawName2IfVisible)> >(XI_GAME(0x100D08B0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetWidthScale)> CXiSkeletonActor__GetWidthScale() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetWidthScale)> >(XI_GAME(0x100D08E0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetHeightScale)> CXiSkeletonActor__GetHeightScale() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetHeightScale)> >(XI_GAME(0x100D09B0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetDepthScale)> CXiSkeletonActor__GetDepthScale() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetDepthScale)> >(XI_GAME(0x100D0A80u)); }
 inline ::xikit::fn<decltype(&::fn_100D0D40)> fn_100D0D40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D0D40)> >(XI_GAME(0x100D0D40u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsReadCompleteBody)> CXiSkeletonActor__IsReadCompleteBody() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsReadCompleteBody)> >(XI_GAME(0x100D12D0u)); }
-inline ::xikit::fn<decltype(&::fn_100D1450)> fn_100D1450() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D1450)> >(XI_GAME(0x100D1450u)); }
+inline ::xikit::fn<decltype(&::fn_100D0D70)> fn_100D0D70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D0D70)> >(XI_GAME(0x100D0D70u)); }
+inline ::xikit::fn<decltype(&::fn_100D0FC0)> fn_100D0FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D0FC0)> >(XI_GAME(0x100D0FC0u)); }
+inline ::xikit::fn<decltype(&::CXiSkeletonActor_IsReadCompleteBody)> CXiSkeletonActor_IsReadCompleteBody() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor_IsReadCompleteBody)> >(XI_GAME(0x100D12D0u)); }
 inline ::xikit::fn<decltype(&::fn_100D14C0)> fn_100D14C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D14C0)> >(XI_GAME(0x100D14C0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::OnSkeletonLoaded)> CXiSkeletonActor__OnSkeletonLoaded() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::OnSkeletonLoaded)> >(XI_GAME(0x100D2F40u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::LoadSkeletonSync)> CXiSkeletonActor__LoadSkeletonSync() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::LoadSkeletonSync)> >(XI_GAME(0x100D2F60u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::LoadSkeletonResource)> CXiSkeletonActor__LoadSkeletonResource() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::LoadSkeletonResource)> >(XI_GAME(0x100D4330u)); }
 inline ::xikit::fn<decltype(&::fn_100D43E0)> fn_100D43E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D43E0)> >(XI_GAME(0x100D43E0u)); }
 inline ::xikit::fn<decltype(&::fn_100D4410)> fn_100D4410() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D4410)> >(XI_GAME(0x100D4410u)); }
+inline ::xikit::fn<decltype(&::fn_100D44B0)> fn_100D44B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D44B0)> >(XI_GAME(0x100D44B0u)); }
 inline ::xikit::fn<decltype(&::fn_100D4540)> fn_100D4540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D4540)> >(XI_GAME(0x100D4540u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetElem)> CXiSkeletonActor__GetElem() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetElem)> >(XI_GAME(0x100D4560u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetElemLocal)> CXiSkeletonActor__GetElemLocal() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetElemLocal)> >(XI_GAME(0x100D4800u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::GetEidMatrix)> CXiSkeletonActor__GetEidMatrix() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::GetEidMatrix)> >(XI_GAME(0x100D49B0u)); }
-inline ::xikit::fn<decltype(&::fn_100D5430)> fn_100D5430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D5430)> >(XI_GAME(0x100D5430u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::IsDirectionLock_Set)> CXiSkeletonActor__IsDirectionLock_Set() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::IsDirectionLock_Set)> >(XI_GAME(0x100D5460u)); }
 inline ::xikit::fn<decltype(&::fn_100D6240)> fn_100D6240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D6240)> >(XI_GAME(0x100D6240u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::DrawResourceShadows)> CXiSkeletonActor__DrawResourceShadows() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::DrawResourceShadows)> >(XI_GAME(0x100D62C0u)); }
-inline ::xikit::fn<decltype(&::CXiSkeletonActor::KillAllGenerater)> CXiSkeletonActor__KillAllGenerater() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::KillAllGenerater)> >(XI_GAME(0x100D6370u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf033)> CXiSkeletonActor__vf033() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf033)> >(XI_GAME(0x100D6F90u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf034)> CXiSkeletonActor__vf034() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf034)> >(XI_GAME(0x100D6FA0u)); }
 inline ::xikit::fn<decltype(&::CXiSkeletonActor::vf035)> CXiSkeletonActor__vf035() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiSkeletonActor::vf035)> >(XI_GAME(0x100D6FB0u)); }
@@ -1821,6 +1701,7 @@ inline ::xikit::fn<decltype(&::fn_100D9430)> fn_100D9430() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100D9460)> fn_100D9460() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9460)> >(XI_GAME(0x100D9460u)); }
 inline ::xikit::fn<decltype(&::fn_100D9830)> fn_100D9830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9830)> >(XI_GAME(0x100D9830u)); }
 inline ::xikit::fn<decltype(&::fn_100D9950)> fn_100D9950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9950)> >(XI_GAME(0x100D9950u)); }
+inline ::xikit::fn<decltype(&::fn_100D9A70)> fn_100D9A70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9A70)> >(XI_GAME(0x100D9A70u)); }
 inline ::xikit::fn<decltype(&::fn_100D9AD0)> fn_100D9AD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9AD0)> >(XI_GAME(0x100D9AD0u)); }
 inline ::xikit::fn<decltype(&::fn_100D9B00)> fn_100D9B00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100D9B00)> >(XI_GAME(0x100D9B00u)); }
 inline ::xikit::fn<decltype(&::fn_100DA6A0)> fn_100DA6A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DA6A0)> >(XI_GAME(0x100DA6A0u)); }
@@ -1855,6 +1736,7 @@ inline ::xikit::fn<decltype(&::fn_100DC260)> fn_100DC260() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100DC270)> fn_100DC270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DC270)> >(XI_GAME(0x100DC270u)); }
 inline ::xikit::fn<decltype(&::fn_100DC2C0)> fn_100DC2C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DC2C0)> >(XI_GAME(0x100DC2C0u)); }
 inline ::xikit::fn<decltype(&::fn_100DC420)> fn_100DC420() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DC420)> >(XI_GAME(0x100DC420u)); }
+inline ::xikit::fn<decltype(&::fn_100DC6C0)> fn_100DC6C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DC6C0)> >(XI_GAME(0x100DC6C0u)); }
 inline ::xikit::fn<decltype(&::fn_100DC6D0)> fn_100DC6D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DC6D0)> >(XI_GAME(0x100DC6D0u)); }
 inline ::xikit::fn<decltype(&::fn_100DCA00)> fn_100DCA00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DCA00)> >(XI_GAME(0x100DCA00u)); }
 inline ::xikit::fn<decltype(&::fn_100DCF60)> fn_100DCF60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100DCF60)> >(XI_GAME(0x100DCF60u)); }
@@ -1962,6 +1844,7 @@ inline ::xikit::fn<decltype(&::fn_100F0000)> fn_100F0000() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100F0070)> fn_100F0070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F0070)> >(XI_GAME(0x100F0070u)); }
 inline ::xikit::fn<decltype(&::fn_100F0090)> fn_100F0090() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F0090)> >(XI_GAME(0x100F0090u)); }
 inline ::xikit::fn<decltype(&::fn_100F00A0)> fn_100F00A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F00A0)> >(XI_GAME(0x100F00A0u)); }
+inline ::xikit::fn<decltype(&::fn_100F02A0)> fn_100F02A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F02A0)> >(XI_GAME(0x100F02A0u)); }
 inline ::xikit::fn<decltype(&::fn_100F04F0)> fn_100F04F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F04F0)> >(XI_GAME(0x100F04F0u)); }
 inline ::xikit::fn<decltype(&::fn_100F0550)> fn_100F0550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F0550)> >(XI_GAME(0x100F0550u)); }
 inline ::xikit::fn<decltype(&::fn_100F0570)> fn_100F0570() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F0570)> >(XI_GAME(0x100F0570u)); }
@@ -1996,6 +1879,7 @@ inline ::xikit::fn<decltype(&::fn_100F2720)> fn_100F2720() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100F29E0)> fn_100F29E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F29E0)> >(XI_GAME(0x100F29E0u)); }
 inline ::xikit::fn<decltype(&::fn_100F2A40)> fn_100F2A40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F2A40)> >(XI_GAME(0x100F2A40u)); }
 inline ::xikit::fn<decltype(&::fn_100F2B80)> fn_100F2B80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F2B80)> >(XI_GAME(0x100F2B80u)); }
+inline ::xikit::fn<decltype(&::fn_100F2C40)> fn_100F2C40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F2C40)> >(XI_GAME(0x100F2C40u)); }
 inline ::xikit::fn<decltype(&::fn_100F2C80)> fn_100F2C80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F2C80)> >(XI_GAME(0x100F2C80u)); }
 inline ::xikit::fn<decltype(&::fn_100F3010)> fn_100F3010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F3010)> >(XI_GAME(0x100F3010u)); }
 inline ::xikit::fn<decltype(&::fn_100F32B0)> fn_100F32B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F32B0)> >(XI_GAME(0x100F32B0u)); }
@@ -2004,6 +1888,7 @@ inline ::xikit::fn<decltype(&::fn_100F3C20)> fn_100F3C20() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100F3C90)> fn_100F3C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F3C90)> >(XI_GAME(0x100F3C90u)); }
 inline ::xikit::fn<decltype(&::fn_100F3D00)> fn_100F3D00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F3D00)> >(XI_GAME(0x100F3D00u)); }
 inline ::xikit::fn<decltype(&::fn_100F76B0)> fn_100F76B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F76B0)> >(XI_GAME(0x100F76B0u)); }
+inline ::xikit::fn<decltype(&::fn_100F76D0)> fn_100F76D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F76D0)> >(XI_GAME(0x100F76D0u)); }
 inline ::xikit::fn<decltype(&::fn_100F7700)> fn_100F7700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F7700)> >(XI_GAME(0x100F7700u)); }
 inline ::xikit::fn<decltype(&::fn_100F7740)> fn_100F7740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F7740)> >(XI_GAME(0x100F7740u)); }
 inline ::xikit::fn<decltype(&::fn_100F7A00)> fn_100F7A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F7A00)> >(XI_GAME(0x100F7A00u)); }
@@ -2023,7 +1908,7 @@ inline ::xikit::fn<decltype(&::fn_100F9DA0)> fn_100F9DA0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100F9DB0)> fn_100F9DB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F9DB0)> >(XI_GAME(0x100F9DB0u)); }
 inline ::xikit::fn<decltype(&::fn_100F9DF0)> fn_100F9DF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F9DF0)> >(XI_GAME(0x100F9DF0u)); }
 inline ::xikit::fn<decltype(&::fn_100F9E10)> fn_100F9E10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F9E10)> >(XI_GAME(0x100F9E10u)); }
-inline ::xikit::fn<decltype(&::fn_100FA950)> fn_100FA950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FA950)> >(XI_GAME(0x100FA950u)); }
+inline ::xikit::fn<decltype(&::fn_100FA940)> fn_100FA940() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FA940)> >(XI_GAME(0x100FA940u)); }
 inline ::xikit::fn<decltype(&::fn_100FA9C0)> fn_100FA9C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FA9C0)> >(XI_GAME(0x100FA9C0u)); }
 inline ::xikit::fn<decltype(&::fn_100FB920)> fn_100FB920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FB920)> >(XI_GAME(0x100FB920u)); }
 inline ::xikit::fn<decltype(&::fn_100FBA40)> fn_100FBA40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FBA40)> >(XI_GAME(0x100FBA40u)); }
@@ -2032,7 +1917,7 @@ inline ::xikit::fn<decltype(&::fn_100FBD10)> fn_100FBD10() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_100FC160)> fn_100FC160() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC160)> >(XI_GAME(0x100FC160u)); }
 inline ::xikit::fn<decltype(&::fn_100FC180)> fn_100FC180() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC180)> >(XI_GAME(0x100FC180u)); }
 inline ::xikit::fn<decltype(&::fn_100FC320)> fn_100FC320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC320)> >(XI_GAME(0x100FC320u)); }
-inline ::xikit::fn<decltype(&::fn_100FC3B0)> fn_100FC3B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC3B0)> >(XI_GAME(0x100FC3B0u)); }
+inline ::xikit::fn<decltype(&::fn_100FC370)> fn_100FC370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC370)> >(XI_GAME(0x100FC370u)); }
 inline ::xikit::fn<decltype(&::fn_100FC4D0)> fn_100FC4D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC4D0)> >(XI_GAME(0x100FC4D0u)); }
 inline ::xikit::fn<decltype(&::fn_100FC4E0)> fn_100FC4E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC4E0)> >(XI_GAME(0x100FC4E0u)); }
 inline ::xikit::fn<decltype(&::fn_100FC510)> fn_100FC510() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100FC510)> >(XI_GAME(0x100FC510u)); }
@@ -2104,13 +1989,12 @@ inline ::xikit::fn<decltype(&::fn_10113220)> fn_10113220() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101133A0)> fn_101133A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101133A0)> >(XI_GAME(0x101133A0u)); }
 inline ::xikit::fn<decltype(&::fn_10114070)> fn_10114070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114070)> >(XI_GAME(0x10114070u)); }
 inline ::xikit::fn<decltype(&::fn_10114120)> fn_10114120() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114120)> >(XI_GAME(0x10114120u)); }
-inline ::xikit::fn<decltype(&::fn_10114250)> fn_10114250() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114250)> >(XI_GAME(0x10114250u)); }
 inline ::xikit::fn<decltype(&::fn_10114320)> fn_10114320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114320)> >(XI_GAME(0x10114320u)); }
 inline ::xikit::fn<decltype(&::fn_10114500)> fn_10114500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114500)> >(XI_GAME(0x10114500u)); }
 inline ::xikit::fn<decltype(&::fn_10114620)> fn_10114620() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114620)> >(XI_GAME(0x10114620u)); }
-inline ::xikit::fn<decltype(&::fn_10114B60)> fn_10114B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114B60)> >(XI_GAME(0x10114B60u)); }
+inline ::xikit::fn<decltype(&::FDtXiInit)> FDtXiInit() { return reinterpret_cast< ::xikit::fn<decltype(&::FDtXiInit)> >(XI_GAME(0x10114B60u)); }
 inline ::xikit::fn<decltype(&::fn_10114F10)> fn_10114F10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10114F10)> >(XI_GAME(0x10114F10u)); }
-inline ::xikit::fn<decltype(&::fn_10115020)> fn_10115020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10115020)> >(XI_GAME(0x10115020u)); }
+inline ::xikit::fn<decltype(&::FDtGmNoticeProc)> FDtGmNoticeProc() { return reinterpret_cast< ::xikit::fn<decltype(&::FDtGmNoticeProc)> >(XI_GAME(0x10115020u)); }
 inline ::xikit::fn<decltype(&::fn_101152D0)> fn_101152D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101152D0)> >(XI_GAME(0x101152D0u)); }
 inline ::xikit::fn<decltype(&::fn_101152E0)> fn_101152E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101152E0)> >(XI_GAME(0x101152E0u)); }
 inline ::xikit::fn<decltype(&::fn_101152F0)> fn_101152F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101152F0)> >(XI_GAME(0x101152F0u)); }
@@ -2165,6 +2049,8 @@ inline ::xikit::fn<decltype(&::fn_10118870)> fn_10118870() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10118B60)> fn_10118B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118B60)> >(XI_GAME(0x10118B60u)); }
 inline ::xikit::fn<decltype(&::fn_10118C10)> fn_10118C10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118C10)> >(XI_GAME(0x10118C10u)); }
 inline ::xikit::fn<decltype(&::fn_10118CB0)> fn_10118CB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118CB0)> >(XI_GAME(0x10118CB0u)); }
+inline ::xikit::fn<decltype(&::fn_10118DB0)> fn_10118DB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118DB0)> >(XI_GAME(0x10118DB0u)); }
+inline ::xikit::fn<decltype(&::fn_10118E90)> fn_10118E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118E90)> >(XI_GAME(0x10118E90u)); }
 inline ::xikit::fn<decltype(&::fn_10118F20)> fn_10118F20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118F20)> >(XI_GAME(0x10118F20u)); }
 inline ::xikit::fn<decltype(&::fn_10118F40)> fn_10118F40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118F40)> >(XI_GAME(0x10118F40u)); }
 inline ::xikit::fn<decltype(&::fn_10118F70)> fn_10118F70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10118F70)> >(XI_GAME(0x10118F70u)); }
@@ -2183,18 +2069,14 @@ inline ::xikit::fn<decltype(&::fn_101198D0)> fn_101198D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10119970)> fn_10119970() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119970)> >(XI_GAME(0x10119970u)); }
 inline ::xikit::fn<decltype(&::fn_10119A50)> fn_10119A50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119A50)> >(XI_GAME(0x10119A50u)); }
 inline ::xikit::fn<decltype(&::fn_10119AD0)> fn_10119AD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119AD0)> >(XI_GAME(0x10119AD0u)); }
-inline ::xikit::fn<decltype(&::fn_10119BC0)> fn_10119BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119BC0)> >(XI_GAME(0x10119BC0u)); }
 inline ::xikit::fn<decltype(&::fn_10119C00)> fn_10119C00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119C00)> >(XI_GAME(0x10119C00u)); }
 inline ::xikit::fn<decltype(&::fn_10119DA0)> fn_10119DA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119DA0)> >(XI_GAME(0x10119DA0u)); }
 inline ::xikit::fn<decltype(&::fn_10119E20)> fn_10119E20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119E20)> >(XI_GAME(0x10119E20u)); }
 inline ::xikit::fn<decltype(&::fn_10119E30)> fn_10119E30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119E30)> >(XI_GAME(0x10119E30u)); }
 inline ::xikit::fn<decltype(&::fn_10119E70)> fn_10119E70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119E70)> >(XI_GAME(0x10119E70u)); }
-inline ::xikit::fn<decltype(&::fn_10119F20)> fn_10119F20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119F20)> >(XI_GAME(0x10119F20u)); }
 inline ::xikit::fn<decltype(&::fn_10119F80)> fn_10119F80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10119F80)> >(XI_GAME(0x10119F80u)); }
 inline ::xikit::fn<decltype(&::fn_1011A3B0)> fn_1011A3B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011A3B0)> >(XI_GAME(0x1011A3B0u)); }
 inline ::xikit::fn<decltype(&::fn_1011A490)> fn_1011A490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011A490)> >(XI_GAME(0x1011A490u)); }
-inline ::xikit::fn<decltype(&::fn_1011A560)> fn_1011A560() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011A560)> >(XI_GAME(0x1011A560u)); }
-inline ::xikit::fn<decltype(&::fn_1011A5A0)> fn_1011A5A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011A5A0)> >(XI_GAME(0x1011A5A0u)); }
 inline ::xikit::fn<decltype(&::fn_1011AA40)> fn_1011AA40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011AA40)> >(XI_GAME(0x1011AA40u)); }
 inline ::xikit::fn<decltype(&::Gfx_ApplyViewport1B70)> Gfx_ApplyViewport1B70() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ApplyViewport1B70)> >(XI_GAME(0x1011AAC0u)); }
 inline ::xikit::fn<decltype(&::fn_1011ABF0)> fn_1011ABF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011ABF0)> >(XI_GAME(0x1011ABF0u)); }
@@ -2227,7 +2109,9 @@ inline ::xikit::fn<decltype(&::fn_1011CEC0)> fn_1011CEC0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1011CF70)> fn_1011CF70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011CF70)> >(XI_GAME(0x1011CF70u)); }
 inline ::xikit::fn<decltype(&::fn_1011D000)> fn_1011D000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011D000)> >(XI_GAME(0x1011D000u)); }
 inline ::xikit::fn<decltype(&::fn_1011D010)> fn_1011D010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011D010)> >(XI_GAME(0x1011D010u)); }
+inline ::xikit::fn<decltype(&::Font_AddGlyphAdvance)> Font_AddGlyphAdvance() { return reinterpret_cast< ::xikit::fn<decltype(&::Font_AddGlyphAdvance)> >(XI_GAME(0x1011D840u)); }
 inline ::xikit::fn<decltype(&::fn_1011D8B0)> fn_1011D8B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011D8B0)> >(XI_GAME(0x1011D8B0u)); }
+inline ::xikit::fn<decltype(&::fn_1011D990)> fn_1011D990() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011D990)> >(XI_GAME(0x1011D990u)); }
 inline ::xikit::fn<decltype(&::fn_1011DA30)> fn_1011DA30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011DA30)> >(XI_GAME(0x1011DA30u)); }
 inline ::xikit::fn<decltype(&::Sjis_GetCharByteLen)> Sjis_GetCharByteLen() { return reinterpret_cast< ::xikit::fn<decltype(&::Sjis_GetCharByteLen)> >(XI_GAME(0x1011DA80u)); }
 inline ::xikit::fn<decltype(&::fn_1011DB40)> fn_1011DB40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1011DB40)> >(XI_GAME(0x1011DB40u)); }
@@ -2264,7 +2148,6 @@ inline ::xikit::fn<decltype(&::fn_10123640)> fn_10123640() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10123650)> fn_10123650() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123650)> >(XI_GAME(0x10123650u)); }
 inline ::xikit::fn<decltype(&::fn_10123670)> fn_10123670() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123670)> >(XI_GAME(0x10123670u)); }
 inline ::xikit::fn<decltype(&::fn_10123680)> fn_10123680() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123680)> >(XI_GAME(0x10123680u)); }
-inline ::xikit::fn<decltype(&::fn_101236B0)> fn_101236B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101236B0)> >(XI_GAME(0x101236B0u)); }
 inline ::xikit::fn<decltype(&::fn_101236E0)> fn_101236E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101236E0)> >(XI_GAME(0x101236E0u)); }
 inline ::xikit::fn<decltype(&::fn_10123700)> fn_10123700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123700)> >(XI_GAME(0x10123700u)); }
 inline ::xikit::fn<decltype(&::fn_10123DC0)> fn_10123DC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123DC0)> >(XI_GAME(0x10123DC0u)); }
@@ -2275,9 +2158,9 @@ inline ::xikit::fn<decltype(&::fn_10123E60)> fn_10123E60() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10123E80)> fn_10123E80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123E80)> >(XI_GAME(0x10123E80u)); }
 inline ::xikit::fn<decltype(&::fn_10123E90)> fn_10123E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123E90)> >(XI_GAME(0x10123E90u)); }
 inline ::xikit::fn<decltype(&::fn_10123EA0)> fn_10123EA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123EA0)> >(XI_GAME(0x10123EA0u)); }
+inline ::xikit::fn<decltype(&::fn_10123EE0)> fn_10123EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123EE0)> >(XI_GAME(0x10123EE0u)); }
 inline ::xikit::fn<decltype(&::fn_10123F40)> fn_10123F40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123F40)> >(XI_GAME(0x10123F40u)); }
 inline ::xikit::fn<decltype(&::fn_10123F60)> fn_10123F60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123F60)> >(XI_GAME(0x10123F60u)); }
-inline ::xikit::fn<decltype(&::fn_10123F80)> fn_10123F80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123F80)> >(XI_GAME(0x10123F80u)); }
 inline ::xikit::fn<decltype(&::fn_10123FC0)> fn_10123FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123FC0)> >(XI_GAME(0x10123FC0u)); }
 inline ::xikit::fn<decltype(&::fn_10123FE0)> fn_10123FE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10123FE0)> >(XI_GAME(0x10123FE0u)); }
 inline ::xikit::fn<decltype(&::fn_10124000)> fn_10124000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124000)> >(XI_GAME(0x10124000u)); }
@@ -2291,11 +2174,12 @@ inline ::xikit::fn<decltype(&::fn_101240F0)> fn_101240F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10124110)> fn_10124110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124110)> >(XI_GAME(0x10124110u)); }
 inline ::xikit::fn<decltype(&::fn_10124130)> fn_10124130() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124130)> >(XI_GAME(0x10124130u)); }
 inline ::xikit::fn<decltype(&::fn_10124360)> fn_10124360() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124360)> >(XI_GAME(0x10124360u)); }
+inline ::xikit::fn<decltype(&::fn_10124390)> fn_10124390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124390)> >(XI_GAME(0x10124390u)); }
 inline ::xikit::fn<decltype(&::Cursor_Init)> Cursor_Init() { return reinterpret_cast< ::xikit::fn<decltype(&::Cursor_Init)> >(XI_GAME(0x10124440u)); }
 inline ::xikit::fn<decltype(&::Cursor_GetHwCursorSlot)> Cursor_GetHwCursorSlot() { return reinterpret_cast< ::xikit::fn<decltype(&::Cursor_GetHwCursorSlot)> >(XI_GAME(0x101245C0u)); }
 inline ::xikit::fn<decltype(&::fn_101245D0)> fn_101245D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101245D0)> >(XI_GAME(0x101245D0u)); }
-inline ::xikit::fn<decltype(&::fn_10124640)> fn_10124640() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124640)> >(XI_GAME(0x10124640u)); }
-inline ::xikit::fn<decltype(&::Obj_104E1D4C::Cursor_SetPosition)> Obj_104E1D4C__Cursor_SetPosition() { return reinterpret_cast< ::xikit::fn<decltype(&::Obj_104E1D4C::Cursor_SetPosition)> >(XI_GAME(0x10124700u)); }
+inline ::xikit::fn<decltype(&::CTkMouse_OnMouseMove)> CTkMouse_OnMouseMove() { return reinterpret_cast< ::xikit::fn<decltype(&::CTkMouse_OnMouseMove)> >(XI_GAME(0x10124640u)); }
+inline ::xikit::fn<decltype(&::Cursor_SetPosition)> Cursor_SetPosition() { return reinterpret_cast< ::xikit::fn<decltype(&::Cursor_SetPosition)> >(XI_GAME(0x10124700u)); }
 inline ::xikit::fn<decltype(&::fn_101248A0)> fn_101248A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101248A0)> >(XI_GAME(0x101248A0u)); }
 inline ::xikit::fn<decltype(&::fn_10124930)> fn_10124930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124930)> >(XI_GAME(0x10124930u)); }
 inline ::xikit::fn<decltype(&::fn_101249E0)> fn_101249E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101249E0)> >(XI_GAME(0x101249E0u)); }
@@ -2304,12 +2188,10 @@ inline ::xikit::fn<decltype(&::fn_10124AB0)> fn_10124AB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10124AD0)> fn_10124AD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124AD0)> >(XI_GAME(0x10124AD0u)); }
 inline ::xikit::fn<decltype(&::fn_10124B50)> fn_10124B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124B50)> >(XI_GAME(0x10124B50u)); }
 inline ::xikit::fn<decltype(&::fn_10124B70)> fn_10124B70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124B70)> >(XI_GAME(0x10124B70u)); }
-inline ::xikit::fn<decltype(&::fn_10124BC0)> fn_10124BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10124BC0)> >(XI_GAME(0x10124BC0u)); }
-inline ::xikit::fn<decltype(&::Obj_104E1D4C::Cursor_Draw)> Obj_104E1D4C__Cursor_Draw() { return reinterpret_cast< ::xikit::fn<decltype(&::Obj_104E1D4C::Cursor_Draw)> >(XI_GAME(0x10124EB0u)); }
 inline ::xikit::fn<decltype(&::fn_10125040)> fn_10125040() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10125040)> >(XI_GAME(0x10125040u)); }
+inline ::xikit::fn<decltype(&::fn_10125170)> fn_10125170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10125170)> >(XI_GAME(0x10125170u)); }
 inline ::xikit::fn<decltype(&::fn_101252C0)> fn_101252C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101252C0)> >(XI_GAME(0x101252C0u)); }
 inline ::xikit::fn<decltype(&::Cursor_SetVisible)> Cursor_SetVisible() { return reinterpret_cast< ::xikit::fn<decltype(&::Cursor_SetVisible)> >(XI_GAME(0x101252F0u)); }
-inline ::xikit::fn<decltype(&::fn_10125360)> fn_10125360() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10125360)> >(XI_GAME(0x10125360u)); }
 inline ::xikit::fn<decltype(&::fn_10125F70)> fn_10125F70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10125F70)> >(XI_GAME(0x10125F70u)); }
 inline ::xikit::fn<decltype(&::fn_101260E0)> fn_101260E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101260E0)> >(XI_GAME(0x101260E0u)); }
 inline ::xikit::fn<decltype(&::fn_101260F0)> fn_101260F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101260F0)> >(XI_GAME(0x101260F0u)); }
@@ -2321,7 +2203,6 @@ inline ::xikit::fn<decltype(&::fn_10126300)> fn_10126300() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10126320)> fn_10126320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126320)> >(XI_GAME(0x10126320u)); }
 inline ::xikit::fn<decltype(&::fn_10126330)> fn_10126330() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126330)> >(XI_GAME(0x10126330u)); }
 inline ::xikit::fn<decltype(&::fn_10126350)> fn_10126350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126350)> >(XI_GAME(0x10126350u)); }
-inline ::xikit::fn<decltype(&::fn_10126370)> fn_10126370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126370)> >(XI_GAME(0x10126370u)); }
 inline ::xikit::fn<decltype(&::fn_101263B0)> fn_101263B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101263B0)> >(XI_GAME(0x101263B0u)); }
 inline ::xikit::fn<decltype(&::fn_10126460)> fn_10126460() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126460)> >(XI_GAME(0x10126460u)); }
 inline ::xikit::fn<decltype(&::fn_10126480)> fn_10126480() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126480)> >(XI_GAME(0x10126480u)); }
@@ -2329,17 +2210,16 @@ inline ::xikit::fn<decltype(&::fn_101264C0)> fn_101264C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10126500)> fn_10126500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126500)> >(XI_GAME(0x10126500u)); }
 inline ::xikit::fn<decltype(&::fn_10126510)> fn_10126510() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126510)> >(XI_GAME(0x10126510u)); }
 inline ::xikit::fn<decltype(&::fn_10126580)> fn_10126580() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126580)> >(XI_GAME(0x10126580u)); }
-inline ::xikit::fn<decltype(&::fn_101265D0)> fn_101265D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101265D0)> >(XI_GAME(0x101265D0u)); }
 inline ::xikit::fn<decltype(&::fn_101266B0)> fn_101266B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101266B0)> >(XI_GAME(0x101266B0u)); }
 inline ::xikit::fn<decltype(&::fn_10126700)> fn_10126700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126700)> >(XI_GAME(0x10126700u)); }
 inline ::xikit::fn<decltype(&::fn_10126750)> fn_10126750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126750)> >(XI_GAME(0x10126750u)); }
 inline ::xikit::fn<decltype(&::fn_10126770)> fn_10126770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126770)> >(XI_GAME(0x10126770u)); }
 inline ::xikit::fn<decltype(&::fn_10126790)> fn_10126790() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126790)> >(XI_GAME(0x10126790u)); }
 inline ::xikit::fn<decltype(&::fn_101268F0)> fn_101268F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101268F0)> >(XI_GAME(0x101268F0u)); }
-inline ::xikit::fn<decltype(&::fn_10126A00)> fn_10126A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126A00)> >(XI_GAME(0x10126A00u)); }
 inline ::xikit::fn<decltype(&::fn_10126B60)> fn_10126B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126B60)> >(XI_GAME(0x10126B60u)); }
 inline ::xikit::fn<decltype(&::fn_10126BC0)> fn_10126BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10126BC0)> >(XI_GAME(0x10126BC0u)); }
 inline ::xikit::fn<decltype(&::fn_10127190)> fn_10127190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127190)> >(XI_GAME(0x10127190u)); }
+inline ::xikit::fn<decltype(&::fn_101271C0)> fn_101271C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101271C0)> >(XI_GAME(0x101271C0u)); }
 inline ::xikit::fn<decltype(&::fn_10127250)> fn_10127250() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127250)> >(XI_GAME(0x10127250u)); }
 inline ::xikit::fn<decltype(&::fn_10127280)> fn_10127280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127280)> >(XI_GAME(0x10127280u)); }
 inline ::xikit::fn<decltype(&::fn_101273C0)> fn_101273C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101273C0)> >(XI_GAME(0x101273C0u)); }
@@ -2348,7 +2228,7 @@ inline ::xikit::fn<decltype(&::fn_101278B0)> fn_101278B0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101278D0)> fn_101278D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101278D0)> >(XI_GAME(0x101278D0u)); }
 inline ::xikit::fn<decltype(&::fn_10127930)> fn_10127930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127930)> >(XI_GAME(0x10127930u)); }
 inline ::xikit::fn<decltype(&::fn_10127970)> fn_10127970() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127970)> >(XI_GAME(0x10127970u)); }
-inline ::xikit::fn<decltype(&::fn_10127990)> fn_10127990() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127990)> >(XI_GAME(0x10127990u)); }
+inline ::xikit::fn<decltype(&::GetCallNum)> GetCallNum() { return reinterpret_cast< ::xikit::fn<decltype(&::GetCallNum)> >(XI_GAME(0x10127990u)); }
 inline ::xikit::fn<decltype(&::fn_10127AB0)> fn_10127AB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127AB0)> >(XI_GAME(0x10127AB0u)); }
 inline ::xikit::fn<decltype(&::fn_10127EE0)> fn_10127EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127EE0)> >(XI_GAME(0x10127EE0u)); }
 inline ::xikit::fn<decltype(&::fn_10127F00)> fn_10127F00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10127F00)> >(XI_GAME(0x10127F00u)); }
@@ -2357,10 +2237,10 @@ inline ::xikit::fn<decltype(&::fn_101281F0)> fn_101281F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10129290)> fn_10129290() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129290)> >(XI_GAME(0x10129290u)); }
 inline ::xikit::fn<decltype(&::fn_101292E0)> fn_101292E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101292E0)> >(XI_GAME(0x101292E0u)); }
 inline ::xikit::fn<decltype(&::fn_10129BB0)> fn_10129BB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129BB0)> >(XI_GAME(0x10129BB0u)); }
+inline ::xikit::fn<decltype(&::fn_10129C60)> fn_10129C60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129C60)> >(XI_GAME(0x10129C60u)); }
 inline ::xikit::fn<decltype(&::fn_10129D00)> fn_10129D00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129D00)> >(XI_GAME(0x10129D00u)); }
 inline ::xikit::fn<decltype(&::fn_10129EE0)> fn_10129EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129EE0)> >(XI_GAME(0x10129EE0u)); }
 inline ::xikit::fn<decltype(&::fn_10129F40)> fn_10129F40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10129F40)> >(XI_GAME(0x10129F40u)); }
-inline ::xikit::fn<decltype(&::fn_1012A340)> fn_1012A340() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012A340)> >(XI_GAME(0x1012A340u)); }
 inline ::xikit::fn<decltype(&::fn_1012A350)> fn_1012A350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012A350)> >(XI_GAME(0x1012A350u)); }
 inline ::xikit::fn<decltype(&::fn_1012A3B0)> fn_1012A3B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012A3B0)> >(XI_GAME(0x1012A3B0u)); }
 inline ::xikit::fn<decltype(&::fn_1012A400)> fn_1012A400() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012A400)> >(XI_GAME(0x1012A400u)); }
@@ -2376,6 +2256,7 @@ inline ::xikit::fn<decltype(&::fn_1012D450)> fn_1012D450() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1012E180)> fn_1012E180() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012E180)> >(XI_GAME(0x1012E180u)); }
 inline ::xikit::fn<decltype(&::fn_1012E360)> fn_1012E360() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1012E360)> >(XI_GAME(0x1012E360u)); }
 inline ::xikit::fn<decltype(&::fn_10130390)> fn_10130390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10130390)> >(XI_GAME(0x10130390u)); }
+inline ::xikit::fn<decltype(&::fn_101304D0)> fn_101304D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101304D0)> >(XI_GAME(0x101304D0u)); }
 inline ::xikit::fn<decltype(&::fn_10130F90)> fn_10130F90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10130F90)> >(XI_GAME(0x10130F90u)); }
 inline ::xikit::fn<decltype(&::fn_101312E0)> fn_101312E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101312E0)> >(XI_GAME(0x101312E0u)); }
 inline ::xikit::fn<decltype(&::fn_10131530)> fn_10131530() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10131530)> >(XI_GAME(0x10131530u)); }
@@ -2383,6 +2264,7 @@ inline ::xikit::fn<decltype(&::fn_10131940)> fn_10131940() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10133310)> fn_10133310() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10133310)> >(XI_GAME(0x10133310u)); }
 inline ::xikit::fn<decltype(&::fn_10135850)> fn_10135850() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10135850)> >(XI_GAME(0x10135850u)); }
 inline ::xikit::fn<decltype(&::fn_10136380)> fn_10136380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10136380)> >(XI_GAME(0x10136380u)); }
+inline ::xikit::fn<decltype(&::fn_10136560)> fn_10136560() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10136560)> >(XI_GAME(0x10136560u)); }
 inline ::xikit::fn<decltype(&::fn_10136870)> fn_10136870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10136870)> >(XI_GAME(0x10136870u)); }
 inline ::xikit::fn<decltype(&::fn_10136900)> fn_10136900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10136900)> >(XI_GAME(0x10136900u)); }
 inline ::xikit::fn<decltype(&::fn_10136950)> fn_10136950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10136950)> >(XI_GAME(0x10136950u)); }
@@ -2398,13 +2280,11 @@ inline ::xikit::fn<decltype(&::fn_10138EC0)> fn_10138EC0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10138FB0)> fn_10138FB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10138FB0)> >(XI_GAME(0x10138FB0u)); }
 inline ::xikit::fn<decltype(&::fn_10139840)> fn_10139840() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10139840)> >(XI_GAME(0x10139840u)); }
 inline ::xikit::fn<decltype(&::fn_10139EE0)> fn_10139EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10139EE0)> >(XI_GAME(0x10139EE0u)); }
-inline ::xikit::fn<decltype(&::fn_10139FE0)> fn_10139FE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10139FE0)> >(XI_GAME(0x10139FE0u)); }
 inline ::xikit::fn<decltype(&::fn_10139FF0)> fn_10139FF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10139FF0)> >(XI_GAME(0x10139FF0u)); }
 inline ::xikit::fn<decltype(&::fn_1013A010)> fn_1013A010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A010)> >(XI_GAME(0x1013A010u)); }
 inline ::xikit::fn<decltype(&::fn_1013A030)> fn_1013A030() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A030)> >(XI_GAME(0x1013A030u)); }
 inline ::xikit::fn<decltype(&::fn_1013A060)> fn_1013A060() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A060)> >(XI_GAME(0x1013A060u)); }
 inline ::xikit::fn<decltype(&::fn_1013A070)> fn_1013A070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A070)> >(XI_GAME(0x1013A070u)); }
-inline ::xikit::fn<decltype(&::fn_1013A100)> fn_1013A100() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A100)> >(XI_GAME(0x1013A100u)); }
 inline ::xikit::fn<decltype(&::fn_1013A1E0)> fn_1013A1E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A1E0)> >(XI_GAME(0x1013A1E0u)); }
 inline ::xikit::fn<decltype(&::fn_1013A320)> fn_1013A320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A320)> >(XI_GAME(0x1013A320u)); }
 inline ::xikit::fn<decltype(&::fn_1013A330)> fn_1013A330() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013A330)> >(XI_GAME(0x1013A330u)); }
@@ -2414,7 +2294,6 @@ inline ::xikit::fn<decltype(&::fn_1013A930)> fn_1013A930() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1013AA60)> fn_1013AA60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013AA60)> >(XI_GAME(0x1013AA60u)); }
 inline ::xikit::fn<decltype(&::fn_1013AB20)> fn_1013AB20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013AB20)> >(XI_GAME(0x1013AB20u)); }
 inline ::xikit::fn<decltype(&::fn_1013BE50)> fn_1013BE50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013BE50)> >(XI_GAME(0x1013BE50u)); }
-inline ::xikit::fn<decltype(&::fn_1013BF40)> fn_1013BF40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013BF40)> >(XI_GAME(0x1013BF40u)); }
 inline ::xikit::fn<decltype(&::fn_1013E7F0)> fn_1013E7F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013E7F0)> >(XI_GAME(0x1013E7F0u)); }
 inline ::xikit::fn<decltype(&::fn_1013FBE0)> fn_1013FBE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1013FBE0)> >(XI_GAME(0x1013FBE0u)); }
 inline ::xikit::fn<decltype(&::fn_10140950)> fn_10140950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10140950)> >(XI_GAME(0x10140950u)); }
@@ -2438,8 +2317,6 @@ inline ::xikit::fn<decltype(&::fn_1014BA60)> fn_1014BA60() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1014C750)> fn_1014C750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014C750)> >(XI_GAME(0x1014C750u)); }
 inline ::xikit::fn<decltype(&::fn_1014D970)> fn_1014D970() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014D970)> >(XI_GAME(0x1014D970u)); }
 inline ::xikit::fn<decltype(&::fn_1014DD30)> fn_1014DD30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014DD30)> >(XI_GAME(0x1014DD30u)); }
-inline ::xikit::fn<decltype(&::fn_1014E020)> fn_1014E020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014E020)> >(XI_GAME(0x1014E020u)); }
-inline ::xikit::fn<decltype(&::fn_1014E050)> fn_1014E050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014E050)> >(XI_GAME(0x1014E050u)); }
 inline ::xikit::fn<decltype(&::fn_1014EDC0)> fn_1014EDC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014EDC0)> >(XI_GAME(0x1014EDC0u)); }
 inline ::xikit::fn<decltype(&::fn_1014F840)> fn_1014F840() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014F840)> >(XI_GAME(0x1014F840u)); }
 inline ::xikit::fn<decltype(&::fn_1014FFE0)> fn_1014FFE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1014FFE0)> >(XI_GAME(0x1014FFE0u)); }
@@ -2516,14 +2393,12 @@ inline ::xikit::fn<decltype(&::fn_10156850)> fn_10156850() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10156860)> fn_10156860() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156860)> >(XI_GAME(0x10156860u)); }
 inline ::xikit::fn<decltype(&::fn_10156870)> fn_10156870() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156870)> >(XI_GAME(0x10156870u)); }
 inline ::xikit::fn<decltype(&::fn_10156970)> fn_10156970() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156970)> >(XI_GAME(0x10156970u)); }
-inline ::xikit::fn<decltype(&::fn_101569A0)> fn_101569A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101569A0)> >(XI_GAME(0x101569A0u)); }
 inline ::xikit::fn<decltype(&::fn_101569F0)> fn_101569F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101569F0)> >(XI_GAME(0x101569F0u)); }
 inline ::xikit::fn<decltype(&::fn_10156B20)> fn_10156B20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156B20)> >(XI_GAME(0x10156B20u)); }
 inline ::xikit::fn<decltype(&::fn_10156B30)> fn_10156B30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156B30)> >(XI_GAME(0x10156B30u)); }
 inline ::xikit::fn<decltype(&::fn_10156B40)> fn_10156B40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156B40)> >(XI_GAME(0x10156B40u)); }
 inline ::xikit::fn<decltype(&::fn_10156B50)> fn_10156B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156B50)> >(XI_GAME(0x10156B50u)); }
 inline ::xikit::fn<decltype(&::fn_10156BB0)> fn_10156BB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156BB0)> >(XI_GAME(0x10156BB0u)); }
-inline ::xikit::fn<decltype(&::fn_10156BE0)> fn_10156BE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156BE0)> >(XI_GAME(0x10156BE0u)); }
 inline ::xikit::fn<decltype(&::fn_10156BF0)> fn_10156BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156BF0)> >(XI_GAME(0x10156BF0u)); }
 inline ::xikit::fn<decltype(&::fn_10156D90)> fn_10156D90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156D90)> >(XI_GAME(0x10156D90u)); }
 inline ::xikit::fn<decltype(&::fn_10156E00)> fn_10156E00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10156E00)> >(XI_GAME(0x10156E00u)); }
@@ -2535,6 +2410,10 @@ inline ::xikit::fn<decltype(&::fn_101576F0)> fn_101576F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10157720)> fn_10157720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10157720)> >(XI_GAME(0x10157720u)); }
 inline ::xikit::fn<decltype(&::fn_10157780)> fn_10157780() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10157780)> >(XI_GAME(0x10157780u)); }
 inline ::xikit::fn<decltype(&::fn_10157860)> fn_10157860() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10157860)> >(XI_GAME(0x10157860u)); }
+inline ::xikit::fn<decltype(&::fn_10157880)> fn_10157880() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10157880)> >(XI_GAME(0x10157880u)); }
+inline ::xikit::fn<decltype(&::fn_10157890)> fn_10157890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10157890)> >(XI_GAME(0x10157890u)); }
+inline ::xikit::fn<decltype(&::fn_101578A0)> fn_101578A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101578A0)> >(XI_GAME(0x101578A0u)); }
+inline ::xikit::fn<decltype(&::fn_101578B0)> fn_101578B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101578B0)> >(XI_GAME(0x101578B0u)); }
 inline ::xikit::fn<decltype(&::fn_101578C0)> fn_101578C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101578C0)> >(XI_GAME(0x101578C0u)); }
 inline ::xikit::fn<decltype(&::fn_101578D0)> fn_101578D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101578D0)> >(XI_GAME(0x101578D0u)); }
 inline ::xikit::fn<decltype(&::fn_101578E0)> fn_101578E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101578E0)> >(XI_GAME(0x101578E0u)); }
@@ -2558,12 +2437,16 @@ inline ::xikit::fn<decltype(&::fn_10158590)> fn_10158590() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101585F0)> fn_101585F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101585F0)> >(XI_GAME(0x101585F0u)); }
 inline ::xikit::fn<decltype(&::fn_101587B0)> fn_101587B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101587B0)> >(XI_GAME(0x101587B0u)); }
 inline ::xikit::fn<decltype(&::fn_10158AA0)> fn_10158AA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158AA0)> >(XI_GAME(0x10158AA0u)); }
+inline ::xikit::fn<decltype(&::fn_10158AE0)> fn_10158AE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158AE0)> >(XI_GAME(0x10158AE0u)); }
+inline ::xikit::fn<decltype(&::fn_10158B00)> fn_10158B00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158B00)> >(XI_GAME(0x10158B00u)); }
 inline ::xikit::fn<decltype(&::fn_10158B40)> fn_10158B40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158B40)> >(XI_GAME(0x10158B40u)); }
+inline ::xikit::fn<decltype(&::fn_10158B60)> fn_10158B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158B60)> >(XI_GAME(0x10158B60u)); }
 inline ::xikit::fn<decltype(&::fn_10158C40)> fn_10158C40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158C40)> >(XI_GAME(0x10158C40u)); }
 inline ::xikit::fn<decltype(&::fn_10158CA0)> fn_10158CA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158CA0)> >(XI_GAME(0x10158CA0u)); }
 inline ::xikit::fn<decltype(&::fn_10158D90)> fn_10158D90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158D90)> >(XI_GAME(0x10158D90u)); }
 inline ::xikit::fn<decltype(&::fn_10158DB0)> fn_10158DB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158DB0)> >(XI_GAME(0x10158DB0u)); }
 inline ::xikit::fn<decltype(&::fn_10158FF0)> fn_10158FF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10158FF0)> >(XI_GAME(0x10158FF0u)); }
+inline ::xikit::fn<decltype(&::fn_10159040)> fn_10159040() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159040)> >(XI_GAME(0x10159040u)); }
 inline ::xikit::fn<decltype(&::fn_101590A0)> fn_101590A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101590A0)> >(XI_GAME(0x101590A0u)); }
 inline ::xikit::fn<decltype(&::fn_101590C0)> fn_101590C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101590C0)> >(XI_GAME(0x101590C0u)); }
 inline ::xikit::fn<decltype(&::fn_10159170)> fn_10159170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159170)> >(XI_GAME(0x10159170u)); }
@@ -2577,6 +2460,8 @@ inline ::xikit::fn<decltype(&::fn_101594D0)> fn_101594D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101594E0)> fn_101594E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101594E0)> >(XI_GAME(0x101594E0u)); }
 inline ::xikit::fn<decltype(&::fn_101594F0)> fn_101594F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101594F0)> >(XI_GAME(0x101594F0u)); }
 inline ::xikit::fn<decltype(&::fn_10159530)> fn_10159530() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159530)> >(XI_GAME(0x10159530u)); }
+inline ::xikit::fn<decltype(&::fn_10159540)> fn_10159540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159540)> >(XI_GAME(0x10159540u)); }
+inline ::xikit::fn<decltype(&::fn_101595D0)> fn_101595D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101595D0)> >(XI_GAME(0x101595D0u)); }
 inline ::xikit::fn<decltype(&::fn_10159660)> fn_10159660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159660)> >(XI_GAME(0x10159660u)); }
 inline ::xikit::fn<decltype(&::fn_10159740)> fn_10159740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159740)> >(XI_GAME(0x10159740u)); }
 inline ::xikit::fn<decltype(&::fn_10159780)> fn_10159780() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159780)> >(XI_GAME(0x10159780u)); }
@@ -2593,8 +2478,8 @@ inline ::xikit::fn<decltype(&::fn_10159A20)> fn_10159A20() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10159B10)> fn_10159B10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159B10)> >(XI_GAME(0x10159B10u)); }
 inline ::xikit::fn<decltype(&::fn_10159D40)> fn_10159D40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159D40)> >(XI_GAME(0x10159D40u)); }
 inline ::xikit::fn<decltype(&::fn_10159DE0)> fn_10159DE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159DE0)> >(XI_GAME(0x10159DE0u)); }
+inline ::xikit::fn<decltype(&::fn_10159E10)> fn_10159E10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159E10)> >(XI_GAME(0x10159E10u)); }
 inline ::xikit::fn<decltype(&::fn_10159FB0)> fn_10159FB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10159FB0)> >(XI_GAME(0x10159FB0u)); }
-inline ::xikit::fn<decltype(&::fn_1015AF60)> fn_1015AF60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015AF60)> >(XI_GAME(0x1015AF60u)); }
 inline ::xikit::fn<decltype(&::fn_1015AF80)> fn_1015AF80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015AF80)> >(XI_GAME(0x1015AF80u)); }
 inline ::xikit::fn<decltype(&::fn_1015AFA0)> fn_1015AFA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015AFA0)> >(XI_GAME(0x1015AFA0u)); }
 inline ::xikit::fn<decltype(&::fn_1015B190)> fn_1015B190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015B190)> >(XI_GAME(0x1015B190u)); }
@@ -2622,9 +2507,7 @@ inline ::xikit::fn<decltype(&::fn_1015DEF0)> fn_1015DEF0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1015DF20)> fn_1015DF20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015DF20)> >(XI_GAME(0x1015DF20u)); }
 inline ::xikit::fn<decltype(&::fn_1015DFC0)> fn_1015DFC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015DFC0)> >(XI_GAME(0x1015DFC0u)); }
 inline ::xikit::fn<decltype(&::fn_1015E030)> fn_1015E030() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E030)> >(XI_GAME(0x1015E030u)); }
-inline ::xikit::fn<decltype(&::fn_1015E530)> fn_1015E530() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E530)> >(XI_GAME(0x1015E530u)); }
 inline ::xikit::fn<decltype(&::fn_1015E7E0)> fn_1015E7E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E7E0)> >(XI_GAME(0x1015E7E0u)); }
-inline ::xikit::fn<decltype(&::fn_1015E830)> fn_1015E830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E830)> >(XI_GAME(0x1015E830u)); }
 inline ::xikit::fn<decltype(&::fn_1015E850)> fn_1015E850() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E850)> >(XI_GAME(0x1015E850u)); }
 inline ::xikit::fn<decltype(&::fn_1015E8A0)> fn_1015E8A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E8A0)> >(XI_GAME(0x1015E8A0u)); }
 inline ::xikit::fn<decltype(&::fn_1015E910)> fn_1015E910() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015E910)> >(XI_GAME(0x1015E910u)); }
@@ -2642,6 +2525,7 @@ inline ::xikit::fn<decltype(&::fn_1015EE40)> fn_1015EE40() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1015EEF0)> fn_1015EEF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015EEF0)> >(XI_GAME(0x1015EEF0u)); }
 inline ::xikit::fn<decltype(&::fn_1015EF20)> fn_1015EF20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015EF20)> >(XI_GAME(0x1015EF20u)); }
 inline ::xikit::fn<decltype(&::fn_1015F3E0)> fn_1015F3E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F3E0)> >(XI_GAME(0x1015F3E0u)); }
+inline ::xikit::fn<decltype(&::fn_1015F6A0)> fn_1015F6A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F6A0)> >(XI_GAME(0x1015F6A0u)); }
 inline ::xikit::fn<decltype(&::fn_1015F790)> fn_1015F790() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F790)> >(XI_GAME(0x1015F790u)); }
 inline ::xikit::fn<decltype(&::fn_1015F8F0)> fn_1015F8F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F8F0)> >(XI_GAME(0x1015F8F0u)); }
 inline ::xikit::fn<decltype(&::fn_1015F960)> fn_1015F960() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F960)> >(XI_GAME(0x1015F960u)); }
@@ -2655,6 +2539,8 @@ inline ::xikit::fn<decltype(&::MenuMng_GetOffsetY)> MenuMng_GetOffsetY() { retur
 inline ::xikit::fn<decltype(&::fn_10160440)> fn_10160440() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10160440)> >(XI_GAME(0x10160440u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetDefault2DStates)> Gfx_SetDefault2DStates() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetDefault2DStates)> >(XI_GAME(0x101604B0u)); }
 inline ::xikit::fn<decltype(&::Gfx_DisableFogAndAlphaBlend)> Gfx_DisableFogAndAlphaBlend() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_DisableFogAndAlphaBlend)> >(XI_GAME(0x10160650u)); }
+inline ::xikit::fn<decltype(&::fn_101606F0)> fn_101606F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101606F0)> >(XI_GAME(0x101606F0u)); }
+inline ::xikit::fn<decltype(&::fn_10160700)> fn_10160700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10160700)> >(XI_GAME(0x10160700u)); }
 inline ::xikit::fn<decltype(&::fn_10160710)> fn_10160710() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10160710)> >(XI_GAME(0x10160710u)); }
 inline ::xikit::fn<decltype(&::fn_101609C0)> fn_101609C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101609C0)> >(XI_GAME(0x101609C0u)); }
 inline ::xikit::fn<decltype(&::fn_10160A50)> fn_10160A50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10160A50)> >(XI_GAME(0x10160A50u)); }
@@ -2665,16 +2551,16 @@ inline ::xikit::fn<decltype(&::fn_10161380)> fn_10161380() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101615E0)> fn_101615E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101615E0)> >(XI_GAME(0x101615E0u)); }
 inline ::xikit::fn<decltype(&::fn_10161850)> fn_10161850() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161850)> >(XI_GAME(0x10161850u)); }
 inline ::xikit::fn<decltype(&::fn_10161970)> fn_10161970() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161970)> >(XI_GAME(0x10161970u)); }
-inline ::xikit::fn<decltype(&::fn_10161990)> fn_10161990() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161990)> >(XI_GAME(0x10161990u)); }
 inline ::xikit::fn<decltype(&::fn_10161B80)> fn_10161B80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161B80)> >(XI_GAME(0x10161B80u)); }
 inline ::xikit::fn<decltype(&::fn_10161BC0)> fn_10161BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161BC0)> >(XI_GAME(0x10161BC0u)); }
-inline ::xikit::fn<decltype(&::fn_10161D60)> fn_10161D60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161D60)> >(XI_GAME(0x10161D60u)); }
+inline ::xikit::fn<decltype(&::fn_10161C70)> fn_10161C70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161C70)> >(XI_GAME(0x10161C70u)); }
 inline ::xikit::fn<decltype(&::fn_10161ED0)> fn_10161ED0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161ED0)> >(XI_GAME(0x10161ED0u)); }
 inline ::xikit::fn<decltype(&::fn_10161FF0)> fn_10161FF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10161FF0)> >(XI_GAME(0x10161FF0u)); }
 inline ::xikit::fn<decltype(&::fn_10162010)> fn_10162010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10162010)> >(XI_GAME(0x10162010u)); }
 inline ::xikit::fn<decltype(&::Gfx_ApplyViewport1904)> Gfx_ApplyViewport1904() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ApplyViewport1904)> >(XI_GAME(0x101620B0u)); }
 inline ::xikit::fn<decltype(&::fn_101620D0)> fn_101620D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101620D0)> >(XI_GAME(0x101620D0u)); }
 inline ::xikit::fn<decltype(&::fn_10162F60)> fn_10162F60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10162F60)> >(XI_GAME(0x10162F60u)); }
+inline ::xikit::fn<decltype(&::fn_10162FB0)> fn_10162FB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10162FB0)> >(XI_GAME(0x10162FB0u)); }
 inline ::xikit::fn<decltype(&::fn_10163080)> fn_10163080() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10163080)> >(XI_GAME(0x10163080u)); }
 inline ::xikit::fn<decltype(&::fn_10163090)> fn_10163090() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10163090)> >(XI_GAME(0x10163090u)); }
 inline ::xikit::fn<decltype(&::fn_101630C0)> fn_101630C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101630C0)> >(XI_GAME(0x101630C0u)); }
@@ -2710,16 +2596,12 @@ inline ::xikit::fn<decltype(&::Mat44_Multiply)> Mat44_Multiply() { return reinte
 inline ::xikit::fn<decltype(&::fn_1016C150)> fn_1016C150() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016C150)> >(XI_GAME(0x1016C150u)); }
 inline ::xikit::fn<decltype(&::fn_1016C390)> fn_1016C390() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016C390)> >(XI_GAME(0x1016C390u)); }
 inline ::xikit::fn<decltype(&::Dbg_DrawTriangleLines)> Dbg_DrawTriangleLines() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawTriangleLines)> >(XI_GAME(0x1016DDF0u)); }
-inline ::xikit::fn<decltype(&::fn_1016E930)> fn_1016E930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016E930)> >(XI_GAME(0x1016E930u)); }
 inline ::xikit::fn<decltype(&::fn_1016F0E0)> fn_1016F0E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016F0E0)> >(XI_GAME(0x1016F0E0u)); }
 inline ::xikit::fn<decltype(&::fn_1016FC40)> fn_1016FC40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016FC40)> >(XI_GAME(0x1016FC40u)); }
-inline ::xikit::fn<decltype(&::fn_1016FC90)> fn_1016FC90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016FC90)> >(XI_GAME(0x1016FC90u)); }
-inline ::xikit::fn<decltype(&::fn_1016FCD0)> fn_1016FCD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1016FCD0)> >(XI_GAME(0x1016FCD0u)); }
-inline ::xikit::fn<decltype(&::fn_10170CD0)> fn_10170CD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10170CD0)> >(XI_GAME(0x10170CD0u)); }
+inline ::xikit::fn<decltype(&::ParseZoneMeshData)> ParseZoneMeshData() { return reinterpret_cast< ::xikit::fn<decltype(&::ParseZoneMeshData)> >(XI_GAME(0x1016FCD0u)); }
 inline ::xikit::fn<decltype(&::fn_10170F30)> fn_10170F30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10170F30)> >(XI_GAME(0x10170F30u)); }
 inline ::xikit::fn<decltype(&::fn_101718E0)> fn_101718E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101718E0)> >(XI_GAME(0x101718E0u)); }
 inline ::xikit::fn<decltype(&::fn_10174770)> fn_10174770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10174770)> >(XI_GAME(0x10174770u)); }
-inline ::xikit::fn<decltype(&::Dbg_DrawOverheadMapMarkers)> Dbg_DrawOverheadMapMarkers() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawOverheadMapMarkers)> >(XI_GAME(0x10174B10u)); }
 inline ::xikit::fn<decltype(&::Dbg_DrawOrientedBoxes)> Dbg_DrawOrientedBoxes() { return reinterpret_cast< ::xikit::fn<decltype(&::Dbg_DrawOrientedBoxes)> >(XI_GAME(0x10174EC0u)); }
 inline ::xikit::fn<decltype(&::Mat4_SetIdentity_2)> Mat4_SetIdentity_2() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4_SetIdentity_2)> >(XI_GAME(0x10175740u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_10336698::ScalarDeletingDtor)> CMoResource_VT_10336698__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_10336698::ScalarDeletingDtor)> >(XI_GAME(0x10176EA0u)); }
@@ -2732,11 +2614,12 @@ inline ::xikit::fn<decltype(&::CMoTask::GetRuntimeClass_variant19)> CMoTask__Get
 inline ::xikit::fn<decltype(&::fn_101773F0)> fn_101773F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101773F0)> >(XI_GAME(0x101773F0u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetZBias)> Gfx_SetZBias() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetZBias)> >(XI_GAME(0x10177400u)); }
 inline ::xikit::fn<decltype(&::ZoneMap_SetOverlayProjection)> ZoneMap_SetOverlayProjection() { return reinterpret_cast< ::xikit::fn<decltype(&::ZoneMap_SetOverlayProjection)> >(XI_GAME(0x10177420u)); }
+inline ::xikit::fn<decltype(&::fn_10177770)> fn_10177770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10177770)> >(XI_GAME(0x10177770u)); }
 inline ::xikit::fn<decltype(&::fn_101779B0)> fn_101779B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101779B0)> >(XI_GAME(0x101779B0u)); }
 inline ::xikit::fn<decltype(&::Gfx_SetupLineDrawState)> Gfx_SetupLineDrawState() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_SetupLineDrawState)> >(XI_GAME(0x101779C0u)); }
 inline ::xikit::fn<decltype(&::Gfx_DrawQuadOutline)> Gfx_DrawQuadOutline() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_DrawQuadOutline)> >(XI_GAME(0x10177B40u)); }
 inline ::xikit::fn<decltype(&::Gfx_DrawLine3D)> Gfx_DrawLine3D() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_DrawLine3D)> >(XI_GAME(0x10177C50u)); }
-inline ::xikit::fn<decltype(&::fn_10177CD0)> fn_10177CD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10177CD0)> >(XI_GAME(0x10177CD0u)); }
+inline ::xikit::fn<decltype(&::XiZone::DrawMarkerForward)> XiZone__DrawMarkerForward() { return reinterpret_cast< ::xikit::fn<decltype(&::XiZone::DrawMarkerForward)> >(XI_GAME(0x10177CD0u)); }
 inline ::xikit::fn<decltype(&::fn_10177D00)> fn_10177D00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10177D00)> >(XI_GAME(0x10177D00u)); }
 inline ::xikit::fn<decltype(&::fn_10177FA0)> fn_10177FA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10177FA0)> >(XI_GAME(0x10177FA0u)); }
 inline ::xikit::fn<decltype(&::CTsZoneMap::CTsZoneMap_Destructor)> CTsZoneMap__CTsZoneMap_Destructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CTsZoneMap::CTsZoneMap_Destructor)> >(XI_GAME(0x10178070u)); }
@@ -2756,9 +2639,6 @@ inline ::xikit::fn<decltype(&::fn_10179420)> fn_10179420() { return reinterpret_
 inline ::xikit::fn<decltype(&::ZoneMap_DrawMeshGroupsWithFog)> ZoneMap_DrawMeshGroupsWithFog() { return reinterpret_cast< ::xikit::fn<decltype(&::ZoneMap_DrawMeshGroupsWithFog)> >(XI_GAME(0x1017ADE0u)); }
 inline ::xikit::fn<decltype(&::fn_1017B110)> fn_1017B110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1017B110)> >(XI_GAME(0x1017B110u)); }
 inline ::xikit::fn<decltype(&::ZoneMap_TeardownStep)> ZoneMap_TeardownStep() { return reinterpret_cast< ::xikit::fn<decltype(&::ZoneMap_TeardownStep)> >(XI_GAME(0x1017B1E0u)); }
-inline ::xikit::fn<decltype(&::Zone_RenderEnvironment)> Zone_RenderEnvironment() { return reinterpret_cast< ::xikit::fn<decltype(&::Zone_RenderEnvironment)> >(XI_GAME(0x1017B510u)); }
-inline ::xikit::fn<decltype(&::fn_1017C9C0)> fn_1017C9C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1017C9C0)> >(XI_GAME(0x1017C9C0u)); }
-inline ::xikit::fn<decltype(&::fn_1017DE20)> fn_1017DE20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1017DE20)> >(XI_GAME(0x1017DE20u)); }
 inline ::xikit::fn<decltype(&::fn_101811D0)> fn_101811D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101811D0)> >(XI_GAME(0x101811D0u)); }
 inline ::xikit::fn<decltype(&::fn_10181210)> fn_10181210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10181210)> >(XI_GAME(0x10181210u)); }
 inline ::xikit::fn<decltype(&::fn_10181290)> fn_10181290() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10181290)> >(XI_GAME(0x10181290u)); }
@@ -2774,13 +2654,10 @@ inline ::xikit::fn<decltype(&::fn_10182490)> fn_10182490() { return reinterpret_
 inline ::xikit::fn<decltype(&::CTsZoneMap::DrawProjectedTexture)> CTsZoneMap__DrawProjectedTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::CTsZoneMap::DrawProjectedTexture)> >(XI_GAME(0x10182700u)); }
 inline ::xikit::fn<decltype(&::Gfx_DrawWireBox)> Gfx_DrawWireBox() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_DrawWireBox)> >(XI_GAME(0x10182F10u)); }
 inline ::xikit::fn<decltype(&::fn_10183420)> fn_10183420() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10183420)> >(XI_GAME(0x10183420u)); }
-inline ::xikit::fn<decltype(&::fn_10183490)> fn_10183490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10183490)> >(XI_GAME(0x10183490u)); }
-inline ::xikit::fn<decltype(&::fn_10183760)> fn_10183760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10183760)> >(XI_GAME(0x10183760u)); }
 inline ::xikit::fn<decltype(&::ZoneMap_DrawMeshById)> ZoneMap_DrawMeshById() { return reinterpret_cast< ::xikit::fn<decltype(&::ZoneMap_DrawMeshById)> >(XI_GAME(0x10183DA0u)); }
-inline ::xikit::fn<decltype(&::CTsZoneMap::ModelActor_Draw)> CTsZoneMap__ModelActor_Draw() { return reinterpret_cast< ::xikit::fn<decltype(&::CTsZoneMap::ModelActor_Draw)> >(XI_GAME(0x101844C0u)); }
-inline ::xikit::fn<decltype(&::fn_10184C90)> fn_10184C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10184C90)> >(XI_GAME(0x10184C90u)); }
+inline ::xikit::fn<decltype(&::XiZone::DrawGroundShadowQuad)> XiZone__DrawGroundShadowQuad() { return reinterpret_cast< ::xikit::fn<decltype(&::XiZone::DrawGroundShadowQuad)> >(XI_GAME(0x10184C90u)); }
 inline ::xikit::fn<decltype(&::CTsZoneMap::DrawProjectedShadow)> CTsZoneMap__DrawProjectedShadow() { return reinterpret_cast< ::xikit::fn<decltype(&::CTsZoneMap::DrawProjectedShadow)> >(XI_GAME(0x10184FE0u)); }
-inline ::xikit::fn<decltype(&::fn_10185CA0)> fn_10185CA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10185CA0)> >(XI_GAME(0x10185CA0u)); }
+inline ::xikit::fn<decltype(&::XiZone::DrawDecalOnTriangles)> XiZone__DrawDecalOnTriangles() { return reinterpret_cast< ::xikit::fn<decltype(&::XiZone::DrawDecalOnTriangles)> >(XI_GAME(0x10185CA0u)); }
 inline ::xikit::fn<decltype(&::fn_10186DB0)> fn_10186DB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10186DB0)> >(XI_GAME(0x10186DB0u)); }
 inline ::xikit::fn<decltype(&::fn_10186DD0)> fn_10186DD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10186DD0)> >(XI_GAME(0x10186DD0u)); }
 inline ::xikit::fn<decltype(&::fn_10186E90)> fn_10186E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10186E90)> >(XI_GAME(0x10186E90u)); }
@@ -2813,6 +2690,7 @@ inline ::xikit::fn<decltype(&::fn_101874A0)> fn_101874A0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101875C0)> fn_101875C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101875C0)> >(XI_GAME(0x101875C0u)); }
 inline ::xikit::fn<decltype(&::fn_101875E0)> fn_101875E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101875E0)> >(XI_GAME(0x101875E0u)); }
 inline ::xikit::fn<decltype(&::fn_10187600)> fn_10187600() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10187600)> >(XI_GAME(0x10187600u)); }
+inline ::xikit::fn<decltype(&::fn_10187720)> fn_10187720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10187720)> >(XI_GAME(0x10187720u)); }
 inline ::xikit::fn<decltype(&::fn_101880C0)> fn_101880C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101880C0)> >(XI_GAME(0x101880C0u)); }
 inline ::xikit::fn<decltype(&::fn_10188190)> fn_10188190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10188190)> >(XI_GAME(0x10188190u)); }
 inline ::xikit::fn<decltype(&::fn_10188900)> fn_10188900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10188900)> >(XI_GAME(0x10188900u)); }
@@ -2828,6 +2706,7 @@ inline ::xikit::fn<decltype(&::XiZone::GetDirLights)> XiZone__GetDirLights() { r
 inline ::xikit::fn<decltype(&::fn_10188CA0)> fn_10188CA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10188CA0)> >(XI_GAME(0x10188CA0u)); }
 inline ::xikit::fn<decltype(&::Env_ComputeAmbient)> Env_ComputeAmbient() { return reinterpret_cast< ::xikit::fn<decltype(&::Env_ComputeAmbient)> >(XI_GAME(0x10188E00u)); }
 inline ::xikit::fn<decltype(&::Env_ComputeAmbientFloat4)> Env_ComputeAmbientFloat4() { return reinterpret_cast< ::xikit::fn<decltype(&::Env_ComputeAmbientFloat4)> >(XI_GAME(0x10188FA0u)); }
+inline ::xikit::fn<decltype(&::Env_ComputeFog)> Env_ComputeFog() { return reinterpret_cast< ::xikit::fn<decltype(&::Env_ComputeFog)> >(XI_GAME(0x10189120u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_103367E8::ScalarDeletingDtor)> CMoResource_VT_103367E8__ScalarDeletingDtor() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_103367E8::ScalarDeletingDtor)> >(XI_GAME(0x101893D0u)); }
 inline ::xikit::fn<decltype(&::CMoResource_VT_103367E8::vf008)> CMoResource_VT_103367E8__vf008() { return reinterpret_cast< ::xikit::fn<decltype(&::CMoResource_VT_103367E8::vf008)> >(XI_GAME(0x101893F0u)); }
 inline ::xikit::fn<decltype(&::fn_10189400)> fn_10189400() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10189400)> >(XI_GAME(0x10189400u)); }
@@ -2895,7 +2774,6 @@ inline ::xikit::fn<decltype(&::fn_1018D250)> fn_1018D250() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1018D280)> fn_1018D280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D280)> >(XI_GAME(0x1018D280u)); }
 inline ::xikit::fn<decltype(&::fn_1018D2B0)> fn_1018D2B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D2B0)> >(XI_GAME(0x1018D2B0u)); }
 inline ::xikit::fn<decltype(&::fn_1018D2D0)> fn_1018D2D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D2D0)> >(XI_GAME(0x1018D2D0u)); }
-inline ::xikit::fn<decltype(&::fn_1018D3D0)> fn_1018D3D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D3D0)> >(XI_GAME(0x1018D3D0u)); }
 inline ::xikit::fn<decltype(&::fn_1018D430)> fn_1018D430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D430)> >(XI_GAME(0x1018D430u)); }
 inline ::xikit::fn<decltype(&::fn_1018D440)> fn_1018D440() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D440)> >(XI_GAME(0x1018D440u)); }
 inline ::xikit::fn<decltype(&::fn_1018D450)> fn_1018D450() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018D450)> >(XI_GAME(0x1018D450u)); }
@@ -2914,7 +2792,7 @@ inline ::xikit::fn<decltype(&::fn_1018DCD0)> fn_1018DCD0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1018E0A0)> fn_1018E0A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E0A0)> >(XI_GAME(0x1018E0A0u)); }
 inline ::xikit::fn<decltype(&::fn_1018E0E0)> fn_1018E0E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E0E0)> >(XI_GAME(0x1018E0E0u)); }
 inline ::xikit::fn<decltype(&::fn_1018E1A0)> fn_1018E1A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E1A0)> >(XI_GAME(0x1018E1A0u)); }
-inline ::xikit::fn<decltype(&::fn_1018E1D0)> fn_1018E1D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E1D0)> >(XI_GAME(0x1018E1D0u)); }
+inline ::xikit::fn<decltype(&::FsLogPage_load)> FsLogPage_load() { return reinterpret_cast< ::xikit::fn<decltype(&::FsLogPage_load)> >(XI_GAME(0x1018E1D0u)); }
 inline ::xikit::fn<decltype(&::fn_1018E310)> fn_1018E310() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E310)> >(XI_GAME(0x1018E310u)); }
 inline ::xikit::fn<decltype(&::fn_1018E4D0)> fn_1018E4D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E4D0)> >(XI_GAME(0x1018E4D0u)); }
 inline ::xikit::fn<decltype(&::fn_1018E660)> fn_1018E660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018E660)> >(XI_GAME(0x1018E660u)); }
@@ -2932,6 +2810,8 @@ inline ::xikit::fn<decltype(&::fn_1018EE40)> fn_1018EE40() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1018FA20)> fn_1018FA20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018FA20)> >(XI_GAME(0x1018FA20u)); }
 inline ::xikit::fn<decltype(&::fn_1018FA80)> fn_1018FA80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018FA80)> >(XI_GAME(0x1018FA80u)); }
 inline ::xikit::fn<decltype(&::fn_1018FB00)> fn_1018FB00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018FB00)> >(XI_GAME(0x1018FB00u)); }
+inline ::xikit::fn<decltype(&::fn_1018FD90)> fn_1018FD90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1018FD90)> >(XI_GAME(0x1018FD90u)); }
+inline ::xikit::fn<decltype(&::fn_10190140)> fn_10190140() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10190140)> >(XI_GAME(0x10190140u)); }
 inline ::xikit::fn<decltype(&::fn_101907A0)> fn_101907A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101907A0)> >(XI_GAME(0x101907A0u)); }
 inline ::xikit::fn<decltype(&::fn_101907D0)> fn_101907D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101907D0)> >(XI_GAME(0x101907D0u)); }
 inline ::xikit::fn<decltype(&::fn_101908D0)> fn_101908D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101908D0)> >(XI_GAME(0x101908D0u)); }
@@ -2943,7 +2823,7 @@ inline ::xikit::fn<decltype(&::fn_10191B20)> fn_10191B20() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10192380)> fn_10192380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10192380)> >(XI_GAME(0x10192380u)); }
 inline ::xikit::fn<decltype(&::fn_10192E50)> fn_10192E50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10192E50)> >(XI_GAME(0x10192E50u)); }
 inline ::xikit::fn<decltype(&::fn_10193800)> fn_10193800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193800)> >(XI_GAME(0x10193800u)); }
-inline ::xikit::fn<decltype(&::fn_10193830)> fn_10193830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193830)> >(XI_GAME(0x10193830u)); }
+inline ::xikit::fn<decltype(&::SetConfig)> SetConfig() { return reinterpret_cast< ::xikit::fn<decltype(&::SetConfig)> >(XI_GAME(0x10193830u)); }
 inline ::xikit::fn<decltype(&::Settings_GetValue)> Settings_GetValue() { return reinterpret_cast< ::xikit::fn<decltype(&::Settings_GetValue)> >(XI_GAME(0x10193850u)); }
 inline ::xikit::fn<decltype(&::fn_10193890)> fn_10193890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193890)> >(XI_GAME(0x10193890u)); }
 inline ::xikit::fn<decltype(&::fn_101938B0)> fn_101938B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101938B0)> >(XI_GAME(0x101938B0u)); }
@@ -2951,7 +2831,7 @@ inline ::xikit::fn<decltype(&::fn_10193A10)> fn_10193A10() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10193B00)> fn_10193B00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193B00)> >(XI_GAME(0x10193B00u)); }
 inline ::xikit::fn<decltype(&::fn_10193B60)> fn_10193B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193B60)> >(XI_GAME(0x10193B60u)); }
 inline ::xikit::fn<decltype(&::fn_10193BC0)> fn_10193BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193BC0)> >(XI_GAME(0x10193BC0u)); }
-inline ::xikit::fn<decltype(&::fn_10193BF0)> fn_10193BF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10193BF0)> >(XI_GAME(0x10193BF0u)); }
+inline ::xikit::fn<decltype(&::FsConfig_Constructor)> FsConfig_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::FsConfig_Constructor)> >(XI_GAME(0x10193BF0u)); }
 inline ::xikit::fn<decltype(&::fn_10195220)> fn_10195220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10195220)> >(XI_GAME(0x10195220u)); }
 inline ::xikit::fn<decltype(&::fn_10195240)> fn_10195240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10195240)> >(XI_GAME(0x10195240u)); }
 inline ::xikit::fn<decltype(&::fn_101952C0)> fn_101952C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101952C0)> >(XI_GAME(0x101952C0u)); }
@@ -3002,6 +2882,7 @@ inline ::xikit::fn<decltype(&::fn_1019C5B0)> fn_1019C5B0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1019CD40)> fn_1019CD40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019CD40)> >(XI_GAME(0x1019CD40u)); }
 inline ::xikit::fn<decltype(&::fn_1019CE00)> fn_1019CE00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019CE00)> >(XI_GAME(0x1019CE00u)); }
 inline ::xikit::fn<decltype(&::fn_1019CE70)> fn_1019CE70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019CE70)> >(XI_GAME(0x1019CE70u)); }
+inline ::xikit::fn<decltype(&::fn_1019CF60)> fn_1019CF60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019CF60)> >(XI_GAME(0x1019CF60u)); }
 inline ::xikit::fn<decltype(&::fn_1019D150)> fn_1019D150() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019D150)> >(XI_GAME(0x1019D150u)); }
 inline ::xikit::fn<decltype(&::fn_1019D1C0)> fn_1019D1C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019D1C0)> >(XI_GAME(0x1019D1C0u)); }
 inline ::xikit::fn<decltype(&::fn_1019D580)> fn_1019D580() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1019D580)> >(XI_GAME(0x1019D580u)); }
@@ -3018,7 +2899,6 @@ inline ::xikit::fn<decltype(&::fn_101A0710)> fn_101A0710() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101A0730)> fn_101A0730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0730)> >(XI_GAME(0x101A0730u)); }
 inline ::xikit::fn<decltype(&::fn_101A0750)> fn_101A0750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0750)> >(XI_GAME(0x101A0750u)); }
 inline ::xikit::fn<decltype(&::fn_101A0760)> fn_101A0760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0760)> >(XI_GAME(0x101A0760u)); }
-inline ::xikit::fn<decltype(&::fn_101A07D0)> fn_101A07D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A07D0)> >(XI_GAME(0x101A07D0u)); }
 inline ::xikit::fn<decltype(&::fn_101A0910)> fn_101A0910() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0910)> >(XI_GAME(0x101A0910u)); }
 inline ::xikit::fn<decltype(&::fn_101A0930)> fn_101A0930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0930)> >(XI_GAME(0x101A0930u)); }
 inline ::xikit::fn<decltype(&::fn_101A0950)> fn_101A0950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A0950)> >(XI_GAME(0x101A0950u)); }
@@ -3042,16 +2922,14 @@ inline ::xikit::fn<decltype(&::fn_101A1910)> fn_101A1910() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101A19B0)> fn_101A19B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A19B0)> >(XI_GAME(0x101A19B0u)); }
 inline ::xikit::fn<decltype(&::fn_101A1A20)> fn_101A1A20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A1A20)> >(XI_GAME(0x101A1A20u)); }
 inline ::xikit::fn<decltype(&::fn_101A1C60)> fn_101A1C60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A1C60)> >(XI_GAME(0x101A1C60u)); }
-inline ::xikit::fn<decltype(&::fn_101A1CB0)> fn_101A1CB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A1CB0)> >(XI_GAME(0x101A1CB0u)); }
 inline ::xikit::fn<decltype(&::fn_101A1CC0)> fn_101A1CC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A1CC0)> >(XI_GAME(0x101A1CC0u)); }
-inline ::xikit::fn<decltype(&::fn_101A2660)> fn_101A2660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A2660)> >(XI_GAME(0x101A2660u)); }
-inline ::xikit::fn<decltype(&::fn_101A26C0)> fn_101A26C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A26C0)> >(XI_GAME(0x101A26C0u)); }
 inline ::xikit::fn<decltype(&::fn_101A2890)> fn_101A2890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A2890)> >(XI_GAME(0x101A2890u)); }
 inline ::xikit::fn<decltype(&::fn_101A29F0)> fn_101A29F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A29F0)> >(XI_GAME(0x101A29F0u)); }
 inline ::xikit::fn<decltype(&::fn_101A2E00)> fn_101A2E00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A2E00)> >(XI_GAME(0x101A2E00u)); }
 inline ::xikit::fn<decltype(&::fn_101A2E60)> fn_101A2E60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A2E60)> >(XI_GAME(0x101A2E60u)); }
 inline ::xikit::fn<decltype(&::fn_101A2E80)> fn_101A2E80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A2E80)> >(XI_GAME(0x101A2E80u)); }
 inline ::xikit::fn<decltype(&::fn_101A3300)> fn_101A3300() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A3300)> >(XI_GAME(0x101A3300u)); }
+inline ::xikit::fn<decltype(&::fn_101A33E0)> fn_101A33E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A33E0)> >(XI_GAME(0x101A33E0u)); }
 inline ::xikit::fn<decltype(&::fn_101A3500)> fn_101A3500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A3500)> >(XI_GAME(0x101A3500u)); }
 inline ::xikit::fn<decltype(&::fn_101A3550)> fn_101A3550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A3550)> >(XI_GAME(0x101A3550u)); }
 inline ::xikit::fn<decltype(&::fn_101A36F0)> fn_101A36F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101A36F0)> >(XI_GAME(0x101A36F0u)); }
@@ -3077,10 +2955,12 @@ inline ::xikit::fn<decltype(&::fn_101AB6D0)> fn_101AB6D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101AB720)> fn_101AB720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB720)> >(XI_GAME(0x101AB720u)); }
 inline ::xikit::fn<decltype(&::fn_101AB730)> fn_101AB730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB730)> >(XI_GAME(0x101AB730u)); }
 inline ::xikit::fn<decltype(&::fn_101AB770)> fn_101AB770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB770)> >(XI_GAME(0x101AB770u)); }
+inline ::xikit::fn<decltype(&::fn_101AB7D0)> fn_101AB7D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB7D0)> >(XI_GAME(0x101AB7D0u)); }
 inline ::xikit::fn<decltype(&::fn_101AB810)> fn_101AB810() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB810)> >(XI_GAME(0x101AB810u)); }
 inline ::xikit::fn<decltype(&::fn_101AB820)> fn_101AB820() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AB820)> >(XI_GAME(0x101AB820u)); }
 inline ::xikit::fn<decltype(&::fn_101ABB40)> fn_101ABB40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABB40)> >(XI_GAME(0x101ABB40u)); }
 inline ::xikit::fn<decltype(&::fn_101ABC50)> fn_101ABC50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABC50)> >(XI_GAME(0x101ABC50u)); }
+inline ::xikit::fn<decltype(&::fn_101ABE40)> fn_101ABE40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABE40)> >(XI_GAME(0x101ABE40u)); }
 inline ::xikit::fn<decltype(&::fn_101ABE50)> fn_101ABE50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABE50)> >(XI_GAME(0x101ABE50u)); }
 inline ::xikit::fn<decltype(&::fn_101ABE80)> fn_101ABE80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABE80)> >(XI_GAME(0x101ABE80u)); }
 inline ::xikit::fn<decltype(&::fn_101ABEF0)> fn_101ABEF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ABEF0)> >(XI_GAME(0x101ABEF0u)); }
@@ -3109,7 +2989,7 @@ inline ::xikit::fn<decltype(&::fn_101ACF90)> fn_101ACF90() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101ACFB0)> fn_101ACFB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ACFB0)> >(XI_GAME(0x101ACFB0u)); }
 inline ::xikit::fn<decltype(&::fn_101AD0D0)> fn_101AD0D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AD0D0)> >(XI_GAME(0x101AD0D0u)); }
 inline ::xikit::fn<decltype(&::fn_101AD1B0)> fn_101AD1B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AD1B0)> >(XI_GAME(0x101AD1B0u)); }
-inline ::xikit::fn<decltype(&::fn_101AD290)> fn_101AD290() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AD290)> >(XI_GAME(0x101AD290u)); }
+inline ::xikit::fn<decltype(&::FsPreParser_Constructor)> FsPreParser_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::FsPreParser_Constructor)> >(XI_GAME(0x101AD290u)); }
 inline ::xikit::fn<decltype(&::fn_101AD4B0)> fn_101AD4B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AD4B0)> >(XI_GAME(0x101AD4B0u)); }
 inline ::xikit::fn<decltype(&::fn_101AD820)> fn_101AD820() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AD820)> >(XI_GAME(0x101AD820u)); }
 inline ::xikit::fn<decltype(&::fn_101ADBC0)> fn_101ADBC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ADBC0)> >(XI_GAME(0x101ADBC0u)); }
@@ -3125,10 +3005,15 @@ inline ::xikit::fn<decltype(&::fn_101AEA40)> fn_101AEA40() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101AEAC0)> fn_101AEAC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AEAC0)> >(XI_GAME(0x101AEAC0u)); }
 inline ::xikit::fn<decltype(&::fn_101AFF30)> fn_101AFF30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AFF30)> >(XI_GAME(0x101AFF30u)); }
 inline ::xikit::fn<decltype(&::fn_101AFF40)> fn_101AFF40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101AFF40)> >(XI_GAME(0x101AFF40u)); }
+inline ::xikit::fn<decltype(&::fn_101B2710)> fn_101B2710() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B2710)> >(XI_GAME(0x101B2710u)); }
 inline ::xikit::fn<decltype(&::fn_101B27F0)> fn_101B27F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B27F0)> >(XI_GAME(0x101B27F0u)); }
 inline ::xikit::fn<decltype(&::fn_101B2800)> fn_101B2800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B2800)> >(XI_GAME(0x101B2800u)); }
+inline ::xikit::fn<decltype(&::fn_101B36F0)> fn_101B36F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B36F0)> >(XI_GAME(0x101B36F0u)); }
+inline ::xikit::fn<decltype(&::fn_101B3B50)> fn_101B3B50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B3B50)> >(XI_GAME(0x101B3B50u)); }
+inline ::xikit::fn<decltype(&::fn_101B3F70)> fn_101B3F70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B3F70)> >(XI_GAME(0x101B3F70u)); }
 inline ::xikit::fn<decltype(&::fn_101B4260)> fn_101B4260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4260)> >(XI_GAME(0x101B4260u)); }
 inline ::xikit::fn<decltype(&::fn_101B4350)> fn_101B4350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4350)> >(XI_GAME(0x101B4350u)); }
+inline ::xikit::fn<decltype(&::FsSjisToAscii)> FsSjisToAscii() { return reinterpret_cast< ::xikit::fn<decltype(&::FsSjisToAscii)> >(XI_GAME(0x101B4450u)); }
 inline ::xikit::fn<decltype(&::fn_101B4570)> fn_101B4570() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4570)> >(XI_GAME(0x101B4570u)); }
 inline ::xikit::fn<decltype(&::fn_101B45B0)> fn_101B45B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B45B0)> >(XI_GAME(0x101B45B0u)); }
 inline ::xikit::fn<decltype(&::fn_101B45E0)> fn_101B45E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B45E0)> >(XI_GAME(0x101B45E0u)); }
@@ -3139,14 +3024,15 @@ inline ::xikit::fn<decltype(&::fn_101B4D30)> fn_101B4D30() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101B4E70)> fn_101B4E70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4E70)> >(XI_GAME(0x101B4E70u)); }
 inline ::xikit::fn<decltype(&::fn_101B4F90)> fn_101B4F90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4F90)> >(XI_GAME(0x101B4F90u)); }
 inline ::xikit::fn<decltype(&::fn_101B4FC0)> fn_101B4FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B4FC0)> >(XI_GAME(0x101B4FC0u)); }
-inline ::xikit::fn<decltype(&::fn_101B5020)> fn_101B5020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5020)> >(XI_GAME(0x101B5020u)); }
-inline ::xikit::fn<decltype(&::fn_101B5210)> fn_101B5210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5210)> >(XI_GAME(0x101B5210u)); }
-inline ::xikit::fn<decltype(&::fn_101B5BC0)> fn_101B5BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5BC0)> >(XI_GAME(0x101B5BC0u)); }
+inline ::xikit::fn<decltype(&::FsTextInput_init)> FsTextInput_init() { return reinterpret_cast< ::xikit::fn<decltype(&::FsTextInput_init)> >(XI_GAME(0x101B5210u)); }
+inline ::xikit::fn<decltype(&::FsTextInput_copyDecidedString)> FsTextInput_copyDecidedString() { return reinterpret_cast< ::xikit::fn<decltype(&::FsTextInput_copyDecidedString)> >(XI_GAME(0x101B5BC0u)); }
 inline ::xikit::fn<decltype(&::fn_101B5C80)> fn_101B5C80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5C80)> >(XI_GAME(0x101B5C80u)); }
 inline ::xikit::fn<decltype(&::fn_101B5C90)> fn_101B5C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5C90)> >(XI_GAME(0x101B5C90u)); }
 inline ::xikit::fn<decltype(&::fn_101B5CC0)> fn_101B5CC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B5CC0)> >(XI_GAME(0x101B5CC0u)); }
 inline ::xikit::fn<decltype(&::fn_101B6C00)> fn_101B6C00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6C00)> >(XI_GAME(0x101B6C00u)); }
+inline ::xikit::fn<decltype(&::fn_101B6D50)> fn_101B6D50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6D50)> >(XI_GAME(0x101B6D50u)); }
 inline ::xikit::fn<decltype(&::fn_101B6E40)> fn_101B6E40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6E40)> >(XI_GAME(0x101B6E40u)); }
+inline ::xikit::fn<decltype(&::fn_101B6E90)> fn_101B6E90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6E90)> >(XI_GAME(0x101B6E90u)); }
 inline ::xikit::fn<decltype(&::fn_101B6EA0)> fn_101B6EA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6EA0)> >(XI_GAME(0x101B6EA0u)); }
 inline ::xikit::fn<decltype(&::fn_101B6EC0)> fn_101B6EC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6EC0)> >(XI_GAME(0x101B6EC0u)); }
 inline ::xikit::fn<decltype(&::fn_101B6EE0)> fn_101B6EE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B6EE0)> >(XI_GAME(0x101B6EE0u)); }
@@ -3166,7 +3052,7 @@ inline ::xikit::fn<decltype(&::fn_101B9550)> fn_101B9550() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101B95D0)> fn_101B95D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B95D0)> >(XI_GAME(0x101B95D0u)); }
 inline ::xikit::fn<decltype(&::fn_101B9610)> fn_101B9610() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9610)> >(XI_GAME(0x101B9610u)); }
 inline ::xikit::fn<decltype(&::fn_101B9650)> fn_101B9650() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9650)> >(XI_GAME(0x101B9650u)); }
-inline ::xikit::fn<decltype(&::fn_101B9690)> fn_101B9690() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9690)> >(XI_GAME(0x101B9690u)); }
+inline ::xikit::fn<decltype(&::FsTinyString_init)> FsTinyString_init() { return reinterpret_cast< ::xikit::fn<decltype(&::FsTinyString_init)> >(XI_GAME(0x101B9690u)); }
 inline ::xikit::fn<decltype(&::fn_101B9880)> fn_101B9880() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9880)> >(XI_GAME(0x101B9880u)); }
 inline ::xikit::fn<decltype(&::fn_101B9910)> fn_101B9910() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9910)> >(XI_GAME(0x101B9910u)); }
 inline ::xikit::fn<decltype(&::fn_101B9980)> fn_101B9980() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101B9980)> >(XI_GAME(0x101B9980u)); }
@@ -3207,15 +3093,14 @@ inline ::xikit::fn<decltype(&::fn_101BB9E0)> fn_101BB9E0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101BBA90)> fn_101BBA90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BBA90)> >(XI_GAME(0x101BBA90u)); }
 inline ::xikit::fn<decltype(&::fn_101BBC60)> fn_101BBC60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BBC60)> >(XI_GAME(0x101BBC60u)); }
 inline ::xikit::fn<decltype(&::fn_101BBE50)> fn_101BBE50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BBE50)> >(XI_GAME(0x101BBE50u)); }
-inline ::xikit::fn<decltype(&::fn_101BBE60)> fn_101BBE60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BBE60)> >(XI_GAME(0x101BBE60u)); }
-inline ::xikit::fn<decltype(&::fn_101BC520)> fn_101BC520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC520)> >(XI_GAME(0x101BC520u)); }
+inline ::xikit::fn<decltype(&::FsWordCompletion_getEntryList)> FsWordCompletion_getEntryList() { return reinterpret_cast< ::xikit::fn<decltype(&::FsWordCompletion_getEntryList)> >(XI_GAME(0x101BBE60u)); }
+inline ::xikit::fn<decltype(&::FsWordCompletion__prepareAllData)> FsWordCompletion__prepareAllData() { return reinterpret_cast< ::xikit::fn<decltype(&::FsWordCompletion__prepareAllData)> >(XI_GAME(0x101BC520u)); }
 inline ::xikit::fn<decltype(&::fn_101BC6F0)> fn_101BC6F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC6F0)> >(XI_GAME(0x101BC6F0u)); }
 inline ::xikit::fn<decltype(&::fn_101BC720)> fn_101BC720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC720)> >(XI_GAME(0x101BC720u)); }
-inline ::xikit::fn<decltype(&::fn_101BC740)> fn_101BC740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC740)> >(XI_GAME(0x101BC740u)); }
 inline ::xikit::fn<decltype(&::fn_101BC7B0)> fn_101BC7B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC7B0)> >(XI_GAME(0x101BC7B0u)); }
 inline ::xikit::fn<decltype(&::fn_101BC900)> fn_101BC900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC900)> >(XI_GAME(0x101BC900u)); }
 inline ::xikit::fn<decltype(&::fn_101BC9B0)> fn_101BC9B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC9B0)> >(XI_GAME(0x101BC9B0u)); }
-inline ::xikit::fn<decltype(&::fn_101BC9E0)> fn_101BC9E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BC9E0)> >(XI_GAME(0x101BC9E0u)); }
+inline ::xikit::fn<decltype(&::FsMemory_Constructor)> FsMemory_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::FsMemory_Constructor)> >(XI_GAME(0x101BC9E0u)); }
 inline ::xikit::fn<decltype(&::fn_101BCA40)> fn_101BCA40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BCA40)> >(XI_GAME(0x101BCA40u)); }
 inline ::xikit::fn<decltype(&::fn_101BCAC0)> fn_101BCAC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BCAC0)> >(XI_GAME(0x101BCAC0u)); }
 inline ::xikit::fn<decltype(&::fn_101BCB30)> fn_101BCB30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101BCB30)> >(XI_GAME(0x101BCB30u)); }
@@ -3323,7 +3208,6 @@ inline ::xikit::fn<decltype(&::fn_101C5EC0)> fn_101C5EC0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101C60C0)> fn_101C60C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C60C0)> >(XI_GAME(0x101C60C0u)); }
 inline ::xikit::fn<decltype(&::fn_101C6810)> fn_101C6810() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C6810)> >(XI_GAME(0x101C6810u)); }
 inline ::xikit::fn<decltype(&::fn_101C68A0)> fn_101C68A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C68A0)> >(XI_GAME(0x101C68A0u)); }
-inline ::xikit::fn<decltype(&::fn_101C7C50)> fn_101C7C50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C7C50)> >(XI_GAME(0x101C7C50u)); }
 inline ::xikit::fn<decltype(&::fn_101C7F80)> fn_101C7F80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C7F80)> >(XI_GAME(0x101C7F80u)); }
 inline ::xikit::fn<decltype(&::fn_101C8070)> fn_101C8070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C8070)> >(XI_GAME(0x101C8070u)); }
 inline ::xikit::fn<decltype(&::fn_101C80A0)> fn_101C80A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C80A0)> >(XI_GAME(0x101C80A0u)); }
@@ -3340,6 +3224,7 @@ inline ::xikit::fn<decltype(&::fn_101C8D70)> fn_101C8D70() { return reinterpret_
 inline ::xikit::fn<decltype(&::Gfx_ProjectWorldToScreen)> Gfx_ProjectWorldToScreen() { return reinterpret_cast< ::xikit::fn<decltype(&::Gfx_ProjectWorldToScreen)> >(XI_GAME(0x101C8DA0u)); }
 inline ::xikit::fn<decltype(&::fn_101C9270)> fn_101C9270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C9270)> >(XI_GAME(0x101C9270u)); }
 inline ::xikit::fn<decltype(&::fn_101C9780)> fn_101C9780() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C9780)> >(XI_GAME(0x101C9780u)); }
+inline ::xikit::fn<decltype(&::fn_101C9D50)> fn_101C9D50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101C9D50)> >(XI_GAME(0x101C9D50u)); }
 inline ::xikit::fn<decltype(&::fn_101CA180)> fn_101CA180() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CA180)> >(XI_GAME(0x101CA180u)); }
 inline ::xikit::fn<decltype(&::fn_101CAD00)> fn_101CAD00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CAD00)> >(XI_GAME(0x101CAD00u)); }
 inline ::xikit::fn<decltype(&::fn_101CAEC0)> fn_101CAEC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CAEC0)> >(XI_GAME(0x101CAEC0u)); }
@@ -3353,11 +3238,13 @@ inline ::xikit::fn<decltype(&::fn_101CB430)> fn_101CB430() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101CB500)> fn_101CB500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CB500)> >(XI_GAME(0x101CB500u)); }
 inline ::xikit::fn<decltype(&::fn_101CB550)> fn_101CB550() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CB550)> >(XI_GAME(0x101CB550u)); }
 inline ::xikit::fn<decltype(&::fn_101CB770)> fn_101CB770() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CB770)> >(XI_GAME(0x101CB770u)); }
+inline ::xikit::fn<decltype(&::fn_101CBDF0)> fn_101CBDF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CBDF0)> >(XI_GAME(0x101CBDF0u)); }
 inline ::xikit::fn<decltype(&::fn_101CBE50)> fn_101CBE50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CBE50)> >(XI_GAME(0x101CBE50u)); }
 inline ::xikit::fn<decltype(&::fn_101CBE60)> fn_101CBE60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CBE60)> >(XI_GAME(0x101CBE60u)); }
 inline ::xikit::fn<decltype(&::fn_101CBE70)> fn_101CBE70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CBE70)> >(XI_GAME(0x101CBE70u)); }
 inline ::xikit::fn<decltype(&::fn_101CC070)> fn_101CC070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC070)> >(XI_GAME(0x101CC070u)); }
 inline ::xikit::fn<decltype(&::fn_101CC1D0)> fn_101CC1D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC1D0)> >(XI_GAME(0x101CC1D0u)); }
+inline ::xikit::fn<decltype(&::fn_101CC220)> fn_101CC220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC220)> >(XI_GAME(0x101CC220u)); }
 inline ::xikit::fn<decltype(&::fn_101CC350)> fn_101CC350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC350)> >(XI_GAME(0x101CC350u)); }
 inline ::xikit::fn<decltype(&::fn_101CC510)> fn_101CC510() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC510)> >(XI_GAME(0x101CC510u)); }
 inline ::xikit::fn<decltype(&::fn_101CC520)> fn_101CC520() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101CC520)> >(XI_GAME(0x101CC520u)); }
@@ -3414,19 +3301,13 @@ inline ::xikit::fn<decltype(&::fn_101DC460)> fn_101DC460() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101DCE20)> fn_101DCE20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DCE20)> >(XI_GAME(0x101DCE20u)); }
 inline ::xikit::fn<decltype(&::fn_101DD000)> fn_101DD000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DD000)> >(XI_GAME(0x101DD000u)); }
 inline ::xikit::fn<decltype(&::fn_101DDA70)> fn_101DDA70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DDA70)> >(XI_GAME(0x101DDA70u)); }
-inline ::xikit::fn<decltype(&::fn_101DDA90)> fn_101DDA90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DDA90)> >(XI_GAME(0x101DDA90u)); }
 inline ::xikit::fn<decltype(&::fn_101DDF90)> fn_101DDF90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DDF90)> >(XI_GAME(0x101DDF90u)); }
 inline ::xikit::fn<decltype(&::fn_101DE6B0)> fn_101DE6B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DE6B0)> >(XI_GAME(0x101DE6B0u)); }
 inline ::xikit::fn<decltype(&::fn_101DEDC0)> fn_101DEDC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DEDC0)> >(XI_GAME(0x101DEDC0u)); }
 inline ::xikit::fn<decltype(&::fn_101DF210)> fn_101DF210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101DF210)> >(XI_GAME(0x101DF210u)); }
-inline ::xikit::fn<decltype(&::fn_101E06C0)> fn_101E06C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E06C0)> >(XI_GAME(0x101E06C0u)); }
-inline ::xikit::fn<decltype(&::fn_101E0700)> fn_101E0700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E0700)> >(XI_GAME(0x101E0700u)); }
 inline ::xikit::fn<decltype(&::fn_101E0A90)> fn_101E0A90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E0A90)> >(XI_GAME(0x101E0A90u)); }
-inline ::xikit::fn<decltype(&::fn_101E11C0)> fn_101E11C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E11C0)> >(XI_GAME(0x101E11C0u)); }
 inline ::xikit::fn<decltype(&::fn_101E15F0)> fn_101E15F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E15F0)> >(XI_GAME(0x101E15F0u)); }
 inline ::xikit::fn<decltype(&::fn_101E1A00)> fn_101E1A00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E1A00)> >(XI_GAME(0x101E1A00u)); }
-inline ::xikit::fn<decltype(&::fn_101E1AE0)> fn_101E1AE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E1AE0)> >(XI_GAME(0x101E1AE0u)); }
-inline ::xikit::fn<decltype(&::fn_101E24F0)> fn_101E24F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E24F0)> >(XI_GAME(0x101E24F0u)); }
 inline ::xikit::fn<decltype(&::fn_101E2B10)> fn_101E2B10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E2B10)> >(XI_GAME(0x101E2B10u)); }
 inline ::xikit::fn<decltype(&::fn_101E3F50)> fn_101E3F50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E3F50)> >(XI_GAME(0x101E3F50u)); }
 inline ::xikit::fn<decltype(&::fn_101E48F0)> fn_101E48F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101E48F0)> >(XI_GAME(0x101E48F0u)); }
@@ -3438,16 +3319,12 @@ inline ::xikit::fn<decltype(&::fn_101EB390)> fn_101EB390() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101EB7E0)> fn_101EB7E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EB7E0)> >(XI_GAME(0x101EB7E0u)); }
 inline ::xikit::fn<decltype(&::fn_101EBE00)> fn_101EBE00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EBE00)> >(XI_GAME(0x101EBE00u)); }
 inline ::xikit::fn<decltype(&::fn_101EC0D0)> fn_101EC0D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EC0D0)> >(XI_GAME(0x101EC0D0u)); }
-inline ::xikit::fn<decltype(&::fn_101EC3C0)> fn_101EC3C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EC3C0)> >(XI_GAME(0x101EC3C0u)); }
 inline ::xikit::fn<decltype(&::fn_101ED450)> fn_101ED450() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101ED450)> >(XI_GAME(0x101ED450u)); }
 inline ::xikit::fn<decltype(&::fn_101EE230)> fn_101EE230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EE230)> >(XI_GAME(0x101EE230u)); }
-inline ::xikit::fn<decltype(&::fn_101EEBD0)> fn_101EEBD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EEBD0)> >(XI_GAME(0x101EEBD0u)); }
 inline ::xikit::fn<decltype(&::fn_101EFCA0)> fn_101EFCA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EFCA0)> >(XI_GAME(0x101EFCA0u)); }
 inline ::xikit::fn<decltype(&::fn_101EFEA0)> fn_101EFEA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101EFEA0)> >(XI_GAME(0x101EFEA0u)); }
 inline ::xikit::fn<decltype(&::fn_101F17C0)> fn_101F17C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F17C0)> >(XI_GAME(0x101F17C0u)); }
 inline ::xikit::fn<decltype(&::fn_101F43F0)> fn_101F43F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F43F0)> >(XI_GAME(0x101F43F0u)); }
-inline ::xikit::fn<decltype(&::fn_101F4AF0)> fn_101F4AF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F4AF0)> >(XI_GAME(0x101F4AF0u)); }
-inline ::xikit::fn<decltype(&::fn_101F6700)> fn_101F6700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F6700)> >(XI_GAME(0x101F6700u)); }
 inline ::xikit::fn<decltype(&::fn_101F67C0)> fn_101F67C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F67C0)> >(XI_GAME(0x101F67C0u)); }
 inline ::xikit::fn<decltype(&::fn_101F71A0)> fn_101F71A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F71A0)> >(XI_GAME(0x101F71A0u)); }
 inline ::xikit::fn<decltype(&::fn_101F71C0)> fn_101F71C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F71C0)> >(XI_GAME(0x101F71C0u)); }
@@ -3461,26 +3338,27 @@ inline ::xikit::fn<decltype(&::fn_101F75C0)> fn_101F75C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_101F86C0)> fn_101F86C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F86C0)> >(XI_GAME(0x101F86C0u)); }
 inline ::xikit::fn<decltype(&::fn_101F92B0)> fn_101F92B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F92B0)> >(XI_GAME(0x101F92B0u)); }
 inline ::xikit::fn<decltype(&::fn_101F9370)> fn_101F9370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101F9370)> >(XI_GAME(0x101F9370u)); }
-inline ::xikit::fn<decltype(&::fn_101FA420)> fn_101FA420() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FA420)> >(XI_GAME(0x101FA420u)); }
 inline ::xikit::fn<decltype(&::fn_101FB710)> fn_101FB710() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FB710)> >(XI_GAME(0x101FB710u)); }
 inline ::xikit::fn<decltype(&::fn_101FC2C0)> fn_101FC2C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FC2C0)> >(XI_GAME(0x101FC2C0u)); }
 inline ::xikit::fn<decltype(&::fn_101FCBC0)> fn_101FCBC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FCBC0)> >(XI_GAME(0x101FCBC0u)); }
 inline ::xikit::fn<decltype(&::fn_101FD000)> fn_101FD000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FD000)> >(XI_GAME(0x101FD000u)); }
+inline ::xikit::fn<decltype(&::fn_101FD600)> fn_101FD600() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FD600)> >(XI_GAME(0x101FD600u)); }
 inline ::xikit::fn<decltype(&::fn_101FE430)> fn_101FE430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FE430)> >(XI_GAME(0x101FE430u)); }
 inline ::xikit::fn<decltype(&::fn_101FF000)> fn_101FF000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_101FF000)> >(XI_GAME(0x101FF000u)); }
 inline ::xikit::fn<decltype(&::fn_10200B60)> fn_10200B60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10200B60)> >(XI_GAME(0x10200B60u)); }
 inline ::xikit::fn<decltype(&::fn_10201020)> fn_10201020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10201020)> >(XI_GAME(0x10201020u)); }
 inline ::xikit::fn<decltype(&::fn_10201130)> fn_10201130() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10201130)> >(XI_GAME(0x10201130u)); }
-inline ::xikit::fn<decltype(&::fn_102014F0)> fn_102014F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102014F0)> >(XI_GAME(0x102014F0u)); }
 inline ::xikit::fn<decltype(&::fn_102015D0)> fn_102015D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102015D0)> >(XI_GAME(0x102015D0u)); }
 inline ::xikit::fn<decltype(&::fn_102017A0)> fn_102017A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102017A0)> >(XI_GAME(0x102017A0u)); }
 inline ::xikit::fn<decltype(&::fn_10201C90)> fn_10201C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10201C90)> >(XI_GAME(0x10201C90u)); }
 inline ::xikit::fn<decltype(&::fn_10201EB0)> fn_10201EB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10201EB0)> >(XI_GAME(0x10201EB0u)); }
+inline ::xikit::fn<decltype(&::fn_10201F00)> fn_10201F00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10201F00)> >(XI_GAME(0x10201F00u)); }
 inline ::xikit::fn<decltype(&::fn_10202380)> fn_10202380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10202380)> >(XI_GAME(0x10202380u)); }
 inline ::xikit::fn<decltype(&::fn_10202C90)> fn_10202C90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10202C90)> >(XI_GAME(0x10202C90u)); }
 inline ::xikit::fn<decltype(&::fn_10202D10)> fn_10202D10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10202D10)> >(XI_GAME(0x10202D10u)); }
 inline ::xikit::fn<decltype(&::fn_10202D30)> fn_10202D30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10202D30)> >(XI_GAME(0x10202D30u)); }
 inline ::xikit::fn<decltype(&::fn_10202D80)> fn_10202D80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10202D80)> >(XI_GAME(0x10202D80u)); }
+inline ::xikit::fn<decltype(&::fn_102031F0)> fn_102031F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102031F0)> >(XI_GAME(0x102031F0u)); }
 inline ::xikit::fn<decltype(&::fn_102033C0)> fn_102033C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102033C0)> >(XI_GAME(0x102033C0u)); }
 inline ::xikit::fn<decltype(&::fn_102034A0)> fn_102034A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102034A0)> >(XI_GAME(0x102034A0u)); }
 inline ::xikit::fn<decltype(&::fn_102034E0)> fn_102034E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102034E0)> >(XI_GAME(0x102034E0u)); }
@@ -3489,9 +3367,7 @@ inline ::xikit::fn<decltype(&::fn_10203520)> fn_10203520() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10203540)> fn_10203540() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10203540)> >(XI_GAME(0x10203540u)); }
 inline ::xikit::fn<decltype(&::fn_10203920)> fn_10203920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10203920)> >(XI_GAME(0x10203920u)); }
 inline ::xikit::fn<decltype(&::fn_10203BC0)> fn_10203BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10203BC0)> >(XI_GAME(0x10203BC0u)); }
-inline ::xikit::fn<decltype(&::fn_10203BE0)> fn_10203BE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10203BE0)> >(XI_GAME(0x10203BE0u)); }
 inline ::xikit::fn<decltype(&::fn_10205500)> fn_10205500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10205500)> >(XI_GAME(0x10205500u)); }
-inline ::xikit::fn<decltype(&::fn_10206420)> fn_10206420() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10206420)> >(XI_GAME(0x10206420u)); }
 inline ::xikit::fn<decltype(&::fn_10207730)> fn_10207730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10207730)> >(XI_GAME(0x10207730u)); }
 inline ::xikit::fn<decltype(&::fn_10208500)> fn_10208500() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10208500)> >(XI_GAME(0x10208500u)); }
 inline ::xikit::fn<decltype(&::fn_10209300)> fn_10209300() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10209300)> >(XI_GAME(0x10209300u)); }
@@ -3502,31 +3378,35 @@ inline ::xikit::fn<decltype(&::fn_1020BE90)> fn_1020BE90() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1020C470)> fn_1020C470() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1020C470)> >(XI_GAME(0x1020C470u)); }
 inline ::xikit::fn<decltype(&::fn_1020CC30)> fn_1020CC30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1020CC30)> >(XI_GAME(0x1020CC30u)); }
 inline ::xikit::fn<decltype(&::fn_1020ED00)> fn_1020ED00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1020ED00)> >(XI_GAME(0x1020ED00u)); }
-inline ::xikit::fn<decltype(&::fn_10210310)> fn_10210310() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10210310)> >(XI_GAME(0x10210310u)); }
+inline ::xikit::fn<decltype(&::YkWndShop_Constructor)> YkWndShop_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::YkWndShop_Constructor)> >(XI_GAME(0x10210310u)); }
 inline ::xikit::fn<decltype(&::fn_10210D60)> fn_10210D60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10210D60)> >(XI_GAME(0x10210D60u)); }
 inline ::xikit::fn<decltype(&::fn_10210DA0)> fn_10210DA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10210DA0)> >(XI_GAME(0x10210DA0u)); }
 inline ::xikit::fn<decltype(&::fn_10210E30)> fn_10210E30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10210E30)> >(XI_GAME(0x10210E30u)); }
 inline ::xikit::fn<decltype(&::fn_10210FC0)> fn_10210FC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10210FC0)> >(XI_GAME(0x10210FC0u)); }
-inline ::xikit::fn<decltype(&::fn_10211050)> fn_10211050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10211050)> >(XI_GAME(0x10211050u)); }
 inline ::xikit::fn<decltype(&::fn_102112B0)> fn_102112B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102112B0)> >(XI_GAME(0x102112B0u)); }
 inline ::xikit::fn<decltype(&::fn_10211340)> fn_10211340() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10211340)> >(XI_GAME(0x10211340u)); }
 inline ::xikit::fn<decltype(&::fn_10211370)> fn_10211370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10211370)> >(XI_GAME(0x10211370u)); }
 inline ::xikit::fn<decltype(&::fn_10216570)> fn_10216570() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10216570)> >(XI_GAME(0x10216570u)); }
 inline ::xikit::fn<decltype(&::fn_102175C0)> fn_102175C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102175C0)> >(XI_GAME(0x102175C0u)); }
-inline ::xikit::fn<decltype(&::fn_1021B330)> fn_1021B330() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021B330)> >(XI_GAME(0x1021B330u)); }
 inline ::xikit::fn<decltype(&::fn_1021BB90)> fn_1021BB90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BB90)> >(XI_GAME(0x1021BB90u)); }
 inline ::xikit::fn<decltype(&::fn_1021BC20)> fn_1021BC20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BC20)> >(XI_GAME(0x1021BC20u)); }
 inline ::xikit::fn<decltype(&::fn_1021BC30)> fn_1021BC30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BC30)> >(XI_GAME(0x1021BC30u)); }
+inline ::xikit::fn<decltype(&::fn_1021BCB0)> fn_1021BCB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BCB0)> >(XI_GAME(0x1021BCB0u)); }
 inline ::xikit::fn<decltype(&::fn_1021BDB0)> fn_1021BDB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BDB0)> >(XI_GAME(0x1021BDB0u)); }
 inline ::xikit::fn<decltype(&::fn_1021BF60)> fn_1021BF60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021BF60)> >(XI_GAME(0x1021BF60u)); }
 inline ::xikit::fn<decltype(&::fn_1021C010)> fn_1021C010() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C010)> >(XI_GAME(0x1021C010u)); }
 inline ::xikit::fn<decltype(&::fn_1021C070)> fn_1021C070() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C070)> >(XI_GAME(0x1021C070u)); }
+inline ::xikit::fn<decltype(&::fn_1021C100)> fn_1021C100() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C100)> >(XI_GAME(0x1021C100u)); }
 inline ::xikit::fn<decltype(&::fn_1021C160)> fn_1021C160() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C160)> >(XI_GAME(0x1021C160u)); }
 inline ::xikit::fn<decltype(&::fn_1021C1B0)> fn_1021C1B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C1B0)> >(XI_GAME(0x1021C1B0u)); }
 inline ::xikit::fn<decltype(&::fn_1021C210)> fn_1021C210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C210)> >(XI_GAME(0x1021C210u)); }
 inline ::xikit::fn<decltype(&::fn_1021C2E0)> fn_1021C2E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C2E0)> >(XI_GAME(0x1021C2E0u)); }
 inline ::xikit::fn<decltype(&::fn_1021C350)> fn_1021C350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C350)> >(XI_GAME(0x1021C350u)); }
+inline ::xikit::fn<decltype(&::fn_1021C380)> fn_1021C380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C380)> >(XI_GAME(0x1021C380u)); }
+inline ::xikit::fn<decltype(&::fn_1021C4C0)> fn_1021C4C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C4C0)> >(XI_GAME(0x1021C4C0u)); }
 inline ::xikit::fn<decltype(&::fn_1021C5B0)> fn_1021C5B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C5B0)> >(XI_GAME(0x1021C5B0u)); }
+inline ::xikit::fn<decltype(&::fn_1021C680)> fn_1021C680() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C680)> >(XI_GAME(0x1021C680u)); }
+inline ::xikit::fn<decltype(&::fn_1021C7C0)> fn_1021C7C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C7C0)> >(XI_GAME(0x1021C7C0u)); }
 inline ::xikit::fn<decltype(&::fn_1021C7E0)> fn_1021C7E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021C7E0)> >(XI_GAME(0x1021C7E0u)); }
 inline ::xikit::fn<decltype(&::fn_1021D250)> fn_1021D250() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D250)> >(XI_GAME(0x1021D250u)); }
 inline ::xikit::fn<decltype(&::fn_1021D270)> fn_1021D270() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D270)> >(XI_GAME(0x1021D270u)); }
@@ -3534,6 +3414,7 @@ inline ::xikit::fn<decltype(&::fn_1021D2D0)> fn_1021D2D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1021D380)> fn_1021D380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D380)> >(XI_GAME(0x1021D380u)); }
 inline ::xikit::fn<decltype(&::fn_1021D3D0)> fn_1021D3D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D3D0)> >(XI_GAME(0x1021D3D0u)); }
 inline ::xikit::fn<decltype(&::fn_1021D440)> fn_1021D440() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D440)> >(XI_GAME(0x1021D440u)); }
+inline ::xikit::fn<decltype(&::fn_1021D460)> fn_1021D460() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D460)> >(XI_GAME(0x1021D460u)); }
 inline ::xikit::fn<decltype(&::fn_1021D490)> fn_1021D490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D490)> >(XI_GAME(0x1021D490u)); }
 inline ::xikit::fn<decltype(&::fn_1021D4A0)> fn_1021D4A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021D4A0)> >(XI_GAME(0x1021D4A0u)); }
 inline ::xikit::fn<decltype(&::CXiMovie::DrawFrame)> CXiMovie__DrawFrame() { return reinterpret_cast< ::xikit::fn<decltype(&::CXiMovie::DrawFrame)> >(XI_GAME(0x1021D4C0u)); }
@@ -3560,21 +3441,20 @@ inline ::xikit::fn<decltype(&::fn_1021E690)> fn_1021E690() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1021E760)> fn_1021E760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021E760)> >(XI_GAME(0x1021E760u)); }
 inline ::xikit::fn<decltype(&::fn_1021ED90)> fn_1021ED90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021ED90)> >(XI_GAME(0x1021ED90u)); }
 inline ::xikit::fn<decltype(&::fn_1021EDC0)> fn_1021EDC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EDC0)> >(XI_GAME(0x1021EDC0u)); }
-inline ::xikit::fn<decltype(&::fn_1021EDD0)> fn_1021EDD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EDD0)> >(XI_GAME(0x1021EDD0u)); }
 inline ::xikit::fn<decltype(&::fn_1021EDE0)> fn_1021EDE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EDE0)> >(XI_GAME(0x1021EDE0u)); }
 inline ::xikit::fn<decltype(&::fn_1021EE00)> fn_1021EE00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EE00)> >(XI_GAME(0x1021EE00u)); }
 inline ::xikit::fn<decltype(&::fn_1021EE20)> fn_1021EE20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EE20)> >(XI_GAME(0x1021EE20u)); }
 inline ::xikit::fn<decltype(&::fn_1021EE70)> fn_1021EE70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EE70)> >(XI_GAME(0x1021EE70u)); }
-inline ::xikit::fn<decltype(&::fn_1021EEB0)> fn_1021EEB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EEB0)> >(XI_GAME(0x1021EEB0u)); }
-inline ::xikit::fn<decltype(&::fn_1021EF10)> fn_1021EF10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021EF10)> >(XI_GAME(0x1021EF10u)); }
 inline ::xikit::fn<decltype(&::fn_1021F030)> fn_1021F030() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021F030)> >(XI_GAME(0x1021F030u)); }
 inline ::xikit::fn<decltype(&::fn_1021F140)> fn_1021F140() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021F140)> >(XI_GAME(0x1021F140u)); }
 inline ::xikit::fn<decltype(&::fn_1021F360)> fn_1021F360() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021F360)> >(XI_GAME(0x1021F360u)); }
 inline ::xikit::fn<decltype(&::fn_1021F410)> fn_1021F410() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021F410)> >(XI_GAME(0x1021F410u)); }
+inline ::xikit::fn<decltype(&::fn_1021F950)> fn_1021F950() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021F950)> >(XI_GAME(0x1021F950u)); }
 inline ::xikit::fn<decltype(&::fn_1021FA90)> fn_1021FA90() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FA90)> >(XI_GAME(0x1021FA90u)); }
 inline ::xikit::fn<decltype(&::fn_1021FB10)> fn_1021FB10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FB10)> >(XI_GAME(0x1021FB10u)); }
 inline ::xikit::fn<decltype(&::fn_1021FB80)> fn_1021FB80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FB80)> >(XI_GAME(0x1021FB80u)); }
 inline ::xikit::fn<decltype(&::fn_1021FBD0)> fn_1021FBD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FBD0)> >(XI_GAME(0x1021FBD0u)); }
+inline ::xikit::fn<decltype(&::fn_1021FCE0)> fn_1021FCE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FCE0)> >(XI_GAME(0x1021FCE0u)); }
 inline ::xikit::fn<decltype(&::fn_1021FE10)> fn_1021FE10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1021FE10)> >(XI_GAME(0x1021FE10u)); }
 inline ::xikit::fn<decltype(&::fn_102201A0)> fn_102201A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102201A0)> >(XI_GAME(0x102201A0u)); }
 inline ::xikit::fn<decltype(&::fn_102201F0)> fn_102201F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102201F0)> >(XI_GAME(0x102201F0u)); }
@@ -3590,10 +3470,7 @@ inline ::xikit::fn<decltype(&::fn_10221740)> fn_10221740() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_102217A0)> fn_102217A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102217A0)> >(XI_GAME(0x102217A0u)); }
 inline ::xikit::fn<decltype(&::fn_102217C0)> fn_102217C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102217C0)> >(XI_GAME(0x102217C0u)); }
 inline ::xikit::fn<decltype(&::fn_10221900)> fn_10221900() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10221900)> >(XI_GAME(0x10221900u)); }
-inline ::xikit::fn<decltype(&::fn_10221920)> fn_10221920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10221920)> >(XI_GAME(0x10221920u)); }
-inline ::xikit::fn<decltype(&::fn_10221A80)> fn_10221A80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10221A80)> >(XI_GAME(0x10221A80u)); }
 inline ::xikit::fn<decltype(&::fn_10221BE0)> fn_10221BE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10221BE0)> >(XI_GAME(0x10221BE0u)); }
-inline ::xikit::fn<decltype(&::fn_10221F50)> fn_10221F50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10221F50)> >(XI_GAME(0x10221F50u)); }
 inline ::xikit::fn<decltype(&::fn_10222110)> fn_10222110() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10222110)> >(XI_GAME(0x10222110u)); }
 inline ::xikit::fn<decltype(&::fn_10222960)> fn_10222960() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10222960)> >(XI_GAME(0x10222960u)); }
 inline ::xikit::fn<decltype(&::fn_10222C10)> fn_10222C10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10222C10)> >(XI_GAME(0x10222C10u)); }
@@ -3624,7 +3501,6 @@ inline ::xikit::fn<decltype(&::fn_102271D0)> fn_102271D0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10227750)> fn_10227750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10227750)> >(XI_GAME(0x10227750u)); }
 inline ::xikit::fn<decltype(&::fn_102278B0)> fn_102278B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102278B0)> >(XI_GAME(0x102278B0u)); }
 inline ::xikit::fn<decltype(&::fn_10227F70)> fn_10227F70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10227F70)> >(XI_GAME(0x10227F70u)); }
-inline ::xikit::fn<decltype(&::fn_10228080)> fn_10228080() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10228080)> >(XI_GAME(0x10228080u)); }
 inline ::xikit::fn<decltype(&::fn_102281C0)> fn_102281C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102281C0)> >(XI_GAME(0x102281C0u)); }
 inline ::xikit::fn<decltype(&::fn_10228200)> fn_10228200() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10228200)> >(XI_GAME(0x10228200u)); }
 inline ::xikit::fn<decltype(&::fn_10229430)> fn_10229430() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10229430)> >(XI_GAME(0x10229430u)); }
@@ -3672,7 +3548,7 @@ inline ::xikit::fn<decltype(&::Ui_DrawKeyPrompt)> Ui_DrawKeyPrompt() { return re
 inline ::xikit::fn<decltype(&::fn_1023BF20)> fn_1023BF20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1023BF20)> >(XI_GAME(0x1023BF20u)); }
 inline ::xikit::fn<decltype(&::fn_1023D610)> fn_1023D610() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1023D610)> >(XI_GAME(0x1023D610u)); }
 inline ::xikit::fn<decltype(&::fn_1023E4B0)> fn_1023E4B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1023E4B0)> >(XI_GAME(0x1023E4B0u)); }
-inline ::xikit::fn<decltype(&::fn_1023E830)> fn_1023E830() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1023E830)> >(XI_GAME(0x1023E830u)); }
+inline ::xikit::fn<decltype(&::CIwHnList_Constructor)> CIwHnList_Constructor() { return reinterpret_cast< ::xikit::fn<decltype(&::CIwHnList_Constructor)> >(XI_GAME(0x1023E830u)); }
 inline ::xikit::fn<decltype(&::fn_1023F890)> fn_1023F890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1023F890)> >(XI_GAME(0x1023F890u)); }
 inline ::xikit::fn<decltype(&::fn_10244DF0)> fn_10244DF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10244DF0)> >(XI_GAME(0x10244DF0u)); }
 inline ::xikit::fn<decltype(&::fn_10244F20)> fn_10244F20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10244F20)> >(XI_GAME(0x10244F20u)); }
@@ -3699,7 +3575,7 @@ inline ::xikit::fn<decltype(&::fn_102467F0)> fn_102467F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1024C060)> fn_1024C060() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024C060)> >(XI_GAME(0x1024C060u)); }
 inline ::xikit::fn<decltype(&::fn_1024C210)> fn_1024C210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024C210)> >(XI_GAME(0x1024C210u)); }
 inline ::xikit::fn<decltype(&::fn_1024C930)> fn_1024C930() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024C930)> >(XI_GAME(0x1024C930u)); }
-inline ::xikit::fn<decltype(&::fn_1024CF50)> fn_1024CF50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024CF50)> >(XI_GAME(0x1024CF50u)); }
+inline ::xikit::fn<decltype(&::StAvatarInit)> StAvatarInit() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatarInit)> >(XI_GAME(0x1024CF50u)); }
 inline ::xikit::fn<decltype(&::fn_1024D130)> fn_1024D130() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024D130)> >(XI_GAME(0x1024D130u)); }
 inline ::xikit::fn<decltype(&::StAvatar_Teardown)> StAvatar_Teardown() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatar_Teardown)> >(XI_GAME(0x1024D180u)); }
 inline ::xikit::fn<decltype(&::StAvatar_ReleaseResources)> StAvatar_ReleaseResources() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatar_ReleaseResources)> >(XI_GAME(0x1024D2C0u)); }
@@ -3712,7 +3588,6 @@ inline ::xikit::fn<decltype(&::fn_1024D610)> fn_1024D610() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1024D6B0)> fn_1024D6B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024D6B0)> >(XI_GAME(0x1024D6B0u)); }
 inline ::xikit::fn<decltype(&::fn_1024D740)> fn_1024D740() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024D740)> >(XI_GAME(0x1024D740u)); }
 inline ::xikit::fn<decltype(&::StAvatar_StopAndFreeBuffers)> StAvatar_StopAndFreeBuffers() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatar_StopAndFreeBuffers)> >(XI_GAME(0x1024D790u)); }
-inline ::xikit::fn<decltype(&::fn_1024D850)> fn_1024D850() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024D850)> >(XI_GAME(0x1024D850u)); }
 inline ::xikit::fn<decltype(&::fn_1024D9D0)> fn_1024D9D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024D9D0)> >(XI_GAME(0x1024D9D0u)); }
 inline ::xikit::fn<decltype(&::fn_1024DB60)> fn_1024DB60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024DB60)> >(XI_GAME(0x1024DB60u)); }
 inline ::xikit::fn<decltype(&::fn_1024DD10)> fn_1024DD10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024DD10)> >(XI_GAME(0x1024DD10u)); }
@@ -3722,12 +3597,13 @@ inline ::xikit::fn<decltype(&::fn_1024E720)> fn_1024E720() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1024F050)> fn_1024F050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024F050)> >(XI_GAME(0x1024F050u)); }
 inline ::xikit::fn<decltype(&::fn_1024F0B0)> fn_1024F0B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024F0B0)> >(XI_GAME(0x1024F0B0u)); }
 inline ::xikit::fn<decltype(&::fn_1024F2C0)> fn_1024F2C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024F2C0)> >(XI_GAME(0x1024F2C0u)); }
+inline ::xikit::fn<decltype(&::fn_1024F5E0)> fn_1024F5E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024F5E0)> >(XI_GAME(0x1024F5E0u)); }
 inline ::xikit::fn<decltype(&::StAvatar_SetViewFromDancerCamera)> StAvatar_SetViewFromDancerCamera() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatar_SetViewFromDancerCamera)> >(XI_GAME(0x1024F900u)); }
 inline ::xikit::fn<decltype(&::fn_1024FC10)> fn_1024FC10() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024FC10)> >(XI_GAME(0x1024FC10u)); }
 inline ::xikit::fn<decltype(&::fn_1024FEC0)> fn_1024FEC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024FEC0)> >(XI_GAME(0x1024FEC0u)); }
 inline ::xikit::fn<decltype(&::fn_1024FF50)> fn_1024FF50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1024FF50)> >(XI_GAME(0x1024FF50u)); }
 inline ::xikit::fn<decltype(&::fn_10250190)> fn_10250190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10250190)> >(XI_GAME(0x10250190u)); }
-inline ::xikit::fn<decltype(&::fn_102501C0)> fn_102501C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102501C0)> >(XI_GAME(0x102501C0u)); }
+inline ::xikit::fn<decltype(&::StAvatarRender)> StAvatarRender() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatarRender)> >(XI_GAME(0x102501C0u)); }
 inline ::xikit::fn<decltype(&::fn_102502D0)> fn_102502D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102502D0)> >(XI_GAME(0x102502D0u)); }
 inline ::xikit::fn<decltype(&::StAvatarFini)> StAvatarFini() { return reinterpret_cast< ::xikit::fn<decltype(&::StAvatarFini)> >(XI_GAME(0x102504D0u)); }
 inline ::xikit::fn<decltype(&::fn_10250580)> fn_10250580() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10250580)> >(XI_GAME(0x10250580u)); }
@@ -3760,7 +3636,7 @@ inline ::xikit::fn<decltype(&::fn_102516B0)> fn_102516B0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10251720)> fn_10251720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251720)> >(XI_GAME(0x10251720u)); }
 inline ::xikit::fn<decltype(&::fn_10251750)> fn_10251750() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251750)> >(XI_GAME(0x10251750u)); }
 inline ::xikit::fn<decltype(&::fn_10251780)> fn_10251780() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251780)> >(XI_GAME(0x10251780u)); }
-inline ::xikit::fn<decltype(&::fn_10251890)> fn_10251890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251890)> >(XI_GAME(0x10251890u)); }
+inline ::xikit::fn<decltype(&::StDancer_SetJobLock)> StDancer_SetJobLock() { return reinterpret_cast< ::xikit::fn<decltype(&::StDancer_SetJobLock)> >(XI_GAME(0x10251890u)); }
 inline ::xikit::fn<decltype(&::fn_10251920)> fn_10251920() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251920)> >(XI_GAME(0x10251920u)); }
 inline ::xikit::fn<decltype(&::fn_10251960)> fn_10251960() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10251960)> >(XI_GAME(0x10251960u)); }
 inline ::xikit::fn<decltype(&::Dancer_InitDevice)> Dancer_InitDevice() { return reinterpret_cast< ::xikit::fn<decltype(&::Dancer_InitDevice)> >(XI_GAME(0x10251A80u)); }
@@ -3837,7 +3713,6 @@ inline ::xikit::fn<decltype(&::fn_10258E50)> fn_10258E50() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_10258ED0)> fn_10258ED0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10258ED0)> >(XI_GAME(0x10258ED0u)); }
 inline ::xikit::fn<decltype(&::fn_10258F00)> fn_10258F00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10258F00)> >(XI_GAME(0x10258F00u)); }
 inline ::xikit::fn<decltype(&::fn_10258F60)> fn_10258F60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10258F60)> >(XI_GAME(0x10258F60u)); }
-inline ::xikit::fn<decltype(&::fn_102590E0)> fn_102590E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102590E0)> >(XI_GAME(0x102590E0u)); }
 inline ::xikit::fn<decltype(&::fn_102590F0)> fn_102590F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102590F0)> >(XI_GAME(0x102590F0u)); }
 inline ::xikit::fn<decltype(&::fn_10259100)> fn_10259100() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10259100)> >(XI_GAME(0x10259100u)); }
 inline ::xikit::fn<decltype(&::fn_10259130)> fn_10259130() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10259130)> >(XI_GAME(0x10259130u)); }
@@ -3854,7 +3729,6 @@ inline ::xikit::fn<decltype(&::fn_1025A6C0)> fn_1025A6C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1025A6F0)> fn_1025A6F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A6F0)> >(XI_GAME(0x1025A6F0u)); }
 inline ::xikit::fn<decltype(&::fn_1025A730)> fn_1025A730() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A730)> >(XI_GAME(0x1025A730u)); }
 inline ::xikit::fn<decltype(&::fn_1025A760)> fn_1025A760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A760)> >(XI_GAME(0x1025A760u)); }
-inline ::xikit::fn<decltype(&::fn_1025A800)> fn_1025A800() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A800)> >(XI_GAME(0x1025A800u)); }
 inline ::xikit::fn<decltype(&::fn_1025A810)> fn_1025A810() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A810)> >(XI_GAME(0x1025A810u)); }
 inline ::xikit::fn<decltype(&::fn_1025A820)> fn_1025A820() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A820)> >(XI_GAME(0x1025A820u)); }
 inline ::xikit::fn<decltype(&::fn_1025A860)> fn_1025A860() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025A860)> >(XI_GAME(0x1025A860u)); }
@@ -3881,6 +3755,7 @@ inline ::xikit::fn<decltype(&::fn_1025C0F0)> fn_1025C0F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::FontGlyphCache_GetDevice)> FontGlyphCache_GetDevice() { return reinterpret_cast< ::xikit::fn<decltype(&::FontGlyphCache_GetDevice)> >(XI_GAME(0x1025D750u)); }
 inline ::xikit::fn<decltype(&::FontGlyphCache_CreateTexture)> FontGlyphCache_CreateTexture() { return reinterpret_cast< ::xikit::fn<decltype(&::FontGlyphCache_CreateTexture)> >(XI_GAME(0x1025D760u)); }
 inline ::xikit::fn<decltype(&::FontGlyphCache_CreateVertexBuffer)> FontGlyphCache_CreateVertexBuffer() { return reinterpret_cast< ::xikit::fn<decltype(&::FontGlyphCache_CreateVertexBuffer)> >(XI_GAME(0x1025D7B0u)); }
+inline ::xikit::fn<decltype(&::fn_1025E020)> fn_1025E020() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E020)> >(XI_GAME(0x1025E020u)); }
 inline ::xikit::fn<decltype(&::fn_1025E050)> fn_1025E050() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E050)> >(XI_GAME(0x1025E050u)); }
 inline ::xikit::fn<decltype(&::fn_1025E0B0)> fn_1025E0B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E0B0)> >(XI_GAME(0x1025E0B0u)); }
 inline ::xikit::fn<decltype(&::fn_1025E0C0)> fn_1025E0C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E0C0)> >(XI_GAME(0x1025E0C0u)); }
@@ -3889,6 +3764,8 @@ inline ::xikit::fn<decltype(&::fn_1025E0F0)> fn_1025E0F0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1025E210)> fn_1025E210() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E210)> >(XI_GAME(0x1025E210u)); }
 inline ::xikit::fn<decltype(&::fn_1025E230)> fn_1025E230() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E230)> >(XI_GAME(0x1025E230u)); }
 inline ::xikit::fn<decltype(&::fn_1025E240)> fn_1025E240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E240)> >(XI_GAME(0x1025E240u)); }
+inline ::xikit::fn<decltype(&::fn_1025E260)> fn_1025E260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E260)> >(XI_GAME(0x1025E260u)); }
+inline ::xikit::fn<decltype(&::fn_1025E380)> fn_1025E380() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025E380)> >(XI_GAME(0x1025E380u)); }
 inline ::xikit::fn<decltype(&::fn_1025F2F0)> fn_1025F2F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025F2F0)> >(XI_GAME(0x1025F2F0u)); }
 inline ::xikit::fn<decltype(&::fn_1025FD50)> fn_1025FD50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025FD50)> >(XI_GAME(0x1025FD50u)); }
 inline ::xikit::fn<decltype(&::fn_1025FE40)> fn_1025FE40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1025FE40)> >(XI_GAME(0x1025FE40u)); }
@@ -3902,11 +3779,8 @@ inline ::xikit::fn<decltype(&::fn_1026CFA0)> fn_1026CFA0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1026D015)> fn_1026D015() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D015)> >(XI_GAME(0x1026D015u)); }
 inline ::xikit::fn<decltype(&::fn_1026D0CA)> fn_1026D0CA() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D0CA)> >(XI_GAME(0x1026D0CAu)); }
 inline ::xikit::fn<decltype(&::fn_1026D179)> fn_1026D179() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D179)> >(XI_GAME(0x1026D179u)); }
-inline ::xikit::fn<decltype(&::fn_1026D1B4)> fn_1026D1B4() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D1B4)> >(XI_GAME(0x1026D1B4u)); }
 inline ::xikit::fn<decltype(&::fn_1026D70C)> fn_1026D70C() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D70C)> >(XI_GAME(0x1026D70Cu)); }
 inline ::xikit::fn<decltype(&::fn_1026D866)> fn_1026D866() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D866)> >(XI_GAME(0x1026D866u)); }
-inline ::xikit::fn<decltype(&::fn_1026D9B1)> fn_1026D9B1() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026D9B1)> >(XI_GAME(0x1026D9B1u)); }
-inline ::xikit::fn<decltype(&::fn_1026DAC6)> fn_1026DAC6() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026DAC6)> >(XI_GAME(0x1026DAC6u)); }
 inline ::xikit::fn<decltype(&::fn_1026DB24)> fn_1026DB24() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026DB24)> >(XI_GAME(0x1026DB24u)); }
 inline ::xikit::fn<decltype(&::fn_1026DB6D)> fn_1026DB6D() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026DB6D)> >(XI_GAME(0x1026DB6Du)); }
 inline ::xikit::fn<decltype(&::fn_1026DB8F)> fn_1026DB8F() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026DB8F)> >(XI_GAME(0x1026DB8Fu)); }
@@ -3940,7 +3814,6 @@ inline ::xikit::fn<decltype(&::fn_1026FEA0)> fn_1026FEA0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1026FEF0)> fn_1026FEF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026FEF0)> >(XI_GAME(0x1026FEF0u)); }
 inline ::xikit::fn<decltype(&::fn_1026FF30)> fn_1026FF30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026FF30)> >(XI_GAME(0x1026FF30u)); }
 inline ::xikit::fn<decltype(&::fn_1026FF80)> fn_1026FF80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1026FF80)> >(XI_GAME(0x1026FF80u)); }
-inline ::xikit::fn<decltype(&::fn_102700C0)> fn_102700C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102700C0)> >(XI_GAME(0x102700C0u)); }
 inline ::xikit::fn<decltype(&::fn_102701B0)> fn_102701B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102701B0)> >(XI_GAME(0x102701B0u)); }
 inline ::xikit::fn<decltype(&::fn_10270240)> fn_10270240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10270240)> >(XI_GAME(0x10270240u)); }
 inline ::xikit::fn<decltype(&::fn_10270290)> fn_10270290() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10270290)> >(XI_GAME(0x10270290u)); }
@@ -3977,6 +3850,7 @@ inline ::xikit::fn<decltype(&::fn_10272BA0)> fn_10272BA0() { return reinterpret_
 inline ::xikit::fn<decltype(&::scnCameraGetInfo)> scnCameraGetInfo() { return reinterpret_cast< ::xikit::fn<decltype(&::scnCameraGetInfo)> >(XI_GAME(0x10273370u)); }
 inline ::xikit::fn<decltype(&::fn_102733B0)> fn_102733B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102733B0)> >(XI_GAME(0x102733B0u)); }
 inline ::xikit::fn<decltype(&::fn_10273490)> fn_10273490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10273490)> >(XI_GAME(0x10273490u)); }
+inline ::xikit::fn<decltype(&::fn_10273560)> fn_10273560() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10273560)> >(XI_GAME(0x10273560u)); }
 inline ::xikit::fn<decltype(&::fn_102736D0)> fn_102736D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102736D0)> >(XI_GAME(0x102736D0u)); }
 inline ::xikit::fn<decltype(&::fn_102736E0)> fn_102736E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102736E0)> >(XI_GAME(0x102736E0u)); }
 inline ::xikit::fn<decltype(&::fn_10273840)> fn_10273840() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10273840)> >(XI_GAME(0x10273840u)); }
@@ -3989,7 +3863,6 @@ inline ::xikit::fn<decltype(&::fn_10273E80)> fn_10273E80() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_102741F0)> fn_102741F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102741F0)> >(XI_GAME(0x102741F0u)); }
 inline ::xikit::fn<decltype(&::fn_10274370)> fn_10274370() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10274370)> >(XI_GAME(0x10274370u)); }
 inline ::xikit::fn<decltype(&::fn_10274640)> fn_10274640() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10274640)> >(XI_GAME(0x10274640u)); }
-inline ::xikit::fn<decltype(&::fn_10274650)> fn_10274650() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10274650)> >(XI_GAME(0x10274650u)); }
 inline ::xikit::fn<decltype(&::fn_10274670)> fn_10274670() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10274670)> >(XI_GAME(0x10274670u)); }
 inline ::xikit::fn<decltype(&::fn_10274890)> fn_10274890() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10274890)> >(XI_GAME(0x10274890u)); }
 inline ::xikit::fn<decltype(&::fn_102749C0)> fn_102749C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102749C0)> >(XI_GAME(0x102749C0u)); }
@@ -3999,6 +3872,7 @@ inline ::xikit::fn<decltype(&::sqMemInit)> sqMemInit() { return reinterpret_cast
 inline ::xikit::fn<decltype(&::fn_10275190)> fn_10275190() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10275190)> >(XI_GAME(0x10275190u)); }
 inline ::xikit::fn<decltype(&::fn_102752F0)> fn_102752F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102752F0)> >(XI_GAME(0x102752F0u)); }
 inline ::xikit::fn<decltype(&::fn_10275320)> fn_10275320() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10275320)> >(XI_GAME(0x10275320u)); }
+inline ::xikit::fn<decltype(&::fn_102755C0)> fn_102755C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102755C0)> >(XI_GAME(0x102755C0u)); }
 inline ::xikit::fn<decltype(&::fn_10275670)> fn_10275670() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10275670)> >(XI_GAME(0x10275670u)); }
 inline ::xikit::fn<decltype(&::fn_10275D40)> fn_10275D40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10275D40)> >(XI_GAME(0x10275D40u)); }
 inline ::xikit::fn<decltype(&::sqgxContext_Create)> sqgxContext_Create() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxContext_Create)> >(XI_GAME(0x10276260u)); }
@@ -4018,15 +3892,17 @@ inline ::xikit::fn<decltype(&::sqmdModel_GetItemName)> sqmdModel_GetItemName() {
 inline ::xikit::fn<decltype(&::fn_10279B40)> fn_10279B40() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10279B40)> >(XI_GAME(0x10279B40u)); }
 inline ::xikit::fn<decltype(&::fn_10279BA0)> fn_10279BA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10279BA0)> >(XI_GAME(0x10279BA0u)); }
 inline ::xikit::fn<decltype(&::fn_10279D50)> fn_10279D50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10279D50)> >(XI_GAME(0x10279D50u)); }
-inline ::xikit::fn<decltype(&::fn_1027A220)> fn_1027A220() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A220)> >(XI_GAME(0x1027A220u)); }
 inline ::xikit::fn<decltype(&::fn_1027A250)> fn_1027A250() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A250)> >(XI_GAME(0x1027A250u)); }
 inline ::xikit::fn<decltype(&::fn_1027A6F0)> fn_1027A6F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A6F0)> >(XI_GAME(0x1027A6F0u)); }
 inline ::xikit::fn<decltype(&::fn_1027A700)> fn_1027A700() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A700)> >(XI_GAME(0x1027A700u)); }
 inline ::xikit::fn<decltype(&::fn_1027A720)> fn_1027A720() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A720)> >(XI_GAME(0x1027A720u)); }
 inline ::xikit::fn<decltype(&::fn_1027A9D0)> fn_1027A9D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027A9D0)> >(XI_GAME(0x1027A9D0u)); }
+inline ::xikit::fn<decltype(&::fn_1027ABA0)> fn_1027ABA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027ABA0)> >(XI_GAME(0x1027ABA0u)); }
+inline ::xikit::fn<decltype(&::fn_1027ABD0)> fn_1027ABD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027ABD0)> >(XI_GAME(0x1027ABD0u)); }
+inline ::xikit::fn<decltype(&::fn_1027AC00)> fn_1027AC00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027AC00)> >(XI_GAME(0x1027AC00u)); }
+inline ::xikit::fn<decltype(&::fn_1027AC30)> fn_1027AC30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027AC30)> >(XI_GAME(0x1027AC30u)); }
 inline ::xikit::fn<decltype(&::fn_1027AE50)> fn_1027AE50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027AE50)> >(XI_GAME(0x1027AE50u)); }
 inline ::xikit::fn<decltype(&::fn_1027AEF0)> fn_1027AEF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027AEF0)> >(XI_GAME(0x1027AEF0u)); }
-inline ::xikit::fn<decltype(&::fn_1027AF20)> fn_1027AF20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027AF20)> >(XI_GAME(0x1027AF20u)); }
 inline ::xikit::fn<decltype(&::fn_1027B060)> fn_1027B060() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027B060)> >(XI_GAME(0x1027B060u)); }
 inline ::xikit::fn<decltype(&::fn_1027B080)> fn_1027B080() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027B080)> >(XI_GAME(0x1027B080u)); }
 inline ::xikit::fn<decltype(&::fn_1027B170)> fn_1027B170() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027B170)> >(XI_GAME(0x1027B170u)); }
@@ -4054,18 +3930,15 @@ inline ::xikit::fn<decltype(&::fn_1027E450)> fn_1027E450() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1027E490)> fn_1027E490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027E490)> >(XI_GAME(0x1027E490u)); }
 inline ::xikit::fn<decltype(&::fn_1027EAF0)> fn_1027EAF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027EAF0)> >(XI_GAME(0x1027EAF0u)); }
 inline ::xikit::fn<decltype(&::fn_1027EB00)> fn_1027EB00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027EB00)> >(XI_GAME(0x1027EB00u)); }
-inline ::xikit::fn<decltype(&::M4fSet)> M4fSet() { return reinterpret_cast< ::xikit::fn<decltype(&::M4fSet)> >(XI_GAME(0x1027EB10u)); }
 inline ::xikit::fn<decltype(&::fn_1027EB50)> fn_1027EB50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027EB50)> >(XI_GAME(0x1027EB50u)); }
 inline ::xikit::fn<decltype(&::M4fTransform)> M4fTransform() { return reinterpret_cast< ::xikit::fn<decltype(&::M4fTransform)> >(XI_GAME(0x1027EF20u)); }
 inline ::xikit::fn<decltype(&::fn_1027EF80)> fn_1027EF80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1027EF80)> >(XI_GAME(0x1027EF80u)); }
 inline ::xikit::fn<decltype(&::Mat4x4_TransformVec4)> Mat4x4_TransformVec4() { return reinterpret_cast< ::xikit::fn<decltype(&::Mat4x4_TransformVec4)> >(XI_GAME(0x1027EFE0u)); }
 inline ::xikit::fn<decltype(&::M4fTranspose)> M4fTranspose() { return reinterpret_cast< ::xikit::fn<decltype(&::M4fTranspose)> >(XI_GAME(0x1027F070u)); }
 inline ::xikit::fn<decltype(&::sqMatrix4_1027FCC0)> sqMatrix4_1027FCC0() { return reinterpret_cast< ::xikit::fn<decltype(&::sqMatrix4_1027FCC0)> >(XI_GAME(0x1027FCC0u)); }
-inline ::xikit::fn<decltype(&::sqMatrix4_10280140)> sqMatrix4_10280140() { return reinterpret_cast< ::xikit::fn<decltype(&::sqMatrix4_10280140)> >(XI_GAME(0x10280140u)); }
 inline ::xikit::fn<decltype(&::fn_10280650)> fn_10280650() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10280650)> >(XI_GAME(0x10280650u)); }
 inline ::xikit::fn<decltype(&::fn_102806B0)> fn_102806B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102806B0)> >(XI_GAME(0x102806B0u)); }
 inline ::xikit::fn<decltype(&::fn_102813B0)> fn_102813B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102813B0)> >(XI_GAME(0x102813B0u)); }
-inline ::xikit::fn<decltype(&::___setargv_3)> ___setargv_3() { return reinterpret_cast< ::xikit::fn<decltype(&::___setargv_3)> >(XI_GAME(0x10281500u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureCreateFromImage)> sqgxTextureCreateFromImage() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureCreateFromImage)> >(XI_GAME(0x10281510u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureAddZ)> sqgxTextureAddZ() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureAddZ)> >(XI_GAME(0x102816E0u)); }
 inline ::xikit::fn<decltype(&::sqgxCeilLog2)> sqgxCeilLog2() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxCeilLog2)> >(XI_GAME(0x10281810u)); }
@@ -4074,8 +3947,6 @@ inline ::xikit::fn<decltype(&::fn_102819C0)> fn_102819C0() { return reinterpret_
 inline ::xikit::fn<decltype(&::sqgxTextureClutAdd)> sqgxTextureClutAdd() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureClutAdd)> >(XI_GAME(0x102819D0u)); }
 inline ::xikit::fn<decltype(&::fn_10281A70)> fn_10281A70() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10281A70)> >(XI_GAME(0x10281A70u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureGetSize)> sqgxTextureGetSize() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureGetSize)> >(XI_GAME(0x10281B60u)); }
-inline ::xikit::fn<decltype(&::sqgxTextureSet)> sqgxTextureSet() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureSet)> >(XI_GAME(0x10281C20u)); }
-inline ::xikit::fn<decltype(&::sqgxTextureDecal)> sqgxTextureDecal() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureDecal)> >(XI_GAME(0x10281C50u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureClamp)> sqgxTextureClamp() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureClamp)> >(XI_GAME(0x10281C80u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureClut)> sqgxTextureClut() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureClut)> >(XI_GAME(0x10281D60u)); }
 inline ::xikit::fn<decltype(&::sqgxTextureUpdate)> sqgxTextureUpdate() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxTextureUpdate)> >(XI_GAME(0x10281DB0u)); }
@@ -4106,7 +3977,6 @@ inline ::xikit::fn<decltype(&::fn_10283240)> fn_10283240() { return reinterpret_
 inline ::xikit::fn<decltype(&::___setargv_9)> ___setargv_9() { return reinterpret_cast< ::xikit::fn<decltype(&::___setargv_9)> >(XI_GAME(0x10283250u)); }
 inline ::xikit::fn<decltype(&::fn_10283260)> fn_10283260() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10283260)> >(XI_GAME(0x10283260u)); }
 inline ::xikit::fn<decltype(&::fn_10283280)> fn_10283280() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10283280)> >(XI_GAME(0x10283280u)); }
-inline ::xikit::fn<decltype(&::fn_10283300)> fn_10283300() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10283300)> >(XI_GAME(0x10283300u)); }
 inline ::xikit::fn<decltype(&::sqgxColor)> sqgxColor() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxColor)> >(XI_GAME(0x10283330u)); }
 inline ::xikit::fn<decltype(&::sqgxAmbient)> sqgxAmbient() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxAmbient)> >(XI_GAME(0x10283380u)); }
 inline ::xikit::fn<decltype(&::fn_102833A0)> fn_102833A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102833A0)> >(XI_GAME(0x102833A0u)); }
@@ -4133,12 +4003,10 @@ inline ::xikit::fn<decltype(&::fn_10284EB0)> fn_10284EB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::sqgxVertexShaderRelease)> sqgxVertexShaderRelease() { return reinterpret_cast< ::xikit::fn<decltype(&::sqgxVertexShaderRelease)> >(XI_GAME(0x10284EF0u)); }
 inline ::xikit::fn<decltype(&::fn_10284F20)> fn_10284F20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10284F20)> >(XI_GAME(0x10284F20u)); }
 inline ::xikit::fn<decltype(&::fn_10284FD0)> fn_10284FD0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10284FD0)> >(XI_GAME(0x10284FD0u)); }
-inline ::xikit::fn<decltype(&::fn_10285000)> fn_10285000() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10285000)> >(XI_GAME(0x10285000u)); }
 inline ::xikit::fn<decltype(&::fn_102851C0)> fn_102851C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102851C0)> >(XI_GAME(0x102851C0u)); }
 inline ::xikit::fn<decltype(&::fn_102852E0)> fn_102852E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102852E0)> >(XI_GAME(0x102852E0u)); }
 inline ::xikit::fn<decltype(&::fn_102853F0)> fn_102853F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102853F0)> >(XI_GAME(0x102853F0u)); }
 inline ::xikit::fn<decltype(&::fn_102857D0)> fn_102857D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102857D0)> >(XI_GAME(0x102857D0u)); }
-inline ::xikit::fn<decltype(&::fn_102857E0)> fn_102857E0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102857E0)> >(XI_GAME(0x102857E0u)); }
 inline ::xikit::fn<decltype(&::fn_102857F0)> fn_102857F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102857F0)> >(XI_GAME(0x102857F0u)); }
 inline ::xikit::fn<decltype(&::sqDrawableDraw)> sqDrawableDraw() { return reinterpret_cast< ::xikit::fn<decltype(&::sqDrawableDraw)> >(XI_GAME(0x10285850u)); }
 inline ::xikit::fn<decltype(&::fn_10288660)> fn_10288660() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10288660)> >(XI_GAME(0x10288660u)); }
@@ -4169,7 +4037,6 @@ inline ::xikit::fn<decltype(&::fn_1028D870)> fn_1028D870() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1028D990)> fn_1028D990() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028D990)> >(XI_GAME(0x1028D990u)); }
 inline ::xikit::fn<decltype(&::fn_1028D9A0)> fn_1028D9A0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028D9A0)> >(XI_GAME(0x1028D9A0u)); }
 inline ::xikit::fn<decltype(&::fn_1028D9C0)> fn_1028D9C0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028D9C0)> >(XI_GAME(0x1028D9C0u)); }
-inline ::xikit::fn<decltype(&::fn_1028DA20)> fn_1028DA20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028DA20)> >(XI_GAME(0x1028DA20u)); }
 inline ::xikit::fn<decltype(&::fn_1028DBB0)> fn_1028DBB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028DBB0)> >(XI_GAME(0x1028DBB0u)); }
 inline ::xikit::fn<decltype(&::fn_1028DC00)> fn_1028DC00() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028DC00)> >(XI_GAME(0x1028DC00u)); }
 inline ::xikit::fn<decltype(&::fn_1028DC20)> fn_1028DC20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028DC20)> >(XI_GAME(0x1028DC20u)); }
@@ -4177,7 +4044,6 @@ inline ::xikit::fn<decltype(&::fn_1028DE10)> fn_1028DE10() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1028E1B0)> fn_1028E1B0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028E1B0)> >(XI_GAME(0x1028E1B0u)); }
 inline ::xikit::fn<decltype(&::fn_1028E350)> fn_1028E350() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028E350)> >(XI_GAME(0x1028E350u)); }
 inline ::xikit::fn<decltype(&::fn_1028EBF0)> fn_1028EBF0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028EBF0)> >(XI_GAME(0x1028EBF0u)); }
-inline ::xikit::fn<decltype(&::fn_1028EC30)> fn_1028EC30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028EC30)> >(XI_GAME(0x1028EC30u)); }
 inline ::xikit::fn<decltype(&::fn_1028EC50)> fn_1028EC50() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028EC50)> >(XI_GAME(0x1028EC50u)); }
 inline ::xikit::fn<decltype(&::fn_1028ECC0)> fn_1028ECC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028ECC0)> >(XI_GAME(0x1028ECC0u)); }
 inline ::xikit::fn<decltype(&::fn_1028ECE0)> fn_1028ECE0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1028ECE0)> >(XI_GAME(0x1028ECE0u)); }
@@ -4303,7 +4169,6 @@ inline ::xikit::fn<decltype(&::fn_102A9FB0)> fn_102A9FB0() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_102AA2D0)> fn_102AA2D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102AA2D0)> >(XI_GAME(0x102AA2D0u)); }
 inline ::xikit::fn<decltype(&::fn_102AA2F0)> fn_102AA2F0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102AA2F0)> >(XI_GAME(0x102AA2F0u)); }
 inline ::xikit::fn<decltype(&::fn_102ABEB0)> fn_102ABEB0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102ABEB0)> >(XI_GAME(0x102ABEB0u)); }
-inline ::xikit::fn<decltype(&::fn_102ABEC0)> fn_102ABEC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102ABEC0)> >(XI_GAME(0x102ABEC0u)); }
 inline ::xikit::fn<decltype(&::fn_102ACB60)> fn_102ACB60() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102ACB60)> >(XI_GAME(0x102ACB60u)); }
 inline ::xikit::fn<decltype(&::fn_102ACB80)> fn_102ACB80() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102ACB80)> >(XI_GAME(0x102ACB80u)); }
 inline ::xikit::fn<decltype(&::fn_102ACF20)> fn_102ACF20() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_102ACF20)> >(XI_GAME(0x102ACF20u)); }
@@ -4322,7 +4187,6 @@ namespace xihook {
 // the functions in the kit's manifest: flags 1 SEH, 2 speedfix site, 4 gate coverage incomplete, 8 register
 // input its declaration lacks (the kit refuses a hook of it);
 // TRAMP = 1 if the hook's previous is a trampoline to the game's own code, 0 if it is the reconstruction
-constexpr unsigned fn_10001070 = 4, fn_10001070_TRAMP = 1;  // "fn_10001070" 0x10001070
 constexpr unsigned CApp__RunMainLoop = 4, CApp__RunMainLoop_TRAMP = 1;  // "CApp::RunMainLoop" 0x10001520
 constexpr unsigned App_RenderFrameMaskedFPU = 4, App_RenderFrameMaskedFPU_TRAMP = 1;  // "App_RenderFrameMaskedFPU" 0x10001B50
 constexpr unsigned App_CreateInputSystem = 4, App_CreateInputSystem_TRAMP = 1;  // "App_CreateInputSystem" 0x10001BB0
@@ -4330,16 +4194,15 @@ constexpr unsigned fn_10001D90 = 4, fn_10001D90_TRAMP = 1;  // "fn_10001D90" 0x1
 constexpr unsigned fn_10001E70 = 4, fn_10001E70_TRAMP = 1;  // "fn_10001E70" 0x10001E70
 constexpr unsigned fn_10001F20 = 4, fn_10001F20_TRAMP = 1;  // "fn_10001F20" 0x10001F20
 constexpr unsigned fn_10001F40 = 4, fn_10001F40_TRAMP = 1;  // "fn_10001F40" 0x10001F40
-constexpr unsigned Gfx_CopySurfaceRectToTexture = 0, Gfx_CopySurfaceRectToTexture_TRAMP = 1;  // "Gfx_CopySurfaceRectToTexture" 0x10002040
+constexpr unsigned Gfx_CopySurfaceRectToTexture = 8, Gfx_CopySurfaceRectToTexture_TRAMP = 1;  // "Gfx_CopySurfaceRectToTexture" 0x10002040
 constexpr unsigned Gfx_ProbeDeviceCaps = 4, Gfx_ProbeDeviceCaps_TRAMP = 1;  // "Gfx_ProbeDeviceCaps" 0x10002130
 constexpr unsigned fn_10002440 = 4, fn_10002440_TRAMP = 1;  // "fn_10002440" 0x10002440
-constexpr unsigned Gfx_IsGammaSupported = 4, Gfx_IsGammaSupported_TRAMP = 1;  // "Gfx_IsGammaSupported" 0x10002BE0
 constexpr unsigned Gfx_SetGammaRGB = 0, Gfx_SetGammaRGB_TRAMP = 1;  // "Gfx_SetGammaRGB" 0x10002C00
 constexpr unsigned Gfx_SetGammaR = 0, Gfx_SetGammaR_TRAMP = 1;  // "Gfx_SetGammaR" 0x10002C30
 constexpr unsigned Gfx_SetGammaG = 0, Gfx_SetGammaG_TRAMP = 1;  // "Gfx_SetGammaG" 0x10002C80
 constexpr unsigned Gfx_SetGammaB = 0, Gfx_SetGammaB_TRAMP = 1;  // "Gfx_SetGammaB" 0x10002CD0
 constexpr unsigned Gfx_GetGammaRGB = 0, Gfx_GetGammaRGB_TRAMP = 1;  // "Gfx_GetGammaRGB" 0x10002D20
-constexpr unsigned fn_10002D80 = 4, fn_10002D80_TRAMP = 1;  // "fn_10002D80" 0x10002D80
+constexpr unsigned fn_10002D80 = 12, fn_10002D80_TRAMP = 1;  // "fn_10002D80" 0x10002D80
 constexpr unsigned fn_10002E60 = 4, fn_10002E60_TRAMP = 1;  // "fn_10002E60" 0x10002E60
 constexpr unsigned fn_10002E80 = 4, fn_10002E80_TRAMP = 1;  // "fn_10002E80" 0x10002E80
 constexpr unsigned fn_10002EC0 = 4, fn_10002EC0_TRAMP = 1;  // "fn_10002EC0" 0x10002EC0
@@ -4354,13 +4217,13 @@ constexpr unsigned fn_10003640 = 4, fn_10003640_TRAMP = 1;  // "fn_10003640" 0x1
 constexpr unsigned DebugOverlay_Draw = 4, DebugOverlay_Draw_TRAMP = 1;  // "DebugOverlay_Draw" 0x10003650
 constexpr unsigned fn_10003660 = 4, fn_10003660_TRAMP = 1;  // "fn_10003660" 0x10003660
 constexpr unsigned fn_10003710 = 4, fn_10003710_TRAMP = 1;  // "fn_10003710" 0x10003710
-constexpr unsigned fn_100037D0 = 4, fn_100037D0_TRAMP = 1;  // "fn_100037D0" 0x100037D0
 constexpr unsigned Debug_DrawTextTable = 0, Debug_DrawTextTable_TRAMP = 1;  // "Debug_DrawTextTable" 0x10003B60
 constexpr unsigned Debug_DrawWorldText = 4, Debug_DrawWorldText_TRAMP = 1;  // "Debug_DrawWorldText" 0x10003D70
 constexpr unsigned fn_10005600 = 4, fn_10005600_TRAMP = 1;  // "fn_10005600" 0x10005600
 constexpr unsigned fn_10005660 = 4, fn_10005660_TRAMP = 1;  // "fn_10005660" 0x10005660
 constexpr unsigned fn_100059C0 = 4, fn_100059C0_TRAMP = 1;  // "fn_100059C0" 0x100059C0
 constexpr unsigned fn_10005A00 = 4, fn_10005A00_TRAMP = 1;  // "fn_10005A00" 0x10005A00
+constexpr unsigned fn_10007830 = 4, fn_10007830_TRAMP = 1;  // "fn_10007830" 0x10007830
 constexpr unsigned fn_10007860 = 4, fn_10007860_TRAMP = 1;  // "fn_10007860" 0x10007860
 constexpr unsigned DirectInput_InstallKeyboard = 4, DirectInput_InstallKeyboard_TRAMP = 1;  // "DirectInput_InstallKeyboard" 0x10007E20
 constexpr unsigned DirectInput_InstallMouse = 4, DirectInput_InstallMouse_TRAMP = 1;  // "DirectInput_InstallMouse" 0x10007EF0
@@ -4370,6 +4233,8 @@ constexpr unsigned fn_100087D0 = 4, fn_100087D0_TRAMP = 1;  // "fn_100087D0" 0x1
 constexpr unsigned fn_10008830 = 4, fn_10008830_TRAMP = 1;  // "fn_10008830" 0x10008830
 constexpr unsigned fn_100088F0 = 4, fn_100088F0_TRAMP = 1;  // "fn_100088F0" 0x100088F0
 constexpr unsigned fn_100089D0 = 4, fn_100089D0_TRAMP = 1;  // "fn_100089D0" 0x100089D0
+constexpr unsigned fn_10008D90 = 4, fn_10008D90_TRAMP = 1;  // "fn_10008D90" 0x10008D90
+constexpr unsigned fn_10008E10 = 4, fn_10008E10_TRAMP = 1;  // "fn_10008E10" 0x10008E10
 constexpr unsigned CDx__GetRuntimeClass = 0, CDx__GetRuntimeClass_TRAMP = 1;  // "CDx::GetRuntimeClass" 0x10008F80
 constexpr unsigned CDx__ScalarDeletingDtor = 0, CDx__ScalarDeletingDtor_TRAMP = 1;  // "CDx::ScalarDeletingDtor" 0x10009100
 constexpr unsigned CDx__Initialize = 4, CDx__Initialize_TRAMP = 1;  // "CDx::Initialize" 0x100091B0
@@ -4378,26 +4243,23 @@ constexpr unsigned CDx__SetClearParams = 0, CDx__SetClearParams_TRAMP = 1;  // "
 constexpr unsigned CDx__SetClearColor = 0, CDx__SetClearColor_TRAMP = 1;  // "CDx::SetClearColor" 0x10009670
 constexpr unsigned CDx__EndClearBegin = 0, CDx__EndClearBegin_TRAMP = 1;  // "CDx::EndClearBegin" 0x100096B0
 constexpr unsigned CDx__TestCooperativeLevel = 0, CDx__TestCooperativeLevel_TRAMP = 1;  // "CDx::TestCooperativeLevel" 0x10009710
-constexpr unsigned CDx__Present = 0, CDx__Present_TRAMP = 1;  // "CDx::Present" 0x10009720
 constexpr unsigned CDx__BeginScene = 0, CDx__BeginScene_TRAMP = 1;  // "CDx::BeginScene" 0x10009730
 constexpr unsigned CDx__EndScene = 0, CDx__EndScene_TRAMP = 1;  // "CDx::EndScene" 0x10009740
 constexpr unsigned fn_10009750 = 4, fn_10009750_TRAMP = 1;  // "fn_10009750" 0x10009750
 constexpr unsigned CDx__SetCursorShape = 4, CDx__SetCursorShape_TRAMP = 1;  // "CDx::SetCursorShape" 0x100097F0
 constexpr unsigned fn_10009870 = 4, fn_10009870_TRAMP = 1;  // "fn_10009870" 0x10009870
-constexpr unsigned fn_100098E0 = 4, fn_100098E0_TRAMP = 1;  // "fn_100098E0" 0x100098E0
-constexpr unsigned CDx__SetDefaultRenderState = 0, CDx__SetDefaultRenderState_TRAMP = 1;  // "CDx::SetDefaultRenderState" 0x10009920
 constexpr unsigned fn_10009D20 = 4, fn_10009D20_TRAMP = 1;  // "fn_10009D20" 0x10009D20
 constexpr unsigned CDx__SetViewport = 0, CDx__SetViewport_TRAMP = 1;  // "CDx::SetViewport" 0x10009DC0
 constexpr unsigned CDx__GetRenderTargetTop = 0, CDx__GetRenderTargetTop_TRAMP = 1;  // "CDx::GetRenderTargetTop" 0x10009E00
 constexpr unsigned CDx__PushRenderTarget = 0, CDx__PushRenderTarget_TRAMP = 1;  // "CDx::PushRenderTarget" 0x10009E20
 constexpr unsigned fn_10009EA0 = 4, fn_10009EA0_TRAMP = 1;  // "fn_10009EA0" 0x10009EA0
 constexpr unsigned fn_10009EE0 = 4, fn_10009EE0_TRAMP = 1;  // "fn_10009EE0" 0x10009EE0
+constexpr unsigned CDx__PushRenderTargetTexture = 4, CDx__PushRenderTargetTexture_TRAMP = 1;  // "CDx::PushRenderTargetTexture" 0x10009F20
 constexpr unsigned fn_1000A070 = 4, fn_1000A070_TRAMP = 1;  // "fn_1000A070" 0x1000A070
 constexpr unsigned CDx__SetTexture = 0, CDx__SetTexture_TRAMP = 1;  // "CDx::SetTexture" 0x1000A1D0
 constexpr unsigned fn_1000A200 = 4, fn_1000A200_TRAMP = 1;  // "fn_1000A200" 0x1000A200
 constexpr unsigned fn_1000A230 = 4, fn_1000A230_TRAMP = 1;  // "fn_1000A230" 0x1000A230
 constexpr unsigned CDx__PopRenderTargetDefault = 4, CDx__PopRenderTargetDefault_TRAMP = 1;  // "CDx::PopRenderTargetDefault" 0x1000A290
-constexpr unsigned CDx__PopRenderTarget = 4, CDx__PopRenderTarget_TRAMP = 1;  // "CDx::PopRenderTarget" 0x1000A2B0
 constexpr unsigned fn_1000A390 = 4, fn_1000A390_TRAMP = 1;  // "fn_1000A390" 0x1000A390
 constexpr unsigned CDx__DrawScreenQuadAtDepth = 0, CDx__DrawScreenQuadAtDepth_TRAMP = 1;  // "CDx::DrawScreenQuadAtDepth" 0x1000A3B0
 constexpr unsigned CDx__DrawTextureToViewport = 4, CDx__DrawTextureToViewport_TRAMP = 1;  // "CDx::DrawTextureToViewport" 0x1000A4F0
@@ -4408,12 +4270,11 @@ constexpr unsigned CDx__PushRenderTargetRet1 = 0, CDx__PushRenderTargetRet1_TRAM
 constexpr unsigned CDx__DrawFadeQuad = 0, CDx__DrawFadeQuad_TRAMP = 1;  // "CDx::DrawFadeQuad" 0x1000A820
 constexpr unsigned CDx__Post_DepthBlurComposite = 0, CDx__Post_DepthBlurComposite_TRAMP = 1;  // "CDx::Post_DepthBlurComposite" 0x1000AAB0
 constexpr unsigned CDx__StepFadeCounter = 4, CDx__StepFadeCounter_TRAMP = 1;  // "CDx::StepFadeCounter" 0x1000AE40
-constexpr unsigned fn_1000BB10 = 4, fn_1000BB10_TRAMP = 0;  // "fn_1000BB10" 0x1000BB10
+constexpr unsigned fn_1000BB10 = 12, fn_1000BB10_TRAMP = 0;  // "fn_1000BB10" 0x1000BB10
 constexpr unsigned fn_1000BB20 = 4, fn_1000BB20_TRAMP = 0;  // "fn_1000BB20" 0x1000BB20
 constexpr unsigned CDx__DrawStereoOddFrameOverlay = 0, CDx__DrawStereoOddFrameOverlay_TRAMP = 1;  // "CDx::DrawStereoOddFrameOverlay" 0x1000BB90
 constexpr unsigned CDx__SetTransform = 0, CDx__SetTransform_TRAMP = 1;  // "CDx::SetTransform" 0x1000BD50
 constexpr unsigned CDx__GetTransformCached = 0, CDx__GetTransformCached_TRAMP = 1;  // "CDx::GetTransformCached" 0x1000BDB0
-constexpr unsigned fn_1000BE10 = 4, fn_1000BE10_TRAMP = 1;  // "fn_1000BE10" 0x1000BE10
 constexpr unsigned Light_ApplyTimeOfDayTint = 4, Light_ApplyTimeOfDayTint_TRAMP = 1;  // "Light_ApplyTimeOfDayTint" 0x1000BE50
 constexpr unsigned CDx__SetLight = 4, CDx__SetLight_TRAMP = 1;  // "CDx::SetLight" 0x1000BF30
 constexpr unsigned CDx__CompositeSceneToBackBuffer = 0, CDx__CompositeSceneToBackBuffer_TRAMP = 1;  // "CDx::CompositeSceneToBackBuffer" 0x1000C0B0
@@ -4421,7 +4282,6 @@ constexpr unsigned CDx__CreateStereoResources = 0, CDx__CreateStereoResources_TR
 constexpr unsigned CDx__ReleaseStereoResources = 0, CDx__ReleaseStereoResources_TRAMP = 1;  // "CDx::ReleaseStereoResources" 0x1000C7C0
 constexpr unsigned CDx__CreateRampTexture1x16 = 4, CDx__CreateRampTexture1x16_TRAMP = 1;  // "CDx::CreateRampTexture1x16" 0x1000C850
 constexpr unsigned CDx__CreateRampTextures1024x2 = 4, CDx__CreateRampTextures1024x2_TRAMP = 1;  // "CDx::CreateRampTextures1024x2" 0x1000C900
-constexpr unsigned CDx__GetStereoSecondEyeTarget = 4, CDx__GetStereoSecondEyeTarget_TRAMP = 1;  // "CDx::GetStereoSecondEyeTarget" 0x1000CA00
 constexpr unsigned CDx__DrawPrimitive = 0, CDx__DrawPrimitive_TRAMP = 1;  // "CDx::DrawPrimitive" 0x1000CB20
 constexpr unsigned CDx__DrawIndexedPrimitive = 0, CDx__DrawIndexedPrimitive_TRAMP = 1;  // "CDx::DrawIndexedPrimitive" 0x1000CC00
 constexpr unsigned CDx__DrawPrimitiveUP = 0, CDx__DrawPrimitiveUP_TRAMP = 1;  // "CDx::DrawPrimitiveUP" 0x1000CD00
@@ -4444,27 +4304,25 @@ constexpr unsigned App_SetSeqStep = 4, App_SetSeqStep_TRAMP = 1;  // "App_SetSeq
 constexpr unsigned App_AdvanceSeqStep = 4, App_AdvanceSeqStep_TRAMP = 1;  // "App_AdvanceSeqStep" 0x10010D00
 constexpr unsigned fn_10010D10 = 4, fn_10010D10_TRAMP = 0;  // "fn_10010D10" 0x10010D10
 constexpr unsigned App_InitScene = 4, App_InitScene_TRAMP = 1;  // "App_InitScene" 0x10010D20
-constexpr unsigned CMoTask__vf007 = 0, CMoTask__vf007_TRAMP = 0;  // "CMoTask::vf007" 0x10011920
-constexpr unsigned CMoTask__vf009 = 0, CMoTask__vf009_TRAMP = 0;  // "CMoTask::vf009" 0x10011930
-constexpr unsigned CMoTask__vf010 = 0, CMoTask__vf010_TRAMP = 0;  // "CMoTask::vf010" 0x10011940
+constexpr unsigned CMoTask__vf007 = 8, CMoTask__vf007_TRAMP = 0;  // "CMoTask::vf007" 0x10011920
+constexpr unsigned CMoTask__vf009 = 8, CMoTask__vf009_TRAMP = 0;  // "CMoTask::vf009" 0x10011930
+constexpr unsigned CMoTask__vf010 = 8, CMoTask__vf010_TRAMP = 0;  // "CMoTask::vf010" 0x10011940
 constexpr unsigned CMoTaskMng__ScalarDeletingDtor = 0, CMoTaskMng__ScalarDeletingDtor_TRAMP = 1;  // "CMoTaskMng::ScalarDeletingDtor" 0x10011950
-constexpr unsigned CMoTask_VT_10329C70__ScalarDeletingDtor = 0, CMoTask_VT_10329C70__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_10329C70::ScalarDeletingDtor" 0x100119A0
 constexpr unsigned Frame_Render = 4, Frame_Render_TRAMP = 1;  // "Frame_Render" 0x10011A00
 constexpr unsigned Post_Afterimage = 4, Post_Afterimage_TRAMP = 1;  // "Post_Afterimage" 0x10012F40
 constexpr unsigned Post_FlashAndZoomFeedback = 4, Post_FlashAndZoomFeedback_TRAMP = 1;  // "Post_FlashAndZoomFeedback" 0x100132B0
 constexpr unsigned fn_100139E0 = 4, fn_100139E0_TRAMP = 1;  // "fn_100139E0" 0x100139E0
 constexpr unsigned fn_10013AC0 = 4, fn_10013AC0_TRAMP = 0;  // "fn_10013AC0" 0x10013AC0
-constexpr unsigned App_StepGameState5Connect = 4, App_StepGameState5Connect_TRAMP = 1;  // "App_StepGameState5Connect" 0x10013AD0
 constexpr unsigned App_StepGameState6 = 4, App_StepGameState6_TRAMP = 1;  // "App_StepGameState6" 0x10013DF0
 constexpr unsigned App_StepGameState7 = 4, App_StepGameState7_TRAMP = 1;  // "App_StepGameState7" 0x10013F10
 constexpr unsigned App_StepGameState8 = 4, App_StepGameState8_TRAMP = 1;  // "App_StepGameState8" 0x10014030
 constexpr unsigned App_StepGameState9 = 0, App_StepGameState9_TRAMP = 1;  // "App_StepGameState9" 0x10014120
 constexpr unsigned fn_10014170 = 4, fn_10014170_TRAMP = 1;  // "fn_10014170" 0x10014170
-constexpr unsigned fn_100141C0 = 0, fn_100141C0_TRAMP = 1;  // "fn_100141C0" 0x100141C0
+constexpr unsigned Game_InGameSubState0 = 0, Game_InGameSubState0_TRAMP = 1;  // "Game_InGameSubState0" 0x100141C0
+constexpr unsigned fn_10014200 = 12, fn_10014200_TRAMP = 1;  // "fn_10014200" 0x10014200
 constexpr unsigned fn_10014220 = 4, fn_10014220_TRAMP = 1;  // "fn_10014220" 0x10014220
 constexpr unsigned fn_100142A0 = 4, fn_100142A0_TRAMP = 1;  // "fn_100142A0" 0x100142A0
 constexpr unsigned fn_100142B0 = 4, fn_100142B0_TRAMP = 1;  // "fn_100142B0" 0x100142B0
-constexpr unsigned fn_10014350 = 4, fn_10014350_TRAMP = 1;  // "fn_10014350" 0x10014350
 constexpr unsigned fn_100149B0 = 4, fn_100149B0_TRAMP = 1;  // "fn_100149B0" 0x100149B0
 constexpr unsigned fn_10014A20 = 4, fn_10014A20_TRAMP = 1;  // "fn_10014A20" 0x10014A20
 constexpr unsigned fn_10014C10 = 4, fn_10014C10_TRAMP = 1;  // "fn_10014C10" 0x10014C10
@@ -4472,7 +4330,7 @@ constexpr unsigned fn_10014C60 = 4, fn_10014C60_TRAMP = 1;  // "fn_10014C60" 0x1
 constexpr unsigned fn_10014C90 = 4, fn_10014C90_TRAMP = 1;  // "fn_10014C90" 0x10014C90
 constexpr unsigned fn_10014CB0 = 4, fn_10014CB0_TRAMP = 1;  // "fn_10014CB0" 0x10014CB0
 constexpr unsigned fn_10014CE0 = 4, fn_10014CE0_TRAMP = 1;  // "fn_10014CE0" 0x10014CE0
-constexpr unsigned Camera_GetFrameScale = 4, Camera_GetFrameScale_TRAMP = 1;  // "Camera_GetFrameScale" 0x10014CF0
+constexpr unsigned Camera_GetFrameScale = 12, Camera_GetFrameScale_TRAMP = 1;  // "Camera_GetFrameScale" 0x10014CF0
 constexpr unsigned fn_10014D20 = 4, fn_10014D20_TRAMP = 1;  // "fn_10014D20" 0x10014D20
 constexpr unsigned fn_10014D60 = 4, fn_10014D60_TRAMP = 1;  // "fn_10014D60" 0x10014D60
 constexpr unsigned Camera_GetFloat2DC = 4, Camera_GetFloat2DC_TRAMP = 1;  // "Camera_GetFloat2DC" 0x10014D70
@@ -4498,7 +4356,6 @@ constexpr unsigned fn_10015360 = 4, fn_10015360_TRAMP = 1;  // "fn_10015360" 0x1
 constexpr unsigned fn_100153A0 = 4, fn_100153A0_TRAMP = 1;  // "fn_100153A0" 0x100153A0
 constexpr unsigned Camera_BuildProjection = 4, Camera_BuildProjection_TRAMP = 1;  // "Camera_BuildProjection" 0x10015480
 constexpr unsigned fn_10015490 = 4, fn_10015490_TRAMP = 1;  // "fn_10015490" 0x10015490
-constexpr unsigned Camera_ApplyViewProjection = 0, Camera_ApplyViewProjection_TRAMP = 1;  // "Camera_ApplyViewProjection" 0x10015510
 constexpr unsigned fn_100155D0 = 4, fn_100155D0_TRAMP = 1;  // "fn_100155D0" 0x100155D0
 constexpr unsigned fn_10015600 = 4, fn_10015600_TRAMP = 1;  // "fn_10015600" 0x10015600
 constexpr unsigned fn_10015610 = 4, fn_10015610_TRAMP = 1;  // "fn_10015610" 0x10015610
@@ -4509,22 +4366,21 @@ constexpr unsigned Camera_GetViewportHeight = 4, Camera_GetViewportHeight_TRAMP 
 constexpr unsigned fn_100156A0 = 4, fn_100156A0_TRAMP = 1;  // "fn_100156A0" 0x100156A0
 constexpr unsigned fn_10015740 = 4, fn_10015740_TRAMP = 0;  // "fn_10015740" 0x10015740
 constexpr unsigned fn_100157B0 = 4, fn_100157B0_TRAMP = 1;  // "fn_100157B0" 0x100157B0
-constexpr unsigned App_WinMain = 4, App_WinMain_TRAMP = 1;  // "App_WinMain" 0x100157E0
 constexpr unsigned App_CreateRendererAndApp = 4, App_CreateRendererAndApp_TRAMP = 1;  // "App_CreateRendererAndApp" 0x100161B0
 constexpr unsigned fn_10016300 = 4, fn_10016300_TRAMP = 1;  // "fn_10016300" 0x10016300
 constexpr unsigned fn_100163C0 = 4, fn_100163C0_TRAMP = 1;  // "fn_100163C0" 0x100163C0
 constexpr unsigned fn_100163E0 = 4, fn_100163E0_TRAMP = 1;  // "fn_100163E0" 0x100163E0
 constexpr unsigned App_SetGlobal_104569C8 = 4, App_SetGlobal_104569C8_TRAMP = 1;  // "App_SetGlobal_104569C8" 0x10016400
 constexpr unsigned fn_10016410 = 4, fn_10016410_TRAMP = 1;  // "fn_10016410" 0x10016410
+constexpr unsigned fn_100164B0 = 12, fn_100164B0_TRAMP = 1;  // "fn_100164B0" 0x100164B0
 constexpr unsigned App_SetErrorCode = 4, App_SetErrorCode_TRAMP = 1;  // "App_SetErrorCode" 0x100164C0
 constexpr unsigned fn_10016560 = 4, fn_10016560_TRAMP = 1;  // "fn_10016560" 0x10016560
 constexpr unsigned GammaRamp_SetRGB = 4, GammaRamp_SetRGB_TRAMP = 1;  // "GammaRamp_SetRGB" 0x100170A0
-constexpr unsigned GammaRamp_GetRGB = 4, GammaRamp_GetRGB_TRAMP = 1;  // "GammaRamp_GetRGB" 0x100170D0
 constexpr unsigned GammaRamp_GetChannelSamples = 4, GammaRamp_GetChannelSamples_TRAMP = 1;  // "GammaRamp_GetChannelSamples" 0x10017100
 constexpr unsigned GammaRamp_BuildRamps = 4, GammaRamp_BuildRamps_TRAMP = 1;  // "GammaRamp_BuildRamps" 0x10017160
 constexpr unsigned GammaRamp_ApplyIfChanged = 0, GammaRamp_ApplyIfChanged_TRAMP = 1;  // "GammaRamp_ApplyIfChanged" 0x10017230
 constexpr unsigned fn_10017310 = 0, fn_10017310_TRAMP = 1;  // "fn_10017310" 0x10017310
-constexpr unsigned fn_10017630 = 4, fn_10017630_TRAMP = 1;  // "fn_10017630" 0x10017630
+constexpr unsigned setPolUrl = 4, setPolUrl_TRAMP = 1;  // "setPolUrl" 0x10017630
 constexpr unsigned fn_10017670 = 4, fn_10017670_TRAMP = 1;  // "fn_10017670" 0x10017670
 constexpr unsigned CShader__GetRuntimeClass = 0, CShader__GetRuntimeClass_TRAMP = 1;  // "CShader::GetRuntimeClass" 0x10017750
 constexpr unsigned CShader__ScalarDeletingDtor = 0, CShader__ScalarDeletingDtor_TRAMP = 1;  // "CShader::ScalarDeletingDtor" 0x10017780
@@ -4533,9 +4389,8 @@ constexpr unsigned fn_10017810 = 0, fn_10017810_TRAMP = 1;  // "fn_10017810" 0x1
 constexpr unsigned fn_10017BB0 = 4, fn_10017BB0_TRAMP = 1;  // "fn_10017BB0" 0x10017BB0
 constexpr unsigned fn_10017C20 = 4, fn_10017C20_TRAMP = 1;  // "fn_10017C20" 0x10017C20
 constexpr unsigned fn_10017C60 = 0, fn_10017C60_TRAMP = 1;  // "fn_10017C60" 0x10017C60
-constexpr unsigned fn_10017D20 = 4, fn_10017D20_TRAMP = 0;  // "fn_10017D20" 0x10017D20
-constexpr unsigned fn_10017D30 = 4, fn_10017D30_TRAMP = 0;  // "fn_10017D30" 0x10017D30
-constexpr unsigned fn_100180D0 = 4, fn_100180D0_TRAMP = 1;  // "fn_100180D0" 0x100180D0
+constexpr unsigned fn_10017D20 = 12, fn_10017D20_TRAMP = 0;  // "fn_10017D20" 0x10017D20
+constexpr unsigned fn_10017D30 = 12, fn_10017D30_TRAMP = 0;  // "fn_10017D30" 0x10017D30
 constexpr unsigned fn_10018180 = 4, fn_10018180_TRAMP = 1;  // "fn_10018180" 0x10018180
 constexpr unsigned fn_10018270 = 4, fn_10018270_TRAMP = 1;  // "fn_10018270" 0x10018270
 constexpr unsigned fn_100182C0 = 4, fn_100182C0_TRAMP = 1;  // "fn_100182C0" 0x100182C0
@@ -4546,7 +4401,7 @@ constexpr unsigned fn_10018430 = 4, fn_10018430_TRAMP = 1;  // "fn_10018430" 0x1
 constexpr unsigned fn_10018550 = 4, fn_10018550_TRAMP = 1;  // "fn_10018550" 0x10018550
 constexpr unsigned fn_100185A0 = 4, fn_100185A0_TRAMP = 1;  // "fn_100185A0" 0x100185A0
 constexpr unsigned CXiOpening__Constructor = 4, CXiOpening__Constructor_TRAMP = 1;  // "CXiOpening::Constructor" 0x100186C0
-constexpr unsigned CXiOpening__CXiOpening_Destructor = 0, CXiOpening__CXiOpening_Destructor_TRAMP = 1;  // "CXiOpening::CXiOpening_Destructor" 0x100187D0
+constexpr unsigned CXiOpening__CXiOpening_Destructor = 8, CXiOpening__CXiOpening_Destructor_TRAMP = 1;  // "CXiOpening::CXiOpening_Destructor" 0x100187D0
 constexpr unsigned fn_10018840 = 4, fn_10018840_TRAMP = 1;  // "fn_10018840" 0x10018840
 constexpr unsigned OpeningSubtitle_Constructor = 4, OpeningSubtitle_Constructor_TRAMP = 1;  // "OpeningSubtitle_Constructor" 0x10018A50
 constexpr unsigned OpeningSubtitle_Reset = 4, OpeningSubtitle_Reset_TRAMP = 1;  // "OpeningSubtitle_Reset" 0x10018B30
@@ -4556,12 +4411,10 @@ constexpr unsigned Vt10329FE0_Reset = 4, Vt10329FE0_Reset_TRAMP = 1;  // "Vt1032
 constexpr unsigned fn_100191D0 = 4, fn_100191D0_TRAMP = 1;  // "fn_100191D0" 0x100191D0
 constexpr unsigned fn_10019210 = 4, fn_10019210_TRAMP = 1;  // "fn_10019210" 0x10019210
 constexpr unsigned fn_10019490 = 4, fn_10019490_TRAMP = 1;  // "fn_10019490" 0x10019490
-constexpr unsigned fn_100194F0 = 4, fn_100194F0_TRAMP = 1;  // "fn_100194F0" 0x100194F0
 constexpr unsigned fn_10019550 = 4, fn_10019550_TRAMP = 1;  // "fn_10019550" 0x10019550
 constexpr unsigned fn_10019590 = 4, fn_10019590_TRAMP = 1;  // "fn_10019590" 0x10019590
 constexpr unsigned CMoResource_VT_1032C7FC__vf004 = 0, CMoResource_VT_1032C7FC__vf004_TRAMP = 1;  // "CMoResource_VT_1032C7FC::vf004" 0x10019A30
-constexpr unsigned CMoResource_VT_1032C7FC__vf005 = 0, CMoResource_VT_1032C7FC__vf005_TRAMP = 0;  // "CMoResource_VT_1032C7FC::vf005" 0x10019A40
-constexpr unsigned MotionQueue_ApplyPolicy = 4, MotionQueue_ApplyPolicy_TRAMP = 1;  // "MotionQueue_ApplyPolicy" 0x10019A50
+constexpr unsigned CMoResource_VT_1032C7FC__vf005 = 8, CMoResource_VT_1032C7FC__vf005_TRAMP = 0;  // "CMoResource_VT_1032C7FC::vf005" 0x10019A40
 constexpr unsigned SampleAnimationTrack_ToBuffer = 4, SampleAnimationTrack_ToBuffer_TRAMP = 1;  // "SampleAnimationTrack_ToBuffer" 0x10019B30
 constexpr unsigned SampleAnimationTrack_Live = 4, SampleAnimationTrack_Live_TRAMP = 1;  // "SampleAnimationTrack_Live" 0x10019EE0
 constexpr unsigned fn_1001A3E0 = 4, fn_1001A3E0_TRAMP = 1;  // "fn_1001A3E0" 0x1001A3E0
@@ -4569,7 +4422,6 @@ constexpr unsigned MotionQueue_UpdateAllChannels = 4, MotionQueue_UpdateAllChann
 constexpr unsigned CYyMotionQue__SetSlotMotion = 4, CYyMotionQue__SetSlotMotion_TRAMP = 1;  // "CYyMotionQue::SetSlotMotion" 0x1001A660
 constexpr unsigned fn_1001A6E0 = 4, fn_1001A6E0_TRAMP = 1;  // "fn_1001A6E0" 0x1001A6E0
 constexpr unsigned CYyMotionQue_GetResource = 4, CYyMotionQue_GetResource_TRAMP = 1;  // "CYyMotionQue_GetResource" 0x1001A850
-constexpr unsigned CYyMotionQue__ComputeFrameAdvance = 4, CYyMotionQue__ComputeFrameAdvance_TRAMP = 1;  // "CYyMotionQue::ComputeFrameAdvance" 0x1001A8E0
 constexpr unsigned CYyMotionQue__StartMotion = 4, CYyMotionQue__StartMotion_TRAMP = 1;  // "CYyMotionQue::StartMotion" 0x1001AB60
 constexpr unsigned fn_1001ABF0 = 4, fn_1001ABF0_TRAMP = 1;  // "fn_1001ABF0" 0x1001ABF0
 constexpr unsigned fn_1001ACB0 = 4, fn_1001ACB0_TRAMP = 1;  // "fn_1001ACB0" 0x1001ACB0
@@ -4577,10 +4429,8 @@ constexpr unsigned fn_1001B170 = 4, fn_1001B170_TRAMP = 1;  // "fn_1001B170" 0x1
 constexpr unsigned fn_1001B1F0 = 4, fn_1001B1F0_TRAMP = 1;  // "fn_1001B1F0" 0x1001B1F0
 constexpr unsigned CYyMotionQue__SampleInto = 4, CYyMotionQue__SampleInto_TRAMP = 1;  // "CYyMotionQue::SampleInto" 0x1001B230
 constexpr unsigned fn_1001B2E0 = 4, fn_1001B2E0_TRAMP = 1;  // "fn_1001B2E0" 0x1001B2E0
-constexpr unsigned fn_1001B520 = 4, fn_1001B520_TRAMP = 1;  // "fn_1001B520" 0x1001B520
 constexpr unsigned fn_1001B5D0 = 4, fn_1001B5D0_TRAMP = 1;  // "fn_1001B5D0" 0x1001B5D0
 constexpr unsigned CMoTask__GetRuntimeClass_variant1 = 0, CMoTask__GetRuntimeClass_variant1_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant1" 0x1001B800
-constexpr unsigned fn_1001C930 = 4, fn_1001C930_TRAMP = 1;  // "fn_1001C930" 0x1001C930
 constexpr unsigned fn_1001CF80 = 4, fn_1001CF80_TRAMP = 0;  // "fn_1001CF80" 0x1001CF80
 constexpr unsigned Model_CreateTranslucentTargets = 0, Model_CreateTranslucentTargets_TRAMP = 1;  // "Model_CreateTranslucentTargets" 0x1001D0A0
 constexpr unsigned fn_1001D170 = 4, fn_1001D170_TRAMP = 1;  // "fn_1001D170" 0x1001D170
@@ -4588,16 +4438,14 @@ constexpr unsigned Model_BeginTranslucentPass = 0, Model_BeginTranslucentPass_TR
 constexpr unsigned Model_TranslucentUnbindTexture = 0, Model_TranslucentUnbindTexture_TRAMP = 1;  // "Model_TranslucentUnbindTexture" 0x1001D350
 constexpr unsigned fn_1001D390 = 4, fn_1001D390_TRAMP = 1;  // "fn_1001D390" 0x1001D390
 constexpr unsigned Model_CompositeTranslucentPass = 0, Model_CompositeTranslucentPass_TRAMP = 1;  // "Model_CompositeTranslucentPass" 0x1001D3B0
-constexpr unsigned TexObj_InitFromHeader = 4, TexObj_InitFromHeader_TRAMP = 1;  // "TexObj_InitFromHeader" 0x1001D940
-constexpr unsigned fn_1001DBD0 = 4, fn_1001DBD0_TRAMP = 1;  // "fn_1001DBD0" 0x1001DBD0
 constexpr unsigned CMoResource_VT_1032C8AC__vf004 = 0, CMoResource_VT_1032C8AC__vf004_TRAMP = 1;  // "CMoResource_VT_1032C8AC::vf004" 0x1001DC20
 constexpr unsigned Tex_DrawNamedTexturePreview = 0, Tex_DrawNamedTexturePreview_TRAMP = 1;  // "Tex_DrawNamedTexturePreview" 0x1001DC70
 constexpr unsigned Gfx_DrawScreenQuad256 = 0, Gfx_DrawScreenQuad256_TRAMP = 1;  // "Gfx_DrawScreenQuad256" 0x1001DD00
 constexpr unsigned CMoResource_VT_1032C880__vf004 = 0, CMoResource_VT_1032C880__vf004_TRAMP = 1;  // "CMoResource_VT_1032C880::vf004" 0x1001E050
-constexpr unsigned CMoResource_VT_1032C880__vf005 = 0, CMoResource_VT_1032C880__vf005_TRAMP = 0;  // "CMoResource_VT_1032C880::vf005" 0x1001E060
+constexpr unsigned CMoResource_VT_1032C880__vf005 = 8, CMoResource_VT_1032C880__vf005_TRAMP = 0;  // "CMoResource_VT_1032C880::vf005" 0x1001E060
 constexpr unsigned fn_1001E2F0 = 4, fn_1001E2F0_TRAMP = 1;  // "fn_1001E2F0" 0x1001E2F0
 constexpr unsigned CYyCamMng2__CreateGlobal = 4, CYyCamMng2__CreateGlobal_TRAMP = 1;  // "CYyCamMng2::CreateGlobal" 0x1001E470
-constexpr unsigned CYyCamMng2__CallGlobalVfunc1 = 4, CYyCamMng2__CallGlobalVfunc1_TRAMP = 1;  // "CYyCamMng2::CallGlobalVfunc1" 0x1001E4B0
+constexpr unsigned CYyCamMng2_CallGlobalVfunc1 = 12, CYyCamMng2_CallGlobalVfunc1_TRAMP = 1;  // "CYyCamMng2_CallGlobalVfunc1" 0x1001E4B0
 constexpr unsigned fn_1001E4D0 = 4, fn_1001E4D0_TRAMP = 1;  // "fn_1001E4D0" 0x1001E4D0
 constexpr unsigned fn_1001E4F0 = 4, fn_1001E4F0_TRAMP = 1;  // "fn_1001E4F0" 0x1001E4F0
 constexpr unsigned fn_1001E590 = 4, fn_1001E590_TRAMP = 1;  // "fn_1001E590" 0x1001E590
@@ -4613,16 +4461,13 @@ constexpr unsigned fn_10022170 = 4, fn_10022170_TRAMP = 1;  // "fn_10022170" 0x1
 constexpr unsigned Actor_LookupPercentScaleA = 4, Actor_LookupPercentScaleA_TRAMP = 1;  // "Actor_LookupPercentScaleA" 0x10022190
 constexpr unsigned Actor_LookupPercentScaleB = 4, Actor_LookupPercentScaleB_TRAMP = 1;  // "Actor_LookupPercentScaleB" 0x100221E0
 constexpr unsigned Actor_InitIndexTable = 4, Actor_InitIndexTable_TRAMP = 1;  // "Actor_InitIndexTable" 0x10022230
-constexpr unsigned CYyModelDt__PrepareRenderState = 4, CYyModelDt__PrepareRenderState_TRAMP = 1;  // "CYyModelDt::PrepareRenderState" 0x100224D0
 constexpr unsigned CYyModelDt__SetVertexShader = 4, CYyModelDt__SetVertexShader_TRAMP = 1;  // "CYyModelDt::SetVertexShader" 0x10022FA0
-constexpr unsigned CYyModelDt__PrepareRenderStateSimple = 0, CYyModelDt__PrepareRenderStateSimple_TRAMP = 1;  // "CYyModelDt::PrepareRenderStateSimple" 0x100231C0
 constexpr unsigned fn_10025010 = 4, fn_10025010_TRAMP = 1;  // "fn_10025010" 0x10025010
 constexpr unsigned CYyModelDt__PrepareRenderStateEntry = 0, CYyModelDt__PrepareRenderStateEntry_TRAMP = 1;  // "CYyModelDt::PrepareRenderStateEntry" 0x10025030
 constexpr unsigned CYyModelDt__PrepareRenderStateSimpleEntry = 0, CYyModelDt__PrepareRenderStateSimpleEntry_TRAMP = 1;  // "CYyModelDt::PrepareRenderStateSimpleEntry" 0x10025060
 constexpr unsigned CYyModelDt_VT_1032A430__vf011 = 0, CYyModelDt_VT_1032A430__vf011_TRAMP = 0;  // "CYyModelDt_VT_1032A430::vf011" 0x10025090
 constexpr unsigned CYyModelDt_VT_1032A430__ScalarDeletingDtor = 0, CYyModelDt_VT_1032A430__ScalarDeletingDtor_TRAMP = 1;  // "CYyModelDt_VT_1032A430::ScalarDeletingDtor" 0x100250A0
 constexpr unsigned fn_100250F0 = 4, fn_100250F0_TRAMP = 1;  // "fn_100250F0" 0x100250F0
-constexpr unsigned CYyModelDt__GetElementCount = 0, CYyModelDt__GetElementCount_TRAMP = 1;  // "CYyModelDt::GetElementCount" 0x10025180
 constexpr unsigned CYyModelDt__MarkReferencedBones = 0, CYyModelDt__MarkReferencedBones_TRAMP = 1;  // "CYyModelDt::MarkReferencedBones" 0x100251A0
 constexpr unsigned fn_10025220 = 4, fn_10025220_TRAMP = 1;  // "fn_10025220" 0x10025220
 constexpr unsigned fn_10025260 = 0, fn_10025260_TRAMP = 1;  // "fn_10025260" 0x10025260
@@ -4635,9 +4480,6 @@ constexpr unsigned fn_10025BE0 = 4, fn_10025BE0_TRAMP = 0;  // "fn_10025BE0" 0x1
 constexpr unsigned fn_10025BF0 = 4, fn_10025BF0_TRAMP = 1;  // "fn_10025BF0" 0x10025BF0
 constexpr unsigned EnvMap_BeginPass = 0, EnvMap_BeginPass_TRAMP = 1;  // "EnvMap_BeginPass" 0x10025C40
 constexpr unsigned EnvMap_EndPass = 0, EnvMap_EndPass_TRAMP = 1;  // "EnvMap_EndPass" 0x10025F70
-constexpr unsigned Dbg_DrawGroundGrid = 0, Dbg_DrawGroundGrid_TRAMP = 1;  // "Dbg_DrawGroundGrid" 0x100262C0
-constexpr unsigned Dbg_DrawViewAxisGizmo = 0, Dbg_DrawViewAxisGizmo_TRAMP = 1;  // "Dbg_DrawViewAxisGizmo" 0x100263F0
-constexpr unsigned Dbg_DrawAxesAt = 0, Dbg_DrawAxesAt_TRAMP = 1;  // "Dbg_DrawAxesAt" 0x100266C0
 constexpr unsigned CYyIcon__Draw = 0, CYyIcon__Draw_TRAMP = 1;  // "CYyIcon::Draw" 0x10026990
 constexpr unsigned CXiMovie__Draw = 0, CXiMovie__Draw_TRAMP = 1;  // "CXiMovie::Draw" 0x10026AD0
 constexpr unsigned CYyIcon__DrawSubRect = 0, CYyIcon__DrawSubRect_TRAMP = 1;  // "CYyIcon::DrawSubRect" 0x10026C70
@@ -4659,14 +4501,12 @@ constexpr unsigned fn_10027340 = 4, fn_10027340_TRAMP = 1;  // "fn_10027340" 0x1
 constexpr unsigned fn_10027510 = 4, fn_10027510_TRAMP = 1;  // "fn_10027510" 0x10027510
 constexpr unsigned fn_10027550 = 4, fn_10027550_TRAMP = 1;  // "fn_10027550" 0x10027550
 constexpr unsigned fn_10027620 = 4, fn_10027620_TRAMP = 1;  // "fn_10027620" 0x10027620
-constexpr unsigned Gfx_ProjectWorldToClip = 0, Gfx_ProjectWorldToClip_TRAMP = 1;  // "Gfx_ProjectWorldToClip" 0x100276F0
 constexpr unsigned Gfx_TransformWorldToView = 0, Gfx_TransformWorldToView_TRAMP = 1;  // "Gfx_TransformWorldToView" 0x100277E0
 constexpr unsigned Gfx_ProjectViewToClip = 0, Gfx_ProjectViewToClip_TRAMP = 1;  // "Gfx_ProjectViewToClip" 0x10027870
 constexpr unsigned Gfx_NdcToScreen = 0, Gfx_NdcToScreen_TRAMP = 1;  // "Gfx_NdcToScreen" 0x100278E0
 constexpr unsigned Gfx_ScreenDeltaToNdc = 0, Gfx_ScreenDeltaToNdc_TRAMP = 1;  // "Gfx_ScreenDeltaToNdc" 0x10027930
 constexpr unsigned fn_10027990 = 4, fn_10027990_TRAMP = 0;  // "fn_10027990" 0x10027990
-constexpr unsigned fn_100279A0 = 4, fn_100279A0_TRAMP = 0;  // "fn_100279A0" 0x100279A0
-constexpr unsigned Mat4_SetIdentity = 4, Mat4_SetIdentity_TRAMP = 1;  // "Mat4_SetIdentity" 0x100279B0
+constexpr unsigned fn_100279A0 = 12, fn_100279A0_TRAMP = 0;  // "fn_100279A0" 0x100279A0
 constexpr unsigned Mat4_Copy = 4, Mat4_Copy_TRAMP = 1;  // "Mat4_Copy" 0x100279F0
 constexpr unsigned Mat4_PostScale = 4, Mat4_PostScale_TRAMP = 1;  // "Mat4_PostScale" 0x10027A60
 constexpr unsigned Mat4_BuildScale = 4, Mat4_BuildScale_TRAMP = 1;  // "Mat4_BuildScale" 0x10027AE0
@@ -4691,9 +4531,8 @@ constexpr unsigned fn_10028720 = 4, fn_10028720_TRAMP = 1;  // "fn_10028720" 0x1
 constexpr unsigned fn_10028730 = 4, fn_10028730_TRAMP = 1;  // "fn_10028730" 0x10028730
 constexpr unsigned fn_10028850 = 4, fn_10028850_TRAMP = 1;  // "fn_10028850" 0x10028850
 constexpr unsigned fn_10028930 = 4, fn_10028930_TRAMP = 1;  // "fn_10028930" 0x10028930
-constexpr unsigned fn_10028AA0 = 4, fn_10028AA0_TRAMP = 1;  // "fn_10028AA0" 0x10028AA0
-constexpr unsigned fn_10028AC0 = 4, fn_10028AC0_TRAMP = 1;  // "fn_10028AC0" 0x10028AC0
 constexpr unsigned MemBlock_GetSize = 4, MemBlock_GetSize_TRAMP = 1;  // "MemBlock_GetSize" 0x10028B90
+constexpr unsigned fn_10028BF0 = 12, fn_10028BF0_TRAMP = 1;  // "fn_10028BF0" 0x10028BF0
 constexpr unsigned fn_10028C30 = 4, fn_10028C30_TRAMP = 1;  // "fn_10028C30" 0x10028C30
 constexpr unsigned fn_10028C50 = 4, fn_10028C50_TRAMP = 1;  // "fn_10028C50" 0x10028C50
 constexpr unsigned fn_10028C70 = 4, fn_10028C70_TRAMP = 1;  // "fn_10028C70" 0x10028C70
@@ -4703,7 +4542,7 @@ constexpr unsigned Mem_DrawHeapUsageBar = 0, Mem_DrawHeapUsageBar_TRAMP = 1;  //
 constexpr unsigned CYyModelDt__GetRuntimeClass = 0, CYyModelDt__GetRuntimeClass_TRAMP = 1;  // "CYyModelDt::GetRuntimeClass" 0x10029880
 constexpr unsigned CYyModelBase__GetRuntimeClass = 0, CYyModelBase__GetRuntimeClass_TRAMP = 1;  // "CYyModelBase::GetRuntimeClass" 0x100298A0
 constexpr unsigned CYyModel__GetRuntimeClass = 0, CYyModel__GetRuntimeClass_TRAMP = 1;  // "CYyModel::GetRuntimeClass" 0x100298C0
-constexpr unsigned fn_10029A50 = 0, fn_10029A50_TRAMP = 1;  // "fn_10029A50" 0x10029A50
+constexpr unsigned CreateSharedVertexBuffers = 0, CreateSharedVertexBuffers_TRAMP = 1;  // "CreateSharedVertexBuffers" 0x10029A50
 constexpr unsigned fn_10029B60 = 4, fn_10029B60_TRAMP = 1;  // "fn_10029B60" 0x10029B60
 constexpr unsigned fn_10029BB0 = 4, fn_10029BB0_TRAMP = 1;  // "fn_10029BB0" 0x10029BB0
 constexpr unsigned fn_10029C90 = 4, fn_10029C90_TRAMP = 1;  // "fn_10029C90" 0x10029C90
@@ -4719,12 +4558,10 @@ constexpr unsigned fn_10029EB0 = 4, fn_10029EB0_TRAMP = 1;  // "fn_10029EB0" 0x1
 constexpr unsigned fn_10029F00 = 4, fn_10029F00_TRAMP = 1;  // "fn_10029F00" 0x10029F00
 constexpr unsigned CYyModelBase__AddPartFromResource = 4, CYyModelBase__AddPartFromResource_TRAMP = 1;  // "CYyModelBase::AddPartFromResource" 0x10029F70
 constexpr unsigned CYyModelDt__PrepareRenderStateV2Entry = 4, CYyModelDt__PrepareRenderStateV2Entry_TRAMP = 1;  // "CYyModelDt::PrepareRenderStateV2Entry" 0x1002A000
-constexpr unsigned CYyModelDt__PrepareRenderStateV2SimpleEntry = 4, CYyModelDt__PrepareRenderStateV2SimpleEntry_TRAMP = 1;  // "CYyModelDt::PrepareRenderStateV2SimpleEntry" 0x1002A040
 constexpr unsigned fn_1002A080 = 4, fn_1002A080_TRAMP = 1;  // "fn_1002A080" 0x1002A080
 constexpr unsigned CYyModelDt_VT_1032A72C__ScalarDeletingDtor = 0, CYyModelDt_VT_1032A72C__ScalarDeletingDtor_TRAMP = 1;  // "CYyModelDt_VT_1032A72C::ScalarDeletingDtor" 0x1002A0A0
 constexpr unsigned fn_1002A0C0 = 4, fn_1002A0C0_TRAMP = 1;  // "fn_1002A0C0" 0x1002A0C0
 constexpr unsigned CYyModelBase__DrawLit = 4, CYyModelBase__DrawLit_TRAMP = 1;  // "CYyModelBase::DrawLit" 0x1002A3B0
-constexpr unsigned fn_1002A700 = 4, fn_1002A700_TRAMP = 1;  // "fn_1002A700" 0x1002A700
 constexpr unsigned fn_1002A750 = 4, fn_1002A750_TRAMP = 1;  // "fn_1002A750" 0x1002A750
 constexpr unsigned fn_1002A780 = 4, fn_1002A780_TRAMP = 1;  // "fn_1002A780" 0x1002A780
 constexpr unsigned fn_1002A890 = 4, fn_1002A890_TRAMP = 1;  // "fn_1002A890" 0x1002A890
@@ -4753,14 +4590,10 @@ constexpr unsigned fn_1002C800 = 4, fn_1002C800_TRAMP = 1;  // "fn_1002C800" 0x1
 constexpr unsigned Mem_AllocDefault = 4, Mem_AllocDefault_TRAMP = 1;  // "Mem_AllocDefault" 0x1002C890
 constexpr unsigned thunk_sub_10028AA0 = 4, thunk_sub_10028AA0_TRAMP = 1;  // "thunk_sub_10028AA0" 0x1002C8B0
 constexpr unsigned CMoTask__GetRuntimeClass_variant2 = 0, CMoTask__GetRuntimeClass_variant2_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant2" 0x1002C950
-constexpr unsigned CYyOs2VtxBuffer__CreateBuffersStep = 4, CYyOs2VtxBuffer__CreateBuffersStep_TRAMP = 1;  // "CYyOs2VtxBuffer::CreateBuffersStep" 0x1002CCB0
-constexpr unsigned fn_1002D660 = 4, fn_1002D660_TRAMP = 1;  // "fn_1002D660" 0x1002D660
 constexpr unsigned CYyOs2VtxBuffer__Constructor = 4, CYyOs2VtxBuffer__Constructor_TRAMP = 1;  // "CYyOs2VtxBuffer::Constructor" 0x1002D680
 constexpr unsigned CYyOs2VtxBuffer__CYyOs2VtxBuffer_Destructor = 4, CYyOs2VtxBuffer__CYyOs2VtxBuffer_Destructor_TRAMP = 1;  // "CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor" 0x1002D700
-constexpr unsigned fn_1002D7F0 = 4, fn_1002D7F0_TRAMP = 1;  // "fn_1002D7F0" 0x1002D7F0
-constexpr unsigned fn_1002D860 = 4, fn_1002D860_TRAMP = 1;  // "fn_1002D860" 0x1002D860
+constexpr unsigned fn_1002D860 = 12, fn_1002D860_TRAMP = 1;  // "fn_1002D860" 0x1002D860
 constexpr unsigned CMoResource_VT_1032C854__vf004 = 0, CMoResource_VT_1032C854__vf004_TRAMP = 1;  // "CMoResource_VT_1032C854::vf004" 0x1002D880
-constexpr unsigned fn_1002D8F0 = 4, fn_1002D8F0_TRAMP = 1;  // "fn_1002D8F0" 0x1002D8F0
 constexpr unsigned CYyModelDt__SkinAndDrawV2 = 4, CYyModelDt__SkinAndDrawV2_TRAMP = 1;  // "CYyModelDt::SkinAndDrawV2" 0x1002DC10
 constexpr unsigned Gfx_SetStreamSourceCached = 4, Gfx_SetStreamSourceCached_TRAMP = 1;  // "Gfx_SetStreamSourceCached" 0x1002F130
 constexpr unsigned Gfx_ApplyCachedStreamSource = 0, Gfx_ApplyCachedStreamSource_TRAMP = 1;  // "Gfx_ApplyCachedStreamSource" 0x1002F160
@@ -4769,7 +4602,7 @@ constexpr unsigned Model_SkinVerticesCpu = 4, Model_SkinVerticesCpu_TRAMP = 1;  
 constexpr unsigned fn_100303B0 = 4, fn_100303B0_TRAMP = 1;  // "fn_100303B0" 0x100303B0
 constexpr unsigned fn_10032A40 = 4, fn_10032A40_TRAMP = 1;  // "fn_10032A40" 0x10032A40
 constexpr unsigned fn_10032A50 = 4, fn_10032A50_TRAMP = 1;  // "fn_10032A50" 0x10032A50
-constexpr unsigned fn_10032A70 = 4, fn_10032A70_TRAMP = 0;  // "fn_10032A70" 0x10032A70
+constexpr unsigned fn_10032A70 = 12, fn_10032A70_TRAMP = 0;  // "fn_10032A70" 0x10032A70
 constexpr unsigned fn_10032B50 = 4, fn_10032B50_TRAMP = 1;  // "fn_10032B50" 0x10032B50
 constexpr unsigned fn_10032DA0 = 4, fn_10032DA0_TRAMP = 1;  // "fn_10032DA0" 0x10032DA0
 constexpr unsigned fn_10032FE0 = 4, fn_10032FE0_TRAMP = 1;  // "fn_10032FE0" 0x10032FE0
@@ -4780,8 +4613,9 @@ constexpr unsigned fn_10033710 = 0, fn_10033710_TRAMP = 1;  // "fn_10033710" 0x1
 constexpr unsigned Model_BeginOffscreenPass = 0, Model_BeginOffscreenPass_TRAMP = 1;  // "Model_BeginOffscreenPass" 0x10033800
 constexpr unsigned Model_EndOffscreenPassBindTextures = 4, Model_EndOffscreenPassBindTextures_TRAMP = 1;  // "Model_EndOffscreenPassBindTextures" 0x10033A70
 constexpr unsigned fn_10033DA0 = 4, fn_10033DA0_TRAMP = 1;  // "fn_10033DA0" 0x10033DA0
+constexpr unsigned Shadow_SmoothLightDirection = 4, Shadow_SmoothLightDirection_TRAMP = 1;  // "Shadow_SmoothLightDirection" 0x10033EA0
 constexpr unsigned CMoResource_VT_1032C828__vf004 = 0, CMoResource_VT_1032C828__vf004_TRAMP = 1;  // "CMoResource_VT_1032C828::vf004" 0x10034170
-constexpr unsigned CMoResource_VT_1032C828__vf005 = 0, CMoResource_VT_1032C828__vf005_TRAMP = 0;  // "CMoResource_VT_1032C828::vf005" 0x10034180
+constexpr unsigned CMoResource_VT_1032C828__vf005 = 8, CMoResource_VT_1032C828__vf005_TRAMP = 0;  // "CMoResource_VT_1032C828::vf005" 0x10034180
 constexpr unsigned fn_10034230 = 4, fn_10034230_TRAMP = 1;  // "fn_10034230" 0x10034230
 constexpr unsigned fn_100342A0 = 4, fn_100342A0_TRAMP = 1;  // "fn_100342A0" 0x100342A0
 constexpr unsigned Skel_BindShared = 4, Skel_BindShared_TRAMP = 1;  // "Skel_BindShared" 0x10034330
@@ -4802,35 +4636,37 @@ constexpr unsigned CMoTask_VT_1032A904__ScalarDeletingDtor = 0, CMoTask_VT_1032A
 constexpr unsigned fn_10035D40 = 4, fn_10035D40_TRAMP = 1;  // "fn_10035D40" 0x10035D40
 constexpr unsigned fn_10035D90 = 4, fn_10035D90_TRAMP = 1;  // "fn_10035D90" 0x10035D90
 constexpr unsigned fn_10035DE0 = 4, fn_10035DE0_TRAMP = 1;  // "fn_10035DE0" 0x10035DE0
-constexpr unsigned MoTask_KillAllGlobalSlots = 4, MoTask_KillAllGlobalSlots_TRAMP = 1;  // "MoTask_KillAllGlobalSlots" 0x10035F00
+constexpr unsigned MoTask_KillAllGlobalSlots = 12, MoTask_KillAllGlobalSlots_TRAMP = 1;  // "MoTask_KillAllGlobalSlots" 0x10035F00
 constexpr unsigned fn_10035F80 = 4, fn_10035F80_TRAMP = 1;  // "fn_10035F80" 0x10035F80
 constexpr unsigned fn_10035FB0 = 4, fn_10035FB0_TRAMP = 1;  // "fn_10035FB0" 0x10035FB0
-constexpr unsigned fn_10036020 = 4, fn_10036020_TRAMP = 1;  // "fn_10036020" 0x10036020
-constexpr unsigned fn_10036050 = 4, fn_10036050_TRAMP = 1;  // "fn_10036050" 0x10036050
-constexpr unsigned MoTask_KillGlobalSlot1 = 4, MoTask_KillGlobalSlot1_TRAMP = 1;  // "MoTask_KillGlobalSlot1" 0x10036070
-constexpr unsigned fn_100360A0 = 4, fn_100360A0_TRAMP = 1;  // "fn_100360A0" 0x100360A0
+constexpr unsigned fn_10036050 = 12, fn_10036050_TRAMP = 1;  // "fn_10036050" 0x10036050
+constexpr unsigned fn_100360A0 = 12, fn_100360A0_TRAMP = 1;  // "fn_100360A0" 0x100360A0
 constexpr unsigned fn_100360C0 = 4, fn_100360C0_TRAMP = 1;  // "fn_100360C0" 0x100360C0
-constexpr unsigned fn_100360F0 = 4, fn_100360F0_TRAMP = 1;  // "fn_100360F0" 0x100360F0
+constexpr unsigned fn_100360F0 = 12, fn_100360F0_TRAMP = 1;  // "fn_100360F0" 0x100360F0
 constexpr unsigned fn_10036170 = 4, fn_10036170_TRAMP = 1;  // "fn_10036170" 0x10036170
 constexpr unsigned fn_100361D0 = 4, fn_100361D0_TRAMP = 1;  // "fn_100361D0" 0x100361D0
 constexpr unsigned fn_10036230 = 4, fn_10036230_TRAMP = 1;  // "fn_10036230" 0x10036230
+constexpr unsigned fn_10036360 = 4, fn_10036360_TRAMP = 1;  // "fn_10036360" 0x10036360
+constexpr unsigned fn_10036420 = 4, fn_10036420_TRAMP = 1;  // "fn_10036420" 0x10036420
 constexpr unsigned fn_100364A0 = 4, fn_100364A0_TRAMP = 1;  // "fn_100364A0" 0x100364A0
 constexpr unsigned fn_100364E0 = 4, fn_100364E0_TRAMP = 1;  // "fn_100364E0" 0x100364E0
 constexpr unsigned fn_10036770 = 4, fn_10036770_TRAMP = 1;  // "fn_10036770" 0x10036770
+constexpr unsigned fn_100367C0 = 4, fn_100367C0_TRAMP = 1;  // "fn_100367C0" 0x100367C0
+constexpr unsigned fn_100367F0 = 4, fn_100367F0_TRAMP = 1;  // "fn_100367F0" 0x100367F0
 constexpr unsigned fn_10036830 = 4, fn_10036830_TRAMP = 1;  // "fn_10036830" 0x10036830
 constexpr unsigned fn_10036870 = 4, fn_10036870_TRAMP = 1;  // "fn_10036870" 0x10036870
 constexpr unsigned fn_100368B0 = 4, fn_100368B0_TRAMP = 1;  // "fn_100368B0" 0x100368B0
 constexpr unsigned fn_10036980 = 4, fn_10036980_TRAMP = 1;  // "fn_10036980" 0x10036980
 constexpr unsigned fn_100369F0 = 4, fn_100369F0_TRAMP = 1;  // "fn_100369F0" 0x100369F0
-constexpr unsigned CMoElem__vf013 = 0, CMoElem__vf013_TRAMP = 0;  // "CMoElem::vf013" 0x10036A80
-constexpr unsigned CMoElem__vf014 = 0, CMoElem__vf014_TRAMP = 0;  // "CMoElem::vf014" 0x10036A90
+constexpr unsigned CMoElem__vf013 = 8, CMoElem__vf013_TRAMP = 0;  // "CMoElem::vf013" 0x10036A80
+constexpr unsigned CMoElem__vf014 = 8, CMoElem__vf014_TRAMP = 0;  // "CMoElem::vf014" 0x10036A90
 constexpr unsigned CMoElem__vf015 = 0, CMoElem__vf015_TRAMP = 0;  // "CMoElem::vf015" 0x10036AA0
-constexpr unsigned CMoElem__vf019 = 0, CMoElem__vf019_TRAMP = 0;  // "CMoElem::vf019" 0x10036AB0
+constexpr unsigned CMoElem__vf019 = 8, CMoElem__vf019_TRAMP = 0;  // "CMoElem::vf019" 0x10036AB0
 constexpr unsigned CMoResource__GetRuntimeClass_variant0 = 0, CMoResource__GetRuntimeClass_variant0_TRAMP = 1;  // "CMoResource::GetRuntimeClass_variant0" 0x10036B70
+constexpr unsigned fn_10036B90 = 4, fn_10036B90_TRAMP = 1;  // "fn_10036B90" 0x10036B90
 constexpr unsigned fn_10036F00 = 4, fn_10036F00_TRAMP = 1;  // "fn_10036F00" 0x10036F00
 constexpr unsigned fn_10037020 = 4, fn_10037020_TRAMP = 1;  // "fn_10037020" 0x10037020
 constexpr unsigned CMoTask__GetRuntimeClass_variant3 = 0, CMoTask__GetRuntimeClass_variant3_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant3" 0x10037280
-constexpr unsigned fn_100378B0 = 4, fn_100378B0_TRAMP = 1;  // "fn_100378B0" 0x100378B0
 constexpr unsigned StAvatar_SwitchMusicTask = 4, StAvatar_SwitchMusicTask_TRAMP = 1;  // "StAvatar_SwitchMusicTask" 0x10037960
 constexpr unsigned fn_10037A10 = 4, fn_10037A10_TRAMP = 1;  // "fn_10037A10" 0x10037A10
 constexpr unsigned SetMusicTrackVolume_C = 4, SetMusicTrackVolume_C_TRAMP = 1;  // "SetMusicTrackVolume_C" 0x10037B30
@@ -4838,15 +4674,16 @@ constexpr unsigned fn_10037D70 = 4, fn_10037D70_TRAMP = 1;  // "fn_10037D70" 0x1
 constexpr unsigned fn_10037E30 = 4, fn_10037E30_TRAMP = 1;  // "fn_10037E30" 0x10037E30
 constexpr unsigned fn_10037E90 = 4, fn_10037E90_TRAMP = 1;  // "fn_10037E90" 0x10037E90
 constexpr unsigned fn_100380F0 = 4, fn_100380F0_TRAMP = 1;  // "fn_100380F0" 0x100380F0
-constexpr unsigned fn_100382A0 = 4, fn_100382A0_TRAMP = 1;  // "fn_100382A0" 0x100382A0
-constexpr unsigned Font_QueueText = 4, Font_QueueText_TRAMP = 1;  // "Font_QueueText" 0x100384B0
+constexpr unsigned fn_100382A0 = 12, fn_100382A0_TRAMP = 1;  // "fn_100382A0" 0x100382A0
+constexpr unsigned fn_10038470 = 12, fn_10038470_TRAMP = 1;  // "fn_10038470" 0x10038470
 constexpr unsigned Font_DrawPass = 4, Font_DrawPass_TRAMP = 1;  // "Font_DrawPass" 0x10038520
 constexpr unsigned Font_DrawString = 4, Font_DrawString_TRAMP = 1;  // "Font_DrawString" 0x10038720
-constexpr unsigned CMoResource_VT_1032C7A4__vf008 = 0, CMoResource_VT_1032C7A4__vf008_TRAMP = 0;  // "CMoResource_VT_1032C7A4::vf008" 0x10038920
+constexpr unsigned CMoResource_VT_1032C7A4__vf008 = 8, CMoResource_VT_1032C7A4__vf008_TRAMP = 0;  // "CMoResource_VT_1032C7A4::vf008" 0x10038920
 constexpr unsigned Post_CreateScreenEffectTargets = 0, Post_CreateScreenEffectTargets_TRAMP = 1;  // "Post_CreateScreenEffectTargets" 0x10038930
 constexpr unsigned fn_100389C0 = 4, fn_100389C0_TRAMP = 1;  // "fn_100389C0" 0x100389C0
 constexpr unsigned fn_10038A20 = 4, fn_10038A20_TRAMP = 1;  // "fn_10038A20" 0x10038A20
 constexpr unsigned Post_CaptureSceneToTarget = 0, Post_CaptureSceneToTarget_TRAMP = 1;  // "Post_CaptureSceneToTarget" 0x10038A80
+constexpr unsigned Post_DrawRotatingGhostLayers = 4, Post_DrawRotatingGhostLayers_TRAMP = 1;  // "Post_DrawRotatingGhostLayers" 0x10038E10
 constexpr unsigned fn_10039440 = 4, fn_10039440_TRAMP = 1;  // "fn_10039440" 0x10039440
 constexpr unsigned ThreadPool_StartThread = 4, ThreadPool_StartThread_TRAMP = 1;  // "ThreadPool_StartThread" 0x100394D0
 constexpr unsigned fn_10039550 = 4, fn_10039550_TRAMP = 1;  // "fn_10039550" 0x10039550
@@ -4855,7 +4692,6 @@ constexpr unsigned fn_100396A0 = 4, fn_100396A0_TRAMP = 1;  // "fn_100396A0" 0x1
 constexpr unsigned CYyTexBase__GetRuntimeClass_variant0 = 0, CYyTexBase__GetRuntimeClass_variant0_TRAMP = 1;  // "CYyTexBase::GetRuntimeClass_variant0" 0x10039770
 constexpr unsigned CYyTexBase__GetRuntimeClass_variant1 = 0, CYyTexBase__GetRuntimeClass_variant1_TRAMP = 1;  // "CYyTexBase::GetRuntimeClass_variant1" 0x10039780
 constexpr unsigned CYyTex__GetRuntimeClass = 0, CYyTex__GetRuntimeClass_TRAMP = 1;  // "CYyTex::GetRuntimeClass" 0x10039790
-constexpr unsigned fn_100397A0 = 4, fn_100397A0_TRAMP = 1;  // "fn_100397A0" 0x100397A0
 constexpr unsigned Util_Copy16Bytes = 4, Util_Copy16Bytes_TRAMP = 1;  // "Util_Copy16Bytes" 0x10039810
 constexpr unsigned fn_10039830 = 4, fn_10039830_TRAMP = 1;  // "fn_10039830" 0x10039830
 constexpr unsigned CYyTexBase__ScalarDeletingDtor = 0, CYyTexBase__ScalarDeletingDtor_TRAMP = 1;  // "CYyTexBase::ScalarDeletingDtor" 0x100398B0
@@ -4865,7 +4701,6 @@ constexpr unsigned CYyTex__ScalarDeletingDtor = 0, CYyTex__ScalarDeletingDtor_TR
 constexpr unsigned fn_100399D0 = 4, fn_100399D0_TRAMP = 1;  // "fn_100399D0" 0x100399D0
 constexpr unsigned TexObj_CreateAndUpload = 4, TexObj_CreateAndUpload_TRAMP = 1;  // "TexObj_CreateAndUpload" 0x10039A30
 constexpr unsigned TexObj_Reupload = 4, TexObj_Reupload_TRAMP = 1;  // "TexObj_Reupload" 0x10039A60
-constexpr unsigned TexObj_Create = 4, TexObj_Create_TRAMP = 1;  // "TexObj_Create" 0x10039A80
 constexpr unsigned TexObj_Upload = 4, TexObj_Upload_TRAMP = 1;  // "TexObj_Upload" 0x10039E50
 constexpr unsigned CYyTexMng__GetRuntimeClass = 0, CYyTexMng__GetRuntimeClass_TRAMP = 1;  // "CYyTexMng::GetRuntimeClass" 0x1003AA40
 constexpr unsigned fn_1003AA50 = 4, fn_1003AA50_TRAMP = 1;  // "fn_1003AA50" 0x1003AA50
@@ -4887,8 +4722,8 @@ constexpr unsigned fn_1003B4A0 = 4, fn_1003B4A0_TRAMP = 1;  // "fn_1003B4A0" 0x1
 constexpr unsigned fn_1003B4D0 = 4, fn_1003B4D0_TRAMP = 1;  // "fn_1003B4D0" 0x1003B4D0
 constexpr unsigned CMoAttachments__GetRuntimeClass = 0, CMoAttachments__GetRuntimeClass_TRAMP = 1;  // "CMoAttachments::GetRuntimeClass" 0x1003B530
 constexpr unsigned fn_1003B540 = 4, fn_1003B540_TRAMP = 1;  // "fn_1003B540" 0x1003B540
-constexpr unsigned CMoAttachments__vf004 = 0, CMoAttachments__vf004_TRAMP = 0;  // "CMoAttachments::vf004" 0x1003B570
-constexpr unsigned CMoAttachments__vf005 = 0, CMoAttachments__vf005_TRAMP = 0;  // "CMoAttachments::vf005" 0x1003B580
+constexpr unsigned CMoAttachments__vf004 = 8, CMoAttachments__vf004_TRAMP = 0;  // "CMoAttachments::vf004" 0x1003B570
+constexpr unsigned CMoAttachments__vf005 = 8, CMoAttachments__vf005_TRAMP = 0;  // "CMoAttachments::vf005" 0x1003B580
 constexpr unsigned CMoAttachments__vf006 = 0, CMoAttachments__vf006_TRAMP = 0;  // "CMoAttachments::vf006" 0x1003B590
 constexpr unsigned CMoAttachments__ScalarDeletingDtor = 0, CMoAttachments__ScalarDeletingDtor_TRAMP = 1;  // "CMoAttachments::ScalarDeletingDtor" 0x1003B5A0
 constexpr unsigned CMoAttachments__Reset = 4, CMoAttachments__Reset_TRAMP = 1;  // "CMoAttachments::Reset" 0x1003B640
@@ -4900,13 +4735,13 @@ constexpr unsigned CMoAttachments__SetTarget = 4, CMoAttachments__SetTarget_TRAM
 constexpr unsigned fn_1003B8B0 = 4, fn_1003B8B0_TRAMP = 1;  // "fn_1003B8B0" 0x1003B8B0
 constexpr unsigned fn_1003B900 = 4, fn_1003B900_TRAMP = 1;  // "fn_1003B900" 0x1003B900
 constexpr unsigned fn_1003BD90 = 4, fn_1003BD90_TRAMP = 1;  // "fn_1003BD90" 0x1003BD90
-constexpr unsigned fn_1003BE10 = 4, fn_1003BE10_TRAMP = 1;  // "fn_1003BE10" 0x1003BE10
+constexpr unsigned YmGenerater_BuildAttachMatrix = 4, YmGenerater_BuildAttachMatrix_TRAMP = 1;  // "YmGenerater_BuildAttachMatrix" 0x1003BE10
 constexpr unsigned fn_1003C6E0 = 4, fn_1003C6E0_TRAMP = 1;  // "fn_1003C6E0" 0x1003C6E0
 constexpr unsigned fn_1003C700 = 4, fn_1003C700_TRAMP = 1;  // "fn_1003C700" 0x1003C700
 constexpr unsigned fn_1003C740 = 4, fn_1003C740_TRAMP = 1;  // "fn_1003C740" 0x1003C740
-constexpr unsigned fn_1003C7D0 = 4, fn_1003C7D0_TRAMP = 1;  // "fn_1003C7D0" 0x1003C7D0
+constexpr unsigned fn_1003C7D0 = 12, fn_1003C7D0_TRAMP = 1;  // "fn_1003C7D0" 0x1003C7D0
 constexpr unsigned CMoCamera__GetRuntimeClass = 0, CMoCamera__GetRuntimeClass_TRAMP = 1;  // "CMoCamera::GetRuntimeClass" 0x1003C880
-constexpr unsigned CMoCamera__vf008 = 0, CMoCamera__vf008_TRAMP = 0;  // "CMoCamera::vf008" 0x1003C890
+constexpr unsigned CMoCamera__vf008 = 8, CMoCamera__vf008_TRAMP = 0;  // "CMoCamera::vf008" 0x1003C890
 constexpr unsigned CMoCamera__SetPathData = 0, CMoCamera__SetPathData_TRAMP = 1;  // "CMoCamera::SetPathData" 0x1003CB30
 constexpr unsigned CMoTask__GetRuntimeClass_variant4 = 0, CMoTask__GetRuntimeClass_variant4_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant4" 0x1003CC60
 constexpr unsigned CMoCameraTask__GetRuntimeClass = 0, CMoCameraTask__GetRuntimeClass_TRAMP = 1;  // "CMoCameraTask::GetRuntimeClass" 0x1003CC70
@@ -4929,7 +4764,7 @@ constexpr unsigned fn_1003E660 = 0, fn_1003E660_TRAMP = 1;  // "fn_1003E660" 0x1
 constexpr unsigned CMoElem__GetRuntimeClass_variant1 = 0, CMoElem__GetRuntimeClass_variant1_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant1" 0x1003E690
 constexpr unsigned CMoD3aElem__GetRuntimeClass_variant0 = 0, CMoD3aElem__GetRuntimeClass_variant0_TRAMP = 1;  // "CMoD3aElem::GetRuntimeClass_variant0" 0x1003E6A0
 constexpr unsigned fn_1003E910 = 4, fn_1003E910_TRAMP = 1;  // "fn_1003E910" 0x1003E910
-constexpr unsigned fn_1003E9A0 = 0, fn_1003E9A0_TRAMP = 1;  // "fn_1003E9A0" 0x1003E9A0
+constexpr unsigned YmElem_SetD3ADrawState = 0, YmElem_SetD3ADrawState_TRAMP = 1;  // "YmElem_SetD3ADrawState" 0x1003E9A0
 constexpr unsigned CMoD3aElem__vf18 = 4, CMoD3aElem__vf18_TRAMP = 1;  // "CMoD3aElem::vf18" 0x1003EB30
 constexpr unsigned CMoD3aElem__GetRuntimeClass_variant1 = 0, CMoD3aElem__GetRuntimeClass_variant1_TRAMP = 1;  // "CMoD3aElem::GetRuntimeClass_variant1" 0x1003EE50
 constexpr unsigned CMoD3aLightmapElem__GetRuntimeClass = 0, CMoD3aLightmapElem__GetRuntimeClass_TRAMP = 1;  // "CMoD3aLightmapElem::GetRuntimeClass" 0x1003EE60
@@ -4938,7 +4773,7 @@ constexpr unsigned CMoVuAnmElem__GetRuntimeClass = 0, CMoVuAnmElem__GetRuntimeCl
 constexpr unsigned CMoVuAnmElem__vf012 = 0, CMoVuAnmElem__vf012_TRAMP = 1;  // "CMoVuAnmElem::vf012" 0x1003EF80
 constexpr unsigned CMoVuAnmElem__vf008 = 0, CMoVuAnmElem__vf008_TRAMP = 0;  // "CMoVuAnmElem::vf008" 0x1003EF90
 constexpr unsigned CMoVuAnmElem__ScalarDeletingDtor = 0, CMoVuAnmElem__ScalarDeletingDtor_TRAMP = 1;  // "CMoVuAnmElem::ScalarDeletingDtor" 0x1003EFA0
-constexpr unsigned CMoResource_VT_1032C6F4__vf009 = 0, CMoResource_VT_1032C6F4__vf009_TRAMP = 0;  // "CMoResource_VT_1032C6F4::vf009" 0x1003F430
+constexpr unsigned CMoResource_VT_1032C6F4__vf009 = 8, CMoResource_VT_1032C6F4__vf009_TRAMP = 0;  // "CMoResource_VT_1032C6F4::vf009" 0x1003F430
 constexpr unsigned CMoDistMorphElem__ApplyMorph = 4, CMoDistMorphElem__ApplyMorph_TRAMP = 1;  // "CMoDistMorphElem::ApplyMorph" 0x1003F440
 constexpr unsigned CMoDistMorphElem__ComputeMorphHandle = 4, CMoDistMorphElem__ComputeMorphHandle_TRAMP = 1;  // "CMoDistMorphElem::ComputeMorphHandle" 0x1003F8A0
 constexpr unsigned CXi471011C8_VT_1032AC90__Ctor = 4, CXi471011C8_VT_1032AC90__Ctor_TRAMP = 1;  // "CXi471011C8_VT_1032AC90::Ctor" 0x1003FB70
@@ -4947,9 +4782,6 @@ constexpr unsigned fn_1003FCE0 = 4, fn_1003FCE0_TRAMP = 0;  // "fn_1003FCE0" 0x1
 constexpr unsigned fn_1003FCF0 = 4, fn_1003FCF0_TRAMP = 1;  // "fn_1003FCF0" 0x1003FCF0
 constexpr unsigned MoElem_GetVertexData = 4, MoElem_GetVertexData_TRAMP = 1;  // "MoElem_GetVertexData" 0x1003FD70
 constexpr unsigned CMoDistModelElem__DrawMesh = 4, CMoDistModelElem__DrawMesh_TRAMP = 1;  // "CMoDistModelElem::DrawMesh" 0x10040670
-constexpr unsigned fn_10040BA0 = 4, fn_10040BA0_TRAMP = 1;  // "fn_10040BA0" 0x10040BA0
-constexpr unsigned CMoElemFamily_SharedEarlyExit = 0, CMoElemFamily_SharedEarlyExit_TRAMP = 1;  // "CMoElemFamily_SharedEarlyExit" 0x10040C20
-constexpr unsigned CXi471011C8_VT_1032B3B8__RebuildBlendWeights = 4, CXi471011C8_VT_1032B3B8__RebuildBlendWeights_TRAMP = 1;  // "CXi471011C8_VT_1032B3B8::RebuildBlendWeights" 0x10040E70
 constexpr unsigned CMoElem__GetRuntimeClass_variant2 = 0, CMoElem__GetRuntimeClass_variant2_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant2" 0x10041000
 constexpr unsigned CMoD3mSpecularElem__GetRuntimeClass = 0, CMoD3mSpecularElem__GetRuntimeClass_TRAMP = 1;  // "CMoD3mSpecularElem::GetRuntimeClass" 0x10041010
 constexpr unsigned CMoD3mSpecularElem__Ctor = 4, CMoD3mSpecularElem__Ctor_TRAMP = 1;  // "CMoD3mSpecularElem::Ctor" 0x10041020
@@ -4957,31 +4789,26 @@ constexpr unsigned CMoD3mSpecularElem__vf012 = 0, CMoD3mSpecularElem__vf012_TRAM
 constexpr unsigned CMoD3mSpecularElem__ScalarDeletingDtor = 0, CMoD3mSpecularElem__ScalarDeletingDtor_TRAMP = 1;  // "CMoD3mSpecularElem::ScalarDeletingDtor" 0x100410F0
 constexpr unsigned CMoElem__CMoElemFamily_IsKind0 = 0, CMoElem__CMoElemFamily_IsKind0_TRAMP = 1;  // "CMoElem::CMoElemFamily_IsKind0" 0x10041120
 constexpr unsigned CXi471011C8_VT_1032AD80_DeletingDtor = 4, CXi471011C8_VT_1032AD80_DeletingDtor_TRAMP = 1;  // "CXi471011C8_VT_1032AD80_DeletingDtor" 0x10041130
-constexpr unsigned fn_10041160 = 4, fn_10041160_TRAMP = 1;  // "fn_10041160" 0x10041160
 constexpr unsigned CMoElem_VT_1032ADE8__vf18 = 0, CMoElem_VT_1032ADE8__vf18_TRAMP = 1;  // "CMoElem_VT_1032ADE8::vf18" 0x10041AF0
-constexpr unsigned Font_DrawProjectedText3D = 4, Font_DrawProjectedText3D_TRAMP = 1;  // "Font_DrawProjectedText3D" 0x10041C20
 constexpr unsigned CXiSub_10041E70_Ctor = 4, CXiSub_10041E70_Ctor_TRAMP = 1;  // "CXiSub_10041E70_Ctor" 0x10041F40
 constexpr unsigned CMoElem_VT_1032ADE8__ScalarDeletingDtor = 0, CMoElem_VT_1032ADE8__ScalarDeletingDtor_TRAMP = 1;  // "CMoElem_VT_1032ADE8::ScalarDeletingDtor" 0x10041FE0
 constexpr unsigned CMoOtTask_VT_1032AE64__vf8 = 4, CMoOtTask_VT_1032AE64__vf8_TRAMP = 1;  // "CMoOtTask_VT_1032AE64::vf8" 0x10042020
-constexpr unsigned CMoTask__vf008 = 0, CMoTask__vf008_TRAMP = 0;  // "CMoTask::vf008" 0x10042640
-constexpr unsigned CMoOtTask__vf011 = 0, CMoOtTask__vf011_TRAMP = 0;  // "CMoOtTask::vf011" 0x10042650
+constexpr unsigned CMoTask__vf008 = 8, CMoTask__vf008_TRAMP = 0;  // "CMoTask::vf008" 0x10042640
+constexpr unsigned CMoOtTask__vf011 = 8, CMoOtTask__vf011_TRAMP = 0;  // "CMoOtTask::vf011" 0x10042650
 constexpr unsigned CMoAttachments_VT_1032AE94__vf001 = 0, CMoAttachments_VT_1032AE94__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032AE94::vf001" 0x10042690
 constexpr unsigned CMoElem__GetRuntimeClass_variant3 = 0, CMoElem__GetRuntimeClass_variant3_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant3" 0x100426A0
 constexpr unsigned CMoDisintegrateProgElem__GetRuntimeClass = 0, CMoDisintegrateProgElem__GetRuntimeClass_TRAMP = 1;  // "CMoDisintegrateProgElem::GetRuntimeClass" 0x100426B0
-constexpr unsigned CMoDisintegrateProgElem__vf018 = 0, CMoDisintegrateProgElem__vf018_TRAMP = 0;  // "CMoDisintegrateProgElem::vf018" 0x100426C0
+constexpr unsigned CMoDisintegrateProgElem__vf018 = 8, CMoDisintegrateProgElem__vf018_TRAMP = 0;  // "CMoDisintegrateProgElem::vf018" 0x100426C0
 constexpr unsigned CMoElem__GetRuntimeClass_variant4 = 0, CMoElem__GetRuntimeClass_variant4_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant4" 0x100426D0
 constexpr unsigned CMoDist__GetRuntimeClass_variant0 = 0, CMoDist__GetRuntimeClass_variant0_TRAMP = 1;  // "CMoDist::GetRuntimeClass_variant0" 0x100426E0
-constexpr unsigned fn_100426F0 = 4, fn_100426F0_TRAMP = 1;  // "fn_100426F0" 0x100426F0
-constexpr unsigned CMoDistMorphElem__ValidateMorphData = 0, CMoDistMorphElem__ValidateMorphData_TRAMP = 1;  // "CMoDistMorphElem::ValidateMorphData" 0x10042D00
+constexpr unsigned YmElem_DrawScreenDistortion = 4, YmElem_DrawScreenDistortion_TRAMP = 1;  // "YmElem_DrawScreenDistortion" 0x100426F0
 constexpr unsigned CMoDist__GetRuntimeClass_variant1 = 0, CMoDist__GetRuntimeClass_variant1_TRAMP = 1;  // "CMoDist::GetRuntimeClass_variant1" 0x100430B0
 constexpr unsigned CMoVuDist__GetRuntimeClass = 0, CMoVuDist__GetRuntimeClass_TRAMP = 1;  // "CMoVuDist::GetRuntimeClass" 0x100430C0
 constexpr unsigned CMoElem__GetRuntimeClass_variant5 = 0, CMoElem__GetRuntimeClass_variant5_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant5" 0x10043190
 constexpr unsigned CMoDistModelElem__GetRuntimeClass = 0, CMoDistModelElem__GetRuntimeClass_TRAMP = 1;  // "CMoDistModelElem::GetRuntimeClass" 0x100431A0
 constexpr unsigned fn_100431B0 = 0, fn_100431B0_TRAMP = 1;  // "fn_100431B0" 0x100431B0
-constexpr unsigned CMoDistModelElem__BuildDistortedMesh = 4, CMoDistModelElem__BuildDistortedMesh_TRAMP = 1;  // "CMoDistModelElem::BuildDistortedMesh" 0x10043320
 constexpr unsigned CMoElem__GetRuntimeClass_variant6 = 0, CMoElem__GetRuntimeClass_variant6_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant6" 0x10043570
 constexpr unsigned CMoDistMorphElem__GetRuntimeClass = 0, CMoDistMorphElem__GetRuntimeClass_TRAMP = 1;  // "CMoDistMorphElem::GetRuntimeClass" 0x10043580
-constexpr unsigned CMoDistMorphElem__UpdateMorphBlend = 4, CMoDistMorphElem__UpdateMorphBlend_TRAMP = 1;  // "CMoDistMorphElem::UpdateMorphBlend" 0x10043590
 constexpr unsigned CMoElem__GetRuntimeClass_variant7 = 0, CMoElem__GetRuntimeClass_variant7_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant7" 0x10043700
 constexpr unsigned CMoDistRingElem__GetRuntimeClass = 0, CMoDistRingElem__GetRuntimeClass_TRAMP = 1;  // "CMoDistRingElem::GetRuntimeClass" 0x10043710
 constexpr unsigned CMoDistRingElem__AllocRingGeometry = 4, CMoDistRingElem__AllocRingGeometry_TRAMP = 1;  // "CMoDistRingElem::AllocRingGeometry" 0x10043720
@@ -4989,7 +4816,7 @@ constexpr unsigned CMoTask_VT_1032AF60__ScalarDeletingDtor = 0, CMoTask_VT_1032A
 constexpr unsigned CMoTask_VT_1032AFA8__ScalarDeletingDtor = 0, CMoTask_VT_1032AFA8__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_1032AFA8::ScalarDeletingDtor" 0x10043C90
 constexpr unsigned CMoAttachments_VT_1032AF44__vf001 = 0, CMoAttachments_VT_1032AF44__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032AF44::vf001" 0x10043DB0
 constexpr unsigned CMoAttachments_VT_1032AF8C__vf001 = 0, CMoAttachments_VT_1032AF8C__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032AF8C::vf001" 0x10043DC0
-constexpr unsigned fn_10043DD0 = 4, fn_10043DD0_TRAMP = 1;  // "fn_10043DD0" 0x10043DD0
+constexpr unsigned fn_10043DD0 = 12, fn_10043DD0_TRAMP = 1;  // "fn_10043DD0" 0x10043DD0
 constexpr unsigned fn_10043DE0 = 4, fn_10043DE0_TRAMP = 0;  // "fn_10043DE0" 0x10043DE0
 constexpr unsigned DynVB_Constructor = 4, DynVB_Constructor_TRAMP = 1;  // "DynVB_Constructor" 0x10043DF0
 constexpr unsigned CMoTask_VT_1032AFA8__ScalarDeletingDtor_2 = 0, CMoTask_VT_1032AFA8__ScalarDeletingDtor_2_TRAMP = 1;  // "CMoTask_VT_1032AFA8::ScalarDeletingDtor_2" 0x10043E20
@@ -4999,11 +4826,10 @@ constexpr unsigned CMoVuElem_Draw = 0, CMoVuElem_Draw_TRAMP = 1;  // "CMoVuElem_
 constexpr unsigned DynVB_Reserve = 4, DynVB_Reserve_TRAMP = 1;  // "DynVB_Reserve" 0x10044010
 constexpr unsigned DynVB_Lock = 4, DynVB_Lock_TRAMP = 1;  // "DynVB_Lock" 0x10044130
 constexpr unsigned DynVB_Unlock = 4, DynVB_Unlock_TRAMP = 1;  // "DynVB_Unlock" 0x100441A0
-constexpr unsigned fn_100441C0 = 0, fn_100441C0_TRAMP = 1;  // "fn_100441C0" 0x100441C0
+constexpr unsigned CameraCache_CacheViewProjection = 0, CameraCache_CacheViewProjection_TRAMP = 1;  // "CameraCache_CacheViewProjection" 0x100441C0
 constexpr unsigned Gfx_SetViewMatrixFromField10 = 0, Gfx_SetViewMatrixFromField10_TRAMP = 1;  // "Gfx_SetViewMatrixFromField10" 0x10044210
 constexpr unsigned Gfx_SetViewMatrixFromField90 = 0, Gfx_SetViewMatrixFromField90_TRAMP = 1;  // "Gfx_SetViewMatrixFromField90" 0x10044230
 constexpr unsigned Mo_InitSharedRenderResources = 4, Mo_InitSharedRenderResources_TRAMP = 1;  // "Mo_InitSharedRenderResources" 0x10044270
-constexpr unsigned fn_10044540 = 4, fn_10044540_TRAMP = 1;  // "fn_10044540" 0x10044540
 constexpr unsigned fn_100446A0 = 4, fn_100446A0_TRAMP = 1;  // "fn_100446A0" 0x100446A0
 constexpr unsigned CMoOtTask__GetRuntimeClass_variant0 = 0, CMoOtTask__GetRuntimeClass_variant0_TRAMP = 1;  // "CMoOtTask::GetRuntimeClass_variant0" 0x10044870
 constexpr unsigned CMoElem__GetRuntimeClass_variant8 = 0, CMoElem__GetRuntimeClass_variant8_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant8" 0x10044880
@@ -5017,19 +4843,17 @@ constexpr unsigned fn_10044C20 = 4, fn_10044C20_TRAMP = 1;  // "fn_10044C20" 0x1
 constexpr unsigned fn_10044C40 = 4, fn_10044C40_TRAMP = 1;  // "fn_10044C40" 0x10044C40
 constexpr unsigned fn_10044CF0 = 4, fn_10044CF0_TRAMP = 1;  // "fn_10044CF0" 0x10044CF0
 constexpr unsigned fn_10044D40 = 4, fn_10044D40_TRAMP = 1;  // "fn_10044D40" 0x10044D40
-constexpr unsigned fn_10044F10 = 4, fn_10044F10_TRAMP = 1;  // "fn_10044F10" 0x10044F10
-constexpr unsigned fn_10045800 = 4, fn_10045800_TRAMP = 1;  // "fn_10045800" 0x10045800
+constexpr unsigned YmElem_ComputeViewDepthKey = 4, YmElem_ComputeViewDepthKey_TRAMP = 1;  // "YmElem_ComputeViewDepthKey" 0x10044F10
 constexpr unsigned fn_100458F0 = 4, fn_100458F0_TRAMP = 1;  // "fn_100458F0" 0x100458F0
-constexpr unsigned fn_10045920 = 4, fn_10045920_TRAMP = 1;  // "fn_10045920" 0x10045920
+constexpr unsigned YmElem_BuildDrawMatrixAndTest = 12, YmElem_BuildDrawMatrixAndTest_TRAMP = 1;  // "YmElem_BuildDrawMatrixAndTest" 0x10045920
 constexpr unsigned fn_10045A40 = 4, fn_10045A40_TRAMP = 1;  // "fn_10045A40" 0x10045A40
 constexpr unsigned fn_10045C50 = 0, fn_10045C50_TRAMP = 1;  // "fn_10045C50" 0x10045C50
 constexpr unsigned RegisterWithProcessor = 4, RegisterWithProcessor_TRAMP = 1;  // "RegisterWithProcessor" 0x10045D40
-constexpr unsigned fn_10046070 = 4, fn_10046070_TRAMP = 1;  // "fn_10046070" 0x10046070
 constexpr unsigned fn_10046380 = 4, fn_10046380_TRAMP = 1;  // "fn_10046380" 0x10046380
 constexpr unsigned fn_100464D0 = 0, fn_100464D0_TRAMP = 1;  // "fn_100464D0" 0x100464D0
-constexpr unsigned fn_100467E0 = 4, fn_100467E0_TRAMP = 1;  // "fn_100467E0" 0x100467E0
-constexpr unsigned CMoElem__vf018 = 0, CMoElem__vf018_TRAMP = 0;  // "CMoElem::vf018" 0x100472E0
-constexpr unsigned fn_100472F0 = 4, fn_100472F0_TRAMP = 1;  // "fn_100472F0" 0x100472F0
+constexpr unsigned YmElem_SetupDevice = 4, YmElem_SetupDevice_TRAMP = 1;  // "YmElem_SetupDevice" 0x100467E0
+constexpr unsigned CMoElem__vf018 = 8, CMoElem__vf018_TRAMP = 0;  // "CMoElem::vf018" 0x100472E0
+constexpr unsigned YmElem_RestoreDevice = 4, YmElem_RestoreDevice_TRAMP = 1;  // "YmElem_RestoreDevice" 0x100472F0
 constexpr unsigned fn_100473F0 = 4, fn_100473F0_TRAMP = 1;  // "fn_100473F0" 0x100473F0
 constexpr unsigned fn_10047450 = 4, fn_10047450_TRAMP = 1;  // "fn_10047450" 0x10047450
 constexpr unsigned fn_10047490 = 4, fn_10047490_TRAMP = 1;  // "fn_10047490" 0x10047490
@@ -5043,9 +4867,8 @@ constexpr unsigned fn_10047B80 = 4, fn_10047B80_TRAMP = 1;  // "fn_10047B80" 0x1
 constexpr unsigned CMoGeneratorClone__InitCloneFromSource = 0, CMoGeneratorClone__InitCloneFromSource_TRAMP = 1;  // "CMoGeneratorClone::InitCloneFromSource" 0x10047C30
 constexpr unsigned CMoGeneratorClone__FixupClonedPointers = 4, CMoGeneratorClone__FixupClonedPointers_TRAMP = 1;  // "CMoGeneratorClone::FixupClonedPointers" 0x10047CE0
 constexpr unsigned CMoResource__CMoCamera_SetLinkedObject = 0, CMoResource__CMoCamera_SetLinkedObject_TRAMP = 1;  // "CMoResource::CMoCamera_SetLinkedObject" 0x10047FC0
-constexpr unsigned CMoResource__vf005 = 0, CMoResource__vf005_TRAMP = 0;  // "CMoResource::vf005" 0x10047FD0
+constexpr unsigned CMoResource__vf005 = 8, CMoResource__vf005_TRAMP = 0;  // "CMoResource::vf005" 0x10047FD0
 constexpr unsigned CMoGeneratorClone_VT_1032B114__ScalarDeletingDtor = 0, CMoGeneratorClone_VT_1032B114__ScalarDeletingDtor_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B114::ScalarDeletingDtor" 0x10047FE0
-constexpr unsigned CMoGeneratorClone_VT_1032B114__Destructor = 4, CMoGeneratorClone_VT_1032B114__Destructor_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B114::Destructor" 0x10048000
 constexpr unsigned fn_100480D0 = 4, fn_100480D0_TRAMP = 1;  // "fn_100480D0" 0x100480D0
 constexpr unsigned CMoGeneratorClone__UnlinkElemListA = 4, CMoGeneratorClone__UnlinkElemListA_TRAMP = 1;  // "CMoGeneratorClone::UnlinkElemListA" 0x10048140
 constexpr unsigned fn_10048220 = 4, fn_10048220_TRAMP = 1;  // "fn_10048220" 0x10048220
@@ -5054,8 +4877,9 @@ constexpr unsigned fn_10049330 = 4, fn_10049330_TRAMP = 1;  // "fn_10049330" 0x1
 constexpr unsigned fn_100493B0 = 4, fn_100493B0_TRAMP = 1;  // "fn_100493B0" 0x100493B0
 constexpr unsigned fn_10049520 = 4, fn_10049520_TRAMP = 1;  // "fn_10049520" 0x10049520
 constexpr unsigned CMoGeneratorClone__ResolveTarget = 4, CMoGeneratorClone__ResolveTarget_TRAMP = 1;  // "CMoGeneratorClone::ResolveTarget" 0x10049570
-constexpr unsigned fn_1004A870 = 0, fn_1004A870_TRAMP = 1;  // "fn_1004A870" 0x1004A870
+constexpr unsigned GateEffectBoxProjection = 0, GateEffectBoxProjection_TRAMP = 1;  // "GateEffectBoxProjection" 0x1004A870
 constexpr unsigned fn_1004E210 = 4, fn_1004E210_TRAMP = 0;  // "fn_1004E210" 0x1004E210
+constexpr unsigned fn_1004E250 = 12, fn_1004E250_TRAMP = 1;  // "fn_1004E250" 0x1004E250
 constexpr unsigned fn_1004E260 = 4, fn_1004E260_TRAMP = 0;  // "fn_1004E260" 0x1004E260
 constexpr unsigned fn_1004E270 = 4, fn_1004E270_TRAMP = 0;  // "fn_1004E270" 0x1004E270
 constexpr unsigned fn_1004E280 = 4, fn_1004E280_TRAMP = 0;  // "fn_1004E280" 0x1004E280
@@ -5071,12 +4895,11 @@ constexpr unsigned Pool_FreeSlot = 4, Pool_FreeSlot_TRAMP = 1;  // "Pool_FreeSlo
 constexpr unsigned fn_1004E470 = 4, fn_1004E470_TRAMP = 1;  // "fn_1004E470" 0x1004E470
 constexpr unsigned fn_1004E490 = 4, fn_1004E490_TRAMP = 1;  // "fn_1004E490" 0x1004E490
 constexpr unsigned fn_1004E4E0 = 4, fn_1004E4E0_TRAMP = 1;  // "fn_1004E4E0" 0x1004E4E0
-constexpr unsigned fn_1004E630 = 0, fn_1004E630_TRAMP = 1;  // "fn_1004E630" 0x1004E630
+constexpr unsigned ScaleElemVisibilityByProbe = 0, ScaleElemVisibilityByProbe_TRAMP = 1;  // "ScaleElemVisibilityByProbe" 0x1004E630
 constexpr unsigned fn_1004E720 = 4, fn_1004E720_TRAMP = 1;  // "fn_1004E720" 0x1004E720
 constexpr unsigned fn_100527B0 = 4, fn_100527B0_TRAMP = 0;  // "fn_100527B0" 0x100527B0
 constexpr unsigned fn_100527C0 = 4, fn_100527C0_TRAMP = 1;  // "fn_100527C0" 0x100527C0
 constexpr unsigned fn_100527E0 = 4, fn_100527E0_TRAMP = 1;  // "fn_100527E0" 0x100527E0
-constexpr unsigned fn_100527F0 = 4, fn_100527F0_TRAMP = 0;  // "fn_100527F0" 0x100527F0
 constexpr unsigned fn_10052800 = 4, fn_10052800_TRAMP = 1;  // "fn_10052800" 0x10052800
 constexpr unsigned fn_10052820 = 4, fn_10052820_TRAMP = 1;  // "fn_10052820" 0x10052820
 constexpr unsigned fn_10052870 = 4, fn_10052870_TRAMP = 1;  // "fn_10052870" 0x10052870
@@ -5174,19 +4997,19 @@ constexpr unsigned CMoDisintegrateProgElem__vf012 = 0, CMoDisintegrateProgElem__
 constexpr unsigned CMoDisintegrateProgElem__vf008 = 0, CMoDisintegrateProgElem__vf008_TRAMP = 0;  // "CMoDisintegrateProgElem::vf008" 0x10053140
 constexpr unsigned CMoDisintegrateProgElem__ScalarDeletingDtor = 0, CMoDisintegrateProgElem__ScalarDeletingDtor_TRAMP = 1;  // "CMoDisintegrateProgElem::ScalarDeletingDtor" 0x10053150
 constexpr unsigned fn_10053180 = 4, fn_10053180_TRAMP = 1;  // "fn_10053180" 0x10053180
-constexpr unsigned CMoNullProgElem__SetField138 = 0, CMoNullProgElem__SetField138_TRAMP = 1;  // "CMoNullProgElem::SetField138" 0x100531A0
 constexpr unsigned CMoNullProgElem__Destructor = 0, CMoNullProgElem__Destructor_TRAMP = 1;  // "CMoNullProgElem::Destructor" 0x100531B0
-constexpr unsigned SharedConditionalStateReset = 4, SharedConditionalStateReset_TRAMP = 1;  // "SharedConditionalStateReset" 0x100531D0
 constexpr unsigned CMoTask_VT_1032B654__ScalarDeletingDtor = 0, CMoTask_VT_1032B654__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_1032B654::ScalarDeletingDtor" 0x10053350
 constexpr unsigned fn_10053370 = 4, fn_10053370_TRAMP = 1;  // "fn_10053370" 0x10053370
 constexpr unsigned CMoGeneratorClone__CopyParams = 4, CMoGeneratorClone__CopyParams_TRAMP = 1;  // "CMoGeneratorClone::CopyParams" 0x10053450
 constexpr unsigned CMoGeneratorClone__CreateInstance = 4, CMoGeneratorClone__CreateInstance_TRAMP = 1;  // "CMoGeneratorClone::CreateInstance" 0x100536C0
 constexpr unsigned CMoGeneratorClone_VT_1032B69C__ScalarDeletingDtor = 0, CMoGeneratorClone_VT_1032B69C__ScalarDeletingDtor_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor" 0x10053840
-constexpr unsigned fn_100538E0 = 4, fn_100538E0_TRAMP = 1;  // "fn_100538E0" 0x100538E0
+constexpr unsigned fn_10053890 = 12, fn_10053890_TRAMP = 1;  // "fn_10053890" 0x10053890
+constexpr unsigned YmGenerater_Stop = 12, YmGenerater_Stop_TRAMP = 1;  // "YmGenerater_Stop" 0x100538E0
 constexpr unsigned fn_100539E0 = 4, fn_100539E0_TRAMP = 1;  // "fn_100539E0" 0x100539E0
+constexpr unsigned fn_10053A00 = 4, fn_10053A00_TRAMP = 1;  // "fn_10053A00" 0x10053A00
 constexpr unsigned fn_10053C80 = 4, fn_10053C80_TRAMP = 1;  // "fn_10053C80" 0x10053C80
+constexpr unsigned fn_10053DD0 = 12, fn_10053DD0_TRAMP = 1;  // "fn_10053DD0" 0x10053DD0
 constexpr unsigned CMoGeneratorClone__InitDefaultParams = 0, CMoGeneratorClone__InitDefaultParams_TRAMP = 1;  // "CMoGeneratorClone::InitDefaultParams" 0x10053E00
-constexpr unsigned fn_10054220 = 4, fn_10054220_TRAMP = 1;  // "fn_10054220" 0x10054220
 constexpr unsigned CMoGeneratorClone_VT_1032B69C__CMoGeneratorClone_GetRuntimeClass = 0, CMoGeneratorClone_VT_1032B69C__CMoGeneratorClone_GetRuntimeClass_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass" 0x100542E0
 constexpr unsigned CMoGeneratorClone__Destructor = 4, CMoGeneratorClone__Destructor_TRAMP = 1;  // "CMoGeneratorClone::Destructor" 0x100542F0
 constexpr unsigned fn_10054410 = 4, fn_10054410_TRAMP = 1;  // "fn_10054410" 0x10054410
@@ -5194,25 +5017,24 @@ constexpr unsigned fn_10054430 = 4, fn_10054430_TRAMP = 1;  // "fn_10054430" 0x1
 constexpr unsigned CMoAttachments_VT_1032B140__vf001 = 0, CMoAttachments_VT_1032B140__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032B140::vf001" 0x10054450
 constexpr unsigned CMoTask_VT_1032B654__vf011 = 0, CMoTask_VT_1032B654__vf011_TRAMP = 1;  // "CMoTask_VT_1032B654::vf011" 0x10054460
 constexpr unsigned CMoTask_VT_1032B654__vf012 = 0, CMoTask_VT_1032B654__vf012_TRAMP = 1;  // "CMoTask_VT_1032B654::vf012" 0x10054470
-constexpr unsigned CMoResource_VT_1032C5FC__vf008 = 0, CMoResource_VT_1032C5FC__vf008_TRAMP = 0;  // "CMoResource_VT_1032C5FC::vf008" 0x10054480
-constexpr unsigned CMoResource_VT_1032C5FC__vf009 = 0, CMoResource_VT_1032C5FC__vf009_TRAMP = 0;  // "CMoResource_VT_1032C5FC::vf009" 0x10054490
+constexpr unsigned CMoResource_VT_1032C5FC__vf008 = 8, CMoResource_VT_1032C5FC__vf008_TRAMP = 0;  // "CMoResource_VT_1032C5FC::vf008" 0x10054480
+constexpr unsigned CMoResource_VT_1032C5FC__vf009 = 8, CMoResource_VT_1032C5FC__vf009_TRAMP = 0;  // "CMoResource_VT_1032C5FC::vf009" 0x10054490
 constexpr unsigned fn_100544D0 = 4, fn_100544D0_TRAMP = 1;  // "fn_100544D0" 0x100544D0
 constexpr unsigned fn_10054500 = 4, fn_10054500_TRAMP = 1;  // "fn_10054500" 0x10054500
 constexpr unsigned fn_100546F0 = 4, fn_100546F0_TRAMP = 1;  // "fn_100546F0" 0x100546F0
 constexpr unsigned fn_100547A0 = 4, fn_100547A0_TRAMP = 1;  // "fn_100547A0" 0x100547A0
 constexpr unsigned CMoElem__GetRuntimeClass_variant11 = 0, CMoElem__GetRuntimeClass_variant11_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant11" 0x100548A0
 constexpr unsigned CMoLfdElem__GetRuntimeClass = 0, CMoLfdElem__GetRuntimeClass_TRAMP = 1;  // "CMoLfdElem::GetRuntimeClass" 0x100548B0
-constexpr unsigned fn_10054D70 = 4, fn_10054D70_TRAMP = 1;  // "fn_10054D70" 0x10054D70
-constexpr unsigned fn_10054F80 = 0, fn_10054F80_TRAMP = 1;  // "fn_10054F80" 0x10054F80
+constexpr unsigned BeginEffectOffscreenPass = 4, BeginEffectOffscreenPass_TRAMP = 1;  // "BeginEffectOffscreenPass" 0x10054D70
+constexpr unsigned EndEffectOffscreenPass = 0, EndEffectOffscreenPass_TRAMP = 1;  // "EndEffectOffscreenPass" 0x10054F80
 constexpr unsigned fn_10054FC0 = 4, fn_10054FC0_TRAMP = 1;  // "fn_10054FC0" 0x10054FC0
-constexpr unsigned fn_100550F0 = 4, fn_100550F0_TRAMP = 1;  // "fn_100550F0" 0x100550F0
+constexpr unsigned fn_100550F0 = 12, fn_100550F0_TRAMP = 1;  // "fn_100550F0" 0x100550F0
 constexpr unsigned LinkNode_Init = 4, LinkNode_Init_TRAMP = 1;  // "LinkNode_Init" 0x10055240
 constexpr unsigned CMoOT__GetRuntimeClass = 0, CMoOT__GetRuntimeClass_TRAMP = 1;  // "CMoOT::GetRuntimeClass" 0x10055290
 constexpr unsigned fn_100552A0 = 4, fn_100552A0_TRAMP = 1;  // "fn_100552A0" 0x100552A0
 constexpr unsigned CMoOT__ScalarDeletingDtor = 0, CMoOT__ScalarDeletingDtor_TRAMP = 1;  // "CMoOT::ScalarDeletingDtor" 0x100552C0
 constexpr unsigned fn_100552F0 = 4, fn_100552F0_TRAMP = 1;  // "fn_100552F0" 0x100552F0
 constexpr unsigned fn_10055300 = 4, fn_10055300_TRAMP = 1;  // "fn_10055300" 0x10055300
-constexpr unsigned fn_100554B0 = 4, fn_100554B0_TRAMP = 1;  // "fn_100554B0" 0x100554B0
 constexpr unsigned fn_10055520 = 4, fn_10055520_TRAMP = 1;  // "fn_10055520" 0x10055520
 constexpr unsigned CMoTask__GetRuntimeClass_variant5 = 0, CMoTask__GetRuntimeClass_variant5_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant5" 0x10055550
 constexpr unsigned CMoOtTask__GetRuntimeClass_variant1 = 0, CMoOtTask__GetRuntimeClass_variant1_TRAMP = 1;  // "CMoOtTask::GetRuntimeClass_variant1" 0x10055560
@@ -5226,14 +5048,13 @@ constexpr unsigned CMoRabRes_GetRuntimeClass = 0, CMoRabRes_GetRuntimeClass_TRAM
 constexpr unsigned CMoResource__GetRuntimeClass_variant2 = 0, CMoResource__GetRuntimeClass_variant2_TRAMP = 1;  // "CMoResource::GetRuntimeClass_variant2" 0x10056290
 constexpr unsigned CMoSphRes__GetRuntimeClass = 0, CMoSphRes__GetRuntimeClass_TRAMP = 1;  // "CMoSphRes::GetRuntimeClass" 0x100562A0
 constexpr unsigned CMoSphRes__vf008 = 0, CMoSphRes__vf008_TRAMP = 1;  // "CMoSphRes::vf008" 0x100562B0
-constexpr unsigned CMoSphRes__vf009 = 0, CMoSphRes__vf009_TRAMP = 0;  // "CMoSphRes::vf009" 0x100562C0
+constexpr unsigned CMoSphRes__vf009 = 8, CMoSphRes__vf009_TRAMP = 0;  // "CMoSphRes::vf009" 0x100562C0
 constexpr unsigned CMoElem__GetRuntimeClass_variant12 = 0, CMoElem__GetRuntimeClass_variant12_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant12" 0x100562D0
 constexpr unsigned CMoPointLightProgElem__GetRuntimeClass = 0, CMoPointLightProgElem__GetRuntimeClass_TRAMP = 1;  // "CMoPointLightProgElem::GetRuntimeClass" 0x100562E0
 constexpr unsigned fn_100562F0 = 4, fn_100562F0_TRAMP = 1;  // "fn_100562F0" 0x100562F0
 constexpr unsigned CMoPointLightProgElem__vf012 = 0, CMoPointLightProgElem__vf012_TRAMP = 1;  // "CMoPointLightProgElem::vf012" 0x10056360
 constexpr unsigned CMoPointLightProgElem__ScalarDeletingDtor = 0, CMoPointLightProgElem__ScalarDeletingDtor_TRAMP = 1;  // "CMoPointLightProgElem::ScalarDeletingDtor" 0x10056370
 constexpr unsigned fn_10056400 = 4, fn_10056400_TRAMP = 1;  // "fn_10056400" 0x10056400
-constexpr unsigned CXi471011C8_VT_1032B478__RebuildBlendWeights = 4, CXi471011C8_VT_1032B478__RebuildBlendWeights_TRAMP = 1;  // "CXi471011C8_VT_1032B478::RebuildBlendWeights" 0x100565A0
 constexpr unsigned CMoTask__GetRuntimeClass_variant6 = 0, CMoTask__GetRuntimeClass_variant6_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant6" 0x10056930
 constexpr unsigned CMoPathDriveActorTask__GetRuntimeClass = 0, CMoPathDriveActorTask__GetRuntimeClass_TRAMP = 1;  // "CMoPathDriveActorTask::GetRuntimeClass" 0x10056940
 constexpr unsigned CMoTask__GetRuntimeClass_variant7 = 0, CMoTask__GetRuntimeClass_variant7_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant7" 0x10056950
@@ -5252,31 +5073,12 @@ constexpr unsigned CMoSchedularTask__GetRuntimeClass = 0, CMoSchedularTask__GetR
 constexpr unsigned CMoSchedularTask__ScalarDeletingDtor = 0, CMoSchedularTask__ScalarDeletingDtor_TRAMP = 1;  // "CMoSchedularTask::ScalarDeletingDtor" 0x10057250
 constexpr unsigned fn_10057270 = 4, fn_10057270_TRAMP = 1;  // "fn_10057270" 0x10057270
 constexpr unsigned fn_100573B0 = 4, fn_100573B0_TRAMP = 1;  // "fn_100573B0" 0x100573B0
-constexpr unsigned fn_100573E0 = 4, fn_100573E0_TRAMP = 1;  // "fn_100573E0" 0x100573E0
 constexpr unsigned CMoSchedularTask__Destructor = 4, CMoSchedularTask__Destructor_TRAMP = 1;  // "CMoSchedularTask::Destructor" 0x100574A0
 constexpr unsigned fn_10057CC0 = 4, fn_10057CC0_TRAMP = 1;  // "fn_10057CC0" 0x10057CC0
 constexpr unsigned CMoSchedularTask__vf8 = 4, CMoSchedularTask__vf8_TRAMP = 1;  // "CMoSchedularTask::vf8" 0x10057E10
-constexpr unsigned CMoSchedularTask__Interpret = 4, CMoSchedularTask__Interpret_TRAMP = 1;  // "CMoSchedularTask::Interpret" 0x10057FB0
 constexpr unsigned fn_1005E110 = 4, fn_1005E110_TRAMP = 1;  // "fn_1005E110" 0x1005E110
 constexpr unsigned CMoPathDriveActorTask__vf8 = 4, CMoPathDriveActorTask__vf8_TRAMP = 1;  // "CMoPathDriveActorTask::vf8" 0x1005E9C0
 constexpr unsigned fn_1005EEF0 = 4, fn_1005EEF0_TRAMP = 1;  // "fn_1005EEF0" 0x1005EEF0
-constexpr unsigned CMoLockColorDriveTask__vf8 = 0, CMoLockColorDriveTask__vf8_TRAMP = 1;  // "CMoLockColorDriveTask::vf8" 0x1005F3C0
-constexpr unsigned CMoLockLookAtDriveTask__vf8 = 4, CMoLockLookAtDriveTask__vf8_TRAMP = 1;  // "CMoLockLookAtDriveTask::vf8" 0x1005F540
-constexpr unsigned CMoTask_VT_1032BB0C__vf8 = 0, CMoTask_VT_1032BB0C__vf8_TRAMP = 1;  // "CMoTask_VT_1032BB0C::vf8" 0x100602A0
-constexpr unsigned CMoTask_VT_1032B8BC__vf8 = 4, CMoTask_VT_1032B8BC__vf8_TRAMP = 1;  // "CMoTask_VT_1032B8BC::vf8" 0x100605E0
-constexpr unsigned CMoTask_VT_1032BB54__vf8 = 0, CMoTask_VT_1032BB54__vf8_TRAMP = 1;  // "CMoTask_VT_1032BB54::vf8" 0x10060880
-constexpr unsigned CMoTask_VT_1032BC10__vf8 = 0, CMoTask_VT_1032BC10__vf8_TRAMP = 1;  // "CMoTask_VT_1032BC10::vf8" 0x10060E30
-constexpr unsigned CMoTask_VT_1032BC3C__vf8 = 0, CMoTask_VT_1032BC3C__vf8_TRAMP = 1;  // "CMoTask_VT_1032BC3C::vf8" 0x10060FD0
-constexpr unsigned fn_10061110 = 0, fn_10061110_TRAMP = 1;  // "fn_10061110" 0x10061110
-constexpr unsigned CMoTask_VT_1032BE08__vf8 = 0, CMoTask_VT_1032BE08__vf8_TRAMP = 1;  // "CMoTask_VT_1032BE08::vf8" 0x100619D0
-constexpr unsigned CMoTask_VT_1032BE50__vf8 = 0, CMoTask_VT_1032BE50__vf8_TRAMP = 1;  // "CMoTask_VT_1032BE50::vf8" 0x10061B50
-constexpr unsigned CMoTask_VT_1032BE98__vf8 = 0, CMoTask_VT_1032BE98__vf8_TRAMP = 1;  // "CMoTask_VT_1032BE98::vf8" 0x10061CD0
-constexpr unsigned CMoTask_VT_1032BEE0__vf8 = 0, CMoTask_VT_1032BEE0__vf8_TRAMP = 1;  // "CMoTask_VT_1032BEE0::vf8" 0x10061E70
-constexpr unsigned CMoTask_VT_1032BF28__vf8 = 0, CMoTask_VT_1032BF28__vf8_TRAMP = 1;  // "CMoTask_VT_1032BF28::vf8" 0x10062060
-constexpr unsigned CMoTask_VT_1032BF70__vf8 = 0, CMoTask_VT_1032BF70__vf8_TRAMP = 1;  // "CMoTask_VT_1032BF70::vf8" 0x100621E0
-constexpr unsigned CMoTask_VT_1032BFB8__vf8 = 0, CMoTask_VT_1032BFB8__vf8_TRAMP = 1;  // "CMoTask_VT_1032BFB8::vf8" 0x10062380
-constexpr unsigned CMoTask_VT_1032C000__vf8 = 0, CMoTask_VT_1032C000__vf8_TRAMP = 1;  // "CMoTask_VT_1032C000::vf8" 0x10062520
-constexpr unsigned CMoTask_VT_1032C048__vf8 = 0, CMoTask_VT_1032C048__vf8_TRAMP = 1;  // "CMoTask_VT_1032C048::vf8" 0x100626D0
 constexpr unsigned fn_10062770 = 4, fn_10062770_TRAMP = 1;  // "fn_10062770" 0x10062770
 constexpr unsigned fn_100627D0 = 4, fn_100627D0_TRAMP = 1;  // "fn_100627D0" 0x100627D0
 constexpr unsigned fn_10062830 = 4, fn_10062830_TRAMP = 1;  // "fn_10062830" 0x10062830
@@ -5319,23 +5121,22 @@ constexpr unsigned CMoSpline__ScalarDeletingDtor = 0, CMoSpline__ScalarDeletingD
 constexpr unsigned CMoSpline__Destructor = 4, CMoSpline__Destructor_TRAMP = 1;  // "CMoSpline::Destructor" 0x100634A0
 constexpr unsigned fn_100634B0 = 4, fn_100634B0_TRAMP = 1;  // "fn_100634B0" 0x100634B0
 constexpr unsigned fn_10063550 = 4, fn_10063550_TRAMP = 1;  // "fn_10063550" 0x10063550
-constexpr unsigned fn_10063890 = 4, fn_10063890_TRAMP = 1;  // "fn_10063890" 0x10063890
-constexpr unsigned fn_10063A60 = 4, fn_10063A60_TRAMP = 1;  // "fn_10063A60" 0x10063A60
+constexpr unsigned fn_10063890 = 12, fn_10063890_TRAMP = 1;  // "fn_10063890" 0x10063890
 constexpr unsigned fn_10063B20 = 4, fn_10063B20_TRAMP = 1;  // "fn_10063B20" 0x10063B20
 constexpr unsigned fn_10063B50 = 4, fn_10063B50_TRAMP = 1;  // "fn_10063B50" 0x10063B50
 constexpr unsigned fn_10063B70 = 4, fn_10063B70_TRAMP = 0;  // "fn_10063B70" 0x10063B70
 constexpr unsigned fn_10063B80 = 4, fn_10063B80_TRAMP = 1;  // "fn_10063B80" 0x10063B80
 constexpr unsigned fn_10063C30 = 4, fn_10063C30_TRAMP = 1;  // "fn_10063C30" 0x10063C30
-constexpr unsigned CMoResource_VT_1032C55C__vf008 = 0, CMoResource_VT_1032C55C__vf008_TRAMP = 1;  // "CMoResource_VT_1032C55C::vf008" 0x10063C50
-constexpr unsigned fn_10063C80 = 4, fn_10063C80_TRAMP = 1;  // "fn_10063C80" 0x10063C80
+constexpr unsigned CMoResource_VT_1032C55C__vf008 = 8, CMoResource_VT_1032C55C__vf008_TRAMP = 1;  // "CMoResource_VT_1032C55C::vf008" 0x10063C50
+constexpr unsigned YmElem_ForEachInstance = 4, YmElem_ForEachInstance_TRAMP = 1;  // "YmElem_ForEachInstance" 0x10063C80
 constexpr unsigned CMoElem__GetRuntimeClass_variant13 = 0, CMoElem__GetRuntimeClass_variant13_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant13" 0x10064160
 constexpr unsigned CMoVuLineProgElem__GetRuntimeClass = 0, CMoVuLineProgElem__GetRuntimeClass_TRAMP = 1;  // "CMoVuLineProgElem::GetRuntimeClass" 0x10064170
-constexpr unsigned CMoVuLineProgElem__vf018 = 0, CMoVuLineProgElem__vf018_TRAMP = 0;  // "CMoVuLineProgElem::vf018" 0x10064180
+constexpr unsigned CMoVuLineProgElem__vf018 = 8, CMoVuLineProgElem__vf018_TRAMP = 0;  // "CMoVuLineProgElem::vf018" 0x10064180
 constexpr unsigned fn_100684F0 = 4, fn_100684F0_TRAMP = 1;  // "fn_100684F0" 0x100684F0
 constexpr unsigned fn_10068590 = 4, fn_10068590_TRAMP = 1;  // "fn_10068590" 0x10068590
 constexpr unsigned CMoDX__GetRuntimeClass = 0, CMoDX__GetRuntimeClass_TRAMP = 1;  // "CMoDX::GetRuntimeClass" 0x10069D60
 constexpr unsigned CMoDX__ScalarDeletingDtor = 0, CMoDX__ScalarDeletingDtor_TRAMP = 1;  // "CMoDX::ScalarDeletingDtor" 0x10069DB0
-constexpr unsigned fn_10069E90 = 4, fn_10069E90_TRAMP = 0;  // "fn_10069E90" 0x10069E90
+constexpr unsigned fn_10069E90 = 12, fn_10069E90_TRAMP = 0;  // "fn_10069E90" 0x10069E90
 constexpr unsigned fn_10069EA0 = 4, fn_10069EA0_TRAMP = 1;  // "fn_10069EA0" 0x10069EA0
 constexpr unsigned fn_10069F90 = 4, fn_10069F90_TRAMP = 1;  // "fn_10069F90" 0x10069F90
 constexpr unsigned fn_1006A020 = 0, fn_1006A020_TRAMP = 1;  // "fn_1006A020" 0x1006A020
@@ -5351,9 +5152,8 @@ constexpr unsigned fn_1006AA30 = 4, fn_1006AA30_TRAMP = 1;  // "fn_1006AA30" 0x1
 constexpr unsigned fn_1006AD30 = 4, fn_1006AD30_TRAMP = 1;  // "fn_1006AD30" 0x1006AD30
 constexpr unsigned fn_1006AD50 = 4, fn_1006AD50_TRAMP = 1;  // "fn_1006AD50" 0x1006AD50
 constexpr unsigned fn_1006AD90 = 4, fn_1006AD90_TRAMP = 1;  // "fn_1006AD90" 0x1006AD90
-constexpr unsigned fn_1006ADC0 = 0, fn_1006ADC0_TRAMP = 1;  // "fn_1006ADC0" 0x1006ADC0
 constexpr unsigned fn_1006ADF0 = 4, fn_1006ADF0_TRAMP = 1;  // "fn_1006ADF0" 0x1006ADF0
-constexpr unsigned fn_1006AF00 = 4, fn_1006AF00_TRAMP = 1;  // "fn_1006AF00" 0x1006AF00
+constexpr unsigned StateBlockHolder_ApplyRenderStates = 4, StateBlockHolder_ApplyRenderStates_TRAMP = 1;  // "StateBlockHolder_ApplyRenderStates" 0x1006AF00
 constexpr unsigned StateBlock_ApplyTSS = 4, StateBlock_ApplyTSS_TRAMP = 1;  // "StateBlock_ApplyTSS" 0x1006AF90
 constexpr unsigned CMoDxStatusMng__GetRuntimeClass = 0, CMoDxStatusMng__GetRuntimeClass_TRAMP = 1;  // "CMoDxStatusMng::GetRuntimeClass" 0x1006B040
 constexpr unsigned CMoDxStatusMng__Constructor = 4, CMoDxStatusMng__Constructor_TRAMP = 1;  // "CMoDxStatusMng::Constructor" 0x1006B050
@@ -5363,13 +5163,12 @@ constexpr unsigned fn_1006B120 = 4, fn_1006B120_TRAMP = 1;  // "fn_1006B120" 0x1
 constexpr unsigned fn_1006B1D0 = 4, fn_1006B1D0_TRAMP = 1;  // "fn_1006B1D0" 0x1006B1D0
 constexpr unsigned CMoDX__CreateAndInitSystem = 4, CMoDX__CreateAndInitSystem_TRAMP = 1;  // "CMoDX::CreateAndInitSystem" 0x1006B2B0
 constexpr unsigned CMoTask_VT_10329C70__vf8 = 0, CMoTask_VT_10329C70__vf8_TRAMP = 1;  // "CMoTask_VT_10329C70::vf8" 0x1006B480
-constexpr unsigned CMoTask_VT_10329C70__vf1 = 0, CMoTask_VT_10329C70__vf1_TRAMP = 1;  // "CMoTask_VT_10329C70::vf1" 0x1006B4C0
 constexpr unsigned Rand_SeedMT19937 = 4, Rand_SeedMT19937_TRAMP = 1;  // "Rand_SeedMT19937" 0x1006BD90
 constexpr unsigned fn_1006BE20 = 4, fn_1006BE20_TRAMP = 1;  // "fn_1006BE20" 0x1006BE20
 constexpr unsigned fn_1006BF40 = 4, fn_1006BF40_TRAMP = 1;  // "fn_1006BF40" 0x1006BF40
 constexpr unsigned fn_1006BF60 = 4, fn_1006BF60_TRAMP = 1;  // "fn_1006BF60" 0x1006BF60
-constexpr unsigned fn_1006BF80 = 4, fn_1006BF80_TRAMP = 1;  // "fn_1006BF80" 0x1006BF80
-constexpr unsigned fn_1006BFD0 = 4, fn_1006BFD0_TRAMP = 1;  // "fn_1006BFD0" 0x1006BFD0
+constexpr unsigned fn_1006BF80 = 12, fn_1006BF80_TRAMP = 1;  // "fn_1006BF80" 0x1006BF80
+constexpr unsigned fn_1006BFD0 = 12, fn_1006BFD0_TRAMP = 1;  // "fn_1006BFD0" 0x1006BFD0
 constexpr unsigned Mem_AllocWithHeader12 = 4, Mem_AllocWithHeader12_TRAMP = 1;  // "Mem_AllocWithHeader12" 0x1006C0F0
 constexpr unsigned CMoOcclusionMng__GetRuntimeClass = 0, CMoOcclusionMng__GetRuntimeClass_TRAMP = 1;  // "CMoOcclusionMng::GetRuntimeClass" 0x1006C130
 constexpr unsigned CMoOcclusionMng__ScalarDeletingDtor = 0, CMoOcclusionMng__ScalarDeletingDtor_TRAMP = 1;  // "CMoOcclusionMng::ScalarDeletingDtor" 0x1006C1C0
@@ -5379,6 +5178,7 @@ constexpr unsigned OcclusionQuery_Init = 4, OcclusionQuery_Init_TRAMP = 1;  // "
 constexpr unsigned Occlusion_QueryScreenRect = 0, Occlusion_QueryScreenRect_TRAMP = 1;  // "Occlusion_QueryScreenRect" 0x1006C280
 constexpr unsigned Occlusion_QueryScreenRectImpl = 2, Occlusion_QueryScreenRectImpl_TRAMP = 1;  // "Occlusion_QueryScreenRectImpl" 0x1006C300
 constexpr unsigned Occlusion_DrawQuery = 0, Occlusion_DrawQuery_TRAMP = 1;  // "Occlusion_DrawQuery" 0x1006C530
+constexpr unsigned Occlusion_ReadbackCount = 4, Occlusion_ReadbackCount_TRAMP = 1;  // "Occlusion_ReadbackCount" 0x1006C8B0
 constexpr unsigned OcclusionMng_Prepare = 4, OcclusionMng_Prepare_TRAMP = 1;  // "OcclusionMng_Prepare" 0x1006C9B0
 constexpr unsigned fn_1006CA20 = 4, fn_1006CA20_TRAMP = 1;  // "fn_1006CA20" 0x1006CA20
 constexpr unsigned fn_1006CA60 = 4, fn_1006CA60_TRAMP = 1;  // "fn_1006CA60" 0x1006CA60
@@ -5390,36 +5190,31 @@ constexpr unsigned CMoProcessor_VT_1032C1C8__vf046 = 0, CMoProcessor_VT_1032C1C8
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf045 = 0, CMoProcessor_VT_1032C1C8__vf045_TRAMP = 0;  // "CMoProcessor_VT_1032C1C8::vf045" 0x1006CC90
 constexpr unsigned CMoProcessor_VT_1032C1C8__CMoProcessor_GetRuntimeClass = 0, CMoProcessor_VT_1032C1C8__CMoProcessor_GetRuntimeClass_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::CMoProcessor_GetRuntimeClass" 0x1006CCD0
 constexpr unsigned CMoProcessor__InitRotationMatrices = 0, CMoProcessor__InitRotationMatrices_TRAMP = 1;  // "CMoProcessor::InitRotationMatrices" 0x1006CE70
-constexpr unsigned fn_1006D0A0 = 4, fn_1006D0A0_TRAMP = 1;  // "fn_1006D0A0" 0x1006D0A0
 constexpr unsigned fn_1006D270 = 4, fn_1006D270_TRAMP = 1;  // "fn_1006D270" 0x1006D270
 constexpr unsigned CMoProcessor_VT_1032C298__vf007 = 0, CMoProcessor_VT_1032C298__vf007_TRAMP = 1;  // "CMoProcessor_VT_1032C298::vf007" 0x1006D380
 constexpr unsigned CMoProcessor_VT_1032C368__vf012 = 0, CMoProcessor_VT_1032C368__vf012_TRAMP = 1;  // "CMoProcessor_VT_1032C368::vf012" 0x1006D3B0
 constexpr unsigned fn_1006D3E0 = 4, fn_1006D3E0_TRAMP = 1;  // "fn_1006D3E0" 0x1006D3E0
 constexpr unsigned CMoProcessor_VT_1032C368__vf014 = 0, CMoProcessor_VT_1032C368__vf014_TRAMP = 1;  // "CMoProcessor_VT_1032C368::vf014" 0x1006D4D0
 constexpr unsigned fn_1006D580 = 4, fn_1006D580_TRAMP = 1;  // "fn_1006D580" 0x1006D580
-constexpr unsigned CMoProcessor__Vec3Normalize = 4, CMoProcessor__Vec3Normalize_TRAMP = 1;  // "CMoProcessor::Vec3Normalize" 0x1006D5D0
 constexpr unsigned CMoProcessor_VT_1032C368__vf042 = 0, CMoProcessor_VT_1032C368__vf042_TRAMP = 1;  // "CMoProcessor_VT_1032C368::vf042" 0x1006D680
 constexpr unsigned CMoProcessor_VT_1032C368__vf043 = 0, CMoProcessor_VT_1032C368__vf043_TRAMP = 1;  // "CMoProcessor_VT_1032C368::vf043" 0x1006D6B0
-constexpr unsigned fn_1006D720 = 4, fn_1006D720_TRAMP = 1;  // "fn_1006D720" 0x1006D720
 constexpr unsigned CMoProcessor_VT_1032C368__vf021 = 0, CMoProcessor_VT_1032C368__vf021_TRAMP = 1;  // "CMoProcessor_VT_1032C368::vf021" 0x1006D980
 constexpr unsigned CMoProcessor__ScratchMatrixOp = 0, CMoProcessor__ScratchMatrixOp_TRAMP = 1;  // "CMoProcessor::ScratchMatrixOp" 0x1006E6B0
 constexpr unsigned CMoProcessor__CalcScreenBounds = 0, CMoProcessor__CalcScreenBounds_TRAMP = 1;  // "CMoProcessor::CalcScreenBounds" 0x1006E970
 constexpr unsigned fn_1006EF70 = 4, fn_1006EF70_TRAMP = 1;  // "fn_1006EF70" 0x1006EF70
-constexpr unsigned fn_1006F560 = 4, fn_1006F560_TRAMP = 1;  // "fn_1006F560" 0x1006F560
 constexpr unsigned CMoProcessor_VT_1032C298__vf014 = 0, CMoProcessor_VT_1032C298__vf014_TRAMP = 1;  // "CMoProcessor_VT_1032C298::vf014" 0x1006F5B0
 constexpr unsigned CMoProcessor_VT_1032C298__vf021 = 0, CMoProcessor_VT_1032C298__vf021_TRAMP = 1;  // "CMoProcessor_VT_1032C298::vf021" 0x1006FA30
+constexpr unsigned fn_1006FAE0 = 4, fn_1006FAE0_TRAMP = 1;  // "fn_1006FAE0" 0x1006FAE0
+constexpr unsigned fn_1006FC40 = 4, fn_1006FC40_TRAMP = 1;  // "fn_1006FC40" 0x1006FC40
 constexpr unsigned CMoProcessor_VT_1032C298__vf035 = 0, CMoProcessor_VT_1032C298__vf035_TRAMP = 1;  // "CMoProcessor_VT_1032C298::vf035" 0x10070020
 constexpr unsigned CMoProcessor_VT_1032C298__vf036 = 0, CMoProcessor_VT_1032C298__vf036_TRAMP = 1;  // "CMoProcessor_VT_1032C298::vf036" 0x10070040
-constexpr unsigned fn_100700A0 = 4, fn_100700A0_TRAMP = 1;  // "fn_100700A0" 0x100700A0
 constexpr unsigned fn_100700E0 = 4, fn_100700E0_TRAMP = 1;  // "fn_100700E0" 0x100700E0
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf012 = 0, CMoProcessor_VT_1032C1C8__vf012_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf012" 0x10070780
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf014 = 0, CMoProcessor_VT_1032C1C8__vf014_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf014" 0x10070790
-constexpr unsigned CMoProcessor_VT_1032C1C8__vf041 = 0, CMoProcessor_VT_1032C1C8__vf041_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf041" 0x10070860
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf018 = 0, CMoProcessor_VT_1032C1C8__vf018_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf018" 0x10070AA0
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf017 = 0, CMoProcessor_VT_1032C1C8__vf017_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf017" 0x10070AB0
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf016 = 0, CMoProcessor_VT_1032C1C8__vf016_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf016" 0x10070AC0
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf021 = 0, CMoProcessor_VT_1032C1C8__vf021_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf021" 0x10070AD0
-constexpr unsigned CMoProcessor_VT_1032C1C8__vf032 = 0, CMoProcessor_VT_1032C1C8__vf032_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf032" 0x10070D80
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf033 = 0, CMoProcessor_VT_1032C1C8__vf033_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf033" 0x10070E20
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf035 = 0, CMoProcessor_VT_1032C1C8__vf035_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf035" 0x10070E40
 constexpr unsigned CMoProcessor_VT_1032C1C8__vf036 = 0, CMoProcessor_VT_1032C1C8__vf036_TRAMP = 1;  // "CMoProcessor_VT_1032C1C8::vf036" 0x10070E60
@@ -5434,14 +5229,13 @@ constexpr unsigned fn_100711D0 = 4, fn_100711D0_TRAMP = 1;  // "fn_100711D0" 0x1
 constexpr unsigned fn_100711E0 = 4, fn_100711E0_TRAMP = 1;  // "fn_100711E0" 0x100711E0
 constexpr unsigned fn_10071200 = 4, fn_10071200_TRAMP = 1;  // "fn_10071200" 0x10071200
 constexpr unsigned CMoCamera__GetSharedInstance = 0, CMoCamera__GetSharedInstance_TRAMP = 1;  // "CMoCamera::GetSharedInstance" 0x10071980
-constexpr unsigned CMoResource_VT_1032C7D0__vf008 = 0, CMoResource_VT_1032C7D0__vf008_TRAMP = 0;  // "CMoResource_VT_1032C7D0::vf008" 0x100719C0
-constexpr unsigned CMoResource_VT_1032C7D0__vf009 = 0, CMoResource_VT_1032C7D0__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7D0::vf009" 0x100719D0
-constexpr unsigned CMoResource_VT_1032C828__vf009 = 0, CMoResource_VT_1032C828__vf009_TRAMP = 0;  // "CMoResource_VT_1032C828::vf009" 0x100719E0
-constexpr unsigned CMoCamera__vf009 = 0, CMoCamera__vf009_TRAMP = 0;  // "CMoCamera::vf009" 0x100719F0
-constexpr unsigned CMoResource_VT_1032C7FC__vf009 = 0, CMoResource_VT_1032C7FC__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7FC::vf009" 0x10071A00
-constexpr unsigned CMoResource_VT_1032C7A4__vf009 = 0, CMoResource_VT_1032C7A4__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7A4::vf009" 0x10071A10
-constexpr unsigned CMoResource_VT_1032C778__vf008 = 0, CMoResource_VT_1032C778__vf008_TRAMP = 1;  // "CMoResource_VT_1032C778::vf008" 0x10071A20
-constexpr unsigned CMoResource_VT_1032C778__vf009 = 0, CMoResource_VT_1032C778__vf009_TRAMP = 1;  // "CMoResource_VT_1032C778::vf009" 0x10071A30
+constexpr unsigned CMoResource_VT_1032C7D0__vf008 = 8, CMoResource_VT_1032C7D0__vf008_TRAMP = 0;  // "CMoResource_VT_1032C7D0::vf008" 0x100719C0
+constexpr unsigned CMoResource_VT_1032C7D0__vf009 = 8, CMoResource_VT_1032C7D0__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7D0::vf009" 0x100719D0
+constexpr unsigned CMoResource_VT_1032C828__vf009 = 8, CMoResource_VT_1032C828__vf009_TRAMP = 0;  // "CMoResource_VT_1032C828::vf009" 0x100719E0
+constexpr unsigned CMoCamera__vf009 = 8, CMoCamera__vf009_TRAMP = 0;  // "CMoCamera::vf009" 0x100719F0
+constexpr unsigned CMoResource_VT_1032C7FC__vf009 = 8, CMoResource_VT_1032C7FC__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7FC::vf009" 0x10071A00
+constexpr unsigned CMoResource_VT_1032C7A4__vf009 = 8, CMoResource_VT_1032C7A4__vf009_TRAMP = 0;  // "CMoResource_VT_1032C7A4::vf009" 0x10071A10
+constexpr unsigned CMoResource_VT_1032C778__vf009 = 8, CMoResource_VT_1032C778__vf009_TRAMP = 1;  // "CMoResource_VT_1032C778::vf009" 0x10071A30
 constexpr unsigned CMoResource_VT_1032C8AC__ScalarDeletingDtor = 0, CMoResource_VT_1032C8AC__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C8AC::ScalarDeletingDtor" 0x10071A40
 constexpr unsigned CMoResource_VT_1032C880__ScalarDeletingDtor = 0, CMoResource_VT_1032C880__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C880::ScalarDeletingDtor" 0x10071A60
 constexpr unsigned CMoResource_VT_1032C854__ScalarDeletingDtor = 0, CMoResource_VT_1032C854__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C854::ScalarDeletingDtor" 0x10071A80
@@ -5459,20 +5253,19 @@ constexpr unsigned CMoResource_VT_1032C5FC__ScalarDeletingDtor = 0, CMoResource_
 constexpr unsigned CMoResource_VT_1032C588__ScalarDeletingDtor = 0, CMoResource_VT_1032C588__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C588::ScalarDeletingDtor" 0x10071C90
 constexpr unsigned CMoSphRes__ScalarDeletingDtor = 0, CMoSphRes__ScalarDeletingDtor_TRAMP = 1;  // "CMoSphRes::ScalarDeletingDtor" 0x10071D00
 constexpr unsigned CMoResource__GetRuntimeClass_variant3 = 0, CMoResource__GetRuntimeClass_variant3_TRAMP = 1;  // "CMoResource::GetRuntimeClass_variant3" 0x10071D70
-constexpr unsigned CMoResource__vf008 = 0, CMoResource__vf008_TRAMP = 0;  // "CMoResource::vf008" 0x10071DB0
+constexpr unsigned CMoResource__vf008 = 8, CMoResource__vf008_TRAMP = 0;  // "CMoResource::vf008" 0x10071DB0
 constexpr unsigned CMoResource__ScalarDeletingDtor = 0, CMoResource__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource::ScalarDeletingDtor" 0x10071DC0
 constexpr unsigned CMoResource__Destructor = 4, CMoResource__Destructor_TRAMP = 1;  // "CMoResource::Destructor" 0x10071DE0
-constexpr unsigned CMoCamera__GetLinkedObject = 0, CMoCamera__GetLinkedObject_TRAMP = 1;  // "CMoCamera::GetLinkedObject" 0x10071E30
 constexpr unsigned CMoResource__ReleaseChain = 4, CMoResource__ReleaseChain_TRAMP = 1;  // "CMoResource::ReleaseChain" 0x10071EC0
 constexpr unsigned fn_10071FD0 = 4, fn_10071FD0_TRAMP = 1;  // "fn_10071FD0" 0x10071FD0
-constexpr unsigned CMoResource__RegisterInTypeList = 4, CMoResource__RegisterInTypeList_TRAMP = 1;  // "CMoResource::RegisterInTypeList" 0x10072030
 constexpr unsigned WeatherRes_GetTimeKey = 4, WeatherRes_GetTimeKey_TRAMP = 1;  // "WeatherRes_GetTimeKey" 0x10072180
+constexpr unsigned CMoResource_Destroy = 12, CMoResource_Destroy_TRAMP = 1;  // "CMoResource_Destroy" 0x100721F0
 constexpr unsigned CMoResource__GetParent = 4, CMoResource__GetParent_TRAMP = 1;  // "CMoResource::GetParent" 0x10072270
 constexpr unsigned CMoResource__FindByTypeAndId = 4, CMoResource__FindByTypeAndId_TRAMP = 1;  // "CMoResource::FindByTypeAndId" 0x10072290
 constexpr unsigned fn_100722C0 = 4, fn_100722C0_TRAMP = 1;  // "fn_100722C0" 0x100722C0
-constexpr unsigned CMoResource__FindInScope = 4, CMoResource__FindInScope_TRAMP = 1;  // "CMoResource::FindInScope" 0x10072430
-constexpr unsigned YmResourceFile_FindResourceUnder = 4, YmResourceFile_FindResourceUnder_TRAMP = 1;  // "YmResourceFile_FindResourceUnder" 0x100724C0
-constexpr unsigned fn_10072540 = 4, fn_10072540_TRAMP = 1;  // "fn_10072540" 0x10072540
+constexpr unsigned CMoResource_FindInScope = 4, CMoResource_FindInScope_TRAMP = 1;  // "CMoResource_FindInScope" 0x10072430
+constexpr unsigned YmResourceFile_FindResourceUnder = 12, YmResourceFile_FindResourceUnder_TRAMP = 1;  // "YmResourceFile_FindResourceUnder" 0x100724C0
+constexpr unsigned fn_10072540 = 12, fn_10072540_TRAMP = 1;  // "fn_10072540" 0x10072540
 constexpr unsigned unknown_libname_61 = 4, unknown_libname_61_TRAMP = 1;  // "unknown_libname_61" 0x100729C0
 constexpr unsigned fn_100729D0 = 4, fn_100729D0_TRAMP = 1;  // "fn_100729D0" 0x100729D0
 constexpr unsigned CMoTask_VT_1032C908__ScalarDeletingDtor = 0, CMoTask_VT_1032C908__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_1032C908::ScalarDeletingDtor" 0x10072A30
@@ -5482,6 +5275,7 @@ constexpr unsigned CMoResourceMng__GetRuntimeClass = 0, CMoResourceMng__GetRunti
 constexpr unsigned MeshResourceMng_LoadSystemResources = 4, MeshResourceMng_LoadSystemResources_TRAMP = 1;  // "MeshResourceMng_LoadSystemResources" 0x10072ED0
 constexpr unsigned ResourceHandle_Deref = 4, ResourceHandle_Deref_TRAMP = 1;  // "ResourceHandle_Deref" 0x10072FB0
 constexpr unsigned fn_100730E0 = 4, fn_100730E0_TRAMP = 1;  // "fn_100730E0" 0x100730E0
+constexpr unsigned MeshResourceMng_ResolveTree = 4, MeshResourceMng_ResolveTree_TRAMP = 1;  // "MeshResourceMng_ResolveTree" 0x10073430
 constexpr unsigned CMoResource_VT_1032C934__ScalarDeletingDtor = 0, CMoResource_VT_1032C934__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C934::ScalarDeletingDtor" 0x10073730
 constexpr unsigned fn_10073A60 = 4, fn_10073A60_TRAMP = 1;  // "fn_10073A60" 0x10073A60
 constexpr unsigned MoRes_FreeIfUnreferenced = 4, MoRes_FreeIfUnreferenced_TRAMP = 1;  // "MoRes_FreeIfUnreferenced" 0x10073B20
@@ -5490,7 +5284,6 @@ constexpr unsigned fn_10073BA0 = 4, fn_10073BA0_TRAMP = 1;  // "fn_10073BA0" 0x1
 constexpr unsigned MeshResourceMng_Evict = 4, MeshResourceMng_Evict_TRAMP = 1;  // "MeshResourceMng_Evict" 0x100740C0
 constexpr unsigned fn_10074110 = 4, fn_10074110_TRAMP = 1;  // "fn_10074110" 0x10074110
 constexpr unsigned MeshResourceMng_AllocHandle = 4, MeshResourceMng_AllocHandle_TRAMP = 1;  // "MeshResourceMng_AllocHandle" 0x10074140
-constexpr unsigned NodePool_ReleaseNode = 4, NodePool_ReleaseNode_TRAMP = 1;  // "NodePool_ReleaseNode" 0x10074180
 constexpr unsigned fn_100741E0 = 4, fn_100741E0_TRAMP = 1;  // "fn_100741E0" 0x100741E0
 constexpr unsigned fn_10074280 = 4, fn_10074280_TRAMP = 1;  // "fn_10074280" 0x10074280
 constexpr unsigned ResourceIter_FindFirst = 4, ResourceIter_FindFirst_TRAMP = 1;  // "ResourceIter_FindFirst" 0x100742B0
@@ -5502,8 +5295,7 @@ constexpr unsigned CMoAttachments_VT_1032C4E8__vf001 = 0, CMoAttachments_VT_1032
 constexpr unsigned CMoResource_VT_1032C588__vf011 = 0, CMoResource_VT_1032C588__vf011_TRAMP = 1;  // "CMoResource_VT_1032C588::vf011" 0x100745E0
 constexpr unsigned CMoResource_VT_1032C588__vf012 = 0, CMoResource_VT_1032C588__vf012_TRAMP = 1;  // "CMoResource_VT_1032C588::vf012" 0x100745F0
 constexpr unsigned CMoAttachments_VT_1032C628__vf001 = 0, CMoAttachments_VT_1032C628__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032C628::vf001" 0x10074600
-constexpr unsigned CMoResource_VT_1032C588__vf008 = 0, CMoResource_VT_1032C588__vf008_TRAMP = 0;  // "CMoResource_VT_1032C588::vf008" 0x10074610
-constexpr unsigned CMoResource_VT_1032C588__vf009 = 0, CMoResource_VT_1032C588__vf009_TRAMP = 1;  // "CMoResource_VT_1032C588::vf009" 0x10074620
+constexpr unsigned CMoResource_VT_1032C588__vf008 = 8, CMoResource_VT_1032C588__vf008_TRAMP = 0;  // "CMoResource_VT_1032C588::vf008" 0x10074610
 constexpr unsigned MoProcessor_CallVSlot49 = 4, MoProcessor_CallVSlot49_TRAMP = 1;  // "MoProcessor_CallVSlot49" 0x100746A0
 constexpr unsigned fn_10074700 = 4, fn_10074700_TRAMP = 1;  // "fn_10074700" 0x10074700
 constexpr unsigned CMoTask__GetRuntimeClass_variant12 = 0, CMoTask__GetRuntimeClass_variant12_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant12" 0x10074730
@@ -5514,7 +5306,6 @@ constexpr unsigned CMoTask__ResetFields = 4, CMoTask__ResetFields_TRAMP = 1;  //
 constexpr unsigned fn_10074920 = 4, fn_10074920_TRAMP = 1;  // "fn_10074920" 0x10074920
 constexpr unsigned CMoTaskMng__Forward10075120 = 4, CMoTaskMng__Forward10075120_TRAMP = 1;  // "CMoTaskMng::Forward10075120" 0x10074A10
 constexpr unsigned fn_10074AB0 = 4, fn_10074AB0_TRAMP = 1;  // "fn_10074AB0" 0x10074AB0
-constexpr unsigned fn_10074AD0 = 4, fn_10074AD0_TRAMP = 1;  // "fn_10074AD0" 0x10074AD0
 constexpr unsigned CMoTaskMng__GetRuntimeClass = 0, CMoTaskMng__GetRuntimeClass_TRAMP = 1;  // "CMoTaskMng::GetRuntimeClass" 0x10074B50
 constexpr unsigned fn_10074BA0 = 4, fn_10074BA0_TRAMP = 1;  // "fn_10074BA0" 0x10074BA0
 constexpr unsigned CMoTaskMng__DrawAll = 4, CMoTaskMng__DrawAll_TRAMP = 1;  // "CMoTaskMng::DrawAll" 0x10074C30
@@ -5526,18 +5317,17 @@ constexpr unsigned fn_100750B0 = 4, fn_100750B0_TRAMP = 1;  // "fn_100750B0" 0x1
 constexpr unsigned fn_10075120 = 4, fn_10075120_TRAMP = 1;  // "fn_10075120" 0x10075120
 constexpr unsigned fn_100751B0 = 4, fn_100751B0_TRAMP = 1;  // "fn_100751B0" 0x100751B0
 constexpr unsigned Gfx_InitCubeMapTextures = 4, Gfx_InitCubeMapTextures_TRAMP = 1;  // "Gfx_InitCubeMapTextures" 0x10075280
-constexpr unsigned TexRef_ResolveByName = 4, TexRef_ResolveByName_TRAMP = 1;  // "TexRef_ResolveByName" 0x10075520
 constexpr unsigned TexRef_EnsureRenderTarget = 4, TexRef_EnsureRenderTarget_TRAMP = 1;  // "TexRef_EnsureRenderTarget" 0x100755A0
-constexpr unsigned fn_10075700 = 4, fn_10075700_TRAMP = 1;  // "fn_10075700" 0x10075700
+constexpr unsigned TextureHolder_BindWarped = 4, TextureHolder_BindWarped_TRAMP = 1;  // "TextureHolder_BindWarped" 0x10075700
 constexpr unsigned TexRef_SetTexture = 0, TexRef_SetTexture_TRAMP = 0;  // "TexRef_SetTexture" 0x10075960
-constexpr unsigned fn_100759C0 = 0, fn_100759C0_TRAMP = 1;  // "fn_100759C0" 0x100759C0
+constexpr unsigned TextureHolder_BindTinted = 0, TextureHolder_BindTinted_TRAMP = 1;  // "TextureHolder_BindTinted" 0x100759C0
 constexpr unsigned fn_10076030 = 0, fn_10076030_TRAMP = 1;  // "fn_10076030" 0x10076030
 constexpr unsigned fn_10076520 = 0, fn_10076520_TRAMP = 1;  // "fn_10076520" 0x10076520
 constexpr unsigned fn_10076750 = 4, fn_10076750_TRAMP = 1;  // "fn_10076750" 0x10076750
 constexpr unsigned fn_10076830 = 4, fn_10076830_TRAMP = 1;  // "fn_10076830" 0x10076830
 constexpr unsigned fn_100769F0 = 4, fn_100769F0_TRAMP = 1;  // "fn_100769F0" 0x100769F0
 constexpr unsigned fn_10076A70 = 4, fn_10076A70_TRAMP = 1;  // "fn_10076A70" 0x10076A70
-constexpr unsigned fn_10077A00 = 4, fn_10077A00_TRAMP = 1;  // "fn_10077A00" 0x10077A00
+constexpr unsigned preprocessArg = 4, preprocessArg_TRAMP = 1;  // "preprocessArg" 0x10076AB0
 constexpr unsigned fn_10077AD0 = 4, fn_10077AD0_TRAMP = 1;  // "fn_10077AD0" 0x10077AD0
 constexpr unsigned fn_10077B40 = 4, fn_10077B40_TRAMP = 1;  // "fn_10077B40" 0x10077B40
 constexpr unsigned fn_10077C30 = 4, fn_10077C30_TRAMP = 1;  // "fn_10077C30" 0x10077C30
@@ -5555,30 +5345,30 @@ constexpr unsigned fn_1007A4C0 = 4, fn_1007A4C0_TRAMP = 1;  // "fn_1007A4C0" 0x1
 constexpr unsigned fn_1007CD60 = 4, fn_1007CD60_TRAMP = 1;  // "fn_1007CD60" 0x1007CD60
 constexpr unsigned fn_1007CFD0 = 4, fn_1007CFD0_TRAMP = 1;  // "fn_1007CFD0" 0x1007CFD0
 constexpr unsigned fn_10080C70 = 4, fn_10080C70_TRAMP = 1;  // "fn_10080C70" 0x10080C70
+constexpr unsigned fn_10080D00 = 12, fn_10080D00_TRAMP = 1;  // "fn_10080D00" 0x10080D00
 constexpr unsigned fn_10080D20 = 4, fn_10080D20_TRAMP = 1;  // "fn_10080D20" 0x10080D20
 constexpr unsigned fn_10080D90 = 4, fn_10080D90_TRAMP = 1;  // "fn_10080D90" 0x10080D90
+constexpr unsigned fn_10081230 = 12, fn_10081230_TRAMP = 1;  // "fn_10081230" 0x10081230
 constexpr unsigned fn_10081440 = 4, fn_10081440_TRAMP = 1;  // "fn_10081440" 0x10081440
 constexpr unsigned fn_10081480 = 4, fn_10081480_TRAMP = 1;  // "fn_10081480" 0x10081480
 constexpr unsigned ActorHandle_Constructor = 4, ActorHandle_Constructor_TRAMP = 1;  // "ActorHandle_Constructor" 0x100814A0
-constexpr unsigned ActorHandle_Destructor = 4, ActorHandle_Destructor_TRAMP = 1;  // "ActorHandle_Destructor" 0x100814E0
+constexpr unsigned ActorHandle_Destructor = 12, ActorHandle_Destructor_TRAMP = 1;  // "ActorHandle_Destructor" 0x100814E0
 constexpr unsigned fn_10081530 = 4, fn_10081530_TRAMP = 1;  // "fn_10081530" 0x10081530
 constexpr unsigned fn_10081600 = 4, fn_10081600_TRAMP = 1;  // "fn_10081600" 0x10081600
 constexpr unsigned CMoTask__GetRuntimeClass_variant13 = 0, CMoTask__GetRuntimeClass_variant13_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant13" 0x10081710
 constexpr unsigned CMoTask__GetRuntimeClass_variant14 = 0, CMoTask__GetRuntimeClass_variant14_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant14" 0x10081730
 constexpr unsigned CMoTask__GetRuntimeClass_variant15 = 0, CMoTask__GetRuntimeClass_variant15_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant15" 0x10081750
-constexpr unsigned CXiActorDraw__Update = 4, CXiActorDraw__Update_TRAMP = 1;  // "CXiActorDraw::Update" 0x100817E0
 constexpr unsigned CXiActorNameDraw__SetRenderState = 4, CXiActorNameDraw__SetRenderState_TRAMP = 1;  // "CXiActorNameDraw::SetRenderState" 0x100817F0
 constexpr unsigned fn_10081A30 = 4, fn_10081A30_TRAMP = 1;  // "fn_10081A30" 0x10081A30
 constexpr unsigned Actor_ResetDrawLists = 4, Actor_ResetDrawLists_TRAMP = 1;  // "Actor_ResetDrawLists" 0x10081A50
-constexpr unsigned fn_10081AE0 = 4, fn_10081AE0_TRAMP = 1;  // "fn_10081AE0" 0x10081AE0
-constexpr unsigned fn_10081BA0 = 4, fn_10081BA0_TRAMP = 1;  // "fn_10081BA0" 0x10081BA0
+constexpr unsigned CXiActor__Init = 4, CXiActor__Init_TRAMP = 1;  // "CXiActor::Init" 0x10081BA0
 constexpr unsigned fn_10081CF0 = 4, fn_10081CF0_TRAMP = 1;  // "fn_10081CF0" 0x10081CF0
-constexpr unsigned CXiActor__CXiSkeletonActor_GetMoveSpeed = 0, CXiActor__CXiSkeletonActor_GetMoveSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetMoveSpeed" 0x10082070
-constexpr unsigned CXiActor__CXiSkeletonActor_SetMoveSpeed = 0, CXiActor__CXiSkeletonActor_SetMoveSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_SetMoveSpeed" 0x10082080
-constexpr unsigned CXiActor__CXiSkeletonActor_GetMoveSpeedBase = 0, CXiActor__CXiSkeletonActor_GetMoveSpeedBase_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetMoveSpeedBase" 0x10082090
-constexpr unsigned CXiActor__CXiSkeletonActor_SetMoveSpeedBase = 0, CXiActor__CXiSkeletonActor_SetMoveSpeedBase_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_SetMoveSpeedBase" 0x100820A0
-constexpr unsigned CXiActor__CXiSkeletonActor_GetWalkSpeed = 0, CXiActor__CXiSkeletonActor_GetWalkSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetWalkSpeed" 0x100820B0
-constexpr unsigned CXiActor__CXiSkeletonActor_SetWalkSpeed = 0, CXiActor__CXiSkeletonActor_SetWalkSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_SetWalkSpeed" 0x100820C0
+constexpr unsigned CXiActor__CXiSkeletonActor_GetMoveSpeed = 8, CXiActor__CXiSkeletonActor_GetMoveSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetMoveSpeed" 0x10082070
+constexpr unsigned CXiSkeletonActor_SetMoveSpeed = 0, CXiSkeletonActor_SetMoveSpeed_TRAMP = 1;  // "CXiSkeletonActor_SetMoveSpeed" 0x10082080
+constexpr unsigned CXiActor__CXiSkeletonActor_GetMoveSpeedBase = 8, CXiActor__CXiSkeletonActor_GetMoveSpeedBase_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetMoveSpeedBase" 0x10082090
+constexpr unsigned CXiSkeletonActor_SetMoveSpeedBase = 0, CXiSkeletonActor_SetMoveSpeedBase_TRAMP = 1;  // "CXiSkeletonActor_SetMoveSpeedBase" 0x100820A0
+constexpr unsigned CXiActor__CXiSkeletonActor_GetWalkSpeed = 8, CXiActor__CXiSkeletonActor_GetWalkSpeed_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetWalkSpeed" 0x100820B0
+constexpr unsigned CXiSkeletonActor_SetWalkSpeed = 0, CXiSkeletonActor_SetWalkSpeed_TRAMP = 1;  // "CXiSkeletonActor_SetWalkSpeed" 0x100820C0
 constexpr unsigned CXiActor__CXiSkeletonActor_GetEquip = 0, CXiActor__CXiSkeletonActor_GetEquip_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_GetEquip" 0x100820D0
 constexpr unsigned GetEmbeddedMember_0x34 = 4, GetEmbeddedMember_0x34_TRAMP = 0;  // "GetEmbeddedMember_0x34" 0x100820E0
 constexpr unsigned GetEmbeddedMember_0x44 = 4, GetEmbeddedMember_0x44_TRAMP = 0;  // "GetEmbeddedMember_0x44" 0x100820F0
@@ -5593,18 +5383,16 @@ constexpr unsigned fn_10082900 = 4, fn_10082900_TRAMP = 1;  // "fn_10082900" 0x1
 constexpr unsigned CXiAtelActor__IsAtelType82 = 4, CXiAtelActor__IsAtelType82_TRAMP = 1;  // "CXiAtelActor::IsAtelType82" 0x10082960
 constexpr unsigned CXiAtelActor__IsAtelType83 = 4, CXiAtelActor__IsAtelType83_TRAMP = 1;  // "CXiAtelActor::IsAtelType83" 0x100829C0
 constexpr unsigned fn_10082BF0 = 4, fn_10082BF0_TRAMP = 1;  // "fn_10082BF0" 0x10082BF0
-constexpr unsigned CXiActorDraw__UpdateDrawList = 4, CXiActorDraw__UpdateDrawList_TRAMP = 1;  // "CXiActorDraw::UpdateDrawList" 0x10082D70
 constexpr unsigned CXiSkeletonActor__GetEnglishName = 0, CXiSkeletonActor__GetEnglishName_TRAMP = 1;  // "CXiSkeletonActor::GetEnglishName" 0x10082F20
 constexpr unsigned fn_10082F60 = 4, fn_10082F60_TRAMP = 1;  // "fn_10082F60" 0x10082F60
 constexpr unsigned fn_10082FA0 = 4, fn_10082FA0_TRAMP = 1;  // "fn_10082FA0" 0x10082FA0
-constexpr unsigned fn_10082FB0 = 4, fn_10082FB0_TRAMP = 1;  // "fn_10082FB0" 0x10082FB0
-constexpr unsigned CXiActor__CXiSkeletonActor_AddRef = 0, CXiActor__CXiSkeletonActor_AddRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_AddRef" 0x100832D0
+constexpr unsigned CXiActor__NameCalc = 4, CXiActor__NameCalc_TRAMP = 1;  // "CXiActor::NameCalc" 0x100830C0
+constexpr unsigned CXiActor__CXiSkeletonActor_AddRef = 8, CXiActor__CXiSkeletonActor_AddRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_AddRef" 0x100832D0
 constexpr unsigned CXiSkeletonActor__SubRef = 0, CXiSkeletonActor__SubRef_TRAMP = 1;  // "CXiSkeletonActor::SubRef" 0x100832E0
 constexpr unsigned fn_10083340 = 4, fn_10083340_TRAMP = 1;  // "fn_10083340" 0x10083340
-constexpr unsigned CXiActor__CXiSkeletonActor_AddSchRef = 0, CXiActor__CXiSkeletonActor_AddSchRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_AddSchRef" 0x10083390
-constexpr unsigned CXiActor__CXiSkeletonActor_SubSchRef = 0, CXiActor__CXiSkeletonActor_SubSchRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_SubSchRef" 0x100833A0
+constexpr unsigned CXiActor__CXiSkeletonActor_AddSchRef = 8, CXiActor__CXiSkeletonActor_AddSchRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_AddSchRef" 0x10083390
+constexpr unsigned CXiActor__CXiSkeletonActor_SubSchRef = 8, CXiActor__CXiSkeletonActor_SubSchRef_TRAMP = 1;  // "CXiActor::CXiSkeletonActor_SubSchRef" 0x100833A0
 constexpr unsigned fn_10083430 = 4, fn_10083430_TRAMP = 1;  // "fn_10083430" 0x10083430
-constexpr unsigned fn_10083620 = 4, fn_10083620_TRAMP = 1;  // "fn_10083620" 0x10083620
 constexpr unsigned fn_10083750 = 4, fn_10083750_TRAMP = 1;  // "fn_10083750" 0x10083750
 constexpr unsigned fn_10083B40 = 4, fn_10083B40_TRAMP = 1;  // "fn_10083B40" 0x10083B40
 constexpr unsigned fn_10083D00 = 4, fn_10083D00_TRAMP = 1;  // "fn_10083D00" 0x10083D00
@@ -5614,6 +5402,9 @@ constexpr unsigned fn_10083F00 = 4, fn_10083F00_TRAMP = 1;  // "fn_10083F00" 0x1
 constexpr unsigned fn_10083F20 = 4, fn_10083F20_TRAMP = 1;  // "fn_10083F20" 0x10083F20
 constexpr unsigned fn_10084100 = 4, fn_10084100_TRAMP = 1;  // "fn_10084100" 0x10084100
 constexpr unsigned CXiActor__IsModelMissingOrFlag2000 = 4, CXiActor__IsModelMissingOrFlag2000_TRAMP = 1;  // "CXiActor::IsModelMissingOrFlag2000" 0x10084140
+constexpr unsigned CXiActor_ModelTest95790 = 12, CXiActor_ModelTest95790_TRAMP = 1;  // "CXiActor_ModelTest95790" 0x10084330
+constexpr unsigned CXiActor_ModelTest95680 = 12, CXiActor_ModelTest95680_TRAMP = 1;  // "CXiActor_ModelTest95680" 0x10084350
+constexpr unsigned CXiActor_ModelTest956A0 = 12, CXiActor_ModelTest956A0_TRAMP = 1;  // "CXiActor_ModelTest956A0" 0x10084370
 constexpr unsigned CXiActor__GetModelField170 = 4, CXiActor__GetModelField170_TRAMP = 1;  // "CXiActor::GetModelField170" 0x10084390
 constexpr unsigned CXiActor__HasNonzeroField150or158 = 4, CXiActor__HasNonzeroField150or158_TRAMP = 1;  // "CXiActor::HasNonzeroField150or158" 0x100843B0
 constexpr unsigned CXiActor__GetModelByteEE = 4, CXiActor__GetModelByteEE_TRAMP = 1;  // "CXiActor::GetModelByteEE" 0x10084400
@@ -5632,31 +5423,29 @@ constexpr unsigned fn_100849A0 = 4, fn_100849A0_TRAMP = 1;  // "fn_100849A0" 0x1
 constexpr unsigned fn_10084BA0 = 4, fn_10084BA0_TRAMP = 1;  // "fn_10084BA0" 0x10084BA0
 constexpr unsigned fn_10084BC0 = 4, fn_10084BC0_TRAMP = 1;  // "fn_10084BC0" 0x10084BC0
 constexpr unsigned CMoTask__GetRuntimeClass_variant16 = 0, CMoTask__GetRuntimeClass_variant16_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant16" 0x10084E50
-constexpr unsigned XiActorTimerTask__vf8 = 0, XiActorTimerTask__vf8_TRAMP = 1;  // "XiActorTimerTask::vf8" 0x10084F40
 constexpr unsigned fn_10085010 = 4, fn_10085010_TRAMP = 1;  // "fn_10085010" 0x10085010
-constexpr unsigned CXiActor__SpawnResourceGenerators = 4, CXiActor__SpawnResourceGenerators_TRAMP = 1;  // "CXiActor::SpawnResourceGenerators" 0x10085060
 constexpr unsigned CXiActor__IsInModelSlotTable = 4, CXiActor__IsInModelSlotTable_TRAMP = 1;  // "CXiActor::IsInModelSlotTable" 0x10085490
 constexpr unsigned fn_10085500 = 4, fn_10085500_TRAMP = 1;  // "fn_10085500" 0x10085500
 constexpr unsigned fn_10085BF0 = 4, fn_10085BF0_TRAMP = 1;  // "fn_10085BF0" 0x10085BF0
-constexpr unsigned CXiAtelActor__UnlinkCasterAttachments = 4, CXiAtelActor__UnlinkCasterAttachments_TRAMP = 1;  // "CXiAtelActor::UnlinkCasterAttachments" 0x10085C90
-constexpr unsigned CXiAtelActor__UnlinkTargetAttachments = 4, CXiAtelActor__UnlinkTargetAttachments_TRAMP = 1;  // "CXiAtelActor::UnlinkTargetAttachments" 0x10085CF0
 constexpr unsigned fn_10085D50 = 4, fn_10085D50_TRAMP = 1;  // "fn_10085D50" 0x10085D50
 constexpr unsigned fn_10085D60 = 4, fn_10085D60_TRAMP = 1;  // "fn_10085D60" 0x10085D60
 constexpr unsigned Actor_DrawWorldText = 4, Actor_DrawWorldText_TRAMP = 1;  // "Actor_DrawWorldText" 0x10086210
-constexpr unsigned fn_10086900 = 4, fn_10086900_TRAMP = 1;  // "fn_10086900" 0x10086900
 constexpr unsigned fn_10086E90 = 4, fn_10086E90_TRAMP = 1;  // "fn_10086E90" 0x10086E90
+constexpr unsigned fn_10086FC0 = 12, fn_10086FC0_TRAMP = 1;  // "fn_10086FC0" 0x10086FC0
 constexpr unsigned fn_10086FE0 = 4, fn_10086FE0_TRAMP = 1;  // "fn_10086FE0" 0x10086FE0
 constexpr unsigned fn_10087010 = 4, fn_10087010_TRAMP = 1;  // "fn_10087010" 0x10087010
-constexpr unsigned fn_10087060 = 4, fn_10087060_TRAMP = 1;  // "fn_10087060" 0x10087060
+constexpr unsigned fn_10087060 = 12, fn_10087060_TRAMP = 1;  // "fn_10087060" 0x10087060
 constexpr unsigned fn_100870E0 = 4, fn_100870E0_TRAMP = 1;  // "fn_100870E0" 0x100870E0
+constexpr unsigned fn_10087110 = 12, fn_10087110_TRAMP = 1;  // "fn_10087110" 0x10087110
 constexpr unsigned fn_100872C0 = 4, fn_100872C0_TRAMP = 1;  // "fn_100872C0" 0x100872C0
 constexpr unsigned fn_100875C0 = 4, fn_100875C0_TRAMP = 1;  // "fn_100875C0" 0x100875C0
 constexpr unsigned fn_100875D0 = 4, fn_100875D0_TRAMP = 1;  // "fn_100875D0" 0x100875D0
 constexpr unsigned fn_100875F0 = 4, fn_100875F0_TRAMP = 1;  // "fn_100875F0" 0x100875F0
 constexpr unsigned fn_10087610 = 4, fn_10087610_TRAMP = 1;  // "fn_10087610" 0x10087610
+constexpr unsigned fn_10087660 = 12, fn_10087660_TRAMP = 1;  // "fn_10087660" 0x10087660
 constexpr unsigned fn_10087670 = 4, fn_10087670_TRAMP = 1;  // "fn_10087670" 0x10087670
 constexpr unsigned fn_10087690 = 4, fn_10087690_TRAMP = 1;  // "fn_10087690" 0x10087690
-constexpr unsigned fn_100876B0 = 4, fn_100876B0_TRAMP = 1;  // "fn_100876B0" 0x100876B0
+constexpr unsigned fn_100876B0 = 12, fn_100876B0_TRAMP = 1;  // "fn_100876B0" 0x100876B0
 constexpr unsigned fn_10087760 = 4, fn_10087760_TRAMP = 1;  // "fn_10087760" 0x10087760
 constexpr unsigned fn_10087830 = 4, fn_10087830_TRAMP = 1;  // "fn_10087830" 0x10087830
 constexpr unsigned fn_10087890 = 4, fn_10087890_TRAMP = 1;  // "fn_10087890" 0x10087890
@@ -5683,15 +5472,15 @@ constexpr unsigned fn_1008B410 = 4, fn_1008B410_TRAMP = 1;  // "fn_1008B410" 0x1
 constexpr unsigned fn_1008CD90 = 4, fn_1008CD90_TRAMP = 1;  // "fn_1008CD90" 0x1008CD90
 constexpr unsigned fn_1008D980 = 4, fn_1008D980_TRAMP = 1;  // "fn_1008D980" 0x1008D980
 constexpr unsigned fn_1008DA00 = 4, fn_1008DA00_TRAMP = 1;  // "fn_1008DA00" 0x1008DA00
+constexpr unsigned fn_1008E130 = 12, fn_1008E130_TRAMP = 1;  // "fn_1008E130" 0x1008E130
 constexpr unsigned fn_1008E140 = 4, fn_1008E140_TRAMP = 1;  // "fn_1008E140" 0x1008E140
 constexpr unsigned fn_1008E150 = 4, fn_1008E150_TRAMP = 1;  // "fn_1008E150" 0x1008E150
 constexpr unsigned fn_1008E260 = 4, fn_1008E260_TRAMP = 1;  // "fn_1008E260" 0x1008E260
-constexpr unsigned fn_1008E3F0 = 4, fn_1008E3F0_TRAMP = 1;  // "fn_1008E3F0" 0x1008E3F0
 constexpr unsigned fn_1008E740 = 4, fn_1008E740_TRAMP = 1;  // "fn_1008E740" 0x1008E740
+constexpr unsigned fn_1008E8D0 = 4, fn_1008E8D0_TRAMP = 1;  // "fn_1008E8D0" 0x1008E8D0
 constexpr unsigned fn_1008E9A0 = 4, fn_1008E9A0_TRAMP = 1;  // "fn_1008E9A0" 0x1008E9A0
 constexpr unsigned fn_1008EE30 = 4, fn_1008EE30_TRAMP = 1;  // "fn_1008EE30" 0x1008EE30
 constexpr unsigned fn_1008F2A0 = 4, fn_1008F2A0_TRAMP = 1;  // "fn_1008F2A0" 0x1008F2A0
-constexpr unsigned fn_1008F740 = 4, fn_1008F740_TRAMP = 1;  // "fn_1008F740" 0x1008F740
 constexpr unsigned fn_100926C0 = 4, fn_100926C0_TRAMP = 1;  // "fn_100926C0" 0x100926C0
 constexpr unsigned fn_10092710 = 4, fn_10092710_TRAMP = 1;  // "fn_10092710" 0x10092710
 constexpr unsigned fn_10092760 = 4, fn_10092760_TRAMP = 1;  // "fn_10092760" 0x10092760
@@ -5701,7 +5490,6 @@ constexpr unsigned fn_10092870 = 4, fn_10092870_TRAMP = 1;  // "fn_10092870" 0x1
 constexpr unsigned fn_10092900 = 4, fn_10092900_TRAMP = 1;  // "fn_10092900" 0x10092900
 constexpr unsigned fn_100929A0 = 4, fn_100929A0_TRAMP = 1;  // "fn_100929A0" 0x100929A0
 constexpr unsigned fn_100929D0 = 4, fn_100929D0_TRAMP = 1;  // "fn_100929D0" 0x100929D0
-constexpr unsigned fn_10092C20 = 4, fn_10092C20_TRAMP = 1;  // "fn_10092C20" 0x10092C20
 constexpr unsigned fn_100933C0 = 4, fn_100933C0_TRAMP = 1;  // "fn_100933C0" 0x100933C0
 constexpr unsigned fn_10093430 = 4, fn_10093430_TRAMP = 1;  // "fn_10093430" 0x10093430
 constexpr unsigned Unit10086E90_ResetGlobals = 4, Unit10086E90_ResetGlobals_TRAMP = 1;  // "Unit10086E90_ResetGlobals" 0x10093720
@@ -5711,11 +5499,10 @@ constexpr unsigned fn_10093AD0 = 4, fn_10093AD0_TRAMP = 1;  // "fn_10093AD0" 0x1
 constexpr unsigned fn_10093AF0 = 4, fn_10093AF0_TRAMP = 1;  // "fn_10093AF0" 0x10093AF0
 constexpr unsigned fn_10093B10 = 4, fn_10093B10_TRAMP = 1;  // "fn_10093B10" 0x10093B10
 constexpr unsigned fn_10093B30 = 4, fn_10093B30_TRAMP = 1;  // "fn_10093B30" 0x10093B30
-constexpr unsigned fn_10093B50 = 4, fn_10093B50_TRAMP = 1;  // "fn_10093B50" 0x10093B50
 constexpr unsigned fn_10093B70 = 4, fn_10093B70_TRAMP = 1;  // "fn_10093B70" 0x10093B70
 constexpr unsigned fn_10093DA0 = 4, fn_10093DA0_TRAMP = 0;  // "fn_10093DA0" 0x10093DA0
 constexpr unsigned Net_SendPacket00COnce = 4, Net_SendPacket00COnce_TRAMP = 1;  // "Net_SendPacket00COnce" 0x10093DB0
-constexpr unsigned fn_100955D0 = 4, fn_100955D0_TRAMP = 1;  // "fn_100955D0" 0x100955D0
+constexpr unsigned CallMotd = 12, CallMotd_TRAMP = 1;  // "CallMotd" 0x100955D0
 constexpr unsigned fn_10095680 = 4, fn_10095680_TRAMP = 1;  // "fn_10095680" 0x10095680
 constexpr unsigned fn_100956A0 = 4, fn_100956A0_TRAMP = 1;  // "fn_100956A0" 0x100956A0
 constexpr unsigned fn_100956C0 = 4, fn_100956C0_TRAMP = 1;  // "fn_100956C0" 0x100956C0
@@ -5739,8 +5526,8 @@ constexpr unsigned fn_10098180 = 4, fn_10098180_TRAMP = 1;  // "fn_10098180" 0x1
 constexpr unsigned fn_10098210 = 4, fn_10098210_TRAMP = 1;  // "fn_10098210" 0x10098210
 constexpr unsigned fn_100983A0 = 4, fn_100983A0_TRAMP = 1;  // "fn_100983A0" 0x100983A0
 constexpr unsigned fn_100991F0 = 4, fn_100991F0_TRAMP = 1;  // "fn_100991F0" 0x100991F0
+constexpr unsigned fn_10099730 = 4, fn_10099730_TRAMP = 1;  // "fn_10099730" 0x10099730
 constexpr unsigned fn_100997B0 = 4, fn_100997B0_TRAMP = 1;  // "fn_100997B0" 0x100997B0
-constexpr unsigned fn_10099AE0 = 4, fn_10099AE0_TRAMP = 1;  // "fn_10099AE0" 0x10099AE0
 constexpr unsigned fn_1009AAF0 = 4, fn_1009AAF0_TRAMP = 1;  // "fn_1009AAF0" 0x1009AAF0
 constexpr unsigned fn_1009AD20 = 4, fn_1009AD20_TRAMP = 1;  // "fn_1009AD20" 0x1009AD20
 constexpr unsigned fn_1009ADE0 = 4, fn_1009ADE0_TRAMP = 1;  // "fn_1009ADE0" 0x1009ADE0
@@ -5755,78 +5542,74 @@ constexpr unsigned CMoTask_VT_1032D6D4__ScalarDeletingDtor = 0, CMoTask_VT_1032D
 constexpr unsigned fn_100A3CD0 = 4, fn_100A3CD0_TRAMP = 1;  // "fn_100A3CD0" 0x100A3CD0
 constexpr unsigned CXiControlActor_GetGroundMaterial = 4, CXiControlActor_GetGroundMaterial_TRAMP = 1;  // "CXiControlActor_GetGroundMaterial" 0x100A45D0
 constexpr unsigned CXiControlActor__AmIControlActor = 4, CXiControlActor__AmIControlActor_TRAMP = 1;  // "CXiControlActor::AmIControlActor" 0x100A4640
-constexpr unsigned CXiControlActor_IsFreeRun = 4, CXiControlActor_IsFreeRun_TRAMP = 1;  // "CXiControlActor_IsFreeRun" 0x100A4670
-constexpr unsigned CXiControlActor_IsWalkLock = 4, CXiControlActor_IsWalkLock_TRAMP = 1;  // "CXiControlActor_IsWalkLock" 0x100A4690
-constexpr unsigned CXiControlActor_IsParallelMove = 4, CXiControlActor_IsParallelMove_TRAMP = 1;  // "CXiControlActor_IsParallelMove" 0x100A46B0
+constexpr unsigned CXiControlActor_IsFreeRun = 12, CXiControlActor_IsFreeRun_TRAMP = 1;  // "CXiControlActor_IsFreeRun" 0x100A4670
+constexpr unsigned CXiControlActor_IsWalkLock = 12, CXiControlActor_IsWalkLock_TRAMP = 1;  // "CXiControlActor_IsWalkLock" 0x100A4690
+constexpr unsigned CXiControlActor_IsParallelMove = 12, CXiControlActor_IsParallelMove_TRAMP = 1;  // "CXiControlActor_IsParallelMove" 0x100A46B0
 constexpr unsigned CXiControlActor_IsControlLock = 4, CXiControlActor_IsControlLock_TRAMP = 1;  // "CXiControlActor_IsControlLock" 0x100A46C0
-constexpr unsigned CXiCollisionActor_IsTouchDown = 4, CXiCollisionActor_IsTouchDown_TRAMP = 1;  // "CXiCollisionActor_IsTouchDown" 0x100A46D0
-constexpr unsigned CXiCollisionActor_IsOnLift = 4, CXiCollisionActor_IsOnLift_TRAMP = 1;  // "CXiCollisionActor_IsOnLift" 0x100A46F0
+constexpr unsigned CXiCollisionActor_IsTouchDown = 12, CXiCollisionActor_IsTouchDown_TRAMP = 1;  // "CXiCollisionActor_IsTouchDown" 0x100A46D0
+constexpr unsigned CXiCollisionActor_IsOnLift = 12, CXiCollisionActor_IsOnLift_TRAMP = 1;  // "CXiCollisionActor_IsOnLift" 0x100A46F0
 constexpr unsigned CXiCollisionActor_GetCurrentAreaId = 4, CXiCollisionActor_GetCurrentAreaId_TRAMP = 1;  // "CXiCollisionActor_GetCurrentAreaId" 0x100A4710
 constexpr unsigned CXiSkeletonActor__GetPos = 0, CXiSkeletonActor__GetPos_TRAMP = 1;  // "CXiSkeletonActor::GetPos" 0x100A4740
 constexpr unsigned CXiSkeletonActor__GetDir = 0, CXiSkeletonActor__GetDir_TRAMP = 1;  // "CXiSkeletonActor::GetDir" 0x100A4750
 constexpr unsigned CXiSkeletonActor__IsMotionLock = 0, CXiSkeletonActor__IsMotionLock_TRAMP = 1;  // "CXiSkeletonActor::IsMotionLock" 0x100A4760
 constexpr unsigned CXiSkeletonActor__IsMotionLock_Set = 0, CXiSkeletonActor__IsMotionLock_Set_TRAMP = 1;  // "CXiSkeletonActor::IsMotionLock_Set" 0x100A4770
-constexpr unsigned CXiSkeletonActor__EnableFlag8AC = 0, CXiSkeletonActor__EnableFlag8AC_TRAMP = 1;  // "CXiSkeletonActor::EnableFlag8AC" 0x100A4790
-constexpr unsigned CXiSkeletonActor__DisableFlag8AC = 0, CXiSkeletonActor__DisableFlag8AC_TRAMP = 1;  // "CXiSkeletonActor::DisableFlag8AC" 0x100A47A0
+constexpr unsigned CXiSkeletonActor__EnableFlag8AC = 8, CXiSkeletonActor__EnableFlag8AC_TRAMP = 1;  // "CXiSkeletonActor::EnableFlag8AC" 0x100A4790
+constexpr unsigned CXiSkeletonActor__DisableFlag8AC = 8, CXiSkeletonActor__DisableFlag8AC_TRAMP = 1;  // "CXiSkeletonActor::DisableFlag8AC" 0x100A47A0
 constexpr unsigned CXiSkeletonActor__IsFlag8ACSet = 0, CXiSkeletonActor__IsFlag8ACSet_TRAMP = 1;  // "CXiSkeletonActor::IsFlag8ACSet" 0x100A47B0
-constexpr unsigned CXiSkeletonActor__GetField79C = 0, CXiSkeletonActor__GetField79C_TRAMP = 1;  // "CXiSkeletonActor::GetField79C" 0x100A47C0
-constexpr unsigned CXiSkeletonActor__SetField79C = 0, CXiSkeletonActor__SetField79C_TRAMP = 1;  // "CXiSkeletonActor::SetField79C" 0x100A47D0
-constexpr unsigned CXiSkeletonActor__IsReadComplete = 0, CXiSkeletonActor__IsReadComplete_TRAMP = 1;  // "CXiSkeletonActor::IsReadComplete" 0x100A47E0
+constexpr unsigned CXiSkeletonActor__GetField79C = 8, CXiSkeletonActor__GetField79C_TRAMP = 1;  // "CXiSkeletonActor::GetField79C" 0x100A47C0
+constexpr unsigned CXiSkeletonActor__SetField79C = 8, CXiSkeletonActor__SetField79C_TRAMP = 1;  // "CXiSkeletonActor::SetField79C" 0x100A47D0
+constexpr unsigned CXiSkeletonActor_IsReadComplete = 8, CXiSkeletonActor_IsReadComplete_TRAMP = 1;  // "CXiSkeletonActor_IsReadComplete" 0x100A47E0
 constexpr unsigned CXiSkeletonActor__vf256 = 0, CXiSkeletonActor__vf256_TRAMP = 1;  // "CXiSkeletonActor::vf256" 0x100A47F0
-constexpr unsigned CXiSkeletonActor__SetField670 = 0, CXiSkeletonActor__SetField670_TRAMP = 1;  // "CXiSkeletonActor::SetField670" 0x100A4800
-constexpr unsigned CXiSkeletonActor__GetField670 = 0, CXiSkeletonActor__GetField670_TRAMP = 1;  // "CXiSkeletonActor::GetField670" 0x100A4810
-constexpr unsigned CXiSkeletonActor__vf257 = 0, CXiSkeletonActor__vf257_TRAMP = 0;  // "CXiSkeletonActor::vf257" 0x100A4820
+constexpr unsigned CXiSkeletonActor__SetField670 = 8, CXiSkeletonActor__SetField670_TRAMP = 1;  // "CXiSkeletonActor::SetField670" 0x100A4800
+constexpr unsigned CXiSkeletonActor__GetField670 = 8, CXiSkeletonActor__GetField670_TRAMP = 1;  // "CXiSkeletonActor::GetField670" 0x100A4810
+constexpr unsigned CXiSkeletonActor__vf257 = 8, CXiSkeletonActor__vf257_TRAMP = 0;  // "CXiSkeletonActor::vf257" 0x100A4820
 constexpr unsigned CXiSkeletonActor__SetColor = 0, CXiSkeletonActor__SetColor_TRAMP = 1;  // "CXiSkeletonActor::SetColor" 0x100A4830
 constexpr unsigned CXiSkeletonActor__GetColor = 0, CXiSkeletonActor__GetColor_TRAMP = 1;  // "CXiSkeletonActor::GetColor" 0x100A4840
 constexpr unsigned CXiSkeletonActor__vf017 = 0, CXiSkeletonActor__vf017_TRAMP = 1;  // "CXiSkeletonActor::vf017" 0x100A4850
 constexpr unsigned CXiSkeletonActor__SetMultiTexAlpha = 0, CXiSkeletonActor__SetMultiTexAlpha_TRAMP = 1;  // "CXiSkeletonActor::SetMultiTexAlpha" 0x100A4860
-constexpr unsigned CXiSkeletonActor__GetMultiTexAlpha = 0, CXiSkeletonActor__GetMultiTexAlpha_TRAMP = 1;  // "CXiSkeletonActor::GetMultiTexAlpha" 0x100A4870
 constexpr unsigned CXiSkeletonActor__SetSahdowAlpha = 0, CXiSkeletonActor__SetSahdowAlpha_TRAMP = 1;  // "CXiSkeletonActor::SetSahdowAlpha" 0x100A4880
-constexpr unsigned CXiSkeletonActor__GetShadowAlpha = 0, CXiSkeletonActor__GetShadowAlpha_TRAMP = 1;  // "CXiSkeletonActor::GetShadowAlpha" 0x100A4890
+constexpr unsigned CXiSkeletonActor_GetShadowAlpha = 0, CXiSkeletonActor_GetShadowAlpha_TRAMP = 1;  // "CXiSkeletonActor_GetShadowAlpha" 0x100A4890
 constexpr unsigned CXiSkeletonActor__EnableEffect = 0, CXiSkeletonActor__EnableEffect_TRAMP = 1;  // "CXiSkeletonActor::EnableEffect" 0x100A48A0
 constexpr unsigned CXiSkeletonActor__DisableEffect = 0, CXiSkeletonActor__DisableEffect_TRAMP = 1;  // "CXiSkeletonActor::DisableEffect" 0x100A48C0
-constexpr unsigned CXiSkeletonActor__DisableEffectAll = 0, CXiSkeletonActor__DisableEffectAll_TRAMP = 1;  // "CXiSkeletonActor::DisableEffectAll" 0x100A48E0
 constexpr unsigned CXiSkeletonActor__SetUVOffset = 0, CXiSkeletonActor__SetUVOffset_TRAMP = 1;  // "CXiSkeletonActor::SetUVOffset" 0x100A48F0
-constexpr unsigned CXiSkeletonActor__SetDistAmount = 0, CXiSkeletonActor__SetDistAmount_TRAMP = 1;  // "CXiSkeletonActor::SetDistAmount" 0x100A4910
 constexpr unsigned CXiSkeletonActor__SetEmapColor = 0, CXiSkeletonActor__SetEmapColor_TRAMP = 1;  // "CXiSkeletonActor::SetEmapColor" 0x100A4920
 constexpr unsigned CXiSkeletonActor__SetEmapTexture = 0, CXiSkeletonActor__SetEmapTexture_TRAMP = 1;  // "CXiSkeletonActor::SetEmapTexture" 0x100A4930
-constexpr unsigned CXiSkeletonActor__SetSeparateValue = 0, CXiSkeletonActor__SetSeparateValue_TRAMP = 1;  // "CXiSkeletonActor::SetSeparateValue" 0x100A4940
 constexpr unsigned CXiSkeletonActor__SetEmapAlphaMode = 0, CXiSkeletonActor__SetEmapAlphaMode_TRAMP = 1;  // "CXiSkeletonActor::SetEmapAlphaMode" 0x100A4950
 constexpr unsigned CXiSkeletonActor__GetEmapAlphaMode = 0, CXiSkeletonActor__GetEmapAlphaMode_TRAMP = 1;  // "CXiSkeletonActor::GetEmapAlphaMode" 0x100A4960
 constexpr unsigned CXiSkeletonActor__vf258 = 0, CXiSkeletonActor__vf258_TRAMP = 1;  // "CXiSkeletonActor::vf258" 0x100A4970
 constexpr unsigned CXiSkeletonActor__get_field_74C = 0, CXiSkeletonActor__get_field_74C_TRAMP = 1;  // "CXiSkeletonActor::get_field_74C" 0x100A4980
 constexpr unsigned CXiSkeletonActor__set_field_73C = 0, CXiSkeletonActor__set_field_73C_TRAMP = 1;  // "CXiSkeletonActor::set_field_73C" 0x100A4990
-constexpr unsigned CXiSkeletonActor__get_field_73C = 0, CXiSkeletonActor__get_field_73C_TRAMP = 1;  // "CXiSkeletonActor::get_field_73C" 0x100A49A0
+constexpr unsigned CXiSkeletonActor__get_field_73C = 8, CXiSkeletonActor__get_field_73C_TRAMP = 1;  // "CXiSkeletonActor::get_field_73C" 0x100A49A0
 constexpr unsigned CXiSkeletonActor__set_field_740 = 0, CXiSkeletonActor__set_field_740_TRAMP = 1;  // "CXiSkeletonActor::set_field_740" 0x100A49B0
-constexpr unsigned CXiSkeletonActor__get_field_740 = 0, CXiSkeletonActor__get_field_740_TRAMP = 1;  // "CXiSkeletonActor::get_field_740" 0x100A49C0
+constexpr unsigned CXiSkeletonActor__get_field_740 = 8, CXiSkeletonActor__get_field_740_TRAMP = 1;  // "CXiSkeletonActor::get_field_740" 0x100A49C0
 constexpr unsigned CXiSkeletonActor__IsEnvmap = 0, CXiSkeletonActor__IsEnvmap_TRAMP = 1;  // "CXiSkeletonActor::IsEnvmap" 0x100A49D0
 constexpr unsigned CXiSkeletonActor__IsDistortion = 0, CXiSkeletonActor__IsDistortion_TRAMP = 1;  // "CXiSkeletonActor::IsDistortion" 0x100A49E0
 constexpr unsigned CXiSkeletonActor__IsMasking = 0, CXiSkeletonActor__IsMasking_TRAMP = 1;  // "CXiSkeletonActor::IsMasking" 0x100A49F0
 constexpr unsigned CXiSkeletonActor__vf030 = 0, CXiSkeletonActor__vf030_TRAMP = 1;  // "CXiSkeletonActor::vf030" 0x100A4A00
 constexpr unsigned CXiSkeletonActor__IsDirectionLock = 0, CXiSkeletonActor__IsDirectionLock_TRAMP = 1;  // "CXiSkeletonActor::IsDirectionLock" 0x100A4A10
-constexpr unsigned CXiSkeletonActor__IsConstrain = 0, CXiSkeletonActor__IsConstrain_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain" 0x100A4A20
-constexpr unsigned CXiSkeletonActor__IsConstrain_Set = 0, CXiSkeletonActor__IsConstrain_Set_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain_Set" 0x100A4A30
-constexpr unsigned CXiSkeletonActor__IsConstrain2 = 0, CXiSkeletonActor__IsConstrain2_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain2" 0x100A4A50
-constexpr unsigned CXiSkeletonActor__IsConstrain2_Get = 0, CXiSkeletonActor__IsConstrain2_Get_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain2_Get" 0x100A4A60
-constexpr unsigned CXiSkeletonActor__IsConstrain2_Set = 0, CXiSkeletonActor__IsConstrain2_Set_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain2_Set" 0x100A4A70
-constexpr unsigned CXiSkeletonActor__vf041 = 0, CXiSkeletonActor__vf041_TRAMP = 1;  // "CXiSkeletonActor::vf041" 0x100A4A90
-constexpr unsigned CXiSkeletonActor__vf042 = 0, CXiSkeletonActor__vf042_TRAMP = 1;  // "CXiSkeletonActor::vf042" 0x100A4AA0
-constexpr unsigned CXiSkeletonActor__vf043 = 0, CXiSkeletonActor__vf043_TRAMP = 1;  // "CXiSkeletonActor::vf043" 0x100A4AB0
-constexpr unsigned CXiSkeletonActor__vf044 = 0, CXiSkeletonActor__vf044_TRAMP = 1;  // "CXiSkeletonActor::vf044" 0x100A4AC0
-constexpr unsigned CXiSkeletonActor__vf045 = 0, CXiSkeletonActor__vf045_TRAMP = 1;  // "CXiSkeletonActor::vf045" 0x100A4AD0
-constexpr unsigned CXiSkeletonActor__vf046 = 0, CXiSkeletonActor__vf046_TRAMP = 1;  // "CXiSkeletonActor::vf046" 0x100A4AE0
-constexpr unsigned CXiSkeletonActor__vf047 = 0, CXiSkeletonActor__vf047_TRAMP = 1;  // "CXiSkeletonActor::vf047" 0x100A4AF0
-constexpr unsigned CXiSkeletonActor__ActivateFlag9F8 = 0, CXiSkeletonActor__ActivateFlag9F8_TRAMP = 1;  // "CXiSkeletonActor::ActivateFlag9F8" 0x100A4B00
-constexpr unsigned CXiSkeletonActor__ActivateFlagA04 = 0, CXiSkeletonActor__ActivateFlagA04_TRAMP = 1;  // "CXiSkeletonActor::ActivateFlagA04" 0x100A4B10
-constexpr unsigned CXiSkeletonActor__vf050 = 0, CXiSkeletonActor__vf050_TRAMP = 1;  // "CXiSkeletonActor::vf050" 0x100A4B20
-constexpr unsigned CXiSkeletonActor__vf099 = 0, CXiSkeletonActor__vf099_TRAMP = 1;  // "CXiSkeletonActor::vf099" 0x100A4B30
-constexpr unsigned CXiSkeletonActor__vf100 = 0, CXiSkeletonActor__vf100_TRAMP = 1;  // "CXiSkeletonActor::vf100" 0x100A4B40
+constexpr unsigned CXiSkeletonActor__IsConstrain = 8, CXiSkeletonActor__IsConstrain_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain" 0x100A4A20
+constexpr unsigned CXiSkeletonActor__IsConstrain_Set = 8, CXiSkeletonActor__IsConstrain_Set_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain_Set" 0x100A4A30
+constexpr unsigned CXiSkeletonActor__IsConstrain2 = 8, CXiSkeletonActor__IsConstrain2_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain2" 0x100A4A50
+constexpr unsigned CXiSkeletonActor__IsConstrain2_Set = 8, CXiSkeletonActor__IsConstrain2_Set_TRAMP = 1;  // "CXiSkeletonActor::IsConstrain2_Set" 0x100A4A70
+constexpr unsigned CXiSkeletonActor__vf041 = 8, CXiSkeletonActor__vf041_TRAMP = 1;  // "CXiSkeletonActor::vf041" 0x100A4A90
+constexpr unsigned CXiSkeletonActor__vf042 = 8, CXiSkeletonActor__vf042_TRAMP = 1;  // "CXiSkeletonActor::vf042" 0x100A4AA0
+constexpr unsigned CXiSkeletonActor__vf043 = 8, CXiSkeletonActor__vf043_TRAMP = 1;  // "CXiSkeletonActor::vf043" 0x100A4AB0
+constexpr unsigned CXiSkeletonActor__vf044 = 8, CXiSkeletonActor__vf044_TRAMP = 1;  // "CXiSkeletonActor::vf044" 0x100A4AC0
+constexpr unsigned CXiSkeletonActor__vf045 = 8, CXiSkeletonActor__vf045_TRAMP = 1;  // "CXiSkeletonActor::vf045" 0x100A4AD0
+constexpr unsigned CXiSkeletonActor__vf046 = 8, CXiSkeletonActor__vf046_TRAMP = 1;  // "CXiSkeletonActor::vf046" 0x100A4AE0
+constexpr unsigned CXiSkeletonActor__vf047 = 8, CXiSkeletonActor__vf047_TRAMP = 1;  // "CXiSkeletonActor::vf047" 0x100A4AF0
+constexpr unsigned CXiSkeletonActor__ActivateFlag9F8 = 8, CXiSkeletonActor__ActivateFlag9F8_TRAMP = 1;  // "CXiSkeletonActor::ActivateFlag9F8" 0x100A4B00
+constexpr unsigned CXiSkeletonActor__ActivateFlagA04 = 8, CXiSkeletonActor__ActivateFlagA04_TRAMP = 1;  // "CXiSkeletonActor::ActivateFlagA04" 0x100A4B10
+constexpr unsigned CXiSkeletonActor__vf050 = 8, CXiSkeletonActor__vf050_TRAMP = 1;  // "CXiSkeletonActor::vf050" 0x100A4B20
+constexpr unsigned CXiSkeletonActor__vf099 = 8, CXiSkeletonActor__vf099_TRAMP = 1;  // "CXiSkeletonActor::vf099" 0x100A4B30
+constexpr unsigned CXiSkeletonActor__vf100 = 8, CXiSkeletonActor__vf100_TRAMP = 1;  // "CXiSkeletonActor::vf100" 0x100A4B40
 constexpr unsigned CXiCollisionActor__Constructor = 4, CXiCollisionActor__Constructor_TRAMP = 1;  // "CXiCollisionActor::Constructor" 0x100A4C20
 constexpr unsigned fn_100A5770 = 4, fn_100A5770_TRAMP = 1;  // "fn_100A5770" 0x100A5770
 constexpr unsigned fn_100A57C0 = 4, fn_100A57C0_TRAMP = 1;  // "fn_100A57C0" 0x100A57C0
 constexpr unsigned fn_100A5E10 = 4, fn_100A5E10_TRAMP = 1;  // "fn_100A5E10" 0x100A5E10
 constexpr unsigned fn_100A5EC0 = 4, fn_100A5EC0_TRAMP = 1;  // "fn_100A5EC0" 0x100A5EC0
 constexpr unsigned fn_100A5EF0 = 4, fn_100A5EF0_TRAMP = 1;  // "fn_100A5EF0" 0x100A5EF0
+constexpr unsigned fn_100A6070 = 12, fn_100A6070_TRAMP = 1;  // "fn_100A6070" 0x100A6070
 constexpr unsigned fn_100A78D0 = 4, fn_100A78D0_TRAMP = 1;  // "fn_100A78D0" 0x100A78D0
 constexpr unsigned fn_100A89E0 = 4, fn_100A89E0_TRAMP = 1;  // "fn_100A89E0" 0x100A89E0
 constexpr unsigned CMoTask__GetRuntimeClass_variant17 = 0, CMoTask__GetRuntimeClass_variant17_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant17" 0x100A8E10
@@ -5836,19 +5619,14 @@ constexpr unsigned CXiControlActor__Slot137_Set388 = 4, CXiControlActor__Slot137
 constexpr unsigned CXiControlActor__Slot138_Scan3F0 = 4, CXiControlActor__Slot138_Scan3F0_TRAMP = 1;  // "CXiControlActor::Slot138_Scan3F0" 0x100AAF70
 constexpr unsigned CMoAttachments_VT_1032E7EC__vf001 = 0, CMoAttachments_VT_1032E7EC__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032E7EC::vf001" 0x100AB060
 constexpr unsigned CXiSkeletonActor__GetRuntimeClass_variant0 = 0, CXiSkeletonActor__GetRuntimeClass_variant0_TRAMP = 1;  // "CXiSkeletonActor::GetRuntimeClass_variant0" 0x100AB070
-constexpr unsigned fn_100AB320 = 4, fn_100AB320_TRAMP = 1;  // "fn_100AB320" 0x100AB320
 constexpr unsigned fn_100AB550 = 4, fn_100AB550_TRAMP = 1;  // "fn_100AB550" 0x100AB550
 constexpr unsigned fn_100AB700 = 4, fn_100AB700_TRAMP = 1;  // "fn_100AB700" 0x100AB700
 constexpr unsigned fn_100AB750 = 4, fn_100AB750_TRAMP = 1;  // "fn_100AB750" 0x100AB750
 constexpr unsigned fn_100AB830 = 4, fn_100AB830_TRAMP = 1;  // "fn_100AB830" 0x100AB830
-constexpr unsigned fn_100AB880 = 4, fn_100AB880_TRAMP = 1;  // "fn_100AB880" 0x100AB880
 constexpr unsigned fn_100AB9A0 = 4, fn_100AB9A0_TRAMP = 1;  // "fn_100AB9A0" 0x100AB9A0
 constexpr unsigned fn_100ABC20 = 4, fn_100ABC20_TRAMP = 1;  // "fn_100ABC20" 0x100ABC20
 constexpr unsigned fn_100ABC70 = 4, fn_100ABC70_TRAMP = 1;  // "fn_100ABC70" 0x100ABC70
-constexpr unsigned fn_100AC380 = 4, fn_100AC380_TRAMP = 0;  // "fn_100AC380" 0x100AC380
-constexpr unsigned fn_100AC390 = 4, fn_100AC390_TRAMP = 1;  // "fn_100AC390" 0x100AC390
-constexpr unsigned fn_100AC4E0 = 4, fn_100AC4E0_TRAMP = 1;  // "fn_100AC4E0" 0x100AC4E0
-constexpr unsigned fn_100AC5A0 = 4, fn_100AC5A0_TRAMP = 1;  // "fn_100AC5A0" 0x100AC5A0
+constexpr unsigned fn_100AC380 = 12, fn_100AC380_TRAMP = 0;  // "fn_100AC380" 0x100AC380
 constexpr unsigned fn_100AD6D0 = 4, fn_100AD6D0_TRAMP = 1;  // "fn_100AD6D0" 0x100AD6D0
 constexpr unsigned fn_100AE350 = 4, fn_100AE350_TRAMP = 1;  // "fn_100AE350" 0x100AE350
 constexpr unsigned fn_100AE3A0 = 4, fn_100AE3A0_TRAMP = 1;  // "fn_100AE3A0" 0x100AE3A0
@@ -5856,6 +5634,8 @@ constexpr unsigned fn_100BA080 = 4, fn_100BA080_TRAMP = 1;  // "fn_100BA080" 0x1
 constexpr unsigned fn_100BD5F0 = 4, fn_100BD5F0_TRAMP = 1;  // "fn_100BD5F0" 0x100BD5F0
 constexpr unsigned fn_100BD760 = 4, fn_100BD760_TRAMP = 1;  // "fn_100BD760" 0x100BD760
 constexpr unsigned fn_100C2E20 = 4, fn_100C2E20_TRAMP = 1;  // "fn_100C2E20" 0x100C2E20
+constexpr unsigned fn_100C3020 = 12, fn_100C3020_TRAMP = 1;  // "fn_100C3020" 0x100C3020
+constexpr unsigned fn_100C3030 = 12, fn_100C3030_TRAMP = 1;  // "fn_100C3030" 0x100C3030
 constexpr unsigned fn_100C3050 = 4, fn_100C3050_TRAMP = 1;  // "fn_100C3050" 0x100C3050
 constexpr unsigned fn_100C3060 = 4, fn_100C3060_TRAMP = 1;  // "fn_100C3060" 0x100C3060
 constexpr unsigned fn_100C3190 = 4, fn_100C3190_TRAMP = 1;  // "fn_100C3190" 0x100C3190
@@ -5870,8 +5650,6 @@ constexpr unsigned fn_100C3FB0 = 4, fn_100C3FB0_TRAMP = 1;  // "fn_100C3FB0" 0x1
 constexpr unsigned fn_100C3FC0 = 4, fn_100C3FC0_TRAMP = 1;  // "fn_100C3FC0" 0x100C3FC0
 constexpr unsigned fn_100C4B00 = 4, fn_100C4B00_TRAMP = 1;  // "fn_100C4B00" 0x100C4B00
 constexpr unsigned fn_100C4B50 = 4, fn_100C4B50_TRAMP = 1;  // "fn_100C4B50" 0x100C4B50
-constexpr unsigned fn_100C4C20 = 4, fn_100C4C20_TRAMP = 1;  // "fn_100C4C20" 0x100C4C20
-constexpr unsigned fn_100C4CE0 = 4, fn_100C4CE0_TRAMP = 1;  // "fn_100C4CE0" 0x100C4CE0
 constexpr unsigned CXiSkeletonActor__GetRuntimeClass_variant1 = 0, CXiSkeletonActor__GetRuntimeClass_variant1_TRAMP = 1;  // "CXiSkeletonActor::GetRuntimeClass_variant1" 0x100C5190
 constexpr unsigned CMoTask__GetRuntimeClass_variant18 = 0, CMoTask__GetRuntimeClass_variant18_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant18" 0x100C51A0
 constexpr unsigned CXiSkeletonActorRes__GetRuntimeClass = 0, CXiSkeletonActorRes__GetRuntimeClass_TRAMP = 1;  // "CXiSkeletonActorRes::GetRuntimeClass" 0x100C51B0
@@ -5888,63 +5666,52 @@ constexpr unsigned CXiSkeletonActor__Constructor_4Arg = 0, CXiSkeletonActor__Con
 constexpr unsigned CXiSkeletonActor__Constructor_Factory = 4, CXiSkeletonActor__Constructor_Factory_TRAMP = 1;  // "CXiSkeletonActor::Constructor_Factory" 0x100C59B0
 constexpr unsigned CXiSkeletonActor__DestructorBody = 4, CXiSkeletonActor__DestructorBody_TRAMP = 1;  // "CXiSkeletonActor::DestructorBody" 0x100C5C00
 constexpr unsigned CXiSkeletonActor__Init = 0, CXiSkeletonActor__Init_TRAMP = 1;  // "CXiSkeletonActor::Init" 0x100C5D60
-constexpr unsigned CXiSkeletonActor__OnMove = 4, CXiSkeletonActor__OnMove_TRAMP = 1;  // "CXiSkeletonActor::OnMove" 0x100C63D0
 constexpr unsigned fn_100C8280 = 4, fn_100C8280_TRAMP = 1;  // "fn_100C8280" 0x100C8280
+constexpr unsigned Actor_SelectNearestLights = 4, Actor_SelectNearestLights_TRAMP = 1;  // "Actor_SelectNearestLights" 0x100CB4E0
 constexpr unsigned CXiSkeletonActor__RunStaggeredUpdates = 0, CXiSkeletonActor__RunStaggeredUpdates_TRAMP = 1;  // "CXiSkeletonActor::RunStaggeredUpdates" 0x100CBD60
 constexpr unsigned CXiSkeletonActor__PerActor_FourBucketStaggeredUpdate = 6, CXiSkeletonActor__PerActor_FourBucketStaggeredUpdate_TRAMP = 1;  // "CXiSkeletonActor::PerActor_FourBucketStaggeredUpdate" 0x100CBDE0
-constexpr unsigned CXiSkeletonActor__OcclusionClip = 2, CXiSkeletonActor__OcclusionClip_TRAMP = 1;  // "CXiSkeletonActor::OcclusionClip" 0x100CCF50
-constexpr unsigned CXiSkeletonActor__SetMotion = 0, CXiSkeletonActor__SetMotion_TRAMP = 1;  // "CXiSkeletonActor::SetMotion" 0x100CD490
 constexpr unsigned fn_100CD4E0 = 4, fn_100CD4E0_TRAMP = 1;  // "fn_100CD4E0" 0x100CD4E0
-constexpr unsigned fn_100CD540 = 4, fn_100CD540_TRAMP = 1;  // "fn_100CD540" 0x100CD540
 constexpr unsigned fn_100CDF90 = 4, fn_100CDF90_TRAMP = 1;  // "fn_100CDF90" 0x100CDF90
 constexpr unsigned fn_100CE160 = 4, fn_100CE160_TRAMP = 1;  // "fn_100CE160" 0x100CE160
 constexpr unsigned CXiSkeletonActor__ReverseFindRes = 4, CXiSkeletonActor__ReverseFindRes_TRAMP = 1;  // "CXiSkeletonActor::ReverseFindRes" 0x100CE480
 constexpr unsigned CXiSkeletonActor__ActorFindResource = 4, CXiSkeletonActor__ActorFindResource_TRAMP = 1;  // "CXiSkeletonActor::ActorFindResource" 0x100CE9B0
 constexpr unsigned CXiSkeletonActor__ActorFindResourceNth = 4, CXiSkeletonActor__ActorFindResourceNth_TRAMP = 1;  // "CXiSkeletonActor::ActorFindResourceNth" 0x100CEB00
 constexpr unsigned CXiSkeletonActor__ActorGetResourceCount = 4, CXiSkeletonActor__ActorGetResourceCount_TRAMP = 1;  // "CXiSkeletonActor::ActorGetResourceCount" 0x100CEC90
-constexpr unsigned CXiSkeletonActor__ReplaceAttack = 0, CXiSkeletonActor__ReplaceAttack_TRAMP = 0;  // "CXiSkeletonActor::ReplaceAttack" 0x100CEDF0
+constexpr unsigned CXiSkeletonActor__ReplaceAttack = 8, CXiSkeletonActor__ReplaceAttack_TRAMP = 0;  // "CXiSkeletonActor::ReplaceAttack" 0x100CEDF0
 constexpr unsigned CXiSkeletonActor__SetAttack = 0, CXiSkeletonActor__SetAttack_TRAMP = 1;  // "CXiSkeletonActor::SetAttack" 0x100CEE00
 constexpr unsigned CXiSkeletonActor__SetAction = 0, CXiSkeletonActor__SetAction_TRAMP = 1;  // "CXiSkeletonActor::SetAction" 0x100CEE40
 constexpr unsigned CXiSkeletonActor__SetAttack_SchStatus = 0, CXiSkeletonActor__SetAttack_SchStatus_TRAMP = 1;  // "CXiSkeletonActor::SetAttack_SchStatus" 0x100CF030
 constexpr unsigned fn_100CF100 = 4, fn_100CF100_TRAMP = 1;  // "fn_100CF100" 0x100CF100
 constexpr unsigned CXiSkeletonActor__vf172 = 0, CXiSkeletonActor__vf172_TRAMP = 1;  // "CXiSkeletonActor::vf172" 0x100CF200
-constexpr unsigned CXiSkeletonActor__SetModel = 4, CXiSkeletonActor__SetModel_TRAMP = 1;  // "CXiSkeletonActor::SetModel" 0x100CF210
 constexpr unsigned fn_100CFA50 = 4, fn_100CFA50_TRAMP = 1;  // "fn_100CFA50" 0x100CFA50
 constexpr unsigned fn_100CFAD0 = 4, fn_100CFAD0_TRAMP = 1;  // "fn_100CFAD0" 0x100CFAD0
-constexpr unsigned CXiSkeletonActor__Slot244_Unknown = 4, CXiSkeletonActor__Slot244_Unknown_TRAMP = 1;  // "CXiSkeletonActor::Slot244_Unknown" 0x100CFC10
 constexpr unsigned CXiSkeletonActor__GetField878Ptr_Candidate = 0, CXiSkeletonActor__GetField878Ptr_Candidate_TRAMP = 1;  // "CXiSkeletonActor::GetField878Ptr_Candidate" 0x100D04B0
 constexpr unsigned CXiSkeletonActor__GetNamePos = 0, CXiSkeletonActor__GetNamePos_TRAMP = 1;  // "CXiSkeletonActor::GetNamePos" 0x100D04C0
-constexpr unsigned CXiSkeletonActor__OnDrawName = 4, CXiSkeletonActor__OnDrawName_TRAMP = 1;  // "CXiSkeletonActor::OnDrawName" 0x100D0510
 constexpr unsigned CXiSkeletonActor__GetArrowPos = 0, CXiSkeletonActor__GetArrowPos_TRAMP = 1;  // "CXiSkeletonActor::GetArrowPos" 0x100D06F0
-constexpr unsigned CXiSkeletonActor__ProjectToScreen = 4, CXiSkeletonActor__ProjectToScreen_TRAMP = 1;  // "CXiSkeletonActor::ProjectToScreen" 0x100D0740
 constexpr unsigned CXiSkeletonActor__DrawNameIfVisible = 4, CXiSkeletonActor__DrawNameIfVisible_TRAMP = 1;  // "CXiSkeletonActor::DrawNameIfVisible" 0x100D0880
-constexpr unsigned CXiSkeletonActor__DrawName2IfVisible = 4, CXiSkeletonActor__DrawName2IfVisible_TRAMP = 1;  // "CXiSkeletonActor::DrawName2IfVisible" 0x100D08B0
+constexpr unsigned CXiSkeletonActor_DrawName2IfVisible = 12, CXiSkeletonActor_DrawName2IfVisible_TRAMP = 1;  // "CXiSkeletonActor_DrawName2IfVisible" 0x100D08B0
 constexpr unsigned CXiSkeletonActor__GetWidthScale = 4, CXiSkeletonActor__GetWidthScale_TRAMP = 1;  // "CXiSkeletonActor::GetWidthScale" 0x100D08E0
 constexpr unsigned CXiSkeletonActor__GetHeightScale = 4, CXiSkeletonActor__GetHeightScale_TRAMP = 1;  // "CXiSkeletonActor::GetHeightScale" 0x100D09B0
 constexpr unsigned CXiSkeletonActor__GetDepthScale = 4, CXiSkeletonActor__GetDepthScale_TRAMP = 1;  // "CXiSkeletonActor::GetDepthScale" 0x100D0A80
 constexpr unsigned fn_100D0D40 = 4, fn_100D0D40_TRAMP = 1;  // "fn_100D0D40" 0x100D0D40
-constexpr unsigned CXiSkeletonActor__IsReadCompleteBody = 4, CXiSkeletonActor__IsReadCompleteBody_TRAMP = 1;  // "CXiSkeletonActor::IsReadCompleteBody" 0x100D12D0
-constexpr unsigned fn_100D1450 = 4, fn_100D1450_TRAMP = 1;  // "fn_100D1450" 0x100D1450
+constexpr unsigned fn_100D0D70 = 12, fn_100D0D70_TRAMP = 1;  // "fn_100D0D70" 0x100D0D70
+constexpr unsigned fn_100D0FC0 = 4, fn_100D0FC0_TRAMP = 1;  // "fn_100D0FC0" 0x100D0FC0
+constexpr unsigned CXiSkeletonActor_IsReadCompleteBody = 12, CXiSkeletonActor_IsReadCompleteBody_TRAMP = 1;  // "CXiSkeletonActor_IsReadCompleteBody" 0x100D12D0
 constexpr unsigned fn_100D14C0 = 4, fn_100D14C0_TRAMP = 1;  // "fn_100D14C0" 0x100D14C0
 constexpr unsigned CXiSkeletonActor__OnSkeletonLoaded = 0, CXiSkeletonActor__OnSkeletonLoaded_TRAMP = 1;  // "CXiSkeletonActor::OnSkeletonLoaded" 0x100D2F40
-constexpr unsigned CXiSkeletonActor__LoadSkeletonSync = 4, CXiSkeletonActor__LoadSkeletonSync_TRAMP = 1;  // "CXiSkeletonActor::LoadSkeletonSync" 0x100D2F60
 constexpr unsigned CXiSkeletonActor__LoadSkeletonResource = 4, CXiSkeletonActor__LoadSkeletonResource_TRAMP = 1;  // "CXiSkeletonActor::LoadSkeletonResource" 0x100D4330
 constexpr unsigned fn_100D43E0 = 4, fn_100D43E0_TRAMP = 1;  // "fn_100D43E0" 0x100D43E0
 constexpr unsigned fn_100D4410 = 4, fn_100D4410_TRAMP = 1;  // "fn_100D4410" 0x100D4410
+constexpr unsigned fn_100D44B0 = 12, fn_100D44B0_TRAMP = 1;  // "fn_100D44B0" 0x100D44B0
 constexpr unsigned fn_100D4540 = 4, fn_100D4540_TRAMP = 1;  // "fn_100D4540" 0x100D4540
-constexpr unsigned CXiSkeletonActor__GetElem = 4, CXiSkeletonActor__GetElem_TRAMP = 1;  // "CXiSkeletonActor::GetElem" 0x100D4560
-constexpr unsigned CXiSkeletonActor__GetElemLocal = 4, CXiSkeletonActor__GetElemLocal_TRAMP = 1;  // "CXiSkeletonActor::GetElemLocal" 0x100D4800
-constexpr unsigned CXiSkeletonActor__GetEidMatrix = 0, CXiSkeletonActor__GetEidMatrix_TRAMP = 1;  // "CXiSkeletonActor::GetEidMatrix" 0x100D49B0
-constexpr unsigned fn_100D5430 = 4, fn_100D5430_TRAMP = 1;  // "fn_100D5430" 0x100D5430
-constexpr unsigned CXiSkeletonActor__IsDirectionLock_Set = 0, CXiSkeletonActor__IsDirectionLock_Set_TRAMP = 1;  // "CXiSkeletonActor::IsDirectionLock_Set" 0x100D5460
+constexpr unsigned CXiSkeletonActor__IsDirectionLock_Set = 8, CXiSkeletonActor__IsDirectionLock_Set_TRAMP = 1;  // "CXiSkeletonActor::IsDirectionLock_Set" 0x100D5460
 constexpr unsigned fn_100D6240 = 4, fn_100D6240_TRAMP = 1;  // "fn_100D6240" 0x100D6240
 constexpr unsigned CXiSkeletonActor__DrawResourceShadows = 0, CXiSkeletonActor__DrawResourceShadows_TRAMP = 1;  // "CXiSkeletonActor::DrawResourceShadows" 0x100D62C0
-constexpr unsigned CXiSkeletonActor__KillAllGenerater = 4, CXiSkeletonActor__KillAllGenerater_TRAMP = 1;  // "CXiSkeletonActor::KillAllGenerater" 0x100D6370
-constexpr unsigned CXiSkeletonActor__vf033 = 0, CXiSkeletonActor__vf033_TRAMP = 0;  // "CXiSkeletonActor::vf033" 0x100D6F90
-constexpr unsigned CXiSkeletonActor__vf034 = 0, CXiSkeletonActor__vf034_TRAMP = 0;  // "CXiSkeletonActor::vf034" 0x100D6FA0
-constexpr unsigned CXiSkeletonActor__vf035 = 0, CXiSkeletonActor__vf035_TRAMP = 0;  // "CXiSkeletonActor::vf035" 0x100D6FB0
-constexpr unsigned CXiSkeletonActor__vf036 = 0, CXiSkeletonActor__vf036_TRAMP = 0;  // "CXiSkeletonActor::vf036" 0x100D6FC0
-constexpr unsigned CXiSkeletonActor__vf037 = 0, CXiSkeletonActor__vf037_TRAMP = 0;  // "CXiSkeletonActor::vf037" 0x100D6FD0
+constexpr unsigned CXiSkeletonActor__vf033 = 8, CXiSkeletonActor__vf033_TRAMP = 0;  // "CXiSkeletonActor::vf033" 0x100D6F90
+constexpr unsigned CXiSkeletonActor__vf034 = 8, CXiSkeletonActor__vf034_TRAMP = 0;  // "CXiSkeletonActor::vf034" 0x100D6FA0
+constexpr unsigned CXiSkeletonActor__vf035 = 8, CXiSkeletonActor__vf035_TRAMP = 0;  // "CXiSkeletonActor::vf035" 0x100D6FB0
+constexpr unsigned CXiSkeletonActor__vf036 = 8, CXiSkeletonActor__vf036_TRAMP = 0;  // "CXiSkeletonActor::vf036" 0x100D6FC0
+constexpr unsigned CXiSkeletonActor__vf037 = 8, CXiSkeletonActor__vf037_TRAMP = 0;  // "CXiSkeletonActor::vf037" 0x100D6FD0
 constexpr unsigned CXiSkeletonActorRes__ScalarDeletingDtor = 0, CXiSkeletonActorRes__ScalarDeletingDtor_TRAMP = 1;  // "CXiSkeletonActorRes::ScalarDeletingDtor" 0x100D7000
 constexpr unsigned CXiSkeletonActorRes__Constructor = 0, CXiSkeletonActorRes__Constructor_TRAMP = 1;  // "CXiSkeletonActorRes::Constructor" 0x100D7020
 constexpr unsigned CXiSkeletonActorRes__Destructor = 4, CXiSkeletonActorRes__Destructor_TRAMP = 1;  // "CXiSkeletonActorRes::Destructor" 0x100D7050
@@ -5966,6 +5733,7 @@ constexpr unsigned fn_100D9430 = 4, fn_100D9430_TRAMP = 1;  // "fn_100D9430" 0x1
 constexpr unsigned fn_100D9460 = 4, fn_100D9460_TRAMP = 0;  // "fn_100D9460" 0x100D9460
 constexpr unsigned fn_100D9830 = 4, fn_100D9830_TRAMP = 1;  // "fn_100D9830" 0x100D9830
 constexpr unsigned fn_100D9950 = 4, fn_100D9950_TRAMP = 1;  // "fn_100D9950" 0x100D9950
+constexpr unsigned fn_100D9A70 = 4, fn_100D9A70_TRAMP = 1;  // "fn_100D9A70" 0x100D9A70
 constexpr unsigned fn_100D9AD0 = 4, fn_100D9AD0_TRAMP = 0;  // "fn_100D9AD0" 0x100D9AD0
 constexpr unsigned fn_100D9B00 = 4, fn_100D9B00_TRAMP = 1;  // "fn_100D9B00" 0x100D9B00
 constexpr unsigned fn_100DA6A0 = 4, fn_100DA6A0_TRAMP = 1;  // "fn_100DA6A0" 0x100DA6A0
@@ -6000,6 +5768,7 @@ constexpr unsigned fn_100DC260 = 4, fn_100DC260_TRAMP = 1;  // "fn_100DC260" 0x1
 constexpr unsigned fn_100DC270 = 4, fn_100DC270_TRAMP = 1;  // "fn_100DC270" 0x100DC270
 constexpr unsigned fn_100DC2C0 = 4, fn_100DC2C0_TRAMP = 1;  // "fn_100DC2C0" 0x100DC2C0
 constexpr unsigned fn_100DC420 = 4, fn_100DC420_TRAMP = 1;  // "fn_100DC420" 0x100DC420
+constexpr unsigned fn_100DC6C0 = 4, fn_100DC6C0_TRAMP = 0;  // "fn_100DC6C0" 0x100DC6C0
 constexpr unsigned fn_100DC6D0 = 4, fn_100DC6D0_TRAMP = 1;  // "fn_100DC6D0" 0x100DC6D0
 constexpr unsigned fn_100DCA00 = 4, fn_100DCA00_TRAMP = 1;  // "fn_100DCA00" 0x100DCA00
 constexpr unsigned fn_100DCF60 = 4, fn_100DCF60_TRAMP = 1;  // "fn_100DCF60" 0x100DCF60
@@ -6107,6 +5876,7 @@ constexpr unsigned fn_100F0000 = 4, fn_100F0000_TRAMP = 1;  // "fn_100F0000" 0x1
 constexpr unsigned fn_100F0070 = 4, fn_100F0070_TRAMP = 1;  // "fn_100F0070" 0x100F0070
 constexpr unsigned fn_100F0090 = 4, fn_100F0090_TRAMP = 0;  // "fn_100F0090" 0x100F0090
 constexpr unsigned fn_100F00A0 = 4, fn_100F00A0_TRAMP = 1;  // "fn_100F00A0" 0x100F00A0
+constexpr unsigned fn_100F02A0 = 12, fn_100F02A0_TRAMP = 0;  // "fn_100F02A0" 0x100F02A0
 constexpr unsigned fn_100F04F0 = 4, fn_100F04F0_TRAMP = 1;  // "fn_100F04F0" 0x100F04F0
 constexpr unsigned fn_100F0550 = 4, fn_100F0550_TRAMP = 1;  // "fn_100F0550" 0x100F0550
 constexpr unsigned fn_100F0570 = 4, fn_100F0570_TRAMP = 1;  // "fn_100F0570" 0x100F0570
@@ -6141,6 +5911,7 @@ constexpr unsigned fn_100F2720 = 4, fn_100F2720_TRAMP = 1;  // "fn_100F2720" 0x1
 constexpr unsigned fn_100F29E0 = 4, fn_100F29E0_TRAMP = 1;  // "fn_100F29E0" 0x100F29E0
 constexpr unsigned fn_100F2A40 = 4, fn_100F2A40_TRAMP = 1;  // "fn_100F2A40" 0x100F2A40
 constexpr unsigned fn_100F2B80 = 4, fn_100F2B80_TRAMP = 1;  // "fn_100F2B80" 0x100F2B80
+constexpr unsigned fn_100F2C40 = 12, fn_100F2C40_TRAMP = 1;  // "fn_100F2C40" 0x100F2C40
 constexpr unsigned fn_100F2C80 = 4, fn_100F2C80_TRAMP = 1;  // "fn_100F2C80" 0x100F2C80
 constexpr unsigned fn_100F3010 = 4, fn_100F3010_TRAMP = 1;  // "fn_100F3010" 0x100F3010
 constexpr unsigned fn_100F32B0 = 4, fn_100F32B0_TRAMP = 1;  // "fn_100F32B0" 0x100F32B0
@@ -6149,6 +5920,7 @@ constexpr unsigned fn_100F3C20 = 4, fn_100F3C20_TRAMP = 1;  // "fn_100F3C20" 0x1
 constexpr unsigned fn_100F3C90 = 4, fn_100F3C90_TRAMP = 1;  // "fn_100F3C90" 0x100F3C90
 constexpr unsigned fn_100F3D00 = 4, fn_100F3D00_TRAMP = 1;  // "fn_100F3D00" 0x100F3D00
 constexpr unsigned fn_100F76B0 = 4, fn_100F76B0_TRAMP = 1;  // "fn_100F76B0" 0x100F76B0
+constexpr unsigned fn_100F76D0 = 12, fn_100F76D0_TRAMP = 1;  // "fn_100F76D0" 0x100F76D0
 constexpr unsigned fn_100F7700 = 4, fn_100F7700_TRAMP = 1;  // "fn_100F7700" 0x100F7700
 constexpr unsigned fn_100F7740 = 4, fn_100F7740_TRAMP = 1;  // "fn_100F7740" 0x100F7740
 constexpr unsigned fn_100F7A00 = 4, fn_100F7A00_TRAMP = 1;  // "fn_100F7A00" 0x100F7A00
@@ -6168,7 +5940,7 @@ constexpr unsigned fn_100F9DA0 = 4, fn_100F9DA0_TRAMP = 1;  // "fn_100F9DA0" 0x1
 constexpr unsigned fn_100F9DB0 = 4, fn_100F9DB0_TRAMP = 1;  // "fn_100F9DB0" 0x100F9DB0
 constexpr unsigned fn_100F9DF0 = 4, fn_100F9DF0_TRAMP = 1;  // "fn_100F9DF0" 0x100F9DF0
 constexpr unsigned fn_100F9E10 = 4, fn_100F9E10_TRAMP = 1;  // "fn_100F9E10" 0x100F9E10
-constexpr unsigned fn_100FA950 = 4, fn_100FA950_TRAMP = 1;  // "fn_100FA950" 0x100FA950
+constexpr unsigned fn_100FA940 = 12, fn_100FA940_TRAMP = 1;  // "fn_100FA940" 0x100FA940
 constexpr unsigned fn_100FA9C0 = 4, fn_100FA9C0_TRAMP = 1;  // "fn_100FA9C0" 0x100FA9C0
 constexpr unsigned fn_100FB920 = 4, fn_100FB920_TRAMP = 1;  // "fn_100FB920" 0x100FB920
 constexpr unsigned fn_100FBA40 = 4, fn_100FBA40_TRAMP = 1;  // "fn_100FBA40" 0x100FBA40
@@ -6177,7 +5949,7 @@ constexpr unsigned fn_100FBD10 = 4, fn_100FBD10_TRAMP = 1;  // "fn_100FBD10" 0x1
 constexpr unsigned fn_100FC160 = 4, fn_100FC160_TRAMP = 1;  // "fn_100FC160" 0x100FC160
 constexpr unsigned fn_100FC180 = 4, fn_100FC180_TRAMP = 1;  // "fn_100FC180" 0x100FC180
 constexpr unsigned fn_100FC320 = 4, fn_100FC320_TRAMP = 1;  // "fn_100FC320" 0x100FC320
-constexpr unsigned fn_100FC3B0 = 4, fn_100FC3B0_TRAMP = 1;  // "fn_100FC3B0" 0x100FC3B0
+constexpr unsigned fn_100FC370 = 12, fn_100FC370_TRAMP = 1;  // "fn_100FC370" 0x100FC370
 constexpr unsigned fn_100FC4D0 = 4, fn_100FC4D0_TRAMP = 1;  // "fn_100FC4D0" 0x100FC4D0
 constexpr unsigned fn_100FC4E0 = 4, fn_100FC4E0_TRAMP = 1;  // "fn_100FC4E0" 0x100FC4E0
 constexpr unsigned fn_100FC510 = 4, fn_100FC510_TRAMP = 1;  // "fn_100FC510" 0x100FC510
@@ -6235,8 +6007,8 @@ constexpr unsigned fn_101090A0 = 4, fn_101090A0_TRAMP = 1;  // "fn_101090A0" 0x1
 constexpr unsigned fn_10109100 = 4, fn_10109100_TRAMP = 1;  // "fn_10109100" 0x10109100
 constexpr unsigned fn_10109140 = 4, fn_10109140_TRAMP = 1;  // "fn_10109140" 0x10109140
 constexpr unsigned fn_101091D0 = 4, fn_101091D0_TRAMP = 1;  // "fn_101091D0" 0x101091D0
-constexpr unsigned fn_101092C0 = 4, fn_101092C0_TRAMP = 1;  // "fn_101092C0" 0x101092C0
-constexpr unsigned fn_101094D0 = 4, fn_101094D0_TRAMP = 1;  // "fn_101094D0" 0x101094D0
+constexpr unsigned fn_101092C0 = 12, fn_101092C0_TRAMP = 1;  // "fn_101092C0" 0x101092C0
+constexpr unsigned fn_101094D0 = 12, fn_101094D0_TRAMP = 1;  // "fn_101094D0" 0x101094D0
 constexpr unsigned fn_1010E040 = 4, fn_1010E040_TRAMP = 1;  // "fn_1010E040" 0x1010E040
 constexpr unsigned fn_1010F8B0 = 4, fn_1010F8B0_TRAMP = 1;  // "fn_1010F8B0" 0x1010F8B0
 constexpr unsigned fn_1010FA30 = 4, fn_1010FA30_TRAMP = 1;  // "fn_1010FA30" 0x1010FA30
@@ -6249,13 +6021,12 @@ constexpr unsigned fn_10113220 = 4, fn_10113220_TRAMP = 1;  // "fn_10113220" 0x1
 constexpr unsigned fn_101133A0 = 4, fn_101133A0_TRAMP = 1;  // "fn_101133A0" 0x101133A0
 constexpr unsigned fn_10114070 = 4, fn_10114070_TRAMP = 1;  // "fn_10114070" 0x10114070
 constexpr unsigned fn_10114120 = 4, fn_10114120_TRAMP = 1;  // "fn_10114120" 0x10114120
-constexpr unsigned fn_10114250 = 4, fn_10114250_TRAMP = 1;  // "fn_10114250" 0x10114250
 constexpr unsigned fn_10114320 = 4, fn_10114320_TRAMP = 1;  // "fn_10114320" 0x10114320
 constexpr unsigned fn_10114500 = 4, fn_10114500_TRAMP = 1;  // "fn_10114500" 0x10114500
 constexpr unsigned fn_10114620 = 4, fn_10114620_TRAMP = 1;  // "fn_10114620" 0x10114620
-constexpr unsigned fn_10114B60 = 4, fn_10114B60_TRAMP = 1;  // "fn_10114B60" 0x10114B60
+constexpr unsigned FDtXiInit = 4, FDtXiInit_TRAMP = 1;  // "FDtXiInit" 0x10114B60
 constexpr unsigned fn_10114F10 = 4, fn_10114F10_TRAMP = 1;  // "fn_10114F10" 0x10114F10
-constexpr unsigned fn_10115020 = 4, fn_10115020_TRAMP = 1;  // "fn_10115020" 0x10115020
+constexpr unsigned FDtGmNoticeProc = 4, FDtGmNoticeProc_TRAMP = 1;  // "FDtGmNoticeProc" 0x10115020
 constexpr unsigned fn_101152D0 = 4, fn_101152D0_TRAMP = 1;  // "fn_101152D0" 0x101152D0
 constexpr unsigned fn_101152E0 = 4, fn_101152E0_TRAMP = 1;  // "fn_101152E0" 0x101152E0
 constexpr unsigned fn_101152F0 = 4, fn_101152F0_TRAMP = 1;  // "fn_101152F0" 0x101152F0
@@ -6310,6 +6081,8 @@ constexpr unsigned fn_10118870 = 4, fn_10118870_TRAMP = 1;  // "fn_10118870" 0x1
 constexpr unsigned fn_10118B60 = 4, fn_10118B60_TRAMP = 1;  // "fn_10118B60" 0x10118B60
 constexpr unsigned fn_10118C10 = 4, fn_10118C10_TRAMP = 1;  // "fn_10118C10" 0x10118C10
 constexpr unsigned fn_10118CB0 = 4, fn_10118CB0_TRAMP = 1;  // "fn_10118CB0" 0x10118CB0
+constexpr unsigned fn_10118DB0 = 12, fn_10118DB0_TRAMP = 1;  // "fn_10118DB0" 0x10118DB0
+constexpr unsigned fn_10118E90 = 12, fn_10118E90_TRAMP = 1;  // "fn_10118E90" 0x10118E90
 constexpr unsigned fn_10118F20 = 4, fn_10118F20_TRAMP = 1;  // "fn_10118F20" 0x10118F20
 constexpr unsigned fn_10118F40 = 4, fn_10118F40_TRAMP = 1;  // "fn_10118F40" 0x10118F40
 constexpr unsigned fn_10118F70 = 4, fn_10118F70_TRAMP = 1;  // "fn_10118F70" 0x10118F70
@@ -6319,8 +6092,8 @@ constexpr unsigned fn_101192E0 = 4, fn_101192E0_TRAMP = 1;  // "fn_101192E0" 0x1
 constexpr unsigned fn_10119300 = 4, fn_10119300_TRAMP = 1;  // "fn_10119300" 0x10119300
 constexpr unsigned fn_10119360 = 4, fn_10119360_TRAMP = 1;  // "fn_10119360" 0x10119360
 constexpr unsigned fn_10119390 = 4, fn_10119390_TRAMP = 1;  // "fn_10119390" 0x10119390
-constexpr unsigned fn_101193A0 = 4, fn_101193A0_TRAMP = 1;  // "fn_101193A0" 0x101193A0
-constexpr unsigned fn_101193B0 = 4, fn_101193B0_TRAMP = 1;  // "fn_101193B0" 0x101193B0
+constexpr unsigned fn_101193A0 = 12, fn_101193A0_TRAMP = 1;  // "fn_101193A0" 0x101193A0
+constexpr unsigned fn_101193B0 = 12, fn_101193B0_TRAMP = 1;  // "fn_101193B0" 0x101193B0
 constexpr unsigned fn_101193D0 = 4, fn_101193D0_TRAMP = 1;  // "fn_101193D0" 0x101193D0
 constexpr unsigned fn_101193F0 = 4, fn_101193F0_TRAMP = 1;  // "fn_101193F0" 0x101193F0
 constexpr unsigned fn_10119550 = 4, fn_10119550_TRAMP = 1;  // "fn_10119550" 0x10119550
@@ -6328,18 +6101,14 @@ constexpr unsigned fn_101198D0 = 4, fn_101198D0_TRAMP = 1;  // "fn_101198D0" 0x1
 constexpr unsigned fn_10119970 = 4, fn_10119970_TRAMP = 1;  // "fn_10119970" 0x10119970
 constexpr unsigned fn_10119A50 = 4, fn_10119A50_TRAMP = 1;  // "fn_10119A50" 0x10119A50
 constexpr unsigned fn_10119AD0 = 4, fn_10119AD0_TRAMP = 1;  // "fn_10119AD0" 0x10119AD0
-constexpr unsigned fn_10119BC0 = 4, fn_10119BC0_TRAMP = 1;  // "fn_10119BC0" 0x10119BC0
 constexpr unsigned fn_10119C00 = 4, fn_10119C00_TRAMP = 1;  // "fn_10119C00" 0x10119C00
 constexpr unsigned fn_10119DA0 = 4, fn_10119DA0_TRAMP = 1;  // "fn_10119DA0" 0x10119DA0
 constexpr unsigned fn_10119E20 = 4, fn_10119E20_TRAMP = 1;  // "fn_10119E20" 0x10119E20
 constexpr unsigned fn_10119E30 = 4, fn_10119E30_TRAMP = 1;  // "fn_10119E30" 0x10119E30
 constexpr unsigned fn_10119E70 = 4, fn_10119E70_TRAMP = 1;  // "fn_10119E70" 0x10119E70
-constexpr unsigned fn_10119F20 = 4, fn_10119F20_TRAMP = 1;  // "fn_10119F20" 0x10119F20
 constexpr unsigned fn_10119F80 = 4, fn_10119F80_TRAMP = 1;  // "fn_10119F80" 0x10119F80
 constexpr unsigned fn_1011A3B0 = 4, fn_1011A3B0_TRAMP = 1;  // "fn_1011A3B0" 0x1011A3B0
 constexpr unsigned fn_1011A490 = 4, fn_1011A490_TRAMP = 1;  // "fn_1011A490" 0x1011A490
-constexpr unsigned fn_1011A560 = 4, fn_1011A560_TRAMP = 1;  // "fn_1011A560" 0x1011A560
-constexpr unsigned fn_1011A5A0 = 4, fn_1011A5A0_TRAMP = 1;  // "fn_1011A5A0" 0x1011A5A0
 constexpr unsigned fn_1011AA40 = 0, fn_1011AA40_TRAMP = 1;  // "fn_1011AA40" 0x1011AA40
 constexpr unsigned Gfx_ApplyViewport1B70 = 0, Gfx_ApplyViewport1B70_TRAMP = 1;  // "Gfx_ApplyViewport1B70" 0x1011AAC0
 constexpr unsigned fn_1011ABF0 = 4, fn_1011ABF0_TRAMP = 1;  // "fn_1011ABF0" 0x1011ABF0
@@ -6372,7 +6141,9 @@ constexpr unsigned fn_1011CEC0 = 4, fn_1011CEC0_TRAMP = 1;  // "fn_1011CEC0" 0x1
 constexpr unsigned fn_1011CF70 = 4, fn_1011CF70_TRAMP = 1;  // "fn_1011CF70" 0x1011CF70
 constexpr unsigned fn_1011D000 = 4, fn_1011D000_TRAMP = 1;  // "fn_1011D000" 0x1011D000
 constexpr unsigned fn_1011D010 = 4, fn_1011D010_TRAMP = 1;  // "fn_1011D010" 0x1011D010
+constexpr unsigned Font_AddGlyphAdvance = 12, Font_AddGlyphAdvance_TRAMP = 1;  // "Font_AddGlyphAdvance" 0x1011D840
 constexpr unsigned fn_1011D8B0 = 4, fn_1011D8B0_TRAMP = 1;  // "fn_1011D8B0" 0x1011D8B0
+constexpr unsigned fn_1011D990 = 12, fn_1011D990_TRAMP = 1;  // "fn_1011D990" 0x1011D990
 constexpr unsigned fn_1011DA30 = 4, fn_1011DA30_TRAMP = 1;  // "fn_1011DA30" 0x1011DA30
 constexpr unsigned Sjis_GetCharByteLen = 4, Sjis_GetCharByteLen_TRAMP = 1;  // "Sjis_GetCharByteLen" 0x1011DA80
 constexpr unsigned fn_1011DB40 = 4, fn_1011DB40_TRAMP = 1;  // "fn_1011DB40" 0x1011DB40
@@ -6409,20 +6180,19 @@ constexpr unsigned fn_10123640 = 4, fn_10123640_TRAMP = 1;  // "fn_10123640" 0x1
 constexpr unsigned fn_10123650 = 4, fn_10123650_TRAMP = 1;  // "fn_10123650" 0x10123650
 constexpr unsigned fn_10123670 = 4, fn_10123670_TRAMP = 1;  // "fn_10123670" 0x10123670
 constexpr unsigned fn_10123680 = 4, fn_10123680_TRAMP = 1;  // "fn_10123680" 0x10123680
-constexpr unsigned fn_101236B0 = 4, fn_101236B0_TRAMP = 1;  // "fn_101236B0" 0x101236B0
 constexpr unsigned fn_101236E0 = 4, fn_101236E0_TRAMP = 1;  // "fn_101236E0" 0x101236E0
 constexpr unsigned fn_10123700 = 4, fn_10123700_TRAMP = 1;  // "fn_10123700" 0x10123700
 constexpr unsigned fn_10123DC0 = 4, fn_10123DC0_TRAMP = 1;  // "fn_10123DC0" 0x10123DC0
 constexpr unsigned fn_10123DF0 = 4, fn_10123DF0_TRAMP = 1;  // "fn_10123DF0" 0x10123DF0
 constexpr unsigned fn_10123E20 = 4, fn_10123E20_TRAMP = 1;  // "fn_10123E20" 0x10123E20
 constexpr unsigned fn_10123E50 = 4, fn_10123E50_TRAMP = 1;  // "fn_10123E50" 0x10123E50
-constexpr unsigned fn_10123E60 = 4, fn_10123E60_TRAMP = 1;  // "fn_10123E60" 0x10123E60
-constexpr unsigned fn_10123E80 = 4, fn_10123E80_TRAMP = 0;  // "fn_10123E80" 0x10123E80
+constexpr unsigned fn_10123E60 = 12, fn_10123E60_TRAMP = 1;  // "fn_10123E60" 0x10123E60
+constexpr unsigned fn_10123E80 = 12, fn_10123E80_TRAMP = 0;  // "fn_10123E80" 0x10123E80
 constexpr unsigned fn_10123E90 = 4, fn_10123E90_TRAMP = 1;  // "fn_10123E90" 0x10123E90
 constexpr unsigned fn_10123EA0 = 4, fn_10123EA0_TRAMP = 1;  // "fn_10123EA0" 0x10123EA0
+constexpr unsigned fn_10123EE0 = 12, fn_10123EE0_TRAMP = 1;  // "fn_10123EE0" 0x10123EE0
 constexpr unsigned fn_10123F40 = 4, fn_10123F40_TRAMP = 1;  // "fn_10123F40" 0x10123F40
 constexpr unsigned fn_10123F60 = 4, fn_10123F60_TRAMP = 1;  // "fn_10123F60" 0x10123F60
-constexpr unsigned fn_10123F80 = 4, fn_10123F80_TRAMP = 1;  // "fn_10123F80" 0x10123F80
 constexpr unsigned fn_10123FC0 = 4, fn_10123FC0_TRAMP = 1;  // "fn_10123FC0" 0x10123FC0
 constexpr unsigned fn_10123FE0 = 4, fn_10123FE0_TRAMP = 1;  // "fn_10123FE0" 0x10123FE0
 constexpr unsigned fn_10124000 = 4, fn_10124000_TRAMP = 1;  // "fn_10124000" 0x10124000
@@ -6435,11 +6205,12 @@ constexpr unsigned fn_101240F0 = 4, fn_101240F0_TRAMP = 1;  // "fn_101240F0" 0x1
 constexpr unsigned fn_10124110 = 4, fn_10124110_TRAMP = 1;  // "fn_10124110" 0x10124110
 constexpr unsigned fn_10124130 = 4, fn_10124130_TRAMP = 1;  // "fn_10124130" 0x10124130
 constexpr unsigned fn_10124360 = 4, fn_10124360_TRAMP = 1;  // "fn_10124360" 0x10124360
+constexpr unsigned fn_10124390 = 4, fn_10124390_TRAMP = 1;  // "fn_10124390" 0x10124390
 constexpr unsigned Cursor_Init = 0, Cursor_Init_TRAMP = 1;  // "Cursor_Init" 0x10124440
 constexpr unsigned Cursor_GetHwCursorSlot = 4, Cursor_GetHwCursorSlot_TRAMP = 1;  // "Cursor_GetHwCursorSlot" 0x101245C0
 constexpr unsigned fn_101245D0 = 4, fn_101245D0_TRAMP = 1;  // "fn_101245D0" 0x101245D0
-constexpr unsigned fn_10124640 = 0, fn_10124640_TRAMP = 1;  // "fn_10124640" 0x10124640
-constexpr unsigned Obj_104E1D4C__Cursor_SetPosition = 4, Obj_104E1D4C__Cursor_SetPosition_TRAMP = 1;  // "Obj_104E1D4C::Cursor_SetPosition" 0x10124700
+constexpr unsigned CTkMouse_OnMouseMove = 0, CTkMouse_OnMouseMove_TRAMP = 1;  // "CTkMouse_OnMouseMove" 0x10124640
+constexpr unsigned Cursor_SetPosition = 12, Cursor_SetPosition_TRAMP = 1;  // "Cursor_SetPosition" 0x10124700
 constexpr unsigned fn_101248A0 = 4, fn_101248A0_TRAMP = 1;  // "fn_101248A0" 0x101248A0
 constexpr unsigned fn_10124930 = 4, fn_10124930_TRAMP = 1;  // "fn_10124930" 0x10124930
 constexpr unsigned fn_101249E0 = 4, fn_101249E0_TRAMP = 1;  // "fn_101249E0" 0x101249E0
@@ -6448,24 +6219,21 @@ constexpr unsigned fn_10124AB0 = 4, fn_10124AB0_TRAMP = 1;  // "fn_10124AB0" 0x1
 constexpr unsigned fn_10124AD0 = 4, fn_10124AD0_TRAMP = 1;  // "fn_10124AD0" 0x10124AD0
 constexpr unsigned fn_10124B50 = 4, fn_10124B50_TRAMP = 1;  // "fn_10124B50" 0x10124B50
 constexpr unsigned fn_10124B70 = 4, fn_10124B70_TRAMP = 1;  // "fn_10124B70" 0x10124B70
-constexpr unsigned fn_10124BC0 = 4, fn_10124BC0_TRAMP = 1;  // "fn_10124BC0" 0x10124BC0
-constexpr unsigned Obj_104E1D4C__Cursor_Draw = 12, Obj_104E1D4C__Cursor_Draw_TRAMP = 1;  // "Obj_104E1D4C::Cursor_Draw" 0x10124EB0
 constexpr unsigned fn_10125040 = 4, fn_10125040_TRAMP = 1;  // "fn_10125040" 0x10125040
+constexpr unsigned fn_10125170 = 12, fn_10125170_TRAMP = 1;  // "fn_10125170" 0x10125170
 constexpr unsigned fn_101252C0 = 4, fn_101252C0_TRAMP = 1;  // "fn_101252C0" 0x101252C0
 constexpr unsigned Cursor_SetVisible = 4, Cursor_SetVisible_TRAMP = 1;  // "Cursor_SetVisible" 0x101252F0
-constexpr unsigned fn_10125360 = 4, fn_10125360_TRAMP = 1;  // "fn_10125360" 0x10125360
 constexpr unsigned fn_10125F70 = 4, fn_10125F70_TRAMP = 1;  // "fn_10125F70" 0x10125F70
-constexpr unsigned fn_101260E0 = 4, fn_101260E0_TRAMP = 1;  // "fn_101260E0" 0x101260E0
-constexpr unsigned fn_101260F0 = 4, fn_101260F0_TRAMP = 1;  // "fn_101260F0" 0x101260F0
+constexpr unsigned fn_101260E0 = 12, fn_101260E0_TRAMP = 1;  // "fn_101260E0" 0x101260E0
+constexpr unsigned fn_101260F0 = 12, fn_101260F0_TRAMP = 1;  // "fn_101260F0" 0x101260F0
 constexpr unsigned fn_10126100 = 4, fn_10126100_TRAMP = 1;  // "fn_10126100" 0x10126100
 constexpr unsigned fn_10126270 = 4, fn_10126270_TRAMP = 1;  // "fn_10126270" 0x10126270
 constexpr unsigned unknown_libname_89 = 4, unknown_libname_89_TRAMP = 1;  // "unknown_libname_89" 0x10126290
 constexpr unsigned Cursor_StoreScreenCenter = 4, Cursor_StoreScreenCenter_TRAMP = 1;  // "Cursor_StoreScreenCenter" 0x101262A0
 constexpr unsigned fn_10126300 = 4, fn_10126300_TRAMP = 1;  // "fn_10126300" 0x10126300
 constexpr unsigned fn_10126320 = 4, fn_10126320_TRAMP = 1;  // "fn_10126320" 0x10126320
-constexpr unsigned fn_10126330 = 4, fn_10126330_TRAMP = 0;  // "fn_10126330" 0x10126330
+constexpr unsigned fn_10126330 = 12, fn_10126330_TRAMP = 0;  // "fn_10126330" 0x10126330
 constexpr unsigned fn_10126350 = 4, fn_10126350_TRAMP = 1;  // "fn_10126350" 0x10126350
-constexpr unsigned fn_10126370 = 4, fn_10126370_TRAMP = 1;  // "fn_10126370" 0x10126370
 constexpr unsigned fn_101263B0 = 4, fn_101263B0_TRAMP = 1;  // "fn_101263B0" 0x101263B0
 constexpr unsigned fn_10126460 = 4, fn_10126460_TRAMP = 1;  // "fn_10126460" 0x10126460
 constexpr unsigned fn_10126480 = 4, fn_10126480_TRAMP = 1;  // "fn_10126480" 0x10126480
@@ -6473,17 +6241,16 @@ constexpr unsigned fn_101264C0 = 4, fn_101264C0_TRAMP = 1;  // "fn_101264C0" 0x1
 constexpr unsigned fn_10126500 = 4, fn_10126500_TRAMP = 0;  // "fn_10126500" 0x10126500
 constexpr unsigned fn_10126510 = 4, fn_10126510_TRAMP = 0;  // "fn_10126510" 0x10126510
 constexpr unsigned fn_10126580 = 4, fn_10126580_TRAMP = 1;  // "fn_10126580" 0x10126580
-constexpr unsigned fn_101265D0 = 4, fn_101265D0_TRAMP = 1;  // "fn_101265D0" 0x101265D0
 constexpr unsigned fn_101266B0 = 4, fn_101266B0_TRAMP = 1;  // "fn_101266B0" 0x101266B0
 constexpr unsigned fn_10126700 = 4, fn_10126700_TRAMP = 1;  // "fn_10126700" 0x10126700
 constexpr unsigned fn_10126750 = 4, fn_10126750_TRAMP = 1;  // "fn_10126750" 0x10126750
 constexpr unsigned fn_10126770 = 4, fn_10126770_TRAMP = 1;  // "fn_10126770" 0x10126770
 constexpr unsigned fn_10126790 = 4, fn_10126790_TRAMP = 1;  // "fn_10126790" 0x10126790
 constexpr unsigned fn_101268F0 = 4, fn_101268F0_TRAMP = 1;  // "fn_101268F0" 0x101268F0
-constexpr unsigned fn_10126A00 = 4, fn_10126A00_TRAMP = 1;  // "fn_10126A00" 0x10126A00
 constexpr unsigned fn_10126B60 = 4, fn_10126B60_TRAMP = 1;  // "fn_10126B60" 0x10126B60
 constexpr unsigned fn_10126BC0 = 4, fn_10126BC0_TRAMP = 1;  // "fn_10126BC0" 0x10126BC0
 constexpr unsigned fn_10127190 = 4, fn_10127190_TRAMP = 1;  // "fn_10127190" 0x10127190
+constexpr unsigned fn_101271C0 = 4, fn_101271C0_TRAMP = 1;  // "fn_101271C0" 0x101271C0
 constexpr unsigned fn_10127250 = 4, fn_10127250_TRAMP = 1;  // "fn_10127250" 0x10127250
 constexpr unsigned fn_10127280 = 4, fn_10127280_TRAMP = 1;  // "fn_10127280" 0x10127280
 constexpr unsigned fn_101273C0 = 4, fn_101273C0_TRAMP = 1;  // "fn_101273C0" 0x101273C0
@@ -6492,19 +6259,19 @@ constexpr unsigned fn_101278B0 = 4, fn_101278B0_TRAMP = 1;  // "fn_101278B0" 0x1
 constexpr unsigned fn_101278D0 = 4, fn_101278D0_TRAMP = 1;  // "fn_101278D0" 0x101278D0
 constexpr unsigned fn_10127930 = 4, fn_10127930_TRAMP = 1;  // "fn_10127930" 0x10127930
 constexpr unsigned fn_10127970 = 4, fn_10127970_TRAMP = 1;  // "fn_10127970" 0x10127970
-constexpr unsigned fn_10127990 = 4, fn_10127990_TRAMP = 1;  // "fn_10127990" 0x10127990
+constexpr unsigned GetCallNum = 4, GetCallNum_TRAMP = 1;  // "GetCallNum" 0x10127990
 constexpr unsigned fn_10127AB0 = 4, fn_10127AB0_TRAMP = 1;  // "fn_10127AB0" 0x10127AB0
 constexpr unsigned fn_10127EE0 = 4, fn_10127EE0_TRAMP = 1;  // "fn_10127EE0" 0x10127EE0
 constexpr unsigned fn_10127F00 = 4, fn_10127F00_TRAMP = 1;  // "fn_10127F00" 0x10127F00
 constexpr unsigned fn_10127FA0 = 4, fn_10127FA0_TRAMP = 1;  // "fn_10127FA0" 0x10127FA0
 constexpr unsigned fn_101281F0 = 4, fn_101281F0_TRAMP = 1;  // "fn_101281F0" 0x101281F0
-constexpr unsigned fn_10129290 = 4, fn_10129290_TRAMP = 1;  // "fn_10129290" 0x10129290
-constexpr unsigned fn_101292E0 = 4, fn_101292E0_TRAMP = 1;  // "fn_101292E0" 0x101292E0
+constexpr unsigned fn_10129290 = 12, fn_10129290_TRAMP = 1;  // "fn_10129290" 0x10129290
+constexpr unsigned fn_101292E0 = 12, fn_101292E0_TRAMP = 1;  // "fn_101292E0" 0x101292E0
 constexpr unsigned fn_10129BB0 = 4, fn_10129BB0_TRAMP = 1;  // "fn_10129BB0" 0x10129BB0
+constexpr unsigned fn_10129C60 = 12, fn_10129C60_TRAMP = 0;  // "fn_10129C60" 0x10129C60
 constexpr unsigned fn_10129D00 = 4, fn_10129D00_TRAMP = 1;  // "fn_10129D00" 0x10129D00
 constexpr unsigned fn_10129EE0 = 4, fn_10129EE0_TRAMP = 1;  // "fn_10129EE0" 0x10129EE0
 constexpr unsigned fn_10129F40 = 4, fn_10129F40_TRAMP = 1;  // "fn_10129F40" 0x10129F40
-constexpr unsigned fn_1012A340 = 4, fn_1012A340_TRAMP = 1;  // "fn_1012A340" 0x1012A340
 constexpr unsigned fn_1012A350 = 4, fn_1012A350_TRAMP = 1;  // "fn_1012A350" 0x1012A350
 constexpr unsigned fn_1012A3B0 = 4, fn_1012A3B0_TRAMP = 1;  // "fn_1012A3B0" 0x1012A3B0
 constexpr unsigned fn_1012A400 = 4, fn_1012A400_TRAMP = 1;  // "fn_1012A400" 0x1012A400
@@ -6520,6 +6287,7 @@ constexpr unsigned fn_1012D450 = 4, fn_1012D450_TRAMP = 1;  // "fn_1012D450" 0x1
 constexpr unsigned fn_1012E180 = 4, fn_1012E180_TRAMP = 1;  // "fn_1012E180" 0x1012E180
 constexpr unsigned fn_1012E360 = 4, fn_1012E360_TRAMP = 1;  // "fn_1012E360" 0x1012E360
 constexpr unsigned fn_10130390 = 4, fn_10130390_TRAMP = 1;  // "fn_10130390" 0x10130390
+constexpr unsigned fn_101304D0 = 4, fn_101304D0_TRAMP = 1;  // "fn_101304D0" 0x101304D0
 constexpr unsigned fn_10130F90 = 4, fn_10130F90_TRAMP = 1;  // "fn_10130F90" 0x10130F90
 constexpr unsigned fn_101312E0 = 4, fn_101312E0_TRAMP = 1;  // "fn_101312E0" 0x101312E0
 constexpr unsigned fn_10131530 = 4, fn_10131530_TRAMP = 1;  // "fn_10131530" 0x10131530
@@ -6527,6 +6295,7 @@ constexpr unsigned fn_10131940 = 4, fn_10131940_TRAMP = 1;  // "fn_10131940" 0x1
 constexpr unsigned fn_10133310 = 4, fn_10133310_TRAMP = 1;  // "fn_10133310" 0x10133310
 constexpr unsigned fn_10135850 = 4, fn_10135850_TRAMP = 1;  // "fn_10135850" 0x10135850
 constexpr unsigned fn_10136380 = 4, fn_10136380_TRAMP = 1;  // "fn_10136380" 0x10136380
+constexpr unsigned fn_10136560 = 4, fn_10136560_TRAMP = 1;  // "fn_10136560" 0x10136560
 constexpr unsigned fn_10136870 = 4, fn_10136870_TRAMP = 1;  // "fn_10136870" 0x10136870
 constexpr unsigned fn_10136900 = 4, fn_10136900_TRAMP = 1;  // "fn_10136900" 0x10136900
 constexpr unsigned fn_10136950 = 4, fn_10136950_TRAMP = 1;  // "fn_10136950" 0x10136950
@@ -6542,13 +6311,11 @@ constexpr unsigned fn_10138EC0 = 4, fn_10138EC0_TRAMP = 1;  // "fn_10138EC0" 0x1
 constexpr unsigned fn_10138FB0 = 4, fn_10138FB0_TRAMP = 0;  // "fn_10138FB0" 0x10138FB0
 constexpr unsigned fn_10139840 = 4, fn_10139840_TRAMP = 1;  // "fn_10139840" 0x10139840
 constexpr unsigned fn_10139EE0 = 4, fn_10139EE0_TRAMP = 1;  // "fn_10139EE0" 0x10139EE0
-constexpr unsigned fn_10139FE0 = 4, fn_10139FE0_TRAMP = 1;  // "fn_10139FE0" 0x10139FE0
 constexpr unsigned fn_10139FF0 = 4, fn_10139FF0_TRAMP = 1;  // "fn_10139FF0" 0x10139FF0
 constexpr unsigned fn_1013A010 = 4, fn_1013A010_TRAMP = 1;  // "fn_1013A010" 0x1013A010
 constexpr unsigned fn_1013A030 = 4, fn_1013A030_TRAMP = 1;  // "fn_1013A030" 0x1013A030
-constexpr unsigned fn_1013A060 = 4, fn_1013A060_TRAMP = 1;  // "fn_1013A060" 0x1013A060
+constexpr unsigned fn_1013A060 = 12, fn_1013A060_TRAMP = 1;  // "fn_1013A060" 0x1013A060
 constexpr unsigned fn_1013A070 = 4, fn_1013A070_TRAMP = 1;  // "fn_1013A070" 0x1013A070
-constexpr unsigned fn_1013A100 = 4, fn_1013A100_TRAMP = 1;  // "fn_1013A100" 0x1013A100
 constexpr unsigned fn_1013A1E0 = 4, fn_1013A1E0_TRAMP = 1;  // "fn_1013A1E0" 0x1013A1E0
 constexpr unsigned fn_1013A320 = 4, fn_1013A320_TRAMP = 1;  // "fn_1013A320" 0x1013A320
 constexpr unsigned fn_1013A330 = 4, fn_1013A330_TRAMP = 1;  // "fn_1013A330" 0x1013A330
@@ -6558,7 +6325,6 @@ constexpr unsigned fn_1013A930 = 4, fn_1013A930_TRAMP = 1;  // "fn_1013A930" 0x1
 constexpr unsigned fn_1013AA60 = 4, fn_1013AA60_TRAMP = 1;  // "fn_1013AA60" 0x1013AA60
 constexpr unsigned fn_1013AB20 = 4, fn_1013AB20_TRAMP = 1;  // "fn_1013AB20" 0x1013AB20
 constexpr unsigned fn_1013BE50 = 4, fn_1013BE50_TRAMP = 1;  // "fn_1013BE50" 0x1013BE50
-constexpr unsigned fn_1013BF40 = 4, fn_1013BF40_TRAMP = 1;  // "fn_1013BF40" 0x1013BF40
 constexpr unsigned fn_1013E7F0 = 4, fn_1013E7F0_TRAMP = 1;  // "fn_1013E7F0" 0x1013E7F0
 constexpr unsigned fn_1013FBE0 = 4, fn_1013FBE0_TRAMP = 1;  // "fn_1013FBE0" 0x1013FBE0
 constexpr unsigned fn_10140950 = 4, fn_10140950_TRAMP = 1;  // "fn_10140950" 0x10140950
@@ -6582,12 +6348,10 @@ constexpr unsigned fn_1014BA60 = 4, fn_1014BA60_TRAMP = 1;  // "fn_1014BA60" 0x1
 constexpr unsigned fn_1014C750 = 4, fn_1014C750_TRAMP = 1;  // "fn_1014C750" 0x1014C750
 constexpr unsigned fn_1014D970 = 4, fn_1014D970_TRAMP = 1;  // "fn_1014D970" 0x1014D970
 constexpr unsigned fn_1014DD30 = 4, fn_1014DD30_TRAMP = 1;  // "fn_1014DD30" 0x1014DD30
-constexpr unsigned fn_1014E020 = 4, fn_1014E020_TRAMP = 1;  // "fn_1014E020" 0x1014E020
-constexpr unsigned fn_1014E050 = 4, fn_1014E050_TRAMP = 1;  // "fn_1014E050" 0x1014E050
 constexpr unsigned fn_1014EDC0 = 4, fn_1014EDC0_TRAMP = 1;  // "fn_1014EDC0" 0x1014EDC0
 constexpr unsigned fn_1014F840 = 4, fn_1014F840_TRAMP = 1;  // "fn_1014F840" 0x1014F840
 constexpr unsigned fn_1014FFE0 = 4, fn_1014FFE0_TRAMP = 1;  // "fn_1014FFE0" 0x1014FFE0
-constexpr unsigned fn_10150090 = 4, fn_10150090_TRAMP = 1;  // "fn_10150090" 0x10150090
+constexpr unsigned fn_10150090 = 12, fn_10150090_TRAMP = 1;  // "fn_10150090" 0x10150090
 constexpr unsigned fn_10150A30 = 4, fn_10150A30_TRAMP = 1;  // "fn_10150A30" 0x10150A30
 constexpr unsigned fn_10150A60 = 4, fn_10150A60_TRAMP = 1;  // "fn_10150A60" 0x10150A60
 constexpr unsigned fn_10150AB0 = 4, fn_10150AB0_TRAMP = 1;  // "fn_10150AB0" 0x10150AB0
@@ -6615,7 +6379,7 @@ constexpr unsigned fn_10153AF0 = 4, fn_10153AF0_TRAMP = 1;  // "fn_10153AF0" 0x1
 constexpr unsigned fn_10153B30 = 4, fn_10153B30_TRAMP = 1;  // "fn_10153B30" 0x10153B30
 constexpr unsigned fn_10153C10 = 4, fn_10153C10_TRAMP = 1;  // "fn_10153C10" 0x10153C10
 constexpr unsigned fn_10153EF0 = 4, fn_10153EF0_TRAMP = 1;  // "fn_10153EF0" 0x10153EF0
-constexpr unsigned fn_10153F80 = 4, fn_10153F80_TRAMP = 1;  // "fn_10153F80" 0x10153F80
+constexpr unsigned fn_10153F80 = 12, fn_10153F80_TRAMP = 1;  // "fn_10153F80" 0x10153F80
 constexpr unsigned fn_10153FF0 = 4, fn_10153FF0_TRAMP = 1;  // "fn_10153FF0" 0x10153FF0
 constexpr unsigned fn_10154070 = 4, fn_10154070_TRAMP = 1;  // "fn_10154070" 0x10154070
 constexpr unsigned fn_101544F0 = 4, fn_101544F0_TRAMP = 1;  // "fn_101544F0" 0x101544F0
@@ -6626,14 +6390,14 @@ constexpr unsigned fn_10154840 = 4, fn_10154840_TRAMP = 1;  // "fn_10154840" 0x1
 constexpr unsigned fn_10154860 = 4, fn_10154860_TRAMP = 1;  // "fn_10154860" 0x10154860
 constexpr unsigned fn_101549E0 = 4, fn_101549E0_TRAMP = 0;  // "fn_101549E0" 0x101549E0
 constexpr unsigned fn_101549F0 = 4, fn_101549F0_TRAMP = 1;  // "fn_101549F0" 0x101549F0
-constexpr unsigned fn_10154A80 = 4, fn_10154A80_TRAMP = 1;  // "fn_10154A80" 0x10154A80
+constexpr unsigned fn_10154A80 = 12, fn_10154A80_TRAMP = 1;  // "fn_10154A80" 0x10154A80
 constexpr unsigned fn_10154AB0 = 4, fn_10154AB0_TRAMP = 1;  // "fn_10154AB0" 0x10154AB0
 constexpr unsigned fn_10154AD0 = 4, fn_10154AD0_TRAMP = 1;  // "fn_10154AD0" 0x10154AD0
 constexpr unsigned fn_10154DB0 = 4, fn_10154DB0_TRAMP = 1;  // "fn_10154DB0" 0x10154DB0
 constexpr unsigned fn_10154DC0 = 4, fn_10154DC0_TRAMP = 1;  // "fn_10154DC0" 0x10154DC0
 constexpr unsigned fn_10154E30 = 4, fn_10154E30_TRAMP = 1;  // "fn_10154E30" 0x10154E30
 constexpr unsigned fn_10154F00 = 4, fn_10154F00_TRAMP = 0;  // "fn_10154F00" 0x10154F00
-constexpr unsigned fn_10154F30 = 4, fn_10154F30_TRAMP = 1;  // "fn_10154F30" 0x10154F30
+constexpr unsigned fn_10154F30 = 12, fn_10154F30_TRAMP = 1;  // "fn_10154F30" 0x10154F30
 constexpr unsigned fn_10154F60 = 4, fn_10154F60_TRAMP = 1;  // "fn_10154F60" 0x10154F60
 constexpr unsigned fn_10154FC0 = 4, fn_10154FC0_TRAMP = 1;  // "fn_10154FC0" 0x10154FC0
 constexpr unsigned fn_10155140 = 4, fn_10155140_TRAMP = 1;  // "fn_10155140" 0x10155140
@@ -6659,26 +6423,28 @@ constexpr unsigned fn_10156840 = 4, fn_10156840_TRAMP = 0;  // "fn_10156840" 0x1
 constexpr unsigned fn_10156850 = 4, fn_10156850_TRAMP = 0;  // "fn_10156850" 0x10156850
 constexpr unsigned fn_10156860 = 4, fn_10156860_TRAMP = 0;  // "fn_10156860" 0x10156860
 constexpr unsigned fn_10156870 = 4, fn_10156870_TRAMP = 1;  // "fn_10156870" 0x10156870
-constexpr unsigned fn_10156970 = 4, fn_10156970_TRAMP = 1;  // "fn_10156970" 0x10156970
-constexpr unsigned fn_101569A0 = 4, fn_101569A0_TRAMP = 1;  // "fn_101569A0" 0x101569A0
+constexpr unsigned fn_10156970 = 12, fn_10156970_TRAMP = 1;  // "fn_10156970" 0x10156970
 constexpr unsigned fn_101569F0 = 4, fn_101569F0_TRAMP = 1;  // "fn_101569F0" 0x101569F0
 constexpr unsigned fn_10156B20 = 4, fn_10156B20_TRAMP = 0;  // "fn_10156B20" 0x10156B20
 constexpr unsigned fn_10156B30 = 4, fn_10156B30_TRAMP = 0;  // "fn_10156B30" 0x10156B30
 constexpr unsigned fn_10156B40 = 4, fn_10156B40_TRAMP = 0;  // "fn_10156B40" 0x10156B40
 constexpr unsigned fn_10156B50 = 4, fn_10156B50_TRAMP = 1;  // "fn_10156B50" 0x10156B50
-constexpr unsigned fn_10156BB0 = 4, fn_10156BB0_TRAMP = 1;  // "fn_10156BB0" 0x10156BB0
-constexpr unsigned fn_10156BE0 = 4, fn_10156BE0_TRAMP = 1;  // "fn_10156BE0" 0x10156BE0
+constexpr unsigned fn_10156BB0 = 12, fn_10156BB0_TRAMP = 1;  // "fn_10156BB0" 0x10156BB0
 constexpr unsigned fn_10156BF0 = 4, fn_10156BF0_TRAMP = 1;  // "fn_10156BF0" 0x10156BF0
 constexpr unsigned fn_10156D90 = 4, fn_10156D90_TRAMP = 1;  // "fn_10156D90" 0x10156D90
 constexpr unsigned fn_10156E00 = 4, fn_10156E00_TRAMP = 1;  // "fn_10156E00" 0x10156E00
 constexpr unsigned fn_101575E0 = 4, fn_101575E0_TRAMP = 1;  // "fn_101575E0" 0x101575E0
 constexpr unsigned fn_10157610 = 4, fn_10157610_TRAMP = 1;  // "fn_10157610" 0x10157610
-constexpr unsigned fn_10157620 = 4, fn_10157620_TRAMP = 1;  // "fn_10157620" 0x10157620
+constexpr unsigned fn_10157620 = 12, fn_10157620_TRAMP = 1;  // "fn_10157620" 0x10157620
 constexpr unsigned fn_10157660 = 4, fn_10157660_TRAMP = 1;  // "fn_10157660" 0x10157660
 constexpr unsigned fn_101576F0 = 4, fn_101576F0_TRAMP = 1;  // "fn_101576F0" 0x101576F0
 constexpr unsigned fn_10157720 = 4, fn_10157720_TRAMP = 1;  // "fn_10157720" 0x10157720
 constexpr unsigned fn_10157780 = 4, fn_10157780_TRAMP = 1;  // "fn_10157780" 0x10157780
 constexpr unsigned fn_10157860 = 4, fn_10157860_TRAMP = 1;  // "fn_10157860" 0x10157860
+constexpr unsigned fn_10157880 = 12, fn_10157880_TRAMP = 0;  // "fn_10157880" 0x10157880
+constexpr unsigned fn_10157890 = 12, fn_10157890_TRAMP = 0;  // "fn_10157890" 0x10157890
+constexpr unsigned fn_101578A0 = 12, fn_101578A0_TRAMP = 0;  // "fn_101578A0" 0x101578A0
+constexpr unsigned fn_101578B0 = 12, fn_101578B0_TRAMP = 1;  // "fn_101578B0" 0x101578B0
 constexpr unsigned fn_101578C0 = 4, fn_101578C0_TRAMP = 0;  // "fn_101578C0" 0x101578C0
 constexpr unsigned fn_101578D0 = 4, fn_101578D0_TRAMP = 1;  // "fn_101578D0" 0x101578D0
 constexpr unsigned fn_101578E0 = 4, fn_101578E0_TRAMP = 1;  // "fn_101578E0" 0x101578E0
@@ -6690,24 +6456,28 @@ constexpr unsigned fn_10157C60 = 4, fn_10157C60_TRAMP = 1;  // "fn_10157C60" 0x1
 constexpr unsigned fn_10157D20 = 4, fn_10157D20_TRAMP = 1;  // "fn_10157D20" 0x10157D20
 constexpr unsigned fn_10157D60 = 4, fn_10157D60_TRAMP = 1;  // "fn_10157D60" 0x10157D60
 constexpr unsigned fn_10157E20 = 4, fn_10157E20_TRAMP = 1;  // "fn_10157E20" 0x10157E20
-constexpr unsigned fn_10157FA0 = 4, fn_10157FA0_TRAMP = 1;  // "fn_10157FA0" 0x10157FA0
-constexpr unsigned fn_101581E0 = 4, fn_101581E0_TRAMP = 1;  // "fn_101581E0" 0x101581E0
+constexpr unsigned fn_10157FA0 = 12, fn_10157FA0_TRAMP = 1;  // "fn_10157FA0" 0x10157FA0
+constexpr unsigned fn_101581E0 = 12, fn_101581E0_TRAMP = 1;  // "fn_101581E0" 0x101581E0
 constexpr unsigned fn_101582F0 = 4, fn_101582F0_TRAMP = 1;  // "fn_101582F0" 0x101582F0
 constexpr unsigned fn_101583F0 = 4, fn_101583F0_TRAMP = 1;  // "fn_101583F0" 0x101583F0
 constexpr unsigned fn_10158470 = 4, fn_10158470_TRAMP = 1;  // "fn_10158470" 0x10158470
-constexpr unsigned fn_10158480 = 4, fn_10158480_TRAMP = 1;  // "fn_10158480" 0x10158480
+constexpr unsigned fn_10158480 = 12, fn_10158480_TRAMP = 1;  // "fn_10158480" 0x10158480
 constexpr unsigned fn_10158510 = 4, fn_10158510_TRAMP = 0;  // "fn_10158510" 0x10158510
 constexpr unsigned fn_10158550 = 4, fn_10158550_TRAMP = 1;  // "fn_10158550" 0x10158550
 constexpr unsigned fn_10158590 = 4, fn_10158590_TRAMP = 1;  // "fn_10158590" 0x10158590
 constexpr unsigned fn_101585F0 = 4, fn_101585F0_TRAMP = 1;  // "fn_101585F0" 0x101585F0
 constexpr unsigned fn_101587B0 = 4, fn_101587B0_TRAMP = 1;  // "fn_101587B0" 0x101587B0
 constexpr unsigned fn_10158AA0 = 4, fn_10158AA0_TRAMP = 1;  // "fn_10158AA0" 0x10158AA0
+constexpr unsigned fn_10158AE0 = 12, fn_10158AE0_TRAMP = 1;  // "fn_10158AE0" 0x10158AE0
+constexpr unsigned fn_10158B00 = 12, fn_10158B00_TRAMP = 1;  // "fn_10158B00" 0x10158B00
 constexpr unsigned fn_10158B40 = 4, fn_10158B40_TRAMP = 1;  // "fn_10158B40" 0x10158B40
+constexpr unsigned fn_10158B60 = 4, fn_10158B60_TRAMP = 1;  // "fn_10158B60" 0x10158B60
 constexpr unsigned fn_10158C40 = 4, fn_10158C40_TRAMP = 1;  // "fn_10158C40" 0x10158C40
 constexpr unsigned fn_10158CA0 = 4, fn_10158CA0_TRAMP = 1;  // "fn_10158CA0" 0x10158CA0
 constexpr unsigned fn_10158D90 = 4, fn_10158D90_TRAMP = 1;  // "fn_10158D90" 0x10158D90
 constexpr unsigned fn_10158DB0 = 4, fn_10158DB0_TRAMP = 1;  // "fn_10158DB0" 0x10158DB0
 constexpr unsigned fn_10158FF0 = 4, fn_10158FF0_TRAMP = 1;  // "fn_10158FF0" 0x10158FF0
+constexpr unsigned fn_10159040 = 12, fn_10159040_TRAMP = 1;  // "fn_10159040" 0x10159040
 constexpr unsigned fn_101590A0 = 4, fn_101590A0_TRAMP = 1;  // "fn_101590A0" 0x101590A0
 constexpr unsigned fn_101590C0 = 4, fn_101590C0_TRAMP = 1;  // "fn_101590C0" 0x101590C0
 constexpr unsigned fn_10159170 = 4, fn_10159170_TRAMP = 1;  // "fn_10159170" 0x10159170
@@ -6721,6 +6491,8 @@ constexpr unsigned fn_101594D0 = 4, fn_101594D0_TRAMP = 1;  // "fn_101594D0" 0x1
 constexpr unsigned fn_101594E0 = 4, fn_101594E0_TRAMP = 1;  // "fn_101594E0" 0x101594E0
 constexpr unsigned fn_101594F0 = 4, fn_101594F0_TRAMP = 1;  // "fn_101594F0" 0x101594F0
 constexpr unsigned fn_10159530 = 4, fn_10159530_TRAMP = 1;  // "fn_10159530" 0x10159530
+constexpr unsigned fn_10159540 = 12, fn_10159540_TRAMP = 1;  // "fn_10159540" 0x10159540
+constexpr unsigned fn_101595D0 = 4, fn_101595D0_TRAMP = 1;  // "fn_101595D0" 0x101595D0
 constexpr unsigned fn_10159660 = 4, fn_10159660_TRAMP = 1;  // "fn_10159660" 0x10159660
 constexpr unsigned fn_10159740 = 4, fn_10159740_TRAMP = 1;  // "fn_10159740" 0x10159740
 constexpr unsigned fn_10159780 = 4, fn_10159780_TRAMP = 1;  // "fn_10159780" 0x10159780
@@ -6737,8 +6509,8 @@ constexpr unsigned fn_10159A20 = 4, fn_10159A20_TRAMP = 1;  // "fn_10159A20" 0x1
 constexpr unsigned fn_10159B10 = 4, fn_10159B10_TRAMP = 1;  // "fn_10159B10" 0x10159B10
 constexpr unsigned fn_10159D40 = 4, fn_10159D40_TRAMP = 1;  // "fn_10159D40" 0x10159D40
 constexpr unsigned fn_10159DE0 = 4, fn_10159DE0_TRAMP = 1;  // "fn_10159DE0" 0x10159DE0
+constexpr unsigned fn_10159E10 = 12, fn_10159E10_TRAMP = 1;  // "fn_10159E10" 0x10159E10
 constexpr unsigned fn_10159FB0 = 4, fn_10159FB0_TRAMP = 1;  // "fn_10159FB0" 0x10159FB0
-constexpr unsigned fn_1015AF60 = 4, fn_1015AF60_TRAMP = 1;  // "fn_1015AF60" 0x1015AF60
 constexpr unsigned fn_1015AF80 = 4, fn_1015AF80_TRAMP = 1;  // "fn_1015AF80" 0x1015AF80
 constexpr unsigned fn_1015AFA0 = 4, fn_1015AFA0_TRAMP = 1;  // "fn_1015AFA0" 0x1015AFA0
 constexpr unsigned fn_1015B190 = 4, fn_1015B190_TRAMP = 1;  // "fn_1015B190" 0x1015B190
@@ -6749,7 +6521,7 @@ constexpr unsigned fn_1015BAF0 = 4, fn_1015BAF0_TRAMP = 1;  // "fn_1015BAF0" 0x1
 constexpr unsigned fn_1015BD40 = 4, fn_1015BD40_TRAMP = 1;  // "fn_1015BD40" 0x1015BD40
 constexpr unsigned fn_1015D7F0 = 4, fn_1015D7F0_TRAMP = 1;  // "fn_1015D7F0" 0x1015D7F0
 constexpr unsigned fn_1015D860 = 4, fn_1015D860_TRAMP = 1;  // "fn_1015D860" 0x1015D860
-constexpr unsigned fn_1015D880 = 4, fn_1015D880_TRAMP = 1;  // "fn_1015D880" 0x1015D880
+constexpr unsigned fn_1015D880 = 12, fn_1015D880_TRAMP = 1;  // "fn_1015D880" 0x1015D880
 constexpr unsigned MenuMng_Init = 4, MenuMng_Init_TRAMP = 1;  // "MenuMng_Init" 0x1015D900
 constexpr unsigned fn_1015D9A0 = 4, fn_1015D9A0_TRAMP = 1;  // "fn_1015D9A0" 0x1015D9A0
 constexpr unsigned fn_1015DB10 = 4, fn_1015DB10_TRAMP = 1;  // "fn_1015DB10" 0x1015DB10
@@ -6766,11 +6538,9 @@ constexpr unsigned fn_1015DEF0 = 4, fn_1015DEF0_TRAMP = 1;  // "fn_1015DEF0" 0x1
 constexpr unsigned fn_1015DF20 = 4, fn_1015DF20_TRAMP = 1;  // "fn_1015DF20" 0x1015DF20
 constexpr unsigned fn_1015DFC0 = 4, fn_1015DFC0_TRAMP = 0;  // "fn_1015DFC0" 0x1015DFC0
 constexpr unsigned fn_1015E030 = 4, fn_1015E030_TRAMP = 1;  // "fn_1015E030" 0x1015E030
-constexpr unsigned fn_1015E530 = 4, fn_1015E530_TRAMP = 1;  // "fn_1015E530" 0x1015E530
 constexpr unsigned fn_1015E7E0 = 4, fn_1015E7E0_TRAMP = 1;  // "fn_1015E7E0" 0x1015E7E0
-constexpr unsigned fn_1015E830 = 4, fn_1015E830_TRAMP = 1;  // "fn_1015E830" 0x1015E830
-constexpr unsigned fn_1015E850 = 4, fn_1015E850_TRAMP = 1;  // "fn_1015E850" 0x1015E850
-constexpr unsigned fn_1015E8A0 = 4, fn_1015E8A0_TRAMP = 1;  // "fn_1015E8A0" 0x1015E8A0
+constexpr unsigned fn_1015E850 = 12, fn_1015E850_TRAMP = 1;  // "fn_1015E850" 0x1015E850
+constexpr unsigned fn_1015E8A0 = 12, fn_1015E8A0_TRAMP = 1;  // "fn_1015E8A0" 0x1015E8A0
 constexpr unsigned fn_1015E910 = 4, fn_1015E910_TRAMP = 1;  // "fn_1015E910" 0x1015E910
 constexpr unsigned fn_1015E950 = 4, fn_1015E950_TRAMP = 1;  // "fn_1015E950" 0x1015E950
 constexpr unsigned fn_1015EB60 = 4, fn_1015EB60_TRAMP = 1;  // "fn_1015EB60" 0x1015EB60
@@ -6786,6 +6556,7 @@ constexpr unsigned fn_1015EE40 = 4, fn_1015EE40_TRAMP = 1;  // "fn_1015EE40" 0x1
 constexpr unsigned fn_1015EEF0 = 4, fn_1015EEF0_TRAMP = 1;  // "fn_1015EEF0" 0x1015EEF0
 constexpr unsigned fn_1015EF20 = 4, fn_1015EF20_TRAMP = 1;  // "fn_1015EF20" 0x1015EF20
 constexpr unsigned fn_1015F3E0 = 4, fn_1015F3E0_TRAMP = 1;  // "fn_1015F3E0" 0x1015F3E0
+constexpr unsigned fn_1015F6A0 = 4, fn_1015F6A0_TRAMP = 1;  // "fn_1015F6A0" 0x1015F6A0
 constexpr unsigned fn_1015F790 = 4, fn_1015F790_TRAMP = 1;  // "fn_1015F790" 0x1015F790
 constexpr unsigned fn_1015F8F0 = 4, fn_1015F8F0_TRAMP = 1;  // "fn_1015F8F0" 0x1015F8F0
 constexpr unsigned fn_1015F960 = 4, fn_1015F960_TRAMP = 1;  // "fn_1015F960" 0x1015F960
@@ -6799,7 +6570,9 @@ constexpr unsigned MenuMng_GetOffsetY = 4, MenuMng_GetOffsetY_TRAMP = 1;  // "Me
 constexpr unsigned fn_10160440 = 4, fn_10160440_TRAMP = 1;  // "fn_10160440" 0x10160440
 constexpr unsigned Gfx_SetDefault2DStates = 0, Gfx_SetDefault2DStates_TRAMP = 1;  // "Gfx_SetDefault2DStates" 0x101604B0
 constexpr unsigned Gfx_DisableFogAndAlphaBlend = 0, Gfx_DisableFogAndAlphaBlend_TRAMP = 1;  // "Gfx_DisableFogAndAlphaBlend" 0x10160650
-constexpr unsigned fn_10160710 = 4, fn_10160710_TRAMP = 1;  // "fn_10160710" 0x10160710
+constexpr unsigned fn_101606F0 = 12, fn_101606F0_TRAMP = 1;  // "fn_101606F0" 0x101606F0
+constexpr unsigned fn_10160700 = 12, fn_10160700_TRAMP = 1;  // "fn_10160700" 0x10160700
+constexpr unsigned fn_10160710 = 12, fn_10160710_TRAMP = 1;  // "fn_10160710" 0x10160710
 constexpr unsigned fn_101609C0 = 4, fn_101609C0_TRAMP = 1;  // "fn_101609C0" 0x101609C0
 constexpr unsigned fn_10160A50 = 4, fn_10160A50_TRAMP = 1;  // "fn_10160A50" 0x10160A50
 constexpr unsigned fn_10160C90 = 4, fn_10160C90_TRAMP = 0;  // "fn_10160C90" 0x10160C90
@@ -6809,16 +6582,16 @@ constexpr unsigned fn_10161380 = 4, fn_10161380_TRAMP = 1;  // "fn_10161380" 0x1
 constexpr unsigned fn_101615E0 = 4, fn_101615E0_TRAMP = 1;  // "fn_101615E0" 0x101615E0
 constexpr unsigned fn_10161850 = 4, fn_10161850_TRAMP = 1;  // "fn_10161850" 0x10161850
 constexpr unsigned fn_10161970 = 4, fn_10161970_TRAMP = 1;  // "fn_10161970" 0x10161970
-constexpr unsigned fn_10161990 = 4, fn_10161990_TRAMP = 1;  // "fn_10161990" 0x10161990
 constexpr unsigned fn_10161B80 = 4, fn_10161B80_TRAMP = 1;  // "fn_10161B80" 0x10161B80
 constexpr unsigned fn_10161BC0 = 4, fn_10161BC0_TRAMP = 1;  // "fn_10161BC0" 0x10161BC0
-constexpr unsigned fn_10161D60 = 4, fn_10161D60_TRAMP = 1;  // "fn_10161D60" 0x10161D60
+constexpr unsigned fn_10161C70 = 4, fn_10161C70_TRAMP = 1;  // "fn_10161C70" 0x10161C70
 constexpr unsigned fn_10161ED0 = 4, fn_10161ED0_TRAMP = 1;  // "fn_10161ED0" 0x10161ED0
 constexpr unsigned fn_10161FF0 = 4, fn_10161FF0_TRAMP = 1;  // "fn_10161FF0" 0x10161FF0
 constexpr unsigned fn_10162010 = 0, fn_10162010_TRAMP = 1;  // "fn_10162010" 0x10162010
 constexpr unsigned Gfx_ApplyViewport1904 = 0, Gfx_ApplyViewport1904_TRAMP = 1;  // "Gfx_ApplyViewport1904" 0x101620B0
 constexpr unsigned fn_101620D0 = 4, fn_101620D0_TRAMP = 1;  // "fn_101620D0" 0x101620D0
 constexpr unsigned fn_10162F60 = 4, fn_10162F60_TRAMP = 1;  // "fn_10162F60" 0x10162F60
+constexpr unsigned fn_10162FB0 = 4, fn_10162FB0_TRAMP = 1;  // "fn_10162FB0" 0x10162FB0
 constexpr unsigned fn_10163080 = 4, fn_10163080_TRAMP = 0;  // "fn_10163080" 0x10163080
 constexpr unsigned fn_10163090 = 4, fn_10163090_TRAMP = 1;  // "fn_10163090" 0x10163090
 constexpr unsigned fn_101630C0 = 4, fn_101630C0_TRAMP = 1;  // "fn_101630C0" 0x101630C0
@@ -6854,16 +6627,12 @@ constexpr unsigned Mat44_Multiply = 4, Mat44_Multiply_TRAMP = 1;  // "Mat44_Mult
 constexpr unsigned fn_1016C150 = 4, fn_1016C150_TRAMP = 1;  // "fn_1016C150" 0x1016C150
 constexpr unsigned fn_1016C390 = 4, fn_1016C390_TRAMP = 1;  // "fn_1016C390" 0x1016C390
 constexpr unsigned Dbg_DrawTriangleLines = 0, Dbg_DrawTriangleLines_TRAMP = 1;  // "Dbg_DrawTriangleLines" 0x1016DDF0
-constexpr unsigned fn_1016E930 = 4, fn_1016E930_TRAMP = 1;  // "fn_1016E930" 0x1016E930
 constexpr unsigned fn_1016F0E0 = 4, fn_1016F0E0_TRAMP = 1;  // "fn_1016F0E0" 0x1016F0E0
 constexpr unsigned fn_1016FC40 = 4, fn_1016FC40_TRAMP = 1;  // "fn_1016FC40" 0x1016FC40
-constexpr unsigned fn_1016FC90 = 4, fn_1016FC90_TRAMP = 1;  // "fn_1016FC90" 0x1016FC90
-constexpr unsigned fn_1016FCD0 = 4, fn_1016FCD0_TRAMP = 1;  // "fn_1016FCD0" 0x1016FCD0
-constexpr unsigned fn_10170CD0 = 4, fn_10170CD0_TRAMP = 1;  // "fn_10170CD0" 0x10170CD0
+constexpr unsigned ParseZoneMeshData = 4, ParseZoneMeshData_TRAMP = 1;  // "ParseZoneMeshData" 0x1016FCD0
 constexpr unsigned fn_10170F30 = 4, fn_10170F30_TRAMP = 1;  // "fn_10170F30" 0x10170F30
 constexpr unsigned fn_101718E0 = 4, fn_101718E0_TRAMP = 1;  // "fn_101718E0" 0x101718E0
 constexpr unsigned fn_10174770 = 4, fn_10174770_TRAMP = 1;  // "fn_10174770" 0x10174770
-constexpr unsigned Dbg_DrawOverheadMapMarkers = 0, Dbg_DrawOverheadMapMarkers_TRAMP = 1;  // "Dbg_DrawOverheadMapMarkers" 0x10174B10
 constexpr unsigned Dbg_DrawOrientedBoxes = 0, Dbg_DrawOrientedBoxes_TRAMP = 1;  // "Dbg_DrawOrientedBoxes" 0x10174EC0
 constexpr unsigned Mat4_SetIdentity_2 = 4, Mat4_SetIdentity_2_TRAMP = 1;  // "Mat4_SetIdentity_2" 0x10175740
 constexpr unsigned CMoResource_VT_10336698__ScalarDeletingDtor = 0, CMoResource_VT_10336698__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_10336698::ScalarDeletingDtor" 0x10176EA0
@@ -6876,11 +6645,12 @@ constexpr unsigned CMoTask__GetRuntimeClass_variant19 = 0, CMoTask__GetRuntimeCl
 constexpr unsigned fn_101773F0 = 4, fn_101773F0_TRAMP = 1;  // "fn_101773F0" 0x101773F0
 constexpr unsigned Gfx_SetZBias = 0, Gfx_SetZBias_TRAMP = 1;  // "Gfx_SetZBias" 0x10177400
 constexpr unsigned ZoneMap_SetOverlayProjection = 4, ZoneMap_SetOverlayProjection_TRAMP = 1;  // "ZoneMap_SetOverlayProjection" 0x10177420
+constexpr unsigned fn_10177770 = 12, fn_10177770_TRAMP = 1;  // "fn_10177770" 0x10177770
 constexpr unsigned fn_101779B0 = 4, fn_101779B0_TRAMP = 1;  // "fn_101779B0" 0x101779B0
 constexpr unsigned Gfx_SetupLineDrawState = 0, Gfx_SetupLineDrawState_TRAMP = 1;  // "Gfx_SetupLineDrawState" 0x101779C0
 constexpr unsigned Gfx_DrawQuadOutline = 0, Gfx_DrawQuadOutline_TRAMP = 1;  // "Gfx_DrawQuadOutline" 0x10177B40
 constexpr unsigned Gfx_DrawLine3D = 0, Gfx_DrawLine3D_TRAMP = 1;  // "Gfx_DrawLine3D" 0x10177C50
-constexpr unsigned fn_10177CD0 = 0, fn_10177CD0_TRAMP = 1;  // "fn_10177CD0" 0x10177CD0
+constexpr unsigned XiZone__DrawMarkerForward = 0, XiZone__DrawMarkerForward_TRAMP = 1;  // "XiZone::DrawMarkerForward" 0x10177CD0
 constexpr unsigned fn_10177D00 = 4, fn_10177D00_TRAMP = 1;  // "fn_10177D00" 0x10177D00
 constexpr unsigned fn_10177FA0 = 4, fn_10177FA0_TRAMP = 1;  // "fn_10177FA0" 0x10177FA0
 constexpr unsigned CTsZoneMap__CTsZoneMap_Destructor = 4, CTsZoneMap__CTsZoneMap_Destructor_TRAMP = 1;  // "CTsZoneMap::CTsZoneMap_Destructor" 0x10178070
@@ -6900,9 +6670,6 @@ constexpr unsigned fn_10179420 = 4, fn_10179420_TRAMP = 1;  // "fn_10179420" 0x1
 constexpr unsigned ZoneMap_DrawMeshGroupsWithFog = 4, ZoneMap_DrawMeshGroupsWithFog_TRAMP = 1;  // "ZoneMap_DrawMeshGroupsWithFog" 0x1017ADE0
 constexpr unsigned fn_1017B110 = 4, fn_1017B110_TRAMP = 1;  // "fn_1017B110" 0x1017B110
 constexpr unsigned ZoneMap_TeardownStep = 4, ZoneMap_TeardownStep_TRAMP = 1;  // "ZoneMap_TeardownStep" 0x1017B1E0
-constexpr unsigned Zone_RenderEnvironment = 4, Zone_RenderEnvironment_TRAMP = 1;  // "Zone_RenderEnvironment" 0x1017B510
-constexpr unsigned fn_1017C9C0 = 4, fn_1017C9C0_TRAMP = 1;  // "fn_1017C9C0" 0x1017C9C0
-constexpr unsigned fn_1017DE20 = 4, fn_1017DE20_TRAMP = 1;  // "fn_1017DE20" 0x1017DE20
 constexpr unsigned fn_101811D0 = 4, fn_101811D0_TRAMP = 1;  // "fn_101811D0" 0x101811D0
 constexpr unsigned fn_10181210 = 4, fn_10181210_TRAMP = 1;  // "fn_10181210" 0x10181210
 constexpr unsigned fn_10181290 = 4, fn_10181290_TRAMP = 1;  // "fn_10181290" 0x10181290
@@ -6918,13 +6685,10 @@ constexpr unsigned fn_10182490 = 4, fn_10182490_TRAMP = 1;  // "fn_10182490" 0x1
 constexpr unsigned CTsZoneMap__DrawProjectedTexture = 4, CTsZoneMap__DrawProjectedTexture_TRAMP = 1;  // "CTsZoneMap::DrawProjectedTexture" 0x10182700
 constexpr unsigned Gfx_DrawWireBox = 0, Gfx_DrawWireBox_TRAMP = 1;  // "Gfx_DrawWireBox" 0x10182F10
 constexpr unsigned fn_10183420 = 4, fn_10183420_TRAMP = 1;  // "fn_10183420" 0x10183420
-constexpr unsigned fn_10183490 = 4, fn_10183490_TRAMP = 1;  // "fn_10183490" 0x10183490
-constexpr unsigned fn_10183760 = 4, fn_10183760_TRAMP = 1;  // "fn_10183760" 0x10183760
 constexpr unsigned ZoneMap_DrawMeshById = 4, ZoneMap_DrawMeshById_TRAMP = 1;  // "ZoneMap_DrawMeshById" 0x10183DA0
-constexpr unsigned CTsZoneMap__ModelActor_Draw = 4, CTsZoneMap__ModelActor_Draw_TRAMP = 1;  // "CTsZoneMap::ModelActor_Draw" 0x101844C0
-constexpr unsigned fn_10184C90 = 4, fn_10184C90_TRAMP = 1;  // "fn_10184C90" 0x10184C90
+constexpr unsigned XiZone__DrawGroundShadowQuad = 4, XiZone__DrawGroundShadowQuad_TRAMP = 1;  // "XiZone::DrawGroundShadowQuad" 0x10184C90
 constexpr unsigned CTsZoneMap__DrawProjectedShadow = 4, CTsZoneMap__DrawProjectedShadow_TRAMP = 1;  // "CTsZoneMap::DrawProjectedShadow" 0x10184FE0
-constexpr unsigned fn_10185CA0 = 4, fn_10185CA0_TRAMP = 1;  // "fn_10185CA0" 0x10185CA0
+constexpr unsigned XiZone__DrawDecalOnTriangles = 4, XiZone__DrawDecalOnTriangles_TRAMP = 1;  // "XiZone::DrawDecalOnTriangles" 0x10185CA0
 constexpr unsigned fn_10186DB0 = 4, fn_10186DB0_TRAMP = 1;  // "fn_10186DB0" 0x10186DB0
 constexpr unsigned fn_10186DD0 = 4, fn_10186DD0_TRAMP = 1;  // "fn_10186DD0" 0x10186DD0
 constexpr unsigned fn_10186E90 = 4, fn_10186E90_TRAMP = 1;  // "fn_10186E90" 0x10186E90
@@ -6954,9 +6718,10 @@ constexpr unsigned Env_ApplyRecord = 4, Env_ApplyRecord_TRAMP = 1;  // "Env_Appl
 constexpr unsigned fn_10187380 = 4, fn_10187380_TRAMP = 1;  // "fn_10187380" 0x10187380
 constexpr unsigned fn_10187470 = 4, fn_10187470_TRAMP = 1;  // "fn_10187470" 0x10187470
 constexpr unsigned fn_101874A0 = 4, fn_101874A0_TRAMP = 1;  // "fn_101874A0" 0x101874A0
-constexpr unsigned fn_101875C0 = 4, fn_101875C0_TRAMP = 1;  // "fn_101875C0" 0x101875C0
-constexpr unsigned fn_101875E0 = 4, fn_101875E0_TRAMP = 1;  // "fn_101875E0" 0x101875E0
+constexpr unsigned fn_101875C0 = 12, fn_101875C0_TRAMP = 1;  // "fn_101875C0" 0x101875C0
+constexpr unsigned fn_101875E0 = 12, fn_101875E0_TRAMP = 1;  // "fn_101875E0" 0x101875E0
 constexpr unsigned fn_10187600 = 4, fn_10187600_TRAMP = 1;  // "fn_10187600" 0x10187600
+constexpr unsigned fn_10187720 = 4, fn_10187720_TRAMP = 1;  // "fn_10187720" 0x10187720
 constexpr unsigned fn_101880C0 = 4, fn_101880C0_TRAMP = 1;  // "fn_101880C0" 0x101880C0
 constexpr unsigned fn_10188190 = 4, fn_10188190_TRAMP = 1;  // "fn_10188190" 0x10188190
 constexpr unsigned fn_10188900 = 4, fn_10188900_TRAMP = 1;  // "fn_10188900" 0x10188900
@@ -6972,8 +6737,9 @@ constexpr unsigned XiZone__GetDirLights = 4, XiZone__GetDirLights_TRAMP = 1;  //
 constexpr unsigned fn_10188CA0 = 4, fn_10188CA0_TRAMP = 1;  // "fn_10188CA0" 0x10188CA0
 constexpr unsigned Env_ComputeAmbient = 4, Env_ComputeAmbient_TRAMP = 1;  // "Env_ComputeAmbient" 0x10188E00
 constexpr unsigned Env_ComputeAmbientFloat4 = 4, Env_ComputeAmbientFloat4_TRAMP = 1;  // "Env_ComputeAmbientFloat4" 0x10188FA0
+constexpr unsigned Env_ComputeFog = 4, Env_ComputeFog_TRAMP = 1;  // "Env_ComputeFog" 0x10189120
 constexpr unsigned CMoResource_VT_103367E8__ScalarDeletingDtor = 0, CMoResource_VT_103367E8__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_103367E8::ScalarDeletingDtor" 0x101893D0
-constexpr unsigned CMoResource_VT_103367E8__vf008 = 0, CMoResource_VT_103367E8__vf008_TRAMP = 0;  // "CMoResource_VT_103367E8::vf008" 0x101893F0
+constexpr unsigned CMoResource_VT_103367E8__vf008 = 8, CMoResource_VT_103367E8__vf008_TRAMP = 0;  // "CMoResource_VT_103367E8::vf008" 0x101893F0
 constexpr unsigned fn_10189400 = 4, fn_10189400_TRAMP = 1;  // "fn_10189400" 0x10189400
 constexpr unsigned fn_10189490 = 4, fn_10189490_TRAMP = 1;  // "fn_10189490" 0x10189490
 constexpr unsigned fn_10189810 = 4, fn_10189810_TRAMP = 1;  // "fn_10189810" 0x10189810
@@ -6994,8 +6760,8 @@ constexpr unsigned fn_1018A300 = 4, fn_1018A300_TRAMP = 1;  // "fn_1018A300" 0x1
 constexpr unsigned fn_1018A310 = 4, fn_1018A310_TRAMP = 1;  // "fn_1018A310" 0x1018A310
 constexpr unsigned fn_1018A320 = 4, fn_1018A320_TRAMP = 1;  // "fn_1018A320" 0x1018A320
 constexpr unsigned Env_BlendTimeOfDay = 4, Env_BlendTimeOfDay_TRAMP = 1;  // "Env_BlendTimeOfDay" 0x1018A340
-constexpr unsigned fn_1018AAC0 = 4, fn_1018AAC0_TRAMP = 1;  // "fn_1018AAC0" 0x1018AAC0
-constexpr unsigned fn_1018AB40 = 4, fn_1018AB40_TRAMP = 1;  // "fn_1018AB40" 0x1018AB40
+constexpr unsigned fn_1018AAC0 = 12, fn_1018AAC0_TRAMP = 1;  // "fn_1018AAC0" 0x1018AAC0
+constexpr unsigned fn_1018AB40 = 12, fn_1018AB40_TRAMP = 1;  // "fn_1018AB40" 0x1018AB40
 constexpr unsigned fn_1018ABF0 = 4, fn_1018ABF0_TRAMP = 1;  // "fn_1018ABF0" 0x1018ABF0
 constexpr unsigned fn_1018AD50 = 4, fn_1018AD50_TRAMP = 0;  // "fn_1018AD50" 0x1018AD50
 constexpr unsigned fn_1018AD60 = 4, fn_1018AD60_TRAMP = 1;  // "fn_1018AD60" 0x1018AD60
@@ -7018,7 +6784,7 @@ constexpr unsigned XiZone__GetFog = 4, XiZone__GetFog_TRAMP = 1;  // "XiZone::Ge
 constexpr unsigned fn_1018BAE0 = 4, fn_1018BAE0_TRAMP = 1;  // "fn_1018BAE0" 0x1018BAE0
 constexpr unsigned unknown_libname_158 = 4, unknown_libname_158_TRAMP = 1;  // "unknown_libname_158" 0x1018BBB0
 constexpr unsigned fn_1018BBC0 = 4, fn_1018BBC0_TRAMP = 1;  // "fn_1018BBC0" 0x1018BBC0
-constexpr unsigned Time_Normalize = 4, Time_Normalize_TRAMP = 1;  // "Time_Normalize" 0x1018BC40
+constexpr unsigned Time_Normalize = 12, Time_Normalize_TRAMP = 1;  // "Time_Normalize" 0x1018BC40
 constexpr unsigned fn_1018BC90 = 4, fn_1018BC90_TRAMP = 1;  // "fn_1018BC90" 0x1018BC90
 constexpr unsigned fn_1018BCA0 = 4, fn_1018BCA0_TRAMP = 1;  // "fn_1018BCA0" 0x1018BCA0
 constexpr unsigned fn_1018BCD0 = 4, fn_1018BCD0_TRAMP = 1;  // "fn_1018BCD0" 0x1018BCD0
@@ -7039,7 +6805,6 @@ constexpr unsigned fn_1018D250 = 4, fn_1018D250_TRAMP = 1;  // "fn_1018D250" 0x1
 constexpr unsigned fn_1018D280 = 4, fn_1018D280_TRAMP = 1;  // "fn_1018D280" 0x1018D280
 constexpr unsigned fn_1018D2B0 = 4, fn_1018D2B0_TRAMP = 1;  // "fn_1018D2B0" 0x1018D2B0
 constexpr unsigned fn_1018D2D0 = 4, fn_1018D2D0_TRAMP = 1;  // "fn_1018D2D0" 0x1018D2D0
-constexpr unsigned fn_1018D3D0 = 4, fn_1018D3D0_TRAMP = 1;  // "fn_1018D3D0" 0x1018D3D0
 constexpr unsigned fn_1018D430 = 4, fn_1018D430_TRAMP = 1;  // "fn_1018D430" 0x1018D430
 constexpr unsigned fn_1018D440 = 4, fn_1018D440_TRAMP = 1;  // "fn_1018D440" 0x1018D440
 constexpr unsigned fn_1018D450 = 4, fn_1018D450_TRAMP = 1;  // "fn_1018D450" 0x1018D450
@@ -7058,7 +6823,7 @@ constexpr unsigned fn_1018DCD0 = 4, fn_1018DCD0_TRAMP = 1;  // "fn_1018DCD0" 0x1
 constexpr unsigned fn_1018E0A0 = 4, fn_1018E0A0_TRAMP = 1;  // "fn_1018E0A0" 0x1018E0A0
 constexpr unsigned fn_1018E0E0 = 4, fn_1018E0E0_TRAMP = 1;  // "fn_1018E0E0" 0x1018E0E0
 constexpr unsigned fn_1018E1A0 = 4, fn_1018E1A0_TRAMP = 1;  // "fn_1018E1A0" 0x1018E1A0
-constexpr unsigned fn_1018E1D0 = 4, fn_1018E1D0_TRAMP = 1;  // "fn_1018E1D0" 0x1018E1D0
+constexpr unsigned FsLogPage_load = 4, FsLogPage_load_TRAMP = 1;  // "FsLogPage_load" 0x1018E1D0
 constexpr unsigned fn_1018E310 = 4, fn_1018E310_TRAMP = 1;  // "fn_1018E310" 0x1018E310
 constexpr unsigned fn_1018E4D0 = 4, fn_1018E4D0_TRAMP = 1;  // "fn_1018E4D0" 0x1018E4D0
 constexpr unsigned fn_1018E660 = 4, fn_1018E660_TRAMP = 1;  // "fn_1018E660" 0x1018E660
@@ -7076,18 +6841,19 @@ constexpr unsigned fn_1018EE40 = 4, fn_1018EE40_TRAMP = 1;  // "fn_1018EE40" 0x1
 constexpr unsigned fn_1018FA20 = 4, fn_1018FA20_TRAMP = 1;  // "fn_1018FA20" 0x1018FA20
 constexpr unsigned fn_1018FA80 = 4, fn_1018FA80_TRAMP = 1;  // "fn_1018FA80" 0x1018FA80
 constexpr unsigned fn_1018FB00 = 4, fn_1018FB00_TRAMP = 1;  // "fn_1018FB00" 0x1018FB00
+constexpr unsigned fn_1018FD90 = 12, fn_1018FD90_TRAMP = 1;  // "fn_1018FD90" 0x1018FD90
+constexpr unsigned fn_10190140 = 4, fn_10190140_TRAMP = 1;  // "fn_10190140" 0x10190140
 constexpr unsigned fn_101907A0 = 4, fn_101907A0_TRAMP = 1;  // "fn_101907A0" 0x101907A0
 constexpr unsigned fn_101907D0 = 4, fn_101907D0_TRAMP = 1;  // "fn_101907D0" 0x101907D0
-constexpr unsigned fn_101908D0 = 4, fn_101908D0_TRAMP = 0;  // "fn_101908D0" 0x101908D0
+constexpr unsigned fn_101908D0 = 12, fn_101908D0_TRAMP = 0;  // "fn_101908D0" 0x101908D0
 constexpr unsigned fn_10190900 = 4, fn_10190900_TRAMP = 1;  // "fn_10190900" 0x10190900
 constexpr unsigned fn_10190950 = 4, fn_10190950_TRAMP = 1;  // "fn_10190950" 0x10190950
-constexpr unsigned fn_101911A0 = 4, fn_101911A0_TRAMP = 1;  // "fn_101911A0" 0x101911A0
 constexpr unsigned fn_10191AB0 = 4, fn_10191AB0_TRAMP = 1;  // "fn_10191AB0" 0x10191AB0
 constexpr unsigned fn_10191B20 = 4, fn_10191B20_TRAMP = 1;  // "fn_10191B20" 0x10191B20
 constexpr unsigned fn_10192380 = 4, fn_10192380_TRAMP = 1;  // "fn_10192380" 0x10192380
 constexpr unsigned fn_10192E50 = 4, fn_10192E50_TRAMP = 1;  // "fn_10192E50" 0x10192E50
 constexpr unsigned fn_10193800 = 4, fn_10193800_TRAMP = 1;  // "fn_10193800" 0x10193800
-constexpr unsigned fn_10193830 = 4, fn_10193830_TRAMP = 1;  // "fn_10193830" 0x10193830
+constexpr unsigned SetConfig = 4, SetConfig_TRAMP = 1;  // "SetConfig" 0x10193830
 constexpr unsigned Settings_GetValue = 4, Settings_GetValue_TRAMP = 1;  // "Settings_GetValue" 0x10193850
 constexpr unsigned fn_10193890 = 4, fn_10193890_TRAMP = 1;  // "fn_10193890" 0x10193890
 constexpr unsigned fn_101938B0 = 4, fn_101938B0_TRAMP = 1;  // "fn_101938B0" 0x101938B0
@@ -7095,7 +6861,7 @@ constexpr unsigned fn_10193A10 = 4, fn_10193A10_TRAMP = 1;  // "fn_10193A10" 0x1
 constexpr unsigned fn_10193B00 = 4, fn_10193B00_TRAMP = 1;  // "fn_10193B00" 0x10193B00
 constexpr unsigned fn_10193B60 = 4, fn_10193B60_TRAMP = 1;  // "fn_10193B60" 0x10193B60
 constexpr unsigned fn_10193BC0 = 4, fn_10193BC0_TRAMP = 1;  // "fn_10193BC0" 0x10193BC0
-constexpr unsigned fn_10193BF0 = 4, fn_10193BF0_TRAMP = 1;  // "fn_10193BF0" 0x10193BF0
+constexpr unsigned FsConfig_Constructor = 4, FsConfig_Constructor_TRAMP = 1;  // "FsConfig_Constructor" 0x10193BF0
 constexpr unsigned fn_10195220 = 4, fn_10195220_TRAMP = 1;  // "fn_10195220" 0x10195220
 constexpr unsigned fn_10195240 = 4, fn_10195240_TRAMP = 1;  // "fn_10195240" 0x10195240
 constexpr unsigned fn_101952C0 = 4, fn_101952C0_TRAMP = 1;  // "fn_101952C0" 0x101952C0
@@ -7146,6 +6912,7 @@ constexpr unsigned fn_1019C5B0 = 4, fn_1019C5B0_TRAMP = 1;  // "fn_1019C5B0" 0x1
 constexpr unsigned fn_1019CD40 = 4, fn_1019CD40_TRAMP = 1;  // "fn_1019CD40" 0x1019CD40
 constexpr unsigned fn_1019CE00 = 4, fn_1019CE00_TRAMP = 1;  // "fn_1019CE00" 0x1019CE00
 constexpr unsigned fn_1019CE70 = 4, fn_1019CE70_TRAMP = 1;  // "fn_1019CE70" 0x1019CE70
+constexpr unsigned fn_1019CF60 = 12, fn_1019CF60_TRAMP = 1;  // "fn_1019CF60" 0x1019CF60
 constexpr unsigned fn_1019D150 = 4, fn_1019D150_TRAMP = 1;  // "fn_1019D150" 0x1019D150
 constexpr unsigned fn_1019D1C0 = 4, fn_1019D1C0_TRAMP = 1;  // "fn_1019D1C0" 0x1019D1C0
 constexpr unsigned fn_1019D580 = 4, fn_1019D580_TRAMP = 1;  // "fn_1019D580" 0x1019D580
@@ -7162,7 +6929,6 @@ constexpr unsigned fn_101A0710 = 4, fn_101A0710_TRAMP = 1;  // "fn_101A0710" 0x1
 constexpr unsigned fn_101A0730 = 4, fn_101A0730_TRAMP = 1;  // "fn_101A0730" 0x101A0730
 constexpr unsigned fn_101A0750 = 4, fn_101A0750_TRAMP = 1;  // "fn_101A0750" 0x101A0750
 constexpr unsigned fn_101A0760 = 4, fn_101A0760_TRAMP = 1;  // "fn_101A0760" 0x101A0760
-constexpr unsigned fn_101A07D0 = 4, fn_101A07D0_TRAMP = 1;  // "fn_101A07D0" 0x101A07D0
 constexpr unsigned fn_101A0910 = 4, fn_101A0910_TRAMP = 1;  // "fn_101A0910" 0x101A0910
 constexpr unsigned fn_101A0930 = 4, fn_101A0930_TRAMP = 1;  // "fn_101A0930" 0x101A0930
 constexpr unsigned fn_101A0950 = 4, fn_101A0950_TRAMP = 1;  // "fn_101A0950" 0x101A0950
@@ -7186,22 +6952,20 @@ constexpr unsigned fn_101A1910 = 4, fn_101A1910_TRAMP = 1;  // "fn_101A1910" 0x1
 constexpr unsigned fn_101A19B0 = 4, fn_101A19B0_TRAMP = 1;  // "fn_101A19B0" 0x101A19B0
 constexpr unsigned fn_101A1A20 = 4, fn_101A1A20_TRAMP = 1;  // "fn_101A1A20" 0x101A1A20
 constexpr unsigned fn_101A1C60 = 4, fn_101A1C60_TRAMP = 1;  // "fn_101A1C60" 0x101A1C60
-constexpr unsigned fn_101A1CB0 = 4, fn_101A1CB0_TRAMP = 1;  // "fn_101A1CB0" 0x101A1CB0
 constexpr unsigned fn_101A1CC0 = 4, fn_101A1CC0_TRAMP = 1;  // "fn_101A1CC0" 0x101A1CC0
-constexpr unsigned fn_101A2660 = 4, fn_101A2660_TRAMP = 1;  // "fn_101A2660" 0x101A2660
-constexpr unsigned fn_101A26C0 = 4, fn_101A26C0_TRAMP = 1;  // "fn_101A26C0" 0x101A26C0
 constexpr unsigned fn_101A2890 = 4, fn_101A2890_TRAMP = 1;  // "fn_101A2890" 0x101A2890
 constexpr unsigned fn_101A29F0 = 4, fn_101A29F0_TRAMP = 1;  // "fn_101A29F0" 0x101A29F0
 constexpr unsigned fn_101A2E00 = 4, fn_101A2E00_TRAMP = 1;  // "fn_101A2E00" 0x101A2E00
 constexpr unsigned fn_101A2E60 = 4, fn_101A2E60_TRAMP = 1;  // "fn_101A2E60" 0x101A2E60
 constexpr unsigned fn_101A2E80 = 4, fn_101A2E80_TRAMP = 1;  // "fn_101A2E80" 0x101A2E80
 constexpr unsigned fn_101A3300 = 4, fn_101A3300_TRAMP = 1;  // "fn_101A3300" 0x101A3300
+constexpr unsigned fn_101A33E0 = 4, fn_101A33E0_TRAMP = 1;  // "fn_101A33E0" 0x101A33E0
 constexpr unsigned fn_101A3500 = 4, fn_101A3500_TRAMP = 1;  // "fn_101A3500" 0x101A3500
-constexpr unsigned fn_101A3550 = 4, fn_101A3550_TRAMP = 1;  // "fn_101A3550" 0x101A3550
+constexpr unsigned fn_101A3550 = 12, fn_101A3550_TRAMP = 1;  // "fn_101A3550" 0x101A3550
 constexpr unsigned fn_101A36F0 = 4, fn_101A36F0_TRAMP = 1;  // "fn_101A36F0" 0x101A36F0
-constexpr unsigned fn_101A3CF0 = 4, fn_101A3CF0_TRAMP = 0;  // "fn_101A3CF0" 0x101A3CF0
+constexpr unsigned fn_101A3CF0 = 12, fn_101A3CF0_TRAMP = 0;  // "fn_101A3CF0" 0x101A3CF0
 constexpr unsigned fn_101A3DC0 = 4, fn_101A3DC0_TRAMP = 1;  // "fn_101A3DC0" 0x101A3DC0
-constexpr unsigned fn_101A43A0 = 4, fn_101A43A0_TRAMP = 0;  // "fn_101A43A0" 0x101A43A0
+constexpr unsigned fn_101A43A0 = 12, fn_101A43A0_TRAMP = 0;  // "fn_101A43A0" 0x101A43A0
 constexpr unsigned fn_101A4440 = 4, fn_101A4440_TRAMP = 1;  // "fn_101A4440" 0x101A4440
 constexpr unsigned fn_101A46C0 = 4, fn_101A46C0_TRAMP = 1;  // "fn_101A46C0" 0x101A46C0
 constexpr unsigned fn_101A4D70 = 4, fn_101A4D70_TRAMP = 1;  // "fn_101A4D70" 0x101A4D70
@@ -7221,10 +6985,12 @@ constexpr unsigned fn_101AB6D0 = 4, fn_101AB6D0_TRAMP = 1;  // "fn_101AB6D0" 0x1
 constexpr unsigned fn_101AB720 = 4, fn_101AB720_TRAMP = 1;  // "fn_101AB720" 0x101AB720
 constexpr unsigned fn_101AB730 = 4, fn_101AB730_TRAMP = 1;  // "fn_101AB730" 0x101AB730
 constexpr unsigned fn_101AB770 = 4, fn_101AB770_TRAMP = 1;  // "fn_101AB770" 0x101AB770
+constexpr unsigned fn_101AB7D0 = 12, fn_101AB7D0_TRAMP = 1;  // "fn_101AB7D0" 0x101AB7D0
 constexpr unsigned fn_101AB810 = 4, fn_101AB810_TRAMP = 0;  // "fn_101AB810" 0x101AB810
 constexpr unsigned fn_101AB820 = 4, fn_101AB820_TRAMP = 0;  // "fn_101AB820" 0x101AB820
 constexpr unsigned fn_101ABB40 = 4, fn_101ABB40_TRAMP = 1;  // "fn_101ABB40" 0x101ABB40
 constexpr unsigned fn_101ABC50 = 4, fn_101ABC50_TRAMP = 1;  // "fn_101ABC50" 0x101ABC50
+constexpr unsigned fn_101ABE40 = 12, fn_101ABE40_TRAMP = 0;  // "fn_101ABE40" 0x101ABE40
 constexpr unsigned fn_101ABE50 = 4, fn_101ABE50_TRAMP = 1;  // "fn_101ABE50" 0x101ABE50
 constexpr unsigned fn_101ABE80 = 4, fn_101ABE80_TRAMP = 1;  // "fn_101ABE80" 0x101ABE80
 constexpr unsigned fn_101ABEF0 = 4, fn_101ABEF0_TRAMP = 1;  // "fn_101ABEF0" 0x101ABEF0
@@ -7253,7 +7019,7 @@ constexpr unsigned fn_101ACF90 = 4, fn_101ACF90_TRAMP = 1;  // "fn_101ACF90" 0x1
 constexpr unsigned fn_101ACFB0 = 4, fn_101ACFB0_TRAMP = 1;  // "fn_101ACFB0" 0x101ACFB0
 constexpr unsigned fn_101AD0D0 = 4, fn_101AD0D0_TRAMP = 1;  // "fn_101AD0D0" 0x101AD0D0
 constexpr unsigned fn_101AD1B0 = 4, fn_101AD1B0_TRAMP = 1;  // "fn_101AD1B0" 0x101AD1B0
-constexpr unsigned fn_101AD290 = 4, fn_101AD290_TRAMP = 1;  // "fn_101AD290" 0x101AD290
+constexpr unsigned FsPreParser_Constructor = 4, FsPreParser_Constructor_TRAMP = 1;  // "FsPreParser_Constructor" 0x101AD290
 constexpr unsigned fn_101AD4B0 = 4, fn_101AD4B0_TRAMP = 1;  // "fn_101AD4B0" 0x101AD4B0
 constexpr unsigned fn_101AD820 = 4, fn_101AD820_TRAMP = 0;  // "fn_101AD820" 0x101AD820
 constexpr unsigned fn_101ADBC0 = 4, fn_101ADBC0_TRAMP = 1;  // "fn_101ADBC0" 0x101ADBC0
@@ -7268,11 +7034,16 @@ constexpr unsigned fn_101AE3E0 = 4, fn_101AE3E0_TRAMP = 1;  // "fn_101AE3E0" 0x1
 constexpr unsigned fn_101AEA40 = 4, fn_101AEA40_TRAMP = 1;  // "fn_101AEA40" 0x101AEA40
 constexpr unsigned fn_101AEAC0 = 4, fn_101AEAC0_TRAMP = 1;  // "fn_101AEAC0" 0x101AEAC0
 constexpr unsigned fn_101AFF30 = 4, fn_101AFF30_TRAMP = 0;  // "fn_101AFF30" 0x101AFF30
-constexpr unsigned fn_101AFF40 = 4, fn_101AFF40_TRAMP = 0;  // "fn_101AFF40" 0x101AFF40
+constexpr unsigned fn_101AFF40 = 12, fn_101AFF40_TRAMP = 0;  // "fn_101AFF40" 0x101AFF40
+constexpr unsigned fn_101B2710 = 4, fn_101B2710_TRAMP = 1;  // "fn_101B2710" 0x101B2710
 constexpr unsigned fn_101B27F0 = 4, fn_101B27F0_TRAMP = 0;  // "fn_101B27F0" 0x101B27F0
 constexpr unsigned fn_101B2800 = 4, fn_101B2800_TRAMP = 0;  // "fn_101B2800" 0x101B2800
+constexpr unsigned fn_101B36F0 = 4, fn_101B36F0_TRAMP = 1;  // "fn_101B36F0" 0x101B36F0
+constexpr unsigned fn_101B3B50 = 4, fn_101B3B50_TRAMP = 1;  // "fn_101B3B50" 0x101B3B50
+constexpr unsigned fn_101B3F70 = 4, fn_101B3F70_TRAMP = 1;  // "fn_101B3F70" 0x101B3F70
 constexpr unsigned fn_101B4260 = 4, fn_101B4260_TRAMP = 1;  // "fn_101B4260" 0x101B4260
 constexpr unsigned fn_101B4350 = 4, fn_101B4350_TRAMP = 1;  // "fn_101B4350" 0x101B4350
+constexpr unsigned FsSjisToAscii = 4, FsSjisToAscii_TRAMP = 1;  // "FsSjisToAscii" 0x101B4450
 constexpr unsigned fn_101B4570 = 4, fn_101B4570_TRAMP = 1;  // "fn_101B4570" 0x101B4570
 constexpr unsigned fn_101B45B0 = 4, fn_101B45B0_TRAMP = 1;  // "fn_101B45B0" 0x101B45B0
 constexpr unsigned fn_101B45E0 = 4, fn_101B45E0_TRAMP = 1;  // "fn_101B45E0" 0x101B45E0
@@ -7283,14 +7054,15 @@ constexpr unsigned fn_101B4D30 = 4, fn_101B4D30_TRAMP = 1;  // "fn_101B4D30" 0x1
 constexpr unsigned fn_101B4E70 = 4, fn_101B4E70_TRAMP = 1;  // "fn_101B4E70" 0x101B4E70
 constexpr unsigned fn_101B4F90 = 4, fn_101B4F90_TRAMP = 1;  // "fn_101B4F90" 0x101B4F90
 constexpr unsigned fn_101B4FC0 = 4, fn_101B4FC0_TRAMP = 1;  // "fn_101B4FC0" 0x101B4FC0
-constexpr unsigned fn_101B5020 = 4, fn_101B5020_TRAMP = 1;  // "fn_101B5020" 0x101B5020
-constexpr unsigned fn_101B5210 = 4, fn_101B5210_TRAMP = 1;  // "fn_101B5210" 0x101B5210
-constexpr unsigned fn_101B5BC0 = 4, fn_101B5BC0_TRAMP = 1;  // "fn_101B5BC0" 0x101B5BC0
+constexpr unsigned FsTextInput_init = 4, FsTextInput_init_TRAMP = 1;  // "FsTextInput_init" 0x101B5210
+constexpr unsigned FsTextInput_copyDecidedString = 4, FsTextInput_copyDecidedString_TRAMP = 1;  // "FsTextInput_copyDecidedString" 0x101B5BC0
 constexpr unsigned fn_101B5C80 = 4, fn_101B5C80_TRAMP = 1;  // "fn_101B5C80" 0x101B5C80
 constexpr unsigned fn_101B5C90 = 4, fn_101B5C90_TRAMP = 1;  // "fn_101B5C90" 0x101B5C90
 constexpr unsigned fn_101B5CC0 = 4, fn_101B5CC0_TRAMP = 1;  // "fn_101B5CC0" 0x101B5CC0
 constexpr unsigned fn_101B6C00 = 4, fn_101B6C00_TRAMP = 1;  // "fn_101B6C00" 0x101B6C00
-constexpr unsigned fn_101B6E40 = 4, fn_101B6E40_TRAMP = 1;  // "fn_101B6E40" 0x101B6E40
+constexpr unsigned fn_101B6D50 = 12, fn_101B6D50_TRAMP = 1;  // "fn_101B6D50" 0x101B6D50
+constexpr unsigned fn_101B6E40 = 12, fn_101B6E40_TRAMP = 1;  // "fn_101B6E40" 0x101B6E40
+constexpr unsigned fn_101B6E90 = 12, fn_101B6E90_TRAMP = 1;  // "fn_101B6E90" 0x101B6E90
 constexpr unsigned fn_101B6EA0 = 4, fn_101B6EA0_TRAMP = 1;  // "fn_101B6EA0" 0x101B6EA0
 constexpr unsigned fn_101B6EC0 = 4, fn_101B6EC0_TRAMP = 1;  // "fn_101B6EC0" 0x101B6EC0
 constexpr unsigned fn_101B6EE0 = 4, fn_101B6EE0_TRAMP = 1;  // "fn_101B6EE0" 0x101B6EE0
@@ -7305,17 +7077,18 @@ constexpr unsigned fn_101B72B0 = 4, fn_101B72B0_TRAMP = 1;  // "fn_101B72B0" 0x1
 constexpr unsigned fn_101B7C20 = 4, fn_101B7C20_TRAMP = 1;  // "fn_101B7C20" 0x101B7C20
 constexpr unsigned fn_101B7EE0 = 4, fn_101B7EE0_TRAMP = 1;  // "fn_101B7EE0" 0x101B7EE0
 constexpr unsigned fn_101B9230 = 4, fn_101B9230_TRAMP = 1;  // "fn_101B9230" 0x101B9230
-constexpr unsigned fn_101B92B0 = 4, fn_101B92B0_TRAMP = 1;  // "fn_101B92B0" 0x101B92B0
+constexpr unsigned fn_101B92B0 = 12, fn_101B92B0_TRAMP = 1;  // "fn_101B92B0" 0x101B92B0
 constexpr unsigned fn_101B9550 = 4, fn_101B9550_TRAMP = 1;  // "fn_101B9550" 0x101B9550
 constexpr unsigned fn_101B95D0 = 4, fn_101B95D0_TRAMP = 1;  // "fn_101B95D0" 0x101B95D0
 constexpr unsigned fn_101B9610 = 4, fn_101B9610_TRAMP = 1;  // "fn_101B9610" 0x101B9610
 constexpr unsigned fn_101B9650 = 4, fn_101B9650_TRAMP = 1;  // "fn_101B9650" 0x101B9650
-constexpr unsigned fn_101B9690 = 4, fn_101B9690_TRAMP = 1;  // "fn_101B9690" 0x101B9690
+constexpr unsigned FsTinyString_init = 4, FsTinyString_init_TRAMP = 1;  // "FsTinyString_init" 0x101B9690
 constexpr unsigned fn_101B9880 = 4, fn_101B9880_TRAMP = 1;  // "fn_101B9880" 0x101B9880
 constexpr unsigned fn_101B9910 = 4, fn_101B9910_TRAMP = 1;  // "fn_101B9910" 0x101B9910
 constexpr unsigned fn_101B9980 = 4, fn_101B9980_TRAMP = 1;  // "fn_101B9980" 0x101B9980
-constexpr unsigned fn_101B9A00 = 4, fn_101B9A00_TRAMP = 1;  // "fn_101B9A00" 0x101B9A00
+constexpr unsigned fn_101B9A00 = 12, fn_101B9A00_TRAMP = 1;  // "fn_101B9A00" 0x101B9A00
 constexpr unsigned fn_101B9A10 = 4, fn_101B9A10_TRAMP = 1;  // "fn_101B9A10" 0x101B9A10
+constexpr unsigned fn_101B9BC0 = 4, fn_101B9BC0_TRAMP = 1;  // "fn_101B9BC0" 0x101B9BC0
 constexpr unsigned fn_101B9E00 = 4, fn_101B9E00_TRAMP = 1;  // "fn_101B9E00" 0x101B9E00
 constexpr unsigned fn_101B9E60 = 4, fn_101B9E60_TRAMP = 1;  // "fn_101B9E60" 0x101B9E60
 constexpr unsigned fn_101B9EC0 = 4, fn_101B9EC0_TRAMP = 1;  // "fn_101B9EC0" 0x101B9EC0
@@ -7350,15 +7123,14 @@ constexpr unsigned fn_101BB9E0 = 4, fn_101BB9E0_TRAMP = 1;  // "fn_101BB9E0" 0x1
 constexpr unsigned fn_101BBA90 = 4, fn_101BBA90_TRAMP = 1;  // "fn_101BBA90" 0x101BBA90
 constexpr unsigned fn_101BBC60 = 4, fn_101BBC60_TRAMP = 1;  // "fn_101BBC60" 0x101BBC60
 constexpr unsigned fn_101BBE50 = 4, fn_101BBE50_TRAMP = 1;  // "fn_101BBE50" 0x101BBE50
-constexpr unsigned fn_101BBE60 = 4, fn_101BBE60_TRAMP = 1;  // "fn_101BBE60" 0x101BBE60
-constexpr unsigned fn_101BC520 = 4, fn_101BC520_TRAMP = 1;  // "fn_101BC520" 0x101BC520
+constexpr unsigned FsWordCompletion_getEntryList = 4, FsWordCompletion_getEntryList_TRAMP = 1;  // "FsWordCompletion_getEntryList" 0x101BBE60
+constexpr unsigned FsWordCompletion__prepareAllData = 4, FsWordCompletion__prepareAllData_TRAMP = 1;  // "FsWordCompletion__prepareAllData" 0x101BC520
 constexpr unsigned fn_101BC6F0 = 4, fn_101BC6F0_TRAMP = 1;  // "fn_101BC6F0" 0x101BC6F0
 constexpr unsigned fn_101BC720 = 4, fn_101BC720_TRAMP = 1;  // "fn_101BC720" 0x101BC720
-constexpr unsigned fn_101BC740 = 4, fn_101BC740_TRAMP = 1;  // "fn_101BC740" 0x101BC740
 constexpr unsigned fn_101BC7B0 = 4, fn_101BC7B0_TRAMP = 1;  // "fn_101BC7B0" 0x101BC7B0
 constexpr unsigned fn_101BC900 = 4, fn_101BC900_TRAMP = 1;  // "fn_101BC900" 0x101BC900
 constexpr unsigned fn_101BC9B0 = 4, fn_101BC9B0_TRAMP = 0;  // "fn_101BC9B0" 0x101BC9B0
-constexpr unsigned fn_101BC9E0 = 4, fn_101BC9E0_TRAMP = 1;  // "fn_101BC9E0" 0x101BC9E0
+constexpr unsigned FsMemory_Constructor = 4, FsMemory_Constructor_TRAMP = 1;  // "FsMemory_Constructor" 0x101BC9E0
 constexpr unsigned fn_101BCA40 = 4, fn_101BCA40_TRAMP = 1;  // "fn_101BCA40" 0x101BCA40
 constexpr unsigned fn_101BCAC0 = 4, fn_101BCAC0_TRAMP = 1;  // "fn_101BCAC0" 0x101BCAC0
 constexpr unsigned fn_101BCB30 = 4, fn_101BCB30_TRAMP = 1;  // "fn_101BCB30" 0x101BCB30
@@ -7415,7 +7187,7 @@ constexpr unsigned fn_101C3E10 = 4, fn_101C3E10_TRAMP = 1;  // "fn_101C3E10" 0x1
 constexpr unsigned fn_101C3E40 = 4, fn_101C3E40_TRAMP = 1;  // "fn_101C3E40" 0x101C3E40
 constexpr unsigned fn_101C3F40 = 4, fn_101C3F40_TRAMP = 1;  // "fn_101C3F40" 0x101C3F40
 constexpr unsigned fn_101C3FB0 = 4, fn_101C3FB0_TRAMP = 1;  // "fn_101C3FB0" 0x101C3FB0
-constexpr unsigned fn_101C3FE0 = 4, fn_101C3FE0_TRAMP = 1;  // "fn_101C3FE0" 0x101C3FE0
+constexpr unsigned fn_101C3FE0 = 12, fn_101C3FE0_TRAMP = 1;  // "fn_101C3FE0" 0x101C3FE0
 constexpr unsigned fn_101C4170 = 4, fn_101C4170_TRAMP = 1;  // "fn_101C4170" 0x101C4170
 constexpr unsigned fn_101C4260 = 4, fn_101C4260_TRAMP = 1;  // "fn_101C4260" 0x101C4260
 constexpr unsigned fn_101C46A0 = 12, fn_101C46A0_TRAMP = 1;  // "fn_101C46A0" 0x101C46A0
@@ -7466,7 +7238,6 @@ constexpr unsigned fn_101C5EC0 = 4, fn_101C5EC0_TRAMP = 1;  // "fn_101C5EC0" 0x1
 constexpr unsigned fn_101C60C0 = 4, fn_101C60C0_TRAMP = 1;  // "fn_101C60C0" 0x101C60C0
 constexpr unsigned fn_101C6810 = 4, fn_101C6810_TRAMP = 1;  // "fn_101C6810" 0x101C6810
 constexpr unsigned fn_101C68A0 = 4, fn_101C68A0_TRAMP = 1;  // "fn_101C68A0" 0x101C68A0
-constexpr unsigned fn_101C7C50 = 4, fn_101C7C50_TRAMP = 1;  // "fn_101C7C50" 0x101C7C50
 constexpr unsigned fn_101C7F80 = 4, fn_101C7F80_TRAMP = 1;  // "fn_101C7F80" 0x101C7F80
 constexpr unsigned fn_101C8070 = 4, fn_101C8070_TRAMP = 1;  // "fn_101C8070" 0x101C8070
 constexpr unsigned fn_101C80A0 = 4, fn_101C80A0_TRAMP = 1;  // "fn_101C80A0" 0x101C80A0
@@ -7483,6 +7254,7 @@ constexpr unsigned fn_101C8D70 = 4, fn_101C8D70_TRAMP = 1;  // "fn_101C8D70" 0x1
 constexpr unsigned Gfx_ProjectWorldToScreen = 0, Gfx_ProjectWorldToScreen_TRAMP = 1;  // "Gfx_ProjectWorldToScreen" 0x101C8DA0
 constexpr unsigned fn_101C9270 = 4, fn_101C9270_TRAMP = 1;  // "fn_101C9270" 0x101C9270
 constexpr unsigned fn_101C9780 = 4, fn_101C9780_TRAMP = 1;  // "fn_101C9780" 0x101C9780
+constexpr unsigned fn_101C9D50 = 4, fn_101C9D50_TRAMP = 1;  // "fn_101C9D50" 0x101C9D50
 constexpr unsigned fn_101CA180 = 4, fn_101CA180_TRAMP = 1;  // "fn_101CA180" 0x101CA180
 constexpr unsigned fn_101CAD00 = 4, fn_101CAD00_TRAMP = 1;  // "fn_101CAD00" 0x101CAD00
 constexpr unsigned fn_101CAEC0 = 4, fn_101CAEC0_TRAMP = 1;  // "fn_101CAEC0" 0x101CAEC0
@@ -7496,11 +7268,13 @@ constexpr unsigned fn_101CB430 = 4, fn_101CB430_TRAMP = 1;  // "fn_101CB430" 0x1
 constexpr unsigned fn_101CB500 = 4, fn_101CB500_TRAMP = 1;  // "fn_101CB500" 0x101CB500
 constexpr unsigned fn_101CB550 = 4, fn_101CB550_TRAMP = 1;  // "fn_101CB550" 0x101CB550
 constexpr unsigned fn_101CB770 = 4, fn_101CB770_TRAMP = 1;  // "fn_101CB770" 0x101CB770
-constexpr unsigned fn_101CBE50 = 4, fn_101CBE50_TRAMP = 1;  // "fn_101CBE50" 0x101CBE50
-constexpr unsigned fn_101CBE60 = 4, fn_101CBE60_TRAMP = 1;  // "fn_101CBE60" 0x101CBE60
-constexpr unsigned fn_101CBE70 = 4, fn_101CBE70_TRAMP = 1;  // "fn_101CBE70" 0x101CBE70
+constexpr unsigned fn_101CBDF0 = 12, fn_101CBDF0_TRAMP = 1;  // "fn_101CBDF0" 0x101CBDF0
+constexpr unsigned fn_101CBE50 = 12, fn_101CBE50_TRAMP = 1;  // "fn_101CBE50" 0x101CBE50
+constexpr unsigned fn_101CBE60 = 12, fn_101CBE60_TRAMP = 1;  // "fn_101CBE60" 0x101CBE60
+constexpr unsigned fn_101CBE70 = 12, fn_101CBE70_TRAMP = 1;  // "fn_101CBE70" 0x101CBE70
 constexpr unsigned fn_101CC070 = 4, fn_101CC070_TRAMP = 1;  // "fn_101CC070" 0x101CC070
-constexpr unsigned fn_101CC1D0 = 4, fn_101CC1D0_TRAMP = 1;  // "fn_101CC1D0" 0x101CC1D0
+constexpr unsigned fn_101CC1D0 = 12, fn_101CC1D0_TRAMP = 1;  // "fn_101CC1D0" 0x101CC1D0
+constexpr unsigned fn_101CC220 = 12, fn_101CC220_TRAMP = 1;  // "fn_101CC220" 0x101CC220
 constexpr unsigned fn_101CC350 = 4, fn_101CC350_TRAMP = 1;  // "fn_101CC350" 0x101CC350
 constexpr unsigned fn_101CC510 = 4, fn_101CC510_TRAMP = 1;  // "fn_101CC510" 0x101CC510
 constexpr unsigned fn_101CC520 = 4, fn_101CC520_TRAMP = 1;  // "fn_101CC520" 0x101CC520
@@ -7557,19 +7331,13 @@ constexpr unsigned fn_101DC460 = 4, fn_101DC460_TRAMP = 1;  // "fn_101DC460" 0x1
 constexpr unsigned fn_101DCE20 = 4, fn_101DCE20_TRAMP = 1;  // "fn_101DCE20" 0x101DCE20
 constexpr unsigned fn_101DD000 = 4, fn_101DD000_TRAMP = 1;  // "fn_101DD000" 0x101DD000
 constexpr unsigned fn_101DDA70 = 4, fn_101DDA70_TRAMP = 1;  // "fn_101DDA70" 0x101DDA70
-constexpr unsigned fn_101DDA90 = 4, fn_101DDA90_TRAMP = 1;  // "fn_101DDA90" 0x101DDA90
 constexpr unsigned fn_101DDF90 = 4, fn_101DDF90_TRAMP = 1;  // "fn_101DDF90" 0x101DDF90
 constexpr unsigned fn_101DE6B0 = 4, fn_101DE6B0_TRAMP = 1;  // "fn_101DE6B0" 0x101DE6B0
 constexpr unsigned fn_101DEDC0 = 4, fn_101DEDC0_TRAMP = 1;  // "fn_101DEDC0" 0x101DEDC0
 constexpr unsigned fn_101DF210 = 4, fn_101DF210_TRAMP = 1;  // "fn_101DF210" 0x101DF210
-constexpr unsigned fn_101E06C0 = 4, fn_101E06C0_TRAMP = 1;  // "fn_101E06C0" 0x101E06C0
-constexpr unsigned fn_101E0700 = 4, fn_101E0700_TRAMP = 1;  // "fn_101E0700" 0x101E0700
 constexpr unsigned fn_101E0A90 = 4, fn_101E0A90_TRAMP = 1;  // "fn_101E0A90" 0x101E0A90
-constexpr unsigned fn_101E11C0 = 4, fn_101E11C0_TRAMP = 1;  // "fn_101E11C0" 0x101E11C0
-constexpr unsigned fn_101E15F0 = 4, fn_101E15F0_TRAMP = 1;  // "fn_101E15F0" 0x101E15F0
+constexpr unsigned fn_101E15F0 = 12, fn_101E15F0_TRAMP = 1;  // "fn_101E15F0" 0x101E15F0
 constexpr unsigned fn_101E1A00 = 4, fn_101E1A00_TRAMP = 1;  // "fn_101E1A00" 0x101E1A00
-constexpr unsigned fn_101E1AE0 = 4, fn_101E1AE0_TRAMP = 1;  // "fn_101E1AE0" 0x101E1AE0
-constexpr unsigned fn_101E24F0 = 4, fn_101E24F0_TRAMP = 1;  // "fn_101E24F0" 0x101E24F0
 constexpr unsigned fn_101E2B10 = 4, fn_101E2B10_TRAMP = 1;  // "fn_101E2B10" 0x101E2B10
 constexpr unsigned fn_101E3F50 = 4, fn_101E3F50_TRAMP = 1;  // "fn_101E3F50" 0x101E3F50
 constexpr unsigned fn_101E48F0 = 4, fn_101E48F0_TRAMP = 1;  // "fn_101E48F0" 0x101E48F0
@@ -7581,16 +7349,12 @@ constexpr unsigned fn_101EB390 = 4, fn_101EB390_TRAMP = 1;  // "fn_101EB390" 0x1
 constexpr unsigned fn_101EB7E0 = 4, fn_101EB7E0_TRAMP = 1;  // "fn_101EB7E0" 0x101EB7E0
 constexpr unsigned fn_101EBE00 = 4, fn_101EBE00_TRAMP = 1;  // "fn_101EBE00" 0x101EBE00
 constexpr unsigned fn_101EC0D0 = 4, fn_101EC0D0_TRAMP = 1;  // "fn_101EC0D0" 0x101EC0D0
-constexpr unsigned fn_101EC3C0 = 4, fn_101EC3C0_TRAMP = 1;  // "fn_101EC3C0" 0x101EC3C0
 constexpr unsigned fn_101ED450 = 4, fn_101ED450_TRAMP = 1;  // "fn_101ED450" 0x101ED450
 constexpr unsigned fn_101EE230 = 4, fn_101EE230_TRAMP = 1;  // "fn_101EE230" 0x101EE230
-constexpr unsigned fn_101EEBD0 = 0, fn_101EEBD0_TRAMP = 1;  // "fn_101EEBD0" 0x101EEBD0
 constexpr unsigned fn_101EFCA0 = 4, fn_101EFCA0_TRAMP = 1;  // "fn_101EFCA0" 0x101EFCA0
 constexpr unsigned fn_101EFEA0 = 4, fn_101EFEA0_TRAMP = 1;  // "fn_101EFEA0" 0x101EFEA0
 constexpr unsigned fn_101F17C0 = 4, fn_101F17C0_TRAMP = 1;  // "fn_101F17C0" 0x101F17C0
 constexpr unsigned fn_101F43F0 = 4, fn_101F43F0_TRAMP = 1;  // "fn_101F43F0" 0x101F43F0
-constexpr unsigned fn_101F4AF0 = 4, fn_101F4AF0_TRAMP = 1;  // "fn_101F4AF0" 0x101F4AF0
-constexpr unsigned fn_101F6700 = 4, fn_101F6700_TRAMP = 1;  // "fn_101F6700" 0x101F6700
 constexpr unsigned fn_101F67C0 = 4, fn_101F67C0_TRAMP = 1;  // "fn_101F67C0" 0x101F67C0
 constexpr unsigned fn_101F71A0 = 4, fn_101F71A0_TRAMP = 1;  // "fn_101F71A0" 0x101F71A0
 constexpr unsigned fn_101F71C0 = 4, fn_101F71C0_TRAMP = 1;  // "fn_101F71C0" 0x101F71C0
@@ -7604,37 +7368,36 @@ constexpr unsigned fn_101F75C0 = 4, fn_101F75C0_TRAMP = 1;  // "fn_101F75C0" 0x1
 constexpr unsigned fn_101F86C0 = 4, fn_101F86C0_TRAMP = 1;  // "fn_101F86C0" 0x101F86C0
 constexpr unsigned fn_101F92B0 = 4, fn_101F92B0_TRAMP = 1;  // "fn_101F92B0" 0x101F92B0
 constexpr unsigned fn_101F9370 = 4, fn_101F9370_TRAMP = 1;  // "fn_101F9370" 0x101F9370
-constexpr unsigned fn_101FA420 = 4, fn_101FA420_TRAMP = 1;  // "fn_101FA420" 0x101FA420
 constexpr unsigned fn_101FB710 = 4, fn_101FB710_TRAMP = 1;  // "fn_101FB710" 0x101FB710
 constexpr unsigned fn_101FC2C0 = 4, fn_101FC2C0_TRAMP = 1;  // "fn_101FC2C0" 0x101FC2C0
 constexpr unsigned fn_101FCBC0 = 4, fn_101FCBC0_TRAMP = 1;  // "fn_101FCBC0" 0x101FCBC0
 constexpr unsigned fn_101FD000 = 4, fn_101FD000_TRAMP = 1;  // "fn_101FD000" 0x101FD000
+constexpr unsigned fn_101FD600 = 12, fn_101FD600_TRAMP = 1;  // "fn_101FD600" 0x101FD600
 constexpr unsigned fn_101FE430 = 4, fn_101FE430_TRAMP = 1;  // "fn_101FE430" 0x101FE430
 constexpr unsigned fn_101FF000 = 4, fn_101FF000_TRAMP = 1;  // "fn_101FF000" 0x101FF000
 constexpr unsigned fn_10200B60 = 4, fn_10200B60_TRAMP = 1;  // "fn_10200B60" 0x10200B60
 constexpr unsigned fn_10201020 = 4, fn_10201020_TRAMP = 1;  // "fn_10201020" 0x10201020
 constexpr unsigned fn_10201130 = 4, fn_10201130_TRAMP = 1;  // "fn_10201130" 0x10201130
-constexpr unsigned fn_102014F0 = 4, fn_102014F0_TRAMP = 1;  // "fn_102014F0" 0x102014F0
 constexpr unsigned fn_102015D0 = 4, fn_102015D0_TRAMP = 1;  // "fn_102015D0" 0x102015D0
 constexpr unsigned fn_102017A0 = 4, fn_102017A0_TRAMP = 1;  // "fn_102017A0" 0x102017A0
 constexpr unsigned fn_10201C90 = 4, fn_10201C90_TRAMP = 1;  // "fn_10201C90" 0x10201C90
 constexpr unsigned fn_10201EB0 = 4, fn_10201EB0_TRAMP = 1;  // "fn_10201EB0" 0x10201EB0
+constexpr unsigned fn_10201F00 = 12, fn_10201F00_TRAMP = 1;  // "fn_10201F00" 0x10201F00
 constexpr unsigned fn_10202380 = 4, fn_10202380_TRAMP = 1;  // "fn_10202380" 0x10202380
 constexpr unsigned fn_10202C90 = 4, fn_10202C90_TRAMP = 1;  // "fn_10202C90" 0x10202C90
 constexpr unsigned fn_10202D10 = 4, fn_10202D10_TRAMP = 1;  // "fn_10202D10" 0x10202D10
 constexpr unsigned fn_10202D30 = 4, fn_10202D30_TRAMP = 1;  // "fn_10202D30" 0x10202D30
 constexpr unsigned fn_10202D80 = 4, fn_10202D80_TRAMP = 1;  // "fn_10202D80" 0x10202D80
+constexpr unsigned fn_102031F0 = 12, fn_102031F0_TRAMP = 1;  // "fn_102031F0" 0x102031F0
 constexpr unsigned fn_102033C0 = 4, fn_102033C0_TRAMP = 1;  // "fn_102033C0" 0x102033C0
 constexpr unsigned fn_102034A0 = 4, fn_102034A0_TRAMP = 1;  // "fn_102034A0" 0x102034A0
 constexpr unsigned fn_102034E0 = 4, fn_102034E0_TRAMP = 1;  // "fn_102034E0" 0x102034E0
 constexpr unsigned fn_10203500 = 4, fn_10203500_TRAMP = 1;  // "fn_10203500" 0x10203500
 constexpr unsigned fn_10203520 = 4, fn_10203520_TRAMP = 1;  // "fn_10203520" 0x10203520
 constexpr unsigned fn_10203540 = 4, fn_10203540_TRAMP = 1;  // "fn_10203540" 0x10203540
-constexpr unsigned fn_10203920 = 4, fn_10203920_TRAMP = 1;  // "fn_10203920" 0x10203920
+constexpr unsigned fn_10203920 = 12, fn_10203920_TRAMP = 1;  // "fn_10203920" 0x10203920
 constexpr unsigned fn_10203BC0 = 4, fn_10203BC0_TRAMP = 1;  // "fn_10203BC0" 0x10203BC0
-constexpr unsigned fn_10203BE0 = 4, fn_10203BE0_TRAMP = 1;  // "fn_10203BE0" 0x10203BE0
 constexpr unsigned fn_10205500 = 4, fn_10205500_TRAMP = 1;  // "fn_10205500" 0x10205500
-constexpr unsigned fn_10206420 = 4, fn_10206420_TRAMP = 1;  // "fn_10206420" 0x10206420
 constexpr unsigned fn_10207730 = 4, fn_10207730_TRAMP = 1;  // "fn_10207730" 0x10207730
 constexpr unsigned fn_10208500 = 4, fn_10208500_TRAMP = 1;  // "fn_10208500" 0x10208500
 constexpr unsigned fn_10209300 = 4, fn_10209300_TRAMP = 1;  // "fn_10209300" 0x10209300
@@ -7645,31 +7408,35 @@ constexpr unsigned fn_1020BE90 = 4, fn_1020BE90_TRAMP = 1;  // "fn_1020BE90" 0x1
 constexpr unsigned fn_1020C470 = 4, fn_1020C470_TRAMP = 1;  // "fn_1020C470" 0x1020C470
 constexpr unsigned fn_1020CC30 = 4, fn_1020CC30_TRAMP = 1;  // "fn_1020CC30" 0x1020CC30
 constexpr unsigned fn_1020ED00 = 4, fn_1020ED00_TRAMP = 1;  // "fn_1020ED00" 0x1020ED00
-constexpr unsigned fn_10210310 = 4, fn_10210310_TRAMP = 1;  // "fn_10210310" 0x10210310
+constexpr unsigned YkWndShop_Constructor = 4, YkWndShop_Constructor_TRAMP = 1;  // "YkWndShop_Constructor" 0x10210310
 constexpr unsigned fn_10210D60 = 4, fn_10210D60_TRAMP = 1;  // "fn_10210D60" 0x10210D60
 constexpr unsigned fn_10210DA0 = 4, fn_10210DA0_TRAMP = 1;  // "fn_10210DA0" 0x10210DA0
 constexpr unsigned fn_10210E30 = 4, fn_10210E30_TRAMP = 1;  // "fn_10210E30" 0x10210E30
 constexpr unsigned fn_10210FC0 = 4, fn_10210FC0_TRAMP = 1;  // "fn_10210FC0" 0x10210FC0
-constexpr unsigned fn_10211050 = 4, fn_10211050_TRAMP = 1;  // "fn_10211050" 0x10211050
 constexpr unsigned fn_102112B0 = 4, fn_102112B0_TRAMP = 1;  // "fn_102112B0" 0x102112B0
 constexpr unsigned fn_10211340 = 4, fn_10211340_TRAMP = 1;  // "fn_10211340" 0x10211340
 constexpr unsigned fn_10211370 = 4, fn_10211370_TRAMP = 1;  // "fn_10211370" 0x10211370
 constexpr unsigned fn_10216570 = 4, fn_10216570_TRAMP = 1;  // "fn_10216570" 0x10216570
 constexpr unsigned fn_102175C0 = 4, fn_102175C0_TRAMP = 1;  // "fn_102175C0" 0x102175C0
-constexpr unsigned fn_1021B330 = 4, fn_1021B330_TRAMP = 1;  // "fn_1021B330" 0x1021B330
 constexpr unsigned fn_1021BB90 = 4, fn_1021BB90_TRAMP = 1;  // "fn_1021BB90" 0x1021BB90
 constexpr unsigned fn_1021BC20 = 4, fn_1021BC20_TRAMP = 1;  // "fn_1021BC20" 0x1021BC20
 constexpr unsigned fn_1021BC30 = 4, fn_1021BC30_TRAMP = 1;  // "fn_1021BC30" 0x1021BC30
+constexpr unsigned fn_1021BCB0 = 4, fn_1021BCB0_TRAMP = 0;  // "fn_1021BCB0" 0x1021BCB0
 constexpr unsigned fn_1021BDB0 = 4, fn_1021BDB0_TRAMP = 1;  // "fn_1021BDB0" 0x1021BDB0
 constexpr unsigned fn_1021BF60 = 4, fn_1021BF60_TRAMP = 1;  // "fn_1021BF60" 0x1021BF60
 constexpr unsigned fn_1021C010 = 4, fn_1021C010_TRAMP = 1;  // "fn_1021C010" 0x1021C010
 constexpr unsigned fn_1021C070 = 4, fn_1021C070_TRAMP = 1;  // "fn_1021C070" 0x1021C070
+constexpr unsigned fn_1021C100 = 12, fn_1021C100_TRAMP = 1;  // "fn_1021C100" 0x1021C100
 constexpr unsigned fn_1021C160 = 4, fn_1021C160_TRAMP = 1;  // "fn_1021C160" 0x1021C160
 constexpr unsigned fn_1021C1B0 = 4, fn_1021C1B0_TRAMP = 1;  // "fn_1021C1B0" 0x1021C1B0
 constexpr unsigned fn_1021C210 = 4, fn_1021C210_TRAMP = 1;  // "fn_1021C210" 0x1021C210
 constexpr unsigned fn_1021C2E0 = 4, fn_1021C2E0_TRAMP = 1;  // "fn_1021C2E0" 0x1021C2E0
 constexpr unsigned fn_1021C350 = 4, fn_1021C350_TRAMP = 1;  // "fn_1021C350" 0x1021C350
+constexpr unsigned fn_1021C380 = 4, fn_1021C380_TRAMP = 1;  // "fn_1021C380" 0x1021C380
+constexpr unsigned fn_1021C4C0 = 4, fn_1021C4C0_TRAMP = 1;  // "fn_1021C4C0" 0x1021C4C0
 constexpr unsigned fn_1021C5B0 = 4, fn_1021C5B0_TRAMP = 1;  // "fn_1021C5B0" 0x1021C5B0
+constexpr unsigned fn_1021C680 = 4, fn_1021C680_TRAMP = 1;  // "fn_1021C680" 0x1021C680
+constexpr unsigned fn_1021C7C0 = 12, fn_1021C7C0_TRAMP = 1;  // "fn_1021C7C0" 0x1021C7C0
 constexpr unsigned fn_1021C7E0 = 4, fn_1021C7E0_TRAMP = 1;  // "fn_1021C7E0" 0x1021C7E0
 constexpr unsigned fn_1021D250 = 4, fn_1021D250_TRAMP = 1;  // "fn_1021D250" 0x1021D250
 constexpr unsigned fn_1021D270 = 4, fn_1021D270_TRAMP = 1;  // "fn_1021D270" 0x1021D270
@@ -7677,13 +7444,15 @@ constexpr unsigned fn_1021D2D0 = 4, fn_1021D2D0_TRAMP = 1;  // "fn_1021D2D0" 0x1
 constexpr unsigned fn_1021D380 = 4, fn_1021D380_TRAMP = 1;  // "fn_1021D380" 0x1021D380
 constexpr unsigned fn_1021D3D0 = 4, fn_1021D3D0_TRAMP = 1;  // "fn_1021D3D0" 0x1021D3D0
 constexpr unsigned fn_1021D440 = 4, fn_1021D440_TRAMP = 1;  // "fn_1021D440" 0x1021D440
+constexpr unsigned fn_1021D460 = 12, fn_1021D460_TRAMP = 1;  // "fn_1021D460" 0x1021D460
 constexpr unsigned fn_1021D490 = 4, fn_1021D490_TRAMP = 1;  // "fn_1021D490" 0x1021D490
 constexpr unsigned fn_1021D4A0 = 4, fn_1021D4A0_TRAMP = 1;  // "fn_1021D4A0" 0x1021D4A0
 constexpr unsigned CXiMovie__DrawFrame = 4, CXiMovie__DrawFrame_TRAMP = 1;  // "CXiMovie::DrawFrame" 0x1021D4C0
 constexpr unsigned fn_1021D7F0 = 4, fn_1021D7F0_TRAMP = 1;  // "fn_1021D7F0" 0x1021D7F0
 constexpr unsigned fn_1021D930 = 4, fn_1021D930_TRAMP = 1;  // "fn_1021D930" 0x1021D930
 constexpr unsigned Movie_Update = 4, Movie_Update_TRAMP = 1;  // "Movie_Update" 0x1021D980
-constexpr unsigned fn_1021DDC0 = 4, fn_1021DDC0_TRAMP = 0;  // "fn_1021DDC0" 0x1021DDC0
+constexpr unsigned fn_1021DD20 = 4, fn_1021DD20_TRAMP = 1;  // "fn_1021DD20" 0x1021DD20
+constexpr unsigned fn_1021DDC0 = 12, fn_1021DDC0_TRAMP = 0;  // "fn_1021DDC0" 0x1021DDC0
 constexpr unsigned Movie_GetCurrentTexture = 4, Movie_GetCurrentTexture_TRAMP = 1;  // "Movie_GetCurrentTexture" 0x1021DDF0
 constexpr unsigned fn_1021DE10 = 4, fn_1021DE10_TRAMP = 0;  // "fn_1021DE10" 0x1021DE10
 constexpr unsigned fn_1021DE20 = 4, fn_1021DE20_TRAMP = 0;  // "fn_1021DE20" 0x1021DE20
@@ -7701,22 +7470,21 @@ constexpr unsigned fn_1021E670 = 4, fn_1021E670_TRAMP = 1;  // "fn_1021E670" 0x1
 constexpr unsigned fn_1021E690 = 4, fn_1021E690_TRAMP = 1;  // "fn_1021E690" 0x1021E690
 constexpr unsigned fn_1021E760 = 4, fn_1021E760_TRAMP = 1;  // "fn_1021E760" 0x1021E760
 constexpr unsigned fn_1021ED90 = 4, fn_1021ED90_TRAMP = 1;  // "fn_1021ED90" 0x1021ED90
-constexpr unsigned fn_1021EDC0 = 4, fn_1021EDC0_TRAMP = 1;  // "fn_1021EDC0" 0x1021EDC0
-constexpr unsigned fn_1021EDD0 = 4, fn_1021EDD0_TRAMP = 1;  // "fn_1021EDD0" 0x1021EDD0
+constexpr unsigned fn_1021EDC0 = 12, fn_1021EDC0_TRAMP = 1;  // "fn_1021EDC0" 0x1021EDC0
 constexpr unsigned fn_1021EDE0 = 4, fn_1021EDE0_TRAMP = 1;  // "fn_1021EDE0" 0x1021EDE0
 constexpr unsigned fn_1021EE00 = 4, fn_1021EE00_TRAMP = 1;  // "fn_1021EE00" 0x1021EE00
 constexpr unsigned fn_1021EE20 = 4, fn_1021EE20_TRAMP = 1;  // "fn_1021EE20" 0x1021EE20
 constexpr unsigned fn_1021EE70 = 4, fn_1021EE70_TRAMP = 1;  // "fn_1021EE70" 0x1021EE70
-constexpr unsigned fn_1021EEB0 = 4, fn_1021EEB0_TRAMP = 1;  // "fn_1021EEB0" 0x1021EEB0
-constexpr unsigned fn_1021EF10 = 4, fn_1021EF10_TRAMP = 1;  // "fn_1021EF10" 0x1021EF10
 constexpr unsigned fn_1021F030 = 4, fn_1021F030_TRAMP = 1;  // "fn_1021F030" 0x1021F030
 constexpr unsigned fn_1021F140 = 4, fn_1021F140_TRAMP = 1;  // "fn_1021F140" 0x1021F140
 constexpr unsigned fn_1021F360 = 4, fn_1021F360_TRAMP = 1;  // "fn_1021F360" 0x1021F360
 constexpr unsigned fn_1021F410 = 4, fn_1021F410_TRAMP = 1;  // "fn_1021F410" 0x1021F410
+constexpr unsigned fn_1021F950 = 4, fn_1021F950_TRAMP = 1;  // "fn_1021F950" 0x1021F950
 constexpr unsigned fn_1021FA90 = 4, fn_1021FA90_TRAMP = 1;  // "fn_1021FA90" 0x1021FA90
 constexpr unsigned fn_1021FB10 = 4, fn_1021FB10_TRAMP = 1;  // "fn_1021FB10" 0x1021FB10
 constexpr unsigned fn_1021FB80 = 4, fn_1021FB80_TRAMP = 1;  // "fn_1021FB80" 0x1021FB80
 constexpr unsigned fn_1021FBD0 = 4, fn_1021FBD0_TRAMP = 1;  // "fn_1021FBD0" 0x1021FBD0
+constexpr unsigned fn_1021FCE0 = 4, fn_1021FCE0_TRAMP = 1;  // "fn_1021FCE0" 0x1021FCE0
 constexpr unsigned fn_1021FE10 = 4, fn_1021FE10_TRAMP = 1;  // "fn_1021FE10" 0x1021FE10
 constexpr unsigned fn_102201A0 = 4, fn_102201A0_TRAMP = 1;  // "fn_102201A0" 0x102201A0
 constexpr unsigned fn_102201F0 = 4, fn_102201F0_TRAMP = 1;  // "fn_102201F0" 0x102201F0
@@ -7732,10 +7500,7 @@ constexpr unsigned fn_10221740 = 4, fn_10221740_TRAMP = 1;  // "fn_10221740" 0x1
 constexpr unsigned fn_102217A0 = 4, fn_102217A0_TRAMP = 1;  // "fn_102217A0" 0x102217A0
 constexpr unsigned fn_102217C0 = 4, fn_102217C0_TRAMP = 1;  // "fn_102217C0" 0x102217C0
 constexpr unsigned fn_10221900 = 4, fn_10221900_TRAMP = 1;  // "fn_10221900" 0x10221900
-constexpr unsigned fn_10221920 = 4, fn_10221920_TRAMP = 1;  // "fn_10221920" 0x10221920
-constexpr unsigned fn_10221A80 = 4, fn_10221A80_TRAMP = 1;  // "fn_10221A80" 0x10221A80
 constexpr unsigned fn_10221BE0 = 4, fn_10221BE0_TRAMP = 1;  // "fn_10221BE0" 0x10221BE0
-constexpr unsigned fn_10221F50 = 4, fn_10221F50_TRAMP = 1;  // "fn_10221F50" 0x10221F50
 constexpr unsigned fn_10222110 = 4, fn_10222110_TRAMP = 1;  // "fn_10222110" 0x10222110
 constexpr unsigned fn_10222960 = 4, fn_10222960_TRAMP = 1;  // "fn_10222960" 0x10222960
 constexpr unsigned fn_10222C10 = 4, fn_10222C10_TRAMP = 1;  // "fn_10222C10" 0x10222C10
@@ -7766,7 +7531,6 @@ constexpr unsigned fn_102271D0 = 4, fn_102271D0_TRAMP = 1;  // "fn_102271D0" 0x1
 constexpr unsigned fn_10227750 = 4, fn_10227750_TRAMP = 1;  // "fn_10227750" 0x10227750
 constexpr unsigned fn_102278B0 = 4, fn_102278B0_TRAMP = 1;  // "fn_102278B0" 0x102278B0
 constexpr unsigned fn_10227F70 = 4, fn_10227F70_TRAMP = 1;  // "fn_10227F70" 0x10227F70
-constexpr unsigned fn_10228080 = 4, fn_10228080_TRAMP = 1;  // "fn_10228080" 0x10228080
 constexpr unsigned fn_102281C0 = 4, fn_102281C0_TRAMP = 1;  // "fn_102281C0" 0x102281C0
 constexpr unsigned fn_10228200 = 4, fn_10228200_TRAMP = 1;  // "fn_10228200" 0x10228200
 constexpr unsigned fn_10229430 = 4, fn_10229430_TRAMP = 1;  // "fn_10229430" 0x10229430
@@ -7814,7 +7578,7 @@ constexpr unsigned Ui_DrawKeyPrompt = 0, Ui_DrawKeyPrompt_TRAMP = 1;  // "Ui_Dra
 constexpr unsigned fn_1023BF20 = 4, fn_1023BF20_TRAMP = 1;  // "fn_1023BF20" 0x1023BF20
 constexpr unsigned fn_1023D610 = 4, fn_1023D610_TRAMP = 1;  // "fn_1023D610" 0x1023D610
 constexpr unsigned fn_1023E4B0 = 4, fn_1023E4B0_TRAMP = 1;  // "fn_1023E4B0" 0x1023E4B0
-constexpr unsigned fn_1023E830 = 4, fn_1023E830_TRAMP = 1;  // "fn_1023E830" 0x1023E830
+constexpr unsigned CIwHnList_Constructor = 4, CIwHnList_Constructor_TRAMP = 1;  // "CIwHnList_Constructor" 0x1023E830
 constexpr unsigned fn_1023F890 = 4, fn_1023F890_TRAMP = 1;  // "fn_1023F890" 0x1023F890
 constexpr unsigned fn_10244DF0 = 4, fn_10244DF0_TRAMP = 1;  // "fn_10244DF0" 0x10244DF0
 constexpr unsigned fn_10244F20 = 4, fn_10244F20_TRAMP = 0;  // "fn_10244F20" 0x10244F20
@@ -7841,7 +7605,7 @@ constexpr unsigned fn_102467F0 = 4, fn_102467F0_TRAMP = 1;  // "fn_102467F0" 0x1
 constexpr unsigned fn_1024C060 = 4, fn_1024C060_TRAMP = 1;  // "fn_1024C060" 0x1024C060
 constexpr unsigned fn_1024C210 = 4, fn_1024C210_TRAMP = 1;  // "fn_1024C210" 0x1024C210
 constexpr unsigned fn_1024C930 = 4, fn_1024C930_TRAMP = 1;  // "fn_1024C930" 0x1024C930
-constexpr unsigned fn_1024CF50 = 0, fn_1024CF50_TRAMP = 1;  // "fn_1024CF50" 0x1024CF50
+constexpr unsigned StAvatarInit = 0, StAvatarInit_TRAMP = 1;  // "StAvatarInit" 0x1024CF50
 constexpr unsigned StAvatar_Teardown = 4, StAvatar_Teardown_TRAMP = 1;  // "StAvatar_Teardown" 0x1024D180
 constexpr unsigned StAvatar_ReleaseResources = 4, StAvatar_ReleaseResources_TRAMP = 1;  // "StAvatar_ReleaseResources" 0x1024D2C0
 constexpr unsigned fn_1024D400 = 4, fn_1024D400_TRAMP = 1;  // "fn_1024D400" 0x1024D400
@@ -7853,7 +7617,6 @@ constexpr unsigned fn_1024D610 = 4, fn_1024D610_TRAMP = 1;  // "fn_1024D610" 0x1
 constexpr unsigned fn_1024D6B0 = 4, fn_1024D6B0_TRAMP = 1;  // "fn_1024D6B0" 0x1024D6B0
 constexpr unsigned fn_1024D740 = 4, fn_1024D740_TRAMP = 1;  // "fn_1024D740" 0x1024D740
 constexpr unsigned StAvatar_StopAndFreeBuffers = 4, StAvatar_StopAndFreeBuffers_TRAMP = 1;  // "StAvatar_StopAndFreeBuffers" 0x1024D790
-constexpr unsigned fn_1024D850 = 4, fn_1024D850_TRAMP = 1;  // "fn_1024D850" 0x1024D850
 constexpr unsigned fn_1024D9D0 = 4, fn_1024D9D0_TRAMP = 1;  // "fn_1024D9D0" 0x1024D9D0
 constexpr unsigned fn_1024DB60 = 4, fn_1024DB60_TRAMP = 1;  // "fn_1024DB60" 0x1024DB60
 constexpr unsigned fn_1024DD10 = 4, fn_1024DD10_TRAMP = 1;  // "fn_1024DD10" 0x1024DD10
@@ -7863,17 +7626,18 @@ constexpr unsigned fn_1024E720 = 4, fn_1024E720_TRAMP = 1;  // "fn_1024E720" 0x1
 constexpr unsigned fn_1024F050 = 4, fn_1024F050_TRAMP = 1;  // "fn_1024F050" 0x1024F050
 constexpr unsigned fn_1024F0B0 = 4, fn_1024F0B0_TRAMP = 1;  // "fn_1024F0B0" 0x1024F0B0
 constexpr unsigned fn_1024F2C0 = 4, fn_1024F2C0_TRAMP = 1;  // "fn_1024F2C0" 0x1024F2C0
+constexpr unsigned fn_1024F5E0 = 4, fn_1024F5E0_TRAMP = 1;  // "fn_1024F5E0" 0x1024F5E0
 constexpr unsigned StAvatar_SetViewFromDancerCamera = 4, StAvatar_SetViewFromDancerCamera_TRAMP = 1;  // "StAvatar_SetViewFromDancerCamera" 0x1024F900
 constexpr unsigned fn_1024FC10 = 4, fn_1024FC10_TRAMP = 1;  // "fn_1024FC10" 0x1024FC10
 constexpr unsigned fn_1024FEC0 = 4, fn_1024FEC0_TRAMP = 1;  // "fn_1024FEC0" 0x1024FEC0
 constexpr unsigned fn_1024FF50 = 4, fn_1024FF50_TRAMP = 1;  // "fn_1024FF50" 0x1024FF50
 constexpr unsigned fn_10250190 = 4, fn_10250190_TRAMP = 1;  // "fn_10250190" 0x10250190
-constexpr unsigned fn_102501C0 = 0, fn_102501C0_TRAMP = 1;  // "fn_102501C0" 0x102501C0
+constexpr unsigned StAvatarRender = 0, StAvatarRender_TRAMP = 1;  // "StAvatarRender" 0x102501C0
 constexpr unsigned fn_102502D0 = 4, fn_102502D0_TRAMP = 1;  // "fn_102502D0" 0x102502D0
 constexpr unsigned StAvatarFini = 0, StAvatarFini_TRAMP = 1;  // "StAvatarFini" 0x102504D0
 constexpr unsigned fn_10250580 = 4, fn_10250580_TRAMP = 1;  // "fn_10250580" 0x10250580
 constexpr unsigned fn_10250660 = 4, fn_10250660_TRAMP = 1;  // "fn_10250660" 0x10250660
-constexpr unsigned fn_102506C0 = 4, fn_102506C0_TRAMP = 1;  // "fn_102506C0" 0x102506C0
+constexpr unsigned fn_102506C0 = 12, fn_102506C0_TRAMP = 1;  // "fn_102506C0" 0x102506C0
 constexpr unsigned fn_10250760 = 4, fn_10250760_TRAMP = 1;  // "fn_10250760" 0x10250760
 constexpr unsigned fn_10250790 = 4, fn_10250790_TRAMP = 1;  // "fn_10250790" 0x10250790
 constexpr unsigned fn_102507C0 = 4, fn_102507C0_TRAMP = 1;  // "fn_102507C0" 0x102507C0
@@ -7900,8 +7664,8 @@ constexpr unsigned fn_10251620 = 4, fn_10251620_TRAMP = 1;  // "fn_10251620" 0x1
 constexpr unsigned fn_102516B0 = 4, fn_102516B0_TRAMP = 1;  // "fn_102516B0" 0x102516B0
 constexpr unsigned fn_10251720 = 4, fn_10251720_TRAMP = 1;  // "fn_10251720" 0x10251720
 constexpr unsigned fn_10251750 = 4, fn_10251750_TRAMP = 1;  // "fn_10251750" 0x10251750
-constexpr unsigned fn_10251780 = 4, fn_10251780_TRAMP = 0;  // "fn_10251780" 0x10251780
-constexpr unsigned fn_10251890 = 4, fn_10251890_TRAMP = 1;  // "fn_10251890" 0x10251890
+constexpr unsigned fn_10251780 = 12, fn_10251780_TRAMP = 0;  // "fn_10251780" 0x10251780
+constexpr unsigned StDancer_SetJobLock = 4, StDancer_SetJobLock_TRAMP = 1;  // "StDancer_SetJobLock" 0x10251890
 constexpr unsigned fn_10251920 = 4, fn_10251920_TRAMP = 1;  // "fn_10251920" 0x10251920
 constexpr unsigned fn_10251960 = 4, fn_10251960_TRAMP = 1;  // "fn_10251960" 0x10251960
 constexpr unsigned Dancer_InitDevice = 4, Dancer_InitDevice_TRAMP = 1;  // "Dancer_InitDevice" 0x10251A80
@@ -7927,7 +7691,7 @@ constexpr unsigned fn_10253330 = 4, fn_10253330_TRAMP = 0;  // "fn_10253330" 0x1
 constexpr unsigned fn_10253360 = 4, fn_10253360_TRAMP = 1;  // "fn_10253360" 0x10253360
 constexpr unsigned fn_102534B0 = 4, fn_102534B0_TRAMP = 1;  // "fn_102534B0" 0x102534B0
 constexpr unsigned fn_102535B0 = 4, fn_102535B0_TRAMP = 1;  // "fn_102535B0" 0x102535B0
-constexpr unsigned fn_102535F0 = 4, fn_102535F0_TRAMP = 1;  // "fn_102535F0" 0x102535F0
+constexpr unsigned fn_102535F0 = 12, fn_102535F0_TRAMP = 1;  // "fn_102535F0" 0x102535F0
 constexpr unsigned fn_10253620 = 4, fn_10253620_TRAMP = 1;  // "fn_10253620" 0x10253620
 constexpr unsigned fn_10253630 = 4, fn_10253630_TRAMP = 1;  // "fn_10253630" 0x10253630
 constexpr unsigned fn_10253670 = 4, fn_10253670_TRAMP = 1;  // "fn_10253670" 0x10253670
@@ -7978,7 +7742,6 @@ constexpr unsigned fn_10258E50 = 4, fn_10258E50_TRAMP = 1;  // "fn_10258E50" 0x1
 constexpr unsigned fn_10258ED0 = 4, fn_10258ED0_TRAMP = 1;  // "fn_10258ED0" 0x10258ED0
 constexpr unsigned fn_10258F00 = 4, fn_10258F00_TRAMP = 1;  // "fn_10258F00" 0x10258F00
 constexpr unsigned fn_10258F60 = 4, fn_10258F60_TRAMP = 1;  // "fn_10258F60" 0x10258F60
-constexpr unsigned fn_102590E0 = 4, fn_102590E0_TRAMP = 1;  // "fn_102590E0" 0x102590E0
 constexpr unsigned fn_102590F0 = 4, fn_102590F0_TRAMP = 1;  // "fn_102590F0" 0x102590F0
 constexpr unsigned fn_10259100 = 4, fn_10259100_TRAMP = 1;  // "fn_10259100" 0x10259100
 constexpr unsigned fn_10259130 = 4, fn_10259130_TRAMP = 1;  // "fn_10259130" 0x10259130
@@ -7987,7 +7750,7 @@ constexpr unsigned fn_10259180 = 4, fn_10259180_TRAMP = 1;  // "fn_10259180" 0x1
 constexpr unsigned fn_102593F0 = 4, fn_102593F0_TRAMP = 1;  // "fn_102593F0" 0x102593F0
 constexpr unsigned fn_10259460 = 4, fn_10259460_TRAMP = 1;  // "fn_10259460" 0x10259460
 constexpr unsigned fn_10259990 = 4, fn_10259990_TRAMP = 1;  // "fn_10259990" 0x10259990
-constexpr unsigned fn_10259DE0 = 4, fn_10259DE0_TRAMP = 1;  // "fn_10259DE0" 0x10259DE0
+constexpr unsigned fn_10259DE0 = 12, fn_10259DE0_TRAMP = 1;  // "fn_10259DE0" 0x10259DE0
 constexpr unsigned fn_1025A580 = 4, fn_1025A580_TRAMP = 1;  // "fn_1025A580" 0x1025A580
 constexpr unsigned fn_1025A5A0 = 4, fn_1025A5A0_TRAMP = 1;  // "fn_1025A5A0" 0x1025A5A0
 constexpr unsigned fn_1025A610 = 4, fn_1025A610_TRAMP = 1;  // "fn_1025A610" 0x1025A610
@@ -7995,9 +7758,8 @@ constexpr unsigned fn_1025A6C0 = 4, fn_1025A6C0_TRAMP = 1;  // "fn_1025A6C0" 0x1
 constexpr unsigned fn_1025A6F0 = 4, fn_1025A6F0_TRAMP = 1;  // "fn_1025A6F0" 0x1025A6F0
 constexpr unsigned fn_1025A730 = 4, fn_1025A730_TRAMP = 1;  // "fn_1025A730" 0x1025A730
 constexpr unsigned fn_1025A760 = 4, fn_1025A760_TRAMP = 1;  // "fn_1025A760" 0x1025A760
-constexpr unsigned fn_1025A800 = 4, fn_1025A800_TRAMP = 1;  // "fn_1025A800" 0x1025A800
 constexpr unsigned fn_1025A810 = 4, fn_1025A810_TRAMP = 1;  // "fn_1025A810" 0x1025A810
-constexpr unsigned fn_1025A820 = 4, fn_1025A820_TRAMP = 1;  // "fn_1025A820" 0x1025A820
+constexpr unsigned fn_1025A820 = 12, fn_1025A820_TRAMP = 1;  // "fn_1025A820" 0x1025A820
 constexpr unsigned fn_1025A860 = 4, fn_1025A860_TRAMP = 1;  // "fn_1025A860" 0x1025A860
 constexpr unsigned fn_1025A890 = 4, fn_1025A890_TRAMP = 1;  // "fn_1025A890" 0x1025A890
 constexpr unsigned fn_1025A8C0 = 4, fn_1025A8C0_TRAMP = 1;  // "fn_1025A8C0" 0x1025A8C0
@@ -8022,6 +7784,7 @@ constexpr unsigned fn_1025C0F0 = 4, fn_1025C0F0_TRAMP = 1;  // "fn_1025C0F0" 0x1
 constexpr unsigned FontGlyphCache_GetDevice = 0, FontGlyphCache_GetDevice_TRAMP = 1;  // "FontGlyphCache_GetDevice" 0x1025D750
 constexpr unsigned FontGlyphCache_CreateTexture = 0, FontGlyphCache_CreateTexture_TRAMP = 1;  // "FontGlyphCache_CreateTexture" 0x1025D760
 constexpr unsigned FontGlyphCache_CreateVertexBuffer = 0, FontGlyphCache_CreateVertexBuffer_TRAMP = 1;  // "FontGlyphCache_CreateVertexBuffer" 0x1025D7B0
+constexpr unsigned fn_1025E020 = 4, fn_1025E020_TRAMP = 0;  // "fn_1025E020" 0x1025E020
 constexpr unsigned fn_1025E050 = 4, fn_1025E050_TRAMP = 1;  // "fn_1025E050" 0x1025E050
 constexpr unsigned fn_1025E0B0 = 4, fn_1025E0B0_TRAMP = 1;  // "fn_1025E0B0" 0x1025E0B0
 constexpr unsigned fn_1025E0C0 = 4, fn_1025E0C0_TRAMP = 1;  // "fn_1025E0C0" 0x1025E0C0
@@ -8030,6 +7793,8 @@ constexpr unsigned fn_1025E0F0 = 4, fn_1025E0F0_TRAMP = 1;  // "fn_1025E0F0" 0x1
 constexpr unsigned fn_1025E210 = 4, fn_1025E210_TRAMP = 1;  // "fn_1025E210" 0x1025E210
 constexpr unsigned fn_1025E230 = 5, fn_1025E230_TRAMP = 1;  // "fn_1025E230" 0x1025E230
 constexpr unsigned fn_1025E240 = 5, fn_1025E240_TRAMP = 1;  // "fn_1025E240" 0x1025E240
+constexpr unsigned fn_1025E260 = 5, fn_1025E260_TRAMP = 1;  // "fn_1025E260" 0x1025E260
+constexpr unsigned fn_1025E380 = 5, fn_1025E380_TRAMP = 1;  // "fn_1025E380" 0x1025E380
 constexpr unsigned fn_1025F2F0 = 5, fn_1025F2F0_TRAMP = 1;  // "fn_1025F2F0" 0x1025F2F0
 constexpr unsigned fn_1025FD50 = 5, fn_1025FD50_TRAMP = 1;  // "fn_1025FD50" 0x1025FD50
 constexpr unsigned fn_1025FE40 = 4, fn_1025FE40_TRAMP = 1;  // "fn_1025FE40" 0x1025FE40
@@ -8043,11 +7808,8 @@ constexpr unsigned fn_1026CFA0 = 4, fn_1026CFA0_TRAMP = 1;  // "fn_1026CFA0" 0x1
 constexpr unsigned fn_1026D015 = 4, fn_1026D015_TRAMP = 1;  // "fn_1026D015" 0x1026D015
 constexpr unsigned fn_1026D0CA = 4, fn_1026D0CA_TRAMP = 1;  // "fn_1026D0CA" 0x1026D0CA
 constexpr unsigned fn_1026D179 = 4, fn_1026D179_TRAMP = 1;  // "fn_1026D179" 0x1026D179
-constexpr unsigned fn_1026D1B4 = 4, fn_1026D1B4_TRAMP = 1;  // "fn_1026D1B4" 0x1026D1B4
 constexpr unsigned fn_1026D70C = 4, fn_1026D70C_TRAMP = 1;  // "fn_1026D70C" 0x1026D70C
 constexpr unsigned fn_1026D866 = 4, fn_1026D866_TRAMP = 1;  // "fn_1026D866" 0x1026D866
-constexpr unsigned fn_1026D9B1 = 4, fn_1026D9B1_TRAMP = 1;  // "fn_1026D9B1" 0x1026D9B1
-constexpr unsigned fn_1026DAC6 = 4, fn_1026DAC6_TRAMP = 1;  // "fn_1026DAC6" 0x1026DAC6
 constexpr unsigned fn_1026DB24 = 4, fn_1026DB24_TRAMP = 1;  // "fn_1026DB24" 0x1026DB24
 constexpr unsigned fn_1026DB6D = 4, fn_1026DB6D_TRAMP = 1;  // "fn_1026DB6D" 0x1026DB6D
 constexpr unsigned fn_1026DB8F = 4, fn_1026DB8F_TRAMP = 1;  // "fn_1026DB8F" 0x1026DB8F
@@ -8081,7 +7843,6 @@ constexpr unsigned fn_1026FEA0 = 4, fn_1026FEA0_TRAMP = 1;  // "fn_1026FEA0" 0x1
 constexpr unsigned fn_1026FEF0 = 4, fn_1026FEF0_TRAMP = 1;  // "fn_1026FEF0" 0x1026FEF0
 constexpr unsigned fn_1026FF30 = 4, fn_1026FF30_TRAMP = 1;  // "fn_1026FF30" 0x1026FF30
 constexpr unsigned fn_1026FF80 = 4, fn_1026FF80_TRAMP = 1;  // "fn_1026FF80" 0x1026FF80
-constexpr unsigned fn_102700C0 = 4, fn_102700C0_TRAMP = 1;  // "fn_102700C0" 0x102700C0
 constexpr unsigned fn_102701B0 = 4, fn_102701B0_TRAMP = 1;  // "fn_102701B0" 0x102701B0
 constexpr unsigned fn_10270240 = 4, fn_10270240_TRAMP = 1;  // "fn_10270240" 0x10270240
 constexpr unsigned fn_10270290 = 4, fn_10270290_TRAMP = 1;  // "fn_10270290" 0x10270290
@@ -8118,6 +7879,7 @@ constexpr unsigned fn_10272BA0 = 4, fn_10272BA0_TRAMP = 0;  // "fn_10272BA0" 0x1
 constexpr unsigned scnCameraGetInfo = 4, scnCameraGetInfo_TRAMP = 1;  // "scnCameraGetInfo" 0x10273370
 constexpr unsigned fn_102733B0 = 4, fn_102733B0_TRAMP = 1;  // "fn_102733B0" 0x102733B0
 constexpr unsigned fn_10273490 = 4, fn_10273490_TRAMP = 1;  // "fn_10273490" 0x10273490
+constexpr unsigned fn_10273560 = 4, fn_10273560_TRAMP = 1;  // "fn_10273560" 0x10273560
 constexpr unsigned fn_102736D0 = 4, fn_102736D0_TRAMP = 1;  // "fn_102736D0" 0x102736D0
 constexpr unsigned fn_102736E0 = 4, fn_102736E0_TRAMP = 1;  // "fn_102736E0" 0x102736E0
 constexpr unsigned fn_10273840 = 4, fn_10273840_TRAMP = 1;  // "fn_10273840" 0x10273840
@@ -8130,7 +7892,6 @@ constexpr unsigned fn_10273E80 = 4, fn_10273E80_TRAMP = 1;  // "fn_10273E80" 0x1
 constexpr unsigned fn_102741F0 = 4, fn_102741F0_TRAMP = 1;  // "fn_102741F0" 0x102741F0
 constexpr unsigned fn_10274370 = 4, fn_10274370_TRAMP = 1;  // "fn_10274370" 0x10274370
 constexpr unsigned fn_10274640 = 4, fn_10274640_TRAMP = 1;  // "fn_10274640" 0x10274640
-constexpr unsigned fn_10274650 = 4, fn_10274650_TRAMP = 1;  // "fn_10274650" 0x10274650
 constexpr unsigned fn_10274670 = 4, fn_10274670_TRAMP = 1;  // "fn_10274670" 0x10274670
 constexpr unsigned fn_10274890 = 4, fn_10274890_TRAMP = 1;  // "fn_10274890" 0x10274890
 constexpr unsigned fn_102749C0 = 4, fn_102749C0_TRAMP = 1;  // "fn_102749C0" 0x102749C0
@@ -8140,6 +7901,7 @@ constexpr unsigned sqMemInit = 4, sqMemInit_TRAMP = 1;  // "sqMemInit" 0x1027515
 constexpr unsigned fn_10275190 = 4, fn_10275190_TRAMP = 1;  // "fn_10275190" 0x10275190
 constexpr unsigned fn_102752F0 = 4, fn_102752F0_TRAMP = 1;  // "fn_102752F0" 0x102752F0
 constexpr unsigned fn_10275320 = 4, fn_10275320_TRAMP = 1;  // "fn_10275320" 0x10275320
+constexpr unsigned fn_102755C0 = 12, fn_102755C0_TRAMP = 1;  // "fn_102755C0" 0x102755C0
 constexpr unsigned fn_10275670 = 4, fn_10275670_TRAMP = 1;  // "fn_10275670" 0x10275670
 constexpr unsigned fn_10275D40 = 4, fn_10275D40_TRAMP = 1;  // "fn_10275D40" 0x10275D40
 constexpr unsigned sqgxContext_Create = 4, sqgxContext_Create_TRAMP = 1;  // "sqgxContext_Create" 0x10276260
@@ -8159,15 +7921,17 @@ constexpr unsigned sqmdModel_GetItemName = 4, sqmdModel_GetItemName_TRAMP = 1;  
 constexpr unsigned fn_10279B40 = 4, fn_10279B40_TRAMP = 1;  // "fn_10279B40" 0x10279B40
 constexpr unsigned fn_10279BA0 = 4, fn_10279BA0_TRAMP = 1;  // "fn_10279BA0" 0x10279BA0
 constexpr unsigned fn_10279D50 = 4, fn_10279D50_TRAMP = 1;  // "fn_10279D50" 0x10279D50
-constexpr unsigned fn_1027A220 = 4, fn_1027A220_TRAMP = 1;  // "fn_1027A220" 0x1027A220
 constexpr unsigned fn_1027A250 = 4, fn_1027A250_TRAMP = 1;  // "fn_1027A250" 0x1027A250
 constexpr unsigned fn_1027A6F0 = 4, fn_1027A6F0_TRAMP = 1;  // "fn_1027A6F0" 0x1027A6F0
 constexpr unsigned fn_1027A700 = 4, fn_1027A700_TRAMP = 1;  // "fn_1027A700" 0x1027A700
 constexpr unsigned fn_1027A720 = 4, fn_1027A720_TRAMP = 1;  // "fn_1027A720" 0x1027A720
 constexpr unsigned fn_1027A9D0 = 4, fn_1027A9D0_TRAMP = 1;  // "fn_1027A9D0" 0x1027A9D0
+constexpr unsigned fn_1027ABA0 = 4, fn_1027ABA0_TRAMP = 1;  // "fn_1027ABA0" 0x1027ABA0
+constexpr unsigned fn_1027ABD0 = 4, fn_1027ABD0_TRAMP = 1;  // "fn_1027ABD0" 0x1027ABD0
+constexpr unsigned fn_1027AC00 = 4, fn_1027AC00_TRAMP = 1;  // "fn_1027AC00" 0x1027AC00
+constexpr unsigned fn_1027AC30 = 4, fn_1027AC30_TRAMP = 1;  // "fn_1027AC30" 0x1027AC30
 constexpr unsigned fn_1027AE50 = 4, fn_1027AE50_TRAMP = 1;  // "fn_1027AE50" 0x1027AE50
 constexpr unsigned fn_1027AEF0 = 4, fn_1027AEF0_TRAMP = 1;  // "fn_1027AEF0" 0x1027AEF0
-constexpr unsigned fn_1027AF20 = 4, fn_1027AF20_TRAMP = 1;  // "fn_1027AF20" 0x1027AF20
 constexpr unsigned fn_1027B060 = 4, fn_1027B060_TRAMP = 1;  // "fn_1027B060" 0x1027B060
 constexpr unsigned fn_1027B080 = 4, fn_1027B080_TRAMP = 1;  // "fn_1027B080" 0x1027B080
 constexpr unsigned fn_1027B170 = 4, fn_1027B170_TRAMP = 1;  // "fn_1027B170" 0x1027B170
@@ -8195,18 +7959,15 @@ constexpr unsigned fn_1027E450 = 4, fn_1027E450_TRAMP = 1;  // "fn_1027E450" 0x1
 constexpr unsigned fn_1027E490 = 4, fn_1027E490_TRAMP = 1;  // "fn_1027E490" 0x1027E490
 constexpr unsigned fn_1027EAF0 = 4, fn_1027EAF0_TRAMP = 1;  // "fn_1027EAF0" 0x1027EAF0
 constexpr unsigned fn_1027EB00 = 4, fn_1027EB00_TRAMP = 1;  // "fn_1027EB00" 0x1027EB00
-constexpr unsigned M4fSet = 4, M4fSet_TRAMP = 1;  // "M4fSet" 0x1027EB10
 constexpr unsigned fn_1027EB50 = 4, fn_1027EB50_TRAMP = 1;  // "fn_1027EB50" 0x1027EB50
 constexpr unsigned M4fTransform = 4, M4fTransform_TRAMP = 1;  // "M4fTransform" 0x1027EF20
 constexpr unsigned fn_1027EF80 = 4, fn_1027EF80_TRAMP = 1;  // "fn_1027EF80" 0x1027EF80
 constexpr unsigned Mat4x4_TransformVec4 = 4, Mat4x4_TransformVec4_TRAMP = 1;  // "Mat4x4_TransformVec4" 0x1027EFE0
 constexpr unsigned M4fTranspose = 4, M4fTranspose_TRAMP = 1;  // "M4fTranspose" 0x1027F070
 constexpr unsigned sqMatrix4_1027FCC0 = 4, sqMatrix4_1027FCC0_TRAMP = 1;  // "sqMatrix4_1027FCC0" 0x1027FCC0
-constexpr unsigned sqMatrix4_10280140 = 4, sqMatrix4_10280140_TRAMP = 1;  // "sqMatrix4_10280140" 0x10280140
 constexpr unsigned fn_10280650 = 4, fn_10280650_TRAMP = 1;  // "fn_10280650" 0x10280650
 constexpr unsigned fn_102806B0 = 4, fn_102806B0_TRAMP = 1;  // "fn_102806B0" 0x102806B0
 constexpr unsigned fn_102813B0 = 4, fn_102813B0_TRAMP = 1;  // "fn_102813B0" 0x102813B0
-constexpr unsigned ___setargv_3 = 4, ___setargv_3_TRAMP = 1;  // "___setargv_3" 0x10281500
 constexpr unsigned sqgxTextureCreateFromImage = 4, sqgxTextureCreateFromImage_TRAMP = 1;  // "sqgxTextureCreateFromImage" 0x10281510
 constexpr unsigned sqgxTextureAddZ = 4, sqgxTextureAddZ_TRAMP = 1;  // "sqgxTextureAddZ" 0x102816E0
 constexpr unsigned sqgxCeilLog2 = 4, sqgxCeilLog2_TRAMP = 1;  // "sqgxCeilLog2" 0x10281810
@@ -8215,8 +7976,6 @@ constexpr unsigned fn_102819C0 = 4, fn_102819C0_TRAMP = 1;  // "fn_102819C0" 0x1
 constexpr unsigned sqgxTextureClutAdd = 0, sqgxTextureClutAdd_TRAMP = 1;  // "sqgxTextureClutAdd" 0x102819D0
 constexpr unsigned fn_10281A70 = 4, fn_10281A70_TRAMP = 1;  // "fn_10281A70" 0x10281A70
 constexpr unsigned sqgxTextureGetSize = 4, sqgxTextureGetSize_TRAMP = 1;  // "sqgxTextureGetSize" 0x10281B60
-constexpr unsigned sqgxTextureSet = 4, sqgxTextureSet_TRAMP = 1;  // "sqgxTextureSet" 0x10281C20
-constexpr unsigned sqgxTextureDecal = 4, sqgxTextureDecal_TRAMP = 1;  // "sqgxTextureDecal" 0x10281C50
 constexpr unsigned sqgxTextureClamp = 4, sqgxTextureClamp_TRAMP = 1;  // "sqgxTextureClamp" 0x10281C80
 constexpr unsigned sqgxTextureClut = 4, sqgxTextureClut_TRAMP = 1;  // "sqgxTextureClut" 0x10281D60
 constexpr unsigned sqgxTextureUpdate = 4, sqgxTextureUpdate_TRAMP = 1;  // "sqgxTextureUpdate" 0x10281DB0
@@ -8247,7 +8006,6 @@ constexpr unsigned fn_10283240 = 4, fn_10283240_TRAMP = 0;  // "fn_10283240" 0x1
 constexpr unsigned ___setargv_9 = 4, ___setargv_9_TRAMP = 1;  // "___setargv_9" 0x10283250
 constexpr unsigned fn_10283260 = 4, fn_10283260_TRAMP = 1;  // "fn_10283260" 0x10283260
 constexpr unsigned fn_10283280 = 4, fn_10283280_TRAMP = 1;  // "fn_10283280" 0x10283280
-constexpr unsigned fn_10283300 = 4, fn_10283300_TRAMP = 1;  // "fn_10283300" 0x10283300
 constexpr unsigned sqgxColor = 4, sqgxColor_TRAMP = 1;  // "sqgxColor" 0x10283330
 constexpr unsigned sqgxAmbient = 4, sqgxAmbient_TRAMP = 1;  // "sqgxAmbient" 0x10283380
 constexpr unsigned fn_102833A0 = 4, fn_102833A0_TRAMP = 1;  // "fn_102833A0" 0x102833A0
@@ -8274,12 +8032,10 @@ constexpr unsigned fn_10284EB0 = 4, fn_10284EB0_TRAMP = 0;  // "fn_10284EB0" 0x1
 constexpr unsigned sqgxVertexShaderRelease = 0, sqgxVertexShaderRelease_TRAMP = 1;  // "sqgxVertexShaderRelease" 0x10284EF0
 constexpr unsigned fn_10284F20 = 4, fn_10284F20_TRAMP = 1;  // "fn_10284F20" 0x10284F20
 constexpr unsigned fn_10284FD0 = 4, fn_10284FD0_TRAMP = 1;  // "fn_10284FD0" 0x10284FD0
-constexpr unsigned fn_10285000 = 4, fn_10285000_TRAMP = 1;  // "fn_10285000" 0x10285000
 constexpr unsigned fn_102851C0 = 4, fn_102851C0_TRAMP = 1;  // "fn_102851C0" 0x102851C0
 constexpr unsigned fn_102852E0 = 4, fn_102852E0_TRAMP = 1;  // "fn_102852E0" 0x102852E0
 constexpr unsigned fn_102853F0 = 4, fn_102853F0_TRAMP = 1;  // "fn_102853F0" 0x102853F0
 constexpr unsigned fn_102857D0 = 4, fn_102857D0_TRAMP = 1;  // "fn_102857D0" 0x102857D0
-constexpr unsigned fn_102857E0 = 4, fn_102857E0_TRAMP = 1;  // "fn_102857E0" 0x102857E0
 constexpr unsigned fn_102857F0 = 4, fn_102857F0_TRAMP = 1;  // "fn_102857F0" 0x102857F0
 constexpr unsigned sqDrawableDraw = 4, sqDrawableDraw_TRAMP = 1;  // "sqDrawableDraw" 0x10285850
 constexpr unsigned fn_10288660 = 4, fn_10288660_TRAMP = 1;  // "fn_10288660" 0x10288660
@@ -8297,12 +8053,12 @@ constexpr unsigned sqopOpcodeGet = 4, sqopOpcodeGet_TRAMP = 1;  // "sqopOpcodeGe
 constexpr unsigned sqopTrackSetIndex = 4, sqopTrackSetIndex_TRAMP = 1;  // "sqopTrackSetIndex" 0x10289EF0
 constexpr unsigned sqopTrackAdvance = 4, sqopTrackAdvance_TRAMP = 1;  // "sqopTrackAdvance" 0x10289F10
 constexpr unsigned fn_10289F50 = 4, fn_10289F50_TRAMP = 1;  // "fn_10289F50" 0x10289F50
-constexpr unsigned fn_1028A0B0 = 4, fn_1028A0B0_TRAMP = 1;  // "fn_1028A0B0" 0x1028A0B0
+constexpr unsigned fn_1028A0B0 = 12, fn_1028A0B0_TRAMP = 1;  // "fn_1028A0B0" 0x1028A0B0
 constexpr unsigned fn_1028A0E0 = 4, fn_1028A0E0_TRAMP = 0;  // "fn_1028A0E0" 0x1028A0E0
 constexpr unsigned fn_1028A0F0 = 4, fn_1028A0F0_TRAMP = 1;  // "fn_1028A0F0" 0x1028A0F0
 constexpr unsigned sqScript_TokenEquals = 4, sqScript_TokenEquals_TRAMP = 1;  // "sqScript_TokenEquals" 0x1028A150
 constexpr unsigned sqgxShapeIndexBufferBegin = 0, sqgxShapeIndexBufferBegin_TRAMP = 1;  // "sqgxShapeIndexBufferBegin" 0x1028AA70
-constexpr unsigned fn_1028AB50 = 4, fn_1028AB50_TRAMP = 1;  // "fn_1028AB50" 0x1028AB50
+constexpr unsigned fn_1028AB50 = 12, fn_1028AB50_TRAMP = 1;  // "fn_1028AB50" 0x1028AB50
 constexpr unsigned sqgxShapeBegin = 4, sqgxShapeBegin_TRAMP = 1;  // "sqgxShapeBegin" 0x1028AFE0
 constexpr unsigned fn_1028D6D0 = 4, fn_1028D6D0_TRAMP = 1;  // "fn_1028D6D0" 0x1028D6D0
 constexpr unsigned fn_1028D6F0 = 4, fn_1028D6F0_TRAMP = 1;  // "fn_1028D6F0" 0x1028D6F0
@@ -8310,7 +8066,6 @@ constexpr unsigned fn_1028D870 = 4, fn_1028D870_TRAMP = 1;  // "fn_1028D870" 0x1
 constexpr unsigned fn_1028D990 = 4, fn_1028D990_TRAMP = 1;  // "fn_1028D990" 0x1028D990
 constexpr unsigned fn_1028D9A0 = 4, fn_1028D9A0_TRAMP = 1;  // "fn_1028D9A0" 0x1028D9A0
 constexpr unsigned fn_1028D9C0 = 4, fn_1028D9C0_TRAMP = 1;  // "fn_1028D9C0" 0x1028D9C0
-constexpr unsigned fn_1028DA20 = 4, fn_1028DA20_TRAMP = 1;  // "fn_1028DA20" 0x1028DA20
 constexpr unsigned fn_1028DBB0 = 4, fn_1028DBB0_TRAMP = 1;  // "fn_1028DBB0" 0x1028DBB0
 constexpr unsigned fn_1028DC00 = 4, fn_1028DC00_TRAMP = 1;  // "fn_1028DC00" 0x1028DC00
 constexpr unsigned fn_1028DC20 = 4, fn_1028DC20_TRAMP = 1;  // "fn_1028DC20" 0x1028DC20
@@ -8318,7 +8073,6 @@ constexpr unsigned fn_1028DE10 = 4, fn_1028DE10_TRAMP = 1;  // "fn_1028DE10" 0x1
 constexpr unsigned fn_1028E1B0 = 4, fn_1028E1B0_TRAMP = 1;  // "fn_1028E1B0" 0x1028E1B0
 constexpr unsigned fn_1028E350 = 4, fn_1028E350_TRAMP = 1;  // "fn_1028E350" 0x1028E350
 constexpr unsigned fn_1028EBF0 = 4, fn_1028EBF0_TRAMP = 1;  // "fn_1028EBF0" 0x1028EBF0
-constexpr unsigned fn_1028EC30 = 4, fn_1028EC30_TRAMP = 1;  // "fn_1028EC30" 0x1028EC30
 constexpr unsigned fn_1028EC50 = 4, fn_1028EC50_TRAMP = 1;  // "fn_1028EC50" 0x1028EC50
 constexpr unsigned fn_1028ECC0 = 4, fn_1028ECC0_TRAMP = 1;  // "fn_1028ECC0" 0x1028ECC0
 constexpr unsigned fn_1028ECE0 = 4, fn_1028ECE0_TRAMP = 1;  // "fn_1028ECE0" 0x1028ECE0
@@ -8353,7 +8107,7 @@ constexpr unsigned fn_102912D0 = 4, fn_102912D0_TRAMP = 1;  // "fn_102912D0" 0x1
 constexpr unsigned fn_102912F0 = 4, fn_102912F0_TRAMP = 1;  // "fn_102912F0" 0x102912F0
 constexpr unsigned fn_10291360 = 4, fn_10291360_TRAMP = 1;  // "fn_10291360" 0x10291360
 constexpr unsigned fn_10291390 = 4, fn_10291390_TRAMP = 1;  // "fn_10291390" 0x10291390
-constexpr unsigned fn_10291460 = 4, fn_10291460_TRAMP = 0;  // "fn_10291460" 0x10291460
+constexpr unsigned fn_10291460 = 12, fn_10291460_TRAMP = 0;  // "fn_10291460" 0x10291460
 constexpr unsigned fn_102915B0 = 4, fn_102915B0_TRAMP = 1;  // "fn_102915B0" 0x102915B0
 constexpr unsigned fn_102915E0 = 4, fn_102915E0_TRAMP = 1;  // "fn_102915E0" 0x102915E0
 constexpr unsigned fn_102915F0 = 4, fn_102915F0_TRAMP = 1;  // "fn_102915F0" 0x102915F0
@@ -8444,7 +8198,6 @@ constexpr unsigned fn_102A9FB0 = 4, fn_102A9FB0_TRAMP = 1;  // "fn_102A9FB0" 0x1
 constexpr unsigned fn_102AA2D0 = 4, fn_102AA2D0_TRAMP = 1;  // "fn_102AA2D0" 0x102AA2D0
 constexpr unsigned fn_102AA2F0 = 4, fn_102AA2F0_TRAMP = 1;  // "fn_102AA2F0" 0x102AA2F0
 constexpr unsigned fn_102ABEB0 = 4, fn_102ABEB0_TRAMP = 1;  // "fn_102ABEB0" 0x102ABEB0
-constexpr unsigned fn_102ABEC0 = 4, fn_102ABEC0_TRAMP = 1;  // "fn_102ABEC0" 0x102ABEC0
 constexpr unsigned fn_102ACB60 = 4, fn_102ACB60_TRAMP = 1;  // "fn_102ACB60" 0x102ACB60
 constexpr unsigned fn_102ACB80 = 4, fn_102ACB80_TRAMP = 1;  // "fn_102ACB80" 0x102ACB80
 constexpr unsigned fn_102ACF20 = 4, fn_102ACF20_TRAMP = 1;  // "fn_102ACF20" 0x102ACF20
@@ -8458,3 +8211,7 @@ constexpr unsigned sqinCluster_Create = 4, sqinCluster_Create_TRAMP = 1;  // "sq
 constexpr unsigned sqinCluster_Init = 4, sqinCluster_Init_TRAMP = 1;  // "sqinCluster_Init" 0x102AF570
 constexpr unsigned fn_102B2CA0 = 4, fn_102B2CA0_TRAMP = 1;  // "fn_102B2CA0" 0x102B2CA0
 }
+
+// left out (their declaration does not compile as decltype(&name)):
+//   0x100CD490 CXiSkeletonActor::SetMotion
+//   0x100CD540 CXiSkeletonActor::SetMotion

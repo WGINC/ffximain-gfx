@@ -34,8 +34,8 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
       if (0 < *(int *)(param_1 + 0x18)) {
         iVar2 = 0;
         do {
-          orig::FUN_1027e0d0(*(int *)(param_1 + 0x20) + 8 + iVar2);
-          orig::FUN_1027e0d0(*(int *)(param_1 + 0x20) + 0x70 + iVar2);
+          orig::Chn_ReleaseIfSet(*(int *)(param_1 + 0x20) + 8 + iVar2);
+          orig::Chn_ReleaseIfSet(*(int *)(param_1 + 0x20) + 0x70 + iVar2);
           iVar1 = iVar1 + 1;
           iVar2 = iVar2 + 0xd8;
         } while (iVar1 < *(int *)(param_1 + 0x18));
@@ -64,14 +64,14 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10273D60  (unit chasm: between 0x10273C20 (asserts chasm.c) and 0x10273DB0 (asserts chasm.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10273D60(int param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 param_2, undefined4 param_3)
 {
   int iVar1;
   uint32_t uVar2;
   
   iVar1 = *(int *)(param_1 + 0x14);
   if ((-1 < iVar1) && (iVar1 < *(int *)(param_1 + 0x18))) {
-    uVar2 = orig::FUN_10274370(param_1,iVar1,param_2,param_3);
+    uVar2 = orig::Unit10274050_GetInterpolated(param_1,iVar1,param_2,param_3);
     return uVar2;
   }
   return 0xffffffff;
@@ -79,7 +79,7 @@ XI_API undefined4 __cdecl fn_10273D60(int param_1, undefined4 param_2, undefined
 
 // FUNCTION: FFXIMAIN 0x10273E80  (unit chasm: between 0x10273DF0 (asserts chasm.c) and 0x10273FD0 (asserts chasm.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10273E80(int param_1, int param_2, int param_3)
+XI_API undefined4 __cdecl Chasm_ToggleLayerState(int param_1, int param_2, int param_3)
 {
   uint32_t *puVar1;
   uint32_t uVar2;

@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall DebugOverlay_Draw(void * self_)
 {
-  orig::FUN_10003710((void *)((int)self_ + 4));
+  orig::DebugOverlay_Update((void *)((int)self_ + 4));
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10003660  (unit Debug: between 0x10003650 (name DebugOverlay_Draw) and 0x100037D0 (asserts Debug.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10003660(void * self_)
+XI_API void __thiscall Debug_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_10329660;
   *(uint32_t *)((int)self_ + 0xc) = 0;
@@ -24,7 +24,7 @@ XI_API void __thiscall fn_10003660(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10003710  (unit Debug: between 0x10003650 (name DebugOverlay_Draw) and 0x100037D0 (asserts Debug.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10003710(void * self_)
+XI_API void __thiscall DebugOverlay_Update(void * self_)
 {
   int iVar1;
   uint32_t uVar2;
@@ -58,7 +58,7 @@ XI_API void __thiscall fn_10003710(void * self_)
       *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + 1;
     }
     else if (*(int *)((int)self_ + 8) == 1) {
-      orig::FUN_10003890(self_);
+      orig::Unit10003890_DrawActorAxes(self_);
       orig::Debug_DrawTextTable(self_);
       return;
     }
@@ -249,5 +249,5 @@ XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
       while ( v9 < v3 );
     }
   }
-  orig::nullsub_1();
+  orig::Unit10026C70_Nop();
 }

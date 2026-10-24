@@ -7,8 +7,13 @@
 class XI_API CMoProcessor {
 public:
     _DWORD * InitRotationMatrices();  // 0x1006CE70
+    static void __stdcall TransposeInPlace(int param_1);  // 0x1006D3E0
+    static long double __stdcall LengthSafe(float * param_1);  // 0x1006D580
     int ScratchMatrixOp(int a2, int a3, int a4);  // 0x1006E6B0
     static CMoProcessor * __stdcall CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5);  // 0x1006E970
+    static float * __stdcall MulPointVec3(float * param_1, float * param_2, float * param_3);  // 0x1006F800
+    static undefined4 __thiscall BuildRotationXYZ(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006FAE0
+    static undefined4 __thiscall SetRotationFromAngles(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006FC40
 
     void **vftable;  // +0x0
     float ScratchMatrices[512];  // +0x4

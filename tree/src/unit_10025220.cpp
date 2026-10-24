@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10025220  (unit unit_10025220: no unit evidence of its own; in the gap between 0x100251A0 (CYyModelDt) and 0x100252D0 (CYyModelDt_VT_1032A430) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10025220(void)
+XI_API void __cdecl Unit10025220_Release(void)
 {
   if (Fn10025260_targetTex_as_v0 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*Fn10025260_targetTex_as_v0 + 8))))(Fn10025260_targetTex_as_v0);
@@ -19,7 +19,7 @@ XI_API void __cdecl fn_10025220(void)
 
 // FUNCTION: FFXIMAIN 0x10025260  (unit unit_10025220: no unit evidence of its own; in the gap between 0x100251A0 (CYyModelDt) and 0x100252D0 (CYyModelDt_VT_1032A430) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 187 D3D calls compared (diffemu_gfx, clean build)
-XI_API Vt_1032A460_vtbl ** __thiscall fn_10025260(Vt_1032A460_vtbl **self_)
+XI_API Vt_1032A460_vtbl ** __thiscall Unit10025220_Init(Vt_1032A460_vtbl **self_)
 {
   Vt_1032A460_vtbl *Texture;
   unsigned __int16 ViewportWidth;

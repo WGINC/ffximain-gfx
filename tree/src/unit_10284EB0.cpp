@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10284EB0  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10284EB0(void)
+XI_API void __cdecl Unit10284EB0_NoOp(void)
 {
   return;
 }
@@ -26,7 +26,7 @@ XI_API int __cdecl sqgxVertexShaderRelease(void)
 
 // FUNCTION: FFXIMAIN 0x10284F20  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10284F20(int param_1)
+XI_API long double __cdecl Unit10284EB0_GetFloat20(int param_1)
 {
   return (long double)*(float *)(param_1 + 0x20);
 }

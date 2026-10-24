@@ -1,0 +1,50 @@
+{
+  "0x10014C10": {
+    "name": "Camera_ReleaseAll",
+    "confidence": "medium",
+    "evidence": "calls Unit1018BA60_RunPairB, Unit100298D0_ReleaseAll, Acter_ShutdownGlobals and Unit1012AC80_ReleaseAll32 in turn; CApp::RunMainLoop calls it with g_pCamera",
+    "summary": "Runs the release helpers in turn and returns 1 only when the shutdown and the 32-slot release both succeed."
+  },
+  "0x100157B0": {
+    "name": "App_WinMainClearFileMng",
+    "confidence": "low",
+    "evidence": "clears g_pFileMng, then calls App_WinMain",
+    "summary": "Clears the g_pFileMng global and then calls App_WinMain."
+  },
+  "0x10016300": {
+    "name": "App_RunMainLoopThenSetPtr",
+    "confidence": "low",
+    "evidence": "calls CApp::RunMainLoop on g_pApp, then stores LAB_10016580 into DAT_104569cc when fn_10016410 returns nonzero",
+    "summary": "Runs CApp::RunMainLoop once and then stores LAB_10016580 into DAT_104569cc if DAT_104569c8 is nonzero."
+  },
+  "0x100163C0": {
+    "name": "App_SetGlobal_104569C5",
+    "confidence": "low",
+    "evidence": "stores its argument's low byte into DAT_104569c5; called from Frame_Render with 1; sibling App_SetGlobal_104569C8 in the dossier",
+    "summary": "Stores its argument's low byte into DAT_104569c5."
+  },
+  "0x100163E0": {
+    "name": "App_SetGlobal_104569C6",
+    "confidence": "low",
+    "evidence": "stores its argument's low byte into DAT_104569c6; called from Frame_Render with 1; sibling App_SetGlobal_104569C8 in the dossier",
+    "summary": "Stores its argument's low byte into DAT_104569c6."
+  },
+  "0x10016410": {
+    "name": "App_GetGlobal_104569C8",
+    "confidence": "medium",
+    "evidence": "returns DAT_104569c8, the global that App_SetGlobal_104569C8 stores",
+    "summary": "Returns the value of DAT_104569c8."
+  },
+  "0x10016560": {
+    "name": "App_GetGlobalPair",
+    "confidence": "low",
+    "evidence": "writes DAT_10456a60 and DAT_10456c04 through its two pointer arguments; called from App_InitScene",
+    "summary": "Writes the globals DAT_10456a60 and DAT_10456c04 through its two pointer arguments."
+  },
+  "0x10017670": {
+    "name": "App_SetGlobalAndClearCamera",
+    "confidence": "low",
+    "evidence": "calls FUN_10010520, App_SetGlobal_104569C8 with 1, and returns Camera_ClearByte0A's result",
+    "summary": "Calls FUN_10010520, sets DAT_104569c8 to 1 and returns the result of Camera_ClearByte0A."
+  }
+}

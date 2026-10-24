@@ -1,0 +1,64 @@
+{
+  "0x102380A0": {
+    "name": "Unit10237880_ConstructTable2",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1033c818, clears the dwords at +0x24, +0x28 and +0x2C, copies a name string into this+0x103D3C70 region and allocates a 0x6B4-byte table with FUN_101c5be0 using id 2 and size 0xF, stored at +0x30; called by GameSystems_InitializeAll",
+    "summary": "Constructs a game system object with its table 2.",
+    "invented_prefix_name": "GameSystem_ConstructTable2"
+  },
+  "0x102388C0": {
+    "name": "Unit10237880_ConstructNamed",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1033c860, clears the fields at +0x14, +0x18, +0x3C, +0x40 and +0x44 and copies a name string into this+0x103D3C68 region; called by GameSystems_InitializeAll",
+    "summary": "Constructs a named game system object.",
+    "invented_prefix_name": "GameSystem_ConstructNamed"
+  },
+  "0x10238B30": {
+    "name": "Unit10237880_ConstructTable11",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1033c8a8, clears the fields at +0x14, +0x28, +0x2C, +0x30 and +0x34, copies a name string and allocates a 0x6B4-byte table with FUN_101c5be0 using id 0xB and size 10 at +0x38; called by GameSystems_InitializeAll",
+    "summary": "Constructs a game system object with its table 11.",
+    "invented_prefix_name": "GameSystem_ConstructTable11"
+  },
+  "0x10239170": {
+    "name": "KeyPrompt_Construct",
+    "confidence": "low",
+    "evidence": "calls fn_10126320 on this+4, sets the fields at +0xE, +8 and +0xC, sets vtable PTR_FUN_1033c8f0 and calls Ui_KeyPrompt_Init with 0",
+    "summary": "Constructs a key prompt object."
+  },
+  "0x10239490": {
+    "name": "Unit10237880_GetGlobalDword",
+    "confidence": "low",
+    "evidence": "returns the global DAT_10668FE4",
+    "summary": "Returns the game system global at DAT_10668FE4.",
+    "invented_prefix_name": "GameSystem_GetGlobalDword"
+  },
+  "0x1023BF20": {
+    "name": "Unit10237880_ForwardFlag1",
+    "confidence": "low",
+    "evidence": "calls FUN_1023be10 with the argument and 1; called by sub_10014AD0",
+    "summary": "Forwards its argument to FUN_1023be10 with flag 1.",
+    "invented_prefix_name": "GameSystem_ForwardFlag1"
+  },
+  "0x1023D610": {
+    "name": "Unit10237880_ConstructBase",
+    "confidence": "low",
+    "evidence": "calls fn_101F67C0 with 0, sets vtable PTR_FUN_1033c9b0, the byte at +0x51 to 1, the byte at +0x52 to 0, and clears +0x58 and +0x54; called by GameSystems_InitializeAll",
+    "summary": "Constructs a game system base object.",
+    "invented_prefix_name": "GameSystem_ConstructBase"
+  },
+  "0x1023E4B0": {
+    "name": "Unit10237880_WaitForState1",
+    "confidence": "low",
+    "evidence": "calls FUN_10245be0 repeatedly until the argument's first dword is 1 (or the argument is null and the call returns 1), returning -1 when the call reports the stop state and 0 otherwise",
+    "summary": "Waits until a game system reaches state 1.",
+    "invented_prefix_name": "GameSystem_WaitForState1"
+  },
+  "0x1023F890": {
+    "name": "Unit10237880_ConstructTable3",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1033ca88, clears +0x24, +0x28 and +0x2C, copies a name string and allocates a 0x6B4-byte table with FUN_101c5be0 using id 3 and size 0xF at +0x34; called by GameSystems_InitializeAll",
+    "summary": "Constructs a game system object with its table 3.",
+    "invented_prefix_name": "GameSystem_ConstructTable3"
+  }
+}

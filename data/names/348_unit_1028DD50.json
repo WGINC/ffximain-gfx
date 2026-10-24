@@ -1,0 +1,9 @@
+{
+  "0x1028DE10": {
+    "name": "Unit1028DD50_CreateRef",
+    "confidence": "low",
+    "evidence": "allocates an object with FUN_1028DC00, stores the arguments at offsets 0x28 and 0x40 and the owner at +9, sets the kind word at +0x1C to 2, and sets the owner field at +0x2C to -1",
+    "summary": "Creates a reference object for the owner and sets its fields.",
+    "invented_prefix_name": "SqObj_CreateRef"
+  }
+}

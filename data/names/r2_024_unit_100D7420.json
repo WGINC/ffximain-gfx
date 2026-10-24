@@ -1,0 +1,32 @@
+{
+  "0x100DC420": {
+    "name": "Unit100D7420_GetContextField1AFC0",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_104ae8ac+0x1afc0, the context global set by Unit100D7420_InitContext",
+    "summary": "Returns the dword at offset 0x1AFC0 of the context."
+  },
+  "0x100DC6D0": {
+    "name": "Unit100D7420_GetAddress104ADDE0",
+    "confidence": "low",
+    "evidence": "returns the address of DAT_104adde0 and nothing else",
+    "summary": "Returns the address of the global at 0x104ADDE0."
+  },
+  "0x100DD570": {
+    "name": "Unit100D7420_IncrementField109C",
+    "confidence": "low",
+    "evidence": "adds 1 to the dword at param_1+0x109c and returns 1",
+    "summary": "Increments the dword at offset 0x109C of its argument."
+  },
+  "0x100E0A00": {
+    "name": "Unit100D7420_ClearFlag1A698",
+    "confidence": "low",
+    "evidence": "when DAT_104dfd98 is non-null, clears the byte at DAT_104dfd98+0x1a698 and returns 1; the byte is tested for 1 in the caller at 0x100E0A50",
+    "summary": "Clears the state byte at offset 0x1A698 of the global block."
+  },
+  "0x100E1AD0": {
+    "name": "Unit100D7420_AllocEntryFromTable",
+    "confidence": "medium",
+    "evidence": "returns Unit100D7420_AllocEntry4 on the table at DAT_104df770+0x1369c, or 0 when the global DAT_104df770 is null",
+    "summary": "Allocates an entry from the table the global points to, or returns 0 when there is none."
+  }
+}

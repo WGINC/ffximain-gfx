@@ -1,0 +1,54 @@
+{
+  "0x10032A40": {
+    "name": "Quat_SetIdentityChained",
+    "confidence": "low",
+    "evidence": "calls fn_10032A50 on this and returns this",
+    "summary": "Sets a quaternion to identity and returns it."
+  },
+  "0x10032B50": {
+    "name": "Quat_Multiply",
+    "confidence": "medium",
+    "evidence": "writes param_1 = this * param_2 using the four-term quaternion product (x, y, z, w components) and returns param_1",
+    "summary": "Multiplies two quaternions into an output quaternion."
+  },
+  "0x10032DA0": {
+    "name": "Quat_NormalizeInPlace",
+    "confidence": "medium",
+    "evidence": "computes the squared length of the four floats at this; scales all four by 1/sqrt(length^2) when it is positive, otherwise by 1",
+    "summary": "Normalises a quaternion in place."
+  },
+  "0x10032FE0": {
+    "name": "Unit100310A0_FromQuat",
+    "confidence": "medium",
+    "evidence": "writes a 4x4 rotation matrix from the quaternion at this: diagonal 1 - 2(y^2+z^2) and so on, zeros in the translation and [3], [7], [11], [12..14], and 1.0f at [15]",
+    "summary": "Builds a 4x4 rotation matrix from a quaternion.",
+    "invented_prefix_name": "Mat4_FromQuat"
+  },
+  "0x100336B0": {
+    "name": "Unit100310A0_InitTargets",
+    "confidence": "low",
+    "evidence": "clears Fn10033710_targetTex, copies g_translucentTarget into dword_1045B81C and calls its vtable slot 1 (AddRef) when non-null",
+    "summary": "Sets up the translucent target pointers and takes a reference to the target.",
+    "invented_prefix_name": "Translucent_InitTargets"
+  },
+  "0x100336D0": {
+    "name": "Unit100310A0_ReleaseTargets",
+    "confidence": "low",
+    "evidence": "calls vtable slot 2 (Release) on Fn10033710_targetTex and dword_1045B81C when non-null, and clears both",
+    "summary": "Releases the translucent target pointers.",
+    "invented_prefix_name": "Translucent_ReleaseTargets"
+  },
+  "0x10033710": {
+    "name": "Unit100310A0_Construct",
+    "confidence": "low",
+    "evidence": "sets vtable 1032A844, creates a texture with CDx_CreateTexture at the viewport width and height when none exists, stores it, calls sub_10026E00 on two members and sets dword_1045B810 to 1.0f",
+    "summary": "Constructs the translucent helper and creates its render target texture.",
+    "invented_prefix_name": "Translucent_Construct"
+  },
+  "0x10033DA0": {
+    "name": "Shadow_DrawByMode",
+    "confidence": "medium",
+    "evidence": "switches on g_actorShadowMode (1 draws a decal on triangles, 2 draws a ground shadow quad, otherwise a projected shadow when g_shadowCasterDistance is below 20 or a ground quad); called by CXiSkeletonActor_DrawModel",
+    "summary": "Draws the actor's shadow according to the current shadow mode."
+  }
+}

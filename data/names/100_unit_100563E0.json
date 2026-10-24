@@ -1,0 +1,8 @@
+{
+  "0x10056400": {
+    "name": "CMoPointLightProgElem_Update",
+    "confidence": "medium",
+    "evidence": "in the vtable of CMoPointLightProgElem at slot 18 (+0x48); on the first call (flag +0x1B0 clear) it calls sub_10178610 with the light handle at +0x194 and stores the result at +0x1AC, otherwise it computes an intensity from +0x1A0, +0x1A4 and +0x138 and calls sub_10178530 with the handle at +0x1AC",
+    "summary": "Creates the point light on first use, then updates its intensity and position each time."
+  }
+}

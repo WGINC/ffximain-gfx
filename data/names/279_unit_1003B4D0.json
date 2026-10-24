@@ -1,0 +1,8 @@
+{
+  "0x1003B4D0": {
+    "name": "VertexBufferList_Register",
+    "confidence": "medium",
+    "evidence": "stores the current head of the list at g_pVertexBufferListHead+8 in this+8 and makes this the new head; called by CYyVb::Constructor",
+    "summary": "Links a vertex buffer into the global list head."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "0x100C4B00": {
+    "name": "XiModelActor_CopyRectFromSlot",
+    "confidence": "low",
+    "evidence": "calls vtable slot 0x1BC on self four times and copies the dwords at +0, +4, +8 and +0xC of the returned record into the output array; the class is XiFurnitureActor or XiModelActor (slot 113)",
+    "summary": "Copies four dwords from the record returned by virtual slot 0x1BC into the output."
+  },
+  "0x100C4B50": {
+    "name": "XiModelActor_BuildWorldMatrix",
+    "confidence": "medium",
+    "evidence": "sets the matrix to identity, post-multiplies by rotations Z, Y and X from the record at slot 0x1C0 (offsets +8, +4, +0), then sets the translation from the vector returned by slot 0x1BC via Mat4_SetTranslation",
+    "summary": "Builds the actor's world matrix from its rotation and translation."
+  }
+}

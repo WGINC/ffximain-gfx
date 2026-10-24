@@ -1,0 +1,56 @@
+{
+  "0x1028EBF0": {
+    "name": "SqsnScene_SetItemFloat14",
+    "confidence": "low",
+    "evidence": "stores the float argument at +0x14 of the item at index param_2 (0x2C bytes each) in the table at +0x48 of the first argument",
+    "summary": "Stores a float at +0x14 of a scene item."
+  },
+  "0x1028EC50": {
+    "name": "SqsnScene_SetItemByte19",
+    "confidence": "low",
+    "evidence": "stores the low byte of the argument at +0x19 of the item at index param_2 (0x2C bytes each) in the table at +0x48",
+    "summary": "Stores a byte at +0x19 of a scene item."
+  },
+  "0x1028ECC0": {
+    "name": "SqsnScene_SetByteAt28",
+    "confidence": "low",
+    "evidence": "stores the low byte of the argument at the offset param_2 from the pointer at +0x28 of the first argument",
+    "summary": "Stores a byte at an offset in the table at +0x28."
+  },
+  "0x1028ECE0": {
+    "name": "SqsnScene_SetItemByte18",
+    "confidence": "low",
+    "evidence": "stores the low byte of the argument at +0x18 of the item at index param_2 (0x2C bytes each) in the table at +0x48",
+    "summary": "Stores a byte at +0x18 of a scene item."
+  },
+  "0x1028F220": {
+    "name": "SqsnScene_SetItemDword28",
+    "confidence": "low",
+    "evidence": "stores the dword argument at +0x28 of the item at index param_2 (0x30 bytes each) in the table at +0x40",
+    "summary": "Stores a dword at +0x28 of a scene item."
+  },
+  "0x1028F430": {
+    "name": "SqsnScene_GetEntryAddr",
+    "confidence": "low",
+    "evidence": "returns (param_2 & 0x7FFF) * 0x90 plus the table base at +0x48 and the entry at index param_2 >> 16 (0x2C bytes each), read from +0x28",
+    "summary": "Returns the address of a scene entry from a packed index."
+  },
+  "0x1028F4A0": {
+    "name": "SqsnScene_SetCursorIfInRange",
+    "confidence": "low",
+    "evidence": "stores the argument at +0x1C of this when it is below the value at +0x14",
+    "summary": "Sets the cursor at +0x1C when the argument is within the count at +0x14."
+  },
+  "0x1028F4C0": {
+    "name": "SqsnScene_DrawMatrixShape",
+    "confidence": "low",
+    "evidence": "calls sqgxMatrixShape on the object at param_2+4 and FUN_102A1F20 on the object at param_2+0x18",
+    "summary": "Draws a matrix shape for the scene item."
+  },
+  "0x10290430": {
+    "name": "SqsnScene_NoOp",
+    "confidence": "low",
+    "evidence": "body is a bare return",
+    "summary": "Does nothing."
+  }
+}

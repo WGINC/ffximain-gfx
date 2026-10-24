@@ -1,0 +1,8 @@
+{
+  "0x1018ABF0": {
+    "name": "YmCombineWeather_Release",
+    "confidence": "low",
+    "evidence": "sets the YmCombineWeather vtable, then walks the resource lists with ResourceIter_FindFirst and FindNext, removing entries that refer to this object through FUN_1018ABB0 and linking it into the list at +0x20; called by sub_101874F0, fn_10188A10 and fn_1018ADE0",
+    "summary": "Detaches a combined weather object from its resource lists."
+  }
+}

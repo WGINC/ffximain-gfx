@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x102924F0  (unit sqmoPlaybackChannel: asserts sqmoPlaybackChannel.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_102924F0(void)
+XI_API undefined4 * __cdecl SqmoPlaybackChannel_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x5c,s_C__dev_dancer_modules_sqMotion_s_103bb254,0x109);
-  orig::FUN_10292520(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x5c,s_C__dev_dancer_modules_sqMotion_s_103bb254,0x109);
+  orig::SqmoPlaybackChannel_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10292520  (unit sqmoPlaybackChannel: between 0x102924F0 (asserts sqmoPlaybackChannel.c) and 0x102925A0 (asserts sqmoPlaybackChannel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10292520(undefined4 * param_1)
+XI_API void __cdecl SqmoPlaybackChannel_Init(undefined4 * param_1)
 {
   *param_1 = 0x50003;
   param_1[2] = &LAB_10292590;
@@ -45,9 +45,9 @@ XI_API void __cdecl fn_10292520(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10293000  (unit sqmoPlaybackChannel: between 0x10292F80 (asserts sqmoPlaybackChannel.c) and 0x10293040 (asserts sqmoPlaybackChannel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10293000(int param_1, int param_2)
+XI_API void __cdecl SqmoPlaybackChannel_Update(int param_1, int param_2)
 {
-  orig::FUN_1027d650(*(int *)(param_1 + 0x50),*(int *)(param_1 + 0x1c),param_2,
+  orig::SqmoUtil_MarkSlot(*(int *)(param_1 + 0x50),*(int *)(param_1 + 0x1c),param_2,
                (uint8_t *)(param_1 + 0x54));
   return;
 }

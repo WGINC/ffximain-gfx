@@ -1,0 +1,8 @@
+{
+  "0x1003B690": {
+    "name": "CMoAttachments_ResetAll",
+    "confidence": "medium",
+    "evidence": "calls CMoAttachments::ClearCaster and ClearTarget when the caster and target are set, then CMoAttachments_Reset; called from ReleaseSubObjectIfPresent, CMoGeneratorClone::Destructor and CMoSchedularTask::Destructor",
+    "summary": "Clears the caster and target of an attachment object and resets it."
+  }
+}

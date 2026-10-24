@@ -1,0 +1,14 @@
+{
+  "0x10280650": {
+    "name": "SqMatrix4_SetFields",
+    "confidence": "low",
+    "evidence": "calls FUN_1027EBD0 on the object, then stores its three arguments at +0xC, +0x1C and +0x2C",
+    "summary": "Initialises the object and stores three values at offsets 0xC, 0x1C and 0x2C."
+  },
+  "0x102806B0": {
+    "name": "SqMatrix4_ScaleAxes",
+    "confidence": "medium",
+    "evidence": "for three rows of four floats starting at +8, multiplies the first three floats of each row by param_2, param_3 and param_4 respectively",
+    "summary": "Scales the x, y and z axes of a 3x4 matrix block by three factors."
+  }
+}

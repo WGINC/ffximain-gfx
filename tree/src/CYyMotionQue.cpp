@@ -15,7 +15,7 @@ void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefine
     return;
   }
   if ((((-1 < param_8) && (param_8 < 7)) &&
-      (orig::FUN_1001acb0((void *)((int)self + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
+      (orig::CYyMotionQue_AppendSync((void *)((int)self + param_8 * 0x14),param_2,param_3,param_4,param_5,param_6,
                     param_7,param_9,param_10), param_8 == 0)) && (param_1 != (int *)0x0)) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),0);
   }
@@ -27,139 +27,6 @@ void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefine
 XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param_1)
 {
   *param_1 = *(uint32_t *)((int)self_ + 0x34);
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x1001A8E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CYyMotionQue::ComputeFrameAdvance(void * self, int * param_1, int param_2)
-{
-  uint32_t *this_00;
-  float fVar1;
-  float fVar2;
-  uint32_t uVar3;
-  int iVar4;
-  uint32_t xi_eax;
-  uint8_t bVar5;
-  uint8_t bVar6;
-  long double fVar7;
-  long double fVar8;
-  float fStack_c;
-  
-  this_00 = (uint32_t *)((int)self + 0x34);
-  if (*(int *)((int)self + 0x34) == 0) {
-    return;
-  }
-  uVar3 = orig::ResourceHandle_IsResident_v1(this_00);
-  if ((char)uVar3 == '\0') {
-    return;
-  }
-  iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
-  uVar3 = *(uint32_t *)((int)self + 0x24);
-  fStack_c = (float)(long double)(int)*(short *)(iVar4 + 0x34);
-  if ((long double)*(float *)((int)self + 0x38) > (long double)0.0f) {
-    fStack_c = *(float *)((int)self + 0x38);
-  }
-  if (*(int *)((int)self + 0x2c) < 0) {
-    return;
-  }
-  iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
-  fVar1 = *(float *)(iVar4 + 0x36);
-  fVar2 = *(float *)((int)self + 0x28);
-  fVar7 = (long double)fStack_c;
-  fVar8 = (long double)2.0f;
-  bVar5 = NAN(fVar7) || NAN(fVar8);
-  bVar6 = bVar5 || fVar7 == fVar8;
-  xi_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar4 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar8) << 8 | (uint16_t)bVar5 << 10 |
-                    (uint16_t)bVar6 << 0xe)));
-  if (bVar5 != bVar6) {
-    iVar4 = orig::ResourceHandle_Deref_v1((uint32_t *)*this_00);
-    fVar7 = (long double)*(float *)(iVar4 + 0x36) * (long double)0.5f;
-    fVar8 = (long double)0.5f;
-    bVar5 = NAN(fVar7) || NAN(fVar8);
-    bVar6 = bVar5 || fVar7 == fVar8;
-    xi_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar4 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar8) << 8 | (uint16_t)bVar5 << 10 |
-                      (uint16_t)bVar6 << 0xe)));
-    if (bVar5 != bVar6) {
-      fVar8 = (long double)*(float *)((int)self + 0x24) + (long double)1.0f;
-      goto LAB_1001a9b7;
-    }
-  }
-  fVar8 = orig::Camera_GetFrameScale_v1(xi_eax);
-  fVar8 = fVar8 * (long double)(float)((long double)fVar1 * (long double)0.5f * (long double)fVar2) +
-          (long double)*(float *)((int)self + 0x24);
-LAB_1001a9b7:
-  *(float *)((int)self + 0x24) = (float)fVar8;
-  if (!((long double)*(float *)((int)self + 0x24) >= (long double)fStack_c)) {
-    bVar5 = NAN((long double)*(float *)((int)self + 0x24)) || NAN((long double)0.0f);
-    if ((bVar5 || (long double)*(float *)((int)self + 0x24) < (long double)0.0f) != bVar5) {
-      if ((0 < *(int *)((int)self + 0x2c)) &&
-         (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4, iVar4 == 0))
-      {
-        *(uint32_t *)((int)self + 0x2c) = 0xffffffff;
-        if (2 < param_2) {
-          orig::FUN_1001b590(self);
-          *(uint32_t *)((int)self + 0x28) = 0;
-          *(uint32_t *)((int)self + 0x24) = uVar3;
-          return;
-        }
-        if (*(int *)((int)self + 4) == 0) {
-          ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
-        }
-        *(uint32_t *)((int)self + 0x28) = 0;
-        *(uint32_t *)((int)self + 0x24) = uVar3;
-        return;
-      }
-      fVar7 = (long double)fStack_c;
-      fVar8 = (long double)0.0f;
-      if (fVar7 <= fVar8) {
-        *(uint32_t *)((int)self + 0x24) = 0x3f800000;
-        return;
-      }
-      fVar8 = (long double)*(float *)((int)self + 0x24);
-      bVar5 = NAN(fVar8) || NAN((long double)0.0f);
-      if ((bVar5 || fVar8 < (long double)0.0f) != bVar5) {
-        do {
-          fVar8 = fVar8 + (long double)fStack_c;
-          bVar5 = NAN(fVar8) || NAN((long double)0.0f);
-        } while ((bVar5 || fVar8 < (long double)0.0f) != bVar5);
-        *(float *)((int)self + 0x24) = (float)fVar8;
-        return;
-      }
-    }
-  }
-  else {
-    if ((0 < *(int *)((int)self + 0x2c)) &&
-       (iVar4 = *(int *)((int)self + 0x2c) + -1, *(int *)((int)self + 0x2c) = iVar4, iVar4 == 0)) {
-      *(uint32_t *)((int)self + 0x2c) = 0xffffffff;
-      if (2 < param_2) {
-        orig::FUN_1001b590(self);
-        *(uint32_t *)((int)self + 0x28) = 0;
-        *(uint32_t *)((int)self + 0x24) = uVar3;
-        return;
-      }
-      if (*(int *)((int)self + 4) == 0) {
-        ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*param_1 + 0x1fc))))((void *)(param_1),1);
-      }
-      *(uint32_t *)((int)self + 0x28) = 0;
-      *(uint32_t *)((int)self + 0x24) = uVar3;
-      return;
-    }
-    fVar7 = (long double)fStack_c;
-    fVar8 = (long double)0.0f;
-    if (fVar7 <= fVar8) {
-      *(uint32_t *)((int)self + 0x24) = 0;
-      return;
-    }
-    fVar8 = (long double)*(float *)((int)self + 0x24);
-    if (fVar8 >= (long double)fStack_c) {
-      do {
-        fVar8 = fVar8 - (long double)fStack_c;
-      } while (fVar8 >= (long double)fStack_c);
-      *(float *)((int)self + 0x24) = (float)fVar8;
-      return;
-    }
-  }
   return;
 }
 
@@ -182,6 +49,20 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
       this_00 = (void *)orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 0x34));
       orig::FUN_10019a50(this_00,param_1,uVar1,uStack_4,param_3,this_00);
     }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x1001ACB0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYyMotionQue::AppendSync(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+{
+  int iVar1;
+  
+  orig::KzMotionQueList_AppendSync(self,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
+  iVar1 = orig::FUN_1001b1a0(self);
+  if (iVar1 != 0) {
+    *(int *)(iVar1 + 0x24) = param_7;
   }
   return;
 }
@@ -228,9 +109,9 @@ undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefin
   return xi_entry_eax;
 }
 
-// FUNCTION: FFXIMAIN 0x1001B2E0  (unit CYyMotionQue: between 0x1001B230 (name CYyMotionQue_SampleInto) and 0x1001B340 (name CYyMotionQue_IsActive), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1001B2E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 96 returned normally, 157 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
+void __thiscall CYyMotionQue::Update(void * self, int * param_1, int param_2)
 {
   int *piVar1;
   int *this_00;
@@ -238,10 +119,10 @@ XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
   int iVar2;
   
   this_01 = param_1;
-  this_00 = *(int **)((int)self_ + 4);
+  this_00 = *(int **)((int)self + 4);
   while (this_00 != (int *)0x0) {
     piVar1 = (int *)this_00[1];
-    iVar2 = orig::FUN_1001b5d0(this_00);
+    iVar2 = orig::Unit1001B510_Update(this_00);
     if (iVar2 == 0) {
       if ((piVar1 == (int *)0x0) && (param_2 < 3)) {
         this_00 = piVar1;
@@ -250,7 +131,7 @@ XI_API void __thiscall fn_1001B2E0(void * self_, int * param_1, int param_2)
         }
       }
       else {
-        orig::FUN_1001b0f0(self_,this_00);
+        orig::FUN_1001b0f0(self,this_00);
         this_00 = piVar1;
       }
     }

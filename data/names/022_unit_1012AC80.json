@@ -1,0 +1,22 @@
+{
+  "0x1012E180": {
+    "name": "Unit1012AC80_DestroyDraw",
+    "confidence": "medium",
+    "evidence": "calls CTkMenuMng_DestroyDrawMenu on the menu manager with the menu handle at self+8",
+    "summary": "Destroys the menu's draw entry through the menu manager.",
+    "invented_prefix_name": "TkMenu_DestroyDraw"
+  },
+  "0x10136870": {
+    "name": "Unit1012AC80_SetPosition",
+    "confidence": "medium",
+    "evidence": "stores param_1 at self+0x48, converts negative x and y against the screen rectangle g_screenRectTopLeft and g_screenRectBottomRight (percent of width and height, offset by -0xB0 and -0x20), and stores both at self+0x4A and self+0x4C",
+    "summary": "Sets a menu's position, with negative coordinates measured from the screen's bottom-right edge.",
+    "invented_prefix_name": "TkMenu_SetPosition"
+  },
+  "0x1013A030": {
+    "name": "TkHelp_AdvanceTimer",
+    "confidence": "medium",
+    "evidence": "adds Camera_GetFrameScale, converted to an int, to the counter at self+0x14; when the counter passes 0x59 it resets to 0 and returns 1",
+    "summary": "Advances the help counter by the frame scale and reports when it passes its limit."
+  }
+}

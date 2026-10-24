@@ -10,12 +10,9 @@ public:
     int SetPathData(_DWORD *a2);  // 0x1003CB30
     static void * __cdecl GetSharedInstance();  // 0x10071980
     void vf009();  // 0x100719F0
-    __int16 GetLinkedObject(_DWORD *a2);  // 0x10071E30
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x10];
-    uint32_t field_14;  // +0x14
-    uint8_t _pad_18[0x1C];
+    uint8_t _pad_4[0x30];
     uint32_t field_34;  // +0x34
     uint32_t field_38;  // +0x38
     uint32_t field_3C;  // +0x3C
@@ -24,7 +21,6 @@ public:
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoCamera) == 0xB0, "CMoCamera: sizeof");
-static_assert(XI_OFFSETOF(CMoCamera, field_14) == 0x14, "CMoCamera: layout");
 static_assert(XI_OFFSETOF(CMoCamera, field_34) == 0x34, "CMoCamera: layout");
 static_assert(XI_OFFSETOF(CMoCamera, field_38) == 0x38, "CMoCamera: layout");
 static_assert(XI_OFFSETOF(CMoCamera, field_3C) == 0x3C, "CMoCamera: layout");

@@ -3130,3 +3130,49 @@ difference there gives UNRESOLVED. The four raw gates and the clean gate are bei
 `mov ax, K` with the argument's top half left in EAX. Nine spellings tried (a write through the parameter's address,
 4-byte structs and unions by value, local copies, and/or masks) do not give that code. The source construct is not
 found yet.
+
+## 22 Oct (evening): the tree's last functions, names applied, the community's names
+
+**The tree: 4,049 of 4,050 PASS** (was 4,028 of 4,034). What changed and why:
+- 0x1006F0A0, 0x1006F800 (FAIL by one ulp): the export's `sse` flag (float arithmetic in SSE single precision,
+  each operation rounded) reached the raw translation but not the clean tree; hx2clean now carries it.
+- 0x10045800, 0x101911A0 (UNRESOLVED, EAX past `void`): each caller reads EAX only at a virtual call nothing settles.
+  The original's EAX at `ret` is definite (4, the inner loop's counter, on every path; the two values 0x101911A0
+  computes), so the reconstruction returns it (data/hx_patches/, now applicable to Ghidra records by text sha1,
+  with record fields set alongside).
+- sp_solve: every pop is >= 0 (x86 `ret imm16`), so calls in one loop whose pops only their sum fixes, at 0, are each
+  0. Self-test 35,480 hidden `ret N` solved, 1 wrong (the same miss as before, 20,751 solved; it reaches no output).
+  399 more call sites solved, none lost; arg_reads, reg_saved, this_flow, local_types, cdecl_args, callsite_audit
+  regenerated (each only gains).
+- data/case_inputs.json: inputs the gate holds fixed, with why, carried into the verdict and the GATE line.
+  0x10016320 (App shutdown: virtual destructors through a pointer table) PASSes with the table and g_pApp, g_pCDx
+  empty, and says so. 0x10003890 stays INCONCLUSIVE: the original faults through objects in its own `this`.
+- 16 of the 25 left out are back (pipeline/gate_sees_eax.py): a kept-EAX call the gate runs as the game does (the
+  callee not stubbed, or stubbed handing back all of EAX where the callee keeps EAX on every path) is the gate's to
+  judge; verify_all checks the same rule. 9 stay out.
+- The re-gate after the new pops found a real defect: Ghidra prints a virtual call it has no convention for without
+  its object, and 0x10159A20 called slot 111 of another object with its own `this`. hx2cpp.ghidra_vcall_this passes
+  the object where every call site through that slot is entered with it in ECX (ecx_this_sites) and pops a definitive
+  count (0x10159A20 and 0x10083F20 now PASS).
+- Reviewed names are applied to the tree. Two collided with names the IDB/Ghidra project already gives other
+  functions (check_names now refuses that); recursive calls kept their old name (fixed); an object Hex-Rays prints
+  another way (`??0X@@QAE@XZ` as `X::X`) is not renamed.
+
+**How the verdicts were obtained.** The container is reclaimed while the session is idle, so a full gate (8 h) does
+not finish. `pipeline/code_same.py` compares each function's compiled code across two builds, every address into the
+reconstruction resolved to what it names (a function by its FFXIMAIN address, a helper by name, data by its bytes);
+the tree's functions call only game code at fixed addresses and the tree's helpers, so the same code with the same
+case and the same call-site facts is the same gate run. promo12 -> promo13: 3,824 of 4,048 the same; 328 re-gated
+(code, case, facts or fixed inputs changed). promo13 -> promo14: 4,041 the same; 10 re-gated. verification/
+gate_clean_final.jsonl holds each function's verdict from the build it was last gated on.
+
+**The community's names** (docs/COMMUNITY.md, owner's rule: trust it where it is documented, measure it where it is
+not or conflicts): Ashita v4 and Windower 5 located in the build (37 functions, 32 globals, unique matches only), their
+layouts (Ashita by offsetof compiled for i686), reconciled with ours. The entity is the 684-byte object 0x1008A120
+builds (Ashita asserts 684); the IDB's "CXiActor" for it is not the runtime class CXiActor (196 bytes). Of the 161
+entity fields our code uses, 103 named at the offset, 51 inside a named member, 7 undocumented. The measuring:
+kit/xikit `[watch]` and docs/MEASURE.md.
+
+**Naming accuracy measured** (PROBLEMS P16): Haiku 63, Sonnet 61 correct of 100 known names; the loss is vagueness
+from facts the code does not hold, which field dossiers (pipeline/field_batch.py) did not recover; class_flow.py and
+obj_flow.py settle classes from vtables and calls (983 functions).

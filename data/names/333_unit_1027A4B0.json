@@ -1,0 +1,65 @@
+{
+  "0x1027A700": {
+    "name": "Unit1027A4B0_Copy",
+    "confidence": "medium",
+    "evidence": "copies the four floats at param_2 to param_1 and returns the last",
+    "summary": "Copies a quaternion of four floats.",
+    "invented_prefix_name": "Quat_Copy"
+  },
+  "0x1027A720": {
+    "name": "Unit1027A4B0_Set",
+    "confidence": "medium",
+    "evidence": "stores its four float arguments at param_1[0], [1], [2] and [3], with param_2 at [0]",
+    "summary": "Sets the four components of a quaternion.",
+    "invented_prefix_name": "Quat_Set"
+  },
+  "0x1027A9D0": {
+    "name": "Unit1027A4B0_ToMatrix3",
+    "confidence": "medium",
+    "evidence": "computes the nine entries of a 3 by 3 rotation matrix from the quaternion at param_2, using 2 divided by its squared length, and writes them to param_1",
+    "summary": "Converts a quaternion to a 3 by 3 rotation matrix.",
+    "invented_prefix_name": "Quat_ToMatrix3"
+  },
+  "0x1027ABA0": {
+    "name": "Unit1027A4B0_FromRotationX",
+    "confidence": "medium",
+    "evidence": "sets the x component to sin of half the angle, y and z to 0 and w to cos of half the angle",
+    "summary": "Builds a quaternion for a rotation about the X axis.",
+    "invented_prefix_name": "Quat_FromRotationX"
+  },
+  "0x1027ABD0": {
+    "name": "Unit1027A4B0_FromRotationY",
+    "confidence": "medium",
+    "evidence": "sets the y component to sin of half the angle, x and z to 0 and w to cos of half the angle",
+    "summary": "Builds a quaternion for a rotation about the Y axis.",
+    "invented_prefix_name": "Quat_FromRotationY"
+  },
+  "0x1027AC00": {
+    "name": "Unit1027A4B0_FromRotationZ",
+    "confidence": "medium",
+    "evidence": "sets the z component to sin of half the angle, x and y to 0 and w to cos of half the angle",
+    "summary": "Builds a quaternion for a rotation about the Z axis.",
+    "invented_prefix_name": "Quat_FromRotationZ"
+  },
+  "0x1027AC30": {
+    "name": "Unit1027A4B0_FromAxisAngle",
+    "confidence": "medium",
+    "evidence": "scales the axis vector at param_2 by sin of half the angle and sets w to cos of half the angle",
+    "summary": "Builds a quaternion from an axis vector and an angle.",
+    "invented_prefix_name": "Quat_FromAxisAngle"
+  },
+  "0x1027AE50": {
+    "name": "Unit1027A4B0_SetIdentity",
+    "confidence": "medium",
+    "evidence": "sets the first three floats to 0 and the fourth to 1.0",
+    "summary": "Sets a quaternion to the identity rotation.",
+    "invented_prefix_name": "Quat_SetIdentity"
+  },
+  "0x1027AEF0": {
+    "name": "Unit1027A4B0_Negate",
+    "confidence": "medium",
+    "evidence": "negates each of the four floats of the quaternion at param_1",
+    "summary": "Negates a quaternion's four components.",
+    "invented_prefix_name": "Quat_Negate"
+  }
+}

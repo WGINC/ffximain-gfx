@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x1028D6D0  (unit sqcoConnector: asserts sqcoConnector.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_1028D6D0(void)
+XI_API undefined4 * __cdecl SqcoConnector_Create(void)
 {
   undefined4 *puVar1;
   
-  puVar1 = orig::FUN_10275d40(1,0x40,s_C__dev_dancer_modules_sqConstrai_103ba524,0x1c);
-  orig::FUN_1028d6f0(puVar1);
+  puVar1 = orig::SqMem_AllocZeroed(1,0x40,s_C__dev_dancer_modules_sqConstrai_103ba524,0x1c);
+  orig::SqcoConnector_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1028D6F0  (unit sqcoConnector: between 0x1028D6D0 (asserts sqcoConnector.c) and 0x1028D750 (asserts sqcoConnector.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1028D6F0(undefined4 * param_1)
+XI_API void __cdecl SqcoConnector_Init(undefined4 * param_1)
 {
   *param_1 = 0x130001;
   param_1[2] = &LAB_1028d740;

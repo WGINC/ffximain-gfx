@@ -1,0 +1,8 @@
+{
+  "0x10052E80": {
+    "name": "Unit10052E80_Set194",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0x194; called by sub_1004E8D0",
+    "summary": "Stores a dword at +0x194."
+  }
+}

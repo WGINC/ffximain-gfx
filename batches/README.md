@@ -32,6 +32,9 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
   - The prefix is the batch's class when the batch is a class (`CXiActor`, `CDx`).
   - Otherwise it is the area the code belongs to, shown by its callees and callers' names (`Font_`, `Zone_`,
     `Mat4_`).
+  - Never invent an area word. A constant that happens to equal something familiar (5184000 is 60 days in seconds)
+    is not evidence. If nothing in the dossier shows the area, prefix with the batch's group as written, without
+    `unit_` (`Unit1018BA60_GetDiv5184000`).
   - Getters start `Get`/`Is`/`Has`; setters `Set`; others a verb.
 - **confidence:**
   - `high`: the dossier shows the purpose directly, e.g. a Direct3D method, an import, a string, a PS2 match;
@@ -40,9 +43,24 @@ Read one batch and write `data/names/NNN_<group>.json`: a name for each function
 - **evidence:** what in the dossier shows it, in one line. **summary:** one sentence of what the function does.
 - Change nothing else: no code, no other files.
 
+## Round 2 (`batches/round2/`, files `r2_NNN_<group>`)
+Only frame-time functions (`data/frame_set.json`). The dossiers carry more: strings, named globals, the callers'
+call lines, named functions two calls away, the chain of calls from the frame root, short callees' code, and calls
+written with their callees' current names. The rules above are unchanged.
+- **Trimmed (22 Oct):** retaking round 1's names changed none of them, so the batches not yet done no longer hold
+  functions named in round 1; batches that held only those are gone. Skip a batch whose file is missing.
+- **Named before:** a function named in round 1 only with `low` confidence, or whose area word was replaced, shows
+  that name. Write a better name only when this dossier shows more than the old name says; otherwise leave the
+  function out of your file and the old name stays.
+- **Neighbours' readings** are what a naming session understood, not facts. They can tell you where to look; the
+  evidence for a name must be what the code, a call, a string or a DancingMad/PS2 name shows.
+- Write `data/names/r2_NNN_<group>.json` and check it with
+  `python3 pipeline/check_names.py batches/round2/index.json data/names/r2_NNN_<group>.json`.
+
 ## Check, commit, push
 ```
 python3 pipeline/check_names.py batches/index.json data/names/NNN_<group>.json
 ```
-It must print `OK`. Then commit only that file to your branch, with a message `names: batch NNN_<group> (N named,
+It must print `OK`; it refuses a prefix the dossier does not show (the batch's class, `Unit<address>`, the batch's
+label, or whole CamelCase parts of a name in the dossier). Then commit only that file to your branch, with a message `names: batch NNN_<group> (N named,
 M skipped)`, and push. Do the next batch you were given.

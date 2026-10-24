@@ -1,0 +1,14 @@
+{
+  "0x10044AC0": {
+    "name": "CMoElem_IsSourceAt0FCTest",
+    "confidence": "low",
+    "evidence": "loads the pointer at this+0xFC and then the dword at its target, returns false when either is null, otherwise returns FUN_100539e0 of that dword as a bool",
+    "summary": "Returns the boolean result of FUN_100539e0 on the first word of the object at this+0xFC, or false when there is none."
+  },
+  "0x100458F0": {
+    "name": "CMoElem_CheckAt138ThenCall",
+    "confidence": "low",
+    "evidence": "if the float at this+0x138 is below 0.00999999977648 it stores 1.0f there and returns 0x100; otherwise returns FUN_100555b0(this, float at this+0x12C)",
+    "summary": "Resets the float at +0x138 to 1.0 when it is below 0.01, otherwise calls FUN_100555b0 with the float at +0x12C."
+  }
+}

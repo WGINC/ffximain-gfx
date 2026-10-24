@@ -87,7 +87,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
 
 // FUNCTION: FFXIMAIN 0x102819C0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102819C0(int param_1)
+XI_API void __cdecl SqgxTexture_ClearPaletteUsed(int param_1)
 {
   ((uint8_t *)((&g_sqgxPaletteUsed_as_v0)))[param_1] = 0;
   return;
@@ -162,26 +162,6 @@ XI_API void __cdecl sqgxTextureGetSize(int param_1, undefined4 * param_2, undefi
 {
   *param_2 = (&g_sqgxTex_width_as_v0)[param_1 * 10];
   *param_3 = (&g_sqgxTex_height_as_v0)[param_1 * 10];
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10281C20  (unit sqgxTexture: name sqgxTextureSet)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl sqgxTextureSet(int param_1)
-{
-  if (param_1 != *(int *)(g_pSqgxContext_as_s32 + 0x8b0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4)) {
-    *(int *)(g_pSqgxContext_as_s32 + 0x8b0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
-    g_sqgxRenderStateDirty_as_v0 = 1;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10281C50  (unit sqgxTexture: name sqgxTextureDecal)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl sqgxTextureDecal(undefined4 param_1)
-{
-  *(uint32_t *)(g_pSqgxContext_as_s32 + 0x8c0 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
-  g_sqgxRenderStateDirty_as_v0 = 1;
   return;
 }
 

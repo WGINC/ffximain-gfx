@@ -1,0 +1,8 @@
+{
+  "0x100396A0": {
+    "name": "Thread_ResumeAndWait",
+    "confidence": "medium",
+    "evidence": "when the handle at +8 is set, resumes it with ResumeThread on the first request (state byte at +4), then waits on the handle with WaitForSingleObject, sleeping 1 ms between polls until it signals",
+    "summary": "Resumes a worker thread when requested and waits for it to finish."
+  }
+}

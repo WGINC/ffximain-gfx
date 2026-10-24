@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10291110  (unit sqrdCamera: between 0x102910E0 (asserts sqrdCamera.c) and 0x10291170 (name sqrdCameraPrint), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291110(undefined4 * param_1)
+XI_API void __cdecl SqrdCamera_Init(undefined4 * param_1)
 {
   *param_1 = 0x70001;
   param_1[2] = &LAB_102910d0;

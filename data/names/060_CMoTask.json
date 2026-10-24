@@ -1,0 +1,26 @@
+{
+  "0x10011920": {
+    "name": "CMoTask_NoOp7",
+    "confidence": "low",
+    "evidence": "body is empty; the slot is vtable slot 7 (+0x1C) of CMoTask and of 90 other classes",
+    "summary": "Does nothing; the base implementation of virtual slot 7."
+  },
+  "0x10011930": {
+    "name": "CMoTask_NoOp9",
+    "confidence": "low",
+    "evidence": "body is empty; the slot is vtable slot 9 (+0x24) of CMoTask and of 88 other classes",
+    "summary": "Does nothing; the base implementation of virtual slot 9."
+  },
+  "0x10011940": {
+    "name": "CMoTask_NoOp10",
+    "confidence": "low",
+    "evidence": "body is empty and takes one argument; the slot is vtable slot 10 (+0x28) of CMoTask and of 89 other classes",
+    "summary": "Does nothing with its argument; the base implementation of virtual slot 10."
+  },
+  "0x10042640": {
+    "name": "CMoTask_ReturnFalse8",
+    "confidence": "low",
+    "evidence": "returns 0 in AL; the slot is vtable slot 8 (+0x20) of CMoTask, CMoOtTask and two more vtables",
+    "summary": "Returns 0; the base implementation of virtual slot 8."
+  }
+}

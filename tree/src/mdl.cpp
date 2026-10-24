@@ -9,13 +9,13 @@ XI_API void __cdecl mdl_1026E900(void)
   int iVar1;
   int iVar2;
   
-  orig::FUN_1027e0d0(0x1099aee0);
+  orig::Chn_ReleaseIfSet(0x1099aee0);
   if (DAT_1099aedc != 0) {
     if (-1 < DAT_1099aed8 + -1) {
       iVar1 = (DAT_1099aed8 + -1) * 0xc0;
       iVar2 = DAT_1099aed8;
       do {
-        orig::FUN_1027db80((uint32_t *)(iVar1 + DAT_1099aedc));
+        orig::Chn_ReleaseRefs((uint32_t *)(iVar1 + DAT_1099aedc));
         iVar1 = iVar1 + -0xc0;
         iVar2 = iVar2 + -1;
       } while (iVar2 != 0);
@@ -29,12 +29,12 @@ XI_API void __cdecl mdl_1026E900(void)
     iVar1 = iVar2 * 0xac;
     do {
       if ((*(uint32_t *)(iVar1 + DAT_1099aed0) & 0x100) == 0) {
-        orig::FUN_10277ab0((int *)(iVar1 + 0xa8 + DAT_1099aed0));
+        orig::SqmdModel_Free((int *)(iVar1 + 0xa8 + DAT_1099aed0));
       }
       else {
         *(uint32_t *)(iVar1 + 0xa8 + DAT_1099aed0) = 0;
       }
-      orig::FUN_10270690(iVar2);
+      orig::Mdl_ReleaseSlotPtr(iVar2);
       iVar2 = iVar2 + -1;
       iVar1 = iVar1 + -0xac;
     } while (-1 < iVar2);
@@ -69,20 +69,20 @@ XI_API int __cdecl fn_1026EBF0(int param_1, undefined4 param_2)
     orig::sqDebugPrintf_v3(s_Error__mdlRegister___will_overfl_103b19d0,DAT_1099aec8_as_s32);
     return -1;
   }
-  orig::FUN_102703c0(iVar2,6,1);
+  orig::Mdl_UpdateSlotFlags(iVar2,6,1);
   iVar2 = iVar2 * 0xac;
   pcVar1 = (char *)(iVar2 + 4 + DAT_1099aed0);
-  *(uint32_t *)pcVar1 = XI_PIECE(s_mdlRegister_mod_103b19c0, 0, 4);
-  *(uint32_t *)(pcVar1 + 4) = XI_PIECE(s_mdlRegister_mod_103b19c0, 4, 4);
-  *(uint32_t *)(pcVar1 + 8) = XI_PIECE(s_mdlRegister_mod_103b19c0, 8, 4);
-  *(uint32_t *)(pcVar1 + 0xc) = XI_PIECE(s_mdlRegister_mod_103b19c0, 12, 4);
+  *(uint32_t *)pcVar1 = XI_PIECE(g_103B19C0, 0, 4);
+  *(uint32_t *)(pcVar1 + 4) = XI_PIECE(g_103B19C0, 4, 4);
+  *(uint32_t *)(pcVar1 + 8) = XI_PIECE(g_103B19C0, 8, 4);
+  *(uint32_t *)(pcVar1 + 0xc) = XI_PIECE(g_103B19C0, 12, 4);
   *(int *)(iVar2 + 0xa8 + DAT_1099aed0) = param_1;
   return DAT_1099aecc + -1;
 }
 
 // FUNCTION: FFXIMAIN 0x1026EE00  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026EE00(void)
+XI_API void __cdecl Mdl_ClearSlotFlags(void)
 {
   int iVar1;
   int iVar2;
@@ -116,12 +116,12 @@ XI_API int __cdecl fn_1026EF00(int param_1, undefined4 param_2)
     return -1;
   }
   iVar3 = DAT_1099aed8 * 0xc0;
-  orig::FUN_1027dae0((uint32_t *)(iVar3 + DAT_1099aedc));
+  orig::Unit1027D980_InitDefaults((uint32_t *)(iVar3 + DAT_1099aedc));
   if ((param_1 == -1) || (param_1 == -2)) {
     *(uint32_t *)(iVar3 + DAT_1099aedc) = *(uint32_t *)(iVar3 + DAT_1099aedc) | 0x40;
   }
   *(int *)(iVar3 + 0x94 + DAT_1099aedc) = param_1;
-  puVar2 = orig::FUN_1027dcc0((uint32_t *)(iVar3 + DAT_1099aedc),param_2);
+  puVar2 = orig::Chn_RegisterItem((uint32_t *)(iVar3 + DAT_1099aedc),param_2);
   if (puVar2 == (uint32_t *)0x0) {
     orig::sqDebugPrintf_v3(s_Error__Couldn_t_register_channel_103b1b04,param_2);
     return -1;
@@ -144,7 +144,7 @@ XI_API undefined4 __cdecl fn_1026F160(int param_1, int param_2)
   iVar3 = 0;
   if (0 < *(int *)(iVar1 + 0x44)) {
     do {
-      piVar2 = (int *)orig::FUN_10279870(iVar1,iVar3);
+      piVar2 = (int *)orig::SqmdModel_GetItemKind2(iVar1,iVar3);
       if (*piVar2 == 0xb0001) {
         if (iVar4 == param_2) {
           return piVar2;
@@ -160,7 +160,7 @@ XI_API undefined4 __cdecl fn_1026F160(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x1026F1B0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1026F1B0(void)
+XI_API undefined4 __cdecl Mdl_ReleaseEntries(void)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -169,7 +169,7 @@ XI_API undefined4 __cdecl fn_1026F1B0(void)
   puVar1 = (uint32_t *)(DAT_1099aed8 * 0xc0 + -0xc0 + DAT_1099aedc);
   if (0 < DAT_1099aed8) {
     do {
-      orig::FUN_1027db80(puVar1);
+      orig::Chn_ReleaseRefs(puVar1);
       puVar1 = puVar1 + -0x30;
       iVar2 = iVar2 + 1;
     } while (iVar2 < DAT_1099aed8);
@@ -180,7 +180,7 @@ XI_API undefined4 __cdecl fn_1026F1B0(void)
 
 // FUNCTION: FFXIMAIN 0x1026F4F0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1026F4F0(int * param_1, int * param_2)
+XI_API undefined4 __cdecl Mdl_GetEntryTable(int * param_1, int * param_2)
 {
   if ((0 < DAT_1099aed8) && (DAT_1099aedc != 0)) {
     if (param_1 != (int *)0x0) {
@@ -196,7 +196,7 @@ XI_API undefined4 __cdecl fn_1026F4F0(int * param_1, int * param_2)
 
 // FUNCTION: FFXIMAIN 0x1026F580  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026F580(int param_1, undefined4 * param_2)
+XI_API void __cdecl Mdl_QueryEntryFlag(int param_1, undefined4 * param_2)
 {
   orig::FUN_10285000(*(int **)(param_1 * 0xc0 + 0xb4 + DAT_1099aedc),&param_1);
   *param_2 = 1;
@@ -208,7 +208,7 @@ XI_API void __cdecl fn_1026F580(int param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x1026F7B0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026F7B0(int param_1, undefined4 * param_2)
+XI_API void __cdecl Mdl_GetEntryWord0(int param_1, undefined4 * param_2)
 {
   *param_2 = *(uint32_t *)(param_1 * 0xc0 + DAT_1099aedc);
   return;
@@ -264,7 +264,7 @@ LAB_1026f979:
 
 // FUNCTION: FFXIMAIN 0x1026F9A0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026F9A0(int param_1, uint32_t param_2, int param_3)
+XI_API void __cdecl Mdl_UpdateEntryFlags(int param_1, uint32_t param_2, int param_3)
 {
   uint32_t *puVar1;
   uint32_t uVar2;
@@ -293,20 +293,20 @@ XI_API void __cdecl fn_1026F9E0(int param_1, int param_2)
   iVar1 = param_1;
   iVar2 = param_1 * 0xc0 + DAT_1099aedc;
   if (param_2 == -1) {
-    orig::FUN_1026f580(param_1,&param_1);
+    orig::Mdl_QueryEntryFlag(param_1,&param_1);
     if (param_1 == 0) {
-      orig::FUN_10284fd0(*(int **)(iVar2 + 0xb4),1);
-      orig::FUN_1026f9a0(iVar1,0x80,1);
+      orig::Unit10284F90_SetValueByType(*(int **)(iVar2 + 0xb4),1);
+      orig::Mdl_UpdateEntryFlags(iVar1,0x80,1);
       return;
     }
   }
   else if (param_2 != 0) {
-    orig::FUN_10284fd0(*(int **)(iVar2 + 0xb4),1);
-    orig::FUN_1026f9a0(iVar1,0x80,1);
+    orig::Unit10284F90_SetValueByType(*(int **)(iVar2 + 0xb4),1);
+    orig::Mdl_UpdateEntryFlags(iVar1,0x80,1);
     return;
   }
-  orig::FUN_10284fd0(*(int **)(iVar2 + 0xb4),0);
-  orig::FUN_1026f9a0(iVar1,0x80,0);
+  orig::Unit10284F90_SetValueByType(*(int **)(iVar2 + 0xb4),0);
+  orig::Mdl_UpdateEntryFlags(iVar1,0x80,0);
   return;
 }
 
@@ -340,7 +340,7 @@ XI_API void __cdecl fn_1026FE60(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x1026FEA0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026FEA0(int param_1, int * param_2)
+XI_API void __cdecl Mdl_FindNthFlag40(int param_1, int * param_2)
 {
   int iVar1;
   uint8_t *pbVar2;
@@ -391,7 +391,7 @@ XI_API void __cdecl fn_1026FEF0(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x1026FF30  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026FF30(int param_1, int * param_2)
+XI_API void __cdecl Mdl_FindNthNegative(int param_1, int * param_2)
 {
   int iVar1;
   char *pcVar2;
@@ -429,7 +429,7 @@ XI_API undefined4 __cdecl fn_1026FF80(int param_1, float * param_2)
   float  (&local_20)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 16);
   
-  orig::FUN_1028d9a0(param_2);
+  orig::Unit1028D970_Reset(param_2);
   iVar1 = *(int *)(DAT_1099aed0 + 0xa8 + param_1 * 0xac);
   if (iVar1 != 0) {
     iVar3 = 0;
@@ -462,50 +462,6 @@ XI_API undefined4 __cdecl fn_1026FF80(int param_1, float * param_2)
   return 0xffffffff;
 }
 
-// FUNCTION: FFXIMAIN 0x102700C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102700C0(int param_1, int param_2, undefined4 param_3)
-{
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  
-  piVar4 = (int *)0x0;
-  iVar1 = DAT_1099aed0 + param_1 * 0xac;
-  iVar5 = *(int *)(DAT_1099aed0 + 0xa8 + param_2 * 0xac);
-  iVar2 = DAT_1099aed0 + param_2 * 0xac;
-  *(uint32_t *)(iVar2 + 0x88) = param_3;
-  if ((iVar5 != 0) && (iVar6 = 0, 0 < *(int *)(iVar5 + 0x44))) {
-    do {
-      piVar3 = (int *)orig::FUN_10279870(iVar5,iVar6);
-      if (*piVar3 == 0xb0001) {
-        iVar6 = *(int *)(iVar5 + 0x44);
-        piVar4 = piVar3;
-      }
-      iVar6 = iVar6 + 1;
-    } while (iVar6 < *(int *)(iVar5 + 0x44));
-    if (((piVar4 != (int *)0x0) && (iVar1 = *(int *)(iVar1 + 0xa8), iVar1 != 0)) &&
-       (iVar5 = 0, 0 < *(int *)(iVar1 + 0x44))) {
-      do {
-        piVar3 = (int *)orig::FUN_10279870(iVar1,iVar5);
-        if (*piVar3 == 0xb0001) {
-          iVar5 = orig::FUN_1028de10((int)piVar3,piVar4,0,*(uint32_t *)(iVar2 + 0x88));
-          if (iVar5 != 0) {
-            orig::FUN_10279530(iVar1,iVar5);
-            orig::FUN_1027a220(iVar1,iVar5);
-          }
-          iVar5 = *(int *)(iVar1 + 0x44);
-        }
-        iVar5 = iVar5 + 1;
-      } while (iVar5 < *(int *)(iVar1 + 0x44));
-    }
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x102701B0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102701B0(int param_1, uint32_t param_2, undefined4 * param_3, uint32_t param_4, int param_5)
@@ -531,13 +487,13 @@ XI_API void __cdecl fn_102701B0(int param_1, uint32_t param_2, undefined4 * para
     return;
   }
   puVar1[0x24] = 0xffffffff;
-  orig::FUN_10274640(puVar1 + 0x26);
+  orig::Unit10274050_ZeroDwords(puVar1 + 0x26);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10270240  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10270240(int param_1, undefined4 * param_2, int * param_3)
+XI_API void __cdecl Mdl_GetSlotPtrs(int param_1, undefined4 * param_2, int * param_3)
 {
   if (param_2 != (undefined4 *)0x0) {
     *param_2 = *(undefined4 *)(DAT_1099aed0 + 0xa8 + param_1 * 0xac);
@@ -550,7 +506,7 @@ XI_API void __cdecl fn_10270240(int param_1, undefined4 * param_2, int * param_3
 
 // FUNCTION: FFXIMAIN 0x10270290  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10270290(int param_1, undefined4 * param_2)
+XI_API void __cdecl Mdl_GetSlotWord0(int param_1, undefined4 * param_2)
 {
   if (param_2 != (undefined4 *)0x0) {
     *param_2 = *(undefined4 *)(DAT_1099aed0 + param_1 * 0xac);
@@ -560,7 +516,7 @@ XI_API void __cdecl fn_10270290(int param_1, undefined4 * param_2)
 
 // FUNCTION: FFXIMAIN 0x102703C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102703C0(int param_1, uint32_t param_2, int param_3)
+XI_API void __cdecl Mdl_UpdateSlotFlags(int param_1, uint32_t param_2, int param_3)
 {
   uint32_t *puVar1;
   
@@ -587,27 +543,27 @@ XI_API void __cdecl fn_10270410(int param_1, int param_2)
   if (param_2 != -1) {
     if (param_2 != 0) {
       orig::FUN_10273810(*(int *)(iVar1 + 0xa8),1);
-      orig::FUN_102703c0(param_1,4,1);
+      orig::Mdl_UpdateSlotFlags(param_1,4,1);
       return;
     }
     orig::FUN_10273810(*(int *)(iVar1 + 0xa8),0);
-    orig::FUN_102703c0(param_1,4,0);
+    orig::Mdl_UpdateSlotFlags(param_1,4,0);
     return;
   }
   iVar1 = *(int *)(iVar1 + 0xa8);
   if ((*(uint8_t *)(iVar1 + 0xa8) & 4) != 0) {
     orig::FUN_10273810(iVar1,0);
-    orig::FUN_102703c0(param_1,4,0);
+    orig::Mdl_UpdateSlotFlags(param_1,4,0);
     return;
   }
   orig::FUN_10273810(iVar1,1);
-  orig::FUN_102703c0(param_1,4,1);
+  orig::Mdl_UpdateSlotFlags(param_1,4,1);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10270690  (unit mdl: asserts mdl.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10270690(int param_1)
+XI_API void __cdecl Mdl_ReleaseSlotPtr(int param_1)
 {
   int iVar1;
   int iVar2;

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027DAE0  (unit unit_1027D980: no unit evidence of its own; in the gap between 0x1027D900 (sqmoUtil) and 0x1027DB50 (chn) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027DAE0(undefined4 * param_1)
+XI_API void __cdecl Unit1027D980_InitDefaults(undefined4 * param_1)
 {
   *param_1 = 1;
   *(uint8_t *)(param_1 + 1) = 0;

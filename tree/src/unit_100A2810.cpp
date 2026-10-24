@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100A3CD0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100A3CD0(void)
+XI_API void __cdecl Unit100A2810_ResetRecords(void)
 {
   uint16_t *puVar1;
   

@@ -1,0 +1,187 @@
+{
+  "0x101240F0": {
+    "name": "Cursor_TakeEventFlag",
+    "confidence": "medium",
+    "evidence": "tests bit 0 of the byte at self + (param_1 & 0xFF), clears it, and returns 1 when it was set, else 0",
+    "summary": "Returns whether the cursor's flag byte had its bit set, and clears that bit."
+  },
+  "0x10124110": {
+    "name": "Cursor_GetFlagBit4",
+    "confidence": "low",
+    "evidence": "returns bit 4 of the byte at self + (param_1 & 0xFF)",
+    "summary": "Returns bit 4 of the cursor flag byte selected by the argument."
+  },
+  "0x10124130": {
+    "name": "Cursor_GetFlagBit2",
+    "confidence": "low",
+    "evidence": "returns bit 2 of the byte at self + (param_1 & 0xFF)",
+    "summary": "Returns bit 2 of the cursor flag byte selected by the argument."
+  },
+  "0x101245D0": {
+    "name": "Cursor_HandleMouseMove",
+    "confidence": "medium",
+    "evidence": "calls CTkMouse_OnMouseMove on every path; before it, when FUN_1025E050 reports true and the menu manager is not in FUN_1015EDB0, calls FUN_1025E210 with the y coordinate",
+    "summary": "Passes a mouse move to the cursor's mouse handler, first updating the menu when the cursor is active."
+  },
+  "0x101248A0": {
+    "name": "Cursor_UpdateTimer",
+    "confidence": "medium",
+    "evidence": "decrements the float at +0x70 by the frame scale (Camera_GetFrameScale through FUN_10311C2C); when it goes below zero it resets to 12.0 and ORs +0x68 into +0x5C",
+    "summary": "Counts the cursor timer down by the frame scale and, when it expires, sets the pending flags."
+  },
+  "0x10124930": {
+    "name": "Cursor_EnterMode1",
+    "confidence": "low",
+    "evidence": "when bit 0 of +0x60 is clear, sets bit 0 of +0x58 and +0x60, sets +0x68 to 1 and +0x70 to -12.0, copies the position into +0x1C and +0x20, and stores the screen centre when Settings_GetValue(0x90) is zero",
+    "summary": "Enters cursor mode 1 once, recording the current position."
+  },
+  "0x101249E0": {
+    "name": "Cursor_ToggleFlag1",
+    "confidence": "low",
+    "evidence": "when bit 0 of +0x64 is clear, toggles bit 0 of +0x58 and sets bit 0 of +0x64",
+    "summary": "Toggles the cursor's first mode flag, once per frame."
+  },
+  "0x10124A00": {
+    "name": "Cursor_EnterMode2",
+    "confidence": "low",
+    "evidence": "when bit 1 of +0x60 is clear, sets bit 1 of +0x58 and +0x60, sets +0x68 to 2 and +0x70 to -12.0, copies the position into +0x24 and +0x28, and stores the screen centre when Settings_GetValue(0x90) is zero",
+    "summary": "Enters cursor mode 2 once, recording the current position."
+  },
+  "0x10124AB0": {
+    "name": "Cursor_ToggleFlag2",
+    "confidence": "low",
+    "evidence": "when bit 1 of +0x64 is clear, toggles bit 1 of +0x58 and sets bit 1 of +0x64",
+    "summary": "Toggles the cursor's second mode flag, once per frame."
+  },
+  "0x10124AD0": {
+    "name": "Cursor_EnterMode4",
+    "confidence": "low",
+    "evidence": "when bit 2 of +0x60 is clear, sets bit 2 of +0x58, +0x5C and +0x60, sets +0x68 to 4 and +0x70 to -12.0, copies the position into +0x2C and +0x30, and sets the mode byte at +0x4D to 4",
+    "summary": "Enters cursor mode 4 once, recording the current position."
+  },
+  "0x10124B50": {
+    "name": "Cursor_ToggleFlag4",
+    "confidence": "low",
+    "evidence": "when bit 2 of +0x64 is clear, toggles bit 2 of +0x58 and sets bit 2 of +0x64",
+    "summary": "Toggles the cursor's third mode flag, once per frame."
+  },
+  "0x10124B70": {
+    "name": "Cursor_ResetPositionToMenu",
+    "confidence": "low",
+    "evidence": "sets +0x48 to 18.0 and, when FUN_1015EDB0 reports true, calls FUN_1011ABF0 on the menu's control to get a position and then Cursor_SetPosition",
+    "summary": "Moves the cursor to the menu's position when the menu is active."
+  },
+  "0x101252C0": {
+    "name": "Cursor_SetModeFromMenuActive",
+    "confidence": "low",
+    "evidence": "stores mode 2 at +0x4D when FUN_1015EDB0 reports true and mode 1 otherwise",
+    "summary": "Sets the cursor mode from whether the menu is active."
+  },
+  "0x10125F70": {
+    "name": "Cursor_UpdateVisibilityForMode",
+    "confidence": "medium",
+    "evidence": "switches on the cursor mode byte at +0x4D: modes 3 and 6 call Cursor_SetModeFromMenuActive, modes 4 and 5 show the cursor, and the default hides it through Cursor_SetVisible",
+    "summary": "Shows or hides the cursor according to its current mode."
+  },
+  "0x101260E0": {
+    "name": "Cursor_GetField98",
+    "confidence": "low",
+    "evidence": "returns the float at +0x98",
+    "summary": "Returns the float stored at offset 0x98 of the cursor."
+  },
+  "0x101260F0": {
+    "name": "Cursor_GetField94",
+    "confidence": "low",
+    "evidence": "returns the float at +0x94",
+    "summary": "Returns the float stored at offset 0x94 of the cursor."
+  },
+  "0x10126100": {
+    "name": "Cursor_GetNormalizedDeltaY",
+    "confidence": "low",
+    "evidence": "divides (+4 - +0x38) by the screen height times 0.0476, clamps the result to the range minus one to one, and returns it",
+    "summary": "Returns the cursor's vertical offset from its anchor, normalised to the screen height and clamped."
+  },
+  "0x10126270": {
+    "name": "Cursor_HasTargetHover",
+    "confidence": "low",
+    "evidence": "returns 1 when FUN_10158D90(g_pTargetMng) is non-zero",
+    "summary": "Reports whether the target manager has a hovered target."
+  },
+  "0x10126300": {
+    "name": "Unit100D7420_Init",
+    "confidence": "medium",
+    "evidence": "zeroes the head, tail, count and the next fields at +0x0, +0x4, +0x8, +0xC and +0x10, and sets the flag at +0x14 to 1",
+    "summary": "Initialises an empty linked list head.",
+    "invented_prefix_name": "ListHead_Init"
+  },
+  "0x10126350": {
+    "name": "Unit100D7420_Clear",
+    "confidence": "low",
+    "evidence": "zeroes seven dwords at offsets 0x0, 0x4, 0x8, 0xC, 0x10, 0x14 and 0x18",
+    "summary": "Clears a seven-dword node.",
+    "invented_prefix_name": "Node_Clear"
+  },
+  "0x101263B0": {
+    "name": "Unit100D7420_Alloc",
+    "confidence": "medium",
+    "evidence": "takes a node from the free list at +0xC when more than eight are free, otherwise allocates 0x18 bytes with Allocator_Generic and initialises it with FUN_10126300; clears the node's fields and returns it",
+    "summary": "Takes a list node from the free pool, or allocates a new one.",
+    "invented_prefix_name": "NodePool_Alloc"
+  },
+  "0x10126460": {
+    "name": "Unit100D7420_GetCount",
+    "confidence": "medium",
+    "evidence": "returns 0 for a null list, otherwise the count at +0x10",
+    "summary": "Returns the number of entries in a list, or 0 for a null list.",
+    "invented_prefix_name": "List_GetCount"
+  },
+  "0x10126480": {
+    "name": "Unit100D7420_PushBack",
+    "confidence": "medium",
+    "evidence": "takes a node from NodePool_Alloc, links it after the tail at +0x4, sets the head at +0x0 when the list was empty, stores the value at +0x10 of the node, and increments the count at +0x10",
+    "summary": "Appends a value to the end of the list.",
+    "invented_prefix_name": "List_PushBack"
+  },
+  "0x101264C0": {
+    "name": "Unit100D7420_PushFront",
+    "confidence": "medium",
+    "evidence": "takes a node from NodePool_Alloc, links it before the head at +0x0, sets the tail at +0x4 when the list was empty, stores the value and increments the count at +0x10",
+    "summary": "Adds a value to the front of the list.",
+    "invented_prefix_name": "List_PushFront"
+  },
+  "0x10126500": {
+    "name": "Unit100D7420_GetHead",
+    "confidence": "medium",
+    "evidence": "returns the dword at offset 0x0 of the list",
+    "summary": "Returns the head node of the list.",
+    "invented_prefix_name": "List_GetHead"
+  },
+  "0x10126510": {
+    "name": "Unit100D7420_GetTail",
+    "confidence": "medium",
+    "evidence": "returns the dword at offset 0x4 of the list",
+    "summary": "Returns the tail node of the list.",
+    "invented_prefix_name": "List_GetTail"
+  },
+  "0x10126580": {
+    "name": "Unit100D7420_Remove",
+    "confidence": "medium",
+    "evidence": "unlinks the node at param_1, updates the head and tail when they point at it, decrements the count at +0x10, and frees the node with FUN_10126410",
+    "summary": "Removes a node from the list and returns it to the pool.",
+    "invented_prefix_name": "List_Remove"
+  },
+  "0x101266B0": {
+    "name": "Unit100D7420_InsertBefore",
+    "confidence": "medium",
+    "evidence": "takes a node from NodePool_Alloc and links it in before the node at param_1, updating the head when param_1 was the head, and increments the count at +0x10",
+    "summary": "Inserts a new value before the given node.",
+    "invented_prefix_name": "List_InsertBefore"
+  },
+  "0x10126700": {
+    "name": "Unit100D7420_InsertAfter",
+    "confidence": "medium",
+    "evidence": "takes a node from NodePool_Alloc and links it in after the node at param_1, updating the tail when param_1 was the tail, and increments the count at +0x10",
+    "summary": "Inserts a new value after the given node.",
+    "invented_prefix_name": "List_InsertAfter"
+  }
+}

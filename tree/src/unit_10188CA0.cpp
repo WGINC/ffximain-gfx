@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10188CA0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10188CA0(void * self_, undefined4 * param_1, int param_2)
+XI_API void __thiscall ZoneMap_FillDirLight(void * self_, undefined4 * param_1, int param_2)
 {
   float *pfVar1;
   long double fVar2;
@@ -47,7 +47,7 @@ XI_API void __thiscall fn_10188CA0(void * self_, undefined4 * param_1, int param
   if (param_2 == 0) {
     orig::Vec4_Copy_v1(&local_30,(uint32_t *)&DAT_1065ca34);
     orig::Vec4_Copy_v1(&local_10,(uint32_t *)((int)self_ + 0x14c));
-    fVar2 = orig::FUN_10186fd0(self_);
+    fVar2 = orig::ZoneMap_GetFloatRef18Plus44(self_);
     pfVar1 = (float *)((int)self_ + 0x16c);
 LAB_10188d82:
     orig::Vec3_Scale_v1(&local_20,pfVar1,(float)fVar2);
@@ -282,7 +282,7 @@ XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * 
     return;
   }
   if (param_4 == 0) {
-    pfVar2 = (float *)orig::FUN_10186f90(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddr114(self_);
     lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[2] * (long double)255.0f);
     lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[1] * (long double)255.0f);
     XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
@@ -290,16 +290,16 @@ XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * 
     XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
     param_3 = (float *)(uint32_t)(uint32_t)param_3;
     *param_1 = (uint32_t)param_3;
-    pfVar2 = (float *)orig::FUN_10186fb0(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus3C(self_);
     *param_2 = *pfVar2;
     fVar3 = orig::FUN_101892b0(self_,0);
     *param_2 = (float)(fVar3 * (long double)*param_2);
-    pfVar2 = (float *)orig::FUN_10186fc0(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus40(self_);
     iVar7 = 0;
   }
   else {
     if (param_4 != 1) goto LAB_10189287;
-    pfVar2 = (float *)orig::FUN_10186f90(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddr114(self_);
     lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[2] * (long double)255.0f);
     lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)pfVar2[1] * (long double)255.0f);
     XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
@@ -307,11 +307,11 @@ XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * 
     XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
     param_3 = (float *)(uint32_t)(uint32_t)param_3;
     *param_1 = (uint32_t)param_3;
-    pfVar2 = (float *)orig::FUN_10186f40(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus1C(self_);
     *param_2 = *pfVar2;
     fVar3 = orig::FUN_101892b0(self_,1);
     *param_2 = (float)(fVar3 * (long double)*param_2);
-    pfVar2 = (float *)orig::FUN_10186f50(self_);
+    pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus20(self_);
     iVar7 = 1;
   }
   *pfVar1 = *pfVar2;

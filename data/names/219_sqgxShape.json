@@ -1,0 +1,8 @@
+{
+  "0x1028AB50": {
+    "name": "SqgxShape_FillBuffers",
+    "confidence": "medium",
+    "evidence": "for each of the buffers in the context (vertex, index and colour sources) calls vtable slot 44 (Lock) with the size from the context count, fills the locked data from the context arrays (copying 12-byte vertices, 16-byte colour entries scaled by 255, and 8-byte index pairs) and calls vtable slot 48 (Unlock); called by sqgxContext_BatchIndices and sub_1028BBD0",
+    "summary": "Locks each shape buffer, fills it from the context arrays and unlocks it."
+  }
+}

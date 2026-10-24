@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10052E80  (unit unit_10052E80: no unit evidence of its own; in the gap between 0x10052E60 (CMoDistMorphElem) and 0x10052EB0 (CXi471011C8_VT_1032B3B8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10052E80(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit10052E80_Set194(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x194) = param_1;
   return;

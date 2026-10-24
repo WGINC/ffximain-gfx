@@ -1,0 +1,104 @@
+{
+  "0x1015E7E0": {
+    "name": "Menu_FindFirstActiveItem",
+    "confidence": "medium",
+    "evidence": "walks the menu list from FUN_10126510 with FUN_10126550 and returns the first item whose +0x34 bit 0 is clear or +0x98 set, and whose +0x6e, +0x70 are zero and +0x10 is not 0xE",
+    "summary": "Returns the first menu item in the list that is not hidden or disabled."
+  },
+  "0x1015E910": {
+    "name": "Menu_CloseEntry",
+    "confidence": "medium",
+    "evidence": "FUN_10160760 and FUN_1015DC10 resolve the entry, then CTkMenuMng_DestroyDrawMenu is called on the found menu; called by 240+ functions",
+    "summary": "Looks up a menu entry and destroys its drawn menu if one is open."
+  },
+  "0x1015E950": {
+    "name": "Menu_FindWindowDefByName",
+    "confidence": "medium",
+    "evidence": "compares param_2 with the table at s_menu_menuwind_103722d8 byte by byte; on a match copies fields +0x30, +0x34, +0x60, +0x38 and links +0xc into param_1",
+    "summary": "Finds a menu window definition by name and fills the caller's record from it."
+  },
+  "0x1015EB60": {
+    "name": "Menu_CloseQuery",
+    "confidence": "medium",
+    "evidence": "the only work is FUN_1015E910 with the constant s_menu_query_103762b0",
+    "summary": "Closes the menu named menu_query."
+  },
+  "0x1015EC50": {
+    "name": "Menu_FindByName",
+    "confidence": "medium",
+    "evidence": "walks the menu list from FUN_10126500 and compares the 16-byte name at item+0x46 with strncmp against param_1, skipping type 0xE",
+    "summary": "Returns whether a menu item with the given name exists."
+  },
+  "0x1015ECC0": {
+    "name": "Menu_FindByFlags34",
+    "confidence": "medium",
+    "evidence": "walks the menu list and returns the first item with (+0x34 AND param_1) nonzero, skipping type 0xE",
+    "summary": "Returns whether a menu item has any of the given +0x34 flags."
+  },
+  "0x1015ED10": {
+    "name": "Menu_FindByFlags38",
+    "confidence": "low",
+    "evidence": "walks the menu list for an item whose +0x38 AND param_1 is nonzero, skipping param_2 and type 0xE when param_3 is zero",
+    "summary": "Finds a menu item by a +0x38 mask."
+  },
+  "0x1015ED80": {
+    "name": "Menu_IsFocusedItem",
+    "confidence": "medium",
+    "evidence": "returns 1 iff param_1 is nonzero, equals this+0x54, its type is not 0xE and its +0x70 byte is zero",
+    "summary": "Tests whether an item is the current focused item."
+  },
+  "0x1015EDB0": {
+    "name": "Menu_HasFocusedItem",
+    "confidence": "medium",
+    "evidence": "returns 1 iff this+0x54 is nonzero, its type is not 0xE and its +0x70 byte is zero",
+    "summary": "Tests whether there is a usable focused item."
+  },
+  "0x1015EE00": {
+    "name": "Menu_NextVisibleItem",
+    "confidence": "low",
+    "evidence": "advances the list iterator with FUN_10126520 and returns the item, or 0 if its +0x70 byte is set",
+    "summary": "Advances a menu list iterator and skips items flagged at +0x70."
+  },
+  "0x1015EE40": {
+    "name": "Menu_OpenMenuWindowWhenIdle",
+    "confidence": "medium",
+    "evidence": "when g_pTargetMng has no +0x68, +0x59, +0xC4 state and the checks at DAT_10662D40 and DAT_106631D4 pass, opens the menu s_menu_menuwind_10371b4c with MenuMng_OpenByName_v2",
+    "summary": "Opens the menu window when no target is active."
+  },
+  "0x1015F3E0": {
+    "name": "Menu_ApplyFlagsToItems",
+    "confidence": "low",
+    "evidence": "walks the menu window table and, per entry, calls vtable slot 0x40 and FUN_1015E910 or MenuMng_OpenByName_v1 according to the bits of param_1 (0x800, 0x1000, 0x200, 0x20, 0x40, 0x10, 0x8)",
+    "summary": "Applies a bitmask of menu update requests to each menu window entry."
+  },
+  "0x1015F6A0": {
+    "name": "Menu_DrawLayers",
+    "confidence": "medium",
+    "evidence": "Gfx_SetDefault2DStates, then Obj_10621944_Draw, then FUN_101177D0 on each item for layer values 0 to 8 (+0x60 byte), then Cursor_Draw and Gfx_DisableFogAndAlphaBlend",
+    "summary": "Draws the menu items layer by layer, with the cursor, between the 2D state setup and teardown."
+  },
+  "0x1015F790": {
+    "name": "Menu_PositionWindow",
+    "confidence": "medium",
+    "evidence": "reads both windows' locates with CTkMenuCtrlData_GetWindowLocate, computes the new y from the sizes and calls FUN_10119110 to place the window",
+    "summary": "Places a menu window beside its anchor window."
+  },
+  "0x101601D0": {
+    "name": "Menu_GetNormalizedPos",
+    "confidence": "medium",
+    "evidence": "x = self+0x80 times 1/640 and y = self+0x82 times 1/480 (the constants 0.0015625 and 0.0020833)",
+    "summary": "Returns the menu position scaled to a 640 by 480 space."
+  },
+  "0x10160440": {
+    "name": "Menu_ReloadResource",
+    "confidence": "medium",
+    "evidence": "releases the resource at this+0xB8 with CMoResource_ReleaseChain and ResHandle_FreeIfUnreferenced, then creates the new one at this+0xBC with FUN_101CC620",
+    "summary": "Replaces the menu's loaded resource with a new one."
+  },
+  "0x10160C90": {
+    "name": "Menu_GetFocusedItem",
+    "confidence": "medium",
+    "evidence": "returns the dword at this+0x54",
+    "summary": "Returns the current focused menu item."
+  }
+}

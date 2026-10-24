@@ -1,0 +1,164 @@
+{
+  "0x1024D400": {
+    "name": "StAvatar_Reset",
+    "confidence": "medium",
+    "evidence": "calls FUN_1026ECC0 and FUN_1026F1B0, sets the indices at +0xB0 and +0xD4 to -1, and calls FUN_10251160 on the seven-dword entries at +0xF0 and +0x1D0; called by StAvatar_Teardown and fn_1024D610",
+    "summary": "Resets an avatar's indices and channel entries."
+  },
+  "0x1024D470": {
+    "name": "StAvatar_RegisterTriggers",
+    "confidence": "medium",
+    "evidence": "calls StTrigger_RegisterCallbacks on the trigger at +0x240 with the two callbacks at +0x7BF0 and +0x7BF8; called by StAvatar_Teardown",
+    "summary": "Registers the avatar's trigger callbacks."
+  },
+  "0x1024D4A0": {
+    "name": "StAvatar_SetTableValues",
+    "confidence": "low",
+    "evidence": "when the flag byte at +0 has bit 0x20 set, sets one table value from DAT_10389518 and returns 0; otherwise sets four values at +0xF0 and one each at +0x160 and +0x198 from DAT_10389558 through FUN_10250DB0",
+    "summary": "Sets the avatar's table values for a pose index."
+  },
+  "0x1024D540": {
+    "name": "StAvatar_SetChannel",
+    "confidence": "low",
+    "evidence": "sets the channel at +0x208 (or +0x1D0 when flag 0x20 is clear) from the tables at DAT_10389518 and DAT_10389558 with the argument offset through FUN_10250DB0",
+    "summary": "Sets an avatar channel value for a pose index."
+  },
+  "0x1024D5C0": {
+    "name": "StAvatar_SetPending",
+    "confidence": "low",
+    "evidence": "returns -1 when the argument equals the current value at +0xC; otherwise stores it, and when the state at +4 is 1 calls StAvatar_StopAndFreeBuffers and FUN_1024D610, else sets flag 0x40 and calls FUN_1024D740",
+    "summary": "Sets the avatar's pending pose, unloading first when it is loaded."
+  },
+  "0x1024D610": {
+    "name": "StAvatar_Unload",
+    "confidence": "medium",
+    "evidence": "calls FUN_10251370 on the entries at +0x1E8, StAvatar_ReleaseResources, StAvatar_Reset and FUN_1024D540 for the current pose, sets the state at +4 to 1 and calls FUN_10252610; called by StAvatar_SetPending and sub_1024FDF0",
+    "summary": "Releases an avatar's pose data and resets it to the unloaded state."
+  },
+  "0x1024D6B0": {
+    "name": "StAvatar_ApplyChannels",
+    "confidence": "low",
+    "evidence": "calls FUN_10252A00 on the block at +0xA8, then when the flag 0x20 is clear sets four channel entries from the time at +0x78 and FUN_1026F9E0, and the entries at +0x168 when their index at +0xB0 is set",
+    "summary": "Applies the avatar's channel values for the current time."
+  },
+  "0x1024D740": {
+    "name": "StAvatar_SetTransition",
+    "confidence": "medium",
+    "evidence": "sets flag 8 and the target at +0x6C from the float argument; when the duration is below 2, zeroes the rate at +0x74 and sets the target directly, otherwise sets the rate as (target minus the current value) over the duration; called by StAvatar_SetPending and sub_1024D850",
+    "summary": "Starts a timed change of the avatar's value to a target."
+  },
+  "0x1024D9D0": {
+    "name": "StAvatar_FormatNames",
+    "confidence": "low",
+    "evidence": "for each of the fifteen entries at DAT_103890E8 with the flag bit 1 clear, formats the name jo_%02d with the entry's index plus one into a local buffer",
+    "summary": "Formats the names of the avatar's unused joints."
+  },
+  "0x1024DD10": {
+    "name": "StAvatar_UpdateInput",
+    "confidence": "medium",
+    "evidence": "called by StAvatar_Update; in the state 2 reads analog keys 6 and 7 through GetAnalogKey and sets the camera offsets with FUN_10271C30, and in the states above 2 runs FUN_1024F5E0 or FUN_1024E280 and FUN_1024DFE0 with the camera steps",
+    "summary": "Reads the controller input and updates the avatar's camera and heading."
+  },
+  "0x1024DE20": {
+    "name": "StAvatar_UpdateCameraYaw",
+    "confidence": "low",
+    "evidence": "reads the scene camera through scnCameraGetInfo, adjusts the yaw at +0x44 and the pitch at +0x48 from the analog keys 6 and 7 scaled by Camera_GetFrameScale, and writes the transform with FUN_1027B170, FUN_1027A700 and sqxfXformTD_Update",
+    "summary": "Turns the camera's yaw and pitch from the analog input."
+  },
+  "0x1024DFE0": {
+    "name": "StAvatar_UpdateCameraFollow",
+    "confidence": "low",
+    "evidence": "for the scene object at +0xCC with flag 4, reads the camera info, walks the object list at +0xEC for type 0xB0001 entries and moves the camera by the offsets of the matching object, then calls sqxfXformTD_Update",
+    "summary": "Moves the camera to follow the avatar's target object."
+  },
+  "0x1024E720": {
+    "name": "StAvatar_SetFlagsBoth",
+    "confidence": "low",
+    "evidence": "calls FUN_10252AC0 on the blocks at +0xA8 and +0xCC with the same two arguments",
+    "summary": "Applies one update to the two blocks of an avatar."
+  },
+  "0x1024F050": {
+    "name": "StAvatar_GetCameraMatrix",
+    "confidence": "low",
+    "evidence": "reads the scene flags with scnGetFlags and the camera info with scnCameraGetInfo, builds a 4x4 matrix with FUN_1027EBD0 and multiplies it with FUN_1027EF80 into the output",
+    "summary": "Returns the camera matrix the avatar uses for its view."
+  },
+  "0x1024F0B0": {
+    "name": "StAvatar_UpdateHeading",
+    "confidence": "low",
+    "evidence": "when the index at +0x24 is in range, moves the position at +0x88 towards the target from the table at DAT_103890F4 with a speed scaled by the argument, computes the heading with fpatan and calls FUN_1024E720; otherwise calls FUN_10250B10 with -1",
+    "summary": "Steers the avatar towards its target position and sets its heading."
+  },
+  "0x1024F2C0": {
+    "name": "StAvatar_ProjectNodes",
+    "confidence": "low",
+    "evidence": "reads the scene camera, transposes the two matrices at the context's +0x208 and +0x2EC, transforms the avatar's position and each of fifteen nodes with Mat4x4_TransformVec4 and records the nearest one at +0x20",
+    "summary": "Projects the avatar's nodes to screen space and finds the nearest."
+  },
+  "0x1024F5E0": {
+    "name": "StAvatar_UpdateSteer",
+    "confidence": "low",
+    "evidence": "reads the analog keys 4, 5 and 0x83, scales them by Camera_GetFrameScale and the table at DAT_10389438, updates the heading at +0x9C and the position at +0x88 and +0x90 clamped to 400, then calls StAvatar_ProjectNodes and FUN_10252EA0",
+    "summary": "Steers the avatar from the analog input and clamps its position."
+  },
+  "0x1024FC10": {
+    "name": "StAvatar_AdvanceTimers",
+    "confidence": "low",
+    "evidence": "when the count at +4 is at least 2, adds the scaled time to the value at +0x58 and clamps it by the bounds at +0x54 and +0x5C, then calls FUN_102511B0 on the entries whose index matches",
+    "summary": "Advances the avatar's timers and clamps them to their range."
+  },
+  "0x1024FEC0": {
+    "name": "StAvatar_ProcessTriggers",
+    "confidence": "medium",
+    "evidence": "walks four trigger entries at +0x160 and, for each entry with flag 2, calls FUN_10251410 and then StTrigger_ProcessOpcodesUpToTime on the trigger at +0x240 up to the entry's time, after sqopSystemActivate when the time moves backwards",
+    "summary": "Runs the avatar's trigger opcodes up to the current time."
+  },
+  "0x1024FF50": {
+    "name": "StAvatar_GetOffset",
+    "confidence": "low",
+    "evidence": "returns (0.1 times the value at +0x88, -2.0, negative 0.1 times the value at +0x90) when flag 0x20 is set; otherwise finds the object of kind 0xB0001 with a matching child and returns its negated offset",
+    "summary": "Returns the avatar's offset vector for the current pose."
+  },
+  "0x10250190": {
+    "name": "StAvatar_RenderIfEnabled",
+    "confidence": "low",
+    "evidence": "sets the time at +0x34 from FUN_10275090 and calls StAvatarRender only when the argument is nonzero; called by Dancer_WorldEnd",
+    "summary": "Records the frame time and renders the avatar when enabled."
+  },
+  "0x102502D0": {
+    "name": "StAvatar_UpdateNodes",
+    "confidence": "low",
+    "evidence": "for five node entries sets their positions from the table at PTR_DAT_1038930C scaled by 1.5 or 1.0 and calls FUN_102727F0; then sets the transform of the object at PTR_DAT_10389330 with sqxfXformTD_Update and the scale 4.0 or 2.5",
+    "summary": "Updates the avatar's five node positions and its transform."
+  },
+  "0x10250580": {
+    "name": "StAvatar_ResetChannels",
+    "confidence": "low",
+    "evidence": "returns -1 when the count at +4 is below 2; otherwise calls FUN_10251320 on the four entries at +0xF0 and the entries at +0x160, +0x198, +0x1D0 and +0x208 with a flag derived from the argument",
+    "summary": "Resets the avatar's channel entries."
+  },
+  "0x10250660": {
+    "name": "StAvatar_SetFlagBit",
+    "confidence": "low",
+    "evidence": "for an index from 0 to 14 toggles the bit 1 of the flag at DAT_103890E8 when the argument is -1, sets it when nonzero and clears it otherwise",
+    "summary": "Sets, clears or toggles one of the avatar's flag bits."
+  },
+  "0x10250800": {
+    "name": "StAvatar_Start",
+    "confidence": "low",
+    "evidence": "when flag 1 is set, calls FUN_102736D0 and FUN_102733B0 on the argument, resets the channels with StAvatar_ResetChannels and FUN_10250580, and sets the state at +0x1C, then assigns the pending entry at +0x3C; called by fn_1024DB60 and fn_10251750",
+    "summary": "Starts the avatar's pose with its channels reset."
+  },
+  "0x10250B10": {
+    "name": "StAvatar_SetLock",
+    "confidence": "low",
+    "evidence": "with argument -1 toggles flag 0x1000 and returns the given value; with a nonzero argument sets the flag and the value at +0x24, else clears the flag; calls FUN_102701B0 on the channel at +0x35 with the stored values",
+    "summary": "Locks or unlocks the avatar's channel with a target value."
+  },
+  "0x10250D80": {
+    "name": "StAvatar_InitIndices",
+    "confidence": "low",
+    "evidence": "returns -1 for a null pointer; otherwise sets the state word to 1 and the six following words to -1 or 0",
+    "summary": "Initialises an avatar's index block to its unset state."
+  }
+}

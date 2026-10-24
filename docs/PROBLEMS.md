@@ -174,6 +174,40 @@ The causes of the three FAILs have not been looked into yet.
 - **Needed for more:** the class from where the object is built (its constructor or allocation site), and names for
   the unnamed vtables. Both are larger analyses, not started.
 
+### P15. Naming sessions invented area words (22 Oct)
+- **Found:** 653 of the 1,739 names the four naming sessions wrote (and 2 of my own pilot's) begin with an area word
+  their batch's dossier never shows (`Crypt_` with no crypt anywhere in batch 031; `Pool_`, `Layout_`, `Ui_`).
+  The README rule against it reached the sessions after most batches were written.
+- **Done:** `check_names.py` now refuses such a prefix mechanically: it must be the batch's class, `Unit<address>`
+  or the batch's label, or whole CamelCase parts of a name the dossier shows (`StAvatar` from `StAvatarInit`).
+  `reprefix_names.py` applies the README's fallback (the batch's prefix) and keeps the session's name under
+  `invented_prefix_name`; `merge_names.py` runs it on every merge. Where two names then collide, or two sessions
+  gave one name to two functions, the entry is dropped (51): which one was meant is not known.
+- **Not known:** the words after the prefix are not checked mechanically; `low` names (most) describe code
+  mechanically by the README's own definition.
+
+### P16. How accurate the naming sessions are, measured (22 Oct)
+- **Method:** `pipeline/name_bench.py` builds the round-2 dossier for 100 functions whose names are known (23 PS2
+  symbols matched on a unique literal; 77 DancingMad names in the frame set), with every spelling of the known name
+  removed; the answer key is kept apart. Haiku and Sonnet each named all 100 under `batches/README.md`. A third
+  session judged each name against the true one, blind to the model: correct (same action and object), vague (true
+  but generic), partial, wrong. `pipeline/name_bench_score.py` scores word overlap.
+- **Result:**
+
+  | | correct | vague | partial | wrong | skipped |
+  |---|---|---|---|---|---|
+  | Haiku | 63 | 24 | 12 | 1 | 0 |
+  | Sonnet | 61 | 24 | 10 | 2 | 4 |
+
+  By confidence (both models): `high` 12 of 12 correct; `medium` 87 of 110 correct, 2 wrong; `low` mostly vague.
+- **Read:** the larger model does not name better. Wrong names are rare; the loss is vagueness, and it comes from
+  the dossier, not the model: a getter of `this+0x9C` cannot be named `SetWalkSpeed` without knowing the field.
+  The judge was lenient in places (`ResourceHandle_Deref` accepted for `GetFirstDwordOrZero`); "correct" is an
+  upper bound. DancingMad's names are a reference, not proven.
+- **Not a source of field names:** the PS2 DWARF types (2,758, with members) do not share the PC layouts
+  (`XiActor` 160 bytes on PS2, `CXiActor` 196 on PC), so their member names apply only where a matched function pair
+  shows the same field on both sides.
+
 ## Resolved
 
 ### R1. 0x100CD540 (`CXiSkeletonActor::SetMotion`) FAILed in the clean build only (22 Oct)

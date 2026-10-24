@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102999A0  (unit sqsdGlow: between 0x10299910 (name sqsdGlow_Dump) and 0x10299AB0 (name sqsdGlow_BakeOntoShape), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102999A0(int param_1, int param_2)
+XI_API undefined4 __cdecl SqsdGlow_ApplyShader(int param_1, int param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -22,7 +22,7 @@ XI_API undefined4 __cdecl fn_102999A0(int param_1, int param_2)
   local_1c[4] = 65536.0f;
   local_1c[5] = 4294969856.0f;
   local_1c[6] = 18446700093244440576.0f;
-  if ((*(int *)(param_1 + 0x60) != 0) && (iVar1 = orig::FUN_102a1fa0(param_2), iVar1 == 2)) {
+  if ((*(int *)(param_1 + 0x60) != 0) && (iVar1 = orig::Unit102A1F20_TestSeparationHalf(param_2), iVar1 == 2)) {
     return 0;
   }
   local_30 = *(uint32_t *)(param_1 + 0x5c);
@@ -37,7 +37,7 @@ XI_API undefined4 __cdecl fn_102999A0(int param_1, int param_2)
   local_24 = (float)(fVar3 * (long double)*(float *)(param_1 + 0x50));
   local_20 = (float)(fVar3 * (long double)*(float *)(param_1 + 0x54));
   local_1c[0] = (float)(long double)(int)local_30;
-  orig::FUN_10283970(&local_28);
+  orig::SqgxContext_SetViewportVec4(&local_28);
   uVar2 = orig::sqgxShader_v1(0x400000,0);
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(0xff)));
 }
@@ -51,16 +51,16 @@ XI_API int * __cdecl sqsdGlow_BakeOntoShape(int param_1, int * param_2)
   int *piVar3;
   
   if ((*param_2 != 0xa0009) || (piVar3 = param_2, param_2[0x14] == 0)) {
-    uVar1 = orig::FUN_102999a0(param_1,(int)param_2);
+    uVar1 = orig::SqsdGlow_ApplyShader(param_1,(int)param_2);
     if ((char)uVar1 == '\0') {
       return param_2;
     }
-    orig::FUN_1029b5c0();
+    orig::SqgxDlist_CreateContextList();
     orig::sqDrawableDraw_v1((int)param_2);
     puVar2 = orig::FUN_1029b620();
-    piVar3 =(int*)(orig::FUN_102a2000());
+    piVar3 =(int*)(orig::SqshDispList_Create());
     piVar3[0x11] = (int)puVar2;
-    orig::FUN_1028d9c0(piVar3 + 5,param_2 + 5);
+    orig::Unit1028D970_Copy(piVar3 + 5,param_2 + 5);
     orig::FUN_10285740((int *)&param_2);
   }
   return piVar3;

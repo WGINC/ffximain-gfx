@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x10244F20  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10244F20(void)
+XI_API void __cdecl LobbyThread_NoOp(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10244F30  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10244F30(void * self_)
+XI_API void * __thiscall LobbyThread_Construct(void * self_)
 {
   orig::FUN_10126320((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
@@ -41,7 +41,7 @@ XI_API undefined4 __cdecl LobbyThread_Start(undefined4 param_1)
     DAT_10669098 = (void *)0x0;
   }
   else {
-    DAT_10669098 = orig::FUN_10039440(self_);
+    DAT_10669098 = orig::CYyObject_Init(self_);
   }
   orig::ThreadPool_StartThread(DAT_10669098,&LAB_10245650,0,0);
   DAT_106690a4 = 0;
@@ -51,7 +51,7 @@ XI_API undefined4 __cdecl LobbyThread_Start(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10245B50  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10245B50(undefined4 param_1)
+XI_API undefined4 __cdecl LobbyThread_SetGlobal106690AC(undefined4 param_1)
 {
   _DAT_106690ac = param_1;
   return 0;
@@ -61,7 +61,7 @@ XI_API undefined4 __cdecl fn_10245B50(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Lobby_DestroyThreadPool(void)
 {
-  orig::FUN_10039550(DAT_10669098_as_v0);
+  orig::ThreadPool_Shutdown(DAT_10669098_as_v0);
   if ((DAT_106690a4_as_s32 != 0) && (DAT_10669098_as_v0 != (int *)0x0)) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10669098_as_v0 + 0x18))))((void *)(DAT_10669098_as_v0),1);
     DAT_10669098_as_v0 = (int *)0x0;
@@ -82,7 +82,7 @@ XI_API void __cdecl thunk_sub_10245BB0(void)
 XI_API void __cdecl fn_10245BB0(void)
 {
   if (g_pXiZone != (void *)0x0) {
-    orig::FUN_1018b620(g_pXiZone);
+    orig::XiZone_ResetState(g_pXiZone);
     orig::FUN_10014cb0();
     orig::FUN_1018b130();
     orig::CYyCamMng2_CreateGlobal();
@@ -104,7 +104,7 @@ XI_API undefined4 __cdecl fn_10245BE0(void)
 
 // FUNCTION: FFXIMAIN 0x10245F30  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10245F30(void * self_)
+XI_API undefined4 __thiscall LobbyThread_NextSequence(void * self_)
 {
   uint32_t uVar1;
   
@@ -118,7 +118,7 @@ XI_API undefined4 __thiscall fn_10245F30(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10246000  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10246000(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __stdcall LobbyThread_SendCmd0(undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
   
@@ -137,7 +137,7 @@ XI_API uint64_t __thiscall fn_10246030(void * self_, char * param_1, uint32_t pa
   uint8_t bVar5;
   uint64_t uVar6;
   
-  iVar1 = orig::FUN_10245f30(self_);
+  iVar1 = orig::LobbyThread_NextSequence(self_);
   bVar5 = true;
   iVar2 = 5;
   pcVar3 = param_1;
@@ -248,7 +248,7 @@ XI_API uint64_t __stdcall fn_10246160(undefined4 param_1, int param_2, int param
 
 // FUNCTION: FFXIMAIN 0x102462F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_102462F0(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API void __stdcall LobbyThread_SendCmd3(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   orig::FUN_1024c060(3,param_1,0,param_2 & 0x7f,param_3,0,0,0);
   return;
@@ -256,7 +256,7 @@ XI_API void __stdcall fn_102462F0(undefined4 param_1, uint32_t param_2, undefine
 
 // FUNCTION: FFXIMAIN 0x10246320  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10246320(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   uint64_t uVar1;
   
@@ -266,7 +266,7 @@ XI_API undefined4 __stdcall fn_10246320(undefined4 param_1, uint32_t param_2, un
 
 // FUNCTION: FFXIMAIN 0x102463C0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_102463C0(undefined4 param_1)
+XI_API void __stdcall LobbyThread_SendCmd6(undefined4 param_1)
 {
   orig::FUN_1024c060(6,param_1,0,0,0,0,0,0);
   return;
@@ -319,7 +319,7 @@ XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, un
       uVar3 = 0x400;
     }
     orig::FUN_1024c060(7,param_1,param_2 & 0x7f,param_3,0,0,0,0);
-    orig::operator_delete_10311BB0_v1(pcVar1);
+    orig::operator_delete_v1(pcVar1);
   }
   return uVar3;
 }
@@ -374,11 +374,11 @@ LAB_10246691:
         orig::FUN_10311f30(iVar4);
         orig::FUN_1024c060(7,piVar3,param_2 & 0x7f,param_3,0,0,0,0);
       }
-      orig::operator_delete_10311BB0_v1(piVar3);
+      orig::operator_delete_v1(piVar3);
       iVar6 = 0;
       do {
         if ((LPVOID)auStack_40[iVar6] != (LPVOID)0x0) {
-          orig::operator_delete_10311BB0_v1((LPVOID)auStack_40[iVar6]);
+          orig::operator_delete_v1((LPVOID)auStack_40[iVar6]);
         }
         iVar6 = iVar6 + 1;
       } while (iVar6 < 0x10);
@@ -389,7 +389,7 @@ LAB_10246691:
 
 // FUNCTION: FFXIMAIN 0x10246770  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10246770(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   orig::FUN_1024c060(8,param_1,param_2 & 0x7f,param_3,0,0,0,0);
   return;
@@ -397,7 +397,7 @@ XI_API void __stdcall fn_10246770(undefined4 param_1, uint32_t param_2, undefine
 
 // FUNCTION: FFXIMAIN 0x102467A0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_102467A0(undefined4 param_1, undefined4 param_2)
+XI_API void __stdcall LobbyThread_SendCmd9(undefined4 param_1, undefined4 param_2)
 {
   orig::FUN_1024c060(9,param_1,param_2,0,0,0,0,0);
   return;
@@ -405,7 +405,7 @@ XI_API void __stdcall fn_102467A0(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x102467F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __stdcall fn_102467F0(undefined4 param_1)
+XI_API uint64_t __stdcall LobbyThread_SendCmd11(undefined4 param_1)
 {
   uint64_t uVar1;
   
@@ -509,7 +509,7 @@ XI_API void * __thiscall fn_1024C210(void * self_)
   if (DAT_10669144 == (void *)0x0) {
     uVar3 = orig::Allocator_Generic_v1(0x14);
     if ((void *)uVar3 != (void *)0x0) {
-      DAT_10669144 = orig::FUN_1024c930((void *)uVar3);
+      DAT_10669144 = orig::LobbyThread_ConstructQueue((void *)uVar3);
       return self_;
     }
     DAT_10669144 = (void *)0x0;
@@ -519,7 +519,7 @@ XI_API void * __thiscall fn_1024C210(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1024C930  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1024C930(void * self_)
+XI_API void * __thiscall LobbyThread_ConstructQueue(void * self_)
 {
   orig::FUN_10126320((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
@@ -531,7 +531,7 @@ XI_API void * __thiscall fn_1024C930(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1024CF50  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1024CF50(_DWORD *a1)
+XI_API int __cdecl StAvatarInit(_DWORD *a1)
 {
   int v2;
   int *v3;
@@ -570,14 +570,14 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
   a1[29] = 0;
   orig::PackVec4((int)(a1 + 34), 0.0, 0, 1101004800, 1065353216);
   orig::PackVec4((int)(a1 + 38), 0.0, 0, 0, 1065353216);
-  orig::sub_102738D0(a1 + 160);
+  orig::Unit10273840_InitRecord(a1 + 160);
   orig::sub_102524B0(a1 + 42);
   orig::sub_102524B0(a1 + 51);
   v2 = 0;
   v3 = a1 + 62;
   do
   {
-    orig::sub_10250D80(v3 - 2);
+    orig::StAvatar_InitIndices(v3 - 2);
     v4 = -1 - (v2++ & 1);
     *v3 = v4;
     v3 += 7;
@@ -588,12 +588,12 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
   for ( i = 4; i != 0; --i )
   {
     *v6 = 0;
-    orig::sub_10250D80(v5 - 28);
-    orig::sub_10250D80(v5);
+    orig::StAvatar_InitIndices(v5 - 28);
+    orig::StAvatar_InitIndices(v5);
     ++v6;
     v5 += 7;
   }
-  orig::sub_10252C80(a1 + 144);
+  orig::Unit10252A00_Init(a1 + 144);
   if ( g_stateBlock_914C == 0 )
   {
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DSBT_ALL, &g_stateBlock_914C);
@@ -603,8 +603,8 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
     return -1;
   if ( g_stateBlock_914C != 0 )
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->EndStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_stateBlock_914C);
-  orig::sub_10271C60(1, 64);
-  orig::sub_10271C80(0, 64);
+  orig::StAvatar_SetSceneValue1(1, 64);
+  orig::StAvatar_SetSceneValue2(0, 64);
   orig::sub_1024D130();
   if ( orig::sub_1026E400() != 0 )
   {
@@ -613,7 +613,7 @@ XI_API int __cdecl fn_1024CF50(_DWORD *a1)
   }
   else
   {
-    orig::sub_1026E460(8, 8);
+    orig::StAvatar_AllocArrays(8, 8);
     return 0;
   }
 }
@@ -626,11 +626,11 @@ XI_API void __cdecl fn_1024D130(void)
   
   iVar1 = 0;
   do {
-    orig::FUN_10272880(iVar1,(int)(&PTR_DAT_1038930c)[iVar1],(int)(&PTR_DAT_10389320)[iVar1]);
-    orig::FUN_10272750(iVar1,*(int *)(PTR_DAT_10389304 + iVar1 * 4));
-    orig::FUN_10272630(iVar1,*(int *)(PTR_DAT_10389308 + iVar1 * 4));
+    orig::StAvatar_SetEntryTransform(iVar1,(int)(&PTR_DAT_1038930c)[iVar1],(int)(&PTR_DAT_10389320)[iVar1]);
+    orig::StAvatar_SetEntryFlag2(iVar1,*(int *)(PTR_DAT_10389304 + iVar1 * 4));
+    orig::StAvatar_SetEntryFlag(iVar1,*(int *)(PTR_DAT_10389308 + iVar1 * 4));
     iVar1 = iVar1 + 1;
   } while (iVar1 < 5);
-  orig::FUN_102729e0(1);
+  orig::StAvatar_ToggleFlag168(1);
   return;
 }

@@ -1,0 +1,20 @@
+{
+  "0x102AA2D0": {
+    "name": "SqshTriStrip_Create",
+    "confidence": "medium",
+    "evidence": "allocates a 0x60-byte object through FUN_10275D40 with the file name s_C__dev_dancer_modules_sqShape_sr and initialises it with SqshTriStrip_Init; called by sub_10299C30, sub_102ABFC0 and sub_102AC110",
+    "summary": "Creates a sqshTriStrip object."
+  },
+  "0x102AA2F0": {
+    "name": "SqshTriStrip_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word 0xA0009 and the vtable entries, initialises the member at +0x14 with FUN_1028D9A0 and clears the fields from +0x34 to +0x5C; called by SqshTriStrip_Create",
+    "summary": "Initialises a sqshTriStrip object."
+  },
+  "0x102ABEB0": {
+    "name": "SqshTriStrip_GetGlobal",
+    "confidence": "low",
+    "evidence": "returns the dword at DAT_109AAAC0 and nothing else; called by sub_10299C30",
+    "summary": "Returns the value of a global shape-strip setting."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "0x101C59B0": {
+    "name": "Unit1018BA60_AllocEntries",
+    "confidence": "medium",
+    "evidence": "stores the count at +8, allocates count times 16 bytes with Allocator_Generic into the pointer at +0 and zeroes each 16-byte entry; called by fn_10156E00, fn_101C5920, fn_101C5930 and fn_102271D0",
+    "summary": "Allocates a zeroed array of 16-byte entries.",
+    "invented_prefix_name": "Buf_AllocEntries"
+  }
+}

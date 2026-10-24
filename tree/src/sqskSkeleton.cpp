@@ -4,25 +4,25 @@
 
 // FUNCTION: FFXIMAIN 0x1027B580  (unit sqskSkeleton: asserts sqskSkeleton.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_1027B580(void)
+XI_API undefined4 * __cdecl SqskSkeleton_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0x30,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x1d);
-  orig::FUN_1027b5a0(puVar1);
+  orig::SqskSkeleton_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1027B5A0  (unit sqskSkeleton: between 0x1027B580 (asserts sqskSkeleton.c) and 0x1027B5E0 (asserts sqskSkeleton.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027B5A0(undefined4 * param_1)
+XI_API void __cdecl SqskSkeleton_Init(undefined4 * param_1)
 {
   *param_1 = 0xb0001;
   param_1[2] = &LAB_1027b5e0;
   param_1[3] = XI_CODE(FUN_1027b610);
   param_1[4] = &LAB_1027b650;
   *(uint8_t *)(param_1 + 5) = 0xff;
-  param_1[6] = XI_CODE(FUN_1027c9d0);
+  param_1[6] = XI_CODE(SqskSkeleton_Release);
   param_1[7] = 0;
   param_1[8] = 0;
   param_1[9] = 0;
@@ -33,7 +33,7 @@ XI_API void __cdecl fn_1027B5A0(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027C4C0  (unit sqskSkeleton: asserts sqskSkeleton.c)
 // GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
+XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2)
 {
   undefined4 *puVar1;
   int iVar2;
@@ -55,9 +55,9 @@ XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
   }
   if (0 < param_2) {
     *(int *)(param_1 + 0x28) = param_2;
-    puVar1 = orig::FUN_10275d40(param_2,0xf8,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x270);
+    puVar1 = orig::SqMem_AllocZeroed(param_2,0xf8,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x270);
     *(undefined4 **)(param_1 + 0x20) = puVar1;
-    puVar1 = orig::FUN_10275d40(*(int *)(param_1 + 0x28),0x9c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,
+    puVar1 = orig::SqMem_AllocZeroed(*(int *)(param_1 + 0x28),0x9c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,
                           0x271);
     *(undefined4 **)(param_1 + 0x24) = puVar1;
     iVar2 = 0;
@@ -65,8 +65,8 @@ XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
       iVar4 = 0;
       iVar3 = 0;
       do {
-        orig::FUN_10291ba0((undefined4 *)(*(int *)(param_1 + 0x20) + iVar4));
-        orig::FUN_10291390((undefined4 *)(*(int *)(param_1 + 0x24) + iVar3));
+        orig::SqhiNode_Init((undefined4 *)(*(int *)(param_1 + 0x20) + iVar4));
+        orig::SqskJoint_Init((undefined4 *)(*(int *)(param_1 + 0x24) + iVar3));
         *(int *)(*(int *)(param_1 + 0x20) + 100 + iVar4) = *(int *)(param_1 + 0x24) + iVar3;
         iVar2 = iVar2 + 1;
         iVar3 = iVar3 + 0x9c;
@@ -82,7 +82,7 @@ XI_API void __cdecl fn_1027C4C0(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x1027C980  (unit sqskSkeleton: asserts sqskSkeleton.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1027C980(int param_1, int param_2)
+XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2)
 {
   if ((-1 < param_2) && (param_2 < *(int *)(param_1 + 0x28))) {
     return *(int *)(param_1 + 0x20) + param_2 * 0xf8;
@@ -95,7 +95,7 @@ XI_API int __cdecl fn_1027C980(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x1027C9D0  (unit sqskSkeleton: between 0x1027C980 (asserts sqskSkeleton.c) and 0x1027CC70 (name sqskSkeleton_CountAnimChannels), both within 4 KB)
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027C9D0(int param_1)
+XI_API void __cdecl SqskSkeleton_Release(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {
                     /* WARNING: Could not recover jumptable at 0x1027c9df. Too many branches */

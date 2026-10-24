@@ -1,0 +1,38 @@
+{
+  "0x1027DB80": {
+    "name": "Chn_ReleaseRefs",
+    "confidence": "low",
+    "evidence": "releases the sub-objects at this+0xBC, +0xB8 and (unless flag 0x200 is set) +0xB4 through FUN_10285740",
+    "summary": "Releases the channel's referenced sub-objects."
+  },
+  "0x1027DCC0": {
+    "name": "Chn_RegisterItem",
+    "confidence": "medium",
+    "evidence": "copies the name \"chnItemRegister\" into the record at +4 (up to 0x7F bytes), stores the item's values at +0xA4, +0xA8, +0xB4, +0xB8, derives the step at +0xB0 from the item's length, and sets flag 0x10 at +0",
+    "summary": "Registers a channel item and fills its record."
+  },
+  "0x1027DD70": {
+    "name": "Chn_ForwardIfFlag2",
+    "confidence": "low",
+    "evidence": "when flag 0x2 of the first dword is set, calls FUN_1027dd90 with the second argument",
+    "summary": "Forwards to a handler when the channel's flag 2 is set."
+  },
+  "0x1027DF70": {
+    "name": "Chn_GetSubIndex",
+    "confidence": "low",
+    "evidence": "returns the int at the object at +0xB4's +0x24 when its type dword is 0x50001 or 0x50003, otherwise -1",
+    "summary": "Returns the sub-index of a typed object, or -1."
+  },
+  "0x1027E060": {
+    "name": "Chn_InitDefaults",
+    "confidence": "low",
+    "evidence": "sets the dwords at +0, +4, +0xC, +0x10..+0x1C and +0x60..+0x64 to 1, 1.0f, 0, 1/3 (0x3EAAAAAB) and 0, then calls FUN_1028d6f0 on +0x20",
+    "summary": "Sets the channel's default values."
+  },
+  "0x1027E0D0": {
+    "name": "Chn_ReleaseIfSet",
+    "confidence": "low",
+    "evidence": "when the dword at +0x1C is non-zero, calls FUN_1027e3b0 on the object",
+    "summary": "Releases the channel's +0x1C resource when it is set."
+  }
+}

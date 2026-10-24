@@ -1,0 +1,74 @@
+{
+  "0x10244F20": {
+    "name": "LobbyThread_NoOp",
+    "confidence": "low",
+    "evidence": "body is a bare return",
+    "summary": "Does nothing."
+  },
+  "0x10244F30": {
+    "name": "LobbyThread_Construct",
+    "confidence": "medium",
+    "evidence": "calls FUN_10126320 on self+4, sets the word at +0xE to 0xFFFF, the dword at +8 to 0, the byte at +0xC to 1, sets the vtable to PTR_FUN_1033CBE0 and calls FUN_10245040",
+    "summary": "Constructs the lobby-thread object and sets its vtable and defaults."
+  },
+  "0x10245B50": {
+    "name": "LobbyThread_SetGlobal106690AC",
+    "confidence": "low",
+    "evidence": "stores the argument in _DAT_106690AC and returns 0",
+    "summary": "Stores a value in the global at DAT_106690AC."
+  },
+  "0x10245F30": {
+    "name": "LobbyThread_NextSequence",
+    "confidence": "medium",
+    "evidence": "increments the dword at +8 with a 31-bit mask, resets it to 1 when it wraps to 0, and returns it",
+    "summary": "Advances the thread's sequence number, skipping zero."
+  },
+  "0x10246000": {
+    "name": "LobbyThread_SendCmd0",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 0 and the two arguments",
+    "summary": "Sends command 0 to the lobby thread and returns its result."
+  },
+  "0x102462F0": {
+    "name": "LobbyThread_SendCmd3",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 3, the first argument, the second argument masked to 0x7F and the third argument",
+    "summary": "Sends command 3 to the lobby thread."
+  },
+  "0x10246320": {
+    "name": "LobbyThread_SendCmd4",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 4, the first argument, the second argument masked to 0x7F and the third argument, and returns the result",
+    "summary": "Sends command 4 to the lobby thread and returns its result."
+  },
+  "0x102463C0": {
+    "name": "LobbyThread_SendCmd6",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 6 and the argument",
+    "summary": "Sends command 6 to the lobby thread."
+  },
+  "0x10246770": {
+    "name": "LobbyThread_SendCmd8",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 8, the second argument masked to 0x7F, and the first and third arguments",
+    "summary": "Sends command 8 to the lobby thread."
+  },
+  "0x102467A0": {
+    "name": "LobbyThread_SendCmd9",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 9 and the two arguments",
+    "summary": "Sends command 9 to the lobby thread."
+  },
+  "0x102467F0": {
+    "name": "LobbyThread_SendCmd11",
+    "confidence": "low",
+    "evidence": "calls FUN_1024C060 with command 0xB and the argument and returns the result",
+    "summary": "Sends command 0xB to the lobby thread and returns its result."
+  },
+  "0x1024C930": {
+    "name": "LobbyThread_ConstructQueue",
+    "confidence": "medium",
+    "evidence": "calls FUN_10126320 on self+4, sets the word at +0xE to 0xFFFF, the dword at +8 to 0, the byte at +0xC to 1 and the vtable to PTR_FUN_1033CCF0",
+    "summary": "Constructs the lobby message queue and sets its vtable and defaults."
+  }
+}

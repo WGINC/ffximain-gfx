@@ -3,7 +3,7 @@
 
 // FUNCTION: FFXIMAIN 0x101771B0  (unit unit_10177070: no unit evidence of its own; in the gap between 0x10177050 (CMoResource_VT_103366F0) and 0x101773C0 (CTsZoneMap) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 246 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_101771B0(int a1, int a2)
+XI_API int __stdcall Gfx_CompileVertexShader(int a1, int a2)
 {
   int v2;
   IDirect3DDevice8 *pDevice;
@@ -29,7 +29,7 @@ XI_API int __stdcall fn_101771B0(int a1, int a2)
 
 // FUNCTION: FFXIMAIN 0x101772E0  (unit unit_10177070: no unit evidence of its own; in the gap between 0x10177050 (CMoResource_VT_103366F0) and 0x101773C0 (CTsZoneMap) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 261 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_101772E0(const char **self_, int a2)
+XI_API int __thiscall Gfx_CompilePixelShader(const char **self_, int a2)
 {
   char *Text;
   int result;

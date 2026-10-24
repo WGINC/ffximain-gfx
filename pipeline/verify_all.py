@@ -20,7 +20,7 @@ committed result against the code directly. Nothing is taken from an earlier run
     FFXI_DLL=... [LIVE="town=... ..."] python3 pipeline/verify_all.py [--quick] [--jobs N]
 Writes verification/verify_all.json; exits 1 if any check fails.
 """
-import filecmp, hashlib, json, os, shutil, subprocess, sys, tempfile, collections
+import filecmp, glob, hashlib, json, os, shutil, subprocess, sys, tempfile, collections
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(P); D = os.path.join(ROOT, 'data')
 V = os.path.join(ROOT, 'verification'); EXP = os.path.join(D, 'exports', 'gfx_export.jsonl')
 DLL = os.environ['FFXI_DLL']
@@ -120,12 +120,15 @@ def main():
     # (eax_kept_sites.json) must call it through a wrapper that passes EAX
     kept = {(int(v['caller'], 16), int(v['callee'], 16)) for v in load(os.path.join(D, 'eax_kept_sites.json')).values()}
     by_name = {name: a for a, (name, cc) in wr.items()}
+    # unless the clean gate runs that call as the game does (gate_sees_eax.py): its verdict then judges it
+    sys.path.insert(0, P); import gate_sees_eax
+    gcases = gate_sees_eax.load_cases(os.path.join(V, 'cases_clean_final.json'))
     for fn in sorted(os.listdir(os.path.join(ROOT, 'tree', 'src'))):
         for part in _re.split(r'(?m)^(?=// FUNCTION: FFXIMAIN )', open(os.path.join(ROOT, 'tree', 'src', fn)).read())[1:]:
             cea = int(part.split()[3], 16)
             for name in set(_re.findall(r'\borig::(\w+)\(', part)):
                 a = by_name.get(name)
-                if a is not None and (cea, a) in kept and 'EAX' not in given[a]:
+                if a is not None and (cea, a) in kept and 'EAX' not in given[a] and not gate_sees_eax.seen(gcases, cea, a):
                     bad.append('0x%08X calls %s (0x%08X) without EAX, and reads back what it hands back (eax_kept_sites.json)' % (cea, name, a))
     report('wrapper-regs', not bad, wrappers=len(wr), reads_a_register_it_is_not_given=bad, via_a_callee=via)
 
@@ -151,13 +154,17 @@ def main():
     report('export-sp', not any(r['unexplained'] for r in audit.values()),
            ida_wrong=sorted(audit), unexplained=[r['unexplained'] for r in audit.values() if r['unexplained']])
     sys.path.insert(0, P); import hx_patches
-    recs = {json.loads(l)['ea']: json.loads(l) for l in open(EXP)}
+    # every committed export's record of the address: the IDA export, and the Ghidra exports a patch may be written
+    # against (hx_patches applies to a Ghidra record whose text it carries the sha1 of)
+    recs = collections.defaultdict(list)
+    for ef in [EXP] + sorted(glob.glob(os.path.join(D, 'exports', 'ghidra_*.jsonl'))):
+        for l in open(ef): r_ = json.loads(l); recs[r_['ea']].append(r_)
     stale, noev = [], []
     for fn in sorted(os.listdir(os.path.join(D, 'hx_patches'))):
-        p = load(os.path.join(D, 'hx_patches', fn)); ea = int(fn[:-5], 16); r = recs.get(ea)
+        p = load(os.path.join(D, 'hx_patches', fn)); ea = int(fn[:-5], 16)
         if not (p.get('why') and p.get('evidence')): noev.append(fn)
-        v = hx_patches.variant(p, r['text']) if r is not None else None
-        if v is None or any(r['text'].count(o) != 1 for o, _ in v['replace']): stale.append(fn)
+        fits = [(r, v) for r in recs.get(ea, []) for v in [hx_patches.variant(p, r['text'])] if v is not None]
+        if not fits or any(r['text'].count(o) != 1 for r, v in fits for o, _ in v['replace']): stale.append(fn)
     report('hx_patches', not stale and not noev, patches=len(os.listdir(os.path.join(D, 'hx_patches'))), stale=stale, without_evidence=noev)
     tf = load(os.path.join(D, 'type_fixes.json')); items = tf.items() if isinstance(tf, dict) else enumerate(tf)
     noev = [k for k, v in items if not k.startswith('_') and isinstance(v, dict) and not (v.get('evidence') or v.get('why'))] if isinstance(tf, dict) else []

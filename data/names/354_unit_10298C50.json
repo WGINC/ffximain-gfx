@@ -1,0 +1,14 @@
+{
+  "0x10298C50": {
+    "name": "Texture_BindFromObject",
+    "confidence": "medium",
+    "evidence": "when the argument is non-null, sets the texture from the dword at +0x14 and the palette from the dword at +0x18; otherwise sets both to -1",
+    "summary": "Binds the texture and palette stored in an object, or clears both when it is null."
+  },
+  "0x10298E10": {
+    "name": "Texture_CreateEntry",
+    "confidence": "low",
+    "evidence": "allocates two objects with FUN_102984B0 and FUN_10298B30, creates a third with FUN_1029C260, links them, sets the entry's fields at +0x1C, +0x20 and +0x24 to the argument and 4, and when the flag at DAT_103BBDE0 is set calls sqgxTextureAdd_v1 and stores the result at +0x14 of the second object; then sets bit 4 of its flags at +0x20",
+    "summary": "Creates a texture entry and links it to its helper objects."
+  }
+}

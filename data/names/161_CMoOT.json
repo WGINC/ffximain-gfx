@@ -1,0 +1,8 @@
+{
+  "0x100552A0": {
+    "name": "CMoOT_Constructor",
+    "confidence": "medium",
+    "evidence": "sets the CMoOT vtable at this and calls the base constructor FUN_100552F0; called by fn_100555D0",
+    "summary": "Constructs a CMoOT object and sets its vtable."
+  }
+}

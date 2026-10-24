@@ -22,14 +22,14 @@ XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param
     puVar2[3] = uVar4;
     if (-1 < (int)uVar4) {
       *puVar2 = *puVar2 | 0x10;
-      orig::FUN_1026f9a0(uVar4,0x200,1);
+      orig::Mdl_UpdateEntryFlags(uVar4,0x200,1);
       if (param_2 < 0) {
         orig::FUN_1026f080(puVar2[2],puVar2[3],0);
       }
       else {
         orig::FUN_1026efb0(puVar2[3],param_2);
       }
-      orig::FUN_1026f4f0((int *)&param_1,(int *)0x0);
+      orig::Mdl_GetEntryTable((int *)&param_1,(int *)0x0);
       puVar3 = param_1;
       uVar4 = puVar2[3];
       param_1[uVar4 * 0x30 + 0x28] = 0x3f800000;
@@ -51,7 +51,7 @@ XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param
 
 // FUNCTION: FFXIMAIN 0x10251160  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10251160(uint32_t * param_1)
+XI_API undefined4 __cdecl StChannel_ClearFlags(uint32_t * param_1)
 {
   param_1[3] = 0xffffffff;
   *param_1 = *param_1 & 0xffffffed;
@@ -60,7 +60,7 @@ XI_API undefined4 __cdecl fn_10251160(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10251180  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10251180(uint32_t * param_1)
+XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
 {
   uint32_t uVar1;
   
@@ -75,7 +75,7 @@ XI_API undefined4 __cdecl fn_10251180(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x102511B0  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102511B0(uint8_t * param_1, float param_2)
+XI_API undefined4 __cdecl StChannel_SetValue9C(uint8_t * param_1, float param_2)
 {
   int iVar1;
   uint8_t *pbVar2;
@@ -84,7 +84,7 @@ XI_API undefined4 __cdecl fn_102511B0(uint8_t * param_1, float param_2)
   
   pbVar2 = param_1;
   if ((*param_1 & 1) != 0) {
-    orig::FUN_1026f4f0(&local_4,(int *)&param_1);
+    orig::Mdl_GetEntryTable(&local_4,(int *)&param_1);
     iVar1 = *(int *)(pbVar2 + 0xc);
     if ((-1 < iVar1) && (iVar1 < (int)param_1)) {
       *(float *)(iVar1 * 0xc0 + 0x9c + local_4) = (float)(long double)param_2;
@@ -103,16 +103,16 @@ XI_API undefined4 __cdecl fn_10251200(uint8_t * param_1, undefined4 param_2, int
   
   pbVar1 = param_1;
   if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 0x10) != 0)) {
-    orig::FUN_1026f4f0((int *)&param_1,(int *)0x0);
+    orig::Mdl_GetEntryTable((int *)&param_1,(int *)0x0);
     puVar3 = (uint32_t *)(param_1 + *(int *)(pbVar1 + 0xc) * 0xc0);
     if ((*puVar3 & 2) == 0) {
       *puVar3 = *puVar3 | 2;
-      orig::FUN_1027dd70((uint8_t *)puVar3,param_2);
+      orig::Chn_ForwardIfFlag2((uint8_t *)puVar3,param_2);
       if ((param_3 == 0) && (puVar3[0x2f] != 0)) {
-        uVar2 = orig::FUN_102857d0(puVar3[0x2f]);
+        uVar2 = orig::Unit102857D0_GetFlagByte14(puVar3[0x2f]);
         if ((char)uVar2 == '\0') {
           orig::FUN_102857e0(puVar3[0x2f],1,uVar2);
-          uVar2 = orig::FUN_102857f0(puVar3[0x2f]);
+          uVar2 = orig::Unit102857D0_InvokeCallback18(puVar3[0x2f]);
           orig::FUN_102857e0(puVar3[0x2f],0,uVar2);
         }
       }

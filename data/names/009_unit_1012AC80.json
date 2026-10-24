@@ -1,0 +1,128 @@
+{
+  "0x101578D0": {
+    "name": "Target_GetFlag82",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0x82 and nothing else",
+    "summary": "Returns the byte at offset 0x82 of the target record."
+  },
+  "0x101578E0": {
+    "name": "Target_GetFlag83",
+    "confidence": "low",
+    "evidence": "returns the byte at this+0x83 and nothing else",
+    "summary": "Returns the byte at offset 0x83 of the target record."
+  },
+  "0x101578F0": {
+    "name": "Target_Reset",
+    "confidence": "medium",
+    "evidence": "zeroes about 50 fields of the record (+0x50..+0xC0, +0x60 set to -1) and calls FUN_10159740 on this and on this+0x28; called by fn_101575E0 and fn_10093B70",
+    "summary": "Resets the target record and its two sub-records to their initial state."
+  },
+  "0x101579C0": {
+    "name": "Target_Update",
+    "confidence": "medium",
+    "evidence": "called by Frame_Render; reads the scene state byte at 0x10456A28 (0x40 clears, 0x60 selects) and calls the target choosers FUN_10157660, FUN_10158480, FUN_101581E0 and FUN_101582F0/FUN_101583F0",
+    "summary": "Per-frame update of the target selection, by scene state."
+  },
+  "0x10157B40": {
+    "name": "Target_Select",
+    "confidence": "medium",
+    "evidence": "param_1 is the actor to select; it clears the old selection flag (+0x88 bit 2), sets the new one, calls FUN_101590C0 with the actor, and calls FUN_10203520 on the result",
+    "summary": "Makes an actor the current target, moving the selection flag from the previous target."
+  },
+  "0x10157C60": {
+    "name": "Target_SelectByIndex",
+    "confidence": "medium",
+    "evidence": "validates the index with FUN_10159E10, takes the actor from the ActerBuffPtr table at that index, and passes its +0xA0 pointer to Target_Select",
+    "summary": "Selects the actor at an index in the actor table as the target."
+  },
+  "0x10157D60": {
+    "name": "Target_FindCandidate",
+    "confidence": "low",
+    "evidence": "walks the actor table (0x901 entries) and returns the first entry whose +0x120/+0x130/+0x128/+0x170 bits pass a fixed test against the target actor's +0x70 owner at +0x78",
+    "summary": "Returns the first actor in the table that passes the candidate test for the target."
+  },
+  "0x10158470": {
+    "name": "Target_HasActor",
+    "confidence": "medium",
+    "evidence": "returns 1 iff FUN_10158550 returns a nonzero actor",
+    "summary": "Tests whether there is a current target actor."
+  },
+  "0x10158510": {
+    "name": "Target_SendAttackOff",
+    "confidence": "medium",
+    "evidence": "when the target actor's owner has bit 7 of +0x130 set, calls CommandCalc with the constant string s__attackoff_1036f5d4",
+    "summary": "Sends the attackoff command for the current target when its owner flags require it."
+  },
+  "0x10158550": {
+    "name": "Target_GetActor",
+    "confidence": "medium",
+    "evidence": "returns the actor from FUN_101597F0 when this+0x21 is 1, else only when FUN_10159E10 accepts it",
+    "summary": "Returns the current target actor, if it is valid."
+  },
+  "0x10158590": {
+    "name": "Target_Clear",
+    "confidence": "medium",
+    "evidence": "clears bit 2 of +0x88 on the current actor, calls FUN_10159740 on this, FUN_10157780 and FUN_10157860 with zero, and clears +0x58 of g_pTargetMng",
+    "summary": "Clears the current target and its selection flag."
+  },
+  "0x10158FF0": {
+    "name": "Target_ClearAll",
+    "confidence": "medium",
+    "evidence": "when this+0x6A is below 1, calls FUN_101590C0 with null and Target_Clear; clears +0xC4 and calls the callback at +0xC8 with 0,0",
+    "summary": "Clears the target, its display and its callback."
+  },
+  "0x101590C0": {
+    "name": "Target_SetDisplayName",
+    "confidence": "medium",
+    "evidence": "sets the name shown on DAT_10578478 with FUN_10150A30 (from the actor's vtable name) or FUN_10150A60 (by id), or clears it when the argument is null; opens s_menu_targetwi_1035bad8 when the control reports not open",
+    "summary": "Sets or clears the target name shown on the target window."
+  },
+  "0x101591D0": {
+    "name": "Target_IsUsable",
+    "confidence": "low",
+    "evidence": "returns 1 when the actor at this+0x8 passes FUN_10158470 and the flag tests at +0x1d0 (against this+0x60) or FUN_101CC220 and FUN_101CC1D0 pass",
+    "summary": "Tests whether the current target is usable under its flags."
+  },
+  "0x101594D0": {
+    "name": "Target_SetHandlerCc",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0xCC and nothing else",
+    "summary": "Stores a callback pointer at offset 0xCC of the target record."
+  },
+  "0x101594E0": {
+    "name": "Target_SetHandlerC8",
+    "confidence": "low",
+    "evidence": "stores its argument at this+0xC8 and nothing else",
+    "summary": "Stores a callback pointer at offset 0xC8 of the target record."
+  },
+  "0x101594F0": {
+    "name": "Target_ReleaseSelection",
+    "confidence": "medium",
+    "evidence": "calls the callback at +0xC8 with (0,0), clears +0xC8, +0xC4 and +0xD0, then calls FUN_10159040",
+    "summary": "Releases the current selection through its callback and clears its state."
+  },
+  "0x10159420": {
+    "name": "Target_DispatchByIndex",
+    "confidence": "low",
+    "evidence": "calls the function pointer in the table at DAT_10578770 indexed by its first argument, if set",
+    "summary": "Calls a handler from a table by index."
+  },
+  "0x101595D0": {
+    "name": "Target_CanTarget",
+    "confidence": "low",
+    "evidence": "returns flag 0x2000 at +0x120 of the actor at this+8, else the result of FUN_1008E8D0 on it",
+    "summary": "Tests whether the target's actor can be targeted."
+  },
+  "0x10159660": {
+    "name": "Target_SetActor",
+    "confidence": "medium",
+    "evidence": "param_1 is an actor; when its owner's type at +0x78 is 0x1000000 it marks this record and stores the actor at +0xC; otherwise it checks FUN_10082FA0 and sets the record from the actor's +0x78 and +0x74 fields",
+    "summary": "Sets the target record from an actor and returns whether it took it."
+  },
+  "0x10159740": {
+    "name": "Target_ResetRecord",
+    "confidence": "medium",
+    "evidence": "sets byte +7 to 4, zeroes the dwords at +0, +8, +0xC, +0x10, +0x14, +0x18, sets +0x1C to 1.0f and clears the bytes at +0x20, +0x21, +0x22 and +0x24",
+    "summary": "Resets a target sub-record to its initial values."
+  }
+}

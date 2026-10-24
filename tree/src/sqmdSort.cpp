@@ -4,18 +4,18 @@
 
 // FUNCTION: FFXIMAIN 0x1029B100  (unit sqmdSort: asserts sqmdSort.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_1029B100(void)
+XI_API undefined4 * __cdecl SqmdSort_Create(void)
 {
   undefined4 *puVar1;
   
   puVar1 = orig::FUN_10275d80(1,0x3c,s_C__dev_dancer_modules_sqModel_sr_103bc66c,0x1d);
-  orig::FUN_1029b120(puVar1);
+  orig::SqmdSort_Init(puVar1);
   return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1029B120  (unit sqmdSort: between 0x1029B100 (asserts sqmdSort.c) and 0x1029B1A0 (asserts sqmdSort.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029B120(undefined4 * param_1)
+XI_API void __cdecl SqmdSort_Init(undefined4 * param_1)
 {
   *param_1 = 0x1c0003;
   param_1[2] = &LAB_1029b170;

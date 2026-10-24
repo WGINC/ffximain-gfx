@@ -9,6 +9,7 @@ public:
     int * vf18();  // 0x1003EB30
     static char ** __cdecl GetRuntimeClass_variant1();  // 0x1003EE50
     static char ** __cdecl GetRuntimeClass_variant2();  // 0x1003EF00
+    static undefined8 __thiscall Init(void * self);  // 0x10052C90
     int * ScalarDeletingDtor(char a2);  // 0x10052CB0
 
     void **vftable;  // +0x0

@@ -6,14 +6,14 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1)
 {
-  orig::FUN_10289f50(param_1);
+  orig::SqxfXformM_Init(param_1);
   *param_1 = 0xc0003;
   param_1[2] = &LAB_1026df80;
   param_1[3] = XI_CODE(FUN_1026df90);
   param_1[4] = &sqxfXformTD_Print;
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = XI_CODE(sqxfXformTD_Update_v1);
-  orig::FUN_10274640(param_1 + 0x17);
+  orig::Unit10274050_ZeroDwords(param_1 + 0x17);
   orig::thunk_FUN_1027ae50(param_1 + 0x1a);
   param_1[0x1e] = 0x3f800000;
   return;
@@ -34,7 +34,7 @@ XI_API void __cdecl sqxfXformTD_Update(int param_1)
   uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 32);
   
-  orig::FUN_1027a9d0(&local_24,(float *)(param_1 + 0x68));
+  orig::Unit1027A4B0_ToMatrix3(&local_24,(float *)(param_1 + 0x68));
   *(uint32_t *)(param_1 + 0x20) = local_20;
   *(float *)(param_1 + 0x1c) = local_24;
   *(float *)(param_1 + 0x24) = local_1c;

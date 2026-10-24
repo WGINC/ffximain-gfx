@@ -34120,7 +34120,7 @@
 "stk_ida": 24
 },
 "kinds": {
-"f32": 3
+"f32": 4
 },
 "deref": {},
 "verdict": "not_integer"
@@ -34150,9 +34150,9 @@
 },
 "kinds": {
 "addr": 23,
-"mov": 30,
+"mov": 31,
 "i32": 1,
-"f32": 9
+"f32": 12
 },
 "deref": {
 "sext@52": 2
@@ -34185,7 +34185,7 @@
 "kinds": {
 "mov": 12,
 "addr": 12,
-"f32": 1
+"f32": 9
 },
 "deref": {},
 "verdict": "not_integer"
@@ -34216,7 +34216,7 @@
 "mov": 26,
 "addr": 7,
 "i32": 6,
-"f32": 7,
+"f32": 9,
 "i64": 3
 },
 "deref": {},
@@ -34271,9 +34271,9 @@
 "stk_ida": 88
 },
 "kinds": {
-"mov": 10,
+"mov": 14,
 "addr": 6,
-"f32": 1
+"f32": 5
 },
 "deref": {},
 "verdict": "not_integer"
@@ -48132,7 +48132,9 @@
 "stk_vd": 8,
 "stk_ida": 0
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -48144,7 +48146,9 @@
 "stk_vd": 12,
 "stk_ida": 4
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -48207,7 +48211,9 @@
 "stk_vd": 32,
 "stk_ida": 24
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48218,7 +48224,9 @@
 "stk_vd": 32,
 "stk_ida": 24
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48229,7 +48237,9 @@
 "stk_vd": 32,
 "stk_ida": 24
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "overlaps": [
 "v84",
@@ -48245,7 +48255,8 @@
 "stk_ida": 47
 },
 "kinds": {
-"mov": 2
+"mov": 4,
+"op:cmp": 1
 },
 "deref": {},
 "verdict": "not_integer"
@@ -48258,7 +48269,9 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 2
+"mov": 7,
+"op:cmp": 1,
+"f32": 3
 },
 "deref": {},
 "verdict": "not_integer"
@@ -48271,7 +48284,9 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 2
+"mov": 7,
+"op:cmp": 1,
+"f32": 3
 },
 "deref": {},
 "overlaps": [
@@ -48289,7 +48304,9 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 2
+"mov": 7,
+"op:cmp": 1,
+"f32": 3
 },
 "deref": {},
 "verdict": "not_integer"
@@ -48302,7 +48319,9 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 2
+"mov": 7,
+"op:cmp": 1,
+"f32": 3
 },
 "deref": {},
 "overlaps": [
@@ -48320,7 +48339,7 @@
 "stk_ida": 55
 },
 "kinds": {
-"mov": 2
+"mov": 3
 },
 "deref": {},
 "verdict": "not_integer"
@@ -48333,7 +48352,9 @@
 "stk_ida": 56
 },
 "kinds": {
-"mov": 2
+"mov": 6,
+"op:cmp": 1,
+"f32": 2
 },
 "deref": {},
 "overlaps": [
@@ -48350,7 +48371,9 @@
 "stk_ida": 56
 },
 "kinds": {
-"mov": 2
+"mov": 6,
+"op:cmp": 1,
+"f32": 2
 },
 "deref": {},
 "overlaps": [
@@ -48367,7 +48390,9 @@
 "stk_ida": 56
 },
 "kinds": {
-"mov": 2
+"mov": 6,
+"op:cmp": 1,
+"f32": 2
 },
 "deref": {},
 "overlaps": [
@@ -48384,7 +48409,8 @@
 "stk_ida": 60
 },
 "kinds": {
-"mov": 1
+"mov": 6,
+"f32": 1
 },
 "deref": {},
 "overlaps": [
@@ -48400,7 +48426,8 @@
 "stk_ida": 60
 },
 "kinds": {
-"mov": 1
+"mov": 6,
+"f32": 1
 },
 "deref": {},
 "overlaps": [
@@ -48415,7 +48442,11 @@
 "stk_vd": 72,
 "stk_ida": 64
 },
-"kinds": {},
+"kinds": {
+"addr": 10,
+"f32": 2,
+"mov": 5
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48426,7 +48457,10 @@
 "stk_vd": 76,
 "stk_ida": 68
 },
-"kinds": {},
+"kinds": {
+"f32": 2,
+"mov": 5
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48437,7 +48471,9 @@
 "stk_vd": 80,
 "stk_ida": 72
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48448,7 +48484,10 @@
 "stk_vd": 84,
 "stk_ida": 76
 },
-"kinds": {},
+"kinds": {
+"mov": 3,
+"f32": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48459,7 +48498,11 @@
 "stk_vd": 88,
 "stk_ida": 80
 },
-"kinds": {},
+"kinds": {
+"mov": 7,
+"f32": 5,
+"i32": 2
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -48471,7 +48514,11 @@
 "stk_vd": 96,
 "stk_ida": 88
 },
-"kinds": {},
+"kinds": {
+"addr": 5,
+"f32": 2,
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48482,7 +48529,10 @@
 "stk_vd": 100,
 "stk_ida": 92
 },
-"kinds": {},
+"kinds": {
+"f32": 2,
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48493,7 +48543,9 @@
 "stk_vd": 108,
 "stk_ida": 100
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -48506,9 +48558,11 @@
 "stk_ida": 104
 },
 "kinds": {
-"mov": 1
+"mov": 3
 },
-"deref": {},
+"deref": {
+"mov@188": 1
+},
 "overlaps": [],
 "verdict": "blind"
 },
@@ -48519,7 +48573,10 @@
 "stk_vd": 116,
 "stk_ida": 108
 },
-"kinds": {},
+"kinds": {
+"addr": 4,
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48530,7 +48587,9 @@
 "stk_vd": 120,
 "stk_ida": 112
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48541,7 +48600,9 @@
 "stk_vd": 124,
 "stk_ida": 116
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48552,7 +48613,11 @@
 "stk_vd": 128,
 "stk_ida": 120
 },
-"kinds": {},
+"kinds": {
+"addr": 1,
+"f32": 2,
+"mov": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48563,7 +48628,10 @@
 "stk_vd": 132,
 "stk_ida": 124
 },
-"kinds": {},
+"kinds": {
+"f32": 2,
+"mov": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48574,7 +48642,9 @@
 "stk_vd": 144,
 "stk_ida": 136
 },
-"kinds": {},
+"kinds": {
+"addr": 6
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48585,7 +48655,9 @@
 "stk_vd": 160,
 "stk_ida": 152
 },
-"kinds": {},
+"kinds": {
+"addr": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48596,7 +48668,9 @@
 "stk_vd": 224,
 "stk_ida": 216
 },
-"kinds": {},
+"kinds": {
+"addr": 3
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -48607,7 +48681,9 @@
 "stk_vd": 240,
 "stk_ida": 232
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -52383,8 +52459,8 @@
 "stk_ida": 92
 },
 "kinds": {
-"addr": 6,
-"mov": 5
+"addr": 7,
+"mov": 9
 },
 "deref": {},
 "overlaps": [],
@@ -53507,8 +53583,8 @@
 "stk_ida": 16
 },
 "kinds": {
-"addr": 15,
-"mov": 18
+"addr": 22,
+"mov": 28
 },
 "deref": {},
 "verdict": "not_integer"
@@ -53521,7 +53597,7 @@
 "stk_ida": 20
 },
 "kinds": {
-"mov": 8,
+"mov": 12,
 "op:cmp": 2
 },
 "deref": {},
@@ -53536,7 +53612,7 @@
 "stk_ida": 24
 },
 "kinds": {
-"mov": 11,
+"mov": 16,
 "op:cmp": 1
 },
 "deref": {},
@@ -53551,7 +53627,7 @@
 "stk_ida": 28
 },
 "kinds": {
-"mov": 9
+"mov": 15
 },
 "deref": {},
 "overlaps": [],
@@ -53565,7 +53641,7 @@
 "stk_ida": 32
 },
 "kinds": {
-"mov": 13
+"mov": 18
 },
 "deref": {},
 "overlaps": [],
@@ -53579,7 +53655,7 @@
 "stk_ida": 36
 },
 "kinds": {
-"mov": 13
+"mov": 18
 },
 "deref": {
 "mov@2540": 1
@@ -53595,7 +53671,7 @@
 "stk_ida": 40
 },
 "kinds": {
-"addr": 1
+"addr": 2
 },
 "deref": {},
 "overlaps": [],
@@ -53608,7 +53684,9 @@
 "stk_vd": 60,
 "stk_ida": 44
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -53620,7 +53698,9 @@
 "stk_vd": 64,
 "stk_ida": 48
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -53660,7 +53740,9 @@
 "stk_vd": 76,
 "stk_ida": 60
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -53672,7 +53754,9 @@
 "stk_vd": 80,
 "stk_ida": 64
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"

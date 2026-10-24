@@ -1,0 +1,72 @@
+{
+  "0x1003E0D0": {
+    "name": "Unit1003D990_ScaleBytesByVec4",
+    "confidence": "medium",
+    "evidence": "multiplies the four bytes at +0, +1, +2, +3 by the four floats of the argument, clamps each product at 0 and rounds it with FUN_10311C2C, and packs the result into a dword",
+    "summary": "Scales four colour bytes by a float vector and returns the packed dword.",
+    "invented_prefix_name": "Color_ScaleBytesByVec4"
+  },
+  "0x1003E1D0": {
+    "name": "Unit1003D990_AddBytes",
+    "confidence": "medium",
+    "evidence": "adds each of the four bytes of the argument to the byte at the same offset of self, without clamping",
+    "summary": "Adds a four-byte colour to the object's bytes.",
+    "invented_prefix_name": "Color_AddBytes"
+  },
+  "0x1003E330": {
+    "name": "Unit1003D990_ScaleAlpha",
+    "confidence": "medium",
+    "evidence": "when the scale is at least 1.0, multiplies byte +3 by the float and returns the dword with that byte in the top 8 bits; otherwise copies the dword unchanged",
+    "summary": "Scales the top byte of a colour by a float and returns the dword.",
+    "invented_prefix_name": "Color_ScaleAlpha"
+  },
+  "0x1003E3A0": {
+    "name": "Unit1003D990_AddScaledBytes",
+    "confidence": "low",
+    "evidence": "multiplies the four bytes of the argument by the float at g_pResourceMng+3756 and adds them to self",
+    "summary": "Adds the argument's bytes scaled by a global factor to self.",
+    "invented_prefix_name": "Color_AddScaledBytes"
+  },
+  "0x1003E450": {
+    "name": "Unit1003D990_AddScaledWords",
+    "confidence": "low",
+    "evidence": "multiplies the four 16-bit words of the argument by the float at g_pResourceMng+3756 and adds them to the bytes of self",
+    "summary": "Adds 16-bit values scaled by a global factor to self's bytes.",
+    "invented_prefix_name": "Color_AddScaledWords"
+  },
+  "0x1003E500": {
+    "name": "Unit1003D990_AddScaledWordsSaturated",
+    "confidence": "low",
+    "evidence": "scales the four 16-bit words of the argument by the float at g_pResourceMng+3760, adds them to the shifted bytes of self, clamps each sum to 0..0xFFFF and stores the high bytes",
+    "summary": "Adds scaled 16-bit values to self with saturation, storing the high bytes.",
+    "invented_prefix_name": "Color_AddScaledWordsSaturated"
+  },
+  "0x1003E630": {
+    "name": "Unit1003D990_AddToByte2",
+    "confidence": "low",
+    "evidence": "adds the low byte of the argument to the byte at +2 of self",
+    "summary": "Adds a value to the byte at +2.",
+    "invented_prefix_name": "Color_AddToByte2"
+  },
+  "0x1003E640": {
+    "name": "Unit1003D990_AddToByte1",
+    "confidence": "low",
+    "evidence": "adds the low byte of the argument to the byte at +1 of self",
+    "summary": "Adds a value to the byte at +1.",
+    "invented_prefix_name": "Color_AddToByte1"
+  },
+  "0x1003E650": {
+    "name": "Unit1003D990_AddToByte0",
+    "confidence": "low",
+    "evidence": "adds the low byte of the argument to the byte at +0 of self",
+    "summary": "Adds a value to the byte at +0.",
+    "invented_prefix_name": "Color_AddToByte0"
+  },
+  "0x1003E660": {
+    "name": "Unit1003D990_AddScaledToByte3",
+    "confidence": "low",
+    "evidence": "adds the argument times the float at g_pResourceMng+3756 to the byte at +3 of self",
+    "summary": "Adds a scaled value to the byte at +3.",
+    "invented_prefix_name": "Color_AddScaledToByte3"
+  }
+}

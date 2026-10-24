@@ -17,6 +17,32 @@ char ** __cdecl CYyTexBase::GetRuntimeClass_variant1()
   return &CYyTexBase_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10039830  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CYyTexBase::Constructor(void * self)
+{
+  int iVar1;
+  uint32_t uVar2;
+  
+  *(uint8_t ***)self = &PTR_CYyTexBase_GetRuntimeClass_variant0_1032aa4c;
+  *(uint32_t *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 8) = 0;
+  *(uint16_t *)((int)self + 0x24) = 0;
+  *(uint16_t *)((int)self + 0x26) = 0;
+  *(uint8_t *)((int)self + 0x28) = 0;
+  *(uint8_t *)((int)self + 0x29) = 0;
+  uVar2 = orig::Camera_GetByte0B();
+  *(uint32_t *)((int)self + 0x20) = 0;
+  *(uint32_t *)((int)self + 0x1c) = 0;
+  *(char *)((int)self + 0x2a) = '\x02' - ((char)uVar2 != '\x01');
+  *(uint32_t *)((int)self + 0x2c) = *(uint32_t *)((int)self + 0x2c) & 0xfffffe00;
+  iVar1 = DAT_1047b96c;
+  DAT_1047b96c = DAT_1047b96c + 1;
+  orig::_sprintf(&DAT_10351c89,&DAT_10351cbc,iVar1);
+  orig::CYyTexBase_SetName(self,(uint32_t *)&DAT_10351c84);
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x100398B0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)

@@ -1,0 +1,32 @@
+{
+  "0x10253210": {
+    "name": "StAvatar_ClearResource",
+    "confidence": "medium",
+    "evidence": "when the flag bit 1 at +0 is set, clears the indices at +0xC and +0x10 and the ids at +4 and +8, releases the resource chain at +0x14 with CMoResource_ReleaseChain and ResHandle_FreeIfUnreferenced, then clears the flags; called by StAvatar_ReleaseResources",
+    "summary": "Releases the resource held by an avatar slot and clears its ids."
+  },
+  "0x10253360": {
+    "name": "StAvatar_LoadInfoFile",
+    "confidence": "medium",
+    "evidence": "for the slot index below 4, allocates a buffer for the info file when it is empty and, when the file manager is set and the slot's flag is set, opens the file named by the table at PTR_s_info00_bin_10389d08 with FUN_101C4BF0 and reads it with FUN_101C47B0 and FUN_101C49F0",
+    "summary": "Loads one of the avatar's info files into its slot."
+  },
+  "0x102534B0": {
+    "name": "StAvatar_GetInfoBuffer",
+    "confidence": "low",
+    "evidence": "returns 0 for an index of 4 or more or an empty buffer, returns the buffer at slot*0x14 when the flag is set and -2 when it is clear",
+    "summary": "Returns the buffer of an avatar info slot, or a status code."
+  },
+  "0x102535B0": {
+    "name": "StAvatar_LoadInfo0",
+    "confidence": "low",
+    "evidence": "calls StAvatar_LoadInfoFile with slot 0 when the object at DAT_10669424 is set",
+    "summary": "Loads the first avatar info file."
+  },
+  "0x10253630": {
+    "name": "StAvatar_LoadInfo2",
+    "confidence": "low",
+    "evidence": "calls StAvatar_LoadInfoFile with slot 2 when the object at DAT_10669424 is set",
+    "summary": "Loads the third avatar info file."
+  }
+}

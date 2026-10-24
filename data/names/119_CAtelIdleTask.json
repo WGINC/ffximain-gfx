@@ -1,0 +1,8 @@
+{
+  "0x100142B0": {
+    "name": "CAtelIdleTask_Create",
+    "confidence": "medium",
+    "evidence": "allocates 0x34 bytes from Mem_AllocFromArea, runs CMoTask_Constructor on it, sets vtable PTR_CAtelIdleTask_GetRuntimeClass, stores it at DAT_1045690C and registers it with CMoTask_RegisterWithMng(0xD); also sets the scene state to 0x60 and calls fn_1015E910 for the menu \"chdummy\"",
+    "summary": "Creates the idle task and registers it with the task manager."
+  }
+}

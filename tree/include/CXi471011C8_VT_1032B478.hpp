@@ -6,13 +6,9 @@
 class XI_API CXi471011C8_VT_1032B478 {
 public:
     static undefined8 __thiscall Ctor(void * self);  // 0x10052F80
-    char RebuildBlendWeights();  // 0x100565A0
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0xF4];
-    uint8_t field_F8;  // +0xF8
-    uint8_t _pad_F9[0x9B];
+    uint8_t _pad_4[0x190];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXi471011C8_VT_1032B478) == 0x194, "CXi471011C8_VT_1032B478: sizeof");
-static_assert(XI_OFFSETOF(CXi471011C8_VT_1032B478, field_F8) == 0xF8, "CXi471011C8_VT_1032B478: layout");

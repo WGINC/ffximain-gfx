@@ -1,0 +1,8 @@
+{
+  "0x10053180": {
+    "name": "CMoNullProgElem_Construct",
+    "confidence": "medium",
+    "evidence": "calls CMoElem_Constructor and sets the vtable to CMoNullProgElem_GetRuntimeClass",
+    "summary": "Constructs the null program element and sets its vtable."
+  }
+}

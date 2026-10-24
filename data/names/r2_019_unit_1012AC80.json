@@ -1,0 +1,224 @@
+{
+  "0x1012BEF0": {
+    "name": "Unit1012AC80_ConstructVt103333C8",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1, this+0xE=0xFFFF, zeroes +8/+0x14/+0x18, then writes the vtable PTR_FUN_103333c8 at this+0",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_103333c8."
+  },
+  "0x1012C210": {
+    "name": "Unit1012AC80_ConstructVt10333410",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1, this+0xE=0xFFFF, zeroes +8/+0x14/+0x18, then writes the vtable PTR_FUN_10333410 at this+0",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333410."
+  },
+  "0x1012C540": {
+    "name": "Unit1012AC80_ConstructVt10333458",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, clears bit 0 of this+0x1C, rewrites +0x20, zeroes +0x18/+0x24/+0x28, then writes the vtable PTR_FUN_10333458 at this+0",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333458."
+  },
+  "0x1012C910": {
+    "name": "Unit1012AC80_ConstructVt103334A0",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1, this+0xE=0xFFFF, zeroes +8/+0x18/+0x1C, then writes the vtable PTR_FUN_103334a0 at this+0",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_103334a0."
+  },
+  "0x1012D450": {
+    "name": "Unit1012AC80_ConstructVt10333500",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, zeroes the block at +0x138..+0x150, sets +0x148=1, then writes the vtable PTR_FUN_10333500 at this+0",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333500."
+  },
+  "0x1012E360": {
+    "name": "Unit1012AC80_ConstructVt103335E8",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, zeroes the blocks at +0x14 and +0x1C6, writes the vtable PTR_FUN_103335e8, and allocates global DAT_1057819c through Allocator_Generic with vtable PTR_LAB_10333580",
+    "summary": "Initialises the object, sets its vtable to PTR_FUN_103335e8, and creates the global DAT_1057819c once."
+  },
+  "0x10130390": {
+    "name": "Unit1012AC80_ClearThenSetGlobal",
+    "confidence": "low",
+    "evidence": "calls fn_10126320, zeroes 0x30 dwords of the object, then calls Unit100D7420_SetGlobal104B1774 with &LAB_101303e0",
+    "summary": "Clears 0x30 dwords of the object and stores &LAB_101303e0 in the global DAT_104b1774."
+  },
+  "0x101304D0": {
+    "name": "Unit1012AC80_ResolveEntries",
+    "confidence": "low",
+    "evidence": "loops over 16 entries of 0xC bytes; where bit 0 of +4 is set, calls FUN_100eb490 and FUN_1015bc40 (on DAT_10621808) and copies a byte and a word into the entry, then clears the bit; Unit1012AC80_FindByFirstDword is a named callee's callee",
+    "summary": "Resolves each pending 12-byte entry through two lookups and clears its pending flag."
+  },
+  "0x10130F90": {
+    "name": "Unit1012AC80_ConstructVt10333648",
+    "confidence": "medium",
+    "evidence": "only writes the vtable PTR_FUN_10333648 at this+0; fn_101312E0 calls it first, as its base",
+    "summary": "Sets the object's vtable to PTR_FUN_10333648."
+  },
+  "0x101312E0": {
+    "name": "Unit1012AC80_ConstructVt10333660",
+    "confidence": "medium",
+    "evidence": "calls fn_10130F90 on this, then writes the vtable PTR_FUN_10333660 at this+0",
+    "summary": "Runs the base constructor fn_10130F90, then sets the vtable to PTR_FUN_10333660."
+  },
+  "0x10131530": {
+    "name": "Unit1012AC80_ConstructVt10333670",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, zeroes +0x14/+0x18/+0x1A/+0x20, sets this+0x1C=2 and this+0xC=1, then writes the vtable PTR_FUN_10333670",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333670."
+  },
+  "0x10131940": {
+    "name": "Unit1012AC80_ConstructVt10333728",
+    "confidence": "medium",
+    "evidence": "calls base fn_10131530, constructs the subobject at +0x74 with fn_101312E0, zeroes the arrays at +0x88 and +0x1CC, writes the vtable PTR_FUN_10333728, and creates the global DAT_105781b0 with a call to its vtable slot 0x58",
+    "summary": "Runs the base constructor, builds the subobjects and arrays, sets the vtable to PTR_FUN_10333728, and initialises the global DAT_105781b0."
+  },
+  "0x10133310": {
+    "name": "Unit1012AC80_ConstructVt103337E0",
+    "confidence": "medium",
+    "evidence": "calls base fn_10131530, writes the vtable PTR_FUN_103337e0, clears the global DAT_105781c4, zeroes +0x74 and +0x150, sets +0x14F=0xFF, and creates the global DAT_105781b4 with vtable PTR_LAB_10333778",
+    "summary": "Runs the base constructor, sets the vtable to PTR_FUN_103337e0, and initialises the globals DAT_105781b4 and DAT_105781c4."
+  },
+  "0x10135850": {
+    "name": "Unit1012AC80_ConstructVt10333898",
+    "confidence": "medium",
+    "evidence": "calls base fn_10131530, writes the vtable PTR_FUN_10333898, zeroes +0x74, +0xB8 and +0xBC",
+    "summary": "Runs the base constructor, sets the vtable to PTR_FUN_10333898, and clears three fields."
+  },
+  "0x10136380": {
+    "name": "Unit1012AC80_ConstructVt10333908",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, Unit100D7420_Clear on this+0x14, stores its argument at +0x64, calls FUN_101265d0 on this+0x14, and ends with the vtable PTR_FUN_10333908",
+    "summary": "Initialises the object, stores its argument at +0x64, and sets the vtable to PTR_FUN_10333908."
+  },
+  "0x10136560": {
+    "name": "Unit1012AC80_UpdateLayout",
+    "confidence": "low",
+    "evidence": "calls Unit100D7420_MarkDirty on this+8, reads a rectangle with CTkMenuCtrlData_GetWindowLocate and sets it with FUN_1011a5a0 on this+8, then stores Unit100D7420_GetHead into +0x58 and a count capped at 4 into +0x5C",
+    "summary": "Refreshes the window rectangle of the object at +8, marks it dirty, then records the list head and a count capped at four."
+  },
+  "0x10136900": {
+    "name": "Unit1012AC80_ClearBlock",
+    "confidence": "low",
+    "evidence": "calls fn_10126320, zeroes dwords from this+4 up to +0x200, then clears the fields at +0x200, +0x206, +0x207 and +0x208",
+    "summary": "Zeroes the object's data block and its trailing fields."
+  },
+  "0x10136950": {
+    "name": "Unit1012AC80_ConstructVt10333950",
+    "confidence": "medium",
+    "evidence": "calls FEMultiLineText__FEMultiLineText_0 on this with its argument, then writes the vtable PTR_FUN_10333950",
+    "summary": "Runs the FEMultiLineText base constructor, then sets the vtable to PTR_FUN_10333950."
+  },
+  "0x101369C0": {
+    "name": "Unit1012AC80_ConstructVt103339A0",
+    "confidence": "medium",
+    "evidence": "calls FEMultiLineText__FEMultiLineText_0 on this with its argument, then writes the vtable PTR_FUN_103339a0",
+    "summary": "Runs the FEMultiLineText base constructor, then sets the vtable to PTR_FUN_103339a0."
+  },
+  "0x10136A30": {
+    "name": "Unit1012AC80_ConstructVt103339F0",
+    "confidence": "medium",
+    "evidence": "calls fn_10136380 on this with its argument, writes the vtable PTR_FUN_103339f0, and zeroes +0x68",
+    "summary": "Runs the base constructor fn_10136380, sets the vtable to PTR_FUN_103339f0, and clears +0x68."
+  },
+  "0x10136E20": {
+    "name": "Unit1012AC80_ConstructVt10333A40",
+    "confidence": "medium",
+    "evidence": "calls fn_10136F60 on this with its argument, then writes the vtable PTR_FUN_10333a40",
+    "summary": "Runs the base constructor fn_10136F60, then sets the vtable to PTR_FUN_10333a40."
+  },
+  "0x10136EC0": {
+    "name": "Unit1012AC80_ConstructVt10333A90",
+    "confidence": "medium",
+    "evidence": "calls fn_10136F60 on this with its argument, then writes the vtable PTR_FUN_10333a90",
+    "summary": "Runs the base constructor fn_10136F60, then sets the vtable to PTR_FUN_10333a90."
+  },
+  "0x10136F60": {
+    "name": "Unit1012AC80_ConstructVt10333AE0",
+    "confidence": "medium",
+    "evidence": "calls fn_10136380 on this with its argument, writes the vtable PTR_FUN_10333ae0, and zeroes +0x4E, +0x68, +0x6C, +0x58 and +0x5C",
+    "summary": "Runs the base constructor fn_10136380, sets the vtable to PTR_FUN_10333ae0, and clears its list fields."
+  },
+  "0x101371E0": {
+    "name": "Unit1012AC80_CollectEntries",
+    "confidence": "low",
+    "evidence": "walks the list from Unit100D7420_GetHead; for each entry whose flag +0x14a is 0 it stops when +0x110 exceeds the argument, else sets the flag and the count at +0x4e (capped at 4); then stores the count into +0x5C and the head into +0x58",
+    "summary": "Walks the list from its head, flagging entries until one whose +0x110 value exceeds the argument, up to four, and records the count and head."
+  },
+  "0x10137630": {
+    "name": "Unit1012AC80_ConstructVt10333B68",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, zeroes +0x14 to +0x1A, sets +0x24=1 and +0x25=0, sets this+0xC=1 and this+0xE=0xFFFF, then writes the vtable PTR_FUN_10333b68",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333b68."
+  },
+  "0x10138960": {
+    "name": "Unit1012AC80_ConstructVt10333BB0",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1 and this+0xE=0xFFFF, writes the vtable PTR_FUN_10333bb0, then calls fn_10138EC0",
+    "summary": "Initialises the object, sets its vtable to PTR_FUN_10333bb0, and clears its data ranges through fn_10138EC0."
+  },
+  "0x10138EC0": {
+    "name": "Unit1012AC80_ClearRanges",
+    "confidence": "low",
+    "evidence": "zeroes 0x10 dwords from +0x14, the bytes at +0x54 and +0x55, 0x100 dwords from +0x56, and the word at +0x456",
+    "summary": "Zeroes four ranges of the object's fields."
+  },
+  "0x10138FB0": {
+    "name": "Unit1012AC80_IsAlwaysTrue",
+    "confidence": "low",
+    "evidence": "cdecl with no arguments; returns the constant 1",
+    "summary": "Returns 1."
+  },
+  "0x10139840": {
+    "name": "Unit1012AC80_ConstructVt10333CB0",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1, this+0xE=0xFFFF, writes the vtable PTR_FUN_10333cb0, and creates the global DAT_105781f4 through Allocator_Generic with vtable PTR_LAB_10333c48",
+    "summary": "Initialises the object, sets its vtable to PTR_FUN_10333cb0, and creates the global DAT_105781f4 once."
+  },
+  "0x10139EE0": {
+    "name": "Unit1012AC80_ConstructVt10333D10",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=0x5A and this+0x18/+0x1C/+0x20 to zero, zeroes +8, +0x10 and +0x14, then writes the vtable PTR_FUN_10333d10",
+    "summary": "Initialises the object's fields and sets its vtable to PTR_FUN_10333d10."
+  },
+  "0x10139FF0": {
+    "name": "Unit1012AC80_CallIfNot3",
+    "confidence": "low",
+    "evidence": "calls thunk_FUN_1013a100 with 0 in EAX unless its argument is 3",
+    "summary": "Calls thunk_FUN_1013a100 unless its argument is 3."
+  },
+  "0x1013A010": {
+    "name": "Unit1012AC80_TickHelp",
+    "confidence": "low",
+    "evidence": "calls fn_1013A070, then FUN_1013a0d0 if it returns true, else FUN_1013a100 with its result; fn_1013A070 calls TkHelp_AdvanceTimer (medium)",
+    "summary": "Runs the help-timer check and calls one of two follow-up functions on its result."
+  },
+  "0x1013A060": {
+    "name": "Unit1012AC80_IsEvent",
+    "confidence": "low",
+    "evidence": "cdecl with its argument in EAX; returns whether IsEvent(0, argument) is nonzero",
+    "summary": "Returns whether IsEvent(0, its argument) is nonzero."
+  },
+  "0x1013A070": {
+    "name": "Unit1012AC80_AdvanceHelpTimer",
+    "confidence": "low",
+    "evidence": "reads g_pTkHelp and g_pTkTitle, tests fn_1013A060(g_pTkTitle), this+0x18, FUN_1013a470(g_pTkHelp) and FUN_10150d60(g_pTkTitle), and otherwise calls TkHelp_AdvanceTimer (medium)",
+    "summary": "Returns whether the help timer should advance, testing the help and title globals, and otherwise advances it through TkHelp_AdvanceTimer."
+  },
+  "0x1013A1E0": {
+    "name": "Unit1012AC80_ConstructVt10333D18",
+    "confidence": "medium",
+    "evidence": "calls fn_10126320 on this+4, sets this+0xC=1 and this+0xE=0xFFFF, calls FUN_10220fd0 on this+0x20, and writes the vtable PTR_FUN_10333d18 last",
+    "summary": "Initialises the object, constructs the subobject at +0x20, and sets the vtable to PTR_FUN_10333d18."
+  },
+  "0x1013A320": {
+    "name": "Unit1012AC80_ForwardToPanel",
+    "confidence": "low",
+    "evidence": "calls FUN_10221030 on this+0x20 with its two arguments; Unit1021D930_Draw (low) is called on the same +0x20 in fn_1013A350",
+    "summary": "Forwards its two arguments to the object at +0x20."
+  },
+  "0x1013A350": {
+    "name": "Unit1012AC80_DrawPanel",
+    "confidence": "low",
+    "evidence": "calls Gfx_SetAdditiveBlend, binds g_pFontGlyphs, sets its colour fields to 0x80808080, calls Unit1021D930_Draw on this+0x20, and draws at the window rectangle of this+8 when FUN_1011ae80 is true",
+    "summary": "Draws the panel at +0x20 with additive blending and the glyph texture."
+  }
+}

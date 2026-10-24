@@ -1,0 +1,9 @@
+{
+  "0x10083340": {
+    "name": "Unit10083300_GetModelFlag130Bit21",
+    "confidence": "low",
+    "evidence": "returns bit 21 of the dword at +0x130 of the model at +0x70, or 0 when there is no model",
+    "summary": "Returns bit 21 of the model's flags word at offset 0x130.",
+    "invented_prefix_name": "CXiActor_GetModelFlag130Bit21"
+  }
+}

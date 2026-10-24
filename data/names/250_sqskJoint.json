@@ -1,0 +1,14 @@
+{
+  "0x10291360": {
+    "name": "SqskJoint_Create",
+    "confidence": "medium",
+    "evidence": "creates a 0x9C-byte object with FUN_10275D80 (type 1, the sqSkeleton source name, 0x1E) and initialises it with SqskJoint_Init (FUN_10291390)",
+    "summary": "Creates and initialises a new sqskJoint object."
+  },
+  "0x10291390": {
+    "name": "SqskJoint_Init",
+    "confidence": "medium",
+    "evidence": "calls FUN_10289F50 on the object, sets the header word at +0 to 0xB0002, the callbacks at +8, +0xC and +0x10, the flag byte at +0x14 to 0xFF, the callback at +0x18, initialises the sub-objects at +0x5C and +0x68 with FUN_10274640 and thunk_FUN_1027AE50, sets the scale at +0x78 to (1, 1, 1) with FUN_10274670, and clears the fields at +0x84 to +0x98",
+    "summary": "Initialises a sqskJoint object with its callbacks, sub-objects and unit scale."
+  }
+}

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1026FBB0  (unit unit_1026EA00: no unit evidence of its own; in the gap between 0x1026E900 (mdl) and 0x1026FC60 (mdl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 62 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1026FBB0(float * param_1)
+XI_API undefined4 __cdecl Unit1026EA00_ComputeMinMax(float * param_1)
 {
   uint8_t bVar1;
   float *pfVar2;
@@ -17,7 +17,7 @@ XI_API undefined4 __cdecl fn_1026FBB0(float * param_1)
   float  (&local_18)[6] = *reinterpret_cast<float  (*)[6]>(xi_frame + 0);
   
   pfVar2 = param_1;
-  orig::FUN_1028d9a0(param_1);
+  orig::Unit1028D970_Reset(param_1);
   bVar1 = false;
   param_1 = (float *)0x0;
   if (0 < DAT_1099aecc) {

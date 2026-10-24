@@ -1,0 +1,14 @@
+{
+  "0x1028DC00": {
+    "name": "SqmdSnap_Create",
+    "confidence": "medium",
+    "evidence": "allocates 0x48 bytes with FUN_10275d80 from the source file string C:\\dev\\dancer\\modules\\sqModel line 0x30, then calls SqmdSnap_Init on it; called by sub_1028DDC0 and fn_1028DE10",
+    "summary": "Allocates and initialises a model snapshot record."
+  },
+  "0x1028DC20": {
+    "name": "SqmdSnap_Init",
+    "confidence": "medium",
+    "evidence": "stores the type 0x1C0002, sets the function pointers at +8, +0xC and +0x10, sets the byte at +0x14 to 0xFF and clears the dwords at +0x1C to +0x3C",
+    "summary": "Initialises a model snapshot record and its function table."
+  }
+}

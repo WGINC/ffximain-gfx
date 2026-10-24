@@ -1,0 +1,8 @@
+{
+  "0x100250F0": {
+    "name": "CYyModelBase_AllocParts",
+    "confidence": "medium",
+    "evidence": "allocates (count + 1 + the count at the resource header) times 0x3C bytes into this+0x40, and stores the count at +0x44; called by CYyModelBase::AddPartFromResource",
+    "summary": "Allocates the part table for a model from its resource header counts."
+  }
+}

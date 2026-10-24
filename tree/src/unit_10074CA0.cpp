@@ -2,191 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x10074CF0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074CF0(void * self_, int param_1, int param_2)
-{
-  void *this_00;
-  
-  if (param_1 == 0) {
-    return;
-  }
-  do {
-    this_00 = *(void **)((int)self_ + 0xd50);
-    while( true ) {
-      if (this_00 == (void *)0x0) {
-        return;
-      }
-      if ((*(int *)((int)this_00 + 0x18) == param_1) && (*(int *)((int)this_00 + 0x1c) == param_2))
-      break;
-      this_00 = *(void **)((int)this_00 + 0xc);
-    }
-    orig::FUN_10074ab0(this_00);
-  } while( true );
-}
-
-// FUNCTION: FFXIMAIN 0x10074DF0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10074DF0(void * self_, undefined4 param_1)
-{
-  void *this_00;
-  int iVar1;
-  
-  this_00 = *(void **)((int)self_ + 0xd58);
-  *(uint32_t *)((int)self_ + 0xd58) = *(uint32_t *)((int)this_00 + 0xc);
-  orig::CMoTask_ResetFields_v1(this_00);
-  *(uint32_t *)((int)this_00 + 8) = *(uint32_t *)((int)self_ + 0xd54);
-  iVar1 = *(int *)((int)self_ + 0xd54);
-  if (iVar1 == *(int *)((int)self_ + 0xd4c)) {
-    *(void **)((int)self_ + 0xd5c) = this_00;
-  }
-  if (iVar1 != 0) {
-    *(void **)(iVar1 + 0xc) = this_00;
-  }
-  *(void **)((int)self_ + 0xd54) = this_00;
-  if (*(int *)((int)self_ + 0xd50) == 0) {
-    *(void **)((int)self_ + 0xd50) = this_00;
-  }
-  *(uint32_t *)((int)this_00 + 4) = param_1;
-  *(int *)((int)self_ + 0xd44) = *(int *)((int)self_ + 0xd44) + 1;
-  return (int)this_00;
-}
-
-// FUNCTION: FFXIMAIN 0x10074F80  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10074F80(void * self_, int param_1, int param_2)
-{
-  int iVar1;
-  
-  orig::FUN_100751b0(self_,param_1);
-  if (param_2 < 0x10) {
-    if (param_2 < 0) {
-      param_2 = 0;
-    }
-  }
-  else {
-    param_2 = 0xf;
-  }
-  *(uint32_t *)(param_1 + 0xc) = *(uint32_t *)(*(int *)((int)self_ + param_2 * 4 + 0xd04) + 0xc);
-  iVar1 = *(int *)(*(int *)((int)self_ + param_2 * 4 + 0xd04) + 0xc);
-  if (iVar1 != 0) {
-    *(int *)(iVar1 + 8) = param_1;
-  }
-  *(uint32_t *)(param_1 + 8) = *(uint32_t *)((int)self_ + param_2 * 4 + 0xd04);
-  *(int *)(*(int *)((int)self_ + param_2 * 4 + 0xd04) + 0xc) = param_1;
-  *(code **)(param_1 + 4) = XI_CODE(FUN_10075000);
-  *(uint8_t *)(param_1 + 0x20) = 1;
-  iVar1 = *(int *)((int)self_ + param_2 * 4 + 0xd04);
-  if (iVar1 == *(int *)((int)self_ + 0xd54)) {
-    *(int *)((int)self_ + 0xd54) = param_1;
-  }
-  return ((uint64_t)(((uint64_t)(uint32_t)(iVar1) << 32) | (uint32_t)(param_1)));
-}
-
-// FUNCTION: FFXIMAIN 0x10075000  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 70 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10075000(int * param_1)
-{
-  uint32_t uVar1;
-  
-  uVar1 = ((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x20))))((void *)(param_1));
-  if ((char)uVar1 == '\0') {
-                    /* WARNING: Could not recover jumptable at 0x10075015. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(code **)(*param_1 + 0x24))();
-    return;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x100750B0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_100750B0(void * self_, int param_1)
-{
-  int iVar1;
-  uint32_t uVar2;
-  uint64_t uVar3;
-  
-  orig::FUN_100751b0(self_,param_1);
-  if (*(int *)((int)self_ + 0xd4c) == 0) {
-    uVar3 = orig::FUN_10074f80(self_,param_1,9);
-    return uVar3;
-  }
-  *(uint32_t *)(param_1 + 0xc) = *(uint32_t *)(*(int *)((int)self_ + 0xd4c) + 0xc);
-  iVar1 = *(int *)(*(int *)((int)self_ + 0xd4c) + 0xc);
-  if (iVar1 != 0) {
-    *(int *)(iVar1 + 8) = param_1;
-  }
-  uVar2 = *(uint32_t *)((int)self_ + 0xd4c);
-  *(uint32_t *)(param_1 + 8) = uVar2;
-  *(int *)(*(int *)((int)self_ + 0xd4c) + 0xc) = param_1;
-  *(int *)((int)self_ + 0xd5c) = param_1;
-  *(code **)(param_1 + 4) = XI_CODE(FUN_10075000);
-  *(uint8_t *)(param_1 + 0x20) = 1;
-  return ((uint64_t)(((uint64_t)(uint32_t)(uVar2) << 32) | (uint32_t)(param_1)));
-}
-
-// FUNCTION: FFXIMAIN 0x10075120  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10075120(void * self_, int param_1)
-{
-  int iVar1;
-  uint8_t bVar2;
-  
-  orig::FUN_100751b0(self_,param_1);
-  if (*(int *)((int)self_ + 0xd4c) == 0) {
-    iVar1 = *(int *)((int)self_ + 0xd28);
-    *(int *)(param_1 + 0xc) = iVar1;
-    if (*(int *)(iVar1 + 8) != 0) {
-      *(int *)(*(int *)(iVar1 + 8) + 0xc) = param_1;
-    }
-    *(uint32_t *)(param_1 + 8) = *(uint32_t *)(iVar1 + 8);
-    *(int *)(iVar1 + 8) = param_1;
-    bVar2 = *(int *)((int)self_ + 0xd50) == iVar1;
-  }
-  else {
-    *(int *)(param_1 + 0xc) = *(int *)((int)self_ + 0xd4c);
-    iVar1 = *(int *)(*(int *)((int)self_ + 0xd4c) + 8);
-    if (iVar1 != 0) {
-      *(int *)(iVar1 + 0xc) = param_1;
-    }
-    *(uint32_t *)(param_1 + 8) = *(uint32_t *)(*(int *)((int)self_ + 0xd4c) + 8);
-    *(int *)(*(int *)((int)self_ + 0xd4c) + 8) = param_1;
-    bVar2 = *(int *)((int)self_ + 0xd50) == *(int *)((int)self_ + 0xd4c);
-  }
-  if (bVar2) {
-    *(int *)((int)self_ + 0xd50) = param_1;
-  }
-  *(code **)(param_1 + 4) = XI_CODE(FUN_10075000);
-  *(uint8_t *)(param_1 + 0x20) = 1;
-  return param_1;
-}
-
-// FUNCTION: FFXIMAIN 0x100751B0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100751B0(void * self_, int param_1)
-{
-  if (param_1 == *(int *)((int)self_ + 0xd4c)) {
-    *(uint32_t *)((int)self_ + 0xd4c) = *(uint32_t *)(param_1 + 8);
-  }
-  if (*(int *)(param_1 + 8) != 0) {
-    *(uint32_t *)(*(int *)(param_1 + 8) + 0xc) = *(uint32_t *)(param_1 + 0xc);
-  }
-  if (*(int *)(param_1 + 0xc) != 0) {
-    *(uint32_t *)(*(int *)(param_1 + 0xc) + 8) = *(uint32_t *)(param_1 + 8);
-  }
-  if (*(int *)((int)self_ + 0xd50) == param_1) {
-    *(uint32_t *)((int)self_ + 0xd50) = *(uint32_t *)(param_1 + 0xc);
-  }
-  if (*(int *)((int)self_ + 0xd54) == param_1) {
-    *(uint32_t *)((int)self_ + 0xd54) = *(uint32_t *)(param_1 + 8);
-  }
-  if (*(int *)((int)self_ + 0xd5c) == param_1) {
-    *(uint32_t *)((int)self_ + 0xd5c) = *(uint32_t *)(param_1 + 0xc);
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 48 returned normally, 685 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
@@ -296,37 +111,6 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x10075520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall TexRef_ResolveByName(void * self_, int param_1)
-{
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  
-  iVar2 = orig::CYyTexMng_FindByNameInResource_v1(g_pTextureMng_as_v2,self_,param_1);
-  if (iVar2 == 0) {
-    piVar3 = (int *)orig::FUN_1003aab0(g_pTextureMng_as_v2);
-    for (iVar1 = *piVar3; iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x38)) {
-      if (((*(uint32_t *)(iVar1 + 0x2c) & 0x100) != 0) || (*(int *)(iVar1 + 0x34) == 1)) {
-        iVar4 = 8;
-        do {
-          if (*(char *)(iVar1 + 0xc + iVar4) != *(char *)(iVar4 + (int)self_)) break;
-          iVar4 = iVar4 + 1;
-        } while (iVar4 < 0x10);
-        if (iVar4 == 0x10) {
-          *(int *)self_ = *piVar3;
-          return;
-        }
-      }
-      piVar3 = (int *)(iVar1 + 0x38);
-    }
-  }
-  *(int *)self_ = iVar2;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 93 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
@@ -369,7 +153,7 @@ XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)
 
 // FUNCTION: FFXIMAIN 0x10075700  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 64 returned normally, 238 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float a5)
+XI_API int __thiscall TextureHolder_BindWarped(int *self_, int a2, float a3, float a4, float a5)
 {
   int v6;
   int v7;
@@ -480,7 +264,7 @@ XI_API int __thiscall fn_10075700(int *self_, int a2, float a3, float a4, float 
 }
 
 // FUNCTION: FFXIMAIN 0x10075960  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 {
   int v2;
@@ -503,7 +287,7 @@ XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
 
 // FUNCTION: FFXIMAIN 0x100759C0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 382 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_100759C0(int *self_, int a2, int a3)
+XI_API int __thiscall TextureHolder_BindTinted(int *self_, int a2, int a3)
 {
   int v4;
   int v5;
@@ -615,328 +399,9 @@ LABEL_13:
            *(_DWORD *)(g_pCubeMapTarget + 4));
 }
 
-// FUNCTION: FFXIMAIN 0x10076030  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 2603 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10076030(int *self_, float *a2, char arg4)
-{
-  double v3;
-  alignas(16) unsigned char xi_frame[0x5D4];  // address-taken locals at their original offsets
-  int (&a3)[6] = *reinterpret_cast<int (*)[6]>(xi_frame + 0x170);
-  int &v6 = *reinterpret_cast<int *>(xi_frame + 0x188);
-  int &v7 = *reinterpret_cast<int *>(xi_frame + 0x18C);
-  int &v8 = *reinterpret_cast<int *>(xi_frame + 0x190);
-  int &v9 = *reinterpret_cast<int *>(xi_frame + 0x194);
-  int &v10 = *reinterpret_cast<int *>(xi_frame + 0x198);
-  float &v11 = *reinterpret_cast<float *>(xi_frame + 0x19C);
-  int &v12 = *reinterpret_cast<int *>(xi_frame + 0x1A0);
-  int &v13 = *reinterpret_cast<int *>(xi_frame + 0x1A4);
-  int &v14 = *reinterpret_cast<int *>(xi_frame + 0x1A8);
-  float &v15 = *reinterpret_cast<float *>(xi_frame + 0x1AC);
-  float &v16 = *reinterpret_cast<float *>(xi_frame + 0x1B0);
-  int &v17 = *reinterpret_cast<int *>(xi_frame + 0x1B4);
-  int &v18 = *reinterpret_cast<int *>(xi_frame + 0x1B8);
-  int &v19 = *reinterpret_cast<int *>(xi_frame + 0x1BC);
-  _BYTE (&v20)[20] = *reinterpret_cast<_BYTE (*)[20]>(xi_frame + 0x1C0);
-
-  Fn10076030_static_D1DC = 0;
-  Fn10076030_static_D1C0 = 0;
-  Fn10076030_static_D1A4 = 0;
-  Fn10076030_static_D188 = 0;
-  Fn10076030_static_D1E0 = 1065353216;
-  Fn10076030_static_D1C4 = 1065353216;
-  Fn10076030_static_D1A8 = 1065353216;
-  Fn10076030_static_D18C = 1065353216;
-  Fn10076030_static_D1E4 = -2139062144;
-  Fn10076030_static_D1C8 = -2139062144;
-  Fn10076030_static_D1AC = -2139062144;
-  Fn10076030_static_D190 = -2139062144;
-  Fn10076030_static_D1B8 = *a2;
-  Fn10076030_static_D180 = Fn10076030_static_D1B8;
-  Fn10076030_static_D1D4 = a2[2] + *a2;
-  Fn10076030_static_D19C = Fn10076030_static_D1D4;
-  Fn10076030_static_D1A0 = a2[1];
-  Fn10076030_static_D184 = Fn10076030_static_D1A0;
-  v3 = a2[1] + a2[3];
-  Fn10076030_static_D1CC = 0;
-  Fn10076030_static_D194 = 0;
-  Fn10076030_static_D1E8 = 1065353216;
-  Fn10076030_static_D1B0 = 1065353216;
-  Fn10076030_static_D1B4 = 0;
-  Fn10076030_static_D198 = 0;
-  Fn10076030_static_D1D8 = v3;
-  Fn10076030_static_D1BC = v3;
-  Fn10076030_static_D1EC = 1065353216;
-  Fn10076030_static_D1D0 = 1065353216;
-  if ( arg4 != 0 )
-    orig::TexRef_SetTexture(self_, 0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    24,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    11,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    4,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    5,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    52,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    15,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    27,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    22,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    137,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    28,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    48,
-    0);
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    324);
-  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 5, 2, (int)&Fn10076030_static_D180, 28);
-  v17 = 0;
-  v12 = 0;
-  v7 = 0;
-  a3[2] = 0;
-  v18 = 1065353216;
-  v13 = 1065353216;
-  v8 = 1065353216;
-  a3[3] = 1065353216;
-  v19 = -2130771968;
-  v14 = -2130771968;
-  v9 = -2130771968;
-  a3[4] = -2130771968;
-  v15 = *a2;
-  *(float *)a3 = v15;
-  *(float *)&v10 = a2[2] + *a2;
-  a3[5] = v10;
-  v6 = *((int *)a2 + 1);
-  a3[1] = v6;
-  v16 = a2[1] + a2[3];
-  v11 = v16;
-  qmemcpy(v20, a3, sizeof(v20));
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    68);
-  orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 3, 4, (int)a3, 20);
-  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           7,
-           1);
-}
-
-// FUNCTION: FFXIMAIN 0x10076520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1000 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10076520(int *self_, float *a2, float *a3, char a4)
-{
-  float *v5;
-  double v7;
-  double v8;
-  double v9;
-  double v10;
-  double v11;
-  double v12;
-  double v13;
-  double v14;
-  orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
-  v5 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
-  v5[24] = 1.0;
-  v5[17] = 1.0;
-  v5[10] = 1.0;
-  v5[3] = 1.0;
-  v5[23] = 0.0;
-  v5[25] = -2.3418052e-38;
-  v5[18] = -2.3418052e-38;
-  v5[11] = -2.3418052e-38;
-  v5[4] = -2.3418052e-38;
-  v5[16] = 0.0;
-  v5[9] = 0.0;
-  v5[2] = 0.0;
-  v7 = *a2;
-  v5[14] = *a2;
-  *v5 = v7;
-  v8 = a2[2] + *a2;
-  v5[21] = v8;
-  v5[7] = v8;
-  v9 = a2[1];
-  v5[8] = a2[1];
-  v5[1] = v9;
-  v10 = a2[3] + a2[1];
-  v5[22] = v10;
-  v5[15] = v10;
-  v11 = *a3;
-  v5[19] = *a3;
-  v5[5] = v11;
-  v12 = a3[2];
-  v5[26] = a3[2];
-  v5[12] = v12;
-  v13 = a3[1];
-  v5[13] = a3[1];
-  v5[6] = v13;
-  v14 = a3[3];
-  v5[27] = a3[3];
-  v5[20] = v14;
-  orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
-  if ( a4 != 0 )
-    orig::TexRef_SetTexture(self_, 0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    24,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    11,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    4,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    5,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
-  return orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
-}
-
-// FUNCTION: FFXIMAIN 0x10076750  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10076750(void * self_, undefined4 * param_1)
-{
-  *(uint32_t *)((int)self_ + 0x38) = param_1[2];
-  *(uint32_t *)((int)self_ + 0x3c) = param_1[3];
-  *(uint32_t *)((int)self_ + 0x30) = *param_1;
-  *(uint32_t *)((int)self_ + 0x34) = param_1[1];
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10076830  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10076830(char * param_1, char * param_2, undefined4 * param_3, undefined4 * param_4, int param_5, undefined4 param_6)
+XI_API int __cdecl Arg_SplitQuoted(char * param_1, char * param_2, undefined4 * param_3, undefined4 * param_4, int param_5, undefined4 param_6)
 {
   char cVar1;
   char cVar2;
@@ -973,7 +438,7 @@ XI_API int __cdecl fn_10076830(char * param_1, char * param_2, undefined4 * para
         iVar8 = iVar8 + -1;
         if (0 < iVar8) {
           while (cVar2 = *pcVar5, iVar6 = param_6, cVar2 != '\0') {
-            iVar4 = orig::FUN_100769f0(pcVar7,pcVar5,iVar8);
+            iVar4 = orig::Arg_CopyCharOrPair(pcVar7,pcVar5,iVar8);
             pcVar7 = pcVar7 + iVar4;
             pcVar5 = pcVar5 + iVar4;
             iVar8 = iVar8 - iVar4;
@@ -983,7 +448,7 @@ XI_API int __cdecl fn_10076830(char * param_1, char * param_2, undefined4 * para
       }
       else {
         while (0 < iVar8) {
-          iVar4 = orig::FUN_100769f0(pcVar7,pcVar5,iVar8);
+          iVar4 = orig::Arg_CopyCharOrPair(pcVar7,pcVar5,iVar8);
           pcVar7 = pcVar7 + iVar4;
           pcVar5 = pcVar5 + iVar4;
           iVar8 = iVar8 - iVar4;
@@ -1011,7 +476,7 @@ LAB_10076971:
   if (*pcVar5 != '\0') {
     do {
       if (iVar8 < 1) break;
-      iVar4 = orig::FUN_100769f0(pcVar7,pcVar5,iVar8);
+      iVar4 = orig::Arg_CopyCharOrPair(pcVar7,pcVar5,iVar8);
       pcVar7 = pcVar7 + iVar4;
       pcVar5 = pcVar5 + iVar4;
       iVar8 = iVar8 - iVar4;
@@ -1030,7 +495,7 @@ LAB_100769b5:
   iVar4 = 0;
   if (0 < iVar6) {
     do {
-      pcVar5 = orig::FUN_10076a70(*(char **)(PTR_DAT_103551e0 + iVar4 * 4));
+      pcVar5 = orig::Arg_StripQuotes(*(char **)(PTR_DAT_103551e0 + iVar4 * 4));
       *(char **)(PTR_DAT_103551e0 + iVar4 * 4) = pcVar5;
       iVar4 = iVar4 + 1;
     } while (iVar4 < iVar6);
@@ -1040,7 +505,7 @@ LAB_100769b5:
 
 // FUNCTION: FFXIMAIN 0x100769F0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100769F0(char * param_1, char * param_2, int param_3)
+XI_API int __cdecl Arg_CopyCharOrPair(char * param_1, char * param_2, int param_3)
 {
   char cVar1;
   int iVar2;
@@ -1083,7 +548,7 @@ XI_API int __cdecl fn_100769F0(char * param_1, char * param_2, int param_3)
 
 // FUNCTION: FFXIMAIN 0x10076A70  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API char * __cdecl fn_10076A70(char * param_1)
+XI_API char * __cdecl Arg_StripQuotes(char * param_1)
 {
   char cVar1;
   char cVar2;
@@ -1141,7 +606,7 @@ XI_API int __cdecl preprocessArg(char * orgstr, char * outbuf, int bufsize)
   }
   iVar7 = bufsize + -1;
   local_10 = outbuf;
-  iVar4 = orig::FUN_10077b40(&DAT_10355408,orgstr);
+  iVar4 = orig::Arg_LookupWord(&DAT_10355408,orgstr);
   if (iVar4 != 0) {
     if ((*(uint16_t *)(iVar4 + 0x16) & 0x100) != 0) {
       local_8 = (uint32_t)XI_PIECE(local_8, 1, 3) << 8;
@@ -1206,7 +671,7 @@ LAB_10076b29:
       iVar4 = 1;
       if (0 < iVar7) {
         while ((cVar3 = *pcVar9, cVar3 != '\0' && (cVar3 != '<'))) {
-          iVar4 = orig::FUN_100769f0(local_10,pcVar9,iVar7);
+          iVar4 = orig::Arg_CopyCharOrPair(local_10,pcVar9,iVar7);
           local_10 = local_10 + iVar4;
           pcVar9 = pcVar9 + iVar4;
           iVar7 = iVar7 - iVar4;
@@ -1219,7 +684,7 @@ LAB_10076b29:
     }
     if (iVar7 < 1) goto LAB_10076deb;
     while( true ) {
-      iVar4 = orig::FUN_100769f0(local_10,_Str1,iVar7);
+      iVar4 = orig::Arg_CopyCharOrPair(local_10,_Str1,iVar7);
       local_10 = local_10 + iVar4;
       _Str1 = _Str1 + iVar4;
       iVar7 = iVar7 - iVar4;
@@ -1247,7 +712,7 @@ code_r0x10076bb6:
     DAT_1047d494 = '\x03';
 LAB_10076cb3:
     if (((char)local_8 != '\0') && (DAT_1047d495 == 0)) goto LAB_10076d51;
-    uVar5 = orig::FUN_1015ecc0(0x20000);
+    uVar5 = orig::Menu_FindByFlags34(0x20000);
     if ((char)uVar5 != '\0') {
       orig::FUN_10129d90(g_pTkMsgWinData_as_v1,3);
       *outbuf = '\0';
@@ -1293,12 +758,12 @@ LAB_10076cb3:
         }
       }
       else {
-        uVar5 = orig::FUN_10159440(g_pTargetMng,&LAB_10077950,local_c);
+        uVar5 = orig::Target_SetIfUsable(g_pTargetMng,&LAB_10077950,local_c);
         if ((char)uVar5 != '\0') {
           orig::FUN_10081440(1);
           orig::FUN_10158db0(g_pTargetMng,1);
           orig::FUN_10081440(0);
-          orig::FUN_101594e0(g_pTargetMng,XI_CODE(FUN_10077a00));
+          orig::Target_SetHandlerC8(g_pTargetMng,XI_CODE(FUN_10077a00));
           *outbuf = '\0';
           return 0;
         }
@@ -1396,20 +861,9 @@ LAB_10076d36:
   goto LAB_10076b29;
 }
 
-// FUNCTION: FFXIMAIN 0x10077A00  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) fn_10077A00(undefined4 xi_eax)
-{
-  if (DAT_1047d496_as_s8 != '\0') {
-    orig::FUN_101a1cb0(DAT_10662794_as_v0);
-    return;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10077AD0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_10077AD0(uint8_t * param_1, uint8_t * param_2)
+XI_API uint8_t * __cdecl Arg_FindInSortedTable(uint8_t * param_1, uint8_t * param_2)
 {
   uint8_t *pbVar1;
   uint8_t bVar2;
@@ -1463,7 +917,7 @@ LAB_10077b1d:
 
 // FUNCTION: FFXIMAIN 0x10077B40  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10077B40(undefined4 param_1, char * param_2)
+XI_API undefined4 __cdecl Arg_LookupWord(undefined4 param_1, char * param_2)
 {
   uint8_t bVar1;
   uint8_t *pbVar2;
@@ -1485,7 +939,7 @@ XI_API undefined4 __cdecl fn_10077B40(undefined4 param_1, char * param_2)
       param_2 = param_2 + 1;
     }
     local_20[iVar3] = 0;
-    pbVar2 = orig::FUN_10077ad0(&DAT_10355408,local_20);
+    pbVar2 = orig::Arg_FindInSortedTable(&DAT_10355408,local_20);
     return pbVar2;
   }
   return 0;
@@ -1535,7 +989,7 @@ LAB_10077cdc:
 
 // FUNCTION: FFXIMAIN 0x10077CF0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10077CF0(int * param_1)
+XI_API void __cdecl Acter_CopyNameToBuffer(int * param_1)
 {
   char cVar1;
   int iVar2;
@@ -1547,7 +1001,7 @@ XI_API void __cdecl fn_10077CF0(int * param_1)
     _DAT_1047d4a0 = param_1[1];
     iVar2 = (&ActerBuffPtr_as_v0)[*param_1];
     if (iVar2 == 0) {
-      orig::FUN_10077d70();
+      orig::Acter_ClearCurrentName();
       return;
     }
     pcVar3 = (char *)(iVar2 + 0x214);
@@ -1567,7 +1021,7 @@ XI_API void __cdecl fn_10077CF0(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x10077D40  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_10077D40(void)
+XI_API undefined4 * __cdecl Acter_GetCurrentIdRef(void)
 {
   if (((DAT_1047d49c != 0) && ((&ActerBuffPtr_as_v0)[DAT_1047d49c] != 0)) &&
      (*(int *)((&ActerBuffPtr_as_v0)[DAT_1047d49c] + 0xa0) != 0)) {
@@ -1578,7 +1032,7 @@ XI_API undefined4 * __cdecl fn_10077D40(void)
 
 // FUNCTION: FFXIMAIN 0x10077D70  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10077D70(void)
+XI_API void __cdecl Acter_ClearCurrentName(void)
 {
   DAT_1047d49c_as_v0 = 0;
   DAT_103553e8 = 0;
@@ -1587,7 +1041,7 @@ XI_API void __cdecl fn_10077D70(void)
 
 // FUNCTION: FFXIMAIN 0x10077D80  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10077D80(void)
+XI_API undefined4 __cdecl Acter_FindMatchingActor(void)
 {
   int iVar1;
   int iVar2;
@@ -1598,10 +1052,10 @@ XI_API undefined4 __cdecl fn_10077D80(void)
   
   if ((DAT_10485f7a != 0) && ((&ActerBuffPtr_as_v0)[DAT_10485f7a] != 0)) {
     iVar4 = 0;
-    iVar2 = orig::FUN_100e8b80(0);
+    iVar2 = orig::Unit100D7420_SetByte9800AndGetEntry(0);
     while (iVar2 != 0) {
       aiStack_18[iVar4] = *(int *)(iVar2 + 0x14);
-      iVar2 = orig::FUN_100e8c70();
+      iVar2 = orig::Unit100D7420_SelectNext();
       iVar4 = iVar4 + 1;
     }
     iVar2 = 0;
@@ -1627,7 +1081,7 @@ XI_API undefined4 __cdecl fn_10077D80(void)
 
 // FUNCTION: FFXIMAIN 0x10077E30  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10077E30(undefined4 param_1, undefined4 xi_s2)
+XI_API undefined4 __cdecl ChatLog_AddFormattedMessage(undefined4 param_1, undefined4 xi_s2)
 {
   uint32_t uVar1;
   char xi_frame[1028] __attribute__((aligned(4)));
@@ -1690,17 +1144,17 @@ LAB_1007800b:
 
 // FUNCTION: FFXIMAIN 0x100780A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100780A0(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+XI_API undefined4 __cdecl Unit10074CA0_BuildPacket1A_Default(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_100780d0(param_1,param_2,param_3,param_4,0,0,0,param_5);
+  uVar1 = orig::Unit10074CA0_BuildPacket1A(param_1,param_2,param_3,param_4,0,0,0,param_5);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x100780D0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100780D0(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+XI_API undefined4 __cdecl Unit10074CA0_BuildPacket1A(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   uint16_t *puVar1;
   uint64_t uVar2;
@@ -1715,7 +1169,7 @@ XI_API undefined4 __cdecl fn_100780D0(undefined4 param_1, undefined4 param_2, un
     *(uint32_t *)(puVar1 + 8) = param_5;
     *(uint32_t *)(puVar1 + 10) = param_6;
     *(uint32_t *)(puVar1 + 0xc) = param_7;
-    orig::thunk_FUN_100ddd20(puVar1,0x1c,0);
+    orig::Unit100D7420_SendRaw(puVar1,0x1c,0);
     return 0;
   }
   return 0xffffffff;

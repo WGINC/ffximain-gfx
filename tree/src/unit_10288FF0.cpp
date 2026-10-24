@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102894E0  (unit unit_10288FF0: no unit evidence of its own; in the gap between 0x10288E60 (sqmdDMB) and 0x10289600 (sqopSystem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102894E0(int param_1, int param_2, uint32_t param_3)
+XI_API void __cdecl Unit10288FF0_ResolveSkelRefs(int param_1, int param_2, uint32_t param_3)
 {
   uint32_t uVar1;
   int iVar2;
@@ -19,7 +19,7 @@ XI_API void __cdecl fn_102894E0(int param_1, int param_2, uint32_t param_3)
         uVar1 = uVar3 & 0xffff;
         uVar3 = uVar3 >> 0x10;
         if (uVar3 == param_3) {
-          iVar2 = orig::FUN_1027c980(param_2,uVar1);
+          iVar2 = orig::SqskSkeleton_GetNode(param_2,uVar1);
           if (iVar2 == 0) {
             orig::sqDebugPrintf_v2(s_____Error__sqmdDMBResolveSkelRef_103b9444,uVar3,uVar1);
             *(uint32_t *)(*(int *)(param_1 + 0x50) + iVar4 * 4) = 0;

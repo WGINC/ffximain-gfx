@@ -4,20 +4,20 @@
 
 // FUNCTION: FFXIMAIN 0x100684F0  (unit unit_10064190: no unit evidence of its own; in the gap between 0x10064180 (CMoVuLineProgElem) and 0x10069D60 (CMoDX) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100684F0(void * self_, undefined4 xi_s1)
+XI_API void __thiscall Unit10064190_SetDwordValue(void * self_, undefined4 xi_s1)
 {
-  orig::FUN_10068590(self_,&xi_s1,0);
+  orig::Unit10064190_AssignTyped(self_,&xi_s1,0);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10068590  (unit unit_10064190: no unit evidence of its own; in the gap between 0x10064180 (CMoVuLineProgElem) and 0x10069D60 (CMoDX) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10068590(void * self_, undefined4 * param_1, undefined4 param_2)
+XI_API void __thiscall Unit10064190_AssignTyped(void * self_, undefined4 * param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
   if (*(int *)((int)self_ + 4) == 4) {
-    orig::operator_delete_10311BB0_v1(*(LPVOID *)self_);
+    orig::operator_delete_v1(*(LPVOID *)self_);
     *(uint32_t *)((int)self_ + 4) = 0;
   }
   uVar1 = *param_1;

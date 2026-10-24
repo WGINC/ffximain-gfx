@@ -1,0 +1,8 @@
+{
+  "0x10289F50": {
+    "name": "SqxfXformM_Init",
+    "confidence": "medium",
+    "evidence": "sets the type word 0xC0001 and the vtable entries, sets the flag byte at +0x14 to 0xFF and initialises the member at +0x1C with FUN_1027EBD0; called by sqxfXformTD_Init, sub_10289F30 and fn_10291390",
+    "summary": "Initialises a sqxfXformM transform object."
+  }
+}

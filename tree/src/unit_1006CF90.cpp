@@ -2,45 +2,9 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1006D0A0  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(1))) fn_1006D0A0(undefined4 xi_eax, undefined4 * param_1)
-{
-  int iVar1;
-  undefined4 *puVar2;
-  
-  if ((DAT_1047cdd8 & 1) == 0) {
-    DAT_1047cdd8 = DAT_1047cdd8 | 1;
-    DAT_1047caf0 = 0x3f800000;
-    DAT_1047caf4 = 0;
-    _DAT_1047caf8 = 0;
-    _DAT_1047cafc = 0;
-    _DAT_1047cb00 = 0;
-    _DAT_1047cb04 = 0x3f800000;
-    _DAT_1047cb08 = 0;
-    _DAT_1047cb0c = 0;
-    _DAT_1047cb10 = 0;
-    _DAT_1047cb14 = 0;
-    _DAT_1047cb18 = 0x3f800000;
-    _DAT_1047cb1c = 0;
-    _DAT_1047cb20 = 0;
-    _DAT_1047cb24 = 0;
-    _DAT_1047cb28 = 0;
-    _DAT_1047cb2c = 0x3f800000;
-    orig::_atexit_v1(&DAT_1006d180);
-  }
-  puVar2 = &DAT_1047caf0;
-  for (iVar1 = 0x10; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *param_1 = *puVar2;
-    puVar2 = puVar2 + 1;
-    param_1 = param_1 + 1;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x1006D270  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 45 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1006D270(float * param_1, int param_2, float * param_3)
+XI_API void __stdcall Unit1006CF90_MultiplyTo(float * param_1, int param_2, float * param_3)
 {
   float fVar1;
   float fVar2;

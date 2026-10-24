@@ -54,7 +54,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   param_1[0xb8] = 0;
   param_1[0xb9] = 0;
   param_1[0xba] = 0;
-  orig::FUN_1027eb50((float *)(param_1 + 0xbb),1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,(-1.0f),0.0f,0.0f,
+  orig::Unit1027E120_Set((float *)(param_1 + 0xbb),1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,(-1.0f),0.0f,0.0f,
                0.0f,0.0f);
   puVar3 = param_1 + 0xcb;
   puVar2 = param_1 + 0x1cb;
@@ -87,7 +87,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   do {
     param_1 = (undefined4 *)&DAT_00000008;
     do {
-      orig::FUN_10274670(pfVar5,0.0f,0.0f,0.0f);
+      orig::Unit10274050_SetXyz(pfVar5,0.0f,0.0f,0.0f);
       *puVar3 = 0;
       pfVar5 = pfVar5 + 3;
       puVar3 = puVar3 + 1;
@@ -272,7 +272,7 @@ XI_API int * __cdecl sqgxShader(int a1, int a2)
     {
       g_pDancerDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     }
-    orig::nullsub_32();
+    orig::Unit10284EB0_NoOp();
     v3 = g_pSqgxContext;
   }
   v3[v3[710] + 653] = 1;

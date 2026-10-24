@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10019210  (unit CXiTimer: class model places it in CXiTimer)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10019210(void * self_)
+XI_API void __thiscall CXiTimer_Constructor(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CXiTimer_GetRuntimeClass_variant0_1032a08c;
   *(uint32_t *)((int)self_ + 4) = 0x3f800000;

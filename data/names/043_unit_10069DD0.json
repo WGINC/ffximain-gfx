@@ -1,0 +1,59 @@
+{
+  "0x10069F90": {
+    "name": "Unit10069DD0_Update",
+    "confidence": "medium",
+    "evidence": "reads timeGetTime, stores the tick at +0xEA8, computes the elapsed seconds (x 0.001) at +0xEAC and at 60 per second at +0xEB0, accumulates a 60 Hz step at +0xEB4, then sets +0xEB0 from Camera_GetFrameScale",
+    "summary": "Updates the frame timer from the system clock.",
+    "invented_prefix_name": "FrameTimer_Update"
+  },
+  "0x1006A020": {
+    "name": "Gfx_CreateVertexBuffer",
+    "confidence": "high",
+    "evidence": "calls Gfx_CalcFVFStride for the FVF and then IDirect3DDevice8::CreateVertexBuffer on g_pResourceMng+0xEC4 with the size a2 times the stride",
+    "summary": "Creates a Direct3D vertex buffer for the given FVF and vertex count."
+  },
+  "0x1006A180": {
+    "name": "Camera_SetupMatrices",
+    "confidence": "low",
+    "evidence": "reads a cached transform with CDx_GetTransformCached, copies it into several 16-float matrices at +0xB90, +0xC10, +0xD10 and +0xD50 with Processor calls and fn_1006AD50, and stores half the render target size at +0xDC0 and +0xDC4",
+    "summary": "Builds the view and projection matrices for the camera."
+  },
+  "0x1006A540": {
+    "name": "Dx_GetCachedTransform2",
+    "confidence": "low",
+    "evidence": "calls CDx_GetTransformCached with index 2 on the object at +0xDC8 and writes into the caller's buffer",
+    "summary": "Gets the cached transform with index 2."
+  },
+  "0x1006AA30": {
+    "name": "Batch_DrawPrimitives",
+    "confidence": "medium",
+    "evidence": "for each of the count entries at +0xC calls the stream-source vtable slot 304 and the draw vtable slot 332 with Gfx_CalcFVFStride, then CDx_DrawPrimitive with type 5; a second block draws type 4 from the buffer at +8",
+    "summary": "Draws the batch's primitive lists through Direct3D."
+  },
+  "0x1006AD30": {
+    "name": "Attach_SetTranslation",
+    "confidence": "low",
+    "evidence": "copies three dwords from param_2 to param_1+0x30, +0x34 and +0x38; called by YmGenerater_BuildAttachMatrix",
+    "summary": "Stores an attachment's translation vector."
+  },
+  "0x1006AD50": {
+    "name": "Processor_ApplyPair",
+    "confidence": "low",
+    "evidence": "when the two arguments are equal calls the processor's vtable slot 0xB8 with the first, otherwise slot 0xB4 with both",
+    "summary": "Applies a processor operation to a pair of entries."
+  },
+  "0x1006AD90": {
+    "name": "Unit10069DD0_SetInvalid",
+    "confidence": "low",
+    "evidence": "stores 0xFFFFFFFF in the first dword of this and 0 in the next two",
+    "summary": "Sets a three-dword handle to its invalid value.",
+    "invented_prefix_name": "Handle_SetInvalid"
+  },
+  "0x1006ADF0": {
+    "name": "Unit10069DD0_Insert",
+    "confidence": "low",
+    "evidence": "stores the current head of g_pDxStatusMng+0xC at this+8, links this as the new head and sets the previous link of the old head to this",
+    "summary": "Inserts an entry at the head of the DX status list.",
+    "invented_prefix_name": "DxStatusList_Insert"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "0x1006B480": {
+    "name": "CMoTask_CacheViewProjectionOnce",
+    "confidence": "low",
+    "evidence": "a counter at +0x34 starts at 0 and returns 0 on its first call; on the call that finds it at 1, calls sub_10069EE0 on g_pResourceMng, CameraCache_CacheViewProjection on g_pMoCamera and FUN_1006A180, and returns the result",
+    "summary": "On its second call, caches the camera's view-projection and runs the draw helper; the first call only counts."
+  }
+}

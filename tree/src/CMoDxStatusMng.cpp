@@ -14,7 +14,7 @@ char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CMoDxStatusMng::Constructor(void * self)
 {
-  orig::FUN_1006ad90((void *)((int)self + 4));
+  orig::Unit10069DD0_SetInvalid((void *)((int)self + 4));
   *(uint8_t ***)self = &PTR_CMoDxStatusMng_GetRuntimeClass_1032c10c;
   return self;
 }

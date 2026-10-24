@@ -1,0 +1,9 @@
+{
+  "0x10025BF0": {
+    "name": "Unit100252F0_ClearCounter",
+    "confidence": "low",
+    "evidence": "sets vtable PTR_FUN_1032a480 on this and clears the global dword_10456E88; called by CYyModel::Constructor",
+    "summary": "Sets the model base vtable and clears a global counter.",
+    "invented_prefix_name": "ModelInit_ClearCounter"
+  }
+}

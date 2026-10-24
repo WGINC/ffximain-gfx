@@ -1,0 +1,128 @@
+{
+  "0x10270EC0": {
+    "name": "StAvatar_UpdateTransform",
+    "confidence": "low",
+    "evidence": "copies the eight values of the selected 0x7C-byte block (index DAT_1099B0F4) into DAT_1099CD94..DAT_1099CDB0 and calls sqxfXformTD_Update on 0x1099CD38; called by fn_10270B60 and fn_10271030",
+    "summary": "Copies the selected part's values and updates its transform."
+  },
+  "0x10271030": {
+    "name": "StAvatar_ApplyModes",
+    "confidence": "low",
+    "evidence": "when flag 0x200 is set calls FUN_102712e0 with the stored values and the argument; otherwise derives a mode from flags 0x40 and 0x80 and calls FUN_102710b0 with it, then StAvatar_UpdateTransform when flag 0x20 or a mode is set",
+    "summary": "Applies the avatar's current display modes."
+  },
+  "0x102715F0": {
+    "name": "StAvatar_ApplyEffectFlags",
+    "confidence": "low",
+    "evidence": "derives a value from flags 0x10 and 0x20 of DAT_1099B0D8 and calls FUN_10271630 with the stored values when it is non-zero",
+    "summary": "Applies the avatar's effect flags."
+  },
+  "0x10271630": {
+    "name": "StAvatar_UpdateAngles",
+    "confidence": "low",
+    "evidence": "when flag 2 of the part at DAT_1099C514 is clear, converts the argument to a frame rate, derives two angles scaled by the half sizes of the arguments and 0.01745 (pi/180), builds the rotations with FUN_1027ac30 and FUN_1027b170 and updates two transforms with sqxfXformTD_Update",
+    "summary": "Converts the view angles into part rotations and updates the transforms."
+  },
+  "0x102717F0": {
+    "name": "StAvatar_DrawScene",
+    "confidence": "medium",
+    "evidence": "calls sqsnSceneDraw on the scene at 0x1099B13C; called by StAvatarRender",
+    "summary": "Draws the avatar scene."
+  },
+  "0x10271B90": {
+    "name": "StAvatar_UpdateFlagBits",
+    "confidence": "medium",
+    "evidence": "with the second argument -1 toggles the bits of the argument in DAT_1099B0D8, non-zero sets them and zero clears them; called by fn_10250800",
+    "summary": "Sets, clears or toggles flag bits of the avatar state."
+  },
+  "0x10271C30": {
+    "name": "StAvatar_SetOffsets",
+    "confidence": "low",
+    "evidence": "stores the two arguments in DAT_1099B0E4 and DAT_1099B0EC at the index argument and sets flag 8 in DAT_1099B0D8 when either is non-zero; called by fn_1024DD10",
+    "summary": "Stores a pair of offsets for an index and flags the change."
+  },
+  "0x10271C60": {
+    "name": "StAvatar_SetSceneValue1",
+    "confidence": "low",
+    "evidence": "calls fn_102907C0 on the scene at 0x1099B13C with the two arguments; called by StAvatarInit",
+    "summary": "Forwards a value pair to the scene."
+  },
+  "0x10271C80": {
+    "name": "StAvatar_SetSceneValue2",
+    "confidence": "low",
+    "evidence": "calls fn_10290840 on the scene at 0x1099B13C with the two arguments; called by StAvatarInit",
+    "summary": "Forwards a value pair to the scene's second setting."
+  },
+  "0x10271CA0": {
+    "name": "StAvatar_StoreParams",
+    "confidence": "low",
+    "evidence": "stores its nine arguments in DAT_1099B104..DAT_1099B124",
+    "summary": "Stores nine parameter values in the avatar globals."
+  },
+  "0x10271D00": {
+    "name": "StAvatar_StoreEntry",
+    "confidence": "low",
+    "evidence": "copies the nine stored parameters (DAT_1099B104..DAT_1099B124) into the 9-dword entry of DAT_103B1C10 at the index DAT_1099B128",
+    "summary": "Saves the current parameters into the entry for the current index."
+  },
+  "0x10271D70": {
+    "name": "StAvatar_SelectEntry",
+    "confidence": "low",
+    "evidence": "stores the current entry first when DAT_1099B128 is not 0xD, loads entry param_1 of DAT_103B1C10 with StAvatar_StoreParams, applies the flags with FUN_102712e0 when flag 0x200 is set, and sets DAT_1099B128 to the argument",
+    "summary": "Switches the avatar to another stored parameter entry."
+  },
+  "0x10271F20": {
+    "name": "StAvatar_InitEntry",
+    "confidence": "low",
+    "evidence": "when DAT_1099BB70 is at most 0, sets the entry's transform from FUN_102727f0 and the table at DAT_103B1B70, initialises two transforms with sqxfXformTD_Init and Update and sets the scale at +0x2C to 0x41A00000",
+    "summary": "Initialises one avatar part's transforms from its table entry."
+  },
+  "0x102725A0": {
+    "name": "StAvatar_SetEntryPosition",
+    "confidence": "low",
+    "evidence": "replaces the index with DAT_1099B0F8 when it is -1, calls FUN_1028dbb0 on the argument, stores the first float and the second dword in the 0x7C-byte entry at DAT_1099BF20, and updates its transform",
+    "summary": "Sets the position of one avatar part entry."
+  },
+  "0x10272630": {
+    "name": "StAvatar_SetEntryFlag",
+    "confidence": "low",
+    "evidence": "calls FUN_1028ecc0 on the scene with the handle at DAT_1099BB74 for the index, setting or clearing it from the argument (-1 toggles against DAT_1099B164)",
+    "summary": "Sets or clears the scene flag for one avatar part."
+  },
+  "0x102726E0": {
+    "name": "StAvatar_SetFlag3",
+    "confidence": "low",
+    "evidence": "calls FUN_1028ece0 on the scene with the handle 3, setting it from the argument (-1 toggles against the byte at DAT_1099B184+0x9C)",
+    "summary": "Sets or clears scene flag 3."
+  },
+  "0x10272750": {
+    "name": "StAvatar_SetEntryFlag2",
+    "confidence": "low",
+    "evidence": "when flag 1 of the part at DAT_1099C514 is set, changes its flag 2 from the argument (-1 toggles, 0 clears, else sets), and when it is set updates the transform with FUN_1027a700, FUN_1027afb0 and FUN_1027b170",
+    "summary": "Sets or clears the second flag of an avatar part."
+  },
+  "0x102727F0": {
+    "name": "StAvatar_SetEntryColor",
+    "confidence": "low",
+    "evidence": "stores the four dwords of the argument at DAT_1099BBB0 for the index, and when DAT_1099CCF8 is set writes the first three and 1.0 minus the fourth into the scene object's +0x28, +0x2C, +0x30 and +0x44",
+    "summary": "Stores a colour for one avatar part and applies it to its scene object."
+  },
+  "0x10272880": {
+    "name": "StAvatar_SetEntryTransform",
+    "confidence": "low",
+    "evidence": "when the second argument is set copies its eight dwords from +0x14 to +0x30 into the part's values at DAT_1099BBB0; when the third argument is set copies its matrix, position, direction and scale into the part's blocks through M4fSet, FUN_10274650 and FUN_1027a700",
+    "summary": "Sets an avatar part's values and transform from its source records."
+  },
+  "0x102729E0": {
+    "name": "StAvatar_ToggleFlag168",
+    "confidence": "low",
+    "evidence": "with argument -1 toggles the byte at DAT_1099B168, otherwise stores whether the argument is non-zero",
+    "summary": "Sets or toggles the avatar's +0x168 flag."
+  },
+  "0x10272A10": {
+    "name": "StAvatar_SelectIndex",
+    "confidence": "low",
+    "evidence": "replaces -1 with DAT_1099B0F8, then stores the handle at DAT_1099BB74 for the index in DAT_1099B17C (when DAT_1099B170 is set) or in a new slot from FUN_1028f130, and calls FUN_1028f220 with 4; called by fn_10270B60 and fn_102736E0",
+    "summary": "Selects the scene slot for an avatar part."
+  }
+}

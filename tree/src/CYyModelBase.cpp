@@ -3,6 +3,24 @@
 #include "CYyModelBase.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100250F0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CYyModelBase::AllocParts(void * self, int param_1)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  
+  puVar2 = orig::Mem_AllocObject_v1(((*(uint16_t **)(param_1 + 0x42))[1] + 1 +
+                           (uint32_t)**(uint16_t **)(param_1 + 0x42)) * 0x3c,4);
+  *(undefined4 **)((int)self + 0x40) = puVar2;
+  if (puVar2 == (undefined4 *)0x0) {
+    return 0;
+  }
+  iVar1 = (*(uint16_t **)(param_1 + 0x42))[1] + 1 + (uint32_t)**(uint16_t **)(param_1 + 0x42);
+  *(int *)((int)self + 0x44) = iVar1;
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+}
+
 // FUNCTION: FFXIMAIN 0x100298A0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyModelBase::GetRuntimeClass()
@@ -10,32 +28,32 @@ char ** __cdecl CYyModelBase::GetRuntimeClass()
   return &CYyModelBase_classdesc;
 }
 
-// FUNCTION: FFXIMAIN 0x10029D30  (unit CYyModelBase: stores CYyModelBase vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10029D30  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10029D30(void * self_)
+void * __thiscall CYyModelBase::Construct(void * self)
 {
   int iVar1;
   void *this_00;
   
-  *(uint8_t ***)self_ = &CYyObject_vtbl_ambiguous0_as_v0;
-  orig::FUN_10034230((void *)((int)self_ + 8));
-  this_00 = (void *)((int)self_ + 0x24);
+  *(uint8_t ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
+  orig::CYySkl_Construct((void *)((int)self + 8));
+  this_00 = (void *)((int)self + 0x24);
   iVar1 = 7;
   do {
-    orig::FUN_1001abf0(this_00);
+    orig::CYyMotionQueList_Init(this_00);
     this_00 = (void *)((int)this_00 + 0x14);
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
-  *(uint8_t ***)self_ = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0xc0) = 0;
-  *(uint32_t *)((int)self_ + 0xb0) = DAT_103514f4;
-  *(uint32_t *)((int)self_ + 0xb4) = DAT_103514f8;
-  *(uint32_t *)((int)self_ + 0xb8) = DAT_103514fc;
-  *(uint32_t *)((int)self_ + 0xbc) = 0xbf800000;
-  *(uint32_t *)((int)self_ + 0xc4) = 0xffffffff;
-  return self_;
+  *(uint8_t ***)self = &PTR_CYyModelBase_GetRuntimeClass_1032a710;
+  *(uint32_t *)((int)self + 4) = 0;
+  *(uint32_t *)((int)self + 0x20) = 0;
+  *(uint32_t *)((int)self + 0xc0) = 0;
+  *(uint32_t *)((int)self + 0xb0) = DAT_103514f4;
+  *(uint32_t *)((int)self + 0xb4) = DAT_103514f8;
+  *(uint32_t *)((int)self + 0xb8) = DAT_103514fc;
+  *(uint32_t *)((int)self + 0xbc) = 0xbf800000;
+  *(uint32_t *)((int)self + 0xc4) = 0xffffffff;
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x10029DB0  (placed by tree manifest)
@@ -94,8 +112,8 @@ void __thiscall CYyModelBase::Destructor(void * self)
 void __thiscall CYyModelBase::SetResourceAndRebuild(void * self, undefined4 param_1)
 {
   *(uint32_t *)((int)self + 0xc) = param_1;
-  orig::FUN_100342a0((void *)((int)self + 8));
-  orig::FUN_1002a0c0(self);
+  orig::CYyModelBase_AllocMatrixBuffers((void *)((int)self + 8));
+  orig::CYyModelBase_RefreshParts(self);
   return;
 }
 
@@ -121,21 +139,55 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
     if (this_01 == (undefined4 *)0x0) {
       return (undefined4 *)0x0;
     }
-    orig::FUN_10029c90(this_01);
+    orig::CYyModelDt_Init(this_01);
     *this_01 = &PTR_CYyModelDt_GetRuntimeClass_1032a72c;
   }
   else if ((*(uint8_t *)(iVar1 + 0x32) & 0x7f) == 1) {
     this_00 = (void *)orig::Mem_AllocDefault_v1(0x1c8);
-    if ((this_00 == (void *)0x0) || (this_01 = orig::FUN_10025010(this_00), this_01 == (undefined4 *)0x0))
+    if ((this_00 == (void *)0x0) || (this_01 = orig::CYyModelDt_Construct(this_00), this_01 == (undefined4 *)0x0))
     {
       return (undefined4 *)0x0;
     }
-    orig::FUN_100250f0(this_01,iVar1);
+    orig::CYyModelBase_AllocParts(this_01,iVar1);
   }
   this_01[2] = param_1;
-  orig::FUN_10029f00(self,this_01);
-  orig::FUN_1002a0c0(self);
+  orig::Unit10029E50_AppendAtTail(self,this_01);
+  orig::CYyModelBase_RefreshParts(self);
   return this_01;
+}
+
+// FUNCTION: FFXIMAIN 0x1002A0C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 93 returned normally, 128 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYyModelBase::RefreshParts(void * self)
+{
+  int a1;
+  int *this_00;
+  uint32_t uVar1;
+  int *piVar2;
+  int iVar3;
+  
+  uVar1 = orig::Skel_ClearMarks((void *)((int)self + 8));
+  if ((char)uVar1 == '\0') {
+    return;
+  }
+  a1 = *(int *)((int)self + 0x1c);
+  piVar2 = (int *)orig::CYyModelBase_GetPartList_v1(self);
+  this_00 = (int *)*piVar2;
+  while (this_00 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x28))))((void *)(this_00),a1);
+    piVar2 = (int *)(*piVar2 + 4);
+    this_00 = (int *)*piVar2;
+  }
+  iVar3 = orig::CYyModelBase_FindPartIndex(self,0x7f);
+  if (iVar3 != 0) {
+    *(uint8_t *)(iVar3 + a1) = 0x80;
+  }
+  iVar3 = orig::CYyModelBase_FindPartIndex(self,0x7e);
+  if (iVar3 != 0) {
+    *(uint8_t *)(iVar3 + a1) = 0x80;
+  }
+  orig::Skel_MarkMarkedChains((void *)((int)self + 8));
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
@@ -313,4 +365,72 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
   for ( k = 0; k < 4; ++k )
     result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), k, 0);
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1002A750  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CYyModelBase::TransformVec4ByPart(void * self, undefined4 param_1, undefined4 * param_2)
+{
+  uint32_t uVar1;
+  
+  orig::Quat_SetIdentity(param_2);
+  uVar1 = orig::Unit1002A0C0_ApplyToVec4(self,param_1,param_2);
+  return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x1002A9B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CYyModelBase::FindPartIndex(void * self, uint32_t param_1)
+{
+  short *psVar1;
+  
+  psVar1 = (short *)orig::Skel_GetRecordAt((void *)((int)self + 8),param_1);
+  if (psVar1 == (short *)0x0) {
+    return 0;
+  }
+  if (0x7f < param_1) {
+    return 0;
+  }
+  return (int)*psVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x100342A0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYyModelBase::AllocMatrixBuffers(void * self)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  
+  if (*(undefined4 **)((int)self + 4) != (undefined4 *)0x0) {
+    iVar1 = orig::ResourceHandle_Deref_v1(*(undefined4 **)((int)self + 4));
+    uVar4 = (uint32_t)*(uint16_t *)(iVar1 + 0x32);
+    puVar2 = orig::Mem_AllocObject_v1((uVar4 + 1) * 0x40,2);
+    *(undefined4 **)((int)self + 8) = puVar2;
+    if (puVar2 != (undefined4 *)0x0) {
+      *(uint32_t *)((int)self + 0xc) = (int)puVar2 + 0xfU & 0xfffffff0;
+      if (uVar4 != 0) {
+        iVar1 = 0;
+        uVar3 = uVar4;
+        do {
+          orig::Mat4_SetIdentity_v1((void *)(*(int *)((int)self + 0xc) + iVar1));
+          iVar1 = iVar1 + 0x40;
+          uVar3 = uVar3 - 1;
+        } while (uVar3 != 0);
+      }
+      puVar2 = orig::Mem_AllocObject_v1(uVar4,2);
+      *(undefined4 **)((int)self + 0x14) = puVar2;
+      if (puVar2 != (undefined4 *)0x0) {
+        return;
+      }
+    }
+  }
+  if (*(int *)((int)self + 8) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self + 8));
+  }
+  if (*(int *)((int)self + 0x14) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self + 0x14));
+  }
+  return;
 }

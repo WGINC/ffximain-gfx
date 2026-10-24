@@ -21,34 +21,34 @@ void * CMoSchedularTask::ScalarDeletingDtor(char a2)
   return self;
 }
 
-// FUNCTION: FFXIMAIN 0x10057270  (unit CMoSchedularTask: stores CMoSchedularTask vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x10057270  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10057270(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+void * __thiscall CMoSchedularTask::Construct(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t *puVar1;
   int iVar2;
   
-  orig::CMoTask_Constructor_v1(self_);
-  orig::FUN_1003b540((uint32_t *)((int)self_ + 0x34));
-  orig::FUN_10055640((void *)((int)self_ + 0xb4));
-  puVar1 = (uint32_t *)((int)self_ + 0xc0);
+  orig::CMoTask_Constructor_v1(self);
+  orig::CMoAttachments_Construct((uint32_t *)((int)self + 0x34));
+  orig::CMoOtTask_Clear((void *)((int)self + 0xb4));
+  puVar1 = (uint32_t *)((int)self + 0xc0);
   iVar2 = 0x10;
   do {
     *puVar1 = 0;
     puVar1 = puVar1 + 2;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  *(uint8_t ***)self_ = &PTR_CMoSchedularTask_GetRuntimeClass_1032b860;
-  *(uint32_t *)((int)self_ + 0x34) = &PTR_LAB_1032b844;
-  orig::FUN_100573b0(self_);
-  orig::FUN_100573e0(self_,param_1,param_2,param_3);
+  *(uint8_t ***)self = &PTR_CMoSchedularTask_GetRuntimeClass_1032b860;
+  *(uint32_t *)((int)self + 0x34) = &PTR_LAB_1032b844;
+  orig::CMoSchedularTask_ResetFlags(self);
+  orig::FUN_100573e0(self,param_1,param_2,param_3);
   orig::FUN_10074a00();
-  return self_;
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x100573B0  (unit CMoSchedularTask: class model places it in CMoSchedularTask)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100573B0(void * self_)
+XI_API void __thiscall CMoSchedularTask_ResetFlags(void * self_)
 {
   *(uint8_t *)((int)self_ + 0x141) = 0;
   *(uint8_t *)((int)self_ + 0x143) = 0;
@@ -56,41 +56,6 @@ XI_API void __thiscall fn_100573B0(void * self_)
   *(uint8_t *)((int)self_ + 0x140) = 0;
   *(uint8_t *)((int)self_ + 0x145) = 0;
   *(uint32_t *)((int)self_ + 0x146) = 0;
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x100573E0  (unit CMoSchedularTask: between 0x100573B0 (class model places it in CMoSchedularTask) and 0x100574A0 (stores CMoSchedularTask vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100573E0(void * self_, int param_1, uint32_t param_2, undefined4 param_3)
-{
-  int iVar1;
-  
-  *(uint32_t *)((int)self_ + 0x90) = 0;
-  *(uint8_t *)((int)self_ + 0x140) = 0;
-  *(uint32_t *)((int)self_ + 0xac) = 0;
-  orig::FUN_10057cc0(self_,param_3);
-  *(uint32_t *)((int)self_ + 0x80) = *(uint32_t *)(param_1 + 0x14);
-  if (param_2 != 0) {
-    if (param_2 != 1) {
-      if (*(int **)((int)self_ + 0x80) == (int *)0x0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = **(int **)((int)self_ + 0x80);
-      }
-      *(float *)((int)self_ + 0x9c) = (float)((long double)param_2 / (long double)*(int *)(iVar1 + 0x7c));
-      goto LAB_1005742f;
-    }
-    *(uint8_t *)((int)self_ + 0x141) = 1;
-  }
-  *(uint32_t *)((int)self_ + 0x9c) = 0x3f800000;
-LAB_1005742f:
-  *(uint32_t *)((int)self_ + 0xa0) = 0;
-  *(uint32_t *)((int)self_ + 0x84) = 0;
-  *(uint32_t *)((int)self_ + 0x80) = *(uint32_t *)(param_1 + 0x14);
-  *(uint32_t *)((int)self_ + 0x94) = 0;
-  *(uint32_t *)((int)self_ + 0x98) = 0;
-  *(uint32_t *)((int)self_ + 0x88) = *(uint32_t *)(param_1 + 0x74);
   return;
 }
 
@@ -132,7 +97,7 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   if (*(code **)((int)self + 0xac) != (code *)0x0) {
     (**(code **)((int)self + 0xac))(self,*(uint32_t *)((int)self + 0xb0));
   }
-  xi_eax = orig::FUN_1003b690(this_00);
+  xi_eax = orig::CMoAttachments_ResetAll(this_00);
   this_01 = (void *)((int)self + 0x140);
   iVar1 = 0x10;
   do {
@@ -146,14 +111,14 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10057CC0  (unit CMoSchedularTask: between 0x10057BF0 (class model places it in CMoSchedularTask) and 0x10057FB0 (name CMoSchedularTask_Interpret), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10057CC0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10057CC0(void * self_, short * param_1)
+void __thiscall CMoSchedularTask::SetSharedRef(void * self, short * param_1)
 {
   if (param_1 != (short *)0x0) {
-    *(short **)((int)self_ + 0x90) = param_1;
+    *(short **)((int)self + 0x90) = param_1;
     *param_1 = *param_1 + 1;
-    orig::FUN_100684f0((void *)((int)self_ + 0xc0),0);
+    orig::Unit10064190_SetDwordValue((void *)((int)self + 0xc0),0);
     return;
   }
   return;

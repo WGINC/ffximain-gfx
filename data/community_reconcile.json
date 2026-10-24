@@ -1,0 +1,2285 @@
+{
+ "fields": {
+  "camera": {
+   "0x2F0": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "aspect_ratio"
+   },
+   "0x2F8": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "zoom"
+   },
+   "0x30": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "framerate_divisor"
+   }
+  },
+  "cdx": {
+   "0x7F8": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "red"
+   },
+   "0x7FC": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "green"
+   },
+   "0x800": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "blue"
+   },
+   "0x804": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "_dupe_red"
+   },
+   "0x808": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "_dupe_green"
+   },
+   "0x80C": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "_dupe_blue"
+   }
+  },
+  "entity": {
+   "0x100": {
+    "ashita": "Look.Body",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x102": {
+    "ashita": "Look.Hands",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x104": {
+    "ashita": "Look.Legs",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x106": {
+    "ashita": "Look.Feet",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x108": {
+    "ashita": "Look.Main",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x10A": {
+    "ashita": "Look.Sub",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x10C": {
+    "ashita": "Look.Ranged",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x11C": {
+    "ashita": "ActionTimer1",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: an action timer; Windower: a freeze flag",
+    "windower5": "freeze"
+   },
+   "0x11E": {
+    "ashita": "ActionTimer2",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x120": {
+    "ashita": "Render",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "flags"
+   },
+   "0x124": {
+    "ashita": "Render.Flags1",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x128": {
+    "ashita": "Render.Flags2",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x12C": {
+    "ashita": "Render.Flags3",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x130": {
+    "ashita": "Render.Flags4",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x134": {
+    "ashita": "Render.Flags5",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x138": {
+    "ashita": "Render.Flags6",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x13C": {
+    "ashita": "Render.Flags7",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x14": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "rotation"
+   },
+   "0x140": {
+    "ashita": "Render.Flags8",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x144": {
+    "ashita": "PopEffect",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x145": {
+    "ashita": "UpdateMask",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x146": {
+    "ashita": "InteractionTargetIndex",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x148": {
+    "ashita": "NpcSpeechFrame",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x14A": {
+    "ashita": "LookAxisX",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x14C": {
+    "ashita": "LookAxisY",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x14E": {
+    "ashita": "MouthCounter",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x150": {
+    "ashita": "MouthWaitCounter",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x152": {
+    "ashita": "CraftTimerUnknown",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x154": {
+    "ashita": "CraftServerId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x158": {
+    "ashita": "CraftAnimationEffect",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x15A": {
+    "ashita": "CraftAnimationStep",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x15B": {
+    "ashita": "CraftParam",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x15C": {
+    "ashita": "MovementSpeed2",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "movement_speed"
+   },
+   "0x160": {
+    "ashita": "NpcWalkPosition1",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x162": {
+    "ashita": "NpcWalkPosition2",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x164": {
+    "ashita": "NpcWalkMode",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x166": {
+    "ashita": "CostumeId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x168": {
+    "ashita": "Mou4",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x16C": {
+    "ashita": "StatusServer",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "state_id"
+   },
+   "0x170": {
+    "ashita": "Status",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "_dupe_state_id"
+   },
+   "0x174": {
+    "ashita": "StatusEvent",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x180": {
+    "ashita": "ModelTime",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x184": {
+    "ashita": "ModelStartTime",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x188": {
+    "ashita": "ClaimStatus",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "claim_id"
+   },
+   "0x18C": {
+    "ashita": "ZoneId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x190": {
+    "ashita": "Animations",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "animation"
+   },
+   "0x1B8": {
+    "ashita": "AnimationTime",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "animation_time"
+   },
+   "0x1BA": {
+    "ashita": "AnimationStep",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "animation_step"
+   },
+   "0x1BC": {
+    "ashita": "AnimationPlay",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1BE": {
+    "ashita": "EmoteTargetIndex",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1C0": {
+    "ashita": "EmoteId",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "emote_id"
+   },
+   "0x1C4": {
+    "ashita": "EmoteIdString",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "emote_name"
+   },
+   "0x1C8": {
+    "ashita": "EmoteTargetActorPointer",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1D0": {
+    "ashita": "SpawnFlags",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "entity_flags"
+   },
+   "0x1D4": {
+    "ashita": "LinkshellColor",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "linkshell_color"
+   },
+   "0x1D8": {
+    "ashita": "NameColor",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1DA": {
+    "ashita": "CampaignNameFlag",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "campaign_mode"
+   },
+   "0x1DB": {
+    "ashita": "MountId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1DC": {
+    "ashita": "FishingUnknown0000",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "fishing_timer"
+   },
+   "0x1E0": {
+    "ashita": "FishingUnknown0001",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1E4": {
+    "ashita": "FishingActionCountdown",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1E8": {
+    "ashita": "FishingRodCastTime",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1EA": {
+    "ashita": "FishingUnknown0002",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1EC": {
+    "ashita": "LastActionId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1F0": {
+    "ashita": "MogMotionId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1F4": {
+    "ashita": "LastActionActorPointer",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1F8": {
+    "ashita": "TargetedIndex",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "target_index"
+   },
+   "0x1FA": {
+    "ashita": "PetTargetIndex",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "pet_index"
+   },
+   "0x1FC": {
+    "ashita": "UpdateRequestDelay",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1FE": {
+    "ashita": "IsDirty",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x1FF": {
+    "ashita": "BallistaFlags",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x200": {
+    "ashita": "PankrationEnabled",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x201": {
+    "ashita": "PankrationFlagFlip",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x204": {
+    "ashita": "ModelSize",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: model size; Windower: model scale (and 0x208: hitbox size vs model size): the two may be swapped",
+    "windower5": "model_scale"
+   },
+   "0x208": {
+    "ashita": "ModelHitboxSize",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: model hitbox size; Windower: model size",
+    "windower5": "model_size"
+   },
+   "0x20C": {
+    "ashita": "EnvironmentAreaId",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: environment area id; Windower: Monstrosity flags",
+    "windower5": "monstrosity_flags"
+   },
+   "0x20E": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "monstrosity_name_id_1"
+   },
+   "0x20F": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "monstrosity_name_id_2"
+   },
+   "0x210": {
+    "ashita": "MonstrosityFlag",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: Monstrosity flag; Windower: Monstrosity name",
+    "windower5": "monstrosity_name"
+   },
+   "0x212": {
+    "ashita": "MonstrosityNameId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x214": {
+    "ashita": "MonstrosityName",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x231": {
+    "ours": null,
+    "status": "adopted",
+    "windower5": "monstrosity_name_short"
+   },
+   "0x234": {
+    "ashita": "MonstrosityNameEnd",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x235": {
+    "ashita": "MonstrosityNameAbbr",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x24": {
+    "ashita": "Movement.LastPosition",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: the last position; Windower: the position (current)",
+    "windower5": "position"
+   },
+   "0x24D": {
+    "ashita": "MonstrosityNameAbbrEnd",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x250": {
+    "ashita": "CustomProperties",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x27C": {
+    "ashita": "BallistaInfo",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x28": {
+    "ashita": "Movement.LastPosition.Z",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x2A0": {
+    "ashita": "FellowTargetIndex",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "fellow_index"
+   },
+   "0x2A2": {
+    "ashita": "WarpTargetIndex",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: warp target index; Windower: owner index",
+    "windower5": "owner_index"
+   },
+   "0x2A4": {
+    "ashita": "TrustOwnerTargetIndex",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x2A6": {
+    "ashita": "AreaDisplayTargetIndex",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x2C": {
+    "ashita": "Movement.LastPosition.Y",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x30": {
+    "ashita": "Movement.LastPosition.W",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x34": {
+    "ashita": "Movement.LastPosition.Roll",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "_dupe_rotation"
+   },
+   "0x38": {
+    "ashita": "Movement.LastPosition.Yaw",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x3C": {
+    "ashita": "Movement.LastPosition.Pitch",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x4": {
+    "ashita": "Movement",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "position_display"
+   },
+   "0x44": {
+    "ashita": "Movement.Move",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "_dupe_position"
+   },
+   "0x48": {
+    "ashita": "Movement.Move.Z",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x4C": {
+    "ashita": "Movement.Move.Y",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x50": {
+    "ashita": "Movement.Move.W",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x54": {
+    "ashita": "Movement.Move.DeltaX",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x58": {
+    "ashita": "Movement.Move.DeltaZ",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x5C": {
+    "ashita": "Movement.Move.DeltaY",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x60": {
+    "ashita": "Movement.Move.DeltaW",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x64": {
+    "ashita": "Movement.Move.DeltaRoll",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x68": {
+    "ashita": "Movement.Move.DeltaYaw",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x6C": {
+    "ashita": "Movement.Move.DeltaPitch",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0x74": {
+    "ashita": "TargetIndex",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "index"
+   },
+   "0x78": {
+    "ashita": "ServerId",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "id"
+   },
+   "0x7C": {
+    "ashita": "Name",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "name"
+   },
+   "0x98": {
+    "ashita": "MovementSpeed",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "dupe_movement_speed"
+   },
+   "0x9C": {
+    "ashita": "AnimationSpeed",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xA0": {
+    "ashita": "ActorPointer",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "display"
+   },
+   "0xA4": {
+    "ashita": "Attachments",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xD4": {
+    "ashita": "EventPointer",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xD8": {
+    "ashita": "Distance",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "distance"
+   },
+   "0xDC": {
+    "ashita": "TurnSpeed",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xE0": {
+    "ashita": "TurnSpeedHead",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xE4": {
+    "ashita": "Heading",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "_dupe_heading2"
+   },
+   "0xE8": {
+    "ashita": "Next",
+    "ours": null,
+    "status": "sources differ: measure",
+    "why": "Ashita: the next entity (a link); Windower: the owner",
+    "windower5": "owner"
+   },
+   "0xEC": {
+    "ashita": "HPPercent",
+    "ours": null,
+    "status": "adopted",
+    "windower5": "hp_percent"
+   },
+   "0xEE": {
+    "ashita": "Type",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "target_type"
+   },
+   "0xEF": {
+    "ashita": "Race",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "race_id"
+   },
+   "0xF0": {
+    "ashita": "LocalMoveCount",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xF2": {
+    "ashita": "ActorLockFlag",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xF4": {
+    "ashita": "ModelUpdateFlags",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xF8": {
+    "ashita": "DoorId",
+    "ours": null,
+    "status": "adopted"
+   },
+   "0xFC": {
+    "ashita": "Look",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "face_model_id"
+   },
+   "0xFE": {
+    "ashita": "Look.Head",
+    "ours": null,
+    "status": "adopted (the sources word it differently; judged the same, data/community_judged.json)",
+    "windower5": "model"
+   }
+  }
+ },
+ "functions": {
+  "0x10077D80": {
+   "aliases": [],
+   "community": [
+    "SeekBattleActor"
+   ],
+   "name": "SeekBattleActor",
+   "ours": "Acter_FindMatchingActor",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/targets.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10080DC0": {
+   "aliases": [
+    "chat.parseinputtext"
+   ],
+   "community": [],
+   "ours": "CommandCalc",
+   "ours_from": "IDB/Ghidra",
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x1008A8E0": {
+   "aliases": [],
+   "community": [
+    "GetMonsterName"
+   ],
+   "name": "GetMonsterName",
+   "ours": "ActerBuff_FindByMaskedId",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/targets.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x100D9B00": {
+   "aliases": [],
+   "community": [
+    "ntSysGetLastTeller"
+   ],
+   "name": "ntSysGetLastTeller",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/targets.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x100DBE10": {
+   "aliases": [],
+   "community": [
+    "xiGetTime"
+   ],
+   "name": "xiGetTime",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x100DD590": {
+   "aliases": [
+    "packets.encryptbuffer"
+   ],
+   "community": [],
+   "ours": "Unit100D7420_EncodeMd5",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100DD6C0": {
+   "aliases": [
+    "packets.decryptbuffer"
+   ],
+   "community": [],
+   "ours": "Unit100D7420_DecodeMd5",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100DDD20": {
+   "aliases": [
+    "packets.queuepacket2"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100E6020": {
+   "aliases": [
+    "player.hasability"
+   ],
+   "community": [],
+   "ours": "Unit100D7420_GetBlock2CDE8IfReady",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100F00A0": {
+   "aliases": [
+    "player.hasspell"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100F0FB0": {
+   "aliases": [
+    "player.joblevels"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100F0FF0": {
+   "aliases": [
+    "player.jobmasterlevels"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x100F94D0": {
+   "aliases": [],
+   "community": [
+    "gcTrackingPosGet"
+   ],
+   "name": "gcTrackingPosGet",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/targets.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x100FC3C0": {
+   "aliases": [
+    "packets.queuepacket1"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x101039E0": {
+   "aliases": [],
+   "community": [
+    "ntGameTimeGet"
+   ],
+   "ours": "ntGameTimeGet",
+   "ours_from": "IDB/Ghidra",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "the same"
+  },
+  "0x10103A50": {
+   "aliases": [],
+   "community": [
+    "ntGameTimeDiff"
+   ],
+   "name": "ntGameTimeDiff",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103A80": {
+   "aliases": [],
+   "community": [
+    "ntGameYearGet"
+   ],
+   "name": "ntGameYearGet",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103A90": {
+   "aliases": [],
+   "community": [
+    "ntGameMonthGet"
+   ],
+   "name": "ntGameMonthGet",
+   "ours": "Time_ModDiv12FC00Div19500",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103AB0": {
+   "aliases": [],
+   "community": [
+    "ntGameDayGet"
+   ],
+   "name": "ntGameDayGet",
+   "ours": "Time_ModDiv19500Scaled",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103AE0": {
+   "aliases": [],
+   "community": [
+    "ntGameDayWeekGet"
+   ],
+   "name": "ntGameDayWeekGet",
+   "ours": "Time_ModDiv6C00Scaled",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103B10": {
+   "aliases": [],
+   "community": [
+    "ntGameHourGet"
+   ],
+   "name": "ntGameHourGet",
+   "ours": "Time_ModDivD80Div90",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103B30": {
+   "aliases": [],
+   "community": [
+    "ntGameMinGet"
+   ],
+   "name": "ntGameMinGet",
+   "ours": "Time_ModMul3CDiv90",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103B60": {
+   "aliases": [],
+   "community": [
+    "ntGameMoonGet"
+   ],
+   "name": "ntGameMoonGet",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10103BA0": {
+   "aliases": [],
+   "community": [
+    "ntGameMoonPerGet"
+   ],
+   "name": "ntGameMoonPerGet",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x10127C00": {
+   "aliases": [
+    "chat.addchatmessage"
+   ],
+   "community": [],
+   "ours": "ChatLog_AddMessage",
+   "ours_from": "IDB/Ghidra",
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x101A1BD0": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::getLine"
+   ],
+   "name": "FsMacroContainer::getLine",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A1C30": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::getName"
+   ],
+   "name": "FsMacroContainer::getName",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A1CB0": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::stopMacro"
+   ],
+   "name": "FsMacroContainer::stopMacro",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A25D0": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::setMacro"
+   ],
+   "name": "FsMacroContainer::setMacro",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A2890": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::setPage"
+   ],
+   "name": "FsMacroContainer::setPage",
+   "ours": "Unit1018BA60_SetReadPos",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A2920": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::setBook"
+   ],
+   "name": "FsMacroContainer::setBook",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A2A90": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::clearMacro"
+   ],
+   "name": "FsMacroContainer::clearMacro",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A3300": {
+   "aliases": [],
+   "community": [
+    "FsMacroContainer::runMacro"
+   ],
+   "name": "FsMacroContainer::runMacro",
+   "ours": "Unit1018BA60_SetSlot",
+   "ours_from": "naming session (low)",
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101A33E0": {
+   "aliases": [],
+   "community": [
+    "FsMacroController::canUseMacro"
+   ],
+   "name": "FsMacroController::canUseMacro",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/macros.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101BC100": {
+   "aliases": [
+    "chat.parseautotranslate"
+   ],
+   "community": [],
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita pointers.ini: config/ashita/ashita.pointers.ini"
+   ],
+   "status": "alias only (a pointer label, not a symbol)"
+  },
+  "0x101C8D10": {
+   "aliases": [],
+   "community": [
+    "sqLocalTime"
+   ],
+   "name": "sqLocalTime",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  },
+  "0x101C8FD0": {
+   "aliases": [],
+   "community": [
+    "YkGetTimeString"
+   ],
+   "name": "YkGetTimeString",
+   "ours": null,
+   "ours_from": null,
+   "sources": [
+    "ashita addon: addons/libs/ffxi/time.lua"
+   ],
+   "status": "adopted"
+  }
+ },
+ "globals": {
+  "0x103516E4": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.volumes"
+   ]
+  },
+  "0x103551E0": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.tell_history"
+   ]
+  },
+  "0x10371DAC": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.d_msg_table"
+   ]
+  },
+  "0x103821F0": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.map_table"
+   ]
+  },
+  "0x1045666C": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.graphics"
+   ]
+  },
+  "0x1047D6A8": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.entity_chat_info_array"
+   ]
+  },
+  "0x104809A0": {
+   "ashita_alias": [
+    "party.statusicons"
+   ],
+   "windower5": []
+  },
+  "0x10480AF0": {
+   "ashita_alias": [
+    "entitymap"
+   ],
+   "windower5": [
+    "windower5 types.entities"
+   ]
+  },
+  "0x10482F28": {
+   "ashita_alias": [
+    "player.pettp"
+   ],
+   "windower5": []
+  },
+  "0x10482F33": {
+   "ashita_alias": [
+    "player.petmp"
+   ],
+   "windower5": []
+  },
+  "0x10485FE4": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.music"
+   ]
+  },
+  "0x10487E48": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.string_tables"
+   ]
+  },
+  "0x10487EB4": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.target",
+    "windower5 types.target_array"
+   ]
+  },
+  "0x10487F58": {
+   "ashita_alias": [
+    "autofollow"
+   ],
+   "windower5": [
+    "windower5 types.follow"
+   ]
+  },
+  "0x104CA3F0": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.account_info"
+   ]
+  },
+  "0x104DFD98": {
+   "ashita_alias": [
+    "inventory"
+   ],
+   "windower5": []
+  },
+  "0x1057817C": {
+   "ashita_alias": [
+    "castbar"
+   ],
+   "windower5": []
+  },
+  "0x10578204": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.item_display"
+   ]
+  },
+  "0x10578478": {
+   "ashita_alias": [
+    "target.target"
+   ],
+   "windower5": []
+  },
+  "0x10621808": {
+   "ashita_alias": [
+    "player.loginstatus"
+   ],
+   "windower5": [
+    "windower5 types.weather_strings"
+   ]
+  },
+  "0x1062188C": {
+   "ashita_alias": [
+    "menu"
+   ],
+   "windower5": []
+  },
+  "0x1062193C": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.chat_window_info"
+   ]
+  },
+  "0x10662794": {
+   "ashita_alias": [
+    "g_pFsMacro"
+   ],
+   "windower5": []
+  },
+  "0x10662D40": {
+   "ashita_alias": [
+    "chat.inputtext.this"
+   ],
+   "windower5": [
+    "windower5 types.chat_input"
+   ]
+  },
+  "0x10662DA4": {
+   "ashita_alias": [
+    "chat.parseinputtext.this"
+   ],
+   "windower5": []
+  },
+  "0x10662DCC": {
+   "ashita_alias": [
+    "clientversion"
+   ],
+   "windower5": []
+  },
+  "0x10663AAC": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.party"
+   ]
+  },
+  "0x10663AD8": {
+   "ashita_alias": [
+    "party"
+   ],
+   "windower5": []
+  },
+  "0x10666EC0": {
+   "ashita_alias": [
+    "recast.abilities"
+   ],
+   "windower5": []
+  },
+  "0x10667044": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.action_strings"
+   ]
+  },
+  "0x106671B4": {
+   "ashita_alias": [],
+   "windower5": [
+    "windower5 types.status_effect_strings"
+   ]
+  },
+  "0x106671E0": {
+   "ashita_alias": [
+    "recast.spells"
+   ],
+   "windower5": []
+  }
+ },
+ "measure": [
+  {
+   "ashita": "Movement.LastPosition",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x24",
+   "ours": null,
+   "windower5": "position"
+  },
+  {
+   "ashita": "Next",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0xE8",
+   "ours": null,
+   "windower5": "owner"
+  },
+  {
+   "ashita": "ActionTimer1",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x11C",
+   "ours": null,
+   "windower5": "freeze"
+  },
+  {
+   "ashita": "ModelSize",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x204",
+   "ours": null,
+   "windower5": "model_scale"
+  },
+  {
+   "ashita": "ModelHitboxSize",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x208",
+   "ours": null,
+   "windower5": "model_size"
+  },
+  {
+   "ashita": "EnvironmentAreaId",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x20C",
+   "ours": null,
+   "windower5": "monstrosity_flags"
+  },
+  {
+   "ashita": "MonstrosityFlag",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x210",
+   "ours": null,
+   "windower5": "monstrosity_name"
+  },
+  {
+   "ashita": "WarpTargetIndex",
+   "class": "CYyObject_VT_1032D69C",
+   "kind": "field",
+   "object": "entity",
+   "offset": "0x2A2",
+   "ours": null,
+   "windower5": "owner_index"
+  }
+ ],
+ "spans": {
+  "camera": [],
+  "cdx": [],
+  "entity": [
+   [
+    4,
+    116,
+    "ashita",
+    "Movement"
+   ],
+   [
+    36,
+    68,
+    "ashita",
+    "Movement.LastPosition"
+   ],
+   [
+    40,
+    44,
+    "ashita",
+    "Movement.LastPosition.Z"
+   ],
+   [
+    44,
+    48,
+    "ashita",
+    "Movement.LastPosition.Y"
+   ],
+   [
+    48,
+    52,
+    "ashita",
+    "Movement.LastPosition.W"
+   ],
+   [
+    52,
+    56,
+    "ashita",
+    "Movement.LastPosition.Roll"
+   ],
+   [
+    56,
+    60,
+    "ashita",
+    "Movement.LastPosition.Yaw"
+   ],
+   [
+    60,
+    64,
+    "ashita",
+    "Movement.LastPosition.Pitch"
+   ],
+   [
+    68,
+    116,
+    "ashita",
+    "Movement.Move"
+   ],
+   [
+    72,
+    76,
+    "ashita",
+    "Movement.Move.Z"
+   ],
+   [
+    76,
+    80,
+    "ashita",
+    "Movement.Move.Y"
+   ],
+   [
+    80,
+    84,
+    "ashita",
+    "Movement.Move.W"
+   ],
+   [
+    84,
+    88,
+    "ashita",
+    "Movement.Move.DeltaX"
+   ],
+   [
+    88,
+    92,
+    "ashita",
+    "Movement.Move.DeltaZ"
+   ],
+   [
+    92,
+    96,
+    "ashita",
+    "Movement.Move.DeltaY"
+   ],
+   [
+    96,
+    100,
+    "ashita",
+    "Movement.Move.DeltaW"
+   ],
+   [
+    100,
+    104,
+    "ashita",
+    "Movement.Move.DeltaRoll"
+   ],
+   [
+    104,
+    108,
+    "ashita",
+    "Movement.Move.DeltaYaw"
+   ],
+   [
+    108,
+    112,
+    "ashita",
+    "Movement.Move.DeltaPitch"
+   ],
+   [
+    116,
+    120,
+    "ashita",
+    "TargetIndex"
+   ],
+   [
+    120,
+    124,
+    "ashita",
+    "ServerId"
+   ],
+   [
+    124,
+    152,
+    "ashita",
+    "Name"
+   ],
+   [
+    152,
+    156,
+    "ashita",
+    "MovementSpeed"
+   ],
+   [
+    156,
+    160,
+    "ashita",
+    "AnimationSpeed"
+   ],
+   [
+    160,
+    164,
+    "ashita",
+    "ActorPointer"
+   ],
+   [
+    164,
+    212,
+    "ashita",
+    "Attachments"
+   ],
+   [
+    212,
+    216,
+    "ashita",
+    "EventPointer"
+   ],
+   [
+    216,
+    220,
+    "ashita",
+    "Distance"
+   ],
+   [
+    220,
+    224,
+    "ashita",
+    "TurnSpeed"
+   ],
+   [
+    224,
+    228,
+    "ashita",
+    "TurnSpeedHead"
+   ],
+   [
+    228,
+    232,
+    "ashita",
+    "Heading"
+   ],
+   [
+    232,
+    236,
+    "ashita",
+    "Next"
+   ],
+   [
+    236,
+    237,
+    "ashita",
+    "HPPercent"
+   ],
+   [
+    238,
+    239,
+    "ashita",
+    "Type"
+   ],
+   [
+    239,
+    240,
+    "ashita",
+    "Race"
+   ],
+   [
+    240,
+    242,
+    "ashita",
+    "LocalMoveCount"
+   ],
+   [
+    242,
+    244,
+    "ashita",
+    "ActorLockFlag"
+   ],
+   [
+    244,
+    246,
+    "ashita",
+    "ModelUpdateFlags"
+   ],
+   [
+    248,
+    252,
+    "ashita",
+    "DoorId"
+   ],
+   [
+    252,
+    284,
+    "ashita",
+    "Look"
+   ],
+   [
+    254,
+    256,
+    "ashita",
+    "Look.Head"
+   ],
+   [
+    256,
+    258,
+    "ashita",
+    "Look.Body"
+   ],
+   [
+    258,
+    260,
+    "ashita",
+    "Look.Hands"
+   ],
+   [
+    260,
+    262,
+    "ashita",
+    "Look.Legs"
+   ],
+   [
+    262,
+    264,
+    "ashita",
+    "Look.Feet"
+   ],
+   [
+    264,
+    266,
+    "ashita",
+    "Look.Main"
+   ],
+   [
+    266,
+    268,
+    "ashita",
+    "Look.Sub"
+   ],
+   [
+    268,
+    270,
+    "ashita",
+    "Look.Ranged"
+   ],
+   [
+    284,
+    286,
+    "ashita",
+    "ActionTimer1"
+   ],
+   [
+    286,
+    288,
+    "ashita",
+    "ActionTimer2"
+   ],
+   [
+    288,
+    324,
+    "ashita",
+    "Render"
+   ],
+   [
+    292,
+    296,
+    "ashita",
+    "Render.Flags1"
+   ],
+   [
+    296,
+    300,
+    "ashita",
+    "Render.Flags2"
+   ],
+   [
+    300,
+    304,
+    "ashita",
+    "Render.Flags3"
+   ],
+   [
+    304,
+    308,
+    "ashita",
+    "Render.Flags4"
+   ],
+   [
+    308,
+    312,
+    "ashita",
+    "Render.Flags5"
+   ],
+   [
+    312,
+    316,
+    "ashita",
+    "Render.Flags6"
+   ],
+   [
+    316,
+    320,
+    "ashita",
+    "Render.Flags7"
+   ],
+   [
+    320,
+    324,
+    "ashita",
+    "Render.Flags8"
+   ],
+   [
+    324,
+    325,
+    "ashita",
+    "PopEffect"
+   ],
+   [
+    325,
+    326,
+    "ashita",
+    "UpdateMask"
+   ],
+   [
+    326,
+    328,
+    "ashita",
+    "InteractionTargetIndex"
+   ],
+   [
+    328,
+    330,
+    "ashita",
+    "NpcSpeechFrame"
+   ],
+   [
+    330,
+    332,
+    "ashita",
+    "LookAxisX"
+   ],
+   [
+    332,
+    334,
+    "ashita",
+    "LookAxisY"
+   ],
+   [
+    334,
+    336,
+    "ashita",
+    "MouthCounter"
+   ],
+   [
+    336,
+    338,
+    "ashita",
+    "MouthWaitCounter"
+   ],
+   [
+    338,
+    340,
+    "ashita",
+    "CraftTimerUnknown"
+   ],
+   [
+    340,
+    344,
+    "ashita",
+    "CraftServerId"
+   ],
+   [
+    344,
+    346,
+    "ashita",
+    "CraftAnimationEffect"
+   ],
+   [
+    346,
+    347,
+    "ashita",
+    "CraftAnimationStep"
+   ],
+   [
+    347,
+    348,
+    "ashita",
+    "CraftParam"
+   ],
+   [
+    348,
+    352,
+    "ashita",
+    "MovementSpeed2"
+   ],
+   [
+    352,
+    354,
+    "ashita",
+    "NpcWalkPosition1"
+   ],
+   [
+    354,
+    356,
+    "ashita",
+    "NpcWalkPosition2"
+   ],
+   [
+    356,
+    358,
+    "ashita",
+    "NpcWalkMode"
+   ],
+   [
+    358,
+    360,
+    "ashita",
+    "CostumeId"
+   ],
+   [
+    360,
+    364,
+    "ashita",
+    "Mou4"
+   ],
+   [
+    364,
+    368,
+    "ashita",
+    "StatusServer"
+   ],
+   [
+    368,
+    372,
+    "ashita",
+    "Status"
+   ],
+   [
+    372,
+    376,
+    "ashita",
+    "StatusEvent"
+   ],
+   [
+    384,
+    388,
+    "ashita",
+    "ModelTime"
+   ],
+   [
+    388,
+    392,
+    "ashita",
+    "ModelStartTime"
+   ],
+   [
+    392,
+    396,
+    "ashita",
+    "ClaimStatus"
+   ],
+   [
+    396,
+    400,
+    "ashita",
+    "ZoneId"
+   ],
+   [
+    400,
+    440,
+    "ashita",
+    "Animations"
+   ],
+   [
+    440,
+    442,
+    "ashita",
+    "AnimationTime"
+   ],
+   [
+    442,
+    444,
+    "ashita",
+    "AnimationStep"
+   ],
+   [
+    444,
+    445,
+    "ashita",
+    "AnimationPlay"
+   ],
+   [
+    446,
+    448,
+    "ashita",
+    "EmoteTargetIndex"
+   ],
+   [
+    448,
+    450,
+    "ashita",
+    "EmoteId"
+   ],
+   [
+    452,
+    456,
+    "ashita",
+    "EmoteIdString"
+   ],
+   [
+    456,
+    460,
+    "ashita",
+    "EmoteTargetActorPointer"
+   ],
+   [
+    464,
+    468,
+    "ashita",
+    "SpawnFlags"
+   ],
+   [
+    468,
+    472,
+    "ashita",
+    "LinkshellColor"
+   ],
+   [
+    472,
+    474,
+    "ashita",
+    "NameColor"
+   ],
+   [
+    474,
+    475,
+    "ashita",
+    "CampaignNameFlag"
+   ],
+   [
+    475,
+    476,
+    "ashita",
+    "MountId"
+   ],
+   [
+    476,
+    480,
+    "ashita",
+    "FishingUnknown0000"
+   ],
+   [
+    480,
+    484,
+    "ashita",
+    "FishingUnknown0001"
+   ],
+   [
+    484,
+    488,
+    "ashita",
+    "FishingActionCountdown"
+   ],
+   [
+    488,
+    490,
+    "ashita",
+    "FishingRodCastTime"
+   ],
+   [
+    490,
+    492,
+    "ashita",
+    "FishingUnknown0002"
+   ],
+   [
+    492,
+    496,
+    "ashita",
+    "LastActionId"
+   ],
+   [
+    496,
+    500,
+    "ashita",
+    "MogMotionId"
+   ],
+   [
+    500,
+    504,
+    "ashita",
+    "LastActionActorPointer"
+   ],
+   [
+    504,
+    506,
+    "ashita",
+    "TargetedIndex"
+   ],
+   [
+    506,
+    508,
+    "ashita",
+    "PetTargetIndex"
+   ],
+   [
+    508,
+    510,
+    "ashita",
+    "UpdateRequestDelay"
+   ],
+   [
+    510,
+    511,
+    "ashita",
+    "IsDirty"
+   ],
+   [
+    511,
+    512,
+    "ashita",
+    "BallistaFlags"
+   ],
+   [
+    512,
+    513,
+    "ashita",
+    "PankrationEnabled"
+   ],
+   [
+    513,
+    514,
+    "ashita",
+    "PankrationFlagFlip"
+   ],
+   [
+    516,
+    520,
+    "ashita",
+    "ModelSize"
+   ],
+   [
+    520,
+    524,
+    "ashita",
+    "ModelHitboxSize"
+   ],
+   [
+    524,
+    528,
+    "ashita",
+    "EnvironmentAreaId"
+   ],
+   [
+    528,
+    530,
+    "ashita",
+    "MonstrosityFlag"
+   ],
+   [
+    530,
+    532,
+    "ashita",
+    "MonstrosityNameId"
+   ],
+   [
+    532,
+    564,
+    "ashita",
+    "MonstrosityName"
+   ],
+   [
+    564,
+    565,
+    "ashita",
+    "MonstrosityNameEnd"
+   ],
+   [
+    565,
+    589,
+    "ashita",
+    "MonstrosityNameAbbr"
+   ],
+   [
+    589,
+    590,
+    "ashita",
+    "MonstrosityNameAbbrEnd"
+   ],
+   [
+    592,
+    636,
+    "ashita",
+    "CustomProperties"
+   ],
+   [
+    636,
+    672,
+    "ashita",
+    "BallistaInfo"
+   ],
+   [
+    672,
+    674,
+    "ashita",
+    "FellowTargetIndex"
+   ],
+   [
+    674,
+    676,
+    "ashita",
+    "WarpTargetIndex"
+   ],
+   [
+    676,
+    678,
+    "ashita",
+    "TrustOwnerTargetIndex"
+   ],
+   [
+    678,
+    680,
+    "ashita",
+    "AreaDisplayTargetIndex"
+   ]
+  ]
+ }
+}

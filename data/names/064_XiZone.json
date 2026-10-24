@@ -1,0 +1,44 @@
+{
+  "0x101889E0": {
+    "name": "XiZone_UpdateTree",
+    "confidence": "medium",
+    "evidence": "recurses into the child at +4, then calls fn_1018A320 on each sibling in the list at +0x10 linked through +8",
+    "summary": "Updates the zone's child and each entry of its list."
+  },
+  "0x10188A10": {
+    "name": "XiZone_DestroyChildList",
+    "confidence": "medium",
+    "evidence": "recurses into the child at +4, then for each node in the list at +0x10 calls fn_1018ABF0 and frees it with thunk_sub_10028AA0, and sets +0x10 to 0",
+    "summary": "Destroys the zone's child and every node in its list."
+  },
+  "0x10188B10": {
+    "name": "XiZone_TestHeadFlag",
+    "confidence": "low",
+    "evidence": "compares the global XiZone pointer's field at +0x1B4 with 0xB6 and 0x84, then reads the byte at the node at +0x18 and tests its bit 0 and the global at +0x1C4",
+    "summary": "Tests a flag on the zone's head node, depending on the zone's state value."
+  },
+  "0x1018B5E0": {
+    "name": "XiZone_SetTreeState1BC",
+    "confidence": "low",
+    "evidence": "stores the argument at +0x1BC and, for each zone in the chain at +4, calls fn_101889E0 and then FUN_101875E0 when the argument is 0 or FUN_101875C0 otherwise",
+    "summary": "Sets the zone tree's state word at +0x1BC and applies it along the chain."
+  },
+  "0x1018B620": {
+    "name": "XiZone_ResetState",
+    "confidence": "medium",
+    "evidence": "calls FUN_10081A30, fn_10187030 on self, fn_10186DB0 and fn_10188A10 on self, fn_10178F70 on g_pZoneMap, zeroes +0x1AC and +0x1CC, and resets the camera's +0x330 and +0x32C..+0x32F bytes",
+    "summary": "Resets the zone's state and the camera and zone-map values it uses."
+  },
+  "0x1018B8F0": {
+    "name": "XiZone_ComputeFogDistance",
+    "confidence": "medium",
+    "evidence": "computes FUN_101892B0 of the argument times a default of 100.0f or FUN_10187020 when +0x1C is nonzero, and clamps the result to the float at +0x1D0 when that is positive",
+    "summary": "Computes the zone's fog distance and clamps it to its limit."
+  },
+  "0x1018B960": {
+    "name": "XiZone_GetDirLightsForArea",
+    "confidence": "medium",
+    "evidence": "when the argument is nonzero, takes the sub-area from FUN_101889C0 (or self if none), then calls XiZone::GetDirLights on it with the two other arguments",
+    "summary": "Gets the directional lights of the zone or of the sub-area for the given argument."
+  }
+}

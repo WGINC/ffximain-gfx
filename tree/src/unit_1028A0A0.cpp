@@ -24,7 +24,7 @@ XI_API undefined4 __cdecl fn_1028A0E0(void)
 
 // FUNCTION: FFXIMAIN 0x1028A0F0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int param_3, undefined4 * param_4, int param_5)
+XI_API undefined4 * __cdecl Unit1028A0A0_ReadBlock(undefined4 * param_1, int param_2, int param_3, undefined4 * param_4, int param_5)
 {
   uint32_t uVar1;
   int iVar2;
@@ -46,7 +46,7 @@ XI_API undefined4 * __cdecl fn_1028A0F0(undefined4 * param_1, int param_2, int p
     puVar5 = (undefined4 *)((int)puVar5 + 1);
   }
   if (param_5 != 0) {
-    orig::FUN_10292490((int)param_1,uVar1);
+    orig::Unit10292470_SwapNibblesXor((int)param_1,uVar1);
   }
   iVar2 = orig::FUN_1028a0e0();
   if (iVar2 != 0) {

@@ -1,0 +1,26 @@
+{
+  "0x100A5770": {
+    "name": "CXiControlActor_FillHistory",
+    "confidence": "medium",
+    "evidence": "loops four times, copying the Vec3 at param_1 into the ring of Vec3 entries at this+0xC*(index+1) with index counting through this+8 masked to 0 to 3",
+    "summary": "Writes one vector into all four entries of the actor's history ring."
+  },
+  "0x100A57C0": {
+    "name": "CXiControlActor_SetVec4",
+    "confidence": "low",
+    "evidence": "copies the four dwords at param_1 to this+0xD4..+0xE0 and returns the last one; called by many actor classes",
+    "summary": "Stores a four-component vector in the actor."
+  },
+  "0x100A89E0": {
+    "name": "CXiControlActor_Constructor",
+    "confidence": "medium",
+    "evidence": "calls the base constructor FUN_10081CF0, sets the CXiAtelActor and CXiControlActor vtables, constructs the handle at +0x5A0, initialises the fields, sets slot table entries when g_pTargetMng is set, and calls FUN_100A5770 when this is the target",
+    "summary": "Constructs a control actor and initialises its state."
+  },
+  "0x100AAEF0": {
+    "name": "CXiControlActor_GetSpeed",
+    "confidence": "low",
+    "evidence": "calls the object's vtable slot 114 with id 0x2C for a two-float vector, and returns its length times 0.8",
+    "summary": "Returns the length of the actor's two-component velocity, scaled by 0.8."
+  }
+}

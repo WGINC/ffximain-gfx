@@ -1,0 +1,18 @@
+{
+ "_doc": "Which of our objects each community struct describes (community_reconcile.py), each with the evidence from the binary. structs: [source, struct name, offset the struct starts at within our object]. class: our name for the object (field_names.json / idb_members.json use it).",
+ "entity": {
+  "class": "CYyObject_VT_1032D69C",
+  "structs": [["ashita", "entity_t", 0], ["windower5", "entity", 0]],
+  "evidence": "The entity table both tools locate (Ashita entitymap, Windower 5 types.entities: the global 0x10480AF0, an array of pointers) is filled only with objects of 0x2AC = 684 bytes (Allocator 0x1002C890 with push 0x2AC at 0x100AB5BB, 0x100C3EF3, 0x10242E79) built by 0x1008A120, which stores the vtable 0x1032D69C into [this+0] (data/obj_flow.json, class_flow.py); Ashita's entity_t asserts sizeof == 684."
+ },
+ "cdx": {
+  "class": "CDx",
+  "structs": [["windower5", "gamma", 0]],
+  "evidence": "Windower 5 types.graphics lays its struct over the globals from 0x1045666C (g_pCDx), whose first field `gamma` is the pointer there: the CDx object. Its gamma red/green/blue at +0x7F8/+0x7FC/+0x800 are CDx+0x1F4 (the gamma ramp, Gfx_SetGammaRGB) + 0x604/0x608/0x60C, which GammaRamp_SetRGB (0x100170A0) stores and GammaRamp_GetRGB (0x100170D0) loads in that order."
+ },
+ "camera": {
+  "class": "g_pCamera",
+  "structs": [["windower5", "render", 0]],
+  "evidence": "Windower 5 types.graphics.render is the pointer at graphics+0x290 = 0x104568FC (g_pCamera); CApp::RunMainLoop (0x10001520) stores there the object built by 0x10010700 (0x10001580..0x10001587)."
+ }
+}

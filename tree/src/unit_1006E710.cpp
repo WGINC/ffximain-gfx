@@ -63,8 +63,8 @@ XI_API void __thiscall fn_1006EF70(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006F0A0  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API __attribute__((target("sse,fpmath=sse"))) float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3)
 {
   float fVar1;
   float fVar2;
@@ -148,50 +148,6 @@ XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, un
   param_1[0xd] = fVar1 * fVar6 + fVar2 * fVar10 + fVar3 * fVar14 + fVar4 * fVar18;
   param_1[0xe] = fVar1 * fVar7 + fVar2 * fVar11 + fVar3 * fVar15 + fVar4 * fVar19;
   param_1[0xf] = fVar1 * fVar8 + fVar2 * fVar12 + fVar3 * fVar16 + fVar4 * fVar20;
-  orig::FUN_1006d3e0((int)param_1);
+  orig::CMoProcessor_TransposeInPlace((int)param_1);
   return param_1;
-}
-
-// FUNCTION: FFXIMAIN 0x1006F560  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1006F560(uint64_t * param_1, undefined4 * param_2)
-{
-  uint32_t uVar1;
-  uint32_t uVar2;
-  uint32_t uVar3;
-  uint32_t uVar4;
-  uint32_t uVar5;
-  uint32_t uVar6;
-  uint32_t uVar7;
-  uint32_t uVar8;
-  uint32_t uVar9;
-  uint32_t uVar10;
-  uint32_t uVar11;
-  uint32_t uVar12;
-  uint32_t uVar13;
-  uint32_t uVar14;
-  
-  uVar1 = param_2[1];
-  uVar2 = param_2[2];
-  uVar3 = param_2[3];
-  uVar4 = param_2[5];
-  uVar5 = param_2[6];
-  uVar6 = param_2[7];
-  uVar7 = param_2[8];
-  uVar8 = param_2[9];
-  uVar9 = param_2[10];
-  uVar10 = param_2[0xb];
-  uVar11 = param_2[0xc];
-  uVar12 = param_2[0xd];
-  uVar13 = param_2[0xe];
-  uVar14 = param_2[0xf];
-  *param_1 = ((uint64_t)(((uint64_t)(uint32_t)(param_2[4]) << 32) | (uint32_t)(*param_2)));
-  param_1[2] = ((uint64_t)(((uint64_t)(uint32_t)(uVar4) << 32) | (uint32_t)(uVar1)));
-  param_1[4] = ((uint64_t)(((uint64_t)(uint32_t)(uVar5) << 32) | (uint32_t)(uVar2)));
-  param_1[6] = ((uint64_t)(((uint64_t)(uint32_t)(uVar6) << 32) | (uint32_t)(uVar3)));
-  param_1[1] = ((uint64_t)(((uint64_t)(uint32_t)(uVar11) << 32) | (uint32_t)(uVar7)));
-  param_1[3] = ((uint64_t)(((uint64_t)(uint32_t)(uVar12) << 32) | (uint32_t)(uVar8)));
-  param_1[5] = ((uint64_t)(((uint64_t)(uint32_t)(uVar13) << 32) | (uint32_t)(uVar9)));
-  param_1[7] = ((uint64_t)(((uint64_t)(uint32_t)(uVar14) << 32) | (uint32_t)(uVar10)));
-  return;
 }

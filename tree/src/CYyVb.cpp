@@ -3,20 +3,20 @@
 #include "CYyVb.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1003B420  (unit CYyVb: stores CYyVb vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x1003B420  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1003B420(void * self_)
+undefined4 __thiscall CYyVb::Init(void * self)
 {
-  *(uint8_t ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  return self_;
+  *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
+  *(uint32_t *)((int)self + 8) = 0;
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B430  (unit CYyVb: class model places it in CYyVb)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1003B430(void * self_, undefined4 param_1)
+XI_API void * __thiscall CYyVb_ScalarDelete(void * self_, undefined4 param_1)
 {
-  orig::FUN_1003b4a0(self_);
+  orig::CYyVb_Destroy(self_);
   if ((param_1 & 1) != 0) {
     orig::thunk_sub_10028AA0_v1((int)self_);
   }
@@ -29,7 +29,7 @@ void * __thiscall CYyVb::Constructor(void * self, undefined4 param_1, undefined4
 {
   *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
   *(uint32_t *)((int)self + 8) = 0;
-  orig::FUN_1003b4d0(self);
+  orig::VertexBufferList_Register(self);
   *(uint32_t *)((int)self + 0xc) = param_1;
   *(uint32_t *)((int)self + 0x10) = param_2;
   *(uint32_t *)((int)self + 0x18) = param_4;
@@ -39,18 +39,18 @@ void * __thiscall CYyVb::Constructor(void * self, undefined4 param_1, undefined4
   return self;
 }
 
-// FUNCTION: FFXIMAIN 0x1003B4A0  (unit CYyVb: stores CYyVb vtable (ctor/dtor))
+// FUNCTION: FFXIMAIN 0x1003B4A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1003B4A0(void * self_)
+void __thiscall CYyVb::Destroy(void * self)
 {
   int *a1;
   
-  *(uint8_t ***)self_ = &PTR_CYyVb_GetRuntimeClass_1032aae0;
-  if (self_ != g_pVertexBufferListHead_as_v0) {
-    a1 = *(int **)((int)self_ + 0x1c);
+  *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
+  if (self != g_pVertexBufferListHead_as_v0) {
+    a1 = *(int **)((int)self + 0x1c);
     if (a1 != (int *)0x0) {
       ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
-      *(uint32_t *)((int)self_ + 0x1c) = 0;
+      *(uint32_t *)((int)self + 0x1c) = 0;
     }
     orig::FUN_1003b4e0();
     return;

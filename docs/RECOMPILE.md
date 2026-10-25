@@ -40,17 +40,27 @@ reported, not compared). What the bytes showed beyond the behaviour: 0x10126350 
 constructor returning `this` (as MSVC constructors do), its stores in the reverse order a chained assignment gives;
 0x101BA5C0 ends `mov al, 1`, a `bool` return.
 
-## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py`)
+## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py --calls`)
 
-The tree's functions that call nothing and name no global (752 of them), each put in its own file with only
-mechanical changes (a header of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C,
-`__thiscall` as a member of an empty struct with `self_` bound to `this`), compiled at `/O2` and compared:
-**426 IDENTICAL**, 232 DIFFERS, 94 do not compile as converted (`verification/vc6_sweep.json`). The largest
-identical one, 0x101200B0, is 61 instructions, every one the game's. The first difference of the 232 is mostly
-register choice or operand order (84 a different register in the first `mov`, 14 `cmp` operands swapped), what
-source order decides: those are for matching by hand, as above. The other ~3,500 tree functions call the game's
-code through `orig::` or name its globals; converting those calls into direct calls to externs named by address
-(compared through their relocations) is the next step.
+Each tree function in the `XI_API` form (2,724 of them) is put in its own file with only mechanical changes: a header
+of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C (C++ when it calls a `__thiscall`
+function), `__thiscall` as a member of an empty struct with `self_` bound to `this`; each global as `(*(type *)address)`
+(the compiler writes the absolute address, the game's own relocated value at its preferred base); each `orig::` call
+as a direct call of an external named `FUN_<address>` with the wrapper's convention and parameter types (in C an
+`XI_ANY` parameter is `unsigned int`; a wrong conversion can only make the bytes differ). Compiled at `/O2`, compared
+byte for byte and each call by its target:
+
+| verdict | functions |
+|---|---|
+| IDENTICAL | **814** (279 of them make calls, every call's target the game's; no relocation left uncompared) |
+| DIFFERS | 734 |
+| NO_COMPILE | 266 (the converted source does not compile) |
+| LEFT_OUT | 910 (610 call a wrapper with an `XI_ANY` parameter from C++, 170 name a global of a type the header lacks, ...) |
+
+`verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
+instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different
+register in the first `mov`, `cmp` operands swapped), which source order decides: those are for matching by hand.
+The 829 tree functions in the Hex-Rays form (`v1`, `a1`, ...) are not yet converted.
 
 ## First results (25 Oct)
 

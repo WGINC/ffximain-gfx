@@ -1,0 +1,11 @@
+{
+ "0x10275510": {"name": "SqMem_Check", "confidence": "high",
+  "evidence": "Prints the DLL string \"sqMemCheck ...\" (0x103B2978), walks the blocks of the current pool (index 0x1099D1F8) with SqMem_ClassifyBlock, prints each block of class 2 or 3, and prints \"Memory check successful\" (0x103B295C) when none was found.",
+  "summary": "sqMemCheck: walks the current memory pool and prints every corrupt block, or 'Memory check successful'."},
+ "0x10275CC0": {"name": "SqMem_PrintPools", "confidence": "high",
+  "evidence": "Loop of 8 printing the DLL strings \"%2d : Memory Pool [%s] %s\", \"Size : %d bytes\", \"Head : 0x%08X\", \"Lo : 0x%08X\", \"Hi : 0x%08X\" per pool, marking the pool at index 0x1099D1F8 \"CURRENT\".",
+  "summary": "Prints name, size, head, lo and hi of each of the 8 memory pools, marking the current one."},
+ "0x10275E90": {"name": "SqMem_Realloc", "confidence": "high",
+  "evidence": "Its own error strings name it: \"Invalid size (sqRealloc %d bytes)\" (0x103B2C68) and \"sqRealloc encountered corrupt m...\" (0x103B2D18). A null pointer goes to sub_10275D80 (allocation); a block that already fits is returned; a block at the pool's end is grown in place (fill 0xAA, tail 0xFF).",
+  "summary": "sqRealloc: resizes a pool block (in place when it is the last block), allocating when the pointer is null."}
+}

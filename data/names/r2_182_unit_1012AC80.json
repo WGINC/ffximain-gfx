@@ -1,0 +1,140 @@
+{
+ "0x10155160": {
+  "name": "Unit1012AC80_CtorVt1033515C",
+  "confidence": "low",
+  "evidence": "clears +4, constructs the member at +0x14 (0x10154F60: vtable 0x10335138, +8/+0xC pointing at Read) and sets vtable 0x1033515C",
+  "summary": "Constructs an object with vtable 0x1033515C and its +0x14 member."
+ },
+ "0x101552D0": {
+  "name": "Unit1012AC80_GetMember14",
+  "confidence": "low",
+  "evidence": "returns this+0x14",
+  "summary": "Returns the address of the +0x14 member."
+ },
+ "0x10155370": {
+  "name": "Unit1012AC80_CtorVt10335168",
+  "confidence": "low",
+  "evidence": "sets the base vtable 0x103350EC, clears +4, constructs +0xC (0x101569A0) and sets vtable 0x10335168",
+  "summary": "Constructs an object with vtable 0x10335168."
+ },
+ "0x10155400": {
+  "name": "Unit1012AC80_SetItemWithStrings",
+  "confidence": "medium",
+  "evidence": "calls its vtable slot 1 (clear), stores arg1 at +8, copies the three strings arg4, arg5 and arg9 into one new block at +4 and passes them with the other values to the item at +0xC (Unit1012AC80_SetFields)",
+  "summary": "Copies an item's three strings into one block it owns and sets the item's fields."
+ },
+ "0x101554E0": {
+  "name": "Unit1012AC80_GetMemberC",
+  "confidence": "low",
+  "evidence": "returns this+0xC",
+  "summary": "Returns the address of the +0xC member."
+ },
+ "0x10155540": {
+  "name": "Unit1012AC80_FreeStrings",
+  "confidence": "low",
+  "evidence": "frees the block at +4 (operator delete)",
+  "summary": "Frees the object's string block."
+ },
+ "0x10155550": {
+  "name": "Unit1012AC80_CtorVt10335174",
+  "confidence": "low",
+  "evidence": "sets the base vtable 0x103350EC, clears +4, constructs +8 (0x10156BE0) and sets vtable 0x10335174",
+  "summary": "Constructs an object with vtable 0x10335174."
+ },
+ "0x101555B0": {
+  "name": "Unit1012AC80_SetString",
+  "confidence": "medium",
+  "evidence": "calls its vtable slot 1 (clear), copies the string into a new block at +4 and stores it in the member +8 (Unit1012AC80_SetField04)",
+  "summary": "Copies a string into a block it owns and hands it to its member."
+ },
+ "0x10155C70": {
+  "name": "Unit1012AC80_PackRecord7",
+  "confidence": "low",
+  "evidence": "when the size arg2 exceeds 0x1C plus both string lengths, writes arg3..arg5, arg7, arg8 and the two strings after them into the buffer arg1 with pointers to the strings at +0xC and +0x18; returns 1, else 0",
+  "summary": "Packs a record with two strings into a buffer when it fits."
+ },
+ "0x10156540": {
+  "name": "Unit1012AC80_PackRecord3",
+  "confidence": "low",
+  "evidence": "when arg2 exceeds 0xC plus both string lengths, writes arg3 and the two strings into the buffer arg1 with pointers to them at +4 and +8; returns 1, else 0",
+  "summary": "Packs a value and two strings into a buffer when they fit."
+ },
+ "0x10156860": {
+  "name": "Unit1012AC80_GetField10A",
+  "confidence": "low",
+  "evidence": "returns +0x10",
+  "summary": "Returns the field at +0x10."
+ },
+ "0x10156870": {
+  "name": "Unit1012AC80_PackRecordBytes",
+  "confidence": "low",
+  "evidence": "when arg2 exceeds 0x14 plus the three string lengths, writes the bytes arg3, arg4, arg8, arg9 and the three strings into the buffer arg1 with pointers at +4, +8, +0x10; returns 1, else 0",
+  "summary": "Packs four bytes and three strings into a buffer when they fit."
+ },
+ "0x10156970": {
+  "name": "Unit1012AC80_DtorVt103351D8",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103351D8 and calls 0x102589F0",
+  "summary": "Destroys an object with vtable 0x103351D8."
+ },
+ "0x10156B20": {
+  "name": "Unit1012AC80_GetField10B",
+  "confidence": "low",
+  "evidence": "returns +0x10",
+  "summary": "Returns the field at +0x10."
+ },
+ "0x10156B50": {
+  "name": "Unit1012AC80_PackString",
+  "confidence": "low",
+  "evidence": "when arg2 exceeds 4 plus the string length, copies the string after a pointer to it into the buffer arg1; returns 1, else 0",
+  "summary": "Packs one string into a buffer when it fits."
+ },
+ "0x10156BB0": {
+  "name": "Unit1012AC80_DtorVt103351FC",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103351FC and calls 0x10258BB0",
+  "summary": "Destroys an object with vtable 0x103351FC."
+ },
+ "0x10156D90": {
+  "name": "Unit1012AC80_TableHolderCtor",
+  "confidence": "low",
+  "evidence": "clears the table at +0x810 (Unit10253A20_Clear) and the entries +0x860, sets vtable 0x10335220, +4 from Scene_GetTableValue(0x3E), +8 = -1, clears 0x400 bytes at +0xC and sets 16 slots from +0x410 to -1",
+  "summary": "Constructs the object that holds table 0x3E for the scene."
+ },
+ "0x10156E00": {
+  "name": "Unit1012AC80_LoadTable",
+  "confidence": "low",
+  "evidence": "allocates one entry (+0x860), sets its file number from Scene_GetTableValue(0x3E), reads 0x40 bytes of it into +0x820 (fn_101C5A40, the game exits when that fails), binds the table (Unit10253A20_BindSource), allocates a row of its stride at +0x870 and sets +0x874 to -1",
+  "summary": "Reads table 0x3E's header from its file and allocates a row buffer."
+ },
+ "0x101575E0": {
+  "name": "Unit1012AC80_TargetCtor",
+  "confidence": "low",
+  "evidence": "resets the records at +0 and +0x28 (Target_ResetRecord), the target (Target_Reset) and clears +0x84/+0x88",
+  "summary": "Constructs the target object and resets its records."
+ },
+ "0x10157610": {
+  "name": "Unit1012AC80_ClearTargetAndRedraw",
+  "confidence": "low",
+  "evidence": "forwards to 0x10157620",
+  "summary": "Clears the target field and redraws the menu (0x10157620)."
+ },
+ "0x10157620": {
+  "name": "Unit1012AC80_ClearField68AndDraw",
+  "confidence": "low",
+  "evidence": "clears the word +0x68 and calls 0x1015E850 on the menu manager with 0",
+  "summary": "Clears the field at +0x68 and calls the menu manager's 0x1015E850."
+ },
+ "0x10157660": {
+  "name": "Unit1012AC80_SetTargetMode",
+  "confidence": "low",
+  "evidence": "when the mode (+0x5C bits 0..1) differs from arg: picks handler 1 for mode 0, 0 for 1, 4 for 2 (after checking the target with fn_101576F0 and ActorHandle_Resolve), calls it (Target_DispatchByIndex) and stores the new mode",
+  "summary": "Changes the target mode and runs the handler for it."
+ },
+ "0x101576F0": {
+  "name": "Unit1012AC80_IsTargetUnusable",
+  "confidence": "low",
+  "evidence": "resolves the target actor (ActorHandle_Resolve on g_targetActorHandle) and returns 1 unless it exists and its +0x70 object's +0x170 is neither 2 nor 3",
+  "summary": "Reports whether the current target actor is missing or in state 2/3."
+ }
+}

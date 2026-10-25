@@ -152,7 +152,24 @@ def env_pair(ins, i):
     return None
 
 
+_REG_SAVED = None
+
+
+def call_keeps(q, reg):
+    """a direct call hands `reg` back unchanged: an EBX/ESI/EDI/EBP its callee restores (data/reg_saved.json).
+    Capstone lists only ESP as written by a call; what the callee writes is the callee's code, so every other
+    register is written unless that fact says otherwise (EAX/ECX/EDX: no fact keeps them)"""
+    global _REG_SAVED
+    if _REG_SAVED is None:
+        f = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'reg_saved.json')
+        _REG_SAVED = json.load(open(f)) if os.path.exists(f) else {}
+    o = q.operands
+    if not (o and o[0].type == X86_OP_IMM): return False
+    return reg in _REG_SAVED.get('0x%08X' % (o[0].imm & 0xFFFFFFFF), ())
+
+
 def writes(q, reg):
+    if q.mnemonic == 'call': return not call_keeps(q, reg)
     try: _, w = q.regs_access()
     except capstone.CsError: return True
     fam = {'eax': ('eax', 'ax', 'al', 'ah'), 'ebx': ('ebx', 'bx', 'bl', 'bh'), 'ecx': ('ecx', 'cx', 'cl', 'ch'),
@@ -165,7 +182,7 @@ def flag_setter(labels, q, reg):
     neither the flags nor reg (no jump may land between); None otherwise"""
     c = labels.before(q.address)
     for _ in range(6):
-        if c is None: return None
+        if c is None or c.mnemonic == 'call': return None       # the callee leaves the flags as its code does
         try: _, w = c.regs_access()
         except capstone.CsError: return None
         names = {c.reg_name(x) for x in w}

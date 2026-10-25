@@ -3287,4 +3287,8 @@ the normal-operand entry 0x103138C4 is `fxch st(1); fprem` (repeated while C2 is
 in on the x87 stack, one out (Intel SDM for FPREM/FSTP). fpret.json has no verdict for it (the stub jumps out of
 its own extent). Ghidra prints these calls as `FUN_103138ba();` with no operands, so the two values the caller
 loaded are not in its text: the sites cannot be translated from Ghidra's output alone, and stay skipped until
-the operands are recovered from the instructions before each call.
+the operands are recovered from the instructions before each call. Measured: every one of the 24 call sites
+(9 functions) has the same shape, `fld dword [esp+X]; fld qword [0x1032ABC8]` (2.0, DLL bytes) and the call, so the
+operands are recoverable with the stack depth at each site; but none of the 43 skipped functions with an
+`extraout_ST0` is blocked by fmod alone (each has other untied x87 values or register inputs), so that fix by
+itself brings no function into the tree.

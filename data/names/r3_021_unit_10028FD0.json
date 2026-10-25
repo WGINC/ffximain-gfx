@@ -1,0 +1,8 @@
+{
+ "0x10029150": {
+  "name": "Unit10028FD0_CallListByKind",
+  "confidence": "low",
+  "evidence": "by arg (0..6) calls 0x100289F0 with one of the list ranges at 0x104570B4, 0x104570BC, 0x104570C4, 0x104570CC, 0x104570D4",
+  "summary": "Calls 0x100289F0 on the list range chosen by a kind."
+ }
+}

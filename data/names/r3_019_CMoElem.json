@@ -1,0 +1,8 @@
+{
+ "0x10036AB0": {
+  "name": "CMoElem_NoOpSlot19",
+  "confidence": "medium",
+  "evidence": "an empty body; slot 19 (+0x4C) of CMoElem and 20 element classes' vtables",
+  "summary": "Does nothing (the element classes' default for vtable slot 19)."
+ }
+}

@@ -1,0 +1,8 @@
+{
+ "0x100748C0": {
+  "name": "Unit10074790_RunAsCurrent",
+  "confidence": "low",
+  "evidence": "saves [dword_1047D140]+0xD4C, stores this there while calling its vtable slot 8 (+0x20), then restores it; called by Scheduler_Execute",
+  "summary": "Runs an object's slot-8 method with it set as the current object."
+ }
+}

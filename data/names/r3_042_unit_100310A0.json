@@ -1,0 +1,8 @@
+{
+ "0x10032A50": {
+  "name": "Quat_SetIdentityB",
+  "confidence": "medium",
+  "evidence": "stores 0, 0, 0 and 1.0 in the four floats; called by Quat_SetIdentityChained",
+  "summary": "Sets a quaternion to the identity."
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "0x10027510": {
+  "name": "Vec3_CopyThen100274B0",
+  "confidence": "low",
+  "evidence": "Vec3_Copy(arg1, arg2), then 0x100274B0(arg1); used by Shadow_SmoothLightDirection",
+  "summary": "Copies a vector and applies 0x100274B0 to the copy."
+ },
+ "0x10027620": {
+  "name": "Vec3_Call100275D0",
+  "confidence": "low",
+  "evidence": "returns 0x100275D0(arg1, arg2) in ST0",
+  "summary": "Returns the float 0x100275D0 computes from two vectors."
+ },
+ "0x10028720": {
+  "name": "Unit10026C70_Call10029150",
+  "confidence": "low",
+  "evidence": "forwards its argument to 0x10029150",
+  "summary": "Calls the list range chosen by a kind."
+ }
+}

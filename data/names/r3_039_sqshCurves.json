@@ -1,0 +1,8 @@
+{
+ "0x102AD1D0": {
+  "name": "SqshCurves_ComputeNormals",
+  "confidence": "high",
+  "evidence": "its errors are \"empty or missing vertex, can't %s\" with \"compute curve normals\", \"missing control vertices\" and \"missing normals\" (sqshCurves.c lines 0xBA..0xC1); then walks the curves of +0x48 (count +0x44)",
+  "summary": "Computes a curve shape's normals."
+ }
+}

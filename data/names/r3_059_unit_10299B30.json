@@ -1,0 +1,8 @@
+{
+ "0x10299B30": {
+  "name": "SqshBuild_BuildSQO",
+  "confidence": "high",
+  "evidence": "its messages are \"sqshBuildSQO(0x%08X, %d)\" (0x103BC128) and \"Unsupported shape type\"; checks the tag \"SQLE\", reads the flags and the shape type and builds type 0xA0002, 0xA0005 or 0xA0009 (0x10299EE0, 0x10299E40, 0x10299C30); called by sqmdDMBBuildShapes",
+  "summary": "Builds a shape from an SQLE-tagged block by its shape type."
+ }
+}

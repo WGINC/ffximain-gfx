@@ -1,0 +1,8 @@
+{
+ "0x10285740": {
+  "name": "SqObject_Release",
+  "confidence": "medium",
+  "evidence": "calls the release function at +0xC of the object's type record (*arg) and reports an error (sqObject.c line 0x3B) when there is none; scnFini and StAvatar_ReleaseMemory call it on their objects",
+  "summary": "Releases a sq object through its type's release function."
+ }
+}

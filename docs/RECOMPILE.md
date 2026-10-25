@@ -40,6 +40,18 @@ reported, not compared). What the bytes showed beyond the behaviour: 0x10126350 
 constructor returning `this` (as MSVC constructors do), its stores in the reverse order a chained assignment gives;
 0x101BA5C0 ends `mov al, 1`, a `bool` return.
 
+## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py`)
+
+The tree's functions that call nothing and name no global (752 of them), each put in its own file with only
+mechanical changes (a header of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C,
+`__thiscall` as a member of an empty struct with `self_` bound to `this`), compiled at `/O2` and compared:
+**426 IDENTICAL**, 232 DIFFERS, 94 do not compile as converted (`verification/vc6_sweep.json`). The largest
+identical one, 0x101200B0, is 61 instructions, every one the game's. The first difference of the 232 is mostly
+register choice or operand order (84 a different register in the first `mov`, 14 `cmp` operands swapped), what
+source order decides: those are for matching by hand, as above. The other ~3,500 tree functions call the game's
+code through `orig::` or name its globals; converting those calls into direct calls to externs named by address
+(compared through their relocations) is the next step.
+
 ## First results (25 Oct)
 
 Two functions written by hand, compiled with `/O2`, identical to the game's bytes:

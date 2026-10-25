@@ -1,0 +1,4420 @@
+{
+ "0x10002440": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10005A00": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10007830": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1000D100": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1000D120": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1000D150": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10010CE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10010D00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10010D10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10013AC0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB8 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10014DB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10014E20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100152B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10015740": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB8 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100164C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x100170A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10017100": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10017D20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10017D30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10018840": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0x25 here, 0xC3 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10018B30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10018CE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1001A850": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x41 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1001CF80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10021AE0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100220E0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB0 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10022170": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0xF9 here, 0xE9 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10025BD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10025BE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10026E00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10026E10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10026E30": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x10 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10026E50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10026E90": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10026EB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10026F20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10026FA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10026FD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100270A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10027120": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100272B0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x00 here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100272E0": {
+  "verdict": "DIFFERS",
+  "why": "+9: 0x00 here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10027310": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10027340": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10027990": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100279A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100279F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
+ },
+ "0x10027AE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10027B30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10027CD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10027CF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10028170": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10028230": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xD9 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 112
+ },
+ "0x100282C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10028730": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10028B90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10029D20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10029EB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1002C7C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1002C800": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x20 here, 0x27 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10032A50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10032A70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10032DA0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10032FE0": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x20 here, 0x10 in the game",
+  "conv": "__thiscall",
+  "size": 240
+ },
+ "0x100396A0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10039810": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1003AAB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1003C740": {
+  "verdict": "DIFFERS",
+  "why": "+33: 0xC2 here, 0xD0 in the game",
+  "conv": "__thiscall",
+  "size": 144
+ },
+ "0x1003E1D0": {
+  "verdict": "DIFFERS",
+  "why": "+33: 0x8A here, 0x88 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1003E280": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1003E630": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1003E640": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1003E650": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10043DE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10044CF0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10049330": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x8B here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x100493B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E210": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1004E260": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E270": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E280": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1004E290": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E2A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E2B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E2C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1004E2D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1004E320": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1004E360": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1004E3B0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x11 here, 0x09 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1004E490": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100527B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100527C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10052800": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10052820": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10052870": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10052880": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052890": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100528A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100528B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100528C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x100528E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100528F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052900": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052940": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052950": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100529A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100529B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x100529D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100529E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10052A00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052A90": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x89 here, 0x81 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10052AB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052AC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052AD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052AE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052AF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B30": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10052B40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B70": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xDC here, 0xD8 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B80": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xDC here, 0xD8 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052B90": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xDC here, 0xD8 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052BA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052BB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10052D20": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xDD here, 0xD9 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10052D30": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10052E80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10053080": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10053090": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100530A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100530B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100530C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100530D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100530E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10054430": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10054500": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100546F0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100547A0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10055240": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100552F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10055520": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10056260": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x100573B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1005E110": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10069E90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10069EA0": {
+  "verdict": "DIFFERS",
+  "why": "+3: 0xFD here, 0xFE in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1006A560": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 144
+ },
+ "0x1006AD30": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1006AD90": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1006B1D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 128
+ },
+ "0x1006C260": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100711B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x100711D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100711E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10071200": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10072240": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x56 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10072FB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x10074110": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10074140": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x100741E0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0xD0 here, 0xC2 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10074380": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x3D here, 0x37 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x100747F0": {
+  "verdict": "DIFFERS",
+  "why": "+3: 0x56 here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10074F30": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x8B here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100769F0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x53 in the game",
+  "conv": "__cdecl",
+  "size": 128
+ },
+ "0x10076A70": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10077AD0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10079A00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10081530": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10082080": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100820A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100820C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100820E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100820F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10082200": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x81 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10082380": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10082790": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10083340": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10085010": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10085500": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10085BF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10086FE0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1008A160": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1008B380": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1008E8D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x54 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x1008F2A0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10093430": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10093DA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10095680": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100956A0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100956F0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x10095750": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10095790": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 144
+ },
+ "0x10097A40": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10098180": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x89 here, 0x81 in the game",
+  "conv": "__thiscall",
+  "size": 192
+ },
+ "0x100A45D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100A46C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100A4710": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100A4890": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100A57C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100ABC70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100AC380": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100C3060": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100C3200": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100C3210": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100C3260": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100C3FB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100C3FC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100C5260": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100C5270": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100C5280": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100D7420": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100D7E90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100D8A20": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x100D9460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100D9A70": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100D9AD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100DB100": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100DB140": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x14 here, 0x13 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100DBAA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x100DBDE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100DBE00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall"
+ },
+ "0x100DBF00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100DC6C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB8 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100DCA00": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0xEA here, 0x3F in the game",
+  "conv": "__cdecl",
+  "size": 1296
+ },
+ "0x100DCF60": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0xEA here, 0x3F in the game",
+  "conv": "__cdecl",
+  "size": 1296
+ },
+ "0x100DD570": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0x24 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100DDA60": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x53 in the game",
+  "conv": "__cdecl",
+  "size": 336
+ },
+ "0x100DDD20": {
+  "verdict": "DIFFERS",
+  "why": "+3: 0x08 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 144
+ },
+ "0x100DDE90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100DE010": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x40 here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 2400
+ },
+ "0x100DF5D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 192
+ },
+ "0x100DF6E0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 192
+ },
+ "0x100DF780": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0x74 here, 0x76 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x100E00F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E0100": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E0B10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E13C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100E19C0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 240
+ },
+ "0x100E1C00": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x100E33E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E33F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E4110": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E4320": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E4330": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E5FF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E61C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E63C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E84A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E84B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E8B60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100E8B70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100EB090": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100EB0A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100ED720": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F0090": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F06B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F09C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F10C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100F1340": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x100F29E0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100F3010": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x100F32B0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x100F8910": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F8920": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F8CA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F8CB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F9340": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100F9350": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100FA9C0": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x09 here, 0x0A in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x100FC650": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100FC670": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100FCA20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100FCA40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x100FCA60": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0x73 here, 0x72 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x100FCAC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100FCAD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x100FD3A0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x8B here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10101BF0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0xCD here, 0x67 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10103870": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x101038C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10103A90": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x6A here, 0x33 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10103AB0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x56 here, 0x33 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10103AE0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x56 here, 0x33 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10103B10": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x6A here, 0x33 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10103B30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10103F50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10107610": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x101086C0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x8B here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10108870": {
+  "verdict": "DIFFERS",
+  "why": "+28: 0xD8 here, 0xD0 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101088A0": {
+  "verdict": "DIFFERS",
+  "why": "+11: 0x74 here, 0x76 in the game",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x101088C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10109100": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1010E040": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1010FBD0": {
+  "verdict": "DIFFERS",
+  "why": "+9: 0x8B here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 128
+ },
+ "0x1010FEE0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10110040": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10114620": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x66 in the game",
+  "conv": "__stdcall",
+  "size": 80
+ },
+ "0x101152D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x101152E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x101158A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10115930": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10115970": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x101163A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x101163C0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x8B here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x101163F0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x4C here, 0x88 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10116420": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10116440": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10116460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10116480": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x101164B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x101164D0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x4C here, 0x54 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x101165F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x101170D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x54 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10117F30": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10118520": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10118C10": {
+  "verdict": "DIFFERS",
+  "why": "+15: 0x22 here, 0x20 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10118F20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10119390": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101193B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101193D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10119870": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x50 here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 112
+ },
+ "0x10119970": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10119A50": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x53 in the game",
+  "conv": "__thiscall",
+  "size": 160
+ },
+ "0x10119E30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1011A3B0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1011B220": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1011B2A0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1011B2E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1011B310": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1011B320": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1011B330": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1011BA90": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1011C850": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8A here, 0x80 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1011C870": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1011C940": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 832
+ },
+ "0x1011D8B0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1011DA30": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x80 here, 0x81 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x1011E290": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101200B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 176
+ },
+ "0x10123E80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10123F40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10123F60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10123FC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10123FE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10124000": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10124010": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10124070": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0xD1 here, 0xD0 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10124090": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0xC1 here, 0xC8 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101240B0": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0xC1 here, 0xC0 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101240D0": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0x83 here, 0x24 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101240F0": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0xC1 here, 0xC8 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10124110": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0xC1 here, 0xC0 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10124130": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0xC1 here, 0xC0 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101245C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101249E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10124AB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10124B50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101260E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101260F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10126300": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10126320": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10126330": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10126350": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10126460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x10126500": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10126510": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10127250": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10127280": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x0F here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 144
+ },
+ "0x101278B0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x101278D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x8B here, 0x55 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x10127930": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x8B here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10127970": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0x40 here, 0x41 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10127F00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101281F0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10129F80": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x56 here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 608
+ },
+ "0x1012A120": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x50 here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 336
+ },
+ "0x1012A400": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1012A410": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8A in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1012A4E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10138EC0": {
+  "verdict": "DIFFERS",
+  "why": "+15: 0x8D here, 0xB9 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10138FB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10146930": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x44 here, 0x54 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10146960": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10150A60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10150D90": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x49 here, 0x41 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10151140": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10153090": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x83 here, 0x85 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x101530C0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x54 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10153100": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x83 here, 0x85 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10153130": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x101531B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10153230": {
+  "verdict": "DIFFERS",
+  "why": "+13: 0x09 here, 0x0A in the game",
+  "conv": "__cdecl",
+  "size": 128
+ },
+ "0x101544F0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x14 here, 0x15 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101549E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101549F0": {
+  "verdict": "DIFFERS",
+  "why": "+3: 0x56 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10154AD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10154F00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10154FC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101552D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101554E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10155600": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10155BD0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 160
+ },
+ "0x10155C70": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 160
+ },
+ "0x10156440": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156450": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156470": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156480": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156540": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x56 here, 0x55 in the game",
+  "conv": "__cdecl",
+  "size": 128
+ },
+ "0x10156840": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156850": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156860": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156870": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 224
+ },
+ "0x101569F0": {
+  "verdict": "DIFFERS",
+  "why": "+32: 0x08 here, 0x04 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10156B20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156B30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156B40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10156B50": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10156BF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10157780": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x83 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10157860": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101578C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101578D0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8A in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101578E0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8A in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101579B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10159370": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101594D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101594E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10159740": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x101597C0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x56 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x101597F0": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0x41 here, 0x51 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101598A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101598B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1015B190": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 112
+ },
+ "0x1015B270": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1015D7F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1015D9A0": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0xC7 here, 0x89 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1015DB70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 16
+ },
+ "0x1015DFC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 16
+ },
+ "0x1015ED80": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1015EDB0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x49 here, 0x41 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101601D0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x8B here, 0x89 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10160210": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x8B here, 0x89 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x10160C90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10161FF0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x54 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10163080": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10163380": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x101633D0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10163F30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10163FA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x10164560": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10164800": {
+  "verdict": "DIFFERS",
+  "why": "+36: 0xB0 here, 0x0C in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10164980": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10168FD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1016C150": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1016C390": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall"
+ },
+ "0x10175740": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10179410": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10179420": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10181F60": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x10 here, 0x20 in the game",
+  "conv": "__cdecl",
+  "size": 128
+ },
+ "0x10186E90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186EA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186EB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186EC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186EE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F10": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186F90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10186FF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10187000": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10187020": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10189400": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10189810": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0xD8 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10189BD0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x53 here, 0x57 in the game",
+  "conv": "__stdcall",
+  "size": 160
+ },
+ "0x1018A2E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018A2F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018A300": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018A310": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018AD50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018AD60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018AD80": {
+  "verdict": "DIFFERS",
+  "why": "+11: 0x0B here, 0x0D in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1018BBB0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1018BC90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018BCA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1018BCD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1018BD00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1018BD30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1018D230": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1018D470": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1018D480": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018D490": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1018D980": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8A here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x1018DC70": {
+  "verdict": "DIFFERS",
+  "why": "+12: 0x15 here, 0x0F in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x1018DCB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1018E0A0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1018E6A0": {
+  "verdict": "DIFFERS",
+  "why": "+29: 0xF0 here, 0xC6 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x1018E7F0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101908D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10190BB0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10193A10": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x1F here, 0x20 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10193BC0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10195460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
+ },
+ "0x101954D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10196BE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1019ED70": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall"
+ },
+ "0x101A1660": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101A1690": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101A16B0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101A1740": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0xBA here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x101A1910": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x83 here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101A29F0": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0x27 here, 0x28 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101A2E60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101A3CF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101A43A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101A8410": {
+  "verdict": "DIFFERS",
+  "why": "+41: 0xC3 here, 0xC2 in the game",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x101AB810": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101ABB40": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x56 here, 0x57 in the game",
+  "conv": "__thiscall",
+  "size": 144
+ },
+ "0x101ABE80": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101AC1B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101AC1D0": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x91 here, 0x81 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101AC200": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101AC210": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101AC230": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101AC4D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x89 here, 0x81 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101ACF40": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x54 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101ACF60": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101ACF70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101ACF90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101AD1B0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__stdcall",
+  "size": 48
+ },
+ "0x101AD820": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101ADBC0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x33 here, 0x80 in the game",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x101ADE80": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x89 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x101ADEC0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x89 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x101AFF30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x101AFF40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x101B27F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 16
+ },
+ "0x101B2800": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 16
+ },
+ "0x101B4260": {
+  "verdict": "DIFFERS",
+  "why": "+11: 0x25 here, 0xC2 in the game",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x101B4BB0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101B4F90": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101B5C80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101B5C90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101B5CC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101B6EA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101B6EC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101B70A0": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x84 here, 0x30 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101B70D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101B7100": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x81 here, 0x91 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101B7130": {
+  "verdict": "DIFFERS",
+  "why": "+20: 0xE8 here, 0xC0 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x101B9530": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101B9550": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101B95D0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101B9610": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101BA5C0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0xB8 here, 0xB0 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BAE20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BAE30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BAEB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BAEC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BB100": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0x08 here, 0x00 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x101BBE50": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0x25 here, 0xC3 in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BC9B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101BCA40": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x51 here, 0x53 in the game",
+  "conv": "__thiscall",
+  "size": 208
+ },
+ "0x101BCAC0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x51 here, 0x53 in the game",
+  "conv": "__thiscall",
+  "size": 160
+ },
+ "0x101BCB30": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x57 in the game",
+  "conv": "__thiscall",
+  "size": 80
+ },
+ "0x101BCF30": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x8D here, 0xB9 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x101BE2B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101C3FB0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x85 here, 0x83 in the game",
+  "conv": "__stdcall",
+  "size": 32
+ },
+ "0x101C5A30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101C87A0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 240
+ },
+ "0x101C9270": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x101CC520": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x101CC560": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x101CCE00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x101CD9D0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101CDA00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101CDA30": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101CF820": {
+  "verdict": "DIFFERS",
+  "why": "+31: 0x24 here, 0x19 in the game",
+  "conv": "__stdcall",
+  "size": 96
+ },
+ "0x101D0860": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x89 here, 0x8D in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101D09C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101D30F0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101E15F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x101E1A00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x101EFCA0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8A here, 0x80 in the game",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x101EFEA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x101F92B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10201EB0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1020BA40": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1021BCB0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB8 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1021D270": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1021DDC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1021E500": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 144
+ },
+ "0x1021E550": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x83 here, 0x51 in the game",
+  "conv": "__cdecl",
+  "size": 304
+ },
+ "0x1021E870": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x51 here, 0x53 in the game",
+  "conv": "__cdecl",
+  "size": 448
+ },
+ "0x10221740": {
+  "verdict": "DIFFERS",
+  "why": "+13: 0x03 here, 0x04 in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10225090": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x102281C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1022ED00": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1022ED70": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x57 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 128
+ },
+ "0x10230410": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10234A70": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10239460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10244F20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10245040": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10245B50": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10245F30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x1024D740": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10250A40": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 160
+ },
+ "0x10250C00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10250D80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10251160": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x102514C0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10251920": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10251960": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x102524B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10252EA0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x83 here, 0x57 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x10253330": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102572E0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x57 here, 0x56 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x102574F0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10257550": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10257590": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x8D here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x102575B0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x102575D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10257800": {
+  "verdict": "DIFFERS",
+  "why": "+19: 0xD1 here, 0xCA in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10257870": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x39 here, 0x3B in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
+ "0x10257AF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10257B10": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x49 here, 0x41 in the game",
+  "conv": "__thiscall",
+  "size": 32
+ },
+ "0x10257B60": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10257BC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10257C60": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10257C70": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10257C80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
+ },
+ "0x10257FE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10257FF0": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x01 here, 0x02 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x102586F0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x102590F0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10259100": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x10259130": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x10259150": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall"
+ },
+ "0x1025A580": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1025A810": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x33 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1025A860": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1025A890": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall"
+ },
+ "0x1025AA90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
+ "0x1025BB60": {
+  "verdict": "DIFFERS",
+  "why": "+16: 0x2F here, 0x30 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1025FE40": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x1025FF10": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall"
+ },
+ "0x10260360": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1026D179": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x55 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1026DB24": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x55 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x102720A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10272BA0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102738D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10274640": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10274670": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10274890": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x102749C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10274A20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10274D40": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x10 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10275190": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x102752F0": {
+  "verdict": "DIFFERS",
+  "why": "+33: 0x33 here, 0x2D in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10275320": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102778C0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x4C here, 0x54 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027A700": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027A720": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x10 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027A9D0": {
+  "verdict": "DIFFERS",
+  "why": "+2: 0x34 here, 0x14 in the game",
+  "conv": "__cdecl",
+  "size": 304
+ },
+ "0x1027ABA0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1027ABD0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1027AC00": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1027AC30": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1027AE50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027AEF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1027B060": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027B170": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 144
+ },
+ "0x1027C9D0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x1027DAE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 112
+ },
+ "0x1027DF70": {
+  "verdict": "DIFFERS",
+  "why": "+16: 0x17 here, 0x15 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1027E150": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x1027E190": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1027E440": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x44 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1027E450": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x39 here, 0x33 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x1027EB00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1027EB50": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x10 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 128
+ },
+ "0x1027EF20": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x04 here, 0x08 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x1027EF80": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x04 here, 0x08 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x1027EFE0": {
+  "verdict": "DIFFERS",
+  "why": "+14: 0x08 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 144
+ },
+ "0x1027F070": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 112
+ },
+ "0x102806B0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xBA here, 0xB9 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10281810": {
+  "verdict": "DIFFERS",
+  "why": "+19: 0xCA here, 0xD1 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10282630": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10283240": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10284EB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10284F20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10284FD0": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x3D here, 0x2D in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x102857D0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x4C here, 0x44 in the game",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102857F0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10285850": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10288DC0": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x51 here, 0x41 in the game",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10288E00": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x91 here, 0x41 in the game",
+  "conv": "__cdecl",
+  "size": 96
+ },
+ "0x10289B40": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10289EA0": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x83 here, 0x85 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10289EF0": {
+  "verdict": "DIFFERS",
+  "why": "+8: 0x83 here, 0x85 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028A0E0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1028D990": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x1028D9A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028D9C0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1028DBB0": {
+  "verdict": "DIFFERS",
+  "why": "+32: 0xDC here, 0xD8 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x1028EBF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028EC50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028ECC0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028ECE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028EFB0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x1028F220": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x1028F430": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1028F4A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10290430": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10291290": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x102912D0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x102912F0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl"
+ },
+ "0x10291460": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102916D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
+ "0x10291780": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10291790": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10291C50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10291F00": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x10291F10": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x4A here, 0x42 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10296410": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x10 here, 0x0C in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x102967E0": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x04 here, 0x18 in the game",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x10298570": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1029A230": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 80
+ },
+ "0x1029A420": {
+  "verdict": "DIFFERS",
+  "why": "+7: 0x23 here, 0x22 in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x1029BB50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
+ },
+ "0x102A2160": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x102AEC50": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x33 here, 0x85 in the game",
+  "conv": "__cdecl",
+  "size": 32
+ }
+}

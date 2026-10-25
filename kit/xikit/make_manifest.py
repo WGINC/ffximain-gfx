@@ -151,6 +151,8 @@ def main(recon, out, report=None):
         name = place.get('0x%x' % ea, {}).get('symbol') or c['name'].split()[0]
         tr, tw = trampoline(ea, rs, img, targets)
         if tr == '-': rep['no_trampoline'][name] = tw
+        # xikit.c reads EXPORT into 256 bytes and NAME into 96 (Fn.exp, Fn.name): a longer one would make it drop the line
+        if len(c['candidate']) > 255 or len(name) > 95: sys.exit('make_manifest: %s: export or name too long for xikit.c' % name)
         lines.append('%08X %d %s %s %s %s T=%s' % (ea - BASE, flags, c['candidate'], raw.hex().upper(),
                                                    ','.join(map(str, rel)) or '-', name.replace(' ', '_'), tr))
     rd = open(recon, 'rb').read(); import zlib

@@ -440,6 +440,36 @@ re-gate. A site never reached in a session stays unmeasured.
 **Tested** (Wine, mode `facts`): two CDx call sites, one a 3-byte `call [ecx+0xC]` whose region starts 2 bytes
 earlier. Both still reach their methods, are measured popping 4 through vtable slots 3 and 34, and are ingested.
 
+### Output slots and switch jumps (25 Oct)
+
+Two more kinds of site, the last column of `xikit_facts.txt` (`call` when absent):
+
+- **`out`**: a call as above, and its output slots. Where ECX or one of the 8 stack dwords at the call points into
+  the caller's stack (within 16 KB above ESP), the kit reads the dword there before the call and after it returns.
+  Per slot and per class of the returned EAX (negative, zero, positive as a signed int) it counts the calls and how
+  many of them changed the dword. Nothing in the game's memory is written. A change shows the callee wrote it; no
+  change does not show it did not (it may have written the value that was there). This is what settles a callee's
+  output on a path the gate's stubs cannot model: for instance whether `File_FindByKind` always fills its output
+  when it returns success (0x101A04E0 and 0x101A03D0, whose gate FAILs on the value a stub left unwritten).
+- **`jmp`**: a switch jump `jmp [reg*4 + table]` that the code does not bound (`sp_solve.switch_targets`). The
+  region is the jump itself; the copy records the target it reads, then jumps there.
+
+`build.sh` lists every call in a FAIL function the tree does not hold as `out` (`--out-fails`) and every unbounded
+switch jump as `jmp` (`--jmp-unbounded`); `--out ADDR,...` and `--jmp ADDR,...` add others. The 25 Oct list:
+3,895 sites (2,098 call, 1,618 out, 179 jmp), 31 refused (each with why, in `build/fact_sites.log`). The kit holds
+4,096.
+
+`fact_sites.py ingest` also writes `data/game_switch.json` (per jump, the targets seen and how often: only ever
+what the game did, never that a target cannot be taken) and `data/game_outs.json` (per site, slot and EAX class: calls,
+changed, and `written_on_every_observed_call`). A stack dword counts as an argument only below the callee's argument
+count: what it popped at that site, measured, when above 0, or for 0 its exact cdecl count (`data/cdecl_args.json`);
+with neither, the slot is kept and marked `argument_count: not known`.
+
+**Tested** (Wine, mode `facts`): 0x10027C70's two calls, `out`: the local `this` of its identity-matrix constructor
+(0x10027C7A) is seen changed, the local it passes to a matrix product that only reads it (0x10027C94) never is, and
+the stack dwords past the constructor's arguments (none) are dropped; 0x101AFB40's switch, `jmp`: its 13 jumps for
+arguments 0..12 recorded with both targets, none for 13 (past its bound).
+
 ## Mods (`mods=`)
 
 **The manifest's size.** The kit holds up to 12,288 functions and 12,288 `!code` lines (MAXFN, MAXCODE in xikit.c) and

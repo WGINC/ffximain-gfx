@@ -242,6 +242,27 @@ int main(int argc, char **argv) {
                 if (!strncmp(line, "0x10009716,4,5,", 15) && strstr(line, ",3,0x10009710")) a = 1;
                 if (!strncmp(line, "0x10009736,4,5,", 15) && strstr(line, ",34,0x10009730")) b = 1; } fclose(fc); }
     check(a && b, "xikit_facts_<pid>.csv: both sites, 5 calls each, the callee popped 4, through vtable slots 3 and 34");
+    /* kind out: 0x10027C70 makes a local identity matrix (call 0x10027C7A, ECX = the local: the callee writes 1.0f at
+       its start) and passes the local to a matrix product that only reads it (call 0x10027C94, stack dword 0);
+       kind jmp: 0x101AFB40's switch (0x101AFB56) for the arguments 0..13 (13 is past its bound: no jump) */
+    static float m_this[32], m_arg[16];
+    typedef void (__attribute__((thiscall)) *MatFn)(void *, void *);
+    typedef int (__attribute__((thiscall)) *SwFn)(void *, int);
+    for (k = 0; k < 5; k++) ((MatFn)(uintptr_t)(0x10027C70u + rel))(m_this, m_arg);
+    static uint8_t swobj[0x40];
+    for (k = 0; k <= 13; k++) ((SwFn)(uintptr_t)(0x101AFB40u + rel))(swobj, k);
+    present(60);
+    long ecxc = -1, ecxw = -1, argc_ = -1, argw = -1, jn = 0; int jt = 0;
+    fc = fopen(name, "r");
+    if (fc) { while (fgets(line, sizeof line, fc)) {
+                long c1, c2; char cls[8];
+                if (sscanf(line, "out,0x10027C7A,ecx0,%7[a-z],%ld,%ld", cls, &c1, &c2) == 3) { ecxc = c1; ecxw = c2; }
+                if (sscanf(line, "out,0x10027C94,arg0,%7[a-z],%ld,%ld", cls, &c1, &c2) == 3) { argc_ = c1; argw = c2; }
+                if (!strncmp(line, "0x101AFB56,jmp,", 15)) { jn += strtol(line + 15, NULL, 10); jt++; } } fclose(fc); }
+    printf("out: 0x10027C7A ecx %ld calls %ld changed; 0x10027C94 arg0 %ld calls %ld changed; jmp 0x101AFB56 %ld jumps to %d targets\n", ecxc, ecxw, argc_, argw, jn, jt);
+    check(ecxc == 5 && ecxw >= 1, "kind out: the local `this` the identity constructor writes is seen changed");
+    check(argc_ == 5 && argw == 0, "kind out: the local the matrix product only reads is never seen changed");
+    check(jn == 13 && jt >= 2, "kind jmp: the switch's 13 jumps (arguments 0..12) recorded, with their targets");
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
   }

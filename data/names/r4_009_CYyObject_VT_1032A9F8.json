@@ -1,0 +1,8 @@
+{
+ "0x10039590": {
+  "name": "CYyObject_VT_1032A9F8_Call10039700IfField8",
+  "confidence": "low",
+  "evidence": "Body: when the dword at this+8 is non-zero returns FUN_10039700(arg), else 1. Its caller LobbyThread_IsSystemState1 passes DAT_10669098 and 1.",
+  "summary": "Calls 0x10039700 with its argument when this+8 is set; otherwise returns 1."
+ }
+}

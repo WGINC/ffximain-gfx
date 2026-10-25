@@ -1,0 +1,14 @@
+{
+ "0x10008EA0": {
+  "name": "Unit10003890_CallPtr10456550IfEnabled",
+  "confidence": "low",
+  "evidence": "Body: when DAT_1045654C is non-zero and the function pointer at 0x10456550 is set, returns it called with (arg1, arg2); else 1.",
+  "summary": "Calls the function pointer at 0x10456550 with its two arguments when 0x1045654C is set; otherwise returns 1."
+ },
+ "0x10008F00": {
+  "name": "Unit10003890_CallPtr10456558IfEnabled",
+  "confidence": "low",
+  "evidence": "Body: when DAT_1045654C is non-zero and the function pointer at 0x10456558 is set, returns it called with (arg1); else 1.",
+  "summary": "Calls the function pointer at 0x10456558 with its argument when 0x1045654C is set; otherwise returns 1."
+ }
+}

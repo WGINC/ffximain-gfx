@@ -1,0 +1,200 @@
+{
+ "0x101D7C10": {
+  "name": "Unit101D7020_CtorVt10338670",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10338670 and its fields +0x899..+0x8BC; Yk_CreateCommonObjects stores it in 0x10663428",
+  "summary": "Constructs the Yk object with vtable 0x10338670 (0x10663428)."
+ },
+ "0x101D87A0": {
+  "name": "Unit101D7020_CtorVt10338700",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, clears +0x89C and sets vtable 0x10338700; stored in 0x1066342C",
+  "summary": "Constructs the Yk object with vtable 0x10338700 (0x1066342C)."
+ },
+ "0x101D9E90": {
+  "name": "Unit101D7020_CtorVt10338BE8",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10338BE8",
+  "summary": "Constructs an object with vtable 0x10338BE8."
+ },
+ "0x101DC460": {
+  "name": "Unit101D7020_CtorVt10338D88",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10338D88, clears +0x50..+0x72, and creates the shared objects 0x1066346C, 0x10663470, 0x10663474 once (vtable 0x10338D20 and others); YkInit stores it in 0x10663468",
+  "summary": "Constructs the Yk object 0x10663468 and its three shared helpers."
+ },
+ "0x101DD000": {
+  "name": "Unit101D7020_CtorVt10338E60",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10338E60, clears +0x378, initialises its 7 slots (Yk_InitSlots), +0x19 = 0, +0x18 = 0xFF; stored in 0x10663484",
+  "summary": "Constructs the object 0x10663484 with its seven slots."
+ },
+ "0x101DDF90": {
+  "name": "Unit101D7020_CtorVt10338EA4",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10338EA4 and clears +8, +0xC, +0xD; stored in 0x10663488",
+  "summary": "Constructs the small object 0x10663488."
+ },
+ "0x101DE6B0": {
+  "name": "Unit101D7020_CtorVt10338ED4",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10338ED4 and clears +8, +0xC, +0xD; stored in 0x1066348C",
+  "summary": "Constructs the small object 0x1066348C."
+ },
+ "0x101DEDC0": {
+  "name": "Unit101D7020_CtorVt10338F68",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10338F68, +0x50 = -1, +0x54 = 0, and creates the helper 0x10663498 (vtable 0x10338F20) once; YkInit stores it in 0x10663494",
+  "summary": "Constructs the Yk object 0x10663494 and its helper."
+ },
+ "0x101E0A90": {
+  "name": "Unit101D7020_CtorVt10339250",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10333360, clears its 10 entries from +0x14, then vtable 0x10339250, and creates the helpers 0x106634B0..0x106634D0 once; YkInit stores it in 0x106634AC",
+  "summary": "Constructs the object 0x106634AC and its helpers."
+ },
+ "0x101E15F0": {
+  "name": "Unit101D7020_ClearField74",
+  "confidence": "low",
+  "evidence": "stores 0 at +0x74",
+  "summary": "Clears the field at +0x74."
+ },
+ "0x101E2B10": {
+  "name": "Unit101D7020_CtorVt10339298",
+  "confidence": "low",
+  "evidence": "constructs the base (0x101EBE00) and sets vtable 0x10339298; stored in 0x106634C4",
+  "summary": "Constructs an object with vtable 0x10339298 on the 0x101EBE00 base."
+ },
+ "0x101E3F50": {
+  "name": "Unit101D7020_CtorVt103394C0",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x103394C0, and creates the helpers 0x10663528..0x10663554 once (fn_101E51B0, fn_101E5750, fn_101E48F0, fn_101E5BA0 x4); YkInit stores it in 0x10663520",
+  "summary": "Constructs the Yk object 0x10663520 and its eight helpers."
+ },
+ "0x101E48F0": {
+  "name": "Unit101D7020_CtorVt10339530",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10339530; stored in 0x10663554",
+  "summary": "Constructs the helper 0x10663554."
+ },
+ "0x101E4A20": {
+  "name": "Unit101D7020_CtorVt10339698",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10339698, and creates the helpers 0x10663544..0x10663550 once (vtable 0x10339650 and others); YkInit stores it in 0x10663524",
+  "summary": "Constructs the Yk object 0x10663524 and its four helpers."
+ },
+ "0x101E51B0": {
+  "name": "Unit101D7020_CtorVt10339728",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10339728, clears +0x2C and sets three colours +0x20..+0x28 (0x70808080, 0x70008000, 0x70000080); stored in 0x10663528",
+  "summary": "Constructs the helper 0x10663528 with its three colours."
+ },
+ "0x101E5750": {
+  "name": "Unit101D7020_CtorVt10339770",
+  "confidence": "low",
+  "evidence": "sets the base fields, clears +0x14/+0x18 and sets vtable 0x10339770; stored in 0x1066352C",
+  "summary": "Constructs the helper 0x1066352C."
+ },
+ "0x101E5BA0": {
+  "name": "Unit101D7020_CtorVt103397B8",
+  "confidence": "low",
+  "evidence": "sets the base fields, +0x14/+0x16 = 1, vtable 0x103397B8, clears +0x24",
+  "summary": "Constructs a helper with vtable 0x103397B8."
+ },
+ "0x101EB390": {
+  "name": "Unit101D7020_CtorVt10339D78",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10339D78, and creates the helpers 0x10663688 (fn_101EB7E0) and 0x1066368C..0x10663694 once; YkInit stores it in 0x10663684",
+  "summary": "Constructs the Yk object 0x10663684 and its helpers."
+ },
+ "0x101EB7E0": {
+  "name": "Unit101D7020_CtorVt10339DE8",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10339DE8, and copies [entry 1]+0x20C and [entry 2]+0x170 of 0x101C8C30 to +0x50/+0x54; stored in 0x10663688",
+  "summary": "Constructs the helper 0x10663688 with two values from 0x101C8C30's entries."
+ },
+ "0x101EBE00": {
+  "name": "Unit101D7020_CtorVt10339E48",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x10339E48, and creates the helper 0x106636A0 (fn_101EC0D0) once; stored in 0x1066369C",
+  "summary": "Constructs the Yk object 0x1066369C and its helper."
+ },
+ "0x101EC0D0": {
+  "name": "Unit101D7020_CtorVt10339EB8",
+  "confidence": "low",
+  "evidence": "sets the base fields, clears +0x44..+0x4C, vtable 0x10339EB8, clears +0x2E and calls 0x101EC3C0; stored in 0x106636A0",
+  "summary": "Constructs the helper 0x106636A0."
+ },
+ "0x101ED450": {
+  "name": "Unit101D7020_CtorVt10339FA0",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10339FA0, and creates the helpers 0x106636B0, 0x106636B4, 0x106636B8 once (vtables 0x10339F70, 0x10339F44, 0x10339F18); YkInit stores it in 0x106636AC",
+  "summary": "Constructs the object 0x106636AC and its three helpers."
+ },
+ "0x101EE230": {
+  "name": "Unit101D7020_CtorVt1033A000",
+  "confidence": "low",
+  "evidence": "sets the base fields, the size arg3 x arg4 at +0x20/+0x22 (and as floats at +0x24/+0x28), vtable 0x1033A000, +0x14 = 0xC0, +0x3C/+0x40 = 512.0, and a scale from the screen rectangle (g_screenRectTopLeft/BottomRight) at +0x1C",
+  "summary": "Constructs a window object of a given size scaled to the screen."
+ },
+ "0x101EFEA0": {
+  "name": "Unit101D7020_ClearSixFlags",
+  "confidence": "low",
+  "evidence": "clears the first byte of six 12-byte entries from +4",
+  "summary": "Clears the flag byte of six entries."
+ },
+ "0x101F17C0": {
+  "name": "Unit101D7020_CtorVt1033A5D8",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, vtable 0x1033A5D8, two Unit1012AC80 objects, the helper 0x106634C4 (fn_101E2B10) and 0x10663744..0x10663750 created once; YkInit stores it in 0x10663740",
+  "summary": "Constructs the Yk object 0x10663740 and its helpers."
+ },
+ "0x101F43F0": {
+  "name": "Unit101D7020_CtorVt1033A6D0",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x1033A6D0, and creates the helper 0x10663790 (vtable 0x1033A668, +4 = 1) once; YkInit stores it in 0x10663784",
+  "summary": "Constructs the object 0x10663784 and its helper."
+ },
+ "0x101F71A0": {
+  "name": "Unit101D7020_GetValueIfLoaded",
+  "confidence": "low",
+  "evidence": "returns [0x106637E0] when the byte 0x106637A8 is set, else 0",
+  "summary": "Returns the value at 0x106637E0 once the table is loaded."
+ },
+ "0x101F7200": {
+  "name": "Unit101D7020_GetEntryFieldA",
+  "confidence": "low",
+  "evidence": "returns the dword 0x106637AC + arg*16 when the byte 0x106637A8 is set, else 0",
+  "summary": "Returns the first value of a 16-byte table entry once loaded."
+ },
+ "0x101F7240": {
+  "name": "Unit101D7020_GetEntryFieldB",
+  "confidence": "low",
+  "evidence": "returns the dword 0x106637B4 + arg*16 when the byte 0x106637A8 is set, else 0",
+  "summary": "Returns the third value of a 16-byte table entry once loaded."
+ },
+ "0x101F7260": {
+  "name": "Unit101D7020_GetEntryFieldBPercent",
+  "confidence": "low",
+  "evidence": "returns Unit101D7020_GetEntryFieldB(arg) * 100 / 15000",
+  "summary": "Returns a table value as a percentage of 15000."
+ },
+ "0x101F7480": {
+  "name": "Unit101D7020_GetEntryCode",
+  "confidence": "low",
+  "evidence": "from the 14-byte entry arg of the table 0x103821F4: returns 0x17F for a negative byte +2, 0x180 for 0, else the byte plus 0x180, 0x73F or 0x8FD by the high nibble (0, 1, 2) of byte +0",
+  "summary": "Returns a code for an entry from its kind nibble and number."
+ },
+ "0x101F74F0": {
+  "name": "Unit101D7020_GetEntryPosition",
+  "confidence": "low",
+  "evidence": "finds the entry (Yk_FindEntryIndex); returns 0x100 when its index (fn_101F7480) is 0x180, else gets its position (0x101F7570) and subtracts the entry's offsets +6/+8; 1 in AL",
+  "summary": "Returns an entry's position relative to its offsets."
+ },
+ "0x101F75C0": {
+  "name": "Unit101D7020_GetEntryRate",
+  "confidence": "low",
+  "evidence": "returns 2560.0 / |signed byte +1| of the 14-byte entry, or 0.0 when it is 0",
+  "summary": "Returns 2560 divided by an entry's rate byte."
+ }
+}

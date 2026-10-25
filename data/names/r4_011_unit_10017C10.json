@@ -1,0 +1,14 @@
+{
+ "0x10018140": {
+  "name": "Unit10017C10_SendMessage7_1To10668FF8",
+  "confidence": "low",
+  "evidence": "Body: sprintf(buf, Unit1012AC80_GetMessageFwd(7, 1, arg)); when DAT_10668FF8 is set calls FUN_1023C140(DAT_10668FF8, buf).",
+  "summary": "Formats game message (7, 1, arg) and passes the text to the object at 0x10668FF8."
+ },
+ "0x100181D0": {
+  "name": "Unit10017C10_SendMessage7_0To10668FF8",
+  "confidence": "low",
+  "evidence": "Body: sprintf(buf, Unit1012AC80_GetMessageFwd(7, 0, abs(arg1))); when arg2 is set appends the two bytes at 0x10350E4C and arg2; when DAT_10668FF8 is set calls FUN_1023C140(DAT_10668FF8, buf).",
+  "summary": "Formats game message (7, 0, |arg1|), optionally followed by arg2, and passes the text to the object at 0x10668FF8."
+ }
+}

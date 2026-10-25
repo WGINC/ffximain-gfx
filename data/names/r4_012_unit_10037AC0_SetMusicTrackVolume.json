@@ -1,0 +1,8 @@
+{
+ "0x10038330": {
+  "name": "Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit",
+  "confidence": "medium",
+  "evidence": "Body: with DAT_1046393C set, clamps arg3 to 0..127; limit DAT_10456A94 (0x14 when Acter_IsEvent and DAT_10463924); when LobbyThread_QueryChannels(5,-1,-1) is below it, ids 0x8BF/0x80F only once (flag 0x104638F4), returns LobbyThread_QueueSoundCmd(DAT_1046393C, arg1, ftol(*arg2), arg3); else -1.",
+  "summary": "Queues a sound command with a clamped 0..127 value when fewer channels than the limit are active; -1 otherwise."
+ }
+}

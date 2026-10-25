@@ -1,4 +1,4 @@
-# FFXiMain.dll graphics code: clean C++ (build 2026-09-03)
+# FFXiMain.dll graphics code: clean C++ (tree of 2026-10-25)
 
 Reconstructed from Hex-Rays output (and, for functions the IDA export does not hold, Ghidra's: `tree/source.json`) and verified function by function against the original in an
 emulator (see `../docs/METHOD.md`). Every function carries:
@@ -6,7 +6,12 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(779 functions: 776 PASS; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
+(4,280 functions in 392 source files: 4,279 PASS; `// NOT VERIFIED` marks the 1 that is not, with its verdict:
+0x10003890, INCONCLUSIVE.)
+
+`left_out.json` lists the 9 functions the tree leaves out, each with its reason: each one calls a function
+that reads a register (EAX, ECX or EDX) its `orig::` wrapper does not pass, so the reconstruction
+could not reproduce that call.
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

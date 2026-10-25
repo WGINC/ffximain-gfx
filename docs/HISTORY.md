@@ -3345,9 +3345,10 @@ Tools, from the code (committed):
 * `ret_width.py` writes `data/ret_full.json`: the functions whose code sets all four bytes of EAX on every path
   (7,962). A tail jump to code that is no function start in the extents is now decoded by control flow
   (`add_jump_targets`), which adds 88. `ret_width.json` is unchanged.
-* `docs/pending_retfull_hx2cpp.patch` (not applied): hx2cpp widens a callee's `undefined`/`undefined1`/
-  `undefined2` return to `undefined4` only where `ret_full.json` lists the callee. It is held back because it
-  changes translations that were gated, so it needs its own re-translate and gate round. Callees whose code cannot
+* hx2cpp widens a callee's `undefined`/`undefined1`/`undefined2` return to `undefined4` only where
+  `ret_full.json` lists the callee. Re-translated and gated (run fs14, same export): among the records not in the
+  tree, FAIL 51 → 23, PASS 48 → 74 (26 FAIL → PASS, 2 FAIL → UNRESOLVED, no PASS lost); tool_drift on the
+  installed tree: 0 differences. verification/gate_raw_frameset13.jsonl is now the fs14 gate. Callees whose code cannot
   be followed (0x100F1920: `jmp [eax+0x2F8]` through a pointer table) stay as Ghidra prints them; nothing is
   known about their width.
 * hx2clean: a Ghidra record's global is declared exactly as its raw translation declares it
@@ -3356,7 +3357,8 @@ Tools, from the code (committed):
   `repair_compile.py` skipped them because not all their errors were pointer conversions.
 
 Promotion state (not installed): `runs/promo17/tree` (fs13 registered in a working copy of tree/source.json)
-builds 4,252 functions with no failed file; code_same against the installed tree: 4,139 same, 113 changed. The
+builds 4,252 functions with no failed file; code_same against the installed tree: 4,139 same, 113 changed
+(that tree predates the widening; regenerate it first). The
 remaining steps: map_clean_cases → gate the new and changed functions → merge gate_clean_final → install →
 tool_drift → kit tests → verify_all. To re-register fs13: add `data/exports/ghidra_frameset13.jsonl` (raw gate
 `verification/gate_raw_frameset13.jsonl`) to tree/source.json and merge `runs/fs13/cases.json` into

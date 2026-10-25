@@ -1,0 +1,8 @@
+{
+ "0x10029390": {
+  "name": "Unit10029260_ApplyFourTables",
+  "confidence": "low",
+  "evidence": "calls 0x10028C70, 0x10028C90, 0x10028C50 and 0x10028C30 on the argument, each 0x10028BF0 with one of four pairs of globals at 0x104570B4..0x104570D0",
+  "summary": "Runs the same operation with each of four global table pairs."
+ }
+}

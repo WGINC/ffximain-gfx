@@ -1,0 +1,8 @@
+{
+ "0x1029B310": {
+  "name": "SqmdSort_AllocLists",
+  "confidence": "medium",
+  "evidence": "reads a count and per-entry sizes from the data at +0x48, allocates the pointer array and each positive-sized entry with 0x10275D80 (tagged \"...sqModel\\src\\sqmdSort.c\"), leaving non-positive ones null",
+  "summary": "Allocates the sort lists a model's data describes."
+ }
+}

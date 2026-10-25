@@ -1,0 +1,146 @@
+{
+ "0x100F7A00": {
+  "name": "Unit100D7420_InitEntryAt104DF90C",
+  "confidence": "low",
+  "evidence": "calls Unit100D7420_InitEntry with the record at [0x104DF90C]+0x30, the object itself, 0 and the handler 0x100F79C0",
+  "summary": "Initialises the pool record of the object at 0x104DF90C."
+ },
+ "0x100F7A80": {
+  "name": "Unit100D7420_GetFieldCOf104DF90C",
+  "confidence": "low",
+  "evidence": "returns the dword at [0x104DF90C]+0xC",
+  "summary": "Returns a field of the object at 0x104DF90C."
+ },
+ "0x100F91C0": {
+  "name": "Unit100D7420_GetTimerStamp",
+  "confidence": "medium",
+  "evidence": "stores Unit100D7420_GetWrapCount() and Unit100D7420_GetLastTick() in the two dwords of the given record",
+  "summary": "Records the timer's wrap count and last tick."
+ },
+ "0x100F94D0": {
+  "name": "Unit100D7420_GetActiveBlock3AE98",
+  "confidence": "low",
+  "evidence": "returns [0x104DFD98]+0x3AE98 when that block's id word +0x10 is non-zero, its byte +0x12 set and its first dword 1, else 0",
+  "summary": "Returns a session block when it is active."
+ },
+ "0x100F9CC0": {
+  "name": "Unit100D7420_TickSecondCounters",
+  "confidence": "medium",
+  "evidence": "when the session exists, stores a byte through 0x100F04F0 and, when Unit100D7420_GetTotalMilliseconds()/1000 has changed from +0x18C of [0x104E0AF0], moves it to +0x190 and resets +0x194/+0x198",
+  "summary": "Rolls the per-second counters over when a new second starts."
+ },
+ "0x100F9D50": {
+  "name": "Unit100D7420_UpdateSession",
+  "confidence": "low",
+  "evidence": "calls 0x100F9CC0 and, when it succeeds, 0x100FA180 on the session object [0x104DFD94]",
+  "summary": "Runs the per-frame session update."
+ },
+ "0x100F9D70": {
+  "name": "Unit100D7420_StepSessionCounter",
+  "confidence": "low",
+  "evidence": "calls 0x100FA4A0 on [0x104DFD94] and increments its dword 0x112EC",
+  "summary": "Runs a session step and counts it."
+ },
+ "0x100F9DA0": {
+  "name": "Unit100D7420_ClearSessionGlobals",
+  "confidence": "medium",
+  "evidence": "stores 0 at 0x104DFD98 and 0x104DFD94; returns 1",
+  "summary": "Clears the two session pointers."
+ },
+ "0x100F9DB0": {
+  "name": "Unit100D7420_ShutdownSessions",
+  "confidence": "medium",
+  "evidence": "for each of the [+0x40E40] entries of [0x104DFD94] calls 0x100F9DF0 (which shuts down an active one), then clears the session pointers (0x100F9DA0)",
+  "summary": "Shuts down every active session entry and clears the pointers."
+ },
+ "0x100F9DF0": {
+  "name": "Unit100D7420_ShutdownIfActive",
+  "confidence": "low",
+  "evidence": "calls 0x100F9E10 on the entry when its byte +0xC is set",
+  "summary": "Shuts down a session entry when it is active."
+ },
+ "0x100F9E10": {
+  "name": "Unit100D7420_ShutdownEntry",
+  "confidence": "low",
+  "evidence": "calls about twenty per-subsystem functions in turn, then clears the entry's byte +0xC and 0x104DFD98",
+  "summary": "Runs every subsystem's shutdown for one session entry."
+ },
+ "0x100FA940": {
+  "name": "Unit100D7420_SetPacketType",
+  "confidence": "low",
+  "evidence": "stores its word at 0x104DF920; Unit100D7420_BuildType1/2 pass 1 and 2",
+  "summary": "Stores the current packet type word."
+ },
+ "0x100FBD10": {
+  "name": "Unit100D7420_SetClockOffset",
+  "confidence": "low",
+  "evidence": "calls 0x100DC1B0(seconds, ms + [record+0x4190]/2), which stores the offset of that time from the timer at 0x10492E10 in its +0x14",
+  "summary": "Sets the timer's offset from a received time, adding half the round trip."
+ },
+ "0x100FC370": {
+  "name": "Unit100D7420_SetHandler",
+  "confidence": "low",
+  "evidence": "for ids below 0x11F stores the value at [0x104DFD94]+0x44730+id*4; returns 1",
+  "summary": "Stores a value in the session's table of 287 entries."
+ },
+ "0x100FC4E0": {
+  "name": "Unit100D7420_GetBlock3C3A4OrDefault",
+  "confidence": "low",
+  "evidence": "returns [0x104DFD98]+0x3C3A4, or the static 0x104DFD30 when either session pointer is null",
+  "summary": "Returns a session block, or a static default without a session."
+ },
+ "0x100FC510": {
+  "name": "Unit100D7420_GetIdPair",
+  "confidence": "low",
+  "evidence": "copies the word +0x40DA8 and dword +0x3C390 of [0x104DFD98] into the static 0x104DF928 and returns it, or 0 without a session",
+  "summary": "Returns the session's id word and value as a static pair."
+ },
+ "0x100FC650": {
+  "name": "Unit100D7420_Nop_100FC650",
+  "confidence": "low",
+  "evidence": "bare return",
+  "summary": "Does nothing."
+ },
+ "0x100FC670": {
+  "name": "Unit100D7420_Nop_100FC670",
+  "confidence": "low",
+  "evidence": "bare return",
+  "summary": "Does nothing."
+ },
+ "0x100F8910": {
+  "name": "Unit100D7420_ReturnTrue_100F8910",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ },
+ "0x100F8920": {
+  "name": "Unit100D7420_ReturnTrue_100F8920",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ },
+ "0x100F8CA0": {
+  "name": "Unit100D7420_ReturnTrue_100F8CA0",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ },
+ "0x100F8CB0": {
+  "name": "Unit100D7420_ReturnTrue_100F8CB0",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ },
+ "0x100F9340": {
+  "name": "Unit100D7420_ReturnTrue_100F9340",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ },
+ "0x100F9350": {
+  "name": "Unit100D7420_ReturnTrue_100F9350",
+  "confidence": "low",
+  "evidence": "returns 1 in AL and nothing else",
+  "summary": "Returns true."
+ }
+}

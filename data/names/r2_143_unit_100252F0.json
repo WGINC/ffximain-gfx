@@ -1,0 +1,14 @@
+{
+ "0x10025BD0": {
+  "name": "Unit100252F0_Nop_10025BD0",
+  "confidence": "low",
+  "evidence": "bare return; called by CreateSharedVertexBuffers",
+  "summary": "Does nothing."
+ },
+ "0x10025BE0": {
+  "name": "Unit100252F0_Nop_10025BE0",
+  "confidence": "low",
+  "evidence": "bare return; called by Unit100298D0_ReleaseAll",
+  "summary": "Does nothing."
+ }
+}

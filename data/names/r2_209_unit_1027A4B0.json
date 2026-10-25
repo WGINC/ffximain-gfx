@@ -1,0 +1,8 @@
+{
+ "0x1027A6F0": {
+  "name": "Unit1027A4B0_SetIdentityFwd",
+  "confidence": "low",
+  "evidence": "calls Unit1027A4B0_SetIdentity(arg); called by sqxfXformTD_Init and SqskJoint_Init",
+  "summary": "Sets a transform to identity."
+ }
+}

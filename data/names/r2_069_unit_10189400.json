@@ -1,0 +1,32 @@
+{
+ "0x10189400": {
+  "name": "WeatherRes_InitKeyDefaults",
+  "confidence": "low",
+  "evidence": "zeroes 0x2B dwords, sets flag 4, colour bytes to 0x80, floats 400.0/40.0/1.0 at +0x3C/+0x40/+0x50..+0x58 and copies the second colour block to +0xC; called by WeatherRes_Construct",
+  "summary": "Fills a weather key with its default values."
+ },
+ "0x10189490": {
+  "name": "Env_BlendKeys",
+  "confidence": "medium",
+  "evidence": "blends two keys by a factor: Env_LerpKeyValues on +0xC and +0x2C, interpolates two direction vectors through quaternions (0x10033360, Unit100310A0_FromQuat) and stores them as bytes x127, then 0x10189980 for +0x4C; called by Env_BlendTimeOfDay and Blend_Update",
+  "summary": "Interpolates one environment key towards another."
+ },
+ "0x10189BD0": {
+  "name": "WeatherRes_IsTimeKeyName",
+  "confidence": "low",
+  "evidence": "returns true when the four bytes at +0x20 are decimal digits within per-digit limits ('1','9','5','9' from the lowest byte up) and the parent's id is not 'extr'",
+  "summary": "Tells whether a weather resource's name is a four-digit time."
+ },
+ "0x10189CA0": {
+  "name": "Env_FindPrevKey",
+  "confidence": "medium",
+  "evidence": "over the kind-0x3D resources under +0xC with a time-key name (0x10189BD0), picks the one whose WeatherRes_GetTimeKey is nearest before Zone_GetClock (times mod 0x6F3C9000) and returns its +0x14; called by Env_UpdatePrevKey",
+  "summary": "Finds the weather key at or before the current zone time."
+ },
+ "0x10189F20": {
+  "name": "Env_FindNextKey",
+  "confidence": "medium",
+  "evidence": "as 0x10189CA0 but picks the key nearest after Zone_GetClock; called by Env_UpdateNextKey",
+  "summary": "Finds the next weather key after the current zone time."
+ }
+}

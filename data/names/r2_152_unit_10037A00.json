@@ -1,0 +1,8 @@
+{
+ "0x10037A10": {
+  "name": "LobbyThread_SendCmd6IfRunning",
+  "confidence": "medium",
+  "evidence": "when 0x1046393C is set calls LobbyThread_SendCmd6(-1)",
+  "summary": "Sends command 6 to the lobby thread when it is running."
+ }
+}

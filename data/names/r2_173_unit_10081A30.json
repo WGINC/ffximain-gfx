@@ -1,0 +1,8 @@
+{
+ "0x10081CF0": {
+  "name": "CXiActor_ConstructBase",
+  "confidence": "medium",
+  "evidence": "runs CMoTask's constructor, ActorHandle_Constructor at +0x5C, sets the CXiActor vtable 0x1032CFE0 and calls CXiActor::Init; called by CXiControlActor_Constructor",
+  "summary": "Constructs the CXiActor part of an actor."
+ }
+}

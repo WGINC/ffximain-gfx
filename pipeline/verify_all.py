@@ -50,6 +50,24 @@ def jdiff(a, b):
     return [] if a == b else ['<whole file>']
 
 
+def fact_commands(texp, raw_gate):
+    """[(fact file in data/, the pipeline/ command that derives it into {o})], in the order each reads the ones
+    before it (regen_facts.py runs the same list)"""
+    return [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
+             ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
+             ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
+             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'),
+             ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
+             ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
+             ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
+             ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
+             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('ret_full.json', 'ret_width.py /dev/null {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('import_returns.json', 'import_returns.py {o}'), ('eax_inputs.json', 'caller_reads.py /dev/null /dev/null {o} {o}.sites'), ('eax_kept_sites.json', 'caller_reads.py /dev/null /dev/null {o}.inputs {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('reg_saved.json', 'reg_saved.py {o}'), ('this_flow.json', 'this_flow.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
+             ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
+             ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
+             ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
+             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, raw_gate))]     # the verified raw translation's
+
+
 def main():
     quick = '--quick' in sys.argv
     jobs = sys.argv[sys.argv.index('--jobs') + 1] if '--jobs' in sys.argv else str(os.cpu_count())
@@ -68,19 +86,7 @@ def main():
     src = load(os.path.join(ROOT, 'tree', 'source.json')); texp = os.path.join(tmp, 'tree_export.jsonl')
     sh('git show %s:data/exports/gfx_export.jsonl > %s' % (src['export_commit'], texp))
     # 2 facts re-derived (each tool reads the committed inputs it depends on, so the chain is checked link by link)
-    facts = [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
-             ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
-             ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
-             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'),
-             ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
-             ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
-             ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
-             ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
-             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('ret_full.json', 'ret_width.py /dev/null {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('import_returns.json', 'import_returns.py {o}'), ('eax_inputs.json', 'caller_reads.py /dev/null /dev/null {o} {o}.sites'), ('eax_kept_sites.json', 'caller_reads.py /dev/null /dev/null {o}.inputs {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('reg_saved.json', 'reg_saved.py {o}'), ('this_flow.json', 'this_flow.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
-             ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
-             ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
-             ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
-             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, src['raw_gate']))]     # the verified raw translation's
+    facts = fact_commands(texp, src['raw_gate'])
     for f, cmd in facts:
         o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))
         if rc or not os.path.exists(o): report('facts:' + f, False, error=out.strip().splitlines()[-1:] or rc); continue

@@ -1,0 +1,8 @@
+{
+ "0x10036F50": {
+  "name": "Unit10036B90_SetVolumeVector",
+  "confidence": "low",
+  "evidence": "when the byte 0x104638F5 is set and 0x10036460(+0x14) succeeds, sets 0x10463909 and, when 0x1046393C is set, passes the vector arg1 and arg2 to 0x10038330 on +0x30; called by Unit10036B90_SetVolumeScalar",
+  "summary": "Applies a volume vector to the object's sound when sound is active."
+ }
+}

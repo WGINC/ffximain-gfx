@@ -1,0 +1,8 @@
+{
+ "0x102778F0": {
+  "name": "SqsdAniso_SetNumDrawTris",
+  "confidence": "high",
+  "evidence": "its error string names it: \"sqsdAnisoSetNumDrawTris: Number of ...\" (0x103B36F8); clamps the count to 1..4 and stores (count*2-2) in bits 1..2 of +0x68",
+  "summary": "Sets the number of triangles the sqsdAniso shader draws (1 to 4)."
+ }
+}

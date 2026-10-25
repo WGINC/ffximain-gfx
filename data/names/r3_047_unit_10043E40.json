@@ -1,0 +1,8 @@
+{
+ "0x10044540": {
+  "name": "Unit10043E40_ToggleDynVBs",
+  "confidence": "medium",
+  "evidence": "calls Unit10043DD0_ToggleByte45 on each existing dynamic vertex buffer g_pDynVB_FVF42, FVF44, FVF144, FVF142 and FVF152; called by Camera_ApplyViewProjection",
+  "summary": "Toggles the +0x45 byte of each dynamic vertex buffer."
+ }
+}

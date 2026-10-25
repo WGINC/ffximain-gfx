@@ -1,0 +1,14 @@
+{
+ "0x10037DD0": {
+  "name": "MusicTrack_SetVolumeId0010",
+  "confidence": "low",
+  "evidence": "finds once (cached in 0x104637E0) the resource of type 0x3D with id 0x30313030 (the bytes \"0010\") in g_pMeshResourceMng (CMoResource::FindByTypeAndId) and sets its volume to [0x10351700]*127 (Unit10036B90_SetVolumeScalar, 0x40); called by Target_Select",
+  "summary": "Sets the volume of the music track with resource id 0010."
+ },
+ "0x10037FB0": {
+  "name": "MusicTrack_SetVolumeId0016",
+  "confidence": "low",
+  "evidence": "as 0x10037DD0 with the id 0x36313030 (the bytes \"0016\"), cached in 0x104627C8",
+  "summary": "Sets the volume of the music track with resource id 0016."
+ }
+}

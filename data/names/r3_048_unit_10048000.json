@@ -1,0 +1,50 @@
+{
+ "0x10049330": {
+  "name": "Unit10048000_FindRecordByType",
+  "confidence": "low",
+  "evidence": "walks the variable-length records from [+0xE8] (type in the low byte, length in dwords in bits 8..12) and returns the first with type arg, or null at type 0",
+  "summary": "Finds a record of a given type in a packed record list."
+ },
+ "0x1004E280": {
+  "name": "Unit10048000_ReturnThisA",
+  "confidence": "low",
+  "evidence": "returns this",
+  "summary": "Returns this."
+ },
+ "0x1004E2A0": {
+  "name": "Unit10048000_GetByte2Ptr",
+  "confidence": "low",
+  "evidence": "returns this+2",
+  "summary": "Returns the address of the byte at +2."
+ },
+ "0x1004E2B0": {
+  "name": "Unit10048000_GetByte1Ptr",
+  "confidence": "low",
+  "evidence": "returns this+1",
+  "summary": "Returns the address of the byte at +1."
+ },
+ "0x1004E2C0": {
+  "name": "Unit10048000_ReturnThisB",
+  "confidence": "low",
+  "evidence": "returns this",
+  "summary": "Returns this."
+ },
+ "0x1004E2D0": {
+  "name": "Unit10048000_GetByte3Ptr",
+  "confidence": "low",
+  "evidence": "returns this+3",
+  "summary": "Returns the address of the byte at +3."
+ },
+ "0x100528E0": {
+  "name": "Unit10048000_GetFirstDeref",
+  "confidence": "low",
+  "evidence": "returns **this",
+  "summary": "Returns the value the first field points to."
+ },
+ "0x10052940": {
+  "name": "Unit10048000_GetFirst",
+  "confidence": "low",
+  "evidence": "returns *this",
+  "summary": "Returns the first field."
+ }
+}

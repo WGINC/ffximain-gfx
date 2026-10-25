@@ -74,6 +74,24 @@ static inline long double xi_fptan(long double x) { long double r; __asm__("fpta
 #define fsin(x) xi_fsin((x))
 #define fcos(x) xi_fcos((x))
 
+// Ghidra's unkbyte10: ten bytes of no type, which it gives an x87 register value it could not type (fpatan's result
+// fed to fcos, 0x1002B140). An x87 value is the 80-bit extended format, which long double holds in its first 10 bytes.
+typedef long double unkbyte10;
+// `switch (x)` on what Ghidra typed a pointer or undefined4: the switch is on its 32-bit value (C++ needs an integer)
+template <class T> static inline uint32_t xi_sw(T *p) { return (uint32_t)(uintptr_t)p; }
+static inline uint32_t xi_sw(undefined4 u) { return u.v; }
+template <class T> static inline T xi_sw(T v) { return v; }
+// Ghidra's sbyte: a signed byte
+typedef int8_t sbyte;
+// Ghidra's builtin_strncpy(dst, "...", n): the stores of a constant string it recognised, as C strncpy (ISO C
+// 7.24.2.4: copy up to the NUL, then zeros up to n bytes). The build is freestanding (-fno-builtin): a loop.
+static inline char *builtin_strncpy(void *d, const char *s, unsigned n) {
+    char *o = (char *)d; unsigned i = 0;
+    for (; i < n && s[i]; i++) o[i] = s[i];
+    for (; i < n; i++) o[i] = 0;
+    return (char *)d;
+}
+
 // A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
 // the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
 // to lose under every MSVC convention.

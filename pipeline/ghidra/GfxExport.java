@@ -140,7 +140,10 @@ public class GfxExport extends GhidraScript {
             if (p == null) continue;
             try {
                 FunctionDefinitionDataType fd = new FunctionDefinitionDataType("xi_icall_" + in.getAddress());
-                fd.setReturnType(p[4].equals("float") ? Float10DataType.dataType : Undefined4DataType.dataType);
+                // a float return: an 8-byte type, which the convention's ST0 output entry holds (a 10-byte float10 is
+                // returned through a hidden pointer instead, a stack argument the call does not have). The C++ call
+                // reads all of ST0 whatever the type here (hx2cpp ghidra_icalls: float10 from rec['icalls'])
+                fd.setReturnType(p[4].equals("float") ? DoubleDataType.dataType : Undefined4DataType.dataType);
                 List<ParameterDefinition> ps = new ArrayList<>();
                 if (p[2].equals("__thiscall")) ps.add(new ParameterDefinitionImpl("this", new PointerDataType(VoidDataType.dataType), null));
                 for (int i = 0; i < Integer.parseInt(p[3]); i++) ps.add(new ParameterDefinitionImpl("a" + (i + 1), Undefined4DataType.dataType, null));
@@ -764,6 +767,25 @@ public class GfxExport extends GhidraScript {
 
     static final String KEEP = "_xikeep";
 
+    // which call left each `extraout_ST0` value: Ghidra's SSA defines it by an INDIRECT op (the call's effect on ST0)
+    // at that call's address. {variable name: ["0xCALL", ...]} -- one name merged from several calls lists them all.
+    // hx2cpp assigns the value from the call only where x87_effects.json proves that call returns a float in ST0.
+    private Map<String, Set<String>> x87Rets(HighFunction hf) {
+        Map<String, Set<String>> m = new TreeMap<>();
+        if (hf == null) return m;
+        Register st0 = currentProgram.getRegister("ST0");
+        Iterator<PcodeOpAST> ops = hf.getPcodeOps();
+        while (ops.hasNext()) {
+            PcodeOpAST op = ops.next();
+            Varnode o = op.getOutput();
+            if (op.getOpcode() != PcodeOp.INDIRECT || o == null || !o.isRegister() || o.getOffset() != st0.getOffset()) continue;
+            HighVariable hv = o.getHigh();
+            if (hv == null || hv.getName() == null || !hv.getName().startsWith("extraout_ST0")) continue;
+            m.computeIfAbsent(hv.getName(), k -> new TreeSet<>()).add(String.format("\"0x%08X\"", op.getSeqnum().getTarget().getOffset()));
+        }
+        return m;
+    }
+
     // Ghidra's x86 conventions say a call kills ECX and EDX (and EAX by the output); the game's compiler kept values
     // in them across calls to functions it knew leave them alone (reg_preserve.py). Each such callee gets a prototype
     // model that is its convention with those registers unaffected (a compiler-spec extension), so the caller's text
@@ -787,7 +809,22 @@ public class GfxExport extends GhidraScript {
                 m.encode(e, currentProgram.getCompilerSpec().getPcodeInjectLibrary());
                 String x = e.toString().replaceFirst("name=\"" + java.util.regex.Pattern.quote(cc) + "\"", "name=\"" + name + "\"");
                 StringBuilder un = new StringBuilder();
+                if (k.contains("st")) {
+                    // x87_effects.json: the callee leaves every x87 register as it found it (0 in, 0 out). ST0..ST7 are
+                    // unaffected, and ST0 is no output (it returns no float), so a caller's x87 values live across it
+                    for (int i = 0; i < 8; i++) {
+                        Register st = currentProgram.getRegister("ST" + i);
+                        String vn = String.format("<varnode space=\"register\" offset=\"0x%x\" size=\"%d\"/>", st.getOffset(), st.getMinimumByteSize());
+                        String rn = "<register name=\"ST" + i + "\"/>";
+                        x = x.replace(vn, "").replace(rn, "");
+                        un.append(vn);
+                    }
+                    // the ST0 output entry (encoded `storage="float"` with an <addr> at ST0's offset)
+                    x = x.replaceFirst(String.format("(?s)<pentry[^>]*>\\s*<addr space=\"register\" offset=\"0x%x\"/>\\s*</pentry>",
+                        currentProgram.getRegister("ST0").getOffset()), "");
+                }
                 for (String g : k) {
+                    if (g.equals("st")) continue;
                     String vn = String.format("<varnode space=\"register\" offset=\"0x%x\" size=\"4\"/>", off.get(g));
                     x = x.replace(vn, "");      // register varnodes appear only in killedbycall, likelytrash, unaffected
                     un.append(vn);
@@ -1084,9 +1121,15 @@ public class GfxExport extends GhidraScript {
             StringBuilder xb = new StringBuilder("[");
             for (String n : x87Locals(f, r.getHighFunction())) { if (xb.length() > 1) xb.append(", "); xb.append(esc(n)); }
             xb.append("]");
-            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"stack_locals\": %s, \"sse\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
+            StringBuilder rb = new StringBuilder("{");
+            for (Map.Entry<String, Set<String>> e : x87Rets(r.getHighFunction()).entrySet()) {
+                if (rb.length() > 1) rb.append(", ");
+                rb.append(esc(e.getKey())).append(": [").append(String.join(", ", e.getValue())).append("]");
+            }
+            rb.append("}");
+            out.println(String.format("{\"ea\": %d, \"name\": %s, \"type\": %s, \"text\": %s, \"objs\": %s, \"args\": %s, \"ret\": %s, \"cc\": %s, \"purged\": %d, \"icalls\": %s, \"icalls_unmarked\": %s, \"x87_locals\": %s, \"x87_rets\": %s, \"stack_locals\": %s, \"sse\": %s, \"storage\": %s, \"source\": \"ghidra\"}",
                     ea.getOffset(), esc(f.getName()), esc(f.getSignature(true).getPrototypeString(true)), esc(text), ob, ab,
-                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, stackLocals(r.getHighFunction()), usesSse(f) ? "true" : "false", storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx))+", ""));
+                    esc(f.getReturnType().getDisplayName()), esc(cc == null ? "__cdecl" : cc), Math.max(f.getStackPurgeSize(), 0), ib, unmarked ? "true" : "false", xb, rb, stackLocals(r.getHighFunction()), usesSse(f) ? "true" : "false", storage(f)).replaceAll(KEEP + "(?:_(?:eax|ecx|edx|st))+", ""));
             ok++;
         }
         out.close();

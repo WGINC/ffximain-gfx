@@ -3292,3 +3292,37 @@ the operands are recovered from the instructions before each call. Measured: eve
 operands are recoverable with the stack depth at each site; but none of the 43 skipped functions with an
 `extraout_ST0` is blocked by fmod alone (each has other untied x87 values or register inputs), so that fix by
 itself brings no function into the tree.
+
+
+## 25 Oct (evening): the x87 stack across calls, read from the code; compile and gate failures
+
+**x87_effects.py** (new, `--selftest`): for every function, what it does to its caller's x87 register stack --
+how many values it takes (k), how many it leaves (r), how deep it pushes (m) -- followed along every path from the
+game's instructions (Intel SDM push/pop and register-operand rules), callees by their own verdicts to a fixpoint.
+Rules, each from a named source and in the file's doc: a call whose target the code does not fix (import, indirect,
+pointer tail jump) is taken only at an empty x87 stack (Microsoft x86 conventions: empty on entry and return but a
+float return in ST0), and what it returns is established from the caller's own code (vcalls.json `st0`; the caller
+reading below its own pushes; a tail jump's return fixed by the function's other returns, ISO C 6.9.1), never
+assumed; switch tables are followed for the index values every path into the jump establishes (bound checks,
+borrow `sub; jb`, `and`, `mov`, `neg`, `add`/`sub` imm); code past IDA's extents is decoded by control flow;
+`fnstenv`/`fldenv` pairs that keep the saved stack top are followed through (the 32-bit environment layout).
+Result: 20,539 of 21,410 functions with a verdict; 871 refused, each with its root cause (614 of them are the fmod
+intrinsic's error path, which calls RaiseException with the two operands on the x87 stack). The selftest checks the
+two instruction-level readings (__ftol: 1 in, 0 out; fmod's normal entry 0x103138C4: 2 in, 1 out) and every
+disagreement with fpret.json against fpret's two blind spots (a tail jump to a value-popping function; a call to a
+float-returning function it has no verdict for); none is unexplained.
+
+**Applied in the Ghidra export:** conv_facts.py takes float returns from x87_effects.json (fpret.json where it has
+none) and an indirect call's ST0 return; a function leaving the x87 stack as it found it, called with values on
+it, gets a prototype model with ST0..ST7 unaffected and no ST0 output (keepModels `st`), so the caller's values live
+across the call (0x10027B80: `fcos` kept across 0x100279B0). GfxExport exports, per record, which call left each
+`extraout_ST0` (`x87_rets`, Ghidra's INDIRECT op on ST0); hx2cpp assigns the value from that call where
+x87_effects proves it returns one float at an empty stack. An indirect call's override returns `double` (a
+`float10` override is returned through a hidden pointer, an argument the call does not have); the C++ call reads all
+of ST0 (`float10`, from the record's icalls). A virtual call through a slot every site of which returns a float in
+ST0 is typed float10 (ghidra_vcall_this).
+
+Of the 60 skipped frame-set functions with an x87 register Ghidra could not tie, 16 now translate; gated: 11 PASS,
+3 UNRESOLVED (two virtual calls whose x87 result the gate cannot know; an EAX no fact says no caller reads). The rest
+stay refused, each named: a callee's net x87 effect that is not zero with values below its operands (Ghidra's fixed
+ST registers cannot shift), x87 inputs of the function itself, other registers Ghidra could not tie.

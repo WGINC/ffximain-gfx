@@ -618,11 +618,47 @@ reinterpret_cast return short signed sizeof static static_assert static_cast str
 throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while'''.split())
 
 
+_X87 = None
+
+
+def _x87_sites():
+    global _X87
+    if _X87 is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'x87_effects.json')
+        _X87 = json.load(open(p))['sites'] if os.path.exists(p) else {}
+    return _X87
+
+
+def ghidra_x87_rets(rec):
+    """`extraout_ST0_N` that is a call's float return: GfxExport.java names the call that left each one (rec['x87_rets'],
+    Ghidra's INDIRECT op on ST0 at that call); data/x87_effects.json proves that call returns one float in ST0 at an
+    empty x87 stack (d 0, k 0, r 1: nothing else is in ST0 after it). The call's statement becomes an assignment to
+    the value (the call itself is typed float10 by its icalls entry, ghidra_icalls) and the name `xi_st0ret_N`. Only a
+    call printed as a bare statement (not also assigning its EAX), marked `/*XI_ICALL:0xCALL*/`; anything else stays
+    `extraout_ST0`, which ghidra_prepare refuses."""
+    rets = rec.get('x87_rets') or {}
+    if not rets: return None
+    _x87_sites()
+    head, brace, body = rec['text'].partition('\n{')
+    done = 0
+    for name, calls in sorted(rets.items(), key=lambda kv: -len(kv[0])):
+        if len(calls) != 1: continue
+        c = calls[0]; v = _X87.get(c)
+        if not v or (v['d'], v['k'], v['r']) != (0, 0, 1): continue
+        new = 'xi_st0ret' + name[len('extraout_ST0'):]
+        body2, n = re.subn(r'^(\s*)(/\*XI_ICALL:%s\*/)' % re.escape(c), r'\1%s = \2' % new, body, count=1, flags=re.M)
+        if n != 1: continue
+        body = re.sub(r'\b%s\b' % re.escape(name), new, body2); done += 1
+    if not done: return None
+    return dict(rec, text=head + brace + body)
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
     rec = ghidra_thunk(rec) or rec
     rec = ghidra_entry_eax(rec) or rec
+    rec = ghidra_x87_rets(rec) or rec
     if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):
         return None, 'skipped', 'register or stack input Ghidra could not tie to a parameter: ' + \
             ', '.join(sorted(set(GHIDRA_REG.findall(rec['text'].partition('\n{')[2]))))
@@ -636,9 +672,9 @@ def ghidra_prepare(rec):
         for n in rec['x87_locals']:
             rest = re.sub(r'^(\s*)(?:float|double)(\s+%s;)' % re.escape(n), r'\1float10\2', rest, count=1, flags=re.M)
         rec = dict(rec, text=head + brace + rest)
-    if rec.get('stack_locals'):
+    if rec.get('stack_locals') or re.search(r'\bstack0xf[0-9a-f]{7}\b', rec['text'].partition('\n{')[2]):
         head, brace, rest = rec['text'].partition('\n{')
-        rec = dict(rec, text=head + brace + ghidra_frame(rest, rec['stack_locals']))
+        rec = dict(rec, text=head + brace + ghidra_frame(rest, rec.get('stack_locals') or []))
     head, brace, rest = rec['text'].partition('\n{')
     rest, why = ghidra_consts(rest)
     if rest is None: return None, 'untranslatable', why
@@ -648,11 +684,29 @@ def ghidra_prepare(rec):
     rest = ghidra_byte_adds(rest)
     rest, why = ghidra_ptradds(rest)
     if rest is None: return None, 'untranslatable', why
+    out_, i_ = '', 0                              # switch (x) -> switch (xi_sw(x)): xi_ghidra.hpp, its 32-bit value
+    for m_ in re.finditer(r'\bswitch\s*\(', rest):
+        if m_.start() < i_: continue
+        j_ = m_.end() - 1; k_ = _balanced(rest, j_)
+        out_ += rest[i_:m_.start()] + 'switch(xi_sw(' + rest[j_ + 1:k_ - 1] + '))'; i_ = k_
+    rest = out_ + rest[i_:]
     rec = dict(rec, text=head + brace + ghidra_pieces(rest))
     if rec.get('type'):
         # Ghidra's text omits the calling convention in its signature; the record's type has it
         head, brace, rest = rec['text'].partition('\n{')
-        rec = dict(rec, text='\n'.join(l for l in head.splitlines() if l.startswith('//')) + '\n' + rec['type'] + brace + rest)
+        t = rec['type']
+        # a parameter the committed type leaves undefined4 that the decompiled header (the one the body is written
+        # against) types as a pointer: the header's type -- one 4-byte stack slot either way
+        hp = re.search(r'\((.*)\)\s*$', ' '.join(l for l in head.splitlines() if not l.startswith('//')).strip(), re.S)
+        if hp:
+            printed = {}
+            for q in _params(hp.group(1)):
+                mm = re.match(r'^(.*?\*)\s*(\w+)$', q.strip())
+                if mm: printed[mm.group(2)] = mm.group(1).strip()
+            t = re.sub(r'\bundefined4\s+(\w+)(?=\s*[,)])', lambda mm: '%s %s' % (printed[mm.group(1)], mm.group(1))
+                       if mm.group(1) in printed else mm.group(0), t)
+        t = re.sub(r'\b(\w+)\[(\d+)\]\s*\*\s*(\w+)(?=\s*[,)])', r'\1 (*\3)[\2]', t)   # Ghidra's `T[N] * p`: C++ `T (*p)[N]`
+        rec = dict(rec, text='\n'.join(l for l in head.splitlines() if l.startswith('//')) + '\n' + t + brace + rest)
     return rec, None, None
 
 def ghidra_fix_convention(rec):
@@ -743,12 +797,19 @@ def ghidra_vcall_this(ea, text):
         pp = set().union(*[_VC['pops'].get(k, set()) for k, v in ss])
         if len(pp) != 1 or not all(_VC['pops'].get(k) for k, v in ss): return None
         p = next(iter(pp))
-        return p // 4 if p % 4 == 0 else None
+        if p % 4: return None
+        # the value returned: a float in ST0 where data/x87_effects.json proves every one of these sites returns one
+        # at an empty x87 stack (d 0, k 0, r 1), EAX where none does; sites that differ leave the call as it is
+        rs = {(x['d'], x['k'], x['r']) if x else None for x in (_x87_sites().get(k) for k, v in ss)}
+        if rs == {(0, 0, 1)}: return p // 4, 'float10'
+        if any(r is not None and r[2] for r in rs): return None
+        return p // 4, 'int'
     out, i = '', 0
     for m in re.finditer(r'\(\*\*\(code \*\*\)\(\*(\w+) \+ (0x[0-9a-f]+|\d+)\)\)\(', text):
         if m.start() < i: continue
-        n = slot_conv(int(m.group(2), 0) // 4)
-        if n is None: continue
+        sc = slot_conv(int(m.group(2), 0) // 4)
+        if sc is None: continue
+        n, rt = sc
         j = m.end() - 1; k = _balanced(text, j)
         args, depth, cur = [], 0, ''
         for c in text[j + 1:k - 1]:
@@ -758,8 +819,8 @@ def ghidra_vcall_this(ea, text):
             else: cur += c
         if cur.strip(): args.append(cur)
         if len(args) != n: continue
-        call = '((int (__thiscall *)(%s))(*(code **)(*%s + %s)))(%s)' % (
-            ', '.join(['void *'] + ['XI_ANY'] * n), m.group(1), m.group(2), ', '.join(['(void *)(%s)' % m.group(1)] + [a.strip() for a in args]))
+        call = '((%s (__thiscall *)(%s))(*(code **)(*%s + %s)))(%s)' % (
+            rt, ', '.join(['void *'] + ['XI_ANY'] * n), m.group(1), m.group(2), ', '.join(['(void *)(%s)' % m.group(1)] + [a.strip() for a in args]))
         out += text[i:m.start()] + call; i = k
     return out + text[i:]
 
@@ -945,11 +1006,26 @@ def ghidra_frame(rest, locs):
     # a stack array, or a stack local whose address the code takes (a callee may read past it: 0x1000A3B0 passes
     # &local_90 with a size of 0x1C to 0x1000CD00, and Ghidra split those 28 bytes into separate locals)
     taken = any(re.search(r'&\s*%s\b' % re.escape(n), rest) for n in decl)
-    if not taken and not any(m.group(4) for m, off, sz in decl.values()): return rest
+    # Ghidra's `stack0xHHHHHHHH`: a stack address with no variable of its own (the code takes `&stack0x...` and
+    # indexes from it), at entry offset int32(HHHHHHHH). One below the entry ESP is a byte of this frame: it goes
+    # in the same buffer, at its offset (one at or above it is the caller's frame, which the C++ does not have)
+    anon = sorted({int(h, 16) - (1 << 32) for h in re.findall(r'\bstack0x([0-9a-f]{8})\b', rest) if int(h, 16) >= 1 << 31})
+    if not taken and not anon and not any(m.group(4) for m, off, sz in decl.values()): return rest
     # up to the entry ESP (offset 0): the frame is everything from the lowest local to the return address, and the
     # code may reach bytes no declared local covers (0x101D7AC0 zeroes 0x15 dwords from local_54, 24 bytes declared)
-    lo = min(off for m, off, sz in decl.values()); hi = max([0] + [off + sz for m, off, sz in decl.values()])
-    first = min(m.start() for m, off, sz in decl.values())
+    lo = min([off for m, off, sz in decl.values()] + anon); hi = max([0] + [off + sz for m, off, sz in decl.values()])
+    # the buffer is declared before the first local it holds, or with none declared, first in the body
+    first = min(m.start() for m, off, sz in decl.values()) if decl else (1 if rest.startswith('\n') else 0)
+    for a in anon:
+        rest = re.sub(r'\bstack0x%08x\b' % (a + (1 << 32)), 'xi_frame[%d]' % (a - lo), rest)
+    # `_local_N = CONCATab(...)`: Ghidra's name for the whole of a stack local it split into pieces (local_4 and
+    # uStack_1), as wide as the CONCAT it is assigned (a + b bytes): those bytes of the buffer at that local's offset
+    W = {2: 'uint16_t', 4: 'uint32_t', 8: 'uint64_t'}
+    def whole(mm):
+        n = mm.group(2); w = int(mm.group(3)) + int(mm.group(4))
+        if n not in decl or w not in W: return mm.group(0)
+        return '%s*reinterpret_cast<%s *>(xi_frame + %d) = %s' % (mm.group(1), W[w], decl[n][1] - lo, mm.group(0)[len(mm.group(1)) + len(n) + 4:])
+    rest = re.sub(r'^(\s*)_(\w+) = CONCAT(\d)(\d)\(', whole, rest, flags=re.M)
     for n, (m, off, sz) in sorted(decl.items(), key=lambda x: -x[1][0].start()):
         ind, t, st, dims = m.group(1), m.group(2).strip() + ' ' + m.group(3), m.group(3), re.sub(r'\s+', '', m.group(4))
         if dims: r = '%s%s (&%s)%s = *reinterpret_cast<%s (*)%s>(xi_frame + %d);' % (ind, t, n, dims, t, dims, off - lo)
@@ -1095,6 +1171,7 @@ def translate(rec):
     syms = []; reps = []
     if rec.get('source') == 'ghidra': rec = dict(rec, objs=ghidra_auto_objs(rec, body))
     regentry = rec.get('source') == 'ghidra' and bool(extra_regs(rec.get('cc'), rec.get('storage')))
+    gseen, gdone = {}, set()
     for nm, o in rec.get('objs', {}).items():
         oea = o['ea']
         if o['func']:
@@ -1127,12 +1204,26 @@ def translate(rec):
                 continue                                # the keyword in the text (a data symbol Ghidra named `default`), not a global
             tok = 'G_%08X' % oea
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
+            # a pointer global the text calls, `(*DAT_X)(...)`: its 4 bytes as Ghidra's `code *` (an untyped function
+            # pointer, called as the text calls it; 0x10008EA0's `undefined *`)
+            if rec.get('source') == 'ghidra' and ot.strip().endswith('*') and \
+                    re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % re.escape(nm), body):
+                ot = 'code *'
+            # one address the text reads with two types (Ghidra's `_DAT_X` float and `DAT_X` undefined4): each type
+            # its own name for the same address, as the original's two accesses read the same bytes
+            gtypes = gseen.setdefault(oea, [])
+            if ot not in gtypes: gtypes.append(ot)
+            if gtypes.index(ot): tok = 'G_%08X_t%d' % (oea, gtypes.index(ot))
             if re.sub(r'^(struct\s+)?(std::)?', '', ot.strip()) in OPAQUE:
                 ot = 'char[1]'   # a FLIRT runtime type (layout unknown) on a game object: use it as its address
             if rec.get('source') == 'ghidra':   # a global undefined4 is storage the text addresses as any pointer type
-                ot = re.sub(r'^undefined4\b', 'uint32_t', ot.strip())
-            syms.append(typedef_for('T_%08X' % oea, ot))
-            syms.append('#define %s XI_EA(T_%08X, 0x%08Xu)' % (tok, oea, oea))
+                # (a global undefined4 * stays one: the text assigns it `(undefined4 *)` values)
+                ot = re.sub(r'^undefined4$', 'uint32_t', ot.strip())
+            tn = 'T_' + tok[2:]
+            if tn not in gdone:
+                gdone.add(tn)
+                syms.append(typedef_for(tn, ot))
+                syms.append('#define %s XI_EA(%s, 0x%08Xu)' % (tok, tn, oea))
         forms = set(o.get('printed', [nm])) | {nm}
         for p in list(forms):
             m1 = re.match(r'^_?([A-Za-z]\w*)@\d+$', p)          # _Name@N (stdcall decoration)
@@ -1158,6 +1249,17 @@ def translate(rec):
             continue
         body = token_re(p).sub(tok, body)
         sig = token_re(p).sub(tok, sig)
+    if rec.get('source') == 'ghidra':
+        # a global Ghidra types undefined4 is declared uint32_t (above), so `&G_X` is a uint32_t *: assigned to a
+        # local pointer of another type (Ghidra's undefined4 *) it is cast to that type -- the same address and bytes
+        u4 = {'G_%08X' % o['ea'] for o in (rec.get('objs') or {}).values()
+              if not o.get('func') and re.sub(r'^undefined4\b', '', (o.get('type') or '').strip()) == ''}
+        def cast_addr(mm):
+            if mm.group(3) not in u4: return mm.group(0)
+            d = re.search(r'^\s*([A-Za-z_][\w ]*?)\s*(\*+)\s*%s;' % re.escape(mm.group(2)), body, re.M)
+            if not d or d.group(1).strip() == 'uint32_t': return mm.group(0)
+            return '%s%s = (%s %s)&%s;' % (mm.group(1), mm.group(2), d.group(1).strip(), d.group(2), mm.group(3))
+        body = re.sub(r'^(\s*)(\w+) = &(G_[0-9A-F]{8});', cast_addr, body, flags=re.M)
     m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', SPOILS.sub('', sig), re.S)
     if not m: return None, 'unparsed signature: ' + sig[:120]
     ret, cc, _name, params = m.groups()

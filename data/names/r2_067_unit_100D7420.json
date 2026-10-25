@@ -1,0 +1,104 @@
+{
+ "0x101190F0": {
+  "name": "Unit100D7420_SetState10ForIndex58",
+  "confidence": "low",
+  "evidence": "when the short +0x58 is positive, Unit100D7420_SetStateByIndex(this, 0x10, +0x58)",
+  "summary": "Sets state 0x10 on the layout entry whose index is at +0x58."
+ },
+ "0x10119200": {
+  "name": "Unit100D7420_SetActive",
+  "confidence": "low",
+  "evidence": "finds the first list entry (+0x14) whose first short is 0; with arg 0 clears bit 1 of g_pTargetMng+0x74 and calls 0x1011A560, with arg 1 clears that entry's +0x34, shows the help and title (Unit100D7420_ApplyHelpAndTitle), sets the bit and calls 0x101186A0; then passes arg to the child +0xC through its vtable slot 9",
+  "summary": "Activates or deactivates a menu, updating the target manager flag and the help text."
+ },
+ "0x10119360": {
+  "name": "Unit100D7420_FreeEntryData",
+  "confidence": "low",
+  "evidence": "frees the block at +4 (operator delete) and clears it, then calls 0x10126330",
+  "summary": "Frees an entry's data block."
+ },
+ "0x10119390": {
+  "name": "Unit100D7420_ClearField34",
+  "confidence": "low",
+  "evidence": "stores 0 at +0x34",
+  "summary": "Clears the field at +0x34."
+ },
+ "0x101193A0": {
+  "name": "Unit100D7420_StartFade",
+  "confidence": "low",
+  "evidence": "stores the word 0x1036C190 at +0x26, the countdown Unit100D7420_UpdateLayout (0x10119550) runs down by the frame scale",
+  "summary": "Starts a layout's fade countdown from its full length."
+ },
+ "0x101193B0": {
+  "name": "Unit100D7420_StopFade",
+  "confidence": "low",
+  "evidence": "stores 0 at +0x26",
+  "summary": "Clears a layout's fade countdown."
+ },
+ "0x10119550": {
+  "name": "Unit100D7420_UpdateLayout",
+  "confidence": "low",
+  "evidence": "sets the layout's size +0x22/+0x24 from its source (scaled by the menu manager's factors when arg is set) into the pair at +4; counts the fade +0x26 or the timer +0x48 down by Camera_GetFrameScale and computes the alpha +0xC from it (0.05 per step, states +0x44 1..3); when the shape index +0x34 changed, looks up the shape (ShapeMng_FindShape) and stores its entry at +8",
+  "summary": "Per-frame update of a menu layout's size, fade/alpha and shape."
+ },
+ "0x101198D0": {
+  "name": "Unit100D7420_LayoutCtor",
+  "confidence": "low",
+  "evidence": "clears the layout's fields, sets +0x54 to {1, this}, the owner arg at +0x5C, state 0 (Unit100D7420_SetState), +0x28 to -1, the scales +0x1C/+0x20 to 1.0 and the flags +0x3C/+0x4A to 1; called by Unit100D7420_Rebuild",
+  "summary": "Constructs a menu layout entry with its defaults."
+ },
+ "0x10119F80": {
+  "name": "Unit100D7420_DrawUnscaled",
+  "confidence": "low",
+  "evidence": "calls 0x10119FB0 with its arguments and the scales 1.0, 1.0",
+  "summary": "Calls 0x10119FB0 with both scales at 1.0."
+ },
+ "0x1011A3B0": {
+  "name": "Unit100D7420_InvokeCallback7C",
+  "confidence": "low",
+  "evidence": "when +0x7C holds a function, calls it with the word +0x4C and +0x80 and returns its result, else 0",
+  "summary": "Calls the callback at +0x7C with its id and context."
+ },
+ "0x1011AE10": {
+  "name": "Unit100D7420_AddEntry",
+  "confidence": "low",
+  "evidence": "takes the first free entry (Unit100D7420_FindFreeEntry), stores arg at its +0x3C and calls 0x101186A0",
+  "summary": "Fills the first free entry with a value and refreshes the list."
+ },
+ "0x1011B2A0": {
+  "name": "Unit100D7420_GetEntryValueById",
+  "confidence": "low",
+  "evidence": "when 1 <= arg <= the count +0x18 and the 0x14-byte record arg-1 of +4 has that id at [+0]+0x12, returns its +0x10, else 0",
+  "summary": "Returns the value of the entry with a given id."
+ },
+ "0x1011B310": {
+  "name": "Unit100D7420_GetField8",
+  "confidence": "low",
+  "evidence": "returns +8",
+  "summary": "Returns the field at +8."
+ },
+ "0x1011B320": {
+  "name": "Unit100D7420_GetFieldC",
+  "confidence": "low",
+  "evidence": "returns +0xC",
+  "summary": "Returns the field at +0xC."
+ },
+ "0x1011D000": {
+  "name": "Font_MeasureTextAll",
+  "confidence": "medium",
+  "evidence": "Font_MeasureText(text, 0)",
+  "summary": "Measures the width of a whole text string."
+ },
+ "0x1011D010": {
+  "name": "Font_MeasureTextAll2",
+  "confidence": "low",
+  "evidence": "forwards to 0x1011D000 (Font_MeasureTextAll)",
+  "summary": "Forwards to Font_MeasureTextAll."
+ },
+ "0x1011D990": {
+  "name": "Font_GetCharWidthAt",
+  "confidence": "medium",
+  "evidence": "for a single-byte character (Font_IsSingleByte) returns Font_GetCharWidth of the byte, else of the two-byte code lead<<8 | next",
+  "summary": "Returns the width of the (one- or two-byte) character at a position."
+ }
+}

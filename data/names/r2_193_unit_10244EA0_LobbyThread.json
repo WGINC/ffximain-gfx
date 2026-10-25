@@ -1,0 +1,62 @@
+{
+ "0x10245040": {
+  "name": "LobbyThread_InitState",
+  "confidence": "low",
+  "evidence": "stores 2 at +0x14; called by LobbyThread_Construct",
+  "summary": "Sets the lobby thread's field +0x14 to 2."
+ },
+ "0x10245BB0": {
+  "name": "LobbyThread_ResetZone",
+  "confidence": "low",
+  "evidence": "when g_pXiZone exists: XiZone_ResetState, 0x10014CB0, XiZone_GetInstance, CYyCamMng2::CreateGlobal and Actor_ResetDrawLists",
+  "summary": "Resets the zone and recreates the camera manager and draw lists."
+ },
+ "0x10245BE0": {
+  "name": "LobbyThread_IsSystemState1",
+  "confidence": "low",
+  "evidence": "returns 0x10039590([0x10669098], 1); called by Unit10237880_WaitForState1",
+  "summary": "Tests whether the system at 0x10669098 is in state 1."
+ },
+ "0x10246030": {
+  "name": "LobbyThread_QueueSoundCmd",
+  "confidence": "low",
+  "evidence": "takes the next sequence number (LobbyThread_NextSequence) and queues command 2 with the object at +8 of arg1 when arg1's name starts with \"SeSep\", else command 1 with arg1 (fn_1024C060), both with arg2 and arg3 masked to 7 bits; returns the sequence number",
+  "summary": "Queues a sound command (1, or 2 for an \"SeSep\" entry) and returns its sequence number."
+ },
+ "0x10246160": {
+  "name": "LobbyThread_QueryChannels",
+  "confidence": "low",
+  "evidence": "switches on arg1 over the 20 0xF4-byte records at [0x106690C8] (to +0x1310): 0 finds an active record by id, 1..4 return +0x70>>12, +0x80>>12, +0x6C or +0x7C of the record with id arg2, 5 counts records with +0x3C set",
+  "summary": "Answers queries about the channel records by id (found, values, active count)."
+ },
+ "0x102463F0": {
+  "name": "LobbyThread_QueueStreamFile",
+  "confidence": "low",
+  "evidence": "reads the first 0x30 bytes of the file arg1 (0x10311FDE open, 0x1031217F read, 0x10311F30 close); returns its +0x14 when it starts with \"BGMStream\", else 0x400; queues command 7 with arg1 (fn_1024C060)",
+  "summary": "Reads a stream file's header and queues command 7 to play it."
+ },
+ "0x102465E0": {
+  "name": "LobbyThread_QueueMusicFile",
+  "confidence": "low",
+  "evidence": "formats \"%s\\music%3.3u.bgw\" with each of up to 16 base paths at [0x10669108]+4 (0x108 apart) and the number arg1&0x3FF, opens the first one that exists and queues command 7 with its path (fn_1024C060)",
+  "summary": "Finds the music file musicNNN.bgw under the base paths and queues command 7 for it."
+ },
+ "0x1024C060": {
+  "name": "LobbyThread_PushCmd",
+  "confidence": "medium",
+  "evidence": "writes a 32-byte record {cmd, 7 arguments} at the write pointer 0x106690C4 of the 0x2000-byte ring at 0x106690E8, wrapping at the end and refusing when the read pointer 0x106690F0 is reached; command 7 also copies 8 more 32-byte blocks of data from arg2; the LobbyThread_SendCmdN functions call it",
+  "summary": "Writes a command and its arguments into the lobby thread's command ring."
+ },
+ "0x1024C210": {
+  "name": "LobbyThread_CtorVt1033CCA8",
+  "confidence": "low",
+  "evidence": "initialises the base fields as LobbyThread_ConstructQueue does, sets vtable 0x1033CCA8, clears +0x14..+0x30 and +0x74, and creates the queue object 0x10669144 once (LobbyThread_ConstructQueue)",
+  "summary": "Constructs an object with vtable 0x1033CCA8 and creates the lobby message queue once."
+ },
+ "0x1024D130": {
+  "name": "StAvatar_InitEntriesFromTables",
+  "confidence": "low",
+  "evidence": "for the five parts sets the transform from the tables 0x1038930C/0x10389320 (StAvatar_SetEntryTransform) and the two flags from 0x10389304/0x10389308 (StAvatar_SetEntryFlag2, StAvatar_SetEntryFlag); then StAvatar_ToggleFlag168(1); called by StAvatarInit",
+  "summary": "Sets the five avatar parts' transforms and flags from their default tables."
+ }
+}

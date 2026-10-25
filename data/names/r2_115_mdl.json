@@ -1,0 +1,62 @@
+{
+ "0x1026EBF0": {
+  "name": "Mdl_Register",
+  "confidence": "medium",
+  "evidence": "its error string is \"Error: mdlRegister() will overflow\" (0x103B19D0); applies the scene to the model (fn_102736E0) and 0x10273810, takes the next of the 0xAC-byte slots at 0x1099AED0 (count 0x1099AECC, limit 0x1099AEC8), names it \"mdlRegister.mod\", stores the model at +0xA8 and returns the slot index",
+  "summary": "Registers a model in the next model slot and returns its index."
+ },
+ "0x1026EF00": {
+  "name": "Mdl_ChannelRegister",
+  "confidence": "medium",
+  "evidence": "its error strings are \"Error: mdlChannelRegister() will ...\" (0x103B1AC0) and \"Error: Couldn't register channel\" (0x103B1B04); fills the next 0xC0-byte channel record at 0x1099AEDC (Unit1027D980_InitDefaults, flag 0x40 for ids -1/-2, id at +0x94), registers it (Chn_RegisterItem) and returns its index",
+  "summary": "Registers a channel for a model and returns its index."
+ },
+ "0x1026F160": {
+  "name": "Mdl_FindNthItemB0001",
+  "confidence": "low",
+  "evidence": "walks the model's kind-2 items (SqmdModel_GetItemKind2) and returns the arg2-th one whose type is 0xB0001, else 0",
+  "summary": "Returns the n-th item of type 0xB0001 of a model."
+ },
+ "0x1026F900": {
+  "name": "Mdl_SetChannelActive",
+  "confidence": "low",
+  "evidence": "for channel record arg1 (or the last one for -1) sets (arg3 != 0), clears (0) or toggles (-1) flag 2 with the extra flags arg2, passes 0xFF or 0 to its object at +0xBC (0x102857E0), and records the start time or the elapsed time (0x10275090) at +0x8C",
+  "summary": "Turns a channel on, off or over, and times how long it was on."
+ },
+ "0x1026F9E0": {
+  "name": "Mdl_SetChannelFlag80",
+  "confidence": "low",
+  "evidence": "sets (arg2 != 0), clears (0) or, for -1, sets when the query Mdl_QueryEntryFlag reports 0: stores 1 or 0 through Unit10284F90_SetValueByType on the record's +0xB4 object and the flag 0x80 (Mdl_UpdateEntryFlags)",
+  "summary": "Sets or clears a channel's flag 0x80 and its object's value."
+ },
+ "0x1026FE60": {
+  "name": "Mdl_CountSlotsFlag40",
+  "confidence": "medium",
+  "evidence": "counts the model slots at 0x1099AED0 (0xAC bytes each, 0x1099AECC of them) whose flag byte has 0x40 and stores the count in *arg",
+  "summary": "Counts the model slots with flag 0x40."
+ },
+ "0x1026FEF0": {
+  "name": "Mdl_CountSlotsFlag80",
+  "confidence": "low",
+  "evidence": "as Mdl_CountSlotsFlag40 with flag 0x80, but the loop tests the first slot every time (its pointer is not advanced), so the count is 0 or the slot count",
+  "summary": "Counts model slots with flag 0x80 (testing only the first slot)."
+ },
+ "0x1026FF80": {
+  "name": "Mdl_ComputeSlotBounds",
+  "confidence": "medium",
+  "evidence": "resets the box (Unit1028D970_Reset), then for each of the slot's model items transforms the two corner points +0x14 and +0x20 by its matrix (M4fTransform) and widens the min/max; returns 0, or -1 when the slot has no model",
+  "summary": "Computes the bounding box of a model slot's items."
+ },
+ "0x102701B0": {
+  "name": "Mdl_SetSlotLock",
+  "confidence": "low",
+  "evidence": "sets, clears or toggles flag 0x200 of the model slot, stores arg4 at +0x94; when set stores arg2 at +0x90 and the vector arg3 at +0x98, else -1 and a zero vector; called by StAvatar_SetLock",
+  "summary": "Locks or unlocks a model slot with a target and vector."
+ },
+ "0x10270410": {
+  "name": "Mdl_SetSlotVisible",
+  "confidence": "low",
+  "evidence": "sets (arg2 != 0), clears (0) or toggles (-1, from the model's +0xA8 bit 4) the slot's flag 4 (Mdl_UpdateSlotFlags) and passes 1/0 to 0x10273810 on its model; 0x10273810's callees use the string \"sqmdModelHide\"",
+  "summary": "Shows or hides a model slot's model."
+ }
+}

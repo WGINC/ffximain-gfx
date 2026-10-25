@@ -4,7 +4,8 @@ Takes tree/src's functions, writes each into its own source for Visual C++ 6.0 (
 changes, compiles them under Wine, and compares each with the game's bytes (match.py's comparison: every byte
 outside a relocation, each call's target by the address its callee's name carries, the length up to padding):
   * the types the tree uses (uint32_t, undefined4, ...) from a shim header (vc6_shim.h, written next to them);
-  * `XI_API` dropped; a `__cdecl` / `__stdcall` function is compiled as C (the decompiler's int/pointer mixing is a
+  * `XI_API` dropped (a class method `RET [CC] Class::Method(...)` is taken the same way: without CC a member, its
+    `void * self = this` line dropped; only where it does not use the class's layout, `this->`); a `__cdecl` / `__stdcall` function is compiled as C (the decompiler's int/pointer mixing is a
     C warning, not an error), a `__thiscall` one as a member function of an empty struct with `self_` bound to
     `this` (C++: Visual C++ 6.0 takes `__thiscall` only on members).
   * a global (tree/include/gfx_globals.hpp, `XI_EA(type, address)`) becomes `(*(type *)address)`: the compiler
@@ -47,6 +48,8 @@ double __cdecl sqrt(double);
 #define SQRT(x) sqrt(x)
 '''
 SIG = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
+# the class-method form (Hex-Rays route): `RET [CC] Class::Method(ARGS)`; without CC a member (this in ECX)
+MSIG = re.compile(r'^(?P<ret>[^\n/#]+?)\s+(?:(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+)?(?P<cls>\w+)::(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
 
 
 ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ (?:return )?reinterpret_cast<(?P<rt>.+?) '
@@ -126,7 +129,7 @@ def candidates(only=None, calls=False):
         for i in range(1, len(parts), 2):
             ea = int(parts[i], 16); body = parts[i + 1]
             if only and ea not in only: continue
-            m = SIG.search(body)
+            m = SIG.search(body) or MSIG.search(body.split('{', 1)[0] + '{')
             if not m: continue
             end = body.find('\n}\n', m.end())
             if end < 0: continue
@@ -143,6 +146,17 @@ def convert(m, src, orig=None, glob_=None):
     ret, cc, name, args = m.group('ret'), m.group('cc'), m.group('name'), m.group('args').strip()
     body = src[src.index('{'):]
     pre = []
+    if 'cls' in m.groupdict():
+        if re.search(r'\bthis->', body) or 'alignas' in body: return None, 'uses the class layout or alignas'
+        # class pointers in the signature: forward declarations (their layout is not needed for a pointer)
+        for c in sorted(set(re.findall(r'\b([A-Z]\w*)\s*\*', ret + ' ' + args)) - BASIC - {'LPVOID'}):
+            pre.append('struct %s;' % c)
+        if cc == '__thiscall' and args and re.match(r'^void\s*\*\s*self$', [x.strip() for x in args.split(',')][0]):
+            args = re.sub(r'^void\s*\*\s*self\b', 'void * self_', args); body = re.sub(r'\bself\b', 'self_', body)
+        elif cc is None:
+            cc = '__thiscall'; args = 'void * self_' + (', ' + args if args else '')
+            body = re.sub(r'void \* self = reinterpret_cast<void \*>\(this\);[^\n]*\n', '', body)
+            body = re.sub(r'\bself\b', 'self_', body)
     if orig is not None:
         for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_)):
             gd = glob_[g]

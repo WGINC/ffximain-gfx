@@ -42,7 +42,7 @@ constructor returning `this` (as MSVC constructors do), its stores in the revers
 
 ## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py --calls`)
 
-Each tree function in the `XI_API` form (2,724 of them) is put in its own file with only mechanical changes: a header
+Each tree function in the `XI_API` form, and each class method that does not use its class's layout (`this->`), 3467 in all, is put in its own file with only mechanical changes: a header
 of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C (C++ when it calls a `__thiscall`
 function), `__thiscall` as a member of an empty struct with `self_` bound to `this`; each global as `(*(type *)address)`
 (the compiler writes the absolute address, the game's own relocated value at its preferred base); each `orig::` call
@@ -53,15 +53,15 @@ byte for byte and each call by its target:
 
 | verdict | functions |
 |---|---|
-| IDENTICAL | **1006** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
-| DIFFERS | 1115 |
-| NO_COMPILE | 243 (the converted source does not compile) |
-| LEFT_OUT | 360 (167 global type the shim lacks, 44 no wrapper for sqDebugPrintf_v1, 14 thiscall without self_ first, 10 no wrapper for Unit100D7420_TestCommand36CF60) |
+| IDENTICAL | **1307** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
+| DIFFERS | 1288 |
+| NO_COMPILE | 346 (the converted source does not compile) |
+| LEFT_OUT | 526 (177 global type the shim lacks, 128 uses the class layout or alignas, 44 no wrapper for sqDebugPrintf_v1, 14 thiscall without self_ first) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
 instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different
 register in the first `mov`, `cmp` operands swapped), which source order decides: those are for matching by hand.
-The 829 tree functions in the Hex-Rays form (`v1`, `a1`, ...) are not yet converted.
+Of the tree's 4,280 functions, 1307 (31%) compile to the game's bytes as they are. Not yet converted: methods that use their class's layout (the class headers carry `static_assert`s VC6 does not have) and the `__attribute__`/`xi_frame` forms.
 
 ## First results (25 Oct)
 

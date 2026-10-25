@@ -24,13 +24,18 @@ static inline bool xi_step_fraction_site(uintptr_t ret)
     if (ret == XI_GAME(kStepFractionRet[i])) return true;
   return false;
 }
+// the answer with the switches on, for the call returning to `ret`
+static long double xi_step_answer(uintptr_t ret)
+{
+  return xi_step_mode == 2 && xi_step_fraction_site(ret) ? xi_step_frac : xi_step_whole;
+}
 
 // FUNCTION: FFXIMAIN 0x10014D20  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Camera_GetClampedField28(void)
 {
   if ( xi_step_mode != 0 && xi_step_have != 0 )
-    return xi_step_mode == 2 && xi_step_fraction_site((uintptr_t)__builtin_return_address(0)) ? xi_step_frac : xi_step_whole;
+    return xi_step_answer((uintptr_t)__builtin_return_address(0));
   uint8_t bVar1;
   
   bVar1 = NAN((long double)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((long double)1.0f);

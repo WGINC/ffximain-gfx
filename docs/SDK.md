@@ -80,7 +80,7 @@ A mod exports:
 
 | Field | |
 |---|---|
-| `version`, `size` | `XIKIT_API_VERSION` (2). Fields are only ever added at the end; a field exists when `size` reaches past it (`XI_DEVICE_HOOK` checks). |
+| `version`, `size` | `XIKIT_API_VERSION` (3). Fields are only ever added at the end; a field exists when `size` reaches past it (`XI_DEVICE_HOOK` checks). |
 | `game_base`, `rel` | Where `FFXiMain.dll` is loaded; `rel` is `game_base - 0x10000000` |
 | `device` | The game's `IDirect3DDevice8` when the mod was loaded. If the game ever makes a new device, the kit hooks that one too: use the argument of `xikit_mod_frame`, which is always the current one |
 | `recon`, `dir` | The reconstruction DLL's handle; the kit's folder |
@@ -88,6 +88,7 @@ A mod exports:
 | `hook(name, replacement, &previous)` | What `XI_HOOK` calls. The name is as the manifest gives it (`CDx::DrawFadeQuad`), its export symbol, or `"0x1000A820"`. |
 | `reconstruction(name)` | The reconstruction's export of a manifest function |
 | `device_hook(method, slot, replacement, &previous)` | Version 2. What `XI_DEVICE_HOOK` calls (below) |
+| `hook_keeping_registers(name, replacement, &previous)` | Version 3. `hook`, also for a function of manifest flag 8, which `hook` refuses. The mod states that its replacement leaves every register as the game's code would, typically by calling `previous` and keeping what it leaves (speedfix's wrapper of 0x10014CF0, `kit/speedfix/sf_fork.cpp`). `previous` is then always the game's own code: without a trampoline the call returns `XIKIT_E_NOPREV` |
 
 `hook` results:
 
@@ -99,7 +100,7 @@ A mod exports:
 | `XIKIT_E_REFUSED` | Its live entry differs from the analysed build, `speedfix_hook` patches it, or it has a register input (flag 8, below) |
 | `XIKIT_E_LATE` | Called outside init |
 | `XIKIT_E_NOPREV` | No way to reach its previous code |
-| `XIKIT_E_OLDKIT` | The kit predates the call (`device_hook` on a version 1 kit) |
+| `XIKIT_E_OLDKIT` | The kit predates the call (`device_hook` on a version 1 kit, `hook_keeping_registers` before version 3) |
 
 ## What `previous` is
 

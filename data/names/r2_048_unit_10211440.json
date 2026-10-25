@@ -1,0 +1,50 @@
+{
+ "0x10216570": {
+  "name": "Unit10211440_CtorVt1033BCF8",
+  "confidence": "low",
+  "evidence": "initialises +4 (0x10126320), sets +0xE to 0xFFFF, zeroes +8..+0x32, +0xC = 1 and vtable 0x1033BCF8; called by Unit10211440_Create",
+  "summary": "Constructs the object with vtable 0x1033BCF8."
+ },
+ "0x102175C0": {
+  "name": "Unit10211440_CtorVt1033BD58",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10333360, constructs 37 entries of 0xE bytes (0x1021B330), then vtable 0x1033BD58; sets their flag bytes to 1 by the scene state at g_pSceneState+8/+0x18",
+  "summary": "Constructs the object with vtable 0x1033BD58 and its 37 entries."
+ },
+ "0x1021BC30": {
+  "name": "Unit10211440_CopyRecordCtor",
+  "confidence": "low",
+  "evidence": "sets vtable 0x1033BDA4, zeroes 6 dwords at +4 and copies the 24-byte source record into them when its first byte is 1",
+  "summary": "Constructs an object holding a copy of a 24-byte record."
+ },
+ "0x1021BCB0": {
+  "name": "Unit10211440_ReturnTrue",
+  "confidence": "low",
+  "evidence": "returns 1 in AL",
+  "summary": "Returns true."
+ },
+ "0x1021C100": {
+  "name": "Unit10211440_SaveAndRelease",
+  "confidence": "medium",
+  "evidence": "when +4 is set, calls 0x1021BCC0 with the first name and Unit10211440_SaveToDat with the second, frees the 0x51 buffers at +0x1224 and clears +4",
+  "summary": "Saves the slot data and frees its buffers."
+ },
+ "0x1021C380": {
+  "name": "Unit10211440_SyncSlots",
+  "confidence": "low",
+  "evidence": "when the counter at [0x104DFD98]+0x198C8 changed, for each of 0x51 slots looks the item up (0x100EB490) and assigns, clears or resets the slot, copying records found by Unit100D7420_FindOrRemove; then stores the counter at +0x14",
+  "summary": "Brings the 81 slots up to date with the item state when it has changed."
+ },
+ "0x1021C7C0": {
+  "name": "Unit10211440_RebuildWithGlobalFlag",
+  "confidence": "low",
+  "evidence": "returns Unit10211440_Rebuild(this, a, b, c, the byte at 0x10666E74)",
+  "summary": "Rebuilds a slot list with the global flag at 0x10666E74."
+ },
+ "0x1021D250": {
+  "name": "Unit10211440_ResetEntryCtor",
+  "confidence": "low",
+  "evidence": "calls Unit10211440_Reset(this) and returns this; called for each entry by Unit10211440_ResetEntries",
+  "summary": "Constructs a slot entry empty."
+ }
+}

@@ -103,7 +103,7 @@ All three pass every check:
 - the device is hooked through its own vtable copy; the original vtable is not written; Present still
   reaches the device's method;
 - `swap=1` (with `include_untested=1`): all 774 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
-  `this+0x660`, `GetColor` reads it back, and `Gfx_IsGammaSupported` reads `g_pCDx` at the rebased address;
+  `this+0x660`, `GetColor` reads it back, and `FontGlyphCache_GetDevice` reads `g_pCDx` at the rebased address;
 - the call count of `SetColor` is in the report;
 - `swap=0` written to the ini: re-read, all original bytes back;
 - `swap=1` with an exclude: the excluded function keeps its original bytes;
@@ -441,6 +441,16 @@ re-gate. A site never reached in a session stays unmeasured.
 earlier. Both still reach their methods, are measured popping 4 through vtable slots 3 and 34, and are ingested.
 
 ## Mods (`mods=`)
+
+**The manifest's size.** The kit holds up to 12,288 functions and 12,288 `!code` lines (MAXFN, MAXCODE in xikit.c) and
+logs `manifest: more than N ...; the rest are left out` if a manifest has more. Until 25 Oct the limit was 2,048 and
+the loader stopped there without a word: once the tree passed 2,048 functions (21 Oct), the second half of the
+manifest (in address order) could not be swapped, hooked or captured. The 25 Oct manifest has 4,046 lines and the
+kit loads 4,045. The one it skips (`fn_101A0730`, a forwarder of 68 stack arguments) has an export name longer than
+the 160 characters a manifest name may have, and is logged as a bad line.
+
+**Recording fields** (`[watch]`, its own section: `enabled=1` turns it on, `every=N` samples every N frames; the
+fields and the CSV are in kit/README.md, Recording fields).
 
 `mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call
 the game's own version through a trampoline, and draw each frame. See docs/SDK.md.

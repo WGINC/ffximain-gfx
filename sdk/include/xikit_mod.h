@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-#define XIKIT_API_VERSION 2      /* 2: device_hook */
+#define XIKIT_API_VERSION 3      /* 2: device_hook; 3: hook_keeping_registers */
 
 /* hook() results */
 #define XIKIT_OK              0
@@ -51,6 +51,13 @@ typedef struct XikitHost {
      mod's hook of the same method, then the kit's profiler, then Direct3D). Several mods may hook one method; the
      one hooked last runs first. Only in xikit_mod_init. Calls the game makes from other threads run the hook too. */
   int (__cdecl *device_hook)(const char *method, int slot, void *replacement, void **previous);
+  /* --- version 3 --- */
+  /* hook(), also for a function of manifest flag 8 (the game's code reads or hands back a register its declaration
+     does not carry, e.g. bytes of its entry EAX that callers read), which hook() refuses. The mod states that its
+     replacement leaves every register as the game's code would, typically by calling *previous and keeping what
+     it leaves. So *previous is always the game's own code here: without a trampoline the call is refused
+     (XIKIT_E_NOPREV), never answered with the reconstruction. Only in xikit_mod_init. */
+  int (__cdecl *hook_keeping_registers)(const char *function, void *replacement, void **previous);
 } XikitHost;
 
 /* what a mod exports (C names, cdecl; with MinGW link with -Wl,--kill-at or none is needed for cdecl):

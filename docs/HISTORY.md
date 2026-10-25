@@ -3192,3 +3192,44 @@ sides), but the input was less real than stated.
   the other 20,478,664 values are unchanged.
 - `test_framestep.py`: `CAPTURE_BUILD=...` passes it on. The captures replayed on 21 Oct have not been
   replayed again with it.
+
+## 25 Oct: speedfix builds again; frame_step through a register-keeping hook; the kit's 2,048-function limit
+
+**speedfix had not built since the naming rounds.** Its forks named callees the tree had renamed, and the getter
+0x10014D20 is now `Camera_GetClampedField28`.
+- The three frame_step forks were remade with `fork.py new` from the current tree and their edits reapplied
+  exactly. `fork.py diff` shows each differs from the tree only by its edits.
+- Callees are mapped by address. Four addresses with two prototypes in the tree take the one matching the old
+  declaration.
+- `sdk/include/xikit_game.hpp` was regenerated.
+
+**frame_step and uncap did nothing in the game from 22 Oct.** The entry-EAX facts gave 0x10014CF0 manifest flag 8.
+- On every path the getter writes only AX (`fnstsw ax`) and ECX, so bytes 2-3 of its entry EAX leave unchanged.
+  13 call sites read them back (`data/eax_kept_sites.json`; 0x1006A000 is the last call before 0x10069F90 returns).
+- So the kit refused the hook, correctly, and speedfix logged that it was not forked.
+- Kit API version 3 adds `hook_keeping_registers`. A mod uses it to state that it keeps the registers itself, and the
+  kit then requires a trampoline to the game's own code.
+- speedfix's `sf_cf0_wrap` runs the game's getter first, keeps its EAX, ECX, EDX and flags, and loads the fork's
+  answer into ST0. The x87 condition bits are undefined after FLD (Intel SDM), the game's last instruction on both
+  paths.
+- sf_host calls the getter with EAX 5A5A1234 and EDX 77665544. Switches off and on, it leaves EAX 5A5A4020,
+  ECX = [g_pCamera] and EDX unchanged.
+
+**The kit held 2,048 manifest functions** (`MAXFN`), and the loader stopped there without a word.
+- Since the tree passed 2,048 functions (21 Oct), the second half of the manifest could not be swapped, hooked or
+  captured.
+- test_xikit found it: its swap check names `FontGlyphCache_GetDevice` (0x1025D750), which sat past the limit.
+  `Gfx_IsGammaSupported`, which the test used before, left the tree when its raw gate became UNRESOLVED under the
+  22 Oct EAX rule.
+- The limits are now 12,288 functions and 12,288 `!code` lines, logged when exceeded. The kit loads 4,045 of the
+  manifest's 4,046. The one left out, `fn_101A0730`, has an export name longer than the name field; it is logged.
+- The quarantine test now excludes `CDx::PushRenderTargetTexture`, which is in the tree too, so the fault stays in
+  the game's own code as the test intends.
+
+**Tests:**
+- test_xikit: all modes pass. The native sampler mode needs 64-bit Wine, which this container lacked; `wine64` was
+  installed.
+- test_speedfix: all six modes pass. test_framestep: ALL OK, the owner's three 18 Oct captures replaying PASS through
+  `xcap.py --build`.
+- tool_drift: the ini-key check now reads keys per section, so `[watch]`'s `enabled=` and `every=` are no longer
+  reported as unread.

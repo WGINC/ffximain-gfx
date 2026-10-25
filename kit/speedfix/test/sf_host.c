@@ -259,6 +259,13 @@ static void step_print(const char *what, StepRun r) {
   printf("    %s: %d frames, %.1f ms (%.2f ticks by the counter, %.2f the game's [+0x38]); whole %.0f (%d of 0), fraction %.2f; "
          "%d frames as the game's\n", what, r.n, r.span, r.span * 0.06, r.game_ticks, r.whole, r.zero, r.frac, r.game_like);
 }
+/* a call of 0x10014CF0 as its callers make it, with EAX and EDX holding known values: what it leaves in EAX, ECX, EDX */
+typedef struct { uint32_t eax, ecx, edx; float st0; } Regs;
+static Regs call_cf0(uint32_t eax_in, uint32_t edx_in) {
+  Regs r; uint32_t a = eax_in, c, d = edx_in; float v; void *fn = (void *)GAME(0x10014CF0u);
+  __asm__ volatile("call *%[f]" : "+a"(a), "=c"(c), "+d"(d), "=t"(v) : [f] "S"(fn) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+  r.eax = a; r.ecx = c; r.edx = d; r.st0 = v; return r;
+}
 static int jumps_into(uint32_t ea, HMODULE m) {
   uint8_t *e = (uint8_t *)GAME(ea); HMODULE h = NULL;
   void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
@@ -284,6 +291,18 @@ static int step_test(void) {
   check(r.nonint == 0, "frame_step=2: the getters answer whole ticks, the same");
   check(r.wrong_frac == 0, "frame_step=2: the call at 10227E58 gets the game's average of its last 4 frames, not truncated (floor and cap as the game's)");
   check(fabs(r.whole - r.game_ticks) < 3.0 && fabs(r.frac - r.game_ticks) < 3.0, "frame_step=2: whole ticks and the fraction add up to the game's own ticks [+0x38] (within 3 over 120 frames)");
+  { /* 0x10014CF0 hands bytes 2-3 of its entry EAX back to callers that read them (manifest flag 8): through speedfix's
+       wrapper, EAX, ECX and EDX are the game's code's, switches on as off; only ST0 is the fork's answer */
+    int m = *g_xi_mode;
+    *g_xi_mode = 0; Regs off = call_cf0(0x5A5A1234u, 0x77665544u);
+    *g_xi_mode = m; Regs on = call_cf0(0x5A5A1234u, 0x77665544u);
+    printf("    0x10014CF0 with EAX 5A5A1234, EDX 77665544: off EAX %08X ECX %08X EDX %08X ST0 %g; on EAX %08X ECX %08X EDX %08X ST0 %g\n",
+           off.eax, off.ecx, off.edx, off.st0, on.eax, on.ecx, on.edx, on.st0);
+    check((off.eax >> 16) == 0x5A5A && off.ecx == *(uint32_t *)GAME(0x104568FCu) && off.edx == 0x77665544u,
+          "0x10014CF0, switches off: the game's code keeps EAX bytes 2-3 and EDX, and leaves ECX = [g_pCamera]");
+    check(on.eax == off.eax && on.ecx == off.ecx && on.edx == off.edx,
+          "0x10014CF0, switches on: EAX, ECX and EDX as the game's code leaves them (hook_keeping_registers)");
+  }
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
   step_frames(70, 1, 3);
   check(*g_xi_uncap == 1 && *g_xi_mode == 1, "uncap=1 frame_step=1 (changed while running): the switches follow");

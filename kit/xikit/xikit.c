@@ -43,7 +43,7 @@
 #define SLOT_RESET 14
 #define SLOT_PRESENT 15
 #define NSLOTS 97
-#define MAXFN 2048
+#define MAXFN 12288     /* the manifest held 4,046 functions on 25 Oct; past this the loader logs what it left out */
 #define JMP_LEN 5
 #define STUB_LEN 12                    /* lock inc dword [count]; jmp target */
 
@@ -85,7 +85,7 @@ typedef struct {
 
 static Fn g_fn[MAXFN]; static int g_nfn;
 /* the reconstruction DLL's code symbols (manifest !code RVA SYMBOL): which function a fault inside it is in */
-#define MAXCODE 4096
+#define MAXCODE 12288
 typedef struct { uint32_t rva; int fn; char sym[160]; } Code;   /* (sym as long as Fn.exp: a cut name would match nothing) */
 static Code g_code[MAXCODE]; static int g_ncode;
 static Fn *g_by_target[MAXFN];         /* sorted by reconstruction address, for the exception handler */
@@ -327,7 +327,7 @@ static int wanted(const Fn *f) {
 static int hexval(int c) { return c >= '0' && c <= '9' ? c - '0' : (c | 32) >= 'a' && (c | 32) <= 'f' ? (c | 32) - 'a' + 10 : -1; }
 
 static int load_manifest(const char *path) {
-  FILE *m = fopen(path, "r"); char line[1024];
+  FILE *m = fopen(path, "r"); char line[1024]; int code_full = 0;
   if (!m) { klog("no manifest at %s: nothing done", path); return 0; }
   while (fgets(line, sizeof line, m)) {
     if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') continue;
@@ -341,10 +341,11 @@ static int load_manifest(const char *path) {
         if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 8) {
           int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
-      if (g_ncode < MAXCODE && sscanf(line + 1, "code %x %159s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
+      if (!strncmp(line + 1, "code ", 5) && g_ncode >= MAXCODE) { if (!code_full++) klog("manifest: more than %d !code lines; the rest are left out (MAXCODE)", MAXCODE); }
+      else if (sscanf(line + 1, "code %x %159s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
       continue;
     }
-    if (g_nfn >= MAXFN) break;
+    if (g_nfn >= MAXFN) { klog("manifest: more than %d functions; the rest are left out (MAXFN)", MAXFN); break; }
     Fn *f = &g_fn[g_nfn]; memset(f, 0, sizeof *f);
     char hex[64], rels[64]; unsigned rva;
     if (sscanf(line, "%x %d %159s %63s %63s %95s", &rva, &f->flags, f->exp, hex, rels, f->name) != 6 || strlen(hex) != 40) {
@@ -1383,7 +1384,7 @@ static void *build_tramp(Fn *f) {
   return f->tramp = t;
 }
 
-static int __cdecl host_hook(const char *what, void *repl, void **prev) {
+static int hook_impl(const char *what, void *repl, void **prev, int keeps_regs) {
   if (prev) *prev = NULL;
   if (!g_mods_open) { host_log("hook(%s): only inside xikit_mod_init", what ? what : "?"); return XIKIT_E_LATE; }
   Fn *f = what ? fn_named(what) : NULL;
@@ -1392,17 +1393,21 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   int d = f->patched ? -1 : check_bytes(f);       /* (patched: a reload; the bytes were checked before the kit wrote its jmp) */
   if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix (speedfix_hook or the speedfix mod) patches inside it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
-  if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
+  if ((f->flags & 8) && !keeps_regs) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
   void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
+  if (keeps_regs && !p) { host_log("hook_keeping_registers(%s): no trampoline, so no way to run the game's own code", f->name); return XIKIT_E_NOPREV; }
   if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
   if (!p) { host_log("hook(%s): no way to reach its previous code", f->name); return XIKIT_E_NOPREV; }
   if (p == f->target && f->quarantined) { host_log("hook(%s): its previous would be the reconstruction, which is quarantined (xikit_quarantine.txt)", f->name); return XIKIT_E_REFUSED; }
   if (prev) *prev = p;
   f->mod_target = repl; f->mod = g_mod_cur + 1; f->mod_on_recon = p == f->target; f->refused = 0; g_dirty = 1;
-  host_log("hooked %s (0x%08X)%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
+  host_log("hooked %s (0x%08X)%s%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
+           (f->flags & 8) ? " [manifest flag 8: the mod keeps the registers]" : "",
            via, (f->flags & 4) && p == f->target ? " [its gate coverage is incomplete]" : "");
   return XIKIT_OK;
 }
+static int __cdecl host_hook(const char *what, void *repl, void **prev) { return hook_impl(what, repl, prev, 0); }
+static int __cdecl host_hook_regs(const char *what, void *repl, void **prev) { return hook_impl(what, repl, prev, 1); }
 
 static void *__cdecl host_recon(const char *what) { Fn *f = what ? fn_named(what) : NULL; return f ? f->target : NULL; }
 
@@ -1549,7 +1554,7 @@ static void load_mods(void *dev, HMODULE rec) {
   make_dcode();
   g_host.version = XIKIT_API_VERSION; g_host.size = sizeof g_host;
   g_host.game_base = g_game_lo; g_host.rel = (intptr_t)g_rel; g_host.device = dev; g_host.recon = rec; g_host.dir = g_dir;
-  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon; g_host.device_hook = host_device_hook;
+  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon; g_host.device_hook = host_device_hook; g_host.hook_keeping_registers = host_hook_regs;
   for (char *p = list; *p && g_nmods < MAXMODS;) {
     char nm[64]; int n = 0;
     while (*p == ' ' || *p == ',' || *p == '\t') p++;

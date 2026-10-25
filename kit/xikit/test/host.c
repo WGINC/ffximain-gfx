@@ -17,13 +17,13 @@
 #define G_PCDX 0x1045666Cu
 #define SETCOLOR 0x100A4830u          /* CXiSkeletonActor::SetColor: this+0x660 = arg */
 #define GETCOLOR 0x100A4840u          /* CXiSkeletonActor::GetColor: returns this+0x660 */
-#define GAMMA    0x10002BE0u          /* Gfx_IsGammaSupported: [g_pCDx] ? byte [g_pCDx+0x915] : 0 */
+#define GAMMA    0x1025D750u          /* FontGlyphCache_GetDevice: returns [g_pCDx+0xC] (mov eax, [g_pCDx]: a relocated operand at +1) */
 #define PUSHRT1  0x1000A800u          /* CDx::PushRenderTargetRet1: calls the original CDx_PushRenderTarget, returns 1 */
 #define FRAME_RENDER 0x10011A00u      /* Frame_Render: manifest flag 4 (its compared gate trials ran 53 of 1424 instructions) */
 
 typedef void (__attribute__((thiscall)) *SetColorFn)(void *, uint32_t);
 typedef uint32_t (__attribute__((thiscall)) *GetColorFn)(void *);
-typedef uint8_t (*GammaFn)(void);
+typedef void *(*GammaFn)(void);
 typedef char (__attribute__((thiscall)) *PushRt1Fn)(void *, int, int, int);
 
 static int presents, fails;
@@ -224,6 +224,7 @@ int main(int argc, char **argv) {
     printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
     ExitProcess(fails ? 1 : 0);
   }
+  if (!caprun && !factrun && !(set[0] == 0xE9 && gam[0] == 0xE9)) printf("note: entry bytes SetColor %02X, FontGlyphCache_GetDevice %02X\n", set[0], gam[0]);
   if (!caprun && !factrun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
@@ -353,7 +354,7 @@ int main(int argc, char **argv) {
     }
     touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n");
     present(130);
-    check(!memcmp(gam, orig_gam, 5), "swap=0: Gfx_IsGammaSupported has its original bytes again");
+    check(!memcmp(gam, orig_gam, 5), "swap=0: FontGlyphCache_GetDevice has its original bytes again");
     check(get[0] == 0xE9 && ((GetColorFn)get)(actor) == 0x11223345u && set[0] == 0xE9, "swap=0: the mod's hook and its fork stay");
     /* the profiler sits behind the device hooks: the BeginScene above reached it through the mod's previous, and is
        reported at the host's call site (the call the hook was handling), not at an address inside the mod */
@@ -381,7 +382,7 @@ int main(int argc, char **argv) {
   ((SetColorFn)set)(actor, 0x11223344u);
   check(*(uint32_t *)(actor + 0x660) == 0x11223344u, "reconstructed SetColor wrote this+0x660");
   check(((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor) == 0x11223344u, "GetColor (swapped too) reads it back");
-  check(((GammaFn)gam)() == 0x5A, "reconstructed Gfx_IsGammaSupported read g_pCDx at the rebased address");
+  check(((GammaFn)gam)() == (void *)&g_dev, "reconstructed FontGlyphCache_GetDevice read g_pCDx at the rebased address");
   present(60);
   FILE *csv; char name[64]; snprintf(name, sizeof name, "xikit_calls_%lu.csv", GetCurrentProcessId());
   csv = fopen(name, "r"); int seen = 0; char line[256];
@@ -404,9 +405,9 @@ int main(int argc, char **argv) {
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(!memcmp(frame, orig_frame, 5), "the default (include_untested=0): Frame_Render, flag 4, has its original bytes");
-  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+  touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=FontGlyphCache_GetDevice,CDx::PushRenderTargetTexture\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
-  check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, Gfx_IsGammaSupported not");
+  check(set[0] == 0xE9 && !memcmp(gam, orig_gam, 5), "swap=1 with an exclude: SetColor swapped, FontGlyphCache_GetDevice not");
   /* bisect: SetColor is the "culprit" (the screen is wrong while it is swapped); the host answers as a person would */
   if (!profile) {          /* (its extra frames would shift the profiler's per-window counts) */
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
@@ -452,7 +453,7 @@ int main(int argc, char **argv) {
       check(pair && both, "bisect: two functions that break the screen only together are found as that pair");
       check(set[0] != 0xE9 && gc[0] != 0xE9, "bisect: both stay on the original code after they are found");
       answer(2); present(2); }
-    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=Gfx_IsGammaSupported\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
+    touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\nexclude=FontGlyphCache_GetDevice,CDx::PushRenderTargetTexture\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
     present(130);
   }
   /* a crash inside reconstructed code: SetColor on a null this */
@@ -467,7 +468,7 @@ int main(int argc, char **argv) {
   check(quar, "it is in xikit_quarantine.txt");
   /* a fault in the game's own code, called from a reconstruction: CDx::PushRenderTargetRet1 on a null CDx calls
      CDx_PushRenderTarget (0x10009E20, swapped too), whose reconstruction calls the original
-     CDx_PushRenderTargetTexture, which faults reading the null CDx. The kit finds the reconstructions' return
+     CDx_PushRenderTargetTexture (excluded from the swap above: it is in the tree too), which faults reading the null CDx. The kit finds the reconstructions' return
      addresses on the stack and quarantines the innermost, CDx_PushRenderTarget, as suspected. */
   uint8_t *prt = (uint8_t *)(uintptr_t)(PUSHRT1 + rel);
   check(prt[0] == 0xE9, "CDx::PushRenderTargetRet1 is swapped");

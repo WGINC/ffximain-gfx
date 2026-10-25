@@ -1,0 +1,242 @@
+{
+ "0x1013A330": {
+  "name": "Unit1012AC80_TickMember20AndHelp",
+  "confidence": "high",
+  "evidence": "Body: sub_102213E0(self+0x20); Unit1012AC80_TickHelp(DAT_105781FC). ret 4 (purges).",
+  "summary": "Updates the member at +0x20 and ticks the help object at DAT_105781FC."
+ },
+ "0x10153A40": {
+  "name": "Unit1012AC80_FormatMessageWithArgs",
+  "confidence": "medium",
+  "evidence": "Gets the message with Unit1012AC80_GetMessageFwd(param_3, param_4); when found copies param_5 dwords of param_6 into a local argument array (up to 16) and formats with sub_10153310 and Unit1012AC80_GetEntryWord3E. Called by Unit1012AC80_FormatMessage4/5.",
+  "summary": "Formats message (param_3, param_4) with an argument array of param_5 values."
+ },
+ "0x101542B0": {
+  "name": "Unit1012AC80_LoadMessageSetByState",
+  "confidence": "low",
+  "evidence": "Switch on the dword at g_pSceneState+8 (and the sign of byte +0x18); in the cases it constructs objects with Unit1012AC80_CtorVt1033512C/1033515C and calls sub_101540A0 (x4), sub_10154D70 and fn_10155100. __stdcall, ret 8 (purges). Called by Unit1012AC80_LoadMessageSet.",
+  "summary": "Per-scene-state step of Unit1012AC80_LoadMessageSet; the meaning of each state is not established."
+ },
+ "0x10155100": {
+  "name": "Unit1012AC80_DtorVt1033515C",
+  "confidence": "medium",
+  "evidence": "Sets the vtable to 0x1033515C, calls Entry_ReleaseField4Zero(self), Unit1012AC80_DtorVt10335138(self+0x14) and Unit1012AC80_DtorVt103350EC(self).",
+  "summary": "Destructor body of the object with vtable 0x1033515C."
+ },
+ "0x101583F0": {
+  "name": "Target_UpdateActorFlags138",
+  "confidence": "medium",
+  "evidence": "When sub_101CC4F0 returns an actor, computes a flag from +0xD0, byte +0x22, Target_GetFlag82 and Settings_GetValue(0xC0)==1 (and Target_GetFlag83) and applies it with Acter_SetFlagBits138. Called by Target_Update.",
+  "summary": "Sets bits at +0x138 of the actor from the target's flags 0x82/0x83 and setting 0xC0."
+ },
+ "0x10158480": {
+  "name": "Target_UpdateSelection",
+  "confidence": "low",
+  "evidence": "Calls fn_10159540 on the sub-record +0x28 and resets it (Target_ResetRecord) when it returns 1; then by byte +0x53 and fn_10159540(self) it calls Target_SendAttackOff, Target_Clear, Target_ClearAll or Unit1012AC80_SetTargetMode (callee strings \"/attackoff\", \"menu    menuwind\"). Called by Target_Update.",
+  "summary": "Validates the current and sub target records and clears them (sending /attackoff where needed) when they are no longer valid."
+ },
+ "0x101585F0": {
+  "name": "Target_RunActiveCommand",
+  "confidence": "low",
+  "evidence": "Unless blocked by +0xC4/+0xC8/+0x74/+0x6A, g_C_106631D4 or Unit1018BA60_IsModeFourOrFive, finds the active command in the table 0x10371EE0 with fn_101587B0 and acts with sub_101587F0, fn_10158B40 or fn_10158DB0; refers to \"menu    mp_pmode\" and \"menu    playermo\". Called by Target_Update.",
+  "summary": "Finds the active command in the table at 0x10371EE0 (fn_101587B0) and runs the matching target action."
+ },
+ "0x101587B0": {
+  "name": "Unit1012AC80_FindActiveCommand",
+  "confidence": "high",
+  "evidence": "Walks 16-byte entries {a, b, c, result} until result is 0 or fn_10123A70(a, b, c, -1) returns 1; returns that entry's result (0 at the end).",
+  "summary": "Returns the result code of the first entry of a command table whose test (Unit100D7420_TestCommand36CF60) is active."
+ },
+ "0x10158AA0": {
+  "name": "Unit1012AC80_IsCommand76Or77Active",
+  "confidence": "high",
+  "evidence": "Body: returns 1 when fn_10123A70(0x3F, 0x76, 4, -1) or fn_10123A70(0x3F, 0x77, 4, -1) returns non-zero, else 0.",
+  "summary": "Returns whether command 0x76 or 0x77 (mode 4) is active."
+ },
+ "0x10158B00": {
+  "name": "Target_TrySubSelect",
+  "confidence": "low",
+  "evidence": "When byte +0x59 or dword +0xC4 is set and byte +0x58 is set and fn_10158AA0 is true, calls sub_10159BA0(self, param_2). ret 4 (purges).",
+  "summary": "Runs sub_10159BA0 when the target flags at +0x58/+0x59 allow it and command 0x76/0x77 is active."
+ },
+ "0x10158B40": {
+  "name": "Target_ActOrTrySubSelect",
+  "confidence": "high",
+  "evidence": "Body: when param_1 is non-zero calls sub_101587F0(self, param_1), else fn_10158B00(self, 0); returns 1 in AL. ret 4 (purges).",
+  "summary": "Runs the target action param_1, or the sub-select check when there is none."
+ },
+ "0x10158B60": {
+  "name": "Target_CycleEntryTarget",
+  "confidence": "low",
+  "evidence": "Validates the key (Entry_ValidateKey), resolves actors (ActorHandle_Resolve x2) and uses Unit101D7020_FindActiveEntryById / GetCurrentEntry / UpdateE... to choose the next target from the entry list. Called by sub_101587F0.",
+  "summary": "Picks the next target from the Unit101D7020 entry list; details not established."
+ },
+ "0x10158C40": {
+  "name": "Target_CycleInView",
+  "confidence": "medium",
+  "evidence": "Validates the key, takes the cached target (Target_GetCachedIfValid) and by param_1 calls CXiActor_FindNearestLowerInView or CXiActor_FindNearestHigherInView. ret 4 (purges).",
+  "summary": "Steps the target to the next lower or higher candidate in view."
+ },
+ "0x10158CA0": {
+  "name": "Target_CycleInViewOrFirst",
+  "confidence": "medium",
+  "evidence": "Without a valid key returns sub_10083620(+0x60, +0x64); otherwise from the cached target calls CXiActor_FindNearestLowerInView or ..HigherInView by param_1 (with fallbacks). ret 4 (purges).",
+  "summary": "Steps the target to the next lower or higher candidate in view, or picks the first one when there is no current target."
+ },
+ "0x10158D90": {
+  "name": "Target_PickNearestToPoint",
+  "confidence": "high",
+  "evidence": "Body: returns CXiActor_FindNearestToPoint(self+0x8C, +0x60, +0x64) and clears byte +0x55.",
+  "summary": "Picks the actor nearest to the stored point at +0x8C."
+ },
+ "0x10158DB0": {
+  "name": "Target_ApplyAction",
+  "confidence": "low",
+  "evidence": "Uses Target_GetActorPtr, Target_GetCachedIfValid and Entry_ValidateKey, fn_10097D50, MusicTrack_SetVolumeId0009/0011, sub_1007BF30 and refers to \"menu    mp_pmode\" and \"menu    playermo\". ret 4 (purges). Called by Target_HandleSelectInput and preprocessArg.",
+  "summary": "Carries out a target action (with menu and sound side effects); details not established."
+ },
+ "0x10159040": {
+  "name": "Target_CommitSubTarget",
+  "confidence": "high",
+  "evidence": "When byte +0x52 is 1: selects the cached sub target (+0x28) with Target_Select and resets it, calls Unit1012AC80_SetTargetMode(self, bits 0xC of +0x5C set), clears +0x52 and bits 0xC of +0x5C.",
+  "summary": "Makes the pending sub target the main target and leaves sub-target mode."
+ },
+ "0x10159540": {
+  "name": "Target_IsRecordStillValid",
+  "confidence": "low",
+  "evidence": "Returns 0 when byte +0x20 is 0; 1 when Entry_ResolveValid returns null; otherwise tests byte +0x21, bit 2 of +0xB2 of the entry, Target_CanTarget and Unit1012AC80_IsWithinRadius (AL only). Called by Target_UpdateSelection.",
+  "summary": "Tests whether a target record needs to be dropped (the sense of 1 versus 0 is not established)."
+ },
+ "0x10159880": {
+  "name": "Target_GetPosShortsMainOrSub",
+  "confidence": "high",
+  "evidence": "Body: Target_GetPosShorts(param_3 ? self+0x28 : self, param_1, param_2). ret 12 (purges).",
+  "summary": "Target_GetPosShorts of the main or (when param_3) the sub target record."
+ },
+ "0x10159EB0": {
+  "name": "Unit1012AC80_FindRange",
+  "confidence": "high",
+  "evidence": "Walks the 0x14-byte entries of DAT_1062180C until a start of -1, returning the entry with start <= param_1 < end (+4/+8), or 0.",
+  "summary": "Finds the range entry of the table at DAT_1062180C that contains an id."
+ },
+ "0x1015B970": {
+  "name": "Unit1012AC80_FindCachedEntry",
+  "confidence": "medium",
+  "evidence": "Walks the list from Unit100D7420_GetHead(self) with sub_10126520 looking for the entry for param_1; when param_2 is set, moves it to the front (Unit100D7420_Remove, PushFront). Returns the entry or 0. ret 8 (purges).",
+  "summary": "Looks up an id in the cache list, optionally moving the hit to the front."
+ },
+ "0x1015B9E0": {
+  "name": "Unit1012AC80_GetCachedOrLoad",
+  "confidence": "medium",
+  "evidence": "For a non-zero id: returns the cached entry (fn_1015B970, Unit1012AC80_IsCachedPtrMatch); otherwise finds its range (fn_10159EB0) and, when the cache has fewer than 100 entries or after dropping the tail, loads it through g_pFileMng and pushes it to the front. ret 4 (purges).",
+  "summary": "Returns the cached record for an id, loading it into the 100-entry cache when missing."
+ },
+ "0x1015D880": {
+  "name": "Unit1012AC80_MenuCall1015EEA0",
+  "confidence": "high",
+  "evidence": "Body: sub_1015EEA0(&g_menuMng, 1, EAX); returns 1.",
+  "summary": "Calls sub_1015EEA0 on the menu manager with 1."
+ },
+ "0x1015DBB0": {
+  "name": "Unit1012AC80_MenuForwardItem8",
+  "confidence": "high",
+  "evidence": "Body: when *(param_1+8) is non-zero calls sub_1015DB80(self, it, param_2). ret 8 (purges).",
+  "summary": "Forwards the item at +8 of param_1 to sub_1015DB80."
+ },
+ "0x1015DCE0": {
+  "name": "Unit1012AC80_MenuTest48OrStateB4",
+  "confidence": "medium",
+  "evidence": "Returns 1 when byte +0x48 of DAT_105781CC is set; else whether Menu_IsStateB4Eq1(self, DAT_105781CC) is true.",
+  "summary": "Returns whether the object at DAT_105781CC has its flag at +0x48 set or is in state B4==1."
+ },
+ "0x1015DEE0": {
+  "name": "Unit1012AC80_MenuHasFocusedItemFwd",
+  "confidence": "high",
+  "evidence": "Body: return Menu_HasFocusedItem(self).",
+  "summary": "Menu_HasFocusedItem."
+ },
+ "0x1015E6E0": {
+  "name": "Unit1012AC80_MenuItemFade",
+  "confidence": "low",
+  "evidence": "For a non-null item: sub_10118830(item); kind 0xE items get byte +0x75 set from param_6; others go through Unit100D7420_MenuStartFade, Unit100D7420_InvokeCallback7C (x2) and Cell_SetFlag104E1C3C. __stdcall-style with this in ECX, ret 20 (purges).",
+  "summary": "Passes a menu item through sub_10118830 and Unit100D7420_MenuStartFade/InvokeCallback7C (kind 0xE items only set the flag +0x75)."
+ },
+ "0x1015E790": {
+  "name": "Unit1012AC80_MenuInitAndFadeItem",
+  "confidence": "low",
+  "evidence": "For a non-null item: on first use sets +0x6E and calls fn_10118F30 (vtable slot 2 of +0xC); kind 0xE items set +0x70; others go to fn_1015E6E0. ret 8 (purges).",
+  "summary": "Initialises a menu item on first use (vtable slot 2 of its +0xC member) and passes it to fn_1015E6E0."
+ },
+ "0x1015EC20": {
+  "name": "Unit1012AC80_SetMinId6C",
+  "confidence": "high",
+  "evidence": "Calls Unit100D7420_GetTail(self); when param_2 is 0 and param_1 < the short +0x6C returns 0; otherwise stores param_1 at +0x6C and returns 1. ret 8 (purges).",
+  "summary": "Raises (or with param_2 forces) the 16-bit value at +0x6C."
+ },
+ "0x1015EDD0": {
+  "name": "Unit1012AC80_MenuTestItem34Or6B",
+  "confidence": "low",
+  "evidence": "Returns 0 when bit 2 of item+0x34 is set, 1 when byte item+0x6B is set, otherwise tests the items at +0x54/+0x5C of self (AL only). ret 4 (purges).",
+  "summary": "Tests a menu item by bit 2 of +0x34 (0), byte +0x6B (1) and then the items at +0x54/+0x5C; what the result means is not established."
+ },
+ "0x1015EE20": {
+  "name": "Unit1012AC80_GetNodeIfNotClosed",
+  "confidence": "high",
+  "evidence": "Body: v = sub_10126550(param_1); returns v unless v is 0 or byte v+0x70 is set, in which case 0. __stdcall, ret 4 (purges).",
+  "summary": "Returns the item from sub_10126550 unless its flag at +0x70 is set."
+ },
+ "0x1015F8F0": {
+  "name": "Unit1012AC80_MenuGetItemRect",
+  "confidence": "medium",
+  "evidence": "When *param_1 and its +8 are non-null, gets the rect of +8 with Unit100D7420_GetRect and, depending on byte +0x69, writes it to param_2. __stdcall, ret 8 (purges).",
+  "summary": "Gets the screen rect of a menu item."
+ },
+ "0x1015F980": {
+  "name": "Unit1012AC80_ResolveLayoutIndex",
+  "confidence": "high",
+  "evidence": "Body: for param_1 == 0 returns 0 when Settings_GetValue(0xB4) is 2, 4 when DAT_10621940 and its +8 are set; otherwise returns param_1.",
+  "summary": "Chooses the layout index: 0 becomes 0 or 4 from setting 0xB4 and DAT_10621940."
+ },
+ "0x1015F9C0": {
+  "name": "Unit1012AC80_MenuGetLayoutWord",
+  "confidence": "high",
+  "evidence": "Body: returns the short at Menu_GetWordPtrAtA0(self, fn_1015F980(param_1)). ret 4 (purges).",
+  "summary": "Returns the layout word for an index after Unit1012AC80_ResolveLayoutIndex."
+ },
+ "0x10160210": {
+  "name": "Unit1012AC80_GetScaledPos80",
+  "confidence": "high",
+  "evidence": "Body: *param_1 = short +0x80 * 0.0015625 (1/640), *param_2 = short +0x82 * 0.0020833334 (1/480). ret 8 (purges).",
+  "summary": "Returns the position at +0x80/+0x82 as fractions of 640x480."
+ },
+ "0x10160DB0": {
+  "name": "Unit1012AC80_CtorVt10335334",
+  "confidence": "high",
+  "evidence": "Body: Unit101C72E0_Construct(self); vtable 0x10335334; +0x18 = +0x61C = 0; return self.",
+  "summary": "Constructor of the object with vtable 0x10335334."
+ },
+ "0x10161110": {
+  "name": "Unit1012AC80_CtorVt10335350",
+  "confidence": "high",
+  "evidence": "Body: Unit101C72E0_Construct(self); vtable 0x10335350; +0x18, +0x1C, +0x20 = 0; return self.",
+  "summary": "Constructor of the object with vtable 0x10335350."
+ },
+ "0x10161380": {
+  "name": "Unit1012AC80_CtorVt1033536C",
+  "confidence": "high",
+  "evidence": "Body: Unit101C72E0_Construct(self); vtable 0x1033536C; +0x18 = 0, byte +0x1C = 0, +0x20 = +0x24 = 0; return self.",
+  "summary": "Constructor of the object with vtable 0x1033536C."
+ },
+ "0x101615E0": {
+  "name": "Unit1012AC80_CtorVt10335388",
+  "confidence": "high",
+  "evidence": "Body: Unit101C72E0_Construct(self); vtable 0x10335388; +0x18, +0x1C, +0x20 = 0; return self.",
+  "summary": "Constructor of the object with vtable 0x10335388."
+ },
+ "0x10161850": {
+  "name": "Unit1012AC80_CtorVt10335410",
+  "confidence": "high",
+  "evidence": "Body: Unit1012AC80_InitFromScreenRect(self, param_1); vtable 0x10335410; return self. ret 4 (purges).",
+  "summary": "Constructor of the object with vtable 0x10335410."
+ }
+}

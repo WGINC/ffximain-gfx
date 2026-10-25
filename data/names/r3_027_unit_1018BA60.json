@@ -1,0 +1,8 @@
+{
+ "0x101C3E90": {"name": "Unit1018BA60_FormatPathByKind", "confidence": "medium",
+  "evidence": "Body: when the dword at self+8 is 3 it checks strlen(self+0xD0)+strlen(param_3)+... against param_2 (returns -1 if it does not fit) and sprintf's \"%s/%s\" (DLL string at 0x1037CBA0) of self+0xD0 and param_3 into param_1; when it is 4 it sprintf's param_3 alone with the \"%s\" string. ret 12 (purges).",
+  "summary": "Formats a path into a caller buffer by the object's kind at +8: kind 3 joins the directory at +0xD0 and the name with '/', kind 4 copies the name."},
+ "0x101C5BE0": {"name": "Unit1018BA60_CtorVt10337C90", "confidence": "medium",
+  "evidence": "Body stores vtables 0x10337C90 at self and 0x10337A84 then 0x10337C8C at self+4, the kind param_1 at self+8, copies the string param_5 to +0x12 and +0x3A0 after passing it to Unit1018BA60_InputCall101AC990Swapped, sets flag bytes +0xC..+0x11 by a switch on the kind, and returns self. ret 32 (purges).",
+  "summary": "Constructor of the object with vtable 0x10337C90: stores the kind, the label string and the callback/position arguments, and sets its flag bytes per kind."}
+}

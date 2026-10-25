@@ -1,0 +1,122 @@
+{
+ "0x101C8D10": {
+  "name": "Unit101C72E0_TimeToTmWrap28Years",
+  "confidence": "medium",
+  "evidence": "For a time above 0x7FE8177F it subtracts 0x34AADC80 seconds (28 years) as often as needed, calls sub_10314D91(&t) and adds 28 per step to field 5 (tm_year in the C struct tm layout) of the returned struct.",
+  "summary": "Converts a time value with sub_10314D91, stepping times past 0x7FE8177F back by 28-year cycles and adding the years back to the result."
+ },
+ "0x101C9550": {
+  "name": "Unit101C72E0_MeasureText",
+  "confidence": "low",
+  "evidence": "Returns 0 for a null string or when Unit101C72E0_GetIndexed(0) is null; otherwise walks the string's bytes and returns a summed int. Called by fn_101C97B0, which subtracts half of it times the scale to centre.",
+  "summary": "Returns the width of a string using item 0 (Unit101C72E0_GetIndexed(0)) (used to centre text)."
+ },
+ "0x101C97B0": {
+  "name": "Unit101C72E0_DrawTextItem0",
+  "confidence": "low",
+  "evidence": "Gets Unit101C72E0_GetIndexed(0), walks the string param_3 and draws it at (param_1, param_2) with scales param_5/param_6; when param_7 is set it first moves x left by MeasureText*param_5*0.5. Called by Unit101C72E0_DrawUnscaled with scales 1.0,1.0.",
+  "summary": "Draws a string using item 0 (Unit101C72E0_GetIndexed(0)) at a position and scale, optionally centred."
+ },
+ "0x101CB040": {
+  "name": "Unit101C72E0_DrawFractionItem1A",
+  "confidence": "medium",
+  "evidence": "Body: Unit101C72E0_DrawFractionDefault(x, y, *(GetIndexed(1))+0x184, +0x98, a, b) with (a,b) = (param_3, 0) or (0, param_3) by param_4.",
+  "summary": "DrawFractionDefault with the +0x184/+0x98 resources of item 1, the value in the first or second slot."
+ },
+ "0x101CB090": {
+  "name": "Unit101C72E0_DrawSmoothedItem1A",
+  "confidence": "medium",
+  "evidence": "Body: Unit101C72E0_DrawSmoothedDefault(x, y, *(GetIndexed(1))+0x184, +0x98, param_3, param_4).",
+  "summary": "DrawSmoothedDefault with the +0x184/+0x98 resources of item 1."
+ },
+ "0x101CB1B0": {
+  "name": "Unit101C72E0_DrawSmoothedItem1B",
+  "confidence": "medium",
+  "evidence": "Body: Unit101C72E0_DrawSmoothedDefault(x, y, *(GetIndexed(1))+0x188, +0x9C, param_3, param_4).",
+  "summary": "DrawSmoothedDefault with the +0x188/+0x9C resources of item 1."
+ },
+ "0x101CB230": {
+  "name": "Unit101C72E0_DrawSmoothedExItem1B",
+  "confidence": "medium",
+  "evidence": "Body: Unit101C72E0_DrawSmoothed(x, y, *(GetIndexed(1))+0x188, +0x9C, param_3..param_8).",
+  "summary": "DrawSmoothed with the +0x188/+0x9C resources of item 1."
+ },
+ "0x101CB430": {
+  "name": "Unit101C72E0_DrawEasedPercent",
+  "confidence": "medium",
+  "evidence": "Calls sub_101CB280 with min(param_7, *param_8) * 0.01 and the four scales, then moves the byte *param_8 toward param_7 by (param_7 - *param_8) * 0.15 (rounded by 0x10311C2C), or sets it to param_7 when that step is 0.",
+  "summary": "Draws a 0..100 value as a fraction and eases the stored displayed value toward the target by 15% per call."
+ },
+ "0x101CB500": {
+  "name": "Unit101C72E0_DrawEasedPercentUnitScale",
+  "confidence": "high",
+  "evidence": "Body: fn_101CB430(param_1..param_8, 1.0f, 1.0f, 1.0f, 1.0f).",
+  "summary": "Unit101C72E0_DrawEasedPercent with all four scales 1.0."
+ },
+ "0x101CB550": {
+  "name": "Unit101C72E0_DrawEasedPercentItem1A",
+  "confidence": "medium",
+  "evidence": "Body: fn_101CB500(x, y, *(GetIndexed(1))+0x184, +0x98, 0x80001080, 0x80801000, param_3, param_4).",
+  "summary": "DrawEasedPercentUnitScale with the +0x184/+0x98 resources of item 1 and colours 0x80001080/0x80801000."
+ },
+ "0x101CBDF0": {
+  "name": "Unit101C72E0_IsActorField170",
+  "confidence": "medium",
+  "evidence": "Returns in AL whether DAT_10485F7A is non-zero, ActerBuffPtr[DAT_10485F7A] is non-null and its dword +0x170 equals param_1 (AX set only, ret_width).",
+  "summary": "Returns whether the actor ActerBuffPtr[DAT_10485F7A] has the value param_1 at +0x170."
+ },
+ "0x101CBE50": {
+  "name": "Unit101C72E0_IsActorField170Is5",
+  "confidence": "high",
+  "evidence": "Body: return fn_101CBDF0(5).",
+  "summary": "Unit101C72E0_IsActorField170(5)."
+ },
+ "0x101CBE60": {
+  "name": "Unit101C72E0_IsActorField170Is55",
+  "confidence": "high",
+  "evidence": "Body: return fn_101CBDF0(0x55).",
+  "summary": "Unit101C72E0_IsActorField170(0x55)."
+ },
+ "0x101CBE70": {
+  "name": "Unit101C72E0_IsActorField170Is6",
+  "confidence": "high",
+  "evidence": "Body: return fn_101CBDF0(6).",
+  "summary": "Unit101C72E0_IsActorField170(6)."
+ },
+ "0x101CC070": {
+  "name": "Unit101C72E0_TestFlags100Or40DAC",
+  "confidence": "medium",
+  "evidence": "Returns 1 when Unit100D7420_GetFlags() has bit 0x100; otherwise, when param_1 is set, returns 1 when bit 0x40 of byte +0x40DAC of DAT_104DFD98 is set; else 0.",
+  "summary": "Tests Unit100D7420 flag 0x100, or (when asked) bit 0x40 at +0x40DAC of the object DAT_104DFD98."
+ },
+ "0x101CC1D0": {
+  "name": "Unit101C72E0_ActorTest1D0",
+  "confidence": "low",
+  "evidence": "Returns 1 when fn_101CC220(param_1) is false and (CXiActor_IsFlag1d0Clear or bit 0x100 of +0x1D0), bit 3 of +0x128 is clear and bit 20 of +0x130 is clear; else 0 (AL only).",
+  "summary": "Flag test on an actor combining fn_101CC220 and bits at +0x1D0/+0x128/+0x130; its meaning is not established."
+ },
+ "0x101CC220": {
+  "name": "Unit101C72E0_ActorPairTest1FF",
+  "confidence": "low",
+  "evidence": "For a non-null param_1 and the actor ActerBuffPtr[DAT_10485F7A]: when both have bit 0x400 at +0x1D0 it compares their bytes +0x1FF (0x28/0x2A against '('/'*', 0x29/0x2B against ')'/'+', both in 0x63..0x64 returns 0x401); other paths use CXiActor_IsFlag1d0Clear.",
+  "summary": "Compares the +0x1FF bytes of an actor and the actor ActerBuffPtr[DAT_10485F7A] when both have flag 0x400; its meaning is not established."
+ },
+ "0x101CC350": {
+  "name": "Unit101C72E0_CC4F0ActorTest400",
+  "confidence": "low",
+  "evidence": "Takes the actor from sub_101CC4F0; returns 1 when it is non-null with bit 0x400 at +0x1D0, its +0x1FF byte is not 8..9 when param_1 is set, and not 0x28..0x2B when param_2 is set; else 0.",
+  "summary": "Tests flag 0x400 and the +0x1FF byte of the actor from sub_101CC4F0."
+ },
+ "0x101CC510": {
+  "name": "Unit101C72E0_GetCC4F0ActorByIndexAt1FA",
+  "confidence": "high",
+  "evidence": "Body: return Acter_GetByIndexAt1FA(sub_101CC4F0()).",
+  "summary": "Acter_GetByIndexAt1FA of the actor from sub_101CC4F0."
+ },
+ "0x101CC550": {
+  "name": "Unit101C72E0_GetCC4F0ActorAt2A0",
+  "confidence": "high",
+  "evidence": "Body: return Unit101C72E0_GetActorAt2A0(sub_101CC4F0()).",
+  "summary": "Unit101C72E0_GetActorAt2A0 of the actor from sub_101CC4F0."
+ }
+}

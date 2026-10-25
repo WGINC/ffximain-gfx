@@ -1,0 +1,14 @@
+{
+ "0x101E24F0": {"name": "Unit101D7020_LoadDatSync", "confidence": "medium",
+  "evidence": "Sets self+0x1C to 1, builds a file name with sub_101E2880(local, param_1), constructs a stack dat entry (Unit1018BA60_DatEntryCtor kind 1, target self, 0x20), calls Unit1018BA60_LoadFromFile on it and destroys it (Unit1018BA60_ClearVtable), returning the load result. ret 4 (purges).",
+  "summary": "Loads the .dat file chosen by param_1 into this object synchronously through a temporary dat entry."},
+ "0x101F7600": {"name": "Unit101D7020_FormatTargetMapGrid", "confidence": "medium",
+  "evidence": "Resolves g_targetActorHandle, reads its position through vtable slot 0x1BC, queries g_pZoneMap and Unit101D7020_GetEntryPosition, and sprintf's into the static buffer 0x10663798 with the DLL strings \"(%c-%d)\" or \"(?-?)\"; returns that buffer, or 0 when there is no target.",
+  "summary": "Returns a static string with the map grid square of the current target, such as (H-8), or (?-?) when it cannot be placed."},
+ "0x101F82B0": {"name": "Unit101D7020_SubmitMarkerFile", "confidence": "medium",
+  "evidence": "Stores Unit101C72E0_Checksum(self+0x6D4, 0x1B8) at self+0x6D0, sprintf's \"M%03d%02d_%08d.MRK\" and submits it with Unit1018BA60_FileMngSubmitPathKind6, then sprintf's \"M%03d%02d.MRK\" and passes it with self+0x6CC, 0x1C0 bytes, to fn_101C4920 on g_pFileMng. ret 8 (purges).",
+  "summary": "Checksums the 0x1C0-byte marker block and submits it to the file manager under the name M%03d%02d.MRK made from its two arguments."},
+ "0x10202AF0": {"name": "Unit101D7020_DrawLabelIfStateGroup06Or38", "confidence": "low",
+  "evidence": "When the short at self+0x3A is not negative, IsEvent(3) is false and the actor from sub_101CC4F0 passes Acter_IsStateGroup06Or38, it calls sub_101CB0D0 and Unit101C72E0_DrawString(0x66, x-0x3A, y, ...) and returns 1 in the low byte; else 0. The function refers to the DLL string \"Fish\".",
+  "summary": "Draws a label at (x-0x3A, y) when the actor is in state group 6 or 0x38; what the label shows is not established."}
+}

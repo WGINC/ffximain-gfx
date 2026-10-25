@@ -1,0 +1,14 @@
+{
+ "0x10287FB0": {"name": "SqmdDMB_Resolve", "confidence": "high",
+  "evidence": "Its own strings: the error \"*** Error: sqmdDMBResolve: expe...\" (0x103B8E8C) when the buffer is not 16-aligned, and the trace \"%06ld ... sqmdDMBResolve\" (0x103B8E70). It checks the 'DMB' magic, then installs the model's function pointers and calls the texture, shader and updater resolvers.",
+  "summary": "sqmdDMBResolve: checks a loaded 'DMB' model image and fixes up its pointers in place."},
+ "0x102886D0": {"name": "SqmdDMB_ResolveTextures", "confidence": "high",
+  "evidence": "Trace string \"%06ld ... sqmdDMBResolveTextures\" (0x103B9004); per texture it installs function pointers (incl. sqrdTexturePrint), stores the texture into the table at model+0x1C and calls sqgxTextureAdd/sqgxTextureClutAdd.",
+  "summary": "sqmdDMBResolveTextures: fixes up and registers each texture of a DMB model."},
+ "0x10288950": {"name": "SqmdDMB_ResolveShaders", "confidence": "high",
+  "evidence": "Trace string \"%06ld ... sqmdDMBResolveShaders\" (0x103B90B0); per shader it stores the shader in the table at model+0x2C and, for type 0xF0001, installs function pointers and links its texture slots through SqmdDMB_TextureLink.",
+  "summary": "sqmdDMBResolveShaders: fixes up each shader of a DMB model and links its textures."},
+ "0x10288B70": {"name": "SqmdDMB_TextureLink", "confidence": "high",
+  "evidence": "Error string \"*** Error: sqmdDMBTextureLink: t...\" (0x103B90E8). Returns entry param_2 of the texture table at model+0x1C when param_2 < count at +0x24; 0xEFBEDDBA (unset marker) and out-of-range indices return 0.",
+  "summary": "sqmdDMBTextureLink: turns a texture index into the texture pointer, 0 for the unset marker or an invalid index."}
+}

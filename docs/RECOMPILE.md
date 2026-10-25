@@ -30,6 +30,16 @@ is not in the Rich header; a function is known to be one of them only when its r
   bytes: every byte outside a relocation equal, each relocation's target equal where the symbol names an address
   (reported otherwise), and the length the game function's up to alignment padding.
 
+## Matched functions (`recompile/`)
+
+`recompile/*.cpp` hold the sources that compile to the game's bytes; `match.py --all` checks every one (exit 1 unless
+all are IDENTICAL). 25 Oct: 14 functions in `recompile/small_math.cpp` -- the identity matrix and row copy below,
+Vec3/Vec4 copy, add, subtract and scale, a `return this`, an empty function, Mat4_SetTranslation, two clearing
+methods, a counter reset and Camera_GetFrameScale (a global read through a DIR32 relocation, its 1.0f constant
+reported, not compared). What the bytes showed beyond the behaviour: 0x10126350 begins `mov eax, ecx`, which is a
+constructor returning `this` (as MSVC constructors do), its stores in the reverse order a chained assignment gives;
+0x101BA5C0 ends `mov al, 1`, a `bool` return.
+
 ## First results (25 Oct)
 
 Two functions written by hand, compiled with `/O2`, identical to the game's bytes:

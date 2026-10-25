@@ -21,6 +21,7 @@ DIFFERS (the first differing offset, both instruction streams there), or MISSING
 
     FFXI_DLL=... VC6=... python3 pipeline/vc6/match.py SRC.cpp [--flags "/O2 ..."] [--keep DIR]
     VC6=... python3 pipeline/vc6/match.py --compid       the @comp.id this toolchain stamps (C and C++)
+    FFXI_DLL=... VC6=... python3 pipeline/vc6/match.py --all   every recompile/*.cpp; exits 1 unless all IDENTICAL
 """
 import argparse, json, os, re, shutil, struct, subprocess, sys, tempfile
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..', '..'); BASE = 0x10000000
@@ -127,9 +128,17 @@ def compid():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('src', nargs='?'); ap.add_argument('--flags', default='/O2'); ap.add_argument('--keep')
-    ap.add_argument('--compid', action='store_true'); ap.add_argument('--json')
+    ap.add_argument('--compid', action='store_true'); ap.add_argument('--json'); ap.add_argument('--all', action='store_true')
     o = ap.parse_args()
     if o.compid: return compid()
+    if o.all:
+        import glob
+        bad = 0
+        for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp'))):
+            r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', o.flags], capture_output=True, text=True)
+            print(os.path.basename(f) + ': ' + (r.stdout.splitlines() or ['(no output) ' + r.stderr[-300:]])[0])
+            bad += r.returncode != 0 or 'DIFFERS' in r.stdout or 'MISSING' in r.stdout
+        sys.exit(1 if bad else 0)
     import pefile
     img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
     ext = json.load(open(os.path.join(ROOT, 'data', 'func_extents.json')))

@@ -1,0 +1,164 @@
+{
+ "0x101AC250": {
+  "name": "FsTextInput_Reset",
+  "confidence": "low",
+  "evidence": "clears the history's first entry (Unit1018BA60_ClearFirstString on +0xA8), the flags +0/+0x38/+0xA4/+0x70, the 0x1C3-byte buffers +0x6C4 and +0x88C with their lengths +0x888 and +0xA50, +0xA58, and sets +0xC24",
+  "summary": "Clears the text input's buffers and state."
+ },
+ "0x101AC2C0": {
+  "name": "FsTextInput_HistoryNext",
+  "confidence": "low",
+  "evidence": "when the history position +0x6C0 is below +0x6BC: saves the current text (Unit1018BA60_SetCurrent), steps forward (Unit1018BA60_Advance), copies that entry into +0x6C4 (Unit1018BA60_CopyCurrent) and rebuilds the display text +0x88C (fn_101AC990)",
+  "summary": "Moves to the next history entry and shows it."
+ },
+ "0x101AC3D0": {
+  "name": "FsTextInput_HistoryPrev",
+  "confidence": "low",
+  "evidence": "as FsTextInput_HistoryNext, stepping back (Unit1018BA60_Retreat) while the position is above 0",
+  "summary": "Moves to the previous history entry and shows it."
+ },
+ "0x101AC5E0": {
+  "name": "FsTextInput_ExpandMarkedPhrase",
+  "confidence": "low",
+  "evidence": "for text starting with the byte 0xFD (fn_101AD1B0), reads the marked phrase up to the closing 0xFD and writes its expansion (0x101BC100), recursing for nested ones; returns the bytes used, 0 when not marked, -1 when too short",
+  "summary": "Expands one 0xFD-marked phrase of the input text."
+ },
+ "0x101AC990": {
+  "name": "FsTextInput_BuildDisplayText",
+  "confidence": "low",
+  "evidence": "copies the text arg3 (arg4 bytes) into the buffer arg1 of arg2 bytes, Shift-JIS character by character (Sjis_GetCharByteLen), expanding the 0xFD-marked phrases (FsTextInput_ExpandMarkedPhrase); returns the length or -1",
+  "summary": "Builds the display form of input text with its marked phrases expanded."
+ },
+ "0x101ACAC0": {
+  "name": "FsTextInput_BuildDisplayTextTrimmed",
+  "confidence": "low",
+  "evidence": "as FsTextInput_BuildDisplayText for text with leading spaces kept, writing into arg3 (arg4 bytes); returns the length or -1",
+  "summary": "Builds the display form of a text, keeping its leading spaces."
+ },
+ "0x101ACBE0": {
+  "name": "FsTextInput_HasMarkedPhrase",
+  "confidence": "low",
+  "evidence": "returns 1 in AL when any byte of the string (before its last two) is 0xFD (fn_101AD1B0)",
+  "summary": "Tests whether a text holds a 0xFD-marked phrase."
+ },
+ "0x101ACC30": {
+  "name": "FsTextInput_CommitEntry",
+  "confidence": "low",
+  "evidence": "takes the selected candidate entry (arg), stores its 4-byte codes in the code lists at +8 and +0x74 (fn_101ACF70), inserts its text (fn_101ACFB0) and rebuilds the display (fn_101ABC50); called by Unit1018BA60_InputSubmit",
+  "summary": "Inserts a chosen candidate entry into the input."
+ },
+ "0x101ACF40": {
+  "name": "FsTextInput_SetCode4",
+  "confidence": "low",
+  "evidence": "stores the low bytes of its four arguments at +0..+3",
+  "summary": "Sets a 4-byte code from four values."
+ },
+ "0x101ACF60": {
+  "name": "FsTextInput_MapCodeByte",
+  "confidence": "low",
+  "evidence": "returns the code's first byte when it is 0..6; above 6 returns 7 when it is below 0x13, else 0x13",
+  "summary": "Maps a code's first byte to its group."
+ },
+ "0x101ACF70": {
+  "name": "FsTextInput_CopyCode4",
+  "confidence": "low",
+  "evidence": "copies 4 bytes from arg to this",
+  "summary": "Copies a 4-byte code."
+ },
+ "0x101ACFB0": {
+  "name": "FsTextInput_InsertAtCursor",
+  "confidence": "low",
+  "evidence": "moves the text after the cursor +0xA58 by the insert length +0xC70 (0x103149D0) and copies the 0xC70 bytes from +0xC2C in at the cursor, sets +0xC24, then rebuilds the display text (FsTextInput_BuildDisplayText)",
+  "summary": "Inserts the pending text at the cursor."
+ },
+ "0x101AD0D0": {
+  "name": "FsTextInput_DeleteLastWord",
+  "confidence": "low",
+  "evidence": "unless the text ends in a space, cuts it back to its last word start (Text_CountChars), stores the new length and rebuilds the display text",
+  "summary": "Deletes the last word of the input text."
+ },
+ "0x101AD1B0": {
+  "name": "FsTextInput_IsMarkerAt",
+  "confidence": "medium",
+  "evidence": "returns 1 in AL when the byte at arg1+arg2 is 0xFD",
+  "summary": "Tests for the 0xFD marker byte at a position."
+ },
+ "0x101AD4B0": {
+  "name": "Unit1018BA60_ProcessInputLine",
+  "confidence": "low",
+  "evidence": "takes an input line (arg1, arg2 bytes): checks for a leading '/' (Unit1018BA60_IsSlashChar) and a known command word (fn_101ADBE0), and converts the text through the text input's display builders (fn_101B7280, fn_101B72B0) before handing it on; called by 0x10080DC0",
+  "summary": "Processes a typed line, recognising slash commands."
+ },
+ "0x101ADBD0": {
+  "name": "Unit1018BA60_Call101B72E0",
+  "confidence": "low",
+  "evidence": "returns 0x101B72E0(arg)",
+  "summary": "Forwards to 0x101B72E0."
+ },
+ "0x101ADBE0": {
+  "name": "Unit1018BA60_IsKnownCommand",
+  "confidence": "low",
+  "evidence": "compares the start of the text with each of the 34 strings of the table 0x1037AB98 and returns 1 in AL when one matches and is followed by a space",
+  "summary": "Tests whether a text starts with one of the 34 known command words."
+ },
+ "0x101ADE00": {
+  "name": "Unit1018BA60_ShortcutCtor",
+  "confidence": "low",
+  "evidence": "sets vtable 0x1033791C, +4 = -1, +8 = 0, two empty 0x79-byte strings from +0xC, +0x104 = 0 and +0x105 = 1",
+  "summary": "Constructs an empty shortcut entry."
+ },
+ "0x101ADEC0": {
+  "name": "Unit1018BA60_ShortcutSet",
+  "confidence": "low",
+  "evidence": "stores arg1/arg2 at +4/+8 (the input id and the handler), the two strings at +0xC and +0x85, arg5 at +0x100 and +0x105 = 2",
+  "summary": "Sets a shortcut's input, handler, two texts and kind."
+ },
+ "0x101ADF20": {
+  "name": "Unit1018BA60_ShortcutCheck",
+  "confidence": "low",
+  "evidence": "when the shortcut's input (0x10123A70(0x3F, +4, ...)) is pressed and FsShortcut_CanUseShortcut(+0x100) allows it, picks the text (cycling +0x104 through +0x105 texts when the callback arg says so) and calls the handler +8 with it",
+  "summary": "Runs a shortcut's handler with its text when its input is pressed."
+ },
+ "0x101AE3E0": {
+  "name": "Unit1018BA60_UpdateShortcuts",
+  "confidence": "low",
+  "evidence": "in scene state 0x60, unless the text input is in mode 4 or 5 (Unit1018BA60_IsModeFourOrFive), checks the shortcut entries at +4, +0x52C, ... (Unit1018BA60_ShortcutCheck, 19 calls); called by Frame_Render",
+  "summary": "Checks the menu and macro shortcuts each frame."
+ },
+ "0x101AEA40": {
+  "name": "Unit1018BA60_CtorVt10337940",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10337940, +0x2C = 0 (language 0) or 0xB, and clears +0x14..+0x28",
+  "summary": "Constructs a menu item with vtable 0x10337940."
+ },
+ "0x101AEAC0": {
+  "name": "Unit1018BA60_InitKeyTopShape",
+  "confidence": "low",
+  "evidence": "finds the shape \"menu    key1top \" (language 0) or \"menu    key1topu\" (ShapeMng_FindShape) into +0x18, stores arg at +0x1C and clears +0x14/+0x24/+0x28; returns 1 or -1",
+  "summary": "Loads the key-top shape for the language."
+ },
+ "0x101AFF30": {
+  "name": "Unit1018BA60_NoOpC",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ },
+ "0x101AFF40": {
+  "name": "Unit1018BA60_NoOpD",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ },
+ "0x101B27F0": {
+  "name": "Unit1018BA60_NoOp2ArgsA",
+  "confidence": "medium",
+  "evidence": "takes two stack arguments (ret 8) and returns",
+  "summary": "Does nothing."
+ },
+ "0x101B2800": {
+  "name": "Unit1018BA60_NoOp2ArgsB",
+  "confidence": "medium",
+  "evidence": "takes two stack arguments (ret 8) and returns",
+  "summary": "Does nothing."
+ }
+}

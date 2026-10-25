@@ -69,7 +69,7 @@ XI_API int __cdecl PlaybackChannel_Load(undefined4 * param_1, undefined4 * param
         do {
           puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9,4,1,param_1,(int)puVar7);
           puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + 1,4,1,puVar4,(int)puVar7);
-          orig::FUN_10293f00((int)(piVar9 + -2),piVar9[1]);
+          orig::Unit10293EE0_SetHandlerByType((int)(piVar9 + -2),piVar9[1]);
           puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + 2,4,1,puVar4,(int)puVar7);
           puVar4 = orig::Unit1028A0A0_ReadBlock(piVar9 + -2,4,1,puVar4,(int)puVar7);
           piVar9[-1] = (int)param_2;
@@ -99,6 +99,6 @@ XI_API int __cdecl PlaybackChannel_Load(undefined4 * param_1, undefined4 * param
     }
     return (int)puVar5;
   }
-  orig::sqDebugPrintf_v2(s_____Error__PlaybackChannel_versi_103b7bf4,local_20,3);
+  orig::sqDebugPrintf_v1(s_____Error__PlaybackChannel_versi_103b7bf4,local_20,3);
   return 0;
 }

@@ -45,6 +45,75 @@ char ** __cdecl CMoTask::GetRuntimeClass_variant2()
   return &CMoTask_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10035A00  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 10 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CMoTask::CtorByMode(void * self, undefined4 param_1, int param_2, undefined4 param_3)
+{
+  int *piVar1;
+  int *piVar2;
+  int *piVar3;
+  uint32_t uVar4;
+  
+  orig::CMoTask_Constructor_v2(self);
+  *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032a904;
+  *(uint32_t *)((int)self + 0x34) = param_3;
+  piVar1 = DAT_10463928;
+  piVar2 = DAT_10463930;
+  piVar3 = DAT_10463934;
+  switch(param_3) {
+  case 1:
+    if (DAT_1046392c != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1046392c + 0x18))))((void *)(DAT_1046392c),1);
+    }
+    DAT_1046392c = self;
+    *(uint32_t *)((int)self + 0x40) = DAT_10351700_as_v0;
+    goto switchD_10035a1f_caseD_3;
+  case 2:
+    uVar4 = DAT_10351704_as_v0;
+    piVar1 = self;
+    if (DAT_10463928 != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463928 + 0x18))))((void *)(DAT_10463928),1);
+      uVar4 = DAT_10351704_as_v0;
+      piVar1 = self;
+      piVar2 = DAT_10463930;
+      piVar3 = DAT_10463934;
+    }
+    break;
+  default:
+    goto switchD_10035a1f_caseD_3;
+  case 4:
+    uVar4 = DAT_10351708_as_v0;
+    piVar2 = self;
+    if (DAT_10463930 != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463930 + 0x18))))((void *)(DAT_10463930),1);
+      uVar4 = DAT_10351708_as_v0;
+      piVar1 = DAT_10463928;
+      piVar2 = self;
+      piVar3 = DAT_10463934;
+    }
+    break;
+  case 8:
+    uVar4 = DAT_1035170c;
+    piVar3 = self;
+    if (DAT_10463934 != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463934 + 0x18))))((void *)(DAT_10463934),1);
+      uVar4 = DAT_1035170c;
+      piVar1 = DAT_10463928;
+      piVar2 = DAT_10463930;
+      piVar3 = self;
+    }
+  }
+  DAT_10463934 = piVar3;
+  DAT_10463930 = piVar2;
+  DAT_10463928 = piVar1;
+  *(uint32_t *)((int)self + 0x40) = uVar4;
+switchD_10035a1f_caseD_3:
+  *(uint32_t *)((int)self + 0x44) = param_1;
+  *(float *)((int)self + 0x38) = (float)(long double)param_2;
+  *(float *)((int)self + 0x3c) = (float)(long double)param_2;
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x10035D40  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
@@ -57,7 +126,7 @@ void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
   orig::CMoTask_ResetFields_v1(pvVar1);
   g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,2);
+    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,2);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -77,7 +146,7 @@ void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
   orig::CMoTask_ResetFields_v1(pvVar1);
   g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,1);
+    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,1);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -97,7 +166,7 @@ void __cdecl CMoTask::CreateMode4(undefined4 param_1, int param_2)
   orig::CMoTask_ResetFields_v1(pvVar1);
   g_resourcesDirty_as_v0 = 1;
   if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::FUN_10035a00(pvVar1,param_1,param_2,4);
+    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,4);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -253,6 +322,18 @@ void __thiscall CMoTask::InitAndRegister(void * self, undefined4 param_1, undefi
 char ** __cdecl CMoTask::GetRuntimeClass_variant12()
 {
   return &CMoTask_classdesc;
+}
+
+// FUNCTION: FFXIMAIN 0x10074740  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CMoTask::Constructor(void * self)
+{
+  *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032c978;
+  if (byte_1047D13D == '\0') {
+    orig::CMoTask_ResetFields_v2(self);
+    orig::FUN_100749f0_v1();
+  }
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x10074770  (placed by tree manifest)

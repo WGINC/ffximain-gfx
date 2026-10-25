@@ -65,6 +65,17 @@ void __thiscall CXiActor::Init(void * self)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10081CF0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CXiActor::ConstructBase(void * self)
+{
+  orig::CMoTask_Constructor_v1(self);
+  orig::ActorHandle_Constructor_v1((void *)((int)self + 0x5c));
+  *(uint8_t ***)self = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
+  orig::CXiActor_Init(self);
+  return self;
+}
+
 // FUNCTION: FFXIMAIN 0x10082070  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 double CXiActor::CXiSkeletonActor_GetMoveSpeed()
@@ -253,7 +264,7 @@ uint32_t __thiscall CXiActor::NameCalc(void * self, undefined4 * param_1, int pa
   int64_t lVar6;
   
   *param_3 = 1.0f;
-  uVar2 = orig::FUN_10082fb0(param_1,(uint32_t *)param_2);
+  uVar2 = orig::Unit10082F60_ProjectThroughCamera(param_1,(uint32_t *)param_2);
   if ((char)uVar2 == '\0') {
     return uVar2;
   }
@@ -348,15 +359,15 @@ undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint3
       return uVar3 & 0xffffff00;
     }
     if ((((param_3 & uVar3) == 0) &&
-        ((uVar3 = orig::FUN_101cc1d0((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
+        ((uVar3 = orig::Unit101C72E0_ActorTest1D0((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
+       ((uVar3 = orig::Unit101C72E0_ActorPairTest1FF((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
       return uVar3 & 0xffffff00;
     }
     uVar10 = orig::Settings_GetValue_v1(0x97);
     if ((((((int)uVar10 != 0) && ((*(uint32_t *)((int)self + 0x1d0) & 0x100) != 0)) &&
          (uVar3 = *(uint32_t *)((int)self + 300), (uVar3 >> 0xd & 1) != 0)) &&
         (((uVar3 >> 0x1e & 1) == 0 && (-1 < (int)uVar3)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self,0), (char)uVar3 == '\0' && ((void *)param_2 != self)))) {
+       ((uVar3 = orig::Unit101C72E0_ActorPairTest1FF((int)self,0), (char)uVar3 == '\0' && ((void *)param_2 != self)))) {
       return uVar3 & 0xffffff00;
     }
     uVar10 = orig::Settings_GetValue_v1(0xaa);
@@ -434,7 +445,7 @@ int * __cdecl CXiActor::FindNearestToPoint(float * param_1, uint32_t param_2, ui
     orig::Mat4_PostMultiply_v1(local_40,iVar2);
     local_74 = (int *)0x0;
     local_7c = 1e+09f;
-    local_70 = orig::FUN_101cc510();
+    local_70 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
     uVar6 = orig::FUN_10085240();
     self = (int *)uVar6;
     if (self != (int *)0x0) {
@@ -519,7 +530,7 @@ int * __cdecl CXiActor::FindNearestLowerInView(int * param_1, uint32_t param_2, 
   piStack_64 = (int *)0x0;
   fStack_68 = 3.6e+03f;
   fVar1 = (float)(((long double)afStack_50[0] / (long double)fStack_6c) * fVar8);
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   uVar10 = orig::FUN_10085240();
   self = (int *)uVar10;
   while (self != (int *)0x0) {
@@ -605,7 +616,7 @@ int * __cdecl CXiActor::FindNearestHigherInView(int * param_1, uint32_t param_2,
   piStack_64 = (int *)0x0;
   fStack_68 = 3.6e+03f;
   fVar1 = (float)(((long double)afStack_50[0] / (long double)fStack_6c) * fVar8);
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   uVar10 = orig::FUN_10085240();
   self = (int *)uVar10;
   while (self != (int *)0x0) {
@@ -714,7 +725,7 @@ int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, 
   orig::Mat4_InvertOrthonormal_v1(local_40);
   piStack_54 = (int *)0x0;
   fStack_58 = 2.5e+03f;
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   self = (void *)piVar4[0x1c];
   uVar14 = orig::FUN_10085240();
   piVar4 = (int *)uVar14;
@@ -744,7 +755,7 @@ int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, 
           }
         }
         if (*(short *)(iVar2 + 0x210) == 0) {
-          uVar9 = orig::FUN_101cc220(iVar2,uVar9);
+          uVar9 = orig::Unit101C72E0_ActorPairTest1FF(iVar2,uVar9);
           cVar3 = (char)uVar9;
         }
         else {
@@ -1161,7 +1172,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
               aiStack_204[iVar1 + 1] = iVar2;
               iVar1 = iVar1 + 1;
               if (0x7f < iVar1) {
-                orig::nullsub_13_v1(&DAT_10358288);
+                orig::Unit10017C10_NoOpVarargsA_v1(&DAT_10358288);
                 goto joined_r0x100851b9;
               }
             }
@@ -1620,7 +1631,7 @@ uint32_t __thiscall CXiActor::CorrectOnZoneMap(void * self)
   orig::Mat4_SetTranslation_v1(local_40,pfVar1);
   orig::Mat4_TransformPointInPlace_v1(local_40,local_70);
   orig::Mat4_TransformPointInPlace_v1(local_40,local_70 + 4);
-  uVar4 = orig::FUN_10181590(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
+  uVar4 = orig::ZoneMap_Query1693B0(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
   if ((char)uVar4 != '\0') {
     *pfVar1 = (float)(((long double)local_70[8] - (long double)local_70[0]) + (long double)*pfVar1);
     *(float *)((int)self + 0x604) =

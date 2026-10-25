@@ -54,9 +54,52 @@ XI_API int __cdecl SqMem_GetPayloadEnd(int param_1)
   return *(int *)(param_1 + 4) + 0x10 + param_1;
 }
 
+// FUNCTION: FFXIMAIN 0x10275510  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint64_t __cdecl SqMem_Check(void)
+{
+  int iVar1;
+  int iVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  int iVar5;
+  uint64_t uVar6;
+  char xi_frame[152] __attribute__((aligned(4)));
+  int  &iVar7 = *reinterpret_cast<int  *>(xi_frame + 0);
+  uint8_t * &puVar8 = *reinterpret_cast<uint8_t * *>(xi_frame + 4);
+  uint32_t  &uVar9 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  uint8_t  (&local_80)[128] = *reinterpret_cast<uint8_t  (*)[128]>(xi_frame + 24);
+  
+  iVar1 = DAT_1099d1f8_as_s32;
+  uVar6 = orig::sqDebugPrintf_v1(s_sqMemCheck____________103b2978);
+  uVar4 = (uint32_t)((uint64_t)uVar6 >> 0x20);
+  uVar3 = (&DAT_1099cf4c)[iVar1 * 0x18];
+  iVar5 = 0;
+  if (uVar3 < (uint32_t)(&DAT_1099cf50)[iVar1 * 0x18]) {
+    do {
+      iVar7 = uVar3 + 0x10;
+      iVar2 = orig::SqMem_ClassifyBlock(iVar7);
+      if ((iVar2 == 2) || (iVar2 == 3)) {
+        puVar8 = local_80;
+        uVar9 = 0;
+        orig::FUN_102756a0(iVar7,uVar4);
+        uVar6 = orig::sqDebugPrintf_v1(&DAT_10361dc0,local_80,iVar7,puVar8,uVar9);
+        uVar4 = (uint32_t)((uint64_t)uVar6 >> 0x20);
+        iVar5 = iVar5 + 1;
+      }
+      uVar3 = orig::SqMem_GetPayloadEnd(uVar3);
+    } while (uVar3 < (uint32_t)(&DAT_1099cf50)[iVar1 * 0x18]);
+    if (iVar5 != 0) goto LAB_1027559c;
+  }
+  orig::sqDebugPrintf_v1(s_Memory_check_successful_103b295c);
+LAB_1027559c:
+  uVar6 = orig::sqDebugPrintf_v1(s____________103b2950);
+  return uVar6;
+}
+
 // FUNCTION: FFXIMAIN 0x102755C0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(2))) fn_102755C0(undefined4 xi_eax, undefined4 xi_edx, int param_1, int param_2)
+XI_API void __attribute__((cdecl, regparm(2))) SqMem_HexDump(undefined4 xi_eax, undefined4 xi_edx, int param_1, int param_2)
 {
   int iVar1;
   uint64_t uVar2;
@@ -73,7 +116,7 @@ XI_API void __attribute__((cdecl, regparm(2))) fn_102755C0(undefined4 xi_eax, un
       uVar5 = 1;
       iVar3 = iVar1 + param_1;
       orig::FUN_102756a0(iVar3,xi_edx);
-      uVar2 = orig::sqDebugPrintf_v4(&DAT_10361dc0,local_80,iVar3,puVar4,uVar5);
+      uVar2 = orig::sqDebugPrintf_v1(&DAT_10361dc0,local_80,iVar3,puVar4,uVar5);
       xi_edx = (uint32_t)((uint64_t)uVar2 >> 0x20);
       iVar1 = iVar1 + 0x10;
     } while (iVar1 < param_2);
@@ -100,6 +143,61 @@ XI_API undefined4 * __cdecl SqMem_FindArena(uint32_t param_1)
   return puVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x10275B60  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl sqMemPoolRegister(int param_1, uint32_t param_2, int param_3, undefined4 xi_s4)
+{
+  if ((param_2 & 0xf) != 0) {
+    orig::sqDebugPrintf_v1(s_Warning__poolMem__0x_08X__not__d_103b2b28,param_2,0x10);
+    do {
+      param_2 = param_2 + 1;
+      param_3 = param_3 + -1;
+    } while ((param_2 & 0xf) != 0);
+    if (param_3 == 0) {
+      orig::sqDebugPrintf_v1(s_couldn_t_realign_memory_103b2b0c);
+      return;
+    }
+    orig::sqDebugPrintf_v1(s_poolMem___0x_08X_103b2af4,param_2);
+    orig::sqDebugPrintf_v1(s_poolSize____d_bytes_103b2adc,param_3);
+  }
+  if ((&DAT_1099cf4c)[param_1 * 0x18] == 0) {
+    (&DAT_1099cef8)[param_1 * 0x18] = param_3;
+    orig::_sprintf_v1(((char *)&DAT_1099cefc) + param_1 * 0x60,s___78s_103b2aa0,xi_s4);
+    (&DAT_1099cf4c)[param_1 * 0x18] = param_2;
+    (&DAT_1099cf50)[param_1 * 0x18] = param_2;
+    (&DAT_1099cf54)[param_1 * 0x18] = (&DAT_1099cef8)[param_1 * 0x18] + param_2;
+    return;
+  }
+  orig::sqDebugPrintf_v1(s_Error__memory_pool___d__already_c_103b2aa8,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10275CC0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SqMem_PrintPools(void)
+{
+  char *pcVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  
+  iVar3 = 0;
+  puVar2 = &DAT_1099cf4c;
+  do {
+    pcVar1 = s_CURRENT_103b2bc8;
+    if (iVar3 != DAT_1099d1f8_as_s32) {
+      pcVar1 = &Read_as_v0;
+    }
+    orig::sqDebugPrintf_v1(s__2d___Memory_Pool___s___s_103b2bac,iVar3,puVar2 + -0x14,pcVar1);
+    orig::sqDebugPrintf_v1(s_Size____d_bytes_103b2b94,puVar2[-0x15]);
+    orig::sqDebugPrintf_v1(s_Head___0x_08X_103b2b80,*puVar2);
+    orig::sqDebugPrintf_v1(s_Lo___0x_08X_103b2b6c,puVar2[1]);
+    orig::sqDebugPrintf_v1(s_Hi___0x_08X_103b2b58,puVar2[2]);
+    puVar2 = puVar2 + 0x18;
+    iVar3 = iVar3 + 1;
+  } while (iVar3 < 8);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10275D40  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqMem_AllocZeroed(int param_1, int param_2, undefined4 param_3, undefined4 param_4)
@@ -121,4 +219,206 @@ XI_API undefined4 * __cdecl SqMem_AllocZeroed(int param_1, int param_2, undefine
     }
   }
   return puVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x10275E90  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 * __cdecl SqMem_Realloc(undefined4 * param_1, uint32_t param_2, undefined4 param_3, undefined4 param_4)
+{
+  undefined4 *puVar1;
+  int iVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  void *self_;
+  uint32_t uVar5;
+  uint32_t uVar6;
+  undefined4 *puVar7;
+  undefined4 *puVar8;
+  uint64_t uVar9;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    puVar1 = orig::FUN_10275d80(1,param_2,param_3,param_4);
+    return puVar1;
+  }
+  uVar6 = param_2 & 0xfffffff0;
+  if (uVar6 != param_2) {
+    uVar6 = uVar6 + 0x10;
+  }
+  if ((param_2 == 0) || (uVar6 == 0)) {
+    orig::sqDebugPrintf_v1(s_Invalid_size___sqRealloc__d_byte_103b2c68,param_2,param_3,param_4);
+    return (undefined4 *)0x0;
+  }
+  puVar1 = orig::SqMem_FindArena((uint32_t)param_1);
+  if (puVar1 == (undefined4 *)0x0) {
+    orig::sqDebugPrintf_v1(s_Invalid_realloc_address__0x_08x__103b2d68);
+    orig::sqDebugPrintf_v1(s_called_from____s___d__103b2d4c,param_3,param_4);
+    return (undefined4 *)0x0;
+  }
+  iVar2 = orig::SqMem_ClassifyBlock((int)param_1);
+  if (iVar2 != 0) {
+    orig::sqDebugPrintf_v1(s__sqRealloc_encountered_corrupt_m_103b2d18,s_VALID_103b2850 + iVar2 * 0x10);
+    orig::sqDebugPrintf_v1(s_called_from____s___d__103b2d4c,param_3,param_4);
+    orig::sqDebugPrintf_v1(s_block_info_____s___d__103b2cfc,param_1[-2],param_1[-1]);
+    uVar9 = orig::SqMem_Check();
+    orig::SqMem_HexDump((int)(param_1 + -4),0x100,(int)uVar9,(int)((uint64_t)uVar9 >> 0x20));
+    return (undefined4 *)0x0;
+  }
+  uVar4 = param_1[-3];
+  if (uVar6 <= uVar4) {
+    return param_1;
+  }
+  if ((undefined4 *)(uVar4 + (int)param_1) == (undefined4 *)puVar1[0x16]) {
+    uVar5 = uVar6 + 0x10 + (int)(param_1 + -4);
+    if (uVar5 <= (uint32_t)puVar1[0x17]) {
+      puVar7 = (undefined4 *)(uVar4 + (int)param_1);
+      for (uVar3 = uVar6 - uVar4 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
+        *puVar7 = 0xaaaaaaaa;
+        puVar7 = puVar7 + 1;
+      }
+      for (uVar4 = uVar6 - uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
+        *(uint8_t *)puVar7 = 0xaa;
+        puVar7 = (undefined4 *)((int)puVar7 + 1);
+      }
+      param_1[-3] = uVar6;
+      if (uVar6 != param_2) {
+        puVar7 = (undefined4 *)((int)param_1 + param_2);
+        for (uVar4 = uVar6 - param_2 >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
+          *puVar7 = 0xffffffff;
+          puVar7 = puVar7 + 1;
+        }
+        for (uVar6 = uVar6 - param_2 & 3; uVar6 != 0; uVar6 = uVar6 - 1) {
+          *(uint8_t *)puVar7 = 0xff;
+          puVar7 = (undefined4 *)((int)puVar7 + 1);
+        }
+      }
+      puVar1[0x16] = uVar5;
+      return param_1;
+    }
+    orig::sqDebugPrintf_v1(s_Memory_pool_full___sqRealloc__d_b_103b2cc4,param_2,param_3,param_4);
+    return (undefined4 *)0x0;
+  }
+  puVar1 = orig::FUN_10275d80(1,param_2,param_3,param_4);
+  if (puVar1 == (undefined4 *)0x0) {
+    orig::sqDebugPrintf_v1(s__sqRealloc_memory_move_warning__103b2ca0);
+    orig::FUN_102751d0(self_);
+    return (undefined4 *)0x0;
+  }
+  uVar4 = param_1[-3];
+  puVar7 = param_1;
+  puVar8 = puVar1;
+  for (uVar5 = uVar4 >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+    *puVar8 = *puVar7;
+    puVar7 = puVar7 + 1;
+    puVar8 = puVar8 + 1;
+  }
+  for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
+    *(uint8_t *)puVar8 = *(uint8_t *)puVar7;
+    puVar7 = (undefined4 *)((int)puVar7 + 1);
+    puVar8 = (undefined4 *)((int)puVar8 + 1);
+  }
+  uVar5 = uVar6 - param_1[-3];
+  puVar7 = (undefined4 *)((int)puVar1 + param_1[-3]);
+  for (uVar4 = uVar5 >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
+    *puVar7 = 0xaaaaaaaa;
+    puVar7 = puVar7 + 1;
+  }
+  for (uVar5 = uVar5 & 3; uVar5 != 0; uVar5 = uVar5 - 1) {
+    *(uint8_t *)puVar7 = 0xaa;
+    puVar7 = (undefined4 *)((int)puVar7 + 1);
+  }
+  if (uVar6 != param_2) {
+    puVar7 = (undefined4 *)((int)puVar1 + param_2);
+    for (uVar4 = uVar6 - param_2 >> 2; uVar4 != 0; uVar4 = uVar4 - 1) {
+      *puVar7 = 0xffffffff;
+      puVar7 = puVar7 + 1;
+    }
+    for (uVar6 = uVar6 - param_2 & 3; uVar6 != 0; uVar6 = uVar6 - 1) {
+      *(uint8_t *)puVar7 = 0xff;
+      puVar7 = (undefined4 *)((int)puVar7 + 1);
+    }
+  }
+  DAT_103b2848 = 0xdeadbeef;
+  orig::sqFree_v1((int)param_1,param_3,param_4);
+  DAT_103b2848 = 0xabbadaba;
+  return puVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102760F0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl sqFree(int param_1, undefined4 param_2, undefined4 param_3)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  int *piVar3;
+  int *piVar4;
+  int *piVar5;
+  uint32_t uVar6;
+  uint32_t uVar7;
+  int *piVar8;
+  uint64_t uVar9;
+  
+  if (param_1 == 0) {
+    orig::sqDebugPrintf_v1(s_Attempt_to_free_NULL_address_in___103b2e24,param_2,param_3);
+    return 0;
+  }
+  if (*(int *)(param_1 + -0x10) == -0x54452546) {
+    orig::sqDebugPrintf_v1(s_Attempt_to_refree_memory_in___s__103b2df8,param_2,param_3);
+    return 0;
+  }
+  if (*(int *)(param_1 + -0x10) == -0x21524111) {
+    orig::sqDebugPrintf_v1(s_Attempt_to_free_moved_memory_in___103b2dc8,param_2,param_3);
+    return 0;
+  }
+  iVar1 = orig::SqMem_ClassifyBlock(param_1);
+  if (iVar1 != 0) {
+    uVar9 = orig::sqDebugPrintf_v1(s__sqFree_encountered_bad_memory_b_103b2d8c,s_VALID_103b2850 + iVar1 * 0x10
+                         ,param_2,param_3);
+    orig::SqMem_HexDump(param_1 + -0x10,0x100,(int)uVar9,(int)((uint64_t)uVar9 >> 0x20));
+    return 0;
+  }
+  uVar7 = *(uint32_t *)(param_1 + -0xc);
+  puVar2 = (undefined4 *)param_1;
+  for (uVar6 = uVar7 >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+    *puVar2 = 0xeeeeeeee;
+    puVar2 = puVar2 + 1;
+  }
+  for (uVar7 = uVar7 & 3; uVar7 != 0; uVar7 = uVar7 - 1) {
+    *(uint8_t *)puVar2 = 0xee;
+    puVar2 = (undefined4 *)((int)puVar2 + 1);
+  }
+  *(undefined4 *)(param_1 + -0x10) = DAT_103b2848;
+  puVar2 = orig::SqMem_FindArena(param_1);
+  if (puVar2 != (undefined4 *)0x0) {
+    piVar5 = (int *)puVar2[0x15];
+    piVar8 = (int *)puVar2[0x16];
+    if (piVar5 < piVar8) {
+      do {
+        if ((*piVar5 == -0x54452546) || (*piVar5 == -0x21524111)) {
+          piVar3 = (int *)orig::SqMem_GetPayloadEnd((int)piVar5);
+          piVar4 = piVar3;
+          if (piVar3 < piVar8) {
+            do {
+              piVar4 = piVar3;
+              if (*piVar3 == -0x35010113) break;
+              iVar1 = piVar5[1];
+              piVar5[1] = iVar1 + 0x10;
+              piVar5[1] = piVar3[1] + iVar1 + 0x10;
+              piVar4 = (int *)orig::SqMem_GetPayloadEnd((int)piVar3);
+              *piVar3 = -0x11111112;
+              piVar3[1] = -0x11111112;
+              piVar3[2] = -0x11111112;
+              piVar3[3] = -0x11111112;
+              piVar3 = piVar4;
+            } while (piVar4 < (int *)puVar2[0x16]);
+          }
+          if ((int *)puVar2[0x16] <= piVar4) {
+            puVar2[0x16] = piVar5;
+          }
+        }
+        piVar5 = (int *)orig::SqMem_GetPayloadEnd((int)piVar5);
+        piVar8 = (int *)puVar2[0x16];
+      } while (piVar5 < piVar8);
+    }
+  }
+  return 0;
 }

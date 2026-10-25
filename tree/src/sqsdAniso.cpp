@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102993B0  (unit sqsdAniso: between 0x10299390 (asserts sqsdAniso.c) and 0x10299610 (name sqsdAniso_BakeOntoShape), both within 4 KB)
 // GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
+XI_API void __cdecl SqsdAniso_DrawPasses(int * param_1, int * param_2)
 {
   uint32_t uVar1;
   int *piVar2;
@@ -39,7 +39,7 @@ XI_API void __cdecl fn_102993B0(int * param_1, int * param_2)
   }
   if ((((param_1[0x16] != 0) && (*param_1 != 0xa000b)) && (iVar4 != 0)) &&
      (*(int *)(iVar4 + 100) == 0)) {
-    orig::FUN_102912f0(*param_2);
+    orig::Unit10291200_CallHook40(*param_2);
   }
   if ((param_1[0x13] & 2U) != 0) {
     uVar5 = 0x4000;
@@ -102,7 +102,7 @@ LAB_102995bf:
     }
     uVar6 = 0;
   }
-  orig::FUN_1029c460(uVar6);
+  orig::Sqgx_SetContextFieldE24(uVar6);
 LAB_102995c9:
   orig::sqDrawableDraw_v1(*param_2);
   if (param_1[0x15] != 0) {
@@ -135,7 +135,7 @@ XI_API int * __cdecl sqsdAniso_BakeOntoShape(int param_1, int * param_2)
     }
     orig::sqgxShader_v1(uVar6,0);
     if ((*(int *)(param_1 + 0x58) != 0) && (*(int *)(iVar1 + 100) == 0)) {
-      orig::FUN_102912f0((int)param_2);
+      orig::Unit10291200_CallHook40((int)param_2);
     }
     iVar2 = *(int *)(param_1 + 0x58);
     if (iVar2 == 0) {
@@ -157,7 +157,7 @@ XI_API int * __cdecl sqsdAniso_BakeOntoShape(int param_1, int * param_2)
     piVar4 =(int*)(orig::SqshDispList_Create());
     piVar4[0x11] = (int)puVar3;
     orig::Unit1028D970_Copy(piVar4 + 5,param_2 + 5);
-    orig::FUN_10285740((int *)&param_2);
+    orig::SqObject_Release((int *)&param_2);
   }
   return piVar4;
 }

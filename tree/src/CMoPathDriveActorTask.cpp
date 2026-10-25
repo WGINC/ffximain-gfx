@@ -117,10 +117,10 @@ LAB_1005ed09:
     }
   }
   pvVar4 = (void *)((int)self + 0x34);
-  uVar10 = orig::FUN_1003b6d0(pvVar4);
+  uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
   if ((int)uVar10 != 0) {
     ppuVar11 = &PTR_s_CXiControlActor_1032df68;
-    uVar10 = orig::FUN_1003b6d0(pvVar4);
+    uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
     uVar10 = orig::CYyObject_IsKindOf((void *)uVar10,(int)ppuVar11);
     if ((char)uVar10 != '\0') {
       if (*(char *)((int)self + 0xa1) == '\0') {
@@ -130,7 +130,7 @@ LAB_1005ed09:
           fStack_2c = pfVar1[1];
           fStack_28 = pfVar1[2];
           fStack_24 = pfVar1[3];
-          uVar10 = orig::FUN_1003b6d0(pvVar4);
+          uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
           pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*(int *)uVar10 + 0x1bc))))((void *)((int *)uVar10));
           orig::FUN_1005ed90(&fStack_30,pfVar1);
           pfVar1 = &fStack_30;
@@ -140,30 +140,30 @@ LAB_1005ed09:
       else {
         pfVar1 = &fStack_20;
 LAB_1005eb95:
-        uVar10 = orig::FUN_1003b6d0(pvVar4);
+        uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
         orig::CXiControlActor_SetVec4((void *)uVar10,pfVar1);
       }
       if ((*(int *)((int)self + 0x9c) != 0) && (*(char *)((int)self + 0xa0) != '\0')) {
         if (*(char *)((int)self + 0xa3) == '\0') {
           ppuVar11 = &XiModelActor_classdesc;
-          uVar10 = orig::FUN_1003b6d0(pvVar4);
+          uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
           uVar10 = orig::CYyObject_IsKindOf((void *)uVar10,(int)ppuVar11);
           if ((char)uVar10 != '\0') {
             puVar12 = &uStack_40;
-            uVar10 = orig::FUN_1003b6d0(pvVar4);
+            uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
             orig::FUN_1005eec0((void *)uVar10,puVar12);
           }
           puVar12 = &uStack_40;
-          uVar10 = orig::FUN_1003b6d0(pvVar4);
+          uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
           orig::FUN_1005ee90((void *)uVar10,puVar12);
           puVar12 = &uStack_40;
-          uVar10 = orig::FUN_1003b6d0(pvVar4);
+          uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
           orig::FUN_1005edc0((void *)uVar10,puVar12);
           *(uint8_t *)((int)self + 0xa3) = 1;
         }
         else if (bVar6) {
           puVar12 = &uStack_40;
-          uVar10 = orig::FUN_1003b6d0(pvVar4);
+          uVar10 = orig::CMoAttachments_GetCaster_v1(pvVar4);
           orig::FUN_1005ee90((void *)uVar10,puVar12);
         }
       }
@@ -252,10 +252,10 @@ undefined4 __thiscall CMoPathDriveActorTask::ApplyFraction(void * self, undefine
     }
   }
   this_00 = (void *)((int)self + 0x34);
-  uVar8 = orig::FUN_1003b6d0(this_00);
+  uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
   if ((int)uVar8 == 0) goto LAB_1005f289;
   ppuVar9 = &PTR_s_CXiControlActor_1032df68;
-  uVar8 = orig::FUN_1003b6d0(this_00);
+  uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
   uVar8 = orig::CYyObject_IsKindOf((void *)uVar8,(int)ppuVar9);
   if ((char)uVar8 == '\0') goto LAB_1005f289;
   if (*(char *)((int)self + 0xa1) == '\0') {
@@ -268,7 +268,7 @@ undefined4 __thiscall CMoPathDriveActorTask::ApplyFraction(void * self, undefine
       local_c = local_2c;
       local_8 = local_28;
       local_4 = local_24;
-      uVar8 = orig::FUN_1003b6d0(this_00);
+      uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
       pfVar2 = (float *)((int (__thiscall *)(void *))((**(code **)(*(int *)uVar8 + 0x1bc))))((void *)((int *)uVar8));
       local_30 = (float)((long double)local_30 + (long double)*pfVar2);
       local_2c = (float)((long double)local_2c + (long double)pfVar2[1]);
@@ -281,29 +281,29 @@ undefined4 __thiscall CMoPathDriveActorTask::ApplyFraction(void * self, undefine
   else {
     pfVar3 = &local_20;
 LAB_1005f0d9:
-    uVar8 = orig::FUN_1003b6d0(this_00);
+    uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
     orig::CXiControlActor_SetVec4((void *)uVar8,pfVar3);
   }
   if ((*(int *)((int)self + 0x9c) != 0) && (*(char *)((int)self + 0xa0) != '\0')) {
     if (*(char *)((int)self + 0xa3) == '\0') {
       ppuVar9 = &XiModelActor_classdesc;
-      uVar8 = orig::FUN_1003b6d0(this_00);
+      uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
       uVar8 = orig::CYyObject_IsKindOf((void *)uVar8,(int)ppuVar9);
       if ((char)uVar8 != '\0') {
-        uVar8 = orig::FUN_1003b6d0(this_00);
+        uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
         iVar1 = (int)uVar8;
         *(uint32_t *)(iVar1 + 0x744) = local_40;
         *(float *)(iVar1 + 0x748) = local_3c;
         *(float *)(iVar1 + 0x74c) = local_38;
         *(uint32_t *)(iVar1 + 0x750) = local_34;
       }
-      uVar8 = orig::FUN_1003b6d0(this_00);
+      uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
       iVar1 = (int)uVar8;
       *(uint32_t *)(iVar1 + 0xe4) = local_40;
       *(float *)(iVar1 + 0xe8) = local_3c;
       *(float *)(iVar1 + 0xec) = local_38;
       *(uint32_t *)(iVar1 + 0xf0) = local_34;
-      uVar8 = orig::FUN_1003b6d0(this_00);
+      uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
       iVar1 = (int)uVar8;
       pfVar3 = (float *)(iVar1 + 0x44);
       orig::Vec4_Copy_v1(pfVar3,&local_40);
@@ -331,7 +331,7 @@ LAB_1005f0d9:
       *(uint8_t *)((int)self + 0xa3) = 1;
     }
     else if (bVar5) {
-      uVar8 = orig::FUN_1003b6d0(this_00);
+      uVar8 = orig::CMoAttachments_GetCaster_v1(this_00);
       iVar1 = (int)uVar8;
       *(uint32_t *)(iVar1 + 0xe4) = local_40;
       *(float *)(iVar1 + 0xe8) = local_3c;

@@ -301,7 +301,7 @@ LAB_10007a18:
       if (iVar5 == -2) {
         return;
       }
-      orig::CommandCalc((char *)(DAT_10578490 + 0x14),0);
+      orig::Command_RunLine((char *)(DAT_10578490 + 0x14),0);
     }
     else if (param_1 != 0x1b) {
       if (param_1 < 0x80) {

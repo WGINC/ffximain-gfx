@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1006EF70  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1006EF70(void * self_)
+XI_API void __thiscall Processor_InitIdentityMatrices(void * self_)
 {
   int iVar1;
   undefined4 *puVar2;

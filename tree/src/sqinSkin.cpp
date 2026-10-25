@@ -38,7 +38,7 @@ XI_API void __cdecl SqinSkin_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1029A160  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
+XI_API void __cdecl SqinSkin_InitShapeData(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
 {
   undefined4 *puVar1;
   uint32_t uVar2;
@@ -115,7 +115,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
   undefined4 *puVar1;
   
   if ((param_1 != 0) && (0 < param_2)) {
-    puVar1 = orig::FUN_10275e90(*(undefined4 **)(param_1 + 0x38),param_2 * 4,
+    puVar1 = orig::SqMem_Realloc(*(undefined4 **)(param_1 + 0x38),param_2 * 4,
                           s_C__dev_dancer_modules_sqSkin_src_103bc310,0x195);
     xi_entry_eax = 0;
     if (puVar1 != (undefined4 *)0x0) {
@@ -129,7 +129,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x1029A450  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A450(int param_1)
+XI_API void __cdecl SqinSkin_BuildPartShapes(int param_1)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -229,7 +229,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
 XI_API void __cdecl SqinSkin_ReleaseIfHasData(int param_1)
 {
   if ((param_1 != 0) && (*(int *)(param_1 + 0x3c) != 0)) {
-    orig::FUN_1029a450(param_1);
+    orig::SqinSkin_BuildPartShapes(param_1);
     return;
   }
   return;

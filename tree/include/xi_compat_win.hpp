@@ -23,3 +23,18 @@ struct tagMSG; typedef tagMSG *LPMSG; typedef tagMSG MSG; struct tagPOINT; typed
 struct tagSIZE; typedef tagSIZE *LPSIZE; typedef void *LPUNKNOWN_; typedef unsigned int *LPDWORD; typedef int BOOL_;
 // MSVC runtime classes FLIRT names in the IDB (the undecorator's DNameNode): used only through pointers
 struct DNameNode;
+// minwindef.h / windef.h / minwinbase.h / winuser.h / imm.h / mmsystem.h / winnt.h: the layouts as the SDK declares
+// them (LONG, DWORD, UINT are 4 bytes on x86), for the locals and pointers Ghidra types with them; tagPOINT and
+// tagRECT come from the IDB (gfx_types_game.h), included first
+struct _FILETIME { unsigned int dwLowDateTime; unsigned int dwHighDateTime; };
+struct _WIN32_FIND_DATAA { unsigned int dwFileAttributes; _FILETIME ftCreationTime; _FILETIME ftLastAccessTime;
+    _FILETIME ftLastWriteTime; unsigned int nFileSizeHigh; unsigned int nFileSizeLow; unsigned int dwReserved0;
+    unsigned int dwReserved1; char cFileName[260]; char cAlternateFileName[14]; };
+struct tagWINDOWPLACEMENT { unsigned int length; unsigned int flags; unsigned int showCmd; tagPOINT ptMinPosition;
+    tagPOINT ptMaxPosition; tagRECT rcNormalPosition; }; typedef tagWINDOWPLACEMENT WINDOWPLACEMENT;
+struct tagCOMPOSITIONFORM { unsigned int dwStyle; tagPOINT ptCurrentPos; tagRECT rcArea; };
+struct timecaps_tag { unsigned int wPeriodMin; unsigned int wPeriodMax; };
+union _LARGE_INTEGER { struct { unsigned int LowPart; int HighPart; } u; long long QuadPart; }; typedef _LARGE_INTEGER LARGE_INTEGER;
+struct _SECURITY_ATTRIBUTES; typedef _SECURITY_ATTRIBUTES *LPSECURITY_ATTRIBUTES;
+struct HKL__; typedef HKL__ *HKL; typedef void *PVOID; typedef void *HGLOBAL;
+static_assert(sizeof(_WIN32_FIND_DATAA) == 320 && sizeof(WINDOWPLACEMENT) == 44 && sizeof(tagCOMPOSITIONFORM) == 28, "SDK sizes");

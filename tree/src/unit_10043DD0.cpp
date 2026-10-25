@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10043DD0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10043DD0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10043DD0_ToggleByte45(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   char cVar1;
   
@@ -15,7 +15,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10043DD0(undefined4 xi
 
 // FUNCTION: FFXIMAIN 0x10043DE0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10043DE0(void)
+XI_API undefined4 __cdecl Unit10043DD0_ReturnZero(void)
 {
   return 0;
 }

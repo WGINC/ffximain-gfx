@@ -1,0 +1,823 @@
+{
+ "_doc": {
+  "tree": "tree (the 25 Oct tree; generated from runs/promo15/tree, the same code and placement)",
+  "batches": 61,
+  "functions": 385,
+  "size": 40,
+  "scope": "frame"
+ },
+ "batches": [
+  {
+   "batch": "r3_001_unit_10086E90",
+   "group": "unit_10086E90",
+   "functions": [
+    "0x100873B0",
+    "0x100875C0",
+    "0x10087690",
+    "0x100876B0",
+    "0x10087760",
+    "0x10087830",
+    "0x10087890",
+    "0x10087D40",
+    "0x100883E0",
+    "0x10089100",
+    "0x1008B100",
+    "0x1008B410",
+    "0x1008CD90",
+    "0x1008DB40",
+    "0x1008E4D0",
+    "0x1008E740",
+    "0x10095850",
+    "0x10096270",
+    "0x100973F0",
+    "0x10097BC0",
+    "0x10097D50",
+    "0x10098210",
+    "0x100991F0",
+    "0x10099730",
+    "0x100997B0",
+    "0x100A1A00"
+   ],
+   "sampled": 15
+  },
+  {
+   "batch": "r3_002_unit_1012AC80",
+   "group": "unit_1012AC80",
+   "functions": [
+    "0x1013A330",
+    "0x10153A40",
+    "0x101542B0",
+    "0x10155100",
+    "0x101583F0",
+    "0x10158480",
+    "0x101585F0",
+    "0x101587B0",
+    "0x10158AA0",
+    "0x10158B00",
+    "0x10158B40",
+    "0x10158B60",
+    "0x10158C40",
+    "0x10158CA0",
+    "0x10158D90",
+    "0x10158DB0",
+    "0x10159040",
+    "0x10159540",
+    "0x10159880",
+    "0x10159EB0",
+    "0x1015B970",
+    "0x1015B9E0",
+    "0x1015D880",
+    "0x1015DBB0",
+    "0x1015DCE0",
+    "0x1015DEE0",
+    "0x1015E6E0",
+    "0x1015E790",
+    "0x1015EC20",
+    "0x1015EDD0",
+    "0x1015EE20",
+    "0x1015F8F0",
+    "0x1015F980",
+    "0x1015F9C0",
+    "0x10160210",
+    "0x10160DB0",
+    "0x10161110",
+    "0x10161380",
+    "0x101615E0",
+    "0x10161850"
+   ],
+   "sampled": 12
+  },
+  {
+   "batch": "r3_003_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x100EDED0",
+    "0x100EEE90",
+    "0x100EF5B0",
+    "0x100EF5BD",
+    "0x100EF730",
+    "0x100EF780",
+    "0x100EF870",
+    "0x100EF8B0",
+    "0x100EF8F0",
+    "0x100F0070",
+    "0x100F0090",
+    "0x100F00A0",
+    "0x100F02A0",
+    "0x100F06B0",
+    "0x100F09C0",
+    "0x100F1160",
+    "0x100F1670",
+    "0x100F1870",
+    "0x100F1900",
+    "0x100F1D20",
+    "0x100F1F00",
+    "0x100F25F0",
+    "0x100F2690",
+    "0x100F2720",
+    "0x100F2760",
+    "0x100F2C40",
+    "0x100F3BB0",
+    "0x100F3C20",
+    "0x100F3C90",
+    "0x100F3D00",
+    "0x100F7620",
+    "0x100F7700",
+    "0x100F7740",
+    "0x100FC3C0",
+    "0x10115D50",
+    "0x10116610",
+    "0x10116DE0",
+    "0x10117EE0",
+    "0x10118260",
+    "0x101186A0"
+   ],
+   "sampled": 10
+  },
+  {
+   "batch": "r3_004_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x10118F30",
+    "0x10119870",
+    "0x1011B360",
+    "0x1011FB00",
+    "0x10120F30",
+    "0x101210F0",
+    "0x10121420",
+    "0x10121640",
+    "0x10121DB0",
+    "0x10122E20",
+    "0x101232E0",
+    "0x10123700",
+    "0x10123A70",
+    "0x10128680",
+    "0x10128830",
+    "0x10128950",
+    "0x10128AE0",
+    "0x10129CD0",
+    "0x10129F80",
+    "0x1012A120"
+   ],
+   "sampled": 9
+  },
+  {
+   "batch": "r3_005_unit_10163E60",
+   "group": "unit_10163E60",
+   "functions": [
+    "0x10167330",
+    "0x10169290",
+    "0x101693B0",
+    "0x10169B40",
+    "0x1016A2D0",
+    "0x1016B1D0",
+    "0x1016E930",
+    "0x1016F0E0"
+   ],
+   "sampled": 7
+  },
+  {
+   "batch": "r3_006_unit_1012AC80",
+   "group": "unit_1012AC80",
+   "functions": [
+    "0x10161970",
+    "0x10161B80",
+    "0x10161BC0",
+    "0x10161FF0",
+    "0x10162F60",
+    "0x10162FB0",
+    "0x10163090",
+    "0x101630C0",
+    "0x10163380"
+   ],
+   "sampled": 5
+  },
+  {
+   "batch": "r3_007_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x100D9380",
+    "0x100D9430",
+    "0x100D9460",
+    "0x100D9AD0",
+    "0x100D9B00",
+    "0x100DB780",
+    "0x100DB790",
+    "0x100DB7B0",
+    "0x100DBDE0",
+    "0x100DBE30",
+    "0x100DC6C0",
+    "0x100DDA60",
+    "0x100DDD20",
+    "0x100DDE90",
+    "0x100DDEC0",
+    "0x100DDF60",
+    "0x100E00F0",
+    "0x100E0100",
+    "0x100E0A50",
+    "0x100E0AA0",
+    "0x100E0B10",
+    "0x100E0D50",
+    "0x100E1C30",
+    "0x100E2E70",
+    "0x100E2EE0",
+    "0x100E33E0",
+    "0x100E33F0",
+    "0x100E3E30",
+    "0x100E4110",
+    "0x100E4320",
+    "0x100E4330",
+    "0x100E5FF0",
+    "0x100E61C0",
+    "0x100E84A0",
+    "0x100E84B0",
+    "0x100E8B60",
+    "0x100E8B70",
+    "0x100EB090",
+    "0x100EB0A0",
+    "0x100ED720"
+   ],
+   "sampled": 4
+  },
+  {
+   "batch": "r3_008_unit_1018BA60",
+   "group": "unit_1018BA60",
+   "functions": [
+    "0x1018BDE0",
+    "0x1018D490",
+    "0x1018D7F0",
+    "0x1018D980",
+    "0x1018DB10",
+    "0x1018E0E0",
+    "0x1018E170",
+    "0x1018E310",
+    "0x1018E8D0",
+    "0x10190900",
+    "0x10190950",
+    "0x10190BB0",
+    "0x10191AB0",
+    "0x10192E50",
+    "0x101938B0",
+    "0x10195220",
+    "0x10195350",
+    "0x101959A0",
+    "0x1019FAB0",
+    "0x101A0710",
+    "0x101A0730",
+    "0x101A0750",
+    "0x101A0760",
+    "0x101A0970",
+    "0x101A1460",
+    "0x101A2480",
+    "0x101A2610",
+    "0x101A26C0",
+    "0x101B4270",
+    "0x101B6810",
+    "0x101B9530",
+    "0x101BE2A0",
+    "0x101BE410",
+    "0x101BE500",
+    "0x101BE540",
+    "0x101BE650",
+    "0x101C09B0",
+    "0x101C0A40",
+    "0x101C2DC0",
+    "0x101C3D00"
+   ],
+   "sampled": 4
+  },
+  {
+   "batch": "r3_009_unit_101C72E0",
+   "group": "unit_101C72E0",
+   "functions": [
+    "0x101C8D10",
+    "0x101C9550",
+    "0x101C97B0",
+    "0x101CB040",
+    "0x101CB090",
+    "0x101CB1B0",
+    "0x101CB230",
+    "0x101CB430",
+    "0x101CB500",
+    "0x101CB550",
+    "0x101CBDF0",
+    "0x101CBE50",
+    "0x101CBE60",
+    "0x101CBE70",
+    "0x101CC070",
+    "0x101CC1D0",
+    "0x101CC220",
+    "0x101CC350",
+    "0x101CC510",
+    "0x101CC550"
+   ],
+   "sampled": 4
+  },
+  {
+   "batch": "r3_010_CXiSkeletonActor",
+   "group": "CXiSkeletonActor",
+   "functions": [
+    "0x100CD920",
+    "0x100CF100",
+    "0x100CFB40",
+    "0x100D43E0"
+   ],
+   "sampled": 3
+  },
+  {
+   "batch": "r3_011_unit_101D7020",
+   "group": "unit_101D7020",
+   "functions": [
+    "0x101E24F0",
+    "0x101F7600",
+    "0x101F82B0",
+    "0x10202AF0"
+   ],
+   "sampled": 3
+  },
+  {
+   "batch": "r3_012_unit_1021D930",
+   "group": "unit_1021D930",
+   "functions": [
+    "0x1021D930",
+    "0x1021D9A0",
+    "0x1021DDC0",
+    "0x1021DE20",
+    "0x1021DE30",
+    "0x1021DE50",
+    "0x1021DE70",
+    "0x1021E670",
+    "0x1021E870",
+    "0x1021ED90",
+    "0x1021EDC0",
+    "0x1021EF60",
+    "0x1021F410",
+    "0x1021F950",
+    "0x1021FA90",
+    "0x1021FB80",
+    "0x1021FE10",
+    "0x10220350",
+    "0x10220FD0",
+    "0x102217A0",
+    "0x10222DF0",
+    "0x102239A0",
+    "0x10226180",
+    "0x102261F0",
+    "0x10226210",
+    "0x10226540",
+    "0x10234910"
+   ],
+   "sampled": 3
+  },
+  {
+   "batch": "r3_013_CMoAttachments",
+   "group": "CMoAttachments",
+   "functions": [
+    "0x1003B6D0",
+    "0x1003B700"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r3_014_unit_10014350_Camera",
+   "group": "unit_10014350_Camera",
+   "functions": [
+    "0x100149B0",
+    "0x10014A20",
+    "0x10014A30",
+    "0x10014AD0",
+    "0x10014C60",
+    "0x10014C90",
+    "0x10014CB0",
+    "0x10014E00",
+    "0x10015100",
+    "0x10015290",
+    "0x10015740",
+    "0x100164B0",
+    "0x10016870"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r3_015_unit_10026C70_Vec3",
+   "group": "unit_10026C70_Vec3",
+   "functions": [
+    "0x10027510",
+    "0x10027620",
+    "0x10028720"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r3_016_unit_10074CA0",
+   "group": "unit_10074CA0",
+   "functions": [
+    "0x10074F30",
+    "0x10077C30",
+    "0x10077FB0"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r3_017_unit_10178790_ZoneMap",
+   "group": "unit_10178790_ZoneMap",
+   "functions": [
+    "0x101814D0",
+    "0x10181590",
+    "0x10181A10",
+    "0x101875C0",
+    "0x101875E0"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r3_018_CDx",
+   "group": "CDx",
+   "functions": [
+    "0x10009870",
+    "0x1000A070"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_019_CMoElem",
+   "group": "CMoElem",
+   "functions": [
+    "0x10036AB0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_020_CMoProcessor_VT_1032C298",
+   "group": "CMoProcessor_VT_1032C298",
+   "functions": [
+    "0x10070020"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_021_unit_10028FD0",
+   "group": "unit_10028FD0",
+   "functions": [
+    "0x10029150"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_022_unit_10035B00",
+   "group": "unit_10035B00",
+   "functions": [
+    "0x100360F0",
+    "0x10036460",
+    "0x100364A0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_023_unit_10074790",
+   "group": "unit_10074790",
+   "functions": [
+    "0x100748C0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_024_unit_10078260",
+   "group": "unit_10078260",
+   "functions": [
+    "0x10080DC0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_025_unit_10082F60",
+   "group": "unit_10082F60",
+   "functions": [
+    "0x10082FB0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_026_unit_100A57F0",
+   "group": "unit_100A57F0",
+   "functions": [
+    "0x100A5EC0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_027_unit_1018BA60",
+   "group": "unit_1018BA60",
+   "functions": [
+    "0x101C3E90",
+    "0x101C5BE0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r3_028_StModel",
+   "group": "StModel",
+   "functions": [
+    "0x10252610",
+    "0x102528D0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_029_mdl",
+   "group": "mdl",
+   "functions": [
+    "0x1026ECC0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_030_sqObject",
+   "group": "sqObject",
+   "functions": [
+    "0x10285740"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_031_sqQuat",
+   "group": "sqQuat",
+   "functions": [
+    "0x1027AFB0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_032_sqVtx",
+   "group": "sqVtx",
+   "functions": [
+    "0x102A9980"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_033_sqmdDMB",
+   "group": "sqmdDMB",
+   "functions": [
+    "0x10287FB0",
+    "0x102886D0",
+    "0x10288950",
+    "0x10288B70"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_034_sqmdModel",
+   "group": "sqmdModel",
+   "functions": [
+    "0x10277A50",
+    "0x10278490",
+    "0x10278710",
+    "0x102787F0",
+    "0x10278990",
+    "0x10278B50",
+    "0x10278BF0",
+    "0x10278E10",
+    "0x10279710",
+    "0x10279BF0",
+    "0x1027A1C0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_035_sqmdSort",
+   "group": "sqmdSort",
+   "functions": [
+    "0x1029B3A0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_036_sqmoChannel",
+   "group": "sqmoChannel",
+   "functions": [
+    "0x10284F50"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_037_sqsdAnisoCommon",
+   "group": "sqsdAnisoCommon",
+   "functions": [
+    "0x102778F0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_038_sqshBuild",
+   "group": "sqshBuild",
+   "functions": [
+    "0x10299C30",
+    "0x10299E40",
+    "0x10299EE0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_039_sqshCurves",
+   "group": "sqshCurves",
+   "functions": [
+    "0x102AD1D0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_040_sqskSkeleton",
+   "group": "sqskSkeleton",
+   "functions": [
+    "0x1027C900"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_041_sqsnScene",
+   "group": "sqsnScene",
+   "functions": [
+    "0x1028F2E0",
+    "0x1028F350"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_042_unit_100310A0",
+   "group": "unit_100310A0",
+   "functions": [
+    "0x10032A50"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_043_unit_100353E0",
+   "group": "unit_100353E0",
+   "functions": [
+    "0x10035A00"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_044_unit_10036B90",
+   "group": "unit_10036B90",
+   "functions": [
+    "0x10036F50"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_045_unit_10037AC0_SetMusicTrackVolume",
+   "group": "unit_10037AC0_SetMusicTrackVolume",
+   "functions": [
+    "0x10037DD0",
+    "0x10037FB0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_046_unit_1003D990",
+   "group": "unit_1003D990",
+   "functions": [
+    "0x1003DFE0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_047_unit_10043E40",
+   "group": "unit_10043E40",
+   "functions": [
+    "0x10044540"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_048_unit_10048000",
+   "group": "unit_10048000",
+   "functions": [
+    "0x10049330",
+    "0x1004E280",
+    "0x1004E2A0",
+    "0x1004E2B0",
+    "0x1004E2C0",
+    "0x1004E2D0",
+    "0x100528E0",
+    "0x10052940"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_049_unit_10073750_ResourceIter",
+   "group": "unit_10073750_ResourceIter",
+   "functions": [
+    "0x10073D80"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_050_unit_100ACAB0_XiEvent",
+   "group": "unit_100ACAB0_XiEvent",
+   "functions": [
+    "0x100AD7C0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_051_unit_101D0910",
+   "group": "unit_101D0910",
+   "functions": [
+    "0x101D0EA0",
+    "0x101D1000",
+    "0x101D1100"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_052_unit_10211440",
+   "group": "unit_10211440",
+   "functions": [
+    "0x1021BC20"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_053_unit_1024D400",
+   "group": "unit_1024D400",
+   "functions": [
+    "0x10250DB0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_054_unit_10253A20",
+   "group": "unit_10253A20",
+   "functions": [
+    "0x10258040",
+    "0x10258E10",
+    "0x1025B4F0",
+    "0x1025BFB0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_055_unit_10275140",
+   "group": "unit_10275140",
+   "functions": [
+    "0x10275510",
+    "0x10275CC0",
+    "0x10275E90"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_056_unit_10288FF0",
+   "group": "unit_10288FF0",
+   "functions": [
+    "0x10288FF0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_057_unit_10293EE0",
+   "group": "unit_10293EE0",
+   "functions": [
+    "0x10293F00"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_058_unit_102971F0",
+   "group": "unit_102971F0",
+   "functions": [
+    "0x102972D0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_059_unit_10299B30",
+   "group": "unit_10299B30",
+   "functions": [
+    "0x10299B30"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_060_unit_1029A9B0",
+   "group": "unit_1029A9B0",
+   "functions": [
+    "0x1029AA80"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r3_061_unit_1029ADF0",
+   "group": "unit_1029ADF0",
+   "functions": [
+    "0x1029ADF0",
+    "0x1029AF20"
+   ],
+   "sampled": 0
+  }
+ ]
+}

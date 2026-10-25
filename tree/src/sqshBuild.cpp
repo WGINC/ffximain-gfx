@@ -2,6 +2,54 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10299C30  (unit sqshBuild: asserts sqshBuild.c)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl SqshBuild_BuildTriStrip(undefined4 * param_1, int param_2)
+{
+  int *piVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  undefined4 *puVar5;
+  undefined4 uVar6;
+  
+  iVar2 = param_2;
+  param_1 = orig::Unit1028A0A0_ReadBlock(&param_2,4,1,param_1,param_2);
+  if (2 < param_2) {
+    orig::sqDebugPrintf_v1(s_____Error__TriStrip_version_mism_103bc1d8,param_2,2);
+    return 0;
+  }
+  param_1 = param_1 + 0x14;
+  iVar3 = orig::SqshTriStrip_Create();
+  if (iVar3 == 0) {
+    orig::sqDebugPrintf_v1(s_____Error__sqshTriStripNew___cau_103bc1a4);
+    return 0;
+  }
+  iVar4 = orig::SqshBuild_Read(param_1,&param_1,iVar2);
+  if (iVar4 == 0) {
+    return 0;
+  }
+  piVar1 = (int *)(iVar3 + 0x4c);
+  param_1 = orig::Unit1028A0A0_ReadBlock(piVar1,4,1,param_1,iVar2);
+  puVar5 = orig::SqMem_AllocZeroed(*piVar1,4,s_C__dev_dancer_modules_sqShape_sr_103bc174,0x84);
+  *(undefined4 **)(iVar3 + 0x48) = puVar5;
+  param_1 = orig::Unit1028A0A0_ReadBlock(puVar5,4,*piVar1,param_1,iVar2);
+  orig::FUN_1028da20((float *)(iVar3 + 0x14),*(float **)(iVar4 + 0x54),*(int *)(iVar4 + 0x14),
+               *(float **)(iVar4 + 0x54));
+  if (param_2 < 2) {
+    *(undefined4 *)(iVar3 + 0x50) = 0;
+  }
+  else {
+    param_1 = orig::Unit1028A0A0_ReadBlock((undefined4 *)(iVar3 + 0x50),4,1,param_1,iVar2);
+  }
+  orig::FUN_102abec0(iVar3,(uint8_t *)0x0,iVar4);
+  uVar6 = orig::SqshTriStrip_GetGlobal();
+  *(undefined4 *)(iVar3 + 0x44) = uVar6;
+  *(int *)(iVar3 + 0x34) = iVar4;
+  orig::SqVtx_PackFloatsToBytes(iVar4,3);
+  return iVar3;
+}
+
 // FUNCTION: FFXIMAIN 0x10299D60  (unit sqshBuild: between 0x10299C30 (asserts sqshBuild.c) and 0x10299EE0 (asserts sqshBuild.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, int param_3)
@@ -25,7 +73,7 @@ XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, in
       do {
         puVar2 = orig::Unit1028A0A0_ReadBlock(&param_1,4,1,puVar2,iVar1);
         puVar2 = orig::Unit1028A0A0_ReadBlock(&local_8,4,1,puVar2,iVar1);
-        orig::FUN_102a9980((int)puVar3,(int)param_1,local_8);
+        orig::SqVtx_AllocateField((int)puVar3,(int)param_1,local_8);
         puVar2 = orig::Unit1028A0A0_ReadBlock((undefined4 *)puVar3[(int)param_1 + 0x15],4,local_8 * param_3,puVar2,
                               iVar1);
         iVar4 = iVar4 + 1;
@@ -34,7 +82,75 @@ XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, in
     *param_2 = puVar2;
     return (int)puVar3;
   }
-  orig::sqDebugPrintf_v3(s_____Error__Invalid_vertex_number_103bc210,param_3);
+  orig::sqDebugPrintf_v1(s_____Error__Invalid_vertex_number_103bc210,param_3);
   *param_2 = puVar2;
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10299E40  (unit sqshBuild: between 0x10299C30 (asserts sqshBuild.c) and 0x10299EE0 (asserts sqshBuild.c), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl SqshBuild_BuildPoints(undefined4 * param_1, int param_2)
+{
+  undefined4 *puVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  
+  iVar3 = param_2;
+  puVar1 = orig::Unit1028A0A0_ReadBlock(&param_2,4,1,param_1,param_2);
+  if (param_2 != 1) {
+    orig::sqDebugPrintf_v1(s_____Error__Points_version_mismat_103bc26c,param_2,1);
+    return 0;
+  }
+  puVar2 = orig::SqshPoints_Create();
+  if (puVar2 == (undefined4 *)0x0) {
+    orig::sqDebugPrintf_v1(s_____Error__sqshPointsNew___cause_103bc238);
+    return 0;
+  }
+  iVar3 = orig::SqshBuild_Read(puVar1 + 0x14,&param_1,iVar3);
+  if (iVar3 == 0) {
+    return 0;
+  }
+  puVar2[0xd] = iVar3;
+  orig::FUN_1028da20((float *)(puVar2 + 5),*(float **)(iVar3 + 0x54),*(int *)(iVar3 + 0x14),
+               *(int *)(iVar3 + 0x14));
+  return (int)puVar2;
+}
+
+// FUNCTION: FFXIMAIN 0x10299EE0  (unit sqshBuild: asserts sqshBuild.c)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl SqshBuild_BuildCurves(undefined4 * param_1, int param_2)
+{
+  int *piVar1;
+  int iVar2;
+  undefined4 *puVar3;
+  undefined4 *puVar4;
+  int iVar5;
+  
+  iVar2 = param_2;
+  puVar3 = orig::Unit1028A0A0_ReadBlock(&param_2,4,1,param_1,param_2);
+  param_1 = puVar3;
+  if (param_2 != 1) {
+    orig::sqDebugPrintf_v1(s_____Error__Curves_version_mismat_103bc2d8,param_2,1);
+    return 0;
+  }
+  puVar4 = orig::SqshCurves_Create();
+  if (puVar4 == (undefined4 *)0x0) {
+    orig::sqDebugPrintf_v1(s_____Error__sqshCurvesNew___cause_103bc2a4);
+    return 0;
+  }
+  iVar5 = orig::SqshBuild_Read(puVar3,&param_1,iVar2);
+  if (iVar5 == 0) {
+    return 0;
+  }
+  puVar4[0xd] = iVar5;
+  orig::FUN_1028da20((float *)(puVar4 + 5),*(float **)(iVar5 + 0x54),*(int *)(iVar5 + 0x14),
+               *(int *)(iVar5 + 0x14));
+  puVar3 = orig::Unit1028A0A0_ReadBlock(puVar4 + 0x13,4,1,param_1,iVar2);
+  piVar1 =(int*)(puVar4 + 0x11);
+  param_1 = orig::Unit1028A0A0_ReadBlock(piVar1,4,1,puVar3,iVar2);
+  puVar3 = orig::SqMem_AllocZeroed(*piVar1,4,s_C__dev_dancer_modules_sqShape_sr_103bc174,0xe1);
+  puVar4[0x12] = puVar3;
+  orig::Unit1028A0A0_ReadBlock(puVar4 + 0x12,4,*piVar1,param_1,iVar2);
+  orig::SqshCurves_RebuildIndex((int)puVar4);
+  return (int)puVar4;
 }

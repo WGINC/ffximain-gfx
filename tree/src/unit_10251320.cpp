@@ -10,7 +10,7 @@ XI_API undefined4 __cdecl StAvatar_UpdateFlag2(uint32_t * param_1, undefined4 pa
   
   puVar1 = param_1;
   if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 0x10) != 0)) {
-    orig::FUN_1026f900(param_1[3],4,param_2);
+    orig::Mdl_SetChannelActive(param_1[3],4,param_2);
     orig::Mdl_GetEntryWord0(puVar1[3],&param_1);
     if (((uint32_t)param_1 & 2) != 0) {
       *puVar1 = *puVar1 | 2;
@@ -114,14 +114,14 @@ XI_API void __thiscall StDancer_Update(void * self_)
   int *piVar2;
   
   if ((*(uint32_t *)((int)self_ + 4) & 4) != 0) {
-    orig::FUN_1024db60((uint8_t *)&DAT_10669158);
+    orig::StAvatar_Update((uint8_t *)&DAT_10669158);
     return;
   }
   if ((*(uint32_t *)((int)self_ + 4) & 2) != 0) {
     uVar1 = orig::Dancer_InitDevice(self_);
     if ((char)uVar1 == '\0') {
       *(uint32_t *)((int)self_ + 4) = *(uint32_t *)((int)self_ + 4) & 0xfffffff9;
-      orig::nullsub_13_v1(s_____Error___dancerInit___failed_10389908);
+      orig::Unit10017C10_NoOpVarargsA_v1(s_____Error___dancerInit___failed_10389908);
       return;
     }
     orig::StAvatarInit(&DAT_10669158);
@@ -132,7 +132,7 @@ XI_API void __thiscall StDancer_Update(void * self_)
     *(uint32_t *)((int)self_ + 4) = *(uint32_t *)((int)self_ + 4) | 4;
     orig::StAvatar_SetMode(self_,*(int *)((int)self_ + 0x14));
     xi_eax = orig::StAvatar_SetLevel(self_,*(int *)((int)self_ + 0x18));
-    orig::FUN_10251780(self_,*(int *)((int)self_ + 0x1c),xi_eax);
+    orig::Dancer_SetStateIfIdle(self_,*(int *)((int)self_ + 0x1c),xi_eax);
     orig::StAvatar_SetStateTeardown(self_,*(int *)((int)self_ + 8),*(uint32_t *)((int)self_ + 0x10));
     orig::StDancer_SetJobLock(self_,*(int *)((int)self_ + 0x20));
     piVar2 =(int*)(&DAT_10389894);
@@ -217,7 +217,7 @@ XI_API void __thiscall StAvatar_SetMode(void * self_, int param_1)
 {
   if (((-1 < param_1) && (param_1 < 3)) &&
      (*(int *)((int)self_ + 0x14) = param_1, (*(uint8_t *)((int)self_ + 4) & 4) != 0)) {
-    orig::FUN_102507c0(&DAT_10669158,param_1);
+    orig::StAvatar_StoreMode(&DAT_10669158,param_1);
   }
   return;
 }
@@ -235,12 +235,12 @@ XI_API undefined4 __thiscall StAvatar_SetLevel(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10251780  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_10251780(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+XI_API void __attribute__((stdcall, regparm(3))) Dancer_SetStateIfIdle(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   if (*(uint32_t *)((int)self_ + 0x1c) < 2) {
     *(int *)((int)self_ + 0x1c) = param_2;
     if ((*(uint8_t *)((int)self_ + 4) & 4) != 0) {
-      orig::FUN_10250760((uint8_t *)&DAT_10669158,param_2);
+      orig::StAvatar_SetField10((uint8_t *)&DAT_10669158,param_2);
     }
   }
   return;
@@ -298,9 +298,9 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   {
     v7 = *self_;
     v5 = *self_ - 0x200000;
-    orig::nullsub_12(aMemtotal0x08xB, v7);
-    orig::nullsub_12(aWorkpool0x08xB, 0x200000, v3);
-    orig::nullsub_12(aMainpool0x08xB, v5);
+    orig::Unit10017C10_NoOpVarargsB(aMemtotal0x08xB, v7);
+    orig::Unit10017C10_NoOpVarargsB(aWorkpool0x08xB, 0x200000, v3);
+    orig::Unit10017C10_NoOpVarargsB(aMainpool0x08xB, v5);
     g_This_10669418 = g_pD3DHolder->pD3D;
     pDevice = g_pD3DHolder->pDevice;
     g_dancerMainMemSize = v5;
@@ -341,7 +341,7 @@ XI_API char __thiscall Dancer_InitDevice(int *self_)
   }
   else
   {
-    orig::nullsub_13(aErrorCouldnTAl);
+    orig::Unit10017C10_NoOpVarargsA(aErrorCouldnTAl);
     return 0;
   }
 }
@@ -353,7 +353,7 @@ XI_API undefined4 __cdecl StAvatar_ReleaseMemory(void)
   uint32_t uVar1;
   
   orig::SqgxContext_ResetHandles();
-  orig::FUN_10285740(&g_pSqgxContext_as_v1);
+  orig::SqObject_Release(&g_pSqgxContext_as_v1);
   if (g_dancerMainMemBase != 0) {
     g_dancerMainMemSize_as_v0 = 0;
     orig::Mem_FreeObject_v1(g_dancerMemBlock_as_v0);
@@ -370,7 +370,7 @@ XI_API undefined4 __cdecl StAvatar_ReleaseMemory(void)
 
 // FUNCTION: FFXIMAIN 0x102524B0  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102524B0(undefined4 * param_1)
+XI_API undefined4 __cdecl StAvatar_InitSlotRecord(undefined4 * param_1)
 {
   *param_1 = 1;
   param_1[1] = 0;

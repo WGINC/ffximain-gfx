@@ -22,10 +22,10 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
       do {
         if ((*piVar4 == iVar1) && (piVar4[1] == param_2)) {
           orig::Chasm_ToggleLayerState(param_1,iVar1,0);
-          uVar2 = orig::FUN_1027e450((uint8_t *)(piVar4 + 2));
+          uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 2));
           orig::FUN_102857e0((int)(piVar4 + 10),0xff,uVar2);
-          orig::FUN_1027e190((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
-          uVar2 = orig::FUN_1027e450((uint8_t *)(piVar4 + 0x1c));
+          orig::Unit1027E120_SetCallback((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
+          uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 0x1c));
           orig::FUN_102857e0((int)(piVar4 + 0x24),0xff,uVar2);
           *(int *)(param_1 + 0x14) = iVar3;
           return param_2;
@@ -34,7 +34,7 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
         iVar3 = iVar3 + 1;
       } while (iVar3 < *(int *)(param_1 + 0x18));
     }
-    orig::sqDebugPrintf_v2(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
+    orig::sqDebugPrintf_v1(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
     orig::Chasm_ToggleLayerState(param_1,*(int *)(param_1 + 4),0);
     orig::Chasm_ToggleLayerState(param_1,param_2,1);
   }
@@ -50,10 +50,10 @@ XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2,
   undefined4 *puVar3;
   
   pbVar1 = (uint8_t *)(*(int *)(param_1 + 0x20) + 0x70 + param_2 * 0xd8);
-  iVar2 = orig::FUN_1027e440(pbVar1);
+  iVar2 = orig::Unit1027E120_IsConnected(pbVar1);
   if ((iVar2 != 0) && (iVar2 = *(int *)(pbVar1 + 0x3c), iVar2 != 0)) {
     puVar3 = (undefined4 *)
-             orig::FUN_10284f50(*(int *)(iVar2 + 0x28),
+             orig::SqmoChannel_Evaluate(*(int *)(iVar2 + 0x28),
                           (float)(((long double)*(float *)(pbVar1 + 0x10) -
                                   (long double)*(float *)(pbVar1 + 8)) /
                                  (long double)*(float *)(iVar2 + 0x24)));

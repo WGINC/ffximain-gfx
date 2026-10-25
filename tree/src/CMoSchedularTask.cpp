@@ -72,14 +72,14 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   this_00 = (uint32_t *)((int)self + 0x34);
   *(uint8_t ***)self = &PTR_CMoSchedularTask_GetRuntimeClass_1032b860;
   *this_00 = &PTR_LAB_1032b844;
-  uVar2 = orig::FUN_1003b6d0(this_00);
+  uVar2 = orig::CMoAttachments_GetCaster_v1(this_00);
   if ((int)uVar2 != 0) {
-    uVar2 = orig::FUN_1003b6d0(this_00);
+    uVar2 = orig::CMoAttachments_GetCaster_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar2 + 0x16c))))((void *)((int *)uVar2));
   }
-  uVar2 = orig::FUN_1003b700(this_00);
+  uVar2 = orig::CMoAttachments_GetTarget_v1(this_00);
   if ((int)uVar2 != 0) {
-    uVar2 = orig::FUN_1003b700(this_00);
+    uVar2 = orig::CMoAttachments_GetTarget_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar2 + 0x16c))))((void *)((int *)uVar2));
   }
   for (iVar1 = *(int *)(dword_1047D140 + 0xd50); iVar1 != 0; iVar1 = *(int *)(iVar1 + 0xc)) {

@@ -90,6 +90,6 @@ XI_API int * __cdecl sqsdGeneric_BakeOntoShape(int param_1, int * param_2)
   piVar3 =(int*)(orig::SqshDispList_Create());
   piVar3[0x11] = (int)puVar2;
   orig::Unit1028D970_Copy(piVar3 + 5,param_2 + 5);
-  orig::FUN_10285740((int *)&param_2);
+  orig::SqObject_Release((int *)&param_2);
   return piVar3;
 }

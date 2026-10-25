@@ -319,7 +319,7 @@ XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x1006CA20  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1006CA20(float param_1)
+XI_API undefined4 __cdecl Unit1006C210_IsFloatClassAccepted(float param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -341,7 +341,7 @@ LAB_1006ca55:
 
 // FUNCTION: FFXIMAIN 0x1006CA60  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
+XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -349,7 +349,7 @@ XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
   
   iVar3 = 0;
   do {
-    uVar1 = orig::FUN_1006ca20(xi_castbits<float>(*param_1));
+    uVar1 = orig::Unit1006C210_IsFloatClassAccepted(xi_castbits<float>(*param_1));
     uVar2 = (uint32_t)((uint32_t)uVar1 >> 8);
     if ((char)uVar1 == '\0') {
       return (uint32_t)uVar2 << 8;

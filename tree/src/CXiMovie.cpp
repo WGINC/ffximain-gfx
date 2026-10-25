@@ -89,9 +89,9 @@ undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
     else {
       g_pMovie_as_v1 = orig::CXiMovie_Construct(self);
       if (g_pMovie_as_v1 != (void *)0x0) {
-        uVar2 = orig::FUN_1021d930(g_pMovie_as_v1,param_1);
+        uVar2 = orig::Unit1021D930_InitAndMarkReady(g_pMovie_as_v1,param_1);
         if ((char)uVar2 == '\0') {
-          uVar2 = orig::FUN_1021d460(uVar2);
+          uVar2 = orig::CXiMovie_DestroyGlobal(uVar2);
           return uVar2 & 0xffffff00;
         }
         return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
@@ -101,9 +101,9 @@ undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
   return 0;
 }
 
-// FUNCTION: FFXIMAIN 0x1021D440  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1021D440  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1021D440(void)
+undefined4 __cdecl CXiMovie::UpdateIfPresent()
 {
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
@@ -117,10 +117,10 @@ XI_API undefined4 __cdecl fn_1021D440(void)
 
 // FUNCTION: FFXIMAIN 0x1021D460  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1021D460(undefined4 xi_eax)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) CXiMovie_DestroyGlobal(undefined4 xi_eax)
 {
   if (g_pMovie_as_v0 != (int *)0x0) {
-    xi_eax = orig::FUN_1021d9a0(xi_eax);
+    xi_eax = orig::Unit1021D930_ReleaseReturnTrue(xi_eax);
     if (g_pMovie_as_v0 != (int *)0x0) {
       xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pMovie_as_v0 + 0x18))))((void *)(g_pMovie_as_v0),1);
       g_pMovie_as_v0 = (int *)0x0;

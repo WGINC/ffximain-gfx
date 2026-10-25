@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10049330  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t * __thiscall fn_10049330(void * self_, uint32_t param_1)
+XI_API uint32_t * __thiscall Unit10048000_FindRecordByType(void * self_, uint32_t param_1)
 {
   uint32_t *puVar1;
   uint32_t uVar2;
@@ -109,7 +109,7 @@ XI_API int __thiscall Unit10048000_GetSelfPlus1(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1004E280  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1004E280(void * self_)
+XI_API undefined4 __thiscall Unit10048000_ReturnThisA(void * self_)
 {
   return self_;
 }
@@ -123,28 +123,28 @@ XI_API int __thiscall Unit10048000_GetSelfPlus3(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1004E2A0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1004E2A0(void * self_)
+XI_API int __thiscall Unit10048000_GetByte2Ptr(void * self_)
 {
   return (int)self_ + 2;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1004E2B0(void * self_)
+XI_API int __thiscall Unit10048000_GetByte1Ptr(void * self_)
 {
   return (int)self_ + 1;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1004E2C0(void * self_)
+XI_API undefined4 __thiscall Unit10048000_ReturnThisB(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2D0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1004E2D0(void * self_)
+XI_API int __thiscall Unit10048000_GetByte3Ptr(void * self_)
 {
   return (int)self_ + 3;
 }
@@ -358,7 +358,7 @@ XI_API undefined4 __thiscall Unit10048000_SetPtrAndGetDword(void * self_, undefi
 
 // FUNCTION: FFXIMAIN 0x100528E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100528E0(void * self_)
+XI_API undefined4 __thiscall Unit10048000_GetFirstDeref(void * self_)
 {
   return **(uint32_t **)self_;
 }
@@ -394,7 +394,7 @@ XI_API void __thiscall MoProcessor_PopFreeIndex(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10052940  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10052940(void * self_)
+XI_API undefined4 __thiscall Unit10048000_GetFirst(void * self_)
 {
   return *(uint32_t *)self_;
 }

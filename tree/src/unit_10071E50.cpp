@@ -69,7 +69,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undef
 
 // FUNCTION: FFXIMAIN 0x10072240  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10072240(void * self_)
+XI_API void * __thiscall Unit10071E50_FindSelfLinkedNode(void * self_)
 {
   void *pvVar1;
   
@@ -169,7 +169,7 @@ LAB_100724f6:
 
 // FUNCTION: FFXIMAIN 0x10072540  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10072540(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t param_2, int param_3, uint8_t * param_4, undefined4 param_5)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10071E50_FindInChainByKind(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t param_2, int param_3, uint8_t * param_4, undefined4 param_5)
 {
   uint32_t uVar1;
   int local_4;
@@ -213,14 +213,14 @@ LAB_10072598:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl unknown_libname_61(void)
 {
-  orig::FUN_100729d0();
+  orig::Unit10071E50_ClearGlobal1047D138();
   orig::FUN_10072970();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100729D0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100729D0(void)
+XI_API void __cdecl Unit10071E50_ClearGlobal1047D138(void)
 {
   DAT_1047d138 = 0;
   return;

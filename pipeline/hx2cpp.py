@@ -764,7 +764,8 @@ def ghidra_vcall_this(ea, text):
     return out + text[i:]
 
 
-GHIDRA_AUTO = re.compile(r'\b((DAT|PTR|FUN|s|u|UNK|BYTE|WORD|DWORD)_(?:\w*?_)?([0-9a-f]{8}))\b')
+# a string's label keeps `<` and `>` of its text (s_<lastst>_10357e7c, s__06ld__mdl_>files___0x_08x___d_e_103b8b94)
+GHIDRA_AUTO = re.compile(r'\b((DAT|PTR|FUN|s|u|UNK|BYTE|WORD|DWORD)_(?:[\w<>]*?_)?([0-9a-f]{8}))\b')
 
 def ghidra_auto_objs(rec, body):
     # Ghidra's automatic names carry their address (DAT_10456a2c, s_text_1034f00c, FUN_1011bba0); they
@@ -1076,6 +1077,10 @@ def ghidra_ptr_type(name, o, body):
     else:
         nstack = max(call_arg_counts(body, name) or [0]) - regs
     params = ['void *'] * regs + ['XI_ANY'] * max(nstack, 0)
+    if cc == '__cdecl' and not regs and m and _params(m.group(3))[-1:] == ['...'] and not real:
+        # variadic and pops nothing (the IDB's prototype, conv_facts `varargs`): each call pushes its own arguments,
+        # so each site gets as many slots as Ghidra reads there (xi_ghidra.hpp xi_va_call)
+        params = ['XI_ANY'] * (len(_params(m.group(3))) - 1) + ['...']
     return '%s (%s *)(%s)' % (ret, cc, ', '.join(params))
 
 def translate(rec):
@@ -1111,7 +1116,10 @@ def translate(rec):
                 pt = ghidra_ptr_type(nm, o, body) if rec.get('source') == 'ghidra' else ptr_type(o['type'])
                 if pt is None: return None, 'callee %s has no C++ type (%s)' % (nm, o['type'])
                 pt = callee_pops_fix(o, pt)
-                syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
+                if pt.endswith(', ...)') or pt.endswith('(...)'):
+                    syms.append('#define %s xi_va_call<%s, 0x%08Xu>' % (tok, re.match(r'^(.*?)\s*\(__cdecl \*\)', pt).group(1), oea))
+                else:
+                    syms.append('#define %s (reinterpret_cast<%s>(0x%08Xu))' % (tok, pt, oea))
         else:
             if rec.get('source') == 'ghidra' and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), body):
                 continue                                # a goto target of the body (LAB_...), not a global

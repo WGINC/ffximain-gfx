@@ -111,8 +111,14 @@ def orig_wrapper(name, ea, ftype):
     if variadic: ps = ps[:-1]
     names = ['a%d' % i for i in range(len(ps))]
     fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + (['...'] if variadic else [])))
-    if variadic:
+    if variadic and all(p.strip() == 'XI_ANY' for p in ps):
+        # the Ghidra route's variadic callee (hx2cpp.ghidra_ptr_type): each argument one 4-byte slot, as many as the
+        # call site passes (xi_ghidra.hpp xi_va_call)
+        fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + ['decltype(XI_ANY(rest))...']))
+        body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['XI_ANY(rest)...']))
+    elif variadic:
         body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['rest...']))
+    if variadic:
         if ret == 'void': body = body.replace('return ', '')
         return ('template <class... R> XI_ORIG %s %s(%s) { %s }' % (
             ret, name, ', '.join(['%s %s' % (p, n) for p, n in zip(ps, names)] + ['R... rest']), body))

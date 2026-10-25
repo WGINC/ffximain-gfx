@@ -60,7 +60,7 @@ XI_API int __thiscall YmElem_ForEachInstance(__int16 *self_, void (__cdecl *a2)(
   v4 = (__int64)(((uint64_t)(v4) & 0xFFFFFFFFFFFF0000ull) | ((uint64_t)(uint16_t)(*(self_ + 34)) << 0));
   if ( (__int16)v4 >= 20 )
   {
-    v5 = orig::sub_10002D80();
+    v5 = orig::Unit100014A0_GetFloat10456A68Or1();
     if ( (*(_BYTE *)(self_ + 35) & 1) != 0 )
     {
       i = *(self_ + 34);

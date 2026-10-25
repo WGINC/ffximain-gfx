@@ -221,14 +221,14 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
 
 // FUNCTION: FFXIMAIN 0x10025BD0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10025BD0(void)
+XI_API void __cdecl Unit100252F0_Nop_10025BD0(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10025BE0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10025BE0(void)
+XI_API void __cdecl Unit100252F0_Nop_10025BE0(void)
 {
   return;
 }

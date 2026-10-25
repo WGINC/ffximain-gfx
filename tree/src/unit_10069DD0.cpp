@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x10069E90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10069E90(void)
+XI_API void __cdecl Unit10069DD0_Nop(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10069EA0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10069EA0(void * self_)
+XI_API void __thiscall Unit10069DD0_ClearByteTables(void * self_)
 {
   uint8_t *puVar1;
   uint32_t *puVar2;

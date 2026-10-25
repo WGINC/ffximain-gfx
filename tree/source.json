@@ -20,6 +20,12 @@
    "sha1": "73e5a5463aeaa18ebf5a0c15738540b398f8ca67",
    "raw_gate": "verification/gate_raw_frameset_prev.jsonl",
    "_doc": "records of the previous frame-set export (frameset6) for functions it passes and frameset9's export does not (its translation fails or is skipped), less those frameset9 fails only on the 8-byte return's EDX, which that export never compared; gated under the current rules"
+  },
+  {
+   "path": "data/exports/ghidra_frameset11.jsonl",
+   "sha1": "911a0575f762279f8cd08b35011e1e2ec82789e7",
+   "raw_gate": "verification/gate_raw_frameset11.jsonl",
+   "_doc": "522 frame-set functions the other exports hold but never gated, re-exported 25 Oct with the current conv facts (pipeline/ghidra/export.sh); appended last, so an address takes the first export whose gate passed it"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl"

@@ -25,15 +25,15 @@ XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, floa
   float  (&local_8c)[19] = *reinterpret_cast<float  (*)[19]>(xi_frame + 0);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 76);
   
-  iVar1 = orig::FUN_1027c900(param_1,param_2);
+  iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
-  orig::thunk_FUN_1027ebd0(local_8c + 3);
+  orig::Unit1027E120_Forward1027EBD0(local_8c + 3);
   while( true ) {
     orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_8c + 3);
     orig::M4fSet_v1(local_8c + 3,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
-    iVar1 = orig::FUN_1027c900(param_1,param_2);
+    iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
   local_8c[0] = 0.0f;
@@ -53,15 +53,15 @@ XI_API void __cdecl Unit1027CCF0_TransformPoint(int param_1, int param_2, float 
   float  (&local_80)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 0);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 64);
   
-  iVar1 = orig::FUN_1027c900(param_1,param_2);
+  iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
-  orig::thunk_FUN_1027ebd0(local_80);
+  orig::Unit1027E120_Forward1027EBD0(local_80);
   while( true ) {
     orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_80);
     orig::M4fSet_v1(local_80,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
-    iVar1 = orig::FUN_1027c900(param_1,param_2);
+    iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
   orig::M4fTransform_v1(param_4,local_80,param_3);

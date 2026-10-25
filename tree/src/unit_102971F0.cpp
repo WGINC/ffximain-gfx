@@ -2,6 +2,17 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x102972D0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SqgxContext_SetCotHalfAngle(float param_1)
+{
+  long double fVar1;
+  
+  fVar1 = xi_castbits<long double>(fptan((long double)param_1 * (long double)0.008726646192371845245361328125f));
+  *(float *)(g_pSqgxContext_as_s32 + 0x128) = (float)((long double)1.0f / fVar1);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)

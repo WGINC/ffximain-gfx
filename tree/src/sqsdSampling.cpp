@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10299090  (unit sqsdSampling: between 0x10298FF0 (asserts sqsdSampling.c) and 0x10299250 (name sqsdSampling_BakeOntoShape), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10299090(int param_1, int * param_2)
+XI_API void __cdecl SqsdSampling_DrawPasses(int param_1, int * param_2)
 {
   uint32_t uVar1;
   int iVar2;
@@ -100,6 +100,6 @@ XI_API int __cdecl sqsdSampling_BakeOntoShape(int param_1, int param_2)
   puVar2 = orig::SqshDispList_Create();
   puVar2[0x11] = puVar1;
   orig::Unit1028D970_Copy(puVar2 + 5,(undefined4 *)(param_2 + 0x14));
-  orig::FUN_10285740(&param_2);
+  orig::SqObject_Release(&param_2);
   return (int)puVar2;
 }

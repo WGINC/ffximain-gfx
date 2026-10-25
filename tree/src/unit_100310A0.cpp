@@ -6,13 +6,13 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Quat_SetIdentityChained(void * self_)
 {
-  orig::FUN_10032a50(self_);
+  orig::Quat_SetIdentityB(self_);
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10032A50  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10032A50(void * self_)
+XI_API void __thiscall Quat_SetIdentityB(void * self_)
 {
   *(uint32_t *)((int)self_ + 0xc) = 0x3f800000;
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -23,7 +23,7 @@ XI_API void __thiscall fn_10032A50(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10032A70  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10032A70(void)
+XI_API void __cdecl Unit100310A0_Nop(void)
 {
   return;
 }
@@ -508,7 +508,7 @@ XI_API void __thiscall Shadow_SmoothLightDirection(void * self_, float * param_1
   orig::Vec3_SubInPlace(pfVar2,pfVar1);
   orig::Vec3_ScaleInPlace(pfVar2,xi_castbits<float>(param_1));
   orig::Vec3_AddInPlace_v1(pfVar1,pfVar2);
-  orig::FUN_10027510(&local_c,pfVar1);
+  orig::Vec3_CopyThen100274B0(&local_c,pfVar1);
   fVar9 = SQRT((long double)local_c * (long double)local_c + (long double)local_4 * (long double)local_4);
   if ((NAN(fVar9) || NAN((long double)xi_k4(0x38D1B717ull))) || fVar9 <= (long double)xi_k4(0x38D1B717ull)) {
     uVar4 = orig::Vec3_Set(&local_c,0.0f,(-1.0f),0.0f);

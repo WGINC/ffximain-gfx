@@ -38,14 +38,3 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
   _DAT_1048a374 = 0;
   return;
 }
-
-// FUNCTION: FFXIMAIN 0x10081CF0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10081CF0(void * self_)
-{
-  orig::CMoTask_Constructor_v1(self_);
-  orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x5c));
-  *(uint8_t ***)self_ = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
-  orig::CXiActor_Init(self_);
-  return self_;
-}

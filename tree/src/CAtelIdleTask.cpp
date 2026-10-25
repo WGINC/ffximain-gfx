@@ -34,7 +34,7 @@ undefined4 __cdecl CAtelIdleTask::Create()
   
   orig::Menu_CloseEntry(&g_menuMng_as_v0,aMenuChdummy);
   *g_pSceneState_as_v2 = 0x60;
-  orig::FUN_101ab730();
+  orig::Unit1018BA60_ReloadAll();
   uVar3 = orig::Mem_AllocFromArea_v1(0x34,4);
   self = (undefined4 *)uVar3;
   uVar1 = orig::CMoTask_ResetFields_v1(self);

@@ -11,17 +11,17 @@ XI_API uint64_t __thiscall AfterimageTask_FindFirstKind(void * self_)
   uint64_t uVar2;
   uint64_t uVar3;
   
-  uVar2 = orig::FUN_1003b6d0((void *)((int)self_ + 0x34));
+  uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
     uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
     uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
-      uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
+      uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
       this_00 = (void *)uVar2;
       if (this_00 == (void *)0x0) {
-        uVar2 = orig::FUN_1003b6d0((void *)((int)self_ + 0x34));
+        uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)self_ + 0x34));
         return uVar2;
       }
       uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
@@ -34,24 +34,24 @@ XI_API uint64_t __thiscall AfterimageTask_FindFirstKind(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100627D0  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_100627D0(void * self_)
+XI_API uint64_t __thiscall Scheduler_ResolveOwner(void * self_)
 {
   char cVar1;
   void *this_00;
   uint64_t uVar2;
   uint64_t uVar3;
   
-  uVar2 = orig::FUN_1003b700((void *)((int)self_ + 0x34));
+  uVar2 = orig::CMoAttachments_GetTarget_v1((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
     uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
     uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
-      uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
+      uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
       this_00 = (void *)uVar2;
       if (this_00 == (void *)0x0) {
-        uVar2 = orig::FUN_1003b700((void *)((int)self_ + 0x34));
+        uVar2 = orig::CMoAttachments_GetTarget_v1((void *)((int)self_ + 0x34));
         return uVar2;
       }
       uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
@@ -70,15 +70,15 @@ XI_API void __thiscall AfterimageTask_SetCaster(void * self_, int param_1)
   uint64_t uVar1;
   
   this_00 = (void *)((int)self_ + 0x34);
-  uVar1 = orig::FUN_1003b6d0(this_00);
+  uVar1 = orig::CMoAttachments_GetCaster_v1(this_00);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b6d0(this_00);
+    uVar1 = orig::CMoAttachments_GetCaster_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar1 + 0x16c))))((void *)((int *)uVar1));
   }
   orig::CMoAttachments_SetCaster_v1(this_00,param_1);
-  uVar1 = orig::FUN_1003b6d0(this_00);
+  uVar1 = orig::CMoAttachments_GetCaster_v1(this_00);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b6d0(this_00);
+    uVar1 = orig::CMoAttachments_GetCaster_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar1 + 0x168))))((void *)((int *)uVar1));
   }
   return;
@@ -92,15 +92,15 @@ XI_API void __thiscall AfterimageTask_SetTarget(void * self_, int param_1)
   uint64_t uVar1;
   
   this_00 = (void *)((int)self_ + 0x34);
-  uVar1 = orig::FUN_1003b700(this_00);
+  uVar1 = orig::CMoAttachments_GetTarget_v1(this_00);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b700(this_00);
+    uVar1 = orig::CMoAttachments_GetTarget_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar1 + 0x16c))))((void *)((int *)uVar1));
   }
   orig::CMoAttachments_SetTarget_v1(this_00,param_1);
-  uVar1 = orig::FUN_1003b700(this_00);
+  uVar1 = orig::CMoAttachments_GetTarget_v1(this_00);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b700(this_00);
+    uVar1 = orig::CMoAttachments_GetTarget_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar1 + 0x168))))((void *)((int *)uVar1));
   }
   return;
@@ -135,7 +135,7 @@ XI_API uint64_t __cdecl AfterimageTask_Kill(undefined4 param_1, undefined4 param
   uint32_t *puVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_10073d80(&param_1,param_1,1);
+  uVar2 = orig::ResourceIter_FindOrStartTask(&param_1,param_1,1);
   puVar1 = (uint32_t *)*(int *)uVar2;
   uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar2 >> 0x20)) << 32) | (uint32_t)(puVar1)));
   if (puVar1 != (uint32_t *)0x0) {

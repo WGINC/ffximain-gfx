@@ -17,7 +17,7 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
     bVar1 = *(uint8_t *)((int)self_ + 0x1a) >> 2;
     puVar2 = (uint32_t *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(bVar1)));
     if ((bVar1 & 1) == 0) {
-      self_ = orig::FUN_10072240(self_);
+      self_ = orig::Unit10071E50_FindSelfLinkedNode(self_);
       if ((*(uint16_t *)((int)self_ + 0x18) & 0x7fff) != 0) {
         return self_;
       }
@@ -93,6 +93,55 @@ LAB_10073c18:
   return param_1;
 }
 
+// FUNCTION: FFXIMAIN 0x10073D80  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __stdcall ResourceIter_FindOrStartTask(undefined4 * param_1, int param_2, undefined4 param_3)
+{
+  int iVar1;
+  undefined4 *self_;
+  uint32_t uVar2;
+  
+  if (DAT_1047d124 == (int *)0x0) {
+    iVar1 = 0;
+  }
+  else {
+    iVar1 = *DAT_1047d124;
+  }
+  while( true ) {
+    if (iVar1 == 0) {
+      if (((char)param_3 != '\0') &&
+         (iVar1 = orig::Unit10074CA0_FindTask_v1(dword_1047D140_as_v1,param_2,0x4d727400), iVar1 == 0)) {
+        self_ = orig::Mem_AllocFromArea_v2(0x49,4);
+        orig::CMoTask_ResetFields_v2(self_);
+        g_resourcesDirty_as_v0 = 1;
+        if (self_ == (undefined4 *)0x0) {
+          self_ = (undefined4 *)0x0;
+        }
+        else {
+          orig::CMoTask_Constructor_v2(self_);
+          *self_ = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
+          self_[0xe] = 0;
+          *(undefined4 *)((int)self_ + 0x45) = 0;
+        }
+        orig::FUN_10074a00_v1();
+        orig::Unit10072A50_Start_v1(self_,&param_3,param_2);
+      }
+      *param_1 = 0;
+      return;
+    }
+    uVar2 = *(uint32_t *)(iVar1 + 0x24) & 0x7f;
+    if (((uVar2 == 2) || (uVar2 == 1)) && (*(int *)(iVar1 + 0x34) == param_2)) break;
+    if (*(int **)(iVar1 + 0x2c) == (int *)0x0) {
+      iVar1 = 0;
+    }
+    else {
+      iVar1 = **(int **)(iVar1 + 0x2c);
+    }
+  }
+  *param_1 = *(undefined4 *)(iVar1 + 0x14);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100740C0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
@@ -113,7 +162,7 @@ XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
     if (this_00 == (void *)0x0) {
       return (uint32_t)piVar1 & 0xffffff00;
     }
-    pvVar2 = orig::FUN_10072240(this_00);
+    pvVar2 = orig::Unit10071E50_FindSelfLinkedNode(this_00);
     piVar1 = *(int **)((int)pvVar2 + 0x14);
     if (*(short *)(*piVar1 + 0x18) == 0) break;
     if (*(uint32_t **)((int)this_00 + 0x10) == (uint32_t *)0x0) {
@@ -221,7 +270,7 @@ XI_API void __thiscall ResourceIter_FindFirst(void * self_, int param_1, int par
   *(uint32_t *)((int)self_ + 0x18) = -(uint32_t)(((uint8_t)uVar1 & 0x7f) != 1);
   uVar2 = orig::ResourceIter_MatchCurrent(self_);
   if ((char)uVar2 == '\0') {
-    orig::FUN_100743d0(self_);
+    orig::ResourceIter_Advance(self_);
   }
   return;
 }
@@ -249,7 +298,7 @@ XI_API void __thiscall ResourceIter_Start(void * self_, undefined4 param_1, int 
   *(uint32_t *)((int)self_ + 0x14) = uVar1;
   uVar2 = orig::ResourceIter_MatchCurrent(self_);
   if ((char)uVar2 == '\0') {
-    orig::FUN_100743d0(self_);
+    orig::ResourceIter_Advance(self_);
   }
   return;
 }
@@ -281,7 +330,7 @@ XI_API uint32_t __thiscall ResourceIter_MatchCurrent(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100743D0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100743D0(void * self_)
+XI_API void __thiscall ResourceIter_Advance(void * self_)
 {
   int *piVar1;
   int iVar2;
@@ -442,6 +491,6 @@ XI_API undefined4 __thiscall ResourceIter_FindNext(void * self_, undefined4 xi_s
   uint32_t uVar1;
   
   uVar1 = *(uint32_t *)((int)self_ + 0x14);
-  orig::FUN_100743d0(self_);
+  orig::ResourceIter_Advance(self_);
   return uVar1;
 }

@@ -34,6 +34,43 @@ XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 param_2, undefi
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100AD7C0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void)
+{
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar1;
+  
+  uVar1 = (uint32_t)((uint32_t)xi_entry_eax >> 8);
+  if (DAT_10482f43 == '\0') {
+    return (uint32_t)uVar1 << 8;
+  }
+  if (DAT_104dfd98 == 0) {
+    return (uint32_t)uVar1 << 8;
+  }
+  uVar1 = (uint32_t)(*(uint16_t *)(DAT_104dfd98 + 0x40d7c) - 1 >> 8);
+  switch(*(uint16_t *)(DAT_104dfd98 + 0x40d7c)) {
+  case 1:
+  case 3:
+  case 0x2e:
+  case 0x2f:
+  case 0x3a:
+  case 0x3b:
+  case 0x3c:
+  case 0xdc:
+  case 0xdd:
+  case 0xdf:
+  case 0xe0:
+  case 0xe1:
+  case 0xe2:
+  case 0xe3:
+  case 0xe4:
+    return (uint32_t)uVar1 << 8;
+  default:
+    return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
+  }
+}
+
 // FUNCTION: FFXIMAIN 0x100AE350  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl XiEvent_GetGlobalDword(void)
@@ -76,7 +113,7 @@ XI_API void __thiscall XiEvent_RestoreActer(void * self_)
   this_00 = (void *)(&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)];
   if ((this_00 != (void *)0x0) &&
      (this_01 = *(void **)((int)this_00 + 0xa0), this_01 != (void *)0x0)) {
-    orig::FUN_10087d40(this_00);
+    orig::Unit10086E90_ApplyPair1EC1F4(this_00);
     *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
          *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffeffff;
     uVar1 = orig::CYyObject_IsKindOf(this_01,0x10330ebc);
@@ -208,14 +245,14 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
 
 // FUNCTION: FFXIMAIN 0x100C3020  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100C3020(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100ACAB0_GetWordBFE(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0xbfe))));
 }
 
 // FUNCTION: FFXIMAIN 0x100C3030  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100C3030(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100ACAB0_GetWordC00(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0xc00))));
 }
@@ -343,10 +380,10 @@ XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 param_1, u
   uint64_t uVar5;
   
   pvVar3 = param_2;
-  uVar1 = orig::FUN_100c3020(param_2,xi_entry_eax);
+  uVar1 = orig::Unit100ACAB0_GetWordBFE(param_2,xi_entry_eax);
   uVar2 = orig::Unit10086E90_IsParamBelow901(uVar1 & 0xffff,uVar1 & 0xffff);
   if ((char)uVar2 == '\x01') {
-    xi_eax = (void *)orig::FUN_100c3020(param_2,uVar2);
+    xi_eax = (void *)orig::Unit100ACAB0_GetWordBFE(param_2,uVar2);
     pvVar4 = xi_eax;
   }
   else {
@@ -354,10 +391,10 @@ XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 param_1, u
     param_2 = (void *)((uint32_t)(((uint32_t)(uint16_t)(XI_PIECE(param_2, 2, 2)) << 16) | (uint16_t)(DAT_10485f7a_as_v0)));
     pvVar4 = param_2;
   }
-  uVar1 = orig::FUN_100c3030(pvVar3,xi_eax);
+  uVar1 = orig::Unit100ACAB0_GetWordC00(pvVar3,xi_eax);
   uVar2 = orig::Unit10086E90_IsParamBelow901(uVar1 & 0xffff,uVar1 & 0xffff);
   if ((char)uVar2 == '\x01') {
-    param_2 = (void *)orig::FUN_100c3030(pvVar3,uVar2);
+    param_2 = (void *)orig::Unit100ACAB0_GetWordC00(pvVar3,uVar2);
   }
   else {
     param_2 = (void *)((uint32_t)(((uint32_t)(uint16_t)(XI_PIECE(param_2, 2, 2)) << 16) | (uint16_t)(DAT_10485f7a_as_v0)));
@@ -375,7 +412,7 @@ XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 param_1, u
 
 // FUNCTION: FFXIMAIN 0x100C3480  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100C3480(void * self_)
+XI_API undefined4 __thiscall Unit100ACAB0_StepTimedMessage(void * self_)
 {
   short sVar1;
   void *pvVar2;

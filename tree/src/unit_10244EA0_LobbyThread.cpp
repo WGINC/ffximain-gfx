@@ -13,18 +13,18 @@ XI_API void __cdecl LobbyThread_NoOp(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall LobbyThread_Construct(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
   *(uint8_t ***)self_ = &PTR_FUN_1033cbe0;
-  orig::FUN_10245040(self_);
+  orig::LobbyThread_InitState(self_);
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10245040  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10245040(void * self_)
+XI_API void __thiscall LobbyThread_InitState(void * self_)
 {
   *(uint32_t *)((int)self_ + 0x14) = 2;
   return;
@@ -73,17 +73,17 @@ XI_API int __cdecl Lobby_DestroyThreadPool(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl thunk_sub_10245BB0(void)
 {
-  orig::FUN_10245bb0();
+  orig::LobbyThread_ResetZone();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10245BB0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10245BB0(void)
+XI_API void __cdecl LobbyThread_ResetZone(void)
 {
   if (g_pXiZone != (void *)0x0) {
     orig::XiZone_ResetState(g_pXiZone);
-    orig::FUN_10014cb0();
+    orig::Unit10014350_ApplyTables10350210();
     orig::FUN_1018b130();
     orig::CYyCamMng2_CreateGlobal();
     orig::Actor_ResetDrawLists();
@@ -94,7 +94,7 @@ XI_API void __cdecl fn_10245BB0(void)
 
 // FUNCTION: FFXIMAIN 0x10245BE0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10245BE0(void)
+XI_API undefined4 __cdecl LobbyThread_IsSystemState1(void)
 {
   uint32_t uVar1;
   
@@ -122,13 +122,13 @@ XI_API undefined4 __stdcall LobbyThread_SendCmd0(undefined4 param_1, undefined4 
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_1024c060(0,param_1,param_2,0,0,0,0,0);
+  uVar1 = orig::LobbyThread_PushCmd(0,param_1,param_2,0,0,0,0,0);
   return (int)uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10246030  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10246030(void * self_, char * param_1, uint32_t param_2, uint32_t param_3)
+XI_API uint64_t __thiscall LobbyThread_QueueSoundCmd(void * self_, char * param_1, uint32_t param_2, uint32_t param_3)
 {
   int iVar1;
   int iVar2;
@@ -150,16 +150,16 @@ XI_API uint64_t __thiscall fn_10246030(void * self_, char * param_1, uint32_t pa
     pcVar4 = pcVar4 + 1;
   } while (bVar5);
   if (bVar5) {
-    uVar6 = orig::FUN_1024c060(2,*(int **)(param_1 + 8),iVar1,param_2 & 0x7f,param_3 & 0x7f,0,0,0);
+    uVar6 = orig::LobbyThread_PushCmd(2,*(int **)(param_1 + 8),iVar1,param_2 & 0x7f,param_3 & 0x7f,0,0,0);
     return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar6 >> 0x20)) << 32) | (uint32_t)(iVar1)));
   }
-  uVar6 = orig::FUN_1024c060(1,(int *)param_1,iVar1,param_2 & 0x7f,param_3 & 0x7f,0,0,0);
+  uVar6 = orig::LobbyThread_PushCmd(1,(int *)param_1,iVar1,param_2 & 0x7f,param_3 & 0x7f,0,0,0);
   return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar6 >> 0x20)) << 32) | (uint32_t)(iVar1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10246160  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __stdcall fn_10246160(undefined4 param_1, int param_2, int param_3)
+XI_API uint64_t __stdcall LobbyThread_QueryChannels(undefined4 param_1, int param_2, int param_3)
 {
   int iVar1;
   uint32_t uVar2;
@@ -250,7 +250,7 @@ XI_API uint64_t __stdcall fn_10246160(undefined4 param_1, int param_2, int param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall LobbyThread_SendCmd3(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
-  orig::FUN_1024c060(3,param_1,0,param_2 & 0x7f,param_3,0,0,0);
+  orig::LobbyThread_PushCmd(3,param_1,0,param_2 & 0x7f,param_3,0,0,0);
   return;
 }
 
@@ -260,7 +260,7 @@ XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t pa
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_1024c060(4,param_1,0,param_2 & 0x7f,param_3,0,0,0);
+  uVar1 = orig::LobbyThread_PushCmd(4,param_1,0,param_2 & 0x7f,param_3,0,0,0);
   return (int)uVar1;
 }
 
@@ -268,13 +268,13 @@ XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall LobbyThread_SendCmd6(undefined4 param_1)
 {
-  orig::FUN_1024c060(6,param_1,0,0,0,0,0,0);
+  orig::LobbyThread_PushCmd(6,param_1,0,0,0,0,0,0);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102463F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API undefined4 __stdcall LobbyThread_QueueStreamFile(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   char *pcVar1;
   int iVar2;
@@ -318,7 +318,7 @@ XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, un
     else {
       uVar3 = 0x400;
     }
-    orig::FUN_1024c060(7,param_1,param_2 & 0x7f,param_3,0,0,0,0);
+    orig::LobbyThread_PushCmd(7,param_1,param_2 & 0x7f,param_3,0,0,0,0);
     orig::operator_delete_v1(pcVar1);
   }
   return uVar3;
@@ -326,7 +326,7 @@ XI_API undefined4 __stdcall fn_102463F0(undefined4 param_1, uint32_t param_2, un
 
 // FUNCTION: FFXIMAIN 0x102465E0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __stdcall fn_102465E0(uint32_t param_1, uint32_t param_2, undefined4 param_3)
+XI_API uint32_t __stdcall LobbyThread_QueueMusicFile(uint32_t param_1, uint32_t param_2, undefined4 param_3)
 {
   char cVar1;
   uint8_t *puVar2;
@@ -354,7 +354,7 @@ XI_API uint32_t __stdcall fn_102465E0(uint32_t param_1, uint32_t param_2, undefi
       while( true ) {
         puVar2 = (uint8_t *)auStack_40[iVar6];
         if (puVar2 != (uint8_t *)0x0) {
-          orig::_sprintf_v1(puVar2,s__s_music_3_3u_bgw_103888dc,pcVar5,param_1);
+          orig::_sprintf(puVar2,s__s_music_3_3u_bgw_103888dc,pcVar5,param_1);
         }
         iVar4 = orig::FUN_10311fde(puVar2,&DAT_1034f2d0);
         if (iVar4 != 0) break;
@@ -372,7 +372,7 @@ XI_API uint32_t __stdcall fn_102465E0(uint32_t param_1, uint32_t param_2, undefi
 LAB_10246691:
       if (iVar4 != 0) {
         orig::FUN_10311f30(iVar4);
-        orig::FUN_1024c060(7,piVar3,param_2 & 0x7f,param_3,0,0,0,0);
+        orig::LobbyThread_PushCmd(7,piVar3,param_2 & 0x7f,param_3,0,0,0,0);
       }
       orig::operator_delete_v1(piVar3);
       iVar6 = 0;
@@ -391,7 +391,7 @@ LAB_10246691:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
-  orig::FUN_1024c060(8,param_1,param_2 & 0x7f,param_3,0,0,0,0);
+  orig::LobbyThread_PushCmd(8,param_1,param_2 & 0x7f,param_3,0,0,0,0);
   return;
 }
 
@@ -399,7 +399,7 @@ XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2,
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall LobbyThread_SendCmd9(undefined4 param_1, undefined4 param_2)
 {
-  orig::FUN_1024c060(9,param_1,param_2,0,0,0,0,0);
+  orig::LobbyThread_PushCmd(9,param_1,param_2,0,0,0,0,0);
   return;
 }
 
@@ -409,13 +409,13 @@ XI_API uint64_t __stdcall LobbyThread_SendCmd11(undefined4 param_1)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_1024c060(0xb,param_1,0,0,0,0,0,0);
+  uVar1 = orig::LobbyThread_PushCmd(0xb,param_1,0,0,0,0,0,0);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1024C060  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __stdcall fn_1024C060(int param_1, int * param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
+XI_API uint64_t __stdcall LobbyThread_PushCmd(int param_1, int * param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
 {
   int *piVar1;
   int *piVar2;
@@ -481,13 +481,13 @@ LAB_1024c154:
 
 // FUNCTION: FFXIMAIN 0x1024C210  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1024C210(void * self_)
+XI_API void * __thiscall LobbyThread_CtorVt1033CCA8(void * self_)
 {
   int iVar1;
   uint32_t *puVar2;
   uint64_t uVar3;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
@@ -521,7 +521,7 @@ XI_API void * __thiscall fn_1024C210(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall LobbyThread_ConstructQueue(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
@@ -571,8 +571,8 @@ XI_API int __cdecl StAvatarInit(_DWORD *a1)
   orig::PackVec4((int)(a1 + 34), 0.0, 0, 1101004800, 1065353216);
   orig::PackVec4((int)(a1 + 38), 0.0, 0, 0, 1065353216);
   orig::Unit10273840_InitRecord(a1 + 160);
-  orig::sub_102524B0(a1 + 42);
-  orig::sub_102524B0(a1 + 51);
+  orig::StAvatar_InitSlotRecord(a1 + 42);
+  orig::StAvatar_InitSlotRecord(a1 + 51);
   v2 = 0;
   v3 = a1 + 62;
   do
@@ -599,14 +599,14 @@ XI_API int __cdecl StAvatarInit(_DWORD *a1)
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DSBT_ALL, &g_stateBlock_914C);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->BeginStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)));
   }
-  if ( orig::sub_10270B60() != 0 )
+  if ( orig::Unit102706F0_InitScene() != 0 )
     return -1;
   if ( g_stateBlock_914C != 0 )
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->EndStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_stateBlock_914C);
   orig::StAvatar_SetSceneValue1(1, 64);
   orig::StAvatar_SetSceneValue2(0, 64);
-  orig::sub_1024D130();
-  if ( orig::sub_1026E400() != 0 )
+  orig::StAvatar_InitEntriesFromTables();
+  if ( orig::StAvatar_InitGlobals1099AEB8() != 0 )
   {
     orig::scnFini();
     return -1;
@@ -620,7 +620,7 @@ XI_API int __cdecl StAvatarInit(_DWORD *a1)
 
 // FUNCTION: FFXIMAIN 0x1024D130  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1024D130(void)
+XI_API void __cdecl StAvatar_InitEntriesFromTables(void)
 {
   int iVar1;
   

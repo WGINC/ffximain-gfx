@@ -289,7 +289,7 @@ int __cdecl CDx::Present()
     if ( result == 0 )
       break;
     if ( result == -2005530520 )
-      result = orig::nullsub_13(aDeviceLost);
+      result = orig::Unit10017C10_NoOpVarargsA(aDeviceLost);
   }
   while ( v1 != 0 );
   return result;
@@ -362,17 +362,17 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x10009870  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x10009870  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 96 returned normally, 24 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10009870(void * self_, undefined4 param_1, int * param_2)
+undefined4 __thiscall CDx::CreateDeviceObjectOnce(void * self, undefined4 param_1, int * param_2)
 {
-  if ((*(char *)((int)self_ + 0x909) == '\0') || (*(char *)((int)self_ + 0x90a) == '\0')) {
+  if ((*(char *)((int)self + 0x909) == '\0') || (*(char *)((int)self + 0x90a) == '\0')) {
     *param_2 = -1;
   }
   else if (*param_2 == 0) {
-    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xe4))))(*(int **)((int)self_ + 0xc),param_1,param_2);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xe4))))(*(int **)((int)self + 0xc),param_1,param_2);
     if (*param_2 != -1) {
-      ((int (__stdcall *)(XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd0))))(*(int **)((int)self_ + 0xc));
+      ((int (__stdcall *)(XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xd0))))(*(int **)((int)self + 0xc));
       return 1;
     }
   }
@@ -492,15 +492,15 @@ int CDx::PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a
   return result;
 }
 
-// FUNCTION: FFXIMAIN 0x1000A070  (unit CDx: between 0x10009F20 (name CDx_PushRenderTargetTexture) and 0x1000A1D0 (name CDx_SetTexture), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1000A070  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1000A070(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+void __thiscall CDx::Call1000A0A0Zeroed(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   
   local_4 = 0;
-  orig::FUN_1000a0a0(self_,param_1,param_2,param_3,&local_4,&local_4);
+  orig::FUN_1000a0a0(self,param_1,param_2,param_3,&local_4,&local_4);
   return;
 }
 

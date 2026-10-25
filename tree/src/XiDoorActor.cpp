@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100AC380  (unit XiDoorActor: class model places it in XiDoorActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100AC380(void)
+XI_API void __cdecl XiDoorActor_NopSlot161(void)
 {
   return;
 }

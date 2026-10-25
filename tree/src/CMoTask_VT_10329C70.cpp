@@ -33,7 +33,7 @@ _DWORD * __stdcall CMoTask_VT_10329C70::vf1(_DWORD *a1)
   result = a1;
   if ( *a1 == 6 )
   {
-    orig::nullsub_43(g_pResourceMng);
+    orig::Unit10069DD0_Nop(g_pResourceMng);
     return result;
   }
   return result;

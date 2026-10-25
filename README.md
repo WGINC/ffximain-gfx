@@ -20,19 +20,20 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Status (24 Oct 2026)
+## Status (25 Oct 2026)
 
 The tree is selected by the frame, not the device: every function the frame is known to run (`pipeline/frame_set.py`,
-`data/frame_set.json`; a lower bound, since unproven indirect calls are not followed), from four exports
-(`tree/source.json`: IDA and Ghidra).
+`data/frame_set.json`; a lower bound, since unproven indirect calls are not followed), from five exports
+(`tree/source.json`: IDA and Ghidra). Of the frame set's 4,765 game-code functions, 3,748 are in the tree and 1,017
+are not (`data/frame_set.json` `_summary`).
 
 | | Count | Source |
 |---|---|---|
-| **Functions in the tree** (`tree/`) | **4,050** | `tree/placement.json` |
-| **PASS on the fuzz gate** | **4,049** | `verification/gate_clean_final.jsonl`, under the gate rules of 22 Oct (P10, P13 in `docs/PROBLEMS.md`) |
+| **Functions in the tree** (`tree/`) | **4,206** | `tree/placement.json` |
+| **PASS on the fuzz gate** | **4,205** | `verification/gate_clean_final.jsonl`, under the gate rules of 22 Oct (P10, P13 in `docs/PROBLEMS.md`) |
 | Not verified (`// NOT VERIFIED`) | 1: 0x10003890, INCONCLUSIVE (the original faults on every fuzzed input through objects in its own `this`) | same |
 | Gate-passed, left out of the tree | 9: each calls a game function that may read a register its wrapper does not pass | `tree/left_out.json` |
-| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the 22 Oct tree's 4,205 functions; 1,281 of them are in the current tree. Not rerun on the current tree's text | `verification/msvc_match_tree.json` (Visual C++ 6.0, Processor Pack code generator, `/O2`; relocations by target) |
+| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the 22 Oct tree's 4,205 functions; 1,281 of them are in the 24 Oct tree. Not rerun on the current tree's text | `verification/msvc_match_tree.json` (Visual C++ 6.0, Processor Pack code generator, `/O2`; relocations by target) |
 
 What "PASS" rests on, and what it does not:
 - The fuzz gate only: 100 random trials per function. The live gates on the four memory dumps of the running game

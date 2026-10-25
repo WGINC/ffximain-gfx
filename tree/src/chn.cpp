@@ -7,14 +7,14 @@
 XI_API void __cdecl Chn_ReleaseRefs(uint32_t * param_1)
 {
   if (param_1[0x2f] != 0) {
-    orig::FUN_10285740((int *)(param_1 + 0x2f));
+    orig::SqObject_Release((int *)(param_1 + 0x2f));
   }
   if (param_1[0x2e] != 0) {
-    orig::FUN_10285740((int *)(param_1 + 0x2e));
+    orig::SqObject_Release((int *)(param_1 + 0x2e));
   }
   if (param_1[0x2d] != 0) {
     if ((*param_1 & 0x200) == 0) {
-      orig::FUN_10285740((int *)(param_1 + 0x2d));
+      orig::SqObject_Release((int *)(param_1 + 0x2d));
       return;
     }
     param_1[0x2d] = 0;
@@ -106,7 +106,7 @@ XI_API void __cdecl Chn_InitDefaults(undefined4 * param_1)
 XI_API void __cdecl Chn_ReleaseIfSet(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {
-    orig::FUN_1027e3b0((uint8_t *)param_1);
+    orig::Unit1027E120_ReleaseConnection((uint8_t *)param_1);
     return;
   }
   return;

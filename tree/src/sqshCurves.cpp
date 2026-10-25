@@ -40,6 +40,62 @@ XI_API void __cdecl SqshCurves_Init(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x102AD1D0  (unit sqshCurves: asserts sqshCurves.c)
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SqshCurves_ComputeNormals(int param_1, undefined4 xi_s2)
+{
+  int iVar1;
+  uint32_t *puVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  int iVar6;
+  
+  iVar1 = *(int *)(param_1 + 0x34);
+  if ((iVar1 == 0) || (*(int *)(iVar1 + 0x14) == 0)) {
+    orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqShape_sr_103bef68,0xba);
+    orig::sqDebugPrintf_v1(s_empty_or_missing_vertex__can_t___103beaa4,s_compute_curve_normals_103bf024);
+  }
+  else {
+    if (*(int *)(iVar1 + 0x54) == 0) {
+      orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqShape_sr_103bef68,0xbd
+                  );
+      orig::sqDebugPrintf_v1(s_missing_control_vertices_103bf050);
+      return;
+    }
+    iVar1 = *(int *)(iVar1 + 0x58);
+    if (iVar1 == 0) {
+      orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqShape_sr_103bef68,0xc1
+                  );
+      orig::sqDebugPrintf_v1(s_missing_normals_103bf03c);
+      return;
+    }
+    iVar6 = 0;
+    iVar4 = 0;
+    if (0 < *(int *)(param_1 + 0x44)) {
+      do {
+        iVar3 = *(int *)(*(int *)(param_1 + 0x48) + iVar6 * 4);
+        iVar5 = iVar4;
+        if (0 < iVar3) {
+          iVar5 = iVar4 + iVar3;
+          puVar2 = (uint32_t *)(iVar1 + 8 + iVar4 * 0xc);
+          do {
+            puVar2[-2] = 0;
+            puVar2[-1] = 0;
+            *puVar2 = 0x3f800000;
+            puVar2 = puVar2 + 3;
+            iVar3 = iVar3 + -1;
+          } while (iVar3 != 0);
+        }
+        iVar6 = iVar6 + 1;
+        iVar4 = iVar5;
+      } while (iVar6 < *(int *)(param_1 + 0x44));
+      return;
+    }
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x102AD990  (unit sqshCurves: asserts sqshCurves.c)
 // GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqshCurves_RebuildIndex(int param_1)
@@ -76,7 +132,7 @@ XI_API void __cdecl SqshCurves_RebuildIndex(int param_1)
     }
     iVar3 = *(int *)(param_1 + 0x34);
     orig::SqVtx_ClearEntries(iVar3);
-    orig::FUN_102ad1d0(param_1,iVar3);
+    orig::SqshCurves_ComputeNormals(param_1,iVar3);
     iVar3 = *(int *)(param_1 + 0x34);
     orig::SqVtx_ClearEntriesAlt(iVar3);
     orig::FUN_102ad770_v1(param_1,iVar3);

@@ -36,7 +36,7 @@ XI_API void __cdecl SqmdSort_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1029B310  (unit sqmdSort: asserts sqmdSort.c)
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029B310(int * param_1, int * param_2, int param_3)
+XI_API void __cdecl SqmdSort_AllocLists(int * param_1, int * param_2, int param_3)
 {
   int iVar1;
   undefined4 *puVar2;
@@ -63,4 +63,25 @@ XI_API void __cdecl fn_1029B310(int * param_1, int * param_2, int param_3)
     piVar3 = (int *)((int)piVar3 + iVar1 + 4);
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x1029B3A0  (unit sqmdSort: asserts sqmdSort.c)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl SqmdSort_CreateForStrips(int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+{
+  undefined4 *puVar1;
+  
+  if (*param_1 != 0xa0009) {
+    orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqModel_sr_103bc66c,199);
+    orig::sqDebugPrintf_v1(s_sort_updater_must_use_tri_strips_103bc69c);
+    return 0;
+  }
+  puVar1 = orig::SqmdSort_Create();
+  puVar1[7] = param_2;
+  puVar1[10] = param_3;
+  puVar1[9] = param_1;
+  puVar1[0xb] = param_4;
+  orig::SqmdSort_AllocLists(puVar1 + 0xc,puVar1 + 0xd,(int)param_1);
+  puVar1[0xe] = 1;
+  return (int)puVar1;
 }

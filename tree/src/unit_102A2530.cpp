@@ -95,7 +95,7 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 
 // FUNCTION: FFXIMAIN 0x102A2720  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2720(int param_1, int param_2)
+XI_API void __cdecl Unit102A2530_RenderShadowTexture(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;
@@ -192,7 +192,7 @@ XI_API void __cdecl Sqgx_CheckShadowGroupMember(undefined4 param_1, int param_2,
 
 // FUNCTION: FFXIMAIN 0x102A2C00  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102A2C00(int param_1, int * param_2, int param_3, int param_4)
+XI_API void __cdecl Unit102A2530_DrawShadowedShape(int param_1, int * param_2, int param_3, int param_4)
 {
   int iVar1;
   
@@ -208,7 +208,7 @@ XI_API void __cdecl fn_102A2C00(int param_1, int * param_2, int param_3, int par
   orig::sqgxPassAdd_v1(0x14);
   orig::sqgxZMask_v1(0);
   orig::sqgxMatrixShape_v1((uint32_t *)param_2[1]);
-  orig::FUN_102972d0(*(float *)(*(int *)(*(int *)(param_1 + 0x24) + *(int *)(iVar1 + param_3 * 0x30) * 0xc
+  orig::SqgxContext_SetCotHalfAngle(*(float *)(*(int *)(*(int *)(param_1 + 0x24) + *(int *)(iVar1 + param_3 * 0x30) * 0xc
                                   ) + 0x24));
   orig::sqgxShader_v1(0x20000000,0);
   orig::sqDrawableDraw_v1(*param_2);

@@ -2,6 +2,23 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10074F30  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall Unit10074CA0_FindTask(void * self_, int param_1, int param_2)
+{
+  int iVar1;
+  
+  iVar1 = *(int *)((int)self_ + 0xd50);
+  while( true ) {
+    if (iVar1 == 0) {
+      return 0;
+    }
+    if ((*(int *)(iVar1 + 0x18) == param_1) && (*(int *)(iVar1 + 0x1c) == param_2)) break;
+    iVar1 = *(int *)(iVar1 + 0xc);
+  }
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 48 returned normally, 685 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
@@ -718,7 +735,7 @@ LAB_10076cb3:
       *outbuf = '\0';
       return 0;
     }
-    uVar5 = orig::FUN_101cc070(0);
+    uVar5 = orig::Unit101C72E0_TestFlags100Or40DAC(0);
     if ((char)uVar5 != '\0') {
       orig::FUN_10129d90(g_pTkMsgWinData_as_v1,2);
       *outbuf = '\0';
@@ -739,20 +756,20 @@ LAB_10076cb3:
       ((uint8_t *)((&DAT_103551e7)))[bufsize - iVar7] = 0;
       if (bVar10) {
         if (DAT_106643a8_as_v2 != (void *)0x0) {
-          orig::FUN_10202d30(&LAB_10077a20,0,0,0,0,2);
-          orig::FUN_10081440(1);
+          orig::Unit101D7020_SetModeFwd(&LAB_10077a20,0,0,0,0,2);
+          orig::Unit10078260_SetFlag1047D498(1);
           orig::FUN_10202fe0(DAT_106643a8_as_v2,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(0);
           *outbuf = '\0';
           return 0;
         }
       }
       else if (cVar3 == '\a') {
         if (DAT_106643a8_as_v2 != (void *)0x0) {
-          orig::FUN_10202d30(&LAB_10077a20,0,0,0,0,3);
-          orig::FUN_10081440(1);
+          orig::Unit101D7020_SetModeFwd(&LAB_10077a20,0,0,0,0,3);
+          orig::Unit10078260_SetFlag1047D498(1);
           orig::FUN_10202fe0(DAT_106643a8_as_v2,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(0);
           *outbuf = '\0';
           return 0;
         }
@@ -760,9 +777,9 @@ LAB_10076cb3:
       else {
         uVar5 = orig::Target_SetIfUsable(g_pTargetMng,&LAB_10077950,local_c);
         if ((char)uVar5 != '\0') {
-          orig::FUN_10081440(1);
-          orig::FUN_10158db0(g_pTargetMng,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(1);
+          orig::Target_ApplyAction(g_pTargetMng,1);
+          orig::Unit10078260_SetFlag1047D498(0);
           orig::Target_SetHandlerC8(g_pTargetMng,XI_CODE(FUN_10077a00));
           *outbuf = '\0';
           return 0;
@@ -947,7 +964,7 @@ XI_API undefined4 __cdecl Arg_LookupWord(undefined4 param_1, char * param_2)
 
 // FUNCTION: FFXIMAIN 0x10077C30  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10077C30(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit10074CA0_MapNameLetters(uint8_t * param_1)
 {
   uint8_t bVar1;
   uint32_t xi_entry_eax = 0;
@@ -1098,7 +1115,7 @@ XI_API undefined4 __cdecl ChatLog_AddFormattedMessage(undefined4 param_1, undefi
 
 // FUNCTION: FFXIMAIN 0x10077FB0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10077FB0(void)
+XI_API void __cdecl Unit10074CA0_ToggleOnKey(void)
 {
   int iVar1;
   int iVar2;
@@ -1108,9 +1125,9 @@ XI_API void __cdecl fn_10077FB0(void)
   uint64_t uVar6;
   
   uVar4 = orig::thunk_FUN_100e97d0();
-  uVar6 = orig::FUN_10123a70(0x3f,0,1,-1,uVar4);
+  uVar6 = orig::Unit100D7420_TestCommand36CF60(0x3f,0,1,-1,uVar4);
   if ((char)uVar6 != '\0') {
-    uVar6 = orig::FUN_10123a70(0x3f,0xf,4,-1,(int)uVar6);
+    uVar6 = orig::Unit100D7420_TestCommand36CF60(0x3f,0xf,4,-1,(int)uVar6);
     if ((char)uVar6 != '\0') {
       if (DAT_1047d4a7 == '\0') {
         uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar6 >> 8)) << 8) | (uint8_t)(DAT_1047d4a6))) ^ 1;
@@ -1159,7 +1176,7 @@ XI_API undefined4 __cdecl Unit10074CA0_BuildPacket1A(undefined4 param_1, undefin
   uint16_t *puVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_100fc3c0(0x1a,param_8,0);
+  uVar2 = orig::Unit100D7420_CheckTimer41B4(0x1a,param_8,0);
   puVar1 = (uint16_t *)uVar2;
   if (puVar1 != (uint16_t *)0x0) {
     puVar1[4] = (uint16_t)param_1;

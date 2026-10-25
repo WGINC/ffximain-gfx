@@ -10,7 +10,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
   uint64_t uVar1;
   
   if (8 < *(int *)((int)self_ + 8)) {
-    orig::nullsub_13_v1(s_Thread_Num_Over___10351c70);
+    orig::Unit10017C10_NoOpVarargsA_v1(s_Thread_Num_Over___10351c70);
     return;
   }
   uVar1 = orig::Allocator_Generic_v1(0x10);
@@ -23,7 +23,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
       return;
     }
   }
-  orig::nullsub_13_v1(s_Thread_Create_Error___10351c58);
+  orig::Unit10017C10_NoOpVarargsA_v1(s_Thread_Create_Error___10351c58);
   return;
 }
 

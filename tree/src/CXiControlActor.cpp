@@ -94,7 +94,7 @@ void * __thiscall CXiControlActor::Constructor(void * self)
   uint32_t *puVar5;
   uint64_t uVar6;
   
-  orig::FUN_10081cf0(self);
+  orig::CXiActor_ConstructBase(self);
   *(uint8_t ***)self = &PTR_CXiAtelActor_GetRuntimeClass_variant0_1032e3c8;
   orig::ActorHandle_Constructor_v1((void *)((int)self + 0x5a0));
   *(uint8_t ***)self = &PTR_CXiControlActor_GetRuntimeClass_variant1_1032dfc8;

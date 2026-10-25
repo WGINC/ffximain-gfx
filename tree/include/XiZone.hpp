@@ -19,6 +19,7 @@ public:
     static void __thiscall SetTreeState1BC(void * self, int param_1);  // 0x1018B5E0
     static void __thiscall ResetState(void * self);  // 0x1018B620
     static void __thiscall DrawScene(void * self);  // 0x1018B860
+    static void __stdcall Call10036170(int param_1);  // 0x1018B8B0
     static long double __thiscall ComputeFogDistance(void * self, undefined4 param_2);  // 0x1018B8F0
     static void __thiscall GetDirLightsForArea(void * self, undefined4 param_1, undefined4 param_2, int param_3);  // 0x1018B960
     static void __thiscall GetDirLight(void * self, undefined4 param_1, undefined4 param_2, int param_3);  // 0x1018B9A0

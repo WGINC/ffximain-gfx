@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027A6F0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027A6F0(undefined4 * param_1)
+XI_API void __cdecl Unit1027A4B0_SetIdentityFwd(undefined4 * param_1)
 {
   orig::Unit1027A4B0_SetIdentity(param_1);
   return;

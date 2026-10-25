@@ -69,7 +69,7 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
     if (bVar2 == bVar3) {
       uVar6 = 0;
       lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351708 * (long double)127.0f);
-      uVar6 = orig::FUN_10038470(DAT_10463910_as_s32,(int)lVar5,uVar6,DAT_10463910_as_s32);
+      uVar6 = orig::Music_SetTrackVolume(DAT_10463910_as_s32,(int)lVar5,uVar6,DAT_10463910_as_s32);
       return uVar6;
     }
   }
@@ -103,13 +103,13 @@ XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463934(undefined4 xi_s1)
     xi_entry_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463934 + 0x18))))((void *)(DAT_10463934),1);
     DAT_10463934 = (int *)0x0;
   }
-  uVar1 = orig::FUN_100360f0(xi_s1,xi_entry_eax);
+  uVar1 = orig::Music_ApplyVolume(xi_s1,xi_entry_eax);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x100360F0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100360F0(undefined4 xi_eax, float param_1)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_ApplyVolume(undefined4 xi_eax, float param_1)
 {
   long double fVar1;
   uint32_t uVar2;
@@ -128,7 +128,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100360F0(undefined4 xi_e
       uVar2 = 0;
       lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)(float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 *
                                       (long double)param_1 * (long double)127.0f));
-      uVar2 = orig::FUN_10038470(DAT_10463920,(int)lVar5,uVar2,DAT_10463920);
+      uVar2 = orig::Music_SetTrackVolume(DAT_10463920,(int)lVar5,uVar2,DAT_10463920);
     }
     else if (DAT_1046393c != 0) {
       uVar2 = orig::LobbyThread_SendCmd0(DAT_10463920,DAT_1046391c);
@@ -149,7 +149,7 @@ XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
   
   if (param_1 == 0) {
     if (DAT_10463914 != (void *)0x0) {
-      orig::FUN_10036b90(DAT_10463914,DAT_10463910);
+      orig::Unit10036B90_SendStopToLobby(DAT_10463914,DAT_10463910);
       DAT_10463914 = (void *)param_1;
       return;
     }
@@ -157,7 +157,7 @@ XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
   else if (DAT_10463914 != (void *)param_1) {
     _DAT_10463918 = *(uint32_t *)(param_1 + 0x38);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351708 * (long double)127.0f);
-    uVar2 = orig::FUN_10036f00((void *)param_1,0x40,(int)lVar1);
+    uVar2 = orig::Unit10036B90_SetVolumeScalar((void *)param_1,0x40,(int)lVar1);
     DAT_10463910 = (uint32_t)uVar2;
     DAT_10463914 = (void *)param_1;
   }
@@ -176,24 +176,28 @@ XI_API void __cdecl Unit10035B00_ResetGlobals(void)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x100364A0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
+// FUNCTION: FFXIMAIN 0x10036460  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100364A0(void * self_)
+XI_API uint32_t __cdecl Unit10035B00_AddUniqueId(int param_1)
 {
-  uint32_t uVar1;
+  uint32_t xi_entry_eax = 0;
+  int *piVar1;
   
-  uVar1 = orig::CYySoundElem_UpdateTimerAndPosition(self_);
-  if ((char)uVar1 == '\0') {
-    uVar1 = orig::CYySoundElem_IsTimerPositive(self_);
-    if ((char)uVar1 != '\0') {
-      uVar1 = orig::CYySoundElem_QueueIfAbsent(*(int **)((int)self_ + 0x104));
-      if ((char)uVar1 == '\0') {
-        orig::CYySoundElem_ClearHandle(self_);
-        return;
-      }
-    }
+  if ((int *)0x13 < DAT_1046390c_as_v0) {
+    return xi_entry_eax & 0xffffff00;
   }
-  return;
+  piVar1 = (int *)0x0;
+  if (DAT_1046390c_as_v0 != (int *)0x0) {
+    do {
+      if ((&DAT_10462538)[(int)piVar1] == param_1) goto LAB_10036496;
+      piVar1 = (int *)((int)piVar1 + 1);
+    } while (piVar1 < DAT_1046390c_as_v0);
+  }
+  piVar1 =(int*)(&DAT_10462538 + (int)DAT_1046390c_as_v0);
+  DAT_1046390c_as_v0 = (int *)((int)DAT_1046390c_as_v0 + 1);
+  *piVar1 = param_1;
+LAB_10036496:
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100367F0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)

@@ -113,7 +113,7 @@ XI_API void __thiscall Unit100548D0_Init(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100550F0  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_100550F0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API void __attribute__((stdcall, regparm(3))) Unit100548D0_FreeSplineSet(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int iVar1;
   

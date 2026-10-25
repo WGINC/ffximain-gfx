@@ -164,7 +164,7 @@ XI_API undefined4 __cdecl Vec3_MulComponents(float * param_1, float * param_2, f
 
 // FUNCTION: FFXIMAIN 0x10027510  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10027510(float * param_1, undefined4 * param_2)
+XI_API void __cdecl Vec3_CopyThen100274B0(float * param_1, undefined4 * param_2)
 {
   uint32_t xi_eax;
   
@@ -195,7 +195,7 @@ XI_API undefined4 __cdecl Vec3_Cross(undefined4 * param_1, float * param_2, floa
 
 // FUNCTION: FFXIMAIN 0x10027620  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10027620(undefined4 param_1, undefined4 param_2)
+XI_API long double __cdecl Vec3_Call100275D0(undefined4 param_1, undefined4 param_2)
 {
   long double fVar1;
   
@@ -740,9 +740,9 @@ XI_API void __cdecl SharedDeleteHelper(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10028720  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10028720(undefined4 param_1)
+XI_API void __cdecl Unit10026C70_Call10029150(undefined4 param_1)
 {
-  orig::FUN_10029150(param_1);
+  orig::Unit10028FD0_CallListByKind(param_1);
   return;
 }
 

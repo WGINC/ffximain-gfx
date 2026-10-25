@@ -1,0 +1,646 @@
+# Batch r3_033_sqmdDMB: 4 functions of `sqmdDMB`
+
+Name these functions: see `batches/README.md`. Write `data/names/r3_033_sqmdDMB.json`.
+0 of them were sampled in a running frame (data/frame_set.json).
+
+## `0x10287FB0` fn_10287FB0
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `sub_10275090` x14, `SqMem_HexDump` (medium), `sqDebugPrintf` (high) x2, `SqmdDMB_TraceDelta` (low) x21, `SqmdDMB_AlignMem` (medium) x2, `fn_102886D0`, `fn_10288950`, `SqmdDMB_ResolveMatrices` (medium), `SqmdDMB_ResolveStrings` (medium), `SqmdDMB_ClearTables` (low), `SqmdDMB_ResetCounts` (low), `sqmdDMBBuildShapes`, `fn_10288FF0`, `sub_10314D55` x21
+- **Called by:** `fn_102528D0`, `sub_10287D60`
+- **Writes globals:** `0x109A2750`, `0x109A2754`, `0x109A2770`, `0x109A2774`, `0x109A2778`, `0x109A277C`, `0x109A2780`
+- **Reads globals:** `0x109A2788`
+- **Strings its callees refer to:** `C:\dev\dancer\modules\sqBase\src\sqTimer.c`, `Warning in %s, line %d: `, `_sort`, `untitled`
+- **From the frame root** (shortest chain of direct calls): `CApp::RunMainLoop` → `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_Update` → `sub_1024D850` → `fn_102528D0` → `fn_10287FB0`
+- **Named callees' callees:** `sqmdModel_GetItemName`, `SqmdModel_FindItemName`, `Unit1027A4B0_Copy`, `sqgxTextureAdd`, `sqgxTextureClutAdd`, `Unit10288FF0_ResolveSkelRefs`, `sqsdGeneric_BakeOntoShape`, `SqskJoint_Create`, `SqhiNode_Create`, `SqhiNode_SetField64`, `SqhiNode_AppendChild`, `sqsdSampling_BakeOntoShape` and 6 more
+- **How its callers call it** (their verified code):
+  - in `fn_102528D0`: `uVar1 = orig::FUN_10287fb0((char *)param_1[6],param_1[7]);`
+- **Neighbours' readings** (naming sessions' summaries, not facts):
+  - `SqMem_HexDump` (medium): Prints a memory range as a hex dump.
+  - `sqDebugPrintf` (high): 
+  - `SqmdDMB_TraceDelta` (low): Returns the offset of a value from the first value recorded.
+  - `SqmdDMB_AlignMem` (medium): Rounds a memory offset up to 16 bytes, logging the padding when tracing.
+  - `SqmdDMB_ResolveMatrices` (medium): Assigns memory slots to the matrices of a deform block.
+  - `SqmdDMB_ResolveStrings` (medium): Copies a deform block's tag and file strings into its buffer.
+  - `SqmdDMB_ClearTables` (low): Clears the first two tables of a deform block.
+  - `SqmdDMB_ResetCounts` (low): Resets the counters and two tables of a deform block.
+
+Short callee `SqmdDMB_TraceDelta` (low):
+```cpp
+XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
+{
+  if (DAT_109a278c == 0) {
+    DAT_109a278c = param_1;
+    return 0;
+  }
+  return param_1 - DAT_109a278c;
+}
+```
+
+```cpp
+XI_API int __cdecl fn_10287FB0(char * param_1, undefined4 param_2)
+{
+  int iVar1;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  int iVar4;
+  int iVar5;
+  int iVar6;
+  int *piVar7;
+  uint8_t *pbVar8;
+  uint64_t uVar9;
+  
+  if (((uint32_t)param_1 & 0xf) != 0) {
+    orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolve___expe_103b8e8c,0x10);
+    return 0;
+  }
+  if (((*param_1 == 'D') && (param_1[1] == 'M')) && (param_1[2] == 'B')) {
+    *(char **)(param_1 + 8) = param_1;
+    param_1[0xc] = '\0';
+    param_1[0xd] = '\0';
+    param_1[0xe] = '\0';
+    param_1[0xf] = '\0';
+    if (DAT_109a2788 != 0) {
+      iVar1 = orig::SqmdDMB_TraceDelta((int)param_1);
+      orig::FUN_10314d55(DAT_109a2788,s__06ld_____sqmdDMBResolve___103b8e70,iVar1);
+    }
+    uVar2 = orig::SqmdDMB_AlignMem((uint32_t)(param_1 + 0x10));
+    *(code **)(uVar2 + 8) = XI_CODE(FUN_10277a50_v1);
+    *(code **)(uVar2 + 0xc) = XI_CODE(SqmdModel_Free_v1);
+    *(code **)(uVar2 + 0x10) = XI_CODE(sqmdModel_Dump);
+    *(code **)(uVar2 + 0x18) = XI_CODE(FUN_10278490_v1);
+    uVar3 = orig::SqmdDMB_AlignMem(uVar2 + 0xac);
+    iVar4 = orig::FUN_10275090();
+    iVar1 = *(int *)(uVar2 + 0x28);
+    if (*(int *)(uVar2 + 0x28) <= *(int *)(uVar2 + 0x24)) {
+      iVar1 = *(int *)(uVar2 + 0x24);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x1c) = 0;
+      *(uint32_t *)(uVar2 + 0x20) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x1c) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8E40,iVar5);
+      }
+      iVar5 = uVar3 + iVar1 * 4;
+      *(int *)(uVar2 + 0x20) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8E0C,iVar6);
+      }
+      uVar3 = iVar5 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x34);
+    if (*(int *)(uVar2 + 0x34) < *(int *)(uVar2 + 0x38)) {
+      iVar1 = *(int *)(uVar2 + 0x38);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x2c) = 0;
+      *(uint32_t *)(uVar2 + 0x30) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x2c) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8DDC,iVar5);
+      }
+      iVar5 = uVar3 + iVar1 * 4;
+      *(int *)(uVar2 + 0x30) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8DA8,iVar6);
+      }
+      uVar3 = iVar5 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x44);
+    if (*(int *)(uVar2 + 0x44) < *(int *)(uVar2 + 0x48)) {
+      iVar1 = *(int *)(uVar2 + 0x48);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x3c) = 0;
+      *(uint32_t *)(uVar2 + 0x40) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x3c) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8D78,iVar5);
+      }
+      iVar5 = uVar3 + iVar1 * 4;
+      *(int *)(uVar2 + 0x40) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8D44,iVar6);
+      }
+      uVar3 = iVar5 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x58);
+    if (*(int *)(uVar2 + 0x58) < *(int *)(uVar2 + 0x5c)) {
+      iVar1 = *(int *)(uVar2 + 0x5c);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x4c) = 0;
+      *(uint32_t *)(uVar2 + 0x50) = 0;
+      *(uint32_t *)(uVar2 + 0x54) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x4c) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8D14,iVar5);
+      }
+      iVar1 = iVar1 * 4;
+      iVar5 = uVar3 + iVar1;
+      *(int *)(uVar2 + 0x50) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8CE4,iVar6);
+      }
+      iVar5 = iVar5 + iVar1;
+      *(int *)(uVar2 + 0x54) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8CB0,iVar6);
+      }
+      uVar3 = iVar5 + iVar1;
+    }
+    iVar1 = *(int *)(uVar2 + 0x68);
+    if (*(int *)(uVar2 + 0x68) < *(int *)(uVar2 + 0x6c)) {
+      iVar1 = *(int *)(uVar2 + 0x6c);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x60) = 0;
+      *(uint32_t *)(uVar2 + 100) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x60) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8C84,iVar5);
+      }
+      iVar5 = uVar3 + iVar1 * 4;
+      *(int *)(uVar2 + 100) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8C54,iVar6);
+      }
+      uVar3 = iVar5 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x7c);
+    if (*(int *)(uVar2 + 0x7c) < *(int *)(uVar2 + 0x80)) {
+      iVar1 = *(int *)(uVar2 + 0x80);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x70) = 0;
+      *(uint32_t *)(uVar2 + 0x74) = 0;
+      *(uint32_t *)(uVar2 + 0x78) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x70) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8C28,iVar5);
+      }
+      iVar1 = iVar1 * 4;
+      iVar5 = uVar3 + iVar1;
+      *(int *)(uVar2 + 0x74) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8BF8,iVar6);
+      }
+      iVar5 = iVar5 + iVar1;
+      *(int *)(uVar2 + 0x78) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8BC4,iVar6);
+      }
+      uVar3 = iVar5 + iVar1;
+    }
+    iVar1 = *(int *)(uVar2 + 0x90);
+    if (*(int *)(uVar2 + 0x90) < *(int *)(uVar2 + 0x94)) {
+      iVar1 = *(int *)(uVar2 + 0x94);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x84) = 0;
+      *(uint32_t *)(uVar2 + 0x88) = 0;
+      *(uint32_t *)(uVar2 + 0x8c) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x84) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8B94,iVar5);
+      }
+      iVar1 = iVar1 * 4;
+      iVar5 = uVar3 + iVar1;
+      *(int *)(uVar2 + 0x88) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8B60,iVar6);
+      }
+      iVar5 = iVar5 + iVar1;
+      *(int *)(uVar2 + 0x8c) = iVar5;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(iVar5);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8B2C,iVar6);
+      }
+      uVar3 = iVar5 + iVar1;
+    }
+    iVar1 = *(int *)(uVar2 + 0x58);
+    if (*(int *)(uVar2 + 0x58) < *(int *)(uVar2 + 0x5c)) {
+      iVar1 = *(int *)(uVar2 + 0x5c);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x98) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x98) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8AF4,iVar5);
+      }
+      uVar3 = uVar3 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x58);
+    if (*(int *)(uVar2 + 0x58) < *(int *)(uVar2 + 0x5c)) {
+      iVar1 = *(int *)(uVar2 + 0x5c);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x98) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0xa0) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8AC0,iVar5);
+      }
+      uVar3 = uVar3 + iVar1 * 4;
+    }
+    iVar1 = *(int *)(uVar2 + 0x5c);
+    if (*(int *)(uVar2 + 0x5c) <= *(int *)(uVar2 + 0xa4)) {
+      iVar1 = *(int *)(uVar2 + 0xa4);
+    }
+    if (iVar1 < 1) {
+      *(uint32_t *)(uVar2 + 0x9c) = 0;
+    }
+    else {
+      *(uint32_t *)(uVar2 + 0x9c) = uVar3;
+      if (DAT_109a2788 != 0) {
+        iVar5 = orig::SqmdDMB_TraceDelta(uVar3);
+        orig::FUN_10314d55(DAT_109a2788,g_103B8A8C,iVar5);
+      }
+      uVar3 = uVar3 + iVar1 * 4;
+    }
+    iVar1 = orig::FUN_10275090();
+    DAT_109a2770 = iVar1 - iVar4;
+    iVar1 = orig::FUN_10275090();
+    uVar3 = orig::FUN_102886d0(uVar2,uVar3);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a2774 = iVar4 - iVar1;
+    iVar1 = orig::FUN_10275090();
+    piVar7 = orig::FUN_10288950(uVar2,uVar3);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a2778 = iVar4 - iVar1;
+    iVar1 = orig::FUN_10275090();
+    uVar3 = orig::SqmdDMB_ResolveMatrices(uVar2,(uint32_t)piVar7);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a277c = iVar4 - iVar1;
+    iVar1 = orig::FUN_10275090();
+    orig::SqmdDMB_ResolveStrings(uVar2,uVar3);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a2780 = iVar4 - iVar1;
+    orig::SqmdDMB_ClearTables(uVar2);
+    orig::SqmdDMB_ResetCounts(uVar2);
+    iVar1 = orig::FUN_10275090();
+    pbVar8 = sqmdDMBBuildShapes(uVar2,param_2);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a2750 = iVar4 - iVar1;
+    iVar1 = orig::FUN_10275090();
+    orig::FUN_10288ff0(uVar2,pbVar8);
+    iVar4 = orig::FUN_10275090();
+    DAT_109a2754 = iVar4 - iVar1;
+    *(uint32_t *)(uVar2 + 0xa8) = *(uint32_t *)(uVar2 + 0xa8) | 0x200;
+    return uVar2;
+  }
+  uVar9 = orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolve___call_103b8a4c);
+  orig::SqMem_HexDump((int)param_1,0x100,(int)uVar9,(int)((uint64_t)uVar9 >> 0x20));
+  return 0;
+}
+```
+
+## `0x102886D0` fn_102886D0
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `sqgxTextureAdd` x2, `sqgxTextureClutAdd`, `sqDebugPrintf` (high) x3, `SqmdDMB_TraceDelta` (low) x5, `SqmdDMB_AlignMem` (medium) x3, `sub_10314D55` x5
+- **Called by:** `fn_10287FB0`
+- **Reads globals:** `0x109A2788`
+- **From the frame root** (shortest chain of direct calls): `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_Update` → `sub_1024D850` → `fn_102528D0` → `fn_10287FB0` → `fn_102886D0`
+- **Named callees' callees:** `sqgxTextureCreateFromImage`, `sqgxCeilLog2`
+- **How its callers call it** (their verified code):
+  - in `fn_10287FB0`: `uVar3 = orig::FUN_102886d0(uVar2,uVar3);`
+- **Neighbours' readings** (naming sessions' summaries, not facts):
+  - `sqDebugPrintf` (high): 
+  - `SqmdDMB_TraceDelta` (low): Returns the offset of a value from the first value recorded.
+  - `SqmdDMB_AlignMem` (medium): Rounds a memory offset up to 16 bytes, logging the padding when tracing.
+
+Short callee `SqmdDMB_TraceDelta` (low):
+```cpp
+XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
+{
+  if (DAT_109a278c == 0) {
+    DAT_109a278c = param_1;
+    return 0;
+  }
+  return param_1 - DAT_109a278c;
+}
+```
+
+```cpp
+XI_API uint32_t __cdecl fn_102886D0(int param_1, uint32_t param_2)
+{
+  int *piVar1;
+  int iVar2;
+  uint32_t uVar3;
+  int iVar4;
+  uint32_t uVar5;
+  int iVar6;
+  int xi_s3;
+  int iVar7;
+  int iVar8;
+  uint32_t uVar9;
+  
+  iVar2 = DAT_109a2788;
+  if (DAT_109a2788 != 0) {
+    iVar4 = orig::SqmdDMB_TraceDelta(param_2);
+    orig::FUN_10314d55(iVar2,s__06ld_____sqmdDMBResolveTextures_103b9004,iVar4);
+  }
+  uVar5 = orig::SqmdDMB_AlignMem(param_2);
+  iVar2 = *(int *)(param_1 + 0x24);
+  param_2 = 0;
+  uVar9 = uVar5;
+  if (0 < iVar2) {
+    do {
+      piVar1 = (int *)(uVar5 + 0x14);
+      *(uint8_t **)(uVar5 + 8) =(uint8_t*)(&LAB_10298b50);
+      *(code **)(uVar5 + 0xc) = XI_CODE(FUN_10298b60);
+      *(code **)(uVar5 + 0x10) = XI_CODE(sqrdTexturePrint);
+      *piVar1 = -1;
+      *(int *)(uVar5 + 0x18) = -1;
+      iVar4 = DAT_109a2788;
+      if (DAT_109a2788 != 0) {
+        iVar6 = orig::SqmdDMB_TraceDelta(uVar5);
+        orig::FUN_10314d55(iVar4,s__06ld__texture__3d_103b8fec,iVar6);
+      }
+      uVar9 = uVar5 + 0x24;
+      *(uint32_t *)(*(int *)(param_1 + 0x1c) + param_2 * 4) = uVar5;
+      if (*(int *)(uVar5 + 0x1c) == -1) {
+        *(uint32_t *)(uVar5 + 0x1c) = 0;
+      }
+      else {
+        *(uint32_t *)(uVar5 + 0x1c) = uVar9;
+        *(uint8_t **)(uVar5 + 0x2c) =(uint8_t*)(&LAB_10298530);
+        *(code **)(uVar5 + 0x30) = XI_CODE(FUN_10298540);
+        *(uint8_t **)(uVar5 + 0x34) =(uint8_t*)(&LAB_102985a0);
+        iVar4 = DAT_109a2788;
+        if (DAT_109a2788 != 0) {
+          iVar6 = orig::SqmdDMB_TraceDelta(uVar9);
+          orig::FUN_10314d55(iVar4,s__06ld__image_103b8fd8,iVar6);
+        }
+        uVar3 = *(uint32_t *)(uVar5 + 0x4c);
+        uVar9 = uVar5 + 0x60;
+        if (uVar3 == 0xffffffff) {
+LAB_102888c0:
+          *(uint32_t *)(uVar5 + 0x4c) = 0;
+        }
+        else {
+          if (uVar3 != 0xefbeddba) {
+            if (uVar3 < param_2) {
+              iVar4 = *(int *)(*(int *)(param_1 + 0x1c) + uVar3 * 4);
+              if ((iVar4 != 0) && (iVar4 = *(int *)(iVar4 + 0x1c), iVar4 != 0)) {
+                iVar4 = *(int *)(iVar4 + 0x28);
+                *(int *)(uVar5 + 0x4c) = iVar4;
+                iVar4 = orig::sqgxTextureAdd_v1(*(int *)(uVar5 + 0x40),*(int *)(uVar5 + 0x44),
+                                       *(int *)(uVar5 + 0x48),iVar4);
+                *piVar1 = iVar4;
+                *(uint32_t *)(uVar5 + 0x20) = *(uint32_t *)(uVar5 + 0x20) | 1;
+                goto LAB_102888c7;
+              }
+              orig::sqDebugPrintf_v1(s_____Error__borrowTex_doesn_t_con_103b8f1c);
+            }
+            else {
+              orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolveTexture_103b8f70);
+              orig::sqDebugPrintf_v1(s_current__d_borrows_from__d_103b8f4c,param_2,
+                           *(uint32_t *)(uVar5 + 0x4c));
+            }
+            goto LAB_102888c0;
+          }
+          uVar9 = orig::SqmdDMB_AlignMem(uVar9);
+          iVar4 = *(int *)(uVar5 + 0x44);
+          iVar6 = *(int *)(uVar5 + 0x48);
+          iVar8 = *(int *)(uVar5 + 0x40);
+          *(uint32_t *)(uVar5 + 0x4c) = uVar9;
+          iVar7 = DAT_109a2788;
+          if (DAT_109a2788 != 0) {
+            xi_s3 = orig::SqmdDMB_TraceDelta(uVar9);
+            orig::FUN_10314d55(iVar7,s__06ld__data___d_bytes__103b8fb8,xi_s3);
+          }
+          iVar7 = orig::sqgxTextureAdd_v1(*(int *)(uVar5 + 0x40),*(int *)(uVar5 + 0x44),
+                                 *(int *)(uVar5 + 0x48),*(int *)(uVar5 + 0x4c));
+          *piVar1 = iVar7;
+          uVar9 = uVar9 + iVar4 * iVar6 * iVar8;
+          *(uint32_t *)(uVar5 + 0x20) = *(uint32_t *)(uVar5 + 0x20) | 1;
+        }
+LAB_102888c7:
+        if (*(int *)(uVar5 + 0x5c) == -1) {
+          *(uint32_t *)(uVar5 + 0x5c) = 0;
+        }
+        else {
+          uVar9 = orig::SqmdDMB_AlignMem(uVar9);
+          iVar4 = *(int *)(uVar5 + 0x58);
+          iVar6 = *(int *)(uVar5 + 0x54);
+          *(uint32_t *)(uVar5 + 0x5c) = uVar9;
+          iVar8 = DAT_109a2788;
+          if (DAT_109a2788 != 0) {
+            iVar7 = orig::SqmdDMB_TraceDelta(uVar9);
+            orig::FUN_10314d55(iVar8,s__06ld__clutData___d_bytes__103b8ef8,iVar7);
+          }
+          iVar8 = orig::sqgxTextureClutAdd(*(uint32_t *)(uVar5 + 0x58),*(int *)(uVar5 + 0x54),
+                                     *(int *)(uVar5 + 0x5c));
+          uVar9 = uVar9 + iVar4 * iVar6;
+          *(int *)(uVar5 + 0x18) = iVar8;
+        }
+      }
+      param_2 = param_2 + 1;
+      uVar5 = uVar9;
+    } while ((int)param_2 < iVar2);
+  }
+  return uVar9;
+}
+```
+
+## `0x10288950` fn_10288950
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `sqDebugPrintf` (high), `SqmdDMB_TraceDelta` (low) x4, `SqmdDMB_AlignMem` (medium), `fn_10288B70` x13, `sub_10314D55` x4
+- **Called by:** `fn_10287FB0`
+- **Reads globals:** `0x109A2788`
+- **From the frame root** (shortest chain of direct calls): `App_RenderFrameMaskedFPU` → `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_Update` → `sub_1024D850` → `fn_102528D0` → `fn_10287FB0` → `fn_10288950`
+- **How its callers call it** (their verified code):
+  - in `fn_10287FB0`: `piVar7 = orig::FUN_10288950(uVar2,uVar3);`
+- **Neighbours' readings** (naming sessions' summaries, not facts):
+  - `sqDebugPrintf` (high): 
+  - `SqmdDMB_TraceDelta` (low): Returns the offset of a value from the first value recorded.
+  - `SqmdDMB_AlignMem` (medium): Rounds a memory offset up to 16 bytes, logging the padding when tracing.
+
+Short callee `SqmdDMB_TraceDelta` (low):
+```cpp
+XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
+{
+  if (DAT_109a278c == 0) {
+    DAT_109a278c = param_1;
+    return 0;
+  }
+  return param_1 - DAT_109a278c;
+}
+```
+
+Short callee `fn_10288B70`:
+```cpp
+XI_API undefined4 __cdecl fn_10288B70(int param_1, uint32_t param_2)
+{
+  if (param_2 != 0xefbeddba) {
+    if (param_2 < *(uint32_t *)(param_1 + 0x24)) {
+      return *(uint32_t *)(*(int *)(param_1 + 0x1c) + param_2 * 4);
+    }
+    orig::sqDebugPrintf_v1(s_____Error__sqmdDMBTextureLink___t_103b90e8);
+    orig::sqDebugPrintf_v1(s__word____d_103b90d4,param_2);
+  }
+  return 0;
+}
+```
+
+```cpp
+XI_API int * __cdecl fn_10288950(int param_1, uint32_t param_2)
+{
+  int iVar1;
+  int *piVar2;
+  int iVar3;
+  int iVar4;
+  
+  iVar4 = DAT_109a2788;
+  if (DAT_109a2788 != 0) {
+    iVar1 = orig::SqmdDMB_TraceDelta(param_2);
+    orig::FUN_10314d55(iVar4,s__06ld_____sqmdDMBResolveShaders__103b90b0,iVar1);
+  }
+  piVar2 = (int *)orig::SqmdDMB_AlignMem(param_2);
+  param_2 = *(uint32_t *)(param_1 + 0x38);
+  if ((int)*(uint32_t *)(param_1 + 0x38) <= (int)*(uint32_t *)(param_1 + 0x34)) {
+    param_2 = *(uint32_t *)(param_1 + 0x34);
+  }
+  iVar4 = 0;
+  if (0 < (int)param_2) {
+    do {
+      *(int **)(*(int *)(param_1 + 0x2c) + iVar4 * 4) = piVar2;
+      iVar1 = *piVar2;
+      if (iVar1 == 0xf0001) {
+        piVar2[2] = (int)&LAB_102908d0;
+        piVar2[3] = (int)XI_CODE(FUN_102908e0);
+        piVar2[4] = (int)&LAB_10290a80;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x13]);
+        piVar2[0x13] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x14]);
+        piVar2[0x14] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x15]);
+        piVar2[0x15] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x16]);
+        piVar2[0x16] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x17]);
+        piVar2[0x17] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x18]);
+        piVar2[0x18] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x19]);
+        piVar2[0x19] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x2b]);
+        piVar2[0x2b] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x2c]);
+        piVar2[0x2c] = iVar1;
+        iVar1 = DAT_109a2788;
+        if (DAT_109a2788 != 0) {
+          iVar3 = orig::SqmdDMB_TraceDelta((int)piVar2);
+          orig::FUN_10314d55(iVar1,g_103B9058,iVar3);
+        }
+        piVar2 = piVar2 + 0x60;
+      }
+      else if (iVar1 == 0xf0002) {
+        piVar2[2] = (int)&LAB_10298ed0;
+        piVar2[3] = (int)XI_CODE(FUN_10298ee0);
+        piVar2[4] = (int)&LAB_10298fa0;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x14]);
+        piVar2[0x14] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x15]);
+        piVar2[0x15] = iVar1;
+        iVar1 = DAT_109a2788;
+        if (DAT_109a2788 != 0) {
+          iVar3 = orig::SqmdDMB_TraceDelta((int)piVar2);
+          orig::FUN_10314d55(iVar1,g_103B9074,iVar3);
+        }
+        piVar2 = piVar2 + 0x5b;
+      }
+      else {
+        if (iVar1 != 0xf0005) {
+          orig::sqDebugPrintf_v1(s_____Error__Encountered_unsupport_103b9028);
+          return (int *)0x0;
+        }
+        piVar2[2] = (int)&LAB_102992e0;
+        piVar2[3] = (int)XI_CODE(FUN_102992f0);
+        piVar2[4] = (int)&LAB_10299390;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x18]);
+        piVar2[0x18] = iVar1;
+        iVar1 = orig::FUN_10288b70(param_1,piVar2[0x19]);
+        piVar2[0x19] = iVar1;
+        iVar1 = DAT_109a2788;
+        if (DAT_109a2788 != 0) {
+          iVar3 = orig::SqmdDMB_TraceDelta((int)piVar2);
+          orig::FUN_10314d55(iVar1,g_103B9094,iVar3);
+        }
+        piVar2 = piVar2 + 0x1b;
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < (int)param_2);
+  }
+  return piVar2;
+}
+```
+
+## `0x10288B70` fn_10288B70
+
+- **Gate:** none; **frame set:** static
+- **Facts:** `ret 0`; entry ECX never read; entry EDX never read (purges, ret_width, ecx_use, edx_use)
+- **Calls:** `sqDebugPrintf` (high) x2
+- **Called by:** `fn_10288950`
+- **From the frame root** (shortest chain of direct calls): `Frame_Render` → `Dancer_WorldBegin` → `StAvatar_Update` → `sub_1024D850` → `fn_102528D0` → `fn_10287FB0` → `fn_10288950` → `fn_10288B70`
+- **How its callers call it** (their verified code):
+  - in `fn_10288950`: `iVar1 = orig::FUN_10288b70(param_1,piVar2[0x13]);`
+  - in `fn_10288950`: `iVar1 = orig::FUN_10288b70(param_1,piVar2[0x14]);`
+- **Neighbours' readings** (naming sessions' summaries, not facts):
+  - `sqDebugPrintf` (high): 
+
+```cpp
+XI_API undefined4 __cdecl fn_10288B70(int param_1, uint32_t param_2)
+{
+  if (param_2 != 0xefbeddba) {
+    if (param_2 < *(uint32_t *)(param_1 + 0x24)) {
+      return *(uint32_t *)(*(int *)(param_1 + 0x1c) + param_2 * 4);
+    }
+    orig::sqDebugPrintf_v1(s_____Error__sqmdDMBTextureLink___t_103b90e8);
+    orig::sqDebugPrintf_v1(s__word____d_103b90d4,param_2);
+  }
+  return 0;
+}
+```

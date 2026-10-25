@@ -3233,3 +3233,58 @@ sides), but the input was less real than stated.
   `xcap.py --build`.
 - tool_drift: the ini-key check now reads keys per section, so `[watch]`'s `enabled=` and `every=` are no longer
   reported as unread.
+
+## 25 Oct (later): 156 more frame-set functions in the tree; naming round 2 done
+
+**The tree: 4,206 functions, 4,205 PASS** (was 4,050 / 4,049; 0x10003890 stays INCONCLUSIVE). Of the frame set's 4,765
+game-code functions, 3,748 are now in the tree and 1,017 are not (`data/frame_set.json`, tree flags recomputed against
+`tree/placement.json`; the evidence is unchanged).
+
+Where the 156 come from: 522 frame-set functions the Ghidra exports held but whose translation was never gated were
+exported again with the current conv facts (`data/exports/ghidra_frameset11.jsonl`, raw gate
+`verification/gate_raw_frameset11.jsonl`, listed last in `tree/source.json`). Translator fixes, each from a definite
+source:
+- A variadic `__cdecl` callee (its IDB prototype ends in `...`, it pops nothing) was given the largest call site's slot
+  count, so every shorter call failed to compile (126 of 134 "too few arguments"). Each call now passes the arguments
+  Ghidra reads at that site, each a 4-byte slot (`xi_ghidra.hpp` `xi_va_call`; hx2clean's wrapper the same).
+- An object Ghidra names `default` (0x103169E8) was declared and replaced the switches' `default:` labels (57 functions).
+- String labels keep `<` and `>` of their text (`s_<lastst>_10357e7c`); the auto-name pattern now takes them.
+- `CONCAT21`, `CONCAT43` (Ghidra's piece concatenation, sizes in bytes) and `fptan` (x87 FPTAN pushes 1.0 after
+  tan(ST0), Intel SDM; popped) added; the SDK layouts of `_WIN32_FIND_DATAA`, `WINDOWPLACEMENT`, `tagCOMPOSITIONFORM`,
+  `timecaps_tag`, `LARGE_INTEGER` and four handle/pointer typedefs added to `xi_compat_win.hpp`.
+- `export.sh` takes `GHIDRA_PROGRAM` when the project's program is not named like `FFXI_DLL`.
+Raw gate of the re-export: 226 gated, 156 PASS, 44 FAIL, 16 UNRESOLVED, 10 INCONCLUSIVE. 181 are still skipped (a
+register or x87 input Ghidra could not tie: `extraout_ST0` 114 sites, `extraout_ECX` 62, `in_EDX` 29, ...), 78 do not
+compile, 15 call winsock ordinals with no SDK prototype.
+
+How the tree's verdicts were obtained: `code_same.py` against the 24 Oct build: 3,967 functions compile to the same
+code; 237 (the 156 new and 81 whose code the translator fixes changed) were gated on this build: 237 PASS. A last
+regeneration with the newest names compiles to the same code for all 4,204 it compares. The tree builds (392 files)
+byte-identical to that build. speedfix's Frame_Render fork took 14 renamed `orig::` names (by address).
+
+**Naming round 2 is complete:** 132 of 132 batches; `data/names/` holds 2,831 reviewed names, applied by the
+regeneration. Round 3 (`batches/round3/`, from this tree): 385 frame-set functions still with placeholder names in 61
+batches.
+
+**Naming round 3 is complete:** 61 of 61 batches, 385 names (167 high, 101 medium, 117 low confidence); `data/names/`
+now holds 3,212. Names come from the game's own strings where it has them (sqMemCheck, sqRealloc, sqmdDMBResolve*,
+sqmdModel*, the `.MRK`, `.log` and `cnf.dat` file names, the window class's `lpfnWndProc`, checked in the DLL at
+0x10016630), from the SDK where a call fixes the meaning (RegisterClassA, ReleaseSemaphore, the MD5 constants of a
+second, count-first MD5 context at 0x100DDE90), and otherwise from what the body does, said as such: a low name
+describes the visible mechanics (`Unit10086E90_UpdateByKind170NotGroup38`) and its summary says what is not
+established.
+
+The regeneration with the round-3 names: 4,163 functions compile to the same code as before; 41 changed, because
+a `Class_Method` name places a function in its class (the generator's existing rule: `CMoAttachments::GetCaster`,
+`CMoTask_CtorByMode` into `CMoTask.cpp`, which empties `unit_100353E0.cpp`). The 41 were gated on the new build: 41
+PASS. The tree is 4,206 functions, 4,205 PASS, 1 unverified; it builds from 391 files, failed none. speedfix's
+Frame_Render fork took 5 more renamed `orig::` names, by address.
+
+**The largest x87 skip, read:** 18 of the 114 `extraout_ST0` sites follow a call to 0x103138BA, which is
+`mov edx, 0x103CFFE0; jmp 0x1031DD30`. The table at 0x103CFFE0 begins with the length-prefixed name `fmod` (DLL
+bytes); the dispatcher classifies two operands (`fxam` on ST0 and ST1) and jumps through the table's 16 entries;
+the normal-operand entry 0x103138C4 is `fxch st(1); fprem` (repeated while C2 is set) `; fstp st(1); ret`: two values
+in on the x87 stack, one out (Intel SDM for FPREM/FSTP). fpret.json has no verdict for it (the stub jumps out of
+its own extent). Ghidra prints these calls as `FUN_103138ba();` with no operands, so the two values the caller
+loaded are not in its text: the sites cannot be translated from Ghidra's output alone, and stay skipped until
+the operands are recovered from the instructions before each call.

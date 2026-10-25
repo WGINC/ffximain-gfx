@@ -7,7 +7,7 @@
 XI_API void __cdecl Unit102A2130_CopyBounds(int param_1, int param_2)
 {
   orig::Unit1028D970_Copy((uint32_t *)(param_1 + 0x14),(uint32_t *)(param_2 + 0x14));
-  orig::FUN_1029bb50();
+  orig::SqgxDlist_Nop();
   return;
 }
 

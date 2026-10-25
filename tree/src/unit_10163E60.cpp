@@ -49,7 +49,7 @@ XI_API void __thiscall Unit10163E60_ResetFieldsB(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335CE8(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
@@ -74,7 +74,7 @@ XI_API void __thiscall Unit10163E60_ResetFieldsC(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335D30(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint32_t *)((int)self_ + 0x30) = 0;
   *(uint32_t *)((int)self_ + 0x18) = 0;
@@ -128,7 +128,7 @@ XI_API void __thiscall Unit10163E60_ResetFieldsE(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335D78(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
@@ -140,7 +140,7 @@ XI_API void * __thiscall Unit10163E60_ConstructVt10335D78(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335DC0(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint32_t *)((int)self_ + 0x14) = 0;
@@ -182,29 +182,29 @@ XI_API void __cdecl Unit10163E60_InitGlobalTables(void)
   if (DAT_10667a74 != 0) {
     iVar2 = 0;
     do {
-      orig::FUN_1021e870(iVar2 + DAT_10667a74,100);
+      orig::Unit1021D930_RotateBytesByBitCount(iVar2 + DAT_10667a74,100);
       iVar2 = iVar2 + 100;
     } while (iVar2 < 0x19000);
   }
   if (DAT_1066714c != 0) {
     iVar2 = 0;
     do {
-      orig::FUN_1021e870(iVar2 + DAT_1066714c,0x30);
+      orig::Unit1021D930_RotateBytesByBitCount(iVar2 + DAT_1066714c,0x30);
       iVar2 = iVar2 + 0x30;
     } while (iVar2 < 0x21000);
   }
   puVar1 = orig::Unit1021D930_GetSingleton();
-  orig::FUN_1022be30(puVar1);
+  orig::Unit1021D930_LoadMessageTable(puVar1);
   puVar1 = orig::Unit1021D930_GetObjectOnce();
   orig::Unit1021D930_LoadFromFile(puVar1);
-  puVar1 = orig::FUN_10226180();
-  orig::FUN_10226210(puVar1);
+  puVar1 = orig::Unit1021D930_GetObject106670C8Once();
+  orig::Unit1021D930_LoadDMsgTable(puVar1);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10167330  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10167330(void * self_)
+XI_API void * __thiscall Unit10163E60_Call10257860ReturnSelf(void * self_)
 {
   orig::FUN_10257860(self_);
   return self_;
@@ -233,7 +233,7 @@ XI_API undefined4 __thiscall Unit10163E60_LoadSceneFileAndBind(void * self_)
     pbVar4 = (uint8_t *)uVar10;
     uVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
     if (-1 < (int)uVar5) {
-      pbVar6 = orig::FUN_10257830();
+      pbVar6 = orig::Unit10253A20_GetDMsgTable();
       pbVar8 = pbVar4;
       do {
         bVar1 = *pbVar8;
@@ -422,7 +422,7 @@ XI_API undefined4 __thiscall ZoneMap_GetCount34154(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10169290  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10169290(void * self_, float * param_1, float * param_2, undefined4 param_3, float param_4, float param_5, float param_6)
+XI_API undefined4 __thiscall Unit10163E60_ProbeAxis1(void * self_, float * param_1, float * param_2, undefined4 param_3, float param_4, float param_5, float param_6)
 {
   uint32_t uVar1;
   float fVar2;
@@ -447,7 +447,7 @@ XI_API undefined4 __thiscall fn_10169290(void * self_, float * param_1, float * 
   local_8 = (float)((long double)param_5 + (long double)param_1[1]);
   if ((char)param_3 == '\0') {
     local_20 = (float)((long double)param_1[1] - (long double)0.5f);
-    uVar1 = orig::FUN_10169b40(self_,&local_24,&local_c,&local_18);
+    uVar1 = orig::Unit10163E60_SegmentHit34139(self_,&local_24,&local_c,&local_18);
     cVar3 = (char)uVar1;
     *param_2 = *param_1;
     param_2[1] = param_1[1];
@@ -488,7 +488,7 @@ LAB_101693a6:
 
 // FUNCTION: FFXIMAIN 0x101693B0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentHit3413A(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -798,7 +798,7 @@ XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x10169B40  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentHit34139(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -1108,7 +1108,7 @@ XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1016A2D0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentTest34139(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
 {
   long double fVar1;
   uint32_t *puVar2;
@@ -1398,7 +1398,7 @@ XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1016B1D0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API undefined4 __thiscall Unit10163E60_SegmentHitWithObjects(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -2064,7 +2064,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x1016E930  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint64_t __thiscall Unit10163E60_SweepSetupAndTest(void * self_, float * param_1, float * param_2, float * param_3)
 {
   int iVar1;
   uint32_t *puVar2;
@@ -2400,7 +2400,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
           this_00 = (void *)uVar19;
         }
       }
-      uVar10 = orig::FUN_1016f0e0(this_01,&local_e0,&local_94);
+      uVar10 = orig::Unit10163E60_SweepStep(this_01,&local_e0,&local_94);
       if ((char)uVar10 != '\0') {
         *param_3 = local_e0;
         param_3[1] = (float)((long double)local_dc + (long double)0.5f);
@@ -2421,7 +2421,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1016F0E0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * param_2)
+XI_API undefined4 __thiscall Unit10163E60_SweepStep(void * self_, float * param_1, float * param_2)
 {
   float *pfVar1;
   float fVar2;

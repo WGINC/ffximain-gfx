@@ -17,7 +17,7 @@ XI_API int __cdecl SqmoBuild_ReadFrameChannel(undefined4 * param_1, int param_2)
   iVar7 = param_2;
   puVar4 = orig::Unit1028A0A0_ReadBlock(&param_2,4,1,param_1,param_2);
   if (param_2 != 4) {
-    orig::sqDebugPrintf_v2(s_____Error__FrameChannel_version_m_103b7b08,param_2,4);
+    orig::sqDebugPrintf_v1(s_____Error__FrameChannel_version_m_103b7b08,param_2,4);
     return 0;
   }
   puVar5 = orig::SqmoFrameChannel_Create();
@@ -63,7 +63,7 @@ XI_API int __cdecl SqmoBuild_ReadKeyChannel(undefined4 * param_1, int param_2)
   iVar2 = param_2;
   puVar3 = orig::Unit1028A0A0_ReadBlock(&param_2,4,1,param_1,param_2);
   if (param_2 != 3) {
-    orig::sqDebugPrintf_v2(s_____Error__KeyChannel_version_mi_103b7b44,param_2,3);
+    orig::sqDebugPrintf_v1(s_____Error__KeyChannel_version_mi_103b7b44,param_2,3);
     return 0;
   }
   puVar4 = orig::SqmoKeyChannel_Create();

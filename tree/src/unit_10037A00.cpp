@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10037A10  (unit unit_10037A00: no unit evidence of its own; in the gap between 0x10037960 (CYyMusicLoadTask) and 0x10037AB0 (CYySepRes) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10037A10(void)
+XI_API void __cdecl LobbyThread_SendCmd6IfRunning(void)
 {
   if (DAT_1046393c != 0) {
     orig::LobbyThread_SendCmd6(0xffffffff);

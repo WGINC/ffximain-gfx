@@ -14,7 +14,7 @@ XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1)
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = XI_CODE(sqxfXformTD_Update_v1);
   orig::Unit10274050_ZeroDwords(param_1 + 0x17);
-  orig::thunk_FUN_1027ae50(param_1 + 0x1a);
+  orig::Unit1027A4B0_SetIdentityFwd(param_1 + 0x1a);
   param_1[0x1e] = 0x3f800000;
   return;
 }

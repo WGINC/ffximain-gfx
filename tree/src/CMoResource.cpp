@@ -280,7 +280,7 @@ undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int p
   }
   while( true ) {
     if (self == (void *)0x0) {
-      uVar3 = orig::FUN_10074f30(dword_1047D140_as_v1,iVar1,0x4d727400);
+      uVar3 = orig::Unit10074CA0_FindTask(dword_1047D140_as_v1,iVar1,0x4d727400);
       if ((int)uVar3 == 0) {
         uVar3 = orig::Mem_AllocFromArea_v1(0x49,4);
         this_00 = (undefined4 *)uVar3;

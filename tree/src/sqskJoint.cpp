@@ -25,7 +25,7 @@ XI_API void __cdecl SqskJoint_Init(undefined4 * param_1)
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &LAB_10291ad0;
   orig::Unit10274050_ZeroDwords(param_1 + 0x17);
-  orig::thunk_FUN_1027ae50(param_1 + 0x1a);
+  orig::Unit1027A4B0_SetIdentityFwd(param_1 + 0x1a);
   orig::Unit10274050_SetXyz((float *)(param_1 + 0x1e),1.0f,1.0f,1.0f);
   param_1[0x21] = 0;
   param_1[0x22] = 0;
@@ -38,7 +38,7 @@ XI_API void __cdecl SqskJoint_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10291460  (unit sqskJoint: between 0x10291430 (asserts sqskJoint.c) and 0x10291470 (name sqskJoint_Dump), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291460(void)
+XI_API void __cdecl SqskJoint_Nop(void)
 {
   return;
 }

@@ -5,7 +5,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001E2F0  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1001E2F0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_SetGlobalFlags(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   if (((DAT_10456db0 == '\0') && ((char)param_1 != '\0')) || ((char)param_2 != '\0')) {
     DAT_10456db1 = 0;
@@ -30,7 +30,7 @@ undefined4 __cdecl CYyCamMng2::CreateGlobal()
     DAT_10456d6c = orig::CYyCamMng2_Construct(self);
   }
   orig::CYyCamMng2_SetDefaultDistances(DAT_10456d6c);
-  uVar1 = orig::FUN_10015100(DAT_10456d6c);
+  uVar1 = orig::Camera_Call100151A0OnGlobal(DAT_10456d6c);
   return uVar1;
 }
 
@@ -66,7 +66,7 @@ undefined4 __thiscall CYyCamMng2::Reset(void * self)
   
   puVar1 = (uint32_t *)((int)self + 0x44);
   orig::Vec3_Copy_v1(puVar1,(uint32_t *)&DAT_1035122c);
-  orig::FUN_10015290(0x43af0000);
+  orig::Camera_SetField2F8OnGlobal(0x43af0000);
   orig::Vec3_Copy_v1((uint32_t *)((int)self + 0x50),puVar1);
   *(float *)((int)self + 0x58) = (float)((long double)*(float *)((int)self + 0x58) + (long double)1.0f);
   *(uint32_t *)((int)self + 0x5c) = 0;
@@ -122,6 +122,6 @@ void * __thiscall CYyCamMng2::Construct(void * self)
   _DAT_10456d94 = 0;
   _DAT_10456d98 = 0;
   _DAT_10456da8 = 0;
-  orig::FUN_1001e2f0(0,1,0,xi_eax);
+  orig::CYyCamMng2_SetGlobalFlags(0,1,0,xi_eax);
   return self;
 }

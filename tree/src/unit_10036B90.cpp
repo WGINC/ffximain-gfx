@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10036B90  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefined4 param_1)
 {
   uint32_t xi_entry_eax = 0;
   int iVar1;
@@ -25,7 +25,7 @@ XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10036F00  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10036F00(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API uint64_t __thiscall Unit10036B90_SetVolumeScalar(void * self_, undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
@@ -35,13 +35,30 @@ XI_API uint64_t __thiscall fn_10036F00(void * self_, undefined4 param_1, undefin
   local_10[0] = (float)(long double)(int)(short)param_1;
   local_10[1] = 0.0f;
   local_10[3] = 0.0f;
-  uVar1 = orig::FUN_10036f50(self_,local_10,param_2);
+  uVar1 = orig::Unit10036B90_SetVolumeVector(self_,local_10,param_2);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x10036F50  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefined4 param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  
+  if (DAT_104638f5 != '\0') {
+    uVar1 = orig::Unit10035B00_AddUniqueId(*(int *)((int)self_ + 0x14));
+    if (((char)uVar1 != '\0') && (DAT_10463909 = 1, DAT_1046393c != 0)) {
+      uVar2 = orig::FUN_10038330((int)self_ + 0x30,param_1,param_2);
+      return uVar2;
+    }
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10037020  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 37 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10037020(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+XI_API void __thiscall Unit10036B90_CreateSoundElem(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int xi_eax;
   uint64_t uVar1;

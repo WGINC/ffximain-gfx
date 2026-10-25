@@ -55,7 +55,7 @@ LABEL_7:
           orig::Model_CreateTranslucentTargets();
           orig::Unit100310A0_InitTargets();
           orig::Post_CreateScreenEffectTargets();
-          orig::nullsub_39();
+          orig::Unit100252F0_Nop_10025BD0();
           result = g_translucentTarget;
           Fn10025260_targetTex = 0;
           dword_10456E70 = g_translucentTarget;
@@ -86,7 +86,7 @@ XI_API void __cdecl Unit100298D0_ReleaseAll(void)
   } while ((int)piVar1 < 0x10457158);
   dword_10457548_as_v0 = 0;
   orig::Unit10025220_Release();
-  orig::FUN_10025be0();
+  orig::Unit100252F0_Nop_10025BE0();
   orig::Unit10038930_ReleaseTextures();
   orig::Unit100310A0_ReleaseTargets();
   orig::FUN_1001d110();

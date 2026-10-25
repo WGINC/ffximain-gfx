@@ -29,7 +29,7 @@ XI_API void __thiscall Unit10072A50_Step(void * self_)
         xi_s2 = (void *)0x0;
       }
       else {
-        xi_s2 = orig::FUN_101be260((void *)uVar5);
+        xi_s2 = orig::Unit1018BA60_CtorVt10337C60((void *)uVar5);
       }
       *(void **)((int)self_ + 0x45) = xi_s2;
       if ((xi_s2 != (void *)0x0) &&
@@ -69,7 +69,7 @@ LAB_10072c0c:
       goto LAB_10072c0c;
     }
     if (iVar4 == 2) {
-      uVar2 = orig::FUN_101c4a10(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),0,0);
+      uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind1(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),0,0);
       if ((char)uVar2 != '\0') {
         return;
       }
@@ -87,7 +87,7 @@ LAB_10072c0c:
         }
         goto LAB_10072c21;
       }
-      orig::nullsub_13_v1(&DAT_10354658);
+      orig::Unit10017C10_NoOpVarargsA_v1(&DAT_10354658);
       puVar1 = *(uint32_t **)((int)self_ + 0x3d);
     }
     else {

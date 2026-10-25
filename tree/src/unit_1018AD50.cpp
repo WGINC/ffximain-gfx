@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x1018AD50  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1018AD50(void * self_)
+XI_API undefined4 __thiscall Unit1018AD50_GetField4(void * self_)
 {
   return *(uint32_t *)((int)self_ + 4);
 }
 
 // FUNCTION: FFXIMAIN 0x1018AD60  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018AD60(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit1018AD50_SetField10Of4(void * self_, undefined4 param_1)
 {
   *(uint32_t *)(*(int *)((int)self_ + 4) + 0x10) = param_1;
   return;
@@ -53,7 +53,7 @@ XI_API void __thiscall Blend_FreeResult(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1018ADD0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_1018ADD0(void * self_)
+XI_API void __thiscall Unit1018AD50_CallBlendUpdate(void * self_)
 {
   orig::Blend_Update(self_);
   return;
@@ -95,7 +95,7 @@ XI_API void __thiscall Blend_Update(void * self_)
     xi_s1 = *(int *)(*(int *)((int)self_ + 8) + 0x20);
     if ((xi_s1 != 0) && (*(int *)((int)self_ + 0x20) != 0)) {
       pvVar1 = (void *)orig::Blend_AllocResult(xi_s1,*(int *)((int)self_ + 0x20));
-      orig::FUN_10189490(pvVar1,*(uint32_t **)((int)self_ + 0x20),*(uint32_t **)(*(int *)((int)self_ + 8) + 0x20),
+      orig::Env_BlendKeys(pvVar1,*(uint32_t **)((int)self_ + 0x20),*(uint32_t **)(*(int *)((int)self_ + 8) + 0x20),
                    *(float *)((int)self_ + 0x1c));
       orig::Blend_FreeResult(self_);
       *(void **)((int)self_ + 0x20) = pvVar1;

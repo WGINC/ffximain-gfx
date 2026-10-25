@@ -98,16 +98,16 @@ XI_API undefined4 __cdecl Chasm_ToggleLayerState(int param_1, int param_2, int p
     if (param_3 == 0) {
       *(uint32_t *)(param_1 + 4) = 0xffffffff;
       if ((*puVar1 & 4) != 0) {
-        orig::FUN_1026f900(puVar1[1],0,0);
-        orig::FUN_1026f900(puVar1[2],0,0);
+        orig::Mdl_SetChannelActive(puVar1[1],0,0);
+        orig::Mdl_SetChannelActive(puVar1[2],0,0);
         *puVar1 = *puVar1 & 0xfffffffb;
       }
     }
     else {
       *(int *)(param_1 + 4) = param_2;
       if ((*puVar1 & 4) == 0) {
-        orig::FUN_1026f900(puVar1[1],4,1);
-        orig::FUN_1026f900(puVar1[2],4,1);
+        orig::Mdl_SetChannelActive(puVar1[1],4,1);
+        orig::Mdl_SetChannelActive(puVar1[2],4,1);
         *puVar1 = *puVar1 | 4;
         return *(uint32_t *)(param_1 + 4);
       }

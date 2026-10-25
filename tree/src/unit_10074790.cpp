@@ -32,3 +32,16 @@ XI_API void __thiscall Unit10074790_Remove(void * self_, int param_1)
   }
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x100748C0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Unit10074790_RunAsCurrent(void * self_)
+{
+  uint32_t uVar1;
+  
+  uVar1 = *(uint32_t *)(dword_1047D140 + 0xd4c);
+  *(void **)(dword_1047D140 + 0xd4c) = self_;
+  ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+  *(uint32_t *)(dword_1047D140 + 0xd4c) = uVar1;
+  return;
+}

@@ -1082,8 +1082,8 @@ void CMoGeneratorClone::ExecuteCmdList(int a2)
             {
               v13 = *v12;
               v14 = self + 12;
-              v16 = (_DWORD *)orig::sub_1003B700(self + 12);
-              v15 = (_DWORD *)orig::sub_1003B6D0(v14);
+              v16 = (_DWORD *)orig::CMoAttachments_GetTarget(self + 12);
+              v15 = (_DWORD *)orig::CMoAttachments_GetCaster(v14);
               orig::Scheduler_Execute(v13, v15, v16, 0, 0);
             }
             break;

@@ -18,8 +18,10 @@ typedef void *pointer; typedef void *addr;
 #define CONCAT11(h, l) ((uint16_t)(((uint16_t)(uint8_t)(h) << 8) | (uint8_t)(l)))
 #define CONCAT12(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 16) | (uint16_t)(l)))
 #define CONCAT13(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 24) | ((uint32_t)(l) & 0xFFFFFFu)))
+#define CONCAT21(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 8) | (uint8_t)(l)))
 #define CONCAT22(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 16) | (uint16_t)(l)))
 #define CONCAT31(h, l) ((uint32_t)(((uint32_t)(h) << 8) | (uint8_t)(l)))
+#define CONCAT43(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 24) | ((uint64_t)(l) & 0xFFFFFFull)))
 #define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT26(h, l) ((uint64_t)(((uint64_t)(uint16_t)(h) << 48) | ((uint64_t)(l) & 0xFFFFFFFFFFFFull)))
 #define CONCAT17(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 56) | ((uint64_t)(l) & 0xFFFFFFFFFFFFFFull)))
@@ -66,6 +68,9 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
 #define fpatan(y, x) xi_fpatan((y), (x))
 static inline long double xi_fsin(long double x) { long double r; __asm__("fsin" : "=t"(r) : "0"(x)); return r; }   // x87 fsin
 static inline long double xi_fcos(long double x) { long double r; __asm__("fcos" : "=t"(r) : "0"(x)); return r; }   // x87 fcos
+// x87 fptan: ST0 = tan(ST0), then 1.0 pushed (Intel SDM), which Ghidra's fptan() leaves out; popped here
+static inline long double xi_fptan(long double x) { long double r; __asm__("fptan\n\tfstp %%st(0)" : "=t"(r) : "0"(x)); return r; }
+#define fptan(x) xi_fptan((x))
 #define fsin(x) xi_fsin((x))
 #define fcos(x) xi_fcos((x))
 
@@ -77,6 +82,11 @@ static inline long long xi_call_st0(uint32_t fn, long double x) {
 }
 // the clean tree's form (hx2clean.py): the game function at ea, through XI_GAME (rebased in the in-game build)
 #define XI_CALL_ST0(ea) [](long double x_) { return xi_call_st0((uint32_t)XI_GAME(ea), x_); }
+// A call to a variadic __cdecl game function (its IDB prototype ends in `...`, it pops nothing): each call site
+// pushes its own arguments, as many as Ghidra reads there, each one 4-byte slot (XI_ANY) holding its bits.
+template <class R, uint32_t A, class... T> static inline R xi_va_call(T... a) {
+    return reinterpret_cast<R (__cdecl *)(decltype(XI_ANY(a))...)>(A)(XI_ANY(a)...);
+}
 
 
 // Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)

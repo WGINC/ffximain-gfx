@@ -1158,39 +1158,39 @@ int CXiSkeletonActor::Constructor_Factory(_DWORD *a2, int a3, int a4)
         {
           if ( a4 == 82 )
           {
-            orig::nullsub_12(aNoOwnerRange);
+            orig::Unit10017C10_NoOpVarargsB(aNoOwnerRange);
             return self;
           }
           else
           {
             if ( a4 == 83 )
-              orig::nullsub_12(aNoOwnerGroundTarget);
+              orig::Unit10017C10_NoOpVarargsB(aNoOwnerGroundTarget);
             else
-              orig::nullsub_12(aNoOwnerChocobo);
+              orig::Unit10017C10_NoOpVarargsB(aNoOwnerChocobo);
             return self;
           }
         }
         else
         {
-          orig::nullsub_12(aNoOwnerBorder);
+          orig::Unit10017C10_NoOpVarargsB(aNoOwnerBorder);
           return self;
         }
       }
       else
       {
-        orig::nullsub_12(aNoOwnerChair);
+        orig::Unit10017C10_NoOpVarargsB(aNoOwnerChair);
         return self;
       }
     }
     else
     {
-      orig::nullsub_12(aNoOwnerFishingRod);
+      orig::Unit10017C10_NoOpVarargsB(aNoOwnerFishingRod);
       return self;
     }
   }
   else
   {
-    orig::nullsub_12(aNoOwnerMagicCircle);
+    orig::Unit10017C10_NoOpVarargsB(aNoOwnerMagicCircle);
     return self;
   }
 }
@@ -1238,7 +1238,7 @@ char CXiSkeletonActor::DestructorBody()
     orig::ResHandle_FreeIfUnreferenced((int **)(self + 2148));
   }
   if ( orig::ActorHandle_Resolve(g_targetActorHandle) == self && this->field_F9 == 0 )
-    orig::sub_10157660((int)g_pTargetMng, 0);
+    orig::Unit1012AC80_SetTargetMode((int)g_pTargetMng, 0);
   v9 = this->bucketA;
   v10 = g_actorUpdateBucketCountA[v9];
   if ( v10 != 0 )
@@ -2387,7 +2387,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
         }
       }
       else {
-        orig::nullsub_13_v2(&DAT_1035f850,*(uint32_t *)(*piVar1 + 0x20));
+        orig::Unit10017C10_NoOpVarargsA_v1(&DAT_1035f850,*(uint32_t *)(*piVar1 + 0x20));
       }
       orig::ResourceIter_FindNext_v1(local_38,0);
     }
@@ -2447,7 +2447,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
           }
         }
         else {
-          orig::nullsub_13_v2(&DAT_1035f850,*(uint32_t *)(*piVar1 + 0x20));
+          orig::Unit10017C10_NoOpVarargsA_v1(&DAT_1035f850,*(uint32_t *)(*piVar1 + 0x20));
         }
         orig::ResourceIter_FindNext_v1(local_1c,0);
       }
@@ -2458,6 +2458,170 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
     }
   }
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar4 >> 8)) << 8) | (uint8_t)(local_40)));
+}
+
+// FUNCTION: FFXIMAIN 0x100CD920  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 71 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CXiSkeletonActor::SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, undefined4 param_10, int param_11)
+{
+  uint8_t bVar1;
+  uint8_t bVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  undefined4 uVar5;
+  int *piVar6;
+  undefined4 *puVar7;
+  uint32_t uVar8;
+  int iVar9;
+  void *pvVar10;
+  uint32_t uVar11;
+  char xi_frame[24] __attribute__((aligned(4)));
+  uint32_t  &local_18 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint8_t  (&auStack_c)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 12);
+  uint8_t  (&auStack_8)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 16);
+  undefined4  &uStack_4 = *reinterpret_cast<undefined4  *>(xi_frame + 20);
+  
+  iVar9 = 0;
+  bVar2 = false;
+  DAT_1048a38c = 0;
+  local_18 = 0;
+  piVar3 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
+  if (*piVar3 != 0) {
+    pvVar10 = (void *)(*piVar3 + 0x24);
+    do {
+      uVar4 = orig::FUN_1001b360(pvVar10);
+      if ((char)uVar4 != '\0') {
+        local_18 = local_18 | 1 << ((uint8_t)iVar9 & 0x1f);
+      }
+      iVar9 = iVar9 + 1;
+      pvVar10 = (void *)((int)pvVar10 + 0x14);
+    } while (iVar9 < 3);
+  }
+  bVar1 = false;
+  iVar9 = orig::CXiActor_GetModelByteEE_v1(self);
+  if ((iVar9 == 6) || (iVar9 = orig::CXiActor_GetModelByteEE_v1(self), iVar9 == 7)) {
+    bVar1 = true;
+  }
+  piVar3 = param_10;
+  uVar4 = param_9;
+  if ((*(char *)((int)self + 0x88) < '\0') || (((param_1 & 0xff000000) == 0x3f000000 && (bVar1)))) {
+    piVar6 = (int *)param_11;
+    if (param_11 == 0) {
+      piVar6 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_10);
+      if (*piVar6 != 0) {
+        pvVar10 = (void *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_10);
+        uVar5 = orig::ResourceHandle_IsResident_v1(pvVar10);
+        if ((char)uVar5 != '\0') {
+          puVar7 = (undefined4 *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_10);
+          piVar6 = (int *)*puVar7;
+          goto LAB_100cda6e;
+        }
+      }
+    }
+    else {
+LAB_100cda6e:
+      uVar5 = orig::CXiSkeletonActor_SetMotion
+                        (self,piVar6,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8
+                         ,uVar4,piVar3);
+      if ((char)uVar5 != '\0') goto switchD_100cdb07_caseD_3;
+    }
+  }
+  for (pvVar10 = orig::List_GetTail_v1(*(void **)((int)self + 0x7e4)); pvVar10 != (void *)0x0;
+      pvVar10 = *(void **)((int)pvVar10 + 8)) {
+    param_10 = *(int **)((int)pvVar10 + 0x1c);
+    uVar5 = orig::ResourceHandle_IsResident_v1(&param_10);
+    uVar4 = param_9;
+    if ((char)uVar5 == '\0') {
+      bVar2 = true;
+      goto switchD_100cdb07_caseD_3;
+    }
+    orig::CXiSkeletonActor_SetMotion
+              (self,param_10,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8,param_9
+               ,piVar3);
+  }
+  if (*(int *)((int)self + 0x70) == 0) {
+    piVar6 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1dc))))((void *)(self),&param_9);
+    if (*piVar6 == 0) goto switchD_100cdb07_caseD_3;
+    pvVar10 = (void *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1dc))))((void *)(self),&param_9);
+    uVar5 = orig::ResourceHandle_IsResident_v1(pvVar10);
+    if ((char)uVar5 == '\0') goto switchD_100cdb07_caseD_3;
+    puVar7 = &param_9;
+  }
+  else {
+    iVar9 = orig::CXiActor_GetModelByteEE_v1(self);
+    switch(iVar9) {
+    case 0:
+    case 1:
+    case 6:
+    case 8:
+      iVar9 = orig::CXiActor_GetModelByteEF(self);
+      if (((((((iVar9 < 0x1d) && (*(int *)((int)self + 0x7e4) == 0)) &&
+             (iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x34c))))((void *)(self)), iVar9 == 0)) &&
+            ((iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x358))))((void *)(self)), iVar9 == 0 &&
+             (iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x360))))((void *)(self)), iVar9 == 0)))) &&
+           ((iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x36c))))((void *)(self)), iVar9 == 0 &&
+            ((iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x378))))((void *)(self)), iVar9 == 0 &&
+             (iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 900))))((void *)(self)), iVar9 == 0)))))) &&
+          (iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x394))))((void *)(self)), iVar9 == 0)) &&
+         (iVar9 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x3a4))))((void *)(self)), iVar9 == 0))
+      goto switchD_100cdb07_caseD_3;
+      break;
+    case 2:
+    case 7:
+      break;
+    default:
+      goto switchD_100cdb07_caseD_3;
+    }
+    piVar6 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_9);
+    if (*piVar6 != 0) {
+      pvVar10 = (void *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_10);
+      uVar5 = orig::ResourceHandle_IsResident_v1(pvVar10);
+      if ((char)uVar5 != '\0') {
+        puVar7 = (undefined4 *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x400))))((void *)(self),&param_11);
+        uVar5 = orig::CXiSkeletonActor_SetMotion
+                          (self,(int *)*puVar7,param_1,param_2,param_3,param_4,param_5,param_6,
+                           param_7,param_8,uVar4,piVar3);
+        if ((char)uVar5 != '\0') goto switchD_100cdb07_caseD_3;
+      }
+    }
+    piVar6 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1dc))))((void *)(self),auStack_c);
+    if (*piVar6 == 0) goto switchD_100cdb07_caseD_3;
+    pvVar10 = (void *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1dc))))((void *)(self),auStack_8);
+    uVar5 = orig::ResourceHandle_IsResident_v1(pvVar10);
+    if ((char)uVar5 == '\0') goto switchD_100cdb07_caseD_3;
+    puVar7 = &uStack_4;
+  }
+  puVar7 = (undefined4 *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1dc))))((void *)(self),puVar7);
+  orig::CXiSkeletonActor_SetMotion
+            (self,(int *)*puVar7,param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8,
+             uVar4,piVar3);
+switchD_100cdb07_caseD_3:
+  piVar3 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
+  if ((*piVar3 == 0) || ((DAT_1048a38c & 1) == 0)) {
+    if (bVar2) {
+      return 1;
+    }
+  }
+  else {
+    if (bVar2) {
+      return 1;
+    }
+    uVar11 = DAT_1048a38c ^ local_18;
+    iVar9 = 0;
+    pvVar10 = (void *)(*piVar3 + 0x24);
+    do {
+      uVar8 = 1 << ((uint8_t)iVar9 & 0x1f);
+      if (((uVar11 & uVar8) != 0) && ((local_18 & uVar8) != 0)) {
+        orig::FUN_1001b140(pvVar10);
+      }
+      iVar9 = iVar9 + 1;
+      pvVar10 = (void *)((int)pvVar10 + 0x14);
+    } while (iVar9 < 3);
+  }
+  if (DAT_1048a38c == 0) {
+    return 1;
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100CDF90  (placed by IDB name; static (takes no this))
@@ -3102,9 +3266,9 @@ int CXiSkeletonActor::SetAttack_SchStatus(int a2)
   return (*(int (__thiscall **)(int *, int, int, int))(v3 + 664))(self, v4, StatusEntry, a2);
 }
 
-// FUNCTION: FFXIMAIN 0x100CF100  (unit CXiSkeletonActor: between 0x100CF030 (name CXiSkeletonActor_SetAttack_SchStatus) and 0x100CF1C0 (class model places it in CXiSkeletonActor), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100CF100  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_100CF100(void * self_, undefined4 xi_s1)
+uint64_t __thiscall CXiSkeletonActor::ForParts0To9(void * self, undefined4 xi_s1)
 {
   int iVar1;
   uint32_t uVar2;
@@ -3114,18 +3278,18 @@ XI_API uint64_t __thiscall fn_100CF100(void * self_, undefined4 xi_s1)
   
   piVar4 = (int *)0x0;
   do {
-    if (*(short *)((int)self_ + 0xb2) == 0) {
-      iVar1 = orig::CXiActor_GetModelField170_v1(self_);
+    if (*(short *)((int)self + 0xb2) == 0) {
+      iVar1 = orig::CXiActor_GetModelField170_v1(self);
       if (iVar1 != 1) goto LAB_100cf141;
-      uVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 800))))((void *)(self_));
+      uVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 800))))((void *)(self));
       if ((short)uVar2 == 0) goto LAB_100cf141;
-      uVar3 = orig::CXiSkeletonActor_FindPartValue_v1(self_,piVar4);
+      uVar3 = orig::CXiSkeletonActor_FindPartValue_v1(self,piVar4);
       if ((char)uVar3 != '\0') goto LAB_100cf141;
-      uVar5 = orig::FUN_100d5fe0(self_,(int)piVar4);
+      uVar5 = orig::FUN_100d5fe0(self,(int)piVar4);
     }
     else {
 LAB_100cf141:
-      uVar5 = orig::FUN_100d6180(self_,(int)piVar4);
+      uVar5 = orig::FUN_100d6180(self,(int)piVar4);
     }
     piVar4 = (int *)((int)piVar4 + 1);
     if (9 < (int)piVar4) {
@@ -3181,7 +3345,7 @@ uint8_t * __thiscall CXiSkeletonActor::GetTableOrDefault(void * self, int param_
 {
   uint16_t *puVar1;
   
-  puVar1 = orig::FUN_100cfb40(self);
+  puVar1 = orig::CXiSkeletonActor_GetTableEntryByModelKind(self);
   if (puVar1 == (uint16_t *)0x0) {
     if ((param_1 != 0) && (param_1 == 1)) {
       return (uint8_t *)0x0;
@@ -3189,6 +3353,66 @@ uint8_t * __thiscall CXiSkeletonActor::GetTableOrDefault(void * self, int param_
     puVar1 = (uint16_t *)&DAT_1048a390;
   }
   return (uint8_t *)puVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x100CFB40  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+int __thiscall CXiSkeletonActor::GetTableEntryByModelKind(void * self)
+{
+  uint32_t uVar1;
+  int *piVar2;
+  uint16_t *puVar3;
+  int iVar4;
+  
+  iVar4 = 0;
+  uVar1 = orig::CXiActor_GetModelField170_v1(self);
+  switch(uVar1) {
+  case 0:
+  case 4:
+  case 7:
+  case 0x1c:
+  case 0x1f:
+    iVar4 = 0;
+    break;
+  case 2:
+  case 3:
+    iVar4 = 2;
+    break;
+  default:
+    uVar1 = orig::CXiActor_GetModelField170_v1(self);
+    uVar1 = orig::CXiActor_ModelTest95680(self,uVar1,uVar1);
+    if ((char)uVar1 == '\0') {
+      uVar1 = orig::CXiActor_GetModelField170_v1(self);
+      uVar1 = orig::CXiActor_ModelTest956A0_v1(self,uVar1,uVar1);
+      if ((char)uVar1 == '\0') break;
+    }
+  case 1:
+  case 6:
+  case 0x26:
+  case 0x27:
+  case 0x28:
+  case 0x29:
+  case 0x2a:
+  case 0x2b:
+  case 0x32:
+  case 0x33:
+  case 0x34:
+  case 0x35:
+  case 0x38:
+  case 0x39:
+  case 0x3a:
+  case 0x3b:
+  case 0x3c:
+  case 0x3d:
+  case 0x3e:
+    iVar4 = 1;
+  }
+  piVar2 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
+  if ((*piVar2 != 0) &&
+     (puVar3 = orig::Skel_GetTableAfterBones_v1((void *)(*piVar2 + 8)), puVar3 != (uint16_t *)0x0)) {
+    return (int)(puVar3 + iVar4 * 0xc);
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100D04B0  (placed by tree manifest)
@@ -3580,13 +3804,13 @@ char CXiSkeletonActor::LoadSkeletonResource(int a2)
   }
 }
 
-// FUNCTION: FFXIMAIN 0x100D43E0  (unit CXiSkeletonActor: between 0x100D4330 (name CXiSkeletonActor_LoadSkeletonResource) and 0x100D4560 (name CXiSkeletonActor_GetElem), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x100D43E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_100D43E0(void)
+int __cdecl CXiSkeletonActor::GetSkeletonFileNo()
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10087830();
+  uVar1 = orig::Unit10086E90_GetByte10480825IfSet();
   uVar1 = uVar1 & 0xff;
   if (1 < uVar1) {
     uVar1 = 0;

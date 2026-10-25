@@ -6,7 +6,7 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(4,050 functions: 4,049 PASS on the fuzz gate; `// NOT VERIFIED` marks the one that is not, 0x10003890, INCONCLUSIVE:
+(4,206 functions: 4,205 PASS on the fuzz gate; `// NOT VERIFIED` marks the one that is not, 0x10003890, INCONCLUSIVE:
 the original faults on every fuzzed input through objects in its own `this`. A function whose code is the same as on the
 build it was gated on keeps that verdict (`pipeline/code_same.py`, docs/HISTORY.md 22 Oct evening); 0x10016320 passes
 only under the fixed inputs `data/case_inputs.json` states, and its GATE line says so. `left_out.json` lists the 9

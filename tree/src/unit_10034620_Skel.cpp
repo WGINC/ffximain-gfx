@@ -38,7 +38,7 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         (&DAT_1045f034)[iVar5 * 0xd] = puVar4[1];
         (&DAT_1045f038)[iVar5 * 0xd] = puVar4[2];
         (&DAT_1045f03c)[iVar5 * 0xd] = puVar4[3];
-        orig::FUN_10032a70();
+        orig::Unit100310A0_Nop();
         orig::Quat_NormalizeInPlace(this_00);
         fVar2 = xi_castbits<float>(puVar6[4]);
         fVar3 = xi_castbits<float>(puVar6[5]);
@@ -60,7 +60,7 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
       } while (iVar5 < (int)(uint32_t)uVar1);
     }
   }
-  orig::FUN_10032a70();
+  orig::Unit100310A0_Nop();
   return;
 }
 

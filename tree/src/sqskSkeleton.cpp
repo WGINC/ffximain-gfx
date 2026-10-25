@@ -44,8 +44,8 @@ XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2)
   if (iVar2 != 0) {
     if (-1 < iVar2 + -1) {
       do {
-        orig::FUN_10291c50();
-        orig::FUN_10291460();
+        orig::SqhiNode_Nop();
+        orig::SqskJoint_Nop();
         iVar2 = iVar2 + -1;
       } while (iVar2 != 0);
     }
@@ -80,6 +80,32 @@ XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1027C900  (unit sqskSkeleton: asserts sqskSkeleton.c)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl SqskSkeleton_FindBoneIndex(int param_1, int param_2)
+{
+  int iVar1;
+  int iVar2;
+  
+  if (*(int *)(param_2 + 0x68) != 0) {
+    iVar1 = 0;
+    if (0 < *(int *)(param_1 + 0x28)) {
+      iVar2 = *(int *)(param_1 + 0x20);
+      do {
+        if (iVar2 == param_2) {
+          return iVar1;
+        }
+        iVar1 = iVar1 + 1;
+        iVar2 = iVar2 + 0xf8;
+      } while (iVar1 < *(int *)(param_1 + 0x28));
+    }
+    orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x381)
+    ;
+    orig::sqDebugPrintf_v1(s_bone_is_not_found_in_a_skeleton_103b44fc);
+  }
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x1027C980  (unit sqskSkeleton: asserts sqskSkeleton.c)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2)
@@ -87,8 +113,8 @@ XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2)
   if ((-1 < param_2) && (param_2 < *(int *)(param_1 + 0x28))) {
     return *(int *)(param_1 + 0x20) + param_2 * 0xf8;
   }
-  orig::sqDebugPrintf_v2(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x3b4);
-  orig::sqDebugPrintf_v2(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(uint32_t *)(param_1 + 0x28))
+  orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqSkeleton_103b40ec,0x3b4);
+  orig::sqDebugPrintf_v1(s_node_index__d_is_out_of_range__0_103b4520,param_2,*(uint32_t *)(param_1 + 0x28))
   ;
   return 0;
 }

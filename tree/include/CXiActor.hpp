@@ -6,6 +6,7 @@
 class XI_API CXiActor {
 public:
     static void __thiscall Init(void * self);  // 0x10081BA0
+    static void * __thiscall ConstructBase(void * self);  // 0x10081CF0
     double CXiSkeletonActor_GetMoveSpeed();  // 0x10082070
     float CXiSkeletonActor_GetMoveSpeedBase();  // 0x10082090
     double CXiSkeletonActor_GetWalkSpeed();  // 0x100820B0

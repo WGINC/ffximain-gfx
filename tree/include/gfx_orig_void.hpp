@@ -155,6 +155,7 @@ namespace orig_void {
 #include "XiFurnitureActor.hpp"
 #include "XiModelActor.hpp"
 #include "XiZone.hpp"
+#include "YkFurniture.hpp"
 #include "YkJpeg.hpp"
 #include "YkJpgBit.hpp"
 #include "YkMyroom.hpp"

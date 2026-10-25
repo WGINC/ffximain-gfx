@@ -7,7 +7,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall YkZip::Construct(void * self)
 {
-  orig::FUN_10126320((void *)((int)self + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self + 4));
   *(uint16_t *)((int)self + 0xe) = 0xffff;
   *(uint32_t *)((int)self + 8) = 0;
   *(uint8_t *)((int)self + 0xc) = 1;

@@ -56,9 +56,9 @@ LAB_10019be3:
           puVar6[7] = 0x3f800000;
           puVar6[8] = 0x3f800000;
           puVar6[9] = 0x3f800000;
-          orig::FUN_10032a70();
+          orig::Unit100310A0_Nop();
         }
-        orig::FUN_10032a70();
+        orig::Unit100310A0_Nop();
         return (uint32_t)puVar6 & 0xffffff00;
       }
       uVar11 = uVar11 & 0x7fffffff;
@@ -77,7 +77,7 @@ LAB_10019be3:
       puVar6[1] = puVar7[1];
       puVar6[2] = puVar7[2];
       puVar6[3] = puVar7[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       if ((*(int *)((int)self_ + (int)param_2 * 0x54 + 0x5e) < 0) && (param_1 != 0)) {
         uVar11 = 0;
         param_2 = (int *)((int)self_ + (int)param_2 * 0x54 + 0x76);
@@ -160,7 +160,7 @@ LAB_10019be3:
         *(undefined4 *)(param_5 + 0x24) = 0x3f800000;
         pfVar8 = (float *)param_5;
       }
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pfVar8 >> 8)) << 8) | (uint8_t)(local_49)));
     }
   } while( true );
@@ -215,7 +215,7 @@ LAB_10019f63:
           puVar1[2] = puVar9[2];
           uVar7 = puVar9[3];
           puVar1[3] = uVar7;
-          orig::FUN_10032a70();
+          orig::Unit100310A0_Nop();
           fVar14 = (long double)1.0f - (long double)param_5;
           fVar13 = (long double)param_5 * (long double)0.0f;
           puVar1[4] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[4]) + fVar13);
@@ -232,8 +232,8 @@ LAB_10019f63:
             puVar1[9] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[9]) + (long double)param_5);
           }
         }
-        orig::FUN_10032a70();
-        orig::FUN_10032a70();
+        orig::Unit100310A0_Nop();
+        orig::Unit100310A0_Nop();
         return uVar7 & 0xffffff00;
       }
       uVar10 = uVar10 & 0x7fffffff;
@@ -250,14 +250,14 @@ LAB_10019f63:
       local_20[1] = pfVar8[1];
       local_20[2] = pfVar8[2];
       local_20[3] = pfVar8[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       puVar1 = (undefined4 *)(param_6 + param_3 * 0x34);
       puVar9 = (undefined4 *)orig::Quat_NLerp(puVar1,local_54 + 9,local_20,param_5);
       *puVar1 = *puVar9;
       puVar1[1] = puVar9[1];
       puVar1[2] = puVar9[2];
       puVar1[3] = puVar9[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       param_2 = (int *)((int)self_ + (int)param_2 * 0x54 + 0x76);
       uVar7 = 0;
       do {
@@ -318,8 +318,8 @@ LAB_10019f63:
                            fVar14 * (long double)xi_castbits<float>(puVar1[9]));
         param_6 = param_3;
       }
-      orig::FUN_10032a70();
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
+      orig::Unit100310A0_Nop();
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_6 >> 8)) << 8) | (uint8_t)(1)));
     }
   } while( true );
@@ -446,7 +446,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
               *(undefined4 *)((int)&DAT_1045f034 + iVar6) = puVar7[1];
               *(undefined4 *)((int)&DAT_1045f038 + iVar6) = puVar7[2];
               *(undefined4 *)((int)&DAT_1045f03c + iVar6) = puVar7[3];
-              orig::FUN_10032a70();
+              orig::Unit100310A0_Nop();
               orig::Vec3_Lerp((float *)((int)&g_poseTranslation_as_v0 + iVar6),(float *)(((char *)&DAT_1045b830) + iVar6),
                         (float *)((int)&g_poseTranslation_as_v0 + iVar6),fVar2);
               uVar4 = orig::Vec3_Lerp((float *)(((char *)&g_poseScale_as_v0) + iVar6),(float *)(((char *)&DAT_1045b83c) + iVar6),

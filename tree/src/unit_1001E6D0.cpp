@@ -38,7 +38,7 @@ XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param
 
 // FUNCTION: FFXIMAIN 0x10021AE0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10021AE0(void * self_)
+XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)
 {
   long double fVar1;
   uint32_t xi_entry_eax = 0;
@@ -121,7 +121,7 @@ XI_API undefined4 __thiscall fn_10021AE0(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Camera_SnapshotState(void * self_)
 {
-  orig::FUN_10021c10(self_);
+  orig::Camera_BuildLookAtView(self_);
   orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x60),(uint32_t *)((int)self_ + 0x44));
   orig::Vec3_Copy_v1((uint32_t *)((int)self_ + 0x6c),(uint32_t *)((int)self_ + 0x50));
   *(uint32_t *)((int)self_ + 0x78) = *(uint32_t *)((int)self_ + 0x5c);
@@ -130,7 +130,7 @@ XI_API int __thiscall Camera_SnapshotState(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10021C10  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_10021C10(void * self_)
+XI_API int __thiscall Camera_BuildLookAtView(void * self_)
 {
   float *pfVar1;
   uint32_t uVar2;
@@ -169,7 +169,7 @@ XI_API int __thiscall fn_10021C10(void * self_)
   }
   orig::Vec3_Add_10026FA0_v1(local_90,pfVar1,&local_c0);
   orig::FUN_102d7ff9(local_40,pfVar1,local_90,local_a0);
-  uVar2 = orig::FUN_1006ca60(local_40);
+  uVar2 = orig::Unit1006C210_AreAll16FloatsAccepted(local_40);
   if ((char)uVar2 != '\0') {
     orig::Mat4_Copy_v1((void *)((int)self_ + 4),local_40);
   }
@@ -207,7 +207,7 @@ XI_API long double __thiscall Actor_GetPercentScaleByIndex(void * self_, int no)
   uint8_t bVar1;
   
   if ((3 < no) || (no < 0)) {
-    orig::nullsub_12_v1(&DAT_1035133c);
+    orig::Unit10017C10_NoOpVarargsB_v1(&DAT_1035133c);
     no = 0;
   }
   bVar1 = *(uint8_t *)(no + 10 + (int)self_);

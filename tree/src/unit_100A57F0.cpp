@@ -46,7 +46,7 @@ XI_API undefined4 __cdecl XiControlActor_UpdateCamera(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x100A5EC0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 56 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100A5EC0(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, undefined4 param_1)
 {
   int iVar1;
   
@@ -70,7 +70,7 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
   iVar1 = g_pCamera_as_s32;
   if (((*(char *)(g_pCamera_as_s32 + 8) == '\0') || (iVar1 = *(int *)((int)self_ + 0x70), iVar1 == 0)) ||
      (((*(uint32_t *)(iVar1 + 0x120) >> 7 & 1) == 0 && ((*(uint32_t *)(iVar1 + 300) >> 0xd & 1) == 0)))) {
-    uVar2 = orig::FUN_10123a70(0x3f,0x1c,1,-1,iVar1);
+    uVar2 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x1c,1,-1,iVar1);
     if ((char)uVar2 != '\0') {
       orig::XiControlActor_SetAutoRunning((uint32_t)(XiControlActor_isAutoRunning == '\0'),
                    ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar2 >> 8)) << 8) | (uint8_t)(XiControlActor_isAutoRunning))));
@@ -126,16 +126,16 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
     case 0x53:
       xi_eax = orig::XiControlActor_SetAutoRunning(0,xi_eax);
     }
-    uVar2 = orig::FUN_10123a70(0x3f,0x10,1,-1,xi_eax);
+    uVar2 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x10,1,-1,xi_eax);
     if ((char)uVar2 != '\0') {
       orig::FUN_100a8cc0(CONCAT31((int32_t)((uint64_t)uVar2 >> 0x28),XiControlActor_isFirstPersonView == '\0'));
       if (XiControlActor_isFirstPersonView == '\0') {
         uVar2 = orig::Settings_GetValue_v1(0x49);
-        orig::FUN_10015290((float)(long double)(int)uVar2);
+        orig::Camera_SetField2F8OnGlobal((float)(long double)(int)uVar2);
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self_ + 0x344))))((void *)(self_),0);
       }
       else {
-        orig::FUN_10015290(0x438c0000);
+        orig::Camera_SetField2F8OnGlobal(0x438c0000);
       }
       orig::FUN_10037ef0();
     }

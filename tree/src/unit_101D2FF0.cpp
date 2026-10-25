@@ -2,23 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x101D30B0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D30B0(void * self_)
-{
-  int *this_00;
-  
-  this_00 = *(int **)((int)self_ + 0x38);
-  if (this_00 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(uint32_t *)((int)self_ + 0x38) = 0;
-    *(uint32_t *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
-    return;
-  }
-  *(uint32_t *)(*(int *)((int)self_ + 4) + 0xa0) = 0;
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x101D30F0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit101D2FF0_GetObjectAtIndex(void * self_)
@@ -28,18 +11,6 @@ XI_API undefined4 __thiscall Unit101D2FF0_GetObjectAtIndex(void * self_)
     return *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x7e6)] + 0xa0);
   }
   return 0;
-}
-
-// FUNCTION: FFXIMAIN 0x101D31B0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D31B0(void * self_)
-{
-  if (*(uint32_t **)((int)self_ + 8) != (uint32_t *)0x0) {
-    orig::CMoResource_ReleaseChain_v1((void *)**(uint32_t **)((int)self_ + 8));
-    orig::ResHandle_FreeIfUnreferenced_v1((uint32_t *)((int)self_ + 8));
-    *(uint32_t *)((int)self_ + 8) = 0;
-  }
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x101D3DC0  (unit unit_101D2FF0: no unit evidence of its own; in the gap between 0x101D2F00 (YkMyroom) and 0x101D6DB0 (YkSoldier) -- an unnamed source file)
@@ -59,7 +30,7 @@ XI_API void __thiscall Unit101D2FF0_ReleaseTable(void * self_)
     do {
       this_00 = (void *)*puVar3;
       if (this_00 != (void *)0x0) {
-        orig::FUN_101cd900(this_00);
+        orig::YkFurniture_Destructor(this_00);
         orig::thunk_sub_10028AA0_v1((int)this_00);
         *puVar3 = 0;
       }

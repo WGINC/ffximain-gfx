@@ -9,7 +9,7 @@ XI_API void __cdecl StAvatar_Reset(int param_1)
   int iVar1;
   uint32_t *puVar2;
   
-  orig::FUN_1026ecc0();
+  orig::Mdl_FreeAllSlots();
   orig::Mdl_ReleaseEntries();
   iVar1 = 4;
   *(uint32_t *)(param_1 + 0xb0) = 0xffffffff;
@@ -47,18 +47,18 @@ XI_API undefined4 __cdecl StAvatar_SetTableValues(uint8_t * param_1, int param_2
   uint8_t *pbVar2;
   
   if ((*param_1 & 0x20) != 0) {
-    orig::FUN_10250db0((int)(param_1 + 0x198),(*(int *)(((char *)&DAT_10389518) + param_2 * 4) + 0xdc8) * 9);
+    orig::StChannelItem_Load((int)(param_1 + 0x198),(*(int *)(((char *)&DAT_10389518) + param_2 * 4) + 0xdc8) * 9);
     return 0;
   }
   iVar1 = 0;
   pbVar2 = param_1 + 0xf0;
   do {
-    orig::FUN_10250db0((int)pbVar2,*(int *)(((char *)&DAT_10389558) + param_2 * 4) + iVar1);
+    orig::StChannelItem_Load((int)pbVar2,*(int *)(((char *)&DAT_10389558) + param_2 * 4) + iVar1);
     iVar1 = iVar1 + 1;
     pbVar2 = pbVar2 + 0x1c;
   } while (iVar1 < 4);
-  orig::FUN_10250db0((int)(param_1 + 0x160),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 8);
-  orig::FUN_10250db0((int)(param_1 + 0x198),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 9);
+  orig::StChannelItem_Load((int)(param_1 + 0x160),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 8);
+  orig::StChannelItem_Load((int)(param_1 + 0x198),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 9);
   return 0;
 }
 
@@ -69,13 +69,13 @@ XI_API undefined4 __cdecl StAvatar_SetChannel(uint8_t * param_1, int param_2, in
   int iVar1;
   
   if ((*param_1 & 0x20) != 0) {
-    orig::FUN_10250db0((int)(param_1 + 0x208),*(int *)(((char *)&DAT_10389518) + param_2 * 4) * 9 + 0x7c09 + param_3
+    orig::StChannelItem_Load((int)(param_1 + 0x208),*(int *)(((char *)&DAT_10389518) + param_2 * 4) * 9 + 0x7c09 + param_3
                 );
     return 0;
   }
   iVar1 = param_3 * 6 + 0xe;
-  orig::FUN_10250db0((int)(param_1 + 0x1d0),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + iVar1);
-  orig::FUN_10250db0((int)(param_1 + 0x208),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 1 + iVar1);
+  orig::StChannelItem_Load((int)(param_1 + 0x1d0),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + iVar1);
+  orig::StChannelItem_Load((int)(param_1 + 0x208),*(int *)(((char *)&DAT_10389558) + param_2 * 4) + 1 + iVar1);
   return 0;
 }
 
@@ -116,12 +116,12 @@ XI_API undefined4 __cdecl StAvatar_Unload(uint32_t * param_1)
   } while (iVar1 != 0);
   orig::StAvatar_Reset((int)param_1);
   orig::StAvatar_ReleaseResources(param_1,0);
-  orig::FUN_101c4d30(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v1);
   orig::StAvatar_ApplyChannels((uint8_t *)param_1);
-  orig::FUN_101c4d40(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v1);
   orig::StAvatar_SetChannel((uint8_t *)param_1,param_1[2],param_1[3]);
   param_1[1] = 1;
-  orig::FUN_10252610((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_1[2] * 4) + 4 + param_1[3] * 2);
+  orig::StModelItem_ReadStart((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_1[2] * 4) + 4 + param_1[3] * 2);
   return 0;
 }
 
@@ -139,8 +139,8 @@ XI_API void __cdecl StAvatar_ApplyChannels(uint8_t * param_1)
     iVar1 = 0;
     puVar3 = (uint32_t *)(param_1 + 0xf0);
     do {
-      orig::FUN_10251070(puVar3,iVar1 >> 1,*(float *)(param_1 + 0x78));
-      orig::FUN_1026f9e0(puVar3[3],1);
+      orig::StChannel_RegisterItem(puVar3,iVar1 >> 1,*(float *)(param_1 + 0x78));
+      orig::Mdl_SetChannelFlag80(puVar3[3],1);
       iVar1 = iVar1 + 1;
       puVar3 = puVar3 + 7;
     } while (iVar1 < 4);
@@ -152,7 +152,7 @@ XI_API void __cdecl StAvatar_ApplyChannels(uint8_t * param_1)
     do {
       if (*(int *)(pbVar2 + 0x10) != 0) {
         *(uint32_t *)pbVar2 = *(uint32_t *)(param_1 + 0xb0);
-        orig::FUN_10251070((uint32_t *)(pbVar2 + -8),-1,*pfVar4);
+        orig::StChannel_RegisterItem((uint32_t *)(pbVar2 + -8),-1,*pfVar4);
       }
       pfVar4 = pfVar4 + 1;
       pbVar2 = pbVar2 + 0x1c;
@@ -190,13 +190,13 @@ XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1)
   uint32_t *puVar4;
   
   if (*(int *)(param_1 + 4) == 1) {
-    orig::FUN_101c4c20(g_pFileMng_as_v1);
-    uVar2 = orig::FUN_101c4ac0(g_pFileMng_as_v1);
+    orig::Unit1018BA60_FileMngCall101C2670(g_pFileMng_as_v1);
+    uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v1);
     cVar1 = (char)uVar2;
     while (cVar1 != '\0') {
       orig::FUN_1024d850((uint32_t *)param_1);
       Sleep(2);
-      uVar2 = orig::FUN_101c4ac0(g_pFileMng_as_v1);
+      uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v1);
       cVar1 = (char)uVar2;
     }
     *(uint32_t *)(param_1 + 4) = 0;
@@ -245,7 +245,7 @@ XI_API void __cdecl StAvatar_FormatNames(void)
 
 // FUNCTION: FFXIMAIN 0x1024DB60  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1024DB60(uint8_t * param_1)
+XI_API undefined4 __cdecl StAvatar_Update(uint8_t * param_1)
 {
   int iVar1;
   uint32_t uVar2;
@@ -266,13 +266,13 @@ XI_API undefined4 __cdecl fn_1024DB60(uint8_t * param_1)
         pbVar4 = param_1 + 0xf0;
         iVar1 = 4;
         do {
-          orig::FUN_10251200(pbVar4,uVar2,0);
+          orig::StChannel_ApplyItem(pbVar4,uVar2,0);
           pbVar4 = pbVar4 + 0x1c;
           iVar1 = iVar1 + -1;
         } while (iVar1 != 0);
-        orig::FUN_10251200(param_1 + 0x160,uVar2,0);
+        orig::StChannel_ApplyItem(param_1 + 0x160,uVar2,0);
         if (*(int *)(param_1 + 0x1c) == 2) {
-          orig::FUN_10251200(param_1 + 0x198,uVar2,0);
+          orig::StChannel_ApplyItem(param_1 + 0x198,uVar2,0);
           orig::StAvatar_ComputeRatioValue(param_1 + 0x198,(uint32_t *)(param_1 + 0x3c));
         }
         else {
@@ -282,7 +282,7 @@ XI_API undefined4 __cdecl fn_1024DB60(uint8_t * param_1)
       goto LAB_1024dcb3;
     }
   }
-  uVar5 = orig::FUN_10123a70(0x3f,0x10,1,-1,iVar1);
+  uVar5 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x10,1,-1,iVar1);
   if (((char)uVar5 != '\0') && ((*param_1 & 0x20) == 0)) {
     iVar1 = *(int *)(param_1 + 0x1c);
     *(int *)(param_1 + 0x1c) = iVar1 + 1;
@@ -305,15 +305,15 @@ XI_API undefined4 __cdecl fn_1024DB60(uint8_t * param_1)
     pbVar4 = param_1 + 0xf0;
     iVar1 = 4;
     do {
-      orig::FUN_10251200(pbVar4,uVar2,1);
+      orig::StChannel_ApplyItem(pbVar4,uVar2,1);
       pbVar4 = pbVar4 + 0x1c;
       iVar1 = iVar1 + -1;
     } while (iVar1 != 0);
-    orig::FUN_10251200(param_1 + 0x160,uVar2,1);
-    orig::FUN_10251200(param_1 + 0x1d0,uVar2,1);
+    orig::StChannel_ApplyItem(param_1 + 0x160,uVar2,1);
+    orig::StChannel_ApplyItem(param_1 + 0x1d0,uVar2,1);
   }
 LAB_1024dcb3:
-  uVar2 = orig::FUN_10270f30(*(uint32_t *)(param_1 + 0x2c));
+  uVar2 = orig::Unit102706F0_UpdateScene(*(uint32_t *)(param_1 + 0x2c));
   orig::FUN_10250030((uint32_t *)param_1,uVar2);
   orig::StAvatar_SetViewFromDancerCamera(param_1);
   orig::StAvatar_UpdateInput((uint32_t *)param_1,*(uint32_t *)(param_1 + 0x2c));
@@ -339,9 +339,9 @@ XI_API void __cdecl StAvatar_UpdateInput(uint32_t * param_1, undefined4 param_2)
   int iVar6;
   
   if (param_1[7] == 2) {
-    uVar3 = orig::FUN_10123a70(0x3f,0x4f,4,-1,2);
+    uVar3 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x4f,4,-1,2);
     if ((char)uVar3 == '\0') {
-      uVar3 = orig::FUN_10123a70(0x3f,0x50,4,-1,(int)uVar3);
+      uVar3 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x50,4,-1,(int)uVar3);
       iVar5 = dword_104E1D44;
       if ((char)uVar3 == '\0') {
         lVar4 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)(*(uint8_t *)(dword_104E1D44 + 0x253) - 0x80) * (long double)(-0.0625f));
@@ -844,7 +844,7 @@ XI_API void __cdecl StAvatar_UpdateSteer(int param_1, int param_2)
   fVar9 = orig::GetAnalogKey(0x3f,5);
   local_14 = (float)fVar9;
   local_1c = 0.0f;
-  uVar14 = orig::FUN_10123a70(0x3f,0xf,4,-1,xi_eax);
+  uVar14 = orig::Unit100D7420_TestCommand36CF60(0x3f,0xf,4,-1,xi_eax);
   bVar7 = (char)uVar14 != '\0';
   fVar9 = orig::GetAnalogKey(0x3f,0x83);
   if ((fVar9 > (long double)0.00999999977648258209228515625f) ||
@@ -1289,7 +1289,7 @@ XI_API int __cdecl StAvatarRender(_BYTE *arg0)
     orig::___setargv_3();
     orig::___setargv_24();
     orig::___setargv_9();
-    orig::nullsub_59();
+    orig::Unit102822A0_Nop();
     orig::___setargv_16();
     orig::StAvatar_DrawScene();
     result = orig::StAvatar_IsFlag20(g_pStDancer);
@@ -1352,7 +1352,7 @@ XI_API void __cdecl StAvatar_UpdateNodes(uint8_t * param_1)
       puVar2 = PTR_DAT_10389314;
       iVar5 = iVar5 + 1;
     } while (iVar5 < 5);
-    orig::FUN_10250c00(param_1,&local_24);
+    orig::StAvatar_GetField20(param_1,&local_24);
     if (-1 < local_24) {
       if ((NAN((long double)xi_castbits<float>((&DAT_103890f0)[local_24 * 9])) || NAN((long double)3e+01f)) ||
           (long double)xi_castbits<float>((&DAT_103890f0)[local_24 * 9]) <= (long double)3e+01f) {
@@ -1478,7 +1478,7 @@ XI_API undefined4 __cdecl StAvatar_SetFlagBit(undefined4 param_1, int param_2, i
 
 // FUNCTION: FFXIMAIN 0x102506C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102506C0(undefined4 xi_eax, uint32_t * param_1, int param_2)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) StAvatar_SetStopped(undefined4 xi_eax, uint32_t * param_1, int param_2)
 {
   uint8_t bVar1;
   uint32_t uVar2;
@@ -1509,7 +1509,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102506C0(undefined4 xi_e
 
 // FUNCTION: FFXIMAIN 0x10250760  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10250760(uint8_t * param_1, int param_2)
+XI_API undefined4 __cdecl StAvatar_SetField10(uint8_t * param_1, int param_2)
 {
   if ((*param_1 & 1) != 0) {
     if (1 < *(int *)(param_1 + 4)) {
@@ -1522,7 +1522,7 @@ XI_API undefined4 __cdecl fn_10250760(uint8_t * param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10250790  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10250790(uint8_t * param_1, int param_2)
+XI_API undefined4 __cdecl StAvatar_SetField14(uint8_t * param_1, int param_2)
 {
   if ((*param_1 & 1) != 0) {
     if (1 < *(int *)(param_1 + 4)) {
@@ -1535,7 +1535,7 @@ XI_API undefined4 __cdecl fn_10250790(uint8_t * param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x102507C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102507C0(uint32_t * param_1, uint32_t param_2)
+XI_API undefined4 __cdecl StAvatar_StoreMode(uint32_t * param_1, uint32_t param_2)
 {
   float fVar1;
   
@@ -1570,12 +1570,12 @@ XI_API undefined4 __cdecl StAvatar_Start(uint8_t * param_1, undefined4 param_2)
     iVar4 = param_2;
     *local_4 = 0;
     if ((*pbVar2 & 0x20) == 0) {
-      orig::FUN_102733b0(param_2);
+      orig::Unit10272F20_SelectCamera(param_2);
       orig::StAvatar_ResetChannels(pbVar2,0);
       orig::StAvatar_ResetChannels(pbVar2,1);
       if (*(int *)(pbVar2 + 0x1c) == 2) {
         orig::StAvatar_UpdateFlagBits(0x200,1);
-        orig::FUN_102509c0((uint32_t *)pbVar2,1);
+        orig::StAvatar_SetModelFlags((uint32_t *)pbVar2,1);
         iVar1 = *(int *)(pbVar2 + 8);
         iVar3 = *(int *)(pbVar2 + 0xc) + iVar1 * 8;
         if (*(int *)(((char *)&DAT_10389338) + iVar3 * 4) == 0x3f800000) {
@@ -1595,7 +1595,7 @@ XI_API undefined4 __cdecl StAvatar_Start(uint8_t * param_1, undefined4 param_2)
       }
       else {
         orig::StAvatar_UpdateFlagBits(0x200,0);
-        orig::FUN_102509c0((uint32_t *)pbVar2,0);
+        orig::StAvatar_SetModelFlags((uint32_t *)pbVar2,0);
         iVar3 = orig::StAvatar_ComputeRatioValue(pbVar2 + 0x160,&param_1);
       }
       if (iVar3 == 0) {
@@ -1604,12 +1604,12 @@ XI_API undefined4 __cdecl StAvatar_Start(uint8_t * param_1, undefined4 param_2)
     }
     else {
       iVar4 = 2;
-      orig::FUN_102733b0(2);
+      orig::Unit10272F20_SelectCamera(2);
       orig::StAvatar_ResetChannels(pbVar2,0);
       orig::StAvatar_ResetChannels(pbVar2,1);
       if (*(int *)(pbVar2 + 0x1c) == 2) {
         orig::StAvatar_UpdateFlagBits(0x200,1);
-        orig::FUN_102509c0((uint32_t *)pbVar2,1);
+        orig::StAvatar_SetModelFlags((uint32_t *)pbVar2,1);
         iVar1 = *(int *)(pbVar2 + 8);
         iVar3 = *(int *)(pbVar2 + 0xc) + iVar1 * 8;
         if (*(int *)(((char *)&DAT_10389338) + iVar3 * 4) == 0x3f800000) {
@@ -1643,7 +1643,7 @@ XI_API undefined4 __cdecl StAvatar_Start(uint8_t * param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x102509C0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102509C0(uint32_t * param_1, uint32_t param_2)
+XI_API void __cdecl StAvatar_SetModelFlags(uint32_t * param_1, uint32_t param_2)
 {
   while( true ) {
     if (param_1 + 0x33 == (uint32_t *)0x0) {
@@ -1652,12 +1652,12 @@ XI_API void __cdecl fn_102509C0(uint32_t * param_1, uint32_t param_2)
     if ((param_1[0x33] & 4) == 0) break;
     if (param_2 != 0xffffffff) {
       if (param_2 == 0) {
-        orig::FUN_10250a40(param_1,param_1[0x32],0);
-        orig::FUN_10250a40(param_1,param_1[0x3b],0);
+        orig::StAvatar_SetModelItemFlags(param_1,param_1[0x32],0);
+        orig::StAvatar_SetModelItemFlags(param_1,param_1[0x3b],0);
         return;
       }
-      orig::FUN_10250a40(param_1,param_1[0x32],1);
-      orig::FUN_10250a40(param_1,param_1[0x3b],1);
+      orig::StAvatar_SetModelItemFlags(param_1,param_1[0x32],1);
+      orig::StAvatar_SetModelItemFlags(param_1,param_1[0x3b],1);
       return;
     }
     param_2 = ~*param_1 >> 0xd & 1;
@@ -1667,7 +1667,7 @@ XI_API void __cdecl fn_102509C0(uint32_t * param_1, uint32_t param_2)
 
 // FUNCTION: FFXIMAIN 0x10250A40  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10250A40(uint32_t * param_1, int param_2, int param_3)
+XI_API void __cdecl StAvatar_SetModelItemFlags(uint32_t * param_1, int param_2, int param_3)
 {
   int *piVar1;
   int iVar2;
@@ -1741,14 +1741,14 @@ LAB_10250b71:
       local_c = 0;
       local_8 = 0;
       local_4 = 0;
-      orig::FUN_102701b0(param_1[0x35],2,&local_c,0,0);
+      orig::Mdl_SetSlotLock(param_1[0x35],2,&local_c,0,0);
     }
   }
   else if (-1 < (int)param_1[0x35]) {
     local_8 = 0x41200000;
     local_c = (&DAT_103890f4)[param_1[9] * 9];
     local_4 = (&DAT_103890f8)[param_1[9] * 9];
-    orig::FUN_102701b0(param_1[0x35],2,&local_c,0x3f91361e,1);
+    orig::Mdl_SetSlotLock(param_1[0x35],2,&local_c,0x3f91361e,1);
     return 0;
   }
   return 0;
@@ -1756,7 +1756,7 @@ LAB_10250b71:
 
 // FUNCTION: FFXIMAIN 0x10250C00  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10250C00(uint8_t * param_1, undefined4 * param_2)
+XI_API undefined4 __cdecl StAvatar_GetField20(uint8_t * param_1, undefined4 * param_2)
 {
   if ((*param_1 & 1) != 0) {
     *param_2 = *(uint32_t *)(param_1 + 0x20);
@@ -1779,5 +1779,24 @@ XI_API undefined4 __cdecl StAvatar_InitIndices(undefined4 * param_1)
   param_1[4] = 0;
   param_1[5] = 0;
   param_1[6] = 0;
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10250DB0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl StChannelItem_Load(int param_1, undefined4 param_2)
+{
+  int iVar1;
+  
+  if (*(int *)(param_1 + 0x18) != 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__StChannelItemLoad___c_10389704);
+    return 0xffffffff;
+  }
+  *(uint32_t *)(param_1 + 4) = param_2;
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_2,0,0,param_1,&LAB_10250ec0,XI_CODE(FUN_10250e10));
+  if (iVar1 < 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__Chn_file_not_found____103896e0,param_2);
+    return 0xffffffff;
+  }
   return 0;
 }

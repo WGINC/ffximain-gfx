@@ -151,6 +151,7 @@ class Obj_10621944;
 class XiFurnitureActor;
 class XiModelActor;
 class XiZone;
+class YkFurniture;
 class YkJpeg;
 class YkJpgBit;
 class YkMyroom;

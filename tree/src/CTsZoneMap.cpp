@@ -74,7 +74,7 @@ XI_API void __thiscall ZoneMap_SetOverlayProjection(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10177770  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __attribute__((cdecl, regparm(1))) fn_10177770(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+XI_API uint32_t __attribute__((cdecl, regparm(1))) ZoneMap_QueryBoxHeightGlobal(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   uint32_t uVar1;
   
@@ -87,7 +87,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) fn_10177770(undefined4 xi_eax
 
 // FUNCTION: FFXIMAIN 0x101779B0  (unit CTsZoneMap: class model places it in CTsZoneMap)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101779B0(void * self_, undefined4 * param_1, int param_2)
+XI_API undefined4 __thiscall ZoneMap_Call10173AE0(void * self_, undefined4 * param_1, int param_2)
 {
   uint32_t uVar1;
   

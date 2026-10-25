@@ -178,7 +178,7 @@ XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
   orig::CDx_NopA();
   orig::TexMgr_UploadPumpEntry(g_pTextureMng);
   if ( g_pAppInputState != 0 && orig::Input_IsCursorActive((_DWORD *)g_pAppInputState, 0) != 0 )
-    orig::sub_1019C5B0();
+    orig::Unit1018BA60_Call103113C8();
   if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
     orig::CDx_PushRenderTarget(
@@ -323,16 +323,16 @@ LABEL_40:
               XiControlActor_isFirstPersonView = 0;
               XiControlActor_isAutoRunning = 0;
               byte_1047D694 = 0;
-              orig::sub_10253670(0, 1);
-              v12 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
-              if ( orig::sub_101C4CC0((int *)g_pFileMng, v12) == 0 )
+              orig::Unit10253210_SendBytePairKind2(0, 1);
+              v12 = orig::Unit100D7420_GetRecordDwordFwd(*((_DWORD *)g_pGameMode + 32));
+              if ( orig::Unit1018BA60_FileMngFwd101C2B60((int *)g_pFileMng, v12) == 0 )
               {
-                if ( !orig::sub_101C4CD0((int *)g_pFileMng) )
-                  orig::sub_101C4D10((int *)g_pFileMng);
-                v13 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
-                orig::sub_101C4CE0((void *)g_pFileMng, v13);
+                if ( !orig::Unit1018BA60_FileMngFwd101C2C80((int *)g_pFileMng) )
+                  orig::Unit1018BA60_FileMngFwd101C2E70((int *)g_pFileMng);
+                v13 = orig::Unit100D7420_GetRecordDwordFwd(*((_DWORD *)g_pGameMode + 32));
+                orig::Unit1018BA60_FileMngFwd101C4170((void *)g_pFileMng, v13);
               }
-              orig::sub_10253670(1, 1);
+              orig::Unit10253210_SendBytePairKind2(1, 1);
               *((_DWORD *)self_ + 17) = 6;
             }
           }
@@ -368,16 +368,16 @@ LABEL_40:
           }
           else
           {
-            orig::sub_10010520();
+            orig::App_SaveAllSlotData();
             *((_DWORD *)g_pGameMode + 4) = 0;
             *(_DWORD *)g_pSceneState = 112;
-            orig::sub_100149B0(self_);
+            orig::Unit10014350_EnterState4AfterShutdown(self_);
           }
           break;
         case 0xC:
           *((_DWORD *)g_pGameMode + 4) = 0;
           *(_DWORD *)g_pSceneState = 112;
-          if ( orig::sub_10014A20(self_) )
+          if ( orig::Unit10014350_TryShutdownActors(self_) )
           {
             orig::Unit10035B00_ResetGlobals();
             orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
@@ -386,17 +386,17 @@ LABEL_40:
           }
           break;
         case 0xD:
-          orig::sub_10010520();
+          orig::App_SaveAllSlotData();
           *((_DWORD *)g_pGameMode + 4) = 0;
           *(_DWORD *)g_pSceneState = 160;
-          orig::sub_10014A30((int)self_);
+          orig::Unit10014350_StepStagedRelease((int)self_);
           break;
         case 0x11:
           orig::CDx_StepFadeCounter((float *)g_pCDx, 0.0, 0.0, 1);
           orig::CDx_SetClearColor(g_pCDx, 0x80000000);
           *((_DWORD *)self_ + 206) = 0x80000000;
           *((_DWORD *)self_ + 205) = -2139062144;
-          if ( orig::sub_10014AD0(self_) != 0 )
+          if ( orig::Unit10014350_StepMenuOkThenRelease(self_) != 0 )
           {
             if ( dword_10456948 != 12 )
             {
@@ -606,18 +606,18 @@ LABEL_102:
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
     if ( dword_106627EC != 0 )
-      orig::sub_101AB820((_BYTE *)dword_106627EC);
+      orig::Unit1018BA60_HandleMenuKeys((_BYTE *)dword_106627EC);
     if ( dword_10662DA8 != 0 )
-      orig::sub_101AE3E0((void *)dword_10662DA8);
+      orig::Unit1018BA60_UpdateShortcuts((void *)dword_10662DA8);
     if ( dword_1066279C != 0 )
       orig::Unit1018BA60_UpdateMenuState(dword_1066279C);
   }
   if ( *((_BYTE *)g_pCamera + 8) != 0 && g_pFileMng != 0 )
-    orig::sub_101C46A0((_DWORD *)g_pFileMng);
+    orig::Unit1018BA60_FileMngCall101BEB90((_DWORD *)g_pFileMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
-    orig::sub_101AB770();
+    orig::Unit1018BA60_HandleJumpMapKeys();
   v27 = orig::Unit1012AC80_GetInstance();
-  orig::sub_10154860(v27);
+  orig::Unit1012AC80_UpdatePendingRead(v27);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
     if ( dword_106627EC != 0 )
@@ -631,7 +631,7 @@ LABEL_102:
     orig::FontGlyphCache_GetCounterBlock();
     orig::FontGlyphCache_StepCounter();
     orig::FontGlyphCache_GetCounterBlock();
-    orig::sub_1025E0F0();
+    orig::Unit1025C9E0_ReturnFalseFwd();
     if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && g_C_106631D4 != 0 )
       orig::Unit101D2FF0_Update((_WORD *)g_C_106631D4);
     if ( g_pXiOpening != 0 )

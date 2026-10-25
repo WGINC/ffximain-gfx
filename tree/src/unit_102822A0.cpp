@@ -111,9 +111,9 @@ XI_API void __cdecl SqgxContext_ResetHandles(void)
   int iVar2;
   int iVar3;
   
-  orig::FUN_10281a70(*(int *)(g_pSqgxContext_as_s32 + 0x8a4));
-  orig::FUN_10281a70(*(int *)(g_pSqgxContext_as_s32 + 0x8a8));
-  orig::FUN_10281a70(*(int *)(g_pSqgxContext_as_s32 + 0x8ac));
+  orig::SqgxTexture_FreeSlot(*(int *)(g_pSqgxContext_as_s32 + 0x8a4));
+  orig::SqgxTexture_FreeSlot(*(int *)(g_pSqgxContext_as_s32 + 0x8a8));
+  orig::SqgxTexture_FreeSlot(*(int *)(g_pSqgxContext_as_s32 + 0x8ac));
   _DAT_103b484c = 0xffffffff;
   iVar1 = 0x8b0;
   iVar3 = 0xa20;
@@ -130,7 +130,7 @@ XI_API void __cdecl SqgxContext_ResetHandles(void)
 
 // FUNCTION: FFXIMAIN 0x10282630  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10282630(void)
+XI_API void __cdecl Unit102822A0_Nop(void)
 {
   return;
 }

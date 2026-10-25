@@ -64,21 +64,21 @@ XI_API int __thiscall Unit10017C10_Begin(int *self_, int a2, int a3, int a4)
 
 // FUNCTION: FFXIMAIN 0x10017D20  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10017D20(undefined4 xi_s1, ...)
+XI_API void __cdecl Unit10017C10_NoOpVarargsA(undefined4 xi_s1, ...)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10017D30  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10017D30(undefined4 xi_s1, ...)
+XI_API void __cdecl Unit10017C10_NoOpVarargsB(undefined4 xi_s1, ...)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10018180  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl fn_10018180(undefined4 param_1)
+XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
 {
   uint64_t uVar1;
   
@@ -97,7 +97,7 @@ XI_API uint64_t __cdecl fn_10018180(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10018270  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10018270(void)
+XI_API undefined4 __cdecl Unit10017C10_IsRegistered(void)
 {
   uint32_t xi_entry_eax = 0;
   
@@ -106,9 +106,9 @@ XI_API undefined4 __cdecl fn_10018270(void)
 
 // FUNCTION: FFXIMAIN 0x100182C0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100182C0(undefined4 param_1)
+XI_API void __cdecl Unit10017C10_Call10114F10NoArgs(undefined4 param_1)
 {
-  orig::thunk_FUN_10114f10(param_1,(uint32_t *)0x0,0);
+  orig::Unit10017C10_Thunk10114F10(param_1,(uint32_t *)0x0,0);
   return;
 }
 
@@ -124,17 +124,17 @@ XI_API uint64_t __cdecl _exit_0(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10018300  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10018300(uint32_t param_1, undefined4 * param_2, uint32_t param_3)
+XI_API void __cdecl Unit10017C10_Thunk10114F10(uint32_t param_1, undefined4 * param_2, uint32_t param_3)
 {
-  orig::FUN_10114f10(param_1, param_2, param_3);
+  orig::Unit100D7420_ReportError(param_1, param_2, param_3);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10018350  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10018350(void * self_)
+XI_API void * __thiscall Unit10017C10_CtorVt10329F88(void * self_)
 {
-  orig::FUN_101be410((void *)((int)self_ + 4));
+  orig::Unit1018BA60_SetVtable10337C64((void *)((int)self_ + 4));
   *(uint8_t ***)self_ = &PTR_FUN_10329f88;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint32_t *)((int)self_ + 0x168) = 0;
@@ -143,16 +143,16 @@ XI_API void * __thiscall fn_10018350(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10018430  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10018430(void * self_)
+XI_API void * __thiscall Unit10017C10_CtorVt10329F8C(void * self_)
 {
   void *this_00;
   int iVar1;
   
-  orig::FUN_10018350((void *)((int)self_ + 0x18));
+  orig::Unit10017C10_CtorVt10329F88((void *)((int)self_ + 0x18));
   this_00 = (void *)((int)self_ + 0x184);
   iVar1 = 2;
   do {
-    orig::FUN_10018550(this_00);
+    orig::Unit10017C10_CtorVt10329F90(this_00);
     this_00 = (void *)((int)this_00 + 0xc);
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
@@ -162,9 +162,9 @@ XI_API void * __thiscall fn_10018430(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10018550  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10018550(void * self_)
+XI_API void * __thiscall Unit10017C10_CtorVt10329F90(void * self_)
 {
-  orig::FUN_101be410((void *)((int)self_ + 4));
+  orig::Unit1018BA60_SetVtable10337C64((void *)((int)self_ + 4));
   *(uint8_t ***)self_ = &PTR_FUN_10329f90;
   *(uint32_t *)((int)self_ + 8) = 0;
   return self_;
@@ -192,10 +192,10 @@ XI_API void __thiscall Unit10017C10_LoadChecksum(void * self_, undefined4 param_
         iVar3 = orig::File_WriteChunked(param_1,(int)pvVar2,uVar1);
         if (iVar3 < 0) {
           orig::operator_delete_v1(pvVar2);
-          orig::FUN_101be500(param_1);
+          orig::Unit1018BA60_Call10311F30(param_1);
           return;
         }
-        orig::FUN_101be500(param_1);
+        orig::Unit1018BA60_Call10311F30(param_1);
       }
       iVar5 = 0;
       uVar4 = 0;

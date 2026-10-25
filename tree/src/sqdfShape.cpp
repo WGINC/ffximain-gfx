@@ -36,7 +36,7 @@ XI_API void __cdecl SqdfShape_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x102AF170  (unit sqdfShape: between 0x102AF140 (asserts sqdfShape.c) and 0x102AF1C0 (asserts sqdfShape.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102AF170(undefined4 * param_1)
+XI_API void __cdecl SqdfShape_InitCallbacks(undefined4 * param_1)
 {
   *param_1 = 0x30008;
   param_1[2] = &LAB_102af290;

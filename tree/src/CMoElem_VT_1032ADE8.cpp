@@ -27,7 +27,7 @@ void CMoElem_VT_1032ADE8::vf18()
     v3 = *v2;
   else
     v3 = 0;
-  v4 = (_DWORD *)orig::sub_1003B700((_DWORD *)(v3 + 48));
+  v4 = (_DWORD *)orig::CMoAttachments_GetTarget((_DWORD *)(v3 + 48));
   if ( v4 != nullptr )
   {
     v7 = 1.0;

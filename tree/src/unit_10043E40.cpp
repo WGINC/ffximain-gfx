@@ -12,7 +12,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
   int result;
   int v8;
   v4 = self_;
-  orig::sub_10043F00(self_);
+  orig::Unit10043E40_ReturnBuffersToPool(self_);
   *((_BYTE *)v4 + 68) = 1;
   v8 = 0;
   v5 = v4 + 1;
@@ -47,7 +47,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
 
 // FUNCTION: FFXIMAIN 0x10043F00  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 64 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10043F00(void * self_)
+XI_API void __thiscall Unit10043E40_ReturnBuffersToPool(void * self_)
 {
   uint32_t uVar1;
   int *piVar2;
@@ -79,7 +79,7 @@ XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigne
   int *v10;
   int v11;
   int v12;
-  v7 = orig::sub_10043DE0();
+  v7 = orig::Unit10043DD0_ReturnZero();
   v8 = self_ + 8 * v7;
   result = v8[1];
   if ( result != 0 )
@@ -116,7 +116,7 @@ XI_API void __thiscall DynVB_Reserve(void * self_, int param_1)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10043de0();
+  iVar1 = orig::Unit10043DD0_ReturnZero_v1();
   if (*(int *)((int)self_ + iVar1 * 0x20 + 4) != 0) {
     *(int *)((int)self_ + iVar1 * 0x20 + 0x10) = *(int *)((iVar1 + 1) * 0x20 + (int)self_) * param_1;
     *(uint32_t *)((int)self_ + iVar1 * 0x20 + 0xc) = *(uint32_t *)((int)self_ + iVar1 * 0x20 + 8);
@@ -143,7 +143,7 @@ XI_API uint8_t * __thiscall DynVB_Lock(void * self_)
   uint8_t * &local_4 = *reinterpret_cast<uint8_t * *>(xi_frame + 0);
   
   local_4 = self_;
-  iVar1 = orig::FUN_10043de0();
+  iVar1 = orig::Unit10043DD0_ReturnZero_v1();
   a1 = *(int **)((int)self_ + iVar1 * 0x20 + 4);
   if (a1 == (int *)0x0) {
     return (uint8_t *)0x0;
@@ -169,7 +169,7 @@ XI_API void __thiscall DynVB_Unlock(void * self_)
   int *a1;
   int iVar1;
   
-  iVar1 = orig::FUN_10043de0();
+  iVar1 = orig::Unit10043DD0_ReturnZero_v1();
   a1 = *(int **)(iVar1 * 0x20 + 4 + (int)self_);
   if (a1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 0x30))))(a1);
@@ -289,22 +289,22 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
 
 // FUNCTION: FFXIMAIN 0x10044540  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_10044540(void)
+XI_API void __stdcall Unit10043E40_ToggleDynVBs(void)
 {
   if (g_pDynVB_FVF42_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF42_as_v0);
+    orig::Unit10043DD0_ToggleByte45(g_pDynVB_FVF42_as_v0);
   }
   if (g_pDynVB_FVF44_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF44_as_v0);
+    orig::Unit10043DD0_ToggleByte45(g_pDynVB_FVF44_as_v0);
   }
   if (g_pDynVB_FVF144_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF144_as_v0);
+    orig::Unit10043DD0_ToggleByte45(g_pDynVB_FVF144_as_v0);
   }
   if (g_pDynVB_FVF142_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF142_as_v0);
+    orig::Unit10043DD0_ToggleByte45(g_pDynVB_FVF142_as_v0);
   }
   if (g_pDynVB_FVF152_as_v0 != (void *)0x0) {
-    orig::FUN_10043dd0(g_pDynVB_FVF152_as_v0);
+    orig::Unit10043DD0_ToggleByte45(g_pDynVB_FVF152_as_v0);
     return;
   }
   return;
@@ -312,7 +312,7 @@ XI_API void __stdcall fn_10044540(void)
 
 // FUNCTION: FFXIMAIN 0x100446A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100446A0(int param_1)
+XI_API void __cdecl Unit10043E40_ReleaseResourcesOf(int param_1)
 {
   void *pvVar1;
   void *self_;

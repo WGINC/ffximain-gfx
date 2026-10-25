@@ -128,7 +128,7 @@ XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10281A70  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
 // GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10281A70(int param_1)
+XI_API void __cdecl SqgxTexture_FreeSlot(int param_1)
 {
   int *piVar1;
   

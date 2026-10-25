@@ -20,7 +20,7 @@ XI_API void __cdecl scnCameraGetInfo(int param_1, undefined4 * param_2, undefine
 
 // FUNCTION: FFXIMAIN 0x102733B0  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102733B0(int param_1)
+XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
 {
   long double fVar1;
   int iVar2;
@@ -43,7 +43,7 @@ XI_API void __cdecl fn_102733B0(int param_1)
   }
   _DAT_1099b134 = 0;
   DAT_1099b0d8 = DAT_1099b0d8 | 0x100;
-  orig::FUN_10273490(6,(int)(((char *)&DAT_1099b1d0) + iVar2 * 0x34),(int)(((char *)&DAT_1099b33c) + iVar2 * 0x7c));
+  orig::Unit10272F20_SetCameraEntry(6,(int)(((char *)&DAT_1099b1d0) + iVar2 * 0x34),(int)(((char *)&DAT_1099b33c) + iVar2 * 0x7c));
   orig::SqsnScene_SetCursorIfInRange(0x1099b13c,DAT_1099b1cc);
   iVar2 = 0;
   do {
@@ -55,7 +55,7 @@ XI_API void __cdecl fn_102733B0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10273490  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10273490(int param_1, int param_2, int param_3)
+XI_API void __cdecl Unit10272F20_SetCameraEntry(int param_1, int param_2, int param_3)
 {
   int iVar1;
   
@@ -85,7 +85,7 @@ XI_API void __cdecl fn_10273490(int param_1, int param_2, int param_3)
 
 // FUNCTION: FFXIMAIN 0x10273560  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10273560(int param_1)
+XI_API void __cdecl Unit10272F20_UpdateCameraBlend(int param_1)
 {
   int iVar1;
   long double fVar2;
@@ -138,14 +138,14 @@ XI_API void __cdecl Unit10272F20_SetVtable1099B138(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x102736E0  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102736E0(undefined4 param_1, int param_2)
+XI_API void __cdecl Unit10272F20_ApplySceneToModel(undefined4 param_1, int param_2)
 {
   int *piVar1;
   uint32_t uVar2;
   
-  orig::FUN_10278710(param_1,&DAT_1099b13c,param_2,0xff);
-  orig::FUN_10278e10(param_1,(uint32_t)(param_2 == 2));
-  orig::FUN_10278b50(param_1,&DAT_1099b13c,param_2,DAT_1099b100,0xff);
+  orig::SqmdModel_Link(param_1,&DAT_1099b13c,param_2,0xff);
+  orig::SqmdModel_SetLayerSort(param_1,(uint32_t)(param_2 == 2));
+  orig::SqmdModel_AddShadowLightInLayer(param_1,&DAT_1099b13c,param_2,DAT_1099b100,0xff);
   orig::StAvatar_SelectIndex(4);
   piVar1 =(int*)(&DAT_1099bb74);
   do {
@@ -155,7 +155,7 @@ XI_API void __cdecl fn_102736E0(undefined4 param_1, int param_2)
     else {
       uVar2 = 0;
     }
-    orig::FUN_10278990(param_1,0x1099b13c,*piVar1,uVar2);
+    orig::SqmdModel_AddIllumLight(param_1,0x1099b13c,*piVar1,uVar2);
     piVar1 = piVar1 + 1;
   } while ((int)piVar1 < 0x1099bb88);
   return;

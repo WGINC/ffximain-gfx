@@ -28,7 +28,7 @@ XI_API undefined4 __cdecl StAvatar_ClearResource(uint32_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x102532A0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102532A0(undefined4 param_1)
+XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1)
 {
   int iVar1;
   
@@ -41,16 +41,16 @@ XI_API undefined4 __cdecl fn_102532A0(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x102532E0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_102532E0(void * self_)
+XI_API void * __thiscall Unit10253210_Ctor(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1033ce34;
-  orig::FUN_10253330();
+  orig::Unit10253210_NoOp();
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10253330  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10253330(void)
+XI_API void __cdecl Unit10253210_NoOp(void)
 {
   return;
 }
@@ -90,21 +90,21 @@ XI_API void __stdcall StAvatar_LoadInfoFile(int param_1)
       }
       if (((g_pFileMng_as_v1 != (void *)0x0) && (((uint8_t *)((&DAT_10389d0c)))[iVar1] != '\0')) &&
          (*(int *)(((char *)&DAT_10389d14) + iVar1) != 0)) {
-        orig::FUN_101be260(local_20);
-        iVar4 = orig::FUN_101c4bf0(g_pFileMng_as_v1,*ppuVar2,local_20);
+        orig::Unit1018BA60_CtorVt10337C60(local_20);
+        iVar4 = orig::Unit1018BA60_FileMngFwd101C2450(g_pFileMng_as_v1,*ppuVar2,local_20);
         if (-1 < iVar4) {
-          iVar4 = orig::FUN_101c47b0(g_pFileMng_as_v1,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
+          iVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v1,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
                                *(uint32_t *)(((char *)&DAT_10389d10) + iVar1),0);
           if (-1 < iVar4) {
-            orig::FUN_101c49f0(g_pFileMng_as_v1,*ppuVar2);
+            orig::Unit1018BA60_FileMngSubmitPath3F4Kind6(g_pFileMng_as_v1,*ppuVar2);
           }
           ((uint8_t *)((&DAT_10389d0c)))[iVar1] = 0;
-          orig::FUN_101be2a0(local_20);
+          orig::Unit1018BA60_SetVtable10337C60(local_20);
           return;
         }
         orig::operator_delete_v1(*(LPVOID *)(((char *)&DAT_10389d14) + iVar1));
         *(uint32_t *)(((char *)&DAT_10389d14) + iVar1) = 0;
-        orig::FUN_101be2a0(local_20);
+        orig::Unit1018BA60_SetVtable10337C60(local_20);
       }
     }
   }
@@ -142,7 +142,7 @@ XI_API void __cdecl StAvatar_LoadInfo0(void)
 
 // FUNCTION: FFXIMAIN 0x102535F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __attribute__((cdecl, regparm(1))) fn_102535F0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
+XI_API uint64_t __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
   
@@ -153,11 +153,11 @@ XI_API uint64_t __attribute__((cdecl, regparm(1))) fn_102535F0(undefined4 xi_eax
 
 // FUNCTION: FFXIMAIN 0x10253620  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10253620(void)
+XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer0(void)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_102532a0(0);
+  uVar1 = orig::Unit10253210_GetInfoBuffer(0);
   return uVar1;
 }
 
@@ -173,7 +173,7 @@ XI_API void __cdecl StAvatar_LoadInfo2(void)
 
 // FUNCTION: FFXIMAIN 0x10253670  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10253670(undefined4 param_1, undefined4 param_2)
+XI_API void __cdecl Unit10253210_SendBytePairKind2(undefined4 param_1, undefined4 param_2)
 {
   uint32_t xi_entry_eax = 0;
   
@@ -184,10 +184,10 @@ XI_API void __cdecl fn_10253670(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x102536A0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102536A0(void)
+XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer2(void)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_102532a0(2);
+  uVar1 = orig::Unit10253210_GetInfoBuffer(2);
   return uVar1;
 }

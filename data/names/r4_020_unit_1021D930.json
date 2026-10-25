@@ -1,0 +1,20 @@
+{
+ "0x1021F480": {
+  "name": "Unit1021D930_DrawActorPanelFigures",
+  "confidence": "low",
+  "evidence": "Body: from Unit1021D930_GetWindowRect, draws with Unit101C72E0_DrawUnscaled game message (10, 99, n), the strings ' %d -%d  ' and 'x %d' and the counts at arg+0x27C..0x298, and icons through sub_1011FB60 from the Unit101C72E0_GetIndexed(1) / (2) objects; called by Unit1021D930_DrawPanelForActor.",
+  "summary": "Draws a panel of an actor's figures (counts, ranges, icons) at the menu's window position."
+ },
+ "0x10222E20": {
+  "name": "Unit1021D930_FindRecordIdByText",
+  "confidence": "medium",
+  "evidence": "Body: over the 0x30-byte records at DAT_1066714C+0x6000..0x12000 (ids 0x200.. and 0x400..), filtered by arg4/arg5, calls the comparator at 0x10662F60(text, sub_10223B10(id), sub_10223A90(id)) and stops at the first match; returns its first word (-1 when none); arg2/arg3 add a table check and a Unit100D7420_SendType1C.",
+  "summary": "Finds the record whose text matches the given string and returns its id (-1 when none)."
+ },
+ "0x1022B430": {
+  "name": "Unit1021D930_FindTableIdByText",
+  "confidence": "medium",
+  "evidence": "Body: over the 100-byte rows at DAT_10667A74, filtered by arg2, calls the comparator at 0x10662F60(text, Unit1021D930_GetRowFirstCell(row), sub_1022BF10(row)); on a match returns the row's first short (-2 when arg3 and Unit1021D930_IsEntryAvailable / the block bit say unavailable), else -1.",
+  "summary": "Finds the table row whose text matches the given string and returns its id, -2 when unavailable, -1 when none."
+ }
+}

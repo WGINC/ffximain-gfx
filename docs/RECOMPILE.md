@@ -91,15 +91,23 @@ match.py's comparison says IDENTICAL; the verdict of the tree's code as written 
   returns `unsigned char` / `unsigned short`. What the game's bytes then show is that a source returning only that
   piece compiles to them; the register's upper part is whatever the compiler left there, as in the game.
 - `ge0`: `-1 < X` becomes `X >= 0`.
+- `cmpk`: `(C < X)` becomes `(X >= C+1)` and `(X < C)` becomes `(X <= C-1)`, for an integer literal C. VC6 compiles
+  each form to a different compare-and-jump (0x10257FF0: the game has `cmp al, 2; jl`, the decompiler's `'\x01' <
+  *p` gives `cmp al, 1; jle`). Each site is tried both ways, every combination up to four sites.
+- `retthis`: a `__thiscall` function written as returning void becomes one returning `this`. The game's
+  0x1006AD90 ends with EAX = ECX (`mov eax, ecx`), which a setter that returns `*this` compiles to.
 
 | rule | DIFFERS it applies to | IDENTICAL with it |
 |---|---|---|
 | ret8 | 197 | 69 |
 | ret16 | 21 | 14 |
 | ge0 | 87 | 18 |
-| ret8 with ge0, ret16 with ge0 | 10 | 0 |
+| cmpk | 416 | 27 |
+| ret8 with cmpk | 35 | 5 |
+| retthis | 219 | 25 |
+| other combinations | 20 | 0 |
 
-That makes 101 more functions proven at the game's bytes: 1,534 of 4,121 swept. The rest of the classes are
+That makes 158 more functions proven at the game's bytes: 1,591 of 4,121 swept. The rest of the classes are
 next: each rule is found the same way, from the smallest function of a class, and kept only by the comparison.
 
 ## First results (25 Oct)

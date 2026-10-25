@@ -7,6 +7,10 @@ The owner's goals, as stated on 6 Oct:
 
 docs/RENDERER.md, written earlier, phrased the third as "a possible graphical overhaul".
 
+**25 Oct:** the order of the work is now docs/PLAN.md (the owner's chain: source, devkit, D3D11, performance, final
+devkit and speedfix, in 5% steps). This document keeps the performance steps P0–P5 and their rules, which PLAN.md
+refers to.
+
 **17 Oct:** docs/REEVALUATION.md re-reads all of the work and data from scratch, corrects what did not hold, and
 sets three tests (T1–T3) that bound what this machine can reach before any further lever work.
 

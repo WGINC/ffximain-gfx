@@ -5,6 +5,33 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 
 ## Open
 
+### P17. Gate PASS functions that pass fewer arguments than the game (25 Oct, found by the VC6 sweep)
+- **Known, from the game's bytes:**
+  - **0x100F1870** pushes six arguments to 0x10310067 (`push -2; push -1; push -2; push -2; push eax; push -2;
+    call; add esp, 0x18`). The tree calls `orig::FUN_10310067()` with none: its wrapper is typed
+    `undefined4 __stdcall ()`, the IDB's prototype.
+    0x10310067 is a dispatch thunk (`mov eax, [0x10456A2C]; jmp [eax+0x30C]`), so no callee code gives its count.
+  - **0x10028640** (Mem_AllocObject) pushes three to 0x10028FD0 (`push 0; push eax; push ecx; call;
+    add esp, 0xC`); the tree passes two.
+- **Why the gate passes them:** for a caller-cleanup call, the stub compares only the argument slots the callee
+  is known to read:
+  - data/cdecl_args.json, from the callee's code;
+  - else the IDB's count;
+  - else none (gfx_cases.py, the stub's `args`).
+  Slots past those are not compared. An argument the tree leaves out is invisible when the callee's code cannot be
+  read (0x10310067). It is also invisible when the callee reads fewer slots than the caller pushes.
+- **How many:** in 103 DIFFERS functions of the sweep, the game cleans more bytes directly after some call than
+  the tree's compiled code does. That is a flag to read each one, not a count of wrong functions: our code and the
+  game's can defer cleanup differently. Functions that did not compile, or were not swept, are not covered.
+- **Not known:**
+  - how many of the 103 really pass fewer arguments;
+  - whether the extra slots are arguments the callee uses or slots it never reads (deferred cleanup of something
+    else). The game's bytes say what is pushed, not what is read.
+- **What settles it:** a call's arguments as the caller pushes them, from the caller's own code and exact stack
+  depth. A call followed directly by `add esp, N`, with no other call since the depth was last N bytes lower on
+  that path, pushed exactly N bytes for that call. The tree's wrapper counts are checked against that, and the
+  gate compares those slots.
+
 ### P1. The live-dump gates were not run on the current tree (22 Oct)
 - **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree.
   Some functions' code has changed since under the same symbol (0x10038E10 now comes from the frame-set export).

@@ -383,12 +383,77 @@ def _rule_ge0(text, ret, name):
     return ''.join(out)
 
 
+_LIT = re.compile(r"^(?:-?(?:0x[0-9a-fA-F]+|\d+)|'\\x[0-9a-fA-F]{2}'|'[^'\\]')$")
+
+
+def _lit_val(t):
+    if t.startswith("'"): return int(t[3:5], 16) if t.startswith("'\\x") else ord(t[1])
+    return int(t, 0)
+
+
+def _cmp_sites(text):
+    """[(start, end, lhs, rhs, literal side)] for each parenthesised `(A < B)` with one side an integer literal"""
+    out = []
+    for i, ch in enumerate(text):
+        if ch != '(': continue
+        e = _group(text, i)
+        if e < 0: continue
+        inner = text[i + 1:e - 1]
+        # one top-level ` < `, nothing else at top level that binds looser
+        depth, cut = 0, []
+        for j in range(len(inner)):
+            c = inner[j]
+            if c == '(': depth += 1
+            elif c == ')': depth -= 1
+            elif depth == 0 and inner.startswith(' < ', j): cut.append(j)
+            elif depth == 0 and (inner.startswith('&&', j) or inner.startswith('||', j) or c in '?,='): cut = None; break
+        if not cut or len(cut) != 1: continue
+        a, b = inner[:cut[0]].strip(), inner[cut[0] + 3:].strip()
+        if _LIT.match(a) and not _LIT.match(b): out.append((i, e, a, b, 'l'))
+        elif _LIT.match(b) and not _LIT.match(a): out.append((i, e, a, b, 'r'))
+    # nested sites overlap: keep the innermost-free ones only (no site inside another)
+    return [x for x in out if not any(y is not x and y[0] < x[0] and x[1] <= y[1] for y in out)]
+
+
+def _rule_cmpk(text, ret, name):
+    """`(C < X)` becomes `(X >= C+1)` and `(X < C)` becomes `(X <= C-1)`: the same integer comparison, as the source
+    may have written it. Each site either way, every combination up to 4 sites (else all at once); the variants are
+    returned joined by a marker the caller splits"""
+    sites = _cmp_sites(text)
+    if not sites: return None
+    def flip(t, chosen):
+        for (i, e, a, b, side) in sorted(chosen, reverse=True):
+            if side == 'l': new = '(%s >= %d)' % (b, _lit_val(a) + 1)
+            else: new = '(%s <= %d)' % (a, _lit_val(b) - 1)
+            t = t[:i] + new + t[e:]
+        return t
+    import itertools
+    if len(sites) <= 4:
+        combos = [c for r in range(1, len(sites) + 1) for c in itertools.combinations(sites, r)]
+    else:
+        combos = [sites]
+    return [flip(text, c) for c in combos]
+
+
+def _rule_retthis(text, ret, name):
+    """a `__thiscall` function written as returning void whose code may return `this` (EAX = ECX at the end, as a
+    setter returning *this does): `void` becomes `void *` and every return returns `this`"""
+    if ret != 'void' or 'XS::' not in text: return None
+    t = re.sub(r'\breturn\s*;', 'return this;', text)
+    body_end = t.rstrip().rfind('}')
+    t = t[:body_end] + '  return this;\n' + t[body_end:]
+    t2 = re.sub(r'(^|[{;]\s*|\n)void(\s+(?:XS::)?' + re.escape(name) + r'\()', lambda m: m.group(1) + 'void *' + m.group(2), t)
+    return t2 if t2 != t else None
+
+
 # the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
 # result counts only where match.py's comparison says IDENTICAL
 RULES = [
     ('ret8', lambda t, r, n: _rule_ret_piece(t, r, n, 8, 'unsigned char')),
     ('ret16', lambda t, r, n: _rule_ret_piece(t, r, n, 16, 'unsigned short')),
     ('ge0', _rule_ge0),
+    ('cmpk', _rule_cmpk),
+    ('retthis', _rule_retthis),
 ]
 
 
@@ -397,10 +462,15 @@ def apply_rules(text, ret, name):
     out, t_all, names = [], text, []
     for rn, f in RULES:
         t = f(text, ret, name)
-        if t is not None:
-            out.append((rn, t))
+        if t is None: continue
+        if isinstance(t, list):                       # a rule with several variants (cmpk): each on its own
+            out += [('%s%d' % (rn, k), x) for k, x in enumerate(t)]
             t2 = f(t_all, ret, name)
-            if t2 is not None: t_all = t2; names.append(rn)
+            if t2: t_all = t2[-1]; names.append(rn)
+            continue
+        out.append((rn, t))
+        t2 = f(t_all, ret, name)
+        if t2 is not None and not isinstance(t2, list): t_all = t2; names.append(rn)
     if len(names) > 1: out.append(('_'.join(names), t_all))
     return out
 
@@ -504,10 +574,11 @@ def main():
         got = judge(var, 'rewrite rules')
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
-            rn = meta[vf]; tried[rn] += 1; r = res['0x%08X' % ea]
-            r.setdefault('rules_tried', []).append(rn)
+            rn = meta[vf]; r = res['0x%08X' % ea]
+            base = 'cmpk' if re.fullmatch(r'cmpk\d+', rn) else rn
+            if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
-                r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[rn] += 1
+                r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1
         for rn in sorted(tried): print('rule %s: applied to %d DIFFERS, IDENTICAL in %d' % (rn, tried[rn], won[rn]))
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)
     c = collections.Counter(v['verdict'] for v in res.values())

@@ -2,7 +2,7 @@
  "0x101D0EA0": {
   "name": "Unit101D0910_TakeScreenshot",
   "confidence": "medium",
-  "evidence": "formats a file name \"%c%c%c%02d%02d%02d%02d%02d%02d%c\" from three bytes of 0x104DFD98+0x3C3A4, the date and time (0x101C8D10) and a per-minute counter letter (0x1066317A), and saves the picture as \"%s.jpg\" / \"screenshots/%s.jpg\" (fn_101D1000 or fn_101D1100)",
+  "evidence": "formats a file name \"%c%c%c%02d%02d%02d%02d%02d%02d%c\" from three bytes of 0x104DFD98+0x3C3A4, the date and time (0x101C8D10) and a counter letter (0x1066317A, counted up while Time_ModMul3CDiv90 of the game time stays the same), and saves the picture as \"%s.jpg\" / \"screenshots/%s.jpg\" (fn_101D1000 or fn_101D1100)",
   "summary": "Takes a screenshot to a dated JPEG file."
  },
  "0x101D1000": {

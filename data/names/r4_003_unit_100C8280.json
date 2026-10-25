@@ -1,0 +1,14 @@
+{
+ "0x100C9C10": {
+  "name": "CXiSkeletonActor_PlaceAttachedInRing",
+  "confidence": "medium",
+  "evidence": "Called by CXiSkeletonActor_OnMove. For the up to 8 actors at this+0x770 (each must pass its vtable +0x1E4): from a centre and radius (FUN_10087770/790/7B0/7F0), sets each one's position at radius * (sin, cos) of angles 15 degrees apart (start from fpatan of the direction to the camera's +0x44), copies rotation and state (5 x 0x68 bytes from this), and sends event 'efon' / 'efof' (vtable +0x298) when the distance crosses the threshold.",
+  "summary": "Places the actor's attached actors on a circle around a centre, 15 degrees apart, and keeps their state and on/off events in step."
+ },
+ "0x100CB390": {
+  "name": "CXiSkeletonActor_CopyModelValuesTo",
+  "confidence": "low",
+  "evidence": "Body: for the 7 entries (0x14 apart from +0x24) of the models at this+0x674 and arg+0x674 (CYyModel_GetField44Addr), sets the other's entry +0x24 to this one's vtable +0x30 value.",
+  "summary": "Copies one float per model entry from this actor's models to another actor's."
+ }
+}

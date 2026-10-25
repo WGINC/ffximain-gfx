@@ -1,0 +1,14 @@
+{
+ "0x101E6FB0": {
+  "name": "Yk_CtorVt10339BC0",
+  "confidence": "medium",
+  "evidence": "YkInit stores its result in DAT_10663648. Body: Unit101D7020_CtorVt1033A000(this, 0,0,0,0, 1.0f), vtable 0x10339BC0; fills the pointer tables at 0x1037FCE8.. with entries and message texts (Unit1012AC80_GetMessageFwd tables 0x13/0x15); allocates 13 objects (Allocator_Generic, vtables 0x10339818..0x10339B78) into 0x1066364C..0x1066367C when not yet set.",
+  "summary": "Constructs the Yk object: base window, its vtable, its message tables and 13 helper objects."
+ },
+ "0x10202F00": {
+  "name": "Unit101D7020_RunCallbackAndResetTarget",
+  "confidence": "low",
+  "evidence": "Body: calls the function at 0x106643E4 with a zeroed pair (and, by 0x106643EC..F2, sub_1015DB80 / sub_1015E530 / Unit1012AC80_MenuInitAndFadeItem on g_menuMng for its entry); then Unit101D7020_ResetMode, Unit1012AC80_SetValues3 and Unit1012AC80_SetFields78D0 on g_pTargetMng with zeros and clears g_pTargetMng+0x58.",
+  "summary": "Runs the callback at 0x106643E4, updates its menu entry, then resets the Yk mode and clears the target manager's values."
+ }
+}

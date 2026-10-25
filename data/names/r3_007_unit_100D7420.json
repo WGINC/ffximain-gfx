@@ -1,0 +1,242 @@
+{
+ "0x100D9380": {
+  "name": "Unit100D7420_InitGameGlobalsOnce",
+  "confidence": "medium",
+  "evidence": "When DAT_1048FDFC is 0: returns -1 when sub_100D93E0() or Game_InitGlobal() fails, then runs fn_100D9430 and fn_100D9460. Called by sub_10102340.",
+  "summary": "Initialises the game globals once (sub_100D93E0, Game_InitGlobal and two further steps), returning -1 on failure."
+ },
+ "0x100D9430": {
+  "name": "Unit100D7420_SetGlobalBlock1048BEB8",
+  "confidence": "high",
+  "evidence": "Body: when DAT_1048FDF8 is null calls Game_ResetGlobals(); returns -1 when DAT_1048FDF4 is then 0, else sets DAT_1048FDF8 to 0x1048BEB8; returns 0.",
+  "summary": "Resets the game globals and points DAT_1048FDF8 at the block 0x1048BEB8 on first use."
+ },
+ "0x100D9460": {
+  "name": "Unit100D7420_Return0_100D9460",
+  "confidence": "high",
+  "evidence": "Body: return 0.",
+  "summary": "Returns 0."
+ },
+ "0x100D9AD0": {
+  "name": "Unit100D7420_ReturnTrue100D9AD0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100D9B00": {
+  "name": "Unit100D7420_GetEntryMod1066268C",
+  "confidence": "high",
+  "evidence": "Body: returns 0 when DAT_1066268C is null, else Unit1018BA60_GetEntryMod(DAT_1066268C, 0).",
+  "summary": "Unit1018BA60_GetEntryMod(.., 0) of the object at DAT_1066268C, or 0."
+ },
+ "0x100DB780": {
+  "name": "Unit100D7420_GetRecordWordFwd",
+  "confidence": "high",
+  "evidence": "Body: return Unit100D7420_GetRecordWord(param_1). __stdcall, ret 4 (purges).",
+  "summary": "Forwards to Unit100D7420_GetRecordWord."
+ },
+ "0x100DB790": {
+  "name": "Unit100D7420_GetRecordDwordFwd",
+  "confidence": "high",
+  "evidence": "Body: return Unit100D7420_GetRecordDword(param_1). __stdcall, ret 4 (purges).",
+  "summary": "Forwards to Unit100D7420_GetRecordDword."
+ },
+ "0x100DB7B0": {
+  "name": "Unit100D7420_LookupNameIfKind3",
+  "confidence": "high",
+  "evidence": "Body: returns Name_LookupByKey(param_1) when the dword +0x98 is 3, else null. ret 4 (purges).",
+  "summary": "Looks up the name for a key when the object's kind at +0x98 is 3."
+ },
+ "0x100DBDE0": {
+  "name": "Unit100D7420_ReturnTrue100DBDE0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only). Called by Unit100D7420_InitTimer.",
+  "summary": "Returns true."
+ },
+ "0x100DBE30": {
+  "name": "Unit100D7420_GetTimeNow",
+  "confidence": "medium",
+  "evidence": "Body: *param_1 = sub_10314EF1(NULL); *param_2 = 0; returns 1 in AL. sub_10314EF1(NULL) has the shape of the CRT time(NULL). Called by Unit100D7420_InitTimer.",
+  "summary": "Stores sub_10314EF1(NULL) (time(NULL) shape) and 0 into the two outputs."
+ },
+ "0x100DC6C0": {
+  "name": "Unit100D7420_ReturnTrue100DC6C0",
+  "confidence": "high",
+  "evidence": "Body: sets AL to 1 and returns.",
+  "summary": "Returns true."
+ },
+ "0x100DDA60": {
+  "name": "Unit100D7420_QueueFindOrAllocSlot",
+  "confidence": "medium",
+  "evidence": "On a ring of 0x110-byte slots (*param_1 base, [1] count, [2]/[3] indices): looks for a slot whose low 9 bits equal param_2 and +0x104 equals param_3 (or remembers a free one with low bits 0); else, when the ring has room and the id is not in the 10 shorts at +0x18..+0x2A, takes the next slot; it then stores the queue at +0x10C and param_4 at +0x104.",
+  "summary": "Finds the queue slot for (id, key) or allocates the next free one in a ring of 0x110-byte slots."
+ },
+ "0x100DDD20": {
+  "name": "Unit100D7420_SlotSetLength",
+  "confidence": "medium",
+  "evidence": "Stores ceil((param_2+param_3)/4) in the top 7 bits of the slot's first short (keeping the low 9 bits); when non-zero and the length is under 0x105 bytes it clears +2 and the owning queue's pending flag (+0x2C, decrementing +0x10 when it was 0) and returns the queue; otherwise keeps only the low 9 bits and returns the slot.",
+  "summary": "Sets a queue slot's length in 4-byte units (top 7 bits of its first short); for a length under 0x105 bytes it also clears the short +0x2C of the owning queue (decrementing its +0x10 when that short was 0)."
+ },
+ "0x100DDE90": {
+  "name": "Unit100D7420_Md5InitCountFirst",
+  "confidence": "high",
+  "evidence": "Stores 0 in words 0-1 (the bit count) and 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 in words 2-5: the MD5 initial state, with the count before the state (unlike Unit100D7420_Md5Init at 0x100D7420).",
+  "summary": "MD5 init for the context layout with the bit count first."
+ },
+ "0x100DDEC0": {
+  "name": "Unit100D7420_Md5UpdateCountFirst",
+  "confidence": "high",
+  "evidence": "Adds len*8 to the 64-bit count at words 0-1 (carry into word 1), buffers bytes and passes each full 64-byte block to Unit100D7420_Transform (the MD5 block transform at 0x100DE010) on the state at word 2.",
+  "summary": "MD5 update for the count-first context."
+ },
+ "0x100DDF60": {
+  "name": "Unit100D7420_Md5FinalCountFirst",
+  "confidence": "high",
+  "evidence": "Pads with the bytes at 0x10361388 to 56 mod 64 (iVar4 0x38 or 0x78) through fn_100DDEC0, appends the 64-bit count as 14+2 words and runs Unit100D7420_Transform, then writes the four state words out byte by byte at +0x58.",
+  "summary": "MD5 final for the count-first context; the digest is written into the context at +0x58."
+ },
+ "0x100E00F0": {
+  "name": "Unit100D7420_ReturnTrue100E00F0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E0100": {
+  "name": "Unit100D7420_ReturnTrue100E0100",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E0A50": {
+  "name": "Unit100D7420_FindEntryByName",
+  "confidence": "medium",
+  "evidence": "Returns 2 when DAT_104DFD98 is null, or (after fn_100E0AA0) when its byte +0x1A698 is not 1; otherwise returns 0 when Entry_FindByNormalizedName(param_1) is -1, else calls fn_100E0B10 (empty) and returns 1.",
+  "summary": "Looks a name up with Entry_FindByNormalizedName: 1 found, 0 not found, 2 when DAT_104DFD98 is missing or its byte +0x1A698 is not 1 (then it calls fn_100E0AA0)."
+ },
+ "0x100E0AA0": {
+  "name": "Unit100D7420_SendRequest3CThrottled",
+  "confidence": "medium",
+  "evidence": "When byte DAT_104DFD98+0x1A698 is not 1 and more than 60 seconds (0x3C) passed since +0x1A694 (Unit100D7420_GetSeconds), gets a queue slot with fn_100FC3C0(0x3C, 1, 1) and sends it with Unit100D7420_SendRaw.",
+  "summary": "While byte DAT_104DFD98+0x1A698 is not 1, sends a slot from fn_100FC3C0(0x3C, 1, 1) with Unit100D7420_SendRaw at most once per 60 seconds (+0x1A694)."
+ },
+ "0x100E0B10": {
+  "name": "Unit100D7420_NoOp100E0B10",
+  "confidence": "high",
+  "evidence": "Body is a bare return.",
+  "summary": "Does nothing."
+ },
+ "0x100E0D50": {
+  "name": "Unit100D7420_ApplyNoticeRecord",
+  "confidence": "low",
+  "evidence": "For a non-null record: sub_100DBE10(), then a switch on its short +0xC (case 0 reads +0x1EA0...) calling Entry_ResetFields (x3). Called by Unit100D7420_UpdateNoticesIfReady.",
+  "summary": "Applies a notice record by its kind at +0xC; details not established."
+ },
+ "0x100E1C30": {
+  "name": "Unit100D7420_FindFreeHandlerSlot",
+  "confidence": "low",
+  "evidence": "For a record with short +8 and dword +4 set, scans its slots of 0x7D4 bytes from +0x1F0C for one whose +0x14 (at +0x1F20) is 0 and fills it with the given callback and arguments.",
+  "summary": "Finds a free handler slot (0x7D4 bytes each) in the record and fills it in; details not established."
+ },
+ "0x100E2E70": {
+  "name": "Unit100D7420_RegisterHandler1369C",
+  "confidence": "low",
+  "evidence": "On the record DAT_104DF770+0x1369C: fn_100E1C30(record, 0, param_1, 0,0,0,0, 0, param_3..param_6) and then Unit100D7420_ClearMatching(record, param_1); returns 1 when a slot was found.",
+  "summary": "Registers a handler on the record at DAT_104DF770+0x1369C and clears matching old entries."
+ },
+ "0x100E2EE0": {
+  "name": "Unit100D7420_RegisterHandler1369CFlag1",
+  "confidence": "high",
+  "evidence": "Body: return fn_100E2E70(param_1..param_5, 1). Called by Unit100D7420_InitEncrypt.",
+  "summary": "Unit100D7420_RegisterHandler1369C with the last argument 1."
+ },
+ "0x100E33E0": {
+  "name": "Unit100D7420_ReturnTrue100E33E0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E33F0": {
+  "name": "Unit100D7420_ReturnTrue100E33F0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E3E30": {
+  "name": "Unit100D7420_GetEntryMod1066268CFwd",
+  "confidence": "high",
+  "evidence": "Body: return fn_100D9B00().",
+  "summary": "Forwards to Unit100D7420_GetEntryMod1066268C."
+ },
+ "0x100E4110": {
+  "name": "Unit100D7420_ReturnTrue100E4110",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E4320": {
+  "name": "Unit100D7420_ReturnTrue100E4320",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E4330": {
+  "name": "Unit100D7420_ReturnTrue100E4330",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E5FF0": {
+  "name": "Unit100D7420_ReturnTrue100E5FF0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E61C0": {
+  "name": "Unit100D7420_ReturnTrue100E61C0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E84A0": {
+  "name": "Unit100D7420_ReturnTrue100E84A0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E84B0": {
+  "name": "Unit100D7420_ReturnTrue100E84B0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E8B60": {
+  "name": "Unit100D7420_ReturnTrue100E8B60",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100E8B70": {
+  "name": "Unit100D7420_ReturnTrue100E8B70",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100EB090": {
+  "name": "Unit100D7420_ReturnTrue100EB090",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100EB0A0": {
+  "name": "Unit100D7420_ReturnTrue100EB0A0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100ED720": {
+  "name": "Unit100D7420_Return0_100ED720",
+  "confidence": "high",
+  "evidence": "Body: return 0.",
+  "summary": "Returns 0."
+ }
+}

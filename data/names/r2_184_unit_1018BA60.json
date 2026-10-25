@@ -1,0 +1,104 @@
+{
+ "0x101B4570": {
+  "name": "Unit1018BA60_CtorVt103379BCWithLang",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103379BC, clears +0xC and stores the scene's byte g_pSceneState+8 at +4",
+  "summary": "Constructs an object with vtable 0x103379BC that records the scene's language byte."
+ },
+ "0x101B45B0": {
+  "name": "Unit1018BA60_DtorVt103379BC",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103379BC; the teardown 0x101B92B0 calls it on [0x10662D40]+0xF0E8",
+  "summary": "Resets an object to vtable 0x103379BC on destruction."
+ },
+ "0x101B45E0": {
+  "name": "Unit1018BA60_CtorVt103379C0",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103379C0 and clears +4..+0xF",
+  "summary": "Constructs a 16-byte object with vtable 0x103379C0."
+ },
+ "0x101B4710": {
+  "name": "Unit1018BA60_CtorVt103379C4",
+  "confidence": "low",
+  "evidence": "constructs 60 objects of 16 bytes from +8 (0x101B45E0), sets vtable 0x103379C4, clears +4, the 0x1E00 bytes from +0x3C8, +0x21CC and +0x21E0",
+  "summary": "Constructs an object holding 60 small records and a large buffer."
+ },
+ "0x101B6C00": {
+  "name": "Unit1018BA60_InputSubmit",
+  "confidence": "low",
+  "evidence": "clears the cell flags (Cell_ClearAllFlags), then either feeds the bytes arg1/arg2 to the text input at +0x7E30 (0x101ABC50, after the character check 0x101B6D50) or, in the 0x8C81 mode, commits the current entry (0x101ACC30), stores its 4 bytes at +0xEC2C, calls slot 0x5C, 0x101B6EE0 and opens the menu \"menu    fep     \" (MenuMng_OpenByName); on failure calls slots 0x60 and 0x70",
+  "summary": "Submits typed text or the chosen conversion entry to the text input."
+ },
+ "0x101B6D50": {
+  "name": "Unit1018BA60_AcceptsChar",
+  "confidence": "low",
+  "evidence": "by the input mode +0xF110 (0..5) and the character width arg3, tests the character with 0x103146DE, 0x1031475C, 0x10314801 or Font_IsPrintableAscii; returns 1 in AL when the mode accepts it",
+  "summary": "Tests whether the input's current mode accepts a character."
+ },
+ "0x101B6E40": {
+  "name": "Unit1018BA60_InputNotify",
+  "confidence": "low",
+  "evidence": "resets the input buffer (FsTextInput_ResetBuffer) in mode 4 of +0xF108; when arg2 < 0x1C3 calls the callback +0x8C78 (when arg3 is set) and slot 0x54",
+  "summary": "Notifies the input's callback and refreshes it."
+ },
+ "0x101B6E90": {
+  "name": "Unit1018BA60_GetFlag8C81",
+  "confidence": "low",
+  "evidence": "returns the byte +0x8C81 in AL",
+  "summary": "Returns the input's flag at +0x8C81."
+ },
+ "0x101B6EE0": {
+  "name": "Unit1018BA60_SetWordForCompletion",
+  "confidence": "low",
+  "evidence": "with no text clears +0xEC2C and the input (0x101ABE50) and uses the string at 0x10662D58; otherwise stores +0x8C84 in 0x10662D54 and sets the word for completion (FsWordCompletion_SetWord, FsWordCompletion_Update)",
+  "summary": "Sets the word that the completion list looks up."
+ },
+ "0x101B7260": {
+  "name": "Unit1018BA60_InputCall101AC990",
+  "confidence": "low",
+  "evidence": "forwards its six arguments to 0x101AC990 on the text input at +0x7E30",
+  "summary": "Forwards to the text input's 0x101AC990."
+ },
+ "0x101B7280": {
+  "name": "Unit1018BA60_InputCall101AC990Swapped",
+  "confidence": "low",
+  "evidence": "calls 0x101AC990 on the text input at +0x7E30 with the arguments in the order 3, 4, 1, 2, 5, 6; called from 20 places",
+  "summary": "Forwards to the text input's 0x101AC990 with the first two pairs of arguments swapped."
+ },
+ "0x101B72B0": {
+  "name": "Unit1018BA60_InputCall101ACAC0",
+  "confidence": "low",
+  "evidence": "forwards to 0x101ACAC0 on the text input at +0x7E30 with a null last argument",
+  "summary": "Forwards to the text input's 0x101ACAC0."
+ },
+ "0x101B7C20": {
+  "name": "Unit1018BA60_GetLastWord",
+  "confidence": "low",
+  "evidence": "copies into arg the input text (FsTextInput_GetActiveBuffer, GetLength) after its last space or 0x7F marker, or the whole text when there is none; returns its length, 0 when the text ends in a space",
+  "summary": "Copies the last word of the input text."
+ },
+ "0x101B9230": {
+  "name": "Unit1018BA60_CandidatesCtor",
+  "confidence": "low",
+  "evidence": "clears the bytes +1..+4, three runs of 12 four-byte entries from +8, +0x40 and +0x74 with their counts +0x38, +0x70, +0xA4, and constructs the string list at +0xA8 (Unit1018BA60_StringListCtor)",
+  "summary": "Constructs a candidate record with three entry lists and a string list."
+ },
+ "0x101B92B0": {
+  "name": "Unit1018BA60_DestroyInputGlobals",
+  "confidence": "low",
+  "evidence": "deletes the objects held in 0x106626A0, 0x106626A4, 0x10662DAC, 0x1066269C, 0x10662D9C, 0x10662D98, 0x10662DA4, 0x10662DA8, 0x10662788 and 0x10662DA0 (slot 0 with 1), and tears down and frees the object 0x10662D40 (its +0xF0E8, +0x7ED8 and completion entries); called by App_Destructor",
+  "summary": "Destroys the text-input subsystem's global objects."
+ },
+ "0x101B9650": {
+  "name": "Unit1018BA60_CtorVt10337B1C",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10337B1C and clears +4; returns this",
+  "summary": "Constructs an object with vtable 0x10337B1C."
+ },
+ "0x101B9880": {
+  "name": "Unit1018BA60_DatEntryCtor",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10337B20, stores arg1 at +4, copies the name arg2 to +8 and the values arg3..arg7 to +0x108..+0x11C; used by Unit1018BA60_Register and the Unit10211440 Save/LoadFromDat functions",
+  "summary": "Constructs a DAT entry record with its name and parameters."
+ }
+}

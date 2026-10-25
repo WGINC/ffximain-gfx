@@ -1,0 +1,38 @@
+{
+ "0x102590F0": {
+  "name": "Unit10253A20_ClearListHeader",
+  "confidence": "low",
+  "evidence": "stores 0 at +0, +4 and +8",
+  "summary": "Clears a node list's three header fields."
+ },
+ "0x10259990": {
+  "name": "Unit10253A20_ComposeTextA",
+  "confidence": "low",
+  "evidence": "walks the node list from +4 and appends each node's text to the string buffer arg (Unit1018BA60_Append/AppendBuf): kind 1 and 8 literal text, 2 a quantifier form (Unit10253A20_SelectQuantifierForm), 3 a noun form (Unit10253A20_SelectNounForm), 4 a form from 0x10258150, 5 an adjective/gender form or a quantifier by index, 6 a value's text, 7 a space; returns 1, or 0 when the list is empty or arg is null",
+  "summary": "Builds the text of a message template into a string buffer, choosing word forms by the values (first form set)."
+ },
+ "0x10259DE0": {
+  "name": "Unit10253A20_DeleteNodesA",
+  "confidence": "low",
+  "evidence": "deletes every node of the list at +4 through its vtable slot 0 with 1 (a deleting destructor) and clears +0 and +8",
+  "summary": "Deletes all nodes of a template list."
+ },
+ "0x1025A820": {
+  "name": "Unit10253A20_DeleteNodesB",
+  "confidence": "low",
+  "evidence": "as Unit10253A20_DeleteNodesA, for another list type",
+  "summary": "Deletes all nodes of a template list."
+ },
+ "0x1025AAA0": {
+  "name": "Unit10253A20_ComposeTextB",
+  "confidence": "low",
+  "evidence": "walks the node list from +4 and appends each node's text to the string buffer arg: kind 1 literal text, kind 2 a node string (Unit10253A20_BuildNodeString) with the prefix/suffix forms Unit10253A20_GetPrefixByFlags, GetSuffixByFlag and GetFormById select; returns 1, or 0 when the list is empty or arg is null",
+  "summary": "Builds the text of a message template into a string buffer (second form set)."
+ },
+ "0x1025B6C0": {
+  "name": "Unit10253A20_WrapLine",
+  "confidence": "low",
+  "evidence": "measures arg3 with the callback arg8, copies up to the width into the buffer arg1 without the 0x15 markers (Unit10253A20_CopyWithoutMarker), breaking at a line break or code 7 (Unit10253A20_IsWrapBreak) and stepping over Shift-JIS characters (Sjis_GetCharByteLen); by the scene's language (g_pSceneState+8) breaks at a known prefix or word; stores in *arg4 where the next line starts",
+  "summary": "Cuts the next line of a text to the width that fits, by the language's break rules."
+ }
+}

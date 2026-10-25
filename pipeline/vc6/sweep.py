@@ -64,8 +64,8 @@ def split_args(s):
 
 def rewrite_calls(body, orig, c_mode=False):
     """(new body, [declarations]) or (None, why). In C (c_mode) an XI_ANY parameter is declared `unsigned int`: C
-    converts a pointer to it with a warning, and a wrong conversion can only make the bytes differ, never match; a
-    __thiscall callee needs C++"""
+    converts a pointer to it with a warning, and a wrong conversion can only make the bytes differ, never match; in
+    C++ it is a template parameter deduced from the argument; a __thiscall callee needs C++"""
     decls, out, i = {}, '', 0
     while True:
         k = body.find('orig::', i)
@@ -74,10 +74,14 @@ def rewrite_calls(body, orig, c_mode=False):
         if not m: return None, 'orig:: not a call'
         w = orig.get(m.group(1))
         if w is None: return None, 'no wrapper for %s' % m.group(1)
-        if 'XI_ANY' in w['types'] and not c_mode: return None, 'XI_ANY parameter'
         if c_mode and w['cc'] == '__thiscall': return None, 'thiscall callee'
-        types = [x.strip() if x.strip() != 'XI_ANY' else 'unsigned int' for x in w['types'].split(',')] if w['types'].strip() else []
-        if not plain(w['rt']) or not all(plain(x) for x in types): return None, 'type the shim lacks'
+        raw = [x.strip() for x in w['types'].split(',')] if w['types'].strip() else []
+        # an XI_ANY parameter: unsigned int in C; in C++ a template parameter, deduced from the argument, so the call
+        # passes the argument's own type (the mangled name still carries FUN_<address>)
+        tpl = [] if c_mode else ['A%d' % n for n, x in enumerate(raw) if x == 'XI_ANY']
+        types = [('unsigned int' if c_mode else 'A%d' % n) if x == 'XI_ANY' else x for n, x in enumerate(raw)]
+        tp = 'template <%s> ' % ', '.join('class ' + x for x in tpl) if tpl else ''
+        if not plain(w['rt']) or not all(plain(x) for x in types if x not in tpl): return None, 'type the shim lacks'
         # the call's argument list, balanced
         j = k + m.end(); depth = 1
         while depth and j < len(body):
@@ -87,10 +91,10 @@ def rewrite_calls(body, orig, c_mode=False):
         if w['cc'] == '__thiscall':
             if not types or len(args) != len(types): return None, 'thiscall arity'
             sname = 'FUNt_%08X' % int(w['addr'], 16)
-            decls[sname] = 'struct %s { %s f(%s); };' % (sname, w['rt'], ', '.join(types[1:]) or 'void')
+            decls[sname] = 'struct %s { %s%s f(%s); };' % (sname, tp, w['rt'], ', '.join(types[1:]) or 'void')
             out += body[i:k] + '((%s *)(%s))->f(%s)' % (sname, args[0], ', '.join(args[1:]))
         else:
-            decls[sym] = '%s%s %s %s(%s);' % ('' if c_mode else 'extern "C" ', w['rt'], w['cc'], sym, ', '.join(types) or 'void')
+            decls[sym] = '%s%s %s %s(%s);' % (tp or ('' if c_mode else 'extern "C" '), w['rt'], w['cc'], sym, ', '.join(types) or 'void')
             out += body[i:k] + '%s(%s)' % (sym, ', '.join(args))
         i = j
     return out, list(decls.values())

@@ -47,15 +47,16 @@ of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C 
 function), `__thiscall` as a member of an empty struct with `self_` bound to `this`; each global as `(*(type *)address)`
 (the compiler writes the absolute address, the game's own relocated value at its preferred base); each `orig::` call
 as a direct call of an external named `FUN_<address>` with the wrapper's convention and parameter types (in C an
-`XI_ANY` parameter is `unsigned int`; a wrong conversion can only make the bytes differ). Compiled at `/O2`, compared
+`XI_ANY` parameter is `unsigned int`, in C++ a template parameter deduced from the argument, so the call passes the
+argument's own type; a wrong declaration can only make the bytes differ, never match). Compiled at `/O2`, compared
 byte for byte and each call by its target:
 
 | verdict | functions |
 |---|---|
-| IDENTICAL | **814** (279 of them make calls, every call's target the game's; no relocation left uncompared) |
-| DIFFERS | 734 |
-| NO_COMPILE | 266 (the converted source does not compile) |
-| LEFT_OUT | 910 (610 call a wrapper with an `XI_ANY` parameter from C++, 170 name a global of a type the header lacks, ...) |
+| IDENTICAL | **953** (418 of them make calls, every call's target the game's; no relocation left uncompared) |
+| DIFFERS | 974 |
+| NO_COMPILE | 432 (the converted source does not compile) |
+| LEFT_OUT | 365 (170 global type the shim lacks, 44 no wrapper for sqDebugPrintf_v1, 12 thiscall without self_ first, 10 no wrapper for Unit100D7420_TestCommand36CF60) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
 instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different

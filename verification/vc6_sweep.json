@@ -1,13 +1,15 @@
 {
  "0x10001B50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+86: 0x24 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10001BB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14C49EBD",
+  "conv": "__stdcall",
+  "size": 96
  },
  "0x10001E70": {
   "verdict": "DIFFERS",
@@ -186,9 +188,10 @@
   "conv": "__thiscall"
  },
  "0x10008830": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?f@FUNt_10124130@@QAEII@Z (0x10124130), the game 0x18DD09D1",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100088F0": {
   "verdict": "DIFFERS",
@@ -230,14 +233,16 @@
   "size": 64
  },
  "0x1000D3F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x10010370": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 432
  },
  "0x10010520": {
   "verdict": "LEFT_OUT",
@@ -331,9 +336,10 @@
   "size": 16
  },
  "0x100149B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_102463C0@@YGXI@Z (0x102463C0), the game 0x29FD32C2",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10014A20": {
   "verdict": "NO_COMPILE",
@@ -347,13 +353,14 @@
  },
  "0x10014AD0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit1018BA60_LoadAllAndTimestamp",
   "conv": "__thiscall"
  },
  "0x10014C10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets _FUN_1019C4F0 (0x1019C4F0), the game 0xE8EA3DA0",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10014C60": {
   "verdict": "DIFFERS",
@@ -410,9 +417,10 @@
   "size": 16
  },
  "0x10014D90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10014DB0": {
   "verdict": "IDENTICAL",
@@ -421,9 +429,10 @@
   "size": 64
  },
  "0x10014E00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10014E20": {
   "verdict": "IDENTICAL",
@@ -456,19 +465,22 @@
   "size": 16
  },
  "0x10015100": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10015120": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+106: REL32 targets _FUN_100279A0 (0x100279A0), the game 0x3812399A",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x100151D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_100279A0 (0x100279A0), the game 0xF8057631",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10015220": {
   "verdict": "IDENTICAL",
@@ -489,9 +501,10 @@
   "size": 16
  },
  "0x10015290": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x100152B0": {
   "verdict": "IDENTICAL",
@@ -524,8 +537,8 @@
   "size": 16
  },
  "0x10015490": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100155D0": {
@@ -650,9 +663,10 @@
   "conv": "__thiscall"
  },
  "0x10017160": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_100171B0@@YGXIH@Z (0x100171B0), the game 0x103D5A41",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10017230": {
   "verdict": "LEFT_OUT",
@@ -760,8 +774,8 @@
   "size": 32
  },
  "0x100185A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10018840": {
@@ -772,7 +786,7 @@
  },
  "0x10018A50": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for CMoResource_AddRefChain_v1",
   "conv": "__thiscall"
  },
  "0x10018B30": {
@@ -793,8 +807,8 @@
   "size": 32
  },
  "0x100191D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10019210": {
@@ -804,9 +818,10 @@
   "size": 32
  },
  "0x1001A3E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+44: 0x83 here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1001A850": {
   "verdict": "DIFFERS",
@@ -821,9 +836,10 @@
   "size": 32
  },
  "0x1001B170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1001B5D0": {
   "verdict": "LEFT_OUT",
@@ -873,9 +889,10 @@
   "conv": "__stdcall"
  },
  "0x1001E760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10021AE0": {
   "verdict": "NO_COMPILE",
@@ -883,9 +900,10 @@
   "conv": "__thiscall"
  },
  "0x10021B70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x100220E0": {
   "verdict": "DIFFERS",
@@ -905,14 +923,16 @@
   "size": 32
  },
  "0x10022190": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?FUN_10022170@@YAIH@Z (0x10022170), the game 0x9402219C",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100221E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?FUN_10022170@@YAIH@Z (0x10022170), the game 0x940221EC",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10022230": {
   "verdict": "DIFFERS",
@@ -1069,7 +1089,7 @@
  },
  "0x10027510": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_100274b0",
   "conv": "__cdecl"
  },
  "0x10027620": {
@@ -1161,8 +1181,8 @@
   "conv": "__thiscall"
  },
  "0x10028320": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10028640": {
@@ -1376,24 +1396,27 @@
   "conv": "__thiscall"
  },
  "0x10033DA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10034330": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+27: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x85C3C863",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10034B80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+114: REL32 targets ?FUN_10027340@@YAIPAM00@Z (0x10027340), the game 0x55EF6C0B",
+  "conv": "__stdcall",
+  "size": 256
  },
  "0x10035170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x204B22B4",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x100351F0": {
   "verdict": "IDENTICAL",
@@ -1402,9 +1425,10 @@
   "size": 32
  },
  "0x10035210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x1D8E58B9",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10035250": {
   "verdict": "IDENTICAL",
@@ -1419,19 +1443,22 @@
   "size": 32
  },
  "0x100352A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x568F1615",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100352F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x67595742",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10035330": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+45: REL32 targets ?f@FUNt_10035330@@QAEXHII@Z (0x10035330), the game 0xD7035360",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10036050": {
   "verdict": "DIFFERS",
@@ -1458,18 +1485,20 @@
   "size": 80
  },
  "0x10036B90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+46: REL32 targets ?FUN_10246000@@YGIII@Z (0x10246000), the game 0x100C2AFF",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10036F50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+28: 0xC6 here, 0xA1 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10037020": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for CMoResource_AddRefChain_v1",
   "conv": "__thiscall"
  },
  "0x10037A10": {
@@ -1515,9 +1544,10 @@
   "size": 64
  },
  "0x10039590": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?FUN_10039700@@YGII@Z (0x10039700), the game 0xF90C16E8",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x100395D0": {
   "verdict": "NO_COMPILE",
@@ -1581,9 +1611,10 @@
   "size": 16
  },
  "0x1003AB80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1003AEA0": {
   "verdict": "DIFFERS",
@@ -1592,9 +1623,10 @@
   "size": 112
  },
  "0x1003B430": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1003B4D0": {
   "verdict": "IDENTICAL",
@@ -1670,13 +1702,14 @@
   "size": 48
  },
  "0x10041130": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10041F40": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for _sprintf",
   "conv": "__thiscall"
  },
  "0x10043DE0": {
@@ -1729,9 +1762,10 @@
   "size": 80
  },
  "0x10044C20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10048190@@YGXH@Z (0x10048190), the game 0x455D3536",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10044CF0": {
   "verdict": "DIFFERS",
@@ -1859,9 +1893,10 @@
   "size": 16
  },
  "0x1004E4E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_100546F0@@QAEOMI@Z (0x100546F0), the game 0xD25DE509",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1004E630": {
   "verdict": "LEFT_OUT",
@@ -2225,9 +2260,10 @@
   "size": 32
  },
  "0x100544D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_10054500@@QAEOI@Z (0x10054500), the game 0xF80D692E",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10054500": {
   "verdict": "NO_COMPILE",
@@ -2267,8 +2303,8 @@
   "size": 16
  },
  "0x10055300": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10055520": {
@@ -2289,14 +2325,16 @@
   "size": 16
  },
  "0x10056AA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10056CE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x32E455E9",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x10056EB0": {
   "verdict": "DIFFERS",
@@ -2316,34 +2354,37 @@
   "conv": "__thiscall"
  },
  "0x10062770": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_1003B6D0@@QAE_KXZ (0x1003B6D0), the game 0x9C06250C",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x100627D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_1003B700@@QAE_KXZ (0x1003B700), the game 0x9C06256C",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10062830": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10062880": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10062E20": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Scheduler_Execute_v1",
   "conv": "__cdecl"
  },
  "0x10062E80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?FUN_10073D80@@YG_KPAIIH@Z (0x10073D80), the game 0x204DFFBA",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10063460": {
   "verdict": "NO_COMPILE",
@@ -2351,13 +2392,14 @@
   "conv": "__thiscall"
  },
  "0x100684F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x10068590": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10069E90": {
@@ -2383,9 +2425,10 @@
   "conv": "__stdcall"
  },
  "0x1006A540": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1006A560": {
   "verdict": "DIFFERS",
@@ -2511,28 +2554,32 @@
   "conv": "__cdecl"
  },
  "0x1006EF70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+116: REL32 targets ?FUN_10313486@@YAHPAI@Z (0x10313486), the game 0xDE06F5AF",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x100700E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+116: REL32 targets ?FUN_10313486@@YAHPAI@Z (0x10313486), the game 0xDC5F071F",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x10071050": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+4: REL32 targets ?FUN_10073B20@@YGIPAH@Z (0x10073B20), the game 0x204EE180",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x10071060": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+40: REL32 targets ?f@FUNt_10071F80@@QAEIXZ (0x10071F80), the game 0x9BCA6F4C",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x100710F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100711B0": {
@@ -2583,13 +2630,14 @@
   "size": 16
  },
  "0x10072C30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?FUN_100749B0@@YGIH@Z (0x100749B0), the game 0x2D64149F",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10072ED0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for CMoResource_AddRefChain_v1",
   "conv": "__thiscall"
  },
  "0x10072FB0": {
@@ -2609,14 +2657,15 @@
   "conv": "__stdcall"
  },
  "0x10073D80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x100740C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+31: REL32 targets ?f@FUNt_10072240@@QAEPAXXZ (0x10072240), the game 0x760FCBF7",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10074110": {
   "verdict": "NO_COMPILE",
@@ -2768,9 +2817,10 @@
   "conv": "__cdecl"
  },
  "0x1007A440": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+71: REL32 targets ?f@FUNt_1008B380@@QAEHH@Z (0x1008B380), the game 0xDE92F997",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x1007CD60": {
   "verdict": "LEFT_OUT",
@@ -2831,9 +2881,10 @@
   "size": 32
  },
  "0x10081A50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_100814F0@@QAE_KH@Z (0x100814F0), the game 0x0A930264",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10082080": {
   "verdict": "IDENTICAL",
@@ -2933,7 +2984,7 @@
  },
  "0x100872C0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_102213b0",
   "conv": "__cdecl"
  },
  "0x100875C0": {
@@ -2973,9 +3024,10 @@
   "size": 48
  },
  "0x10087E40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1008A0D0": {
   "verdict": "IDENTICAL",
@@ -3009,13 +3061,14 @@
  },
  "0x1008B100": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for XiControlActor_SetAutoRunning",
   "conv": "__thiscall"
  },
  "0x1008B270": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1008B380": {
   "verdict": "IDENTICAL",
@@ -3030,14 +3083,15 @@
   "size": 80
  },
  "0x1008DB40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1008E260": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets _FUN_100E8C70 (0x100E8C70), the game 0xD08DE28A",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1008E4D0": {
   "verdict": "LEFT_OUT",
@@ -3051,9 +3105,10 @@
   "size": 80
  },
  "0x1008EE30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+235: REL32 targets ?f@FUNt_100BD5F0@@QAEXXZ (0x100BD5F0), the game 0xCE93EF1F",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x1008F2A0": {
   "verdict": "NO_COMPILE",
@@ -3061,9 +3116,10 @@
   "conv": "__thiscall"
  },
  "0x10092760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x100929A0": {
   "verdict": "DIFFERS",
@@ -3131,9 +3187,10 @@
   "size": 48
  },
  "0x100956C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?f@FUNt_10095750@@QAEIH@Z (0x10095750), the game 0xD26756E5",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x100956F0": {
   "verdict": "DIFFERS",
@@ -3154,9 +3211,10 @@
   "size": 144
  },
  "0x10095850": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+109: REL32 targets ?f@FUNt_100956C0@@QAEIH@Z (0x100956C0), the game 0x088C58C1",
+  "conv": "__thiscall",
+  "size": 192
  },
  "0x10095900": {
   "verdict": "LEFT_OUT",
@@ -3170,13 +3228,14 @@
   "size": 96
  },
  "0x10095E30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets ?f@FUNt_100956A0@@QAEIH@Z (0x100956A0), the game 0xD08E5E50",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x10095E90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10096270": {
@@ -3228,24 +3287,28 @@
   "size": 304
  },
  "0x100983A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+61: REL32 targets ?f@FUNt_1002C8F0@@QAE_KH@Z (0x1002C8F0), the game 0x1CF2526C",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10099730": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+73: REL32 targets ?f@FUNt_1015B9E0@@QAE_KI@Z (0x1015B9E0), the game 0x84CA1C7D",
+  "conv": "__cdecl",
+  "size": 160
  },
  "0x100997B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+5: REL32 targets _FUN_10099730 (0x10099730), the game 0x44F297B8",
+  "conv": "__cdecl",
+  "size": 288
  },
  "0x1009AAF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_100956A0@@QAEIH@Z (0x100956A0), the game 0x84CA2FFC",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1009AD20": {
   "verdict": "DIFFERS",
@@ -3254,9 +3317,10 @@
   "size": 128
  },
  "0x1009ADE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: 0x10 here, 0x0C in the game",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x1009AEC0": {
   "verdict": "DIFFERS",
@@ -3331,8 +3395,8 @@
   "size": 48
  },
  "0x100A5EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100A78D0": {
@@ -3341,14 +3405,16 @@
   "conv": "__thiscall"
  },
  "0x100AB550": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x100ABC20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: 0x7C here, 0x54 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100ABC70": {
   "verdict": "IDENTICAL",
@@ -3363,9 +3429,10 @@
   "size": 16
  },
  "0x100AD6D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+4: REL32 targets _FUN_100C3190 (0x100C3190), the game 0xF8D361D8",
+  "conv": "__cdecl",
+  "size": 160
  },
  "0x100AD7C0": {
   "verdict": "DIFFERS",
@@ -3380,19 +3447,21 @@
   "size": 16
  },
  "0x100AE3A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets _FUN_10127EA0 (0x10127EA0), the game 0x2062653B",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x100BD5F0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for CXiSkeletonActor_ReleaseListEntriesMatching",
   "conv": "__thiscall"
  },
  "0x100BD760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_100BD820@@QAEPAXXZ (0x100BD820), the game 0x58AEB88F",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x100C2E20": {
   "verdict": "LEFT_OUT",
@@ -3400,8 +3469,8 @@
   "conv": "__thiscall"
  },
  "0x100C3050": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100C3060": {
@@ -3410,9 +3479,10 @@
   "conv": "__thiscall"
  },
  "0x100C3190": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_100C31F0@@QAEXXZ (0x100C31F0), the game 0x58AF11BF",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x100C3200": {
   "verdict": "IDENTICAL",
@@ -3427,9 +3497,10 @@
   "size": 16
  },
  "0x100C3220": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets ?f@FUNt_100C3050@@QAEXXZ (0x100C3050), the game 0xF8633236",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x100C3260": {
   "verdict": "IDENTICAL",
@@ -3564,9 +3635,10 @@
   "size": 16
  },
  "0x100D9B00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x100DA6A0": {
   "verdict": "DIFFERS",
@@ -3587,8 +3659,8 @@
   "size": 48
  },
  "0x100DB170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100DB780": {
@@ -3604,8 +3676,8 @@
   "size": 16
  },
  "0x100DB7B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100DB930": {
@@ -4541,23 +4613,26 @@
   "size": 16
  },
  "0x100F1B20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+43: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14D39E4F",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x100F1BA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+62: REL32 targets ?f@FUNt_100F1E70@@QAEEXZ (0x100F1E70), the game 0x206F83E2",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x100F1C40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+82: REL32 targets ?f@FUNt_100F2A40@@QAEXXZ (0x100F2A40), the game 0x0F2804ED",
+  "conv": "__thiscall",
+  "size": 192
  },
  "0x100F1D20": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_CallStateCallback3",
   "conv": "__thiscall"
  },
  "0x100F1E70": {
@@ -4566,24 +4641,28 @@
   "conv": "__thiscall"
  },
  "0x100F25F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+72: REL32 targets ?f@FUNt_100F3BB0@@QAEIPAXIPAIIII@Z (0x100F3BB0), the game 0xA09FB6CC",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100F2690": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+60: REL32 targets ?f@FUNt_100F3C20@@QAEIPAXIPAIIII@Z (0x100F3C20), the game 0xA09FB760",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100F2720": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+60: REL32 targets ?f@FUNt_100F3C90@@QAEIPAXIPAIIII@Z (0x100F3C90), the game 0xA09FB7F0",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100F2760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+67: REL32 targets ?f@FUNt_100F3D00@@QAEIPAXIIII@Z (0x100F3D00), the game 0xD99447EF",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100F29E0": {
   "verdict": "NO_COMPILE",
@@ -4591,13 +4670,14 @@
   "conv": "__thiscall"
  },
  "0x100F2A40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x100F2B80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100F3010": {
@@ -4612,29 +4692,34 @@
   "conv": "__thiscall"
  },
  "0x100F3BB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x100F3C20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: 0x81 here, 0x11 in the game",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x100F3C90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x100F3D00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x100F7620": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x100F76B0": {
   "verdict": "NO_COMPILE",
@@ -4648,9 +4733,10 @@
   "size": 32
  },
  "0x100F7740": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x100F7A00": {
   "verdict": "IDENTICAL",
@@ -4762,12 +4848,12 @@
  },
  "0x100FB920": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_SetPacketType",
   "conv": "__cdecl"
  },
  "0x100FBA40": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_SetPacketType",
   "conv": "__cdecl"
  },
  "0x100FBB40": {
@@ -5045,14 +5131,16 @@
   "size": 64
  },
  "0x10108700": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+93: REL32 targets ?f@FUNt_101088C0@@QAEXXZ (0x101088C0), the game 0x7620F8EA",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10108780": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+64: REL32 targets ?f@FUNt_10108D80@@QAEXH@Z (0x10108D80), the game 0x15CB7092",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x10108870": {
   "verdict": "DIFFERS",
@@ -5072,14 +5160,15 @@
   "conv": "__thiscall"
  },
  "0x10108990": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10108A50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?FUN_101088A0@@YGHH@Z (0x101088A0), the game 0x0E437274",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x10108D80": {
   "verdict": "DIFFERS",
@@ -5100,13 +5189,14 @@
   "size": 176
  },
  "0x10109000": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?FUN_101083C0@@YAHH@Z (0x101083C0), the game 0x10042810",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x101090A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10109100": {
@@ -5121,9 +5211,10 @@
   "conv": "__thiscall"
  },
  "0x101091D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?FUN_101085C0@@YAIHH@Z (0x101085C0), the game 0x1011944C",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x1010E040": {
   "verdict": "DIFFERS",
@@ -5144,9 +5235,10 @@
   "size": 128
  },
  "0x1010FEB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x1010FEE0": {
   "verdict": "DIFFERS",
@@ -5172,8 +5264,8 @@
   "size": 32
  },
  "0x10114070": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10114620": {
@@ -5183,8 +5275,8 @@
   "size": 80
  },
  "0x10114B60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x101152D0": {
@@ -5350,9 +5442,10 @@
   "size": 32
  },
  "0x101172C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_10126320@@QAEIXZ (0x10126320), the game 0x245FFFCC",
+  "conv": "__thiscall",
+  "size": 432
  },
  "0x10117F30": {
   "verdict": "NO_COMPILE",
@@ -5361,13 +5454,14 @@
  },
  "0x10117F40": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_UpdateState",
   "conv": "__thiscall"
  },
  "0x10118170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+13: REL32 targets ?f@FUNt_101181D0@@QAE_KH@Z (0x101181D0), the game 0x089C8181",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x10118520": {
   "verdict": "IDENTICAL",
@@ -5376,9 +5470,10 @@
   "size": 16
  },
  "0x101186A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_10160C90@@QAEIXZ (0x10160C90), the game 0x14976797",
+  "conv": "__thiscall",
+  "size": 272
  },
  "0x101187F0": {
   "verdict": "DIFFERS",
@@ -5404,14 +5499,16 @@
   "conv": "__thiscall"
  },
  "0x101190F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_10118B60@@QAEIHH@Z (0x10118B60), the game 0xA0A221C7",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101192E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10119300": {
   "verdict": "DIFFERS",
@@ -5420,8 +5517,8 @@
   "size": 96
  },
  "0x10119360": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10119390": {
@@ -5449,9 +5546,10 @@
   "size": 112
  },
  "0x101198D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x10119970": {
   "verdict": "NO_COMPILE",
@@ -5482,9 +5580,10 @@
   "size": 64
  },
  "0x10119F80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1011A3B0": {
   "verdict": "NO_COMPILE",
@@ -5553,9 +5652,10 @@
   "conv": "__thiscall"
  },
  "0x1011BBA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1011BBD0": {
   "verdict": "LEFT_OUT",
@@ -5568,9 +5668,10 @@
   "conv": "__cdecl"
  },
  "0x1011BF40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+119: REL32 targets _FUN_1011BDC0 (0x1011BDC0), the game 0x5E2D4FC8",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x1011C1F0": {
   "verdict": "LEFT_OUT",
@@ -5578,8 +5679,8 @@
   "conv": "__cdecl"
  },
  "0x1011C5D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x1011C720": {
@@ -5599,8 +5700,8 @@
   "conv": "__thiscall"
  },
  "0x1011C8B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1011C900": {
@@ -5664,14 +5765,16 @@
   "size": 96
  },
  "0x1011DC00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_1011DAA0@@QAEIXZ (0x1011DAA0), the game 0xA1FA2D5C",
+  "conv": "__cdecl",
+  "size": 224
  },
  "0x1011DCC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_1011DAA0@@QAEIXZ (0x1011DAA0), the game 0xE1FA2E1C",
+  "conv": "__cdecl",
+  "size": 208
  },
  "0x1011DE80": {
   "verdict": "DIFFERS",
@@ -5712,9 +5815,10 @@
   "conv": "__thiscall"
  },
  "0x1011F2D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1011F300": {
   "verdict": "LEFT_OUT",
@@ -5728,24 +5832,27 @@
   "size": 176
  },
  "0x10120510": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10120B80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10120BB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10120BE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10120C40": {
   "verdict": "DIFFERS",
@@ -5784,9 +5891,10 @@
   "size": 16
  },
  "0x101232E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+100: REL32 targets ?FUN_10122E30@@YAOH@Z (0x10122E30), the game 0x6A123342",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x10123350": {
   "verdict": "DIFFERS",
@@ -5795,8 +5903,8 @@
   "size": 48
  },
  "0x10123380": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10123640": {
@@ -5835,14 +5943,16 @@
   "conv": "__cdecl"
  },
  "0x10123DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+15: 0x13 here, 0x14 in the game",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10123DF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+18: 0x10 here, 0x11 in the game",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10123E20": {
   "verdict": "DIFFERS",
@@ -5910,9 +6020,10 @@
   "conv": "__thiscall"
  },
  "0x10124050": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets ?f@FUNt_10124010@@QAEII@Z (0x10124010), the game 0x10134158",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10124070": {
   "verdict": "DIFFERS",
@@ -5968,9 +6079,10 @@
   "size": 16
  },
  "0x101245D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+25: REL32 targets ?f@FUNt_10124640@@QAEXPAHI@Z (0x10124640), the game 0x3456D102",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10124640": {
   "verdict": "LEFT_OUT",
@@ -5978,9 +6090,10 @@
   "conv": "__thiscall"
  },
  "0x10124930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+72: REL32 targets _FUN_1025E050 (0x1025E050), the game 0x23A91D64",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x101249E0": {
   "verdict": "IDENTICAL",
@@ -5989,9 +6102,10 @@
   "size": 32
  },
  "0x10124A00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+75: REL32 targets _FUN_1025E050 (0x1025E050), the game 0x1D870AD3",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x10124AB0": {
   "verdict": "IDENTICAL",
@@ -6000,9 +6114,10 @@
   "size": 32
  },
  "0x10124AD0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: 0x56 here, 0x4E in the game",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10124B50": {
   "verdict": "IDENTICAL",
@@ -6022,8 +6137,8 @@
   "conv": "__thiscall"
  },
  "0x10125F70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101260E0": {
@@ -6078,9 +6193,10 @@
   "size": 32
  },
  "0x101263B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x689B7833",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10126460": {
   "verdict": "IDENTICAL",
@@ -6112,29 +6228,33 @@
   "size": 16
  },
  "0x10126580": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+49: 0x51 here, 0x71 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101266B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10126700": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: 0xC8 here, 0x0E in the game",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x10126750": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10126770": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10126790": {
   "verdict": "IDENTICAL",
@@ -6143,8 +6263,8 @@
   "size": 48
  },
  "0x101268F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10126B60": {
@@ -6153,8 +6273,8 @@
   "conv": "__thiscall"
  },
  "0x10126BC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10127190": {
@@ -6263,9 +6383,10 @@
   "conv": "__cdecl"
  },
  "0x10129D90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?FUN_10152EF0@@YAIHE@Z (0x10152EF0), the game 0x48FAA51F",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10129EE0": {
   "verdict": "DIFFERS",
@@ -6274,9 +6395,10 @@
   "size": 16
  },
  "0x10129F40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10129F80": {
   "verdict": "DIFFERS",
@@ -6297,8 +6419,8 @@
   "size": 16
  },
  "0x1012A3B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1012A400": {
@@ -6314,9 +6436,10 @@
   "size": 16
  },
  "0x1012A420": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_1012A3B0@@QAEXXZ (0x1012A3B0), the game 0x3457302B",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x1012A4E0": {
   "verdict": "IDENTICAL",
@@ -6366,13 +6489,13 @@
   "conv": "__thiscall"
  },
  "0x1012E360": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10130390": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10130F90": {
@@ -6393,8 +6516,8 @@
   "size": 64
  },
  "0x10133310": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10135850": {
@@ -6415,34 +6538,40 @@
   "conv": "__thiscall"
  },
  "0x10136950": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101369C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10136A30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10136E20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10136EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10136F60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10137630": {
   "verdict": "DIFFERS",
@@ -6469,8 +6598,8 @@
   "size": 16
  },
  "0x10139840": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10139EE0": {
@@ -6500,9 +6629,10 @@
   "size": 64
  },
  "0x1013A320": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x1013A330": {
   "verdict": "IDENTICAL",
@@ -6547,8 +6677,8 @@
   "size": 96
  },
  "0x1013FBE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10140950": {
@@ -6581,8 +6711,8 @@
   "size": 64
  },
  "0x10144D60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10144F40": {
@@ -6592,8 +6722,8 @@
   "size": 48
  },
  "0x10146340": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10146930": {
@@ -6628,32 +6758,32 @@
  },
  "0x10148ED0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for YkWndList_SetLine",
   "conv": "__thiscall"
  },
  "0x1014A170": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for YkWndList_SetLine",
   "conv": "__thiscall"
  },
  "0x1014A7D0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for YkWndList_SetLine",
   "conv": "__thiscall"
  },
  "0x1014B670": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for YkWndList_SetLine",
   "conv": "__thiscall"
  },
  "0x1014BA60": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for YkWndList_SetLine",
   "conv": "__thiscall"
  },
  "0x1014C750": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1014D970": {
@@ -6669,13 +6799,13 @@
   "size": 144
  },
  "0x1014EDC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1014F840": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1014FFE0": {
@@ -6685,9 +6815,10 @@
   "size": 128
  },
  "0x10150A30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10150A60": {
   "verdict": "IDENTICAL",
@@ -6702,9 +6833,10 @@
   "size": 80
  },
  "0x10150CC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x10150D90": {
   "verdict": "DIFFERS",
@@ -6713,8 +6845,8 @@
   "size": 32
  },
  "0x10151040": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10151140": {
@@ -6730,9 +6862,10 @@
   "size": 16
  },
  "0x10152F20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+46: REL32 targets ?FUN_101530C0@@YAHII@Z (0x101530C0), the game 0xCBFE16C6",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10152F80": {
   "verdict": "IDENTICAL",
@@ -6752,8 +6885,8 @@
   "conv": "__cdecl"
  },
  "0x10152FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10153090": {
@@ -6835,9 +6968,10 @@
   "size": 720
  },
  "0x10153EF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_101C4AF0@@QAEHH@Z (0x101C4AF0), the game 0x172129ED",
+  "conv": "__cdecl",
+  "size": 192
  },
  "0x10153F80": {
   "verdict": "NO_COMPILE",
@@ -6845,9 +6979,10 @@
   "conv": "__thiscall"
  },
  "0x10153FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_10154070@@QAEPAXXZ (0x10154070), the game 0x679CA41F",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10154070": {
   "verdict": "IDENTICAL",
@@ -6862,24 +6997,26 @@
   "size": 48
  },
  "0x10154520": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10154550": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+21: REL32 targets ?FUN_1022EDF0@@YGHH@Z (0x1022EDF0), the game 0x94FE4E2A",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10154840": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10154860": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+35: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x96A077FC",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101549E0": {
   "verdict": "IDENTICAL",
@@ -6912,8 +7049,8 @@
   "size": 48
  },
  "0x10154DB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10154DC0": {
@@ -6922,8 +7059,8 @@
   "conv": "__thiscall"
  },
  "0x10154E30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10154F00": {
@@ -6956,8 +7093,8 @@
   "conv": "__thiscall"
  },
  "0x10155140": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10155160": {
@@ -6966,8 +7103,8 @@
   "conv": "__thiscall"
  },
  "0x101551C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101552D0": {
@@ -6977,8 +7114,8 @@
   "size": 16
  },
  "0x10155360": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10155370": {
@@ -6987,8 +7124,8 @@
   "conv": "__thiscall"
  },
  "0x10155400": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101554E0": {
@@ -6998,8 +7135,8 @@
   "size": 16
  },
  "0x10155540": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10155550": {
@@ -7008,8 +7145,8 @@
   "conv": "__thiscall"
  },
  "0x101555B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10155600": {
@@ -7133,14 +7270,16 @@
   "size": 16
  },
  "0x10156D90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+55: 0x8D here, 0xB9 in the game",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10156E00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x101575E0": {
   "verdict": "IDENTICAL",
@@ -7155,9 +7294,10 @@
   "size": 16
  },
  "0x10157660": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+75: REL32 targets _FUN_101576F0 (0x101576F0), the game 0x101598A0",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x101576F0": {
   "verdict": "DIFFERS",
@@ -7224,13 +7364,14 @@
   "size": 80
  },
  "0x10157D60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+13: REL32 targets ?f@FUNt_10081550@@QAE_KXZ (0x10081550), the game 0xA6998D31",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x10157E20": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
   "conv": "__thiscall"
  },
  "0x101582F0": {
@@ -7239,9 +7380,10 @@
   "conv": "__thiscall"
  },
  "0x101583F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+27: REL32 targets ?f@FUNt_101578D0@@QAEIXZ (0x101578D0), the game 0x1C39D897",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10158470": {
   "verdict": "IDENTICAL",
@@ -7250,8 +7392,8 @@
   "size": 16
  },
  "0x10158510": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10158550": {
@@ -7260,13 +7402,14 @@
   "conv": "__thiscall"
  },
  "0x10158590": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?f@FUNt_10157780@@QAEXHH@Z (0x10157780), the game 0xA0A615B5",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101585F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101587B0": {
@@ -7276,32 +7419,33 @@
  },
  "0x10158B40": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Target_TrySubSelect",
   "conv": "__thiscall"
  },
  "0x10158C40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10158CA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+53: REL32 targets ?FUN_10083B40@@YAPAHPAHIM@Z (0x10083B40), the game 0x10083D00",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x10158D90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10158DB0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Target_CommitSubTarget",
   "conv": "__thiscall"
  },
  "0x10158FF0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Target_CommitSubTarget",
   "conv": "__thiscall"
  },
  "0x101590A0": {
@@ -7311,14 +7455,15 @@
   "size": 16
  },
  "0x101590C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10159170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+58: REL32 targets ?FUN_101CC350@@YAIHH@Z (0x101CC350), the game 0xD49891B5",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101591D0": {
   "verdict": "LEFT_OUT",
@@ -7332,9 +7477,10 @@
   "size": 16
  },
  "0x10159380": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets ?f@FUNt_10159370@@QAEHXZ (0x10159370), the game 0xF8FD9C71",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10159400": {
   "verdict": "DIFFERS",
@@ -7348,9 +7494,10 @@
   "conv": "__cdecl"
  },
  "0x10159440": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+123: REL32 targets ?f@FUNt_10159740@@QAEIXZ (0x10159740), the game 0xD4AC1DC0",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x101594D0": {
   "verdict": "IDENTICAL",
@@ -7376,14 +7523,15 @@
   "size": 16
  },
  "0x101595D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10159660": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_10159740@@QAEIXZ (0x10159740), the game 0x6E159675",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x10159740": {
   "verdict": "IDENTICAL",
@@ -7409,14 +7557,16 @@
   "size": 48
  },
  "0x10159830": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: 0x4C here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10159880": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101598A0": {
   "verdict": "IDENTICAL",
@@ -7431,9 +7581,10 @@
   "size": 16
  },
  "0x101598C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets ?f@FUNt_10081550@@QAE_KXZ (0x10081550), the game 0x9C158B4A",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10159910": {
   "verdict": "DIFFERS",
@@ -7477,14 +7628,15 @@
   "size": 16
  },
  "0x1015B3C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1015B720": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 368
  },
  "0x1015BAF0": {
   "verdict": "DIFFERS",
@@ -7493,9 +7645,10 @@
   "size": 160
  },
  "0x1015BD40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?f@FUNt_1015B9E0@@QAE_KH@Z (0x1015B9E0), the game 0x85D64352",
+  "conv": "__stdcall",
+  "size": 48
  },
  "0x1015D7F0": {
   "verdict": "IDENTICAL",
@@ -7521,9 +7674,10 @@
   "size": 48
  },
  "0x1015DB10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets ?f@FUNt_10126510@@QAEIXZ (0x10126510), the game 0x850E6641",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1015DB70": {
   "verdict": "IDENTICAL",
@@ -7532,9 +7686,10 @@
   "size": 16
  },
  "0x1015DBB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_1015DB80@@QAE_KHI@Z (0x1015DB80), the game 0x991A0008",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1015DC70": {
   "verdict": "NO_COMPILE",
@@ -7558,14 +7713,16 @@
   "size": 16
  },
  "0x1015DEF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?f@FUNt_1015DD00@@QAE_KH@Z (0x1015DD00), the game 0xA0D9DF0A",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1015DF20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1015DFC0": {
   "verdict": "IDENTICAL",
@@ -7579,8 +7736,8 @@
   "conv": "__stdcall"
  },
  "0x1015EB60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1015EC20": {
@@ -7614,8 +7771,8 @@
   "size": 48
  },
  "0x1015EE40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1015EEF0": {
@@ -7624,9 +7781,10 @@
   "conv": "__cdecl"
  },
  "0x1015F960": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1015F980": {
   "verdict": "DIFFERS",
@@ -7635,14 +7793,16 @@
   "size": 64
  },
  "0x1015F9C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: 0x8B here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1015F9E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101601D0": {
   "verdict": "DIFFERS",
@@ -7669,9 +7829,10 @@
   "size": 48
  },
  "0x10160440": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+100: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101604B0": {
   "verdict": "LEFT_OUT",
@@ -7684,14 +7845,15 @@
   "conv": "__cdecl"
  },
  "0x10160760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10160960": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets _FUN_100FC160 (0x100FC160), the game 0xBA160338",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x101609C0": {
   "verdict": "LEFT_OUT",
@@ -7699,13 +7861,14 @@
   "conv": "__cdecl"
  },
  "0x101609F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets _FUN_100FC160 (0x100FC160), the game 0x10160C82",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10160A50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10160C90": {
@@ -7739,14 +7902,16 @@
   "size": 32
  },
  "0x10161850": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10161B80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10161BC0": {
   "verdict": "DIFFERS",
@@ -7783,9 +7948,10 @@
   "size": 16
  },
  "0x10162F60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?FUN_10162F30@@YG_KHH@Z (0x10162F30), the game 0x0FC5184E",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10163080": {
   "verdict": "IDENTICAL",
@@ -7818,9 +7984,10 @@
   "size": 16
  },
  "0x10163390": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101633D0": {
   "verdict": "DIFFERS",
@@ -7894,9 +8061,10 @@
   "size": 16
  },
  "0x10167340": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x76443F5F",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x10167800": {
   "verdict": "NO_COMPILE",
@@ -7904,9 +8072,10 @@
   "conv": "__thiscall"
  },
  "0x10167950": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+52: 0x8D here, 0xB9 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10168FD0": {
   "verdict": "IDENTICAL",
@@ -7941,9 +8110,10 @@
   "conv": "__thiscall"
  },
  "0x10170F30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+5: 0x8B here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x101718E0": {
   "verdict": "NO_COMPILE",
@@ -7962,9 +8132,10 @@
   "size": 32
  },
  "0x10174A60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: 0xDB here, 0xFF in the game",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x10174EC0": {
   "verdict": "LEFT_OUT",
@@ -8004,9 +8175,10 @@
   "conv": "__cdecl"
  },
  "0x101779B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets ?FUN_10173AE0@@YGIPAIH@Z (0x10173AE0), the game 0x135AAA76",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101779C0": {
   "verdict": "LEFT_OUT",
@@ -8030,9 +8202,10 @@
   "size": 80
  },
  "0x10178AC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?f@FUNt_101679A0@@QAEXH@Z (0x101679A0), the game 0x9B6F8AE6",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10178B00": {
   "verdict": "LEFT_OUT",
@@ -8072,44 +8245,51 @@
   "conv": "__thiscall"
  },
  "0x1017B1E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+69: REL32 targets _FUN_101784E0 (0x101784E0), the game 0xE2CD9A29",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x101811D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10181290": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+47: REL32 targets ?f@FUNt_10181210@@QAEIIMIMPAM@Z (0x10181210), the game 0x10175FAB",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x10181300": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+58: REL32 targets ?f@FUNt_10181210@@QAEIIMIMPAM@Z (0x10181210), the game 0x9518133C",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101814D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+51: REL32 targets ?f@FUNt_10169290@@QAEIPAM0IMMM@Z (0x10169290), the game 0xA0A8A597",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10181590": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101819B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10181A10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10181F60": {
   "verdict": "DIFFERS",
@@ -8123,9 +8303,10 @@
   "conv": "__stdcall"
  },
  "0x10183420": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+41: 0x01 here, 0x02 in the game",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10183DA0": {
   "verdict": "LEFT_OUT",
@@ -8133,13 +8314,14 @@
   "conv": "__thiscall"
  },
  "0x10186DB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?FUN_10186DD0@@YGXPAH@Z (0x10186DD0), the game 0xDFA3C420",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10186DD0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10186E90": {
@@ -8299,14 +8481,16 @@
   "size": 48
  },
  "0x101874A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: 0x51 here, 0x41 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10187600": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+284: REL32 targets ?f@FUNt_10187720@@QAEXH@Z (0x10187720), the game 0xD3187720",
+  "conv": "__thiscall",
+  "size": 304
  },
  "0x10188190": {
   "verdict": "LEFT_OUT",
@@ -8364,9 +8548,10 @@
   "size": 32
  },
  "0x101898E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x10189BD0": {
   "verdict": "DIFFERS",
@@ -8381,14 +8566,16 @@
   "size": 64
  },
  "0x1018A2A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1018A2C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_1018A310@@QAEIPAX@Z (0x1018A310), the game 0xD376A2DA",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1018A2E0": {
   "verdict": "IDENTICAL",
@@ -8439,9 +8626,10 @@
   "size": 32
  },
  "0x1018ADA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?FUN_10028700@@YAXPAI@Z (0x10028700), the game 0x602221B6",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1018ADD0": {
   "verdict": "IDENTICAL",
@@ -8451,7 +8639,7 @@
  },
  "0x1018ADE0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_1018bc40",
   "conv": "__thiscall"
  },
  "0x1018AEB0": {
@@ -8537,14 +8725,15 @@
   "size": 32
  },
  "0x1018D250": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018D280": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14DD5594",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1018D2B0": {
   "verdict": "IDENTICAL",
@@ -8553,23 +8742,26 @@
   "size": 32
  },
  "0x1018D2D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets ?FUN_1018D230@@YAIII@Z (0x1018D230), the game 0x286182F3",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1018D430": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x1018D440": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x1018D450": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018D470": {
@@ -8591,23 +8783,24 @@
   "size": 16
  },
  "0x1018D4A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+47: REL32 targets ?f@FUNt_1018D3D0@@QAEXXZ (0x1018D3D0), the game 0x9C18D4D1",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x1018D580": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018D640": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018D7F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018D980": {
@@ -8629,8 +8822,8 @@
   "size": 32
  },
  "0x1018DCD0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018E0A0": {
@@ -8644,18 +8837,19 @@
   "conv": "__cdecl"
  },
  "0x1018E1A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1018E4D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018E660": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018E6A0": {
@@ -8676,13 +8870,13 @@
   "size": 32
  },
  "0x1018E9B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018EA00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018EA50": {
@@ -8692,8 +8886,8 @@
   "size": 48
  },
  "0x1018ED80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1018EE40": {
@@ -8754,8 +8948,8 @@
   "conv": "__thiscall"
  },
  "0x101911A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10191AB0": {
@@ -8765,34 +8959,37 @@
   "size": 64
  },
  "0x10191B20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10192380": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10192E50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10193800": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10193830": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10193850": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10193890": {
   "verdict": "IDENTICAL",
@@ -8818,9 +9015,10 @@
   "conv": "__thiscall"
  },
  "0x10193B60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14DDBE9C",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10193BC0": {
   "verdict": "NO_COMPILE",
@@ -8828,24 +9026,28 @@
   "conv": "__thiscall"
  },
  "0x10195220": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10195240": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets ?f@FUNt_101954D0@@QAE_KI@Z (0x101954D0), the game 0x9609DD4E",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x101952C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+59: REL32 targets ?FUN_10196040@@YGIHH@Z (0x10196040), the game 0x1D593BCE",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10195330": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: 0x8B here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10195350": {
   "verdict": "LEFT_OUT",
@@ -8883,13 +9085,13 @@
   "size": 32
  },
  "0x10195640": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101956F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10195780": {
@@ -8914,14 +9116,16 @@
   "conv": "__stdcall"
  },
  "0x10196040": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+65: REL32 targets ?f@FUNt_10193BC0@@QAEXII@Z (0x10193BC0), the game 0x4901B0D7",
+  "conv": "__stdcall",
+  "size": 80
  },
  "0x10196260": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101962D0": {
   "verdict": "DIFFERS",
@@ -8930,9 +9134,10 @@
   "size": 16
  },
  "0x10196980": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10196BE0": {
   "verdict": "IDENTICAL",
@@ -8953,9 +9158,10 @@
   "size": 80
  },
  "0x10197A90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10197F00": {
   "verdict": "IDENTICAL",
@@ -8970,9 +9176,10 @@
   "size": 32
  },
  "0x10198CA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+13: 0x6A here, 0x66 in the game",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101990C0": {
   "verdict": "IDENTICAL",
@@ -9035,14 +9242,16 @@
   "size": 32
  },
  "0x1019BFE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1019C190": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1019C3E0": {
   "verdict": "DIFFERS",
@@ -9087,7 +9296,7 @@
  },
  "0x1019CE70": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_1019cfa0",
   "conv": "__thiscall"
  },
  "0x1019D150": {
@@ -9097,7 +9306,7 @@
  },
  "0x1019D1C0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_1019d350",
   "conv": "__thiscall"
  },
  "0x1019D580": {
@@ -9113,14 +9322,16 @@
   "size": 32
  },
  "0x1019D8B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1019EBB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_1019ED50@@QAE_JI@Z (0x1019ED50), the game 0xDEA53D1C",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1019ED70": {
   "verdict": "NO_COMPILE",
@@ -9128,19 +9339,21 @@
   "conv": "__stdcall"
  },
  "0x1019F160": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1019F8B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_101A0910@@QAEHXZ (0x101A0910), the game 0xF822485D",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1019F930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x1019FA90": {
   "verdict": "DIFFERS",
@@ -9189,14 +9402,16 @@
   "size": 32
  },
  "0x101A0930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: 0x83 here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101A0950": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets ?f@FUNt_101B9550@@QAE_KI@Z (0x101B9550), the game 0x431A0AE6",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101A0970": {
   "verdict": "DIFFERS",
@@ -9205,29 +9420,34 @@
   "size": 48
  },
  "0x101A0BE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+0: 0x57 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x101A0D30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+34: REL32 targets ?f@FUNt_101B9550@@QAE_KI@Z (0x101B9550), the game 0x11A2073E",
+  "conv": "__thiscall",
+  "size": 352
  },
  "0x101A0F30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+43: REL32 targets ?f@FUNt_101B9530@@QAE_KXZ (0x101B9530), the game 0xA0AA9FEF",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101A1360": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_101B9530@@QAE_KXZ (0x101B9530), the game 0xD3B92342",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101A1390": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?f@FUNt_101B9550@@QAE_KI@Z (0x101B9550), the game 0x119BC388",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101A1400": {
   "verdict": "DIFFERS",
@@ -9242,19 +9462,22 @@
   "size": 16
  },
  "0x101A1470": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?FUN_103149D0@@YAPAIPAI0H@Z (0x103149D0), the game 0x9D1A2BC0",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x101A1500": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+145: REL32 targets ?FUN_1018FDF0@@YAHHHH@Z (0x1018FDF0), the game 0xD99E1420",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x101A1580": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+187: REL32 targets ?FUN_1018FDF0@@YAHHHH@Z (0x1018FDF0), the game 0x101A1C57",
+  "conv": "__thiscall",
+  "size": 256
  },
  "0x101A1660": {
   "verdict": "IDENTICAL",
@@ -9291,14 +9514,16 @@
   "size": 48
  },
  "0x101A19B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14DE9CC6",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x101A1C60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_101A1740@@QAEXH@Z (0x101A1740), the game 0xD81A1C83",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101A2610": {
   "verdict": "LEFT_OUT",
@@ -9306,9 +9531,10 @@
   "conv": "__stdcall"
  },
  "0x101A2890": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+73: REL32 targets ?f@FUNt_101A2660@@QAEXHPAE@Z (0x101A2660), the game 0x6112FAAB",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x101A29F0": {
   "verdict": "DIFFERS",
@@ -9333,9 +9559,10 @@
   "conv": "__thiscall"
  },
  "0x101A3300": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?f@FUNt_101A1C60@@QAEIH@Z (0x101A1C60), the game 0x1022F57F",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101A3500": {
   "verdict": "LEFT_OUT",
@@ -9343,8 +9570,8 @@
   "conv": "__thiscall"
  },
  "0x101A36F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A3CF0": {
@@ -9355,12 +9582,12 @@
  },
  "0x101A3D60": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for _sprintf_v1",
   "conv": "__cdecl"
  },
  "0x101A3DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A43A0": {
@@ -9375,18 +9602,18 @@
   "conv": "__thiscall"
  },
  "0x101A46C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A4D70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A54F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A6430": {
@@ -9408,8 +9635,8 @@
   "size": 48
  },
  "0x101A83C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101A8410": {
@@ -9424,9 +9651,10 @@
   "conv": "__thiscall"
  },
  "0x101A8B50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x9410BE5B",
+  "conv": "__cdecl",
+  "size": 352
  },
  "0x101A8D40": {
   "verdict": "IDENTICAL",
@@ -9435,8 +9663,8 @@
   "size": 16
  },
  "0x101A8D60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x101AA300": {
@@ -9446,13 +9674,14 @@
   "size": 848
  },
  "0x101AB080": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+6: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14DF338A",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x101AB0D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x101AB6D0": {
@@ -9468,9 +9697,10 @@
   "size": 16
  },
  "0x101AB730": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x101AB810": {
   "verdict": "IDENTICAL",
@@ -9501,9 +9731,10 @@
   "conv": "__thiscall"
  },
  "0x101ABEF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101AC1B0": {
   "verdict": "IDENTICAL",
@@ -9542,14 +9773,16 @@
   "size": 128
  },
  "0x101AC2C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+78: REL32 targets ?f@FUNt_101A1580@@QAEIPADH@Z (0x101A1580), the game 0x102187A8",
+  "conv": "__thiscall",
+  "size": 256
  },
  "0x101AC3D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+70: REL32 targets ?f@FUNt_101A1580@@QAEIPADH@Z (0x101A1580), the game 0x9D6C141A",
+  "conv": "__thiscall",
+  "size": 256
  },
  "0x101AC4D0": {
   "verdict": "DIFFERS",
@@ -9558,24 +9791,28 @@
   "size": 32
  },
  "0x101AC4E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101AC520": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?FUN_1018FA80@@YAIIH@Z (0x1018FA80), the game 0xD49DC540",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101AC580": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?f@FUNt_101A1580@@QAEIPADH@Z (0x101A1580), the game 0x101ACC80",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101ACBE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x51 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101ACF40": {
   "verdict": "DIFFERS",
@@ -9601,9 +9838,10 @@
   "size": 32
  },
  "0x101AD0D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+42: REL32 targets ?FUN_1018FB00@@YAHHIH@Z (0x1018FB00), the game 0x6070D0FE",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x101AD1B0": {
   "verdict": "DIFFERS",
@@ -9629,9 +9867,10 @@
   "size": 32
  },
  "0x101ADBD0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets ?FUN_101B72E0@@YGIPAD@Z (0x101B72E0), the game 0x1903E01E",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101ADBE0": {
   "verdict": "NO_COMPILE",
@@ -9639,9 +9878,10 @@
   "conv": "__stdcall"
  },
  "0x101ADDC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?FUN_10073BA0@@YGIPAHHH@Z (0x10073BA0), the game 0xDA02EE1B",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x101ADE00": {
   "verdict": "NO_COMPILE",
@@ -9671,14 +9911,15 @@
   "conv": "__cdecl"
  },
  "0x101AE140": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101AE3E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 400
  },
  "0x101AEA40": {
   "verdict": "IDENTICAL",
@@ -9687,8 +9928,8 @@
   "size": 80
  },
  "0x101AEAC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101AFF30": {
@@ -9705,7 +9946,7 @@
  },
  "0x101B2710": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x101B27F0": {
@@ -9722,7 +9963,7 @@
  },
  "0x101B3B50": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x101B4260": {
@@ -9770,19 +10011,22 @@
   "conv": "__thiscall"
  },
  "0x101B4C20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+74: REL32 targets ?FUN_103149D0@@YAPAIPAI0H@Z (0x103149D0), the game 0x982810F1",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x101B4D30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+102: REL32 targets ?FUN_1011C900@@YAIPAE@Z (0x1011C900), the game 0x9E2B171F",
+  "conv": "__thiscall",
+  "size": 320
  },
  "0x101B4E70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets ?FUN_1011C900@@YAIPAE@Z (0x1011C900), the game 0x611A0F27",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x101B4F90": {
   "verdict": "NO_COMPILE",
@@ -9790,14 +10034,16 @@
   "conv": "__thiscall"
  },
  "0x101B4FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets ?FUN_1011C900@@YAIPAE@Z (0x1011C900), the game 0x61198039",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101B5210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+61: REL32 targets ?f@FUNt_101BAFC0@@QAEXH@Z (0x101BAFC0), the game 0x1078C139",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x101B5BC0": {
   "verdict": "DIFFERS",
@@ -9836,8 +10082,8 @@
   "size": 32
  },
  "0x101B6EE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101B70A0": {
@@ -9871,24 +10117,28 @@
   "size": 16
  },
  "0x101B7260": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets ?f@FUNt_101AC990@@QAEHIIPADIII@Z (0x101AC990), the game 0x345FFB7F",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101B7280": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101B72B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101B7C20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?f@FUNt_101AC1B0@@QAEHXZ (0x101AC1B0), the game 0x559A64FE",
+  "conv": "__thiscall",
+  "size": 272
  },
  "0x101B7EE0": {
   "verdict": "DIFFERS",
@@ -9928,8 +10178,8 @@
   "conv": "__thiscall"
  },
  "0x101B9690": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101B9880": {
@@ -9953,19 +10203,21 @@
   "conv": "__thiscall"
  },
  "0x101B9E00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101B9E60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14E02173",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x101B9EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14E021D0",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101B9FF0": {
   "verdict": "IDENTICAL",
@@ -9974,9 +10226,10 @@
   "size": 64
  },
  "0x101BA030": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_101B9BC0@@QAEIH@Z (0x101B9BC0), the game 0x7ADEFE44",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101BA180": {
   "verdict": "NO_COMPILE",
@@ -9990,13 +10243,13 @@
   "size": 48
  },
  "0x101BA2D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BA300": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BA570": {
@@ -10070,29 +10323,32 @@
   "conv": "__stdcall"
  },
  "0x101BB1A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BB430": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?FUN_1022AFF0@@YAIH@Z (0x1022AFF0), the game 0x0BB89CA8",
+  "conv": "__stdcall",
+  "size": 112
  },
  "0x101BB4B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+21: REL32 targets ?f@FUNt_101549E0@@QAEIXZ (0x101549E0), the game 0xA5319CDD",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x101BB740": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BB9E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x101BBE50": {
   "verdict": "DIFFERS",
@@ -10101,28 +10357,29 @@
   "size": 16
  },
  "0x101BBE60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BC100": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BC6F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_101BB070@@QAEHH@Z (0x101BB070), the game 0x54E1C8FE",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101BC720": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BC900": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101BC9B0": {
@@ -10132,9 +10389,10 @@
   "size": 16
  },
  "0x101BC9E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?FUN_101907A0@@YAXPAXI@Z (0x101907A0), the game 0x632C01B9",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101BCA40": {
   "verdict": "DIFFERS",
@@ -10187,19 +10445,22 @@
   "size": 16
  },
  "0x101BE2C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101BE330": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101BE3A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101BE410": {
   "verdict": "DIFFERS",
@@ -10208,9 +10469,10 @@
   "size": 16
  },
  "0x101BE470": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets ?FUN_10311FDE@@YAIHPAI@Z (0x10311FDE), the game 0x4306F4DC",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x101BE500": {
   "verdict": "IDENTICAL",
@@ -10237,14 +10499,16 @@
   "size": 32
  },
  "0x101BE6C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+5: REL32 targets ?f@FUNt_10312487@@QAEIXZ (0x10312487), the game 0x54A90BB5",
+  "conv": "__stdcall",
+  "size": 96
  },
  "0x101C2D80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C33E0": {
   "verdict": "IDENTICAL",
@@ -10295,69 +10559,82 @@
   "size": 32
  },
  "0x101C46E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4740": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101C4790": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C47A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C47B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4820": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101C48E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C48F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4900": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4920": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4940": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4950": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4990": {
   "verdict": "IDENTICAL",
@@ -10366,44 +10643,52 @@
   "size": 16
  },
  "0x101C49A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C49E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C49F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4A10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4A30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4A80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4A90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4AA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4AC0": {
   "verdict": "DIFFERS",
@@ -10418,29 +10703,34 @@
   "size": 16
  },
  "0x101C4AF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101C4B40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4B60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4B70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4BF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4C20": {
   "verdict": "DIFFERS",
@@ -10449,14 +10739,16 @@
   "size": 16
  },
  "0x101C4C70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4CC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4CD0": {
   "verdict": "IDENTICAL",
@@ -10465,9 +10757,10 @@
   "size": 16
  },
  "0x101C4CE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C4CF0": {
   "verdict": "DIFFERS",
@@ -10494,19 +10787,22 @@
   "size": 16
  },
  "0x101C5920": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x101C5930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101C59B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: 0x02 here, 0x10 in the game",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101C5A30": {
   "verdict": "IDENTICAL",
@@ -10515,14 +10811,16 @@
   "size": 16
  },
  "0x101C5A40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: 0x83 here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101C5EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?f@FUNt_101C6960@@QAEXHH@Z (0x101C6960), the game 0x1026D9CD",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101C60C0": {
   "verdict": "IDENTICAL",
@@ -10548,28 +10846,30 @@
   "size": 48
  },
  "0x101C80A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101C80C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x101C8260": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101C8290": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101C8380": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101C87A0": {
@@ -10635,9 +10935,10 @@
   "size": 48
  },
  "0x101C9D50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?FUN_101C8C30@@YAIH@Z (0x101C8C30), the game 0xD9A09800",
+  "conv": "__cdecl",
+  "size": 640
  },
  "0x101CAEC0": {
   "verdict": "DIFFERS",
@@ -10688,9 +10989,10 @@
   "size": 64
  },
  "0x101CB770": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+28: 0x24 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x101CC070": {
   "verdict": "DIFFERS",
@@ -10753,8 +11055,8 @@
   "size": 48
  },
  "0x101CF660": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101CF820": {
@@ -10770,8 +11072,8 @@
   "size": 32
  },
  "0x101D0880": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101D09C0": {
@@ -10781,14 +11083,16 @@
   "size": 32
  },
  "0x101D0A20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?f@FUNt_101D09C0@@QAEXH@Z (0x101D09C0), the game 0x10038C32",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101D0A40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_101D09C0@@QAEXH@Z (0x101D09C0), the game 0x3461964C",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x101D0AB0": {
   "verdict": "LEFT_OUT",
@@ -10801,28 +11105,32 @@
   "conv": "__cdecl"
  },
  "0x101D1000": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+13: REL32 targets ?FUN_1002C890@@YAIH@Z (0x1002C890), the game 0x14E19410",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x101D10C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets ?f@FUNt_101C49A0@@QAEIIIIH@Z (0x101C49A0), the game 0x0F55BBDD",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x101D1100": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets _FUN_10015600 (0x10015600), the game 0x00A8780D",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x101D1180": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets ?f@FUNt_101C4950@@QAEIIIIH@Z (0x101C4950), the game 0x0F54AC9D",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x101D11C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x101D29C0": {
@@ -10838,28 +11146,32 @@
   "size": 48
  },
  "0x101D3DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+14: 0x79 here, 0x71 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101D5680": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_101D30F0@@QAEIXZ (0x101D30F0), the game 0x3F05A78E",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101D7C10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: 0xC7 here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101D87A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101D9B10": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101D9E90": {
@@ -10869,14 +11181,15 @@
   "size": 48
  },
  "0x101DC460": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101DCE20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_10126320@@QAEIXZ (0x10126320), the game 0x771D022E",
+  "conv": "__thiscall",
+  "size": 208
  },
  "0x101DD000": {
   "verdict": "IDENTICAL",
@@ -10885,9 +11198,10 @@
   "size": 64
  },
  "0x101DDA70": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101DDF90": {
   "verdict": "NO_COMPILE",
@@ -10900,18 +11214,18 @@
   "conv": "__thiscall"
  },
  "0x101DEDC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101DF210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101E0A90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101E15F0": {
@@ -10932,8 +11246,8 @@
   "size": 32
  },
  "0x101E3F50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101E48F0": {
@@ -10943,8 +11257,8 @@
   "size": 48
  },
  "0x101E4A20": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101E51B0": {
@@ -10966,24 +11280,26 @@
   "size": 64
  },
  "0x101E6FB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101EB390": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101EB7E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101EBE00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_101F67C0@@QAEPAXH@Z (0x101F67C0), the game 0x5825850D",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101EC0D0": {
   "verdict": "IDENTICAL",
@@ -10992,8 +11308,8 @@
   "size": 64
  },
  "0x101ED450": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101EFCA0": {
@@ -11009,13 +11325,13 @@
   "size": 32
  },
  "0x101F17C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101F43F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101F67C0": {
@@ -11073,8 +11389,8 @@
   "size": 64
  },
  "0x101F86C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101F92B0": {
@@ -11084,14 +11400,15 @@
   "size": 48
  },
  "0x101F9370": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101FB710": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: 0xB8 here, 0x83 in the game",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101FC2C0": {
   "verdict": "IDENTICAL",
@@ -11100,13 +11417,14 @@
   "size": 48
  },
  "0x101FCBC0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: 0x89 here, 0x83 in the game",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x101FD000": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101FE430": {
@@ -11115,28 +11433,30 @@
   "conv": "__thiscall"
  },
  "0x101FF000": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10200B60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10201020": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+29: 0x75 here, 0x74 in the game",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10201130": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x102017A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10201C90": {
@@ -11176,9 +11496,10 @@
   "size": 48
  },
  "0x10202D80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+156: REL32 targets ?f@FUNt_1015E830@@QAE_KH@Z (0x1015E830), the game 0x4C10BA1F",
+  "conv": "__cdecl",
+  "size": 384
  },
  "0x102033C0": {
   "verdict": "DIFFERS",
@@ -11229,8 +11550,8 @@
   "size": 64
  },
  "0x10207730": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10208500": {
@@ -11239,18 +11560,19 @@
   "conv": "__thiscall"
  },
  "0x10209300": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10209B90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1020B500": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1020BA40": {
@@ -11259,14 +11581,15 @@
   "conv": "__thiscall"
  },
  "0x1020BE90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1020C470": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x1020CC30": {
   "verdict": "IDENTICAL",
@@ -11275,19 +11598,21 @@
   "size": 48
  },
  "0x1020ED00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10210310": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10210D60": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10210DA0": {
   "verdict": "DIFFERS",
@@ -11297,7 +11622,7 @@
  },
  "0x10210E30": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_SelectEntry",
   "conv": "__thiscall"
  },
  "0x10210FC0": {
@@ -11306,8 +11631,8 @@
   "conv": "__thiscall"
  },
  "0x102112B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10211340": {
@@ -11334,9 +11659,10 @@
   "size": 240
  },
  "0x1021BB90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14E63EA6",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x1021BC20": {
   "verdict": "NO_COMPILE",
@@ -11361,14 +11687,16 @@
   "size": 48
  },
  "0x1021C070": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+119: REL32 targets ?f@FUNt_1021BE50@@QAEIHPAX@Z (0x1021BE50), the game 0x6077CA5F",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x1021C160": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+76: 0x24 here, 0xB0 in the game",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1021C1B0": {
   "verdict": "DIFFERS",
@@ -11377,19 +11705,22 @@
   "size": 96
  },
  "0x1021C210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?f@FUNt_1015BC40@@QAEHI@Z (0x1015BC40), the game 0x0A14AA5C",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x1021C2E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_1021D270@@QAEIXZ (0x1021D270), the game 0x103129F1",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x1021C350": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+35: 0x24 here, 0x5F in the game",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1021C5B0": {
   "verdict": "DIFFERS",
@@ -11415,19 +11746,22 @@
   "size": 32
  },
  "0x1021D2D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+72: REL32 targets ?f@FUNt_1015BC40@@QAEHI@Z (0x1015BC40), the game 0xD0543223",
+  "conv": "__thiscall",
+  "size": 192
  },
  "0x1021D380": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+35: 0x24 here, 0xB0 in the game",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1021D930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1021D980": {
   "verdict": "DIFFERS",
@@ -11448,9 +11782,10 @@
   "size": 32
  },
  "0x1021DE90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_1025FD50@@QAEPAXPAIHI0@Z (0x1025FD50), the game 0xD954DEB0",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x1021E060": {
   "verdict": "LEFT_OUT",
@@ -11464,9 +11799,10 @@
   "size": 80
  },
  "0x1021E4D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets ?f@FUNt_10120450@@QAE_KH@Z (0x10120450), the game 0x14E868ED",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x1021E500": {
   "verdict": "DIFFERS",
@@ -11493,9 +11829,10 @@
   "size": 32
  },
  "0x1021E760": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+21: REL32 targets ?FUN_10311BBB@@YA_KI@Z (0x10311BBB), the game 0x56AB3E79",
+  "conv": "__thiscall",
+  "size": 208
  },
  "0x1021E870": {
   "verdict": "DIFFERS",
@@ -11551,9 +11888,10 @@
   "conv": "__stdcall"
  },
  "0x1021F410": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+94: REL32 targets ?FUN_1021F480@@YGXH@Z (0x1021F480), the game 0x102EDD41",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1021FA90": {
   "verdict": "DIFFERS",
@@ -11568,9 +11906,10 @@
   "size": 80
  },
  "0x102201A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+30: 0x6A here, 0x8B in the game",
+  "conv": "__stdcall",
+  "size": 80
  },
  "0x10220C20": {
   "verdict": "DIFFERS",
@@ -11579,8 +11918,8 @@
   "size": 192
  },
  "0x10220C80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10220CF0": {
@@ -11625,18 +11964,20 @@
   "size": 16
  },
  "0x102217C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10221900": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10222960": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10222C10": {
@@ -11646,9 +11987,10 @@
   "size": 144
  },
  "0x10222C90": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+315: REL32 targets ?f@FUNt_10225120@@QAEHIHI@Z (0x10225120), the game 0x5F0A3E35",
+  "conv": "__cdecl",
+  "size": 352
  },
  "0x10222DF0": {
   "verdict": "DIFFERS",
@@ -11668,14 +12010,15 @@
   "size": 144
  },
  "0x102238E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10223930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_102239A0@@QAEPAXXZ (0x102239A0), the game 0x7690E15F",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x102239A0": {
   "verdict": "IDENTICAL",
@@ -11684,8 +12027,8 @@
   "size": 32
  },
  "0x10223BB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10223E60": {
@@ -11707,14 +12050,15 @@
   "size": 96
  },
  "0x10226080": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10226180": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_102261F0@@QAEPAXXZ (0x102261F0), the game 0x7693A1AF",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x102261F0": {
   "verdict": "IDENTICAL",
@@ -11723,9 +12067,10 @@
   "size": 32
  },
  "0x10226210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x76502E2F",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x10226540": {
   "verdict": "DIFFERS",
@@ -11740,14 +12085,15 @@
   "size": 32
  },
  "0x10226C80": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10227080": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x102271B0": {
   "verdict": "IDENTICAL",
@@ -11756,14 +12102,16 @@
   "size": 32
  },
  "0x102271D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_101C59B0@@QAEXH@Z (0x101C59B0), the game 0xF85CDCE4",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x10227750": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x14E6FA5D",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x102278B0": {
   "verdict": "IDENTICAL",
@@ -11784,8 +12132,8 @@
   "size": 80
  },
  "0x10229430": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10229670": {
@@ -11800,9 +12148,10 @@
   "conv": "__thiscall"
  },
  "0x1022AFB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets _FUN_10153FF0 (0x10153FF0), the game 0x6026D3F9",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x1022AFF0": {
   "verdict": "IDENTICAL",
@@ -11811,8 +12160,8 @@
   "size": 32
  },
  "0x1022B080": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1022B260": {
@@ -11850,14 +12199,15 @@
   "conv": "__cdecl"
  },
  "0x1022BD50": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1022BDA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_1022BE10@@QAEPAXXZ (0x1022BE10), the game 0x769D21CF",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x1022BE10": {
   "verdict": "IDENTICAL",
@@ -11866,13 +12216,13 @@
   "size": 32
  },
  "0x1022BF00": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1022BFB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1022C350": {
@@ -11899,9 +12249,10 @@
   "size": 16
  },
  "0x1022ED30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1022ED70": {
   "verdict": "DIFFERS",
@@ -11910,9 +12261,10 @@
   "size": 128
  },
  "0x1022F240": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x346F7D53",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x1022F610": {
   "verdict": "IDENTICAL",
@@ -11955,8 +12307,8 @@
   "size": 32
  },
  "0x102380A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x102388C0": {
@@ -11965,14 +12317,15 @@
   "conv": "__thiscall"
  },
  "0x10238B30": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10239170": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10239460": {
   "verdict": "IDENTICAL",
@@ -11998,9 +12351,10 @@
   "size": 16
  },
  "0x1023D610": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1023E4B0": {
   "verdict": "NO_COMPILE",
@@ -12013,8 +12367,8 @@
   "conv": "__thiscall"
  },
  "0x1023F890": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10244F20": {
@@ -12036,9 +12390,10 @@
   "size": 16
  },
  "0x10245600": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_10039440@@QAEPAXXZ (0x10039440), the game 0x7A24C0DC",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10245B50": {
   "verdict": "IDENTICAL",
@@ -12059,9 +12414,10 @@
   "size": 48
  },
  "0x10245BE0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
  },
  "0x10245F30": {
   "verdict": "IDENTICAL",
@@ -12076,8 +12432,8 @@
   "size": 32
  },
  "0x10246030": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10246160": {
@@ -12134,9 +12490,10 @@
   "size": 400
  },
  "0x1024C210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?f@FUNt_10126320@@QAEIXZ (0x10126320), the game 0x9DFFF61F",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x1024C930": {
   "verdict": "IDENTICAL",
@@ -12157,7 +12514,7 @@
  },
  "0x1024D180": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for StAvatar_SetStopped",
   "conv": "__cdecl"
  },
  "0x1024D2C0": {
@@ -12196,9 +12553,10 @@
   "size": 80
  },
  "0x1024D610": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 160
  },
  "0x1024D6B0": {
   "verdict": "DIFFERS",
@@ -12212,13 +12570,13 @@
   "conv": "__cdecl"
  },
  "0x1024D790": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1024DB60": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
   "conv": "__cdecl"
  },
  "0x1024E720": {
@@ -12318,13 +12676,14 @@
   "size": 32
  },
  "0x10251180": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x952508D6",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10251200": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_102857e0",
   "conv": "__cdecl"
  },
  "0x102512B0": {
@@ -12357,38 +12716,44 @@
  },
  "0x10251500": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
   "conv": "__thiscall"
  },
  "0x102515F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10251620": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+96: REL32 targets ?f@FUNt_10251920@@QAEXH@Z (0x10251920), the game 0x20E77484",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x102516B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+42: REL32 targets ?FUN_1024D180@@YAIPAIHI@Z (0x1024D180), the game 0x94251698",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10251720": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?FUN_102507C0@@YAIPAIH@Z (0x102507C0), the game 0x94251734",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10251750": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?FUN_10250800@@YAIPAEH@Z (0x10250800), the game 0x94251764",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10251890": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+41: REL32 targets ?FUN_10250B10@@YAIPAIHI@Z (0x10250B10), the game 0x610D2923",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10251920": {
   "verdict": "IDENTICAL",
@@ -12421,7 +12786,7 @@
  },
  "0x102524E0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
   "conv": "__cdecl"
  },
  "0x102528D0": {
@@ -12436,9 +12801,10 @@
   "size": 64
  },
  "0x10252A40": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+27: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x2FF51260",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10252AC0": {
   "verdict": "NO_COMPILE",
@@ -12476,9 +12842,10 @@
   "size": 96
  },
  "0x10253160": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+35: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x073DDA6F",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x102531B0": {
   "verdict": "DIFFERS",
@@ -12487,9 +12854,10 @@
   "size": 80
  },
  "0x10253210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: 0x8D here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x102532A0": {
   "verdict": "DIFFERS",
@@ -12622,8 +12990,8 @@
   "size": 16
  },
  "0x10257850": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10257870": {
@@ -12633,24 +13001,27 @@
   "size": 64
  },
  "0x102578B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets ?FUN_102577C0@@YAPAEHIII@Z (0x102577C0), the game 0x602D9D2F",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x10257920": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?f@FUNt_10257870@@QAEHI@Z (0x10257870), the game 0x6077815F",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x10257950": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10257980": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x102579B0": {
   "verdict": "LEFT_OUT",
@@ -12687,14 +13058,16 @@
   "size": 16
  },
  "0x10257BD0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10257BF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+54: 0x74 here, 0x76 in the game",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x10257C60": {
   "verdict": "IDENTICAL",
@@ -12744,8 +13117,8 @@
   "conv": "__cdecl"
  },
  "0x102586D0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x102586F0": {
@@ -12755,8 +13128,8 @@
   "size": 16
  },
  "0x10258740": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10258990": {
@@ -12835,18 +13208,18 @@
   "conv": "__stdcall"
  },
  "0x10259180": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x102593F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10259460": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025A580": {
@@ -12856,14 +13229,16 @@
   "size": 32
  },
  "0x1025A5A0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?f@FUNt_10257950@@QAEIH@Z (0x10257950), the game 0x118FAE3D",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x1025A610": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_10257950@@QAEIH@Z (0x10257950), the game 0x84E62B34",
+  "conv": "__cdecl",
+  "size": 192
  },
  "0x1025A6C0": {
   "verdict": "DIFFERS",
@@ -12872,9 +13247,10 @@
   "size": 48
  },
  "0x1025A6F0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_10257950@@QAEIH@Z (0x10257950), the game 0x2062E388",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x1025A730": {
   "verdict": "DIFFERS",
@@ -12906,13 +13282,14 @@
   "conv": "__stdcall"
  },
  "0x1025A8C0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+35: REL32 targets ?FUN_1011DA80@@YAIPAD@Z (0x1011DA80), the game 0x94259518",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x1025A930": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025AA90": {
@@ -12922,28 +13299,29 @@
   "size": 16
  },
  "0x1025AAA0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025AEF0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025AFB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025B100": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets ?f@FUNt_1025A860@@QAEXI@Z (0x1025A860), the game 0x115F350D",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1025B1E0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1025B4F0": {
@@ -12998,8 +13376,8 @@
   "size": 64
  },
  "0x1025BFB0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1025C0F0": {
@@ -13082,23 +13460,24 @@
   "size": 16
  },
  "0x10261210": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_102659B0@@QAEPAXIPAX@Z (0x102659B0), the game 0x106D9E0C",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x102659B0": {
-  "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1026CCA5": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026D0CA": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026D179": {
@@ -13120,32 +13499,32 @@
  },
  "0x1026DB6D": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026DB8F": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026DBAC": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026DBCE": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026DBF0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026DC0D": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10316d6b",
   "conv": "__cdecl"
  },
  "0x1026E400": {
@@ -13172,7 +13551,7 @@
  },
  "0x1026ECC0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x1026EE00": {
@@ -13600,7 +13979,7 @@
  },
  "0x10275E90": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x102760F0": {
@@ -13631,7 +14010,7 @@
  },
  "0x10277AB0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10277B70": {
@@ -13641,7 +14020,7 @@
  },
  "0x10278490": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10278710": {
@@ -13651,22 +14030,22 @@
  },
  "0x10278990": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10278B50": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10278BF0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10278E10": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10279530": {
@@ -13732,7 +14111,7 @@
  },
  "0x10279BF0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10279D50": {
@@ -13932,7 +14311,7 @@
  },
  "0x1027E490": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_102857e0",
   "conv": "__cdecl"
  },
  "0x1027EAF0": {
@@ -14333,12 +14712,12 @@
  },
  "0x102851C0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x102852E0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10285740": {
@@ -14402,17 +14781,17 @@
  },
  "0x10288E60": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10288FF0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x102894E0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x102896A0": {
@@ -14457,7 +14836,7 @@
  },
  "0x1028A0F0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for FUN_10292130",
   "conv": "__cdecl"
  },
  "0x1028A150": {
@@ -14664,17 +15043,17 @@
  },
  "0x10290610": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x102907C0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10290840": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10290FC0": {
@@ -14913,17 +15292,17 @@
  },
  "0x10299C30": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10299E40": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10299EE0": {
   "verdict": "LEFT_OUT",
-  "why": "XI_ANY parameter",
+  "why": "no wrapper for sqDebugPrintf_v1",
   "conv": "__cdecl"
  },
  "0x10299FE0": {

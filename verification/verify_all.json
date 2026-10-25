@@ -202,25 +202,24 @@
   "n_differing": 0
  },
  "facts:reg_leftover_audit.json": {
-  "ok": false,
-  "differing": [
-   "<whole file>"
-  ],
-  "n_differing": 1
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 3621,
+  "wrappers": 3792,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
    "0x10047F80 CMoGeneratorClone_VT_1032B114_Constructor __thiscall reads EDX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
-   "0x1006CB50 CreateProcessorInstance __cdecl reads EDX"
+   "0x1006CB50 CreateProcessorInstance __cdecl reads EDX",
+   "0x10150CC0 Unit1012AC80_SetTextFwd_v1 __stdcall reads ECX"
   ]
  },
  "agreement": {
   "ok": true,
-  "calls_with_two_or_more_sources": 364,
+  "calls_with_two_or_more_sources": 374,
   "conflicts": {}
  },
  "rule-tests": {
@@ -268,7 +267,7 @@
  },
  "hx_patches": {
   "ok": true,
-  "patches": 27,
+  "patches": 29,
   "stale": [],
   "without_evidence": []
  },
@@ -313,11 +312,16 @@
   "sha1": "73e5a5463aeaa18ebf5a0c15738540b398f8ca67",
   "expected": "73e5a5463aeaa18ebf5a0c15738540b398f8ca67"
  },
+ "tree-source:data/exports/ghidra_frameset11.jsonl": {
+  "ok": true,
+  "sha1": "911a0575f762279f8cd08b35011e1e2ec82789e7",
+  "expected": "911a0575f762279f8cd08b35011e1e2ec82789e7"
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 419 files; failed: none"
+   "built build/gfx_recon.dll from 391 files; failed: none"
   ]
  },
  "tree-gate": {

@@ -1,0 +1,80 @@
+{
+ "0x1028E1B0": {
+  "name": "SqsnScene_Free",
+  "confidence": "medium",
+  "evidence": "releases the fade-mask target g_sceneFadeMaskRT (0x10281A70), then sqFree's the camera array +0x18, the light arrays +0x24/+0x28, every layer's items (their objects through 0x10285740 and blocks +0x14), the layers' arrays and +0x48, and the shadow entries' arrays and +0x40 (sqsnScene.c lines 0x5D..0x7D); scnFini calls it on the scene 0x1099B13C",
+  "summary": "Frees a scene's cameras, lights, layers and shadow entries."
+ },
+ "0x1028E350": {
+  "name": "SqsnScene_Init",
+  "confidence": "medium",
+  "evidence": "sets the type code 0x100001, the callbacks 0x1028E170, 0x1028E180 and sqsnScenePrint, clears the counts and arrays, +0x38 to 1.0, +0x30 to 0x100, +0x2C to 1, and initialises the texture at +0x4C (SqrdTexture_Init)",
+  "summary": "Initialises a sqsnScene object's header, callbacks and empty arrays."
+ },
+ "0x1028ED00": {
+  "name": "SqsnScene_AddCamera",
+  "confidence": "low",
+  "evidence": "grows the 12-byte array at +0x18 (count +0x14, sqsnScene.c line 0x186) and stores the two arguments in the new entry; returns its index; fn_10270B60 passes a sqrdCamera and its transform",
+  "summary": "Adds a camera and its transform to a scene and returns its index."
+ },
+ "0x1028ED50": {
+  "name": "SqsnScene_AddLight",
+  "confidence": "low",
+  "evidence": "grows the 12-byte array +0x24 and the byte array +0x28 (count +0x20), stores the two arguments and the enabled byte 1; returns the index; fn_10270B60 passes a sqrdLight and its transform",
+  "summary": "Adds an enabled light and its transform to a scene and returns its index."
+ },
+ "0x1028EDE0": {
+  "name": "SqsnScene_LayerAddItem",
+  "confidence": "low",
+  "evidence": "grows the layer array +0x48 to arg5+1 layers (new ones through 0x1028EFB0), then appends a 0x90-byte item to layer arg5 (+0x28) and its index to +0x24, filling it with arg2, arg3, arg4 and defaults; returns layer<<16 | item",
+  "summary": "Adds an item to a scene layer, creating the layer if needed, and returns its id."
+ },
+ "0x1028EFB0": {
+  "name": "SqsnScene_LayerInit",
+  "confidence": "low",
+  "evidence": "clears a 0x2C-byte layer, with +0x10 = 8, +0x18 = 1 and +0x14 = 1.0",
+  "summary": "Initialises one scene layer to its defaults."
+ },
+ "0x1028F130": {
+  "name": "SqsnScene_AddShadow",
+  "confidence": "low",
+  "evidence": "grows the 0x30-byte array +0x40 (count +0x34, sqsnScene.c line 0x242) and fills the new entry with arg2 and defaults (+0xC -1, +0x18 2.0, +0x1C 0.8, +0x20 0x100, +0x2C 4); returns its index; the shadow entry sqsnSceneShadowPeallocate fills",
+  "summary": "Adds a shadow entry to a scene and returns its index."
+ },
+ "0x1028F3C0": {
+  "name": "SqsnScene_ShadowAddMember",
+  "confidence": "low",
+  "evidence": "appends arg3 to the dword list +8 (count +4) of shadow entry arg2",
+  "summary": "Adds a member to a shadow entry's list."
+ },
+ "0x1028F6E0": {
+  "name": "SqsnScene_SetupLayerLights",
+  "confidence": "low",
+  "evidence": "for each enabled light of the layer (the shadow entries' lights from +0x48, then +0x24), counted separately by kind (+0x30 == 0) up to 4 each, selects the slot (SqgxContext_SetCurrentIndex), applies the light (fn_1026E3D0), its transposed matrix and +0x24 value, and turns the slot on (0x10283300(1)); turns the unused slots off",
+  "summary": "Loads up to four lights of each kind for a layer into the rendering context."
+ },
+ "0x1028FF80": {
+  "name": "SqsnScene_DrawFadeSprite",
+  "confidence": "low",
+  "evidence": "with Z test off draws to the texture +0x60, sets the previous target as texture and draws a 256x256 sprite (sqgxSprite) back, then restores the target and Z test",
+  "summary": "Copies the current target into the scene's +0x60 texture through a full sprite."
+ },
+ "0x10290610": {
+  "name": "SqsnScene_Preallocate",
+  "confidence": "high",
+  "evidence": "its errors are \"Error: sqsnScenePreallocate() ...\" (0x103BAAE0..0x103BA9C8); allocates the camera, light, layer and shadow arrays for the given counts",
+  "summary": "Preallocates a scene's camera, light, layer and shadow arrays."
+ },
+ "0x102907C0": {
+  "name": "SqsnScene_LayerPreallocate",
+  "confidence": "high",
+  "evidence": "its error is \"Error: sqsnSceneLayerPreallocate...\" (0x103BAB28); allocates arg3 items (0x90 bytes) and indices for layer arg2",
+  "summary": "Preallocates the items of one scene layer."
+ },
+ "0x10290840": {
+  "name": "SqsnScene_ShadowPreallocate",
+  "confidence": "high",
+  "evidence": "its error is \"Error: sqsnSceneShadowPeallocate...\" (0x103BAB70); allocates arg3 dwords for the member list of shadow entry arg2",
+  "summary": "Preallocates the member list of one shadow entry."
+ }
+}

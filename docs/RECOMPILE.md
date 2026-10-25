@@ -53,10 +53,10 @@ byte for byte and each call by its target:
 
 | verdict | functions |
 |---|---|
-| IDENTICAL | **953** (418 of them make calls, every call's target the game's; no relocation left uncompared) |
-| DIFFERS | 974 |
-| NO_COMPILE | 432 (the converted source does not compile) |
-| LEFT_OUT | 365 (170 global type the shim lacks, 44 no wrapper for sqDebugPrintf_v1, 12 thiscall without self_ first, 10 no wrapper for Unit100D7420_TestCommand36CF60) |
+| IDENTICAL | **1006** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
+| DIFFERS | 1115 |
+| NO_COMPILE | 243 (the converted source does not compile) |
+| LEFT_OUT | 360 (167 global type the shim lacks, 44 no wrapper for sqDebugPrintf_v1, 14 thiscall without self_ first, 10 no wrapper for Unit100D7420_TestCommand36CF60) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
 instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different

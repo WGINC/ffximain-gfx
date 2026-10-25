@@ -17,7 +17,8 @@ outside a relocation, each call's target by the address its callee's name carrie
 Nothing else is changed: the point is what the tree's code compiles to, not a source tuned to match.
 
     FFXI_DLL=... VC6=... python3 pipeline/vc6/sweep.py OUT.json [--flags "/O2"] [--keep DIR] [--only 0xADDR,...]
-OUT.json: {"0xADDR": {"verdict": IDENTICAL | DIFFERS | NO_COMPILE | LEFT_OUT (not converted, with why), "why", "conv"}}."""
+OUT.json: {"0xADDR": {"verdict": IDENTICAL | IDENTICAL_UNCOMPARED (equal bytes, but a relocation's target could not be
+compared: its symbol names no address) | DIFFERS | NO_COMPILE | LEFT_OUT (not converted, with why), "why", "conv"}}."""
 import argparse, glob, json, os, re, shutil, subprocess, sys, tempfile
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..', '..'); sys.path.insert(0, P)
 import match as M
@@ -28,16 +29,33 @@ typedef unsigned int uint32_t; typedef int int32_t; typedef unsigned __int64 uin
 typedef unsigned char undefined, undefined1, byte, uchar; typedef unsigned short undefined2, ushort, word;
 typedef unsigned int undefined4, uint, dword; typedef unsigned __int64 undefined8; typedef unsigned long ulong;
 typedef unsigned int size_t; typedef int BOOL;
+typedef void *LPVOID; typedef unsigned long DWORD; typedef unsigned int _DWORD; typedef unsigned short _WORD;
+typedef unsigned char _BYTE;
+#ifndef __cplusplus
+typedef unsigned char bool;
+#define true 1
+#define false 0
+typedef int code();              /* Ghidra's code: a function of any arguments */
+#else
+typedef int code(...);
+#endif
+/* the decompiler's helpers, as tree/include/xi_ghidra.hpp defines them */
+#define NAN(x) ((x) != (x))
+#define CONCAT31(h, l) ((uint32_t)(((uint32_t)(h) << 8) | (uint8_t)(l)))
+#define xi_sw(x) ((uint32_t)(x))
+double __cdecl sqrt(double);
+#define SQRT(x) sqrt(x)
 '''
 SIG = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
 
 
 ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ (?:return )?reinterpret_cast<(?P<rt>.+?) '
                   r'\((?P<cc>__\w+) \*\)\((?P<types>[^)]*)\)>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
-GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
+GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
-         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool'}
+         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool', 'code',
+         'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE'}
 
 
 def plain(ty):
@@ -129,7 +147,8 @@ def convert(m, src, orig=None, glob_=None):
         for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_)):
             gd = glob_[g]
             if not plain(gd['type']): return None, 'global type the shim lacks'
-            pre.append('#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr']))
+            if gd.get('arr'): pre.append('#define %s (*(%s (*)%s)%su)' % (g, gd['type'], gd['arr'], gd['addr']))
+            else: pre.append('#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr']))
         if 'orig::' in body:
             nb, d = rewrite_calls(body, orig, c_mode=cc != '__thiscall')
             cc_cpp = nb is None or cc == '__thiscall'
@@ -179,6 +198,7 @@ def main():
             if len(funcs) != 1: res[key] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(funcs), 'conv': cc}; continue
             (sym, (code, rels)), = funcs.items()
             v, why, notes = M.compare(img, ext, ea, code, rels, {})
+            if v == 'IDENTICAL' and notes: v, why = 'IDENTICAL_UNCOMPARED', '; '.join(notes)   # a relocation not checked
             res[key] = {'verdict': v, 'why': why, 'conv': cc, 'size': len(code)}
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)
     import collections

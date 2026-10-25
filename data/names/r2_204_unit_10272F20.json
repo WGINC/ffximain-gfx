@@ -1,0 +1,26 @@
+{
+ "0x102733B0": {
+  "name": "Unit10272F20_SelectCamera",
+  "confidence": "low",
+  "evidence": "stores the previous index (0x1099B0F4) in 0x1099B12C and the new one in 0x1099B0F4/0x1099B130; with a blend time (0x1099B138) > 0 sets flag 0x100 of 0x1099B0D8, resets the blend clock 0x1099B134 and copies entry 6 from the previous one (0x10273490); otherwise at once points the scene 0x1099B13C at the entry's camera (SqsnScene_SetCursorIfInRange, 0x1028EC30 for 4 layers)",
+  "summary": "Switches the avatar scene to another camera entry, blending over time when a blend time is set."
+ },
+ "0x10273490": {
+  "name": "Unit10272F20_SetCameraEntry",
+  "confidence": "low",
+  "evidence": "for entry arg1 (or the current 0x1099B0F4 when -1) copies 8 dwords from +0x14 of arg2 into the 0x34-byte camera table at 0x1099B1D0 and the matrix, vector, quaternion (Unit1027A4B0_Copy) and +0x78 of arg3 into the 0x7C-byte transform table at 0x1099B33C, then sqxfXformTD_Update(arg3)",
+  "summary": "Copies a camera's values and transform into one entry of the avatar scene's camera tables."
+ },
+ "0x10273560": {
+  "name": "Unit10272F20_UpdateCameraBlend",
+  "confidence": "low",
+  "evidence": "advances the blend clock 0x1099B134 by arg*constant; while below the blend time, mixes the old and new entries' field, +0x78 value, vector (Unit10274050_LerpFactor) and quaternion (0x1027B2C0) with the cosine factor (cos(t/T*pi)+1)/2 into the transform at 0x1099B624; when done, points the scene at the new camera and clears flag 0x100; called by fn_10270F30 when that flag is set",
+  "summary": "Advances the blend between the previous and the new camera entry, and finishes the switch at the end."
+ },
+ "0x102736E0": {
+  "name": "Unit10272F20_ApplySceneToModel",
+  "confidence": "low",
+  "evidence": "applies the scene 0x1099B13C to the model arg1 with layer arg2 (0x10278710, 0x10278E10 with arg2 == 2, 0x10278B50 with the current entry 0x1099B100), selects index 4 (StAvatar_SelectIndex), then for the five lights at 0x1099BB74 calls 0x10278990 with 0xFF for the one matching the current entry and 0 for the others",
+  "summary": "Applies the avatar scene's layer and lights to a model."
+ }
+}

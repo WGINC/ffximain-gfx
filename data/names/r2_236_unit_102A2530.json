@@ -1,0 +1,14 @@
+{
+ "0x102A2720": {
+  "name": "Unit102A2530_RenderShadowTexture",
+  "confidence": "low",
+  "evidence": "creates once a square texture (sqgxTextureAdd, kept in 0x103BD524), makes it the draw target, clears it to 1.0, sets a perspective and camera from the layer's light entry, turns Z off and draws each enabled shape in the colour, then restores Z and the previous target; called by sqsnSceneLayerDrawShadowed",
+  "summary": "Draws a layer's shapes into a shadow texture from the light's view."
+ },
+ "0x102A2C00": {
+  "name": "Unit102A2530_DrawShadowedShape",
+  "confidence": "low",
+  "evidence": "prepares the layer entry (sqsnScene_1028F5F0), sets the shadow texture (Sqgx_SetTextureAt or Sqgx_CheckShadowGroupMember), draws the drawable with zero/src-alpha blending, Z bias +0x14 and Z writes off with shader 0x20000000, then restores them; called by sqsnSceneLayerDrawShadowed",
+  "summary": "Draws a shape with the shadow texture blended over it."
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "0x10017D20": {
+  "name": "Unit10017C10_NoOpVarargsA",
+  "confidence": "medium",
+  "evidence": "variadic, returns at once; called from 42 places including CDx_Present",
+  "summary": "Takes any arguments and does nothing."
+ },
+ "0x10017D30": {
+  "name": "Unit10017C10_NoOpVarargsB",
+  "confidence": "medium",
+  "evidence": "variadic, returns at once; called from 23 places",
+  "summary": "Takes any arguments and does nothing."
+ },
+ "0x10018180": {
+  "name": "Unit10017C10_RegisterCallback",
+  "confidence": "low",
+  "evidence": "keeps its first argument in 0x10456C14 the first time, then calls 0x10113CA0(arg, 0x10018280, [0x10456C14]); on a result >= 1 sets byte 0x10456D17, else calls 0x100181D0(arg, 0)",
+  "summary": "Registers the callback 0x10018280 and records whether it succeeded."
+ },
+ "0x10018270": {
+  "name": "Unit10017C10_IsRegistered",
+  "confidence": "low",
+  "evidence": "returns byte 0x10456D17 in AL, the flag Unit10017C10_RegisterCallback sets",
+  "summary": "Reports whether the callback registration succeeded."
+ },
+ "0x100182C0": {
+  "name": "Unit10017C10_Call10114F10NoArgs",
+  "confidence": "low",
+  "evidence": "calls 0x10114F10 (through 0x10018300) with its argument, 0 and 0",
+  "summary": "Calls 0x10114F10 with one argument and two zeros."
+ },
+ "0x10018300": {
+  "name": "Unit10017C10_Thunk10114F10",
+  "confidence": "medium",
+  "evidence": "forwards its three arguments to 0x10114F10",
+  "summary": "Forwards to 0x10114F10."
+ },
+ "0x10018350": {
+  "name": "Unit10017C10_CtorVt10329F88",
+  "confidence": "low",
+  "evidence": "constructs the sub-object at +4 (vtable 0x10337C64), sets vtable 0x10329F88, clears +8 and +0x168",
+  "summary": "Constructs an object with vtable 0x10329F88."
+ },
+ "0x10018430": {
+  "name": "Unit10017C10_CtorVt10329F8C",
+  "confidence": "low",
+  "evidence": "constructs the 0x10329F88 object at +0x18 and two 0x10329F90 objects at +0x184, sets vtable 0x10329F8C; called by App_InitScene",
+  "summary": "Constructs the object App_InitScene creates with vtable 0x10329F8C and its three members."
+ },
+ "0x10018550": {
+  "name": "Unit10017C10_CtorVt10329F90",
+  "confidence": "low",
+  "evidence": "constructs the sub-object at +4 (vtable 0x10337C64), sets vtable 0x10329F90, clears +8",
+  "summary": "Constructs an object with vtable 0x10329F90."
+ }
+}

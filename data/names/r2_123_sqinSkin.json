@@ -1,0 +1,14 @@
+{
+ "0x1029A160": {
+  "name": "SqinSkin_InitShapeData",
+  "confidence": "low",
+  "evidence": "creates a sqdfShape (SqdfShape_Create) at +0x24 holding the count, the two arrays and the flags (bit 2 cleared), copies the count*12-byte arrays to new blocks at +0x28 and, when given, +0x2C (sqinSkin.c lines 0x122/0x125), and sets bit 1 of +0x30",
+  "summary": "Creates the skin's deform shape and keeps copies of its two 12-byte-per-vertex arrays."
+ },
+ "0x1029A450": {
+  "name": "SqinSkin_BuildPartShapes",
+  "confidence": "low",
+  "evidence": "for each of the +0x3C entries in +0x38 creates a sqdfShape sharing the skin shape's arrays, gathers the entry's vertices (0x10274650), sets its matrix from the entry's +0x9C matrix and the skin matrix, frees its +0x3C block; replaces the skin shape's matrix with a new one and sets +0x44 to 0xFF; adds the time each step took (0x10275090) to 0x109A2830..0x109A2844; called by SqinSkin_ReleaseIfHasData",
+  "summary": "Builds a deform shape for each of the skin's parts and times the steps."
+ }
+}

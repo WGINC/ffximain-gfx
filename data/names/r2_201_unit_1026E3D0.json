@@ -1,0 +1,14 @@
+{
+ "0x1026E3D0": {
+  "name": "SqgxContext_StoreVec14",
+  "confidence": "low",
+  "evidence": "copies the three dwords at +0x14 and stores them with SqgxContext_StoreEntryVec",
+  "summary": "Stores an object's vector at +0x14 in the context."
+ },
+ "0x1026E400": {
+  "name": "StAvatar_InitGlobals1099AEB8",
+  "confidence": "low",
+  "evidence": "sets 0x1099AEB8..0x1099AEDC to 1, 0, -1, -1 and zeroes, and Chn_InitDefaults on 0x1099AEE0; called by StAvatarInit",
+  "summary": "Initialises a block of avatar globals."
+ }
+}

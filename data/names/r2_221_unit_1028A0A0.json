@@ -1,0 +1,14 @@
+{
+ "0x1028A0B0": {
+  "name": "Sq_PrintIndent",
+  "confidence": "medium",
+  "evidence": "calls sqDebugPrintf with a space string n times; called by the sq*Print/Dump functions",
+  "summary": "Prints n spaces of indentation for a debug dump."
+ },
+ "0x1028A0E0": {
+  "name": "Unit1028A0A0_ReturnZero",
+  "confidence": "low",
+  "evidence": "returns 0",
+  "summary": "Returns 0."
+ }
+}

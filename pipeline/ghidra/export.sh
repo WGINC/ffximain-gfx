@@ -6,7 +6,8 @@
 #
 # PROJ holds a Ghidra project `ffxi` into which FFXiMain_unpacked.dll was imported and analysed once:
 #   $GHIDRA/support/analyzeHeadless $PROJ ffxi -import $FFXI_DLL
-# (about 20 minutes, 4 cores). Names: the tree's (tree/placement.json symbols, `::` as `_`), so the text reads
+# (about 20 minutes, 4 cores); GHIDRA_PROGRAM names the program in the project when it is not FFXI_DLL's basename.
+# Names: the tree's (tree/placement.json symbols, `::` as `_`), so the text reads
 # like the IDA route's; they are cosmetic, every object is bound by address (hx2cpp).
 # OUT.jsonl goes to run.sh: `./run.sh translate|cases|gate OUT.jsonl RUN`.
 set -euo pipefail
@@ -21,7 +22,7 @@ import json, sys
 p = json.load(open(sys.argv[1]))
 json.dump({k: v['symbol'].replace('::', '_') for k, v in p.items() if v.get('symbol')}, open(sys.argv[2], 'w'))
 EOF
-"$GHIDRA/support/analyzeHeadless" "$PROJ" ffxi -process "$(basename "${FFXI_DLL:-FFXiMain_unpacked.dll}")" -noanalysis -readOnly \
+"$GHIDRA/support/analyzeHeadless" "$PROJ" ffxi -process "${GHIDRA_PROGRAM:-$(basename "${FFXI_DLL:-FFXiMain_unpacked.dll}")}" -noanalysis -readOnly \
     -scriptPath "$H" -postScript GfxExport.java "$ADDRS" "$W/names.json" "$OUT" "$W/conv.txt" > "$W/ghidra.log" 2>&1 \
   || { tail -30 "$W/ghidra.log"; exit 1; }
 grep -E "conventions set|signatures committed|exported|ERROR" "$W/ghidra.log" | tail -8

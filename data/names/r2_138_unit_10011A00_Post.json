@@ -1,0 +1,20 @@
+{
+ "0x10013AC0": {
+  "name": "Unit10011A00_ReturnTrue",
+  "confidence": "low",
+  "evidence": "returns 1 in AL; called by Frame_Render",
+  "summary": "Returns true."
+ },
+ "0x10014200": {
+  "name": "App_SubStateInitCamera",
+  "confidence": "medium",
+  "evidence": "App_InitCamera(this, word_104568F8) and, when it succeeds, App_AdvanceSeqStep; called by App_DispatchSubState",
+  "summary": "Sub-state step that initialises the camera and moves to the next step."
+ },
+ "0x100142A0": {
+  "name": "App_SubStateAdvance",
+  "confidence": "low",
+  "evidence": "calls App_AdvanceSeqStep(this) and returns 1; called by App_DispatchSubState",
+  "summary": "Sub-state step that only moves to the next step."
+ }
+}

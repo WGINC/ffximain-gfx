@@ -729,6 +729,8 @@ def main(exp, gate, manf, incdir, outdir):
             else:
                 if R[ea].get('ghidra') and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), R[ea]['text']):
                     continue                            # a goto target of the body (LAB_...), not a global
+                if R[ea].get('ghidra') and nm in hx2cpp.CXX_KEYWORDS:
+                    continue                            # the keyword in the text, not a global (hx2cpp.CXX_KEYWORDS)
                 gset(o['ea'], (nm, o), R[ea].get('_exp', 0))
                 gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
                 gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o)] += 1

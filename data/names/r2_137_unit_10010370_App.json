@@ -1,0 +1,8 @@
+{
+ "0x10010520": {
+  "name": "App_SaveAllSlotData",
+  "confidence": "medium",
+  "evidence": "Game_ClearFlagsBits, then for each of the 18 slot objects at 0x10666E2C..0x10666E70 calls 0x1021C100 (Unit10211440_SaveAndRelease) with its file name (\"b2.dat\", \"bs.dat\", \"ca.dat\", ..., \"ti.dat\")",
+  "summary": "Saves every slot object's data to its .dat file and frees them."
+ }
+}

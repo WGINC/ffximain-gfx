@@ -1,0 +1,8 @@
+{
+ "0x101CD900": {
+  "name": "YkFurniture_Destructor",
+  "confidence": "medium",
+  "evidence": "sets the YkFurniture vtable 0x10337E08, releases the actors held by index at +0x5A, +0x54 (XiFurnitureActor_Release) and +0x56, and calls slot 6 with 1 on the objects at +0x64 and +0x68",
+  "summary": "Destroys a furniture object and releases the actors and objects it holds."
+ }
+}

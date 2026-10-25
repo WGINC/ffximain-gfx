@@ -609,6 +609,15 @@ def ghidra_entry_eax(rec):
     return dict(rec, text=head + brace + re.sub(r'\bin_EAX\b', 'xi_entry_eax', body))
 
 
+# C++'s reserved words (ISO/IEC 14882, [lex.key]): in the text such a word is the keyword, never a reference to an
+# object the export lists under that name (Ghidra names the data symbol at 0x103169E8 `default`)
+CXX_KEYWORDS = frozenset('''alignas alignof asm auto bool break case catch char char16_t char32_t class const constexpr
+const_cast continue decltype default delete do double dynamic_cast else enum explicit export extern false float for friend
+goto if inline int long mutable namespace new noexcept nullptr operator private protected public register
+reinterpret_cast return short signed sizeof static static_assert static_cast struct switch template this thread_local
+throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while'''.split())
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
@@ -1106,6 +1115,8 @@ def translate(rec):
         else:
             if rec.get('source') == 'ghidra' and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), body):
                 continue                                # a goto target of the body (LAB_...), not a global
+            if rec.get('source') == 'ghidra' and nm in CXX_KEYWORDS:
+                continue                                # the keyword in the text (a data symbol Ghidra named `default`), not a global
             tok = 'G_%08X' % oea
             ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
             if re.sub(r'^(struct\s+)?(std::)?', '', ot.strip()) in OPAQUE:

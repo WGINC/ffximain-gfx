@@ -1,0 +1,14 @@
+{
+ "0x100382A0": {
+  "name": "Music_LoadTrackIfRunning",
+  "confidence": "low",
+  "evidence": "when 0x1046393C is set calls 0x102465E0(a, b, 0), whose callees use \"%s\\\\music%3.3u.bgw\"",
+  "summary": "Asks for a music track when the sound thread runs."
+ },
+ "0x10038470": {
+  "name": "Music_SetTrackVolume",
+  "confidence": "medium",
+  "evidence": "clamps the value to 0..0x7F and, when 0x1046393C is set, sends it with LobbyThread_SendCmd4 for a channel >= 0; the batch's unit is SetMusicTrackVolume",
+  "summary": "Sets a music channel's volume (0-127)."
+ }
+}

@@ -1,0 +1,8 @@
+{
+ "0x1006EF70": {
+  "name": "Processor_InitIdentityMatrices",
+  "confidence": "medium",
+  "evidence": "builds a static 4x4 identity at 0x1047CDE0 once (1.0 on the diagonal, atexit), copies it into the four 16-float blocks at +0x810/+0x850/+0x890/+0x8D0, then Pool_InitSlots; called by CreateProcessorInstance",
+  "summary": "Sets the processor's four matrices to identity."
+ }
+}

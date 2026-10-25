@@ -1,0 +1,20 @@
+{
+ "0x10291290": {
+  "name": "Unit10291200_CallHook2C",
+  "confidence": "low",
+  "evidence": "calls the function pointer at +0x2C when set",
+  "summary": "Runs the object's hook at +0x2C."
+ },
+ "0x102912D0": {
+  "name": "Unit10291200_CallHook3C",
+  "confidence": "low",
+  "evidence": "calls the function pointer at +0x3C when set",
+  "summary": "Runs the object's hook at +0x3C."
+ },
+ "0x102912F0": {
+  "name": "Unit10291200_CallHook40",
+  "confidence": "low",
+  "evidence": "calls the function pointer at +0x40 when set",
+  "summary": "Runs the object's hook at +0x40."
+ }
+}

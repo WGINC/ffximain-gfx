@@ -1,0 +1,14 @@
+{
+ "0x101D30B0": {
+  "name": "YkMyroom_ReleaseObject38",
+  "confidence": "low",
+  "evidence": "calls slot 6 (+0x18) with 1 on the object at +0x38, clears it and the pointer at [+4]+0xA0; called by YkMyroom_Destructor",
+  "summary": "Releases the object at +0x38 and clears its references."
+ },
+ "0x101D31B0": {
+  "name": "YkMyroom_ReleaseResource8",
+  "confidence": "medium",
+  "evidence": "for the resource handle at +8, CMoResource::ReleaseChain on it, ResHandle_FreeIfUnreferenced and clears it",
+  "summary": "Releases the resource chain held at +8."
+ }
+}

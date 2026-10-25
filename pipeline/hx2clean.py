@@ -64,7 +64,8 @@ def split_params(args):
 
 # Ghidra's type names, as xi_ghidra.hpp defines them, spelt in plain C++ for the shared headers (gfx_globals.hpp,
 # gfx_orig.hpp), which do not include xi_ghidra.hpp (`code`, `word`, `addr` could be a Hex-Rays local's name). The
-# undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit.
+# undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit. A `code *` the
+# text calls (a global, hx2cpp.ghidra_global_type, or a parameter) is spelt `xi_code *` (gfx_common.hpp), callable.
 _GHIDRA_PLAIN = {'byte': 'uint8_t', 'uchar': 'uint8_t', 'ushort': 'uint16_t', 'word': 'uint16_t',
                  'uint': 'uint32_t', 'dword': 'uint32_t', 'ulong': 'uint32_t', 'longlong': 'int64_t',
                  'ulonglong': 'uint64_t', 'qword': 'uint64_t', 'float10': 'long double', 'xi_bool': 'uint8_t',
@@ -671,8 +672,10 @@ def main(exp, gate, manf, incdir, outdir):
                 body = re.sub(r'\borig::%s\(' % re.escape(nm), 'orig_void::%s(' % nm, body)
                 voidv[nm] = (cea, ctype)
         return body
-    def gtype_of(o):
-        t = 'char[1]' if o.get('is_str') else o['type']
+    def gtype_of(o, r, nm):
+        # a Ghidra record's global as its raw translation declares it (hx2cpp.ghidra_global_type)
+        t = hx2cpp.ghidra_global_type(nm, o, r['text']) if r.get('ghidra') else 'char[1]' if o.get('is_str') else o['type']
+        if t.strip() == 'code *': t = 'xi_code *'
         if re.sub(r'^(struct\s+)?(std::)?', '', t.strip()) in ('Iostream_init', 'exception', 'type_info', 'codecvt_base'): t = 'char[1]'
         return t.strip()
     SUFFIX = {'_BYTE': 'u8', 'unsigned __int8': 'u8', 'char': 's8', '__int8': 's8', '_WORD': 'u16', 'unsigned __int16': 'u16',
@@ -738,8 +741,8 @@ def main(exp, gate, manf, incdir, outdir):
                 if R[ea].get('ghidra') and nm in hx2cpp.CXX_KEYWORDS:
                     continue                            # the keyword in the text, not a global (hx2cpp.CXX_KEYWORDS)
                 gset(o['ea'], (nm, o), R[ea].get('_exp', 0))
-                gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
-                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o)] += 1
+                gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o, R[ea], nm)] += 1
+                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o, R[ea], nm)] += 1
     with open(os.path.join(outdir, 'include', 'gfx_orig.hpp'), 'w') as f:
         f.write('// gfx_orig.hpp -- calls into the game\'s own code (not reconstructed here), by address.\n'
                 '#pragma once\n#include "gfx_common.hpp"\n#define XI_ORIG static inline __attribute__((always_inline))\nnamespace orig {\n')
@@ -809,7 +812,7 @@ def main(exp, gate, manf, incdir, outdir):
             elif o['ea'] not in gnames:
                 continue                               # a goto target left out of the globals above
             else:
-                tok = gvariant.get((o['ea'], gtype_of(o)), gnames[o['ea']])
+                tok = gvariant.get((o['ea'], gtype_of(o, r, nm)), gnames[o['ea']])
             for p in forms: reps.append((p, tok))
         from hx2cpp import token_re
         for p, tok in sorted(reps, key=lambda x: -len(x[0])):
@@ -834,6 +837,8 @@ def main(exp, gate, manf, incdir, outdir):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is
             # spelt in plain types, since the shared headers do not include xi_ghidra.hpp
             body = hx2cpp.ghidra_bool(body)
+            # a `code *` parameter the body calls, `(*p)(...)`: callable (xi_code, gfx_common.hpp)
+            sig = re.sub(r'\bcode \*\s*(\w+)', lambda m: ('xi_code * ' if re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % m.group(1), body) else 'code * ') + m.group(1), sig)
             sig = plain_type(re.sub(r'\bbool\b', 'unsigned char', re.sub(r'\bfloat10\b', 'long double', sig)))
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()

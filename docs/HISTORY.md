@@ -3326,3 +3326,38 @@ Of the 60 skipped frame-set functions with an x87 register Ghidra could not tie,
 3 UNRESOLVED (two virtual calls whose x87 result the gate cannot know; an EAX no fact says no caller reads). The rest
 stay refused, each named: a callee's net x87 effect that is not zero with values below its operands (Ghidra's fixed
 ST registers cannot shift), x87 inputs of the function itself, other registers Ghidra could not tie.
+
+## 25 Oct (late): fs13 FAIL classes, and where the promotion stands
+
+The 51 fs13 gate FAILs (records not in the tree), grouped by their first mismatch:
+
+* 25 stubbed-call argument differences. About 15 are the same byte with different upper bits (`0xE996FE03` vs
+  `0x03`) in an argument the callee reads in full (`arg_reads.json` mask 0xFFFFFFFF). These are real: the
+  reconstruction cuts a dword. In the cases traced (0x101609F0, the 0x100EExxx family), the dword is the result of
+  a callee Ghidra prints as returning `undefined` (1 byte, its unlocked placeholder, not a declared type), such as
+  0x10152EF0. That function's code sets all of EAX (`mov eax, [edi*4+0x10578548]`).
+* 15 reconstruction faults on low addresses (0xFF, 0xA0, 0): the same cut result used as a pointer
+  (`(char *)F_10152EF0(8,0x16)`).
+* 9 memory and 2 EAX differences, most with an untyped-return callee in the function.
+
+Tools, from the code (committed):
+
+* `ret_width.py` writes `data/ret_full.json`: the functions whose code sets all four bytes of EAX on every path
+  (7,962). A tail jump to code that is no function start in the extents is now decoded by control flow
+  (`add_jump_targets`), which adds 88. `ret_width.json` is unchanged.
+* `docs/pending_retfull_hx2cpp.patch` (not applied): hx2cpp widens a callee's `undefined`/`undefined1`/
+  `undefined2` return to `undefined4` only where `ret_full.json` lists the callee. It is held back because it
+  changes translations that were gated, so it needs its own re-translate and gate round. Callees whose code cannot
+  be followed (0x100F1920: `jmp [eax+0x2F8]` through a pointer table) stay as Ghidra prints them; nothing is
+  known about their width.
+* hx2clean: a Ghidra record's global is declared exactly as its raw translation declares it
+  (`hx2cpp.ghidra_global_type`, shared). A `code *` global or parameter the text calls is spelt `xi_code *`
+  (gfx_common.hpp), so it can be called. Without this, four units of the promo17 tree failed to compile, and
+  `repair_compile.py` skipped them because not all their errors were pointer conversions.
+
+Promotion state (not installed): `runs/promo17/tree` (fs13 registered in a working copy of tree/source.json)
+builds 4,252 functions with no failed file; code_same against the installed tree: 4,139 same, 113 changed. The
+remaining steps: map_clean_cases → gate the new and changed functions → merge gate_clean_final → install →
+tool_drift → kit tests → verify_all. To re-register fs13: add `data/exports/ghidra_frameset13.jsonl` (raw gate
+`verification/gate_raw_frameset13.jsonl`) to tree/source.json and merge `runs/fs13/cases.json` into
+verification/cases_raw_final.json.

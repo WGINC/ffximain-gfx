@@ -1159,6 +1159,15 @@ def ghidra_ptr_type(name, o, body):
         params = ['XI_ANY'] * (len(_params(m.group(3))) - 1) + ['...']
     return '%s (%s *)(%s)' % (ret, cc, ', '.join(params))
 
+def ghidra_global_type(nm, o, body):
+    """the type a Ghidra record's global is declared with: a string object is its address; a pointer global the text
+    calls, `(*DAT_X)(...)`, is its 4 bytes as Ghidra's `code *` (an untyped function pointer, called as the text
+    calls it; 0x10008EA0's `undefined *`). Shared with hx2clean.py, so the clean tree declares what was gated."""
+    ot = 'char[1]' if o.get('is_str') else o['type']
+    if ot.strip().endswith('*') and re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % re.escape(nm), body):
+        ot = 'code *'
+    return ot
+
 def translate(rec):
     ea = rec['ea']; text = rec['text']
     head, brace, body = text.partition('\n{')
@@ -1203,12 +1212,8 @@ def translate(rec):
             if rec.get('source') == 'ghidra' and nm in CXX_KEYWORDS:
                 continue                                # the keyword in the text (a data symbol Ghidra named `default`), not a global
             tok = 'G_%08X' % oea
-            ot = 'char[1]' if o.get('is_str') else o['type']   # a string object is its address
-            # a pointer global the text calls, `(*DAT_X)(...)`: its 4 bytes as Ghidra's `code *` (an untyped function
-            # pointer, called as the text calls it; 0x10008EA0's `undefined *`)
-            if rec.get('source') == 'ghidra' and ot.strip().endswith('*') and \
-                    re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % re.escape(nm), body):
-                ot = 'code *'
+            ot = ghidra_global_type(nm, o, body) if rec.get('source') == 'ghidra' else \
+                'char[1]' if o.get('is_str') else o['type']   # a string object is its address
             # one address the text reads with two types (Ghidra's `_DAT_X` float and `DAT_X` undefined4): each type
             # its own name for the same address, as the original's two accesses read the same bytes
             gtypes = gseen.setdefault(oea, [])

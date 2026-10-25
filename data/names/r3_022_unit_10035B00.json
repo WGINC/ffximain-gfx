@@ -1,0 +1,20 @@
+{
+ "0x100360F0": {
+  "name": "Music_ApplyVolume",
+  "confidence": "low",
+  "evidence": "when the byte 0x104638F5 is set: for a factor above 0, sets the track 0x10463920's volume to [0x103516FC]*[0x103516F8]*factor*127 (Music_SetTrackVolume); otherwise, when 0x1046393C is set, sends command 0 to the lobby thread (LobbyThread_SendCmd0); sets 0x10463909",
+  "summary": "Sets the current music track's volume by a factor, or stops it at 0."
+ },
+ "0x10036460": {
+  "name": "Unit10035B00_AddUniqueId",
+  "confidence": "low",
+  "evidence": "when the list 0x10462538 (count 0x1046390C, at most 20) does not hold arg, appends it; 1 in AL, 0 when the list is full",
+  "summary": "Adds an id to a 20-entry list unless it is there."
+ },
+ "0x100364A0": {
+  "name": "CYySoundElem_UpdateOne",
+  "confidence": "low",
+  "evidence": "when the timer and position update (CYySoundElem_UpdateTimerAndPosition) returns 0 and the timer is positive (CYySoundElem_IsTimerPositive), queues the element's +0x104 (CYySoundElem_QueueIfAbsent) and clears its handle when that fails; called by CYySoundElem_UpdateQueue",
+  "summary": "Updates one sound element and requeues it while its timer runs."
+ }
+}

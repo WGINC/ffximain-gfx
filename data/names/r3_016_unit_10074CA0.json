@@ -1,0 +1,20 @@
+{
+ "0x10074F30": {
+  "name": "Unit10074CA0_FindTask",
+  "confidence": "low",
+  "evidence": "walks the list from +0xD50 (next at +0xC) and returns the entry whose +0x18 equals arg1 and +0x1C equals arg2, else 0; CMoResource_FindOrCreateTask calls it with the kind 0x4D727400",
+  "summary": "Finds a task in the list by its owner and kind."
+ },
+ "0x10077C30": {
+  "name": "Unit10074CA0_MapNameLetters",
+  "confidence": "low",
+  "evidence": "for a string starting with a single-byte character (not 0x80..0x9F, below 0xE0) that 0x103146DE accepts, replaces the first byte through 0x10313B74 and each following accepted byte through 0x103145A4, stopping at a two-byte character; called by SeekIdByString and Actor_CompareNames",
+  "summary": "Rewrites a name's leading single-byte letters through two byte-mapping functions."
+ },
+ "0x10077FB0": {
+  "name": "Unit10074CA0_ToggleOnKey",
+  "confidence": "low",
+  "evidence": "on inputs 0x3F/0 and 0x3F/0xF (0x10123A70) toggles the byte 0x1047D4A6 once per press (0x1047D4A7) and applies it (0x100FC140); then works on the entity 0x100FC2E0 selects (body continues); called by Acter_UpdateFrame",
+  "summary": "Toggles a setting on a key press and updates the selected entity."
+ }
+}

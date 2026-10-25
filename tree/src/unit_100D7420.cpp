@@ -866,7 +866,7 @@ XI_API undefined4 __thiscall GameMode_OpenTacticsUrl(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x100DBC70  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100DBC70(void)
+XI_API undefined4 __cdecl Unit100D7420_ResetBlock1048FED0(void)
 {
   undefined4 *puVar1;
   int iVar2;
@@ -3264,7 +3264,7 @@ XI_API undefined4 __cdecl Unit100D7420_ResetObject2D000(int param_1)
 
 // FUNCTION: FFXIMAIN 0x100E46A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100E46A0(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_SendFlagPacketDC(undefined4 param_1, undefined4 param_2)
 {
   uint16_t *puVar1;
   uint16_t *puVar2;
@@ -4073,7 +4073,7 @@ XI_API undefined4 __cdecl Unit100D7420_Check10310CD2(void)
 
 // FUNCTION: FFXIMAIN 0x100EDFB0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EDFB0(int * param_1)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest1FSequence(int * param_1)
 {
   int iVar1;
   int iVar2;
@@ -4122,7 +4122,7 @@ XI_API undefined4 __cdecl fn_100EDFB0(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x100EE0A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EE0A0(int * param_1)
+XI_API undefined4 __cdecl Unit100D7420_StepWait1030FF96(int * param_1)
 {
   char *pcVar1;
   uint32_t uVar2;
@@ -4168,7 +4168,7 @@ switchD_100ee0bb_default:
 
 // FUNCTION: FFXIMAIN 0x100EE690  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EE690(int * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest21Sequence(int * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -4269,7 +4269,7 @@ LAB_100ee86c:
 
 // FUNCTION: FFXIMAIN 0x100EE900  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EE900(int * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest22Sequence(int * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -4370,7 +4370,7 @@ LAB_100eeadc:
 
 // FUNCTION: FFXIMAIN 0x100EEB70  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EEB70(int * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest28Sequence(int * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -4471,7 +4471,7 @@ LAB_100eed4c:
 
 // FUNCTION: FFXIMAIN 0x100EEDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EEDE0(int * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest2BSequence(int * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -4568,7 +4568,7 @@ switchD_100eeea0_default:
 
 // FUNCTION: FFXIMAIN 0x100EEF80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EEF80(int * param_1)
+XI_API undefined4 __cdecl Unit100D7420_StepWait1030FFD8(int * param_1)
 {
   int iVar1;
   char *pcVar2;
@@ -4608,7 +4608,7 @@ XI_API undefined4 __cdecl fn_100EEF80(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x100EF020  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100EF020(int * param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100D7420_StepRequest14Sequence(int * param_1, undefined4 param_2)
 {
   int iVar1;
   int iVar2;
@@ -8436,7 +8436,7 @@ XI_API void __cdecl Unit100D7420_ClearTable1710(void)
 
 // FUNCTION: FFXIMAIN 0x10113CA0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10113CA0(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Unit100D7420_StartRequestSlot24WithCallback(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   undefined4 *puVar1;
   int iVar2;
@@ -10375,7 +10375,7 @@ LAB_101174b9:
 
 // FUNCTION: FFXIMAIN 0x101177D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 73 returned normally, 8 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101177D0(void * self_)
+XI_API void __thiscall Menu_DrawWindowItems(void * self_)
 {
   uint16_t uVar1;
   short sVar2;
@@ -13329,7 +13329,7 @@ XI_API void __cdecl Font_MeasureTextAll2(char * param_1)
 
 // FUNCTION: FFXIMAIN 0x1011D290  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t __cdecl fn_1011D290(undefined4 param_1)
+XI_API uint8_t __cdecl Unit100D7420_IsNotControlChar(undefined4 param_1)
 {
   char cVar1;
   uint8_t *puVar2;
@@ -13449,7 +13449,7 @@ XI_API undefined4 __cdecl Sjis_IsCodeInSet(void * param_1)
 
 // FUNCTION: FFXIMAIN 0x1011DC00  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1011DC00(uint8_t * param_1, void * param_2)
+XI_API undefined4 __cdecl Unit100D7420_UppercaseCharThen1011DAE0(uint8_t * param_1, void * param_2)
 {
   uint16_t uVar1;
   uint32_t uVar2;
@@ -13489,7 +13489,7 @@ XI_API undefined4 __cdecl fn_1011DC00(uint8_t * param_1, void * param_2)
 
 // FUNCTION: FFXIMAIN 0x1011DCC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1011DCC0(uint8_t * param_1, void * param_2)
+XI_API void __cdecl Unit100D7420_LowercaseCharThen1011DAE0(uint8_t * param_1, void * param_2)
 {
   uint16_t uVar1;
   
@@ -15355,7 +15355,7 @@ LAB_101237ef:
             goto LAB_101237ef;
           }
 LAB_101237f1:
-          if ((*pcVar10 != '\0') || (uVar8 = orig::FUN_1019cdc0(uVar8,uVar8), (char)uVar8 != '\0')) {
+          if ((*pcVar10 != '\0') || (uVar8 = orig::Unit1018BA60_HasTable1037A290CellByte(uVar8,uVar8), (char)uVar8 != '\0')) {
             uVar8 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar8 >> 8)) << 8) | (uint8_t)(cVar3)));
             if (cVar3 == '\0') {
 LAB_1012380b:
@@ -18258,7 +18258,7 @@ XI_API undefined4 __cdecl Unit100D7420_MapCode(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10129D90  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10129D90(void * self_, uint32_t param_1)
+XI_API uint32_t __thiscall ChatLog_AddTableMessage7(void * self_, uint32_t param_1)
 {
   char *pcVar1;
   uint32_t uVar2;
@@ -18276,7 +18276,7 @@ XI_API uint32_t __thiscall fn_10129D90(void * self_, uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10129DE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10129DE0(void * self_, uint32_t param_1)
+XI_API uint32_t __thiscall ChatLog_AddMessage9Code379(void * self_, uint32_t param_1)
 {
   char *pcVar1;
   uint32_t uVar2;
@@ -18301,7 +18301,7 @@ XI_API uint32_t __thiscall fn_10129DE0(void * self_, uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10129E30  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10129E30(void * self_, uint32_t param_1)
+XI_API uint32_t __thiscall ChatLog_AddMessage7Code37B(void * self_, uint32_t param_1)
 {
   char *pcVar1;
   uint32_t uVar2;
@@ -18326,7 +18326,7 @@ XI_API uint32_t __thiscall fn_10129E30(void * self_, uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x10129E80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10129E80(void * self_, char * param_1)
+XI_API void __thiscall ChatLog_AddTextCode379(void * self_, char * param_1)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
@@ -18339,7 +18339,7 @@ XI_API void __thiscall fn_10129E80(void * self_, char * param_1)
 
 // FUNCTION: FFXIMAIN 0x10129EB0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10129EB0(void * self_, char * param_1)
+XI_API void __thiscall ChatLog_AddTextCode37B(void * self_, char * param_1)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);

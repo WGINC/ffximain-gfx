@@ -280,7 +280,7 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
   int iVar1;
   undefined4 *puVar2;
   
-  orig::FUN_10174a60((void *)((int)self_ + 0x34330));
+  orig::ZoneMap_FreeDbgBoxList((void *)((int)self_ + 0x34330));
   iVar1 = 0;
   do {
     orig::ZoneMap_FreeSlot(self_,iVar1);

@@ -895,7 +895,7 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10008EA0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API undefined4 __stdcall fn_10008EA0(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __stdcall Unit10003890_CallPtr10456550IfEnabled(undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
@@ -908,7 +908,7 @@ XI_API undefined4 __stdcall fn_10008EA0(undefined4 param_1, undefined4 param_2)
 
 // FUNCTION: FFXIMAIN 0x10008F00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API undefined4 __stdcall fn_10008F00(undefined4 param_1)
+XI_API undefined4 __stdcall Unit10003890_CallPtr10456558IfEnabled(undefined4 param_1)
 {
   uint32_t uVar1;
   

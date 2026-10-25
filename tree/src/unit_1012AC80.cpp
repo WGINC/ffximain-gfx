@@ -930,7 +930,7 @@ XI_API void * __thiscall Unit1012AC80_InitFromShape(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10140090  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((stdcall, regparm(3))) fn_10140090(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API void __attribute__((stdcall, regparm(3))) Unit1012AC80_SetupMenuEntriesByState(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int xi_eax_00;
   uint32_t uVar1;
@@ -2481,7 +2481,7 @@ XI_API int __cdecl Unit1012AC80_FormatDecimal(int param_1, uint32_t param_2, int
 
 // FUNCTION: FFXIMAIN 0x101532F0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101532F0(uint8_t * xi_s1)
+XI_API undefined4 __cdecl Unit1012AC80_Call101532B0OnWordBE(uint8_t * xi_s1)
 {
   uint32_t uVar1;
   
@@ -2491,7 +2491,7 @@ XI_API undefined4 __cdecl fn_101532F0(uint8_t * xi_s1)
 
 // FUNCTION: FFXIMAIN 0x10153310  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_10153310(int param_1, int param_2, undefined4 param_3, undefined4 param_4, int param_5, undefined4 param_6)
+XI_API int __cdecl Unit1012AC80_ExpandMessageCodes(int param_1, int param_2, undefined4 param_3, undefined4 param_4, int param_5, undefined4 param_6)
 {
   char cVar1;
   uint8_t bVar2;
@@ -2544,7 +2544,7 @@ XI_API int __cdecl fn_10153310(int param_1, int param_2, undefined4 param_3, und
     iVar9 = 0;
     while (cVar1 != '\0') {
       pcVar14 = pcVar6 + iVar9;
-      iVar7 = orig::FUN_101532f0(pcVar14);
+      iVar7 = orig::Unit1012AC80_Call101532B0OnWordBE(pcVar14);
       iVar11 = iVar9;
       local_11c = iVar10;
       if (iVar7 == 0) {
@@ -2859,7 +2859,7 @@ XI_API int __cdecl Unit1012AC80_FormatMessageWithArgs(int param_1, int param_2, 
         iVar4 = iVar4 + 1;
       } while (iVar4 < (short)iVar3);
     }
-    iVar3 = orig::FUN_10153310(param_1,param_2,param_3,param_4,(int)local_40,local_80);
+    iVar3 = orig::Unit1012AC80_ExpandMessageCodes(param_1,param_2,param_3,param_4,(int)local_40,local_80);
     return iVar3;
   }
   return 0;
@@ -7152,7 +7152,7 @@ XI_API int __thiscall MenuMng_OpenByName(void * self_, char * param_1, undefined
   char xi_frame[32] __attribute__((aligned(4)));
   uint8_t  (&local_20)[32] = *reinterpret_cast<uint8_t  (*)[32]>(xi_frame + 0);
   
-  orig::FUN_10160760(self_,(char *)local_20,param_1);
+  orig::MenuMng_BuildMenuName(self_,(char *)local_20,param_1);
   orig::Menu_LookupWindowByName((char *)local_20,(uint8_t *)&param_1);
   if ((char)param_1 == '\0') {
     return 0;
@@ -7384,7 +7384,7 @@ XI_API undefined4 __thiscall Menu_CloseEntry(void * self_, char * param_1)
   char xi_frame[32] __attribute__((aligned(4)));
   char  (&local_20)[32] = *reinterpret_cast<char  (*)[32]>(xi_frame + 0);
   
-  orig::FUN_10160760(self_,local_20,param_1);
+  orig::MenuMng_BuildMenuName(self_,local_20,param_1);
   xi_eax = orig::Menu_FindItemByName(self_,local_20);
   uVar1 = 0;
   if (xi_eax != 0) {
@@ -7789,7 +7789,7 @@ LAB_1015f5bc:
       uVar3 = orig::Target_ReleaseSelection(g_pTargetMng);
     }
     if (DAT_106643a8 != 0) {
-      uVar3 = orig::FUN_10202f00();
+      uVar3 = orig::Unit101D7020_RunCallbackAndResetTarget();
     }
   }
   if (((param_1 & 0x800) != 0) && (*(short *)((int)g_pTargetMng + 0x68) != 0)) {
@@ -7847,7 +7847,7 @@ XI_API void __thiscall Menu_DrawLayers(void * self_)
       if (((pvVar1 != (void *)0x0) && (*(char *)((int)pvVar1 + 0x60) == cVar3)) &&
          ((uVar2 = orig::Menu_IsStateB4Eq1(self_,pvVar1), (char)uVar2 == '\0' ||
           ((*(uint8_t *)((int)pvVar1 + 0x34) & 0x40) != 0)))) {
-        uVar4 = orig::FUN_101177d0(pvVar1);
+        uVar4 = orig::Menu_DrawWindowItems(pvVar1);
         xi_edx = (uint32_t)((uint64_t)uVar4 >> 0x20);
       }
     }
@@ -8146,7 +8146,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Menu_SetStateB4(undefined
 
 // FUNCTION: FFXIMAIN 0x10160760  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10160760(void * self_, char * param_1, char * param_2)
+XI_API void __thiscall MenuMng_BuildMenuName(void * self_, char * param_1, char * param_2)
 {
   char cVar1;
   char *pcVar2;
@@ -8289,7 +8289,7 @@ LAB_101607ca:
 
 // FUNCTION: FFXIMAIN 0x10160960  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10160960(void)
+XI_API void __cdecl Unit1012AC80_OpenNoticeDialog101608B0(void)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -8334,7 +8334,7 @@ XI_API void __cdecl Unit101D7020_DestroyDrawMenuIfAt14(void)
 
 // FUNCTION: FFXIMAIN 0x101609F0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101609F0(void)
+XI_API undefined4 __cdecl Unit1012AC80_OpenNoticeDialog101608D0(void)
 {
   uint32_t uVar1;
   uint32_t uVar2;

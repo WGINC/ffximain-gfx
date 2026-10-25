@@ -73,7 +73,7 @@ XI_API void __cdecl Unit1027B060_Mul(float * param_1, float * param_2, float * p
 
 // FUNCTION: FFXIMAIN 0x1027B480  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027B480(float * xi_s1, undefined4 xi_s2, undefined4 xi_s3)
+XI_API void __cdecl Sq_PrintFloat4Indented(float * xi_s1, undefined4 xi_s2, undefined4 xi_s3)
 {
   orig::Sq_PrintIndent(xi_s3,xi_s3);
   orig::sqDebugPrintf_v1(s__f__f__f__f_103b27c8,(double)(long double)*xi_s1,(double)(long double)xi_s1[1],

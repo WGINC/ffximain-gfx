@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10280D10  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10280D10(float * param_1, undefined4 param_2, int param_3)
+XI_API void __cdecl Sq_PrintFloat4x4Indented(float * param_1, undefined4 param_2, int param_3)
 {
   uint32_t xi_entry_eax = 0;
   uint64_t uVar1;

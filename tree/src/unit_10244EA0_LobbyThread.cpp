@@ -98,7 +98,7 @@ XI_API undefined4 __cdecl LobbyThread_IsSystemState1(void)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10039590(DAT_10669098,1);
+  uVar1 = orig::CYyObject_VT_1032A9F8_Call10039700IfField8(DAT_10669098,1);
   return uVar1;
 }
 

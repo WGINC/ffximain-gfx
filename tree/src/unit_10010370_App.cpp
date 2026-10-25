@@ -623,8 +623,8 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         {
                           dword_104E1D44 = 0;
                         }
-                        orig::sub_10165070();
-                        orig::sub_101A8D60();
+                        orig::Unit10163E60_CreateUiObjects();
+                        orig::Unit1018BA60_CreateConfigObjects();
                         orig::YkInit();
                         orig::Unit10211440_Create();
                         v34 = orig::Allocator_Generic(0x20u);

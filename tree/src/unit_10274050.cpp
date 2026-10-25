@@ -103,7 +103,7 @@ XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, 
 
 // FUNCTION: FFXIMAIN 0x102748F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_102748F0(float * param_1)
+XI_API long double __cdecl Unit10274050_ScaleVec3ByInverseOf102746C0(float * param_1)
 {
   uint8_t bVar1;
   long double fVar2;

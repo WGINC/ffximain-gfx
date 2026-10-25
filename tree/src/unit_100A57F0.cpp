@@ -161,7 +161,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRun
     _DAT_10487f70 = DAT_1035bbb4;
     uVar1 = orig::ActorHandle_Resolve_v1(&DAT_10487f74);
     if ((int)uVar1 != 0) {
-      orig::FUN_10129de0(g_pTkMsgWinData_as_v1,0x41);
+      orig::ChatLog_AddMessage9Code379(g_pTkMsgWinData_as_v1,0x41);
     }
     uVar1 = orig::FUN_100814f0(&DAT_10487f74,0);
     return (int)uVar1;

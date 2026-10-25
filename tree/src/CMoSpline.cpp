@@ -103,6 +103,178 @@ void __thiscall CMoSpline::FreeBuffers(void * self)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100635B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoSpline::BuildSegmentTables(void * self)
+{
+  float *pfVar1;
+  float *pfVar2;
+  long double fVar3;
+  long double fVar4;
+  long double fVar5;
+  float *pfVar6;
+  int iVar7;
+  int *piVar8;
+  int iVar9;
+  int iVar10;
+  uint8_t bVar11;
+  long double xi_st0ret;
+  long double fVar12;
+  long double fVar13;
+  long double fVar14;
+  long double fVar15;
+  long double fVar16;
+  long double fVar17;
+  long double fVar18;
+  char xi_frame[24] __attribute__((aligned(4)));
+  int  &local_18 = *reinterpret_cast<int  *>(xi_frame + 0);
+  int  &local_14 = *reinterpret_cast<int  *>(xi_frame + 4);
+  int  &local_10 = *reinterpret_cast<int  *>(xi_frame + 8);
+  float  &local_c = *reinterpret_cast<float  *>(xi_frame + 12);
+  float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 20);
+  
+  local_14 = 3;
+  piVar8 = (int *)((int)self + 0xc);
+  do {
+    pfVar6 = (float *)*piVar8;
+    if (pfVar6 != (float *)0x0) {
+      if (*(char *)((int)self + 0x24) == '\0') {
+        *pfVar6 = (float)((long double)pfVar6[1] - ((long double)pfVar6[2] - (long double)pfVar6[1]));
+        iVar7 = *(int *)((int)self + 4);
+        iVar9 = *piVar8;
+        *(float *)(iVar9 + 4 + iVar7 * 4) =
+             (float)(((long double)*(float *)(iVar9 + iVar7 * 4) -
+                     (long double)*(float *)(iVar9 + -4 + iVar7 * 4)) +
+                    (long double)*(float *)(iVar9 + iVar7 * 4));
+      }
+      else {
+        *pfVar6 = pfVar6[*(int *)((int)self + 4) + -1];
+        *(uint32_t *)(*piVar8 + *(int *)((int)self + 4) * 4) = *(uint32_t *)(*piVar8 + 4);
+        *(uint32_t *)(*piVar8 + 4 + *(int *)((int)self + 4) * 4) = *(uint32_t *)(*piVar8 + 8);
+      }
+    }
+    piVar8 = piVar8 + 1;
+    local_14 = local_14 + -1;
+  } while (local_14 != 0);
+  local_10 = *(int *)((int)self + 0xc);
+  pfVar6 = *(float **)((int)self + 0x18);
+  iVar7 = *(int *)((int)self + 0x14);
+  iVar10 = 0;
+  iVar9 = *(int *)((int)self + 0x10);
+  local_4 = 0.0f;
+  local_8 = 0.0f;
+  local_c = 0.0f;
+  *(uint32_t *)((int)self + 8) = 0;
+  local_18 = iVar7;
+  local_14 = iVar9;
+  if (*(int *)((int)self + 4) != 1 && -1 < *(int *)((int)self + 4) + -1) {
+    do {
+      pfVar6 = pfVar6 + 1;
+      if (local_10 != 0) {
+        pfVar1 = (float *)(local_10 + 8);
+        pfVar2 = (float *)(local_10 + 4);
+        local_10 = local_10 + 4;
+        local_c = (float)((long double)*pfVar1 - (long double)*pfVar2);
+      }
+      if (iVar9 != 0) {
+        pfVar1 = (float *)(iVar9 + 8);
+        pfVar2 = (float *)(iVar9 + 4);
+        iVar9 = iVar9 + 4;
+        local_8 = (float)((long double)*pfVar1 - (long double)*pfVar2);
+        local_14 = iVar9;
+      }
+      if (iVar7 != 0) {
+        pfVar1 = (float *)(iVar7 + 8);
+        pfVar2 = (float *)(iVar7 + 4);
+        iVar7 = iVar7 + 4;
+        local_4 = (float)((long double)*pfVar1 - (long double)*pfVar2);
+        local_18 = iVar7;
+      }
+      if (*(char *)((int)self + 0x25) == '\0') {
+        bVar11 = NAN((long double)local_c) || NAN((long double)0.0f);
+        if (((bVar11 == (bVar11 || (long double)local_c == (long double)0.0f)) ||
+            (bVar11 = NAN((long double)local_8) || NAN((long double)0.0f),
+            bVar11 == (bVar11 || (long double)local_8 == (long double)0.0f))) ||
+           (bVar11 = NAN((long double)local_4) || NAN((long double)0.0f),
+           bVar11 == (bVar11 || (long double)local_4 == (long double)0.0f))) {
+          xi_st0ret = ((long double (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x94))))((void *)(g_pProcessor_as_v1),&local_c);
+          *pfVar6 = (float)xi_st0ret;
+          bVar11 = NAN(xi_st0ret) || NAN((long double)0.00999999977648258209228515625f);
+          iVar7 = local_18;
+          iVar9 = local_14;
+          if ((bVar11 || xi_st0ret < (long double)0.00999999977648258209228515625f) == bVar11) goto LAB_10063717;
+        }
+        *pfVar6 = 0.00999999977648258209228515625f;
+      }
+      else {
+        *pfVar6 = 1.0f;
+      }
+LAB_10063717:
+      iVar10 = iVar10 + 1;
+      *(float *)((int)self + 8) = (float)((long double)*pfVar6 + (long double)*(float *)((int)self + 8));
+    } while (iVar10 < *(int *)((int)self + 4) + -1);
+  }
+  iVar7 = 0;
+  **(uint32_t **)((int)self + 0x18) = (*(uint32_t **)((int)self + 0x18))[1];
+  *(uint32_t *)(*(int *)((int)self + 0x18) + *(int *)((int)self + 4) * 4) =
+       *(uint32_t *)(*(int *)((int)self + 0x18) + -4 + *(int *)((int)self + 4) * 4);
+  pfVar6 = *(float **)((int)self + 0x1c);
+  if (*(int *)((int)self + 4) != 1 && -1 < *(int *)((int)self + 4) + -1) {
+    iVar9 = 8;
+    do {
+      iVar10 = *(int *)((int)self + 0x18);
+      fVar12 = (long double)*(float *)(iVar10 + -8 + iVar9);
+      fVar13 = (long double)*(float *)(iVar10 + -4 + iVar9);
+      fVar3 = (float)fVar13;
+      fVar12 = fVar12 / (fVar13 + fVar12);
+      fVar4 = *(float *)(iVar10 + iVar9);
+      pfVar6[0xb] = 0.0f;
+      fVar13 = (long double)fVar3 / ((long double)fVar4 + (long double)fVar3);
+      fVar3 = (float)(fVar13 * fVar12);
+      fVar4 = (float)((long double)1.0f - fVar12);
+      fVar5 = (float)(((long double)1.0f - fVar12) * (long double)fVar4);
+      fVar14 = (long double)1.0f / fVar12;
+      fVar15 = -(long double)fVar5 * fVar14;
+      *pfVar6 = (float)fVar15;
+      pfVar6[1] = (float)(((long double)fVar4 + (long double)fVar3) * fVar14);
+      fVar16 = (long double)1.0f - fVar13;
+      pfVar6[2] = (float)((-(long double)fVar4 - (long double)fVar3) / fVar16);
+      fVar17 = (fVar13 * fVar13) / fVar16;
+      pfVar6[3] = (float)fVar17;
+      fVar18 = (long double)fVar5;
+      pfVar6[4] = (float)((fVar18 + fVar18) * fVar14);
+      pfVar6[5] = (float)(((long double)fVar4 * (long double)(-2.0f) - (long double)fVar3) * fVar14);
+      pfVar6[6] = (float)((((long double)fVar4 + (long double)fVar4) -
+                          (fVar13 - ((long double)fVar3 + (long double)fVar3))) / fVar16);
+      pfVar6[7] = (float)-fVar17;
+      pfVar6[8] = (float)fVar15;
+      pfVar6[9] = (float)(((long double)1.0f - (fVar12 + fVar12)) * fVar14);
+      pfVar6[10] = (float)fVar12;
+      pfVar6[0xc] = 0.0f;
+      pfVar6[0xd] = 1.0f;
+      pfVar6[0xe] = 0.0f;
+      pfVar6[0xf] = 0.0f;
+      iVar7 = iVar7 + 1;
+      iVar9 = iVar9 + 4;
+      pfVar6 = pfVar6 + 0x10;
+    } while (iVar7 < *(int *)((int)self + 4) + -1);
+  }
+  pfVar6 = *(float **)((int)self + 0x18);
+  iVar7 = 0;
+  if (*(int *)((int)self + 4) != 1 && -1 < *(int *)((int)self + 4) + -1) {
+    do {
+      pfVar6 = pfVar6 + 1;
+      iVar7 = iVar7 + 1;
+      *pfVar6 = (float)((long double)*pfVar6 / (long double)*(float *)((int)self + 8));
+    } while (iVar7 < *(int *)((int)self + 4) + -1);
+    **(uint32_t **)((int)self + 0x18) = 0;
+    return;
+  }
+  **(uint32_t **)((int)self + 0x18) = 0;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10063B20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 11 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoSpline::ReleaseRef(void * self)
@@ -177,7 +349,7 @@ undefined4 __thiscall CMoSpline::EnsureSamples(void * self)
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)self);
     }
-    orig::FUN_100635b0(*(void **)((int)self + 4));
+    orig::CMoSpline_BuildSegmentTables(*(void **)((int)self + 4));
   }
   return *(uint32_t *)((int)self + 4);
 }

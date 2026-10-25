@@ -388,7 +388,7 @@ XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3)
 
 // FUNCTION: FFXIMAIN 0x101C8FD0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t * __cdecl fn_101C8FD0(uint32_t param_1, undefined4 param_2)
+XI_API uint8_t * __cdecl Unit101C72E0_FormatDateTime(uint32_t param_1, undefined4 param_2)
 {
   int iVar1;
   short *psVar2;

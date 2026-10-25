@@ -10,6 +10,8 @@ public:
     float * vf042(float *a1, float *a2, float *a3);  // 0x1006D680
     float * vf043(float *a1, float *a2, float *a3);  // 0x1006D6B0
     float * vf021(float *a1, float *a2, float *a3, float a4);  // 0x1006D980
+    static undefined4 __thiscall RotationFromAnglesZYX(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006DCF0
+    static undefined4 __thiscall RotationFromAnglesXYZ(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006E380
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xC];

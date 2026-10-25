@@ -817,7 +817,7 @@ XI_API void __thiscall Unit1021D930_DrawPanelForActor(void * self_)
           }
           orig::Unit1021D930_DrawEntryRows(self_,xi_s1);
         }
-        orig::FUN_1021f480(xi_s1);
+        orig::Unit1021D930_DrawActorPanelFigures(xi_s1);
       }
     }
   }
@@ -826,7 +826,7 @@ XI_API void __thiscall Unit1021D930_DrawPanelForActor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1021F480  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall fn_1021F480(int param_1)
+XI_API void __stdcall Unit1021D930_DrawActorPanelFigures(int param_1)
 {
   uint16_t uVar1;
   short sVar2;
@@ -1895,7 +1895,7 @@ XI_API void __cdecl Unit1021D930_Call102250F0(void)
 
 // FUNCTION: FFXIMAIN 0x10222E20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 78 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_10222E20(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+XI_API uint32_t __cdecl Unit1021D930_FindRecordIdByText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   uint16_t uVar1;
   char cVar2;
@@ -2848,7 +2848,7 @@ XI_API void __cdecl Unit1021D930_SetTimerSeconds(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1022B430  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 71 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_1022B430(char * param_1, int param_2, undefined4 param_3)
+XI_API int __cdecl Unit1021D930_FindTableIdByText(char * param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
   char cVar2;

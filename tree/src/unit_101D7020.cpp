@@ -921,7 +921,7 @@ XI_API void * __thiscall Unit101D7020_CtorVt103397B8(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101E6FB0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_101E6FB0(void * self_)
+XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
 {
   short sVar1;
   short sVar2;
@@ -2924,7 +2924,7 @@ LAB_10202e05:
 
 // FUNCTION: FFXIMAIN 0x10202F00  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 84 returned normally, 84 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10202F00(void)
+XI_API void __cdecl Unit101D7020_RunCallbackAndResetTarget(void)
 {
   char xi_frame[8] __attribute__((aligned(4)));
   uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);

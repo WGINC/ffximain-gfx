@@ -123,7 +123,7 @@ XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
 
 // FUNCTION: FFXIMAIN 0x10018140  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10018140(undefined4 param_1)
+XI_API void __cdecl Unit10017C10_SendMessage7_1To10668FF8(undefined4 param_1)
 {
   uint32_t uVar1;
   char xi_frame[1024] __attribute__((aligned(4)));
@@ -147,9 +147,9 @@ XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
     DAT_10456c10 = DAT_10456c10 | 1;
     DAT_10456c14 = param_1;
   }
-  uVar1 = orig::FUN_10113ca0(param_1,&LAB_10018280,DAT_10456c14);
+  uVar1 = orig::Unit100D7420_StartRequestSlot24WithCallback(param_1,&LAB_10018280,DAT_10456c14);
   if ((int)uVar1 < 1) {
-    uVar1 = orig::FUN_100181d0(param_1,(char *)0x0);
+    uVar1 = orig::Unit10017C10_SendMessage7_0To10668FF8(param_1,(char *)0x0);
     return uVar1;
   }
   DAT_10456d17 = 1;
@@ -158,7 +158,7 @@ XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x100181D0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_100181D0(uint32_t param_1, char * param_2)
+XI_API void __cdecl Unit10017C10_SendMessage7_0To10668FF8(uint32_t param_1, char * param_2)
 {
   char cVar1;
   uint32_t uVar2;

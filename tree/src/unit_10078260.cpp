@@ -632,7 +632,7 @@ XI_API int __cdecl Command_RunLine(char * param_1, undefined4 param_2)
     iVar3 = orig::Arg_LookupWord(&DAT_10355408,local_200);
     if ((char)param_2 == '\x01') {
       if ((iVar3 == 0) || ((*(uint8_t *)(iVar3 + 0x16) & 2) == 0)) {
-        orig::FUN_10129e30_v1(g_pTkMsgWinData_as_v1,0xa4);
+        orig::ChatLog_AddMessage7Code37B_v1(g_pTkMsgWinData_as_v1,0xa4);
         return 0;
       }
     }
@@ -829,24 +829,24 @@ LAB_100812b0:
   uVar1 = *(uint16_t *)(param_1 + 0x16);
   if (((uVar1 & 0x1000) == 0) && ((uVar3 & 0xffff & ~(uint32_t)uVar1) != 0)) {
     if ((uVar3 & 0x20) != 0) {
-      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xc);
+      uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,0xc);
       return uVar3 & 0xffffff00;
     }
     if ((uVar3 & 0x40) != 0) {
-      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,9);
+      uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,9);
       return uVar3 & 0xffffff00;
     }
     uVar4 = orig::Unit101C72E0_IsActorField170Is6(((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar6 >> 0x10)) << 16) | (uint16_t)(uVar1))));
     if ((char)uVar4 != '\0') {
-      uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xb);
+      uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,0xb);
       return uVar3 & 0xffffff00;
     }
     if ((char)uVar3 < '\0') {
       if (bVar2) {
-        uVar3 = orig::FUN_10129e30(g_pTkMsgWinData_as_v1,0x97);
+        uVar3 = orig::ChatLog_AddMessage7Code37B(g_pTkMsgWinData_as_v1,0x97);
         return uVar3 & 0xffffff00;
       }
-      uVar4 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,1);
+      uVar4 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,1);
     }
     return uVar4 & 0xffffff00;
   }
@@ -854,16 +854,16 @@ LAB_100812b0:
     uVar5 = orig::Unit10078260_TestBit1047D499(0);
     if ((char)uVar5 == '\0') {
       if ((g_pTargetMng_as_s32 != 0) && (*(short *)(g_pTargetMng_as_s32 + 0x68) != 0)) {
-        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0);
+        uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,0);
         return uVar3 & 0xffffff00;
       }
       if ((g_C_106631D4 != 0) && (*(short *)(g_C_106631D4 + 0x1c) == 1)) {
-        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,0xd);
+        uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,0xd);
         return uVar3 & 0xffffff00;
       }
       uVar5 = orig::Menu_FindByFlags34(0x20000);
       if ((char)uVar5 != '\0') {
-        uVar3 = orig::FUN_10129d90(g_pTkMsgWinData_as_v1,3);
+        uVar3 = orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,3);
         return uVar3 & 0xffffff00;
       }
     }
@@ -879,7 +879,7 @@ LAB_100812b0:
   if ((char)uVar3 != '\0') {
     uVar3 = orig::Actor_IsInTable(param_1);
     if ((char)uVar3 == '\0') {
-      uVar3 = orig::FUN_10129e30(g_pTkMsgWinData_as_v1,0x9e);
+      uVar3 = orig::ChatLog_AddMessage7Code37B(g_pTkMsgWinData_as_v1,0x9e);
       return uVar3 & 0xffffff00;
     }
   }

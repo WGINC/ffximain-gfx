@@ -91,7 +91,7 @@ XI_API undefined4 __thiscall ZoneMap_Call10173AE0(void * self_, undefined4 * par
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10173ae0(param_1,param_2);
+  uVar1 = orig::ZoneMap_FindDbgBoxMPosById(param_1,param_2);
   return uVar1;
 }
 

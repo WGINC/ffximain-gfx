@@ -348,7 +348,7 @@ XI_API void __thiscall Acter_AdvanceMotionTimer(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10087F00  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10087F00(void * self_)
+XI_API void __thiscall Acter_UpdateModelPoint848(void * self_)
 {
   short sVar1;
   short sVar2;
@@ -2176,7 +2176,7 @@ XI_API undefined4 __thiscall Acter_UpdateOne(void * self_)
       orig::FUN_1008e3f0(self_);
       orig::Unit10086E90_UpdateOnePart1008CD90(self_);
       orig::CXiActor_TickRandomTimer(self_);
-      orig::FUN_10087f00(self_);
+      orig::Acter_UpdateModelPoint848(self_);
       orig::Acter_AdvanceMotionTimer(self_);
       orig::Unit10086E90_UpdateByKind170NotGroup38(self_);
       orig::Unit10086E90_UpdateByKind170NotGroup06(self_);
@@ -3693,7 +3693,7 @@ LAB_10096ae2:
     orig::FUN_100ae960();
   }
   orig::Unit10074CA0_ToggleOnKey();
-  if ((((((self_ != (void *)0x0) && (orig::FUN_100983f0(self_), DAT_1048098e == '\0')) &&
+  if ((((((self_ != (void *)0x0) && (orig::Acter_SendPositionPacket(self_), DAT_1048098e == '\0')) &&
         (DAT_10482f1e_as_s8 == '\0')) &&
        ((XI_PIECE(DAT_104807f0_as_s8, 3, 1) == '\0' && (iVar11 = *(int *)((int)self_ + 0x170), iVar11 != 0x1a)))) &&
       (iVar11 != 0x1b)) &&
@@ -4177,7 +4177,7 @@ XI_API uint32_t __thiscall Acter_GetPartnerIfKind(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100983F0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_100983F0(void * self_)
+XI_API void __thiscall Acter_SendPositionPacket(void * self_)
 {
   char cVar1;
   uint32_t uVar2;

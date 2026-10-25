@@ -49,7 +49,7 @@ XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefine
   if (DAT_104638f5 != '\0') {
     uVar1 = orig::Unit10035B00_AddUniqueId(*(int *)((int)self_ + 0x14));
     if (((char)uVar1 != '\0') && (DAT_10463909 = 1, DAT_1046393c != 0)) {
-      uVar2 = orig::FUN_10038330((int)self_ + 0x30,param_1,param_2);
+      uVar2 = orig::Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit((int)self_ + 0x30,param_1,param_2);
       return uVar2;
     }
   }

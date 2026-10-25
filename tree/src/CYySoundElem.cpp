@@ -369,7 +369,7 @@ undefined4 __thiscall CYySoundElem::UpdateFromCamera(void * self)
   uVar4 = 0;
   if (*(int *)((int)self + 0x198) != 0) {
     iVar3 = orig::Camera_GetField50_v1();
-    orig::FUN_10056160((void *)(*(int *)((int)self + 0x198) + 0x30),&fStack_10,iVar3 + 0x60);
+    orig::Unit10055A60_MinOf10055F60OverIndexPairs((void *)(*(int *)((int)self + 0x198) + 0x30),&fStack_10,iVar3 + 0x60);
     iVar3 = orig::Camera_GetField50_v1();
     fStack_10 = (float)((long double)fStack_10 + (long double)*(float *)(iVar3 + 0x60));
     iVar3 = orig::Camera_GetField50_v1();

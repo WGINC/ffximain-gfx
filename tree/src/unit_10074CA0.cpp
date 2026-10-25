@@ -731,19 +731,19 @@ LAB_10076cb3:
     if (((char)local_8 != '\0') && (DAT_1047d495 == 0)) goto LAB_10076d51;
     uVar5 = orig::Menu_FindByFlags34(0x20000);
     if ((char)uVar5 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,3);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,3);
       *outbuf = '\0';
       return 0;
     }
     uVar5 = orig::Unit101C72E0_TestFlags100Or40DAC(0);
     if ((char)uVar5 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,2);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,2);
       *outbuf = '\0';
       return 0;
     }
     uVar11 = orig::IsEvent(0,uVar5);
     if ((char)uVar11 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,1);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,1);
       *outbuf = '\0';
       return 0;
     }
@@ -785,7 +785,7 @@ LAB_10076cb3:
           return 0;
         }
         orig::FUN_10077a00(uVar5);
-        orig::FUN_10129d90(g_pTkMsgWinData_as_v1,4);
+        orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,4);
       }
       *outbuf = '\0';
       return 0;

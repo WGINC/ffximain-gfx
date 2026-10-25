@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10056160  (unit unit_10055A60: no unit evidence of its own; in the gap between 0x10055A50 (CMoPathObject) and 0x100562A0 (CMoSphRes) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __thiscall fn_10056160(void * self_, undefined4 * param_2, float * param_3)
+XI_API long double __thiscall Unit10055A60_MinOf10055F60OverIndexPairs(void * self_, undefined4 * param_2, float * param_3)
 {
   int iVar1;
   uint32_t *puVar2;

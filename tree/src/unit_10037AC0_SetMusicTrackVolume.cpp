@@ -241,7 +241,7 @@ XI_API void __attribute__((cdecl, regparm(1))) Music_LoadTrackIfRunning(undefine
 
 // FUNCTION: FFXIMAIN 0x10038330  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10038330(int param_1, float * param_2, int param_3)
+XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int param_1, float * param_2, int param_3)
 {
   uint32_t uVar1;
   int iVar2;

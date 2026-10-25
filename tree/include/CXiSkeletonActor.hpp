@@ -75,6 +75,8 @@ public:
     int Constructor_Factory(_DWORD *a2, int a3, int a4);  // 0x100C59B0
     char DestructorBody();  // 0x100C5C00
     int Init();  // 0x100C5D60
+    static void __thiscall PlaceAttachedInRing(void * self, undefined4 xi_s1);  // 0x100C9C10
+    static void __thiscall CopyModelValuesTo(void * self, int param_1);  // 0x100CB390
     void RunStaggeredUpdates();  // 0x100CBD60
     void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char * SetMotion(int *a2, float a3);  // 0x100CD490

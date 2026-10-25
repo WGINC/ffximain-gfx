@@ -22,7 +22,7 @@ XI_API undefined4 __cdecl SqQuat_Invert(float * param_1)
   orig::sqDebugPrintf_v1(s_Warning_in__s__line__d__103b27fc,s_C__dev_dancer_modules_sqBase_src_103b40c0,0x222)
   ;
   orig::sqDebugPrintf_v1(s_QfInvert__can_t_invert_the_singu_103b408c);
-  orig::FUN_1027b480(param_1,0,0);
+  orig::Sq_PrintFloat4Indented(param_1,0,0);
   orig::Unit1027A4B0_SetIdentity(param_1);
   return 0;
 }

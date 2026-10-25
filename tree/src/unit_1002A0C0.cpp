@@ -56,7 +56,7 @@ XI_API void __thiscall Part_AddTranslation(void * self_, int param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1002B140  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_1002B140(float * param_1, float * param_2, undefined4 * param_3, float * param_4)
+XI_API undefined4 __stdcall Unit1002A0C0_ClampPointToLocalEllipse(float * param_1, float * param_2, undefined4 * param_3, float * param_4)
 {
   float fVar1;
   uint32_t uVar2;

@@ -3400,7 +3400,7 @@ XI_API void * __thiscall Unit1018BA60_ByteTableCtor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1019CDC0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1019CDC0(short * xi_eax, undefined4 param_1)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1018BA60_HasTable1037A290CellByte(short * xi_eax, undefined4 param_1)
 {
   uint32_t uVar1;
   
@@ -3666,7 +3666,7 @@ XI_API void __thiscall Settings_CacheValues(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1019EBB0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1019EBB0(void * self_)
+XI_API undefined4 __thiscall Unit1018BA60_DrawTextBlockOnce(void * self_)
 {
   int iVar1;
   int64_t lVar2;
@@ -3680,10 +3680,10 @@ XI_API undefined4 __thiscall fn_1019EBB0(void * self_)
     iVar6 = 0x25;
     uVar5 = 0x80808080;
     lVar2 = orig::FUN_1019ed50(self_,*(uint32_t *)((int)self_ + 0x40));
-    lVar3 = orig::FUN_1019ed20(self_);
+    lVar3 = orig::Unit1018BA60_GetScaleTimes0(self_);
     iVar1 = (int)lVar3 - (int)lVar2;
-    lVar2 = orig::FUN_1019ed10(self_);
-    iVar1 = orig::FUN_1019edb0(self_,(uint32_t)lVar2,iVar1,pcVar4,uVar5,iVar6);
+    lVar2 = orig::Unit1018BA60_GetScaleTimes310(self_);
+    iVar1 = orig::Unit1018BA60_DrawTextLines(self_,(uint32_t)lVar2,iVar1,pcVar4,uVar5,iVar6);
     if (iVar1 < 0) {
       *(uint8_t *)((int)self_ + 0x54) = 1;
     }
@@ -3693,7 +3693,7 @@ XI_API undefined4 __thiscall fn_1019EBB0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1019ED10  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int64_t __thiscall fn_1019ED10(void * self_)
+XI_API int64_t __thiscall Unit1018BA60_GetScaleTimes310(void * self_)
 {
   int64_t lVar1;
   
@@ -3703,7 +3703,7 @@ XI_API int64_t __thiscall fn_1019ED10(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1019ED20  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int64_t __thiscall fn_1019ED20(void * self_)
+XI_API int64_t __thiscall Unit1018BA60_GetScaleTimes0(void * self_)
 {
   int64_t lVar1;
   
@@ -3713,7 +3713,7 @@ XI_API int64_t __thiscall fn_1019ED20(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1019ED30  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int64_t __thiscall fn_1019ED30(void * self_)
+XI_API int64_t __thiscall Unit1018BA60_GetScaleTimes180(void * self_)
 {
   int64_t lVar1;
   
@@ -3746,7 +3746,7 @@ LAB_1019ed9b:
 
 // FUNCTION: FFXIMAIN 0x1019EDB0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall fn_1019EDB0(void * self_, uint32_t param_1, int param_2, char * param_3, undefined4 param_4, int param_5)
+XI_API int __thiscall Unit1018BA60_DrawTextLines(void * self_, uint32_t param_1, int param_2, char * param_3, undefined4 param_4, int param_5)
 {
   char cVar1;
   int iVar2;
@@ -3781,7 +3781,7 @@ XI_API int __thiscall fn_1019EDB0(void * self_, uint32_t param_1, int param_2, c
           pcVar6 = local_40 + 1;
           lVar3 = orig::FUN_1019ed50(self_,xi_s1);
           iVar2 = (int)lVar3 + param_2;
-          lVar3 = orig::FUN_1019ed30(self_);
+          lVar3 = orig::Unit1018BA60_GetScaleTimes180(self_);
           orig::FUN_1019e550((void *)((int)self_ + 4),(int)lVar3 + param_1,iVar2,fVar4,fVar5,pcVar6,uVar7);
         }
         else {
@@ -3822,7 +3822,7 @@ LAB_1019eeda:
       pcVar6 = local_40 + 1;
       lVar3 = orig::FUN_1019ed50(self_,xi_s1);
       iVar2 = (int)lVar3 + param_2;
-      lVar3 = orig::FUN_1019ed30(self_);
+      lVar3 = orig::Unit1018BA60_GetScaleTimes180(self_);
       orig::FUN_1019e550((void *)((int)self_ + 4),(int)lVar3 + param_1,iVar2,fVar4,fVar5,pcVar6,uVar7);
       iVar2 = 0;
       param_3 = param_3 + 1;
@@ -4020,7 +4020,7 @@ XI_API undefined4 __cdecl Unit1018BA60_Call101BE690(undefined4 xi_s1, undefined4
 
 // FUNCTION: FFXIMAIN 0x101A0770  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl fn_101A0770(undefined4 param_1, int param_2, undefined4 xi_s3, undefined4 xi_s4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7, undefined4 xi_s8, undefined4 xi_s9, undefined4 xi_s10, undefined4 xi_s11, undefined4 xi_s12, undefined4 xi_s13, undefined4 xi_s14, undefined4 xi_s15, undefined4 xi_s16, undefined4 xi_s17, undefined4 xi_s18, undefined4 xi_s19, undefined4 xi_s20, undefined4 xi_s21, undefined4 xi_s22, undefined4 xi_s23, undefined4 xi_s24, undefined4 xi_s25, undefined4 xi_s26, undefined4 xi_s27, undefined4 xi_s28, undefined4 xi_s29, undefined4 xi_s30, undefined4 xi_s31, undefined4 xi_s32, undefined4 xi_s33, undefined4 xi_s34, undefined4 xi_s35, undefined4 xi_s36, undefined4 xi_s37, undefined4 xi_s38, undefined4 xi_s39, undefined4 xi_s40, undefined4 xi_s41, undefined4 xi_s42, undefined4 xi_s43, undefined4 xi_s44, undefined4 xi_s45, undefined4 xi_s46, undefined4 xi_s47, undefined4 xi_s48, undefined4 xi_s49, undefined4 xi_s50, undefined4 xi_s51, undefined4 xi_s52, undefined4 xi_s53, undefined4 xi_s54, undefined4 xi_s55, undefined4 xi_s56, undefined4 xi_s57, undefined4 xi_s58, undefined4 xi_s59, undefined4 xi_s60, undefined4 xi_s61, undefined4 xi_s62, undefined4 xi_s63, undefined4 xi_s64, undefined4 xi_s65, undefined4 xi_s66, undefined4 xi_s67, undefined4 xi_s68, undefined4 xi_s69, undefined4 xi_s70, undefined4 xi_s71, xi_codefn * xi_s72, undefined4 xi_s73)
+XI_API int __cdecl Unit1018BA60_RunKind8WithCallback(undefined4 param_1, int param_2, undefined4 xi_s3, undefined4 xi_s4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7, undefined4 xi_s8, undefined4 xi_s9, undefined4 xi_s10, undefined4 xi_s11, undefined4 xi_s12, undefined4 xi_s13, undefined4 xi_s14, undefined4 xi_s15, undefined4 xi_s16, undefined4 xi_s17, undefined4 xi_s18, undefined4 xi_s19, undefined4 xi_s20, undefined4 xi_s21, undefined4 xi_s22, undefined4 xi_s23, undefined4 xi_s24, undefined4 xi_s25, undefined4 xi_s26, undefined4 xi_s27, undefined4 xi_s28, undefined4 xi_s29, undefined4 xi_s30, undefined4 xi_s31, undefined4 xi_s32, undefined4 xi_s33, undefined4 xi_s34, undefined4 xi_s35, undefined4 xi_s36, undefined4 xi_s37, undefined4 xi_s38, undefined4 xi_s39, undefined4 xi_s40, undefined4 xi_s41, undefined4 xi_s42, undefined4 xi_s43, undefined4 xi_s44, undefined4 xi_s45, undefined4 xi_s46, undefined4 xi_s47, undefined4 xi_s48, undefined4 xi_s49, undefined4 xi_s50, undefined4 xi_s51, undefined4 xi_s52, undefined4 xi_s53, undefined4 xi_s54, undefined4 xi_s55, undefined4 xi_s56, undefined4 xi_s57, undefined4 xi_s58, undefined4 xi_s59, undefined4 xi_s60, undefined4 xi_s61, undefined4 xi_s62, undefined4 xi_s63, undefined4 xi_s64, undefined4 xi_s65, undefined4 xi_s66, undefined4 xi_s67, undefined4 xi_s68, undefined4 xi_s69, undefined4 xi_s70, undefined4 xi_s71, xi_codefn * xi_s72, undefined4 xi_s73)
 {
   int iVar1;
   
@@ -5187,7 +5187,7 @@ XI_API void __thiscall Unit1018BA60_SetFlag29A(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101A3D60  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_101A3D60(uint8_t * param_1, int param_2, undefined4 param_3)
+XI_API void __cdecl Unit1018BA60_FormatMessage10_27(uint8_t * param_1, int param_2, undefined4 param_3)
 {
   uint32_t uVar1;
   
@@ -5550,7 +5550,7 @@ XI_API void __cdecl Unit1018BA60_CreateDatManager(void)
 
 // FUNCTION: FFXIMAIN 0x101A8D60  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_101A8D60(void)
+XI_API void __cdecl Unit1018BA60_CreateConfigObjects(void)
 {
   int iVar1;
   void *pvVar2;
@@ -8364,7 +8364,7 @@ XI_API void __cdecl Unit1018BA60_NoOpD(void)
 
 // FUNCTION: FFXIMAIN 0x101AFF70  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101AFF70(void * self_)
+XI_API void __thiscall FsTextInput_InitWithImeOffscreen(void * self_)
 {
   HIMC pHVar1;
   char xi_frame[60] __attribute__((aligned(4)));
@@ -8474,7 +8474,7 @@ XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
   
   uVar1 = param_1;
   local_4 = self_;
-  uVar3 = orig::FUN_1011d290(param_1);
+  uVar3 = orig::Unit100D7420_IsNotControlChar(param_1);
   if ((char)uVar3 != '\0') {
     cVar2 = (char)uVar1;
     *(uint8_t *)((int)self_ + 0xef22) = 0;
@@ -10585,7 +10585,7 @@ XI_API void __thiscall FsWordCompletion_PackEntries(void * self_, int param_1, u
 
 // FUNCTION: FFXIMAIN 0x101BB2B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101BB2B0(void * self_)
+XI_API undefined4 __thiscall FsWordCompletion_BuildKind7Block(void * self_)
 {
   char cVar1;
   char *pcVar2;
@@ -10791,7 +10791,7 @@ XI_API undefined4 __thiscall FsWordCompletion_AddItem(void * self_, undefined4 *
 
 // FUNCTION: FFXIMAIN 0x101BB680  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101BB680(void * self_)
+XI_API undefined4 __thiscall FsWordCompletion_BuildKind13Block(void * self_)
 {
   char cVar1;
   int iVar2;
@@ -10855,8 +10855,8 @@ XI_API uint32_t __thiscall FsWordCompletion_Refresh(void * self_)
   *(uint32_t *)((int)self_ + 0x214) = 0xffffffff;
   *(uint32_t *)((int)self_ + 0x218) = 0xffffffff;
   *(uint32_t *)((int)self_ + 0x224) = *(uint32_t *)((int)self_ + 0x228);
-  uVar1 = orig::FUN_101bb680(self_);
-  uVar2 = orig::FUN_101bb2b0(self_);
+  uVar1 = orig::FsWordCompletion_BuildKind13Block(self_);
+  uVar2 = orig::FsWordCompletion_BuildKind7Block(self_);
   if (((char)uVar1 == '\0') && ((char)uVar2 == '\0')) {
     return uVar2;
   }

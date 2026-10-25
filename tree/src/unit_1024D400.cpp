@@ -633,7 +633,7 @@ XI_API void __cdecl StAvatar_UpdateHeading(int param_1, float * param_2, int par
     orig::FUN_1027ebd0(local_40);
     orig::Unit1027E120_TransformVec3(&local_70,local_40,&local_70);
     orig::FUN_10274650(local_60,&local_70);
-    orig::FUN_102748f0(local_60);
+    orig::Unit10274050_ScaleVec3ByInverseOf102746C0(local_60);
     fVar4 = (long double)local_70;
     fVar5 = (long double)local_68;
     fVar6 = SQRT(fVar4 * fVar4 + fVar5 * fVar5);

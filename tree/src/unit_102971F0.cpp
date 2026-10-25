@@ -122,7 +122,7 @@ XI_API void __cdecl sqgxShadowPlaneMatrix(float * param_1)
   local_c = *(float *)(g_pSqgxContext_as_s32 + 0x34c);
   local_8 = *(float *)(g_pSqgxContext_as_s32 + 0x350);
   local_4 = *(float *)(g_pSqgxContext_as_s32 + 0x354);
-  orig::FUN_102748f0(&local_c);
+  orig::Unit10274050_ScaleVec3ByInverseOf102746C0(&local_c);
   fVar2 = orig::FUN_10274870((float *)(g_pSqgxContext_as_s32 + 300),&local_c);
   *param_1 = (float)(fVar2 - (long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 300));
   param_1[4] = (float)-((long double)local_c * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x130));

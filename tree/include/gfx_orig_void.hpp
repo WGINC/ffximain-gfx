@@ -141,6 +141,7 @@ namespace orig_void {
 #include "CYyModelDt_VT_1032A72C.hpp"
 #include "CYyMotionQue.hpp"
 #include "CYyObject.hpp"
+#include "CYyObject_VT_1032A9F8.hpp"
 #include "CYyOs2VtxBuffer.hpp"
 #include "CYySkl.hpp"
 #include "CYySoundElem.hpp"

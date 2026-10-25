@@ -284,7 +284,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663648 = (void *)0x0;
     }
     else {
-      DAT_10663648 = orig::FUN_101e6fb0((void *)uVar3);
+      DAT_10663648 = orig::Yk_CtorVt10339BC0((void *)uVar3);
     }
   }
   if (DAT_10663520 == (void *)0x0) {

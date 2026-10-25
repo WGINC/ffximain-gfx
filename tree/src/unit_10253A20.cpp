@@ -1736,7 +1736,7 @@ XI_API uint32_t __thiscall Unit10253A20_BuildNodeString(void * self_, char * par
     orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
   }
   else {
-    sVar3 = orig::FUN_1011dcc0((uint8_t *)&param_1,pcVar6);
+    sVar3 = orig::Unit100D7420_LowercaseCharThen1011DAE0((uint8_t *)&param_1,pcVar6);
   }
   *(uint8_t *)((int)&param_1 + sVar3) = 0;
   if (((((char)param_1 != 'h') && ((char)param_1 != 'y')) && ((char)param_1 != 'H')) &&
@@ -1754,7 +1754,7 @@ XI_API uint32_t __thiscall Unit10253A20_BuildNodeString(void * self_, char * par
         orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
       }
       else {
-        sVar3 = orig::FUN_1011dcc0((uint8_t *)&param_1,pcVar6);
+        sVar3 = orig::Unit100D7420_LowercaseCharThen1011DAE0((uint8_t *)&param_1,pcVar6);
       }
       *(uint8_t *)((int)&param_1 + sVar3) = 0;
       iVar1 = orig::Unit10253A20_ContainsChar((char *)&param_1);
@@ -2582,7 +2582,7 @@ XI_API uint32_t __cdecl Unit10253A20_ConvertCharByLanguage(undefined4 * param_1,
   iVar1 = *(int *)((int)g_pSceneState_as_v3 + 8);
   if ((*(char *)((int)g_pSceneState_as_v3 + 0x18) < '\0') && ((iVar1 == 2 || (iVar1 == 3)))) {
 LAB_1025c079:
-    uVar2 = orig::FUN_1011dc00(param_1,param_3);
+    uVar2 = orig::Unit100D7420_UppercaseCharThen1011DAE0(param_1,param_3);
     return uVar2;
   }
   if (0 < iVar1) {
@@ -2595,7 +2595,7 @@ LAB_1025c079:
         *(uint8_t *)param_1 = 0x41;
         return 1;
       default:
-        uVar2 = orig::FUN_1011dc00(param_1,param_3);
+        uVar2 = orig::Unit100D7420_UppercaseCharThen1011DAE0(param_1,param_3);
         return uVar2;
       case 0x85c7:
       case 0x85c8:

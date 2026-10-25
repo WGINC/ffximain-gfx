@@ -151,7 +151,7 @@ XI_API void * __thiscall Unit10163E60_ConstructVt10335DC0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10165070  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
-XI_API void __cdecl fn_10165070(void)
+XI_API void __cdecl Unit10163E60_CreateUiObjects(void)
 {
   uint8_t *self_;
   undefined4 uVar1;
@@ -4165,7 +4165,7 @@ XI_API void * __thiscall ZoneMap_ConstructVt1033668C(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10173AE0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10173AE0(undefined4 * param_1, int param_2)
+XI_API undefined4 __stdcall ZoneMap_FindDbgBoxMPosById(undefined4 * param_1, int param_2)
 {
   undefined4 *puVar1;
   undefined4 *puVar2;
@@ -4211,7 +4211,7 @@ XI_API void __thiscall ZoneMap_ResetDbgBoxList(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10174A60  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10174A60(void * self_)
+XI_API void __thiscall ZoneMap_FreeDbgBoxList(void * self_)
 {
   undefined4 *puVar1;
   undefined4 *xi_s1;
@@ -4495,7 +4495,7 @@ XI_API void __cdecl Mat4_SetIdentity_2(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10176620  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API float * __thiscall fn_10176620(void * self_, float * param_1, float * param_2)
+XI_API float * __thiscall ZoneMap_FindDbgBoxHitBySegment(void * self_, float * param_1, float * param_2)
 {
   undefined4 *puVar1;
   int iVar2;

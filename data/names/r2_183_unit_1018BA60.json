@@ -1,0 +1,170 @@
+{
+ "0x10195640": {
+  "name": "Unit1018BA60_StoreExternalConfig",
+  "confidence": "low",
+  "evidence": "when +8 is set, opens through 0x10310DF0 (polling 0x10310DFB with Sleep(0)), writes each of the 0xCF config entries of kind 1 (0x101957B0) or kind 2 (0x101958C0, the keys \"LPOL1WDY\"/\"LPOL1WSC\"), commits through 0x10310E06/0x10310E11, clears +8 and closes (0x10310E1C); returns 1 or -1",
+  "summary": "Writes the config entries of kinds 1 and 2 to the external store and closes it."
+ },
+ "0x101956F0": {
+  "name": "Unit1018BA60_LoadExternalConfig",
+  "confidence": "low",
+  "evidence": "opens through 0x10310DF0/0x10310DFB, reads each config entry of kind 1 (0x10195780) or 2 (0x10195810) and applies its value (0x10196040), clears +8 and closes (0x10310E1C); returns 1 or -1",
+  "summary": "Reads the config entries of kinds 1 and 2 from the external store."
+ },
+ "0x10195780": {
+  "name": "Unit1018BA60_ReadExternalKind1",
+  "confidence": "low",
+  "evidence": "returns 0x10310E27's result",
+  "summary": "Reads one kind-1 config value from the external store."
+ },
+ "0x101957B0": {
+  "name": "Unit1018BA60_WriteExternalKind1",
+  "confidence": "low",
+  "evidence": "calls 0x10310E27 and polls 0x10310E32 until it reports done (1) or an error (-1)",
+  "summary": "Writes one kind-1 config value to the external store."
+ },
+ "0x10195810": {
+  "name": "Unit1018BA60_ReadExternalKind2",
+  "confidence": "low",
+  "evidence": "for the keys \"LPOL1WSC\" (0x1037997C, through 0x10310B30, values 0..2) and \"LPOL1WDY\" (0x10379970, through 0x10310B3B, values 0..1) stores the value in 0x106626C4 and returns 0x106626AC, else 0",
+  "summary": "Reads one of the two keyed config values from the external store."
+ },
+ "0x101958C0": {
+  "name": "Unit1018BA60_IsExternalKind2Key",
+  "confidence": "low",
+  "evidence": "returns 1 when the key is \"LPOL1WSC\" or \"LPOL1WDY\", else -1",
+  "summary": "Tests whether a key is one of the two external config keys."
+ },
+ "0x10195900": {
+  "name": "Unit1018BA60_SaveCnfDat",
+  "confidence": "medium",
+  "evidence": "sets config 0xA2 to 0 then 2 (SetConfig), gathers the values of the kind-4 config entries after the version 5 and writes them to \"cnf.dat\" (0x101C4920 on g_pFileMng); returns 1 or -1",
+  "summary": "Saves the kind-4 config values to cnf.dat."
+ },
+ "0x10196040": {
+  "name": "Unit1018BA60_SetConfigEntryValue",
+  "confidence": "medium",
+  "evidence": "unless the value is unchanged (and bit 1 of +0x28 clear), clamps it to [+0x18, +0x1C] (or uses the default +0x20 when out of range), stores it at +8 and calls the entry's listeners (Unit1018BA60_ForEach on +0x24); returns 1 or -1",
+  "summary": "Sets a config entry's value within its range and notifies its listeners."
+ },
+ "0x10196260": {
+  "name": "Unit1018BA60_ResetConfigToDefaults",
+  "confidence": "low",
+  "evidence": "for every config entry (kind 6 skipped when arg is set) stores the default +0x20 (for id 0x43 the setting 0xAB, Settings_GetValue) at +8 and notifies its listeners",
+  "summary": "Resets the config entries to their defaults and notifies their listeners."
+ },
+ "0x10196980": {
+  "name": "Unit1018BA60_WindowItemCtor",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10336A38 and the \"wind\" shape values 0x183, 0x19C and 0x180 (Shape_GetValueAt) at +0x14/+0x18/+0x1C",
+  "summary": "Constructs the window item base with its shape values."
+ },
+ "0x10196BE0": {
+  "name": "Unit1018BA60_ReturnZero",
+  "confidence": "medium",
+  "evidence": "returns 0",
+  "summary": "Returns 0."
+ },
+ "0x101972B0": {
+  "name": "Unit1018BA60_WindowItemCtorVt10336AC8",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_WindowItemCtor, vtable 0x10336AC8, -1 in +0x2C..+0x34 and +0x3C..+0x44, 50 in +0x4C..+0x54",
+  "summary": "Constructs a window item with vtable 0x10336AC8."
+ },
+ "0x10197A90": {
+  "name": "Unit1018BA60_FrameItemCtor",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10336B10 and the \"fram\" shape values 0x58, 0x59, 0x53, 0x88, 0x89 (Shape_GetValueAt) at +0x20..+0x2C",
+  "summary": "Constructs the frame item base with its shape values."
+ },
+ "0x10198CA0": {
+  "name": "Unit1018BA60_CtorVt10336C00",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10336C00, the \"wind\" shape value 0x62 at +0x24, the bytes +0x3C..+0x3E to 0x80 and three colours at +0x28..+0x30",
+  "summary": "Constructs a menu item with vtable 0x10336C00 and its default colours."
+ },
+ "0x101990C0": {
+  "name": "Unit1018BA60_CtorVt10336C48",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10336C48, clears +0x14",
+  "summary": "Constructs a menu item object with vtable 0x10336C48."
+ },
+ "0x10199710": {
+  "name": "Unit1018BA60_WindowItemCtorVt10336D20",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_WindowItemCtor, vtable 0x10336D20, +0x24 = 5, +0x28 = 100, +0x3C = 8",
+  "summary": "Constructs a window item with vtable 0x10336D20."
+ },
+ "0x1019A890": {
+  "name": "Unit1018BA60_WindowItemCtorVt10336E10",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_WindowItemCtor, vtable 0x10336E10, +0x34/+0x38 = -1, +0x48 = 50, +0x50 = 0x80",
+  "summary": "Constructs a window item with vtable 0x10336E10."
+ },
+ "0x1019AF00": {
+  "name": "Unit1018BA60_WindowItemCtorVt10336E58",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_WindowItemCtor, vtable 0x10336E58, +0x30 = 25, +0x28 = 3",
+  "summary": "Constructs a window item with vtable 0x10336E58."
+ },
+ "0x1019B860": {
+  "name": "Unit1018BA60_WindowItemCtorVt10336EA0",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_WindowItemCtor, vtable 0x10336EA0, +0x28/+0x30/+0x34 = 1",
+  "summary": "Constructs a window item with vtable 0x10336EA0."
+ },
+ "0x1019BFE0": {
+  "name": "Unit1018BA60_CtorVt10336F30",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10336F30, the \"wind\" shape value 0x183 at +0x14 (0 when missing)",
+  "summary": "Constructs a menu item object with vtable 0x10336F30."
+ },
+ "0x1019C190": {
+  "name": "Unit1018BA60_CtorVt10336F78",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10336F78, the \"wind\" shape values 0x183 and 0x1E3 at +0x14/+0x18",
+  "summary": "Constructs a menu item object with vtable 0x10336F78."
+ },
+ "0x1019C580": {
+  "name": "Unit1018BA60_Call10311386",
+  "confidence": "low",
+  "evidence": "returns 0x10311386's result; called by Menu_ApplyFlagsToItems",
+  "summary": "Returns the result of 0x10311386."
+ },
+ "0x1019C5B0": {
+  "name": "Unit1018BA60_Call103113C8",
+  "confidence": "low",
+  "evidence": "calls 0x103113C8; called by Frame_Render",
+  "summary": "Calls 0x103113C8."
+ },
+ "0x1019CD40": {
+  "name": "Unit1018BA60_ByteTableCtor",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10336FC0, +0x18 = 8, clears +0x14, +0x70..+0x78 and the 32 bytes from +0x29",
+  "summary": "Constructs the byte-table item base."
+ },
+ "0x1019CE00": {
+  "name": "Unit1018BA60_ByteTableDefaultCtor",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_ByteTableCtor, vtable 0x10337028, fills the 32 bytes at +0x29 from the table 0x1037A290 (0x1019CF60), copies them to +0x49, calls 0x1019CFA0 and Config_LoadDefaultTable",
+  "summary": "Constructs the byte table from the default table (Config_LoadDefaultTable)."
+ },
+ "0x1019CF60": {
+  "name": "Unit1018BA60_FillTableBytes",
+  "confidence": "low",
+  "evidence": "fills the bytes from +0x29 with Cell_GetWord1036D6B0 of each 10-byte entry of the table 0x1037A290..0x1037A3B2, then returns 0x1019D2B0([0x10662770])",
+  "summary": "Fills the table bytes from the default table."
+ },
+ "0x1019D150": {
+  "name": "Unit1018BA60_ByteTableAltCtor",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_ByteTableCtor, vtable 0x10337090, fills +0x29 through 0x1019D2B0, copies them to +0x49, calls 0x1019D350 and Config_LoadAltTable",
+  "summary": "Constructs the byte table from the alternative table (Config_LoadAltTable)."
+ },
+ "0x1019D580": {
+  "name": "Unit1018BA60_CtorVt103370F8",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x103370F8",
+  "summary": "Constructs a menu item object with vtable 0x103370F8."
+ }
+}

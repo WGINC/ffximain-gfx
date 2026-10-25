@@ -54,14 +54,37 @@
   "n_differing": 0
  },
  "facts:sp_solved.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "ok": false,
+  "differing": [
+   "0x10312F0C",
+   "0x10312F5F",
+   "0x1031302A",
+   "0x10313088",
+   "0x103131FC",
+   "0x1031337E",
+   "0x10317635",
+   "0x10317681",
+   "0x1031D1E5",
+   "0x1031D23C",
+   "0x10327103",
+   "_undetermined"
+  ],
+  "n_differing": 12
  },
  "facts:cdecl_args.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "ok": false,
+  "differing": [
+   "0x10253800",
+   "0x102F760A",
+   "0x10312EAD",
+   "0x10312FD4",
+   "0x103130D0",
+   "0x103175B0",
+   "0x1031D189",
+   "0x103213F7",
+   "_at_least"
+  ],
+  "n_differing": 9
  },
  "facts:leaf_funcs.json": {
   "ok": true,
@@ -126,6 +149,11 @@
   "differing": [],
   "n_differing": 0
  },
+ "facts:ret_full.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
  "facts:caller_reads.json": {
   "ok": true,
   "differing": [],
@@ -162,9 +190,11 @@
   "n_differing": 0
  },
  "facts:this_flow.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "ok": false,
+  "differing": [
+   "0x1031A00D"
+  ],
+  "n_differing": 1
  },
  "facts:ida_classes.json": {
   "ok": true,
@@ -208,13 +238,15 @@
  },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 3792,
+  "wrappers": 3971,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
    "0x10047F80 CMoGeneratorClone_VT_1032B114_Constructor __thiscall reads EDX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads EDX",
-   "0x10150CC0 Unit1012AC80_SetTextFwd_v1 __stdcall reads ECX"
+   "0x10150CC0 Unit1012AC80_SetTextFwd_v1 __stdcall reads ECX",
+   "0x102590E0 Unit10253A20_DeleteNodesA __cdecl reads ECX",
+   "0x1025A800 Unit10253A20_DeleteNodesB __cdecl reads ECX"
   ]
  },
  "agreement": {
@@ -317,11 +349,16 @@
   "sha1": "911a0575f762279f8cd08b35011e1e2ec82789e7",
   "expected": "911a0575f762279f8cd08b35011e1e2ec82789e7"
  },
+ "tree-source:data/exports/ghidra_frameset13.jsonl": {
+  "ok": true,
+  "sha1": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5",
+  "expected": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5"
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 391 files; failed: none"
+   "built build/gfx_recon.dll from 392 files; failed: none"
   ]
  },
  "tree-gate": {

@@ -461,11 +461,15 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10008EA0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10008ED0": [
 "no caller reads its result (caller_reads.py)",
 "no code sees EAX's value at entry (caller_reads.py)"
+],
+"0x10008F00": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10008F80": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
@@ -1690,20 +1694,23 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10017D90": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100180D0": [
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10018140": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10018180": [
 "no code sees EAX's value at entry (caller_reads.py)",
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100181D0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10018270": [
 "callers read only AL of its result (caller_reads.py)",
@@ -2795,13 +2802,16 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10027B80": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10027BD0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10027C20": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10027C70": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -3188,7 +3198,8 @@
 ],
 "0x1002B140": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1002B390": [
 "no caller reads its result (caller_reads.py)",
@@ -3967,7 +3978,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10037BF0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10037C50": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -4020,7 +4032,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10038330": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10038470": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
@@ -4103,7 +4116,8 @@
 ],
 "0x10039590": [
 "callers read only AL of its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100395B0": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -5999,7 +6013,8 @@
 ],
 "0x10056160": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10056220": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -6966,7 +6981,8 @@
 ],
 "0x100635B0": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10063890": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
@@ -7799,6 +7815,12 @@
 "0x1006D980": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
+"0x1006DCF0": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
+"0x1006E380": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
 "0x1006E6B0": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
@@ -7812,6 +7834,9 @@
 "argument 1: not read; argument 2: not read (arg_reads.py)"
 ],
 "0x1006E970": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
+"0x1006ED10": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1006EF70": [
@@ -10081,7 +10106,8 @@
 ],
 "0x10087F00": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10088270": [
 "callers read only AL of its result (caller_reads.py)",
@@ -10953,7 +10979,8 @@
 ],
 "0x100983F0": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10098610": [
 "argument 1: not read; argument 2: not read (arg_reads.py)"
@@ -14015,7 +14042,8 @@
 ],
 "0x100C9C10": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100CA310": [
 "no caller reads its result (caller_reads.py)",
@@ -14045,7 +14073,8 @@
 ],
 "0x100CB390": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100CB400": [
 "no caller reads its result (caller_reads.py)",
@@ -14929,7 +14958,8 @@
 ],
 "0x100DBC70": [
 "callers read only AL of its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100DBCA0": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -15756,7 +15786,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x100E46A0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100E47A0": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -16800,35 +16831,43 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x100EDFB0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EE0A0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EE160": [
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x100EE690": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EE900": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EEB70": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EEDE0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EEE90": [
 "no code sees EAX's value at entry (caller_reads.py)",
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EEF80": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EF020": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x100EF0E0": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -20426,7 +20465,8 @@
 "argument 2: not read (arg_reads.py)"
 ],
 "0x10113CA0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10113D30": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -20784,7 +20824,8 @@
 ],
 "0x101177D0": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10117EE0": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
@@ -21288,7 +21329,8 @@
 ],
 "0x1011C670": [
 "callers read only AL of its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1011C720": [
 "no caller reads its result (caller_reads.py)",
@@ -21361,7 +21403,8 @@
 "callers read only AL of its result (caller_reads.py)",
 "its code sets only AL of EAX before returning (ret_width.py)",
 "argument 1: bytes 0 read (arg_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1011D350": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -21413,6 +21456,12 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x1011DB40": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
+"0x1011DC00": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
+"0x1011DCC0": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1011DD70": [
@@ -22362,19 +22411,24 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129D90": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129DE0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129E30": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129E80": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129EB0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10129EE0": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -23743,6 +23797,9 @@
 ],
 "0x10140070": [
 "no code sees EAX's value at entry (caller_reads.py)"
+],
+"0x10140090": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10140270": [
 "argument 1: bytes 0 read (arg_reads.py)"
@@ -25123,7 +25180,11 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101532F0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
+],
+"0x10153310": [
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10153A40": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -26499,7 +26560,8 @@
 ],
 "0x10160760": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10160930": [
 "no caller reads its result (caller_reads.py)",
@@ -26507,7 +26569,8 @@
 ],
 "0x10160960": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101609C0": [
 "no caller reads its result (caller_reads.py)",
@@ -26516,7 +26579,8 @@
 ],
 "0x101609F0": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10160A50": [
 "no caller reads its result (caller_reads.py)",
@@ -27088,7 +27152,8 @@
 ],
 "0x10165070": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10166230": [
 "argument 1: bytes 0 read (arg_reads.py)"
@@ -27502,7 +27567,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10173AE0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10173B50": [
 "no caller reads its result (caller_reads.py)",
@@ -27527,7 +27593,8 @@
 ],
 "0x10174A60": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10174EC0": [
 "verified tree: the C++ reconstruction passes the fuzz gate"
@@ -27554,7 +27621,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10176620": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101768A0": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -29901,7 +29969,8 @@
 ],
 "0x1019CDC0": [
 "its code sets only AL of EAX before returning (ret_width.py)",
-"argument 1: bytes 0 read (arg_reads.py)"
+"argument 1: bytes 0 read (arg_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019CE00": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -30031,20 +30100,24 @@
 ],
 "0x1019EBB0": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019EC00": [
 "no caller reads its result (caller_reads.py)",
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x1019ED10": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019ED20": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019ED30": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019ED40": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -30063,7 +30136,8 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019EDB0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1019EF60": [
 "no caller reads its result (caller_reads.py)",
@@ -30148,7 +30222,8 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101A0770": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101A07D0": [
 "no caller reads its result (caller_reads.py)"
@@ -30538,7 +30613,8 @@
 ],
 "0x101A3D60": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101A3DC0": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -30930,7 +31006,8 @@
 ],
 "0x101A8D60": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101A9E90": [
 "argument 1: bytes 0 read (arg_reads.py)"
@@ -31422,7 +31499,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x101AFF70": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101B00B0": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -32128,7 +32206,8 @@
 ],
 "0x101BB2B0": [
 "callers read only AL of its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101BB430": [
 "no caller reads its result (caller_reads.py)",
@@ -32148,7 +32227,8 @@
 ],
 "0x101BB680": [
 "callers read only AL of its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101BB740": [
 "no caller reads its result (caller_reads.py)",
@@ -33389,7 +33469,8 @@
 ],
 "0x101C8950": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101C8B30": [
 "its code sets only AL of EAX before returning (ret_width.py)"
@@ -33434,7 +33515,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x101C8FD0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101C9270": [
 "argument 2: bytes 0,1 read (arg_reads.py)",
@@ -35726,7 +35808,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x101E6FB0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x101E7550": [
 "argument 1: bytes 0,1 read; argument 2: bytes 0,1 read (arg_reads.py)"
@@ -37243,7 +37326,8 @@
 "verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10202F00": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10202FE0": [
 "no code sees EAX's value at entry (caller_reads.py)"
@@ -39151,7 +39235,8 @@
 ],
 "0x1021F480": [
 "no caller reads its result (caller_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1021F950": [
 "no caller reads its result (caller_reads.py)",
@@ -39492,7 +39577,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x10222E20": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10223040": [
 "argument 2: bytes 0 read (arg_reads.py)",
@@ -40186,7 +40272,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x1022B430": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1022B570": [
 "callers read only AL of its result (caller_reads.py)",
@@ -44721,7 +44808,8 @@
 "no code sees EAX's value at entry (caller_reads.py)"
 ],
 "0x102748F0": [
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10274930": [
 "no caller reads its result (caller_reads.py)",
@@ -45208,7 +45296,8 @@
 "0x1027B480": [
 "no caller reads its result (caller_reads.py)",
 "argument 2: not read (arg_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x1027B580": [
 "no code sees EAX's value at entry (caller_reads.py)",
@@ -45541,7 +45630,8 @@
 ],
 "0x10280D10": [
 "argument 2: not read (arg_reads.py)",
-"no code sees EAX's value at entry (caller_reads.py)"
+"no code sees EAX's value at entry (caller_reads.py)",
+"verified tree: the C++ reconstruction passes the fuzz gate"
 ],
 "0x10280DE0": [
 "no caller reads its result (caller_reads.py)",

@@ -3363,3 +3363,9 @@ clean gate on the 74 new and 75 changed functions gives 149 PASS; 4,279 function
 sdk/test_fork.py). The called-pointer type was renamed `xi_codefn`: `xi_code` is already xi_decomp.hpp's address
 function in the in-game build. data/this_flow.json was regenerated (one more site, 0x10321430 in 0x1031A00D):
 it had not been regenerated after purges.json gained 64 entries, and nothing but verify_all reads it.
+
+verify_all --quick on the promoted tree: tree-regen PASS (392 files, none failed), all tree sources PASS. FAIL:
+reg_kept_audit and export-sp (0x100419F4) as recorded before (9a507d2); and three facts stale against their
+inputs since purges.json gained 64 entries (38734c7): sp_solved.json (12 items), cdecl_args.json (9),
+this_flow.json (regenerated in this commit). hx2cpp and gfx_cases read sp_solved/cdecl_args, so regenerating them
+can change translations and cases: that is the next round (regenerate, re-translate, gate), not part of this one.

@@ -1,0 +1,8 @@
+{
+ "0x10080DC0": {
+  "name": "Command_RunLine",
+  "confidence": "medium",
+  "evidence": "processes a typed line (Unit1018BA60_ProcessInputLine), splits it into arguments (Arg_SplitQuoted), expands the target placeholders <st>, <stal>, <stnpc>, <stpc>, <stpt>, looks the command up (Arg_FindInSortedTable, Arg_LookupWord), handles \"/ver\" and echoes \">> %s\" to the chat log (ChatLog_AddFormattedMessage); called by Input_HandleChar, CallMotd and CXiControlActor_SetTarget",
+  "summary": "Runs a typed chat or slash-command line."
+ }
+}

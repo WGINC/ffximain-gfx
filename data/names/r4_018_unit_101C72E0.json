@@ -1,0 +1,8 @@
+{
+ "0x101C8FD0": {
+  "name": "Unit101C72E0_FormatDateTime",
+  "confidence": "medium",
+  "evidence": "Converts arg1 with Unit101C72E0_TimeToTmWrap28Years, formats date and time parts through messages of table 10 by g_pSceneState+0x18's bits; placeholders '----/--/--', '--/--/--', '--:--:--' when the format entries are missing; result in the buffer at 0x10662E98 ('%s %s', or one part by arg2 bits 2/0x18).",
+  "summary": "Formats a time value as date and/or time text (by flags in arg2) into a static buffer and returns it."
+ }
+}

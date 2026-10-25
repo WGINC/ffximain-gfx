@@ -1,0 +1,14 @@
+{
+ "0x1006DCF0": {
+  "name": "CMoProcessor_VT_1032C368_RotationFromAnglesZYX",
+  "confidence": "medium",
+  "evidence": "Sets three static 4x4 matrices from sin/cos of arg2 (rows 1-2: about X), arg3 (about Y), arg4 (about Z); then out = vf9(arg1, Z, Y) and vf9(arg1, that, X) through vtable slot 9 (+0x24); returns arg1. CMoProcessor_VT_1032C368 slot 22.",
+  "summary": "Builds rotation matrices about X, Y and Z from three angles and combines them through vtable slot 9 in Z, Y, X order into arg1."
+ },
+ "0x1006E380": {
+  "name": "CMoProcessor_VT_1032C368_RotationFromAnglesXYZ",
+  "confidence": "medium",
+  "evidence": "Same three sin/cos matrices from arg2 (about X), arg3 (Y), arg4 (Z), combined as vf9(arg1, X, Y) then vf9(arg1, that, Z) through vtable slot 9; returns arg1. CMoProcessor_VT_1032C368 slot 27.",
+  "summary": "Builds rotation matrices about X, Y and Z from three angles and combines them through vtable slot 9 in X, Y, Z order into arg1."
+ }
+}

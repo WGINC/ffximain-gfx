@@ -1,0 +1,14 @@
+{
+ "0x1029ADF0": {
+  "name": "SqskSkeleton_BuildSQO",
+  "confidence": "high",
+  "evidence": "its messages are \"sqskBuildSQO(0x%08X, %d)\" and \"Unknown skeleton type\"; checks the tag \"SQLE\", the skeleton type 0xB0001 and the binary flag 0x10000, then builds it (0x1029AF20)",
+  "summary": "Builds a skeleton from an SQLE-tagged binary block."
+ },
+ "0x1029AF20": {
+  "name": "SqskSkeleton_BuildBinary",
+  "confidence": "high",
+  "evidence": "its errors are \"Skeleton version mismatch\" (version 4) and \"invalid boneCount %d\"; creates a skeleton (SqskSkeleton_Create, SqskSkeleton_SetNodeCount) and reads each bone's vectors and quaternion (Unit10274050_SetXyz, Unit1027A4B0_Set), first passing the data through Unit10292470_SwapNibblesXor when the flag arg3 is set",
+  "summary": "Builds a skeleton's bones from its binary data."
+ }
+}

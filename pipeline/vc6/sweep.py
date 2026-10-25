@@ -54,6 +54,19 @@ typedef unsigned char XI_PT1; typedef unsigned short XI_PT2; typedef unsigned in
 typedef signed char XI_PS1; typedef short XI_PS2; typedef int XI_PS4; typedef __int64 XI_PS8;
 #define XI_PIECE(x, o, s) (*(XI_PT##s *)((char *)&(x) + (o)))
 #define XI_PIECE_S(x, o, s) (*(XI_PS##s *)((char *)&(x) + (o)))
+/* a 3-byte piece has no type: its value, read from the 4-byte word (sweep.py macros rewrites XI_PIECE(x, o, 3)) */
+#define XI_PIECE3(x, o) ((((uint32_t)(x)) >> (8 * (o))) & 0xFFFFFFu)
+#define CONCAT13(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 24) | ((uint32_t)(l) & 0xFFFFFFu)))
+void *__cdecl memcpy(void *, const void *, size_t);
+#pragma intrinsic(memcpy)
+#define qmemcpy memcpy
+__declspec(dllimport) DWORD __stdcall timeGetTime(void);
+#ifdef __cplusplus
+#define nullptr 0
+/* xi_castbits<To>(x) (tree/include/xi_ghidra.hpp): the bits of x as a To; To deduced from a null pointer, which
+   Visual C++ 6.0 handles where an explicit template argument it does not (sweep.py macros) */
+template <class To, class From> inline To xi_castbits_(From f, To *) { To t; memcpy(&t, &f, sizeof t); return t; }
+#endif
 '''
 SIG = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
 # the class-method form (Hex-Rays route): `RET [CC] Class::Method(ARGS)`; without CC a member (this in ECX)
@@ -234,9 +247,59 @@ def code_addrs():
     return _ADDRS
 
 
+def _at_calls(body):
+    """`at<T>(obj, off)` (tree/include/gfx_common.hpp: the field of type T at byte offset off) written out as the
+    expression it returns, `(*(T *)((char *)(obj) + (off)))`"""
+    out, i = [], 0
+    while True:
+        j = body.find('at<', i)
+        while j > 0 and (body[j - 1].isalnum() or body[j - 1] == '_'): j = body.find('at<', j + 3)
+        if j < 0: out.append(body[i:]); return ''.join(out)
+        k, depth = j + 3, 1
+        while k < len(body) and depth:
+            depth += {'<': 1, '>': -1}.get(body[k], 0); k += 1
+        if depth or k >= len(body) or body[k] != '(': return None
+        T = body[j + 3:k - 1]
+        e = _group(body, k)
+        if e < 0: return None
+        inner, d, cut = body[k + 1:e - 1], 0, None
+        for q, ch in enumerate(inner):
+            d += {'(': 1, ')': -1, '<': 0}.get(ch, 0)
+            if ch == ',' and d == 0: cut = q; break
+        if cut is None: return None
+        obj, off = inner[:cut].strip(), inner[cut + 1:].strip()
+        inner_c = _at_calls(obj)
+        if inner_c is None: return None
+        out.append(body[i:j] + '(*(%s *)((char *)(%s) + (%s)))' % (T, inner_c, off)); i = e
+
+
+def _castbits(body):
+    """`xi_castbits<T>(x)` as `xi_castbits_((x), (T *)0)` (the shim's: T deduced)"""
+    out, i = [], 0
+    while True:
+        j = body.find('xi_castbits<', i)
+        if j < 0: out.append(body[i:]); return ''.join(out)
+        k, depth = j + len('xi_castbits<'), 1
+        while k < len(body) and depth:
+            depth += {'<': 1, '>': -1}.get(body[k], 0); k += 1
+        if depth or k >= len(body) or body[k] != '(': return None
+        T = body[j + len('xi_castbits<'):k - 1]
+        e = _group(body, k)
+        if e < 0: return None
+        inner = _castbits(body[k + 1:e - 1])
+        if inner is None: return None
+        out.append(body[i:j] + 'xi_castbits_((%s), (%s *)0)' % (inner, T)); i = e
+
+
 def macros(body):
     """the tree's XI_ helpers the shim cannot define as they are, rewritten; (body, None) or (None, why)"""
     body = re.sub(r'\s*__attribute__\(\(aligned\(\d+\)\)\)', '', body)
+    body = re.sub(r'\balignas\(\d+\)\s*', '', body)          # the frame's alignment: the frame layout is the game's
+    body = _at_calls(body)
+    if body is None: return None, 'at<> not parsed'
+    body = re.sub(r'XI_PIECE\(([^(),]+), (\d+), 3\)', r'XI_PIECE3(\1, \2)', body)
+    body = _castbits(body)
+    if body is None: return None, 'xi_castbits not parsed'
     if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
     body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
     def code(m):
@@ -505,13 +568,20 @@ def main():
     place = {'ftol': FTOL} if ftol_check(img) else {}
     print('__ftol: %s' % ('0x%08X is LIBC.LIB\'s, byte for byte' % FTOL if place else 'not established; its calls stay uncompared'))
     open(os.path.join(d, 'vc6_shim.h'), 'w').write(SHIM)
+    # the Direct3D 8 interfaces as the tree declares them (tree/include/xi_d3d8.hpp, from the SDK's d3d8.h), less the
+    # static_asserts Visual C++ 6.0 does not have; included by the sources that name an IDirect3D interface
+    d3d = ''.join(l for l in open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
+    open(os.path.join(d, 'xi_d3d8_vc6.h'), 'w').write(d3d)
     res, files, sig = {}, [], {}
     orig, glob_ = externs() if o.calls else (None, None)
     for ea, m, src in candidates(only, o.calls):
         c = convert(m, src, orig, glob_)
         k = '0x%08X' % ea
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
-        fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(c[1]); files.append((ea, fn, m.group('cc')))
+        text = c[1]
+        if re.search(r'\bIDirect3D\w*8\b', text):
+            text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6.h"\n', 1)
+        fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))
     # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.
     # An object is cached by the hash of what decides it: its source, the shim, the flags and the compiler's own
@@ -522,7 +592,10 @@ def main():
     env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(os.environ['VC6'], 'INCLUDE').replace('/', '\\'))
     import concurrent.futures as CF, time
 
-    def key_of(fn): return cache_key(open(os.path.join(d, fn), 'rb').read(), SHIM, o.flags, tc)
+    d3dh = open(os.path.join(d, 'xi_d3d8_vc6.h'), 'rb').read()
+    def key_of(fn):
+        src = open(os.path.join(d, fn), 'rb').read()
+        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b''), SHIM, o.flags, tc)
 
     def compile_chunk(chunk):
         subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],

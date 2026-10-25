@@ -107,7 +107,15 @@ match.py's comparison says IDENTICAL; the verdict of the tree's code as written 
 | retthis | 219 | 25 |
 | other combinations | 20 | 0 |
 
-That makes 158 more functions proven at the game's bytes: 1,591 of 4,121 swept. The rest of the classes are
+That makes 158 more functions proven at the game's bytes by a rule.
+
+**More of the tree converted (25 Oct, night).** The sweep now also takes the Hex-Rays route's `at<T>(obj, off)`
+(written out as the cast it returns), `alignas(N)` on a frame (dropped, as the GCC attribute already was),
+`xi_castbits<T>(x)` (T deduced from a null pointer: Visual C++ 6.0 mishandles explicit template arguments of a
+function), a 3-byte `XI_PIECE` (its value from the word), `CONCAT13`, `qmemcpy` (the intrinsic `memcpy`),
+`nullptr`, `timeGetTime` (a DLL import), and the Direct3D 8 interfaces as the tree declares them (xi_d3d8.hpp less
+its `static_assert`s). NO_COMPILE 580 to 506. With the rules: **1,612 of 4,121** at the game's bytes (1,449
+IDENTICAL, 5 IDENTICAL_UNCOMPARED, 158 by a rule). The rest of the classes are
 next: each rule is found the same way, from the smallest function of a class, and kept only by the comparison.
 
 ## First results (25 Oct)

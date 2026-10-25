@@ -1,0 +1,14 @@
+{
+ "0x1028F2E0": {
+  "name": "SqsnScene_ItemAddLight",
+  "confidence": "high",
+  "evidence": "its error is \"too many lights are being added t...\" (sqsnScene.c line 0x29C); appends arg3 to the up-to-8 lights (+0x24, count +0x20) of the layer item arg2 (layer<<16 | item)",
+  "summary": "Adds a light to a scene layer item (at most eight)."
+ },
+ "0x1028F350": {
+  "name": "SqsnScene_ItemAddShadowLight",
+  "confidence": "high",
+  "evidence": "its error is \"too many shadow lights are being...\" (line 0x2AE); appends arg3 to the up-to-8 shadow lights (+0x48, count +0x44) of the layer item arg2",
+  "summary": "Adds a shadow light to a scene layer item (at most eight)."
+ }
+}

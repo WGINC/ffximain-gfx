@@ -21,10 +21,10 @@ public:
     static void __thiscall DrawScene(void * self);  // 0x1018B860
     static void __stdcall Call10036170(int param_1);  // 0x1018B8B0
     static long double __thiscall ComputeFogDistance(void * self, undefined4 param_2);  // 0x1018B8F0
-    static void __thiscall GetDirLightsForArea(void * self, undefined4 param_1, undefined4 param_2, int param_3);  // 0x1018B960
-    static void __thiscall GetDirLight(void * self, undefined4 param_1, undefined4 param_2, int param_3);  // 0x1018B9A0
+    static void __thiscall GetDirLightsForArea(void * self, undefined4 * param_1, undefined4 * param_2, int param_3);  // 0x1018B960
+    static void __thiscall GetDirLight(void * self, undefined4 * param_1, undefined4 param_2, int param_3);  // 0x1018B9A0
     static void __thiscall GetAmbient(void * self, uint32_t * param_1, int param_2, int param_3);  // 0x1018B9E0
-    static void __thiscall GetFog(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, int param_5);  // 0x1018BA20
+    static void __thiscall GetFog(void * self, uint32_t * param_1, float * param_2, float * param_3, undefined4 param_4, int param_5);  // 0x1018BA20
     static void __thiscall SetPtr1D8FromTable(void * self, uint32_t param_1);  // 0x1018BAE0
 
     void **vftable;  // +0x0

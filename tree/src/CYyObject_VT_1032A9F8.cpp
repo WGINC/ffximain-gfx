@@ -56,6 +56,19 @@ XI_API void __thiscall ThreadPool_Shutdown(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10039590  (unit CYyObject_VT_1032A9F8: between 0x10039470 (class model places it in CYyObject_VT_1032A9F8) and 0x100395D0 (class model places it in CYyObject_VT_1032A9F8), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_10039590(void * self_, undefined4 xi_s1)
+{
+  uint32_t uVar1;
+  
+  if (*(int *)((int)self_ + 8) != 0) {
+    uVar1 = orig::FUN_10039700(xi_s1);
+    return uVar1;
+  }
+  return 1;
+}
+
 // FUNCTION: FFXIMAIN 0x100395D0  (unit CYyObject_VT_1032A9F8: class model places it in CYyObject_VT_1032A9F8)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall CYyObject_VT_1032A9F8_Construct(void * self_)

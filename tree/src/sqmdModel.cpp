@@ -600,7 +600,7 @@ XI_API void __cdecl SqmdModel_SetLayerSort(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10278E90  (unit sqmdModel: between 0x10278E10 (asserts sqmdModel.c) and 0x102790C0 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl SqmdModel_LookAt(int param_1, int param_2, int param_3, undefined4 param_4, float param_5)
+XI_API void __cdecl SqmdModel_LookAt(int param_1, int param_2, int param_3, float * param_4, float param_5)
 {
   int iVar1;
   int iVar2;
@@ -749,7 +749,7 @@ XI_API undefined4 __cdecl SqmdModel_GetItem(int param_1, undefined4 param_2, int
     orig::sqDebugPrintf_v1(s_negative_array_index__d__103b3d54,param_3);
     return 0;
   }
-  switch(param_2) {
+  switch(xi_sw(param_2)) {
   case 0:
     if (param_3 < *(int *)(param_1 + 0x24)) {
       return *(uint32_t *)(*(int *)(param_1 + 0x1c) + param_3 * 4);
@@ -909,7 +909,7 @@ XI_API undefined4 __cdecl SqmdModel_FindItemByName(int param_1, int param_2, int
            iVar1 == 0)) {
           iVar4 = *(int *)(*(int *)(param_1 + 0x78) + iVar4 * 4);
           *param_4 = iVar4;
-          switch(param_3) {
+          switch(xi_sw(param_3)) {
           case 0:
             uVar3 = orig::SqmdModel_GetItemKind0(param_1,iVar4);
             return uVar3;
@@ -945,7 +945,7 @@ XI_API undefined4 __cdecl SqmdModel_FindItemByName(int param_1, int param_2, int
 
 // FUNCTION: FFXIMAIN 0x10279D50  (unit sqmdModel: between 0x10279BF0 (asserts sqmdModel.c) and 0x10279D90 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl SqmdModel_LookupKind2(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl SqmdModel_LookupKind2(undefined4 param_1, undefined4 param_2, int * param_3)
 {
   uint32_t uVar1;
   
@@ -957,7 +957,7 @@ XI_API undefined4 __cdecl SqmdModel_LookupKind2(undefined4 param_1, undefined4 p
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char * __cdecl SqmdModel_ItemKindName(undefined4 param_1)
 {
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 0:
     return s_texture_103b3ee4;
   case 1:

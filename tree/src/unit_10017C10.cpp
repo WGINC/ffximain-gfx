@@ -76,6 +76,67 @@ XI_API void __cdecl Unit10017C10_NoOpVarargsB(undefined4 xi_s1, ...)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10017D90  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
+{
+  char cVar1;
+  int iVar2;
+  uint8_t *puVar3;
+  int iVar4;
+  uint32_t *puVar5;
+  char *pcVar6;
+  
+  iVar4 = -1;
+  pcVar6 = &DAT_10456c18;
+  do {
+    if (iVar4 == 0) break;
+    iVar4 = iVar4 + -1;
+    cVar1 = *pcVar6;
+    pcVar6 = pcVar6 + 1;
+  } while (cVar1 != '\0');
+  if (iVar4 == -2) {
+    orig::FUN_10311877();
+  }
+  if (((ErrCode != 0xcf1) && (ErrCode != 0xcfa)) && (ErrCode != 0xd07)) {
+    iVar4 = 0;
+    if (DAT_10350988 != 9999) {
+      puVar5 =(uint32_t*)(&DAT_10350988);
+      iVar2 = DAT_10350988;
+      do {
+        if (iVar2 == ErrCode) {
+          puVar3 = (uint8_t *)
+                   orig::Unit1012AC80_GetMessageFwd
+                             (*(uint32_t *)(iVar4 * 0x10 + 0x10350990),
+                              *(uint32_t *)(iVar4 * 0x10 + 0x10350994));
+          return puVar3;
+        }
+        iVar2 = puVar5[4];
+        puVar5 = puVar5 + 4;
+        iVar4 = iVar4 + 1;
+      } while (iVar2 != 9999);
+    }
+    return (uint8_t *)0x0;
+  }
+  return &DAT_10456c18;
+}
+
+// FUNCTION: FFXIMAIN 0x10018140  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10018140(undefined4 param_1)
+{
+  uint32_t uVar1;
+  char xi_frame[1024] __attribute__((aligned(4)));
+  char  (&local_400)[1024] = *reinterpret_cast<char  (*)[1024]>(xi_frame + 0);
+  
+  uVar1 = orig::Unit1012AC80_GetMessageFwd_v1(7,1,param_1);
+  orig::_sprintf_v1(local_400,uVar1);
+  if (DAT_10668ff8_as_v1 != (void *)0x0) {
+    orig::FUN_1023c140(DAT_10668ff8_as_v1,local_400);
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10018180  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
@@ -93,6 +154,74 @@ XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
   }
   DAT_10456d17 = 1;
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x100181D0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100181D0(uint32_t param_1, char * param_2)
+{
+  char cVar1;
+  uint32_t uVar2;
+  int iVar3;
+  uint32_t uVar4;
+  uint32_t uVar5;
+  char *pcVar6;
+  char *pcVar7;
+  char *pcVar8;
+  char xi_frame[512] __attribute__((aligned(4)));
+  char  (&local_200)[512] = *reinterpret_cast<char  (*)[512]>(xi_frame + 0);
+  
+  uVar2 = orig::Unit1012AC80_GetMessageFwd_v1(7,0,(param_1 ^ (int)param_1 >> 0x1f) - ((int)param_1 >> 0x1f));
+  orig::_sprintf_v1(local_200,uVar2);
+  if (param_2 != (char *)0x0) {
+    iVar3 = -1;
+    pcVar6 = local_200;
+    do {
+      pcVar8 = pcVar6;
+      if (iVar3 == 0) break;
+      iVar3 = iVar3 + -1;
+      pcVar8 = pcVar6 + 1;
+      cVar1 = *pcVar6;
+      pcVar6 = pcVar8;
+    } while (cVar1 != '\0');
+    *(uint16_t *)(pcVar8 + -1) = DAT_10350e4c;
+    uVar4 = 0xffffffff;
+    do {
+      pcVar6 = param_2;
+      if (uVar4 == 0) break;
+      uVar4 = uVar4 - 1;
+      pcVar6 = param_2 + 1;
+      cVar1 = *param_2;
+      param_2 = pcVar6;
+    } while (cVar1 != '\0');
+    uVar4 = ~uVar4;
+    iVar3 = -1;
+    pcVar8 = local_200;
+    do {
+      pcVar7 = pcVar8;
+      if (iVar3 == 0) break;
+      iVar3 = iVar3 + -1;
+      pcVar7 = pcVar8 + 1;
+      cVar1 = *pcVar8;
+      pcVar8 = pcVar7;
+    } while (cVar1 != '\0');
+    pcVar6 = pcVar6 + -uVar4;
+    pcVar8 = pcVar7 + -1;
+    for (uVar5 = uVar4 >> 2; uVar5 != 0; uVar5 = uVar5 - 1) {
+      *(uint32_t *)pcVar8 = *(uint32_t *)pcVar6;
+      pcVar6 = pcVar6 + 4;
+      pcVar8 = pcVar8 + 4;
+    }
+    for (uVar4 = uVar4 & 3; uVar4 != 0; uVar4 = uVar4 - 1) {
+      *pcVar8 = *pcVar6;
+      pcVar6 = pcVar6 + 1;
+      pcVar8 = pcVar8 + 1;
+    }
+  }
+  if (DAT_10668ff8_as_v1 != (void *)0x0) {
+    orig::FUN_1023c140(DAT_10668ff8_as_v1,local_200);
+  }
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10018270  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)

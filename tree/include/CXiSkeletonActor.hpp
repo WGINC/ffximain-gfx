@@ -8,7 +8,7 @@ public:
     char DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8);  // 0x1002B6E0
     static uint32_t __thiscall AnimateModels(void * self, int * param_1, int param_2, uint32_t param_3, undefined4 xi_s4);  // 0x1002C2D0
     void PrepareModelsOnce(int a2, int a3);  // 0x1002C360
-    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
+    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, float * param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
     static int __thiscall GetModelElem(void * self, uint32_t param_1, int param_2);  // 0x1002C5C0
     _BYTE * PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6);  // 0x100343C0
     char * GetEnglishName();  // 0x10082F20
@@ -80,7 +80,7 @@ public:
     char * SetMotion(int *a2, float a3);  // 0x100CD490
     static void __thiscall SetSlotMotion(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, int param_7);  // 0x100CD4E0
     static undefined4 __thiscall SetMotion(void * self, int * param_1, uint32_t param_2, undefined4 param_3, float param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, int param_9, undefined4 param_10, undefined4 param_11);  // 0x100CD540
-    static undefined4 __thiscall SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, undefined4 param_10, int param_11);  // 0x100CD920
+    static undefined4 __thiscall SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, int * param_10, int param_11);  // 0x100CD920
     static void __thiscall UpdateRandomTimer(void * self);  // 0x100CDF90
     static void __thiscall AdvanceMotionQueue(void * self);  // 0x100CE160
     _DWORD * ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7);  // 0x100CE480

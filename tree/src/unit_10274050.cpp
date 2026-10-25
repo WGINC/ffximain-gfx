@@ -101,6 +101,25 @@ XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, 
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x102748F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_102748F0(float * param_1)
+{
+  uint8_t bVar1;
+  long double fVar2;
+  long double fVar3;
+  
+  fVar2 = orig::FUN_102746c0(param_1);
+  bVar1 = NAN(fVar2) || NAN((long double)0.0f);
+  if (bVar1 == (bVar1 || fVar2 == (long double)0.0f)) {
+    fVar3 = (long double)1.0f / fVar2;
+    *param_1 = (float)(fVar3 * (long double)*param_1);
+    param_1[1] = (float)(fVar3 * (long double)param_1[1]);
+    param_1[2] = (float)(fVar3 * (long double)param_1[2]);
+  }
+  return fVar2;
+}
+
 // FUNCTION: FFXIMAIN 0x102749C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10274050_Sub(float * param_1, float * param_2, float * param_3)

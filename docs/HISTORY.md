@@ -3356,10 +3356,10 @@ Tools, from the code (committed):
   (gfx_common.hpp), so it can be called. Without this, four units of the promo17 tree failed to compile, and
   `repair_compile.py` skipped them because not all their errors were pointer conversions.
 
-Promotion state (not installed): `runs/promo17/tree` (fs13 registered in a working copy of tree/source.json)
-builds 4,252 functions with no failed file; code_same against the installed tree: 4,139 same, 113 changed
-(that tree predates the widening; regenerate it first). The
-remaining steps: map_clean_cases → gate the new and changed functions → merge gate_clean_final → install →
-tool_drift → kit tests → verify_all. To re-register fs13: add `data/exports/ghidra_frameset13.jsonl` (raw gate
-`verification/gate_raw_frameset13.jsonl`) to tree/source.json and merge `runs/fs13/cases.json` into
-verification/cases_raw_final.json.
+Promotion (installed, promo17): the fs13 export (raw gate from fs14) is registered in tree/source.json. The tree
+builds 4,278 functions with no failed file (code_same against the previous tree: 4,129 same, 149 changed). The
+clean gate on the 74 new and 75 changed functions gives 149 PASS; 4,279 functions are annotated PASS, and one,
+0x10003890, stays INCONCLUSIVE as before. The kit tests pass (speedfix framestep, skinmerge, speedfix;
+sdk/test_fork.py). The called-pointer type was renamed `xi_codefn`: `xi_code` is already xi_decomp.hpp's address
+function in the in-game build. data/this_flow.json was regenerated (one more site, 0x10321430 in 0x1031A00D):
+it had not been regenerated after purges.json gained 64 entries, and nothing but verify_all reads it.

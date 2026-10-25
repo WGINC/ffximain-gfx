@@ -110,7 +110,7 @@ XI_API void __cdecl FontGlyphCache_DecayCounter(void)
 
 // FUNCTION: FFXIMAIN 0x1025E260  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 xi_s4)
+XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 xi_s4)
 {
   char xi_frame[12] __attribute__((aligned(4)));
   void * &local_c = *reinterpret_cast<void * *>(xi_frame + 0);
@@ -309,7 +309,7 @@ XI_API undefined4 __cdecl FontGlyphCache_NoOpZero(void)
 
 // FUNCTION: FFXIMAIN 0x10261210  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall Unit1025C9E0_InnerCtor(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 * param_4)
+XI_API void * __thiscall Unit1025C9E0_InnerCtor(void * self_, undefined4 param_1, void * param_2, undefined4 param_3, undefined4 * param_4)
 {
   uint32_t uVar1;
   
@@ -456,7 +456,7 @@ XI_API void __cdecl Unit1025C9E0_MoveAllBack(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1026D0CA  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl Unit1025C9E0_RingPop(int param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit1025C9E0_RingPop(int param_1, undefined4 * param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -574,7 +574,7 @@ XI_API void __cdecl Unit1025C9E0_PeekRingC044(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1026DBAC  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1025C9E0_PutRing803C(int param_1, undefined4 param_2)
+XI_API void __cdecl Unit1025C9E0_PutRing803C(int param_1, undefined4 * param_2)
 {
   uint32_t xi_eax;
   
@@ -607,7 +607,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_PeekRing4034(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1026DC0D  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1025C9E0_PutRing2C(int param_1, undefined4 param_2)
+XI_API void __cdecl Unit1025C9E0_PutRing2C(int param_1, undefined4 * param_2)
 {
   uint32_t xi_eax;
   

@@ -327,7 +327,7 @@ LAB_10019f63:
 
 // FUNCTION: FFXIMAIN 0x1001A3E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall MotionQueList_ProcessAll(void * self_, undefined4 param_1)
+XI_API void __thiscall MotionQueList_ProcessAll(void * self_, int * param_1)
 {
   int iVar1;
   void *this_00;
@@ -468,7 +468,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
 
 // FUNCTION: FFXIMAIN 0x1001A6E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
+XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, int * param_2, undefined4 * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
   uint32_t uVar1;
   uint32_t uVar2;

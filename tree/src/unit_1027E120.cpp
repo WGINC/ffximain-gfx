@@ -133,7 +133,7 @@ LAB_1027e543:
 
 // FUNCTION: FFXIMAIN 0x1027EAF0  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1027E120_Forward1027EBD0(undefined4 param_1)
+XI_API void __cdecl Unit1027E120_Forward1027EBD0(undefined4 * param_1)
 {
   orig::FUN_1027ebd0(param_1);
   return;

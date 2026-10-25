@@ -85,7 +85,7 @@ LAB_10079a92:
     cVar1 = param_1[1];
     iVar4 = iVar4 * iVar3 + iVar2;
     param_1 = param_1 + 1;
-    switch(cVar1) {
+    switch(xi_sw(cVar1)) {
     case '\0':
     case '\t':
     case '\n':
@@ -593,7 +593,7 @@ XI_API uint32_t __cdecl Actor_IsInTable(int param_1)
 
 // FUNCTION: FFXIMAIN 0x10080DC0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __cdecl Command_RunLine(undefined4 param_1, undefined4 param_2)
+XI_API int __cdecl Command_RunLine(char * param_1, undefined4 param_2)
 {
   int *piVar1;
   char cVar2;
@@ -739,7 +739,7 @@ XI_API int __cdecl Command_RunLine(undefined4 param_1, undefined4 param_2)
     }
   }
   if ((DAT_1047d498_as_s8 != '\0') || (-1 < local_404)) goto LAB_100811e8;
-  switch((char)param_2) {
+  switch(xi_sw((char)param_2)) {
   case '\x03':
     orig::_sprintf_v1(local_400,&DAT_10350ff8,&DAT_103551e8,&DAT_10357f88);
     break;

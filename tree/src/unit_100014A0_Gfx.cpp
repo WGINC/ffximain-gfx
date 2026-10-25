@@ -193,7 +193,7 @@ XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
 
 // FUNCTION: FFXIMAIN 0x10001F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl Unit100014A0_FindTokenCopyDefault(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100014A0_FindTokenCopyDefault(char * param_1, char * param_2)
 {
   char *pcVar1;
   

@@ -346,6 +346,126 @@ XI_API void __thiscall Acter_AdvanceMotionTimer(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10087F00  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10087F00(void * self_)
+{
+  short sVar1;
+  short sVar2;
+  int iVar3;
+  int *this_00;
+  uint32_t uVar4;
+  uint32_t uVar5;
+  uint8_t bVar6;
+  long double xi_st0ret;
+  long double fVar7;
+  long double xi_st0ret_00;
+  uint64_t uVar8;
+  char xi_frame[112] __attribute__((aligned(4)));
+  float  &local_70 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_6c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_68 = *reinterpret_cast<float  *>(xi_frame + 8);
+  uint32_t  &local_60 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  float  &local_5c = *reinterpret_cast<float  *>(xi_frame + 20);
+  uint32_t  &local_58 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_54 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  float  &local_50 = *reinterpret_cast<float  *>(xi_frame + 32);
+  uint32_t  &local_4c = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  uint32_t  &local_48 = *reinterpret_cast<uint32_t  *>(xi_frame + 40);
+  uint32_t  &local_44 = *reinterpret_cast<uint32_t  *>(xi_frame + 44);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 48);
+  
+  if (((*(uint32_t *)((int)self_ + 0x120) & 0x200) == 0) ||
+     (uVar8 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x10330ebc), (char)uVar8 == '\0')) {
+    return;
+  }
+  uVar4 = *(uint32_t *)((int)self_ + 300) >> 8 & 3;
+  if (uVar4 == 1) {
+    iVar3 = (&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x146)];
+    if ((((iVar3 != 0) && ((*(uint32_t *)(iVar3 + 0x120) >> 9 & 1) != 0)) &&
+        (this_00 = *(int **)(iVar3 + 0xa0), this_00 != (int *)0x0)) &&
+       (uVar8 = orig::CYyObject_IsKindOf(this_00,0x10330ebc), (char)uVar8 != '\0')) {
+      uVar5 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x1c4))))((void *)(this_00),(int)*(short *)((int)self_ + 0x148),&local_60);
+      if ((char)uVar5 == '\0') {
+        uVar4 = *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x146)] + 0x120);
+        if ((((uint8_t)(uVar4 >> 0xf) | (uint8_t)(uVar4 >> 0xe) | (uint8_t)(uVar4 >> 0x11)) & 1) != 0) {
+          local_5c = (float)((long double)local_5c - (long double)1.2000000476837158203125f);
+        }
+        xi_st0ret = ((long double (__thiscall *)(void *))((**(code **)(*this_00 + 0x110))))((void *)(this_00));
+        bVar6 = NAN(xi_st0ret) || NAN((long double)0.0f);
+        if ((bVar6 || xi_st0ret < (long double)0.0f) == bVar6) {
+          xi_st0ret_00 = ((long double (__thiscall *)(void *))((**(code **)(*this_00 + 0x110))))((void *)(this_00));
+          fVar7 = xi_st0ret_00;
+        }
+        else {
+          fVar7 = (long double)xi_castbits<float>(this_00[0x1d5]);
+        }
+        local_5c = (float)((long double)local_5c - fVar7 * (long double)1.2000000476837158203125f);
+      }
+      iVar3 = *(int *)((int)self_ + 0xa0);
+      *(uint32_t *)(iVar3 + 0x848) = local_60;
+      *(float *)(iVar3 + 0x84c) = local_5c;
+      *(uint32_t *)(iVar3 + 0x850) = local_58;
+      *(uint32_t *)(iVar3 + 0x854) = local_54;
+      *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) =
+           *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) | 1;
+      return;
+    }
+  }
+  else {
+    if (uVar4 == 2) {
+      sVar1 = *(short *)((int)self_ + 0x14c);
+      sVar2 = *(short *)((int)self_ + 0x14a);
+      if ((*(char *)((int)self_ + 0x120) < '\0') && (DAT_104807f5 != '\0')) {
+        iVar3 = *(int *)((int)self_ + 0xd4);
+        local_60 = *(uint32_t *)(*(int *)(iVar3 + 0x260) + 0x140);
+        local_5c = *(float *)(*(int *)(iVar3 + 0x260) + 0x144);
+        local_58 = *(uint32_t *)(*(int *)(iVar3 + 0x260) + 0x148);
+        local_54 = *(uint32_t *)(*(int *)(iVar3 + 0x260) + 0x14c);
+        iVar3 = *(int *)(iVar3 + 0x260);
+        local_70 = *(float *)(iVar3 + 0x150);
+        local_6c = *(float *)(iVar3 + 0x154);
+        local_68 = *(float *)(iVar3 + 0x158);
+      }
+      else {
+        local_60 = *(uint32_t *)((int)self_ + 4);
+        local_5c = *(float *)((int)self_ + 8);
+        local_58 = *(uint32_t *)((int)self_ + 0xc);
+        local_54 = *(uint32_t *)((int)self_ + 0x10);
+        local_70 = *(float *)((int)self_ + 0x14);
+        local_6c = *(float *)((int)self_ + 0x18);
+        local_68 = *(float *)((int)self_ + 0x1c);
+      }
+      orig::Unit10026C70_ReturnThis_v1(local_40);
+      orig::Mat4_SetIdentity_v1(local_40);
+      orig::Mat4_PostRotateZ_v1(local_40,(float)((long double)local_68 +
+                                   (long double)(float)((long double)(int)sVar2 * (long double)(-0.00153393554501235485076904296875f))));
+      orig::Mat4_PostRotateY_v1(local_40,(float)((long double)local_6c +
+                                   (long double)(float)((long double)(int)sVar1 * (long double)0.00153393554501235485076904296875f)));
+      orig::Mat4_PostRotateX_v1(local_40,local_70);
+      orig::Mat4_SetTranslation_v2(local_40,&local_60);
+      orig::Mat4_TransformPoint_v1(local_40,&local_50,(float *)&DAT_1035b54c);
+      iVar3 = *(int *)((int)self_ + 0xa0);
+      *(float *)(iVar3 + 0x848) = local_50;
+      *(uint32_t *)(iVar3 + 0x84c) = local_4c;
+      *(uint32_t *)(iVar3 + 0x850) = local_48;
+      *(uint32_t *)(iVar3 + 0x854) = local_44;
+      *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) =
+           *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) | 1;
+      orig::Unit10026C70_Nop();
+      return;
+    }
+    if (*(short *)((int)self_ + 0x148) != -1) {
+      return;
+    }
+    *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) =
+         *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x840) & 0xfffffffe;
+  }
+  *(uint16_t *)((int)self_ + 0x148) = 0;
+  *(uint32_t *)((int)self_ + 300) = *(uint32_t *)((int)self_ + 300) & 0xfffffcff;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100883E0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10086E90_UpdateByKind170NotGroup38(void * self_)
@@ -364,7 +484,7 @@ XI_API void __thiscall Unit10086E90_UpdateByKind170NotGroup38(void * self_)
   }
   uVar2 = orig::Acter_IsStateGroup38(self_,0xff);
   if ((char)uVar2 == '\0') {
-    switch(*(undefined4 *)((int)self_ + 0x170)) {
+    switch(xi_sw(*(undefined4 *)((int)self_ + 0x170))) {
     case 1:
     case 2:
     case 3:
@@ -407,7 +527,7 @@ switchD_1008841f_caseD_1:
     return;
   }
   uVar3 = *(uint32_t *)((int)self_ + 0x128);
-  switch(uVar3 >> 0x15 & 7) {
+  switch(xi_sw(uVar3 >> 0x15 & 7)) {
   case 0:
     if ((0x25 < *(int *)((int)self_ + 0x170)) && (*(int *)((int)self_ + 0x170) < 0x2c)) {
       *(uint32_t *)((int)self_ + 0x128) = uVar3 & 0xff7fffff | 0x600000;
@@ -635,7 +755,7 @@ XI_API void __thiscall Unit10086E90_UpdateByKind170NotGroup06(void * self_)
   }
   bVar2 = false;
   iVar4 = *(int *)((int)self_ + 0x170) + -1;
-  switch(*(int *)((int)self_ + 0x170)) {
+  switch(xi_sw(*(int *)((int)self_ + 0x170))) {
   case 1:
   case 2:
   case 3:
@@ -683,7 +803,7 @@ XI_API void __thiscall Unit10086E90_UpdateByKind170NotGroup06(void * self_)
     return;
   }
   uVar5 = *(uint32_t *)((int)self_ + 0x13c);
-  switch(uVar5 >> 8 & 7) {
+  switch(xi_sw(uVar5 >> 8 & 7)) {
   case 0:
     if ((0x38 < *(int *)((int)self_ + 0x170)) && (*(int *)((int)self_ + 0x170) < 0x3f)) {
       uVar5 = uVar5 & 0xfffffbff | 0x300;
@@ -1000,7 +1120,7 @@ XI_API void __thiscall Unit10086E90_StartAutoRunFromZoneMap(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1008B270  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __thiscall Actor_FindByNameEntry(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API int __thiscall Actor_FindByNameEntry(void * self_, uint8_t * param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   
@@ -1605,7 +1725,7 @@ LAB_1008dbe6:
   if (((1 < bVar2) && (bVar2 < 100)) && ((bVar2 < 0x28 || (0x2b < bVar2)))) {
     iVar7 = 9;
     if (*(char *)((int)self_ + 0x294) == '\0') {
-      switch(bVar2) {
+      switch(xi_sw(bVar2)) {
       case 2:
         iVar7 = 0x12;
         break;
@@ -1625,7 +1745,7 @@ LAB_1008dbe6:
       case 9:
         iVar7 = 0;
       }
-      switch(bVar2) {
+      switch(xi_sw(bVar2)) {
       case 0x20:
       case 0x22:
       case 0x24:
@@ -1641,7 +1761,7 @@ LAB_1008dbe6:
       }
     }
     else {
-      switch(*(char *)((int)self_ + 0x294)) {
+      switch(xi_sw(*(char *)((int)self_ + 0x294))) {
       case '\x01':
 switchD_1008dc2e_caseD_1:
         iVar7 = 0x12;
@@ -1868,7 +1988,7 @@ LAB_1008e51c:
 LAB_1008e573:
   if ((*(uint32_t *)((int)self_ + 0x120) & 0x100) == 0) {
     if ((*(uint32_t *)((int)uVar5 + 0x130) >> 0xb & 1) != 0) {
-      switch(*(uint8_t *)((int)uVar5 + 0x1ff)) {
+      switch(xi_sw(*(uint8_t *)((int)uVar5 + 0x1ff))) {
       case 2:
       case 3:
       case 4:
@@ -1880,7 +2000,7 @@ LAB_1008e573:
       case 0x2b:
         if (((*(uint8_t *)((int)self_ + 0x1d0) & 1) != 0) &&
            ((*(uint32_t *)((int)self_ + 0x128) & 0x3800) < 0x1800)) {
-          switch(*(uint8_t *)((int)self_ + 0x1ff)) {
+          switch(xi_sw(*(uint8_t *)((int)self_ + 0x1ff))) {
           case 2:
           case 3:
           case 4:
@@ -2235,7 +2355,7 @@ XI_API void __thiscall Acter_ReleaseEventRecord(void * self_)
 XI_API void __thiscall Acter_CallVt180IfState(void * self_)
 {
   if ((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0) {
-    switch(*(uint8_t *)((int)self_ + 0xee)) {
+    switch(xi_sw(*(uint8_t *)((int)self_ + 0xee))) {
     case 0:
     case 1:
     case 2:
@@ -3275,7 +3395,7 @@ XI_API void __cdecl Acter_UpdateActionState(void * param_1)
   
   bVar1 = true;
   uVar4 = *(uint32_t *)((int)param_1 + 0x120) >> 5;
-  switch(*(uint32_t *)((int)param_1 + 0x170)) {
+  switch(xi_sw(*(uint32_t *)((int)param_1 + 0x170))) {
   case 2:
   case 3:
   case 7:
@@ -3844,7 +3964,7 @@ XI_API undefined4 __cdecl Unit10086E90_GetByte40DB4ByKind(void)
     uVar3 = uVar2 - 199;
     uVar6 = (uint32_t)(uVar3 >> 8);
     uVar4 = uVar3;
-    switch(uVar2) {
+    switch(xi_sw(uVar2)) {
     case 199:
       uVar4 = ((uint32_t)(((uint32_t)(uVar6) << 8) | (uint8_t)(7)));
       if (*(char *)(DAT_104dfd98 + 0x40db4) == '\a') {
@@ -4053,6 +4173,102 @@ XI_API uint32_t __thiscall Acter_GetPartnerIfKind(void * self_)
   this_00 = *(void **)(iVar1 + 0xa0);
   uVar2 = orig::CYyObject_IsKindOf(this_00,0x10330ebc);
   return -(uint32_t)((char)uVar2 != '\0') & (uint32_t)this_00;
+}
+
+// FUNCTION: FFXIMAIN 0x100983F0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_100983F0(void * self_)
+{
+  char cVar1;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  uint16_t *puVar4;
+  uint32_t uVar5;
+  uint16_t *puVar6;
+  uint8_t bVar7;
+  uint16_t uVar8;
+  uint8_t bVar9;
+  long double fVar10;
+  uint64_t uVar11;
+  int64_t lVar12;
+  char xi_frame[32] __attribute__((aligned(4)));
+  float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_1c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 8);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  
+  if (((*(int *)((int)self_ + 0x170) != 0x1c) && (*(int *)((int)self_ + 0x170) != 0x1f)) &&
+     ((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0)) {
+    if (((char)*(uint32_t *)((int)self_ + 0x120) < '\0') && (DAT_104807f5 != '\0')) {
+      orig::Vec4_Copy_v1(&local_20,(uint32_t *)(*(int *)(*(int *)((int)self_ + 0xd4) + 0x260) + 0x140));
+      uVar11 = orig::Vec4_Copy_v1(&local_10,
+                         (uint32_t *)(*(int *)(*(int *)((int)self_ + 0xd4) + 0x260) + 0x150));
+      uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar11 >> 8)) << 8) | (uint8_t)(DAT_104808fc | DAT_1047fb40_as_v0)));
+      if (((DAT_104808fc | DAT_1047fb40_as_v0) & 4) == 0) {
+        return;
+      }
+    }
+    else {
+      orig::Vec4_Copy_v1(&local_20,(uint32_t *)((int)self_ + 4));
+      uVar11 = orig::Vec4_Copy_v1(&local_10,(uint32_t *)((int)self_ + 0x14));
+      uVar5 = (uint32_t)uVar11;
+    }
+    if ((*(uint32_t *)((int)self_ + 300) >> 0xd & 1) == 0) {
+      *(uint32_t *)((int)self_ + 0x24) = *(uint32_t *)((int)self_ + 4);
+      uVar5 = *(uint32_t *)((int)self_ + 0x10);
+      *(uint32_t *)((int)self_ + 0x28) = *(uint32_t *)((int)self_ + 8);
+      *(uint32_t *)((int)self_ + 0x2c) = *(uint32_t *)((int)self_ + 0xc);
+      *(uint32_t *)((int)self_ + 0x30) = uVar5;
+    }
+    cVar1 = *(char *)(*(int *)((int)self_ + 0xa0) + 0xf8);
+    uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(cVar1)));
+    if (cVar1 == '\0') {
+      fVar10 = orig::Camera_GetFrameScale_v1(uVar5);
+      lVar12 = XI_CALL_ST0(0x10311C2Cu)(fVar10);
+      uVar8 = (short)lVar12 + *(short *)((int)self_ + 0x1b8);
+      *(uint16_t *)((int)self_ + 0x1b8) = 0;
+    }
+    else {
+      fVar10 = orig::Camera_GetFrameScale_v1(uVar5);
+      lVar12 = XI_CALL_ST0(0x10311C2Cu)(fVar10);
+      *(short *)((int)self_ + 0x1b8) = *(short *)((int)self_ + 0x1b8) + (short)lVar12;
+      uVar8 = *(uint16_t *)((int)self_ + 0x1b8);
+      orig::CXiActor_ResetRandomTimer(self_);
+    }
+    fVar10 = (long double)local_18 + (long double)local_1c + (long double)local_20;
+    bVar9 = NAN(fVar10) || NAN((long double)0.0f);
+    if (((bVar9 == (bVar9 || fVar10 == (long double)0.0f)) && (DAT_10482f18 == '\0')) &&
+       (puVar4 = orig::Unit100D7420_CheckTimer41B4_v1
+                           (0x15,*(int *)((int)self_ + 0x78),*(int *)((int)self_ + 0x78)),
+       puVar4 != (uint16_t *)0x0)) {
+      lVar12 = orig::FUN_100dd970(local_c);
+      *(char *)(puVar4 + 10) = (char)lVar12;
+      *(float *)(puVar4 + 2) = local_20;
+      *(float *)(puVar4 + 4) = local_1c;
+      puVar4[9] = uVar8;
+      *(float *)(puVar4 + 6) = local_18;
+      bVar7 = ((uint8_t)(*(uint32_t *)((int)self_ + 0x124) >> 0x12) ^ *(uint8_t *)((int)puVar4 + 0x15)) & 1 ^
+              *(uint8_t *)((int)puVar4 + 0x15);
+      *(uint8_t *)((int)puVar4 + 0x15) = bVar7;
+      bVar7 = ((char)(*(uint32_t *)((int)self_ + 0x124) >> 0x13) * '\x02' ^ bVar7) & 2 ^ bVar7;
+      *(uint8_t *)((int)puVar4 + 0x15) = bVar7;
+      uVar2 = *(uint32_t *)((int)self_ + 0x120);
+      uVar3 = *(uint32_t *)((int)self_ + 0x128);
+      puVar4[0xb] = 0;
+      *(uint8_t *)((int)puVar4 + 0x15) =
+           (((uint8_t)(uVar3 >> 0xe) | (uint8_t)(uVar2 >> 0x15) | (uint8_t)(uVar2 >> 0x14)) << 2 ^ bVar7) & 4
+           ^ bVar7;
+      uVar5 = orig::Unit100D7420_AdvanceAndGetMs();
+      *(uint32_t *)(puVar4 + 0xc) = uVar5;
+      if ((g_pTargetMng != (void *)0x0) &&
+         (puVar6 = (uint16_t *)orig::Entry_ValidateKey(g_pTargetMng), puVar6 != (uint16_t *)0x0)) {
+        puVar4[0xb] = *puVar6;
+      }
+      orig::Unit100D7420_SendRaw(puVar4,0x20,0);
+    }
+  }
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100991F0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4297,7 +4513,7 @@ XI_API void __thiscall Acter_StepAfterimageStates(void * self_)
   else {
     sVar6 = sVar6 + -0x235b;
   }
-  switch(*(uint8_t *)((int)self_ + 0x15a)) {
+  switch(xi_sw(*(uint8_t *)((int)self_ + 0x15a))) {
   case 0:
     piVar2 = *(int **)((int)self_ + 0xa0);
     ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*piVar2 + 0x298))))((void *)(piVar2),0x30736572,piVar2,0);
@@ -4479,7 +4695,7 @@ LAB_100a1a4d:
   uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)((char)param_3)));
   if ((char)param_3 == '\0') {
     uVar4 = (param_2 & 0xffff) - 0x59;
-    switch(param_2 & 0xffff) {
+    switch(xi_sw(param_2 & 0xffff)) {
     case 0x59:
     case 0x5a:
     case 100:

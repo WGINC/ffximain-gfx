@@ -9,7 +9,7 @@ XI_API undefined4 * __cdecl Mem_AllocFromArea(int param_1, undefined4 param_2)
   undefined4 *puVar1;
   
   DAT_104570dc_as_s32 = DAT_104570dc_as_s32 + param_1;
-  switch(param_2) {
+  switch(xi_sw(param_2)) {
   case 0:
     puVar1 = (undefined4 *)orig::MemBlock_AllocFromFront(0x20,DAT_104570b4_as_s32,DAT_104570b8_as_s32);
     if (puVar1 != (undefined4 *)0x0) {
@@ -67,7 +67,7 @@ XI_API undefined4 * __cdecl Mem_AllocFromArea(int param_1, undefined4 param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10028FD0_CallListByKind(undefined4 param_1)
 {
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 0:
     orig::FUN_100289f0_v1(DAT_104570b4_as_s32,DAT_104570b8_as_s32);
     return;

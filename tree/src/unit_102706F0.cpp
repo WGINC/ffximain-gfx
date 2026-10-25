@@ -479,7 +479,7 @@ XI_API void __cdecl Unit102706F0_NoOpA(void)
 
 // FUNCTION: FFXIMAIN 0x102725A0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl StAvatar_SetEntryPosition(int param_1, undefined4 param_2)
+XI_API void __cdecl StAvatar_SetEntryPosition(int param_1, float * param_2)
 {
   int iVar1;
   char xi_frame[12] __attribute__((aligned(4)));

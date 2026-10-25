@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10293EE0_SetHandlerByType(int param_1, undefined4 param_2)
 {
-  switch(param_2) {
+  switch(xi_sw(param_2)) {
   case 2:
     *(code **)(param_1 + 0x14) = XI_CODE(FUN_102934c0);
     return;

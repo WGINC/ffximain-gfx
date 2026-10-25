@@ -17,7 +17,7 @@ undefined4 __thiscall CXiDancerActor::Construct(void * self, undefined4 param_1,
 
 // FUNCTION: FFXIMAIN 0x100AB750  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CXiDancerActor::InitBind(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, uint32_t param_4)
+void __thiscall CXiDancerActor::InitBind(void * self, undefined4 param_1, undefined4 param_2, undefined4 * param_3, uint32_t param_4)
 {
   void *pvVar1;
   uint32_t uVar2;
@@ -64,7 +64,7 @@ void __thiscall CXiDancerActor::SetPosition(void * self, undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x100AB9A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CXiDancerActor::ApplyStateBlock(void * self, void * param_1, undefined4 param_2, undefined4 param_3, undefined4 * param_4)
+void __thiscall CXiDancerActor::ApplyStateBlock(void * self, void * param_1, undefined4 * param_2, undefined4 * param_3, undefined4 * param_4)
 {
   short sVar1;
   undefined4 uVar2;

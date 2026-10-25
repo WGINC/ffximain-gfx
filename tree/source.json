@@ -26,6 +26,11 @@
    "sha1": "911a0575f762279f8cd08b35011e1e2ec82789e7",
    "raw_gate": "verification/gate_raw_frameset11.jsonl",
    "_doc": "522 frame-set functions the other exports hold but never gated, re-exported 25 Oct with the current conv facts (pipeline/ghidra/export.sh); appended last, so an address takes the first export whose gate passed it"
+  },
+  {
+   "path": "data/exports/ghidra_frameset13.jsonl",
+   "sha1": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5",
+   "raw_gate": "verification/gate_raw_frameset13.jsonl"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl"

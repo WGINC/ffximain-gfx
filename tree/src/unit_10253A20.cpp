@@ -412,7 +412,7 @@ XI_API undefined4 __thiscall Unit10253A20_GetCellCol0(void * self_, undefined4 p
 
 // FUNCTION: FFXIMAIN 0x10257980  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall Unit10253A20_Assign(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __thiscall Unit10253A20_Assign(void * self_, uint8_t * param_1, undefined4 param_2)
 {
   orig::Unit10253A20_Bind(self_,param_1,param_2);
   if (*(int *)((int)self_ + 4) != 0) {
@@ -640,7 +640,7 @@ XI_API uint16_t * __cdecl Unit10253A20_GetFormString(int param_1, int param_2, i
 {
   if (param_2 != 0) {
     if ((param_3 != 0) && (param_3 == 1)) {
-      switch(param_1) {
+      switch(xi_sw(param_1)) {
       default:
         break;
       case 2:
@@ -649,7 +649,7 @@ XI_API uint16_t * __cdecl Unit10253A20_GetFormString(int param_1, int param_2, i
     }
     goto switchD_10258059_caseD_1;
   }
-  switch(param_3) {
+  switch(xi_sw(param_3)) {
   case 0:
     if (param_1 == 1) {
       return (uint16_t *)&DAT_1037ab30;
@@ -669,7 +669,7 @@ switchD_102580ba_caseD_2:
     }
     goto switchD_10258097_switchD;
   case 5:
-    switch(param_1) {
+    switch(xi_sw(param_1)) {
     case 1:
       return (uint16_t *)&DAT_10389eb4;
     case 2:
@@ -681,7 +681,7 @@ switchD_102580ba_caseD_2:
       return &DAT_1034f7b4;
     }
 switchD_10258097_switchD:
-    switch(param_1) {
+    switch(xi_sw(param_1)) {
     case 1:
       return (uint16_t *)&DAT_10389ebc;
     case 2:
@@ -873,7 +873,7 @@ XI_API char * __cdecl Unit10253A20_SelectQuantifierForm(int param_1, int param_2
     return (&PTR_s_einige_10389f54)[param_2 * 4];
   }
   if (param_2 == 1) {
-    switch(param_5) {
+    switch(xi_sw(param_5)) {
     case 0:
     case 2:
     case 3:
@@ -894,7 +894,7 @@ XI_API char * __cdecl Unit10253A20_SelectQuantifierForm(int param_1, int param_2
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t * __cdecl Unit10253A20_GetSolchForm(undefined4 param_1)
 {
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 0:
     return PTR_DAT_1038a160;
   case 1:
@@ -1213,7 +1213,7 @@ XI_API undefined4 __thiscall Unit10253A20_ComposeTextA(void * self_, int param_1
       orig::Unit1018BA60_Free(local_c);
       return 1;
     }
-    switch(*(uint32_t *)(iVar2 + 8)) {
+    switch(xi_sw(*(uint32_t *)(iVar2 + 8))) {
     case 1:
       orig::Unit1018BA60_AppendBuf((void *)param_1,(void *)(iVar2 + 0xc));
       break;
@@ -1805,7 +1805,7 @@ XI_API undefined4 __thiscall Unit10253A20_ComposeTextB(void * self_, int param_1
       return 1;
     }
     local_8 = iVar4;
-    switch(*(uint32_t *)(pcVar1 + 8)) {
+    switch(xi_sw(*(uint32_t *)(pcVar1 + 8))) {
     case 1:
       orig::Unit1018BA60_AppendBuf((void *)param_1,pcVar1 + 0xc);
       break;
@@ -2020,7 +2020,7 @@ XI_API void __thiscall Unit10253A20_AppendStringNode(void * self_, char * param_
 
 // FUNCTION: FFXIMAIN 0x1025AFB0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Unit10253A20_AppendIdString(void * self_, undefined4 param_1, int param_2, undefined4 param_3, undefined4 param_4)
+XI_API void __thiscall Unit10253A20_AppendIdString(void * self_, undefined4 param_1, int param_2, char * param_3, undefined4 param_4)
 {
   uint32_t *puVar1;
   uint64_t uVar2;
@@ -2104,7 +2104,7 @@ XI_API void __thiscall Unit10253A20_AppendTypeTwo(void * self_, undefined4 param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10253A20_SelectTableByLanguage(undefined4 param_1)
 {
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 0:
     DAT_10669464_as_v0 =(DAT_10669464_as_v0_t)(&DAT_1038ab08);
     return;
@@ -2589,7 +2589,7 @@ LAB_1025c079:
     if (iVar1 < 3) goto LAB_1025c079;
     if (iVar1 == 3) {
       orig::FUN_1011daa0(g_pSceneState_as_v3);
-      switch((uint32_t)param_3 & 0xffff) {
+      switch(xi_sw((uint32_t)param_3 & 0xffff)) {
       case 0x85bf:
       case 0x85c1:
         *(uint8_t *)param_1 = 0x41;

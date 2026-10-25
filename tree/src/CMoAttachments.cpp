@@ -273,7 +273,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
 // GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_2, int * param_3)
 {
-  switch(param_2) {
+  switch(xi_sw(param_2)) {
   case 0x36:
     param_2 = 0x7e;
     break;

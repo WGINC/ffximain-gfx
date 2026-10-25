@@ -184,7 +184,7 @@ undefined4 __thiscall CMoSpline::EnsureSamples(void * self)
 
 // FUNCTION: FFXIMAIN 0x10063C30  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CMoSpline::SetValue(void * self, undefined4 param_1, undefined4 param_2)
+void __thiscall CMoSpline::SetValue(void * self, float * param_1, undefined4 param_2)
 {
   void *this_00;
   

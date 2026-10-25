@@ -172,7 +172,7 @@ XI_API int __cdecl Gfx_CalcFVFStride(uint32_t param_1)
     iVar1 = iVar1 + 1;
   }
   if ((param_1 & 0x100) != 0) {
-    switch(param_1 >> 0x10 & 3) {
+    switch(xi_sw(param_1 >> 0x10 & 3)) {
     case 0:
       return (iVar1 + 2) * 4;
     case 1:

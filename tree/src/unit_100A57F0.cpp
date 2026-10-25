@@ -46,7 +46,7 @@ XI_API undefined4 __cdecl XiControlActor_UpdateCamera(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x100A5EC0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 56 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, undefined4 param_1)
+XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, float * param_1)
 {
   int iVar1;
   
@@ -77,7 +77,7 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
     }
     iVar1 = orig::CXiActor_GetModelField170_v1(self_);
     xi_eax = iVar1 + -2;
-    switch(iVar1) {
+    switch(xi_sw(iVar1)) {
     case 2:
     case 3:
     case 6:

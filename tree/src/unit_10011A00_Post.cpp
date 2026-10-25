@@ -1328,7 +1328,7 @@ XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
   uint32_t uVar1;
   
   uVar1 = (uint32_t)*(short *)((int)self_ + 4);
-  switch(uVar1) {
+  switch(xi_sw(uVar1)) {
   case 0:
     uVar1 = orig::Game_InGameSubState0(self_);
     break;

@@ -64,7 +64,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10273D60  (unit chasm: between 0x10273C20 (asserts chasm.c) and 0x10273DB0 (asserts chasm.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   int iVar1;
   uint32_t uVar2;

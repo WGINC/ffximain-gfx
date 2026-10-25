@@ -480,7 +480,7 @@ XI_API void __thiscall ZoneMap_FindGroundHeight(void * self_, undefined4 param_1
 
 // FUNCTION: FFXIMAIN 0x101814D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall ZoneMap_Query169290(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __thiscall ZoneMap_Query169290(void * self_, float * param_1, float * param_2, undefined4 param_3)
 {
   uint32_t uVar1;
   
@@ -491,7 +491,7 @@ XI_API undefined4 __thiscall ZoneMap_Query169290(void * self_, undefined4 param_
 
 // FUNCTION: FFXIMAIN 0x10181590  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall ZoneMap_Query1693B0(void * self_, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3)
+XI_API undefined4 __thiscall ZoneMap_Query1693B0(void * self_, float * xi_s1, float * xi_s2, float * xi_s3)
 {
   uint32_t uVar1;
   
@@ -513,7 +513,7 @@ XI_API undefined4 __thiscall ZoneMap_IsBoxHeightHitByRadius(void * self_, undefi
 
 // FUNCTION: FFXIMAIN 0x10181A10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall ZoneMap_Query16E7E0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __thiscall ZoneMap_Query16E7E0(void * self_, float * param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t uVar1;
   

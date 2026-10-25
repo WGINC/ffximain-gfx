@@ -28,7 +28,7 @@ uint64_t __thiscall CMoD3mSpecularElem::Ctor(void * self)
   else {
     *(uint32_t *)((int)self + 0x1b8) = 3;
   }
-  switch(*(uint32_t *)((int)self + 0x1b8)) {
+  switch(xi_sw(*(uint32_t *)((int)self + 0x1b8))) {
   case 0:
     *(uint8_t *)((int)self + 0x1bd) = 1;
     *(uint8_t *)((int)self + 0x1bc) = 0;

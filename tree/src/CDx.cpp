@@ -494,7 +494,7 @@ int CDx::PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a
 
 // FUNCTION: FFXIMAIN 0x1000A070  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CDx::Call1000A0A0Zeroed(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+void __thiscall CDx::Call1000A0A0Zeroed(void * self, int * param_1, undefined4 param_2, undefined4 param_3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);

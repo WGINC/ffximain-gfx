@@ -53,3 +53,96 @@ XI_API void __thiscall Part_AddTranslation(void * self_, int param_1, float * pa
   orig::Unit10026C70_Nop();
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x1002B140  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall fn_1002B140(float * param_1, float * param_2, undefined4 * param_3, float * param_4)
+{
+  float fVar1;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  long double fVar6;
+  long double fVar7;
+  long double fVar8;
+  long double fVar9;
+  unkbyte10 Var10;
+  char xi_frame[128] __attribute__((aligned(4)));
+  float  &local_80 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_7c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_70 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &local_6c = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &local_68 = *reinterpret_cast<float  *>(xi_frame + 24);
+  float  (&local_60)[24] = *reinterpret_cast<float  (*)[24]>(xi_frame + 32);
+  
+  orig::Unit10026C70_ReturnThis_v1(local_60 + 8);
+  local_60[4] = 0.0f;
+  local_60[5] = 0.0f;
+  local_60[6] = 0.0f;
+  local_60[7] = 1.0f;
+  local_60[0] = 0.0f;
+  local_60[1] = 1.0f;
+  local_60[2] = 0.0f;
+  local_60[3] = 1.0f;
+  orig::FUN_102d8141(local_60 + 8,local_60 + 4,param_2,local_60);
+  orig::Mat4_TransformNormal_v2(local_60 + 8,&local_70,(float *)param_3);
+  orig::Vec3_ScaleInPlace(&local_70,2.0f);
+  fVar5 = (long double)*param_4;
+  bVar4 = NAN(fVar5) || NAN((long double)0.0f);
+  local_80 = param_4[1];
+  if (bVar4 != (bVar4 || fVar5 == (long double)0.0f)) {
+    fVar5 = (long double)0.001000000047497451305389404296875f;
+  }
+  bVar4 = NAN((long double)local_80) || NAN((long double)0.0f);
+  if (bVar4 != (bVar4 || (long double)local_80 == (long double)0.0f)) {
+    local_80 = 0.001000000047497451305389404296875f;
+  }
+  if (!(fVar5 > (long double)local_80)) {
+    fVar6 = (long double)local_80;
+    local_7c = (float)((long double)local_80 / fVar5);
+    local_70 = (float)((long double)local_70 * (long double)local_7c);
+  }
+  else {
+    local_7c = (float)(fVar5 / (long double)local_80);
+    local_6c = (float)((long double)local_6c * (long double)local_7c);
+    fVar6 = fVar5;
+  }
+  fVar7 = (long double)local_68;
+  fVar8 = (long double)0.0f;
+  if (!(fVar7 <= fVar8)) {
+    fVar8 = ((long double)1.0f / (long double)local_68) * (long double)param_4[2] * (long double)local_70;
+    fVar7 = (long double)(float)((long double)1.0f / (long double)local_68) * (long double)param_4[2] *
+            (long double)local_6c;
+  }
+  else {
+    fVar8 = (long double)local_70 * (long double)param_4[2] * (long double)1e+02f;
+    fVar7 = (long double)local_6c * (long double)param_4[2] * (long double)1e+02f;
+  }
+  fVar9 = SQRT(fVar8 * fVar8 + fVar7 * fVar7);
+  if (fVar9 > fVar6) {
+    Var10 = fpatan(fVar7,fVar8);
+    fVar8 = xi_castbits<long double>(fcos(Var10));
+    *param_1 = (float)(fVar8 * fVar6);
+    fVar7 = xi_castbits<long double>(fsin(Var10));
+    param_1[1] = (float)(fVar7 * fVar6);
+    fVar1 = param_4[2];
+    param_1[3] = 1.0f;
+    param_1[2] = fVar1;
+    if (!(fVar5 > (long double)local_80)) {
+      *param_1 = (float)((long double)(float)(fVar8 * fVar6) / (long double)local_7c);
+    }
+    else {
+      param_1[1] = (float)((long double)(float)(fVar7 * fVar6) / (long double)local_7c);
+    }
+    orig::Mat4_InvertOrthonormal_v2(local_60 + 8);
+    uVar2 = orig::Mat4_TransformNormalInPlace_v1(local_60 + 8,param_1);
+    uVar2 = orig::FUN_100274b0(param_1,uVar2);
+    orig::Unit10026C70_Nop();
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  }
+  uVar3 = orig::Vec3_Copy_v1(param_1,param_3);
+  param_1[3] = 1.0f;
+  orig::Unit10026C70_Nop();
+  return uVar3 & 0xffffff00;
+}

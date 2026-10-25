@@ -152,7 +152,7 @@ void * __thiscall CMoResource::GetParent(void * self)
 
 // FUNCTION: FFXIMAIN 0x10072290  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 * param_1, undefined4 param_2, undefined4 param_3)
 {
   uint64_t uVar1;
   

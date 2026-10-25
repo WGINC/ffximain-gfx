@@ -17,7 +17,7 @@ XI_API void __thiscall KzMotionQueList_AdvanceAll(void * self_, float param_1)
 
 // FUNCTION: FFXIMAIN 0x1001B1F0  (unit unit_1001AC40: no unit evidence of its own; in the gap between 0x1001AC30 (CYyMotionQueList) and 0x1001B230 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 57 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall KzMotionQueList_NotifyAll(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API void __thiscall KzMotionQueList_NotifyAll(void * self_, void * param_1, undefined4 param_2)
 {
   int *this_00;
   uint32_t uVar1;

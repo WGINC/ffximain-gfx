@@ -302,7 +302,7 @@ void CXiSkeletonActor::PrepareModelsOnce(int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x1002C3E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-undefined4 __thiscall CXiSkeletonActor::GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7)
+undefined4 __thiscall CXiSkeletonActor::GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, float * param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7)
 {
   uint32_t uVar1;
   
@@ -2462,7 +2462,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
 
 // FUNCTION: FFXIMAIN 0x100CD920  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 71 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
-undefined4 __thiscall CXiSkeletonActor::SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, undefined4 param_10, int param_11)
+undefined4 __thiscall CXiSkeletonActor::SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, int * param_10, int param_11)
 {
   uint8_t bVar1;
   uint8_t bVar2;
@@ -2549,7 +2549,7 @@ LAB_100cda6e:
   }
   else {
     iVar9 = orig::CXiActor_GetModelByteEE_v1(self);
-    switch(iVar9) {
+    switch(xi_sw(iVar9)) {
     case 0:
     case 1:
     case 6:
@@ -3366,7 +3366,7 @@ int __thiscall CXiSkeletonActor::GetTableEntryByModelKind(void * self)
   
   iVar4 = 0;
   uVar1 = orig::CXiActor_GetModelField170_v1(self);
-  switch(uVar1) {
+  switch(xi_sw(uVar1)) {
   case 0:
   case 4:
   case 7:

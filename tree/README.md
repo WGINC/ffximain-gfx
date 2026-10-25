@@ -6,12 +6,7 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(4,206 functions: 4,205 PASS on the fuzz gate; `// NOT VERIFIED` marks the one that is not, 0x10003890, INCONCLUSIVE:
-the original faults on every fuzzed input through objects in its own `this`. A function whose code is the same as on the
-build it was gated on keeps that verdict (`pipeline/code_same.py`, docs/HISTORY.md 22 Oct evening); 0x10016320 passes
-only under the fixed inputs `data/case_inputs.json` states, and its GATE line says so. `left_out.json` lists the 9
-gate-passed functions left out because they call a game function that needs a register their wrapper does not pass and
-the gate does not run that call as the game does (`pipeline/gate_sees_eax.py`, `pipeline/hx2clean.py`).)
+(779 functions: 776 PASS; `// NOT VERIFIED` marks the 3 that are not, with their verdict: 2 INCONCLUSIVE, 1 FAIL).
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

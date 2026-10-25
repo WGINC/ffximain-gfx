@@ -55,7 +55,7 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
 
 // FUNCTION: FFXIMAIN 0x1001ACB0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CYyMotionQue::AppendSync(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+void __thiscall CYyMotionQue::AppendSync(void * self, int * param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int iVar1;
   

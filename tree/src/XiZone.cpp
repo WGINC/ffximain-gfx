@@ -1049,7 +1049,7 @@ long double __thiscall XiZone::ComputeFogDistance(void * self, undefined4 param_
 
 // FUNCTION: FFXIMAIN 0x1018B960  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 param_1, undefined4 param_2, int param_3)
+void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 * param_1, undefined4 * param_2, int param_3)
 {
   void *this_00;
   
@@ -1066,7 +1066,7 @@ void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 param_1, und
 
 // FUNCTION: FFXIMAIN 0x1018B9A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall XiZone::GetDirLight(void * self, undefined4 param_1, undefined4 param_2, int param_3)
+void __thiscall XiZone::GetDirLight(void * self, undefined4 * param_1, undefined4 param_2, int param_3)
 {
   void *this_00;
   
@@ -1100,7 +1100,7 @@ void __thiscall XiZone::GetAmbient(void * self, uint32_t * param_1, int param_2,
 
 // FUNCTION: FFXIMAIN 0x1018BA20  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall XiZone::GetFog(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, int param_5)
+void __thiscall XiZone::GetFog(void * self, uint32_t * param_1, float * param_2, float * param_3, undefined4 param_4, int param_5)
 {
   void *this_00;
   

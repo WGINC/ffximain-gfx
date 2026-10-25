@@ -2,6 +2,30 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10280D10  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10280D10(float * param_1, undefined4 param_2, int param_3)
+{
+  uint32_t xi_entry_eax = 0;
+  uint64_t uVar1;
+  
+  orig::Sq_PrintIndent(param_3,xi_entry_eax);
+  uVar1 = orig::sqDebugPrintf_v1(s___f__f__f__f_103b480c,(double)(long double)*param_1,(double)(long double)param_1[1]
+                       ,(double)(long double)param_1[2],(double)(long double)param_1[3]);
+  orig::Sq_PrintIndent(param_3,(int)uVar1);
+  uVar1 = orig::sqDebugPrintf_v1(s__f__f__f__f_103b47fc,(double)(long double)param_1[4],
+                       (double)(long double)param_1[5],(double)(long double)param_1[6],
+                       (double)(long double)param_1[7]);
+  orig::Sq_PrintIndent(param_3,(int)uVar1);
+  uVar1 = orig::sqDebugPrintf_v1(s__f__f__f__f_103b47fc,(double)(long double)param_1[8],
+                       (double)(long double)param_1[9],(double)(long double)param_1[10],
+                       (double)(long double)param_1[0xb]);
+  orig::Sq_PrintIndent(param_3,(int)uVar1);
+  orig::sqDebugPrintf_v1(s__f__f__f__f__103b47ec,(double)(long double)param_1[0xc],(double)(long double)param_1[0xd],
+               (double)(long double)param_1[0xe],(double)(long double)param_1[0xf]);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x102813B0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2)

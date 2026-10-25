@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1027CCF0  (unit unit_1027CCF0: no unit evidence of its own; in the gap between 0x1027CC70 (sqskSkeleton) and 0x1027D2E0 (sqmoUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, float * param_3)
 {
   char xi_frame[12] __attribute__((aligned(4)));
   float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
@@ -18,7 +18,7 @@ XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 
 
 // FUNCTION: FFXIMAIN 0x1027CD30  (unit unit_1027CCF0: no unit evidence of its own; in the gap between 0x1027CC70 (sqskSkeleton) and 0x1027D2E0 (sqmoUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, float * param_3, undefined4 param_4)
+XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, float * param_3, float * param_4)
 {
   int iVar1;
   char xi_frame[140] __attribute__((aligned(4)));

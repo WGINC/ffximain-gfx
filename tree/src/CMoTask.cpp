@@ -60,7 +60,7 @@ void * __thiscall CMoTask::CtorByMode(void * self, undefined4 param_1, int param
   piVar1 = DAT_10463928;
   piVar2 = DAT_10463930;
   piVar3 = DAT_10463934;
-  switch(param_3) {
+  switch(xi_sw(param_3)) {
   case 1:
     if (DAT_1046392c != (int *)0x0) {
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1046392c + 0x18))))((void *)(DAT_1046392c),1);

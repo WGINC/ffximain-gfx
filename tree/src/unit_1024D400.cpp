@@ -571,7 +571,7 @@ XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1024E720  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl StAvatar_SetFlagsBoth(int param_1, undefined4 param_2, undefined4 param_3)
+XI_API void __cdecl StAvatar_SetFlagsBoth(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   orig::Unit10252A00_SetPositionAndScale((uint8_t *)(param_1 + 0xa8),param_2,param_3);
   orig::Unit10252A00_SetPositionAndScale((uint8_t *)(param_1 + 0xcc),param_2,param_3);
@@ -580,7 +580,7 @@ XI_API void __cdecl StAvatar_SetFlagsBoth(int param_1, undefined4 param_2, undef
 
 // FUNCTION: FFXIMAIN 0x1024F050  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl StAvatar_GetCameraMatrix(int param_1, undefined4 param_2)
+XI_API void __cdecl StAvatar_GetCameraMatrix(int param_1, float * param_2)
 {
   char xi_frame[84] __attribute__((aligned(4)));
   int  &iVar1 = *reinterpret_cast<int  *>(xi_frame + 0);

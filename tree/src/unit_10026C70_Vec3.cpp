@@ -195,7 +195,7 @@ XI_API undefined4 __cdecl Vec3_Cross(undefined4 * param_1, float * param_2, floa
 
 // FUNCTION: FFXIMAIN 0x10027620  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl Vec3_Call100275D0(undefined4 param_1, undefined4 param_2)
+XI_API long double __cdecl Vec3_Call100275D0(float * param_1, float * param_2)
 {
   long double fVar1;
   
@@ -392,6 +392,76 @@ XI_API void __thiscall Mat4_SetScale(void * self_, undefined4 * param_1)
   *(uint32_t *)((int)self_ + 0x14) = param_1[1];
   *(uint32_t *)((int)self_ + 0x28) = param_1[2];
   *(uint32_t *)((int)self_ + 0x3c) = 0x3f800000;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10027B80  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Mat4_PostRotateX(void * self_, float param_1)
+{
+  long double fVar1;
+  long double fVar2;
+  char xi_frame[64] __attribute__((aligned(4)));
+  uint8_t  (&local_40)[20] = *reinterpret_cast<uint8_t  (*)[20]>(xi_frame + 0);
+  float  &local_2c = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &local_28 = *reinterpret_cast<float  *>(xi_frame + 24);
+  float  &local_1c = *reinterpret_cast<float  *>(xi_frame + 36);
+  float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 40);
+  
+  fVar1 = xi_castbits<long double>(fsin((long double)param_1));
+  fVar2 = xi_castbits<long double>(fcos((long double)param_1));
+  orig::Mat4_SetIdentity_v1(local_40);
+  local_2c = (float)fVar2;
+  local_28 = (float)fVar1;
+  local_1c = (float)-fVar1;
+  local_18 = (float)fVar2;
+  orig::Mat4_PostMultiply_v1(self_,(int)local_40);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10027BD0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Mat4_PostRotateY(void * self_, float param_1)
+{
+  long double fVar1;
+  long double fVar2;
+  char xi_frame[64] __attribute__((aligned(4)));
+  float  (&local_40)[2] = *reinterpret_cast<float  (*)[2]>(xi_frame + 0);
+  float  &local_38 = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 32);
+  float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 40);
+  
+  fVar1 = xi_castbits<long double>(fsin((long double)param_1));
+  fVar2 = xi_castbits<long double>(fcos((long double)param_1));
+  orig::Mat4_SetIdentity_v1(local_40);
+  local_40[0] = (float)fVar2;
+  local_38 = (float)-fVar1;
+  local_20 = (float)fVar1;
+  local_18 = (float)fVar2;
+  orig::Mat4_PostMultiply_v1(self_,(int)local_40);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10027C20  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Mat4_PostRotateZ(void * self_, float param_1)
+{
+  long double fVar1;
+  long double fVar2;
+  char xi_frame[64] __attribute__((aligned(4)));
+  float  &local_40 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_3c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_30 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &local_2c = *reinterpret_cast<float  *>(xi_frame + 20);
+  
+  fVar1 = xi_castbits<long double>(fsin((long double)param_1));
+  fVar2 = xi_castbits<long double>(fcos((long double)param_1));
+  orig::Mat4_SetIdentity_v1(&local_40);
+  local_40 = (float)fVar2;
+  local_3c = (float)fVar1;
+  local_30 = (float)-fVar1;
+  local_2c = (float)fVar2;
+  orig::Mat4_PostMultiply_v1(self_,(int)&local_40);
   return;
 }
 

@@ -787,7 +787,7 @@ XI_API uint8_t * __cdecl sqmdDMBBuildShapes(int param_1, uint32_t param_2)
               puVar2 = *(uint32_t **)
                         (*(int *)(param_1 + 0x2c) +
                         *(int *)(*(int *)(param_1 + 0x98) + iVar6 * 4) * 4);
-              switch(*puVar2) {
+              switch(xi_sw(*puVar2)) {
               case 0xf0001:
                 piVar4 = orig::sqsdGeneric_BakeOntoShape((int)puVar2,piVar4);
                 break;

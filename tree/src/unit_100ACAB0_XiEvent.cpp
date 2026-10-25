@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x100AD6D0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9)
+XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7, undefined4 param_8, undefined4 param_9)
 {
   uint8_t *puVar1;
   int iVar2;
@@ -49,7 +49,7 @@ XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void)
     return (uint32_t)uVar1 << 8;
   }
   uVar1 = (uint32_t)(*(uint16_t *)(DAT_104dfd98 + 0x40d7c) - 1 >> 8);
-  switch(*(uint16_t *)(DAT_104dfd98 + 0x40d7c)) {
+  switch(xi_sw(*(uint16_t *)(DAT_104dfd98 + 0x40d7c))) {
   case 1:
   case 3:
   case 0x2e:
@@ -369,7 +369,7 @@ XI_API void __thiscall Unit100ACAB0_Append(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x100C3300  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
+XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 * param_1, void * param_2, uint16_t * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
 {
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;

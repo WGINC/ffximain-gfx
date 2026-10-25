@@ -118,7 +118,7 @@ XI_API undefined4 __thiscall LobbyThread_NextSequence(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10246000  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall LobbyThread_SendCmd0(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __stdcall LobbyThread_SendCmd0(int * param_1, undefined4 param_2)
 {
   uint64_t uVar1;
   
@@ -167,7 +167,7 @@ XI_API uint64_t __stdcall LobbyThread_QueryChannels(undefined4 param_1, int para
   
   iVar1 = -1;
   uVar2 = DAT_106690c8;
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 0:
     if (param_2 == 0) {
       while ((*(int *)(uVar2 + 0xc0) < 1 || ((-1 < param_3 && (*(int *)(uVar2 + 0xc4) != param_3))))
@@ -248,7 +248,7 @@ XI_API uint64_t __stdcall LobbyThread_QueryChannels(undefined4 param_1, int para
 
 // FUNCTION: FFXIMAIN 0x102462F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall LobbyThread_SendCmd3(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API void __stdcall LobbyThread_SendCmd3(int * param_1, uint32_t param_2, undefined4 param_3)
 {
   orig::LobbyThread_PushCmd(3,param_1,0,param_2 & 0x7f,param_3,0,0,0);
   return;
@@ -256,7 +256,7 @@ XI_API void __stdcall LobbyThread_SendCmd3(undefined4 param_1, uint32_t param_2,
 
 // FUNCTION: FFXIMAIN 0x10246320  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API undefined4 __stdcall LobbyThread_SendCmd4(int * param_1, uint32_t param_2, undefined4 param_3)
 {
   uint64_t uVar1;
   
@@ -266,7 +266,7 @@ XI_API undefined4 __stdcall LobbyThread_SendCmd4(undefined4 param_1, uint32_t pa
 
 // FUNCTION: FFXIMAIN 0x102463C0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall LobbyThread_SendCmd6(undefined4 param_1)
+XI_API void __stdcall LobbyThread_SendCmd6(int * param_1)
 {
   orig::LobbyThread_PushCmd(6,param_1,0,0,0,0,0,0);
   return;
@@ -274,7 +274,7 @@ XI_API void __stdcall LobbyThread_SendCmd6(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x102463F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall LobbyThread_QueueStreamFile(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API undefined4 __stdcall LobbyThread_QueueStreamFile(int * param_1, uint32_t param_2, undefined4 param_3)
 {
   char *pcVar1;
   int iVar2;
@@ -389,7 +389,7 @@ LAB_10246691:
 
 // FUNCTION: FFXIMAIN 0x10246770  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API void __stdcall LobbyThread_SendCmd8(int * param_1, uint32_t param_2, undefined4 param_3)
 {
   orig::LobbyThread_PushCmd(8,param_1,param_2 & 0x7f,param_3,0,0,0,0);
   return;
@@ -397,7 +397,7 @@ XI_API void __stdcall LobbyThread_SendCmd8(undefined4 param_1, uint32_t param_2,
 
 // FUNCTION: FFXIMAIN 0x102467A0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __stdcall LobbyThread_SendCmd9(undefined4 param_1, undefined4 param_2)
+XI_API void __stdcall LobbyThread_SendCmd9(int * param_1, undefined4 param_2)
 {
   orig::LobbyThread_PushCmd(9,param_1,param_2,0,0,0,0,0);
   return;
@@ -405,7 +405,7 @@ XI_API void __stdcall LobbyThread_SendCmd9(undefined4 param_1, undefined4 param_
 
 // FUNCTION: FFXIMAIN 0x102467F0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __stdcall LobbyThread_SendCmd11(undefined4 param_1)
+XI_API uint64_t __stdcall LobbyThread_SendCmd11(int * param_1)
 {
   uint64_t uVar1;
   

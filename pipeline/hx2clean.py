@@ -65,7 +65,7 @@ def split_params(args):
 # Ghidra's type names, as xi_ghidra.hpp defines them, spelt in plain C++ for the shared headers (gfx_globals.hpp,
 # gfx_orig.hpp), which do not include xi_ghidra.hpp (`code`, `word`, `addr` could be a Hex-Rays local's name). The
 # undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit. A `code *` the
-# text calls (a global, hx2cpp.ghidra_global_type, or a parameter) is spelt `xi_code *` (gfx_common.hpp), callable.
+# text calls (a global, hx2cpp.ghidra_global_type, or a parameter) is spelt `xi_codefn *` (gfx_common.hpp), callable.
 _GHIDRA_PLAIN = {'byte': 'uint8_t', 'uchar': 'uint8_t', 'ushort': 'uint16_t', 'word': 'uint16_t',
                  'uint': 'uint32_t', 'dword': 'uint32_t', 'ulong': 'uint32_t', 'longlong': 'int64_t',
                  'ulonglong': 'uint64_t', 'qword': 'uint64_t', 'float10': 'long double', 'xi_bool': 'uint8_t',
@@ -675,7 +675,7 @@ def main(exp, gate, manf, incdir, outdir):
     def gtype_of(o, r, nm):
         # a Ghidra record's global as its raw translation declares it (hx2cpp.ghidra_global_type)
         t = hx2cpp.ghidra_global_type(nm, o, r['text']) if r.get('ghidra') else 'char[1]' if o.get('is_str') else o['type']
-        if t.strip() == 'code *': t = 'xi_code *'
+        if t.strip() == 'code *': t = 'xi_codefn *'
         if re.sub(r'^(struct\s+)?(std::)?', '', t.strip()) in ('Iostream_init', 'exception', 'type_info', 'codecvt_base'): t = 'char[1]'
         return t.strip()
     SUFFIX = {'_BYTE': 'u8', 'unsigned __int8': 'u8', 'char': 's8', '__int8': 's8', '_WORD': 'u16', 'unsigned __int16': 'u16',
@@ -837,8 +837,8 @@ def main(exp, gate, manf, incdir, outdir):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is
             # spelt in plain types, since the shared headers do not include xi_ghidra.hpp
             body = hx2cpp.ghidra_bool(body)
-            # a `code *` parameter the body calls, `(*p)(...)`: callable (xi_code, gfx_common.hpp)
-            sig = re.sub(r'\bcode \*\s*(\w+)', lambda m: ('xi_code * ' if re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % m.group(1), body) else 'code * ') + m.group(1), sig)
+            # a `code *` parameter the body calls, `(*p)(...)`: callable (xi_codefn, gfx_common.hpp)
+            sig = re.sub(r'\bcode \*\s*(\w+)', lambda m: ('xi_codefn * ' if re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % m.group(1), body) else 'code * ') + m.group(1), sig)
             sig = plain_type(re.sub(r'\bbool\b', 'unsigned char', re.sub(r'\bfloat10\b', 'long double', sig)))
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()

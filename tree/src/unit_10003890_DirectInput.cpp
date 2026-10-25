@@ -892,3 +892,29 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
   }
   return uVar1 & 0xffffff00;
 }
+
+// FUNCTION: FFXIMAIN 0x10008EA0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API undefined4 __stdcall fn_10008EA0(undefined4 param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  
+  if ((DAT_1045654c_as_s32 != 0) && (DAT_10456550_as_v0 != (code *)0x0)) {
+    uVar1 = (*DAT_10456550_as_v0)(param_1,param_2);
+    return uVar1;
+  }
+  return 1;
+}
+
+// FUNCTION: FFXIMAIN 0x10008F00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API undefined4 __stdcall fn_10008F00(undefined4 param_1)
+{
+  uint32_t uVar1;
+  
+  if ((DAT_1045654c_as_s32 != 0) && (DAT_10456558_as_v0 != (code *)0x0)) {
+    uVar1 = (*DAT_10456558_as_v0)(param_1);
+    return uVar1;
+  }
+  return 1;
+}

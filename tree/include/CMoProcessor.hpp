@@ -11,6 +11,7 @@ public:
     static long double __stdcall LengthSafe(float * param_1);  // 0x1006D580
     int ScratchMatrixOp(int a2, int a3, int a4);  // 0x1006E6B0
     static CMoProcessor * __stdcall CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5);  // 0x1006E970
+    static void __thiscall CalcScreenBoundsAndVisible(void * self, float * param_1, float * param_2, float param_3, float param_4, float param_5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1006ED10
     static float * __stdcall MulPointVec3(float * param_1, float * param_2, float * param_3);  // 0x1006F800
     static undefined4 __thiscall BuildRotationXYZ(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006FAE0
     static undefined4 __thiscall SetRotationFromAngles(void * self, undefined4 param_1, float param_2, float param_3, float param_4);  // 0x1006FC40

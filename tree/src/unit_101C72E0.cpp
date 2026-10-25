@@ -239,6 +239,54 @@ XI_API int __cdecl Unit101C72E0_CompareMapped(uint32_t param_1, int param_2, int
   return (int)(char)param_4 - (int)(char)param_1;
 }
 
+// FUNCTION: FFXIMAIN 0x101C8950  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl YkCommonInit(void)
+{
+  uint8_t *puVar1;
+  uint8_t *puVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  
+  puVar1 = (uint8_t *)orig::Unit1012AC80_GetMessageFwd(0xc,0x5b);
+  DAT_10662f64 = *puVar1;
+  iVar3 = *(int *)(g_pSceneState + 8);
+  if (((*(char *)(g_pSceneState + 0x18) < '\0') && ((iVar3 == 2 || (iVar3 == 3)))) || (iVar3 == 1)) {
+    DAT_10662f60_as_v0 =(DAT_10662f60_as_v0_t)((code *)&LAB_101c8b80);
+  }
+  else if ((iVar3 < 2) || (3 < iVar3)) {
+    DAT_10662f60_as_v0 = XI_CODE(FUN_101c8b30);
+  }
+  else {
+    DAT_10662f60_as_v0 =(DAT_10662f60_as_v0_t)((code *)&LAB_101c8bc0);
+  }
+  puVar4 = &DAT_10662e50;
+  for (iVar3 = 0x12; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar4 = 0;
+    puVar4 = puVar4 + 1;
+  }
+  DAT_10662e50 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_font_fontshp_1036cf1c);
+  DAT_10662e54 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_windowps_1036ffb4);
+  _DAT_10662e58 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,aMenuKeytops3);
+  _DAT_10662e5c = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_pname_1037d4a8);
+  puVar2 = orig::Scene_GetMenuFrameName(0);
+  _DAT_10662e60 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,puVar2);
+  _DAT_10662e64 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_contents_1037d494);
+  _DAT_10662e68 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_anc_l_1037d480);
+  _DAT_10662e6c = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_anc_s_1037d46c);
+  _DAT_10662e74 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_anc_scan_1037d458);
+  _DAT_10662e78 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_anc_regi_1037d444);
+  _DAT_10662e7c = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_anc_equi_1037d430);
+  _DAT_10662e80 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_anc_kaipage_1037d41c);
+  _DAT_10662e84 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_hpcol_1037d408);
+  _DAT_10662e70 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_numctrl_1037d3f4);
+  _DAT_10662e88 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_font_usgaiji_1036c98c);
+  _DAT_10662e8c = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_fep_10377cbc);
+  _DAT_10662e90 = orig::ShapeMng_FindShape_v2(&g_shapeMng_as_v0,s_menu_netmeter_1037d3e0);
+  _DAT_10662e94 = orig::FUN_101cc620((int *)0x5c,&DAT_10662f18);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x101C8C30  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit101C72E0_GetIndexed(int param_1)
@@ -336,6 +384,90 @@ XI_API void __cdecl Gfx_ProjectWorldToScreen(_DWORD *a1, _WORD *a2, _WORD *a3)
   orig::Unit10026C70_Nop();
   orig::Unit10026C70_Nop();
   orig::Unit10026C70_Nop();
+}
+
+// FUNCTION: FFXIMAIN 0x101C8FD0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t * __cdecl fn_101C8FD0(uint32_t param_1, undefined4 param_2)
+{
+  int iVar1;
+  short *psVar2;
+  short *psVar3;
+  uint32_t uVar4;
+  int iVar5;
+  char xi_frame[152] __attribute__((aligned(4)));
+  int  &iVar6 = *reinterpret_cast<int  *>(xi_frame + 0);
+  char * &pcVar7 = *reinterpret_cast<char * *>(xi_frame + 4);
+  uint8_t * &puVar8 = *reinterpret_cast<uint8_t * *>(xi_frame + 20);
+  uint8_t  (&local_80)[32] = *reinterpret_cast<uint8_t  (*)[32]>(xi_frame + 24);
+  uint8_t  (&local_60)[32] = *reinterpret_cast<uint8_t  (*)[32]>(xi_frame + 56);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 88);
+  
+  iVar5 = 0;
+  if (param_1 != 0) {
+    iVar5 = orig::Unit101C72E0_TimeToTmWrap28Years(param_1);
+  }
+  psVar2 = orig::Unit101C72E0_FindShortKeyEntry
+                     ((short *)&DAT_1037d31c,*(uint32_t *)(g_pSceneState + 0x18) >> 1 & 3);
+  psVar3 = orig::Unit101C72E0_FindShortKeyEntry((short *)&DAT_1037d34c,*(uint8_t *)(g_pSceneState + 0x18) & 1)
+  ;
+  if ((psVar2 == (short *)0x0) || (psVar3 == (short *)0x0)) {
+    if ((param_2 & 1) == 0) {
+      pcVar7 = s__________1037d4c8;
+    }
+    else {
+      pcVar7 = s____________1037d4d4;
+    }
+    orig::_sprintf_v1(local_40,pcVar7);
+    orig::_sprintf_v1(&DAT_10662e98,s__________1037d4bc);
+  }
+  else if (iVar5 == 0) {
+    if ((param_2 & 1) == 0) {
+      uVar4 = orig::Unit1012AC80_GetMessageFwd(10,0x4c);
+    }
+    else {
+      uVar4 = orig::Unit1012AC80_GetMessageFwd(10,(int)psVar2[3]);
+    }
+    orig::_sprintf_v1(local_40,uVar4);
+    uVar4 = orig::Unit1012AC80_GetMessageFwd(10,(int)psVar3[3]);
+    orig::_sprintf_v1(local_60,uVar4);
+  }
+  else {
+    if ((param_2 & 1) == 0) {
+      orig::_sprintf_v1(local_80,&aD_4,*(int *)(iVar5 + 0x10) + 1);
+      orig::Unit1012AC80_FormatMessage5(local_40,0x40,10,(int)psVar2[2],1,local_80);
+    }
+    else {
+      if ((param_2 & 4) == 0) {
+        iVar1 = *(int *)(iVar5 + 0x10);
+        iVar6 = 0x60;
+      }
+      else {
+        iVar1 = *(int *)(iVar5 + 0x10);
+        iVar6 = 0x61;
+      }
+      orig::Unit1012AC80_FormatMessage4((int)local_80,0x20,10,iVar6,iVar1 + 1);
+      orig::Unit1012AC80_FormatMessage5(local_40,0x40,10,(int)psVar2[1],1,local_80);
+    }
+    if ((param_2 & 8) == 0) {
+      orig::Unit1012AC80_FormatMessage4((int)local_60,0x20,10,(int)psVar3[1],*(uint32_t *)(iVar5 + 8));
+    }
+    else {
+      orig::Unit1012AC80_FormatMessage4((int)local_60,0x20,10,(int)psVar3[5],*(uint32_t *)(iVar5 + 8));
+    }
+  }
+  if ((param_2 & 2) == 0) {
+    if ((param_2 & 0x18) == 0) {
+      orig::_sprintf_v1(&DAT_10662e98,s__s__s_10358098,local_40,local_60);
+      return(uint8_t*)(&DAT_10662e98);
+    }
+    puVar8 = local_60;
+  }
+  else {
+    puVar8 = local_40;
+  }
+  orig::_sprintf_v1(&DAT_10662e98,&aS,puVar8);
+  return(uint8_t*)(&DAT_10662e98);
 }
 
 // FUNCTION: FFXIMAIN 0x101C9270  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -437,7 +569,7 @@ LAB_101c95e1:
 
 // FUNCTION: FFXIMAIN 0x101C9780  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl Unit101C72E0_DrawUnscaled(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+XI_API uint64_t __cdecl Unit101C72E0_DrawUnscaled(undefined4 param_1, undefined4 param_2, uint8_t * param_3, undefined4 param_4)
 {
   uint64_t uVar1;
   
@@ -898,7 +1030,7 @@ XI_API void __cdecl Unit101C72E0_DrawFractionItem1A(undefined4 param_1, undefine
 
 // FUNCTION: FFXIMAIN 0x101CB090  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __cdecl Unit101C72E0_DrawSmoothedItem1A(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+XI_API uint64_t __cdecl Unit101C72E0_DrawSmoothedItem1A(undefined4 param_1, undefined4 param_2, undefined4 param_3, uint8_t * param_4)
 {
   int *piVar1;
   uint64_t uVar2;

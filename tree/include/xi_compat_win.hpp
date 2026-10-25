@@ -37,4 +37,9 @@ struct timecaps_tag { unsigned int wPeriodMin; unsigned int wPeriodMax; };
 union _LARGE_INTEGER { struct { unsigned int LowPart; int HighPart; } u; long long QuadPart; }; typedef _LARGE_INTEGER LARGE_INTEGER;
 struct _SECURITY_ATTRIBUTES; typedef _SECURITY_ATTRIBUTES *LPSECURITY_ATTRIBUTES;
 struct HKL__; typedef HKL__ *HKL; typedef void *PVOID; typedef void *HGLOBAL;
-static_assert(sizeof(_WIN32_FIND_DATAA) == 320 && sizeof(WINDOWPLACEMENT) == 44 && sizeof(tagCOMPOSITIONFORM) == 28, "SDK sizes");
+// imm.h CANDIDATEFORM { DWORD dwIndex; DWORD dwStyle; POINT ptCurrentPos; RECT rcArea; }; winbase.h
+// LPTHREAD_START_ROUTINE: DWORD (WINAPI *)(LPVOID)
+struct tagCANDIDATEFORM { unsigned int dwIndex; unsigned int dwStyle; tagPOINT ptCurrentPos; tagRECT rcArea; };
+typedef unsigned int (__stdcall *LPTHREAD_START_ROUTINE)(void *); typedef tagCANDIDATEFORM *LPCANDIDATEFORM; typedef tagCOMPOSITIONFORM *LPCOMPOSITIONFORM;
+static_assert(sizeof(_WIN32_FIND_DATAA) == 320 && sizeof(WINDOWPLACEMENT) == 44 && sizeof(tagCOMPOSITIONFORM) == 28
+              && sizeof(tagCANDIDATEFORM) == 32, "SDK sizes");

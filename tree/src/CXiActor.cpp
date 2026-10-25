@@ -1118,8 +1118,8 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
     this_00 = (void *)orig::ResourceIter_FindNext_v1(auStack_21c,0);
     while (this_00 != (void *)0x0) {
       if ((*(uint8_t *)((int)this_00 + 0x1a) >> 2 & 1) == 0) {
-        switch((*(uint8_t *)((int)this_00 + 0x36) & 1) * 0x10 + -1 +
-               (*(uint32_t *)((int)this_00 + 0x34) & 0xf)) {
+        switch(xi_sw((*(uint8_t *)((int)this_00 + 0x36) & 1) * 0x10 + -1 +
+               (*(uint32_t *)((int)this_00 + 0x34) & 0xf))) {
         case 0:
         case 1:
         case 3:
@@ -1153,7 +1153,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
     if (iVar2 != 0) {
       do {
         if ((*(uint8_t *)(iVar2 + 0x1a) >> 2 & 1) == 0) {
-          switch((*(uint8_t *)(iVar2 + 0x36) & 1) * 0x10 + -1 + (*(uint32_t *)(iVar2 + 0x34) & 0xf)) {
+          switch(xi_sw((*(uint8_t *)(iVar2 + 0x36) & 1) * 0x10 + -1 + (*(uint32_t *)(iVar2 + 0x34) & 0xf))) {
           case 0:
           case 1:
           case 3:

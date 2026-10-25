@@ -236,7 +236,7 @@ XI_API void __thiscall TexRes_LoadBm2(void * self_)
   uint8_t  (&auStack_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
   
   pvVar2 = self_;
-  switch((*(uint8_t *)((int)self_ + 0x30) & 0x70) >> 4) {
+  switch(xi_sw((*(uint8_t *)((int)self_ + 0x30) & 0x70) >> 4)) {
   case 0:
     orig::nullsub_90_v1();
     bVar1 = *(uint8_t *)((int)self_ + 0x30);

@@ -41,7 +41,7 @@ XI_API uint32_t __thiscall Unit10014350_StepStagedRelease(void * self_)
   uint32_t uVar2;
   
   uVar2 = (uint32_t)*(short *)((int)self_ + 4);
-  switch(uVar2) {
+  switch(xi_sw(uVar2)) {
   case 0:
     uVar2 = orig::Unit10014350_ShutdownActorsAndTables(self_);
     if ((char)uVar2 == '\0') goto switchD_10014a3c_default;
@@ -811,7 +811,7 @@ XI_API LRESULT __stdcall App_WndProc(HWND param_1, uint32_t param_2, uint32_t pa
       }
       goto LAB_10016d37;
     }
-    switch(param_2) {
+    switch(xi_sw(param_2)) {
     case 2:
     case 0x10:
       PostQuitMessage(0);
@@ -889,7 +889,7 @@ switchD_1001689e_caseD_14:
           }
         }
         else {
-          switch(param_3) {
+          switch(xi_sw(param_3)) {
           case 0xf100:
           case 0xf130:
           case 0xf140:

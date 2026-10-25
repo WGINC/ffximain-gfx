@@ -194,7 +194,7 @@ long double __stdcall CXiControlActor::GetSpeed(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x100AAF50  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CXiControlActor::Slot137_Set388(void * self, undefined4 param_1)
+void __thiscall CXiControlActor::Slot137_Set388(void * self, int * param_1)
 {
   orig::FUN_100aafb0((uint32_t *)((int)self + 0x388),param_1);
   return;

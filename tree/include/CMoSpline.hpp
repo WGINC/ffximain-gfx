@@ -14,7 +14,7 @@ public:
     static int * __thiscall GetWrapped(void * self, int param_1);  // 0x10063B50
     static int __thiscall GetData(void * self);  // 0x10063B70
     static undefined4 __thiscall EnsureSamples(void * self);  // 0x10063B80
-    static void __thiscall SetValue(void * self, undefined4 param_1, undefined4 param_2);  // 0x10063C30
+    static void __thiscall SetValue(void * self, float * param_1, undefined4 param_2);  // 0x10063C30
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x24];

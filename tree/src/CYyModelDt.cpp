@@ -118,7 +118,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 
 // FUNCTION: FFXIMAIN 0x1002A000  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
+void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 * param_5, undefined4 * param_6)
 {
   void *this_00;
   

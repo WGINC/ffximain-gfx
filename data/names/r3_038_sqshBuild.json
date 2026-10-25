@@ -8,13 +8,13 @@
  "0x10299E40": {
   "name": "SqshBuild_BuildPoints",
   "confidence": "high",
-  "evidence": "its errors are \"Points version mismatch\" (at most 1) and \"sqshPointsNew() cause...\"; reads the version, creates the shape (SqshPoints_Create) and reads its vertex data (SqshBuild_Read); called by SqshBuild_BuildSQO",
+  "evidence": "its errors are \"Points version mismatch\" (it must be 1) and \"sqshPointsNew() cause...\"; reads the version, creates the shape (SqshPoints_Create) and reads its vertex data (SqshBuild_Read); called by SqshBuild_BuildSQO",
   "summary": "Builds a points shape from its binary data."
  },
  "0x10299EE0": {
   "name": "SqshBuild_BuildCurves",
   "confidence": "high",
-  "evidence": "its errors are \"Curves version mismatch\" (at most 1) and \"sqshCurvesNew() cause...\"; reads the version, creates the shape (SqshCurves_Create) and reads its vertex data (SqshBuild_Read), then its curves; called by SqshBuild_BuildSQO",
+  "evidence": "its errors are \"Curves version mismatch\" (it must be 1) and \"sqshCurvesNew() cause...\"; reads the version, creates the shape (SqshCurves_Create) and reads its vertex data (SqshBuild_Read), then its curves; called by SqshBuild_BuildSQO",
   "summary": "Builds a curves shape from its binary data."
  }
 }

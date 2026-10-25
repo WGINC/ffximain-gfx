@@ -3369,3 +3369,56 @@ reg_kept_audit and export-sp (0x100419F4) as recorded before (9a507d2); and thre
 inputs since purges.json gained 64 entries (38734c7): sp_solved.json (12 items), cdecl_args.json (9),
 this_flow.json (regenerated in this commit). hx2cpp and gfx_cases read sp_solved/cdecl_args, so regenerating them
 can change translations and cases: that is the next round (regenerate, re-translate, gate), not part of this one.
+
+## 25 Oct (evening): stale facts, the kit's two new recordings, the game's compiler, naming round 4
+
+**Facts regenerated.** sp_solved.json and cdecl_args.json, stale since purges.json's 64 new entries (38734c7):
+cdecl_args gains an exact count for 8 functions from their new `ret N`, sp_solved loses the 11 call sites into
+them (now known from purges). sp_solve --selftest: the one known miss (0x10318674), reaching no output. verify_all
+--quick: both PASS. reg_saved.json, which reads cdecl_args, then changed for 73 functions (ESI now proven restored);
+`pipeline/regen_facts.py` (new) re-derives every fact in verify_all's order, installing each, until a pass changes
+nothing, so the facts that read each other settle together. reg_kept_audit.json, a report nothing reads, was
+committed from its first pass (the verify_all FAIL recorded since 9a507d2); the rest follow when the run settles.
+
+**A soundness fix with no effect.** x87_effects.py's index_values and flag_setter took capstone's operand access for
+a `call`, which lists only ESP as written: a value or the flags were carried across a call as if the callee kept
+them. A call now writes every register but ESP (an EBX/ESI/EDI/EBP its callee restores, data/reg_saved.json, is
+kept) and ends the flag walk. x87_effects.json is unchanged (no switch was decided through a call); selftest OK.
+
+**Two FAIL classes read, not fixed:**
+* 0x101A04E0 / 0x101A03D0 pass `local_4` to a callee after `File_FindByKind`, whose output it is. The stub writes
+  nothing, so the original passes what MSVC's `push ecx` left in the slot (the entry ECX, 0xCCCCCCCC in the gate)
+  and the reconstruction its own stack. ecx_use.json leaves both undecided for that reason. Whether
+  File_FindByKind always writes its output on success is a fact about its code no tool derives: the kit's new
+  `out` recording measures it (below). A gate change that fills unwritten frame slots was tried and dropped: the
+  original's `push ecx` is itself a write, so the slot is not unwritten.
+* 0x102110C0's callee 0x102112B0 reads only the low word of its argument, but arg_reads.json left it out: IDA
+  gives it a second chunk (0x1012CA90) that reads the slot as a dword after `mov [esp+4], imm` overwrote it, and a
+  tail jump. A must-store analysis (bytes stored on every path are not the caller's) and following tail jumps at
+  depth 0 decide 105 more functions, 0x102112B0 as [0xFFFF]; tested in a scratch copy, not committed yet.
+
+**Switch tables.** 179 `jmp [r*4 + T]` in the DLL are not bounded by sp_solve.switch_targets, mostly because flag-
+neutral instructions sit between the `cmp` and the `ja`. A generalised proof (walk back from the jump: modelled
+index transforms, the Intel SDM's "Flags Affected: None" instructions between cmp and ja, a register bound set by
+`mov reg, imm` in the run, no jump landing after the first instruction used) bounds 104 more; on the 74 of them
+x87_effects.index_values also bounds, the targets agree exactly. Not committed yet: every fact that follows control
+flow changes with it (its own round, through regen_facts.py). 0x100DA750, the callee behind fs14's 0x100DAF30
+FAIL, needs the register case across joins (`mov ebp, 0xCB` before a join) and stays unbounded.
+
+**The kit records output slots and switch jumps** (`facts=1`, kinds `out` and `jmp`, docs/KIT.md): 3,895 sites,
+1,618 of them the calls in the FAIL functions the tree does not hold, 179 the unbounded switches. Measured values
+go to data/game_outs.json and data/game_switch.json through `fact_sites.py ingest`; a measurement shows what the
+game did, never that something cannot happen. The kit also read manifest exports into 160 bytes and dropped two
+functions with longer mangled names (0x101A0730, 0x101A0770); now 256. All 12 Wine test modes pass. Delivered as
+xikit_measure.zip with MEASURE.md's Block C.
+
+**The game's compiler** (docs/RECOMPILE.md). The DLL's Rich header: 1,007 objects stamped 48/49 build 9044. The
+owner's Visual Studio 6 archive, assembled by pipeline/vc6/setup_vc6.sh (outside the repo, under Wine): SP6's front
+ends with the Processor Pack's c2.dll stamp exactly that. The 189 objects of 10/11 build 9782 are not reproduced
+(SP6's front ends refuse the CD's c2.dll; this SP6 holds none). pipeline/vc6/match.py compiles a source and
+compares each marked function with the game's bytes: 0x100279B0 (55 bytes) and 0x10027CD0 (30 bytes), written by
+hand, are identical at /O2. Statement order is what decides them (one assignment per element in index order; four
+member assignments rather than a struct copy).
+
+**Naming round 4:** 66 of 66 (23 batches, `batches/round4/`): 4 high, 26 medium, 36 low. Not yet applied: the
+regeneration that applies them waits for regen_facts.py to settle (it reads data/).

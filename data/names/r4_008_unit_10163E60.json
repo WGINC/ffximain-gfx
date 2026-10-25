@@ -1,0 +1,26 @@
+{
+ "0x10165070": {
+  "name": "Unit10163E60_CreateUiObjects",
+  "confidence": "medium",
+  "evidence": "Called by App_InitScene. Body: Unit1012AC80_LoadMessageSet, MenuMng_Init, the screen rect from the camera's words, then ~100 Allocator_Generic + constructor pairs into globals: g_pTkHelp, g_pTkTitle, g_pCursor (Cursor_Init), g_pTargetMng (Unit1012AC80_TargetCtor), g_pKeyPrompt (KeyPrompt_Construct), the chat lists (Unit100D7420_ChatListCtorA/B), LobbyThread_CtorVt1033CCA8 and the Unit1012AC80_ConstructVt*/CtorVt* objects.",
+  "summary": "Creates and constructs the game's UI objects (menus, cursor, target manager, help, title, chat lists, ...) at scene start."
+ },
+ "0x10173AE0": {
+  "name": "ZoneMap_FindDbgBoxMPosById",
+  "confidence": "medium",
+  "evidence": "Body: walks g_dbgBoxList's nodes and their 0x40-byte entries; for an entry of type 'M' or 'm' (byte +0x64) whose +0x6C equals arg2, copies its three dwords at +0x40 to arg1 and returns 1; else 0. Called by ZoneMap_Call10173AE0 (ZoneMap_SetArea).",
+  "summary": "Finds the 'M' entry with the given id in the zone's box list and returns its position."
+ },
+ "0x10174A60": {
+  "name": "ZoneMap_FreeDbgBoxList",
+  "confidence": "high",
+  "evidence": "Body: for every g_dbgBoxList node, Mem_FreeObject of each entry's +0xD8 pointer, of the entry array and of the node; then frees this+0xC and this+4, clears their counts and calls ZoneMap_ResetDbgBoxList. Called by ZoneMap_TeardownStep.",
+  "summary": "Frees the zone's box list (nodes, entry arrays, entry data) and the two buffers of the zone map, and resets the list."
+ },
+ "0x10176620": {
+  "name": "ZoneMap_FindDbgBoxHitBySegment",
+  "confidence": "medium",
+  "evidence": "Body: when dword_10621A10 is set, for every entry of type '@' in g_dbgBoxList transforms arg1 and arg2 by its 4x4 matrix; returns the entry when either end is inside [-0.5, 0.5]^3, or when FUN_101768A0 reports a hit of the segment against one of the six records at 0x10376BC0; else 0. Its caller's caller is CXiCollisionActor_OnMove.",
+  "summary": "Returns the first '@' box of the zone that the segment between two points touches, or 0."
+ }
+}

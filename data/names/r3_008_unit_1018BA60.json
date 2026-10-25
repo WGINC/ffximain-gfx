@@ -1,0 +1,242 @@
+{
+ "0x1018BDE0": {
+  "name": "Unit1018BA60_GetGameTimeValue",
+  "confidence": "low",
+  "evidence": "When byte g_pCamera+9 is set and DAT_1065CB20 is 0 returns sub_10103B60(ntGameTimeGet()); otherwise builds a value with sub_1018C180, Time_SetNormalized(.., 0x278D00), Time_Normalize and Time_GetDiv5184000. Called by sub_1004A980.",
+  "summary": "Returns a game-time value from ntGameTimeGet, or one computed locally with the Time_ helpers when that is not available."
+ },
+ "0x1018D490": {
+  "name": "Unit1018BA60_GetField4_1018D490",
+  "confidence": "high",
+  "evidence": "Body: return *(self+4).",
+  "summary": "Returns the dword at +4."
+ },
+ "0x1018D7F0": {
+  "name": "Unit1018BA60_FillCompletionWords",
+  "confidence": "low",
+  "evidence": "Returns 0 for param_4 of 0 or above 0xF; otherwise walks the entries from +0x8C (count +0x88) from index param_2 and fills them with fn_1018DB10 (x3) using Target_GetActorPtr and Yk_GetActiveEntry names. ret 16 (purges). Called by Unit1018BA60_SetWordForCompletion.",
+  "summary": "Fills candidate words for completion from target and entry names; details not established."
+ },
+ "0x1018D980": {
+  "name": "Unit1018BA60_CommitPending8C",
+  "confidence": "high",
+  "evidence": "When byte +0x10D is not 1 and byte +0x10C is 1: clears +0x10C and copies 0x20 dwords from +8 to +0x8C. Called by Unit1018BA60_HandleJumpMapKeys.",
+  "summary": "Copies the pending block at +8 to +0x8C once when the pending flag is set."
+ },
+ "0x1018DB10": {
+  "name": "Unit1018BA60_AppendCompletionWord",
+  "confidence": "low",
+  "evidence": "When param_2+1 < param_3, measures param_4 (strlen) and stores it into the list with Unit1018BA60_Set. __stdcall, ret 16 (purges). Called by fn_1018D7F0.",
+  "summary": "Adds one word to the completion list when there is room."
+ },
+ "0x1018E0E0": {
+  "name": "FsLogPage_ClearAndVisitFiles",
+  "confidence": "medium",
+  "evidence": "Calls FsLogPage_ClearBuffer(self); when +0xD0 is set, loops over the log files, building each name with fn_1018E170 (\"%d.log\"/\"%d_%d.log\") and passing it to Unit1018BA60_FileMngFwd101C1820 with Sleep while busy, then frees with operator_delete.",
+  "summary": "Clears the log page and passes each of its log file names (N.log / N_M.log) to Unit1018BA60_FileMngFwd101C1820, sleeping while the file manager is busy; what that call does to the files is not established."
+ },
+ "0x1018E170": {
+  "name": "FsLogPage_FormatFileName",
+  "confidence": "high",
+  "evidence": "Body: sprintf(param_1, \"%d.log\") when param_2 is 0, else sprintf(param_1, \"%d_%d.log\", param_2, param_3).",
+  "summary": "Formats a log file name: N.log or N_M.log."
+ },
+ "0x1018E310": {
+  "name": "FsLogPage_WriteFile",
+  "confidence": "low",
+  "evidence": "FsLogPage_PruneOffsets(self), then waits (Sleep(100), at most 0x14 tries) while Unit1018BA60_FileMngFwd101C1820(g_pFileMng, name) is busy, and queues/submits the file with Unit1018BA60_FileMngQueuePath2F4Kind3 / SubmitPath2F4Kind3. ret 4 (purges).",
+  "summary": "Writes the log page to the named file through the file manager, waiting while it is busy."
+ },
+ "0x1018E8D0": {
+  "name": "FsLogPage_Rotate",
+  "confidence": "medium",
+  "evidence": "When the byte +0x54 is below 0x14: builds the name fn_1018E170(+0x5C, (+0x58 + +0x54) % 0x14), writes param_1 to it with fn_1018E310 and increments +0x54; otherwise frees the oldest page (+4) and continues. ret 4 (purges). Called by FsLogPage_AddEntry.",
+  "summary": "Writes a full log page to the next of 20 rotating log files."
+ },
+ "0x10190900": {
+  "name": "Unit1018BA60_CtorVt10336950",
+  "confidence": "high",
+  "evidence": "Body: vtable 0x10336950; +4 = 0xE; +8 = +0xC = 0; +0x10 = +0x14 = 1; +0x18 = 0; byte +0x1C = 0; +0x20 = 0; ...",
+  "summary": "Constructor of the object with vtable 0x10336950 (state 0xE)."
+ },
+ "0x10190950": {
+  "name": "Unit1018BA60_Reset10336950",
+  "confidence": "high",
+  "evidence": "Body: +4 = 0xE; +0x18 = param_1; +0xC = +8 = 0; fn_10190BB0(self); return 1. ret 4 (purges).",
+  "summary": "Resets the object to state 0xE with a new owner at +0x18 and updates it."
+ },
+ "0x10190BB0": {
+  "name": "Unit1018BA60_Update10336950",
+  "confidence": "low",
+  "evidence": "When the owner's +0xF10C is 0 and the state +4 is 0x20 or 0x21, sets the state back to 0xE and clears +0xC; other paths follow the owner's +0xF10C value.",
+  "summary": "Updates the state at +4 from the owner's value at +0xF10C."
+ },
+ "0x10191AB0": {
+  "name": "Unit1018BA60_CtorVt10336958",
+  "confidence": "high",
+  "evidence": "Body: Unit100D7420_ClearWords(self+4); +8 = +0x14 = +0x18 = 0; byte +0x20 = 0; short +0xE = 0xFFFF; byte +0xC = 1; vtable 0x10336958; +0x1C = 1; return self.",
+  "summary": "Constructor of the object with vtable 0x10336958."
+ },
+ "0x10192E50": {
+  "name": "Unit1018BA60_CtorVt103369A0",
+  "confidence": "high",
+  "evidence": "Body: Unit100D7420_ClearWords(self+4); +0x18 = param_1; short +0xE = 0xFFFF; +8 = 0; byte +0xC = 1; vtable 0x103369A0; byte +0x1C = 0; +0x14 = ShapeMng_FindShape(&g_shapeMng, \"menu    key2top \"). ret 4 (purges).",
+  "summary": "Constructor of the object with vtable 0x103369A0, which holds the 'key2top' menu shape."
+ },
+ "0x101938B0": {
+  "name": "Unit1018BA60_GetSettingMapped",
+  "confidence": "high",
+  "evidence": "Body: return sub_101938D0(Settings_GetValue(param_1), param_2).",
+  "summary": "Reads a setting and maps it through sub_101938D0."
+ },
+ "0x10195220": {
+  "name": "Unit1018BA60_ResetConfigReturn1",
+  "confidence": "high",
+  "evidence": "Body: Unit1018BA60_ResetConfigToDefaults(self, 0); bytes +9 and +0xA = 0; return 1. Called by Unit1018BA60_SaveAll.",
+  "summary": "Resets the configuration to defaults (mode 0) and clears two flags."
+ },
+ "0x10195350": {
+  "name": "Unit1018BA60_ReloadConfig",
+  "confidence": "medium",
+  "evidence": "Sends byte pair (8, 0) with Unit10253210_SendBytePairKind0, loads cnf.dat with fn_101959A0 (resetting to defaults with mode 1 on failure), loads the external config (Unit1018BA60_LoadExternalConfig) and sends (8, 1). Called by Unit1018BA60_ReloadAll.",
+  "summary": "Reloads the configuration from cnf.dat and the external config, defaults on failure."
+ },
+ "0x101959A0": {
+  "name": "Unit1018BA60_LoadCnfDat",
+  "confidence": "high",
+  "evidence": "Reads \"cnf.dat\" (DLL string 0x10379A08) into a 0x33C-byte buffer through Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng, ...); fails unless the first dword is 5 or 0x5000000; then applies its values with Settings_GetValue, Unit1018BA60_ForEach and Unit1018BA60_SetConfigEntryValue.",
+  "summary": "Loads cnf.dat (version 5) and applies its configuration values."
+ },
+ "0x1019FAB0": {
+  "name": "Unit1018BA60_SignalMember8",
+  "confidence": "high",
+  "evidence": "Body: returns 1 when fn_101A0970(+8) is non-negative, else -1.",
+  "summary": "Signals the object at +8 (fn_101A0970); 1 on success, -1 on failure."
+ },
+ "0x101A0710": {
+  "name": "Unit1018BA60_Call101BE510IfSize4",
+  "confidence": "high",
+  "evidence": "Body: returns -1 unless param_2 is 4; then sub_101BE510(&third argument).",
+  "summary": "Calls sub_101BE510 on a 4-byte argument; -1 for any other size."
+ },
+ "0x101A0730": {
+  "name": "Unit1018BA60_FillSizeAndDatesFwd",
+  "confidence": "high",
+  "evidence": "Body: return Unit1018BA60_FillSizeAndThreeDates(&third argument, the 68th argument).",
+  "summary": "Forwards to Unit1018BA60_FillSizeAndThreeDates with its stacked arguments."
+ },
+ "0x101A0750": {
+  "name": "Unit1018BA60_Call101BE670",
+  "confidence": "high",
+  "evidence": "Body: return sub_101BE670((LPCSTR)&third argument).",
+  "summary": "Calls sub_101BE670 with the string stored in its arguments."
+ },
+ "0x101A0760": {
+  "name": "Unit1018BA60_Call101BE690",
+  "confidence": "high",
+  "evidence": "Body: return sub_101BE690(&third argument).",
+  "summary": "Calls sub_101BE690 with the address of its third argument."
+ },
+ "0x101A0970": {
+  "name": "Unit1018BA60_SignalMember18",
+  "confidence": "high",
+  "evidence": "Body: returns 1 when fn_101B9530(+0x18) (ReleaseSemaphore) is non-negative, else -1.",
+  "summary": "Releases the semaphore object at +0x18; 1 on success, -1 on failure."
+ },
+ "0x101A1460": {
+  "name": "Unit1018BA60_SetVtable10337210",
+  "confidence": "high",
+  "evidence": "Body: *self = 0x10337210.",
+  "summary": "Sets the vtable to 0x10337210 (destructor body)."
+ },
+ "0x101A2480": {
+  "name": "Unit1018BA60_ParseWaitCommand",
+  "confidence": "medium",
+  "evidence": "Checks param_1 against the string at 0x1037AA5C (sub_10311EB0) and refers to the DLL strings \"/wait\", \"<wait\", \"<wait%d>\" and \"%s %d\"; computes the wait from the number with Unit100D7420_AdvanceAndGetMs. __stdcall, ret 12 (purges). Called by Unit1018BA60_StepScript.",
+  "summary": "Recognises a /wait or <wait N> command in a script line and sets up the wait."
+ },
+ "0x101A2610": {
+  "name": "Unit1018BA60_FormatNumberedDatName",
+  "confidence": "medium",
+  "evidence": "Body: sprintf(param_1, \"%s%s%s\", xi_s3, 0x1037AA70) when param_2 is 0, else sprintf(param_1, \"%s%s%d%s\", xi_s3, 0x1037AA70, param_2, 0x1037AA74); the function refers to \".dat\". __stdcall, ret 12 (purges).",
+  "summary": "Formats a .dat file name with an optional number."
+ },
+ "0x101A26C0": {
+  "name": "Unit1018BA60_LoadMacroDat",
+  "confidence": "medium",
+  "evidence": "Builds the name with fn_101A2610, constructs dat entries (Unit1018BA60_DatEntryCtor, InitWithCallback with FsMacroContainer_loadCallback for number 0), reads them (Unit1018BA60_Read) and clears them. ret 8 (purges).",
+  "summary": "Loads a macro .dat file (FsMacroContainer_loadCallback for book 0)."
+ },
+ "0x101B4270": {
+  "name": "Unit1018BA60_ClassifyVirtualKey",
+  "confidence": "medium",
+  "evidence": "Letters 0x41..0x5A and digits 0x30..0x39 skip the switch; the switch lists 0xBA..0xC0 and 0xDB.. (VK_OEM_1.. and VK_OEM_4.. in the Windows SDK winuser.h) and others, using FontGlyphCache_IsStateTwo. __stdcall, ret 4 (purges).",
+  "summary": "Classifies a Windows virtual-key code (letters, digits, OEM punctuation keys)."
+ },
+ "0x101B6810": {
+  "name": "FsTextInput_OnChar",
+  "confidence": "medium",
+  "evidence": "Handles the character param_1: clears +0xEF22, refuses ' ' when Unit1018BA60_GetFlag8C81 is set, and uses FsTextInput_SetText, FsTextInput_GetMaxLength, Unit1018BA60_AppendByte and MenuMng_OpenByName with \"menu    fep     \". ret 4 (purges). Called by Unit1018BA60_OnChar.",
+  "summary": "Adds a typed character to the text input."
+ },
+ "0x101B9530": {
+  "name": "Unit1018BA60_ReleaseSemaphoreAt4",
+  "confidence": "high",
+  "evidence": "Body: return ReleaseSemaphore(+4, 1, NULL) ? 1 : -1.",
+  "summary": "Releases the semaphore handle at +4 once; 1 on success, -1 on failure."
+ },
+ "0x101BE2A0": {
+  "name": "Unit1018BA60_SetVtable10337C60",
+  "confidence": "high",
+  "evidence": "Body: *self = 0x10337C60.",
+  "summary": "Sets the vtable to 0x10337C60."
+ },
+ "0x101BE410": {
+  "name": "Unit1018BA60_SetVtable10337C64",
+  "confidence": "high",
+  "evidence": "Body: *self = 0x10337C64.",
+  "summary": "Sets the vtable to 0x10337C64."
+ },
+ "0x101BE500": {
+  "name": "Unit1018BA60_Call10311F30",
+  "confidence": "high",
+  "evidence": "Body: return sub_10311F30(param_1). __stdcall, ret 4 (purges).",
+  "summary": "Calls sub_10311F30."
+ },
+ "0x101BE540": {
+  "name": "Unit1018BA60_SeekWhence012",
+  "confidence": "medium",
+  "evidence": "Maps param_3 0, 1, 2 to 0, 1, 2 (other values return -1) and calls sub_10313CF0 with it; the 0/1/2 origin matches SEEK_SET/SEEK_CUR/SEEK_END of the C runtime. __stdcall, ret 12 (purges).",
+  "summary": "Seeks with origin 0, 1 or 2 through sub_10313CF0; -1 for any other origin."
+ },
+ "0x101BE650": {
+  "name": "Unit1018BA60_Call10312296",
+  "confidence": "high",
+  "evidence": "Body: return sub_10312296(param_2, 1, param_3, param_1). __stdcall, ret 12 (purges).",
+  "summary": "Calls sub_10312296(buffer, 1, count, handle)."
+ },
+ "0x101C09B0": {
+  "name": "Unit1018BA60_CreateDirAndWait",
+  "confidence": "low",
+  "evidence": "Builds a path with sub_1030FED0, CreateDirectoryA(path, NULL), waits on +0x1F0 (Unit1018BA60_WaitEvent18At8) and loops on sub_10311365/sub_1031135A; signals with fn_1019FAB0.",
+  "summary": "Creates a directory and runs a file-manager job loop; details not established."
+ },
+ "0x101C0A40": {
+  "name": "Unit1018BA60_CreateDirAndHandleFile",
+  "confidence": "low",
+  "evidence": "Uses Unit1018BA60_WaitThenHandleFileEvent, Unit1018BA60_WaitEvent18At8, sub_101C0BC0, Unit1018BA60_FormatWithBase (\"%s%s\") and CreateDirectoryA; signals with fn_1019FAB0. ret 16 (purges).",
+  "summary": "File-manager job that creates a directory and handles a file event; details not established."
+ },
+ "0x101C2DC0": {
+  "name": "Unit1018BA60_OpenHexPath",
+  "confidence": "low",
+  "evidence": "Formats \"%s\\\\%x\" from +0x1F4 or \"%s\\\\%s\\\\%x\" from +0xD0 with xi_s1, calls Unit1018BA60_ReleaseAt1F0, sub_101C4080 on the path and Unit1018BA60_CreateDirectories. ret 4 (purges).",
+  "summary": "Builds the path for a hex-numbered entry and opens it, creating directories as needed."
+ },
+ "0x101C3D00": {
+  "name": "Unit1018BA60_FormatUserPath",
+  "confidence": "medium",
+  "evidence": "Returns -1 when g_pAppSettings+0x28 is 0 or byte g_pCamera+9 is 0; with param_3 0 and scene state 0x40 or 0 formats \"%s/%s\" (+0x1F4, param_1); otherwise takes fn_100DB790(g_pGameMode+0x80) and formats \"%s/%x/%s\". ret 12 (purges).",
+  "summary": "Formats a file path under the base directory, with a hex id directory from the game mode when there is one."
+ }
+}

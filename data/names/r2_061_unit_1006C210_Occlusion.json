@@ -1,0 +1,14 @@
+{
+ "0x1006CA20": {
+  "name": "Unit1006C210_IsFloatClassAccepted",
+  "confidence": "low",
+  "evidence": "classifies the float through 0x1031450A and returns 0 for the codes 1, 2, 4, 0x10, 0x80 and 0x200, else 1",
+  "summary": "Tells whether a float's class code is one of those accepted."
+ },
+ "0x1006CA60": {
+  "name": "Unit1006C210_AreAll16FloatsAccepted",
+  "confidence": "low",
+  "evidence": "returns 1 when 0x1006CA20 accepts each of 16 consecutive floats, else 0 at the first it rejects; called from Camera_SnapshotState's helper 0x10021C10",
+  "summary": "Checks 16 consecutive floats with 0x1006CA20."
+ }
+}

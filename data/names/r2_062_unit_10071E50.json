@@ -1,0 +1,20 @@
+{
+ "0x10072240": {
+  "name": "Unit10071E50_FindSelfLinkedNode",
+  "confidence": "medium",
+  "evidence": "follows the link at [+0x28] until a node whose link points back to itself, returning it, or 0 when a link is null",
+  "summary": "Follows the chain at +0x28 to the node that links to itself (its root)."
+ },
+ "0x10072540": {
+  "name": "Unit10071E50_FindInChainByKind",
+  "confidence": "medium",
+  "evidence": "walks the chain through [+8], tracking nesting by kind (+0x24 & 0x7F) 1 and 0, and for nodes of the given kind (and +0x20 equal to the given value) calls the callback with +0x14 until it returns true",
+  "summary": "Walks a node chain and returns the first callback result that is true for nodes of a kind."
+ },
+ "0x100729D0": {
+  "name": "Unit10071E50_ClearGlobal1047D138",
+  "confidence": "low",
+  "evidence": "stores 0 at 0x1047D138",
+  "summary": "Clears the global at 0x1047D138."
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "0x10127250": {
+  "name": "Unit100D7420_ResetEntryRing",
+  "confidence": "medium",
+  "evidence": "zeroes 100 entries of 0x800 bytes at +0x20 (0xC800 dwords) and sets the indices +0x14/+0x16/+0x1A to 0 and +0x18 to 8; 0x101292E0 walks those entries",
+  "summary": "Clears the ring of 100 entries and its indices."
+ },
+ "0x10127EE0": {
+  "name": "Unit100D7420_CtorResetAll",
+  "confidence": "low",
+  "evidence": "calls Unit100D7420_ResetAll(this) and returns this; called by App_InitScene",
+  "summary": "Constructs the object by resetting all its fields."
+ },
+ "0x10127FA0": {
+  "name": "Unit100D7420_FormatHexRecord",
+  "confidence": "medium",
+  "evidence": "sprintf of its 16 values with the format \"%02x,%02x,%02x,%08x,...\" into the buffer, returning the length",
+  "summary": "Writes a record's fields as a comma-separated hex line."
+ },
+ "0x10129290": {
+  "name": "Unit100D7420_ClearFlag12FromValue",
+  "confidence": "low",
+  "evidence": "walks the ring from its head (0x10129C60, 0x101292E0) and clears byte +0x12 of each entry whose +0xC is at least the argument",
+  "summary": "Clears a flag in the ring entries at or past a value."
+ },
+ "0x101292E0": {
+  "name": "Unit100D7420_RingStepBack",
+  "confidence": "medium",
+  "evidence": "returns entry i (this+0x20+i*0x800) and its +0x3C, and moves i back by one (99 after 0), or to -1 when i is the tail index at +0x16",
+  "summary": "Returns the current ring entry and steps the index backward."
+ },
+ "0x10129BB0": {
+  "name": "Unit100D7420_IsKindEnabledInSettings",
+  "confidence": "low",
+  "evidence": "finds a record (0x10129CD0), maps its byte +2 to a bit index (0x1012A120) and tests that bit in the 64-bit mask made of two Settings_GetValue results (Unit1018BA60_TestBit64); else returns the given default",
+  "summary": "Checks a record kind against a bit mask taken from two settings."
+ },
+ "0x10129C60": {
+  "name": "Unit100D7420_GetRingHead14",
+  "confidence": "low",
+  "evidence": "returns the 16-bit index at +0x14 in AX; the start index 0x10129290 walks from",
+  "summary": "Returns the ring's head index."
+ },
+ "0x1012A350": {
+  "name": "Unit100D7420_CallClearBuffers",
+  "confidence": "low",
+  "evidence": "calls Unit100D7420_ClearBuffers(this)",
+  "summary": "Clears the object's buffers."
+ },
+ "0x1012A400": {
+  "name": "Unit100D7420_GetWord1A",
+  "confidence": "low",
+  "evidence": "returns the 16-bit value at +0x1A",
+  "summary": "Returns the word at +0x1A."
+ },
+ "0x1012A410": {
+  "name": "Unit100D7420_GetByte9",
+  "confidence": "low",
+  "evidence": "returns the byte at +9 in AL",
+  "summary": "Returns the byte at +9."
+ },
+ "0x1012A4E0": {
+  "name": "Unit100D7420_GetField20",
+  "confidence": "low",
+  "evidence": "returns the dword at +0x20",
+  "summary": "Returns the field at +0x20."
+ }
+}

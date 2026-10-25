@@ -1,0 +1,14 @@
+{
+ "0x10043DD0": {
+  "name": "Unit10043DD0_ToggleByte45",
+  "confidence": "medium",
+  "evidence": "sets the byte at +0x45 to 1 minus itself and returns it in AL",
+  "summary": "Flips the 0/1 flag at +0x45 and returns its new value."
+ },
+ "0x10043DE0": {
+  "name": "Unit10043DD0_ReturnZero",
+  "confidence": "low",
+  "evidence": "returns 0; called by DynVB_Reserve, DynVB_Lock, DynVB_Unlock and CMoVuElem_Draw",
+  "summary": "Returns 0."
+ }
+}

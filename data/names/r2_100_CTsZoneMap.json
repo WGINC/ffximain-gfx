@@ -1,0 +1,14 @@
+{
+ "0x10177770": {
+  "name": "ZoneMap_QueryBoxHeightGlobal",
+  "confidence": "medium",
+  "evidence": "when g_pZoneMap is set returns 0x101819B0(g_pZoneMap, ...), which calls ZoneMap_QueryBoxHeight with the height offset by the map's +0x170 and 19.0; else AL 0",
+  "summary": "Queries the current zone map's box height, or returns false without a zone map."
+ },
+ "0x101779B0": {
+  "name": "ZoneMap_Call10173AE0",
+  "confidence": "low",
+  "evidence": "returns 0x10173AE0(arg1, arg2), ignoring this; called by ZoneMap_SetArea",
+  "summary": "Forwards to 0x10173AE0."
+ }
+}

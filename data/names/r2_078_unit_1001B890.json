@@ -1,0 +1,8 @@
+{
+ "0x1001CF80": {
+  "name": "Unit1001B890_ReturnSelf",
+  "confidence": "low",
+  "evidence": "returns this",
+  "summary": "Returns its object."
+ }
+}

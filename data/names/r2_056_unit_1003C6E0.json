@@ -1,0 +1,8 @@
+{
+ "0x1003C7D0": {
+  "name": "Unit1003C6E0_GetFactorFromAttachments",
+  "confidence": "low",
+  "evidence": "ORs the slot-193 (+0x304) results of the objects CMoAttachments_FindKindInChain and _FindKindFromRoot find (unless flag bits 2/4 skip them); returns 1.0, 0.5 or its float argument by flag bit 1 and that result",
+  "summary": "Picks 1.0, 0.5 or the given value from flags and what two attached objects report."
+ }
+}

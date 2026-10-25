@@ -1,0 +1,14 @@
+{
+ "0x1006BF80": {
+  "name": "Rand_UniformTimes",
+  "confidence": "medium",
+  "evidence": "returns (Unit1006B3B0_Next() % 100000) * 1e-5 (constant 0x3727C5AC) * x, 0 when x is 0; the callee is the Mersenne Twister",
+  "summary": "Returns a random value in [0, x)."
+ },
+ "0x1006BFD0": {
+  "name": "Rand_SignedUniformTimes",
+  "confidence": "medium",
+  "evidence": "returns ((Unit1006B3B0_Next() % 200000) * 1e-5 - 1) * x, 0 when x is 0",
+  "summary": "Returns a random value in [-x, x)."
+ }
+}

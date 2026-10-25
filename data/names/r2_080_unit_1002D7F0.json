@@ -1,0 +1,8 @@
+{
+ "0x1002D860": {
+  "name": "CMoResource_DropObjectAt5E",
+  "confidence": "low",
+  "evidence": "when (+0x32 & 0x7F) is 0 and the pointer at +0x5E is set, calls its slot 6 (+0x18) with 1 and clears +0x5E; CMoResource vtable slot 9",
+  "summary": "Calls slot 6 with 1 on the object at +0x5E and clears the pointer."
+ }
+}

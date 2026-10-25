@@ -1,0 +1,8 @@
+{
+ "0x100AC380": {
+  "name": "XiDoorActor_NopSlot161",
+  "confidence": "low",
+  "evidence": "bare return; XiDoorActor vtable slot 161 (+0x284)",
+  "summary": "Does nothing."
+ }
+}

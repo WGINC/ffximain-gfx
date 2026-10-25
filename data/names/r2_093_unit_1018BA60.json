@@ -1,0 +1,32 @@
+{
+ "0x101B9E60": {
+  "name": "Unit1018BA60_CreateGlobal10662DB4",
+  "confidence": "medium",
+  "evidence": "when 0x10662DB4 is 0, allocates 12 bytes, constructs them with Unit1018BA60_Construct and stores the object there; returns it (0 when it already existed)",
+  "summary": "Creates the singleton object at 0x10662DB4 once."
+ },
+ "0x101BA280": {
+  "name": "Unit1018BA60_CtorVt10337B2C",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10337B2C, +4 to -1, and clears both buffers (Unit1018BA60_ClearBufferA/B)",
+  "summary": "Constructs the object with vtable 0x10337B2C and empty buffers."
+ },
+ "0x101BA570": {
+  "name": "Unit1018BA60_CtorVt10337B4C",
+  "confidence": "low",
+  "evidence": "calls the base constructor 0x101BC740, sets vtable 0x10337B4C and zeroes +0x18..+0x1EE; called by FsWordCompletion_Construct",
+  "summary": "Constructs the object with vtable 0x10337B4C."
+ },
+ "0x101BBE50": {
+  "name": "Unit1018BA60_IsState204Not1",
+  "confidence": "low",
+  "evidence": "returns in AL whether the int at +0x204 is not 1",
+  "summary": "Tells whether the state at +0x204 differs from 1."
+ },
+ "0x101BC6F0": {
+  "name": "Unit1018BA60_Store101BB070At8",
+  "confidence": "low",
+  "evidence": "stores 0x101BB070(this, 0x10203) at +8 and returns 1",
+  "summary": "Stores the result of 0x101BB070 at +8."
+ }
+}

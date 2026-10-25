@@ -1,0 +1,8 @@
+{
+ "0x100743D0": {
+  "name": "ResourceIter_Advance",
+  "confidence": "medium",
+  "evidence": "moves the iterator's current node (+0x14) to the next one in its chain (child list +0x10 or sibling list +8 by mode), skipping nodes not of the wanted kind (+8) or flags (+0x20 & +0x10 == +0xC), tracking nesting with g_resourceFindDepth; called by ResourceIter_FindFirst, _Start and _FindNext",
+  "summary": "Advances a resource iterator to the next matching node."
+ }
+}

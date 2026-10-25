@@ -1,0 +1,8 @@
+{
+ "0x1001E2F0": {
+  "name": "CYyCamMng2_SetGlobalFlags",
+  "confidence": "low",
+  "evidence": "stores its first byte at 0x10456DB0 and third argument at 0x10456DB4, clearing 0x10456DB1 when the flag turns on or the second byte is set; returns the first byte",
+  "summary": "Sets the camera manager's global flag bytes."
+ }
+}

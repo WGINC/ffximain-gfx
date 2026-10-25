@@ -42,7 +42,7 @@ constructor returning `this` (as MSVC constructors do), its stores in the revers
 
 ## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py --calls`)
 
-Each tree function in the `XI_API` form, and each class method that does not use its class's layout (`this->`), 3467 in all, is put in its own file with only mechanical changes: a header
+Each tree function in the `XI_API` form, and each class method, 4121 in all, is put in its own file with only mechanical changes: a header
 of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C (C++ when it calls a `__thiscall`
 function), `__thiscall` as a member of an empty struct with `self_` bound to `this`; each global as `(*(type *)address)`
 (the compiler writes the absolute address, the game's own relocated value at its preferred base); each `orig::` call
@@ -53,15 +53,15 @@ byte for byte and each call by its target:
 
 | verdict | functions |
 |---|---|
-| IDENTICAL | **1381** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
-| DIFFERS | 1329 |
-| NO_COMPILE | 448 (the converted source does not compile) |
-| LEFT_OUT | 309 (66 type the shim lacks, 40 thiscall without self_ first, 27 alignas, 19 variadic with XI_ANY in C++) |
+| IDENTICAL | **1433** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
+| DIFFERS | 1529 |
+| NO_COMPILE | 582 (the converted source does not compile) |
+| LEFT_OUT | 577 (132 XI_ANY in the body, 86 type the shim lacks, 62 variadic with XI_ANY in C++, 40 thiscall without self_ first) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
 instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different
 register in the first `mov`, `cmp` operands swapped), which source order decides: those are for matching by hand.
-Of the tree's 4,280 functions, 1381 (32%) compile to the game's bytes as they are. A method that uses its class's fields compiles against a struct of those fields (from tree/include, its methods and `static_assert`s left out); a global of a type the header lacks gets a forward declaration (a pointer) or a one-int placeholder (by value: reading its fields fails to compile, using its size gives other bytes); a variadic call (`sqDebugPrintf`) is a caller-cleanup `...` call as the game's. Not converted: the 813 functions whose signatures use register conventions (`__attribute__((regparm))`, which VC6 cannot declare) or `xi_frame` locals.
+Of the tree's 4,280 functions, 1433 (33%) compile to the game's bytes as they are. A method that uses its class's fields compiles against a struct of those fields (from tree/include, its methods and `static_assert`s left out); a global of a type the header lacks gets a forward declaration (a pointer) or a one-int placeholder (by value: reading its fields fails to compile, using its size gives other bytes); a variadic call (`sqDebugPrintf`) is a caller-cleanup `...` call as the game's. The tree's helpers: `xi_frame` locals with their alignment attribute dropped (compiled as C++, for the references); `XI_CODE(name)` the function's address as a number; `XI_PIECE` a sized piece through a cast; `XI_CALL_ST0(0x10311C2C)(x)` the cast `(__int64)x`, because 0x10311C2C is LIBC.LIB's `__ftol` byte for byte (the 39 bytes, compared at every sweep's start; its relocation is then compared against that address). Not converted: the 159 functions whose signatures use register conventions (`__attribute__((regparm))`, which VC6 cannot declare) and bodies that still use `XI_ANY`.
 
 ## First results (25 Oct)
 

@@ -46,6 +46,14 @@ typedef int code(...);
 #define xi_sw(x) ((uint32_t)(x))
 double __cdecl sqrt(double);
 #define SQRT(x) sqrt(x)
+#define XI_GAME(ea) (ea)
+/* XI_CALL_ST0(0x10311C2C)(x): 0x10311C2C is the CRT's __ftol, byte for byte LIBC.LIB's (sweep.py FTOL), which the
+   compiler calls for a floating-point to integer conversion */
+#define XI_FTOL(x) ((__int64)(x))
+typedef unsigned char XI_PT1; typedef unsigned short XI_PT2; typedef unsigned int XI_PT4; typedef unsigned __int64 XI_PT8;
+typedef signed char XI_PS1; typedef short XI_PS2; typedef int XI_PS4; typedef __int64 XI_PS8;
+#define XI_PIECE(x, o, s) (*(XI_PT##s *)((char *)&(x) + (o)))
+#define XI_PIECE_S(x, o, s) (*(XI_PS##s *)((char *)&(x) + (o)))
 '''
 SIG = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
 # the class-method form (Hex-Rays route): `RET [CC] Class::Method(ARGS)`; without CC a member (this in ECX)
@@ -162,7 +170,7 @@ def candidates(only=None, calls=False):
             end = body.find('\n}\n', m.end())
             if end < 0: continue
             src = body[m.start():end + 2]
-            if 'XI_' in src.replace('XI_API', '') or '__attribute__' in src: continue
+            if '__attribute__' in src.split('{', 1)[0]: continue          # a register convention VC6 cannot declare
             if not calls and ('orig::' in src or re.search(r'\b(DAT|g|dword|byte|word|flt|dbl|PTR|off|unk|stru|s|u|_)_[0-9A-Za-z_]*\b', src.split('{', 1)[1])):
                 continue
             out.append((ea, m, src))
@@ -196,10 +204,57 @@ def class_fields(cls):
     return lines, ptrs
 
 
+FTOL = 0x10311C2C          # LIBC.LIB's __ftol, the same 39 bytes at this address (checked by ftol_check below)
+_ADDRS = None
+
+
+def ftol_check(img):
+    """FTOL holds LIBC.LIB's __ftol: the library member's code against the DLL's bytes (else the mapping is not used)"""
+    lib = open(os.path.join(os.environ['VC6'], 'LIB', 'LIBC.LIB'), 'rb').read(); p = 8
+    while p < len(lib):
+        size = int(lib[p + 48:p + 58].decode().strip()); data = lib[p + 60:p + 60 + size]
+        if data[:2] == b'\x4c\x01' and b'__ftol' in data:
+            f = tempfile.mktemp(suffix='.obj'); open(f, 'wb').write(data)
+            try: funcs, _ = M.coff(f)
+            except Exception: funcs = {}
+            os.remove(f)
+            if '__ftol' in funcs:
+                code, rels = funcs['__ftol']
+                return not rels and bytes(img[FTOL - 0x10000000:FTOL - 0x10000000 + len(code)]) == code
+        p += 60 + size + (size & 1)
+    return False
+
+
+def code_addrs():
+    """{name: address} of the tree's game-function addresses (gfx_orig.hpp `constexpr uint32_t NAME = 0x...u;`)"""
+    global _ADDRS
+    if _ADDRS is None:
+        _ADDRS = {m.group(1): int(m.group(2), 16) for m in re.finditer(r'constexpr uint32_t (\w+) = (0x[0-9A-Fa-f]+)u;',
+                                                                       open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
+    return _ADDRS
+
+
+def macros(body):
+    """the tree's XI_ helpers the shim cannot define as they are, rewritten; (body, None) or (None, why)"""
+    body = re.sub(r'\s*__attribute__\(\(aligned\(\d+\)\)\)', '', body)
+    if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
+    body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
+    def code(m):
+        a = code_addrs().get(m.group(1))
+        return '((void *)0x%08Xu)' % a if a is not None else m.group(0)
+    body = re.sub(r'XI_CODE\((\w+)\)', code, body)
+    if 'XI_CODE(' in body: return None, 'XI_CODE of an unknown name'
+    if 'XI_ANY' in body: return None, 'XI_ANY in the body'
+    return body, None
+
+
 def convert(m, src, orig=None, glob_=None):
     """(file suffix, source) or (None, why)"""
     ret, cc, name, args = m.group('ret'), m.group('cc'), m.group('name'), m.group('args').strip()
     body = src[src.index('{'):]
+    body, why = macros(body)
+    if body is None: return None, why
+    force_cpp = bool(re.search(r'reinterpret_cast|static_cast|&\s*\w+\s*=\s*\*', body))   # C++ references and casts
     pre = []
     if 'cls' in m.groupdict():
         if 'alignas' in body: return None, 'alignas'
@@ -242,8 +297,8 @@ def convert(m, src, orig=None, glob_=None):
             if gd.get('arr'): pre.append('#define %s (*(%s (*)%s)%su)' % (g, gd['type'], gd['arr'], gd['addr']))
             else: pre.append('#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr']))
         if 'orig::' in body:
-            nb, d = rewrite_calls(body, orig, c_mode=cc != '__thiscall')
-            cc_cpp = nb is None or cc == '__thiscall'
+            nb, d = rewrite_calls(body, orig, c_mode=cc != '__thiscall' and not force_cpp)
+            cc_cpp = nb is None or cc == '__thiscall' or force_cpp
             if nb is None: nb, d = rewrite_calls(body, orig)
             if nb is None: return None, d
             body = nb; pre += d
@@ -251,7 +306,7 @@ def convert(m, src, orig=None, glob_=None):
     else: cc_cpp = False
     head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in pre)
     if cc in ('__cdecl', '__stdcall', '__fastcall'):
-        if cc_cpp: return '.cpp', head + 'extern "C" %s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
+        if cc_cpp or force_cpp: return '.cpp', head + 'extern "C" %s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
         return '.c', head + '%s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
     a = [x.strip() for x in args.split(',')] if args else []
     if not a or not re.match(r'^void\s*\*\s*self_$', a[0]): return None, 'thiscall without self_ first'
@@ -269,6 +324,8 @@ def main():
     img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
     ext = json.load(open(os.path.join(ROOT, 'data', 'func_extents.json')))
     d = o.keep or tempfile.mkdtemp(prefix='vc6sweep_'); os.makedirs(d, exist_ok=True)
+    place = {'ftol': FTOL} if ftol_check(img) else {}
+    print('__ftol: %s' % ('0x%08X is LIBC.LIB\'s, byte for byte' % FTOL if place else 'not established; its calls stay uncompared'))
     open(os.path.join(d, 'vc6_shim.h'), 'w').write(SHIM)
     res, files = {}, []
     orig, glob_ = externs() if o.calls else (None, None)
@@ -289,7 +346,7 @@ def main():
             funcs, _ = M.coff(obj)
             if len(funcs) != 1: res[key] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(funcs), 'conv': cc}; continue
             (sym, (code, rels)), = funcs.items()
-            v, why, notes = M.compare(img, ext, ea, code, rels, {})
+            v, why, notes = M.compare(img, ext, ea, code, rels, place)
             if v == 'IDENTICAL' and notes: v, why = 'IDENTICAL_UNCOMPARED', '; '.join(notes)   # a relocation not checked
             res[key] = {'verdict': v, 'why': why, 'conv': cc, 'size': len(code)}
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)

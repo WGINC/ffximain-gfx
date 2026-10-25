@@ -1,0 +1,194 @@
+{
+ "0x1013A480": {
+  "name": "Unit1012AC80_CtorVt10333D78",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333D78; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10333D78."
+ },
+ "0x1013A930": {
+  "name": "Unit1012AC80_CtorVt10333DD8",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333DD8; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10333DD8."
+ },
+ "0x1013AA60": {
+  "name": "Unit1012AC80_CtorVt10333E20",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333E20; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10333E20."
+ },
+ "0x1013AB20": {
+  "name": "Unit1012AC80_CtorVt10333E70",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333E70; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10333E70."
+ },
+ "0x1013BE50": {
+  "name": "Unit1012AC80_CtorVt10333EC0",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333EC0; the base of 0x1013AA60 and 0x1013AB20",
+  "summary": "Constructs a UI object with vtable 0x10333EC0."
+ },
+ "0x1013E7F0": {
+  "name": "Unit1012AC80_CtorVt10333F28",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10333F28; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10333F28."
+ },
+ "0x10140950": {
+  "name": "Unit1012AC80_CtorVt10334070",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334070; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334070."
+ },
+ "0x10140E70": {
+  "name": "Unit1012AC80_CtorVt103340D0",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x103340D0; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x103340D0."
+ },
+ "0x101436C0": {
+  "name": "Unit1012AC80_CtorVt10334200",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334200 (after the base vtable 0x10333360); constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334200."
+ },
+ "0x10144680": {
+  "name": "Unit1012AC80_CtorVt10334260",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334260; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334260."
+ },
+ "0x10146340": {
+  "name": "Unit1012AC80_CtorVt10334928",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334928; constructed by 0x10165070; creates the helpers 0x105783E0..0x10578440 once (0x101475B0, 0x10148430, 0x10148640, 0x1014A170 ...) and uses the shape \"menu    merityn \"",
+  "summary": "Constructs the UI object with vtable 0x10334928 and its many shared helpers."
+ },
+ "0x101475B0": {
+  "name": "Unit1012AC80_CtorVt10334970",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334970; its caller stores it in 0x105783E8",
+  "summary": "Constructs a UI object with vtable 0x10334970."
+ },
+ "0x10148430": {
+  "name": "Unit1012AC80_CtorVt103349B8",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x103349B8; its caller stores it in 0x105783F4",
+  "summary": "Constructs a UI object with vtable 0x103349B8."
+ },
+ "0x10148640": {
+  "name": "Unit1012AC80_CtorVt10334A00",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334A00; its caller stores it in 0x105783F8",
+  "summary": "Constructs a UI object with vtable 0x10334A00."
+ },
+ "0x1014A170": {
+  "name": "Unit1012AC80_CtorVt10334AB8",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, 0x101F6700 and vtable 0x10334AB8; its caller stores it in 0x10578420",
+  "summary": "Constructs a UI object with vtable 0x10334AB8."
+ },
+ "0x1014A7D0": {
+  "name": "Unit1012AC80_CtorVt10334B28",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, 0x101F6700 and vtable 0x10334B28; its caller stores it in 0x1057842C",
+  "summary": "Constructs a UI object with vtable 0x10334B28."
+ },
+ "0x1014B670": {
+  "name": "Unit1012AC80_CtorVt10334B98",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, 0x101F6700 and vtable 0x10334B98; its caller stores it in 0x1057843C",
+  "summary": "Constructs a UI object with vtable 0x10334B98."
+ },
+ "0x1014BA60": {
+  "name": "Unit1012AC80_CtorVt10334C08",
+  "confidence": "low",
+  "evidence": "Yk_InitBase, 0x101F6700 and vtable 0x10334C08; its caller stores it in 0x10578440",
+  "summary": "Constructs a UI object with vtable 0x10334C08."
+ },
+ "0x1014C750": {
+  "name": "Unit1012AC80_CtorVt10334D00",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334D00; constructed by 0x10165070, +0x18/+0x1C = -1, and creates the helper 0x10578454 (vtable 0x10334C98) once",
+  "summary": "Constructs a UI object with vtable 0x10334D00."
+ },
+ "0x1014D970": {
+  "name": "Unit1012AC80_CtorVt10334D60",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334D60; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334D60."
+ },
+ "0x1014DD30": {
+  "name": "Unit1012AC80_CtorVt10334DC0",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334DC0 (after the base vtable 0x10333360); constructed by 0x10165070, 0x1015EA30 and 0x1015EAC0, fills the 256 dwords at +0x13C with -1 and resets the list +0x14 (Unit100D7420_Clear, 0x101265D0, 0x1014E020)",
+  "summary": "Constructs a UI object with vtable 0x10334DC0."
+ },
+ "0x1014EDC0": {
+  "name": "Unit1012AC80_CtorVt10334E58",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334E58 (after the base vtable 0x10333360); constructed by 0x10165070, and finds the shape \"menu    keytops3\"",
+  "summary": "Constructs a UI object with vtable 0x10334E58."
+ },
+ "0x1014F840": {
+  "name": "Unit1012AC80_CtorVt10334EB8",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334EB8; constructed by 0x10165070, and finds the shape \"menu    windowps\"",
+  "summary": "Constructs a UI object with vtable 0x10334EB8."
+ },
+ "0x1014FFE0": {
+  "name": "Unit1012AC80_CtorVt10334F18",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334F18; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334F18."
+ },
+ "0x10150090": {
+  "name": "Unit1012AC80_UpdateTargetMarker",
+  "confidence": "low",
+  "evidence": "when +0x65 is clear: with no current target (0x101598A0 on g_pTargetMng) clears +0xBC/+0xBE and destroys the menu's draw entry (CTkMenuMng_DestroyDrawMenu); otherwise steps the blink counter +0xBA/+0xBB by the frame scale and gets the target's screen position(s) (0x10159880) into +0xBC.. and +0xC0..",
+  "summary": "Per-frame update of the target marker's blink and screen position."
+ },
+ "0x10150A60": {
+  "name": "Unit1012AC80_SetField48",
+  "confidence": "low",
+  "evidence": "clears +0x14 and stores arg at +0x48; Target_SetDisplayName calls it on 0x10578478",
+  "summary": "Stores a value at +0x48 and clears the flag +0x14."
+ },
+ "0x10150AB0": {
+  "name": "Unit1012AC80_CtorVt10334F78",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10334F78 (after the base vtable 0x10333360); constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10334F78."
+ },
+ "0x10150CC0": {
+  "name": "Unit1012AC80_SetTextFwd",
+  "confidence": "low",
+  "evidence": "forwards to 0x10150CE0 (Unit1012AC80_SetText)",
+  "summary": "Sets the object's text (through Unit1012AC80_SetText)."
+ },
+ "0x10150CE0": {
+  "name": "Unit1012AC80_SetText",
+  "confidence": "low",
+  "evidence": "converts the text arg1 into a 0xC9-byte local buffer (0x1025C0F0) and passes it with arg2 to 0x10221030 on the member +0xA4",
+  "summary": "Sets the text of the object's +0xA4 member from a converted copy."
+ },
+ "0x10150D90": {
+  "name": "Unit1012AC80_IsField8Zero",
+  "confidence": "low",
+  "evidence": "returns 1 in AL when +8 is 0",
+  "summary": "Reports whether the field at +8 is empty."
+ },
+ "0x10151040": {
+  "name": "Unit1012AC80_CtorVt10335060",
+  "confidence": "low",
+  "evidence": "sets the base fields (word clear at +4, +0xE = -1, +8 = 0, +0xC = 1) and vtable 0x10335060; constructed by 0x10165070",
+  "summary": "Constructs a UI object with vtable 0x10335060."
+ },
+ "0x10151140": {
+  "name": "Unit1012AC80_ClearFields",
+  "confidence": "low",
+  "evidence": "clears +0x20, +0x24, +0x6C, +0x70 and +0xC0",
+  "summary": "Clears five fields."
+ }
+}

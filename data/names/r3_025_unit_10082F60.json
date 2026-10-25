@@ -1,0 +1,8 @@
+{
+ "0x10082FB0": {
+  "name": "Unit10082F60_ProjectThroughCamera",
+  "confidence": "low",
+  "evidence": "transforms the point arg1 by the camera's view matrix (Camera_GetViewMatrixPtr, Mat4_TransformPointInPlace) and returns 0 when it lands at z >= 0; otherwise transforms it by the view matrix times Camera_GetMatrix154Ptr's matrix (Mat4_PostMultiply, Mat4_TransformCoordInPlace) into arg2 and tests the result against 1.0; called by CXiActor_NameCalc",
+  "summary": "Projects a world point through the camera's matrices, reporting whether it is in front."
+ }
+}

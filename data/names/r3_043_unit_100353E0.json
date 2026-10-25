@@ -1,0 +1,8 @@
+{
+ "0x10035A00": {
+  "name": "CMoTask_CtorByMode",
+  "confidence": "low",
+  "evidence": "constructs a CMoTask (vtable 0x1032A904), stores the mode arg3 at +0x34 and, by mode 1, 2, 4, replaces (deleting through slot 6) the task held in 0x1046392C, 0x10463928, ... and takes its default value from 0x10351700.. ; called by CMoTask_CreateMode1/2/4",
+  "summary": "Constructs a mode task, replacing the one held for its mode."
+ }
+}

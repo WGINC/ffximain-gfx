@@ -1,0 +1,8 @@
+{
+ "0x1026ECC0": {
+  "name": "Mdl_FreeAllSlots",
+  "confidence": "low",
+  "evidence": "clears the groups (Unit10273840_ClearGroupField4 1 and 2, ClearCurrentField4) and the slot flags (Mdl_ClearSlotFlags), then frees each slot's model (SqmdModel_Free, or just clears it with flag 0x100), warning \"Forced to destroy L(ocked)...\" for a locked slot (flag 0x20) after the first; called by StAvatar_Reset",
+  "summary": "Frees the models of all model slots."
+ }
+}

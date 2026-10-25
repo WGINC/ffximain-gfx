@@ -1,0 +1,134 @@
+{
+ "0x1025E020": {
+  "name": "Unit1025C9E0_ReturnFalse",
+  "confidence": "medium",
+  "evidence": "returns the entry EAX with AL cleared",
+  "summary": "Returns false in AL."
+ },
+ "0x1025E0F0": {
+  "name": "Unit1025C9E0_ReturnFalseFwd",
+  "confidence": "medium",
+  "evidence": "returns 0x1025E020's result (AL cleared); called by Frame_Render",
+  "summary": "Returns false in AL, through 0x1025E020."
+ },
+ "0x1025E260": {
+  "name": "Unit1025C9E0_BaseCtor",
+  "confidence": "low",
+  "evidence": "constructs the base at +0 (0x10261210, with the critical section +0x7C), three objects at +0x54/+0x58/+0x5C (0x10265B70), clears +0x50..+0x78, initialises the critical sections +0x7C, +0x94 and +0xC4, sets the vtables 0x10340478/0x1034043C/0x10340428 and signals the event of +0x5C (SetEvent)",
+  "summary": "Constructs the object with three critical sections and three event objects."
+ },
+ "0x1025E380": {
+  "name": "Unit1025C9E0_BaseDtor",
+  "confidence": "low",
+  "evidence": "resets the vtables 0x10340478.., calls 0x1025F640 and 0x1025F2F0, releases the objects at +0x50 and +0x78 through slot 3, deletes the three critical sections, destroys the +0x5C/+0x58/+0x54 objects (0x10265B90) and the base (0x102612D0)",
+  "summary": "Destroys the object built by Unit1025C9E0_BaseCtor."
+ },
+ "0x1025F2F0": {
+  "name": "Unit1025C9E0_ReleaseField6C",
+  "confidence": "low",
+  "evidence": "inside the critical section +0x94 calls slot 2 (Release) of the COM object at +0x6C and clears it; returns 0",
+  "summary": "Releases the interface held at +0x6C under the object's lock."
+ },
+ "0x1025FD50": {
+  "name": "Unit1025C9E0_DerivedCtor",
+  "confidence": "low",
+  "evidence": "constructs the base (Unit1025C9E0_BaseCtor), sets the vtables 0x10340678/0x10340638/0x10340624 and 0x10340600/0x103405EC at +0xE0/+0xE4, and resets its fields (0x1025FE40); called by fn_1021DE90 with &0x10385EB0",
+  "summary": "Constructs the derived object on top of the base."
+ },
+ "0x1025FE40": {
+  "name": "Unit1025C9E0_ResetState",
+  "confidence": "low",
+  "evidence": "sets +0x138 to -1000, +0x13C and +0x10C to -1, +0x104 to -300000, the time at +0x158 from timeGetTime, and clears the rest of +0xE8..+0x154",
+  "summary": "Resets the derived object's state and records the current time."
+ },
+ "0x10261210": {
+  "name": "Unit1025C9E0_InnerCtor",
+  "confidence": "low",
+  "evidence": "constructs the reference-counted base (0x102659B0), clears +0x14..+0x24 and +0x3C..+0x44, copies 4 dwords from arg4 to +0x28 and stores arg3 at +0x38, +0x48 = 1",
+  "summary": "Constructs the inner object with a 16-byte value and a lock pointer."
+ },
+ "0x102612D0": {
+  "name": "Unit1025C9E0_InnerDtor",
+  "confidence": "low",
+  "evidence": "frees the block at +0x3C (operator delete), releases the interface at +0x18 (slot 2) and runs the base's teardown",
+  "summary": "Destroys the inner object."
+ },
+ "0x102659B0": {
+  "name": "Unit1025C9E0_RefObjCtor",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10340924, constructs +4 (0x10265940), stores arg2 at +4 or this when arg2 is null, and clears the count +8; called by 14 constructors",
+  "summary": "Constructs a reference-counted object with an owner pointer (itself when none)."
+ },
+ "0x1026CCA5": {
+  "name": "Unit1025C9E0_ChannelInit",
+  "confidence": "low",
+  "evidence": "clears the 16-byte header, +0x10 = -1, +0x20 = arg2, and the counts of the four 0x4008-byte rings at +0x2C, +0x4034, +0x803C, +0xC044, and +0x24/+0x28/+0x1004C..+0x10054",
+  "summary": "Initialises one 0x10058-byte channel with four empty rings."
+ },
+ "0x1026CFA0": {
+  "name": "Unit1025C9E0_MoveOneUsedToFree",
+  "confidence": "low",
+  "evidence": "pops one 16-byte entry from the ring +0x4034 (Unit1025C9E0_RingPop), sets its third dword to 5 and puts it on the ring +0x2C (0x1026D1B4); returns 0, or -1 when the ring was empty",
+  "summary": "Moves one entry from the +0x4034 ring to the +0x2C ring."
+ },
+ "0x1026D015": {
+  "name": "Unit1025C9E0_MoveAllBack",
+  "confidence": "low",
+  "evidence": "moves every entry of the ring +0xC044 to +0x803C and of +0x2C to +0x4034 (Unit1025C9E0_RingPop, 0x1026D1B4), then clears +0x24/+0x28",
+  "summary": "Moves all entries of two rings back to their partner rings."
+ },
+ "0x1026D0CA": {
+  "name": "Unit1025C9E0_RingPop",
+  "confidence": "medium",
+  "evidence": "when the read index +0x4004 differs from the write index +0x4000, copies the 16-byte entry at it out (0x103169A0, 0x10 bytes) and advances it modulo 0x400; returns 0, else -1",
+  "summary": "Takes the next 16-byte entry from a 1024-entry ring."
+ },
+ "0x1026D70C": {
+  "name": "Unit1025C9E0_Restart",
+  "confidence": "low",
+  "evidence": "sets +0x30 to -1 and returns 0x1026D634(+0x20, this)",
+  "summary": "Resets the +0x30 index and restarts through 0x1026D634."
+ },
+ "0x1026D866": {
+  "name": "Unit1025C9E0_InitChannels",
+  "confidence": "low",
+  "evidence": "for each of arg4 channels (0x10058 bytes) initialises it (Unit1025C9E0_ChannelInit), puts arg6 buffers on its +0x803C ring and arg7 on +0x4034, each arg5 bytes from arg3 on, and sets its pair from arg2 (0x1026CDF4); returns 1",
+  "summary": "Initialises a set of channels and hands each its buffers."
+ },
+ "0x1026DB6D": {
+  "name": "Unit1025C9E0_PopRingC044",
+  "confidence": "low",
+  "evidence": "Unit1025C9E0_RingPop on the ring +0xC044",
+  "summary": "Takes the next entry of the +0xC044 ring."
+ },
+ "0x1026DB8F": {
+  "name": "Unit1025C9E0_PeekRingC044",
+  "confidence": "low",
+  "evidence": "FontGlyphCache_PeekRing on the ring +0xC044",
+  "summary": "Reads the head of the +0xC044 ring."
+ },
+ "0x1026DBAC": {
+  "name": "Unit1025C9E0_PutRing803C",
+  "confidence": "low",
+  "evidence": "0x1026D1B4 on the ring +0x803C, the ring Unit1025C9E0_MoveAllBack fills",
+  "summary": "Puts an entry on the +0x803C ring through 0x1026D1B4."
+ },
+ "0x1026DBCE": {
+  "name": "Unit1025C9E0_PopRing4034",
+  "confidence": "low",
+  "evidence": "Unit1025C9E0_RingPop on the ring +0x4034",
+  "summary": "Takes the next entry of the +0x4034 ring."
+ },
+ "0x1026DBF0": {
+  "name": "Unit1025C9E0_PeekRing4034",
+  "confidence": "low",
+  "evidence": "FontGlyphCache_PeekRing on the ring +0x4034",
+  "summary": "Reads the head of the +0x4034 ring."
+ },
+ "0x1026DC0D": {
+  "name": "Unit1025C9E0_PutRing2C",
+  "confidence": "low",
+  "evidence": "0x1026D1B4 on the ring +0x2C, the ring Unit1025C9E0_MoveOneUsedToFree fills",
+  "summary": "Puts an entry on the +0x2C ring through 0x1026D1B4."
+ }
+}

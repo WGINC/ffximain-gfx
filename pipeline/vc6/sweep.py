@@ -17,10 +17,10 @@ outside a relocation, each call's target by the address its callee's name carrie
     define leaves the function out, counted by why.
 Nothing else is changed: the point is what the tree's code compiles to, not a source tuned to match.
 
-    FFXI_DLL=... VC6=... python3 pipeline/vc6/sweep.py OUT.json [--flags "/O2"] [--keep DIR] [--only 0xADDR,...]
+    FFXI_DLL=... VC6=... python3 pipeline/vc6/sweep.py OUT.json [--flags "/O2"] [--keep DIR] [--only 0xADDR,...] [--jobs N] [--cache DIR]
 OUT.json: {"0xADDR": {"verdict": IDENTICAL | IDENTICAL_UNCOMPARED (equal bytes, but a relocation's target could not be
 compared: its symbol names no address) | DIFFERS | NO_COMPILE | LEFT_OUT (not converted, with why), "why", "conv"}}."""
-import argparse, glob, json, os, re, shutil, subprocess, sys, tempfile
+import argparse, collections, glob, hashlib, json, os, re, shutil, subprocess, sys, tempfile
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..', '..'); sys.path.insert(0, P)
 import match as M
 
@@ -315,8 +315,116 @@ def convert(m, src, orig=None, glob_=None):
                     % (ret, name, rest, ret, name, rest, body[1:].rstrip().rstrip('}')))
 
 
+def _group(s, i):
+    """the end (exclusive) of the balanced parenthesis group opening at s[i]"""
+    n = 0
+    for j in range(i, len(s)):
+        n += {'(': 1, ')': -1}.get(s[j], 0)
+        if n == 0: return j + 1
+    return -1
+
+
+def _strip(e):
+    """the expression without outer parentheses and an outer (uint32_t) cast"""
+    e = e.strip()
+    while True:
+        if e.startswith('(uint32_t)'): e = e[len('(uint32_t)'):].strip(); continue
+        if e.startswith('(') and _group(e, 0) == len(e): e = e[1:-1].strip(); continue
+        return e
+
+
+def _low_part(e, bits):
+    """for `(HIGH << bits) | (uintN_t)(LOW)` (a decompiler's register piece: HIGH what the register held), LOW"""
+    e = _strip(e)
+    t = ' << %d) | (uint%d_t)(' % (bits, bits)
+    i = e.find(t)
+    if i < 0 or not e.startswith('('): return None
+    if _group(e, 0) != i + len(' << %d)' % bits): return None          # the left side is the one group ending there
+    j = i + len(t) - 1
+    k = _group(e, j)
+    if k != len(e): return None
+    return e[j + 1:k - 1]
+
+
+def _rule_ret_piece(text, ret, name, bits, ty):
+    """every `return (HIGH << bits) | (uintN_t)(LOW);` becomes `return LOW;` with the function returning `ty`. What the
+    decompiler wrote as HIGH is what the register held: a source returning only the low piece leaves it there"""
+    out, pos, n = [], 0, 0
+    for m in re.finditer(r'\breturn\b', text):
+        if m.start() < pos: continue
+        end = text.find(';', m.end())
+        if end < 0: return None
+        e = text[m.end():end]
+        low = _low_part(e, bits)
+        if low is not None: out.append(text[pos:m.start()] + 'return (%s)(%s)' % (ty, low)); n += 1
+        else: out.append(text[pos:end])
+        pos = end
+    if not n: return None
+    t = ''.join(out) + text[pos:]
+    t2 = re.sub(r'(^|[{;]\s*|\n)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), t)
+    return t2 if t2 != t else None
+
+
+def _rule_ge0(text, ret, name):
+    """`-1 < X` for an int X becomes `X >= 0`: the same comparison, written as the decompiler does not"""
+    t = re.sub(r'-1 < (\(int\)\s*\w+|\(int\)\s*(?=\()|\w+\b)', lambda m: '__GE0__' + m.group(1), text)
+    if t == text: return None
+    out, i = [], 0
+    while True:
+        j = t.find('__GE0__', i)
+        if j < 0: out.append(t[i:]); break
+        out.append(t[i:j]); j += len('__GE0__')
+        m = re.match(r'\(int\)\s*', t[j:])
+        k = j + (m.end() if m else 0)
+        if t[k] == '(': e = _group(t, k)
+        else: e = k + re.match(r'\w+', t[k:]).end()
+        if e < 0: return None
+        out.append('(%s >= 0)' % t[j:e]); i = e
+    return ''.join(out)
+
+
+# the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
+# result counts only where match.py's comparison says IDENTICAL
+RULES = [
+    ('ret8', lambda t, r, n: _rule_ret_piece(t, r, n, 8, 'unsigned char')),
+    ('ret16', lambda t, r, n: _rule_ret_piece(t, r, n, 16, 'unsigned short')),
+    ('ge0', _rule_ge0),
+]
+
+
+def apply_rules(text, ret, name):
+    """[(rule, text)] for every rule that changes the text, and every rule together"""
+    out, t_all, names = [], text, []
+    for rn, f in RULES:
+        t = f(text, ret, name)
+        if t is not None:
+            out.append((rn, t))
+            t2 = f(t_all, ret, name)
+            if t2 is not None: t_all = t2; names.append(rn)
+    if len(names) > 1: out.append(('_'.join(names), t_all))
+    return out
+
+
+def toolchain_hash():
+    """the compiler's own files (BIN's executables and DLLs): a different compiler is a different object"""
+    h = hashlib.sha256()
+    b = os.path.join(os.environ['VC6'], 'BIN')
+    for f in sorted(os.listdir(b)):
+        if f.lower().endswith(('.exe', '.dll')): h.update(f.lower().encode() + b'\0' + open(os.path.join(b, f), 'rb').read())
+    return h.hexdigest()
+
+
+def cache_key(src, shim, flags, tc):
+    h = hashlib.sha256()
+    for x in (src, shim.encode(), flags.encode(), tc.encode()): h.update(hashlib.sha256(x).digest())
+    return h.hexdigest()
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('out'); ap.add_argument('--flags', default='/O2'); ap.add_argument('--keep')
+    ap.add_argument('--jobs', type=int, default=os.cpu_count())
+    ap.add_argument('--rules', action='store_true', help='also try each DIFFERS function with the rewrite rules (RULES)')
+    ap.add_argument('--cache', default=os.path.join(ROOT, 'runs', 'vc6_cache'), help="objects by source hash ('' for none)")
     ap.add_argument('--only', default=''); ap.add_argument('--calls', action='store_true', help='also functions that call the game or name its globals')
     o = ap.parse_args()
     only = {int(x, 16) for x in o.only.split(',') if x}
@@ -327,30 +435,81 @@ def main():
     place = {'ftol': FTOL} if ftol_check(img) else {}
     print('__ftol: %s' % ('0x%08X is LIBC.LIB\'s, byte for byte' % FTOL if place else 'not established; its calls stay uncompared'))
     open(os.path.join(d, 'vc6_shim.h'), 'w').write(SHIM)
-    res, files = {}, []
+    res, files, sig = {}, [], {}
     orig, glob_ = externs() if o.calls else (None, None)
     for ea, m, src in candidates(only, o.calls):
         c = convert(m, src, orig, glob_)
         k = '0x%08X' % ea
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(c[1]); files.append((ea, fn, m.group('cc')))
-    # compile in chunks (one cl run per chunk; an error stops only that file's object)
-    for k in range(0, len(files), 40):
-        chunk = files[k:k + 40]
-        env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(os.environ['VC6'], 'INCLUDE').replace('/', '\\'))
+        sig[ea] = (m.group('ret').strip(), m.group('name'))
+    # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.
+    # An object is cached by the hash of what decides it: its source, the shim, the flags and the compiler's own
+    # files (cache_key). The comparison with the game is redone every run: it depends on the DLL and the facts.
+    cache = o.cache and os.path.abspath(o.cache)
+    if cache: os.makedirs(cache, exist_ok=True)
+    tc = toolchain_hash() if cache else None
+    env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(os.environ['VC6'], 'INCLUDE').replace('/', '\\'))
+    import concurrent.futures as CF, time
+
+    def key_of(fn): return cache_key(open(os.path.join(d, fn), 'rb').read(), SHIM, o.flags, tc)
+
+    def compile_chunk(chunk):
         subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],
                        cwd=d, env=env, capture_output=True, text=True, errors='replace')
-        for ea, fn, cc in chunk:
+        if cache:
+            for _, fn, _ in chunk:
+                obj, c = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'), os.path.join(cache, key_of(fn))
+                if os.path.exists(obj): shutil.copyfile(obj, c + '.tmp'); os.replace(c + '.tmp', c + '.obj')
+                else: open(c + '.fail', 'w').close()
+
+    def judge(files, what):
+        """compiles (or takes from the cache) every (ea, file, cc), and gives each its verdict"""
+        todo, hits = [], 0
+        for ea, fn, cc in files:
+            obj = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj')
+            if os.path.exists(obj): os.remove(obj)
+            c = cache and os.path.join(cache, key_of(fn))
+            if c and os.path.exists(c + '.obj'): shutil.copyfile(c + '.obj', obj); hits += 1
+            elif c and os.path.exists(c + '.fail'): hits += 1
+            else: todo.append((ea, fn, cc))
+        t0 = time.time()
+        with CF.ThreadPoolExecutor(max_workers=o.jobs) as ex:
+            list(ex.map(compile_chunk, [todo[k:k + 40] for k in range(0, len(todo), 40)]))
+        print('%s: compiled %d sources in %.0f s (%d jobs); %d from the cache' % (what, len(todo), time.time() - t0, o.jobs, hits), flush=True)
+        out = {}
+        for ea, fn, cc in files:
             obj = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'); key = '0x%08X' % ea
-            if not os.path.exists(obj): res[key] = {'verdict': 'NO_COMPILE', 'why': 'cl failed', 'conv': cc}; continue
+            if not os.path.exists(obj): out[fn] = {'verdict': 'NO_COMPILE', 'why': 'cl failed', 'conv': cc}; continue
             funcs, _ = M.coff(obj)
-            if len(funcs) != 1: res[key] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(funcs), 'conv': cc}; continue
+            if len(funcs) != 1: out[fn] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(funcs), 'conv': cc}; continue
             (sym, (code, rels)), = funcs.items()
             v, why, notes = M.compare(img, ext, ea, code, rels, place)
             if v == 'IDENTICAL' and notes: v, why = 'IDENTICAL_UNCOMPARED', '; '.join(notes)   # a relocation not checked
-            res[key] = {'verdict': v, 'why': why, 'conv': cc, 'size': len(code)}
+            out[fn] = {'verdict': v, 'why': why, 'conv': cc, 'size': len(code)}
+        return out
+
+    got = judge(files, 'the tree as written')
+    for ea, fn, cc in files: res['0x%08X' % ea] = got[fn]
+    # --rules: each DIFFERS function again with each rewrite rule that applies (RULES); the verdict stays the tree's
+    # code's, and a rule that gives IDENTICAL is recorded with it ("rule_identical"): the bytes prove that source
+    if o.rules:
+        var, meta = [], {}
+        for ea, fn, cc in files:
+            if res['0x%08X' % ea]['verdict'] != 'DIFFERS': continue
+            text = open(os.path.join(d, fn)).read()
+            for rn, t in apply_rules(text, *sig[ea]):
+                vf = 'f_%08X_%s%s' % (ea, rn, os.path.splitext(fn)[1]); open(os.path.join(d, vf), 'w').write(t)
+                var.append((ea, vf, cc)); meta[vf] = rn
+        got = judge(var, 'rewrite rules')
+        tried = collections.Counter(); won = collections.Counter()
+        for ea, vf, cc in var:
+            rn = meta[vf]; tried[rn] += 1; r = res['0x%08X' % ea]
+            r.setdefault('rules_tried', []).append(rn)
+            if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
+                r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[rn] += 1
+        for rn in sorted(tried): print('rule %s: applied to %d DIFFERS, IDENTICAL in %d' % (rn, tried[rn], won[rn]))
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)
-    import collections
     c = collections.Counter(v['verdict'] for v in res.values())
     print('%d functions: %s' % (len(res), ', '.join('%s %d' % kv for kv in sorted(c.items()))))
     if not o.keep: shutil.rmtree(d)

@@ -31,7 +31,10 @@
   "verdict": "DIFFERS",
   "why": "+65: REL32 targets _FUN_10311BBB (0x10311BBB), the game 0x9BC37A75",
   "conv": "__cdecl",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10001F20": {
   "verdict": "IDENTICAL",
@@ -191,19 +194,28 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x10005A00": {
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x10007830": {
   "verdict": "DIFFERS",
   "why": "+0: 0x53 here, 0x56 in the game",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x10007860": {
   "verdict": "DIFFERS",
@@ -240,7 +252,10 @@
   "verdict": "DIFFERS",
   "why": "+18: REL32 targets ?f@FUNt_10124130@@QAEII@Z (0x10124130), the game 0x18DD09D1",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100088F0": {
   "verdict": "DIFFERS",
@@ -468,7 +483,10 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x53 here, 0x33 in the game",
   "conv": "__thiscall",
-  "size": 224
+  "size": 224,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1000BB10": {
   "verdict": "IDENTICAL",
@@ -501,7 +519,10 @@
   "verdict": "DIFFERS",
   "why": "+45: REL32 targets ?f@FUNt_10017100@@QAEIPAM00@Z (0x10017100), the game 0x14429795",
   "conv": "__thiscall",
-  "size": 528
+  "size": 528,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1000BF30": {
   "verdict": "NO_COMPILE",
@@ -604,7 +625,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10010310": {
   "verdict": "IDENTICAL",
@@ -705,7 +731,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0xB8 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10013DF0": {
   "verdict": "LEFT_OUT",
@@ -742,13 +773,21 @@
   "verdict": "DIFFERS",
   "why": "+23: REL32 targets _FUN_100DB930 (0x100DB930), the game 0x14C3A0FB",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100142A0": {
   "verdict": "DIFFERS",
   "why": "+5: 0xB8 here, 0xB0 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100142B0": {
   "verdict": "NO_COMPILE",
@@ -793,7 +832,10 @@
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets _FUN_10093B70 (0x10093B70), the game 0xE8EA3E20",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10014CB0": {
   "verdict": "DIFFERS",
@@ -966,43 +1008,78 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015600": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015610": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015640": {
   "verdict": "DIFFERS",
   "why": "+5: 0x33 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015650": {
   "verdict": "DIFFERS",
   "why": "+5: 0x33 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015680": {
   "verdict": "DIFFERS",
   "why": "+5: 0x33 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10015690": {
   "verdict": "DIFFERS",
   "why": "+5: 0x33 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100156A0": {
   "verdict": "NO_COMPILE",
@@ -1013,7 +1090,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0xB8 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100157B0": {
   "verdict": "DIFFERS",
@@ -1191,7 +1273,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0xA0 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100182C0": {
   "verdict": "IDENTICAL",
@@ -1246,7 +1333,12 @@
   "verdict": "DIFFERS",
   "why": "+10: 0x25 here, 0xC3 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10018A50": {
   "verdict": "LEFT_OUT",
@@ -1318,7 +1410,10 @@
   "verdict": "DIFFERS",
   "why": "+96: REL32 targets ?f@FUNt_10032A40@@QAEPAXXZ (0x10032A40), the game 0x5C8CA07F",
   "conv": "__thiscall",
-  "size": 928
+  "size": 928,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10019EE0": {
   "verdict": "NO_COMPILE",
@@ -1329,13 +1424,23 @@
   "verdict": "DIFFERS",
   "why": "+44: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1001A420": {
   "verdict": "DIFFERS",
   "why": "+35: REL32 targets ?f@FUNt_10032A40@@QAEPAXXZ (0x10032A40), the game 0xF811E9B4",
   "conv": "__thiscall",
-  "size": 592
+  "size": 592,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x1001A660": {
   "verdict": "LEFT_OUT",
@@ -1516,7 +1621,10 @@
   "verdict": "DIFFERS",
   "why": "+3: 0xDC here, 0xD8 in the game",
   "conv": "__thiscall",
-  "size": 608
+  "size": 608,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10021B70": {
   "verdict": "IDENTICAL",
@@ -1602,7 +1710,12 @@
   "verdict": "DIFFERS",
   "why": "+52: 0x05 here, 0x07 in the game",
   "conv": "__thiscall",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100251A0": {
   "verdict": "DIFFERS",
@@ -1936,7 +2049,10 @@
   "verdict": "DIFFERS",
   "why": "+8: REL32 targets ?f@FUNt_10028140@@QAEIPAM@Z (0x10028140), the game 0xEA02832A",
   "conv": "__thiscall",
-  "size": 176
+  "size": 176,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x100283C0": {
   "verdict": "NO_COMPILE",
@@ -2263,7 +2379,10 @@
   "verdict": "DIFFERS",
   "why": "+8: REL32 targets ?f@FUNt_1002B5A0@@QAEHXZ (0x1002B5A0), the game 0x008EC2DB",
   "conv": "__thiscall",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1002C360": {
   "verdict": "LEFT_OUT",
@@ -2280,7 +2399,10 @@
   "verdict": "DIFFERS",
   "why": "+26: REL32 targets ?f@FUNt_1002B5A0@@QAEHXZ (0x1002B5A0), the game 0x188EC41D",
   "conv": "__thiscall",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1002C5C0": {
   "verdict": "DIFFERS",
@@ -2453,7 +2575,10 @@
   "verdict": "DIFFERS",
   "why": "+80: REL32 targets ?f@FUNt_10184C90@@QAEIPAMMH@Z (0x10184C90), the game 0x1140A3F4",
   "conv": "__thiscall",
-  "size": 352
+  "size": 352,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10033EA0": {
   "verdict": "LEFT_OUT",
@@ -2504,7 +2629,10 @@
   "verdict": "DIFFERS",
   "why": "+151: REL32 targets ?FUN_10027310@@YAXPAM0@Z (0x10027310), the game 0x9D17D5FC",
   "conv": "__thiscall",
-  "size": 976
+  "size": 976,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10034B80": {
   "verdict": "DIFFERS",
@@ -2516,7 +2644,10 @@
   "verdict": "DIFFERS",
   "why": "+24: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x204B22B4",
   "conv": "__thiscall",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100351F0": {
   "verdict": "IDENTICAL",
@@ -2546,13 +2677,19 @@
   "verdict": "DIFFERS",
   "why": "+19: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x568F1615",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100352F0": {
   "verdict": "DIFFERS",
   "why": "+11: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x67595742",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10035330": {
   "verdict": "DIFFERS",
@@ -2644,7 +2781,10 @@
   "verdict": "DIFFERS",
   "why": "+18: REL32 targets _FUN_10036830 (0x10036830), the game 0xD4866376",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10036420": {
   "verdict": "DIFFERS",
@@ -2656,7 +2796,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x83 here, 0x8B in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100364A0": {
   "verdict": "IDENTICAL",
@@ -2673,7 +2816,10 @@
   "verdict": "DIFFERS",
   "why": "+20: REL32 targets ?f@FUNt_100539E0@@QAEIXZ (0x100539E0), the game 0x9B07DC48",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100367C0": {
   "verdict": "LEFT_OUT",
@@ -2684,7 +2830,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10036870": {
   "verdict": "DIFFERS",
@@ -2696,7 +2845,10 @@
   "verdict": "DIFFERS",
   "why": "+75: REL32 targets _FUN_10014CF0 (0x10014CF0), the game 0x119BEF8A",
   "conv": "__thiscall",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10036980": {
   "verdict": "IDENTICAL",
@@ -3771,7 +3923,10 @@
   "verdict": "DIFFERS",
   "why": "+9: 0x06 here, 0x03 in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10044D40": {
   "verdict": "LEFT_OUT",
@@ -4055,7 +4210,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x89 here, 0x81 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1004E490": {
   "verdict": "IDENTICAL",
@@ -4177,7 +4335,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x66 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052960": {
   "verdict": "DIFFERS",
@@ -4267,7 +4430,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x89 here, 0x81 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10052AB0": {
   "verdict": "IDENTICAL",
@@ -4706,7 +4872,12 @@
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets ?f@FUNt_100493B0@@QAEHXZ (0x100493B0), the game 0xD08B39F4",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10053A00": {
   "verdict": "LEFT_OUT",
@@ -5945,7 +6116,10 @@
   "verdict": "DIFFERS",
   "why": "+40: REL32 targets ?f@FUNt_10071F80@@QAEIXZ (0x10071F80), the game 0x9BCA6F4C",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100710F0": {
   "verdict": "NO_COMPILE",
@@ -6278,7 +6452,10 @@
   "verdict": "DIFFERS",
   "why": "+31: REL32 targets ?f@FUNt_10072240@@QAEPAXXZ (0x10072240), the game 0x760FCBF7",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10074110": {
   "verdict": "NO_COMPILE",
@@ -6295,7 +6472,10 @@
   "verdict": "DIFFERS",
   "why": "+8: 0xD0 here, 0xC2 in the game",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10074280": {
   "verdict": "IDENTICAL",
@@ -6319,7 +6499,10 @@
   "verdict": "DIFFERS",
   "why": "+7: 0x3D here, 0x37 in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100743D0": {
   "verdict": "DIFFERS",
@@ -6568,7 +6751,10 @@
   "verdict": "DIFFERS",
   "why": "+64: REL32 targets _FUN_103146DE (0x103146DE), the game 0x14CBFF74",
   "conv": "__cdecl",
-  "size": 208
+  "size": 208,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10077CF0": {
   "verdict": "DIFFERS",
@@ -6632,7 +6818,10 @@
   "verdict": "DIFFERS",
   "why": "+71: REL32 targets ?f@FUNt_1008B380@@QAEHH@Z (0x1008B380), the game 0xDE92F997",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1007A4C0": {
   "verdict": "DIFFERS",
@@ -6666,7 +6855,10 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x56 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10080DC0": {
   "verdict": "LEFT_OUT",
@@ -6683,7 +6875,10 @@
   "verdict": "DIFFERS",
   "why": "+4: 0xA0 here, 0xB8 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100814A0": {
   "verdict": "DIFFERS",
@@ -6995,7 +7190,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 304
+  "size": 304,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10084400": {
   "verdict": "IDENTICAL",
@@ -7059,7 +7257,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10084720": {
   "verdict": "IDENTICAL",
@@ -7083,7 +7286,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10084E50": {
   "verdict": "IDENTICAL",
@@ -7106,7 +7312,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x51 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10085500": {
   "verdict": "IDENTICAL",
@@ -7176,7 +7385,10 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x8B here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100875F0": {
   "verdict": "IDENTICAL",
@@ -7194,7 +7406,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10087830": {
   "verdict": "DIFFERS",
@@ -7329,7 +7546,10 @@
   "verdict": "DIFFERS",
   "why": "+63: REL32 targets _FUN_100A2720 (0x100A2720), the game 0x157CB453",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1008CD90": {
   "verdict": "NO_COMPILE",
@@ -7351,7 +7571,10 @@
   "verdict": "DIFFERS",
   "why": "+158: REL32 targets ?f@FUNt_1008E8D0@@QAEIH@Z (0x1008E8D0), the game 0x344DA2A2",
   "conv": "__thiscall",
-  "size": 1520
+  "size": 1520,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1008E140": {
   "verdict": "IDENTICAL",
@@ -7369,7 +7592,10 @@
   "verdict": "DIFFERS",
   "why": "+33: REL32 targets _FUN_100E8C70 (0x100E8C70), the game 0xD08DE28A",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1008E4D0": {
   "verdict": "LEFT_OUT",
@@ -7520,49 +7746,85 @@
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets _FUN_100FC3C0 (0x100FC3C0), the game 0x9309444A",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10095680": {
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100956A0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100956C0": {
   "verdict": "DIFFERS",
   "why": "+33: REL32 targets ?f@FUNt_10095750@@QAEIH@Z (0x10095750), the game 0xD26756E5",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100956F0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10095750": {
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10095790": {
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10095850": {
   "verdict": "DIFFERS",
   "why": "+109: REL32 targets ?f@FUNt_100956C0@@QAEIH@Z (0x100956C0), the game 0x088C58C1",
   "conv": "__thiscall",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10095900": {
   "verdict": "LEFT_OUT",
@@ -7591,7 +7853,12 @@
   "verdict": "DIFFERS",
   "why": "+13: 0x3D here, 0x3B in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10096640": {
   "verdict": "LEFT_OUT",
@@ -7618,31 +7885,48 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x56 here, 0x8B in the game",
   "conv": "__cdecl",
-  "size": 480
+  "size": 480,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10097D50": {
   "verdict": "DIFFERS",
   "why": "+5: 0x8B here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10097E50": {
   "verdict": "DIFFERS",
   "why": "+4: 0x8B here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x10097FD0": {
   "verdict": "DIFFERS",
   "why": "+29: 0x1A here, 0x18 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10098180": {
   "verdict": "DIFFERS",
   "why": "+2: 0x89 here, 0x81 in the game",
   "conv": "__thiscall",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10098210": {
   "verdict": "DIFFERS",
@@ -7677,7 +7961,10 @@
   "verdict": "DIFFERS",
   "why": "+9: REL32 targets ?f@FUNt_100956A0@@QAEIH@Z (0x100956A0), the game 0x84CA2FFC",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1009AD20": {
   "verdict": "DIFFERS",
@@ -7730,7 +8017,10 @@
   "verdict": "DIFFERS",
   "why": "+5: REL32 targets _FUN_101CC4F0 (0x101CC4F0), the game 0x3486A509",
   "conv": "__cdecl",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100A1D50": {
   "verdict": "DIFFERS",
@@ -8218,7 +8508,10 @@
   "verdict": "DIFFERS",
   "why": "+9: 0x33 here, 0x32 in the game",
   "conv": "__cdecl",
-  "size": 320
+  "size": 320,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100AE350": {
   "verdict": "IDENTICAL",
@@ -8648,7 +8941,10 @@
   "verdict": "DIFFERS",
   "why": "+37: REL32 targets ?f@FUNt_1002B5A0@@QAEHXZ (0x1002B5A0), the game 0x44F5768D",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100D62C0": {
   "verdict": "NO_COMPILE",
@@ -8827,7 +9123,10 @@
   "verdict": "DIFFERS",
   "why": "+12: 0x97 here, 0x95 in the game",
   "conv": "__thiscall",
-  "size": 176
+  "size": 176,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100DB100": {
   "verdict": "IDENTICAL",
@@ -8839,7 +9138,12 @@
   "verdict": "DIFFERS",
   "why": "+14: 0x14 here, 0x13 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DB170": {
   "verdict": "DIFFERS",
@@ -8868,7 +9172,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DBAA0": {
   "verdict": "IDENTICAL",
@@ -8885,13 +9194,23 @@
   "verdict": "DIFFERS",
   "why": "+0: 0xB9 here, 0x57 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DBCA0": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DBDE0": {
   "verdict": "IDENTICAL",
@@ -8909,7 +9228,12 @@
   "verdict": "DIFFERS",
   "why": "+20: 0x24 here, 0xC7 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DBE50": {
   "verdict": "NO_COMPILE",
@@ -8920,7 +9244,12 @@
   "verdict": "DIFFERS",
   "why": "+68: 0x24 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DBF00": {
   "verdict": "IDENTICAL",
@@ -8932,13 +9261,19 @@
   "verdict": "DIFFERS",
   "why": "+24: REL32 targets _FUN_100DBF00 (0x100DBF00), the game 0xD491BF3B",
   "conv": "__cdecl",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100DBFE0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100DC060": {
   "verdict": "DIFFERS",
@@ -8980,13 +9315,21 @@
   "verdict": "DIFFERS",
   "why": "+49: 0xB9 here, 0x33 in the game",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100DC1B0": {
   "verdict": "DIFFERS",
   "why": "+50: 0x24 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DC1F0": {
   "verdict": "IDENTICAL",
@@ -9021,7 +9364,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DC420": {
   "verdict": "IDENTICAL",
@@ -9033,7 +9381,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0xB8 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DC6D0": {
   "verdict": "IDENTICAL",
@@ -9057,7 +9410,12 @@
   "verdict": "DIFFERS",
   "why": "+17: 0x24 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DD590": {
   "verdict": "DIFFERS",
@@ -9127,7 +9485,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100DF780": {
   "verdict": "DIFFERS",
@@ -9169,7 +9530,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E0A50": {
   "verdict": "DIFFERS",
@@ -9181,7 +9547,10 @@
   "verdict": "DIFFERS",
   "why": "+121: REL32 targets _FUN_100FC4D0 (0x100FC4D0), the game 0xA09E9BAD",
   "conv": "__cdecl",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100E0B10": {
   "verdict": "IDENTICAL",
@@ -9246,7 +9615,12 @@
   "verdict": "DIFFERS",
   "why": "+89: REL32 targets _FUN_100E1C00 (0x100E1C00), the game 0xD4922ECC",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E2EE0": {
   "verdict": "IDENTICAL",
@@ -9276,7 +9650,12 @@
   "verdict": "DIFFERS",
   "why": "+70: REL32 targets _FUN_100DC080 (0x100DC080), the game 0xA81BCCE9",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E4110": {
   "verdict": "IDENTICAL",
@@ -9300,19 +9679,30 @@
   "verdict": "DIFFERS",
   "why": "+26: REL32 targets _FUN_10312EAD (0x10312EAD), the game 0xD4914430",
   "conv": "__cdecl",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100E46A0": {
   "verdict": "DIFFERS",
   "why": "+29: REL32 targets _FUN_100FC3C0 (0x100FC3C0), the game 0x1FCECBCD",
   "conv": "__cdecl",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100E47A0": {
   "verdict": "DIFFERS",
   "why": "+8: 0x01 here, 0x03 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E5E30": {
   "verdict": "IDENTICAL",
@@ -9342,7 +9732,12 @@
   "verdict": "DIFFERS",
   "why": "+7: 0x75 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E61C0": {
   "verdict": "IDENTICAL",
@@ -9384,7 +9779,12 @@
   "verdict": "DIFFERS",
   "why": "+52: REL32 targets _FUN_100E6790 (0x100E6790), the game 0x1684249C",
   "conv": "__cdecl",
-  "size": 672
+  "size": 672,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x100E6650": {
   "verdict": "IDENTICAL",
@@ -9396,19 +9796,30 @@
   "verdict": "DIFFERS",
   "why": "+3: REL32 targets _FUN_100DC080 (0x100DC080), the game 0x68F64F98",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100E67E0": {
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets _FUN_100E1B50 (0x100E1B50), the game 0x78F66998",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100E6810": {
   "verdict": "DIFFERS",
   "why": "+21: 0x24 here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E6830": {
   "verdict": "DIFFERS",
@@ -9432,13 +9843,23 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x33 here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E6B20": {
   "verdict": "DIFFERS",
   "why": "+35: REL32 targets _FUN_100E7B20 (0x100E7B20), the game 0x1FE6539D",
   "conv": "__cdecl",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ret16",
+   "ge0",
+   "ret16_ge0"
+  ]
  },
  "0x100E6C40": {
   "verdict": "DIFFERS",
@@ -9498,7 +9919,10 @@
   "verdict": "DIFFERS",
   "why": "+40: REL32 targets _FUN_100FC4D0 (0x100FC4D0), the game 0x61F699C4",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100EB090": {
   "verdict": "IDENTICAL",
@@ -9528,13 +9952,21 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100EBF40": {
   "verdict": "DIFFERS",
   "why": "+40: REL32 targets _FUN_100FC4D0 (0x100FC4D0), the game 0x71F6C3B4",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100EBF80": {
   "verdict": "DIFFERS",
@@ -9552,7 +9984,10 @@
   "verdict": "DIFFERS",
   "why": "+111: REL32 targets _FUN_100FC4D0 (0x100FC4D0), the game 0xD36D2364",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100ED720": {
   "verdict": "IDENTICAL",
@@ -9719,7 +10154,10 @@
   "verdict": "DIFFERS",
   "why": "+25: REL32 targets _FUN_1030FF75@0 (0x1030FF75), the game 0x5C9BFD3D",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100EFDA0": {
   "verdict": "DIFFERS",
@@ -9731,7 +10169,10 @@
   "verdict": "DIFFERS",
   "why": "+30: REL32 targets _FUN_1030FFA1@0 (0x1030FFA1), the game 0x1145AACA",
   "conv": "__cdecl",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100F0000": {
   "verdict": "IDENTICAL",
@@ -9743,7 +10184,12 @@
   "verdict": "DIFFERS",
   "why": "+7: 0x75 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F0090": {
   "verdict": "IDENTICAL",
@@ -9761,37 +10207,65 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F0550": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F0570": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F0590": {
   "verdict": "DIFFERS",
   "why": "+10: 0x33 here, 0x32 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100F05C0": {
   "verdict": "DIFFERS",
   "why": "+9: 0x33 here, 0x32 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F05F0": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F06B0": {
   "verdict": "IDENTICAL",
@@ -9833,7 +10307,10 @@
   "verdict": "DIFFERS",
   "why": "+57: REL32 targets _FUN_100F13D0 (0x100F13D0), the game 0x569A119D",
   "conv": "__cdecl",
-  "size": 288
+  "size": 288,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100F1280": {
   "verdict": "DIFFERS",
@@ -9875,7 +10352,10 @@
   "verdict": "DIFFERS",
   "why": "+2: REL32 targets _FUN_10310030@0 (0x10310030), the game 0xF9C7FE9E",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x100F1870": {
   "verdict": "DIFFERS",
@@ -9905,13 +10385,19 @@
   "verdict": "DIFFERS",
   "why": "+62: REL32 targets ?f@FUNt_100F1E70@@QAEEXZ (0x100F1E70), the game 0x206F83E2",
   "conv": "__thiscall",
-  "size": 176
+  "size": 176,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100F1C40": {
   "verdict": "DIFFERS",
   "why": "+82: REL32 targets ?f@FUNt_100F2A40@@QAEXXZ (0x100F2A40), the game 0x0F2804ED",
   "conv": "__thiscall",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100F1D20": {
   "verdict": "LEFT_OUT",
@@ -9927,7 +10413,10 @@
   "verdict": "DIFFERS",
   "why": "+30: REL32 targets _FUN_10310D82@0 (0x10310D82), the game 0x6DF71F22",
   "conv": "__thiscall",
-  "size": 320
+  "size": 320,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100F25F0": {
   "verdict": "DIFFERS",
@@ -9974,7 +10463,12 @@
   "verdict": "DIFFERS",
   "why": "+153: REL32 targets ?f@FUNt_100F2A70@@QAEIXZ (0x100F2A70), the game 0x6E6F2D1C",
   "conv": "__thiscall",
-  "size": 848
+  "size": 848,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x100F3010": {
   "verdict": "DIFFERS",
@@ -10099,7 +10593,12 @@
   "verdict": "DIFFERS",
   "why": "+79: REL32 targets _FUN_100DC060 (0x100DC060), the game 0x071FFF60",
   "conv": "__cdecl",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F9D50": {
   "verdict": "DIFFERS",
@@ -10111,7 +10610,12 @@
   "verdict": "DIFFERS",
   "why": "+14: REL32 targets _FUN_100FA4A0 (0x100FA4A0), the game 0x172C85D2",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F9DA0": {
   "verdict": "DIFFERS",
@@ -10123,25 +10627,39 @@
   "verdict": "DIFFERS",
   "why": "+41: REL32 targets _FUN_100F9DF0 (0x100F9DF0), the game 0xC04AE3E1",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100F9DF0": {
   "verdict": "DIFFERS",
   "why": "+24: 0x24 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F9E10": {
   "verdict": "DIFFERS",
   "why": "+85: REL32 targets _FUN_100E0A00 (0x100E0A00), the game 0x7BA58669",
   "conv": "__cdecl",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100FA9C0": {
   "verdict": "DIFFERS",
   "why": "+6: 0x09 here, 0x0A in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100FB920": {
   "verdict": "LEFT_OUT",
@@ -10157,13 +10675,21 @@
   "verdict": "DIFFERS",
   "why": "+43: REL32 targets _FUN_100DDD20 (0x100DDD20), the game 0xD492BD1F",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100FBD10": {
   "verdict": "DIFFERS",
   "why": "+29: 0x24 here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100FC160": {
   "verdict": "IDENTICAL",
@@ -10222,13 +10748,19 @@
   "verdict": "DIFFERS",
   "why": "+54: REL32 targets _FUN_100DDD20 (0x100DDD20), the game 0x73F7CD0A",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100FC9C0": {
   "verdict": "DIFFERS",
   "why": "+51: REL32 targets _FUN_100FC4D0 (0x100FC4D0), the game 0xA0A08CF8",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100FCA20": {
   "verdict": "IDENTICAL",
@@ -10276,13 +10808,19 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x8B here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10101BC0": {
   "verdict": "DIFFERS",
   "why": "+10: 0x8B here, 0x88 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10101BF0": {
   "verdict": "DIFFERS",
@@ -10299,7 +10837,12 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x01 here, 0x03 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10103740": {
   "verdict": "IDENTICAL",
@@ -10335,19 +10878,32 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x01 here, 0x04 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10103920": {
   "verdict": "DIFFERS",
   "why": "+52: REL32 targets _FUN_100E0D50 (0x100E0D50), the game 0x05F88A58",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101039C0": {
   "verdict": "DIFFERS",
   "why": "+11: 0x24 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101039E0": {
   "verdict": "DIFFERS",
@@ -10771,7 +11327,10 @@
   "verdict": "DIFFERS",
   "why": "+64: REL32 targets ?FUN_1026DB8F@@YAXH@Z (0x1026DB8F), the game 0x14D5E094",
   "conv": "__cdecl",
-  "size": 1392
+  "size": 1392,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101163A0": {
   "verdict": "IDENTICAL",
@@ -10969,13 +11528,19 @@
   "verdict": "DIFFERS",
   "why": "+15: 0x22 here, 0x20 in the game",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10118CB0": {
   "verdict": "DIFFERS",
   "why": "+59: REL32 targets ?f@FUNt_10126500@@QAEIXZ (0x10126500), the game 0x99D211EF",
   "conv": "__thiscall",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x10118F20": {
   "verdict": "IDENTICAL",
@@ -11144,7 +11709,10 @@
   "verdict": "DIFFERS",
   "why": "+14: REL32 targets ?f@FUNt_10126500@@QAEIXZ (0x10126500), the game 0x9511ACBA",
   "conv": "__thiscall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1011AE10": {
   "verdict": "IDENTICAL",
@@ -11156,7 +11724,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0x66 in the game",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret16"
+  ]
  },
  "0x1011B2A0": {
   "verdict": "DIFFERS",
@@ -11260,7 +11831,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8A here, 0x80 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1011C870": {
   "verdict": "NO_COMPILE",
@@ -11324,7 +11898,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1011DA30": {
   "verdict": "DIFFERS",
@@ -11378,7 +11955,10 @@
   "verdict": "DIFFERS",
   "why": "+12: REL32 targets ?FUN_10315AA8@@YAPADPAD@Z (0x10315AA8), the game 0x2F85AEC8",
   "conv": "__thiscall",
-  "size": 336
+  "size": 336,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1011E800": {
   "verdict": "NO_COMPILE",
@@ -11456,7 +12036,10 @@
   "verdict": "DIFFERS",
   "why": "+115: REL32 targets ?f@FUNt_1011FA80@@QAEHIPAF@Z (0x1011FA80), the game 0x24D46447",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10120590": {
   "verdict": "LEFT_OUT",
@@ -11508,19 +12091,28 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x8B here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 208
+  "size": 208,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10121420": {
   "verdict": "DIFFERS",
   "why": "+4: 0x8B here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 208
+  "size": 208,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10121640": {
   "verdict": "DIFFERS",
   "why": "+4: 0x8B here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 208
+  "size": 208,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10121DB0": {
   "verdict": "DIFFERS",
@@ -11544,7 +12136,10 @@
   "verdict": "DIFFERS",
   "why": "+19: 0x0F here, 0x11 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10123380": {
   "verdict": "DIFFERS",
@@ -11556,7 +12151,10 @@
   "verdict": "DIFFERS",
   "why": "+2: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10123650": {
   "verdict": "DIFFERS",
@@ -11568,7 +12166,10 @@
   "verdict": "DIFFERS",
   "why": "+2: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10123680": {
   "verdict": "DIFFERS",
@@ -11584,7 +12185,7 @@
  },
  "0x10123700": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1019cdc0",
+  "why": "no wrapper for Unit1018BA60_HasTable1037A290CellByte",
   "conv": "__cdecl"
  },
  "0x10123DC0": {
@@ -11603,13 +12204,19 @@
   "verdict": "DIFFERS",
   "why": "+15: 0x10 here, 0x11 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10123E50": {
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10123E80": {
   "verdict": "IDENTICAL",
@@ -11721,7 +12328,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x66 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101245D0": {
   "verdict": "DIFFERS",
@@ -12125,7 +12737,10 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x8D here, 0x83 in the game",
   "conv": "__cdecl",
-  "size": 512
+  "size": 512,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1012A120": {
   "verdict": "DIFFERS",
@@ -12155,7 +12770,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x8A in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1012A420": {
   "verdict": "DIFFERS",
@@ -12610,7 +13230,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10151040": {
   "verdict": "NO_COMPILE",
@@ -12645,13 +13270,23 @@
   "verdict": "DIFFERS",
   "why": "+11: REL32 targets _FUN_10152FC0 (0x10152FC0), the game 0x14D9B2AF",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10152FC0": {
   "verdict": "DIFFERS",
   "why": "+20: REL32 targets _FUN_10312EAD (0x10312EAD), the game 0xD4982FF3",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10152FF0": {
   "verdict": "NO_COMPILE",
@@ -12662,19 +13297,32 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101530C0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x44 here, 0x54 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10153100": {
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10153130": {
   "verdict": "IDENTICAL",
@@ -12745,13 +13393,19 @@
   "verdict": "DIFFERS",
   "why": "+7: REL32 targets _FUN_10153B70 (0x10153B70), the game 0x85D5C11A",
   "conv": "__cdecl",
-  "size": 720
+  "size": 720,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10153EF0": {
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets ?f@FUNt_101C4AF0@@QAEHH@Z (0x101C4AF0), the game 0x172129ED",
   "conv": "__cdecl",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10153F80": {
   "verdict": "NO_COMPILE",
@@ -12820,7 +13474,12 @@
   "verdict": "DIFFERS",
   "why": "+3: 0x56 here, 0x8B in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10154A80": {
   "verdict": "IDENTICAL",
@@ -13129,13 +13788,23 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x8A in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101578E0": {
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x8A in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101578F0": {
   "verdict": "DIFFERS",
@@ -13294,25 +13963,39 @@
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets ?f@FUNt_10159370@@QAEHXZ (0x10159370), the game 0xF8FD9C71",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10159400": {
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10159420": {
   "verdict": "DIFFERS",
   "why": "+14: 0x01 here, 0x03 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10159440": {
   "verdict": "DIFFERS",
   "why": "+123: REL32 targets ?f@FUNt_10159740@@QAEIXZ (0x10159740), the game 0xD4AC1DC0",
   "conv": "__thiscall",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101594D0": {
   "verdict": "IDENTICAL",
@@ -13341,13 +14024,19 @@
   "verdict": "DIFFERS",
   "why": "+43: REL32 targets ?f@FUNt_1008E8D0@@QAEIH@Z (0x1008E8D0), the game 0x14D85694",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10159660": {
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets ?f@FUNt_10159740@@QAEIXZ (0x10159740), the game 0x6E159675",
   "conv": "__thiscall",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10159740": {
   "verdict": "IDENTICAL",
@@ -13406,7 +14095,12 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x1F here, 0x1D in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10159970": {
   "verdict": "DIFFERS",
@@ -13461,7 +14155,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x56 here, 0x8B in the game",
   "conv": "__thiscall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1015B270": {
   "verdict": "IDENTICAL",
@@ -13644,7 +14341,10 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x8B here, 0x8A in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1015EC50": {
   "verdict": "DIFFERS",
@@ -13668,13 +14368,19 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1015EDB0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1015EE00": {
   "verdict": "DIFFERS",
@@ -13742,7 +14448,12 @@
   "verdict": "DIFFERS",
   "why": "+24: 0x8B here, 0x66 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret16"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015F9E0": {
   "verdict": "IDENTICAL",
@@ -13868,7 +14579,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10161C70": {
   "verdict": "LEFT_OUT",
@@ -14042,7 +14758,12 @@
   "verdict": "DIFFERS",
   "why": "+14: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x76443F5F",
   "conv": "__thiscall",
-  "size": 224
+  "size": 224,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x10167440": {
   "verdict": "DIFFERS",
@@ -14129,7 +14850,10 @@
   "verdict": "DIFFERS",
   "why": "+279: REL32 targets ?f@FUNt_1016F320@@QAEXHPAM@Z (0x1016F320), the game 0x8E16F39C",
   "conv": "__thiscall",
-  "size": 592
+  "size": 592,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1016FC40": {
   "verdict": "NO_COMPILE",
@@ -14381,7 +15105,10 @@
   "verdict": "DIFFERS",
   "why": "+85: REL32 targets ?f@FUNt_101693B0@@QAEIPAM00@Z (0x101693B0), the game 0x483C56F4",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10181290": {
   "verdict": "DIFFERS",
@@ -14725,7 +15452,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x56 here, 0x8B in the game",
   "conv": "__thiscall",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10188B70": {
   "verdict": "DIFFERS",
@@ -15258,13 +15988,21 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x54 here, 0x44 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1018E800": {
   "verdict": "DIFFERS",
   "why": "+82: REL32 targets ?f@FUNt_1018E0A0@@QAEII@Z (0x1018E0A0), the game 0xD04BEB41",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1018E8D0": {
   "verdict": "DIFFERS",
@@ -15728,7 +16466,10 @@
   "verdict": "DIFFERS",
   "why": "+16: REL32 targets _FUN_10311386@0 (0x10311386), the game 0x2767A78C",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1019C5B0": {
   "verdict": "DIFFERS",
@@ -15826,7 +16567,10 @@
   "verdict": "DIFFERS",
   "why": "+30: REL32 targets ?f@FUNt_101A0910@@QAEHXZ (0x101A0910), the game 0xF822485D",
   "conv": "__thiscall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1019F930": {
   "verdict": "IDENTICAL",
@@ -15844,13 +16588,19 @@
   "verdict": "DIFFERS",
   "why": "+10: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1019FAB0": {
   "verdict": "DIFFERS",
   "why": "+10: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A0710": {
   "verdict": "DIFFERS",
@@ -15884,25 +16634,37 @@
   "verdict": "DIFFERS",
   "why": "+10: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A0930": {
   "verdict": "DIFFERS",
   "why": "+15: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A0950": {
   "verdict": "DIFFERS",
   "why": "+7: REL32 targets ?f@FUNt_101B9550@@QAE_KI@Z (0x101B9550), the game 0x431A0AE6",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A0970": {
   "verdict": "DIFFERS",
   "why": "+5: REL32 targets ?f@FUNt_101B9530@@QAE_KXZ (0x101B9530), the game 0x431A0B04",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A0BE0": {
   "verdict": "DIFFERS",
@@ -15914,13 +16676,19 @@
   "verdict": "DIFFERS",
   "why": "+34: REL32 targets ?f@FUNt_101B9550@@QAE_KI@Z (0x101B9550), the game 0x11A2073E",
   "conv": "__thiscall",
-  "size": 352
+  "size": 352,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101A0F30": {
   "verdict": "DIFFERS",
   "why": "+43: REL32 targets ?f@FUNt_101B9530@@QAE_KXZ (0x101B9530), the game 0xA0AA9FEF",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101A1360": {
   "verdict": "DIFFERS",
@@ -15996,7 +16764,12 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101A19B0": {
   "verdict": "DIFFERS",
@@ -16014,7 +16787,12 @@
   "verdict": "DIFFERS",
   "why": "+37: REL32 targets ?f@FUNt_101A1740@@QAEXH@Z (0x101A1740), the game 0xD81A1C83",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101A1CC0": {
   "verdict": "DIFFERS",
@@ -16042,7 +16820,10 @@
   "verdict": "DIFFERS",
   "why": "+73: REL32 targets ?f@FUNt_101A2660@@QAEXHPAE@Z (0x101A2660), the game 0x6112FAAB",
   "conv": "__thiscall",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101A29F0": {
   "verdict": "DIFFERS",
@@ -16232,7 +17013,10 @@
   "verdict": "DIFFERS",
   "why": "+101: REL32 targets ?FUN_1018FA80@@YAIIH@Z (0x1018FA80), the game 0x901ABCBA",
   "conv": "__thiscall",
-  "size": 608
+  "size": 608,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101ABE50": {
   "verdict": "IDENTICAL",
@@ -16309,7 +17093,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x89 here, 0x81 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101AC4E0": {
   "verdict": "IDENTICAL",
@@ -16350,7 +17139,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x53 here, 0x51 in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101ACC30": {
   "verdict": "NO_COMPILE",
@@ -16397,7 +17189,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__stdcall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101AD290": {
   "verdict": "NO_COMPILE",
@@ -16431,7 +17228,10 @@
   "verdict": "DIFFERS",
   "why": "+41: REL32 targets _FUN_10312940 (0x10312940), the game 0x16909C92",
   "conv": "__stdcall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101ADDC0": {
   "verdict": "DIFFERS",
@@ -16543,7 +17343,12 @@
   "verdict": "DIFFERS",
   "why": "+11: 0x25 here, 0xC2 in the game",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101B4270": {
   "verdict": "DIFFERS",
@@ -16561,7 +17366,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x44 here, 0x4C in the game",
   "conv": "__cdecl",
-  "size": 320
+  "size": 320,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101B4570": {
   "verdict": "NO_COMPILE",
@@ -16796,13 +17604,23 @@
   "verdict": "DIFFERS",
   "why": "+12: REL32 targets _FUN_10097D50 (0x10097D50), the game 0x951B8803",
   "conv": "__thiscall",
-  "size": 288
+  "size": 288,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x101B9BC0": {
   "verdict": "DIFFERS",
   "why": "+45: REL32 targets ?f@FUNt_101C4B60@@QAEIHI@Z (0x101C4B60), the game 0x06A18C7C",
   "conv": "__thiscall",
-  "size": 640
+  "size": 640,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x101B9E00": {
   "verdict": "NO_COMPILE",
@@ -16936,7 +17754,10 @@
   "verdict": "DIFFERS",
   "why": "+17: 0x08 here, 0x00 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101BB130": {
   "verdict": "DIFFERS",
@@ -16953,7 +17774,12 @@
   "verdict": "DIFFERS",
   "why": "+94: REL32 targets ?FUN_101BB130@@YGXH@Z (0x101BB130), the game 0x0E389B62",
   "conv": "__thiscall",
-  "size": 384
+  "size": 384,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x101BB430": {
   "verdict": "DIFFERS",
@@ -16976,7 +17802,12 @@
   "verdict": "DIFFERS",
   "why": "+93: REL32 targets ?FUN_101BB430@@YGXH@Z (0x101BB430), the game 0x0D699F31",
   "conv": "__thiscall",
-  "size": 208
+  "size": 208,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "ret8_ge0"
+  ]
  },
  "0x101BB740": {
   "verdict": "DIFFERS",
@@ -17009,7 +17840,12 @@
   "verdict": "DIFFERS",
   "why": "+10: 0x25 here, 0xC3 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101BBE60": {
   "verdict": "NO_COMPILE",
@@ -17030,19 +17866,30 @@
   "verdict": "DIFFERS",
   "why": "+9: REL32 targets ?f@FUNt_101BB070@@QAEHH@Z (0x101BB070), the game 0x54E1C8FE",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101BC720": {
   "verdict": "DIFFERS",
   "why": "+11: REL32 targets ?FUN_101907D0@@YA_KPAX@Z (0x101907D0), the game 0xD49FC72C",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101BC7B0": {
   "verdict": "DIFFERS",
   "why": "+13: 0x89 here, 0x8B in the game",
   "conv": "__thiscall",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101BC900": {
   "verdict": "NO_COMPILE",
@@ -17656,7 +18503,10 @@
   "verdict": "DIFFERS",
   "why": "+30: 0x83 here, 0x33 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101C5BE0": {
   "verdict": "NO_COMPILE",
@@ -17748,7 +18598,12 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C8C50": {
   "verdict": "DIFFERS",
@@ -17895,13 +18750,19 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x8B here, 0xF6 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101CC350": {
   "verdict": "DIFFERS",
   "why": "+8: 0x5A here, 0x3C in the game",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101CC510": {
   "verdict": "DIFFERS",
@@ -17977,7 +18838,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x54 in the game",
   "conv": "__stdcall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101CFE20": {
   "verdict": "DIFFERS",
@@ -18127,7 +18991,10 @@
   "verdict": "DIFFERS",
   "why": "+49: REL32 targets ?f@FUNt_101C49A0@@QAEIIIIH@Z (0x101C49A0), the game 0x0F55BBDD",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101D1100": {
   "verdict": "DIFFERS",
@@ -18139,7 +19006,10 @@
   "verdict": "DIFFERS",
   "why": "+49: REL32 targets ?f@FUNt_101C4950@@QAEIIIIH@Z (0x101C4950), the game 0x0F54AC9D",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x101D11C0": {
   "verdict": "NO_COMPILE",
@@ -18150,7 +19020,10 @@
   "verdict": "DIFFERS",
   "why": "+26: 0x05 here, 0x03 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101D2F00": {
   "verdict": "LEFT_OUT",
@@ -18426,7 +19299,12 @@
   "verdict": "DIFFERS",
   "why": "+78: REL32 targets _FUN_101F7570 (0x101F7570), the game 0x05240242",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101F75C0": {
   "verdict": "DIFFERS",
@@ -18532,7 +19410,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10202380": {
   "verdict": "IDENTICAL",
@@ -18562,7 +19443,10 @@
   "verdict": "DIFFERS",
   "why": "+156: REL32 targets ?f@FUNt_1015E830@@QAE_KH@Z (0x1015E830), the game 0x4C10BA1F",
   "conv": "__cdecl",
-  "size": 384
+  "size": 384,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10202F00": {
   "verdict": "LEFT_OUT",
@@ -18573,7 +19457,12 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__stdcall",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102034A0": {
   "verdict": "IDENTICAL",
@@ -18597,7 +19486,12 @@
   "verdict": "DIFFERS",
   "why": "+7: 0x13 here, 0x12 in the game",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10203540": {
   "verdict": "DIFFERS",
@@ -18747,7 +19641,12 @@
   "verdict": "DIFFERS",
   "why": "+0: 0xB8 here, 0xB0 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021BDB0": {
   "verdict": "NO_COMPILE",
@@ -18758,7 +19657,10 @@
   "verdict": "DIFFERS",
   "why": "+64: REL32 targets ?f@FUNt_101B9880@@QAEXHPADPAEHHHH@Z (0x101B9880), the game 0x5CAEC00E",
   "conv": "__thiscall",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021C010": {
   "verdict": "IDENTICAL",
@@ -18770,37 +19672,61 @@
   "verdict": "DIFFERS",
   "why": "+119: REL32 targets ?f@FUNt_1021BE50@@QAEIHPAX@Z (0x1021BE50), the game 0x6077CA5F",
   "conv": "__thiscall",
-  "size": 160
+  "size": 160,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021C160": {
   "verdict": "DIFFERS",
   "why": "+76: 0x24 here, 0xB0 in the game",
   "conv": "__thiscall",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021C1B0": {
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021C210": {
   "verdict": "DIFFERS",
   "why": "+56: REL32 targets ?f@FUNt_1015BC40@@QAEHI@Z (0x1015BC40), the game 0x0A14AA5C",
   "conv": "__thiscall",
-  "size": 240
+  "size": 240,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021C2E0": {
   "verdict": "DIFFERS",
   "why": "+37: REL32 targets ?f@FUNt_1021D270@@QAEIXZ (0x1021D270), the game 0x103129F1",
   "conv": "__thiscall",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021C350": {
   "verdict": "DIFFERS",
   "why": "+35: 0x24 here, 0x5F in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021C380": {
   "verdict": "NO_COMPILE",
@@ -18816,7 +19742,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x53 here, 0xA1 in the game",
   "conv": "__thiscall",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021C680": {
   "verdict": "NO_COMPILE",
@@ -18844,13 +19773,21 @@
   "verdict": "DIFFERS",
   "why": "+72: REL32 targets ?f@FUNt_1015BC40@@QAEHI@Z (0x1015BC40), the game 0xD0543223",
   "conv": "__thiscall",
-  "size": 192
+  "size": 192,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021D380": {
   "verdict": "DIFFERS",
   "why": "+35: 0x24 here, 0xB0 in the game",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021D3D0": {
   "verdict": "LEFT_OUT",
@@ -18895,7 +19832,12 @@
   "verdict": "DIFFERS",
   "why": "+20: 0x33 here, 0x32 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021DD20": {
   "verdict": "LEFT_OUT",
@@ -18960,7 +19902,10 @@
   "verdict": "DIFFERS",
   "why": "+35: REL32 targets _FUN_1025B5A0 (0x1025B5A0), the game 0x14E667A7",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1021E4D0": {
   "verdict": "DIFFERS",
@@ -18984,7 +19929,10 @@
   "verdict": "DIFFERS",
   "why": "+0: 0x8B here, 0x66 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1021E690": {
   "verdict": "DIFFERS",
@@ -19156,7 +20104,10 @@
   "verdict": "DIFFERS",
   "why": "+58: REL32 targets ?f@FUNt_10221680@@QAEIXZ (0x10221680), the game 0xA0B2A27E",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102214D0": {
   "verdict": "LEFT_OUT",
@@ -19167,7 +20118,10 @@
   "verdict": "DIFFERS",
   "why": "+13: 0x03 here, 0x04 in the game",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x102217A0": {
   "verdict": "IDENTICAL",
@@ -19213,7 +20167,10 @@
   "verdict": "DIFFERS",
   "why": "+315: REL32 targets ?f@FUNt_10225120@@QAEHIHI@Z (0x10225120), the game 0x5F0A3E35",
   "conv": "__cdecl",
-  "size": 352
+  "size": 352,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10222DF0": {
   "verdict": "DIFFERS",
@@ -19254,7 +20211,10 @@
   "verdict": "DIFFERS",
   "why": "+18: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0xD4A54A3C",
   "conv": "__thiscall",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10223BB0": {
   "verdict": "IDENTICAL",
@@ -19283,13 +20243,19 @@
   "verdict": "DIFFERS",
   "why": "+62: REL32 targets ?f@FUNt_10225090@@QAEHI@Z (0x10225090), the game 0x0EA441ED",
   "conv": "__thiscall",
-  "size": 288
+  "size": 288,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10225220": {
   "verdict": "DIFFERS",
   "why": "+75: REL32 targets ?f@FUNt_10225090@@QAEHI@Z (0x10225090), the game 0x0EA442FA",
   "conv": "__thiscall",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102254D0": {
   "verdict": "DIFFERS",
@@ -19319,7 +20285,10 @@
   "verdict": "DIFFERS",
   "why": "+14: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0x76502E2F",
   "conv": "__thiscall",
-  "size": 224
+  "size": 224,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10226540": {
   "verdict": "DIFFERS",
@@ -19355,7 +20324,10 @@
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets ?f@FUNt_101C59B0@@QAEXH@Z (0x101C59B0), the game 0xF85CDCE4",
   "conv": "__thiscall",
-  "size": 240
+  "size": 240,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10227750": {
   "verdict": "DIFFERS",
@@ -19442,7 +20414,10 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1022B3B0": {
   "verdict": "IDENTICAL",
@@ -19482,7 +20457,10 @@
   "verdict": "DIFFERS",
   "why": "+18: REL32 targets ?FUN_1025B560@@YAIH@Z (0x1025B560), the game 0xD4A5CEAC",
   "conv": "__thiscall",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1022BF00": {
   "verdict": "NO_COMPILE",
@@ -19535,7 +20513,10 @@
   "verdict": "DIFFERS",
   "why": "+58: REL32 targets ?FUN_10311BBB@@YA_KI@Z (0x10311BBB), the game 0x9B22FD4A",
   "conv": "__thiscall",
-  "size": 576
+  "size": 576,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1022F240": {
   "verdict": "DIFFERS",
@@ -19592,7 +20573,10 @@
   "verdict": "DIFFERS",
   "why": "+70: REL32 targets __ftol (0x10311C2C), the game 0x49E4D54C",
   "conv": "__thiscall",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10234A70": {
   "verdict": "DIFFERS",
@@ -19748,7 +20732,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x44 here, 0x15 in the game",
   "conv": "__stdcall",
-  "size": 560
+  "size": 560,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102462F0": {
   "verdict": "DIFFERS",
@@ -19835,7 +20822,10 @@
   "verdict": "DIFFERS",
   "why": "+154: REL32 targets _FUN_10253210 (0x10253210), the game 0x9324D3BC",
   "conv": "__cdecl",
-  "size": 336
+  "size": 336,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1024D400": {
   "verdict": "IDENTICAL",
@@ -20035,7 +21025,10 @@
   "verdict": "DIFFERS",
   "why": "+135: REL32 targets ?FUN_102701B0@@YAXIHPAIHH@Z (0x102701B0), the game 0x9B27EC5C",
   "conv": "__cdecl",
-  "size": 240
+  "size": 240,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10250C00": {
   "verdict": "IDENTICAL",
@@ -20074,13 +21067,19 @@
   "verdict": "DIFFERS",
   "why": "+26: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x952508D6",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102511B0": {
   "verdict": "DIFFERS",
   "why": "+24: REL32 targets ?FUN_1026F4F0@@YAIPAH0@Z (0x1026F4F0), the game 0x56B011CD",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10251200": {
   "verdict": "LEFT_OUT",
@@ -20143,25 +21142,43 @@
   "verdict": "DIFFERS",
   "why": "+42: REL32 targets ?FUN_1024D180@@YAIPAIHI@Z (0x1024D180), the game 0x94251698",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10251720": {
   "verdict": "DIFFERS",
   "why": "+32: REL32 targets ?FUN_102507C0@@YAIPAIH@Z (0x102507C0), the game 0x94251734",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10251750": {
   "verdict": "DIFFERS",
   "why": "+32: REL32 targets ?FUN_10250800@@YAIPAEH@Z (0x10250800), the game 0x94251764",
   "conv": "__thiscall",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10251890": {
   "verdict": "DIFFERS",
   "why": "+41: REL32 targets ?FUN_10250B10@@YAIPAIHI@Z (0x10250B10), the game 0x610D2923",
   "conv": "__thiscall",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10251920": {
   "verdict": "IDENTICAL",
@@ -20184,7 +21201,10 @@
   "verdict": "DIFFERS",
   "why": "+30: 0x89 here, 0xA1 in the game",
   "conv": "__cdecl",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x102524B0": {
   "verdict": "IDENTICAL",
@@ -20212,13 +21232,21 @@
   "verdict": "DIFFERS",
   "why": "+48: REL32 targets _FUN_102703C0 (0x102703C0), the game 0x93252C0D",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10252A40": {
   "verdict": "DIFFERS",
   "why": "+27: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x2FF51260",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10252AC0": {
   "verdict": "NO_COMPILE",
@@ -20258,7 +21286,10 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x83 here, 0x57 in the game",
   "conv": "__cdecl",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10252F00": {
   "verdict": "LEFT_OUT",
@@ -20269,7 +21300,10 @@
   "verdict": "DIFFERS",
   "why": "+35: REL32 targets ?f@FUNt_101C4A30@@QAEII@Z (0x101C4A30), the game 0x073DDA6F",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102531B0": {
   "verdict": "DIFFERS",
@@ -20304,7 +21338,10 @@
   "verdict": "DIFFERS",
   "why": "+58: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x08B033A9",
   "conv": "__stdcall",
-  "size": 336
+  "size": 336,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x102534B0": {
   "verdict": "DIFFERS",
@@ -20380,7 +21417,10 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x102575D0": {
   "verdict": "IDENTICAL",
@@ -20474,7 +21514,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x49 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10257B60": {
   "verdict": "DIFFERS",
@@ -20784,7 +21829,10 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1025B5E0": {
   "verdict": "DIFFERS",
@@ -21080,7 +22128,10 @@
   "verdict": "DIFFERS",
   "why": "+67: REL32 targets _FUN_1027DB80 (0x1027DB80), the game 0x5F26E947",
   "conv": "__cdecl",
-  "size": 272
+  "size": 272,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1026EBF0": {
   "verdict": "NO_COMPILE",
@@ -21428,7 +22479,12 @@
   "verdict": "DIFFERS",
   "why": "+4: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102738A0": {
   "verdict": "IDENTICAL",
@@ -21452,7 +22508,12 @@
   "verdict": "DIFFERS",
   "why": "+30: REL32 targets _FUN_10274370 (0x10274370), the game 0x93273D87",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10273E80": {
   "verdict": "DIFFERS",
@@ -21604,7 +22665,10 @@
   "verdict": "DIFFERS",
   "why": "+55: REL32 targets _FUN_10285890 (0x10285890), the game 0x7837B5C2",
   "conv": "__cdecl",
-  "size": 96
+  "size": 96,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10277AB0": {
   "verdict": "LEFT_OUT",
@@ -21615,7 +22679,10 @@
   "verdict": "DIFFERS",
   "why": "+10: REL32 targets _FUN_1027A250 (0x1027A250), the game 0x9B277BA4",
   "conv": "__cdecl",
-  "size": 1184
+  "size": 1184,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10278490": {
   "verdict": "DIFFERS",
@@ -21751,7 +22818,10 @@
   "verdict": "DIFFERS",
   "why": "+60: REL32 targets _FUN_10285740 (0x10285740), the game 0x1027A290",
   "conv": "__cdecl",
-  "size": 176
+  "size": 176,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1027A6F0": {
   "verdict": "IDENTICAL",
@@ -21854,7 +22924,10 @@
   "verdict": "DIFFERS",
   "why": "+25: REL32 targets _FUN_10291C50 (0x10291C50), the game 0xD12BAA9E",
   "conv": "__cdecl",
-  "size": 256
+  "size": 256,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1027C900": {
   "verdict": "IDENTICAL",
@@ -21866,7 +22939,12 @@
   "verdict": "DIFFERS",
   "why": "+52: REL32 targets _FUN_10285890 (0x10285890), the game 0x9B27CA46",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1027C9D0": {
   "verdict": "DIFFERS",
@@ -22426,7 +23504,12 @@
   "verdict": "DIFFERS",
   "why": "+1: 0x4C here, 0x44 in the game",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102857F0": {
   "verdict": "DIFFERS",
@@ -22551,7 +23634,12 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x83 here, 0x85 in the game",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10289F10": {
   "verdict": "IDENTICAL",
@@ -22661,7 +23749,10 @@
   "verdict": "DIFFERS",
   "why": "+23: REL32 targets _FUN_10281A70 (0x10281A70), the game 0x9C2EA8CF",
   "conv": "__cdecl",
-  "size": 432
+  "size": 432,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1028E350": {
   "verdict": "IDENTICAL",
@@ -22775,7 +23866,10 @@
   "verdict": "DIFFERS",
   "why": "+138: REL32 targets _FUN_10283260 (0x10283260), the game 0x4B19DFBE",
   "conv": "__cdecl",
-  "size": 480
+  "size": 480,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x1028F8C0": {
   "verdict": "NO_COMPILE",
@@ -22816,7 +23910,10 @@
   "verdict": "DIFFERS",
   "why": "+95: REL32 targets ?FUN_1028DBB0@@YAXPAM0@Z (0x1028DBB0), the game 0xE734ECF3",
   "conv": "__cdecl",
-  "size": 592
+  "size": 592,
+  "rules_tried": [
+   "ge0"
+  ]
  },
  "0x10290610": {
   "verdict": "DIFFERS",
@@ -23213,7 +24310,12 @@
   "verdict": "DIFFERS",
   "why": "+64: 0x33 here, 0x32 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1029A380": {
   "verdict": "DIFFERS",
@@ -23225,7 +24327,12 @@
   "verdict": "DIFFERS",
   "why": "+7: 0x23 here, 0x22 in the game",
   "conv": "__cdecl",
-  "size": 48
+  "size": 48,
+  "rules_tried": [
+   "ge0"
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1029A450": {
   "verdict": "NO_COMPILE",

@@ -30,8 +30,12 @@ rules of CLAUDE.md hold throughout: every fact names a definitive source, and an
 - **The renderer track runs in parallel, not after phase 2.**
   - kit/d3d8on11 is already our own Direct3D 8 device on D3D11: milestone 1 (everything but drawing), milestone 2
     (fixed-function drawing, 20 scenes within 1 of 255 against Wine's d3d8) and the command ring (D3D11.md phase 2).
+  - It already runs the game: in the plaza in `thread` mode, 29.07 ms a frame with its executor filter against
+    34.54 ms without, in one run (HISTORY.md, 17 Oct, the owner's perf60 runs). In the house, `thread` and `remote`
+    held the game's 17 ms limiter floor, `direct` ran at 33–35 ms (HISTORY.md, 17 Oct, the run ledger).
   - It works under the game's unreconstructed code, so it does not wait for the source.
-  - What it waits on is the owner's in-game runs.
+  - What is open: its pictures differ from dgVoodoo's in 8,689 pixels of one capture, mostly UI text
+    (REEVALUATION.md section 8), and no run has compared it with dgVoodoo within one session.
   - DXVK (D3D8 from 2.4) and d3d8to9 are references for D3D8 behaviour, and a second opinion in picture comparison.
     They are not a replacement: the port's gains (draw merging, asynchronous occlusion, GPU skinning) need knowledge
     of the game's draws, which a generic wrapper lacks (D3D11.md section 4, "What this says about the designs").
@@ -54,7 +58,8 @@ rules of CLAUDE.md hold throughout: every fact names a definitive source, and an
 | Byte-identical (sweep of the tree as written) | 1,433 of 4,121 (1,529 DIFFERS, 582 NO_COMPILE, 577 LEFT_OUT) | verification/vc6_sweep.json |
 | Hand-matched | 14 functions | recompile/small_math.cpp |
 | D3D8 surface | 57 functions with proven device calls (34 in the tree), 370 proven call sites | data/ facts, kit facts=1 |
-| D3D11 device | d3d8on11 milestones 1–2 and the ring, Wine-tested; not run in the game | kit/d3d8on11/README.md |
+| D3D11 device | d3d8on11 milestones 1–2 and the ring, Wine-tested; runs the game (plaza, house) | kit/d3d8on11/README.md, HISTORY.md 17 Oct |
+| In-game tests | T2 done (readbacks cost about 10.5 ms a frame, runs 8980/8452); T1 done (the smaller size was about 3 ms faster); T3 (`null_draws`) not run | HISTORY.md 18 Oct |
 | Objects whose compiler is not reproduced | 189 (stamp 10/11 build 9782) | docs/RECOMPILE.md |
 
 ## The steps, in 5%
@@ -87,7 +92,7 @@ Each step has a "done when". A step is done only when its check passes and the r
 | % | Step | Done when |
 |---|---|---|
 | 60 | D3D8 boundary in source | Every device call in the render core goes through one backend interface; the D3D8 backend reproduces the original frames in picture comparison |
-| 65 | d3d8on11 in game | The plaza draws as dgVoodoo does within the comparison's tolerance, and its frame time is A/B'd against dgVoodoo (D3D11.md phase 1 "done") |
+| 65 | d3d8on11 in game | The plaza draws as dgVoodoo does within the comparison's tolerance (the 8,689-pixel UI text difference found and fixed), and its frame time is compared with dgVoodoo's on the same scene (D3D11.md phase 1 "done") |
 | 70 | Full frame on D3D11 | Every MEASURE scene renders; every difference is declared and reviewed; the ring's game-thread time is measured (phase 2 "done") |
 | 75 | Game-aware D3D11 | Merged character draws, asynchronous occlusion queries and batched text run as gated forks, each A/B'd (phase 3) |
 
@@ -106,6 +111,29 @@ Each step has a "done when". A step is done only when its check passes and the r
 | 95 | Speedfix on the source | Every speedfix lever is a source-level option; a regression suite of dumps, captures and pictures |
 | 100 | Final devkit | Stable mod API, docs, examples, packaging; a path to carry the manifests to a new FFXiMain build |
 
+## Speeding it up (25 Oct)
+
+Most of the time goes to work done one piece at a time, or redone when nothing changed, on one 4-core container
+(`nproc`). In the order they are taken:
+
+1. **Fact regeneration reruns only what changed.** `regen_facts.py` ran all 38 tools on every pass, including
+   the final pass that only confirms no change. The change: each tool's data/ reads are recorded by an audit hook during a
+   run (measured, not declared); a pass reruns a tool only if a file it read changed, and runs tools with no
+   dependency between them concurrently. The check: the same data as a full serial run.
+2. **The sweep compiles in parallel and caches.** The change: chunks run on every core. Verdicts are cached by the hash of
+   the converted source, the flags and the compiler files. The check: the same verdicts as a serial run.
+3. **Matching rules become bulk rewrites.** The DIFFERS are grouped by their first difference. Each proven rule
+   becomes a mechanical rewrite in the sweep, kept only where match.py says IDENTICAL. A source-variant search
+   (decomp-permuter or similar) is tested on VC6 before use.
+4. **Work follows the status file.** The render path is matched and typed first (steps 20–25), ahead of
+   finishing the whole frame set.
+5. **The owner's runs are batched.** One session kit covers every pending in-game run (facts=1 Block C, T3,
+   d3d8on11 against dgVoodoo, captures for the hot functions), with one script that collects the results.
+6. **Fewer stalls of my own.** Tool development happens in a separate worktree, so long runs are never edited
+   underneath, and long runs log their progress.
+7. **More machines.** Matching, naming, typing and gate batches go to worker sessions (docs/WORKERS.md) when the
+   owner says how many.
+
 ## Who does what
 
 - **This session** integrates: analysis tools, data/ facts, tree regeneration, gating, promotion, verify_all and
@@ -116,7 +144,7 @@ Each step has a "done when". A step is done only when its check passes and the r
   - d3d8on11 work in kit/d3d8on11.
 - **The owner** runs everything in game:
   - recordings with facts=1 (MEASURE.md Block C);
-  - T1–T3;
+  - T3 (T1 and T2 are done);
   - d3d8on11 runs and A/Bs;
   - coordination with the teammate.
 

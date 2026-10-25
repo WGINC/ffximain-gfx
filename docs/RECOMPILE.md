@@ -59,9 +59,48 @@ byte for byte and each call by its target:
 | LEFT_OUT | 577 (132 XI_ANY in the body, 86 type the shim lacks, 62 variadic with XI_ANY in C++, 40 thiscall without self_ first) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
-instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different
-register in the first `mov`, `cmp` operands swapped), which source order decides: those are for matching by hand.
+instructions. Where the DIFFERS differ is below (`differs.py`).
 Of the tree's 4,280 functions, 1433 (33%) compile to the game's bytes as they are. A method that uses its class's fields compiles against a struct of those fields (from tree/include, its methods and `static_assert`s left out); a global of a type the header lacks gets a forward declaration (a pointer) or a one-int placeholder (by value: reading its fields fails to compile, using its size gives other bytes); a variadic call (`sqDebugPrintf`) is a caller-cleanup `...` call as the game's. The tree's helpers: `xi_frame` locals with their alignment attribute dropped (compiled as C++, for the references); `XI_CODE(name)` the function's address as a number; `XI_PIECE` a sized piece through a cast; `XI_CALL_ST0(0x10311C2C)(x)` the cast `(__int64)x`, because 0x10311C2C is LIBC.LIB's `__ftol` byte for byte (the 39 bytes, compared at every sweep's start; its relocation is then compared against that address). Not converted: the 159 functions whose signatures use register conventions (`__attribute__((regparm))`, which VC6 cannot declare) and bodies that still use `XI_ANY`.
+
+## Where the DIFFERS differ, and the first rewrite rules (25 Oct)
+
+`pipeline/vc6/differs.py SWEEP.json KEEP_DIR OUT.json` disassembles both sides of each DIFFERS function (ours from the
+object, the game's over its extent) and puts it in one class, from the bytes alone:
+
+| class | functions | what the two instruction streams share |
+|---|---|---|
+| OPERANDS | 126 | the same mnemonics in the same order; registers, displacements or immediates differ |
+| ORDER | 14 | the same instructions (targets and relocated operands blanked), in another order |
+| MNEMONICS | 38 | the same mnemonics in another order, operands differing too |
+| SHAPE | 1,323 | different instructions |
+| UNREAD | 28 | the extent is in pieces, or no object |
+
+The frame (`push ebp; mov ebp, esp`) differs in 3. Among SHAPE, ours most often has an `or`/`and` the game lacks
+(318 / 262 functions), and the game a `test` where ours has a `cmp`. The smallest of each, read side by side:
+- **A register piece.** Ghidra writes what a `setne al` or `mov ax, ...` leaves in EAX as
+  `(HIGH << 8) | (uint8_t)(LOW)`, HIGH being what the register held. Compiled as written, that rebuilds EAX
+  (`and`, `xor cl, cl`, `or`). The game only sets the low piece: 0x1000D660 is `mov eax, [ecx+0x18]; test eax, eax;
+  setne al; ret`.
+- **A comparison turned round.** Ghidra writes `x >= 0` as `-1 < x`. VC6 compiles that to `cmp eax, -1; setg`, and
+  the game has `test eax, eax; setge` (0x1019FA90).
+
+So the sweep has rewrite rules (`--rules`). Each is a mechanical change of how the code is written, not of what it
+computes, tried on each DIFFERS function. A result is recorded (`rule_identical` in the sweep's output) only where
+match.py's comparison says IDENTICAL; the verdict of the tree's code as written is left as it is.
+- `ret8` / `ret16`: every `return (HIGH << 8|16) | (uintN_t)(LOW);` becomes `return LOW;`, and the function
+  returns `unsigned char` / `unsigned short`. What the game's bytes then show is that a source returning only that
+  piece compiles to them; the register's upper part is whatever the compiler left there, as in the game.
+- `ge0`: `-1 < X` becomes `X >= 0`.
+
+| rule | DIFFERS it applies to | IDENTICAL with it |
+|---|---|---|
+| ret8 | 197 | 69 |
+| ret16 | 21 | 14 |
+| ge0 | 87 | 18 |
+| ret8 with ge0, ret16 with ge0 | 10 | 0 |
+
+That makes 101 more functions proven at the game's bytes: 1,534 of 4,121 swept. The rest of the classes are
+next: each rule is found the same way, from the smallest function of a class, and kept only by the comparison.
 
 ## First results (25 Oct)
 

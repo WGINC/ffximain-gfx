@@ -1,0 +1,8 @@
+{
+ "0x1027AFB0": {
+  "name": "SqQuat_Invert",
+  "confidence": "high",
+  "evidence": "its warning is \"QfInvert: can't invert the singu...\" (sqQuat.c line 0x222); scales the conjugate (-x, -y, -z, w) by 1/sqrt(x²+y²+z²+w²); a zero quaternion becomes the identity and it returns 0, else 0xFF",
+  "summary": "Inverts a quaternion (the identity for a zero one)."
+ }
+}

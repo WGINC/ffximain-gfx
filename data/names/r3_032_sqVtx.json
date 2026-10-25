@@ -1,0 +1,8 @@
+{
+ "0x102A9980": {
+  "name": "SqVtx_AllocateField",
+  "confidence": "high",
+  "evidence": "its error is \"sqVtxAllocateField: slot %d is a...\" (0x103BE8E8, sqVtx.c line 0x15A); stores the element size arg3 at +0x18+slot*4 and allocates count (+0x14) * size dwords (SqMem_AllocZeroed) at +0x54+slot*4",
+  "summary": "Allocates one field (slot) of a vertex buffer."
+ }
+}

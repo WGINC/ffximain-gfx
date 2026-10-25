@@ -1,7 +1,7 @@
 {
  "0x10001520": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10001B50": {
@@ -36,7 +36,7 @@
  },
  "0x10002040": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10002130": {
@@ -51,28 +51,28 @@
   "size": 32
  },
  "0x10002C00": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10002C30": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10002C80": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10002CD0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10002D20": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10002E60": {
@@ -98,13 +98,13 @@
   "conv": "__cdecl"
  },
  "0x10002F20": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10003040": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x100031F0": {
@@ -114,7 +114,7 @@
  },
  "0x100033C0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x100034B0": {
@@ -146,17 +146,17 @@
  },
  "0x10003890": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10003B60": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10003D70": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__stdcall"
  },
  "0x10005600": {
@@ -191,7 +191,7 @@
  },
  "0x10007EF0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10008830": {
@@ -207,24 +207,27 @@
   "size": 208
  },
  "0x10008E10": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10008EA0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 48
  },
  "0x10008F00": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__stdcall",
+  "size": 48
  },
  "0x10008F80": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
  },
  "0x10009100": {
   "verdict": "IDENTICAL",
@@ -234,23 +237,25 @@
  },
  "0x100091B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10009620": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x10009640": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 48
  },
  "0x10009670": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100096B0": {
   "verdict": "NO_COMPILE",
@@ -264,7 +269,7 @@
  },
  "0x10009720": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
   "conv": "__cdecl"
  },
  "0x10009730": {
@@ -288,14 +293,15 @@
   "conv": null
  },
  "0x10009DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x10009E00": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x10009E20": {
   "verdict": "IDENTICAL",
@@ -305,7 +311,7 @@
  },
  "0x10009F20": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000A1D0": {
@@ -327,17 +333,17 @@
  },
  "0x1000A3B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000A5A0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000A6E0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x1000A800": {
@@ -385,8 +391,8 @@
   "conv": null
  },
  "0x1000BDB0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x1000BF30": {
@@ -396,22 +402,23 @@
  },
  "0x1000C0B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000C6E0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000C7C0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 144
  },
  "0x1000C850": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000C900": {
@@ -421,22 +428,22 @@
  },
  "0x1000CB20": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000CC00": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000CD00": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000CF20": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1000CF90": {
@@ -533,7 +540,7 @@
  },
  "0x10010D20": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10011920": {
@@ -562,17 +569,17 @@
  },
  "0x10011A00": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10012F40": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x100132B0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10013AC0": {
@@ -583,23 +590,24 @@
  },
  "0x10013DF0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10013F10": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10014030": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10014120": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+67: 0xF6 here, 0x84 in the game",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10014170": {
   "verdict": "LEFT_OUT",
@@ -608,7 +616,7 @@
  },
  "0x100141C0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10014220": {
@@ -896,7 +904,7 @@
  },
  "0x100161B0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10016300": {
@@ -906,7 +914,7 @@
  },
  "0x10016320": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x100163C0": {
@@ -964,12 +972,12 @@
  },
  "0x10017230": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10017310": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10017630": {
@@ -997,13 +1005,13 @@
   "size": 32
  },
  "0x100177A0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x10017810": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10017BB0": {
@@ -1018,7 +1026,7 @@
  },
  "0x10017C60": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10017D20": {
@@ -1092,12 +1100,12 @@
  },
  "0x100186C0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x100187D0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10018840": {
@@ -1155,9 +1163,10 @@
   "conv": "__thiscall"
  },
  "0x10019A30": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10019A40": {
   "verdict": "IDENTICAL",
@@ -1219,17 +1228,17 @@
  },
  "0x1001D0A0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x1001D240": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1001D350": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1001D390": {
@@ -1240,28 +1249,30 @@
  },
  "0x1001D3B0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x1001DC20": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x1001DC70": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1001DD00": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x1001E050": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x1001E060": {
   "verdict": "IDENTICAL",
@@ -1323,7 +1334,7 @@
  },
  "0x10022120": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsB_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x10022170": {
@@ -1351,8 +1362,8 @@
   "size": 64
  },
  "0x10022FA0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10025010": {
@@ -1362,13 +1373,14 @@
   "size": 32
  },
  "0x10025030": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets _FUN_10072FB0@4 (0x10072FB0), the game 0x24269CC7",
+  "conv": null,
+  "size": 48
  },
  "0x10025060": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x10025090": {
@@ -1390,13 +1402,14 @@
   "size": 96
  },
  "0x100251A0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets _FUN_10072FB0@4 (0x10072FB0), the game 0x0DEAA1C0",
+  "conv": null,
+  "size": 80
  },
  "0x10025260": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x100252D0": {
@@ -1406,17 +1419,17 @@
  },
  "0x10025330": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x100255C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10025870": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10025BD0": {
@@ -1438,37 +1451,37 @@
  },
  "0x10025C40": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__stdcall"
  },
  "0x10025F70": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x100263F0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x100266C0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__stdcall"
  },
  "0x10026990": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10026AD0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10026C70": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10026E00": {
@@ -1574,27 +1587,27 @@
  },
  "0x100276F0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x100277E0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10027870": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x100278E0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10027930": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10027990": {
@@ -1753,8 +1766,8 @@
   "size": 48
  },
  "0x100295A0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10029880": {
@@ -1776,8 +1789,8 @@
   "size": 16
  },
  "0x10029A50": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10029BB0": {
@@ -1861,7 +1874,7 @@
  },
  "0x1002A3B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1002A750": {
@@ -1919,7 +1932,7 @@
  },
  "0x1002B6E0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1002C270": {
@@ -1942,7 +1955,7 @@
  },
  "0x1002C360": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1002C3E0": {
@@ -2007,22 +2020,23 @@
  },
  "0x1002D680": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1002D700": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1002D880": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 96
  },
  "0x1002DC10": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1002F130": {
@@ -2032,13 +2046,13 @@
   "size": 48
  },
  "0x1002F160": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1002F1A0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10032A40": {
@@ -2073,17 +2087,17 @@
  },
  "0x10033710": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10033800": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10033A70": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10033DA0": {
@@ -2093,9 +2107,10 @@
   "size": 352
  },
  "0x10034170": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10034180": {
   "verdict": "IDENTICAL",
@@ -2348,12 +2363,12 @@
  },
  "0x10038520": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10038720": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10038920": {
@@ -2364,7 +2379,7 @@
  },
  "0x10038930": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x10038A20": {
@@ -2373,8 +2388,8 @@
   "conv": "__thiscall"
  },
  "0x10038A80": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10039440": {
@@ -2385,7 +2400,7 @@
  },
  "0x100394D0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x10039550": {
@@ -2423,9 +2438,10 @@
   "size": 16
  },
  "0x10039790": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
  },
  "0x10039810": {
   "verdict": "IDENTICAL",
@@ -2435,7 +2451,7 @@
  },
  "0x10039830": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x100398B0": {
@@ -2473,7 +2489,7 @@
  },
  "0x10039E50": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x1003AA40": {
@@ -2535,7 +2551,7 @@
  },
  "0x1003B210": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1003B3C0": {
@@ -2652,7 +2668,7 @@
  },
  "0x1003BE10": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1003C740": {
@@ -2674,8 +2690,8 @@
   "size": 16
  },
  "0x1003CB30": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x1003CC60": {
@@ -2770,8 +2786,8 @@
   "size": 16
  },
  "0x1003EB30": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x1003EE50": {
@@ -2823,7 +2839,7 @@
  },
  "0x1003F8A0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1003FB70": {
@@ -2899,12 +2915,12 @@
  },
  "0x10041AF0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10041F40": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x10041FE0": {
@@ -2915,7 +2931,7 @@
  },
  "0x10042020": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10042640": {
@@ -3116,7 +3132,7 @@
  },
  "0x10044970": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x10044AA0": {
@@ -3160,7 +3176,7 @@
  },
  "0x10045C50": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x100464D0": {
@@ -3235,19 +3251,20 @@
   "size": 32
  },
  "0x10047C30": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x10047CE0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x10047FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10047FD0": {
   "verdict": "IDENTICAL",
@@ -3293,7 +3310,7 @@
  },
  "0x1004A870": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x1004E210": {
@@ -3391,12 +3408,12 @@
  },
  "0x1004E630": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x1004E720": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100527B0": {
@@ -3773,9 +3790,10 @@
   "size": 16
  },
  "0x10052D70": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10052D80": {
   "verdict": "IDENTICAL",
@@ -3801,9 +3819,10 @@
   "conv": null
  },
  "0x10052DF0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 48
  },
  "0x10052E20": {
   "verdict": "DIFFERS",
@@ -3818,9 +3837,10 @@
   "size": 16
  },
  "0x10052E50": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10052E60": {
   "verdict": "IDENTICAL",
@@ -4006,7 +4026,7 @@
  },
  "0x100536C0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10053840": {
@@ -4021,8 +4041,8 @@
   "size": 48
  },
  "0x10053E00": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100542E0": {
@@ -4656,9 +4676,10 @@
   "size": 32
  },
  "0x10063C50": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10064160": {
   "verdict": "IDENTICAL",
@@ -4832,7 +4853,7 @@
  },
  "0x1006B2B0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x1006B480": {
@@ -4897,7 +4918,7 @@
  },
  "0x1006C220": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x1006C260": {
@@ -4908,7 +4929,7 @@
  },
  "0x1006C280": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1006C300": {
@@ -4923,7 +4944,7 @@
  },
  "0x1006C9B0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1006CA20": {
@@ -5021,13 +5042,13 @@
   "size": 64
  },
  "0x1006E6B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x1006E970": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x1006EF70": {
@@ -5628,7 +5649,7 @@
  },
  "0x100755A0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10075960": {
@@ -5638,7 +5659,7 @@
  },
  "0x10076030": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10076520": {
@@ -5806,8 +5827,8 @@
   "size": 16
  },
  "0x100817F0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10081A50": {
@@ -5823,9 +5844,10 @@
   "size": 48
  },
  "0x10082070": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10082080": {
   "verdict": "IDENTICAL",
@@ -5834,9 +5856,10 @@
   "size": 16
  },
  "0x10082090": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100820A0": {
   "verdict": "IDENTICAL",
@@ -5845,8 +5868,8 @@
   "size": 16
  },
  "0x100820B0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100820C0": {
@@ -5956,14 +5979,16 @@
   "size": 16
  },
  "0x100832D0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100832E0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x10083340": {
   "verdict": "IDENTICAL",
@@ -5972,14 +5997,16 @@
   "size": 32
  },
  "0x10083390": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100833A0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x10083430": {
   "verdict": "LEFT_OUT",
@@ -6664,44 +6691,52 @@
   "conv": null
  },
  "0x100A4790": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A47A0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A47B0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A47C0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A47D0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A47F0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4800": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4810": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4820": {
   "verdict": "IDENTICAL",
@@ -6710,14 +6745,16 @@
   "size": 16
  },
  "0x100A4830": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4840": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4850": {
   "verdict": "NO_COMPILE",
@@ -6725,14 +6762,16 @@
   "conv": null
  },
  "0x100A4860": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4880": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4890": {
   "verdict": "IDENTICAL",
@@ -6741,24 +6780,28 @@
   "size": 16
  },
  "0x100A48A0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x100A48C0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x100A48F0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x100A4920": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4930": {
   "verdict": "IDENTICAL",
@@ -6767,14 +6810,16 @@
   "size": 16
  },
  "0x100A4950": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4960": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4970": {
   "verdict": "NO_COMPILE",
@@ -6782,14 +6827,16 @@
   "conv": null
  },
  "0x100A4980": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4990": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A49A0": {
   "verdict": "NO_COMPILE",
@@ -6797,9 +6844,10 @@
   "conv": null
  },
  "0x100A49B0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A49C0": {
   "verdict": "NO_COMPILE",
@@ -6807,24 +6855,28 @@
   "conv": null
  },
  "0x100A49D0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A49E0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A49F0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4A00": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4A10": {
   "verdict": "NO_COMPILE",
@@ -6842,9 +6894,10 @@
   "conv": null
  },
  "0x100A4A50": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4A70": {
   "verdict": "NO_COMPILE",
@@ -6852,59 +6905,70 @@
   "conv": null
  },
  "0x100A4A90": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AA0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AB0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AC0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AD0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AE0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4AF0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4B00": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4B10": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4B20": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4B30": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16
  },
  "0x100A4B40": {
   "verdict": "NO_COMPILE",
@@ -7197,17 +7261,17 @@
  },
  "0x100C59B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100C5C00": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100C5D60": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100CB390": {
@@ -7216,13 +7280,13 @@
   "conv": "__thiscall"
  },
  "0x100CB4E0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x100CBD60": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100CD490": {
@@ -7244,22 +7308,22 @@
  },
  "0x100CE480": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x100CE9B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x100CEB00": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x100CEC90": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x100CEDF0": {
@@ -7305,13 +7369,13 @@
   "conv": null
  },
  "0x100D04C0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100D06F0": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100D0880": {
@@ -7322,17 +7386,17 @@
  },
  "0x100D08E0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100D09B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100D0A80": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "type the shim lacks",
   "conv": null
  },
  "0x100D0D40": {
@@ -7366,9 +7430,10 @@
   "size": 32
  },
  "0x100D5460": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x8A in the game",
+  "conv": null,
+  "size": 80
  },
  "0x100D6240": {
   "verdict": "DIFFERS",
@@ -7418,8 +7483,8 @@
   "size": 32
  },
  "0x100D7020": {
-  "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x100D7050": {
@@ -9496,13 +9561,14 @@
  },
  "0x1011AA40": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x1011AAC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x1011AE10": {
   "verdict": "IDENTICAL",
@@ -9553,7 +9619,7 @@
  },
  "0x1011BAE0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1011BBA0": {
@@ -9564,12 +9630,12 @@
  },
  "0x1011BBD0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1011BDC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1011BF40": {
@@ -9580,12 +9646,12 @@
  },
  "0x1011C080": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x1011C1F0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
   "conv": "__cdecl"
  },
  "0x1011C5D0": {
@@ -9595,7 +9661,7 @@
  },
  "0x1011C720": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1011C850": {
@@ -9706,23 +9772,23 @@
   "size": 48
  },
  "0x1011E800": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1011E980": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x1011EDE0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1011EF60": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1011F2D0": {
@@ -9733,7 +9799,7 @@
  },
  "0x1011F300": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
   "conv": "__thiscall"
  },
  "0x101200B0": {
@@ -9750,12 +9816,12 @@
  },
  "0x10120590": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x101207B0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10120B80": {
@@ -9992,7 +10058,7 @@
  },
  "0x10124440": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x101245C0": {
@@ -10009,7 +10075,7 @@
  },
  "0x10124640": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10124930": {
@@ -10056,7 +10122,7 @@
  },
  "0x101252F0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10125F70": {
@@ -10267,9 +10333,10 @@
   "conv": "__thiscall"
  },
  "0x10127FA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+137: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x1111A52D",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x101281F0": {
   "verdict": "DIFFERS",
@@ -11784,13 +11851,13 @@
   "size": 112
  },
  "0x101604B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10160650": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10160760": {
@@ -11882,13 +11949,14 @@
  },
  "0x10162010": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x101620B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x101620D0": {
   "verdict": "DIFFERS",
@@ -11922,7 +11990,7 @@
  },
  "0x101630E0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x10163350": {
@@ -11950,8 +12018,8 @@
   "size": 16
  },
  "0x10163400": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10163F30": {
@@ -12049,8 +12117,8 @@
   "conv": "__stdcall"
  },
  "0x1016DDF0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x1016FC40": {
@@ -12059,8 +12127,8 @@
   "conv": "__thiscall"
  },
  "0x1016FCD0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x10170F30": {
@@ -12093,8 +12161,8 @@
   "size": 176
  },
  "0x10174EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10175740": {
@@ -12122,18 +12190,18 @@
   "size": 32
  },
  "0x101771B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10177240": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101772E0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x101773B0": {
@@ -12149,8 +12217,8 @@
   "size": 16
  },
  "0x10177400": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x101779B0": {
@@ -12160,23 +12228,23 @@
   "size": 16
  },
  "0x101779C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10177B40": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10177C50": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10177CD0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": null
  },
  "0x10177D00": {
@@ -12193,12 +12261,12 @@
  },
  "0x10178070": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x101781D0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "global type the shim lacks",
   "conv": null
  },
  "0x101784E0": {
@@ -12215,7 +12283,7 @@
  },
  "0x10178B00": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10178B30": {
@@ -12229,13 +12297,13 @@
   "conv": "__thiscall"
  },
  "0x101791F0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x101792A0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10179410": {
@@ -12252,7 +12320,7 @@
  },
  "0x1017ADE0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1017B1E0": {
@@ -12311,12 +12379,12 @@
  },
  "0x10182700": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10182F10": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__stdcall"
  },
  "0x10183420": {
@@ -12327,22 +12395,22 @@
  },
  "0x10183DA0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10184C90": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10184FE0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10185CA0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": null
  },
  "0x10186DB0": {
@@ -12585,12 +12653,12 @@
  },
  "0x10188E00": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x10188FA0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x101893D0": {
@@ -12973,9 +13041,10 @@
   "conv": "__thiscall"
  },
  "0x1018E170": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x64A3E19F",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x1018E1A0": {
   "verdict": "IDENTICAL",
@@ -13682,9 +13751,10 @@
   "size": 80
  },
  "0x101A2610": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x612A5C33",
+  "conv": "__stdcall",
+  "size": 80
  },
  "0x101A2890": {
   "verdict": "DIFFERS",
@@ -13737,9 +13807,10 @@
   "size": 16
  },
  "0x101A3D60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+34: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x79028D96",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x101A3DC0": {
   "verdict": "NO_COMPILE",
@@ -14690,32 +14761,32 @@
  },
  "0x101C3D00": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3DB0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3DE0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3E10": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3E90": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3F40": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x101C3FB0": {
@@ -15079,7 +15150,7 @@
  },
  "0x101C8DA0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x101C9270": {
@@ -15089,9 +15160,10 @@
   "size": 64
  },
  "0x101C93C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+9: 0x0F here, 0x10 in the game",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x101C9550": {
   "verdict": "DIFFERS",
@@ -15273,9 +15345,10 @@
   "size": 432
  },
  "0x101D05E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x101D0600": {
   "verdict": "IDENTICAL",
@@ -15359,9 +15432,10 @@
   "conv": "__cdecl"
  },
  "0x101D0C40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for _sprintf",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x101D1000": {
   "verdict": "DIFFERS",
@@ -16055,7 +16129,7 @@
  },
  "0x1021D4C0": {
   "verdict": "LEFT_OUT",
-  "why": "uses the class layout or alignas",
+  "why": "alignas",
   "conv": "__cdecl"
  },
  "0x1021D930": {
@@ -16090,7 +16164,7 @@
  },
  "0x1021E060": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x1021E480": {
@@ -16250,7 +16324,7 @@
  },
  "0x102214D0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__thiscall"
  },
  "0x10221740": {
@@ -16301,9 +16375,10 @@
   "size": 16
  },
  "0x10222E20": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+105: REL32 targets _FUN_10223930 (0x10223930), the game 0x84E2B2CC",
+  "conv": "__cdecl",
+  "size": 544
  },
  "0x10223040": {
   "verdict": "DIFFERS",
@@ -16494,9 +16569,10 @@
   "size": 32
  },
  "0x1022B430": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+73: REL32 targets _FUN_1022BDA0 (0x1022BDA0), the game 0x1F2B293D",
+  "conv": "__cdecl",
+  "size": 288
  },
  "0x1022B7D0": {
   "verdict": "LEFT_OUT",
@@ -16648,7 +16724,7 @@
  },
  "0x102394A0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "thiscall without self_ first",
   "conv": "__thiscall"
  },
  "0x1023BF20": {
@@ -16819,8 +16895,8 @@
   "size": 48
  },
  "0x1024CF50": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1024D130": {
@@ -16905,7 +16981,7 @@
  },
  "0x1024F900": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "type the shim lacks",
   "conv": "__cdecl"
  },
  "0x1024FC10": {
@@ -16926,8 +17002,8 @@
   "size": 48
  },
  "0x102501C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10250580": {
@@ -16985,7 +17061,7 @@
  },
  "0x10250F10": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10251160": {
@@ -17036,7 +17112,7 @@
  },
  "0x10251500": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__thiscall"
  },
  "0x102515F0": {
@@ -17089,7 +17165,7 @@
  },
  "0x10251A80": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for Unit10017C10_NoOpVarargsB",
   "conv": "__thiscall"
  },
  "0x10251CE0": {
@@ -17105,13 +17181,14 @@
   "size": 48
  },
  "0x102524E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 304
  },
  "0x102528D0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10252A00": {
@@ -17227,8 +17304,8 @@
   "size": 16
  },
  "0x10253F60": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__thiscall"
  },
  "0x102572E0": {
@@ -17715,18 +17792,18 @@
   "size": 80
  },
  "0x1025D750": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1025D760": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1025D7B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1025E050": {
@@ -17880,9 +17957,10 @@
   "size": 272
  },
  "0x1026ECC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+108: REL32 targets _FUN_10285890 (0x10285890), the game 0x2062073C",
+  "conv": "__cdecl",
+  "size": 304
  },
  "0x1026EE00": {
   "verdict": "DIFFERS",
@@ -17891,9 +17969,10 @@
   "size": 80
  },
  "0x1026EF00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+99: REL32 targets _FUN_1027DCC0 (0x1027DCC0), the game 0x9326F054",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x1026F160": {
   "verdict": "IDENTICAL",
@@ -18294,14 +18373,16 @@
   "size": 48
  },
  "0x10275B60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+135: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x1475E907",
+  "conv": "__cdecl",
+  "size": 192
  },
  "0x10275CC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+41: REL32 targets _FUN_10285890 (0x10285890), the game 0x9B275DE8",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x10275D40": {
   "verdict": "DIFFERS",
@@ -18311,12 +18392,12 @@
  },
  "0x10275E90": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x102760F0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10276260": {
@@ -18332,18 +18413,20 @@
   "size": 32
  },
  "0x102778F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets _FUN_10285890 (0x10285890), the game 0x662779EA",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x10277A50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets _FUN_10285890 (0x10285890), the game 0x7837B5C2",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10277AB0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10277B70": {
@@ -18353,34 +18436,40 @@
   "size": 1184
  },
  "0x10278490": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+75: REL32 targets _FUN_10275090 (0x10275090), the game 0x9A2784AA",
+  "conv": "__cdecl",
+  "size": 640
  },
  "0x10278710": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+91: REL32 targets _FUN_10279B40 (0x10279B40), the game 0x2062C27B",
+  "conv": "__cdecl",
+  "size": 224
  },
  "0x10278990": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+80: REL32 targets _FUN_1028F2E0 (0x1028F2E0), the game 0x54B1A608",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x10278B50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+93: REL32 targets _FUN_1028F350 (0x1028F350), the game 0x9B278BB1",
+  "conv": "__cdecl",
+  "size": 160
  },
  "0x10278BF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+51: REL32 targets _FUN_1028F430 (0x1028F430), the game 0x4B0B944B",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x10278E10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets _FUN_10285890 (0x10285890), the game 0x4B63A24C",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x10279530": {
   "verdict": "DIFFERS",
@@ -18395,9 +18484,10 @@
   "size": 112
  },
  "0x10279710": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "length 288, the game function 262",
+  "conv": "__cdecl",
+  "size": 288
  },
  "0x10279830": {
   "verdict": "IDENTICAL",
@@ -18448,9 +18538,10 @@
   "size": 80
  },
  "0x10279BF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "length 288, the game function 253",
+  "conv": "__cdecl",
+  "size": 288
  },
  "0x10279D50": {
   "verdict": "IDENTICAL",
@@ -18527,9 +18618,10 @@
   "size": 48
  },
  "0x1027AFB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+132: REL32 targets _FUN_10285890 (0x10285890), the game 0x4B683CA0",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x1027B060": {
   "verdict": "IDENTICAL",
@@ -18561,14 +18653,16 @@
   "size": 256
  },
  "0x1027C900": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x1027C980": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+52: REL32 targets _FUN_10285890 (0x10285890), the game 0x9B27CA46",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x1027C9D0": {
   "verdict": "DIFFERS",
@@ -18577,9 +18671,10 @@
   "size": 16
  },
  "0x1027D650": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+74: REL32 targets _FUN_10285890 (0x10285890), the game 0x10A9C886",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x1027DAE0": {
   "verdict": "IDENTICAL",
@@ -18718,12 +18813,12 @@
  },
  "0x10281510": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for sqDebugPrintf",
   "conv": "__cdecl"
  },
  "0x102816E0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for sqDebugPrintf",
   "conv": "__cdecl"
  },
  "0x10281810": {
@@ -18734,7 +18829,7 @@
  },
  "0x10281830": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for sqDebugPrintf",
   "conv": "__cdecl"
  },
  "0x102819C0": {
@@ -18744,8 +18839,8 @@
   "size": 16
  },
  "0x102819D0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10281B60": {
@@ -18761,38 +18856,38 @@
   "size": 64
  },
  "0x10281D60": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10281DB0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282010": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282030": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102820E0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282190": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282350": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102823B0": {
@@ -18802,18 +18897,18 @@
   "size": 64
  },
  "0x102823F0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282470": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102824C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282590": {
@@ -18829,63 +18924,63 @@
   "size": 16
  },
  "0x10282640": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102826C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102827D0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282910": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282A30": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282B90": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282CB0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282ED0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10282FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283110": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283220": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283240": {
@@ -18937,8 +19032,8 @@
   "size": 48
  },
  "0x10283420": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283870": {
@@ -18960,8 +19055,8 @@
   "size": 80
  },
  "0x10283A10": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283D60": {
@@ -18995,18 +19090,18 @@
   "size": 32
  },
  "0x10283F70": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10283FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10284410": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10284890": {
@@ -19016,13 +19111,13 @@
   "size": 16
  },
  "0x10284950": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10284B20": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10284EB0": {
@@ -19032,8 +19127,8 @@
   "size": 16
  },
  "0x10284EF0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10284F20": {
@@ -19043,9 +19138,10 @@
   "size": 16
  },
  "0x10284F50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10284FD0": {
   "verdict": "DIFFERS",
@@ -19054,19 +19150,22 @@
   "size": 48
  },
  "0x102851C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+179: REL32 targets _FUN_10275D40 (0x10275D40), the game 0x64B45276",
+  "conv": "__cdecl",
+  "size": 304
  },
  "0x102852E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+143: 0x83 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 272
  },
  "0x10285740": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets _FUN_10285890 (0x10285890), the game 0xF8389299",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x102857D0": {
   "verdict": "DIFFERS",
@@ -19099,9 +19198,10 @@
   "size": 64
  },
  "0x10288B70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets _FUN_10285890 (0x10285890), the game 0x06109BD3",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10288BB0": {
   "verdict": "DIFFERS",
@@ -19128,19 +19228,22 @@
   "size": 96
  },
  "0x10288E60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets _FUN_10288660 (0x10288660), the game 0x78798E79",
+  "conv": "__cdecl",
+  "size": 384
  },
  "0x10288FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets _FUN_10288660 (0x10288660), the game 0x4E10E225",
+  "conv": "__cdecl",
+  "size": 1296
  },
  "0x102894E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+58: REL32 targets _FUN_1027C980 (0x1027C980), the game 0x0F5CF706",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x102896A0": {
   "verdict": "IDENTICAL",
@@ -19196,18 +19299,18 @@
   "size": 112
  },
  "0x1028AA70": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1028AB50": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1028AFE0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1028D6D0": {
@@ -19325,14 +19428,16 @@
   "size": 32
  },
  "0x1028F2E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+47: 0x07 here, 0x08 in the game",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x1028F350": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+47: 0x07 here, 0x08 in the game",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x1028F3C0": {
   "verdict": "IDENTICAL",
@@ -19371,8 +19476,8 @@
   "size": 480
  },
  "0x1028F8C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1028FDD0": {
@@ -19400,24 +19505,28 @@
   "size": 16
  },
  "0x10290610": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+43: REL32 targets _FUN_10275D80 (0x10275D80), the game 0x94290496",
+  "conv": "__cdecl",
+  "size": 432
  },
  "0x102907C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x10290840": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10290FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+152: REL32 targets _FUN_10284B20 (0x10284B20), the game 0x4AEBF8AC",
+  "conv": "__cdecl",
+  "size": 240
  },
  "0x102911E0": {
   "verdict": "DIFFERS",
@@ -19581,18 +19690,18 @@
   "conv": "__cdecl"
  },
  "0x10297CC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x10297EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102981E0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for sqDebugPrintf",
   "conv": "__cdecl"
  },
  "0x102984B0": {
@@ -19649,9 +19758,10 @@
   "size": 144
  },
  "0x10299840": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 16
  },
  "0x10299AB0": {
   "verdict": "DIFFERS",
@@ -19661,17 +19771,17 @@
  },
  "0x10299C30": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10299E40": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10299EE0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
+  "why": "variadic with XI_ANY in C++",
   "conv": "__cdecl"
  },
  "0x10299FE0": {
@@ -19729,9 +19839,10 @@
   "size": 144
  },
  "0x1029B3A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x1029B5C0": {
   "verdict": "IDENTICAL",
@@ -19740,13 +19851,13 @@
   "size": 96
  },
  "0x1029B620": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1029B9D0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x1029BB50": {
@@ -19774,9 +19885,10 @@
   "size": 48
  },
  "0x1029C1B0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+13: 0x0F here, 0x14 in the game",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x1029C460": {
   "verdict": "DIFFERS",
@@ -19810,12 +19922,12 @@
  },
  "0x102A21F0": {
   "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "why": "no wrapper for sqDebugPrintf",
   "conv": "__cdecl"
  },
  "0x102A2530": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
   "conv": "__cdecl"
  },
  "0x102A2A30": {
@@ -19825,9 +19937,10 @@
   "size": 32
  },
  "0x102A2A50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x102A2C00": {
   "verdict": "DIFFERS",
@@ -19860,9 +19973,10 @@
   "size": 48
  },
  "0x102A9980": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 112
  },
  "0x102A9EF0": {
   "verdict": "DIFFERS",
@@ -19901,9 +20015,10 @@
   "size": 32
  },
  "0x102AD1D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+61: REL32 targets _FUN_10285890 (0x10285890), the game 0x4C1B2225",
+  "conv": "__cdecl",
+  "size": 240
  },
  "0x102AD990": {
   "verdict": "DIFFERS",

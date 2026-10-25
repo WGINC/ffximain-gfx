@@ -54,6 +54,9 @@ MSIG = re.compile(r'^(?P<ret>[^\n/#]+?)\s+(?:(?P<cc>__cdecl|__stdcall|__thiscall
 
 ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ (?:return )?reinterpret_cast<(?P<rt>.+?) '
                   r'\((?P<cc>__\w+) \*\)\((?P<types>[^)]*)\)>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
+# a variadic wrapper: `template <class... R> XI_ORIG RET NAME(fixed..., R... rest) { ... (CC *)(...)>(XI_GAME(ADDR)) ...`
+VORIG = re.compile(r'^template <class\.\.\. R> XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*?),?\s*R\.\.\. rest\) \{ (?:return )?'
+                   r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), decltype[^>]*>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
 GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
@@ -66,8 +69,28 @@ def plain(ty):
     return all(w in BASIC for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')))
 
 
+WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef void *HMODULE;', 'CHAR': 'typedef char CHAR;',
+        'HWND': 'typedef void *HWND;', 'HANDLE': 'typedef void *HANDLE;', 'xi_codefn': 'typedef code xi_codefn;',
+        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;'}
+
+
+def type_decls(ty):
+    """the declarations a global's type needs beyond the shim: a Windows typedef, a forward declaration for a pointer
+    to a named type, a one-int placeholder for one held by value (its fields and size are not known: code reading
+    them fails to compile, code using its size compiles to other bytes, neither can match by chance)"""
+    out = []
+    for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')):
+        if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64'): continue
+        if w in WINT: out.append(WINT[w]); continue
+        if re.search(r'\b%s\s*\*' % w, ty): out.append('struct %s;' % w)
+        else: out.append('struct %s { int xi_unknown_layout; };' % w)
+    return out
+
+
 def externs():
-    o = {m.group('name'): m.groupdict() for m in ORIG.finditer(open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
+    src = open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()
+    o = {m.group('name'): m.groupdict() for m in ORIG.finditer(src)}
+    for m in VORIG.finditer(src): o[m.group('name')] = dict(m.groupdict(), variadic=True)
     g = {m.group('name'): m.groupdict() for m in GLOB.finditer(open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read())}
     return o, g
 
@@ -108,6 +131,7 @@ def rewrite_calls(body, orig, c_mode=False):
         while depth and j < len(body):
             depth += {'(': 1, ')': -1}.get(body[j], 0); j += 1
         args = split_args(body[k + m.end():j - 1])
+        if w.get('variadic') and len(args) < len(types): return None, 'variadic arity'
         sym = 'FUN_%08X' % int(w['addr'], 16)
         if w['cc'] == '__thiscall':
             if not types or len(args) != len(types): return None, 'thiscall arity'
@@ -115,7 +139,11 @@ def rewrite_calls(body, orig, c_mode=False):
             decls[sname] = 'struct %s { %s%s f(%s); };' % (sname, tp, w['rt'], ', '.join(types[1:]) or 'void')
             out += body[i:k] + '((%s *)(%s))->f(%s)' % (sname, args[0], ', '.join(args[1:]))
         else:
-            decls[sym] = '%s%s %s %s(%s);' % (tp or ('' if c_mode else 'extern "C" '), w['rt'], w['cc'], sym, ', '.join(types) or 'void')
+            if w.get('variadic'):       # a caller-cleanup variadic call: its pushes are the call site's (promoted, as the game's)
+                if tpl: return None, 'variadic with XI_ANY in C++'
+                decls[sym] = '%s%s %s %s(%s);' % ('' if c_mode else 'extern "C" ', w['rt'], w['cc'], sym, ', '.join(types + ['...']))
+            else:
+                decls[sym] = '%s%s %s %s(%s);' % (tp or ('' if c_mode else 'extern "C" '), w['rt'], w['cc'], sym, ', '.join(types) or 'void')
             out += body[i:k] + '%s(%s)' % (sym, ', '.join(args))
         i = j
     return out, list(decls.values())
@@ -141,18 +169,66 @@ def candidates(only=None, calls=False):
     return out
 
 
+_CLASSES = None
+
+
+def class_fields(cls):
+    """the field lines of tree/include's `class XI_API cls { ... };` (its methods and static_asserts left out), the
+    other class names its fields point to, or None when there is no such class or a field is of a type the shim lacks"""
+    global _CLASSES
+    if _CLASSES is None:
+        _CLASSES = {}
+        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+            for m in re.finditer(r'(?ms)^class XI_API (\w+) \{\n(.*?)^\};', open(f).read()):
+                _CLASSES[m.group(1)] = m.group(2)
+    body = _CLASSES.get(cls)
+    if body is None: return None
+    lines, ptrs = [], set()
+    for l in body.splitlines():
+        s = l.split('//')[0].strip()
+        if not s or s.endswith(':') or '(' in s: continue           # public:, a method
+        decl = re.sub(r'\[[^\]]*\]', '', s.rstrip(';')).rsplit(None, 1)[0]
+        for w in re.findall(r'[A-Za-z_]\w*', decl):
+            if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64', 'const'): continue
+            if re.search(r'\b%s\s*\*' % w, decl): ptrs.add(w); continue
+            return None
+        lines.append('  ' + s)
+    return lines, ptrs
+
+
 def convert(m, src, orig=None, glob_=None):
     """(file suffix, source) or (None, why)"""
     ret, cc, name, args = m.group('ret'), m.group('cc'), m.group('name'), m.group('args').strip()
     body = src[src.index('{'):]
     pre = []
     if 'cls' in m.groupdict():
-        if re.search(r'\bthis->', body) or 'alignas' in body: return None, 'uses the class layout or alignas'
+        if 'alignas' in body: return None, 'alignas'
+        layout = None
+        if re.search(r'\bthis->', body):
+            if cc is not None: return None, 'this-> outside a member'
+            layout = class_fields(m.group('cls'))
+            if layout is None: return None, 'class layout the shim lacks'
         # class pointers in the signature: forward declarations (their layout is not needed for a pointer)
         for c in sorted(set(re.findall(r'\b([A-Z]\w*)\s*\*', ret + ' ' + args)) - BASIC - {'LPVOID'}):
             pre.append('struct %s;' % c)
         if cc == '__thiscall' and args and re.match(r'^void\s*\*\s*self$', [x.strip() for x in args.split(',')][0]):
             args = re.sub(r'^void\s*\*\s*self\b', 'void * self_', args); body = re.sub(r'\bself\b', 'self_', body)
+        elif cc is None and layout is not None:
+            # a member that uses its class's fields: the class's fields as a struct, the method in it
+            for c in sorted(layout[1]): pre.append('struct %s;' % c)
+            cls = m.group('cls')
+            head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in pre)
+            for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_ or ())):
+                gd = glob_[g]
+                if not plain(gd['type']): return None, 'global type the shim lacks'
+                head += ('#define %s (*(%s (*)%s)%su)\n' % (g, gd['type'], gd['arr'], gd['addr']) if gd.get('arr')
+                         else '#define %s (*(%s *)%su)\n' % (g, gd['type'], gd['addr']))
+            if 'orig::' in body:
+                body, d = rewrite_calls(body, orig)
+                if body is None: return None, d
+                head += ''.join(x + '\n' for x in d)
+            return '.cpp', (head + '#pragma pack(push, 1)\nstruct %s {\n  %s %s(%s);\n%s\n};\n#pragma pack(pop)\n%s %s::%s(%s)\n%s'
+                            % (cls, ret, name, args or 'void', '\n'.join(layout[0]), ret, cls, name, args or 'void', body))
         elif cc is None:
             cc = '__thiscall'; args = 'void * self_' + (', ' + args if args else '')
             body = re.sub(r'void \* self = reinterpret_cast<void \*>\(this\);[^\n]*\n', '', body)
@@ -160,7 +236,9 @@ def convert(m, src, orig=None, glob_=None):
     if orig is not None:
         for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_)):
             gd = glob_[g]
-            if not plain(gd['type']): return None, 'global type the shim lacks'
+            d = type_decls(gd['type'])
+            if d is None: return None, 'global type the shim lacks'
+            pre += [x for x in d if x not in pre]
             if gd.get('arr'): pre.append('#define %s (*(%s (*)%s)%su)' % (g, gd['type'], gd['arr'], gd['addr']))
             else: pre.append('#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr']))
         if 'orig::' in body:

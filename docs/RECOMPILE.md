@@ -53,15 +53,15 @@ byte for byte and each call by its target:
 
 | verdict | functions |
 |---|---|
-| IDENTICAL | **1307** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
-| DIFFERS | 1288 |
-| NO_COMPILE | 346 (the converted source does not compile) |
-| LEFT_OUT | 526 (177 global type the shim lacks, 128 uses the class layout or alignas, 44 no wrapper for sqDebugPrintf_v1, 14 thiscall without self_ first) |
+| IDENTICAL | **1381** (every relocation compared: a call's target, a global's address; a function with one whose symbol names no address would be IDENTICAL_UNCOMPARED, and there are none) |
+| DIFFERS | 1329 |
+| NO_COMPILE | 448 (the converted source does not compile) |
+| LEFT_OUT | 309 (66 type the shim lacks, 40 thiscall without self_ first, 27 alignas, 19 variadic with XI_ANY in C++) |
 
 `verification/vc6_sweep.json` has every verdict. The largest identical self-contained one, 0x101200B0, is 61
 instructions. The first difference among the DIFFERS is mostly register choice or operand order (a different
 register in the first `mov`, `cmp` operands swapped), which source order decides: those are for matching by hand.
-Of the tree's 4,280 functions, 1307 (31%) compile to the game's bytes as they are. Not yet converted: methods that use their class's layout (the class headers carry `static_assert`s VC6 does not have) and the `__attribute__`/`xi_frame` forms.
+Of the tree's 4,280 functions, 1381 (32%) compile to the game's bytes as they are. A method that uses its class's fields compiles against a struct of those fields (from tree/include, its methods and `static_assert`s left out); a global of a type the header lacks gets a forward declaration (a pointer) or a one-int placeholder (by value: reading its fields fails to compile, using its size gives other bytes); a variadic call (`sqDebugPrintf`) is a caller-cleanup `...` call as the game's. Not converted: the 813 functions whose signatures use register conventions (`__attribute__((regparm))`, which VC6 cannot declare) or `xi_frame` locals.
 
 ## First results (25 Oct)
 

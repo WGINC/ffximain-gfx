@@ -1,0 +1,158 @@
+{
+ "0x100873B0": {
+  "name": "Unit10086E90_UpdateObject10578184",
+  "confidence": "low",
+  "evidence": "When DAT_10578184 is non-null it calls thunk_FUN_1011BA40 on it and, depending on fn_10087690/fn_100876B0 and bit 0, sub_1012C8C0(DAT_10578184, 1) and further sub_1012C8E0/C900 calls; a callee refers to the string \"menu    cnttime \". Called by Acter_UpdateFrame.",
+  "summary": "Per-frame update of the object at DAT_10578184, which a callee ties to the 'cnttime' menu."
+ },
+ "0x100875C0": {
+  "name": "Unit10086E90_TargetClearAndSetFlag53",
+  "confidence": "high",
+  "evidence": "Body: Target_ClearAndSetFlag53(g_pTargetMng).",
+  "summary": "Target_ClearAndSetFlag53 on the global target manager."
+ },
+ "0x10087690": {
+  "name": "Unit10086E90_GetDword10480800IfFlag",
+  "confidence": "high",
+  "evidence": "Body: returns DAT_10480800 when Unit10086E90_GetMaskedFlagByte(EAX) is non-zero, else 0.",
+  "summary": "Returns the dword at 0x10480800 when the masked flag byte is set, else 0."
+ },
+ "0x100876B0": {
+  "name": "Unit10086E90_GetByte10480824IfFlag",
+  "confidence": "high",
+  "evidence": "Body: returns the byte at 0x10480824 in AL when Unit10086E90_GetMaskedFlagByte(EAX) is non-zero, else 0 (AL only).",
+  "summary": "Returns the byte at 0x10480824 when the masked flag byte is set, else 0."
+ },
+ "0x10087760": {
+  "name": "Unit10086E90_GetTable10480828IfFlag",
+  "confidence": "high",
+  "evidence": "Body: returns the address 0x10480828 when Unit10086E90_GetMaskedFlagByte(EAX) is non-zero, else 0.",
+  "summary": "Returns the table at 0x10480828 when the masked flag byte is set, else null."
+ },
+ "0x10087830": {
+  "name": "Unit10086E90_GetByte10480825IfSet",
+  "confidence": "high",
+  "evidence": "Body: returns the byte at 0x10480825 when Unit10086E90_IsGlobalNonzero() is true, else 0.",
+  "summary": "Returns the byte at 0x10480825 when the global is non-zero, else 0."
+ },
+ "0x10087890": {
+  "name": "Unit10086E90_GetByte10480826IfFlag",
+  "confidence": "high",
+  "evidence": "Body: returns the byte at 0x10480826 when sub_10087680(EAX) is non-zero, else 0 (AL only).",
+  "summary": "Returns the byte at 0x10480826 when sub_10087680 is true, else 0."
+ },
+ "0x10087D40": {
+  "name": "Unit10086E90_ApplyPair1EC1F4",
+  "confidence": "medium",
+  "evidence": "Body: when +0x1EC and +0x1F4 are non-zero and bit 0x200 of +0x120 is set, calls vtable slot 0x29C of the object at +0xA0 with (+0x1EC, +0x1F4).",
+  "summary": "Passes the actor's two values at +0x1EC/+0x1F4 to its model object (+0xA0) through vtable slot 0x29C."
+ },
+ "0x100883E0": {
+  "name": "Unit10086E90_UpdateByKind170NotGroup38",
+  "confidence": "low",
+  "evidence": "Returns unless bit 0x200 of +0x1D0 is set and Acter_IsStateGroup38 is false; a switch on +0x170 (cases 1..4, 0x26, 0x27, ...) runs frame-scaled (Camera_GetFrameScale x4) updates through sub_10088320 and sub_10088B20..BD0, Camera_SetField30 and the globals 0x10487EDC/EE0/EF8; a callee refers to \"menu    targetwi\". Called by Acter_UpdateOne.",
+  "summary": "Frame-scaled per-actor update chosen by the kind at +0x170; what it updates is not established."
+ },
+ "0x10089100": {
+  "name": "Unit10086E90_UpdateByKind170NotGroup06",
+  "confidence": "low",
+  "evidence": "Returns unless bit 0x200 of +0x1D0 is set and Acter_IsStateGroup06 is false; a switch on +0x170 runs frame-scaled (Camera_GetFrameScale x4) updates through sub_10088380, sub_10088B20..BB0, sub_10089850, sub_10089FF0 and the globals 0x10487EE4/EE8/EF8. Called by Acter_UpdateOne.",
+  "summary": "Second frame-scaled per-actor update chosen by +0x170, the counterpart of fn_100883E0 with its own globals."
+ },
+ "0x1008B100": {
+  "name": "Unit10086E90_StartAutoRunFromZoneMap",
+  "confidence": "medium",
+  "evidence": "When bit 0x200 of +0x120 is set and DAT_10487E48 and DAT_1048098E are 0: DAT_10485F98 = sub_10181510(g_pZoneMap, self+4, model+0x34); when not -1 it calls XiControlActor_SetAutoRunning(0, it), sets DAT_10482F1E, DAT_10482F18 and DAT_1048098E to 1 and *g_pSceneState to 0x70. Called by Acter_UpdateFrame.",
+  "summary": "When the zone map returns an entry for the actor's position, starts auto-running with it once and sets scene state 0x70."
+ },
+ "0x1008B410": {
+  "name": "Unit10086E90_LatchFlag13CBit22",
+  "confidence": "high",
+  "evidence": "Body: when bit 22 of +0x13C is set and differs from bit 21, clears bit 22 and sets bit 21; when +0x74 equals DAT_10485F7A it also calls sub_100A2720. Returns 1 in AL. Called by Acter_UpdateOne.",
+  "summary": "Moves a pending flag (bit 22 of +0x13C) to bit 21, calling sub_100A2720 for the actor at index DAT_10485F7A."
+ },
+ "0x1008CD90": {
+  "name": "Unit10086E90_UpdateOnePart1008CD90",
+  "confidence": "low",
+  "evidence": "Clears bit 1 of +0x12C; when bit 0x200 of +0x120 is set runs a long update with Camera_GetFrameScale x12, Vec4_Copy x8, Vec3_Copy x2, CYyObject_IsKindOf, Acter_CopyPos..., g_pTargetMng and g_pZoneMap, writing the globals 0x10480990..0x1048099C and 0x10482F88..F94. Called by Acter_UpdateOne.",
+  "summary": "A large frame-scaled position/vector update step of Acter_UpdateOne; its exact role is not established."
+ },
+ "0x1008DB40": {
+  "name": "Unit10086E90_SetModelField78FromTable",
+  "confidence": "medium",
+  "evidence": "Returns unless bit 0x200 of +0x120 is set; when the short +0x1D8 is below 0x17 it stores table 0x104E1B98[+0x1D8] into +0x78 of the model at +0xA0 and returns; otherwise it chooses the value from the byte +0xEE, fn_10097A60 and other tests. Called by Acter_UpdateOne.",
+  "summary": "Sets the model's value at +0x78 from the table at 0x104E1B98 by the actor's index at +0x1D8, or by its state otherwise."
+ },
+ "0x1008E4D0": {
+  "name": "Unit10086E90_UpdateFlags120Bit23",
+  "confidence": "low",
+  "evidence": "Clears bit 23 of +0x120 and, when bit 0x200 was set, uses bit 7, bit 0x20000, DAT_104807F5, sub_10085A10/A50 on the model at +0xA0 and Unit100D7420_SetByte9800AndGetEntry/SelectNext. Called by Acter_UpdateOne.",
+  "summary": "Per-frame update around flag bit 23 of +0x120 and the model; its meaning is not established."
+ },
+ "0x1008E740": {
+  "name": "Unit10086E90_PlayChorMotion",
+  "confidence": "medium",
+  "evidence": "When bits 0x200 and 0x400 of +0x120 and bit 4 of +0x12C are set: turns auto-run off (XiControlActor_SetAutoRunning(0, ..)) when bit 0x200 of +0x1D0 is set, then, when sub_100D65B0(model, 1) is true, calls vtable slot 0x298 of +0xA4 and of +0xA0 with the four-character code 0x726F6863 ('chor' in memory).",
+  "summary": "Starts the motion with four-character code 'chor' on the actor's two model objects."
+ },
+ "0x10095850": {
+  "name": "Unit10086E90_CanClearPendingState",
+  "confidence": "low",
+  "evidence": "Returns 0 when the byte +0xEE is 6, 7 or 8, bit 17 of +0x130 is set, +0x11C or +0xF2 is set, bits 7/8 of +0x120 are set, Acter_IsStateGroup06Or38 is true, or +0x170 is one of 4, 0x1A..0x1F, ...; otherwise further tests. Called by Acter_ClearPendingState.",
+  "summary": "Condition Acter_ClearPendingState tests; true only when none of a list of state flags and kinds hold."
+ },
+ "0x10096270": {
+  "name": "Unit10086E90_NoneOfIdsInTable",
+  "confidence": "high",
+  "evidence": "Body: returns 1 when fn_1021E670 (Unit1021D930_IsIdInTable10485A30) is false for 0, 2, 7, 10 and 0x1C, else 0.",
+  "summary": "Returns true when none of the ids 0, 2, 7, 10, 0x1C is in the table at 0x10485A30."
+ },
+ "0x100973F0": {
+  "name": "Unit10086E90_UpdateSkeletonParts",
+  "confidence": "low",
+  "evidence": "When bit 0x200 of +0x120 is set and bit 7 is clear and the top byte of +0x78 is 0, by bits 0x20000000 and 0x40 of +0x128 it calls sub_100CF060 and fn_100CF100 (CXiSkeletonActor_ForParts0To9) on the model at +0xA0, or sub_100CF0B0/sub_100CF160.",
+  "summary": "Runs the model's per-part routines (CXiSkeletonActor_ForParts0To9 and related) when the actor's flags call for it."
+ },
+ "0x10097BC0": {
+  "name": "Unit10086E90_GetByte40DB4ByKind",
+  "confidence": "medium",
+  "evidence": "When the short at DAT_104DFD98+0x40D82 is non-zero returns the byte +0x40DB4; otherwise a comparison chain on the short +0x40D80 (0x120, 0x123, 0x124, ...) returns a constant or the byte +0x40DB4 (AL only).",
+  "summary": "Returns the byte at DAT_104DFD98+0x40DB4 or a constant chosen by the value at +0x40D80."
+ },
+ "0x10097D50": {
+  "name": "Unit10086E90_IsFlag40DB6OrState17",
+  "confidence": "high",
+  "evidence": "Body: returns 1 when DAT_104DFD98 is set and its short +0x40DB6 is non-zero; else whether the byte DAT_10485640 is 0x17.",
+  "summary": "Returns whether the short at DAT_104DFD98+0x40DB6 is set or the byte at 0x10485640 is 0x17."
+ },
+ "0x10098210": {
+  "name": "Unit10086E90_ActerTestEE120",
+  "confidence": "low",
+  "evidence": "Returns 0 unless the byte +0xEE is 0, 1, 2, 6, 7 or 8 and bits 0x4000, 0x8000, 0x40000 of +0x120 are clear (and further tests on +0x128, +0x1FF, +0x130, Acter_IsSpecialIdRange, +0x124); returns a bit of +0x124 or of +0x130 otherwise. ret 4 (purges).",
+  "summary": "A flag test on an actor's state byte +0xEE and flag words; its meaning is not established."
+ },
+ "0x100991F0": {
+  "name": "Unit10086E90_GetTable10485830IfBit2",
+  "confidence": "high",
+  "evidence": "Body: returns the address 0x10485830 when bit 2 of DAT_10485824 is set, else 0.",
+  "summary": "Returns the table at 0x10485830 when bit 2 of 0x10485824 is set, else null."
+ },
+ "0x10099730": {
+  "name": "Unit10086E90_ResolveEntryNames",
+  "confidence": "medium",
+  "evidence": "For the 20 records of 0x70 bytes at DAT_104DFD98+0x57D8: when +0x14 and the short +0x4C are non-zero and the name byte +0x50 is empty, looks up id +0x4C+0x7000 with fn_1015B9E0(DAT_10621808) and fills +0x50 (0x18 bytes) with sub_100935C0 from the result's +0x1538 string and bytes +0x4E/+0x4F.",
+  "summary": "Fills in the missing name strings of the 20 entries at DAT_104DFD98+0x57D8 by looking up their ids."
+ },
+ "0x100997B0": {
+  "name": "Unit10086E90_UpdateFrame997B0",
+  "confidence": "low",
+  "evidence": "Calls fn_10099730 (ResolveEntryNames); when DAT_104804CE is set and sub_101CC4F0 returns an actor it clears the 16-entry arrays 0x10483118/38/48, calls sub_100E6080(DAT_104DFD98, 0x10483118, 0x10) and continues by bits of DAT_10482F98. Called by Acter_UpdateFrame.",
+  "summary": "Per-frame step: resolves entry names and refreshes the 16-entry arrays at 0x10483118."
+ },
+ "0x100A1A00": {
+  "name": "Unit10086E90_MatchActorNameOrKind",
+  "confidence": "low",
+  "evidence": "Compares param_1 with Unit10086E90_FindStringById(actor+0x78) of the actor from sub_101CC4F0 (strcmp); on equal returns 0; otherwise by param_3 (0: kinds 0x59, 0x5A, 0x64..0x67 of param_2; 1 or 2) returns whether fn_100E0A50(param_1) is non-zero.",
+  "summary": "Tests a string against the name of the actor from sub_101CC4F0 and, failing that, with fn_100E0A50 for certain kinds."
+ }
+}

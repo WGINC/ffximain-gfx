@@ -707,7 +707,7 @@ XI_API void __thiscall FsLogPage_ClearAndVisitFiles(void * self_)
         return;
       }
       orig::FsLogPage_FormatFileName(local_100,*(int *)((int)self_ + 0xdc),iVar4 % 0x14);
-      uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,local_100);
+      uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,local_100);
       iVar2 = iVar3;
       if (((char)uVar1 != '\0') && (iVar2 = iVar3 + 1, iVar3 < 0x14)) break;
       iVar4 = iVar4 + 1;
@@ -759,24 +759,24 @@ XI_API undefined4 __thiscall FsLogPage_load(void * self_, undefined4 fileNameStr
   iVar4 = 0;
   local_4 = self_;
   while( true ) {
-    uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,fileNameString);
+    uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,fileNameString);
     if ((char)uVar1 == '\0') break;
     Sleep(100);
     if (0x14 < iVar4) break;
     iVar4 = iVar4 + 1;
   }
-  uVar2 = orig::Unit1018BA60_FileMngFwd101C1EC0(g_pFileMng_as_v1,fileNameString);
+  uVar2 = orig::Unit1018BA60_FileMngFwd101C1EC0(g_pFileMng_as_v0,fileNameString);
   if (-1 < (int)uVar2) {
     orig::Unit1018BA60_AllocZeroed(&local_4,uVar2);
     iVar4 = 0;
     while( true ) {
-      uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,fileNameString);
+      uVar1 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,fileNameString);
       if ((char)uVar1 == '\0') break;
       Sleep(100);
       if (0x14 < iVar4) break;
       iVar4 = iVar4 + 1;
     }
-    uVar3 = orig::Unit1018BA60_FileMngSubmitPath2F4Kind1(g_pFileMng_as_v1,fileNameString,local_4,uVar2,0);
+    uVar3 = orig::Unit1018BA60_FileMngSubmitPath2F4Kind1(g_pFileMng_as_v0,fileNameString,local_4,uVar2,0);
     if ((uVar3 == uVar2) && (99 < uVar2)) {
       orig::FsLogPage_ClearBuffer(self_);
       *(uint32_t *)((int)self_ + 0xd4) = uVar2 - 100;
@@ -831,7 +831,7 @@ XI_API undefined4 __thiscall FsLogPage_WriteFile(void * self_, undefined4 param_
   orig::FsLogPage_PruneOffsets(self_);
   iVar4 = 0;
   while( true ) {
-    uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,param_1);
+    uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,param_1);
     if ((char)uVar2 == '\0') break;
     Sleep(100);
     if (0x14 < iVar4) break;
@@ -847,7 +847,7 @@ XI_API undefined4 __thiscall FsLogPage_WriteFile(void * self_, undefined4 param_
         goto LAB_1018e3c7;
       }
       orig::FsLogPage_FormatFileName(local_100,*(int *)((int)self_ + 0xdc),iVar4 % 0x14);
-      uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,local_100);
+      uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,local_100);
       if ((char)uVar2 != '\0') break;
       iVar4 = iVar4 + 1;
     }
@@ -858,7 +858,7 @@ XI_API undefined4 __thiscall FsLogPage_WriteFile(void * self_, undefined4 param_
     local_104 = local_104 + 1;
   } while( true );
 LAB_1018e3c7:
-  uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v1,param_1);
+  uVar2 = orig::Unit1018BA60_FileMngFwd101C1820(g_pFileMng_as_v0,param_1);
   if ((char)uVar2 == '\0') {
 LAB_1018e3e7:
     if (*(LPVOID *)((int)self_ + 0xd0) != (LPVOID)0x0) {
@@ -874,7 +874,7 @@ LAB_1018e3e7:
         puVar5 = puVar5 + 1;
         puVar6 = puVar6 + 1;
       }
-      orig::Unit1018BA60_FileMngQueuePath2F4Kind3(g_pFileMng_as_v1,param_1,(uint32_t *)((int)self_ + 100),100,0);
+      orig::Unit1018BA60_FileMngQueuePath2F4Kind3(g_pFileMng_as_v0,param_1,(uint32_t *)((int)self_ + 100),100,0);
       uVar1 = *(uint16_t *)((int)self_ + 0xd8);
       puVar5 = *(uint32_t **)((int)self_ + 0xcc);
       puVar6 = *(uint32_t **)((int)self_ + 0xd0);
@@ -888,13 +888,13 @@ LAB_1018e3e7:
         puVar5 = (uint32_t *)((int)puVar5 + 1);
         puVar6 = (uint32_t *)((int)puVar6 + 1);
       }
-      orig::Unit1018BA60_FileMngQueuePath2F4Kind3(g_pFileMng_as_v1,param_1,*(uint32_t *)((int)self_ + 0xd0),
+      orig::Unit1018BA60_FileMngQueuePath2F4Kind3(g_pFileMng_as_v0,param_1,*(uint32_t *)((int)self_ + 0xd0),
                    (uint32_t)*(uint16_t *)((int)self_ + 0xd8),1);
       return 1;
     }
 LAB_1018e48a:
-    orig::Unit1018BA60_FileMngSubmitPath2F4Kind3(g_pFileMng_as_v1,param_1,self_,100,0);
-    orig::Unit1018BA60_FileMngSubmitPath2F4Kind3(g_pFileMng_as_v1,param_1,*(uint32_t *)((int)self_ + 0xcc),
+    orig::Unit1018BA60_FileMngSubmitPath2F4Kind3(g_pFileMng_as_v0,param_1,self_,100,0);
+    orig::Unit1018BA60_FileMngSubmitPath2F4Kind3(g_pFileMng_as_v0,param_1,*(uint32_t *)((int)self_ + 0xcc),
                  (uint32_t)*(uint16_t *)((int)self_ + 0xd8),1);
     return 1;
   }
@@ -2268,7 +2268,7 @@ XI_API undefined4 __thiscall Unit1018BA60_WriteTigDat(void * self_)
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
   if (0 < iVar3) {
-    iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v1,s_tig_dat_10379a00,local_cf0,iVar3 * 4,0,0);
+    iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v0,s_tig_dat_10379a00,local_cf0,iVar3 * 4,0,0);
     if (iVar2 < 0) {
       return 0xffffffff;
     }
@@ -2291,7 +2291,7 @@ XI_API undefined4 __thiscall Unit1018BA60_ReadTigDat(void * self_)
   int  (&local_cec)[827] = *reinterpret_cast<int  (*)[827]>(xi_frame + 4);
   
   iVar5 = 0;
-  iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v1,s_tig_dat_10379a00,&local_cf0,0x33c,0,0);
+  iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v0,s_tig_dat_10379a00,&local_cf0,0x33c,0,0);
   if ((0 < iVar2) && (local_cf0 == 1)) {
     piVar4 = local_cec;
     do {
@@ -2567,7 +2567,7 @@ XI_API undefined4 __thiscall Unit1018BA60_SaveCnfDat(void * self_)
     iVar1 = iVar1 + 0x2c;
   } while (iVar1 < 0x2394);
   if (0 < iVar3) {
-    iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v1,s_cnf_dat_10379a08,local_cf0,iVar3 << 2,0,0);
+    iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v0,s_cnf_dat_10379a08,local_cf0,iVar3 << 2,0,0);
     if (iVar1 < 0) {
       return 0xffffffff;
     }
@@ -2593,7 +2593,7 @@ XI_API undefined4 __thiscall Unit1018BA60_LoadCnfDat(void * self_)
   int  &local_aa4 = *reinterpret_cast<int  *>(xi_frame + 592);
   int  (&aiStack_aa0)[680] = *reinterpret_cast<int  (*)[680]>(xi_frame + 596);
   
-  iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v1,s_cnf_dat_10379a08,local_cf0,0x33c,0,0);
+  iVar2 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v0,s_cnf_dat_10379a08,local_cf0,0x33c,0,0);
   if ((iVar2 < 1) || ((local_cf0[0] != 5 && (local_cf0[0] != 0x5000000)))) {
 switchD_10195ac4_caseD_87:
     return 0xffffffff;
@@ -6314,8 +6314,8 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1018BA60_LoadAllAndTime
   if (DAT_106626cc != (void *)0x0) {
     xi_eax = orig::Unit1018BA60_UpdateIfFlag9(DAT_106626cc);
   }
-  if (g_pFileMng_as_v1 != (void *)0x0) {
-    xi_eax = orig::Unit1018BA60_FileMngCall101C2D90(g_pFileMng_as_v1);
+  if (g_pFileMng_as_v0 != (void *)0x0) {
+    xi_eax = orig::Unit1018BA60_FileMngCall101C2D90(g_pFileMng_as_v0);
   }
   return xi_eax;
 }
@@ -10760,11 +10760,11 @@ XI_API undefined4 __thiscall Unit1018BA60_LoadFromFile(void * self_)
   local_74 = local_c;
   local_6c = local_4;
   local_70 = local_8;
-  uVar2 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v1,(int)self_ + 8,local_80,0x18,0,0);
+  uVar2 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v0,(int)self_ + 8,local_80,0x18,0,0);
   if ((int)uVar2 < 0) {
     return uVar2 & 0xffffff00;
   }
-  iVar3 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v1,(int)self_ + 8,*(uint32_t *)((int)self_ + 0x108),
+  iVar3 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v0,(int)self_ + 8,*(uint32_t *)((int)self_ + 0x108),
                        *(uint32_t *)((int)self_ + 0x10c),1,0);
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(-1 < iVar3)));
 }
@@ -10789,7 +10789,7 @@ XI_API undefined4 __thiscall Unit1018BA60_Read(void * self_, undefined4 param_1)
   int  (&local_10)[4] = *reinterpret_cast<int  (*)[4]>(xi_frame + 112);
   
   if (*(int *)((int)self_ + 0x114) != 0) {
-    iVar1 = orig::Unit1018BA60_FileMngFwd101C1DF0(g_pFileMng_as_v1,(int)self_ + 8,param_1);
+    iVar1 = orig::Unit1018BA60_FileMngFwd101C1DF0(g_pFileMng_as_v0,(int)self_ + 8,param_1);
     if (iVar1 < 0) {
       uVar2 = (**(code **)((int)self_ + 0x114))(1,0,0,*(uint32_t *)((int)self_ + 0x118));
       return uVar2 & 0xffffff00;
@@ -10815,9 +10815,9 @@ XI_API undefined4 __thiscall Unit1018BA60_Read(void * self_, undefined4 param_1)
       puVar6 = (uint32_t *)((int)puVar6 + 1);
     }
   }
-  iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v1,(int)self_ + 8,local_80,0x18,0,param_1);
+  iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v0,(int)self_ + 8,local_80,0x18,0,param_1);
   if (-1 < iVar1) {
-    iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v1,(int)self_ + 8,*(uint32_t *)((int)self_ + 0x108),
+    iVar1 = orig::Unit1018BA60_FileMngSubmitPathKind1(g_pFileMng_as_v0,(int)self_ + 8,*(uint32_t *)((int)self_ + 0x108),
                          *(uint32_t *)((int)self_ + 0x10c),0x18,param_1);
     if ((-1 < iVar1) && (local_80[0] == *(int *)((int)self_ + 4))) {
       if (*(int *)((int)self_ + 0x114) == 0) {
@@ -11756,12 +11756,12 @@ XI_API undefined4 __thiscall FsWordCompletion_LoadData(void * self_)
     orig::Unit1018BA60_Clear(*(void **)((int)self_ + 0x208));
   }
   iVar2 = orig::Scene_GetTableValue_v1(0x18);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   if (-1 < (int)uVar3) {
     uVar12 = orig::Allocator_Generic_v1(uVar3);
     local_5c = (LPVOID)uVar12;
     if (((local_5c != (LPVOID)0x0) &&
-        (uVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,local_5c,uVar3,0), -1 < (int)uVar4)) &&
+        (uVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,local_5c,uVar3,0), -1 < (int)uVar4)) &&
        (uVar4 == uVar3)) {
       if (0 < (int)uVar4) {
         do {
@@ -13826,98 +13826,6 @@ LAB_101c0814:
   return -1;
 }
 
-// FUNCTION: FFXIMAIN 0x101C09B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API int __thiscall Unit1018BA60_CreateDirAndWait(void * self_)
-{
-  int iVar1;
-  char xi_frame[512] __attribute__((aligned(4)));
-  CHAR  (&local_200)[512] = *reinterpret_cast<CHAR  (*)[512]>(xi_frame + 0);
-  
-  orig::FUN_1030fed0();
-  CreateDirectoryA(local_200,(LPSECURITY_ATTRIBUTES)0x0);
-  orig::Unit1018BA60_WaitEvent18At8(*(void **)((int)self_ + 0x1f0));
-  iVar1 = orig::FUN_10311365();
-  if (-1 < iVar1) {
-    do {
-      iVar1 = orig::FUN_1031135a();
-    } while (iVar1 == 0);
-    orig::Unit1018BA60_SignalMember8(*(void **)((int)self_ + 0x1f0));
-    return iVar1;
-  }
-  orig::Unit1018BA60_SignalMember8(*(void **)((int)self_ + 0x1f0));
-  return -1;
-}
-
-// FUNCTION: FFXIMAIN 0x101C0A40  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API undefined4 __thiscall Unit1018BA60_CreateDirAndHandleFile(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
-{
-  int iVar1;
-  void *this_00;
-  uint32_t *puVar2;
-  char xi_frame[804] __attribute__((aligned(4)));
-  uint8_t ** &local_324 = *reinterpret_cast<uint8_t ** *>(xi_frame + 0);
-  uint32_t  &local_320 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
-  uint32_t  (&local_31c)[64] = *reinterpret_cast<uint32_t  (*)[64]>(xi_frame + 8);
-  uint32_t  &local_21c = *reinterpret_cast<uint32_t  *>(xi_frame + 264);
-  uint32_t  &local_218 = *reinterpret_cast<uint32_t  *>(xi_frame + 268);
-  uint32_t  &local_214 = *reinterpret_cast<uint32_t  *>(xi_frame + 272);
-  uint32_t  &local_210 = *reinterpret_cast<uint32_t  *>(xi_frame + 276);
-  uint32_t  &local_20c = *reinterpret_cast<uint32_t  *>(xi_frame + 280);
-  uint32_t  &local_208 = *reinterpret_cast<uint32_t  *>(xi_frame + 284);
-  uint32_t  &local_204 = *reinterpret_cast<uint32_t  *>(xi_frame + 288);
-  CHAR  (&aCStack_200)[512] = *reinterpret_cast<CHAR  (*)[512]>(xi_frame + 292);
-  
-  local_324 = &PTR_LAB_10337200;
-  local_320 = 0;
-  puVar2 = local_31c;
-  for (iVar1 = 0x40; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + 1;
-  }
-  local_21c = 0;
-  local_218 = 0;
-  local_214 = 0;
-  local_210 = 0;
-  local_20c = 0;
-  local_208 = 0;
-  local_204 = 0;
-  iVar1 = orig::FUN_10311370();
-  if (iVar1 != 0) {
-    orig::FUN_1030fed0();
-    CreateDirectoryA(aCStack_200,(LPSECURITY_ATTRIBUTES)0x0);
-    orig::Unit1018BA60_WaitEvent18At8(*(void **)((int)self_ + 0x1f0));
-    iVar1 = orig::FUN_10311365();
-    if (iVar1 < 0) {
-      this_00 = *(void **)((int)self_ + 0x1f0);
-    }
-    else {
-      iVar1 = orig::FUN_1031135a();
-      while (iVar1 == 0) {
-        iVar1 = orig::FUN_1031135a();
-      }
-      this_00 = *(void **)((int)self_ + 0x1f0);
-      if (-1 < iVar1) {
-        orig::Unit1018BA60_SignalMember8(this_00);
-        iVar1 = orig::Unit1018BA60_FormatWithBase(param_1,0x21,(uint8_t *)local_31c,1);
-        if (iVar1 < 0) {
-          return 0xffffffff;
-        }
-        local_320 = 3;
-        local_218 = param_2;
-        local_214 = param_3;
-        local_210 = orig::Unit1018BA60_MapCode012(param_4);
-        orig::FUN_101c0bc0(&aS,local_31c);
-        iVar1 = orig::Unit1018BA60_WaitThenHandleFileEvent_v1(*(void **)((int)self_ + 0x1f0),(int)&local_324);
-        return iVar1;
-      }
-    }
-    orig::Unit1018BA60_SignalMember8(this_00);
-  }
-  return 0xffffffff;
-}
-
 // FUNCTION: FFXIMAIN 0x101C0FC0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Unit1018BA60_SubmitPathKind6(void * self_, undefined4 param_1, int param_2)
@@ -14543,143 +14451,6 @@ XI_API undefined4 __thiscall Unit1018BA60_GetValueAt1F0(void * self_)
   
   iVar1 = orig::Unit1018BA60_SignalMember8(*(void **)((int)self_ + 0x1f0));
   return iVar1;
-}
-
-// FUNCTION: FFXIMAIN 0x101C3A90  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API undefined4 __thiscall XiFileImpl__getFileName(void * self_, uint32_t fileNo, int pFileName)
-{
-  char cVar1;
-  uint16_t uVar2;
-  int iVar3;
-  uint8_t bVar4;
-  uint8_t bVar5;
-  uint32_t uVar6;
-  uint32_t uVar7;
-  int iVar8;
-  char *_Str1;
-  char *pcVar9;
-  uint64_t uVar10;
-  char xi_frame[288] __attribute__((aligned(4)));
-  char  (&local_120)[32] = *reinterpret_cast<char  (*)[32]>(xi_frame + 0);
-  char  (&local_100)[256] = *reinterpret_cast<char  (*)[256]>(xi_frame + 32);
-  
-  iVar8 = *(int *)((int)self_ + 4);
-  _Str1 = (char *)0x0;
-  if (iVar8 != 0) {
-    if (iVar8 == 1) {
-      if (*(int *)((int)self_ + 200) <= (int)fileNo) {
-        return 0xffffffff;
-      }
-      cVar1 = *(char *)(fileNo + *(int *)((int)self_ + 0xbc));
-      uVar2 = *(uint16_t *)(*(int *)((int)self_ + 0xc4) + fileNo * 2);
-      if (cVar1 == '\0') {
-        return 0xffffffff;
-      }
-      if (cVar1 == '\x01') {
-        orig::_sprintf_v1(local_100,s__ROM__d__d_DAT_1037cd00,(uint32_t)(uVar2 >> 7),uVar2 & 0x7f);
-        _Str1 = local_100;
-      }
-      else {
-        orig::_sprintf_v1(local_100,s__ROM_d__d__d_DAT_1037ccec,cVar1,(uint32_t)(uVar2 >> 7),uVar2 & 0x7f);
-        _Str1 = local_100;
-      }
-    }
-    else {
-      if (iVar8 != 2) {
-        return 1;
-      }
-      if (*(int *)((int)self_ + 200) <= (int)fileNo) {
-        return 0xffffffff;
-      }
-      uVar2 = *(uint16_t *)(*(int *)((int)self_ + 0xc4) + fileNo * 2);
-      orig::_sprintf_v1(local_100,s__CDROM__d__d_DAT_1037cd10,uVar2 / 0x1e,(uint32_t)uVar2 % 0x1e);
-      _Str1 = local_100;
-    }
-    goto LAB_101c3cd3;
-  }
-  uVar6 = *(uint32_t *)((int)self_ + 0x80);
-  bVar5 = 0;
-  bVar4 = false;
-  if (uVar6 != 0) {
-    do {
-      if (bVar4) break;
-      if (((fileNo < *(uint32_t *)((int)self_ + 0x44)) &&
-          (iVar8 = *(int *)((int)self_ + (uint32_t)bVar5 * 4 + 0xc), iVar8 != 0)) &&
-         (iVar3 = *(int *)(iVar8 + fileNo * 8), iVar3 != 0)) {
-        _Str1 = (char *)(iVar8 + iVar3);
-        bVar4 = true;
-      }
-      bVar5 = bVar5 + 1;
-    } while (bVar5 < uVar6);
-  }
-  if ((bVar5 == uVar6) && (!bVar4)) {
-    return 0xffffffff;
-  }
-  iVar8 = 0;
-  do {
-    cVar1 = ((uint8_t *)(s___exodus_proj_1037ccdc))[iVar8];
-    local_120[iVar8] = cVar1;
-    iVar8 = iVar8 + 1;
-  } while (cVar1 != '\0');
-  uVar6 = 0xffffffff;
-  pcVar9 = _Str1;
-  do {
-    if (uVar6 == 0) break;
-    uVar6 = uVar6 - 1;
-    cVar1 = *pcVar9;
-    pcVar9 = pcVar9 + 1;
-  } while (cVar1 != '\0');
-  if (0xc < ~uVar6 - 1) {
-    uVar10 = orig::_strncmp(_Str1,s___exodus_projbeta_1037ccc8,0x11);
-    if ((int)uVar10 == 0) {
-      orig::_sprintf_v1(local_100,&DAT_1037ccc0,_Str1 + 0x11);
-      iVar8 = -1;
-      uVar6 = 0;
-      _Str1 = local_100;
-      pcVar9 = local_100;
-      do {
-        if (iVar8 == 0) break;
-        iVar8 = iVar8 + -1;
-        cVar1 = *pcVar9;
-        pcVar9 = pcVar9 + 1;
-      } while (cVar1 != '\0');
-      if (iVar8 != -2) {
-        do {
-          if (local_100[uVar6] == '/') {
-            local_100[uVar6] = '\\';
-          }
-          uVar7 = 0xffffffff;
-          uVar6 = uVar6 + 1;
-          pcVar9 = local_100;
-          do {
-            if (uVar7 == 0) break;
-            uVar7 = uVar7 - 1;
-            cVar1 = *pcVar9;
-            pcVar9 = pcVar9 + 1;
-          } while (cVar1 != '\0');
-        } while (uVar6 < ~uVar7 - 1);
-      }
-      goto LAB_101c3cd3;
-    }
-    uVar10 = orig::_strncmp(_Str1,local_120,0xd);
-    if ((int)uVar10 == 0) {
-      orig::_sprintf_v1(local_100,&DAT_1037ccc0,_Str1 + 0xd);
-      _Str1 = local_100;
-      goto LAB_101c3cd3;
-    }
-  }
-  if (_Str1 == (char *)0x0) {
-    return 1;
-  }
-LAB_101c3cd3:
-  iVar8 = pFileName - (int)_Str1;
-  do {
-    cVar1 = *_Str1;
-    _Str1[iVar8] = cVar1;
-    _Str1 = _Str1 + 1;
-  } while (cVar1 != '\0');
-  return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x101C3D00  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
@@ -15401,7 +15172,7 @@ XI_API unsigned char __thiscall Unit1018BA60_SubmitFileOrExit(void * self_, unde
 {
   int iVar1;
   
-  iVar1 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,*(int *)((int)self_ + 4),param_1,param_3,param_2);
+  iVar1 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,*(int *)((int)self_ + 4),param_1,param_3,param_2);
   return -1 < iVar1;
 }
 

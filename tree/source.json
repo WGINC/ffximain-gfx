@@ -39,5 +39,7 @@
    "_doc": "the frame set's functions not in the tree after fs14, with the tree's 51 not PASS, decompiled by GfxExport.java after the 26 Oct fact round (call_pushes, sp_solve without the noreturn rule), with their raw gate"
   }
  ],
- "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl"
+ "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl",
+ "raw_regate": "verification/gate_raw_regate.jsonl",
+ "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw"
 }

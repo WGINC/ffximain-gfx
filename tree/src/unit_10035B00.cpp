@@ -59,12 +59,12 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
   fVar4 = (long double)DAT_10351708;
   DAT_10351708 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
   uVar6 = 0;
-  if ((DAT_10463914_as_s32 != 0) &&
-     (uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10463914_as_s32 >> 8)) << 8) | (uint8_t)(DAT_104638f5))), DAT_104638f5 != '\0')) {
+  if ((DAT_10463914 != 0) &&
+     (uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10463914 >> 8)) << 8) | (uint8_t)(DAT_104638f5))), DAT_104638f5 != '\0')) {
     fVar1 = (long double)DAT_10351708;
     bVar2 = NAN(fVar4) || NAN(fVar1);
     bVar3 = bVar2 || fVar4 == fVar1;
-    uVar6 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)DAT_10463914_as_s32 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar2 || fVar4 < fVar1) << 8 | (uint16_t)bVar2 << 10 |
+    uVar6 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)DAT_10463914 >> 0x10)) << 16) | (uint16_t)((uint16_t)(bVar2 || fVar4 < fVar1) << 8 | (uint16_t)bVar2 << 10 |
                      (uint16_t)bVar3 << 0xe)));
     if (bVar2 == bVar3) {
       uVar6 = 0;
@@ -148,18 +148,18 @@ XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
   uint64_t uVar2;
   
   if (param_1 == 0) {
-    if (DAT_10463914 != (void *)0x0) {
-      orig::Unit10036B90_SendStopToLobby(DAT_10463914,DAT_10463910);
-      DAT_10463914 = (void *)param_1;
+    if (DAT_10463914_as_v1 != (void *)0x0) {
+      orig::Unit10036B90_SendStopToLobby(DAT_10463914_as_v1,DAT_10463910);
+      DAT_10463914_as_v1 = (void *)param_1;
       return;
     }
   }
-  else if (DAT_10463914 != (void *)param_1) {
+  else if (DAT_10463914_as_v1 != (void *)param_1) {
     _DAT_10463918 = *(uint32_t *)(param_1 + 0x38);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351708 * (long double)127.0f);
     uVar2 = orig::Unit10036B90_SetVolumeScalar((void *)param_1,0x40,(int)lVar1);
     DAT_10463910 = (uint32_t)uVar2;
-    DAT_10463914 = (void *)param_1;
+    DAT_10463914_as_v1 = (void *)param_1;
   }
   return;
 }
@@ -168,7 +168,7 @@ XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_ResetGlobals(void)
 {
-  DAT_10463914_as_v1 = 0;
+  DAT_10463914_as_v0 = 0;
   DAT_10463910 = 0;
   _DAT_10463918 = 0;
   DAT_1046391c = 0;

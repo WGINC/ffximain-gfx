@@ -33,7 +33,7 @@ XI_API void __thiscall Unit10072A50_Step(void * self_)
       }
       *(void **)((int)self_ + 0x45) = xi_s2;
       if ((xi_s2 != (void *)0x0) &&
-         (iVar4 = orig::FUN_101c4bc0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
+         (iVar4 = orig::FUN_101c4bc0(g_pFileMng_as_v0,*(uint32_t *)((int)self_ + 0x34),xi_s2), -1 < iVar4)) {
         *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
         return;
       }
@@ -43,7 +43,7 @@ LAB_10072c0c:
   }
   else {
     if (iVar4 == 1) {
-      uVar2 = orig::FUN_101c4ad0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34));
+      uVar2 = orig::FUN_101c4ad0(g_pFileMng_as_v0,*(uint32_t *)((int)self_ + 0x34));
       if ((char)uVar2 != '\0') {
         return;
       }
@@ -54,7 +54,7 @@ LAB_10072c0c:
           iVar4 = (int)uVar5;
           *(int *)((int)self_ + 0x38) = iVar4;
           if ((iVar4 != 0) &&
-             (iVar4 = orig::FUN_101c46d0(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),iVar4,xi_s3,0),
+             (iVar4 = orig::FUN_101c46d0(g_pFileMng_as_v0,*(uint32_t *)((int)self_ + 0x34),iVar4,xi_s3,0),
              -1 < iVar4)) {
             *(int *)((int)self_ + 0x41) = *(int *)((int)self_ + 0x41) + 1;
             return;
@@ -69,7 +69,7 @@ LAB_10072c0c:
       goto LAB_10072c0c;
     }
     if (iVar4 == 2) {
-      uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind1(g_pFileMng_as_v1,*(uint32_t *)((int)self_ + 0x34),0,0);
+      uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind1(g_pFileMng_as_v0,*(uint32_t *)((int)self_ + 0x34),0,0);
       if ((char)uVar2 != '\0') {
         return;
       }

@@ -22,10 +22,10 @@ XI_API undefined4 __cdecl StChannelItemResolve(uint32_t * param_1)
   uVar2 = orig::FUN_10275090();
   pcVar1 = (char *)param_1[6];
   param_1[4] = uVar2;
-  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
   uVar2 = orig::FUN_10285040(pcVar1,param_1[5]);
   param_1[6] = uVar2;
-  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
   iVar3 = orig::FUN_10275090();
   param_1[4] = iVar3 - param_1[4];
   if (param_1[6] == 0) {
@@ -108,7 +108,7 @@ XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
   uint32_t uVar1;
   
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[1])) {
-    uVar1 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v1,param_1[1]);
+    uVar1 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,param_1[1]);
     if ((char)uVar1 != '\0') {
       *param_1 = *param_1 | 0x20;
     }

@@ -2093,11 +2093,11 @@ XI_API void __thiscall Unit1021D930_LoadFromFile(void * self_)
   
   local_4 = self_;
   iVar2 = orig::Scene_GetTableValue_v1(0x5f);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   if (-1 < (int)uVar3) {
     uVar9 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar9;
-    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (-1 < iVar2) {
       pbVar5 = orig::Unit10253A20_GetDMsgTable();
       pbVar7 = pbVar4;
@@ -2339,11 +2339,11 @@ XI_API void __thiscall Unit1021D930_LoadDMsgTable(void * self_)
   uint64_t uVar8;
   
   iVar2 = orig::Scene_GetTableValue_v1(0x61);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   if (-1 < (int)uVar3) {
     uVar8 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar8;
-    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (-1 < iVar2) {
       pbVar5 = orig::Unit10253A20_GetDMsgTable();
       pbVar6 = pbVar4;
@@ -2453,11 +2453,11 @@ XI_API void __thiscall Unit1021D930_LoadNamedEntries(void * self_)
   uVar3 = orig::Scene_GetTableValue_v1(0x3a);
   orig::Unit1018BA60_EntriesSetCount((void *)((int)self_ + 0x14),uVar3);
   iVar4 = orig::Scene_GetTableValue_v1(0x5c);
-  xi_s2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar4);
+  xi_s2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar4);
   if (-1 < (int)xi_s2) {
     uVar8 = orig::Allocator_Generic_v1(xi_s2);
     *(int *)((int)self_ + 0x10) = (int)uVar8;
-    iVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar4,(int)uVar8,xi_s2,0);
+    iVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar4,(int)uVar8,xi_s2,0);
     if (-1 < iVar4) {
       pbVar2 = *(uint8_t **)((int)self_ + 0x10);
       pbVar5 = orig::Unit10253A20_GetDMsgTable();
@@ -3005,11 +3005,11 @@ XI_API void __thiscall Unit1021D930_LoadMessageTable(void * self_)
   
   local_4 = self_;
   iVar2 = orig::Scene_GetTableValue_v1(0x5d);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   if (-1 < (int)uVar3) {
     uVar9 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar9;
-    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (-1 < iVar2) {
       pbVar5 = orig::Unit10253A20_GetDMsgTable();
       pbVar7 = pbVar4;
@@ -3236,11 +3236,11 @@ XI_API uint8_t __thiscall Unit1021D930_LoadStringTable(void * self_, int param_1
   *(int *)self_ = param_1;
   local_1c = 0;
   orig::FUN_10257860(local_10);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar5);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar5);
   if (-1 < (int)uVar3) {
     uVar14 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar14;
-    iVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar5,pbVar4,uVar3,0);
+    iVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar5,pbVar4,uVar3,0);
     local_1c = 0;
     if (iVar5 < 0) {
       orig::operator_delete_v1(pbVar4);
@@ -3341,9 +3341,9 @@ XI_API undefined4 __cdecl Unit1021D930_ReadChunk(undefined4 param_1)
   uint32_t uVar2;
   
   uVar2 = 0;
-  if (g_pFileMng_as_v1 != (void *)0x0) {
+  if (g_pFileMng_as_v0 != (void *)0x0) {
     iVar1 = orig::Scene_GetTableValue_v1(0x5a);
-    uVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar1,&DAT_10668cc8,0x200,param_1);
+    uVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar1,&DAT_10668cc8,0x200,param_1);
     if ((int)uVar2 < 0) {
       return uVar2 & 0xffffff00;
     }

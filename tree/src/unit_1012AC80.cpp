@@ -2331,13 +2331,13 @@ XI_API undefined4 __cdecl Unit1012AC80_LoadMessageBlock(int param_1, int param_2
   void *pvVar1;
   uint32_t uVar2;
   
-  _Size = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_2);
+  _Size = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,param_2);
   uVar2 = _Size;
   if (-1 < (int)_Size) {
     pvVar1 = orig::_malloc_0_v1(_Size);
     uVar2 = 0;
     if (pvVar1 != (void *)0x0) {
-      uVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,param_2,pvVar1,_Size,0);
+      uVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,param_2,pvVar1,_Size,0);
       if (-1 < (int)uVar2) {
         (&DAT_10578548)[param_1] = pvVar1;
         return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
@@ -3035,12 +3035,12 @@ XI_API undefined4 __cdecl Unit1012AC80_LoadStringTable(void * param_1, int param
   uint8_t bVar8;
   uint64_t uVar9;
   
-  uVar2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_2);
+  uVar2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,param_2);
   uVar4 = uVar2;
   if (-1 < (int)uVar2) {
     uVar9 = orig::Allocator_Generic_v1(uVar2);
     pbVar3 = (uint8_t *)uVar9;
-    uVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,param_2,pbVar3,uVar2,0);
+    uVar4 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,param_2,pbVar3,uVar2,0);
     if (-1 < (int)uVar4) {
       pbVar5 = orig::Unit10253A20_GetDMsgTable();
       pbVar7 = pbVar3;
@@ -3235,11 +3235,11 @@ XI_API char __thiscall Unit1012AC80_LoadMessageSet(void * self_)
   local_1c = '\0';
   iVar2 = orig::Scene_GetTableValue_v1(0x3f);
   orig::FUN_10257860(local_10);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   if (-1 < (int)uVar3) {
     uVar15 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar15;
-    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (iVar2 < 0) {
       orig::operator_delete_v1(pbVar4);
     }
@@ -3379,7 +3379,7 @@ XI_API void __thiscall Unit1012AC80_UpdatePendingRead(void * self_)
     uVar1 = *(uint32_t *)((int)self_ + 0x84);
     xi_s2 = *(uint32_t *)((int)self_ + 0x7c);
     xi_s1 = orig::Scene_GetTableValue_v1(0x3f);
-    uVar1 = orig::Unit1018BA60_FileMngFindFileNumKind1(g_pFileMng_as_v1,xi_s1,xi_s2,uVar1);
+    uVar1 = orig::Unit1018BA60_FileMngFindFileNumKind1(g_pFileMng_as_v0,xi_s1,xi_s2,uVar1);
     bVar2 = (char)uVar1 == '\0';
   }
   else {
@@ -6687,8 +6687,8 @@ XI_API uint32_t __thiscall Unit1012AC80_GetCachedOrLoad(void * self_, uint32_t p
         orig::Unit1012AC80_ResetState_v1(this_01);
       }
       *(uint32_t *)(this_01 + 0x14b0) = param_1;
-      if ((g_pFileMng_as_v1 != (void *)0x0) &&
-         (iVar3 = orig::Unit1018BA60_FileMngQueueLoad(g_pFileMng_as_v1,*puVar2,this_01 + 0xb0,0x1400,
+      if ((g_pFileMng_as_v0 != (void *)0x0) &&
+         (iVar3 = orig::Unit1018BA60_FileMngQueueLoad(g_pFileMng_as_v0,*puVar2,this_01 + 0xb0,0x1400,
                               ((puVar2[3] - puVar2[1]) + param_1) * 0x1400,&LAB_1015bb80,this_01),
          iVar3 != 1)) {
         orig::Unit1012AC80_ResetState_v1(this_01);
@@ -8258,7 +8258,7 @@ XI_API int __cdecl Unit1012AC80_ResolveLayoutIndex(int param_1)
     if ((int)uVar1 == 2) {
       return 0;
     }
-    if ((DAT_10621940_as_s32 != 0) && (*(int *)(DAT_10621940_as_s32 + 8) != 0)) {
+    if ((DAT_10621940 != 0) && (*(int *)(DAT_10621940 + 8) != 0)) {
       return 4;
     }
   }
@@ -9075,8 +9075,8 @@ XI_API void * __thiscall Unit1012AC80_CtorVt10335470(void * self_, undefined4 pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit1012AC80_HasActiveObject10621940(void)
 {
-  if (DAT_10621940_as_s32 != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10621940_as_s32 >> 8)) << 8) | (uint8_t)(*(int *)(DAT_10621940_as_s32 + 8) != 0)));
+  if (DAT_10621940 != 0) {
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10621940 >> 8)) << 8) | (uint8_t)(*(int *)(DAT_10621940 + 8) != 0)));
   }
   return 0;
 }
@@ -9243,7 +9243,7 @@ XI_API uint64_t __thiscall Unit1012AC80_UpdatePair1062193C(void * self_)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::Unit1012AC80_ApplySlot20Result(self_,DAT_10621940);
+  uVar1 = orig::Unit1012AC80_ApplySlot20Result(self_,DAT_10621940_as_v0);
   if ((int)uVar1 != 0) {
     orig::FUN_10162f30((int)DAT_1062193c,0);
     uVar1 = orig::FUN_10162f30((int)DAT_1062193c,1);

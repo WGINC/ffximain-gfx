@@ -1158,12 +1158,12 @@ XI_API undefined4 __thiscall Unit10163E60_LoadSceneFileAndBind(void * self_)
   uint64_t uVar10;
   
   iVar2 = orig::Scene_GetTableValue_v1(0x14);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   uVar5 = uVar3;
   if (-1 < (int)uVar3) {
     uVar10 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar10;
-    uVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    uVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (-1 < (int)uVar5) {
       pbVar6 = orig::Unit10253A20_GetDMsgTable();
       pbVar8 = pbVar4;

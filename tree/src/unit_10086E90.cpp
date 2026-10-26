@@ -2824,7 +2824,7 @@ XI_API undefined4 __cdecl Unit10086E90_ResetGlobals(void)
     iVar2 = iVar2 + 1;
   } while (iVar2 < 2);
   DAT_10487ef5 = 0;
-  DAT_1035af3c = 0xffffffff;
+  DAT_1035af3c_as_v0 = 0xffffffff;
   iVar2 = orig::Scene_GetTableValue_v1(0x25);
   uVar1 = orig::Unit101C72E0_Load(&DAT_10489948,iVar2);
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
@@ -3230,7 +3230,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
   iVar5 = 0;
   DAT_10487e4c = 0;
   DAT_1035af38 = orig::FUN_10095d80();
-  if ((DAT_1035af3c_as_s32 != -1) && (uVar2 = orig::Acter_IsEvent(DAT_1035af3c_as_s32), (char)uVar2 == '\0')) {
+  if ((DAT_1035af3c != -1) && (uVar2 = orig::Acter_IsEvent(DAT_1035af3c), (char)uVar2 == '\0')) {
     do {
       if (((DAT_10485f7a != iVar5) && (iVar1 = (&ActerBuffPtr_as_v0)[iVar5], iVar1 != 0)) &&
          (((((*(uint32_t *)(iVar1 + 0x120) >> 9 & 1) == 0 ||
@@ -3241,7 +3241,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
       }
       iVar5 = iVar5 + 1;
     } while (iVar5 < 0x900);
-    DAT_1035af3c_as_s32 = -1;
+    DAT_1035af3c = -1;
   }
   pvVar3 = (void *)orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   puVar6 = &DAT_10486020;

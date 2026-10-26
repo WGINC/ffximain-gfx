@@ -3487,3 +3487,28 @@ gives the compiler's message.
   not PASS pass under fs15's case only: the older case compares EDX, which no fact says callers ignore (P9).
 
 Tree: 4,312 functions, 4,258 PASS. Frame set: 3,854 of 4,984 in the tree, 3,800 PASS.
+
+## 26 Oct (later): raw verdicts under the current rules; argument bytes followed through registers
+
+**Older raw verdicts, given again.** hx2clean.py builds a function from the first export whose raw gate passed it,
+and the older exports' raw verdicts predate the 0xA5 stack fill and `args_may`. For the tree's non-PASS functions
+that another export also passes raw (10), every older-export record was gated again under the current rules: 21
+records, verification/gate_raw_regate.jsonl, read through `XI_REGATE` (tree/source.json `raw_regate`; verify_all
+passes it on). None still passes. So:
+- 0x100542F0 (FAIL), 0x100157B0, 0x101033C0 and 0x1027CCF0 (UNRESOLVED) are now built from fs15's translation, and
+  all four PASS the clean gate, under both their cases;
+- 0x10073D80, 0x100D4330, 0x100EEE90, 0x101C09B0, 0x101C0A40 and 0x101C3A90 pass raw in no export now, and left the
+  tree (none passed the clean gate);
+- 63 other functions changed only in how a global is spelled, which follows the records chosen; all PASS.
+Tree: 4,306 functions, 4,262 PASS. Frame set: 3,848 in the tree, 3,804 PASS.
+
+**arg_reads.py follows a loaded argument.** A whole-dword load of an argument into a register used to count all
+four bytes as read. Now the register is followed (byte_flow.py), with direct and import calls handled as
+caller_reads.py handles them. At a `ret`, ECX/EDX count only where some caller reads the register after the call
+(every caller known; a fixpoint over callers that pass it on). 2,928 functions now read less than whole dwords of
+some argument (2,677 before), and no mask is wider. In stubs, a full code mask falls back to the declared type's
+mask per argument, as an unlisted function always did (gfx_cases.stub_masks; case_pushes.py applies it to
+existing cases: 404 stubs in 388 cases).
+- **Result:** no function gained a PASS. Nothing in the tree flipped, and fs15's raw gate gave the same 43 PASS with
+  18 of its cases narrowed. 0x1021C380, the case that prompted the tool, stays FAIL: the leftover bytes of its
+  argument reach ECX at the return of callers whose callers are not all known.

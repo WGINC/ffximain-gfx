@@ -1444,7 +1444,7 @@
 },
 "0x100157B0": {
 "tree": true,
-"gate": "UNRESOLVED",
+"gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false
@@ -5633,7 +5633,7 @@
 },
 "0x100542F0": {
 "tree": true,
-"gate": "FAIL",
+"gate": "PASS",
 "bytes": "NO_COMPILE",
 "unresolved": 0,
 "d3dx": false
@@ -6962,8 +6962,8 @@
 "d3dx": false
 },
 "0x10073D80": {
-"tree": true,
-"gate": "UNRESOLVED",
+"tree": false,
+"gate": null,
 "bytes": "NO_COMPILE",
 "unresolved": 0,
 "d3dx": false
@@ -10015,8 +10015,8 @@
 "d3dx": false
 },
 "0x100D4330": {
-"tree": true,
-"gate": "UNRESOLVED",
+"tree": false,
+"gate": null,
 "bytes": "NO_COMPILE",
 "unresolved": 1,
 "d3dx": false
@@ -11303,8 +11303,8 @@
 "d3dx": false
 },
 "0x100EEE90": {
-"tree": true,
-"gate": "UNRESOLVED",
+"tree": false,
+"gate": null,
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false
@@ -12317,7 +12317,7 @@
 },
 "0x101033C0": {
 "tree": true,
-"gate": "UNRESOLVED",
+"gate": "PASS",
 "bytes": "LEFT_OUT",
 "unresolved": 0,
 "d3dx": false
@@ -22219,15 +22219,15 @@
 "d3dx": false
 },
 "0x101C09B0": {
-"tree": true,
-"gate": "UNRESOLVED",
+"tree": false,
+"gate": null,
 "bytes": "NO_COMPILE",
 "unresolved": 0,
 "d3dx": false
 },
 "0x101C0A40": {
-"tree": true,
-"gate": "UNRESOLVED",
+"tree": false,
+"gate": null,
 "bytes": "NO_COMPILE",
 "unresolved": 0,
 "d3dx": false
@@ -22380,8 +22380,8 @@
 "d3dx": false
 },
 "0x101C3A90": {
-"tree": true,
-"gate": "FAIL",
+"tree": false,
+"gate": null,
 "bytes": "NO_COMPILE",
 "unresolved": 0,
 "d3dx": false
@@ -28877,7 +28877,7 @@
 },
 "0x1027CCF0": {
 "tree": true,
-"gate": "UNRESOLVED",
+"gate": "PASS",
 "bytes": "IDENTICAL",
 "unresolved": 0,
 "d3dx": false

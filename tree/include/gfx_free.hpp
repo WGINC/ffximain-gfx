@@ -612,7 +612,6 @@ XI_API undefined4 __stdcall ResourceHandle_Deref(undefined4 * param_1);  // 0x10
 XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * param_1, void * param_2, undefined4 * param_3);  // 0x10073430
 XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1);  // 0x10073B20
 XI_API undefined4 __stdcall ResourceIter_FindById(undefined4 * param_1, int param_2, int param_3);  // 0x10073BA0
-XI_API void __stdcall ResourceIter_FindOrStartTask(undefined4 * param_1, int param_2, undefined4 param_3);  // 0x10073D80
 XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_);  // 0x100740C0
 XI_API undefined8 __thiscall ResourceIter_PopFreeNode(void * self_, undefined4 * param_1);  // 0x10074110
 XI_API void __thiscall MeshResourceMng_AllocHandle(void * self_, int * param_1, int param_2);  // 0x10074140
@@ -1000,7 +999,6 @@ XI_API undefined4 __cdecl Unit100D7420_StepRequest21Sequence(int * param_1, unde
 XI_API undefined4 __cdecl Unit100D7420_StepRequest22Sequence(int * param_1, undefined4 param_2);  // 0x100EE900
 XI_API undefined4 __cdecl Unit100D7420_StepRequest28Sequence(int * param_1, undefined4 param_2);  // 0x100EEB70
 XI_API undefined4 __cdecl Unit100D7420_StepRequest2BSequence(int * param_1, undefined4 param_2);  // 0x100EEDE0
-XI_API undefined4 __cdecl Unit100D7420_StepState1030FFxx(int * param_1);  // 0x100EEE90
 XI_API undefined4 __cdecl Unit100D7420_StepWait1030FFD8(int * param_1);  // 0x100EEF80
 XI_API undefined4 __cdecl Unit100D7420_StepRequest14Sequence(int * param_1, undefined4 param_2);  // 0x100EF020
 XI_API int * __cdecl Unit100D7420_RunState(int * param_1);  // 0x100EF0E0
@@ -2373,8 +2371,6 @@ XI_API int __thiscall Unit1018BA60_SubmitPathKind3(void * self_, undefined4 para
 XI_API int __thiscall Unit1018BA60_SubmitPath2F4Kind3(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, int param_4);  // 0x101C0540
 XI_API undefined8 __thiscall Unit1018BA60_SubmitPath3F4Kind3(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, int param_4);  // 0x101C0630
 XI_API int __thiscall Unit1018BA60_SubmitPath4F4Kind3(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, int param_4);  // 0x101C0760
-XI_API int __thiscall Unit1018BA60_CreateDirAndWait(void * self_);  // 0x101C09B0
-XI_API undefined4 __thiscall Unit1018BA60_CreateDirAndHandleFile(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x101C0A40
 XI_API int __thiscall Unit1018BA60_SubmitPathKind6(void * self_, undefined4 param_1, int param_2);  // 0x101C0FC0
 XI_API int __thiscall Unit1018BA60_SubmitPath3F4Kind6(void * self_, undefined4 param_1);  // 0x101C1090
 XI_API uint32_t __thiscall Unit1018BA60_FindFileNumKind1(void * self_, uint32_t param_1, undefined4 param_2, undefined4 param_3);  // 0x101C11F0
@@ -2392,7 +2388,6 @@ XI_API void __thiscall Unit1018BA60_WriteTimestampFwd(void * self_, undefined4 x
 XI_API int __thiscall Unit1018BA60_OpenHexPath(void * self_, undefined4 xi_s1);  // 0x101C2DC0
 XI_API void __thiscall Unit1018BA60_ReleaseAt1F0(void * self_);  // 0x101C33E0
 XI_API undefined4 __thiscall Unit1018BA60_GetValueAt1F0(void * self_);  // 0x101C33F0
-XI_API undefined4 __thiscall XiFileImpl__getFileName(void * self_, uint32_t param_1, int param_2);  // 0x101C3A90
 XI_API undefined4 __thiscall Unit1018BA60_FormatUserPath(void * self_, undefined4 param_1, undefined1 * param_2, int param_3);  // 0x101C3D00
 XI_API undefined4 __thiscall Unit1018BA60_FormatStrAt2F4(void * self_, undefined4 param_1, undefined1 * param_2);  // 0x101C3DB0
 XI_API undefined8 __thiscall Unit1018BA60_FormatStrAt3F4(void * self_, undefined4 param_1, undefined1 * param_2);  // 0x101C3DE0
@@ -3180,7 +3175,7 @@ XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2);  // 0x1
 XI_API int __cdecl SqskSkeleton_FindBoneIndex(int param_1, int param_2);  // 0x1027C900
 XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2);  // 0x1027C980
 XI_API void __cdecl SqskSkeleton_Release(int param_1);  // 0x1027C9D0
-XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, float * param_3);  // 0x1027CCF0
+XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x1027CCF0
 XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, float * param_3, float * param_4);  // 0x1027CD30
 XI_API void __cdecl Unit1027CCF0_TransformPoint(int param_1, int param_2, float * param_3, float * param_4);  // 0x1027CFD0
 XI_API void __cdecl SqmoUtil_MarkSlot(int param_1, int param_2, int param_3, undefined1 * param_4);  // 0x1027D650

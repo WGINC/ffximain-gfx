@@ -5079,47 +5079,6 @@ switchD_100d3782_caseD_3:
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar10 >> 8)) << 8) | (uint8_t)(1)));
 }
 
-// FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name)
-// NOT VERIFIED -- UNRESOLVED
-char CXiSkeletonActor::LoadSkeletonResource(int a2)
-{
-  _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
-  char v3;
-  int v4;
-  int v5;
-  _DWORD *v6;
-  _DWORD *v7;
-  v3 = 0;
-  v4 = this->pModelInfo;
-  if ( v4 != 0 )
-  {
-    v5 = *(_DWORD *)(v4 + 288);
-    if ( (v5 & 0x80) != 0 || (v5 & 0x100) != 0 )
-      v3 = 1;
-  }
-  if ( (*(unsigned __int8 (__thiscall **)(_DWORD *))(*self + 772))(self) != 0 || v3 == 1 )
-  {
-    orig::CXiSkeletonActor_LoadSkeletonSync((int)self, a2);
-    return 1;
-  }
-  else
-  {
-    v6 = orig::Mem_AllocFromArea(72, 4);
-    orig::CMoTask_ResetFields((int)v6);
-    g_resourcesDirty = 1;
-    if ( v6 != nullptr )
-      v7 = orig::CXiSkeletonActorRes_Constructor(v6, (int)self, (int)XI_CODE(CXiSkeletonActor_OnSkeletonLoaded));
-    else
-      v7 = nullptr;
-    this->pSkeletonRes = v7;
-    if ( v7 != nullptr )
-      v7[17] = a2;
-    else
-      orig::CXiSkeletonActor_LoadSkeletonSync((int)self, a2);
-    return 1;
-  }
-}
-
 // FUNCTION: FFXIMAIN 0x100D43E0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CXiSkeletonActor::GetSkeletonFileNo()

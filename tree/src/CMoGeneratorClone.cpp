@@ -1313,15 +1313,20 @@ int CMoGeneratorClone::InitDefaultParams()
 }
 
 // FUNCTION: FFXIMAIN 0x100542F0  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- FAIL
+// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
-  *(uint8_t ***)self = &CMoGeneratorClone_vtbl_as_v0;
+  char xi_frame[12] __attribute__((aligned(4)));
+  int *this_00;
+  
+  *(uint8_t ***)self =
+       &CMoGeneratorClone_vtbl_as_v0;
   *(uint32_t *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
-  orig::YmGenerater_Stop_v2(self,(uint32_t *)0x0);
+  orig::YmGenerater_Stop_v3(self,(int *)0x0,&xi_frame[0]);
   orig::CMoAttachments_ResetAll_v1((uint32_t *)((int)self + 0x30));
-  if (*(int **)((int)self + 0xa8) != (int *)0x0) {
-    (**(code **)(**(int **)((int)self + 0xa8) + 0x18))(1);
+  this_00 = *(int **)((int)self + 0xa8);
+  if (this_00 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
     *(uint32_t *)((int)self + 0xa8) = 0;
   }
   if (*(int *)((int)self + 0xf8) != 0) {

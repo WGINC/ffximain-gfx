@@ -405,8 +405,8 @@ XI_API undefined4 __cdecl Unit100D7420_InitGameGlobalsOnce(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Game_InitGlobal(void)
 {
-  if (DAT_1048fdf4_as_v0 == (uint8_t *)0x0) {
-    DAT_1048fdf4_as_v0 =(DAT_1048fdf4_as_v0_t)(&DAT_1048f490);
+  if (DAT_1048fdf4 == (uint8_t *)0x0) {
+    DAT_1048fdf4 =(DAT_1048fdf4_t)(&DAT_1048f490);
   }
   return 0;
 }
@@ -417,7 +417,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetGlobalBlock1048BEB8(void)
 {
   if (DAT_1048fdf8 == (undefined4 *)0x0) {
     orig::Game_ResetGlobals();
-    if (DAT_1048fdf4 == 0) {
+    if (DAT_1048fdf4_as_s32 == 0) {
       return 0xffffffff;
     }
     DAT_1048fdf8 = &DAT_1048beb8;
@@ -4512,60 +4512,6 @@ XI_API undefined4 __cdecl Unit100D7420_StepRequest2BSequence(int * param_1, unde
   return 0;
 }
 
-// FUNCTION: FFXIMAIN 0x100EEE90  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API undefined4 __cdecl Unit100D7420_StepState1030FFxx(int * param_1)
-{
-  uint32_t uVar1;
-  int iVar2;
-  
-  switch(xi_sw(*param_1)) {
-  case 0:
-    uVar1 = orig::FUN_1030ffcd();
-    *(uint32_t *)(DAT_104df770 + 0x136a8) = uVar1;
-    if (*(int *)(DAT_104df770 + 0x136a8) < 0) {
-      *(int *)(DAT_104df770 + 0x136ac) = *(int *)(DAT_104df770 + 0x136a8);
-      return 0xffffffff;
-    }
-    break;
-  case 1:
-    iVar2 = orig::FUN_1030ffd8();
-    if (iVar2 == 0) {
-      return 0;
-    }
-    if (iVar2 < 0) {
-      *(int *)(DAT_104df770 + 0x136ac) = iVar2;
-      return 0xffffffff;
-    }
-    break;
-  case 2:
-    uVar1 = orig::FUN_1030ffb7();
-    *(uint32_t *)(DAT_104df770 + 0x136a8) = uVar1;
-    if (*(int *)(DAT_104df770 + 0x136a8) < 0) {
-      *(int *)(DAT_104df770 + 0x136ac) = *(int *)(DAT_104df770 + 0x136a8);
-      return 0xffffffff;
-    }
-    break;
-  case 3:
-    iVar2 = orig::FUN_1030ffc2();
-    if (iVar2 == 0) {
-      return 0;
-    }
-    if (iVar2 < 0) {
-      *(int *)(DAT_104df770 + 0x136ac) = iVar2;
-      return 0xffffffff;
-    }
-    break;
-  case 4:
-    return 1;
-  default:
-    goto switchD_100eeea0_default;
-  }
-  *param_1 = *param_1 + 1;
-switchD_100eeea0_default:
-  return 0;
-}
-
 // FUNCTION: FFXIMAIN 0x100EEF80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit100D7420_StepWait1030FFD8(int * param_1)
@@ -5054,7 +5000,7 @@ XI_API undefined4 __cdecl Unit100D7420_CopyToGlobalBuffer(char * param_1)
 XI_API undefined4 __cdecl Unit100D7420_ClearFlag2CFD4IfNoGlobal(void)
 {
   if (DAT_104dfd98 == 0) {
-    DAT_0002cfd4_as_v0 = 0;
+    DAT_0002cfd4 = 0;
   }
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(1)));
 }
@@ -5073,7 +5019,7 @@ XI_API int __cdecl Unit100D7420_GetBlock2CF54IfFlag(void)
   if (DAT_104dfd98 == 0) {
     return 0;
   }
-  if (((uint8_t *)((&DAT_0002cfd4)))[DAT_104dfd98] == '\0') {
+  if (((uint8_t *)((&DAT_0002cfd4_as_v0)))[DAT_104dfd98] == '\0') {
     return 0;
   }
   return DAT_104dfd98 + 0x2cf54;
@@ -7163,7 +7109,7 @@ XI_API uint32_t __cdecl Unit100D7420_CeilDiv10Max10(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101033C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit100D7420_InitSessionAndStampTime(int param_1)
 {
   uint32_t xi_eax;
@@ -7179,7 +7125,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitSessionAndStampTime(int param_1)
     xi_eax = orig::FUN_100f0130(*(int *)(param_1 + 0xc),*(uint32_t *)(param_1 + 0x28),
                           ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)(param_1 + 0x80) >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)(param_1 + 0x1e)))),(char *)(DAT_104e0af0 + 0x140),
                           (char *)(param_1 + 0x30),(char *)(param_1 + 0x80),
-                          *(uint32_t *)(param_1 + 0x28));
+                          *(uint32_t *)(param_1 + 0xd0),*(uint32_t *)(param_1 + 0x28));
     if ((char)xi_eax == '\x01') {
       xi_eax = orig::Unit100D7420_ReturnTrue100F02A0(xi_eax);
       if ((char)xi_eax == '\x01') {
@@ -8686,8 +8632,8 @@ XI_API void __thiscall Unit100D7420_ErrorLogFlush(void * self_)
   
   bVar2 = *(char *)((int)self_ + 0x10a) - *(char *)((int)self_ + 0x108);
   uVar3 = bVar2 & 0xf;
-  if (((((bVar2 & 0xf) != 0) && (g_pFileMng_as_v1 != (void *)0x0)) &&
-      (uVar4 = orig::Unit1018BA60_FileMngFwd101C18E0(g_pFileMng_as_v1,(int)self_ + 0x238), (char)uVar4 == '\0')) &&
+  if (((((bVar2 & 0xf) != 0) && (g_pFileMng_as_v0 != (void *)0x0)) &&
+      (uVar4 = orig::Unit1018BA60_FileMngFwd101C18E0(g_pFileMng_as_v0,(int)self_ + 0x238), (char)uVar4 == '\0')) &&
      (uVar8 = 0, (bVar2 & 0xf) != 0)) {
     do {
       uVar3 = uVar3 - 1;
@@ -8746,7 +8692,7 @@ XI_API void __thiscall Unit100D7420_ErrorLogFlush(void * self_)
         orig::_sprintf((uint8_t *)((int)self_ + 0x238),s_err_03d_bin_1036c084,(uint32_t)uVar3);
         uVar4 = 0;
       }
-      orig::Unit1018BA60_FileMngQueuePath3F4Kind3(g_pFileMng_as_v1,(int)self_ + 0x238,(int)self_ + 0x110,(uint32_t)uVar8 * 0x48,uVar4);
+      orig::Unit1018BA60_FileMngQueuePath3F4Kind3(g_pFileMng_as_v0,(int)self_ + 0x238,(int)self_ + 0x110,(uint32_t)uVar8 * 0x48,uVar4);
       *(int *)((int)self_ + 0x234) = *(int *)((int)self_ + 0x234) + (uint32_t)uVar8 * 0x48;
     }
   }
@@ -8775,9 +8721,9 @@ XI_API void __thiscall Unit100D7420_ErrorLogReplay(void * self_)
     uVar5 = (uint8_t)((char)*(uint16_t *)((int)self_ + 0x230) - 1) & 7;
   }
   orig::_sprintf(local_20,s_err_03d_bin_1036c084,(int)(short)uVar5);
-  if ((-1 < (short)uVar5) && (uVar1 = orig::Unit1018BA60_FileMngFwd101C2840(g_pFileMng_as_v1,local_20), (char)uVar1 != '\0')) {
+  if ((-1 < (short)uVar5) && (uVar1 = orig::Unit1018BA60_FileMngFwd101C2840(g_pFileMng_as_v0,local_20), (char)uVar1 != '\0')) {
     xi_s4 = 0;
-    iVar2 = orig::Unit1018BA60_FileMngFwd101C1C90(g_pFileMng_as_v1,local_20);
+    iVar2 = orig::Unit1018BA60_FileMngFwd101C1C90(g_pFileMng_as_v0,local_20);
     if (0 < iVar2) {
       if (0x240 < iVar2) {
         iVar3 = 0x240;
@@ -8792,7 +8738,7 @@ XI_API void __thiscall Unit100D7420_ErrorLogReplay(void * self_)
           if (0x11f < uVar6) {
             uVar6 = 0x120;
           }
-          uVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v1,local_20,(uint32_t *)((int)self_ + 0x110),uVar6,xi_s4);
+          uVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v0,local_20,(uint32_t *)((int)self_ + 0x110),uVar6,xi_s4);
           if ((int)uVar4 < 1) {
             return;
           }
@@ -8961,8 +8907,8 @@ XI_API void __cdecl FDtGmNoticeProc(void)
   }
   if ((((DAT_104e1710 == 0) || (XI_PIECE_S(DAT_104e1714, 2, 2) != 0)) ||
       ((DAT_104e1718 == 0 && (DAT_104e1720 != 0)))) ||
-     ((g_pFileMng_as_v1 == (void *)0x0 ||
-      (uVar2 = orig::Unit1018BA60_FileMngFwd101C1750(g_pFileMng_as_v1,s_gmNotice_fdt_1036c168,0), (char)uVar2 != '\0')))) {
+     ((g_pFileMng_as_v0 == (void *)0x0 ||
+      (uVar2 = orig::Unit1018BA60_FileMngFwd101C1750(g_pFileMng_as_v0,s_gmNotice_fdt_1036c168,0), (char)uVar2 != '\0')))) {
     return;
   }
   if (DAT_104e1718 != DAT_104e1710) {
@@ -8972,7 +8918,7 @@ XI_API void __cdecl FDtGmNoticeProc(void)
   }
   pcVar6 = (&PTR_DAT_1036c018)[DAT_104e171c & 0xffff];
   if (pcVar6 == (char *)0x0) {
-    iVar3 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v1,s_gmNotice_siz_1036c158,&DAT_104e1720,2,0,0);
+    iVar3 = orig::Unit1018BA60_FileMngSubmitPathKind3(g_pFileMng_as_v0,s_gmNotice_siz_1036c158,&DAT_104e1720,2,0,0);
     if (0 < iVar3) {
       DAT_104e1718 = 0;
       return;
@@ -8990,7 +8936,7 @@ XI_API void __cdecl FDtGmNoticeProc(void)
         cVar1 = *pcVar6;
         pcVar6 = pcVar6 + 1;
       } while (cVar1 != '\0');
-      iVar3 = orig::Unit1018BA60_FileMngQueuePathKind3(g_pFileMng_as_v1,s_gmNotice_fdt_1036c168,&DAT_104e1722,~uVar4 - 1,0,0);
+      iVar3 = orig::Unit1018BA60_FileMngQueuePathKind3(g_pFileMng_as_v0,s_gmNotice_fdt_1036c168,&DAT_104e1722,~uVar4 - 1,0,0);
       if (0 < iVar3) {
         XI_PIECE_S(DAT_104e171c, 0, 2) = (short)DAT_104e171c + 1;
         DAT_104e1720 = (short)(~uVar4 - 1);
@@ -9020,7 +8966,7 @@ LAB_10115190:
       pcVar5 = pcVar5 + 1;
     } while (cVar1 != '\0');
   }
-  iVar3 = orig::Unit1018BA60_FileMngQueuePathKind3(g_pFileMng_as_v1,s_gmNotice_fdt_1036c168,pcVar6,~uVar4 - 1,1,0);
+  iVar3 = orig::Unit1018BA60_FileMngQueuePathKind3(g_pFileMng_as_v0,s_gmNotice_fdt_1036c168,pcVar6,~uVar4 - 1,1,0);
   if (0 < iVar3) {
     DAT_104e1720 = DAT_104e1720 + (short)(~uVar4 - 1);
     XI_PIECE_S(DAT_104e171c, 0, 2) = (short)DAT_104e171c + 1;
@@ -13082,9 +13028,9 @@ XI_API unsigned char __stdcall Tex_LoadSurfaceFromDatFile(int param_1, undefined
       (piVar1 = *(int **)(param_1 + 0x44), piVar1 != (int *)0x0)))) {
     (**(code **)(*piVar1 + 0x3c))(piVar1,0,&param_1);
     (**(code **)(*piStack_8 + 8))(piStack_8);
-    uVar2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,(int)piStack_8);
+    uVar2 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,(int)piStack_8);
     if ((0 < (int)uVar2) && (pvVar3 = orig::Allocator_Generic_v3(uVar2), pvVar3 != (void *)0x0)) {
-      orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,(int)piStack_8,pvVar3,uVar2,0);
+      orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,(int)piStack_8,pvVar3,uVar2,0);
       iVar4 = orig::FUN_102d445d(iStack_c,0,0,(int)pvVar3,uVar2,(int *)0x0,1,0,&xi_frame[0]);
       bVar5 = iVar4 == 0;
       orig::operator_delete_v1(pvVar3);
@@ -15409,7 +15355,7 @@ XI_API undefined4 __cdecl Cell_SetWord1036D6B0(undefined4 param_1, undefined4 pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Cell_SetGlobal1036E3A0(undefined4 param_1)
 {
-  DAT_1036e3a0_as_v0 = param_1;
+  DAT_1036e3a0 = param_1;
   return;
 }
 
@@ -15562,7 +15508,7 @@ LAB_10123d89:
   }
   uVar2 = *(uint16_t *)(((char *)&DAT_1036cf60) + param_2 * 2);
   uVar4 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(uVar2)));
-  if (((uVar2 == 0) || ((uVar2 & DAT_1036e3a0) == 0)) ||
+  if (((uVar2 == 0) || ((uVar2 & DAT_1036e3a0_as_v0) == 0)) ||
      (((uVar2 & 0x41) != 0 &&
       ((DAT_10662d40 != (void *)0x0 &&
        (uVar4 = orig::Unit1018BA60_IsModeFourOrFive(DAT_10662d40), (char)uVar4 != '\0'))))))
@@ -15757,7 +15703,7 @@ XI_API undefined4 __cdecl Cell_TestFlagAny2AOr36Kind4(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Cell_TestGlobal1036E3A0Mask(uint32_t param_1)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)(DAT_1036e3a0 >> 8)) << 8) | (uint8_t)((DAT_1036e3a0 & param_1) != 0)));
+  return ((uint32_t)(((uint32_t)((int32_t)(DAT_1036e3a0_as_v0 >> 8)) << 8) | (uint8_t)((DAT_1036e3a0_as_v0 & param_1) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123E60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -17820,7 +17766,7 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
     else {
       bVar4 = false;
     }
-    if ((param_5 == 0) || (DAT_10621940 == (int *)param_5)) {
+    if ((param_5 == 0) || (DAT_10621940_as_v0 == (int *)param_5)) {
       bVar5 = true;
     }
     else {
@@ -17836,7 +17782,7 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
     }
     if (bVar5) {
       uVar9 = orig::Unit100D7420_FindByKeyByte(local_83c[0]);
-      orig::FUN_10128ce0(dword_1057815C_as_v1,DAT_10621940,local_800,local_83c,param_3,uVar9);
+      orig::FUN_10128ce0(dword_1057815C_as_v1,DAT_10621940_as_v0,local_800,local_83c,param_3,uVar9);
       pvVar8 = dword_1057815C_as_v1;
       *(int *)((int)dword_1057815C_as_v1 + 0xc) = *(int *)((int)dword_1057815C_as_v1 + 0xc) + 1;
     }

@@ -7605,13 +7605,6 @@
 "symbol": "ResourceIter_FindById",
 "unit": "unit_10073750_ResourceIter"
 },
-"0x10073d80": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file",
-"symbol": "ResourceIter_FindOrStartTask",
-"unit": "unit_10073750_ResourceIter"
-},
 "0x100740c0": {
 "class": null,
 "method": null,
@@ -10567,12 +10560,6 @@
 "symbol": "CXiSkeletonActor::LoadSkeletonSync",
 "reloc_literals": 3
 },
-"0x100d4330": {
-"class": "CXiSkeletonActor",
-"method": "LoadSkeletonResource",
-"why": "IDB name",
-"symbol": "CXiSkeletonActor::LoadSkeletonResource"
-},
 "0x100d43e0": {
 "class": "CXiSkeletonActor",
 "method": "GetSkeletonFileNo",
@@ -11753,13 +11740,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
 "symbol": "Unit100D7420_StepRequest2BSequence",
-"unit": "unit_100D7420"
-},
-"0x100eee90": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "Unit100D7420_StepState1030FFxx",
 "unit": "unit_100D7420"
 },
 "0x100eef80": {
@@ -21631,20 +21611,6 @@
 "symbol": "Unit1018BA60_SubmitPath4F4Kind3",
 "unit": "unit_1018BA60"
 },
-"0x101c09b0": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "Unit1018BA60_CreateDirAndWait",
-"unit": "unit_1018BA60"
-},
-"0x101c0a40": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "Unit1018BA60_CreateDirAndHandleFile",
-"unit": "unit_1018BA60"
-},
 "0x101c0fc0": {
 "class": null,
 "method": null,
@@ -21762,13 +21728,6 @@
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
 "symbol": "Unit1018BA60_GetValueAt1F0",
-"unit": "unit_1018BA60"
-},
-"0x101c3a90": {
-"class": null,
-"method": null,
-"why": "unit: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file",
-"symbol": "XiFileImpl__getFileName",
 "unit": "unit_1018BA60"
 },
 "0x101c3d00": {

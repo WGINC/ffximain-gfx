@@ -116,9 +116,9 @@ XI_API undefined4 __cdecl StAvatar_Unload(uint32_t * param_1)
   } while (iVar1 != 0);
   orig::StAvatar_Reset((int)param_1);
   orig::StAvatar_ReleaseResources(param_1,0);
-  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
   orig::StAvatar_ApplyChannels((uint8_t *)param_1);
-  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v1);
+  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
   orig::StAvatar_SetChannel((uint8_t *)param_1,param_1[2],param_1[3]);
   param_1[1] = 1;
   orig::StModelItem_ReadStart((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_1[2] * 4) + 4 + param_1[3] * 2);
@@ -190,13 +190,13 @@ XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1)
   uint32_t *puVar4;
   
   if (*(int *)(param_1 + 4) == 1) {
-    orig::Unit1018BA60_FileMngCall101C2670(g_pFileMng_as_v1);
-    uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v1);
+    orig::Unit1018BA60_FileMngCall101C2670(g_pFileMng_as_v0);
+    uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v0);
     cVar1 = (char)uVar2;
     while (cVar1 != '\0') {
       orig::FUN_1024d850((uint32_t *)param_1);
       Sleep(2);
-      uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v1);
+      uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v0);
       cVar1 = (char)uVar2;
     }
     *(uint32_t *)(param_1 + 4) = 0;
@@ -1793,7 +1793,7 @@ XI_API undefined4 __cdecl StChannelItem_Load(int param_1, undefined4 param_2)
     return 0xffffffff;
   }
   *(uint32_t *)(param_1 + 4) = param_2;
-  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_2,0,0,param_1,&LAB_10250ec0,XI_CODE(FUN_10250e10));
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2,0,0,param_1,&LAB_10250ec0,XI_CODE(FUN_10250e10));
   if (iVar1 < 0) {
     orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__Chn_file_not_found____103896e0,param_2);
     return 0xffffffff;

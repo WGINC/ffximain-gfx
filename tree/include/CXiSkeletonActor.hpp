@@ -111,7 +111,6 @@ public:
     static void __thiscall SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x100D0FC0
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
     static undefined4 __thiscall LoadSkeletonSync(void * self, uint32_t param_1);  // 0x100D2F60
-    char LoadSkeletonResource(int a2);  // 0x100D4330
     static int __cdecl GetSkeletonFileNo();  // 0x100D43E0
     static int __thiscall AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100D4410
     static int __thiscall FindListEntry(void * self, int param_1);  // 0x100D4540

@@ -406,6 +406,17 @@ def main(exp, gate, manf, incdir, outdir):
             g = json.loads(l)
             if g.get('verdict') == 'PASS': ps.add(int(g['original'], 16))
         passed_in.append(ps)
+    # raw verdicts given again under the gate's current rules (XI_REGATE, tree/source.json `raw_regate`: lines with
+    # `export`, the basename of the export the record comes from; the IDA export is gfx_export.jsonl): each replaces
+    # that export's earlier verdict for the function, which was given under rules since changed
+    if os.environ.get('XI_REGATE'):
+        names = [os.path.basename(e) for e in exp.split(',')]
+        for l in open(os.environ['XI_REGATE']):
+            g = json.loads(l); a = int(g['original'], 16)
+            k = next((n for n, b in enumerate(names) if b == g['export'] or (n == 0 and g['export'] == 'gfx_export.jsonl')), None)
+            if k is None or k >= len(passed_in): continue
+            if g.get('verdict') == 'PASS': passed_in[k].add(a)
+            else: passed_in[k].discard(a)
     recs, first = [], {}
     for i, e in enumerate(exp.split(',')):
         for l in open(e):
@@ -449,11 +460,7 @@ def main(exp, gate, manf, incdir, outdir):
             r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
-    passed = set()
-    for gf in gate.split(','):
-        for l in open(gf):
-            g = json.loads(l)
-            if g.get('verdict') == 'PASS': passed.add(int(g['original'], 16))
+    passed = set().union(*passed_in)                 # passed by some export's gate (as given again, XI_REGATE)
     def reg_callee(o):
         m = re.search(CC_RE, o.get('type') or '')
         return bool(o.get('storage')) and bool(hx2cpp.extra_regs(m.group(0) if m else '__cdecl', o['storage']))

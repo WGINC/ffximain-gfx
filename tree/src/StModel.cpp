@@ -69,12 +69,12 @@ XI_API undefined4 __cdecl StModelItem_ReadStart(int param_1, undefined4 param_2)
     return 0xffffffff;
   }
   *(int *)(param_1 + 4) = param_2;
-  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_2,0,0,param_1,&LAB_10252840,XI_CODE(FUN_102526f0));
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2,0,0,param_1,&LAB_10252840,XI_CODE(FUN_102526f0));
   if (iVar1 < 0) {
     orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__DMB_file_not_found____10389b8c,param_2);
     return 0xffffffff;
   }
-  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_2 + 1,0,0,param_1,&LAB_10252880,XI_CODE(FUN_10252790));
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2 + 1,0,0,param_1,&LAB_10252880,XI_CODE(FUN_10252790));
   if (iVar1 < 0) {
     orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__DMP_file_not_found____10389b68,param_2 + 1);
     return 0xffffffff;
@@ -96,10 +96,10 @@ XI_API undefined4 __cdecl StModelItem_Resolve(uint32_t * param_1)
   if ((param_1[6] != 0) && (param_1[7] != 0)) {
     uVar1 = orig::FUN_10275090();
     param_1[5] = uVar1;
-    orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v1);
+    orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
     uVar1 = orig::SqmdDMB_Resolve((char *)param_1[6],param_1[7]);
     param_1[8] = uVar1;
-    orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v1);
+    orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
     iVar2 = orig::FUN_10275090();
     param_1[5] = iVar2 - param_1[5];
     if (param_1[8] == 0) {

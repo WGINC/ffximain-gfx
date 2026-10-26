@@ -107,12 +107,16 @@ def arg_masks(ftype, cc):
         else: out.append(0xFFFFFFFF)
     return out[:16]
 
-def stub_masks(ea, ftype, cc):
-    """the argument masks of a stub for the function at ea: the bytes its code reads (arg_reads.py; an argument it
-    never reads is not compared), else the declared type's (arg_masks)"""
+def stub_masks(ea, ftype, cc, prev=None):
+    """the argument masks of a stub for the function at ea: per argument, the bytes its code reads (arg_reads.py; an
+    argument it never reads is not compared); where the code may read all four (arg_reads.py does not narrow it,
+    as for a function it does not list), the declared type's (arg_masks), or prev's (the mask an existing case
+    has, case_pushes.py)"""
+    decl = (arg_masks(ftype, cc) if ftype else list(prev or []))
     r = ARG_READS.get('0x%08X' % ea)
-    if r is not None: return r + [0] * (16 - len(r))
-    return arg_masks(ftype, cc) if ftype else []
+    if r is None: return decl
+    r = r + [0] * (16 - len(r))
+    return [d if m == 0xFFFFFFFF and k < len(decl) else m for k, (m, d) in enumerate(zip(r, decl + [None] * 16))]
 
 def conv_of(ftype):
     m = re.search(r'__(cdecl|stdcall|thiscall|fastcall)', ftype)

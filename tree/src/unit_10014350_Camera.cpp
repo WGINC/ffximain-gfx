@@ -592,11 +592,11 @@ XI_API undefined4 __cdecl Unit10014350_ReturnTrue(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100157B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall App_WinMainClearFileMng(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
-  g_pFileMng_as_v0 = 0;
-  orig::App_WinMain();
+  g_pFileMng_as_v1 = 0;
+  orig::FUN_100157e0(param_2,param_3);
   return;
 }
 

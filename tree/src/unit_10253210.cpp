@@ -88,15 +88,15 @@ XI_API void __stdcall StAvatar_LoadInfoFile(int param_1)
           }
         }
       }
-      if (((g_pFileMng_as_v1 != (void *)0x0) && (((uint8_t *)((&DAT_10389d0c)))[iVar1] != '\0')) &&
+      if (((g_pFileMng_as_v0 != (void *)0x0) && (((uint8_t *)((&DAT_10389d0c)))[iVar1] != '\0')) &&
          (*(int *)(((char *)&DAT_10389d14) + iVar1) != 0)) {
         orig::Unit1018BA60_CtorVt10337C60(local_20);
-        iVar4 = orig::Unit1018BA60_FileMngFwd101C2450(g_pFileMng_as_v1,*ppuVar2,local_20);
+        iVar4 = orig::Unit1018BA60_FileMngFwd101C2450(g_pFileMng_as_v0,*ppuVar2,local_20);
         if (-1 < iVar4) {
-          iVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v1,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
+          iVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v0,*ppuVar2,*(LPVOID *)(((char *)&DAT_10389d14) + iVar1),
                                *(uint32_t *)(((char *)&DAT_10389d10) + iVar1),0);
           if (-1 < iVar4) {
-            orig::Unit1018BA60_FileMngSubmitPath3F4Kind6(g_pFileMng_as_v1,*ppuVar2);
+            orig::Unit1018BA60_FileMngSubmitPath3F4Kind6(g_pFileMng_as_v0,*ppuVar2);
           }
           ((uint8_t *)((&DAT_10389d0c)))[iVar1] = 0;
           orig::Unit1018BA60_SetVtable10337C60(local_20);

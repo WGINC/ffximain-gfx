@@ -29,7 +29,7 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 - **What would settle it:** reg_saved proving EBP restored in both callees, or the kit's `jmp` recording of this
   site (session A of kit/sessions/pending_26oct records it: the targets the game took).
 
-### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (not read yet)
+### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (read in part)
 - **Known:** with the stack filled with 0xA5A5A5A5 and the new facts, these were PASS before and are not now:
   - FAIL 0x101C3A90 (memory differs at 29 bytes), 0x1021C380 (a stub argument 0xA5A5A500 against 0), 0x100542F0
     (the reconstruction faults on 0xA5A5A5A5), 0x101BE6C0 (a stub argument 0xA5A5A5A5 against 0), 0x100F1670
@@ -40,21 +40,23 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
   read yet.
 - **Read so far (26 Oct):**
   - **0x1021C380:** the game writes one byte of a dword local (`mov byte ptr [esp+0x10], 0`) and pushes the whole
-    dword to 0x100EB490 (`mov ebp, [esp+0x10]; push ebp`). In 0x100EB490's code, the argument is read only through
-    CL and `and esi, 0xff`; ECX is next written whole (`sbb ecx, ecx`) before any read of its upper bytes. So the
-    3 bytes that differ (fill against 0) look unread. But no tool derives per-byte argument reads: arg_masks
-    narrows an argument only where a prototype declares it 8- or 16-bit, and the wrapper declares `XI_ANY`. A
-    per-byte read set for stack arguments, built like caller_reads.py's byte flow, would settle it. Until then
-    the FAIL stands.
+    dword to 0x100EB490 (`mov ebp, [esp+0x10]; push ebp`). 0x100EB490 loads it into ECX and reads CL; on one path
+    it returns with the other three bytes still in ECX. arg_reads.py now follows a whole-dword load through the
+    registers (26 Oct). It shows those bytes reach ECX at the return of callers whose own callers are not all
+    known (virtual methods), so whether anything reads them is not settled, and the FAIL stands.
   - **0x101BE6C0:** the original passes a slot it never wrote (0xA5A5A5A5) to 0x101BE2C0, which passes the
     argument's address on to 0x10314D91. Not read further.
-  - **0x100542F0, and 3 UNRESOLVED (0x100157B0, 0x101033C0, 0x1027CCF0):** fs15's translation of each PASSes the
-    raw gate under the current rules. The tree builds each from an older export, because hx2clean.py takes a
-    function from the first export whose raw gate passed it, and those older raw verdicts predate the 0xA5 stack
-    fill and `args_may`. Under the current rules, the older raw PASS is not re-established.
-  - **Open, the owner's decision:** how the older exports' raw verdicts give way to verdicts under the current
-    rules. Options: re-gate the older records and keep the new verdicts in a file of their own, which
-    regen_clean.sh reads after the older ones; or let a newer export's PASS outrank an older export's.
+  - **Settled (26 Oct): 0x100542F0, and 3 UNRESOLVED (0x100157B0, 0x101033C0, 0x1027CCF0).** Each was built from an
+    older export whose raw PASS predates the current gate rules. Every older-export record of the tree's
+    non-PASS functions that another export passes raw was gated again under the current rules
+    (verification/gate_raw_regate.jsonl, 21 records, read by hx2clean.py through XI_REGATE; tree/source.json
+    `raw_regate`). None still passes, so these four are now built from fs15's translation, and each PASSes the
+    clean gate under both its cases. Six functions no export now passes raw left the tree, and the game's code
+    runs in their place: 0x10073D80, 0x100D4330, 0x100EEE90, 0x101C09B0, 0x101C0A40, 0x101C3A90. None of the
+    six passed the clean gate.
+  - **Not re-gated:** the older records of the other 41 non-PASS tree functions (3 more are built from fs15,
+    whose verdicts are under the current rules). For them no other export passes raw, so a re-gate could only
+    take them out of the tree.
 
 ### P17. Gate PASS functions that pass fewer arguments than the game (25 Oct, found by the VC6 sweep)
 - **Known, from the game's bytes:**

@@ -2008,9 +2008,9 @@ XI_API void __thiscall Unit101D7020_SubmitMarkerFile(void * self_, undefined4 xi
     *(uint32_t *)((int)self_ + 0x6d0) = uVar1;
     orig::_sprintf_v1(local_20,s_M_03d_02d__08d_MRK_10385008,xi_s1,xi_s2,
                  *(uint32_t *)(DAT_104dfd98 + 0x3c390));
-    orig::Unit1018BA60_FileMngSubmitPathKind6(g_pFileMng_as_v1,local_20,0);
+    orig::Unit1018BA60_FileMngSubmitPathKind6(g_pFileMng_as_v0,local_20,0);
     orig::_sprintf_v1(local_20,s_M_03d_02d_MRK_1038501c,xi_s1,xi_s2);
-    orig::Unit1018BA60_FileMngSubmitPathKind3_v1(g_pFileMng_as_v1,local_20,(int)self_ + 0x6cc,0x1c0,0,0);
+    orig::Unit1018BA60_FileMngSubmitPathKind3_v1(g_pFileMng_as_v0,local_20,(int)self_ + 0x6cc,0x1c0,0,0);
   }
   return;
 }

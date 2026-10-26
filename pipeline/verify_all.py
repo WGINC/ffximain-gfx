@@ -217,7 +217,9 @@ def main():
         # each export's raw gate, in the same order (the first may be the older single `ghidra_raw_gate`)
         gg = g.get('raw_gate') or (src.get('ghidra_raw_gate') if k == 0 else None)
         if gg: ggate.append(gg)
-    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
+    # raw verdicts given again under the gate's current rules (hx2clean.py, XI_REGATE), where recorded
+    rg = ('XI_REGATE=%s ' % os.path.join(ROOT, src['raw_regate'])) if src.get('raw_regate') else ''
+    t = os.path.join(tmp, 'tree'); rc, out = sh('%spipeline/regen_clean.sh %s %s %s' % (rg, ','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):

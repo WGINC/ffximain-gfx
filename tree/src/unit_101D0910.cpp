@@ -42,7 +42,7 @@ XI_API undefined4 __cdecl Unit101D0910_TriggerOnSceneState60(void)
   if ((DAT_104dfd98 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
     piVar1 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar1 != '\0') && (piVar1 = *(int **)(DAT_10663888 + 8), piVar1 == (int *)0x0)) {
-      DAT_10663178_as_v0 = 2;
+      DAT_10663178 = 2;
       uVar2 = orig::MusicTrack_SetVolumeId0016();
       DAT_106218ea = 1;
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
@@ -75,7 +75,7 @@ XI_API int * __cdecl CopyrightText_Draw(void)
   if ((DAT_104dfd98 != 0) && (piVar3 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
     piVar3 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar3 != '\0') &&
-       ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178 != 0)))) {
+       ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178_as_v0 != 0)))) {
       iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
       local_8 = (float)((long double)*(int *)(iVar4 + 8) * (long double)0.0009765625f);
       iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
@@ -199,7 +199,7 @@ XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngA(int param_1, undefined4
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::Unit1018BA60_FileMngCall101C0A40(g_pFileMng_as_v1,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
+    iVar1 = orig::Unit1018BA60_FileMngCall101C0A40(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
     uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;
@@ -250,7 +250,7 @@ XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngB(int param_1, undefined4
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::Unit1018BA60_FileMngSubmitPath4F4Kind3(g_pFileMng_as_v1,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
+    iVar1 = orig::Unit1018BA60_FileMngSubmitPath4F4Kind3(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
     uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;

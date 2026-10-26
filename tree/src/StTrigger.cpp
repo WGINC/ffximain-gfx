@@ -139,8 +139,8 @@ XI_API undefined4 __cdecl StTrigger_RegisterCallbacks(int param_1, uint32_t para
   
   *(uint32_t *)(param_1 + 0xc) = param_3;
   *(uint32_t *)(param_1 + 0x10) = param_2;
-  orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
-  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v1,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
+  orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
   if (iVar1 < 0) {
     orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__Trigger_file_not_foun_10389c6c,param_2);
     return 0xffffffff;

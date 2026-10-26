@@ -48,7 +48,7 @@ XI_API undefined4 __thiscall Unit101C72E0_Load(void * self_, int param_1)
   
   orig::Unit101C72E0_FreeBuffer(self_);
   iVar1 = param_1;
-  iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,param_1,(int)self_ + 0x10,0x40,0);
+  iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,param_1,(int)self_ + 0x10,0x40,0);
   if (iVar2 == 0) {
     return 0;
   }
@@ -142,9 +142,9 @@ XI_API undefined4 __thiscall Unit101C72E0_LoadTable(void * self_, int param_1)
   uint64_t uVar5;
   
   orig::Unit1018BA60_EntriesSetCount((void *)((int)self_ + 0xc),param_1);
-  uVar1 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,param_1);
+  uVar1 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,param_1);
   if (0x3f < uVar1) {
-    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,param_1,(int)self_ + 0x18,0x40,0);
+    iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,param_1,(int)self_ + 0x18,0x40,0);
     if (iVar2 != 0) {
       this_00 = (void *)((int)self_ + 0x58);
       orig::Unit10253A20_BindSource(this_00,(int)self_ + 0x18,0x40);
@@ -155,7 +155,7 @@ XI_API undefined4 __thiscall Unit101C72E0_LoadTable(void * self_, int param_1)
       if (uVar1 != 0) {
         uVar5 = orig::Allocator_Generic_v1(uVar1);
         pvVar3 = (LPVOID)uVar5;
-        iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,param_1,pvVar3,uVar1,0x40);
+        iVar2 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,param_1,pvVar3,uVar1,0x40);
         if (iVar2 == 0) {
           orig::operator_delete_v1(pvVar3);
           return 0;

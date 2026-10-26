@@ -27,11 +27,11 @@ XI_API undefined4 __cdecl Unit10252A00_CheckFileRefs(uint32_t * param_1)
   uint32_t uVar2;
   
   if (((*param_1 & 1) != 0) && (uVar1 = param_1[1], -1 < (int)uVar1)) {
-    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v1,uVar1);
+    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,uVar1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }
-    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v1,uVar1 + 1);
+    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,uVar1 + 1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }

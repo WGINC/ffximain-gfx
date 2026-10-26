@@ -87,10 +87,12 @@ typedef undefined4 LAB_100c31d0_t;
 #define LAB_100c31d0 XI_EA(LAB_100c31d0_t, 0x100C31D0u)
 typedef undefined4 LAB_100d1400_t;
 #define LAB_100d1400 XI_EA(LAB_100d1400_t, 0x100D1400u)
-typedef undefined4 CXiSkeletonActor_OnSkeletonLoaded_t;
-#define CXiSkeletonActor_OnSkeletonLoaded XI_EA(CXiSkeletonActor_OnSkeletonLoaded_t, 0x100D2F40u)
+typedef undefined4 g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40_t;
+#define g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40 XI_EA(g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40_t, 0x100D2F40u)
 typedef undefined4 LAB_100d4100_t;
 #define LAB_100d4100 XI_EA(LAB_100d4100_t, 0x100D4100u)
+typedef undefined4 LAB_100d8520_t;
+#define LAB_100d8520 XI_EA(LAB_100d8520_t, 0x100D8520u)
 typedef undefined4 LAB_100e16a0_t;
 #define LAB_100e16a0 XI_EA(LAB_100e16a0_t, 0x100E16A0u)
 typedef undefined4 LAB_100e16e0_t;
@@ -421,18 +423,36 @@ typedef undefined4 LAB_10327818_t;
 #define LAB_10327818 XI_EA(LAB_10327818_t, 0x10327818u)
 typedef undefined4 LAB_103278d8_t;
 #define LAB_103278d8 XI_EA(LAB_103278d8_t, 0x103278D8u)
+typedef uint32_t (__stdcall *ImmGetVirtualKey_t)(XI_ANY);
+#define ImmGetVirtualKey XI_EA(ImmGetVirtualKey_t, 0x1032906Cu)
+typedef uint32_t (__stdcall *ImmNotifyIME_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmNotifyIME XI_EA(ImmNotifyIME_t, 0x10329078u)
+typedef uint32_t (__stdcall *ImmSetOpenStatus_t)(XI_ANY, XI_ANY);
+#define ImmSetOpenStatus XI_EA(ImmSetOpenStatus_t, 0x1032908Cu)
+typedef uint32_t (__stdcall *ImmGetOpenStatus_t)(XI_ANY);
+#define ImmGetOpenStatus XI_EA(ImmGetOpenStatus_t, 0x10329090u)
+typedef uint32_t (__stdcall *ImmGetConversionStatus_t)(XI_ANY, XI_ANY, XI_ANY);
+#define ImmGetConversionStatus XI_EA(ImmGetConversionStatus_t, 0x10329094u)
+typedef uint32_t (__stdcall *ImmGetCompositionStringA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmGetCompositionStringA XI_EA(ImmGetCompositionStringA_t, 0x10329098u)
+typedef uint32_t (__stdcall *ImmSetCompositionStringA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmSetCompositionStringA XI_EA(ImmSetCompositionStringA_t, 0x1032909Cu)
 typedef void (__stdcall *Sleep_t)(DWORD dwMilliseconds);
 #define Sleep XI_EA(Sleep_t, 0x103290F8u)
 typedef void (__stdcall *Sleep_as_v0_t)(XI_ANY);
 #define Sleep_as_v0 XI_EA(Sleep_as_v0_t, 0x103290F8u)
 typedef uint32_t (__stdcall *ResumeThread_t)(XI_ANY);
 #define ResumeThread XI_EA(ResumeThread_t, 0x103290FCu)
+typedef uint32_t (__stdcall *CreateThread_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateThread XI_EA(CreateThread_t, 0x10329100u)
 typedef uint32_t (__stdcall *CloseHandle_t)(XI_ANY);
 #define CloseHandle XI_EA(CloseHandle_t, 0x10329104u)
 typedef DWORD (__stdcall *GetCurrentDirectoryA_t)(DWORD nBufferLength, LPSTR lpBuffer);
 #define GetCurrentDirectoryA XI_EA(GetCurrentDirectoryA_t, 0x10329118u)
 typedef uint32_t (__stdcall *GetCurrentDirectoryA_as_v0_t)(XI_ANY, XI_ANY);
 #define GetCurrentDirectoryA_as_v0 XI_EA(GetCurrentDirectoryA_as_v0_t, 0x10329118u)
+typedef uint32_t (__stdcall *DeleteFileA_t)(XI_ANY);
+#define DeleteFileA XI_EA(DeleteFileA_t, 0x10329124u)
 typedef uint32_t (__stdcall *FreeLibrary_t)(XI_ANY);
 #define FreeLibrary XI_EA(FreeLibrary_t, 0x10329130u)
 typedef uint32_t (__stdcall *LoadLibraryA_t)(XI_ANY);
@@ -447,18 +467,30 @@ typedef void (__stdcall *LeaveCriticalSection_t)(XI_ANY);
 #define LeaveCriticalSection XI_EA(LeaveCriticalSection_t, 0x10329188u)
 typedef void (__stdcall *EnterCriticalSection_t)(XI_ANY);
 #define EnterCriticalSection XI_EA(EnterCriticalSection_t, 0x1032918Cu)
+typedef uint32_t (__stdcall *InterlockedDecrement_t)(XI_ANY);
+#define InterlockedDecrement XI_EA(InterlockedDecrement_t, 0x10329194u)
+typedef uint32_t (__stdcall *InterlockedIncrement_t)(XI_ANY);
+#define InterlockedIncrement XI_EA(InterlockedIncrement_t, 0x10329198u)
 typedef void (__stdcall *GetLocalTime_t)(LPSYSTEMTIME lpSystemTime);
 #define GetLocalTime XI_EA(GetLocalTime_t, 0x1032919Cu)
 typedef uint32_t (__stdcall *SetPriorityClass_t)(XI_ANY, XI_ANY);
 #define SetPriorityClass XI_EA(SetPriorityClass_t, 0x103291A0u)
 typedef uint32_t (__stdcall *GetCurrentProcess_t)();
 #define GetCurrentProcess XI_EA(GetCurrentProcess_t, 0x103291A4u)
+typedef uint32_t (__stdcall *QueryPerformanceCounter_t)(XI_ANY);
+#define QueryPerformanceCounter XI_EA(QueryPerformanceCounter_t, 0x103291ACu)
+typedef uint32_t (__stdcall *CreateEventA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateEventA XI_EA(CreateEventA_t, 0x103291B8u)
 typedef uint32_t (__stdcall *SetEvent_t)(XI_ANY);
 #define SetEvent XI_EA(SetEvent_t, 0x103291C4u)
 typedef uint32_t (__stdcall *WaitForSingleObject_t)(XI_ANY, XI_ANY);
 #define WaitForSingleObject XI_EA(WaitForSingleObject_t, 0x103291C8u)
 typedef uint32_t (__stdcall *ReleaseMutex_t)(XI_ANY);
 #define ReleaseMutex XI_EA(ReleaseMutex_t, 0x103291CCu)
+typedef uint32_t (__stdcall *CreateSemaphoreA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateSemaphoreA XI_EA(CreateSemaphoreA_t, 0x103291D0u)
+typedef uint32_t (__stdcall *CreateMutexA_t)(XI_ANY, XI_ANY, XI_ANY);
+#define CreateMutexA XI_EA(CreateMutexA_t, 0x103291D4u)
 typedef uint32_t (__stdcall *ReleaseSemaphore_t)(XI_ANY, XI_ANY, XI_ANY);
 #define ReleaseSemaphore XI_EA(ReleaseSemaphore_t, 0x103291D8u)
 typedef uint32_t (__stdcall *GetExitCodeThread_t)(XI_ANY, XI_ANY);
@@ -467,6 +499,8 @@ typedef uint32_t (__stdcall *ResetEvent_t)(XI_ANY);
 #define ResetEvent XI_EA(ResetEvent_t, 0x103291FCu)
 typedef uint32_t (__stdcall *CreateDirectoryA_t)(XI_ANY, XI_ANY);
 #define CreateDirectoryA XI_EA(CreateDirectoryA_t, 0x10329208u)
+typedef uint32_t (__stdcall *QueryPerformanceFrequency_t)(XI_ANY);
+#define QueryPerformanceFrequency XI_EA(QueryPerformanceFrequency_t, 0x103292ECu)
 typedef void (__stdcall *DeleteCriticalSection_t)(XI_ANY);
 #define DeleteCriticalSection XI_EA(DeleteCriticalSection_t, 0x103292F4u)
 typedef void (__stdcall *PostQuitMessage_t)(XI_ANY);
@@ -481,6 +515,8 @@ typedef uint32_t (__stdcall *AdjustWindowRectEx_t)(XI_ANY, XI_ANY, XI_ANY, XI_AN
 #define AdjustWindowRectEx XI_EA(AdjustWindowRectEx_t, 0x10329348u)
 typedef uint32_t (__stdcall *ShowWindow_t)(XI_ANY, XI_ANY);
 #define ShowWindow XI_EA(ShowWindow_t, 0x10329368u)
+typedef uint32_t (__stdcall *g_SetCursorPos_10329374_t)(XI_ANY, XI_ANY);
+#define g_SetCursorPos_10329374 XI_EA(g_SetCursorPos_10329374_t, 0x10329374u)
 typedef HCURSOR (__stdcall *LoadCursorFromFileA_t)(LPCSTR lpFileName);
 #define LoadCursorFromFileA XI_EA(LoadCursorFromFileA_t, 0x10329378u)
 typedef HCURSOR (__stdcall *LoadCursorA_t)(HINSTANCE hInstance, LPCSTR lpCursorName);
@@ -2627,6 +2663,8 @@ typedef char s__02x_1036be9c_t[1];
 #define s__02x_1036be9c XI_EA(s__02x_1036be9c_t, 0x1036BE9Cu)
 typedef undefined * PTR_DAT_1036c018_t;
 #define PTR_DAT_1036c018 XI_EA(PTR_DAT_1036c018_t, 0x1036C018u)
+typedef char s_lb_03d_bin_1036c078_t[1];
+#define s_lb_03d_bin_1036c078 XI_EA(s_lb_03d_bin_1036c078_t, 0x1036C078u)
 typedef char s_err_03d_bin_1036c084_t[1];
 #define s_err_03d_bin_1036c084 XI_EA(s_err_03d_bin_1036c084_t, 0x1036C084u)
 typedef char s_BLOCK_1036c090_t[1];
@@ -3785,8 +3823,14 @@ typedef char s_____Error__Couldn_t_find_link__d_103b2784_t[1];
 #define s_____Error__Couldn_t_find_link__d_103b2784 XI_EA(s_____Error__Couldn_t_find_link__d_103b2784_t, 0x103B2784u)
 typedef char s__f__f__f__f_103b27c8_t[1];
 #define s__f__f__f__f_103b27c8 XI_EA(s__f__f__f__f_103b27c8_t, 0x103B27C8u)
+typedef int DAT_103b27e8_t;
+#define DAT_103b27e8 XI_EA(DAT_103b27e8_t, 0x103B27E8u)
+typedef char s_Timer_failed_103b27ec_t[1];
+#define s_Timer_failed_103b27ec XI_EA(s_Timer_failed_103b27ec_t, 0x103B27ECu)
 typedef char s_Warning_in__s__line__d__103b27fc_t[1];
 #define s_Warning_in__s__line__d__103b27fc XI_EA(s_Warning_in__s__line__d__103b27fc_t, 0x103B27FCu)
+typedef char s_C__dev_dancer_modules_sqBase_src_103b2818_t[1];
+#define s_C__dev_dancer_modules_sqBase_src_103b2818 XI_EA(s_C__dev_dancer_modules_sqBase_src_103b2818_t, 0x103B2818u)
 typedef undefined4 DAT_103b2848_t;
 #define DAT_103b2848 XI_EA(DAT_103b2848_t, 0x103B2848u)
 typedef char s_VALID_103b2850_t[1];
@@ -6599,6 +6643,8 @@ typedef undefined4 _DAT_104898fc_t;
 #define _DAT_104898fc XI_EA(_DAT_104898fc_t, 0x104898FCu)
 typedef undefined1 DAT_10489900_t;
 #define DAT_10489900 XI_EA(DAT_10489900_t, 0x10489900u)
+typedef char DAT_10489900_as_s8_t;
+#define DAT_10489900_as_s8 XI_EA(DAT_10489900_as_s8_t, 0x10489900u)
 typedef undefined4 DAT_10489904_t;
 #define DAT_10489904 XI_EA(DAT_10489904_t, 0x10489904u)
 typedef undefined4 DAT_10489908_t;
@@ -9047,6 +9093,10 @@ typedef int DAT_1067a298_t;
 #define DAT_1067a298 XI_EA(DAT_1067a298_t, 0x1067A298u)
 typedef undefined4 DAT_1067a298_as_v0_t;
 #define DAT_1067a298_as_v0 XI_EA(DAT_1067a298_as_v0_t, 0x1067A298u)
+typedef int DAT_1067a29c_t;
+#define DAT_1067a29c XI_EA(DAT_1067a29c_t, 0x1067A29Cu)
+typedef undefined4 DAT_1067a2a0_t;
+#define DAT_1067a2a0 XI_EA(DAT_1067a2a0_t, 0x1067A2A0u)
 typedef undefined4 _DAT_1099aeb8_t;
 #define _DAT_1099aeb8 XI_EA(_DAT_1099aeb8_t, 0x1099AEB8u)
 typedef undefined4 _DAT_1099aebc_t;
@@ -9391,6 +9441,16 @@ typedef undefined4 _DAT_1099cdb4_t;
 #define _DAT_1099cdb4 XI_EA(_DAT_1099cdb4_t, 0x1099CDB4u)
 typedef undefined4 _DAT_1099cdb8_t;
 #define _DAT_1099cdb8 XI_EA(_DAT_1099cdb8_t, 0x1099CDB8u)
+typedef undefined4 DAT_1099cee0_t;
+#define DAT_1099cee0 XI_EA(DAT_1099cee0_t, 0x1099CEE0u)
+typedef int64_t DAT_1099cee0_as_v0_t;
+#define DAT_1099cee0_as_v0 XI_EA(DAT_1099cee0_as_v0_t, 0x1099CEE0u)
+typedef undefined4 DAT_1099cee8_t;
+#define DAT_1099cee8 XI_EA(DAT_1099cee8_t, 0x1099CEE8u)
+typedef undefined4 _DAT_1099ceec_t;
+#define _DAT_1099ceec XI_EA(_DAT_1099ceec_t, 0x1099CEECu)
+typedef int DAT_1099cef0_t;
+#define DAT_1099cef0 XI_EA(DAT_1099cef0_t, 0x1099CEF0u)
 typedef undefined4 DAT_1099cef8_t;
 #define DAT_1099cef8 XI_EA(DAT_1099cef8_t, 0x1099CEF8u)
 typedef undefined4 DAT_1099cefc_t;

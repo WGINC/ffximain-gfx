@@ -358,6 +358,28 @@ XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10265940  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void * __thiscall fn_10265940(void * self_, undefined4 xi_s1)
+{
+  InterlockedIncrement(&DAT_1067a2a0);
+  return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x10265960  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10265960(void)
+{
+  int iVar1;
+  
+  iVar1 = InterlockedDecrement(&DAT_1067a2a0);
+  if ((iVar1 == 0) && (DAT_1067a29c != 0)) {
+    FreeLibrary(DAT_1067a29c);
+    DAT_1067a29c = 0;
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x102659B0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_1, void * param_2)
@@ -369,6 +391,17 @@ XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_
   }
   *(uint32_t *)((int)self_ + 4) = param_2;
   *(uint32_t *)((int)self_ + 8) = 0;
+  return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x10265B70  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void * __thiscall fn_10265B70(void * self_, BOOL param_1)
+{
+  uint32_t uVar1;
+  
+  uVar1 = CreateEventA(0,param_1,0,0);
+  *(uint32_t *)self_ = uVar1;
   return self_;
 }
 

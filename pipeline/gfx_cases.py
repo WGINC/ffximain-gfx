@@ -172,7 +172,10 @@ def main(exp, metaf, protof, out):
         if conv not in ('cdecl', 'stdcall', 'thiscall'): continue
         args = r['args']
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],
-             'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret'])}
+             'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret']),
+             # an import with no fake in diffemu_gfx.py answers like a stubbed game callee, popping what the game's
+             # solved call sites pop (import_pops.json); without it the trial stops at the import
+             'imports': 'stub'}
         if c['returns'] == 'float' and FPRET.get('0x%x' % r['ea']) == 'none': c['returns'] = 'void'   # see hx2cpp
         # the bytes of EAX the function's own code sets on every path (ret_width.py): the rest is its caller's
         # leftover, which the reconstruction cannot have; compared only where the code sets them (narrows, never widens)

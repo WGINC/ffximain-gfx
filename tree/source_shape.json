@@ -1,21 +1,21 @@
 {
  "types": {
-  "kept": 2444,
+  "kept": 2454,
   "put_back": [],
   "proof": "compiles"
  },
  "floats": {
-  "kept": 270,
+  "kept": 272,
   "put_back": [],
   "proof": "compiles"
  },
  "macros": {
-  "kept": 608,
+  "kept": 611,
   "put_back": [],
   "proof": "preprocessed"
  },
  "undefined4": {
-  "kept": 1696,
+  "kept": 1702,
   "put_back": [
    "0x100142B0",
    "0x100730E0",
@@ -115,6 +115,7 @@
    "0x100286B0",
    "0x10028FD0",
    "0x1002C890",
+   "0x1002D8F0",
    "0x10034620",
    "0x100347D0",
    "0x10037B30",
@@ -130,6 +131,7 @@
    "0x10040220",
    "0x10046380",
    "0x100528C0",
+   "0x100531D0",
    "0x100538E0",
    "0x10055300",
    "0x10056CE0",

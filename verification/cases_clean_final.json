@@ -104945,6 +104945,50 @@
 }
 },
 {
+"name": "SetCursorPos 0x10009770",
+"original": "0x10009770",
+"candidate": "_Z12SetCursorPosii",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int",
+"int"
+],
+"stubs": {
+"0x10329374": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_10009870 0x10009870",
 "original": "0x10009870",
 "candidate": "_ZN3CDx22CreateDeviceObjectOnceEPv10undefined4Pi",
@@ -118959,6 +119003,63 @@
 "this_size": "0x4000",
 "args": [],
 "stubs": {},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+}
+},
+{
+"name": "FUN_1002d8f0 0x1002D8F0",
+"original": "0x1002D8F0",
+"candidate": "_Z11fn_1002D8F0Pv",
+"conv": "thiscall",
+"returns": "void",
+"this_size": "0x4000",
+"args": [],
+"stubs": {
+"0x10028FD0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295
+],
+"edx_out": 1,
+"ret": "alloc",
+"args_may": 3
+},
+"0x1002D680": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+}
+},
+"fuzz_ranges": [
+[
+"0x1047D13C",
+1
+]
+],
 "struct_globals": {
 "0x103d3cbc": {
 "size": "0x478",
@@ -140901,6 +141002,45 @@
 }
 },
 {
+"name": "FUN_100817e0 0x100817E0",
+"original": "0x100817E0",
+"candidate": "_ZN12CXiActorDraw6UpdateEv",
+"conv": "cdecl",
+"returns": "bool",
+"args": [],
+"stubs": {
+"0x10082D70": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": [
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+}
+},
+{
 "name": "FUN_10081a30 0x10081A30",
 "original": "0x10081A30",
 "candidate": "_Z26Unit10081A30_ReleaseQueuedv",
@@ -157903,6 +158043,192 @@
 }
 },
 {
+"name": "FUN_10099ae0 0x10099AE0",
+"original": "0x10099AE0",
+"candidate": "_Z11fn_10099AE010undefined4S_Pt",
+"conv": "cdecl",
+"returns": "bool",
+"args": [
+"int",
+"int",
+"ptr:0x1000"
+],
+"stubs": {
+"0x1002C890": {
+"returns": "fuzz",
+"pops": 0,
+"args": 1,
+"conv": "cdecl",
+"masks": [
+4294967295
+],
+"ret": "alloc",
+"size_arg": 0
+},
+"0x1008A120": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x1008EE30": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x10092900": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x1008A350": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": [],
+"ret": "bool"
+},
+"0x10099A40": {
+"returns": "fuzz",
+"pops": 0,
+"args": 2,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+],
+"eax_keeps": 4294901760
+},
+"0x100DDE40": {
+"returns": "fuzz",
+"pops": 0,
+"args": 5,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x10087060": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "cdecl",
+"masks": [
+4294967295
+],
+"eax_keeps": 4294967040
+},
+"0x10181290": {
+"returns": "fuzz",
+"pops": 5,
+"args": 5,
+"conv": "thiscall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x1008CD20": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1009AFE0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 3,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x1009AB40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x1009AD20": {
+"returns": "fuzz",
+"pops": 3,
+"args": 3,
+"conv": "thiscall",
+"masks": [
+4294967295,
+4294967295
+]
+},
+"0x1008A0E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 1,
+"conv": "cdecl",
+"masks": [
+4294967295
+]
+}
+},
+"fuzz_ranges": [
+[
+"0x10480AF0",
+4
+],
+[
+"0x10489900",
+1
+],
+[
+"0x104DFD98",
+4
+],
+[
+"0x10485F7A",
+2
+]
+],
+"globals": {
+"0x10631F24": "ptr:0x400"
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+}
+},
+{
 "name": "FUN_1009aaf0 0x1009AAF0",
 "original": "0x1009AAF0",
 "candidate": "_Z25Acter_IsByte123Mask7In234Pv",
@@ -165664,6 +165990,47 @@
 "eax_in": 1,
 "args": [],
 "stubs": {},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+}
+},
+{
+"name": "FUN_100ac4e0 0x100AC4E0",
+"original": "0x100AC4E0",
+"candidate": "_Z11fn_100AC4E0Pv",
+"conv": "thiscall",
+"returns": "bool",
+"this_size": "0x4000",
+"args": [],
+"stubs": {
+"0x100A57F0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+}
+},
+"globals": {
+"0x104568FC": "ptr:0x400"
+},
 "struct_globals": {
 "0x103d3cbc": {
 "size": "0x478",
@@ -184772,6 +185139,101 @@
 "0x1066941c": "IDirect3DDevice8",
 "0x10669418": "IDirect3D8"
 }
+},
+{
+"name": "FUN_10113d30 0x10113D30",
+"original": "0x10113D30",
+"candidate": "_Z32FDtXiErrorReportCtrl_ConstructorPv",
+"conv": "thiscall",
+"returns": "int",
+"this_size": "0x4000",
+"args": [],
+"stubs": {
+"0x103291D4": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x10311FF1": {
+"returns": "fuzz",
+"pops": 0,
+"args": 2,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+],
+"edx_out": 1
+},
+"0x101C4C70": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x101C4B40": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": []
+},
+"0x101C47B0": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "thiscall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x101C4900": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "thiscall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"globals": {
+"0x104E1B6C": "ptr:0x400",
+"0x10662DCC": "ptr:0x400"
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
 },
 {
 "name": "FUN_10114070 0x10114070",
@@ -237031,6 +237493,48 @@
 }
 },
 {
+"name": "FUN_101be670 0x101BE670",
+"original": "0x101BE670",
+"candidate": "_Z11fn_101BE670PKc",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int"
+],
+"stubs": {
+"0x10329124": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_101be6c0 0x101BE6C0",
 "original": "0x101BE6C0",
 "candidate": "_Z34Unit1018BA60_FillSizeAndThreeDatesPvP10undefined4",
@@ -271302,6 +271806,114 @@
 }
 },
 {
+"name": "FUN_10265940 0x10265940",
+"original": "0x10265940",
+"candidate": "_Z11fn_10265940Pv10undefined4",
+"conv": "thiscall",
+"returns": "unread",
+"this_size": "0x4000",
+"args": [
+"int"
+],
+"stubs": {
+"0x10329198": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"fuzz_ranges": [
+[
+"0x1067A2A0",
+4
+]
+],
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "_dynamic_initializer_for__std__num_put_char_std__ostreambuf_iterator_char_std__char_traits_char_______id___47 0x10265960",
+"original": "0x10265960",
+"candidate": "_Z11fn_10265960v",
+"conv": "cdecl",
+"returns": "void",
+"args": [],
+"stubs": {
+"0x10329194": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+},
+"0x10329130": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"fuzz_ranges": [
+[
+"0x1067A2A0",
+4
+],
+[
+"0x1067A29C",
+4
+]
+],
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_102659b0 0x102659B0",
 "original": "0x102659B0",
 "candidate": "_Z23Unit1025C9E0_RefObjCtorPv10undefined4S_",
@@ -271341,6 +271953,52 @@
 "0x1066941c": "IDirect3DDevice8",
 "0x10669418": "IDirect3D8"
 }
+},
+{
+"name": "FUN_10265b70 0x10265B70",
+"original": "0x10265B70",
+"candidate": "_Z11fn_10265B70Pvi",
+"conv": "thiscall",
+"returns": "int",
+"this_size": "0x4000",
+"args": [
+"int"
+],
+"stubs": {
+"0x103291B8": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
 },
 {
 "name": "FUN_1026cca5 0x1026CCA5",
@@ -291291,6 +291949,328 @@
 }
 },
 {
+"name": "ImmGetVirtualKey 0x102BC820",
+"original": "0x102BC820",
+"candidate": "_Z11fn_102BC820P6HWND__",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int"
+],
+"stubs": {
+"0x1032906C": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmNotifyIME 0x102BC838",
+"original": "0x102BC838",
+"candidate": "_Z11fn_102BC838P6HIMC__jjj",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int",
+"int",
+"int",
+"int"
+],
+"stubs": {
+"0x10329078": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmSetOpenStatus 0x102BC856",
+"original": "0x102BC856",
+"candidate": "_Z11fn_102BC856P6HIMC__i",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int",
+"int"
+],
+"stubs": {
+"0x1032908C": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmGetOpenStatus 0x102BC85C",
+"original": "0x102BC85C",
+"candidate": "_Z11fn_102BC85CP6HIMC__",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int"
+],
+"stubs": {
+"0x10329090": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmGetConversionStatus 0x102BC862",
+"original": "0x102BC862",
+"candidate": "_Z11fn_102BC862P6HIMC__PjS1_",
+"conv": "stdcall",
+"returns": "unread",
+"args": [
+"int",
+"int",
+"int"
+],
+"stubs": {
+"0x10329094": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmGetCompositionStringA 0x102BC868",
+"original": "0x102BC868",
+"candidate": "_Z11fn_102BC868P6HIMC__jPvj",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int",
+"int",
+"int",
+"int"
+],
+"stubs": {
+"0x10329098": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
+"name": "ImmSetCompositionStringA 0x102BC86E",
+"original": "0x102BC86E",
+"candidate": "_Z11fn_102BC86EP6HIMC__jPvjS1_j",
+"conv": "stdcall",
+"returns": "int",
+"args": [
+"int",
+"int",
+"int",
+"int",
+"int",
+"int"
+],
+"stubs": {
+"0x1032909C": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_100368b0 0x100368B0",
 "original": "0x100368B0",
 "candidate": "_ZN12CYySoundElem16UpdateFromCameraEPv",
@@ -291675,6 +292655,132 @@
 [
 "0x1047D140",
 4
+]
+],
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+}
+},
+{
+"name": "SharedConditionalStateReset 0x100531D0",
+"original": "0x100531D0",
+"candidate": "_Z27SharedConditionalStateResetPv",
+"conv": "thiscall",
+"returns": "void",
+"this_size": "0x4000",
+"args": [],
+"stubs": {
+"0x100539E0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": [],
+"ret": "lowbool"
+},
+"0x100538E0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "thiscall",
+"masks": [],
+"eax_keeps": 4294967040
+},
+"0x1003B700": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": [],
+"edx_out": 1
+},
+"0x1003B6D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": [],
+"edx_out": 1
+},
+"0x10053A00": {
+"returns": "fuzz",
+"pops": 4,
+"args": 4,
+"conv": "thiscall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x10028FD0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295
+],
+"edx_out": 1,
+"ret": "alloc",
+"args_may": 3
+},
+"0x10074740": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": [],
+"edx_out": 1
+},
+"0x10053E60": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "thiscall",
+"masks": []
+},
+"0x100749B0": {
+"returns": "fuzz",
+"pops": 1,
+"args": 1,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+},
+"0x10074A00": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"fuzz_ranges": [
+[
+"0x1047D13C",
+1
 ]
 ],
 "struct_globals": {
@@ -301013,6 +302119,84 @@
 }
 },
 {
+"name": "FUN_100d8490 0x100D8490",
+"original": "0x100D8490",
+"candidate": "_Z11fn_100D8490P10undefined4S_",
+"conv": "cdecl",
+"returns": "unread",
+"args": [
+"ptr:0x1000"
+],
+"stubs": {
+"0x10311BBB": {
+"returns": "fuzz",
+"pops": 0,
+"args": 1,
+"conv": "cdecl",
+"masks": [
+4294967295
+],
+"ret": "alloc",
+"size_arg": 0
+},
+"0x103291D4": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x103291D0": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+},
+"0x10314FCD": {
+"returns": "fuzz",
+"pops": 0,
+"args": 3,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_100db170 0x100DB170",
 "original": "0x100DB170",
 "candidate": "_Z21GameMode_RequestStatePv10undefined4S0_",
@@ -310294,6 +311478,56 @@
 }
 },
 {
+"name": "FUN_10039670 0x10039670",
+"original": "0x10039670",
+"candidate": "_Z11fn_10039670PvPU7stdcallFjS_ES_10undefined4",
+"conv": "thiscall",
+"returns": "void",
+"this_size": "0x4000",
+"args": [
+"int",
+"int",
+"int"
+],
+"stubs": {
+"0x10329100": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295,
+4294967295,
+4294967295,
+4294967295,
+4294967295,
+4294967295
+]
+}
+},
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
+},
+{
 "name": "FUN_1006dcf0 0x1006DCF0",
 "original": "0x1006DCF0",
 "candidate": "_ZN24CMoProcessor_VT_1032C36821RotationFromAnglesZYXEPv10undefined4fff",
@@ -313912,6 +315146,92 @@
 "0x1066941c": "IDirect3DDevice8",
 "0x10669418": "IDirect3D8"
 }
+},
+{
+"name": "FUN_10275090 0x10275090",
+"original": "0x10275090",
+"candidate": "_Z11fn_10275090v",
+"conv": "cdecl",
+"returns": "int",
+"args": [],
+"stubs": {
+"0x103292EC": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+},
+"0x10285890": {
+"returns": "fuzz",
+"pops": 0,
+"args": 1,
+"conv": "cdecl",
+"masks": [
+4294967295,
+4294967295
+],
+"edx_out": 1
+},
+"0x103291AC": {
+"returns": "fuzz",
+"pops": 0,
+"args": 0,
+"conv": "stdcall",
+"masks": [
+4294967295
+]
+}
+},
+"fuzz_ranges": [
+[
+"0x103B27E8",
+4
+],
+[
+"0x1099CEE0",
+4
+],
+[
+"0x1099CEE8",
+4
+],
+[
+"0x1099CEF0",
+4
+],
+[
+"0x1099CEEC",
+4
+],
+[
+"0x1099CEE0",
+8
+]
+],
+"struct_globals": {
+"0x103d3cbc": {
+"size": "0x478",
+"com": {
+"4": "IDirect3D8",
+"8": "IDirect3DDevice8"
+}
+},
+"0x1045666c": {
+"size": "0xA50",
+"com": {
+"8": "IDirect3D8",
+"12": "IDirect3DDevice8"
+}
+}
+},
+"com_globals": {
+"0x1066941c": "IDirect3DDevice8",
+"0x10669418": "IDirect3D8"
+},
+"imports": "stub"
 },
 {
 "name": "FUN_1027b480 0x1027B480",

@@ -98,6 +98,10 @@ RET_BYTES = {'void': 0, 'unread': 0, 'bool': 1, 'word': 2}
 _RW_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'ret_width.json')
 RET_WIDTH = {int(k, 16): v for k, v in json.load(open(_RW_PATH)).items() if k.startswith('0x')} \
     if os.path.exists(_RW_PATH) else {}
+# the bytes each import's call pops, from the game's solved call sites (import_pops.py): a case with
+# "imports": "stub" answers an import that has no fake below like a stubbed game callee
+IMPORT_POPS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json'))) \
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json')) else {}
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
 
@@ -309,6 +313,16 @@ class GfxMachine(G.Machine):
             uc.reg_write(UC_X86_REG_EAX, v & 0xFFFFFFFF)
             ret = struct.unpack('<I', uc.mem_read(esp, 4))[0]
             uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * fake[0]); uc.reg_write(UC_X86_REG_EIP, ret)
+            return
+        pb = IMPORT_POPS.get(name.split('!')[-1]) if getattr(self, 'import_stub', False) else None
+        if pb is not None:
+            # the case asks for it ("imports": "stub"): the call is logged and compared like a stubbed game callee,
+            # EAX comes from the trial's stream (the same on both sides), nothing is written, and the import's own
+            # pops from the game's solved call sites are taken off the stack
+            self.calls.append((addr, 0, tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
+            uc.reg_write(UC_X86_REG_EAX, self.rng.getrandbits(32))
+            ret = struct.unpack('<I', uc.mem_read(esp, 4))[0]
+            uc.reg_write(UC_X86_REG_ESP, esp + 4 + pb); uc.reg_write(UC_X86_REG_EIP, ret)
             return
         self.stop_reason = 'import:' + name
         self.stop_detail = 'args ' + ' '.join('%08X' % _stackref(a) for a in args)
@@ -1155,6 +1169,7 @@ def run_case(m, case, trials, seed):
         return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
                 "verdict": "ERROR", "reason": "export not found"}
     cand = m.exports[case["candidate"]]
+    m.import_stub = case.get("imports") == "stub"
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     # EAX bytes past a return narrower than a dword (void, bool, a word) where no fact says no caller reads them: the
     # width is the decompiler's prototype, so a difference there is not counted as a pass (below). Bytes the

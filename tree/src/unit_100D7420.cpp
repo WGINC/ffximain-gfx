@@ -342,6 +342,36 @@ XI_API void __cdecl Unit100D7420_HashBytesWithSeed(undefined4 param_1, undefined
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100D8490  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100D8490(undefined4 * param_1, undefined4 xi_s2)
+{
+  uint32_t *puVar1;
+  HANDLE pvVar2;
+  
+  puVar1 = orig::Allocator_Generic_v3(0x9e8);
+  puVar1[1] = 0xffffffff;
+  puVar1[6] = 0;
+  puVar1[7] = 0;
+  *(uint16_t *)(puVar1 + 10) = 0x10;
+  *(uint8_t *)((int)puVar1 + 0x2a) = 0x80;
+  *(uint8_t *)((int)puVar1 + 0x2b) = 0x10;
+  *(uint16_t *)(puVar1 + 0xb) = 0;
+  *(uint16_t *)((int)puVar1 + 0x2e) = 0;
+  puVar1[8] = 0x10;
+  puVar1[9] = 0x46465849;
+  pvVar2 = CreateMutexA((LPSECURITY_ATTRIBUTES)0x0,1,(LPCSTR)0x0);
+  puVar1[0x11a] = pvVar2;
+  pvVar2 = CreateMutexA((LPSECURITY_ATTRIBUTES)0x0,0,(LPCSTR)0x0);
+  puVar1[0x11b] = pvVar2;
+  pvVar2 = CreateSemaphoreA((LPSECURITY_ATTRIBUTES)0x0,0,1,(LPCSTR)0x0);
+  puVar1[0x11c] = pvVar2;
+  orig::FUN_10314fcd(&LAB_100d8520,0,puVar1);
+  *puVar1 = 0;
+  *param_1 = puVar1;
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x100D8A20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Mutex_WriteRecordLocked(int param_1, undefined4 param_2, uint8_t * param_3)
@@ -8595,6 +8625,161 @@ XI_API undefined4 __cdecl Unit100D7420_StartRequestSlot24WithCallback(undefined4
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x10113D30  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void * __thiscall FDtXiErrorReportCtrl_Constructor(void * self_)
+{
+  uint32_t *puVar1;
+  uint32_t *xi_s2;
+  uint32_t *puVar2;
+  uint32_t uVar3;
+  uint32_t uVar4;
+  int iVar5;
+  uint32_t *puVar6;
+  char xi_frame[16] __attribute__((aligned(4)));
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  int  &local_c = *reinterpret_cast<int  *>(xi_frame + 4);
+  uint32_t  (&local_8)[2] = *reinterpret_cast<uint32_t  (*)[2]>(xi_frame + 8);
+  
+  iVar5 = 0x10;
+  puVar2 = (uint32_t *)((int)self_ + 8);
+  do {
+    puVar2[2] = 0;
+    *puVar2 = 0;
+    puVar2[1] = 0;
+    puVar2 = puVar2 + 4;
+    iVar5 = iVar5 + -1;
+  } while (iVar5 != 0);
+  puVar1 = (uint32_t *)((int)self_ + 0x278);
+  *puVar1 = 0;
+  *(uint16_t *)((int)self_ + 0x27c) = 0;
+  *(uint16_t *)((int)self_ + 0x27e) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 0x280);
+  for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar2 = 0;
+    puVar2 = puVar2 + 1;
+  }
+  *(uint32_t *)((int)self_ + 0x360) = 0;
+  *(uint16_t *)((int)self_ + 0x364) = 0;
+  *(uint16_t *)((int)self_ + 0x366) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 0x368);
+  for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar2 = 0;
+    puVar2 = puVar2 + 1;
+  }
+  uVar3 = CreateMutexA(0,0,0);
+  *(uint32_t *)self_ = uVar3;
+  *(uint16_t *)((int)self_ + 0x10a) = 0;
+  *(uint16_t *)((int)self_ + 0x108) = 0;
+  *(uint16_t *)((int)self_ + 0x230) = 0;
+  *(uint16_t *)((int)self_ + 0x232) = 0;
+  *(uint8_t *)((int)self_ + 0x450) = 0;
+  *(uint16_t *)((int)self_ + 0x44a) = 0;
+  *(uint16_t *)((int)self_ + 0x448) = 0;
+  *puVar1 = 0;
+  *(uint16_t *)((int)self_ + 0x27c) = 0;
+  *(uint16_t *)((int)self_ + 0x27e) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 0x280);
+  for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar2 = 0;
+    puVar2 = puVar2 + 1;
+  }
+  *(uint32_t *)((int)self_ + 0x360) = 0;
+  *(uint16_t *)((int)self_ + 0x364) = 0;
+  *(uint16_t *)((int)self_ + 0x366) = 0;
+  puVar2 = (uint32_t *)((int)self_ + 0x368);
+  for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar2 = 0;
+    puVar2 = puVar2 + 1;
+  }
+  if (DAT_104e1b6c == (void *)0x0) {
+    local_10 = 0;
+    DAT_104e1b6c = self_;
+    *(uint16_t *)((int)self_ + 0x230) = 0;
+    *(uint16_t *)((int)self_ + 0x232) = 0;
+    do {
+      orig::_sprintf_v1((uint8_t *)((int)self_ + 0x238),s_err_03d_bin_1036c084,
+                   (uint32_t)*(uint16_t *)((int)self_ + 0x232));
+      uVar3 = orig::Unit1018BA60_FileMngFwd101C2840(g_pFileMng_as_v0,(uint8_t *)((int)self_ + 0x238));
+      if ((char)uVar3 == '\0') {
+LAB_10113ea9:
+        *(uint16_t *)((int)self_ + 0x230) = *(uint16_t *)((int)self_ + 0x232);
+        break;
+      }
+      uVar4 = orig::Unit1018BA60_FileMngFwd101C1C90(g_pFileMng_as_v0,(int)self_ + 0x238);
+      if (((uVar4 < 8) ||
+          (uVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1
+                             (g_pFileMng_as_v0,(int)self_ + 0x238,local_8,8,0), uVar4 < 8)) ||
+         (local_8[0] < local_10)) goto LAB_10113ea9;
+      *(short *)((int)self_ + 0x232) = *(short *)((int)self_ + 0x232) + 1;
+      local_10 = local_8[0];
+    } while (*(uint16_t *)((int)self_ + 0x232) < 8);
+    *(uint16_t *)((int)self_ + 0x232) = *(uint16_t *)((int)self_ + 0x230);
+    *(uint32_t *)((int)self_ + 0x234) = 0;
+    orig::_sprintf_v1((uint8_t *)((int)self_ + 0x238),s_err_03d_bin_1036c084,
+                 (uint32_t)*(uint16_t *)((int)self_ + 0x230));
+    orig::Unit1018BA60_FileMngQueuePath3F4Kind3
+              (g_pFileMng_as_v0,(uint8_t *)((int)self_ + 0x238),(int)self_ + 0x110,0,0);
+    *(uint16_t *)((int)self_ + 0x448) = 0;
+    *puVar1 = 0;
+    *(uint16_t *)((int)self_ + 0x27c) = 0;
+    *(uint16_t *)((int)self_ + 0x27e) = 0;
+    local_c = 0;
+    puVar2 = (uint32_t *)((int)self_ + 0x280);
+    for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+      *puVar2 = 0;
+      puVar2 = puVar2 + 1;
+    }
+    local_10 = 0;
+    *(uint16_t *)((int)self_ + 0x44a) = 0;
+    do {
+      orig::_sprintf_v1((uint8_t *)((int)self_ + 0x450),s_lb_03d_bin_1036c078,
+                   (uint32_t)*(uint16_t *)((int)self_ + 0x44a));
+      uVar3 = orig::Unit1018BA60_FileMngFwd101C2840(g_pFileMng_as_v0,(uint8_t *)((int)self_ + 0x450));
+      if (((char)uVar3 == '\0') ||
+         (uVar4 = orig::Unit1018BA60_FileMngFwd101C1C90(g_pFileMng_as_v0,(int)self_ + 0x450), uVar4 < 0xe8)) {
+LAB_10114005:
+        if (local_c == 0) {
+          *(uint16_t *)((int)self_ + 0x448) = *(uint16_t *)((int)self_ + 0x44a);
+        }
+        local_c = local_c + 1;
+      }
+      else {
+        xi_s2 = (uint32_t *)((int)self_ + 0x360);
+        uVar4 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind1(g_pFileMng_as_v0,(int)self_ + 0x450,xi_s2,0xe8,0);
+        if ((uVar4 < 0xe8) ||
+           (iVar5 = orig::Unit100D7420_SumWords16((uint16_t *)xi_s2,0xe8), (short)iVar5 != -1))
+        goto LAB_10114005;
+        uVar4 = *xi_s2;
+        if (uVar4 < *puVar1) {
+          if ((local_c == 0) && ((local_10 == 0 || (uVar4 < local_10)))) {
+            *(uint16_t *)((int)self_ + 0x448) = *(uint16_t *)((int)self_ + 0x44a);
+            local_10 = uVar4;
+          }
+        }
+        else if (puVar1 != xi_s2) {
+          *puVar1 = uVar4;
+          *(uint16_t *)((int)self_ + 0x27c) = *(uint16_t *)((int)self_ + 0x364);
+          *(uint16_t *)((int)self_ + 0x27e) = *(uint16_t *)((int)self_ + 0x366);
+          puVar2 = (uint32_t *)((int)self_ + 0x368);
+          puVar6 = (uint32_t *)((int)self_ + 0x280);
+          for (iVar5 = 0x38; iVar5 != 0; iVar5 = iVar5 + -1) {
+            *puVar6 = *puVar2;
+            puVar2 = puVar2 + 1;
+            puVar6 = puVar6 + 1;
+          }
+        }
+      }
+      *(short *)((int)self_ + 0x44a) = *(short *)((int)self_ + 0x44a) + 1;
+    } while (*(uint16_t *)((int)self_ + 0x44a) < 8);
+    *(uint32_t *)((int)self_ + 0x44c) = 0;
+    *(uint16_t *)((int)self_ + 0x44a) = *(uint16_t *)((int)self_ + 0x448);
+    orig::_sprintf_v1((uint8_t *)((int)self_ + 0x450),s_lb_03d_bin_1036c078,
+                 (uint32_t)*(uint16_t *)((int)self_ + 0x448));
+  }
+  return self_;
+}
+
 // FUNCTION: FFXIMAIN 0x10114070  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit100D7420_ErrorLogDtor(void * self_)
@@ -16356,7 +16541,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Cursor_SetPosition(undefi
         lVar9 = XI_CALL_ST0(0x10311C2Cu)(fVar8);
         iVar3 = (int)lVar9;
         lVar9 = XI_CALL_ST0(0x10311C2Cu)(st0);
-        xi_eax = orig::SetCursorPos((int)lVar9,iVar3);
+        xi_eax = orig::SetCursorPos_10009770((int)lVar9,iVar3);
       }
     }
   }

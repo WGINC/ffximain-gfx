@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CXiActorDraw {
 public:
+    static undefined4 __cdecl Update();  // 0x100817E0
     static undefined4 __cdecl UpdateDrawList();  // 0x10082D70
 
     void **vftable;  // +0x0

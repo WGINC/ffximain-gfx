@@ -49,6 +49,12 @@
    "sha1": "cd67782dc40bdf20ca48462b89a2bd576d00e994",
    "raw_gate": "verification/gate_raw_frameset17.jsonl",
    "_doc": "the functions UNRESOLVED on pushed slots (P17) in the tree, fs15 and fs16, exported with conv_facts' 'spops N pushed' (a callee of undecided convention takes the bytes every settled caller pushes), and 0x1026E1F0 with retw"
+  },
+  {
+   "path": "data/exports/ghidra_frameset19.jsonl",
+   "sha1": "44fff29906369f16bcad56ef3584c5701852b935",
+   "raw_gate": "verification/gate_raw_frameset19.jsonl",
+   "_doc": "the 405 non-library frame-set functions outside the tree, exported with the current facts (retw for the 23 UNRESOLVED on EAX past a declared void or bool); its raw gate with import stubs for the 34 whose every trial stopped at an import"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl",

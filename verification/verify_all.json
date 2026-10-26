@@ -134,6 +134,10 @@
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
+ "facts:import_pops.json": {
+  "ok": true,
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
+ },
  "facts:reg_saved.json": {
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
@@ -177,7 +181,7 @@
  },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 4177,
+  "wrappers": 4197,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
@@ -306,6 +310,11 @@
   "ok": true,
   "sha1": "cd67782dc40bdf20ca48462b89a2bd576d00e994",
   "expected": "cd67782dc40bdf20ca48462b89a2bd576d00e994"
+ },
+ "tree-source:data/exports/ghidra_frameset19.jsonl": {
+  "ok": true,
+  "sha1": "44fff29906369f16bcad56ef3584c5701852b935",
+  "expected": "44fff29906369f16bcad56ef3584c5701852b935"
  },
  "tree-regen": {
   "ok": true,

@@ -8440,9 +8440,9 @@ XI_API void __thiscall FsTextInput_InitWithImeOffscreen(void * self_)
   pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
   orig::ImmSetCompositionWindow(pHVar1,&local_3c);
   orig::ImmSetCandidateWindow(pHVar1,&local_20);
-  orig::ImmNotifyIME(pHVar1,0x15,4,0);
-  orig::ImmNotifyIME(pHVar1,0x17,0,0);
-  orig::ImmNotifyIME(pHVar1,0x16,0,0);
+  orig::ImmNotifyIME_102BC838(pHVar1,0x15,4,0);
+  orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
+  orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
   orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
   *(uint32_t *)((int)self_ + 0xf128) = 0;
   return;
@@ -8465,8 +8465,8 @@ XI_API void __thiscall Unit1018BA60_OnMessage(void * self_, int param_1, undefin
     xi_entry_eax = g_pSceneState_as_v0;
     if (*g_pSceneState_as_v0 != 0x40) {
       pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-      orig::ImmNotifyIME(pHVar1,0x17,0,0);
-      orig::ImmNotifyIME(pHVar1,0x16,0,0);
+      orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
+      orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
       pHVar3 = *(HWND *)(g_pApp_as_s32 + 0x18);
       goto LAB_101b27bd;
     }
@@ -8485,8 +8485,8 @@ XI_API void __thiscall Unit1018BA60_OnMessage(void * self_, int param_1, undefin
     return;
   }
   pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-  orig::ImmNotifyIME(pHVar1,0x17,0,0);
-  orig::ImmNotifyIME(pHVar1,0x16,0,0);
+  orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
+  orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
   pHVar3 = *(HWND *)(g_pApp_as_s32 + 0x18);
 LAB_101b27bd:
   orig::ImmReleaseContext(pHVar3,pHVar1);
@@ -8539,7 +8539,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   *(uint8_t *)((int)self_ + 0xef22) = 0;
   pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
   if ((param_1 == 0xe5) &&
-     (param_1 = orig::ImmGetVirtualKey(*(HWND *)(g_pApp_as_s32 + 0x18)), param_1 == 0xff)) {
+     (param_1 = orig::ImmGetVirtualKey_102BC820(*(HWND *)(g_pApp_as_s32 + 0x18)), param_1 == 0xff)) {
     orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     return 0;
   }
@@ -8566,11 +8566,11 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       uVar3 = orig::Unit1018BA60_IsModeThree(self_);
       if (((char)uVar3 != '\0') &&
          (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
-        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
         orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
         pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-        BVar5 = orig::ImmGetOpenStatus(pHVar2);
+        BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
         if (BVar5 != 0) {
           orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
           (**(code **)(*(int *)self_ + 0x60))(0);
@@ -8578,7 +8578,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
           if (*(char *)((int)self_ + 0xf121) != '\0') {
             *(uint8_t *)((int)self_ + 0xf2f4) = 1;
           }
-          orig::ImmSetOpenStatus(pHVar2,0);
+          orig::ImmSetOpenStatus_102BC856(pHVar2,0);
         }
         if (BVar4 != 0) {
           orig::FsTextInput_OnChar(self_,0x2f);
@@ -8600,11 +8600,11 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       uVar3 = orig::Unit1018BA60_IsModeThree(self_);
       if (((char)uVar3 != '\0') &&
          (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
-        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
         orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
         pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-        BVar5 = orig::ImmGetOpenStatus(pHVar2);
+        BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
         if ((BVar5 != 0) && (BVar4 == 0)) {
           UVar13 = 0;
           DVar11 = 0;
@@ -8624,7 +8624,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
     orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     return 0;
   }
-  LVar8 = orig::ImmGetCompositionStringA(pHVar2,8,local_1c4,0x1c2);
+  LVar8 = orig::ImmGetCompositionStringA_102BC868(pHVar2,8,local_1c4,0x1c2);
   iVar9 = param_1 - 8;
   switch(xi_sw(param_1)) {
   case 8:
@@ -8640,7 +8640,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
         (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_)), (char)uVar3 != '\0')) &&
        (uVar3 = orig::Unit1018BA60_IsModeTwo(self_), (char)uVar3 == '\0')) {
       pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-      orig::ImmNotifyIME(pHVar2,0x15,3,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
       (**(code **)(*(int *)self_ + 0x70))();
       orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       orig::FUN_101b5d10(self_,9,0,0);
@@ -8666,7 +8666,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   default:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 != '\0') goto LAB_101b3569;
-    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
     if ((((BVar4 == 0) || (param_1 == 0x2e)) || (param_1 == 0x22)) ||
        ((param_1 == 0x21 || (param_1 == 0x10)))) goto switchD_101b2d31_caseD_23;
     ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
@@ -8679,7 +8679,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
     }
     else {
-      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
       if (BVar4 != 0) {
         orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         orig::Unit1018BA60_ResetComposition(self_,0);
@@ -8704,7 +8704,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 == '\0') {
       if (*(char *)((int)self_ + 0xf123) == '\0') {
-        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
         if ((BVar4 == 0) || (LVar8 < 1)) {
           orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
           orig::FUN_101b5d10(self_,0x1b,0,0);
@@ -8741,7 +8741,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
       if (cVar1 == '\0') goto LAB_101b358d;
       pHVar2 = orig::ImmGetContext(pHVar14);
-      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
       if (BVar4 == 0) {
         (**(code **)(*(int *)self_ + 0x70))();
         orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
@@ -8759,11 +8759,11 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
         else {
           orig::Unit1018BA60_ResetCursor(self_);
           (**(code **)(*(int *)self_ + 0x70))();
-          orig::ImmNotifyIME(pHVar2,0x15,3,0);
-          orig::ImmNotifyIME(pHVar2,0x15,2,0);
-          orig::ImmNotifyIME(pHVar2,0x15,2,0);
-          orig::ImmNotifyIME(pHVar2,0x17,0,0);
-          orig::ImmNotifyIME(pHVar2,0x16,0,0);
+          orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
+          orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
+          orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
+          orig::ImmNotifyIME_102BC838(pHVar2,0x17,0,0);
+          orig::ImmNotifyIME_102BC838(pHVar2,0x16,0,0);
           *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
           orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
           orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
@@ -8800,11 +8800,11 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
       orig::Unit1018BA60_ResetCursor(self_);
       (**(code **)(*(int *)self_ + 0x70))();
-      orig::ImmNotifyIME(pHVar2,0x15,3,0);
-      orig::ImmNotifyIME(pHVar2,0x15,2,0);
-      orig::ImmNotifyIME(pHVar2,0x15,2,0);
-      orig::ImmNotifyIME(pHVar2,0x17,0,0);
-      orig::ImmNotifyIME(pHVar2,0x16,0,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x17,0,0);
+      orig::ImmNotifyIME_102BC838(pHVar2,0x16,0,0);
       *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
       orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
@@ -8829,7 +8829,7 @@ LAB_101b358d:
     orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     orig::FUN_101b5d10(self_,0x25,0,0);
     pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
     if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
@@ -8856,7 +8856,7 @@ LAB_101b3266:
     orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     orig::FUN_101b5d10(self_,0x27,0,0);
     pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
     if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
@@ -8881,7 +8881,7 @@ LAB_101b3266:
   case 0x78:
   case 0x79:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
-    if (((char)uVar3 == '\0') && (BVar4 = orig::ImmGetOpenStatus(pHVar2), BVar4 != 0)) {
+    if (((char)uVar3 == '\0') && (BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2), BVar4 != 0)) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
     break;
@@ -8895,20 +8895,20 @@ LAB_101b3266:
       orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar9);
       pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
       *(uint8_t *)((int)self_ + 0xf120) = 0;
-      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
       if (BVar4 == 0) {
         *(uint8_t *)((int)self_ + 0xf2f4) = 0;
-        BVar4 = orig::ImmGetOpenStatus(pHVar2);
-        orig::ImmSetOpenStatus(pHVar2,BVar4);
+        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+        orig::ImmSetOpenStatus_102BC856(pHVar2,BVar4);
       }
       else {
         *(uint8_t *)((int)self_ + 0xf121) = 0;
-        BVar4 = orig::ImmGetOpenStatus(pHVar2);
-        orig::ImmSetOpenStatus(pHVar2,BVar4);
+        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+        orig::ImmSetOpenStatus_102BC856(pHVar2,BVar4);
       }
     }
     else {
-      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
       if (BVar4 != 0) {
         orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x5c))();
@@ -8916,7 +8916,7 @@ LAB_101b3266:
       }
       *(uint8_t *)((int)self_ + 0xf120) = 0;
       *(uint8_t *)((int)self_ + 0xf2f4) = 0;
-      orig::ImmSetOpenStatus(pHVar2,0);
+      orig::ImmSetOpenStatus_102BC856(pHVar2,0);
     }
   }
 LAB_101b3594:
@@ -8949,13 +8949,13 @@ XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
       if (cVar2 == ' ') {
         if (*g_pSceneState_as_v0 == 0x60) {
           pHVar4 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-          BVar5 = orig::ImmGetOpenStatus(pHVar4);
+          BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar4);
           uVar3 = orig::Unit1018BA60_IsModeThree(self_);
           if ((char)uVar3 != '\0') {
             cVar2 = (**(code **)(*(int *)self_ + 0x40))();
             if (cVar2 != '\0') {
               if (BVar5 != 0) {
-                orig::ImmSetCompositionStringA(pHVar4,9,&Read_as_v0,0,(LPVOID)0x0,0);
+                orig::ImmSetCompositionStringA_102BC86E(pHVar4,9,&Read_as_v0,0,(LPVOID)0x0,0);
               }
               orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
               (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
@@ -8984,8 +8984,8 @@ XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
         uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
         if ((char)uVar3 != '\0') {
           pHVar4 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-          BVar5 = orig::ImmGetOpenStatus(pHVar4);
-          orig::ImmGetConversionStatus(pHVar4,&param_1,(LPDWORD)&local_4);
+          BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar4);
+          orig::ImmGetConversionStatus_102BC862(pHVar4,&param_1,(LPDWORD)&local_4);
           if ((BVar5 == 0) || ((param_1 & 0x100) != 0)) {
             iVar6 = orig::FsTextInput_OnChar(self_,uVar1);
             if (iVar6 == -1) {
@@ -9014,16 +9014,16 @@ XI_API void __thiscall Unit1018BA60_ResetComposition(void * self_, undefined4 pa
     uVar1 = orig::Unit10014350_GetSceneStateByte68(xi_eax);
     if ((char)uVar1 == '\x01') {
       if ((char)param_1 == '\0') {
-        orig::ImmNotifyIME(xi_eax,0x15,4,0);
-        BVar2 = orig::ImmSetCompositionStringA(xi_eax,0x3f,&DAT_10662d46,0,&DAT_10662d47,0);
+        orig::ImmNotifyIME_102BC838(xi_eax,0x15,4,0);
+        BVar2 = orig::ImmSetCompositionStringA_102BC86E(xi_eax,0x3f,&DAT_10662d46,0,&DAT_10662d47,0);
         if (BVar2 == 0) {
-          orig::ImmSetCompositionStringA(xi_eax,9,&Read_as_v0,1,&Read_as_v0,1);
+          orig::ImmSetCompositionStringA_102BC86E(xi_eax,9,&Read_as_v0,1,&Read_as_v0,1);
         }
       }
     }
     else {
-      orig::ImmSetCompositionStringA(xi_eax,0x3f,&DAT_10662d48,0,&DAT_10662d49,0);
-      orig::ImmNotifyIME(xi_eax,0x15,4,0);
+      orig::ImmSetCompositionStringA_102BC86E(xi_eax,0x3f,&DAT_10662d48,0,&DAT_10662d49,0);
+      orig::ImmNotifyIME_102BC838(xi_eax,0x15,4,0);
     }
     orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),xi_eax);
   }
@@ -9043,7 +9043,7 @@ XI_API undefined4 __cdecl Unit1018BA60_HasComposition(void)
   uint8_t  (&local_100)[256] = *reinterpret_cast<uint8_t  (*)[256]>(xi_frame + 0);
   
   pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-  LVar2 = orig::ImmGetCompositionStringA(pHVar1,8,local_100,0x100);
+  LVar2 = orig::ImmGetCompositionStringA_102BC868(pHVar1,8,local_100,0x100);
   orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
   return (uint32_t)(0 < LVar2);
 }
@@ -13227,6 +13227,16 @@ XI_API undefined4 __stdcall Unit1018BA60_Call10312296(undefined4 param_1, undefi
   
   uVar1 = orig::FUN_10312296(param_2,1,param_3,param_1);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x101BE670  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __stdcall fn_101BE670(LPCSTR param_1)
+{
+  int iVar1;
+  
+  iVar1 = DeleteFileA(param_1);
+  return (-(uint32_t)(iVar1 != 0) & 2) - 1;
 }
 
 // FUNCTION: FFXIMAIN 0x101BE6C0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)

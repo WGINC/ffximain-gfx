@@ -15,7 +15,9 @@ python3 "$P/source_shape.py" "$OUT" >/dev/null       # decompiler idioms as sour
 for round in 1 2 3; do
     [ -z "$(ls "$OUT/build/err" 2>/dev/null)" ] && break
     DROP="$OUT.drop.json"
-    python3 "$P/drop_failed.py" "$OUT" "$DROP.new" "${XI_DROP:-}" && break
+    python3 "$P/drop_failed.py" "$OUT" "$DROP.new" "${XI_DROP:-}"; rc=$?
+    [ $rc -eq 0 ] && break
+    [ $rc -eq 2 ] && { echo "regen_clean.sh: a shared header does not compile; the tree is left as built"; break; }
     mv "$DROP.new" "$DROP"; export XI_DROP="$DROP"
     echo "regenerating without the functions that do not compile ($(python3 -c "import json;print(len(json.load(open('$DROP'))))"))"
     rm -rf "$OUT" && python3 "$P/hx2clean.py" "$EXP" "$GATE" "$D/tree_manifest.json" "$D/class_model_include" "$OUT" | tail -1

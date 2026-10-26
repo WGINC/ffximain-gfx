@@ -5,13 +5,22 @@ For each src/<unit>.cpp without an object (build/obj/<unit>.o) after build.sh an
 line of build/err/<unit>.txt is mapped to the function whose `// FUNCTION: FFXIMAIN` line precedes it. Each such
 function is listed with the error; PREVIOUS.json's entries are kept. regen_clean.sh regenerates the tree without them
 (XI_DROP), so the game's own code runs in their place. A unit whose error lies outside any function is reported, not
-mapped. Exit 0 when nothing new was found."""
+mapped. An error located in a header (include/) is no one function's: nothing is dropped, the headers are named, and
+the exit status is 2 (regen_clean.sh stops there). Exit 0 when nothing new was found."""
 import json, os, re, sys
 
 
 def main(d, out, prev=None):
     res = json.load(open(prev)) if prev and os.path.exists(prev) else {}
     new = 0
+    shared = set()
+    ed = os.path.join(d, 'build', 'err')
+    for f in sorted(os.listdir(ed)) if os.path.isdir(ed) else []:
+        for m in re.finditer(r'(include/[\w./-]+):\d+:\d+: error: ', open(os.path.join(ed, f), encoding='utf-8', errors='replace').read()):
+            shared.add(m.group(1))
+    if shared:
+        print('errors in shared headers, nothing dropped: %s' % ', '.join(sorted(shared)))
+        sys.exit(2)
     for f in sorted(os.listdir(os.path.join(d, 'src'))):
         if not f.endswith('.cpp'): continue
         b = f[:-4]

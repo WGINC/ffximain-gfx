@@ -87,7 +87,8 @@ public class GfxExport extends GhidraScript {
     private Set<Long> fret = new HashSet<>();
     // `0xADDR cargs N`: a caller-cleanup function reads N argument slots on every path (data/cdecl_args.json)
     private Map<Long, Integer> cargs = new HashMap<>();
-    // `0xADDR retw 4`: export the function returning a 4-byte value in EAX where its prototype returns nothing
+    // `0xADDR retw 4`: export the function returning a 4-byte value in EAX where its prototype returns nothing or
+    // fewer than 4 bytes
     // (export.sh, XI_RETW: a choice of reconstruction, not a fact -- the translation then hands back what the
     // original leaves in EAX, and the gate compares all of it)
     private Set<Long> retw = new HashSet<>();
@@ -171,7 +172,10 @@ public class GfxExport extends GhidraScript {
         int n = 0;
         for (long ea : retw) {
             Function c = getFunctionAt(toAddr(ea));
-            if (c == null || !(c.getReturnType() instanceof VoidDataType)) continue;
+            DataType rt = c == null ? null : c.getReturnType();
+            // nothing, or fewer than 4 bytes (a bool in AL): the rest of EAX is what the original leaves there
+            if (rt == null || rt instanceof AbstractFloatDataType || rt instanceof Float10DataType
+                || !(rt instanceof VoidDataType || rt.getLength() < 4)) continue;
             try {
                 if (c.hasCustomVariableStorage()) {
                     List<Parameter> ps = Arrays.asList(c.getParameters());

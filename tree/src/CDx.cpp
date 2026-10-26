@@ -322,6 +322,18 @@ void __stdcall CDx::SetHardwareCursor(HCURSOR param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10009770  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall SetCursorPos(int X, int Y)
+{
+  BOOL BVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x10009770. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  BVar1 = g_SetCursorPos_10329374(X,Y);
+  return BVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10009780  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CDx::ShowCursor(void * self, undefined4 param_1)

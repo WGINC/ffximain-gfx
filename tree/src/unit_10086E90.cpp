@@ -4555,6 +4555,361 @@ XI_API void __cdecl Unit10086E90_UpdateFrame997B0(void)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10099AE0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10099AE0(undefined4 param_1, undefined4 param_2, uint16_t * param_3)
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  uint8_t bVar4;
+  uint16_t uVar5;
+  uint32_t uVar6;
+  void *pvVar7;
+  int iVar8;
+  uint32_t uVar9;
+  long double fVar10;
+  uint64_t uVar11;
+  char xi_frame[40] __attribute__((aligned(4)));
+  float  (&afStack_28)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
+  float  &fStack_18 = *reinterpret_cast<float  *>(xi_frame + 16);
+  char  (&acStack_10)[16] = *reinterpret_cast<char  (*)[16]>(xi_frame + 24);
+  
+  uVar6 = orig::FUN_1009aad0((uint32_t)param_3[4]);
+  if ((char)uVar6 == '\0') {
+    return uVar6;
+  }
+  if ((&ActerBuffPtr_as_v0)[param_3[4]] == 0) {
+    pvVar7 = (void *)orig::Mem_AllocDefault_v1(0x2ac);
+    if (pvVar7 == (void *)0x0) {
+      pvVar7 = (void *)0x0;
+    }
+    else {
+      pvVar7 = orig::CXiActor_Construct_v1(pvVar7);
+    }
+    (&ActerBuffPtr_as_v0)[param_3[4]] = pvVar7;
+  }
+  pvVar7 = (void *)(&ActerBuffPtr_as_v0)[param_3[4]];
+  iVar8 = *(int *)((int)pvVar7 + 0x78);
+  afStack_28[0] = *(float *)((int)pvVar7 + 0x74);
+  if ((iVar8 != 0) && (iVar8 != *(int *)(param_3 + 2))) {
+    orig::Acter_ReleaseEventRecord(pvVar7);
+    orig::Acter_ReleaseAllSlots((void *)(&ActerBuffPtr_as_v0)[param_3[4]]);
+    uVar6 = orig::CXiActor_InitDefaults((void *)(&ActerBuffPtr_as_v0)[param_3[4]],0);
+    uVar9 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar6 >> 0x10)) << 16) | (uint16_t)(param_3[4])));
+    iVar8 = orig::FUN_10099a40(uVar9,*(int *)(param_3 + 2),uVar9);
+  }
+  if ((param_3[5] & 0x1f) == 0x1f) {
+    uVar9 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar8 >> 0x10)) << 16) | (uint16_t)(param_3[4])));
+    orig::FUN_10099a40(uVar9,*(int *)(param_3 + 2),uVar9);
+    *(char *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x145) = (char)param_3[5];
+    *(uint8_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x1fe) = 0;
+  }
+  uVar6 = *(uint32_t *)(param_3 + 2);
+  iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+  *(uint32_t *)(iVar8 + 0x74) = (uint32_t)param_3[4];
+  *(uint32_t *)(iVar8 + 0x78) = uVar6;
+  *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+       *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) & 0xffffefff;
+  iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+  if (((*(uint32_t *)(iVar8 + 0x120) >> 5 & 1) == 0) && (*(short *)(iVar8 + 0x210) == 0)) {
+    *(uint8_t *)(iVar8 + 0xee) = 0;
+  }
+  if ((param_3[5] & 0x20) != 0) {
+    *(uint16_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x1fa) = 0;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) | 0x1000;
+    *(uint8_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x145) = 0;
+    uVar9 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    if ((*(uint32_t *)(uVar9 + 0x120) >> 8 & 1) == 0) {
+      *(uint32_t *)(uVar9 + 0x120) = *(uint32_t *)(uVar9 + 0x120) | 0x4000;
+      return ((uint32_t)(((uint32_t)((int32_t)(uVar9 >> 8)) << 8) | (uint8_t)(1)));
+    }
+    goto LAB_1009aac1;
+  }
+  iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+  *(uint16_t *)(iVar8 + 0x1fa) = param_3[0x1e];
+  uVar6 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar8 >> 0x10)) << 16) | (uint16_t)(param_3[0x18])));
+  if (param_3[0x18] != *(uint16_t *)((int)(&ActerBuffPtr_as_v0)[param_3[4]] + 0x166)) {
+    orig::FUN_1008cce0((void *)(&ActerBuffPtr_as_v0)[param_3[4]],uVar6,uVar6);
+  }
+  *(char *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x294) = (char)param_3[0x19];
+  uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130);
+  *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+       uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x33) << 0x19 ^ uVar9) & 0x2000000;
+  uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130);
+  *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+       uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x33) << 0xd ^ uVar9) & 0x4000;
+  uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c);
+  *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) =
+       uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x33) * 2 ^ uVar9) & 0x80;
+  *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+       *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) & 0xfffffff7;
+  pvVar7 = (void *)(&ActerBuffPtr_as_v0)[param_3[4]];
+  if (*(char *)((int)pvVar7 + 0x145) == '\0') {
+    if (((uint8_t)param_3[5] & 0x1f) != 0x1f) {
+      orig::Acter_ReleaseEventRecord(pvVar7);
+      orig::Acter_ReleaseAllSlots((void *)(&ActerBuffPtr_as_v0)[param_3[4]]);
+      orig::CXiActor_InitDefaults((void *)(&ActerBuffPtr_as_v0)[param_3[4]],0);
+      uVar9 = (&ActerBuffPtr_as_v0)[param_3[4]];
+      *(uint32_t *)(uVar9 + 300) = *(uint32_t *)(uVar9 + 300) | 0x8000;
+      return uVar9 & 0xffffff00;
+    }
+    *(uint8_t *)((int)pvVar7 + 0x145) = (uint8_t)param_3[5];
+  }
+  uVar9 = 0;
+  if ((param_3[5] & 8) != 0) {
+    orig::FUN_100dde40(acStack_10,0x10,(char *)(param_3 + 0x2d),0x5c,(uint32_t)(*param_3 >> 9));
+    uVar9 = orig::Acter_CopySixDwordsTo7C((void *)(&ActerBuffPtr_as_v0)[param_3[4]],(uint32_t *)acStack_10);
+  }
+  if ((param_3[5] & 1) != 0) {
+    fVar1 = *(float *)(param_3 + 6);
+    fVar2 = *(float *)(param_3 + 8);
+    fStack_18 = *(float *)(param_3 + 10);
+    iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    *(float *)(iVar8 + 0x4c) = fStack_18;
+    *(float *)(iVar8 + 0x44) = (float)(long double)fVar1;
+    *(float *)(iVar8 + 0x48) = (float)(long double)fVar2;
+    if (DAT_10489900_as_s8 == '\0') {
+LAB_10099ebf:
+      uVar6 = orig::ZoneMap_QueryBoxHeightBand
+                        (g_pZoneMap,*(uint32_t *)(param_3 + 6),*(float *)(param_3 + 8),
+                         *(uint32_t *)(param_3 + 10),5e+01f,afStack_28);
+      if ((char)uVar6 == '\x01') {
+        *(float *)(param_3 + 8) = afStack_28[0];
+      }
+    }
+    else {
+      uVar6 = orig::Acter_IsEvent(((uint32_t)(((uint32_t)((int32_t)((uint32_t)(iVar8 + 0x44) >> 8)) << 8) | (uint8_t)(DAT_10489900_as_s8))));
+      if ((((char)uVar6 == '\0') || ((*(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) >> 7 & 1) != 0)
+          ) || ((*(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) >> 8 & 1) != 0)) goto LAB_10099ebf;
+    }
+    fVar1 = *(float *)(param_3 + 6);
+    fVar2 = *(float *)(param_3 + 8);
+    fVar3 = *(float *)(param_3 + 10);
+    fStack_18 = (float)(long double)fVar3;
+    iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    *(float *)(iVar8 + 0x24) = (float)(long double)fVar1;
+    *(float *)(iVar8 + 0x28) = (float)(long double)fVar2;
+    *(float *)(iVar8 + 0x2c) = (float)(long double)fVar3;
+    uVar5 = param_3[4];
+    iVar8 = (&ActerBuffPtr_as_v0)[uVar5];
+    *(float *)(iVar8 + 4) = (float)(long double)fVar1;
+    *(float *)(iVar8 + 8) = (float)(long double)fVar2;
+    *(float *)(iVar8 + 0xc) = fStack_18;
+    fVar10 = orig::FUN_100dd990((uint32_t)((uint16_t)(((uint16_t)(uint8_t)((char)(uVar5 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)param_3 + 0xb)))));
+    iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    *(uint32_t *)(iVar8 + 0x34) = 0;
+    *(float *)(iVar8 + 0x38) = (float)fVar10;
+    *(uint32_t *)(iVar8 + 0x3c) = 0;
+    iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    *(uint32_t *)(iVar8 + 0x14) = 0;
+    *(float *)(iVar8 + 0x18) = (float)fVar10;
+    *(uint32_t *)(iVar8 + 0x1c) = 0;
+    *(float *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x15c) =
+         (float)((long double)(uint8_t)param_3[0xe] * (long double)0.100000001490116119384765625f);
+    *(float *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x9c) =
+         (float)((long double)*(uint8_t *)((int)param_3 + 0x1d) * (long double)0.100000001490116119384765625f);
+    orig::FUN_1008cd20((void *)(&ActerBuffPtr_as_v0)[param_3[4]],param_3[0xc] & 0x1fff);
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0xc) >> 0xd & 0xff) << 0x13 ^ uVar9) & 0x80000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0xc) >> 0xe & 0xff) << 0x12 ^ uVar9) & 0x40000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0xc) >> 0xf & 0xff) << 0x14 ^ uVar9) & 0x100000;
+    uVar9 = (uint32_t)param_3[4];
+    *(uint16_t *)((&ActerBuffPtr_as_v0)[uVar9] + 0x1f8) =
+         (uint16_t)((uint32_t)*(uint32_t *)(param_3 + 0xc) >> 0x11);
+  }
+  if ((param_3[5] & 2) != 0) {
+    uVar9 = (&ActerBuffPtr_as_v0)[param_3[4]];
+    *(uint32_t *)(uVar9 + 0x188) = *(uint32_t *)(param_3 + 0x16);
+  }
+  if ((param_3[5] & 0x10) != 0) {
+    orig::FUN_1009afe0(((uint32_t)(((uint32_t)(uint16_t)((short)(uVar9 >> 0x10)) << 16) | (uint16_t)(param_3[4]))),(uint8_t *)(param_3 + 0x24),0);
+  }
+  if ((param_3[5] & 4) != 0) {
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         uVar9 ^ ((uint32_t)(uint8_t)param_3[0x10] << 0xd ^ uVar9) & 0x2000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 1 & 0xff) << 0xe ^ uVar9) & 0x4000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 2 & 0xff) << 0x12 ^ uVar9) & 0x40000;
+    if (param_3[0x1f] == 0) {
+      iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+      uVar9 = *(uint32_t *)(iVar8 + 0x130) & 0xfffffffb;
+    }
+    else {
+      uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+      *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+           uVar9 ^ ((uint32_t)(uint8_t)param_3[0x15] * 2 ^ uVar9) & 0xe;
+      iVar8 = (&ActerBuffPtr_as_v0)[param_3[4]];
+      uVar9 = *(uint32_t *)(iVar8 + 0x130) | 4;
+    }
+    *(uint32_t *)(iVar8 + 0x130) = uVar9;
+    orig::FUN_10097a20((void *)(&ActerBuffPtr_as_v0)[param_3[4]],*(uint32_t *)(param_3 + 0x10) >> 5 & 7);
+    orig::FUN_1009ab40((void *)(&ActerBuffPtr_as_v0)[param_3[4]],param_3 + 0x1a);
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 8 & 0xff) << 0x16 ^ uVar9) & 0x400000;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) =
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) & 0x3fffffff ^
+         (*(uint32_t *)(param_3 + 0x10) >> 9) << 0x1e;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0xb & 0xff) << 0x14 ^ uVar9) & 0x100000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x12) >> 0x1f) << 0x15 ^ uVar9) & 0x200000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0xc & 0xff) << 0x17 ^ uVar9) & 0x800000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0xd) << 0x18 ^ uVar9) & 0x1000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0xe & 0xff) << 0x16 ^ uVar9) & 0x400000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((int)(char)(*(uint32_t *)(param_3 + 0x10) >> 0xf) << 0x19 ^ uVar9) & 0x2000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((uint32_t)(uint8_t)param_3[0x11] << 0x1a ^ uVar9) & 0x4000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x11) << 0x1b ^ uVar9) & 0x8000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x124) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x12) << 0x1c ^ uVar9) & 0x10000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x140);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x140) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 1 & 0xff) << 3 ^ uVar9) & 8;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((int)(char)(*(uint32_t *)(param_3 + 0x10) >> 0x13) << 4 ^ uVar9) & 0x10;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((int)(char)(*(uint32_t *)(param_3 + 0x10) >> 0x14) << 5 ^ uVar9) & 0x20;
+    *(char *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0xec) = (char)param_3[0xf];
+    if ((*(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) >> 1 & 1) == 0) {
+      *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x16c) = (uint32_t)*(uint8_t *)((int)param_3 + 0x1f);
+    }
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x1d4) =
+         ((uint32_t)(uint8_t)param_3[0x13] * 0x100 + (uint32_t)*(uint8_t *)((int)param_3 + 0x25)) * 0x100 +
+         (uint32_t)(uint8_t)param_3[0x12];
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x1b) << 0xe ^ uVar9) & 0x4000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x23) << 0xb ^ uVar9) & 0x3800;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x1c) << 0x10 ^ uVar9) & 0x10000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x1d) << 6 ^ uVar9) & 0x40;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((int)(char)(*(uint32_t *)(param_3 + 0x14) >> 0x15) << 8 ^ uVar9) & 0x100;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x1e) << 2 ^ uVar9) & 4;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+         uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x27) << 8 ^ uVar9) & 0x100;
+    *(uint8_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x1ff) = *(uint8_t *)((int)param_3 + 0x29);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) & 0xfffffbff;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x128) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x10) >> 0x1f) << 9 ^ uVar9) & 0x200;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x12) >> 0x19) << 10 ^ uVar9) & 0x400;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x12) >> 0x1b) << 0xd ^ uVar9) & 0x2000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x12) >> 0x1c) << 0x12 ^ uVar9) & 0x40000;
+    orig::Unit10086E90_SetFlagBit2((uint32_t)param_3[4],*(uint32_t *)(param_3 + 0x12) >> 0x1d & 1);
+    orig::FUN_1008aa30((uint32_t)param_3[4],*(uint32_t *)(param_3 + 0x12) >> 0x1e & 1);
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 2 & 0xff) << 0x17 ^ uVar9) & 0x800000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 3) << 0x18 ^ uVar9) & 0x1000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 4) << 0x19 ^ uVar9) & 0x2000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 5) << 0x1b ^ uVar9) & 0x8000000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((int)(char)(*(uint32_t *)(param_3 + 0x14) >> 6) << 0x1e ^ uVar9) & 0x40000000;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) & 0x7fffffff ^
+         (int)(char)((uint8_t)((uint32_t)*(uint32_t *)(param_3 + 0x14) >> 0x19) & 1) << 0x1f;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 300) =
+         uVar9 ^ ((int)(char)param_3[0x14] << 0x16 ^ uVar9) & 0x400000;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) & 0xfffffffe;
+    if ((*(uint32_t *)(param_3 + 0x10) & 8) == 0) {
+      uVar6 = 0;
+    }
+    else {
+      uVar6 = *(uint32_t *)(DAT_104dfd98 + 0x3c350);
+    }
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x18c) = uVar6;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+         uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x2b) << 0xc ^ uVar9) & 0x1000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) =
+         uVar9 ^ ((*(uint32_t *)(param_3 + 0x14) >> 0x17 & 0xff) << 0xd ^ uVar9) & 0x2000;
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) & 0xfffbffff;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x130) = uVar9;
+    uVar6 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar9 >> 0x10)) << 16) | (uint16_t)(param_3[0x1f])));
+    uVar11 = orig::FUN_1009acb0((void *)(&ActerBuffPtr_as_v0)[param_3[4]],uVar6,uVar6);
+    pvVar7 = (void *)(&ActerBuffPtr_as_v0)[param_3[4]];
+    orig::FUN_1009ace0(pvVar7,0,((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar11 >> 0x28)) << 8) | (uint8_t)((char)param_3[0x20]))));
+    orig::FUN_1009ace0((void *)(&ActerBuffPtr_as_v0)[param_3[4]],1,
+                 ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar7 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)param_3 + 0x41)))));
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) =
+         uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x33) << 2 ^ uVar9) & 0x30;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) =
+         *(uint8_t *)((int)param_3 + 0x33) >> 2 & 0xc ^
+         *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) & 0xfffffff3;
+    bVar4 = (uint8_t)param_3[0x21];
+    orig::Acter_SetFieldsAt130And134
+              ((void *)(&ActerBuffPtr_as_v0)[param_3[4]],bVar4 & 0xf,bVar4 >> 4 & 3,bVar4 >> 6 & 1);
+    *(float *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x208) =
+         (float)((long double)*(uint8_t *)((int)param_3 + 0x43) * (long double)0.100000001490116119384765625f);
+    uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c);
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) =
+         uVar9 ^ ((uint32_t)(uint8_t)param_3[0x22] << 0x18 ^ uVar9) & 0xf000000;
+    *(char *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x1db) = (char)(*(uint32_t *)(param_3 + 0x22) >> 4);
+  }
+  uVar9 = (uint32_t)DAT_10485f7a;
+  if (uVar9 == param_3[4]) {
+    uVar9 = orig::Camera_SetField30(2);
+  }
+LAB_1009aac1:
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar9 >> 8)) << 8) | (uint8_t)(1)));
+}
+
 // FUNCTION: FFXIMAIN 0x1009AAF0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Acter_IsByte123Mask7In234(void * self_)

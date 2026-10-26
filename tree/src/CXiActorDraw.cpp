@@ -3,6 +3,16 @@
 #include "CXiActorDraw.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100817E0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __cdecl CXiActorDraw::Update()
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::CXiActorDraw_UpdateDrawList();
+  return uVar1 & 0xffffff00;
+}
+
 // FUNCTION: FFXIMAIN 0x10082D70  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 95 returned normally, 174 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CXiActorDraw::UpdateDrawList()

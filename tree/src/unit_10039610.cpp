@@ -2,6 +2,21 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10039670  (unit unit_10039610: no unit evidence of its own; in the gap between 0x100395F0 (CYyObject_VT_1032A9F8) and 0x10039770 (CYyTexBase) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10039670(void * self_, LPTHREAD_START_ROUTINE param_1, LPVOID param_2, undefined4 xi_s3)
+{
+  int iVar1;
+  
+  iVar1 = CreateThread(0,0,param_1,param_2,4,(int)self_ + 0xc);
+  *(int *)((int)self_ + 8) = iVar1;
+  if (iVar1 != 0) {
+    *(uint8_t *)((int)self_ + 4) = 1;
+    *(uint8_t *)((int)self_ + 5) = 0;
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100396A0  (unit unit_10039610: no unit evidence of its own; in the gap between 0x100395F0 (CYyObject_VT_1032A9F8) and 0x10039770 (CYyTexBase) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Thread_ResumeAndWait(void * self_)

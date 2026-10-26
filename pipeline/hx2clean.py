@@ -771,11 +771,15 @@ def main(exp, gate, manf, incdir, outdir):
             _seen.add(an); f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (an, ea))
         f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(XI_GAME(orig_addr::name))\n')
     gnames, gcanon, gvariant = {}, {}, {}
+    fnames = {r['name'] for ea_, r in R.items() if ea_ in passed}
     with open(os.path.join(outdir, 'include', 'gfx_globals.hpp'), 'w') as f:
         f.write('// gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.\n#pragma once\n#include "gfx_common.hpp"\n')
         for ea in sorted(globs):
             nm, o = globs[ea]
             gn = nm if re.match(r'^[A-Za-z_]\w*$', nm) and nm not in CXX_KEYWORDS else 'g_%08X' % ea
+            # a global (an import table slot too) named like a function of the tree: its macro would replace that
+            # function's declaration in every unit (the game's 0x10009770 is named SetCursorPos, as is the slot)
+            if gn in fnames: gn = 'g_%s_%08X' % (gn, ea)
             gnames[ea] = gn; RESERVED.add(gn)
             from hx2cpp import typedef_for
             # functions disagree on a global's type when they read it at different widths (Hex-Rays

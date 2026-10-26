@@ -3537,3 +3537,28 @@ return no caller reads EDX of.
 
 Tree: 4,442 functions, 4,428 PASS (from 4,262). Frame set: 3,984 in the tree, 3,970 PASS; 1,491 (29.9%) at the
 game's bytes.
+
+## 27 Oct: the rest of the frame set, imports stubbed, a name clash
+
+**What was left.** Of the 1,000 frame-set functions outside the tree, 595 are the statically linked C runtime (219 of
+them reached by the frame set only since the stack-solver round, exported as fs18 and all `library`); those are no
+reconstruction target. The other 405 were exported again with every current fact (fs19; `retw` for the 23
+UNRESOLVED on EAX past a declared void or bool, which now also widens a 1-byte return).
+
+**Imports, stubbed like game callees.** 34 functions were INCONCLUSIVE because every trial stopped at a Win32
+import. data/import_pops.json (pipeline/import_pops.py) gives the bytes each import's call pops, from the game's
+solved call sites (199 imports, none disagreeing). A case with `"imports": "stub"` answers such an import like a
+stubbed game callee: the call and its arguments compared, EAX from the trial's stream, nothing written
+(diffemu_gfx.py). New cases carry it (gfx_cases.py); existing cases keep their behaviour, so recorded verdicts stay
+reproducible. 16 of the 34 then PASS raw; in the tree each also PASSes under its older case with the stub added.
+
+**A name clash broke every unit.** The game's 0x10009770 is named SetCursorPos, and an fs19 record reads the import
+table slot of that name: the slot's macro rewrote the function's declaration in a shared header, no unit compiled,
+and the leave-out rule then dropped 141 tree functions. Two fixes:
+- a global whose name is a function of the tree's gets `g_<name>_<addr>` (hx2clean.py);
+- drop_failed.py refuses to drop anything when an error lies in a shared header, and regen_clean.sh stops there.
+
+**Workers.** The VC6 sweep's LEFT_OUT went from 419 to 252 (recompile/sweep_round_117.md); the 252 left all call a
+function that takes an argument in EAX, which no VC6 convention passes.
+
+Tree: 4,463 functions, 4,449 PASS. Frame set: 4,005 in the tree, 3,991 PASS; 1,523 (30.6%) at the game's bytes.

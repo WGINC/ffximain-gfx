@@ -5260,7 +5260,7 @@ undefined4 __thiscall CXiSkeletonActor::LoadSkeletonResource(void * self, undefi
       pvVar4 = (void *)0x0;
     }
     else {
-      pvVar4 = orig::CXiSkeletonActorRes_Constructor(this_00,self,&CXiSkeletonActor_OnSkeletonLoaded);
+      pvVar4 = orig::CXiSkeletonActorRes_Constructor(this_00,self,&g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40);
     }
     *(void **)((int)self + 0xa08) = pvVar4;
     if (pvVar4 == (void *)0x0) {

@@ -3466,3 +3466,24 @@ from each caller's balance:
 - the stack starts filled with 0xA5A5A5A5, not zeros.
 The whole tree, gated again (34 min): 4,229 PASS, 42 UNRESOLVED (P17), 5 FAIL and 4 INCONCLUSIVE (P18, 0x10003890
 among them). The tree's GATE comments and frame_set_status.json follow; the kit's manifest is not rebuilt yet.
+
+## 26 Oct: the fs15 export into the tree
+
+**The export.** The 943 frame-set functions not in the tree, with the 51 tree functions not PASS, exported by Ghidra
+after the fact round (data/exports/ghidra_frameset15.jsonl, 993 records). Its raw gate (verification/
+gate_raw_frameset15.jsonl): 43 PASS, 61 FAIL, 69 INCONCLUSIVE, 205 UNRESOLVED. 154 of the UNRESOLVED are void
+functions whose EAX differs at return, with no fact on whether a caller reads it (docs/PROBLEMS.md P20).
+
+**A function that does not compile is left out, not fixed by hand.** The first regeneration placed 33 new
+functions, but one unit failed: 0x10018850 compares a global the headers declare `undefined4` with a pointer.
+regen_clean.sh now maps each failing unit's first error to its function (pipeline/drop_failed.py) and generates the
+tree again without it (`XI_DROP`), at most three times. The game's own code runs in its place, and left_out.json
+gives the compiler's message.
+
+**The clean gate.** 32 new functions and 2 changed:
+- 31 PASS; 0x10119BC0 and 0x100180D0 FAIL; 0x100289F0 INCONCLUSIVE.
+- 11 had no case in cases_raw_final.json. fs15's cases for them were added.
+- 17 had an older case that differs from fs15's own. Each was gated under both, and the stricter verdict stands. The 3
+  not PASS pass under fs15's case only: the older case compares EDX, which no fact says callers ignore (P9).
+
+Tree: 4,312 functions, 4,258 PASS. Frame set: 3,854 of 4,984 in the tree, 3,800 PASS.

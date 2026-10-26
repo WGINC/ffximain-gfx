@@ -57,6 +57,25 @@ XI_API void * __thiscall Unit10163E60_ConstructVt10335CE8(void * self_)
   return self_;
 }
 
+// FUNCTION: FFXIMAIN 0x10164530  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10164530(void * self_)
+{
+  char cVar1;
+  char *pcVar2;
+  
+  *(undefined4 *)((int)self_ + 0xa640) = 0xffffffff;
+  *(undefined4 *)((int)self_ + 0xa644) = 0xffffffff;
+  pcVar2 = &DAT_10376470;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2[(int)self_ + -0x1036bd1c] = cVar1;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  orig::FUN_103108de();
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10164560  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10163E60_ResetFieldsC(void * self_)

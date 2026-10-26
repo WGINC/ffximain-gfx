@@ -2,6 +2,25 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10014350  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t __thiscall fn_10014350(void * self_)
+{
+  uint32_t xi_eax;
+  
+  xi_eax = orig::FUN_10014390(self_);
+  if ((char)xi_eax == '\0') {
+    return 0;
+  }
+  DAT_104570e0_as_v0 = 0;
+  orig::Unit1018BA60_LoadAllAndTimestamp_v1(xi_eax);
+  if (DAT_1045690c_as_v1 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1045690c_as_v1 + 0x18))))((void *)(DAT_1045690c_as_v1),1);
+    DAT_1045690c_as_v1 = (int *)0x0;
+  }
+  return 1;
+}
+
 // FUNCTION: FFXIMAIN 0x100149B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __thiscall Unit10014350_EnterState4AfterShutdown(void * self_)

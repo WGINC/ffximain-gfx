@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CYyOs2VtxBuffer {
 public:
+    static uint32_t __thiscall CreateBuffersStep(void * self, undefined4 xi_s1);  // 0x1002CCB0
     int Constructor(_DWORD **a2);  // 0x1002D680
     char CYyOs2VtxBuffer_Destructor();  // 0x1002D700
 

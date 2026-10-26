@@ -3721,6 +3721,200 @@ int __thiscall CXiSkeletonActor::GetTableEntryByModelKind(void * self)
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x100CFC10  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CXiSkeletonActor::Slot244_Unknown(void * self, float * param_1, float * param_2, int param_3)
+{
+  float fVar1;
+  uint16_t uVar2;
+  int iVar3;
+  uint32_t *puVar4;
+  float *pfVar5;
+  uint8_t bVar6;
+  long double fVar7;
+  long double fVar8;
+  long double fVar9;
+  long double fVar10;
+  long double fVar11;
+  long double fVar12;
+  char xi_frame[216] __attribute__((aligned(4)));
+  float  &fStack_d8 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  (&afStack_d4)[10] = *reinterpret_cast<float  (*)[10]>(xi_frame + 4);
+  uint32_t  &uStack_ac = *reinterpret_cast<uint32_t  *>(xi_frame + 44);
+  float  &fStack_a8 = *reinterpret_cast<float  *>(xi_frame + 48);
+  float  &fStack_a4 = *reinterpret_cast<float  *>(xi_frame + 52);
+  float  &fStack_a0 = *reinterpret_cast<float  *>(xi_frame + 56);
+  uint32_t  &uStack_9c = *reinterpret_cast<uint32_t  *>(xi_frame + 60);
+  float  &fStack_98 = *reinterpret_cast<float  *>(xi_frame + 64);
+  float  &fStack_94 = *reinterpret_cast<float  *>(xi_frame + 68);
+  float  &fStack_90 = *reinterpret_cast<float  *>(xi_frame + 72);
+  uint32_t  &uStack_8c = *reinterpret_cast<uint32_t  *>(xi_frame + 76);
+  float  &fStack_88 = *reinterpret_cast<float  *>(xi_frame + 80);
+  float  &fStack_84 = *reinterpret_cast<float  *>(xi_frame + 84);
+  float  &fStack_80 = *reinterpret_cast<float  *>(xi_frame + 88);
+  uint32_t  &uStack_7c = *reinterpret_cast<uint32_t  *>(xi_frame + 92);
+  float  &fStack_78 = *reinterpret_cast<float  *>(xi_frame + 96);
+  float  &fStack_74 = *reinterpret_cast<float  *>(xi_frame + 100);
+  float  &fStack_70 = *reinterpret_cast<float  *>(xi_frame + 104);
+  uint32_t  &uStack_6c = *reinterpret_cast<uint32_t  *>(xi_frame + 108);
+  float  &fStack_68 = *reinterpret_cast<float  *>(xi_frame + 112);
+  float  &fStack_64 = *reinterpret_cast<float  *>(xi_frame + 116);
+  float  &fStack_60 = *reinterpret_cast<float  *>(xi_frame + 120);
+  uint32_t  &uStack_5c = *reinterpret_cast<uint32_t  *>(xi_frame + 124);
+  uint8_t  (&auStack_58)[80] = *reinterpret_cast<uint8_t  (*)[80]>(xi_frame + 128);
+  float  &fStack_8 = *reinterpret_cast<float  *>(xi_frame + 208);
+  
+  orig::Unit10026C70_ReturnThis_v1(auStack_58);
+  orig::Mat4_SetIdentity_v1(auStack_58);
+  iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1c0))))((void *)(self));
+  orig::Mat4_PostRotateY_v1(auStack_58,*(float *)(iVar3 + 4));
+  puVar4 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
+  orig::Mat4_SetTranslation_v2(auStack_58,puVar4);
+  orig::Mat4_PostMultiply_v1(auStack_58,param_3);
+  pfVar5 = (float *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x3c8))))((void *)(self),0);
+  if (pfVar5 == (float *)0x0) {
+    orig::Unit10026C70_Nop();
+    return 0;
+  }
+  fVar7 = (long double)*pfVar5;
+  fVar8 = (long double)pfVar5[1];
+  fVar9 = (long double)pfVar5[2];
+  fVar10 = (long double)pfVar5[3];
+  fVar11 = (long double)pfVar5[4];
+  fStack_60 = (float)fVar11;
+  fVar12 = (long double)pfVar5[5];
+  bVar6 = NAN(fVar7 - fVar8) || NAN((long double)0.0f);
+  if (bVar6 != (bVar6 || fVar7 - fVar8 == (long double)0.0f)) {
+    fVar7 = fVar7 - (long double)1.0f;
+    fVar8 = fVar8 + (long double)1.0f;
+  }
+  bVar6 = NAN(fVar9 - fVar7) || NAN((long double)0.0f);
+  if (bVar6 != (bVar6 || fVar9 - fVar7 == (long double)0.0f)) {
+    fVar9 = fVar9 - (long double)1.0f;
+    fVar10 = fVar10 + (long double)1.0f;
+  }
+  fStack_d8 = (float)fVar9;
+  afStack_d4[2] = 1.0f;
+  afStack_d4[0] = (float)fVar8;
+  afStack_d4[6] = 1.0f;
+  uStack_ac = 0x3f800000;
+  afStack_d4[1] = (float)fVar12;
+  uStack_9c = 0x3f800000;
+  uStack_8c = 0x3f800000;
+  afStack_d4[3] = (float)fVar10;
+  uStack_7c = 0x3f800000;
+  uStack_6c = 0x3f800000;
+  afStack_d4[4] = (float)fVar8;
+  uStack_5c = 0x3f800000;
+  pfVar5 = afStack_d4;
+  afStack_d4[5] = (float)fVar12;
+  iVar3 = 8;
+  afStack_d4[7] = (float)fVar9;
+  afStack_d4[8] = (float)fVar8;
+  afStack_d4[9] = (float)fVar11;
+  fStack_a8 = (float)fVar10;
+  fStack_a4 = (float)fVar8;
+  fStack_a0 = (float)fVar11;
+  fStack_98 = (float)fVar9;
+  fStack_94 = (float)fVar7;
+  fStack_90 = (float)fVar12;
+  fStack_88 = (float)fVar10;
+  fStack_84 = (float)fVar7;
+  fStack_80 = (float)fVar12;
+  fStack_78 = (float)fVar9;
+  fStack_74 = (float)fVar7;
+  fStack_70 = (float)fVar11;
+  fStack_68 = (float)fVar10;
+  fStack_64 = (float)fVar7;
+  fStack_8 = fStack_60;
+  do {
+    orig::Mat4_TransformCoordInPlace_v2(auStack_58,pfVar5 + -1);
+    *pfVar5 = (float)-(long double)*pfVar5;
+    pfVar5 = pfVar5 + 4;
+    iVar3 = iVar3 + -1;
+  } while (iVar3 != 0);
+  if ((long double)afStack_d4[1] > (long double)1.0f)
+  {
+    fStack_d8 = (-1e+05f);
+    afStack_d4[0] = (-1e+05f);
+  }
+  orig::Vec4_Copy_v1(param_1,&fStack_d8);
+  orig::Vec4_Copy_v1(param_2,&fStack_d8);
+  pfVar5 = afStack_d4;
+  iVar3 = 7;
+  do {
+    pfVar5 = pfVar5 + 4;
+    bVar6 = NAN((long double)*param_1) || NAN((long double)(-99999.0f));
+    if ((bVar6 || (long double)*param_1 < (long double)(-99999.0f)) == bVar6) {
+      if (!((long double)pfVar5[-1] > (long double)*param_1)) {
+        fVar1 = pfVar5[-1];
+      }
+      else {
+        fVar1 = *param_1;
+      }
+      *param_1 = (float)(long double)fVar1;
+    }
+    else {
+      *param_1 = pfVar5[-1];
+    }
+    bVar6 = NAN((long double)param_1[1]) || NAN((long double)(-99999.0f));
+    if ((bVar6 || (long double)param_1[1] < (long double)(-99999.0f)) == bVar6) {
+      if (!((long double)*pfVar5 > (long double)param_1[1])) {
+        fVar1 = *pfVar5;
+      }
+      else {
+        fVar1 = param_1[1];
+      }
+      param_1[1] = (float)(long double)fVar1;
+    }
+    else {
+      param_1[1] = *pfVar5;
+    }
+    bVar6 = NAN((long double)*param_2) || NAN((long double)(-99999.0f));
+    if ((bVar6 || (long double)*param_2 < (long double)(-99999.0f)) == bVar6) {
+      bVar6 = NAN((long double)pfVar5[-1]) || NAN((long double)*param_2);
+      if ((bVar6 || (long double)pfVar5[-1] < (long double)*param_2) == bVar6) {
+        fVar1 = pfVar5[-1];
+      }
+      else {
+        fVar1 = *param_2;
+      }
+      *param_2 = (float)(long double)fVar1;
+    }
+    else {
+      *param_2 = pfVar5[-1];
+    }
+    bVar6 = NAN((long double)*param_2) || NAN((long double)(-99999.0f));
+    if ((bVar6 || (long double)*param_2 < (long double)(-99999.0f)) == bVar6) {
+      bVar6 = NAN((long double)*pfVar5) || NAN((long double)param_2[1]);
+      if ((bVar6 || (long double)*pfVar5 < (long double)param_2[1]) == bVar6) {
+        fVar1 = *pfVar5;
+      }
+      else {
+        fVar1 = param_2[1];
+      }
+      param_2[1] = (float)(long double)fVar1;
+    }
+    else {
+      param_2[1] = *pfVar5;
+    }
+    fVar7 = (long double)param_1[3];
+    fVar8 = (long double)pfVar5[2];
+    bVar6 = !(fVar8 >= fVar7);
+    uVar2 = (uint16_t)((NAN(fVar8) || NAN(fVar7)) || fVar8 == fVar7);
+    if (bVar6 || uVar2 != 0) {
+      fVar1 = pfVar5[2];
+    }
+    else {
+      fVar1 = param_1[3];
+    }
+    iVar3 = iVar3 + -1;
+    param_1[3] = (float)(long double)fVar1;
+  } while (iVar3 != 0);
+  orig::Unit10026C70_Nop();
+  return ((uint32_t)(((uint32_t)((uint32_t)(uint8_t)(bVar6 | (uint8_t)((uint16_t)(uVar2 << 0xe) >> 8))) << 8) | (uint8_t)(1)));
+}
+
 // FUNCTION: FFXIMAIN 0x100D04B0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char * CXiSkeletonActor::GetField878Ptr_Candidate()
@@ -3905,6 +4099,95 @@ double CXiSkeletonActor::GetDepthScale()
   return ((double (__thiscall *)(char *))*(_DWORD *)(*(_DWORD *)self + 272))(self) * v6 * 0x1.0d79440000000p-1;
 }
 
+// FUNCTION: FFXIMAIN 0x100D0B50  (unit CXiSkeletonActor: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_100D0B50(void * self_, int * param_1, int param_2, int param_3, undefined4 param_4)
+{
+  uint8_t uVar1;
+  int iVar2;
+  uint32_t uVar3;
+  int *piVar4;
+  uint32_t uVar5;
+  
+  uVar5 = param_2 >> 0xc & 0xf;
+  if ((char)param_4 == '\0') {
+    uVar5 = 1 << (sbyte)uVar5;
+    *(uint32_t *)((int)self_ + 0x8b0) = *(uint32_t *)((int)self_ + 0x8b0) | uVar5;
+    return uVar5;
+  }
+  if (param_3 != *(int *)((int)self_ + 0x9ec)) {
+    return param_3;
+  }
+  if (param_1 == (int *)0x0) {
+    return param_3;
+  }
+  iVar2 = orig::CXiActor_GetModelByteEE_v1(self_);
+  if (iVar2 == 6) {
+    if (uVar5 != 9) goto LAB_100d0bed;
+    iVar2 = orig::CXiActor_GetModelByteEF(self_);
+    if (iVar2 == 0) {
+      orig::CXiActor_SetField0B4(self_,param_1);
+      goto LAB_100d0bed;
+    }
+  }
+  else {
+    if ((iVar2 != 7) || (uVar5 != 9)) goto LAB_100d0bed;
+    uVar3 = orig::CXiActor_GetModelPartWord(self_,0);
+    if (uVar3 == 0) {
+      orig::CXiActor_SetField0B4(self_,param_1);
+      goto LAB_100d0bed;
+    }
+  }
+  orig::Unit10048000_SetDwordAndCopyOut((void *)((int)self_ + 0x864),&param_4,param_1);
+  orig::CMoResource_AddRefChain_v2((void *)*param_1);
+LAB_100d0bed:
+  piVar4 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self_ + 0x674));
+  iVar2 = *piVar4;
+  if ((iVar2 == 0) && (iVar2 = orig::CYyModel_CreateModelBase((void *)((int)self_ + 0x674)), iVar2 == 0)) {
+    return 0;
+  }
+  orig::CXiSkeletonActor_AddResourceParts(self_,param_1,iVar2);
+  piVar4 = (int *)orig::CMoResource_FindInScope_v1(&param_4,*param_1,0x45,0);
+  if ((int *)*piVar4 != (int *)0x0) {
+    iVar2 = *(int *)*piVar4;
+    switch(xi_sw(uVar5)) {
+    case 2:
+      *(uint8_t *)((int)self_ + 0x881) = *(uint8_t *)(iVar2 + 0x39);
+      break;
+    case 5:
+      *(uint8_t *)((int)self_ + 0x879) = *(uint8_t *)(iVar2 + 0x31);
+      *(uint8_t *)((int)self_ + 0x87a) = *(uint8_t *)(iVar2 + 0x32);
+      break;
+    case 6:
+      *(uint8_t *)((int)self_ + 0x87b) = *(uint8_t *)(iVar2 + 0x33);
+      *(uint8_t *)((int)self_ + 0x87c) = *(uint8_t *)(iVar2 + 0x34);
+      *(uint8_t *)((int)self_ + 0x87e) = *(uint8_t *)(iVar2 + 0x36);
+      *(uint8_t *)((int)self_ + 0x880) = *(uint8_t *)(iVar2 + 0x38);
+      *(uint8_t *)((int)self_ + 0x88b) = *(uint8_t *)(iVar2 + 0x30);
+      break;
+    case 7:
+      *(uint8_t *)((int)self_ + 0x87f) = *(uint8_t *)(iVar2 + 0x34);
+      *(uint8_t *)((int)self_ + 0x888) = *(uint8_t *)(iVar2 + 0x36);
+      *(uint8_t *)((int)self_ + 0x889) = *(uint8_t *)(iVar2 + 0x38);
+      if (*(char *)((int)self_ + 0x8b5) == '\0') {
+        *(uint8_t *)((int)self_ + 0x88a) = 0;
+        *(uint8_t *)((int)self_ + 0x87d) = *(uint8_t *)(iVar2 + 0x35);
+      }
+      else {
+        uVar1 = *(uint8_t *)(iVar2 + 0x33);
+        *(uint8_t *)((int)self_ + 0x87d) = 0;
+        *(uint8_t *)((int)self_ + 0x88a) = uVar1;
+      }
+      break;
+    case 8:
+      *(uint8_t *)((int)self_ + 0x886) = *(uint8_t *)(iVar2 + 0x3e);
+    }
+  }
+  uVar5 = *(uint32_t *)((int)self_ + 0x8b0) | 1 << (sbyte)uVar5;
+  *(uint32_t *)((int)self_ + 0x8b0) = uVar5;
+  return uVar5;
+}
+
 // FUNCTION: FFXIMAIN 0x100D0D40  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CXiSkeletonActor::SetField0B4IfField9EC(void * self, int * param_1, int param_2)
@@ -4009,6 +4292,63 @@ void __thiscall CXiSkeletonActor::SelectStateMessage(void * self, undefined4 xi_
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100D1190  (unit CXiSkeletonActor: between 0x100D0A80 (name CXiSkeletonActor_GetDepthScale) and 0x100D12D0 (name CXiSkeletonActor_IsReadCompleteBody), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_100D1190(void * self_)
+{
+  int iVar1;
+  
+  iVar1 = orig::CXiActor_GetModelField170_v1(self_);
+  switch(xi_sw(iVar1)) {
+  default:
+    iVar1 = orig::CXiActor_GetModelByteEE_v1(self_);
+    if ((-1 < iVar1) && ((iVar1 < 2 || (iVar1 == 6)))) {
+      *(uint8_t *)((int)self_ + 0x8a4) = 1;
+    }
+    break;
+  case 1:
+    iVar1 = orig::CXiActor_GetModelByteEE_v1(self_);
+    if ((-1 < iVar1) && ((iVar1 < 2 || (iVar1 == 6)))) {
+      *(uint8_t *)((int)self_ + 0x8a4) = 2;
+      return iVar1;
+    }
+    break;
+  case 2:
+    iVar1 = orig::CXiActor_GetModelByteEE_v1(self_);
+    if ((-1 < iVar1) && ((iVar1 < 2 || (iVar1 == 6)))) {
+      *(uint8_t *)((int)self_ + 0x8a4) = 1;
+    }
+    *(uint32_t *)((int)self_ + 0x7d8) = 0x20202020;
+    return iVar1;
+  case 3:
+    iVar1 = orig::CXiActor_GetModelByteEE_v1(self_);
+    if ((-1 < iVar1) &&
+       (((iVar1 < 2 || (iVar1 == 6)) && (iVar1 = orig::CXiSkeletonActor_FindListEntry(self_,1), iVar1 == 0)
+        ))) {
+      *(uint8_t *)((int)self_ + 0x8a4) = 2;
+    }
+    *(uint32_t *)((int)self_ + 0x7d8) = 0x20202020;
+    return iVar1;
+  case 8:
+  case 9:
+  case 0x1a:
+  case 0x1b:
+  case 0x1d:
+  case 0x1e:
+  case 0x22:
+  case 0x23:
+  case 0x24:
+  case 0x25:
+  case 0x2d:
+  case 0x2e:
+    break;
+  case 0x31:
+    *(uint8_t *)((int)self_ + 0x8a4) = 5;
+    return iVar1;
+  }
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x100D12D0  (unit CXiSkeletonActor: name CXiSkeletonActor_IsReadCompleteBody)
 // GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_IsReadCompleteBody(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
@@ -4067,6 +4407,676 @@ LAB_100d1394:
 char __cdecl CXiSkeletonActor::OnSkeletonLoaded(int a1, int a2)
 {
   return orig::CXiSkeletonActor_LoadSkeletonSync(a1, *(_DWORD *)(a2 + 68));
+}
+
+// FUNCTION: FFXIMAIN 0x100D2F60  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CXiSkeletonActor::LoadSkeletonSync(void * self, uint32_t dvdno1)
+{
+  int *piVar1;
+  uint8_t bVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  undefined4 uVar5;
+  uint32_t uVar6;
+  int iVar7;
+  uint32_t *puVar8;
+  uint32_t uVar9;
+  int iVar10;
+  char xi_frame[104] __attribute__((aligned(4)));
+  code * &pcVar11 = *reinterpret_cast<code * *>(xi_frame + 0);
+  int * &piStack_48 = *reinterpret_cast<int * *>(xi_frame + 32);
+  int  &iStack_44 = *reinterpret_cast<int  *>(xi_frame + 36);
+  int  &iStack_40 = *reinterpret_cast<int  *>(xi_frame + 40);
+  uint32_t  &uStack_3c = *reinterpret_cast<uint32_t  *>(xi_frame + 44);
+  int  &iStack_38 = *reinterpret_cast<int  *>(xi_frame + 48);
+  int  &iStack_34 = *reinterpret_cast<int  *>(xi_frame + 52);
+  undefined4  &uStack_30 = *reinterpret_cast<undefined4  *>(xi_frame + 56);
+  undefined4  &uStack_2c = *reinterpret_cast<undefined4  *>(xi_frame + 60);
+  undefined4  &uStack_28 = *reinterpret_cast<undefined4  *>(xi_frame + 64);
+  int  &iStack_24 = *reinterpret_cast<int  *>(xi_frame + 68);
+  undefined4  &uStack_20 = *reinterpret_cast<undefined4  *>(xi_frame + 72);
+  undefined4  &uStack_1c = *reinterpret_cast<undefined4  *>(xi_frame + 76);
+  undefined4  &uStack_18 = *reinterpret_cast<undefined4  *>(xi_frame + 80);
+  uint16_t  (&auStack_14)[10] = *reinterpret_cast<uint16_t  (*)[10]>(xi_frame + 84);
+  
+  bVar2 = false;
+  if ((*(int *)((int)self + 0x70) != 0) &&
+     ((uVar9 = *(uint32_t *)(*(int *)((int)self + 0x70) + 0x120), (uVar9 >> 7 & 1) != 0 ||
+      ((uVar9 >> 8 & 1) != 0)))) {
+    bVar2 = true;
+  }
+  iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x354))))((void *)(self));
+  if (iVar3 != 0) {
+    iVar3 = *(int *)((int)self + 0x768);
+    iStack_34 = iVar3;
+    iStack_44 = orig::CXiActor_GetModelByteEF(self);
+    if (((8 < iStack_44) && (iStack_44 < 0x1d)) || (0x24 < iStack_44)) {
+      orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadRaceNumber);
+      iStack_44 = 0x20;
+    }
+    puVar4 = orig::CMoResource_FindOrCreateTask(&dvdno1,(uint32_t)*(uint16_t *)(((char *)&c_resourceIdByModelByte) + iStack_44 * 2))
+    ;
+    piStack_48 = (int *)*puVar4;
+    uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+    if ((char)uVar5 == '\0') {
+      if (iVar3 != 0) {
+        puVar4 = orig::Allocator_Generic_v3(0x18);
+        if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+        orig::ActorHandle_Constructor_v1(puVar4 + 1);
+        uVar5 = *(undefined4 *)(iVar3 + 0x9ec);
+        puVar4[5] = 0;
+        *puVar4 = uVar5;
+        *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+        uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+        puVar4[5] = uVar5;
+        orig::FUN_100814f0(puVar4 + 1,iVar3);
+        puVar4[4] = self;
+        orig::Unit10070F90_Create(&piStack_48,&LAB_100d4100,puVar4,(int)self,0);
+      }
+      iStack_40 = 0;
+    }
+    else {
+      orig::CXiSkeletonActor_SetField0B4IfField9EC(self,piStack_48,*(int *)((int)self + 0x9ec));
+      iStack_40 = 0;
+    }
+    do {
+      iVar3 = iStack_40;
+      dvdno1 = orig::CXiActor_GetModelPartWord(self,iStack_40);
+      iVar10 = (int)dvdno1 >> 0xc;
+      if ((int)dvdno1 >> 0xc != iVar3) {
+        dvdno1 = dvdno1 & 0xfff | iVar3 << 0xc;
+        iVar10 = iVar3;
+      }
+      iStack_38 = *(int *)(iStack_44 * 4 + (int)XI_GAME(0x1035F378u));
+      piVar1 = (int *)(iVar10 * 0x30 + iStack_38);
+      if (*(int *)(iVar10 * 0x30 + iStack_38) != 0) {
+        if (piVar1[0xb] + piVar1[7] + piVar1[5] + piVar1[3] + piVar1[1] + piVar1[9] <=
+            (int)(dvdno1 & 0xfff)) {
+          orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadGrpNumber,dvdno1,iStack_40,iStack_44);
+          dvdno1 = iVar10 << 0xc;
+        }
+        uVar9 = dvdno1;
+        if (iStack_38 != 0) {
+          iVar3 = piVar1[1];
+          uVar6 = dvdno1 & 0xfff;
+          if ((int)uVar6 < iVar3) {
+            iVar3 = *piVar1;
+          }
+          else {
+            iVar10 = piVar1[3];
+            if ((int)uVar6 < iVar3 + iVar10) {
+              iVar3 = piVar1[2] - iVar3;
+            }
+            else {
+              uStack_3c = piVar1[5];
+              if ((int)uVar6 < (int)(iVar3 + iVar10 + uStack_3c)) {
+                iVar3 = (piVar1[4] - iVar3) - iVar10;
+              }
+              else {
+                iStack_38 = piVar1[7];
+                if ((int)uVar6 < (int)(iVar3 + iVar10 + uStack_3c + iStack_38)) {
+                  iVar3 = ((piVar1[6] - iVar3) - iVar10) - uStack_3c;
+                }
+                else if ((int)uVar6 < (int)(iVar3 + iVar10 + uStack_3c + iStack_38 + piVar1[9])) {
+                  iVar3 = (((piVar1[8] - iVar3) - iVar10) - uStack_3c) - iStack_38;
+                }
+                else {
+                  if ((int)(piVar1[0xb] + iVar3 + iVar10 + uStack_3c + iStack_38 + piVar1[9]) <=
+                      (int)uVar6) goto LAB_100d32ab;
+                  iVar3 = ((((piVar1[10] - iVar3) - iVar10) - uStack_3c) - iStack_38) - piVar1[9];
+                }
+              }
+            }
+          }
+          puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_30,iVar3 + uVar6);
+          piStack_48 = (int *)*puVar4;
+          uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+          if ((char)uVar5 == '\0') {
+            if ((iStack_34 != 0) && (puVar4 = orig::Allocator_Generic_v3(0x20), puVar4 != (undefined4 *)0x0)) {
+              orig::ActorHandle_Constructor_v1(puVar4 + 1);
+              uVar5 = *(undefined4 *)(iStack_34 + 0x9ec);
+              puVar4[5] = 0;
+              *puVar4 = uVar5;
+              *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+              uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+              puVar4[5] = uVar5;
+              orig::FUN_100814f0(puVar4 + 1,iStack_34);
+              puVar4[4] = self;
+              puVar4[6] = uVar9;
+              puVar4[7] = iVar3 + uVar6;
+              orig::Unit10070F90_Create(&piStack_48,XI_CODE(FUN_100d0e80),puVar4,(int)self,0);
+            }
+          }
+          else {
+            orig::FUN_100d0b50(self,piStack_48,uVar9,*(int *)((int)self + 0x9ec),1);
+          }
+        }
+      }
+LAB_100d32ab:
+      iStack_40 = iStack_40 + 1;
+      if (8 < iStack_40) {
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iStack_40 >> 8)) << 8) | (uint8_t)(1)));
+      }
+    } while( true );
+  }
+  iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x34c))))((void *)(self));
+  if (iVar3 == 0) {
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x358))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = *(int *)((int)self + 0x768);
+      iVar10 = orig::CXiActor_GetModelByte1DB(self);
+      if (iVar10 == 0) {
+        iVar10 = 0;
+      }
+      else {
+        iVar10 = orig::CXiActor_GetModelByte1DB(self);
+        iVar10 = iVar10 + -1;
+      }
+      iVar10 = orig::Unit100C51C0_MapCodeIndex(4,iVar10);
+      puVar4 = orig::CMoResource_FindOrCreateTask(&dvdno1,iVar10);
+      piStack_48 = (int *)*puVar4;
+      iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)iVar10 != '\0') goto LAB_100d36f9;
+      if (iVar3 == 0) goto switchD_100d3782_caseD_3;
+      puVar4 = orig::Allocator_Generic_v3(0x18);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      uVar5 = *(undefined4 *)(iVar3 + 0x9ec);
+      puVar4[5] = 0;
+      *puVar4 = uVar5;
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      puVar4[5] = uVar5;
+      orig::FUN_100814f0(puVar4 + 1,iVar3);
+      puVar4[4] = self;
+      goto LAB_100d4064;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x360))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = *(int *)((int)self + 0x768);
+      iVar10 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar7 = orig::CXiActor_GetModelByteEF(*(void **)((int)self + 0x768));
+      if ((8 < iVar7) && (iVar7 < 0x1d)) {
+        orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadRaceFishingRodActor);
+        iVar7 = 1;
+      }
+      puVar4 = orig::CMoResource_FindOrCreateTask
+                         (&dvdno1,(uint32_t)*(uint16_t *)(((char *)&DAT_1035f598) + iVar7 * 2) + iVar10 + -5);
+      piStack_48 = (int *)*puVar4;
+      iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)iVar10 != '\0') {
+        uVar5 = orig::CXiSkeletonActor_AttachPartResource
+                          (self,(int)piStack_48,*(int **)((int)self + 0x9ec),
+                           *(int **)((int)self + 0x9ec));
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+      }
+      if (iVar3 == 0) goto switchD_100d3782_caseD_3;
+      puVar4 = orig::Allocator_Generic_v3(0x18);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      uVar5 = *(undefined4 *)(iVar3 + 0x9ec);
+      puVar4[5] = 0;
+      *puVar4 = uVar5;
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      puVar4[5] = uVar5;
+      orig::FUN_100814f0(puVar4 + 1,iVar3);
+      puVar4[4] = self;
+      goto LAB_100d4064;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x36c))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = *(int *)((int)self + 0x768);
+      iVar10 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar7 = orig::CXiActor_GetModelByteEF(*(void **)((int)self + 0x768));
+      if ((8 < iVar7) && (iVar7 < 0x1d)) {
+        orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadRaceChairActor);
+      }
+      iVar10 = orig::Unit100C51C0_MapCodeIndex(3,iVar10 + -0x3d);
+      puVar4 = orig::CMoResource_FindOrCreateTask(&dvdno1,iVar10);
+      piStack_48 = (int *)*puVar4;
+      iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)iVar10 != '\0') goto LAB_100d36f9;
+      if (iVar3 == 0) goto switchD_100d3782_caseD_3;
+      puVar4 = orig::Allocator_Generic_v3(0x18);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      uVar5 = *(undefined4 *)(iVar3 + 0x9ec);
+      puVar4[5] = 0;
+      *puVar4 = uVar5;
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      puVar4[5] = uVar5;
+      orig::FUN_100814f0(puVar4 + 1,iVar3);
+      puVar4[4] = self;
+      goto LAB_100d4064;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x3a4))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar3 = *(int *)((int)self + iVar3 * 4 + 0x648);
+      iVar10 = 0xce07;
+LAB_100d36d6:
+      puVar4 = orig::CMoResource_FindOrCreateTask(&dvdno1,iVar10);
+      piStack_48 = (int *)*puVar4;
+      iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)iVar10 != '\0') {
+LAB_100d36f9:
+        uVar5 = orig::CXiSkeletonActor_AttachPartResource
+                          (self,(int)piStack_48,*(int **)((int)self + 0x9ec),iVar10);
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+      }
+      if (iVar3 == 0) goto switchD_100d3782_caseD_3;
+      puVar4 = orig::Allocator_Generic_v3(0x18);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      *puVar4 = *(undefined4 *)(iVar3 + 0x9ec);
+      puVar4[5] = 0;
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      puVar4[5] = uVar5;
+      orig::FUN_100814f0(puVar4 + 1,iVar3);
+      puVar4[4] = self;
+      goto LAB_100d4064;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x394))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar3 = *(int *)((int)self + iVar3 * 4 + 0x648);
+      iVar10 = 0xce07;
+      goto LAB_100d36d6;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 900))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar3 = *(int *)((int)self + iVar3 * 4 + 0x69c);
+      iVar10 = orig::CXiSkeletonActor_GetSkeletonFileNo();
+      goto LAB_100d36d6;
+    }
+    iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x378))))((void *)(self));
+    if (iVar3 != 0) {
+      iVar3 = *(int *)((int)self + 0x76c);
+      iVar10 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+      iVar10 = iVar10 + 0xcbce;
+      goto LAB_100d36d6;
+    }
+    iVar10 = orig::CXiActor_GetModelByteEE_v1(self);
+    switch(xi_sw(iVar10)) {
+    case 2:
+switchD_100d3782_caseD_2:
+      uVar9 = orig::Unit10083300_GetModelFlag130Bit21(self);
+      if (uVar9 == 0) {
+        uVar9 = orig::CXiActor_GetModelFlag120Bit5(self);
+        if ((char)uVar9 == '\0') {
+          uVar9 = orig::CXiActor_GetModelPartWord(self,0);
+        }
+        else {
+          uVar9 = orig::CXiActor_GetModelWord166(self);
+          uVar9 = uVar9 & 0xffff;
+        }
+        uVar5 = 0;
+      }
+      else {
+        uVar9 = orig::CXiActor_GetModelPartWord(self,0);
+        uVar5 = 2;
+      }
+      iVar3 = orig::Unit100C51C0_MapCodeIndex(uVar5,uVar9);
+      puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_18,iVar3);
+      piStack_48 = (int *)*puVar4;
+      iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)iVar10 != '\0') goto LAB_100d36f9;
+      puVar4 = orig::Allocator_Generic_v3(0x18);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      puVar4[5] = 0;
+      orig::FUN_100814f0(puVar4 + 1,(int)self);
+      puVar4[4] = 0;
+      goto LAB_100d4064;
+    default:
+      break;
+    case 6:
+      uVar9 = orig::CXiActor_GetModelPartWord(self,9);
+      if ((uVar9 & 0xfff) == 0) {
+        piStack_48 = (int *)0x0;
+      }
+      else {
+        iStack_34 = orig::Unit100C51C0_MapCodeIndex(0,uVar9 & 0xfff);
+        puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_30,iStack_34);
+        piStack_48 = (int *)*puVar4;
+      }
+      uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)uVar5 == '\0') {
+        puVar4 = orig::Allocator_Generic_v3(0x20);
+        if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+        orig::ActorHandle_Constructor_v1(puVar4 + 1);
+        *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+        puVar4[5] = 0;
+        orig::FUN_100814f0(puVar4 + 1,(int)self);
+        puVar4[7] = iStack_34;
+        puVar4[4] = 0;
+        puVar4[6] = uVar9 | 0x9000;
+        orig::Unit10070F90_Create(&piStack_48,XI_CODE(FUN_100d0e80),puVar4,(int)self,0);
+      }
+      else {
+        orig::FUN_100d0b50(self,piStack_48,uVar9 | 0x9000,*(int *)((int)self + 0x9ec),1);
+      }
+      iVar3 = orig::CXiActor_GetModelByteEF(self);
+      iVar10 = 0;
+      if (iVar3 == 0) break;
+    case 0:
+    case 1:
+      iStack_44 = orig::CXiActor_GetModelByteEF(self);
+      if (((8 < iStack_44) && (iStack_44 < 0x1d)) || (0x24 < iStack_44)) {
+        orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadRaceNumber);
+        iStack_44 = 1;
+      }
+      puVar4 = (undefined4 *)
+               orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&iStack_24,(uint32_t)*(uint16_t *)(((char *)&c_resourceIdByModelByte) + iStack_44 * 2)
+                           );
+      piStack_48 = (int *)*puVar4;
+      uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)uVar5 == '\0') {
+        puVar4 = orig::Allocator_Generic_v3(0x18);
+        if (puVar4 == (undefined4 *)0x0) {
+LAB_100d4080:
+          iVar3 = orig::Unit100C51C0_MapCodeIndex(0,0);
+          puVar8 = (uint32_t *)orig::FUN_10072fd0(g_pMeshResourceMng_as_v1,(int *)&dvdno1,iVar3);
+          piVar1 = (int *)*puVar8;
+          piStack_48 = piVar1;
+          if ((piVar1 != (int *)0x0) && (*piVar1 != 0)) {
+            uVar9 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x290))))((void *)(self),piVar1);
+            return uVar9 & 0xffffff00;
+          }
+          orig::Unit10017C10_NoOpVarargsB_v1(&c_msgActorGraphicsLoadFailed);
+          return (uint32_t)piVar1 & 0xffffff00;
+        }
+        orig::ActorHandle_Constructor_v1(puVar4 + 1);
+        *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+        puVar4[5] = 0;
+        orig::FUN_100814f0(puVar4 + 1,(int)self);
+        puVar4[4] = 0;
+        iVar10 = orig::Unit10070F90_Create(&piStack_48,&LAB_100d4100,puVar4,(int)self,0);
+      }
+      else {
+        iVar10 = orig::CXiSkeletonActor_SetField0B4IfField9EC(self,piStack_48,*(int *)((int)self + 0x9ec))
+        ;
+      }
+      iStack_40 = 0;
+      do {
+        iVar3 = iStack_40;
+        if ((0x1c < iStack_44) && (5 < iStack_40)) break;
+        uStack_3c = orig::CXiActor_GetModelPartWord(self,iStack_40);
+        iVar10 = (int)uStack_3c >> 0xc;
+        if ((int)uStack_3c >> 0xc != iVar3) {
+          uStack_3c = uStack_3c & 0xfff | iVar3 << 0xc;
+          iVar10 = iVar3;
+        }
+        iStack_34 = *(int *)(iStack_44 * 4 + (int)XI_GAME(0x1035F378u));
+        piVar1 = (int *)(iVar10 * 0x30 + iStack_34);
+        if (*(int *)(iVar10 * 0x30 + iStack_34) != 0) {
+          if (piVar1[0xb] + piVar1[7] + piVar1[5] + piVar1[3] + piVar1[1] + piVar1[9] <=
+              (int)(uStack_3c & 0xfff)) {
+            orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadGrpNumber,uStack_3c,iStack_40,iStack_44);
+            uStack_3c = iVar10 << 0xc;
+          }
+          uVar9 = uStack_3c;
+          auStack_14[0] = 0;
+          auStack_14[1] = 0x3f;
+          auStack_14[2] = 0x75;
+          auStack_14[3] = 0x8f;
+          auStack_14[4] = 0x1d7;
+          auStack_14[5] = 0x1ff;
+          auStack_14[6] = 0x280;
+          auStack_14[7] = 0x2bf;
+          auStack_14[8] = 0x49c;
+          auStack_14[9] = 0x4ab;
+          if (iVar10 == 7) {
+            *(uint8_t *)((int)self + 0x8b5) = 1;
+            uVar6 = 0;
+            do {
+              if (((uint32_t)auStack_14[uVar6] <= (uStack_3c & 0xfff)) &&
+                 ((uStack_3c & 0xfff) <= (uint32_t)auStack_14[uVar6 + 1])) {
+                *(uint8_t *)((int)self + 0x8b5) = 0;
+                break;
+              }
+              uVar6 = uVar6 + 2;
+            } while (uVar6 < 10);
+          }
+          if (iStack_34 != 0) {
+            iVar3 = piVar1[1];
+            uVar6 = uStack_3c & 0xfff;
+            if ((int)uVar6 < iVar3) {
+              iVar3 = *piVar1;
+            }
+            else {
+              iVar10 = piVar1[3];
+              if ((int)uVar6 < iVar3 + iVar10) {
+                iVar3 = piVar1[2] - iVar3;
+              }
+              else {
+                iStack_38 = piVar1[5];
+                if ((int)uVar6 < iVar3 + iVar10 + iStack_38) {
+                  iVar3 = (piVar1[4] - iVar3) - iVar10;
+                }
+                else {
+                  iStack_34 = piVar1[7];
+                  if ((int)uVar6 < iVar3 + iVar10 + iStack_38 + iStack_34) {
+                    iVar3 = ((piVar1[6] - iVar3) - iVar10) - iStack_38;
+                  }
+                  else if ((int)uVar6 < iVar3 + iVar10 + iStack_38 + iStack_34 + piVar1[9]) {
+                    iVar3 = (((piVar1[8] - iVar3) - iVar10) - iStack_38) - iStack_34;
+                  }
+                  else {
+                    if (piVar1[0xb] + iVar3 + iVar10 + iStack_38 + iStack_34 + piVar1[9] <=
+                        (int)uVar6) goto LAB_100d3e98;
+                    iVar3 = ((((piVar1[10] - iVar3) - iVar10) - iStack_38) - iStack_34) - piVar1[9];
+                  }
+                }
+              }
+            }
+            puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_20,iVar3 + uVar6);
+            piStack_48 = (int *)*puVar4;
+            uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+            if ((char)uVar5 == '\0') {
+              puVar4 = orig::Allocator_Generic_v3(0x20);
+              if (puVar4 != (undefined4 *)0x0) {
+                orig::ActorHandle_Constructor_v1(puVar4 + 1);
+                *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+                puVar4[5] = 0;
+                orig::FUN_100814f0(puVar4 + 1,(int)self);
+                puVar4[4] = 0;
+                puVar4[6] = uVar9;
+                puVar4[7] = iVar3 + uVar6;
+                orig::Unit10070F90_Create(&piStack_48,XI_CODE(FUN_100d0e80),puVar4,(int)self,0);
+              }
+            }
+            else {
+              orig::FUN_100d0b50(self,piStack_48,uVar9,*(int *)((int)self + 0x9ec),1);
+            }
+          }
+        }
+LAB_100d3e98:
+        iVar10 = iStack_40 + 1;
+        iStack_40 = iVar10;
+      } while (iVar10 < 9);
+      if (iStack_44 < 9) {
+        if ((int)dvdno1 < 0) {
+          uVar5 = orig::FUN_100d1190(self);
+          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+        }
+        *(uint32_t *)((int)self + 0x8a0) = dvdno1;
+        *(uint8_t *)((int)self + 0x8a4) = 4;
+        return ((uint32_t)(((uint32_t)((int32_t)(dvdno1 >> 8)) << 8) | (uint8_t)(1)));
+      }
+      break;
+    case 7:
+      uVar9 = orig::CXiActor_GetModelPartWord(self,0);
+      if (uVar9 != 0) goto switchD_100d3782_caseD_2;
+      uVar9 = orig::CXiActor_GetModelPartWord(self,9);
+      if ((uVar9 & 0xfff) == 0) {
+        piStack_48 = (int *)0x0;
+      }
+      else {
+        iStack_34 = orig::Unit100C51C0_MapCodeIndex(0,uVar9 & 0xfff);
+        puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_1c,iStack_34);
+        piStack_48 = (int *)*puVar4;
+      }
+      uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)uVar5 != '\0') {
+        uVar5 = orig::FUN_100d0b50(self,piStack_48,uVar9 | 0x9000,*(int *)((int)self + 0x9ec),1);
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+      }
+      puVar4 = orig::Allocator_Generic_v3(0x20);
+      if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+      orig::ActorHandle_Constructor_v1(puVar4 + 1);
+      *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+      puVar4[5] = 0;
+      orig::FUN_100814f0(puVar4 + 1,(int)self);
+      puVar4[4] = 0;
+      puVar4[6] = uVar9 | 0x9000;
+      puVar4[7] = iStack_34;
+      pcVar11 = XI_CODE(FUN_100d0e80);
+      goto LAB_100d406b;
+    case 8:
+      iStack_44 = orig::CXiActor_GetModelByteEF(self);
+      if (((8 < iStack_44) && (iStack_44 < 0x1d)) || (0x24 < iStack_44)) {
+        orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadRaceNumber);
+        iStack_44 = 0x20;
+      }
+      puVar4 = orig::CMoResource_FindOrCreateTask
+                         (&uStack_2c,(uint32_t)*(uint16_t *)(((char *)&c_resourceIdByModelByte) + iStack_44 * 2));
+      piStack_48 = (int *)*puVar4;
+      uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+      if ((char)uVar5 == '\0') {
+        puVar4 = orig::Allocator_Generic_v3(0x18);
+        if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+        orig::ActorHandle_Constructor_v1(puVar4 + 1);
+        *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+        puVar4[5] = 0;
+        orig::FUN_100814f0(puVar4 + 1,(int)self);
+        puVar4[4] = 0;
+        orig::Unit10070F90_Create(&piStack_48,&LAB_100d4100,puVar4,(int)self,0);
+      }
+      else {
+        orig::CXiSkeletonActor_SetField0B4IfField9EC(self,piStack_48,*(int *)((int)self + 0x9ec));
+      }
+      iStack_40 = 0;
+      do {
+        iVar3 = iStack_40;
+        dvdno1 = orig::CXiActor_GetModelPartWord(self,iStack_40);
+        iVar10 = (int)dvdno1 >> 0xc;
+        if ((int)dvdno1 >> 0xc != iVar3) {
+          dvdno1 = dvdno1 & 0xfff | iVar3 << 0xc;
+          iVar10 = iVar3;
+        }
+        iStack_34 = *(int *)(iStack_44 * 4 + (int)XI_GAME(0x1035F378u));
+        piVar1 = (int *)(iVar10 * 0x30 + iStack_34);
+        if (*(int *)(iVar10 * 0x30 + iStack_34) != 0) {
+          if (piVar1[9] + piVar1[0xb] + piVar1[7] + piVar1[5] + piVar1[3] + piVar1[1] <=
+              (int)(dvdno1 & 0xfff)) {
+            orig::Unit10017C10_NoOpVarargsB_v1(&c_msgBadGrpNumber,dvdno1,iStack_40,iStack_44);
+            dvdno1 = iVar10 << 0xc;
+          }
+          uVar9 = dvdno1;
+          if (iStack_34 != 0) {
+            iVar3 = piVar1[1];
+            uVar6 = dvdno1 & 0xfff;
+            if ((int)uVar6 < iVar3) {
+              iVar3 = *piVar1;
+            }
+            else {
+              iVar10 = piVar1[3];
+              if ((int)uVar6 < iVar3 + iVar10) {
+                iVar3 = piVar1[2] - iVar3;
+              }
+              else {
+                iStack_38 = piVar1[5];
+                if ((int)uVar6 < iVar3 + iVar10 + iStack_38) {
+                  iVar3 = (piVar1[4] - iVar3) - iVar10;
+                }
+                else {
+                  uStack_3c = piVar1[7];
+                  if ((int)uVar6 < (int)(iVar3 + iVar10 + iStack_38 + uStack_3c)) {
+                    iVar3 = ((piVar1[6] - iVar3) - iVar10) - iStack_38;
+                  }
+                  else if ((int)uVar6 < (int)(iVar3 + iVar10 + iStack_38 + uStack_3c + piVar1[9])) {
+                    iVar3 = (((piVar1[8] - iVar3) - iVar10) - iStack_38) - uStack_3c;
+                  }
+                  else {
+                    if ((int)(piVar1[0xb] + iVar3 + iVar10 + iStack_38 + uStack_3c + piVar1[9]) <=
+                        (int)uVar6) goto LAB_100d3b96;
+                    iVar3 = ((((piVar1[10] - iVar3) - iVar10) - iStack_38) - uStack_3c) - piVar1[9];
+                  }
+                }
+              }
+            }
+            puVar4 = orig::CMoResource_FindOrCreateTask(&uStack_28,iVar3 + uVar6);
+            piStack_48 = (int *)*puVar4;
+            uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+            if ((char)uVar5 == '\0') {
+              puVar4 = orig::Allocator_Generic_v3(0x20);
+              if (puVar4 != (undefined4 *)0x0) {
+                orig::ActorHandle_Constructor_v1(puVar4 + 1);
+                *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+                puVar4[5] = 0;
+                orig::FUN_100814f0(puVar4 + 1,(int)self);
+                puVar4[4] = 0;
+                puVar4[6] = uVar9;
+                puVar4[7] = iVar3 + uVar6;
+                orig::Unit10070F90_Create(&piStack_48,XI_CODE(FUN_100d0e80),puVar4,(int)self,0);
+              }
+            }
+            else {
+              orig::FUN_100d0b50(self,piStack_48,uVar9,*(int *)((int)self + 0x9ec),1);
+            }
+          }
+        }
+LAB_100d3b96:
+        iStack_40 = iStack_40 + 1;
+        if (8 < iStack_40) {
+          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iStack_40 >> 8)) << 8) | (uint8_t)(1)));
+        }
+      } while( true );
+    }
+  }
+  else {
+    iVar3 = *(int *)((int)self + 0x768);
+    iVar10 = 0;
+    if ((!bVar2) &&
+       (uVar5 = orig::Unit100D7420_IsId50To99Or88Or89(*(uint32_t *)(g_pXiZone_as_s32 + 0x1b4)),
+       (char)uVar5 != '\0')) {
+      iVar10 = 1;
+    }
+    iVar10 = orig::Unit100C51C0_MapCodeIndex(1,iVar10);
+    puVar4 = orig::CMoResource_FindOrCreateTask(&dvdno1,iVar10);
+    piStack_48 = (int *)*puVar4;
+    iVar10 = orig::ResourceHandle_IsResident_v1(&piStack_48);
+    if ((char)iVar10 != '\0') {
+      uVar5 = orig::CXiSkeletonActor_AttachPartResource
+                        (self,(int)piStack_48,*(int **)((int)self + 0x9ec),piStack_48);
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+    }
+    if (iVar3 == 0) goto switchD_100d3782_caseD_3;
+    puVar4 = orig::Allocator_Generic_v3(0x18);
+    if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
+    orig::ActorHandle_Constructor_v1(puVar4 + 1);
+    uVar5 = *(undefined4 *)(iVar3 + 0x9ec);
+    puVar4[5] = 0;
+    *puVar4 = uVar5;
+    *puVar4 = *(undefined4 *)((int)self + 0x9ec);
+    uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x348))))((void *)(self));
+    puVar4[5] = uVar5;
+    orig::FUN_100814f0(puVar4 + 1,iVar3);
+    puVar4[4] = self;
+LAB_100d4064:
+    pcVar11 = XI_CODE(FUN_100d4220);
+LAB_100d406b:
+    iVar10 = orig::Unit10070F90_Create(&piStack_48,pcVar11,puVar4,(int)self,0);
+  }
+switchD_100d3782_caseD_3:
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar10 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name)
@@ -4199,6 +5209,205 @@ char CXiSkeletonActor::IsDirectionLock_Set(char a2)
       this->directionLockCount = --v2;
   }
   return v2;
+}
+
+// FUNCTION: FFXIMAIN 0x100D59A0  (unit CXiSkeletonActor: between 0x100D5460 (name CXiSkeletonActor_IsDirectionLock_Set) and 0x100D62C0 (name CXiSkeletonActor_DrawResourceShadows), both within 4 KB)
+// GATE: PASS -- 100 trials, 99 returned normally, 199 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_100D59A0(void * self_, float * param_1)
+{
+  uint32_t *puVar1;
+  uint32_t uVar2;
+  char xi_frame[112] __attribute__((aligned(4)));
+  float  &local_70 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_6c = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_68 = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &fStack_64 = *reinterpret_cast<float  *>(xi_frame + 12);
+  float  &fStack_60 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &fStack_5c = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &fStack_58 = *reinterpret_cast<float  *>(xi_frame + 24);
+  float  &fStack_54 = *reinterpret_cast<float  *>(xi_frame + 28);
+  float  &fStack_50 = *reinterpret_cast<float  *>(xi_frame + 32);
+  float  &fStack_4c = *reinterpret_cast<float  *>(xi_frame + 36);
+  float  &fStack_48 = *reinterpret_cast<float  *>(xi_frame + 40);
+  float  &fStack_44 = *reinterpret_cast<float  *>(xi_frame + 44);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 48);
+  
+  orig::Unit10026C70_ReturnThis_v1(local_40);
+  local_70 = 0.0f;
+  local_6c = 0.0f;
+  local_68 = 1.0f;
+  puVar1 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x210))))((void *)(self_));
+  orig::Vec3_Copy_v1(&fStack_64,puVar1);
+  orig::Vec3_Scale_v1(&fStack_64,&fStack_64,(-1.0f));
+  orig::Mat4_SetIdentity_v1(local_40);
+  puVar1 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x1c0))))((void *)(self_));
+  orig::Vec4_Copy_v1(&fStack_4c,puVar1);
+  orig::Mat4_PostRotateX_v1(local_40,fStack_4c);
+  orig::Mat4_PostRotateY_v1(local_40,fStack_48);
+  orig::Mat4_PostRotateZ_v1(local_40,fStack_44);
+  uVar2 = orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
+  orig::FUN_100274b0(&local_70,uVar2);
+  orig::Vec3_Cross(&fStack_58,&fStack_64,&local_70);
+  orig::FUN_100274b0(&fStack_58,&fStack_58);
+  uVar2 = orig::Vec3_Cross(&local_70,&fStack_58,&fStack_64);
+  orig::FUN_100274b0(&local_70,uVar2);
+  *param_1 = (float)(long double)fStack_58;
+  param_1[2] = fStack_50;
+  param_1[1] = fStack_54;
+  param_1[3] = 0.0f;
+  param_1[4] = fStack_64;
+  param_1[5] = fStack_60;
+  param_1[6] = fStack_5c;
+  param_1[8] = local_70;
+  param_1[9] = local_6c;
+  param_1[7] = 0.0f;
+  param_1[0xb] = 0.0f;
+  param_1[0xc] = 0.0f;
+  param_1[0xd] = 0.0f;
+  param_1[0xe] = 0.0f;
+  param_1[10] = local_68;
+  param_1[0xf] = 1.0f;
+  orig::Unit10026C70_Nop();
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100D5B10  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 89 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CXiSkeletonActor::UpdateHeadLook(void * self)
+{
+  int iVar1;
+  int *piVar2;
+  uint32_t uVar3;
+  float *pfVar4;
+  int iVar5;
+  uint32_t uVar6;
+  uint32_t *puVar7;
+  uint8_t bVar8;
+  long double fVar9;
+  char xi_frame[100] __attribute__((aligned(4)));
+  float  &fStack_64 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_60 = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_5c = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &local_58 = *reinterpret_cast<float  *>(xi_frame + 12);
+  uint32_t  &local_54 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  float  (&afStack_50)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 20);
+  uint8_t  (&auStack_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 36);
+  
+  piVar2 = (int *)orig::CYyModel_GetField44Addr_v1((void *)((int)self + 0x674));
+  iVar1 = *piVar2;
+  if (iVar1 == 0) {
+    return;
+  }
+  uVar3 = orig::CXiActor_GetModelFlag120Bit5(self);
+  if ((char)uVar3 != '\0') {
+    *(uint32_t *)((int)self + 0x854) = 0xbf800000;
+    return;
+  }
+  if ((((uint8_t)*(uint32_t *)((int)self + 0x840) & 1) == 1) && ((*(uint32_t *)((int)self + 0x840) & 2) == 0))
+  {
+    *(uint32_t *)((int)self + 0x854) = 0x3f800000;
+  }
+  else {
+    uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x304))))((void *)(self));
+    if ((char)uVar6 == '\0') {
+      piVar2 = (int *)orig::CXiActor_GetSubModelResult_v1(self);
+    }
+    else {
+      piVar2 = (int *)orig::FUN_10157cf0(g_pTargetMng);
+    }
+    if ((*(uint8_t *)((int)self + 0x840) & 2) != 0) {
+      piVar2 = (int *)0x0;
+    }
+    *(uint32_t *)((int)self + 0x854) = 0xbf800000;
+    if (((piVar2 != (int *)0x0) && (piVar2 != self)) &&
+       (((iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 0 ||
+         (((iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 1 ||
+           (iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 2)) ||
+          (iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 6)))) ||
+        ((iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 7 ||
+         (iVar5 = orig::CXiActor_GetModelByteEE_v1(piVar2), iVar5 == 8)))))) {
+      iVar5 = orig::CXiActor_GetModelField170_v1(self);
+      if ((iVar5 != 0) && (iVar5 = orig::CXiActor_GetModelField170_v1(self), iVar5 != 0x2f)) {
+        iVar5 = orig::CXiActor_GetModelField170_v1(self);
+        uVar3 = orig::CXiActor_ModelTest95790(self,iVar5,iVar5);
+        if (((char)uVar3 == '\0') && (iVar5 = orig::CXiActor_GetModelField170_v1(self), iVar5 != 0x30)) {
+          uVar6 = orig::CXiActor_GetModelField170_v1(self);
+          uVar6 = orig::CXiActor_ModelTest95680(self,uVar6,uVar6);
+          if ((char)uVar6 == '\0') {
+            uVar6 = orig::CXiActor_GetModelField170_v1(self);
+            uVar6 = orig::CXiActor_ModelTest956A0_v1(self,uVar6,uVar6);
+            if ((char)uVar6 == '\0') goto LAB_100d5cae;
+          }
+        }
+      }
+      ((int (__thiscall *)(void *, XI_ANY, XI_ANY))((**(code **)(*piVar2 + 0x1c4))))((void *)(piVar2),3,&local_60);
+      fVar9 = (long double)local_5c;
+      if (*(short *)((int)piVar2 + 0xb2) != 0) {
+        fVar9 = fVar9 - (long double)1.2000000476837158203125f;
+      }
+      *(float *)((int)self + 0x84c) = (float)fVar9;
+      *(float *)((int)self + 0x848) = local_60;
+      *(float *)((int)self + 0x850) = local_58;
+      *(uint32_t *)((int)self + 0x854) = 0;
+    }
+  }
+LAB_100d5cae:
+  local_60 = *(float *)((int)self + 0x848);
+  local_5c = *(float *)((int)self + 0x84c);
+  local_58 = *(float *)((int)self + 0x850);
+  local_54 = *(uint32_t *)((int)self + 0x854);
+  pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
+  orig::Vec3_SubInPlace(&local_60,pfVar4);
+  orig::Unit10026C70_ReturnThis_v1(auStack_40);
+  orig::Mat4_SetIdentity_v1(auStack_40);
+  iVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1c0))))((void *)(self));
+  orig::Mat4_PostRotateY_v1(auStack_40,(float)-(long double)*(float *)(iVar5 + 4));
+  uVar6 = orig::Mat4_TransformPointInPlace_v1(auStack_40,&local_60);
+  orig::Unit10026C70_Nop();
+  fStack_64 = 0.039999999105930328369140625f;
+  uVar6 = orig::Acter_IsEvent(uVar6);
+  if (((char)uVar6 != '\0') && (iVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x144))))((void *)(self)), iVar5 != 0)) {
+    iVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x144))))((void *)(self));
+    fStack_64 = (float)((long double)iVar5 * (long double)0.00999999977648258209228515625f * (long double)0.039999999105930328369140625f);
+  }
+  afStack_50[0] = 1.0f;
+  afStack_50[1] = 0.0f;
+  afStack_50[2] = 0.0f;
+  afStack_50[3] = 1.0f;
+  fVar9 = orig::FUN_10027530(&local_60,afStack_50);
+  bVar8 = NAN((long double)*(float *)((int)self + 0x854)) || NAN((long double)0.0f);
+  if (((((bVar8 || (long double)*(float *)((int)self + 0x854) < (long double)0.0f) == bVar8) &&
+       (bVar8 = NAN((long double)local_60) || NAN((long double)(-0.5f)),
+       (bVar8 || (long double)local_60 < (long double)(-0.5f)) == bVar8)) &&
+      (bVar8 = NAN(fVar9) || NAN((long double)(-0.100000001490116119384765625f)), (bVar8 || fVar9 < (long double)(-0.100000001490116119384765625f)) == bVar8)) &&
+     (fVar9 = SQRT((long double)local_60 * (long double)local_60 + (long double)local_58 * (long double)local_58),
+     bVar8 = NAN(fVar9) || NAN((long double)0.300000011920928955078125f), (bVar8 || fVar9 < (long double)0.300000011920928955078125f) == bVar8)) {
+    *(float *)(iVar1 + 0xbc) = (float)((long double)fStack_64 + (long double)*(float *)(iVar1 + 0xbc));
+    if ((long double)*(float *)(iVar1 + 0xbc) > (long double)1.0f) {
+      *(uint32_t *)(iVar1 + 0xbc) = 0x3f800000;
+      return;
+    }
+  }
+  else {
+    *(float *)(iVar1 + 0xbc) = (float)((long double)*(float *)(iVar1 + 0xbc) - (long double)fStack_64);
+    bVar8 = NAN((long double)*(float *)(iVar1 + 0xbc)) || NAN((long double)0.0f);
+    if ((bVar8 || (long double)*(float *)(iVar1 + 0xbc) < (long double)0.0f) != bVar8) {
+      *(uint32_t *)(iVar1 + 0xb0) = DAT_1035f5fc;
+      *(uint32_t *)(iVar1 + 0xb4) = DAT_1035f600;
+      *(uint32_t *)(iVar1 + 0xb8) = DAT_1035f604;
+      *(uint32_t *)(iVar1 + 0xbc) = DAT_1035f608;
+      orig::Unit10026C70_ReturnThis_v1(auStack_40);
+      orig::Mat4_SetIdentity_v1(auStack_40);
+      iVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1c0))))((void *)(self));
+      orig::Mat4_PostRotateY_v1(auStack_40,*(float *)(iVar5 + 4));
+      puVar7 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
+      orig::Mat4_SetTranslation_v2(auStack_40,puVar7);
+      orig::Mat4_TransformPointInPlace_v1(auStack_40,(uint32_t *)(iVar1 + 0xb0));
+      *(uint32_t *)(iVar1 + 0xbc) = 0;
+      orig::Unit10026C70_Nop();
+    }
+  }
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100D6240  (placed by IDB name; static (takes no this))

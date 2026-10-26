@@ -7138,6 +7138,112 @@ XI_API int __thiscall Menu_FindItemByNameAt1C(void * self_, char * param_1)
   return iVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x1015E0F0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1015E0F0(void * self_, char * param_1)
+{
+  uint8_t *pbVar1;
+  uint32_t uVar2;
+  uint8_t bVar3;
+  char *_Str1;
+  uint32_t uVar4;
+  int iVar5;
+  uint8_t uVar6;
+  uint8_t *pbVar7;
+  uint8_t bVar8;
+  uint64_t uVar9;
+  char xi_frame[8] __attribute__((aligned(4)));
+  int  &local_8 = *reinterpret_cast<int  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  
+  local_4 = *g_pSceneState_as_v2;
+  _Str1 = (char *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_pSceneState_as_v2 >> 8)) << 8) | (uint8_t)(s_menu_menuwind_103722d8[0])));
+  uVar6 = 0;
+  if (s_menu_menuwind_103722d8[0] != '\0') {
+    _Str1 = s_menu_menuwind_103722d8;
+    pbVar7 = &DAT_10372300;
+    uVar6 = 0;
+    do {
+      uVar2 = local_4;
+      uVar9 = orig::_strncmp(_Str1,param_1,0x10);
+      if ((int)uVar9 != 0) goto switchD_1015e14f_caseD_1;
+      switch(xi_sw(uVar2)) {
+      case 0:
+      case 0x30:
+      case 0x40:
+        bVar3 = *pbVar7 & 8;
+        break;
+      default:
+        goto switchD_1015e14f_caseD_1;
+      case 0x10:
+        bVar3 = *pbVar7 & 1;
+        break;
+      case 0x20:
+      case 0x50:
+      case 0x70:
+      case 0x80:
+      case 0x90:
+      case 0xa0:
+      case 0xb0:
+      case 0xc0:
+      case 0xe0:
+switchD_1015e14f_caseD_20:
+        bVar3 = *pbVar7;
+LAB_1015e225:
+        bVar8 = bVar3 == 0xff;
+LAB_1015e227:
+        if (!bVar8) goto switchD_1015e14f_caseD_1;
+        goto LAB_1015e229;
+      case 0x60:
+        if (DAT_104dfd98 != 0) {
+          if (*(char *)((int)self_ + 0xae) != '\0') goto switchD_1015e14f_caseD_20;
+          uVar4 = orig::IsEvent_v1(0,((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0xae)))));
+          if ((char)uVar4 != '\0') {
+            bVar3 = *pbVar7 & 4;
+            break;
+          }
+          bVar3 = *pbVar7;
+          if ((bVar3 & 1) == 0) goto switchD_1015e14f_caseD_1;
+          if (-1 < (char)*(uint32_t *)(pbVar7 + -4)) {
+            if (g_pTargetMng_as_s32 == 0) goto switchD_1015e14f_caseD_1;
+            if (*(short *)(g_pTargetMng_as_s32 + 0x68) == 1) {
+              bVar3 = bVar3 & 0x20;
+              break;
+            }
+            if (*(short *)(g_pTargetMng_as_s32 + 0x68) == 2) {
+              bVar3 = bVar3 & 0x10;
+              break;
+            }
+            if ((*(uint32_t *)(pbVar7 + -4) & 0x40000) == 0) goto LAB_1015e229;
+            local_8 = orig::Unit100D7420_GetTail(self_);
+            do {
+              if (local_8 == 0) goto LAB_1015e229;
+              iVar5 = orig::FUN_10126550_v1(&local_8);
+            } while ((*(uint32_t *)(iVar5 + 0x34) & 0x20000) == 0);
+            bVar8 = local_8 == 0;
+            goto LAB_1015e227;
+          }
+          goto LAB_1015e229;
+        }
+        goto switchD_1015e14f_caseD_1;
+      case 0xd0:
+        bVar3 = *pbVar7;
+        if (*(char *)((int)self_ + 0xae) != '\0') goto LAB_1015e225;
+        bVar3 = bVar3 & 0x40;
+      }
+      if (bVar3 != 0) {
+LAB_1015e229:
+        uVar6 = 1;
+      }
+switchD_1015e14f_caseD_1:
+      pbVar1 = pbVar7 + 4;
+      _Str1 = (char *)(pbVar7 + 4);
+      pbVar7 = pbVar7 + 0x2c;
+    } while (*pbVar1 != 0);
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)_Str1 >> 8)) << 8) | (uint8_t)(uVar6)));
+}
+
 // FUNCTION: FFXIMAIN 0x1015E350  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 33 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall MenuMng_OpenByName(void * self_, char * param_1, undefined4 param_2, undefined4 param_3)
@@ -7695,6 +7801,180 @@ XI_API void __thiscall Menu_CallChildSlot34ForEachItem(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1015EF60  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_1015EF60(void * self_)
+{
+  int iVar1;
+  int iVar2;
+  char cVar3;
+  int iVar4;
+  uint32_t uVar5;
+  uint64_t uVar6;
+  uint32_t uVar7;
+  char local_1;
+  
+  iVar1 = *g_pSceneState_as_v0;
+  cVar3 = '\0';
+  local_1 = '\0';
+  if (iVar1 != *(int *)((int)self_ + 100)) {
+    *(uint8_t *)((int)self_ + 0xae) = 0;
+    local_1 = cVar3;
+    switch(xi_sw(iVar1)) {
+    case 0:
+    case 0x10:
+    case 0x20:
+    case 0x30:
+    case 0xa0:
+      break;
+    case 0x40:
+      local_1 = '\x01';
+      orig::Menu_ApplyFlagsToItems(self_,0x200);
+      break;
+    case 0x50:
+      orig::Menu_ApplyFlagsToItems(self_,0x80);
+      break;
+    case 0x60:
+      *(uint8_t *)((int)self_ + 0xac) = 1;
+    default:
+      local_1 = '\x01';
+      break;
+    case 0x70:
+    case 0xe0:
+      orig::Menu_ApplyFlagsToItems(self_,8);
+      orig::Cell_SetGlobal1036E3A0(0xffff);
+      orig::FUN_10127ea0();
+      orig::Menu_ApplyFlagsToItems(self_,0x4000);
+      break;
+    case 0x80:
+      orig::Menu_ApplyFlagsToItems(self_,8);
+      break;
+    case 0xb0:
+      orig::Unit1018BA60_RunPairB();
+      break;
+    case 0xc0:
+      orig::Unit1018BA60_RunPairA_v1();
+      break;
+    case 0xd0:
+      orig::Menu_ApplyFlagsToItems(self_,0x2000);
+      local_1 = '\x01';
+    }
+    if (*(int *)((int)self_ + 100) == 0x40) {
+      uVar7 = 0x400;
+    }
+    else {
+      if (iVar1 != 0x40) goto LAB_1015f03e;
+      uVar7 = 0x200;
+    }
+    orig::Menu_ApplyFlagsToItems(self_,uVar7);
+  }
+LAB_1015f03e:
+  if ((((*(char *)((int)self_ + 0xac) != '\0') && (iVar1 == 0x60)) && (DAT_104dfd98 != 0)) &&
+     (DAT_1047d3f0_as_s32 != 0)) {
+    orig::Menu_ApplyFlagsToItems(self_,4);
+    orig::Menu_CallSlot30ForEachEntry();
+    *(uint8_t *)((int)self_ + 0xac) = 0;
+  }
+  *(int *)((int)self_ + 100) = iVar1;
+  if ((DAT_104dfd98 != DAT_106218f8) && (DAT_104dfd98 == 0)) {
+    orig::Menu_ApplyFlagsToItems(self_,8);
+  }
+  DAT_106218f8 = DAT_104dfd98;
+  uVar6 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  iVar4 = 0;
+  if ((int)uVar6 == 0) goto LAB_1015f0e4;
+  iVar2 = *(int *)((int)uVar6 + 0x70);
+  iVar4 = 0;
+  if (iVar2 == 0) goto LAB_1015f0e4;
+  iVar2 = *(int *)(iVar2 + 0x170);
+  iVar4 = *(int *)((int)self_ + 0x68);
+  if (iVar2 != iVar4) {
+    if (iVar2 == 1) {
+      iVar4 = orig::Acter_IsEvent(iVar4);
+      if ((char)iVar4 == '\x01') goto LAB_1015f0e4;
+      uVar7 = 0x20;
+    }
+    else {
+      if (iVar4 != 1) goto LAB_1015f0e1;
+      uVar7 = 0x40;
+    }
+    iVar4 = orig::Menu_ApplyFlagsToItems(self_,uVar7);
+  }
+LAB_1015f0e1:
+  *(int *)((int)self_ + 0x68) = iVar2;
+LAB_1015f0e4:
+  uVar7 = orig::IsEvent_v1(0,iVar4);
+  cVar3 = (char)uVar7;
+  if (cVar3 != *(char *)((int)self_ + 0x62)) {
+    if (cVar3 == '\0') {
+      uVar7 = 0x1000;
+    }
+    else {
+      uVar7 = 0x800;
+    }
+    orig::Menu_ApplyFlagsToItems(self_,uVar7);
+  }
+  *(char *)((int)self_ + 0x62) = cVar3;
+  if ((iVar1 == 0x60) || (iVar4 = iVar1 + -0xd0, iVar4 == 0)) {
+    uVar5 = orig::Unit100D7420_TestCommand36CF60_v1(0x3f,0x56,1,-1,0);
+    if ((char)uVar5 == '\x01') {
+      uVar5 = orig::Menu_GetStateB4_v1(self_,uVar5);
+      uVar5 = CONCAT31((int32_t)((uint32_t)uVar5 >> 8),(char)uVar5 + '\x01');
+      uVar5 = orig::Menu_SetStateB4(self_,uVar5,uVar5);
+    }
+    iVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3f,0xf,1,-1,uVar5);
+    if (((char)iVar4 == '\x01') && (iVar4 = orig::Menu_IsStateB4Eq1(self_,iVar4), (char)iVar4 != '\0')) {
+      uVar5 = orig::Menu_GetStateB4_v1(self_,iVar4);
+      uVar5 = CONCAT31((int32_t)((uint32_t)uVar5 >> 8),(char)uVar5 + '\x01');
+      iVar4 = orig::Menu_SetStateB4(self_,uVar5,uVar5);
+      orig::Cell_SetFlag104E1C3C();
+    }
+  }
+  uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar4 >> 8)) << 8) | (uint8_t)(local_1)));
+  if (local_1 != '\0') {
+    uVar5 = orig::Menu_SetStateB4(self_,0,uVar5);
+  }
+  if (iVar1 == 0x60) {
+    uVar7 = orig::Unit100D7420_TestCommand36CF60_v1(0x3f,0x13,1,-1,uVar5);
+    if (((((char)uVar7 == '\x01') &&
+         (uVar7 = orig::Unit1018BA60_IsModeFourOrFive(DAT_10662d40), (char)uVar7 == '\0')) &&
+        (uVar7 = g_pTargetMng_as_v1, *(char *)(g_pTargetMng_as_v1 + 0x59) == '\0')) &&
+       (((*(int *)(g_pTargetMng_as_v1 + 0xc4) == 0 &&
+         (uVar7 = orig::Menu_IsStateB4Eq1(self_,g_pTargetMng_as_v1), (char)uVar7 == '\0')) &&
+        ((uVar7 = orig::Unit101C72E0_IsActorField170(1,uVar7), (char)uVar7 == '\0' &&
+         (uVar7 = orig::IsEvent_v1(0,uVar7), (char)uVar7 == '\0')))))) {
+      uVar5 = orig::Menu_FindByFlags34(0x20000);
+      if ((char)uVar5 == '\0') {
+        uVar7 = orig::Unit1012AC80_OpenNoticeDialog101608D0();
+      }
+      else {
+        uVar7 = orig::ChatLog_AddTableMessage7_v1(g_pTkMsgWinData_as_v1,3);
+      }
+    }
+    uVar5 = orig::Unit100D7420_TestCommand36CF60_v1(0x3f,0xb7,1,-1,uVar7);
+    if ((((char)uVar5 == '\x01') &&
+        (uVar5 = orig::Unit1018BA60_IsModeFourOrFive(DAT_10662d40), (char)uVar5 == '\0')) &&
+       ((*(char *)(g_pTargetMng_as_v1 + 0x59) == '\0' &&
+        ((((*(int *)(g_pTargetMng_as_v1 + 0xc4) == 0 &&
+           (uVar5 = orig::Menu_IsStateB4Eq1(self_,g_pTargetMng_as_v1), (char)uVar5 == '\0')) &&
+          (uVar5 = orig::Unit101C72E0_IsActorField170(1,uVar5), (char)uVar5 == '\0')) &&
+         (uVar7 = orig::IsEvent_v1(0,uVar5), (char)uVar7 == '\0')))))) {
+      uVar5 = orig::Menu_FindByFlags34(0x20000);
+      if ((char)uVar5 == '\0') {
+        orig::Unit1012AC80_OpenNoticeDialog101608B0();
+        return;
+      }
+      orig::ChatLog_AddTableMessage7_v1(g_pTkMsgWinData_as_v1,3);
+    }
+  }
+  else if (DAT_10664520_as_s32 != 0) {
+    orig::Unit101D7020_DestroyDrawMenuIfAt14();
+    orig::Unit101D7020_CloseIfAt14();
+    return;
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x1015F3E0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Menu_ApplyFlagsToItems(void * self_, uint32_t param_1)
@@ -8005,6 +8285,343 @@ XI_API int __thiscall Menu_GetWordPtrAtA0(void * self_, int param_1)
   
   iVar1 = orig::Unit1012AC80_ResolveLayoutIndex(param_1);
   return (int)self_ + iVar1 * 2 + 0xa0;
+}
+
+// FUNCTION: FFXIMAIN 0x1015FA00  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 5 returned normally, 23 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API void __thiscall Menu_DrawAll(void * self_)
+{
+  uint8_t bVar1;
+  uint16_t uVar2;
+  int iVar3;
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar4;
+  int iVar5;
+  short *psVar6;
+  int *piVar7;
+  void *pvVar8;
+  uint32_t xi_eax;
+  uint32_t uVar9;
+  long double st0;
+  uint64_t uVar10;
+  int64_t lVar11;
+  char xi_frame[40] __attribute__((aligned(4)));
+  void * &pvVar12 = *reinterpret_cast<void * *>(xi_frame + 0);
+  int  &local_14 = *reinterpret_cast<int  *>(xi_frame + 20);
+  int  (&local_10)[4] = *reinterpret_cast<int  (*)[4]>(xi_frame + 24);
+  
+  uVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x8b,4,-1,xi_entry_eax);
+  if ((char)uVar4 == '\x01') {
+    uVar4 = orig::Menu_TrackCursor(self_);
+  }
+  uVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x8b,5,-1,uVar4);
+  if ((char)uVar4 == '\x01') {
+    uVar4 = orig::Menu_HandleCursorSelect(self_);
+  }
+  iVar5 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x8c,1,-1,uVar4);
+  if ((char)iVar5 == '\x01') {
+    iVar5 = orig::Unit1012AC80_MenuHasFocusedItemFwd(self_);
+  }
+  uVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x8c,5,-1,iVar5);
+  if ((char)uVar4 == '\x01') {
+    uVar4 = orig::Menu_DispatchEvent6(self_);
+  }
+  uVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x96,1,-1,uVar4);
+  uVar4 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x96,5,-1,uVar4);
+  if ((char)uVar4 == '\x01') {
+    orig::Menu_DispatchEvent7(self_);
+  }
+  if (DAT_105781ac != (void *)0x0) {
+    orig::Unit1012AC80_ResolveEntries(DAT_105781ac);
+  }
+  if (DAT_10621944 != (void *)0x0) {
+    orig::Unit1012AC80_DrawIfActive(DAT_10621944);
+  }
+  orig::Gfx_SetDefault2DStates_v1();
+  orig::FUN_1015ef60(&g_menuMng_as_v0);
+  local_14 = orig::Unit100D7420_GetHead(self_);
+  while (local_14 != 0) {
+    uVar10 = orig::FUN_10126520(&local_14);
+    iVar5 = (int)uVar10;
+    if (((iVar5 != 0) && (*(char *)(iVar5 + 0x70) != '\0')) && (iVar5 != *(int *)((int)self_ + 0x54))
+       ) {
+      if ('\0' < *(char *)(iVar5 + 0x6f)) {
+        *(short *)(g_pTargetMng_as_s32 + 0x6a) =
+             *(short *)(g_pTargetMng_as_s32 + 0x6a) - (short)*(char *)(iVar5 + 0x6f);
+        *(uint8_t *)(iVar5 + 0x6f) = 0;
+      }
+      orig::Menu_RemoveAndFreeItem(self_,iVar5,iVar5);
+    }
+  }
+  local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+  while (local_14 != 0) {
+    uVar10 = orig::FUN_10126520(&local_14);
+    iVar5 = (int)uVar10;
+    if (((*(char *)(iVar5 + 0x6e) == '\0') && (*(char *)(iVar5 + 0x75) != '\0')) &&
+       (*(char *)(iVar5 + 0x76) != '\0')) {
+      orig::Unit100D7420_RemoveMatching(self_,iVar5);
+      local_14 = orig::Unit100D7420_GetHead(self_);
+      if (local_14 != 0) {
+        do {
+          iVar3 = local_14;
+          uVar10 = orig::FUN_10126520(&local_14);
+          if ((*(uint16_t *)(iVar5 + 0x38) & *(uint16_t *)((int)uVar10 + 0x38)) != 0) {
+            orig::Unit100D7420_InsertBefore(self_,iVar3,iVar5);
+            goto LAB_1015fbac;
+          }
+        } while (local_14 != 0);
+        orig::Unit100D7420_PushBack_v1(self_,iVar5);
+      }
+LAB_1015fbac:
+      *(uint8_t *)(iVar5 + 0x76) = 0;
+    }
+  }
+  uVar9 = 1;
+  local_14 = 0;
+  iVar5 = 0;
+  if (1 < DAT_10621898_as_v0) {
+    do {
+      local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+      do {
+        if (local_14 == 0) goto LAB_1015fc69;
+        uVar10 = orig::FUN_10126520(&local_14);
+        pvVar8 = (void *)uVar10;
+      } while (((pvVar8 == (void *)0x0) || (*(uint8_t *)((int)pvVar8 + 0x71) != uVar9)) ||
+              (*(char *)((int)pvVar8 + 0x6e) != '\0'));
+      orig::Unit100D7420_RemoveMatching(self_,(int)pvVar8);
+      uVar4 = orig::Unit100D7420_InsertSortedBy60(self_,(int)pvVar8);
+      bVar1 = *(uint8_t *)((int)pvVar8 + 0x34);
+      *(uint8_t *)((int)pvVar8 + 0x71) = 0;
+      if (((bVar1 & 1) == 0) || (bVar1 = *(uint8_t *)((int)pvVar8 + 0x98), bVar1 != 0)) {
+        orig::Menu_SetItemAt54_v1(self_,(int)pvVar8,((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(bVar1))));
+        uVar4 = orig::Unit100D7420_GetCenter(pvVar8,local_10 + 2);
+        if ((char)uVar4 != '\0') {
+          orig::Cursor_SetPosition_v2(g_pCursor_as_v2,local_10 + 2,0.0f,local_10 + 2);
+        }
+      }
+LAB_1015fc69:
+      uVar9 = uVar9 + 1;
+      iVar5 = local_14;
+    } while ((int)uVar9 < (int)(DAT_10621898_as_v0 & 0xff));
+  }
+  local_14 = iVar5;
+  DAT_10621898_as_v0 = ((uint32_t)(((uint32_t)(DAT_10621898_1) << 8) | (uint8_t)(1)));
+  iVar5 = orig::Menu_FindFirstActiveItem(self_);
+  orig::Menu_SetItemAt54_v1(self_,iVar5,iVar5);
+  local_10[0] = *g_pSceneState_as_v0;
+  if (local_10[0] == 0x60) {
+    iVar5 = 0;
+    do {
+      psVar6 = (short *)orig::Menu_GetWordPtrAtA0(self_,iVar5);
+      piVar7 = (int *)orig::Menu_GetDwordAt8C(self_,iVar5);
+      uVar4 = orig::Unit1012AC80_MenuGetItemRect(piVar7,psVar6);
+      if ((char)uVar4 != '\0') {
+        if (iVar5 == 0) {
+          uVar4 = orig::Unit1012AC80_MenuGetLayoutWord(self_,0);
+          orig::Menu_SetPanelWord2A(uVar4);
+          if (DAT_106643a8 != 0) {
+            uVar4 = orig::Unit1012AC80_MenuGetLayoutWord(self_,0);
+            *(short *)(DAT_106643a8 + 0x3c) = (short)uVar4;
+            uVar4 = orig::Unit1012AC80_MenuGetLayoutWord(self_,4);
+            *(short *)(DAT_106643a8 + 0x3e) = (short)uVar4;
+          }
+        }
+        else if ((iVar5 == 4) && (DAT_106643a8 != 0)) {
+          uVar4 = orig::Unit1012AC80_MenuGetLayoutWord(self_,4);
+          *(short *)(DAT_106643a8 + 0x3e) = (short)uVar4;
+        }
+        local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+        while (local_14 != 0) {
+          uVar10 = orig::Menu_NextVisibleItem(&local_14);
+          pvVar8 = (void *)uVar10;
+          if ((pvVar8 != (void *)0x0) &&
+             ((*(uint32_t *)((int)pvVar8 + 0x34) & (&DAT_1037629c)[iVar5]) != 0)) {
+            pvVar12 = pvVar8;
+            piVar7 = (int *)orig::Menu_GetDwordAt8C(self_,iVar5);
+            uVar4 = orig::Menu_PositionWindow(piVar7,pvVar12);
+            if (((char)uVar4 == '\0') && (iVar5 == 2)) {
+              piVar7 = (int *)orig::Menu_GetDwordAt8C(self_,1);
+              orig::Menu_PositionWindow(piVar7,pvVar8);
+            }
+          }
+        }
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < 5);
+  }
+  orig::FUN_10125360(g_pCursor_as_v2);
+  local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+  while (local_14 != 0) {
+    uVar10 = orig::Menu_NextVisibleItem(&local_14);
+    iVar5 = (int)uVar10;
+    if ((((iVar5 != 0) && (*(char *)(iVar5 + 0x6e) == '\0')) && (*(char *)(iVar5 + 0x70) == '\0'))
+       && ((piVar7 = *(int **)(iVar5 + 0xc), piVar7 != (int *)0x0 && (piVar7[2] != 0)))) {
+      if (iVar5 == DAT_1062188c) {
+        ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar7 + 0x28))))((void *)(piVar7),1);
+      }
+      else {
+        ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar7 + 0x28))))((void *)(piVar7),0);
+      }
+    }
+  }
+  uVar9 = 0;
+  local_14 = orig::Unit100D7420_GetTail(&g_menuMng_as_v0);
+  iVar5 = g_pTkTitle_as_s32;
+joined_r0x1015fe22:
+  while( true ) {
+    do {
+      do {
+        g_pTkTitle_as_s32 = iVar5;
+        if (local_14 == 0) {
+          if (local_10[0] == 0x60) {
+            uVar9 = orig::Unit1021D930_IsDone((void *)(iVar5 + 0xa4));
+            if ((((char)uVar9 == '\0') || (*(short *)(iVar5 + 0x448) != 0)) ||
+               ((uVar4 = orig::Unit1012AC80_IsField8Zero(DAT_10578480_as_v0), (char)uVar4 == '\0' ||
+                (uVar9 = orig::Unit1021D930_IsDone((void *)(g_pTkHelp_as_s32 + 0x20)), (char)uVar9 == '\0'))))
+            {
+              if (*(int *)((int)self_ + 0x78) < 1) {
+                local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+                while (local_14 != 0) {
+                  uVar10 = orig::Menu_NextVisibleItem(&local_14);
+                  pvVar8 = (void *)uVar10;
+                  if (((pvVar8 != (void *)0x0) && ((*(uint32_t *)((int)pvVar8 + 0x34) & 0x8000) != 0))
+                     && (psVar6 = orig::Unit100D7420_FindFreeEntry(pvVar8), psVar6 != (short *)0x0)) {
+                    *(uint8_t *)(psVar6 + 0x22) = 3;
+                    psVar6[0x24] = 0x14;
+                    psVar6[0x25] = 0;
+                  }
+                }
+                *(uint32_t *)((int)self_ + 0x78) = 0xb4;
+                local_14 = 0;
+              }
+            }
+            else if (0 < *(int *)((int)self_ + 0x78)) {
+              st0 = orig::Camera_GetFrameScale_v1(*(int *)((int)self_ + 0x78));
+              lVar11 = XI_CALL_ST0(0x10311C2Cu)(st0);
+              iVar5 = *(int *)((int)self_ + 0x78) - (int)(short)lVar11;
+              *(int *)((int)self_ + 0x78) = iVar5;
+              if (iVar5 < 1) {
+                local_14 = orig::Unit100D7420_GetHead(&g_menuMng_as_v0);
+                while (local_14 != 0) {
+                  uVar10 = orig::Menu_NextVisibleItem(&local_14);
+                  pvVar8 = (void *)uVar10;
+                  if (((pvVar8 != (void *)0x0) && ((*(uint32_t *)((int)pvVar8 + 0x34) & 0x8000) != 0))
+                     && (psVar6 = orig::Unit100D7420_FindFreeEntry(pvVar8), psVar6 != (short *)0x0)) {
+                    *(uint8_t *)(psVar6 + 0x22) = 2;
+                    psVar6[0x24] = 0x14;
+                    psVar6[0x25] = 0;
+                  }
+                }
+                *(uint32_t *)((int)self_ + 0x78) = 0;
+                local_14 = 0;
+              }
+            }
+          }
+          if ((*g_pSceneState_as_v0 == 0x60) || (*g_pSceneState_as_v0 == 0x70)) {
+            orig::Unit1021D930_CallPanel1021F240And102203B0();
+            orig::Unit10211440_Update(DAT_10666e2c);
+            orig::Unit10211440_Update(DAT_10666e30);
+            if (DAT_10666e34 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e34);
+            }
+            if (DAT_10666e38 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e38);
+            }
+            if (DAT_10666e3c != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e3c);
+            }
+            if (DAT_10666e40 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e40);
+            }
+            if (DAT_10666e44 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e44);
+            }
+            if (DAT_10666e48 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e48);
+            }
+            if (DAT_10666e4c != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e4c);
+            }
+            if (DAT_10666e50 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e50);
+            }
+            if (DAT_10666e54 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e54);
+            }
+            if (DAT_10666e58 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e58);
+            }
+            if (DAT_10666e5c != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e5c);
+            }
+            if (DAT_10666e60 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e60);
+            }
+            if (DAT_10666e64 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e64);
+            }
+            if (DAT_10666e68 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e68);
+            }
+            if (DAT_10666e6c != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e6c);
+            }
+            if (DAT_10666e70 != (void *)0x0) {
+              orig::Unit10211440_Update(DAT_10666e70);
+            }
+            orig::Unit1021D930_TickCounters();
+            orig::Unit1021D930_Call102250F0();
+            orig::Unit1021D930_Call10226E30();
+          }
+          iVar5 = orig::Menu_GetPanelByte0D();
+          if ((((iVar5 == 0) && (*g_pSceneState_as_v0 == 0x60)) &&
+              (uVar9 = orig::IsEvent_v1(0,0), (char)uVar9 == '\0')) &&
+             (uVar4 = orig::Menu_FindByFlags38(4,0,0), (char)uVar4 == '\0')) {
+            local_10[0] = 0x58;
+            local_10[1] = 0x2a;
+            orig::CTkMenuMng_IsDrawWindow(self_,local_10,0,0);
+            uVar4 = orig::Menu_SetPanelWord28(local_10[0]);
+            orig::Unit1021D930_CallPanel1021EF10(uVar4);
+            orig::Gfx_DisableFogAndAlphaBlend_v1();
+            return;
+          }
+          iVar5 = orig::Menu_GetPanelByte0D();
+          if ((iVar5 == 3) &&
+             (((uVar9 = 3, *g_pSceneState_as_v0 != 0x60 || (uVar9 = orig::IsEvent_v1(0,3), (char)uVar9 != '\0')
+               ) || (uVar9 = orig::Menu_FindByFlags38(4,0,0), (char)uVar9 != '\0')))) {
+            orig::FUN_1021edd0(uVar9);
+          }
+          orig::Gfx_DisableFogAndAlphaBlend_v1();
+          return;
+        }
+        pvVar8 = (void *)orig::Unit1012AC80_GetNodeIfNotClosed(&local_14);
+        iVar5 = g_pTkTitle_as_s32;
+      } while (pvVar8 == (void *)0x0);
+      uVar2 = *(uint16_t *)((int)pvVar8 + 0x38);
+      xi_eax = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)pvVar8 >> 0x10)) << 16) | (uint16_t)(uVar2)));
+    } while (uVar2 == 0);
+    if ((uVar2 & (uint16_t)uVar9) == 0) break;
+    if (*(int *)((int)pvVar8 + 0x10) != 0xe) {
+      orig::Unit1012AC80_MenuItemFade_v1(self_,pvVar8,1,1,0,1,xi_eax);
+      iVar5 = g_pTkTitle_as_s32;
+    }
+  }
+  if (*(int *)((int)pvVar8 + 0x10) == 0xe) goto code_r0x1015fe6c;
+  goto LAB_1015fe94;
+code_r0x1015fe6c:
+  if (((*(char *)((int)pvVar8 + 0x6e) == '\0') && (*(char *)((int)pvVar8 + 0x73) == '\x01')) &&
+     (*(char *)((int)pvVar8 + 0x75) != '\0')) {
+    orig::FUN_1015e530(self_,(int)pvVar8,xi_eax);
+    xi_eax = (uint32_t)*(uint16_t *)((int)pvVar8 + 0x38);
+    uVar9 = uVar9 | xi_eax;
+  }
+  iVar5 = g_pTkTitle_as_s32;
+  if (*(char *)((int)pvVar8 + 0x72) == '\x01') {
+LAB_1015fe94:
+    uVar9 = uVar9 | xi_eax;
+    iVar5 = g_pTkTitle_as_s32;
+  }
+  goto joined_r0x1015fe22;
 }
 
 // FUNCTION: FFXIMAIN 0x101601D0  (unit unit_1012AC80: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file)

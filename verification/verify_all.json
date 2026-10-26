@@ -16,209 +16,166 @@
  },
  "facts:purges.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ret_kinds.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:fp_consts.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:fp_callsites.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:fpret.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:vcalls.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
- },
- "facts:ecx_use.json": {
-  "ok": true,
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:com_calls.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:sp_solved.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:call_pushes.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:cdecl_args.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:leaf_funcs.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:callsite_args.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:callsite_audit.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ida_sp_audit.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:fcmp_exact.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:edx_use.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ecx_this_sites.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:reg_kept_audit.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:entry_regs.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:reg_keeps.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:tail_purges.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ret_width.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ret_full.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:caller_reads.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:eax_entry_unseen.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:import_returns.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:eax_inputs.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:eax_kept_sites.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:arg_reads.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:reg_saved.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:this_flow.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ida_classes.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:evidence_names.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:gfx_device_users.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:reloc_literals.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:ui_functions.json": {
   "ok": true,
-  "differing": [],
-  "n_differing": 0
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
+ },
+ "facts:local_types.json": {
+  "ok": true,
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
+ },
+ "facts:reg_leftover_audit.json": {
+  "ok": true,
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
  "facts:idb_members.json": {
   "ok": true,
   "differing": [],
   "n_differing": 0
  },
- "facts:local_types.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
- },
- "facts:reg_leftover_audit.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
- },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 3971,
+  "wrappers": 4066,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
-   "0x10047F80 CMoGeneratorClone_VT_1032B114_Constructor __thiscall reads EDX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads EDX",
    "0x10150CC0 Unit1012AC80_SetTextFwd_v1 __stdcall reads ECX",
@@ -331,14 +288,16 @@
   "sha1": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5",
   "expected": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5"
  },
+ "tree-source:data/exports/ghidra_frameset15.jsonl": {
+  "ok": true,
+  "sha1": "7dcde8847b2dd34181573271973f8a80bc779d9c",
+  "expected": "7dcde8847b2dd34181573271973f8a80bc779d9c"
+ },
  "tree-regen": {
-  "ok": false,
-  "differing": [
-   "src/unit_10014350_Camera.cpp",
-   "include/gfx_orig.hpp"
-  ],
+  "ok": true,
+  "differing": [],
   "build": [
-   "built build/gfx_recon.dll from 391 files; failed: none"
+   "1 functions do not compile (0 new)"
   ]
  },
  "tree-gate": {

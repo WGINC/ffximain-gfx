@@ -928,3 +928,23 @@ XI_API uint64_t __cdecl MemBlock_AllocFromBack(int param_1, undefined4 param_2, 
   *(uint32_t *)(iVar4 + -8) = *(uint32_t *)(iVar4 + -8) & 0xfffffffc;
   return ((uint64_t)(((uint64_t)(uint32_t)(iVar2) << 32) | (uint32_t)(pvVar5)));
 }
+
+// FUNCTION: FFXIMAIN 0x100289F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// NOT VERIFIED -- INCONCLUSIVE
+XI_API int __cdecl fn_100289F0(int param_1, int param_2)
+{
+  int iVar1;
+  int iVar2;
+  
+  iVar2 = 0;
+  do {
+    if (*(int *)(param_1 + 4) == 0) {
+      iVar1 = orig::MemBlock_GetSize_v1((void *)param_1);
+      if (iVar2 < iVar1) {
+        iVar2 = orig::MemBlock_GetSize_v1((void *)param_1);
+      }
+    }
+    param_1 = *(int *)(param_1 + 0x10);
+  } while (param_1 != param_2);
+  return iVar2;
+}

@@ -8459,6 +8459,422 @@ XI_API void __stdcall Unit1018BA60_NoOp2ArgsB(undefined4 xi_s1, undefined4 xi_s2
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x101B29F0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 91 returned normally, 161 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 xi_s2)
+{
+  char cVar1;
+  HIMC pHVar2;
+  uint32_t uVar3;
+  BOOL BVar4;
+  BOOL BVar5;
+  uint32_t uVar6;
+  UINT UVar7;
+  LONG LVar8;
+  int iVar9;
+  uint8_t *puVar10;
+  char xi_frame[480] __attribute__((aligned(4)));
+  DWORD  &DVar11 = *reinterpret_cast<DWORD  *>(xi_frame + 0);
+  uint32_t  &uVar12 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  ULONG_PTR  &UVar13 = *reinterpret_cast<ULONG_PTR  *>(xi_frame + 4);
+  HWND  &pHVar14 = *reinterpret_cast<HWND  *>(xi_frame + 4);
+  uint32_t  &local_1c8 = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint8_t  (&local_1c4)[452] = *reinterpret_cast<uint8_t  (*)[452]>(xi_frame + 28);
+  
+  if (*(char *)((int)self_ + 0xf100) == '\x01') {
+    ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x34))))((void *)(self_));
+    return 0;
+  }
+  *(uint8_t *)((int)self_ + 0xef22) = 0;
+  pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+  if ((param_1 == 0xe5) &&
+     (param_1 = orig::ImmGetVirtualKey(*(HWND *)(g_pApp_as_s32 + 0x18)), param_1 == 0xff)) {
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    return 0;
+  }
+  *(uint8_t *)((int)self_ + 0xf124) = 1;
+  local_1c8 = 0;
+  uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
+  if ((char)uVar3 == '\0') {
+    cVar1 = (**(code **)(*(int *)self_ + 0x40))();
+    if (cVar1 == '\0') {
+      local_1c8 = 0;
+      *(uint8_t *)((int)self_ + 0xf124) = 0;
+      goto LAB_101b3599;
+    }
+    uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x38);
+    if (((((char)uVar3 != '\0') ||
+         (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0xb8), (char)uVar3 != '\0')) ||
+        (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x1d), (char)uVar3 != '\0')) ||
+       (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x9d), (char)uVar3 != '\0')) {
+      *(uint8_t *)((int)self_ + 0xf124) = 0;
+      goto LAB_101b3599;
+    }
+    uVar3 = orig::Unit1018BA60_IsOemSlash(param_1);
+    if ((char)uVar3 == '\x01') {
+      uVar3 = orig::Unit1018BA60_IsModeThree(self_);
+      if (((char)uVar3 != '\0') &&
+         (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
+        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        BVar5 = orig::ImmGetOpenStatus(pHVar2);
+        if (BVar5 != 0) {
+          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          (**(code **)(*(int *)self_ + 0x60))(0);
+          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          if (*(char *)((int)self_ + 0xf121) != '\0') {
+            *(uint8_t *)((int)self_ + 0xf2f4) = 1;
+          }
+          orig::ImmSetOpenStatus(pHVar2,0);
+        }
+        if (BVar4 != 0) {
+          orig::FsTextInput_OnChar(self_,0x2f);
+        }
+      }
+    }
+    else {
+      uVar6 = orig::Unit1018BA60_IsState1Or3();
+      if (((char)uVar6 != '\0') ||
+         (uVar3 = orig::Unit1018BA60_ClassifyVirtualKey(param_1), (char)uVar3 != '\x01')) {
+        ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+        goto LAB_101b3599;
+      }
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      (**(code **)(*(int *)self_ + 0x58))();
+      (**(code **)(*(int *)self_ + 0x60))(1);
+      (**(code **)(*(int *)self_ + 0x70))();
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      uVar3 = orig::Unit1018BA60_IsModeThree(self_);
+      if (((char)uVar3 != '\0') &&
+         (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
+        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        BVar5 = orig::ImmGetOpenStatus(pHVar2);
+        if ((BVar5 != 0) && (BVar4 == 0)) {
+          UVar13 = 0;
+          DVar11 = 0;
+          UVar7 = MapVirtualKeyA(param_1,0);
+          keybd_event((BYTE)param_1,(BYTE)UVar7,DVar11,UVar13);
+          UVar13 = 0;
+          DVar11 = 2;
+          UVar7 = MapVirtualKeyA(param_1,0);
+          keybd_event((BYTE)param_1,(BYTE)UVar7,DVar11,UVar13);
+        }
+      }
+    }
+    goto LAB_101b3594;
+  }
+  uVar3 = orig::Scene_IsState70();
+  if ((char)uVar3 != '\0') {
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    return 0;
+  }
+  LVar8 = orig::ImmGetCompositionStringA(pHVar2,8,local_1c4,0x1c2);
+  iVar9 = param_1 - 8;
+  switch(xi_sw(param_1)) {
+  case 8:
+    (**(code **)(*(int *)self_ + 0x70))();
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    param_1 = 8;
+    goto LAB_101b357c;
+  case 9:
+  case 0x13:
+    BVar4 = orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,BVar4);
+    if ((((char)uVar3 == '\0') &&
+        (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_)), (char)uVar3 != '\0')) &&
+       (uVar3 = orig::Unit1018BA60_IsModeTwo(self_), (char)uVar3 == '\0')) {
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::ImmNotifyIME(pHVar2,0x15,3,0);
+      (**(code **)(*(int *)self_ + 0x70))();
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::FUN_101b5d10(self_,9,0,0);
+      orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+      *(uint8_t *)((int)self_ + 0xf123) = 0;
+      orig::SetMusicTrackVolume_A_v1();
+    }
+    else {
+      uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x2a);
+      if (((char)uVar3 == '\0') &&
+         (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x36), (char)uVar3 == '\0')) {
+        uVar3 = 0;
+      }
+      else {
+        uVar3 = 1;
+      }
+      iVar9 = orig::FUN_101b5d10(self_,9,uVar3,0);
+      if (iVar9 == 1) {
+        orig::SetMusicTrackVolume_C();
+      }
+    }
+    goto LAB_101b3583;
+  default:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if ((char)uVar3 != '\0') goto LAB_101b3569;
+    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    if ((((BVar4 == 0) || (param_1 == 0x2e)) || (param_1 == 0x22)) ||
+       ((param_1 == 0x21 || (param_1 == 0x10)))) goto switchD_101b2d31_caseD_23;
+    ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+    break;
+  case 0xd:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if ((char)uVar3 == '\0') {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      iVar9 = orig::FUN_101b5d10(self_,0xd,0,0);
+      pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+    }
+    else {
+      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      if (BVar4 != 0) {
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::Unit1018BA60_ResetComposition(self_,0);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      }
+      *(uint8_t *)((int)self_ + 0xf120) = 0;
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      iVar9 = orig::FUN_101b5d10(self_,0xd,0,0);
+      pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+    }
+    pHVar2 = orig::ImmGetContext(pHVar14);
+    if ((iVar9 == 1) && (orig::SetMusicTrackVolume_A_v1(), *(char *)((int)self_ + 0xf100) != '\0')) {
+      if (*(int *)((int)self_ + 0xf0f4) == 0) {
+        *(uint32_t *)(DAT_10662dac_as_s32 + 0x14) = 0;
+      }
+      else {
+        orig::Unit1018BA60_UpdateFromMenu(DAT_1066269c_as_v0);
+      }
+    }
+    break;
+  case 0x1b:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if ((char)uVar3 == '\0') {
+      if (*(char *)((int)self_ + 0xf123) == '\0') {
+        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        if ((BVar4 == 0) || (LVar8 < 1)) {
+          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::FUN_101b5d10(self_,0x1b,0,0);
+          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          orig::SetMusicTrackVolume_B_v2();
+        }
+        else {
+          *(uint8_t *)((int)self_ + 0xf123) = 0;
+          (**(code **)(*(int *)self_ + 0x70))();
+          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::FUN_101b5d10(self_,0x1b,0,0);
+          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          orig::SetMusicTrackVolume_B_v2();
+        }
+      }
+      else {
+        *(uint8_t *)((int)self_ + 0xf123) = 0;
+        ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+        orig::SetMusicTrackVolume_B_v2();
+      }
+    }
+    else {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::FUN_101b5d10(self_,0x1b,0,0);
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::SetMusicTrackVolume_B_v2();
+    }
+    break;
+  case 0x1c:
+    uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
+    if ((char)uVar3 != '\0') {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      cVar1 = (**(code **)(*(int *)self_ + 0x20))();
+      pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+      if (cVar1 == '\0') goto LAB_101b358d;
+      pHVar2 = orig::ImmGetContext(pHVar14);
+      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      if (BVar4 == 0) {
+        (**(code **)(*(int *)self_ + 0x70))();
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        iVar9 = (**(code **)(*(int *)self_ + 0x68))();
+        puVar10 = (uint8_t *)(**(code **)(*(int *)self_ + 100))();
+        orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar9);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        *(uint8_t *)((int)self_ + 0xf120) = 0;
+      }
+      else {
+        uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,BVar4);
+        if ((char)uVar3 == '\0') {
+          *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
+        }
+        else {
+          orig::Unit1018BA60_ResetCursor(self_);
+          (**(code **)(*(int *)self_ + 0x70))();
+          orig::ImmNotifyIME(pHVar2,0x15,3,0);
+          orig::ImmNotifyIME(pHVar2,0x15,2,0);
+          orig::ImmNotifyIME(pHVar2,0x15,2,0);
+          orig::ImmNotifyIME(pHVar2,0x17,0,0);
+          orig::ImmNotifyIME(pHVar2,0x16,0,0);
+          *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
+          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          *(uint8_t *)((int)self_ + 0xf123) = 1;
+        }
+      }
+    }
+    break;
+  case 0x20:
+    orig::Cursor_SetVisible_v2(g_pCursor_as_v2,0);
+    BVar4 = orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,BVar4);
+    if (((char)uVar3 == '\0') || (uVar3 = orig::Unit1018BA60_HasComposition(), (char)uVar3 == '\0')) {
+      uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,uVar3);
+      if ((char)uVar3 == '\0') goto LAB_101b3583;
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x2a);
+      if (((char)uVar3 == '\0') &&
+         (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x36), (char)uVar3 == '\0')) {
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::FUN_101b5d10(self_,9,0,0);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        orig::SetMusicTrackVolume_C();
+      }
+      else {
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::FUN_101b5d10(self_,9,1,0);
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        orig::SetMusicTrackVolume_C();
+      }
+    }
+    else {
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::Unit1018BA60_ResetCursor(self_);
+      (**(code **)(*(int *)self_ + 0x70))();
+      orig::ImmNotifyIME(pHVar2,0x15,3,0);
+      orig::ImmNotifyIME(pHVar2,0x15,2,0);
+      orig::ImmNotifyIME(pHVar2,0x15,2,0);
+      orig::ImmNotifyIME(pHVar2,0x17,0,0);
+      orig::ImmNotifyIME(pHVar2,0x16,0,0);
+      *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      *(uint8_t *)((int)self_ + 0xf123) = 1;
+      orig::SetMusicTrackVolume_C();
+    }
+    break;
+  case 0x23:
+  case 0x24:
+switchD_101b2d31_caseD_23:
+LAB_101b3569:
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+LAB_101b357c:
+    orig::FUN_101b5d10(self_,param_1,0,0);
+LAB_101b3583:
+    pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+LAB_101b358d:
+    pHVar2 = orig::ImmGetContext(pHVar14);
+    break;
+  case 0x25:
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::FUN_101b5d10(self_,0x25,0,0);
+    pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
+      ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+    }
+    break;
+  case 0x26:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if ((char)uVar3 == '\0') {
+      if (*(int *)((int)self_ + 0xf128) == 0) {
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::FUN_101b5d10(self_,0x26,0,0);
+        pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+        goto LAB_101b358d;
+      }
+      break;
+    }
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    uVar12 = 1;
+    uVar3 = 9;
+LAB_101b3266:
+    orig::FUN_101b5d10(self_,uVar3,uVar12,0);
+    pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
+    goto LAB_101b358d;
+  case 0x27:
+    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::FUN_101b5d10(self_,0x27,0,0);
+    pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+    BVar4 = orig::ImmGetOpenStatus(pHVar2);
+    if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
+      ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+    }
+    break;
+  case 0x28:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if ((char)uVar3 != '\0') {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      param_1 = 9;
+      goto LAB_101b357c;
+    }
+    if (*(int *)((int)self_ + 0xf128) == 0) {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      uVar12 = 0;
+      uVar3 = 0x28;
+      goto LAB_101b3266;
+    }
+    break;
+  case 0x75:
+  case 0x76:
+  case 0x77:
+  case 0x78:
+  case 0x79:
+    uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
+    if (((char)uVar3 == '\0') && (BVar4 = orig::ImmGetOpenStatus(pHVar2), BVar4 != 0)) {
+      ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+    }
+    break;
+  case 0xf3:
+  case 0xf4:
+    (**(code **)(*(int *)self_ + 0x70))();
+    if ((*(char *)((int)self_ + 0xf0ec) == '\0') && (*(int *)((int)self_ + 0xf10c) == 0)) {
+      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      iVar9 = (**(code **)(*(int *)self_ + 0x68))();
+      puVar10 = (uint8_t *)(**(code **)(*(int *)self_ + 100))();
+      orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar9);
+      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      *(uint8_t *)((int)self_ + 0xf120) = 0;
+      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      if (BVar4 == 0) {
+        *(uint8_t *)((int)self_ + 0xf2f4) = 0;
+        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        orig::ImmSetOpenStatus(pHVar2,BVar4);
+      }
+      else {
+        *(uint8_t *)((int)self_ + 0xf121) = 0;
+        BVar4 = orig::ImmGetOpenStatus(pHVar2);
+        orig::ImmSetOpenStatus(pHVar2,BVar4);
+      }
+    }
+    else {
+      BVar4 = orig::ImmGetOpenStatus(pHVar2);
+      if (BVar4 != 0) {
+        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        (**(code **)(*(int *)self_ + 0x5c))();
+        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      }
+      *(uint8_t *)((int)self_ + 0xf120) = 0;
+      *(uint8_t *)((int)self_ + 0xf2f4) = 0;
+      orig::ImmSetOpenStatus(pHVar2,0);
+    }
+  }
+LAB_101b3594:
+  local_1c8 = 1;
+LAB_101b3599:
+  orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+  return local_1c8;
+}
+
 // FUNCTION: FFXIMAIN 0x101B36F0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
@@ -9056,6 +9472,410 @@ XI_API undefined4 __thiscall Unit1018BA60_IsModeFourOrFive(void * self_)
 XI_API undefined4 __thiscall Unit1018BA60_IsModeThree(void * self_)
 {
   return (uint32_t)(*(int *)((int)self_ + 0xf108) == 3);
+}
+
+// FUNCTION: FFXIMAIN 0x101B5D10  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_101B5D10(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+{
+  void *pvVar1;
+  char cVar2;
+  uint8_t bVar3;
+  int iVar4;
+  uint32_t uVar8;
+  char *pcVar5;
+  uint32_t uVar6;
+  int iVar7;
+  uint32_t uVar9;
+  char xi_frame[1072] __attribute__((aligned(4)));
+  uint8_t * &puVar10 = *reinterpret_cast<uint8_t * *>(xi_frame + 0);
+  char * &pcVar11 = *reinterpret_cast<char * *>(xi_frame + 0);
+  char  (&local_41c)[1052] = *reinterpret_cast<char  (*)[1052]>(xi_frame + 20);
+  
+  iVar4 = (param_1 & 0xff) - 8;
+  *(uint8_t *)((int)self_ + 0xef22) = 0;
+  uVar8 = (uint32_t)((uint32_t)iVar4 >> 8);
+  switch(xi_sw(param_1 & 0xff)) {
+  case 8:
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+    if ((char)uVar6 != '\0') {
+LAB_101b6044:
+      orig::FUN_101b5d10(self_,0x1b,param_2,param_3);
+      return 1;
+    }
+    uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+    if ((char)uVar6 != '\0') {
+      orig::Unit1018BA60_DeleteLast((void *)((int)self_ + 0x8aac));
+      return 1;
+    }
+    uVar6 = orig::FsTextInput_HasText((void *)((int)self_ + 0x7e30));
+    if ((char)uVar6 != '\0') {
+      orig::FsTextInput_CursorLeft((void *)((int)self_ + 0x7e30));
+      return 1;
+    }
+    break;
+  case 9:
+  case 0x13:
+    if (*(char *)((int)self_ + 0xf11c) == '\0') {
+      return 0xffffffff;
+    }
+    uVar6 = ((uint32_t)(((uint32_t)(uVar8) << 8) | (uint8_t)(*(char *)((int)self_ + 0xf0ec))));
+    if (*(char *)((int)self_ + 0xf0ec) == '\0') {
+      uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+      if ((char)uVar6 == '\0') {
+        *(uint8_t *)((int)self_ + 0x8c81) = 1;
+        pcVar11 = (char *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 100))))((void *)(self_));
+        if (pcVar11 == (char *)0x0) {
+          iVar4 = 0;
+        }
+        else {
+          pcVar5 = (char *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 100))))((void *)(self_));
+          uVar9 = 0xffffffff;
+          do {
+            if (uVar9 == 0) break;
+            uVar9 = uVar9 - 1;
+            cVar2 = *pcVar5;
+            pcVar5 = pcVar5 + 1;
+          } while (cVar2 != '\0');
+          iVar4 = ~uVar9 - 1;
+        }
+        iVar4 = orig::Unit1018BA60_SetWordForCompletion(self_,pcVar11,iVar4);
+        if (-1 < iVar4) {
+          orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+          ((int (__thiscall *)(void *))((**(code **)**(uint32_t **)((int)self_ + 0xf104))))((void *)(*(uint32_t **)((int)self_ + 0xf104)));
+          return 1;
+        }
+      }
+      else {
+        if ((char)param_2 != '\0') {
+          orig::List_Retreat(self_);
+          ((int (__thiscall *)(void *))((**(code **)**(uint32_t **)((int)self_ + 0xf104))))((void *)(*(uint32_t **)((int)self_ + 0xf104)));
+          return 1;
+        }
+        orig::List_Advance(self_);
+      }
+      ((int (__thiscall *)(void *))((**(code **)**(uint32_t **)((int)self_ + 0xf104))))((void *)(*(uint32_t **)((int)self_ + 0xf104)));
+      return 1;
+    }
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+    if ((char)uVar6 == '\0') {
+      *(uint8_t *)((int)self_ + 0x8c81) = 1;
+      iVar4 = orig::Unit1018BA60_GetLastWord(self_,(uint32_t *)local_41c);
+      pcVar11 = local_41c;
+      goto LAB_101b5e42;
+    }
+    if ((char)param_2 != '\0') {
+      orig::List_Retreat(self_);
+      return 1;
+    }
+    goto LAB_101b674c;
+  case 0xd:
+  case 0x6c:
+    if (*(char *)((int)self_ + 0xf0ec) == '\0') {
+      uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+      if ((char)uVar6 == '\0') {
+        pvVar1 = (void *)((int)self_ + 0x7e30);
+        uVar6 = orig::FsTextInput_HasText(pvVar1);
+        if ((char)uVar6 == '\0') {
+          (**(code **)((int)self_ + 0x8c78))(0,&Read_as_v0,*(uint32_t *)((int)self_ + 0x8c7c));
+          ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x54))))((void *)(self_));
+          return 0xffffffff;
+        }
+        if (*(char *)((int)self_ + 0xf11d) != '\0') {
+          return 1;
+        }
+        uVar6 = 1;
+        iVar4 = orig::FsTextInput_GetCursorOrLength(pvVar1);
+        iVar7 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+        orig::Unit1018BA60_InputNotify(self_,iVar7,iVar4,uVar6,iVar7);
+        return 1;
+      }
+      iVar4 = *(int *)((int)self_ + 0x8c70);
+      puVar10 = (uint8_t *)((int)self_ + 0x8aac);
+    }
+    else {
+      uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,((uint32_t)(((uint32_t)(uVar8) << 8) | (uint8_t)(*(char *)((int)self_ + 0xf0ec)))));
+      if ((char)uVar6 == '\0') {
+        pvVar1 = (void *)((int)self_ + 0x7e30);
+        uVar6 = orig::FsTextInput_HasText(pvVar1);
+        if ((char)uVar6 == '\0') {
+          (**(code **)((int)self_ + 0x8c78))(0,&Read_as_v0,*(uint32_t *)((int)self_ + 0x8c7c));
+          ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x54))))((void *)(self_));
+          return 0xffffffff;
+        }
+        uVar6 = 1;
+        iVar4 = orig::FsTextInput_GetCursorOrLength(pvVar1);
+        iVar7 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+        orig::Unit1018BA60_InputNotify(self_,iVar7,iVar4,uVar6,iVar7);
+        return 1;
+      }
+      orig::FsTextInput_DeleteLastWord((void *)((int)self_ + 0x7e30));
+      iVar4 = 0;
+      puVar10 = (uint8_t *)0x0;
+    }
+    iVar4 = orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar4);
+    if (iVar4 < 0) {
+      return 0xffffffff;
+    }
+    break;
+  case 0x1b:
+    uVar6 = orig::Unit1018BA60_IsModeFourOrFive(self_);
+    if ((char)uVar6 == '\0') {
+      return 1;
+    }
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+    if ((char)uVar6 == '\0') {
+      uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+      if ((char)uVar6 != '\0') {
+        orig::Unit1018BA60_ClearAll((void *)((int)self_ + 0x8aac));
+        return 1;
+      }
+      pvVar1 = (void *)((int)self_ + 0x7e30);
+      uVar6 = orig::FsTextInput_HasText(pvVar1);
+      if ((char)uVar6 == '\0') {
+        uVar6 = *(uint32_t *)((int)self_ + 0x8c7c);
+        iVar4 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+        (**(code **)((int)self_ + 0x8c78))(1,iVar4,uVar6);
+        ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x54))))((void *)(self_));
+        return 1;
+      }
+      uVar6 = 0;
+      if (*(char *)((int)self_ + 0x8c80) == '\0') {
+        orig::FsTextInput_Reset(pvVar1,0);
+        uVar6 = *(uint32_t *)((int)self_ + 0x8c7c);
+        iVar4 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+        (**(code **)((int)self_ + 0x8c78))(1,iVar4,uVar6);
+        return 1;
+      }
+      iVar4 = orig::FsTextInput_GetCursorOrLength(pvVar1);
+      iVar7 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+      orig::Unit1018BA60_InputNotify(self_,iVar7,iVar4,uVar6,iVar7);
+      uVar6 = *(uint32_t *)((int)self_ + 0x8c7c);
+      iVar4 = orig::FsTextInput_GetPendingBuffer(pvVar1);
+      (**(code **)((int)self_ + 0x8c78))(2,iVar4,uVar6);
+      return 1;
+    }
+    bVar3 = *(uint8_t *)((int)self_ + 0xec2c);
+    if (6 < bVar3) {
+      bVar3 = (-(bVar3 < 0x13) & 0xf4U) + 0x13;
+    }
+    if ((((bVar3 == 0) && (*(char *)((int)self_ + 0xec2d) == '\0')) &&
+        (*(char *)((int)self_ + 0xec2e) == '\0')) && (*(char *)((int)self_ + 0xec2f) == '\0')) {
+      *(uint32_t *)((int)self_ + 0x8c84) = 0;
+      *(uint8_t *)((int)self_ + 0x8c81) = 0;
+      *(uint8_t *)((int)self_ + 0xec2c) = 0;
+      *(uint8_t *)((int)self_ + 0xec2d) = 0;
+      *(uint8_t *)((int)self_ + 0xec2e) = 0;
+      *(uint8_t *)((int)self_ + 0xec2f) = 0;
+      ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+      orig::Unit1018BA60_ClearAll((void *)((int)self_ + 0x8aac));
+      orig::FsTextInput_ClearState((void *)((int)self_ + 0x7e30));
+      orig::FsTextInput_ClearPair((void *)((int)self_ + 0x7e30));
+      return 1;
+    }
+    iVar4 = 0;
+    pcVar11 = (char *)0x0;
+LAB_101b5e42:
+    iVar4 = orig::Unit1018BA60_SetWordForCompletion(self_,pcVar11,iVar4);
+    if (-1 < iVar4) {
+      orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+      return 1;
+    }
+    break;
+  case 0x20:
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+    if ((char)uVar6 == '\0') {
+      return 1;
+    }
+    if ((char)param_2 != '\0') {
+      orig::List_Retreat(self_);
+      return 1;
+    }
+    goto LAB_101b674c;
+  case 0x21:
+    orig::List_PageUp(self_);
+    return 1;
+  case 0x22:
+    orig::List_PageDown(self_);
+    return 1;
+  case 0x23:
+    if (*(int *)((int)self_ + 0xf10c) == 0) {
+      uVar6 = orig::FsTextInput_GetFlag((void *)((int)self_ + 0x7e30),0);
+      if ((char)uVar6 == '\0') {
+        uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+        if ((char)uVar6 != '\0') {
+LAB_101b6696:
+          *(uint32_t *)((int)self_ + 0x8c74) = *(uint32_t *)((int)self_ + 0x8c70);
+          return 1;
+        }
+        if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+          uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+          if ((char)uVar6 != '\0') goto LAB_101b6696;
+          if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+            *(uint32_t *)((int)self_ + 0x8888) = *(uint32_t *)((int)self_ + 0x86b8);
+            return 1;
+          }
+        }
+      }
+    }
+    else if (((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) &&
+            (uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf10c)),
+            (char)uVar6 == '\0')) {
+      *(uint32_t *)((int)self_ + 0x8888) = *(uint32_t *)((int)self_ + 0x86b8);
+      return 1;
+    }
+    break;
+  case 0x24:
+    if (*(int *)((int)self_ + 0xf10c) == 0) {
+      uVar6 = orig::FsTextInput_GetFlag((void *)((int)self_ + 0x7e30),0);
+      if ((char)uVar6 == '\0') {
+        uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+        if ((char)uVar6 != '\0') {
+LAB_101b65da:
+          *(uint32_t *)((int)self_ + 0x8c74) = 0;
+          return 1;
+        }
+        if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+          uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+          if ((char)uVar6 != '\0') goto LAB_101b65da;
+          if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+            *(uint32_t *)((int)self_ + 0x8888) = 0;
+            return 1;
+          }
+        }
+      }
+    }
+    else if (((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) &&
+            (uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf10c)),
+            (char)uVar6 == '\0')) {
+      *(uint32_t *)((int)self_ + 0x8888) = 0;
+      return 1;
+    }
+    break;
+  case 0x25:
+    if (*(int *)((int)self_ + 0xf10c) == 0) {
+      uVar6 = orig::FsTextInput_GetFlag((void *)((int)self_ + 0x7e30),0);
+      if ((char)uVar6 == '\0') {
+        uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+        if ((char)uVar6 != '\0') {
+          orig::Unit1018BA60_MoveBack((void *)((int)self_ + 0x8aac));
+          return 1;
+        }
+        if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+          uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+          if ((char)uVar6 != '\0') {
+            orig::Unit1018BA60_MoveBack((void *)((int)self_ + 0x8aac));
+            return 1;
+          }
+          if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+            orig::FsTextInput_MoveCursorLeft((void *)((int)self_ + 0x7e30));
+            return 1;
+          }
+        }
+      }
+    }
+    else if (((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) &&
+            (uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf10c)),
+            (char)uVar6 == '\0')) {
+      orig::FsTextInput_MoveCursorLeft((void *)((int)self_ + 0x7e30));
+      return 1;
+    }
+    break;
+  case 0x26:
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+    if ((char)uVar6 != '\0') {
+      orig::List_Retreat(self_);
+      return 1;
+    }
+    if (*(int *)((int)self_ + 0xf108) == 4) {
+      iVar4 = orig::FsTextInput_HistoryNext((void *)((int)self_ + 0x7e30));
+      if (-1 < iVar4) {
+        ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x5c))))((void *)(self_));
+        ((int (__thiscall *)(void *))((**(code **)**(uint32_t **)((int)self_ + 0xf104))))((void *)(*(uint32_t **)((int)self_ + 0xf104)));
+        return 1;
+      }
+    }
+    else {
+      uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+      if ((char)uVar6 == '\0') {
+        (**(code **)((int)self_ + 0x8c78))(3,&Read_as_v0,*(uint32_t *)((int)self_ + 0x8c7c));
+        return 1;
+      }
+    }
+    break;
+  case 0x27:
+    if (*(int *)((int)self_ + 0xf10c) == 0) {
+      uVar6 = orig::FsTextInput_GetFlag((void *)((int)self_ + 0x7e30),0);
+      if ((char)uVar6 == '\0') {
+        uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
+        if ((char)uVar6 != '\0') {
+          orig::FUN_101b5020((void *)((int)self_ + 0x8aac));
+          return 1;
+        }
+        if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+          uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+          if ((char)uVar6 != '\0') {
+            orig::FUN_101b5020((void *)((int)self_ + 0x8aac));
+            return 1;
+          }
+          if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
+            orig::FsTextInput_MoveCursorRight((void *)((int)self_ + 0x7e30));
+            return 1;
+          }
+        }
+      }
+    }
+    else if (((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) &&
+            (uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf10c)),
+            (char)uVar6 == '\0')) {
+      orig::FsTextInput_MoveCursorRight((void *)((int)self_ + 0x7e30));
+      return 1;
+    }
+    break;
+  case 0x28:
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+    if ((char)uVar6 == '\0') {
+      if (*(int *)((int)self_ + 0xf108) != 4) {
+        uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+        if ((char)uVar6 != '\0') {
+          return 1;
+        }
+        (**(code **)((int)self_ + 0x8c78))(4,&Read_as_v0,*(uint32_t *)((int)self_ + 0x8c7c));
+        return 1;
+      }
+      iVar4 = orig::FsTextInput_HistoryPrev((void *)((int)self_ + 0x7e30));
+      if (iVar4 < 0) {
+        uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+        if ((char)uVar6 != '\0') {
+          return 1;
+        }
+        iVar4 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x68))))((void *)(self_));
+        puVar10 = (uint8_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 100))))((void *)(self_));
+        orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar4);
+        return 1;
+      }
+      ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x5c))))((void *)(self_));
+      ((int (__thiscall *)(void *))((**(code **)**(uint32_t **)((int)self_ + 0xf104))))((void *)(*(uint32_t **)((int)self_ + 0xf104)));
+      return 1;
+    }
+LAB_101b674c:
+    orig::List_Advance(self_);
+    break;
+  case 0x2e:
+    uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,iVar4);
+    if ((char)uVar6 != '\0') goto LAB_101b6044;
+    uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+    if ((char)uVar6 != '\0') {
+      orig::Unit1018BA60_DeleteForward((void *)((int)self_ + 0x8aac));
+      return 1;
+    }
+    uVar6 = orig::FsTextInput_HasText((void *)((int)self_ + 0x7e30));
+    if ((char)uVar6 != '\0') {
+      orig::FsTextInput_RebuildAtCursor((void *)((int)self_ + 0x7e30),0);
+      return 1;
+    }
+  }
+  return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x101B6810  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
@@ -10274,6 +11094,32 @@ XI_API undefined4 __thiscall Unit1018BA60_ResetCounters(void * self_)
   *(uint32_t *)((int)self_ + 0x18) = 0;
   *(uint32_t *)((int)self_ + 0x20) = 0;
   return 1;
+}
+
+// FUNCTION: FFXIMAIN 0x101BADD0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_101BADD0(void * self_)
+{
+  uint32_t uVar1;
+  uint64_t uVar2;
+  
+  if (*(int *)((int)self_ + 0x18) != 0) {
+    orig::Unit1018BA60_FreeBlock(*(int *)((int)self_ + 0x18));
+    *(uint32_t *)((int)self_ + 0x18) = 0;
+    *(uint32_t *)((int)self_ + 0x1c) = 0;
+  }
+  if (*(int *)((int)self_ + 0x20) != 0) {
+    orig::Unit1018BA60_FreeBlock(*(int *)((int)self_ + 0x20));
+    *(uint32_t *)((int)self_ + 0x20) = 0;
+    *(uint32_t *)((int)self_ + 0x28) = 0;
+  }
+  uVar1 = 0;
+  if (*(int *)((int)self_ + 0x24) != 0) {
+    uVar2 = orig::operator_delete_v1(*(int *)((int)self_ + 0x24));
+    uVar1 = (uint32_t)uVar2;
+    *(uint32_t *)((int)self_ + 0x24) = 0;
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x101BAE20  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)

@@ -121,6 +121,37 @@ XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
   return &DAT_10456c18;
 }
 
+// FUNCTION: FFXIMAIN 0x100180D0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API void __cdecl fn_100180D0(int param_1)
+{
+  int iVar1;
+  uint8_t *puVar2;
+  uint32_t *puVar3;
+  int iVar4;
+  
+  iVar4 = 0;
+  if (DAT_10350988 != 9999) {
+    puVar3 =(uint32_t*)(&DAT_10350988);
+    iVar1 = DAT_10350988;
+    do {
+      if (iVar1 == param_1) {
+        puVar2 = orig::XiErrMsgGetErrCode(param_1);
+        if (puVar2 == (uint8_t *)0x0) {
+          puVar2 = &Read_as_v0;
+        }
+        (**(code **)(((char *)&DAT_1035097c) + *(int *)(iVar4 * 0x10 + 0x1035098c) * 4))(param_1,puVar2);
+        return;
+      }
+      iVar1 = puVar3[4];
+      puVar3 = puVar3 + 4;
+      iVar4 = iVar4 + 1;
+    } while (iVar1 != 9999);
+  }
+  orig::Unit10017C10_SendMessage7_1To10668FF8(param_1);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10018140  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10017C10_SendMessage7_1To10668FF8(undefined4 param_1)

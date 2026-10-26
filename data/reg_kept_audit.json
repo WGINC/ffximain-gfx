@@ -3041,6 +3041,16 @@
 "kind": "use"
 },
 {
+"callee": "0x101B5C90",
+"function": "0x101B5D10",
+"use": "0x101B60D3",
+"register": "ecx",
+"instruction": "call 0x101b6e90",
+"defined": "0x101B60C4",
+"kept_across": "0x101B60C6",
+"kind": "use"
+},
+{
 "callee": "0x101BB100",
 "function": "0x101BB130",
 "use": "0x101BB160",
@@ -4192,9 +4202,9 @@
 }
 ],
 "_summary": {
-"sites": 419,
-"functions_with_use": 88,
-"use": 402,
+"sites": 420,
+"functions_with_use": 89,
+"use": 403,
 "overwritten": 16,
 "return": 1
 }

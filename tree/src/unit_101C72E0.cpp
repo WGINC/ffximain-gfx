@@ -1287,6 +1287,18 @@ LAB_101cc395:
   return uVar2 & 0xffffff00;
 }
 
+// FUNCTION: FFXIMAIN 0x101CC4F0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_101CC4F0(void)
+{
+  int iVar1;
+  
+  if ((DAT_10485f7a == 0) || (iVar1 = (&ActerBuffPtr_as_v0)[DAT_10485f7a], iVar1 == 0)) {
+    iVar1 = 0;
+  }
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x101CC510  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit101C72E0_GetCC4F0ActorByIndexAt1FA(void)

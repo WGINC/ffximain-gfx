@@ -98,6 +98,7 @@ public:
     static void __thiscall AddResourceParts(void * self, int * param_1, void * param_2);  // 0x100CFA50
     static undefined * __thiscall GetTableOrDefault(void * self, int param_1);  // 0x100CFAD0
     static int __thiscall GetTableEntryByModelKind(void * self);  // 0x100CFB40
+    static undefined4 __thiscall Slot244_Unknown(void * self, float * param_1, float * param_2, int param_3);  // 0x100CFC10
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
@@ -109,11 +110,13 @@ public:
     static undefined4 __thiscall SetField0B4IfField9EC(void * self, int * param_1, int param_2);  // 0x100D0D40
     static void __thiscall SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x100D0FC0
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
+    static undefined4 __thiscall LoadSkeletonSync(void * self, uint32_t param_1);  // 0x100D2F60
     char LoadSkeletonResource(int a2);  // 0x100D4330
     static int __cdecl GetSkeletonFileNo();  // 0x100D43E0
     static int __thiscall AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100D4410
     static int __thiscall FindListEntry(void * self, int param_1);  // 0x100D4540
     char IsDirectionLock_Set(char a2);  // 0x100D5460
+    static void __thiscall UpdateHeadLook(void * self);  // 0x100D5B10
     static uint32_t __thiscall FindPartValue(void * self, int * param_1);  // 0x100D6240
     char * DrawResourceShadows();  // 0x100D62C0
     void vf033();  // 0x100D6F90

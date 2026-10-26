@@ -36,6 +36,36 @@ XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param
   return uVar3;
 }
 
+// FUNCTION: FFXIMAIN 0x100215C0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 396 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_2)
+{
+  float *pfVar1;
+  int iVar2;
+  uint32_t *puVar3;
+  uint32_t uVar4;
+  char xi_frame[76] __attribute__((aligned(4)));
+  float  (&afStack_4c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 12);
+  
+  orig::Unit10026C70_ReturnThis_v1(local_40);
+  orig::Mat4_SetIdentity_v1(local_40);
+  pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+  orig::Mat4_PostRotateX_v1(local_40,*pfVar1);
+  iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+  orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar2 + 4));
+  iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+  orig::Mat4_PostRotateZ_v1(local_40,*(float *)(iVar2 + 8));
+  puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
+  orig::Mat4_SetTranslation_v2(local_40,puVar3);
+  orig::Mat4_InvertOrthonormal_v2(local_40);
+  orig::Vec3_Copy_v1(afStack_4c,(uint32_t *)((int)self_ + 0x44));
+  uVar4 = orig::Mat4_TransformPoint_v2(local_40,(float *)param_1,afStack_4c);
+  *(uint32_t *)(param_1 + 0xc) = 0x3f800000;
+  orig::Unit10026C70_Nop();
+  return uVar4;
+}
+
 // FUNCTION: FFXIMAIN 0x10021AE0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)

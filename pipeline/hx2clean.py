@@ -507,6 +507,12 @@ def main(exp, gate, manf, incdir, outdir):
         elif 'EAX' not in given and (cea, fea) in _kept and not gate_sees_eax.seen(_cases, cea, fea): bad.append('EAX')
         return bad
     left_out = {}
+    # functions an earlier build of this tree could not compile (regen_clean.sh, drop_failed.py: {ea: why}): left
+    # out, so the game's own code runs in their place, each with the compiler's message
+    dropped = {}
+    if os.environ.get('XI_DROP') and os.path.exists(os.environ['XI_DROP']):
+        dropped = {int(k, 16): v for k, v in json.load(open(os.environ['XI_DROP'])).items()}
+        passed -= set(dropped)
     while True:
         drop = {}
         for ea in sorted(passed):
@@ -518,8 +524,9 @@ def main(exp, gate, manf, incdir, outdir):
         if not drop: break
         passed -= set(drop); left_out.update(drop)
     os.makedirs(outdir, exist_ok=True)
-    json.dump({'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why)
-               for ea, why in sorted(left_out.items())}, open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
+    lo = {'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why) for ea, why in left_out.items()}
+    lo.update({'0x%08X' % ea: '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
+    json.dump(dict(sorted(lo.items())), open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
     sizes, bases = {}, {}
     for fn in os.listdir(incdir):

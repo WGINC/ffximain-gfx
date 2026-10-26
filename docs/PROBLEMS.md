@@ -5,6 +5,21 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 
 ## Open
 
+### P20. The frame set's next functions stop at "EAX past the declared void" (26 Oct, fs15)
+- **Known:** the Ghidra export of the 943 frame-set functions not in the tree, together with the 51 tree functions not
+  PASS, gave 993 records:
+  - 430 translated; 376 are the statically linked C runtime (not reconstruction targets); 172 skipped (a register
+    or stack input Ghidra did not tie to a parameter: `extraout_` 79, `in_stack_` 28, `in_EDX` 24, `in_ECX` 14,
+    ...); 15 untranslatable (imports by ordinal with no SDK prototype).
+  - Gated: 43 PASS (39 new functions, 4 of the 51), 61 FAIL, 69 INCONCLUSIVE, 205 UNRESOLVED.
+  - 154 of the UNRESOLVED are one case: the function is declared to return nothing, its EAX at the return differs
+    between the original and the reconstruction, and no fact says no caller reads it (caller_reads.json has no
+    entry). 39 more are pushed slots whose reading is not settled (P17).
+- **Not known:** whether any caller reads those EAX values. Most of the functions are virtual methods, whose callers
+  caller_reads.py does not see, because they call through vtables.
+- **What would settle it:** the callers of each vtable slot (vcalls.json targets give some), each checked for an
+  EAX read after the call; or the reconstruction leaving EAX as the original does.
+
 ### P19. 0x100DA750's first switch: its bound is not provable from the facts (26 Oct)
 - **Known:** the switch at 0x100DA883 is bounded by `cmp eax, ebp; ja` (0x100DA873), with EBP set to 0xCB at
   0x100DA7A8. Between the two, on the paths to the compare, are calls to 0x100DB170 and 0x10103920.
@@ -23,6 +38,23 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 - **What it suggests, not established:** several values are the fill, so one side reads stack it never wrote, which a
   zeroed stack hid. Which side, and whether the original's result depends on what the real stack holds, is not
   read yet.
+- **Read so far (26 Oct):**
+  - **0x1021C380:** the game writes one byte of a dword local (`mov byte ptr [esp+0x10], 0`) and pushes the whole
+    dword to 0x100EB490 (`mov ebp, [esp+0x10]; push ebp`). In 0x100EB490's code, the argument is read only through
+    CL and `and esi, 0xff`; ECX is next written whole (`sbb ecx, ecx`) before any read of its upper bytes. So the
+    3 bytes that differ (fill against 0) look unread. But no tool derives per-byte argument reads: arg_masks
+    narrows an argument only where a prototype declares it 8- or 16-bit, and the wrapper declares `XI_ANY`. A
+    per-byte read set for stack arguments, built like caller_reads.py's byte flow, would settle it. Until then
+    the FAIL stands.
+  - **0x101BE6C0:** the original passes a slot it never wrote (0xA5A5A5A5) to 0x101BE2C0, which passes the
+    argument's address on to 0x10314D91. Not read further.
+  - **0x100542F0, and 3 UNRESOLVED (0x100157B0, 0x101033C0, 0x1027CCF0):** fs15's translation of each PASSes the
+    raw gate under the current rules. The tree builds each from an older export, because hx2clean.py takes a
+    function from the first export whose raw gate passed it, and those older raw verdicts predate the 0xA5 stack
+    fill and `args_may`. Under the current rules, the older raw PASS is not re-established.
+  - **Open, the owner's decision:** how the older exports' raw verdicts give way to verdicts under the current
+    rules. Options: re-gate the older records and keep the new verdicts in a file of their own, which
+    regen_clean.sh reads after the older ones; or let a newer export's PASS outrank an older export's.
 
 ### P17. Gate PASS functions that pass fewer arguments than the game (25 Oct, found by the VC6 sweep)
 - **Known, from the game's bytes:**
@@ -141,6 +173,17 @@ The causes of the three FAILs have not been looked into yet.
   differs, so the Ghidra translation does not return the value the IDB declares. Its frame-set raw PASS was gated
   against Ghidra's `void`, which is no fact.
 - **Open:** which case should hold. The IDB's typed prototype is a declared type, so the stricter IDA case stays.
+- **26 Oct, fs15 promotion:** of the 34 new or changed tree functions, 23 have an older case in cases_raw_final.json
+  as well as fs15's own (runs/fs15/cases.json). For 17 the two differ: return width, argument specs, stubs or
+  fuzz ranges. Each of the 17 was gated under both cases. 14 PASS under both. 3 PASS only under fs15's case:
+  - 0x10119BC0: the old case compares EDX:EAX (the first frame-set export's `undefined8`, widened because a caller's
+    decompiled code reads EDX). fs15's case compares AL (caller_reads.json: callers read only AL of EAX). Under
+    the old case, all 100 trials differ.
+  - 0x100180D0: the old case compares EDX:EAX; fs15's case is `void`. 3 of 100 trials differ.
+  - 0x100289F0: the argument specs differ; under the old case, 99 of 100 original runs fault (INCONCLUSIVE).
+  - The tree keeps the stricter verdict, FAIL, FAIL and INCONCLUSIVE (verification/gate_clean_final.jsonl).
+  - **Not known:** whether any caller reads the EDX these functions leave. caller_reads.py follows EAX only, so no
+    fact covers it. The same walk over EDX would settle it.
 
 ### P10. The gate compared EAX only as wide as the decompiler's prototype (22 Oct; changed in b4d1d31)
 - **Known:** a case's `returns` of void, bool or a word limited the EAX comparison. Where `caller_reads.json` does

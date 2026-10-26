@@ -105,3 +105,272 @@ XI_API void __thiscall Unit10070F90_CopyField14At8(void * self_, int param_1)
   }
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x10071270  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 87 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+XI_API int * __thiscall fn_10071270(void * self_, undefined4 xi_s1)
+{
+  int iVar1;
+  int *this_00;
+  int iVar2;
+  uint64_t uVar3;
+  
+  iVar2 = (*(uint32_t *)((int)self_ + 4) >> 7 & 0x7ffff) * 0x10;
+LAB_10071298:
+  do {
+    iVar1 = orig::Unit10026C70_Call10029150(1);
+    if ((iVar1 < (iVar2 + -0x10) * 2) ||
+       ((long double)*(int *)((int)g_pMeshResourceMng_as_v1 + 0x4000c) > (long double)52428.80078125f)) {
+      iVar1 = 4;
+      do {
+        orig::MeshResourceMng_Evict(g_pMeshResourceMng_as_v1);
+        iVar1 = iVar1 + -1;
+      } while (iVar1 != 0);
+    }
+    switch(xi_sw(*(uint32_t *)((int)self_ + 4) & 0x7f)) {
+    case 0:
+      goto LAB_1007183f;
+    case 1:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x30,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c588;
+      break;
+    default:
+LAB_1007183f:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x20,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::FUN_10071d80((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 5:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x118,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::CMoGeneratorClone_VT_1032B114_Constructor_v1((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 6:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0xa8,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      orig::CMoAttachments_Construct(this_00 + 0xc);
+      *this_00 = (int)&PTR_CMoCamera_GetRuntimeClass_1032c5d0;
+      this_00[0xc] = (int)&PTR_CMoResource_VT_1032C588_vf011_1032c5b4;
+      break;
+    case 7:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x88,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      orig::CMoAttachments_Construct(this_00 + 0xc);
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c644;
+      this_00[0xc] = (int)&PTR_CMoAttachments_GetRuntimeClass_1032c628;
+      break;
+    case 0x19:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x30,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c5fc;
+      break;
+    case 0x1b:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x5d,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c8ac;
+      break;
+    case 0x1c:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x20,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::FUN_10176f60((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 0x1f:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x20,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c74c;
+      break;
+    case 0x20:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x5d,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) {
+        this_00 = (int *)0x0;
+        uRam00000024 = uRam00000024 & 0xffffff80 ^ 0x1b;
+      }
+      else {
+        orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+        *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c8ac;
+        this_00[9] = this_00[9] & 0xffffff80U ^ 0x1b;
+      }
+      break;
+    case 0x21:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x20,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c720;
+      break;
+    case 0x25:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x40,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c6f4;
+      break;
+    case 0x29:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x42,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c828;
+      break;
+    case 0x2a:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x60,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c854;
+      break;
+    case 0x2b:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x2c,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c7fc;
+      break;
+    case 0x2e:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x24,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::FUN_10176e80((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 0x2f:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0xcc,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::FUN_101893b0((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 0x30:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x21,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c69c;
+      break;
+    case 0x31:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x21,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c6c8;
+      break;
+    case 0x36:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x20,1);
+      byte_1047D12C_as_v0 = 1;
+      if ((uint32_t *)uVar3 == (uint32_t *)0x0) goto LAB_10071298;
+      this_00 =(int*)(orig::FUN_10176fe0((uint32_t *)uVar3,(int)((uint64_t)uVar3 >> 0x20)));
+      break;
+    case 0x3d:
+      goto LAB_100717b9;
+    case 0x3e:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x40,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c55c;
+      break;
+    case 0x45:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x30,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      orig::Actor_ClearIndexTable(this_00 + 0xc);
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c7d0;
+      break;
+    case 0x4a:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x40,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoSphRes_GetRuntimeClass_1032c504;
+      break;
+    case 0x54:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x40,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      orig::Unit1001B890_ReturnSelf(this_00 + 0xc);
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c778;
+      break;
+    case 0x58:
+LAB_100717b9:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x30,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_LAB_1032c530;
+      break;
+    case 0x5d:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x41,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) {
+        this_00 = (int *)0x0;
+        uRam00000024 = uRam00000024 & 0xffffff80 ^ 0x5d;
+      }
+      else {
+        orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+        *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c880;
+        this_00[9] = this_00[9] & 0xffffff80U ^ 0x5d;
+      }
+      break;
+    case 0x5e:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x74,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c7a4;
+      break;
+    case 0x5f:
+      uVar3 = orig::Mem_AllocWithFallback_v1(iVar2 + 0x21,1);
+      this_00 = (int *)uVar3;
+      byte_1047D12C_as_v0 = 1;
+      if (this_00 == (int *)0x0) goto LAB_10071298;
+      orig::FUN_10071d80(this_00,(int)((uint64_t)uVar3 >> 0x20));
+      *this_00 = (int)&PTR_CMoResource_GetRuntimeClass_variant3_1032c670;
+    }
+    if (this_00 != (int *)0x0) {
+      ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x1c))))((void *)(this_00),self_);
+      if (xi_s1 != 0) {
+        this_00[10] = *(int *)(xi_s1 + 0x14);
+      }
+      *(uint16_t *)((int)this_00 + 0x1a) = *(uint16_t *)((int)this_00 + 0x1a) & 0xfff1 | 1;
+      return this_00;
+    }
+  } while( true );
+}

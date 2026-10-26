@@ -19,7 +19,9 @@ not taken from a published table.
 | 4, 8447 (the linker; the PE header says linker 6.00) | Not tested. |
 
 So 1,007 of the DLL's objects come from the toolchain `setup_vc6.sh` assembles. Which objects hold which functions
-is not in the Rich header; a function is known to be one of them only when its recompile is identical.
+is not in the Rich header; a function is known to be one of them only when its recompile is identical. The reverse
+does not hold: a function that never matches is not thereby one of the 189 objects built by build 9782 (176 of them
+C). The DLL alone cannot say which functions those are. A linker map or PDB of the game would, and none is known.
 
 ## The tools
 
@@ -114,8 +116,18 @@ That makes 158 more functions proven at the game's bytes by a rule.
 `xi_castbits<T>(x)` (T deduced from a null pointer: Visual C++ 6.0 mishandles explicit template arguments of a
 function), a 3-byte `XI_PIECE` (its value from the word), `CONCAT13`, `qmemcpy` (the intrinsic `memcpy`),
 `nullptr`, `timeGetTime` (a DLL import), and the Direct3D 8 interfaces as the tree declares them (xi_d3d8.hpp less
-its `static_assert`s). NO_COMPILE 580 to 506. With the rules: **1,612 of 4,121** at the game's bytes (1,449
-IDENTICAL, 5 IDENTICAL_UNCOMPARED, 158 by a rule). The rest of the classes are
+its `static_assert`s). NO_COMPILE 580 to 506. With the rules: 1,612 of 4,121 at the game's bytes (1,449
+IDENTICAL, 5 IDENTICAL_UNCOMPARED, 158 by a rule).
+
+**XI_ANY and virtual calls (26 Oct).**
+- `XI_ANY` (any 4 bytes) in a body is the shim's: in C `unsigned int`, in C++ a 4-byte struct that takes any
+  4-byte argument, which MSVC passes on the stack as the word. A variadic call's fixed `XI_ANY` parameters use it
+  too, since a C++98 template cannot be variadic.
+- A virtual call the decompiler wrote through a `__thiscall` function-pointer type, which Visual C++ 6.0 cannot
+  spell, is written as the C++ call it compiles from: a stand-in class with OFF/4 virtual slots, called through the
+  slot. Only where the vtable is read from the object passed as `this`.
+LEFT_OUT 561 to 399. **1,620 of 4,121** at the game's bytes; none lost. The register-convention wrappers (a callee
+reading EAX: 208 left out as "no wrapper") stay out: Visual C++ 6.0 cannot declare one. The rest of the classes are
 next: each rule is found the same way, from the smallest function of a class, and kept only by the comparison.
 
 ## First results (25 Oct)

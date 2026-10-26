@@ -61,7 +61,12 @@ void *__cdecl memcpy(void *, const void *, size_t);
 #pragma intrinsic(memcpy)
 #define qmemcpy memcpy
 __declspec(dllimport) DWORD __stdcall timeGetTime(void);
+#ifndef __cplusplus
+typedef unsigned int XI_ANY;    /* any 4 bytes (tree/include/xi_ghidra_shared.hpp): in C, the word */
+#endif
 #ifdef __cplusplus
+/* any 4 bytes, from an argument of any 4-byte type: passed on the stack as the word, as MSVC passes a 4-byte struct */
+struct XI_ANY { unsigned int bits; XI_ANY() {} template <class T> XI_ANY(T v) : bits((unsigned int)v) {} };
 #define nullptr 0
 /* xi_castbits<To>(x) (tree/include/xi_ghidra.hpp): the bits of x as a To; To deduced from a null pointer, which
    Visual C++ 6.0 handles where an explicit template argument it does not (sweep.py macros) */
@@ -161,8 +166,9 @@ def rewrite_calls(body, orig, c_mode=False):
             out += body[i:k] + '((%s *)(%s))->f(%s)' % (sname, args[0], ', '.join(args[1:]))
         else:
             if w.get('variadic'):       # a caller-cleanup variadic call: its pushes are the call site's (promoted, as the game's)
-                if tpl: return None, 'variadic with XI_ANY in C++'
-                decls[sym] = '%s%s %s %s(%s);' % ('' if c_mode else 'extern "C" ', w['rt'], w['cc'], sym, ', '.join(types + ['...']))
+                # a template cannot be variadic in C++98: the fixed XI_ANY parameters are the shim's 4-byte XI_ANY
+                vt = [('XI_ANY' if x in tpl else x) for x in types]
+                decls[sym] = '%s%s %s %s(%s);' % ('' if c_mode else 'extern "C" ', w['rt'], w['cc'], sym, ', '.join(vt + ['...']))
             else:
                 decls[sym] = '%s%s %s %s(%s);' % (tp or ('' if c_mode else 'extern "C" '), w['rt'], w['cc'], sym, ', '.join(types) or 'void')
             out += body[i:k] + '%s(%s)' % (sym, ', '.join(args))
@@ -291,6 +297,47 @@ def _castbits(body):
         out.append(body[i:j] + 'xi_castbits_((%s), (%s *)0)' % (inner, T)); i = e
 
 
+_VCALL = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\(')
+VDECLS = []      # stand-in classes the virtual calls of the last macros() body need (convert puts them at file scope)
+
+
+def _strip_parens(e):
+    e = e.strip()
+    while e.startswith('(') and _group(e, 0) == len(e): e = e[1:-1].strip()
+    return e
+
+
+def _vcalls(body):
+    """a virtual call the decompiler wrote through a __thiscall function-pointer type -- which Visual C++ 6.0 cannot
+    spell -- `((R (__thiscall *)(void *, P...))((**(code **)(*OBJ + OFF))))((void *)(OBJ), A...)`, as the C++ call
+    it compiles from: a stand-in class with OFF/4 virtual slots before the method, `((XVk *)(OBJ))->f(A...)`. Only
+    where the vtable is read from the object passed as `this`; anything else is left as it is"""
+    out, i = [], 0
+    while True:
+        m = _VCALL.search(body, i)
+        if not m: out.append(body[i:]); return ''.join(out)
+        p = m.start(); e1 = _group(body, p)
+        if e1 < 0 or e1 >= len(body) or body[e1] != '(':
+            out.append(body[i:m.end()]); i = m.end(); continue
+        fn = _strip_parens(body[m.end() - 1:e1 - 1])
+        fm = re.match(r'^\*\*\(code \*\*\)\((.*) \+ (0x[0-9a-fA-F]+|\d+)\)$', fn)
+        e2 = _group(body, e1)
+        args = split_args(body[e1 + 1:e2 - 1]) if e2 > 0 else []
+        params = [x.strip() for x in m.group('params').split(',')]
+        ok = fm and fm.group(1).startswith('*') and args and params and params[0] == 'void *'
+        if ok:
+            obj = _strip_parens(fm.group(1)[1:]); off = int(fm.group(2), 0)
+            a0 = re.match(r'^\(void \*\)\s*(.*)$', args[0].strip())
+            ok = a0 and _strip_parens(a0.group(1)) == obj and off % 4 == 0 and len(args) == len(params)
+        if not ok:
+            out.append(body[i:m.end()]); i = m.end(); continue
+        k = off // 4; sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
+        name = 'XV%d_%s' % (k, hashlib.sha1(sig.encode()).hexdigest()[:6])
+        VDECLS.append('struct %s { %s virtual %s; };' % (name, ' '.join('virtual void s%d();' % n for n in range(k)), sig))
+        out.append(body[i:p] + '((%s *)(%s))->f(%s)' % (name, obj, ', '.join(args[1:])))
+        i = e2
+
+
 def macros(body):
     """the tree's XI_ helpers the shim cannot define as they are, rewritten; (body, None) or (None, why)"""
     body = re.sub(r'\s*__attribute__\(\(aligned\(\d+\)\)\)', '', body)
@@ -300,6 +347,8 @@ def macros(body):
     body = re.sub(r'XI_PIECE\(([^(),]+), (\d+), 3\)', r'XI_PIECE3(\1, \2)', body)
     body = _castbits(body)
     if body is None: return None, 'xi_castbits not parsed'
+    del VDECLS[:]
+    body = _vcalls(body)
     if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
     body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
     def code(m):
@@ -307,7 +356,6 @@ def macros(body):
         return '((void *)0x%08Xu)' % a if a is not None else m.group(0)
     body = re.sub(r'XI_CODE\((\w+)\)', code, body)
     if 'XI_CODE(' in body: return None, 'XI_CODE of an unknown name'
-    if 'XI_ANY' in body: return None, 'XI_ANY in the body'
     return body, None
 
 
@@ -317,8 +365,8 @@ def convert(m, src, orig=None, glob_=None):
     body = src[src.index('{'):]
     body, why = macros(body)
     if body is None: return None, why
-    force_cpp = bool(re.search(r'reinterpret_cast|static_cast|&\s*\w+\s*=\s*\*', body))   # C++ references and casts
-    pre = []
+    force_cpp = bool(re.search(r'reinterpret_cast|static_cast|&\s*\w+\s*=\s*\*', body)) or bool(VDECLS)   # C++ references and casts, virtual calls
+    pre = list(dict.fromkeys(VDECLS))
     if 'cls' in m.groupdict():
         if 'alignas' in body: return None, 'alignas'
         layout = None

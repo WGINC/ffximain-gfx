@@ -5,6 +5,15 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 
 ## Open
 
+### P19. 0x100DA750's first switch: its bound is not provable from the facts (26 Oct)
+- **Known:** the switch at 0x100DA883 is bounded by `cmp eax, ebp; ja` (0x100DA873), with EBP set to 0xCB at
+  0x100DA7A8. Between the two, on the paths to the compare, are calls to 0x100DB170 and 0x10103920.
+- **Why not bounded:** data/reg_saved.json lists no register either callee is proven to restore. EBP keeping 0xCB
+  across them is the calling convention's rule, not something their code is shown to do, so the switch stays
+  unbounded (sp_solve.switch_targets) and the fs14 FAIL behind it (0x100DAF30) stays as it is.
+- **What would settle it:** reg_saved proving EBP restored in both callees, or the kit's `jmp` recording of this
+  site (session A of kit/sessions/pending_26oct records it: the targets the game took).
+
 ### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (not read yet)
 - **Known:** with the stack filled with 0xA5A5A5A5 and the new facts, these were PASS before and are not now:
   - FAIL 0x101C3A90 (memory differs at 29 bytes), 0x1021C380 (a stub argument 0xA5A5A500 against 0), 0x100542F0

@@ -4568,7 +4568,6 @@ constexpr unsigned App_Constructor = 4, App_Constructor_TRAMP = 1;  // "App_Cons
 constexpr unsigned App_SetSeqStep = 4, App_SetSeqStep_TRAMP = 1;  // "App_SetSeqStep" 0x10010CE0
 constexpr unsigned App_AdvanceSeqStep = 4, App_AdvanceSeqStep_TRAMP = 1;  // "App_AdvanceSeqStep" 0x10010D00
 constexpr unsigned Unit10010370_IncrementShort6 = 4, Unit10010370_IncrementShort6_TRAMP = 0;  // "Unit10010370_IncrementShort6" 0x10010D10
-constexpr unsigned App_InitScene = 4, App_InitScene_TRAMP = 1;  // "App_InitScene" 0x10010D20
 constexpr unsigned CMoTask__vf007 = 8, CMoTask__vf007_TRAMP = 0;  // "CMoTask::vf007" 0x10011920
 constexpr unsigned CMoTask__vf009 = 8, CMoTask__vf009_TRAMP = 0;  // "CMoTask::vf009" 0x10011930
 constexpr unsigned CMoTask__vf010 = 8, CMoTask__vf010_TRAMP = 0;  // "CMoTask::vf010" 0x10011940
@@ -4587,7 +4586,6 @@ constexpr unsigned Game_InGameSubState0 = 0, Game_InGameSubState0_TRAMP = 1;  //
 constexpr unsigned App_SubStateInitCamera = 12, App_SubStateInitCamera_TRAMP = 1;  // "App_SubStateInitCamera" 0x10014200
 constexpr unsigned App_InitCamera = 4, App_InitCamera_TRAMP = 1;  // "App_InitCamera" 0x10014220
 constexpr unsigned App_SubStateAdvance = 4, App_SubStateAdvance_TRAMP = 1;  // "App_SubStateAdvance" 0x100142A0
-constexpr unsigned CAtelIdleTask__Create = 4, CAtelIdleTask__Create_TRAMP = 1;  // "CAtelIdleTask::Create" 0x100142B0
 constexpr unsigned Unit10014350_EnterState4AfterShutdown = 4, Unit10014350_EnterState4AfterShutdown_TRAMP = 1;  // "Unit10014350_EnterState4AfterShutdown" 0x100149B0
 constexpr unsigned Unit10014350_TryShutdownActors = 4, Unit10014350_TryShutdownActors_TRAMP = 1;  // "Unit10014350_TryShutdownActors" 0x10014A20
 constexpr unsigned Unit10014350_StepStagedRelease = 4, Unit10014350_StepStagedRelease_TRAMP = 1;  // "Unit10014350_StepStagedRelease" 0x10014A30
@@ -4632,7 +4630,6 @@ constexpr unsigned Camera_GetViewportWidth = 4, Camera_GetViewportWidth_TRAMP = 
 constexpr unsigned Camera_GetViewportHeight = 4, Camera_GetViewportHeight_TRAMP = 1;  // "Camera_GetViewportHeight" 0x10015690
 constexpr unsigned Camera_PickNearestAspect = 4, Camera_PickNearestAspect_TRAMP = 1;  // "Camera_PickNearestAspect" 0x100156A0
 constexpr unsigned Unit10014350_ReturnTrue = 4, Unit10014350_ReturnTrue_TRAMP = 0;  // "Unit10014350_ReturnTrue" 0x10015740
-constexpr unsigned App_WinMainClearFileMng = 4, App_WinMainClearFileMng_TRAMP = 1;  // "App_WinMainClearFileMng" 0x100157B0
 constexpr unsigned App_CreateRendererAndApp = 4, App_CreateRendererAndApp_TRAMP = 1;  // "App_CreateRendererAndApp" 0x100161B0
 constexpr unsigned App_RunMainLoopThenSetPtr = 4, App_RunMainLoopThenSetPtr_TRAMP = 1;  // "App_RunMainLoopThenSetPtr" 0x10016300
 constexpr unsigned App_DestroyGlobalObjects = 4, App_DestroyGlobalObjects_TRAMP = 1;  // "App_DestroyGlobalObjects" 0x10016320
@@ -4660,7 +4657,6 @@ constexpr unsigned Unit10017C10_Step = 4, Unit10017C10_Step_TRAMP = 1;  // "Unit
 constexpr unsigned Unit10017C10_Begin = 0, Unit10017C10_Begin_TRAMP = 1;  // "Unit10017C10_Begin" 0x10017C60
 constexpr unsigned Unit10017C10_NoOpVarargsA = 12, Unit10017C10_NoOpVarargsA_TRAMP = 0;  // "Unit10017C10_NoOpVarargsA" 0x10017D20
 constexpr unsigned Unit10017C10_NoOpVarargsB = 12, Unit10017C10_NoOpVarargsB_TRAMP = 0;  // "Unit10017C10_NoOpVarargsB" 0x10017D30
-constexpr unsigned XiErrMsgGetErrCode = 4, XiErrMsgGetErrCode_TRAMP = 1;  // "XiErrMsgGetErrCode" 0x10017D90
 constexpr unsigned Unit10017C10_SendMessage7_1To10668FF8 = 4, Unit10017C10_SendMessage7_1To10668FF8_TRAMP = 1;  // "Unit10017C10_SendMessage7_1To10668FF8" 0x10018140
 constexpr unsigned Unit10017C10_RegisterCallback = 4, Unit10017C10_RegisterCallback_TRAMP = 1;  // "Unit10017C10_RegisterCallback" 0x10018180
 constexpr unsigned Unit10017C10_SendMessage7_0To10668FF8 = 4, Unit10017C10_SendMessage7_0To10668FF8_TRAMP = 1;  // "Unit10017C10_SendMessage7_0To10668FF8" 0x100181D0
@@ -4802,8 +4798,6 @@ constexpr unsigned Mat4_TransformNormalInPlace = 4, Mat4_TransformNormalInPlace_
 constexpr unsigned Mat4_TransformNormal = 4, Mat4_TransformNormal_TRAMP = 1;  // "Mat4_TransformNormal" 0x100282C0
 constexpr unsigned Mat4_TransformCoordInPlace = 4, Mat4_TransformCoordInPlace_TRAMP = 1;  // "Mat4_TransformCoordInPlace" 0x10028320
 constexpr unsigned Mat4_InvertOrthonormal = 4, Mat4_InvertOrthonormal_TRAMP = 1;  // "Mat4_InvertOrthonormal" 0x100283C0
-constexpr unsigned Mem_AllocObject = 4, Mem_AllocObject_TRAMP = 1;  // "Mem_AllocObject" 0x10028640
-constexpr unsigned Mem_AllocWithFallback = 4, Mem_AllocWithFallback_TRAMP = 1;  // "Mem_AllocWithFallback" 0x100286B0
 constexpr unsigned Mem_FreeObject = 4, Mem_FreeObject_TRAMP = 1;  // "Mem_FreeObject" 0x10028700
 constexpr unsigned SharedDeleteHelper = 4, SharedDeleteHelper_TRAMP = 1;  // "SharedDeleteHelper" 0x10028710
 constexpr unsigned Unit10026C70_Call10029150 = 4, Unit10026C70_Call10029150_TRAMP = 1;  // "Unit10026C70_Call10029150" 0x10028720
@@ -4869,7 +4863,6 @@ constexpr unsigned CYyModel__QueryPartsA = 4, CYyModel__QueryPartsA_TRAMP = 1;  
 constexpr unsigned CYyModel__QueryPartsB = 4, CYyModel__QueryPartsB_TRAMP = 1;  // "CYyModel::QueryPartsB" 0x1002C750
 constexpr unsigned List_GetTail = 4, List_GetTail_TRAMP = 0;  // "List_GetTail" 0x1002C7C0
 constexpr unsigned Unit1002C7C0_PopHead = 4, Unit1002C7C0_PopHead_TRAMP = 1;  // "Unit1002C7C0_PopHead" 0x1002C800
-constexpr unsigned Mem_AllocDefault = 4, Mem_AllocDefault_TRAMP = 1;  // "Mem_AllocDefault" 0x1002C890
 constexpr unsigned thunk_sub_10028AA0 = 4, thunk_sub_10028AA0_TRAMP = 1;  // "thunk_sub_10028AA0" 0x1002C8B0
 constexpr unsigned CMoTask__GetRuntimeClass_variant2 = 0, CMoTask__GetRuntimeClass_variant2_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant2" 0x1002C950
 constexpr unsigned CYyOs2VtxBuffer__Constructor = 4, CYyOs2VtxBuffer__Constructor_TRAMP = 1;  // "CYyOs2VtxBuffer::Constructor" 0x1002D680
@@ -4916,9 +4909,6 @@ constexpr unsigned Skel_MarkChain = 4, Skel_MarkChain_TRAMP = 1;  // "Skel_MarkC
 constexpr unsigned CMoElem__GetRuntimeClass_variant0 = 0, CMoElem__GetRuntimeClass_variant0_TRAMP = 1;  // "CMoElem::GetRuntimeClass_variant0" 0x100353C0
 constexpr unsigned CMoTask__CtorByMode = 4, CMoTask__CtorByMode_TRAMP = 1;  // "CMoTask::CtorByMode" 0x10035A00
 constexpr unsigned CMoTask_VT_1032A904__ScalarDeletingDtor = 0, CMoTask_VT_1032A904__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_1032A904::ScalarDeletingDtor" 0x10035AE0
-constexpr unsigned CMoTask__CreateMode2 = 4, CMoTask__CreateMode2_TRAMP = 1;  // "CMoTask::CreateMode2" 0x10035D40
-constexpr unsigned CMoTask__CreateMode1 = 4, CMoTask__CreateMode1_TRAMP = 1;  // "CMoTask::CreateMode1" 0x10035D90
-constexpr unsigned CMoTask__CreateMode4 = 4, CMoTask__CreateMode4_TRAMP = 1;  // "CMoTask::CreateMode4" 0x10035DE0
 constexpr unsigned MoTask_KillAllGlobalSlots = 12, MoTask_KillAllGlobalSlots_TRAMP = 1;  // "MoTask_KillAllGlobalSlots" 0x10035F00
 constexpr unsigned Unit10035B00_ClearGlobal10463930 = 4, Unit10035B00_ClearGlobal10463930_TRAMP = 1;  // "Unit10035B00_ClearGlobal10463930" 0x10035F80
 constexpr unsigned Unit10035B00_SetScaled10351708 = 4, Unit10035B00_SetScaled10351708_TRAMP = 1;  // "Unit10035B00_SetScaled10351708" 0x10035FB0
@@ -4952,7 +4942,6 @@ constexpr unsigned Unit10036B90_SetVolumeScalar = 4, Unit10036B90_SetVolumeScala
 constexpr unsigned Unit10036B90_SetVolumeVector = 4, Unit10036B90_SetVolumeVector_TRAMP = 1;  // "Unit10036B90_SetVolumeVector" 0x10036F50
 constexpr unsigned Unit10036B90_CreateSoundElem = 4, Unit10036B90_CreateSoundElem_TRAMP = 1;  // "Unit10036B90_CreateSoundElem" 0x10037020
 constexpr unsigned CMoTask__GetRuntimeClass_variant3 = 0, CMoTask__GetRuntimeClass_variant3_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant3" 0x10037280
-constexpr unsigned StAvatar_SwitchMusicTask = 4, StAvatar_SwitchMusicTask_TRAMP = 1;  // "StAvatar_SwitchMusicTask" 0x10037960
 constexpr unsigned LobbyThread_SendCmd6IfRunning = 4, LobbyThread_SendCmd6IfRunning_TRAMP = 1;  // "LobbyThread_SendCmd6IfRunning" 0x10037A10
 constexpr unsigned SetMusicTrackVolume_C = 4, SetMusicTrackVolume_C_TRAMP = 1;  // "SetMusicTrackVolume_C" 0x10037B30
 constexpr unsigned SetMusicTrackVolume_B = 4, SetMusicTrackVolume_B_TRAMP = 1;  // "SetMusicTrackVolume_B" 0x10037BF0
@@ -5294,7 +5283,6 @@ constexpr unsigned CMoDisintegrateProgElem__ScalarDeletingDtor = 0, CMoDisintegr
 constexpr unsigned CMoNullProgElem__Construct = 4, CMoNullProgElem__Construct_TRAMP = 1;  // "CMoNullProgElem::Construct" 0x10053180
 constexpr unsigned CMoNullProgElem__Destructor = 0, CMoNullProgElem__Destructor_TRAMP = 1;  // "CMoNullProgElem::Destructor" 0x100531B0
 constexpr unsigned CMoTask_VT_1032B654__ScalarDeletingDtor = 0, CMoTask_VT_1032B654__ScalarDeletingDtor_TRAMP = 1;  // "CMoTask_VT_1032B654::ScalarDeletingDtor" 0x10053350
-constexpr unsigned CMoTask__Restart = 4, CMoTask__Restart_TRAMP = 1;  // "CMoTask::Restart" 0x10053370
 constexpr unsigned CMoGeneratorClone__CopyParams = 4, CMoGeneratorClone__CopyParams_TRAMP = 1;  // "CMoGeneratorClone::CopyParams" 0x10053450
 constexpr unsigned CMoGeneratorClone__CreateInstance = 4, CMoGeneratorClone__CreateInstance_TRAMP = 1;  // "CMoGeneratorClone::CreateInstance" 0x100536C0
 constexpr unsigned CMoGeneratorClone_VT_1032B69C__ScalarDeletingDtor = 0, CMoGeneratorClone_VT_1032B69C__ScalarDeletingDtor_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor" 0x10053840
@@ -5306,7 +5294,6 @@ constexpr unsigned YmGenerater_UpdateAttach = 4, YmGenerater_UpdateAttach_TRAMP 
 constexpr unsigned YmGenerater_UpdateAttachIfPresent = 12, YmGenerater_UpdateAttachIfPresent_TRAMP = 1;  // "YmGenerater_UpdateAttachIfPresent" 0x10053DD0
 constexpr unsigned CMoGeneratorClone__InitDefaultParams = 0, CMoGeneratorClone__InitDefaultParams_TRAMP = 1;  // "CMoGeneratorClone::InitDefaultParams" 0x10053E00
 constexpr unsigned CMoGeneratorClone_VT_1032B69C__CMoGeneratorClone_GetRuntimeClass = 0, CMoGeneratorClone_VT_1032B69C__CMoGeneratorClone_GetRuntimeClass_TRAMP = 1;  // "CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass" 0x100542E0
-constexpr unsigned CMoGeneratorClone__Destructor = 4, CMoGeneratorClone__Destructor_TRAMP = 1;  // "CMoGeneratorClone::Destructor" 0x100542F0
 constexpr unsigned Unit10054360_Get10353710 = 4, Unit10054360_Get10353710_TRAMP = 1;  // "Unit10054360_Get10353710" 0x10054410
 constexpr unsigned Unit10054360_CopyFromPtr = 4, Unit10054360_CopyFromPtr_TRAMP = 1;  // "Unit10054360_CopyFromPtr" 0x10054430
 constexpr unsigned CMoAttachments_VT_1032B140__vf001 = 0, CMoAttachments_VT_1032B140__vf001_TRAMP = 1;  // "CMoAttachments_VT_1032B140::vf001" 0x10054450
@@ -5362,7 +5349,6 @@ constexpr unsigned CMoActorColorDriveTask__GetRuntimeClass = 0, CMoActorColorDri
 constexpr unsigned CMoTask__GetRuntimeClass_variant10 = 0, CMoTask__GetRuntimeClass_variant10_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant10" 0x100569B0
 constexpr unsigned CMoActorRotationDriveTask__GetRuntimeClass = 0, CMoActorRotationDriveTask__GetRuntimeClass_TRAMP = 1;  // "CMoActorRotationDriveTask::GetRuntimeClass" 0x100569C0
 constexpr unsigned Scheduler_AddTask = 4, Scheduler_AddTask_TRAMP = 1;  // "Scheduler_AddTask" 0x10056AA0
-constexpr unsigned Scheduler_CreateTask = 4, Scheduler_CreateTask_TRAMP = 1;  // "Scheduler_CreateTask" 0x10056CE0
 constexpr unsigned Scheduler_RemoveTasksFor = 4, Scheduler_RemoveTasksFor_TRAMP = 1;  // "Scheduler_RemoveTasksFor" 0x10056EB0
 constexpr unsigned CMoTask__GetRuntimeClass_variant11 = 0, CMoTask__GetRuntimeClass_variant11_TRAMP = 1;  // "CMoTask::GetRuntimeClass_variant11" 0x10057080
 constexpr unsigned CMoSchedularTask__GetRuntimeClass = 0, CMoSchedularTask__GetRuntimeClass_TRAMP = 1;  // "CMoSchedularTask::GetRuntimeClass" 0x10057090
@@ -5526,7 +5512,6 @@ constexpr unsigned CMoTask_VT_1032C490__ScalarDeletingDtor = 0, CMoTask_VT_1032C
 constexpr unsigned CMoTask__InitAndRegister = 4, CMoTask__InitAndRegister_TRAMP = 1;  // "CMoTask::InitAndRegister" 0x10070F90
 constexpr unsigned ResHandle_FreeIfUnreferenced = 4, ResHandle_FreeIfUnreferenced_TRAMP = 1;  // "ResHandle_FreeIfUnreferenced" 0x10071050
 constexpr unsigned ResourceHandle_IsResident = 4, ResourceHandle_IsResident_TRAMP = 1;  // "ResourceHandle_IsResident" 0x10071060
-constexpr unsigned Unit10070F90_Create = 4, Unit10070F90_Create_TRAMP = 1;  // "Unit10070F90_Create" 0x100710F0
 constexpr unsigned Unit10070F90_Reset = 4, Unit10070F90_Reset_TRAMP = 1;  // "Unit10070F90_Reset" 0x100711B0
 constexpr unsigned Unit10070F90_CopyField14At0 = 4, Unit10070F90_CopyField14At0_TRAMP = 1;  // "Unit10070F90_CopyField14At0" 0x100711D0
 constexpr unsigned Unit10070F90_CopyField14At4 = 4, Unit10070F90_CopyField14At4_TRAMP = 1;  // "Unit10070F90_CopyField14At4" 0x100711E0
@@ -5578,14 +5563,12 @@ constexpr unsigned Unit10072A50_Start = 4, Unit10072A50_Start_TRAMP = 1;  // "Un
 constexpr unsigned CMoResourceMng__GetRuntimeClass = 0, CMoResourceMng__GetRuntimeClass_TRAMP = 1;  // "CMoResourceMng::GetRuntimeClass" 0x10072D00
 constexpr unsigned MeshResourceMng_LoadSystemResources = 4, MeshResourceMng_LoadSystemResources_TRAMP = 1;  // "MeshResourceMng_LoadSystemResources" 0x10072ED0
 constexpr unsigned ResourceHandle_Deref = 4, ResourceHandle_Deref_TRAMP = 1;  // "ResourceHandle_Deref" 0x10072FB0
-constexpr unsigned CMoResource__FindOrCreateTask = 4, CMoResource__FindOrCreateTask_TRAMP = 1;  // "CMoResource::FindOrCreateTask" 0x100730E0
 constexpr unsigned MeshResourceMng_ResolveTree = 4, MeshResourceMng_ResolveTree_TRAMP = 1;  // "MeshResourceMng_ResolveTree" 0x10073430
 constexpr unsigned CMoResource_VT_1032C934__ScalarDeletingDtor = 0, CMoResource_VT_1032C934__ScalarDeletingDtor_TRAMP = 1;  // "CMoResource_VT_1032C934::ScalarDeletingDtor" 0x10073730
 constexpr unsigned CMoResource__RegisterAndMark = 4, CMoResource__RegisterAndMark_TRAMP = 1;  // "CMoResource::RegisterAndMark" 0x10073A60
 constexpr unsigned MoRes_FreeIfUnreferenced = 4, MoRes_FreeIfUnreferenced_TRAMP = 1;  // "MoRes_FreeIfUnreferenced" 0x10073B20
 constexpr unsigned CMoResource__InitAndGetFlag = 4, CMoResource__InitAndGetFlag_TRAMP = 1;  // "CMoResource::InitAndGetFlag" 0x10073B80
 constexpr unsigned ResourceIter_FindById = 4, ResourceIter_FindById_TRAMP = 1;  // "ResourceIter_FindById" 0x10073BA0
-constexpr unsigned ResourceIter_FindOrStartTask = 4, ResourceIter_FindOrStartTask_TRAMP = 1;  // "ResourceIter_FindOrStartTask" 0x10073D80
 constexpr unsigned MeshResourceMng_Evict = 4, MeshResourceMng_Evict_TRAMP = 1;  // "MeshResourceMng_Evict" 0x100740C0
 constexpr unsigned ResourceIter_PopFreeNode = 4, ResourceIter_PopFreeNode_TRAMP = 1;  // "ResourceIter_PopFreeNode" 0x10074110
 constexpr unsigned MeshResourceMng_AllocHandle = 4, MeshResourceMng_AllocHandle_TRAMP = 1;  // "MeshResourceMng_AllocHandle" 0x10074140
@@ -5610,7 +5593,6 @@ constexpr unsigned Unit10074790_Remove = 4, Unit10074790_Remove_TRAMP = 1;  // "
 constexpr unsigned CMoTask__DestroyChain = 4, CMoTask__DestroyChain_TRAMP = 1;  // "CMoTask::DestroyChain" 0x10074890
 constexpr unsigned Unit10074790_RunAsCurrent = 4, Unit10074790_RunAsCurrent_TRAMP = 1;  // "Unit10074790_RunAsCurrent" 0x100748C0
 constexpr unsigned CMoTask__ResetFields = 4, CMoTask__ResetFields_TRAMP = 1;  // "CMoTask::ResetFields" 0x100748F0
-constexpr unsigned CMoTask__Clone = 4, CMoTask__Clone_TRAMP = 1;  // "CMoTask::Clone" 0x10074920
 constexpr unsigned CMoTaskMng__Forward10075120 = 4, CMoTaskMng__Forward10075120_TRAMP = 1;  // "CMoTaskMng::Forward10075120" 0x10074A10
 constexpr unsigned CMoTask__Release = 4, CMoTask__Release_TRAMP = 1;  // "CMoTask::Release" 0x10074AB0
 constexpr unsigned CMoTaskMng__GetRuntimeClass = 0, CMoTaskMng__GetRuntimeClass_TRAMP = 1;  // "CMoTaskMng::GetRuntimeClass" 0x10074B50
@@ -6008,7 +5990,6 @@ constexpr unsigned CXiSkeletonActor__SetAction = 0, CXiSkeletonActor__SetAction_
 constexpr unsigned CXiSkeletonActor__SetAttack_SchStatus = 0, CXiSkeletonActor__SetAttack_SchStatus_TRAMP = 1;  // "CXiSkeletonActor::SetAttack_SchStatus" 0x100CF030
 constexpr unsigned CXiSkeletonActor__ForParts0To9 = 4, CXiSkeletonActor__ForParts0To9_TRAMP = 1;  // "CXiSkeletonActor::ForParts0To9" 0x100CF100
 constexpr unsigned CXiSkeletonActor__vf172 = 0, CXiSkeletonActor__vf172_TRAMP = 1;  // "CXiSkeletonActor::vf172" 0x100CF200
-constexpr unsigned CXiSkeletonActor__AddResourceParts = 4, CXiSkeletonActor__AddResourceParts_TRAMP = 1;  // "CXiSkeletonActor::AddResourceParts" 0x100CFA50
 constexpr unsigned CXiSkeletonActor__GetTableOrDefault = 4, CXiSkeletonActor__GetTableOrDefault_TRAMP = 1;  // "CXiSkeletonActor::GetTableOrDefault" 0x100CFAD0
 constexpr unsigned CXiSkeletonActor__GetTableEntryByModelKind = 4, CXiSkeletonActor__GetTableEntryByModelKind_TRAMP = 1;  // "CXiSkeletonActor::GetTableEntryByModelKind" 0x100CFB40
 constexpr unsigned CXiSkeletonActor__GetField878Ptr_Candidate = 0, CXiSkeletonActor__GetField878Ptr_Candidate_TRAMP = 1;  // "CXiSkeletonActor::GetField878Ptr_Candidate" 0x100D04B0
@@ -6026,7 +6007,6 @@ constexpr unsigned CXiSkeletonActor__SelectStateMessage = 4, CXiSkeletonActor__S
 constexpr unsigned CXiSkeletonActor_IsReadCompleteBody = 12, CXiSkeletonActor_IsReadCompleteBody_TRAMP = 1;  // "CXiSkeletonActor_IsReadCompleteBody" 0x100D12D0
 constexpr unsigned CXiActor__RequestModelParts = 4, CXiActor__RequestModelParts_TRAMP = 1;  // "CXiActor::RequestModelParts" 0x100D14C0
 constexpr unsigned CXiSkeletonActor__OnSkeletonLoaded = 0, CXiSkeletonActor__OnSkeletonLoaded_TRAMP = 1;  // "CXiSkeletonActor::OnSkeletonLoaded" 0x100D2F40
-constexpr unsigned CXiSkeletonActor__LoadSkeletonResource = 4, CXiSkeletonActor__LoadSkeletonResource_TRAMP = 1;  // "CXiSkeletonActor::LoadSkeletonResource" 0x100D4330
 constexpr unsigned CXiSkeletonActor__GetSkeletonFileNo = 4, CXiSkeletonActor__GetSkeletonFileNo_TRAMP = 1;  // "CXiSkeletonActor::GetSkeletonFileNo" 0x100D43E0
 constexpr unsigned CXiSkeletonActor__AddListEntry = 4, CXiSkeletonActor__AddListEntry_TRAMP = 1;  // "CXiSkeletonActor::AddListEntry" 0x100D4410
 constexpr unsigned CXiSkeletonActor_ReleaseListEntriesMatching = 12, CXiSkeletonActor_ReleaseListEntriesMatching_TRAMP = 1;  // "CXiSkeletonActor_ReleaseListEntriesMatching" 0x100D44B0
@@ -6119,7 +6099,6 @@ constexpr unsigned Unit100D7420_EstimateBytes = 4, Unit100D7420_EstimateBytes_TR
 constexpr unsigned Unit100D7420_Encode = 4, Unit100D7420_Encode_TRAMP = 1;  // "Unit100D7420_Encode" 0x100DF7C0
 constexpr unsigned Unit100D7420_ReturnTrue100E00F0 = 4, Unit100D7420_ReturnTrue100E00F0_TRAMP = 0;  // "Unit100D7420_ReturnTrue100E00F0" 0x100E00F0
 constexpr unsigned Unit100D7420_ReturnTrue100E0100 = 4, Unit100D7420_ReturnTrue100E0100_TRAMP = 0;  // "Unit100D7420_ReturnTrue100E0100" 0x100E0100
-constexpr unsigned Entry_FindByNormalizedName = 4, Entry_FindByNormalizedName_TRAMP = 1;  // "Entry_FindByNormalizedName" 0x100E08D0
 constexpr unsigned Name_Normalize = 4, Name_Normalize_TRAMP = 1;  // "Name_Normalize" 0x100E09A0
 constexpr unsigned Unit100D7420_ClearFlag1A698 = 4, Unit100D7420_ClearFlag1A698_TRAMP = 1;  // "Unit100D7420_ClearFlag1A698" 0x100E0A00
 constexpr unsigned Unit100D7420_FindEntryByName = 4, Unit100D7420_FindEntryByName_TRAMP = 1;  // "Unit100D7420_FindEntryByName" 0x100E0A50
@@ -6127,7 +6106,6 @@ constexpr unsigned Unit100D7420_SendRequest3CThrottled = 4, Unit100D7420_SendReq
 constexpr unsigned Unit100D7420_NoOp100E0B10 = 4, Unit100D7420_NoOp100E0B10_TRAMP = 0;  // "Unit100D7420_NoOp100E0B10" 0x100E0B10
 constexpr unsigned Unit100D7420_ApplyNoticeRecord = 4, Unit100D7420_ApplyNoticeRecord_TRAMP = 1;  // "Unit100D7420_ApplyNoticeRecord" 0x100E0D50
 constexpr unsigned Entry_ResetFields = 4, Entry_ResetFields_TRAMP = 1;  // "Entry_ResetFields" 0x100E13C0
-constexpr unsigned Unit100D7420_InitAll = 4, Unit100D7420_InitAll_TRAMP = 1;  // "Unit100D7420_InitAll" 0x100E1470
 constexpr unsigned Unit100D7420_InitWithMd5 = 4, Unit100D7420_InitWithMd5_TRAMP = 1;  // "Unit100D7420_InitWithMd5" 0x100E1790
 constexpr unsigned Unit100D7420_AllocEntry4 = 4, Unit100D7420_AllocEntry4_TRAMP = 1;  // "Unit100D7420_AllocEntry4" 0x100E19C0
 constexpr unsigned Unit100D7420_AllocEntryFromTable = 4, Unit100D7420_AllocEntryFromTable_TRAMP = 1;  // "Unit100D7420_AllocEntryFromTable" 0x100E1AD0
@@ -6169,7 +6147,6 @@ constexpr unsigned Unit100D7420_GetWord132 = 4, Unit100D7420_GetWord132_TRAMP = 
 constexpr unsigned Unit100D7420_BuildListA90 = 4, Unit100D7420_BuildListA90_TRAMP = 1;  // "Unit100D7420_BuildListA90" 0x100E6B20
 constexpr unsigned Unit100D7420_GetEntryPtrA90 = 4, Unit100D7420_GetEntryPtrA90_TRAMP = 1;  // "Unit100D7420_GetEntryPtrA90" 0x100E6C40
 constexpr unsigned Unit100D7420_ClearPending = 4, Unit100D7420_ClearPending_TRAMP = 1;  // "Unit100D7420_ClearPending" 0x100E7260
-constexpr unsigned Unit100D7420_ThunkByIndex200 = 4, Unit100D7420_ThunkByIndex200_TRAMP = 1;  // "Unit100D7420_ThunkByIndex200" 0x100E7B20
 constexpr unsigned Unit100D7420_ReturnTrue100E84A0 = 4, Unit100D7420_ReturnTrue100E84A0_TRAMP = 0;  // "Unit100D7420_ReturnTrue100E84A0" 0x100E84A0
 constexpr unsigned Unit100D7420_ReturnTrue100E84B0 = 4, Unit100D7420_ReturnTrue100E84B0_TRAMP = 0;  // "Unit100D7420_ReturnTrue100E84B0" 0x100E84B0
 constexpr unsigned Unit100D7420_ReturnTrue100E8B60 = 4, Unit100D7420_ReturnTrue100E8B60_TRAMP = 0;  // "Unit100D7420_ReturnTrue100E8B60" 0x100E8B60
@@ -6196,8 +6173,6 @@ constexpr unsigned Unit100D7420_StepRequest21Sequence = 4, Unit100D7420_StepRequ
 constexpr unsigned Unit100D7420_StepRequest22Sequence = 4, Unit100D7420_StepRequest22Sequence_TRAMP = 1;  // "Unit100D7420_StepRequest22Sequence" 0x100EE900
 constexpr unsigned Unit100D7420_StepRequest28Sequence = 4, Unit100D7420_StepRequest28Sequence_TRAMP = 1;  // "Unit100D7420_StepRequest28Sequence" 0x100EEB70
 constexpr unsigned Unit100D7420_StepRequest2BSequence = 4, Unit100D7420_StepRequest2BSequence_TRAMP = 1;  // "Unit100D7420_StepRequest2BSequence" 0x100EEDE0
-constexpr unsigned Unit100D7420_StepState1030FFxx = 4, Unit100D7420_StepState1030FFxx_TRAMP = 1;  // "Unit100D7420_StepState1030FFxx" 0x100EEE90
-constexpr unsigned Unit100D7420_StepWait1030FFD8 = 4, Unit100D7420_StepWait1030FFD8_TRAMP = 1;  // "Unit100D7420_StepWait1030FFD8" 0x100EEF80
 constexpr unsigned Unit100D7420_StepRequest14Sequence = 4, Unit100D7420_StepRequest14Sequence_TRAMP = 1;  // "Unit100D7420_StepRequest14Sequence" 0x100EF020
 constexpr unsigned Unit100D7420_RunState = 4, Unit100D7420_RunState_TRAMP = 1;  // "Unit100D7420_RunState" 0x100EF0E0
 constexpr unsigned Unit100D7420_StepStateWithEntries = 4, Unit100D7420_StepStateWithEntries_TRAMP = 1;  // "Unit100D7420_StepStateWithEntries" 0x100EF4C0
@@ -6213,9 +6188,7 @@ constexpr unsigned Unit100D7420_GetSessionField13C = 4, Unit100D7420_GetSessionF
 constexpr unsigned Unit100D7420_GetRecordWord = 4, Unit100D7420_GetRecordWord_TRAMP = 1;  // "Unit100D7420_GetRecordWord" 0x100EFC70
 constexpr unsigned Unit100D7420_GetRecordDword = 4, Unit100D7420_GetRecordDword_TRAMP = 1;  // "Unit100D7420_GetRecordDword" 0x100EFCA0
 constexpr unsigned Name_LookupByKey = 4, Name_LookupByKey_TRAMP = 1;  // "Name_LookupByKey" 0x100EFCE0
-constexpr unsigned Unit100D7420_FindFree = 4, Unit100D7420_FindFree_TRAMP = 1;  // "Unit100D7420_FindFree" 0x100EFD20
 constexpr unsigned Unit100D7420_FindEntryForRecord = 4, Unit100D7420_FindEntryForRecord_TRAMP = 1;  // "Unit100D7420_FindEntryForRecord" 0x100EFDA0
-constexpr unsigned Unit100D7420_FindMatchingEntry = 4, Unit100D7420_FindMatchingEntry_TRAMP = 1;  // "Unit100D7420_FindMatchingEntry" 0x100EFDF0
 constexpr unsigned Unit100D7420_CopyToGlobalBuffer = 4, Unit100D7420_CopyToGlobalBuffer_TRAMP = 1;  // "Unit100D7420_CopyToGlobalBuffer" 0x100F0000
 constexpr unsigned Unit100D7420_ClearFlag2CFD4IfNoGlobal = 4, Unit100D7420_ClearFlag2CFD4IfNoGlobal_TRAMP = 1;  // "Unit100D7420_ClearFlag2CFD4IfNoGlobal" 0x100F0070
 constexpr unsigned Unit100D7420_ReturnTrue100F0090 = 4, Unit100D7420_ReturnTrue100F0090_TRAMP = 0;  // "Unit100D7420_ReturnTrue100F0090" 0x100F0090
@@ -6240,15 +6213,12 @@ constexpr unsigned Unit100D7420_InitEntry = 4, Unit100D7420_InitEntry_TRAMP = 1;
 constexpr unsigned Unit100D7420_IsBitSet = 4, Unit100D7420_IsBitSet_TRAMP = 1;  // "Unit100D7420_IsBitSet" 0x100F13B0
 constexpr unsigned Unit100D7420_SetBit = 4, Unit100D7420_SetBit_TRAMP = 1;  // "Unit100D7420_SetBit" 0x100F13D0
 constexpr unsigned Unit100D7420_ClearBit = 4, Unit100D7420_ClearBit_TRAMP = 1;  // "Unit100D7420_ClearBit" 0x100F13F0
-constexpr unsigned Unit100D7420_Query10310030 = 4, Unit100D7420_Query10310030_TRAMP = 1;  // "Unit100D7420_Query10310030" 0x100F1670
-constexpr unsigned Unit100D7420_Call10310067 = 4, Unit100D7420_Call10310067_TRAMP = 1;  // "Unit100D7420_Call10310067" 0x100F1870
 constexpr unsigned Unit100D7420_Call10310072 = 4, Unit100D7420_Call10310072_TRAMP = 1;  // "Unit100D7420_Call10310072" 0x100F1900
 constexpr unsigned Unit100D7420_GetLow16 = 4, Unit100D7420_GetLow16_TRAMP = 1;  // "Unit100D7420_GetLow16" 0x100F1950
 constexpr unsigned Unit100D7420_AcquireNode = 4, Unit100D7420_AcquireNode_TRAMP = 1;  // "Unit100D7420_AcquireNode" 0x100F1B20
 constexpr unsigned Unit100D7420_InitTwoNodes = 4, Unit100D7420_InitTwoNodes_TRAMP = 1;  // "Unit100D7420_InitTwoNodes" 0x100F1BA0
 constexpr unsigned Unit100D7420_Destroy = 4, Unit100D7420_Destroy_TRAMP = 1;  // "Unit100D7420_Destroy" 0x100F1C40
 constexpr unsigned Unit100D7420_UpdateRequests = 4, Unit100D7420_UpdateRequests_TRAMP = 1;  // "Unit100D7420_UpdateRequests" 0x100F1D20
-constexpr unsigned Unit100D7420_ResetPending = 4, Unit100D7420_ResetPending_TRAMP = 1;  // "Unit100D7420_ResetPending" 0x100F1E70
 constexpr unsigned Unit100D7420_BeginRequests = 4, Unit100D7420_BeginRequests_TRAMP = 1;  // "Unit100D7420_BeginRequests" 0x100F1F00
 constexpr unsigned Unit100D7420_StartRequestSlot20 = 4, Unit100D7420_StartRequestSlot20_TRAMP = 1;  // "Unit100D7420_StartRequestSlot20" 0x100F25F0
 constexpr unsigned Unit100D7420_StartRequestOnNewNodeA = 4, Unit100D7420_StartRequestOnNewNodeA_TRAMP = 1;  // "Unit100D7420_StartRequestOnNewNodeA" 0x100F2690
@@ -6315,7 +6285,6 @@ constexpr unsigned Unit100D7420_FindTimerKind10 = 4, Unit100D7420_FindTimerKind1
 constexpr unsigned Unit100D7420_IsId50To99Or88Or89 = 4, Unit100D7420_IsId50To99Or88Or89_TRAMP = 1;  // "Unit100D7420_IsId50To99Or88Or89" 0x100FD3A0
 constexpr unsigned Unit100D7420_GetTableByteForTens = 4, Unit100D7420_GetTableByteForTens_TRAMP = 1;  // "Unit100D7420_GetTableByteForTens" 0x10101BC0
 constexpr unsigned Unit100D7420_CeilDiv10Max10 = 4, Unit100D7420_CeilDiv10Max10_TRAMP = 1;  // "Unit100D7420_CeilDiv10Max10" 0x10101BF0
-constexpr unsigned Unit100D7420_InitSessionAndStampTime = 4, Unit100D7420_InitSessionAndStampTime_TRAMP = 1;  // "Unit100D7420_InitSessionAndStampTime" 0x101033C0
 constexpr unsigned Game_GetField438 = 4, Game_GetField438_TRAMP = 1;  // "Game_GetField438" 0x10103700
 constexpr unsigned Game_ClearFlagsBits = 4, Game_ClearFlagsBits_TRAMP = 1;  // "Game_ClearFlagsBits" 0x10103740
 constexpr unsigned Game_SetSlot44C = 4, Game_SetSlot44C_TRAMP = 1;  // "Game_SetSlot44C" 0x101037F0
@@ -7285,7 +7254,6 @@ constexpr unsigned Unit1018BA60_ReadTigDat = 4, Unit1018BA60_ReadTigDat_TRAMP = 
 constexpr unsigned Unit1018BA60_StoreExternalConfig = 4, Unit1018BA60_StoreExternalConfig_TRAMP = 1;  // "Unit1018BA60_StoreExternalConfig" 0x10195640
 constexpr unsigned Unit1018BA60_LoadExternalConfig = 4, Unit1018BA60_LoadExternalConfig_TRAMP = 1;  // "Unit1018BA60_LoadExternalConfig" 0x101956F0
 constexpr unsigned Unit1018BA60_ReadExternalKind1 = 4, Unit1018BA60_ReadExternalKind1_TRAMP = 1;  // "Unit1018BA60_ReadExternalKind1" 0x10195780
-constexpr unsigned Unit1018BA60_WriteExternalKind1 = 4, Unit1018BA60_WriteExternalKind1_TRAMP = 1;  // "Unit1018BA60_WriteExternalKind1" 0x101957B0
 constexpr unsigned Unit1018BA60_ReadExternalKind2 = 4, Unit1018BA60_ReadExternalKind2_TRAMP = 1;  // "Unit1018BA60_ReadExternalKind2" 0x10195810
 constexpr unsigned Unit1018BA60_IsExternalKind2Key = 4, Unit1018BA60_IsExternalKind2Key_TRAMP = 1;  // "Unit1018BA60_IsExternalKind2Key" 0x101958C0
 constexpr unsigned Unit1018BA60_SaveCnfDat = 4, Unit1018BA60_SaveCnfDat_TRAMP = 1;  // "Unit1018BA60_SaveCnfDat" 0x10195900
@@ -7313,11 +7281,6 @@ constexpr unsigned Unit1018BA60_WindowItemCtorVt10336EA0 = 4, Unit1018BA60_Windo
 constexpr unsigned Unit1018BA60_ConstructVt10336EE8 = 4, Unit1018BA60_ConstructVt10336EE8_TRAMP = 1;  // "Unit1018BA60_ConstructVt10336EE8" 0x1019BC90
 constexpr unsigned Unit1018BA60_CtorVt10336F30 = 4, Unit1018BA60_CtorVt10336F30_TRAMP = 1;  // "Unit1018BA60_CtorVt10336F30" 0x1019BFE0
 constexpr unsigned Unit1018BA60_CtorVt10336F78 = 4, Unit1018BA60_CtorVt10336F78_TRAMP = 1;  // "Unit1018BA60_CtorVt10336F78" 0x1019C190
-constexpr unsigned Unit1018BA60_RunPairA = 4, Unit1018BA60_RunPairA_TRAMP = 1;  // "Unit1018BA60_RunPairA" 0x1019C3E0
-constexpr unsigned Unit1018BA60_RunPairB = 4, Unit1018BA60_RunPairB_TRAMP = 1;  // "Unit1018BA60_RunPairB" 0x1019C4F0
-constexpr unsigned Unit1018BA60_Call10311386 = 4, Unit1018BA60_Call10311386_TRAMP = 1;  // "Unit1018BA60_Call10311386" 0x1019C580
-constexpr unsigned Unit1018BA60_GetSetting41 = 4, Unit1018BA60_GetSetting41_TRAMP = 1;  // "Unit1018BA60_GetSetting41" 0x1019C590
-constexpr unsigned Unit1018BA60_Call103113C8 = 4, Unit1018BA60_Call103113C8_TRAMP = 1;  // "Unit1018BA60_Call103113C8" 0x1019C5B0
 constexpr unsigned Unit1018BA60_ByteTableCtor = 4, Unit1018BA60_ByteTableCtor_TRAMP = 1;  // "Unit1018BA60_ByteTableCtor" 0x1019CD40
 constexpr unsigned Unit1018BA60_HasTable1037A290CellByte = 12, Unit1018BA60_HasTable1037A290CellByte_TRAMP = 1;  // "Unit1018BA60_HasTable1037A290CellByte" 0x1019CDC0
 constexpr unsigned Unit1018BA60_ByteTableDefaultCtor = 4, Unit1018BA60_ByteTableDefaultCtor_TRAMP = 1;  // "Unit1018BA60_ByteTableDefaultCtor" 0x1019CE00
@@ -7580,7 +7543,6 @@ constexpr unsigned Unit1018BA60_Call10311F30 = 4, Unit1018BA60_Call10311F30_TRAM
 constexpr unsigned Unit1018BA60_SeekWhence012 = 4, Unit1018BA60_SeekWhence012_TRAMP = 1;  // "Unit1018BA60_SeekWhence012" 0x101BE540
 constexpr unsigned File_WriteChunked = 4, File_WriteChunked_TRAMP = 1;  // "File_WriteChunked" 0x101BE590
 constexpr unsigned Unit1018BA60_Call10312296 = 4, Unit1018BA60_Call10312296_TRAMP = 1;  // "Unit1018BA60_Call10312296" 0x101BE650
-constexpr unsigned Unit1018BA60_FillSizeAndThreeDates = 4, Unit1018BA60_FillSizeAndThreeDates_TRAMP = 1;  // "Unit1018BA60_FillSizeAndThreeDates" 0x101BE6C0
 constexpr unsigned File_CreateParentDirs = 4, File_CreateParentDirs_TRAMP = 1;  // "File_CreateParentDirs" 0x101BE730
 constexpr unsigned XiFileImpl_QueueLoad = 4, XiFileImpl_QueueLoad_TRAMP = 1;  // "XiFileImpl_QueueLoad" 0x101BECC0
 constexpr unsigned Unit1018BA60_SubmitFileNumKind1 = 4, Unit1018BA60_SubmitFileNumKind1_TRAMP = 1;  // "Unit1018BA60_SubmitFileNumKind1" 0x101BF280
@@ -7595,8 +7557,6 @@ constexpr unsigned Unit1018BA60_SubmitPathKind3 = 4, Unit1018BA60_SubmitPathKind
 constexpr unsigned Unit1018BA60_SubmitPath2F4Kind3 = 4, Unit1018BA60_SubmitPath2F4Kind3_TRAMP = 1;  // "Unit1018BA60_SubmitPath2F4Kind3" 0x101C0540
 constexpr unsigned Unit1018BA60_SubmitPath3F4Kind3 = 4, Unit1018BA60_SubmitPath3F4Kind3_TRAMP = 1;  // "Unit1018BA60_SubmitPath3F4Kind3" 0x101C0630
 constexpr unsigned Unit1018BA60_SubmitPath4F4Kind3 = 4, Unit1018BA60_SubmitPath4F4Kind3_TRAMP = 1;  // "Unit1018BA60_SubmitPath4F4Kind3" 0x101C0760
-constexpr unsigned Unit1018BA60_CreateDirAndWait = 4, Unit1018BA60_CreateDirAndWait_TRAMP = 1;  // "Unit1018BA60_CreateDirAndWait" 0x101C09B0
-constexpr unsigned Unit1018BA60_CreateDirAndHandleFile = 4, Unit1018BA60_CreateDirAndHandleFile_TRAMP = 1;  // "Unit1018BA60_CreateDirAndHandleFile" 0x101C0A40
 constexpr unsigned Unit1018BA60_SubmitPathKind6 = 4, Unit1018BA60_SubmitPathKind6_TRAMP = 1;  // "Unit1018BA60_SubmitPathKind6" 0x101C0FC0
 constexpr unsigned Unit1018BA60_SubmitPath3F4Kind6 = 4, Unit1018BA60_SubmitPath3F4Kind6_TRAMP = 1;  // "Unit1018BA60_SubmitPath3F4Kind6" 0x101C1090
 constexpr unsigned Unit1018BA60_FindFileNumKind1 = 4, Unit1018BA60_FindFileNumKind1_TRAMP = 1;  // "Unit1018BA60_FindFileNumKind1" 0x101C11F0
@@ -7614,12 +7574,10 @@ constexpr unsigned Unit1018BA60_WriteTimestampFwd = 4, Unit1018BA60_WriteTimesta
 constexpr unsigned Unit1018BA60_OpenHexPath = 4, Unit1018BA60_OpenHexPath_TRAMP = 1;  // "Unit1018BA60_OpenHexPath" 0x101C2DC0
 constexpr unsigned Unit1018BA60_ReleaseAt1F0 = 4, Unit1018BA60_ReleaseAt1F0_TRAMP = 1;  // "Unit1018BA60_ReleaseAt1F0" 0x101C33E0
 constexpr unsigned Unit1018BA60_GetValueAt1F0 = 4, Unit1018BA60_GetValueAt1F0_TRAMP = 1;  // "Unit1018BA60_GetValueAt1F0" 0x101C33F0
-constexpr unsigned XiFileImpl__getFileName = 4, XiFileImpl__getFileName_TRAMP = 1;  // "XiFileImpl__getFileName" 0x101C3A90
 constexpr unsigned Unit1018BA60_FormatUserPath = 4, Unit1018BA60_FormatUserPath_TRAMP = 1;  // "Unit1018BA60_FormatUserPath" 0x101C3D00
 constexpr unsigned Unit1018BA60_FormatStrAt2F4 = 4, Unit1018BA60_FormatStrAt2F4_TRAMP = 1;  // "Unit1018BA60_FormatStrAt2F4" 0x101C3DB0
 constexpr unsigned Unit1018BA60_FormatStrAt3F4 = 4, Unit1018BA60_FormatStrAt3F4_TRAMP = 1;  // "Unit1018BA60_FormatStrAt3F4" 0x101C3DE0
 constexpr unsigned Unit1018BA60_FormatStrAt4F4 = 4, Unit1018BA60_FormatStrAt4F4_TRAMP = 1;  // "Unit1018BA60_FormatStrAt4F4" 0x101C3E10
-constexpr unsigned Unit1018BA60_FormatWithBase = 4, Unit1018BA60_FormatWithBase_TRAMP = 1;  // "Unit1018BA60_FormatWithBase" 0x101C3E40
 constexpr unsigned Unit1018BA60_FormatPathByKind = 4, Unit1018BA60_FormatPathByKind_TRAMP = 1;  // "Unit1018BA60_FormatPathByKind" 0x101C3E90
 constexpr unsigned Unit1018BA60_CopyPathByMode = 4, Unit1018BA60_CopyPathByMode_TRAMP = 1;  // "Unit1018BA60_CopyPathByMode" 0x101C3F40
 constexpr unsigned Unit1018BA60_MapCode012 = 4, Unit1018BA60_MapCode012_TRAMP = 1;  // "Unit1018BA60_MapCode012" 0x101C3FB0
@@ -7883,7 +7841,6 @@ constexpr unsigned Unit10211440_IsSpecialKey = 4, Unit10211440_IsSpecialKey_TRAM
 constexpr unsigned Unit10211440_AssignItem = 4, Unit10211440_AssignItem_TRAMP = 1;  // "Unit10211440_AssignItem" 0x1021C210
 constexpr unsigned Unit10211440_ClearAndAssign = 4, Unit10211440_ClearAndAssign_TRAMP = 1;  // "Unit10211440_ClearAndAssign" 0x1021C2E0
 constexpr unsigned Unit10211440_ResetSlot = 4, Unit10211440_ResetSlot_TRAMP = 1;  // "Unit10211440_ResetSlot" 0x1021C350
-constexpr unsigned Unit10211440_SyncSlots = 4, Unit10211440_SyncSlots_TRAMP = 1;  // "Unit10211440_SyncSlots" 0x1021C380
 constexpr unsigned Unit10211440_Update = 4, Unit10211440_Update_TRAMP = 1;  // "Unit10211440_Update" 0x1021C4C0
 constexpr unsigned Unit10211440_AppendEntry = 4, Unit10211440_AppendEntry_TRAMP = 1;  // "Unit10211440_AppendEntry" 0x1021C5B0
 constexpr unsigned Unit10211440_RemoveByKey = 4, Unit10211440_RemoveByKey_TRAMP = 1;  // "Unit10211440_RemoveByKey" 0x1021C680
@@ -8284,7 +8241,6 @@ constexpr unsigned Unit1025C9E0_PopRing4034 = 4, Unit1025C9E0_PopRing4034_TRAMP 
 constexpr unsigned Unit1025C9E0_PeekRing4034 = 4, Unit1025C9E0_PeekRing4034_TRAMP = 1;  // "Unit1025C9E0_PeekRing4034" 0x1026DBF0
 constexpr unsigned Unit1025C9E0_PutRing2C = 4, Unit1025C9E0_PutRing2C_TRAMP = 1;  // "Unit1025C9E0_PutRing2C" 0x1026DC0D
 constexpr unsigned sqxfXformTD_Init = 4, sqxfXformTD_Init_TRAMP = 1;  // "sqxfXformTD_Init" 0x1026DF00
-constexpr unsigned sqxfXformTD_Update = 4, sqxfXformTD_Update_TRAMP = 1;  // "sqxfXformTD_Update" 0x1026E1F0
 constexpr unsigned sqrdLight_Init = 4, sqrdLight_Init_TRAMP = 1;  // "sqrdLight_Init" 0x1026E2F0
 constexpr unsigned SqgxContext_StoreVec14 = 4, SqgxContext_StoreVec14_TRAMP = 1;  // "SqgxContext_StoreVec14" 0x1026E3D0
 constexpr unsigned StAvatar_InitGlobals1099AEB8 = 4, StAvatar_InitGlobals1099AEB8_TRAMP = 1;  // "StAvatar_InitGlobals1099AEB8" 0x1026E400
@@ -8428,7 +8384,6 @@ constexpr unsigned SqskSkeleton_SetNodeCount = 4, SqskSkeleton_SetNodeCount_TRAM
 constexpr unsigned SqskSkeleton_FindBoneIndex = 4, SqskSkeleton_FindBoneIndex_TRAMP = 1;  // "SqskSkeleton_FindBoneIndex" 0x1027C900
 constexpr unsigned SqskSkeleton_GetNode = 4, SqskSkeleton_GetNode_TRAMP = 1;  // "SqskSkeleton_GetNode" 0x1027C980
 constexpr unsigned SqskSkeleton_Release = 4, SqskSkeleton_Release_TRAMP = 1;  // "SqskSkeleton_Release" 0x1027C9D0
-constexpr unsigned Unit1027CCF0_TransformOrigin = 4, Unit1027CCF0_TransformOrigin_TRAMP = 1;  // "Unit1027CCF0_TransformOrigin" 0x1027CCF0
 constexpr unsigned Unit1027CCF0_ComputeTransform = 4, Unit1027CCF0_ComputeTransform_TRAMP = 1;  // "Unit1027CCF0_ComputeTransform" 0x1027CD30
 constexpr unsigned Unit1027CCF0_TransformPoint = 4, Unit1027CCF0_TransformPoint_TRAMP = 1;  // "Unit1027CCF0_TransformPoint" 0x1027CFD0
 constexpr unsigned SqmoUtil_MarkSlot = 4, SqmoUtil_MarkSlot_TRAMP = 1;  // "SqmoUtil_MarkSlot" 0x1027D650
@@ -8456,7 +8411,6 @@ constexpr unsigned sqMatrix4_1027FCC0 = 4, sqMatrix4_1027FCC0_TRAMP = 1;  // "sq
 constexpr unsigned SqMatrix4_SetFields = 4, SqMatrix4_SetFields_TRAMP = 1;  // "SqMatrix4_SetFields" 0x10280650
 constexpr unsigned SqMatrix4_ScaleAxes = 4, SqMatrix4_ScaleAxes_TRAMP = 1;  // "SqMatrix4_ScaleAxes" 0x102806B0
 constexpr unsigned Sq_PrintFloat4x4Indented = 4, Sq_PrintFloat4x4Indented_TRAMP = 1;  // "Sq_PrintFloat4x4Indented" 0x10280D10
-constexpr unsigned Unit10280C40_CompositeBlendPasses = 4, Unit10280C40_CompositeBlendPasses_TRAMP = 1;  // "Unit10280C40_CompositeBlendPasses" 0x102813B0
 constexpr unsigned sqgxTextureCreateFromImage = 4, sqgxTextureCreateFromImage_TRAMP = 1;  // "sqgxTextureCreateFromImage" 0x10281510
 constexpr unsigned sqgxTextureAddZ = 4, sqgxTextureAddZ_TRAMP = 1;  // "sqgxTextureAddZ" 0x102816E0
 constexpr unsigned sqgxCeilLog2 = 4, sqgxCeilLog2_TRAMP = 1;  // "sqgxCeilLog2" 0x10281810
@@ -8550,7 +8504,7 @@ constexpr unsigned sqopOpcodeGet = 4, sqopOpcodeGet_TRAMP = 1;  // "sqopOpcodeGe
 constexpr unsigned sqopTrackSetIndex = 4, sqopTrackSetIndex_TRAMP = 1;  // "sqopTrackSetIndex" 0x10289EF0
 constexpr unsigned sqopTrackAdvance = 4, sqopTrackAdvance_TRAMP = 1;  // "sqopTrackAdvance" 0x10289F10
 constexpr unsigned SqxfXformM_Init = 4, SqxfXformM_Init_TRAMP = 1;  // "SqxfXformM_Init" 0x10289F50
-constexpr unsigned Sq_PrintIndent = 12, Sq_PrintIndent_TRAMP = 1;  // "Sq_PrintIndent" 0x1028A0B0
+constexpr unsigned Sq_PrintIndent = 4, Sq_PrintIndent_TRAMP = 1;  // "Sq_PrintIndent" 0x1028A0B0
 constexpr unsigned Unit1028A0A0_ReturnZero = 4, Unit1028A0A0_ReturnZero_TRAMP = 0;  // "Unit1028A0A0_ReturnZero" 0x1028A0E0
 constexpr unsigned Unit1028A0A0_ReadBlock = 4, Unit1028A0A0_ReadBlock_TRAMP = 1;  // "Unit1028A0A0_ReadBlock" 0x1028A0F0
 constexpr unsigned sqScript_TokenEquals = 4, sqScript_TokenEquals_TRAMP = 1;  // "sqScript_TokenEquals" 0x1028A150
@@ -8644,9 +8598,7 @@ constexpr unsigned SqrdTexture_Create = 4, SqrdTexture_Create_TRAMP = 1;  // "Sq
 constexpr unsigned SqrdTexture_Init = 4, SqrdTexture_Init_TRAMP = 1;  // "SqrdTexture_Init" 0x10298B90
 constexpr unsigned Texture_BindFromObject = 4, Texture_BindFromObject_TRAMP = 1;  // "Texture_BindFromObject" 0x10298C50
 constexpr unsigned Texture_CreateEntry = 4, Texture_CreateEntry_TRAMP = 1;  // "Texture_CreateEntry" 0x10298E10
-constexpr unsigned SqsdSampling_DrawPasses = 4, SqsdSampling_DrawPasses_TRAMP = 1;  // "SqsdSampling_DrawPasses" 0x10299090
 constexpr unsigned sqsdSampling_BakeOntoShape = 4, sqsdSampling_BakeOntoShape_TRAMP = 1;  // "sqsdSampling_BakeOntoShape" 0x10299250
-constexpr unsigned SqsdAniso_DrawPasses = 4, SqsdAniso_DrawPasses_TRAMP = 1;  // "SqsdAniso_DrawPasses" 0x102993B0
 constexpr unsigned sqsdAniso_BakeOntoShape = 4, sqsdAniso_BakeOntoShape_TRAMP = 1;  // "sqsdAniso_BakeOntoShape" 0x10299610
 constexpr unsigned SqsdCartoon_Draw = 4, SqsdCartoon_Draw_TRAMP = 1;  // "SqsdCartoon_Draw" 0x102997A0
 constexpr unsigned sqsdCartoon_BakeOntoShape_Stub = 4, sqsdCartoon_BakeOntoShape_Stub_TRAMP = 1;  // "sqsdCartoon_BakeOntoShape_Stub" 0x10299840
@@ -8721,7 +8673,6 @@ constexpr unsigned SqdfShape_Init = 4, SqdfShape_Init_TRAMP = 1;  // "SqdfShape_
 constexpr unsigned SqdfShape_InitCallbacks = 4, SqdfShape_InitCallbacks_TRAMP = 1;  // "SqdfShape_InitCallbacks" 0x102AF170
 constexpr unsigned sqinCluster_Create = 4, sqinCluster_Create_TRAMP = 1;  // "sqinCluster_Create" 0x102AF540
 constexpr unsigned sqinCluster_Init = 4, sqinCluster_Init_TRAMP = 1;  // "sqinCluster_Init" 0x102AF570
-constexpr unsigned Drawable_DrawTwoPass = 4, Drawable_DrawTwoPass_TRAMP = 1;  // "Drawable_DrawTwoPass" 0x102B2CA0
 }
 
 // left out (their declaration does not compile as decltype(&name)):

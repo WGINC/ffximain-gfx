@@ -111,28 +111,25 @@ Each step has a "done when". A step is done only when its check passes and the r
 | 95 | Speedfix on the source | Every speedfix lever is a source-level option; a regression suite of dumps, captures and pictures |
 | 100 | Final devkit | Stable mod API, docs, examples, packaging; a path to carry the manifests to a new FFXiMain build |
 
-## Speeding it up (25 Oct)
+## Speeding it up (25 Oct; done 26 Oct)
 
-Most of the time goes to work done one piece at a time, or redone when nothing changed, on one 4-core container
-(`nproc`). In the order they are taken:
+Most of the time went to work done one piece at a time, or redone when nothing changed, on one 4-core container.
+What was done, and what it measured:
 
-1. **Fact regeneration reruns only what changed.** `regen_facts.py` ran all 38 tools on every pass, including
-   the final pass that only confirms no change. The change: each tool's data/ reads are recorded by an audit hook during a
-   run (measured, not declared); a pass reruns a tool only if a file it read changed, and runs tools with no
-   dependency between them concurrently. The check: the same data as a full serial run.
-2. **The sweep compiles in parallel and caches.** The change: chunks run on every core. Verdicts are cached by the hash of
-   the converted source, the flags and the compiler files. The check: the same verdicts as a serial run.
-3. **Matching rules become bulk rewrites.** The DIFFERS are grouped by their first difference. Each proven rule
-   becomes a mechanical rewrite in the sweep, kept only where match.py says IDENTICAL. A source-variant search
-   (decomp-permuter or similar) is tested on VC6 before use.
-4. **Work follows the status file.** The render path is matched and typed first (steps 20–25), ahead of
-   finishing the whole frame set.
-5. **The owner's runs are batched.** One session kit covers every pending in-game run (facts=1 Block C, T3,
-   d3d8on11 against dgVoodoo, captures for the hot functions), with one script that collects the results.
-6. **Fewer stalls of my own.** Tool development happens in a separate worktree, so long runs are never edited
-   underneath, and long runs log their progress.
-7. **More machines.** Matching, naming, typing and gate batches go to worker sessions (docs/WORKERS.md) when the
-   owner says how many.
+1. **Fact regeneration reruns only what changed** (regen_facts.py, 63f58a6). Each tool's reads are recorded by an
+   audit hook; tools run concurrently by recorded dependencies, within 80% of the memory available. A full
+   recording pass took 34 min; the sp_solve round, which changed most facts, reached its fixpoint in 24 min.
+2. **The sweep compiles in parallel and caches** (4c1a60e): 22 s cold, 3 s cached, verdicts unchanged.
+3. **Matching rules become bulk rewrites.** Six rules, each kept only where match.py says IDENTICAL: 158
+   functions. `permute.py` runs decomp-permuter on the C functions with Visual C++ 6.0 (b410974); in its first
+   batch about a third of the functions tried were proven in 90 s each. Its results give the game's bytes, not the
+   original source.
+4. **Work follows the status file** (verification/frame_set_status.json, frame_status.py).
+5. **The owner's runs are batched** (kit/sessions/pending_26oct): facts and captures, T3, and frames from both
+   devices in one sitting, with a collect script.
+6. **Fewer stalls of my own.** Tool changes are made and tested in a separate worktree while long runs use the main
+   one. Long runs log their progress (regen_facts prints each tool as it ends).
+7. **More machines** (docs/WORKERS.md) when the owner says how many. Not started.
 
 ## Who does what
 

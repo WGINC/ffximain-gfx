@@ -138,3 +138,24 @@ the `xi_decomp.hpp` helpers are not Visual C++ 6.0. A function's source for matc
 written in the C++ that compiler takes, and kept only when `match.py` says IDENTICAL. That is the usual matching
 workflow (one function at a time, the compiler deciding), and it is open-ended: each function's source must be found,
 not derived, because the same behaviour has many sources and only one gives these bytes.
+
+## A source search for the rest: decomp-permuter (26 Oct)
+
+`pipeline/vc6/permute.py` runs [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) (a checkout
+outside the repo, `PERMUTER=`) on a sweep function. The permuter rewrites the C at random (statement order, split
+variables, casts, ...) and scores each version's object against the target's instructions; permute.py keeps a
+result only where match.py, at /O2, says IDENTICAL. Made to work with Visual C++ 6.0:
+- the MSVC keywords the shim and the source use are defined away for its C parser (`-DPERMUTER`);
+- a `__stdcall` function is compiled with `/Gz`, its keyword written back for match.py;
+- the COFF object goes to ELF through MinGW's objcopy;
+- the target is the game's bytes over the function's extent, built under runs/permute and never committed.
+
+Limits:
+- C only (the parser is pycparser). 571 of the remaining DIFFERS are C (522 `__cdecl`, 49 `__stdcall`); the
+  `__thiscall` members are C++.
+- What a result shows is that this source gives the game's bytes, not that it is the original. The permuter's
+  rewrites are what made the bytes. 0x100F9DA0's has a store written twice and one after its `return`, which the
+  compiler drops; a cleanup pass (drop a statement, keep the drop only if still IDENTICAL) is still to be written.
+
+First test: 3 of 4 small functions proven in two minutes each (recompile/perm_*.c). A batch over all 571 runs in
+chunks.

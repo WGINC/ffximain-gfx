@@ -5,7 +5,7 @@ Run them in this order. Each start writes its own log folder (`log_folder=1`).
 
 | Start | Settings | Where | Time | Answers |
 |---|---|---|---|---|
-| A. Facts and captures | `A_facts/xikit.ini` | anywhere, then play | about 35 min | Call pops, output slots and switch targets the code cannot settle (`facts=1`, 3,791 sites). Two real calls each of SkinAndDrawV2, TexObj_Upload, Cell_DrawQuadBlended and Frame_Render, for the gate to run their code on real state |
+| A. Facts and captures | `A_facts/xikit.ini` | anywhere, then play | about 35 min | Call pops, output slots and switch targets the code cannot settle (`facts=1`, 3,791 sites). Two real calls each of SkinAndDrawV2, TexObj_Upload, Cell_DrawQuadBlended, Frame_Render and 0x10003890 (the one function the gate cannot decide on fuzzed inputs), for the gate to run their code on real state |
 | B. T3, no drawing | `B_no_draws/xikit.ini` and `speedfix.ini` | Port Jeuno plaza, standing | about 10 min | Whether the game's own CPU work fits in a 60 fps frame with nothing drawn (docs/REEVALUATION.md T3; T1 and T2 are done) |
 | C. Frames to compare | `C_capture/xikit.ini`, then ours with `C_capture/d3d8on11.ini` | Port Jeuno plaza, standing | about 2 × 8 min | Three whole frames from dgVoodoo and from ours, same spot, for the pixel comparison and the replayer (the UI text that differs in 8,689 pixels) |
 
@@ -22,7 +22,7 @@ included.
 
 1. Copy `A_facts/xikit.ini` over yours. Start the game.
 2. `xikit.log` should say `facts=1: 3791 call sites to measure` (or close to it) and list the four captures.
-3. **About 2 minutes in, the game freezes for a moment, up to eight times.** Each freeze is one capture: the other
+3. **About 2 minutes in, the game freezes for a moment, up to ten times.** Each freeze is one capture: the other
    threads are suspended while up to 80 MB are copied. If it freezes for more than a minute, or crashes, close it
    and send the log folder anyway.
 4. Then play for about 30 minutes, touching as much of the game as you can:

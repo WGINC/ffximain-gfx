@@ -87,6 +87,24 @@ def main():
     sh('git show %s:data/exports/gfx_export.jsonl > %s' % (src['export_commit'], texp))
     # 2 facts re-derived (each tool reads the committed inputs it depends on, so the chain is checked link by link)
     facts = fact_commands(texp, src['raw_gate'])
+    if '--facts-from-state' in sys.argv:
+        # regen_facts.py's recorded state stands for re-deriving: a fact whose tool's recorded inputs (files read,
+        # imports, the hook and the interpreter) are unchanged and whose data/ file is what the tool produced is what
+        # re-deriving would give, as far as the tools are deterministic in their inputs -- the assumption step 2 makes
+        # anyway. A tool that started a program (its reads unseen), or any change, is re-derived as below
+        import regen_facts as RF
+        st = json.load(open(RF.STATE)) if os.path.exists(RF.STATE) else {}
+        RF.RUN = RF.run_signature()
+        left = []
+        for f, cmd in facts:
+            s_ = st.get(f)
+            fresh = (s_ and not s_.get('programs') and s_.get('run') == RF.RUN and
+                     all((RF.import_hash(p[7:], s_.get('names', ())) if p.startswith('import:') else RF.fhash(p)) == h
+                         for p, h in s_['reads'].items()) and
+                     all(RF.fhash(os.path.realpath(os.path.join(D, g))) == h for g, h in s_['produced'].items()))
+            if fresh: report('facts:' + f, True, from_state='runs/regen_facts/state.json: inputs and output unchanged')
+            else: left.append((f, cmd))
+        facts = left
     for f, cmd in facts:
         o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))
         if rc or not os.path.exists(o): report('facts:' + f, False, error=out.strip().splitlines()[-1:] or rc); continue

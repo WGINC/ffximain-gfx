@@ -138,7 +138,7 @@ XI_API undefined4 __thiscall Unit10014350_StepMenuOkThenRelease(void * self_)
         g_C_106631D4_as_v1 = (void *)0x0;
       }
       if (DAT_1045690c_as_v1 != (int *)0x0) {
-        uVar4 = (**(code **)(*DAT_1045690c_as_v1 + 0x18))(1);
+        uVar4 = ((int (__thiscall *)(void *, XI_ANY))(*(code **)(*DAT_1045690c_as_v1 + 0x18)))((void *)(DAT_1045690c_as_v1), 1);
         DAT_1045690c_as_v1 = (int *)0x0;
       }
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));

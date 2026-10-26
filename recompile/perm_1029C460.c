@@ -42,7 +42,7 @@ typedef __int64 XI_PS8;
 void *memcpy(void *, const void *, size_t);
 DWORD timeGetTime(void);
 // FUNCTION: FFXIMAIN 0x1029C460
-void Sqgx_SetContextFieldE24(volatile unsigned int param_1)
+void Sqgx_SetContextFieldE24(volatile int param_1)
 {
   *((uint32_t *) ((*((int *) 0x1099D200u)) + 0xe24)) = param_1;
   return;

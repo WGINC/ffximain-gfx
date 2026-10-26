@@ -7,6 +7,7 @@ Sources (all whole-DLL facts in data/):
   edx_use.json    the same for EDX (True or an instruction: read; False: not; null: not established)
   purges.json     the function's own `ret N`
   tail_purges.json no `ret`: every exit tail-jumps at stack depth 0 to targets popping the same N (tail_purges.py)
+  sp_solved.json  no `ret` and no tail purge: every solved direct call to it pops 0 (each caller's balance)
   entry_regs.json reads of EAX/EBX/ESI/EDI/EBP on entry (a __usercall): no standard convention says that
   fpret.json      the value left in ST0 on return ('float') or none; 'consumes': pops a value the caller left in ST0 (RET st0in)
   x87_effects.json each function's x87 inputs and outputs: its verdict replaces fpret.json's (x87_returns); a function
@@ -18,7 +19,8 @@ Sources (all whole-DLL facts in data/):
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
   neither read            -> __stdcall if ret N > 0, else __cdecl; a __cdecl one's stack arguments are the slots
-                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`
+                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`; with no
+                             exact count, the slots every settled caller pushes (data/call_pushes.json)
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
@@ -140,6 +142,22 @@ def main(out):
     fp = x87_returns(fp)
     EI.update(load('eax_inputs.json')); RK.update(load('reg_keeps.json'))
     pu.update({k: v['pops'] for k, v in load('tail_purges.json').items() if k not in pu})
+    # a function with no `ret N` of its own (a dispatch thunk ending in `jmp [mem]`) whose every solved direct call
+    # pops 0 (sp_solved.json: each caller's balance) pops 0 as its callers see it: its purge for the rules below
+    import collections as _c
+    seen = _c.defaultdict(set)
+    try:
+        import pefile, capstone
+        img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+        md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+        for ck, v in load('sp_solved.json').items():
+            if ck.startswith('_'): continue
+            a = int(ck, 16); i = next(md.disasm(bytes(img[a - 0x10000000:a - 0x10000000 + 5]), a), None)
+            if i and i.mnemonic == 'call' and i.op_str.startswith('0x'): seen['0x%08X' % int(i.op_str, 16)].add(v['pops'])
+    except KeyError:
+        pass                                   # without $FFXI_DLL the call targets are not read: no such purges
+    for k, ps in seen.items():
+        if k not in pu and ps == {0}: pu[k] = 0
     n = {}
     with open(out, 'w') as f:
         for k in sorted(set(eu) | set(pu), key=lambda s: int(s, 16)):
@@ -159,6 +177,15 @@ def main(out):
             r, why = decide(k, eu, du, pu, er, fp)
             if not r or r[0] != '__cdecl': continue
             f.write('%s cargs %d\n' % (k, ca[k])); n['cargs'] = n.get('cargs', 0) + 1
+        # no exact read set, but every settled caller pushes the same bytes for it (call_pushes.py): those slots are
+        # what the callers pass, so the decompiler shows them passed (docs/PROBLEMS.md P17: without it the tree's
+        # calls to 0x10310067 pass none of the six the game pushes)
+        cp = load('call_pushes.json').get('_callees', {}) if os.path.exists(os.path.join(D, 'call_pushes.json')) else {}
+        for k in sorted(set(cp) - set(ca) - set(va), key=lambda s: int(s, 16)):
+            if not cp[k]: continue
+            r, why = decide(k, eu, du, pu, er, fp)
+            if not r or r[0] != '__cdecl': continue
+            f.write('%s cargs %d\n' % (k, cp[k] // 4)); n['cargs (pushed)'] = n.get('cargs (pushed)', 0) + 1
         # no convention decided (ECX or EDX use not established), the stack bytes known: `ret N`, or for one that
         # pops 0 the slots it reads (exact)
         for k in sorted(set(pu), key=lambda s: int(s, 16)):

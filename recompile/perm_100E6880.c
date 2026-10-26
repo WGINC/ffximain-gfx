@@ -42,8 +42,8 @@ typedef __int64 XI_PS8;
 void *memcpy(void *, const void *, size_t);
 DWORD timeGetTime(void);
 // FUNCTION: FFXIMAIN 0x100E6880
-void Unit100D7420_SetDuration138(volatile long param_1)
+void Unit100D7420_SetDuration138(volatile int param_1)
 {
-  *((uint32_t *) (0x138 + (*((int *) 0x104DF770u)))) = param_1;
+  *((uint32_t *) ((*((int *) 0x104DF770u)) + 0x138)) = param_1;
   return;
 }

@@ -42,11 +42,9 @@ typedef __int64 XI_PS8;
 void *memcpy(void *, const void *, size_t);
 DWORD timeGetTime(void);
 // FUNCTION: FFXIMAIN 0x100F9DA0
-unsigned char Unit100D7420_ClearSessionGlobals(void)
+char Unit100D7420_ClearSessionGlobals(void)
 {
-  *((undefined4 *) 0x104DFD98u) = 0;
   *((undefined4 *) 0x104DFD98u) = 0;
   *((undefined4 *) 0x104DFD94u) = 0;
   return 1;
-  *((undefined4 *) 0x104DFD94u) = 0;
 }

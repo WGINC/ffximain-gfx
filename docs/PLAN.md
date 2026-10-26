@@ -70,8 +70,8 @@ Each step has a "done when". A step is done only when its check passes and the r
 
 | % | Step | Done when |
 |---|---|---|
-| 5 | Tree current | The round-4 tree is installed and committed; facts at their fixpoint (regen_facts.py, no change in a pass); verify_all clean apart from the listed problems |
-| 10 | Frame set closed | The switch-table and arg_reads rounds are in; indirect calls are resolved statically or from kit recordings; one per-function status file for the frame set (in tree / PASS / identical / unresolved, with the reason) |
+| 5 | Tree current | The round-4 tree is installed and committed; facts at their fixpoint (regen_facts.py, no change in a pass); verify_all clean apart from the listed problems. **Done 26 Oct:** every fact re-derives; the tree regenerates to the committed one; export-sp's 0x100412B0 is PROBLEMS P5 |
+| 10 | Frame set closed | The switch-table and arg_reads rounds are in; indirect calls are resolved statically or from kit recordings; one per-function status file for the frame set (in tree / PASS / identical / unresolved, with the reason). **26 Oct:** rounds in, status file built. 1,756 indirect calls unresolved (proven D3D8 calls no longer counted), 185 of them observed in game, every observed target already in the set. The rest waits on the owner's session A (kit/sessions/pending_26oct) or a static proof of the object's class |
 | 15 | Whole frame set in the tree | Every frame-set function PASSes or has a named reason it cannot yet (UNRESOLVED call, FAIL with cause) |
 | 20 | Render core identical | The 57 device-calling functions and their direct callers compile to the game's bytes |
 | 25 | Render objects typed | CDx, model/skin/skeleton, actor, camera, font and zone types are declared structs in the tree; no `field_XXX` on the render path; each field's type has a named source |

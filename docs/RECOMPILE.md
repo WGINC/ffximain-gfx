@@ -157,5 +157,6 @@ Limits:
   rewrites are what made the bytes. 0x100F9DA0's has a store written twice and one after its `return`, which the
   compiler drops; a cleanup pass (drop a statement, keep the drop only if still IDENTICAL) is still to be written.
 
-First test: 3 of 4 small functions proven in two minutes each (recompile/perm_*.c). A batch over all 571 runs in
-chunks.
+First test: 3 of 4 small functions proven in two minutes each. The batch over all 571, smallest first, 90 s each:
+the first chunk of 180 proved 32 (recompile/perm_*.c, 35 in all, every one IDENTICAL under match.py --all). The
+rest run in chunks.

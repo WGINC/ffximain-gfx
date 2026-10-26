@@ -4921,7 +4921,7 @@ XI_ORIG void SqmoPlaybackChannel_Init(XI_ANY a0) { reinterpret_cast<void (__cdec
 XI_ORIG undefined FUN_102925a0() { return reinterpret_cast<undefined (__cdecl *)()>(XI_GAME(0x102925A0u))(); }
 XI_ORIG undefined FUN_10292740() { return reinterpret_cast<undefined (__cdecl *)()>(XI_GAME(0x10292740u))(); }
 XI_ORIG void SqmoPlaybackChannel_Update(XI_ANY a0, XI_ANY a1) { reinterpret_cast<void (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10293000u))(a0, a1); }
-XI_ORIG undefined FUN_102934c0() { return reinterpret_cast<undefined (__cdecl *)()>(XI_GAME(0x102934C0u))(); }
+XI_ORIG undefined4 FUN_102934c0() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x102934C0u))(); }
 XI_ORIG void Unit10293EE0_SetHandlerByType(XI_ANY a0, XI_ANY a1) { reinterpret_cast<void (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10293F00u))(a0, a1); }
 XI_ORIG undefined4 * SqmoFrameChannel_Create() { return reinterpret_cast<undefined4 * (__cdecl *)()>(XI_GAME(0x10293F80u))(); }
 XI_ORIG void SqmoFrameChannel_Init(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x10293FA0u))(a0); }

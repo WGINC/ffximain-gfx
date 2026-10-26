@@ -23,11 +23,12 @@
   "d3dx": 219,
   "static": 4465,
   "only_observed": 519,
-  "in_tree": 3748,
-  "game_code_not_in_tree": 1017,
+  "in_tree": 3822,
+  "game_code_not_in_tree": 943,
   "tree_not_in_frame_set": 458,
-  "unresolved_indirect_calls": 1929,
-  "functions_with_unresolved": 484
+  "unresolved_indirect_calls": 1756,
+  "functions_with_unresolved": 466,
+  "unresolved_observed_in_game": 185
  },
  "functions": {
   "0x10001070": {
@@ -286,6 +287,14 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 22,
+   "observed_targets": {
+    "0x10005A86": [
+     "module:Hook.dll+0x61B90"
+    ],
+    "0x10005B1D": [
+     "module:Hook.dll+0x61E40"
+    ]
+   },
    "self_samples": 4,
    "stack_samples": 222
   },
@@ -401,7 +410,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -417,7 +426,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -427,7 +436,7 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 9
+   "unresolved": 7
   },
   "0x10009640": {
    "evidence": [
@@ -451,7 +460,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1,
    "self_samples": 1,
    "stack_samples": 6
   },
@@ -460,8 +468,7 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 1
+   "d3dx": false
   },
   "0x10009720": {
    "evidence": [
@@ -480,7 +487,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1,
    "stack_samples": 26
   },
   "0x10009740": {
@@ -490,7 +496,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1,
    "stack_samples": 16
   },
   "0x10009750": {
@@ -558,7 +563,6 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 49,
    "self_samples": 2,
    "stack_samples": 68
   },
@@ -628,7 +632,18 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 5,
+   "unresolved": 4,
+   "observed_targets": {
+    "0x10009F44": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x10009F61": [
+     "module:d3d8.dll+0xBE8A0"
+    ],
+    "0x10009F70": [
+     "module:d3d8.dll+0xBEE40"
+    ]
+   },
    "self_samples": 7,
    "stack_samples": 32
   },
@@ -654,7 +669,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1,
    "stack_samples": 10
   },
   "0x1000A200": {
@@ -695,6 +709,17 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 6,
+   "observed_targets": {
+    "0x1000A2DB": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1000A2F6": [
+     "module:Hook.dll+0x5DEF0"
+    ],
+    "0x1000A300": [
+     "module:d3d8.dll+0xBE8A0"
+    ]
+   },
    "self_samples": 2,
    "stack_samples": 26
   },
@@ -714,8 +739,7 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 2
+   "d3dx": false
   },
   "0x1000A4F0": {
    "evidence": [
@@ -738,7 +762,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 2,
    "stack_samples": 87
   },
   "0x1000A6E0": {
@@ -747,7 +770,7 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 6
+   "unresolved": 1
   },
   "0x1000A800": {
    "evidence": [
@@ -773,8 +796,7 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 15
+   "d3dx": false
   },
   "0x1000ABE0": {
    "evidence": [
@@ -790,7 +812,15 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 2
+   "unresolved": 2,
+   "observed_targets": {
+    "0x1000AD84": [
+     "module:d3d8.dll+0xBEE40"
+    ],
+    "0x1000ADB2": [
+     "module:Hook.dll+0x5DC50"
+    ]
+   }
   },
   "0x1000AE40": {
    "evidence": [
@@ -820,8 +850,7 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 6
+   "d3dx": false
   },
   "0x1000BD50": {
    "evidence": [
@@ -879,7 +908,7 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 56,
+   "unresolved": 3,
    "stack_samples": 39
   },
   "0x1000C6E0": {
@@ -933,7 +962,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 3,
    "self_samples": 14,
    "stack_samples": 804
   },
@@ -955,7 +983,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 3,
    "self_samples": 20,
    "stack_samples": 2550
   },
@@ -964,16 +991,14 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 1
+   "d3dx": false
   },
   "0x1000CF90": {
    "evidence": [
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 1
+   "d3dx": false
   },
   "0x1000CFB0": {
    "evidence": [
@@ -1106,6 +1131,20 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 51,
+   "observed_targets": {
+    "0x10012B1D": [
+     "game:0x10019230"
+    ],
+    "0x10012B28": [
+     "game:0x10019550"
+    ],
+    "0x10012BCB": [
+     "game:0x10019550"
+    ],
+    "0x10012BF5": [
+     "game:0x100194F0"
+    ]
+   },
    "stack_samples": 42220
   },
   "0x10012F40": {
@@ -1114,7 +1153,72 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 21
+   "unresolved": 21,
+   "observed_targets": {
+    "0x10012FCE": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10012FE4": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10012FFA": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013012": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001302A": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013042": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013059": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013070": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013087": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001309D": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100130B4": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100130CC": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100130E4": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100130FC": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001319C": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x100131B2": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x100131C8": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013251": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001326F": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013285": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001329A": [
+     "module:Hook.dll+0x5DE90"
+    ]
+   }
   },
   "0x100132B0": {
    "evidence": [
@@ -1122,7 +1226,75 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 41
+   "unresolved": 41,
+   "observed_targets": {
+    "0x1001362F": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013644": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001365A": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013670": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013687": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001369E": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100136B5": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100136CC": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100136E3": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x100136FA": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013710": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013727": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001373D": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013755": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x1001376D": [
+     "module:Hook.dll+0x5E760"
+    ],
+    "0x10013809": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001381F": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x10013835": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001392A": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1001398C": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x100139A2": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x100139B8": [
+     "module:Hook.dll+0x5DE90"
+    ]
+   }
   },
   "0x100139E0": {
    "evidence": [
@@ -1227,6 +1399,11 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 1,
+   "observed_targets": {
+    "0x10014377": [
+     "game:0x10014330"
+    ]
+   },
    "stack_samples": 24
   },
   "0x10014390": {
@@ -1237,6 +1414,14 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 7,
+   "observed_targets": {
+    "0x1001451F": [
+     "game:0x100A4740"
+    ],
+    "0x1001452A": [
+     "game:0x100A4740"
+    ]
+   },
    "stack_samples": 24
   },
   "0x100149B0": {
@@ -1785,7 +1970,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100180D0": {
@@ -1800,7 +1985,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10018180": {
@@ -1814,7 +1999,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10018270": {
@@ -2312,7 +2497,21 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 4,
+   "observed_targets": {
+    "0x100215E1": [
+     "game:0x100A4750"
+    ],
+    "0x100215F7": [
+     "game:0x100A4750"
+    ],
+    "0x1002160E": [
+     "game:0x100A4750"
+    ],
+    "0x10021625": [
+     "game:0x100A4740"
+    ]
+   }
   },
   "0x10021680": {
    "evidence": [
@@ -2320,7 +2519,24 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 10
+   "unresolved": 10,
+   "observed_targets": {
+    "0x100216EF": [
+     "game:0x100A4750"
+    ],
+    "0x10021705": [
+     "game:0x100A4750"
+    ],
+    "0x1002171C": [
+     "game:0x100A4750"
+    ],
+    "0x10021733": [
+     "game:0x100A4740"
+    ],
+    "0x1002177E": [
+     "game:0x100A4740"
+    ]
+   }
   },
   "0x10021900": {
    "evidence": [
@@ -2742,7 +2958,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 45
   },
@@ -2752,7 +2968,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 7,
    "stack_samples": 67
@@ -2763,7 +2979,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 7,
    "stack_samples": 21346
@@ -3286,7 +3502,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 2
   },
@@ -4181,7 +4397,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10037C50": {
@@ -4244,7 +4460,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10038440": {
@@ -4352,7 +4568,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -4457,6 +4673,26 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 40,
+   "observed_targets": {
+    "0x10039EE5": [
+     "module:d3d8.dll+0xC0230"
+    ],
+    "0x1003A3E8": [
+     "module:d3d8.dll+0xC0270"
+    ],
+    "0x1003A837": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1003A87C": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1003A88B": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1003A928": [
+     "module:d3d8.dll+0xB0F90"
+    ]
+   },
    "stack_samples": 7
   },
   "0x1003AA50": {
@@ -4713,6 +4949,35 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 11,
+   "observed_targets": {
+    "0x1003BB21": [
+     "game:0x100ABFB0",
+     "game:0x100D4560"
+    ],
+    "0x1003BBD0": [
+     "game:0x100A4740",
+     "game:0x100ABD90"
+    ],
+    "0x1003BBE0": [
+     "game:0x100A4740",
+     "game:0x100ABD90"
+    ],
+    "0x1003BBF1": [
+     "game:0x100A4740",
+     "game:0x100ABD90"
+    ],
+    "0x1003BC02": [
+     "game:0x100A4740",
+     "game:0x100ABD90"
+    ],
+    "0x1003BC26": [
+     "game:0x100ABFB0",
+     "game:0x100D4560"
+    ],
+    "0x1003BC81": [
+     "game:0x1006D580"
+    ]
+   },
    "self_samples": 1,
    "stack_samples": 96
   },
@@ -4735,6 +5000,20 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 9,
+   "observed_targets": {
+    "0x1003C219": [
+     "game:0x100A4750",
+     "game:0x100ABDA0",
+     "game:0x100C3FC0"
+    ],
+    "0x1003C282": [
+     "game:0x100A4750",
+     "game:0x100ABDA0"
+    ],
+    "0x1003C297": [
+     "game:0x1006E140"
+    ]
+   },
    "self_samples": 1,
    "stack_samples": 404
   },
@@ -4787,7 +5066,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 5,
    "stack_samples": 218
   },
   "0x1003DFE0": {
@@ -5086,7 +5364,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 4,
    "self_samples": 6,
    "stack_samples": 1319
   },
@@ -5230,6 +5507,11 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x10044E41": [
+     "game:0x1006CC40"
+    ]
+   },
    "self_samples": 13,
    "stack_samples": 121
   },
@@ -5670,6 +5952,82 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 62,
+   "observed_targets": {
+    "0x1004EF09": [
+     "game:0x10053E00"
+    ],
+    "0x1004EF24": [
+     "game:0x1006D9C0"
+    ],
+    "0x1004F663": [
+     "game:0x1006D4D0"
+    ],
+    "0x1004F67C": [
+     "game:0x1006D4D0"
+    ],
+    "0x1005194F": [
+     "game:0x1003EF80",
+     "game:0x10041120",
+     "game:0x10052DD0"
+    ],
+    "0x10051966": [
+     "game:0x1003EF80",
+     "game:0x10041120",
+     "game:0x10052DD0"
+    ],
+    "0x1005197D": [
+     "game:0x1003EF80",
+     "game:0x10041120",
+     "game:0x10052DD0"
+    ],
+    "0x10051994": [
+     "game:0x1003EF80",
+     "game:0x10041120",
+     "game:0x10052DD0"
+    ],
+    "0x10051F3E": [
+     "game:0x1006D720"
+    ],
+    "0x10051F9D": [
+     "game:0x1006DCF0"
+    ],
+    "0x10051FFB": [
+     "game:0x1006DCF0"
+    ],
+    "0x1005200D": [
+     "game:0x1006D270"
+    ],
+    "0x1005201F": [
+     "game:0x1006D270"
+    ],
+    "0x1005205A": [
+     "game:0x1006D720"
+    ],
+    "0x1005213C": [
+     "game:0x1006DCF0"
+    ],
+    "0x1005219E": [
+     "game:0x1006DCF0"
+    ],
+    "0x100521B0": [
+     "game:0x1006D270"
+    ],
+    "0x100521C2": [
+     "game:0x1006D270"
+    ],
+    "0x1005221B": [
+     "game:0x1006D270"
+    ],
+    "0x10052227": [
+     "game:0x1006D190"
+    ],
+    "0x10052239": [
+     "game:0x1006D270"
+    ],
+    "0x10052294": [
+     "game:0x1006D720"
+    ]
+   },
    "self_samples": 1,
    "stack_samples": 121
   },
@@ -6338,6 +6696,40 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 14,
+   "observed_targets": {
+    "0x10053FE5": [
+     "game:0x100ABE30",
+     "game:0x100D08E0"
+    ],
+    "0x10053FF3": [
+     "game:0x100ABE40",
+     "game:0x100D09B0"
+    ],
+    "0x10054008": [
+     "game:0x100ABE30",
+     "game:0x100D08E0"
+    ],
+    "0x10054012": [
+     "game:0x100ABE40",
+     "game:0x100D09B0"
+    ],
+    "0x10054108": [
+     "game:0x100ABE30",
+     "game:0x100D08E0"
+    ],
+    "0x10054116": [
+     "game:0x100ABE40",
+     "game:0x100D09B0"
+    ],
+    "0x1005412B": [
+     "game:0x100ABE30",
+     "game:0x100D08E0"
+    ],
+    "0x10054135": [
+     "game:0x100ABE40",
+     "game:0x100D09B0"
+    ]
+   },
    "stack_samples": 72
   },
   "0x10054220": {
@@ -6530,6 +6922,17 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 3,
+   "observed_targets": {
+    "0x10055FFB": [
+     "game:0x1006D580"
+    ],
+    "0x10056012": [
+     "game:0x1006CC60"
+    ],
+    "0x100560D3": [
+     "game:0x1006D580"
+    ]
+   },
    "stack_samples": 6
   },
   "0x10056160": {
@@ -6538,7 +6941,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 2,
    "stack_samples": 4
@@ -6778,7 +7181,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -6907,6 +7310,20 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x1006A0F0": [
+     "module:Hook.dll+0x5E740"
+    ],
+    "0x1006A103": [
+     "module:Hook.dll+0x5E740"
+    ],
+    "0x1006A116": [
+     "module:Hook.dll+0x5E740"
+    ],
+    "0x1006A129": [
+     "module:Hook.dll+0x5E740"
+    ]
+   },
    "stack_samples": 1
   },
   "0x1006A150": {
@@ -7017,6 +7434,14 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x1006AE55": [
+     "module:Hook.dll+0x5DD50"
+    ],
+    "0x1006AEC9": [
+     "module:Hook.dll+0x5DDD0"
+    ]
+   },
    "self_samples": 1
   },
   "0x1006AF00": {
@@ -7148,7 +7573,7 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 3
   },
   "0x1006C210": {
    "evidence": [
@@ -7188,7 +7613,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 2,
    "self_samples": 1,
    "stack_samples": 7511
   },
@@ -7199,7 +7623,6 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 5,
    "stack_samples": 256
   },
   "0x1006C8B0": {
@@ -7210,7 +7633,18 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 5,
+   "unresolved": 4,
+   "observed_targets": {
+    "0x1006C8CD": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1006C907": [
+     "module:d3d8.dll+0xBE8A0"
+    ],
+    "0x1006C91C": [
+     "module:d3d8.dll+0xBEE70"
+    ]
+   },
    "self_samples": 12,
    "stack_samples": 11442
   },
@@ -7220,7 +7654,18 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 4,
+   "observed_targets": {
+    "0x1006C9E4": [
+     "module:d3d8.dll+0xC0110"
+    ],
+    "0x1006C9F3": [
+     "module:d3d8.dll+0xBEE40"
+    ],
+    "0x1006C9FD": [
+     "module:d3d8.dll+0xBE8A0"
+    ]
+   }
   },
   "0x1006CA20": {
    "evidence": [
@@ -7342,7 +7787,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 2,
    "stack_samples": 64
@@ -7367,7 +7812,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 2
   },
@@ -7384,7 +7829,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 31,
    "stack_samples": 5
@@ -7556,6 +8001,13 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 1,
+   "observed_targets": {
+    "0x1007186F": [
+     "game:0x1003CB30",
+     "game:0x100569D0",
+     "game:0x10071E00"
+    ]
+   },
    "stack_samples": 1
   },
   "0x10071C90": {
@@ -7733,7 +8185,14 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x1007259D": [
+     "game:0x1018AA50",
+     "game:0x1018AAE0",
+     "game:0x1018AB60"
+    ]
+   }
   },
   "0x10072990": {
    "evidence": [
@@ -8188,7 +8647,7 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 11
+   "unresolved": 4
   },
   "0x10075520": {
    "evidence": [
@@ -8434,6 +8893,18 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1,
+   "observed_targets": {
+    "0x100810C1": [
+     "game:0x1007A7A0",
+     "game:0x1007B710",
+     "game:0x1007B820",
+     "game:0x1007B900",
+     "game:0x1007D240",
+     "game:0x1007E490",
+     "game:0x1007E8D0",
+     "game:0x10080340"
+    ]
+   },
    "stack_samples": 4
   },
   "0x10081230": {
@@ -8745,7 +9216,15 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 3
+   "unresolved": 3,
+   "observed_targets": {
+    "0x10083657": [
+     "game:0x100A4750"
+    ],
+    "0x10083678": [
+     "game:0x100A4740"
+    ]
+   }
   },
   "0x10083750": {
    "evidence": [
@@ -9288,7 +9767,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 6
   },
@@ -9392,7 +9871,12 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x1008AD83": [
+     "game:0x100A46F0"
+    ]
+   }
   },
   "0x1008B100": {
    "evidence": [
@@ -9897,7 +10381,19 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x100964B9": [
+     "game:0x100962C0",
+     "game:0x100962F0",
+     "game:0x10096350",
+     "game:0x10096380",
+     "game:0x100963B0",
+     "game:0x100963E0",
+     "game:0x10096410",
+     "game:0x10096470"
+    ]
+   }
   },
   "0x10096640": {
    "evidence": [
@@ -10014,7 +10510,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 6
   },
@@ -10627,7 +11123,12 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x100AE6EB": [
+     "game:0x100D6F50"
+    ]
+   }
   },
   "0x100BA080": {
    "evidence": [
@@ -10934,7 +11435,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 4
   },
@@ -10942,7 +11443,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -11204,7 +11705,18 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 7
+   "unresolved": 7,
+   "observed_targets": {
+    "0x100D0FC7": [
+     "game:0x10082960"
+    ],
+    "0x100D0FD3": [
+     "game:0x100828B0"
+    ],
+    "0x100D0FF8": [
+     "game:0x100829C0"
+    ]
+   }
   },
   "0x100D1070": {
    "evidence": [
@@ -11263,6 +11775,11 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 23,
+   "observed_targets": {
+    "0x100D3670": [
+     "game:0x10082780"
+    ]
+   },
    "stack_samples": 4
   },
   "0x100D4330": {
@@ -11454,7 +11971,12 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x100D8A7A": [
+     "game:0x100E1820"
+    ]
+   }
   },
   "0x100D9380": {
    "evidence": [
@@ -11625,7 +12147,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100DBCA0": {
@@ -12089,6 +12611,25 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 13,
+   "observed_targets": {
+    "0x100E0DE1": [
+     "game:0x100E16A0",
+     "game:0x100E1710",
+     "game:0x100E1740"
+    ],
+    "0x100E0FAA": [
+     "game:0x100E16A0",
+     "game:0x100E1740"
+    ],
+    "0x100E1083": [
+     "game:0x100E2060"
+    ],
+    "0x100E116A": [
+     "game:0x100E16A0",
+     "game:0x100E1F20",
+     "game:0x100E2060"
+    ]
+   },
    "self_samples": 2,
    "stack_samples": 2
   },
@@ -12225,7 +12766,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100E47A0": {
@@ -12574,14 +13115,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EE0A0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EE160": {
@@ -12595,28 +13136,28 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EE900": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EEB70": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EEDE0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EEE90": {
@@ -12630,14 +13171,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EF020": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100EF0E0": {
@@ -13131,7 +13672,12 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 4,
+   "observed_targets": {
+    "0x100F2AE9": [
+     "game:0x100F2020"
+    ]
+   }
   },
   "0x100F2B80": {
    "evidence": [
@@ -14071,7 +14617,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10113D30": {
@@ -14469,7 +15015,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "self_samples": 2,
@@ -14859,7 +15405,13 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x1011A3C3": [
+     "game:0x101E7E90",
+     "game:0x101FAFF0"
+    ]
+   }
   },
   "0x1011A490": {
    "evidence": [
@@ -15054,7 +15606,12 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 16
+   "unresolved": 16,
+   "observed_targets": {
+    "0x1011C523": [
+     "module:Hook.dll+0x5DE90"
+    ]
+   }
   },
   "0x1011C5D0": {
    "evidence": [
@@ -15067,7 +15624,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2
   },
@@ -15160,7 +15717,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1011D840": {
@@ -15229,14 +15786,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1011DCC0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1011DE80": {
@@ -15318,6 +15875,14 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 38,
+   "observed_targets": {
+    "0x1011F4A1": [
+     "module:Hook.dll+0x5DE90"
+    ],
+    "0x1011F703": [
+     "module:Hook.dll+0x5DE90"
+    ]
+   },
    "stack_samples": 1179
   },
   "0x1011FA80": {
@@ -16313,7 +16878,15 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 2
+   "unresolved": 2,
+   "observed_targets": {
+    "0x10127EC7": [
+     "game:0x101369B0"
+    ],
+    "0x10127ED4": [
+     "game:0x10136A20"
+    ]
+   }
   },
   "0x10127EE0": {
    "evidence": [
@@ -16397,6 +16970,12 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 1,
+   "observed_targets": {
+    "0x10128ED7": [
+     "game:0x101618D0",
+     "game:0x10161BE0"
+    ]
+   },
    "stack_samples": 2
   },
   "0x10129290": {
@@ -16475,35 +17054,35 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10129DE0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10129E30": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10129E80": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10129EB0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10129EE0": {
@@ -16986,7 +17565,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -17372,14 +17951,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10153310": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 9
   },
@@ -18056,6 +18635,11 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1,
+   "observed_targets": {
+    "0x1015833A": [
+     "game:0x1022B8E0"
+    ]
+   },
    "stack_samples": 2
   },
   "0x101583F0": {
@@ -18270,7 +18854,13 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x10159438": [
+     "game:0x100C5410",
+     "game:0x100C5440"
+    ]
+   }
   },
   "0x10159440": {
    "evidence": [
@@ -18757,6 +19347,25 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x1015E407": [
+     "game:0x1012BF50",
+     "game:0x1013BFC0",
+     "game:0x10140890",
+     "game:0x10150870",
+     "game:0x10161910",
+     "game:0x10161C20",
+     "game:0x101F68B0",
+     "game:0x102391D0"
+    ],
+    "0x1015E40F": [
+     "game:0x1012AC50",
+     "game:0x1013C110",
+     "game:0x101408A0",
+     "game:0x101508F0",
+     "game:0x101F68F0"
+    ]
+   },
    "stack_samples": 1
   },
   "0x1015E530": {
@@ -19108,14 +19717,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10160960": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101609C0": {
@@ -19129,7 +19738,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10160A50": {
@@ -19488,7 +20097,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101671D0": {
@@ -19697,7 +20306,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10174770": {
@@ -19711,7 +20320,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10175740": {
@@ -19745,7 +20354,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 10
   },
@@ -21525,7 +22134,16 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x10193BD3": [
+     "game:0x10197030",
+     "game:0x10197A70",
+     "game:0x101AA650",
+     "game:0x101AAA90",
+     "game:0x101B5080"
+    ]
+   }
   },
   "0x10193BF0": {
    "evidence": [
@@ -21885,7 +22503,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019CE00": {
@@ -22004,28 +22622,28 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019ED10": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019ED20": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019ED30": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019ED50": {
@@ -22046,7 +22664,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1019F160": {
@@ -22110,7 +22728,12 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "observed_targets": {
+    "0x101A04D1": [
+     "game:0x1015BB80"
+    ]
+   }
   },
   "0x101A04E0": {
    "evidence": [
@@ -22161,7 +22784,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2
   },
@@ -22471,7 +23094,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101A3DC0": {
@@ -22583,7 +23206,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101AA300": {
@@ -23029,7 +23652,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101B20E0": {
@@ -23067,7 +23690,24 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 34
+   "unresolved": 34,
+   "observed_targets": {
+    "0x101B2A96": [
+     "game:0x101B0060"
+    ],
+    "0x101B2B25": [
+     "game:0x101B0060"
+    ],
+    "0x101B2B5F": [
+     "game:0x101B4360"
+    ],
+    "0x101B2CCC": [
+     "game:0x101B40C0"
+    ],
+    "0x101B340F": [
+     "game:0x101B40C0"
+    ]
+   }
   },
   "0x101B36F0": {
    "evidence": [
@@ -23237,7 +23877,24 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 32
+   "unresolved": 32,
+   "observed_targets": {
+    "0x101B5FE9": [
+     "game:0x101B3F00"
+    ],
+    "0x101B6189": [
+     "game:0x101B3F00"
+    ],
+    "0x101B6257": [
+     "game:0x101B5CD0"
+    ],
+    "0x101B62AE": [
+     "game:0x101B3AE0"
+    ],
+    "0x101B62B9": [
+     "game:0x101B91B0"
+    ]
+   }
   },
   "0x101B6810": {
    "evidence": [
@@ -23268,7 +23925,12 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 2
+   "unresolved": 2,
+   "observed_targets": {
+    "0x101B6E77": [
+     "game:0x101B7E90"
+    ]
+   }
   },
   "0x101B6E90": {
    "evidence": [
@@ -23487,7 +24149,22 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 6
+   "unresolved": 6,
+   "observed_targets": {
+    "0x101B9D96": [
+     "game:0x1018DA20",
+     "game:0x1018DFD0",
+     "game:0x101A23D0",
+     "game:0x101A2410",
+     "game:0x101A2440",
+     "game:0x10223C00",
+     "game:0x102260C0",
+     "game:0x1022C000"
+    ],
+    "0x101B9DCB": [
+     "game:0x101A1E20"
+    ]
+   }
   },
   "0x101B9E00": {
    "evidence": [
@@ -23683,7 +24360,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -23713,7 +24390,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101BB740": {
@@ -24344,7 +25021,12 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 4,
+   "observed_targets": {
+    "0x101C4005": [
+     "module:KERNEL32.DLL+0x3440"
+    ]
+   }
   },
   "0x101C4080": {
    "evidence": [
@@ -24796,7 +25478,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101C8C30": {
@@ -24838,7 +25520,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101C9270": {
@@ -25679,7 +26361,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101EB390": {
@@ -25862,6 +26544,20 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x101F764E": [
+     "game:0x100A4740"
+    ],
+    "0x101F765E": [
+     "game:0x100A4740"
+    ],
+    "0x101F766F": [
+     "game:0x100A4740"
+    ],
+    "0x101F7680": [
+     "game:0x100A4740"
+    ]
+   },
    "stack_samples": 4
   },
   "0x101F82B0": {
@@ -26087,7 +26783,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -26895,7 +27591,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1021F950": {
@@ -26981,6 +27677,20 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 4,
+   "observed_targets": {
+    "0x102206AE": [
+     "game:0x100A4740"
+    ],
+    "0x102206BE": [
+     "game:0x100A4740"
+    ],
+    "0x102206CF": [
+     "game:0x100A4740"
+    ],
+    "0x102206E0": [
+     "game:0x100A4740"
+    ]
+   },
    "self_samples": 3,
    "stack_samples": 365
   },
@@ -27167,7 +27877,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10223040": {
@@ -27481,7 +28191,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1022B7D0": {
@@ -29312,7 +30022,12 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 3
+   "unresolved": 3,
+   "observed_targets": {
+    "0x1025B709": [
+     "game:0x1011D970"
+    ]
+   }
   },
   "0x1025BB00": {
    "evidence": [
@@ -30341,7 +31056,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102749C0": {
@@ -30838,7 +31553,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1027B580": {
@@ -31119,7 +31834,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10280DE0": {
@@ -37429,6 +38144,5 @@
    "tree": false,
    "d3dx": false
   }
- },
- "_tree_flags": "tree/in_tree recomputed 25 Oct against tree/placement.json (4,206 functions); the evidence is unchanged"
+ }
 }

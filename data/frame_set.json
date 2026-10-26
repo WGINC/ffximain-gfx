@@ -23,19 +23,19 @@
   "d3dx": 219,
   "static": 4465,
   "only_observed": 519,
-  "in_tree": 3822,
-  "game_code_not_in_tree": 943,
+  "in_tree": 4005,
+  "game_code_not_in_tree": 760,
   "tree_not_in_frame_set": 458,
   "unresolved_indirect_calls": 1756,
   "functions_with_unresolved": 466,
-  "unresolved_observed_in_game": 185
+  "unresolved_observed_in_game": 203
  },
  "functions": {
   "0x10001070": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -215,7 +215,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10003890": {
@@ -509,7 +509,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10009780": {
@@ -517,7 +517,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "stack_samples": 1
@@ -549,7 +549,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2,
    "self_samples": 11,
@@ -635,12 +635,15 @@
    "unresolved": 4,
    "observed_targets": {
     "0x10009F44": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x10009F61": [
+     "module:d3d8.dll+0xA9A0",
      "module:d3d8.dll+0xBE8A0"
     ],
     "0x10009F70": [
+     "module:d3d8.dll+0x8A50",
      "module:d3d8.dll+0xBEE40"
     ]
    },
@@ -711,13 +714,21 @@
    "unresolved": 6,
    "observed_targets": {
     "0x1000A2DB": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1000A2F6": [
      "module:Hook.dll+0x5DEF0"
     ],
     "0x1000A300": [
+     "module:d3d8.dll+0xA9A0",
      "module:d3d8.dll+0xBE8A0"
+    ],
+    "0x1000A334": [
+     "module:Hook.dll+0x5DEF0"
+    ],
+    "0x1000A350": [
+     "module:Hook.dll+0x5E850"
     ]
    },
    "self_samples": 2,
@@ -815,6 +826,7 @@
    "unresolved": 2,
    "observed_targets": {
     "0x1000AD84": [
+     "module:d3d8.dll+0x8A50",
      "module:d3d8.dll+0xBEE40"
     ],
     "0x1000ADB2": [
@@ -877,7 +889,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -1396,7 +1408,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "observed_targets": {
@@ -1883,7 +1895,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10017100": {
@@ -1977,7 +1989,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -2034,7 +2046,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10018350": {
@@ -2147,7 +2159,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10019550": {
@@ -2173,7 +2185,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 65,
    "stack_samples": 358
@@ -2316,7 +2328,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1001B5D0": {
@@ -2404,7 +2416,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -2495,7 +2507,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 4,
    "observed_targets": {
@@ -2517,7 +2529,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 10,
    "observed_targets": {
@@ -2917,7 +2929,7 @@
     "static",
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 57
   },
@@ -3182,7 +3194,7 @@
     "static",
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -3191,7 +3203,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 5
   },
@@ -3200,7 +3212,7 @@
     "static",
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 11
   },
@@ -3390,7 +3402,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 44
@@ -3442,7 +3454,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 2,
    "stack_samples": 31
@@ -3712,7 +3724,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 6
   },
@@ -3728,7 +3740,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -3744,7 +3756,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 4
   },
@@ -3760,7 +3772,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 4
   },
@@ -4136,7 +4148,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -4151,7 +4163,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -4360,7 +4372,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -4390,7 +4402,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10037BF0": {
@@ -4404,7 +4416,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10037D70": {
@@ -4467,7 +4479,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10038470": {
@@ -4481,7 +4493,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10038520": {
@@ -4583,7 +4595,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100396A0": {
@@ -4598,7 +4610,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10039810": {
@@ -4675,21 +4687,27 @@
    "unresolved": 40,
    "observed_targets": {
     "0x10039EE5": [
+     "module:d3d8.dll+0x9E00",
      "module:d3d8.dll+0xC0230"
     ],
     "0x1003A3E8": [
+     "module:d3d8.dll+0xA5D0",
      "module:d3d8.dll+0xC0270"
     ],
     "0x1003A837": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1003A87C": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1003A88B": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1003A928": [
+     "module:d3d8.dll+0x39510",
      "module:d3d8.dll+0xB0F90"
     ]
    },
@@ -5006,6 +5024,9 @@
      "game:0x100ABDA0",
      "game:0x100C3FC0"
     ],
+    "0x1003C22E": [
+     "game:0x1006E140"
+    ],
     "0x1003C282": [
      "game:0x100A4750",
      "game:0x100ABDA0"
@@ -5204,7 +5225,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 406
@@ -5239,7 +5260,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 2
   },
@@ -5264,7 +5285,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 5
   },
@@ -5604,7 +5625,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 3,
    "stack_samples": 2376
@@ -5787,6 +5808,14 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 10,
+   "observed_targets": {
+    "0x1004A373": [
+     "game:0x1006E140"
+    ],
+    "0x1004A391": [
+     "game:0x1006D270"
+    ]
+   },
    "self_samples": 19,
    "stack_samples": 182
   },
@@ -5959,11 +5988,29 @@
     "0x1004EF24": [
      "game:0x1006D9C0"
     ],
+    "0x1004F4E8": [
+     "game:0x1006D4D0"
+    ],
+    "0x1004F501": [
+     "game:0x1006D4D0"
+    ],
     "0x1004F663": [
      "game:0x1006D4D0"
     ],
     "0x1004F67C": [
      "game:0x1006D4D0"
+    ],
+    "0x1004F89E": [
+     "game:0x1006D190"
+    ],
+    "0x1004F8B6": [
+     "game:0x1006D720"
+    ],
+    "0x1005142F": [
+     "game:0x1006D190"
+    ],
+    "0x10051449": [
+     "game:0x1006D720"
     ],
     "0x1005194F": [
      "game:0x1003EF80",
@@ -6058,7 +6105,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10052800": {
@@ -6579,7 +6626,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "stack_samples": 74
@@ -6737,7 +6784,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 2,
    "stack_samples": 164
@@ -6870,7 +6917,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10055520": {
@@ -7006,7 +7053,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -7037,7 +7084,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 2
   },
@@ -7636,12 +7683,15 @@
    "unresolved": 4,
    "observed_targets": {
     "0x1006C8CD": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1006C907": [
+     "module:d3d8.dll+0xA9A0",
      "module:d3d8.dll+0xBE8A0"
     ],
     "0x1006C91C": [
+     "module:d3d8.dll+0x9E60",
      "module:d3d8.dll+0xBEE70"
     ]
    },
@@ -7657,12 +7707,15 @@
    "unresolved": 4,
    "observed_targets": {
     "0x1006C9E4": [
+     "module:d3d8.dll+0x9190",
      "module:d3d8.dll+0xC0110"
     ],
     "0x1006C9F3": [
+     "module:d3d8.dll+0x8A50",
      "module:d3d8.dll+0xBEE40"
     ],
     "0x1006C9FD": [
+     "module:d3d8.dll+0xA9A0",
      "module:d3d8.dll+0xBE8A0"
     ]
    }
@@ -7730,7 +7783,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 3
   },
@@ -7778,7 +7831,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 5
   },
@@ -7796,7 +7849,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -7804,7 +7857,7 @@
    "evidence": [
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -7998,7 +8051,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "observed_targets": {
@@ -8096,7 +8149,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100720B0": {
@@ -8353,7 +8406,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100741E0": {
@@ -8543,7 +8596,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 3
   },
@@ -8653,7 +8706,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10075960": {
@@ -8896,9 +8949,12 @@
    "observed_targets": {
     "0x100810C1": [
      "game:0x1007A7A0",
+     "game:0x1007A9A0",
+     "game:0x1007AA80",
      "game:0x1007B710",
      "game:0x1007B820",
      "game:0x1007B900",
+     "game:0x1007BB90",
      "game:0x1007D240",
      "game:0x1007E490",
      "game:0x1007E8D0",
@@ -8977,7 +9033,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 27221
   },
@@ -9008,7 +9064,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10081BA0": {
@@ -9152,7 +9208,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 2,
    "stack_samples": 27219
@@ -9214,7 +9270,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 3,
    "observed_targets": {
@@ -9223,6 +9279,10 @@
     ],
     "0x10083678": [
      "game:0x100A4740"
+    ],
+    "0x100836D2": [
+     "game:0x100A4740",
+     "game:0x100AC9C0"
     ]
    }
   },
@@ -9522,7 +9582,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -9531,7 +9591,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 1
@@ -9618,7 +9678,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 17
@@ -10156,7 +10216,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -10227,7 +10287,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10093B70": {
@@ -10425,7 +10485,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 6
   },
@@ -10542,7 +10602,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 3
@@ -11005,7 +11065,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100AB550": {
@@ -11040,7 +11100,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -11077,7 +11137,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 12
   },
@@ -11121,7 +11181,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1,
    "observed_targets": {
@@ -11311,7 +11371,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 233
   },
@@ -11598,7 +11658,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 9,
    "stack_samples": 10
@@ -11626,7 +11686,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 1376
@@ -11678,7 +11738,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -11722,7 +11782,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 8
   },
@@ -11730,7 +11790,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100D12D0": {
@@ -11747,7 +11807,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -11772,10 +11832,13 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 23,
    "observed_targets": {
+    "0x100D357D": [
+     "game:0x10082780"
+    ],
     "0x100D3670": [
      "game:0x10082780"
     ]
@@ -11852,14 +11915,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100D59A0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2
   },
@@ -11867,7 +11930,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 66
   },
@@ -11961,7 +12024,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2
   },
@@ -12617,6 +12680,9 @@
      "game:0x100E1710",
      "game:0x100E1740"
     ],
+    "0x100E0EE1": [
+     "game:0x100E2060"
+    ],
     "0x100E0FAA": [
      "game:0x100E16A0",
      "game:0x100E1740"
@@ -13222,7 +13288,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -13966,7 +14032,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x100FA9C0": {
@@ -14178,7 +14244,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 21
   },
@@ -14624,7 +14690,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10114070": {
@@ -14645,7 +14711,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10114320": {
@@ -15324,7 +15390,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10119C00": {
@@ -15368,7 +15434,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10119F80": {
@@ -15433,7 +15499,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 1
@@ -16150,7 +16216,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101236E0": {
@@ -16276,7 +16342,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10123FC0": {
@@ -16483,7 +16549,7 @@
     "static",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 3,
    "stack_samples": 5
@@ -16626,7 +16692,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101263B0": {
@@ -16686,7 +16752,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10126580": {
@@ -16700,7 +16766,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101266B0": {
@@ -16750,7 +16816,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -16876,7 +16942,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2,
    "observed_targets": {
@@ -17472,7 +17538,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1013A1E0": {
@@ -17544,7 +17610,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1013E7F0": {
@@ -17573,7 +17639,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -17729,14 +17795,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1014E050": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1014EDC0": {
@@ -18370,7 +18436,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101569F0": {
@@ -18419,7 +18485,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10156BF0": {
@@ -18637,6 +18703,7 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1015833A": [
+     "game:0x101F35A0",
      "game:0x1022B8E0"
     ]
    },
@@ -18857,6 +18924,8 @@
    "unresolved": 1,
    "observed_targets": {
     "0x10159438": [
+     "game:0x100A8C20",
+     "game:0x100A8C40",
      "game:0x100C5410",
      "game:0x100C5440"
     ]
@@ -19075,7 +19144,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -19336,7 +19405,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1015E350": {
@@ -19372,7 +19441,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -19556,7 +19625,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1015F3E0": {
@@ -19624,9 +19693,26 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2,
+   "observed_targets": {
+    "0x1015FDFC": [
+     "game:0x1012AC80",
+     "game:0x1012B4B0",
+     "game:0x10140270",
+     "game:0x101A40B0",
+     "game:0x1023C540",
+     "game:0x10241800"
+    ],
+    "0x1015FE05": [
+     "game:0x1012AC80",
+     "game:0x10161970",
+     "game:0x10239240",
+     "game:0x10241800",
+     "game:0x10244E60"
+    ]
+   },
    "self_samples": 6,
    "stack_samples": 379
   },
@@ -19802,7 +19888,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1036
   },
@@ -19833,7 +19919,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 670
   },
@@ -20040,7 +20126,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10164560": {
@@ -20277,14 +20363,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10170CD0": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 6
   },
@@ -20369,7 +20455,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10176E80": {
@@ -20721,7 +20807,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 3,
    "stack_samples": 278
@@ -22741,7 +22827,15 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 6
+   "unresolved": 6,
+   "observed_targets": {
+    "0x101A05B7": [
+     "game:0x101C4D50"
+    ],
+    "0x101A0669": [
+     "game:0x100AEC20"
+    ]
+   }
   },
   "0x101A0680": {
    "evidence": [
@@ -22992,7 +23086,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101A26C0": {
@@ -23087,7 +23181,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101A3D60": {
@@ -23115,7 +23209,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101A4440": {
@@ -23688,7 +23782,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 34,
    "observed_targets": {
@@ -23833,7 +23927,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101B5210": {
@@ -23875,7 +23969,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 32,
    "observed_targets": {
@@ -24269,7 +24363,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101BAE20": {
@@ -24479,7 +24573,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101BC7B0": {
@@ -24666,7 +24760,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101BE690": {
@@ -24953,7 +25047,7 @@
     "static",
     "stack"
    ],
-   "tree": true,
+   "tree": false,
    "d3dx": false,
    "stack_samples": 6
   },
@@ -25408,7 +25502,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101C7F80": {
@@ -25768,7 +25862,7 @@
     "static",
     "self"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1
   },
@@ -26216,7 +26310,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101DDF90": {
@@ -26251,14 +26345,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101E0700": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101E0A90": {
@@ -26273,7 +26367,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 2
@@ -26296,7 +26390,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 2
   },
@@ -26396,7 +26490,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101ED450": {
@@ -26445,14 +26539,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101F6700": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x101F67C0": {
@@ -26592,7 +26686,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 1
   },
@@ -26677,7 +26771,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 64
   },
@@ -26864,7 +26958,7 @@
     "self",
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 1
@@ -26896,7 +26990,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10207730": {
@@ -27009,7 +27103,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 14
   },
@@ -27061,7 +27155,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1021BB90": {
@@ -27498,7 +27592,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1021EDE0": {
@@ -27533,14 +27627,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1021EF10": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1021EF60": {
@@ -27794,14 +27888,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10221A80": {
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 51
   },
@@ -27826,7 +27920,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 18
   },
@@ -28084,7 +28178,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 13
   },
@@ -28106,7 +28200,7 @@
    "evidence": [
     "stack"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "stack_samples": 1
   },
@@ -28459,7 +28553,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1023D610": {
@@ -28763,7 +28857,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1024D9D0": {
@@ -29326,7 +29420,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102532E0": {
@@ -29361,7 +29455,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102535B0": {
@@ -29680,7 +29774,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102586D0": {
@@ -30251,14 +30345,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10265960": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102659B0": {
@@ -30272,7 +30366,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10265B90": {
@@ -30629,7 +30723,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102701B0": {
@@ -31014,7 +31108,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10274670": {
@@ -31084,7 +31178,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10275150": {
@@ -31399,7 +31493,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1027A250": {
@@ -31448,7 +31542,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1027ABA0": {
@@ -31511,7 +31605,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1027AFB0": {
@@ -31764,7 +31858,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1027EF20": {
@@ -31813,7 +31907,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10280650": {
@@ -31924,14 +32018,14 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10281C50": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10281C80": {
@@ -32138,7 +32232,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10283330": {
@@ -32210,7 +32304,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10283D60": {
@@ -32327,7 +32421,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10285040": {
@@ -32376,7 +32470,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102857F0": {
@@ -32628,7 +32722,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1028DBB0": {
@@ -32684,7 +32778,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x1028EC50": {
@@ -32888,7 +32982,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10290FC0": {
@@ -33035,7 +33129,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x10292490": {
@@ -33660,7 +33754,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false,
    "unresolved": 2
   },
@@ -33703,7 +33797,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102AD990": {
@@ -33766,7 +33860,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC826": {
@@ -33794,7 +33888,7 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC83E": {
@@ -33815,35 +33909,35 @@
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC85C": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC862": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC868": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC86E": {
    "evidence": [
     "static"
    ],
-   "tree": false,
+   "tree": true,
    "d3dx": false
   },
   "0x102BC874": {

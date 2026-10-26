@@ -1,0 +1,158 @@
+{
+ "0x100A310A": {
+  "func": "0x100A30E0",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100A3114": 1
+  }
+ },
+ "0x100C15BB": {
+  "func": "0x100C1190",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100C15E2": 385
+  }
+ },
+ "0x100C1710": {
+  "func": "0x100C1650",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100C1721": 533
+  }
+ },
+ "0x100C1AE9": {
+  "func": "0x100C1650",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100C1B11": 78
+  }
+ },
+ "0x100C2933": {
+  "func": "0x100C1650",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100C2948": 385
+  }
+ },
+ "0x100D9766": {
+  "func": "0x100D95D0",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100D97B8": 4
+  }
+ },
+ "0x100DA883": {
+  "func": "0x100DA750",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x100DA88A": 1431,
+   "game:0x100DA8BA": 419,
+   "game:0x100DA950": 236,
+   "game:0x100DAB0F": 9095,
+   "game:0x100DAB3B": 4,
+   "game:0x100DAB63": 32,
+   "game:0x100DAB84": 76277,
+   "game:0x100DABA4": 103
+  }
+ },
+ "0x101540CC": {
+  "func": "0x101540A0",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x101540EF": 5
+  }
+ },
+ "0x10159F50": {
+  "func": "0x10159F20",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x10159F67": 3350
+  }
+ },
+ "0x1015A48C": {
+  "func": "0x10159FF0",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1015A4C8": 1583
+  }
+ },
+ "0x1015A88D": {
+  "func": "0x1015A680",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1015A8CC": 339138
+  }
+ },
+ "0x1015BE5C": {
+  "func": "0x1015BE00",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1015BEE9": 1504
+  }
+ },
+ "0x1022221D": {
+  "func": "0x10222150",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1022226A": 1,
+   "game:0x102222B7": 11,
+   "game:0x10222316": 26
+  }
+ },
+ "0x10223AB8": {
+  "func": "0x10223A90",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x10223ACE": 3574
+  }
+ },
+ "0x10223B38": {
+  "func": "0x10223B10",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x10223B4E": 3525
+  }
+ },
+ "0x102262D8": {
+  "func": "0x102262B0",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x102262EE": 34
+  }
+ },
+ "0x10226348": {
+  "func": "0x10226320",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1022635E": 1655
+  }
+ },
+ "0x102263B8": {
+  "func": "0x10226390",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x102263CE": 1620
+  }
+ },
+ "0x102275BE": {
+  "func": "0x10227590",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x102275E2": 8
+  }
+ },
+ "0x102276AD": {
+  "func": "0x10227680",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x102276D0": 2
+  }
+ },
+ "0x1022BF38": {
+  "func": "0x1022BF10",
+  "source": "measured in the running game (xikit facts=1, kind jmp): the targets taken; a target not seen is not shown unreachable",
+  "targets_seen": {
+   "game:0x1022BF3F": 68749
+  }
+ }
+}

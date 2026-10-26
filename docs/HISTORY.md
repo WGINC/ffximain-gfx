@@ -3540,9 +3540,9 @@ game's bytes.
 
 ## 27 Oct: the rest of the frame set, imports stubbed, a name clash
 
-**What was left.** Of the 1,000 frame-set functions outside the tree, 595 are the statically linked C runtime (219 of
-them reached by the frame set only since the stack-solver round, exported as fs18 and all `library`); those are no
-reconstruction target. The other 405 were exported again with every current fact (fs19; `retw` for the 23
+**What was left.** Of the 1,000 frame-set functions outside the tree, 595 are statically linked library code, which the
+translator marks `library`: D3DX 8.1 (matched by symbol: hx2cpp.py D3DX81) and the D3DX / C++ runtime (hx2cpp.py
+LIBRARY). 219 of them are the frame set's `d3dx` entries, exported as fs18. Those are no reconstruction target. The other 405 were exported again with every current fact (fs19; `retw` for the 23
 UNRESOLVED on EAX past a declared void or bool, which now also widens a 1-byte return).
 
 **Imports, stubbed like game callees.** 34 functions were INCONCLUSIVE because every trial stopped at a Win32

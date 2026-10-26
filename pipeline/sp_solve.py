@@ -240,50 +240,131 @@ def entry_bound(labels, jmp, idx):
     return hi
 
 
+# instructions the Intel SDM (vol. 2) lists with "Flags Affected: None" for EFLAGS (the x87 ones change only the FPU
+# status word): between a `cmp` and the `ja` that tests it they leave the flags the `cmp` set
+FLAGS_KEPT = frozenset(('mov', 'movzx', 'movsx', 'lea', 'push', 'pop', 'not', 'bswap', 'xchg', 'nop', 'cdq', 'cwde',
+                        'cbw', 'cwd', 'fld', 'fst', 'fstp', 'fild', 'fist', 'fistp', 'fxch', 'fldz', 'fld1', 'fchs',
+                        'fabs', 'fadd', 'faddp', 'fsub', 'fsubp', 'fsubr', 'fsubrp', 'fmul', 'fmulp', 'fdiv', 'fdivp',
+                        'fdivr', 'fdivrp', 'fiadd', 'fisub', 'fimul', 'fidiv'))
+_R32 = {'al': 'eax', 'ah': 'eax', 'ax': 'eax', 'bl': 'ebx', 'bh': 'ebx', 'bx': 'ebx', 'cl': 'ecx', 'ch': 'ecx',
+        'cx': 'ecx', 'dl': 'edx', 'dh': 'edx', 'dx': 'edx', 'si': 'esi', 'di': 'edi', 'bp': 'ebp', 'sp': 'esp'}
+_LOW8 = {'eax': 'al', 'ebx': 'bl', 'ecx': 'cl', 'edx': 'dl'}
+
+
+def _writes(i):
+    """the 32-bit general registers an instruction writes any part of (capstone's operand access; a call or a
+    string instruction counts as writing every register)"""
+    if i.mnemonic == 'call' or i.mnemonic.startswith(('rep', 'pusha', 'popa')): return {'eax', 'ebx', 'ecx', 'edx', 'esi', 'edi', 'ebp'}
+    try: w = i.regs_access()[1]
+    except Exception: return {'eax', 'ebx', 'ecx', 'edx', 'esi', 'edi', 'ebp'}
+    return {_R32.get(i.reg_name(x), i.reg_name(x)) for x in w}
+
+
+SWITCH_RUN = 16             # the instructions before a switch jump its bound is looked for in
+SWITCH_MAX = 1024            # a bound larger than this is not taken as a switch's (no table here is that long)
+
+
 def switch_targets(im, prev, jmp, labels=frozenset()):
     """the targets of a switch `jmp [r*4 + T]`, read from its tables, when the straight-line code before it
-    bounds the index; None otherwise. Two forms (MSVC):
-      cmp idx, N; ja default; jmp [idx*4 + T]                          T[0..N]
-      cmp idx, N; ja default; [xor r, r;] mov r8|movzx r, byte [idx + B]; jmp [r*4 + T]
-                                                                       T[b] for every byte b in B[0..N]
-    prev: the instructions directly before the jump, in order, each ending where the next begins. labels: the
-    function's jump targets -- a jump into the sequence after its `cmp` would skip the bound, so none may"""
+    bounds the index; None otherwise. The proof, walking back from the jump over the run of instructions that
+    ends at it, each ending where the next begins (prev; an earlier gap ends the run):
+      * jump back to a `ja`: each write to the index register is one this follows -- a copy `mov r, r2` (the index
+        is r2's value), `add`/`sub r, imm`, `inc`/`dec r`, or a byte table `movzx r, byte [r2 + B]` / `mov r8, byte
+        [r2 + B]` (whose upper 24 bits must have been zeroed by `xor r, r` earlier in the run, nothing writing r
+        between). Any other write of it, any other branch, a call or a ret: no bound.
+      * `ja` back to the `cmp idx, N` its flags come from: only instructions that keep the flags (FLAGS_KEPT), none
+        writing the index. N an immediate, or a register a `mov reg, imm` (or `xor reg, reg`) earlier in the run
+        sets, nothing writing it between. After the `ja` falls through, idx is in 0..N (unsigned).
+      * no jump may land after the first instruction the proof uses (it would skip it), except on the dispatch
+        itself in the one-level form when every such jump bounds the index too (entry_bound).
+    The MSVC forms `cmp idx, N; ja; jmp [idx*4 + T]` and `cmp idx, N; ja; [xor r, r;] mov cl|movzx r, byte [idx + B];
+    jmp [r*4 + T]` are the shortest cases."""
     o = jmp.operands[0]
     if o.type != X86_OP_MEM or o.mem.scale != 4 or not o.mem.index or o.mem.base: return None
-    if any(prev[k].address + prev[k].size != (prev[k + 1].address if k + 1 < len(prev) else jmp.address) for k in range(len(prev))):
-        return None
-    r = jmp.reg_name(o.mem.index); T = o.mem.disp
-    n = switch_bound(prev[-2:], jmp) if len(prev) >= 2 else None
-    if n is not None:
-        if prev[-1].address in labels: return None                  # a jump onto the `ja` skips the `cmp`
-        if jmp.address in labels:                                     # other paths reach the dispatch directly
-            m = entry_bound(labels, jmp, r)
-            if m is None: return None
-            n = max(n, m + 1)
-        return [im.u32(T + 4 * k) for k in range(n)]
-    # two-level: the index register is a byte read from a table at [idx + B]
-    k = len(prev) - 1
-    if k < 0: return None
-    ld = prev[k]; lo = ld.operands
-    if ld.mnemonic not in ('mov', 'movzx') or len(lo) != 2 or lo[0].type != X86_OP_REG or lo[1].type != X86_OP_MEM or lo[1].size != 1:
-        return None
-    dst = ld.reg_name(lo[0].reg)
-    if not (dst == r or (ld.mnemonic == 'mov' and dst == {'eax': 'al', 'ebx': 'bl', 'ecx': 'cl', 'edx': 'dl'}.get(r))): return None
-    if ld.mnemonic == 'mov':        # an 8-bit load leaves the upper 24 bits: they must have been zeroed just before
+    run, nxt = [], jmp.address
+    for p in reversed(prev):
+        if p.address + p.size != nxt: break
+        run.insert(0, p); nxt = p.address
+    T = o.mem.disp; cur = idx0 = _R32.get(jmp.reg_name(o.mem.index), jmp.reg_name(o.mem.index))
+    steps, zreg = [], None           # transforms from the cmp's value to the jump's index, in order; a reg to be zeroed
+    k = len(run) - 1
+    # 1 back to the `ja`
+    while k >= 0:
+        x = run[k]; m = x.mnemonic; ops = x.operands
+        if m == 'ja': break
+        if m.startswith(('j', 'loop', 'ret', 'call', 'int', 'hlt', 'ud2')): return None
+        w = _writes(x)
+        if zreg in w:
+            if zreg == cur: return None
+            if not (m == 'xor' and len(ops) == 2 and all(q.type == X86_OP_REG and x.reg_name(q.reg) == zreg for q in ops)): return None
+            zreg = None
+        if cur in w:
+            two = len(ops) == 2 and ops[0].type == X86_OP_REG
+            d = x.reg_name(ops[0].reg) if ops and ops[0].type == X86_OP_REG else None
+            if two and ops[1].type == X86_OP_MEM and ops[1].size == 1 and ops[1].mem.base and not ops[1].mem.index \
+                    and ops[1].mem.segment == 0 and ((m == 'movzx' and d == cur) or (m == 'mov' and d == _LOW8.get(cur))):
+                if m == 'mov': zreg = cur
+                steps.insert(0, ('tbl', ops[1].mem.disp)); cur = _R32.get(x.reg_name(ops[1].mem.base), x.reg_name(ops[1].mem.base))
+                if cur == zreg: return None
+            elif two and d == cur and m == 'mov' and ops[1].type == X86_OP_REG and ops[1].size == 4:
+                cur = x.reg_name(ops[1].reg)
+            elif two and d == cur and m in ('add', 'sub') and ops[1].type == X86_OP_IMM:
+                steps.insert(0, ('add', ops[1].imm if m == 'add' else -ops[1].imm))
+            elif len(ops) == 1 and d == cur and m in ('inc', 'dec'):
+                steps.insert(0, ('add', 1 if m == 'inc' else -1))
+            else: return None
         k -= 1
-        if k < 0: return None
-        z = prev[k]
-        if not (z.mnemonic == 'xor' and len(z.operands) == 2 and all(x.type == X86_OP_REG and z.reg_name(x.reg) == r for x in z.operands)):
-            return None
-    if lo[1].mem.base == 0 or lo[1].mem.index: return None
-    idx = ld.reg_name(lo[1].mem.base); B = lo[1].mem.disp
-    if k < 2: return None
-    c, j = prev[k - 2], prev[k - 1]
-    if j.mnemonic != 'ja' or c.mnemonic != 'cmp' or len(c.operands) != 2 or c.operands[0].type != X86_OP_REG \
-            or c.reg_name(c.operands[0].reg) != idx or c.operands[1].type != X86_OP_IMM: return None
-    if any(x.address in labels for x in prev[k - 1:] + [jmp]): return None
-    cases = sorted({im.img[B - im.base + q] for q in range(c.operands[1].imm + 1)})
-    return [im.u32(T + 4 * b) for b in cases]
+    if k < 0: return None
+    ja = k; k -= 1
+    # 2 back to the `cmp`
+    while k >= 0:
+        x = run[k]
+        if x.mnemonic == 'cmp': break
+        if x.mnemonic not in FLAGS_KEPT: return None
+        w = _writes(x)
+        if cur in w: return None
+        if zreg in w:
+            return None                  # a flag-keeping write to the register still to be zeroed
+        k -= 1
+    if k < 0: return None
+    c = run[k]; co = c.operands; first = k
+    if len(co) != 2 or co[0].type != X86_OP_REG or co[0].size != 4 or c.reg_name(co[0].reg) != cur: return None
+    if co[1].type == X86_OP_IMM: N = co[1].imm & 0xFFFFFFFF; breg = None
+    elif co[1].type == X86_OP_REG and co[1].size == 4: N = None; breg = c.reg_name(co[1].reg)
+    else: return None
+    # 3 before the `cmp`: the bound register's constant, the zeroing `xor`
+    j = k - 1
+    while (breg or zreg) and j >= 0:
+        x = run[j]; ops = x.operands; w = _writes(x); m = x.mnemonic
+        isxor = lambda r: m == 'xor' and len(ops) == 2 and all(q.type == X86_OP_REG and x.reg_name(q.reg) == r for q in ops)
+        if breg and breg in w:
+            if isxor(breg): N = 0
+            elif m == 'mov' and len(ops) == 2 and ops[0].type == X86_OP_REG and x.reg_name(ops[0].reg) == breg and ops[1].type == X86_OP_IMM:
+                N = ops[1].imm & 0xFFFFFFFF
+            else: return None
+            breg = None; first = j
+        if zreg and zreg in w:
+            if not isxor(zreg): return None
+            zreg = None; first = j
+        if m.startswith(('j', 'loop', 'ret', 'call')): return None
+        j -= 1
+    if breg or zreg or N is None or N >= SWITCH_MAX: return None
+    if any(x.address in labels for x in run[first + 1:]): return None
+    n = N + 1
+    if jmp.address in labels:                                     # other paths reach the dispatch directly
+        if steps or cur != idx0 or co[1].type != X86_OP_IMM: return None
+        m_ = entry_bound(labels, jmp, cur)
+        if m_ is None: return None
+        n = max(n, m_ + 1)
+    vals = list(range(n))
+    for kind, v in steps:
+        if kind == 'add': vals = [(x + v) & 0xFFFFFFFF for x in vals]
+        else:
+            if any(not (0 <= v + x - im.base < len(im.img)) for x in vals): return None
+            vals = [im.img[v + x - im.base] for x in vals]
+    vals = sorted(set(vals))
+    if any(not (0 <= T + 4 * x - im.base <= len(im.img) - 4) for x in vals): return None
+    return [im.u32(T + 4 * x) for x in vals]
 
 
 def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None):
@@ -308,7 +389,9 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             k = purges.get('0x%08X' % op.imm)
             if k is not None and not hide: return k, None
             if k is not None: return 0, var.setdefault(i.address, len(var))   # self-test: solve it as unknown
-            if op.imm in starts: return 'noreturn'
+            # a known function with no `ret N` record (one that ends in a tail jump, as the dispatch thunk 0x10310067
+            # does) is not therefore a function that never returns: those are `nr`, proven above. Its pop is an
+            # unknown, solved from this caller's balance like any other
         return 0, var.setdefault(i.address, len(var))   # unknown: p_i
 
     state = {ea: (Lin(), None)}; work = [ea]; every = {}
@@ -366,7 +449,7 @@ def func_calls(im, ea, ext, purges, starts, hide=False, nr=frozenset(), iat=None
             elif m.startswith(('j', 'loop')):
                 nxt = [a + i.size] + ([ops[0].imm] if ops[0].type == X86_OP_IMM else [])
             elif m in ('int3', 'hlt', 'ud2'): nxt = []
-            prev = (prev + [i])[-5:]
+            prev = (prev + [i])[-SWITCH_RUN:]
             cont = None
             for n in nxt:
                 if n not in ins: continue

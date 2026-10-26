@@ -1,42 +1,15 @@
 {
-"0x10002130": {
-"esi": "0x10002137 push esi",
-"edi": "0x10002138 push edi",
-"ebx": "0x1000221B push ebx",
-"ebp": "0x1000221F push ebp"
-},
-"0x10004060": {
-"ebx": "0x10004071 push ebx",
-"ebp": "0x10004072 push ebp",
-"esi": "0x10004073 push esi",
-"edi": "0x10004074 push edi"
-},
 "0x10005A40": {
 "ebx": "0x10005A46 push ebx",
 "ebp": "0x10005A47 push ebp",
 "esi": "0x10005A48 push esi",
 "edi": "0x10005A4B push edi"
 },
-"0x10018850": {
-"esi": "0x10018856 push esi",
-"edi": "0x10018859 push edi"
-},
-"0x1004E8D0": {
-"ebx": "0x1004E8DB push ebx",
-"ebp": "0x1004E8DC push ebp",
-"esi": "0x1004E8DD push esi",
-"edi": "0x1004E8E4 push edi"
-},
 "0x1007B620": {
 "esi": "0x1007B651 sbb esi, esi"
 },
 "0x1008A080": {
 "eax": "0x1008A08D sbb eax, eax"
-},
-"0x100B6A60": {
-"ebx": "0x100B6A67 push ebx",
-"esi": "0x100B6A68 push esi",
-"edi": "0x100B6A70 push edi"
 },
 "0x100C1190": {
 "ebx": "0x100C1190 push ebx",
@@ -67,96 +40,21 @@
 "0x100DF460": {
 "eax": "0x100DF4A1 or al, 0xff"
 },
-"0x100F3E20": {
-"esi": "0x100F3E24 push esi"
-},
-"0x100F3F10": {
-"esi": "0x100F3F14 push esi"
-},
-"0x100F40C0": {
-"esi": "0x100F40C4 push esi"
-},
-"0x100F42D0": {
-"ebx": "0x100F42D4 push ebx",
-"esi": "0x100F42D5 push esi",
-"edi": "0x100F42D9 push edi"
-},
-"0x100F45B0": {
-"esi": "0x100F45BD push esi",
-"edi": "0x100F45BE push edi"
-},
-"0x100F46C0": {
-"esi": "0x100F46CD push esi",
-"edi": "0x100F46CE push edi"
-},
-"0x100F47C0": {
-"esi": "0x100F47CD push esi",
-"edi": "0x100F47CE push edi"
-},
-"0x100F48B0": {
-"ebx": "0x100F48BD push ebx",
-"esi": "0x100F48BE push esi",
-"edi": "0x100F48BF push edi"
-},
-"0x100F49A0": {
-"ebx": "0x100F49AD push ebx",
-"esi": "0x100F49AE push esi",
-"edi": "0x100F49AF push edi"
-},
-"0x100F4AA0": {
-"esi": "0x100F4AAA push esi"
-},
-"0x100F4B50": {
-"ebx": "0x100F4B5A push ebx",
-"esi": "0x100F4B5B push esi"
-},
-"0x100F5250": {
-"ebp": "0x100F5254 push ebp",
-"esi": "0x100F5258 push esi"
-},
-"0x100F6B40": {
-"ebx": "0x100F6B44 push ebx",
-"esi": "0x100F6B45 push esi",
-"edi": "0x100F6B49 push edi"
-},
 "0x10104200": {
 "ebx": "0x10104203 push ebx",
 "esi": "0x10104208 push esi",
 "edi": "0x10104209 push edi",
 "ebp": "0x101042B4 push ebp"
 },
-"0x10105640": {
-"ebx": "0x10105645 push ebx",
-"esi": "0x1010564B push esi",
-"edi": "0x1010564F push edi"
-},
 "0x10107070": {
 "eax": "0x101070DC or ax, 0xffff"
-},
-"0x1010C990": {
-"ebx": "0x1010C990 push ebx",
-"esi": "0x1010C991 push esi",
-"edi": "0x1010C999 push edi"
-},
-"0x101299F0": {
-"esi": "0x101299F6 push esi",
-"edi": "0x101299FA push edi"
-},
-"0x1012F620": {
-"esi": "0x1012F623 push esi"
 },
 "0x101327D0": {
 "ebx": "0x101327E5 or bl, 0xff"
 },
-"0x1013E880": {
-"ebx": "0x1013E888 push ebx"
-},
 "0x10147AC0": {
 "esi": "0x10147AC6 push esi",
 "edi": "0x10147AEE push edi"
-},
-"0x1014ACC0": {
-"ebx": "0x1014ACC6 push ebx"
 },
 "0x10153310": {
 "ebp": "0x10153324 push ebp",
@@ -171,11 +69,6 @@
 "0x101542B0": {
 "esi": "0x101542BF push esi",
 "edi": "0x101542C0 push edi"
-},
-"0x10156660": {
-"ebx": "0x10156664 push ebx",
-"esi": "0x10156669 push esi",
-"edi": "0x1015666C push edi"
 },
 "0x10156E80": {
 "ebx": "0x10156E86 push ebx",
@@ -204,65 +97,8 @@
 "esi": "0x1015BE03 push esi",
 "edi": "0x1015BE04 push edi"
 },
-"0x1015D750": {
-"esi": "0x1015D75A push esi"
-},
-"0x1015EF60": {
-"ebp": "0x1015EF66 push ebp",
-"esi": "0x1015EF67 push esi"
-},
-"0x10197BE0": {
-"ebx": "0x10197BE5 push ebx"
-},
-"0x10198800": {
-"ebx": "0x10198805 push ebx"
-},
-"0x10199630": {
-"esi": "0x10199637 push esi",
-"edi": "0x10199638 push edi"
-},
-"0x1019A470": {
-"ebx": "0x1019A475 push ebx"
-},
-"0x1019C9B0": {
-"ebx": "0x1019C9B5 push ebx"
-},
-"0x1019FD50": {
-"ebx": "0x1019FD5D push ebx",
-"esi": "0x1019FD5E push esi",
-"edi": "0x1019FD62 push edi"
-},
-"0x101A4950": {
-"ebx": "0x101A4951 push ebx",
-"esi": "0x101A4952 push esi"
-},
-"0x101A5010": {
-"ebx": "0x101A5011 push ebx",
-"esi": "0x101A5012 push esi"
-},
-"0x101AA650": {
-"esi": "0x101AA65B push esi"
-},
 "0x101AF860": {
 "esi": "0x101AF860 push esi"
-},
-"0x101B2810": {
-"esi": "0x101B2814 push esi"
-},
-"0x101B5850": {
-"esi": "0x101B5850 push esi",
-"ebx": "0x101B5867 push ebx",
-"ebp": "0x101B586D push ebp",
-"edi": "0x101B5875 push edi"
-},
-"0x101B5D10": {
-"ebx": "0x101B5D1F push ebx",
-"esi": "0x101B5D20 push esi",
-"edi": "0x101B5D29 push edi"
-},
-"0x101B8CC0": {
-"esi": "0x101B8CC4 push esi",
-"edi": "0x101B8CC8 push edi"
 },
 "0x101C3400": {
 "ebx": "0x101C3406 push ebx",
@@ -272,60 +108,6 @@
 },
 "0x101C46A0": {
 "esi": "0x1019FAD0 push esi"
-},
-"0x101E7980": {
-"ebx": "0x101E7981 push ebx",
-"esi": "0x101E7986 push esi",
-"edi": "0x101E7987 push edi",
-"ebp": "0x101E7A4E push ebp"
-},
-"0x101EAE00": {
-"esi": "0x101EAE04 push esi"
-},
-"0x101F6C70": {
-"ebx": "0x101F6C70 push ebx",
-"ebp": "0x101F6C71 push ebp"
-},
-"0x101F97A0": {
-"ebx": "0x101F97A3 push ebx",
-"ebp": "0x101F97A4 push ebp",
-"esi": "0x101F97A7 push esi",
-"edi": "0x101F97A8 push edi"
-},
-"0x101F9A50": {
-"ebx": "0x101F9A53 push ebx",
-"ebp": "0x101F9A54 push ebp",
-"esi": "0x101F9A55 push esi",
-"edi": "0x101F9A5C push edi"
-},
-"0x101FBEC0": {
-"ebx": "0x101FBEC8 push ebx",
-"edi": "0x101FBECB push edi",
-"ebp": "0x101FBED9 push ebp",
-"esi": "0x101FBEDE push esi"
-},
-"0x101FD290": {
-"ebx": "0x101FD293 push ebx",
-"ebp": "0x101FD298 push ebp",
-"esi": "0x101FD299 push esi",
-"edi": "0x101FD29C push edi"
-},
-"0x101FF3E0": {
-"ebx": "0x101FF3F1 push ebx"
-},
-"0x10207E80": {
-"ebx": "0x10207E80 push ebx"
-},
-"0x1020A9D0": {
-"ebp": "0x1020A9D0 push ebp",
-"esi": "0x1020A9D1 push esi",
-"edi": "0x1020A9D2 push edi"
-},
-"0x10215C10": {
-"ebp": "0x10215C18 push ebp",
-"edi": "0x10215C1B push edi",
-"ebx": "0x10215C75 push ebx",
-"esi": "0x10215C76 push esi"
 },
 "0x10217A40": {
 "ebx": "0x10217A40 push ebx",
@@ -352,58 +134,8 @@
 "0x10227680": {
 "esi": "0x10227680 push esi"
 },
-"0x1022A8B0": {
-"esi": "0x1022A8B3 push esi"
-},
-"0x1022D290": {
-"ebx": "0x1022D2D0 push ebx",
-"esi": "0x1022D2DD push esi",
-"edi": "0x1022D2E4 push edi"
-},
-"0x1022E3A0": {
-"esi": "0x1022E3A6 push esi"
-},
-"0x10230740": {
-"esi": "0x10230744 push esi"
-},
-"0x10233260": {
-"ebx": "0x10233264 push ebx",
-"esi": "0x10233269 push esi",
-"edi": "0x1023326A push edi"
-},
-"0x102379B0": {
-"esi": "0x102379B3 push esi"
-},
-"0x10237B90": {
-"esi": "0x10237B93 push esi"
-},
-"0x10237D70": {
-"esi": "0x10237D73 push esi"
-},
-"0x10237EF0": {
-"esi": "0x10237EF3 push esi"
-},
-"0x10242040": {
-"ebx": "0x10242040 push ebx",
-"esi": "0x10242041 push esi",
-"edi": "0x10242049 push edi"
-},
-"0x10246160": {
-"esi": "0x10246166 push esi",
-"edi": "0x10246171 push edi"
-},
 "0x1026DCE0": {
 "ebp": "0x1026DCE1 cmp ebp, esp"
-},
-"0x102710B0": {
-"esi": "0x102710BC push esi",
-"edi": "0x102710BD push edi"
-},
-"0x10279BF0": {
-"ebx": "0x10279BF0 push ebx",
-"ebp": "0x10279BF1 push ebp",
-"esi": "0x10279BF6 push esi",
-"edi": "0x10279BF9 push edi"
 },
 "0x102859A0": {
 "ebx": "0x102859CA or bl, 0xff"
@@ -423,27 +155,11 @@
 "0x1029B440": {
 "eax": "0x1029B440 or al, 0xff"
 },
-"0x102A5430": {
-"ebx": "0x102A5437 push ebx",
-"ebp": "0x102A5438 push ebp",
-"esi": "0x102A5439 push esi",
-"edi": "0x102A543D push edi"
-},
 "0x102A6F80": {
 "ebx": "0x102A6F83 push ebx",
 "ebp": "0x102A6F88 push ebp",
 "esi": "0x102A6F89 push esi",
 "edi": "0x102A6F8A push edi"
-},
-"0x102A7860": {
-"ebx": "0x102A7867 push ebx",
-"ebp": "0x102A7868 push ebp",
-"esi": "0x102A7869 push esi",
-"edi": "0x102A786E push edi"
-},
-"0x102B70A0": {
-"ebp": "0x102B70A0 push ebp",
-"edi": "0x102B70A1 push edi"
 },
 "0x102BACD0": {
 "ebx": "0x102BACD2 push ebx",
@@ -555,16 +271,16 @@
 "ebp": "0x102E68F7 mov edi, dword ptr [ebp + 8]"
 },
 "0x102E7401": {
-"ebx": "0x102E7407 pushal ",
-"edi": "0x102E7407 pushal ",
 "esi": "0x102E7407 pushal ",
-"ebp": "0x102E7407 pushal "
+"ebp": "0x102E7407 pushal ",
+"edi": "0x102E7407 pushal ",
+"ebx": "0x102E7407 pushal "
 },
 "0x102E74BF": {
+"esi": "0x102E74CA pushal ",
 "eax": "0x102E74CA pushal ",
-"ebx": "0x102E74CA pushal ",
 "edi": "0x102E74CA pushal ",
-"esi": "0x102E74CA pushal "
+"ebx": "0x102E74CA pushal "
 },
 "0x102E74F7": {
 "ebp": "0x102E7508 mov dword ptr [ebp - 0x10], esp"
@@ -574,12 +290,6 @@
 },
 "0x102EA882": {
 "ebp": "0x102EA890 mov dword ptr [ebp - 0x10], esi"
-},
-"0x102EBE57": {
-"ebp": "0x102EBE57 push ebp",
-"ebx": "0x102EBE60 push ebx",
-"esi": "0x102EBE67 push esi",
-"edi": "0x102EBE77 push edi"
 },
 "0x102ECC47": {
 "ebp": "0x102ECC54 mov eax, dword ptr [ebp + 0x1c]"
@@ -998,12 +708,6 @@
 "eax": "0x103176F2 push eax",
 "ebp": "0x10317705 mov dword ptr [esp + 0xc], ebp"
 },
-"0x10318C5E": {
-"ebp": "0x10318C5E push ebp",
-"ebx": "0x10318C67 push ebx",
-"esi": "0x10318C68 push esi",
-"edi": "0x10318C6E push edi"
-},
 "0x1031AD11": {
 "ebp": "0x1031AD11 mov byte ptr [ebp - 0x90], 0xfe"
 },
@@ -1130,15 +834,15 @@
 "eax": "0x10B87CD6 and eax, 0xd8d4885"
 },
 "0x10B9EF40": {
-"eax": "0x10B9EF40 add byte ptr [esi], al",
 "esi": "0x10B9EF40 add byte ptr [esi], al",
+"eax": "0x10B9EF40 add byte ptr [esi], al",
 "ebx": "0x10B9EF45 inc dword ptr [ebx - 0x74acef14]"
 },
 "0x10BE4AEB": {
-"ebp": "0x10BE4AEB pushal ",
 "eax": "0x10BE4AEB pushal ",
-"esi": "0x10BE4AEB pushal ",
 "edi": "0x10BE4AEB pushal ",
-"ebx": "0x10BE4AEB pushal "
+"ebx": "0x10BE4AEB pushal ",
+"esi": "0x10BE4AEB pushal ",
+"ebp": "0x10BE4AEB pushal "
 }
 }

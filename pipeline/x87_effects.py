@@ -51,7 +51,7 @@ import capstone, pefile
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM, X86_OP_REG
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from sp_solve import switch_targets, labels_of   # noqa: E402
+from sp_solve import switch_targets, labels_of, SWITCH_RUN   # noqa: E402
 
 PUSH = {'fld', 'fild', 'fldz', 'fld1', 'fldpi', 'fldl2e', 'fldln2', 'fldlg2', 'fldl2t', 'fbld'}
 PUSH_AFTER = {'fsincos', 'fptan', 'fxtract'}     # replace ST0, then push one more (touch st(0) first)
@@ -386,7 +386,7 @@ def main(game, extf, out, passes=12):
                     o0 = ji.operands[0] if ji is not None and ji.mnemonic == 'jmp' and ji.operands else None
                     if ja in sw or o0 is None or o0.type != X86_OP_MEM or o0.mem.scale != 4 or not o0.mem.index or o0.mem.base: continue
                     pv = []; q = ji
-                    for _k in range(5):
+                    for _k in range(SWITCH_RUN):
                         q = labels.before(q.address)
                         if q is None: break
                         pv.insert(0, q)

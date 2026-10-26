@@ -970,10 +970,12 @@
 "stk_vd": 60,
 "stk_ida": 44
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "a3": {
 "type": "int",
@@ -982,10 +984,12 @@
 "stk_vd": 64,
 "stk_ida": 48
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "a4": {
 "type": "int",
@@ -994,10 +998,12 @@
 "stk_vd": 68,
 "stk_ida": 52
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "a5": {
 "type": "char",
@@ -1006,7 +1012,9 @@
 "stk_vd": 72,
 "stk_ida": 56
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -1017,7 +1025,9 @@
 "stk_vd": 76,
 "stk_ida": 60
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -1028,10 +1038,12 @@
 "stk_vd": 80,
 "stk_ida": 64
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v8": {
 "type": "int",
@@ -1142,10 +1154,13 @@
 "stk_vd": 40,
 "stk_ida": 24
 },
-"kinds": {},
+"kinds": {
+"addr": 1,
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "address_taken"
 },
 "v19": {
 "type": "unsigned int",
@@ -1154,10 +1169,12 @@
 "stk_vd": 44,
 "stk_ida": 28
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v20": {
 "type": "unsigned int",
@@ -1166,10 +1183,12 @@
 "stk_vd": 48,
 "stk_ida": 32
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v21": {
 "type": "unsigned int",
@@ -1178,10 +1197,12 @@
 "stk_vd": 52,
 "stk_ida": 36
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 }
 }
 },
@@ -1937,7 +1958,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -5436,8 +5459,13 @@
 "stk_vd": 92,
 "stk_ida": 52
 },
-"kinds": {},
-"deref": {},
+"kinds": {
+"mov": 17,
+"addr": 3
+},
+"deref": {
+"mov@0": 1
+},
 "overlaps": [],
 "verdict": "blind"
 },
@@ -6173,7 +6201,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -7986,10 +8016,12 @@
 "stk_vd": 60,
 "stk_ida": 32
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "a2": {
 "type": "int",
@@ -7998,10 +8030,12 @@
 "stk_vd": 64,
 "stk_ida": 36
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v2": {
 "type": "int",
@@ -8061,11 +8095,11 @@
 "stk_ida": 16
 },
 "kinds": {
-"mov": 2
+"mov": 3
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 }
 }
 },
@@ -8145,7 +8179,9 @@
 "stk_vd": 36,
 "stk_ida": 36
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -10940,7 +10976,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -13831,7 +13869,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -13905,7 +13945,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -14578,8 +14620,12 @@
 "stk_vd": 380,
 "stk_ida": 380
 },
-"kinds": {},
-"deref": {},
+"kinds": {
+"mov": 1
+},
+"deref": {
+"op:cmp@184": 1
+},
 "overlaps": [],
 "verdict": "blind"
 },
@@ -14614,8 +14660,12 @@
 "stk_vd": 392,
 "stk_ida": 392
 },
-"kinds": {},
-"deref": {},
+"kinds": {
+"mov": 1
+},
+"deref": {
+"mov@0": 1
+},
 "verdict": "not_integer"
 },
 "a7": {
@@ -14625,8 +14675,12 @@
 "stk_vd": 396,
 "stk_ida": 396
 },
-"kinds": {},
-"deref": {},
+"kinds": {
+"mov": 1
+},
+"deref": {
+"mov@0": 1
+},
 "verdict": "not_integer"
 },
 "v8": {
@@ -14869,7 +14923,9 @@
 "stk_vd": 294,
 "stk_ida": 294
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -14880,7 +14936,9 @@
 "stk_vd": 295,
 "stk_ida": 295
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -14891,7 +14949,9 @@
 "stk_vd": 296,
 "stk_ida": 296
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -14903,7 +14963,9 @@
 "stk_vd": 300,
 "stk_ida": 300
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -14914,7 +14976,9 @@
 "stk_vd": 308,
 "stk_ida": 308
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [
 "a1a"
@@ -14928,7 +14992,9 @@
 "stk_vd": 308,
 "stk_ida": 308
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [
 "a1"
@@ -15545,7 +15611,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -16942,7 +17010,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -17016,7 +17086,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -17104,7 +17176,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -17228,7 +17302,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -17242,7 +17318,7 @@
 "kinds": {},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "Float2E0": {
 "type": "float",
@@ -17251,7 +17327,9 @@
 "stk_vd": 48,
 "stk_ida": 44
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -17262,7 +17340,10 @@
 "stk_vd": 52,
 "stk_ida": 48
 },
-"kinds": {},
+"kinds": {
+"addr": 2,
+"mov": 3
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -17412,7 +17493,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -17426,7 +17509,7 @@
 "kinds": {},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v14": {
 "type": "unsigned __int8 *",
@@ -17435,7 +17518,9 @@
 "stk_vd": 48,
 "stk_ida": 44
 },
-"kinds": {},
+"kinds": {
+"mov": 4
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -17447,14 +17532,19 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 1
+"mov": 5,
+"f32": 2
 },
-"deref": {},
+"deref": {
+"addr@32": 1
+},
 "overlaps": [
 "v16",
 "Float2E0"
 ],
-"verdict": "blind"
+"verdict": "decided",
+"new_type": "float",
+"applied": "yes"
 },
 "v16": {
 "type": "int",
@@ -17464,14 +17554,19 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 1
+"mov": 5,
+"f32": 2
 },
-"deref": {},
+"deref": {
+"addr@32": 1
+},
 "overlaps": [
 "v15",
 "Float2E0"
 ],
-"verdict": "blind"
+"verdict": "decided",
+"new_type": "float",
+"applied": "yes"
 },
 "Float2E0": {
 "type": "float",
@@ -17481,9 +17576,12 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 1
+"mov": 5,
+"f32": 2
 },
-"deref": {},
+"deref": {
+"addr@32": 1
+},
 "verdict": "not_integer"
 },
 "v18": {
@@ -17493,7 +17591,10 @@
 "stk_vd": 56,
 "stk_ida": 52
 },
-"kinds": {},
+"kinds": {
+"addr": 2,
+"mov": 3
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -17579,7 +17680,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -17610,7 +17713,7 @@
 "stk_ida": 48
 },
 "kinds": {
-"mov": 1
+"mov": 2
 },
 "deref": {
 "mov@328": 1,
@@ -17627,8 +17730,12 @@
 "stk_vd": 52,
 "stk_ida": 52
 },
-"kinds": {},
-"deref": {},
+"kinds": {
+"mov": 1
+},
+"deref": {
+"mov@0": 1
+},
 "verdict": "not_integer"
 },
 "a4": {
@@ -18561,7 +18668,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -19148,7 +19257,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -21484,7 +21595,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -21510,7 +21623,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -21588,10 +21703,12 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 }
 }
 },
@@ -21739,7 +21856,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22253,7 +22372,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -22625,7 +22746,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22699,7 +22822,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22725,7 +22850,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22801,7 +22928,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22863,7 +22992,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -22939,7 +23070,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23015,7 +23148,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23091,7 +23226,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23136,7 +23273,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23198,7 +23337,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23241,7 +23382,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23267,7 +23410,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23441,7 +23586,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23686,7 +23833,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -23760,7 +23909,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -34120,7 +34271,7 @@
 "stk_ida": 24
 },
 "kinds": {
-"f32": 4
+"f32": 5
 },
 "deref": {},
 "verdict": "not_integer"
@@ -34134,7 +34285,7 @@
 },
 "kinds": {
 "addr": 9,
-"mov": 51,
+"mov": 52,
 "i32": 27,
 "f32": 1
 },
@@ -34150,7 +34301,7 @@
 },
 "kinds": {
 "addr": 23,
-"mov": 31,
+"mov": 34,
 "i32": 1,
 "f32": 12
 },
@@ -34168,7 +34319,7 @@
 },
 "kinds": {
 "addr": 8,
-"mov": 30,
+"mov": 31,
 "f32": 6
 },
 "deref": {},
@@ -34184,7 +34335,7 @@
 },
 "kinds": {
 "mov": 12,
-"addr": 12,
+"addr": 13,
 "f32": 9
 },
 "deref": {},
@@ -34199,7 +34350,7 @@
 },
 "kinds": {
 "addr": 20,
-"mov": 23,
+"mov": 24,
 "op:cmp": 1
 },
 "deref": {},
@@ -34214,7 +34365,7 @@
 },
 "kinds": {
 "mov": 26,
-"addr": 7,
+"addr": 8,
 "i32": 6,
 "f32": 9,
 "i64": 3
@@ -34258,7 +34409,7 @@
 },
 "kinds": {
 "mov": 4,
-"addr": 7
+"addr": 9
 },
 "deref": {},
 "verdict": "not_integer"
@@ -34395,7 +34546,9 @@
 "stk_vd": 176,
 "stk_ida": 156
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -34421,7 +34574,9 @@
 "stk_vd": 184,
 "stk_ida": 164
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -34905,7 +35060,9 @@
 "stk_vd": 324,
 "stk_ida": 304
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -34931,7 +35088,9 @@
 "stk_vd": 332,
 "stk_ida": 312
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -34957,7 +35116,9 @@
 "stk_vd": 340,
 "stk_ida": 320
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -35374,7 +35535,9 @@
 "stk_vd": 460,
 "stk_ida": 440
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -35670,7 +35833,9 @@
 "stk_vd": 596,
 "stk_ida": 576
 },
-"kinds": {},
+"kinds": {
+"addr": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -35695,7 +35860,9 @@
 "stk_vd": 608,
 "stk_ida": 588
 },
-"kinds": {},
+"kinds": {
+"addr": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -35748,7 +35915,9 @@
 "stk_vd": 628,
 "stk_ida": 608
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -36564,7 +36733,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -36655,7 +36826,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -36820,7 +36993,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -38829,7 +39004,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -39519,7 +39696,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -40305,7 +40484,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -41723,7 +41904,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -42059,7 +42242,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -54561,7 +54746,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -59750,7 +59937,7 @@
 "stk_ida": 16
 },
 "kinds": {
-"mov": 7
+"mov": 8
 },
 "deref": {},
 "verdict": "not_integer"
@@ -59785,7 +59972,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "address_taken"
 },
 "v119": {
 "type": "int",
@@ -59800,7 +59987,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v120": {
 "type": "int",
@@ -59814,7 +60001,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v121": {
 "type": "int",
@@ -59828,7 +60015,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 }
 }
 },
@@ -62282,7 +62469,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -62308,7 +62497,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -62334,7 +62525,9 @@
 "stk_vd": 12,
 "stk_ida": 8
 },
-"kinds": {},
+"kinds": {
+"op:test": 1
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -77418,7 +77611,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v1": {
 "type": "double",
@@ -77505,7 +77698,7 @@
 "kinds": {},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v9": {
 "type": "float *",
@@ -77516,9 +77709,12 @@
 },
 "kinds": {
 "addr": 2,
-"mov": 1
+"mov": 3
 },
-"deref": {},
+"deref": {
+"mov@40": 1,
+"mov@56": 1
+},
 "verdict": "not_integer"
 },
 "v10": {
@@ -77534,7 +77730,7 @@
 },
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "address_taken"
 },
 "v11": {
 "type": "int",
@@ -77543,10 +77739,13 @@
 "stk_vd": 92,
 "stk_ida": 20
 },
-"kinds": {},
+"kinds": {
+"addr": 4,
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "address_taken"
 },
 "v12": {
 "type": "float",
@@ -77555,7 +77754,10 @@
 "stk_vd": 96,
 "stk_ida": 24
 },
-"kinds": {},
+"kinds": {
+"addr": 1,
+"f32": 3
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77566,7 +77768,9 @@
 "stk_vd": 100,
 "stk_ida": 28
 },
-"kinds": {},
+"kinds": {
+"f32": 3
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77577,10 +77781,12 @@
 "stk_vd": 104,
 "stk_ida": 32
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v15": {
 "type": "int",
@@ -77589,10 +77795,14 @@
 "stk_vd": 108,
 "stk_ida": 36
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "decided",
+"new_type": "float",
+"applied": "yes"
 },
 "v16": {
 "type": "float",
@@ -77601,7 +77811,9 @@
 "stk_vd": 112,
 "stk_ida": 40
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77612,7 +77824,9 @@
 "stk_vd": 116,
 "stk_ida": 44
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77623,10 +77837,12 @@
 "stk_vd": 120,
 "stk_ida": 48
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v19": {
 "type": "int",
@@ -77635,10 +77851,14 @@
 "stk_vd": 124,
 "stk_ida": 52
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "decided",
+"new_type": "float",
+"applied": "yes"
 },
 "v20": {
 "type": "float",
@@ -77647,7 +77867,9 @@
 "stk_vd": 128,
 "stk_ida": 56
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77658,7 +77880,9 @@
 "stk_vd": 132,
 "stk_ida": 60
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77669,10 +77893,12 @@
 "stk_vd": 136,
 "stk_ida": 64
 },
-"kinds": {},
+"kinds": {
+"mov": 2
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v23": {
 "type": "int",
@@ -77681,10 +77907,14 @@
 "stk_vd": 140,
 "stk_ida": 68
 },
-"kinds": {},
+"kinds": {
+"f32": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "decided",
+"new_type": "float",
+"applied": "yes"
 },
 "v24": {
 "type": "float",
@@ -77693,7 +77923,9 @@
 "stk_vd": 144,
 "stk_ida": 72
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77704,7 +77936,9 @@
 "stk_vd": 148,
 "stk_ida": 76
 },
-"kinds": {},
+"kinds": {
+"f32": 2
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77715,10 +77949,12 @@
 "stk_vd": 152,
 "stk_ida": 80
 },
-"kinds": {},
+"kinds": {
+"mov": 1
+},
 "deref": {},
 "overlaps": [],
-"verdict": "blind"
+"verdict": "no_float"
 },
 "v27": {
 "type": "float[3]",
@@ -77727,7 +77963,10 @@
 "stk_vd": 156,
 "stk_ida": 84
 },
-"kinds": {},
+"kinds": {
+"mov": 4,
+"addr": 1
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77739,8 +77978,9 @@
 "stk_ida": 96
 },
 "kinds": {
-"addr": 4,
-"mov": 2
+"addr": 5,
+"mov": 7,
+"f32": 11
 },
 "deref": {},
 "verdict": "not_integer"
@@ -77752,7 +77992,10 @@
 "stk_vd": 232,
 "stk_ida": 160
 },
-"kinds": {},
+"kinds": {
+"addr": 1,
+"f32": 3
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77763,7 +78006,10 @@
 "stk_vd": 244,
 "stk_ida": 172
 },
-"kinds": {},
+"kinds": {
+"addr": 1,
+"f32": 3
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -77774,7 +78020,9 @@
 "stk_vd": 308,
 "stk_ida": 236
 },
-"kinds": {},
+"kinds": {
+"addr": 4
+},
 "deref": {},
 "verdict": "not_integer"
 }
@@ -81863,7 +82111,9 @@
 "stk_vd": 320,
 "stk_ida": 320
 },
-"kinds": {},
+"kinds": {
+"addr": 5
+},
 "deref": {},
 "verdict": "not_integer"
 },
@@ -100845,7 +101095,7 @@
 "stk_ida": 380
 },
 "kinds": {
-"mov": 39
+"mov": 41
 },
 "deref": {
 "mov@252": 4,
@@ -113353,10 +113603,10 @@
 "stk_ida": 136
 },
 "kinds": {
-"mov": 8
+"mov": 10
 },
 "deref": {
-"op:rep movsd@0": 1,
+"op:rep movsd@0": 2,
 "mov@48": 1,
 "mov@52": 1,
 "mov@56": 1,
@@ -113456,8 +113706,8 @@
 "stk_ida": 164
 },
 "kinds": {
-"addr": 1,
-"mov": 3
+"addr": 3,
+"mov": 4
 },
 "deref": {},
 "verdict": "not_integer"
@@ -113900,7 +114150,8 @@
 "stk_ida": 296
 },
 "kinds": {
-"addr": 1
+"addr": 1,
+"mov": 3
 },
 "deref": {},
 "verdict": "not_integer"
@@ -113981,7 +114232,9 @@
 "stk_vd": 332,
 "stk_ida": 332
 },
-"kinds": {},
+"kinds": {
+"addr": 1
+},
 "deref": {},
 "overlaps": [],
 "verdict": "blind"
@@ -119469,7 +119722,7 @@
 "stk_ida": 36
 },
 "kinds": {
-"mov": 2
+"mov": 1
 },
 "deref": {},
 "overlaps": [],
@@ -120766,10 +121019,10 @@
 "verdicts": {
 "register": 5735,
 "not_integer": 1644,
-"no_float": 822,
-"blind": 883,
-"address_taken": 44,
-"decided": 29,
+"no_float": 844,
+"blind": 852,
+"address_taken": 48,
+"decided": 34,
 "mixed": 10,
 "sp_differs": 4
 },
@@ -120779,7 +121032,7 @@
 },
 "applied": {
 "argument": 11,
-"yes": 18
+"yes": 23
 }
 }
 }

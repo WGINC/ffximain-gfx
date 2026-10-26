@@ -56,7 +56,7 @@ def fact_commands(texp, raw_gate):
     return [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
              ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
              ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
-             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'),
+             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'), ('call_pushes.json', 'call_pushes.py {o}'),
              ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
              ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
              ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),

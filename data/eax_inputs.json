@@ -24291,17 +24291,6 @@
 "reads": [],
 "reads_seen": []
 },
-"0x1028A0B0": {
-"callers_known": true,
-"hands_back": [
-0,
-1,
-2,
-3
-],
-"reads": [],
-"reads_seen": []
-},
 "0x1028AB50": {
 "callers_known": true,
 "hands_back": [

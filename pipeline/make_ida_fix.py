@@ -81,6 +81,11 @@ for l in open(os.path.join(D, 'exports', 'gfx_export.jsonl')):
         if o.get('func') and '__stdcall' in o['type']: decl.setdefault('0x%08X' % o['ea'], 'stdcall')
 data['conv_fix'] = {k: purges[k] for k, cc in decl.items() if cc == 'stdcall' and ecx.get(k) and k in purges}
 data['conv_why'] = {k: ecx[k] for k in data['conv_fix']}
+# caller-cleanup callees whose every settled caller pushes the same bytes (call_pushes.py): the IDA pass declares
+# fewer stack bytes nowhere (it compares with the IDB's own prototype and only adds)
+_cpj = os.path.join(D, 'call_pushes.json')
+data['arg_fix'] = {k: v for k, v in (json.load(open(_cpj)).get('_callees', {}) if os.path.exists(_cpj) else {}).items()
+                   if v and k not in data['conv_fix']}
 # facts from the code, per function, written as a function comment (each names its generator): the bytes of the
 # result its callers read, the bytes of each argument it reads, an entry EAX no code sees, the bytes of EAX it sets;
 # and the tree's gate verdict for the functions the verified tree holds
@@ -112,6 +117,6 @@ src = open(os.path.join(R, 'ida', 'ida_fix.template')).read().replace('__DATA__'
 os.makedirs(os.path.join(R, 'ida'), exist_ok=True)
 out = os.path.join(R, 'ida', 'ffxi_ida_fix.py')
 open(out, 'w', newline='\n').write(src)
-print('%s: %d names, %d prototypes, %d conventions, %d exact call effects in %d functions, %d vtable call types, %d D3D call types, %d SP points to remove, %d to export, %d KB'
-      % (out, len(data['names']), len(data['types']), len(data['conv_fix']), sum(len(r['calls']) for r in sp_calls.values()),
+print('%s: %d names, %d prototypes, %d conventions, %d argument counts to check, %d exact call effects in %d functions, %d vtable call types, %d D3D call types, %d SP points to remove, %d to export, %d KB'
+      % (out, len(data['names']), len(data['types']), len(data['conv_fix']), len(data['arg_fix']), sum(len(r['calls']) for r in sp_calls.values()),
          len(sp_calls), len(data['vcall_types']), len(data['com_types']), len(data['revert']), len(data['export']), len(src) // 1024))

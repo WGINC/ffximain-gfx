@@ -29,6 +29,13 @@ GCC build takes and Visual C++ 6.0 does not is spelled the way VC6 takes it, com
     the CRT's memcpy / memset / strcpy with C linkage (the intrinsic pragma needs it), `ull` as `ui64`, a hexadecimal
     floating literal as a decimal the compiler is checked to read back as the same double (hexf_check);
   * the shim's own inline functions emitted beside a function are not counted as the function (SHIM_HELPER).
+Forms that were left out, converted (task #117):
+  * a callee's parameter or return type the shim lacked, declared as the tree declares it (call_type_decls): VC6's
+    own __int8 / __int16 / __int32 / __int64, a Windows typedef, a Direct3D type (its header), a pointer to a struct
+    the tree declares (a forward declaration); a global of a Direct3D type held by value gets the header's layout;
+  * a variadic wrapper whose fixed parameters are typed, `(void *, ...)`, as the caller-cleanup `...` call;
+  * a `__thiscall` function whose first parameter (ECX) has another 4-byte type T: `T self_ = (T)this;`;
+  * a class method using its fields that names a global of any type: the global as for the other functions.
 
     FFXI_DLL=... VC6=... python3 pipeline/vc6/sweep.py OUT.json [--flags "/O2"] [--keep DIR] [--only 0xADDR,...] [--jobs N] [--cache DIR]
 OUT.json: {"0xADDR": {"verdict": IDENTICAL | IDENTICAL_UNCOMPARED (equal bytes, but a relocation's target could not be
@@ -82,10 +89,16 @@ extern "C" {
 void *__cdecl memcpy(void *, const void *, size_t);
 void *__cdecl memset(void *, int, size_t);
 char *__cdecl strcpy(char *, const char *);
+/* and the others the tree's <string.h> declares that Visual C++ 6.0 has as intrinsics (its STRING.H, without _CRTIMP:
+   the static CRT) */
+int __cdecl memcmp(const void *, const void *, size_t);
+char *__cdecl strcat(char *, const char *);
+int __cdecl strcmp(const char *, const char *);
+size_t __cdecl strlen(const char *);
 #ifdef __cplusplus
 }
 #endif
-#pragma intrinsic(memcpy, memset, strcpy)
+#pragma intrinsic(memcpy, memset, strcpy, memcmp, strcat, strcmp, strlen)
 /* __builtin_isunordered(a, b) (GCC): either is a NaN; _isnan (FLOAT.H): nonzero for a NaN */
 #ifdef __cplusplus
 extern "C" int __cdecl _isnan(double);
@@ -96,7 +109,9 @@ int __cdecl _isnan(double);
 #define qmemcpy memcpy
 /* more of the decompiler's helpers, as tree/include/xi_ghidra.hpp and xi_decomp.hpp define them */
 typedef signed char sbyte; typedef __int64 longlong; typedef unsigned __int64 ulonglong; typedef unsigned __int64 qword;
-typedef unsigned char xi_bool;
+typedef unsigned char xi_bool; typedef unsigned __int64 _QWORD;
+#define __PAIR64__(high, low) (((uint64_t)(uint32_t)(high) << 32) | (uint32_t)(low))
+#define __SPAIR64__(high, low) ((int64_t)__PAIR64__(high, low))
 #define CONCAT11(h, l) ((uint16_t)(((uint16_t)(uint8_t)(h) << 8) | (uint8_t)(l)))
 #define CONCAT12(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 16) | (uint16_t)(l)))
 #define CONCAT21(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 8) | (uint8_t)(l)))
@@ -146,6 +161,8 @@ struct XI_ANY { unsigned int bits; XI_ANY() {} template <class T> XI_ANY(T v) : 
 /* xi_castbits<To>(x) (tree/include/xi_ghidra.hpp): the bits of x as a To; To deduced from a null pointer, which
    Visual C++ 6.0 handles where an explicit template argument it does not (sweep.py macros) */
 template <class To, class From> inline To xi_castbits_(From f, To *) { To t; memcpy(&t, &f, sizeof t); return t; }
+/* COERCE_FLOAT(v) (tree/include/xi_decomp.hpp): xi_bitcast<float>((uint32_t)(v)), the word's bits as a float */
+#define COERCE_FLOAT(v) xi_castbits_((uint32_t)(v), (float *)0)
 #endif
 '''
 SIG = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+(?P<cc>__cdecl|__stdcall|__thiscall|__fastcall)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
@@ -157,7 +174,7 @@ ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ 
                   r'\((?P<cc>__\w+) \*\)\((?P<types>[^)]*)\)>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
 # a variadic wrapper: `template <class... R> XI_ORIG RET NAME(fixed..., R... rest) { ... (CC *)(...)>(XI_GAME(ADDR)) ...`
 VORIG = re.compile(r'^template <class\.\.\. R> XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*?),?\s*R\.\.\. rest\) \{ (?:return )?'
-                   r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), decltype[^>]*>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
+                   r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), (?:decltype[^>]*|\.\.\.\))>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
 GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 # a global holding a function pointer (an import's IAT slot, a vtable's first slot): `typedef R (CC *NAME_t)(P);`
 FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?P<name>\w+)_t\)\((?P<params>[^()]*)\);)\s*\n'
@@ -165,7 +182,10 @@ FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
          'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool', 'code',
-         'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE'}
+         'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE',
+         # Visual C++ 6.0's own sized integers; the tree's GCC build defines them as the same types (xi_decomp.hpp:
+         # __int8 char, __int16 short, __int32 int; __int64 is GCC's own)
+         '__int8', '__int16', '__int32', '__int64'}
 
 
 def plain(ty):
@@ -181,7 +201,10 @@ WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef vo
         'HINSTANCE': 'struct HINSTANCE__; typedef struct HINSTANCE__ *HINSTANCE;',
         'HCURSOR': 'struct HICON__; typedef struct HICON__ *HCURSOR;', 'LRESULT': 'typedef int LRESULT;',
         'HWND': 'typedef void *HWND;', 'HANDLE': 'typedef void *HANDLE;', 'xi_codefn': 'typedef code xi_codefn;',
-        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;'}
+        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;',
+        # xi_compat_win.hpp (imm.h DECLARE_HANDLE(HIMC); mmsystem.h; winuser.h's MSG) and gfx_types.hpp (LONG)
+        'HIMC': 'struct HIMC__; typedef struct HIMC__ *HIMC;', 'MMRESULT': 'typedef unsigned int MMRESULT;',
+        'MSG': 'struct tagMSG; typedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
 
 
 def type_decls(ty):
@@ -189,11 +212,15 @@ def type_decls(ty):
     to a named type, a one-int placeholder for one held by value (its fields and size are not known: code reading
     them fails to compile, code using its size compiles to other bytes, neither can match by chance)"""
     out = []
-    for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')):
+    for w in re.findall(r'[A-Za-z_]\w*(?:::\w+)?', ty.replace('const', '')):
         if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64', 'XI_ANY'): continue
+        # a type in namespace std (xi_compat_win.hpp: `namespace std { struct codecvt_base; }`), through a pointer
+        if w.startswith('std::') and re.search(r'%s\s*\*' % re.escape(w), ty): out.append('namespace std { struct %s; }' % w[5:]); continue
         if w in WINT: out.append(WINT[w]); continue
         # a struct also named by a typedef, as C needs (C++ takes it too)
         if re.search(r'\b%s\s*\*' % w, ty): out.append('struct %s; typedef struct %s %s;' % (w, w, w))
+        # a Direct3D type held by value: its layout is the tree's header's (xi_d3d8.hpp, from the SDK's d3d8.h)
+        elif w in d3d_names(): out.append(D3D_MARK)
         else: out.append('struct %s { int xi_unknown_layout; }; typedef struct %s %s;' % (w, w, w))
     return out
 
@@ -206,7 +233,7 @@ def externs():
     g = {m.group('name'): m.groupdict() for m in GLOB.finditer(gt)}
     for m in FGLOB.finditer(gt):
         # its parameter types (a parameter's name dropped), for the declarations they need
-        ps = [re.sub(r'\s+\w+$', '', x.strip()) if re.search(r'\w\s+\w+$', x.strip()) else x.strip()
+        ps = [re.sub(r'\s*\b\w+$', '', x.strip()) if re.search(r'[\w*]\s*\b\w+$', x.strip()) and not re.match(r'^[\w\s]*\b(?:%s)$' % '|'.join(BASIC), x.strip()) else x.strip()
               for x in m.group('params').split(',') if x.strip()]
         g[m.group('name')] = dict(m.groupdict(), type=m.group('name') + '_t', arr=None, fptr=' '.join([m.group('rt')] + ps))
     return o, g
@@ -232,6 +259,49 @@ def split_args(s):
     return out
 
 
+_D3DN = None
+_OPAQUE = None
+D3D_MARK = '/* xi_d3d8 */'     # a source needing a Direct3D type (a callee's, a global's): main() includes the header
+
+
+def d3d_names():
+    """the struct, enum and typedef names tree/include/xi_d3d8.hpp declares"""
+    global _D3DN
+    if _D3DN is None:
+        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()
+        _D3DN = set(re.findall(r'(?m)^(?:struct|enum) (\w+)\b', h)) | set(re.findall(r'(?m)^typedef [^;]*?\b(\w+);', h))
+    return _D3DN
+
+
+def opaque_names():
+    """the opaque types tree/include/xi_compat_win.hpp declares (`struct Iostream_init; ...`, the IDB's FLIRT names,
+    used only through pointers) and `namespace std { struct codecvt_base; }`"""
+    global _OPAQUE
+    if _OPAQUE is None:
+        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_compat_win.hpp')).read()
+        _OPAQUE = set(re.findall(r'\bstruct (\w+);', h))
+        _OPAQUE |= {'std::%s' % n for ns in re.findall(r'namespace std \{([^}]*)\}', h) for n in re.findall(r'struct (\w+);', ns)}
+    return _OPAQUE
+
+
+def call_type_decls(ty):
+    """what a callee's parameter or return type needs beyond the shim, as the tree declares it: ([declarations],
+    needs C++), or None when it is a type the sweep has no declaration for. A Windows typedef (WINT); a Direct3D
+    type (its header, D3D_MARK); a pointer to a struct the tree declares (tree/include) or to one of
+    xi_compat_win.hpp's opaque types: a forward declaration, which a pointer needs (passed as its 4 bytes)"""
+    out, cpp = [], False
+    for w in re.findall(r'[A-Za-z_]\w*(?:::\w+)?', re.sub(r'\b(?:const|volatile)\b', '', ty)):
+        if w in BASIC or w == 'XI_ANY': continue
+        if w in WINT: out.append(WINT[w]); continue
+        if w in d3d_names(): out.append(D3D_MARK); continue
+        if not re.search(r'(?<![\w:])%s\s*\*' % re.escape(w), ty): return None       # by value: its layout is needed
+        if w.startswith('std::') and w in opaque_names():
+            out.append('namespace std { struct %s; }' % w[5:]); cpp = True
+        elif w in struct_names() or w in opaque_names(): out.append('struct %s; typedef struct %s %s;' % (w, w, w))
+        else: return None
+    return out, cpp
+
+
 def rewrite_calls(body, orig, c_mode=False):
     """(new body, [declarations]) or (None, why). In C (c_mode) an XI_ANY parameter is declared `unsigned int`: C
     converts a pointer to it with a warning, and a wrong conversion can only make the bytes differ, never match; in
@@ -251,7 +321,11 @@ def rewrite_calls(body, orig, c_mode=False):
         tpl = [] if c_mode else ['A%d' % n for n, x in enumerate(raw) if x == 'XI_ANY']
         types = [('unsigned int' if c_mode else 'A%d' % n) if x == 'XI_ANY' else x for n, x in enumerate(raw)]
         tp = 'template <%s> ' % ', '.join('class ' + x for x in tpl) if tpl else ''
-        if not plain(w['rt']) or not all(plain(x) for x in types if x not in tpl): return None, 'type the shim lacks'
+        tds = [call_type_decls(x) for x in [w['rt']] + [x for x in types if x not in tpl]]
+        if None in tds: return None, 'type the shim lacks'
+        if c_mode and any(cpp for _, cpp in tds): return None, 'a type C cannot name'
+        for td, _ in tds:
+            for x in td: decls.setdefault(x, x)
         # the call's argument list, balanced
         j = k + m.end(); depth = 1
         while depth and j < len(body):
@@ -566,7 +640,7 @@ def struct_names():
     if _STRUCTS is None:
         _STRUCTS = set()
         for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
-            _STRUCTS |= set(re.findall(r'(?m)^(?:struct|class(?: XI_API)?) (\w+)\b', open(f).read()))
+            _STRUCTS |= set(re.findall(r'(?m)^(?:struct|class(?: XI_API)?) (?:/\*\w*\*/ )?(\w+)\b', open(f).read()))
     return _STRUCTS
 
 
@@ -623,10 +697,13 @@ def convert(m, src, orig=None, glob_=None):
             for c in sorted(layout[1]): pre.append('struct %s;' % c)
             cls = m.group('cls')
             head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in dict.fromkeys(pre))
+            # each global at its address, after what its type needs (glob_lines: as for the other functions)
+            gl = []
             for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_ or ())):
                 gd = glob_[g]
-                if not plain(gd.get('fptr') or gd['type']): return None, 'global type the shim lacks'
-                head += ''.join(x + '\n' for x in glob_lines(g, gd))
+                if gd.get('arr'): body = re.sub(r'\bXI_PIECE(_S)?\(%s,' % g, r'XI_PIECEA\1(%s,' % g, body)
+                gl += [x for x in glob_lines(g, gd) if x not in gl and x not in pre]
+            head += ''.join(x + '\n' for x in gl)
             if 'orig::' in body:
                 body, d = rewrite_calls(body, orig)
                 if body is None: return None, d
@@ -655,10 +732,29 @@ def convert(m, src, orig=None, glob_=None):
         if cc_cpp or force_cpp: return '.cpp', head + 'extern "C" %s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
         return '.c', head + '%s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
     a = [x.strip() for x in args.split(',')] if args else []
-    if not a or not re.match(r'^void\s*\*\s*self_$', a[0]): return None, 'thiscall without self_ first'
+    # the first parameter is the one in ECX, whatever the tree names it (self_, or a1 where the decompiler named it so)
+    sm = a and re.match(r'^(?P<t>[\w\s]*?\w[\w\s]*?\**)\s*\b(?P<n>\w+)$', a[0])
+    if not sm: return None, 'thiscall without a first parameter'
+    st, pn = sm.group('t').strip(), sm.group('n')
+    if pn != 'self_' and (re.search(r'\bself_\b', body) or re.match(r'^void\s*\*$', st)): return None, 'thiscall first parameter not self_'
     rest = ', '.join(a[1:]) or 'void'
-    # a method whose body binds its own view of this (`T * self = reinterpret_cast<T *>(this);`) keeps that one
-    bind = '' if re.search(r'(?m)^\s*[\w\s*]+?\bself_ = reinterpret_cast<[^>]+>\(this\);', body) else '  void *self_ = this;\n'
+    # a method whose body binds its own view of this (`T * self = reinterpret_cast<T *>(this);`) keeps that one.
+    # Otherwise self_, the parameter the tree passes in ECX, is `this`: `void *self_ = this;`, or for a first
+    # parameter of another 4-byte type T (a pointer or an int: ECX's value as that type) `T self_ = (T)this;`, the
+    # same register's value
+    if pn == 'self_' and re.search(r'(?m)^\s*[\w\s*]+?\bself_ = reinterpret_cast<[^>]+>\(this\);', body): bind = ''
+    elif re.match(r'^void\s*\*$', st): bind = '  void *self_ = this;\n'
+    else:
+        if call_type_decls(st) is None or not (st.endswith('*') or re.match(r'^(?:%s)$' % _INT4, st)):
+            return None, 'thiscall self_ of a type the shim lacks'
+        bind = '  %s %s = (%s)this;\n' % (st, pn, st)
+    # the signature's types, declared as the tree declares them (call_type_decls), where the sweep has a declaration
+    sd = []
+    for x in [ret, st] + a[1:]:
+        pt = re.sub(r'\s*\b\w+$', '', x) if x not in (ret, st) and re.search(r'[\w*]\s*\b\w+$', x) else x
+        ptd = call_type_decls(pt)
+        if ptd is not None and not ptd[1]: sd += [y for y in ptd[0] if y not in sd]
+    head += ''.join(x + '\n' for x in sd if x not in head.split('\n'))
     return '.cpp', (head + 'struct XS { %s %s(%s); };\n%s XS::%s(%s)\n{\n%s%s\n}\n'
                     % (ret, name, rest, ret, name, rest, bind, body[1:].rstrip().rstrip('}')))
 
@@ -980,7 +1076,7 @@ def main():
         if bad: c = (None, 'hexadecimal floating literal read otherwise (%s)' % bad[0])
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
         text = c[1]
-        if re.search(r'\bIDirect3D\w*8\b', text):
+        if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text:
             text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))

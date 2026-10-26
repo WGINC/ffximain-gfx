@@ -1,4 +1,14 @@
 {
+ "0x10001070": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x8B in the game",
+  "conv": "__stdcall",
+  "size": 32,
+  "rules_tried": [
+   "ge0",
+   "cmpk"
+  ]
+ },
  "0x100014A0": {
   "verdict": "DIFFERS",
   "why": "+0: 0xA1 here, 0x51 in the game",
@@ -7,9 +17,10 @@
   "casts": 1
  },
  "0x10001520": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_10001520.cpp(60): C2036: 'struct tagRECT *' : unknown size"
  },
  "0x10001B50": {
   "verdict": "DIFFERS",
@@ -51,9 +62,11 @@
   "size": 256
  },
  "0x10002040": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets ?f@FUNt_1000A6E0@@QAEPAI_G0PAXHH@Z (0x1000A6E0), the game 0x10869058",
+  "conv": "__cdecl",
+  "size": 240,
+  "casts": 2
  },
  "0x10002130": {
   "verdict": "DIFFERS",
@@ -77,19 +90,22 @@
   "size": 48
  },
  "0x10002C30": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_100170D0@@QAEHPAX00@Z (0x100170D0), the game 0x3444B759",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10002C80": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_100170D0@@QAEHPAX00@Z (0x100170D0), the game 0x3454B7A9",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10002CD0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_100170D0@@QAEHPAX00@Z (0x100170D0), the game 0x3454B7F9",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x10002D20": {
   "verdict": "IDENTICAL",
@@ -141,19 +157,27 @@
   "error": "f_10003040.c(13): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x100031F0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_102D2600@4 (0x102D2600), the game 0x99C0B705",
+  "conv": "__thiscall",
+  "size": 528,
+  "casts": 1
  },
  "0x100033C0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+88: REL32 targets ?f@FUNt_10003460@@QAEEHHH@Z (0x10003460), the game 0x344CBF6D",
+  "conv": "__thiscall",
+  "size": 192,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x100034B0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: 0xAB here, 0xBD in the game",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x100035F0": {
   "verdict": "IDENTICAL",
@@ -195,19 +219,29 @@
   "conv": "__thiscall"
  },
  "0x10003890": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10003890.cpp(72): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x10003B60": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+453: REL32 targets _FUN_10003D70@12 (0x10003D70), the game 0x2B6A3D93",
+  "conv": "__thiscall",
+  "size": 560,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x10003D70": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?f@FUNt_10120590@@QAEDIPAX0@Z (0x10120590), the game 0x54C73DAC",
+  "conv": "__stdcall",
+  "size": 672,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x10005600": {
   "verdict": "DIFFERS",
@@ -276,9 +310,10 @@
   ]
  },
  "0x10007EF0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10007EF0.cpp(38): C2664: 'int (unsigned int,void *,unsigned int ** ,unsigned int)' : cannot convert parameter 1 from 'unsigned int *' to 'unsigned int'"
  },
  "0x100083D0": {
   "verdict": "DIFFERS",
@@ -382,9 +417,11 @@
   "size": 32
  },
  "0x100091B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+940: REL32 targets _FUN_103127C0 (0x103127C0), the game 0x203328D8",
+  "conv": null,
+  "size": 1248,
+  "casts": 5
  },
  "0x10009620": {
   "verdict": "IDENTICAL",
@@ -418,9 +455,10 @@
   "casts": 1
  },
  "0x10009720": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_10009720.cpp(16): C2027: use of undefined type 'D3DHolder'"
  },
  "0x10009730": {
   "verdict": "IDENTICAL",
@@ -442,10 +480,19 @@
   "conv": "__stdcall",
   "size": 32
  },
+ "0x10009780": {
+  "verdict": "DIFFERS",
+  "why": "+5: 0x53 here, 0x85 in the game",
+  "conv": "__thiscall",
+  "size": 144,
+  "casts": 3
+ },
  "0x100097F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+5: 0x57 here, 0x56 in the game",
+  "conv": null,
+  "size": 128,
+  "casts": 1
  },
  "0x10009870": {
   "verdict": "DIFFERS",
@@ -548,9 +595,10 @@
   "size": 32
  },
  "0x1000A3B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0x9C00A3B9",
+  "conv": null,
+  "size": 272
  },
  "0x1000A4F0": {
   "verdict": "IDENTICAL",
@@ -587,9 +635,10 @@
   "size": 32
  },
  "0x1000A820": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+178: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0x9C00A8CB",
+  "conv": null,
+  "size": 672
  },
  "0x1000AAB0": {
   "verdict": "IDENTICAL",
@@ -659,9 +708,10 @@
   "size": 1616
  },
  "0x1000C6E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+69: REL32 targets ?f@FUNt_1000C900@@QAEDPAXH@Z (0x1000C900), the game 0x24250BEF",
+  "conv": null,
+  "size": 208
  },
  "0x1000C7C0": {
   "verdict": "IDENTICAL",
@@ -670,14 +720,19 @@
   "size": 144
  },
  "0x1000C850": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+54: REL32 targets _FUN_102D2FB9@32 (0x102D2FB9), the game 0xD484244A",
+  "conv": null,
+  "size": 208,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1000C900": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+61: REL32 targets _FUN_102D2FB9@32 (0x102D2FB9), the game 0x7A023394",
+  "conv": null,
+  "size": 272
  },
  "0x1000CB20": {
   "verdict": "DIFFERS",
@@ -698,9 +753,10 @@
   "size": 272
  },
  "0x1000CF20": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x344D5C32",
+  "conv": null,
+  "size": 112
  },
  "0x1000CF90": {
   "verdict": "IDENTICAL",
@@ -817,9 +873,11 @@
   "size": 16
  },
  "0x10010D20": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10010D20.cpp(240): C2440: '=' : cannot convert from 'unsigned int *' to 'unsigned int'",
+  "casts": 17
  },
  "0x10011920": {
   "verdict": "IDENTICAL",
@@ -846,9 +904,11 @@
   "size": 32
  },
  "0x10011A00": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10011A00.cpp(435): C2027: use of undefined type '_iobuf'",
+  "casts": 1
  },
  "0x10012F40": {
   "verdict": "DIFFERS",
@@ -857,9 +917,10 @@
   "size": 1136
  },
  "0x100132B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+62: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0x1C258F7B",
+  "conv": "__thiscall",
+  "size": 2096
  },
  "0x100139E0": {
   "verdict": "DIFFERS",
@@ -885,19 +946,22 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10013DF0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets _FUN_10010370 (0x10010370), the game 0x1D8D3E0D",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x10013F10": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+34: REL32 targets ?f@FUNt_10239460@@QAEHH@Z (0x10239460), the game 0x106B3F58",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x10014030": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets _FUN_10010370 (0x10010370), the game 0x1D8D404D",
+  "conv": "__thiscall",
+  "size": 240
  },
  "0x10014120": {
   "verdict": "DIFFERS",
@@ -911,9 +975,10 @@
   "conv": "__thiscall"
  },
  "0x100141C0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?f@FUNt_1000AE40@@QAEDMMH@Z (0x1000AE40), the game 0x0F6D96D3",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10014220": {
   "verdict": "DIFFERS",
@@ -937,7 +1002,7 @@
  },
  "0x100142B0": {
   "verdict": "DIFFERS",
-  "why": "+37: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x5CF72B0D",
+  "why": "+88: REL32 targets ?FUN_100749B0@@YGIH@Z (0x100749B0), the game 0x16A42B1C",
   "conv": "__cdecl",
   "size": 128,
   "casts": 1
@@ -1271,9 +1336,11 @@
   "size": 32
  },
  "0x100161B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_100161B0.cpp(51): C2027: use of undefined type 'D3DHolder'",
+  "casts": 2
  },
  "0x10016300": {
   "verdict": "IDENTICAL",
@@ -1282,9 +1349,10 @@
   "size": 32
  },
  "0x10016320": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_10016320.cpp(37): C2027: use of undefined type 'CDx_vtbl'"
  },
  "0x100163C0": {
   "verdict": "IDENTICAL",
@@ -1335,6 +1403,12 @@
   "conv": "__thiscall",
   "size": 48
  },
+ "0x100170D0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
  "0x10017100": {
   "verdict": "DIFFERS",
   "why": "+0: 0x83 here, 0x51 in the game",
@@ -1351,9 +1425,13 @@
   ]
  },
  "0x10017230": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+88: 0x7A here, 0x7B in the game",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x10017310": {
   "verdict": "DIFFERS",
@@ -1413,9 +1491,10 @@
   "conv": "__thiscall"
  },
  "0x10017C60": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+62: REL32 targets _FUN_10015680 (0x10015680), the game 0xE9EE64C6",
+  "conv": "__thiscall",
+  "size": 208
  },
  "0x10017D20": {
   "verdict": "IDENTICAL",
@@ -1431,9 +1510,9 @@
  },
  "0x10017D90": {
   "verdict": "DIFFERS",
-  "why": "+26: REL32 targets _FUN_10311877@0 (0x10311877), the game 0x78017DAE",
+  "why": "+43: REL32 targets _FUN_10311877 (0x10311877), the game 0x848CD3CF",
   "conv": "__cdecl",
-  "size": 144
+  "size": 160
  },
  "0x100180D0": {
   "verdict": "DIFFERS",
@@ -1522,14 +1601,17 @@
   ]
  },
  "0x100186C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+189: REL32 targets ?f@FUNt_10018A50@@QAEPAIH@Z (0x10018A50), the game 0x43047281",
+  "conv": null,
+  "size": 272,
+  "casts": 5
  },
  "0x100187D0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100187D0.cpp(25): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x10018840": {
   "verdict": "DIFFERS",
@@ -1596,6 +1678,12 @@
  "0x10019490": {
   "verdict": "IDENTICAL",
   "why": "",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x100194F0": {
+  "verdict": "DIFFERS",
+  "why": "+10: 0x4E here, 0x56 in the game",
   "conv": "__thiscall",
   "size": 48
  },
@@ -1761,6 +1849,12 @@
    "cmpk_retthis"
   ]
  },
+ "0x1001B520": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x56 here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 192
+ },
  "0x1001B5D0": {
   "verdict": "LEFT_OUT",
   "why": "no wrapper for Camera_GetFrameScale_v1",
@@ -1779,9 +1873,10 @@
   "size": 16
  },
  "0x1001D0A0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+2: REL32 targets _FUN_10015690 (0x10015690), the game 0x6869D210",
+  "conv": "__cdecl",
+  "size": 128
  },
  "0x1001D170": {
   "verdict": "DIFFERS",
@@ -1796,14 +1891,16 @@
   ]
  },
  "0x1001D240": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+104: REL32 targets ?f@FUNt_10009E20@@QAEHHHH@Z (0x10009E20), the game 0x106BD316",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x1001D350": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets ?f@FUNt_1000A1D0@@QAEHHH@Z (0x1000A1D0), the game 0x5DE9D3EA",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1001D390": {
   "verdict": "IDENTICAL",
@@ -1812,9 +1909,10 @@
   "size": 32
  },
  "0x1001D3B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+110: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0x34469B22",
+  "conv": "__thiscall",
+  "size": 1056
  },
  "0x1001D800": {
   "verdict": "DIFFERS",
@@ -1824,6 +1922,13 @@
   "rules_tried": [
    "retthis"
   ]
+ },
+ "0x1001DBD0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80,
+  "casts": 1
  },
  "0x1001DC20": {
   "verdict": "IDENTICAL",
@@ -1901,6 +2006,12 @@
   "why": "+172: REL32 targets _FUN_100279A0 (0x100279A0), the game 0x7330FEAF",
   "conv": "__thiscall",
   "size": 192
+ },
+ "0x10021680": {
+  "verdict": "DIFFERS",
+  "why": "+234: REL32 targets ?f@FUNt_100279B0@@QAEIXZ (0x100279B0), the game 0xDE8D1921",
+  "conv": "__thiscall",
+  "size": 816
  },
  "0x10021AE0": {
   "verdict": "DIFFERS",
@@ -1992,9 +2103,10 @@
   "size": 48
  },
  "0x10025060": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets _FUN_10072FB0@4 (0x10072FB0), the game 0x20269CF7",
+  "conv": null,
+  "size": 48
  },
  "0x10025090": {
   "verdict": "IDENTICAL",
@@ -2032,9 +2144,10 @@
   "size": 64
  },
  "0x10025260": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10025260.cpp(31): C2039: 'vf0_CYyModelDt_VT_1032A430_ScalarDeletingDtor_2' : is not a member of 'Vt_1032A460_vtbl'"
  },
  "0x100252D0": {
   "verdict": "IDENTICAL",
@@ -2043,9 +2156,10 @@
   "size": 32
  },
  "0x10025330": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+204: REL32 targets ?f@FUNt_100279F0@@QAEHPAX@Z (0x100279F0), the game 0x100254FC",
+  "conv": "__thiscall",
+  "size": 640
  },
  "0x100255C0": {
   "verdict": "DIFFERS",
@@ -2054,9 +2168,10 @@
   "size": 672
  },
  "0x10025870": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+136: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0x6C8B8D20",
+  "conv": "__thiscall",
+  "size": 912
  },
  "0x10025BD0": {
   "verdict": "IDENTICAL",
@@ -2083,9 +2198,10 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10025C40": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+73: REL32 targets ?f@FUNt_10075960@@QAEHH@Z (0x10075960), the game 0x106C6701",
+  "conv": "__stdcall",
+  "size": 816
  },
  "0x10025F70": {
   "verdict": "DIFFERS",
@@ -2094,29 +2210,34 @@
   "size": 672
  },
  "0x100263F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+200: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x101738A4",
+  "conv": "__cdecl",
+  "size": 752
  },
  "0x100266C0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x9D0266E2",
+  "conv": "__stdcall",
+  "size": 384
  },
  "0x10026990": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+276: REL32 targets ?f@FUNt_1000CD00@@QAEHHHHH@Z (0x1000CD00), the game 0x7002690A",
+  "conv": null,
+  "size": 320
  },
  "0x10026AD0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+313: REL32 targets ?f@FUNt_1000CD00@@QAEHHHHH@Z (0x1000CD00), the game 0x00EA7177",
+  "conv": null,
+  "size": 608
  },
  "0x10026C70": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+354: REL32 targets ?f@FUNt_1000CD00@@QAEHHHHH@Z (0x1000CD00), the game 0x6E626DD4",
+  "conv": null,
+  "size": 368
  },
  "0x10026E00": {
   "verdict": "IDENTICAL",
@@ -2226,24 +2347,28 @@
   "size": 32
  },
  "0x100276F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+163: REL32 targets _FUN_100279A0 (0x100279A0), the game 0xF8469BE3",
+  "conv": "__cdecl",
+  "size": 192
  },
  "0x100277E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+113: REL32 targets _FUN_100279A0 (0x100279A0), the game 0xF8469CA1",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x10027870": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+59: 0x5E here, 0x8D in the game",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x100278E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+15: 0xD0 here, 0x48 in the game",
+  "conv": "__cdecl",
+  "size": 96
  },
  "0x10027930": {
   "verdict": "DIFFERS",
@@ -2263,6 +2388,12 @@
   "why": "",
   "conv": "__cdecl",
   "size": 16
+ },
+ "0x100279B0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x100279F0": {
   "verdict": "IDENTICAL",
@@ -2404,8 +2535,8 @@
   "size": 80
  },
  "0x100286B0": {
-  "verdict": "DIFFERS",
-  "why": "+13: REL32 targets _FUN_10028FD0 (0x10028FD0), the game 0x19106F18",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
   "size": 80
  },
@@ -2456,6 +2587,18 @@
   "why": "",
   "conv": "__cdecl",
   "size": 64
+ },
+ "0x10028AA0": {
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_10028730 (0x10028730), the game 0x94028AA7",
+  "conv": "__cdecl",
+  "size": 192
+ },
+ "0x10028AC0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x10028B90": {
   "verdict": "IDENTICAL",
@@ -2638,6 +2781,12 @@
    "retthis"
   ]
  },
+ "0x1002A040": {
+  "verdict": "DIFFERS",
+  "why": "+6: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x598DB06E",
+  "conv": "__thiscall",
+  "size": 48
+ },
  "0x1002A080": {
   "verdict": "DIFFERS",
   "why": "+5: REL32 targets ?FUN_10072FB0@@YGIPAI@Z (0x10072FB0), the game 0x57D3C896",
@@ -2660,9 +2809,18 @@
   ]
  },
  "0x1002A3B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_1002A3B0.cpp(161): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use",
+  "casts": 1
+ },
+ "0x1002A700": {
+  "verdict": "DIFFERS",
+  "why": "+20: REL32 targets ?f@FUNt_10029E70@@QAEHXZ (0x10029E70), the game 0x008EA717",
+  "conv": "__thiscall",
+  "size": 144,
+  "casts": 1
  },
  "0x1002A750": {
   "verdict": "IDENTICAL",
@@ -2757,9 +2915,10 @@
   "casts": 1
  },
  "0x1002B6E0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets _FUN_10026E90 (0x10026E90), the game 0x5569230D",
+  "conv": null,
+  "size": 3120
  },
  "0x1002C270": {
   "verdict": "IDENTICAL",
@@ -2783,9 +2942,10 @@
   ]
  },
  "0x1002C360": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+9: 0x76 here, 0x63 in the game",
+  "conv": null,
+  "size": 144
  },
  "0x1002C3E0": {
   "verdict": "IDENTICAL",
@@ -2842,10 +3002,10 @@
   ]
  },
  "0x1002C890": {
-  "verdict": "DIFFERS",
-  "why": "+8: REL32 targets _FUN_10028FD0 (0x10028FD0), the game 0xD735B0EC",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
-  "size": 16
+  "size": 32
  },
  "0x1002C8B0": {
   "verdict": "IDENTICAL",
@@ -2877,14 +3037,23 @@
   "size": 32
  },
  "0x1002D680": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+15: 0x3B here, 0xC7 in the game",
+  "conv": null,
+  "size": 128,
+  "casts": 2
  },
  "0x1002D700": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets _FUN_1003B3C0@4 (0x1003B3C0), the game 0x204A90B7",
+  "conv": null,
+  "size": 240
+ },
+ "0x1002D7F0": {
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_10017D50 (0x10017D50), the game 0x0EA822ED",
+  "conv": "__thiscall",
+  "size": 144
  },
  "0x1002D880": {
   "verdict": "IDENTICAL",
@@ -2893,9 +3062,10 @@
   "size": 96
  },
  "0x1002DC10": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_1002F1C0 (0x1002F1C0), the game 0xB102DC3A",
+  "conv": null,
+  "size": 5824
  },
  "0x1002F130": {
   "verdict": "DIFFERS",
@@ -3001,19 +3171,23 @@
   "size": 64
  },
  "0x10033710": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+20: REL32 targets _FUN_10015690 (0x10015690), the game 0xC81F9F29",
+  "conv": "__thiscall",
+  "size": 144,
+  "casts": 2
  },
  "0x10033800": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x344FC614",
+  "conv": "__thiscall",
+  "size": 624
  },
  "0x10033A70": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+497: REL32 targets ?f@FUNt_1000A1D0@@QAEHHH@Z (0x1000A1D0), the game 0x7C10C864",
+  "conv": "__thiscall",
+  "size": 816
  },
  "0x10033DA0": {
   "verdict": "DIFFERS",
@@ -3190,19 +3364,19 @@
  },
  "0x10035D40": {
   "verdict": "DIFFERS",
-  "why": "+6: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x42884592",
+  "why": "+61: REL32 targets ?FUN_100749B0@@YGIH@Z (0x100749B0), the game 0xFC314649",
   "conv": "__cdecl",
   "size": 80
  },
  "0x10035D90": {
   "verdict": "DIFFERS",
-  "why": "+6: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x423845E2",
+  "why": "+61: REL32 targets ?FUN_100749B0@@YGIH@Z (0x100749B0), the game 0xFBE14699",
   "conv": "__cdecl",
   "size": 80
  },
  "0x10035DE0": {
   "verdict": "DIFFERS",
-  "why": "+6: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x41E84632",
+  "why": "+61: REL32 targets ?FUN_100749B0@@YGIH@Z (0x100749B0), the game 0xFB9146E9",
   "conv": "__cdecl",
   "size": 80
  },
@@ -3407,9 +3581,14 @@
   "conv": "__cdecl",
   "size": 16
  },
+ "0x100378B0": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for Music_LoadTrackIfRunning",
+  "conv": "__cdecl"
+ },
  "0x10037960": {
   "verdict": "DIFFERS",
-  "why": "+31: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x9C037899",
+  "why": "+34: REL32 targets ?FUN_10028FD0@@YAPAIHHH@Z (0x10028FD0), the game 0xD4876A11",
   "conv": "__cdecl",
   "size": 160
  },
@@ -3486,15 +3665,23 @@
   "why": "no wrapper for Acter_IsEvent",
   "conv": "__cdecl"
  },
+ "0x100384B0": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x84 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 160
+ },
  "0x10038520": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+438: REL32 targets _FUN_10038720 (0x10038720), the game 0x1013CE93",
+  "conv": "__cdecl",
+  "size": 560
  },
  "0x10038720": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+42: REL32 targets __ftol (0x10311C2C), the game 0x100387F6",
+  "conv": "__cdecl",
+  "size": 528
  },
  "0x10038920": {
   "verdict": "IDENTICAL",
@@ -3503,9 +3690,10 @@
   "size": 16
  },
  "0x10038930": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+108: REL32 targets ?f@FUNt_1000A6E0@@QAEPAI_G0PAXHH@Z (0x1000A6E0), the game 0x204B42FC",
+  "conv": "__cdecl",
+  "size": 144
  },
  "0x100389C0": {
   "verdict": "IDENTICAL",
@@ -3599,6 +3787,16 @@
   "conv": "__cdecl",
   "size": 16
  },
+ "0x100397A0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x55 in the game",
+  "conv": "__thiscall",
+  "size": 160,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x10039810": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -3661,9 +3859,14 @@
   "size": 32
  },
  "0x10039E50": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+205: REL32 targets _FUN_102D2FB9@32 (0x102D2FB9), the game 0x0E451E09",
+  "conv": "__thiscall",
+  "size": 3696,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1003AA40": {
   "verdict": "IDENTICAL",
@@ -3741,9 +3944,13 @@
   "conv": "__thiscall"
  },
  "0x1003B210": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+295: REL32 targets _FUN_1002C890 (0x1002C890), the game 0x8C17D77F",
+  "conv": null,
+  "size": 416,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1003B3C0": {
   "verdict": "DIFFERS",
@@ -3891,9 +4098,10 @@
   "size": 144
  },
  "0x1003BE10": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_1003BE10.cpp(59): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x1003C6E0": {
   "verdict": "DIFFERS",
@@ -3971,14 +4179,18 @@
   "size": 32
  },
  "0x1003D9A0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets _FUN_10014D90 (0x10014D90), the game 0xD486EC1A",
+  "conv": "__cdecl",
+  "size": 496,
+  "casts": 1
  },
  "0x1003DB60": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+66: REL32 targets _FUN_10014D90 (0x10014D90), the game 0x1CC85EB8",
+  "conv": "__cdecl",
+  "size": 752,
+  "casts": 1
  },
  "0x1003DFE0": {
   "verdict": "DIFFERS",
@@ -4016,19 +4228,22 @@
   "size": 208
  },
  "0x1003E3A0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets __ftol (0x10311C2C), the game 0x568BE402",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x1003E450": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets __ftol (0x10311C2C), the game 0x568BE4B1",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x1003E500": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+100: REL32 targets __ftol (0x10311C2C), the game 0x3D3AA950",
+  "conv": "__thiscall",
+  "size": 320
  },
  "0x1003E630": {
   "verdict": "IDENTICAL",
@@ -4079,9 +4294,10 @@
   ]
  },
  "0x1003E9A0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets ?f@FUNt_1006AD90@@QAEPAUexception@@XZ (0x1006AD90), the game 0x204BA38E",
+  "conv": "__thiscall",
+  "size": 336
  },
  "0x1003EB30": {
   "verdict": "DIFFERS",
@@ -4138,9 +4354,14 @@
   "size": 16
  },
  "0x1003F440": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+150: REL32 targets ?f@FUNt_10075700@@QAEHHMMM@Z (0x10075700), the game 0xD3ECC065",
+  "conv": null,
+  "size": 1184,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1003F8A0": {
   "verdict": "DIFFERS",
@@ -4187,10 +4408,23 @@
    "cmpk"
   ]
  },
+ "0x10040220": {
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets ?f@FUNt_1003FCF0@@QAEHXZ (0x1003FCF0), the game 0x9C040228",
+  "conv": "__thiscall",
+  "size": 1312
+ },
  "0x10040670": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_1003FCF0@@QAEPADXZ (0x1003FCF0), the game 0x9C040673",
+  "conv": null,
+  "size": 1312
+ },
+ "0x10040E70": {
+  "verdict": "DIFFERS",
+  "why": "+88: REL32 targets ?f@FUNt_1006A480@@QAEXPAI@Z (0x1006A480), the game 0x9B0D838C",
+  "conv": "__thiscall",
+  "size": 352
  },
  "0x10041000": {
   "verdict": "IDENTICAL",
@@ -4237,10 +4471,17 @@
   "conv": "__thiscall",
   "size": 48
  },
+ "0x10041160": {
+  "verdict": "DIFFERS",
+  "why": "+167: REL32 targets __ftol (0x10311C2C), the game 0x0FE593D2",
+  "conv": "__thiscall",
+  "size": 384
+ },
  "0x10041AF0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_1003B700@@QAEHXZ (0x1003B700), the game 0x95F4A711",
+  "conv": null,
+  "size": 320
  },
  "0x10041F40": {
   "verdict": "DIFFERS",
@@ -4309,9 +4550,11 @@
   "size": 16
  },
  "0x100426F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_100426F0.cpp(51): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use",
+  "casts": 2
  },
  "0x100430B0": {
   "verdict": "IDENTICAL",
@@ -4338,9 +4581,10 @@
   "size": 16
  },
  "0x100431B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100431B0.cpp(80): C2101: '&' on constant"
  },
  "0x10043570": {
   "verdict": "IDENTICAL",
@@ -4367,9 +4611,11 @@
   "size": 16
  },
  "0x10043720": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_10043720.cpp(115): C2065: 'sin' : undeclared identifier",
+  "casts": 1
  },
  "0x10043A90": {
   "verdict": "IDENTICAL",
@@ -4414,9 +4660,10 @@
   "size": 32
  },
  "0x10043E50": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+98: 0x2D here, 0x21 in the game",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x10043F00": {
   "verdict": "DIFFERS",
@@ -4428,9 +4675,10 @@
   ]
  },
  "0x10043F40": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+191: REL32 targets ?f@FUNt_1000CB20@@QAEHHHH@Z (0x1000CB20), the game 0x6E043C8E",
+  "conv": "__thiscall",
+  "size": 224
  },
  "0x10044010": {
   "verdict": "DIFFERS",
@@ -4458,24 +4706,31 @@
   ]
  },
  "0x100441C0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+38: 0xF3 here, 0x33 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10044210": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1
  },
  "0x10044230": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1
  },
  "0x10044270": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: 0x33 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 544,
+  "casts": 2
  },
  "0x10044540": {
   "verdict": "DIFFERS",
@@ -4514,9 +4769,10 @@
   "size": 32
  },
  "0x10044970": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+79: REL32 targets ?f@FUNt_100481D0@@QAEDH@Z (0x100481D0), the game 0x10054A71",
+  "conv": null,
+  "size": 288
  },
  "0x10044AA0": {
   "verdict": "DIFFERS",
@@ -4598,9 +4854,10 @@
   "conv": "__thiscall"
  },
  "0x10045C50": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+6: 0xA8 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x10045D40": {
   "verdict": "DIFFERS",
@@ -4610,6 +4867,12 @@
   "rules_tried": [
    "retthis"
   ]
+ },
+ "0x10046070": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10046070.cpp(71): C2065: 'ABS' : undeclared identifier"
  },
  "0x10046380": {
   "verdict": "DIFFERS",
@@ -4627,9 +4890,11 @@
   "size": 96
  },
  "0x100467E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_100467E0.cpp(229): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use",
+  "casts": 1
  },
  "0x100472E0": {
   "verdict": "IDENTICAL",
@@ -4638,9 +4903,11 @@
   "size": 16
  },
  "0x100472F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets ?f@FUNt_10046550@@QAEHH@Z (0x10046550), the game 0xF804DD2B",
+  "conv": "__thiscall",
+  "size": 224,
+  "casts": 1
  },
  "0x100473F0": {
   "verdict": "DIFFERS",
@@ -4661,9 +4928,10 @@
   "size": 48
  },
  "0x100474D0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_10009E00@@QAEPA_EXZ (0x10009E00), the game 0xD88CFFEC",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10047550": {
   "verdict": "IDENTICAL",
@@ -4708,9 +4976,10 @@
   "size": 160
  },
  "0x10047CE0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+333: REL32 targets _FUN_10074290 (0x10074290), the game 0x10055CB7",
+  "conv": null,
+  "size": 640
  },
  "0x10047FC0": {
   "verdict": "IDENTICAL",
@@ -4788,9 +5057,10 @@
   "size": 400
  },
  "0x1004A870": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_1004A870.cpp(27): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x1004E210": {
   "verdict": "IDENTICAL",
@@ -4895,14 +5165,16 @@
   "size": 64
  },
  "0x1004E630": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_1004E630.cpp(22): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x1004E720": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+138: REL32 targets ?f@FUNt_100539E0@@QAEEXZ (0x100539E0), the game 0xF8C5EE39",
+  "conv": null,
+  "size": 400
  },
  "0x100527B0": {
   "verdict": "IDENTICAL",
@@ -5556,10 +5828,13 @@
  },
  "0x10053370": {
   "verdict": "DIFFERS",
-  "why": "+140: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x15CC2F3B",
+  "why": "+141: REL32 targets ?FUN_10028FD0@@YAPAIHHH@Z (0x10028FD0), the game 0x4C0AFAFC",
   "conv": "__thiscall",
   "size": 240,
-  "casts": 1
+  "casts": 1,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x10053450": {
   "verdict": "DIFFERS",
@@ -5571,9 +5846,11 @@
   ]
  },
  "0x100536C0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+175: REL32 targets ?f@FUNt_10074140@@QAEPAIPAXH@Z (0x10074140), the game 0x611D5BBF",
+  "conv": null,
+  "size": 384,
+  "casts": 2
  },
  "0x10053840": {
   "verdict": "IDENTICAL",
@@ -5609,6 +5886,11 @@
   "conv": null,
   "size": 96,
   "casts": 1
+ },
+ "0x10054220": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for FUN_100496f0",
+  "conv": "__thiscall"
  },
  "0x100542E0": {
   "verdict": "IDENTICAL",
@@ -5770,6 +6052,12 @@
    "retthis",
    "ge0_retthis"
   ]
+ },
+ "0x100554B0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x51 here, 0x41 in the game",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10055520": {
   "verdict": "IDENTICAL",
@@ -5976,7 +6264,7 @@
  },
  "0x10056CE0": {
   "verdict": "DIFFERS",
-  "why": "+12: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x32E455E9",
+  "why": "+121: REL32 targets ?f@FUNt_10062830@@QAEXH@Z (0x10062830), the game 0xF8D3F8AD",
   "conv": "__thiscall",
   "size": 176
  },
@@ -5988,6 +6276,12 @@
   "rules_tried": [
    "retthis"
   ]
+ },
+ "0x10056EF0": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x8B here, 0x55 in the game",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10057080": {
   "verdict": "IDENTICAL",
@@ -6019,6 +6313,12 @@
   "why": "",
   "conv": "__thiscall",
   "size": 48
+ },
+ "0x100573E0": {
+  "verdict": "DIFFERS",
+  "why": "+57: 0x2D here, 0x0B in the game",
+  "conv": "__thiscall",
+  "size": 176
  },
  "0x100574A0": {
   "verdict": "LEFT_OUT",
@@ -6163,9 +6463,10 @@
   "size": 16
  },
  "0x10062FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_10062FF0.cpp(10): C2036: 'struct Vt_1032BAA8 *' : unknown size"
  },
  "0x10063000": {
   "verdict": "DIFFERS",
@@ -6500,9 +6801,10 @@
   "size": 128
  },
  "0x1006AA30": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+67: REL32 targets _FUN_1006A560 (0x1006A560), the game 0x5E92AA76",
+  "conv": "__thiscall",
+  "size": 256
  },
  "0x1006AD30": {
   "verdict": "DIFFERS",
@@ -6534,9 +6836,10 @@
   "size": 32
  },
  "0x1006AF00": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+130: REL32 targets ?f@FUNt_1006ADF0@@QAEHXZ (0x1006ADF0), the game 0xA205B811",
+  "conv": "__thiscall",
+  "size": 192
  },
  "0x1006AF90": {
   "verdict": "DIFFERS",
@@ -6587,9 +6890,11 @@
   "size": 128
  },
  "0x1006B2B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets _FUN_1002C890 (0x1002C890), the game 0x950B7742",
+  "conv": null,
+  "size": 272,
+  "casts": 1
  },
  "0x1006B480": {
   "verdict": "DIFFERS",
@@ -6658,9 +6963,11 @@
   "size": 16
  },
  "0x1006C220": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+13: 0xC7 here, 0x8B in the game",
+  "conv": null,
+  "size": 64,
+  "casts": 1
  },
  "0x1006C260": {
   "verdict": "DIFFERS",
@@ -6674,29 +6981,37 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x1006C280": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets _FUN_1000BB20 (0x1000BB20), the game 0x556D2EAD",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x1006C300": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets __ftol (0x10311C2C), the game 0xF8DF4E20",
+  "conv": "__thiscall",
+  "size": 608,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1006C530": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+372: REL32 targets ?f@FUNt_1006AD90@@QAEPAUexception@@XZ (0x1006AD90), the game 0x57D1A2BD",
+  "conv": "__stdcall",
+  "size": 848
  },
  "0x1006C8B0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+5: 0x81 here, 0x83 in the game",
+  "conv": "__thiscall",
+  "size": 288
  },
  "0x1006C9B0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?f@FUNt_1006C220@@QAEPAIXZ (0x1006C220), the game 0x144D55CA",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x1006CA20": {
   "verdict": "DIFFERS",
@@ -6815,6 +7130,12 @@
   "conv": null,
   "size": 48
  },
+ "0x1006D720": {
+  "verdict": "DIFFERS",
+  "why": "+17: 0x41 here, 0xC0 in the game",
+  "conv": "__stdcall",
+  "size": 112
+ },
  "0x1006D980": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -6826,6 +7147,18 @@
   "why": "cl failed",
   "conv": "__thiscall",
   "error": "f_1006DCF0.cpp(85): C2065: 'fsin' : undeclared identifier"
+ },
+ "0x1006E140": {
+  "verdict": "DIFFERS",
+  "why": "+123: REL32 targets _FUN_10313486 (0x10313486), the game 0x204EAD13",
+  "conv": "__stdcall",
+  "size": 272
+ },
+ "0x1006E260": {
+  "verdict": "DIFFERS",
+  "why": "+123: REL32 targets _FUN_10313486 (0x10313486), the game 0x204EB013",
+  "conv": "__stdcall",
+  "size": 272
  },
  "0x1006E380": {
   "verdict": "NO_COMPILE",
@@ -6890,14 +7223,17 @@
   "error": "f_1006FC40.cpp(12): C2065: 'fsin' : undeclared identifier"
  },
  "0x10070020": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x10070040": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16,
+  "casts": 1
  },
  "0x100700E0": {
   "verdict": "DIFFERS",
@@ -6951,14 +7287,17 @@
   "size": 32
  },
  "0x10070E40": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 32
  },
  "0x10070E60": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 16,
+  "casts": 1
  },
  "0x10070F40": {
   "verdict": "IDENTICAL",
@@ -6995,10 +7334,13 @@
  },
  "0x100710F0": {
   "verdict": "DIFFERS",
-  "why": "+12: REL32 targets ?FUN_10028FD0@@YA_KHH@Z (0x10028FD0), the game 0x8ED5F9D9",
+  "why": "+90: REL32 targets ?f@FUNt_10070F90@@QAEXIIIH@Z (0x10070F90), the game 0xF8D59CA0",
   "conv": "__thiscall",
   "size": 128,
-  "casts": 2
+  "casts": 2,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x100711B0": {
   "verdict": "IDENTICAL",
@@ -7074,9 +7416,11 @@
   "size": 16
  },
  "0x10071A20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets _FUN_10017D50 (0x10017D50), the game 0xD18AAAC2",
+  "conv": null,
+  "size": 80,
+  "casts": 3
  },
  "0x10071A30": {
   "verdict": "DIFFERS",
@@ -7217,6 +7561,15 @@
   "size": 48,
   "casts": 1
  },
+ "0x10072030": {
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?f@FUNt_10074140@@QAEXPAHH@Z (0x10074140), the game 0xF28A44AA",
+  "conv": "__thiscall",
+  "size": 128,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x10072180": {
   "verdict": "DIFFERS",
   "why": "+81: REL32 targets ?f@FUNt_1018BF00@@QAEXI@Z (0x1018BF00), the game 0x344BACD5",
@@ -7303,9 +7656,9 @@
  },
  "0x100730E0": {
   "verdict": "DIFFERS",
-  "why": "+36: REL32 targets ?f@FUNt_10072270@@QAEPAXXZ (0x10072270), the game 0x757B6582",
+  "why": "+33: REL32 targets ?f@FUNt_10072270@@QAEPAXXZ (0x10072270), the game 0x8A40367A",
   "conv": "__stdcall",
-  "size": 240,
+  "size": 224,
   "casts": 1
  },
  "0x10073430": {
@@ -7347,6 +7700,13 @@
   "conv": "__stdcall",
   "size": 144
  },
+ "0x10073D80": {
+  "verdict": "DIFFERS",
+  "why": "+86: REL32 targets ?f@FUNt_10074F30@@QAEHHH@Z (0x10074F30), the game 0x85C7C2DA",
+  "conv": "__stdcall",
+  "size": 208,
+  "casts": 1
+ },
  "0x100740C0": {
   "verdict": "DIFFERS",
   "why": "+31: REL32 targets ?f@FUNt_10072240@@QAEPAXXZ (0x10072240), the game 0x760FCBF7",
@@ -7370,6 +7730,15 @@
   "size": 80,
   "rules_tried": [
    "retthis"
+  ]
+ },
+ "0x10074180": {
+  "verdict": "DIFFERS",
+  "why": "+1: 0x54 here, 0x44 in the game",
+  "conv": "__thiscall",
+  "size": 96,
+  "rules_tried": [
+   "cmpk"
   ]
  },
  "0x100741E0": {
@@ -7529,10 +7898,10 @@
  },
  "0x10074920": {
   "verdict": "DIFFERS",
-  "why": "+25: REL32 targets ?FUN_10028FD0@@YA_KIH@Z (0x10028FD0), the game 0x1CCBCD3C",
+  "why": "+24: REL32 targets ?FUN_10028FD0@@YAPAIIHH@Z (0x10028FD0), the game 0xD48B4937",
   "conv": "__thiscall",
-  "size": 176,
-  "casts": 1
+  "size": 160,
+  "casts": 2
  },
  "0x10074A10": {
   "verdict": "IDENTICAL",
@@ -7548,6 +7917,12 @@
   "rules_tried": [
    "retthis"
   ]
+ },
+ "0x10074AD0": {
+  "verdict": "DIFFERS",
+  "why": "+29: 0x4E here, 0x46 in the game",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x10074B50": {
   "verdict": "IDENTICAL",
@@ -7625,29 +8000,48 @@
   "size": 112
  },
  "0x10075280": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+216: REL32 targets ?f@FUNt_1000AD70@@QAEH_G0@Z (0x1000AD70), the game 0x1F179B2D",
+  "conv": "__cdecl",
+  "size": 320
+ },
+ "0x10075520": {
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets ?f@FUNt_1003AAB0@@QAEHXZ (0x1003AAB0), the game 0x08935546",
+  "conv": "__thiscall",
+  "size": 128,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x100755A0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+86: REL32 targets _FUN_1002C890 (0x1002C890), the game 0xF817BFFA",
+  "conv": "__thiscall",
+  "size": 256,
+  "casts": 1,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x10075700": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10075700.cpp(98): C2065: 'sin' : undeclared identifier"
  },
  "0x10075960": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+4: 0x75 here, 0x74 in the game",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x100759C0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+100: REL32 targets ?f@FUNt_100755A0@@QAEXXZ (0x100755A0), the game 0x62075A29",
+  "conv": "__thiscall",
+  "size": 624
  },
  "0x10076030": {
   "verdict": "DIFFERS",
@@ -8108,6 +8502,12 @@
   "conv": "__cdecl",
   "size": 32
  },
+ "0x10082D70": {
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10193850@@YAIH@Z (0x10193850), the game 0xE5806311",
+  "conv": "__cdecl",
+  "size": 608
+ },
  "0x10082F20": {
   "verdict": "DIFFERS",
   "why": "+28: REL32 targets ?f@FUNt_10085490@@QAEEXZ (0x10085490), the game 0x590717B0",
@@ -8403,9 +8803,10 @@
   "size": 16
  },
  "0x10086210": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_10086210.cpp(185): C2440: '=' : cannot convert from 'unsigned short [144]' to '__int16 *'"
  },
  "0x10086E90": {
   "verdict": "DIFFERS",
@@ -8801,6 +9202,12 @@
    "retthis"
   ]
  },
+ "0x10092C20": {
+  "verdict": "DIFFERS",
+  "why": "+96: REL32 targets ?FUN_10026E90@@YAXPAI0@Z (0x10026E90), the game 0x10092C8A",
+  "conv": "__thiscall",
+  "size": 1472
+ },
  "0x100933C0": {
   "verdict": "DIFFERS",
   "why": "+16: 0x7D here, 0x79 in the game",
@@ -8857,6 +9264,12 @@
   "size": 32
  },
  "0x10093B30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
+ "0x10093B50": {
   "verdict": "IDENTICAL",
   "why": "",
   "conv": "__cdecl",
@@ -9669,6 +10082,12 @@
   "conv": "__cdecl",
   "size": 16
  },
+ "0x100AB320": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
+ },
  "0x100AB550": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -9751,6 +10170,11 @@
   "why": "+63: REL32 targets _FUN_10127EA0 (0x10127EA0), the game 0x2062653B",
   "conv": "__cdecl",
   "size": 80
+ },
+ "0x100AE3F0": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for Cell_SetByte104E1C3E_v1",
+  "conv": "__cdecl"
  },
  "0x100BA080": {
   "verdict": "IDENTICAL",
@@ -9867,6 +10291,11 @@
   "rule_identical": "ret8",
   "rule_verdict": "IDENTICAL"
  },
+ "0x100C4C20": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for FUN_101844c0",
+  "conv": "__thiscall"
+ },
  "0x100C5190": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -9919,9 +10348,11 @@
   "size": 16
  },
  "0x100C52A0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 368,
+  "casts": 1
  },
  "0x100C5540": {
   "verdict": "IDENTICAL",
@@ -9930,29 +10361,39 @@
   "size": 32
  },
  "0x100C5560": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 384,
+  "casts": 1
  },
  "0x100C56E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 416,
+  "casts": 1
  },
  "0x100C5880": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": null,
+  "size": 304,
+  "casts": 1
  },
  "0x100C59B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+272: REL32 targets _FUN_10026E90 (0x10026E90), the game 0x9B111F47",
+  "conv": null,
+  "size": 576,
+  "casts": 1
  },
  "0x100C5C00": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets @FUN_10071EC0@8 (0x10071EC0), the game 0x0ACEF311",
+  "conv": null,
+  "size": 336,
+  "casts": 1
  },
  "0x100C5D60": {
   "verdict": "NO_COMPILE",
@@ -9998,9 +10439,10 @@
   "size": 48
  },
  "0x100CBDE0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100CBDE0.cpp(522): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x100CD490": {
   "verdict": "IDENTICAL",
@@ -10147,6 +10589,11 @@
   "conv": null,
   "error": "f_100D04C0.cpp(197): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
+ "0x100D0510": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for FUN_10098320",
+  "conv": "__thiscall"
+ },
  "0x100D06F0": {
   "verdict": "NO_COMPILE",
   "why": "cl failed",
@@ -10166,19 +10613,22 @@
   "size": 48
  },
  "0x100D08E0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100D08E0.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x100D09B0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100D09B0.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x100D0A80": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": null
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": null,
+  "error": "f_100D0A80.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x100D0B50": {
   "verdict": "DIFFERS",
@@ -10201,6 +10651,11 @@
    "retthis"
   ]
  },
+ "0x100D1070": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for CXiSkeletonActor_IsReadCompleteBody",
+  "conv": "__thiscall"
+ },
  "0x100D1190": {
   "verdict": "DIFFERS",
   "why": "+38: REL32 targets ?f@FUNt_10084400@@QAEHXZ (0x10084400), the game 0x1FCD97B9",
@@ -10210,6 +10665,11 @@
    "ge0",
    "cmpk"
   ]
+ },
+ "0x100D1450": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for FUN_1001b7b0",
+  "conv": "__thiscall"
  },
  "0x100D14C0": {
   "verdict": "LEFT_OUT",
@@ -10226,6 +10686,15 @@
   "verdict": "LEFT_OUT",
   "why": "no wrapper for CXiSkeletonActor_AttachPartResource",
   "conv": "__thiscall"
+ },
+ "0x100D4330": {
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?FUN_10028FD0@@YAPAIHHH@Z (0x10028FD0), the game 0x10779ACC",
+  "conv": "__thiscall",
+  "size": 176,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x100D43E0": {
   "verdict": "DIFFERS",
@@ -10247,6 +10716,12 @@
   "why": "+6: 0x8B here, 0x85 in the game",
   "conv": "__thiscall",
   "size": 32
+ },
+ "0x100D5430": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x100D5460": {
   "verdict": "DIFFERS",
@@ -11480,11 +11955,20 @@
   "conv": "__cdecl",
   "size": 192
  },
+ "0x100EEE90": {
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets _FUN_1030FFD8 (0x1030FFD8), the game 0x100EEF5A",
+  "conv": "__cdecl",
+  "size": 208,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x100EEF80": {
   "verdict": "DIFFERS",
   "why": "+31: REL32 targets _FUN_10152EF0 (0x10152EF0), the game 0x9B1F3D9A",
   "conv": "__cdecl",
-  "size": 144,
+  "size": 160,
   "rules_tried": [
    "cmpk"
   ]
@@ -11594,7 +12078,7 @@
  },
  "0x100EFD20": {
   "verdict": "DIFFERS",
-  "why": "+25: REL32 targets _FUN_1030FF75@0 (0x1030FF75), the game 0x5C9BFD3D",
+  "why": "+31: REL32 targets ?FUN_1030FF75@@YAIHPAI@Z (0x1030FF75), the game 0x3FF75394",
   "conv": "__cdecl",
   "size": 112,
   "rules_tried": [
@@ -11611,9 +12095,9 @@
  },
  "0x100EFDF0": {
   "verdict": "DIFFERS",
-  "why": "+30: REL32 targets _FUN_1030FFA1@0 (0x1030FFA1), the game 0x1145AACA",
+  "why": "+43: REL32 targets ?FUN_1030FFA1@@YAIHPAE@Z (0x1030FFA1), the game 0x930F2020",
   "conv": "__cdecl",
-  "size": 160,
+  "size": 176,
   "rules_tried": [
    "ge0",
    "cmpk",
@@ -11806,19 +12290,19 @@
  },
  "0x100F1670": {
   "verdict": "DIFFERS",
-  "why": "+2: REL32 targets _FUN_10310030@0 (0x10310030), the game 0xF9C7FE9E",
+  "why": "+20: REL32 targets ?FUN_1030FF75@@YAIIPAI@Z (0x1030FF75), the game 0x930F3870",
   "conv": "__cdecl",
-  "size": 48,
+  "size": 64,
   "rules_tried": [
    "ge0",
    "cmpk"
   ]
  },
  "0x100F1870": {
-  "verdict": "DIFFERS",
-  "why": "+1: REL32 targets _FUN_10310067@0 (0x10310067), the game 0x7A133CB9",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
-  "size": 16
+  "size": 32
  },
  "0x100F1900": {
   "verdict": "DIFFERS",
@@ -12723,6 +13207,16 @@
    "cmpk"
   ]
  },
+ "0x10114250": {
+  "verdict": "DIFFERS",
+  "why": "+109: REL32 targets ?FUN_10312EAD@@YAXPAX@Z (0x10312EAD), the game 0x14D5C5C1",
+  "conv": "__thiscall",
+  "size": 240,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x10114320": {
   "verdict": "DIFFERS",
   "why": "+67: REL32 targets ?f@FUNt_101C4AA0@@QAEIH@Z (0x101C4AA0), the game 0x43114368",
@@ -13357,10 +13851,20 @@
    "retthis"
   ]
  },
+ "0x1011A5A0": {
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets ?FUN_10126520@@YGHPAH@Z (0x10126520), the game 0x52F9F5EF",
+  "conv": "__thiscall",
+  "size": 384,
+  "rules_tried": [
+   "ret8"
+  ]
+ },
  "0x1011AA40": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+106: REL32 targets ?f@FUNt_10009DC0@@QAEHPAX@Z (0x10009DC0), the game 0x1FF9C2D2",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x1011AAC0": {
   "verdict": "IDENTICAL",
@@ -13430,9 +13934,10 @@
   "casts": 1
  },
  "0x1011BAE0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+90: 0x12 here, 0x30 in the game",
+  "conv": "__thiscall",
+  "size": 160
  },
  "0x1011BBA0": {
   "verdict": "IDENTICAL",
@@ -13441,9 +13946,13 @@
   "size": 48
  },
  "0x1011BBD0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+286: REL32 targets ?f@FUNt_1000CD00@@QAEHHHHH@Z (0x1000CD00), the game 0xDD9D1CF1",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1011BDC0": {
   "verdict": "IDENTICAL",
@@ -13466,14 +13975,16 @@
   "conv": "__stdcall"
  },
  "0x1011C080": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+43: REL32 targets _FUN_1011C1F0 (0x1011C1F0), the game 0x345E4BAF",
+  "conv": null,
+  "size": 432
  },
  "0x1011C1F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+1034: REL32 targets _FUN_10017D20 (0x10017D20), the game 0x9BE351BE",
+  "conv": "__cdecl",
+  "size": 1072
  },
  "0x1011C5D0": {
   "verdict": "DIFFERS",
@@ -13492,9 +14003,16 @@
   ]
  },
  "0x1011C720": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+120: REL32 targets _FUN_1011C5D0@12 (0x1011C5D0), the game 0x0E44B06B",
+  "conv": "__thiscall",
+  "size": 224,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "cmpk_retthis"
+  ]
  },
  "0x1011C810": {
   "verdict": "DIFFERS",
@@ -13688,14 +14206,24 @@
   ]
  },
  "0x1011EDE0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+69: REL32 targets _FUN_10315AA8 (0x10315AA8), the game 0x6F11DEB4",
+  "conv": "__thiscall",
+  "size": 368,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "cmpk_retthis"
+  ]
  },
  "0x1011EF60": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+223: REL32 targets _FUN_101200B0 (0x101200B0), the game 0x347ECF57",
+  "conv": "__thiscall",
+  "size": 864,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1011F2D0": {
   "verdict": "IDENTICAL",
@@ -13704,9 +14232,13 @@
   "size": 48
  },
  "0x1011F300": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsA",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+548: REL32 targets ?f@FUNt_1000CD00@@QAEHHHHH@Z (0x1000CD00), the game 0x9D223A8E",
+  "conv": "__thiscall",
+  "size": 1872,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x1011FA80": {
   "verdict": "DIFFERS",
@@ -13777,9 +14309,10 @@
   ]
  },
  "0x10120590": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+34: 0x7C here, 0x7D in the game",
+  "conv": null,
+  "size": 224
  },
  "0x10120660": {
   "verdict": "DIFFERS",
@@ -13793,9 +14326,10 @@
   ]
  },
  "0x101207B0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+34: 0x7C here, 0x7D in the game",
+  "conv": null,
+  "size": 224
  },
  "0x10120950": {
   "verdict": "DIFFERS",
@@ -13922,6 +14456,12 @@
   "conv": "__cdecl",
   "size": 48
  },
+ "0x101236B0": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x54 here, 0x4C in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
  "0x101236E0": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -13992,6 +14532,13 @@
   "why": "",
   "conv": "__thiscall",
   "size": 32
+ },
+ "0x10123F80": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1
  },
  "0x10123FC0": {
   "verdict": "IDENTICAL",
@@ -14070,9 +14617,14 @@
   "size": 32
  },
  "0x10124440": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+156: REL32 targets ?f@FUNt_10120450@@QAEPADPAX@Z (0x10120450), the game 0xCF812CF0",
+  "conv": "__thiscall",
+  "size": 336,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x101245C0": {
   "verdict": "DIFFERS",
@@ -14095,9 +14647,13 @@
   ]
  },
  "0x10124640": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+76: 0x8B here, 0xDB in the game",
+  "conv": "__thiscall",
+  "size": 176,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x101248A0": {
   "verdict": "LEFT_OUT",
@@ -14154,6 +14710,11 @@
   "why": "no wrapper for Cursor_SetPosition_v1",
   "conv": "__thiscall"
  },
+ "0x10124BC0": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for Camera_GetFrameScale_v1",
+  "conv": "__thiscall"
+ },
  "0x10125040": {
   "verdict": "LEFT_OUT",
   "why": "no wrapper for Unit100D7420_TestCommand36CF60",
@@ -14166,9 +14727,10 @@
   "size": 32
  },
  "0x101252F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+35: REL32 targets ?f@FUNt_10009780@@QAE_E_E@Z (0x10009780), the game 0x2057B983",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x10125F70": {
   "verdict": "DIFFERS",
@@ -14246,6 +14808,12 @@
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
  },
+ "0x10126370": {
+  "verdict": "DIFFERS",
+  "why": "+53: 0x33 here, 0x5E in the game",
+  "conv": "__thiscall",
+  "size": 64
+ },
  "0x101263B0": {
   "verdict": "DIFFERS",
   "why": "+39: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0x689B7833",
@@ -14301,6 +14869,12 @@
    "retthis"
   ]
  },
+ "0x101265D0": {
+  "verdict": "DIFFERS",
+  "why": "+77: 0x33 here, 0x5B in the game",
+  "conv": "__thiscall",
+  "size": 96
+ },
  "0x101266B0": {
   "verdict": "DIFFERS",
   "why": "+65: 0x47 here, 0x4F in the game",
@@ -14340,6 +14914,11 @@
   "why": "+20: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0xD4956926",
   "conv": "__thiscall",
   "size": 144
+ },
+ "0x10126A00": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for Unit100D7420_ClearFlag12FromValue",
+  "conv": "__thiscall"
  },
  "0x10126B60": {
   "verdict": "DIFFERS",
@@ -14959,6 +15538,12 @@
    "cmpk"
   ]
  },
+ "0x1013BF40": {
+  "verdict": "DIFFERS",
+  "why": "+109: 0x83 here, 0x5F in the game",
+  "conv": "__thiscall",
+  "size": 128
+ },
  "0x1013E7F0": {
   "verdict": "DIFFERS",
   "why": "+14: 0x8D here, 0x66 in the game",
@@ -15098,6 +15683,18 @@
   "why": "+61: 0x8B here, 0x66 in the game",
   "conv": "__thiscall",
   "size": 144
+ },
+ "0x1014E020": {
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_1014E050@@YGIPAI@Z (0x1014E050), the game 0x102DC905",
+  "conv": "__thiscall",
+  "size": 48
+ },
+ "0x1014E050": {
+  "verdict": "DIFFERS",
+  "why": "+15: 0x83 here, 0x5F in the game",
+  "conv": "__stdcall",
+  "size": 32
  },
  "0x1014EDC0": {
   "verdict": "DIFFERS",
@@ -15702,6 +16299,13 @@
   "conv": "__thiscall",
   "size": 16
  },
+ "0x101569A0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16,
+  "casts": 1
+ },
  "0x101569F0": {
   "verdict": "DIFFERS",
   "why": "+32: 0x08 here, 0x04 in the game",
@@ -15740,6 +16344,13 @@
   "why": "",
   "conv": "__thiscall",
   "size": 16
+ },
+ "0x10156BE0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16,
+  "casts": 1
  },
  "0x10156BF0": {
   "verdict": "IDENTICAL",
@@ -16751,9 +17362,13 @@
   "size": 32
  },
  "0x10162010": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+164: REL32 targets ?f@FUNt_10009DC0@@QAEHPAX@Z (0x10009DC0), the game 0x147E30FD",
+  "conv": "__cdecl",
+  "size": 176,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x101620B0": {
   "verdict": "IDENTICAL",
@@ -16801,9 +17416,10 @@
   ]
  },
  "0x101630E0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+9: 0x3E here, 0x3C in the game",
+  "conv": null,
+  "size": 80
  },
  "0x10163350": {
   "verdict": "IDENTICAL",
@@ -17095,12 +17711,28 @@
   "size": 32,
   "casts": 1
  },
+ "0x1016FC90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
+ },
  "0x1016FCD0": {
   "verdict": "DIFFERS",
   "why": "+140: REL32 targets ?f@FUNt_10170C80@@QAEPAIXZ (0x10170C80), the game 0x4B4B21BC",
   "conv": "__thiscall",
   "size": 4256,
   "casts": 7,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x10170CD0": {
+  "verdict": "DIFFERS",
+  "why": "+298: REL32 targets ?FUN_10028700@@YAXH@Z (0x10028700), the game 0x9B333242",
+  "conv": "__thiscall",
+  "size": 464,
+  "casts": 3,
   "rules_tried": [
    "cmpk"
   ]
@@ -17197,9 +17829,10 @@
   "size": 160
  },
  "0x101772E0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets ?f@FUNt_10177350@@QAEIXZ (0x10177350), the game 0x1081C2EB",
+  "conv": "__thiscall",
+  "size": 112
  },
  "0x101773B0": {
   "verdict": "IDENTICAL",
@@ -17268,14 +17901,17 @@
   "size": 128
  },
  "0x10178070": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+334: REL32 targets ?f@FUNt_10055000@@QAEHXZ (0x10055000), the game 0x6E77504D",
+  "conv": null,
+  "size": 416,
+  "casts": 1
  },
  "0x101781D0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+67: 0xA3 here, 0xBA in the game",
+  "conv": null,
+  "size": 128
  },
  "0x101784E0": {
   "verdict": "DIFFERS",
@@ -17306,9 +17942,10 @@
   ]
  },
  "0x10178B00": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+0: 0x51 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10178B30": {
   "verdict": "LEFT_OUT",
@@ -17327,9 +17964,10 @@
   "size": 176
  },
  "0x101792A0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10179390": {
   "verdict": "IDENTICAL",
@@ -17350,9 +17988,10 @@
   "size": 16
  },
  "0x1017ADE0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+330: REL32 targets ?f@FUNt_10183DA0@@QAEPAIHH@Z (0x10183DA0), the game 0x1016FA17",
+  "conv": "__thiscall",
+  "size": 384
  },
  "0x1017B110": {
   "verdict": "DIFFERS",
@@ -17454,9 +18093,11 @@
   ]
  },
  "0x10182700": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+501: REL32 targets _FUN_1016C060 (0x1016C060), the game 0x1018611D",
+  "conv": null,
+  "size": 2384,
+  "casts": 2
  },
  "0x10182F10": {
   "verdict": "DIFFERS",
@@ -17476,9 +18117,11 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10183DA0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+364: REL32 targets _FUN_10181BB0@8 (0x10181BB0), the game 0x0F28CA60",
+  "conv": "__thiscall",
+  "size": 2288,
+  "casts": 1
  },
  "0x10184C90": {
   "verdict": "DIFFERS",
@@ -17487,15 +18130,19 @@
   "size": 880
  },
  "0x10184FE0": {
-  "verdict": "LEFT_OUT",
-  "why": "global type the shim lacks",
-  "conv": null
+  "verdict": "DIFFERS",
+  "why": "+469: REL32 targets ?f@FUNt_10177420@@QAEHXZ (0x10177420), the game 0x1019824B",
+  "conv": null,
+  "size": 3520,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x10185CA0": {
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": null,
-  "error": "f_10185CA0.cpp(187): C2065: 'atan2' : undeclared identifier",
+  "error": "f_10185CA0.cpp(188): C2065: 'atan2' : undeclared identifier",
   "casts": 2
  },
  "0x10186DB0": {
@@ -17784,14 +18431,16 @@
   ]
  },
  "0x10188E00": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+66: REL32 targets ?f@FUNt_10186F20@@QAEPADXZ (0x10186F20), the game 0x18596845",
+  "conv": "__thiscall",
+  "size": 832
  },
  "0x10188FA0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+64: REL32 targets ?f@FUNt_10186FA0@@QAEPADXZ (0x10186FA0), the game 0x10188FE4",
+  "conv": "__thiscall",
+  "size": 784
  },
  "0x10189120": {
   "verdict": "NO_COMPILE",
@@ -18741,7 +19390,7 @@
  },
  "0x101957B0": {
   "verdict": "DIFFERS",
-  "why": "+1: REL32 targets _FUN_10310E27@0 (0x10310E27), the game 0x54A460A1",
+  "why": "+2: REL32 targets _FUN_10310E27@0 (0x10310E27), the game 0x345DE2BE",
   "conv": "__stdcall",
   "size": 48,
   "rules_tried": [
@@ -18929,29 +19578,31 @@
  },
  "0x1019C4F0": {
   "verdict": "DIFFERS",
-  "why": "+1: REL32 targets _FUN_10311386@0 (0x10311386), the game 0x5EA9ACF5",
+  "why": "+11: REL32 targets _FUN_103113D3@0 (0x103113D3), the game 0x276898E7",
   "conv": "__cdecl",
   "size": 16
  },
  "0x1019C580": {
-  "verdict": "DIFFERS",
-  "why": "+1: REL32 targets _FUN_10311386@0 (0x10311386), the game 0x5E19AD85",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
   "size": 16
  },
  "0x1019C590": {
   "verdict": "DIFFERS",
-  "why": "+16: REL32 targets _FUN_10311386@0 (0x10311386), the game 0x2767A78C",
+  "why": "+18: REL32 targets _FUN_10311386 (0x10311386), the game 0x6919DCF3",
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
    "ge0",
    "cmpk"
-  ]
+  ],
+  "rule_identical": "ge0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1019C5B0": {
-  "verdict": "DIFFERS",
-  "why": "+1: REL32 targets _FUN_103113C8@0 (0x103113C8), the game 0x5E2BADB5",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
   "size": 16
  },
@@ -19332,6 +19983,12 @@
   "conv": "__stdcall",
   "size": 80
  },
+ "0x101A2660": {
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?FUN_101A2610@@YGXPADII@Z (0x101A2610), the game 0x0FA90F4E",
+  "conv": "__thiscall",
+  "size": 96
+ },
  "0x101A26C0": {
   "verdict": "DIFFERS",
   "why": "+30: REL32 targets ?FUN_101A2610@@YGXPADHI@Z (0x101A2610), the game 0x0F470FB0",
@@ -19406,6 +20063,12 @@
   "conv": "__thiscall",
   "size": 16
  },
+ "0x101A3D00": {
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?f@FUNt_101A29F0@@QAEHH@Z (0x101A29F0), the game 0xD30267A9",
+  "conv": "__thiscall",
+  "size": 96
+ },
  "0x101A3D60": {
   "verdict": "DIFFERS",
   "why": "+34: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x79028D96",
@@ -19424,6 +20087,12 @@
   "why": "",
   "conv": "__thiscall",
   "size": 16
+ },
+ "0x101A43B0": {
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?f@FUNt_101A29F0@@QAEHH@Z (0x101A29F0), the game 0x23026E59",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x101A4440": {
   "verdict": "IDENTICAL",
@@ -19932,13 +20601,14 @@
   "size": 16
  },
  "0x101AFF70": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_101AFF70.cpp(23): C2027: use of undefined type 'tagCANDIDATEFORM'"
  },
  "0x101B2710": {
   "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
+  "why": "no wrapper for Unit10014350_GetSceneStateByte68",
   "conv": "__thiscall"
  },
  "0x101B27F0": {
@@ -19955,23 +20625,28 @@
  },
  "0x101B29F0": {
   "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
+  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
   "conv": "__thiscall"
  },
  "0x101B36F0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?FUN_1011D290@@YAII@Z (0x1011D290), the game 0x941FFB87",
+  "conv": "__thiscall",
+  "size": 400,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x101B3B50": {
   "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
+  "why": "no wrapper for Unit10014350_GetSceneStateByte68",
   "conv": "__thiscall"
  },
  "0x101B3F70": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 80
  },
  "0x101B4260": {
   "verdict": "DIFFERS",
@@ -20096,6 +20771,15 @@
    "cmpk",
    "retthis",
    "cmpk_retthis"
+  ]
+ },
+ "0x101B5020": {
+  "verdict": "DIFFERS",
+  "why": "+56: REL32 targets ?FUN_1011C900@@YAIPAE@Z (0x1011C900), the game 0xB203A122",
+  "conv": "__thiscall",
+  "size": 96,
+  "rules_tried": [
+   "cmpk"
   ]
  },
  "0x101B5210": {
@@ -20692,6 +21376,13 @@
   "rule_identical": "ret8",
   "rule_verdict": "IDENTICAL"
  },
+ "0x101BC740": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1
+ },
  "0x101BC7B0": {
   "verdict": "DIFFERS",
   "why": "+13: 0x89 here, 0x8B in the game",
@@ -21002,6 +21693,19 @@
   "why": "no wrapper for Unit1018BA60_CreateDirectories",
   "conv": "__thiscall"
  },
+ "0x101C09B0": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_101C09B0.cpp(20): C2065: 'LPSECURITY_ATTRIBUTES' : undeclared identifier"
+ },
+ "0x101C0A40": {
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_101C0A40.cpp(55): C2065: 'LPSECURITY_ATTRIBUTES' : undeclared identifier",
+  "casts": 1
+ },
  "0x101C0FC0": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -21162,9 +21866,9 @@
  },
  "0x101C3E40": {
   "verdict": "DIFFERS",
-  "why": "+23: REL32 targets _FUN_1030FED0@0 (0x1030FED0), the game 0xF86E8F5B",
+  "why": "+77: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x9BACCF21",
   "conv": "__stdcall",
-  "size": 128
+  "size": 96
  },
  "0x101C3E90": {
   "verdict": "DIFFERS",
@@ -21511,6 +22215,13 @@
   "conv": "__thiscall",
   "size": 128
  },
+ "0x101C7C50": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48,
+  "casts": 1
+ },
  "0x101C7F80": {
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x8B in the game",
@@ -21629,9 +22340,10 @@
   "size": 48
  },
  "0x101C8DA0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+286: REL32 targets _FUN_100279A0 (0x100279A0), the game 0xF81F1828",
+  "conv": "__cdecl",
+  "size": 320
  },
  "0x101C8FD0": {
   "verdict": "DIFFERS",
@@ -22230,6 +22942,13 @@
   "conv": "__thiscall",
   "size": 32
  },
+ "0x101DDA90": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48,
+  "casts": 1
+ },
  "0x101DDF90": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -22260,6 +22979,23 @@
   "rules_tried": [
    "cmpk"
   ]
+ },
+ "0x101E06C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x53 here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 48,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x101E0700": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xD2 here, 0xC9 in the game",
+  "conv": "__thiscall",
+  "size": 16,
+  "casts": 1
  },
  "0x101E0A90": {
   "verdict": "DIFFERS",
@@ -22369,6 +23105,12 @@
   "conv": "__thiscall",
   "size": 64
  },
+ "0x101EC3C0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0xB8 here, 0x83 in the game",
+  "conv": "__thiscall",
+  "size": 48
+ },
  "0x101ED450": {
   "verdict": "DIFFERS",
   "why": "+112: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0xAF62D58B",
@@ -22409,6 +23151,13 @@
   "why": "+42: 0x33 here, 0x2E in the game",
   "conv": "__thiscall",
   "size": 112,
+  "casts": 1
+ },
+ "0x101F4AF0": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48,
   "casts": 1
  },
  "0x101F67C0": {
@@ -22509,6 +23258,12 @@
   "conv": "__thiscall",
   "size": 96
  },
+ "0x101FA420": {
+  "verdict": "DIFFERS",
+  "why": "+159: REL32 targets __ftol (0x10311C2C), the game 0x9A87F4C3",
+  "conv": "__thiscall",
+  "size": 272
+ },
  "0x101FB710": {
   "verdict": "DIFFERS",
   "why": "+12: 0xB8 here, 0x83 in the game",
@@ -22566,6 +23321,15 @@
   "conv": "__thiscall",
   "size": 80,
   "casts": 2,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x10201340": {
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?FUN_100FCB40@@YAIPAI@Z (0x100FCB40), the game 0x5CAD646A",
+  "conv": "__thiscall",
+  "size": 464,
   "rules_tried": [
    "cmpk"
   ]
@@ -22708,11 +23472,23 @@
   "conv": "__stdcall",
   "size": 32
  },
+ "0x10203BE0": {
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets ?f@FUNt_101B9880@@QAEXHPAIHH0HH@Z (0x101B9880), the game 0x94AB3C0F",
+  "conv": "__stdcall",
+  "size": 112
+ },
  "0x10205500": {
   "verdict": "DIFFERS",
   "why": "+13: 0x66 here, 0x83 in the game",
   "conv": "__thiscall",
   "size": 64
+ },
+ "0x10206420": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10207730": {
   "verdict": "DIFFERS",
@@ -22814,6 +23590,12 @@
   "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
   "conv": "__thiscall"
  },
+ "0x10211050": {
+  "verdict": "DIFFERS",
+  "why": "+97: REL32 targets ?FUN_10156C30@@YAHHHHHHI@Z (0x10156C30), the game 0xD4A510A9",
+  "conv": "__thiscall",
+  "size": 112
+ },
  "0x102112B0": {
   "verdict": "DIFFERS",
   "why": "+55: REL32 targets ?f@FUNt_1011BA40@@QAE_KXZ (0x1011BA40), the game 0x95210392",
@@ -22842,6 +23624,13 @@
   "why": "+140: 0xD0 here, 0x48 in the game",
   "conv": "__thiscall",
   "size": 240
+ },
+ "0x1021B330": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1
  },
  "0x1021BB90": {
   "verdict": "DIFFERS",
@@ -23161,9 +23950,10 @@
   "size": 128
  },
  "0x1021E060": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_1021E060.cpp(25): C2027: use of undefined type 'Vt_1033BE90'"
  },
  "0x1021E3B0": {
   "verdict": "DIFFERS",
@@ -23276,6 +24066,22 @@
   "why": "+9: 0x8B here, 0xD9 in the game",
   "conv": "__cdecl",
   "size": 64
+ },
+ "0x1021EEB0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x8B here, 0x56 in the game",
+  "conv": "__thiscall",
+  "size": 96,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x1021EF10": {
+  "verdict": "DIFFERS",
+  "why": "+9: 0x32 here, 0x89 in the game",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1021EF60": {
   "verdict": "DIFFERS",
@@ -23436,9 +24242,13 @@
   ]
  },
  "0x102214D0": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_10220EF0@@QAEHHHD@Z (0x10220EF0), the game 0x115CFEF8",
+  "conv": "__thiscall",
+  "size": 432,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x10221740": {
   "verdict": "DIFFERS",
@@ -23471,11 +24281,40 @@
   "conv": "__thiscall",
   "size": 32
  },
+ "0x10221920": {
+  "verdict": "DIFFERS",
+  "why": "+190: REL32 targets ?f@FUNt_10221ED0@@QAEIXZ (0x10221ED0), the game 0x86AD19E2",
+  "conv": "__thiscall",
+  "size": 224,
+  "casts": 1,
+  "rules_tried": [
+   "ge0",
+   "cmpk"
+  ]
+ },
+ "0x10221A80": {
+  "verdict": "DIFFERS",
+  "why": "+45: REL32 targets ?FUN_10311BB0@@YAII@Z (0x10311BB0), the game 0xF8736AFF",
+  "conv": "__thiscall",
+  "size": 272,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x10221BE0": {
   "verdict": "IDENTICAL",
   "why": "",
   "conv": "__thiscall",
   "size": 80
+ },
+ "0x10221F50": {
+  "verdict": "DIFFERS",
+  "why": "+69: REL32 targets ?f@FUNt_10221BE0@@QAEXPAH0@Z (0x10221BE0), the game 0x5CAE1F98",
+  "conv": "__thiscall",
+  "size": 464,
+  "rules_tried": [
+   "cmpk"
+  ]
  },
  "0x10222110": {
   "verdict": "LEFT_OUT",
@@ -23716,6 +24555,15 @@
    "cmpk"
   ]
  },
+ "0x10228080": {
+  "verdict": "DIFFERS",
+  "why": "+31: REL32 targets _FUN_101039E0 (0x101039E0), the game 0x349F0CA2",
+  "conv": "__cdecl",
+  "size": 336,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x102281C0": {
   "verdict": "DIFFERS",
   "why": "+0: 0x33 here, 0x8B in the game",
@@ -23732,6 +24580,17 @@
   "why": "",
   "conv": "__thiscall",
   "size": 80
+ },
+ "0x10228440": {
+  "verdict": "DIFFERS",
+  "why": "+25: REL32 targets ?FUN_10193850@@YAIH@Z (0x10193850), the game 0x1FE30961",
+  "conv": "__thiscall",
+  "size": 1264,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "ge0_cmpk"
+  ]
  },
  "0x10229430": {
   "verdict": "DIFFERS",
@@ -24042,15 +24901,23 @@
   "size": 16
  },
  "0x102394A0": {
-  "verdict": "LEFT_OUT",
-  "why": "thiscall without self_ first",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_102394A0.cpp(34): C2027: use of undefined type 'Vt_1033C8F0'"
  },
  "0x1023BF20": {
   "verdict": "IDENTICAL",
   "why": "",
   "conv": "__cdecl",
   "size": 16
+ },
+ "0x1023C140": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64,
+  "casts": 1
  },
  "0x1023D610": {
   "verdict": "IDENTICAL",
@@ -24327,6 +25194,11 @@
   "conv": "__cdecl",
   "size": 192
  },
+ "0x1024D850": {
+  "verdict": "LEFT_OUT",
+  "why": "no wrapper for StAvatar_SetStopped",
+  "conv": "__cdecl"
+ },
  "0x1024D9D0": {
   "verdict": "DIFFERS",
   "why": "+48: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0xD4A83863",
@@ -24393,9 +25265,10 @@
   "conv": "__cdecl"
  },
  "0x1024F900": {
-  "verdict": "LEFT_OUT",
-  "why": "type the shim lacks",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x8F0D5065",
+  "conv": "__cdecl",
+  "size": 896
  },
  "0x1024FC10": {
   "verdict": "DIFFERS",
@@ -24719,9 +25592,11 @@
   "size": 16
  },
  "0x10251A80": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_NoOpVarargsB",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10251A80.cpp(63): C2027: use of undefined type 'D3DHolder'",
+  "casts": 1
  },
  "0x10251CE0": {
   "verdict": "DIFFERS",
@@ -24905,6 +25780,16 @@
   "why": "+15: 0x0C here, 0x04 in the game",
   "conv": "__stdcall",
   "size": 64,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x102534F0": {
+  "verdict": "DIFFERS",
+  "why": "+88: REL32 targets ?FUN_10311BBB@@YAPAXH@Z (0x10311BBB), the game 0x1406B916",
+  "conv": "__stdcall",
+  "size": 304,
+  "casts": 1,
   "rules_tried": [
    "cmpk"
   ]
@@ -25179,6 +26064,13 @@
   "why": "+19: REL32 targets _FUN_10257FF0 (0x10257FF0), the game 0xD4A981E6",
   "conv": "__cdecl",
   "size": 80
+ },
+ "0x10258430": {
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets ?FUN_10257FF0@@YAIPAD@Z (0x10257FF0), the game 0x952A48EE",
+  "conv": "__cdecl",
+  "size": 464,
+  "casts": 1
  },
  "0x102586D0": {
   "verdict": "IDENTICAL",
@@ -25948,6 +26840,15 @@
    "cmpk"
   ]
  },
+ "0x102700C0": {
+  "verdict": "DIFFERS",
+  "why": "+117: REL32 targets _FUN_10279870 (0x10279870), the game 0x54A58C3E",
+  "conv": "__cdecl",
+  "size": 272,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x102701B0": {
   "verdict": "DIFFERS",
   "why": "+126: REL32 targets _FUN_10274640 (0x10274640), the game 0x69270276",
@@ -26274,6 +27175,12 @@
   "conv": "__cdecl",
   "size": 16
  },
+ "0x10274650": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
  "0x10274670": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -26591,6 +27498,12 @@
   "conv": "__cdecl",
   "size": 96
  },
+ "0x1027A220": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
  "0x1027A250": {
   "verdict": "DIFFERS",
   "why": "+60: REL32 targets _FUN_10285740 (0x10285740), the game 0x1027A290",
@@ -26623,6 +27536,12 @@
   "why": "+2: 0x34 here, 0x14 in the game",
   "conv": "__cdecl",
   "size": 304
+ },
+ "0x1027AAE0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x55 here, 0x83 in the game",
+  "conv": "__cdecl",
+  "size": 400
  },
  "0x1027ABA0": {
   "verdict": "DIFFERS",
@@ -26659,6 +27578,12 @@
   "why": "",
   "conv": "__cdecl",
   "size": 48
+ },
+ "0x1027AF20": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0x53 here, 0xD9 in the game",
+  "conv": "__cdecl",
+  "size": 240
  },
  "0x1027AFB0": {
   "verdict": "DIFFERS",
@@ -26858,6 +27783,12 @@
   "conv": "__cdecl",
   "size": 128
  },
+ "0x1027EBD0": {
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_1027EB00 (0x1027EB00), the game 0xC927EBDA",
+  "conv": "__cdecl",
+  "size": 32
+ },
  "0x1027EF20": {
   "verdict": "DIFFERS",
   "why": "+14: 0x04 here, 0x08 in the game",
@@ -26888,6 +27819,12 @@
   "conv": "__cdecl",
   "size": 448
  },
+ "0x10280140": {
+  "verdict": "DIFFERS",
+  "why": "+19: 0x01 here, 0x41 in the game",
+  "conv": "__cdecl",
+  "size": 544
+ },
  "0x10280650": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -26907,22 +27844,24 @@
  },
  "0x102813B0": {
   "verdict": "DIFFERS",
-  "why": "+63: REL32 targets _FUN_102826C0 (0x102826C0), the game 0x42BE2FF8",
+  "why": "+63: 0x44 here, 0x05 in the game",
   "conv": "__cdecl",
-  "size": 112,
+  "size": 144,
   "rules_tried": [
    "cmpk"
   ]
  },
  "0x10281510": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+105: REL32 targets _FUN_10285890 (0x10285890), the game 0x142098A1",
+  "conv": "__cdecl",
+  "size": 528
  },
  "0x102816E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+101: REL32 targets _FUN_10285890 (0x10285890), the game 0xD38172A6",
+  "conv": "__cdecl",
+  "size": 336
  },
  "0x10281810": {
   "verdict": "DIFFERS",
@@ -26934,9 +27873,10 @@
   ]
  },
  "0x10281830": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+92: REL32 targets _FUN_10285890 (0x10285890), the game 0x6FEEA394",
+  "conv": "__cdecl",
+  "size": 416
  },
  "0x102819C0": {
   "verdict": "IDENTICAL",
@@ -26962,6 +27902,18 @@
  "0x10281B60": {
   "verdict": "DIFFERS",
   "why": "+4: 0x8D here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10281C20": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
+ "0x10281C50": {
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__cdecl",
   "size": 48
  },
@@ -27148,6 +28100,12 @@
   "conv": "__cdecl",
   "size": 128
  },
+ "0x10283300": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
+ },
  "0x10283330": {
   "verdict": "DIFFERS",
   "why": "+5: 0x0D here, 0x15 in the game",
@@ -27201,6 +28159,12 @@
   "why": "+3: 0xA1 here, 0xD9 in the game",
   "conv": "__cdecl",
   "size": 320
+ },
+ "0x10283C10": {
+  "verdict": "DIFFERS",
+  "why": "+4: 0xDC here, 0xA1 in the game",
+  "conv": "__cdecl",
+  "size": 368
  },
  "0x10283D60": {
   "verdict": "IDENTICAL",
@@ -27312,6 +28276,12 @@
   "why": "+6: 0x3D here, 0x2D in the game",
   "conv": "__cdecl",
   "size": 48
+ },
+ "0x10285000": {
+  "verdict": "DIFFERS",
+  "why": "+6: 0x3D here, 0x2D in the game",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x102851C0": {
   "verdict": "DIFFERS",
@@ -27647,6 +28617,12 @@
   "conv": "__cdecl",
   "size": 32
  },
+ "0x1028EC30": {
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
+ },
  "0x1028EC50": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -27849,6 +28825,12 @@
   "why": "+4: 0xB9 here, 0x56 in the game",
   "conv": "__cdecl",
   "size": 240
+ },
+ "0x10290B60": {
+  "verdict": "DIFFERS",
+  "why": "+48: REL32 targets _FUN_102A1FA0 (0x102A1FA0), the game 0x84290B94",
+  "conv": "__cdecl",
+  "size": 1104
  },
  "0x10290FC0": {
   "verdict": "DIFFERS",
@@ -28079,9 +29061,10 @@
   "size": 208
  },
  "0x102981E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+102: REL32 targets _FUN_10285890 (0x10285890), the game 0x54119285",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x10298350": {
   "verdict": "DIFFERS",
@@ -28129,7 +29112,7 @@
   "verdict": "DIFFERS",
   "why": "+42: REL32 targets _FUN_102A1FA0 (0x102A1FA0), the game 0x10B872A6",
   "conv": "__cdecl",
-  "size": 544
+  "size": 560
  },
  "0x10299250": {
   "verdict": "DIFFERS",
@@ -28431,9 +29414,10 @@
   "size": 80
  },
  "0x102A21F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for sqDebugPrintf",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+62: REL32 targets _FUN_10285890 (0x10285890), the game 0x942A2068",
+  "conv": "__cdecl",
+  "size": 720
  },
  "0x102A2530": {
   "verdict": "DIFFERS",
@@ -28561,6 +29545,15 @@
   "conv": "__cdecl",
   "size": 16
  },
+ "0x102ABEC0": {
+  "verdict": "DIFFERS",
+  "why": "+0: 0x83 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 272,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
  "0x102ACB60": {
   "verdict": "IDENTICAL",
   "why": "",
@@ -28590,6 +29583,15 @@
   "why": "+61: REL32 targets _FUN_10285890 (0x10285890), the game 0x4C1B2225",
   "conv": "__cdecl",
   "size": 240,
+  "rules_tried": [
+   "cmpk"
+  ]
+ },
+ "0x102AD770": {
+  "verdict": "DIFFERS",
+  "why": "+59: REL32 targets _FUN_10285890 (0x10285890), the game 0x0DABB897",
+  "conv": "__cdecl",
+  "size": 496,
   "rules_tried": [
    "cmpk"
   ]
@@ -28641,8 +29643,8 @@
  },
  "0x102B2CA0": {
   "verdict": "DIFFERS",
-  "why": "+122: REL32 targets ?FUN_10283330@@YAXPAI@Z (0x10283330), the game 0x60335162",
+  "why": "+123: REL32 targets ?FUN_10283330@@YAXPAI@Z (0x10283330), the game 0x997B3543",
   "conv": "__cdecl",
-  "size": 288
+  "size": 304
  }
 }

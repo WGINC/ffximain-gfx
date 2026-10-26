@@ -3562,3 +3562,21 @@ and the leave-out rule then dropped 141 tree functions. Two fixes:
 function that takes an argument in EAX, which no VC6 convention passes.
 
 Tree: 4,463 functions, 4,449 PASS. Frame set: 4,005 in the tree, 3,991 PASS; 1,523 (30.6%) at the game's bytes.
+
+## 27 Oct (later): the owner's in-game captures replayed
+
+The run's eight captures (four functions, two each; build 6AC37846, mapped back by the kit manifest) failed to load
+with UC_ERR_MAP: live_state.sandbox put the replay's scratch region at 0x5F800000, which the grown reconstruction DLL
+(at 0x60000000) now overlaps. sandbox() now takes the ranges to avoid (the capture's own pages, the reconstruction's
+image: live_state.pe_range, and 0x6E000000-0x80000000). Verdicts against tree_r11:
+
+| Function | Capture 1 | Capture 2 |
+|---|---|---|
+| Frame_Render 0x10011A00 | PASS (41 of 1,424 instructions) | PASS (41) |
+| Cell_DrawQuadBlended 0x1011F300 | PASS (93 of 597) | PASS (93) |
+| CYyModelDt_SkinAndDrawV2 0x1002DC10 | PASS (47 of 1,596) | UNRESOLVED (638) |
+| TexObj_Upload 0x10039E50 | PASS (134 of 1,077) | PASS (134) |
+
+The UNRESOLVED: 3 trials return with EAX differing above the declared 2-byte return, and no fact says whether a
+caller reads it (caller_reads.json). Not settled; the `retw` export (P20) of 0x1002DC10 would make the gate compare
+all of EAX.

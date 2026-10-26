@@ -103,7 +103,7 @@ def main():
     case = replay_case(cs, json.load(open(o.cases)))
     if o.insn_limit: case['insn_limit'] = o.insn_limit
     stem = os.path.join(o.out, os.path.basename(o.xcap).rsplit('.', 1)[0])
-    live = {'dump': os.path.abspath(o.xcap), 'build_map': None, 'image_base': '0x%08X' % cs.base, 'sandbox': '0x%08X' % cs.sandbox(),
+    live = {'dump': os.path.abspath(o.xcap), 'build_map': None, 'image_base': '0x%08X' % cs.base, 'sandbox': '0x%08X' % cs.sandbox(avoid=[live_state.pe_range(o.recon)]),
             'data_writes': live_state.data_writes(cs, {}), 'this_sources': {}, 'instances': {}}
     json.dump(live, open(stem + '.live.json', 'w')); json.dump([case], open(stem + '.case.json', 'w'))
     if os.path.exists(stem + '.gate.jsonl'): os.remove(stem + '.gate.jsonl')

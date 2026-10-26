@@ -170,5 +170,6 @@ Limits:
   compiler drops; a cleanup pass (drop a statement, keep the drop only if still IDENTICAL) is still to be written.
 
 First test: 3 of 4 small functions proven in two minutes each. The batch over all 571, smallest first, 90 s each:
-the first chunk of 180 proved 32, the second 8 (recompile/perm_*.c, 43 in all, every one IDENTICAL under match.py
---all). The rest run in chunks; the smallest functions come first, so later chunks are expected to prove fewer.
+the first chunk of 180 proved 32, the second 8, the third 1 of 120 tried, the last 0 of 31 (recompile/perm_*.c, 44 in
+all, every one IDENTICAL under match.py --all). The smallest functions came first; past the first chunk, 90 s finds
+few. Longer runs on the rest are not tried.

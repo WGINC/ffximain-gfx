@@ -1,0 +1,302 @@
+{
+ "0x100098E0": {
+  "name": "CDx_EndAndApplyStateBlock",
+  "confidence": "medium",
+  "evidence": "DLL code (disasm.py 0x100098E0), ret 12: when (char)arg3 == 1, calls [[ecx+0xC]]+0xD4 with arg2; then, when *arg2 is neither 0 nor -1, [[ecx+0xC]]+0xD8 with *arg2. xi_d3d8.hpp's IDirect3DDevice8Vtbl: +0xD4 is EndStateBlock(This, pToken), +0xD8 is ApplyStateBlock(This, Token). CDx+0xC is the device by the accepted declaration in com_calls.json (owner's decision 2026-10-04, not proven); these two call sites are not in com_calls.json. Called by CDx_SetDefaultRenderState.",
+  "summary": "Optionally ends recording a state block into the token, then applies the token's state block if it is valid."
+ },
+ "0x1000BE10": {
+  "name": "CDx_SetVertexShaderCached",
+  "confidence": "medium",
+  "evidence": "DLL code (disasm.py 0x1000BE10), ret 4: arg 0 only clears the cache [ecx+0x9FC]; otherwise, when [ecx+0x9FC] != arg, calls [[ecx+0xC]]+0x130 with arg and stores arg at +0x9FC. xi_d3d8.hpp's IDirect3DDevice8Vtbl: +0x130 is SetVertexShader(This, Handle). CDx+0xC is the device by the accepted declaration in com_calls.json (not proven). Called by CXiSkeletonActor_DrawModel as sub_1000BE10(g_pCDx, 0).",
+  "summary": "Sets the device's vertex shader only when it differs from the cached one at +0x9FC; 0 just clears the cache."
+ },
+ "0x100D0B50": {
+  "name": "CXiSkeletonActor_AddPartAndMarkSlot",
+  "confidence": "medium",
+  "evidence": "Body: slot = (arg2 >> 12) & 0xF; with (char)arg4 == 0 only sets bit slot in +0x8B0; else (arg3 == +0x9EC, resource arg1 set): model kinds 6/7 slot 9 store it with CXiActor_SetField0B4 or keep it at +0x864 with CMoResource_AddRefChain; gets or creates the model base at +0x674+0x44 (CYyModel::CreateModelBase), CXiSkeletonActor_AddResourceParts(this, arg1, base); copies bytes of the resource found by CMoResource_FindInScope(.., 0x45) into +0x879..+0x88B by slot; sets bit slot in +0x8B0. Callers CXiSkeletonActor_AttachPartResource and CXiSkeletonActor_LoadSkeletonSync pass (res, kind | 0x9000, +0x9EC, 1).",
+  "summary": "Adds a loaded part resource's parts to the actor's model, copies its per-slot settings and marks the slot as loaded."
+ },
+ "0x100D1070": {
+  "name": "CXiSkeletonActor_RunPendingPartStep",
+  "confidence": "low",
+  "evidence": "Body: for model byte EE 0/1/6, once all nine slot bits of +0x8B0 (& 0x1FF) are set, runs the step byte +0x8A4 names (1: CXiActor_RequestModelParts; 2: sub_100D16C0 or sub_100D1970 by +0x8B5; 3: sub_100D1C80; 4: sub_100D2460; 5: sub_100D1F70) and clears it; for EE 2/7, step 3 too; then when CXiSkeletonActor_IsReadCompleteBody, calls vtable slot +0x298 with +0x8C4 and clears +0x8C4 on success. Called by CXiSkeletonActor_OnMove.",
+  "summary": "When all part slots are loaded, runs the pending model step recorded at +0x8A4, then hands the object at +0x8C4 to vtable slot +0x298 once the body is read."
+ },
+ "0x100D1190": {
+  "name": "CXiSkeletonActor_ChoosePendingPartStep",
+  "confidence": "low",
+  "evidence": "Body: by CXiActor::GetModelField170 (and model byte EE in 0..1 or 6) sets byte +0x8A4 = 1 (default, 2), 2 (1; 3 unless CXiSkeletonActor_FindListEntry(this, 1)) or 5 (0x31); kinds 2 and 3 also set +0x7D8 = 0x20202020. Called by CXiSkeletonActor_LoadSkeletonSync.",
+  "summary": "Records at +0x8A4 which model step to run later, chosen from the model's kind fields."
+ },
+ "0x100D5430": {
+  "name": "CXiSkeletonActor_SetFlag840Bit23",
+  "confidence": "low",
+  "evidence": "Body: +0x840 = (+0x840 & ~0x800000) | ((char)arg != 0) << 23; returns the old value. Called by CXiSkeletonActor_Init with 0.",
+  "summary": "Sets or clears bit 23 of the flags at +0x840."
+ },
+ "0x100D59A0": {
+  "name": "CXiSkeletonActor_BuildBasisFromVf210",
+  "confidence": "low",
+  "evidence": "Body: f = -(vtable slot +0x210 result) (Vec3_Copy, Vec3_Scale -1); u = (0,0,1) turned by the angles from slot +0x1C0 (Mat4_SetIdentity, Mat4_PostRotateX/Y/Z, Mat4_TransformPointInPlace); r = Vec3_Cross(f, u), u = Vec3_Cross(r, f), each passed through sub_100274B0; writes the 4x4 matrix rows r, f, u, (0,0,0,1) to arg.",
+  "summary": "Builds a 4x4 basis matrix from the negated vector of vtable slot 0x210 and an up vector turned by the angles of slot 0x1C0."
+ },
+ "0x10028AA0": {
+  "name": "Mem_FreeBlockMergeNeighbours",
+  "confidence": "medium",
+  "evidence": "Body: h = Mem_GetPtrMinus0x20(arg); when h+4 (in-use word) is set, clears it, merges h with the neighbour at +0xC and the one at +8 when their +4 is clear (relinking +8/+0xC), then links the result to the nearest clear blocks through +0x10/+0x14. Called by Mem_FreeObject (with p-4), SharedDeleteHelper and thunk_sub_10028AA0; callers' callers are 92+ ScalarDeletingDtors.",
+  "summary": "Marks the heap block before the pointer as unused and merges it with unused neighbouring blocks."
+ },
+ "0x10028AC0": {
+  "name": "Mem_FreeHeaderMergeNeighbours",
+  "confidence": "medium",
+  "evidence": "Body: the same steps as 0x10028AA0 applied to the header arg itself (no -0x20): clear +4, merge with unused neighbours through +0xC/+8, relink through +0x10/+0x14; returns the merged header.",
+  "summary": "Marks a heap block header as unused and merges it with unused neighbouring blocks."
+ },
+ "0x1006E140": {
+  "name": "CMoProcessor_VT_1032C368_RotationY",
+  "confidence": "medium",
+  "evidence": "Body: a static 4x4 identity at 0x1047CB30 gets m[0] = m[10] = cos(arg2), m[8] = sin(arg2), m[2] = -sin(arg2) (row-major _11/_33/_31/_13, the rotation about Y), copied to arg1 (16 dwords); returns arg1. CMoProcessor_VT_1032C368 slot 25; round 4 named its neighbours slot 22/27 RotationFromAnglesZYX/XYZ.",
+  "summary": "Writes the rotation matrix about the Y axis for an angle."
+ },
+ "0x1006E260": {
+  "name": "CMoProcessor_VT_1032C368_RotationZ",
+  "confidence": "medium",
+  "evidence": "Body: a static 4x4 identity at 0x1047CD10 gets m[0] = m[5] = cos(arg2), m[1] = sin(arg2), m[4] = -sin(arg2) (row-major _11/_22/_12/_21, the rotation about Z), copied to arg1 (16 dwords); returns arg1. CMoProcessor_VT_1032C368 slot 26.",
+  "summary": "Writes the rotation matrix about the Z axis for an angle."
+ },
+ "0x10092C20": {
+  "name": "Acter_CopyPosAndAnglesToActorA0",
+  "confidence": "low",
+  "evidence": "Body: when +0x120 has 0x200 and byte +0xEE is 0/1/2/6/7/8: Vec4_Copy of this+4 into the object at +0xA0 at +0x34, +0x5FC (+0x608 = 1.0), +0x5C4, +0xD4 (CXiControlActor_SetVec4) and +0xC4; Vec4_Copy of this+0x14 into +0x44 (and +0x61C unless its slot +0x318 returns nonzero) with each of the three floats wrapped by 6.283 into [-3.1415, 3.1415]; this+0x14..+0x20 into +0xE4..+0xF0. Called by Acter_CopyPosToCached and Acter_CopyPosAndSnap.",
+  "summary": "Copies the acter's position and its three angles (wrapped to about [-pi, pi]) into the actor object at +0xA0."
+ },
+ "0x10093B50": {
+  "name": "Unit10086E90_ClearTable10488B08",
+  "confidence": "low",
+  "evidence": "Body: zeroes 0x80 dwords from 0x10488B08; returns 0. Called by Unit10086E90_ResetGlobals.",
+  "summary": "Zeroes the 128-dword table at 0x10488B08."
+ },
+ "0x100977F0": {
+  "name": "Unit10086E90_TestFlagsAndUpdateParts",
+  "confidence": "low",
+  "evidence": "Body: when +0x120 has 0x200 and +0x128 lacks 8, and either (bit 7 of +0x120, DAT_104807F5 set, +0x12E bit 0 and +0x120 bit 0x20000 clear) or (+0x120 & 0xC000 == 0 and (char)+0x130 >= 0): returns AL = (Unit10086E90_UpdateSkeletonParts(this) == 0); else AL 0. Called by Entity_BuildDisplayName.",
+  "summary": "Under the acter's flag conditions, runs the skeleton part update and returns whether it returned 0."
+ },
+ "0x10099AE0": {
+  "name": "Acter_ApplyUpdateRecord",
+  "confidence": "medium",
+  "evidence": "Body: i = rec[4]; unless sub_1009AAD0(i), returns; creates ActerBuffPtr[i] when missing (Mem_AllocDefault(0x2AC), CXiActor_Construct); a different id (rec+4 vs +0x78) resets it (Acter_ReleaseEventRecord, Acter_ReleaseAllSlots, CXiActor_InitDefaults); by the flag word rec[5]: 1 sets position +0x24/+4 (height through ZoneMap_QueryBoxHeightBand on g_pZoneMap) and angle, 2 sets +0x188, 4 sets many flag bits of +0x120..+0x140, 8 copies a 16-byte name (sub_100DDE40, Acter_CopySixDwordsTo7C), 0x10 calls sub_1009AFE0, 0x20 marks it gone (+0x124 |= 0x1000); Camera_SetField30(2) when i == DAT_10485F7A.",
+  "summary": "Applies an update record to the acter it indexes: creating or resetting it, then setting position, flags, name and other fields by the record's flag bits."
+ },
+ "0x1006D720": {
+  "name": "CMoProcessor_VT_1032C368_TransformPoint",
+  "confidence": "medium",
+  "evidence": "Body (ret 12): out[j] = v[0]*m[j] + v[1]*m[4+j] + v[2]*m[8+j] + m[12+j] for j = 0..2, with out = arg1, m = arg2 (16 floats), v = arg3; returns out. CMoProcessor_VT_1032C368 slot 20.",
+  "summary": "Transforms a 3-component point by a 4x4 matrix, translation included, without a w divide."
+ },
+ "0x100573E0": {
+  "name": "CMoSchedularTask_InitFromSource",
+  "confidence": "low",
+  "evidence": "Body: clears +0x90, +0x140, +0xAC; CMoSchedularTask_SetSharedRef(this, arg3); +0x80 = src+0x14; +0x9C = 1.0 for arg2 0 or 1 (1 also sets +0x141), else arg2 / (**(+0x80))+0x7C; clears +0xA0, +0x84, +0x94, +0x98; +0x88 = src+0x74. Called by CMoSchedularTask_Construct(self, a1, a2, a3).",
+  "summary": "Initialises a schedular task's members from its source object, a rate argument and a shared reference."
+ },
+ "0x1002D660": {
+  "name": "CYyOs2VtxBuffer_ScalarDeletingDtor",
+  "confidence": "high",
+  "evidence": "Body: CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor(this); if (arg & 1) SharedDeleteHelper(this); returns this. CYyOs2VtxBuffer vtable slot 6 (+0x18).",
+  "summary": "Runs the vertex buffer object's destructor and frees it when bit 0 of the argument is set."
+ },
+ "0x100AC4E0": {
+  "name": "XiDoorActor_UpdateAndRunTimer",
+  "confidence": "low",
+  "evidence": "Body: r = sub_100A57F0(this); copies +0xD4..+0xDC to +0x5C4..+0x5CC and +0xE4..+0xEC to +0x5D4..+0x5DC (w = 1.0 each); clears bit 0 of +0xB2; when +0x87C > 0, subtracts ftol(Camera_GetFrameScale()); when it reaches 0, calls the function at +0x880 (if set) and clears it; returns (char)r. XiDoorActor vtable slot 8.",
+  "summary": "Runs the base update, copies two vectors into the +0x5C4 block, and counts down a frame-scaled timer that fires a stored callback."
+ },
+ "0x10014350": {
+  "name": "Unit10014350_RunStepThenLoadAll",
+  "confidence": "low",
+  "evidence": "Body: unless sub_10014390(this) returns AL 0: DAT_104570E0 = 0; Unit1018BA60_LoadAllAndTimestamp(); if DAT_1045690C, its vtable slot +0x18 with 1, then DAT_1045690C = 0; returns 1. Called by App_DispatchSubState.",
+  "summary": "Runs the sub-state step 0x10014390 and, when it succeeds, loads the dat entries and settings and releases the object at 0x1045690C."
+ },
+ "0x1001DBD0": {
+  "name": "CMoResource_VT_1032C8AC_ReleaseTexture",
+  "confidence": "medium",
+  "evidence": "Body: Util_Copy16Bytes(name, this+0x31); t = TexMgr_FindByName(g_pTextureMng, name, this, 0); if t: decrements its count at +4 when nonzero, and when the count is 0 calls TexObj_Release(t). CMoResource_VT_1032C8AC vtable slot 9 (+0x24).",
+  "summary": "Finds the texture named by the resource's 16-byte name, drops one reference and releases the texture when none remain."
+ },
+ "0x100289F0": {
+  "name": "MemBlock_FindLargestFreeSize",
+  "confidence": "medium",
+  "evidence": "Tree source NOT VERIFIED (gate INCONCLUSIVE), so from the DLL's code (disasm.py 0x100289F0): from b = arg1 until b == arg2 (b = [b+0x10]), for each block with [b+4] == 0 keeps the largest MemBlock_GetSize(b) (signed jge); returns it (0 when none). Called by Unit10028FD0_CallListByKind.",
+  "summary": "Returns the size of the largest block with a clear in-use word in a block list range."
+ },
+ "0x1002A700": {
+  "name": "CYyModelBase_CallPartsSlot20",
+  "confidence": "medium",
+  "evidence": "Body: for each part in the list CYyModelBase::GetPartList(this) (next at +4) calls the part's vtable slot +0x20 with (arg1, this, arg2, &local_4, &local_8), both locals starting at 0; returns the last result. Called by CYyModel_ApplyToParts(base, model, 0). Gate: 282 D3D calls compared.",
+  "summary": "Calls vtable slot 0x20 of every part of the model base, passing the model, the base, a value and two shared counters."
+ },
+ "0x1002D7F0": {
+  "name": "CMoResource_VT_1032C854_CheckVersionAndInit",
+  "confidence": "medium",
+  "evidence": "Body: a version byte +0x30 other than 0/1 is reported with the string 'Os2 Version Error(%d)\\n' (0x10351654) through Unit10017C10_NoOpVarargsA and returned; else, once (+0x31 = 1): (+0x32 & 0x7F) == 0 clears +0x5E and runs fn_1002D8F0 (offset fix-up and CYyOs2VtxBuffer creation); == 1 runs sub_10022470. CMoResource_VT_1032C854 vtable slot 8 (+0x20).",
+  "summary": "Checks the resource's Os2 version byte and, the first time, runs the set-up its kind byte selects."
+ },
+ "0x1002D8F0": {
+  "name": "Unit1002D8E0_FixOffsetsAndCreateVtxBuffer",
+  "confidence": "medium",
+  "evidence": "Body: replaces the six dwords at +0x36, +0x3C, +0x42, +0x48, +0x4E, +0x54 with this + 2*value + 0x30; when +0x34 lacks bit 2: Mem_AllocFromArea(0x9E, 4, 0), CMoTask::ResetFields, g_resourcesDirty = 1, CYyOs2VtxBuffer::Constructor(obj, this+0x14); on success sets bit 2 of +0x34 and +0x5E = the buffer. Called by fn_1002D7F0.",
+  "summary": "Turns the resource's six word offsets into pointers and creates its CYyOs2VtxBuffer once."
+ },
+ "0x10040220": {
+  "name": "CMoDistModelElem_DrawBatches",
+  "confidence": "medium",
+  "evidence": "Body: unless CMoDistModelElem_GetDataEnd(this)+4 is null: SetRenderState(0x3C = D3DRS_TEXTUREFACTOR, colour from *arg1, alpha forced to 0xFF for kind 'D' at arg2+0x16C) on the device at g_pResourceMng+0xEBC; applies static texture-stage state blocks (StateBlock_ApplyTSS); with no sub-batches (+0x34 == 0) SetTexture(0, 0) and one VertexBatch_BindAndDraw of +0x36 primitives; else, for each of +0x34 sub-batches TexRef_SetTexture and VertexBatch_BindAndDraw with the counts at CMoDistModelElem_GetVertexBase(this); kind 'I' sets SRCBLEND = 9 (D3DBLEND_DESTCOLOR), DESTBLEND = 5 (D3DBLEND_SRCALPHA); with arg2+0x17B & 3, a texture matrix through CDx_SetTransform(0x10 = D3DTS_TEXTURE0) and SetTextureStageState(0, 24 = D3DTSS_TEXTURETRANSFORMFLAGS, 2). Enum values from xi_d3d8.hpp; Direct3D 8 calls listed in com_calls.json.",
+  "summary": "Draws a distance-model element's vertex batches with its texture factor colour, texture-stage states and per-batch textures."
+ },
+ "0x10041160": {
+  "name": "CMoD3mSpecularElem_BindTintedTexture",
+  "confidence": "medium",
+  "evidence": "Body: +0x10C = (+0x10C & ~0x10000) | 0x2000000; unless byte +0x179: colour = +0x1AC, its R, G, B each multiplied by g_scratchValue's and by 1/128 (ftol) unless +0x198 bit 0; then TextureHolder_BindTinted(texture holder at (*+0x1A8)+0x30, (char)+0x1BD, colour) when that holder is set, else sub_10044250((char)+0x1BD, colour). CMoD3mSpecularElem vtable slot 19 (+0x4C), the slot 0x10046070 calls before drawing.",
+  "summary": "Computes the element's tint colour from its own colour and the scratch colour and binds its texture with it."
+ },
+ "0x10046070": {
+  "name": "YmElem_DrawWithOwnProjection",
+  "confidence": "medium",
+  "evidence": "Body: g_scratchValue = Unit1003D990_ScaleAlpha(+0xF8, +0x138 * +0x134); unless byte +0x17A: SetRenderState(0xAB = D3DRS_BLENDOP, 1 = D3DBLENDOP_ADD); vtable slot +0x4C; YmElem_SetupDevice(this, 0xFFFF); when the flags at +0x10C ask, saves the projection (CDx_GetTransformCached(.., 3)) and sets SetTransform(3 = D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH_static(..)) from g_pCamera's fields (near/far pulled in by +0x128 for the element's depth, g_pZoneMap+0x39594 offset); vtable slot +0x48; restores the saved projection; YmElem_RestoreDevice(this, 0xFFFF). Slot 11 (+0x2C) of 19 element classes (CMoD3mSpecularElem, CMoD3aElem, CMoDist, ...). Enum values from xi_d3d8.hpp.",
+  "summary": "Draws an element between device setup and restore, with additive blending and, when its flags ask, its own perspective projection."
+ },
+ "0x10054220": {
+  "name": "CMoTask_VT_1032B654_RunGeneratorAndFinish",
+  "confidence": "low",
+  "evidence": "Body: returns when the resource *(+0x38) has bit 0 of +0xDC; with +0x14 == 0: when sub_100496F0(res, 0, res) returns AL nonzero, byte +0x3C = 1 and, once (res+0x18 & 0x7FFF) == 0, its vtable slot +0x18 with 1, then MoRes_FreeIfUnreferenced(res+0x14) when bit 2 of res+0x1A is set. CMoTask_VT_1032B654 vtable slot 9 (+0x24); sub_100496F0's callees include YmGenerater_UpdateAttach and CMoGeneratorClone::FindCmdByType.",
+  "summary": "Runs the task's generator step and, when it is done and no count remains, calls its own slot 0x18 and frees the resource if it is marked for that."
+ },
+ "0x1006D0A0": {
+  "name": "CMoProcessor_VT_1032C368_SetIdentity",
+  "confidence": "medium",
+  "evidence": "Body: once fills the static 4x4 at 0x1047CAF0 with 1.0 at m[0], m[5], m[10], m[15] and 0 elsewhere (the identity); copies its 16 dwords to the argument. CMoProcessor_VT_1032C368 vtable slot 49 (+0xC4).",
+  "summary": "Writes the 4x4 identity matrix to the argument."
+ },
+ "0x10071270": {
+  "name": "MeshResourceMng_CreateResourceByKind",
+  "confidence": "medium",
+  "evidence": "Body: size = ((+4 >> 7) & 0x7FFFF) * 16; loops: when Unit10026C70_Call10029150(1) is under 2*(size-16) or g_pMeshResourceMng+0x4000C > 52428.8, MeshResourceMng_Evict four times; then by kind +4 & 0x7F allocates size + a per-kind header (Mem_AllocWithFallback(.., 1)) and constructs it (sub_10071D80 and a per-kind vtable: CMoResource variants, CMoCamera, CMoSphRes, CMoAttachments_Construct, CMoGeneratorClone_VT_1032B114_Constructor, WeatherRes_Construct, ...), retrying until the allocation succeeds; calls the new object's slot +0x1C with this, copies arg2+0x14 to +0x28 and sets +0x1A low bits to 1. Called by MeshResourceMng_ResolveTree.",
+  "summary": "Allocates and constructs the resource object for a resource header by its kind, evicting cached mesh resources when memory runs low."
+ },
+ "0x10074AD0": {
+  "name": "CMoTask_DetachAndRecycle",
+  "confidence": "low",
+  "evidence": "Body: Unit10074790_Remove(+0x10, this) when +0x10 is set; CMoTask_DestroyChain(+0x24) when set; when +4 is set: sub_10074A20() if arg, and unless byte +0x20, (dword_1047D140+0xD5C) = (dword_1047D140+0xD50), (dword_1047D140+0xD50) = this, +4 = 0, (dword_1047D140+0xD44) -= 1. Called by CMoTask_Release(self, 1).",
+  "summary": "Removes a task from its list, destroys its chained tasks and hands the task back to the manager at 0x1047D140, decrementing its count."
+ },
+ "0x100C4C20": {
+  "name": "XiModelActor_BuildMatrixAndDraw",
+  "confidence": "medium",
+  "evidence": "Body: pos = vtable slot +0x1BC, ang = slot +0x1C0; when +0x5C4 is set: zeroes 0x5B dwords at +0x5C8, +0x5E0 = (+0x5C4)+0x30; matrix +0x608 = Mat4_SetIdentity, Mat4_PostRotateZ(ang[2]), Mat4_PostRotateY(ang[1]), Mat4_PostRotateX(ang[0]), Mat4_SetTranslation(pos); then ModelActor_Draw(g_pZoneMap, this+0x5C8, +0x770, +0x770) unless the countdown +0x774 is nonzero, which it decrements. XiModelActor and XiFurnitureActor vtable slot 162 (+0x288); gate: 200 D3D calls compared.",
+  "summary": "Builds the model actor's world matrix from its angles and position and draws its model through ModelActor_Draw, after an optional frame delay."
+ },
+ "0x100D1450": {
+  "name": "Unit100D13B0_ProcessResidentListEntries",
+  "confidence": "low",
+  "evidence": "Body: only when arg2 == +0x9EC: a resource whose (*arg1)+0x24 low 7 bits are 1 goes through CXiActor_SpawnResourceGenerators; then for each node of the list at +0x7E4 (next at +4) whose handle +0x1C is set, ResourceHandle_IsResident, and byte +0x20 clear, calls sub_1001B7B0(node). Called by CXiActor_RequestModelParts(self, res, +0x9EC).",
+  "summary": "For the actor's current resource, spawns its generators if it asks for them and runs 0x1001B7B0 on each list entry whose resource is resident and not yet handled."
+ },
+ "0x101C7C50": {
+  "name": "Unit101C72E0_InitFourSlots",
+  "confidence": "low",
+  "evidence": "Body: for i < 4: dword this+4i = 0, dword this+0x18+4i = 0, word this+0x10+2i = 0xFFFF; returns this. Called by CIwHnList_Constructor on this+0x50.",
+  "summary": "Clears two four-dword arrays and sets four words to -1."
+ },
+ "0x101CC4F0": {
+  "name": "Acter_GetActerAt10485F7A",
+  "confidence": "medium",
+  "evidence": "Body: returns ActerBuffPtr[DAT_10485F7A], or 0 when the index is 0 or the slot is empty. 71 callers, among them IsEvent, Acter_UpdateOne and Unit10086E90_IsIdMatchGlobal.",
+  "summary": "Returns the acter in the table slot whose index is held at 0x10485F7A, or 0."
+ },
+ "0x100AB880": {
+  "name": "CXiDancerActor_SetAnglesWrapped",
+  "confidence": "medium",
+  "evidence": "Body: when the acter at +0x70 is set, its +0x34..+0x3C = arg[0..2] and Acter_CopyPosToCached(it); then, when vtable slot +0x318 returns 0, Vec4_Copy(this+0x61C, arg) and each of +0x61C, +0x620, +0x624 wrapped by 6.283 into [-3.1415, 3.1415]. Called by CXiDancerActor_ApplyStateBlock.",
+  "summary": "Sets the dancer's three angles (wrapped to about [-pi, pi]) on its acter and on itself."
+ },
+ "0x100378B0": {
+  "name": "CYyMusicLoadTask_StartTrack",
+  "confidence": "medium",
+  "evidence": "Body: releases the object at DAT_10463948 (slot +0x18 with 1); when the track number differs from DAT_10463944 and DAT_1046393C is set, LobbyThread_SendCmd9(-1, 0); DAT_10463944 = arg; v = ftol(*0x103517F8 * *0x103517F4 * 127); Music_LoadTrackIfRunning(arg, v, v); LobbyThread_SendCmd8(-1, v, 0) when DAT_1046393C; DAT_10463940 = arg; DAT_10463909 = 1. Called as FUN_100378b0(0xA9) by fn_1024D850.",
+  "summary": "Makes the given music track the current one: stops the previous one if different and asks the sound thread to load it with a level of 127 times two stored factors."
+ },
+ "0x100037D0": {
+  "name": "DebugOverlay_SetEntry",
+  "confidence": "medium",
+  "evidence": "Body: with the table at +0xC: an index *arg1 over 0x900 is reported with the format at aErrorSSD and 'D:\\build0001\\FFXi_Win\\Main\\Debug.cpp', line 0x92; else stores (index, arg1[1]) at +0xC[i], four floats at +0x10[i], the string arg (strncpy, 0x400, NUL-terminated) at +0x14[i] and the colour arg at +0x18[i]. Called by DebugOverlay_Update with (.., 0, 0, 0, 0, text, 0x80808080, ..).",
+  "summary": "Stores one debug overlay entry (id, four floats, text and colour) at the given index."
+ },
+ "0x102700C0": {
+  "name": "Mdl_LinkB0001ItemRefs",
+  "confidence": "low",
+  "evidence": "Body: entries of 0xAC bytes at DAT_1099AED0; stores arg3 at entry[arg2]+0x88; finds in the model entry[arg2]+0xA8 an item of kind 2 whose first dword is 0xB0001 (SqmdModel_GetItemKind2); for each such item in the model of entry[arg1], Unit1028DD50_CreateRef(item, found, 0, arg3) and, when made, SqmdModel_AppendPair44 and fn_1027A220 (SqmdModel_AppendPair68, flag 0x100) on it.",
+  "summary": "Creates references from the 0xB0001 items of one model entry to the 0xB0001 item of another and appends them to the first model."
+ },
+ "0x10292130": {
+  "name": "SqIO_SwapBytes",
+  "confidence": "high",
+  "evidence": "Strings: 'C:\\dev\\dancer\\modules\\sqBase\\src\\sqIO.c' and 'swapping non-2-aligned data, expect bad results...\\n' (0x103BB0CC), printed through sqDebugPrintf when the element size arg2 is odd. Body: for arg3 elements of arg2 bytes from arg1, reverses the bytes of each element in place (swaps byte j with byte size-1-j for j < size/2).",
+  "summary": "Reverses the byte order of each element of an array in place, warning when the element size is odd."
+ },
+ "0x10275090": {
+  "name": "SqTimer_GetMicroseconds",
+  "confidence": "high",
+  "evidence": "Imports QueryPerformanceFrequency and QueryPerformanceCounter; strings 'C:\\dev\\dancer\\modules\\sqBase\\src\\sqTimer.c' and 'Timer failed\\n'. Body: the first call (DAT_103B27E8 set) reads the frequency into 0x1099CEE0 and the counter into 0x1099CEE8; later calls add ftol(1e6 / frequency * (counter - last)) to DAT_1099CEF0 and keep the new counter; returns DAT_1099CEF0. Called by StAvatarInit, StAvatar_Update, SqmdModel_Update and others.",
+  "summary": "Returns a running time in microseconds from the performance counter, starting it on the first call."
+ },
+ "0x1027A220": {
+  "name": "SqmdModel_AppendPair68Flag100",
+  "confidence": "low",
+  "evidence": "Body: SqmdModel_AppendPair68(arg1, arg2); then ORs 0x100 into the last dword of the array at arg1+0x64 (index arg1+0x68 - 1); returns its address. Callers include sqmdDMBBuildShapes and SqmdDMB_BuildUpdaters.",
+  "summary": "Appends a pair to the model's 0x60/0x64 arrays and sets flag 0x100 on the new 0x64 entry."
+ },
+ "0x10290B60": {
+  "name": "SqsdGeneric_DrawPasses",
+  "confidence": "medium",
+  "evidence": "Body: with a shader (arg1+0x8C): skips (Sqgx_ResetCounter) when Unit102A1F20_TestSeparationHalf(*arg2) == 2; sets sqgxTextureDecal/Clamp, sqgxPassAdd and Unit102A34D0_ApplyLighting(arg1+0x14); a base pass when the float +0x44 < 0.999 (texture +0x4C, sqgxBlendTrsp / sqgxBlendLin(1 - +0x44)); then one extra pass for each texture set at +0x64 (sqgxBlendAdd or sqgxBlendAddDestAlpha), +0x50 (additive), +0x5C (sqgxBlendOff, sqgxFBMask) and +0x58 (sqgxZMask(0), Unit102822A0_SetMultiplyAdd); each pass sqgxShader with its flag bits and sqDrawableDraw(*arg2); ends with sqgxBlendOff and sqgxPassAdd(-passes). Group sqsdGeneric.",
+  "summary": "Draws a drawable with the generic shader: a base pass and one blended pass for each extra texture the shader has."
+ },
+ "0x102AD770": {
+  "name": "SqshCurves_ComputeTangents",
+  "confidence": "high",
+  "evidence": "Strings: 'C:\\dev\\dancer\\modules\\sqShape\\src\\sqshCurves.c', 'compute curve tangents', and the errors 'missing control vertices', 'missing tangents', 'curve with less than 2 points' (sqDebugPrintf). Body: for each curve (count +0x44, point counts at +0x48) writes tangent[i] = normalised (Unit10274050_Sub, Unit10274050_ScaleVec3ByInverseOf102746C0) difference of the neighbouring control vertices (one-sided at the ends, central inside); a curve under 2 points gets (0, 0, 1). Called by SqshCurves_RebuildIndex.",
+  "summary": "Computes each curve's per-point tangents from its control vertices."
+ },
+ "0x102ABEC0": {
+  "name": "SqshTriStrip_ForEachTriangle",
+  "confidence": "medium",
+  "evidence": "Body: walks the index stream at arg1+0x48 (a group count, then per group a length): a positive length is a list of index triples, a non-positive one (negated) a strip whose vertex order alternates; for each triangle (a, b, c) calls the callback arg2(a, b, c, arg3) when arg2 is set and counts it in DAT_109AAAC0 (reset to 0 first). Called by SqshBuild_BuildTriStrip with a null callback; group sqshTriStrip.",
+  "summary": "Visits every triangle of a tristrip shape's index groups (lists and strips), calling a callback for each and counting them."
+ },
+ "0x1028EC30": {
+  "name": "SqsnScene_SetEntryField8",
+  "confidence": "low",
+  "evidence": "Body: *((arg1+0x48) + arg2*0x2C + 8) = arg3; returns arg3. Called by Unit10272F20_SelectCamera and Unit10272F20_UpdateCameraBlend with arg1 = 0x1099B13C.",
+  "summary": "Stores a value at +8 of the given 0x2C-byte entry of the scene's array at +0x48."
+ },
+ "0x10001070": {
+  "name": "Unit10001070_CallForEachElement",
+  "confidence": "medium",
+  "evidence": "DLL code (disasm.py 0x10001070), ret 16: for count arg3 (none when arg3 - 1 < 0), calls arg4 with ECX = arg1 + i*arg2 (esi += ebp each time). The tree source shows the calls but not the ECX argument. Called by ZoneMap_ConstructVt10336614 as (array, 4, 0x20, FUN_1005E100) and by CreateProcessorInstance.",
+  "summary": "Calls a thiscall function on each element of an array, given its base, element size and count."
+ },
+ "0x100180D0": {
+  "name": "Unit10017C10_DispatchErrorCode",
+  "confidence": "medium",
+  "evidence": "Tree source NOT VERIFIED (gate FAIL), so from the DLL's code (disasm.py 0x100180D0): walks the 16-byte table at 0x10350988 until the code 9999 (0x270F); for the entry equal to arg, t = XiErrMsgGetErrCode(arg) (0x10017D90), or the string at 0x103D3C84 when null, and calls the handler [0x1035097C + 4*entry[+4]](arg, t); with no entry, calls 0x10018140 (Unit10017C10_SendMessage7_1To10668FF8)(arg). Called by fn_10018310.",
+  "summary": "Finds an error code in the error table and calls its handler with the code's message, or sends the default game message when the code is not listed."
+ },
+ "0x10018310": {
+  "name": "Unit10017C10_ReportAndHandleError",
+  "confidence": "medium",
+  "evidence": "Body: when DAT_10350E38 is set: Unit100D7420_ReportError(arg1, arg2, arg3); then a negative code goes to Unit10017C10_RegisterCallback(arg1), any other to fn_100180D0(arg1) (the error table dispatch). Called by _exit_0 as FUN_10018310(code, 0, 0, code).",
+  "summary": "Reports an error code and then handles it, through a registered callback for negative codes or the error table otherwise."
+ }
+}

@@ -1,0 +1,302 @@
+{
+ "0x101DDA90": {
+  "name": "Unit101D7020_ClearSlotBytes3",
+  "confidence": "low",
+  "evidence": "Body: p = this + 0x1A + arg * 0x7B; three times *p = 0, p += 0x29. Called by Yk_InitSlots as orig::FUN_101dda90(self_, iVar1).",
+  "summary": "Clears three bytes 0x29 apart in the 0x7B-byte slot the argument selects."
+ },
+ "0x101E06C0": {
+  "name": "Unit101D7020_ClearFields14To3F",
+  "confidence": "low",
+  "evidence": "Body: clears the byte at +0x14 and the word at +0x20, then for i < 10 the bytes at +0x15+i and +0x36+i and the words at +0x22+2i.",
+  "summary": "Zeroes the object's fields from +0x14 through the ten-entry arrays at +0x15, +0x22 and +0x36."
+ },
+ "0x101E0700": {
+  "name": "Unit101D7020_ClearFields40To48",
+  "confidence": "low",
+  "evidence": "Body: *(this+0x40) = 0; *(this+0x44) = 0; word *(this+0x48) = 0; returns this+0x40.",
+  "summary": "Zeroes the two dwords at +0x40 and +0x44 and the word at +0x48."
+ },
+ "0x101E11C0": {
+  "name": "Unit101D7020_LoadDatListOrRun101E1A70",
+  "confidence": "low",
+  "evidence": "Body: if (char)arg1, fn_101E1AE0(DAT_106634B8, arg1) (which runs Unit101D7020_LoadDatSync over a list); else if (char)arg2, sub_101E1A70(DAT_106634B8); then Unit101D7020_ClearField74(this) on both paths.",
+  "summary": "Depending on its two flags, loads the dat list of the object at 0x106634B8 or runs 0x101E1A70 on it, then clears this+0x74."
+ },
+ "0x101E1AE0": {
+  "name": "Unit101D7020_LoadDatListSync",
+  "confidence": "medium",
+  "evidence": "Body: for (e = *this; e; e = e[8]) { if (*e && (char)Unit101D7020_LoadDatSync(e, i)) *e = 2; i++ } -- walks the list linked through +0x20 and loads each entry whose first dword is set through Unit101D7020_LoadDatSync (medium).",
+  "summary": "Walks the list of dat entries from this and loads each pending one synchronously, marking a loaded one 2."
+ },
+ "0x101EC3C0": {
+  "name": "Unit101D7020_InitFields1CTo3C",
+  "confidence": "low",
+  "evidence": "Body: words +0x1C, +0x1E = 0xFFFF; dwords +0x20, +0x30, +0x34, +0x38, +0x3C = 0; words +0x2A, +0x2C = 0; returns 0.",
+  "summary": "Sets the two words at +0x1C/+0x1E to -1 and zeroes the fields from +0x20 to +0x3C."
+ },
+ "0x101F4AF0": {
+  "name": "Unit101D7020_InitEightSlots80808080",
+  "confidence": "low",
+  "evidence": "Body: for i < 8: byte this[i] = 0, dword this+0x28+4i = 0, dword this+8+4i = 0x80808080; then +0x48, +0x4C = 0 and byte +0x50 = 0; returns this. Called by YkWndList_Init and 41 others.",
+  "summary": "Initialises eight slots (a flag byte, a dword 0 and a dword 0x80808080 each) and clears +0x48..+0x50."
+ },
+ "0x101F6700": {
+  "name": "Unit101D7020_SetField18AndRemainder",
+  "confidence": "low",
+  "evidence": "Body: r = (short)this+0x20 - (short)arg; word this+0x18 = arg; word this+0x22 = r, or 0 when r < 0; returns r in AX (ret_width: sets only AX).",
+  "summary": "Stores the argument at +0x18 and the non-negative difference of +0x20 and it at +0x22."
+ },
+ "0x101FA420": {
+  "name": "Unit101D7020_CloseMapMenus",
+  "confidence": "medium",
+  "evidence": "Body: Yk_FreeBuffers(this); if this+0xFC != -1 and +0xA44 set, Unit101D7020_SubmitMarkerFile(this, +0x100, +0x102) (callee strings 'M%03d%02d.MRK'); then, when +0x6C4 is set, SetConfig(0x8A, ftol(+0x58 * 1000 / (screen width * 0.001953125))) and Menu_CloseEntry on g_menuMng for the strings 'menu    map0    ', 'menu    mapv3   ', 'menu    mapv2   ', 'menu    scanlist', 'menu    mapscan ', then the vtable slot +0x50.",
+  "summary": "Frees its buffers, saves its marker file if changed, stores a setting 0x8A and closes the map0/mapv2/mapv3/scanlist/mapscan menus."
+ },
+ "0x10201340": {
+  "name": "Unit101D7020_DrawCountersAndGauge",
+  "confidence": "low",
+  "evidence": "Body: when DAT_104E0AF4 is set, formats '%d' (0x10352FF0) of sub_100FCB40 and sub_100FCB50 on DAT_104DFD98+0x4638 and draws them with the messages Unit1012AC80_GetMessageFwd(0xC, 0x5D) and (0xC, 0x5C) through Unit101C72E0_DrawUnscaled (colour 0x60808080); then v = sub_100FCB60(..): picks 0/9/5/1 by v == 0 / < 30 / < 60 / else, draws the image sub_102012D0 selects through sub_1011FB60, and '%3d' (0x10385290) of v.",
+  "summary": "Draws two labelled values and a third value with an image chosen by its range, read from the object at 0x104DFD98+0x4638."
+ },
+ "0x10203BE0": {
+  "name": "Unit101D7020_ReadOrLoadGstEntry",
+  "confidence": "medium",
+  "evidence": "Body: when DAT_104DFD98 is set, Unit1018BA60_DatEntryCtor(local, 1, \"gst\" (0x10385420), DAT_104DFD98+0x9534, 700, LAB_10203C60, DAT_104DFD98+0x9534, 0); (char)arg ? Unit1018BA60_Read(local, 0) : Unit1018BA60_LoadFromFile(local); Unit1018BA60_ClearVtable(local). Called by Yk_SetStateFromFlag with 0 and 1.",
+  "summary": "Reads (arg set) or loads from file the 700-byte \"gst\" dat entry held at 0x104DFD98+0x9534."
+ },
+ "0x10206420": {
+  "name": "Unit101D7020_ClearFields14To24",
+  "confidence": "low",
+  "evidence": "Body: dwords +0x14, +0x18, +0x1C, +0x20 = 0; byte +0x24 = 0; returns 0. Called by YkInit on a new object.",
+  "summary": "Zeroes the fields from +0x14 to +0x24."
+ },
+ "0x10211050": {
+  "name": "Unit101D7020_Call10156C30InRect",
+  "confidence": "low",
+  "evidence": "Body: Unit100D7420_GetRect(this+8 object, &rect); if this+0x1C, sub_10156C30(left+4, top+4, right-left-8, this+0x1C, 0, 0x80808080) (sub_10156C30's callees include Unit10253A20_WrapLine).",
+  "summary": "Passes the value at +0x1C to 0x10156C30 inside the rectangle of the layout entry at +8, inset by 4."
+ },
+ "0x1021EDD0": {
+  "name": "Unit1021D930_Call1021EF30If10666E84",
+  "confidence": "low",
+  "evidence": "Body: if (DAT_10666E84 != 0) return fn_1021EF30(); else returns EAX unchanged. Called by Menu_DrawAll as orig::FUN_1021edd0(uVar9).",
+  "summary": "Runs 0x1021EF30 when the object pointer at 0x10666E84 is set."
+ },
+ "0x1021EEB0": {
+  "name": "Unit1021D930_InitFieldsDTo38",
+  "confidence": "low",
+  "evidence": "Body: bytes +0xD, +0xE, +0x2F = 0; +0x20, +0x24 = 0; words +0x28 = 0x58, +0x2A = 0, +0x2C = 0x2A; byte +0x2E = 1; floats +0x30 = 1.0, +0x34 = 32.0, +0x38 = 16.0; bytes +0..+2, +3..+5, +6 = 0; returns this. Called by Unit1021D930_InitMenuShapes.",
+  "summary": "Sets the object's fields from +0 to +0x38 to their initial values."
+ },
+ "0x1021EF10": {
+  "name": "Unit1021D930_SetFlagDAndField1C",
+  "confidence": "low",
+  "evidence": "Body: byte +0xD = 1; dword +0x1C = DAT_10385ECC (0x18 in the DLL's data); bytes +0x10, +0x11 = 0. Called by Unit1021D930_CallPanel1021EF10 on DAT_10666E84.",
+  "summary": "Sets the flag at +0xD, copies the value at 0x10385ECC to +0x1C and clears the bytes at +0x10/+0x11."
+ },
+ "0x10221920": {
+  "name": "Unit1021D930_AllocEntriesAndSetCounts",
+  "confidence": "low",
+  "evidence": "Body: frees the array at +0x20 (operator_delete(p-4)); allocates arg3 8-byte entries behind a count dword (Allocator_Generic(arg3*8+4)), zeroed; +0x44 = arg3, +0x14 = arg1, +0x18 = arg2, +0x40 = arg4, +0x48 = arg5, +0x3C = max(0, arg4-arg5), other fields reset; fn_10221ED0(this); copies arg5/arg4 into the object at (this+8)+0x88, +0xC/+0x10. Called by Unit1021D930_InitRect.",
+  "summary": "Reallocates the object's 8-byte entry array and sets its counts and state fields."
+ },
+ "0x10221A80": {
+  "name": "Unit1021D930_SetCountAndRebuild",
+  "confidence": "low",
+  "evidence": "Body: +0x4C = arg2, +0x40 = arg1 (also into (this+8)+0x88 +0x10); frees +0x50; with +0x4C clear, +0x3C = max(0, +0x40 - +0x48); else finds +0x3C through the vtable slot +0x44, and rebuilds the array at +0x50 from slot +0x44 for 0..+0x3C; then sub_10221B90(this, 0) or (this, arg1-1).",
+  "summary": "Sets a new count (and mode at +0x4C), recomputes the derived count at +0x3C and the offset array at +0x50, then calls 0x10221B90."
+ },
+ "0x10221F50": {
+  "name": "Unit1021D930_RunRowCallbacks",
+  "confidence": "low",
+  "evidence": "Body: vtable slot +0x64; with this+8 set: when +0x40 == 0, Unit1021D930_GetWindowLocate and slot +0x50; else for each visible row (min(+0x40 - +0x38, +0x48)) calls the function pointers at +0x1C, or +0x14 and +0x18 with CTkMenuCtrlData_GetButtonLocate's position and sub_102225F0(0) / (2) by whether the row is +0x30; then slot +0x48 at the button of (this+8)+0x4C. Gate: 128594 D3D calls compared.",
+  "summary": "For each visible row, calls the object's row callbacks with the row's button position, then the slot that handles the current button."
+ },
+ "0x10228080": {
+  "name": "Unit1021D930_DrawTimeLeftText",
+  "confidence": "medium",
+  "evidence": "Body: returns 0 unless Settings_GetValue(0xC3); t = ntGameTimeGet(); e = sub_10227930(arg1, arg5); v = arg1+0x2F0+arg5*4 (0x7FFFFFFF: none); n = (v - t*60 + 59) / 60; under 6 returns; formats n with '%d' (under 60), n/60 with '%dm' (0x10386278, under 3600) or n/3600 with '%dh' (0x1038627C, capped at 0x57030) and draws it through Unit101C72E0_DrawTextItem0 at (arg3+0xE, arg4+0x14), scale 0.85.",
+  "summary": "Draws, when setting 0xC3 is on, the time left until an entry's stored time as a number, minutes ('%dm') or hours ('%dh')."
+ },
+ "0x10228440": {
+  "name": "Unit1021D930_DrawTargetEntryIcons",
+  "confidence": "low",
+  "evidence": "Body: returns 0 unless Settings_GetValue(0xC2); takes the target pair from g_pTargetMng (Unit1012AC80_GetField84Ptr or sub_10157CB0), stores it at +0x228/+0x22C; looks it up with Yk_FindIndexById / Yk_GetActiveEntry; collects up to 32 ids from sub_10098F90 into +0x234; draws the entry's text through Unit101C72E0_DrawUnscaled (between '< ' and ' >' at 0x10386284 / 0x10386280 when +0x230 was 1) and the ids' images through CXiMovie_Draw, 8 per row.",
+  "summary": "When setting 0xC2 is on, draws the current target's entry name and up to 32 images, eight to a row, near the menu at g_menuMng."
+ },
+ "0x100D8490": {
+  "name": "Unit100D7420_CreateThreadObject",
+  "confidence": "medium",
+  "evidence": "Body: Allocator_Generic(0x9E8), fields set (+0x24 = 0x46465849), +0x468 = CreateMutexA(0, 1, 0), +0x46C = CreateMutexA(0, 0, 0), +0x470 = CreateSemaphoreA(0, 0, 1, 0); sub_10314FCD(&LAB_100D8520, 0, obj), and sub_10314FCD's own code (DLL bytes) calls CreateThread with flags 4 then ResumeThread; *arg1 = obj; returns 0. Called by Unit100D7420_InitAll with &DAT_104AE8B8.",
+  "summary": "Allocates an object with two mutexes and a semaphore, starts a thread on it at 0x100D8520, and stores it through the argument."
+ },
+ "0x100EF640": {
+  "name": "Unit100D7420_DispatchByKindAndUpdate",
+  "confidence": "low",
+  "evidence": "Body: returns -1 when DAT_104DF770 == 0; else, when the table 0x1036202C has a function for *arg, r = table[*arg](arg); then Unit100D7420_UpdateSession() and returns r (or arg).",
+  "summary": "Runs the handler the table at 0x1036202C holds for the record's first dword, then the session update."
+ },
+ "0x100FA950": {
+  "name": "Unit100D7420_PushByteQueue4",
+  "confidence": "low",
+  "evidence": "Body: on the four bytes at 0x104DF924: when the fourth is set, shifts them down one and clears the fourth; then stores (char)arg in the first free byte unless the byte before it already equals arg. Sets only AL (ret_width).",
+  "summary": "Appends a byte to the four-byte queue at 0x104DF924, dropping the oldest when full and skipping a repeat of the last byte."
+ },
+ "0x100FDBF0": {
+  "name": "Unit100D7420_PackRingEntries",
+  "confidence": "low",
+  "evidence": "Body: header words arg3, arg4, then Unit100D7420_AdvanceAndGetMilliseconds() and Unit100D7420_AdvanceAndGetSeconds() at +4/+8; walks the ring arg2 (0x110-byte entries, base arg2[0], size arg2[1], indices arg2[2]/arg2[3]) and copies each entry ((word >> 9) * 4 bytes) after the header while Unit100D7420_EstimateBytes keeps the total under (DAT_104E0AF4+0x448) - 0x31 and 3999; stamps arg3 into a new entry's second word; returns the bytes written.",
+  "summary": "Writes a header with the current milliseconds and seconds and as many ring-buffer entries as fit, returning the length."
+ },
+ "0x10114250": {
+  "name": "Unit100D7420_PushRingEntryLocked",
+  "confidence": "medium",
+  "evidence": "Body: WaitForSingleObject(*this, INFINITE); copies the 3-dword record arg into slot +0x10A of the 16-entry ring at this+8 (16-byte slots), releasing the slot's old reference-counted block (operator_delete) and adding a reference to the new one; +0x10A = (+0x10A + 1) & 0xF, advancing +0x108 when they meet; ReleaseMutex(*this). Called by Unit100D7420_ReportError with DAT_104E1B6C.",
+  "summary": "Under the object's mutex, stores a record in its 16-slot ring buffer, overwriting the oldest when full."
+ },
+ "0x10119BC0": {
+  "name": "Unit100D7420_ContainsPoint",
+  "confidence": "medium",
+  "evidence": "Tree source NOT VERIFIED (gate FAIL), so from the DLL's code (disasm.py 0x10119BC0): returns AL 1 when [ecx+0x2A] <= p[0] <= [ecx+0x2A]+[ecx+0x2E] and [ecx+0x2C] <= p[1] <= [ecx+0x2C]+[ecx+0x30] (movsx words, signed jg/jl), else AL 0; ret 4. Called by Unit100D7420_UpdateState with &local_28.",
+  "summary": "Tests whether the point the argument points to lies inside the rectangle (x, y, width, height words at +0x2A..+0x30)."
+ },
+ "0x10119F20": {
+  "name": "Unit100D7420_StepFrameCycle",
+  "confidence": "low",
+  "evidence": "Body: when byte +0x30 and +4 are set: word +0x2C -= ftol(Camera_GetFrameScale()); when it drops below 0, +0xC = (*(+4))[+0x2E], +0x2E += 1, +0x2C = 3, and +0x2E wraps to 0 at a null entry. Called by Unit100D7420_Rebuild.",
+  "summary": "Counts the object's countdown down by the frame scale and, when it runs out, moves to the next entry of its list, wrapping at the end."
+ },
+ "0x1011A5A0": {
+  "name": "Unit100D7420_SetRectAndUpdateNodes",
+  "confidence": "low",
+  "evidence": "Body: walks the list at +0x14 (Unit100D7420_GetHead, sub_10126520): a kind-0 node gets the new rect (args 1-4 into +0x8C..+0x92, shifted by the change from +0x3A/+0x3C; its own rect too unless (char)arg6), kind 1 Unit100D7420_ComputeOffsets, kind 2 Unit100D7420_AttachTo(node, +8); +0x3A..+0x40 = left, top, right, bottom; byte +0x9A = arg7; +0x88's point = (right-6, top). Callers include Unit1012AC80_UpdateLayout; chain through Menu_PositionWindow.",
+  "summary": "Moves a layout to a new rectangle and updates its child nodes by kind."
+ },
+ "0x101236B0": {
+  "name": "Unit100D7420_SetTable1036D6B0Word",
+  "confidence": "low",
+  "evidence": "Body: i = (short)arg1; word at 0x1036D6B0 + 6*i = 0, or 0x80 << 8 | (char)arg2 when (char)arg2 != 0; returns i*3.",
+  "summary": "Sets the word of entry arg1 in the 6-byte table at 0x1036D6B0 to 0x80xx with the given byte, or to 0."
+ },
+ "0x10123F80": {
+  "name": "Unit100D7420_SetByteFlag1",
+  "confidence": "low",
+  "evidence": "Body: p = this + (arg & 0xFF); *p |= 1; returns p.",
+  "summary": "Sets bit 0 of the byte the argument indexes."
+ },
+ "0x10124BC0": {
+  "name": "Unit100D7420_CursorUpdateEdgeAxes",
+  "confidence": "medium",
+  "evidence": "Called by Menu_DrawLayers on g_pCursor. Body: when byte +0x4E: x = +4, y = +8 (rescaled by GetWindowRect / GetSystemMetrics(0x20/0x21) when g_windowMode); x and y become -1.0 / 0 / 1.0 when at or past g_screenRectTopLeft+1 / g_screenRectBottomRight-1 (unless Settings_GetValue(0x8F) or FontGlyphCache_IsStateTwo); stores them at +0x94/+0x98 or negated at +0x8C/+0x90, flipped by settings 0x8B/0x8C/0x8D; +0x9C counts down by Camera_GetFrameScale.",
+  "summary": "Works out from the cursor's position whether it is at a screen edge on each axis (-1, 0, 1) and stores that, with settings-controlled inversion."
+ },
+ "0x10126370": {
+  "name": "Unit100D7420_FreeBothLists",
+  "confidence": "medium",
+  "evidence": "Body: frees with operator_delete every node of the list from *this (next at +0) and of the list from this+8 (next at +8); returns 0.",
+  "summary": "Frees all nodes of the object's two linked lists."
+ },
+ "0x10126550": {
+  "name": "Unit100D7420_NextActiveValue",
+  "confidence": "medium",
+  "evidence": "Body: from n = *arg, skips nodes whose byte +0x14 is set (next at +4); for the first other node, *arg = n->next and returns n+0x10's dword; 0 at the end. Callers Menu_FindFirstActiveItem, Unit1012AC80_GetNodeIfNotClosed loop over it.",
+  "summary": "List iterator: returns the value of the next node not flagged at +0x14 and advances the cursor past it."
+ },
+ "0x101265D0": {
+  "name": "Unit100D7420_FreeListsAndReset",
+  "confidence": "medium",
+  "evidence": "Body: same two list walks as 0x10126370 (operator_delete each node from *this and from this+8), then zeroes +0x00..+0x18. Called by Unit100D7420_ClearEntries and Unit100D7420_DeleteAllEntries.",
+  "summary": "Frees all nodes of the object's two linked lists and resets its list fields."
+ },
+ "0x10126A00": {
+  "name": "Unit100D7420_ClearAllAndNotifyOwner",
+  "confidence": "low",
+  "evidence": "Body: with +0x1C, Unit100D7420_ClearFlag12FromValue on the owner's (+0x30)+0x64 object; removes every node (Unit100D7420_Remove) and deletes its value (operator_delete); 0x101265D0 (free lists and reset); clears +0x1C..+0x2C, byte +0x34 = 1; calls the owner's (+0x30) vtable slot +0x4C; DAT_10488208 = 0.",
+  "summary": "Removes and deletes all entries of the list, resets it and notifies its owner object."
+ },
+ "0x10127EA0": {
+  "name": "Unit100D7420_ClearGlobalLists2150And2154",
+  "confidence": "low",
+  "evidence": "Body: fn_10126A00(DAT_104E2150); fn_10126A00(DAT_104E2154); DAT_10488208 = 2; then the vtable slot +0x4C of each one's +0x30 owner; returns AL 1. Called by XiEvent_ResetPending and two Unit10086E90 updates.",
+  "summary": "Clears the two lists at 0x104E2150 and 0x104E2154 and notifies their owners."
+ },
+ "0x1013A100": {
+  "name": "Unit1012AC80_ResetHelpAndTitle",
+  "confidence": "low",
+  "evidence": "Tree source NOT VERIFIED (gate FAIL), so from the DLL's code (disasm.py 0x1013A100): when byte [this+0x18] is set, calls 0x10150CC0 (Unit1012AC80_SetTextFwd) on g_pTkTitle with (0, 3), 0x1013A320 (Unit1012AC80_ForwardToPanel) on g_pTkHelp with (0, 3), 0x10221680 on g_pTkTitle+0xA4 and on g_pTkHelp+0x20, and clears +0x18; always sets +0xC = 0x5A and +0x10 = 0. Called by Unit1012AC80_TickHelp.",
+  "summary": "When its flag is set, sets the title and help panels' text with (0, 3) and refreshes both, then restarts its counter at 90."
+ },
+ "0x1013BF40": {
+  "name": "Unit1012AC80_InitFields1CTo3A7",
+  "confidence": "low",
+  "evidence": "Body: clears +0x1C, +0x20, +0x24..+0x26, +0x2C, +0xAC, +0x12C, +0x1B8, +0x278, +0x33C, +0x340, +0x348, +0x380..+0x382; +0x28 and +0x338 = 0x80808080; nine dwords from +0x383 = 0xFFFFFFFF.",
+  "summary": "Resets the object's fields from +0x1C to +0x3A7 to their initial values."
+ },
+ "0x10140270": {
+  "name": "Unit1012AC80_UpdateEntryStates",
+  "confidence": "low",
+  "evidence": "Body: does nothing unless (char)arg; by Unit100D7420_GetFlagsMasked, Unit10086E90_IsFlag40DB6OrState17, sub_10097B40 and sub_101CC0A0 sets entry 0xC of the layout at this+8 to state 0xB or 5 (Unit100D7420_SetStateByIndex) with message (0xE, 0x29) or (0xE, 0x2A) through sub_1011ADB0, and byte +0x25 to 1 or 0; entry 6 to state 5 when Unit101D7020_IsSingleUncheckedEntry; entry 10 to 5 or 0xB by sub_101E15C0(DAT_106634AC).",
+  "summary": "Sets the states and texts of entries 0xC, 6 and 10 of its layout from the session and Yk state."
+ },
+ "0x1014E020": {
+  "name": "Unit1012AC80_FillTable13CMinusOne",
+  "confidence": "low",
+  "evidence": "Body: 32 times fn_1014E050(p) for p = this+0x13C step 0x20 (each fills 8 dwords with 0xFFFFFFFF); +0x53C = 0. Called by Unit1012AC80_CtorVt10334DC0.",
+  "summary": "Fills the 32 eight-dword blocks at +0x13C with -1 and clears +0x53C."
+ },
+ "0x1014E050": {
+  "name": "Unit1012AC80_Fill8DwordsMinusOne",
+  "confidence": "low",
+  "evidence": "Body: for 8 dwords from arg: *p = 0xFFFFFFFF; returns 0xFFFFFFFF; ret 4.",
+  "summary": "Fills the eight dwords at the argument with -1."
+ },
+ "0x101569A0": {
+  "name": "Unit1012AC80_SetVt103351D8",
+  "confidence": "low",
+  "evidence": "Body: *this = &PTR_FUN_103351D8; returns this. Called by Unit1012AC80_CtorVt10335168 on this+0xC.",
+  "summary": "Sets the object's vtable pointer to 0x103351D8."
+ },
+ "0x10156BE0": {
+  "name": "Unit1012AC80_InitVt103351FC",
+  "confidence": "low",
+  "evidence": "Body: +4 = 0; *this = &PTR_FUN_103351FC; returns this. Called by Unit1012AC80_CtorVt10335174 on this+8.",
+  "summary": "Clears +4 and sets the object's vtable pointer to 0x103351FC."
+ },
+ "0x1015AF60": {
+  "name": "Unit1012AC80_CallMember14CCSlot0",
+  "confidence": "low",
+  "evidence": "Body: if this+0x14CC is set, calls its vtable slot 0 with 1; then Unit100D7420_NoOp().",
+  "summary": "Calls vtable slot 0 with 1 on the object at +0x14CC, if any."
+ },
+ "0x1015E0F0": {
+  "name": "MenuMng_TestNameForSceneState",
+  "confidence": "medium",
+  "evidence": "Body: s = *g_pSceneState; walks the 0x2C-byte table whose first name is 'menu    menuwind' (0x103722D8), _strncmp(name, arg, 0x10); for a match, tests its flag byte by s (0/0x30/0x40: & 8; 0x10: & 1; 0x20/0x50/...: == 0xFF; 0x60: IsEvent, g_pTargetMng+0x68, list flags; 0xD0: & 0x40); returns AL 1 when a matching entry allows it. Called by MenuMng_OpenByName(self_, name).",
+  "summary": "Tests, from the menu name table's flags, whether the named menu passes for the current scene state."
+ },
+ "0x1015E530": {
+  "name": "MenuMng_AttachWindowAndPosition",
+  "confidence": "medium",
+  "evidence": "Body: for an item (arg) not flagged +0x6E with +0x10 == 0xE: Cell_SetFlag104E1C3C; Unit100D7420_MenuReleaseItemCount; w = Menu_LookupWindowByName(item+4 +0x46); if found, Unit100D7420_SetChildOwner, Unit100D7420_ApplyHelpAndTitle, w's slot +0x14, Cursor_ResetPositionToMenu(g_pCursor), and Menu_PositionWindow(Menu_GetDwordAt8C(this, 0/1/2/0x10000000), item) by flags 0x1000/0x4000/0x2000/0x10000000 at +0x34; starts or stops the fade (Unit100D7420_StartFade / StopFade); for flag 0x20000, Unit1012AC80_MenuInitAndFadeItem on items flagged 0x40000. Called by MenuMng_OpenByName and Menu_DrawAll.",
+  "summary": "Finds the window for a menu item, makes the item its owner, shows its help/title, resets the cursor and positions the window by the item's flags."
+ },
+ "0x1015EF60": {
+  "name": "MenuMng_UpdateForSceneState",
+  "confidence": "medium",
+  "evidence": "Called by Menu_DrawAll(&g_menuMng). Body: when *g_pSceneState differs from this+0x64, Menu_ApplyFlagsToItems with a mask per state (0x40: 0x200, 0x50: 0x80, 0x70/0xE0: 8 then fn_10127EA0 and 0x4000, 0xD0: 0x2000, ...), and 0x400/0x200 on leaving/entering 0x40; applies masks on session change (DAT_104DFD98), target kind +0x170 change (0x20/0x40) and IsEvent change (0x800/0x1000); in states 0x60/0xD0 steps Menu_SetStateB4 on commands 0x56/0xF (Unit100D7420_TestCommand36CF60); in 0x60 opens notice dialogs or ChatLog_AddTableMessage7 for commands 0x13/0xB7.",
+  "summary": "Each frame, applies menu update flags to the menu windows when the scene state, session, target kind or event state changes, and handles a few menu commands."
+ },
+ "0x10161990": {
+  "name": "Unit1012AC80_DrawImageAtRightOfRect",
+  "confidence": "low",
+  "evidence": "Body: sub_10162510(this); when (char)+0x31 > 0: img = *(DAT_10578474 + 0x5C + (sub_1014FF70() + 9*(Settings_GetValue(0xB4) != 0)) * 4); Unit100D7420_GetRect(this+8); x = ftol((1 - MenuMng_GetOffsetX(&g_menuMng, 0)) * screen width - 512 - (screen width - +0x32 - 0xA0) + left); sub_1011FB60(img, x, top, 0x80808080, 0, 0) (its callees' callees include Cell_DrawTexturedQuad).",
+  "summary": "Draws an image chosen from the table at 0x10578474 (by 0x1014FF70 and setting 0xB4) at a position computed from the layout's rectangle and the menu offset."
+ },
+ "0x10161D60": {
+  "name": "Unit1012AC80_DrawImageA4AtRightOfRect",
+  "confidence": "low",
+  "evidence": "Body: same as 0x10161990 but the image is *(DAT_10578474 + 0xA4): sub_10162510(this); when (char)+0x31 > 0, Unit100D7420_GetRect(this+8), the same x from MenuMng_GetOffsetX and the screen rect, sub_1011FB60(img, x, top, 0x80808080, 0, 0).",
+  "summary": "Draws the image at 0x10578474+0xA4 at the position 0x10161990 uses."
+ }
+}

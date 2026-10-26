@@ -12,13 +12,13 @@ public:
     static char ** __cdecl GetRuntimeClass_variant1();  // 0x1001B800
     static char ** __cdecl GetRuntimeClass_variant2();  // 0x1002C950
     static void * __thiscall CtorByMode(void * self, undefined4 param_1, int param_2, undefined4 param_3);  // 0x10035A00
-    static void __cdecl CreateMode2(undefined4 param_1, int param_2);  // 0x10035D40
+    static void __cdecl CreateMode2(undefined4 param_1, undefined4 param_2);  // 0x10035D40
     static void __cdecl CreateMode1(undefined4 param_1, int param_2);  // 0x10035D90
     static void __cdecl CreateMode4(undefined4 param_1, int param_2);  // 0x10035DE0
     static char ** __cdecl GetRuntimeClass_variant3();  // 0x10037280
     static char ** __cdecl GetRuntimeClass_variant4();  // 0x1003CC60
     char vf008();  // 0x10042640
-    static undefined4 __thiscall Restart(void * self);  // 0x10053370
+    static void __thiscall Restart(void * self);  // 0x10053370
     static char ** __cdecl GetRuntimeClass_variant5();  // 0x10055550
     static char ** __cdecl GetRuntimeClass_variant6();  // 0x10056930
     static char ** __cdecl GetRuntimeClass_variant7();  // 0x10056950

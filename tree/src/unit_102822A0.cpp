@@ -453,6 +453,20 @@ XI_API void __cdecl SqgxContext_StoreEntryVec(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10283300  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10283300(undefined4 param_1)
+{
+  int iVar1;
+  
+  iVar1 = g_pSqgxContext_as_s32;
+  *(uint32_t *)
+   (g_pSqgxContext_as_s32 + 0x854 + (*(int *)(g_pSqgxContext_as_s32 + 0x78c) + *(int *)(g_pSqgxContext_as_s32 + 0x790) * 8) * 4
+   ) = param_1;
+  dword_109A2720_as_v0 = 1;
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10283330  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxColor(undefined4 * param_1)
@@ -652,6 +666,45 @@ XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
   result = g_pSqgxContext;
   *((float *)g_pSqgxContext + 196) = 2.0 / *((float *)g_pSqgxContext + 173) * *((float *)g_pSqgxContext + 185);
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x10283C10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10283C10(float param_1, float param_2, float param_3)
+{
+  int iVar1;
+  long double fVar2;
+  
+  *(float *)(g_pSqgxContext_as_s32 + 0x2ac) = (float)(long double)param_1;
+  fVar2 = xi_castbits<long double>(fptan((long double)param_1 * (long double)0.008726646192371845245361328125f));
+  *(float *)(g_pSqgxContext_as_s32 + 0x2c4) = (float)fVar2;
+  *(float *)(g_pSqgxContext_as_s32 + 0x2c0) =
+       (float)((long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c4) / (long double)*(float *)(g_pSqgxContext_as_s32 + 0x74c)
+              );
+  *(float *)(g_pSqgxContext_as_s32 + 0x2cc) =
+       (float)SQRT((long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c4) *
+                   (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c4) + (long double)1.0f);
+  *(float *)(g_pSqgxContext_as_s32 + 0x2c8) =
+       (float)SQRT((long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c0) *
+                   (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c0) + (long double)1.0f);
+  fVar2 = (long double)*(float *)(g_pSqgxContext_as_s32 + 0x750) / (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2c4);
+  *(float *)(g_pSqgxContext_as_s32 + 0x2ec) = (float)(fVar2 * (long double)*(float *)(g_pSqgxContext_as_s32 + 0x74c));
+  *(float *)(g_pSqgxContext_as_s32 + 0x300) = (float)fVar2;
+  *(float *)(g_pSqgxContext_as_s32 + 0x2b8) = (float)(long double)param_3;
+  *(float *)(g_pSqgxContext_as_s32 + 700) = (float)(long double)param_2;
+  fVar2 = (long double)1.0f / ((long double)param_3 - (long double)param_2);
+  *(float *)(g_pSqgxContext_as_s32 + 0x314) = (float)-(((long double)param_2 + (long double)param_3) * fVar2);
+  *(float *)(g_pSqgxContext_as_s32 + 0x324) =
+       (float)(fVar2 * (long double)param_2 * (long double)param_3 * (long double)(-2.0f));
+  *(float *)(g_pSqgxContext_as_s32 + 0x30c) =
+       (float)(((long double)2.0f / (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2b0)) *
+              (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2e0));
+  iVar1 = g_pSqgxContext_as_s32;
+  *(float *)(g_pSqgxContext_as_s32 + 0x310) =
+       (float)(((long double)2.0f / (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2b4)) *
+              (long double)*(float *)(g_pSqgxContext_as_s32 + 0x2e4));
+  g_sqgxViewportDirty_as_v0 = 1;
+  return iVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10283D60  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)

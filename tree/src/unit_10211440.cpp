@@ -76,6 +76,20 @@ XI_API void * __thiscall Unit10211440_CtorVt1033BD58(void * self_)
   return self_;
 }
 
+// FUNCTION: FFXIMAIN 0x1021B330  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1021B330(void * self_)
+{
+  *(uint8_t *)((int)self_ + 0xc) = 0;
+  *(uint16_t *)((int)self_ + 2) = 0;
+  *(uint16_t *)self_ = 0;
+  *(uint16_t *)((int)self_ + 6) = 0;
+  *(uint16_t *)((int)self_ + 4) = 0;
+  *(uint16_t *)((int)self_ + 10) = 0;
+  *(uint16_t *)((int)self_ + 8) = 0;
+  return self_;
+}
+
 // FUNCTION: FFXIMAIN 0x1021BB90  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10211440_Create(void)

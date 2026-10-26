@@ -17,6 +17,9 @@ PROJ=${PROJ:?set PROJ to the Ghidra project directory}
 ADDRS=$(realpath "${1:?addresses file}"); OUT=$(realpath -m "${2:?output jsonl}")
 W=$(mktemp -d)
 python3 "$H/conv_facts.py" "$W/conv.txt" >/dev/null
+# XI_RETW: a file of addresses to export returning a 4-byte value in EAX where the prototype returns nothing
+# (GfxExport.java `retw`): the translation hands back what the original leaves in EAX, which the gate compares
+if [ -n "${XI_RETW:-}" ]; then sed -e 's/^\(0x[0-9A-Fa-f]*\).*/\1 retw 4/' "$XI_RETW" >> "$W/conv.txt"; fi
 python3 - "$ROOT/tree/placement.json" "$W/names.json" <<'EOF'
 import json, sys
 p = json.load(open(sys.argv[1]))

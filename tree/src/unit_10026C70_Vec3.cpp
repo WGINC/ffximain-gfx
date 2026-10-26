@@ -304,6 +304,29 @@ XI_API void __cdecl Unit10026C70_Nop(void)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100279B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Mat4_SetIdentity(void * self_)
+{
+  *(uint32_t *)((int)self_ + 4) = 0;
+  *(uint32_t *)((int)self_ + 8) = 0;
+  *(uint32_t *)((int)self_ + 0xc) = 0;
+  *(uint32_t *)((int)self_ + 0x10) = 0;
+  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(uint32_t *)((int)self_ + 0x1c) = 0;
+  *(uint32_t *)((int)self_ + 0x20) = 0;
+  *(uint32_t *)((int)self_ + 0x24) = 0;
+  *(uint32_t *)((int)self_ + 0x2c) = 0;
+  *(uint32_t *)((int)self_ + 0x30) = 0;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x38) = 0;
+  *(uint32_t *)self_ = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x14) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x28) = 0x3f800000;
+  *(uint32_t *)((int)self_ + 0x3c) = 0x3f800000;
+  return 0x3f800000;
+}
+
 // FUNCTION: FFXIMAIN 0x100279F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Mat4_Copy(void * self_, undefined4 * param_1)
@@ -751,19 +774,17 @@ XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10028640  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;
-  uint64_t uVar2;
   
   if ((DAT_10456fa8 & 1) == 0) {
     DAT_10456fa8 = DAT_10456fa8 | 1;
     DAT_10456fac = &CYyObject_vtbl_ambiguous0_as_v0;
     orig::_atexit_v1(&DAT_100286a0);
   }
-  uVar2 = orig::Mem_AllocFromArea_v1(param_1 + 4,param_2);
-  puVar1 = (undefined4 *)uVar2;
+  puVar1 = orig::Mem_AllocFromArea_v2(param_1 + 4,param_2,0);
   if (puVar1 == (undefined4 *)0x0) {
     return (undefined4 *)0x0;
   }
@@ -772,24 +793,18 @@ XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x100286B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API uint64_t __cdecl Mem_AllocWithFallback(int param_1, int param_2)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 * __cdecl Mem_AllocWithFallback(int param_1, int param_2)
 {
-  uint32_t uVar1;
-  uint64_t uVar2;
-  uint64_t uVar3;
+  undefined4 *puVar1;
   
-  uVar2 = orig::Mem_AllocFromArea_v1(param_1,param_2);
-  if (((int)uVar2 == 0) && ((param_2 == 2 || (param_2 == 3)))) {
-    uVar2 = orig::Mem_AllocFromArea_v1(param_1,0);
-    uVar1 = (uint32_t)((uint64_t)uVar2 >> 0x20);
-    if ((int)uVar2 == 0) {
-      uVar3 = orig::_exit_0_v1(0x7d2);
-      uVar1 = (uint32_t)((uint64_t)uVar3 >> 0x20);
-    }
-    uVar2 = ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)((int)uVar2)));
+  puVar1 = orig::Mem_AllocFromArea_v2(param_1,param_2,0);
+  if ((puVar1 == (undefined4 *)0x0) &&
+     (((param_2 == 2 || (param_2 == 3)) &&
+      (puVar1 = orig::Mem_AllocFromArea_v2(param_1,0,0), puVar1 == (undefined4 *)0x0)))) {
+    orig::_exit_0_v2(0x7d2);
   }
-  return uVar2;
+  return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10028700  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)

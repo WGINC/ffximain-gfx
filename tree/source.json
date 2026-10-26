@@ -37,9 +37,21 @@
    "sha1": "7dcde8847b2dd34181573271973f8a80bc779d9c",
    "raw_gate": "verification/gate_raw_frameset15.jsonl",
    "_doc": "the frame set's functions not in the tree after fs14, with the tree's 51 not PASS, decompiled by GfxExport.java after the 26 Oct fact round (call_pushes, sp_solve without the noreturn rule), with their raw gate"
+  },
+  {
+   "path": "data/exports/ghidra_frameset16.jsonl",
+   "sha1": "ec9469b35c471448505e30004c043ae13283f591",
+   "raw_gate": "verification/gate_raw_frameset16.jsonl",
+   "_doc": "fs15's 155 records UNRESOLVED on EAX past a declared void, exported with a 4-byte EAX return (export.sh XI_RETW, GfxExport retw): the translation hands back what the original leaves in EAX and the gate compares all of it"
+  },
+  {
+   "path": "data/exports/ghidra_frameset17.jsonl",
+   "sha1": "cd67782dc40bdf20ca48462b89a2bd576d00e994",
+   "raw_gate": "verification/gate_raw_frameset17.jsonl",
+   "_doc": "the functions UNRESOLVED on pushed slots (P17) in the tree, fs15 and fs16, exported with conv_facts' 'spops N pushed' (a callee of undecided convention takes the bytes every settled caller pushes), and 0x1026E1F0 with retw"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl",
  "raw_regate": "verification/gate_raw_regate.jsonl",
- "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw"
+ "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw; second round: the older records of the 32 tree functions fs17 passes raw"
 }

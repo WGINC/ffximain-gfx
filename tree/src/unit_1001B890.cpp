@@ -272,3 +272,24 @@ switchD_1001d818_caseD_1:
   *(int *)((int)pvVar2 + 4) = *(int *)((int)pvVar2 + 4) + 1;
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x1001DBD0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1001DBD0(void * self_)
+{
+  void *this_00;
+  char xi_frame[16] __attribute__((aligned(4)));
+  uint8_t  (&auStack_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
+  
+  orig::Util_Copy16Bytes_v1(auStack_10,(int)self_ + 0x31);
+  this_00 = (void *)orig::TexMgr_FindByName_v1(g_pTextureMng_as_v2,(int)auStack_10,(int)self_,0);
+  if (this_00 != (void *)0x0) {
+    if (*(int *)((int)this_00 + 4) != 0) {
+      *(int *)((int)this_00 + 4) = *(int *)((int)this_00 + 4) + -1;
+    }
+    if (*(int *)((int)this_00 + 4) == 0) {
+      this_00 = (void *)orig::TexObj_Release(this_00);
+    }
+  }
+  return this_00;
+}

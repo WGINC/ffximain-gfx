@@ -38,3 +38,24 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
   _DAT_1048a374 = 0;
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x10081AE0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10081AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+{
+  int iVar1;
+  
+  if ((*(uint8_t *)((int)self_ + 0x88) & 2) == 0) {
+    if (g_pActorDrawListHead_as_v2 != (void *)0x0) {
+      *(void **)((int)g_pActorDrawListHead_as_v2 + 0x58) = self_;
+    }
+    *(void **)((int)self_ + 0x54) = g_pActorDrawListHead_as_v2;
+    *(uint32_t *)((int)self_ + 0x58) = 0;
+    g_pActorDrawListHead_as_v2 = self_;
+    iVar1 = orig::Actor_CountAll();
+    *(int *)((int)self_ + 0x74) = iVar1;
+    xi_eax = *(uint32_t *)((int)self_ + 0x88) | 2;
+    *(uint32_t *)((int)self_ + 0x88) = xi_eax;
+  }
+  return xi_eax;
+}

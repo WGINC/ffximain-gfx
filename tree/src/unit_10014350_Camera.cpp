@@ -14,9 +14,9 @@ XI_API uint8_t __thiscall fn_10014350(void * self_)
   }
   DAT_104570e0_as_v0 = 0;
   orig::Unit1018BA60_LoadAllAndTimestamp_v1(xi_eax);
-  if (DAT_1045690c_as_v1 != (int *)0x0) {
-    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1045690c_as_v1 + 0x18))))((void *)(DAT_1045690c_as_v1),1);
-    DAT_1045690c_as_v1 = (int *)0x0;
+  if (DAT_1045690c_as_v0 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1045690c_as_v0 + 0x18))))((void *)(DAT_1045690c_as_v0),1);
+    DAT_1045690c_as_v0 = (int *)0x0;
   }
   return 1;
 }
@@ -156,9 +156,9 @@ XI_API undefined4 __thiscall Unit10014350_StepMenuOkThenRelease(void * self_)
         uVar4 = orig::thunk_sub_10028AA0_v3(pvVar2);
         g_C_106631D4_as_v1 = (void *)0x0;
       }
-      if (DAT_1045690c_as_v1 != (int *)0x0) {
-        uVar4 = ((int (__thiscall *)(void *, XI_ANY))(*(code **)(*DAT_1045690c_as_v1 + 0x18)))((void *)(DAT_1045690c_as_v1), 1);
-        DAT_1045690c_as_v1 = (int *)0x0;
+      if (DAT_1045690c_as_v0 != (int *)0x0) {
+        uVar4 = ((int (__thiscall *)(void *, XI_ANY))(*(code **)(*DAT_1045690c_as_v0 + 0x18)))((void *)(DAT_1045690c_as_v0), 1);
+        DAT_1045690c_as_v0 = (int *)0x0;
       }
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
     }
@@ -991,6 +991,19 @@ XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefi
   *(uint32_t *)((int)self_ + 0x608) = param_2;
   *(uint32_t *)((int)self_ + 0x60c) = param_3;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x100170D0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall GammaRamp_GetRGB(void * self_, undefined4 * param_1, undefined4 * param_2, undefined4 * param_3)
+{
+  uint32_t uVar1;
+  
+  *param_1 = *(uint32_t *)((int)self_ + 0x604);
+  *param_2 = *(uint32_t *)((int)self_ + 0x608);
+  uVar1 = *(uint32_t *)((int)self_ + 0x60c);
+  *param_3 = uVar1;
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10017100  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)

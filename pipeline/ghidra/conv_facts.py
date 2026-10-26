@@ -27,7 +27,10 @@ Rules (nothing else is decided):
   eax_inputs.json lists it (its entry EAX is read, or handed back to a caller that reads it: caller_reads.py) and
   reg_keeps.json does not say it leaves all of EAX untouched (that case is the `keeps` model below)
                           -> EAX a register input too
-  ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
+  ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why);
+                          the stack bytes alone where known: `spops N ret` (its `ret N`), `spops N reads` (pops 0,
+                          the slots its code reads), `spops N pushed` (pops 0, no exact read set, the bytes every
+                          settled caller pushes: data/call_pushes.json, as for `cargs` above)
 Variadic: `0xADDR varargs N` (N fixed parameters, the IDB's declared prototype; only where ret N pops 0, as a
 caller-cleanup variadic call must), so Ghidra reads each call's own pushes past the fixed ones.
 Kept registers: `0xADDR keeps eax,edx` for every function reg_keeps.json lists (a caller reading the register
@@ -193,6 +196,9 @@ def main(out):
             if r or not why.startswith(('ECX use not established', 'EDX use not established')): continue
             if pu[k]: f.write('%s spops %d ret\n' % (k, pu[k]))
             elif k in ca: f.write('%s spops %d reads\n' % (k, 4 * ca[k]))
+            # no exact read set, but every settled caller pushes the same bytes (call_pushes.py): the slots the
+            # callers pass, as `cargs (pushed)` above for a decided __cdecl one
+            elif cp.get(k) and k not in va: f.write('%s spops %d pushed\n' % (k, cp[k])); n['spops pushed'] = n.get('spops pushed', 0) + 1; continue
             else: continue
             n['spops'] = n.get('spops', 0) + 1
         # no convention decided, the value left in ST0 on return known (fpret.json `float`): the return alone

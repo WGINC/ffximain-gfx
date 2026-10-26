@@ -58,6 +58,155 @@ XI_API void __cdecl SqsdGeneric_Init(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10290B60  (unit sqsdGeneric: between 0x10290A10 (asserts sqsdGeneric.c) and 0x10290FC0 (name sqsdGeneric_BakeOntoShape), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10290B60(int param_1, int * param_2)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  uint32_t uVar5;
+  uint32_t uVar6;
+  uint8_t bVar7;
+  uint32_t local_10;
+  
+  iVar3 = param_1;
+  uVar5 = 0;
+  if (*(int *)(param_1 + 0x8c) != 0) {
+    if ((*(int *)(param_1 + 0x88) != 0) &&
+       (iVar4 = orig::Unit102A1F20_TestSeparationHalf(*param_2), iVar4 == 2)) {
+      orig::Sqgx_ResetCounter();
+      return;
+    }
+    local_10 = 0;
+    uVar6 = 0;
+    if ((*(uint32_t *)(param_1 + 0x88) & 2) != 0) {
+      local_10 = 0x4000;
+      uVar6 = 0x4000;
+    }
+    if ((*(uint32_t *)(param_1 + 0x88) & 4) != 0) {
+      uVar6 = uVar6 | 0x8000;
+      local_10 = uVar6;
+    }
+    iVar4 = *(int *)*param_2;
+    if (iVar4 == 0xa000a) {
+      uVar5 = 0x80000;
+    }
+    else if ((iVar4 == 0xa0009) && (((int *)*param_2)[0x14] != 0)) {
+      uVar5 = 0x200000;
+    }
+    orig::sqgxTextureDecal_v1(0);
+    orig::sqgxTextureClamp_v1(*(uint32_t *)(param_1 + 0x94));
+    orig::sqgxPassAdd_v1(*(int *)(param_1 + 0x90));
+    iVar4 = *(int *)(param_1 + 0x90);
+    orig::sqgxTextureClamp_v1(*(uint32_t *)(param_1 + 0x94));
+    orig::Unit102A34D0_ApplyLighting(param_1 + 0x14);
+    bVar7 = NAN((long double)*(float *)(param_1 + 0x44)) || NAN((long double)0.999000012874603271484375f);
+    if ((bVar7 || (long double)*(float *)(param_1 + 0x44) < (long double)0.999000012874603271484375f) != bVar7) {
+      uVar6 = uVar5 | local_10;
+      if (*(int *)(param_1 + 0x98) != 0) {
+        uVar6 = uVar6 | 2;
+      }
+      if (*(int *)(param_1 + 0x9c) != 0) {
+        uVar6 = uVar6 | 0x2000;
+      }
+      if (*(int *)(param_1 + 0x4c) == 0) {
+        orig::sqgxTextureSet_v1(-1);
+      }
+      else {
+        orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x4c) + 0x14));
+        orig::sqgxTextureClut(*(int *)(*(int *)(param_1 + 0x4c) + 0x18));
+        uVar6 = uVar6 | 4;
+        iVar1 = *(int *)(*(int *)(param_1 + 0x4c) + 0x1c);
+        iVar2 = *(int *)(iVar1 + 0x24);
+        if ((((iVar2 == 2) || (iVar2 == 4)) || (*(int *)(iVar1 + 0x30) == 4)) &&
+           ((*(uint8_t *)(param_1 + 0xa0) & 1) != 0)) {
+          orig::sqgxBlendTrsp_v1();
+        }
+      }
+      if (*(int *)(param_1 + 0xa8) != 0) {
+        uVar6 = uVar6 | 1;
+      }
+      if (((long double)*(float *)(param_1 + 0x44) > (long double)0.0f) &&
+         ((*(uint8_t *)(param_1 + 0xa0) & 1) != 0)) {
+        orig::sqgxBlendLin_v1((float)((long double)1.0f - (long double)*(float *)(param_1 + 0x44)));
+      }
+      orig::sqgxShader_v2(uVar6,0);
+      orig::sqDrawableDraw_v1(*param_2);
+      uVar6 = local_10;
+    }
+    if (*(int *)(param_1 + 100) != 0) {
+      orig::sqgxPassAdd_v1(1);
+      orig::Sqgx_SetParam9cc(*(float *)(param_1 + 0x7c));
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 100) + 0x14));
+      orig::sqgxTextureClut(*(int *)(*(int *)(param_1 + 100) + 0x18));
+      if ((*(uint8_t *)(param_1 + 0xa0) & 0x10) == 0) {
+        bVar7 = NAN((long double)*(float *)(param_1 + 0x44)) || NAN((long double)0.999000012874603271484375f);
+        if ((bVar7 || (long double)*(float *)(param_1 + 0x44) < (long double)0.999000012874603271484375f) != bVar7) {
+          orig::sqgxBlendAdd(*(uint32_t *)(param_1 + 0x78));
+        }
+      }
+      else {
+        orig::sqgxBlendAddDestAlpha();
+      }
+      orig::sqgxShader_v2(uVar5 | uVar6 | 0x40,0);
+      orig::sqDrawableDraw_v1(*param_2);
+      iVar4 = iVar4 + 1;
+    }
+    param_1 = iVar4;
+    if (*(int *)(iVar3 + 0x50) != 0) {
+      orig::sqgxPassAdd_v1(1);
+      param_1 = param_1 + 1;
+      if ((*(uint8_t *)(iVar3 + 0xa0) & 4) == 0) {
+        orig::sqgxBlendAdd(*(uint32_t *)(iVar3 + 0x6c));
+      }
+      else {
+        orig::sqgxBlendAddDestAlpha();
+      }
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(iVar3 + 0x50) + 0x14));
+      orig::sqgxTextureClut(*(int *)(*(int *)(iVar3 + 0x50) + 0x18));
+      orig::sqgxShader_v2(uVar5 | uVar6 | 8,0);
+      orig::sqgxTextureDecal_v1(1);
+      orig::sqgxTextureClamp_v1(0);
+      orig::sqDrawableDraw_v1(*param_2);
+    }
+    if (*(int *)(iVar3 + 0x5c) != 0) {
+      orig::sqgxPassAdd_v1(1);
+      param_1 = param_1 + 1;
+      orig::sqgxBlendOff_v1();
+      orig::sqgxTextureDecal_v1(1);
+      orig::sqgxShader_v2(uVar5 | uVar6 | 4,0);
+      orig::sqgxFBMask_v1(0xff,0xff,0xff,0);
+      orig::sqgxTextureClamp_v1(*(uint32_t *)(iVar3 + 0x94));
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(iVar3 + 0x5c) + 0x14));
+      orig::sqgxTextureClut(*(int *)(*(int *)(iVar3 + 0x5c) + 0x18));
+      orig::sqDrawableDraw_v1(*param_2);
+      orig::sqgxFBMask_v1(0,0,0,0);
+    }
+    if (*(int *)(iVar3 + 0x58) != 0) {
+      orig::sqgxZMask_v1(0);
+      orig::SqgxContext_SetInverseFactor(*(float *)(iVar3 + 0x80));
+      orig::sqgxPassAdd_v1(1);
+      param_1 = param_1 + 1;
+      if (((*(uint8_t *)(iVar3 + 0xa0) & 2) == 0) && (*(int *)(iVar3 + 0x5c) == 0)) {
+        orig::Unit102822A0_SetMultiplyAdd(*(uint32_t *)(iVar3 + 0x74));
+      }
+      else {
+        orig::sqgxBlendAddDestAlpha();
+      }
+      orig::sqgxTextureSet_v1(*(int *)(*(int *)(iVar3 + 0x58) + 0x14));
+      orig::sqgxTextureClut(*(int *)(*(int *)(iVar3 + 0x58) + 0x18));
+      orig::sqgxShader_v2(uVar5 | uVar6 | 0x10,0);
+      orig::sqDrawableDraw_v1(*param_2);
+      orig::sqgxZMask_v1(1);
+    }
+    orig::sqgxBlendOff_v1();
+    orig::sqgxPassAdd_v1(-param_1);
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10290FC0  (unit sqsdGeneric: name sqsdGeneric_BakeOntoShape)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqsdGeneric_BakeOntoShape(int param_1, int * param_2)

@@ -2,6 +2,54 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10019A50  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5)
+{
+  uint8_t bVar1;
+  short sVar2;
+  int iVar3;
+  long double fVar4;
+  int *piVar5;
+  uint32_t uVar6;
+  int *piVar7;
+  uint8_t bVar8;
+  uint8_t bVar9;
+  long double fVar10;
+  
+  fVar10 = (long double)param_4;
+  fVar4 = (long double)xi_k4(0x38D1B717ull);
+  bVar9 = NAN(fVar10) || NAN(fVar4);
+  bVar8 = bVar9 || fVar10 < fVar4;
+  sVar2 = *(short *)((int)self_ + 0x32);
+  piVar5 = (int *)((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar8 << 8 | (uint16_t)bVar9 << 10 |
+                           (uint16_t)(bVar9 || fVar10 == fVar4) << 0xe)));
+  if (bVar8 == bVar9) {
+    piVar7 = (int *)0x0;
+    piVar5 = (int *)((int)self_ + 0x3a);
+    if ((int *)(int)sVar2 != (int *)0x0) {
+      do {
+        iVar3 = *piVar5;
+        bVar1 = *(uint8_t *)(DAT_1045f028_as_s32 + iVar3);
+        if (((char)bVar1 < '\0') && ((bVar1 & 0x40) != 0x40)) {
+          if ((bVar1 & 0x3f) == 0) {
+            uVar6 = orig::SampleAnimationTrack_ToBuffer(self_,param_2,piVar7,iVar3,param_3,param_5);
+            if ((char)uVar6 != '\0') {
+              *(uint8_t *)(DAT_1045f028_as_s32 + iVar3) = *(uint8_t *)(DAT_1045f028_as_s32 + iVar3) | 1;
+            }
+          }
+          else if ((bVar1 & 0x3f) == 1) {
+            orig::SampleAnimationTrack_Live(self_,param_2,piVar7,iVar3,param_3,param_4,param_5);
+          }
+        }
+        piVar7 = (int *)((int)piVar7 + 1);
+        piVar5 = piVar5 + 0x15;
+      } while (piVar7 < (int *)(int)sVar2);
+    }
+  }
+  return piVar5;
+}
+
 // FUNCTION: FFXIMAIN 0x10019B30  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5)

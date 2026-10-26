@@ -23,6 +23,76 @@ undefined4 __thiscall CXiAtelActor::IsAtelType83(void * self)
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x10085C90  (unit CXiAtelActor: name CXiAtelActor_UnlinkCasterAttachments)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkCasterAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+{
+  int iVar1;
+  int iVar2;
+  uint32_t uVar3;
+  int iVar4;
+  
+  if (param_2 != 0) {
+    xi_eax = 0;
+    iVar1 = *(int *)((int)self_ + 0x68);
+    iVar4 = 0;
+    if (*(int *)((int)self_ + 0x68) != 0) {
+      while (iVar2 = iVar1, iVar2 != param_2) {
+        iVar1 = *(int *)(iVar2 + 0x2c);
+        iVar4 = iVar2;
+        if (*(int *)(iVar2 + 0x2c) == 0) {
+          return 0;
+        }
+      }
+      if (iVar4 != 0) {
+        *(uint32_t *)(iVar4 + 0x2c) = *(uint32_t *)(iVar2 + 0x2c);
+        *(uint32_t *)(param_2 + 0x2c) = 0;
+        uVar3 = orig::CMoAttachments_ClearCaster_v2((void *)param_2,0);
+        return uVar3;
+      }
+      *(uint32_t *)((int)self_ + 0x68) = *(uint32_t *)(iVar2 + 0x2c);
+      *(uint32_t *)(param_2 + 0x2c) = 0;
+      xi_eax = orig::CMoAttachments_ClearCaster_v2((void *)param_2,0);
+    }
+  }
+  return xi_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x10085CF0  (unit CXiAtelActor: name CXiAtelActor_UnlinkTargetAttachments)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkTargetAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+{
+  int iVar1;
+  int iVar2;
+  uint32_t uVar3;
+  int iVar4;
+  
+  if (param_2 != 0) {
+    xi_eax = 0;
+    iVar1 = *(int *)((int)self_ + 0x6c);
+    iVar4 = 0;
+    if (*(int *)((int)self_ + 0x6c) != 0) {
+      while (iVar2 = iVar1, iVar2 != param_2) {
+        iVar1 = *(int *)(iVar2 + 0x30);
+        iVar4 = iVar2;
+        if (*(int *)(iVar2 + 0x30) == 0) {
+          return 0;
+        }
+      }
+      if (iVar4 != 0) {
+        *(uint32_t *)(iVar4 + 0x30) = *(uint32_t *)(iVar2 + 0x30);
+        *(uint32_t *)(param_2 + 0x30) = 0;
+        uVar3 = orig::CMoAttachments_ClearTarget_v2((void *)param_2,0);
+        return uVar3;
+      }
+      *(uint32_t *)((int)self_ + 0x6c) = *(uint32_t *)(iVar2 + 0x30);
+      *(uint32_t *)(param_2 + 0x30) = 0;
+      xi_eax = orig::CMoAttachments_ClearTarget_v2((void *)param_2,0);
+    }
+  }
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5)

@@ -122,6 +122,7 @@ namespace orig_void {
 #include "CXi471011C8_VT_1032B3B8.hpp"
 #include "CXi471011C8_VT_1032B478.hpp"
 #include "CXiActor.hpp"
+#include "CXiActorDraw.hpp"
 #include "CXiActorNameDraw.hpp"
 #include "CXiAtelActor.hpp"
 #include "CXiCollisionActor.hpp"

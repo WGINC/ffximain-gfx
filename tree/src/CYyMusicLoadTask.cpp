@@ -2,22 +2,47 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100378B0  (unit CYyMusicLoadTask: between 0x100377A0 (stores CYyMusicLoadTask vtable (ctor/dtor)) and 0x10037960 (stores CYyMusicLoadTask vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100378B0(int param_1)
+{
+  uint32_t uVar1;
+  int64_t lVar2;
+  
+  if (DAT_10463948 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
+    DAT_10463948 = (int *)0x0;
+  }
+  if ((DAT_10463944 != param_1) && (DAT_1046393c != 0)) {
+    orig::LobbyThread_SendCmd9(0xffffffff,0);
+  }
+  DAT_10463944 = param_1;
+  lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
+  uVar1 = orig::Music_LoadTrackIfRunning(param_1,(int)lVar2,(int)lVar2);
+  if (DAT_1046393c != 0) {
+    uVar1 = 0;
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)_DAT_103517f8 * (long double)_DAT_103517f4 * (long double)127.0f);
+    uVar1 = orig::LobbyThread_SendCmd8(0xffffffff,(uint32_t)lVar2,uVar1);
+  }
+  DAT_10463940 = param_1;
+  DAT_10463909 = 1;
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10037960  (unit CYyMusicLoadTask: stores CYyMusicLoadTask vtable (ctor/dtor))
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
 {
   int *self_;
-  uint64_t uVar1;
   
   if (DAT_10463944 != param_1) {
     DAT_10463944 = param_1;
-    uVar1 = orig::Mem_AllocFromArea_v1(0x5c,4);
-    self_ = (int *)uVar1;
+    self_ =(int*)(orig::Mem_AllocFromArea_v2(0x5c,4,0));
     orig::CMoTask_ResetFields_v1(self_);
     g_resourcesDirty_as_v0 = 1;
     if (self_ != (int *)0x0) {
-      orig::CMoTask_Constructor_v1(self_);
-      *self_ = (int)&PTR_CYyMusicLoadTask_GetRuntimeClass_1032a990;
+      orig::CMoTask_Constructor_v2(self_);
+      *self_ = (int)&PTR_LAB_1032a990;
       if (DAT_10463948 != (int *)0x0) {
         ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463948 + 0x18))))((void *)(DAT_10463948),1);
       }

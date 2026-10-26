@@ -322,6 +322,43 @@ void __stdcall CDx::SetHardwareCursor(HCURSOR param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10009780  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CDx::ShowCursor(void * self, undefined4 param_1)
+{
+  uint32_t uVar1;
+  HCURSOR pHVar2;
+  
+  if (g_cfgHardwareMouse == 0) {
+    uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_windowMode >> 8)) << 8) | (uint8_t)((uint8_t)param_1)));
+    if (g_windowMode == 3) {
+      if ((uint8_t)param_1 == 0) {
+                    /* WARNING: Could not recover jumptable at 0x100097cd. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+        pHVar2 = SetCursor((HCURSOR)0x0);
+        return pHVar2;
+      }
+    }
+    else if ((uint8_t)param_1 != 0) {
+                    /* WARNING: Could not recover jumptable at 0x100097df. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      pHVar2 = SetCursor((HCURSOR)0x0);
+      return pHVar2;
+    }
+  }
+  else {
+    uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0x30))
+                      ))(*(int **)((int)self + 0xc),(uint32_t)(uint8_t)param_1);
+    if ((uint8_t)param_1 == 0) {
+                    /* WARNING: Could not recover jumptable at 0x100097ad. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      pHVar2 = SetCursor((HCURSOR)0x0);
+      return pHVar2;
+    }
+  }
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
 // GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 HCURSOR CDx::SetCursorShape(int a2, int a3)
@@ -380,6 +417,24 @@ undefined4 __thiscall CDx::CreateDeviceObjectOnce(void * self, undefined4 param_
     return 0;
   }
   return 1;
+}
+
+// FUNCTION: FFXIMAIN 0x100098E0  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
+// GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100098E0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
+{
+  int a2;
+  uint32_t uVar1;
+  
+  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_4)));
+  if ((char)param_4 == '\x01') {
+    uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd4))))(*(int **)((int)self_ + 0xc),param_3);
+  }
+  a2 = *param_3;
+  if ((a2 != 0) && (a2 != -1)) {
+    uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd8))))(*(int **)((int)self_ + 0xc),a2);
+  }
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10009D20  (placed by IDB name; static (takes no this))
@@ -1061,6 +1116,21 @@ int CDx::GetTransformCached(int a2, void *a3)
     }
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1000BE10  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1000BE10(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+{
+  if (param_2 == 0) {
+    *(uint32_t *)((int)self_ + 0x9fc) = 0;
+    return xi_eax;
+  }
+  if (*(int *)((int)self_ + 0x9fc) != param_2) {
+    xi_eax = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0x130))))(*(int **)((int)self_ + 0xc),param_2);
+    *(int *)((int)self_ + 0x9fc) = param_2;
+  }
+  return xi_eax;
 }
 
 // FUNCTION: FFXIMAIN 0x1000BE50  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)

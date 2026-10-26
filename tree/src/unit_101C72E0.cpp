@@ -2,6 +2,25 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x101C7C50  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_101C7C50(void * self_)
+{
+  uint16_t *puVar1;
+  int iVar2;
+  
+  iVar2 = 0;
+  puVar1 = (uint16_t *)((int)self_ + 0x10);
+  do {
+    *(uint32_t *)((int)self_ + iVar2 * 4) = 0;
+    *(uint32_t *)((int)self_ + iVar2 * 4 + 0x18) = 0;
+    *puVar1 = 0xffff;
+    iVar2 = iVar2 + 1;
+    puVar1 = puVar1 + 1;
+  } while (iVar2 < 4);
+  return self_;
+}
+
 // FUNCTION: FFXIMAIN 0x101C7F80  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit101C72E0_Construct(void * self_)
@@ -1271,7 +1290,7 @@ XI_API undefined4 __cdecl Unit101C72E0_CC4F0ActorTest400(undefined4 param_1, und
   uint32_t uVar2;
   uint64_t uVar3;
   
-  uVar3 = orig::FUN_101cc4f0();
+  uVar3 = orig::fn_101CC4F0();
   uVar2 = (uint32_t)uVar3;
   if (((uVar2 != 0) && ((*(uint32_t *)(uVar2 + 0x1d0) & 0x400) != 0)) &&
      (((char)param_1 == '\0' || ((*(uint8_t *)(uVar2 + 0x1ff) < 8 || (9 < *(uint8_t *)(uVar2 + 0x1ff))))))
@@ -1306,7 +1325,7 @@ XI_API undefined4 __cdecl Unit101C72E0_GetCC4F0ActorByIndexAt1FA(void)
   uint32_t uVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_101cc4f0();
+  uVar2 = orig::fn_101CC4F0();
   uVar1 = orig::Acter_GetByIndexAt1FA((int)uVar2);
   return uVar1;
 }
@@ -1328,7 +1347,7 @@ XI_API undefined4 __cdecl Unit101C72E0_GetCC4F0ActorAt2A0(void)
   uint32_t uVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_101cc4f0();
+  uVar2 = orig::fn_101CC4F0();
   uVar1 = orig::Unit101C72E0_GetActorAt2A0((int)uVar2);
   return uVar1;
 }

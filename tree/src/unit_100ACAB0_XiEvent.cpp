@@ -95,6 +95,194 @@ XI_API void __cdecl XiEvent_ResetPending(void)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100AE3F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100AE3F0(void)
+{
+  char cVar1;
+  int iVar2;
+  uint32_t uVar3;
+  int iVar4;
+  void *pvVar5;
+  uint32_t uVar6;
+  int *piVar7;
+  long double fVar8;
+  char xi_frame[40] __attribute__((aligned(4)));
+  float * &pfVar9 = *reinterpret_cast<float * *>(xi_frame + 0);
+  float  &fStack_18 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &fStack_14 = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &fStack_10 = *reinterpret_cast<float  *>(xi_frame + 24);
+  float  &fStack_c = *reinterpret_cast<float  *>(xi_frame + 28);
+  float  &fStack_8 = *reinterpret_cast<float  *>(xi_frame + 32);
+  uint32_t  &uStack_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  
+  orig::Unit1018BA60_FileMngCall101C1B10(g_pFileMng_as_v0);
+  orig::Unit10086E90_TargetClearAndSetFlag53();
+  orig::XiEvent_ResetPending();
+  piVar7 =(int*)(&ActerBuffPtr_as_v0);
+  do {
+    iVar4 = *piVar7;
+    if (iVar4 != 0) {
+      iVar2 = *(int *)(iVar4 + 0x138);
+      uVar6 = *(uint32_t *)(iVar4 + 0x13c);
+      if (iVar2 < 0) {
+        *(uint32_t *)(iVar4 + 0x16c) = *(uint32_t *)(iVar4 + 0x174);
+        *(uint32_t *)(*piVar7 + 0x170) = *(uint32_t *)(iVar4 + 0x174);
+        if ((uVar6 & 1) != 0) goto LAB_100ae452;
+      }
+      else {
+LAB_100ae452:
+        if ((short)(DAT_104808fc_as_v1 | DAT_1047fb40_as_v2) < 0) {
+          iVar4 = *piVar7;
+          fStack_8 = *(float *)(iVar4 + 0x4c);
+          fStack_10 = *(float *)(iVar4 + 0x44);
+          fVar8 = (long double)*(float *)(iVar4 + 0x48);
+          fStack_c = (float)fVar8;
+          uVar6 = *(uint32_t *)(iVar4 + 0x78) & 0xff000000;
+          if (uVar6 == 0) {
+            uVar3 = orig::ZoneMap_QueryBoxHeightBand
+                              (g_pZoneMap,(float)(long double)fStack_10,(float)fVar8,
+                               (float)(long double)fStack_8,0x42480000,&fStack_18);
+            if ((char)uVar3 == '\x01') {
+              fVar8 = (long double)fStack_18;
+            }
+            else {
+LAB_100ae529:
+              fVar8 = (long double)fStack_c;
+            }
+          }
+          else if ((((uVar6 == 0x1000000) &&
+                    ((((uint8_t)(*(uint32_t *)(iVar4 + 0x128) >> 0xe) |
+                       (uint8_t)(*(uint32_t *)(iVar4 + 0x120) >> 0x15) |
+                      (uint8_t)(*(uint32_t *)(iVar4 + 0x120) >> 0x14)) & 1) == 0)) &&
+                   (*(char *)(iVar4 + 0xee) != '\x03')) && (*(char *)(iVar4 + 0xee) != '\x04')) {
+            uVar3 = orig::ZoneMap_QueryBoxHeightByRadius
+                              (g_pZoneMap,(float)(long double)fStack_10,(float)fVar8,
+                               (float)(long double)fStack_8,&fStack_14);
+            if ((char)uVar3 != '\x01') goto LAB_100ae529;
+            fVar8 = (long double)fStack_14;
+          }
+          iVar4 = *piVar7;
+          *(float *)(iVar4 + 0x28) = (float)fVar8;
+          *(float *)(iVar4 + 0x24) = fStack_10;
+          *(float *)(iVar4 + 0x2c) = fStack_8;
+          iVar4 = *piVar7;
+          *(float *)(iVar4 + 4) = fStack_10;
+          *(float *)(iVar4 + 8) = (float)fVar8;
+          *(float *)(iVar4 + 0xc) = fStack_8;
+        }
+      }
+      iVar4 = *piVar7;
+      if ((*(uint32_t *)(iVar4 + 0x120) >> 7 & 1) != 0) {
+        if ((*(uint32_t *)(iVar4 + 0x78) & 0xff000000) == 0) {
+          *(uint16_t *)(iVar4 + 0x1fc) = 300;
+          *(uint8_t *)(*piVar7 + 0x1fe) = 1;
+        }
+        *(uint32_t *)(*piVar7 + 300) = *(uint32_t *)(*piVar7 + 300) & 0xfbffffff;
+        *(uint32_t *)(*piVar7 + 0x124) = *(uint32_t *)(*piVar7 + 0x124) & 0xdfffffff;
+        *(uint32_t *)(*piVar7 + 0x124) = *(uint32_t *)(*piVar7 + 0x124) & 0xbfffffff;
+        *(uint32_t *)(*piVar7 + 0x124) = *(uint32_t *)(*piVar7 + 0x124) & 0x7fffffff;
+        *(uint32_t *)(*piVar7 + 0x128) = *(uint32_t *)(*piVar7 + 0x128) | 0x20000;
+        *(uint32_t *)(*piVar7 + 300) = *(uint32_t *)(*piVar7 + 300) & 0xfffffff7;
+        *(uint32_t *)(*piVar7 + 0x128) = *(uint32_t *)(*piVar7 + 0x128) | 1;
+        *(uint32_t *)(*piVar7 + 0x13c) = *(uint32_t *)(*piVar7 + 0x13c) & 0xfff7ffff;
+        *(uint32_t *)(*piVar7 + 0x20c) = 0;
+        if (-1 < iVar2) {
+          orig::Acter_CopyPosAndSnap((void *)*piVar7);
+          *(uint32_t *)(*piVar7 + 0x204) = 0xbf800000;
+        }
+        orig::Acter_ReleaseEventRecord((void *)*piVar7);
+        *(uint32_t *)(*piVar7 + 300) = *(uint32_t *)(*piVar7 + 300) & 0xfffff7ff;
+        *(uint32_t *)(*piVar7 + 0xdc) = 100;
+        *(uint32_t *)(*piVar7 + 0xe0) = 100;
+        iVar4 = *piVar7;
+        if ((((*(uint32_t *)(iVar4 + 0x120) >> 9 & 1) != 0) &&
+            (cVar1 = *(char *)(iVar4 + 0xee), cVar1 != '\x03')) &&
+           ((cVar1 != '\x04' && (cVar1 != '\x05')))) {
+          *(uint32_t *)(iVar4 + 0x1a4) = *(uint32_t *)(iVar4 + 0x1a8);
+          *(uint32_t *)(*(int *)(*piVar7 + 0xa0) + 0x7c8) = *(uint32_t *)(*piVar7 + 0x1a8);
+          *(uint32_t *)(*(int *)(*piVar7 + 0xa0) + 0x7d8) = 0x20202020;
+          orig::FUN_100d5430_v1(*(void **)(*piVar7 + 0xa0),0);
+          *(uint8_t *)(*(int *)(*piVar7 + 0xa0) + 0x8b4) = 1;
+          ((int (__thiscall *)(void *, XI_ANY))((**(code **)(**(int **)(*piVar7 + 0xa0) + 0x150))))((void *)(*(int **)(*piVar7 + 0xa0)),0);
+        }
+      }
+    }
+    piVar7 = piVar7 + 1;
+    if (0x10482eef < (int)piVar7) {
+      pvVar5 = (void *)(&ActerBuffPtr_as_v0)[DAT_10485f7a];
+      if ((pvVar5 != (void *)0x0) && (-1 < *(int *)((int)pvVar5 + 0x138))) {
+        orig::Acter_CallVt180IfState(pvVar5);
+        if ((((DAT_104808fc_as_v1 | DAT_1047fb40_as_v2) & 1) != 0) || (DAT_10485ff4 != '\0')) {
+          orig::Acter_CopyPosToCached((void *)(&ActerBuffPtr_as_v0)[DAT_10485f7a]);
+          iVar4 = orig::Camera_GetField50_v1();
+          if ((iVar4 != 0) && (*(int *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0xa0) != 0)) {
+            fStack_10 = DAT_1035cfd0;
+            fStack_c = DAT_1035cfd4;
+            iVar4 = (&ActerBuffPtr_as_v0)[DAT_10485f7a] + 4;
+            fStack_8 = DAT_1035cfd8;
+            uStack_4 = DAT_1035cfdc;
+            pvVar5 = (void *)orig::Camera_GetField50_v1();
+            orig::Camera_SetTargetIfMoved_v1(pvVar5,iVar4);
+            pfVar9 = &fStack_10;
+            piVar7 = *(int **)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0xa0);
+            pvVar5 = (void *)orig::Camera_GetField50_v1();
+            orig::FUN_10021680_v1(pvVar5,pfVar9,piVar7);
+          }
+        }
+      }
+      DAT_10485ff4 = 0;
+      orig::operator_delete_v3(DAT_10489904);
+      iVar4 = orig::XiEvent_GetGlobalDword();
+      if (iVar4 != 2) {
+        iVar4 = orig::operator_delete_v3(DAT_10489908);
+      }
+      DAT_10489904 = 0;
+      DAT_10489908 = 0;
+      _DAT_104898fc = 0;
+      DAT_104804c2 = 0;
+      DAT_104808f0 = 0;
+      DAT_10487e48_as_v0 = 0;
+      DAT_1047fb40_as_v2 = 0;
+      XI_PIECE(DAT_104804c4, 0, 2) = 0;
+      DAT_104808fc_as_v1 = 0;
+      orig::Cell_SetByte104E1C3E_v1(0,iVar4);
+      if (DAT_10488100 != '\0') {
+        DAT_10482f18_as_v0 = 0;
+        DAT_1047fb40_as_v2 = 0;
+        XI_PIECE(DAT_104804c4, 0, 2) = 0;
+        DAT_104808fc_as_v1 = 0;
+        DAT_10485a70 = 0;
+      }
+      DAT_104807f5_as_v0 = 0;
+      orig::XiZone_RestoreSavedFields();
+      orig::Acter_ClearGlobals10488800();
+      if (DAT_104896e6 != 0) {
+        orig::FUN_101fa420(DAT_10663888_as_v0,1);
+      }
+      DAT_104882b4 = 8;
+      DAT_104896e6 = 0;
+      DAT_104897f6 = 0;
+      if (DAT_104804c3_as_s8 == '\0') {
+        DAT_104804c3_as_s8 = '\x01';
+        orig::CMoTask_CreateMode4(0x3f800000,0x1e);
+        orig::CMoTask_CreateMode2(0x3f800000,0x1e);
+      }
+      orig::Unit1012AC80_SetPosition(*(void **)(DAT_104e2150_as_s32 + 0x30),0,0,0);
+      uVar3 = orig::Unit1012AC80_SetPosition(*(void **)(DAT_104e2154_as_s32 + 0x30),0,0,0);
+      pvVar5 = DAT_10578204;
+      orig::Unit1012AC80_MenuInitAndFadeItem_v2(&g_menuMng_as_v0,*(int *)((int)DAT_10578204 + 8),1,uVar3);
+      orig::FUN_1013bf40_v1(pvVar5);
+      uVar3 = orig::Unit1021D930_ClearMenu(DAT_106671d4);
+      uVar3 = orig::FUN_101fcfb0(DAT_10663aac,uVar3);
+      orig::CallMotd(uVar3);
+      uVar3 = orig::Unit100D7420_SetWord40DAA(0);
+      DAT_10489900 = 0;
+      return uVar3;
+    }
+  } while( true );
+}
+
 // FUNCTION: FFXIMAIN 0x100BD5F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall XiEvent_RestoreActer(void * self_)

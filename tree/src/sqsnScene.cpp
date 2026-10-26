@@ -117,6 +117,14 @@ XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float par
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1028EC30  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_1028EC30(int param_1, int param_2, undefined4 param_3)
+{
+  *(uint32_t *)(*(int *)(param_1 + 0x48) + 8 + param_2 * 0x2c) = param_3;
+  return param_3;
+}
+
 // FUNCTION: FFXIMAIN 0x1028EC50  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqsnScene_SetItemByte19(int param_1, int param_2, undefined4 param_3)

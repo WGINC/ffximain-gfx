@@ -128,6 +128,46 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x10075520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall TexRef_ResolveByName(void * self_, undefined4 param_1)
+{
+  int *piVar1;
+  int *piVar2;
+  int *piVar3;
+  int iVar4;
+  int iVar5;
+  
+  piVar1 = (int *)orig::CYyTexMng_FindByNameInResource_v1(g_pTextureMng_as_v2,self_,param_1);
+  piVar3 = piVar1;
+  if (piVar1 == (int *)0x0) {
+    piVar2 = (int *)orig::TexMgr_GetField8(g_pTextureMng_as_v2);
+    iVar5 = *piVar2;
+    piVar3 = piVar2;
+    if (iVar5 != 0) {
+      piVar3 = (int *)0x1;
+      do {
+        if (((*(uint32_t *)(iVar5 + 0x2c) & 0x100) != 0) || (*(int *)(iVar5 + 0x34) == 1)) {
+          iVar4 = 8;
+          do {
+            if (*(char *)(iVar5 + 0xc + iVar4) != *(char *)(iVar4 + (int)self_)) break;
+            iVar4 = iVar4 + 1;
+          } while (iVar4 < 0x10);
+          if (iVar4 == 0x10) {
+            iVar5 = *piVar2;
+            *(int *)self_ = iVar5;
+            return (int *)iVar5;
+          }
+        }
+        piVar2 = (int *)(iVar5 + 0x38);
+        iVar5 = *(int *)(iVar5 + 0x38);
+      } while (iVar5 != 0);
+    }
+  }
+  *(int **)self_ = piVar1;
+  return piVar3;
+}
+
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 93 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexRef_EnsureRenderTarget(int *self_)

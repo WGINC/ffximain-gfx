@@ -60,7 +60,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) IsEvent(undefined4 xi_eax, un
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
   }
   if (DAT_10485f7a != 0) {
-    self_ = (void *)orig::FUN_101cc4f0_v1();
+    self_ = (void *)orig::fn_101CC4F0_v1();
     if (self_ != (void *)0x0) {
       uVar1 = (uint32_t)((uint32_t)self_ >> 8);
       if (((param_1 & 4) == 0) &&
@@ -227,7 +227,7 @@ XI_API uint32_t __cdecl Unit10086E90_IsIdMatchGlobal(void)
   uint32_t uVar2;
   uint64_t uVar3;
   
-  uVar3 = orig::FUN_101cc4f0();
+  uVar3 = orig::fn_101CC4F0();
   uVar2 = 0;
   if (((int)uVar3 != 0) &&
      (sVar1 = *(short *)((int)uVar3 + 0x1fa),
@@ -1745,7 +1745,7 @@ XI_API void __thiscall Unit10086E90_SetModelField78FromTable(void * self_)
     *(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x78) = DAT_104e1bbc;
     return;
   }
-  uVar12 = orig::FUN_101cc4f0();
+  uVar12 = orig::fn_101CC4F0();
   iVar4 = (int)uVar12;
   uVar5 = orig::CXiActor_IsField78HighZero(self_);
   if ((char)uVar5 == '\0') {
@@ -1994,7 +1994,7 @@ XI_API void __thiscall Unit10086E90_UpdateFlags120Bit23(void * self_)
   uint32_t xi_eax;
   uint64_t uVar5;
   
-  uVar5 = orig::FUN_101cc4f0();
+  uVar5 = orig::fn_101CC4F0();
   uVar2 = *(uint32_t *)((int)self_ + 0x120);
   xi_eax = uVar2 & 0xff7fffff;
   *(uint32_t *)((int)self_ + 0x120) = xi_eax;
@@ -2185,7 +2185,7 @@ XI_API undefined4 __thiscall Acter_UpdateOne(void * self_)
   long double fVar10;
   int64_t lVar11;
   
-  orig::FUN_101cc4f0();
+  orig::fn_101CC4F0();
   uVar4 = 0;
   if (*(int *)((int)self_ + 0x78) != 0) {
     iVar8 = *(int *)((int)self_ + 0x170);
@@ -2604,7 +2604,7 @@ XI_API void __thiscall Acter_SnapHeightToZoneMap(void * self_)
        (cVar2 == '\x02')) || (((cVar2 == '\x06' || (cVar2 == '\a')) || (cVar2 == '\b')))))) {
     local_10 = 0.0f;
     if ((*(uint32_t *)((int)self_ + 0x120) & 0x100000) == 0) {
-      uVar5 = orig::FUN_101cc4f0();
+      uVar5 = orig::fn_101CC4F0();
       if ((void *)uVar5 == self_) {
         local_c = *(uint32_t *)((int)self_ + 0xc);
         local_8 = *(float *)((int)self_ + 8);
@@ -2634,6 +2634,134 @@ XI_API void __thiscall Acter_SnapHeightToZoneMap(void * self_)
     orig::Vec4_Copy_v1((uint32_t *)(*(int *)((int)self_ + 0xa0) + 0xc4),puVar1);
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10092C20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 16 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_10092C20(void * self_)
+{
+  uint32_t *puVar1;
+  float *pfVar2;
+  char cVar3;
+  int *this_00;
+  long double fVar4;
+  uint32_t uVar5;
+  int iVar6;
+  uint8_t bVar7;
+  uint8_t bVar8;
+  long double fVar9;
+  
+  uVar5 = *(uint32_t *)((int)self_ + 0x120);
+  if ((uVar5 & 0x200) != 0) {
+    cVar3 = *(char *)((int)self_ + 0xee);
+    uVar5 = ((uint32_t)(((uint32_t)((int32_t)(uVar5 >> 8)) << 8) | (uint8_t)(cVar3)));
+    if ((((cVar3 == '\0') || (cVar3 == '\x01')) || (cVar3 == '\x02')) ||
+       (((cVar3 == '\x06' || (cVar3 == '\a')) || (cVar3 == '\b')))) {
+      puVar1 = (uint32_t *)((int)self_ + 4);
+      orig::Vec4_Copy_v2((uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x34),puVar1);
+      iVar6 = *(int *)((int)self_ + 0xa0);
+      orig::Vec4_Copy_v2((uint32_t *)(iVar6 + 0x5fc),puVar1);
+      *(uint32_t *)(iVar6 + 0x608) = 0x3f800000;
+      orig::Vec4_Copy_v2((uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x5c4),puVar1);
+      orig::CXiControlActor_SetVec4_v1(*(void **)((int)self_ + 0xa0),puVar1);
+      orig::Vec4_Copy_v2((uint32_t *)(*(int *)((int)self_ + 0xa0) + 0xc4),puVar1);
+      iVar6 = *(int *)((int)self_ + 0xa0);
+      puVar1 = (uint32_t *)((int)self_ + 0x14);
+      pfVar2 = (float *)(iVar6 + 0x44);
+      orig::Vec4_Copy_v2(pfVar2,puVar1);
+      if ((long double)*pfVar2 > (long double)3.141499996185302734375f) {
+        *pfVar2 = (float)((long double)*pfVar2 - (long double)6.28299999237060546875f);
+      }
+      bVar7 = NAN((long double)*pfVar2) || NAN((long double)(-3.141499996185302734375f));
+      if ((bVar7 || (long double)*pfVar2 < (long double)(-3.141499996185302734375f)) != bVar7) {
+        *pfVar2 = (float)((long double)*pfVar2 + (long double)6.28299999237060546875f);
+      }
+      if ((long double)*(float *)(iVar6 + 0x48) > (long double)3.141499996185302734375f) {
+        *(float *)(iVar6 + 0x48) = (float)((long double)*(float *)(iVar6 + 0x48) - (long double)6.28299999237060546875f);
+      }
+      bVar7 = NAN((long double)*(float *)(iVar6 + 0x48)) || NAN((long double)(-3.141499996185302734375f));
+      if ((bVar7 || (long double)*(float *)(iVar6 + 0x48) < (long double)(-3.141499996185302734375f)) != bVar7) {
+        *(float *)(iVar6 + 0x48) = (float)((long double)*(float *)(iVar6 + 0x48) + (long double)6.28299999237060546875f);
+      }
+      if ((long double)*(float *)(iVar6 + 0x4c) > (long double)3.141499996185302734375f) {
+        *(float *)(iVar6 + 0x4c) = (float)((long double)*(float *)(iVar6 + 0x4c) - (long double)6.28299999237060546875f);
+      }
+      bVar7 = NAN((long double)*(float *)(iVar6 + 0x4c)) || NAN((long double)(-3.141499996185302734375f));
+      if ((bVar7 || (long double)*(float *)(iVar6 + 0x4c) < (long double)(-3.141499996185302734375f)) != bVar7) {
+        *(float *)(iVar6 + 0x4c) = (float)((long double)*(float *)(iVar6 + 0x4c) + (long double)6.28299999237060546875f);
+      }
+      this_00 = *(int **)(xi_castbits<int>(self_) + 0xa0);
+      iVar6 = ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x318))))((void *)(this_00));
+      if (iVar6 == 0) {
+        pfVar2 = (float *)(this_00 + 0x187);
+        orig::Vec4_Copy_v2(pfVar2,puVar1);
+        if ((long double)*pfVar2 > (long double)3.141499996185302734375f)
+        {
+          *pfVar2 = (float)((long double)*pfVar2 - (long double)6.28299999237060546875f);
+        }
+        bVar7 = NAN((long double)*pfVar2) || NAN((long double)(-3.141499996185302734375f));
+        if ((bVar7 || (long double)*pfVar2 < (long double)(-3.141499996185302734375f)) != bVar7) {
+          *pfVar2 = (float)((long double)*pfVar2 + (long double)6.28299999237060546875f);
+        }
+        if ((!NAN((long double)xi_castbits<float>(this_00[0x188])) && !NAN((long double)3.141499996185302734375f)) &&
+            (long double)3.141499996185302734375f < (long double)xi_castbits<float>(this_00[0x188])) {
+          this_00[0x188] = (int)(float)((long double)xi_castbits<float>(this_00[0x188]) - (long double)6.28299999237060546875f);
+        }
+        bVar7 = NAN((long double)xi_castbits<float>(this_00[0x188])) || NAN((long double)(-3.141499996185302734375f));
+        if ((bVar7 || (long double)xi_castbits<float>(this_00[0x188]) < (long double)(-3.141499996185302734375f)) != bVar7) {
+          this_00[0x188] = xi_castbits<int>((float)((long double)xi_castbits<float>(this_00[0x188]) + (long double)6.28299999237060546875f));
+        }
+        if ((!NAN((long double)xi_castbits<float>(this_00[0x189])) && !NAN((long double)3.141499996185302734375f)) &&
+            (long double)3.141499996185302734375f < (long double)xi_castbits<float>(this_00[0x189])) {
+          this_00[0x189] = xi_castbits<int>((float)((long double)xi_castbits<float>(this_00[0x189]) - (long double)6.28299999237060546875f));
+        }
+        bVar7 = NAN((long double)xi_castbits<float>(this_00[0x189])) || NAN((long double)(-3.141499996185302734375f));
+        if ((bVar7 || (long double)xi_castbits<float>(this_00[0x189]) < (long double)(-3.141499996185302734375f)) != bVar7) {
+          this_00[0x189] = xi_castbits<int>((float)((long double)xi_castbits<float>(this_00[0x189]) + (long double)6.28299999237060546875f));
+        }
+      }
+      iVar6 = *(int *)((int)self_ + 0xa0);
+      *(uint32_t *)(iVar6 + 0xe4) = *puVar1;
+      *(uint32_t *)(iVar6 + 0xe8) = *(uint32_t *)((int)self_ + 0x18);
+      *(uint32_t *)(iVar6 + 0xec) = *(uint32_t *)((int)self_ + 0x1c);
+      *(uint32_t *)(iVar6 + 0xf0) = *(uint32_t *)((int)self_ + 0x20);
+      iVar6 = *(int *)((int)self_ + 0xa0);
+      *(uint32_t *)(iVar6 + 0xe4) = *puVar1;
+      *(uint32_t *)(iVar6 + 0xe8) = *(uint32_t *)((int)self_ + 0x18);
+      *(uint32_t *)(iVar6 + 0xec) = *(uint32_t *)((int)self_ + 0x1c);
+      *(uint32_t *)(iVar6 + 0xf0) = *(uint32_t *)((int)self_ + 0x20);
+      iVar6 = *(int *)((int)self_ + 0xa0);
+      pfVar2 = (float *)(iVar6 + 0x44);
+      orig::Vec4_Copy_v2(pfVar2,puVar1);
+      if ((long double)*pfVar2 > (long double)3.141499996185302734375f) {
+        *pfVar2 = (float)((long double)*pfVar2 - (long double)6.28299999237060546875f);
+      }
+      bVar7 = NAN((long double)*pfVar2) || NAN((long double)(-3.141499996185302734375f));
+      if ((bVar7 || (long double)*pfVar2 < (long double)(-3.141499996185302734375f)) != bVar7) {
+        *pfVar2 = (float)((long double)*pfVar2 + (long double)6.28299999237060546875f);
+      }
+      if ((long double)*(float *)(iVar6 + 0x48) > (long double)3.141499996185302734375f) {
+        *(float *)(iVar6 + 0x48) = (float)((long double)*(float *)(iVar6 + 0x48) - (long double)6.28299999237060546875f);
+      }
+      bVar7 = NAN((long double)*(float *)(iVar6 + 0x48)) || NAN((long double)(-3.141499996185302734375f));
+      if ((bVar7 || (long double)*(float *)(iVar6 + 0x48) < (long double)(-3.141499996185302734375f)) != bVar7) {
+        *(float *)(iVar6 + 0x48) = (float)((long double)*(float *)(iVar6 + 0x48) + (long double)6.28299999237060546875f);
+      }
+      if ((long double)*(float *)(iVar6 + 0x4c) > (long double)3.141499996185302734375f) {
+        *(float *)(iVar6 + 0x4c) = (float)((long double)*(float *)(iVar6 + 0x4c) - (long double)6.28299999237060546875f);
+      }
+      fVar9 = (long double)*(float *)(iVar6 + 0x4c);
+      fVar4 = (long double)(-3.141499996185302734375f);
+      bVar8 = NAN(fVar9) || NAN(fVar4);
+      bVar7 = bVar8 || fVar9 < fVar4;
+      uVar5 = (uint32_t)(uint16_t)((uint16_t)bVar7 << 8 | (uint16_t)bVar8 << 10 |
+                            (uint16_t)(bVar8 || fVar9 == fVar4) << 0xe);
+      if (bVar7 != bVar8) {
+        *(float *)(iVar6 + 0x4c) = (float)((long double)*(float *)(iVar6 + 0x4c) + (long double)6.28299999237060546875f);
+      }
+    }
+  }
+  return uVar5;
 }
 
 // FUNCTION: FFXIMAIN 0x100933C0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -2944,6 +3072,21 @@ XI_API void __cdecl Acter_ClearGlobalBlock71(void)
     puVar2 = puVar2 + 1;
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10093B50  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10093B50(void)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  
+  puVar2 = &DAT_10488b08;
+  for (iVar1 = 0x80; iVar1 != 0; iVar1 = iVar1 + -1) {
+    *puVar2 = 0;
+    puVar2 = puVar2 + 1;
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10093B70  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3553,7 +3696,7 @@ XI_API undefined4 __cdecl Acter_UpdateFrame(void)
   if ((char)uVar5 == '\0') {
     return uVar5;
   }
-  uVar13 = orig::FUN_101cc4f0();
+  uVar13 = orig::fn_101CC4F0();
   self_ = (void *)uVar13;
   if ((DAT_10487eee == '\0') && ((*(uint32_t *)((int)self_ + 0x120) >> 9 & 1) != 0)) {
     if (DAT_10482f44_as_s8 != '\0') {
@@ -3797,7 +3940,7 @@ XI_API undefined4 __thiscall Unit10086E90_UpdateSkeletonParts(void * self_)
   
   uVar3 = *(uint32_t *)((int)self_ + 0x120);
   if (((uVar3 & 0x200) != 0) && (-1 < (char)uVar3)) {
-    uVar4 = orig::FUN_101cc4f0();
+    uVar4 = orig::fn_101CC4F0();
     uVar3 = *(uint32_t *)((int)self_ + 0x78);
     if ((uVar3 & 0xff000000) == 0) {
       if ((*(uint32_t *)((int)self_ + 0x128) & 0x20000000) != 0) {
@@ -4375,7 +4518,7 @@ XI_API void __cdecl Unit10086E90_UpdateFrame997B0(void)
   uint64_t uVar4;
   
   orig::Unit10086E90_ResolveEntryNames();
-  uVar4 = orig::FUN_101cc4f0();
+  uVar4 = orig::fn_101CC4F0();
   if ((DAT_104804ce_as_s8 != '\0') && ((int)uVar4 != 0)) {
     iVar2 = 0;
     do {
@@ -4726,7 +4869,7 @@ XI_API undefined4 __cdecl Unit10086E90_MatchActorNameOrKind(uint8_t * param_1, u
   uint8_t bVar6;
   uint64_t uVar7;
   
-  uVar7 = orig::FUN_101cc4f0();
+  uVar7 = orig::fn_101CC4F0();
   iVar3 = 0;
   if ((int)uVar7 != 0) {
     pbVar2 = orig::Unit10086E90_FindStringById(*(int *)((int)uVar7 + 0x78));

@@ -538,6 +538,65 @@ XI_API undefined4 __cdecl Mdl_ComputeSlotBounds(int param_1, float * param_2)
   return 0xffffffff;
 }
 
+// FUNCTION: FFXIMAIN 0x102700C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_102700C0(int param_1, int param_2, undefined4 param_3)
+{
+  int iVar1;
+  int iVar2;
+  int *piVar3;
+  int iVar4;
+  int *piVar5;
+  int iVar6;
+  int iVar7;
+  
+  piVar5 = (int *)0x0;
+  iVar6 = DAT_1099aed0 + param_1 * 0xac;
+  iVar2 = *(int *)(DAT_1099aed0 + 0xa8 + param_2 * 0xac);
+  iVar1 = DAT_1099aed0 + param_2 * 0xac;
+  *(uint32_t *)(iVar1 + 0x88) = param_3;
+  iVar4 = param_2 * 0x15;
+  if (iVar2 != 0) {
+    iVar7 = 0;
+    iVar4 = *(int *)(iVar2 + 0x44);
+    if (0 < *(int *)(iVar2 + 0x44)) {
+      do {
+        piVar3 = (int *)orig::SqmdModel_GetItemKind2(iVar2,iVar7);
+        if (*piVar3 == 0xb0001) {
+          iVar7 = *(int *)(iVar2 + 0x44);
+          piVar5 = piVar3;
+        }
+        iVar7 = iVar7 + 1;
+      } while (iVar7 < *(int *)(iVar2 + 0x44));
+      iVar4 = *(int *)(iVar2 + 0x44);
+      if (piVar5 != (int *)0x0) {
+        iVar2 = *(int *)(iVar6 + 0xa8);
+        iVar4 = iVar6;
+        if (iVar2 != 0) {
+          iVar4 = *(int *)(iVar2 + 0x44);
+          iVar6 = 0;
+          if (0 < iVar4) {
+            do {
+              piVar3 = (int *)orig::SqmdModel_GetItemKind2(iVar2,iVar6);
+              if (*piVar3 == 0xb0001) {
+                iVar6 = orig::Unit1028DD50_CreateRef((int)piVar3,piVar5,0,*(uint32_t *)(iVar1 + 0x88));
+                if (iVar6 != 0) {
+                  orig::SqmdModel_AppendPair44(iVar2,iVar6);
+                  orig::FUN_1027a220_v1(iVar2,iVar6);
+                }
+                iVar6 = *(int *)(iVar2 + 0x44);
+              }
+              iVar4 = *(int *)(iVar2 + 0x44);
+              iVar6 = iVar6 + 1;
+            } while (iVar6 < iVar4);
+          }
+        }
+      }
+    }
+  }
+  return iVar4;
+}
+
 // FUNCTION: FFXIMAIN 0x102701B0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Mdl_SetSlotLock(int param_1, uint32_t param_2, undefined4 * param_3, uint32_t param_4, int param_5)

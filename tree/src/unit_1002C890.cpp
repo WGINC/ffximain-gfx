@@ -3,13 +3,13 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1002C890  (unit unit_1002C890: no unit evidence of its own; in the gap between 0x1002C880 (CYyObject_VT_103299F0) and 0x1002C8F0 (CYyObject) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API undefined4 __cdecl Mem_AllocDefault(int param_1)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Mem_AllocDefault(undefined4 param_1)
 {
-  uint64_t uVar1;
+  undefined4 *puVar1;
   
-  uVar1 = orig::Mem_AllocFromArea_v1(param_1,4);
-  return (int)uVar1;
+  puVar1 = orig::Mem_AllocFromArea_v2(param_1,4,0);
+  return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1002C8B0  (unit unit_1002C890: no unit evidence of its own; in the gap between 0x1002C880 (CYyObject_VT_103299F0) and 0x1002C8F0 (CYyObject) -- an unnamed source file)

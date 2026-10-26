@@ -161,6 +161,16 @@
 "kind": "use"
 },
 {
+"callee": "0x10029E70",
+"function": "0x1002A700",
+"use": "0x1002A71A",
+"register": "edx",
+"instruction": "cmp ecx, edx",
+"defined": "0x1002A704",
+"kept_across": "0x1002A711",
+"kind": "use"
+},
+{
 "callee": "0x1002B630",
 "function": "0x1002B6A0",
 "use": "0x1002B6CD",
@@ -269,6 +279,16 @@
 "defined": "0x1003DCDB",
 "kept_across": "0x1003DCED",
 "kind": "overwritten"
+},
+{
+"callee": "0x1003FCE0",
+"function": "0x10040220",
+"use": "0x10040455",
+"register": "ecx",
+"instruction": "call 0x1003fcf0",
+"defined": "0x1004044A",
+"kept_across": "0x1004044C",
+"kind": "use"
 },
 {
 "callee": "0x1003FCE0",
@@ -389,6 +409,46 @@
 "defined": "0x1006B4C0",
 "kept_across": "0x1006B4CF",
 "kind": "return"
+},
+{
+"callee": "0x10071200",
+"function": "0x10072030",
+"use": "0x10072075",
+"register": "edx",
+"instruction": "mov eax, dword ptr [edx*4 + 0x1047cf80]",
+"defined": "0x10072052",
+"kept_across": "0x10072070",
+"kind": "use"
+},
+{
+"callee": "0x10071200",
+"function": "0x10072030",
+"use": "0x10072075",
+"register": "edx",
+"instruction": "mov eax, dword ptr [edx*4 + 0x1047cf80]",
+"defined": "0x1007205A",
+"kept_across": "0x10072070",
+"kind": "use"
+},
+{
+"callee": "0x10071200",
+"function": "0x10072030",
+"use": "0x10072082",
+"register": "edx",
+"instruction": "mov dword ptr [edx*4 + 0x1047cf80], eax",
+"defined": "0x10072052",
+"kept_across": "0x10072070",
+"kind": "use"
+},
+{
+"callee": "0x10071200",
+"function": "0x10072030",
+"use": "0x10072082",
+"register": "edx",
+"instruction": "mov dword ptr [edx*4 + 0x1047cf80], eax",
+"defined": "0x1007205A",
+"kept_across": "0x10072070",
+"kind": "use"
 },
 {
 "callee": "0x10072270",
@@ -3411,6 +3471,16 @@
 "kind": "use"
 },
 {
+"callee": "0x10227100",
+"function": "0x10228080",
+"use": "0x102280E6",
+"register": "edx",
+"instruction": "sub edx, esi",
+"defined": "0x102280C1",
+"kept_across": "0x102280D6",
+"kind": "use"
+},
+{
 "callee": "0x102575D0",
 "function": "0x102575E0",
 "use": "0x102575F8",
@@ -3931,6 +4001,46 @@
 "kind": "use"
 },
 {
+"callee": "0x1027EB00",
+"function": "0x1027EBD0",
+"use": "0x1027EBE2",
+"register": "edx",
+"instruction": "mov dword ptr [edx + 0x3c], eax",
+"defined": "0x1027EBD0",
+"kept_across": "0x1027EBD5",
+"kind": "use"
+},
+{
+"callee": "0x1027EB00",
+"function": "0x1027EBD0",
+"use": "0x1027EBE5",
+"register": "edx",
+"instruction": "mov dword ptr [edx + 0x28], eax",
+"defined": "0x1027EBD0",
+"kept_across": "0x1027EBD5",
+"kind": "use"
+},
+{
+"callee": "0x1027EB00",
+"function": "0x1027EBD0",
+"use": "0x1027EBE8",
+"register": "edx",
+"instruction": "mov dword ptr [edx + 0x14], eax",
+"defined": "0x1027EBD0",
+"kept_across": "0x1027EBD5",
+"kind": "use"
+},
+{
+"callee": "0x1027EB00",
+"function": "0x1027EBD0",
+"use": "0x1027EBEB",
+"register": "edx",
+"instruction": "mov dword ptr [edx], eax",
+"defined": "0x1027EBD0",
+"kept_across": "0x1027EBD5",
+"kind": "use"
+},
+{
 "callee": "0x10288660",
 "function": "0x10288680",
 "use": "0x102886AE",
@@ -4202,9 +4312,9 @@
 }
 ],
 "_summary": {
-"sites": 420,
-"functions_with_use": 89,
-"use": 403,
+"sites": 431,
+"functions_with_use": 94,
+"use": 414,
 "overwritten": 16,
 "return": 1
 }

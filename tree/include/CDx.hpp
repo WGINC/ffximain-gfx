@@ -17,6 +17,7 @@ public:
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
     static void __stdcall SetHardwareCursor(HCURSOR param_1);  // 0x10009750
+    static undefined4 __thiscall ShowCursor(void * self, undefined4 param_1);  // 0x10009780
     HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
     static undefined4 __thiscall CreateDeviceObjectOnce(void * self, undefined4 param_1, int * param_2);  // 0x10009870
     static undefined4 __thiscall AppendStateRecord(void * self);  // 0x10009D20

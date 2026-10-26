@@ -127,6 +127,17 @@ void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 pa
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1002A040  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CYyModelDt::PrepareRenderStateV2SimpleEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::ResourceHandle_Deref_v1(*(uint32_t **)((int)self + 8));
+  orig::FUN_10030bd0(param_1,param_2,param_3,param_4,param_5);
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x1002A080  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelDt::GetResourceWord5E(void * self)

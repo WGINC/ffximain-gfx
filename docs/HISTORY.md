@@ -3512,3 +3512,28 @@ existing cases: 404 stubs in 388 cases).
 - **Result:** no function gained a PASS. Nothing in the tree flipped, and fs15's raw gate gave the same 43 PASS with
   18 of its cases narrowed. 0x1021C380, the case that prompted the tool, stays FAIL: the leftover bytes of its
   argument reach ECX at the return of callers whose callers are not all known.
+
+## 26 Oct (night): returns widened, pushed slots passed; three workers
+
+**P20: the reconstruction hands back what the original leaves in EAX.** No sound caller set exists for a virtual
+method, so instead fs15's 155 functions UNRESOLVED on EAX past a declared void were exported with a 4-byte EAX
+return (export.sh `XI_RETW`, GfxExport.java `retw`) and gated on all of EAX: 131 raw PASS (fs16), 128 promoted.
+
+**P17: callers pass the slots they push.** A callee of undecided convention that pops 0 now takes the bytes every
+settled caller pushes (conv_facts.py `spops N pushed`). fs17, the 45 functions held there: 38 raw PASS. In the tree,
+32 held functions became PASS after their older records were re-gated under the current rules, and 6 are new.
+
+**P9:** data/regs_after.json (pipeline/regs_after.py) records whether any caller reads the ECX/EDX a function
+leaves; some caller of 0x10119BC0 may read its EDX, so its FAIL stands. gfx_cases.py compares only EAX of an 8-byte
+return no caller reads EDX of.
+
+**Workers (each in its own worktree; the integrator merged):**
+- docs/FORMATS.md (#128, #129): resource chunks, Os2 skinned mesh, Sk2 skeleton, Mo2 motion, Bm2 texture, zone
+  mesh, dancer layer, all CreateVertexShader declarations; pipeline/field_reads.py and pipeline/vs_decl.py.
+- docs/RECCMP.md (#114): reccmp sees all 58 annotated functions and scores 57 at 100%, but its 100% is weaker than
+  match.py's IDENTICAL (a wrong unnamed global still scores 100%); a second view, not a verdict.
+- VC6 sweep (#116): NO_COMPILE 603 to 39; at the game's bytes 1,625 to 1,778 (recompile/sweep_round_116.md).
+  match.py --all: every file in recompile/ still IDENTICAL.
+
+Tree: 4,442 functions, 4,428 PASS (from 4,262). Frame set: 3,984 in the tree, 3,970 PASS; 1,491 (29.9%) at the
+game's bytes.

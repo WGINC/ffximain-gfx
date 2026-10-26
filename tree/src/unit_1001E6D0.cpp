@@ -66,6 +66,88 @@ XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_
   return uVar4;
 }
 
+// FUNCTION: FFXIMAIN 0x10021680  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_10021680(void * self_, float * param_1, int * param_2)
+{
+  float *pfVar1;
+  int iVar2;
+  uint32_t *puVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  char xi_frame[88] __attribute__((aligned(4)));
+  float  &fStack_58 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &fStack_54 = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &fStack_4c = *reinterpret_cast<float  *>(xi_frame + 12);
+  float  &fStack_48 = *reinterpret_cast<float  *>(xi_frame + 16);
+  uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 24);
+  
+  orig::Unit10026C70_ReturnThis_v1(local_40);
+  if (XiControlActor_isFirstPersonView == '\0') {
+    bVar4 = NAN((long double)*param_1) || NAN((long double)0.0f);
+    if (((bVar4 != (bVar4 || (long double)*param_1 == (long double)0.0f)) &&
+        (bVar4 = NAN((long double)param_1[1]) || NAN((long double)0.0f),
+        bVar4 != (bVar4 || (long double)param_1[1] == (long double)0.0f))) &&
+       (bVar4 = NAN((long double)param_1[2]) || NAN((long double)0.0f),
+       bVar4 != (bVar4 || (long double)param_1[2] == (long double)0.0f))) {
+      param_1[1] = (-2.0f);
+      *param_1 = (-4.0f);
+    }
+    orig::Mat4_SetIdentity_v2(local_40);
+    pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateX_v1(local_40,*pfVar1);
+    iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar2 + 4));
+    iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateZ_v1(local_40,*(float *)(iVar2 + 8));
+    puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
+    orig::Mat4_SetTranslation_v2(local_40,puVar3);
+    orig::Mat4_TransformPoint_v1(local_40,&fStack_4c,param_1);
+    orig::Vec3_Copy_v2((uint32_t *)((int)self_ + 0x8c),&fStack_4c);
+    *(uint8_t *)((int)self_ + 0x88) = 1;
+    orig::Camera_SetPosition_v1(self_,&fStack_4c);
+    puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
+    orig::Vec3_Copy_v2(&fStack_58,puVar3);
+    fStack_54 = (float)((long double)fStack_54 - (long double)0.5f);
+    orig::Vec3_Copy_v2((uint32_t *)((int)self_ + 0x98),&fStack_58);
+    *(uint8_t *)((int)self_ + 0x89) = 1;
+    orig::Camera_SetTargetIfMoved_v1(self_,&fStack_58);
+    *(uint8_t *)((int)self_ + 0xf0) = 0;
+  }
+  else {
+    orig::Mat4_SetIdentity_v2(local_40);
+    pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateX_v1(local_40,*pfVar1);
+    iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar2 + 4));
+    iVar2 = ((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
+    orig::Mat4_PostRotateZ_v1(local_40,*(float *)(iVar2 + 8));
+    puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
+    orig::Mat4_SetRow3_v1(local_40,puVar3);
+    orig::Vec3_Copy_v2(&fStack_58,(uint32_t *)&DAT_1035126c);
+    orig::Mat4_TransformPointInPlace_v2(local_40,&fStack_58);
+    orig::Camera_SetTargetIfMoved_v1(self_,&fStack_58);
+    orig::Vec3_Copy_v2((uint32_t *)((int)self_ + 0x98),&fStack_58);
+    *(uint8_t *)((int)self_ + 0x89) = 1;
+    puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
+    orig::Vec3_Copy_v2(&fStack_4c,puVar3);
+    fStack_48 = fStack_54;
+    orig::Camera_SetPosition_v1(self_,&fStack_4c);
+    orig::Vec3_Copy_v2((uint32_t *)((int)self_ + 0x8c),&fStack_4c);
+    *(uint8_t *)((int)self_ + 0x88) = 1;
+  }
+  fVar5 = (long double)*(float *)((int)self_ + 0x48) - (long double)*(float *)((int)self_ + 0x54);
+  bVar4 = NAN(fVar5) || NAN((long double)0.0f);
+  if ((bVar4 || fVar5 < (long double)0.0f) != bVar4) {
+    fVar5 = -fVar5;
+  }
+  _DAT_10456d78_as_f32 = (float)fVar5;
+  iVar2 = orig::Camera_SnapshotState(self_);
+  *(uint8_t *)((int)self_ + 0xf4) = 1;
+  orig::Unit10026C70_Nop();
+  return iVar2;
+}
+
 // FUNCTION: FFXIMAIN 0x10021AE0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)

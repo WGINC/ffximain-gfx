@@ -35,6 +35,79 @@ XI_API void __cdecl Unit1028D970_Copy(undefined4 * param_1, undefined4 * param_2
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1028DA20  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1028DA20(float * xi_eax, float * param_1, float * param_2, int param_3)
+{
+  int iVar1;
+  int iVar2;
+  float *pfVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  float local_18;
+  float local_14;
+  float local_10;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  if (0 < param_3) {
+    local_18 = *param_2;
+    local_14 = param_2[1];
+    local_10 = param_2[2];
+    iVar2 = 1;
+    iVar1 = (param_3 >> 6) + 1;
+    local_c = local_18;
+    local_8 = local_14;
+    local_4 = local_10;
+    if (1 < param_3) {
+      pfVar3 = param_2 + 5;
+      do {
+        fVar5 = (long double)pfVar3[-2];
+        if (!((long double)local_c > fVar5)) {
+          bVar4 = NAN((long double)local_18) || NAN(fVar5);
+          if ((bVar4 || (long double)local_18 < fVar5) != bVar4) {
+            local_18 = (float)fVar5;
+          }
+        }
+        else {
+          local_c = (float)fVar5;
+        }
+        fVar5 = (long double)pfVar3[-1];
+        if (!((long double)local_8 > fVar5)) {
+          bVar4 = NAN((long double)local_14) || NAN(fVar5);
+          if ((bVar4 || (long double)local_14 < fVar5) != bVar4) {
+            local_14 = (float)fVar5;
+          }
+        }
+        else {
+          local_8 = (float)fVar5;
+        }
+        fVar5 = (long double)*pfVar3;
+        if (!((long double)local_4 > fVar5)) {
+          bVar4 = NAN((long double)local_10) || NAN(fVar5);
+          if ((bVar4 || (long double)local_10 < fVar5) != bVar4) {
+            local_10 = (float)fVar5;
+          }
+        }
+        else {
+          local_4 = (float)fVar5;
+        }
+        iVar2 = iVar2 + iVar1;
+        pfVar3 = pfVar3 + iVar1 * 3;
+      } while (iVar2 < param_3);
+    }
+    param_1[1] = local_8;
+    *param_1 = (float)(long double)local_c;
+    param_1[2] = local_4;
+    param_1[3] = local_18;
+    param_1[4] = local_14;
+    param_1[5] = local_10;
+    xi_eax = param_1;
+  }
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x1028DBB0  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit1028D970_GetCenter(float * param_1, float * param_2)

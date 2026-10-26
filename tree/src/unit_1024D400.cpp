@@ -222,6 +222,98 @@ XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1)
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x1024D850  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_1024D850(uint32_t * param_1)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  int iVar3;
+  uint32_t *puVar4;
+  
+  iVar3 = 4;
+  puVar4 = param_1 + 0x3c;
+  do {
+    if ((puVar4 != (uint32_t *)0x0) && ((*puVar4 & 4) != 0)) {
+      orig::StChannelItemResolve(puVar4);
+    }
+    puVar4 = puVar4 + 7;
+    iVar3 = iVar3 + -1;
+  } while (iVar3 != 0);
+  puVar4 = param_1 + 0x58;
+  iVar3 = 4;
+  do {
+    if ((puVar4 != (uint32_t *)0x0) && ((*puVar4 & 4) != 0)) {
+      orig::StChannelItemResolve(puVar4);
+    }
+    puVar4 = puVar4 + 7;
+    iVar3 = iVar3 + -1;
+  } while (iVar3 != 0);
+  puVar4 = param_1 + 0x2a;
+  if ((puVar4 != (uint32_t *)0x0) && ((*puVar4 & 2) != 0)) {
+    orig::StModelItem_Resolve(puVar4);
+    orig::StAvatar_ApplyChannels((uint8_t *)param_1);
+    orig::LobbyThread_SendCmd6IfRunning();
+  }
+  puVar4 = param_1 + 0x74;
+  iVar3 = 4;
+  do {
+    if ((puVar4 != (uint32_t *)0x0) && ((*puVar4 & 4) != 0)) {
+      orig::StChannelItemResolve(puVar4);
+    }
+    puVar4 = puVar4 + 7;
+    iVar3 = iVar3 + -1;
+  } while (iVar3 != 0);
+  puVar4 = param_1 + 0x33;
+  if (puVar4 == (uint32_t *)0x0) {
+    return 0;
+  }
+  if ((*puVar4 & 2) == 0) {
+    return (uint32_t)puVar4;
+  }
+  orig::StModelItem_Resolve(puVar4);
+  orig::FUN_1024da10((int)param_1);
+  param_1[1] = 2;
+  orig::StAvatar_SetField10((uint8_t *)param_1,param_1[4]);
+  orig::StAvatar_SetField14((uint8_t *)param_1,0);
+  if (param_1[2] == 0) {
+    if (param_1[3] == 5) {
+LAB_1024d950:
+      iVar3 = 1;
+    }
+    else {
+      if (param_1[3] != 7) goto LAB_1024d95b;
+      iVar3 = 2;
+    }
+  }
+  else {
+    if (param_1[2] != 1) goto LAB_1024d95b;
+    if (param_1[3] != 5) {
+      if (param_1[3] != 6) goto LAB_1024d95b;
+      goto LAB_1024d950;
+    }
+    iVar3 = 2;
+  }
+  orig::StAvatar_SetField14((uint8_t *)param_1,iVar3);
+LAB_1024d95b:
+  orig::StAvatar_StoreMode(param_1,param_1[6]);
+  orig::StAvatar_Start((uint8_t *)param_1,param_1[7]);
+  orig::StAvatar_FormatNames();
+  uVar1 = orig::StAvatar_ResetChannels((uint8_t *)param_1,1);
+  uVar1 = orig::StAvatar_SetStopped(param_1,1,uVar1);
+  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)((uint8_t)*param_1)));
+  if (((uint8_t)*param_1 & 0x20) != 0) {
+    uVar2 = orig::FUN_100378b0(0xa9);
+  }
+  if ((*param_1 & 0x40) != 0) {
+    orig::StAvatar_SetTransition(param_1,1.0f,0x14);
+    uVar2 = *param_1 & 0xffffffbf;
+    param_1[0xb] = 0x411a;
+    *param_1 = uVar2;
+  }
+  return uVar2;
+}
+
 // FUNCTION: FFXIMAIN 0x1024D9D0  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_FormatNames(void)

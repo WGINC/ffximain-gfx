@@ -165,7 +165,7 @@ XI_API void * __thiscall App_Constructor(void * self_)
   g_pTkMsgWinData_as_v0 = 0;
   dword_1057815C_as_v0 = 0;
   dword_10578160_as_v0 = 0;
-  DAT_1045690c_as_v0 = 0;
+  DAT_1045690c = 0;
   dword_1047D688_as_v0 = 0;
   dword_1047D68C_as_v0 = 0;
   g_pXiCapture_as_v0 = 0;

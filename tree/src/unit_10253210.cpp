@@ -39,6 +39,16 @@ XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1)
   return iVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x102532C0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102532C0(undefined4 xi_eax, int param_1, int param_2, int param_3)
+{
+  if (g_pObj_Vtbl1033CE34 != 0) {
+    xi_eax = orig::FUN_102534f0(param_1,param_2,param_3);
+  }
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x102532E0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10253210_Ctor(void * self_)
@@ -128,6 +138,68 @@ XI_API int __stdcall StAvatar_GetInfoBuffer(int param_1)
     iVar1 = -2;
   }
   return iVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102534F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall fn_102534F0(int param_1, int param_2, int param_3)
+{
+  int iVar1;
+  uint8_t bVar2;
+  uint8_t bVar3;
+  int iVar4;
+  uint32_t *puVar5;
+  uint32_t uVar6;
+  int iVar7;
+  
+  if (param_1 < 4) {
+    iVar1 = param_1 * 0x14;
+    iVar4 = param_1 * 5;
+    iVar7 = param_1 * 0x14;
+    param_1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)(param_1 * 5) >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_10389d0d)))[iVar7])));
+    if (((uint8_t *)((&DAT_10389d0d)))[iVar7] != '\0') {
+      bVar2 = false;
+      bVar3 = false;
+      if (*(int *)(((char *)&DAT_10389d18) + iVar1) == 0) {
+        puVar5 = orig::Allocator_Generic_v3(*(int *)(((char *)&DAT_10389d10) + iVar1) + 1);
+        *(uint32_t **)(((char *)&DAT_10389d18) + iVar1) = puVar5;
+        if (puVar5 != (uint32_t *)0x0) {
+          iVar7 = *(int *)(((char *)&DAT_10389d10) + iVar1);
+          for (uVar6 = iVar7 + 1U >> 2; uVar6 != 0; uVar6 = uVar6 - 1) {
+            *puVar5 = 0;
+            puVar5 = puVar5 + 1;
+          }
+          for (uVar6 = iVar7 + 1U & 3; uVar6 != 0; uVar6 = uVar6 - 1) {
+            *(uint8_t *)puVar5 = 0;
+            puVar5 = (uint32_t *)((int)puVar5 + 1);
+          }
+        }
+        bVar2 = true;
+        if (*(int *)(((char *)&DAT_10389d18) + iVar1) == 0) {
+          return 0;
+        }
+      }
+      iVar7 = 0;
+      param_1 = param_3;
+      if (0 < param_3) {
+        do {
+          if ((*(char *)(*(int *)(((char *)&DAT_10389d18) + iVar1) + iVar7) != *(char *)(iVar7 + param_2)) ||
+             (bVar2)) {
+            *(char *)(*(int *)(((char *)&DAT_10389d18) + iVar1) + iVar7) = *(char *)(iVar7 + param_2);
+            bVar3 = true;
+          }
+          iVar7 = iVar7 + 1;
+        } while (iVar7 < param_3);
+        if ((bVar3) && (g_pFileMng_as_v0 != (void *)0x0)) {
+          param_1 = orig::Unit1018BA60_FileMngSubmitPath3F4Kind3
+                              (g_pFileMng_as_v0,(&PTR_s_info00_bin_10389d08)[iVar4],
+                               *(uint32_t *)(((char *)&DAT_10389d18) + iVar1),
+                               *(int *)(((char *)&DAT_10389d10) + iVar1) + 1,0);
+        }
+      }
+    }
+  }
+  return param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x102535B0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)

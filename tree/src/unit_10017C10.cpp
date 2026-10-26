@@ -77,7 +77,7 @@ XI_API void __cdecl Unit10017C10_NoOpVarargsB(undefined4 xi_s1, ...)
 }
 
 // FUNCTION: FFXIMAIN 0x10017D90  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
 {
   char cVar1;
@@ -96,7 +96,7 @@ XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
     pcVar6 = pcVar6 + 1;
   } while (cVar1 != '\0');
   if (iVar4 == -2) {
-    orig::FUN_10311877();
+    orig::FUN_10311877(4,&DAT_10456c18,0xff,&DAT_10350e3c);
   }
   if (((ErrCode != 0xcf1) && (ErrCode != 0xcfa)) && (ErrCode != 0xd07)) {
     iVar4 = 0;
@@ -288,6 +288,24 @@ XI_API void __cdecl Unit10017C10_Thunk10114F10(uint32_t param_1, undefined4 * pa
 {
   orig::Unit100D7420_ReportError(param_1, param_2, param_3);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10018310  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10018310(undefined4 xi_eax, int param_1, undefined4 * param_2, undefined4 param_3)
+{
+  uint32_t uVar1;
+  
+  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10350e38)));
+  if (DAT_10350e38 != '\0') {
+    orig::Unit100D7420_ReportError(param_1,param_2,param_3);
+    if (param_1 < 0) {
+      uVar1 = orig::Unit10017C10_RegisterCallback(param_1);
+      return uVar1;
+    }
+    uVar1 = orig::fn_100180D0(param_1);
+  }
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10018350  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)

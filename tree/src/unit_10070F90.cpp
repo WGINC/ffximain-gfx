@@ -36,19 +36,16 @@ XI_API undefined4 __thiscall ResourceHandle_IsResident(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100710F0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
-XI_API undefined4 __thiscall Unit10070F90_Create(void * self_, undefined4 param_1, undefined4 param_2, int param_3, int param_4)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Unit10070F90_Create(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
-  uint32_t uVar1;
-  uint32_t *this_00;
-  uint64_t uVar2;
+  undefined4 *this_00;
   
-  uVar2 = orig::Mem_AllocFromArea_v1(0x84,4);
-  this_00 = (uint32_t *)uVar2;
+  this_00 = orig::Mem_AllocFromArea_v2(0x84,4,0);
   orig::CMoTask_ResetFields_v1(this_00);
   g_resourcesDirty_as_v0 = 1;
-  if (this_00 == (uint32_t *)0x0) {
-    this_00 = (uint32_t *)0x0;
+  if (this_00 == (undefined4 *)0x0) {
+    this_00 = (undefined4 *)0x0;
   }
   else {
     orig::CMoTask_InitVariant12(this_00);
@@ -56,10 +53,10 @@ XI_API undefined4 __thiscall Unit10070F90_Create(void * self_, undefined4 param_
     this_00[0x11] = &PTR_CMoAttachments_GetRuntimeClass_1032c4e8;
     *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c4bc;
   }
-  orig::CMoTask_InitAndRegister(this_00,*(uint32_t *)self_,param_1,param_2,1);
+  orig::CMoTask_InitAndRegister(this_00,*(undefined4 *)self_,param_1,param_2,1);
   orig::CMoAttachments_SetCaster_v1(this_00 + 0x11,param_3);
-  uVar1 = orig::CMoAttachments_SetTarget_v1(this_00 + 0x11,param_4);
-  return uVar1;
+  orig::CMoAttachments_SetTarget_v2(this_00 + 0x11,param_4);
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100711B0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)

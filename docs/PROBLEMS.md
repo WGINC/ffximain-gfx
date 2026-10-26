@@ -5,20 +5,16 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 
 ## Open
 
-### P20. The frame set's next functions stop at "EAX past the declared void" (26 Oct, fs15)
-- **Known:** the Ghidra export of the 943 frame-set functions not in the tree, together with the 51 tree functions not
-  PASS, gave 993 records:
-  - 430 translated; 376 are the statically linked C runtime (not reconstruction targets); 172 skipped (a register
-    or stack input Ghidra did not tie to a parameter: `extraout_` 79, `in_stack_` 28, `in_EDX` 24, `in_ECX` 14,
-    ...); 15 untranslatable (imports by ordinal with no SDK prototype).
-  - Gated: 43 PASS (39 new functions, 4 of the 51), 61 FAIL, 69 INCONCLUSIVE, 205 UNRESOLVED.
-  - 154 of the UNRESOLVED are one case: the function is declared to return nothing, its EAX at the return differs
-    between the original and the reconstruction, and no fact says no caller reads it (caller_reads.json has no
-    entry). 39 more are pushed slots whose reading is not settled (P17).
-- **Not known:** whether any caller reads those EAX values. Most of the functions are virtual methods, whose callers
-  caller_reads.py does not see, because they call through vtables.
-- **What would settle it:** the callers of each vtable slot (vcalls.json targets give some), each checked for an
-  EAX read after the call; or the reconstruction leaving EAX as the original does.
+### P20. The frame set's next functions stopped at "EAX past the declared void" (26 Oct, fs15; settled 26 Oct)
+- **Was:** 155 of fs15's UNRESOLVED were functions declared to return nothing whose EAX at return differs, with no
+  fact on whether a caller reads it. Most are virtual methods, whose callers are not all known.
+- **Why no caller fact:** a sound caller set for a virtual method takes every indirect call that could reach it.
+  Narrowing that to `call [vtable+4k]` at the method's own slot would assume its address never travels as data,
+  which the code does not show.
+- **Settled instead by the reconstruction:** export.sh's `XI_RETW` gives the listed functions a 4-byte EAX return
+  (GfxExport.java `retw`, before the callee-widening rounds). The translation then hands back what the original
+  leaves in EAX, and the gate compares all of it: no fact about callers is needed. fs16 export of the 155:
+  131 raw PASS; 128 promoted (the clean gate under both cases).
 
 ### P19. 0x100DA750's first switch: its bound is not provable from the facts (26 Oct)
 - **Known:** the switch at 0x100DA883 is bounded by `cmp eax, ebp; ja` (0x100DA873), with EBP set to 0xCB at
@@ -59,6 +55,12 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
     take them out of the tree.
 
 ### P17. Gate PASS functions that pass fewer arguments than the game (25 Oct, found by the VC6 sweep)
+- **26 Oct, mostly settled:** conv_facts.py now also gives a callee of undecided convention that pops 0 the
+  stack bytes every settled caller pushes (`spops N pushed`, data/call_pushes.json), so the callers' decompiled
+  code passes them as the game does. The fs17 export of the 45 functions UNRESOLVED on pushed slots: 38 raw PASS;
+  in the tree 31 UNRESOLVED and 1 FAIL became PASS (their older records re-gated under the current rules first,
+  gate_raw_regate.jsonl), plus 6 new functions. Left on this cause: 0x101BE6C0 and two fs17 records (0x10312487's
+  pushed slots).
 - **Known, from the game's bytes:**
   - **0x100F1870** pushes six arguments to 0x10310067 (`push -2; push -1; push -2; push -2; push eax; push -2;
     call; add esp, 0x18`). The tree calls `orig::FUN_10310067()` with none: its wrapper is typed
@@ -184,8 +186,9 @@ The causes of the three FAILs have not been looked into yet.
   - 0x100180D0: the old case compares EDX:EAX; fs15's case is `void`. 3 of 100 trials differ.
   - 0x100289F0: the argument specs differ; under the old case, 99 of 100 original runs fault (INCONCLUSIVE).
   - The tree keeps the stricter verdict, FAIL, FAIL and INCONCLUSIVE (verification/gate_clean_final.jsonl).
-  - **Not known:** whether any caller reads the EDX these functions leave. caller_reads.py follows EAX only, so no
-    fact covers it. The same walk over EDX would settle it.
+  - **Settled (26 Oct):** data/regs_after.json (pipeline/regs_after.py: every caller known, the callers' code
+    followed from each return address) says some caller of 0x10119BC0 may read the EDX it leaves, so the older
+    case's EDX comparison stands and so does its FAIL. 0x100180D0's callers are not all known: the same.
 
 ### P10. The gate compared EAX only as wide as the decompiler's prototype (22 Oct; changed in b4d1d31)
 - **Known:** a case's `returns` of void, bool or a word limited the EAX comparison. Where `caller_reads.json` does

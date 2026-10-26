@@ -78,6 +78,19 @@ XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10274650  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10274650(undefined4 * param_1, undefined4 * param_2)
+{
+  uint32_t uVar1;
+  
+  *param_1 = *param_2;
+  param_1[1] = param_2[1];
+  uVar1 = param_2[2];
+  param_1[2] = uVar1;
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10274670  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float param_3, float param_4)

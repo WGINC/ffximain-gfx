@@ -118,6 +118,7 @@ class CXi471011C8_VT_1032AD80;
 class CXi471011C8_VT_1032B3B8;
 class CXi471011C8_VT_1032B478;
 class CXiActor;
+class CXiActorDraw;
 class CXiActorNameDraw;
 class CXiAtelActor;
 class CXiCollisionActor;

@@ -2,6 +2,114 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10028AA0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10028AA0(undefined4 param_1)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  
+  iVar3 = orig::Mem_GetPtrMinus0x20(param_1);
+  if (*(int *)(iVar3 + 4) != 0) {
+    iVar4 = *(int *)(iVar3 + 0xc);
+    *(uint32_t *)(iVar3 + 4) = 0;
+    if ((iVar4 != 0) && (*(int *)(iVar4 + 4) == 0)) {
+      *(uint32_t *)(iVar4 + 8) = *(uint32_t *)(iVar3 + 8);
+      *(int *)(*(int *)(iVar3 + 8) + 0xc) = iVar4;
+      iVar3 = iVar4;
+    }
+    iVar4 = *(int *)(iVar3 + 8);
+    if (*(int *)(iVar4 + 4) == 0) {
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(iVar4 + 8);
+      *(int *)(*(int *)(iVar4 + 8) + 0xc) = iVar3;
+    }
+    iVar2 = *(int *)(iVar3 + 0xc);
+    iVar4 = iVar3;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar4 = *(int *)(iVar4 + 0xc);
+        break;
+      }
+      iVar4 = iVar1;
+      iVar2 = *(int *)(iVar1 + 0xc);
+    }
+    if ((*(int *)(iVar4 + 0xc) != 0) || (*(int *)(iVar3 + 0xc) != 0)) {
+      *(int *)(iVar4 + 0x10) = iVar3;
+      *(int *)(iVar3 + 0x14) = iVar4;
+    }
+    iVar2 = *(int *)(iVar3 + 8);
+    iVar4 = iVar3;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar4 = *(int *)(iVar4 + 8);
+        break;
+      }
+      iVar4 = iVar1;
+      iVar2 = *(int *)(iVar1 + 8);
+    }
+    if ((*(int *)(iVar4 + 8) != 0) || (*(int *)(iVar3 + 8) != 0)) {
+      *(int *)(iVar4 + 0x14) = iVar3;
+      *(int *)(iVar3 + 0x10) = iVar4;
+    }
+  }
+  return iVar3;
+}
+
+// FUNCTION: FFXIMAIN 0x10028AC0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10028AC0(int param_1)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  if (*(int *)(param_1 + 4) != 0) {
+    iVar3 = *(int *)(param_1 + 0xc);
+    *(uint32_t *)(param_1 + 4) = 0;
+    if ((iVar3 != 0) && (*(int *)(iVar3 + 4) == 0)) {
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(param_1 + 8);
+      *(int *)(*(int *)(param_1 + 8) + 0xc) = iVar3;
+      param_1 = iVar3;
+    }
+    iVar3 = *(int *)(param_1 + 8);
+    if (*(int *)(iVar3 + 4) == 0) {
+      *(uint32_t *)(param_1 + 8) = *(uint32_t *)(iVar3 + 8);
+      *(int *)(*(int *)(iVar3 + 8) + 0xc) = param_1;
+    }
+    iVar2 = *(int *)(param_1 + 0xc);
+    iVar3 = param_1;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar3 = *(int *)(iVar3 + 0xc);
+        break;
+      }
+      iVar3 = iVar1;
+      iVar2 = *(int *)(iVar1 + 0xc);
+    }
+    if ((*(int *)(iVar3 + 0xc) != 0) || (*(int *)(param_1 + 0xc) != 0)) {
+      *(int *)(iVar3 + 0x10) = param_1;
+      *(int *)(param_1 + 0x14) = iVar3;
+    }
+    iVar2 = *(int *)(param_1 + 8);
+    iVar3 = param_1;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar3 = *(int *)(iVar3 + 8);
+        break;
+      }
+      iVar3 = iVar1;
+      iVar2 = *(int *)(iVar1 + 8);
+    }
+    if ((*(int *)(iVar3 + 8) != 0) || (*(int *)(param_1 + 8) != 0)) {
+      *(int *)(iVar3 + 0x14) = param_1;
+      *(int *)(param_1 + 0x10) = iVar3;
+    }
+  }
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x10028B90  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall MemBlock_GetSize(void * self_)

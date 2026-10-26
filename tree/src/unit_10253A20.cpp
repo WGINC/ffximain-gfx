@@ -757,6 +757,128 @@ XI_API int __cdecl Unit10253A20_FindFirstTypeByte(char * param_1)
   return (int)param_1[iVar4];
 }
 
+// FUNCTION: FFXIMAIN 0x10258430  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10258430(void * param_1, undefined4 param_2, undefined4 param_3, char * param_4)
+{
+  char *pcVar1;
+  char cVar2;
+  int iVar3;
+  uint8_t *puVar4;
+  uint16_t *puVar5;
+  size_t sVar6;
+  int iVar7;
+  int iVar8;
+  int iVar9;
+  int local_4;
+  
+  cVar2 = *param_4;
+  local_4 = 0;
+  do {
+    if (cVar2 == '\0') {
+      return param_4;
+    }
+    pcVar1 = param_4 + local_4;
+    iVar3 = orig::Unit10253A20_IsTypeOne(pcVar1);
+    if (iVar3 == 0) {
+      iVar3 = orig::Unit10253A20_IsTypeRange(pcVar1);
+      if (iVar3 == 0) {
+        sVar6 = orig::Sjis_GetCharByteLen_v1(pcVar1);
+        orig::Unit1018BA60_AppendN(param_1,pcVar1,sVar6);
+        local_4 = local_4 + sVar6;
+      }
+      else {
+        iVar3 = 0;
+        switch(xi_sw(*pcVar1)) {
+        case '\x04':
+        case '\f':
+        case '\r':
+          iVar9 = 1;
+          break;
+        case '\x05':
+        case '\x06':
+          iVar9 = 2;
+          break;
+        case '\a':
+          iVar9 = 3;
+          break;
+        case '\b':
+          iVar9 = 4;
+          break;
+        case '\t':
+          iVar9 = 5;
+          break;
+        case '\n':
+          iVar9 = 6;
+          break;
+        case '\v':
+          iVar9 = 7;
+          break;
+        case '\x0e':
+          iVar3 = 1;
+        default:
+          iVar9 = 0;
+          break;
+        case '\x0f':
+          iVar9 = 1;
+          iVar3 = iVar9;
+        }
+        puVar5 = orig::Unit10253A20_GetFormString(param_3,iVar3,iVar9);
+        orig::Unit1018BA60_Append(param_1,puVar5);
+        param_2 = -1;
+        local_4 = local_4 + 1;
+      }
+      goto LAB_10258581;
+    }
+    iVar3 = orig::Unit10253A20_FindFirstTypeByte(pcVar1);
+    if (iVar3 == 0) goto LAB_102584d7;
+    iVar9 = 0;
+    switch(xi_sw(iVar3)) {
+    case 2:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 0xc:
+      iVar7 = 0;
+      iVar8 = 0;
+      if ((iVar3 == 8) || (iVar3 == 10)) {
+        iVar9 = 1;
+      }
+      else {
+        iVar9 = 0;
+      }
+      break;
+    case 3:
+    case 6:
+    case 9:
+    case 0xb:
+    case 0xd:
+      iVar7 = 0;
+      iVar8 = 2;
+      break;
+    case 4:
+      iVar7 = 0;
+      iVar8 = 1;
+      break;
+    case 0xe:
+    case 0xf:
+      iVar7 = 1;
+      goto LAB_102584bb;
+    default:
+      iVar7 = 0;
+LAB_102584bb:
+      iVar8 = -1;
+    }
+    puVar4 = orig::Unit10253A20_PickFormString(param_2,param_3,iVar7,iVar8,iVar9);
+    orig::Unit1018BA60_Append(param_1,puVar4);
+LAB_102584d7:
+    local_4 = local_4 + 1;
+LAB_10258581:
+    cVar2 = param_4[local_4];
+  } while( true );
+}
+
 // FUNCTION: FFXIMAIN 0x102586D0  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit10253A20_FindFirstTypeByteInText(void * self_)

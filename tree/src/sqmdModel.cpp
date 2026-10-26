@@ -975,6 +975,18 @@ XI_API char * __cdecl SqmdModel_ItemKindName(undefined4 param_1)
   }
 }
 
+// FUNCTION: FFXIMAIN 0x1027A220  (unit sqmdModel: between 0x1027A090 (asserts sqmdModel.c) and 0x1027A250 (asserts sqmdModel.c), both within 4 KB)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_1027A220(int param_1, undefined4 param_2)
+{
+  uint32_t *puVar1;
+  
+  orig::SqmdModel_AppendPair68(param_1,param_2);
+  puVar1 = (uint32_t *)(*(int *)(param_1 + 100) + -4 + *(int *)(param_1 + 0x68) * 4);
+  *puVar1 = *puVar1 | 0x100;
+  return puVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x1027A250  (unit sqmdModel: asserts sqmdModel.c)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmdModel_FreeItems(int * param_1)

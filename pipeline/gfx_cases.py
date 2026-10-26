@@ -10,6 +10,8 @@ RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.
 RET_WIDTH = json.load(open(os.path.join(DATADIR, 'ret_width.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_width.json')) else {}
 # the bytes of EAX the callers read after the function returns (caller_reads.py): 0 none, 1 AL, 2 AX
 CALLER_READS = json.load(open(os.path.join(DATADIR, 'caller_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'caller_reads.json')) else {}
+# whether any caller reads the ECX / EDX a function leaves (regs_after.py; listed only where every caller is known)
+REGS_AFTER = json.load(open(os.path.join(DATADIR, 'regs_after.json'))) if os.path.exists(os.path.join(DATADIR, 'regs_after.json')) else {}
 # the bytes of each stack argument a callee's code reads (arg_reads.py): a stub compares only those
 EAX_INPUTS = json.load(open(os.path.join(DATADIR, 'eax_inputs.json'))) if os.path.exists(os.path.join(DATADIR, 'eax_inputs.json')) else {}
 mask_of = lambda bs: sum(0xFF << (8 * b) for b in bs)
@@ -182,6 +184,8 @@ def main(exp, metaf, protof, out):
         # a register input of the record's own signature (GfxExport, conv.txt `regin`): drawn per trial, as EAX above
         if 'EAX' in (r.get('storage') or []): c['eax_in'] = 1; w = None
         if 'EDX' in (r.get('storage') or []) and conv != 'fastcall': c['edx_in'] = 1
+        # an 8-byte return (EDX:EAX) whose EDX no caller reads (regs_after.json): only EAX is the result
+        if c['returns'] == 'int64' and REGS_AFTER.get('0x%08X' % r['ea'], {}).get('edx') is False: c['returns'] = 'int'
         cr = CALLER_READS.get('0x%08X' % r['ea'])
         if cr is not None and (w is None or cr < w): w = cr
         if w == 0 and c['returns'] in ('int', 'word', 'bool', 'ptr'): c['returns'] = 'unread'   # no caller reads EAX

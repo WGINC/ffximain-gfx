@@ -1144,6 +1144,255 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x101844C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 66 returned normally, 22423 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) ModelActor_Draw(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, undefined4 xi_s2)
+{
+  int iVar1;
+  int *piVar2;
+  int *a1;
+  int a3;
+  int iVar3;
+  int *piVar4;
+  char xi_frame[260] __attribute__((aligned(4)));
+  uint32_t  &uVar5 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &a3_00 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  int  &iStack_ec = *reinterpret_cast<int  *>(xi_frame + 24);
+  uint32_t  &uStack_e8 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  int  &iStack_e4 = *reinterpret_cast<int  *>(xi_frame + 32);
+  uint32_t  &uStack_e0 = *reinterpret_cast<uint32_t  *>(xi_frame + 36);
+  int * &local_dc = *reinterpret_cast<int * *>(xi_frame + 40);
+  uint32_t  &uStack_d8 = *reinterpret_cast<uint32_t  *>(xi_frame + 44);
+  uint32_t  &uStack_d4 = *reinterpret_cast<uint32_t  *>(xi_frame + 48);
+  int  (&aiStack_d0)[26] = *reinterpret_cast<int  (*)[26]>(xi_frame + 52);
+  int  (&aiStack_68)[26] = *reinterpret_cast<int  (*)[26]>(xi_frame + 156);
+  
+  iVar1 = *(int *)(param_2 + 0x18);
+  if (iVar1 == 0) {
+    return xi_eax;
+  }
+  local_dc = (int *)0x0;
+  if (g_C_106631D4 != 0) {
+    piVar2 = orig::FUN_10178760(0x31305f6c);
+    local_dc = piVar2;
+    if (piVar2 == (int *)0x0) {
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xb8))
+                ))(*(int **)((int)g_pCDx_as_v1 + 0xc),*(uint32_t *)((int)self_ + 0x394b0),0);
+    }
+    else {
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xb8))
+                ))(*(int **)((int)g_pCDx_as_v1 + 0xc),*(uint32_t *)((int)self_ + 0x394b0),1);
+      orig::CDx_SetLight_v1(g_pCDx_as_v1,*(uint32_t *)((int)self_ + 0x394b0),piVar2 + 2);
+    }
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x89,1);
+  piVar2 = aiStack_d0;
+  for (iVar3 = 0x1a; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *piVar2 = 0;
+    piVar2 = piVar2 + 1;
+  }
+  if (*(int *)((int)self_ + 0x394a4) == 0) {
+    orig::XiZone_GetDirLight_v1(g_pXiZone,aiStack_d0,0,0);
+    orig::CDx_SetLight_v1(g_pCDx_as_v1,*(uint32_t *)((int)self_ + 0x394a8),aiStack_d0);
+    uVar5 = *(uint32_t *)((int)self_ + 0x394a8);
+  }
+  else {
+    orig::XiZone_GetDirLights_v1(g_pXiZone,aiStack_d0,aiStack_68);
+    orig::CDx_SetLight_v1(g_pCDx_as_v1,*(uint32_t *)((int)self_ + 0x394a8),aiStack_d0);
+    orig::CDx_SetLight_v1(g_pCDx_as_v1,*(uint32_t *)((int)self_ + 0x394ac),aiStack_68);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xb8))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),*(uint32_t *)((int)self_ + 0x394a8),1);
+    uVar5 = *(uint32_t *)((int)self_ + 0x394ac);
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xb8))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),uVar5,1);
+  orig::XiZone_GetAmbient_v1(g_pXiZone,&uStack_e8,0,0);
+  orig::XiZone_GetFog_v1(g_pXiZone,&uStack_d8,&uStack_d4,&uStack_e0,0,0);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x8b,uStack_e8);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1c,1);
+  if (*(char *)((int)g_pCDx_as_v1 + 0x92d) == '\0') {
+    if (*(char *)((int)g_pCDx_as_v1 + 0x92e) == '\0') goto LAB_101846e1;
+    (**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              (*(int **)((int)g_pCDx_as_v1 + 0xc),0x8c,3);
+    (**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              (*(int **)((int)g_pCDx_as_v1 + 0xc),0x23,0);
+    piVar2 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+    if (*(char *)((int)g_pCDx_as_v1 + 0x92f) != '\0') {
+      (**(code **)(*piVar2 + 200))(piVar2,0x30,1);
+      goto LAB_101846e1;
+    }
+  }
+  else {
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x8c,0);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x23,3);
+    piVar2 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*piVar2 + 200))))(piVar2,0x30,0);
+LAB_101846e1:
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x22,uStack_d8);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x24,uStack_e0);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x25,uStack_d4);
+  ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xa8))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),(int)self_ + 0x3913c);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,0x11,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,0x10,2);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,1,5);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,2,2);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,3,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,4,6);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,5,2);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,6,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,4,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,1,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),2,1,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),2,4,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,0xd,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,0xe,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,0xd,3);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xfc))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),1,0xe,3);
+  orig::Gfx_SetZBias_v1(g_zbiasZoneMesh_as_v0);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,0);
+  piVar2 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+  iVar3 = *piVar2;
+  if (xi_s2 == 0) {
+    a3_00 = 0;
+    uVar5 = 0xf;
+  }
+  else {
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar3 + 200))))(piVar2,0xf,1);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x19,5);
+    a3_00 = 0x60;
+    uVar5 = 0x18;
+    piVar2 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+    iVar3 = *piVar2;
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar3 + 200))))(piVar2,uVar5,a3_00);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x13,5);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x14,6);
+  if (*(short *)(param_2 + 0xd4) == 0) {
+    uVar5 = 3;
+  }
+  else {
+    uVar5 = 2;
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+            ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x16,uVar5);
+  *(uint32_t *)((int)self_ + 0x39120) = 0;
+  uVar5 = orig::CDx_SetTransform_v1(g_pCDx_as_v1,0x100,(uint32_t *)(param_2 + 0x40));
+  piVar2 = *(int **)(iVar1 + 0x60);
+  if (piVar2 != (int *)0x0) {
+    iStack_e4 = 0;
+    if (0 < *(int *)(iVar1 + 0x44)) {
+      do {
+        iStack_ec = 0;
+        if (0 < *piVar2) {
+          piVar4 = (int *)(piVar2[1] + 4);
+          do {
+            if (piVar4[9] != 0) {
+              orig::CDx_SetLight_v1(g_pCDx_as_v1,0,aiStack_d0);
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x8b,uStack_e8);
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x22,uStack_d8);
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x24,uStack_e0);
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x25,uStack_d4);
+              iVar3 = (int)(short)piVar4[8];
+              if (iVar3 != *(int *)((int)self_ + 0x39120)) {
+                *(int *)((int)self_ + 0x39120) = iVar3;
+                if (iVar3 == 0) {
+                  a1 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+                  if (*(int *)((int)self_ + 0x390fc) == 0) {
+                    uVar5 = 3;
+                  }
+                  else {
+                    uVar5 = 2;
+                  }
+                }
+                else {
+                  uVar5 = 1;
+                  a1 = *(int **)((int)g_pCDx_as_v1 + 0xc);
+                }
+                ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*a1 + 200))))(a1,0x16,uVar5);
+              }
+              iVar3 = *piVar4;
+              if (iVar3 == 0) {
+                ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xf4))
+                          ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,0);
+              }
+              else {
+                a3 = *(int *)(iVar3 + 0x40);
+                if (a3 == 0) {
+                  a3 = *(int *)(iVar3 + 0x44);
+                }
+                ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xf4))
+                          ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,a3);
+              }
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,(int)(short)piVar4[7]);
+              ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0x130))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),*(uint32_t *)(iVar1 + 0x20));
+              ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0x14c))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0,piVar4[9],
+                         *(uint32_t *)(iVar1 + 0x24));
+              orig::CDx_DrawPrimitive_v1(g_pCDx_as_v1,*(uint32_t *)(iVar1 + 0x2c),0,piVar4[5]);
+            }
+            iStack_ec = iStack_ec + 1;
+            piVar4 = piVar4 + 0x30;
+          } while (iStack_ec < *piVar2);
+        }
+        iStack_e4 = iStack_e4 + 1;
+        piVar2 = piVar2 + 9;
+      } while (iStack_e4 < *(int *)(iVar1 + 0x44));
+    }
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x8b,0);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x89,1);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x1b,0);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0xf,1);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
+              ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x16,1);
+    uVar5 = 0;
+    if (local_dc != (int *)0x0) {
+      uVar5 = ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 0xb8))
+                        ))(*(int **)((int)g_pCDx_as_v1 + 0xc),*(uint32_t *)((int)self_ + 0x394b0),0);
+    }
+  }
+  return uVar5;
+}
+
 // FUNCTION: FFXIMAIN 0x10186DB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ClearSlots(void * self_)

@@ -40,6 +40,29 @@ float * CMoProcessor_VT_1032C368::vf043(float *a1, float *a2, float *a3)
   return a2;
 }
 
+// FUNCTION: FFXIMAIN 0x1006D720  (unit CMoProcessor_VT_1032C368: between 0x1006D6B0 (class model places it in CMoProcessor_VT_1032C368) and 0x1006D980 (class model places it in CMoProcessor_VT_1032C368), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall fn_1006D720(float * param_1, float * param_2, float * param_3)
+{
+  long double fVar1;
+  long double fVar2;
+  long double fVar3;
+  
+  fVar1 = (long double)*param_3;
+  fVar2 = (long double)param_3[1];
+  fVar3 = (long double)param_3[2];
+  *param_1 = (float)(fVar1 * (long double)*param_2 +
+                     fVar2 * (long double)param_2[4] + fVar3 * (long double)param_2[8] +
+                    (long double)param_2[0xc]);
+  param_1[1] = (float)(fVar1 * (long double)param_2[1] +
+                       fVar2 * (long double)param_2[5] + fVar3 * (long double)param_2[9] +
+                      (long double)param_2[0xd]);
+  param_1[2] = (float)(fVar1 * (long double)param_2[2] +
+                       fVar2 * (long double)param_2[6] + fVar3 * (long double)param_2[10] +
+                      (long double)param_2[0xe]);
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x1006D980  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 float * CMoProcessor_VT_1032C368::vf021(float *a1, float *a2, float *a3, float a4)

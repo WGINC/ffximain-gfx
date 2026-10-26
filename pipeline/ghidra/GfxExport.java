@@ -87,6 +87,10 @@ public class GfxExport extends GhidraScript {
     private Set<Long> fret = new HashSet<>();
     // `0xADDR cargs N`: a caller-cleanup function reads N argument slots on every path (data/cdecl_args.json)
     private Map<Long, Integer> cargs = new HashMap<>();
+    // `0xADDR retw 4`: export the function returning a 4-byte value in EAX where its prototype returns nothing
+    // (export.sh, XI_RETW: a choice of reconstruction, not a fact -- the translation then hands back what the
+    // original leaves in EAX, and the gate compares all of it)
+    private Set<Long> retw = new HashSet<>();
     // `0xADDR spops N`: the stack argument bytes from the code (`ret N`, or a cdecl function's read slots) of a
     // function whose convention is not decided (its ECX or EDX use not established)
     private Map<Long, Integer> spops = new HashMap<>();
@@ -122,6 +126,7 @@ public class GfxExport extends GhidraScript {
             else if (p.length == 3 && p[1].equals("fret")) fret.add(Long.parseLong(p[0].replace("0x", ""), 16));
             else if (p.length == 3 && p[1].equals("varargs")) varargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
             else if (p.length == 4 && p[1].equals("spops")) { long a = Long.parseLong(p[0].replace("0x", ""), 16); spops.put(a, Integer.parseInt(p[2])); spopsKind.put(a, p[3]); }
+            else if (p.length == 3 && p[1].equals("retw")) retw.add(Long.parseLong(p[0].replace("0x", ""), 16));
             else if (p.length == 3 && p[1].equals("cargs")) cargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
             else if (p.length == 3 && p[1].equals("keeps")) keeps.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 5 && p[1].equals("icall")) icall.put(Long.parseLong(p[0].replace("0x", ""), 16), p);
@@ -161,6 +166,25 @@ public class GfxExport extends GhidraScript {
     // the callee's return. The callee's return is widened to that register (EAX: undefined4, EDX: EDX:EAX,
     // undefined8) so the C++ call reads it too; a float return (fpret.json) is never widened. Callers that
     // read EAX through a callee that never sets it (a bare `ret`) leave that callee untranslatable (`in_EAX`).
+    private int widenListed() {
+        Register eax = currentProgram.getRegister("EAX");
+        int n = 0;
+        for (long ea : retw) {
+            Function c = getFunctionAt(toAddr(ea));
+            if (c == null || !(c.getReturnType() instanceof VoidDataType)) continue;
+            try {
+                if (c.hasCustomVariableStorage()) {
+                    List<Parameter> ps = Arrays.asList(c.getParameters());
+                    c.updateFunction(c.getCallingConventionName(), new ReturnParameterImpl(Undefined4DataType.dataType,
+                        new VariableStorage(currentProgram, eax), true, currentProgram), ps,
+                        Function.FunctionUpdateType.CUSTOM_STORAGE, true, SourceType.USER_DEFINED);
+                } else c.setReturnType(Undefined4DataType.dataType, SourceType.USER_DEFINED);
+                n++;
+            } catch (Exception x) { println("retw not set at " + c.getEntryPoint() + ": " + x); }
+        }
+        return n;
+    }
+
     private int widenReturns(DecompInterface d, List<String> addrs) {
         Register eax = currentProgram.getRegister("EAX"), edx = currentProgram.getRegister("EDX");
         Map<Function, Integer> need = new LinkedHashMap<>();
@@ -994,6 +1018,9 @@ public class GfxExport extends GhidraScript {
         println("variadic prototypes set: " + applyVarargs());
         println("register inputs added: " + registerInputs(fixSig));
         println("kept-register prototype models set: " + keepModels(fixSig));
+        d.dispose(); d = new DecompInterface(); d.setOptions(opt); d.toggleCCode(true); d.toggleSyntaxTree(true); d.openProgram(currentProgram);
+        // first the listed returns (retw): what they hand back may be a callee's EAX, which the rounds then widen
+        println("returns widened to EAX (retw): " + widenListed());
         d.dispose(); d = new DecompInterface(); d.setOptions(opt); d.toggleCCode(true); d.toggleSyntaxTree(true); d.openProgram(currentProgram);
         for (int round = 0, w = 1; round < 8 && w > 0; round++) {
             w = widenReturns(d, addrs);

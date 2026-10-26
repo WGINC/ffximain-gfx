@@ -330,6 +330,19 @@ XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int par
   return 0xffffffff;
 }
 
+// FUNCTION: FFXIMAIN 0x10038440  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038440(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3)
+{
+  int64_t lVar1;
+  
+  if (DAT_1046393c != 0) {
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)*param_2);
+    xi_eax = orig::LobbyThread_SendCmd3(param_1,(uint32_t)lVar1,param_3);
+  }
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x10038470  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3)
@@ -349,6 +362,41 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefi
     }
   }
   return xi_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x100384B0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+{
+  char cVar1;
+  char *pcVar2;
+  int iVar3;
+  uint32_t uVar4;
+  
+  if ((char)param_4 != '\0') {
+    (&dword_10463950_as_v0)[dword_1047B950] = 3;
+    (&DAT_10463951)[dword_1047B950] = (char)param_4;
+    dword_1047B950 = dword_1047B950 + 2;
+  }
+  *(uint32_t *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
+  *(uint32_t *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
+  pcVar2 = param_1;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2[(dword_1047B950 + 0x10463958) - (int)param_1] = cVar1;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  uVar4 = 0xffffffff;
+  do {
+    if (uVar4 == 0) break;
+    uVar4 = uVar4 - 1;
+    cVar1 = *param_1;
+    param_1 = param_1 + 1;
+  } while (cVar1 != '\0');
+  dword_1047B950 = dword_1047B950 + ~uVar4 + 9;
+  iVar3 = dword_1047B950;
+  ((uint8_t *)((&DAT_1046394f)))[dword_1047B950] = 1;
+  return iVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)

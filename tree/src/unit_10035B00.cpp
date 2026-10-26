@@ -76,12 +76,36 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
   return uVar6;
 }
 
+// FUNCTION: FFXIMAIN 0x10036020  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10036020(undefined4 xi_eax, undefined4 xi_s1)
+{
+  if (DAT_10463928 != (int *)0x0) {
+    xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463928 + 0x18))))((void *)(DAT_10463928),1);
+    DAT_10463928 = (int *)0x0;
+  }
+  orig::Unit10035B00_SetScaled10351704(xi_s1);
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x10036050  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_SetScaled10351704(float param_1)
 {
   DAT_10351704 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10036070  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillGlobalSlot1(undefined4 xi_eax, undefined4 xi_s1)
+{
+  if (DAT_1046392c != (int *)0x0) {
+    xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1046392c + 0x18))))((void *)(DAT_1046392c),1);
+    DAT_1046392c = (int *)0x0;
+  }
+  orig::Unit10035B00_SetScaled10351700(xi_s1);
+  return xi_eax;
 }
 
 // FUNCTION: FFXIMAIN 0x100360A0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)

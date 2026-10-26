@@ -115,18 +115,17 @@ switchD_10035a1f_caseD_3:
 }
 
 // FUNCTION: FFXIMAIN 0x10035D40  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- UNRESOLVED
-void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __cdecl CMoTask::CreateMode2(undefined4 param_1, undefined4 param_2)
 {
+  undefined4 *self;
   void *pvVar1;
-  uint64_t uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
-  pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields_v1(pvVar1);
+  self = orig::Mem_AllocFromArea_v2(0x48,4,0);
+  orig::CMoTask_ResetFields_v1(self);
   g_resourcesDirty_as_v0 = 1;
-  if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,2);
+  if (self != (undefined4 *)0x0) {
+    pvVar1 = orig::CMoTask_CtorByMode(self,param_1,param_2,2);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -135,18 +134,17 @@ void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10035D90  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
 {
+  undefined4 *self;
   void *pvVar1;
-  uint64_t uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
-  pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields_v1(pvVar1);
+  self = orig::Mem_AllocFromArea_v2(0x48,4,0);
+  orig::CMoTask_ResetFields_v1(self);
   g_resourcesDirty_as_v0 = 1;
-  if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,1);
+  if (self != (undefined4 *)0x0) {
+    pvVar1 = orig::CMoTask_CtorByMode(self,param_1,param_2,1);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -155,18 +153,17 @@ void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10035DE0  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoTask::CreateMode4(undefined4 param_1, int param_2)
 {
+  undefined4 *self;
   void *pvVar1;
-  uint64_t uVar2;
   
-  uVar2 = orig::Mem_AllocFromArea_v1(0x48,4);
-  pvVar1 = (void *)uVar2;
-  orig::CMoTask_ResetFields_v1(pvVar1);
+  self = orig::Mem_AllocFromArea_v2(0x48,4,0);
+  orig::CMoTask_ResetFields_v1(self);
   g_resourcesDirty_as_v0 = 1;
-  if (pvVar1 != (void *)0x0) {
-    pvVar1 = orig::CMoTask_CtorByMode(pvVar1,param_1,param_2,4);
+  if (self != (undefined4 *)0x0) {
+    pvVar1 = orig::CMoTask_CtorByMode(self,param_1,param_2,4);
     if (pvVar1 != (void *)0x0) {
       orig::CMoTask_RegisterWithMng_v1(5);
     }
@@ -196,54 +193,48 @@ char CMoTask::vf008()
 }
 
 // FUNCTION: FFXIMAIN 0x10053370  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- UNRESOLVED
-undefined4 __thiscall CMoTask::Restart(void * self)
+// GATE: PASS -- 100 trials, 99 returned normally, 51 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::Restart(void * self)
 {
   int *this_00;
-  uint32_t uVar1;
-  uint32_t uVar2;
-  uint32_t *this_01;
-  uint64_t uVar3;
+  undefined4 *this_01;
   
-  *(uint32_t *)((int)self + 0x9c) = 0;
-  *(uint32_t *)((int)self + 0xcc) = 0;
-  *(uint32_t *)((int)self + 200) = 0;
+  *(undefined4 *)((int)self + 0x9c) = 0;
+  *(undefined4 *)((int)self + 0xcc) = 0;
+  *(undefined4 *)((int)self + 200) = 0;
   if ((*(uint8_t *)((int)self + 0xdc) & 1) != 0) {
     if (*(int *)((int)self + 0xa8) != 0) {
-      *(uint32_t *)(*(int *)((int)self + 0xa8) + 0x14) = 0;
+      *(undefined4 *)(*(int *)((int)self + 0xa8) + 0x14) = 0;
     }
     *(uint8_t *)((int)self + 0xdc) = *(uint8_t *)((int)self + 0xdc) & 0xfe;
-    uVar2 = *(uint32_t *)((int)self + 0xd8) | 0x800;
-    *(uint32_t *)((int)self + 0xd8) = uVar2;
-    return uVar2;
+    *(uint32_t *)((int)self + 0xd8) = *(uint32_t *)((int)self + 0xd8) | 0x800;
+    return;
   }
   *(uint8_t *)((int)self + 0xdc) = *(uint8_t *)((int)self + 0xdc) & 0xfe;
   *(uint32_t *)((int)self + 0xd8) = *(uint32_t *)((int)self + 0xd8) | 0x800;
   this_00 = *(int **)((int)self + 0xa8);
   if (this_00 != (int *)0x0) {
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
-    *(uint32_t *)((int)self + 0xa8) = 0;
+    *(undefined4 *)((int)self + 0xa8) = 0;
   }
-  uVar3 = orig::Mem_AllocFromArea_v1(0x3d,4);
-  this_01 = (uint32_t *)uVar3;
+  this_01 = orig::Mem_AllocFromArea_v2(0x3d,4,0);
   orig::CMoTask_ResetFields_v1(this_01);
   g_resourcesDirty_as_v0 = 1;
-  if (this_01 == (uint32_t *)0x0) {
-    this_01 = (uint32_t *)0x0;
+  if (this_01 == (undefined4 *)0x0) {
+    this_01 = (undefined4 *)0x0;
   }
   else {
-    orig::CMoTask_Constructor_v1(this_01);
+    orig::CMoTask_Constructor_v2(this_01);
     *this_01 = &PTR_CMoTask_GetRuntimeClass_variant12_1032b654;
     *(uint8_t *)(this_01 + 0xf) = 0;
   }
-  *(uint32_t **)((int)self + 0xa8) = this_01;
-  orig::FUN_10074a00();
-  this_01[0xd] = *(uint32_t *)((int)self + 0x14);
-  uVar1 = *(uint32_t *)((int)self + 0x14);
-  this_01[0xe] = uVar1;
-  this_01[6] = *(uint32_t *)((int)self + 0x14);
+  *(undefined4 **)((int)self + 0xa8) = this_01;
+  orig::FUN_10074a00_v1();
+  this_01[0xd] = *(undefined4 *)((int)self + 0x14);
+  this_01[0xe] = *(undefined4 *)((int)self + 0x14);
+  this_01[6] = *(undefined4 *)((int)self + 0x14);
   this_01[7] = 0x4d670000;
-  return uVar1;
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10055550  (placed by IDB name; static (takes no this))
@@ -331,7 +322,7 @@ void * __thiscall CMoTask::Constructor(void * self)
   *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032c978;
   if (byte_1047D13D == '\0') {
     orig::CMoTask_ResetFields_v2(self);
-    orig::FUN_100749f0_v1();
+    orig::FUN_100749f0();
   }
   return self;
 }
@@ -378,49 +369,47 @@ undefined4 __thiscall CMoTask::ResetFields(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10074920  (placed by IDB name; static (takes no this))
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 17 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CMoTask::Clone(void * self, uint32_t param_1)
 {
-  uint32_t uVar1;
-  undefined4 *a1;
-  undefined4 *puVar2;
+  undefined4 *puVar1;
+  uint32_t uVar2;
   undefined4 *puVar3;
-  uint64_t uVar4;
+  undefined4 *puVar4;
   
   byte_1047D13D_as_v0 = 1;
-  uVar4 = orig::Mem_AllocFromArea_v1(param_1,4);
+  puVar1 = orig::Mem_AllocFromArea_v2(param_1,4,0);
   g_resourcesDirty_as_v0 = 1;
-  if ((void *)uVar4 == (void *)0x0) {
-    a1 = (undefined4 *)0x0;
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
   }
   else {
-    uVar4 = orig::CMoTask_Constructor_v1((void *)uVar4);
-    a1 = (undefined4 *)uVar4;
+    puVar1 = orig::CMoTask_Constructor_v2(puVar1);
   }
   byte_1047D13D_as_v0 = 0;
-  puVar2 = self;
-  puVar3 = a1;
-  for (uVar1 = param_1 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {
-    *puVar3 = *puVar2;
-    puVar2 = puVar2 + 1;
+  puVar3 = self;
+  puVar4 = puVar1;
+  for (uVar2 = param_1 >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+    *puVar4 = *puVar3;
     puVar3 = puVar3 + 1;
+    puVar4 = puVar4 + 1;
   }
-  for (uVar1 = param_1 & 3; uVar1 != 0; uVar1 = uVar1 - 1) {
-    *(uint8_t *)puVar3 = *(uint8_t *)puVar2;
-    puVar2 = (undefined4 *)((int)puVar2 + 1);
+  for (uVar2 = param_1 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+    *(uint8_t *)puVar4 = *(uint8_t *)puVar3;
     puVar3 = (undefined4 *)((int)puVar3 + 1);
+    puVar4 = (undefined4 *)((int)puVar4 + 1);
   }
-  a1[2] = 0;
-  a1[3] = 0;
-  a1[4] = 0;
-  a1[9] = 0;
-  a1[10] = 0;
+  puVar1[2] = 0;
+  puVar1[3] = 0;
+  puVar1[4] = 0;
+  puVar1[9] = 0;
+  puVar1[10] = 0;
   if (*(void **)((int)self + 0x10) != (void *)0x0) {
-    orig::FUN_10074850(*(void **)((int)self + 0x10),(int)a1);
+    orig::FUN_10074850(*(void **)((int)self + 0x10),(int)puVar1);
   }
   orig::FUN_100749f0();
-  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x28))))((void *)(self),a1);
-  return a1;
+  ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x28))))((void *)(self),puVar1);
+  return puVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10074AB0  (placed by IDB name; static (takes no this))

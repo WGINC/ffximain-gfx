@@ -27,7 +27,7 @@ XI_API void __cdecl Sq_PrintFloat4x4Indented(float * param_1, undefined4 param_2
 }
 
 // FUNCTION: FFXIMAIN 0x102813B0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// NOT VERIFIED -- UNRESOLVED
+// GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2)
 {
   char xi_frame[8] __attribute__((aligned(4)));
@@ -40,7 +40,7 @@ XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2
   orig::sqgxTextureGetSize_v1(*(int *)(g_pSqgxContext_as_s32 + 0x8b0),&local_4,&local_8);
   if (0 < param_1) {
     do {
-      orig::sqgxBlendAdd();
+      orig::sqgxBlendAdd((float)((long double)1.0f / (long double)param_2));
       orig::SqgxContext_NoOpA_v1();
       param_1 = param_1 + -1;
     } while (param_1 != 0);

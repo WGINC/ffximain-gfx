@@ -3458,6 +3458,16 @@ XI_API void * __thiscall ZoneMap_ConstructVt10336668(void * self_)
   return self_;
 }
 
+// FUNCTION: FFXIMAIN 0x1016FC90  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1016FC90(void * self_)
+{
+  *(undefined4 *)((int)self_ + 4) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 0xc) = 0;
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 9 returned normally, 468 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API _DWORD * __thiscall ParseZoneMeshData(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
@@ -4135,6 +4145,107 @@ LABEL_18:
   return v20;
 }
 
+// FUNCTION: FFXIMAIN 0x10170CD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_10170CD0(void * self_, undefined4 * param_1)
+{
+  undefined4 *puVar1;
+  int *a1;
+  undefined4 *puVar2;
+  int iVar3;
+  int *piVar4;
+  int *piVar5;
+  int *piVar6;
+  int local_10;
+  int local_c;
+  undefined4 *local_8;
+  
+  local_8 = (undefined4 *)0x0;
+  puVar1 = *(undefined4 **)((int)self_ + 4);
+  do {
+    do {
+      puVar2 = local_8;
+      local_8 = puVar1;
+      if (local_8 == (undefined4 *)0x0) {
+        if (param_1 == (undefined4 *)0x0) {
+          param_1 = (undefined4 *)orig::FUN_1016fc90_v1(self_);
+        }
+        return param_1;
+      }
+      puVar1 = (undefined4 *)*local_8;
+    } while ((param_1 != (undefined4 *)0x0) && (param_1 != local_8));
+    piVar4 = (int *)local_8[0x18];
+    local_c = 0;
+    if (0 < (int)local_8[0x11]) {
+      do {
+        if (piVar4[1] != 0) {
+          local_10 = 0;
+          if (0 < *piVar4) {
+            piVar5 = (int *)(piVar4[1] + 0x28);
+            do {
+              if (piVar5[-8] != 0) {
+                piVar6 = (int *)*piVar5;
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[0x24];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[1];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[0x22];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = piVar5 + 2;
+                iVar3 = 0x20;
+                do {
+                  a1 = (int *)*piVar6;
+                  if (a1 != (int *)0x0) {
+                    ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
+                  }
+                  piVar6 = piVar6 + 1;
+                  iVar3 = iVar3 + -1;
+                } while (iVar3 != 0);
+                piVar6 = (int *)piVar5[0x23];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+              }
+              local_10 = local_10 + 1;
+              piVar5 = piVar5 + 0x30;
+            } while (local_10 < *piVar4);
+          }
+          orig::Mem_FreeObject_v1(piVar4[1]);
+          piVar4[1] = 0;
+        }
+        local_c = local_c + 1;
+        piVar4 = piVar4 + 9;
+      } while (local_c < (int)local_8[0x11]);
+    }
+    if (local_8[0x18] != 0) {
+      orig::Mem_FreeObject_v1(local_8[0x18]);
+      local_8[0x18] = 0;
+    }
+    orig::Mem_FreeObject_v1(local_8);
+  } while (param_1 == (undefined4 *)0x0);
+  if (puVar2 == (undefined4 *)0x0) {
+    *(undefined4 **)((int)self_ + 4) = puVar1;
+  }
+  else {
+    *puVar2 = puVar1;
+  }
+  if (*(undefined4 **)((int)self_ + 8) == param_1) {
+    *(undefined4 **)((int)self_ + 8) = puVar2;
+  }
+  iVar3 = *(int *)((int)self_ + 0xc) + -1;
+  *(int *)((int)self_ + 0xc) = iVar3;
+  return (undefined4 *)iVar3;
+}
+
 // FUNCTION: FFXIMAIN 0x10170F30  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __thiscall ZoneMap_FindEntryByName(void * self_, char * param_1, int param_2)
@@ -4619,4 +4730,45 @@ XI_API float * __thiscall ZoneMap_FindDbgBoxHitBySegment(void * self_, float * p
     }
   }
   return (float *)0x0;
+}
+
+// FUNCTION: FFXIMAIN 0x10176DD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_10176DD0(undefined4 xi_eax, int param_1)
+{
+  undefined4 *puVar1;
+  uint32_t *puVar2;
+  int iVar3;
+  char *pcVar4;
+  uint32_t uVar5;
+  int local_4;
+  
+  for (puVar1 = g_dbgBoxList_as_v1; puVar1 != (undefined4 *)0x0; puVar1 = (undefined4 *)*puVar1) {
+    xi_eax = puVar1[3];
+    local_4 = 0;
+    if (0 < (int)puVar1[4]) {
+      pcVar4 = (char *)(xi_eax + 0xf0);
+      do {
+        if (pcVar4[-0xb0] == '_') {
+          uVar5 = 0;
+          if (param_1 != 0) {
+            uVar5 = (uint32_t)(*pcVar4 == '\0');
+          }
+          iVar3 = 0;
+          if (0 < *(int *)(pcVar4 + -0x1c)) {
+            puVar2 = *(uint32_t **)(pcVar4 + -0x18);
+            do {
+              iVar3 = iVar3 + 1;
+              *puVar2 = (*puVar2 ^ uVar5 << 0xd) & 0x2000 ^ *puVar2;
+              puVar2 = puVar2 + 0x7c;
+            } while (iVar3 < *(int *)(pcVar4 + -0x1c));
+          }
+        }
+        xi_eax = local_4 + 1;
+        pcVar4 = pcVar4 + 0xf4;
+        local_4 = xi_eax;
+      } while (xi_eax < (int)puVar1[4]);
+    }
+  }
+  return xi_eax;
 }

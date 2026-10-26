@@ -58,6 +58,77 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
                                          fVar18 * (long double)fVar6)) - fVar20 * (long double)fVar14;
 }
 
+// FUNCTION: FFXIMAIN 0x10280140  (unit sqMatrix4: name sqMatrix4_10280140)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl sqMatrix4_10280140(float * param_1, float * param_2, float * param_3)
+{
+  *param_1 = (float)((long double)param_2[3] * (long double)param_3[0xc] +
+                    (long double)*param_2 * (long double)*param_3 +
+                    (long double)param_2[1] * (long double)param_3[4] +
+                    (long double)param_3[8] * (long double)param_2[2]);
+  param_1[1] = (float)((long double)param_3[0xd] * (long double)param_2[3] +
+                      (long double)*param_2 * (long double)param_3[1] +
+                      (long double)param_2[1] * (long double)param_3[5] +
+                      (long double)param_3[9] * (long double)param_2[2]);
+  param_1[2] = (float)((long double)param_3[0xe] * (long double)param_2[3] +
+                      (long double)param_3[2] * (long double)*param_2 +
+                      (long double)param_2[1] * (long double)param_3[6] +
+                      (long double)param_3[10] * (long double)param_2[2]);
+  param_1[3] = (float)((long double)param_3[3] * (long double)*param_2 +
+                      (long double)param_3[0xb] * (long double)param_2[2] +
+                      (long double)param_2[1] * (long double)param_3[7] +
+                      (long double)param_2[3] * (long double)param_3[0xf]);
+  param_1[4] = (float)((long double)param_2[4] * (long double)*param_3 +
+                      (long double)param_3[8] * (long double)param_2[6] +
+                      (long double)param_2[7] * (long double)param_3[0xc] +
+                      (long double)param_2[5] * (long double)param_3[4]);
+  param_1[5] = (float)((long double)param_3[9] * (long double)param_2[6] +
+                      (long double)param_3[0xd] * (long double)param_2[7] +
+                      (long double)param_2[4] * (long double)param_3[1] +
+                      (long double)param_3[5] * (long double)param_2[5]);
+  param_1[6] = (float)((long double)param_2[4] * (long double)param_3[2] +
+                      (long double)param_3[10] * (long double)param_2[6] +
+                      (long double)param_3[0xe] * (long double)param_2[7] +
+                      (long double)param_2[5] * (long double)param_3[6]);
+  param_1[7] = (float)((long double)param_2[5] * (long double)param_3[7] +
+                      (long double)param_2[6] * (long double)param_3[0xb] +
+                      (long double)param_2[7] * (long double)param_3[0xf] +
+                      (long double)param_2[4] * (long double)param_3[3]);
+  param_1[8] = (float)((long double)param_2[8] * (long double)*param_3 +
+                      (long double)param_3[8] * (long double)param_2[10] +
+                      (long double)param_2[0xb] * (long double)param_3[0xc] +
+                      (long double)param_2[9] * (long double)param_3[4]);
+  param_1[9] = (float)((long double)param_3[9] * (long double)param_2[10] +
+                      (long double)param_3[0xd] * (long double)param_2[0xb] +
+                      (long double)param_2[8] * (long double)param_3[1] +
+                      (long double)param_3[5] * (long double)param_2[9]);
+  param_1[10] = (float)((long double)param_2[8] * (long double)param_3[2] +
+                       (long double)param_3[10] * (long double)param_2[10] +
+                       (long double)param_3[0xe] * (long double)param_2[0xb] +
+                       (long double)param_2[9] * (long double)param_3[6]);
+  param_1[0xb] = (float)((long double)param_2[9] * (long double)param_3[7] +
+                        (long double)param_2[10] * (long double)param_3[0xb] +
+                        (long double)param_2[0xb] * (long double)param_3[0xf] +
+                        (long double)param_2[8] * (long double)param_3[3]);
+  param_1[0xc] = (float)((long double)param_2[0xc] * (long double)*param_3 +
+                        (long double)param_3[8] * (long double)param_2[0xe] +
+                        (long double)param_2[0xf] * (long double)param_3[0xc] +
+                        (long double)param_2[0xd] * (long double)param_3[4]);
+  param_1[0xd] = (float)((long double)param_3[9] * (long double)param_2[0xe] +
+                        (long double)param_3[0xd] * (long double)param_2[0xf] +
+                        (long double)param_2[0xc] * (long double)param_3[1] +
+                        (long double)param_3[5] * (long double)param_2[0xd]);
+  param_1[0xe] = (float)((long double)param_2[0xc] * (long double)param_3[2] +
+                        (long double)param_3[10] * (long double)param_2[0xe] +
+                        (long double)param_3[0xe] * (long double)param_2[0xf] +
+                        (long double)param_2[0xd] * (long double)param_3[6]);
+  param_1[0xf] = (float)((long double)param_2[0xd] * (long double)param_3[7] +
+                        (long double)param_2[0xe] * (long double)param_3[0xb] +
+                        (long double)param_2[0xf] * (long double)param_3[0xf] +
+                        (long double)param_2[0xc] * (long double)param_3[3]);
+  return param_3;
+}
+
 // FUNCTION: FFXIMAIN 0x10280650  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqMatrix4_SetFields(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)

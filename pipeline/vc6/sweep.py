@@ -15,7 +15,20 @@ outside a relocation, each call's target by the address its callee's name carrie
     a struct of that name, `((FUN_<address> *)a0)->f(...)`), so the comparison checks its target. A wrapper with an
     `XI_ANY` parameter (any 4 bytes: its conversion is the wrapper's, not the source's) or a type the shim does not
     define leaves the function out, counted by why.
-Nothing else is changed: the point is what the tree's code compiles to, not a source tuned to match.
+Nothing else is changed: the point is what the tree's code compiles to, not a source tuned to match. What the tree's
+GCC build takes and Visual C++ 6.0 does not is spelled the way VC6 takes it, computing the same (task #116):
+  * an implicit conversion GCC's -fpermissive takes (pointer to pointer, pointer to or from a 4-byte integer, an
+    integer to an enum) as the cast to the type cl names in its C2440 / C2664 (permissive, after a first compile);
+  * a C source naming a Direct3D interface includes the header for C (d3d_c); a call of an interface's C++ wrapper
+    (`dev->SetRenderState(...)`) makes it C++; a struct a body or a global's type names through a pointer is declared
+    with a typedef (C needs one);
+  * a global holding a function pointer (an import's IAT slot) is declared at its address, as the other globals;
+  * the decompilers' other virtual-call spellings (`*(int *)X`, Hex-Rays' `(*(R (__thiscall **)(P))(SLOT))(...)`)
+    as the stand-in class call (_vcalls); a method's own `T * self = reinterpret_cast<T *>(this);` kept as its binding;
+  * the tree's helpers (CONCATnm, LODWORD and the like, SUBnm, xi_k4/xi_k8, builtin_strncpy, __builtin_isunordered),
+    the CRT's memcpy / memset / strcpy with C linkage (the intrinsic pragma needs it), `ull` as `ui64`, a hexadecimal
+    floating literal as a decimal the compiler is checked to read back as the same double (hexf_check);
+  * the shim's own inline functions emitted beside a function are not counted as the function (SHIM_HELPER).
 
     FFXI_DLL=... VC6=... python3 pipeline/vc6/sweep.py OUT.json [--flags "/O2"] [--keep DIR] [--only 0xADDR,...] [--jobs N] [--cache DIR]
 OUT.json: {"0xADDR": {"verdict": IDENTICAL | IDENTICAL_UNCOMPARED (equal bytes, but a relocation's target could not be
@@ -54,15 +67,77 @@ typedef unsigned char XI_PT1; typedef unsigned short XI_PT2; typedef unsigned in
 typedef signed char XI_PS1; typedef short XI_PS2; typedef int XI_PS4; typedef __int64 XI_PS8;
 #define XI_PIECE(x, o, s) (*(XI_PT##s *)((char *)&(x) + (o)))
 #define XI_PIECE_S(x, o, s) (*(XI_PS##s *)((char *)&(x) + (o)))
+/* a piece of an array global (Visual C++ 6.0 takes no & of `*(T (*)[N])address`: C2101): from the array's first byte,
+   the same address (sweep.py convert) */
+#define XI_PIECEA(x, o, s) (*(XI_PT##s *)((char *)(x) + (o)))
+#define XI_PIECEA_S(x, o, s) (*(XI_PS##s *)((char *)(x) + (o)))
 /* a 3-byte piece has no type: its value, read from the 4-byte word (sweep.py macros rewrites XI_PIECE(x, o, 3)) */
 #define XI_PIECE3(x, o) ((((uint32_t)(x)) >> (8 * (o))) & 0xFFFFFFu)
 #define CONCAT13(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 24) | ((uint32_t)(l) & 0xFFFFFFu)))
+/* the CRT's string functions (tree/include/xi_decomp.hpp: <string.h>), with C linkage in C++ as well: the intrinsic
+   pragma takes only a C-linkage function (cl C4162) */
+#ifdef __cplusplus
+extern "C" {
+#endif
 void *__cdecl memcpy(void *, const void *, size_t);
-#pragma intrinsic(memcpy)
+void *__cdecl memset(void *, int, size_t);
+char *__cdecl strcpy(char *, const char *);
+#ifdef __cplusplus
+}
+#endif
+#pragma intrinsic(memcpy, memset, strcpy)
+/* __builtin_isunordered(a, b) (GCC): either is a NaN; _isnan (FLOAT.H): nonzero for a NaN */
+#ifdef __cplusplus
+extern "C" int __cdecl _isnan(double);
+#else
+int __cdecl _isnan(double);
+#endif
+#define __builtin_isunordered(a, b) (_isnan(a) || _isnan(b))
 #define qmemcpy memcpy
+/* more of the decompiler's helpers, as tree/include/xi_ghidra.hpp and xi_decomp.hpp define them */
+typedef signed char sbyte; typedef __int64 longlong; typedef unsigned __int64 ulonglong; typedef unsigned __int64 qword;
+typedef unsigned char xi_bool;
+#define CONCAT11(h, l) ((uint16_t)(((uint16_t)(uint8_t)(h) << 8) | (uint8_t)(l)))
+#define CONCAT12(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 16) | (uint16_t)(l)))
+#define CONCAT21(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 8) | (uint8_t)(l)))
+#define CONCAT22(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 16) | (uint16_t)(l)))
+#define CONCAT43(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 24) | ((uint64_t)(l) & 0xFFFFFFui64)))
+#define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
+#define ZEXT14(x) ((uint32_t)(uint8_t)(x))
+#define ZEXT24(x) ((uint32_t)(uint16_t)(x))
+#define ZEXT48(x) ((uint64_t)(uint32_t)(x))
+#define ZEXT12(x) ((uint16_t)(uint8_t)(x))
+#define SEXT14(x) ((int32_t)(int8_t)(x))
+#define SEXT24(x) ((int32_t)(int16_t)(x))
+#define SEXT48(x) ((int64_t)(int32_t)(x))
+#define SEXT12(x) ((int16_t)(int8_t)(x))
+#define LAST_IND(x, part_type) (sizeof(x) / sizeof(part_type) - 1)
+#define BYTEn(x, n)  (*((_BYTE *)&(x) + (n)))
+#define WORDn(x, n)  (*((_WORD *)&(x) + (n)))
+#define DWORDn(x, n) (*((_DWORD *)&(x) + (n)))
+#define LOBYTE(x)  BYTEn(x, 0)
+#define LOWORD(x)  WORDn(x, 0)
+#define LODWORD(x) DWORDn(x, 0)
+#define HIBYTE(x)  BYTEn(x, sizeof(x) - 1)
+#define HIWORD(x)  WORDn(x, sizeof(x) / 2 - 1)
+#define HIDWORD(x) DWORDn(x, 1)
+#define BYTE1(x) BYTEn(x, 1)
+#define BYTE2(x) BYTEn(x, 2)
+#define BYTE3(x) BYTEn(x, 3)
+#define BYTE4(x) BYTEn(x, 4)
+#define WORD1(x) WORDn(x, 1)
+#define WORD2(x) WORDn(x, 2)
+#define SLOBYTE(x) (*((int8_t *)&(x)))
+#define SLOWORD(x) (*((int16_t *)&(x)))
+#define SHIWORD(x) (*((int16_t *)&(x) + 1))
+#define SHIBYTE(x) (*((int8_t *)&(x) + sizeof(x) - 1))
+#define SBYTE1(x) (*((int8_t *)&(x) + 1))
+#define SLODWORD(x) (*((int32_t *)&(x)))
+#define SHIDWORD(x) (*((int32_t *)&(x) + 1))
 __declspec(dllimport) DWORD __stdcall timeGetTime(void);
 #ifndef __cplusplus
 typedef unsigned int XI_ANY;    /* any 4 bytes (tree/include/xi_ghidra_shared.hpp): in C, the word */
+#define nullptr ((void *)0)
 #endif
 #ifdef __cplusplus
 /* any 4 bytes, from an argument of any 4-byte type: passed on the stack as the word, as MSVC passes a 4-byte struct */
@@ -84,6 +159,9 @@ ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ 
 VORIG = re.compile(r'^template <class\.\.\. R> XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*?),?\s*R\.\.\. rest\) \{ (?:return )?'
                    r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), decltype[^>]*>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
 GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
+# a global holding a function pointer (an import's IAT slot, a vtable's first slot): `typedef R (CC *NAME_t)(P);`
+FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?P<name>\w+)_t\)\((?P<params>[^()]*)\);)\s*\n'
+                   r'#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
          'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool', 'code',
@@ -95,7 +173,13 @@ def plain(ty):
     return all(w in BASIC for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')))
 
 
+# Windows types as tree/include/xi_compat_win.hpp declares them (from the SDK headers)
 WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef void *HMODULE;', 'CHAR': 'typedef char CHAR;',
+        'UINT': 'typedef unsigned int UINT;', 'LPSTR': 'typedef char *LPSTR;', 'LPCSTR': 'typedef const char *LPCSTR;',
+        'LPSYSTEMTIME': 'struct _SYSTEMTIME; typedef struct _SYSTEMTIME *LPSYSTEMTIME;',
+        'LPRECT': 'struct tagRECT; typedef struct tagRECT *LPRECT;', 'LPMSG': 'struct tagMSG; typedef struct tagMSG *LPMSG;',
+        'HINSTANCE': 'struct HINSTANCE__; typedef struct HINSTANCE__ *HINSTANCE;',
+        'HCURSOR': 'struct HICON__; typedef struct HICON__ *HCURSOR;', 'LRESULT': 'typedef int LRESULT;',
         'HWND': 'typedef void *HWND;', 'HANDLE': 'typedef void *HANDLE;', 'xi_codefn': 'typedef code xi_codefn;',
         '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;'}
 
@@ -106,10 +190,11 @@ def type_decls(ty):
     them fails to compile, code using its size compiles to other bytes, neither can match by chance)"""
     out = []
     for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')):
-        if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64'): continue
+        if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64', 'XI_ANY'): continue
         if w in WINT: out.append(WINT[w]); continue
-        if re.search(r'\b%s\s*\*' % w, ty): out.append('struct %s;' % w)
-        else: out.append('struct %s { int xi_unknown_layout; };' % w)
+        # a struct also named by a typedef, as C needs (C++ takes it too)
+        if re.search(r'\b%s\s*\*' % w, ty): out.append('struct %s; typedef struct %s %s;' % (w, w, w))
+        else: out.append('struct %s { int xi_unknown_layout; }; typedef struct %s %s;' % (w, w, w))
     return out
 
 
@@ -117,8 +202,23 @@ def externs():
     src = open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()
     o = {m.group('name'): m.groupdict() for m in ORIG.finditer(src)}
     for m in VORIG.finditer(src): o[m.group('name')] = dict(m.groupdict(), variadic=True)
-    g = {m.group('name'): m.groupdict() for m in GLOB.finditer(open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read())}
+    gt = open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read()
+    g = {m.group('name'): m.groupdict() for m in GLOB.finditer(gt)}
+    for m in FGLOB.finditer(gt):
+        # its parameter types (a parameter's name dropped), for the declarations they need
+        ps = [re.sub(r'\s+\w+$', '', x.strip()) if re.search(r'\w\s+\w+$', x.strip()) else x.strip()
+              for x in m.group('params').split(',') if x.strip()]
+        g[m.group('name')] = dict(m.groupdict(), type=m.group('name') + '_t', arr=None, fptr=' '.join([m.group('rt')] + ps))
     return o, g
+
+
+def glob_lines(g, gd):
+    """the lines that declare global g at its address: `#define g (*(type *)address)`, after what its type needs"""
+    if gd.get('fptr'):
+        return type_decls(gd['fptr']) + [gd['td'], '#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr'])]
+    d = type_decls(gd['type'])
+    if gd.get('arr'): return d + ['#define %s (*(%s (*)%s)%su)' % (g, gd['type'], gd['arr'], gd['addr'])]
+    return d + ['#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr'])]
 
 
 def split_args(s):
@@ -223,6 +323,8 @@ def class_fields(cls):
     return lines, ptrs
 
 
+# the shim's inline functions (and HELPERS), by their decorated names
+SHIM_HELPER = re.compile(r'^\?\?0XI_ANY@@|^\?xi_castbits_@@|^_?(?:builtin_strncpy|xi_k4|xi_k8)$|^\?(?:builtin_strncpy|xi_k4|xi_k8|xi_b32|xi_b64)@@')
 FTOL = 0x10311C2C          # LIBC.LIB's __ftol, the same 39 bytes at this address (checked by ftol_check below)
 _ADDRS = None
 
@@ -297,7 +399,11 @@ def _castbits(body):
         out.append(body[i:j] + 'xi_castbits_((%s), (%s *)0)' % (inner, T)); i = e
 
 
+# the decompilers' virtual call through a __thiscall function-pointer type: Ghidra's `((R (__thiscall *)(P))(FN))(A)`
+# with FN the slot's value, Hex-Rays' `(*(R (__thiscall **)(P))(SLOT))(A)` with SLOT the slot's address
 _VCALL = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\(')
+_VCALL2 = re.compile(r'\(\*\((?P<ret>[^()]+?) \(__thiscall \*\*\)\((?P<params>[^()]*)\)\)\(')
+_INT4 = r'(?:int|uint|uint32_t|_DWORD|undefined4|dword|DWORD|unsigned int)'
 VDECLS = []      # stand-in classes the virtual calls of the last macros() body need (convert puts them at file scope)
 
 
@@ -307,30 +413,70 @@ def _strip_parens(e):
     return e
 
 
-def _vcalls(body):
+def _strip_ptr_cast(e):
+    """the expression without outer parentheses and outer pointer casts `(T *)`"""
+    while True:
+        e = _strip_parens(e)
+        m = re.match(r'^\((?:[A-Za-z_]\w*\s*)+\*+\s*\)\s*(.*)$', e)
+        if not m or _group(e, 0) != len(e) - len(m.group(1)): return e
+        e = m.group(1)
+
+
+def _pure(e):
+    """no side effect: no call, assignment, ++ or --"""
+    return not re.search(r'\b[A-Za-z_]\w*\s*\(|\+\+|--|[^=!<>]=[^=]', e)
+
+
+def _vtable_slot(addr, decls):
+    """for the address of a vtable slot read from object X -- `VT + OFF` or `VT`, VT the object's first 4 bytes as an
+    integer: `*(T *)X` for a 4-byte integer T, or `*X` with X a name declared (a local, a parameter, a global) a
+    pointer to one, or X itself `*(T **)(E)` -- (X, OFF), X free of side effects; else None"""
+    addr = _strip_parens(addr)
+    m = re.match(r'^(.*?)\s*\+\s*(0x[0-9a-fA-F]+|\d+)$', addr)
+    vt, off = (m.group(1), int(m.group(2), 0)) if m else (addr, 0)
+    vt = _strip_parens(vt)
+    x = None
+    m = re.match(r'^\*\(%s \*\)\s*(.+)$' % _INT4, vt)
+    if m: x = _strip_parens(m.group(1))
+    else:
+        m = re.match(r'^\*(\w+)$', vt)
+        if m and re.search(r'(?:^|[;{(,\n])\s*%s\s*\*\s*%s\s*[;,)]' % (_INT4, re.escape(m.group(1))), decls): x = m.group(1)
+        m = re.match(r'^\*(\*\(%s \*\*\)\s*\(.*\))$' % _INT4, vt)
+        if m and _group(m.group(1), m.group(1).index('(', m.group(1).index('**)'))) == len(m.group(1)): x = m.group(1)
+    return (x, off) if x and _pure(x) else None
+
+
+def _vcalls(body, decls=''):
     """a virtual call the decompiler wrote through a __thiscall function-pointer type -- which Visual C++ 6.0 cannot
-    spell -- `((R (__thiscall *)(void *, P...))((**(code **)(*OBJ + OFF))))((void *)(OBJ), A...)`, as the C++ call
-    it compiles from: a stand-in class with OFF/4 virtual slots before the method, `((XVk *)(OBJ))->f(A...)`. Only
-    where the vtable is read from the object passed as `this`; anything else is left as it is"""
+    spell -- as the C++ call it compiles from: a stand-in class with OFF/4 virtual slots before the method,
+    `((XVk *)(X))->f(A...)`. Only where the slot is read from the vtable of the object X passed as `this` (the first
+    argument), X free of side effects (the decompiled form reads it twice, the call once), the slot's offset a
+    multiple of 4: Ghidra's
+    `((R (__thiscall *)(void *, P...))((**(code **)(*X + OFF))))((void *)(X), A...)` and Hex-Rays'
+    `(*(R (__thiscall **)(T, P...))(*(_DWORD *)X + OFF))(X, A...)`. Anything else is left as it is"""
     out, i = [], 0
     while True:
-        m = _VCALL.search(body, i)
-        if not m: out.append(body[i:]); return ''.join(out)
+        ms = [x for x in (_VCALL.search(body, i), _VCALL2.search(body, i)) if x]
+        if not ms: out.append(body[i:]); return ''.join(out)
+        m = min(ms, key=lambda x: x.start())
         p = m.start(); e1 = _group(body, p)
         if e1 < 0 or e1 >= len(body) or body[e1] != '(':
             out.append(body[i:m.end()]); i = m.end(); continue
-        fn = _strip_parens(body[m.end() - 1:e1 - 1])
-        fm = re.match(r'^\*\*\(code \*\*\)\((.*) \+ (0x[0-9a-fA-F]+|\d+)\)$', fn)
+        slot = None
+        if m.re is _VCALL:
+            fn = _strip_parens(body[m.end() - 1:e1 - 1])
+            fm = re.match(r'^\*\*?\(code \*\*\)(.*)$', fn)
+            if fm: slot = _vtable_slot(fm.group(1), decls + '\n' + body)
+        else:
+            slot = _vtable_slot(body[m.end() - 1:e1 - 1], decls + '\n' + body)
         e2 = _group(body, e1)
         args = split_args(body[e1 + 1:e2 - 1]) if e2 > 0 else []
         params = [x.strip() for x in m.group('params').split(',')]
-        ok = fm and fm.group(1).startswith('*') and args and params and params[0] == 'void *'
-        if ok:
-            obj = _strip_parens(fm.group(1)[1:]); off = int(fm.group(2), 0)
-            a0 = re.match(r'^\(void \*\)\s*(.*)$', args[0].strip())
-            ok = a0 and _strip_parens(a0.group(1)) == obj and off % 4 == 0 and len(args) == len(params)
+        ok = slot is not None and args and params and len(args) == len(params) and slot[1] % 4 == 0 \
+            and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _strip_ptr_cast(args[0]) == _strip_ptr_cast(slot[0])
         if not ok:
             out.append(body[i:m.end()]); i = m.end(); continue
+        obj, off = slot
         k = off // 4; sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
         name = 'XV%d_%s' % (k, hashlib.sha1(sig.encode()).hexdigest()[:6])
         VDECLS.append('struct %s { %s virtual %s; };' % (name, ' '.join('virtual void s%d();' % n for n in range(k)), sig))
@@ -338,17 +484,48 @@ def _vcalls(body):
         i = e2
 
 
-def macros(body):
-    """the tree's XI_ helpers the shim cannot define as they are, rewritten; (body, None) or (None, why)"""
+HEXF = {}         # decimal written for a hexadecimal floating literal: its value
+
+
+def hexf_check(d):
+    """{decimal: True when Visual C++ 6.0 reads it as the double HEXF gives}: a C source of `double xi_hf[] = {...}`
+    compiled, its .data section read back"""
+    import struct
+    ks = sorted(HEXF)
+    if not ks: return {}
+    open(os.path.join(d, 'xi_hexf.c'), 'w').write('double xi_hf[%d] = { %s };\n' % (len(ks), ', '.join(ks)))
+    rc, _ = M.cl('xi_hexf.c', 'xi_hexf.obj', ['/O2'], d)
+    got = b''
+    if rc == 0:
+        b = open(os.path.join(d, 'xi_hexf.obj'), 'rb').read()
+        _, nsec, _, _, _, opt, _ = struct.unpack_from('<HHIIIHH', b, 0)
+        for i in range(nsec):
+            nm, _, _, size, raw = struct.unpack_from('<8sIIII', b, 20 + opt + 40 * i)
+            if nm.rstrip(b'\0') == b'.data': got = b[raw:raw + size]
+    return {k: got[8 * i:8 * i + 8] == struct.pack('<d', HEXF[k]) for i, k in enumerate(ks)}
+
+
+def macros(body, decls=''):
+    """the tree's XI_ helpers the shim cannot define as they are, rewritten; (body, None) or (None, why). decls: the
+    function's parameters and the globals it names, declared, for the types _vcalls needs"""
     body = re.sub(r'\s*__attribute__\(\(aligned\(\d+\)\)\)', '', body)
     body = re.sub(r'\balignas\(\d+\)\s*', '', body)          # the frame's alignment: the frame layout is the game's
     body = _at_calls(body)
     if body is None: return None, 'at<> not parsed'
     body = re.sub(r'XI_PIECE\(([^(),]+), (\d+), 3\)', r'XI_PIECE3(\1, \2)', body)
+    # a hexadecimal floating literal (C++17; Visual C++ 6.0 has none): the decimal that reads back as the same double
+    # (Python's repr), checked against the compiler itself (hexf_check) before any source using it is compiled
+    def hexf(m):
+        v = float.fromhex(m.group(0)); t = repr(v)
+        HEXF[t] = v; return t
+    body = re.sub(r'\b0[xX][0-9A-Fa-f]*\.[0-9A-Fa-f]*[pP][-+]?\d+\b(?![fFlL])', hexf, body)
+    # a 64-bit literal's suffix: C++'s `ull` / `ll` is Visual C++ 6.0's `ui64` / `i64` (the same types)
+    body = re.sub(r'\b(0[xX][0-9A-Fa-f]+|\d+)(?:ull|ULL|llu|LLU)\b', r'\1ui64', body)
+    body = re.sub(r'\b(0[xX][0-9A-Fa-f]+|\d+)(?:ll|LL)\b', r'\1i64', body)
     body = _castbits(body)
     if body is None: return None, 'xi_castbits not parsed'
     del VDECLS[:]
-    body = _vcalls(body)
+    body = _vcalls(body, decls)
     if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
     body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
     def code(m):
@@ -359,14 +536,76 @@ def macros(body):
     return body, None
 
 
+# helpers of the tree (tree/include/xi_ghidra.hpp) the shim defines only in a source that uses them: (definition,
+# needs C++). SUB41 and the like take a float's encoding (an overload), which C cannot write
+HELPERS = {
+    'builtin_strncpy': ('static __inline char *builtin_strncpy(void *d, const char *s, unsigned n) {\n'
+                        '    char *o = (char *)d; unsigned i = 0;\n    for (; i < n && s[i]; i++) o[i] = s[i];\n'
+                        '    for (; i < n; i++) o[i] = 0;\n    return (char *)d;\n}', False),
+    'xi_k4': ('static __inline float xi_k4(unsigned __int64 b) { uint32_t u = (uint32_t)b; float f; memcpy(&f, &u, 4); return f; }', False),
+    'xi_k8': ('static __inline double xi_k8(unsigned __int64 b) { double d; memcpy(&d, &b, 8); return d; }', False),
+    'xi_b32': ('template <class T> static inline uint32_t xi_b32(T x) { return (uint32_t)x; }\n'
+               'static inline uint32_t xi_b32(float x) { uint32_t u; memcpy(&u, &x, 4); return u; }\n'
+               'template <class T> static inline uint64_t xi_b64(T x) { return (uint64_t)x; }\n'
+               'static inline uint64_t xi_b64(double x) { uint64_t u; memcpy(&u, &x, 8); return u; }\n'
+               '#define SUB41(x, b) ((uint8_t)(xi_b32(x) >> (8 * (b))))\n#define SUB42(x, b) ((uint16_t)(xi_b32(x) >> (8 * (b))))\n'
+               '#define SUB81(x, b) ((uint8_t)(xi_b64(x) >> (8 * (b))))\n#define SUB84(x, b) ((uint32_t)(xi_b64(x) >> (8 * (b))))\n'
+               '#define SUB82(x, b) ((uint16_t)(xi_b64(x) >> (8 * (b))))', True),
+}
+HELPER_USE = {'builtin_strncpy': r'\bbuiltin_strncpy\b', 'xi_k4': r'\bxi_k4\b', 'xi_k8': r'\bxi_k8\b',
+              'xi_b32': r'\b(?:SUB4[12]|SUB8[124]|xi_b32|xi_b64)\b'}
+# Windows types a body names (tree/include/xi_compat_win.hpp and gfx_types.hpp, from the SDK headers)
+BODYT = dict(WINT, LPDWORD='typedef unsigned int *LPDWORD;', PVOID='typedef void *PVOID;',
+             LPCRITICAL_SECTION='struct _RTL_CRITICAL_SECTION; typedef struct _RTL_CRITICAL_SECTION *LPCRITICAL_SECTION;')
+_STRUCTS = None
+
+
+def struct_names():
+    """the struct and class names tree/include declares (gfx_types.hpp's IDB types, the classes)"""
+    global _STRUCTS
+    if _STRUCTS is None:
+        _STRUCTS = set()
+        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+            _STRUCTS |= set(re.findall(r'(?m)^(?:struct|class(?: XI_API)?) (\w+)\b', open(f).read()))
+    return _STRUCTS
+
+
+_D3DM = None
+
+
+def d3d_methods():
+    """the names of the inline wrappers tree/include/xi_d3d8.hpp gives its interfaces (`dev->SetRenderState(...)`)"""
+    global _D3DM
+    if _D3DM is None:
+        _D3DM = set(re.findall(r'(?m)^\s+[\w\s*]+?\b(\w+)\([^)]*\) \{ return lpVtbl->', open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()))
+    return _D3DM
+
+
 def convert(m, src, orig=None, glob_=None):
     """(file suffix, source) or (None, why)"""
     ret, cc, name, args = m.group('ret'), m.group('cc'), m.group('name'), m.group('args').strip()
     body = src[src.index('{'):]
-    body, why = macros(body)
+    gdecls = ''.join('%s %s;\n' % (glob_[g]['type'], g) for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_ or ()))
+                     if not glob_[g].get('arr') and not glob_[g].get('fptr'))
+    body, why = macros(body, '(' + args + ')\n' + gdecls)
     if body is None: return None, why
     force_cpp = bool(re.search(r'reinterpret_cast|static_cast|&\s*\w+\s*=\s*\*', body)) or bool(VDECLS)   # C++ references and casts, virtual calls
+    # a Direct3D interface's inline wrapper called (`dev->SetRenderState(...)`): C++, as the tree
+    force_cpp = force_cpp or any(x in d3d_methods() for x in re.findall(r'->\s*(\w+)\s*\(', body))
     pre = list(dict.fromkeys(VDECLS))
+    words = set(re.findall(r'\b[A-Za-z_]\w*\b', body))
+    for h, (code, cpp) in HELPERS.items():
+        if re.search(HELPER_USE[h], body): pre.append(code); force_cpp = force_cpp or cpp
+    # the types a body names: a Windows typedef; a struct or class of tree/include used through a pointer, declared
+    # (its layout is not needed for a pointer: code reading its fields still fails to compile); a global's type by
+    # its typedef's name (gfx_globals.hpp `NAME_t`)
+    for w in sorted(words):
+        if w in BODYT: pre.append(BODYT[w])
+        elif w in struct_names() and w not in BASIC and re.search(r'\b%s\s*\*' % w, body): pre.append('struct %s; typedef struct %s %s;' % (w, w, w))
+        elif w.endswith('_t') and glob_ and w[:-2] in glob_:
+            gd = glob_[w[:-2]]
+            pre += type_decls(gd.get('fptr') or gd['type'])
+            pre.append(gd['td'] if gd.get('fptr') else 'typedef %s %s%s;' % (gd['type'], w, gd.get('arr') or ''))
     if 'cls' in m.groupdict():
         if 'alignas' in body: return None, 'alignas'
         layout = None
@@ -383,12 +622,11 @@ def convert(m, src, orig=None, glob_=None):
             # a member that uses its class's fields: the class's fields as a struct, the method in it
             for c in sorted(layout[1]): pre.append('struct %s;' % c)
             cls = m.group('cls')
-            head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in pre)
+            head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in dict.fromkeys(pre))
             for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_ or ())):
                 gd = glob_[g]
-                if not plain(gd['type']): return None, 'global type the shim lacks'
-                head += ('#define %s (*(%s (*)%s)%su)\n' % (g, gd['type'], gd['arr'], gd['addr']) if gd.get('arr')
-                         else '#define %s (*(%s *)%su)\n' % (g, gd['type'], gd['addr']))
+                if not plain(gd.get('fptr') or gd['type']): return None, 'global type the shim lacks'
+                head += ''.join(x + '\n' for x in glob_lines(g, gd))
             if 'orig::' in body:
                 body, d = rewrite_calls(body, orig)
                 if body is None: return None, d
@@ -402,11 +640,8 @@ def convert(m, src, orig=None, glob_=None):
     if orig is not None:
         for g in sorted(set(re.findall(r'\b\w+\b', body)) & set(glob_)):
             gd = glob_[g]
-            d = type_decls(gd['type'])
-            if d is None: return None, 'global type the shim lacks'
-            pre += [x for x in d if x not in pre]
-            if gd.get('arr'): pre.append('#define %s (*(%s (*)%s)%su)' % (g, gd['type'], gd['arr'], gd['addr']))
-            else: pre.append('#define %s (*(%s *)%su)' % (g, gd['type'], gd['addr']))
+            if gd.get('arr'): body = re.sub(r'\bXI_PIECE(_S)?\(%s,' % g, r'XI_PIECEA\1(%s,' % g, body)
+            pre += [x for x in glob_lines(g, gd) if x not in pre]
         if 'orig::' in body:
             nb, d = rewrite_calls(body, orig, c_mode=cc != '__thiscall' and not force_cpp)
             cc_cpp = nb is None or cc == '__thiscall' or force_cpp
@@ -415,15 +650,17 @@ def convert(m, src, orig=None, glob_=None):
             body = nb; pre += d
         else: cc_cpp = False
     else: cc_cpp = False
-    head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in pre)
+    head = '#include "vc6_shim.h"\n' + ''.join(x + '\n' for x in dict.fromkeys(pre))
     if cc in ('__cdecl', '__stdcall', '__fastcall'):
         if cc_cpp or force_cpp: return '.cpp', head + 'extern "C" %s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
         return '.c', head + '%s %s %s(%s)\n%s' % (ret, cc, name, args or 'void', body)
     a = [x.strip() for x in args.split(',')] if args else []
     if not a or not re.match(r'^void\s*\*\s*self_$', a[0]): return None, 'thiscall without self_ first'
     rest = ', '.join(a[1:]) or 'void'
-    return '.cpp', (head + 'struct XS { %s %s(%s); };\n%s XS::%s(%s)\n{\n  void *self_ = this;\n%s\n}\n'
-                    % (ret, name, rest, ret, name, rest, body[1:].rstrip().rstrip('}')))
+    # a method whose body binds its own view of this (`T * self = reinterpret_cast<T *>(this);`) keeps that one
+    bind = '' if re.search(r'(?m)^\s*[\w\s*]+?\bself_ = reinterpret_cast<[^>]+>\(this\);', body) else '  void *self_ = this;\n'
+    return '.cpp', (head + 'struct XS { %s %s(%s); };\n%s XS::%s(%s)\n{\n%s%s\n}\n'
+                    % (ret, name, rest, ret, name, rest, bind, body[1:].rstrip().rstrip('}')))
 
 
 def _group(s, i):
@@ -586,6 +823,115 @@ def apply_rules(text, ret, name):
     return out
 
 
+_CONV = re.compile(r"^C2440: '(?P<op>=|return|initializing)' : cannot convert from '(?P<a>[^']+)' to '(?P<b>[^']+)'$")
+_CONVP = re.compile(r"^C2664: '(?P<fn>[^']+)' : cannot convert parameter (?P<n>\d+) from '(?P<a>[^']+)' to '(?P<b>[^']+)'$")
+# a call through a function-pointer cast: `(*(R (CC **)(P))(SLOT))(` or `((R (CC *)(P))(FN))(`
+_FPCALL = re.compile(r'\(\*?\((?P<ret>[^()]+?) \((?:__\w+ )?\*\*?\)\((?P<params>[^()]*)\)\)')
+
+
+def _conv_kind(t):
+    """'ptr' for a data or function pointer type as cl names it, 'int' for a 4-byte integer, 'enum' for an enum,
+    else None"""
+    t = re.sub(r'\bconst\b|\bvolatile\b', '', t).strip()
+    if t.endswith('*') or re.search(r'\(__\w+ \*+\s*\)\(', t): return 'ptr'
+    if re.match(r'^enum \w+$', t): return 'enum'
+    if t in ('int', 'unsigned int', 'long', 'unsigned long'): return 'int'
+    return None
+
+
+def permissive(text, errors, fn):
+    """the tree is compiled by GCC with -fpermissive (tree/build.sh), which takes an implicit conversion between two
+    pointer types, or between a pointer and an integer, as the conversion a cast would make; Visual C++ 6.0's C++
+    refuses it (C2440). Each such conversion cl names -- at an assignment, an initialisation or a return, whole on
+    one line, one per line -- is written as that cast to the type cl names, `x = (T)(e);`, which is the same value on
+    this flat 32-bit target. The same for an argument passed to a parameter (C2664) of a function cl names, called
+    once on the line: `f(a, (T)(b))`. (new text, number of casts)"""
+    lines, done = text.split('\n'), 0
+    at = collections.defaultdict(set)
+    for where, ln, msg in errors:
+        if where != fn: continue
+        m = _CONV.match(msg) or _CONVP.match(msg)
+        # a pointer to or from a pointer or an integer; an integer to an enum (C++ has no implicit one, GCC's
+        # -fpermissive takes it: the enum holds the integer's value)
+        k = m and (_conv_kind(m.group('a')), _conv_kind(m.group('b')))
+        ok = k and None not in k and ('ptr' in k and 'enum' not in k or k == ('int', 'enum'))
+        if not ok: at[ln].add(None)
+        elif m.re is _CONV: at[ln].add((m.group('op'), m.group('b').strip()))
+        else: at[ln].add(('arg %s %s' % (m.group('n'), m.group('fn')), m.group('b').strip()))
+    for ln, what in at.items():
+        if len(what) != 1 or None in what or not 0 < ln <= len(lines): continue
+        (op, ty), = what
+        l = lines[ln - 1]
+        if op.startswith('arg '):
+            _, n, callee = op.split(' ', 2)
+            if not re.match(r'^\w+$', callee):           # a signature `R CC NAME(P...)`, or a type `R (P...)`
+                sm = re.match(r'^.*?\b(\w+)\(.*\)$', callee)
+                callee = sm.group(1) if sm else None
+            if callee:
+                ks = [k for k in re.finditer(r'(?<![\w.])%s\s*\(' % re.escape(callee), l)]
+                if len(ks) != 1: continue
+                k = ks[0].end() - 1
+            else:                                         # the one call on the line through a function-pointer cast
+                ks = [x for x in _FPCALL.finditer(l)]
+                if len(ks) != 1: continue
+                k = _group(l, ks[0].start())
+                if k < 0 or k >= len(l) or l[k] != '(': continue
+            e = _group(l, k)
+            if e < 0: continue
+            args = split_args(l[k + 1:e - 1]); n = int(n)
+            if not 0 < n <= len(args): continue
+            args[n - 1] = '(%s)(%s)' % (ty, args[n - 1])
+            lines[ln - 1] = l[:k + 1] + ', '.join(args) + l[e - 1:]
+            done += 1; continue
+        if op == 'return':
+            ks = [k.start() for k in re.finditer(r'\breturn\b', l)]
+            if len(ks) != 1: continue
+            k = ks[0] + len('return')
+        else:
+            # the one assignment at the line's top level (not inside parentheses, not ==, <=, >=, !=, op=)
+            ks, depth = [], 0
+            for j, ch in enumerate(l):
+                depth += {'(': 1, ')': -1, '[': 1, ']': -1}.get(ch, 0)
+                if ch == '=' and depth == 0 and l[j + 1:j + 2] != '=' and l[j - 1:j] not in ('=', '<', '>', '!', '+', '-', '*', '/', '%', '&', '|', '^'):
+                    ks.append(j)
+            if len(ks) != 1: continue
+            k = ks[0] + 1
+        # the expression: to the `;` at its own level
+        depth, e = 0, None
+        for j in range(k, len(l)):
+            depth += {'(': 1, ')': -1, '[': 1, ']': -1}.get(l[j], 0)
+            if depth < 0: break
+            if l[j] == ';' and depth == 0: e = j; break
+        if e is None or not l[k:e].strip(): continue
+        lines[ln - 1] = l[:k] + ' (%s)(%s)' % (ty, l[k:e].strip()) + l[e:]
+        done += 1
+    return '\n'.join(lines), done
+
+
+def d3d_c(h):
+    """the tree's Direct3D 8 header (xi_d3d8.hpp, its static_asserts already left out) for a C source: each struct
+    and enum also named by a typedef, as C needs; the interfaces' inline C++ wrappers and the ++/-- operators on the
+    enums (C has those on an enum already) left out; its two `static const` formats as macros of the same value.
+    The structs, their fields and the vtables' slots are the header's."""
+    out = ['/* xi_d3d8_vc6c.h: tree/include/xi_d3d8.hpp for C (pipeline/vc6/sweep.py d3d_c) */']
+    names = re.findall(r'(?m)^struct (\w+)\s*[{;]', h)
+    out += ['typedef struct %s %s;' % (n, n) for n in dict.fromkeys(names)]
+    skip, enum = False, None
+    for l in h.splitlines():
+        if l.startswith('// Decompiled loops step D3D enums'): skip = True
+        if skip:
+            if l.startswith('#undef XI_ENUM_STEP'): skip = False
+            continue
+        if re.match(r'^\s+[^/].*\)\s*\{.*\}\s*$', l): continue                    # an inline member wrapper
+        m = re.match(r'^static const (\w+) (\w+) = (.*);$', l)
+        if m: out.append('#define %s (%s)' % (m.group(2), m.group(3))); continue
+        out.append(l)
+        m = re.match(r'^enum (\w+) \{', l)
+        if m: enum = m.group(1)
+        if l.startswith('};') and enum: out.append('typedef enum %s %s;' % (enum, enum)); enum = None
+    return '\n'.join(out) + '\n'
+
+
 def toolchain_hash():
     """the compiler's own files (BIN's executables and DLLs): a different compiler is a different object"""
     h = hashlib.sha256()
@@ -620,15 +966,22 @@ def main():
     # static_asserts Visual C++ 6.0 does not have; included by the sources that name an IDirect3D interface
     d3d = ''.join(l for l in open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
     open(os.path.join(d, 'xi_d3d8_vc6.h'), 'w').write(d3d)
+    open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'w').write(d3d_c(d3d))
     res, files, sig = {}, [], {}
     orig, glob_ = externs() if o.calls else (None, None)
+    conv = []
     for ea, m, src in candidates(only, o.calls):
-        c = convert(m, src, orig, glob_)
+        conv.append((ea, m, convert(m, src, orig, glob_)))
+    hx = hexf_check(d)
+    if hx: print('hexadecimal floating literals: %d, %d read back as written' % (len(hx), sum(hx.values())))
+    for ea, m, c in conv:
         k = '0x%08X' % ea
+        bad = c[0] and [x for x in hx if not hx[x] and re.search(r'(?<![\w.])%s(?![\w.])' % re.escape(x), c[1])]
+        if bad: c = (None, 'hexadecimal floating literal read otherwise (%s)' % bad[0])
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
         text = c[1]
         if re.search(r'\bIDirect3D\w*8\b', text):
-            text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6.h"\n', 1)
+            text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))
     # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.
@@ -640,19 +993,29 @@ def main():
     env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(os.environ['VC6'], 'INCLUDE').replace('/', '\\'))
     import concurrent.futures as CF, time
 
-    d3dh = open(os.path.join(d, 'xi_d3d8_vc6.h'), 'rb').read()
+    d3dh = open(os.path.join(d, 'xi_d3d8_vc6.h'), 'rb').read(); d3dhc = open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'rb').read()
+    errs = {}                  # file: [(where, line, cl's message)], its compile's errors
     def key_of(fn):
         src = open(os.path.join(d, fn), 'rb').read()
-        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b''), SHIM, o.flags, tc)
+        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b''), SHIM, o.flags, tc)
 
     def compile_chunk(chunk):
-        subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],
-                       cwd=d, env=env, capture_output=True, text=True, errors='replace')
+        r = subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],
+                           cwd=d, env=env, capture_output=True, text=True, errors='replace')
+        # each file's errors, for the NO_COMPILE classes and the casts (permissive below): cl prints each file's name
+        # before its messages, and a message in a header the file includes names the header
+        cur = None
+        for l in (r.stdout + r.stderr).splitlines():
+            l = l.strip()
+            if re.match(r'^f_[0-9A-F]{8}\w*\.c(?:pp)?$', l): cur = l; continue
+            em = re.match(r'^(\S+?)\((\d+)\) : (?:fatal )?error (C\d+: .*)$', l)
+            if em and cur: errs.setdefault(cur, []).append((em.group(1), int(em.group(2)), em.group(3)))
         if cache:
             for _, fn, _ in chunk:
                 obj, c = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'), os.path.join(cache, key_of(fn))
                 if os.path.exists(obj): shutil.copyfile(obj, c + '.tmp'); os.replace(c + '.tmp', c + '.obj')
-                else: open(c + '.fail', 'w').close()
+                else:       # the file's own name as '*' (another file of the same source shares the entry)
+                    json.dump([('*' if w == fn else w, n, e) for w, n, e in errs.get(fn, [])], open(c + '.fail', 'w'))
 
     def judge(files, what):
         """compiles (or takes from the cache) every (ea, file, cc), and gives each its verdict"""
@@ -660,9 +1023,13 @@ def main():
         for ea, fn, cc in files:
             obj = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj')
             if os.path.exists(obj): os.remove(obj)
+            errs.pop(fn, None)
             c = cache and os.path.join(cache, key_of(fn))
             if c and os.path.exists(c + '.obj'): shutil.copyfile(c + '.obj', obj); hits += 1
-            elif c and os.path.exists(c + '.fail'): hits += 1
+            elif c and os.path.exists(c + '.fail'):
+                hits += 1
+                try: errs[fn] = [(fn if w == '*' else w, n, e) for w, n, e in json.load(open(c + '.fail'))]
+                except ValueError: errs[fn] = []
             else: todo.append((ea, fn, cc))
         t0 = time.time()
         with CF.ThreadPoolExecutor(max_workers=o.jobs) as ex:
@@ -671,17 +1038,35 @@ def main():
         out = {}
         for ea, fn, cc in files:
             obj = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'); key = '0x%08X' % ea
-            if not os.path.exists(obj): out[fn] = {'verdict': 'NO_COMPILE', 'why': 'cl failed', 'conv': cc}; continue
+            if not os.path.exists(obj):
+                e = errs.get(fn) or []
+                out[fn] = {'verdict': 'NO_COMPILE', 'why': 'cl failed', 'conv': cc,
+                           'error': ('%s(%d): %s' % e[0]) if e else ''}; continue
             funcs, _ = M.coff(obj)
-            if len(funcs) != 1: out[fn] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(funcs), 'conv': cc}; continue
-            (sym, (code, rels)), = funcs.items()
+            # the shim's own inline helpers (XI_ANY's constructor, xi_castbits_) are emitted beside the function when
+            # instantiated: they are not the function; a call to one is a relocation whose symbol names no address
+            own = {k: v for k, v in funcs.items() if not SHIM_HELPER.match(k)}
+            if len(own) != 1: out[fn] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(own), 'conv': cc, 'funcs': sorted(funcs)}; continue
+            (sym, (code, rels)), = own.items()
             v, why, notes = M.compare(img, ext, ea, code, rels, place)
             if v == 'IDENTICAL' and notes: v, why = 'IDENTICAL_UNCOMPARED', '; '.join(notes)   # a relocation not checked
             out[fn] = {'verdict': v, 'why': why, 'conv': cc, 'size': len(code)}
         return out
 
     got = judge(files, 'the tree as written')
-    for ea, fn, cc in files: res['0x%08X' % ea] = got[fn]
+    # GCC's -fpermissive conversions written as casts (permissive), as many rounds as cl finds more
+    casts = collections.Counter()
+    for rnd in range(1, 9):
+        redo = []
+        for ea, fn, cc in files:
+            if got[fn]['verdict'] != 'NO_COMPILE': continue
+            t, n = permissive(open(os.path.join(d, fn)).read(), errs.get(fn, []), fn)
+            if n: open(os.path.join(d, fn), 'w').write(t); casts[fn] += n; redo.append((ea, fn, cc))
+        if not redo: break
+        got.update(judge(redo, 'implicit conversions as casts, round %d (%d sources)' % (rnd, len(redo))))
+    for ea, fn, cc in files:
+        res['0x%08X' % ea] = got[fn]
+        if casts[fn]: got[fn]['casts'] = casts[fn]
     # --rules: each DIFFERS function again with each rewrite rule that applies (RULES); the verdict stays the tree's
     # code's, and a rule that gives IDENTICAL is recorded with it ("rule_identical"): the bytes prove that source
     if o.rules:

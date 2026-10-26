@@ -5,6 +5,16 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 
 ## Open
 
+### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (not read yet)
+- **Known:** with the stack filled with 0xA5A5A5A5 and the new facts, these were PASS before and are not now:
+  - FAIL 0x101C3A90 (memory differs at 29 bytes), 0x1021C380 (a stub argument 0xA5A5A500 against 0), 0x100542F0
+    (the reconstruction faults on 0xA5A5A5A5), 0x101BE6C0 (a stub argument 0xA5A5A5A5 against 0), 0x100F1670
+    (EAX 1 against -1);
+  - INCONCLUSIVE 0x100CD540 (every trial hits the step limit), 0x100E08D0, 0x100CFA50 (the original faults).
+- **What it suggests, not established:** several values are the fill, so one side reads stack it never wrote, which a
+  zeroed stack hid. Which side, and whether the original's result depends on what the real stack holds, is not
+  read yet.
+
 ### P17. Gate PASS functions that pass fewer arguments than the game (25 Oct, found by the VC6 sweep)
 - **Known, from the game's bytes:**
   - **0x100F1870** pushes six arguments to 0x10310067 (`push -2; push -1; push -2; push -2; push eax; push -2;
@@ -31,6 +41,25 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
   depth. A call followed directly by `add esp, N`, with no other call since the depth was last N bytes lower on
   that path, pushed exactly N bytes for that call. The tree's wrapper counts are checked against that, and the
   gate compares those slots.
+- **Done (26 Oct):**
+  - `pipeline/call_pushes.py` (data/call_pushes.json) settles 11,570 caller-cleanup calls; 2,376 callees have one
+    count over every settled site.
+  - `gfx_cases.pushed_args`: a caller-cleanup stub compares that many slots where no exact read set of the callee
+    says the rest go unread. `case_pushes.py` applies the same rule to verification/cases_raw_final.json: 181
+    stubs in 166 cases.
+  - The gate's stack starts filled with 0xA5A5A5A5 instead of zeros (diffemu_fixed.py). Mem_AllocObject's
+    missing third argument is a 0 the game pushes, and an unpushed slot read 0 on a zeroed stack.
+  - A difference in a slot past those the callee is known to read leaves the trial UNRESOLVED, not FAIL (`args_may`,
+    kept apart as `eax_may` is): the game pushes it, the tree does not, and no source says whether the callee reads
+    it. 0x10028FD0, for one, reads only its first two of the three its callers push.
+  - Full re-gate of the tree (fuzz, 4,280 functions): 4,229 PASS, 42 UNRESOLVED (this class), 5 FAIL,
+    4 INCONCLUSIVE (P18). 50 functions that were PASS are not any more.
+- **Still open:** the tree's code for these functions can only pass the arguments once the decompiler sees the
+  right prototypes. The 74 wrapper declarations the pushed counts contradict need an IDA or Ghidra re-export,
+  which this environment cannot run. ida/ffxi_ida_fix.py now carries the counts (step 2c, `fix_arg_counts`). It
+  retypes a caller-cleanup function `__cdecl` with the bytes its callers push, only where the IDB declares fewer
+  and the prototype is not variadic. The extra parameters are `unsigned int`, their meaning unknown. The step
+  has not been run in IDA yet.
 
 ### P1. The live-dump gates were not run on the current tree (22 Oct)
 - **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree.

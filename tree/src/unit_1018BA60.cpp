@@ -2429,7 +2429,7 @@ XI_API undefined4 __stdcall Unit1018BA60_ReadExternalKind1(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101957B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __stdcall Unit1018BA60_WriteExternalKind1(undefined4 * param_1, undefined4 xi_s2)
 {
   int iVar1;
@@ -3323,7 +3323,7 @@ XI_API void * __thiscall Unit1018BA60_CtorVt10336F78(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1019C3E0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl Unit1018BA60_RunPairA(void)
 {
   orig::FUN_103113d3();
@@ -3332,7 +3332,7 @@ XI_API void __cdecl Unit1018BA60_RunPairA(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1019C4F0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl Unit1018BA60_RunPairB(void)
 {
   orig::FUN_10311386();
@@ -3341,7 +3341,7 @@ XI_API void __cdecl Unit1018BA60_RunPairB(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1019C580  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit1018BA60_Call10311386(void)
 {
   uint32_t uVar1;
@@ -3351,7 +3351,7 @@ XI_API undefined4 __cdecl Unit1018BA60_Call10311386(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1019C590  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit1018BA60_GetSetting41(void)
 {
   int iVar1;
@@ -3366,7 +3366,7 @@ XI_API undefined4 __cdecl Unit1018BA60_GetSetting41(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1019C5B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl Unit1018BA60_Call103113C8(void)
 {
   orig::FUN_103113c8();
@@ -9950,7 +9950,7 @@ XI_API undefined4 __thiscall Unit1018BA60_LoadFromFile(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101B9BC0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 2 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 55 returned normally, 53 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit1018BA60_Read(void * self_, undefined4 param_1)
 {
   int iVar1;
@@ -12290,7 +12290,7 @@ XI_API undefined4 __stdcall Unit1018BA60_Call10312296(undefined4 param_1, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x101BE6C0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 XI_API undefined4 __stdcall Unit1018BA60_FillSizeAndThreeDates(void * param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -12981,7 +12981,7 @@ LAB_101c0814:
 }
 
 // FUNCTION: FFXIMAIN 0x101C09B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API int __thiscall Unit1018BA60_CreateDirAndWait(void * self_)
 {
   int iVar1;
@@ -13004,7 +13004,7 @@ XI_API int __thiscall Unit1018BA60_CreateDirAndWait(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101C0A40  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __thiscall Unit1018BA60_CreateDirAndHandleFile(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   int iVar1;
@@ -13700,7 +13700,7 @@ XI_API undefined4 __thiscall Unit1018BA60_GetValueAt1F0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101C3A90  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 XI_API undefined4 __thiscall XiFileImpl__getFileName(void * self_, uint32_t fileNo, int pFileName)
 {
   char cVar1;
@@ -13881,7 +13881,7 @@ XI_API undefined4 __thiscall Unit1018BA60_FormatStrAt4F4(void * self_, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x101C3E40  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __stdcall Unit1018BA60_FormatWithBase(undefined4 param_1, undefined4 param_2, uint8_t * param_3, undefined4 xi_s4)
 {
   char xi_frame[524] __attribute__((aligned(4)));

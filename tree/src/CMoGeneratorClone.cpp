@@ -1313,7 +1313,7 @@ int CMoGeneratorClone::InitDefaultParams()
 }
 
 // FUNCTION: FFXIMAIN 0x100542F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
   *(uint8_t ***)self = &CMoGeneratorClone_vtbl_as_v0;

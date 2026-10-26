@@ -552,6 +552,12 @@ class GfxMachine(G.Machine):
         # bytes the callee is only assumed to read (eax_inputs.json "reads" past "reads_seen": code caller_reads does
         # not follow): kept apart, a difference in them is not a difference shown (the gate's trial is unresolved)
         if spec.get('eax_may'): self.eax_unk.append((addr, _stackref(eax_in & spec['eax_may'])))
+        # stack slots the callers push past those compared (call_pushes.py) that the callee is not known not to read:
+        # kept apart like eax_may, a difference in them leaves the trial unresolved (docs/PROBLEMS.md P17)
+        if spec.get('args_may'):
+            na = spec.get('args', spec.get('pops', 0)); nm = min(spec['args_may'], MAX_STUB_ARGS)
+            extra = struct.unpack('<%dI' % nm, uc.mem_read(esp + 4 + 4 * na, 4 * nm))
+            self.eax_unk.append((addr, ('args',) + tuple(_stackref(x) for x in extra)))
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -1247,7 +1253,12 @@ def run_case(m, case, trials, seed):
             # assumed to read: whether that is a difference is not known, so the trial is not counted as a pass
             n_ = next((i for i, (x, y) in enumerate(zip(a.eax_unk, b.eax_unk)) if x != y), min(len(a.eax_unk), len(b.eax_unk)))
             c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
-            k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
+            u_ = a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_]
+            if isinstance(u_[1], tuple) and u_[1][:1] == ('args',):
+                k_ = ('arguments pushed to 0x%08X past those it is known to read differ; whether it reads them is not '
+                      'settled (call_pushes.json, cdecl_args.json)' % c_)
+            else:
+                k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
             unresolved[k_] = unresolved.get(k_, 0) + 1
             statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
         if not why and b is not None and a.status == 'return' and ret_unproven and (eax_full[0] ^ eax_full[1]) & ret_unproven:

@@ -115,7 +115,7 @@ switchD_10035a1f_caseD_3:
 }
 
 // FUNCTION: FFXIMAIN 0x10035D40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
 {
   void *pvVar1;
@@ -135,7 +135,7 @@ void __cdecl CMoTask::CreateMode2(undefined4 param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10035D90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
 {
   void *pvVar1;
@@ -155,7 +155,7 @@ void __cdecl CMoTask::CreateMode1(undefined4 param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10035DE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 void __cdecl CMoTask::CreateMode4(undefined4 param_1, int param_2)
 {
   void *pvVar1;
@@ -196,7 +196,7 @@ char CMoTask::vf008()
 }
 
 // FUNCTION: FFXIMAIN 0x10053370  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 51 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 undefined4 __thiscall CMoTask::Restart(void * self)
 {
   int *this_00;
@@ -378,7 +378,7 @@ undefined4 __thiscall CMoTask::ResetFields(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10074920  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 17 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 undefined4 * __thiscall CMoTask::Clone(void * self, uint32_t param_1)
 {
   uint32_t uVar1;

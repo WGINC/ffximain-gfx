@@ -24,7 +24,7 @@ uint32_t __cdecl CAtelIdleTask::UpdateFrame()
 }
 
 // FUNCTION: FFXIMAIN 0x100142B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 undefined4 __cdecl CAtelIdleTask::Create()
 {
   undefined4 *self;

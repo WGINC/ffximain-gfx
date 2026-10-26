@@ -77,7 +77,7 @@ XI_API void __cdecl Unit10017C10_NoOpVarargsB(undefined4 xi_s1, ...)
 }
 
 // FUNCTION: FFXIMAIN 0x10017D90  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
 {
   char cVar1;
@@ -157,7 +157,7 @@ XI_API uint64_t __cdecl Unit10017C10_RegisterCallback(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100181D0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API void __cdecl Unit10017C10_SendMessage7_0To10668FF8(uint32_t param_1, char * param_2)
 {
   char cVar1;

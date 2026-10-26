@@ -440,7 +440,7 @@ LAB_1018a0d9:
 }
 
 // FUNCTION: FFXIMAIN 0x1018A0F0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
 {
   int iVar1;

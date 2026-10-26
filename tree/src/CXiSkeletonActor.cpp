@@ -2621,7 +2621,7 @@ void __thiscall CXiSkeletonActor::SetSlotMotion(void * self, undefined4 param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x100CD540  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- INCONCLUSIVE
 undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_t resid, undefined4 wt, float sp, undefined4 lp, undefined4 in, undefined4 out, int layno, int sync, undefined4 sframe, undefined4 eframe)
 {
   int *piVar1;
@@ -2994,7 +2994,7 @@ void __thiscall CXiSkeletonActor::AdvanceMotionQueue(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100CE480  (placed by IDB name)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CXiSkeletonActor::ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -3165,7 +3165,7 @@ LABEL_16:
 }
 
 // FUNCTION: FFXIMAIN 0x100CE9B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CXiSkeletonActor::ActorFindResource(_DWORD *a2, int a3, int a4)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3269,7 +3269,7 @@ LABEL_21:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEB00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 48 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CXiSkeletonActor::ActorFindResourceNth(_DWORD *a2, int a3, int a4, int a5)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3394,7 +3394,7 @@ LABEL_30:
 }
 
 // FUNCTION: FFXIMAIN 0x100CEC90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::ActorGetResourceCount(int a2, int a3)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -3616,7 +3616,7 @@ void CXiSkeletonActor::vf172(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100CFA50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- INCONCLUSIVE
 void __thiscall CXiSkeletonActor::AddResourceParts(void * self, int * param_1, void * param_2)
 {
   undefined4 *puVar1;
@@ -4070,7 +4070,7 @@ char __cdecl CXiSkeletonActor::OnSkeletonLoaded(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 char CXiSkeletonActor::LoadSkeletonResource(int a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest

@@ -311,7 +311,7 @@ XI_API void __stdcall Unit10043E40_ToggleDynVBs(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100446A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10043E40_ReleaseResourcesOf(int param_1)
 {
   void *pvVar1;

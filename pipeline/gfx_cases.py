@@ -22,6 +22,20 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 CDECL_LOW = CDECL_ARGS.pop('_at_least', {})
+# the bytes callers push for a caller-cleanup callee, from the callers' own code and exact depths (call_pushes.py;
+# one count over every settled call site, else null): what the caller passes, whatever the callee reads
+_cp = os.path.join(DATADIR, 'call_pushes.json')
+CALL_PUSHES = {k: v for k, v in (json.load(open(_cp)).get('_callees', {}) if os.path.exists(_cp) else {}).items() if v is not None}
+
+
+def pushed_args(ea, pops, nargs):
+    """the stack dwords past nargs that a stub of the caller-cleanup callee ea logs apart: its callers push them
+    (call_pushes.py) and no exact read set of the callee (cdecl_args) says it does not read them, so a difference in
+    them is not known to be a difference (the trial is unresolved, not failed; docs/PROBLEMS.md P17). 0 if none"""
+    k = '0x%08X' % ea
+    if pops == 0 and k not in CDECL_ARGS and CALL_PUSHES.get(k, 0) // 4 > (nargs or 0):
+        return min(CALL_PUSHES[k] // 4, 16) - (nargs or 0)
+    return 0
 # callees whose own code reads their entry ECX (vcall_resolve.py, data/ecx_use.json: the value is an instruction that
 # reads it). Their stubs log ECX whatever the declared convention, so a reconstruction that calls one without passing
 # the object (the IDB types DynVB_Reserve __stdcall(int); it reads ECX) differs from the original at the call
@@ -216,12 +230,18 @@ def main(exp, metaf, protof, out):
                 if cc == 'cdecl' and ea in hx_patches.type_fixes() and r.get('source') != 'ghidra':  # a corrected IDA prototype (each with its evidence)
                     ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
                     nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
+                # the caller pushes more than the count above, and no exact read set of the callee says the rest go
+                # unread (cdecl_args exact): those slots are what the caller passes, so they are compared. Without
+                # this a reconstruction that leaves out arguments to a callee whose code cannot be read (the dispatch
+                # thunk 0x10310067: six pushed, none declared) passes (docs/PROBLEMS.md P17)
+                may = pushed_args(ea, pops, nargs)
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past
                     nargs = len([x for x in o['type'][o['type'].index('(') + 1:].split(',') if x.strip() and '...' not in x])
                     # them read whatever the caller's frame holds (saved registers etc.)
                 stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 16),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': stub_masks(ea, o['type'], cc)}
+                if may: stubs['0x%08X' % ea]['args_may'] = may
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
                 ei = EAX_INPUTS.get('0x%08X' % ea)
                 # the entry EAX bytes the callee is seen to read are compared like an argument; those it is only

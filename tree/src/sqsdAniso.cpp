@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102993B0  (unit sqsdAniso: between 0x10299390 (asserts sqsdAniso.c) and 0x10299610 (name sqsdAniso_BakeOntoShape), both within 4 KB)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl SqsdAniso_DrawPasses(int * param_1, int * param_2)
 {
   uint32_t uVar1;

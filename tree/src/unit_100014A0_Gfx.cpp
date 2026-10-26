@@ -718,7 +718,7 @@ XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100031F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 79 returned normally, 315507 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char a5, char a6, int a7)
 {
   int v8;

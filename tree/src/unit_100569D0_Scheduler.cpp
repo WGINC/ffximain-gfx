@@ -12,7 +12,7 @@ XI_API void __thiscall Scheduler_AddTask(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10056CE0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
   uint32_t uVar1;

@@ -2214,7 +2214,7 @@ XI_API uint8_t __cdecl Unit100D7420_ReturnTrue100E0100(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100E08D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- INCONCLUSIVE
 XI_API int __cdecl Entry_FindByNormalizedName(char * param_1)
 {
   short *psVar1;
@@ -2728,7 +2728,7 @@ XI_API undefined4 __thiscall Entry_ResetFields(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100E1470  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit100D7420_InitAll(undefined4 * param_1)
 {
   uint16_t *puVar1;
@@ -3697,7 +3697,7 @@ XI_API void __cdecl Unit100D7420_ClearPending(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100E7B20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API int __cdecl Unit100D7420_ThunkByIndex200(int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -4513,7 +4513,7 @@ XI_API undefined4 __cdecl Unit100D7420_StepRequest2BSequence(int * param_1, unde
 }
 
 // FUNCTION: FFXIMAIN 0x100EEE90  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit100D7420_StepState1030FFxx(int * param_1)
 {
   uint32_t uVar1;
@@ -4567,7 +4567,7 @@ switchD_100eeea0_default:
 }
 
 // FUNCTION: FFXIMAIN 0x100EEF80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit100D7420_StepWait1030FFD8(int * param_1)
 {
   int iVar1;
@@ -4941,7 +4941,7 @@ XI_API char * __cdecl Name_LookupByKey(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100EFD20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API int __cdecl Unit100D7420_FindFree(void)
 {
   int iVar1;
@@ -4987,7 +4987,7 @@ XI_API undefined4 __cdecl Unit100D7420_FindEntryForRecord(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100EFDF0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API int __cdecl Unit100D7420_FindMatchingEntry(int param_1, uint32_t param_2, uint32_t param_3)
 {
   int iVar1;
@@ -5405,7 +5405,7 @@ XI_API void __cdecl Unit100D7420_ClearBit(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100F1670  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 XI_API uint32_t __cdecl Unit100D7420_Query10310030(void)
 {
   uint32_t uVar1;
@@ -5426,7 +5426,7 @@ XI_API uint32_t __cdecl Unit100D7420_Query10310030(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100F1870  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl Unit100D7420_Call10310067(void)
 {
   orig::FUN_10310067();
@@ -5663,7 +5663,7 @@ LAB_100f1e61:
 }
 
 // FUNCTION: FFXIMAIN 0x100F1E70  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API uint8_t __thiscall Unit100D7420_ResetPending(void * self_)
 {
   void *pvVar1;
@@ -7063,7 +7063,7 @@ XI_API uint32_t __cdecl Unit100D7420_CeilDiv10Max10(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101033C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 __cdecl Unit100D7420_InitSessionAndStampTime(int param_1)
 {
   uint32_t xi_eax;
@@ -8564,7 +8564,7 @@ XI_API undefined4 * __thiscall Unit100D7420_ErrorLogPop(void * self_, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x10114320  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit100D7420_ErrorLogFlush(void * self_)
 {
   LPVOID pvVar1;

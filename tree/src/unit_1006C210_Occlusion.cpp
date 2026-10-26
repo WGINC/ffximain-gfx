@@ -221,7 +221,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C8B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 435 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 486 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2)
 {
   int v2;

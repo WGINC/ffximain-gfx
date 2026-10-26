@@ -3422,3 +3422,47 @@ member assignments rather than a struct copy).
 
 **Naming round 4:** 66 of 66 (23 batches, `batches/round4/`): 4 high, 26 medium, 36 low. Not yet applied: the
 regeneration that applies them waits for regen_facts.py to settle (it reads data/).
+
+## 25 Oct (night): the plan, faster tools, and two things the gate could not see
+
+**The plan.** docs/PLAN.md orders the owner's chain (source, devkit, D3D11, performance, final devkit and speedfix)
+in 5% steps, each with a check. It takes the steps of ROADMAP, D3D11, GAPS, REEVALUATION and RECOMPILE, and is
+corrected for runs already done: d3d8on11 runs the game (perf60 run 2, the house runs), and T1 and T2 are measured
+(runs 8980 and 8452), T3 is not. docs/WORKERS.md describes batches for worker sessions.
+
+**Round-4 tree installed** (6875e2b): 66 names, the 151 functions whose code changed all PASS. Kit tests
+(framestep, skinmerge, speedfix, sdk fork) all OK.
+
+**The VC6 sweep** (4c1a60e):
+- compiles in parallel with an object cache: 22 s cold, 3 s cached, verdicts unchanged;
+- `differs.py` classes the DIFFERS from both instruction streams;
+- five rewrite rules, each kept only where match.py says IDENTICAL: 158 more functions at the game's bytes
+  (1,591 of 4,121).
+
+**regen_facts.py runs only what changed.** An audit hook (pipeline/regen_reads/sitecustomize.py) records every
+file each tool's Python reads, and the directories it lists. A directory the import system lists counts only by
+the entries an import could resolve to. A tool runs again when any of that changed, its command changed, or the
+hook or the interpreter changed. Tools run concurrently by their recorded dependencies and within 80% of the
+memory available: caller_reads.py peaks at about 5 GB, and four copies at once were killed. The first full
+recording pass took 34 min and changed nothing.
+
+**What the sweep showed the gate cannot see (docs/PROBLEMS.md P17).** At 0x100F1870 the game pushes six
+arguments to the dispatch thunk 0x10310067, and the tree passes none; the gate PASSes it, because a caller-cleanup
+stub compares only the slots the callee is known to read. `call_pushes.py` settles what the caller pushes for
+each caller-cleanup call, from its own code and exact depths: 11,570 calls, 2,376 callees with one count. 74 of
+the tree's wrappers declare fewer than that. The gate now compares the pushed slots where no exact read set says
+they go unread (gfx_cases.py).
+
+**An assumption in sp_solve, removed.** A direct call to a known function with no `ret N` record was taken never
+to return. 1,709 functions end in a jump instead, the dispatch thunks among them. Their pops are now unknowns solved
+from each caller's balance:
+- the self-test passes (0 misses reach the output);
+- solved calls go from 4,717 to 8,537, none lost or changed;
+- with the generalised switch bound on top: 8,693.
+
+**The fact round and the re-gate (26 Oct).** The facts above, committed at their fixpoint (0f13298). The gate then:
+- stubs log the slots callers push past those compared (`args_may`, verification/cases_raw_final.json via
+  `case_pushes.py`: 181 stubs in 166 cases); a difference there is UNRESOLVED;
+- the stack starts filled with 0xA5A5A5A5, not zeros.
+The whole tree, gated again (34 min): 4,229 PASS, 42 UNRESOLVED (P17), 5 FAIL and 4 INCONCLUSIVE (P18, 0x10003890
+among them). The tree's GATE comments and frame_set_status.json follow; the kit's manifest is not rebuilt yet.

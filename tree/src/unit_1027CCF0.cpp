@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027CCF0  (unit unit_1027CCF0: no unit evidence of its own; in the gap between 0x1027CC70 (sqskSkeleton) and 0x1027D2E0 (sqmoUtil) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, float * param_3)
 {
   char xi_frame[12] __attribute__((aligned(4)));

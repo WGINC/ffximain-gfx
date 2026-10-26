@@ -432,7 +432,7 @@ XI_API undefined4 __thiscall Unit10211440_ResetSlot(void * self_, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x1021C380  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 XI_API undefined4 __thiscall Unit10211440_SyncSlots(void * self_)
 {
   uint32_t uVar1;

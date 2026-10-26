@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10037960  (unit CYyMusicLoadTask: stores CYyMusicLoadTask vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
 {
   int *self_;

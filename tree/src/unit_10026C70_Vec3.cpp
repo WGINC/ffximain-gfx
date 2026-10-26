@@ -751,7 +751,7 @@ XI_API undefined4 __thiscall Mat4_InvertOrthonormal(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10028640  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;
@@ -772,7 +772,7 @@ XI_API undefined4 * __cdecl Mem_AllocObject(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x100286B0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API uint64_t __cdecl Mem_AllocWithFallback(int param_1, int param_2)
 {
   uint32_t uVar1;

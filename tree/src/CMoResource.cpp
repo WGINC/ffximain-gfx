@@ -262,7 +262,7 @@ LAB_10072343:
 }
 
 // FUNCTION: FFXIMAIN 0x100730E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int param_2)
 {
   int iVar1;

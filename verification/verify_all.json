@@ -54,37 +54,19 @@
   "n_differing": 0
  },
  "facts:sp_solved.json": {
-  "ok": false,
-  "differing": [
-   "0x10312F0C",
-   "0x10312F5F",
-   "0x1031302A",
-   "0x10313088",
-   "0x103131FC",
-   "0x1031337E",
-   "0x10317635",
-   "0x10317681",
-   "0x1031D1E5",
-   "0x1031D23C",
-   "0x10327103",
-   "_undetermined"
-  ],
-  "n_differing": 12
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
+ },
+ "facts:call_pushes.json": {
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "facts:cdecl_args.json": {
-  "ok": false,
-  "differing": [
-   "0x10253800",
-   "0x102F760A",
-   "0x10312EAD",
-   "0x10312FD4",
-   "0x103130D0",
-   "0x103175B0",
-   "0x1031D189",
-   "0x103213F7",
-   "_at_least"
-  ],
-  "n_differing": 9
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "facts:leaf_funcs.json": {
   "ok": true,
@@ -122,12 +104,9 @@
   "n_differing": 0
  },
  "facts:reg_kept_audit.json": {
-  "ok": false,
-  "differing": [
-   "_summary",
-   "sites"
-  ],
-  "n_differing": 2
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "facts:entry_regs.json": {
   "ok": true,
@@ -190,11 +169,9 @@
   "n_differing": 0
  },
  "facts:this_flow.json": {
-  "ok": false,
-  "differing": [
-   "0x1031A00D"
-  ],
-  "n_differing": 1
+  "ok": true,
+  "differing": [],
+  "n_differing": 0
  },
  "facts:ida_classes.json": {
   "ok": true,
@@ -251,7 +228,7 @@
  },
  "agreement": {
   "ok": true,
-  "calls_with_two_or_more_sources": 374,
+  "calls_with_two_or_more_sources": 386,
   "conflicts": {}
  },
  "rule-tests": {
@@ -355,10 +332,13 @@
   "expected": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5"
  },
  "tree-regen": {
-  "ok": true,
-  "differing": [],
+  "ok": false,
+  "differing": [
+   "src/unit_10014350_Camera.cpp",
+   "include/gfx_orig.hpp"
+  ],
   "build": [
-   "built build/gfx_recon.dll from 392 files; failed: none"
+   "built build/gfx_recon.dll from 391 files; failed: none"
   ]
  },
  "tree-gate": {

@@ -432,6 +432,7 @@ void Exec::drain_debug() {
 int32_t Exec::init(const XInit &x, bool resize) {
   if (fail_init) { d8_log("X_INIT answered 0x%08X (D8ON11_TEST_EXEC_FAIL_INIT, a test)", (unsigned)fail_init); return fail_init; }
   wnd = (HWND)(uintptr_t)x.hwnd;
+  sync = x.interval <= 4 ? x.interval : 0;                 // IDXGISwapChain::Present takes 0 to 4
   if (!resize) {
     D3D_FEATURE_LEVEL fl = D3D_FEATURE_LEVEL_11_0, got;
     /* Diagnostics (the owner's t8run, HISTORY 14 Oct): D8ON11_DRIVER=warp draws on Microsoft's software rasterizer
@@ -841,7 +842,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
   case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
   case X_PRESENT: {
     drain_debug();
-    HRESULT h = swap ? swap->Present(0, 0) : E_FAIL;
+    HRESULT h = swap ? swap->Present(sync, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;
     if (!snap_pend.empty()) snap_poll();

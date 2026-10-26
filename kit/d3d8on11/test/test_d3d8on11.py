@@ -56,7 +56,27 @@ for name, where, ov, xm in [('Wine\'s d3d8', ref, False, None)] + [('d3d8on11, %
     t = open(log).read() if os.path.exists(log) else ''
     ok = 'Direct3DCreate8' in t and ('executor: %s' % xm) in t
     print('%s: d3d8on11 was the d3d8.dll loaded, in %s mode (its log says so)' % ('ok' if ok else 'FAIL', xm)); bad += not ok
+    # the presentation parameters t8 passes (windowed, DISCARD, interval DEFAULT, BackBufferCount 0) are logged at
+    # CreateDevice and Reset with the SyncInterval they map to (0: windowed, d8_device.cpp Dev::present_interval); no
+    # reply was cut (basic reads back an 18 MB render target, larger than the reply area)
+    ok = all('%s: the game asked SwapEffect 1 (DISCARD), FullScreen_PresentationInterval 0x0, BackBufferCount 0, Flags 0x0, '
+             'windowed; Present\'s SyncInterval 0 (windowed)' % at in t for at in ('CreateDevice', 'Reset')) and 'larger than the reply area' not in t
+    print('%s: %s mode: the game\'s presentation parameters and the SyncInterval are logged at CreateDevice and Reset; no reply cut' % ('ok' if ok else 'FAIL', xm)); bad += not ok
     print('-- d3d8on11.log --'); print(t.strip())
+
+# present_interval=1 in d3d8on11.ini: Present's SyncInterval is 1 whatever the game asked (the log says so; whether the
+# executor's Present then waits for a vertical blank is not observable under Xvfb). The option is read on the D3D8
+# side and sent in X_INIT, so one mode is run: remote, where it crosses to another process
+ini = os.path.join(ours, 'd3d8on11.ini')
+for m in (['remote'] if 'remote' in MODES else MODES[:1]):
+    if os.path.exists(log): os.remove(log)
+    open(ini, 'w').write('[d3d8on11]\npresent_interval=1\n')
+    out = run(ours, 'basic', True, m)
+    os.remove(ini)
+    t = open(log).read() if os.path.exists(log) else ''
+    ok = 'ALL OK' in out and all("%s: the game asked SwapEffect 1 (DISCARD), FullScreen_PresentationInterval 0x0, BackBufferCount 0, Flags 0x0, "
+                                 "windowed; Present's SyncInterval 1 (present_interval in d3d8on11.ini)" % at in t for at in ('CreateDevice', 'Reset'))
+    print('%s: %s mode with present_interval=1: basic passes and the log gives SyncInterval 1 from the ini' % ('ok' if ok else 'FAIL', m)); bad += not ok
 
 a = dict(l.rsplit(' ', 1) for l in run(ref, 'defaults', False).splitlines() if l[:3] in ('rs ', 'tss'))
 b = dict(l.rsplit(' ', 1) for l in run(ours, 'defaults', True).splitlines() if l[:3] in ('rs ', 'tss'))

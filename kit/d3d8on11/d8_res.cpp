@@ -45,6 +45,19 @@ HRESULT TexCore::lock(UINT face, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWOR
   UINT sub = face * levels + l, pitch = d8_pitch(fmt, lw(l));
   std::vector<uint8_t> &b = cpu[sub];
   if (b.empty()) b.assign((size_t)pitch * d8_rows(fmt, lh(l)), 0);
+  // a CopyRects from a GPU surface wrote this level (Dev::CopyRects): its texels are read back now, as a lock of a
+  // lockable render target is (X_READBACK: it waits for the executor to run the copy). CopyRects copies into the
+  // destination surface and LockRect locks that surface's memory (DirectX 8.1 reference, IDirect3DDevice8::CopyRects,
+  // IDirect3DTexture8::LockRect), so the lock holds what was copied; Wine's d3d8 does so (t8 basic, "a copy from a
+  // render target into a managed texture"). Before 26 Oct the lock read the CPU copy's older texels and the next
+  // unlock sent those back over the copy (owner's log: `copystale`, FFXiMain.dll+0x2D465B in D3DX 8.1's
+  // D3DXLoadSurfaceFromSurface, which copies with CopyRects and then locks the destination)
+  if (id && sub < stale.size() && stale[sub]) {
+    std::vector<uint8_t> out; XRef ref = {id, l, face};
+    if (dev->link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;
+    memcpy(b.data(), out.data(), out.size() < b.size() ? out.size() : b.size());
+    stale[sub] = 0;
+  }
   size_t off = 0;
   if (r) {
     FmtInfo fi = d8_fmt(fmt);

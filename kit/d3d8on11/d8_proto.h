@@ -43,6 +43,8 @@ struct XInit {
   uint64_t hwnd;                                                // the game's window (a handle is valid across processes)
   uint32_t width, height, ds_format;                            // the back buffer; the automatic depth surface (0: none)
   uint32_t ds_id;                                               // its id
+  uint32_t interval;                                            // IDXGISwapChain::Present's SyncInterval, 0 to 4 (Dev::present_interval)
+  uint32_t pad;
 };
 enum : uint32_t { XT_TEXTURE = 0, XT_RENDERTARGET = 1, XT_DEPTH = 2 };
 struct XTex { uint32_t id, kind, width, height, levels, faces, d3dfmt, usage; };
@@ -125,7 +127,7 @@ struct XDraw {
   uint32_t ibytes, i32;                 // XD_UP_INDEXED / XD_INLINE_INDEXED: index bytes that follow the vertices; 32-bit
 };
 
-static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 24 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12 &&
+static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 32 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12 &&
               sizeof(XSnap) == 20 && sizeof(SnapSlot) == 16 + SNAP_BYTES, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)

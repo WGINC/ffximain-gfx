@@ -4,6 +4,8 @@ For a session that takes over on the branch `claude/gifted-archimedes-cjtg2d`. R
 for everything below (every fact from a named definitive source, otherwise UNRESOLVED; no model identifiers in commits
 or files; commits end with the `Claude-Session:` line only; push only to this branch; no pull request unless asked).
 
+Read docs/EFFICIENCY.md first: how to work cheaply (no workers, short sessions, rules before functions).
+
 The task list with every task's state: docs/PLAN_TASKS.md.
 
 Work alone: no parallel workers. The steps below are ordered so that each costs little. A full clean gate is the one

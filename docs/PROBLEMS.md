@@ -201,21 +201,25 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
   gate (combine_gates.py: a FAIL anywhere is a FAIL). Until then the kit's "verified" means fuzz PASS only, and
   that is for the owner to accept or not.
 
-### P2. 0x1001A850 (`CYyMotionQue_GetResource`): the game's load order is not reproduced (22 Oct; re-read 27 Oct, open)
+### P2. 0x1001A850 (`CYyMotionQue_GetResource`): the game's load order is not reproduced (22 Oct; settled 27 Oct)
 - **Known:** the game's code is `mov eax,[esp+4]; mov ecx,[ecx+34h]; mov [eax],ecx; ret 4`, the parameter loaded
   before the field. Visual C++ 6.0 + c2.dll 13.0.9044 compiles `*p = field_34` the other way round.
 - **Tried, all compile to the other order:**
   - spellings: through a `self_` copy, through `this`, a member field, an `int` member, a 4-byte struct copy, an
     inline getter, a reference parameter;
   - options: `/O1`, `/Ox`, `/O2 /G5`, `/O2 /G6`, `/O2 /GX` (`/Oy-`, `/Og /Oi /Ot` and `/Od` add a frame).
-  - 27 Oct: the VC6 sweep (verification/vc6_sweep.json) still has it DIFFERS at +1 (`0x41 here, 0x44 in the game`:
-    ours loads into ECX first), with the `retthis` rule tried.
-- **Not tried:** a source that returns the parameter. The game's EAX at `ret 4` holds it (the bytes above); whether
-  any caller reads it is not looked up, and this is a spelling to try, not a finding.
-- **Not known:** what source or build gives that order. docs/RECOMPILE.md: 189 of the DLL's objects come from a
-  compiler build (9782) this toolchain does not reproduce; whether this function is in one of them is not known.
-- **What would settle it:** a spelling or option that match.py reports IDENTICAL, with the toolchain of
-  setup_vc6.sh (not installed in this environment on 27 Oct: `$VC6` unset), or a linker map of the game.
+  - the VC6 sweep (verification/vc6_sweep.json) has the tree's `void` code DIFFERS at +1 (`0x41 here, 0x44 in the
+    game`: ours loads into ECX first), with the `retthis` rule tried.
+- **Not known:** what source or build gives that order.
+- **Settled (27 Oct): the function returns its parameter.** The game's EAX at `ret 4` holds the parameter (the bytes
+  above), and none of the spellings tried returned it. `unsigned int *MQ::GetResource(unsigned int *out) { *out =
+  resource; return out; }` (field at +0x34) compiles at `/O2` to the game's bytes: match.py IDENTICAL, with the
+  toolchain that stamps 48 / 49 build 9044, the DLL's Rich header entry (`match.py --compid`; a local copy of the
+  toolchain, outside the repository). The same body declared `void` gives DIFFERS at +1. Added to
+  recompile/small_math.cpp (all 15 of its functions IDENTICAL) and verification/recompile_match.json. What it shows
+  is that a source returning the pointer gives these bytes. It does not show that no other source does, and what the
+  game's callers do with the returned value is not looked up. The tree keeps its `void` code, which PASSes the clean
+  gate with the EAX past `void` compared (P10). No verdict changes.
 
 ### P3. A gate worker process exited mid-piece (22 Oct; re-read 27 Oct, open)
 - **Known:** in the clean gate of 22 Oct (runs/promo9), the worker for the piece holding 0x10257FF0 exited and left
@@ -311,13 +315,14 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
   (`data/exports/gfx_export.jsonl`). `tree/include/gfx_globals.hpp` carries that type. A C++ library facet type
   for an object the game's own constructor makes contradicts the code, so the declaration looks like a wrong
   library-signature match in the IDB.
-- **Known since, from the game's code (27 Oct):** CApp_RunMainLoop allocates 0x33C bytes (0x10001569
-  `push 0x33c; call 0x10311BBB`), constructs them with 0x10010700 and stores the result at 0x104568FC (0x10001587).
-  0x10010700 stores the vtable 0x10329C14 at [this+0] (0x10010777). class_vtables.json does not name that vtable,
-  so data/this_class.json gives its methods no class. The dword before the vtable is no RTTI locator (the game
-  classes have none, docs/METHOD.md). 0x10010700 also calls 0x10027990 ten times, which the IDB names
-  `??0Iostream_init@@QAE@XZ_0`: another library name on game code. Windower 5 calls the pointer `render`
-  (data/community_objects.json), which is a community name, not a type.
+- **Known since, from the game's code (27 Oct):** CApp_RunMainLoop allocates 0x33C bytes (0x10001569 `push 0x33c;
+  call 0x10311BBB`), constructs them with 0x10010700 and stores the result at 0x104568FC (0x10001587). 0x10010700
+  stores the vtable 0x10329C14 at [this+0] (0x10010777). class_vtables.json does not name that vtable, so
+  data/this_class.json gives its methods no class. The dword before the vtable is no RTTI locator (the game classes
+  have none, docs/METHOD.md). 0x10010700 also calls 0x10027990 ten times, which the IDB names
+  `??0Iostream_init@@QAE@XZ_0`. That function is `mov eax, ecx; ret` (recompile/small_math.cpp, `return this`): a
+  body that short matches any empty constructor, so the library name says nothing of the type. Windower 5 calls the
+  pointer `render` (data/community_objects.json), which is a community name, not a type.
 - **Not known:** the global's real type. It is left as declared until a source gives one.
 - **What would settle it:** a name for vtable 0x10329C14 (class_vtables.json), or a PS2 match of 0x10010700
   (data/ps2_matches.json has none).

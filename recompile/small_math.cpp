@@ -48,3 +48,6 @@ N7::N7() { v[0] = v[1] = v[2] = v[3] = v[4] = 0; v[5] = 0; v[6] = 0; }
 struct RC { char pad[0x18]; int a; int pad2; int b; bool ResetCounters(); };
 // FUNCTION: FFXIMAIN 0x101BA5C0
 bool RC::ResetCounters() { a = 0; b = 0; return true; }
+struct MQ { char pad[0x34]; unsigned int resource; unsigned int *GetResource(unsigned int *out); };
+// FUNCTION: FFXIMAIN 0x1001A850
+unsigned int *MQ::GetResource(unsigned int *out) { *out = resource; return out; }

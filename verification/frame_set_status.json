@@ -2022,7 +2022,9 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/small_math.cpp"
 },
 "0x1001A8E0": {
 "tree": false,

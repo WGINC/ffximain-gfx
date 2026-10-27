@@ -75,6 +75,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/perm_10014ED0.c"
 },
+"0x1001A850": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
 "0x1001D0A0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_1001D0A0.cpp"

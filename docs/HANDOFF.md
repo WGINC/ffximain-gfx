@@ -33,7 +33,9 @@ done except #118, #119 (byte matching, partway). P1 to P16 were re-read on 27 Oc
 | The four live dumps | /root/ffxi_dumps | the owner (only needed for the live gate, P1) |
 | The owner's sampler runs (frame_set.py --samples) | scratchpad: xikit_samples_12764.csv, _11952.csv, _6156.csv | the owner's log folders of 6 Oct (runs gd/x/mutil/1, gd5/x/Gumba/2, run2/xikit_logs) |
 
-Without the game DLL nothing runs. Without Ghidra only new exports are blocked; without VC6 only byte matching is.
+The owner was sent these on 27 Oct as zips with a SETUP.txt (where each goes): ffxi_ghidra_project.zip, ghidra.deb in two
+parts, ffxi_vc6tc.zip, ffxi_live_build_6AC37846.zip, ffxi_analysed_6A995428.zip, ffxi_dump_states.zip (the 4 Oct live
+states; the 4.4 GB dumps themselves are the owner's own copies). Without the game DLL nothing runs. Without Ghidra only new exports are blocked; without VC6 only byte matching is.
 
 ## 3. Next steps, in order
 

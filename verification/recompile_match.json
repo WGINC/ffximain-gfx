@@ -1,4 +1,8 @@
 {
+"0x10002040": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10002040.cpp"
+},
 "0x10005A00": {
 "verdict": "IDENTICAL",
 "file": "recompile/small_math.cpp"
@@ -102,6 +106,10 @@
 "0x10025C40": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10025C40.cpp"
+},
+"0x100266C0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_100266C0.cpp"
 },
 "0x10026990": {
 "verdict": "IDENTICAL",

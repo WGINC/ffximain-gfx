@@ -45,6 +45,14 @@ through tree/placement.json), 0x1000D620 called on g_pEnv (the tree's text passe
 8-byte array written byte by byte. 0x10026990 from 60: float arithmetic in the decompiled order, both texture sizes
 converted first, and rule 22.
 
+**#119: 0x10002040 Gfx_CopySurfaceRectToTexture and 0x100266C0 Dbg_DrawAxesAt at the game's bytes**
+(recompile/d3dcaller_10002040.cpp, d3dcaller_100266C0.cpp), every relocation compared. 0x10002040 from 63 lines in
+one rewrite: one failure path reached by `goto` from each failing step, each object released there if held (the
+decompiler's `&&` chain with two copies of the cleanup gives another layout). 0x100266C0 from 99: the three
+matrices are stack objects with a constructor (0x10027990) and a destructor (0x100279A0), rule 23; the origin
+vertex written once; for each axis the two colours, then a block-scoped read of g_pCDx (rule 8), then the far
+vertex.
+
 ## Rules found in this round (each kept only where match.py said IDENTICAL, or where noted the bytes came closer)
 
 16. **A function-local static object is the compiler's guard, not one written by hand.** The game's
@@ -69,6 +77,12 @@ converted first, and rule 22.
     game's second read (0x10026990, and 0x10026C70's selection). 0x10041160's second null check came the same way
     (a one-member struct pointer in the condition).
 
+23. **Objects the game constructs and destroys on the stack are class objects with a constructor and a destructor.**
+    The game calls 0x10027990 (`mov eax, ecx; ret`, the IDB's `??0Iostream_init`) on each 64-byte matrix as the
+    function starts and 0x100279A0 on each as it ends, in the reverse order: what the compiler emits for
+    `Mat a, b, c;` with an out-of-line constructor and destructor. The decompiler's calls in the body give neither
+    the order nor the frame (0x100266C0, 0x100263F0).
+
 `/G6` (Pentium Pro scheduling) gives 0x1006A020's epilogue (its 2-line miss), but under `/O2 /G6` most of the 98
 matched functions differ (the device loads move), so it is not the build's setting; noted, not used.
 
@@ -80,6 +94,8 @@ matched functions differ (the device loads move), so it is not the build's setti
 | 0x1006A020 Gfx_CreateVertexBuffer (#118) | 2 | as round 119: the result loaded before the pops in the game; a separate buffer local in three forms, C and C++, `/O1`, `/Ox`, `/Oy-`, `/G3`-`/G5`, `/Gr` |
 | 0x1016DDF0 Dbg_DrawTriangleLines (#119) | 6 (from 117) | the global is loaded before the 16 matrix stores in the game (into EDX), after them in ours; a block-local copy, an inline CDx method, an argument-filling inline and a constructor tried |
 | 0x10026C70 CYyIcon::DrawSubRect (#119) | 79 (from 105) | the game spills y1 to a parameter slot and copies it by integer; which float lands in which dead parameter slot is not reproduced |
+| 0x100263F0 Dbg_DrawViewAxisGizmo (#119) | 4 (from 123) | written as 0x100266C0; the game loads g_pCDx into EDX right after the previous call, before the first axis's stores; the plain form loads it after them, a block-scoped copy takes EAX (4 placements tried) |
+| 0x1006B2B0 CMoDX::CreateAndInitSystem (#119) | 15 (from 19) | the file manager reached as `mov eax, [edx+0x40008]; mov eax, [eax]; mov ecx, eax` in the game, loaded straight into ECX in ours (a local, an inline accessor tried); the singleton creations written as `p ? ctor(p) : 0` stored then used |
 | 0x10041160 BindTintedTexture (#119) | 3 (from 164) | the scratch colour loaded as 32 bits into EBX and its second byte taken by `xor eax, eax; mov al, bh` in the game; a 16-bit read gives `mov al, bh` but `mov bx` and an extra `and`, a 32-bit read gives EDI and shifts (15 lines); the second null check of the pointer at +0x1A8 comes from reading it through a one-member struct (`struct H { int *p; }`) in the condition |
 | 0x10075700 TextureHolder_BindWarped (#118) | 128 (from 133) | a 12-byte frame in the game (8 in ours); the a4 == 0 return not merged with the last one in the game |
 
@@ -89,4 +105,4 @@ The sweep's conversion (pipeline/vc6/sweep.py) now compiles 8 of the functions r
 0x10003890 and 0x100426F0 still do not (a `__thiscall` pointer through another object; a local declared with a
 `__thiscall` pointer type).
 
-`match.py --all` after this round: 89 files, every function IDENTICAL: 104 marks, 102 addresses (0x10026E90 and 0x100272B0 are in two files each).
+`match.py --all` after this round: 91 files, every function IDENTICAL: 106 marks, 104 addresses (0x10026E90 and 0x100272B0 are in two files each).

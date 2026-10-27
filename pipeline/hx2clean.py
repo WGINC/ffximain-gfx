@@ -27,6 +27,12 @@ import hx_patches
 import hx2cpp
 import partial_regs
 
+def _head_params(text):
+    """the parameter list of a record's text, from its signature line"""
+    head = text.partition('\n{')[0]
+    return head[head.find('(') + 1:head.rfind(')')] if '(' in head else ''
+
+
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 PS2_NAMES = {}
 REVIEWED = {}                  # reviewed_names(): this repository's reviewed names, by address
@@ -625,6 +631,10 @@ def main(exp, gate, manf, incdir, outdir):
             # its entry takes a register its convention does not pass (GfxExport's register input): a free function
             # with GCC's regparm signature (hx2cpp.regparm_entry), the original's ABI; a member function cannot be
             cls = meth = None; why = 'takes %s in a register: a free function' % ', '.join(x for _, x in hx2cpp.extra_regs(r.get('cc'), r.get('storage')))
+        elif r.get('ghidra') and hx2cpp.undefined_reg_params(r.get('cc'), _head_params(r['text'])):
+            # a register parameter typed undefined4 goes on the stack in GCC unless written with regparm, as the raw
+            # translation does (hx2cpp.undefined_reg_params); a member function cannot be
+            cls = meth = None; why = 'an undefined4 register parameter: a free function with regparm'
         place[ea] = (cls, ident(meth) if meth else None, why)
 
     # accesses to members of IDB structs the tree replaces -> the offsets they access (idb_access.py)
@@ -896,7 +906,8 @@ def main(exp, gate, manf, incdir, outdir):
             if u:
                 note += '  (unit %s: %s)' % (u['unit'], u['why'])
                 why = 'unit: ' + u['why']
-            if r.get('ghidra') and hx2cpp.extra_regs(r.get('cc'), r.get('storage')):
+            if r.get('ghidra') and (hx2cpp.extra_regs(r.get('cc'), r.get('storage'))
+                                    or hx2cpp.undefined_reg_params(cc, ', '.join(ps))):
                 rp, _why = hx2cpp.regparm_entry(ea, cc, ', '.join(ps), r.get('storage'))
                 if rp is None: raise SystemExit('0x%08X: %s (the raw translation refused it too)' % (ea, _why))
                 cc, ps = rp[0], hx2cpp._params(rp[1])

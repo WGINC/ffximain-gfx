@@ -1141,6 +1141,12 @@ def _params(args):
     if cur.strip(): parts.append(cur.strip())
     return [] if parts == ['void'] else parts
 
+def undefined_reg_params(cc, params):
+    """a __fastcall's ECX/EDX parameter or a __thiscall's ECX one typed `undefined4`, which GCC passes on the stack
+    (it is a struct in xi_ghidra_shared.hpp): such a function is written with regparm (see make())"""
+    return cc in ('__fastcall', '__thiscall') and any(re.match(r'^undefined4\s+\w+$', p) for p in _params(params)[:2 if cc == '__fastcall' else 1])
+
+
 def regparm_entry(ea, cc, params, storage):
     # an entry that takes a register its convention does not pass (GfxExport's register input: conv.txt `regin`,
     # from entry_regs / edx_use / eax_inputs). GCC's regparm(n) passes the first n parameters in EAX, EDX, ECX
@@ -1352,8 +1358,7 @@ def translate(rec):
     # integer or pointer: Ghidra's `undefined4` (a struct here, xi_ghidra_shared.hpp) goes on the stack instead, so
     # the export read EDX from a stack slot and popped it (fs22: 0x10071D80 `ret 4` for the game's `ret`). regparm
     # passes it in the register (GCC manual, x86 function attributes), as for a register input
-    if not regentry and rec.get('source') == 'ghidra' and cc in ('__fastcall', '__thiscall') \
-            and any(re.match(r'^undefined4\s+\w+$', p) for p in _params(params)[:2 if cc == '__fastcall' else 1]):
+    if not regentry and rec.get('source') == 'ghidra' and undefined_reg_params(cc, params):
         regentry = True
     if regentry:
         rp, why = regparm_entry(ea, cc, params, rec.get('storage'))

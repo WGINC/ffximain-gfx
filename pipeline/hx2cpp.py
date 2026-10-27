@@ -683,6 +683,7 @@ def ghidra_prepare(rec):
     rest = ghidra_pieces(rest)                    # (before the casts: their operands are then plain C++)
     rest, why = ghidra_bitcasts(rest)
     if rest is None: return None, 'untranslatable', why
+    rest = ghidra_float_stores(rest, rec.get('objs') or {})
     rest = ghidra_byte_adds(rest)
     rest, why = ghidra_ptradds(rest)
     if rest is None: return None, 'untranslatable', why
@@ -771,6 +772,34 @@ def ghidra_icalls(rec):
 _VC = {}
 
 
+class _Site:
+    """a match-like record of one `(**(code **)(*V + K))(` (group 1 V, group 2 K)"""
+    def __init__(self, s, e, v, k): self._s, self._e, self._g = s, e, (None, v, k)
+    def start(self): return self._s
+    def end(self): return self._e
+    def group(self, n): return self._g[n]
+
+
+def vcall_sites(text):
+    """each virtual call Ghidra prints as `(**(code **)(*V + K))(`, in text order. V is a name, or an expression with
+    no call, assignment or increment in it (`*(int **)((int)this + 0xa0)`: 0x1008C480 calls through the object at
+    this+0xA0), so evaluating it again for ECX reads the same object; anything else is not listed"""
+    out = []
+    for m in re.finditer(r'\(\*\*\(code \*\*\)\(\*', text):
+        j = m.end() - 2                                          # the `(` before `*V + K`
+        k = _balanced(text, j)
+        if k is None or not text.startswith(')(', k): continue
+        inner = text[j + 1:k - 1]
+        mm = re.match(r'^\*(.+) \+ (0x[0-9a-f]+|\d+)$', inner, re.S)
+        if not mm: continue
+        v = mm.group(1).strip()
+        if not re.fullmatch(r'\w+', v):
+            if re.search(r'[A-Za-z_]\w*\s*\(|=|\+\+|--|,', v) or v.count('(') != v.count(')'): continue
+            v = '(%s)' % v
+        out.append(_Site(m.start(), k + 2, v, mm.group(2)))
+    return out
+
+
 def ghidra_vcall_this(ea, text):
     """a virtual call Ghidra printed without its object, `(**(code **)(*V + K))(args)`, where the export did not mark
     it (its convention was not established when it was exported): called with V in ECX (__thiscall) when every call
@@ -807,7 +836,7 @@ def ghidra_vcall_this(ea, text):
         if any(r is not None and r[2] for r in rs): return None
         return p // 4, 'int'
     out, i = '', 0
-    for m in re.finditer(r'\(\*\*\(code \*\*\)\(\*(\w+) \+ (0x[0-9a-f]+|\d+)\)\)\(', text):
+    for m in vcall_sites(text):
         if m.start() < i: continue
         sc = slot_conv(int(m.group(2), 0) // 4)
         if sc is None: continue
@@ -909,6 +938,36 @@ def _cast_operand_end(text, i):
             i = j + m.end(); continue
         break
     return i
+
+
+def ghidra_float_stores(text, objs):
+    """`DAT_x = (float)(...);` / `(&DAT_x)[i] = (float)(...);` into a global Ghidra types `undefined4`: Ghidra prints
+    every numeric conversion as an explicit p-code op (INT2FLOAT, FLOAT2INT, TRUNC: a printed cast); an `undefined4`
+    has no numeric type, so the float's 4 bytes are stored as they are (0x102710B0: `fstp dword ptr [esi+0x78]`).
+    The C++ global is uint32_t, where the same assignment would convert the value to an integer: the store is made
+    a bit copy, xi_castbits<uint32_t>, as ghidra_bitcasts does for the CASTs GfxExport marks."""
+    for nm, o in objs.items():
+        if o.get('func') or (o.get('type') or '').strip() != 'undefined4' or o.get('size') != 4: continue
+        pat = re.compile(r'(?<![\w.>])(\(&%s\)\s*\[|%s\s*\[|%s\b)' % ((re.escape(nm),) * 3))
+        out, i = '', 0
+        for m in pat.finditer(text):
+            if m.start() < i: continue
+            j = m.end()
+            if text[j - 1] == '[':
+                j = _balanced(text, j - 1)
+                if j is None: continue
+            k = j
+            while k < len(text) and text[k].isspace(): k += 1
+            if not (text.startswith('=', k) and not text.startswith('==', k)): continue
+            r0 = k + 1
+            while r0 < len(text) and text[r0].isspace(): r0 += 1
+            if not re.match(r'\(float\)', text[r0:]): continue
+            depth, e = 0, r0
+            while e < len(text) and not (text[e] == ';' and depth == 0):
+                depth += (text[e] in '([') - (text[e] in ')]'); e += 1
+            out += text[i:r0] + 'xi_castbits<uint32_t>(%s)' % text[r0:e].strip(); i = e
+        text = out + text[i:]
+    return text
 
 
 def ghidra_bitcasts(text):

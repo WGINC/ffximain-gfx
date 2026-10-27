@@ -422,6 +422,20 @@ class BitCasts(unittest.TestCase):
     def test_written_without_type(self):
         self.assertIsNone(H.ghidra_bitcasts('/*XI_BC:2*/f = g(x);')[0])
 
+    def test_vcall_object_expression(self):
+        # 0x1008C480 calls through the object at this+0xA0: V is an expression with no call in it
+        t = '(**(code **)(**(int **)((int)self + 0xa0) + 0xa4))(); (**(code **)(*F_1(x) + 8))(); (**(code **)(*p + 4))(1);'
+        s = [(m.group(1), m.group(2)) for m in H.vcall_sites(t)]
+        self.assertEqual(s, [('(*(int **)((int)self + 0xa0))', '0xa4'), ('p', '4')])
+
+    def test_float_stored_into_undefined4_global(self):
+        # 0x102710B0: `fstp dword ptr [esi+0x78]` into a global Ghidra types undefined4 -- the bits, not (uint32_t)f
+        o = {'DAT_1099b3b4': {'func': False, 'type': 'undefined4', 'size': 4}}
+        self.assertEqual(H.ghidra_float_stores('(&DAT_1099b3b4)[i * 0x1f] = (float)(x * y);', o),
+                         '(&DAT_1099b3b4)[i * 0x1f] = xi_castbits<uint32_t>((float)(x * y));')
+        self.assertEqual(H.ghidra_float_stores('if (DAT_1099b3b4 == (float)1) n = 1;', o), 'if (DAT_1099b3b4 == (float)1) n = 1;')
+        self.assertEqual(H.ghidra_float_stores('DAT_1099b3b4 = (int)f;', o), 'DAT_1099b3b4 = (int)f;')
+
 
 class EntryEax(unittest.TestCase):
     # in_EAX where no code sees EAX's entry value: started at 0

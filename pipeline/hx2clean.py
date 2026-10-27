@@ -538,7 +538,9 @@ def main(exp, gate, manf, incdir, outdir):
         passed -= set(drop); left_out.update(drop)
     os.makedirs(outdir, exist_ok=True)
     lo = {'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why) for ea, why in left_out.items()}
-    lo.update({'0x%08X' % ea: '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
+    # a reason given by the caller (tree_round.py --drop --why, starting 'left out:') stands as written
+    lo.update({'0x%08X' % ea: '%s: %s' % (R[ea]['name'] if ea in R else '?', why) if why.startswith('left out:') else
+               '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
     json.dump(dict(sorted(lo.items())), open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
     sizes, bases = {}, {}

@@ -64,7 +64,10 @@ typedef int code(...);
 #define NAN(x) ((x) != (x))
 #define CONCAT31(h, l) ((uint32_t)(((uint32_t)(h) << 8) | (uint8_t)(l)))
 #define xi_sw(x) ((uint32_t)(x))
-double __cdecl sqrt(double);
+#ifdef __cplusplus
+extern "C"
+#endif
+double __cdecl sqrt(double);  /* C linkage, as <math.h> declares it */
 #define SQRT(x) sqrt(x)
 #define XI_GAME(ea) (ea)
 /* XI_CALL_ST0(0x10311C2C)(x): 0x10311C2C is the CRT's __ftol, byte for byte LIBC.LIB's (sweep.py FTOL), which the
@@ -477,6 +480,7 @@ def _castbits(body):
 # with FN the slot's value, Hex-Rays' `(*(R (__thiscall **)(P))(SLOT))(A)` with SLOT the slot's address
 _VCALL = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\(')
 _VCALL2 = re.compile(r'\(\*\((?P<ret>[^()]+?) \(__thiscall \*\*\)\((?P<params>[^()]*)\)\)\(')
+_VCALL3 = re.compile(r'\(\*\(\((?P<ret>[^()]+?) \(__thiscall \*\*\)\((?P<params>[^()]*)\)\)\(')
 _INT4 = r'(?:int|uint|uint32_t|_DWORD|undefined4|dword|DWORD|unsigned int)'
 VDECLS = []      # stand-in classes the virtual calls of the last macros() body need (convert puts them at file scope)
 
@@ -517,7 +521,17 @@ def _vtable_slot(addr, decls):
         if m and re.search(r'(?:^|[;{(,\n])\s*%s\s*\*\s*%s\s*[;,)]' % (_INT4, re.escape(m.group(1))), decls): x = m.group(1)
         m = re.match(r'^\*(\*\(%s \*\*\)\s*\(.*\))$' % _INT4, vt)
         if m and _group(m.group(1), m.group(1).index('(', m.group(1).index('**)'))) == len(m.group(1)): x = m.group(1)
+        m = re.match(r'^\*(\*\(%s \*\*\)\s*\w+)$' % _INT4, vt)                 # **(T **)v: the vtable of *(T **)v
+        if m: x = m.group(1)
+        m = re.match(r'^\*\(void \* \*\)\(\(char \*\)(\w+) \+ 0x0\)$', vt)   # *(void * *)((char *)X + 0x0)
+        if m: x = m.group(1)
     return (x, off) if x and _pure(x) else None
+
+
+def _same_obj(a, b):
+    """the same object: equal once outer pointer casts are dropped, `*(T **)E` read as `*(T *)E` for a 4-byte T"""
+    f = lambda e: re.sub(r'\*\(%s \*\*\)' % _INT4, lambda m: m.group(0)[:-2] + ')', _strip_ptr_cast(e))
+    return f(a) == f(b)
 
 
 def _vcalls(body, decls=''):
@@ -530,14 +544,22 @@ def _vcalls(body, decls=''):
     `(*(R (__thiscall **)(T, P...))(*(_DWORD *)X + OFF))(X, A...)`. Anything else is left as it is"""
     out, i = [], 0
     while True:
-        ms = [x for x in (_VCALL.search(body, i), _VCALL2.search(body, i)) if x]
+        ms = [x for x in (_VCALL.search(body, i), _VCALL2.search(body, i), _VCALL3.search(body, i)) if x]
         if not ms: out.append(body[i:]); return ''.join(out)
         m = min(ms, key=lambda x: x.start())
         p = m.start(); e1 = _group(body, p)
         if e1 < 0 or e1 >= len(body) or body[e1] != '(':
             out.append(body[i:m.end()]); i = m.end(); continue
         slot = None
-        if m.re is _VCALL:
+        if m.re is _VCALL3:
+            v1 = _group(body, m.end() - 1)                                  # the (VT) group
+            mk = re.match(r'\s*\+\s*(\d+)\)\)\(', body[v1:]) if v1 > 0 else None
+            if not mk:
+                out.append(body[i:m.end()]); i = m.end(); continue
+            e1 = v1 + mk.end() - 1
+            vs = _vtable_slot(body[m.end() - 1:v1], decls + '\n' + body)
+            slot = (vs[0], vs[1] + 4 * int(mk.group(1))) if vs and vs[1] == 0 else None
+        elif m.re is _VCALL:
             fn = _strip_parens(body[m.end() - 1:e1 - 1])
             fm = re.match(r'^\*\*?\(code \*\*\)(.*)$', fn)
             if fm: slot = _vtable_slot(fm.group(1), decls + '\n' + body)
@@ -547,7 +569,7 @@ def _vcalls(body, decls=''):
         args = split_args(body[e1 + 1:e2 - 1]) if e2 > 0 else []
         params = [x.strip() for x in m.group('params').split(',')]
         ok = slot is not None and args and params and len(args) == len(params) and slot[1] % 4 == 0 \
-            and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _strip_ptr_cast(args[0]) == _strip_ptr_cast(slot[0])
+            and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _same_obj(args[0], slot[0])
         if not ok:
             out.append(body[i:m.end()]); i = m.end(); continue
         obj, off = slot
@@ -625,9 +647,14 @@ HELPERS = {
                '#define SUB41(x, b) ((uint8_t)(xi_b32(x) >> (8 * (b))))\n#define SUB42(x, b) ((uint16_t)(xi_b32(x) >> (8 * (b))))\n'
                '#define SUB81(x, b) ((uint8_t)(xi_b64(x) >> (8 * (b))))\n#define SUB84(x, b) ((uint32_t)(xi_b64(x) >> (8 * (b))))\n'
                '#define SUB82(x, b) ((uint16_t)(xi_b64(x) >> (8 * (b))))', True),
+    # the CRT's math functions (tree/include/xi_decomp.hpp: the x87 instructions /Oi gives them) from the compiler's own
+    # <math.h>; ABS as tree/include/xi_ghidra.hpp defines it
+    'math': ('#include <math.h>\n#define fpatan(y, x) atan2((y), (x))   /* x87 fpatan: atan(ST1 / ST0), what /Oi gives atan2 */', False),
+    'ABS': ('#define ABS(x) ((x) < 0 ? -(x) : (x))', False),
 }
 HELPER_USE = {'builtin_strncpy': r'\bbuiltin_strncpy\b', 'xi_k4': r'\bxi_k4\b', 'xi_k8': r'\bxi_k8\b',
-              'xi_b32': r'\b(?:SUB4[12]|SUB8[124]|xi_b32|xi_b64)\b'}
+              'xi_b32': r'\b(?:SUB4[12]|SUB8[124]|xi_b32|xi_b64)\b',
+              'math': r'\b(?:sin|cos|tan|atan|atan2|sqrt|fabs|floor|ceil|fmod|pow|exp|log|fpatan)\s*\(', 'ABS': r'\bABS\s*\('}
 # Windows types a body names (tree/include/xi_compat_win.hpp and gfx_types.hpp, from the SDK headers)
 BODYT = dict(WINT, LPDWORD='typedef unsigned int *LPDWORD;', PVOID='typedef void *PVOID;',
              LPCRITICAL_SECTION='struct _RTL_CRITICAL_SECTION; typedef struct _RTL_CRITICAL_SECTION *LPCRITICAL_SECTION;')

@@ -11,8 +11,8 @@ The steps the 27 Oct rounds (r12, r13) ran by hand, in one place. Each step is a
 regen    the export list is tree/source.json's (IDA export, then `ghidra_exports` in order); --first puts the named
          exports (data/exports/ghidra_frameset<N>.jsonl with N from fsN, raw gate verification/gate_raw_frameset<N>.jsonl)
          right after the IDA export, --last after the others. hx2clean.py takes each function from the first export
-         whose raw gate passed it, so --first is how a re-exported record replaces an older one. --drop: XI_DROP
-         (left out, with the reason given in OUT/drop_reasons.json by the caller).
+         whose raw gate passed it, so --first is how a re-exported record replaces an older one. --drop ADDR...
+         --why TEXT: left out (XI_DROP, the file OUT.given_drop.json), each listed in left_out.json with TEXT.
 cases    the raw cases: verification/cases_raw_final.json; for a function a --first export passes raw, that export's
          case (runs/fsN/cases.json, made with `./run.sh translate|cases` if missing), the older one kept as a second
          case when it differs (verification/cases_raw_alt.json); a function with no case takes the --last export's.
@@ -49,7 +49,10 @@ def order(o):
 def regen(o):
     _, _, exps = order(o)
     env = dict(os.environ)
-    if o.drop: env['XI_DROP'] = ','.join(o.drop)
+    if o.drop:                     # XI_DROP is a file {ea: why} (hx2clean.py, drop_failed.py); OUT itself is rebuilt
+        if not o.why: sys.exit('--drop needs --why (the reason left_out.json gives)')
+        f = o.out.rstrip('/') + '.given_drop.json'
+        json.dump({n(a): 'left out: ' + o.why for a in o.drop}, open(f, 'w'), indent=1); env['XI_DROP'] = f
     env.setdefault('XI_REGATE', R('verification', 'gate_raw_regate.jsonl'))
     cmd = [R('pipeline', 'regen_clean.sh'), ','.join(e for e, _ in exps), ','.join(g for _, g in exps), o.out]
     print(' '.join(cmd)); sys.exit(subprocess.call(cmd, cwd=ROOT, env=env))
@@ -139,6 +142,7 @@ def install(o):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(); ap.add_argument('step', choices=('regen', 'cases', 'gate', 'install')); ap.add_argument('out')
     ap.add_argument('--first', nargs='*', default=[]); ap.add_argument('--last', nargs='*', default=[])
-    ap.add_argument('--drop', nargs='*', default=[]); ap.add_argument('--jobs', type=int, default=2)
+    ap.add_argument('--drop', nargs='*', default=[]); ap.add_argument('--why', default='')
+    ap.add_argument('--jobs', type=int, default=2)
     o = ap.parse_args(); o.out = os.path.abspath(o.out)
     {'regen': regen, 'cases': cases, 'gate': gate, 'install': install}[o.step](o)

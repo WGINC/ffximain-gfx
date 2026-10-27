@@ -53,6 +53,14 @@ matrices are stack objects with a constructor (0x10027990) and a destructor (0x1
 vertex written once; for each axis the two colours, then a block-scoped read of g_pCDx (rule 8), then the far
 vertex.
 
+**Where step 20 stands** (pipeline/vc6/render_core_status.py, verification/render_core_status.json; the sets as
+round 118 defines them): #118, 30 of the 57 Direct3D-calling functions at the game's bytes (25 of the 41 in the
+frame set); #119, 26 of their 100 direct callers (20 of the 60 in the frame set).
+
+pipeline/vc6/reorder.py searches the order of the statements in a marked region (swaps and moves, hill climbing on
+mdiff's count) and writes a source only where match.py says IDENTICAL; a source at the game's bytes computes what
+the game's code computes, whatever the order that got it there.
+
 ## Rules found in this round (each kept only where match.py said IDENTICAL, or where noted the bytes came closer)
 
 16. **A function-local static object is the compiler's guard, not one written by hand.** The game's

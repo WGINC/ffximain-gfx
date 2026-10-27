@@ -61,6 +61,14 @@ pipeline/vc6/reorder.py searches the order of the statements in a marked region 
 mdiff's count) and writes a source only where match.py says IDENTICAL; a source at the game's bytes computes what
 the game's code computes, whatever the order that got it there.
 
+**Not in the tree, written from the game's bytes and Ghidra's text** (Ghidra is installed again; the 43 functions
+of the two sets that are not in the tree exported for their text): 0x1006ADC0 (#118, recompile/d3d_1006ADC0.cpp),
+and 0x10044250, 0x10009E60, 0x10075FF0, 0x10075690, 0x1006B090 (#119, recompile/d3dcaller_notree_r120.cpp), every
+relocation compared. These are not gate-verified (no tree source); being at the game's bytes, each computes what
+the game's function computes. 0x1006B090 is a destructor (the class's vtable stored first, the member at +4
+destroyed last by a tail jump). 0x100764C0 is not: the game copies the same four parameters twice, re-reading each
+from the stack; struct copies, by-value structs, inline constructors and memcpy give one read (28 lines).
+
 ## Rules found in this round (each kept only where match.py said IDENTICAL, or where noted the bytes came closer)
 
 16. **A function-local static object is the compiler's guard, not one written by hand.** The game's

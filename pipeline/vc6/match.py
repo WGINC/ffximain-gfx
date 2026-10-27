@@ -13,7 +13,8 @@ relocations. Against the game's bytes at the address:
     its own bytes; when the symbol's name carries an address (FUN_/sub_/fn_ + 8 hex digits, or a name the tree's
     placement gives an address) the two must be the same, otherwise the target is reported, not compared;
   * a DIR32 relocation (an absolute address: a global, a jump table, a constant) is likewise compared when the
-    symbol names an address (DAT_/g_ ... _XXXXXXXX), else reported;
+    symbol names an address (DAT_/g_ ... _XXXXXXXX), or is a name tree/placement.json gives one address (a member's
+    decorated `?Method@Class@@...` read as Class::Method), else reported;
   * a symbol the source cannot name by address (a function-local static, its guard, the compiler's `$E` function)
     is compared when the source gives its address: `// SYMBOL: <decorated name> 0xADDR`;
   * the length must be the game function's (data/func_extents.json, a single piece), up to alignment padding (0xCC /
@@ -98,6 +99,8 @@ def compare(img, ext, ea, code, rels, place):
         if m: a = int(m.group(1), 16)
         elif sym in place: a = place[sym]
         elif sym.lstrip('_?') in place: a = place[sym.lstrip('_?')]
+        elif re.match(r'^\?(\w+)@(\w+)@@', sym) and '%s::%s' % re.match(r'^\?(\w+)@(\w+)@@', sym).group(2, 1) in place:
+            a = place['%s::%s' % re.match(r'^\?(\w+)@(\w+)@@', sym).group(2, 1)]    # ?Method@Class@@...: the tree's Class::Method
         if rt == 0x14:                       # IMAGE_REL_I386_REL32
             got = (ea + off + 4 + struct.unpack_from('<i', orig, off)[0]) & 0xFFFFFFFF
         elif rt == 0x06:                     # IMAGE_REL_I386_DIR32
@@ -149,7 +152,9 @@ def main():
     place = {}
     if os.path.exists(pl):
         for k, v in json.load(open(pl)).items():
-            if isinstance(v, dict) and v.get('symbol'): place[v['symbol']] = int(k, 16)
+            if isinstance(v, dict) and v.get('symbol'):
+                n_ = v['symbol']; place[n_] = int(k, 16) if place.get(n_, int(k, 16)) == int(k, 16) else None   # a name twice: none
+    place = {k: v for k, v in place.items() if v is not None}
     # symbols the compiler names itself (a function-local static, its guard, the `$E` function that registers its
     # destructor) or that the source cannot name by address (atexit), given their game address by the source:
     # `// SYMBOL: <decorated name> 0xADDR`; their relocations are then compared like any other

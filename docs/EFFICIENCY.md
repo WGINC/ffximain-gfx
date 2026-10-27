@@ -49,8 +49,9 @@ model cost per function. **So the job is to find rules, not functions.**
    only where it keeps the function's meaning (the tree's GATE: PASS source) and only kept where match.py then says
    IDENTICAL. Run the sweep over the whole tree in the background (it has a per-function cache); read the IDENTICAL
    count. One rule can move tens of functions; that is the 60% (#127) path.
-2. **Tree r14 (HANDOFF 3.1), unattended.** The four `tree_round.py` steps in one background script, `--jobs 4`, one
-   summary at the end; then read only the verdict changes it prints. The owner's next kit waits on it.
+2. **A tree round only when there is something to install** (a new export, a generator fix): HANDOFF 3.1a, the
+   four `tree_round.py` steps and the live gate in one background script, read once at the end. r14 (27 Oct) was run
+   that way.
 3. **The owner's kit (HANDOFF 3.2)**: one build script, then the session folder. No gate.
 4. **Hand matching only to find a new rule**, on the closest misses (recompile/d3d_round_120.md lists them), and
    stop at the first rule found: encode it (step 1) before matching another function by hand.

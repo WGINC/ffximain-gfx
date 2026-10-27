@@ -34,6 +34,9 @@ C). The DLL alone cannot say which functions those are. A linker map or PDB of t
 
 ## Matched functions (`recompile/`)
 
+**27 Oct:** 110 functions, all IDENTICAL (verification/recompile_match.json, one record per function); the render-core
+rounds and their source-form rules are recompile/d3d_round_118.md, _119.md and _120.md. Older figures below are dated.
+
 `recompile/*.cpp` hold the sources that compile to the game's bytes; `match.py --all` checks every one (exit 1 unless
 all are IDENTICAL). 25 Oct: 14 functions in `recompile/small_math.cpp` -- the identity matrix and row copy below,
 Vec3/Vec4 copy, add, subtract and scale, a `return this`, an empty function, Mat4_SetTranslation, two clearing
@@ -45,6 +48,9 @@ parameter and returns the parameter (`mov eax, [esp+4]` first): the `void` spell
 `short` return with only AX written on each path (P11).
 
 ## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py --calls`)
+
+**Latest sweep (26 Oct):** 1,819 of 4,251 functions IDENTICAL as written or by a rule (verification/vc6_sweep.json).
+The table below is the first sweep's, 25 Oct.
 
 Each tree function in the `XI_API` form, and each class method, 4121 in all, is put in its own file with only mechanical changes: a header
 of the tree's type names; `XI_API` dropped; `__cdecl`/`__stdcall` compiled as C (C++ when it calls a `__thiscall`

@@ -235,7 +235,7 @@ step needs speedfix's `frame_step` (3a).
 - **The CMoDX device users.** Before the 4 Oct export, 99 functions outside it used the device (93 through the
   CMoDX object at 0x1047BFA8, whose +0xEBC is the device, proven in com_fields.json). The 4 Oct export (867
   functions) includes them; data/gfx_device_users.json now finds none outside it. Some are not in the verified
-  tree: the occlusion readback (0x1006C8B0) is UNRESOLVED at one call (docs/RESIDUE.md, docs/GAPS.md).
+  tree: the occlusion readback (0x1006C8B0) is UNRESOLVED at one call (docs/GAPS.md).
 - **The 3D world path.** The world update/draw functions called from the state machine (section 2) are
   outside the export.
 - **The x87 comparison artifacts.** The `__builtin_isunordered` chains in the tree (Frame_Render's pacing

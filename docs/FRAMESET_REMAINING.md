@@ -1,8 +1,10 @@
 # Frame-set functions still outside the tree
 
 Plan item #109. Which game-code functions of the frame set are not in the verified tree, what stops each one, and
-what was fixed in the pipeline for the largest buckets that have a definitive fix. Nothing here is installed into
-`tree/`; the raw gate verdicts are for the integrator's regeneration and install.
+what was fixed in the pipeline for the largest buckets that have a definitive fix.
+
+**27 Oct, late:** the raw PASSes of fs22, fs23 and fs24 are installed (tree r14; docs/HISTORY.md). The buckets below are
+as they were before that install; the current per-function state is verification/frame_set_status.json.
 
 ## The set
 

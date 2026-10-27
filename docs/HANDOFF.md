@@ -11,18 +11,18 @@ The task list with every task's state: docs/PLAN_TASKS.md.
 Work alone: no parallel workers. The steps below are ordered so that each costs little. A full clean gate is the one
 expensive step (about 2 to 3 hours on 4 cores); do it once per tree, never for a single change.
 
-## 1. Where things stand (commit 7485ffc and the handoff commit after it)
+## 1. Where things stand (27 Oct, late)
 
 | Measure | Value | Source |
 |---|---|---|
-| Tree | r13 installed: 4,513 functions, 4,486 PASS, 19 FAIL, 5 INCONCLUSIVE, 3 UNRESOLVED | verification/gate_clean_final.jsonl |
-| Frame set | 5,430 functions; 4,066 in the tree, 4,039 PASS | verification/frame_set_status.json (frame_status.py) |
-| At the game's bytes | 1,609 of 5,430 (29.6%); Direct3D-calling 25 of 41 | same; recompile/ counted through verification/recompile_match.json |
-| Recompiled by hand | 98 functions in recompile/, all IDENTICAL | `pipeline/vc6/match.py --all` |
-| Raw PASS waiting for a tree | fs24: 387 of the 436 functions newly reached through recorded indirect targets | verification/gate_raw_frameset24.jsonl |
+| Tree | r14 installed: 4,897 functions, 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED | verification/gate_clean_final.jsonl (fuzz combined with the live gates) |
+| Frame set | 5,430 functions; 4,449 in the tree, 4,437 PASS | verification/frame_set_status.json (frame_status.py) |
+| At the game's bytes | 1,612 of 5,430 (29.7%); Direct3D-calling 25 of 41 | same; recompile/ counted through verification/recompile_match.json |
+| Recompiled by hand | 110 functions in recompile/, all IDENTICAL | `pipeline/vc6/match.py --all` |
+| Byte matching of the render core | #118 30 of 57, #119 26 of 100 | verification/render_core_status.json (pipeline/vc6/render_core_status.py) |
 
-The plan's percent-tagged tasks: everything to 10% is done; 15% is done except #109 (this round) and #111; 20% is
-done except #118, #119 (byte matching, partway). P1 to P16 were re-read on 27 Oct (docs/PROBLEMS.md).
+The plan's percent-tagged tasks: everything to 15% is done; 20% is done except #118, #119 (byte matching, partway)
+and #121 (the owner's). docs/PLAN_TASKS.md has every task.
 
 ## 2. What a fresh container lacks (none of it is in the repository, by rule)
 
@@ -41,33 +41,35 @@ states; the 4.4 GB dumps themselves are the owner's own copies). Without the gam
 
 ## 3. Next steps, in order
 
-### 3.1 Tree r14: fs24's 387 raw PASSes and the regparm fix (one full gate)
+### 3.1 Sweep rules from the hand matches (#163, then #118, #119, #127)
 
-The regparm fix (commit 36639d3) is in the generator but not yet in the installed tree: 13 of fs22's functions FAIL
-clean on it ("stack cleanup differs: original pops 0, reconstruction pops 4", calls missing). r14 takes it.
+docs/EFFICIENCY.md, "The work": encode the source-form rules of recompile/d3d_round_118.md to _120.md into
+`pipeline/vc6/sweep.py`, each kept only where match.py then says IDENTICAL, and run the sweep over the tree in the
+background. Then refresh verification/vc6_sweep.json, recompile_match.json and frame_status.
+
+### 3.1a A tree round, when there is a new export or a generator fix (the r14 procedure)
 
 ```
 export FFXI_DLL=... XI_REGATE=verification/gate_raw_regate.jsonl
-python3 pipeline/tree_round.py regen  $SCRATCH/tree_r14 --last fs24
-python3 pipeline/tree_round.py cases  $SCRATCH/tree_r14 --last fs24      # builds runs/fs24c (translate + cases) if missing
-python3 pipeline/tree_round.py gate   $SCRATCH/tree_r14 --jobs 4          # the long step; prints every verdict change
-python3 pipeline/tree_round.py install $SCRATCH/tree_r14 --last fs24      # same --first/--last as regen
-python3 pipeline/regen_facts.py                                            # about 25 min
-python3 pipeline/frame_status.py verification/frame_set_status.json
-python3 pipeline/verify_all.py --quick --facts-from-state
+python3 pipeline/tree_round.py regen  $SCRATCH/tree_rN [--first fsA] [--last fsB] [--drop ADDR... --why TEXT]
+python3 pipeline/tree_round.py cases  $SCRATCH/tree_rN (same flags)
+python3 pipeline/tree_round.py gate   $SCRATCH/tree_rN --jobs 4          # the long step; prints every verdict change
+python3 pipeline/tree_round.py install $SCRATCH/tree_rN (same flags)
+python3 pipeline/regen_facts.py; python3 pipeline/frame_status.py verification/frame_set_status.json
 ```
-Before installing, read every verdict change `gate` prints: a PASS that turns non-PASS is read to its cause (the r12 and
-r13 rounds found real defects that way: 0x10054D70's missing argument, the regparm rule). Record the round in
-docs/HISTORY.md (counts, what changed and why) and commit with the counts in the subject.
+Run the four steps as one background script. Before installing, read every verdict change: a PASS that turns
+non-PASS is read to its cause. Then the live gate on the dumps for whatever is not PASS (below), and record the round
+in docs/HISTORY.md.
 
-Known about fs24 before you start (docs/FRAMESET_REMAINING.md, its last section):
-- 0x10223B4E, 0x102262EE, 0x1022635E are switch cases, not functions; they left the frame set (3a37ed3). If they
-  appear in r14, drop them (`--drop` on regen and install) and say why.
-- 0x100D8B20 (LPLONG) and 0x101CC0D0 (CONCAT14) did not compile; fixed in dd4a499, not re-gated raw.
-- 0x100372A0, 0x100372E0: a float parameter typed `undefined4` stored into a float global is converted, not copied
-  (the reverse of 5916074's fix). Not fixed.
+The live gate as run on 27 Oct: `live_state.py /root/ffxi_dumps/dumps/ffxi_<scene>.dmp - OUT.json $FFXI_DLL
+CASES` per dump (they are of the analysed build), then `FFXI_LIVE=OUT.json gate_some.py DIR all --dll ... --cases
+<the non-PASS cases>` (DIR must exist), then `combine_gates.py verification/gate_clean_final.jsonl COMBINED.jsonl
+scene=DIR/gate.jsonl ...`.
 
-### 3.2 The owner's kit (after r14)
+Open from fs24 (docs/FRAMESET_REMAINING.md, its last section): 0x100372A0, 0x100372E0 (a float parameter typed
+`undefined4` stored into a float global is converted, not copied; the reverse of 5916074's fix).
+
+### 3.2 The owner's kit
 
 `kit/xikit/build.sh` (MinGW; needs FFXI_DLL and FFXI_DLL_6AC37846) writes kit/xikit/dist; `kit/speedfix/build.sh`;
 `kit/d3d8on11/build.sh`. Then `python3 pipeline/tool_drift.py --fix` and commit the lock. Make a session folder like
@@ -76,21 +78,20 @@ kit/sessions/pending_26oct with:
   speed hold steady (RENDERER 3b)? The run logs the game's present parameters at CreateDevice and Reset.
 - d3d8on11 with no present_interval: what the game itself asks for (the log line).
 - captures (`capture=`) of the functions docs/FRAMESET_REMAINING.md lists as needing real inputs (the "Capture list"),
-  plus 0x100CD540, 0x100E08D0, 0x100CFA50 (P18), and 0x10003890 only if the owner knows a scene that runs it.
+  plus 0x100CD540 and 0x100CFA50 (P18; INCONCLUSIVE on fuzz and on the dumps).
 Replay captures with `pipeline/xcap.py CAPTURE verification/cases_clean_final.json tree/build/gfx_recon.dll OUT`.
 
-### 3.3 Byte matching (#118, #119), by hand, cheapest first
+### 3.3 Byte matching by hand: only to find a new rule (docs/EFFICIENCY.md)
 
-Rules 1 to 15: recompile/d3d_round_118.md and d3d_round_119.md. Closest misses (lines off): 0x1006A020 (2),
-0x10017310 (2), then the list in d3d_round_119.md. Write recompile/d3d_<addr>.cpp or d3dcaller_<addr>.cpp; keep
+Rules 1 to 15+: recompile/d3d_round_118.md, _119.md, _120.md; the closest misses are listed there. Keep
 `VC6=... python3 pipeline/vc6/match.py --all` exit 0; check pooled float constants (`__real@`) against the game's bytes
-by hand (match.py does not compare them); then refresh verification/recompile_match.json (one `match.py FILE --json`
-per file) and frame_status.
+(match.py does not compare them); refresh verification/recompile_match.json and frame_status.
 
 ### 3.4 What only the owner or a run can settle
 
-- #111 / P1: 0x10003890 and the other fault-INCONCLUSIVEs need the live gate (`./run.sh cleanlive` on the dumps at
-  /root/ffxi_dumps) or captures. P1 also says the kit is built on fuzz-only verdicts; no owner decision is recorded.
+- P1: the live gate ran on 27 Oct for the functions not PASS on fuzz (0x10003890, 0x100E08D0, 0x10010D20 PASS
+  combined, the first two on few returning trials). The rest of the tree's verdicts are fuzz-only; whether the kit
+  may rest on them is the owner's decision, not recorded.
 - P13: the owner's marks in requests/review/02_user_types.md.
 - #121: treated as answered by the owner's "as many workers as you need"; the owner has since asked for no workers.
 - speedfix's precise_pacing waited 0 ms in run B with [this+0x30] = 1: why is not settled (RENDERER 3b).

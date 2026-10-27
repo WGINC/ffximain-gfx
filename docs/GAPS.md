@@ -15,8 +15,8 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 | Measure | Value | Source |
 |---|---|---|
 | Graphics functions exported from IDA | 867 | data/exports/gfx_export.jsonl |
-| Verified in the tree (all routes) | 4,205 PASS on fuzz of 4,206 in the tree (1 INCONCLUSIVE: 0x10003890); the live gates were run on the 4 Oct tree, not this one | verification/gate_clean_final.jsonl |
-| Exported but not in the verified tree | 90: 48 D3DX library, 13 FAIL, 11 constructs, 9 compile, 8 UNRESOLVED, 1 INCONCLUSIVE | docs/RESIDUE.md |
+| Verified in the tree (all routes) | 4,884 PASS of 4,897 in the tree (27 Oct, tree r14; fuzz combined with the live gates on the four dumps) | verification/gate_clean_final.jsonl |
+| Frame-set game code not in the tree | 762 of 5,211 (27 Oct, tree r14), by blocker | docs/FRAMESET_REMAINING.md, verification/frame_set_status.json |
 | Functions outside the export that use the device | 0 | data/gfx_device_users.json |
 | Functions outside the export that call graphics code | 267: tier 1 (named in a graphics family, or calls D3DX) 43, tier 2 (unnamed, calls 2 or more) 62, tier 3 (calls exactly one) 162 | data/gfx_extension.json |
 | Instructions of the tree's functions the gate's trials ran | 63.3% (46,960 of 74,133) | verification/coverage_clean.json |
@@ -74,7 +74,7 @@ hold a loaded model, a full zone or a busy scheduler at the moment a function st
   or an hx_patch.
 - **11 constructs** C++ cannot express: `__userpurge`/`__usercall` callees, an `__asm` block, the x87 status
   word. Each needs a hand-written assembly shim with the exact register contract, checked by the gate.
-- **9 compile failures** (translator gaps; named in RESIDUE.md).
+- **9 compile failures** (translator gaps; named in docs/FRAMESET_REMAINING.md).
 - **The tree's own 3:**
   - `Post_DrawRotatingGhostLayers`: a FAIL on -0.0 against +0.0;
   - sub_10016320 and sub_1006B3B0: INCONCLUSIVE, the original never returns under the gate's inputs. The input

@@ -6,10 +6,10 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(4,280 functions in 392 source files: 4,279 PASS; `// NOT VERIFIED` marks the 1 that is not, with its verdict:
-0x10003890, INCONCLUSIVE.)
+(The counts: `../verification/gate_clean_final.jsonl`, one verdict per function; `// NOT VERIFIED` marks each
+function that is not PASS, with its verdict.)
 
-`left_out.json` lists the 9 functions the tree leaves out, each with its reason: each one calls a function
+`left_out.json` lists the functions the tree leaves out, each with its reason. Most call a function
 that reads a register (EAX, ECX or EDX) its `orig::` wrapper does not pass, so the reconstruction
 could not reproduce that call.
 

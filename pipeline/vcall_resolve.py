@@ -154,6 +154,11 @@ def ecx_effect(i):
     if m.startswith(('loop', 'rep')) or m == 'jecxz' or (i.prefix[0] in (0xF2, 0xF3) and m.startswith(('movs', 'stos', 'lods', 'scas', 'cmps'))):
         rd.add('ecx')
     if m == 'call': return rd, {'ecx'}, False                           # a call leaves ECX clobbered
+    if m == 'lea' and len(ops) == 2 and ops[0].type == X86_OP_REG and i.reg_name(ops[0].reg) == 'ecx' \
+            and ops[1].type == X86_OP_MEM and ops[1].mem.base and i.reg_name(ops[1].mem.base) == 'ecx' and not ops[1].mem.index and not ops[1].mem.disp:
+        # `lea ecx, [ecx]`: ECX := ECX (Intel SDM, LEA: the effective address, here ECX itself), the 3-byte no-op
+        # of alignment padding (strpbrk 0x10322BC1). It neither uses nor changes the value: not a read
+        return rd, wr, False
     if m in ('xor', 'sub') and len(ops) == 2 and ops[0].type == X86_OP_REG and ops[1].type == X86_OP_REG \
             and ops[0].reg == ops[1].reg and i.reg_name(ops[0].reg) in ECX_PARTS:
         return rd, {i.reg_name(ops[0].reg)}, False                     # `xor ecx, ecx`: a write

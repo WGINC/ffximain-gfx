@@ -3623,3 +3623,21 @@ keeping each source apart. Import slots (1,535 sites) and bounded switches (869 
   - Unproven indirect calls in static functions: 1,768 in 472 functions (it was 1,756 in 466). That is +13 `[abs]`
     calls through .data and -1 settled. Of the 1,768, 206 are recorded. Unproven jumps: 121.
   - The recorded-reach functions hold 83 more unproven calls. So the set stays a lower bound.
+
+## 27 Oct (night): the remaining FAILs read (P18, plan #170 and #108)
+
+Every FAIL and INCONCLUSIVE of the tree's clean gate, P18's list and fs14's 20 open FAILs read to the first
+mismatch's cause (docs/PROBLEMS.md P18, a table per function). Four were defects with a definitive fix:
+- GfxExport: a Ghidra thunk's convention, signature commit and EAX width are its target's (`sigOwner`); a thunk
+  used as a value is bound to its own address where the function's instructions hold it (`valueAddress`);
+- vcall_resolve: `lea ecx, [ecx]` is no read of ECX (ecx_use.json, 4 entries; _stat's callers now pass its two
+  arguments; regen_facts.py changed nothing else);
+- hx2cpp: a float stored into an `undefined4` global is a bit copy; a virtual call through an object expression
+  passes the object (the ecx_this_sites rule, unchanged).
+
+Export fs23 (data/exports/ghidra_frameset23.jsonl, 29 records, not promoted) and its raw gate
+(verification/gate_raw_frameset23.jsonl: 14 PASS, 14 FAIL, 1 UNRESOLVED): 0x1013A100, 0x101BE6C0,
+0x1015B410, 0x10221030, 0x10221680, 0x100F7790, 0x100F78C0, 0x100F7960 and 0x102710B0 PASS. Regression check:
+133 functions exported with the old and the new GfxExport, 99 records differ, 6 FAIL -> PASS and none worse; the 5
+tree records hx2cpp now prepares differently all PASS raw. The rest stay as they were, each with the fact that
+would settle it (EDX past a narrow return, stack nothing wrote, stub outputs, pop counts, P19).

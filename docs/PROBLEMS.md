@@ -25,23 +25,95 @@ to **Resolved** with what fixed it (and the commit) once that is shown, not when
 - **What would settle it:** reg_saved proving EBP restored in both callees, or the kit's `jmp` recording of this
   site (session A of kit/sessions/pending_26oct records it: the targets the game took).
 
-### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (read in part)
-- **Known:** with the stack filled with 0xA5A5A5A5 and the new facts, these were PASS before and are not now:
+### P18. Five FAILs and three INCONCLUSIVEs from the re-gate of 26 Oct (read; 27 Oct, every remaining FAIL read)
+- **27 Oct: each one read, and the tree's and fs14's remaining FAILs with them.** The table below gives, per
+  function, its first mismatch's cause and where that cause is shown. Four causes were defects with a definitive fix,
+  made in the pipeline (commits of 27 Oct):
+  - **Thunks had no convention.** GfxExport.java set conventions only on the direct callees that are not Ghidra
+    thunks. A thunk (`jmp target`) has no signature of its own in Ghidra (Function.isThunk: it shows its target's),
+    and the targets were not in the set, so a call to one printed as `undefined f(void)`: its ECX object dropped
+    (0x1013A100 calls 0x10150CC0 -> 0x10150CE0, `mov esi, ecx` at 0x10150CED), its result a 1-byte placeholder.
+    Now the thunk's target takes the convention, the commit, and the EAX-width rule (`sigOwner`).
+  - **A thunk used as a value read as its target.** Ghidra names a thunk after its target, and GfxExport bound a
+    function-valued token by name: 0x1015B410 pushes 0x1011D980 (`jmp 0x1011CF70`) and the translation passed
+    0x1011CF70. Now the address is the one of the target and its thunks that the function's own instructions hold
+    as an operand, where exactly one does (`valueAddress`).
+  - **`lea ecx, [ecx]` counted as reading ECX** (vcall_resolve.ecx_effect). It is the 3-byte no-op of alignment
+    padding (strpbrk 0x10322BC1); by the Intel SDM's LEA it sets ECX to ECX. ecx_use.json: 4 entries change
+    (0x10322B70, 0x10322BB0 false; 0x10319EF3, 0x10312487 undecided). _stat (0x10312487) was `__thiscall` with no
+    stack arguments, so 0x101BE6C0's call to it passed neither of the two arguments the game pushes; it now takes
+    `spops 8 pushed` (data/call_pushes.json). regen_facts.py: no other fact changed.
+  - **hx2cpp:** a float stored into a global Ghidra types `undefined4` is a bit copy (ghidra_float_stores: Ghidra
+    prints every numeric conversion as a cast; 0x102710B0 `fstp dword ptr [esi+0x78]`), and a virtual call through
+    an object expression, `(**(code **)(**(int **)(this + 0xa0) + 0xa4))()`, passes that object as `this` under
+    the same ecx_this_sites rule as a named one (vcall_sites; 0x1008C480).
+- **Not fixed, with the fact that would settle each:** the original's EDX past a 1-byte or void return
+  (0x10119BC0, 0x100180D0: regs_after.json says a caller may read it; C++ cannot hand back the EDX a callee left);
+  stack contents the original passes or copies that nothing in its own frame wrote (0x1021C380, 0x100D0510,
+  0x101C3A90, 0x101A04E0, 0x101A03D0); outputs a stubbed callee writes in the game but the stub does not (the three
+  INCONCLUSIVEs, 0x101C3A90); pop counts or object facts not known (0x10014390, 0x1008B460, 0x10159FF0, 0x100DAF30
+  through P19). No gate rule was changed for any of them.
+- **Regressions looked for:**
+  - GfxExport, old against new: the 31 functions above and the 104 tree PASS functions that call a `jmp` thunk
+    (133 addresses), exported with the committed GfxExport and with the fixed one, same facts and retw lists. 99
+    records differ; raw gate of each pair (runs/p18old, runs/p18new; 95 compiled in both): old 86 PASS, 8 FAIL,
+    1 UNRESOLVED; new 92 PASS, 2 FAIL, 1 UNRESOLVED. Six FAIL -> PASS, nothing worse. The UNRESOLVED, 0x10129DE0
+    (EAX past the declared bool), is the same under both.
+  - hx2cpp: of the tree's 3,778 Ghidra records, 5 prepare differently (0x10034620: float stores; 0x100D0FC0,
+    0x101B29F0, 0x101B36F0, 0x101B6810: virtual calls through `(int *)this`). All 5 PASS raw (runs/p18t5).
+- **Not promoted:** ghidra_frameset23.jsonl is not in tree/source.json. The tree regenerated from the committed
+  exports changes in those 5 functions only (the hx2cpp rules); they are to be gated clean when it is installed.
+
+Per function (before: the verdict this entry started from, tree = verification/gate_clean_final.jsonl, fs14 =
+gate_raw_frameset13.jsonl / its fs19 re-export; after: the raw gate of the 27 Oct export, pipeline/ghidra/export.sh
+with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
+
+| Function | Before | First mismatch's cause | Source of the cause | After |
+|---|---|---|---|---|
+| 0x1013A100 | tree FAIL | thunk 0x10150CC0 called without its ECX object | 0x10150CC0 `jmp 0x10150CE0`; 0x10150CED `mov esi, ecx` (ecx_use.json); GfxExport skipped thunks | PASS |
+| 0x101BE6C0 | tree FAIL | _stat (0x10312487) called with neither pushed argument; its output buffer then read unwritten | 0x101BE6CB `push eax; push ecx; call; add esp, 8`; ecx_use's `lea ecx, [ecx]` read (0x10322BC1) made it `__thiscall 0` | PASS |
+| 0x1021C380 | tree FAIL | the game pushes a dword local with only its low byte written; 3 stack bytes reach ECX at returns whose callers are not all known | 0x1021C3xx `mov byte ptr [esp+0x10], 0` ... `push ebp` (26 Oct reading); arg_reads.py | not changed: no fact |
+| 0x10119BC0 | tree FAIL | EDX at return: the game leaves `param_1` or `param_1[1]` (0x10119BC0/0x10119BD4), the C++ whatever it holds; the case compares EDX:EAX (the first export's `undefined8`) | regs_after.json: a caller may read EDX (via 0x10119C00, 0x10117520, 0x101177D0 to 0x1015F72E, a may-walk through callees whose EDX use is undecided) | raw PASS, because the current case returns bool and compares no EDX; the tree's clean case (int64) still FAILs (P9). Not changed: no fact; C++ cannot hand back that EDX |
+| 0x100180D0 | tree FAIL | EDX at return is whatever the tail-dispatched callee leaves; in 3 trials the call goes through the fuzzed table slot 0x1035097C to the gate's trap, which leaves EDX, and the C++ had written EDX before the call | 0x10018124 `call [ecx*4+0x1035097C]`; regs_after.json (a caller may read EDX) | raw PASS under the current case (void: no EDX compared); the tree's clean case (int64) still FAILs (P9). Not changed: no fact |
+| 0x100D0510 | tree FAIL | two locals passed to 0x100D0880 are outputs of the virtual call at 0x100D062B (slot 0x278), which the gate's trap does not write: the game passes the 0xA5 fill, the C++ a slot its source never writes on that path | 0x100D061A-0x100D062B (`lea eax, [esp+0xc]; lea ecx, [esp+8]; push..; call [edx+0x278]`); no vcalls.json or game_outs.json entry for the site | not changed: no fact |
+| 0x100F1670 | fs15 FAIL | 0x1030FF75 called with none of the two arguments pushed | fs15 vs fs17 translations; fixed 26 Oct by `spops N pushed` (P17) | PASS (fs17, in the tree) |
+| 0x101C3A90 | fs19 FAIL (left the tree) | strcpy of _sprintf's output buffer, which the stub never writes: each side copies its own stack past the buffer | 0x101C3CD3-0x101C3CE6 (byte copy to NUL) after `call 0x10311FF1` | not changed: the stub writes no output (no fact) |
+| 0x100CD540 | tree INCONCLUSIVE | the loop runs while the iterator's current field is non-zero; only ResourceIter_FindFirst/FindNext (stubbed) write it, so it stays the fill | 0x100CD70A `mov eax, [esp+0x2c]; test; jne 0x100CD5A9` | not changed: no fact |
+| 0x100E08D0 | tree INCONCLUSIVE | compares two name buffers 0x100E09A0 writes (stubbed, not a leaf): both are the fill, the strcmp walks the stack, and the index chain in the fuzzed table can cycle | 0x100E092C/0x100E093A calls, 0x100E094A loop | not changed: no fact |
+| 0x100CFA50 | tree INCONCLUSIVE | the original faults walking 0x10071E90's circular resource list through fuzzed memory (the walk ends only where a node points back) | 0x10071EB2 `cmp edx, ecx; je`; 0x10071EB8 `jmp 0x10071E90` | not changed: no fact |
+| 0x1015B410 | fs14 FAIL | the thunk 0x1011D980 passed as a callback was translated as its target 0x1011CF70 | 0x1015B4xx `push 0x1011D980`; 0x1011D980 `jmp 0x1011CF70` | PASS |
+| 0x10221030 | fs14 FAIL | the result of thunk 0x1011D010 printed as Ghidra's 1-byte `undefined`; the caller compares all of EAX | 0x1022105F `cmp eax, ecx`; 0x1011D010 `jmp 0x1011D000` | PASS |
+| 0x10221680 | fs14 FAIL | the same thunk's result stored as one byte where the game stores the dword | as above | PASS |
+| 0x100F7790, 0x100F7960, 0x100F78C0 | fs14 FAIL | the results of 0x100F1920 and 0x100F1910, which Ghidra holds as thunks (of the dispatch thunks 0x10310030, 0x10310025), printed as the 1-byte `undefined`; the game stores the dword (`mov [ecx+0x18], eax`) | 0x100F7812-0x100F781D; the export's objects: `undefined(void)` before, `undefined4 __stdcall(void)` after | PASS |
+| 0x102710B0 | fs14 FAIL | a float stored into a global typed `undefined4` converted to an integer | 0x10271273 `fstp dword ptr [esi+0x78]` | PASS |
+| 0x1008C480 | fs14 FAIL | virtual calls through `*(this+0xA0)` printed without their object | ecx_this_sites.json (slots 41, 42, 166: ECX = the object, not pushed; pops 0, 4, 12) | FAIL: the calls now pass the object; in trial 4 the reconstruction then executes 0xA5A5A5A5 through a vtable slot. Not read further |
+| 0x10014390 | fs14 FAIL | virtual calls through slot 0x1BC printed without their object; three sites of the slot have no pop count | ecx_this_sites.json; 0x10014587, 0x10014592, 0x100146EA in no pops source (sp_solved, vcalls, game_sp, real_sp) | FAIL: no fact |
+| 0x1008B460 | fs14 FAIL | the same rule: slot 166 has a site whose ECX is not the object (0x1008B75D) and sites with no pop count | ecx_this_sites.json | FAIL: no fact |
+| 0x10159FF0 | fs14 FAIL | virtual calls with no pop count at any site (slots 1-8) | ecx_this_sites.json; no pops source | FAIL: no fact |
+| 0x100DAF30 | fs14 FAIL | 0x100DA750 called without ECX: its convention is not set because its entry pushes are not proven saves (the unbounded switch, P19) | entry_regs.json (push ebx/esi/ebp/edi), conv_facts `usercall` | UNRESOLVED (EAX past the declared bool, P20's class). The text still calls 0x100DA750 without ECX; no trial showed an ECX difference this time, which proves nothing |
+| 0x10275D80 | fs14 FAIL | 0x102751D0 is listed as reading ECX through 0x102756A0, whose read (0x10275A6C `mov edi, ecx` after `mov cl, [esi+1]`) keeps only CL: ecx_use does not follow the copy, so the stub compares an ECX no fact says is read | vcall_resolve.ecx_inputs | FAIL: not fixed (ecx_inputs would have to follow ECX through a register copy) |
+| 0x1022D7A0 | fs14 FAIL | Ghidra drops the store `mov word ptr [esp+0x14], 0x49` (0x1022D807) made between the pushes of a call's arguments; the loop then reads the slot unwritten | 0x1022D803-0x1022D80E; 0x1022D987 | FAIL: Ghidra's text, not fixed |
+| 0x10189750 | fs14 FAIL | a float parameter Ghidra types `undefined4` read through FLOAT2FLOAT is printed `(float10)xi_s4`, which C++ converts as an integer | 0x10189774 `fmul dword ptr [esp+0x20]` | FAIL: not fixed. The text alone cannot tell FLOAT2FLOAT from INT2FLOAT on an `undefined4`; GfxExport would have to mark it, as it marks CASTs |
+| 0x101540A0, 0x1027F0E0 | fs14 FAIL | first mismatch read (a different first callee; stores two bytes off), cause not established | | FAIL: not read further |
+| 0x102110C0 | fs14 FAIL | 0x102112B0 reads only the low word (HISTORY 25 Oct: the must-store analysis that shows it is not committed) | arg_reads.json | FAIL: not changed |
+| 0x101A04E0, 0x101A03D0 | fs14 FAIL | an output slot of File_FindByKind passed on: the game passes the `push ecx` reservation (0xCCCCCCCC) | HISTORY 25 Oct; data/game_outs.json has no record of the sites | not changed: no fact |
+
+- **The entry as it stood on 26 Oct.** Known: with the stack filled with 0xA5A5A5A5 and the new facts, these were PASS before and are not now:
   - FAIL 0x101C3A90 (memory differs at 29 bytes), 0x1021C380 (a stub argument 0xA5A5A500 against 0), 0x100542F0
     (the reconstruction faults on 0xA5A5A5A5), 0x101BE6C0 (a stub argument 0xA5A5A5A5 against 0), 0x100F1670
     (EAX 1 against -1);
   - INCONCLUSIVE 0x100CD540 (every trial hits the step limit), 0x100E08D0, 0x100CFA50 (the original faults).
 - **What it suggests, not established:** several values are the fill, so one side reads stack it never wrote, which a
   zeroed stack hid. Which side, and whether the original's result depends on what the real stack holds, is not
-  read yet.
-- **Read so far (26 Oct):**
+  read yet. Read on 26 Oct:
   - **0x1021C380:** the game writes one byte of a dword local (`mov byte ptr [esp+0x10], 0`) and pushes the whole
     dword to 0x100EB490 (`mov ebp, [esp+0x10]; push ebp`). 0x100EB490 loads it into ECX and reads CL; on one path
     it returns with the other three bytes still in ECX. arg_reads.py now follows a whole-dword load through the
     registers (26 Oct). It shows those bytes reach ECX at the return of callers whose own callers are not all
     known (virtual methods), so whether anything reads them is not settled, and the FAIL stands.
   - **0x101BE6C0:** the original passes a slot it never wrote (0xA5A5A5A5) to 0x101BE2C0, which passes the
-    argument's address on to 0x10314D91. Not read further.
+    argument's address on to 0x10314D91. (27 Oct: the slot is _stat's output buffer; the tree passed _stat neither
+    argument. See the table.)
   - **Settled (26 Oct): 0x100542F0, and 3 UNRESOLVED (0x100157B0, 0x101033C0, 0x1027CCF0).** Each was built from an
     older export whose raw PASS predates the current gate rules. Every older-export record of the tree's
     non-PASS functions that another export passes raw was gated again under the current rules

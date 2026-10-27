@@ -18,17 +18,20 @@
   }
  ],
  "_summary": {
-  "functions": 4984,
-  "game_code": 4765,
+  "functions": 5433,
+  "game_code": 5214,
   "d3dx": 219,
-  "static": 4465,
-  "only_observed": 519,
-  "in_tree": 4005,
-  "game_code_not_in_tree": 760,
-  "tree_not_in_frame_set": 458,
-  "unresolved_indirect_calls": 1756,
-  "functions_with_unresolved": 466,
-  "unresolved_observed_in_game": 203
+  "static": 4466,
+  "recorded": 494,
+  "only_observed": 473,
+  "in_tree": 4015,
+  "game_code_not_in_tree": 1199,
+  "tree_not_in_frame_set": 448,
+  "unresolved_indirect_calls": 1768,
+  "functions_with_unresolved": 472,
+  "unresolved_observed_in_game": 206,
+  "unresolved_indirect_jumps": 121,
+  "recorded_reach_unresolved_calls": 83
  },
  "functions": {
   "0x10001070": {
@@ -139,6 +142,55 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10002BE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002C00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
+  "0x10002C30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
+  "0x10002C80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
+  "0x10002CD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
+  "0x10002D50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002D70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10002D80": {
    "evidence": [
     "static",
@@ -147,6 +199,48 @@
    "tree": true,
    "d3dx": false,
    "self_samples": 1
+  },
+  "0x10002DA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002DC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002DE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002E00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002E20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10002E40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10002E60": {
    "evidence": [
@@ -287,6 +381,7 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 22,
+   "unresolved_jumps": 2,
    "observed_targets": {
     "0x10005A86": [
      "module:Hook.dll+0x61B90"
@@ -1145,16 +1240,16 @@
    "unresolved": 51,
    "observed_targets": {
     "0x10012B1D": [
-     "game:0x10019230"
+     "0x10019230"
     ],
     "0x10012B28": [
-     "game:0x10019550"
+     "0x10019550"
     ],
     "0x10012BCB": [
-     "game:0x10019550"
+     "0x10019550"
     ],
     "0x10012BF5": [
-     "game:0x100194F0"
+     "0x100194F0"
     ]
    },
    "stack_samples": 42220
@@ -1403,6 +1498,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10014330": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10014350": {
    "evidence": [
     "static",
@@ -1413,7 +1515,7 @@
    "unresolved": 1,
    "observed_targets": {
     "0x10014377": [
-     "game:0x10014330"
+     "0x10014330"
     ]
    },
    "stack_samples": 24
@@ -1428,10 +1530,10 @@
    "unresolved": 7,
    "observed_targets": {
     "0x1001451F": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x1001452A": [
-     "game:0x100A4740"
+     "0x100A4740"
     ]
    },
    "stack_samples": 24
@@ -1882,7 +1984,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x100170A0": {
    "evidence": [
@@ -2148,6 +2251,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10019230": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10019490": {
    "evidence": [
     "static"
@@ -2164,6 +2274,7 @@
   },
   "0x10019550": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -2512,16 +2623,16 @@
    "unresolved": 4,
    "observed_targets": {
     "0x100215E1": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x100215F7": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x1002160E": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x10021625": [
-     "game:0x100A4740"
+     "0x100A4740"
     ]
    }
   },
@@ -2534,19 +2645,19 @@
    "unresolved": 10,
    "observed_targets": {
     "0x100216EF": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x10021705": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x1002171C": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x10021733": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x1002177E": [
-     "game:0x100A4740"
+     "0x100A4740"
     ]
    }
   },
@@ -2620,6 +2731,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10022320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10022340": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10025010": {
@@ -2699,6 +2824,7 @@
   },
   "0x10026E10": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -2805,6 +2931,7 @@
   },
   "0x10027310": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -3151,6 +3278,7 @@
   },
   "0x10028710": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -3461,6 +3589,7 @@
   },
   "0x1002A750": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -3469,6 +3598,7 @@
   },
   "0x1002A780": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -3477,6 +3607,7 @@
   },
   "0x1002A890": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -3485,6 +3616,7 @@
   },
   "0x1002A8B0": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -3611,6 +3743,7 @@
   },
   "0x1002C3E0": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -3621,6 +3754,7 @@
   },
   "0x1002C400": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -3629,6 +3763,7 @@
   },
   "0x1002C5C0": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -4055,6 +4190,7 @@
   },
   "0x10035250": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -4119,6 +4255,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10035E80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10035EC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10035F00": {
@@ -4366,6 +4516,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100372A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100372E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100378B0": {
@@ -4969,31 +5133,31 @@
    "unresolved": 11,
    "observed_targets": {
     "0x1003BB21": [
-     "game:0x100ABFB0",
-     "game:0x100D4560"
+     "0x100ABFB0",
+     "0x100D4560"
     ],
     "0x1003BBD0": [
-     "game:0x100A4740",
-     "game:0x100ABD90"
+     "0x100A4740",
+     "0x100ABD90"
     ],
     "0x1003BBE0": [
-     "game:0x100A4740",
-     "game:0x100ABD90"
+     "0x100A4740",
+     "0x100ABD90"
     ],
     "0x1003BBF1": [
-     "game:0x100A4740",
-     "game:0x100ABD90"
+     "0x100A4740",
+     "0x100ABD90"
     ],
     "0x1003BC02": [
-     "game:0x100A4740",
-     "game:0x100ABD90"
+     "0x100A4740",
+     "0x100ABD90"
     ],
     "0x1003BC26": [
-     "game:0x100ABFB0",
-     "game:0x100D4560"
+     "0x100ABFB0",
+     "0x100D4560"
     ],
     "0x1003BC81": [
-     "game:0x1006D580"
+     "0x1006D580"
     ]
    },
    "self_samples": 1,
@@ -5020,19 +5184,19 @@
    "unresolved": 9,
    "observed_targets": {
     "0x1003C219": [
-     "game:0x100A4750",
-     "game:0x100ABDA0",
-     "game:0x100C3FC0"
+     "0x100A4750",
+     "0x100ABDA0",
+     "0x100C3FC0"
     ],
     "0x1003C22E": [
-     "game:0x1006E140"
+     "0x1006E140"
     ],
     "0x1003C282": [
-     "game:0x100A4750",
-     "game:0x100ABDA0"
+     "0x100A4750",
+     "0x100ABDA0"
     ],
     "0x1003C297": [
-     "game:0x1006E140"
+     "0x1006E140"
     ]
    },
    "self_samples": 1,
@@ -5068,6 +5232,13 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 2
+  },
+  "0x1003CB30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
   },
   "0x1003D640": {
    "evidence": [
@@ -5179,6 +5350,13 @@
    "d3dx": false,
    "stack_samples": 363
   },
+  "0x1003EF80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
   "0x1003FB70": {
    "evidence": [
     "static"
@@ -5267,6 +5445,13 @@
   "0x10041020": {
    "evidence": [
     "static"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
+  "0x10041120": {
+   "evidence": [
+    "recorded"
    ],
    "tree": true,
    "d3dx": false
@@ -5530,7 +5715,7 @@
    "unresolved": 4,
    "observed_targets": {
     "0x10044E41": [
-     "game:0x1006CC40"
+     "0x1006CC40"
     ]
    },
    "self_samples": 13,
@@ -5781,6 +5966,13 @@
    "d3dx": false,
    "self_samples": 7
   },
+  "0x100493C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10049520": {
    "evidence": [
     "static",
@@ -5810,10 +6002,10 @@
    "unresolved": 10,
    "observed_targets": {
     "0x1004A373": [
-     "game:0x1006E140"
+     "0x1006E140"
     ],
     "0x1004A391": [
-     "game:0x1006D270"
+     "0x1006D270"
     ]
    },
    "self_samples": 19,
@@ -5983,96 +6175,96 @@
    "unresolved": 62,
    "observed_targets": {
     "0x1004EF09": [
-     "game:0x10053E00"
+     "0x10053E00"
     ],
     "0x1004EF24": [
-     "game:0x1006D9C0"
+     "0x1006D9C0"
     ],
     "0x1004F4E8": [
-     "game:0x1006D4D0"
+     "0x1006D4D0"
     ],
     "0x1004F501": [
-     "game:0x1006D4D0"
+     "0x1006D4D0"
     ],
     "0x1004F663": [
-     "game:0x1006D4D0"
+     "0x1006D4D0"
     ],
     "0x1004F67C": [
-     "game:0x1006D4D0"
+     "0x1006D4D0"
     ],
     "0x1004F89E": [
-     "game:0x1006D190"
+     "0x1006D190"
     ],
     "0x1004F8B6": [
-     "game:0x1006D720"
+     "0x1006D720"
     ],
     "0x1005142F": [
-     "game:0x1006D190"
+     "0x1006D190"
     ],
     "0x10051449": [
-     "game:0x1006D720"
+     "0x1006D720"
     ],
     "0x1005194F": [
-     "game:0x1003EF80",
-     "game:0x10041120",
-     "game:0x10052DD0"
+     "0x1003EF80",
+     "0x10041120",
+     "0x10052DD0"
     ],
     "0x10051966": [
-     "game:0x1003EF80",
-     "game:0x10041120",
-     "game:0x10052DD0"
+     "0x1003EF80",
+     "0x10041120",
+     "0x10052DD0"
     ],
     "0x1005197D": [
-     "game:0x1003EF80",
-     "game:0x10041120",
-     "game:0x10052DD0"
+     "0x1003EF80",
+     "0x10041120",
+     "0x10052DD0"
     ],
     "0x10051994": [
-     "game:0x1003EF80",
-     "game:0x10041120",
-     "game:0x10052DD0"
+     "0x1003EF80",
+     "0x10041120",
+     "0x10052DD0"
     ],
     "0x10051F3E": [
-     "game:0x1006D720"
+     "0x1006D720"
     ],
     "0x10051F9D": [
-     "game:0x1006DCF0"
+     "0x1006DCF0"
     ],
     "0x10051FFB": [
-     "game:0x1006DCF0"
+     "0x1006DCF0"
     ],
     "0x1005200D": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x1005201F": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x1005205A": [
-     "game:0x1006D720"
+     "0x1006D720"
     ],
     "0x1005213C": [
-     "game:0x1006DCF0"
+     "0x1006DCF0"
     ],
     "0x1005219E": [
-     "game:0x1006DCF0"
+     "0x1006DCF0"
     ],
     "0x100521B0": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x100521C2": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x1005221B": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x10052227": [
-     "game:0x1006D190"
+     "0x1006D190"
     ],
     "0x10052239": [
-     "game:0x1006D270"
+     "0x1006D270"
     ],
     "0x10052294": [
-     "game:0x1006D720"
+     "0x1006D720"
     ]
    },
    "self_samples": 1,
@@ -6500,6 +6692,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10052DD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
   "0x10052E20": {
    "evidence": [
     "static"
@@ -6729,6 +6928,7 @@
   },
   "0x10053E00": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -6745,36 +6945,36 @@
    "unresolved": 14,
    "observed_targets": {
     "0x10053FE5": [
-     "game:0x100ABE30",
-     "game:0x100D08E0"
+     "0x100ABE30",
+     "0x100D08E0"
     ],
     "0x10053FF3": [
-     "game:0x100ABE40",
-     "game:0x100D09B0"
+     "0x100ABE40",
+     "0x100D09B0"
     ],
     "0x10054008": [
-     "game:0x100ABE30",
-     "game:0x100D08E0"
+     "0x100ABE30",
+     "0x100D08E0"
     ],
     "0x10054012": [
-     "game:0x100ABE40",
-     "game:0x100D09B0"
+     "0x100ABE40",
+     "0x100D09B0"
     ],
     "0x10054108": [
-     "game:0x100ABE30",
-     "game:0x100D08E0"
+     "0x100ABE30",
+     "0x100D08E0"
     ],
     "0x10054116": [
-     "game:0x100ABE40",
-     "game:0x100D09B0"
+     "0x100ABE40",
+     "0x100D09B0"
     ],
     "0x1005412B": [
-     "game:0x100ABE30",
-     "game:0x100D08E0"
+     "0x100ABE30",
+     "0x100D08E0"
     ],
     "0x10054135": [
-     "game:0x100ABE40",
-     "game:0x100D09B0"
+     "0x100ABE40",
+     "0x100D09B0"
     ]
    },
    "stack_samples": 72
@@ -6971,13 +7171,13 @@
    "unresolved": 3,
    "observed_targets": {
     "0x10055FFB": [
-     "game:0x1006D580"
+     "0x1006D580"
     ],
     "0x10056012": [
-     "game:0x1006CC60"
+     "0x1006CC60"
     ],
     "0x100560D3": [
-     "game:0x1006D580"
+     "0x1006D580"
     ]
    },
    "stack_samples": 6
@@ -7008,6 +7208,13 @@
    "d3dx": false,
    "stack_samples": 21
   },
+  "0x100569D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10056AA0": {
    "evidence": [
     "stack"
@@ -7015,6 +7222,13 @@
    "tree": true,
    "d3dx": false,
    "stack_samples": 1
+  },
+  "0x10056B80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10056BB0": {
    "evidence": [
@@ -7056,6 +7270,13 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x10057010": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10057250": {
    "evidence": [
@@ -7194,6 +7415,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10062ED0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10063460": {
@@ -7481,6 +7709,7 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 4,
+   "unresolved_jumps": 1,
    "observed_targets": {
     "0x1006AE55": [
      "module:Hook.dll+0x5DD50"
@@ -7751,18 +7980,22 @@
   },
   "0x1006CC40": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
    "d3dx": false,
+   "unresolved_jumps": 1,
    "self_samples": 13
   },
   "0x1006CC60": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
    "d3dx": false,
+   "unresolved_jumps": 1,
    "self_samples": 2
   },
   "0x1006CCE0": {
@@ -7787,8 +8020,16 @@
    "d3dx": false,
    "self_samples": 3
   },
+  "0x1006D190": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1006D270": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -7811,8 +8052,16 @@
    "d3dx": false,
    "self_samples": 3
   },
+  "0x1006D4D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
   "0x1006D580": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -7829,14 +8078,23 @@
   },
   "0x1006D720": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
    "d3dx": false,
    "self_samples": 5
   },
+  "0x1006D9C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1006DCF0": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -7847,6 +8105,7 @@
   },
   "0x1006E140": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -8056,9 +8315,9 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1007186F": [
-     "game:0x1003CB30",
-     "game:0x100569D0",
-     "game:0x10071E00"
+     "0x1003CB30",
+     "0x100569D0",
+     "0x10071E00"
     ]
    },
    "stack_samples": 1
@@ -8085,6 +8344,13 @@
    "tree": true,
    "d3dx": false,
    "stack_samples": 1
+  },
+  "0x10071E00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10071E50": {
    "evidence": [
@@ -8241,9 +8507,9 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1007259D": [
-     "game:0x1018AA50",
-     "game:0x1018AAE0",
-     "game:0x1018AB60"
+     "0x1018AA50",
+     "0x1018AAE0",
+     "0x1018AB60"
     ]
    }
   },
@@ -8501,6 +8767,13 @@
    "tree": true,
    "d3dx": false,
    "stack_samples": 2
+  },
+  "0x100747C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100747F0": {
    "evidence": [
@@ -8859,6 +9132,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10079170": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10079A00": {
    "evidence": [
     "static"
@@ -8887,6 +9167,55 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1007A7A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007A9A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007AA80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007B710": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007B820": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007B900": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007BB90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1007BF30": {
    "evidence": [
     "static"
@@ -8909,6 +9238,34 @@
    "tree": true,
    "d3dx": false,
    "stack_samples": 1
+  },
+  "0x1007D240": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007E490": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1007E8D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10080340": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10080C70": {
    "evidence": [
@@ -8948,17 +9305,17 @@
    "unresolved": 1,
    "observed_targets": {
     "0x100810C1": [
-     "game:0x1007A7A0",
-     "game:0x1007A9A0",
-     "game:0x1007AA80",
-     "game:0x1007B710",
-     "game:0x1007B820",
-     "game:0x1007B900",
-     "game:0x1007BB90",
-     "game:0x1007D240",
-     "game:0x1007E490",
-     "game:0x1007E8D0",
-     "game:0x10080340"
+     "0x1007A7A0",
+     "0x1007A9A0",
+     "0x1007AA80",
+     "0x1007B710",
+     "0x1007B820",
+     "0x1007B900",
+     "0x1007BB90",
+     "0x1007D240",
+     "0x1007E490",
+     "0x1007E8D0",
+     "0x10080340"
     ]
    },
    "stack_samples": 4
@@ -9023,6 +9380,7 @@
   },
   "0x10081600": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9072,8 +9430,7 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false,
-   "unresolved": 1
+   "d3dx": false
   },
   "0x10081CF0": {
    "evidence": [
@@ -9133,6 +9490,20 @@
    "d3dx": false,
    "self_samples": 2
   },
+  "0x10082460": {
+   "evidence": [
+    "static"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10082780": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10082790": {
    "evidence": [
     "static"
@@ -9142,6 +9513,7 @@
   },
   "0x100827A0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9150,6 +9522,7 @@
   },
   "0x100827F0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9158,6 +9531,7 @@
   },
   "0x10082860": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9166,6 +9540,7 @@
   },
   "0x100828B0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9182,6 +9557,7 @@
   },
   "0x10082960": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9190,6 +9566,7 @@
   },
   "0x100829C0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9275,14 +9652,14 @@
    "unresolved": 3,
    "observed_targets": {
     "0x10083657": [
-     "game:0x100A4750"
+     "0x100A4750"
     ],
     "0x10083678": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x100836D2": [
-     "game:0x100A4740",
-     "game:0x100AC9C0"
+     "0x100A4740",
+     "0x100AC9C0"
     ]
    }
   },
@@ -9361,6 +9738,7 @@
   },
   "0x10084330": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9369,6 +9747,7 @@
   },
   "0x10084350": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9377,6 +9756,7 @@
   },
   "0x10084370": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9499,6 +9879,7 @@
   },
   "0x100849A0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -9647,6 +10028,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10086FD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10086FE0": {
    "evidence": [
     "static",
@@ -9741,6 +10129,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10087630": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10087650": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10087660": {
    "evidence": [
     "static"
@@ -9792,6 +10194,13 @@
    "d3dx": false,
    "self_samples": 1,
    "stack_samples": 1
+  },
+  "0x10087B20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10087D40": {
    "evidence": [
@@ -9934,7 +10343,7 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1008AD83": [
-     "game:0x100A46F0"
+     "0x100A46F0"
     ]
    }
   },
@@ -10049,6 +10458,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1008E220": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1008E260": {
    "evidence": [
     "static"
@@ -10123,7 +10539,8 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1008F740": {
    "evidence": [
@@ -10428,11 +10845,81 @@
    "self_samples": 1,
    "stack_samples": 5
   },
+  "0x10096220": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10096250": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10096270": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100962C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100962F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10096350": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10096380": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100963B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100963E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10096410": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10096470": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100964A0": {
@@ -10444,14 +10931,14 @@
    "unresolved": 1,
    "observed_targets": {
     "0x100964B9": [
-     "game:0x100962C0",
-     "game:0x100962F0",
-     "game:0x10096350",
-     "game:0x10096380",
-     "game:0x100963B0",
-     "game:0x100963E0",
-     "game:0x10096410",
-     "game:0x10096470"
+     "0x100962C0",
+     "0x100962F0",
+     "0x10096350",
+     "0x10096380",
+     "0x100963B0",
+     "0x100963E0",
+     "0x10096410",
+     "0x10096470"
     ]
    }
   },
@@ -10515,6 +11002,20 @@
    "d3dx": false,
    "self_samples": 2
   },
+  "0x10097B40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10097B50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10097BC0": {
    "evidence": [
     "static"
@@ -10536,11 +11037,39 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10097E80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10097FD0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10098080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100980C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10098100": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10098180": {
@@ -10581,6 +11110,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10099680": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10099730": {
    "evidence": [
     "self"
@@ -10612,6 +11148,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1009AB20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1009AD20": {
@@ -10670,11 +11213,39 @@
    "d3dx": false,
    "stack_samples": 11
   },
+  "0x100A0010": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A0080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100A1770": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100A17F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A1860": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100A19B0": {
@@ -10704,6 +11275,54 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x100A2790": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A28E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A2B70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A2FD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A3040": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100A30E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x100A310A": [
+     "0x100A3114"
+    ]
+   }
   },
   "0x100A3CD0": {
    "evidence": [
@@ -10772,6 +11391,7 @@
   },
   "0x100A46F0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -10788,6 +11408,7 @@
   },
   "0x100A4740": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -10796,6 +11417,7 @@
   },
   "0x100A4750": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -11035,6 +11657,22 @@
    "tree": true,
    "d3dx": false
   },
+  "0x100A8C20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x100A8C40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
   "0x100AAEF0": {
    "evidence": [
     "stack"
@@ -11125,6 +11763,41 @@
    "tree": true,
    "d3dx": false
   },
+  "0x100ABD90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100ABDA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100ABE30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100ABE40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100ABFB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100AC380": {
    "evidence": [
     "self"
@@ -11148,6 +11821,20 @@
    "tree": false,
    "d3dx": false,
    "stack_samples": 871
+  },
+  "0x100AC9C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100AD660": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100AD6D0": {
    "evidence": [
@@ -11186,9 +11873,16 @@
    "unresolved": 1,
    "observed_targets": {
     "0x100AE6EB": [
-     "game:0x100D6F50"
+     "0x100D6F50"
     ]
    }
+  },
+  "0x100AEC20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100BA080": {
    "evidence": [
@@ -11345,11 +12039,26 @@
   },
   "0x100C3FC0": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
    "d3dx": false,
    "self_samples": 2
+  },
+  "0x100C3FF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100C4050": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100C4B00": {
    "evidence": [
@@ -11366,6 +12075,13 @@
    "tree": true,
    "d3dx": false,
    "stack_samples": 12
+  },
+  "0x100C4BC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100C4C20": {
    "evidence": [
@@ -11424,6 +12140,22 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x100C5410": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x100C5440": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 2
   },
   "0x100C5540": {
    "evidence": [
@@ -11723,8 +12455,16 @@
    "d3dx": false,
    "stack_samples": 330
   },
+  "0x100D08E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": true,
+   "d3dx": false
+  },
   "0x100D09B0": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -11768,13 +12508,13 @@
    "unresolved": 7,
    "observed_targets": {
     "0x100D0FC7": [
-     "game:0x10082960"
+     "0x10082960"
     ],
     "0x100D0FD3": [
-     "game:0x100828B0"
+     "0x100828B0"
     ],
     "0x100D0FF8": [
-     "game:0x100829C0"
+     "0x100829C0"
     ]
    }
   },
@@ -11837,10 +12577,10 @@
    "unresolved": 23,
    "observed_targets": {
     "0x100D357D": [
-     "game:0x10082780"
+     "0x10082780"
     ],
     "0x100D3670": [
-     "game:0x10082780"
+     "0x10082780"
     ]
    },
    "stack_samples": 4
@@ -11885,6 +12625,7 @@
   },
   "0x100D4560": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -11948,6 +12689,13 @@
    "tree": false,
    "d3dx": false,
    "stack_samples": 8
+  },
+  "0x100D6F50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100D7020": {
    "evidence": [
@@ -12037,9 +12785,59 @@
    "unresolved": 1,
    "observed_targets": {
     "0x100D8A7A": [
-     "game:0x100E1820"
+     "0x100E1820"
     ]
    }
+  },
+  "0x100D8AA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100D8AE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100D8B20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100D8BA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100D8DE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x100D92A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100D9320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100D9380": {
    "evidence": [
@@ -12081,7 +12879,13 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x100D9766": [
+     "0x100D97B8"
+    ]
+   }
   },
   "0x100D9830": {
    "evidence": [
@@ -12132,6 +12936,19 @@
    ],
    "tree": false,
    "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x100DA883": [
+     "0x100DA88A",
+     "0x100DA8BA",
+     "0x100DA950",
+     "0x100DAB0F",
+     "0x100DAB3B",
+     "0x100DAB63",
+     "0x100DAB84",
+     "0x100DABA4"
+    ]
+   },
    "stack_samples": 1311
   },
   "0x100DAF30": {
@@ -12476,6 +13293,13 @@
    "d3dx": false,
    "stack_samples": 6
   },
+  "0x100DC710": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100DCA00": {
    "evidence": [
     "static"
@@ -12676,24 +13500,24 @@
    "unresolved": 13,
    "observed_targets": {
     "0x100E0DE1": [
-     "game:0x100E16A0",
-     "game:0x100E1710",
-     "game:0x100E1740"
+     "0x100E16A0",
+     "0x100E1710",
+     "0x100E1740"
     ],
     "0x100E0EE1": [
-     "game:0x100E2060"
+     "0x100E2060"
     ],
     "0x100E0FAA": [
-     "game:0x100E16A0",
-     "game:0x100E1740"
+     "0x100E16A0",
+     "0x100E1740"
     ],
     "0x100E1083": [
-     "game:0x100E2060"
+     "0x100E2060"
     ],
     "0x100E116A": [
-     "game:0x100E16A0",
-     "game:0x100E1F20",
-     "game:0x100E2060"
+     "0x100E16A0",
+     "0x100E1F20",
+     "0x100E2060"
     ]
    },
    "self_samples": 2,
@@ -12715,11 +13539,39 @@
    "d3dx": false,
    "unresolved": 1
   },
+  "0x100E16A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100E1710": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100E1740": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100E1790": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100E1820": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100E19C0": {
@@ -12757,6 +13609,28 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x100E1F20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100E2060": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 13
+  },
+  "0x100E2860": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100E2E70": {
    "evidence": [
@@ -12915,6 +13789,13 @@
    "tree": true,
    "d3dx": false,
    "self_samples": 1
+  },
+  "0x100E63B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100E63C0": {
    "evidence": [
@@ -13096,6 +13977,13 @@
    "d3dx": false,
    "self_samples": 1
   },
+  "0x100EB4F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100EB8D0": {
    "evidence": [
     "static",
@@ -13112,6 +14000,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100EBE60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100EBF40": {
@@ -13495,6 +14390,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x100F0C80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100F1080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100F10A0": {
    "evidence": [
     "static"
@@ -13690,6 +14599,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x100F2020": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100F25F0": {
    "evidence": [
     "static"
@@ -13741,7 +14657,7 @@
    "unresolved": 4,
    "observed_targets": {
     "0x100F2AE9": [
-     "game:0x100F2020"
+     "0x100F2020"
     ]
    }
   },
@@ -13783,6 +14699,13 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x100F3380": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x100F3BB0": {
    "evidence": [
@@ -13884,6 +14807,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x100F7BC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100F7FA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100F8910": {
    "evidence": [
     "static"
@@ -13938,6 +14875,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100F9600": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100F9680": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100F9CC0": {
@@ -14104,6 +15055,13 @@
    "self_samples": 2,
    "stack_samples": 15
   },
+  "0x100FC300": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x100FC320": {
    "evidence": [
     "static"
@@ -14237,6 +15195,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x100FD5B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x100FD6E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x100FDBF0": {
@@ -14408,6 +15380,90 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101061B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101061D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10106CD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10106DE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10106EB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10107120": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101072B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101072D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10107300": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10107320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10107340": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10107370": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10107610": {
@@ -15099,7 +16155,8 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10117F40": {
    "evidence": [
@@ -15153,6 +16210,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10118530": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101185E0": {
    "evidence": [
     "static"
@@ -15204,6 +16268,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10118BC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10118C10": {
    "evidence": [
     "static"
@@ -15246,7 +16317,8 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10118F40": {
    "evidence": [
@@ -15287,6 +16359,13 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x101192B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x101192E0": {
    "evidence": [
@@ -15474,8 +16553,8 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1011A3C3": [
-     "game:0x101E7E90",
-     "game:0x101FAFF0"
+     "0x101E7E90",
+     "0x101FAFF0"
     ]
    }
   },
@@ -15504,6 +16583,20 @@
    "self_samples": 1,
    "stack_samples": 1
   },
+  "0x1011A710": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1011A8F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1011AA40": {
    "evidence": [
     "static"
@@ -15523,6 +16616,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1011ADB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1011AE10": {
@@ -15786,6 +16886,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1011D380": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1011D440": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1011D840": {
    "evidence": [
     "static",
@@ -15810,6 +16924,13 @@
    "tree": false,
    "d3dx": false,
    "stack_samples": 1
+  },
+  "0x1011D970": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x1011D990": {
    "evidence": [
@@ -16245,6 +17366,7 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 4,
+   "unresolved_jumps": 2,
    "stack_samples": 4
   },
   "0x10123A70": {
@@ -16660,6 +17782,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101262E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10126300": {
    "evidence": [
     "static"
@@ -16869,6 +17998,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10127320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101273C0": {
    "evidence": [
     "static",
@@ -16947,10 +18083,10 @@
    "unresolved": 2,
    "observed_targets": {
     "0x10127EC7": [
-     "game:0x101369B0"
+     "0x101369B0"
     ],
     "0x10127ED4": [
-     "game:0x10136A20"
+     "0x10136A20"
     ]
    }
   },
@@ -16968,11 +18104,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10127F60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10127FA0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10128060": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101281F0": {
@@ -17038,11 +18188,18 @@
    "unresolved": 1,
    "observed_targets": {
     "0x10128ED7": [
-     "game:0x101618D0",
-     "game:0x10161BE0"
+     "0x101618D0",
+     "0x10161BE0"
     ]
    },
    "stack_samples": 2
+  },
+  "0x10129090": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10129290": {
    "evidence": [
@@ -17056,6 +18213,27 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101293F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10129490": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101295D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10129980": {
@@ -17091,6 +18269,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10129C20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10129C60": {
@@ -17251,11 +18436,61 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1012AC50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1012AC80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1012AED0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1012AF30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1012B2D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1012B4B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
   "0x1012BEF0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1012BF50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1012C210": {
@@ -17308,6 +18543,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101304A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101304D0": {
    "evidence": [
     "static"
@@ -17349,6 +18591,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10133A40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10135850": {
@@ -17400,11 +18649,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101369B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101369C0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10136A20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10136A30": {
@@ -17440,6 +18703,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10137550": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10137630": {
@@ -17613,11 +18883,76 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1013BFB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1013BFC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1013C110": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1013C180": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x1013E3B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x1013E4F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1013E560": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1013E590": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1013E7F0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1013EFF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1013FBE0": {
@@ -17637,11 +18972,26 @@
   },
   "0x10140270": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
    "d3dx": false,
    "stack_samples": 1
+  },
+  "0x10140890": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101408A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10140950": {
    "evidence": [
@@ -17842,6 +19192,20 @@
    "d3dx": false,
    "stack_samples": 6
   },
+  "0x10150870": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101508F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10150A30": {
    "evidence": [
     "static"
@@ -17854,6 +19218,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10150A70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10150AB0": {
@@ -18026,7 +19397,8 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 9
+   "unresolved": 9,
+   "unresolved_jumps": 1
   },
   "0x10153A40": {
    "evidence": [
@@ -18096,7 +19468,13 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x101540CC": [
+     "0x101540EF"
+    ]
+   }
   },
   "0x101542B0": {
    "evidence": [
@@ -18104,7 +19482,8 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 4
+   "unresolved": 4,
+   "unresolved_jumps": 1
   },
   "0x101544F0": {
    "evidence": [
@@ -18362,6 +19741,83 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10155D10": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155D70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155EA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155F00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10155F60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10156440": {
    "evidence": [
     "static"
@@ -18397,6 +19853,41 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101565C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101565D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101565E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156630": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156660": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10156840": {
    "evidence": [
     "static"
@@ -18425,6 +19916,34 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10156930": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156940": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156950": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10156960": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10156970": {
    "evidence": [
     "static"
@@ -18437,6 +19956,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101569B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101569F0": {
@@ -18474,6 +20000,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10156BA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10156BB0": {
    "evidence": [
     "static"
@@ -18493,6 +20026,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10156C00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10156D90": {
@@ -18556,6 +20096,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10157850": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10157860": {
@@ -18654,6 +20201,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10157CB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10157CF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10157D20": {
    "evidence": [
     "static"
@@ -18703,8 +20264,8 @@
    "unresolved": 1,
    "observed_targets": {
     "0x1015833A": [
-     "game:0x101F35A0",
-     "game:0x1022B8E0"
+     "0x101F35A0",
+     "0x1022B8E0"
     ]
    },
    "stack_samples": 2
@@ -18924,10 +20485,10 @@
    "unresolved": 1,
    "observed_targets": {
     "0x10159438": [
-     "game:0x100A8C20",
-     "game:0x100A8C40",
-     "game:0x100C5410",
-     "game:0x100C5440"
+     "0x100A8C20",
+     "0x100A8C40",
+     "0x100C5410",
+     "0x100C5440"
     ]
    }
   },
@@ -19094,6 +20655,21 @@
    "tree": false,
    "d3dx": false
   },
+  "0x10159C80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10159CC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 3
+  },
   "0x10159D40": {
    "evidence": [
     "stack"
@@ -19138,7 +20714,26 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 11
+   "unresolved": 11,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x1015A48C": [
+     "0x1015A4C8"
+    ]
+   }
+  },
+  "0x1015A680": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x1015A88D": [
+     "0x1015A8CC"
+    ]
+   }
   },
   "0x1015AF60": {
    "evidence": [
@@ -19220,6 +20815,14 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x1015BB80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x1015BC40": {
    "evidence": [
@@ -19343,14 +20946,16 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1015DD70": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1015DD90": {
    "evidence": [
@@ -19387,6 +20992,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1015DF60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1015DFC0": {
    "evidence": [
     "static"
@@ -19418,21 +21030,21 @@
    "unresolved": 4,
    "observed_targets": {
     "0x1015E407": [
-     "game:0x1012BF50",
-     "game:0x1013BFC0",
-     "game:0x10140890",
-     "game:0x10150870",
-     "game:0x10161910",
-     "game:0x10161C20",
-     "game:0x101F68B0",
-     "game:0x102391D0"
+     "0x1012BF50",
+     "0x1013BFC0",
+     "0x10140890",
+     "0x10150870",
+     "0x10161910",
+     "0x10161C20",
+     "0x101F68B0",
+     "0x102391D0"
     ],
     "0x1015E40F": [
-     "game:0x1012AC50",
-     "game:0x1013C110",
-     "game:0x101408A0",
-     "game:0x101508F0",
-     "game:0x101F68F0"
+     "0x1012AC50",
+     "0x1013C110",
+     "0x101408A0",
+     "0x101508F0",
+     "0x101F68F0"
     ]
    },
    "stack_samples": 1
@@ -19645,6 +21257,13 @@
    "d3dx": false,
    "stack_samples": 2727
   },
+  "0x1015F760": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1015F790": {
    "evidence": [
     "static"
@@ -19698,19 +21317,19 @@
    "unresolved": 2,
    "observed_targets": {
     "0x1015FDFC": [
-     "game:0x1012AC80",
-     "game:0x1012B4B0",
-     "game:0x10140270",
-     "game:0x101A40B0",
-     "game:0x1023C540",
-     "game:0x10241800"
+     "0x1012AC80",
+     "0x1012B4B0",
+     "0x10140270",
+     "0x101A40B0",
+     "0x1023C540",
+     "0x10241800"
     ],
     "0x1015FE05": [
-     "game:0x1012AC80",
-     "game:0x10161970",
-     "game:0x10239240",
-     "game:0x10241800",
-     "game:0x10244E60"
+     "0x1012AC80",
+     "0x10161970",
+     "0x10239240",
+     "0x10241800",
+     "0x10244E60"
     ]
    },
    "self_samples": 6,
@@ -19834,6 +21453,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10160C80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10160C90": {
    "evidence": [
     "static"
@@ -19876,8 +21502,37 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10161870": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10161890": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101618D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10161910": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10161970": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -19899,6 +21554,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10161BA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10161BC0": {
    "evidence": [
     "self"
@@ -19906,6 +21568,20 @@
    "tree": true,
    "d3dx": false,
    "self_samples": 1
+  },
+  "0x10161BE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10161C20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10161C70": {
    "evidence": [
@@ -19990,6 +21666,13 @@
    "self_samples": 1,
    "stack_samples": 1605
   },
+  "0x101624B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10162510": {
    "evidence": [
     "stack"
@@ -20007,14 +21690,94 @@
   },
   "0x101626E0": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": false,
    "d3dx": false,
+   "unresolved": 3,
+   "observed_targets": {
+    "0x101626FB": [
+     "0x10161890",
+     "0x10161BA0"
+    ],
+    "0x101629A5": [
+     "0x10161890",
+     "0x10161BA0"
+    ],
+    "0x10162ADA": [
+     "0x10161890",
+     "0x10161BA0"
+    ]
+   },
    "stack_samples": 5
+  },
+  "0x10162CC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162D90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162E00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162E20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162E60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162E90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162EA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162EF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10162F30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10162F60": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -20023,11 +21786,43 @@
   },
   "0x10162FB0": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
    "d3dx": false,
+   "unresolved": 1,
    "stack_samples": 1
+  },
+  "0x10162FE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10163020": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x10163050": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x10163070": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10163080": {
    "evidence": [
@@ -20235,6 +22030,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10168FC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10168FD0": {
    "evidence": [
     "static"
@@ -20296,6 +22098,7 @@
   },
   "0x1016B1D0": {
    "evidence": [
+    "recorded",
     "self",
     "stack"
    ],
@@ -20304,8 +22107,16 @@
    "self_samples": 204,
    "stack_samples": 244
   },
+  "0x1016BDF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1016C060": {
    "evidence": [
+    "recorded",
     "self"
    ],
    "tree": true,
@@ -20324,6 +22135,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1016C5D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1016CB60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1016E7E0": {
@@ -20502,6 +22327,20 @@
    "d3dx": false,
    "stack_samples": 12
   },
+  "0x10177730": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10177750": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10177770": {
    "evidence": [
     "static"
@@ -20595,6 +22434,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1017A590": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1017A690": {
@@ -20721,6 +22567,22 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x101815D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 2
+  },
+  "0x10181930": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x101819B0": {
    "evidence": [
@@ -21418,6 +23280,13 @@
    "self_samples": 1,
    "stack_samples": 34
   },
+  "0x1018AA50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1018AAC0": {
    "evidence": [
     "static"
@@ -21425,11 +23294,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1018AAE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1018AB40": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1018AB60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1018ABB0": {
@@ -21862,6 +23745,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1018DA10": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018DA20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1018DB10": {
    "evidence": [
     "static"
@@ -21889,6 +23786,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1018DFD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1018E0A0": {
@@ -21945,6 +23849,13 @@
    "d3dx": false,
    "stack_samples": 31
   },
+  "0x1018E620": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1018E660": {
    "evidence": [
     "static"
@@ -21966,6 +23877,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1018E780": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018E7D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1018E7F0": {
    "evidence": [
     "static"
@@ -21978,6 +23903,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1018E890": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1018E8D0": {
@@ -22015,6 +23947,41 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x1018EBC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018EBF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018EC10": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018EC50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1018ECE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x1018ED80": {
    "evidence": [
@@ -22110,6 +24077,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10190B50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10190BB0": {
    "evidence": [
     "static"
@@ -22179,6 +24153,7 @@
   },
   "0x10193890": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
@@ -22187,11 +24162,19 @@
   },
   "0x101938B0": {
    "evidence": [
+    "recorded",
     "stack"
    ],
    "tree": true,
    "d3dx": false,
    "stack_samples": 252
+  },
+  "0x101938D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x10193A10": {
    "evidence": [
@@ -22223,11 +24206,11 @@
    "unresolved": 1,
    "observed_targets": {
     "0x10193BD3": [
-     "game:0x10197030",
-     "game:0x10197A70",
-     "game:0x101AA650",
-     "game:0x101AAA90",
-     "game:0x101B5080"
+     "0x10197030",
+     "0x10197A70",
+     "0x101AA650",
+     "0x101AAA90",
+     "0x101B5080"
     ]
    }
   },
@@ -22424,11 +24407,39 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10196F60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10197030": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101972B0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101978E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10197A70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10197A90": {
@@ -22817,7 +24828,7 @@
    "unresolved": 1,
    "observed_targets": {
     "0x101A04D1": [
-     "game:0x1015BB80"
+     "0x1015BB80"
     ]
    }
   },
@@ -22830,10 +24841,10 @@
    "unresolved": 6,
    "observed_targets": {
     "0x101A05B7": [
-     "game:0x101C4D50"
+     "0x101C4D50"
     ],
     "0x101A0669": [
-     "game:0x100AEC20"
+     "0x100AEC20"
     ]
    }
   },
@@ -23024,6 +25035,27 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101A1790": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101A17E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101A1840": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101A1910": {
    "evidence": [
     "static"
@@ -23068,6 +25100,34 @@
    "d3dx": false,
    "self_samples": 1
   },
+  "0x101A1E20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101A23D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101A2410": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101A2440": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101A2480": {
    "evidence": [
     "static"
@@ -23096,6 +25156,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101A2870": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101A2890": {
    "evidence": [
     "static"
@@ -23103,11 +25170,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101A2980": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101A29F0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101A2A10": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101A2E00": {
@@ -23196,6 +25277,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101A40B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101A43A0": {
@@ -23310,6 +25398,21 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101AA650": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101AAA90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 6
+  },
   "0x101AB080": {
    "evidence": [
     "static"
@@ -23380,6 +25483,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101ABBD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101ABBF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101ABC50": {
@@ -23714,6 +25831,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101AEB80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101AFF30": {
    "evidence": [
     "static"
@@ -23747,6 +25871,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101B0060": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101B20E0": {
@@ -23787,19 +25918,19 @@
    "unresolved": 34,
    "observed_targets": {
     "0x101B2A96": [
-     "game:0x101B0060"
+     "0x101B0060"
     ],
     "0x101B2B25": [
-     "game:0x101B0060"
+     "0x101B0060"
     ],
     "0x101B2B5F": [
-     "game:0x101B4360"
+     "0x101B4360"
     ],
     "0x101B2CCC": [
-     "game:0x101B40C0"
+     "0x101B40C0"
     ],
     "0x101B340F": [
-     "game:0x101B40C0"
+     "0x101B40C0"
     ]
    }
   },
@@ -23811,6 +25942,13 @@
    "d3dx": false,
    "unresolved": 2
   },
+  "0x101B3AE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B3B50": {
    "evidence": [
     "static"
@@ -23818,11 +25956,39 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B3F00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B3F70": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101B3FC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101B4030": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101B40C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101B4260": {
@@ -23839,11 +26005,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B4340": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B4350": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101B4360": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101B4450": {
@@ -23930,11 +26110,40 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B5080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
   "0x101B5210": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101B5850": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101B5A80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101B5AA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101B5BC0": {
@@ -23965,6 +26174,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B5CD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B5D10": {
    "evidence": [
     "static"
@@ -23974,19 +26190,19 @@
    "unresolved": 32,
    "observed_targets": {
     "0x101B5FE9": [
-     "game:0x101B3F00"
+     "0x101B3F00"
     ],
     "0x101B6189": [
-     "game:0x101B3F00"
+     "0x101B3F00"
     ],
     "0x101B6257": [
-     "game:0x101B5CD0"
+     "0x101B5CD0"
     ],
     "0x101B62AE": [
-     "game:0x101B3AE0"
+     "0x101B3AE0"
     ],
     "0x101B62B9": [
-     "game:0x101B91B0"
+     "0x101B91B0"
     ]
    }
   },
@@ -24022,7 +26238,7 @@
    "unresolved": 2,
    "observed_targets": {
     "0x101B6E77": [
-     "game:0x101B7E90"
+     "0x101B7E90"
     ]
    }
   },
@@ -24082,6 +26298,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B7160": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B7190": {
    "evidence": [
     "static"
@@ -24110,11 +26333,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101B7890": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101B7C20": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101B7E90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101B7EE0": {
@@ -24131,6 +26368,13 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x101B91B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x101B9230": {
    "evidence": [
@@ -24246,17 +26490,17 @@
    "unresolved": 6,
    "observed_targets": {
     "0x101B9D96": [
-     "game:0x1018DA20",
-     "game:0x1018DFD0",
-     "game:0x101A23D0",
-     "game:0x101A2410",
-     "game:0x101A2440",
-     "game:0x10223C00",
-     "game:0x102260C0",
-     "game:0x1022C000"
+     "0x1018DA20",
+     "0x1018DFD0",
+     "0x101A23D0",
+     "0x101A2410",
+     "0x101A2440",
+     "0x10223C00",
+     "0x102260C0",
+     "0x1022C000"
     ],
     "0x101B9DCB": [
-     "game:0x101A1E20"
+     "0x101A1E20"
     ]
    }
   },
@@ -24820,6 +27064,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101BF710": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101BF7F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101BF970": {
    "evidence": [
     "static"
@@ -24976,6 +27234,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101C1F80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101C2030": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101C2450": {
@@ -25187,6 +27459,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101C4800": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101C4820": {
@@ -25420,6 +27699,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101C4D50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101C5920": {
    "evidence": [
     "static"
@@ -25573,6 +27859,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101C8B80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101C8C30": {
@@ -25801,11 +28094,25 @@
    "tree": false,
    "d3dx": false
   },
+  "0x101CBC60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101CBDF0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101CBE20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101CBE50": {
@@ -25829,11 +28136,60 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101CBE80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CBE90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CBEC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CC040": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101CC070": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101CC0A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CC0D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CC1B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101CC1D0": {
@@ -25850,11 +28206,25 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101CC320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101CC350": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101CC4C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101CC4F0": {
@@ -25910,6 +28280,27 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101CCE50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CCE90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CD2D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101CD900": {
    "evidence": [
     "static"
@@ -25917,6 +28308,20 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 2
+  },
+  "0x101CD990": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CD9A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x101CD9D0": {
    "evidence": [
@@ -25937,6 +28342,119 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101CDD90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CDF50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CE1E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CE9E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEA30": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEA80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 2
+  },
+  "0x101CEAC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEAD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEAE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEAF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEB40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEBE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEBF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEC50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CECB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101CEEF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101CF660": {
@@ -26228,11 +28746,53 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101D3380": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D3910": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D39A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101D3DC0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101D3E70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D3F60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D3FB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101D3FC0": {
@@ -26243,12 +28803,70 @@
    "d3dx": false,
    "unresolved": 1
   },
+  "0x101D55D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101D5680": {
    "evidence": [
     "static"
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x101D5E00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D5E40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D5EA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D5FE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D6020": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101D6C90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x101D6CC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x101D7C10": {
    "evidence": [
@@ -26372,6 +28990,13 @@
    "self_samples": 1,
    "stack_samples": 2
   },
+  "0x101E15C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101E15F0": {
    "evidence": [
     "static"
@@ -26458,6 +29083,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101E7E90": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101EB390": {
    "evidence": [
     "static"
@@ -26500,11 +29132,39 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101EE040": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101EE230": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101EF990": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101EFAD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101EFB10": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101EFCA0": {
@@ -26521,11 +29181,69 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101EFFD0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101EFFE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F1100": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F1160": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F11E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F1230": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 16
+  },
   "0x101F17C0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101F23A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 6
+  },
+  "0x101F35A0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101F43F0": {
@@ -26542,6 +29260,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101F4B20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F66B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101F6700": {
    "evidence": [
     "static"
@@ -26549,11 +29281,54 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101F6720": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101F67C0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101F68B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1
+  },
+  "0x101F68F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F7020": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F7080": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F7100": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101F71A0": {
@@ -26605,6 +29380,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101F74E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101F74F0": {
    "evidence": [
     "static",
@@ -26640,25 +29422,104 @@
    "unresolved": 4,
    "observed_targets": {
     "0x101F764E": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x101F765E": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x101F766F": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x101F7680": [
-     "game:0x100A4740"
+     "0x100A4740"
     ]
    },
    "stack_samples": 4
+  },
+  "0x101F79E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 4
+  },
+  "0x101F7C00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F7DB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 4
+  },
+  "0x101F7EC0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F7FE0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F8020": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F80B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x101F82B0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101F8360": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F85F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F8650": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F86B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101F86C0": {
@@ -26668,11 +29529,48 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101F8EA0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x101F8FB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 2
+  },
+  "0x101F9010": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F9110": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x101F92B0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x101F92E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x101F9370": {
@@ -26682,6 +29580,28 @@
    "tree": true,
    "d3dx": false
   },
+  "0x101F93D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F9A20": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101F9A50": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
   "0x101FA420": {
    "evidence": [
     "static"
@@ -26689,6 +29609,62 @@
    "tree": true,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x101FA680": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAAB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAAF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAD00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAD40": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAD70": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FAFF0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x101FB1B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x101FB710": {
    "evidence": [
@@ -26791,6 +29767,13 @@
    "d3dx": false,
    "stack_samples": 64
   },
+  "0x10201690": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x102017A0": {
    "evidence": [
     "static"
@@ -26879,7 +29862,7 @@
    ],
    "tree": true,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 2
   },
   "0x10202FE0": {
    "evidence": [
@@ -26888,6 +29871,13 @@
    "tree": false,
    "d3dx": false,
    "unresolved": 1
+  },
+  "0x10203120": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
   },
   "0x102031F0": {
    "evidence": [
@@ -26903,11 +29893,32 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10203430": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10203480": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x102034A0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x102034C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x102034E0": {
@@ -26992,6 +30003,14 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x10207360": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x10207730": {
    "evidence": [
@@ -27320,6 +30339,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1021CB80": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1021CCB0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1021D250": {
@@ -27773,16 +30806,16 @@
    "unresolved": 4,
    "observed_targets": {
     "0x102206AE": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x102206BE": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x102206CF": [
-     "game:0x100A4740"
+     "0x100A4740"
     ],
     "0x102206E0": [
-     "game:0x100A4740"
+     "0x100A4740"
     ]
    },
    "self_samples": 3,
@@ -27837,6 +30870,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10221300": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x102214D0": {
@@ -27972,13 +31012,65 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved": 2,
+   "observed_targets": {
+    "0x10222EB4": [
+     "0x101C8B80"
+    ],
+    "0x10222F2E": [
+     "0x101C8B80"
+    ]
+   }
   },
   "0x10223040": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x102231F0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10223240": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
+  "0x10223360": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10223390": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x102233E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10223760": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x102238E0": {
@@ -28014,11 +31106,30 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x10223AB8": [
+     "0x10223ACE"
+    ]
+   }
   },
   "0x10223B10": {
    "evidence": [
     "static"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x10223B38": [
+     "0x10223B4E"
+    ]
+   }
+  },
+  "0x10223B4E": {
+   "evidence": [
+    "recorded"
    ],
    "tree": false,
    "d3dx": false
@@ -28028,6 +31139,13 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10223C00": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10223C90": {
@@ -28042,6 +31160,20 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10224120": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10224160": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10225090": {
@@ -28079,6 +31211,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x102260C0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10226180": {
    "evidence": [
     "static"
@@ -28098,6 +31237,46 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x102262B0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x102262D8": [
+     "0x102262EE"
+    ]
+   }
+  },
+  "0x102262EE": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10226320": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x10226348": [
+     "0x1022635E"
+    ]
+   }
+  },
+  "0x1022635E": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10226540": {
@@ -28122,6 +31301,14 @@
    ],
    "tree": true,
    "d3dx": false
+  },
+  "0x10227000": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x10227080": {
    "evidence": [
@@ -28286,13 +31473,33 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved": 1,
+   "observed_targets": {
+    "0x1022B4A5": [
+     "0x101C8B80"
+    ]
+   }
   },
   "0x1022B7D0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1022B850": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1022B8E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1022BD50": {
@@ -28335,7 +31542,13 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1,
+   "observed_targets": {
+    "0x1022BF38": [
+     "0x1022BF3F"
+    ]
+   }
   },
   "0x1022BFB0": {
    "evidence": [
@@ -28344,11 +31557,53 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1022C000": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1022C350": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x1022C730": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1022C770": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1022D290": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1022D370": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x1022D510": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x1022D7A0": {
@@ -28449,6 +31704,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10234610": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10234660": {
    "evidence": [
     "static"
@@ -28521,6 +31783,20 @@
    "tree": true,
    "d3dx": false
   },
+  "0x102391D0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10239240": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x10239460": {
    "evidence": [
     "static"
@@ -28556,6 +31832,13 @@
    "tree": true,
    "d3dx": false
   },
+  "0x1023C540": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
   "0x1023D610": {
    "evidence": [
     "static"
@@ -28584,11 +31867,26 @@
    "tree": true,
    "d3dx": false
   },
+  "0x10241800": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved": 1
+  },
   "0x10244DF0": {
    "evidence": [
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10244E60": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10244F20": {
@@ -28610,6 +31908,27 @@
     "static"
    ],
    "tree": true,
+   "d3dx": false
+  },
+  "0x10245460": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x102454E0": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false
+  },
+  "0x10245520": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
    "d3dx": false
   },
   "0x10245600": {
@@ -30119,7 +33438,7 @@
    "unresolved": 3,
    "observed_targets": {
     "0x1025B709": [
-     "game:0x1011D970"
+     "0x1011D970"
     ]
    }
   },
@@ -31690,7 +35009,8 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1027CCF0": {
    "evidence": [
@@ -32457,7 +35777,8 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x102857D0": {
    "evidence": [
@@ -32478,14 +35799,16 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10285850": {
    "evidence": [
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10285890": {
    "evidence": [
@@ -32695,7 +36018,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1028D990": {
    "evidence": [
@@ -33011,21 +36335,24 @@
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x102912D0": {
    "evidence": [
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x102912F0": {
    "evidence": [
     "static"
    ],
    "tree": true,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10291360": {
    "evidence": [
@@ -34063,6 +37390,7 @@
    ],
    "tree": false,
    "d3dx": false,
+   "unresolved_jumps": 1,
    "self_samples": 1
   },
   "0x102D7FF9": {
@@ -34094,7 +37422,8 @@
    ],
    "tree": false,
    "d3dx": true,
-   "unresolved": 6
+   "unresolved": 7,
+   "unresolved_jumps": 1
   },
   "0x102DAFD3": {
    "evidence": [
@@ -34223,14 +37552,16 @@
     "static"
    ],
    "tree": false,
-   "d3dx": true
+   "d3dx": true,
+   "unresolved": 1
   },
   "0x102DE34E": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": true
+   "d3dx": true,
+   "unresolved": 1
   },
   "0x102DE37F": {
    "evidence": [
@@ -35359,7 +38690,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": true
+   "d3dx": true,
+   "unresolved_jumps": 1
   },
   "0x102F75C8": {
    "evidence": [
@@ -35732,7 +39064,8 @@
    ],
    "tree": false,
    "d3dx": true,
-   "unresolved": 4
+   "unresolved": 4,
+   "unresolved_jumps": 1
   },
   "0x10308D4D": {
    "evidence": [
@@ -35755,7 +39088,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": true
+   "d3dx": true,
+   "unresolved_jumps": 1
   },
   "0x1030B9D9": {
    "evidence": [
@@ -35822,350 +39156,424 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FF33": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FF49": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FF75": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FF8B": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FF96": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFA1": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFB7": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFC2": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFCD": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFD8": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFE3": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1030FFEE": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310025": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310030": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310067": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310072": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103100CA": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103100E0": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103100EB": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310164": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031016F": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310353": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031040E": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103108DE": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
+  },
+  "0x103108E9": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1
+  },
+  "0x103108F4": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310AD8": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310B30": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310B3B": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310B7D": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310CD2": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310D82": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310D98": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310DF0": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310DFB": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310E06": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310E11": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310E1C": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310E27": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310E32": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10310F0E": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311042": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031111E": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311344": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031135A": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311365": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311370": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311386": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103113C8": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103113D3": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
+  },
+  "0x10311856": {
+   "evidence": [
+    "recorded"
+   ],
+   "tree": false,
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311877": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10311BB0": {
    "evidence": [
@@ -36660,7 +40068,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 16
   },
   "0x10314D05": {
    "evidence": [
@@ -36844,7 +40253,8 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 1
+   "unresolved": 1,
+   "unresolved_jumps": 1
   },
   "0x103161E4": {
    "evidence": [
@@ -36858,28 +40268,32 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x10316293": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031629A": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103162A1": {
    "evidence": [
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x103162A8": {
    "evidence": [
@@ -36958,7 +40372,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x103168B0": {
    "evidence": [
@@ -36979,7 +40394,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 16
   },
   "0x10316D6B": {
    "evidence": [
@@ -37186,6 +40602,7 @@
    ],
    "tree": false,
    "d3dx": false,
+   "unresolved": 3,
    "self_samples": 5,
    "stack_samples": 1327
   },
@@ -37376,7 +40793,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved_jumps": 1
   },
   "0x1031B0E0": {
    "evidence": [
@@ -37582,7 +41000,8 @@
     "static"
    ],
    "tree": false,
-   "d3dx": false
+   "d3dx": false,
+   "unresolved": 1
   },
   "0x1031DC9C": {
    "evidence": [
@@ -38164,7 +41583,7 @@
    ],
    "tree": false,
    "d3dx": false,
-   "unresolved": 5
+   "unresolved": 6
   },
   "0x10325D00": {
    "evidence": [

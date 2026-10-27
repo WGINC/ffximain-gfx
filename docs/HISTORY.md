@@ -3580,3 +3580,46 @@ image: live_state.pe_range, and 0x6E000000-0x80000000). Verdicts against tree_r1
 The UNRESOLVED: 3 trials return with EAX differing above the declared 2-byte return, and no fact says whether a
 caller reads it (caller_reads.json). Not settled; the `retw` export (P20) of 0x1002DC10 would make the gate compare
 all of EAX.
+
+## 27 Oct (night): indirect call targets by source; the frame set follows the recorded ones (#106)
+
+`pipeline/indirect_targets.py` (`data/indirect_targets.json`) lists every indirect call and jump with its targets,
+keeping each source apart. Import slots (1,535 sites) and bounded switches (869 sites) are not listed. That leaves
+8,934 sites: 8,466 calls and 468 jumps.
+- `static` (585 sites): vcall_resolve's complete sets. 561 of them are in vcalls.json. The other 24 are calls whose
+  callees the vtables settle but whose pop counts disagree or are unknown, so vcalls.json leaves them out.
+  `vcall_resolve.resolve()` now also gives each site its reason; vcalls.json and ecx_use.json come out byte-identical.
+  No jump has a static set: an indirect jump that is not a bounded switch stops the this-flow for its whole function.
+- `com` (217) and `com_accepted` (153, the CDx+0xC declaration, kept marked unproven): com_calls.json.
+- `recorded` (716 sites with no static or com source; 16 more that have one): game_sp.json / game_switch.json. The
+  kit writes game addresses at the analysed build's addresses (xikit.c `analysed_of`, using the manifest's `!shift`
+  ranges), so the 6AC37846 recordings need no mapping here. Checks: every recorded game target is a function start,
+  and at the 16 sites with both a recording and a proof, the recording lies inside the proven set.
+  **Observed, not proven complete.** 332 of the 716 have a game target. The other 384 are recorded only into
+  Hook.dll, d3d8.dll, other modules or allocated memory, so where a third-party hook stands in, the target the
+  game's code would reach is not seen.
+- Unresolved (7,263), by reason:
+
+  | Reason | Sites |
+  |---|---|
+  | pointer not loaded from `this`'s [+0], and not a proven D3D8 object | 6,222 |
+  | through a register | 631 |
+  | `this` may be any object | 428 |
+  | indirect jump | 393 |
+  | function has an unfollowed jump | 146 |
+  | unbounded switch | 75 |
+  | function pointer in .data | 60 |
+  | other | 24 |
+
+  The first kind includes the device-shaped calls through `[[0x1045666C]+0xC]` and `[0x1066941C]`, whose
+  interface no proof gives. Each unresolved site records whether facts_wanted.json asked for it.
+- `frame_set.py` now reads this file. It follows the static sets, including the 24 the old file left out, and the
+  recorded game targets under a new evidence kind, `recorded`. It now also counts `call [abs]` through .data,
+  which it had taken for import calls, and unproven indirect jumps.
+  - The regenerated frame_set.json grows from 4,984 to 5,433 functions: 449 added, none removed, none D3DX, 10 of
+    them in the tree.
+  - `static` goes from 4,465 to 4,466 (0x10082460, through the pop-unsettled vcall at 0x10081BD9).
+  - `recorded` holds 494 functions. 46 of them had been in the set only through the sampler.
+  - Unproven indirect calls in static functions: 1,768 in 472 functions (it was 1,756 in 466). That is +13 `[abs]`
+    calls through .data and -1 settled. Of the 1,768, 206 are recorded. Unproven jumps: 121.
+  - The recorded-reach functions hold 83 more unproven calls. So the set stays a lower bound.

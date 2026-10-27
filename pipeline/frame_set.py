@@ -9,9 +9,14 @@ frame is known to run, each with how it is known; nothing is added on a guess.
                                                                                                     (uses $FFXI_DLL)
 Evidence, kept apart (a function may have several):
   static    reached from a root by direct calls, direct tail jumps (jmp to another function's entry) and the
-            virtual calls vcall_resolve.py proved (data/vcalls.json `targets`). An indirect call with no proof is
-            not followed; each function's count of them is listed (`unresolved`), so the static set is a lower
-            bound of what the frame can run.
+            indirect calls and jumps whose complete target set the code proves (data/indirect_targets.json `static`:
+            vcall_resolve.py's). A Direct3D 8 method call on a proven object (`com`, `com_accepted`) goes into the
+            Direct3D implementation, not game code. Any other indirect call is not followed; each function's count of
+            them is listed (`unresolved`; jumps apart, `unresolved_jumps`), so the static set is a lower bound of what
+            the frame can run.
+  recorded  reached only when the targets the running game was seen calling at those sites (indirect_targets.json
+            `recorded`, game functions only) are followed too, from the static set and from what they reach. Observed,
+            not proven complete: these functions ran in a session; others the same sites can reach are not shown.
   self      the kit's sampler (xikit samples, sample=1) found the render thread inside the function's code
             (`self,game` rows): it ran on the render thread in that run. On ARM64 Windows under x86 emulation the
             sampled EIP is not a position (docs/HISTORY.md, 18 Oct: 0x00010002), so such runs give few of these.
@@ -27,37 +32,46 @@ P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..'); D 
 BASE = 0x10000000
 
 
-COM = set()                                   # call sites of proven D3D8 methods (com_calls.py)
-GAME = {}                                     # call site: the targets the running game called (game_sp.json)
+GAME = {}                                     # call site: the targets the running game called (indirect_targets `recorded`)
 UNRES = collections.defaultdict(list)         # each function's unresolved indirect call sites
+UNRES_J = collections.defaultdict(list)       # and jumps
+REC = collections.defaultdict(set)            # function: game functions its unresolved sites were seen calling
 
 
 def load_code():
     import pefile, capstone
-    from capstone.x86 import X86_OP_IMM
+    from capstone.x86 import X86_OP_IMM, X86_OP_MEM
     pe = pefile.PE(os.environ['FFXI_DLL'], fast_load=True)
     img = pe.get_memory_mapped_image()
     ext = {int(k, 16): [(s, e) for s, e in v] for k, v in json.load(open(os.path.join(D, 'func_extents.json'))).items()}
-    vsite = collections.defaultdict(set)
-    for k, v in json.load(open(os.path.join(D, 'vcalls.json'))).items():
-        if k.startswith('_'): continue
-        for t in v.get('targets') or []: vsite[int(k, 16)].add(int(t, 16))
+    it = {int(k, 16): v for k, v in json.load(open(os.path.join(D, 'indirect_targets.json')))['sites'].items()}
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32); md.detail = True
-    COM.update(int(k, 16) for k in json.load(open(os.path.join(D, 'com_calls.json'))))
     calls, unresolved, ends = {}, {}, {}
     for f, pieces in ext.items():
         out, n, e2 = set(), 0, {}
         for s, e in pieces:
             for i in md.disasm(img[s - BASE:e - BASE], s):
                 e2[i.address + i.size] = i.mnemonic
-                if i.mnemonic == 'call':
-                    o = i.operands[0]
-                    if o.type == X86_OP_IMM: out.add(o.imm)
-                    elif i.address in vsite: out |= vsite[i.address]
-                    elif i.address in COM: pass       # a D3D8 method on a proven object (com_calls.py): into d3d8, not game code
-                    elif not (o.type == 3 and not o.mem.base and not o.mem.index): n += 1; UNRES[f].append(i.address)   # [abs]: an import thunk slot
-                elif i.mnemonic == 'jmp' and i.operands[0].type == X86_OP_IMM and i.operands[0].imm in ext and i.operands[0].imm != f:
-                    out.add(i.operands[0].imm)
+                if i.mnemonic not in ('call', 'jmp') or not i.operands: continue
+                o = i.operands[0]
+                if o.type == X86_OP_IMM:
+                    if i.mnemonic == 'call' or (o.imm in ext and o.imm != f): out.add(o.imm)
+                    continue
+                r = it.get(i.address)
+                if r is None:
+                    # indirect_targets.py leaves out only import slots ([abs]) and bounded switches ([idx*4 + T]),
+                    # both with no base register; any other site missing means the file is stale
+                    if o.type != X86_OP_MEM or o.mem.base:
+                        sys.exit('0x%08X %s %s: not in data/indirect_targets.json (regenerate it)' % (i.address, i.mnemonic, i.op_str))
+                    continue
+                if r['status'] == 'static': out |= {int(t, 16) for t in r['static']['targets']}
+                elif r['status'] in ('com', 'com_accepted'): pass      # into the Direct3D implementation, not game code
+                else:
+                    (UNRES if i.mnemonic == 'call' else UNRES_J)[f].append(i.address)
+                    if i.mnemonic == 'call': n += 1
+                    seen = [t for t in (r.get('recorded') or {}).get('targets', ()) if t.startswith('0x')]
+                    if r.get('recorded'): GAME[i.address] = r['recorded']['targets']
+                    REC[f] |= {int(t, 16) for t in seen if int(t, 16) in ext and int(t, 16) != f}
         calls[f] = {c for c in out if c in ext}; unresolved[f] = n; ends[f] = e2
     return ext, calls, unresolved, ends
 
@@ -90,10 +104,9 @@ def main():
     o = ap.parse_args()
     roots = [int(r, 16) for r in (o.root or ['0x10001520'])]
     ext, calls, unresolved, ends = load_code()
-    gp = os.path.join(D, 'game_sp.json')
-    GAME.update({int(k, 16): v['targets'] for k, v in (json.load(open(gp)).items() if os.path.exists(gp) else ()) if not k.startswith('_') and v.get('targets')})
     owner = owner_index(ext)
     static = closure(calls, roots)
+    recorded = closure({f: calls[f] | REC[f] for f in calls}, roots) - static
     tree = {int(k, 16) for k in json.load(open(os.path.join(ROOT, 'tree', 'placement.json')))}
     d3dx = {int(k, 16) for k in json.load(open(os.path.join(D, 'd3dx', 'd3dx81_manifest.json')))}
     self_n, stack_n, runs = collections.Counter(), collections.Counter(), []
@@ -108,16 +121,17 @@ def main():
             elif r[0] == 'incl':
                 f = owner(a, end_inclusive=True)
                 if f and ends[f].get(a) == 'call': stack_n[f] += n     # a return address: the instruction before is a call
-    every = static | set(self_n) | set(stack_n)
+    every = static | recorded | set(self_n) | set(stack_n)
     funcs = {}
     for f in sorted(every):
-        e = [k for k, ok in (('static', f in static), ('self', f in self_n), ('stack', f in stack_n)) if ok]
+        e = [k for k, ok in (('static', f in static), ('recorded', f in recorded), ('self', f in self_n), ('stack', f in stack_n)) if ok]
         r = {'evidence': e, 'tree': f in tree, 'd3dx': f in d3dx}
-        if f in static and unresolved[f]:
-            r['unresolved'] = unresolved[f]
-            # of those, the sites the game was seen calling (xikit facts=1, data/game_sp.json `targets`): the
+        if (f in static or f in recorded) and (unresolved[f] or UNRES_J[f]):
+            if unresolved[f]: r['unresolved'] = unresolved[f]
+            if UNRES_J[f]: r['unresolved_jumps'] = len(UNRES_J[f])
+            # of those, the sites the game was seen calling (xikit facts=1, indirect_targets.json `recorded`): the
             # targets it called, which says what ran, not that nothing else can
-            seen = {'0x%08X' % a: GAME[a] for a in UNRES[f] if a in GAME}
+            seen = {'0x%08X' % a: GAME[a] for a in UNRES[f] + UNRES_J[f] if a in GAME}
             if seen: r['observed_targets'] = seen
         if self_n[f]: r['self_samples'] = self_n[f]
         if stack_n[f]: r['stack_samples'] = stack_n[f]
@@ -125,11 +139,13 @@ def main():
     game = [f for f in every if f not in d3dx]
     summary = {
         'functions': len(every), 'game_code': len(game), 'd3dx': len(every & d3dx),
-        'static': len(static), 'only_observed': len(every - static),
+        'static': len(static), 'recorded': len(recorded), 'only_observed': len(every - static - recorded),
         'in_tree': len(every & tree), 'game_code_not_in_tree': len([f for f in game if f not in tree]),
         'tree_not_in_frame_set': len(tree - every),
         'unresolved_indirect_calls': sum(unresolved[f] for f in static), 'functions_with_unresolved': sum(1 for f in static if unresolved[f]),
         'unresolved_observed_in_game': sum(1 for f in static for a in UNRES[f] if a in GAME),
+        'unresolved_indirect_jumps': sum(len(UNRES_J[f]) for f in static),
+        'recorded_reach_unresolved_calls': sum(unresolved[f] for f in recorded),
     }
     json.dump({'_source': 'pipeline/frame_set.py on the analysed build (roots %s); evidence kinds in its docstring'
                           % ', '.join('0x%08X' % r for r in roots),

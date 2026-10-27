@@ -266,6 +266,29 @@ class EcxUse(unittest.TestCase):
         self.assertTrue(self.run_paths('8908'))       # mov [eax], ecx: the upper bytes are the input on one path
 
 
+class VcallResolve(unittest.TestCase):
+    def resolve(self, purges):
+        """mov eax, [ecx]; call [eax+4]; mov eax, [ecx]; call [eax+8]; ret -- `this` has vtable 0x3000 only"""
+        import vcall_resolve as V
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        md = Cs(CS_ARCH_X86, CS_MODE_32); md.detail = True
+        ins = {i.address: i for i in md.disasm(bytes.fromhex('8B01' 'FF5004' '8B01' 'FF5008' 'C3'), 0x1000)}
+        A = {'code': {0x1000: ins}, 'purges': purges, 'flows': {0x1000: V.this_flow(None, ins, 0x1000, {0x3000})},
+             'classes': {0x1000: {0x3000}}, 'vt_slots': {0x3000: [0x1F00, 0x2000, 0x2100]}}
+        keep = {}
+        return V.resolve(A, keep), keep, V
+
+    def test_slot_of_the_only_vtable(self):
+        (res, why), keep, V = self.resolve({'0x00002000': 4})
+        self.assertEqual(res['0x00001002']['targets'], ['0x00002000'])
+        self.assertEqual(keep[0x1007], (V.NOT_THIS['base'], None))    # after a call ECX is no longer `this`
+
+    def test_pops_unknown_keeps_the_targets(self):
+        (res, why), keep, V = self.resolve({})
+        self.assertEqual(res, {})
+        self.assertEqual(keep[0x1002], ('candidates disagree or pop unknown', ['0x00002000']))
+
+
 class RegparmEntry(unittest.TestCase):
     """hx2cpp.regparm_entry: a register input becomes GCC regparm with the convention's own pop rule"""
     def test_thiscall_with_eax(self):

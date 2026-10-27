@@ -350,29 +350,51 @@ def analyse():
             'vt_slots': vt_slots, 'reason': reason}
 
 
-def main(out):
-    A = analyse()
-    im, code, starts, purges, flows, classes, vt_slots = (A[k] for k in ('im', 'code', 'starts', 'purges', 'flows', 'classes', 'vt_slots'))
-    # resolve
+NOT_THIS = {  # why a call through a pointer is outside what this file decides (resolve's per-site reasons)
+    'flow': 'the function\'s this-flow is not followed (an indirect jump that is not a bounded switch)',
+    'unreached': 'the this-flow walk does not reach the call (code after an unfollowed jump)',
+    'shape': 'not `call [reg + 4k]`: a register, an indexed or an absolute operand',
+    'base': 'the pointer is not loaded from `this`\'s [+0] (another object, or a function pointer in a field)',
+}
+
+
+def resolve(A, keep=None):
+    """the settled calls {"0xCALL": {...}} and the reasons counted; with keep (a dict) also each indirect call's
+    reason for not being settled, keyed by its address (the NOT_THIS keys' texts, or the `why` texts below), and for
+    'candidates disagree or pop unknown' the candidates too (every callee the vtables allow: the targets are settled,
+    only the pop count is not): keep[a] = (reason, [targets] or None); the settled calls returned are the same
+    with or without keep"""
+    code, purges, flows, classes, vt_slots = (A[k] for k in ('code', 'purges', 'flows', 'classes', 'vt_slots'))
     res = {}; why = collections.Counter()
+    def no(a, r, count=True, tg=None):
+        if count: why[r] += 1
+        if keep is not None: keep[a] = (r, tg)
     for f, ins in code.items():
         st = flows.get(f)
-        if not st: continue
         for a, i in ins.items():
-            if i.mnemonic != 'call' or a not in st: continue
+            if i.mnemonic != 'call' or i.operands[0].type == X86_OP_IMM: continue
+            if not st: no(a, NOT_THIS['flow'], False); continue
+            if a not in st: no(a, NOT_THIS['unreached'], False); continue
             o = i.operands[0]
-            if o.type != X86_OP_MEM or not o.mem.base or o.mem.index or o.mem.disp % 4: continue
+            if o.type != X86_OP_MEM or not o.mem.base or o.mem.index or o.mem.disp % 4: no(a, NOT_THIS['shape'], False); continue
             Sx, V, X = st[a]
-            if r32(i.reg_name(o.mem.base)) not in V: continue
+            if r32(i.reg_name(o.mem.base)) not in V: no(a, NOT_THIS['base'], False); continue
             k = o.mem.disp // 4
             cand = {X} if X is not None else classes.get(f, TOP)
-            if cand == TOP: why['this may be any object'] += 1; continue
-            if not cand: why['method reached by no vtable and no caller'] += 1; continue
-            if any(len(vt_slots[v]) <= k for v in cand): why['slot past a vtable end'] += 1; continue
+            if cand == TOP: no(a, 'this may be any object'); continue
+            if not cand: no(a, 'method reached by no vtable and no caller'); continue
+            if any(len(vt_slots[v]) <= k for v in cand): no(a, 'slot past a vtable end'); continue
             tg = sorted({vt_slots[v][k] for v in cand}); pp = {purges.get('0x%08X' % t) for t in tg}
-            if None in pp or len(pp) != 1: why['candidates disagree or pop unknown'] += 1; continue
+            if None in pp or len(pp) != 1: no(a, 'candidates disagree or pop unknown', tg=['0x%08X' % t for t in tg]); continue
             res['0x%08X' % a] = {'func': '0x%08X' % f, 'slot': k, 'targets': ['0x%08X' % t for t in tg], 'pops': pp.pop(),
                                  'exact': X is not None}
+    return res, why
+
+
+def main(out):
+    A = analyse()
+    im, code, starts, vt_slots = (A[k] for k in ('im', 'code', 'starts', 'vt_slots'))
+    res, why = resolve(A)
     # the convention, from the callees' own code: all read their entry ECX (this in ECX), or none does
     ecx = ecx_inputs(im, code, starts)
     fp = json.load(open(os.path.join(D, 'fpret.json')))

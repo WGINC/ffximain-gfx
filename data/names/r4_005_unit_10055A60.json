@@ -1,0 +1,8 @@
+{
+ "0x10056160": {
+  "name": "Unit10055A60_MinOf10055F60OverIndexPairs",
+  "confidence": "low",
+  "evidence": "Body: for each pair of 24-bit indices in the list at this+0x14, calls FUN_10055F60(point[a], point[b], &out, param_3) on the 0x20-byte records at this+0x10; keeps the smallest result (start 1e9) and copies its out xyz to param_2 with w = 1.0; returns the smallest.",
+  "summary": "Returns the smallest value 0x10055F60 gives over the object's index pairs, and the point it gave with it."
+ }
+}

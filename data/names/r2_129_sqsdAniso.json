@@ -1,0 +1,8 @@
+{
+ "0x102993B0": {
+  "name": "SqsdAniso_DrawPasses",
+  "confidence": "low",
+  "evidence": "applies lighting (Unit102A34D0_ApplyLighting), sets the base texture and shader, optional alpha test 0x5F, creates once (Texture_CreateEntry 0x80) a texture from the colour fields scaled by +0x34/+0x38/+0x3C, then draws with it (sqDrawableDraw) and restores alpha test and blending",
+  "summary": "Draws a drawable with its base pass and a second pass using a colour texture it creates once (the sqsdAniso unit)."
+ }
+}

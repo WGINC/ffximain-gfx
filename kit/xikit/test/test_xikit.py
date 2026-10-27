@@ -41,7 +41,8 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
     subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
-subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736'], check=True)
+subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736',
+                '--out', '0x10027C7A,0x10027C94', '--jmp', '0x101AFB56'], check=True)
 ALL_MODES = ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native')
 for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
     d = tempfile.mkdtemp(prefix='xikit_')
@@ -132,11 +133,20 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
     if mode == 'facts':
         fc = [f for f in os.listdir(d) if f.startswith('xikit_facts_')]
         out = os.path.join(d, 'game_sp.json')
-        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'ingest'] + [os.path.join(d, f) for f in fc] + ['--out', out], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'ingest'] + [os.path.join(d, f) for f in fc] + ['--out', out,
+                           '--switch', os.path.join(d, 'sw0.json'), '--outs', os.path.join(d, 'outs0.json')], capture_output=True, text=True)   # never data/
         print(r.stdout.strip(), r.stderr.strip()[-800:])
         g = json.load(open(out)) if os.path.exists(out) else {}
         ok = g.get('0x10009716', {}).get('pops') == 4 and g.get('0x10009736', {}).get('pops') == 4
         print('%s: fact_sites.py ingest records both sites with 4 bytes popped' % ('ok' if ok else 'FAIL')); bad += not ok
+        r = subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'ingest'] + [os.path.join(d, f) for f in fc]
+                           + ['--out', out, '--switch', os.path.join(d, 'sw.json'), '--outs', os.path.join(d, 'outs.json')], capture_output=True, text=True)
+        sw = json.load(open(os.path.join(d, 'sw.json'))) if os.path.exists(os.path.join(d, 'sw.json')) else {}
+        oj = json.load(open(os.path.join(d, 'outs.json'))) if os.path.exists(os.path.join(d, 'outs.json')) else {}
+        ok = sum(sw.get('0x101AFB56', {}).get('targets_seen', {}).values()) == 13 \
+            and not any(c['changed'] for c in oj.get('0x10027C94', {}).get('slots', {}).get('arg0', {}).values()) \
+            and set(oj.get('0x10027C7A', {}).get('slots', {})) == {'ecx0'}       # its callee takes no stack argument
+        print('%s: ingest writes the switch targets seen and the output slots' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'capture':
         # the capture replayed through the gate: the original and the tree's reconstruction run from that call
         xc = [f for f in os.listdir(d) if f.endswith('.xcap')]

@@ -201,6 +201,60 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x1003DFE0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit1003D990_ScaleColorBytes(void * self_, uint32_t * param_1, float param_2)
+{
+  uint32_t uVar1;
+  uint8_t uVar2;
+  uint8_t uVar3;
+  uint8_t uVar4;
+  uint8_t bVar5;
+  long double fVar6;
+  int64_t lVar7;
+  uint32_t local_8;
+  
+  fVar6 = (long double)*(uint8_t *)((int)self_ + 2) * (long double)param_2;
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
+    lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
+    uVar2 = (uint8_t)lVar7;
+  }
+  else {
+    uVar2 = 0;
+  }
+  fVar6 = (long double)*(uint8_t *)((int)self_ + 1) * (long double)param_2;
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
+    lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
+    uVar3 = (uint8_t)lVar7;
+  }
+  else {
+    uVar3 = 0;
+  }
+  fVar6 = (long double)*(uint8_t *)self_ * (long double)param_2;
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) == bVar5) {
+    lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
+    uVar4 = (uint8_t)lVar7;
+  }
+  else {
+    uVar4 = 0;
+  }
+  uVar1 = CONCAT21(((uint16_t)(((uint16_t)(uint8_t)(uVar2) << 8) | (uint8_t)(uVar3))),uVar4);
+  local_8 = (uint32_t)uVar1;
+  fVar6 = (long double)*(uint8_t *)((int)self_ + 3) * (long double)param_2;
+  bVar5 = NAN(fVar6) || NAN((long double)0.0f);
+  if ((bVar5 || fVar6 < (long double)0.0f) != bVar5) {
+    *param_1 = local_8;
+    return param_1;
+  }
+  lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
+  local_8 = CONCAT13((char)lVar7,uVar1);
+  *param_1 = local_8;
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x1003E0D0  (unit unit_1003D990: no unit evidence of its own; in the gap between 0x1003D980 (CMoCelestial) and 0x1003E6A0 (CMoD3aElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit1003D990_ScaleBytesByVec4(void * self_, undefined4 * param_1, float * param_2)

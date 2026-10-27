@@ -8,7 +8,7 @@ XI_API int __cdecl Unit100C51C0_MapCodeIndex(undefined4 param_1, int param_2)
 {
   int iVar1;
   
-  switch(param_1) {
+  switch(xi_sw(param_1)) {
   case 1:
     iVar1 = orig::Unit100C51C0_AddOffset996B(param_2);
     return iVar1;

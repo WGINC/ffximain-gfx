@@ -1,0 +1,5 @@
+{
+ "0x10288FF0": {"name": "SqmdDMB_BuildUpdaters", "confidence": "high",
+  "evidence": "Its trace prints the DLL string \"%06ld ... sqmdDMBBuildUpdaters ...\" (0x103B9420) on entry; it then clears the globals 0x109A2758..0x109A276C and walks the model's items of kind 2, testing names against \"untitled\" and the \"_sort\" suffix.",
+  "summary": "sqmdDMBBuildUpdaters: builds the updater list of a model into the DMB being built."}
+}

@@ -1,0 +1,8 @@
+{
+ "0x1029B3A0": {
+  "name": "SqmdSort_CreateForStrips",
+  "confidence": "medium",
+  "evidence": "refuses (\"sort updater must use tri strips\", sqmdSort.c line 199) a shape whose type is not 0xA0009; otherwise creates a sort object (SqmdSort_Create), stores the shape and arguments at +0x1C..+0x2C and allocates its lists (SqmdSort_AllocLists)",
+  "summary": "Creates a triangle-strip sort updater for a shape."
+ }
+}

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10189400  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10189400(void * self_)
+XI_API void * __thiscall WeatherRes_InitKeyDefaults(void * self_)
 {
   int iVar1;
   uint32_t *puVar2;
@@ -51,7 +51,7 @@ XI_API void * __thiscall fn_10189400(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10189490  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * param_2, float param_3)
+XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t * param_2, float param_3)
 {
   int64_t lVar1;
   char xi_frame[112] __attribute__((aligned(4)));
@@ -78,9 +78,9 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x32));
     orig::Quat_SetIdentityChained(local_50);
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
-    orig::Unit10026C70_ReturnThis(local_40);
+    orig::Unit10026C70_ReturnThis_v1(local_40);
     orig::Unit100310A0_FromQuat(local_50,local_40);
-    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v2(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x30) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);
@@ -97,7 +97,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x12));
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
     orig::Unit100310A0_FromQuat(local_50,local_40);
-    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v2(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x10) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);
@@ -105,7 +105,7 @@ XI_API void __thiscall fn_10189490(void * self_, uint32_t * param_1, uint32_t * 
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_68 * (long double)127.0f);
     *(char *)((int)self_ + 0x12) = (char)lVar1;
     orig::Unit10026C70_Nop();
-    orig::FUN_10032a70();
+    orig::Unit100310A0_Nop();
   }
   if ((((void *)((int)self_ + 0x4c) != (void *)0x0) && (param_1 + 0x13 != (uint32_t *)0x0)) &&
      (param_2 + 0x13 != (uint32_t *)0x0)) {
@@ -141,7 +141,7 @@ XI_API void __thiscall Env_LerpKeyValues(void * self_, int param_1, int param_2,
 
 // FUNCTION: FFXIMAIN 0x10189BD0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10189BD0(int param_1)
+XI_API undefined4 __stdcall WeatherRes_IsTimeKeyName(int param_1)
 {
   uint32_t uVar1;
   uint32_t xi_entry_eax = 0;
@@ -202,7 +202,7 @@ XI_API void __stdcall Zone_GetClock(int * param_1)
 
 // FUNCTION: FFXIMAIN 0x10189CA0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined4 xi_s2)
+XI_API void __thiscall Env_FindPrevKey(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
   void *pvVar1;
   int *piVar2;
@@ -257,7 +257,7 @@ XI_API void __thiscall fn_10189CA0(void * self_, undefined4 * param_1, undefined
             }
             if ((iVar4 != iVar6) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_10189de4;
           }
-          uVar5 = orig::FUN_10189bd0((int)pvVar3);
+          uVar5 = orig::WeatherRes_IsTimeKeyName((int)pvVar3);
           iVar4 = local_40;
           if (((char)uVar5 != '\0') &&
              (piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_28), pvVar7 = pvVar3, *piVar2 < iVar4)) {
@@ -340,7 +340,7 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
 
 // FUNCTION: FFXIMAIN 0x10189F20  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined4 xi_s2)
+XI_API void __thiscall Env_FindNextKey(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
   void *pvVar1;
   int *piVar2;
@@ -399,7 +399,7 @@ XI_API void __thiscall fn_10189F20(void * self_, undefined4 * param_1, undefined
             }
             if ((iVar4 != iVar6) && (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0)) goto LAB_1018a0a6;
           }
-          uVar5 = orig::FUN_10189bd0((int)pvVar3);
+          uVar5 = orig::WeatherRes_IsTimeKeyName((int)pvVar3);
           iVar4 = local_48;
           if ((char)uVar5 != '\0') {
             piVar2 = (int *)orig::FUN_10072180(pvVar3,&local_30);
@@ -440,7 +440,7 @@ LAB_1018a0d9:
 }
 
 // FUNCTION: FFXIMAIN 0x1018A0F0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
 {
   int iVar1;
@@ -509,7 +509,7 @@ XI_API void __thiscall Env_UpdatePrevKey(void * self_)
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
   
   local_4 = self_;
-  orig::FUN_10189ca0(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
+  orig::Env_FindPrevKey(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
     orig::Env_SetKeyField2C(self_,local_4);
     return;
@@ -526,7 +526,7 @@ XI_API void __thiscall Env_UpdateNextKey(void * self_)
   int * &local_4 = *reinterpret_cast<int * *>(xi_frame + 0);
   
   local_4 = self_;
-  orig::FUN_10189f20(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
+  orig::Env_FindNextKey(self_,&local_4,*(uint32_t *)((int)self_ + 0x10));
   if ((local_4 != (int *)0x0) && (*local_4 != 0)) {
     orig::Env_SetKeyField30(self_,local_4);
     return;
@@ -732,7 +732,7 @@ LAB_1018a595:
       else {
         local_18 = (float)((long double)local_20 / (long double)local_1c);
       }
-      orig::FUN_10189490(*(void **)((int)self_ + 0x20),local_8,local_c,local_18);
+      orig::Env_BlendKeys(*(void **)((int)self_ + 0x20),local_8,local_c,local_18);
       return;
     }
     *(int *)((int)self_ + 0x20) = (int)pvVar5 + 0x30;

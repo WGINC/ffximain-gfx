@@ -57,3 +57,43 @@ undefined4 __thiscall XiModelActor::BuildWorldMatrix(void * self, undefined4 par
   uVar4 = orig::Mat4_SetTranslation_v1(param_2,puVar3);
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
 }
+
+// FUNCTION: FFXIMAIN 0x100C4C20  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall XiModelActor::BuildMatrixAndDraw(void * self)
+{
+  void *this_00;
+  uint32_t *puVar1;
+  float *pfVar2;
+  uint32_t uVar3;
+  int iVar4;
+  uint32_t *puVar5;
+  
+  puVar1 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
+  pfVar2 = (float *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1c0))))((void *)(self));
+  iVar4 = 0;
+  if (*(int *)((int)self + 0x5c4) != 0) {
+    puVar5 = (uint32_t *)((int)self + 0x5c8);
+    for (iVar4 = 0x5b; iVar4 != 0; iVar4 = iVar4 + -1) {
+      *puVar5 = 0;
+      puVar5 = puVar5 + 1;
+    }
+    this_00 = (void *)((int)self + 0x608);
+    uVar3 = *(uint32_t *)(*(int *)((int)self + 0x5c4) + 0x30);
+    *(uint16_t *)((int)self + 0x69c) = 0;
+    *(uint32_t *)((int)self + 0x5e0) = uVar3;
+    orig::Mat4_SetIdentity_v2(this_00);
+    orig::Mat4_PostRotateZ_v1(this_00,pfVar2[2]);
+    orig::Mat4_PostRotateY_v1(this_00,pfVar2[1]);
+    orig::Mat4_PostRotateX_v1(this_00,*pfVar2);
+    orig::Mat4_SetTranslation_v2(this_00,puVar1);
+    if (*(int *)((int)self + 0x774) == 0) {
+      uVar3 = orig::FUN_101844c0(g_pZoneMap,(int)self + 0x5c8,*(uint32_t *)((int)self + 0x770),
+                           *(uint32_t *)((int)self + 0x770));
+      return uVar3;
+    }
+    iVar4 = *(int *)((int)self + 0x774) + -1;
+    *(int *)((int)self + 0x774) = iVar4;
+  }
+  return iVar4;
+}

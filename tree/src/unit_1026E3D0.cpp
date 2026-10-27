@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1026E3D0  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1026E3D0(int param_1)
+XI_API void __cdecl SqgxContext_StoreVec14(int param_1)
 {
   char xi_frame[12] __attribute__((aligned(4)));
   uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
@@ -20,7 +20,7 @@ XI_API void __cdecl fn_1026E3D0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1026E400  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1026E400(void)
+XI_API undefined4 __cdecl StAvatar_InitGlobals1099AEB8(void)
 {
   _DAT_1099aeb8 = 1;
   _DAT_1099aebc = 0;
@@ -102,7 +102,7 @@ XI_API void __cdecl StAvatar_UpdateModels(undefined4 param_1)
   int  &local_8 = *reinterpret_cast<int  *>(xi_frame + 0);
   int  &local_4 = *reinterpret_cast<int  *>(xi_frame + 4);
   
-  iVar1 = orig::FUN_1027e440(&DAT_1099aee0);
+  iVar1 = orig::Unit1027E120_IsConnected(&DAT_1099aee0);
   if (iVar1 != 0) {
     orig::Unit1027E120_Advance(&DAT_1099aee0,param_1);
     uVar2 = orig::Unit102857D0_GetFlagByte14(0x1099af00);
@@ -144,7 +144,7 @@ LAB_1026e662:
         if ((*(uint32_t *)(iVar5 + -0x98) & 0x200) != 0) {
           orig::SqmdModel_LookAt(*(int *)(iVar5 + 0x10),0,*(int *)(iVar5 + -8),iVar5,*(float *)(iVar5 + -4));
         }
-        orig::FUN_10278490(*(int *)(iVar5 + 0x10));
+        orig::SqmdModel_Update(*(int *)(iVar5 + 0x10));
         iVar3 = 0;
         do {
           *(int *)((int)&DAT_1099af48 + iVar3) =

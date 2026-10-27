@@ -46,13 +46,19 @@ def built():
 
 def ini_keys():
     s = open(os.path.join(R, 'kit', 'xikit', 'xikit.c')).read()
-    read = set(re.findall(r'GetPrivateProfile\w*A\("xikit",\s*"(\w+)"', s))
+    # keys as section.key (the [watch] section has its own enabled= and every=)
+    read = {'%s.%s' % m for m in re.findall(r'GetPrivateProfile\w*A\("(\w+)",\s*"(\w+)"', s)}
     m = re.search(r'static const char DEFAULT_INI\[\] =\n(.*?);\n', s, re.S)
-    dflt = set(re.findall(r'^(\w+)=', ''.join(eval(x) for x in re.findall(r'"(?:[^"\\]|\\.)*"', m.group(1))), re.M))
+    dflt, sec = set(), 'xikit'
+    for line in ''.join(eval(x) for x in re.findall(r'"(?:[^"\\]|\\.)*"', m.group(1))).splitlines():
+        h = re.match(r'^\[(\w+)\]', line); k = re.match(r'^(\w+)=', line)
+        if h: sec = h.group(1)
+        elif k: dflt.add('%s.%s' % (sec, k.group(1)))
     doc = open(os.path.join(R, 'docs', 'KIT.md')).read()
     out = ['xikit.c reads %s, which its default ini lacks' % k for k in sorted(read - dflt)]
     out += ['the default ini has %s, which xikit.c never reads' % k for k in sorted(dflt - read)]
-    out += ['docs/KIT.md does not mention %s=' % k for k in sorted(read | dflt) if not re.search(r'\b%s\b' % k, doc)]
+    out += ['docs/KIT.md does not mention %s= (section [%s])' % (k.split('.')[1], k.split('.')[0]) for k in sorted(read | dflt)
+            if not re.search(r'\b%s\b' % k.split('.')[1], doc)]
     return out
 
 

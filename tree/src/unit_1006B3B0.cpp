@@ -93,7 +93,7 @@ XI_API uint32_t __cdecl Rand_NextModUnsigned(uint32_t param_1)
 
 // FUNCTION: FFXIMAIN 0x1006BF80  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __attribute__((cdecl, regparm(1))) fn_1006BF80(undefined4 xi_eax, float param_1)
+XI_API long double __attribute__((cdecl, regparm(1))) Rand_UniformTimes(undefined4 xi_eax, float param_1)
 {
   uint32_t uVar1;
   uint8_t bVar2;
@@ -108,7 +108,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) fn_1006BF80(undefined4 xi_
 
 // FUNCTION: FFXIMAIN 0x1006BFD0  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __attribute__((cdecl, regparm(1))) fn_1006BFD0(undefined4 xi_eax, float param_1)
+XI_API long double __attribute__((cdecl, regparm(1))) Rand_SignedUniformTimes(undefined4 xi_eax, float param_1)
 {
   uint32_t uVar1;
   uint8_t bVar2;

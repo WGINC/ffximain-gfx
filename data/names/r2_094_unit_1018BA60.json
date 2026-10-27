@@ -1,0 +1,200 @@
+{
+ "0x101C1820": {
+  "name": "Unit1018BA60_FindPath2F4Kind3",
+  "confidence": "low",
+  "evidence": "builds a kind-3 request (vtable 0x10337200) with the path \"%s/%s\" under +0x2F4 (Unit1018BA60_FormatStrAt2F4), prepares it (0x101C3E90) and returns what 0x1019F930 finds on the queue +0x1F0",
+  "summary": "Looks for a pending kind-3 request for a file under the +0x2F4 base path."
+ },
+ "0x101C18E0": {
+  "name": "Unit1018BA60_FindPath3F4Kind3",
+  "confidence": "low",
+  "evidence": "builds a kind-3 request (vtable 0x10337200) with the path under +0x3F4, prepares it (0x101C3E90) and returns what 0x1019F930 finds",
+  "summary": "Looks for a pending kind-3 request for a file under the +0x3F4 base path."
+ },
+ "0x101C1B20": {
+  "name": "Unit1018BA60_SubmitFileNumKind4",
+  "confidence": "low",
+  "evidence": "builds a kind-4 request (vtable 0x10337200) with the path XiFileImpl_getFileName gives for the file number, prepares it (0x101C3E90) and has it handled at once (0x1019F960); FileMng_ResolveOrExit uses its result as the file's size",
+  "summary": "Handles a kind-4 request for a file number at once (the file's size)."
+ },
+ "0x101C1C90": {
+  "name": "Unit1018BA60_SubmitPath3F4Kind4",
+  "confidence": "low",
+  "evidence": "builds a kind-4 request (vtable 0x10337200) with the path under +0x3F4, prepares it (0x101C3E90) and has it handled at once (0x1019F960)",
+  "summary": "Handles a kind-4 request for a file under the +0x3F4 base path at once."
+ },
+ "0x101C1DF0": {
+  "name": "Unit1018BA60_SubmitPathKind4",
+  "confidence": "low",
+  "evidence": "builds a kind-4 request (vtable 0x10337200) with the path from 0x101C3D00 (\"%s/%x/%s\"), prepares it (0x101C3E90) and has it handled at once",
+  "summary": "Handles a kind-4 request for a formatted path at once."
+ },
+ "0x101C1EC0": {
+  "name": "Unit1018BA60_SubmitPath2F4Kind4",
+  "confidence": "low",
+  "evidence": "builds a kind-4 request (vtable 0x10337200) with the path under +0x2F4, prepares it (0x101C3E90) and has it handled at once",
+  "summary": "Handles a kind-4 request for a file under the +0x2F4 base path at once."
+ },
+ "0x101C2450": {
+  "name": "Unit1018BA60_SubmitPath3F4Kind5",
+  "confidence": "low",
+  "evidence": "builds a kind-5 request (vtable 0x10337200) with the path under +0x3F4 and arg2, prepares it (0x101C3E90) and has it handled at once",
+  "summary": "Handles a kind-5 request for a file under the +0x3F4 base path at once."
+ },
+ "0x101C2840": {
+  "name": "Unit1018BA60_SubmitPath3F4Kind7",
+  "confidence": "low",
+  "evidence": "builds a kind-7 request (vtable 0x10337200) with the path under +0x3F4, prepares it (0x101C3E90) and has it handled at once; returns 1 in AL when the result is 1",
+  "summary": "Handles a kind-7 request for a file under the +0x3F4 base path and reports whether it gave 1."
+ },
+ "0x101C2D80": {
+  "name": "Unit1018BA60_WriteTimestampFwd",
+  "confidence": "low",
+  "evidence": "forwards to 0x101C4170 (Unit1018BA60_WriteTimestamp)",
+  "summary": "Writes the timestamp file (through Unit1018BA60_WriteTimestamp)."
+ },
+ "0x101C3E40": {
+  "name": "Unit1018BA60_FormatWithBase",
+  "confidence": "low",
+  "evidence": "gets a base string into a local buffer (0x1030FED0, 0x1FF bytes) and formats \"%s%s\" with it and the arguments into arg3; returns 1",
+  "summary": "Formats a path from a base string and the given parts."
+ },
+ "0x101C3F40": {
+  "name": "Unit1018BA60_CopyPathByMode",
+  "confidence": "low",
+  "evidence": "in mode 3 of +8 copies the string arg3 into arg1 when it is shorter than arg2 (else -1); in mode 4 copies it; returns 1",
+  "summary": "Copies a path into a buffer by the object's mode."
+ },
+ "0x101C3FE0": {
+  "name": "Unit1018BA60_CreateDirectories",
+  "confidence": "medium",
+  "evidence": "CreateDirectoryA(path); when that fails with an error other than 0xB7 (ERROR_ALREADY_EXISTS), creates each parent at every '/' in a copy of the path; returns 1, or -1 on a failure",
+  "summary": "Creates a directory and its missing parents."
+ },
+ "0x101C4170": {
+  "name": "Unit1018BA60_WriteTimestamp",
+  "confidence": "medium",
+  "evidence": "formats \"%s/%x/%s\" from +0x1F4, arg and \"timestamp.dat\", and submits a kind-3 request writing the 4-byte game time (ntGameTimeGet) to it",
+  "summary": "Writes the current game time to timestamp.dat."
+ },
+ "0x101C4260": {
+  "name": "Unit1018BA60_ReadTimestamp",
+  "confidence": "medium",
+  "evidence": "formats \"%s/%x/%s\" from +0x1F4, arg and \"timestamp.dat\" and submits a request reading 4 bytes from it; returns them, or 0 on failure",
+  "summary": "Reads the game time stored in timestamp.dat."
+ },
+ "0x101C46A0": {
+  "name": "Unit1018BA60_FileMngCall101BEB90",
+  "confidence": "low",
+  "evidence": "returns 0x101BEB90's result; Frame_Render calls it with g_pFileMng",
+  "summary": "Calls 0x101BEB90 for the file manager each frame."
+ },
+ "0x101C46E0": {
+  "name": "Unit1018BA60_FileMngQueueLoad",
+  "confidence": "medium",
+  "evidence": "forwards its six arguments to XiFileImpl_QueueLoad on the inner object at +4",
+  "summary": "Has the file manager queue a load."
+ },
+ "0x101C4790": {
+  "name": "Unit1018BA60_FileMngSubmitPathKind1",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101BF370 (Unit1018BA60_SubmitPathKind1) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-1 request for a formatted path at once."
+ },
+ "0x101C47A0": {
+  "name": "Unit1018BA60_FileMngSubmitPath2F4Kind1",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101BF460 (Unit1018BA60_SubmitPath2F4Kind1) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-1 request under the +0x2F4 base path at once."
+ },
+ "0x101C47B0": {
+  "name": "Unit1018BA60_FileMngSubmitPath3F4Kind1",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101BF550 (Unit1018BA60_SubmitPath3F4Kind1) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-1 request under the +0x3F4 base path at once."
+ },
+ "0x101C4820": {
+  "name": "Unit1018BA60_FileMngQueueFileNumKind2",
+  "confidence": "low",
+  "evidence": "forwards to 0x101BF970 (Unit1018BA60_QueueFileNumKind2) on the inner object, with the callback 0x101C4D50 when arg6 is null",
+  "summary": "Has the file manager queue a kind-2 request for a file number."
+ },
+ "0x101C48E0": {
+  "name": "Unit1018BA60_FileMngQueuePathKind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0050 (Unit1018BA60_QueuePathKind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager queue a kind-3 request for a formatted path."
+ },
+ "0x101C48F0": {
+  "name": "Unit1018BA60_FileMngQueuePath2F4Kind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0160 (Unit1018BA60_QueuePath2F4Kind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager queue a kind-3 request under the +0x2F4 base path."
+ },
+ "0x101C4900": {
+  "name": "Unit1018BA60_FileMngQueuePath3F4Kind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0260 (Unit1018BA60_QueuePath3F4Kind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager queue a kind-3 request under the +0x3F4 base path."
+ },
+ "0x101C4920": {
+  "name": "Unit1018BA60_FileMngSubmitPathKind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0440 (Unit1018BA60_SubmitPathKind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-3 request for a formatted path at once."
+ },
+ "0x101C4930": {
+  "name": "Unit1018BA60_FileMngSubmitPath2F4Kind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0540 (Unit1018BA60_SubmitPath2F4Kind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-3 request under the +0x2F4 base path at once."
+ },
+ "0x101C4940": {
+  "name": "Unit1018BA60_FileMngSubmitPath3F4Kind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0630 (Unit1018BA60_SubmitPath3F4Kind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-3 request under the +0x3F4 base path at once."
+ },
+ "0x101C4950": {
+  "name": "Unit1018BA60_FileMngSubmitPath4F4Kind3",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0760 (Unit1018BA60_SubmitPath4F4Kind3) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-3 request under the +0x4F4 base path at once."
+ },
+ "0x101C4990": {
+  "name": "Unit1018BA60_FileMngCall101C09B0",
+  "confidence": "low",
+  "evidence": "returns 0x101C09B0's result on the inner object at +4",
+  "summary": "Calls the file manager's 0x101C09B0."
+ },
+ "0x101C49A0": {
+  "name": "Unit1018BA60_FileMngCall101C0A40",
+  "confidence": "low",
+  "evidence": "forwards to 0x101C0A40 on the inner object at +4",
+  "summary": "Calls the file manager's 0x101C0A40."
+ },
+ "0x101C49E0": {
+  "name": "Unit1018BA60_FileMngSubmitPathKind6",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C0FC0 (Unit1018BA60_SubmitPathKind6) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-6 request for a formatted path at once."
+ },
+ "0x101C49F0": {
+  "name": "Unit1018BA60_FileMngSubmitPath3F4Kind6",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C1090 (Unit1018BA60_SubmitPath3F4Kind6) on the file manager's inner object at +4",
+  "summary": "Has the file manager handle a kind-6 request under the +0x3F4 base path at once."
+ },
+ "0x101C4A10": {
+  "name": "Unit1018BA60_FileMngFindFileNumKind1",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C11F0 (Unit1018BA60_FindFileNumKind1) on the file manager's inner object at +4",
+  "summary": "Has the file manager look for a pending kind-1 request for a file number."
+ },
+ "0x101C4A30": {
+  "name": "Unit1018BA60_FileMngFindFileNumKind2",
+  "confidence": "low",
+  "evidence": "forwards its arguments to 0x101C13A0 (Unit1018BA60_FindFileNumKind2) on the file manager's inner object at +4",
+  "summary": "Has the file manager look for a pending kind-2 request for a file number."
+ }
+}

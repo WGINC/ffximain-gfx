@@ -30,23 +30,21 @@ undefined4 __cdecl CAtelIdleTask::Create()
   undefined4 *self;
   uint32_t uVar1;
   undefined4 uVar2;
-  uint64_t uVar3;
   
-  orig::Menu_CloseEntry(&g_menuMng_as_v0,aMenuChdummy);
+  orig::Menu_CloseEntry_v1(&g_menuMng_as_v0,aMenuChdummy);
   *g_pSceneState_as_v2 = 0x60;
-  orig::FUN_101ab730();
-  uVar3 = orig::Mem_AllocFromArea_v1(0x34,4);
-  self = (undefined4 *)uVar3;
+  orig::Unit1018BA60_ReloadAll();
+  self = orig::Mem_AllocFromArea_v2(0x34,4,0);
   uVar1 = orig::CMoTask_ResetFields_v1(self);
   g_resourcesDirty_as_v0 = 1;
   if (self != (undefined4 *)0x0) {
-    orig::CMoTask_Constructor_v1(self);
-    *self = &PTR_CAtelIdleTask_GetRuntimeClass_10329cfc;
-    DAT_1045690c = self;
+    orig::CMoTask_Constructor_v2(self);
+    *self = &PTR_LAB_10329cfc;
+    DAT_1045690c_as_v1 = self;
     uVar2 = orig::CMoTask_RegisterWithMng_v1(0xd);
     orig::App_AdvanceSeqStep_v1(g_pCamera_as_v2);
     return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
   }
-  DAT_1045690c = (undefined4 *)0x0;
+  DAT_1045690c_as_v1 = (undefined4 *)0x0;
   return uVar1 & 0xffffff00;
 }

@@ -1,0 +1,14 @@
+{
+ "0x10251070": {
+  "name": "StChannel_RegisterItem",
+  "confidence": "medium",
+  "evidence": "logs \"Error StChannelItemRegister\" when +0x18 is 0; else gets an entry index from 0x1026EF00, sets flag 0x10, Mdl_UpdateEntryFlags(index, 0x200, 1), and sets the entry's weight 1.0 and time from the float argument when it lies in the entry's range",
+  "summary": "Registers a channel item in the model entry table and starts it at a time."
+ },
+ "0x10251200": {
+  "name": "StChannel_ApplyItem",
+  "confidence": "low",
+  "evidence": "for an item with flag 0x10, marks its table entry busy (bit 2), runs Chn_ForwardIfFlag2 and, unless told not to, the entry's object callback at +0x18 between 0x102857E0(1)/(0) calls; then clears bit 2",
+  "summary": "Applies a registered channel item once, guarding against re-entry."
+ }
+}

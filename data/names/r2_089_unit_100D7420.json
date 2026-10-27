@@ -1,0 +1,68 @@
+{
+ "0x100FCD70": {
+  "name": "Unit100D7420_FindTimerKind10",
+  "confidence": "low",
+  "evidence": "returns the dword +0x18 of the first of two 0x9C-byte records at [0x104DFD98]+0x40C44 whose kind byte is 0x10, else 0; called by Unit1021D930_TickCounters",
+  "summary": "Returns the value of the first record of kind 0x10."
+ },
+ "0x100FD3A0": {
+  "name": "Unit100D7420_IsId50To99Or88Or89",
+  "confidence": "low",
+  "evidence": "returns 1 for ids 0x50..0x63, 0x88 and 0x89, else 0",
+  "summary": "Tells whether an id is in the range 80-99 or is 136 or 137."
+ },
+ "0x10101BC0": {
+  "name": "Unit100D7420_GetTableByteForTens",
+  "confidence": "low",
+  "evidence": "returns the byte at 0x1036447C indexed by Unit100D7420_CeilDiv10Max10(arg)",
+  "summary": "Looks up a table byte by the argument's tens, rounded up and capped."
+ },
+ "0x101033C0": {
+  "name": "Unit100D7420_InitSessionAndStampTime",
+  "confidence": "low",
+  "evidence": "after Unit100D7420_InitContext succeeds, calls 0x100F0130 with the record's strings and ids, then stores ntGameTimeGet() at [0x104E0AF0]+0x79C; returns 1 on success",
+  "summary": "Sets up the session from a record and stamps the game time."
+ },
+ "0x101038C0": {
+  "name": "Unit100D7420_ReturnZero",
+  "confidence": "low",
+  "evidence": "returns 0",
+  "summary": "Returns 0."
+ },
+ "0x101038E0": {
+  "name": "Unit100D7420_GetWord8Of104E0AF4",
+  "confidence": "low",
+  "evidence": "returns the word at [0x104E0AF4]+8 in AX, or 0 without the object",
+  "summary": "Returns a word of the object at 0x104E0AF4."
+ },
+ "0x10103920": {
+  "name": "Unit100D7420_UpdateNoticesIfReady",
+  "confidence": "low",
+  "evidence": "when 0x104E0AF4 is set, Unit100D7420_Sync, Game_IsFlag10492DB4 and Unit100D7420_IsInitialized all succeed, calls 0x100E0D50 and FDtGmNoticeProc (gmNotice.fdt) and 0x100F7700",
+  "summary": "Runs the notice processing when the session is ready."
+ },
+ "0x101083C0": {
+  "name": "Unit100D7420_GetPoolBlockPayload",
+  "confidence": "low",
+  "evidence": "returns the word at [0x104E0B00]+0x10+i*0x14 minus 0x14",
+  "summary": "Returns a pool's block size less its 20-byte header."
+ },
+ "0x101085C0": {
+  "name": "Unit100D7420_AllocFromPool",
+  "confidence": "low",
+  "evidence": "returns 0x10108460(size, [0x104E0B00] + pool*0x14)",
+  "summary": "Allocates from one of the pools at 0x104E0B00."
+ },
+ "0x101085E0": {
+  "name": "Unit100D7420_AllocFromPool0",
+  "confidence": "low",
+  "evidence": "returns 0x10108460(size, [0x104E0B00])",
+  "summary": "Allocates from the first pool."
+ },
+ "0x10108990": {
+  "name": "Unit100D7420_TakeFreeBlock",
+  "confidence": "medium",
+  "evidence": "finds the first free block (list at +0x10, linked by +0xA) of at least size+8, splits off the rest in 12-byte units into a new free block (Unit100D7420_InsertBlock), marks the block owned and unlinks it (Unit100D7420_UnlinkBlock)",
+  "summary": "Takes a free block of a size from the heap, splitting off the remainder."
+ }
+}

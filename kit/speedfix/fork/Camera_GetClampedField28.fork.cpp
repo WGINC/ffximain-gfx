@@ -1,8 +1,9 @@
-// FORK OF: fn_10014D20 0x10014D20 (from tree/src/unit_10014350_Camera.cpp)
+// FORK OF: Camera_GetClampedField28 0x10014D20 (from tree/src/unit_10014350_Camera.cpp)
 // Edit the body below; `fork.py diff` shows the edit, `fork.py gate` runs it against the game's code.
-// Hook it from the mod's xikit_mod_init with XI_FORK(host, fn_10014D20).
+// Hook it from the mod's xikit_mod_init with XI_FORK(host, Camera_GetClampedField28).
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
+
 #include "../sf_step_sites.h"
 
 // ---- frame_step (speedfix; the Frame_Render fork makes the step): with xi_step_mode 1 every call is answered with
@@ -23,18 +24,23 @@ static inline bool xi_step_fraction_site(uintptr_t ret)
     if (ret == XI_GAME(kStepFractionRet[i])) return true;
   return false;
 }
+// the answer with the switches on, for the call returning to `ret`
+static long double xi_step_answer(uintptr_t ret)
+{
+  return xi_step_mode == 2 && xi_step_fraction_site(ret) ? xi_step_frac : xi_step_whole;
+}
 
 // FUNCTION: FFXIMAIN 0x10014D20  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10014D20(void)
+XI_API long double __cdecl Camera_GetClampedField28(void)
 {
   if ( xi_step_mode != 0 && xi_step_have != 0 )
-    return xi_step_mode == 2 && xi_step_fraction_site((uintptr_t)__builtin_return_address(0)) ? xi_step_frac : xi_step_whole;
-  xi_bool bVar1;
+    return xi_step_answer((uintptr_t)__builtin_return_address(0));
+  uint8_t bVar1;
   
-  bVar1 = NAN((float10)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((float10)xi_k4(0x3F800000ull));
-  if ((bVar1 || (float10)*(float *)(g_pCamera_as_s32 + 0x28) < (float10)xi_k4(0x3F800000ull)) != bVar1) {
-    return (float10)xi_k4(0x3F800000ull);
+  bVar1 = NAN((long double)*(float *)(g_pCamera_as_s32 + 0x28)) || NAN((long double)1.0f);
+  if ((bVar1 || (long double)*(float *)(g_pCamera_as_s32 + 0x28) < (long double)1.0f) != bVar1) {
+    return (long double)1.0f;
   }
-  return (float10)*(float *)(g_pCamera_as_s32 + 0x28);
+  return (long double)*(float *)(g_pCamera_as_s32 + 0x28);
 }

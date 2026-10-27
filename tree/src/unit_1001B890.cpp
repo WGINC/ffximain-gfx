@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001CF80  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1001CF80(void * self_)
+XI_API void * __thiscall Unit1001B890_ReturnSelf(void * self_)
 {
   return self_;
 }
@@ -224,4 +224,51 @@ LABEL_11:
     }
   }
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x1001D800  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall TexRes_LoadBm2(void * self_)
+{
+  uint8_t bVar1;
+  void *pvVar2;
+  char xi_frame[16] __attribute__((aligned(4)));
+  uint8_t  (&auStack_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
+  
+  pvVar2 = self_;
+  switch(xi_sw((*(uint8_t *)((int)self_ + 0x30) & 0x70) >> 4)) {
+  case 0:
+    orig::nullsub_90_v1();
+    bVar1 = *(uint8_t *)((int)self_ + 0x30);
+    break;
+  case 1:
+  case 2:
+  case 3:
+    goto switchD_1001d818_caseD_1;
+  default:
+    orig::nullsub_90_v1();
+    bVar1 = *(uint8_t *)((int)self_ + 0x30);
+  }
+  orig::Unit10017C10_NoOpVarargsA_v1(c_dxtFourCCs + 0x28,(bVar1 & 0x70) >> 4,pvVar2);
+switchD_1001d818_caseD_1:
+  orig::Util_Copy16Bytes_v1(auStack_10,(int)self_ + 0x31);
+  pvVar2 = (void *)orig::TexMgr_FindByName_v1(g_pTextureMng_as_v2,(int)auStack_10,(int)self_,0);
+  if (pvVar2 == (void *)0x0) {
+    pvVar2 = (void *)orig::Mem_AllocDefault_v1(0x48);
+    if (pvVar2 == (void *)0x0) {
+      return;
+    }
+    pvVar2 = orig::TexObj_Constructor(pvVar2);
+    if (pvVar2 == (void *)0x0) {
+      return;
+    }
+    orig::FUN_1001d8e0(self_,(int)pvVar2);
+    orig::TexMgr_Enqueue(g_pTextureMng_as_v2,(int)pvVar2);
+    orig::FUN_10071f50(self_);
+    if (*(char *)((int)g_pTextureMng_as_v2 + 0x10) == '\x01') {
+      orig::TexObj_CreateAndUpload_v1(pvVar2);
+    }
+  }
+  *(int *)((int)pvVar2 + 4) = *(int *)((int)pvVar2 + 4) + 1;
+  return;
 }

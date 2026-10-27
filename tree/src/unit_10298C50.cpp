@@ -8,11 +8,11 @@ XI_API void __cdecl Texture_BindFromObject(int param_1)
 {
   if (param_1 != 0) {
     orig::sqgxTextureSet_v1(*(int *)(param_1 + 0x14));
-    orig::sqgxTextureSetPalette(*(int *)(param_1 + 0x18));
+    orig::sqgxTextureClut(*(int *)(param_1 + 0x18));
     return;
   }
   orig::sqgxTextureSet_v1(-1);
-  orig::sqgxTextureSetPalette(-1);
+  orig::sqgxTextureClut(-1);
   return;
 }
 

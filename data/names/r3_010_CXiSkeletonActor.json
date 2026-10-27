@@ -1,0 +1,14 @@
+{
+ "0x100CD920": {"name": "CXiSkeletonActor_SetMotionFromSources", "confidence": "low",
+  "evidence": "Body calls CXiSkeletonActor_SetMotion with its own 10 arguments on each candidate resource: the one given in param_11 or from vtable slot 0x400, each resident entry of the list at self+0x7E4, and the resource from vtable slot 0x1DC; non-resident resources (ResourceHandle_IsResident) stop the search. Bits of the three channels at model+0x24 are compared before and after through DAT_1048A38C. ret 44 (purges).",
+  "summary": "Applies a motion request to the actor through CXiSkeletonActor_SetMotion, trying its motion resources in turn; what the result means is not established."},
+ "0x100CF100": {"name": "CXiSkeletonActor_ForParts0To9", "confidence": "low",
+  "evidence": "Loop over part indices 0..9: when the short at self+0xB2 is 0, GetModelField170 is 1, vtable slot 800 returns non-zero and CXiSkeletonActor_FindPartValue is false, it calls sub_100D5FE0(self, i); otherwise sub_100D6180(self, i). ret 4 (purges).",
+  "summary": "For each of the 10 parts calls one of two per-part routines (sub_100D5FE0 or sub_100D6180), chosen by the actor's state; what they do is not established."},
+ "0x100CFB40": {"name": "CXiSkeletonActor_GetTableEntryByModelKind", "confidence": "medium",
+  "evidence": "A switch on CXiActor_GetModelField170 (with CXiActor_ModelTest95680/956A0 for the default) picks index 0, 1 or 2; it returns entry index*0x18 bytes into the table Skel_GetTableAfterBones gives for the model at self+0x674, or 0 when there is none.",
+  "summary": "Returns entry 0, 1 or 2 of the skeleton's after-bones table, chosen by the actor's model kind (field 170)."},
+ "0x100D43E0": {"name": "CXiSkeletonActor_GetSkeletonFileNo", "confidence": "medium",
+  "evidence": "Returns the 16-bit table value at 0x10330F34[i] + 0xCA53, with i the low byte of FUN_10087830() clamped to 0..1; its only caller is CXiSkeletonActor_LoadSkeletonSync.",
+  "summary": "Returns a file number (0xCA53 plus a table offset chosen by a 0/1 setting) used by CXiSkeletonActor_LoadSkeletonSync."}
+}

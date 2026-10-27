@@ -55,7 +55,7 @@ XI_API void __cdecl Sqgx_ResetPendingList(void)
 XI_API void __cdecl Sqgx_AddPendingEntry(undefined4 param_1, undefined4 * param_2, float param_3)
 {
   if (*(int *)(g_pSqgxContext_as_s32 + 0xaec) == 10) {
-    orig::sqDebugPrintf_v3(s_Error__cannot_allocate_more_than_103bc744,10);
+    orig::sqDebugPrintf_v1(s_Error__cannot_allocate_more_than_103bc744,10);
   }
   *(float *)(g_pSqgxContext_as_s32 + 0xa4c + *(int *)(g_pSqgxContext_as_s32 + 0xaec) * 4) =
        (float)(long double)param_3;

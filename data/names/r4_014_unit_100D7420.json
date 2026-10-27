@@ -1,0 +1,44 @@
+{
+ "0x100DBC70": {
+  "name": "Unit100D7420_ResetBlock1048FED0",
+  "confidence": "low",
+  "evidence": "Body: DAT_10492DB4 = 0x1048FED0; zeroes 0xBB9 dwords there; sets its byte +0x2EE1 to 2; returns AL 1. Called by sub_10102340 (Game_InitOnce).",
+  "summary": "Clears the block at 0x1048FED0, points 0x10492DB4 at it and sets its byte +0x2EE1 to 2."
+ },
+ "0x100E46A0": {
+  "name": "Unit100D7420_SendFlagPacketDC",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DFD98 set and a slot from Unit100D7420_CheckTimer41B4(0xDC, 1, 1), clears it, sets one flag bit chosen by arg1 (0..11, cases 4 and 7 send nothing), byte +0x10 = 1 or 2 by arg2, and Unit100D7420_SendRaw(slot, 0x14, 0); returns AL 1 when sent.",
+  "summary": "Sends a 0x14-byte packet carrying one flag bit chosen by the argument, through timer slot 0xDC."
+ },
+ "0x100EDFB0": {
+  "name": "Unit100D7420_StepRequest1FSequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): status text Unit1012AC80_GetMessageFwd(8, 8) into Unit100D7420_CopyToGlobalBuffer and Unit100D7420_QueueRequest1F, Unit100D7420_ProcessRingEntries until +0x13698 is 0, Unit100D7420_GetSessionData; returns 1 at step 4, -1 on failure or timeout, 0 otherwise. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x1F exchange with the session; 1 when finished, -1 on failure."
+ },
+ "0x100EE0A0": {
+  "name": "Unit100D7420_StepWait1030FF96",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, by *arg: step 0 shows Unit1012AC80_GetMessageFwd(8, 9) (Unit100D7420_CopyToGlobalBuffer) and stores FUN_1030FF8B() at +0x136A8; step 1 waits until FUN_1030FF96() is non-zero; a negative result is stored at +0x136AC and returns -1; returns 1 at step 4.",
+  "summary": "Steps through starting 0x1030FF8B and waiting on 0x1030FF96, with a status message; 1 when finished, -1 on failure."
+ },
+ "0x100EE690": {
+  "name": "Unit100D7420_StepRequest21Sequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): status text from Unit1012AC80_GetMessageFwd(8, 0x16) into Unit100D7420_CopyToGlobalBuffer, Unit100D7420_SetSessionData / QueueRequest21 / GetSessionData / ResetChannel, each followed by Unit100D7420_ProcessRingEntries until +0x13698 is 0; returns 1 when done, -1 on failure or timeout, 0 otherwise. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x21 exchange with the session; 1 when finished, -1 on failure."
+ },
+ "0x100EE900": {
+  "name": "Unit100D7420_StepRequest22Sequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): status text from Unit1012AC80_GetMessageFwd(8, 0x17) into Unit100D7420_CopyToGlobalBuffer, Unit100D7420_SetSessionData / QueueRequest22 / GetSessionData / ResetChannel, each followed by Unit100D7420_ProcessRingEntries until +0x13698 is 0; returns 1 when done, -1 on failure or timeout, 0 otherwise. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x22 exchange with the session; 1 when finished, -1 on failure."
+ },
+ "0x100EEB70": {
+  "name": "Unit100D7420_StepRequest28Sequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): status text from Unit1012AC80_GetMessageFwd(8, 0x18) into Unit100D7420_CopyToGlobalBuffer, Unit100D7420_SetSessionData / QueueRequest28 / GetSessionData / ResetChannel, each followed by Unit100D7420_ProcessRingEntries until +0x13698 is 0; returns 1 when done, -1 on failure or timeout, 0 otherwise. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x28 exchange with the session; 1 when finished, -1 on failure."
+ }
+}

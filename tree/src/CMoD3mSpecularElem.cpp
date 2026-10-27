@@ -28,7 +28,7 @@ uint64_t __thiscall CMoD3mSpecularElem::Ctor(void * self)
   else {
     *(uint32_t *)((int)self + 0x1b8) = 3;
   }
-  switch(*(uint32_t *)((int)self + 0x1b8)) {
+  switch(xi_sw(*(uint32_t *)((int)self + 0x1b8))) {
   case 0:
     *(uint8_t *)((int)self + 0x1bd) = 1;
     *(uint8_t *)((int)self + 0x1bc) = 0;
@@ -60,4 +60,61 @@ _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);
   return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+}
+
+// FUNCTION: FFXIMAIN 0x10041160  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoD3mSpecularElem::BindTintedTexture(void * self)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  int iVar3;
+  uint32_t uVar4;
+  int64_t lVar5;
+  int64_t lVar6;
+  int64_t lVar7;
+  uint8_t uStack_7;
+  uint8_t uStack_5;
+  
+  uVar2 = *(uint32_t *)((int)self + 0x10c) & 0xfffeffff | 0x2000000;
+  *(uint32_t *)((int)self + 0x10c) = uVar2;
+  uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x179))));
+  if (*(char *)((int)self + 0x179) == '\0') {
+    if (*(int **)((int)self + 0x104) == (int *)0x0) {
+      iVar3 = 0;
+    }
+    else {
+      iVar3 = **(int **)((int)self + 0x104);
+    }
+    if (*(char *)(iVar3 + 0x34) == '\0') {
+      *(uint8_t *)((int)self + 0x1bc) = 0;
+      *(uint8_t *)((int)self + 0x1bd) = 1;
+    }
+    uVar2 = *(uint32_t *)((int)self + 0x1ac);
+    uStack_7 = (uint8_t)(uVar2 >> 8);
+    uStack_5 = (uint8_t)(uVar2 >> 0x18);
+    if ((*(uint8_t *)((int)self + 0x198) & 1) == 0) {
+      lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)(g_scratchValue_as_v0 >> 0x10 & 0xff) *
+                     (long double)((uint16_t)(uVar2 >> 0x10) & 0xff) * (long double)0.0078125f);
+      uVar1 = g_scratchValue_as_v0;
+      lVar6 = XI_CALL_ST0(0x10311C2Cu)((long double)(g_scratchValue_as_v0 >> 8 & 0xff) *
+                     (long double)(((uint16_t)(((uint16_t)(uint8_t)((char)lVar5) << 8) | (uint8_t)(uStack_7))) & 0xff) * (long double)0.0078125f);
+      lVar7 = XI_CALL_ST0(0x10311C2Cu)((long double)(uVar1 & 0xff) * (long double)(uVar2 & 0xff) * (long double)0.0078125f);
+      uVar2 = CONCAT13(uStack_5,((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar7)))))));
+    }
+    if ((*(int **)((int)self + 0x1a8) != (int *)0x0) &&
+       (*(int *)(**(int **)((int)self + 0x1a8) + 0x30) != 0)) {
+      if (*(int **)((int)self + 0x1a8) == (int *)0x0) {
+        iVar3 = 0;
+      }
+      else {
+        iVar3 = **(int **)((int)self + 0x1a8);
+      }
+      uVar4 = orig::TextureHolder_BindTinted
+                        ((void *)(iVar3 + 0x30),(int)*(char *)((int)self + 0x1bd),uVar2);
+      return uVar4;
+    }
+    uVar4 = orig::FUN_10044250((int)*(char *)((int)self + 0x1bd),uVar2);
+  }
+  return uVar4;
 }

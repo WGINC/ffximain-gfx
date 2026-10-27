@@ -1,0 +1,8 @@
+{
+ "0x102748F0": {
+  "name": "Unit10274050_ScaleVec3ByInverseOf102746C0",
+  "confidence": "low",
+  "evidence": "Body: v = FUN_102746C0(p); when v != 0 multiplies p[0..2] by 1/v; returns v (in ST0).",
+  "summary": "Divides the three floats at p by what 0x102746C0 returns for p, when that is non-zero, and returns it."
+ }
+}

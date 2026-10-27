@@ -1,0 +1,14 @@
+{
+ "0x10001F20": {
+  "name": "Unit100014A0_FindTokenCopyDefault",
+  "confidence": "low",
+  "evidence": "returns Unit100014A0_FindTokenCopy(a, b, 0)",
+  "summary": "Finds a token with the third argument 0."
+ },
+ "0x10002D80": {
+  "name": "Unit100014A0_GetFloat10456A68Or1",
+  "confidence": "low",
+  "evidence": "returns 1.0 when the byte at 0x10487EF5 (0x10087110) is set, else the float at 0x10456A68",
+  "summary": "Returns 1.0 or the float at 0x10456A68, by a global flag."
+ }
+}

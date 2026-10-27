@@ -12,7 +12,7 @@ XI_API void __thiscall MoProcessor_CallVSlot49(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10074700  (unit unit_10074630: no unit evidence of its own; in the gap between 0x10074620 (CMoResource_VT_1032C588) and 0x10074730 (CMoTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10074700(void * self_)
+XI_API void __thiscall Unit10074630_ProcessorSlot41(void * self_)
 {
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0xa4))))((void *)(g_pProcessor_as_v1),self_);
   return;

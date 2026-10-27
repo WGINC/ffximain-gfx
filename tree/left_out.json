@@ -1,11 +1,13 @@
 {
 "0x10009920": "CDx_SetDefaultRenderState: calls 0x100098E0 reads EAX, which its wrapper does not pass",
 "0x10013AD0": "App_StepGameState5Connect: calls 0x1001E4B0 reads EAX, which its wrapper does not pass",
+"0x10018850": "sub_10018850: does not compile in this tree: no match for 'operator!=' (operand types are 'PTR_s_mov999_pmv_10350e54_t' {aka 'undefined4'} and 'undefined*' {aka 'unsigned char*'})",
 "0x10042D00": "CMoDistMorphElem_ValidateMorphData: calls 0x1006AE30 reads ECX, which its wrapper does not pass",
 "0x10048000": "CMoGeneratorClone_VT_1032B114_Destructor: calls 0x100538E0 reads EAX, which its wrapper does not pass",
 "0x10057FB0": "CMoSchedularTask_Interpret: calls 0x10062D50 reads EAX, which its wrapper does not pass",
 "0x1006B3B0": "sub_1006B3B0: calls 0x10044490 reads EAX, which its wrapper does not pass",
 "0x100A1AB0": "sub_100A1AB0: calls 0x100A19B0 reads EDX, which its wrapper does not pass",
 "0x100C63D0": "CXiSkeletonActor_OnMove: calls 0x10084350 reads EAX, which its wrapper does not pass",
-"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass"
+"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass",
+"0x101B8E70": "sub_101B8E70: calls 0x101BC740 reads ECX, which its wrapper does not pass"
 }

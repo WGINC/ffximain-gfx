@@ -37,12 +37,12 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
     param_1[4] = 0;
     param_1[5] = 0;
     if (param_1[6] != 0) {
-      orig::nullsub_13_v2(s_StModelItemClear_A___called_with_10389aa4,param_1[6]);
+      orig::Unit10017C10_NoOpVarargsA_v1(s_StModelItemClear_A___called_with_10389aa4,param_1[6]);
       uVar1 = orig::sqFree_v1(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xa9);
       param_1[6] = uVar1;
     }
     if (param_1[7] != 0) {
-      orig::nullsub_13_v2(s_StModelItemClear_A___called_with_10389a3c,param_1[7]);
+      orig::Unit10017C10_NoOpVarargsA_v1(s_StModelItemClear_A___called_with_10389a3c,param_1[7]);
       uVar1 = orig::sqFree_v1(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0xae);
       param_1[7] = uVar1;
     }
@@ -52,4 +52,74 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
     }
   }
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10252610  (unit StModel: between 0x102524E0 (asserts StModel.cpp) and 0x102526F0 (asserts StModel.cpp), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl StModelItem_ReadStart(int param_1, undefined4 param_2)
+{
+  int iVar1;
+  
+  if (((*(int *)(param_1 + 0x18) != 0) || (*(int *)(param_1 + 0x1c) != 0)) ||
+     (*(int *)(param_1 + 0x20) != 0)) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__StModelItemReadStart__10389b28);
+    orig::Unit10017C10_NoOpVarargsA_v1(g_10389B0C,*(uint32_t *)(param_1 + 0x18));
+    orig::Unit10017C10_NoOpVarargsA_v1(g_10389AF4,*(uint32_t *)(param_1 + 0x1c));
+    orig::Unit10017C10_NoOpVarargsA_v1(g_10389ADC,*(uint32_t *)(param_1 + 0x20));
+    return 0xffffffff;
+  }
+  *(int *)(param_1 + 4) = param_2;
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2,0,0,param_1,&LAB_10252840,XI_CODE(FUN_102526f0));
+  if (iVar1 < 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__DMB_file_not_found____10389b8c,param_2);
+    return 0xffffffff;
+  }
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2 + 1,0,0,param_1,&LAB_10252880,XI_CODE(FUN_10252790));
+  if (iVar1 < 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__DMP_file_not_found____10389b68,param_2 + 1);
+    return 0xffffffff;
+  }
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x102528D0  (unit StModel: asserts StModel.cpp)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl StModelItem_Resolve(uint32_t * param_1)
+{
+  uint32_t uVar1;
+  int iVar2;
+  
+  if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 4) != 0)) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____StModelItemResolve____called_10389c28);
+    return 0xffffffff;
+  }
+  if ((param_1[6] != 0) && (param_1[7] != 0)) {
+    uVar1 = orig::SqTimer_GetMicroseconds_v1();
+    param_1[5] = uVar1;
+    orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
+    uVar1 = orig::SqmdDMB_Resolve((char *)param_1[6],param_1[7]);
+    param_1[8] = uVar1;
+    orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
+    param_1[5] = iVar2 - param_1[5];
+    if (param_1[8] == 0) {
+      orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolve__p___p_10389bfc,param_1[6],param_1[7]);
+      param_1[3] = 0;
+      param_1[4] = 0;
+      uVar1 = orig::sqFree_v1(param_1[6],s_D__build0001_FFXi_Win_Main_dance_10389a74,0x152);
+      param_1[6] = uVar1;
+      uVar1 = orig::sqFree_v1(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0x153);
+      param_1[7] = uVar1;
+      return 0xffffffff;
+    }
+    param_1[6] = 0;
+    uVar1 = orig::sqFree_v1(param_1[7],s_D__build0001_FFXi_Win_Main_dance_10389a74,0x159);
+    param_1[7] = uVar1;
+    *param_1 = *param_1 & 0xfffffffd | 4;
+    return 0;
+  }
+  orig::Unit10017C10_NoOpVarargsA_v1(s_____StModelItemResolve____called_10389bc8);
+  orig::Unit10017C10_NoOpVarargsA_v1(g_10389B0C,param_1[6]);
+  orig::Unit10017C10_NoOpVarargsA_v1(g_10389AF4,param_1[7]);
+  return 0xffffffff;
 }

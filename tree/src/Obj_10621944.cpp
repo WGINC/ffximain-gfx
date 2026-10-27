@@ -13,7 +13,7 @@ int Obj_10621944::Obj_10621944_Draw()
   {
     orig::Obj_10621944_DrawBgRect(self);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
-    orig::sub_1019EBB0(this->field_C);
+    orig::Unit1018BA60_DrawTextBlockOnce(this->field_C);
     return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
   }
   return result;

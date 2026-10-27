@@ -1,0 +1,134 @@
+{
+ "0x10152EF0": {
+  "name": "Unit1012AC80_GetMessageFwd",
+  "confidence": "low",
+  "evidence": "forwards its two arguments to 0x10152F20 (Unit1012AC80_GetMessage); called from many places",
+  "summary": "Looks up a message by table and index (through Unit1012AC80_GetMessage)."
+ },
+ "0x10152F20": {
+  "name": "Unit1012AC80_GetMessage",
+  "confidence": "low",
+  "evidence": "finds table id arg1 among the 28 pairs at 0x10371DA8 and returns row arg2's first cell of its bound table (0x10257950); otherwise, when the loaded block 0x10578548[arg1] exists, returns 0x101530C0 on it",
+  "summary": "Returns the text of row arg2 of message table arg1."
+ },
+ "0x10152FF0": {
+  "name": "Unit1012AC80_LoadMessageBlock",
+  "confidence": "low",
+  "evidence": "reads the file arg2 into a new block (FileMng_ResolveOrExit, malloc, Unit1018BA60_ForwardOrExit) and stores it at 0x10578548[arg1]; returns 1 in AL on success",
+  "summary": "Loads a file into message block slot arg1."
+ },
+ "0x10153150": {
+  "name": "Unit1012AC80_FormatMessage4",
+  "confidence": "low",
+  "evidence": "calls 0x10153A40 with its four arguments, 0 and a pointer to the variadic part",
+  "summary": "Formats a message with arguments (four fixed)."
+ },
+ "0x10153180": {
+  "name": "Unit1012AC80_FormatMessage5",
+  "confidence": "low",
+  "evidence": "calls 0x10153A40 with its five arguments and a pointer to the variadic part",
+  "summary": "Formats a message with arguments (five fixed)."
+ },
+ "0x101531D0": {
+  "name": "Unit1012AC80_ReadArgCode",
+  "confidence": "low",
+  "evidence": "decodes a message argument code: 1 takes argument (byte&0x7F) from the array arg3, 2 a 7-bit value, 3 a 14-bit value (Unit1012AC80_Read2Byte7Bit); returns the bytes used",
+  "summary": "Decodes one argument code of a message string."
+ },
+ "0x10153230": {
+  "name": "Unit1012AC80_FormatDecimal",
+  "confidence": "low",
+  "evidence": "writes the decimal digits of arg3 and a NUL into the buffer arg1 when they fit in arg2 bytes; returns the digit count, or -1",
+  "summary": "Writes a number's decimal digits into a buffer."
+ },
+ "0x10153AF0": {
+  "name": "Unit1012AC80_LoadMessageBlocksSetA",
+  "confidence": "low",
+  "evidence": "loads the files 0x2D, 0x1E and 0x20 into the blocks 0, 8 and 10 (Unit1012AC80_LoadMessageBlock); 1 in AL when all succeed",
+  "summary": "Loads message blocks 0, 8 and 10 from the first file set."
+ },
+ "0x10153B30": {
+  "name": "Unit1012AC80_LoadMessageBlocksSetB",
+  "confidence": "low",
+  "evidence": "loads the files 0x3F, 0x30 and 0x32 into the blocks 0, 8 and 10; 1 in AL when all succeed",
+  "summary": "Loads message blocks 0, 8 and 10 from the second file set."
+ },
+ "0x10153C10": {
+  "name": "Unit1012AC80_LoadAllMessageTables",
+  "confidence": "low",
+  "evidence": "after 0x10153B70, loads the message blocks for the scene's language (set A for language 0, set B for 2/3 with the flag, else the files of tables 8 and 10), then the string tables of tables 6, 7, 3, 4, 9, 11..14, 2 and others into their objects (fn_10153EF0); called by App_InitScene",
+  "summary": "Loads the message blocks and string tables for the current language."
+ },
+ "0x10153EF0": {
+  "name": "Unit1012AC80_LoadStringTable",
+  "confidence": "low",
+  "evidence": "reads the file arg2 (FileMng_ResolveOrExit, Unit1018BA60_ForwardOrExit) and, when it starts with the header 0x1033CE74, binds it to the table arg1 (Unit10253A20_Assign); 1 in AL on success",
+  "summary": "Loads a file into a string table object."
+ },
+ "0x10153F80": {
+  "name": "Unit1012AC80_DtorVt103350EC",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103350EC",
+  "summary": "Resets an object to vtable 0x103350EC on destruction."
+ },
+ "0x10154070": {
+  "name": "Unit1012AC80_MessageSetCtor",
+  "confidence": "low",
+  "evidence": "clears +4, the list at +8 (Unit1021D930_Clear), the table at +0x64 (Unit10253A20_Clear) and +0x78..+0x80; Unit1012AC80_GetInstance calls it on 0x105786D8",
+  "summary": "Constructs the message set object."
+ },
+ "0x10154570": {
+  "name": "Unit1012AC80_LoadMessageSet",
+  "confidence": "low",
+  "evidence": "reads the file of table 0x3F and, when it starts with the header 0x1033CE74, keeps its 64-byte header at +0x24, builds each row's text (0x101542B0) into a string list at +8 (Unit1021D930_Alloc/Append) with their ids at +4 and the count at +0; returns whether it loaded",
+  "summary": "Loads table 0x3F's rows and builds their texts into a string list."
+ },
+ "0x10154860": {
+  "name": "Unit1012AC80_UpdatePendingRead",
+  "confidence": "low",
+  "evidence": "in state 1 of +0x78 with nothing pending at +0x88, asks the file manager about the read of table 0x3F into +0x7C (0x101C4A10) and, when it is done (or in state 2), frees the buffer (Unit1012AC80_ReleaseField7C) and resets the state; clears +0x88; called by Frame_Render",
+  "summary": "Finishes a pending read and frees its buffer."
+ },
+ "0x101549E0": {
+  "name": "Unit1012AC80_GetCount",
+  "confidence": "low",
+  "evidence": "returns +0",
+  "summary": "Returns the count at +0."
+ },
+ "0x10154A80": {
+  "name": "Unit1012AC80_DtorVt103350F8",
+  "confidence": "low",
+  "evidence": "sets vtable 0x103350F8 and calls 0x10258600",
+  "summary": "Destroys an object with vtable 0x103350F8."
+ },
+ "0x10154AB0": {
+  "name": "Unit1012AC80_CtorVt103350F8",
+  "confidence": "low",
+  "evidence": "clears +0x10..+0x18 and sets vtable 0x103350F8",
+  "summary": "Constructs an object with vtable 0x103350F8."
+ },
+ "0x10154DC0": {
+  "name": "Unit1012AC80_CtorVt1033512C",
+  "confidence": "low",
+  "evidence": "clears +4, constructs the member at +0x10 (Unit1012AC80_CtorVt103350F8) and sets vtable 0x1033512C",
+  "summary": "Constructs an object with vtable 0x1033512C."
+ },
+ "0x10154E30": {
+  "name": "Unit1012AC80_SetEntryWithStrings",
+  "confidence": "low",
+  "evidence": "calls its vtable slot 1 (clear), stores arg1 at +8, copies the strings arg4, arg5 and arg7 into one new block at +4 and sets the entry's fields (Entry_Init6)",
+  "summary": "Copies an entry's three strings into one block it owns and sets its fields."
+ },
+ "0x10154F30": {
+  "name": "Unit1012AC80_DtorVt10335138",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10335138 and calls 0x10258830",
+  "summary": "Destroys an object with vtable 0x10335138."
+ },
+ "0x10154F60": {
+  "name": "Unit1012AC80_CtorVt10335138",
+  "confidence": "low",
+  "evidence": "clears +4/+0x10, points +8 and +0xC at the empty string and sets vtable 0x10335138",
+  "summary": "Constructs an object with vtable 0x10335138 and two empty strings."
+ }
+}

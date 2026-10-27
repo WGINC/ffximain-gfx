@@ -1,0 +1,32 @@
+{
+ "0x1027E190": {
+  "name": "Unit1027E120_SetCallback",
+  "confidence": "low",
+  "evidence": "stores its second and third arguments at +0x60 and +0x64; Unit10274050_Relink passes the function 0x102742C0 and a value",
+  "summary": "Sets the callback and its argument at +0x60/+0x64."
+ },
+ "0x1027E3B0": {
+  "name": "Unit1027E120_ReleaseConnection",
+  "confidence": "low",
+  "evidence": "when bit 2 of the flag byte is set, frees the object at +0x1C and its +0x28 through 0x10285740, resets the connector at +0x20 (SqcoConnector_Init) and clears bit 2 (Unit1027E120_UpdateMask); returns 1",
+  "summary": "Frees the object's connected resource and resets its connector."
+ },
+ "0x1027E440": {
+  "name": "Unit1027E120_IsConnected",
+  "confidence": "low",
+  "evidence": "returns bit 1 of the first byte, the bit Unit1027E120_ReleaseConnection clears",
+  "summary": "Reports whether the flag bit 2 (connected) is set."
+ },
+ "0x1027E450": {
+  "name": "Unit1027E120_UpdateRange",
+  "confidence": "low",
+  "evidence": "when bit 4 of the flag byte is set, sets +8 and +0x10 to [+0x18]+0xAC / ([+0x18]+0xA8 - [+0x18]+0xA4) * [[+0x14]+0xB8]+0x24, and +0xC to that plus [+0x1C]+0x24; returns its argument",
+  "summary": "Recomputes the start and end values at +8/+0xC from the linked objects."
+ },
+ "0x1027EAF0": {
+  "name": "Unit1027E120_Forward1027EBD0",
+  "confidence": "low",
+  "evidence": "calls 0x1027EBD0 with its argument",
+  "summary": "Forwards to 0x1027EBD0."
+ }
+}

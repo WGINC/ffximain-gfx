@@ -8,7 +8,7 @@ public:
     char DrawModel(_DWORD *a2, __int16 *a3, int a4, _DWORD *a5, int a6, int a7, unsigned int a8);  // 0x1002B6E0
     static uint32_t __thiscall AnimateModels(void * self, int * param_1, int param_2, uint32_t param_3, undefined4 xi_s4);  // 0x1002C2D0
     void PrepareModelsOnce(int a2, int a3);  // 0x1002C360
-    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
+    static undefined4 __thiscall GetElemThunk(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, float * param_4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7);  // 0x1002C3E0
     static int __thiscall GetModelElem(void * self, uint32_t param_1, int param_2);  // 0x1002C5C0
     _BYTE * PoseCompose(int a2, int a3, int a4, int a5, _BYTE *a6);  // 0x100343C0
     char * GetEnglishName();  // 0x10082F20
@@ -75,11 +75,14 @@ public:
     int Constructor_Factory(_DWORD *a2, int a3, int a4);  // 0x100C59B0
     char DestructorBody();  // 0x100C5C00
     int Init();  // 0x100C5D60
+    static void __thiscall PlaceAttachedInRing(void * self, undefined4 xi_s1);  // 0x100C9C10
+    static void __thiscall CopyModelValuesTo(void * self, int param_1);  // 0x100CB390
     void RunStaggeredUpdates();  // 0x100CBD60
     void PerActor_FourBucketStaggeredUpdate();  // 0x100CBDE0
     char * SetMotion(int *a2, float a3);  // 0x100CD490
     static void __thiscall SetSlotMotion(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, int param_7);  // 0x100CD4E0
     static undefined4 __thiscall SetMotion(void * self, int * param_1, uint32_t param_2, undefined4 param_3, float param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, int param_9, undefined4 param_10, undefined4 param_11);  // 0x100CD540
+    static undefined4 __thiscall SetMotionFromSources(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, int * param_10, int param_11);  // 0x100CD920
     static void __thiscall UpdateRandomTimer(void * self);  // 0x100CDF90
     static void __thiscall AdvanceMotionQueue(void * self);  // 0x100CE160
     _DWORD * ReverseFindRes(_DWORD *a2, int a3, int a4, int a5, int a6, char a7);  // 0x100CE480
@@ -90,24 +93,36 @@ public:
     char SetAttack(int a2, int a3, int a4, char *Source);  // 0x100CEE00
     static undefined4 __thiscall SetAction(void * self, undefined4 * param_1, undefined4 param_2, int param_3);  // 0x100CEE40
     int SetAttack_SchStatus(int a2);  // 0x100CF030
+    static undefined8 __thiscall ForParts0To9(void * self, undefined4 xi_s1);  // 0x100CF100
     void vf172(int a2);  // 0x100CF200
     static void __thiscall AddResourceParts(void * self, int * param_1, void * param_2);  // 0x100CFA50
     static undefined * __thiscall GetTableOrDefault(void * self, int param_1);  // 0x100CFAD0
+    static int __thiscall GetTableEntryByModelKind(void * self);  // 0x100CFB40
+    static undefined4 __thiscall Slot244_Unknown(void * self, float * param_1, float * param_2, int param_3);  // 0x100CFC10
     char * GetField878Ptr_Candidate();  // 0x100D04B0
     char GetNamePos(int a2, float *a3, int a4);  // 0x100D04C0
+    static undefined4 __thiscall OnDrawName(void * self);  // 0x100D0510
     char GetArrowPos(int a2, int a3, int a4);  // 0x100D06F0
     static undefined4 __stdcall ProjectToScreen(float * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x100D0740
     static void __thiscall DrawNameIfVisible(void * self, undefined4 * param_1, char * param_2, float param_3, uint32_t param_4, uint32_t param_5);  // 0x100D0880
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80
+    static undefined4 __thiscall AddPartAndMarkSlot(void * self, int * param_1, int param_2, int param_3, undefined4 param_4);  // 0x100D0B50
     static undefined4 __thiscall SetField0B4IfField9EC(void * self, int * param_1, int param_2);  // 0x100D0D40
     static void __thiscall SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x100D0FC0
+    static undefined4 __thiscall RunPendingPartStep(void * self);  // 0x100D1070
+    static undefined4 __thiscall ChoosePendingPartStep(void * self);  // 0x100D1190
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
-    char LoadSkeletonResource(int a2);  // 0x100D4330
+    static undefined4 __thiscall LoadSkeletonSync(void * self, uint32_t param_1);  // 0x100D2F60
+    static undefined4 __thiscall LoadSkeletonResource(void * self, undefined4 param_1);  // 0x100D4330
+    static int __cdecl GetSkeletonFileNo();  // 0x100D43E0
     static int __thiscall AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100D4410
     static int __thiscall FindListEntry(void * self, int param_1);  // 0x100D4540
+    static undefined4 __thiscall SetFlag840Bit23(void * self, undefined4 param_1);  // 0x100D5430
     char IsDirectionLock_Set(char a2);  // 0x100D5460
+    static void __thiscall BuildBasisFromVf210(void * self, float * param_1);  // 0x100D59A0
+    static void __thiscall UpdateHeadLook(void * self);  // 0x100D5B10
     static uint32_t __thiscall FindPartValue(void * self, int * param_1);  // 0x100D6240
     char * DrawResourceShadows();  // 0x100D62C0
     void vf033();  // 0x100D6F90

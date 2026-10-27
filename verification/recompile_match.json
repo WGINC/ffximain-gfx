@@ -1,0 +1,394 @@
+{
+"0x10005A00": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x100096B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_100096B0.cpp"
+},
+"0x10009710": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10009710.cpp"
+},
+"0x10009EA0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10009EA0.cpp"
+},
+"0x10009EE0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10009EE0.cpp"
+},
+"0x10009F20": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10009F20.cpp"
+},
+"0x1000A550": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000A550.cpp"
+},
+"0x1000A5A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000A5A0.cpp"
+},
+"0x1000BB90": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000BB90.cpp"
+},
+"0x1000BF30": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000BF30.cpp"
+},
+"0x1000CB20": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000CB20.cpp"
+},
+"0x1000CC00": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000CC00.cpp"
+},
+"0x1000CD00": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000CD00.cpp"
+},
+"0x1000CF20": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1000CF20.cpp"
+},
+"0x1000D100": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1000D100.c"
+},
+"0x10014CF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10014E60": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10014E60.c"
+},
+"0x10014E80": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10014E80.c"
+},
+"0x10014EB0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10014EB0.c"
+},
+"0x10014ED0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10014ED0.c"
+},
+"0x1001A850": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x1001D0A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1001D0A0.cpp"
+},
+"0x1001D240": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1001D240.cpp"
+},
+"0x1001D350": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1001D350.cpp"
+},
+"0x10025C40": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10025C40.cpp"
+},
+"0x10026E90": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10026EB0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10026F20": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10027120": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x100272B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10027990": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x100279A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x100279B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10027CD0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10027CF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10033710": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10033710.cpp"
+},
+"0x10033800": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10033800.cpp"
+},
+"0x10036050": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10036050.c"
+},
+"0x100360A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100360A0.c"
+},
+"0x10038930": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10038930.cpp"
+},
+"0x1003D9A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1003D9A0.cpp"
+},
+"0x1003DB60": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1003DB60.cpp"
+},
+"0x1003E910": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1003E910.cpp"
+},
+"0x1003E9A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1003E9A0.cpp"
+},
+"0x1003EB30": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1003EB30.cpp"
+},
+"0x10041AF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10041AF0.cpp"
+},
+"0x100431B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_100431B0.cpp"
+},
+"0x10043F40": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10043F40.cpp"
+},
+"0x100472F0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_100472F0.cpp"
+},
+"0x1006AF00": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1006AF00.cpp"
+},
+"0x1006AF90": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1006AF90.cpp"
+},
+"0x1006C220": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1006C220.cpp"
+},
+"0x1006C280": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1006C280.cpp"
+},
+"0x1006C8B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_1006C8B0.cpp"
+},
+"0x10075960": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10075960.cpp"
+},
+"0x10076520": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10076520.cpp"
+},
+"0x1008A9E0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1008A9E0.c"
+},
+"0x100E1B50": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100E1B50.c"
+},
+"0x100E6880": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100E6880.c"
+},
+"0x100EF6F0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100EF6F0.c"
+},
+"0x100F9DA0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100F9DA0.c"
+},
+"0x100FC510": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_100FC510.c"
+},
+"0x101039E0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_101039E0.c"
+},
+"0x10103A90": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10103A90.c"
+},
+"0x10103B10": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10103B10.c"
+},
+"0x10108590": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10108590.c"
+},
+"0x1011BBD0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1011BBD0.cpp"
+},
+"0x10122E20": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10122E20.c"
+},
+"0x10123650": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10123650.c"
+},
+"0x10123680": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10123680.c"
+},
+"0x10126320": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10126350": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x10161FF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10161FF0.c"
+},
+"0x10177B40": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10177B40.cpp"
+},
+"0x10177C50": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10177C50.cpp"
+},
+"0x1018B860": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1018B860.cpp"
+},
+"0x101938B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_101938B0.c"
+},
+"0x101BA5C0": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
+"0x101CC510": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_101CC510.c"
+},
+"0x101CC550": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_101CC550.c"
+},
+"0x1022B290": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1022B290.c"
+},
+"0x102577C0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_102577C0.c"
+},
+"0x10257800": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10257800.c"
+},
+"0x1025C0F0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1025C0F0.c"
+},
+"0x1025E210": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1025E210.c"
+},
+"0x10271D70": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10271D70.c"
+},
+"0x102778C0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_102778C0.c"
+},
+"0x10277A50": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10277A50.c"
+},
+"0x1027A720": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1027A720.c"
+},
+"0x10281B60": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10281B60.c"
+},
+"0x10283260": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10283260.c"
+},
+"0x10283380": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10283380.c"
+},
+"0x102833A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_102833A0.c"
+},
+"0x102838A0": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_102838A0.c"
+},
+"0x10291F10": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10291F10.c"
+},
+"0x1029BD40": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1029BD40.c"
+},
+"0x1029C460": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_1029C460.c"
+},
+"0x102A3540": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_102A3540.c"
+}
+}

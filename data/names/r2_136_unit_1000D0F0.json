@@ -1,0 +1,8 @@
+{
+ "0x1000D150": {
+  "name": "Unit1000D0F0_ByteSwap32",
+  "confidence": "medium",
+  "evidence": "returns the four bytes of its argument in reverse order (((x & 0xFF00) | x << 16) << 8 | ((x & 0xFF0000) | x >> 16) >> 8); called by Unit10253A20_SwapEndianPair",
+  "summary": "Reverses the byte order of a 32-bit value."
+ }
+}

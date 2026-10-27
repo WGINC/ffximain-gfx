@@ -1,0 +1,170 @@
+{
+ "0x10115B20": {
+  "name": "Unit100D7420_QueueRequest22",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x22 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x12; returns 1, else 0",
+  "summary": "Builds request 0x22 into a free buffer, queues it and waits in state 0x12."
+ },
+ "0x10115BB0": {
+  "name": "Unit100D7420_QueueRequest24",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), takes one (fn_1026DBCE), builds request 0x24 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x13; returns 1, else 0",
+  "summary": "Builds request 0x24 into a free buffer, queues it and waits in state 0x13."
+ },
+ "0x10115C30": {
+  "name": "Unit100D7420_QueueRequest28",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x28 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x14; returns 1, else 0",
+  "summary": "Builds request 0x28 into a free buffer, queues it and waits in state 0x14."
+ },
+ "0x10115CC0": {
+  "name": "Unit100D7420_QueueRequest2B",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x2B into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x15; returns 1, else 0",
+  "summary": "Builds request 0x2B into a free buffer, queues it and waits in state 0x15."
+ },
+ "0x101163A0": {
+  "name": "Unit100D7420_IsStateActive",
+  "confidence": "low",
+  "evidence": "returns 1 when +0x2F0F8 is neither 0 nor 6",
+  "summary": "Reports whether the connection state at +0x2F0F8 is active (not 0 or 6)."
+ },
+ "0x101163C0": {
+  "name": "Unit100D7420_SetKey64",
+  "confidence": "low",
+  "evidence": "sets +0xA20 of the session data to 1 and copies 64 bytes from arg2 to +0xA24",
+  "summary": "Stores a 64-byte value in the session data and marks it present."
+ },
+ "0x101163F0": {
+  "name": "Unit100D7420_SetPairA18",
+  "confidence": "low",
+  "evidence": "copies two dwords from arg2 to +0xA18/+0xA1C of the session data; returns 1",
+  "summary": "Stores a pair of values in the session data."
+ },
+ "0x10116420": {
+  "name": "Unit100D7420_SetField1A1C",
+  "confidence": "low",
+  "evidence": "stores arg2 at +0x1A1C of the session data; returns 1",
+  "summary": "Sets the session data field +0x1A1C."
+ },
+ "0x10116440": {
+  "name": "Unit100D7420_GetField1A20",
+  "confidence": "low",
+  "evidence": "stores the session data's +0x1A20 in *arg2; returns 1",
+  "summary": "Reads the session data field +0x1A20."
+ },
+ "0x10116460": {
+  "name": "Unit100D7420_GetField1A24",
+  "confidence": "low",
+  "evidence": "stores the session data's +0x1A24 in *arg2; returns 1",
+  "summary": "Reads the session data field +0x1A24."
+ },
+ "0x10116480": {
+  "name": "Unit100D7420_SetPair1A2C",
+  "confidence": "low",
+  "evidence": "stores arg2/arg3 at +0x1A2C/+0x1A30 of the session data and counts +0x1A28 up",
+  "summary": "Stores a pair in the session data and counts the stores."
+ },
+ "0x101164B0": {
+  "name": "Unit100D7420_GetField13C",
+  "confidence": "low",
+  "evidence": "stores the session data's +0x13C in *arg2; returns 1",
+  "summary": "Reads the session data field +0x13C."
+ },
+ "0x101164D0": {
+  "name": "Unit100D7420_SetBlock10",
+  "confidence": "low",
+  "evidence": "copies four dwords from arg2 to +0x10..+0x1C of the session data; returns 1",
+  "summary": "Stores a 16-byte value in the session data."
+ },
+ "0x10116D30": {
+  "name": "Unit100D7420_NextSequence",
+  "confidence": "low",
+  "evidence": "returns arg2+1; with bit 1 of +0x134 set also formats it with the string 0x1036C178 (\"...MD5 %d\") into a local buffer",
+  "summary": "Returns the next sequence number."
+ },
+ "0x10116D80": {
+  "name": "Unit100D7420_ComputeDigest16",
+  "confidence": "low",
+  "evidence": "with bit 1 of +0x134 clear copies the 16 bytes of arg3 to arg4; otherwise hashes arg3 with the seed arg2 (Unit100D7420_HashBytesWithSeed when +0xA20 is set, else Unit100D7420_HashStringWithSeed) into arg4",
+  "summary": "Produces the 16-byte digest of a value, or copies it when hashing is off."
+ },
+ "0x101170D0": {
+  "name": "Unit100D7420_SetPair",
+  "confidence": "low",
+  "evidence": "stores arg1 at +0 and arg2 at +4",
+  "summary": "Stores two values."
+ },
+ "0x101172C0": {
+  "name": "Unit100D7420_MenuCtor",
+  "confidence": "low",
+  "evidence": "clears the words, the list at +0x14 (Unit100D7420_Clear) and dozens of fields, sets +0xC4 to {0, this}, +0x4A/+0x4C to -1, +0x94 to -999 and +0xCC to 0x80808080",
+  "summary": "Constructs a menu object with its default fields."
+ },
+ "0x10117460": {
+  "name": "Unit100D7420_DeleteAllEntries",
+  "confidence": "low",
+  "evidence": "removes every entry of the list +0x14 (Unit100D7420_Remove) and deletes it (kind 0 through 0x10119360), then frees +0x88 and resets the list",
+  "summary": "Removes and deletes all entries of a menu."
+ },
+ "0x10117F30": {
+  "name": "Unit100D7420_InvokeChild34",
+  "confidence": "low",
+  "evidence": "when +0xC holds an object, calls its vtable slot 13 (+0x34)",
+  "summary": "Calls slot 13 of the menu's child object."
+ },
+ "0x10118170": {
+  "name": "Unit100D7420_AttachSelection",
+  "confidence": "low",
+  "evidence": "finds the entry for arg (0x101181D0) and attaches every kind-2 entry to it (Unit100D7420_AttachTo), storing it at +8",
+  "summary": "Attaches the menu's kind-2 entries to the selected entry."
+ },
+ "0x10118520": {
+  "name": "Unit100D7420_NoOpB",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ },
+ "0x101185E0": {
+  "name": "Unit100D7420_GetFocusedValueA",
+  "confidence": "low",
+  "evidence": "when this menu is the focused one (Menu_GetFocusedItem), returns the first kind-0 entry's +0x3C, or its +0x28 when that is 0; else 0",
+  "summary": "Returns a value of the focused menu's first entry."
+ },
+ "0x10118640": {
+  "name": "Unit100D7420_GetFocusedValueB",
+  "confidence": "low",
+  "evidence": "as Unit100D7420_GetFocusedValueA with the fields +0x40 and +0x2C",
+  "summary": "Returns another value of the focused menu's first entry."
+ },
+ "0x101187F0": {
+  "name": "Unit100D7420_MenuStartFade",
+  "confidence": "low",
+  "evidence": "sets +0x10 to 0xE, clears +0x66, and sets +0x64 to the word 0x1036C190 when +0x68 is set, else 0",
+  "summary": "Starts the menu's fade (state 0xE)."
+ },
+ "0x10118870": {
+  "name": "Unit100D7420_SelectFirstVisible",
+  "confidence": "low",
+  "evidence": "takes the item's offset (Unit100D7420_GetOffsets on +4, at least 1) unless flag 0x10000 of +0x34 is set, and selects it (fn_10118E90)",
+  "summary": "Selects the menu's starting entry."
+ },
+ "0x10118DB0": {
+  "name": "Unit100D7420_SelectEntryMoveCursor",
+  "confidence": "low",
+  "evidence": "clamps the index to 1..[+0x58]; when it changes, unselects the old entry (state 0), selects the new one (state 3, +0x24 = 1), stores it at +0x4C and attaches the selection (Unit100D7420_AttachSelection); with arg3 set moves the cursor to the entry's centre (Cursor_SetPosition); then refreshes (0x101186A0)",
+  "summary": "Selects a menu entry and moves the cursor onto it."
+ },
+ "0x10118E90": {
+  "name": "Unit100D7420_SelectEntry",
+  "confidence": "low",
+  "evidence": "as Unit100D7420_SelectEntryMoveCursor without moving the cursor",
+  "summary": "Selects a menu entry."
+ },
+ "0x10118F20": {
+  "name": "Unit100D7420_SetChildOwner",
+  "confidence": "low",
+  "evidence": "stores this at +8 of the child object +0xC",
+  "summary": "Makes the menu the owner of its child object."
+ }
+}

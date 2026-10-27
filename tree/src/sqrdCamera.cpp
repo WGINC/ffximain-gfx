@@ -25,6 +25,6 @@ XI_API void __cdecl SqrdCamera_Init(undefined4 * param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqrdCamera_Apply(int param_1)
 {
-  orig::sqgxPerspective(*(float *)(param_1 + 0x14),*(float *)(param_1 + 0x18),*(float *)(param_1 + 0x1c));
+  orig::Unit102822A0_SetPerspective(*(float *)(param_1 + 0x14),*(float *)(param_1 + 0x18),*(float *)(param_1 + 0x1c));
   return;
 }

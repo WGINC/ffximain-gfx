@@ -50,6 +50,24 @@ def jdiff(a, b):
     return [] if a == b else ['<whole file>']
 
 
+def fact_commands(texp, raw_gate):
+    """[(fact file in data/, the pipeline/ command that derives it into {o})], in the order each reads the ones
+    before it (regen_facts.py runs the same list)"""
+    return [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
+             ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
+             ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
+             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('indirect_targets.json', 'indirect_targets.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'), ('call_pushes.json', 'call_pushes.py {o}'),
+             ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
+             ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
+             ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
+             ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
+             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('ret_full.json', 'ret_width.py /dev/null {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('import_returns.json', 'import_returns.py {o}'), ('eax_inputs.json', 'caller_reads.py /dev/null /dev/null {o} {o}.sites'), ('eax_kept_sites.json', 'caller_reads.py /dev/null /dev/null {o}.inputs {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('regs_after.json', 'regs_after.py {o}'), ('import_pops.json', 'import_pops.py {o}'), ('reg_saved.json', 'reg_saved.py {o}'), ('this_flow.json', 'this_flow.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
+             ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
+             ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
+             ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
+             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, raw_gate))]     # the verified raw translation's
+
+
 def main():
     quick = '--quick' in sys.argv
     jobs = sys.argv[sys.argv.index('--jobs') + 1] if '--jobs' in sys.argv else str(os.cpu_count())
@@ -68,19 +86,25 @@ def main():
     src = load(os.path.join(ROOT, 'tree', 'source.json')); texp = os.path.join(tmp, 'tree_export.jsonl')
     sh('git show %s:data/exports/gfx_export.jsonl > %s' % (src['export_commit'], texp))
     # 2 facts re-derived (each tool reads the committed inputs it depends on, so the chain is checked link by link)
-    facts = [('purges.json', 'purges.py "$FFXI_DLL" {o}'), ('ret_kinds.json', 'ret_kinds.py "$FFXI_DLL" {o}'),
-             ('fp_consts.json', 'fpconst.py "$FFXI_DLL" %s {o}' % EXP), ('fp_callsites.json', 'fp_callsites.py "$FFXI_DLL" %s {o}' % EXP),
-             ('fpret.json', 'fpret.py "$FFXI_DLL" data/func_extents.json {o}'),
-             ('vcalls.json', 'vcall_resolve.py {o}'), ('com_calls.json', 'com_calls.py {o}'), ('sp_solved.json', 'sp_solve.py {o}'),
-             ('cdecl_args.json', 'cdecl_args.py "$FFXI_DLL" {o}'), ('leaf_funcs.json', 'leaf_funcs.py "$FFXI_DLL" {o}'),
-             ('callsite_args.json', 'callsites.py %s {o}' % EXP), ('callsite_audit.json', 'callsite_audit.py %s {o}' % EXP),
-             ('ida_sp_audit.json', 'ida_sp_check.py %s {o}' % EXP), ('fcmp_exact.json', 'fcmp.py --export %s {o}' % EXP),
-             ('edx_use.json', 'edx_inputs.py {o}'), ('ecx_this_sites.json', 'ecx_this_sites.py {o}'),
-             ('reg_kept_audit.json', 'reg_kept_audit.py {o}'), ('entry_regs.json', 'entry_regs.py {o}'), ('reg_keeps.json', 'reg_keeps.py {o}'), ('tail_purges.json', 'tail_purges.py {o}'), ('ret_width.json', 'ret_width.py {o}'), ('caller_reads.json', 'caller_reads.py {o}'), ('eax_entry_unseen.json', 'caller_reads.py /dev/null {o}'), ('import_returns.json', 'import_returns.py {o}'), ('eax_inputs.json', 'caller_reads.py /dev/null /dev/null {o} {o}.sites'), ('eax_kept_sites.json', 'caller_reads.py /dev/null /dev/null {o}.inputs {o}'), ('arg_reads.json', 'arg_reads.py {o}'), ('reg_saved.json', 'reg_saved.py {o}'), ('this_flow.json', 'this_flow.py {o}'), ('ida_classes.json', 'make_ida_types.py {o}'),
-             ('evidence_names.json', 'evidence_names.py {o}'), ('gfx_device_users.json', 'device_users.py {o}'),
-             ('reloc_literals.json', 'reloc_literals.py {o}'), ('ui_functions.json', 'ui_sigs.py "$FFXI_DLL" {o}'), ('idb_members.json', 'idb_members.py {o}'),
-             ('local_types.json', 'local_evidence.py %s data/exports/gfx_lvars.jsonl {o}.ev && python3 pipeline/local_types.py {o}.ev %s {o}' % (EXP, EXP)),
-             ('reg_leftover_audit.json', 'reg_leftover_audit.py %s %s {o}' % (texp, src['raw_gate']))]     # the verified raw translation's
+    facts = fact_commands(texp, src['raw_gate'])
+    if '--facts-from-state' in sys.argv:
+        # regen_facts.py's recorded state stands for re-deriving: a fact whose tool's recorded inputs (files read,
+        # imports, the hook and the interpreter) are unchanged and whose data/ file is what the tool produced is what
+        # re-deriving would give, as far as the tools are deterministic in their inputs -- the assumption step 2 makes
+        # anyway. A tool that started a program (its reads unseen), or any change, is re-derived as below
+        import regen_facts as RF
+        st = json.load(open(RF.STATE)) if os.path.exists(RF.STATE) else {}
+        RF.RUN = RF.run_signature()
+        left = []
+        for f, cmd in facts:
+            s_ = st.get(f)
+            fresh = (s_ and not s_.get('programs') and s_.get('run') == RF.RUN and
+                     all((RF.import_hash(p[7:], s_.get('names', ())) if p.startswith('import:') else RF.fhash(p)) == h
+                         for p, h in s_['reads'].items()) and
+                     all(RF.fhash(os.path.realpath(os.path.join(D, g))) == h for g, h in s_['produced'].items()))
+            if fresh: report('facts:' + f, True, from_state='runs/regen_facts/state.json: inputs and output unchanged')
+            else: left.append((f, cmd))
+        facts = left
     for f, cmd in facts:
         o = os.path.join(tmp, f); rc, out = sh('python3 pipeline/' + cmd.format(o=o))
         if rc or not os.path.exists(o): report('facts:' + f, False, error=out.strip().splitlines()[-1:] or rc); continue
@@ -193,7 +217,9 @@ def main():
         # each export's raw gate, in the same order (the first may be the older single `ghidra_raw_gate`)
         gg = g.get('raw_gate') or (src.get('ghidra_raw_gate') if k == 0 else None)
         if gg: ggate.append(gg)
-    t = os.path.join(tmp, 'tree'); rc, out = sh('pipeline/regen_clean.sh %s %s %s' % (','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
+    # raw verdicts given again under the gate's current rules (hx2clean.py, XI_REGATE), where recorded
+    rg = ('XI_REGATE=%s ' % os.path.join(ROOT, src['raw_regate'])) if src.get('raw_regate') else ''
+    t = os.path.join(tmp, 'tree'); rc, out = sh('%spipeline/regen_clean.sh %s %s %s' % (rg, ','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):

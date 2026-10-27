@@ -249,7 +249,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1028AFE0  (unit sqgxShape: name sqgxShape_1028AFE0)
-// GATE: PASS -- 100 trials, 89 returned normally, 155 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 89 returned normally, 173 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxShapeBegin(void)
 {
   int *v0;

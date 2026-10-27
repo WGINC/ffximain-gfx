@@ -54,7 +54,7 @@ void __thiscall CXiActor::Init(void * self)
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1a4))))((void *)(self),(float)((long double)_DAT_103581a0 * (long double)5.0f));
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1b4))))((void *)(self),(float)((long double)_DAT_103581a0 * (long double)1.66666662693023681640625f));
   xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x290))))((void *)(self),0);
-  orig::FUN_10081ae0(self,xi_eax);
+  orig::CXiActor_LinkIntoDrawList(self,xi_eax);
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x350))))((void *)(self),0);
   if (*(char *)(g_pCamera_as_s32 + 9) == '\0') {
     iVar4 = orig::Actor_CountAll();
@@ -63,6 +63,17 @@ void __thiscall CXiActor::Init(void * self)
   iVar4 = orig::Actor_CountAll();
   *(int *)((int)self + 0x74) = iVar4;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10081CF0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void * __thiscall CXiActor::ConstructBase(void * self)
+{
+  orig::CMoTask_Constructor_v1(self);
+  orig::ActorHandle_Constructor_v1((void *)((int)self + 0x5c));
+  *(uint8_t ***)self = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
+  orig::CXiActor_Init(self);
+  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x10082070  (placed by tree manifest)
@@ -253,7 +264,7 @@ uint32_t __thiscall CXiActor::NameCalc(void * self, undefined4 * param_1, int pa
   int64_t lVar6;
   
   *param_3 = 1.0f;
-  uVar2 = orig::FUN_10082fb0(param_1,(uint32_t *)param_2);
+  uVar2 = orig::Unit10082F60_ProjectThroughCamera(param_1,(uint32_t *)param_2);
   if ((char)uVar2 == '\0') {
     return uVar2;
   }
@@ -348,15 +359,15 @@ undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint3
       return uVar3 & 0xffffff00;
     }
     if ((((param_3 & uVar3) == 0) &&
-        ((uVar3 = orig::FUN_101cc1d0((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
+        ((uVar3 = orig::Unit101C72E0_ActorTest1D0((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 1) == 0)))) &&
+       ((uVar3 = orig::Unit101C72E0_ActorPairTest1FF((int)self,uVar3), (char)uVar3 == '\0' || ((param_3 & 0x10) == 0)))) {
       return uVar3 & 0xffffff00;
     }
     uVar10 = orig::Settings_GetValue_v1(0x97);
     if ((((((int)uVar10 != 0) && ((*(uint32_t *)((int)self + 0x1d0) & 0x100) != 0)) &&
          (uVar3 = *(uint32_t *)((int)self + 300), (uVar3 >> 0xd & 1) != 0)) &&
         (((uVar3 >> 0x1e & 1) == 0 && (-1 < (int)uVar3)))) &&
-       ((uVar3 = orig::FUN_101cc220((int)self,0), (char)uVar3 == '\0' && ((void *)param_2 != self)))) {
+       ((uVar3 = orig::Unit101C72E0_ActorPairTest1FF((int)self,0), (char)uVar3 == '\0' && ((void *)param_2 != self)))) {
       return uVar3 & 0xffffff00;
     }
     uVar10 = orig::Settings_GetValue_v1(0xaa);
@@ -427,14 +438,14 @@ int * __cdecl CXiActor::FindNearestToPoint(float * param_1, uint32_t param_2, ui
   if (iVar2 != 0) {
     iVar2 = orig::Camera_GetField50_v1();
     orig::Vec3_Copy_v1(local_6c,(uint32_t *)(iVar2 + 0x44));
-    orig::Unit10026C70_ReturnThis(local_40);
+    orig::Unit10026C70_ReturnThis_v1(local_40);
     puVar3 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
     orig::Mat4_Copy_v1(local_40,puVar3);
     iVar2 = orig::Camera_GetMatrix154Ptr_v1();
     orig::Mat4_PostMultiply_v1(local_40,iVar2);
     local_74 = (int *)0x0;
     local_7c = 1e+09f;
-    local_70 = orig::FUN_101cc510();
+    local_70 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
     uVar6 = orig::FUN_10085240();
     self = (int *)uVar6;
     if (self != (int *)0x0) {
@@ -500,7 +511,7 @@ int * __cdecl CXiActor::FindNearestLowerInView(int * param_1, uint32_t param_2, 
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 44);
   
   fVar2 = param_3;
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   puVar3 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
   orig::Mat4_Copy_v1(local_40,puVar3);
   pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
@@ -519,7 +530,7 @@ int * __cdecl CXiActor::FindNearestLowerInView(int * param_1, uint32_t param_2, 
   piStack_64 = (int *)0x0;
   fStack_68 = 3.6e+03f;
   fVar1 = (float)(((long double)afStack_50[0] / (long double)fStack_6c) * fVar8);
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   uVar10 = orig::FUN_10085240();
   self = (int *)uVar10;
   while (self != (int *)0x0) {
@@ -586,7 +597,7 @@ int * __cdecl CXiActor::FindNearestHigherInView(int * param_1, uint32_t param_2,
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 44);
   
   fVar2 = param_3;
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   puVar3 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
   orig::Mat4_Copy_v1(local_40,puVar3);
   pfVar4 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x1bc))))((void *)(param_1));
@@ -605,7 +616,7 @@ int * __cdecl CXiActor::FindNearestHigherInView(int * param_1, uint32_t param_2,
   piStack_64 = (int *)0x0;
   fStack_68 = 3.6e+03f;
   fVar1 = (float)(((long double)afStack_50[0] / (long double)fStack_6c) * fVar8);
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   uVar10 = orig::FUN_10085240();
   self = (int *)uVar10;
   while (self != (int *)0x0) {
@@ -705,7 +716,7 @@ int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, 
   if (piVar4 == (int *)0x0) {
     return (int *)0x0;
   }
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   iVar5 = ((int (__thiscall *)(void *))(*(code **)(*piVar4 + 0x1c0)))((void *)(piVar4));
   orig::Mat4_PostRotateY_v1(local_40,*(float *)(iVar5 + 4));
@@ -714,7 +725,7 @@ int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, 
   orig::Mat4_InvertOrthonormal_v1(local_40);
   piStack_54 = (int *)0x0;
   fStack_58 = 2.5e+03f;
-  iVar5 = orig::FUN_101cc510();
+  iVar5 = orig::Unit101C72E0_GetCC4F0ActorByIndexAt1FA();
   self = (void *)piVar4[0x1c];
   uVar14 = orig::FUN_10085240();
   piVar4 = (int *)uVar14;
@@ -744,7 +755,7 @@ int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, 
           }
         }
         if (*(short *)(iVar2 + 0x210) == 0) {
-          uVar9 = orig::FUN_101cc220(iVar2,uVar9);
+          uVar9 = orig::Unit101C72E0_ActorPairTest1FF(iVar2,uVar9);
           cVar3 = (char)uVar9;
         }
         else {
@@ -1107,8 +1118,8 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
     this_00 = (void *)orig::ResourceIter_FindNext_v1(auStack_21c,0);
     while (this_00 != (void *)0x0) {
       if ((*(uint8_t *)((int)this_00 + 0x1a) >> 2 & 1) == 0) {
-        switch((*(uint8_t *)((int)this_00 + 0x36) & 1) * 0x10 + -1 +
-               (*(uint32_t *)((int)this_00 + 0x34) & 0xf)) {
+        switch(xi_sw((*(uint8_t *)((int)this_00 + 0x36) & 1) * 0x10 + -1 +
+               (*(uint32_t *)((int)this_00 + 0x34) & 0xf))) {
         case 0:
         case 1:
         case 3:
@@ -1142,7 +1153,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
     if (iVar2 != 0) {
       do {
         if ((*(uint8_t *)(iVar2 + 0x1a) >> 2 & 1) == 0) {
-          switch((*(uint8_t *)(iVar2 + 0x36) & 1) * 0x10 + -1 + (*(uint32_t *)(iVar2 + 0x34) & 0xf)) {
+          switch(xi_sw((*(uint8_t *)(iVar2 + 0x36) & 1) * 0x10 + -1 + (*(uint32_t *)(iVar2 + 0x34) & 0xf))) {
           case 0:
           case 1:
           case 3:
@@ -1161,7 +1172,7 @@ void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file
               aiStack_204[iVar1 + 1] = iVar2;
               iVar1 = iVar1 + 1;
               if (0x7f < iVar1) {
-                orig::nullsub_13_v1(&DAT_10358288);
+                orig::Unit10017C10_NoOpVarargsA_v1(&DAT_10358288);
                 goto joined_r0x100851b9;
               }
             }
@@ -1611,16 +1622,16 @@ uint32_t __thiscall CXiActor::CorrectOnZoneMap(void * self)
   local_70[5] = (-1.0f);
   local_70[6] = 0.0f;
   local_70[7] = 1.0f;
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   orig::Mat4_PostRotateX_v1(local_40,*(float *)((int)self + 0x61c));
   orig::Mat4_PostRotateY_v1(local_40,*(float *)((int)self + 0x620));
   orig::Mat4_PostRotateZ_v1(local_40,*(float *)((int)self + 0x624));
   pfVar1 = (float *)((int)self + 0x5fc);
   orig::Mat4_SetTranslation_v1(local_40,pfVar1);
-  orig::Mat4_TransformPointInPlace_v1(local_40,local_70);
-  orig::Mat4_TransformPointInPlace_v1(local_40,local_70 + 4);
-  uVar4 = orig::FUN_10181590(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
+  orig::Mat4_TransformPointInPlace_v2(local_40,local_70);
+  orig::Mat4_TransformPointInPlace_v2(local_40,local_70 + 4);
+  uVar4 = orig::ZoneMap_Query1693B0(g_pZoneMap,local_70,local_70 + 4,local_70 + 8);
   if ((char)uVar4 != '\0') {
     *pfVar1 = (float)(((long double)local_70[8] - (long double)local_70[0]) + (long double)*pfVar1);
     *(float *)((int)self + 0x604) =
@@ -1685,7 +1696,7 @@ void __thiscall CXiActor::RequestModelParts(void * self)
           orig::Unit10070F90_Create(&local_8,&LAB_100d1400,puVar6,(int)self,0);
         }
         else {
-          orig::FUN_100d1450(self,local_8,*(int *)((int)self + 0x9ec));
+          orig::Unit100D13B0_ProcessResidentListEntries(self,local_8,*(int *)((int)self + 0x9ec));
         }
       }
     }
@@ -1719,7 +1730,7 @@ void __thiscall CXiActor::RequestModelParts(void * self)
           orig::Unit10070F90_Create(&local_8,&LAB_100d1400,puVar6,(int)self,0);
         }
         else {
-          orig::FUN_100d1450(self,local_8,*(int *)((int)self + 0x9ec));
+          orig::Unit100D13B0_ProcessResidentListEntries(self,local_8,*(int *)((int)self + 0x9ec));
         }
       }
     }

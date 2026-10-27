@@ -1,0 +1,8 @@
+{
+ "0x10280D10": {
+  "name": "Sq_PrintFloat4x4Indented",
+  "confidence": "high",
+  "evidence": "Body: four times Sq_PrintIndent(arg3) then sqDebugPrintf of four floats (\"%f %f %f %f\" strings), covering p[0..15]; callers sqxfXformMPrint, sqgxContext_Dump, sqskJoint_Dump.",
+  "summary": "Debug-prints 16 floats as four indented lines of four."
+ }
+}

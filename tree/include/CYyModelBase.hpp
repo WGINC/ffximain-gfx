@@ -15,6 +15,7 @@ public:
     static undefined4 * __thiscall AddPartFromResource(void * self, undefined4 * param_1);  // 0x10029F70
     static void __thiscall RefreshParts(void * self);  // 0x1002A0C0
     int DrawLit(int a2, int a3, int a4);  // 0x1002A3B0
+    static undefined4 __thiscall CallPartsSlot20(void * self, undefined4 param_1, undefined4 param_2);  // 0x1002A700
     static undefined4 __thiscall TransformVec4ByPart(void * self, undefined4 param_1, undefined4 * param_2);  // 0x1002A750
     static int __thiscall FindPartIndex(void * self, uint32_t param_1);  // 0x1002A9B0
     static void __thiscall AllocMatrixBuffers(void * self);  // 0x100342A0

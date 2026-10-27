@@ -18,10 +18,13 @@ typedef void *pointer; typedef void *addr;
 #define CONCAT11(h, l) ((uint16_t)(((uint16_t)(uint8_t)(h) << 8) | (uint8_t)(l)))
 #define CONCAT12(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 16) | (uint16_t)(l)))
 #define CONCAT13(h, l) ((uint32_t)(((uint32_t)(uint8_t)(h) << 24) | ((uint32_t)(l) & 0xFFFFFFu)))
+#define CONCAT21(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 8) | (uint8_t)(l)))
 #define CONCAT22(h, l) ((uint32_t)(((uint32_t)(uint16_t)(h) << 16) | (uint16_t)(l)))
 #define CONCAT31(h, l) ((uint32_t)(((uint32_t)(h) << 8) | (uint8_t)(l)))
+#define CONCAT43(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 24) | ((uint64_t)(l) & 0xFFFFFFull)))
 #define CONCAT44(h, l) ((uint64_t)(((uint64_t)(uint32_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT26(h, l) ((uint64_t)(((uint64_t)(uint16_t)(h) << 48) | ((uint64_t)(l) & 0xFFFFFFFFFFFFull)))
+#define CONCAT14(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 32) | (uint32_t)(l)))
 #define CONCAT17(h, l) ((uint64_t)(((uint64_t)(uint8_t)(h) << 56) | ((uint64_t)(l) & 0xFFFFFFFFFFFFFFull)))
 // p-code CAST between a floating and a non-floating type of one size: the same bits (GfxExport `/*XI_BC*/`)
 template <class To, class From> static inline To xi_castbits(From f) { static_assert(sizeof(To) == sizeof(From), "xi_castbits: one size"); To t; __builtin_memcpy(&t, &f, sizeof(t)); return t; }
@@ -56,7 +59,11 @@ static inline uint64_t xi_b64(double x) { uint64_t u; __builtin_memcpy(&u, &x, 8
 #define ROUND(x) ((long double)__builtin_rintl(x))
 #define TRUNC(x) ((long double)(long long)(x))
 #define ABS(x) ((x) < 0 ? -(x) : (x))
-#define SQRT(x) __builtin_sqrtl(x)
+// x87 fsqrt, the instruction Ghidra's FLOAT_SQRT comes from in the game's x87 code. __builtin_sqrtl inlines fsqrt
+// only where GCC proves the operand non-negative; elsewhere it calls sqrtl for errno, which the freestanding build
+// does not link (fs22: 12 functions without a DLL)
+static inline long double xi_fsqrt(long double x) { long double r; __asm__("fsqrt" : "=t"(r) : "0"(x)); return r; }
+#define SQRT(x) xi_fsqrt(x)
 #define POPCOUNT(x) __builtin_popcount(x)
 
 // Ghidra intrinsics
@@ -66,8 +73,29 @@ static inline long double xi_fpatan(long double y, long double x) {      // x87 
 #define fpatan(y, x) xi_fpatan((y), (x))
 static inline long double xi_fsin(long double x) { long double r; __asm__("fsin" : "=t"(r) : "0"(x)); return r; }   // x87 fsin
 static inline long double xi_fcos(long double x) { long double r; __asm__("fcos" : "=t"(r) : "0"(x)); return r; }   // x87 fcos
+// x87 fptan: ST0 = tan(ST0), then 1.0 pushed (Intel SDM), which Ghidra's fptan() leaves out; popped here
+static inline long double xi_fptan(long double x) { long double r; __asm__("fptan\n\tfstp %%st(0)" : "=t"(r) : "0"(x)); return r; }
+#define fptan(x) xi_fptan((x))
 #define fsin(x) xi_fsin((x))
 #define fcos(x) xi_fcos((x))
+
+// Ghidra's unkbyte10: ten bytes of no type, which it gives an x87 register value it could not type (fpatan's result
+// fed to fcos, 0x1002B140). An x87 value is the 80-bit extended format, which long double holds in its first 10 bytes.
+typedef long double unkbyte10;
+// `switch (x)` on what Ghidra typed a pointer or undefined4: the switch is on its 32-bit value (C++ needs an integer)
+template <class T> static inline uint32_t xi_sw(T *p) { return (uint32_t)(uintptr_t)p; }
+static inline uint32_t xi_sw(undefined4 u) { return u.v; }
+template <class T> static inline T xi_sw(T v) { return v; }
+// Ghidra's sbyte: a signed byte
+typedef int8_t sbyte;
+// Ghidra's builtin_strncpy(dst, "...", n): the stores of a constant string it recognised, as C strncpy (ISO C
+// 7.24.2.4: copy up to the NUL, then zeros up to n bytes). The build is freestanding (-fno-builtin): a loop.
+static inline char *builtin_strncpy(void *d, const char *s, unsigned n) {
+    char *o = (char *)d; unsigned i = 0;
+    for (; i < n && s[i]; i++) o[i] = s[i];
+    for (; i < n; i++) o[i] = 0;
+    return (char *)d;
+}
 
 // A call to a game function that pops a value the caller leaves in ST0 (fpret.json `consumes`: MSVC __ftol):
 // the value goes in ST0, the callee pops it; EDX:EAX come back as the callee leaves them. ECX is the caller's
@@ -77,6 +105,11 @@ static inline long long xi_call_st0(uint32_t fn, long double x) {
 }
 // the clean tree's form (hx2clean.py): the game function at ea, through XI_GAME (rebased in the in-game build)
 #define XI_CALL_ST0(ea) [](long double x_) { return xi_call_st0((uint32_t)XI_GAME(ea), x_); }
+// A call to a variadic __cdecl game function (its IDB prototype ends in `...`, it pops nothing): each call site
+// pushes its own arguments, as many as Ghidra reads there, each one 4-byte slot (XI_ANY) holding its bits.
+template <class R, uint32_t A, class... T> static inline R xi_va_call(T... a) {
+    return reinterpret_cast<R (__cdecl *)(decltype(XI_ANY(a))...)>(A)(XI_ANY(a)...);
+}
 
 
 // Ghidra's piece accessor `x._O_S_`: the S bytes at byte offset O of x's storage (x86 is little-endian)

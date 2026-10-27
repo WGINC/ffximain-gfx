@@ -1,0 +1,8 @@
+{
+ "0x1018B8B0": {
+  "name": "XiZone_Call10036170",
+  "confidence": "low",
+  "evidence": "calls 0x10036170(arg); called by XiZone_DrawScene with an object or 0",
+  "summary": "Forwards its argument to 0x10036170."
+ }
+}

@@ -1,0 +1,44 @@
+{
+ "0x102532A0": {
+  "name": "Unit10253210_GetInfoBuffer",
+  "confidence": "low",
+  "evidence": "returns 0 when the object g_pObj_Vtbl1033CE34 is not created, else StAvatar_GetInfoBuffer(arg)",
+  "summary": "Returns an info slot's buffer once the object exists."
+ },
+ "0x102532E0": {
+  "name": "Unit10253210_Ctor",
+  "confidence": "medium",
+  "evidence": "sets vtable 0x1033CE34 and calls the empty 0x10253330; App_InitScene stores the result in g_pObj_Vtbl1033CE34",
+  "summary": "Constructs the object App_InitScene keeps in g_pObj_Vtbl1033CE34."
+ },
+ "0x10253330": {
+  "name": "Unit10253210_NoOp",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ },
+ "0x102535F0": {
+  "name": "Unit10253210_SendBytePairKind0",
+  "confidence": "low",
+  "evidence": "packs the low bytes of its two arguments into a word and passes it with size 2 and kind 0 to 0x102532C0",
+  "summary": "Sends a two-byte message of kind 0."
+ },
+ "0x10253620": {
+  "name": "Unit10253210_GetInfoBuffer0",
+  "confidence": "low",
+  "evidence": "Unit10253210_GetInfoBuffer(0)",
+  "summary": "Returns info slot 0's buffer."
+ },
+ "0x10253670": {
+  "name": "Unit10253210_SendBytePairKind2",
+  "confidence": "low",
+  "evidence": "as 0x102535F0 with kind 2; Frame_Render calls it with (0,1) and (1,1)",
+  "summary": "Sends a two-byte message of kind 2."
+ },
+ "0x102536A0": {
+  "name": "Unit10253210_GetInfoBuffer2",
+  "confidence": "low",
+  "evidence": "Unit10253210_GetInfoBuffer(2)",
+  "summary": "Returns info slot 2's buffer."
+ }
+}

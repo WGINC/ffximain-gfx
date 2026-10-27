@@ -1,0 +1,80 @@
+{
+ "0x100149B0": {
+  "name": "Unit10014350_EnterState4AfterShutdown",
+  "confidence": "low",
+  "evidence": "Calls LobbyThread_SendCmd6(-1) when DAT_1046393C is set, sets +0x324/+0x328/+0x334 to 0x80000000, calls GameMode_PollPendingState(g_pGameMode), and when fn_10014C90 returns true sets +0x44 to 4 and returns 1. Called by Frame_Render.",
+  "summary": "One Frame_Render step: polls the game mode and, once fn_10014C90 (Acter_ShutdownGlobals plus table reset) succeeds, sets the state at +0x44 to 4."
+ },
+ "0x10014A20": {
+  "name": "Unit10014350_TryShutdownActors",
+  "confidence": "medium",
+  "evidence": "Body: returns (fn_10014C90(self) != 0) in the low byte. Called by Frame_Render.",
+  "summary": "Returns whether fn_10014C90 (Acter_ShutdownGlobals then the table reset) succeeded."
+ },
+ "0x10014A30": {
+  "name": "Unit10014350_StepStagedRelease",
+  "confidence": "low",
+  "evidence": "Switch on the short at +4: stage 0 waits for fn_10014C90; stages 1 and 2 count +0x24 down from 900 while calling Unit100D7420_DestroyGlobal and Unit100D7420_UpdateActive; stage 3 sets +0x44 to 0xE and clears +0xA, returning 1. Each completed stage increments +4. Called by Frame_Render.",
+  "summary": "Frame_Render step that runs a four-stage release sequence (actors, then two Unit100D7420 steps with a 900-count timeout) and moves to state 0xE."
+ },
+ "0x10014AD0": {
+  "name": "Unit10014350_StepMenuOkThenRelease",
+  "confidence": "low",
+  "evidence": "Polls g_pGameMode, sets *g_pSceneState to 0x90; by the short at +6: stage 0 closes the menu \"menu    chdummy \" and opens \"menu    ok      \", stage 1 closes it when +0x25C of DAT_10668FF8 is 1, stage 2 calls Unit1018BA60_LoadAllAndTimestamp(0), destroys the YkMyroom object at g_C_106631D4 and releases DAT_1045690C through its vtable slot 0x18, returning 1. Called by Frame_Render.",
+  "summary": "Frame_Render step that shows the 'ok' menu, waits for it to close, then releases the my-room object."
+ },
+ "0x10014C60": {
+  "name": "Unit10014350_ApplyTables103501F8",
+  "confidence": "medium",
+  "evidence": "When DAT_104570B0 is non-zero, calls Unit10029260_ApplyFourTables on each 8-byte entry from 0x103501F8 to 0x10350210 (3 entries). Called by Camera_ReleaseAll.",
+  "summary": "Applies the three table entries at 0x103501F8 when DAT_104570B0 is set."
+ },
+ "0x10014C90": {
+  "name": "Unit10014350_ShutdownActorsAndTables",
+  "confidence": "medium",
+  "evidence": "Body: returns false when Acter_ShutdownGlobals returns false; otherwise calls fn_10014CB0 and returns 1 in the low byte.",
+  "summary": "Calls Acter_ShutdownGlobals and, when it succeeds, applies the tables at 0x10350210; returns whether it succeeded."
+ },
+ "0x10014CB0": {
+  "name": "Unit10014350_ApplyTables10350210",
+  "confidence": "medium",
+  "evidence": "When DAT_104570B0 is non-zero, calls Unit10029260_ApplyFourTables on each 8-byte entry from 0x10350210 to 0x10350228 (3 entries); the function refers to the DLL string \"CAtelIdleTask\".",
+  "summary": "Applies the three table entries at 0x10350210 when DAT_104570B0 is set."
+ },
+ "0x10014E00": {
+  "name": "Camera_SetField304BytesOnGlobal",
+  "confidence": "high",
+  "evidence": "Body: Camera_SetField304Bytes(g_pCamera, param_1, param_2, param_3).",
+  "summary": "Camera_SetField304Bytes on the global camera."
+ },
+ "0x10015100": {
+  "name": "Camera_Call100151A0OnGlobal",
+  "confidence": "high",
+  "evidence": "Body: return sub_100151A0(g_pCamera, param_1). Called by CYyCamMng2::CreateGlobal.",
+  "summary": "sub_100151A0 on the global camera."
+ },
+ "0x10015290": {
+  "name": "Camera_SetField2F8OnGlobal",
+  "confidence": "high",
+  "evidence": "Body: Camera_SetField2F8(g_pCamera, param_1).",
+  "summary": "Camera_SetField2F8 on the global camera."
+ },
+ "0x10015740": {
+  "name": "Unit10014350_ReturnTrue",
+  "confidence": "high",
+  "evidence": "Body sets only AL to 1 and returns (ret_width: sets only AL). Called by Frame_Render.",
+  "summary": "Returns true (AL=1)."
+ },
+ "0x100164B0": {
+  "name": "Unit10014350_GetSceneStateByte68",
+  "confidence": "high",
+  "evidence": "Body: returns the byte g_sceneStateStorage_68 in AL, leaving the rest of EAX as it came in (ret_width).",
+  "summary": "Returns the byte g_sceneStateStorage_68."
+ },
+ "0x10016870": {
+  "name": "App_WndProc",
+  "confidence": "high",
+  "evidence": "The DLL stores 0x10016870 into the lpfnWndProc field (offset 4) of the WNDCLASSA built at esp+0x24 (mov [esp+0x2c],0x10016870 at 0x10016630) and passes that struct to RegisterClassA at 0x1001665C. __stdcall (HWND, UINT, WPARAM, LPARAM) returning LRESULT, ret 16 (purges); it calls DefWindowProcA, PostQuitMessage, MoveWindow, GetWindowPlacement, SetPriorityClass.",
+  "summary": "The window procedure the game registers with RegisterClassA for its window."
+ }
+}

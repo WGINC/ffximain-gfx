@@ -1,4 +1,4 @@
-# FFXiMain.dll graphics code: clean C++ (build 2026-09-03)
+# FFXiMain.dll graphics code: clean C++ (tree of 2026-10-25)
 
 Reconstructed from Hex-Rays output (and, for functions the IDA export does not hold, Ghidra's: `tree/source.json`) and verified function by function against the original in an
 emulator (see `../docs/METHOD.md`). Every function carries:
@@ -6,12 +6,12 @@ emulator (see `../docs/METHOD.md`). Every function carries:
     // FUNCTION: FFXIMAIN 0xADDR  (placed by <tree manifest | IDB name | typed this>)
     // GATE: PASS -- N trials, R returned normally, D D3D calls compared
 
-(4,050 functions: 4,049 PASS on the fuzz gate; `// NOT VERIFIED` marks the one that is not, 0x10003890, INCONCLUSIVE:
-the original faults on every fuzzed input through objects in its own `this`. A function whose code is the same as on the
-build it was gated on keeps that verdict (`pipeline/code_same.py`, docs/HISTORY.md 22 Oct evening); 0x10016320 passes
-only under the fixed inputs `data/case_inputs.json` states, and its GATE line says so. `left_out.json` lists the 9
-gate-passed functions left out because they call a game function that needs a register their wrapper does not pass and
-the gate does not run that call as the game does (`pipeline/gate_sees_eax.py`, `pipeline/hx2clean.py`).)
+(4,280 functions in 392 source files: 4,279 PASS; `// NOT VERIFIED` marks the 1 that is not, with its verdict:
+0x10003890, INCONCLUSIVE.)
+
+`left_out.json` lists the 9 functions the tree leaves out, each with its reason: each one calls a function
+that reads a register (EAX, ECX or EDX) its `orig::` wrapper does not pass, so the reconstruction
+could not reproduce that call.
 
 ## Layout
 - `include/<Class>.hpp`: one class per header, `#pragma pack(1)`, a `static_assert` on every field

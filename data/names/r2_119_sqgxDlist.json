@@ -1,0 +1,8 @@
+{
+ "0x1029BB50": {
+  "name": "SqgxDlist_Nop",
+  "confidence": "low",
+  "evidence": "bare return; called by Unit102A2130_CopyBounds",
+  "summary": "Does nothing."
+ }
+}

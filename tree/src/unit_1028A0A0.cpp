@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1028A0B0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) fn_1028A0B0(undefined4 xi_eax, int param_1)
+XI_API void __attribute__((cdecl, regparm(1))) Sq_PrintIndent(undefined4 xi_eax, int param_1)
 {
   if (0 < param_1) {
     do {
@@ -17,7 +17,7 @@ XI_API void __attribute__((cdecl, regparm(1))) fn_1028A0B0(undefined4 xi_eax, in
 
 // FUNCTION: FFXIMAIN 0x1028A0E0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1028A0E0(void)
+XI_API undefined4 __cdecl Unit1028A0A0_ReturnZero(void)
 {
   return 0;
 }
@@ -48,9 +48,9 @@ XI_API undefined4 * __cdecl Unit1028A0A0_ReadBlock(undefined4 * param_1, int par
   if (param_5 != 0) {
     orig::Unit10292470_SwapNibblesXor((int)param_1,uVar1);
   }
-  iVar2 = orig::FUN_1028a0e0();
+  iVar2 = orig::Unit1028A0A0_ReturnZero();
   if (iVar2 != 0) {
-    orig::FUN_10292130((uint8_t *)param_1,param_2,param_3,param_3);
+    orig::SqIO_SwapBytes((uint8_t *)param_1,param_2,param_3,param_3);
   }
   return (undefined4 *)((int)param_4 + uVar1);
 }

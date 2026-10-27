@@ -38,7 +38,7 @@ XI_API void __cdecl SqinSkin_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x1029A160  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A160(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
+XI_API void __cdecl SqinSkin_InitShapeData(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
 {
   undefined4 *puVar1;
   uint32_t uVar2;
@@ -115,7 +115,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
   undefined4 *puVar1;
   
   if ((param_1 != 0) && (0 < param_2)) {
-    puVar1 = orig::FUN_10275e90(*(undefined4 **)(param_1 + 0x38),param_2 * 4,
+    puVar1 = orig::SqMem_Realloc(*(undefined4 **)(param_1 + 0x38),param_2 * 4,
                           s_C__dev_dancer_modules_sqSkin_src_103bc310,0x195);
     xi_entry_eax = 0;
     if (puVar1 != (undefined4 *)0x0) {
@@ -129,7 +129,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x1029A450  (unit sqinSkin: asserts sqinSkin.c)
 // GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029A450(int param_1)
+XI_API void __cdecl SqinSkin_BuildPartShapes(int param_1)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -148,15 +148,15 @@ XI_API void __cdecl fn_1029A450(int param_1)
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 92);
   
   if (param_1 != 0) {
-    iVar3 = orig::FUN_10275090();
+    iVar3 = orig::SqTimer_GetMicroseconds_v1();
     pfVar4 = (float *)orig::FUN_10275d80(1,0x40,s_C__dev_dancer_modules_sqSkin_src_103bc310,0x216);
     if (*(int *)(param_1 + 0x1c) != 0) {
       orig::SqskSkeleton_Release_v1(*(int *)(param_1 + 0x1c));
     }
     iVar9 = *(int *)(param_1 + 0x3c);
-    iVar5 = orig::FUN_10275090();
+    iVar5 = orig::SqTimer_GetMicroseconds_v1();
     orig::sqMatrix4_1027F0E0_v1(pfVar4,*(undefined4 **)(*(int *)(param_1 + 0x24) + 0x14));
-    iVar6 = orig::FUN_10275090();
+    iVar6 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2830 = DAT_109a2830 + (iVar6 - iVar5);
     local_9c = 0;
     if (0 < iVar9) {
@@ -180,7 +180,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
           *(undefined4 **)(iVar5 + 0x40) = local_98;
           if (0 < iVar8) {
             do {
-              orig::FUN_10274650(local_98,(undefined4 *)(iVar2 + *(int *)(iVar6 + iVar10 * 4) * 0xc));
+              orig::Unit10274050_CopyVec3(local_98,(undefined4 *)(iVar2 + *(int *)(iVar6 + iVar10 * 4) * 0xc));
               iVar10 = iVar10 + 1;
               local_98 = local_98 + 3;
             } while (iVar10 < iVar8);
@@ -188,20 +188,20 @@ XI_API void __cdecl fn_1029A450(int param_1)
         }
         puVar1 = (uint32_t *)(*(int *)(iVar5 + 0x54) + 0x34);
         *puVar1 = *puVar1 & 0xfffffffa;
-        iVar6 = orig::FUN_10275090();
+        iVar6 = orig::SqTimer_GetMicroseconds_v1();
         orig::sqMatrix4_1027F0E0_v1(local_80,(undefined4 *)(*(int *)(iVar5 + 0x9c) + 0x24));
-        iVar8 = orig::FUN_10275090();
+        iVar8 = orig::SqTimer_GetMicroseconds_v1();
         DAT_109a2830 = DAT_109a2830 + (iVar8 - iVar6);
-        iVar6 = orig::FUN_10275090();
+        iVar6 = orig::SqTimer_GetMicroseconds_v1();
         orig::sqMatrix4_10280140_v1(local_40,local_80,*(float **)(*(int *)(param_1 + 0x24) + 0x14));
-        iVar8 = orig::FUN_10275090();
+        iVar8 = orig::SqTimer_GetMicroseconds_v1();
         DAT_109a2834 = DAT_109a2834 + (iVar8 - iVar6);
-        iVar6 = orig::FUN_10275090();
+        iVar6 = orig::SqTimer_GetMicroseconds_v1();
         orig::M4fSet_v1((undefined4 *)(iVar5 + 0x5c),local_40);
-        iVar8 = orig::FUN_10275090();
+        iVar8 = orig::SqTimer_GetMicroseconds_v1();
         DAT_109a2838 = DAT_109a2838 + (iVar8 - iVar6);
-        iVar6 = orig::FUN_10275090();
-        iVar8 = orig::FUN_10275090();
+        iVar6 = orig::SqTimer_GetMicroseconds_v1();
+        iVar8 = orig::SqTimer_GetMicroseconds_v1();
         DAT_109a283c = DAT_109a283c + (iVar8 - iVar6);
         if (*(int *)(iVar5 + 0x3c) != 0) {
           orig::sqFree_v1(*(int *)(iVar5 + 0x3c),s_C__dev_dancer_modules_sqSkin_src_103bc310,0x249);
@@ -218,7 +218,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
     *(float **)(*(int *)(param_1 + 0x24) + 0x14) = pfVar4;
     *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x34) = *(uint32_t *)(*(int *)(param_1 + 0x24) + 0x34) | 4;
     *(uint8_t *)(param_1 + 0x44) = 0xff;
-    iVar9 = orig::FUN_10275090();
+    iVar9 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2844 = DAT_109a2844 + (iVar9 - iVar3);
   }
   return;
@@ -229,7 +229,7 @@ XI_API void __cdecl fn_1029A450(int param_1)
 XI_API void __cdecl SqinSkin_ReleaseIfHasData(int param_1)
 {
   if ((param_1 != 0) && (*(int *)(param_1 + 0x3c) != 0)) {
-    orig::FUN_1029a450(param_1);
+    orig::SqinSkin_BuildPartShapes(param_1);
     return;
   }
   return;

@@ -1,0 +1,14 @@
+{
+ "0x10043F00": {
+  "name": "Unit10043E40_ReturnBuffersToPool",
+  "confidence": "low",
+  "evidence": "for the two 0x20-byte slots from +4, hands each non-null buffer to Unit1006B0C0_Insert on g_pVbPool, calls its vtable slot 2 (Release) when the pool refuses it, and clears the slot; called by DynVB_Create",
+  "summary": "Returns the object's two vertex buffers to the vertex-buffer pool, releasing any the pool refuses."
+ },
+ "0x100446A0": {
+  "name": "Unit10043E40_ReleaseResourcesOf",
+  "confidence": "low",
+  "evidence": "iterates the type-5 resources under its argument (ResourceIter_FindFirst/FindNext), stops and releases the matching resources of g_pMeshResourceMng (YmGenerater_Stop, CMoResource_ReleaseChain, MoRes_FreeIfUnreferenced); then for the type-7 resources releases the tasks of kind 0x4D730000 in the list at dword_1047D140+0xD50 whose id matches (CMoTask_Release); called by ZoneMap_FreeSlot",
+  "summary": "Stops and releases the resources and tasks that belong to a resource."
+ }
+}

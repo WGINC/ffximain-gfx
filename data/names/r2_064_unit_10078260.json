@@ -1,0 +1,44 @@
+{
+ "0x1007CD60": {
+  "name": "Unit10078260_ToggleStatusAndSend",
+  "confidence": "low",
+  "evidence": "when 0x101CC0D0(99) allows and the actor at 0x10485F7A exists, flips the session flags 0x80000/0x100000 (mode 1) or 0x8000/0x10000 through Unit100D7420_ApplyStatusText and 0x100FC2B0, then sends a 0xE7 packet (0x100FC3C0, Unit100D7420_SendRaw)",
+  "summary": "Toggles a pair of session status flags and sends the matching request."
+ },
+ "0x1007CFD0": {
+  "name": "Unit10078260_ToggleStatusMode1",
+  "confidence": "low",
+  "evidence": "calls 0x1007CD60 with mode 1 and negates the count when it reports failure",
+  "summary": "Runs the status toggle in its first mode."
+ },
+ "0x10080D00": {
+  "name": "Unit10078260_GetWord1047D3FC",
+  "confidence": "low",
+  "evidence": "returns the 16-bit value at 0x1047D3FC in AX",
+  "summary": "Returns the global word at 0x1047D3FC."
+ },
+ "0x10080D20": {
+  "name": "Unit10078260_IsIdNotInTable10357BB8",
+  "confidence": "low",
+  "evidence": "scans the -1-terminated word table at 0x10357BB8 for the id at +0x14 and returns 0 when found (id 0x32 passes when the target's state is 0x21 or 7), else 1",
+  "summary": "Tells whether a command id is absent from a fixed table."
+ },
+ "0x10081230": {
+  "name": "Unit10078260_CheckCommandAllowed",
+  "confidence": "low",
+  "evidence": "combines the actor's state (2/3, 5, 0x55), IsEvent and the command's flag word at +0x16; on a conflict shows a message (0x10129D90/0x10129E30 on g_pTkMsgWinData) and returns 0, else 1",
+  "summary": "Checks whether an input command may run now, showing a message when not."
+ },
+ "0x10081440": {
+  "name": "Unit10078260_SetFlag1047D498",
+  "confidence": "low",
+  "evidence": "stores its argument's low byte at 0x1047D498; preprocessArg sets it to 1 and back to 0",
+  "summary": "Sets the global flag byte at 0x1047D498."
+ },
+ "0x10081480": {
+  "name": "Unit10078260_TestBit1047D499",
+  "confidence": "low",
+  "evidence": "returns whether bit n of the byte at 0x1047D499 is set",
+  "summary": "Tests one bit of the global byte at 0x1047D499."
+ }
+}

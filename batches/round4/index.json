@@ -1,0 +1,238 @@
+{
+ "_doc": {
+  "tree": "tree",
+  "batches": 23,
+  "functions": 66,
+  "size": 7,
+  "scope": "frame"
+ },
+ "batches": [
+  {
+   "batch": "r4_001_unit_1006D9C0",
+   "group": "unit_1006D9C0",
+   "functions": [
+    "0x1006DCF0",
+    "0x1006E380"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r4_002_unit_10086E90",
+   "group": "unit_10086E90",
+   "functions": [
+    "0x10087F00",
+    "0x100983F0"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r4_003_unit_100C8280",
+   "group": "unit_100C8280",
+   "functions": [
+    "0x100C9C10",
+    "0x100CB390"
+   ],
+   "sampled": 2
+  },
+  {
+   "batch": "r4_004_unit_1002A0C0",
+   "group": "unit_1002A0C0",
+   "functions": [
+    "0x1002B140"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r4_005_unit_10055A60",
+   "group": "unit_10055A60",
+   "functions": [
+    "0x10056160"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r4_006_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x100EEDE0",
+    "0x100EEF80",
+    "0x100EF020",
+    "0x10113CA0",
+    "0x101177D0",
+    "0x1011D290",
+    "0x1011DC00"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r4_007_unit_1012AC80",
+   "group": "unit_1012AC80",
+   "functions": [
+    "0x10140090",
+    "0x101532F0",
+    "0x10153310",
+    "0x10160760",
+    "0x10160960",
+    "0x101609F0"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r4_008_unit_10163E60",
+   "group": "unit_10163E60",
+   "functions": [
+    "0x10165070",
+    "0x10173AE0",
+    "0x10174A60",
+    "0x10176620"
+   ],
+   "sampled": 1
+  },
+  {
+   "batch": "r4_009_CYyObject_VT_1032A9F8",
+   "group": "CYyObject_VT_1032A9F8",
+   "functions": [
+    "0x10039590"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_010_unit_10003890_DirectInput",
+   "group": "unit_10003890_DirectInput",
+   "functions": [
+    "0x10008EA0",
+    "0x10008F00"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_011_unit_10017C10",
+   "group": "unit_10017C10",
+   "functions": [
+    "0x10018140",
+    "0x100181D0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_012_unit_10037AC0_SetMusicTrackVolume",
+   "group": "unit_10037AC0_SetMusicTrackVolume",
+   "functions": [
+    "0x10038330"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_013_unit_100634B0",
+   "group": "unit_100634B0",
+   "functions": [
+    "0x100635B0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_014_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x100DBC70",
+    "0x100E46A0",
+    "0x100EDFB0",
+    "0x100EE0A0",
+    "0x100EE690",
+    "0x100EE900",
+    "0x100EEB70"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_015_unit_100D7420",
+   "group": "unit_100D7420",
+   "functions": [
+    "0x1011DCC0",
+    "0x10129D90",
+    "0x10129DE0",
+    "0x10129E30",
+    "0x10129E80",
+    "0x10129EB0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_016_unit_1018BA60",
+   "group": "unit_1018BA60",
+   "functions": [
+    "0x1019CDC0",
+    "0x1019EBB0",
+    "0x1019ED10",
+    "0x1019ED20",
+    "0x1019ED30",
+    "0x1019EDB0",
+    "0x101A0770"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_017_unit_1018BA60",
+   "group": "unit_1018BA60",
+   "functions": [
+    "0x101A3D60",
+    "0x101A8D60",
+    "0x101AFF70",
+    "0x101BB2B0",
+    "0x101BB680"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_018_unit_101C72E0",
+   "group": "unit_101C72E0",
+   "functions": [
+    "0x101C8FD0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_019_unit_101D7020",
+   "group": "unit_101D7020",
+   "functions": [
+    "0x101E6FB0",
+    "0x10202F00"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_020_unit_1021D930",
+   "group": "unit_1021D930",
+   "functions": [
+    "0x1021F480",
+    "0x10222E20",
+    "0x1022B430"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_021_unit_10274050",
+   "group": "unit_10274050",
+   "functions": [
+    "0x102748F0"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_022_unit_1027B060",
+   "group": "unit_1027B060",
+   "functions": [
+    "0x1027B480"
+   ],
+   "sampled": 0
+  },
+  {
+   "batch": "r4_023_unit_10280C40",
+   "group": "unit_10280C40",
+   "functions": [
+    "0x10280D10"
+   ],
+   "sampled": 0
+  }
+ ]
+}

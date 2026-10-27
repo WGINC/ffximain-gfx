@@ -325,3 +325,13 @@ LAB_10189287:
   }
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x101893B0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API undefined4 * __fastcall WeatherRes_Construct(undefined4 * param_1, undefined4 xi_edx)
+{
+  orig::FUN_10071d80(param_1,xi_edx);
+  orig::WeatherRes_InitKeyDefaults(param_1 + 0xc);
+  *param_1 = &PTR_CMoResource_GetRuntimeClass_variant3_103367e8;
+  return param_1;
+}

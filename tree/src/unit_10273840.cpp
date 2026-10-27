@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10273840  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10273840(undefined4 param_1, uint32_t param_2, undefined4 param_3)
+XI_API void __cdecl Unit10273840_SetEntryField18(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   *(uint32_t *)
    (*(int *)(DAT_1099b184 + 0x28 + ((int)param_2 >> 0x10) * 0x2c) + 0x18 + (param_2 & 0xffff) * 0x90
@@ -14,7 +14,7 @@ XI_API void __cdecl fn_10273840(undefined4 param_1, uint32_t param_2, undefined4
 
 // FUNCTION: FFXIMAIN 0x10273870  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10273870(int param_1)
+XI_API void __cdecl Unit10273840_ClearGroupField4(int param_1)
 {
   if ((-1 < param_1) && (param_1 < DAT_1099b180)) {
     *(uint32_t *)(DAT_1099b184 + 4 + param_1 * 0x2c) = 0;
@@ -24,7 +24,7 @@ XI_API void __cdecl fn_10273870(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102738A0  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102738A0(void)
+XI_API void __cdecl Unit10273840_ClearCurrentField4(void)
 {
   int iVar1;
   

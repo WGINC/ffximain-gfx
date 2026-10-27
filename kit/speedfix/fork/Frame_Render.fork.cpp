@@ -2,6 +2,7 @@
 // Edit the body below; `fork.py diff` shows the edit, `fork.py gate` runs it against the game's code.
 // Hook it from the mod's xikit_mod_init with XI_FORK(host, Frame_Render).
 #include "gfx_all.hpp"
+#include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // ---- frame_step and uncap (speedfix; docs/RENDERER.md 3, 3a). Frame_Render makes the game's time step: the wait
 // below runs until the frame's time v (in 1/60 s ticks) reaches the floor [this+0x30] (1: 60 fps); the step is
@@ -39,8 +40,8 @@ extern "C" __declspec(dllexport) void xi_step_make(void *self_, double avg)
 }
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 536 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68, town PASS 57, town2 PASS 57, combat PASS 57, zonetoinn PASS 57
-XI_API unsigned __int8 __thiscall Frame_Render(void *self_)
+// GATE: PASS -- 100 trials, 68 returned normally, 560 D3D calls compared (diffemu_gfx, clean build)
+XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
 {
   double v2;
   int result;
@@ -174,10 +175,10 @@ XI_API unsigned __int8 __thiscall Frame_Render(void *self_)
   }
   orig::CDx_BeginScene(g_pCDx);
   orig::CDx_SetDefaultRenderState(g_pCDx);
-  orig::nullsub_36();
+  orig::CDx_NopA();
   orig::TexMgr_UploadPumpEntry(g_pTextureMng);
-  if ( g_pAppInputState != 0 && orig::sub_10008830((_DWORD *)g_pAppInputState, 0) != 0 )
-    orig::sub_1019C5B0();
+  if ( g_pAppInputState != 0 && orig::Input_IsCursorActive((_DWORD *)g_pAppInputState, 0) != 0 )
+    orig::Unit1018BA60_Call103113C8();
   if ( orig::CEnv_IsStereoMode(g_pEnv) != 0 )
   {
     orig::CDx_PushRenderTarget(
@@ -185,7 +186,7 @@ XI_API unsigned __int8 __thiscall Frame_Render(void *self_)
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x198)),
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A0)),
       *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A8)));
-    orig::sub_1000A390(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
+    orig::CDx_EndAndClearBegin(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
     orig::CDx_SetTexture(g_pCDx, 0, 0);
   }
   v99 = orig::CDx_PushRenderTargetRet1(
@@ -193,7 +194,7 @@ XI_API unsigned __int8 __thiscall Frame_Render(void *self_)
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194)),
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x19C)),
           *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
-  orig::sub_1000A390(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
+  orig::CDx_EndAndClearBegin(g_pCDx, 3, *((_DWORD *)self_ + 194), 1065353216, 0);
   v4 = g_pSceneState;
   if ( *(_DWORD *)g_pSceneState == 160 )
   {
@@ -216,14 +217,14 @@ LABEL_40:
         case 0:
           if ( *(_DWORD *)(g_pAppSettings + 96) != 0 )
           {
-            v8 = orig::sub_1025B560(1);
+            v8 = orig::Scene_GetTableValue(1);
             g_frameMeshRes = *orig::sub_100731B0((_DWORD *)g_pMeshResourceMng, &a4, v8);
             orig::CMoResource_AddRefChain(*(_DWORD *)g_frameMeshRes);
           }
           if ( *(_DWORD *)(g_pAppSettings + 40) != 0 )
           {
             dword_10669014 = 0;
-            v9 = orig::sub_10016410();
+            v9 = orig::App_GetGlobal_104569C8();
             if ( v9 != 0 )
             {
               v10 = v9 - 1;
@@ -235,12 +236,12 @@ LABEL_40:
                   dword_10669014 = 1;
                   if ( byte_10669420 == 1 )
                     dword_10456950 = 1;
-                  orig::sub_10245B50(1);
+                  orig::LobbyThread_SetGlobal106690AC(1);
                   orig::App_SetGlobal_104569C8(0);
                   *((_BYTE *)g_pCamera + 9) = 1;
                   *((_DWORD *)self_ + 205) = 0x80000000;
                   *((_DWORD *)self_ + 17) = 2;
-                  orig::sub_1019C3E0();
+                  orig::Unit1018BA60_RunPairA();
                 }
               }
               else
@@ -250,7 +251,7 @@ LABEL_40:
                 *((_BYTE *)g_pCamera + 9) = 1;
                 if ( byte_10669420 == 1 )
                   dword_10456950 = 1;
-                orig::sub_1019C3E0();
+                orig::Unit1018BA60_RunPairA();
               }
             }
             else
@@ -262,25 +263,25 @@ LABEL_40:
           {
             *((_BYTE *)g_pCamera + 9) = 0;
             *((_DWORD *)self_ + 17) = 10;
-            orig::sub_100DBE50();
+            orig::Unit100D7420_InitTimer();
           }
           break;
         case 1:
-          if ( g_cfg0022 == 0 || orig::sub_100139E0(self_) != 0 )
+          if ( g_cfg0022 == 0 || orig::App_RunOpening(self_) != 0 )
             *((_DWORD *)self_ + 17) = 2;
           break;
         case 2:
           orig::__snprintf(Buffer, 0x200u, aNet3Port54001);
-          orig::sub_10001E70(Buffer);
+          orig::Unit100014A0_AppendWithSpace(Buffer);
           *(_DWORD *)(g_pAppSettings + 40) = 3;
           *((_DWORD *)self_ + 17) = 3;
           *((_WORD *)self_ + 2) = 0;
           if ( *(_DWORD *)(g_pAppSettings + 40) != 0 )
           {
-            if ( orig::sub_100DA6A0((int)g_pGameMode) != 0 )
+            if ( orig::Game_InitSceneState((int)g_pGameMode) != 0 )
             {
               *((_BYTE *)g_pCamera + 9) = 1;
-              orig::sub_1019C3E0();
+              orig::Unit1018BA60_RunPairA();
             }
             else
             {
@@ -300,7 +301,7 @@ LABEL_40:
               g_cfg0023 = 1;
             if ( g_pObj_Vtbl10329F8C != 0 )
             {
-              orig::sub_100185A0((_DWORD *)(g_pObj_Vtbl10329F8C + 388), (FILE *)&Stream._file, 7u);
+              orig::Unit10017C10_LoadChecksum((_DWORD *)(g_pObj_Vtbl10329F8C + 388), (FILE *)&Stream._file, 7u);
               *(_DWORD *)(g_pSceneState + 28) = *(_DWORD *)(g_pObj_Vtbl10329F8C + 396);
             }
             *((_DWORD *)self_ + 17) = 5;
@@ -322,16 +323,16 @@ LABEL_40:
               XiControlActor_isFirstPersonView = 0;
               XiControlActor_isAutoRunning = 0;
               byte_1047D694 = 0;
-              orig::sub_10253670(0, 1);
-              v12 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
-              if ( orig::sub_101C4CC0((int *)g_pFileMng, v12) == 0 )
+              orig::Unit10253210_SendBytePairKind2(0, 1);
+              v12 = orig::Unit100D7420_GetRecordDwordFwd(*((_DWORD *)g_pGameMode + 32));
+              if ( orig::Unit1018BA60_FileMngFwd101C2B60((int *)g_pFileMng, v12) == 0 )
               {
-                if ( !orig::sub_101C4CD0((int *)g_pFileMng) )
-                  orig::sub_101C4D10((int *)g_pFileMng);
-                v13 = orig::sub_100DB790(*((_DWORD *)g_pGameMode + 32));
-                orig::sub_101C4CE0((void *)g_pFileMng, v13);
+                if ( !orig::Unit1018BA60_FileMngFwd101C2C80((int *)g_pFileMng) )
+                  orig::Unit1018BA60_FileMngFwd101C2E70((int *)g_pFileMng);
+                v13 = orig::Unit100D7420_GetRecordDwordFwd(*((_DWORD *)g_pGameMode + 32));
+                orig::Unit1018BA60_FileMngFwd101C4170((void *)g_pFileMng, v13);
               }
-              orig::sub_10253670(1, 1);
+              orig::Unit10253210_SendBytePairKind2(1, 1);
               *((_DWORD *)self_ + 17) = 6;
             }
           }
@@ -357,45 +358,45 @@ LABEL_40:
             *((_DWORD *)self_ + 17) = 10;
           break;
         case 0xA:
-          orig::sub_10014170(self_);
+          orig::App_DispatchSubState(self_);
           break;
         case 0xB:
           if ( (*(_BYTE *)(v4 + 24) & 8) != 0 )
           {
             *((_DWORD *)self_ + 17) = 13;
-            orig::sub_100163C0(1);
+            orig::App_SetGlobal_104569C5(1);
           }
           else
           {
-            orig::sub_10010520();
+            orig::App_SaveAllSlotData();
             *((_DWORD *)g_pGameMode + 4) = 0;
             *(_DWORD *)g_pSceneState = 112;
-            orig::sub_100149B0(self_);
+            orig::Unit10014350_EnterState4AfterShutdown(self_);
           }
           break;
         case 0xC:
           *((_DWORD *)g_pGameMode + 4) = 0;
           *(_DWORD *)g_pSceneState = 112;
-          if ( orig::sub_10014A20(self_) )
+          if ( orig::Unit10014350_TryShutdownActors(self_) )
           {
-            orig::sub_100361D0();
+            orig::Unit10035B00_ResetGlobals();
             orig::Ui_KeyPrompt_Init((_DWORD *)g_pKeyPrompt, 2);
             orig::MenuMng_OpenByName(g_menuMng, aMenuChdummy, 1, 0);
             *((_DWORD *)self_ + 17) = 7;
           }
           break;
         case 0xD:
-          orig::sub_10010520();
+          orig::App_SaveAllSlotData();
           *((_DWORD *)g_pGameMode + 4) = 0;
           *(_DWORD *)g_pSceneState = 160;
-          orig::sub_10014A30((int)self_);
+          orig::Unit10014350_StepStagedRelease((int)self_);
           break;
         case 0x11:
           orig::CDx_StepFadeCounter((float *)g_pCDx, 0.0, 0.0, 1);
           orig::CDx_SetClearColor(g_pCDx, 0x80000000);
           *((_DWORD *)self_ + 206) = 0x80000000;
           *((_DWORD *)self_ + 205) = -2139062144;
-          if ( orig::sub_10014AD0(self_) != 0 )
+          if ( orig::Unit10014350_StepMenuOkThenRelease(self_) != 0 )
           {
             if ( dword_10456948 != 12 )
             {
@@ -424,7 +425,7 @@ LABEL_38:
     orig::sub_1018B860(g_pXiZone);
     orig::sub_10074C30((_DWORD *)dword_1047D140);
     orig::sub_102515F0(g_pStDancer, 1);
-    orig::sub_10036230();
+    orig::CYySoundElem_UpdateQueue();
     goto LABEL_39;
   }
   if ( g_pGameMode == nullptr )
@@ -470,7 +471,7 @@ LABEL_102:
     && g_pMovie == 0
     && *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1C0)) != 0
     && g_pXiZone != nullptr
-    && orig::sub_10187000(g_pXiZone) != 0 )
+    && orig::ZoneMap_GetByteRef1CPlus10(g_pXiZone) != 0 )
   {
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_TEXCOORDINDEX, 0);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 2u);
@@ -498,7 +499,7 @@ LABEL_102:
     v102 = 0;
     *(float *)&a2 = 0.0;
     v104 = 1065353216;
-    *(float *)&a2 = -orig::sub_10186FE0(g_pXiZone);
+    *(float *)&a2 = -orig::ZoneMap_GetFloatRef1CPlus4(g_pXiZone);
     orig::Mat4_TransformPointInPlace((float *)self_ + 165, (float *)&a4);
     orig::CDx_SetTransform(g_pCDx, 256, g_frameWorldMatrix);
     orig::CDx_SetTransform(g_pCDx, 2, (char *)self_ + 148);
@@ -571,7 +572,7 @@ LABEL_102:
   orig::CDx_CompositeSceneToBackBuffer(g_pCDx, (int)&(*(unsigned __int8 *)((char *)g_pCDx + 0x190)), v94, (int)&SystemTime, (int)&a4);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
-  orig::nullsub_37();
+  orig::CDx_NopB();
   if ( g_pGameMode != nullptr )
   {
     v24 = *((_DWORD *)g_pGameMode + 46);
@@ -579,7 +580,7 @@ LABEL_102:
     {
       Code = *((_DWORD *)g_pGameMode + 46);
       if ( v24 == -1056 )
-        orig::sub_100163E0(1);
+        orig::App_SetGlobal_104569C6(1);
     }
   }
   v25 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0));
@@ -596,27 +597,27 @@ LABEL_102:
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
     (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_COLORWRITEENABLE, 15u);
   }
-  orig::sub_101BCE30((int)ArgList);
+  orig::Unit1018BA60_WatchConfigWindow((int)ArgList);
   orig::sub_10005A40(g_pAppInputState);
-  orig::sub_10123E90();
-  orig::sub_100088F0((_DWORD *)g_pAppInputState);
+  orig::Cell_ClearFlag104E1C3C();
+  orig::Input_DispatchButtons((_DWORD *)g_pAppInputState);
   if ( g_pTargetMng != nullptr )
-    orig::sub_101579C0(g_pTargetMng);
+    orig::Target_Update(g_pTargetMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
     if ( dword_106627EC != 0 )
-      orig::sub_101AB820((_BYTE *)dword_106627EC);
+      orig::Unit1018BA60_HandleMenuKeys((_BYTE *)dword_106627EC);
     if ( dword_10662DA8 != 0 )
-      orig::sub_101AE3E0((void *)dword_10662DA8);
+      orig::Unit1018BA60_UpdateShortcuts((void *)dword_10662DA8);
     if ( dword_1066279C != 0 )
-      orig::sub_101A2E80(dword_1066279C);
+      orig::Unit1018BA60_UpdateMenuState(dword_1066279C);
   }
   if ( *((_BYTE *)g_pCamera + 8) != 0 && g_pFileMng != 0 )
-    orig::sub_101C46A0((_DWORD *)g_pFileMng);
+    orig::Unit1018BA60_FileMngCall101BEB90((_DWORD *)g_pFileMng);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
-    orig::sub_101AB770();
-  v27 = orig::sub_10153FF0();
-  orig::sub_10154860(v27);
+    orig::Unit1018BA60_HandleJumpMapKeys();
+  v27 = orig::Unit1012AC80_GetInstance();
+  orig::Unit1012AC80_UpdatePendingRead(v27);
   if ( *((_BYTE *)g_pCamera + 8) != 0 )
   {
     if ( dword_106627EC != 0 )
@@ -624,19 +625,19 @@ LABEL_102:
       orig::Gfx_SetDefault2DStates();
       *(_BYTE *)dword_106627EC = 1;
       orig::sub_1015FA00((int *)g_menuMng);
-      orig::sub_1015F6A0(g_menuMng);
+      orig::Menu_DrawLayers(g_menuMng);
       orig::Gfx_DisableFogAndAlphaBlend();
     }
-    orig::sub_1025E0B0();
-    orig::sub_1025E0E0();
-    orig::sub_1025E0B0();
-    orig::sub_1025E0F0();
+    orig::FontGlyphCache_GetCounterBlock();
+    orig::FontGlyphCache_StepCounter();
+    orig::FontGlyphCache_GetCounterBlock();
+    orig::Unit1025C9E0_ReturnFalseFwd();
     if ( *((_DWORD *)self_ + 17) != 17 && *(_DWORD *)g_pSceneState != 144 && g_C_106631D4 != 0 )
-      orig::sub_101D5680((_WORD *)g_C_106631D4);
+      orig::Unit101D2FF0_Update((_WORD *)g_C_106631D4);
     if ( g_pXiOpening != 0 )
       orig::sub_10018850(g_pXiOpening);
   }
-  orig::sub_101248A0((float *)g_pCursor);
+  orig::Cursor_UpdateTimer((float *)g_pCursor);
   v28 = g_pCDx;
   if ( *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E0)) != 0 && *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1E8)) != 0 )
   {
@@ -820,7 +821,7 @@ LABEL_102:
               if ( ++dword_10456954 > 45 )
               {
                 dword_10456954 = 0;
-                orig::sub_101037F0(0, 1);
+                orig::Game_SetSlot44C(0, 1);
               }
             }
           }

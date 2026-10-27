@@ -1,0 +1,8 @@
+{
+ "0x1002B140": {
+  "name": "Unit1002A0C0_ClampPointToLocalEllipse",
+  "confidence": "low",
+  "evidence": "Body: builds a matrix from arg2 (FUN_102D8141), Mat4_TransformNormal of arg3 into it, scales by 2 and by the ratio of arg4[0] and arg4[1] (each at least 0.001); when the radius sqrt(x*x+y*y) exceeds the larger, sets arg1 to the point at that radius along fpatan(y,x), z = arg4[2], transforms back (Mat4_InvertOrthonormal, Mat4_TransformNormalInPlace) and returns AL 1; else copies arg3 to arg1 and returns AL 0.",
+  "summary": "Clamps a point to an ellipse in a local frame; AL 1 when it was outside and moved."
+ }
+}

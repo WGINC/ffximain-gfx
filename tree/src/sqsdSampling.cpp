@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10299090  (unit sqsdSampling: between 0x10298FF0 (asserts sqsdSampling.c) and 0x10299250 (name sqsdSampling_BakeOntoShape), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10299090(int param_1, int * param_2)
+XI_API void __cdecl SqsdSampling_DrawPasses(int param_1, int * param_2)
 {
   uint32_t uVar1;
   int iVar2;
@@ -32,7 +32,7 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
       orig::sqgxTextureClamp_v1(*(uint32_t *)(param_1 + 0x168));
       orig::sqgxTextureDecal_v1(0);
       orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x50) + 0x14));
-      orig::sqgxTextureSetPalette(*(int *)(*(int *)(param_1 + 0x50) + 0x18));
+      orig::sqgxTextureClut(*(int *)(*(int *)(param_1 + 0x50) + 0x18));
       uVar4 = 0x40004;
     }
     uVar5 = (uint16_t)((uint32_t)uVar4 >> 0x10);
@@ -44,7 +44,7 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
     else {
       uVar4 = ((uint32_t)(((uint32_t)(uint16_t)(uVar5) << 16) | (uint16_t)(((uint16_t)(((uint16_t)(uint8_t)(0x40) << 8) | (uint8_t)((char)uVar4))))));
     }
-    orig::sqgxShader_v1(uVar4,0);
+    orig::sqgxShader_v2(uVar4,0);
     orig::sqDrawableDraw_v1(*param_2);
     orig::sqgxPassAdd_v1(1);
     orig::sqgxZMask_v1(0);
@@ -53,13 +53,13 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
         (long double)xi_k8(0x3F50624DD2F1A9FCull) < (long double)*(float *)(param_1 + 0x160))) {
       orig::SqgxContext_SetInverseFactor(*(float *)(param_1 + 0x15c));
       if ((*(uint8_t *)(param_1 + 0x164) & 2) == 0) {
-        orig::sqgxBlendAdd();
+        orig::sqgxBlendAdd(*(uint32_t *)(param_1 + 0x160));
       }
       else {
         orig::sqgxBlendAddDestAlpha();
       }
       orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x54) + 0x14));
-      orig::sqgxTextureSetPalette(*(int *)(*(int *)(param_1 + 0x54) + 0x18));
+      orig::sqgxTextureClut(*(int *)(*(int *)(param_1 + 0x54) + 0x18));
       uVar4 = 0x10;
       if ((*(uint32_t *)(param_1 + 0x4c) & 2) == 0) {
         if ((*(uint32_t *)(param_1 + 0x4c) & 4) != 0) {
@@ -69,7 +69,7 @@ XI_API void __cdecl fn_10299090(int param_1, int * param_2)
       else {
         uVar4 = 0x4010;
       }
-      orig::sqgxShader_v1(uVar4,0);
+      orig::sqgxShader_v2(uVar4,0);
       orig::sqDrawableDraw_v1(*param_2);
     }
     orig::sqgxBlendOff_v1();
@@ -100,6 +100,6 @@ XI_API int __cdecl sqsdSampling_BakeOntoShape(int param_1, int param_2)
   puVar2 = orig::SqshDispList_Create();
   puVar2[0x11] = puVar1;
   orig::Unit1028D970_Copy(puVar2 + 5,(undefined4 *)(param_2 + 0x14));
-  orig::FUN_10285740(&param_2);
+  orig::SqObject_Release(&param_2);
   return (int)puVar2;
 }

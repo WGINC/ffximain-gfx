@@ -16,7 +16,7 @@ char CMoResource_VT_1032C778::vf008()
   if ( v4[31] != 0 )
   {
     orig::nullsub_90(v4);
-    orig::nullsub_13(aAfbVersionErro, (unsigned __int8)v1[31]);
+    orig::Unit10017C10_NoOpVarargsA(aAfbVersionErro, (unsigned __int8)v1[31]);
   }
   LOBYTE(v2) = v1[28];
   if ( (_BYTE)v2 == 0 )

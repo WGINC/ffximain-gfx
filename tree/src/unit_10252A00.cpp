@@ -9,7 +9,7 @@ XI_API undefined4 __cdecl Unit10252A00_Activate(uint8_t * param_1, uint32_t para
   int iVar1;
   
   if ((param_1 != (uint8_t *)0x0) && ((*param_1 & 4) != 0)) {
-    iVar1 = orig::FUN_1026ebf0(*(int *)(param_1 + 0x20),0);
+    iVar1 = orig::Mdl_Register(*(int *)(param_1 + 0x20),0);
     *(int *)(param_1 + 8) = iVar1;
     if (-1 < iVar1) {
       orig::Mdl_UpdateSlotFlags(iVar1,param_2 | 0x100,1);
@@ -27,11 +27,11 @@ XI_API undefined4 __cdecl Unit10252A00_CheckFileRefs(uint32_t * param_1)
   uint32_t uVar2;
   
   if (((*param_1 & 1) != 0) && (uVar1 = param_1[1], -1 < (int)uVar1)) {
-    uVar2 = orig::FUN_101c4a30(g_pFileMng_as_v1,uVar1);
+    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,uVar1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }
-    uVar2 = orig::FUN_101c4a30(g_pFileMng_as_v1,uVar1 + 1);
+    uVar2 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,uVar1 + 1);
     if ((char)uVar2 != '\0') {
       *param_1 = *param_1 | 0x10;
     }
@@ -57,7 +57,7 @@ XI_API undefined4 __cdecl Unit10252A00_SetPositionAndScale(uint8_t * param_1, un
         if (((*piVar3 == 0xb0001) && (*(int *)(piVar3[7] + 0x68) != 0)) &&
            (iVar2 = *(int *)(*(int *)(piVar3[7] + 0x68) + 100), iVar2 != 0)) {
           orig::Unit10274050_SetXyz((float *)(iVar2 + 0x5c),xi_castbits<float>(*param_2),xi_castbits<float>(param_2[1]),xi_castbits<float>(param_2[2]));
-          orig::FUN_1027aae0((float *)(iVar2 + 0x68),xi_castbits<float>(*param_3),xi_castbits<float>(param_3[1]),xi_castbits<float>(param_3[2]));
+          orig::Unit1027A4B0_QuatFromEuler((float *)(iVar2 + 0x68),xi_castbits<float>(*param_3),xi_castbits<float>(param_3[1]),xi_castbits<float>(param_3[2]));
         }
         iVar4 = iVar4 + 1;
       } while (iVar4 < *(int *)(iVar1 + 0x44));
@@ -110,7 +110,7 @@ XI_API undefined4 __cdecl Unit10252A00_Refresh(uint32_t * param_1, undefined4 pa
   
   puVar1 = param_1;
   if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 4) != 0)) {
-    orig::FUN_10270410(param_1[2],param_2);
+    orig::Mdl_SetSlotVisible(param_1[2],param_2);
     orig::Mdl_GetSlotWord0(puVar1[2],&param_1);
     if (((uint32_t)param_1 & 4) != 0) {
       *puVar1 = *puVar1 | 8;

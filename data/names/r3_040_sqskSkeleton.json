@@ -1,0 +1,8 @@
+{
+ "0x1027C900": {
+  "name": "SqskSkeleton_FindBoneIndex",
+  "confidence": "high",
+  "evidence": "returns the index of the bone arg2 among the skeleton's +0x28 bones (0xF8 bytes each from +0x20); reports \"bone is not found in a skeleton\" (sqskSkeleton.c line 0x381) and returns 0 when it is not there",
+  "summary": "Returns a bone's index in its skeleton."
+ }
+}

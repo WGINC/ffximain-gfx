@@ -1,0 +1,8 @@
+{
+ "0x1027B480": {
+  "name": "Sq_PrintFloat4Indented",
+  "confidence": "high",
+  "evidence": "Body: Sq_PrintIndent(arg3), then sqDebugPrintf(\"%f %f %f %f\", p[0], p[1], p[2], p[3]); callers sqxfXformTD_Print, sqskJoint_Dump.",
+  "summary": "Debug-prints four floats on one line after an indent of arg3 spaces."
+ }
+}

@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102915B0_CopyVec3At5C(int param_1, undefined4 * param_2)
 {
-  orig::FUN_10274650((uint32_t *)(param_1 + 0x5c),param_2);
+  orig::Unit10274050_CopyVec3((uint32_t *)(param_1 + 0x5c),param_2);
   return;
 }
 
@@ -14,7 +14,7 @@ XI_API void __cdecl Unit102915B0_CopyVec3At5C(int param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102915B0_CopyQuatAt68(int param_1, undefined4 * param_2)
 {
-  orig::Unit1027A4B0_Copy((uint32_t *)(param_1 + 0x68),param_2);
+  orig::Unit1027A4B0_Copy_v1((uint32_t *)(param_1 + 0x68),param_2);
   return;
 }
 
@@ -22,7 +22,7 @@ XI_API void __cdecl Unit102915B0_CopyQuatAt68(int param_1, undefined4 * param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102915B0_CopyVec3At78(int param_1, undefined4 * param_2)
 {
-  orig::FUN_10274650((uint32_t *)(param_1 + 0x78),param_2);
+  orig::Unit10274050_CopyVec3((uint32_t *)(param_1 + 0x78),param_2);
   return;
 }
 

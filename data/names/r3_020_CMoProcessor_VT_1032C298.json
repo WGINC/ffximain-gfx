@@ -1,0 +1,8 @@
+{
+ "0x10070020": {
+  "name": "CMoProcessor_CalcScreenBoundsAndVisibleSlot35",
+  "confidence": "medium",
+  "evidence": "forwards all its arguments to CMoProcessor_CalcScreenBoundsAndVisible; vtable 0x1032C298 slot 35",
+  "summary": "Vtable entry that forwards to CMoProcessor_CalcScreenBoundsAndVisible."
+ }
+}

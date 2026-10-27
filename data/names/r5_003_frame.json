@@ -1,0 +1,320 @@
+{
+ "0x100194F0": {
+  "name": "CXiTimerLow_AccumulateElapsed",
+  "confidence": "medium",
+  "evidence": "Imports timeGetTime. Body: now = timeGetTime(); +0x14 += (now - +0xC) - +0x1C; +0xC = now; +0x18 = +0x1C = 0; returns 0. CXiTimerLow vtable slot 8 (+0x20); called by CXiTimerLow_Init.",
+  "summary": "Adds the milliseconds since the last reading, less the amount held at +0x1C, to the timer's total and restarts from now."
+ },
+ "0x1001B520": {
+  "name": "Unit1001B510_StepStateByTime",
+  "confidence": "low",
+  "evidence": "Body: by byte +8: 0 -> state 2 and +0xC = arg; 1 -> state 3 and +0xC = +0x14 = arg; 2 or 3 -> when arg <= 1.0, +0xC = 0 and state 2. Called by KzMotionQueList_AdvanceAll(node, step).",
+  "summary": "Advances a motion queue node's state byte with a time value, storing the time and dropping back to state 2 when the value is at most 1."
+ },
+ "0x100215C0": {
+  "name": "Unit1001E6D0_PointToActorLocalSpace",
+  "confidence": "medium",
+  "evidence": "Body: M = Mat4_SetIdentity, Mat4_PostRotateX/Y/Z by the three angles from arg2's vtable slot +0x1C0, Mat4_SetTranslation(slot +0x1BC); Mat4_InvertOrthonormal(M); out = arg1 = Mat4_TransformPoint(M, this+0x44) with out[3] = 1.0.",
+  "summary": "Transforms the point at this+0x44 into the local space of the given actor (inverse of its rotation and position)."
+ },
+ "0x10021680": {
+  "name": "Camera_PlaceRelativeToActor",
+  "confidence": "medium",
+  "evidence": "Body: not first person (XiControlActor_isFirstPersonView == 0): an all-zero offset arg1 becomes (-4, -2, 0); position = the actor's (arg2) matrix from slots +0x1C0 (angles) and +0x1BC (position) applied to the offset (Mat4_TransformPoint), Camera_SetPosition(this, it), copy at +0x8C; target = actor position with y - 0.5, Camera_SetTargetIfMoved, copy at +0x98. First person: target = the point at 0x1035126C through the actor matrix, position = the actor position. Then DAT_10456D78 = |+0x48 - +0x54|, Camera_SnapshotState(this), +0xF4 = 1. Called by Acter_UpdateFrame on g_pCamera+0x50 with (&DAT_1035AF40, actor).",
+  "summary": "Places the camera at an offset in the actor's frame looking at the actor, or at the actor's position in first-person view, and snapshots its state."
+ },
+ "0x10036020": {
+  "name": "Unit10035B00_Release10463928AndSetScaled",
+  "confidence": "low",
+  "evidence": "Body: when DAT_10463928 is set, its vtable slot +0x18 with 1, then DAT_10463928 = 0; then Unit10035B00_SetScaled10351704(arg). Called by MoTask_KillAllGlobalSlots.",
+  "summary": "Releases the object at 0x10463928 and passes the argument to Unit10035B00_SetScaled10351704."
+ },
+ "0x10037C50": {
+  "name": "SetMusicTrackVolume_Tag0004",
+  "confidence": "medium",
+  "evidence": "Body: caches in DAT_10462588 the resource CMoResource::FindByTypeAndId(**(g_pMeshResourceMng+0x40008), .., 0x3D, 0x34303030 = '0004'); when found, Unit10036B90_SetVolumeScalar(res, 0x40, ftol(DAT_10351700 * 127)). The DLL code (disasm.py) has the same instruction sequence as DancingMad's SetMusicTrackVolume_A (0x10037B90), which uses the tag 0x32303030 and the cache 0x104637D8; the unit's label is SetMusicTrackVolume. The 'music' word is DancingMad's, not shown by this code.",
+  "summary": "Sets the level of the type-0x3D resource tagged '0004' from the value at 0x10351700, as DancingMad's SetMusicTrackVolume_A does for its tag."
+ },
+ "0x10038440": {
+  "name": "LobbyThread_SendCmd3FromFloat",
+  "confidence": "low",
+  "evidence": "Body: when DAT_1046393C is set, LobbyThread_SendCmd3(arg1, ftol(*arg2), arg3). Called by CYySoundElem_UpdateTimerAndPosition.",
+  "summary": "Sends command 3 to the lobby thread with the float argument rounded to an integer, when the thread flag at 0x1046393C is set."
+ },
+ "0x10039670": {
+  "name": "ThreadPool_CreateSuspendedThread",
+  "confidence": "high",
+  "evidence": "Imports CreateThread. Body: +8 = CreateThread(0, 0, arg1, arg2, 4, this+0xC) (flags 4 = CREATE_SUSPENDED in the Windows SDK; the thread id goes to +0xC); on success byte +4 = 1, +5 = 0. Called by ThreadPool_StartThread.",
+  "summary": "Creates a suspended thread for the given start routine and argument and records its handle and id in the object."
+ },
+ "0x100397A0": {
+  "name": "Unit100397A0_CopyName16",
+  "confidence": "medium",
+  "evidence": "Body: n = min(strlen(arg), 16); copies n bytes of arg to this and zero-fills the rest of the 16 bytes. Called by Font_AllocHighResImage with the string s_font_high_1036C3F4.",
+  "summary": "Copies a string into a 16-byte name field, truncating at 16 and padding with zeros."
+ },
+ "0x100527F0": {
+  "name": "Unit10048000_ReturnThis",
+  "confidence": "low",
+  "evidence": "Body: return self_. Called by sub_1004E8D0 and CMoSchedularTask_Interpret.",
+  "summary": "Returns its this pointer."
+ },
+ "0x100554B0": {
+  "name": "Unit100552F0_RelinkEntries",
+  "confidence": "low",
+  "evidence": "Body: with the array +4 of 0x20-byte entries and count +8: for each entry i (from the last down), entry+4 = entry i-1, entry+0x10 = entry i+1, entry+0x14 = 0; entry 0: +0x10 = entry 1, +4 = 0, +0x14 = 0; entry[count]+0x10 = 0; DAT_1047BC90 = 0. Called by Unit100552F0_Init and CMoOt_Update.",
+  "summary": "Links the object's 0x20-byte entries into one doubly linked chain in array order and clears their +0x14 fields."
+ },
+ "0x10081AE0": {
+  "name": "CXiActor_LinkIntoDrawList",
+  "confidence": "medium",
+  "evidence": "Body: unless bit 2 of +0x88 is set: the old head g_pActorDrawListHead gets +0x58 = this; this+0x54 = old head, +0x58 = 0; g_pActorDrawListHead = this; +0x74 = Actor_CountAll(); sets bit 2 of +0x88. Called by CXiActor::Init.",
+  "summary": "Puts the actor at the head of the actor draw list once, recording the list's count."
+ },
+ "0x10083620": {
+  "name": "Target_FindNearestOnLocalPositiveX",
+  "confidence": "low",
+  "evidence": "Body: returns 0 unless ActorHandle_Resolve(&g_targetActorHandle); M = inverse (Mat4_InvertOrthonormal) of the target's yaw (Mat4_PostRotateY by slot +0x1C0's [1]) and position (Mat4_SetRow3 of slot +0x1BC); over the actors from sub_10085240 / sub_10085270 that pass CXiActor_ComputeDrawState(a, Unit101C72E0_GetCC4F0ActorByIndexAt1FA(), arg1, arg2, 1), transforms each position by M and keeps the one with local x >= 0 and the smallest sub_10027530(p, p) below 2500. Called by Target_CycleInViewOrFirst.",
+  "summary": "Among the drawable candidates, returns the one closest to the current target on the positive-x side of the target's yaw frame."
+ },
+ "0x100AB320": {
+  "name": "Acter_DestroyAndClearSlot",
+  "confidence": "medium",
+  "evidence": "Body: a = arg+0x70; when set: i = word a+0x74; CXiActor_Destroy(a); thunk_sub_10028AA0(a) (the heap free 0x10028AA0); ActerBuffPtr[i] = 0. Called by YkFurniture_Destructor.",
+  "summary": "Destroys and frees the acter held at +0x70 of the argument and clears its slot in the acter table."
+ },
+ "0x100AE3F0": {
+  "name": "XiEvent_ResetActersAndGlobals",
+  "confidence": "medium",
+  "evidence": "Body: Unit1018BA60_FileMngCall101C1B10(g_pFileMng), Unit10086E90_TargetClearAndSetFlag53, XiEvent_ResetPending; for every ActerBuffPtr slot: restores +0x16C/+0x170 from +0x174 for a negative +0x138, re-snaps the position to the zone map (ZoneMap_QueryBoxHeightBand / ZoneMap_QueryBoxHeightByRadius) when the global flags ask, and for an acter with bit 7 of +0x120 clears its event flags, Acter_CopyPosAndSnap, Acter_ReleaseEventRecord and resets its model (fn_100D5430(.., 0), slot +0x150); re-aims the camera at the acter at 0x10485F7A (Camera_SetTargetIfMoved, fn_10021680); frees 0x10489904/0x10489908 and clears the event globals; XiZone_RestoreSavedFields, Acter_ClearGlobals10488800, fn_101FA420 (closes the map menus) when 0x104896E6, CMoTask_CreateMode4/2(1.0, 30) once, resets two menu positions, fn_1013BF40, Unit1021D930_ClearMenu, CallMotd. Called by Acter_ShutdownGlobals; unit label XiEvent.",
+  "summary": "Ends the event state: restores every acter's position and flags, re-aims the camera, frees the event buffers, clears the event globals and resets the related menus."
+ },
+ "0x10164530": {
+  "name": "Unit10163E60_InitA640AndCopyStar",
+  "confidence": "low",
+  "evidence": "DLL code (disasm.py 0x10164530): [ecx+0xA640] = [ecx+0xA644] = -1; copies the NUL-terminated string at 0x10376470 ('*-0' in the DLL's data) to ecx+0xA754; then jmp 0x103108DE (the tree shows it as a call of FUN_103108de). Called by GameSystems_InitializeAll.",
+  "summary": "Sets the two dwords at +0xA640/+0xA644 to -1 and copies the string '*-0' to +0xA754, then continues into 0x103108DE."
+ },
+ "0x1016FC90": {
+  "name": "Unit10163E60_ClearListFields",
+  "confidence": "low",
+  "evidence": "Body: +4 = +8 = +0xC = 0; returns 0. Called by ZoneMap_ConstructVt10336668 and by fn_10170CD0 after it frees every node; 0x10170CD0 uses +4 as the list head, +8 as its tail and +0xC as its count.",
+  "summary": "Clears the list's head, tail and count."
+ },
+ "0x10170CD0": {
+  "name": "Unit10163E60_FreeNodeOrAll",
+  "confidence": "medium",
+  "evidence": "Body: walks the list from +4 (next at +0); for the node equal to arg (or every node when arg is null): for each of its +0x44 groups (36-byte records at +0x60) and each 0xC0-byte entry with a nonzero first field, calls vtable slot +8 (stdcall, the object as only argument) on the objects it holds (+0x28, +0x2C, +0x30..+0xAC, +0xB0, +0xB4, +0xB8), Mem_FreeObject on the entry array, the record array and the node; with arg, unlinks it (head +4 / tail +8) and decrements +0xC; with null arg, fn_1016FC90 clears head, tail and count. Called by ZoneMap_FreeSlot(slot + 0x44, 0).",
+  "summary": "Frees one node of the list (or all of them), calling slot +8 on every object its entries hold and freeing its arrays."
+ },
+ "0x10176DD0": {
+  "name": "Unit10163E60_SetFlag2000OnUnderscoreEntries",
+  "confidence": "low",
+  "evidence": "Body: for each list node from g_dbgBoxList (next at +0): over its +0x10 entries (0xF4 bytes from +0xC's array) whose name byte (+0x40) is '_', sets bit 0x2000 of every 0x1F0-byte element of its sub-array (count +0xD4, array +0xD8) to (arg1 != 0 && entry byte +0xF0 == 0), else clears it. Called by ZoneMap_UpdateLoadState with 1 and ZoneMap_SetArea with 0.",
+  "summary": "Sets or clears flag 0x2000 on the elements of every '_'-named entry in the lists from g_dbgBoxList."
+ },
+ "0x101A2660": {
+  "name": "Unit1018BA60_LoadNumberedDatIntoBuffer",
+  "confidence": "medium",
+  "evidence": "Body: Unit1018BA60_FormatNumberedDatName(name, arg1, arg2) (formats '%s%s%d%s' / '%s%s%s' with '.dat'); Unit1018BA60_DatEntryCtor(local, 1, name, this+4, 0x1DB0, 0, 0, 1); r = Unit1018BA60_LoadFromFile(local); Unit1018BA60_ClearVtable(local); returns r. Called by Unit1018BA60_SetReadPos with (this, +0x1DBC / 2, &Read).",
+  "summary": "Loads the numbered .dat file the arguments name into the object's 0x1DB0-byte buffer at +4."
+ },
+ "0x101A3D00": {
+  "name": "Unit1018BA60_AddMsg10_27IfChangedA",
+  "confidence": "low",
+  "evidence": "Body: when (char)arg or +0x4C differs from (+0x20)+0x1DBC: Unit1018BA60_FormatMessage10_27(this+0x2A, (+0x20)+0x1DB8 / 2, Unit1018BA60_GetEntryPtr(+0x20, -1)); Unit100D7420_AddEntry(+8, this+0x2A); +0x4C = (+0x20)+0x1DBC. Same code as 0x101A43B0; called by Unit1018BA60_HandleReadPosKeys on DAT_106627A0.",
+  "summary": "When forced or the read position changed, formats message (10, 0x27) for the current entry and adds it to the object's list."
+ },
+ "0x101A43B0": {
+  "name": "Unit1018BA60_AddMsg10_27IfChangedB",
+  "confidence": "low",
+  "evidence": "Body: the same code as 0x101A3D00 (Unit1018BA60_FormatMessage10_27 into this+0x2A, Unit100D7420_AddEntry(+8, ..), +0x4C = (+0x20)+0x1DBC when forced or changed); called by Unit1018BA60_HandleReadPosKeys on DAT_106627A4.",
+  "summary": "The second copy of 0x101A3D00: formats message (10, 0x27) for the current entry and adds it to the list when forced or changed."
+ },
+ "0x101B29F0": {
+  "name": "Unit1018BA60_HandleKeyDownWithIme",
+  "confidence": "medium",
+  "evidence": "Body: ImmGetContext(g_pApp+0x18 window); key 0xE5 (VK_PROCESSKEY in the Windows SDK) is replaced by ImmGetVirtualKey; by the key code: 8, 9/0x13, 0xD, 0x1B, 0x1C, 0x20, 0x23..0x28, 0x75..0x79, 0xF3/0xF4 (VK_BACK, VK_TAB/VK_PAUSE, VK_RETURN, VK_ESCAPE, VK_CONVERT, VK_SPACE, VK_END..VK_DOWN, VK_F6..VK_F10, ...) it calls fn_101B5D10(this, key, ..), ImmGetOpenStatus / ImmSetOpenStatus / ImmNotifyIME / ImmGetCompositionStringA, MapVirtualKeyA + keybd_event, MenuMng_OpenByName('menu    fep     '), Unit1018BA60_InputSubmit and SetMusicTrackVolume_A/B/C; ImmReleaseContext around each call. Called by sub_100016C0 (from CApp::RunMainLoop).",
+  "summary": "Handles a key press for the text input while managing the IME context, passing editing keys on to 0x101B5D10."
+ },
+ "0x101B5020": {
+  "name": "Unit1018BA60_MoveForward",
+  "confidence": "medium",
+  "evidence": "Body: when the position +0x1C8 is below the length +0x1C4: advances it by 2 over the byte pair 0x85 'e' or over a character Font_IsSingleByte says is not single-byte (Sjis_IsLeadByte), else by 1. Called by fn_101B5D10 for key 0x27 (VK_RIGHT) on this+0x8AAC, where key 0x25 (VK_LEFT) calls Unit1018BA60_MoveBack on the same object.",
+  "summary": "Moves the edit position forward by one character, two bytes for a Shift-JIS double-byte character."
+ },
+ "0x101B5D10": {
+  "name": "Unit1018BA60_HandleEditKey",
+  "confidence": "medium",
+  "evidence": "Body: switch on (arg1 & 0xFF), the Windows SDK virtual-key codes: 8 (VK_BACK) Unit1018BA60_DeleteLast / FsTextInput_CursorLeft; 9/0x13 completion (Unit1018BA60_SetWordForCompletion, List_Advance / List_Retreat, MenuMng_OpenByName('menu    fep     ')); 0xD/0x6C (VK_RETURN/VK_SEPARATOR) Unit1018BA60_InputSubmit / Unit1018BA60_InputNotify; 0x1B (VK_ESCAPE) clear; 0x21/0x22 List_PageUp/List_PageDown; 0x23/0x24 (VK_END/VK_HOME) end/start; 0x25/0x27 Unit1018BA60_MoveBack / fn_101B5020 / FsTextInput_MoveCursorLeft/Right; 0x26/0x28 FsTextInput_HistoryNext/Prev; 0x2E (VK_DELETE) Unit1018BA60_DeleteForward. Called by fn_101B29F0 with these codes.",
+  "summary": "Carries out a text-input editing key: delete, completion, submit, cancel, paging, cursor moves and history."
+ },
+ "0x101BADD0": {
+  "name": "Unit1018BA60_FreeBlocks18To24",
+  "confidence": "low",
+  "evidence": "Body: Unit1018BA60_FreeBlock(+0x18) and clears +0x18/+0x1C; Unit1018BA60_FreeBlock(+0x20) and clears +0x20/+0x28; operator_delete(+0x24) and clears it; returns AL 1. Called by Unit1018BA60_Destruct.",
+  "summary": "Frees the three blocks at +0x18, +0x20 and +0x24 and clears their fields."
+ },
+ "0x101BC740": {
+  "name": "Unit1018BA60_InitVt10337BA0",
+  "confidence": "low",
+  "evidence": "Body: bytes +0x14..+0x17 = 0; *this = &PTR_LAB_10337BA0; +4 = +0xC = 0; returns this. Called by Unit1018BA60_CtorVt10337B4C and FsWordCompletion_Construct (on this+0x18).",
+  "summary": "Sets the object's vtable to 0x10337BA0 and clears its fields."
+ },
+ "0x101BE670": {
+  "name": "Unit1018BA60_DeleteFile",
+  "confidence": "high",
+  "evidence": "Imports DeleteFileA. Body: return DeleteFileA(arg) ? 1 : -1. Called by Unit1018BA60_Call101BE670 with its string.",
+  "summary": "Deletes the named file, returning 1 on success and -1 on failure."
+ },
+ "0x1021B330": {
+  "name": "Unit10211440_ClearWords0To0A",
+  "confidence": "low",
+  "evidence": "Body: words +0, +2, +4, +6, +8, +0xA = 0 and byte +0xC = 0; returns this. Called by Unit10211440_CtorVt1033BD58 on this+0x52 and this+0x60.",
+  "summary": "Zeroes six words and the byte at +0xC."
+ },
+ "0x1023C140": {
+  "name": "Unit10237880_StoreTextIfIdle",
+  "confidence": "low",
+  "evidence": "Body: when +0x14 is null: _strncpy(this+0x1C, arg, 0x230), byte +0x24B = 0, DAT_10668FF4 = this+0x1C; returns +0x14 or the copy. Called by Unit10017C10_SendMessage7_1To10668FF8 / _SendMessage7_0To10668FF8 with DAT_10668FF8 and a formatted message.",
+  "summary": "Copies a text into the object's 0x230-byte buffer and points 0x10668FF4 at it, unless the object's +0x14 is already set."
+ },
+ "0x1024D850": {
+  "name": "StAvatar_ResolveItemsAndStart",
+  "confidence": "medium",
+  "evidence": "Body: StChannelItemResolve on each of the three groups of four channel items (+0xF0, +0x160, +0x1D0) flagged 4; StModelItem_Resolve on the model items at +0xA8 and +0xCC flagged 2 (then StAvatar_ApplyChannels, LobbyThread_SendCmd6IfRunning); after the second: sub_1024DA10, +4 = 2, StAvatar_SetField10/SetField14 by the modes at +8/+0xC, StAvatar_StoreMode, StAvatar_Start, StAvatar_FormatNames, StAvatar_ResetChannels, StAvatar_SetStopped(.., 1); flag 0x20 calls fn_100378B0(0xA9), flag 0x40 StAvatar_SetTransition(1.0, 0x14). Called by StAvatar_Update and StAvatar_StopAndFreeBuffers.",
+  "summary": "Resolves the avatar's pending channel and model items and, once its model is resolved, sets its modes and starts it."
+ },
+ "0x102532C0": {
+  "name": "Unit10253210_SubmitInfoBinIfObjSet",
+  "confidence": "low",
+  "evidence": "Body: when g_pObj_Vtbl1033CE34 is set, returns fn_102534F0(arg1, arg2, arg3) (the info*.bin cache update); else EAX unchanged. Called by Unit10253210_SendBytePairKind0 / Kind2 as (0 or 2, &byte pair, 2, ..).",
+  "summary": "Passes a slot, data and length to 0x102534F0 when the object at 0x10669424 exists."
+ },
+ "0x102534F0": {
+  "name": "Unit10253210_SubmitInfoBinIfChanged",
+  "confidence": "medium",
+  "evidence": "Body (ret 12): for slot arg1 < 4 of the 20-byte table at 0x10389D08 (its entries name 'info00.bin', 'info01.bin', 'info02.bin' in the DLL's data, with sizes 2, 4, 4) when its enable byte +5 is set: allocates its cache (Allocator_Generic(size+1), zeroed) on first use; copies arg3 bytes of arg2 into the cache, noting any change; on a change (or first use) calls Unit1018BA60_FileMngSubmitPath3F4Kind3(g_pFileMng, the entry's file name, cache, size+1, 0).",
+  "summary": "Updates the cached bytes of one info*.bin slot and, when they changed, hands the file to the file manager as a kind-3 request."
+ },
+ "0x10258430": {
+  "name": "Unit10253A20_ExpandFormCodes",
+  "confidence": "medium",
+  "evidence": "Body: walks the Shift-JIS string arg4: a byte 1 (Unit10253A20_IsTypeOne) appends Unit10253A20_PickFormString(arg2, arg3, ..) chosen by the next control byte (Unit10253A20_FindFirstTypeByte); a byte 2..15 (Unit10253A20_IsTypeRange) appends Unit10253A20_GetFormString(arg3, flag, index) by its value; other characters are copied whole (Sjis_GetCharByteLen, Unit1018BA60_AppendN) to the buffer arg1. Called by Unit10253A20_FormatTextAtC.",
+  "summary": "Copies a Shift-JIS text into a buffer, replacing its control bytes 1..15 with the word-form strings they select."
+ },
+ "0x10265940": {
+  "name": "Unit1025C9E0_AddLibraryRef",
+  "confidence": "medium",
+  "evidence": "Imports InterlockedIncrement. Body: InterlockedIncrement(&DAT_1067A2A0); returns this. 0x10265960 decrements the same count and calls FreeLibrary(DAT_1067A29C) at 0. Called by Unit1025C9E0_RefObjCtor.",
+  "summary": "Increments the shared count at 0x1067A2A0 that keeps the library at 0x1067A29C loaded."
+ },
+ "0x10265960": {
+  "name": "Unit1025C9E0_ReleaseLibraryRef",
+  "confidence": "high",
+  "evidence": "Imports InterlockedDecrement and FreeLibrary. Body: when InterlockedDecrement(&DAT_1067A2A0) reaches 0 and DAT_1067A29C is set, FreeLibrary(DAT_1067A29C) and DAT_1067A29C = 0. Called by Unit1025C9E0_InnerDtor and others.",
+  "summary": "Decrements the shared count and frees the library module at 0x1067A29C when it reaches zero."
+ },
+ "0x10265B70": {
+  "name": "Unit1025C9E0_CreateEvent",
+  "confidence": "high",
+  "evidence": "Imports CreateEventA. Body: *this = CreateEventA(0, arg, 0, 0) (arg is bManualReset in the Windows SDK); returns this. Called by Unit1025C9E0_BaseCtor with 0 and 1.",
+  "summary": "Creates an unnamed, initially unsignalled event (manual-reset when the argument is set) and stores its handle."
+ },
+ "0x10274650": {
+  "name": "Unit10274050_CopyVec3",
+  "confidence": "medium",
+  "evidence": "Body: arg1[0..2] = arg2[0..2]; returns arg2[2]. Callers pass vectors, e.g. StAvatar_SetEntryTransform with (entry, src+0x5C), Unit102915B0_CopyVec3At5C.",
+  "summary": "Copies three dwords (a 3-component vector) from the second argument to the first."
+ },
+ "0x1027AAE0": {
+  "name": "Unit1027A4B0_QuatFromEuler",
+  "confidence": "medium",
+  "evidence": "Body: with cx/sx, cy/sy, cz/sz the cos/sin of arg2/2, arg3/2, arg4/2: out[0] = sx*cy*cz - cx*sy*sz, out[1] = cx*sy*cz + sx*cy*sz, out[2] = cx*cy*sz - sx*sy*cz, out[3] = cx*cy*cz + sx*sy*sz (the quaternion x, y, z, w of rotations about X, Y, Z); returns out. Called by StAvatar_UpdateNodes with (q, 0, pi/2, a).",
+  "summary": "Builds a unit quaternion from three rotation angles about X, Y and Z."
+ },
+ "0x1027AF20": {
+  "name": "Unit1027A4B0_NormalizeVec4",
+  "confidence": "medium",
+  "evidence": "Body: n = x^2 + y^2 + z^2 + w^2; when n > 0, scales the four floats by 1/sqrt(n); else sets them to (1/sqrt(3), 1/sqrt(3), 1/sqrt(3), 0).",
+  "summary": "Normalises a four-float vector to unit length, falling back to (1,1,1)/sqrt(3) with w 0 for a zero vector."
+ },
+ "0x1027EBD0": {
+  "name": "Unit1027E120_SetIdentity",
+  "confidence": "medium",
+  "evidence": "Body: Unit1027E120_Zero(m) (16 floats), then m[0] = m[5] = m[10] = m[15] = 1.0 (0x3F800000): the 4x4 identity. Callers include sqgxContext_Init (on context+0x188 and +0x208), SqxfXformM_Init and SqhiNode_Init.",
+  "summary": "Sets a 4x4 float matrix to the identity."
+ },
+ "0x10283300": {
+  "name": "Unit102822A0_SetContextSlot854",
+  "confidence": "low",
+  "evidence": "Body: g_pSqgxContext+0x854 + 4*(ctx+0x78C + 8*ctx+0x790) = arg; dword_109A2720 = 1; returns the context. Called by SqsnScene_SetupLayerLights with 1 and by sqsnScene_1028F5F0 with a per-layer flag or 0.",
+  "summary": "Stores a value in the rendering context's table at +0x854 at the index the context's +0x78C/+0x790 select, and marks it dirty."
+ },
+ "0x10283C10": {
+  "name": "Unit102822A0_SetPerspective",
+  "confidence": "medium",
+  "evidence": "Body: ctx = g_pSqgxContext; +0x2AC = arg1; +0x2C4 = tan(arg1 * 0.0087266462) (pi/360, half the angle in degrees); +0x2C0 = +0x2C4 / +0x74C; +0x2CC/+0x2C8 = sqrt(t^2 + 1); +0x2BC = arg2, +0x2B8 = arg3; +0x314 = -(arg2 + arg3)/(arg3 - arg2), +0x324 = -2*arg2*arg3/(arg3 - arg2) (perspective depth terms from near arg2 and far arg3); +0x30C/+0x310 from +0x2B0/+0x2B4; g_sqgxViewportDirty = 1. Called by sqrdCamera_Apply.",
+  "summary": "Sets the rendering context's field of view (degrees) and near/far planes and derives its perspective terms."
+ },
+ "0x10285000": {
+  "name": "Unit10284F90_GetValueByItemKind",
+  "confidence": "low",
+  "evidence": "Body: by *arg1: 0x50001 or 0x50003 -> *arg2 = arg1[10]; 0x50002 -> *arg2 = arg1[9]; other kinds leave *arg2. Called by Mdl_QueryEntryFlag on an entry's +0xB4 pointer.",
+  "summary": "Reads the value field of an item of kind 0x50001..0x50003 (dword 10, or 9 for 0x50002) into the output."
+ },
+ "0x102857E0": {
+  "name": "Unit102857D0_SetByte14",
+  "confidence": "low",
+  "evidence": "Body: *(uint8_t *)(arg1 + 0x14) = (uint8_t)arg2; returns it in AL (ret_width: AL only). Called by StChannel_ApplyItem with 1 and 0 and by Mdl_SetChannelActive.",
+  "summary": "Stores a byte at +0x14 of the object."
+ },
+ "0x1028DA20": {
+  "name": "Unit1028D970_ComputeBounds",
+  "confidence": "medium",
+  "evidence": "Body: over arg3 points of three floats from arg2, taking point 0 and then every ((arg3 >> 6) + 1)th point, keeps the per-axis minimum and maximum; writes min x, y, z to arg1[0..2] and max x, y, z to arg1[3..5]. Called by SqshBuild_BuildTriStrip / BuildPoints / BuildCurves with (shape+0x14, vertices +0x54, count +0x14).",
+  "summary": "Computes an axis-aligned bounding box (min and max corners) over a vertex array, sampling at most about 64 points."
+ },
+ "0x102BC820": {
+  "name": "Imm_GetVirtualKeyJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC820): the single instruction jmp dword ptr [0x1032906C]; that IAT slot is the import ImmGetVirtualKey (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmGetVirtualKey."
+ },
+ "0x102BC838": {
+  "name": "Imm_NotifyIMEJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC838): the single instruction jmp dword ptr [0x10329078]; that IAT slot is the import ImmNotifyIME (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmNotifyIME."
+ },
+ "0x102BC856": {
+  "name": "Imm_SetOpenStatusJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC856): the single instruction jmp dword ptr [0x1032908C]; that IAT slot is the import ImmSetOpenStatus (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmSetOpenStatus."
+ },
+ "0x102BC85C": {
+  "name": "Imm_GetOpenStatusJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC85C): the single instruction jmp dword ptr [0x10329090]; that IAT slot is the import ImmGetOpenStatus (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmGetOpenStatus."
+ },
+ "0x102BC862": {
+  "name": "Imm_GetConversionStatusJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC862): the single instruction jmp dword ptr [0x10329094]; that IAT slot is the import ImmGetConversionStatus (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmGetConversionStatus."
+ },
+ "0x102BC868": {
+  "name": "Imm_GetCompositionStringAJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC868): the single instruction jmp dword ptr [0x10329098]; that IAT slot is the import ImmGetCompositionStringA (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmGetCompositionStringA."
+ },
+ "0x102BC86E": {
+  "name": "Imm_SetCompositionStringAJmp",
+  "confidence": "high",
+  "evidence": "DLL code (disasm.py 0x102BC86E): the single instruction jmp dword ptr [0x1032909C]; that IAT slot is the import ImmSetCompositionStringA (sp_solve.imports over the DLL). The tree source shows the same call.",
+  "summary": "Jump stub to the imported ImmSetCompositionStringA."
+ }
+}

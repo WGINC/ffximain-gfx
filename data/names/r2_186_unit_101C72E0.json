@@ -1,0 +1,8 @@
+{
+ "0x101CC560": {
+  "name": "Unit101C72E0_GetActorAt2A0",
+  "confidence": "medium",
+  "evidence": "returns ActerBuffPtr[word +0x2A0] of the object when that index is non-zero, else 0",
+  "summary": "Returns the actor whose index the object holds at +0x2A0."
+ }
+}

@@ -27,6 +27,12 @@ import hx_patches
 import hx2cpp
 import partial_regs
 
+def _head_params(text):
+    """the parameter list of a record's text, from its signature line"""
+    head = text.partition('\n{')[0]
+    return head[head.find('(') + 1:head.rfind(')')] if '(' in head else ''
+
+
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 PS2_NAMES = {}
 REVIEWED = {}                  # reviewed_names(): this repository's reviewed names, by address
@@ -64,7 +70,8 @@ def split_params(args):
 
 # Ghidra's type names, as xi_ghidra.hpp defines them, spelt in plain C++ for the shared headers (gfx_globals.hpp,
 # gfx_orig.hpp), which do not include xi_ghidra.hpp (`code`, `word`, `addr` could be a Hex-Rays local's name). The
-# undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit.
+# undefinedN types are not among them: xi_ghidra_shared.hpp defines them for every translation unit. A `code *` the
+# text calls (a global, hx2cpp.ghidra_global_type, or a parameter) is spelt `xi_codefn *` (gfx_common.hpp), callable.
 _GHIDRA_PLAIN = {'byte': 'uint8_t', 'uchar': 'uint8_t', 'ushort': 'uint16_t', 'word': 'uint16_t',
                  'uint': 'uint32_t', 'dword': 'uint32_t', 'ulong': 'uint32_t', 'longlong': 'int64_t',
                  'ulonglong': 'uint64_t', 'qword': 'uint64_t', 'float10': 'long double', 'xi_bool': 'uint8_t',
@@ -111,8 +118,14 @@ def orig_wrapper(name, ea, ftype):
     if variadic: ps = ps[:-1]
     names = ['a%d' % i for i in range(len(ps))]
     fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + (['...'] if variadic else [])))
-    if variadic:
+    if variadic and all(p.strip() == 'XI_ANY' for p in ps):
+        # the Ghidra route's variadic callee (hx2cpp.ghidra_ptr_type): each argument one 4-byte slot, as many as the
+        # call site passes (xi_ghidra.hpp xi_va_call)
+        fp = '%s (%s *)(%s)' % (ret, cc, ', '.join(ps + ['decltype(XI_ANY(rest))...']))
+        body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['XI_ANY(rest)...']))
+    elif variadic:
         body = 'return reinterpret_cast<%s>(XI_GAME(0x%08Xu))(%s);' % (fp, ea, ', '.join(names + ['rest...']))
+    if variadic:
         if ret == 'void': body = body.replace('return ', '')
         return ('template <class... R> XI_ORIG %s %s(%s) { %s }' % (
             ret, name, ', '.join(['%s %s' % (p, n) for p, n in zip(ps, names)] + ['R... rest']), body))
@@ -399,6 +412,17 @@ def main(exp, gate, manf, incdir, outdir):
             g = json.loads(l)
             if g.get('verdict') == 'PASS': ps.add(int(g['original'], 16))
         passed_in.append(ps)
+    # raw verdicts given again under the gate's current rules (XI_REGATE, tree/source.json `raw_regate`: lines with
+    # `export`, the basename of the export the record comes from; the IDA export is gfx_export.jsonl): each replaces
+    # that export's earlier verdict for the function, which was given under rules since changed
+    if os.environ.get('XI_REGATE'):
+        names = [os.path.basename(e) for e in exp.split(',')]
+        for l in open(os.environ['XI_REGATE']):
+            g = json.loads(l); a = int(g['original'], 16)
+            k = next((n for n, b in enumerate(names) if b == g['export'] or (n == 0 and g['export'] == 'gfx_export.jsonl')), None)
+            if k is None or k >= len(passed_in): continue
+            if g.get('verdict') == 'PASS': passed_in[k].add(a)
+            else: passed_in[k].discard(a)
     recs, first = [], {}
     for i, e in enumerate(exp.split(',')):
         for l in open(e):
@@ -442,11 +466,7 @@ def main(exp, gate, manf, incdir, outdir):
             r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
-    passed = set()
-    for gf in gate.split(','):
-        for l in open(gf):
-            g = json.loads(l)
-            if g.get('verdict') == 'PASS': passed.add(int(g['original'], 16))
+    passed = set().union(*passed_in)                 # passed by some export's gate (as given again, XI_REGATE)
     def reg_callee(o):
         m = re.search(CC_RE, o.get('type') or '')
         return bool(o.get('storage')) and bool(hx2cpp.extra_regs(m.group(0) if m else '__cdecl', o['storage']))
@@ -500,6 +520,12 @@ def main(exp, gate, manf, incdir, outdir):
         elif 'EAX' not in given and (cea, fea) in _kept and not gate_sees_eax.seen(_cases, cea, fea): bad.append('EAX')
         return bad
     left_out = {}
+    # functions an earlier build of this tree could not compile (regen_clean.sh, drop_failed.py: {ea: why}): left
+    # out, so the game's own code runs in their place, each with the compiler's message
+    dropped = {}
+    if os.environ.get('XI_DROP') and os.path.exists(os.environ['XI_DROP']):
+        dropped = {int(k, 16): v for k, v in json.load(open(os.environ['XI_DROP'])).items()}
+        passed -= set(dropped)
     while True:
         drop = {}
         for ea in sorted(passed):
@@ -511,8 +537,9 @@ def main(exp, gate, manf, incdir, outdir):
         if not drop: break
         passed -= set(drop); left_out.update(drop)
     os.makedirs(outdir, exist_ok=True)
-    json.dump({'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why)
-               for ea, why in sorted(left_out.items())}, open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
+    lo = {'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why) for ea, why in left_out.items()}
+    lo.update({'0x%08X' % ea: '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
+    json.dump(dict(sorted(lo.items())), open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
     sizes, bases = {}, {}
     for fn in os.listdir(incdir):
@@ -604,6 +631,10 @@ def main(exp, gate, manf, incdir, outdir):
             # its entry takes a register its convention does not pass (GfxExport's register input): a free function
             # with GCC's regparm signature (hx2cpp.regparm_entry), the original's ABI; a member function cannot be
             cls = meth = None; why = 'takes %s in a register: a free function' % ', '.join(x for _, x in hx2cpp.extra_regs(r.get('cc'), r.get('storage')))
+        elif r.get('ghidra') and hx2cpp.undefined_reg_params(r.get('cc'), _head_params(r['text'])):
+            # a register parameter typed undefined4 goes on the stack in GCC unless written with regparm, as the raw
+            # translation does (hx2cpp.undefined_reg_params); a member function cannot be
+            cls = meth = None; why = 'an undefined4 register parameter: a free function with regparm'
         place[ea] = (cls, ident(meth) if meth else None, why)
 
     # accesses to members of IDB structs the tree replaces -> the offsets they access (idb_access.py)
@@ -665,8 +696,10 @@ def main(exp, gate, manf, incdir, outdir):
                 body = re.sub(r'\borig::%s\(' % re.escape(nm), 'orig_void::%s(' % nm, body)
                 voidv[nm] = (cea, ctype)
         return body
-    def gtype_of(o):
-        t = 'char[1]' if o.get('is_str') else o['type']
+    def gtype_of(o, r, nm):
+        # a Ghidra record's global as its raw translation declares it (hx2cpp.ghidra_global_type)
+        t = hx2cpp.ghidra_global_type(nm, o, r['text']) if r.get('ghidra') else 'char[1]' if o.get('is_str') else o['type']
+        if t.strip() == 'code *': t = 'xi_codefn *'
         if re.sub(r'^(struct\s+)?(std::)?', '', t.strip()) in ('Iostream_init', 'exception', 'type_info', 'codecvt_base'): t = 'char[1]'
         return t.strip()
     SUFFIX = {'_BYTE': 'u8', 'unsigned __int8': 'u8', 'char': 's8', '__int8': 's8', '_WORD': 'u16', 'unsigned __int16': 'u16',
@@ -729,9 +762,11 @@ def main(exp, gate, manf, incdir, outdir):
             else:
                 if R[ea].get('ghidra') and re.search(r'\bgoto\s+%s\s*;' % re.escape(nm), R[ea]['text']):
                     continue                            # a goto target of the body (LAB_...), not a global
+                if R[ea].get('ghidra') and nm in hx2cpp.CXX_KEYWORDS:
+                    continue                            # the keyword in the text, not a global (hx2cpp.CXX_KEYWORDS)
                 gset(o['ea'], (nm, o), R[ea].get('_exp', 0))
-                gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o)] += 1
-                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o)] += 1
+                gtypes.setdefault(o['ea'], collections.Counter())[gtype_of(o, R[ea], nm)] += 1
+                gtier.setdefault(o['ea'], {}).setdefault(R[ea].get('_exp', 0), collections.Counter())[gtype_of(o, R[ea], nm)] += 1
     with open(os.path.join(outdir, 'include', 'gfx_orig.hpp'), 'w') as f:
         f.write('// gfx_orig.hpp -- calls into the game\'s own code (not reconstructed here), by address.\n'
                 '#pragma once\n#include "gfx_common.hpp"\n#define XI_ORIG static inline __attribute__((always_inline))\nnamespace orig {\n')
@@ -746,11 +781,15 @@ def main(exp, gate, manf, incdir, outdir):
             _seen.add(an); f.write('constexpr uint32_t %s = 0x%08Xu;\n' % (an, ea))
         f.write('}  // namespace orig_addr\n#define XI_CODE(name) reinterpret_cast<void *>(XI_GAME(orig_addr::name))\n')
     gnames, gcanon, gvariant = {}, {}, {}
+    fnames = {r['name'] for ea_, r in R.items() if ea_ in passed}
     with open(os.path.join(outdir, 'include', 'gfx_globals.hpp'), 'w') as f:
         f.write('// gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.\n#pragma once\n#include "gfx_common.hpp"\n')
         for ea in sorted(globs):
             nm, o = globs[ea]
             gn = nm if re.match(r'^[A-Za-z_]\w*$', nm) and nm not in CXX_KEYWORDS else 'g_%08X' % ea
+            # a global (an import table slot too) named like a function of the tree: its macro would replace that
+            # function's declaration in every unit (the game's 0x10009770 is named SetCursorPos, as is the slot)
+            if gn in fnames: gn = 'g_%s_%08X' % (gn, ea)
             gnames[ea] = gn; RESERVED.add(gn)
             from hx2cpp import typedef_for
             # functions disagree on a global's type when they read it at different widths (Hex-Rays
@@ -801,7 +840,7 @@ def main(exp, gate, manf, incdir, outdir):
             elif o['ea'] not in gnames:
                 continue                               # a goto target left out of the globals above
             else:
-                tok = gvariant.get((o['ea'], gtype_of(o)), gnames[o['ea']])
+                tok = gvariant.get((o['ea'], gtype_of(o, r, nm)), gnames[o['ea']])
             for p in forms: reps.append((p, tok))
         from hx2cpp import token_re
         for p, tok in sorted(reps, key=lambda x: -len(x[0])):
@@ -826,6 +865,8 @@ def main(exp, gate, manf, incdir, outdir):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is
             # spelt in plain types, since the shared headers do not include xi_ghidra.hpp
             body = hx2cpp.ghidra_bool(body)
+            # a `code *` parameter the body calls, `(*p)(...)`: callable (xi_codefn, gfx_common.hpp)
+            sig = re.sub(r'\bcode \*\s*(\w+)', lambda m: ('xi_codefn * ' if re.search(r'\(\s*\*\s*%s\s*\)\s*\(' % m.group(1), body) else 'code * ') + m.group(1), sig)
             sig = plain_type(re.sub(r'\bbool\b', 'unsigned char', re.sub(r'\bfloat10\b', 'long double', sig)))
         m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*([~\w:?@$<>]+)\s*\((.*)\)\s*$', sig, re.S)
         ret, cc, _, params = m.groups(); cc = cc or '__cdecl'; ret = ret.strip()
@@ -865,7 +906,8 @@ def main(exp, gate, manf, incdir, outdir):
             if u:
                 note += '  (unit %s: %s)' % (u['unit'], u['why'])
                 why = 'unit: ' + u['why']
-            if r.get('ghidra') and hx2cpp.extra_regs(r.get('cc'), r.get('storage')):
+            if r.get('ghidra') and (hx2cpp.extra_regs(r.get('cc'), r.get('storage'))
+                                    or hx2cpp.undefined_reg_params(cc, ', '.join(ps))):
                 rp, _why = hx2cpp.regparm_entry(ea, cc, ', '.join(ps), r.get('storage'))
                 if rp is None: raise SystemExit('0x%08X: %s (the raw translation refused it too)' % (ea, _why))
                 cc, ps = rp[0], hx2cpp._params(rp[1])

@@ -1046,6 +1046,66 @@ int main(int argc, char **argv) {
       if (c) IDirect3DSurface8_Release(c); }
     if (bb) IDirect3DSurface8_Release(bb); if (ds) IDirect3DSurface8_Release(ds); if (rt) IDirect3DSurface8_Release(rt); }
 
+  /* CopyRects from a render target into a managed (lockable) texture level, then LockRect of that level: the lock must
+     read the copied texels, and the texels the copy did not reach must keep what a lock wrote before (D3DX 8.1's
+     D3DXLoadSurfaceFromSurface does this, FFXiMain.dll+0x2D465B; ours read the older texels before 26 Oct). After the
+     unlock the texture, read back through CopyRects into an image surface, must still hold the copy */
+  { IDirect3DSurface8 *rt = NULL, *bb = NULL, *ds = NULL, *lv = NULL, *img = NULL; IDirect3DTexture8 *t = NULL; D3DLOCKED_RECT lr;
+    int pre = 0, got = 0, after = 0;
+    IDirect3DDevice8_CreateRenderTarget(d, 16, 16, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, FALSE, &rt);
+    IDirect3DDevice8_CreateTexture(d, 16, 16, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &t);
+    IDirect3DDevice8_CreateImageSurface(d, 16, 16, D3DFMT_A8R8G8B8, &img);
+    if (t && SUCCEEDED(IDirect3DTexture8_LockRect(t, 0, &lr, NULL, 0))) {
+      for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++) ((DWORD *)((BYTE *)lr.pBits + y * lr.Pitch))[x] = 0xFF111111;
+      IDirect3DTexture8_UnlockRect(t, 0); pre = 1; }
+    IDirect3DDevice8_GetRenderTarget(d, &bb); IDirect3DDevice8_GetDepthStencilSurface(d, &ds);
+    if (rt) { IDirect3DDevice8_SetRenderTarget(d, rt, NULL); IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF2080C0, 1.0f, 0); }
+    IDirect3DDevice8_SetRenderTarget(d, bb, ds);
+    if (t) IDirect3DTexture8_GetSurfaceLevel(t, 0, &lv);
+    RECT r = {0, 0, 8, 16}; POINT p4 = {4, 0};             /* texels x 4..11 get the render target's colour */
+    hr = rt && lv ? IDirect3DDevice8_CopyRects(d, rt, &r, 1, lv, &p4) : E_FAIL;
+    if (SUCCEEDED(hr) && SUCCEEDED(IDirect3DTexture8_LockRect(t, 0, &lr, NULL, 0))) {
+      got = 1;
+      for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++) {
+        DWORD v = ((DWORD *)((BYTE *)lr.pBits + y * lr.Pitch))[x], want = x >= 4 && x < 12 ? 0xFF2080C0 : 0xFF111111;
+        if (v != want) { if (got) printf("copy into a texture: texel (%d,%d) %08lX, want %08lX\n", x, y, v, want); got = 0; }
+      }
+      IDirect3DTexture8_UnlockRect(t, 0); }
+    if (lv && img && SUCCEEDED(IDirect3DDevice8_CopyRects(d, lv, NULL, 0, img, NULL)) && SUCCEEDED(IDirect3DSurface8_LockRect(img, &lr, NULL, D3DLOCK_READONLY))) {
+      after = ((DWORD *)((BYTE *)lr.pBits + 7 * lr.Pitch))[6] == 0xFF2080C0 && ((DWORD *)((BYTE *)lr.pBits + 7 * lr.Pitch))[2] == 0xFF111111 &&
+              ((DWORD *)((BYTE *)lr.pBits + 15 * lr.Pitch))[13] == 0xFF111111;
+      IDirect3DSurface8_UnlockRect(img); }
+    check(pre && SUCCEEDED(hr) && got, "a copy from a render target into a managed texture: LockRect reads the copied texels, the rest unchanged");
+    check(after, "... and after that lock's unlock the texture still holds the copy");
+    if (lv) IDirect3DSurface8_Release(lv); if (img) IDirect3DSurface8_Release(img); if (t) IDirect3DTexture8_Release(t);
+    if (rt) IDirect3DSurface8_Release(rt); if (bb) IDirect3DSurface8_Release(bb); if (ds) IDirect3DSurface8_Release(ds); }
+
+  /* a read-back larger than the ring's 16 MB reply area (d8_link.cpp: it goes in pieces; before 26 Oct it was cut): a
+     2304x2048 32-bit lockable render target is 18,874,368 bytes. Three bands cleared in three colours, the last one the
+     final row, so a reply cut or out of order shows; every texel is compared */
+  { IDirect3DSurface8 *rt = NULL, *bb = NULL, *ds = NULL; D3DLOCKED_RECT lr; int ok = 0; const int W = 2304, Hh = 2048;
+    IDirect3DDevice8_CreateRenderTarget(d, W, Hh, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, TRUE, &rt);
+    IDirect3DDevice8_GetRenderTarget(d, &bb); IDirect3DDevice8_GetDepthStencilSurface(d, &ds);
+    if (rt) {
+      D3DRECT b1 = {0, 0, W, 1024}, b2 = {0, 1024, W, Hh - 1}, b3 = {0, Hh - 1, W, Hh};
+      IDirect3DDevice8_SetRenderTarget(d, rt, NULL);
+      IDirect3DDevice8_Clear(d, 1, &b1, D3DCLEAR_TARGET, 0xFF102030, 1.0f, 0);
+      IDirect3DDevice8_Clear(d, 1, &b2, D3DCLEAR_TARGET, 0xFF405060, 1.0f, 0);
+      IDirect3DDevice8_Clear(d, 1, &b3, D3DCLEAR_TARGET, 0xFF708090, 1.0f, 0);
+      IDirect3DDevice8_SetRenderTarget(d, bb, ds);
+      if (SUCCEEDED(IDirect3DSurface8_LockRect(rt, &lr, NULL, D3DLOCK_READONLY))) {
+        ok = 1;
+        for (int y = 0; y < Hh && ok; y++) {
+          DWORD want = y < 1024 ? 0x102030 : y < Hh - 1 ? 0x405060 : 0x708090;
+          for (int x = 0; x < W; x++)
+            if ((((DWORD *)((BYTE *)lr.pBits + y * lr.Pitch))[x] & 0xFFFFFF) != want) {
+              printf("large read-back: texel (%d,%d) %06lX, want %06lX\n", x, y, ((DWORD *)((BYTE *)lr.pBits + y * lr.Pitch))[x] & 0xFFFFFF, want); ok = 0; break; }
+        }
+        IDirect3DSurface8_UnlockRect(rt); }
+      IDirect3DSurface8_Release(rt); }
+    check(ok, "a 2304x2048 lockable render target (18 MB, larger than the 16 MB reply area) reads back whole");
+    if (bb) IDirect3DSurface8_Release(bb); if (ds) IDirect3DSurface8_Release(ds); }
+
   /* tweening against the reference's formula, "POSITION = POSITION1 * (1.0 - TWEENFACTOR) + POSITION2 * TWEENFACTOR"
      (DirectX 8.1, "Vertex Tweening"): a quad tweened at 0.5 between two shapes covers the same pixels as the plain quad
      at their midpoint. Only on a device that reports D3DVTXPCAPS_TWEENING */

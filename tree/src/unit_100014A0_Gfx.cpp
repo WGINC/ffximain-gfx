@@ -2,6 +2,32 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100014A0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl App_ForceForegroundWindow(HWND param_1)
+{
+  HWND hWnd;
+  DWORD idAttachTo;
+  DWORD idAttach;
+  char xi_frame[24] __attribute__((aligned(4)));
+  LPDWORD  &lpdwProcessId = *reinterpret_cast<LPDWORD  *>(xi_frame + 0);
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 20);
+  
+  if (g_windowMode == 0) {
+    lpdwProcessId = (LPDWORD)0x0;
+    hWnd = GetForegroundWindow();
+    idAttachTo = GetWindowThreadProcessId(hWnd,lpdwProcessId);
+    idAttach = GetWindowThreadProcessId(param_1,(LPDWORD)0x0);
+    AttachThreadInput(idAttach,idAttachTo,1);
+    SystemParametersInfoA(0x2000,0,local_4,0);
+    SystemParametersInfoA(0x2001,0,(PVOID)0x0,0);
+    SetForegroundWindow(param_1);
+    SystemParametersInfoA(0x2001,0,local_4,0);
+    AttachThreadInput(idAttach,idAttachTo,0);
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10001B50  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
@@ -167,7 +193,7 @@ XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
 
 // FUNCTION: FFXIMAIN 0x10001F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10001F20(undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit100014A0_FindTokenCopyDefault(char * param_1, char * param_2)
 {
   char *pcVar1;
   
@@ -565,7 +591,7 @@ XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x10002D80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __attribute__((cdecl, regparm(1))) fn_10002D80(undefined4 xi_eax)
+XI_API long double __attribute__((cdecl, regparm(1))) Unit100014A0_GetFloat10456A68Or1(undefined4 xi_eax)
 {
   uint32_t uVar1;
   
@@ -692,7 +718,7 @@ XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100031F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 79 returned normally, 315507 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char a5, char a6, int a7)
 {
   int v8;

@@ -1,0 +1,158 @@
+{
+ "0x101C4A80": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C1750 (Unit1018BA60_FindPathKind3) on the inner object at +4; FDtGmNoticeProc passes g_pFileMng and \"gmNotice.fdt\"",
+  "name": "Unit1018BA60_FileMngFwd101C1750",
+  "summary": "Asks the file manager whether a kind-3 request for a path is pending."
+ },
+ "0x101C4A90": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C1820 on the inner object at +4; FsLogPage_load passes g_pFileMng and a file name",
+  "name": "Unit1018BA60_FileMngFwd101C1820",
+  "summary": "Forwards a file-name query to the file manager's inner object."
+ },
+ "0x101C4AA0": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C18E0 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngFwd101C18E0",
+  "summary": "Forwards a path query to the file manager's inner object."
+ },
+ "0x101C4AC0": {
+  "name": "Unit1018BA60_FileMngCall101C1A40",
+  "confidence": "low",
+  "evidence": "calls 0x101C1A40; StAvatar_StopAndFreeBuffers calls it on g_pFileMng",
+  "summary": "Calls 0x101C1A40 for the file manager."
+ },
+ "0x101C4AE0": {
+  "name": "Unit1018BA60_FileMngCall101C1B10",
+  "confidence": "low",
+  "evidence": "calls 0x101C1B10 (which signals and waits on the queue events, Unit1018BA60_HasRecords); called by Acter_ShutdownGlobals' callee",
+  "summary": "Calls 0x101C1B10 for the file manager."
+ },
+ "0x101C4B40": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C1C90 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngFwd101C1C90",
+  "summary": "Forwards to the file manager's 0x101C1C90."
+ },
+ "0x101C4B60": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C1DF0 on the inner object at +4; Unit1018BA60_Read passes its entry",
+  "name": "Unit1018BA60_FileMngFwd101C1DF0",
+  "summary": "Forwards a read to the file manager's 0x101C1DF0."
+ },
+ "0x101C4B70": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C1EC0 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngFwd101C1EC0",
+  "summary": "Forwards a file-name call to the file manager's 0x101C1EC0."
+ },
+ "0x101C4BF0": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C2450 on the inner object at +4; StAvatar_LoadInfoFile loads its info files with it",
+  "name": "Unit1018BA60_FileMngFwd101C2450",
+  "summary": "Forwards to the file manager's 0x101C2450."
+ },
+ "0x101C4C20": {
+  "name": "Unit1018BA60_FileMngCall101C2670",
+  "confidence": "low",
+  "evidence": "calls 0x101C2670; StAvatar_StopAndFreeBuffers calls it on g_pFileMng",
+  "summary": "Calls 0x101C2670 for the file manager."
+ },
+ "0x101C4C70": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C2840 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngFwd101C2840",
+  "summary": "Forwards to the file manager's 0x101C2840."
+ },
+ "0x101C4CC0": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C2B60 on the inner object at +4; Frame_Render tests its result",
+  "name": "Unit1018BA60_FileMngFwd101C2B60",
+  "summary": "Forwards to the file manager's 0x101C2B60."
+ },
+ "0x101C4CD0": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C2C80 on the inner object at +4; Frame_Render tests its result",
+  "name": "Unit1018BA60_FileMngFwd101C2C80",
+  "summary": "Forwards to the file manager's 0x101C2C80."
+ },
+ "0x101C4CE0": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C4170 (through a thunk) on the inner object at +4; called by Frame_Render",
+  "name": "Unit1018BA60_FileMngFwd101C4170",
+  "summary": "Forwards to the file manager's 0x101C4170."
+ },
+ "0x101C4CF0": {
+  "name": "Unit1018BA60_FileMngCall101C2D90",
+  "confidence": "low",
+  "evidence": "calls 0x101C2D90, whose callees use \"%s/%x/%s\" and \"timestamp.dat\"",
+  "summary": "Calls 0x101C2D90 (timestamp.dat) for the file manager."
+ },
+ "0x101C4D10": {
+  "confidence": "low",
+  "evidence": "forwards to 0x101C2E70 on the inner object at +4; called by Frame_Render",
+  "name": "Unit1018BA60_FileMngFwd101C2E70",
+  "summary": "Forwards to the file manager's 0x101C2E70."
+ },
+ "0x101C4D30": {
+  "confidence": "low",
+  "evidence": "forwards to Unit1018BA60_ReleaseAt1F0 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngReleaseAt1F0",
+  "summary": "Releases the file manager's inner +0x1F0 object."
+ },
+ "0x101C4D40": {
+  "confidence": "low",
+  "evidence": "forwards to Unit1018BA60_GetValueAt1F0 on the inner object at +4",
+  "name": "Unit1018BA60_FileMngGetValueAt1F0",
+  "summary": "Calls the file manager's inner +0x1F0 getter."
+ },
+ "0x101C5920": {
+  "name": "Unit1018BA60_EntriesCtorEmpty",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_AllocEntries(this, 0); returns this",
+  "summary": "Constructs an empty array of 16-byte entries."
+ },
+ "0x101C5930": {
+  "name": "Unit1018BA60_EntriesCtor",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_AllocEntries(this, n); returns this",
+  "summary": "Constructs an array of n 16-byte entries."
+ },
+ "0x101C5A30": {
+  "name": "Unit1018BA60_EntriesSetCount",
+  "confidence": "low",
+  "evidence": "stores its argument at +4 of the entry array; Unit101C72E0_Load and Unit1021D930_LoadNamedEntries call it on the arrays Unit1018BA60_EntriesCtor builds",
+  "summary": "Sets the +4 field (count) of an entry array."
+ },
+ "0x101C5A40": {
+  "name": "Unit1018BA60_SubmitFileOrExit",
+  "confidence": "low",
+  "evidence": "Unit1018BA60_ForwardOrExit(g_pFileMng, +4, arg1, arg3, arg2) and returns whether it is >= 0 (that function exits the process on failure)",
+  "summary": "Submits the object's file number to the file manager, exiting the game when it fails."
+ },
+ "0x101C5EC0": {
+  "name": "Unit1018BA60_CommitTextInput",
+  "confidence": "low",
+  "evidence": "when +0x694 is set, copies the decided input string into +0x12 (0x101C6960 on +0x6A0, whose callee is FsTextInput_copyDecidedString) and passes it with its length to 0x101B7280 on 0x10662D40; stores and returns that result at +0x39C",
+  "summary": "Takes the text input's decided string and hands it on, keeping the result."
+ },
+ "0x101C60C0": {
+  "name": "Unit1018BA60_EndTextInput",
+  "confidence": "low",
+  "evidence": "stores Unit1018BA60_CommitTextInput's result at +0x39C and clears +0x694 and +0x6A0",
+  "summary": "Commits the text input and ends it."
+ },
+ "0x101C6810": {
+  "name": "Unit1018BA60_CtorVt10337CA0",
+  "confidence": "low",
+  "evidence": "clears +4/+8, sets vtable 0x10337CA0 and stores its two arguments at +0xC/+0x10",
+  "summary": "Constructs an object with vtable 0x10337CA0 around two values."
+ },
+ "0x101C68A0": {
+  "name": "Unit1018BA60_CloseTextInput",
+  "confidence": "low",
+  "evidence": "when +8 is set, clears it, ends the input of +4 (Unit1018BA60_EndTextInput) and calls slot 10 of +0xC with (2,0,5,0x78,0,0,0,10); returns 1",
+  "summary": "Closes an open text input and notifies its owner."
+ }
+}

@@ -283,7 +283,7 @@ void __thiscall CMoGeneratorClone::ResolveCmdTargets(void * self)
   *(uint32_t *)((int)self + 0x88) = 0x3f800000;
   *(uint32_t *)((int)self + 0x8c) = 0x3f800000;
   for (; puVar2 != (uint32_t *)0x0; puVar2 = puVar2 + (*puVar2 >> 8 & 0x1f)) {
-    switch(*puVar2 & 0xff) {
+    switch(xi_sw(*puVar2 & 0xff)) {
     case 5:
       if (puVar2[1] == 0) {
         uVar5 = puVar2[2];
@@ -392,7 +392,7 @@ LAB_100483bd:
   }
   puVar2 = *(uint32_t **)((int)self + 0xe4);
   while (puVar2 != (uint32_t *)0x0) {
-    switch(*puVar2 & 0xff) {
+    switch(xi_sw(*puVar2 & 0xff)) {
     case 0x21:
       if (puVar2[1] == 0) {
         uVar3 = orig::CMoResource_FindByTypeAndId_v1(self,local_fc,0x19,puVar2[2]);
@@ -957,7 +957,7 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
   iVar1 = *(int *)((int)self + 0xe4);
   if (*(int *)(iVar1 + 8) == 0) {
     iVar5 = (int)*(char *)(iVar1 + 0x21);
-    switch(iVar5) {
+    switch(xi_sw(iVar5)) {
     case 0xb:
     case 0xc:
     case 0x1f:
@@ -1082,8 +1082,8 @@ void CMoGeneratorClone::ExecuteCmdList(int a2)
             {
               v13 = *v12;
               v14 = self + 12;
-              v16 = (_DWORD *)orig::sub_1003B700(self + 12);
-              v15 = (_DWORD *)orig::sub_1003B6D0(v14);
+              v16 = (_DWORD *)orig::CMoAttachments_GetTarget(self + 12);
+              v15 = (_DWORD *)orig::CMoAttachments_GetCaster(v14);
               orig::Scheduler_Execute(v13, v15, v16, 0, 0);
             }
             break;
@@ -1313,15 +1313,20 @@ int CMoGeneratorClone::InitDefaultParams()
 }
 
 // FUNCTION: FFXIMAIN 0x100542F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
-  *(uint8_t ***)self = &CMoGeneratorClone_vtbl_as_v0;
+  char xi_frame[12] __attribute__((aligned(4)));
+  int *this_00;
+  
+  *(uint8_t ***)self =
+       &CMoGeneratorClone_vtbl_as_v0;
   *(uint32_t *)((int)self + 0x30) = &mixin_of_CMoGeneratorClone_0x1032B680_as_v0;
-  orig::YmGenerater_Stop_v2(self,(uint32_t *)0x0);
+  orig::YmGenerater_Stop_v3(self,(int *)0x0,&xi_frame[0]);
   orig::CMoAttachments_ResetAll_v1((uint32_t *)((int)self + 0x30));
-  if (*(int **)((int)self + 0xa8) != (int *)0x0) {
-    (**(code **)(**(int **)((int)self + 0xa8) + 0x18))(1);
+  this_00 = *(int **)((int)self + 0xa8);
+  if (this_00 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
     *(uint32_t *)((int)self + 0xa8) = 0;
   }
   if (*(int *)((int)self + 0xf8) != 0) {

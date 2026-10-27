@@ -1,0 +1,14 @@
+{
+ "0x10009870": {
+  "name": "CDx_CreateDeviceObjectOnce",
+  "confidence": "low",
+  "evidence": "when +0x909 and +0x90A are set and *arg2 is 0, calls slot 57 (+0xE4) of the object at +0xC with (arg1, arg2) and, when *arg2 is then not -1, its slot 52 (+0xD0); sets *arg2 to -1 when the flags are clear; called by CDx_SetDefaultRenderState",
+  "summary": "Creates a handle through the +0xC object's slot 57 when there is none yet."
+ },
+ "0x1000A070": {
+  "name": "CDx_Call1000A0A0Zeroed",
+  "confidence": "low",
+  "evidence": "calls 0x1000A0A0(this, arg1, arg2, arg3, &zero, &zero)",
+  "summary": "Calls 0x1000A0A0 with two zeroed outputs."
+ }
+}

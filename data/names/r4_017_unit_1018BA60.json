@@ -1,0 +1,32 @@
+{
+ "0x101A3D60": {
+  "name": "Unit1018BA60_FormatMessage10_27",
+  "confidence": "low",
+  "evidence": "Body: sprintf(arg1, Unit1012AC80_GetMessageFwd(10, 0x27, arg3, arg2 % 10 + 1)).",
+  "summary": "Formats game message (10, 0x27) with the argument and (n mod 10) + 1 into a buffer."
+ },
+ "0x101A8D60": {
+  "name": "Unit1018BA60_CreateConfigObjects",
+  "confidence": "medium",
+  "evidence": "Called by App_InitScene. Body: DAT_106626CC = FsConfig_Constructor(new 0x20); ~30 Allocator_Generic + Unit1018BA60_*Ctor objects into 0x10662718..0x10662784 (Unit1018BA60_CtorCachingSettings among them); then ~160 Unit1018BA60_AddPairChecked(id, handler, object) registrations (the object for ids 2/3/5/0x44 by g_pSceneState) and Unit1018BA60_RegisterMenuHandlers.",
+  "summary": "Creates the configuration object and its item objects and registers the handler of each configuration id."
+ },
+ "0x101AFF70": {
+  "name": "FsTextInput_InitWithImeOffscreen",
+  "confidence": "high",
+  "evidence": "Body: clears flags at this+0xF120..0xF2F4, FsTextInput_init(this), then ImmGetContext(g_pApp window), ImmSetCompositionWindow (CFS style 0x20 at -600,-600), ImmSetCandidateWindow (style 0x40, area -100..2000), ImmNotifyIME(0x15, 4), (0x17), (0x16), ImmReleaseContext (Windows SDK imports).",
+  "summary": "Initialises the text input and places the IME's composition and candidate windows off-screen."
+ },
+ "0x101BB2B0": {
+  "name": "FsWordCompletion_BuildKind7Block",
+  "confidence": "low",
+  "evidence": "Body: header {7, this+4} with texts Unit1012AC80_GetMessageFwd(11, 0x91) and (11, 0x92); FsWordCompletion_CountEntries; an FsMemory (0x4000) at this+0x20C (cleared when present); appends the header and FsWordCompletion_PackEntries into it; hands it to the slot this+0x214's object (vtable +0x14); AL 1 when done. Called by FsWordCompletion_Refresh.",
+  "summary": "Builds the kind-7 word completion block (titled by messages 0x91/0x92) from the usable entries and registers it."
+ },
+ "0x101BB680": {
+  "name": "FsWordCompletion_BuildKind13Block",
+  "confidence": "low",
+  "evidence": "Body: header {0x13, this+4} with texts Unit1012AC80_GetMessageFwd(11, 0x93) and (11, 0x94); FsWordCompletion_CountSupported; an FsMemory (0x1200) at this+0x210 (cleared when present); FsWordCompletion_AddItem(this, header, this+0x218, 0x13); AL 1 when this+0x218 >= 0. Called by FsWordCompletion_Refresh.",
+  "summary": "Builds the kind-0x13 word completion block (titled by messages 0x93/0x94) and adds it."
+ }
+}

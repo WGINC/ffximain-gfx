@@ -2,6 +2,23 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10074F30  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall Unit10074CA0_FindTask(void * self_, int param_1, int param_2)
+{
+  int iVar1;
+  
+  iVar1 = *(int *)((int)self_ + 0xd50);
+  while( true ) {
+    if (iVar1 == 0) {
+      return 0;
+    }
+    if ((*(int *)(iVar1 + 0x18) == param_1) && (*(int *)(iVar1 + 0x1c) == param_2)) break;
+    iVar1 = *(int *)(iVar1 + 0xc);
+  }
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10075280  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 48 returned normally, 685 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_InitCubeMapTextures(void)
@@ -109,6 +126,46 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   }
   while ( v0 < g_cubeMapCount );
   return result;
+}
+
+// FUNCTION: FFXIMAIN 0x10075520  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall TexRef_ResolveByName(void * self_, undefined4 param_1)
+{
+  int *piVar1;
+  int *piVar2;
+  int *piVar3;
+  int iVar4;
+  int iVar5;
+  
+  piVar1 = (int *)orig::CYyTexMng_FindByNameInResource_v1(g_pTextureMng_as_v2,self_,param_1);
+  piVar3 = piVar1;
+  if (piVar1 == (int *)0x0) {
+    piVar2 = (int *)orig::TexMgr_GetField8(g_pTextureMng_as_v2);
+    iVar5 = *piVar2;
+    piVar3 = piVar2;
+    if (iVar5 != 0) {
+      piVar3 = (int *)0x1;
+      do {
+        if (((*(uint32_t *)(iVar5 + 0x2c) & 0x100) != 0) || (*(int *)(iVar5 + 0x34) == 1)) {
+          iVar4 = 8;
+          do {
+            if (*(char *)(iVar5 + 0xc + iVar4) != *(char *)(iVar4 + (int)self_)) break;
+            iVar4 = iVar4 + 1;
+          } while (iVar4 < 0x10);
+          if (iVar4 == 0x10) {
+            iVar5 = *piVar2;
+            *(int *)self_ = iVar5;
+            return (int *)iVar5;
+          }
+        }
+        piVar2 = (int *)(iVar5 + 0x38);
+        iVar5 = *(int *)(iVar5 + 0x38);
+      } while (iVar5 != 0);
+    }
+  }
+  *(int **)self_ = piVar1;
+  return piVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x100755A0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
@@ -706,7 +763,7 @@ LAB_10076b29:
 code_r0x10076bb6:
     if (uVar6 == 0) break;
   }
-  uVar11 = orig::_strncmp(_Str1,&DAT_10357f88,~uVar6 - 1);
+  uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f88,~uVar6 - 1);
   if ((int)uVar11 == 0) {
     local_c = 0x7f;
     DAT_1047d494 = '\x03';
@@ -714,45 +771,45 @@ LAB_10076cb3:
     if (((char)local_8 != '\0') && (DAT_1047d495 == 0)) goto LAB_10076d51;
     uVar5 = orig::Menu_FindByFlags34(0x20000);
     if ((char)uVar5 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,3);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,3);
       *outbuf = '\0';
       return 0;
     }
-    uVar5 = orig::FUN_101cc070(0);
+    uVar5 = orig::Unit101C72E0_TestFlags100Or40DAC(0);
     if ((char)uVar5 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,2);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,2);
       *outbuf = '\0';
       return 0;
     }
     uVar11 = orig::IsEvent(0,uVar5);
     if ((char)uVar11 != '\0') {
-      orig::FUN_10129d90(g_pTkMsgWinData_as_v1,1);
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,1);
       *outbuf = '\0';
       return 0;
     }
     _Count = (bufsize - iVar7) - 1;
     if ((_Count != 0) && (*orgstr == '/')) {
-      orig::_strncpy_v1(&DAT_103551e8,outbuf,_Count);
+      orig::_strncpy_v2(&DAT_103551e8,outbuf,_Count);
       DAT_1047d496 = DAT_1047d497;
       cVar3 = DAT_1047d494;
       bVar10 = DAT_1047d494 == '\x06';
       ((uint8_t *)((&DAT_103551e7)))[bufsize - iVar7] = 0;
       if (bVar10) {
         if (DAT_106643a8_as_v2 != (void *)0x0) {
-          orig::FUN_10202d30(&LAB_10077a20,0,0,0,0,2);
-          orig::FUN_10081440(1);
+          orig::Unit101D7020_SetModeFwd(&LAB_10077a20,0,0,0,0,2);
+          orig::Unit10078260_SetFlag1047D498(1);
           orig::FUN_10202fe0(DAT_106643a8_as_v2,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(0);
           *outbuf = '\0';
           return 0;
         }
       }
       else if (cVar3 == '\a') {
         if (DAT_106643a8_as_v2 != (void *)0x0) {
-          orig::FUN_10202d30(&LAB_10077a20,0,0,0,0,3);
-          orig::FUN_10081440(1);
+          orig::Unit101D7020_SetModeFwd(&LAB_10077a20,0,0,0,0,3);
+          orig::Unit10078260_SetFlag1047D498(1);
           orig::FUN_10202fe0(DAT_106643a8_as_v2,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(0);
           *outbuf = '\0';
           return 0;
         }
@@ -760,15 +817,15 @@ LAB_10076cb3:
       else {
         uVar5 = orig::Target_SetIfUsable(g_pTargetMng,&LAB_10077950,local_c);
         if ((char)uVar5 != '\0') {
-          orig::FUN_10081440(1);
-          orig::FUN_10158db0(g_pTargetMng,1);
-          orig::FUN_10081440(0);
+          orig::Unit10078260_SetFlag1047D498(1);
+          orig::Target_ApplyAction(g_pTargetMng,1);
+          orig::Unit10078260_SetFlag1047D498(0);
           orig::Target_SetHandlerC8(g_pTargetMng,XI_CODE(FUN_10077a00));
           *outbuf = '\0';
           return 0;
         }
         orig::FUN_10077a00(uVar5);
-        orig::FUN_10129d90(g_pTkMsgWinData_as_v1,4);
+        orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,4);
       }
       *outbuf = '\0';
       return 0;
@@ -785,7 +842,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f80,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f80,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0x1d;
       DAT_1047d494 = '\x04';
@@ -799,7 +856,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f78,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f78,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0xa0;
       DAT_1047d494 = '\x05';
@@ -813,7 +870,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f70,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f70,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 5;
       DAT_1047d494 = '\x06';
@@ -827,7 +884,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f68,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f68,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0xd;
       DAT_1047d494 = '\a';
@@ -947,7 +1004,7 @@ XI_API undefined4 __cdecl Arg_LookupWord(undefined4 param_1, char * param_2)
 
 // FUNCTION: FFXIMAIN 0x10077C30  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10077C30(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit10074CA0_MapNameLetters(uint8_t * param_1)
 {
   uint8_t bVar1;
   uint32_t xi_entry_eax = 0;
@@ -1098,7 +1155,7 @@ XI_API undefined4 __cdecl ChatLog_AddFormattedMessage(undefined4 param_1, undefi
 
 // FUNCTION: FFXIMAIN 0x10077FB0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10077FB0(void)
+XI_API void __cdecl Unit10074CA0_ToggleOnKey(void)
 {
   int iVar1;
   int iVar2;
@@ -1108,9 +1165,9 @@ XI_API void __cdecl fn_10077FB0(void)
   uint64_t uVar6;
   
   uVar4 = orig::thunk_FUN_100e97d0();
-  uVar6 = orig::FUN_10123a70(0x3f,0,1,-1,uVar4);
+  uVar6 = orig::Unit100D7420_TestCommand36CF60(0x3f,0,1,-1,uVar4);
   if ((char)uVar6 != '\0') {
-    uVar6 = orig::FUN_10123a70(0x3f,0xf,4,-1,(int)uVar6);
+    uVar6 = orig::Unit100D7420_TestCommand36CF60(0x3f,0xf,4,-1,(int)uVar6);
     if ((char)uVar6 != '\0') {
       if (DAT_1047d4a7 == '\0') {
         uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar6 >> 8)) << 8) | (uint8_t)(DAT_1047d4a6))) ^ 1;
@@ -1159,7 +1216,7 @@ XI_API undefined4 __cdecl Unit10074CA0_BuildPacket1A(undefined4 param_1, undefin
   uint16_t *puVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_100fc3c0(0x1a,param_8,0);
+  uVar2 = orig::Unit100D7420_CheckTimer41B4(0x1a,param_8,0);
   puVar1 = (uint16_t *)uVar2;
   if (puVar1 != (uint16_t *)0x0) {
     puVar1[4] = (uint16_t)param_1;

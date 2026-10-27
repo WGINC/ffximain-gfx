@@ -21,7 +21,9 @@ the crash-safety rules the owner's `speedfix_hook` already follows.
 ## Which functions may be swapped (decided at build time, from the binary: `kit/xikit/make_manifest.py`)
 
 A function goes into the manifest only if all of these hold:
-- **verified**: PASS on fuzz and all four dumps, in the clean tree as built (`verification/gate_clean_final.jsonl`);
+- **verified**: PASS in the clean tree as built (`verification/gate_clean_final.jsonl`). Since the 22 Oct
+  regeneration (8ace87a) that file holds fuzz verdicts only; the four dumps' gates were last run on the 4 Oct tree
+  (docs/PROBLEMS.md P1);
 - **its export is found**: the in-game DLL exports it under the symbol the gate called (`verification/cases_clean_final.json`);
 - **its entry can hold the jump**: the first 5 bytes are inside the function;
 - **nothing jumps into those 5 bytes**: no branch or call anywhere in the DLL's code (every function in
@@ -103,7 +105,7 @@ All three pass every check:
 - the device is hooked through its own vtable copy; the original vtable is not written; Present still
   reaches the device's method;
 - `swap=1` (with `include_untested=1`): all 774 entries jump to the reconstruction. Reconstructed `SetColor` (0x100A4830) writes
-  `this+0x660`, `GetColor` reads it back, and `Gfx_IsGammaSupported` reads `g_pCDx` at the rebased address;
+  `this+0x660`, `GetColor` reads it back, and `FontGlyphCache_GetDevice` reads `g_pCDx` at the rebased address;
 - the call count of `SetColor` is in the report;
 - `swap=0` written to the ini: re-read, all original bytes back;
 - `swap=1` with an exclude: the excluded function keeps its original bytes;
@@ -440,7 +442,47 @@ re-gate. A site never reached in a session stays unmeasured.
 **Tested** (Wine, mode `facts`): two CDx call sites, one a 3-byte `call [ecx+0xC]` whose region starts 2 bytes
 earlier. Both still reach their methods, are measured popping 4 through vtable slots 3 and 34, and are ingested.
 
+### Output slots and switch jumps (25 Oct)
+
+Two more kinds of site, the last column of `xikit_facts.txt` (`call` when absent):
+
+- **`out`**: a call as above, and its output slots. Where ECX or one of the 8 stack dwords at the call points into
+  the caller's stack (within 16 KB above ESP), the kit reads the dword there before the call and after it returns.
+  Per slot and per class of the returned EAX (negative, zero, positive as a signed int) it counts the calls and how
+  many of them changed the dword. Nothing in the game's memory is written. A change shows the callee wrote it; no
+  change does not show it did not (it may have written the value that was there). This is what settles a callee's
+  output on a path the gate's stubs cannot model: for instance whether `File_FindByKind` always fills its output
+  when it returns success (0x101A04E0 and 0x101A03D0, whose gate FAILs on the value a stub left unwritten).
+- **`jmp`**: a switch jump `jmp [reg*4 + table]` that the code does not bound (`sp_solve.switch_targets`). The
+  region is the jump itself; the copy records the target it reads, then jumps there.
+
+`build.sh` lists every call in a FAIL function the tree does not hold as `out` (`--out-fails`) and every unbounded
+switch jump as `jmp` (`--jmp-unbounded`); `--out ADDR,...` and `--jmp ADDR,...` add others. The 25 Oct list:
+3,895 sites (2,098 call, 1,618 out, 179 jmp), 31 refused (each with why, in `build/fact_sites.log`). The kit holds
+4,096.
+
+`fact_sites.py ingest` also writes `data/game_switch.json` (per jump, the targets seen and how often: only ever
+what the game did, never that a target cannot be taken) and `data/game_outs.json` (per site, slot and EAX class: calls,
+changed, and `written_on_every_observed_call`). A stack dword counts as an argument only below the callee's argument
+count: what it popped at that site, measured, when above 0, or for 0 its exact cdecl count (`data/cdecl_args.json`);
+with neither, the slot is kept and marked `argument_count: not known`.
+
+**Tested** (Wine, mode `facts`): 0x10027C70's two calls, `out`: the local `this` of its identity-matrix constructor
+(0x10027C7A) is seen changed, the local it passes to a matrix product that only reads it (0x10027C94) never is, and
+the stack dwords past the constructor's arguments (none) are dropped; 0x101AFB40's switch, `jmp`: its 13 jumps for
+arguments 0..12 recorded with both targets, none for 13 (past its bound).
+
 ## Mods (`mods=`)
+
+**The manifest's size.** The kit holds up to 12,288 functions and 12,288 `!code` lines (MAXFN, MAXCODE in xikit.c) and
+logs `manifest: more than N ...; the rest are left out` if a manifest has more. Until 25 Oct the limit was 2,048 and
+the loader stopped there without a word: once the tree passed 2,048 functions (21 Oct), the second half of the
+manifest (in address order) could not be swapped, hooked or captured. The 25 Oct manifest has 4,046 lines and the
+kit loads 4,045. The one it skips (`fn_101A0730`, a forwarder of 68 stack arguments) has an export name longer than
+the 160 characters a manifest name may have, and is logged as a bad line.
+
+**Recording fields** (`[watch]`, its own section: `enabled=1` turns it on, `every=N` samples every N frames; the
+fields and the CSV are in kit/README.md, Recording fields).
 
 `mods=name.dll,...` loads mod DLLs from the kit's folder at the start; they can replace manifest functions, call
 the game's own version through a trampoline, and draw each frame. See docs/SDK.md.

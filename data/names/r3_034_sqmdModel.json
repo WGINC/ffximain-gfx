@@ -1,0 +1,68 @@
+{
+ "0x10277A50": {
+  "name": "SqmdModel_Validate",
+  "confidence": "high",
+  "evidence": "Prints \"model is not loaded (validation f...\" (0x103B3848) when bit 0 of model+0xA8 is clear and \"model is not linked (validation f...\" (0x103B381C) when bit 1 is clear, both with sqmdModel.c lines 0x77/0x7D; returns 0xFF in the low byte when both are set.",
+  "summary": "Checks that a model is loaded and linked (flags 1 and 2 at +0xA8); prints the error and returns false otherwise."
+ },
+ "0x10278490": {
+  "name": "SqmdModel_Update",
+  "confidence": "high",
+  "evidence": "After SqmdModel_Validate fails it prints \"aborting %s command\" with \"sqmdModelUpdate\" (0x103B3AFC); when bit 2 of +0xA8 is set it runs the updaters (kind-2 items of type 0x130001 with flag byte 0x14 set get Unit102857D0_InvokeCallback18).",
+  "summary": "sqmdModelUpdate: runs a shown model's updaters."
+ },
+ "0x10278710": {
+  "name": "SqmdModel_Link",
+  "confidence": "medium",
+  "evidence": "Prints \"model is not loaded, aborting ...\" (0x103B3B14) with the string at 0x103B3B44 when bit 0 of +0xA8 is clear; the function refers to the DLL string \"link\". For every kind-3 item without flag 0x2000 whose name does not start with \"eyelash\" it calls fn_102787F0, and refers to \"eyelash\" a second time.",
+  "summary": "Links each of a model's shapes into the scene through fn_102787F0, treating shapes named eyelash* separately."
+ },
+ "0x102787F0": {
+  "name": "SqmdModel_LinkShape",
+  "confidence": "medium",
+  "evidence": "Same not-loaded check (sqmdModel.c line 0x2BF); grows the arrays at +0x9C/+0xA0 with SqMem_Realloc (fn_10275E90) (sqmdModel.c lines 0x2C8/0x2CA) when the count at +0xA4 reaches +0x5C, then looks up the shape's item, its kind-1 item and the \"%s_sort\" kind-2 item (SqmdModel_LookupKind2). Only caller SqmdModel_Link.",
+  "summary": "Links one shape of a model into the scene and records the entry in the model's arrays at +0x9C/+0xA0."
+ },
+ "0x10278990": {
+  "name": "SqmdModel_AddIllumLight",
+  "confidence": "high",
+  "evidence": "Abort message names it: \"aborting %s command\" with \"sqmdModelAddIllumLight\" (0x103B3B54). For each entry at +0x9C (optionally only those whose item flag at +0x54 is non-negative) it calls fn_1028F2E0(scene, entry, param_3).",
+  "summary": "sqmdModelAddIllumLight: adds a light to every scene entry of the model."
+ },
+ "0x10278B50": {
+  "name": "SqmdModel_AddShadowLightInLayer",
+  "confidence": "high",
+  "evidence": "Abort message names it: \"sqmdModelAddShadowLightInLayer\" (0x103B3BA4). For each entry at +0x9C whose high 16 bits equal param_3 (the layer), optionally only flagged ones, it calls fn_1028F350(scene, entry, param_4).",
+  "summary": "sqmdModelAddShadowLightInLayer: adds a shadow light to the model's scene entries in one layer."
+ },
+ "0x10278BF0": {
+  "name": "SqmdModel_Show",
+  "confidence": "high",
+  "evidence": "Abort message with \"sqmdModelShow\" (string listed for this function); sets bytes +0x1C and +0x1D of every scene entry (SqsnScene_GetEntryAddr) to 0xFF and sets bit 2 of +0xA8.",
+  "summary": "sqmdModelShow: marks the model's scene entries visible and sets its shown flag."
+ },
+ "0x10278E10": {
+  "name": "SqmdModel_SetLayerSort",
+  "confidence": "high",
+  "evidence": "Abort message with \"sqmdModelSetLayerSort\" (string listed for this function); param_2 -1 toggles, non-zero sets, 0 clears bit 0x8000 of +0xA8.",
+  "summary": "sqmdModelSetLayerSort: sets, clears or toggles the model's layer-sort flag (0x8000 at +0xA8)."
+ },
+ "0x10279710": {
+  "name": "SqmdModel_GetItem",
+  "confidence": "high",
+  "evidence": "Prints \"negative array index %d\" (0x103B3D54) for a negative index; switch on the kind param_2 returns entry param_3 of the table for that kind (kind 0: +0x1C/count +0x24, 1: +0x2C/+0x34, 2: +0x3C/+0x44, ...). Called by SqmdModel_GetItemKind0..4 with the kind as constant.",
+  "summary": "Returns item param_3 of kind param_2 (texture, shader, updater, shape, ...) of a model, or 0 when out of range."
+ },
+ "0x10279BF0": {
+  "name": "SqmdModel_FindItemByName",
+  "confidence": "medium",
+  "evidence": "Scans the name table (+0x70 names, +0x74 kinds, +0x78 indices, count +0x7C) for an entry of kind param_3 whose name equals param_2 (sqScript_TokenEquals), stores its index in *param_4 and returns SqmdModel_GetItemKindN of it.",
+  "summary": "Looks up a model item by kind and name, returning the item and storing its index."
+ },
+ "0x1027A1C0": {
+  "name": "SqmdModel_ItemKindName",
+  "confidence": "high",
+  "evidence": "Switch returning the DLL strings \"texture\" (0), \"shader\" (1), \"updater\" (2), \"shape\" (3), the string at 0x1038A350 (4), \"matrix\" (5), \"undefined\" otherwise.",
+  "summary": "Returns the name of an item kind for messages."
+ }
+}

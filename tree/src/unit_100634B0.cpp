@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10063890  (unit unit_100634B0: no unit evidence of its own; in the gap between 0x100634A0 (CMoSpline) and 0x10063C50 (CMoResource_VT_1032C55C) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 90 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __attribute__((stdcall, regparm(3))) fn_10063890(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, float param_2, int param_3)
+XI_API long double __attribute__((stdcall, regparm(3))) CMoSpline_EvalCubicSegment(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, float param_2, int param_3)
 {
   int iVar1;
   float *pfVar2;

@@ -24,7 +24,90 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
   self_ = (void *)*DAT_104637e8;
   if (self_ != (void *)0x0) {
     lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
-    orig::FUN_10036f00(self_,0x40,(int)lVar2);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10037B90  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SetMusicTrackVolume_A(void)
+{
+  void *self_;
+  int *piVar1;
+  int64_t lVar2;
+  char xi_frame[4] __attribute__((aligned(4)));
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
+  
+  if (DAT_104637d8 == (undefined4 *)0x0) {
+    piVar1 = (int *)orig::CMoResource_FindByTypeAndId_v2
+                              ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
+                               0x32303030);
+    DAT_104637d8 = (undefined4 *)*piVar1;
+    if (DAT_104637d8 == (undefined4 *)0x0) {
+      return;
+    }
+  }
+  self_ = (void *)*DAT_104637d8;
+  if (self_ != (void *)0x0) {
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
+    orig::Unit10036B90_SetVolumeScalar_v1(self_,0x40,(int)lVar2);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10037BF0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl SetMusicTrackVolume_B(void)
+{
+  void *self_;
+  undefined4 *puVar1;
+  uint64_t uVar2;
+  int64_t lVar3;
+  char xi_frame[4] __attribute__((aligned(4)));
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
+  
+  if (DAT_104627d0 == (undefined4 *)0x0) {
+    uVar2 = orig::CMoResource_FindByTypeAndId_v1
+                      ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,0x33303030);
+    DAT_104627d0 = (undefined4 *)*(int *)uVar2;
+    if (DAT_104627d0 == (undefined4 *)0x0) {
+      return (undefined4 *)0;
+    }
+  }
+  self_ = (void *)*DAT_104627d0;
+  puVar1 = DAT_104627d0;
+  if (self_ != (void *)0x0) {
+    lVar3 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
+    uVar2 = orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar3);
+    puVar1 = (undefined4 *)uVar2;
+  }
+  return puVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x10037C50  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SetMusicTrackVolume_Tag0004(void)
+{
+  void *self_;
+  int *piVar1;
+  int64_t lVar2;
+  char xi_frame[4] __attribute__((aligned(4)));
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
+  
+  if (DAT_10462588 == (undefined4 *)0x0) {
+    piVar1 = (int *)orig::CMoResource_FindByTypeAndId_v2
+                              ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,
+                               0x34303030);
+    DAT_10462588 = (undefined4 *)*piVar1;
+    if (DAT_10462588 == (undefined4 *)0x0) {
+      return;
+    }
+  }
+  self_ = (void *)*DAT_10462588;
+  if (self_ != (void *)0x0) {
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
+    orig::Unit10036B90_SetVolumeScalar_v1(self_,0x40,(int)lVar2);
   }
   return;
 }
@@ -51,7 +134,33 @@ XI_API void __cdecl MusicTrack_SetVolumeId0009(void)
   self_ = (void *)*DAT_1046279c;
   if (self_ != (void *)0x0) {
     lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
-    orig::FUN_10036f00(self_,0x40,(int)lVar2);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10037DD0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl MusicTrack_SetVolumeId0010(void)
+{
+  void *self_;
+  uint64_t uVar1;
+  int64_t lVar2;
+  char xi_frame[4] __attribute__((aligned(4)));
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
+  
+  if (DAT_104637e0 == (undefined4 *)0x0) {
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
+                      ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,0x30313030);
+    DAT_104637e0 = (undefined4 *)*(int *)uVar1;
+    if (DAT_104637e0 == (undefined4 *)0x0) {
+      return;
+    }
+  }
+  self_ = (void *)*DAT_104637e0;
+  if (self_ != (void *)0x0) {
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
   }
   return;
 }
@@ -78,7 +187,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0011(void)
   self_ = (void *)*DAT_104627cc;
   if (self_ != (void *)0x0) {
     lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
-    orig::FUN_10036f00(self_,0x40,(int)lVar2);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
   }
   return;
 }
@@ -105,7 +214,33 @@ XI_API void __cdecl MusicTrack_SetVolumeId0013(void)
   self_ = (void *)*DAT_10462690;
   if (self_ != (void *)0x0) {
     lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
-    orig::FUN_10036f00(self_,0x40,(int)lVar2);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10037FB0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl MusicTrack_SetVolumeId0016(void)
+{
+  void *self_;
+  uint64_t uVar1;
+  int64_t lVar2;
+  char xi_frame[4] __attribute__((aligned(4)));
+  uint8_t  (&local_4)[4] = *reinterpret_cast<uint8_t  (*)[4]>(xi_frame + 0);
+  
+  if (DAT_104627c8 == (undefined4 *)0x0) {
+    uVar1 = orig::CMoResource_FindByTypeAndId_v1
+                      ((void *)**(undefined4 **)(g_pMeshResourceMng + 0x40008),local_4,0x3d,0x36313030);
+    DAT_104627c8 = (undefined4 *)*(int *)uVar1;
+    if (DAT_104627c8 == (undefined4 *)0x0) {
+      return;
+    }
+  }
+  self_ = (void *)*DAT_104627c8;
+  if (self_ != (void *)0x0) {
+    lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351700 * (long double)127.0f);
+    orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
   }
   return;
 }
@@ -135,7 +270,7 @@ XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, un
       if (((undefined4 *)*(int *)uVar1 != (undefined4 *)0x0) &&
          (self_ = *(void **)*(int *)uVar1, self_ != (void *)0x0)) {
         lVar2 = XI_CALL_ST0(0x10311C2Cu)((long double)DAT_10351710 * (long double)param_2 * (long double)127.0f);
-        uVar1 = orig::FUN_10036f00(self_,0x40,(int)lVar2);
+        uVar1 = orig::Unit10036B90_SetVolumeScalar(self_,0x40,(int)lVar2);
         this_00[0xe] = (int)uVar1;
         this_00[0xd] = 0x42f00000;
         *(uint8_t *)(this_00 + 0xf) = (uint8_t)param_3;
@@ -150,17 +285,67 @@ XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, un
 
 // FUNCTION: FFXIMAIN 0x100382A0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __attribute__((cdecl, regparm(1))) fn_100382A0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
+XI_API void __attribute__((cdecl, regparm(1))) Music_LoadTrackIfRunning(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
   if (DAT_1046393c != 0) {
-    orig::FUN_102465e0(param_1,param_2,0);
+    orig::LobbyThread_QueueMusicFile(param_1,param_2,0);
   }
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10038330  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int param_1, float * param_2, int param_3)
+{
+  uint32_t uVar1;
+  int iVar2;
+  int iVar3;
+  int64_t lVar4;
+  
+  iVar3 = DAT_10456a94;
+  if (DAT_1046393c_as_v0 != (void *)0x0) {
+    if (param_3 < 0) {
+      param_3 = 0;
+    }
+    else if (0x7f < param_3) {
+      param_3 = 0x7f;
+    }
+    uVar1 = orig::Acter_IsEvent(DAT_1046393c_as_v0);
+    if (((char)uVar1 != '\0') && (DAT_10463924 != '\0')) {
+      iVar3 = 0x14;
+    }
+    iVar2 = orig::LobbyThread_QueryChannels_v1(5,-1,-1);
+    if (iVar2 < iVar3) {
+      if ((*(int *)(param_1 + 8) == 0x8bf) || (*(int *)(param_1 + 8) == 0x80f)) {
+        if (DAT_104638f4_as_s8 != '\0') {
+          return 0;
+        }
+        DAT_104638f4_as_s8 = '\x01';
+      }
+      lVar4 = XI_CALL_ST0(0x10311C2Cu)((long double)*param_2);
+      uVar1 = orig::LobbyThread_QueueSoundCmd(DAT_1046393c_as_v0,(char *)param_1,(uint32_t)lVar4,param_3);
+      return uVar1;
+    }
+  }
+  return 0xffffffff;
+}
+
+// FUNCTION: FFXIMAIN 0x10038440  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) LobbyThread_SendCmd3FromFloat(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3)
+{
+  int64_t lVar1;
+  
+  if (DAT_1046393c != 0) {
+    lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)*param_2);
+    xi_eax = orig::LobbyThread_SendCmd3(param_1,(uint32_t)lVar1,param_3);
+  }
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x10038470  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038470(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3)
 {
   if (-1 < param_1) {
     if (param_2 < 0) {
@@ -177,6 +362,41 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038470(undefined4 xi_e
     }
   }
   return xi_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x100384B0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
+{
+  char cVar1;
+  char *pcVar2;
+  int iVar3;
+  uint32_t uVar4;
+  
+  if ((char)param_4 != '\0') {
+    (&dword_10463950_as_v0)[dword_1047B950] = 3;
+    (&DAT_10463951)[dword_1047B950] = (char)param_4;
+    dword_1047B950 = dword_1047B950 + 2;
+  }
+  *(uint32_t *)(&dword_10463950_as_v0 + dword_1047B950) = param_2;
+  *(uint32_t *)((int)&DAT_10463952 + dword_1047B950 + 2) = param_3;
+  pcVar2 = param_1;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2[(dword_1047B950 + 0x10463958) - (int)param_1] = cVar1;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  uVar4 = 0xffffffff;
+  do {
+    if (uVar4 == 0) break;
+    uVar4 = uVar4 - 1;
+    cVar1 = *param_1;
+    param_1 = param_1 + 1;
+  } while (cVar1 != '\0');
+  dword_1047B950 = dword_1047B950 + ~uVar4 + 9;
+  iVar3 = dword_1047B950;
+  ((uint8_t *)((&DAT_1046394f)))[dword_1047B950] = 1;
+  return iVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)

@@ -1,0 +1,8 @@
+{
+ "0x10073D80": {
+  "name": "ResourceIter_FindOrStartTask",
+  "confidence": "low",
+  "evidence": "walks the list at 0x1047D124 for a match (body continues); when none is found and arg3 is set and 0x10074F30 finds no resource of type 0x4D727400 for arg2, allocates a CMoTask (vtable 0x1032C908), marks g_resourcesDirty and starts it (Unit10072A50_Start); stores the result in *arg1; called by AfterimageTask_Kill",
+  "summary": "Finds a task for a resource, or starts one."
+ }
+}

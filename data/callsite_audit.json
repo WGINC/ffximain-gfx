@@ -112,28 +112,25 @@
 }
 },
 "0x10003212": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x100031F0",
 "hexrays_cast": 8,
-"sources": {}
+"sources": {
+"solved": 8
+}
 },
 "0x10003255": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x100031F0",
 "hexrays_cast": 16,
-"sources": {}
+"sources": {
+"solved": 16
+}
 },
 "0x1000339D": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x100031F0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x100033D5": {
 "func": "0x100033C0",
@@ -6736,6 +6733,7 @@
 "0x1002E380": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
@@ -6851,6 +6849,7 @@
 "0x1002E666": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
@@ -6863,18 +6862,21 @@
 "0x1002E876": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
 "0x1002E9AE": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
 "0x1002EAD0": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
@@ -6887,18 +6889,21 @@
 "0x1002ED81": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
 "0x1002EEB8": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
 "0x1002EFDB": {
 "func": "0x1002DC10",
 "sources": {
+"solved": 12,
 "typed": 12
 }
 },
@@ -8575,12 +8580,11 @@
 }
 },
 "0x100419A9": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x100412B0",
 "hexrays_cast": 16,
-"sources": {}
+"sources": {
+"solved": 16
+}
 },
 "0x10041BED": {
 "func": "0x10041AF0",
@@ -8646,12 +8650,11 @@
 "sources": {}
 },
 "0x10042434": {
-"evidence": [
-"object pushed last"
-],
 "func": "0x100421A0",
 "hexrays_cast": 8,
-"sources": {}
+"sources": {
+"solved": 8
+}
 },
 "0x10042816": {
 "func": "0x100426F0",
@@ -10489,44 +10492,39 @@
 "sources": {}
 },
 "0x1005B5E8": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B664": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B673": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B682": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005B7B4": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005BB25": {
 "func": "0x10057FB0",
@@ -10536,12 +10534,11 @@
 }
 },
 "0x1005C02B": {
-"evidence": [
-"ECX = object"
-],
 "func": "0x10057FB0",
 "hexrays_cast": 0,
-"sources": {}
+"sources": {
+"solved": 0
+}
 },
 "0x1005C1E8": {
 "func": "0x10057FB0",
@@ -20240,18 +20237,17 @@
 }
 },
 "0x1028B35E": {
-"evidence": [
-"object pushed last",
-"ECX = object"
-],
 "func": "0x1028AFE0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x1028B39D": {
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20279,17 +20275,16 @@
 }
 },
 "0x1028B458": {
-"evidence": [
-"object pushed last",
-"ECX = object"
-],
 "func": "0x1028AFE0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x1028B497": {
 "func": "0x1028AFE0",
 "sources": {
+"solved": 24,
 "typed": 24
 }
 },
@@ -20317,18 +20312,17 @@
 }
 },
 "0x1028B564": {
-"evidence": [
-"object pushed last",
-"ECX = object"
-],
 "func": "0x1028AFE0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x1028B5BF": {
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20356,17 +20350,16 @@
 }
 },
 "0x1028B685": {
-"evidence": [
-"object pushed last",
-"ECX = object"
-],
 "func": "0x1028AFE0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x1028B6C4": {
 "func": "0x1028AFE0",
 "sources": {
+"solved": 24,
 "typed": 24
 }
 },
@@ -20394,17 +20387,16 @@
 }
 },
 "0x1028B77D": {
-"evidence": [
-"object pushed last",
-"ECX = object"
-],
 "func": "0x1028AFE0",
 "hexrays_cast": 4,
-"sources": {}
+"sources": {
+"solved": 4
+}
 },
 "0x1028B7B9": {
 "func": "0x1028AFE0",
 "sources": {
+"solved": 24,
 "typed": 24
 }
 },
@@ -20435,6 +20427,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20442,6 +20435,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 16,
+"solved": 16,
 "typed": 16
 }
 },
@@ -20449,6 +20443,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20456,6 +20451,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 16,
+"solved": 16,
 "typed": 16
 }
 },
@@ -20463,6 +20459,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20470,6 +20467,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 16,
+"solved": 16,
 "typed": 16
 }
 },
@@ -20477,6 +20475,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20484,6 +20483,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 16,
+"solved": 16,
 "typed": 16
 }
 },
@@ -20491,6 +20491,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 24,
+"solved": 24,
 "typed": 24
 }
 },
@@ -20498,6 +20499,7 @@
 "func": "0x1028AFE0",
 "sources": {
 "measured": 16,
+"solved": 16,
 "typed": 16
 }
 },
@@ -22098,8 +22100,8 @@
 "_export_has_call_sources": true,
 "_stats": {
 "conflict": 11,
-"definitive": 2821,
+"definitive": 2837,
 "hexrays cast differs": 2,
-"no source": 300
+"no source": 284
 }
 }

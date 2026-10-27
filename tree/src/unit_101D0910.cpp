@@ -2,51 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x101D0910  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0910(void * self_, int param_1)
-{
-  uint8_t bVar1;
-  int iVar2;
-  
-  if (param_1 != 0) {
-    *(uint8_t *)((int)self_ + 5) = *(uint8_t *)((int)self_ + 5) | *(uint8_t *)((int)self_ + 4);
-  }
-  bVar1 = *(uint8_t *)((int)self_ + 4) >> 1;
-  *(uint8_t *)((int)self_ + 4) = bVar1;
-  if ((bVar1 == 0) && (*(int *)((int)self_ + 0xc) < *(int *)((int)self_ + 0x10))) {
-    *(uint8_t *)(*(int *)((int)self_ + 0xc) + *(int *)((int)self_ + 8)) =
-         *(uint8_t *)((int)self_ + 5);
-    iVar2 = *(int *)((int)self_ + 0xc) + 1;
-    *(int *)((int)self_ + 0xc) = iVar2;
-    if (*(char *)((int)self_ + 5) == -1) {
-      *(uint8_t *)(iVar2 + *(int *)((int)self_ + 8)) = 0;
-      *(int *)((int)self_ + 0xc) = *(int *)((int)self_ + 0xc) + 1;
-    }
-    *(uint8_t *)((int)self_ + 4) = 0x80;
-    *(uint8_t *)((int)self_ + 5) = 0;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x101D0970  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0970(void * self_, uint32_t param_1, uint32_t param_2)
-{
-  uint32_t uVar1;
-  
-  if (0 < (int)param_2) {
-    uVar1 = param_2;
-    param_2 = 1 << ((char)param_2 - 1U & 0x1f);
-    do {
-      orig::FUN_101d0910(self_,param_2 & 0xffff & param_1 & 0xffff);
-      param_2 = param_2 >> 1 & 0x7fff;
-      uVar1 = uVar1 - 1;
-    } while (uVar1 != 0);
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x101D09C0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit101D0910_PutByte(void * self_, undefined4 param_1)
@@ -54,27 +9,6 @@ XI_API void __thiscall Unit101D0910_PutByte(void * self_, undefined4 param_1)
   if (*(int *)((int)self_ + 0xc) < *(int *)((int)self_ + 0x10)) {
     *(uint8_t *)(*(int *)((int)self_ + 0xc) + *(int *)((int)self_ + 8)) = (uint8_t)param_1;
     *(int *)((int)self_ + 0xc) = *(int *)((int)self_ + 0xc) + 1;
-  }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x101D09E0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D09E0(void * self_, int param_1, int param_2)
-{
-  int iVar1;
-  
-  iVar1 = 0;
-  if (0 < param_2) {
-    do {
-      if (*(int *)((int)self_ + 0x10) <= *(int *)((int)self_ + 0xc)) {
-        return;
-      }
-      *(uint8_t *)(*(int *)((int)self_ + 0xc) + *(int *)((int)self_ + 8)) =
-           *(uint8_t *)(iVar1 + param_1);
-      iVar1 = iVar1 + 1;
-      *(int *)((int)self_ + 0xc) = *(int *)((int)self_ + 0xc) + 1;
-    } while (iVar1 < param_2);
   }
   return;
 }
@@ -97,36 +31,9 @@ XI_API void __thiscall Unit101D0910_PutFFThenByte(void * self_, undefined4 xi_s1
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x101D0A60  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_101D0A60(void * self_)
-{
-  uint8_t bVar1;
-  uint8_t bVar2;
-  
-  bVar1 = *(uint8_t *)((int)self_ + 4);
-  if (bVar1 != 0) {
-    bVar2 = *(uint8_t *)((int)self_ + 5);
-    do {
-      bVar2 = bVar2 | bVar1;
-      bVar1 = bVar1 >> 1;
-    } while (bVar1 != 0);
-    *(uint8_t *)((int)self_ + 4) = 0;
-    *(uint8_t *)((int)self_ + 5) = bVar2;
-  }
-  if (*(int *)((int)self_ + 0xc) < *(int *)((int)self_ + 0x10)) {
-    *(uint8_t *)(*(int *)((int)self_ + 0xc) + *(int *)((int)self_ + 8)) =
-         *(uint8_t *)((int)self_ + 5);
-    *(uint8_t *)((int)self_ + 4) = 0x80;
-    *(int *)((int)self_ + 0xc) = *(int *)((int)self_ + 0xc) + 1;
-    *(uint8_t *)((int)self_ + 5) = 0;
-  }
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x101D0AB0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101D0AB0(void)
+XI_API undefined4 __cdecl Unit101D0910_TriggerOnSceneState60(void)
 {
   int *piVar1;
   uint32_t uVar2;
@@ -135,8 +42,8 @@ XI_API undefined4 __cdecl fn_101D0AB0(void)
   if ((DAT_104dfd98 != 0) && (piVar1 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
     piVar1 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar1 != '\0') && (piVar1 = *(int **)(DAT_10663888 + 8), piVar1 == (int *)0x0)) {
-      DAT_10663178_as_v0 = 2;
-      uVar2 = orig::FUN_10037fb0();
+      DAT_10663178 = 2;
+      uVar2 = orig::MusicTrack_SetVolumeId0016();
       DAT_106218ea = 1;
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
@@ -168,7 +75,7 @@ XI_API int * __cdecl CopyrightText_Draw(void)
   if ((DAT_104dfd98 != 0) && (piVar3 = g_pSceneState_as_v0, *g_pSceneState_as_v0 == 0x60)) {
     piVar3 = (int *)orig::Menu_IsStateB4Eq1(&g_menuMng_as_v0,g_pSceneState_as_v0);
     if (((char)piVar3 != '\0') &&
-       ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178 != 0)))) {
+       ((piVar3 = *(int **)(DAT_10663888 + 8), piVar3 == (int *)0x0 && (DAT_10663178_as_v0 != 0)))) {
       iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
       local_8 = (float)((long double)*(int *)(iVar4 + 8) * (long double)0.0009765625f);
       iVar4 = orig::CDx_GetRenderTargetTop_v1(*(void **)(g_pResourceMng + 0xdc8));
@@ -207,33 +114,84 @@ XI_API uint8_t * __cdecl CopyrightText_Format(void)
   return(uint8_t*)(&DAT_10663078);
 }
 
-// FUNCTION: FFXIMAIN 0x101D1060  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101D1060(void * param_1, uint32_t param_2, uint32_t param_3)
+// FUNCTION: FFXIMAIN 0x101D0EA0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 46 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit101D0910_TakeScreenshot(int param_1)
 {
-  LPVOID pvVar1;
-  int iVar2;
+  uint32_t uVar1;
+  uint32_t *puVar2;
   uint32_t uVar3;
-  uint8_t bVar4;
-  uint64_t uVar5;
+  char xi_frame[512] __attribute__((aligned(4)));
+  char  (&local_200)[256] = *reinterpret_cast<char  (*)[256]>(xi_frame + 0);
+  uint8_t  (&local_100)[256] = *reinterpret_cast<uint8_t  (*)[256]>(xi_frame + 256);
   
-  bVar4 = false;
-  uVar5 = orig::Allocator_Generic_v1(param_2 * param_3 * 4);
-  pvVar1 = (LPVOID)uVar5;
-  uVar3 = 0;
-  if (pvVar1 != (LPVOID)0x0) {
-    orig::Unit101C72E0_BeginCapture(pvVar1,param_2,param_3);
-    iVar2 = orig::YkJpeg_EncodeChecked(param_1,param_2,param_3,(int)pvVar1,0x5a);
-    bVar4 = iVar2 == 0;
-    uVar5 = orig::operator_delete_v1(pvVar1);
-    uVar3 = (uint32_t)uVar5;
+  local_200[0] = '\0';
+  uVar1 = orig::FUN_100dbe10();
+  puVar2 = (uint32_t *)orig::Unit101C72E0_TimeToTmWrap28Years(uVar1);
+  uVar1 = 0;
+  if (puVar2 != (uint32_t *)0x0) {
+    orig::_sprintf_v1(local_200,s__c_c_c_02d_02d_02d_02d_02d_02d_c_1037e8b8,
+                 (uint32_t)*(uint8_t *)(DAT_104dfd98 + 0x3c3a4),(uint32_t)*(uint8_t *)(DAT_104dfd98 + 0x3c3a5),
+                 (uint32_t)*(uint8_t *)(DAT_104dfd98 + 0x3c3a6),(puVar2[5] + 0x76c) % 100,puVar2[4] + 1,
+                 puVar2[3],puVar2[2],puVar2[1],*puVar2,(int)DAT_1066317a % 10 + 0x61);
+    uVar1 = orig::ntGameTimeGet();
+    uVar1 = orig::Time_ModMul3CDiv90(uVar1);
+    if ((int)DAT_1037e862 == uVar1) {
+      DAT_1066317a = DAT_1066317a + '\x01';
+    }
+    else {
+      DAT_1066317a = '\0';
+    }
+    uVar1 = orig::ntGameTimeGet();
+    uVar1 = orig::Time_ModMul3CDiv90(uVar1);
+    DAT_1037e862 = (char)uVar1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(bVar4)));
+  if (local_200[0] != '\0') {
+    orig::_sprintf_v1(local_100,s__s_jpg_1037e8b0,local_200);
+    if (param_1 == 0) {
+      uVar3 = orig::Unit101D0910_SaveJpeg512x382(local_100);
+      return uVar3;
+    }
+    uVar1 = param_1;
+    if (((param_1 == 1) && (DAT_10456ae0 != '\0')) && (DAT_10456a84 != 0)) {
+      orig::_sprintf_v1(local_100,s_screenshots__s_jpg_1037e89c,local_200);
+      uVar3 = orig::Unit101D0910_SaveJpegScreenSize(local_100);
+      return uVar3;
+    }
+  }
+  return uVar1 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x101D1000  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit101D0910_SaveJpeg512x382(undefined4 param_1)
+{
+  void *pvVar1;
+  uint32_t uVar2;
+  uint8_t uVar3;
+  
+  uVar3 = 0;
+  pvVar1 = (void *)orig::Mem_AllocDefault_v1(0xcfc);
+  uVar2 = 0;
+  if (pvVar1 != (void *)0x0) {
+    pvVar1 = (void *)orig::YkJpeg_Destructor(pvVar1);
+    uVar2 = 0;
+    if (pvVar1 != (void *)0x0) {
+      uVar2 = orig::YkJpeg_CaptureAndEncode(pvVar1,0x200,0x17e);
+      if ((char)uVar2 != '\0') {
+        uVar2 = orig::Unit101D0910_WriteWithFileMngA((int)pvVar1,param_1);
+        uVar3 = (uint8_t)uVar2;
+      }
+      orig::YkJpeg_Release(pvVar1);
+      uVar2 = orig::thunk_sub_10028AA0_v3(pvVar1);
+    }
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(uVar3)));
 }
 
 // FUNCTION: FFXIMAIN 0x101D10C0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101D10C0(int param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngA(int param_1, undefined4 param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -241,7 +199,7 @@ XI_API undefined4 __cdecl fn_101D10C0(int param_1, undefined4 param_2)
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::FUN_101c49a0(g_pFileMng_as_v1,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
+    iVar1 = orig::Unit1018BA60_FileMngCall101C0A40(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
     uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;
@@ -250,9 +208,41 @@ XI_API undefined4 __cdecl fn_101D10C0(int param_1, undefined4 param_2)
   return uVar2 & 0xffffff00;
 }
 
+// FUNCTION: FFXIMAIN 0x101D1100  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit101D0910_SaveJpegScreenSize(undefined4 param_1)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  void *pvVar3;
+  uint32_t uVar4;
+  uint8_t uVar5;
+  
+  uVar5 = 0;
+  uVar1 = orig::Camera_GetWord10();
+  uVar2 = orig::Camera_GetWord12();
+  pvVar3 = (void *)orig::Mem_AllocDefault_v1(0xcfc);
+  uVar4 = 0;
+  if (pvVar3 != (void *)0x0) {
+    pvVar3 = (void *)orig::YkJpeg_Destructor(pvVar3);
+    uVar4 = 0;
+    if (pvVar3 != (void *)0x0) {
+      uVar4 = orig::YkJpeg_CaptureAndEncode(pvVar3,uVar1 & 0xffff,uVar2 & 0xffff);
+      uVar5 = 0;
+      if ((char)uVar4 != '\0') {
+        uVar4 = orig::Unit101D0910_WriteWithFileMngB((int)pvVar3,param_1);
+        uVar5 = (uint8_t)uVar4;
+      }
+      orig::YkJpeg_Release(pvVar3);
+      uVar4 = orig::thunk_sub_10028AA0_v3(pvVar3);
+    }
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(uVar5)));
+}
+
 // FUNCTION: FFXIMAIN 0x101D1180  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_101D1180(int param_1, undefined4 param_2)
+XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngB(int param_1, undefined4 param_2)
 {
   int iVar1;
   uint32_t uVar2;
@@ -260,7 +250,7 @@ XI_API undefined4 __cdecl fn_101D1180(int param_1, undefined4 param_2)
   uVar2 = 0;
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
-    iVar1 = orig::FUN_101c4950(g_pFileMng_as_v1,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
+    iVar1 = orig::Unit1018BA60_FileMngSubmitPath4F4Kind3(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
     uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;
@@ -285,7 +275,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663888_as_v0 = (void *)0x0;
     }
     else {
-      DAT_10663888_as_v0 = orig::FUN_101f86c0((void *)uVar3);
+      DAT_10663888_as_v0 = orig::Unit101D7020_CtorVt1033A8B8((void *)uVar3);
     }
   }
   if (DAT_10663648 == (void *)0x0) {
@@ -294,7 +284,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663648 = (void *)0x0;
     }
     else {
-      DAT_10663648 = orig::FUN_101e6fb0((void *)uVar3);
+      DAT_10663648 = orig::Yk_CtorVt10339BC0((void *)uVar3);
     }
   }
   if (DAT_10663520 == (void *)0x0) {
@@ -303,7 +293,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663520 = (void *)0x0;
     }
     else {
-      DAT_10663520 = orig::FUN_101e3f50((void *)uVar3);
+      DAT_10663520 = orig::Unit101D7020_CtorVt103394C0((void *)uVar3);
     }
   }
   if (DAT_10663524 == (void *)0x0) {
@@ -312,7 +302,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663524 = (void *)0x0;
     }
     else {
-      DAT_10663524 = orig::FUN_101e4a20((void *)uVar3);
+      DAT_10663524 = orig::Unit101D7020_CtorVt10339698((void *)uVar3);
     }
   }
   if (DAT_10663684 == (void *)0x0) {
@@ -321,7 +311,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663684 = (void *)0x0;
     }
     else {
-      DAT_10663684 = orig::FUN_101eb390((void *)uVar3);
+      DAT_10663684 = orig::Unit101D7020_CtorVt10339D78((void *)uVar3);
     }
   }
   if (DAT_10663494 == (void *)0x0) {
@@ -330,7 +320,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663494 = (void *)0x0;
     }
     else {
-      DAT_10663494 = orig::FUN_101dedc0((void *)uVar3);
+      DAT_10663494 = orig::Unit101D7020_CtorVt10338F68((void *)uVar3);
     }
   }
   if (DAT_10664494 == (void *)0x0) {
@@ -339,7 +329,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664494 = (void *)0x0;
     }
     else {
-      DAT_10664494 = orig::FUN_1020b500((void *)uVar3);
+      DAT_10664494 = orig::Unit101D7020_CtorVt1033B948((void *)uVar3);
     }
   }
   if (DAT_10663acc == (undefined4 *)0x0) {
@@ -349,13 +339,13 @@ XI_API void __cdecl YkInit(void)
       DAT_10663acc = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *puVar1 = &PTR_FUN_10333360;
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
-      orig::FUN_10201020(puVar1 + 7);
-      orig::FUN_10201130(puVar1 + 0x11);
+      orig::Unit101D7020_InitFromTablesA(puVar1 + 7);
+      orig::Unit101D7020_InitFromTablesB(puVar1 + 0x11);
       *puVar1 = &PTR_FUN_10338368;
       puVar1[5] = 1;
       puVar1[6] = 0;
@@ -368,7 +358,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663ab8 = (void *)0x0;
     }
     else {
-      DAT_10663ab8 = orig::FUN_101ff000((void *)uVar3);
+      DAT_10663ab8 = orig::Unit101D7020_CtorVt1033ABE0((void *)uVar3);
     }
   }
   if (DAT_10664520 == (void *)0x0) {
@@ -398,12 +388,12 @@ XI_API void __cdecl YkInit(void)
       DAT_10664404 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
       *puVar1 = &PTR_FUN_10338320;
-      orig::FUN_10206420(puVar1);
+      orig::Unit101D7020_ClearFields14To24(puVar1);
       puVar1[0xe] = 0;
       DAT_10664404 = puVar1;
     }
@@ -414,7 +404,7 @@ XI_API void __cdecl YkInit(void)
       DAT_106634ac = (void *)0x0;
     }
     else {
-      DAT_106634ac = orig::FUN_101e0a90((void *)uVar3);
+      DAT_106634ac = orig::Unit101D7020_CtorVt10339250((void *)uVar3);
     }
   }
   if (DAT_10663468 == (void *)0x0) {
@@ -423,7 +413,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663468 = (void *)0x0;
     }
     else {
-      DAT_10663468 = orig::FUN_101dc460((void *)uVar3);
+      DAT_10663468 = orig::Unit101D7020_CtorVt10338D88((void *)uVar3);
     }
   }
   if (DAT_10663740 == (void *)0x0) {
@@ -432,7 +422,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663740 = (void *)0x0;
     }
     else {
-      DAT_10663740 = orig::FUN_101f17c0((void *)uVar3);
+      DAT_10663740 = orig::Unit101D7020_CtorVt1033A5D8((void *)uVar3);
     }
   }
   if (DAT_10664508 == (void *)0x0) {
@@ -459,7 +449,7 @@ XI_API void __cdecl YkInit(void)
       DAT_106636ac = (void *)0x0;
     }
     else {
-      DAT_106636ac = orig::FUN_101ed450((void *)uVar3);
+      DAT_106636ac = orig::Unit101D7020_CtorVt10339FA0((void *)uVar3);
     }
   }
   if (DAT_10663400 == (void *)0x0) {
@@ -477,7 +467,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664444 = (void *)0x0;
     }
     else {
-      DAT_10664444 = orig::FUN_10209b90((void *)uVar3);
+      DAT_10664444 = orig::Unit101D7020_CtorVt1033B3A0((void *)uVar3);
     }
   }
   if (DAT_1066369c == (void *)0x0) {
@@ -486,7 +476,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066369c = (void *)0x0;
     }
     else {
-      DAT_1066369c = orig::FUN_101ebe00((void *)uVar3);
+      DAT_1066369c = orig::Unit101D7020_CtorVt10339E48((void *)uVar3);
     }
   }
   if (DAT_1066349c == (void *)0x0) {
@@ -504,7 +494,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066442c = (void *)0x0;
     }
     else {
-      DAT_1066442c = orig::FUN_10207730((void *)uVar3);
+      DAT_1066442c = orig::Unit101D7020_CtorVt1033B248((void *)uVar3);
     }
   }
   if (DAT_1066443c == (void *)0x0) {
@@ -513,7 +503,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066443c = (void *)0x0;
     }
     else {
-      DAT_1066443c = orig::FUN_10209300((void *)uVar3);
+      DAT_1066443c = orig::Unit101D7020_CtorVt1033B340((void *)uVar3);
     }
   }
   if (DAT_10663aac == (void *)0x0) {
@@ -522,7 +512,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663aac = (void *)0x0;
     }
     else {
-      DAT_10663aac = orig::FUN_101fd000((void *)uVar3);
+      DAT_10663aac = orig::Unit101D7020_CtorVt1033AAB0((void *)uVar3);
     }
   }
   if (DAT_10663698 == (undefined4 *)0x0) {
@@ -532,7 +522,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663698 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -546,7 +536,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663784 = (void *)0x0;
     }
     else {
-      DAT_10663784 = orig::FUN_101f43f0((void *)uVar3);
+      DAT_10663784 = orig::Unit101D7020_CtorVt1033A6D0((void *)uVar3);
     }
   }
   if (DAT_10663788 == (undefined4 *)0x0) {
@@ -556,7 +546,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10663788 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -571,7 +561,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066378c = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -586,7 +576,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664408 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -601,7 +591,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066440c = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -616,7 +606,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664410 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -631,7 +621,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664414 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -646,7 +636,7 @@ XI_API void __cdecl YkInit(void)
       DAT_10664418 = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -661,7 +651,7 @@ XI_API void __cdecl YkInit(void)
       DAT_1066441c = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -707,7 +697,7 @@ XI_API void __cdecl YkInit(void)
       *(uint16_t *)(DAT_10664424 + 2) = 0;
     }
   }
-  orig::FUN_102017a0();
+  orig::Unit101D7020_CreateMenuObjects();
   if (DAT_10663180 == (void *)0x0) {
     uVar3 = orig::Allocator_Generic_v1(0x68);
     if ((void *)uVar3 == (void *)0x0) {
@@ -738,7 +728,7 @@ XI_API void __cdecl YkInit(void)
       DAT_106634bc = (undefined4 *)0x0;
     }
     else {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
@@ -750,7 +740,7 @@ XI_API void __cdecl YkInit(void)
     uVar3 = orig::Allocator_Generic_v1(0x14);
     puVar1 = (undefined4 *)uVar3;
     if (puVar1 != (undefined4 *)0x0) {
-      orig::FUN_10126320(puVar1 + 1);
+      orig::Unit100D7420_ClearWords(puVar1 + 1);
       *(uint16_t *)((int)puVar1 + 0xe) = 0xffff;
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;

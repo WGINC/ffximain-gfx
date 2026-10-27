@@ -41,7 +41,7 @@ void * __thiscall CMoSchedularTask::Construct(void * self, undefined4 param_1, u
   *(uint8_t ***)self = &PTR_CMoSchedularTask_GetRuntimeClass_1032b860;
   *(uint32_t *)((int)self + 0x34) = &PTR_LAB_1032b844;
   orig::CMoSchedularTask_ResetFlags(self);
-  orig::FUN_100573e0(self,param_1,param_2,param_3);
+  orig::CMoSchedularTask_InitFromSource(self,param_1,param_2,param_3);
   orig::FUN_10074a00();
   return self;
 }
@@ -59,6 +59,43 @@ XI_API void __thiscall CMoSchedularTask_ResetFlags(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100573E0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoSchedularTask::InitFromSource(void * self, int param_1, uint32_t param_2, short * param_3)
+{
+  uint32_t uVar1;
+  int iVar2;
+  
+  *(uint32_t *)((int)self + 0x90) = 0;
+  *(uint8_t *)((int)self + 0x140) = 0;
+  *(uint32_t *)((int)self + 0xac) = 0;
+  orig::CMoSchedularTask_SetSharedRef(self,param_3);
+  *(uint32_t *)((int)self + 0x80) = *(uint32_t *)(param_1 + 0x14);
+  if (param_2 != 0) {
+    if (param_2 != 1) {
+      if (*(int **)((int)self + 0x80) == (int *)0x0) {
+        iVar2 = 0;
+      }
+      else {
+        iVar2 = **(int **)((int)self + 0x80);
+      }
+      *(float *)((int)self + 0x9c) = (float)((long double)param_2 / (long double)*(int *)(iVar2 + 0x7c));
+      goto LAB_1005742f;
+    }
+    *(uint8_t *)((int)self + 0x141) = 1;
+  }
+  *(uint32_t *)((int)self + 0x9c) = 0x3f800000;
+LAB_1005742f:
+  *(uint32_t *)((int)self + 0xa0) = 0;
+  *(uint32_t *)((int)self + 0x84) = 0;
+  uVar1 = *(uint32_t *)(param_1 + 0x14);
+  *(uint32_t *)((int)self + 0x80) = uVar1;
+  *(uint32_t *)((int)self + 0x94) = 0;
+  *(uint32_t *)((int)self + 0x98) = 0;
+  *(uint32_t *)((int)self + 0x88) = *(uint32_t *)(param_1 + 0x74);
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x100574A0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 28 returned normally, 144 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoSchedularTask::Destructor(void * self)
@@ -72,14 +109,14 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
   this_00 = (uint32_t *)((int)self + 0x34);
   *(uint8_t ***)self = &PTR_CMoSchedularTask_GetRuntimeClass_1032b860;
   *this_00 = &PTR_LAB_1032b844;
-  uVar2 = orig::FUN_1003b6d0(this_00);
+  uVar2 = orig::CMoAttachments_GetCaster_v1(this_00);
   if ((int)uVar2 != 0) {
-    uVar2 = orig::FUN_1003b6d0(this_00);
+    uVar2 = orig::CMoAttachments_GetCaster_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar2 + 0x16c))))((void *)((int *)uVar2));
   }
-  uVar2 = orig::FUN_1003b700(this_00);
+  uVar2 = orig::CMoAttachments_GetTarget_v1(this_00);
   if ((int)uVar2 != 0) {
-    uVar2 = orig::FUN_1003b700(this_00);
+    uVar2 = orig::CMoAttachments_GetTarget_v1(this_00);
     ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar2 + 0x16c))))((void *)((int *)uVar2));
   }
   for (iVar1 = *(int *)(dword_1047D140 + 0xd50); iVar1 != 0; iVar1 = *(int *)(iVar1 + 0xc)) {

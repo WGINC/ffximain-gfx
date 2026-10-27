@@ -18,7 +18,7 @@ XI_API void __cdecl SqgxDlist_CreateContextList(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B620  (unit sqgxDlist: asserts sqgxDlist.c)
-// GATE: PASS -- 100 trials, 9 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 16 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl sqgxDlistEnd(void)
 {
   _DWORD *v0;
@@ -216,7 +216,7 @@ XI_API void __cdecl sqgxDlistDraw(IDirect3DVertexBuffer8 **a1)
 
 // FUNCTION: FFXIMAIN 0x1029BB50  (unit sqgxDlist: between 0x1029B620 (asserts sqgxDlist.c) and 0x1029BB60 (asserts sqgxDlist.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1029BB50(void)
+XI_API void __cdecl SqgxDlist_Nop(void)
 {
   return;
 }

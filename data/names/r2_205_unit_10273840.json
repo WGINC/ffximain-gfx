@@ -1,0 +1,20 @@
+{
+ "0x10273840": {
+  "name": "Unit10273840_SetEntryField18",
+  "confidence": "low",
+  "evidence": "stores the value in entry (lo) of group (hi) of the handle: [[0x1099B184]+0x28+hi*0x2C]+0x18+lo*0x90",
+  "summary": "Sets a field of the entry a group:index handle names."
+ },
+ "0x10273870": {
+  "name": "Unit10273840_ClearGroupField4",
+  "confidence": "low",
+  "evidence": "for 0 <= i < [0x1099B180] clears the dword +4 of group i ([0x1099B184]+i*0x2C)",
+  "summary": "Clears a field of one group."
+ },
+ "0x102738A0": {
+  "name": "Unit10273840_ClearCurrentField4",
+  "confidence": "low",
+  "evidence": "clears +4 of the 0x30-byte record [0x1099B17C]+[0x1099B100]*0x30 when its +8 is set",
+  "summary": "Clears a field of the current record."
+ }
+}

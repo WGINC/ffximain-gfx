@@ -5,21 +5,21 @@
 
 // FUNCTION: FFXIMAIN 0x1018AAC0  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1018AAC0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5A(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10072540(*(void **)((int)self_ + 0xc),5,0,&LAB_1018aae0,0,xi_eax);
+  uVar1 = orig::Unit10071E50_FindInChainByKind(*(void **)((int)self_ + 0xc),5,0,&LAB_1018aae0,0,xi_eax);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x1018AB40  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1018AB40(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5B(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10072540(*(void **)((int)self_ + 0xc),5,0,&LAB_1018ab60,0,xi_eax);
+  uVar1 = orig::Unit10071E50_FindInChainByKind(*(void **)((int)self_ + 0xc),5,0,&LAB_1018ab60,0,xi_eax);
   return uVar1;
 }
 
@@ -36,7 +36,7 @@ void __thiscall YmCombineWeather::Release(void * self)
   *(uint8_t ***)self = &PTR_YmCombineWeather_GetRuntimeClass_10336814;
   orig::FUN_100742a0(local_1c);
   if (*(int *)(*(int *)((int)self + 4) + 0x20) == *(int *)((int)self + 0x2c)) {
-    iVar2 = orig::FUN_1018ad50(self);
+    iVar2 = orig::Unit1018AD50_GetField4(self);
     *(uint32_t *)(iVar2 + 0x20) = 0;
   }
   bVar1 = false;
@@ -62,7 +62,7 @@ LAB_1018ac60:
                   orig::Blend_FreeResult(self);
                   pvVar3 = orig::Blend_FindPrevious(self);
                   if (pvVar3 == (void *)0x0) {
-                    orig::FUN_1018ad60(self,*(uint32_t *)((int)self + 8));
+                    orig::Unit1018AD50_SetField10Of4(self,*(uint32_t *)((int)self + 8));
                   }
                   else {
                     *(uint32_t *)((int)pvVar3 + 8) = *(uint32_t *)((int)self + 8);

@@ -22,7 +22,7 @@ XI_API undefined4 __cdecl Unit1026EA00_ComputeMinMax(float * param_1)
   param_1 = (float *)0x0;
   if (0 < DAT_1099aecc) {
     do {
-      iVar3 = orig::FUN_1026ff80((int)param_1,local_18);
+      iVar3 = orig::Mdl_ComputeSlotBounds((int)param_1,local_18);
       if (iVar3 == 0) {
         bVar1 = true;
         iVar5 = (int)local_18 + (0xc - (int)pfVar2);

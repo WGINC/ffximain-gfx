@@ -1,0 +1,8 @@
+{
+ "0x102972D0": {
+  "name": "SqgxContext_SetCotHalfAngle",
+  "confidence": "medium",
+  "evidence": "stores 1 / tan(arg * 0.0087266462) (pi/360, so half an angle in degrees) at +0x128 of g_pSqgxContext",
+  "summary": "Stores the cotangent of half an angle given in degrees in the rendering context."
+ }
+}

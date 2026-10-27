@@ -292,7 +292,7 @@
   "uses": [
    "(*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))(v2, 1);"
   ],
-  "gate": "PASS",
+  "gate": "UNRESOLVED",
   "class": "not proven",
   "why": [
    "not a direct call argument: (*(void (__thiscall **)(_DWORD *, char))(*(_DWORD *)this->CMoTask_base + 24))(v2, 1);"
@@ -451,7 +451,7 @@
    "CMoResource_ReleaseChain(this, v4);",
    "CMoResource_ReleaseChain(this, v4);"
   ],
-  "gate": "PASS",
+  "gate": "UNRESOLVED",
   "class": "harmless"
  },
  {

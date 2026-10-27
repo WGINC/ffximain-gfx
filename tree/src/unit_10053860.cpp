@@ -207,10 +207,10 @@ LAB_10053b50:
       pvVar5 = (void *)**(uint32_t **)((int)pvVar4 + 0x28);
     }
     if (pvVar5 != local_20) goto LAB_10053b50;
-    uVar10 = orig::FUN_1003b700((void *)((int)pvVar4 + 0x30));
+    uVar10 = orig::CMoAttachments_GetTarget_v1((void *)((int)pvVar4 + 0x30));
     pvVar5 = (void *)0x0;
     if ((int)uVar10 != 0) {
-      uVar10 = orig::FUN_1003b700((void *)((int)pvVar4 + 0x30));
+      uVar10 = orig::CMoAttachments_GetTarget_v1((void *)((int)pvVar4 + 0x30));
       pvVar5 = (void *)uVar10;
       if (pvVar5 != (void *)param_2) goto LAB_10053b50;
     }

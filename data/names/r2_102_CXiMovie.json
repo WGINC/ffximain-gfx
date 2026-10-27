@@ -1,0 +1,14 @@
+{
+ "0x1021D440": {
+  "name": "CXiMovie_UpdateIfPresent",
+  "confidence": "low",
+  "evidence": "when g_pMovie is set returns 0x1021D960(), else AL 0",
+  "summary": "Runs 0x1021D960 when a movie exists."
+ },
+ "0x1021D460": {
+  "name": "CXiMovie_DestroyGlobal",
+  "confidence": "medium",
+  "evidence": "when g_pMovie is set calls 0x1021D9A0, then its vtable slot 6 (+0x18) with 1 and clears g_pMovie; called by App_Destructor and CXiMovie_Create",
+  "summary": "Releases the current movie object and clears g_pMovie."
+ }
+}

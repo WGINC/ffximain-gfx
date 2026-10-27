@@ -1,0 +1,8 @@
+{
+ "0x1029C460": {
+  "name": "Sqgx_SetContextFieldE24",
+  "confidence": "low",
+  "evidence": "stores its argument at g_pSqgxContext+0xE24",
+  "summary": "Sets a field of the sqgx context."
+ }
+}

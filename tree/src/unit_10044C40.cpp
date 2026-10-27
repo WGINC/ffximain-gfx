@@ -461,6 +461,117 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10046070  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 142 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall YmElem_DrawWithOwnProjection(void * self_)
+{
+  float *pfVar1;
+  uint8_t bVar2;
+  uint32_t *puVar3;
+  uint32_t uVar4;
+  long double fVar5;
+  uint32_t a3;
+  int iVar6;
+  int iVar7;
+  float *pfVar8;
+  int *a1;
+  float *pfVar9;
+  uint8_t bVar10;
+  uint8_t bVar11;
+  long double fVar12;
+  char xi_frame[76] __attribute__((aligned(4)));
+  float  &fStack_4c = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &fStack_48 = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &fStack_44 = *reinterpret_cast<float  *>(xi_frame + 8);
+  uint32_t  (&auStack_40)[16] = *reinterpret_cast<uint32_t  (*)[16]>(xi_frame + 12);
+  
+  puVar3 = orig::Unit1003D990_ScaleAlpha
+                     ((void *)((int)self_ + 0xf8),(uint32_t *)&fStack_44,
+                      (float)((long double)*(float *)((int)self_ + 0x138) *
+                             (long double)*(float *)((int)self_ + 0x134)));
+  g_scratchValue_as_v0 = *puVar3;
+  if (*(char *)((int)self_ + 0x17a) != '\0') {
+    return ((uint32_t)(((uint32_t)((int32_t)(g_scratchValue_as_v0 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x17a))));
+  }
+  bVar2 = false;
+  bVar10 = (*(uint32_t *)((int)self_ + 0x10c) >> 0x1b & 1) == 0;
+  bVar11 = NAN((long double)*(float *)((int)self_ + 0x128)) || NAN((long double)0.0f);
+  if ((bVar11 != (bVar11 || (long double)*(float *)((int)self_ + 0x128) == (long double)0.0f)) ||
+     ((*(uint32_t *)((int)self_ + 0x10c) >> 0x16 & 1) != 0)) {
+    bVar10 = false;
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pResourceMng + 0xebc) + 200))))(*(int **)(g_pResourceMng + 0xebc),0xab,1);
+  ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x4c))))((void *)(self_));
+  pfVar1 = *(float **)(g_pProcessor_as_s32 + 0xa10 + *(int *)(g_pProcessor_as_s32 + 0xa90) * 4);
+  *(int *)(g_pProcessor_as_s32 + 0xa90) = *(int *)(g_pProcessor_as_s32 + 0xa90) + 1;
+  uVar4 = orig::YmElem_SetupDevice(self_,0xffff);
+  if ((char)uVar4 != '\0') goto LAB_10046358;
+  if (bVar10) {
+    orig::CDx_GetTransformCached_v2(*(void **)(g_pResourceMng + 0xdc8),3,auStack_40);
+    bVar2 = true;
+    orig::RegisterWithProcessor_v1(self_);
+    pfVar8 = (float *)((int)self_ + 0xa0);
+    pfVar9 = pfVar1;
+    for (iVar6 = 0x10; iVar6 != 0; iVar6 = iVar6 + -1) {
+      *pfVar9 = *pfVar8;
+      pfVar8 = pfVar8 + 1;
+      pfVar9 = pfVar9 + 1;
+    }
+    fVar12 = ABS((long double)pfVar1[0xe]);
+    if (!(fVar12 > (long double)32.0f)) {
+      fVar12 = (long double)1.0f - fVar12 * (long double)0.03125f;
+      fVar12 = fVar12 * fVar12 * fVar12 * (long double)c_flt_0_03 *
+               (long double)*(float *)((int)self_ + 0x128);
+      fStack_48 = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2dc) - fVar12);
+      fStack_4c = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2e0) - fVar12);
+      fVar12 = xi_castbits<long double>(fpatan((long double)192.0,(long double)*(float *)(g_pCamera_as_s32 + 0x2f4)));
+      fVar5 = (float)(fVar12 + fVar12);
+      if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
+        fStack_48 = (float)((long double)fStack_48 + (long double)*(float *)(g_pZoneMap_as_s32 + 0x39594));
+        fStack_4c = (float)((long double)*(float *)(g_pZoneMap_as_s32 + 0x39594) + (long double)fStack_4c);
+      }
+      a1 = *(int **)(g_pResourceMng + 0xebc);
+      fVar12 = (long double)*(float *)(g_pCamera_as_s32 + 0x2f0) * (long double)*(float *)(g_pCamera_as_s32 + 0x2e8)
+      ;
+      fStack_44 = fVar5;
+LAB_100462ff:
+      bVar2 = true;
+      iVar6 = *a1;
+      a3 = orig::D3DXMatrixPerspectiveFovLH_static_v1(pfVar1,fVar5,(float)((long double)1.0f / fVar12),fStack_48,fStack_4c);
+      ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar6 + 0x94))))(a1,3,a3);
+    }
+  }
+  else if (((((*(uint8_t *)((int)self_ + 0x10c) & 1) != 0) &&
+            (uVar4 = *(uint32_t *)((int)self_ + 0x10c), (uVar4 & 0x1c0) == 0)) && ((uVar4 & 4) != 0)) &&
+          ((uVar4 & 8) != 0)) {
+    orig::CDx_GetTransformCached_v2(*(void **)(g_pResourceMng + 0xdc8),3,auStack_40);
+    fVar12 = xi_castbits<long double>(fpatan((long double)192.0,(long double)3.5e+02));
+    fVar5 = (float)(fVar12 + fVar12);
+    fVar12 = (long double)0.0f;
+    if (*(char *)(g_pZoneMap_as_s32 + 0x39598) != '\0') {
+      fVar12 = (long double)*(float *)(g_pZoneMap_as_s32 + 0x39594);
+    }
+    fStack_44 = *(float *)(g_pCamera_as_s32 + 0x2dc);
+    a1 = *(int **)(g_pResourceMng + 0xebc);
+    fStack_4c = (float)((long double)*(float *)(g_pCamera_as_s32 + 0x2e0) + fVar12);
+    fStack_48 = (float)((long double)fStack_44 + fVar12);
+    fVar12 = (long double)*(float *)(g_pCamera_as_s32 + 0x2f0) * (long double)*(float *)(g_pCamera_as_s32 + 0x2e8);
+    goto LAB_100462ff;
+  }
+  ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x48))))((void *)(self_));
+  if (bVar2) {
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pResourceMng + 0xebc) + 0x94))
+              ))(*(int **)(g_pResourceMng + 0xebc),3,auStack_40);
+  }
+  orig::YmElem_RestoreDevice(self_,0xffff);
+LAB_10046358:
+  iVar6 = g_pProcessor_as_s32;
+  iVar7 = *(int *)(g_pProcessor_as_s32 + 0xa90) + -1;
+  *(int *)(g_pProcessor_as_s32 + 0xa90) = iVar7;
+  *(float **)(iVar6 + 0xa10 + iVar7 * 4) = pfVar1;
+  return iVar6;
+}
+
 // FUNCTION: FFXIMAIN 0x10046380  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Zone_UpdateFogAmbient(void)

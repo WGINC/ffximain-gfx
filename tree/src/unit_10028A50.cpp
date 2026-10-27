@@ -2,6 +2,114 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10028AA0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Mem_FreeBlockMergeNeighbours(undefined4 param_1)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  
+  iVar3 = orig::Mem_GetPtrMinus0x20(param_1);
+  if (*(int *)(iVar3 + 4) != 0) {
+    iVar4 = *(int *)(iVar3 + 0xc);
+    *(uint32_t *)(iVar3 + 4) = 0;
+    if ((iVar4 != 0) && (*(int *)(iVar4 + 4) == 0)) {
+      *(uint32_t *)(iVar4 + 8) = *(uint32_t *)(iVar3 + 8);
+      *(int *)(*(int *)(iVar3 + 8) + 0xc) = iVar4;
+      iVar3 = iVar4;
+    }
+    iVar4 = *(int *)(iVar3 + 8);
+    if (*(int *)(iVar4 + 4) == 0) {
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(iVar4 + 8);
+      *(int *)(*(int *)(iVar4 + 8) + 0xc) = iVar3;
+    }
+    iVar2 = *(int *)(iVar3 + 0xc);
+    iVar4 = iVar3;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar4 = *(int *)(iVar4 + 0xc);
+        break;
+      }
+      iVar4 = iVar1;
+      iVar2 = *(int *)(iVar1 + 0xc);
+    }
+    if ((*(int *)(iVar4 + 0xc) != 0) || (*(int *)(iVar3 + 0xc) != 0)) {
+      *(int *)(iVar4 + 0x10) = iVar3;
+      *(int *)(iVar3 + 0x14) = iVar4;
+    }
+    iVar2 = *(int *)(iVar3 + 8);
+    iVar4 = iVar3;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar4 = *(int *)(iVar4 + 8);
+        break;
+      }
+      iVar4 = iVar1;
+      iVar2 = *(int *)(iVar1 + 8);
+    }
+    if ((*(int *)(iVar4 + 8) != 0) || (*(int *)(iVar3 + 8) != 0)) {
+      *(int *)(iVar4 + 0x14) = iVar3;
+      *(int *)(iVar3 + 0x10) = iVar4;
+    }
+  }
+  return iVar3;
+}
+
+// FUNCTION: FFXIMAIN 0x10028AC0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Mem_FreeHeaderMergeNeighbours(int param_1)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  if (*(int *)(param_1 + 4) != 0) {
+    iVar3 = *(int *)(param_1 + 0xc);
+    *(uint32_t *)(param_1 + 4) = 0;
+    if ((iVar3 != 0) && (*(int *)(iVar3 + 4) == 0)) {
+      *(uint32_t *)(iVar3 + 8) = *(uint32_t *)(param_1 + 8);
+      *(int *)(*(int *)(param_1 + 8) + 0xc) = iVar3;
+      param_1 = iVar3;
+    }
+    iVar3 = *(int *)(param_1 + 8);
+    if (*(int *)(iVar3 + 4) == 0) {
+      *(uint32_t *)(param_1 + 8) = *(uint32_t *)(iVar3 + 8);
+      *(int *)(*(int *)(iVar3 + 8) + 0xc) = param_1;
+    }
+    iVar2 = *(int *)(param_1 + 0xc);
+    iVar3 = param_1;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar3 = *(int *)(iVar3 + 0xc);
+        break;
+      }
+      iVar3 = iVar1;
+      iVar2 = *(int *)(iVar1 + 0xc);
+    }
+    if ((*(int *)(iVar3 + 0xc) != 0) || (*(int *)(param_1 + 0xc) != 0)) {
+      *(int *)(iVar3 + 0x10) = param_1;
+      *(int *)(param_1 + 0x14) = iVar3;
+    }
+    iVar2 = *(int *)(param_1 + 8);
+    iVar3 = param_1;
+    while (iVar1 = iVar2, iVar1 != 0) {
+      if (*(int *)(iVar1 + 4) == 0) {
+        iVar3 = *(int *)(iVar3 + 8);
+        break;
+      }
+      iVar3 = iVar1;
+      iVar2 = *(int *)(iVar1 + 8);
+    }
+    if ((*(int *)(iVar3 + 8) != 0) || (*(int *)(param_1 + 8) != 0)) {
+      *(int *)(iVar3 + 0x14) = param_1;
+      *(int *)(param_1 + 0x10) = iVar3;
+    }
+  }
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x10028B90  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall MemBlock_GetSize(void * self_)
@@ -14,7 +122,7 @@ XI_API int __thiscall MemBlock_GetSize(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10028BF0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 24 returned normally, 9 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10028BF0(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10028A50_CallEnabledEntries(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3)
 {
   do {
     if ((*(int *)(param_2 + 4) == 1) && (xi_eax = *(uint32_t *)(param_2 + 0x18) >> 1, (xi_eax & 1) == 0)
@@ -28,34 +136,34 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10028BF0(undefined4 xi_e
 
 // FUNCTION: FFXIMAIN 0x10028C30  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10028C30(undefined4 param_1)
+XI_API undefined4 __cdecl Unit10028A50_CallEnabledList0(undefined4 param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10028bf0(param_1,DAT_104570b4_as_s32,DAT_104570b8_as_s32,DAT_104570b8_as_s32);
+  uVar1 = orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570b4_as_s32,DAT_104570b8_as_s32,DAT_104570b8_as_s32);
   return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10028C50  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10028C50(undefined4 param_1)
+XI_API void __cdecl Unit10028A50_CallEnabledList1(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570bc_as_s32,DAT_104570c0_as_s32,DAT_104570c0_as_s32);
+  orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570bc_as_s32,DAT_104570c0_as_s32,DAT_104570c0_as_s32);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10028C70  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10028C70(undefined4 param_1)
+XI_API void __cdecl Unit10028A50_CallEnabledList2(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570c4_as_s32,DAT_104570c8_as_s32,DAT_104570c8_as_s32);
+  orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570c4_as_s32,DAT_104570c8_as_s32,DAT_104570c8_as_s32);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10028C90  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10028C90(undefined4 param_1)
+XI_API void __cdecl Unit10028A50_CallEnabledList3(undefined4 param_1)
 {
-  orig::FUN_10028bf0(param_1,DAT_104570cc_as_s32,DAT_104570d0_as_s32,DAT_104570d0_as_s32);
+  orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570cc_as_s32,DAT_104570d0_as_s32,DAT_104570d0_as_s32);
   return;
 }

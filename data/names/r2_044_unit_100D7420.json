@@ -1,0 +1,86 @@
+{
+ "0x10124360": {
+  "name": "Unit100D7420_HalfKanaToFullWidth",
+  "confidence": "medium",
+  "evidence": "for a byte in 0xA1..0xDF (the Shift-JIS half-width katakana range) stores the two bytes of the table 0x1036E3B8 at (byte-0xA0)*2 into the output",
+  "summary": "Converts a Shift-JIS half-width katakana byte to its two-byte full-width form."
+ },
+ "0x10124390": {
+  "name": "Unit100D7420_IsHalfWidthKana",
+  "confidence": "medium",
+  "evidence": "returns 1 in AL for a byte in 0xA0..0xDF (signed -0x60..-0x21), the Shift-JIS half-width katakana range",
+  "summary": "Tests whether a byte is a Shift-JIS half-width katakana."
+ },
+ "0x10125040": {
+  "name": "Unit100D7420_UpdateHoldState4",
+  "confidence": "low",
+  "evidence": "in states 1..2 of +0x4D counts the timer +0x74 (reset to 25.0) down by the frame scale while input 0x3E/0x8B (or 0x96) is held (0x10123A70); when it runs out with the pointer within 8 units of the saved point, no flags +0x54/+0x55, scene state 0x60 and +0x88 set, switches to state 4; state 4 returns to 1 when +0x88 clears",
+  "summary": "Enters state 4 after an input is held long enough near the same point."
+ },
+ "0x10125170": {
+  "name": "Unit100D7420_UpdateHoldState5",
+  "confidence": "low",
+  "evidence": "as 0x10125040 with input 0x3E/0x8C (or 0x8B), the timer +0x78, scene states 0x60/0xD0 or the global 0x10668FE4, switching to state 5 and back",
+  "summary": "Enters state 5 after another input is held long enough near the same point."
+ },
+ "0x10126320": {
+  "name": "Unit100D7420_ClearWords",
+  "confidence": "medium",
+  "evidence": "stores 0 in the words +0 and +2 and returns this; called from 144 constructors",
+  "summary": "Clears the first two words of an object."
+ },
+ "0x10126330": {
+  "name": "Unit100D7420_NoOp",
+  "confidence": "medium",
+  "evidence": "returns at once; called from 319 places",
+  "summary": "Does nothing."
+ },
+ "0x10126750": {
+  "name": "Unit100D7420_ChatListCtorA",
+  "confidence": "low",
+  "evidence": "calls 0x10126790(this, arg) and returns this; called by 0x10165070",
+  "summary": "Constructs a message list for an owner."
+ },
+ "0x10126770": {
+  "name": "Unit100D7420_ChatListCtorB",
+  "confidence": "low",
+  "evidence": "calls 0x10126790(this, arg) and returns this; called by 0x10165070",
+  "summary": "Constructs a message list for an owner."
+ },
+ "0x10126790": {
+  "name": "Unit100D7420_ChatListInit",
+  "confidence": "low",
+  "evidence": "clears the list node (Unit100D7420_Clear), stores the owner at +0x30, calls 0x101265D0, sets +0x34 to 1 and clears +0x1C/+0x20/+0x28/+0x2C",
+  "summary": "Initialises a message list with its owner."
+ },
+ "0x101268F0": {
+  "name": "Unit100D7420_AddMessage",
+  "confidence": "low",
+  "evidence": "allocates a 0x844-byte message (fn_10126B60), fills it (fn_10126BC0) with the three arguments, appends it (Unit100D7420_PushBack), and when the list had no current message makes it current and calls the owner's slot 0x48; reached from ChatLog_AddFormattedMessage",
+  "summary": "Creates a message entry and appends it to the message list."
+ },
+ "0x10126B60": {
+  "name": "Unit100D7420_MessageCtor",
+  "confidence": "low",
+  "evidence": "clears the words, stores the list and owner at +0x83C/+0x840, clears +0x828 and sets +0x82C..+0x82E to 0x1E, 1, 0",
+  "summary": "Constructs a 0x844-byte message entry."
+ },
+ "0x10126BC0": {
+  "name": "Unit100D7420_MessageSet",
+  "confidence": "low",
+  "evidence": "copies 60 bytes from arg2 to +4, the text arg1 (strncpy, 0x7E6 bytes) to +0x42 after the bytes 0x1E,1, points +0x828 at it, formats it (0x10126C60) and passes the result to 0x10136670 on the owner, with a flag when arg2 starts with byte 0x97",
+  "summary": "Fills a message entry with its header and text and hands the formatted text to the owner."
+ },
+ "0x10127190": {
+  "name": "Unit100D7420_MsgWinDataCtor",
+  "confidence": "low",
+  "evidence": "clears +0x64044 and calls 0x101271C0; App_InitScene creates two (one stored in 0x1057815C)",
+  "summary": "Constructs a message-window data object."
+ },
+ "0x101271C0": {
+  "name": "Unit100D7420_MsgWinDataReset",
+  "confidence": "low",
+  "evidence": "calls 0x10127250, clears the header and the bytes at +0x64020..+0x64029 and +0x64050, and stores the width (Font_GetCharWidthAt) and byte length (0x10128680) of the character at 0x1036F120 at +0x64052/+0x64054; also called on g_pTkMsgWinData",
+  "summary": "Resets a message-window data object and measures its marker character."
+ }
+}

@@ -7,22 +7,30 @@ Sources (all whole-DLL facts in data/):
   edx_use.json    the same for EDX (True or an instruction: read; False: not; null: not established)
   purges.json     the function's own `ret N`
   tail_purges.json no `ret`: every exit tail-jumps at stack depth 0 to targets popping the same N (tail_purges.py)
+  sp_solved.json  no `ret` and no tail purge: every solved direct call to it pops 0 (each caller's balance)
   entry_regs.json reads of EAX/EBX/ESI/EDI/EBP on entry (a __usercall): no standard convention says that
   fpret.json      the value left in ST0 on return ('float') or none; 'consumes': pops a value the caller left in ST0 (RET st0in)
+  x87_effects.json each function's x87 inputs and outputs: its verdict replaces fpret.json's (x87_returns); a function
+                  leaving the x87 stack as it was, called with values on it, keeps `st` (x87_keeps); an indirect call
+                  it shows returning a float in ST0 gets RET float
   reg_keeps.json  which of EAX/ECX/EDX the function leaves untouched, its callees included (reg_keeps.py)
   exports/gfx_export.jsonl  the IDB's typed prototypes: a variadic one (`...`) for a function that pops 0
 
 Rules (nothing else is decided):
   ECX read, EDX not read  -> __thiscall        ECX read, EDX read -> __fastcall
   neither read            -> __stdcall if ret N > 0, else __cdecl; a __cdecl one's stack arguments are the slots
-                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`
+                             its code reads (data/cdecl_args.json, exact counts only): `0xADDR cargs N`; with no
+                             exact count, the slots every settled caller pushes (data/call_pushes.json)
   ECX read, EDX not established -> __thiscall (an EDX read then shows as `in_EDX`, refused by hx2cpp)
   EDX read, ECX not read  -> __stdcall / __cdecl by ret N, with EDX a register input (`0xADDR regin EDX`)
   entry_regs reads EAX only -> the convention by the rules above, with EAX a register input (`0xADDR regin EAX`)
   eax_inputs.json lists it (its entry EAX is read, or handed back to a caller that reads it: caller_reads.py) and
   reg_keeps.json does not say it leaves all of EAX untouched (that case is the `keeps` model below)
                           -> EAX a register input too
-  ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why)
+  ECX not established, EDX not established without ECX, any other entry_regs entry, no purge -> not set (the line says why);
+                          the stack bytes alone where known: `spops N ret` (its `ret N`), `spops N reads` (pops 0,
+                          the slots its code reads), `spops N pushed` (pops 0, no exact read set, the bytes every
+                          settled caller pushes: data/call_pushes.json, as for `cargs` above)
 Variadic: `0xADDR varargs N` (N fixed parameters, the IDB's declared prototype; only where ret N pops 0, as a
 caller-cleanup variadic call must), so Ghidra reads each call's own pushes past the fixed ones.
 Kept registers: `0xADDR keeps eax,edx` for every function reg_keeps.json lists (a caller reading the register
@@ -92,13 +100,16 @@ def icalls():
             for k, p in r.get('calls', {}).items(): pops.setdefault(k, set()).add(p)
     et = {k: v for k, v in load('ecx_this_sites.json').items() if not k.startswith('_')}
     vc = {k: v for k, v in load('vcalls.json').items() if not k.startswith('_')}
+    # x87_effects.json: an indirect call returning a float in ST0 (vcalls.json's `st0`, or shown by the caller's
+    # own first read of the value -- see its doc)
+    xf = {k for k, v in load('x87_effects.json')['sites'].items() if v['callee'] is None and v['r'] == 1}
     out = {}
     for k in sorted(set(pops) | set(et), key=lambda s: int(s, 16)):
         p = pops.get(k, set())
         if len(p) > 1: out[k] = (None, 'pops disagree: %s' % sorted(p)); continue
         p = next(iter(p)) if p else None
         ecx = k in et and et[k]['ecx'] and not et[k]['pushed']
-        ret = 'float' if vc.get(k, {}).get('ret') == 'st0' else '-'
+        ret = 'float' if vc.get(k, {}).get('ret') == 'st0' or k in xf else '-'
         if p is None: out[k] = (None, 'pops not established'); continue
         if ecx: out[k] = (('__thiscall', p // 4, ret), None)
         elif p: out[k] = (('__stdcall', p // 4, ret), None)
@@ -106,10 +117,50 @@ def icalls():
     return out
 
 
+def x87_returns(fp):
+    """fpret.json's verdicts with x87_effects.json's where it has one (it follows tail jumps to a value-popping
+    function and float returns fpret.json has no verdict for; its selftest checks every disagreement): (0 in, 1 out)
+    'float', (1, 0) 'consumes', (0, 0) 'none'; a verdict with u (its x87 return not known) only when it is a float
+    the function's other returns fix. Other shapes keep fpret.json's word."""
+    x = load('x87_effects.json')['funcs']
+    out = dict(fp)
+    for k, v in x.items():
+        if 'why' in v or (v['u'] and v['r'] != 1): continue
+        kr = (v['k'], v['r'])
+        f = {(0, 1): 'float', (1, 0): 'consumes', (0, 0): 'none'}.get(kr)
+        if f: out['0x%x' % int(k, 16)] = f
+    return out
+
+
+def x87_keeps():
+    """functions that leave every x87 register as they found it -- x87_effects.json (0 in, 0 out, its return known)
+    -- and that some caller calls with values on the x87 stack (a site with depth > 0): `st` in their keeps line"""
+    x = load('x87_effects.json')
+    ok = {k for k, v in x['funcs'].items() if 'why' not in v and (v['k'], v['r']) == (0, 0) and not v['u']}
+    return {v['callee'] for v in x['sites'].values() if v['callee'] in ok and v['d'] > 0}
+
+
 def main(out):
     eu, du, pu, er, fp = (load(f) for f in ('ecx_use.json', 'edx_use.json', 'purges.json', 'entry_regs.json', 'fpret.json'))
+    fp = x87_returns(fp)
     EI.update(load('eax_inputs.json')); RK.update(load('reg_keeps.json'))
     pu.update({k: v['pops'] for k, v in load('tail_purges.json').items() if k not in pu})
+    # a function with no `ret N` of its own (a dispatch thunk ending in `jmp [mem]`) whose every solved direct call
+    # pops 0 (sp_solved.json: each caller's balance) pops 0 as its callers see it: its purge for the rules below
+    import collections as _c
+    seen = _c.defaultdict(set)
+    try:
+        import pefile, capstone
+        img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+        md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+        for ck, v in load('sp_solved.json').items():
+            if ck.startswith('_'): continue
+            a = int(ck, 16); i = next(md.disasm(bytes(img[a - 0x10000000:a - 0x10000000 + 5]), a), None)
+            if i and i.mnemonic == 'call' and i.op_str.startswith('0x'): seen['0x%08X' % int(i.op_str, 16)].add(v['pops'])
+    except KeyError:
+        pass                                   # without $FFXI_DLL the call targets are not read: no such purges
+    for k, ps in seen.items():
+        if k not in pu and ps == {0}: pu[k] = 0
     n = {}
     with open(out, 'w') as f:
         for k in sorted(set(eu) | set(pu), key=lambda s: int(s, 16)):
@@ -129,6 +180,15 @@ def main(out):
             r, why = decide(k, eu, du, pu, er, fp)
             if not r or r[0] != '__cdecl': continue
             f.write('%s cargs %d\n' % (k, ca[k])); n['cargs'] = n.get('cargs', 0) + 1
+        # no exact read set, but every settled caller pushes the same bytes for it (call_pushes.py): those slots are
+        # what the callers pass, so the decompiler shows them passed (docs/PROBLEMS.md P17: without it the tree's
+        # calls to 0x10310067 pass none of the six the game pushes)
+        cp = load('call_pushes.json').get('_callees', {}) if os.path.exists(os.path.join(D, 'call_pushes.json')) else {}
+        for k in sorted(set(cp) - set(ca) - set(va), key=lambda s: int(s, 16)):
+            if not cp[k]: continue
+            r, why = decide(k, eu, du, pu, er, fp)
+            if not r or r[0] != '__cdecl': continue
+            f.write('%s cargs %d\n' % (k, cp[k] // 4)); n['cargs (pushed)'] = n.get('cargs (pushed)', 0) + 1
         # no convention decided (ECX or EDX use not established), the stack bytes known: `ret N`, or for one that
         # pops 0 the slots it reads (exact)
         for k in sorted(set(pu), key=lambda s: int(s, 16)):
@@ -136,6 +196,9 @@ def main(out):
             if r or not why.startswith(('ECX use not established', 'EDX use not established')): continue
             if pu[k]: f.write('%s spops %d ret\n' % (k, pu[k]))
             elif k in ca: f.write('%s spops %d reads\n' % (k, 4 * ca[k]))
+            # no exact read set, but every settled caller pushes the same bytes (call_pushes.py): the slots the
+            # callers pass, as `cargs (pushed)` above for a decided __cdecl one
+            elif cp.get(k) and k not in va: f.write('%s spops %d pushed\n' % (k, cp[k])); n['spops pushed'] = n.get('spops pushed', 0) + 1; continue
             else: continue
             n['spops'] = n.get('spops', 0) + 1
         # no convention decided, the value left in ST0 on return known (fpret.json `float`): the return alone
@@ -147,8 +210,11 @@ def main(out):
         for k, nfix in sorted(va.items(), key=lambda kv: int(kv[0], 16)):
             if pu.get(k) != 0: continue
             f.write('%s varargs %d\n' % (k, nfix)); n['varargs'] = n.get('varargs', 0) + 1
-        for k, v in sorted(load('reg_keeps.json').items(), key=lambda kv: int(kv[0], 16)):
+        rk = {k: list(v) for k, v in load('reg_keeps.json').items() if not k.startswith('_')}
+        for k in x87_keeps(): rk.setdefault(k, []).append('st')
+        for k, v in sorted(rk.items(), key=lambda kv: int(kv[0], 16)):
             f.write('%s keeps %s\n' % (k, ','.join(v))); n['keeps'] = n.get('keeps', 0) + 1
+            if 'st' in v: n['keeps st'] = n.get('keeps st', 0) + 1
         for k, (r, why) in icalls().items():
             f.write('%s icall %s %d %s\n' % ((k,) + r) if r else '%s - icall: %s\n' % (k, why))
             key = 'icall ' + (r[0] if r else why.split(':')[0])

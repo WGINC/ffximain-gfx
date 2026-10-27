@@ -221,7 +221,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C8B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 435 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 486 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2)
 {
   int v2;
@@ -319,7 +319,7 @@ XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 
 // FUNCTION: FFXIMAIN 0x1006CA20  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1006CA20(float param_1)
+XI_API undefined4 __cdecl Unit1006C210_IsFloatClassAccepted(float param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -341,7 +341,7 @@ LAB_1006ca55:
 
 // FUNCTION: FFXIMAIN 0x1006CA60  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
+XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -349,7 +349,7 @@ XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
   
   iVar3 = 0;
   do {
-    uVar1 = orig::FUN_1006ca20(xi_castbits<float>(*param_1));
+    uVar1 = orig::Unit1006C210_IsFloatClassAccepted(xi_castbits<float>(*param_1));
     uVar2 = (uint32_t)((uint32_t)uVar1 >> 8);
     if ((char)uVar1 == '\0') {
       return (uint32_t)uVar2 << 8;
@@ -358,4 +358,50 @@ XI_API undefined4 __cdecl fn_1006CA60(undefined4 * param_1)
     param_1 = param_1 + 1;
   } while (iVar3 < 0x10);
   return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
+}
+
+// FUNCTION: FFXIMAIN 0x1006CB50  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API void __fastcall CreateProcessorInstance(undefined4 xi_ecx, undefined4 xi_edx)
+{
+  undefined4 *puVar1;
+  
+  orig::FUN_1006cce0(xi_ecx,xi_edx);
+  if (DAT_1047cf78 == '\0') {
+    if (DAT_1047ce60 == '\0') {
+      puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xaa0);
+      if (puVar1 != (undefined4 *)0x0) {
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+        orig::CMoProcessor_InitRotationMatrices(puVar1);
+        g_pProcessor_as_v2 = puVar1;
+        return;
+      }
+    }
+    else {
+      puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xbb0);
+      if (puVar1 != (undefined4 *)0x0) {
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+        orig::CMoProcessor_InitRotationMatrices(puVar1);
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c1c8;
+        orig::Unit10070050_InitMatrices(puVar1);
+        g_pProcessor_as_v2 = puVar1;
+        return;
+      }
+    }
+  }
+  else {
+    puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xbb0);
+    if (puVar1 != (undefined4 *)0x0) {
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c434;
+      orig::Unit10001070_CallForEachElement(puVar1 + 0x204,0x40,4,&LAB_1006cc30);
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+      orig::CMoProcessor_InitRotationMatrices(puVar1);
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c298;
+      orig::Processor_InitIdentityMatrices(puVar1);
+      g_pProcessor_as_v2 = puVar1;
+      return;
+    }
+  }
+  g_pProcessor_as_v2 = (undefined4 *)0x0;
+  return;
 }

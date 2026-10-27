@@ -110,10 +110,17 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     it with `frame_cap_fps` (two pacers).
 - **uncap and frame_step: above 60, with the game's time following real time** (docs/RENDERER.md 3a).
   - How it is made: as edits to verified code. With either key on, speedfix forks three functions of the verified
-    tree (`fork/Frame_Render.fork.cpp`, `fork/Camera_GetFrameScale.fork.cpp`, `fork/fn_10014D20.fork.cpp`, made by
+    tree (`fork/Frame_Render.fork.cpp`, `fork/Camera_GetFrameScale.fork.cpp`, `fork/Camera_GetClampedField28.fork.cpp`, made by
     `sdk/fork.py new`). Each was gated both ways: with the switches off it is the game's function (fork.py gate, no
     declarations); with them on, every difference from the game's is one its declaration names
     (`fork/framestep.declare.json`, `fork/framestep_getter.declare.json`). No game byte is patched for these keys.
+  - 0x10014CF0 leaves bytes 2-3 of its entry EAX unchanged on every path (it writes only AX, `fnstsw ax`, and ECX),
+    and 13 call sites read them back (`data/eax_kept_sites.json`), so the kit refuses a plain hook of it (manifest
+    flag 8). speedfix hooks it with `hook_keeping_registers` (kit API version 3) through `sf_cf0_wrap`: switches off it
+    jumps to the game's code; on, it runs the game's code first (a pure read), keeps the EAX, ECX, EDX and flags that
+    left, and loads the fork's answer into ST0. sf_host checks that EAX, ECX and EDX are the game's code's either way.
+    From the entry-EAX facts of 22 Oct until this (25 Oct), the kit refused that hook, so frame_step and uncap did
+    nothing in the game.
   - `uncap=1`: Frame_Render's fork reads the frame's minimum tick count (`[this+0x30]`, 1 at 60 fps, 2 at 30) as 0,
     in the wait and in the step, so the frame does not wait. The game's `[+0x30]` itself is not written. With
     `frame_step=0` the game then advances one tick every frame (what Windower's `FrameRateDivisor 0` and Ashita's fps

@@ -1,0 +1,182 @@
+{
+ "0x101F86C0": {
+  "name": "Unit101D7020_CtorVt1033A8B8",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033A8B8; stored in 0x10663888; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033A8B8."
+ },
+ "0x101FB710": {
+  "name": "Unit101D7020_CtorVt1033A918",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033A918; stored in 0x10663894",
+  "summary": "Constructs the Yk object with vtable 0x1033A918."
+ },
+ "0x101FC2C0": {
+  "name": "Unit101D7020_CtorVt1033A988",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033A988; stored in 0x10663890",
+  "summary": "Constructs the Yk object with vtable 0x1033A988."
+ },
+ "0x101FCBC0": {
+  "name": "Unit101D7020_CtorVt1033A9D0",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033A9D0; stored in 0x1066389C",
+  "summary": "Constructs the Yk object with vtable 0x1033A9D0."
+ },
+ "0x101FD000": {
+  "name": "Unit101D7020_CtorVt1033AAB0",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033AAB0; stored in 0x10663AAC; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033AAB0."
+ },
+ "0x101FD600": {
+  "name": "Unit101D7020_SortEntries",
+  "confidence": "low",
+  "evidence": "when +0x30 is set, gathers the entries of the 12 16-byte slots from +0x58 whose second dword is not 0xFFFF and orders them in a local table (153 lines)",
+  "summary": "Gathers the used slots of an object and orders them."
+ },
+ "0x101FE430": {
+  "name": "Unit101D7020_CtorVt1033AAF8",
+  "confidence": "low",
+  "evidence": "sets vtable 0x1033AAF8; stored in 0x10663AB4",
+  "summary": "Constructs the Yk object with vtable 0x1033AAF8."
+ },
+ "0x101FF000": {
+  "name": "Unit101D7020_CtorVt1033ABE0",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033ABE0; stored in 0x10663AB8; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033ABE0."
+ },
+ "0x10200B60": {
+  "name": "Unit101D7020_CtorVt1033AC28",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033AC28; stored in 0x10663ABC",
+  "summary": "Constructs the Yk object with vtable 0x1033AC28."
+ },
+ "0x10201020": {
+  "name": "Unit101D7020_InitFromTablesA",
+  "confidence": "low",
+  "evidence": "clears +0..+0xC, copies [entry 1]+8, +0x688, +0x90 and [entry 0]+0x1D8 of 0x101C8C30 to +0x18, +0x1C, +0x24 and +0x20 (0 when missing); called by YkInit",
+  "summary": "Initialises a record from values of 0x101C8C30's entries 1 and 0."
+ },
+ "0x10201130": {
+  "name": "Unit101D7020_InitFromTablesB",
+  "confidence": "low",
+  "evidence": "copies the values of 0x101C8C30's entry 0x10 at the 13 indices of the table 0x10385274 into +0..+0x30 and clears +0x34; called by YkInit",
+  "summary": "Initialises a record from 13 values of 0x101C8C30's entry 0x10."
+ },
+ "0x102017A0": {
+  "name": "Unit101D7020_CreateMenuObjects",
+  "confidence": "low",
+  "evidence": "creates the global UI objects 0x106643A8, 0x106643AC, 0x106643B0, 0x106643B4.. once (Unit1012AC80_Construct with vtables 0x1033B078, 0x1033B028, 0x1033AFD8, ..., 0x10201C90, seven 0x10205500 objects); called by YkInit",
+  "summary": "Creates a set of global UI objects once."
+ },
+ "0x10201C90": {
+  "name": "Unit101D7020_CtorVt1033B0C8",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033B0C8; stored in 0x106643D8",
+  "summary": "Constructs the Yk object with vtable 0x1033B0C8."
+ },
+ "0x10201F00": {
+  "name": "Unit101D7020_IsSingleUncheckedEntry",
+  "confidence": "low",
+  "evidence": "over the 0x7C-byte entries from 0x10663AD8 to 0x10664390 with +0x7A set, counts those Yk_CheckFlagAndWord1C accepts and those it does not; 1 in AL when exactly one is not and at least one is",
+  "summary": "Reports whether exactly one active entry fails the check while others pass."
+ },
+ "0x10202380": {
+  "name": "Unit101D7020_Call101CA180IfText",
+  "confidence": "low",
+  "evidence": "calls 0x101CA180 with its four arguments when arg3 is not null",
+  "summary": "Calls 0x101CA180 when a text is given."
+ },
+ "0x10202D10": {
+  "name": "Unit101D7020_ResetMode",
+  "confidence": "low",
+  "evidence": "calls Unit101D7020_SetModeFwd with all zero arguments",
+  "summary": "Resets the Yk mode with zero arguments."
+ },
+ "0x10202D30": {
+  "name": "Unit101D7020_SetModeFwd",
+  "confidence": "low",
+  "evidence": "Yk_SetMode(arg1, 0, arg2..arg6)",
+  "summary": "Sets the Yk mode with a zero second argument."
+ },
+ "0x102031F0": {
+  "name": "Unit101D7020_FindActiveEntryById",
+  "confidence": "low",
+  "evidence": "over the first 18 (or 6 when arg2 is set) 0x7C-byte entries from 0x10663AF0 with +0x62 set, finds one whose id equals arg1 and, unless arg3 is set, that Yk_CheckFlagAndWord1C rejects; 1 in AL when found",
+  "summary": "Tests whether an active entry with an id exists."
+ },
+ "0x102034E0": {
+  "name": "Unit101D7020_GetCurrentEntry",
+  "confidence": "low",
+  "evidence": "Yk_GetEntryOrZero([0x106643DC], arg)",
+  "summary": "Returns the entry at the current index 0x106643DC."
+ },
+ "0x10203920": {
+  "name": "Unit101D7020_UpdateEntryCycle",
+  "confidence": "low",
+  "evidence": "when +0x40 and 0x106643E4 are clear and the target (0x101598B0 on g_pTargetMng) has an active entry, steps the index 0x106643DC down or up through 0..0x11 on the inputs 0x3B/0x27 and 0x3B/0x28 (0x10123A70), skipping empty entries; otherwise resets it",
+  "summary": "Cycles the current entry index with two inputs."
+ },
+ "0x10205500": {
+  "name": "Unit101D7020_CtorVt1033B110",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033B110",
+  "summary": "Constructs the Yk object with vtable 0x1033B110."
+ },
+ "0x10207730": {
+  "name": "Unit101D7020_CtorVt1033B248",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033B248; stored in 0x1066442C; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033B248."
+ },
+ "0x10208500": {
+  "name": "Unit101D7020_CtorVt1033B28C",
+  "confidence": "low",
+  "evidence": "sets vtable 0x1033B28C; stored in 0x10664438",
+  "summary": "Constructs the Yk object with vtable 0x1033B28C."
+ },
+ "0x10209300": {
+  "name": "Unit101D7020_CtorVt1033B340",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033B340; stored in 0x1066443C; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033B340."
+ },
+ "0x10209B90": {
+  "name": "Unit101D7020_CtorVt1033B3A0",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033B3A0; stored in 0x10664444",
+  "summary": "Constructs the Yk object with vtable 0x1033B3A0."
+ },
+ "0x1020B500": {
+  "name": "Unit101D7020_CtorVt1033B948",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033B948; stored in 0x10664494; creates its shared helper objects once",
+  "summary": "Constructs the Yk object with vtable 0x1033B948."
+ },
+ "0x1020BA40": {
+  "name": "Unit101D7020_RecordInit",
+  "confidence": "low",
+  "evidence": "stores arg at +4, -1 at +0 and clears the rest of the 0x24-byte record",
+  "summary": "Initialises a record with its id."
+ },
+ "0x1020C470": {
+  "name": "Unit101D7020_CtorVt1033B9D8",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033B9D8; stored in 0x10664498",
+  "summary": "Constructs the Yk object with vtable 0x1033B9D8."
+ },
+ "0x1020CC30": {
+  "name": "Unit101D7020_CtorVt1033BA20",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x1033BA20; stored in 0x1066449C",
+  "summary": "Constructs the Yk object with vtable 0x1033BA20."
+ },
+ "0x1020ED00": {
+  "name": "Unit101D7020_CtorVt1033BA68",
+  "confidence": "low",
+  "evidence": "Yk_InitBase and vtable 0x1033BA68; stored in 0x106644C0",
+  "summary": "Constructs the Yk object with vtable 0x1033BA68."
+ }
+}

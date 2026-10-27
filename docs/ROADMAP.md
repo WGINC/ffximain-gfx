@@ -7,6 +7,10 @@ The owner's goals, as stated on 6 Oct:
 
 docs/RENDERER.md, written earlier, phrased the third as "a possible graphical overhaul".
 
+**25 Oct:** the order of the work is now docs/PLAN.md (the owner's chain: source, devkit, D3D11, performance, final
+devkit and speedfix, in 5% steps). This document keeps the performance steps P0–P5 and their rules, which PLAN.md
+refers to.
+
 **17 Oct:** docs/REEVALUATION.md re-reads all of the work and data from scratch, corrects what did not hold, and
 sets three tests (T1–T3) that bound what this machine can reach before any further lever work.
 
@@ -156,14 +160,14 @@ unchecked.
 
 0x1006C8B0 is a GPU-to-CPU wait on every query. The owner measured 4–5 ms for the first query in a frame and
 1.2 ms for each further one (RENDERER.md section 5).
-- **Not hookable yet.** It is in the export, but the gate leaves it UNRESOLVED (docs/RESIDUE.md): its call at
-  0x1006C8CD (a Direct3D call on the occlusion target, GetSurfaceLevel by its description) has no definitive
-  pop count, so it is not in the tree or the manifest. Settling that one call (a proof of the object's
-  interface, or the pop observed in the running game, docs/GAPS.md) brings it in.
+- **Hookable now (checked 26 Oct).** Its call at 0x1006C8CD was measured in the running game: 12 bytes popped
+  over 1,320,952 calls, into d3d8.dll (data/game_sp.json, xikit facts=1). 0x1006C8B0 (Occlusion_ReadbackCount)
+  is in the tree and PASSes the gate. Before that, the call had no definitive pop count and the function was
+  UNRESOLVED.
 - **Its three callers in the manifest** (Occlusion_QueryScreenRect, Occlusion_QueryScreenRectImpl,
   Occlusion_DrawQuery) can be hooked now. A mod can stagger or skip queries the way speedfix's `occlusion_stagger`
   and `skip_*` options do.
-- **The real fix** (results read a frame later, no wait) needs that call settled and the function gated.
+- **The real fix** (results read a frame later, no wait) can now start from its verified body.
   Under D3D11 it is an asynchronous query (goal 2).
 
 ### P4. Above 60 fps

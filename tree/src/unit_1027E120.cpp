@@ -20,7 +20,7 @@ XI_API void __cdecl Unit1027E120_UpdateMask(uint32_t * param_1, uint32_t param_2
 
 // FUNCTION: FFXIMAIN 0x1027E190  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027E190(int param_1, undefined4 param_2, undefined4 param_3)
+XI_API void __cdecl Unit1027E120_SetCallback(int param_1, undefined4 param_2, undefined4 param_3)
 {
   *(uint32_t *)(param_1 + 0x60) = param_2;
   *(uint32_t *)(param_1 + 100) = param_3;
@@ -29,7 +29,7 @@ XI_API void __cdecl fn_1027E190(int param_1, undefined4 param_2, undefined4 para
 
 // FUNCTION: FFXIMAIN 0x1027E3B0  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027E3B0(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit1027E120_ReleaseConnection(uint8_t * param_1)
 {
   uint8_t *pbVar1;
   
@@ -38,9 +38,9 @@ XI_API undefined4 __cdecl fn_1027E3B0(uint8_t * param_1)
     param_1 = *(uint8_t **)(param_1 + 0x1c);
     if (param_1 != (uint8_t *)0x0) {
       if (*(int *)(param_1 + 0x28) != 0) {
-        orig::FUN_10285740((int *)(param_1 + 0x28));
+        orig::SqObject_Release((int *)(param_1 + 0x28));
       }
-      orig::FUN_10285740((int *)&param_1);
+      orig::SqObject_Release((int *)&param_1);
     }
     orig::SqcoConnector_Init((uint32_t *)(pbVar1 + 0x20));
     orig::Unit1027E120_UpdateMask((uint32_t *)pbVar1,2,0);
@@ -50,14 +50,14 @@ XI_API undefined4 __cdecl fn_1027E3B0(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027E440  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027E440(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit1027E120_IsConnected(uint8_t * param_1)
 {
   return *param_1 >> 1 & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x1027E450  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027E450(uint8_t * param_1)
+XI_API undefined4 __cdecl Unit1027E120_UpdateRange(uint8_t * param_1)
 {
   float fVar1;
   int iVar2;
@@ -85,7 +85,7 @@ XI_API void __cdecl Unit1027E120_Advance(uint8_t * param_1, int param_2)
   uint8_t bVar3;
   long double fVar4;
   
-  iVar1 = orig::FUN_1027e440(param_1);
+  iVar1 = orig::Unit1027E120_IsConnected(param_1);
   if (iVar1 == 0) {
     return;
   }
@@ -122,7 +122,7 @@ XI_API void __cdecl Unit1027E120_Advance(uint8_t * param_1, int param_2)
   param_1[0x11] = 0;
   param_1[0x12] = 0;
   param_1[0x13] = 0;
-  orig::FUN_102857e0((int)(param_1 + 0x20),0,uVar2);
+  orig::Unit102857D0_SetByte14((int)(param_1 + 0x20),0,uVar2);
   if (*(code **)(param_1 + 0x60) != (code *)0x0) {
     (**(code **)(param_1 + 0x60))(param_1,*(uint32_t *)(param_1 + 100));
   }
@@ -133,9 +133,9 @@ LAB_1027e543:
 
 // FUNCTION: FFXIMAIN 0x1027EAF0  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_1027EAF0(undefined4 param_1)
+XI_API void __cdecl Unit1027E120_Forward1027EBD0(undefined4 * param_1)
 {
-  orig::FUN_1027ebd0(param_1);
+  orig::Unit1027E120_SetIdentity(param_1);
   return;
 }
 
@@ -173,6 +173,18 @@ XI_API void __cdecl Unit1027E120_Set(float * param_1, float param_2, float param
   param_1[0xe] = param_16;
   param_1[0xf] = param_17;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x1027EBD0  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit1027E120_SetIdentity(undefined4 * param_1)
+{
+  orig::Unit1027E120_Zero(param_1);
+  param_1[0xf] = 0x3f800000;
+  param_1[10] = 0x3f800000;
+  param_1[5] = 0x3f800000;
+  *param_1 = 0x3f800000;
+  return 0x3f800000;
 }
 
 // FUNCTION: FFXIMAIN 0x1027EF20  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)

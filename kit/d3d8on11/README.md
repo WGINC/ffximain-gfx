@@ -90,6 +90,18 @@ the 16x16 occlusion target's size) that is only written by CopyRects.
   after its copy, so it reads back as before. speedfix's `occlusion_late` lever locks a frame later.
 - Every 600 Presents the log gets `readback snapshots` (locks answered from a snapshot, and locks that read back).
 
+**CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
+texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
+(X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends
+them, not the older ones, back. Before 26 Oct the lock read the older texels and the unlock wrote those over the copy:
+the owner's log had `copystale` from FFXiMain.dll+0x2D465B, in the statically linked D3DX 8.1
+D3DXLoadSurfaceFromSurface (data/d3dx/d3dx81_manifest.json, 0x102D4515), which copies with CopyRects and then locks
+the destination, so every texture the game builds that way from rendered content read stale texels. The log line
+`copystale` now says the lock reads back, and names the first caller. t8 basic: "a copy from a render target into a
+managed texture" (Wine's d3d8 passes it; ours before the change failed it in every mode). Direct3D 8 has no other
+GPU-to-texture copy the game could use here: UpdateTexture is not implemented in ours (it logs "not implemented"
+when called; the owner's logs have not shown it) and StretchRect is Direct3D 9's.
+
 **CopyRects from the back buffer.** The back buffer is B8G8R8A8 (DXGI swap chains have no B8G8R8X8), while an
 X8R8G8B8 surface is B8G8R8X8. D3D11's CopySubresourceRegion copies only within a type group, so before 18 Oct a copy
 from the back buffer into an X8R8G8B8 surface silently copied nothing. D3D8 counts the two as one format and allows the
@@ -97,7 +109,11 @@ copy. Such a copy is now drawn instead (d8_exec.cpp `copy_draw`: through two scr
 Load). It was found by the new `basic` check below; Wine's d3d8 passed it.
 
 **Ring memory.** `thread` and `remote` take 48 MB of the game's address space (the 32 MB ring and a 16 MB reply
-area, which bounds one read-back). A record larger than half the ring (16 MB) ends the game with a log line. Uploads
+area). A reply larger than the reply area goes in pieces of 16 MB (d8_link.cpp: the executor hands each piece over
+with `reply_part` and waits for the game's side to copy it, `reply_ack`; ring version 5). Before 26 Oct it was cut to
+16 MB: the owner's log had `a reply of 22958208 bytes is larger than the reply area (16777216): cut` nine times, so
+those read-backs got only their first 16 MB (which read-backs they were is not in the log). t8 basic reads back a
+2304x2048 lockable render target (18,874,368 bytes) and compares every texel. A record larger than half the ring (16 MB) ends the game with a log line. Uploads
 never reach that: a texture upload larger than a record may carry goes in bands of whole rows, a buffer's in byte
 ranges (d8_link.h `upload_tex`, `upload_buf`). The game makes a 2048x4096 A8R8G8B8 texture at startup, whose one level
 is 32 MB; before the bands, `thread` ended the game there (owner, 15 Oct; t8 scene `big_texture`). How large the game's
@@ -106,6 +122,52 @@ largest draw record is (a ...UP draw carries its vertices) is not established.
 **Bytes per draw.** A draw packet is 3,128 bytes before any ...UP or fan data (pinned in d8_proto.h for both builds),
 so 3,000 draws make about 9.4 MB a frame through the ring, written by the game's thread and read by the executor.
 What that copying costs, against `direct` (which builds the same packet but runs it in place), is not measured.
+
+## Present interval (`present_interval`)
+
+The executor's swap chain is windowed, DXGI_SWAP_EFFECT_DISCARD, one buffer, whatever the game asks (unchanged).
+Its IDXGISwapChain::Present takes a SyncInterval: 0, "the presentation occurs immediately, there is no
+synchronization"; 1 to 4, "synchronize presentation after the nth vertical blank" (DXGI, IDXGISwapChain::Present).
+Before 26 Oct every Present was Present(0, 0) and the log did not say what the game asked for.
+
+At CreateDevice and at each Reset the log now has the game's D3DPRESENT_PARAMETERS as it passed them, and the
+SyncInterval used:
+
+    CreateDevice: the game asked SwapEffect 1 (DISCARD), FullScreen_PresentationInterval 0x0, BackBufferCount 0, Flags 0x0, windowed; Present's SyncInterval 0 (windowed)
+
+(that line is t8's; **which values the game itself sets is not known until the next run logs it**.) The SyncInterval
+comes from the game's parameters (d8_device.cpp, `Dev::present_interval`; the values from d3d8types.h and d3d8caps.h,
+their meaning from the DirectX 8.1 reference, D3DPRESENT_PARAMETERS and D3DSWAPEFFECT):
+- SwapEffect D3DSWAPEFFECT_COPY_VSYNC (4; a windowed effect that copies at the vertical retrace): 1;
+- full screen with FullScreen_PresentationInterval D3DPRESENT_INTERVAL_ONE, TWO, THREE or FOUR (1, 2, 4, 8): 1, 2,
+  3, 4;
+- D3DPRESENT_INTERVAL_IMMEDIATE (0x80000000), and windowed with any other swap effect (there the interval must be
+  DEFAULT): 0;
+- full screen with D3DPRESENT_INTERVAL_DEFAULT (0) or any other value: 0, as before. This one is not mapped from a
+  source: this device renders full screen as windowed, and what DEFAULT means in full screen is not quoted in this
+  repository. The log line says so ("not mapped from a source").
+
+`present_interval` in `d3d8on11.ini` (`[d3d8on11]`; `D8ON11_PRESENT_INTERVAL` wins) overrides that:
+- not set, or anything but a single digit 0 to 4 (the default): the SyncInterval the game's parameters map to, above;
+- `present_interval=0`: every Present at once, without waiting for a vertical blank (what every Present did before
+  26 Oct);
+- `present_interval=1`: each Present waits for the next vertical blank, so presents are held to the display's
+  refresh rate (60 a second on a 60 Hz display; more on a faster one);
+- `present_interval=2`, `3`, `4`: each Present waits for the 2nd, 3rd or 4th vertical blank: at most a half, a
+  third or a quarter of the refresh rate.
+With it set the log line ends "(present_interval in d3d8on11.ini)" and a second line gives what the game's parameters
+would have given.
+
+Why it matters for the game's speed (owner, 26 Oct): Windower sets the game's frame divisor, the limiter's minimum
+`[g_pCamera+0x30]` (docs/RENDERER.md section 3: the minimum number of 1/60 s ticks a frame), to 0, so the game's own
+wait loop never waits and the game advances at least one tick per frame (RENDERER 3a: the step is
+`max([this+0x28], 1.0)`); its speed then follows the frame rate. With the divisor at 0, `present_interval=1` holds
+frames to the display's refresh, since nothing else in the frame waits. The owner also saw the speed vary with and
+without speedfix loaded. Whether `present_interval=1` steadies it is not measured: this container's Wine runs under
+Xvfb, where no vertical blank can be observed (the test checks only that the setting reaches the log and the
+device works). In `direct` the game's own Present call waits. In `thread` and `remote` the executor's Present
+waits, and the game waits for the executor only when it is two Presents ahead (d8_link.cpp, MAX_AHEAD): the game is
+then held to the display's rate with up to two frames queued, not at each of its Presents.
 
 ## Milestone 1: everything but drawing
 
@@ -244,8 +306,8 @@ Checked, area by area:
 - Palettes: SetPaletteEntries / SetCurrentTexturePalette as the reference (they failed before; the game calls both).
 - CopyRects: fails as the reference lists (the same surface, formats that differ, depth formats, a rectangle not
   inside both surfaces; changed: none of these was checked). A copy into a texture level also updates the copy the
-  game locks (changed: it did not); a copy from the GPU into a lockable level is logged (`copystale`): the CPU copy
-  is not refreshed.
+  game locks (changed: it did not); a copy from the GPU into a texture level makes its next lock read it back
+  (changed 26 Oct: the lock read the older texels; "CopyRects into a lockable texture" above).
 - Locks: "Textures created in D3DPOOL_DEFAULT are not lockable" unless dynamic (changed: they were; in run 2's resource
   log every DEFAULT-pool texture the game made is a render target, whose locks were already refused); READONLY sends
   nothing back; a render target or back buffer locked for writing gets the locked rows back (changed: they were
@@ -268,6 +330,7 @@ Checked, area by area:
   D3D11_TEXTURE_ADDRESS_MODE's (June 2010 SDK); the border colour's default is 0, as D3DTSS_BORDERCOLOR says.
 - Present: rectangles and another window are not implemented (logged `presentargs`). The game passes NULL for all
   four arguments in each of the 34 Presents of its two traces.
+- Present's pacing: see "Present interval" below.
 - MAXMIPLEVEL: neither the 8.1 reference (D3DTSS_MAXMIPLEVEL) nor the Direct3D 11 pages of the June 2010 SDK
   (D3D11_SAMPLER_DESC, D3D11_TEX2D_SRV, SetResourceMinLOD) say whether magnification and minification are decided
   against level 0 or against the most detailed level allowed. Ours decides against the latter (a view starting at
@@ -282,9 +345,11 @@ Checked, area by area:
 
 `t8.exe` makes the same D3D8 calls through Wine's own d3d8 and through ours, ours in each of the three modes (`remote`
 with the x86 `d8x.exe`: Wine here runs x86 only):
-- `basic`: 25 checks (Clear and read back, a lockable render target, a copied lockable render target read after a
-  write through a lock, textures, buffers, state blocks, transforms, lights, shader handles, Reset, release, a
-  rectangle lock of the target, tweening). All pass on both (tweening on ours
+- `basic`: 28 checks (Clear and read back, a lockable render target, a copied lockable render target read after a
+  write through a lock, a render target copied into a managed texture and locked, a read-back larger than the reply
+  area, textures, buffers, state blocks, transforms, lights, shader handles, Reset, release, a rectangle lock of the
+  target, tweening). With ours the log must hold the presentation parameters at CreateDevice and Reset and no cut
+  reply; `basic` runs once more (remote mode) with `present_interval=1` in d3d8on11.ini, which the log must show. All pass on both (tweening on ours
   only: Wine's d3d8 does not report D3DVTXPCAPS_TWEENING).
 - `scenes`: 27 scenes, each drawn on a 64x64 back buffer and read back whole, compared pixel by pixel. They cover:
   - the six FVF codes the game uses (data/d3d8_scope.json), a declaration with register 15, SHORT2 and SHORT4 elements

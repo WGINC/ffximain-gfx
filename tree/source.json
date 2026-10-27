@@ -5,6 +5,18 @@
  "raw_gate": "verification/gate_raw_combined.jsonl",
  "ghidra_exports": [
   {
+   "path": "data/exports/ghidra_frameset23.jsonl",
+   "sha1": "ce1a35a00fe3249c3d1380780535b4b1be0241e4",
+   "raw_gate": "verification/gate_raw_frameset23.jsonl",
+   "_doc": "P18: functions whose FAIL was a translator defect (Ghidra thunks, an undefined4 float store, lea ecx,[ecx]), exported again with the fixes; first among the Ghidra exports so its records are the ones used"
+  },
+  {
+   "path": "data/exports/ghidra_frameset21.jsonl",
+   "sha1": "5a7a79b03db073a42a54058052fcbab8f7a47229",
+   "raw_gate": "verification/gate_raw_frameset21.jsonl",
+   "_doc": "0x1002DC10, 0x1026E1F0, 0x100D0510 with a 4-byte EAX return (retw); before the older exports so the widened records are used"
+  },
+  {
    "path": "data/exports/ghidra_export.jsonl",
    "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
    "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export"
@@ -20,7 +32,50 @@
    "sha1": "73e5a5463aeaa18ebf5a0c15738540b398f8ca67",
    "raw_gate": "verification/gate_raw_frameset_prev.jsonl",
    "_doc": "records of the previous frame-set export (frameset6) for functions it passes and frameset9's export does not (its translation fails or is skipped), less those frameset9 fails only on the 8-byte return's EDX, which that export never compared; gated under the current rules"
+  },
+  {
+   "path": "data/exports/ghidra_frameset11.jsonl",
+   "sha1": "911a0575f762279f8cd08b35011e1e2ec82789e7",
+   "raw_gate": "verification/gate_raw_frameset11.jsonl",
+   "_doc": "522 frame-set functions the other exports hold but never gated, re-exported 25 Oct with the current conv facts (pipeline/ghidra/export.sh); appended last, so an address takes the first export whose gate passed it"
+  },
+  {
+   "path": "data/exports/ghidra_frameset13.jsonl",
+   "sha1": "0d7fa209778bf26248ec0420b4e0ede98e62c8c5",
+   "raw_gate": "verification/gate_raw_frameset13.jsonl"
+  },
+  {
+   "path": "data/exports/ghidra_frameset15.jsonl",
+   "sha1": "7dcde8847b2dd34181573271973f8a80bc779d9c",
+   "raw_gate": "verification/gate_raw_frameset15.jsonl",
+   "_doc": "the frame set's functions not in the tree after fs14, with the tree's 51 not PASS, decompiled by GfxExport.java after the 26 Oct fact round (call_pushes, sp_solve without the noreturn rule), with their raw gate"
+  },
+  {
+   "path": "data/exports/ghidra_frameset16.jsonl",
+   "sha1": "ec9469b35c471448505e30004c043ae13283f591",
+   "raw_gate": "verification/gate_raw_frameset16.jsonl",
+   "_doc": "fs15's 155 records UNRESOLVED on EAX past a declared void, exported with a 4-byte EAX return (export.sh XI_RETW, GfxExport retw): the translation hands back what the original leaves in EAX and the gate compares all of it"
+  },
+  {
+   "path": "data/exports/ghidra_frameset17.jsonl",
+   "sha1": "cd67782dc40bdf20ca48462b89a2bd576d00e994",
+   "raw_gate": "verification/gate_raw_frameset17.jsonl",
+   "_doc": "the functions UNRESOLVED on pushed slots (P17) in the tree, fs15 and fs16, exported with conv_facts' 'spops N pushed' (a callee of undecided convention takes the bytes every settled caller pushes), and 0x1026E1F0 with retw"
+  },
+  {
+   "path": "data/exports/ghidra_frameset19.jsonl",
+   "sha1": "44fff29906369f16bcad56ef3584c5701852b935",
+   "raw_gate": "verification/gate_raw_frameset19.jsonl",
+   "_doc": "the 405 non-library frame-set functions outside the tree, exported with the current facts (retw for the 23 UNRESOLVED on EAX past a declared void or bool); its raw gate with import stubs for the 34 whose every trial stopped at an import"
+  },
+  {
+   "path": "data/exports/ghidra_frameset22.jsonl",
+   "sha1": "07bb644d3b977fe4cf3cfb96cc9b0cef8f90d87b",
+   "raw_gate": "verification/gate_raw_frameset22.jsonl",
+   "_doc": "the 384 game-code frame-set functions outside the tree, exported with current facts and the import-library, fsqrt and __fastcall fixes"
   }
  ],
- "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl"
+ "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl",
+ "raw_regate": "verification/gate_raw_regate.jsonl",
+ "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw; second round: the older records of the 32 tree functions fs17 passes raw"
 }

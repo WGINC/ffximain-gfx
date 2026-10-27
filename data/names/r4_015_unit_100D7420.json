@@ -1,0 +1,38 @@
+{
+ "0x1011DCC0": {
+  "name": "Unit100D7420_LowercaseCharThen1011DAE0",
+  "confidence": "low",
+  "evidence": "Body: FUN_1011DAA0(c); c in 0x41..0x5A, 0x859F..0x85B5 or 0x85B7..0x85BD -> c + 0x20; 0x854C/0x854A/0x854E -> +0x10; 0x855F -> 0x85DE; then FUN_1011DAE0(arg1, c). Called by Unit10253A20_BuildNodeString with a local buffer.",
+  "summary": "Maps an ASCII or Shift-JIS character to its lower-case form and passes it with arg1 to 0x1011DAE0."
+ },
+ "0x10129D90": {
+  "name": "ChatLog_AddTableMessage7",
+  "confidence": "medium",
+  "evidence": "Body: for an index up to 0x23, text = Unit1012AC80_GetMessageFwd(7, byte at 0x103763B3 + 4*index); ChatLog_AddMessage(this, text, 0x103763B0 + 4*index, 0, 1, 0); called with g_pTkMsgWinData.",
+  "summary": "Adds message (7, table[index]) to the chat log with the table entry's code."
+ },
+ "0x10129DE0": {
+  "name": "ChatLog_AddMessage9Code379",
+  "confidence": "medium",
+  "evidence": "Body: for 0 <= index < 0x15C, ChatLog_AddMessage(this, Unit1012AC80_GetMessageFwd(9, index), &code 0x379, 0, 1, 0).",
+  "summary": "Adds game message (9, index) to the chat log with code 0x379."
+ },
+ "0x10129E30": {
+  "name": "ChatLog_AddMessage7Code37B",
+  "confidence": "medium",
+  "evidence": "Body: for 0 <= index < 0xC9, ChatLog_AddMessage(this, Unit1012AC80_GetMessageFwd(7, index), &code 0x37B, 0, 1, 0).",
+  "summary": "Adds game message (7, index) to the chat log with code 0x37B."
+ },
+ "0x10129E80": {
+  "name": "ChatLog_AddTextCode379",
+  "confidence": "medium",
+  "evidence": "Body: ChatLog_AddMessage(this, text, &code 0x379, 0, 1, 0).",
+  "summary": "Adds a text to the chat log with code 0x379."
+ },
+ "0x10129EB0": {
+  "name": "ChatLog_AddTextCode37B",
+  "confidence": "medium",
+  "evidence": "Body: ChatLog_AddMessage(this, text, &code 0x37B, 0, 1, 0).",
+  "summary": "Adds a text to the chat log with code 0x37B."
+ }
+}

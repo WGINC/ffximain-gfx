@@ -1,0 +1,44 @@
+{
+ "0x100EEDE0": {
+  "name": "Unit100D7420_StepRequest2BSequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): step 0 shows Unit1012AC80_GetMessageFwd(8, 0x19) (Unit100D7420_CopyToGlobalBuffer) and calls Unit100D7420_QueueRequest2B; step 1 Unit100D7420_ProcessRingEntries until +0x13698 is 0 (-1 fails); step 2 returns 1. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x2B exchange with the session; 1 when finished, -1 on failure."
+ },
+ "0x100EEF80": {
+  "name": "Unit100D7420_StepWait1030FFD8",
+  "confidence": "low",
+  "evidence": "Body: by *arg: step 0 shows Unit1012AC80_GetMessageFwd(8, 0x1B) and stores FUN_1030FFCD() at +0x136A8 (negative: stored at +0x136AC, -1); step 1 waits until FUN_1030FFD8() is non-zero (negative: -1); step 2 returns 1.",
+  "summary": "Steps through starting 0x1030FFCD and waiting on 0x1030FFD8, with a status message; 1 when finished, -1 on failure."
+ },
+ "0x100EF020": {
+  "name": "Unit100D7420_StepRequest14Sequence",
+  "confidence": "low",
+  "evidence": "Body: with DAT_104DF770 set, one step per call by *arg (Unit100D7420_ResetCounter at 0, Unit100D7420_Advance's 0xE0F limit after): step 0 shows Unit1012AC80_GetMessageFwd(8, 0x1C) (Unit100D7420_CopyToGlobalBuffer) and calls Unit100D7420_QueueRequest14; step 1 Unit100D7420_ProcessRingEntries until +0x13698 is 0 (-1 fails); step 2 returns 1. Called by sub_100DA750.",
+  "summary": "Runs one step of the request 0x14 exchange with the session; 1 when finished, -1 on failure."
+ },
+ "0x10113CA0": {
+  "name": "Unit100D7420_StartRequestSlot24WithCallback",
+  "confidence": "medium",
+  "evidence": "Body: unless DAT_104E1B68 is set, allocates 8 bytes {arg2, arg3} there and calls Unit100D7420_StartGlobalRequestSlot24(arg1, 0x10113C50, block); returns 1 when it started (0), else frees the block and returns 0 (-1 when the allocation fails). Called by Unit10017C10_RegisterCallback with the callback 0x10018280.",
+  "summary": "Starts the global request on slot 0x24 with a completion routine that will call the given callback with its context; once at a time."
+ },
+ "0x101177D0": {
+  "name": "Menu_DrawWindowItems",
+  "confidence": "medium",
+  "evidence": "Called by Menu_DrawLayers. Body: walks the item list at this+0x14 (sub_10126520) and draws each by kind through Shape_DrawScaled / sub_1011A150 / sub_1011A250 / sub_10234A90 with colours 0x80808080 / 0x80805020 for the item Menu_IsFocusedItem names; the window's viewport (Unit100D7420_SetViewport, Gfx_ApplyViewport1B70) when this+0x9B; then the cursor shape and Unit1021D930_DrawProgressBar.",
+  "summary": "Draws one menu window: its items (the focused one highlighted), its cursor and its progress bar, inside its viewport when it has one."
+ },
+ "0x1011D290": {
+  "name": "Unit100D7420_IsNotControlChar",
+  "confidence": "medium",
+  "evidence": "Body: returns AL 0 when the character is one of the bytes 1-7, 0x0A-0x1A, 0x1C-0x1F or 0x7F (a list built on the stack), else 1. Called by Unit1018BA60_OnChar.",
+  "summary": "Tests whether a typed character is not one of the listed control codes (backspace, tab and escape are not listed)."
+ },
+ "0x1011DC00": {
+  "name": "Unit100D7420_UppercaseCharThen1011DAE0",
+  "confidence": "low",
+  "evidence": "Body: FUN_1011DAA0(c); c in 0x61..0x7A, 0x85BF..0x85D5 or 0x85D7..0x85DD -> c - 0x20; 0x855C/0x855A/0x855E -> -0x10; 0x85DE -> 0x855F; then FUN_1011DAE0(arg1, c). Called by Unit10253A20_ConvertCharByLanguage.",
+  "summary": "Maps an ASCII or Shift-JIS character to its upper-case form and passes it with arg1 to 0x1011DAE0."
+ }
+}

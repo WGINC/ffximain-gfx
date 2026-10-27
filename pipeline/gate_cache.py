@@ -54,7 +54,7 @@ def base_key(game_dll, live_cfg):
     # (caller_reads.json and ret_width.json are read one entry per case: case_key holds the case's own entries;
     # ida_proto_origin.json acts through the "typed" entries site_pops looks up, recorded per run as sites)
     for f in ('com_spec.json', 'import_nargs.json', 'func_extents.json', 'type_fixes.json', 'com_vtables.json',
-              'purges.json'):
+              'purges.json', 'import_pops.json', 'import_libs.json'):
         p = os.path.join(D, f); h.update(f.encode()); h.update(_sha_file(p).encode() if os.path.exists(p) else b'-')
     h.update(('%s %s %s' % (unicorn.__version__, capstone.__version__, pefile.__version__)).encode())
     h.update(_sha_file(game_dll).encode())

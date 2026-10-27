@@ -1,0 +1,8 @@
+{
+ "0x100550F0": {
+  "name": "Unit100548D0_FreeSplineSet",
+  "confidence": "medium",
+  "evidence": "clears +0xC and, when +0x14 holds an object, destroys its three CMoSpline members (+4, +0x2C, +0x54), frees it (0x10028AA0) and clears +0x14; called by ZoneMap_Reset",
+  "summary": "Frees the object holding three splines."
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "0x10161970": {
+  "name": "Unit1012AC80_CallSlot17Then1626E0",
+  "confidence": "low",
+  "evidence": "calls its vtable slot 17 (+0x44) with arg, then 0x101626E0(this, arg)",
+  "summary": "Runs slot 17 and then 0x101626E0 with one argument."
+ },
+ "0x10161B80": {
+  "name": "Unit1012AC80_CtorVt10335470",
+  "confidence": "low",
+  "evidence": "Unit1012AC80_InitFromScreenRect(arg), vtable 0x10335470, clears +0x4D; constructed by 0x10165070",
+  "summary": "Constructs a screen-sized UI object with vtable 0x10335470."
+ },
+ "0x10161BC0": {
+  "name": "Unit1012AC80_HasActiveObject10621940",
+  "confidence": "low",
+  "evidence": "returns 1 in AL when the object 0x10621940 exists and its +8 is set",
+  "summary": "Reports whether the object 0x10621940 holds something at +8."
+ },
+ "0x10161FF0": {
+  "name": "Unit1012AC80_SetTopByte",
+  "confidence": "low",
+  "evidence": "stores arg2 in the top byte of *arg1 and returns arg1",
+  "summary": "Sets the top byte of a dword."
+ },
+ "0x10162F60": {
+  "name": "Unit1012AC80_UpdatePair1062193C",
+  "confidence": "low",
+  "evidence": "applies 0x10162FB0 to the object 0x10621940 and, when it returns non-zero, calls 0x10162F30 on 0x1062193C with 0 and 1; otherwise applies 0x10162FB0 to 0x1062193C",
+  "summary": "Updates the two objects 0x10621940 and 0x1062193C."
+ },
+ "0x10162FB0": {
+  "name": "Unit1012AC80_ApplySlot20Result",
+  "confidence": "low",
+  "evidence": "calls slot 20 (+0x50) of the object arg and passes the object with that byte to 0x10162FE0",
+  "summary": "Passes an object's slot-20 result to 0x10162FE0."
+ },
+ "0x10163090": {
+  "name": "Unit1012AC80_CtorZeroed",
+  "confidence": "low",
+  "evidence": "Unit1012AC80_ZeroWordsAndDwords and clears +0xC/+0x10; constructed by 0x10165070",
+  "summary": "Constructs a zeroed object."
+ },
+ "0x101630C0": {
+  "name": "Unit1012AC80_DrawIfActive",
+  "confidence": "low",
+  "evidence": "when +0xC is set calls 0x10163380 (empty) and 0x1019EAD0; called by Menu_DrawAll",
+  "summary": "Draws the object through 0x1019EAD0 when it is active."
+ },
+ "0x10163380": {
+  "name": "Unit1012AC80_NoOpE",
+  "confidence": "low",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ }
+}

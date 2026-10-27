@@ -3173,6 +3173,471 @@ builds (Ashita asserts 684); the IDB's "CXiActor" for it is not the runtime clas
 entity fields our code uses, 103 named at the offset, 51 inside a named member, 7 undocumented. The measuring:
 kit/xikit `[watch]` and docs/MEASURE.md.
 
-**Naming accuracy measured** (PROBLEMS P16): Haiku 63, Sonnet 61 correct of 100 known names; the loss is vagueness
+**Naming accuracy measured** (PROBLEMS P16): 63 and 61 correct of 100 known names (a smaller and a larger model); the loss is vagueness
 from facts the code does not hold, which field dossiers (pipeline/field_batch.py) did not recover; class_flow.py and
 obj_flow.py settle classes from vtables and calls (983 functions).
+
+## 24 Oct: captures of a translated build: pointers into moved code mapped back (`xcap.py --build`)
+
+The 21 Oct entry calls replaying 6AC37846's captures on the analysed build's code sound because the data sections
+do not move. That holds for data addresses. A capture also holds values pointing into code, and in 6AC37846 two
+code ranges moved (+32 from 0x10232A90, +64 from 0x10309EC0). One capture of Frame_Render (the owner's 18 Oct
+session) holds 1,336 such dwords. They were replayed as they were, so a call through one ran other code than
+the game's, on both sides alike. That does not make a verdict wrong (input preparation, the same for both
+sides), but the input was less real than stated.
+- `pipeline/xcap.py --build kit/xikit/builds/<stamp>.json`: a value into the image that lies in one of that
+  build's moved ranges is moved back by the range's shift. The capture holds no header page, so the build is the
+  one xikit.log names at the start. Values in inserted code (no analysed counterpart) stay as they are.
+- Checked on that capture: exactly the 1,336 values change, each now inside the analysed build's moved ranges;
+  the other 20,478,664 values are unchanged.
+- `test_framestep.py`: `CAPTURE_BUILD=...` passes it on. The captures replayed on 21 Oct have not been
+  replayed again with it.
+
+## 25 Oct: speedfix builds again; frame_step through a register-keeping hook; the kit's 2,048-function limit
+
+**speedfix had not built since the naming rounds.** Its forks named callees the tree had renamed, and the getter
+0x10014D20 is now `Camera_GetClampedField28`.
+- The three frame_step forks were remade with `fork.py new` from the current tree and their edits reapplied
+  exactly. `fork.py diff` shows each differs from the tree only by its edits.
+- Callees are mapped by address. Four addresses with two prototypes in the tree take the one matching the old
+  declaration.
+- `sdk/include/xikit_game.hpp` was regenerated.
+
+**frame_step and uncap did nothing in the game from 22 Oct.** The entry-EAX facts gave 0x10014CF0 manifest flag 8.
+- On every path the getter writes only AX (`fnstsw ax`) and ECX, so bytes 2-3 of its entry EAX leave unchanged.
+  13 call sites read them back (`data/eax_kept_sites.json`; 0x1006A000 is the last call before 0x10069F90 returns).
+- So the kit refused the hook, correctly, and speedfix logged that it was not forked.
+- Kit API version 3 adds `hook_keeping_registers`. A mod uses it to state that it keeps the registers itself, and the
+  kit then requires a trampoline to the game's own code.
+- speedfix's `sf_cf0_wrap` runs the game's getter first, keeps its EAX, ECX, EDX and flags, and loads the fork's
+  answer into ST0. The x87 condition bits are undefined after FLD (Intel SDM), the game's last instruction on both
+  paths.
+- sf_host calls the getter with EAX 5A5A1234 and EDX 77665544. Switches off and on, it leaves EAX 5A5A4020,
+  ECX = [g_pCamera] and EDX unchanged.
+
+**The kit held 2,048 manifest functions** (`MAXFN`), and the loader stopped there without a word.
+- Since the tree passed 2,048 functions (21 Oct), the second half of the manifest could not be swapped, hooked or
+  captured.
+- test_xikit found it: its swap check names `FontGlyphCache_GetDevice` (0x1025D750), which sat past the limit.
+  `Gfx_IsGammaSupported`, which the test used before, left the tree when its raw gate became UNRESOLVED under the
+  22 Oct EAX rule.
+- The limits are now 12,288 functions and 12,288 `!code` lines, logged when exceeded. The kit loads 4,045 of the
+  manifest's 4,046. The one left out, `fn_101A0730`, has an export name longer than the name field; it is logged.
+- The quarantine test now excludes `CDx::PushRenderTargetTexture`, which is in the tree too, so the fault stays in
+  the game's own code as the test intends.
+
+**Tests:**
+- test_xikit: all modes pass. The native sampler mode needs 64-bit Wine, which this container lacked; `wine64` was
+  installed.
+- test_speedfix: all six modes pass. test_framestep: ALL OK, the owner's three 18 Oct captures replaying PASS through
+  `xcap.py --build`.
+- tool_drift: the ini-key check now reads keys per section, so `[watch]`'s `enabled=` and `every=` are no longer
+  reported as unread.
+
+## 25 Oct (later): 156 more frame-set functions in the tree; naming round 2 done
+
+**The tree: 4,206 functions, 4,205 PASS** (was 4,050 / 4,049; 0x10003890 stays INCONCLUSIVE). Of the frame set's 4,765
+game-code functions, 3,748 are now in the tree and 1,017 are not (`data/frame_set.json`, tree flags recomputed against
+`tree/placement.json`; the evidence is unchanged).
+
+Where the 156 come from: 522 frame-set functions the Ghidra exports held but whose translation was never gated were
+exported again with the current conv facts (`data/exports/ghidra_frameset11.jsonl`, raw gate
+`verification/gate_raw_frameset11.jsonl`, listed last in `tree/source.json`). Translator fixes, each from a definite
+source:
+- A variadic `__cdecl` callee (its IDB prototype ends in `...`, it pops nothing) was given the largest call site's slot
+  count, so every shorter call failed to compile (126 of 134 "too few arguments"). Each call now passes the arguments
+  Ghidra reads at that site, each a 4-byte slot (`xi_ghidra.hpp` `xi_va_call`; hx2clean's wrapper the same).
+- An object Ghidra names `default` (0x103169E8) was declared and replaced the switches' `default:` labels (57 functions).
+- String labels keep `<` and `>` of their text (`s_<lastst>_10357e7c`); the auto-name pattern now takes them.
+- `CONCAT21`, `CONCAT43` (Ghidra's piece concatenation, sizes in bytes) and `fptan` (x87 FPTAN pushes 1.0 after
+  tan(ST0), Intel SDM; popped) added; the SDK layouts of `_WIN32_FIND_DATAA`, `WINDOWPLACEMENT`, `tagCOMPOSITIONFORM`,
+  `timecaps_tag`, `LARGE_INTEGER` and four handle/pointer typedefs added to `xi_compat_win.hpp`.
+- `export.sh` takes `GHIDRA_PROGRAM` when the project's program is not named like `FFXI_DLL`.
+Raw gate of the re-export: 226 gated, 156 PASS, 44 FAIL, 16 UNRESOLVED, 10 INCONCLUSIVE. 181 are still skipped (a
+register or x87 input Ghidra could not tie: `extraout_ST0` 114 sites, `extraout_ECX` 62, `in_EDX` 29, ...), 78 do not
+compile, 15 call winsock ordinals with no SDK prototype.
+
+How the tree's verdicts were obtained: `code_same.py` against the 24 Oct build: 3,967 functions compile to the same
+code; 237 (the 156 new and 81 whose code the translator fixes changed) were gated on this build: 237 PASS. A last
+regeneration with the newest names compiles to the same code for all 4,204 it compares. The tree builds (392 files)
+byte-identical to that build. speedfix's Frame_Render fork took 14 renamed `orig::` names (by address).
+
+**Naming round 2 is complete:** 132 of 132 batches; `data/names/` holds 2,831 reviewed names, applied by the
+regeneration. Round 3 (`batches/round3/`, from this tree): 385 frame-set functions still with placeholder names in 61
+batches.
+
+**Naming round 3 is complete:** 61 of 61 batches, 385 names (167 high, 101 medium, 117 low confidence); `data/names/`
+now holds 3,212. Names come from the game's own strings where it has them (sqMemCheck, sqRealloc, sqmdDMBResolve*,
+sqmdModel*, the `.MRK`, `.log` and `cnf.dat` file names, the window class's `lpfnWndProc`, checked in the DLL at
+0x10016630), from the SDK where a call fixes the meaning (RegisterClassA, ReleaseSemaphore, the MD5 constants of a
+second, count-first MD5 context at 0x100DDE90), and otherwise from what the body does, said as such: a low name
+describes the visible mechanics (`Unit10086E90_UpdateByKind170NotGroup38`) and its summary says what is not
+established.
+
+The regeneration with the round-3 names: 4,163 functions compile to the same code as before; 41 changed, because
+a `Class_Method` name places a function in its class (the generator's existing rule: `CMoAttachments::GetCaster`,
+`CMoTask_CtorByMode` into `CMoTask.cpp`, which empties `unit_100353E0.cpp`). The 41 were gated on the new build: 41
+PASS. The tree is 4,206 functions, 4,205 PASS, 1 unverified; it builds from 391 files, failed none. speedfix's
+Frame_Render fork took 5 more renamed `orig::` names, by address.
+
+**The largest x87 skip, read:** 18 of the 114 `extraout_ST0` sites follow a call to 0x103138BA, which is
+`mov edx, 0x103CFFE0; jmp 0x1031DD30`. The table at 0x103CFFE0 begins with the length-prefixed name `fmod` (DLL
+bytes); the dispatcher classifies two operands (`fxam` on ST0 and ST1) and jumps through the table's 16 entries;
+the normal-operand entry 0x103138C4 is `fxch st(1); fprem` (repeated while C2 is set) `; fstp st(1); ret`: two values
+in on the x87 stack, one out (Intel SDM for FPREM/FSTP). fpret.json has no verdict for it (the stub jumps out of
+its own extent). Ghidra prints these calls as `FUN_103138ba();` with no operands, so the two values the caller
+loaded are not in its text: the sites cannot be translated from Ghidra's output alone, and stay skipped until
+the operands are recovered from the instructions before each call. Measured: every one of the 24 call sites
+(9 functions) has the same shape, `fld dword [esp+X]; fld qword [0x1032ABC8]` (2.0, DLL bytes) and the call, so the
+operands are recoverable with the stack depth at each site; but none of the 43 skipped functions with an
+`extraout_ST0` is blocked by fmod alone (each has other untied x87 values or register inputs), so that fix by
+itself brings no function into the tree.
+
+
+## 25 Oct (evening): the x87 stack across calls, read from the code; compile and gate failures
+
+**x87_effects.py** (new, `--selftest`): for every function, what it does to its caller's x87 register stack --
+how many values it takes (k), how many it leaves (r), how deep it pushes (m) -- followed along every path from the
+game's instructions (Intel SDM push/pop and register-operand rules), callees by their own verdicts to a fixpoint.
+Rules, each from a named source and in the file's doc: a call whose target the code does not fix (import, indirect,
+pointer tail jump) is taken only at an empty x87 stack (Microsoft x86 conventions: empty on entry and return but a
+float return in ST0), and what it returns is established from the caller's own code (vcalls.json `st0`; the caller
+reading below its own pushes; a tail jump's return fixed by the function's other returns, ISO C 6.9.1), never
+assumed; switch tables are followed for the index values every path into the jump establishes (bound checks,
+borrow `sub; jb`, `and`, `mov`, `neg`, `add`/`sub` imm); code past IDA's extents is decoded by control flow;
+`fnstenv`/`fldenv` pairs that keep the saved stack top are followed through (the 32-bit environment layout).
+Result: 20,539 of 21,410 functions with a verdict; 871 refused, each with its root cause (614 of them are the fmod
+intrinsic's error path, which calls RaiseException with the two operands on the x87 stack). The selftest checks the
+two instruction-level readings (__ftol: 1 in, 0 out; fmod's normal entry 0x103138C4: 2 in, 1 out) and every
+disagreement with fpret.json against fpret's two blind spots (a tail jump to a value-popping function; a call to a
+float-returning function it has no verdict for); none is unexplained.
+
+**Applied in the Ghidra export:** conv_facts.py takes float returns from x87_effects.json (fpret.json where it has
+none) and an indirect call's ST0 return; a function leaving the x87 stack as it found it, called with values on
+it, gets a prototype model with ST0..ST7 unaffected and no ST0 output (keepModels `st`), so the caller's values live
+across the call (0x10027B80: `fcos` kept across 0x100279B0). GfxExport exports, per record, which call left each
+`extraout_ST0` (`x87_rets`, Ghidra's INDIRECT op on ST0); hx2cpp assigns the value from that call where
+x87_effects proves it returns one float at an empty stack. An indirect call's override returns `double` (a
+`float10` override is returned through a hidden pointer, an argument the call does not have); the C++ call reads all
+of ST0 (`float10`, from the record's icalls). A virtual call through a slot every site of which returns a float in
+ST0 is typed float10 (ghidra_vcall_this).
+
+Of the 60 skipped frame-set functions with an x87 register Ghidra could not tie, 16 now translate; gated: 11 PASS,
+3 UNRESOLVED (two virtual calls whose x87 result the gate cannot know; an EAX no fact says no caller reads). The rest
+stay refused, each named: a callee's net x87 effect that is not zero with values below its operands (Ghidra's fixed
+ST registers cannot shift), x87 inputs of the function itself, other registers Ghidra could not tie.
+
+## 25 Oct (late): fs13 FAIL classes, and where the promotion stands
+
+The 51 fs13 gate FAILs (records not in the tree), grouped by their first mismatch:
+
+* 25 stubbed-call argument differences. About 15 are the same byte with different upper bits (`0xE996FE03` vs
+  `0x03`) in an argument the callee reads in full (`arg_reads.json` mask 0xFFFFFFFF). These are real: the
+  reconstruction cuts a dword. In the cases traced (0x101609F0, the 0x100EExxx family), the dword is the result of
+  a callee Ghidra prints as returning `undefined` (1 byte, its unlocked placeholder, not a declared type), such as
+  0x10152EF0. That function's code sets all of EAX (`mov eax, [edi*4+0x10578548]`).
+* 15 reconstruction faults on low addresses (0xFF, 0xA0, 0): the same cut result used as a pointer
+  (`(char *)F_10152EF0(8,0x16)`).
+* 9 memory and 2 EAX differences, most with an untyped-return callee in the function.
+
+Tools, from the code (committed):
+
+* `ret_width.py` writes `data/ret_full.json`: the functions whose code sets all four bytes of EAX on every path
+  (7,962). A tail jump to code that is no function start in the extents is now decoded by control flow
+  (`add_jump_targets`), which adds 88. `ret_width.json` is unchanged.
+* hx2cpp widens a callee's `undefined`/`undefined1`/`undefined2` return to `undefined4` only where
+  `ret_full.json` lists the callee. Re-translated and gated (run fs14, same export): among the records not in the
+  tree, FAIL 51 → 23, PASS 48 → 74 (26 FAIL → PASS, 2 FAIL → UNRESOLVED, no PASS lost); tool_drift on the
+  installed tree: 0 differences. verification/gate_raw_frameset13.jsonl is now the fs14 gate. Callees whose code cannot
+  be followed (0x100F1920: `jmp [eax+0x2F8]` through a pointer table) stay as Ghidra prints them; nothing is
+  known about their width.
+* hx2clean: a Ghidra record's global is declared exactly as its raw translation declares it
+  (`hx2cpp.ghidra_global_type`, shared). A `code *` global or parameter the text calls is spelt `xi_code *`
+  (gfx_common.hpp), so it can be called. Without this, four units of the promo17 tree failed to compile, and
+  `repair_compile.py` skipped them because not all their errors were pointer conversions.
+
+Promotion (installed, promo17): the fs13 export (raw gate from fs14) is registered in tree/source.json. The tree
+builds 4,278 functions with no failed file (code_same against the previous tree: 4,129 same, 149 changed). The
+clean gate on the 74 new and 75 changed functions gives 149 PASS; 4,279 functions are annotated PASS, and one,
+0x10003890, stays INCONCLUSIVE as before. The kit tests pass (speedfix framestep, skinmerge, speedfix;
+sdk/test_fork.py). The called-pointer type was renamed `xi_codefn`: `xi_code` is already xi_decomp.hpp's address
+function in the in-game build. data/this_flow.json was regenerated (one more site, 0x10321430 in 0x1031A00D):
+it had not been regenerated after purges.json gained 64 entries, and nothing but verify_all reads it.
+
+verify_all --quick on the promoted tree: tree-regen PASS (392 files, none failed), all tree sources PASS. FAIL:
+reg_kept_audit and export-sp (0x100419F4) as recorded before (9a507d2); and three facts stale against their
+inputs since purges.json gained 64 entries (38734c7): sp_solved.json (12 items), cdecl_args.json (9),
+this_flow.json (regenerated in this commit). hx2cpp and gfx_cases read sp_solved/cdecl_args, so regenerating them
+can change translations and cases: that is the next round (regenerate, re-translate, gate), not part of this one.
+
+## 25 Oct (evening): stale facts, the kit's two new recordings, the game's compiler, naming round 4
+
+**Facts regenerated.** sp_solved.json and cdecl_args.json, stale since purges.json's 64 new entries (38734c7):
+cdecl_args gains an exact count for 8 functions from their new `ret N`, sp_solved loses the 11 call sites into
+them (now known from purges). sp_solve --selftest: the one known miss (0x10318674), reaching no output. verify_all
+--quick: both PASS. reg_saved.json, which reads cdecl_args, then changed for 73 functions (ESI now proven restored);
+`pipeline/regen_facts.py` (new) re-derives every fact in verify_all's order, installing each, until a pass changes
+nothing, so the facts that read each other settle together. reg_kept_audit.json, a report nothing reads, was
+committed from its first pass (the verify_all FAIL recorded since 9a507d2); the rest follow when the run settles.
+
+**A soundness fix with no effect.** x87_effects.py's index_values and flag_setter took capstone's operand access for
+a `call`, which lists only ESP as written: a value or the flags were carried across a call as if the callee kept
+them. A call now writes every register but ESP (an EBX/ESI/EDI/EBP its callee restores, data/reg_saved.json, is
+kept) and ends the flag walk. x87_effects.json is unchanged (no switch was decided through a call); selftest OK.
+
+**Two FAIL classes read, not fixed:**
+* 0x101A04E0 / 0x101A03D0 pass `local_4` to a callee after `File_FindByKind`, whose output it is. The stub writes
+  nothing, so the original passes what MSVC's `push ecx` left in the slot (the entry ECX, 0xCCCCCCCC in the gate)
+  and the reconstruction its own stack. ecx_use.json leaves both undecided for that reason. Whether
+  File_FindByKind always writes its output on success is a fact about its code no tool derives: the kit's new
+  `out` recording measures it (below). A gate change that fills unwritten frame slots was tried and dropped: the
+  original's `push ecx` is itself a write, so the slot is not unwritten.
+* 0x102110C0's callee 0x102112B0 reads only the low word of its argument, but arg_reads.json left it out: IDA
+  gives it a second chunk (0x1012CA90) that reads the slot as a dword after `mov [esp+4], imm` overwrote it, and a
+  tail jump. A must-store analysis (bytes stored on every path are not the caller's) and following tail jumps at
+  depth 0 decide 105 more functions, 0x102112B0 as [0xFFFF]; tested in a scratch copy, not committed yet.
+
+**Switch tables.** 179 `jmp [r*4 + T]` in the DLL are not bounded by sp_solve.switch_targets, mostly because flag-
+neutral instructions sit between the `cmp` and the `ja`. A generalised proof (walk back from the jump: modelled
+index transforms, the Intel SDM's "Flags Affected: None" instructions between cmp and ja, a register bound set by
+`mov reg, imm` in the run, no jump landing after the first instruction used) bounds 104 more; on the 74 of them
+x87_effects.index_values also bounds, the targets agree exactly. Not committed yet: every fact that follows control
+flow changes with it (its own round, through regen_facts.py). 0x100DA750, the callee behind fs14's 0x100DAF30
+FAIL, needs the register case across joins (`mov ebp, 0xCB` before a join) and stays unbounded.
+
+**The kit records output slots and switch jumps** (`facts=1`, kinds `out` and `jmp`, docs/KIT.md): 3,895 sites,
+1,618 of them the calls in the FAIL functions the tree does not hold, 179 the unbounded switches. Measured values
+go to data/game_outs.json and data/game_switch.json through `fact_sites.py ingest`; a measurement shows what the
+game did, never that something cannot happen. The kit also read manifest exports into 160 bytes and dropped two
+functions with longer mangled names (0x101A0730, 0x101A0770); now 256. All 12 Wine test modes pass. Delivered as
+xikit_measure.zip with MEASURE.md's Block C.
+
+**The game's compiler** (docs/RECOMPILE.md). The DLL's Rich header: 1,007 objects stamped 48/49 build 9044. The
+owner's Visual Studio 6 archive, assembled by pipeline/vc6/setup_vc6.sh (outside the repo, under Wine): SP6's front
+ends with the Processor Pack's c2.dll stamp exactly that. The 189 objects of 10/11 build 9782 are not reproduced
+(SP6's front ends refuse the CD's c2.dll; this SP6 holds none). pipeline/vc6/match.py compiles a source and
+compares each marked function with the game's bytes: 0x100279B0 (55 bytes) and 0x10027CD0 (30 bytes), written by
+hand, are identical at /O2. Statement order is what decides them (one assignment per element in index order; four
+member assignments rather than a struct copy).
+
+**Naming round 4:** 66 of 66 (23 batches, `batches/round4/`): 4 high, 26 medium, 36 low. Not yet applied: the
+regeneration that applies them waits for regen_facts.py to settle (it reads data/).
+
+## 25 Oct (night): the plan, faster tools, and two things the gate could not see
+
+**The plan.** docs/PLAN.md orders the owner's chain (source, devkit, D3D11, performance, final devkit and speedfix)
+in 5% steps, each with a check. It takes the steps of ROADMAP, D3D11, GAPS, REEVALUATION and RECOMPILE, and is
+corrected for runs already done: d3d8on11 runs the game (perf60 run 2, the house runs), and T1 and T2 are measured
+(runs 8980 and 8452), T3 is not. docs/WORKERS.md describes batches for worker sessions.
+
+**Round-4 tree installed** (6875e2b): 66 names, the 151 functions whose code changed all PASS. Kit tests
+(framestep, skinmerge, speedfix, sdk fork) all OK.
+
+**The VC6 sweep** (4c1a60e):
+- compiles in parallel with an object cache: 22 s cold, 3 s cached, verdicts unchanged;
+- `differs.py` classes the DIFFERS from both instruction streams;
+- five rewrite rules, each kept only where match.py says IDENTICAL: 158 more functions at the game's bytes
+  (1,591 of 4,121).
+
+**regen_facts.py runs only what changed.** An audit hook (pipeline/regen_reads/sitecustomize.py) records every
+file each tool's Python reads, and the directories it lists. A directory the import system lists counts only by
+the entries an import could resolve to. A tool runs again when any of that changed, its command changed, or the
+hook or the interpreter changed. Tools run concurrently by their recorded dependencies and within 80% of the
+memory available: caller_reads.py peaks at about 5 GB, and four copies at once were killed. The first full
+recording pass took 34 min and changed nothing.
+
+**What the sweep showed the gate cannot see (docs/PROBLEMS.md P17).** At 0x100F1870 the game pushes six
+arguments to the dispatch thunk 0x10310067, and the tree passes none; the gate PASSes it, because a caller-cleanup
+stub compares only the slots the callee is known to read. `call_pushes.py` settles what the caller pushes for
+each caller-cleanup call, from its own code and exact depths: 11,570 calls, 2,376 callees with one count. 74 of
+the tree's wrappers declare fewer than that. The gate now compares the pushed slots where no exact read set says
+they go unread (gfx_cases.py).
+
+**An assumption in sp_solve, removed.** A direct call to a known function with no `ret N` record was taken never
+to return. 1,709 functions end in a jump instead, the dispatch thunks among them. Their pops are now unknowns solved
+from each caller's balance:
+- the self-test passes (0 misses reach the output);
+- solved calls go from 4,717 to 8,537, none lost or changed;
+- with the generalised switch bound on top: 8,693.
+
+**The fact round and the re-gate (26 Oct).** The facts above, committed at their fixpoint (0f13298). The gate then:
+- stubs log the slots callers push past those compared (`args_may`, verification/cases_raw_final.json via
+  `case_pushes.py`: 181 stubs in 166 cases); a difference there is UNRESOLVED;
+- the stack starts filled with 0xA5A5A5A5, not zeros.
+The whole tree, gated again (34 min): 4,229 PASS, 42 UNRESOLVED (P17), 5 FAIL and 4 INCONCLUSIVE (P18, 0x10003890
+among them). The tree's GATE comments and frame_set_status.json follow; the kit's manifest is not rebuilt yet.
+
+## 26 Oct: the fs15 export into the tree
+
+**The export.** The 943 frame-set functions not in the tree, with the 51 tree functions not PASS, exported by Ghidra
+after the fact round (data/exports/ghidra_frameset15.jsonl, 993 records). Its raw gate (verification/
+gate_raw_frameset15.jsonl): 43 PASS, 61 FAIL, 69 INCONCLUSIVE, 205 UNRESOLVED. 154 of the UNRESOLVED are void
+functions whose EAX differs at return, with no fact on whether a caller reads it (docs/PROBLEMS.md P20).
+
+**A function that does not compile is left out, not fixed by hand.** The first regeneration placed 33 new
+functions, but one unit failed: 0x10018850 compares a global the headers declare `undefined4` with a pointer.
+regen_clean.sh now maps each failing unit's first error to its function (pipeline/drop_failed.py) and generates the
+tree again without it (`XI_DROP`), at most three times. The game's own code runs in its place, and left_out.json
+gives the compiler's message.
+
+**The clean gate.** 32 new functions and 2 changed:
+- 31 PASS; 0x10119BC0 and 0x100180D0 FAIL; 0x100289F0 INCONCLUSIVE.
+- 11 had no case in cases_raw_final.json. fs15's cases for them were added.
+- 17 had an older case that differs from fs15's own. Each was gated under both, and the stricter verdict stands. The 3
+  not PASS pass under fs15's case only: the older case compares EDX, which no fact says callers ignore (P9).
+
+Tree: 4,312 functions, 4,258 PASS. Frame set: 3,854 of 4,984 in the tree, 3,800 PASS.
+
+## 26 Oct (later): raw verdicts under the current rules; argument bytes followed through registers
+
+**Older raw verdicts, given again.** hx2clean.py builds a function from the first export whose raw gate passed it,
+and the older exports' raw verdicts predate the 0xA5 stack fill and `args_may`. For the tree's non-PASS functions
+that another export also passes raw (10), every older-export record was gated again under the current rules: 21
+records, verification/gate_raw_regate.jsonl, read through `XI_REGATE` (tree/source.json `raw_regate`; verify_all
+passes it on). None still passes. So:
+- 0x100542F0 (FAIL), 0x100157B0, 0x101033C0 and 0x1027CCF0 (UNRESOLVED) are now built from fs15's translation, and
+  all four PASS the clean gate, under both their cases;
+- 0x10073D80, 0x100D4330, 0x100EEE90, 0x101C09B0, 0x101C0A40 and 0x101C3A90 pass raw in no export now, and left the
+  tree (none passed the clean gate);
+- 63 other functions changed only in how a global is spelled, which follows the records chosen; all PASS.
+Tree: 4,306 functions, 4,262 PASS. Frame set: 3,848 in the tree, 3,804 PASS.
+
+**arg_reads.py follows a loaded argument.** A whole-dword load of an argument into a register used to count all
+four bytes as read. Now the register is followed (byte_flow.py), with direct and import calls handled as
+caller_reads.py handles them. At a `ret`, ECX/EDX count only where some caller reads the register after the call
+(every caller known; a fixpoint over callers that pass it on). 2,928 functions now read less than whole dwords of
+some argument (2,677 before), and no mask is wider. In stubs, a full code mask falls back to the declared type's
+mask per argument, as an unlisted function always did (gfx_cases.stub_masks; case_pushes.py applies it to
+existing cases: 404 stubs in 388 cases).
+- **Result:** no function gained a PASS. Nothing in the tree flipped, and fs15's raw gate gave the same 43 PASS with
+  18 of its cases narrowed. 0x1021C380, the case that prompted the tool, stays FAIL: the leftover bytes of its
+  argument reach ECX at the return of callers whose callers are not all known.
+
+## 26 Oct (night): returns widened, pushed slots passed; three workers
+
+**P20: the reconstruction hands back what the original leaves in EAX.** No sound caller set exists for a virtual
+method, so instead fs15's 155 functions UNRESOLVED on EAX past a declared void were exported with a 4-byte EAX
+return (export.sh `XI_RETW`, GfxExport.java `retw`) and gated on all of EAX: 131 raw PASS (fs16), 128 promoted.
+
+**P17: callers pass the slots they push.** A callee of undecided convention that pops 0 now takes the bytes every
+settled caller pushes (conv_facts.py `spops N pushed`). fs17, the 45 functions held there: 38 raw PASS. In the tree,
+32 held functions became PASS after their older records were re-gated under the current rules, and 6 are new.
+
+**P9:** data/regs_after.json (pipeline/regs_after.py) records whether any caller reads the ECX/EDX a function
+leaves; some caller of 0x10119BC0 may read its EDX, so its FAIL stands. gfx_cases.py compares only EAX of an 8-byte
+return no caller reads EDX of.
+
+**Workers (each in its own worktree; the integrator merged):**
+- docs/FORMATS.md (#128, #129): resource chunks, Os2 skinned mesh, Sk2 skeleton, Mo2 motion, Bm2 texture, zone
+  mesh, dancer layer, all CreateVertexShader declarations; pipeline/field_reads.py and pipeline/vs_decl.py.
+- docs/RECCMP.md (#114): reccmp sees all 58 annotated functions and scores 57 at 100%, but its 100% is weaker than
+  match.py's IDENTICAL (a wrong unnamed global still scores 100%); a second view, not a verdict.
+- VC6 sweep (#116): NO_COMPILE 603 to 39; at the game's bytes 1,625 to 1,778 (recompile/sweep_round_116.md).
+  match.py --all: every file in recompile/ still IDENTICAL.
+
+Tree: 4,442 functions, 4,428 PASS (from 4,262). Frame set: 3,984 in the tree, 3,970 PASS; 1,491 (29.9%) at the
+game's bytes.
+
+## 27 Oct: the rest of the frame set, imports stubbed, a name clash
+
+**What was left.** Of the 1,000 frame-set functions outside the tree, 595 are statically linked library code, which the
+translator marks `library`: D3DX 8.1 (matched by symbol: hx2cpp.py D3DX81) and the D3DX / C++ runtime (hx2cpp.py
+LIBRARY). 219 of them are the frame set's `d3dx` entries, exported as fs18. Those are no reconstruction target. The other 405 were exported again with every current fact (fs19; `retw` for the 23
+UNRESOLVED on EAX past a declared void or bool, which now also widens a 1-byte return).
+
+**Imports, stubbed like game callees.** 34 functions were INCONCLUSIVE because every trial stopped at a Win32
+import. data/import_pops.json (pipeline/import_pops.py) gives the bytes each import's call pops, from the game's
+solved call sites (199 imports, none disagreeing). A case with `"imports": "stub"` answers such an import like a
+stubbed game callee: the call and its arguments compared, EAX from the trial's stream, nothing written
+(diffemu_gfx.py). New cases carry it (gfx_cases.py); existing cases keep their behaviour, so recorded verdicts stay
+reproducible. 16 of the 34 then PASS raw; in the tree each also PASSes under its older case with the stub added.
+
+**A name clash broke every unit.** The game's 0x10009770 is named SetCursorPos, and an fs19 record reads the import
+table slot of that name: the slot's macro rewrote the function's declaration in a shared header, no unit compiled,
+and the leave-out rule then dropped 141 tree functions. Two fixes:
+- a global whose name is a function of the tree's gets `g_<name>_<addr>` (hx2clean.py);
+- drop_failed.py refuses to drop anything when an error lies in a shared header, and regen_clean.sh stops there.
+
+**Workers.** The VC6 sweep's LEFT_OUT went from 419 to 252 (recompile/sweep_round_117.md); the 252 left all call a
+function that takes an argument in EAX, which no VC6 convention passes.
+
+Tree: 4,463 functions, 4,449 PASS. Frame set: 4,005 in the tree, 3,991 PASS; 1,523 (30.6%) at the game's bytes.
+
+## 27 Oct (later): the owner's in-game captures replayed
+
+The run's eight captures (four functions, two each; build 6AC37846, mapped back by the kit manifest) failed to load
+with UC_ERR_MAP: live_state.sandbox put the replay's scratch region at 0x5F800000, which the grown reconstruction DLL
+(at 0x60000000) now overlaps. sandbox() now takes the ranges to avoid (the capture's own pages, the reconstruction's
+image: live_state.pe_range, and 0x6E000000-0x80000000). Verdicts against tree_r11:
+
+| Function | Capture 1 | Capture 2 |
+|---|---|---|
+| Frame_Render 0x10011A00 | PASS (41 of 1,424 instructions) | PASS (41) |
+| Cell_DrawQuadBlended 0x1011F300 | PASS (93 of 597) | PASS (93) |
+| CYyModelDt_SkinAndDrawV2 0x1002DC10 | PASS (47 of 1,596) | UNRESOLVED (638) |
+| TexObj_Upload 0x10039E50 | PASS (134 of 1,077) | PASS (134) |
+
+The UNRESOLVED: 3 trials return with EAX differing above the declared 2-byte return, and no fact says whether a
+caller reads it (caller_reads.json). Not settled; the `retw` export (P20) of 0x1002DC10 would make the gate compare
+all of EAX.
+
+## 27 Oct (night): indirect call targets by source; the frame set follows the recorded ones (#106)
+
+`pipeline/indirect_targets.py` (`data/indirect_targets.json`) lists every indirect call and jump with its targets,
+keeping each source apart. Import slots (1,535 sites) and bounded switches (869 sites) are not listed. That leaves
+8,934 sites: 8,466 calls and 468 jumps.
+- `static` (585 sites): vcall_resolve's complete sets. 561 of them are in vcalls.json. The other 24 are calls whose
+  callees the vtables settle but whose pop counts disagree or are unknown, so vcalls.json leaves them out.
+  `vcall_resolve.resolve()` now also gives each site its reason; vcalls.json and ecx_use.json come out byte-identical.
+  No jump has a static set: an indirect jump that is not a bounded switch stops the this-flow for its whole function.
+- `com` (217) and `com_accepted` (153, the CDx+0xC declaration, kept marked unproven): com_calls.json.
+- `recorded` (716 sites with no static or com source; 16 more that have one): game_sp.json / game_switch.json. The
+  kit writes game addresses at the analysed build's addresses (xikit.c `analysed_of`, using the manifest's `!shift`
+  ranges), so the 6AC37846 recordings need no mapping here. Checks: every recorded game target is a function start,
+  and at the 16 sites with both a recording and a proof, the recording lies inside the proven set.
+  **Observed, not proven complete.** 332 of the 716 have a game target. The other 384 are recorded only into
+  Hook.dll, d3d8.dll, other modules or allocated memory, so where a third-party hook stands in, the target the
+  game's code would reach is not seen.
+- Unresolved (7,263), by reason:
+
+  | Reason | Sites |
+  |---|---|
+  | pointer not loaded from `this`'s [+0], and not a proven D3D8 object | 6,222 |
+  | through a register | 631 |
+  | `this` may be any object | 428 |
+  | indirect jump | 393 |
+  | function has an unfollowed jump | 146 |
+  | unbounded switch | 75 |
+  | function pointer in .data | 60 |
+  | other | 24 |
+
+  The first kind includes the device-shaped calls through `[[0x1045666C]+0xC]` and `[0x1066941C]`, whose
+  interface no proof gives. Each unresolved site records whether facts_wanted.json asked for it.
+- `frame_set.py` now reads this file. It follows the static sets, including the 24 the old file left out, and the
+  recorded game targets under a new evidence kind, `recorded`. It now also counts `call [abs]` through .data,
+  which it had taken for import calls, and unproven indirect jumps.
+  - The regenerated frame_set.json grows from 4,984 to 5,433 functions: 449 added, none removed, none D3DX, 10 of
+    them in the tree.
+  - `static` goes from 4,465 to 4,466 (0x10082460, through the pop-unsettled vcall at 0x10081BD9).
+  - `recorded` holds 494 functions. 46 of them had been in the set only through the sampler.
+  - Unproven indirect calls in static functions: 1,768 in 472 functions (it was 1,756 in 466). That is +13 `[abs]`
+    calls through .data and -1 settled. Of the 1,768, 206 are recorded. Unproven jumps: 121.
+  - The recorded-reach functions hold 83 more unproven calls. So the set stays a lower bound.
+
+## 27 Oct (night): the remaining FAILs read (P18, plan #170 and #108)
+
+Every FAIL and INCONCLUSIVE of the tree's clean gate, P18's list and fs14's 20 open FAILs read to the first
+mismatch's cause (docs/PROBLEMS.md P18, a table per function). Four were defects with a definitive fix:
+- GfxExport: a Ghidra thunk's convention, signature commit and EAX width are its target's (`sigOwner`); a thunk
+  used as a value is bound to its own address where the function's instructions hold it (`valueAddress`);
+- vcall_resolve: `lea ecx, [ecx]` is no read of ECX (ecx_use.json, 4 entries; _stat's callers now pass its two
+  arguments; regen_facts.py changed nothing else);
+- hx2cpp: a float stored into an `undefined4` global is a bit copy; a virtual call through an object expression
+  passes the object (the ecx_this_sites rule, unchanged).
+
+Export fs23 (data/exports/ghidra_frameset23.jsonl, 29 records, not promoted) and its raw gate
+(verification/gate_raw_frameset23.jsonl: 14 PASS, 14 FAIL, 1 UNRESOLVED): 0x1013A100, 0x101BE6C0,
+0x1015B410, 0x10221030, 0x10221680, 0x100F7790, 0x100F78C0, 0x100F7960 and 0x102710B0 PASS. Regression check:
+133 functions exported with the old and the new GfxExport, 99 records differ, 6 FAIL -> PASS and none worse; the 5
+tree records hx2cpp now prepares differently all PASS raw. The rest stay as they were, each with the fact that
+would settle it (EDX past a narrow return, stack nothing wrote, stub outputs, pop counts, P19).

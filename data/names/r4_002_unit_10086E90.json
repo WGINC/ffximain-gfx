@@ -1,0 +1,14 @@
+{
+ "0x10087F00": {
+  "name": "Acter_UpdateModelPoint848",
+  "confidence": "low",
+  "evidence": "Body: for an actor with flag 0x200 whose object at +0xA0 is kind 0x10330EBC: by (this+300 >> 8) & 3, mode 1 takes a point of the actor ActerBuffPtr[this+0x146] (its vtable +0x1C4, index this+0x148, lowered by 1.2 times a height), mode 2 transforms a constant point by a matrix of this actor's position and angles (+0x14A/+0x14C shorts, 2pi/4096 steps); writes it to object+0x848..0x854 and sets bit 0 of object+0x840; otherwise clears it.",
+  "summary": "Sets (from another actor or from its own angles) or clears the point its model object keeps at +0x848."
+ },
+ "0x100983F0": {
+  "name": "Acter_SendPositionPacket",
+  "confidence": "medium",
+  "evidence": "Body: takes the vectors at this+4 and this+0x14 (or the attached object's +0x140/+0x150); when their sum is non-zero, 0x10482F18 is clear and Unit100D7420_CheckTimer41B4(0x15, this+0x78) gives a slot, fills it with x, y, z, a byte from FUN_100DD970, flag bits from this+0x120/0x124/0x128, Unit100D7420_AdvanceAndGetMs() and the target entry's id (Entry_ValidateKey(g_pTargetMng)), then Unit100D7420_SendRaw(slot, 0x20, 0).",
+  "summary": "Builds a 0x20-byte packet of the actor's position, flags, time and target and sends it."
+ }
+}

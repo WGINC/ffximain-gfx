@@ -1,0 +1,50 @@
+{
+ "0x1024DB60": {
+  "name": "StAvatar_Update",
+  "confidence": "medium",
+  "evidence": "Dancer_WorldBegin calls it with the avatar 0x10669158; times itself (0x10275090) into +0x38; before level 2 runs 0x1024D850 and the channel updates (fn_10251200); otherwise steps the level on an input (0x10123A70) and StAvatar_Start, StAvatar_AdvanceTimers when flag 4; then the scene update (fn_10270F30), StAvatar_SetViewFromDancerCamera, StAvatar_UpdateInput, StAvatar_ProcessTriggers, and stores the frame delta at +0x2C",
+  "summary": "Per-frame update of the avatar: level, timers, channels, scene, view, input and triggers."
+ },
+ "0x102506C0": {
+  "name": "StAvatar_SetStopped",
+  "confidence": "low",
+  "evidence": "from level 2: with arg 1 and flag 2 clear kills the global task slots, runs afterimage task 0x6E696666 and advances timers by 0x411A, then sets flag 2; with arg 0 runs task 0x746F6666 when flag 2 was set and clears it; refreshes the sub-objects at +0xA8 and +0xCC (Unit10252A00_Refresh); returns -1 below level 2",
+  "summary": "Sets or clears the avatar's flag 2, running the matching afterimage tasks."
+ },
+ "0x10250760": {
+  "name": "StAvatar_SetField10",
+  "confidence": "low",
+  "evidence": "when flag 1 is set, calls 0x10270840(arg+1) from level 2 and stores arg at +0x10",
+  "summary": "Stores a value at +0x10, applying it through 0x10270840 when the avatar is running."
+ },
+ "0x10250790": {
+  "name": "StAvatar_SetField14",
+  "confidence": "low",
+  "evidence": "when flag 1 is set, calls 0x102709E0(arg+1) from level 2 and stores arg at +0x14",
+  "summary": "Stores a value at +0x14, applying it through 0x102709E0 when the avatar is running."
+ },
+ "0x102507C0": {
+  "name": "StAvatar_StoreMode",
+  "confidence": "low",
+  "evidence": "when flag 1 is set: from level 2 sets flag 4, clears +0x68 and sets +0x60/+0x64 from the float table 0x10389338 at [+0xC]+[+8]*8; stores arg at +0x18; called by StAvatar_SetMode",
+  "summary": "Stores the avatar's mode and restarts its timer from the table."
+ },
+ "0x102509C0": {
+  "name": "StAvatar_SetModelFlags",
+  "confidence": "low",
+  "evidence": "when +0xCC has bit 4, calls 0x10250A40 for the models at +0xC8 and +0xEC with arg (or, for -1, the inverse of flag 0x2000)",
+  "summary": "Sets or clears the flags of the avatar's two models."
+ },
+ "0x10250A40": {
+  "name": "StAvatar_SetModelItemFlags",
+  "confidence": "low",
+  "evidence": "for each of the model's +0x34 items in +0x2C sets (arg3 != 0) or clears bit 2 of +0x84 on kind 0xF0001 and bit 4 of +0x164 on kind 0xF0002, and sets or clears the avatar's flag 0x2000",
+  "summary": "Sets or clears one flag on each item of a model and records it in the avatar."
+ },
+ "0x10250C00": {
+  "name": "StAvatar_GetField20",
+  "confidence": "low",
+  "evidence": "when flag 1 is set stores +0x20 in *arg2 and returns 0, else -1",
+  "summary": "Reads the field at +0x20 when the avatar is active."
+ }
+}

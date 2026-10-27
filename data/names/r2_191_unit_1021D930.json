@@ -1,0 +1,92 @@
+{
+ "0x1022B7D0": {
+  "name": "Unit1021D930_IsEntryAvailable",
+  "confidence": "low",
+  "evidence": "tests bit [0x10485640] of the entry's mask +0x5C: when clear, compares the bytes 0x10485641/0x10485643 with the entry's limits at +0xE; when set, compares the byte 0x10485641 with 99 and a value from the table 0x100991F0 returns; 1 in AL when it passes",
+  "summary": "Tests an entry's availability against the current values at 0x10485640."
+ },
+ "0x1022BD50": {
+  "name": "Unit1021D930_CtorVt1033C50C",
+  "confidence": "low",
+  "evidence": "constructs the base (0x1021E690), sets vtable 0x1033C50C and initialises its index tables for table 0x39 with 0x400 entries (Unit1021D930_Init); stored in 0x10667A80 by Unit1021D930_InitSubsystems",
+  "summary": "Constructs the subsystem object for table 0x39."
+ },
+ "0x1022BE10": {
+  "name": "Unit1021D930_SingletonCtor",
+  "confidence": "low",
+  "evidence": "constructs the table at +0 (0x10257860) and the file entry at +0x10 (0x101C8070); Unit1021D930_GetSingleton calls it on 0x106679E8",
+  "summary": "Constructs the UI singleton's table and file entry."
+ },
+ "0x1022BE30": {
+  "name": "Unit1021D930_LoadMessageTable",
+  "confidence": "low",
+  "evidence": "reads the file of table 0x5D (FileMng_ResolveOrExit, Unit1018BA60_ForwardOrExit) and, when it starts with the header string 0x1033CE74, binds it, replaces it with a compact copy (Unit10253A20_Clone) and loads the file of table 0x5E into +0x10 (Unit101C72E0_Load); called by Unit10163E60_InitGlobalTables",
+  "summary": "Loads the message table of file 0x5D and its companion 0x5E."
+ },
+ "0x1022BF00": {
+  "name": "Unit1021D930_GetRowFirstCell",
+  "confidence": "low",
+  "evidence": "returns Unit10253A20_GetCell(this, row, 0); called from 13 places",
+  "summary": "Returns the first cell of a table row."
+ },
+ "0x1022BFB0": {
+  "name": "Unit1021D930_MixDatCtor",
+  "confidence": "medium",
+  "evidence": "clears the arrays (Unit1021D930_ClearArrays, 0x400) and +0x880, and registers \"mix.dat\" (0x884 bytes, callback 0x1022C000) with the DAT manager 0x10662DB0 (Unit1018BA60_Register); stored in 0x10667A7C",
+  "summary": "Constructs the object saved as mix.dat and registers it with the DAT manager."
+ },
+ "0x1022C350": {
+  "name": "Unit1021D930_PanelCtorVt1033C510",
+  "confidence": "low",
+  "evidence": "Unit1021D930_Construct and vtable 0x1033C510; stored in 0x10667A70",
+  "summary": "Constructs a text panel with vtable 0x1033C510."
+ },
+ "0x1022DB80": {
+  "name": "Unit1021D930_PanelCtorVt1033C5C0",
+  "confidence": "low",
+  "evidence": "Unit1021D930_Construct, clears +0x70, vtable 0x1033C5C0",
+  "summary": "Constructs a text panel with vtable 0x1033C5C0."
+ },
+ "0x1022EC50": {
+  "name": "Unit1021D930_ReadChunkDirectory",
+  "confidence": "low",
+  "evidence": "reads the 0x20-byte header (Unit1021D930_ReadChunk) and then each chunk header in turn, recording each one's 4 values and offset in the table at 0x10668A48 (20 bytes each), until the 4-byte tag 0x103869C4 or the end of the table",
+  "summary": "Reads a UI data file's chunk headers into a directory table."
+ },
+ "0x1022EEE0": {
+  "name": "Unit1021D930_LoadStringTable",
+  "confidence": "low",
+  "evidence": "stores the file number arg, reads the file (FileMng_ResolveOrExit, Unit1018BA60_ForwardOrExit) and, when it starts with the header 0x1033CE74, keeps its 64-byte header at +0x28, copies each row's id (cell 0) to the short array +8 and its string (cell 1) into the string list +0xC (Unit1021D930_Alloc/Append), stores the row count at +4, and prepares the row buffer +0x90; returns 1 on success",
+  "summary": "Loads a file's id/string table into a string list."
+ },
+ "0x1022F3D0": {
+  "name": "Unit1021D930_CreateMessagePanels",
+  "confidence": "low",
+  "evidence": "creates four text panels into 0x10668ECC..0x10668ED8 (vtables 0x1033C6B0, 0x1033C648, 0x1033C720, 0x1033C788) and loads the string tables of the eleven tables 0x40..0x48, 0x58, 0x59 into the 0x94-byte records from 0x10668380 (Unit1021D930_LoadStringTable)",
+  "summary": "Creates the message panels and loads their eleven string tables."
+ },
+ "0x1022F610": {
+  "name": "Unit1021D930_PanelCtorVt1033C6B0",
+  "confidence": "low",
+  "evidence": "Unit1021D930_Construct, clears +0x68, vtable 0x1033C6B0",
+  "summary": "Constructs a text panel with vtable 0x1033C6B0."
+ },
+ "0x102303B0": {
+  "name": "Unit1021D930_CtorVt1033C718",
+  "confidence": "low",
+  "evidence": "clears its fields, sets vtable 0x1033C718 and resets it (Unit1021D930_Reset)",
+  "summary": "Constructs the member object with vtable 0x1033C718."
+ },
+ "0x10233BE0": {
+  "name": "Unit1021D930_PanelCtorVt1033C720",
+  "confidence": "low",
+  "evidence": "Unit1021D930_Construct, clears +0x66, vtable 0x1033C720",
+  "summary": "Constructs a text panel with vtable 0x1033C720."
+ },
+ "0x102340A0": {
+  "name": "Unit1021D930_PanelCtorVt1033C788",
+  "confidence": "low",
+  "evidence": "Unit1021D930_Construct, clears +0x64, vtable 0x1033C788",
+  "summary": "Constructs a text panel with vtable 0x1033C788."
+ }
+}

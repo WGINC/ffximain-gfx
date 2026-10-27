@@ -1,0 +1,32 @@
+{
+ "0x101814D0": {
+  "name": "ZoneMap_Query169290",
+  "confidence": "low",
+  "evidence": "calls 0x10169290 on the member +0x178 with the three arguments, the float +0x16C and the two values 0x10377320/0x10377324; called by CXiCollisionActor_OnMove",
+  "summary": "Queries the zone map's +0x178 member through 0x10169290."
+ },
+ "0x10181590": {
+  "name": "ZoneMap_Query1693B0",
+  "confidence": "low",
+  "evidence": "forwards its three arguments to 0x101693B0 on the member +0x178; CXiActor_CorrectOnZoneMap calls it on g_pZoneMap with a position",
+  "summary": "Queries the zone map's +0x178 member for a position through 0x101693B0."
+ },
+ "0x10181A10": {
+  "name": "ZoneMap_Query16E7E0",
+  "confidence": "low",
+  "evidence": "returns the low byte of 0x1016E7E0 on the member +0x178 with the three arguments; called by CXiCollisionActor_OnMove",
+  "summary": "Queries the zone map's +0x178 member through 0x1016E7E0."
+ },
+ "0x101875C0": {
+  "name": "ZoneMap_ForEachFindKind5B",
+  "confidence": "low",
+  "evidence": "calls YmCombineWeather_FindKind5B on each object of the list from +0x10 (next at +8)",
+  "summary": "Runs YmCombineWeather_FindKind5B over the zone's object list."
+ },
+ "0x101875E0": {
+  "name": "ZoneMap_ForEachFindKind5A",
+  "confidence": "low",
+  "evidence": "calls YmCombineWeather_FindKind5A on each object of the list from +0x10 (next at +8)",
+  "summary": "Runs YmCombineWeather_FindKind5A over the zone's object list."
+ }
+}

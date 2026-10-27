@@ -31,7 +31,7 @@ void __cdecl CYySoundElem::UpdateQueue()
       pvVar3 = DAT_104638f8;
       if (pvVar7 == (void *)0x0) break;
       if (((0 < *(int *)((int)pvVar7 + 0x1e0)) && (iVar6 != 0)) &&
-         (uVar10 = orig::FUN_10246160(0,*(int *)((int)pvVar7 + 0x1e0),-1), iVar4 = DAT_104638fc,
+         (uVar10 = orig::LobbyThread_QueryChannels(0,*(int *)((int)pvVar7 + 0x1e0),-1), iVar4 = DAT_104638fc,
          iVar6 = DAT_1046393c, (int)uVar10 != 0)) {
         (&DAT_10462590)[DAT_104638fc] = *(undefined4 *)((int)pvVar7 + 0x1e0);
         iVar4 = DAT_104638fc + 1;
@@ -63,7 +63,7 @@ void __cdecl CYySoundElem::UpdateQueue()
     }
     while (DAT_104638f8 = pvVar3, pvVar7 != (void *)0x0) {
       pvVar1 = *(void **)((int)pvVar7 + 0x194);
-      orig::FUN_100364a0(pvVar7);
+      orig::CYySoundElem_UpdateOne(pvVar7);
       pvVar3 = DAT_104638f8;
       pvVar7 = pvVar1;
     }
@@ -120,11 +120,31 @@ undefined4 __thiscall CYySoundElem::ClearHandle(void * self)
     if ((*(uint32_t **)((int)self + 0x104) != (uint32_t *)0x0) &&
        (this_00 = (void *)**(uint32_t **)((int)self + 0x104), xi_entry_eax = 0, this_00 != (void *)0x0))
     {
-      xi_entry_eax = orig::FUN_10036b90(this_00,*(int *)((int)self + 0x1e0));
+      xi_entry_eax = orig::Unit10036B90_SendStopToLobby(this_00,*(int *)((int)self + 0x1e0));
     }
     *(uint32_t *)((int)self + 0x1e0) = 0;
   }
   return xi_entry_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x100364A0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CYySoundElem::UpdateOne(void * self)
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::CYySoundElem_UpdateTimerAndPosition(self);
+  if ((char)uVar1 == '\0') {
+    uVar1 = orig::CYySoundElem_IsTimerPositive(self);
+    if ((char)uVar1 != '\0') {
+      uVar1 = orig::CYySoundElem_QueueIfAbsent(*(int **)((int)self + 0x104));
+      if ((char)uVar1 == '\0') {
+        orig::CYySoundElem_ClearHandle(self);
+        return;
+      }
+    }
+  }
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x100364E0  (placed by IDB name; static (takes no this))
@@ -200,13 +220,13 @@ undefined4 __thiscall CYySoundElem::UpdateTimerAndPosition(void * self)
           *(float *)((int)self + 0x1c8) = local_8;
           *(uint32_t *)((int)self + 0x1cc) = local_4;
           if (DAT_104638f5 != '\0') {
-            orig::FUN_10038440(*(uint32_t *)((int)self + 0x1e0),&local_10,0,
+            orig::LobbyThread_SendCmd3FromFloat(*(uint32_t *)((int)self + 0x1e0),&local_10,0,
                          *(uint32_t *)((int)self + 0x1e0));
           }
         }
         if (((int)*(short *)((int)self + 0x1bc) != local_20) &&
            (*(short *)((int)self + 0x1bc) = (short)local_20, DAT_104638f5 != '\0')) {
-          uVar4 = orig::FUN_10038470(*(int *)((int)self + 0x1e0),local_20,0,local_20);
+          uVar4 = orig::Music_SetTrackVolume(*(int *)((int)self + 0x1e0),local_20,0,local_20);
           return uVar4 & 0xffffff00;
         }
         goto LAB_1003673a;
@@ -349,7 +369,7 @@ undefined4 __thiscall CYySoundElem::UpdateFromCamera(void * self)
   uVar4 = 0;
   if (*(int *)((int)self + 0x198) != 0) {
     iVar3 = orig::Camera_GetField50_v1();
-    orig::FUN_10056160((void *)(*(int *)((int)self + 0x198) + 0x30),&fStack_10,iVar3 + 0x60);
+    orig::Unit10055A60_MinOf10055F60OverIndexPairs((void *)(*(int *)((int)self + 0x198) + 0x30),&fStack_10,iVar3 + 0x60);
     iVar3 = orig::Camera_GetField50_v1();
     fStack_10 = (float)((long double)fStack_10 + (long double)*(float *)(iVar3 + 0x60));
     iVar3 = orig::Camera_GetField50_v1();

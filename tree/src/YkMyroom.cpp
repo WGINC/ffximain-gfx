@@ -9,7 +9,7 @@ void __thiscall YkMyroom::Destructor(void * self)
 {
   *(uint8_t ***)self = &PTR_YkMyroom_GetRuntimeClass_103384a4;
   orig::Unit101D2FF0_ReleaseTable(self);
-  orig::FUN_101d30b0(self);
+  orig::YkMyroom_ReleaseObject38(self);
   orig::Target_SetHandlerCc(g_pTargetMng,0);
   if (DAT_106631dc != (undefined4 *)0x0) {
     orig::Menu_RemoveAndFreeItem(&g_menuMng_as_v0,DAT_106631dc[2],DAT_106631dc[2]);
@@ -33,8 +33,37 @@ void __thiscall YkMyroom::Destructor(void * self)
     }
   }
   orig::operator_delete_v1(*(LPVOID *)((int)self + 0x14));
-  orig::FUN_101d31b0(self);
-  orig::thunk_FUN_10150ce0(g_pTkTitle,0,0);
+  orig::YkMyroom_ReleaseResource8(self);
+  orig::Unit1012AC80_SetTextFwd(g_pTkTitle,0,0);
   orig::Unit1012AC80_ForwardToPanel(g_pTkHelp,0,0);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x101D30B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall YkMyroom::ReleaseObject38(void * self)
+{
+  int *this_00;
+  
+  this_00 = *(int **)((int)self + 0x38);
+  if (this_00 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
+    *(uint32_t *)((int)self + 0x38) = 0;
+    *(uint32_t *)(*(int *)((int)self + 4) + 0xa0) = 0;
+    return;
+  }
+  *(uint32_t *)(*(int *)((int)self + 4) + 0xa0) = 0;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x101D31B0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall YkMyroom::ReleaseResource8(void * self)
+{
+  if (*(uint32_t **)((int)self + 8) != (uint32_t *)0x0) {
+    orig::CMoResource_ReleaseChain_v1((void *)**(uint32_t **)((int)self + 8));
+    orig::ResHandle_FreeIfUnreferenced_v1((uint32_t *)((int)self + 8));
+    *(uint32_t *)((int)self + 8) = 0;
+  }
   return;
 }

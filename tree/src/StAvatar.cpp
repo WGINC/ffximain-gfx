@@ -25,7 +25,7 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
   if (param_1[1] == 1) {
     xi_eax = (uint32_t *)orig::StAvatar_StopAndFreeBuffers((int)param_1);
   }
-  orig::FUN_102506c0(param_1,0,xi_eax);
+  orig::StAvatar_SetStopped(param_1,0,xi_eax);
   orig::StAvatar_Reset((int)param_1);
   orig::StAvatar_ReleaseResources(param_1,1);
   orig::StAvatar_RegisterTriggers((int)param_1,param_2);
@@ -44,9 +44,9 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
   if ((*param_1 & 0x20) == 0) {
     uVar1 = uVar1 + 2;
   }
-  orig::FUN_10252610((int)(param_1 + 0x2a),uVar1);
+  orig::StModelItem_ReadStart((int)(param_1 + 0x2a),uVar1);
   orig::StAvatar_SetChannel((uint8_t *)param_1,param_2,param_3);
-  orig::FUN_10252610((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_2 * 4) + 4 + param_3 * 2);
+  orig::StModelItem_ReadStart((int)(param_1 + 0x33),*(int *)(((char *)&DAT_10389538) + param_2 * 4) + 4 + param_3 * 2);
   param_1[0x13] = 0x47c35000;
   *param_1 = *param_1 & 0xfffff9ff;
   param_1[0x1e] = 0;

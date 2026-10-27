@@ -2,9 +2,52 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10250F10  (unit StChannel: asserts StChannel.cpp)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl StChannelItemResolve(uint32_t * param_1)
+{
+  char *pcVar1;
+  uint32_t uVar2;
+  int iVar3;
+  
+  if ((param_1 != (uint32_t *)0x0) && ((*param_1 & 0x10) != 0)) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____StChannelItemResolve____call_103897f8);
+    return 0xffffffff;
+  }
+  if (param_1[6] == 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____StChannelItemResolve____call_103897c0);
+    orig::Unit10017C10_NoOpVarargsA_v1(g_103897A8,param_1[6]);
+    return 0xffffffff;
+  }
+  uVar2 = orig::SqTimer_GetMicroseconds_v1();
+  pcVar1 = (char *)param_1[6];
+  param_1[4] = uVar2;
+  orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
+  uVar2 = orig::FUN_10285040(pcVar1,param_1[5]);
+  param_1[6] = uVar2;
+  orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
+  iVar3 = orig::SqTimer_GetMicroseconds_v1();
+  param_1[4] = iVar3 - param_1[4];
+  if (param_1[6] == 0) {
+    orig::FUN_10251020(s_____Error__sqmoChannelBuildSQO___10389778,0);
+    param_1[5] = 0;
+    uVar2 = orig::sqFree_v1((int)pcVar1,s_D__build0001_FFXi_Win_Main_dance_10389748,0xbf);
+    param_1[6] = uVar2;
+    return 0xffffffff;
+  }
+  orig::sqFree_v1((int)pcVar1,s_D__build0001_FFXi_Win_Main_dance_10389748,0xc4);
+  *param_1 = *param_1 & 0xfffffffb | 8;
+  orig::Unit10284EB0_GetFloat20(param_1[6]);
+  if (*(int *)(param_1[6] + 0x20) == 0x40feeeef) {
+    *(uint32_t *)(param_1[6] + 0x20) = 0x40fdddec;
+  }
+  orig::Unit10284EB0_GetFloat20(param_1[6]);
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x10251070  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param_3)
+XI_API uint32_t __cdecl StChannel_RegisterItem(uint32_t * param_1, int param_2, float param_3)
 {
   long double fVar1;
   uint32_t *puVar2;
@@ -15,10 +58,10 @@ XI_API uint32_t __cdecl fn_10251070(uint32_t * param_1, int param_2, float param
   
   puVar2 = param_1;
   if (param_1[6] == 0) {
-    orig::nullsub_13_v1(s_____Error__StChannelItemRegister_10389830);
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__StChannelItemRegister_10389830);
   }
   else {
-    uVar4 = orig::FUN_1026ef00(param_1[2],param_1[6]);
+    uVar4 = orig::Mdl_ChannelRegister(param_1[2],param_1[6]);
     puVar2[3] = uVar4;
     if (-1 < (int)uVar4) {
       *puVar2 = *puVar2 | 0x10;
@@ -65,7 +108,7 @@ XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
   uint32_t uVar1;
   
   if (((*param_1 & 1) != 0) && (-1 < (int)param_1[1])) {
-    uVar1 = orig::FUN_101c4a30(g_pFileMng_as_v1,param_1[1]);
+    uVar1 = orig::Unit1018BA60_FileMngFindFileNumKind2(g_pFileMng_as_v0,param_1[1]);
     if ((char)uVar1 != '\0') {
       *param_1 = *param_1 | 0x20;
     }
@@ -95,7 +138,7 @@ XI_API undefined4 __cdecl StChannel_SetValue9C(uint8_t * param_1, float param_2)
 
 // FUNCTION: FFXIMAIN 0x10251200  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10251200(uint8_t * param_1, undefined4 param_2, int param_3)
+XI_API undefined4 __cdecl StChannel_ApplyItem(uint8_t * param_1, undefined4 param_2, int param_3)
 {
   uint8_t *pbVar1;
   uint32_t uVar2;
@@ -111,9 +154,9 @@ XI_API undefined4 __cdecl fn_10251200(uint8_t * param_1, undefined4 param_2, int
       if ((param_3 == 0) && (puVar3[0x2f] != 0)) {
         uVar2 = orig::Unit102857D0_GetFlagByte14(puVar3[0x2f]);
         if ((char)uVar2 == '\0') {
-          orig::FUN_102857e0(puVar3[0x2f],1,uVar2);
+          orig::Unit102857D0_SetByte14(puVar3[0x2f],1,uVar2);
           uVar2 = orig::Unit102857D0_InvokeCallback18(puVar3[0x2f]);
-          orig::FUN_102857e0(puVar3[0x2f],0,uVar2);
+          orig::Unit102857D0_SetByte14(puVar3[0x2f],0,uVar2);
         }
       }
       *puVar3 = *puVar3 & 0xfffffffd;
@@ -139,7 +182,7 @@ XI_API undefined4 __cdecl StChannelItemClear(uint32_t * param_1)
   param_1[4] = 0;
   param_1[5] = 0;
   if ((uVar1 & 8) != 0) {
-    orig::FUN_10285740((int *)(param_1 + 6));
+    orig::SqObject_Release((int *)(param_1 + 6));
     *param_1 = *param_1 & 0xffffffe1;
     return 0;
   }

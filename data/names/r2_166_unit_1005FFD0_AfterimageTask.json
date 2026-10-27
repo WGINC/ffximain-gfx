@@ -1,0 +1,8 @@
+{
+ "0x100627D0": {
+  "name": "Scheduler_ResolveOwner",
+  "confidence": "low",
+  "evidence": "resolves the handle at +0x34 (0x1003B700) and, while the object is of class 0x1032F910 (CYyObject_IsKindOf), follows its handle at +0xC4; returns the last object, or the first when the chain ends; called by Scheduler_Kill and Scheduler_IsMoving",
+  "summary": "Follows a chain of handle objects of one class to the owner."
+ }
+}

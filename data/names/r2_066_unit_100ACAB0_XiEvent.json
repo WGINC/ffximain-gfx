@@ -1,0 +1,20 @@
+{
+ "0x100C3020": {
+  "name": "Unit100ACAB0_GetWordBFE",
+  "confidence": "low",
+  "evidence": "returns the 16-bit value at +0xBFE in AX",
+  "summary": "Returns the word at +0xBFE."
+ },
+ "0x100C3030": {
+  "name": "Unit100ACAB0_GetWordC00",
+  "confidence": "low",
+  "evidence": "returns the 16-bit value at +0xC00 in AX",
+  "summary": "Returns the word at +0xC00."
+ },
+ "0x100C3480": {
+  "name": "Unit100ACAB0_StepTimedMessage",
+  "confidence": "medium",
+  "evidence": "a state machine at +0x54 with a countdown at +0x58 reduced each call by Camera_GetFrameScale; when it runs out it composes text (0x100C2D00 appends) and sends it to the actor's vtable slot 177 (+0x2C4) with tag 'main' or to ChatLog_AddMessage",
+  "summary": "Counts down a timed event by the frame step, then shows its message."
+ }
+}

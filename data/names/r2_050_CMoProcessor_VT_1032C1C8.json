@@ -1,0 +1,14 @@
+{
+ "0x1006CC40": {
+  "name": "CMoProcessor_CallSlot9",
+  "confidence": "low",
+  "evidence": "forwards its three arguments to its own vtable slot 9 (+0x24); slot 8 in all three CMoProcessor vtables",
+  "summary": "Calls the object's slot 9 with the same arguments."
+ },
+ "0x1006CC60": {
+  "name": "CMoProcessor_CallSlot41",
+  "confidence": "low",
+  "evidence": "forwards its float pointer to its own vtable slot 41 (+0xA4); slot 40 in all three CMoProcessor vtables",
+  "summary": "Calls the object's slot 41 with the same argument."
+ }
+}

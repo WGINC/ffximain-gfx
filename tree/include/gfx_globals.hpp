@@ -1,8 +1,16 @@
 // gfx_globals.hpp -- game globals the graphics code uses, bound to their addresses.
 #pragma once
 #include "gfx_common.hpp"
+typedef undefined4 DAT_00000007_t;
+#define DAT_00000007 XI_EA(DAT_00000007_t, 0x00000007u)
 typedef undefined4 DAT_00000008_t;
 #define DAT_00000008 XI_EA(DAT_00000008_t, 0x00000008u)
+typedef undefined4 DAT_0000000a_t;
+#define DAT_0000000a XI_EA(DAT_0000000a_t, 0x0000000Au)
+typedef int * unk_14_t;
+#define unk_14 XI_EA(unk_14_t, 0x00000014u)
+typedef uint32_t uRam00000024_t;
+#define uRam00000024 XI_EA(uRam00000024_t, 0x00000024u)
 typedef int iRam000000a4_t;
 #define iRam000000a4 XI_EA(iRam000000a4_t, 0x000000A4u)
 typedef undefined1 DAT_0002cf48_t;
@@ -13,9 +21,9 @@ typedef undefined1 uRam0002cf4a_t;
 #define uRam0002cf4a XI_EA(uRam0002cf4a_t, 0x0002CF4Au)
 typedef undefined1 DAT_0002cf53_t;
 #define DAT_0002cf53 XI_EA(DAT_0002cf53_t, 0x0002CF53u)
-typedef undefined4 DAT_0002cfd4_t;
+typedef undefined1 DAT_0002cfd4_t;
 #define DAT_0002cfd4 XI_EA(DAT_0002cfd4_t, 0x0002CFD4u)
-typedef undefined1 DAT_0002cfd4_as_v0_t;
+typedef undefined4 DAT_0002cfd4_as_v0_t;
 #define DAT_0002cfd4_as_v0 XI_EA(DAT_0002cfd4_as_v0_t, 0x0002CFD4u)
 typedef undefined4 LAB_100083b0_t;
 #define LAB_100083b0 XI_EA(LAB_100083b0_t, 0x100083B0u)
@@ -27,12 +35,44 @@ typedef undefined4 LAB_1001a650_t;
 #define LAB_1001a650 XI_EA(LAB_1001a650_t, 0x1001A650u)
 typedef undefined4 DAT_100286a0_t;
 #define DAT_100286a0 XI_EA(DAT_100286a0_t, 0x100286A0u)
+typedef undefined4 LAB_10040610_t;
+#define LAB_10040610 XI_EA(LAB_10040610_t, 0x10040610u)
+typedef undefined4 LAB_10040620_t;
+#define LAB_10040620 XI_EA(LAB_10040620_t, 0x10040620u)
+typedef undefined4 LAB_10040630_t;
+#define LAB_10040630 XI_EA(LAB_10040630_t, 0x10040630u)
+typedef undefined4 LAB_10040640_t;
+#define LAB_10040640 XI_EA(LAB_10040640_t, 0x10040640u)
+typedef undefined4 LAB_10040650_t;
+#define LAB_10040650 XI_EA(LAB_10040650_t, 0x10040650u)
+typedef undefined4 LAB_10040660_t;
+#define LAB_10040660 XI_EA(LAB_10040660_t, 0x10040660u)
 typedef undefined4 DAT_10045a30_t;
 #define DAT_10045a30 XI_EA(DAT_10045a30_t, 0x10045A30u)
 typedef undefined4 DAT_100554a0_t;
 #define DAT_100554a0 XI_EA(DAT_100554a0_t, 0x100554A0u)
 typedef undefined4 LAB_100555a0_t;
 #define LAB_100555a0 XI_EA(LAB_100555a0_t, 0x100555A0u)
+typedef undefined4 LAB_1006cc30_t;
+#define LAB_1006cc30 XI_EA(LAB_1006cc30_t, 0x1006CC30u)
+typedef undefined4 DAT_1006d180_t;
+#define DAT_1006d180 XI_EA(DAT_1006d180_t, 0x1006D180u)
+typedef undefined4 DAT_1006dff0_t;
+#define DAT_1006dff0 XI_EA(DAT_1006dff0_t, 0x1006DFF0u)
+typedef undefined4 DAT_1006e000_t;
+#define DAT_1006e000 XI_EA(DAT_1006e000_t, 0x1006E000u)
+typedef undefined4 DAT_1006e010_t;
+#define DAT_1006e010 XI_EA(DAT_1006e010_t, 0x1006E010u)
+typedef undefined4 DAT_1006e250_t;
+#define DAT_1006e250 XI_EA(DAT_1006e250_t, 0x1006E250u)
+typedef undefined4 DAT_1006e370_t;
+#define DAT_1006e370 XI_EA(DAT_1006e370_t, 0x1006E370u)
+typedef undefined4 DAT_1006e680_t;
+#define DAT_1006e680 XI_EA(DAT_1006e680_t, 0x1006E680u)
+typedef undefined4 DAT_1006e690_t;
+#define DAT_1006e690 XI_EA(DAT_1006e690_t, 0x1006E690u)
+typedef undefined4 DAT_1006e6a0_t;
+#define DAT_1006e6a0 XI_EA(DAT_1006e6a0_t, 0x1006E6A0u)
 typedef undefined4 DAT_1006f090_t;
 #define DAT_1006f090 XI_EA(DAT_1006f090_t, 0x1006F090u)
 typedef undefined4 DAT_10070200_t;
@@ -51,6 +91,12 @@ typedef undefined4 LAB_100c31d0_t;
 #define LAB_100c31d0 XI_EA(LAB_100c31d0_t, 0x100C31D0u)
 typedef undefined4 LAB_100d1400_t;
 #define LAB_100d1400 XI_EA(LAB_100d1400_t, 0x100D1400u)
+typedef undefined4 g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40_t;
+#define g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40 XI_EA(g_CXiSkeletonActor_OnSkeletonLoaded_100D2F40_t, 0x100D2F40u)
+typedef undefined4 LAB_100d4100_t;
+#define LAB_100d4100 XI_EA(LAB_100d4100_t, 0x100D4100u)
+typedef undefined4 LAB_100d8520_t;
+#define LAB_100d8520 XI_EA(LAB_100d8520_t, 0x100D8520u)
 typedef undefined4 LAB_100e16a0_t;
 #define LAB_100e16a0 XI_EA(LAB_100e16a0_t, 0x100E16A0u)
 typedef undefined4 LAB_100e16e0_t;
@@ -81,6 +127,14 @@ typedef undefined4 LAB_100ef450_t;
 #define LAB_100ef450 XI_EA(LAB_100ef450_t, 0x100EF450u)
 typedef undefined4 LAB_100ef4b0_t;
 #define LAB_100ef4b0 XI_EA(LAB_100ef4b0_t, 0x100EF4B0u)
+typedef undefined4 LAB_100f16b0_t;
+#define LAB_100f16b0 XI_EA(LAB_100f16b0_t, 0x100F16B0u)
+typedef undefined4 LAB_100f16c0_t;
+#define LAB_100f16c0 XI_EA(LAB_100f16c0_t, 0x100F16C0u)
+typedef undefined4 LAB_100f18d0_t;
+#define LAB_100f18d0 XI_EA(LAB_100f18d0_t, 0x100F18D0u)
+typedef undefined4 g_Unit100D7420_Call10310072_100F1900_t;
+#define g_Unit100D7420_Call10310072_100F1900 XI_EA(g_Unit100D7420_Call10310072_100F1900_t, 0x100F1900u)
 typedef undefined4 LAB_100f2020_t;
 #define LAB_100f2020 XI_EA(LAB_100f2020_t, 0x100F2020u)
 typedef undefined4 LAB_100f79c0_t;
@@ -95,12 +149,16 @@ typedef undefined4 LAB_10114dc0_t;
 #define LAB_10114dc0 XI_EA(LAB_10114dc0_t, 0x10114DC0u)
 typedef undefined4 LAB_10114df0_t;
 #define LAB_10114df0 XI_EA(LAB_10114df0_t, 0x10114DF0u)
+typedef undefined4 LAB_1011d9e0_t;
+#define LAB_1011d9e0 XI_EA(LAB_1011d9e0_t, 0x1011D9E0u)
 typedef undefined4 LAB_1012a260_t;
 #define LAB_1012a260 XI_EA(LAB_1012a260_t, 0x1012A260u)
 typedef undefined4 LAB_101303e0_t;
 #define LAB_101303e0 XI_EA(LAB_101303e0_t, 0x101303E0u)
 typedef undefined4 LAB_10154030_t;
 #define LAB_10154030 XI_EA(LAB_10154030_t, 0x10154030u)
+typedef undefined4 LAB_1015bb80_t;
+#define LAB_1015bb80 XI_EA(LAB_1015bb80_t, 0x1015BB80u)
 typedef undefined4 LAB_101608b0_t;
 #define LAB_101608b0 XI_EA(LAB_101608b0_t, 0x101608B0u)
 typedef undefined4 LAB_101608d0_t;
@@ -115,6 +173,32 @@ typedef undefined4 LAB_1018dfd0_t;
 #define LAB_1018dfd0 XI_EA(LAB_1018dfd0_t, 0x1018DFD0u)
 typedef undefined4 LAB_101965d0_t;
 #define LAB_101965d0 XI_EA(LAB_101965d0_t, 0x101965D0u)
+typedef undefined4 LAB_10197030_t;
+#define LAB_10197030 XI_EA(LAB_10197030_t, 0x10197030u)
+typedef undefined4 LAB_10197a70_t;
+#define LAB_10197a70 XI_EA(LAB_10197a70_t, 0x10197A70u)
+typedef undefined4 LAB_10199610_t;
+#define LAB_10199610 XI_EA(LAB_10199610_t, 0x10199610u)
+typedef undefined4 LAB_10199de0_t;
+#define LAB_10199de0 XI_EA(LAB_10199de0_t, 0x10199DE0u)
+typedef undefined4 LAB_1019a220_t;
+#define LAB_1019a220 XI_EA(LAB_1019a220_t, 0x1019A220u)
+typedef undefined4 LAB_1019ae60_t;
+#define LAB_1019ae60 XI_EA(LAB_1019ae60_t, 0x1019AE60u)
+typedef undefined4 LAB_1019b7e0_t;
+#define LAB_1019b7e0 XI_EA(LAB_1019b7e0_t, 0x1019B7E0u)
+typedef undefined4 LAB_1019bc10_t;
+#define LAB_1019bc10 XI_EA(LAB_1019bc10_t, 0x1019BC10u)
+typedef undefined4 LAB_1019bf20_t;
+#define LAB_1019bf20 XI_EA(LAB_1019bf20_t, 0x1019BF20u)
+typedef undefined4 LAB_1019c3c0_t;
+#define LAB_1019c3c0 XI_EA(LAB_1019c3c0_t, 0x1019C3C0u)
+typedef undefined4 LAB_1019d4d0_t;
+#define LAB_1019d4d0 XI_EA(LAB_1019d4d0_t, 0x1019D4D0u)
+typedef undefined4 LAB_1019d540_t;
+#define LAB_1019d540 XI_EA(LAB_1019d540_t, 0x1019D540u)
+typedef undefined4 LAB_1019df20_t;
+#define LAB_1019df20 XI_EA(LAB_1019df20_t, 0x1019DF20u)
 typedef undefined4 LAB_101a1fb0_t;
 #define LAB_101a1fb0 XI_EA(LAB_101a1fb0_t, 0x101A1FB0u)
 typedef undefined4 LAB_101a23b0_t;
@@ -125,12 +209,52 @@ typedef undefined4 LAB_101a2440_t;
 #define LAB_101a2440 XI_EA(LAB_101a2440_t, 0x101A2440u)
 typedef undefined4 LAB_101a5450_t;
 #define LAB_101a5450 XI_EA(LAB_101a5450_t, 0x101A5450u)
+typedef undefined4 LAB_101aa650_t;
+#define LAB_101aa650 XI_EA(LAB_101aa650_t, 0x101AA650u)
+typedef undefined4 LAB_101aa980_t;
+#define LAB_101aa980 XI_EA(LAB_101aa980_t, 0x101AA980u)
+typedef undefined4 LAB_101aaa30_t;
+#define LAB_101aaa30 XI_EA(LAB_101aaa30_t, 0x101AAA30u)
+typedef undefined4 LAB_101aaa90_t;
+#define LAB_101aaa90 XI_EA(LAB_101aaa90_t, 0x101AAA90u)
 typedef undefined4 LAB_101adfe0_t;
 #define LAB_101adfe0 XI_EA(LAB_101adfe0_t, 0x101ADFE0u)
+typedef undefined4 LAB_101ae570_t;
+#define LAB_101ae570 XI_EA(LAB_101ae570_t, 0x101AE570u)
+typedef undefined4 LAB_101ae7b0_t;
+#define LAB_101ae7b0 XI_EA(LAB_101ae7b0_t, 0x101AE7B0u)
+typedef undefined4 LAB_101ae7d0_t;
+#define LAB_101ae7d0 XI_EA(LAB_101ae7d0_t, 0x101AE7D0u)
+typedef undefined4 LAB_101ae800_t;
+#define LAB_101ae800 XI_EA(LAB_101ae800_t, 0x101AE800u)
+typedef undefined4 LAB_101ae820_t;
+#define LAB_101ae820 XI_EA(LAB_101ae820_t, 0x101AE820u)
+typedef undefined4 LAB_101ae840_t;
+#define LAB_101ae840 XI_EA(LAB_101ae840_t, 0x101AE840u)
+typedef undefined4 FsShortcutManager_DoReply_t;
+#define FsShortcutManager_DoReply XI_EA(FsShortcutManager_DoReply_t, 0x101AE8E0u)
+typedef undefined4 LAB_101ae9b0_t;
+#define LAB_101ae9b0 XI_EA(LAB_101ae9b0_t, 0x101AE9B0u)
+typedef undefined4 LAB_101ae9d0_t;
+#define LAB_101ae9d0 XI_EA(LAB_101ae9d0_t, 0x101AE9D0u)
+typedef undefined4 LAB_101aea00_t;
+#define LAB_101aea00 XI_EA(LAB_101aea00_t, 0x101AEA00u)
+typedef undefined4 LAB_101aea20_t;
+#define LAB_101aea20 XI_EA(LAB_101aea20_t, 0x101AEA20u)
+typedef undefined4 LAB_101b5080_t;
+#define LAB_101b5080 XI_EA(LAB_101b5080_t, 0x101B5080u)
 typedef undefined4 LAB_101b7e90_t;
 #define LAB_101b7e90 XI_EA(LAB_101b7e90_t, 0x101B7E90u)
+typedef undefined4 LAB_101ba460_t;
+#define LAB_101ba460 XI_EA(LAB_101ba460_t, 0x101BA460u)
 typedef undefined4 LAB_101c4d50_t;
 #define LAB_101c4d50 XI_EA(LAB_101c4d50_t, 0x101C4D50u)
+typedef undefined4 LAB_101c8b80_t;
+#define LAB_101c8b80 XI_EA(LAB_101c8b80_t, 0x101C8B80u)
+typedef undefined4 LAB_101c8bc0_t;
+#define LAB_101c8bc0 XI_EA(LAB_101c8bc0_t, 0x101C8BC0u)
+typedef undefined4 LAB_10203c60_t;
+#define LAB_10203c60 XI_EA(LAB_10203c60_t, 0x10203C60u)
 typedef undefined4 LAB_10211330_t;
 #define LAB_10211330 XI_EA(LAB_10211330_t, 0x10211330u)
 typedef undefined4 LAB_1021d220_t;
@@ -157,6 +281,12 @@ typedef undefined4 LAB_1023f920_t;
 #define LAB_1023f920 XI_EA(LAB_1023f920_t, 0x1023F920u)
 typedef undefined4 LAB_10245650_t;
 #define LAB_10245650 XI_EA(LAB_10245650_t, 0x10245650u)
+typedef undefined4 LAB_10250ec0_t;
+#define LAB_10250ec0 XI_EA(LAB_10250ec0_t, 0x10250EC0u)
+typedef undefined4 LAB_10252840_t;
+#define LAB_10252840 XI_EA(LAB_10252840_t, 0x10252840u)
+typedef undefined4 LAB_10252880_t;
+#define LAB_10252880 XI_EA(LAB_10252880_t, 0x10252880u)
 typedef undefined4 LAB_1026df80_t;
 #define LAB_1026df80 XI_EA(LAB_1026df80_t, 0x1026DF80u)
 typedef undefined4 sqxfXformTD_Print_t;
@@ -211,6 +341,14 @@ typedef undefined4 LAB_10292a40_t;
 #define LAB_10292a40 XI_EA(LAB_10292a40_t, 0x10292A40u)
 typedef undefined4 LAB_10292b70_t;
 #define LAB_10292b70 XI_EA(LAB_10292b70_t, 0x10292B70u)
+typedef undefined4 LAB_102934b0_t;
+#define LAB_102934b0 XI_EA(LAB_102934b0_t, 0x102934B0u)
+typedef undefined4 LAB_10293540_t;
+#define LAB_10293540 XI_EA(LAB_10293540_t, 0x10293540u)
+typedef undefined4 LAB_10293590_t;
+#define LAB_10293590 XI_EA(LAB_10293590_t, 0x10293590u)
+typedef undefined4 LAB_102935c0_t;
+#define LAB_102935c0 XI_EA(LAB_102935c0_t, 0x102935C0u)
 typedef undefined4 LAB_10293ff0_t;
 #define LAB_10293ff0 XI_EA(LAB_10293ff0_t, 0x10293FF0u)
 typedef undefined4 LAB_102942b0_t;
@@ -229,8 +367,20 @@ typedef undefined4 LAB_10296080_t;
 #define LAB_10296080 XI_EA(LAB_10296080_t, 0x10296080u)
 typedef undefined4 LAB_10296090_t;
 #define LAB_10296090 XI_EA(LAB_10296090_t, 0x10296090u)
+typedef undefined4 LAB_10298530_t;
+#define LAB_10298530 XI_EA(LAB_10298530_t, 0x10298530u)
+typedef undefined4 LAB_102985a0_t;
+#define LAB_102985a0 XI_EA(LAB_102985a0_t, 0x102985A0u)
 typedef undefined4 LAB_10298b50_t;
 #define LAB_10298b50 XI_EA(LAB_10298b50_t, 0x10298B50u)
+typedef undefined4 LAB_10298ed0_t;
+#define LAB_10298ed0 XI_EA(LAB_10298ed0_t, 0x10298ED0u)
+typedef undefined4 LAB_10298fa0_t;
+#define LAB_10298fa0 XI_EA(LAB_10298fa0_t, 0x10298FA0u)
+typedef undefined4 LAB_102992e0_t;
+#define LAB_102992e0 XI_EA(LAB_102992e0_t, 0x102992E0u)
+typedef undefined4 LAB_10299390_t;
+#define LAB_10299390 XI_EA(LAB_10299390_t, 0x10299390u)
 typedef undefined4 LAB_1029a050_t;
 #define LAB_1029a050 XI_EA(LAB_1029a050_t, 0x1029A050u)
 typedef undefined4 LAB_1029a9b0_t;
@@ -277,30 +427,68 @@ typedef undefined4 DAT_102b34e0_t;
 #define DAT_102b34e0 XI_EA(DAT_102b34e0_t, 0x102B34E0u)
 typedef undefined4 LAB_102b3770_t;
 #define LAB_102b3770 XI_EA(LAB_102b3770_t, 0x102B3770u)
-typedef undefined4 g_103169E8_t;
-#define g_103169E8 XI_EA(g_103169E8_t, 0x103169E8u)
 typedef undefined4 LAB_1032752e_t;
 #define LAB_1032752e XI_EA(LAB_1032752e_t, 0x1032752Eu)
 typedef undefined4 LAB_10327590_t;
 #define LAB_10327590 XI_EA(LAB_10327590_t, 0x10327590u)
 typedef undefined4 LAB_103276b8_t;
 #define LAB_103276b8 XI_EA(LAB_103276b8_t, 0x103276B8u)
+typedef undefined4 LAB_10327738_t;
+#define LAB_10327738 XI_EA(LAB_10327738_t, 0x10327738u)
 typedef undefined4 LAB_10327818_t;
 #define LAB_10327818 XI_EA(LAB_10327818_t, 0x10327818u)
 typedef undefined4 LAB_103278d8_t;
 #define LAB_103278d8 XI_EA(LAB_103278d8_t, 0x103278D8u)
+typedef uint32_t (__stdcall *ImmGetVirtualKey_t)(XI_ANY);
+#define ImmGetVirtualKey XI_EA(ImmGetVirtualKey_t, 0x1032906Cu)
+typedef uint32_t (__stdcall *ImmGetContext_t)(XI_ANY);
+#define ImmGetContext XI_EA(ImmGetContext_t, 0x10329070u)
+typedef uint32_t (__stdcall *ImmReleaseContext_t)(XI_ANY, XI_ANY);
+#define ImmReleaseContext XI_EA(ImmReleaseContext_t, 0x10329074u)
+typedef uint32_t (__stdcall *ImmNotifyIME_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmNotifyIME XI_EA(ImmNotifyIME_t, 0x10329078u)
+typedef uint32_t (__stdcall *ImmSetCandidateWindow_t)(XI_ANY, XI_ANY);
+#define ImmSetCandidateWindow XI_EA(ImmSetCandidateWindow_t, 0x1032907Cu)
+typedef uint32_t (__stdcall *ImmSetCompositionWindow_t)(XI_ANY, XI_ANY);
+#define ImmSetCompositionWindow XI_EA(ImmSetCompositionWindow_t, 0x10329080u)
+typedef uint32_t (__stdcall *ImmSetOpenStatus_t)(XI_ANY, XI_ANY);
+#define ImmSetOpenStatus XI_EA(ImmSetOpenStatus_t, 0x1032908Cu)
+typedef uint32_t (__stdcall *ImmGetOpenStatus_t)(XI_ANY);
+#define ImmGetOpenStatus XI_EA(ImmGetOpenStatus_t, 0x10329090u)
+typedef uint32_t (__stdcall *ImmGetConversionStatus_t)(XI_ANY, XI_ANY, XI_ANY);
+#define ImmGetConversionStatus XI_EA(ImmGetConversionStatus_t, 0x10329094u)
+typedef uint32_t (__stdcall *ImmGetCompositionStringA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmGetCompositionStringA XI_EA(ImmGetCompositionStringA_t, 0x10329098u)
+typedef uint32_t (__stdcall *ImmSetCompositionStringA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define ImmSetCompositionStringA XI_EA(ImmSetCompositionStringA_t, 0x1032909Cu)
+typedef uint32_t (__stdcall *ImmSetConversionStatus_t)(XI_ANY, XI_ANY, XI_ANY);
+#define ImmSetConversionStatus XI_EA(ImmSetConversionStatus_t, 0x103290A0u)
+typedef uint32_t (__stdcall *ImmGetDescriptionA_t)(XI_ANY, XI_ANY, XI_ANY);
+#define ImmGetDescriptionA XI_EA(ImmGetDescriptionA_t, 0x103290A4u)
 typedef void (__stdcall *Sleep_t)(DWORD dwMilliseconds);
 #define Sleep XI_EA(Sleep_t, 0x103290F8u)
 typedef void (__stdcall *Sleep_as_v0_t)(XI_ANY);
 #define Sleep_as_v0 XI_EA(Sleep_as_v0_t, 0x103290F8u)
 typedef uint32_t (__stdcall *ResumeThread_t)(XI_ANY);
 #define ResumeThread XI_EA(ResumeThread_t, 0x103290FCu)
+typedef uint32_t (__stdcall *CreateThread_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateThread XI_EA(CreateThread_t, 0x10329100u)
 typedef uint32_t (__stdcall *CloseHandle_t)(XI_ANY);
 #define CloseHandle XI_EA(CloseHandle_t, 0x10329104u)
+typedef uint32_t (__stdcall *GlobalUnlock_t)(XI_ANY);
+#define GlobalUnlock XI_EA(GlobalUnlock_t, 0x10329108u)
+typedef uint32_t (__stdcall *lstrcpyA_t)(XI_ANY, XI_ANY);
+#define lstrcpyA XI_EA(lstrcpyA_t, 0x1032910Cu)
+typedef uint32_t (__stdcall *GlobalLock_t)(XI_ANY);
+#define GlobalLock XI_EA(GlobalLock_t, 0x10329110u)
+typedef uint32_t (__stdcall *GlobalAlloc_t)(XI_ANY, XI_ANY);
+#define GlobalAlloc XI_EA(GlobalAlloc_t, 0x10329114u)
 typedef DWORD (__stdcall *GetCurrentDirectoryA_t)(DWORD nBufferLength, LPSTR lpBuffer);
 #define GetCurrentDirectoryA XI_EA(GetCurrentDirectoryA_t, 0x10329118u)
 typedef uint32_t (__stdcall *GetCurrentDirectoryA_as_v0_t)(XI_ANY, XI_ANY);
 #define GetCurrentDirectoryA_as_v0 XI_EA(GetCurrentDirectoryA_as_v0_t, 0x10329118u)
+typedef uint32_t (__stdcall *DeleteFileA_t)(XI_ANY);
+#define DeleteFileA XI_EA(DeleteFileA_t, 0x10329124u)
 typedef uint32_t (__stdcall *FreeLibrary_t)(XI_ANY);
 #define FreeLibrary XI_EA(FreeLibrary_t, 0x10329130u)
 typedef uint32_t (__stdcall *LoadLibraryA_t)(XI_ANY);
@@ -315,24 +503,58 @@ typedef void (__stdcall *LeaveCriticalSection_t)(XI_ANY);
 #define LeaveCriticalSection XI_EA(LeaveCriticalSection_t, 0x10329188u)
 typedef void (__stdcall *EnterCriticalSection_t)(XI_ANY);
 #define EnterCriticalSection XI_EA(EnterCriticalSection_t, 0x1032918Cu)
+typedef uint32_t (__stdcall *InterlockedDecrement_t)(XI_ANY);
+#define InterlockedDecrement XI_EA(InterlockedDecrement_t, 0x10329194u)
+typedef uint32_t (__stdcall *InterlockedIncrement_t)(XI_ANY);
+#define InterlockedIncrement XI_EA(InterlockedIncrement_t, 0x10329198u)
 typedef void (__stdcall *GetLocalTime_t)(LPSYSTEMTIME lpSystemTime);
 #define GetLocalTime XI_EA(GetLocalTime_t, 0x1032919Cu)
+typedef uint32_t (__stdcall *SetPriorityClass_t)(XI_ANY, XI_ANY);
+#define SetPriorityClass XI_EA(SetPriorityClass_t, 0x103291A0u)
+typedef uint32_t (__stdcall *GetCurrentProcess_t)();
+#define GetCurrentProcess XI_EA(GetCurrentProcess_t, 0x103291A4u)
+typedef uint32_t (__stdcall *QueryPerformanceCounter_t)(XI_ANY);
+#define QueryPerformanceCounter XI_EA(QueryPerformanceCounter_t, 0x103291ACu)
+typedef uint32_t (__stdcall *CreateEventA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateEventA XI_EA(CreateEventA_t, 0x103291B8u)
 typedef uint32_t (__stdcall *SetEvent_t)(XI_ANY);
 #define SetEvent XI_EA(SetEvent_t, 0x103291C4u)
 typedef uint32_t (__stdcall *WaitForSingleObject_t)(XI_ANY, XI_ANY);
 #define WaitForSingleObject XI_EA(WaitForSingleObject_t, 0x103291C8u)
 typedef uint32_t (__stdcall *ReleaseMutex_t)(XI_ANY);
 #define ReleaseMutex XI_EA(ReleaseMutex_t, 0x103291CCu)
+typedef uint32_t (__stdcall *CreateSemaphoreA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define CreateSemaphoreA XI_EA(CreateSemaphoreA_t, 0x103291D0u)
+typedef uint32_t (__stdcall *CreateMutexA_t)(XI_ANY, XI_ANY, XI_ANY);
+#define CreateMutexA XI_EA(CreateMutexA_t, 0x103291D4u)
+typedef uint32_t (__stdcall *ReleaseSemaphore_t)(XI_ANY, XI_ANY, XI_ANY);
+#define ReleaseSemaphore XI_EA(ReleaseSemaphore_t, 0x103291D8u)
+typedef uint32_t (__stdcall *ExitThread_t)(XI_ANY);
+#define ExitThread XI_EA(ExitThread_t, 0x103291DCu)
 typedef uint32_t (__stdcall *GetExitCodeThread_t)(XI_ANY, XI_ANY);
 #define GetExitCodeThread XI_EA(GetExitCodeThread_t, 0x103291F8u)
 typedef uint32_t (__stdcall *ResetEvent_t)(XI_ANY);
 #define ResetEvent XI_EA(ResetEvent_t, 0x103291FCu)
 typedef uint32_t (__stdcall *CreateDirectoryA_t)(XI_ANY, XI_ANY);
 #define CreateDirectoryA XI_EA(CreateDirectoryA_t, 0x10329208u)
+typedef uint32_t (__stdcall *QueryPerformanceFrequency_t)(XI_ANY);
+#define QueryPerformanceFrequency XI_EA(QueryPerformanceFrequency_t, 0x103292ECu)
 typedef void (__stdcall *DeleteCriticalSection_t)(XI_ANY);
 #define DeleteCriticalSection XI_EA(DeleteCriticalSection_t, 0x103292F4u)
+typedef void (__stdcall *PostQuitMessage_t)(XI_ANY);
+#define PostQuitMessage XI_EA(PostQuitMessage_t, 0x10329318u)
+typedef void (__stdcall *keybd_event_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define keybd_event XI_EA(keybd_event_t, 0x1032931Cu)
+typedef uint32_t (__stdcall *MapVirtualKeyA_t)(XI_ANY, XI_ANY);
+#define MapVirtualKeyA XI_EA(MapVirtualKeyA_t, 0x10329320u)
 typedef uint32_t (__stdcall *FindWindowA_t)(XI_ANY, XI_ANY);
 #define FindWindowA XI_EA(FindWindowA_t, 0x10329324u)
+typedef uint32_t (__stdcall *AdjustWindowRectEx_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define AdjustWindowRectEx XI_EA(AdjustWindowRectEx_t, 0x10329348u)
+typedef uint32_t (__stdcall *ShowWindow_t)(XI_ANY, XI_ANY);
+#define ShowWindow XI_EA(ShowWindow_t, 0x10329368u)
+typedef uint32_t (__stdcall *g_SetCursorPos_10329374_t)(XI_ANY, XI_ANY);
+#define g_SetCursorPos_10329374 XI_EA(g_SetCursorPos_10329374_t, 0x10329374u)
 typedef HCURSOR (__stdcall *LoadCursorFromFileA_t)(LPCSTR lpFileName);
 #define LoadCursorFromFileA XI_EA(LoadCursorFromFileA_t, 0x10329378u)
 typedef HCURSOR (__stdcall *LoadCursorA_t)(HINSTANCE hInstance, LPCSTR lpCursorName);
@@ -341,10 +563,36 @@ typedef HCURSOR (__stdcall *SetCursor_t)(HCURSOR hCursor);
 #define SetCursor XI_EA(SetCursor_t, 0x10329380u)
 typedef uint32_t (__stdcall *SetCursor_as_v0_t)(XI_ANY);
 #define SetCursor_as_v0 XI_EA(SetCursor_as_v0_t, 0x10329380u)
+typedef uint32_t (__stdcall *GetKeyboardLayout_t)(XI_ANY);
+#define GetKeyboardLayout XI_EA(GetKeyboardLayout_t, 0x10329384u)
+typedef uint32_t (__stdcall *OpenClipboard_t)(XI_ANY);
+#define OpenClipboard XI_EA(OpenClipboard_t, 0x1032938Cu)
+typedef uint32_t (__stdcall *EmptyClipboard_t)();
+#define EmptyClipboard XI_EA(EmptyClipboard_t, 0x10329390u)
+typedef uint32_t (__stdcall *SetClipboardData_t)(XI_ANY, XI_ANY);
+#define SetClipboardData XI_EA(SetClipboardData_t, 0x10329394u)
+typedef uint32_t (__stdcall *CloseClipboard_t)();
+#define CloseClipboard XI_EA(CloseClipboard_t, 0x10329398u)
 typedef uint32_t (__stdcall *GetSystemMetrics_t)(XI_ANY);
 #define GetSystemMetrics XI_EA(GetSystemMetrics_t, 0x103293A0u)
+typedef uint32_t (__stdcall *SetForegroundWindow_t)(XI_ANY);
+#define SetForegroundWindow XI_EA(SetForegroundWindow_t, 0x103293B4u)
+typedef uint32_t (__stdcall *SystemParametersInfoA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define SystemParametersInfoA XI_EA(SystemParametersInfoA_t, 0x103293B8u)
+typedef uint32_t (__stdcall *AttachThreadInput_t)(XI_ANY, XI_ANY, XI_ANY);
+#define AttachThreadInput XI_EA(AttachThreadInput_t, 0x103293BCu)
+typedef uint32_t (__stdcall *GetWindowThreadProcessId_t)(XI_ANY, XI_ANY);
+#define GetWindowThreadProcessId XI_EA(GetWindowThreadProcessId_t, 0x103293C0u)
+typedef uint32_t (__stdcall *GetForegroundWindow_t)();
+#define GetForegroundWindow XI_EA(GetForegroundWindow_t, 0x103293C4u)
 typedef LRESULT (__stdcall *DispatchMessageA_t)(const MSG *lpMsg);
 #define DispatchMessageA XI_EA(DispatchMessageA_t, 0x103293C8u)
+typedef uint32_t (__stdcall *GetWindowPlacement_t)(XI_ANY, XI_ANY);
+#define GetWindowPlacement XI_EA(GetWindowPlacement_t, 0x103293CCu)
+typedef uint32_t (__stdcall *MoveWindow_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define MoveWindow XI_EA(MoveWindow_t, 0x103293D0u)
+typedef uint32_t (__stdcall *DefWindowProcA_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define DefWindowProcA XI_EA(DefWindowProcA_t, 0x103293D4u)
 typedef BOOL (__stdcall *GetWindowRect_t)(HWND hWnd, LPRECT lpRect);
 #define GetWindowRect XI_EA(GetWindowRect_t, 0x103293E4u)
 typedef uint32_t (__stdcall *GetWindowRect_as_v0_t)(XI_ANY, XI_ANY);
@@ -353,8 +601,34 @@ typedef BOOL (__stdcall *PeekMessageA_t)(LPMSG lpMsg, HWND hWnd, UINT wMsgFilter
 #define PeekMessageA XI_EA(PeekMessageA_t, 0x103293E8u)
 typedef BOOL (__stdcall *TranslateMessage_t)(const MSG *lpMsg);
 #define TranslateMessage XI_EA(TranslateMessage_t, 0x103293ECu)
+typedef uint32_t (__stdcall *timeEndPeriod_t)(XI_ANY);
+#define timeEndPeriod XI_EA(timeEndPeriod_t, 0x103293FCu)
 typedef uint32_t (__stdcall *timeGetTime_t)();
 #define timeGetTime XI_EA(timeGetTime_t, 0x10329400u)
+typedef uint32_t (__stdcall *Ordinal_20_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define Ordinal_20 XI_EA(Ordinal_20_t, 0x10329448u)
+typedef uint32_t (__stdcall *Ordinal_17_t)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY);
+#define Ordinal_17 XI_EA(Ordinal_17_t, 0x1032944Cu)
+typedef uint32_t (__stdcall *Ordinal_111_t)();
+#define Ordinal_111 XI_EA(Ordinal_111_t, 0x10329450u)
+typedef uint32_t (__stdcall *Ordinal_57_t)(XI_ANY, XI_ANY);
+#define Ordinal_57 XI_EA(Ordinal_57_t, 0x10329468u)
+typedef uint32_t (__stdcall *Ordinal_12_t)(XI_ANY);
+#define Ordinal_12 XI_EA(Ordinal_12_t, 0x1032946Cu)
+typedef uint32_t (__stdcall *Ordinal_52_t)(XI_ANY);
+#define Ordinal_52 XI_EA(Ordinal_52_t, 0x10329470u)
+typedef uint32_t (__stdcall *Ordinal_8_t)(XI_ANY);
+#define Ordinal_8 XI_EA(Ordinal_8_t, 0x10329474u)
+typedef uint32_t (__stdcall *Ordinal_115_t)(XI_ANY, XI_ANY);
+#define Ordinal_115 XI_EA(Ordinal_115_t, 0x10329478u)
+typedef uint32_t (__stdcall *Ordinal_9_t)(XI_ANY);
+#define Ordinal_9 XI_EA(Ordinal_9_t, 0x10329480u)
+typedef uint32_t (__stdcall *Ordinal_3_t)(XI_ANY);
+#define Ordinal_3 XI_EA(Ordinal_3_t, 0x10329484u)
+typedef void (__stdcall *CoUninitialize_t)();
+#define CoUninitialize XI_EA(CoUninitialize_t, 0x103294B4u)
+typedef uint32_t (__stdcall *CoInitialize_t)(XI_ANY);
+#define CoInitialize XI_EA(CoInitialize_t, 0x103294B8u)
 typedef void * PTR_FUN_1032965c_t;
 #define PTR_FUN_1032965c XI_EA(PTR_FUN_1032965c_t, 0x1032965Cu)
 typedef void * PTR_FUN_10329660_t;
@@ -379,8 +653,8 @@ typedef CMoResourceMng_vtbl CMoResourceMng_vtbl_t;
 #define CMoResourceMng_vtbl XI_EA(CMoResourceMng_vtbl_t, 0x10329C9Cu)
 typedef CMoTaskMng_vtbl CMoTaskMng_vtbl_t;
 #define CMoTaskMng_vtbl XI_EA(CMoTaskMng_vtbl_t, 0x10329CB8u)
-typedef undefined * PTR_CAtelIdleTask_GetRuntimeClass_10329cfc_t;
-#define PTR_CAtelIdleTask_GetRuntimeClass_10329cfc XI_EA(PTR_CAtelIdleTask_GetRuntimeClass_10329cfc_t, 0x10329CFCu)
+typedef undefined * PTR_LAB_10329cfc_t;
+#define PTR_LAB_10329cfc XI_EA(PTR_LAB_10329cfc_t, 0x10329CFCu)
 typedef char * CShader_classdesc_t;
 #define CShader_classdesc XI_EA(CShader_classdesc_t, 0x10329EC4u)
 typedef CShader_vtbl CShader_vtbl_t;
@@ -415,6 +689,20 @@ typedef Vt_1032A460_vtbl Vtbl_1032A460_t;
 #define Vtbl_1032A460 XI_EA(Vtbl_1032A460_t, 0x1032A460u)
 typedef void * PTR_FUN_1032a480_t;
 #define PTR_FUN_1032a480 XI_EA(PTR_FUN_1032a480_t, 0x1032A480u)
+typedef undefined * PTR_LAB_1032a5ec_t;
+#define PTR_LAB_1032a5ec XI_EA(PTR_LAB_1032a5ec_t, 0x1032A5ECu)
+typedef undefined * PTR_LAB_1032a604_t;
+#define PTR_LAB_1032a604 XI_EA(PTR_LAB_1032a604_t, 0x1032A604u)
+typedef undefined * PTR_LAB_1032a61c_t;
+#define PTR_LAB_1032a61c XI_EA(PTR_LAB_1032a61c_t, 0x1032A61Cu)
+typedef undefined * PTR_LAB_1032a634_t;
+#define PTR_LAB_1032a634 XI_EA(PTR_LAB_1032a634_t, 0x1032A634u)
+typedef undefined * PTR_LAB_1032a64c_t;
+#define PTR_LAB_1032a64c XI_EA(PTR_LAB_1032a64c_t, 0x1032A64Cu)
+typedef undefined * PTR_LAB_1032a664_t;
+#define PTR_LAB_1032a664 XI_EA(PTR_LAB_1032a664_t, 0x1032A664u)
+typedef undefined * PTR_LAB_1032a67c_t;
+#define PTR_LAB_1032a67c XI_EA(PTR_LAB_1032a67c_t, 0x1032A67Cu)
 typedef char * CYyModelDt_classdesc_t;
 #define CYyModelDt_classdesc XI_EA(CYyModelDt_classdesc_t, 0x1032A6B8u)
 typedef char * CYyModelBase_classdesc_t;
@@ -439,10 +727,12 @@ typedef int (__stdcall *Vtbl_1032A844_t)(int a1);
 #define Vtbl_1032A844 XI_EA(Vtbl_1032A844_t, 0x1032A844u)
 typedef undefined * PTR_CYySkl_GetRuntimeClass_1032a888_t;
 #define PTR_CYySkl_GetRuntimeClass_1032a888 XI_EA(PTR_CYySkl_GetRuntimeClass_1032a888_t, 0x1032A888u)
+typedef undefined * PTR_CMoTask_GetRuntimeClass_variant12_1032a904_t;
+#define PTR_CMoTask_GetRuntimeClass_variant12_1032a904 XI_EA(PTR_CMoTask_GetRuntimeClass_variant12_1032a904_t, 0x1032A904u)
 typedef undefined * PTR_LAB_1032a930_t;
 #define PTR_LAB_1032a930 XI_EA(PTR_LAB_1032a930_t, 0x1032A930u)
-typedef undefined * PTR_CYyMusicLoadTask_GetRuntimeClass_1032a990_t;
-#define PTR_CYyMusicLoadTask_GetRuntimeClass_1032a990 XI_EA(PTR_CYyMusicLoadTask_GetRuntimeClass_1032a990_t, 0x1032A990u)
+typedef undefined * PTR_LAB_1032a990_t;
+#define PTR_LAB_1032a990 XI_EA(PTR_LAB_1032a990_t, 0x1032A990u)
 typedef undefined * PTR_CMoTask_GetRuntimeClass_variant12_1032a9bc_t;
 #define PTR_CMoTask_GetRuntimeClass_variant12_1032a9bc XI_EA(PTR_CMoTask_GetRuntimeClass_variant12_1032a9bc_t, 0x1032A9BCu)
 typedef void * PTR_FUN_1032a9ec_t;
@@ -525,6 +815,10 @@ typedef undefined * CMoElem_vtbl_ambiguous3_as_v0_t;
 #define CMoElem_vtbl_ambiguous3_as_v0 XI_EA(CMoElem_vtbl_ambiguous3_as_v0_t, 0x1032B018u)
 typedef char * CMoGeneratorClone_classdesc_t;
 #define CMoGeneratorClone_classdesc XI_EA(CMoGeneratorClone_classdesc_t, 0x1032B108u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032b114_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032b114 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032b114_t, 0x1032B114u)
+typedef undefined * PTR_CMoAttachments_GetRuntimeClass_1032b140_t;
+#define PTR_CMoAttachments_GetRuntimeClass_1032b140 XI_EA(PTR_CMoAttachments_GetRuntimeClass_1032b140_t, 0x1032B140u)
 typedef undefined * PTR_CMoVuLineProgElem_GetRuntimeClass_1032b178_t;
 #define PTR_CMoVuLineProgElem_GetRuntimeClass_1032b178 XI_EA(PTR_CMoVuLineProgElem_GetRuntimeClass_1032b178_t, 0x1032B178u)
 typedef undefined * PTR_CMoD3aLightmapElem_GetRuntimeClass_1032b1d8_t;
@@ -621,6 +915,14 @@ typedef _BYTE unk_1032C18C_t;
 #define unk_1032C18C XI_EA(unk_1032C18C_t, 0x1032C18Cu)
 typedef char * CMoProcessor_classdesc_t;
 #define CMoProcessor_classdesc XI_EA(CMoProcessor_classdesc_t, 0x1032C1BCu)
+typedef undefined * PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c1c8_t;
+#define PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c1c8 XI_EA(PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c1c8_t, 0x1032C1C8u)
+typedef undefined * PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c298_t;
+#define PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c298 XI_EA(PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c298_t, 0x1032C298u)
+typedef undefined * PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368_t;
+#define PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368 XI_EA(PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368_t, 0x1032C368u)
+typedef undefined * PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c434_t;
+#define PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c434 XI_EA(PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c434_t, 0x1032C434u)
 typedef char * CMoResource_classdesc_t;
 #define CMoResource_classdesc XI_EA(CMoResource_classdesc_t, 0x1032C46Cu)
 typedef char * CMoResourceMng_classdesc_t;
@@ -631,6 +933,52 @@ typedef undefined * PTR_CMoTask_GetRuntimeClass_variant12_1032c4bc_t;
 #define PTR_CMoTask_GetRuntimeClass_variant12_1032c4bc XI_EA(PTR_CMoTask_GetRuntimeClass_variant12_1032c4bc_t, 0x1032C4BCu)
 typedef undefined * PTR_CMoAttachments_GetRuntimeClass_1032c4e8_t;
 #define PTR_CMoAttachments_GetRuntimeClass_1032c4e8 XI_EA(PTR_CMoAttachments_GetRuntimeClass_1032c4e8_t, 0x1032C4E8u)
+typedef undefined * PTR_CMoSphRes_GetRuntimeClass_1032c504_t;
+#define PTR_CMoSphRes_GetRuntimeClass_1032c504 XI_EA(PTR_CMoSphRes_GetRuntimeClass_1032c504_t, 0x1032C504u)
+typedef undefined * PTR_LAB_1032c530_t;
+#define PTR_LAB_1032c530 XI_EA(PTR_LAB_1032c530_t, 0x1032C530u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c55c_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c55c XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c55c_t, 0x1032C55Cu)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c588_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c588 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c588_t, 0x1032C588u)
+typedef undefined * PTR_CMoResource_VT_1032C588_vf011_1032c5b4_t;
+#define PTR_CMoResource_VT_1032C588_vf011_1032c5b4 XI_EA(PTR_CMoResource_VT_1032C588_vf011_1032c5b4_t, 0x1032C5B4u)
+typedef undefined * PTR_CMoCamera_GetRuntimeClass_1032c5d0_t;
+#define PTR_CMoCamera_GetRuntimeClass_1032c5d0 XI_EA(PTR_CMoCamera_GetRuntimeClass_1032c5d0_t, 0x1032C5D0u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c5fc_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c5fc XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c5fc_t, 0x1032C5FCu)
+typedef undefined * PTR_CMoAttachments_GetRuntimeClass_1032c628_t;
+#define PTR_CMoAttachments_GetRuntimeClass_1032c628 XI_EA(PTR_CMoAttachments_GetRuntimeClass_1032c628_t, 0x1032C628u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c644_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c644 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c644_t, 0x1032C644u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c670_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c670 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c670_t, 0x1032C670u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c69c_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c69c XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c69c_t, 0x1032C69Cu)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c6c8_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c6c8 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c6c8_t, 0x1032C6C8u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c6f4_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c6f4 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c6f4_t, 0x1032C6F4u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c720_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c720 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c720_t, 0x1032C720u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c74c_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c74c XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c74c_t, 0x1032C74Cu)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c778_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c778 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c778_t, 0x1032C778u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c7a4_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c7a4 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c7a4_t, 0x1032C7A4u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c7d0_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c7d0 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c7d0_t, 0x1032C7D0u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c7fc_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c7fc XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c7fc_t, 0x1032C7FCu)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c828_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c828 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c828_t, 0x1032C828u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c854_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c854 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c854_t, 0x1032C854u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c880_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c880 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c880_t, 0x1032C880u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c8ac_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_1032c8ac XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c8ac_t, 0x1032C8ACu)
 typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc_t;
 #define PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc_t, 0x1032C8DCu)
 typedef undefined * PTR_CMoTask_GetRuntimeClass_variant12_1032c908_t;
@@ -641,6 +989,8 @@ typedef char * CMoTask_classdesc_t;
 #define CMoTask_classdesc XI_EA(CMoTask_classdesc_t, 0x1032C960u)
 typedef char * CMoTaskMng_classdesc_t;
 #define CMoTaskMng_classdesc XI_EA(CMoTaskMng_classdesc_t, 0x1032C96Cu)
+typedef undefined * PTR_CMoTask_GetRuntimeClass_variant12_1032c978_t;
+#define PTR_CMoTask_GetRuntimeClass_variant12_1032c978 XI_EA(PTR_CMoTask_GetRuntimeClass_variant12_1032c978_t, 0x1032C978u)
 typedef undefined * PTR_FUN_1032cf5c_t;
 #define PTR_FUN_1032cf5c XI_EA(PTR_FUN_1032cf5c_t, 0x1032CF5Cu)
 typedef undefined * PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0_t;
@@ -865,6 +1215,10 @@ typedef undefined * PTR_FUN_103351fc_t;
 #define PTR_FUN_103351fc XI_EA(PTR_FUN_103351fc_t, 0x103351FCu)
 typedef undefined * PTR_FUN_10335220_t;
 #define PTR_FUN_10335220 XI_EA(PTR_FUN_10335220_t, 0x10335220u)
+typedef undefined * PTR_FUN_10335280_t;
+#define PTR_FUN_10335280 XI_EA(PTR_FUN_10335280_t, 0x10335280u)
+typedef undefined * PTR_FUN_103352c8_t;
+#define PTR_FUN_103352c8 XI_EA(PTR_FUN_103352c8_t, 0x103352C8u)
 typedef undefined * PTR_LAB_10335334_t;
 #define PTR_LAB_10335334 XI_EA(PTR_LAB_10335334_t, 0x10335334u)
 typedef undefined * PTR_LAB_10335350_t;
@@ -887,6 +1241,62 @@ typedef undefined * PTR_FUN_10335d78_t;
 #define PTR_FUN_10335d78 XI_EA(PTR_FUN_10335d78_t, 0x10335D78u)
 typedef undefined * PTR_FUN_10335dc0_t;
 #define PTR_FUN_10335dc0 XI_EA(PTR_FUN_10335dc0_t, 0x10335DC0u)
+typedef undefined * PTR_FUN_10335e08_t;
+#define PTR_FUN_10335e08 XI_EA(PTR_FUN_10335e08_t, 0x10335E08u)
+typedef undefined * PTR_FUN_10335e50_t;
+#define PTR_FUN_10335e50 XI_EA(PTR_FUN_10335e50_t, 0x10335E50u)
+typedef undefined * PTR_FUN_10335e98_t;
+#define PTR_FUN_10335e98 XI_EA(PTR_FUN_10335e98_t, 0x10335E98u)
+typedef undefined * PTR_FUN_10335ee0_t;
+#define PTR_FUN_10335ee0 XI_EA(PTR_FUN_10335ee0_t, 0x10335EE0u)
+typedef undefined * PTR_FUN_10335f28_t;
+#define PTR_FUN_10335f28 XI_EA(PTR_FUN_10335f28_t, 0x10335F28u)
+typedef undefined * PTR_FUN_10335f70_t;
+#define PTR_FUN_10335f70 XI_EA(PTR_FUN_10335f70_t, 0x10335F70u)
+typedef undefined * PTR_FUN_10335fb8_t;
+#define PTR_FUN_10335fb8 XI_EA(PTR_FUN_10335fb8_t, 0x10335FB8u)
+typedef undefined * PTR_FUN_10336000_t;
+#define PTR_FUN_10336000 XI_EA(PTR_FUN_10336000_t, 0x10336000u)
+typedef undefined * PTR_FUN_10336048_t;
+#define PTR_FUN_10336048 XI_EA(PTR_FUN_10336048_t, 0x10336048u)
+typedef undefined * PTR_FUN_103360b8_t;
+#define PTR_FUN_103360b8 XI_EA(PTR_FUN_103360b8_t, 0x103360B8u)
+typedef undefined * PTR_FUN_10336100_t;
+#define PTR_FUN_10336100 XI_EA(PTR_FUN_10336100_t, 0x10336100u)
+typedef undefined * PTR_FUN_10336148_t;
+#define PTR_FUN_10336148 XI_EA(PTR_FUN_10336148_t, 0x10336148u)
+typedef undefined * PTR_FUN_10336190_t;
+#define PTR_FUN_10336190 XI_EA(PTR_FUN_10336190_t, 0x10336190u)
+typedef undefined * PTR_FUN_103361d8_t;
+#define PTR_FUN_103361d8 XI_EA(PTR_FUN_103361d8_t, 0x103361D8u)
+typedef undefined * PTR_FUN_10336220_t;
+#define PTR_FUN_10336220 XI_EA(PTR_FUN_10336220_t, 0x10336220u)
+typedef undefined * PTR_FUN_10336268_t;
+#define PTR_FUN_10336268 XI_EA(PTR_FUN_10336268_t, 0x10336268u)
+typedef undefined * PTR_FUN_103362b0_t;
+#define PTR_FUN_103362b0 XI_EA(PTR_FUN_103362b0_t, 0x103362B0u)
+typedef undefined * PTR_FUN_103362f8_t;
+#define PTR_FUN_103362f8 XI_EA(PTR_FUN_103362f8_t, 0x103362F8u)
+typedef undefined * PTR_FUN_10336340_t;
+#define PTR_FUN_10336340 XI_EA(PTR_FUN_10336340_t, 0x10336340u)
+typedef undefined * PTR_FUN_10336388_t;
+#define PTR_FUN_10336388 XI_EA(PTR_FUN_10336388_t, 0x10336388u)
+typedef undefined * PTR_FUN_103363d8_t;
+#define PTR_FUN_103363d8 XI_EA(PTR_FUN_103363d8_t, 0x103363D8u)
+typedef undefined * PTR_FUN_10336420_t;
+#define PTR_FUN_10336420 XI_EA(PTR_FUN_10336420_t, 0x10336420u)
+typedef undefined * PTR_FUN_10336468_t;
+#define PTR_FUN_10336468 XI_EA(PTR_FUN_10336468_t, 0x10336468u)
+typedef undefined * PTR_FUN_103364b0_t;
+#define PTR_FUN_103364b0 XI_EA(PTR_FUN_103364b0_t, 0x103364B0u)
+typedef undefined * PTR_FUN_103364f8_t;
+#define PTR_FUN_103364f8 XI_EA(PTR_FUN_103364f8_t, 0x103364F8u)
+typedef undefined * PTR_FUN_10336540_t;
+#define PTR_FUN_10336540 XI_EA(PTR_FUN_10336540_t, 0x10336540u)
+typedef undefined * PTR_FUN_10336588_t;
+#define PTR_FUN_10336588 XI_EA(PTR_FUN_10336588_t, 0x10336588u)
+typedef undefined * PTR_FUN_103365d0_t;
+#define PTR_FUN_103365d0 XI_EA(PTR_FUN_103365d0_t, 0x103365D0u)
 typedef undefined * PTR_FUN_10336614_t;
 #define PTR_FUN_10336614 XI_EA(PTR_FUN_10336614_t, 0x10336614u)
 typedef void * PTR_FUN_10336634_t;
@@ -895,12 +1305,20 @@ typedef void * PTR_FUN_10336668_t;
 #define PTR_FUN_10336668 XI_EA(PTR_FUN_10336668_t, 0x10336668u)
 typedef void * PTR_FUN_1033668c_t;
 #define PTR_FUN_1033668c XI_EA(PTR_FUN_1033668c_t, 0x1033668Cu)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_10336698_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_10336698 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_10336698_t, 0x10336698u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_103366c4_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_103366c4 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_103366c4_t, 0x103366C4u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_103366f0_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_103366f0 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_103366f0_t, 0x103366F0u)
 typedef CTsZoneMap_vtbl CTsZoneMap_vtbl_t;
 #define CTsZoneMap_vtbl XI_EA(CTsZoneMap_vtbl_t, 0x10336748u)
 typedef undefined * CTsZoneMap_vtbl_as_v0_t;
 #define CTsZoneMap_vtbl_as_v0 XI_EA(CTsZoneMap_vtbl_as_v0_t, 0x10336748u)
 typedef undefined * PTR_CYyObject_GetRuntimeClass_variant18_103367b8_t;
 #define PTR_CYyObject_GetRuntimeClass_variant18_103367b8 XI_EA(PTR_CYyObject_GetRuntimeClass_variant18_103367b8_t, 0x103367B8u)
+typedef undefined * PTR_CMoResource_GetRuntimeClass_variant3_103367e8_t;
+#define PTR_CMoResource_GetRuntimeClass_variant3_103367e8 XI_EA(PTR_CMoResource_GetRuntimeClass_variant3_103367e8_t, 0x103367E8u)
 typedef undefined * PTR_YmCombineWeather_GetRuntimeClass_10336814_t;
 #define PTR_YmCombineWeather_GetRuntimeClass_10336814 XI_EA(PTR_YmCombineWeather_GetRuntimeClass_10336814_t, 0x10336814u)
 typedef undefined * PTR_LAB_10336838_t;
@@ -1035,6 +1453,22 @@ typedef void * PTR_FUN_1033757c_t;
 #define PTR_FUN_1033757c XI_EA(PTR_FUN_1033757c_t, 0x1033757Cu)
 typedef undefined * PTR_FUN_10337580_t;
 #define PTR_FUN_10337580 XI_EA(PTR_FUN_10337580_t, 0x10337580u)
+typedef undefined * PTR_FUN_103375a0_t;
+#define PTR_FUN_103375a0 XI_EA(PTR_FUN_103375a0_t, 0x103375A0u)
+typedef undefined * PTR_FUN_103375e8_t;
+#define PTR_FUN_103375e8 XI_EA(PTR_FUN_103375e8_t, 0x103375E8u)
+typedef undefined * PTR_FUN_10337630_t;
+#define PTR_FUN_10337630 XI_EA(PTR_FUN_10337630_t, 0x10337630u)
+typedef undefined * PTR_FUN_10337678_t;
+#define PTR_FUN_10337678 XI_EA(PTR_FUN_10337678_t, 0x10337678u)
+typedef undefined * PTR_FUN_103376c0_t;
+#define PTR_FUN_103376c0 XI_EA(PTR_FUN_103376c0_t, 0x103376C0u)
+typedef undefined * PTR_FUN_10337708_t;
+#define PTR_FUN_10337708 XI_EA(PTR_FUN_10337708_t, 0x10337708u)
+typedef undefined * PTR_FUN_10337750_t;
+#define PTR_FUN_10337750 XI_EA(PTR_FUN_10337750_t, 0x10337750u)
+typedef undefined * PTR_FUN_10337798_t;
+#define PTR_FUN_10337798 XI_EA(PTR_FUN_10337798_t, 0x10337798u)
 typedef undefined * PTR_FUN_103377e0_t;
 #define PTR_FUN_103377e0 XI_EA(PTR_FUN_103377e0_t, 0x103377E0u)
 typedef undefined * PTR_FUN_10337828_t;
@@ -1047,6 +1481,8 @@ typedef undefined * PTR_FUN_103378fc_t;
 #define PTR_FUN_103378fc XI_EA(PTR_FUN_103378fc_t, 0x103378FCu)
 typedef void * PTR_FUN_1033791c_t;
 #define PTR_FUN_1033791c XI_EA(PTR_FUN_1033791c_t, 0x1033791Cu)
+typedef undefined * PTR_FUN_10337920_t;
+#define PTR_FUN_10337920 XI_EA(PTR_FUN_10337920_t, 0x10337920u)
 typedef undefined * PTR_FUN_10337940_t;
 #define PTR_FUN_10337940 XI_EA(PTR_FUN_10337940_t, 0x10337940u)
 typedef void * PTR_FUN_103379bc_t;
@@ -1055,6 +1491,8 @@ typedef void * PTR_LAB_103379c0_t;
 #define PTR_LAB_103379c0 XI_EA(PTR_LAB_103379c0_t, 0x103379C0u)
 typedef undefined * PTR_FUN_103379c4_t;
 #define PTR_FUN_103379c4 XI_EA(PTR_FUN_103379c4_t, 0x103379C4u)
+typedef undefined * PTR_LAB_10337a84_t;
+#define PTR_LAB_10337a84 XI_EA(PTR_LAB_10337a84_t, 0x10337A84u)
 typedef void * PTR_FUN_10337b1c_t;
 #define PTR_FUN_10337b1c XI_EA(PTR_FUN_10337b1c_t, 0x10337B1Cu)
 typedef void * PTR_FUN_10337b20_t;
@@ -1067,6 +1505,8 @@ typedef undefined * PTR_FUN_10337b2c_t;
 #define PTR_FUN_10337b2c XI_EA(PTR_FUN_10337b2c_t, 0x10337B2Cu)
 typedef undefined * PTR_LAB_10337b4c_t;
 #define PTR_LAB_10337b4c XI_EA(PTR_LAB_10337b4c_t, 0x10337B4Cu)
+typedef undefined * PTR_LAB_10337ba0_t;
+#define PTR_LAB_10337ba0 XI_EA(PTR_LAB_10337ba0_t, 0x10337BA0u)
 typedef undefined * PTR_FUN_10337c3c_t;
 #define PTR_FUN_10337c3c XI_EA(PTR_FUN_10337c3c_t, 0x10337C3Cu)
 typedef void * PTR_FUN_10337c5c_t;
@@ -1075,6 +1515,10 @@ typedef void * PTR_FUN_10337c60_t;
 #define PTR_FUN_10337c60 XI_EA(PTR_FUN_10337c60_t, 0x10337C60u)
 typedef undefined * PTR_FUN_10337c64_t;
 #define PTR_FUN_10337c64 XI_EA(PTR_FUN_10337c64_t, 0x10337C64u)
+typedef void * PTR_LAB_10337c8c_t;
+#define PTR_LAB_10337c8c XI_EA(PTR_LAB_10337c8c_t, 0x10337C8Cu)
+typedef undefined * PTR_LAB_10337c90_t;
+#define PTR_LAB_10337c90 XI_EA(PTR_LAB_10337c90_t, 0x10337C90u)
 typedef undefined * PTR_FUN_10337ca0_t;
 #define PTR_FUN_10337ca0 XI_EA(PTR_FUN_10337ca0_t, 0x10337CA0u)
 typedef undefined * PTR_LAB_10337d44_t;
@@ -1225,6 +1669,34 @@ typedef undefined * PTR_FUN_10339770_t;
 #define PTR_FUN_10339770 XI_EA(PTR_FUN_10339770_t, 0x10339770u)
 typedef undefined * PTR_FUN_103397b8_t;
 #define PTR_FUN_103397b8 XI_EA(PTR_FUN_103397b8_t, 0x103397B8u)
+typedef undefined * PTR_FUN_10339818_t;
+#define PTR_FUN_10339818 XI_EA(PTR_FUN_10339818_t, 0x10339818u)
+typedef undefined * PTR_FUN_10339860_t;
+#define PTR_FUN_10339860 XI_EA(PTR_FUN_10339860_t, 0x10339860u)
+typedef undefined * PTR_FUN_103398a8_t;
+#define PTR_FUN_103398a8 XI_EA(PTR_FUN_103398a8_t, 0x103398A8u)
+typedef undefined * PTR_FUN_103398f0_t;
+#define PTR_FUN_103398f0 XI_EA(PTR_FUN_103398f0_t, 0x103398F0u)
+typedef undefined * PTR_FUN_10339938_t;
+#define PTR_FUN_10339938 XI_EA(PTR_FUN_10339938_t, 0x10339938u)
+typedef undefined * PTR_FUN_10339980_t;
+#define PTR_FUN_10339980 XI_EA(PTR_FUN_10339980_t, 0x10339980u)
+typedef undefined * PTR_FUN_103399c8_t;
+#define PTR_FUN_103399c8 XI_EA(PTR_FUN_103399c8_t, 0x103399C8u)
+typedef undefined * PTR_FUN_10339a10_t;
+#define PTR_FUN_10339a10 XI_EA(PTR_FUN_10339a10_t, 0x10339A10u)
+typedef undefined * PTR_FUN_10339a58_t;
+#define PTR_FUN_10339a58 XI_EA(PTR_FUN_10339a58_t, 0x10339A58u)
+typedef undefined * PTR_FUN_10339aa0_t;
+#define PTR_FUN_10339aa0 XI_EA(PTR_FUN_10339aa0_t, 0x10339AA0u)
+typedef undefined * PTR_FUN_10339ae8_t;
+#define PTR_FUN_10339ae8 XI_EA(PTR_FUN_10339ae8_t, 0x10339AE8u)
+typedef undefined * PTR_FUN_10339b30_t;
+#define PTR_FUN_10339b30 XI_EA(PTR_FUN_10339b30_t, 0x10339B30u)
+typedef undefined * PTR_FUN_10339b78_t;
+#define PTR_FUN_10339b78 XI_EA(PTR_FUN_10339b78_t, 0x10339B78u)
+typedef undefined * PTR_FUN_10339bc0_t;
+#define PTR_FUN_10339bc0 XI_EA(PTR_FUN_10339bc0_t, 0x10339BC0u)
 typedef undefined * PTR_FUN_10339ca0_t;
 #define PTR_FUN_10339ca0 XI_EA(PTR_FUN_10339ca0_t, 0x10339CA0u)
 typedef undefined * PTR_FUN_10339ce8_t;
@@ -1579,6 +2051,12 @@ typedef float g_debugTextQuad_p3_y_t;
 #define g_debugTextQuad_p3_y XI_EA(g_debugTextQuad_p3_y_t, 0x1034F768u)
 typedef char aErrorSSD_t[1];
 #define aErrorSSD XI_EA(aErrorSSD_t, 0x1034F770u)
+typedef char s_D__build0001_FFXi_Win_Main_Debug_1034f788_t[1];
+#define s_D__build0001_FFXi_Win_Main_Debug_1034f788 XI_EA(s_D__build0001_FFXi_Win_Main_Debug_1034f788_t, 0x1034F788u)
+typedef undefined4 DAT_1034f7b0_t;
+#define DAT_1034f7b0 XI_EA(DAT_1034f7b0_t, 0x1034F7B0u)
+typedef undefined2 DAT_1034f7b4_t;
+#define DAT_1034f7b4 XI_EA(DAT_1034f7b4_t, 0x1034F7B4u)
 typedef undefined4 aS_t;
 #define aS XI_EA(aS_t, 0x1034F7E0u)
 typedef undefined4 DAT_1034f7fc_t;
@@ -1587,6 +2065,58 @@ typedef __int16 c_strBackslash_t;
 #define c_strBackslash XI_EA(c_strBackslash_t, 0x1034F8E0u)
 typedef char g_mouseAcquired_t;
 #define g_mouseAcquired XI_EA(g_mouseAcquired_t, 0x1034F92Cu)
+typedef char s_Microsoft_IME_Standard_1034f9f0_t[1];
+#define s_Microsoft_IME_Standard_1034f9f0 XI_EA(s_Microsoft_IME_Standard_1034f9f0_t, 0x1034F9F0u)
+typedef undefined4 DAT_1034fa08_t;
+#define DAT_1034fa08 XI_EA(DAT_1034fa08_t, 0x1034FA08u)
+typedef undefined2 DAT_1034fa0c_t;
+#define DAT_1034fa0c XI_EA(DAT_1034fa0c_t, 0x1034FA0Cu)
+typedef undefined1 DAT_1034fa0e_t;
+#define DAT_1034fa0e XI_EA(DAT_1034fa0e_t, 0x1034FA0Eu)
+typedef undefined4 DAT_1034fa10_t;
+#define DAT_1034fa10 XI_EA(DAT_1034fa10_t, 0x1034FA10u)
+typedef undefined2 DAT_1034fa14_t;
+#define DAT_1034fa14 XI_EA(DAT_1034fa14_t, 0x1034FA14u)
+typedef undefined1 DAT_1034fa16_t;
+#define DAT_1034fa16 XI_EA(DAT_1034fa16_t, 0x1034FA16u)
+typedef undefined4 DAT_1034fa18_t;
+#define DAT_1034fa18 XI_EA(DAT_1034fa18_t, 0x1034FA18u)
+typedef undefined2 DAT_1034fa1c_t;
+#define DAT_1034fa1c XI_EA(DAT_1034fa1c_t, 0x1034FA1Cu)
+typedef undefined1 DAT_1034fa1e_t;
+#define DAT_1034fa1e XI_EA(DAT_1034fa1e_t, 0x1034FA1Eu)
+typedef undefined4 DAT_1034fa20_t;
+#define DAT_1034fa20 XI_EA(DAT_1034fa20_t, 0x1034FA20u)
+typedef undefined2 DAT_1034fa24_t;
+#define DAT_1034fa24 XI_EA(DAT_1034fa24_t, 0x1034FA24u)
+typedef undefined1 DAT_1034fa26_t;
+#define DAT_1034fa26 XI_EA(DAT_1034fa26_t, 0x1034FA26u)
+typedef undefined4 DAT_1034fa28_t;
+#define DAT_1034fa28 XI_EA(DAT_1034fa28_t, 0x1034FA28u)
+typedef undefined2 DAT_1034fa2c_t;
+#define DAT_1034fa2c XI_EA(DAT_1034fa2c_t, 0x1034FA2Cu)
+typedef undefined1 DAT_1034fa2e_t;
+#define DAT_1034fa2e XI_EA(DAT_1034fa2e_t, 0x1034FA2Eu)
+typedef undefined4 DAT_1034fa30_t;
+#define DAT_1034fa30 XI_EA(DAT_1034fa30_t, 0x1034FA30u)
+typedef undefined2 DAT_1034fa34_t;
+#define DAT_1034fa34 XI_EA(DAT_1034fa34_t, 0x1034FA34u)
+typedef undefined1 DAT_1034fa36_t;
+#define DAT_1034fa36 XI_EA(DAT_1034fa36_t, 0x1034FA36u)
+typedef char s_Microsoft_IME_2000__Japanese__1034fa38_t[1];
+#define s_Microsoft_IME_2000__Japanese__1034fa38 XI_EA(s_Microsoft_IME_2000__Japanese__1034fa38_t, 0x1034FA38u)
+typedef char s_Microsoft_IME_98__Japanese__1034fa58_t[1];
+#define s_Microsoft_IME_98__Japanese__1034fa58 XI_EA(s_Microsoft_IME_98__Japanese__1034fa58_t, 0x1034FA58u)
+typedef undefined4 DAT_1034fa74_t;
+#define DAT_1034fa74 XI_EA(DAT_1034fa74_t, 0x1034FA74u)
+typedef undefined2 DAT_1034fa78_t;
+#define DAT_1034fa78 XI_EA(DAT_1034fa78_t, 0x1034FA78u)
+typedef undefined1 DAT_1034fa7a_t;
+#define DAT_1034fa7a XI_EA(DAT_1034fa7a_t, 0x1034FA7Au)
+typedef char s_Microsoft_IME_97__Japanese__1034fa7c_t[1];
+#define s_Microsoft_IME_97__Japanese__1034fa7c XI_EA(s_Microsoft_IME_97__Japanese__1034fa7c_t, 0x1034FA7Cu)
+typedef char s_Microsoft_IME_95__Japanese__1034fa98_t[1];
+#define s_Microsoft_IME_95__Japanese__1034fa98 XI_EA(s_Microsoft_IME_95__Japanese__1034fa98_t, 0x1034FA98u)
 typedef char g_1034FB65_t[1];
 #define g_1034FB65 XI_EA(g_1034FB65_t, 0x1034FB65u)
 typedef char s_XInputEnable__1034fb78_t[1];
@@ -1667,6 +2197,14 @@ typedef char s_c__image_ffxi_mov_10350310_t[1];
 #define s_c__image_ffxi_mov_10350310 XI_EA(s_c__image_ffxi_mov_10350310_t, 0x10350310u)
 typedef undefined4 DAT_10350324_t;
 #define DAT_10350324 XI_EA(DAT_10350324_t, 0x10350324u)
+typedef char s_menu_ok_10350334_t[1];
+#define s_menu_ok_10350334 XI_EA(s_menu_ok_10350334_t, 0x10350334u)
+typedef undefined4 DAT_10350550_t;
+#define DAT_10350550 XI_EA(DAT_10350550_t, 0x10350550u)
+typedef DWORD DAT_103505a4_t;
+#define DAT_103505a4 XI_EA(DAT_103505a4_t, 0x103505A4u)
+typedef DWORD DAT_103505a8_t;
+#define DAT_103505a8 XI_EA(DAT_103505a8_t, 0x103505A8u)
 typedef float g_rampGraphVerts_t;
 #define g_rampGraphVerts XI_EA(g_rampGraphVerts_t, 0x10350748u)
 typedef float g_rampGraphVerts_v0_y_t;
@@ -1681,6 +2219,16 @@ typedef int g_rampGraphVerts_v1_color_t;
 #define g_rampGraphVerts_v1_color XI_EA(g_rampGraphVerts_v1_color_t, 0x1035076Cu)
 typedef undefined4 DAT_10350958_t;
 #define DAT_10350958 XI_EA(DAT_10350958_t, 0x10350958u)
+typedef undefined4 DAT_1035097c_t;
+#define DAT_1035097c XI_EA(DAT_1035097c_t, 0x1035097Cu)
+typedef int DAT_10350988_t;
+#define DAT_10350988 XI_EA(DAT_10350988_t, 0x10350988u)
+typedef char DAT_10350e38_t;
+#define DAT_10350e38 XI_EA(DAT_10350e38_t, 0x10350E38u)
+typedef undefined4 DAT_10350e3c_t;
+#define DAT_10350e3c XI_EA(DAT_10350e3c_t, 0x10350E3Cu)
+typedef undefined2 DAT_10350e4c_t;
+#define DAT_10350e4c XI_EA(DAT_10350e4c_t, 0x10350E4Cu)
 typedef undefined4 DAT_10350e60_t;
 #define DAT_10350e60 XI_EA(DAT_10350e60_t, 0x10350E60u)
 typedef undefined4 DAT_10350e64_t;
@@ -1693,10 +2241,14 @@ typedef undefined4 DAT_1035109c_t;
 #define DAT_1035109c XI_EA(DAT_1035109c_t, 0x1035109Cu)
 typedef char aAfbVersionErro_t[1];
 #define aAfbVersionErro XI_EA(aAfbVersionErro_t, 0x103511B0u)
+typedef char c_dxtFourCCs_t[1];
+#define c_dxtFourCCs XI_EA(c_dxtFourCCs_t, 0x103511CCu)
 typedef undefined4 DAT_10351224_t;
 #define DAT_10351224 XI_EA(DAT_10351224_t, 0x10351224u)
 typedef undefined4 DAT_1035122c_t;
 #define DAT_1035122c XI_EA(DAT_1035122c_t, 0x1035122Cu)
+typedef undefined4 DAT_1035126c_t;
+#define DAT_1035126c XI_EA(DAT_1035126c_t, 0x1035126Cu)
 typedef undefined4 DAT_1035133c_t;
 #define DAT_1035133c XI_EA(DAT_1035133c_t, 0x1035133Cu)
 typedef undefined4 DAT_103514e4_t;
@@ -1717,18 +2269,40 @@ typedef int c_ps2White_t;
 #define c_ps2White XI_EA(c_ps2White_t, 0x103515BCu)
 typedef _BYTE g_vsDecl_1628_t;
 #define g_vsDecl_1628 XI_EA(g_vsDecl_1628_t, 0x10351628u)
+typedef char s_Os2_Version_Error__d__10351654_t[1];
+#define s_Os2_Version_Error__d__10351654 XI_EA(s_Os2_Version_Error__d__10351654_t, 0x10351654u)
+typedef float _DAT_103516e4_t;
+#define _DAT_103516e4 XI_EA(_DAT_103516e4_t, 0x103516E4u)
+typedef float DAT_103516e8_t;
+#define DAT_103516e8 XI_EA(DAT_103516e8_t, 0x103516E8u)
+typedef float DAT_103516ec_t;
+#define DAT_103516ec XI_EA(DAT_103516ec_t, 0x103516ECu)
+typedef float DAT_103516f0_t;
+#define DAT_103516f0 XI_EA(DAT_103516f0_t, 0x103516F0u)
 typedef float _DAT_103516f8_t;
 #define _DAT_103516f8 XI_EA(_DAT_103516f8_t, 0x103516F8u)
 typedef float _DAT_103516fc_t;
 #define _DAT_103516fc XI_EA(_DAT_103516fc_t, 0x103516FCu)
 typedef float DAT_10351700_t;
 #define DAT_10351700 XI_EA(DAT_10351700_t, 0x10351700u)
+typedef undefined4 DAT_10351700_as_v0_t;
+#define DAT_10351700_as_v0 XI_EA(DAT_10351700_as_v0_t, 0x10351700u)
 typedef float DAT_10351704_t;
 #define DAT_10351704 XI_EA(DAT_10351704_t, 0x10351704u)
+typedef undefined4 DAT_10351704_as_v0_t;
+#define DAT_10351704_as_v0 XI_EA(DAT_10351704_as_v0_t, 0x10351704u)
 typedef float DAT_10351708_t;
 #define DAT_10351708 XI_EA(DAT_10351708_t, 0x10351708u)
+typedef undefined4 DAT_10351708_as_v0_t;
+#define DAT_10351708_as_v0 XI_EA(DAT_10351708_as_v0_t, 0x10351708u)
+typedef undefined4 DAT_1035170c_t;
+#define DAT_1035170c XI_EA(DAT_1035170c_t, 0x1035170Cu)
 typedef int DAT_10351710_t;
 #define DAT_10351710 XI_EA(DAT_10351710_t, 0x10351710u)
+typedef float _DAT_103517f4_t;
+#define _DAT_103517f4 XI_EA(_DAT_103517f4_t, 0x103517F4u)
+typedef float _DAT_103517f8_t;
+#define _DAT_103517f8 XI_EA(_DAT_103517f8_t, 0x103517F8u)
 typedef char s_Thread_Create_Error___10351c58_t[1];
 #define s_Thread_Create_Error___10351c58 XI_EA(s_Thread_Create_Error___10351c58_t, 0x10351C58u)
 typedef char s_Thread_Num_Over___10351c70_t[1];
@@ -1777,6 +2351,18 @@ typedef _DWORD Fn1003E9A0_textureStageStates3_t[9];
 #define Fn1003E9A0_textureStageStates3 XI_EA(Fn1003E9A0_textureStageStates3_t, 0x10352084u)
 typedef _DWORD CMoDistMorphElem_ApplyMorph_textureStageStates_t[60];
 #define CMoDistMorphElem_ApplyMorph_textureStageStates XI_EA(CMoDistMorphElem_ApplyMorph_textureStageStates_t, 0x10352258u)
+typedef undefined4 Fn10040220_textureStageStates5_t;
+#define Fn10040220_textureStageStates5 XI_EA(Fn10040220_textureStageStates5_t, 0x10352348u)
+typedef undefined4 Fn10040220_textureStageStates6_t;
+#define Fn10040220_textureStageStates6 XI_EA(Fn10040220_textureStageStates6_t, 0x103523B4u)
+typedef undefined4 Fn10040220_textureStageStates_t;
+#define Fn10040220_textureStageStates XI_EA(Fn10040220_textureStageStates_t, 0x103523D0u)
+typedef undefined4 Fn10040220_textureStageStates2_t;
+#define Fn10040220_textureStageStates2 XI_EA(Fn10040220_textureStageStates2_t, 0x103524A8u)
+typedef undefined4 Fn10040220_textureStageStates3_t;
+#define Fn10040220_textureStageStates3 XI_EA(Fn10040220_textureStageStates3_t, 0x10352590u)
+typedef undefined4 Fn10040220_textureStageStates4_t;
+#define Fn10040220_textureStageStates4 XI_EA(Fn10040220_textureStageStates4_t, 0x10352648u)
 typedef _DWORD CMoDistModelElem_DrawMesh_textureStageStates_t[27];
 #define CMoDistModelElem_DrawMesh_textureStageStates XI_EA(CMoDistModelElem_DrawMesh_textureStageStates_t, 0x103526B8u)
 typedef _DWORD CMoDistModelElem_DrawMesh_textureStageStates2_t[7];
@@ -1801,6 +2387,8 @@ typedef _BYTE Fn100431B0_textureStageStates_t;
 #define Fn100431B0_textureStageStates XI_EA(Fn100431B0_textureStageStates_t, 0x10353260u)
 typedef _DWORD CMoDistRingElem_textureStageStates_t[30];
 #define CMoDistRingElem_textureStageStates XI_EA(CMoDistRingElem_textureStageStates_t, 0x10353378u)
+typedef float c_flt_0_03_t;
+#define c_flt_0_03 XI_EA(c_flt_0_03_t, 0x10353444u)
 typedef _DWORD Fn100467E0_textureStageStates_t[52];
 #define Fn100467E0_textureStageStates XI_EA(Fn100467E0_textureStageStates_t, 0x10353598u)
 typedef int Fn100472F0_renderStates_t[34];
@@ -1809,6 +2397,8 @@ typedef undefined4 DAT_10353710_t;
 #define DAT_10353710 XI_EA(DAT_10353710_t, 0x10353710u)
 typedef undefined4 g_vec4_m1_m1_m1_1_t;
 #define g_vec4_m1_m1_m1_1 XI_EA(g_vec4_m1_m1_m1_1_t, 0x10353718u)
+typedef undefined4 DAT_10353df4_t;
+#define DAT_10353df4 XI_EA(DAT_10353df4_t, 0x10353DF4u)
 typedef undefined2 DAT_10353e04_t;
 #define DAT_10353e04 XI_EA(DAT_10353e04_t, 0x10353E04u)
 typedef undefined4 DAT_10354010_t;
@@ -1915,8 +2505,16 @@ typedef _DWORD Fn100759C0_textureStageStates_t[39];
 #define Fn100759C0_textureStageStates XI_EA(Fn100759C0_textureStageStates_t, 0x103547D8u)
 typedef int Fn100759C0_renderStates_t[13];
 #define Fn100759C0_renderStates XI_EA(Fn100759C0_renderStates_t, 0x10354874u)
+typedef undefined1 DAT_10354be0_t;
+#define DAT_10354be0 XI_EA(DAT_10354be0_t, 0x10354BE0u)
+typedef undefined1 DAT_10354de0_t;
+#define DAT_10354de0 XI_EA(DAT_10354de0_t, 0x10354DE0u)
+typedef undefined4 DAT_10354fe0_t;
+#define DAT_10354fe0 XI_EA(DAT_10354fe0_t, 0x10354FE0u)
 typedef undefined * PTR_DAT_103551e0_t;
 #define PTR_DAT_103551e0 XI_EA(PTR_DAT_103551e0_t, 0x103551E0u)
+typedef undefined4 * _DAT_103551e4_t;
+#define _DAT_103551e4 XI_EA(_DAT_103551e4_t, 0x103551E4u)
 typedef undefined4 DAT_103551e7_t;
 #define DAT_103551e7 XI_EA(DAT_103551e7_t, 0x103551E7u)
 typedef undefined1 DAT_103551e8_t;
@@ -1925,6 +2523,8 @@ typedef undefined1 DAT_103553e8_t;
 #define DAT_103553e8 XI_EA(DAT_103553e8_t, 0x103553E8u)
 typedef undefined4 DAT_10355408_t;
 #define DAT_10355408 XI_EA(DAT_10355408_t, 0x10355408u)
+typedef undefined4 DAT_10356e30_t;
+#define DAT_10356e30 XI_EA(DAT_10356e30_t, 0x10356E30u)
 typedef uint32_t DAT_10357bb8_t;
 #define DAT_10357bb8 XI_EA(DAT_10357bb8_t, 0x10357BB8u)
 typedef uint32_t DAT_10357bdc_t;
@@ -1935,6 +2535,22 @@ typedef undefined4 DAT_10357cc8_t;
 #define DAT_10357cc8 XI_EA(DAT_10357cc8_t, 0x10357CC8u)
 typedef undefined4 DAT_10357ccc_t;
 #define DAT_10357ccc XI_EA(DAT_10357ccc_t, 0x10357CCCu)
+typedef undefined1 DAT_10357e14_t;
+#define DAT_10357e14 XI_EA(DAT_10357e14_t, 0x10357E14u)
+typedef char g_10357E7C_t[1];
+#define g_10357E7C XI_EA(g_10357E7C_t, 0x10357E7Cu)
+typedef undefined1 DAT_10357e88_t;
+#define DAT_10357e88 XI_EA(DAT_10357e88_t, 0x10357E88u)
+typedef undefined1 DAT_10357e90_t;
+#define DAT_10357e90 XI_EA(DAT_10357e90_t, 0x10357E90u)
+typedef undefined1 DAT_10357eb8_t;
+#define DAT_10357eb8 XI_EA(DAT_10357eb8_t, 0x10357EB8u)
+typedef undefined1 DAT_10357ec0_t;
+#define DAT_10357ec0 XI_EA(DAT_10357ec0_t, 0x10357EC0u)
+typedef undefined1 DAT_10357f5c_t;
+#define DAT_10357f5c XI_EA(DAT_10357f5c_t, 0x10357F5Cu)
+typedef undefined1 DAT_10357f64_t;
+#define DAT_10357f64 XI_EA(DAT_10357f64_t, 0x10357F64u)
 typedef undefined1 DAT_10357f68_t;
 #define DAT_10357f68 XI_EA(DAT_10357f68_t, 0x10357F68u)
 typedef undefined1 DAT_10357f70_t;
@@ -1947,6 +2563,8 @@ typedef undefined1 DAT_10357f88_t;
 #define DAT_10357f88 XI_EA(DAT_10357f88_t, 0x10357F88u)
 typedef char s__s__s_10358098_t[1];
 #define s__s__s_10358098 XI_EA(s__s__s_10358098_t, 0x10358098u)
+typedef char g_10358164_t[1];
+#define g_10358164 XI_EA(g_10358164_t, 0x10358164u)
 typedef char DAT_10358188_t;
 #define DAT_10358188 XI_EA(DAT_10358188_t, 0x10358188u)
 typedef float _DAT_103581a0_t;
@@ -1981,24 +2599,30 @@ typedef float g_worldTextQuad_v3_y_t;
 #define g_worldTextQuad_v3_y XI_EA(g_worldTextQuad_v3_y_t, 0x10358308u)
 typedef int DAT_1035af38_t;
 #define DAT_1035af38 XI_EA(DAT_1035af38_t, 0x1035AF38u)
-typedef undefined4 DAT_1035af3c_t;
+typedef int DAT_1035af3c_t;
 #define DAT_1035af3c XI_EA(DAT_1035af3c_t, 0x1035AF3Cu)
-typedef int DAT_1035af3c_as_s32_t;
-#define DAT_1035af3c_as_s32 XI_EA(DAT_1035af3c_as_s32_t, 0x1035AF3Cu)
+typedef undefined4 DAT_1035af3c_as_v0_t;
+#define DAT_1035af3c_as_v0 XI_EA(DAT_1035af3c_as_v0_t, 0x1035AF3Cu)
 typedef undefined4 DAT_1035af40_t;
 #define DAT_1035af40 XI_EA(DAT_1035af40_t, 0x1035AF40u)
 typedef undefined4 _DAT_1035af44_t;
 #define _DAT_1035af44 XI_EA(_DAT_1035af44_t, 0x1035AF44u)
 typedef undefined4 _DAT_1035af48_t;
 #define _DAT_1035af48 XI_EA(_DAT_1035af48_t, 0x1035AF48u)
+typedef undefined4 DAT_1035b54c_t;
+#define DAT_1035b54c XI_EA(DAT_1035b54c_t, 0x1035B54Cu)
 typedef int DAT_1035b5e8_t;
 #define DAT_1035b5e8 XI_EA(DAT_1035b5e8_t, 0x1035B5E8u)
+typedef char s_chi0sit0chi2sit2_1035b5ec_t[1];
+#define s_chi0sit0chi2sit2_1035b5ec XI_EA(s_chi0sit0chi2sit2_1035b5ec_t, 0x1035B5ECu)
 typedef char s_ednnedmmedxx_1035b6e0_t[1];
 #define s_ednnedmmedxx_1035b6e0 XI_EA(s_ednnedmmedxx_1035b6e0_t, 0x1035B6E0u)
 typedef undefined4 DAT_1035b950_t;
 #define DAT_1035b950 XI_EA(DAT_1035b950_t, 0x1035B950u)
 typedef char s_menu_targetwi_1035bad8_t[1];
 #define s_menu_targetwi_1035bad8 XI_EA(s_menu_targetwi_1035bad8_t, 0x1035BAD8u)
+typedef undefined4 DAT_1035baec_t;
+#define DAT_1035baec XI_EA(DAT_1035baec_t, 0x1035BAECu)
 typedef undefined4 DAT_1035baf4_t;
 #define DAT_1035baf4 XI_EA(DAT_1035baf4_t, 0x1035BAF4u)
 typedef char s__servmes_1035bb14_t[1];
@@ -2035,6 +2659,14 @@ typedef undefined4 DAT_1035bc34_t;
 #define DAT_1035bc34 XI_EA(DAT_1035bc34_t, 0x1035BC34u)
 typedef undefined4 DAT_1035bc38_t;
 #define DAT_1035bc38 XI_EA(DAT_1035bc38_t, 0x1035BC38u)
+typedef float DAT_1035cfd0_t;
+#define DAT_1035cfd0 XI_EA(DAT_1035cfd0_t, 0x1035CFD0u)
+typedef float DAT_1035cfd4_t;
+#define DAT_1035cfd4 XI_EA(DAT_1035cfd4_t, 0x1035CFD4u)
+typedef float DAT_1035cfd8_t;
+#define DAT_1035cfd8 XI_EA(DAT_1035cfd8_t, 0x1035CFD8u)
+typedef undefined4 DAT_1035cfdc_t;
+#define DAT_1035cfdc XI_EA(DAT_1035cfdc_t, 0x1035CFDCu)
 typedef undefined4 DAT_1035d570_t;
 #define DAT_1035d570 XI_EA(DAT_1035d570_t, 0x1035D570u)
 typedef char s_SeSep_1035d5f8_t[1];
@@ -2095,6 +2727,18 @@ typedef int c_skelActorInit_7BC_t;
 #define c_skelActorInit_7BC XI_EA(c_skelActorInit_7BC_t, 0x1035D708u)
 typedef int c_skelActorInit_7C0_t;
 #define c_skelActorInit_7C0 XI_EA(c_skelActorInit_7C0_t, 0x1035D70Cu)
+typedef undefined4 c_resourceIdByModelByte_t;
+#define c_resourceIdByModelByte XI_EA(c_resourceIdByModelByte_t, 0x1035F410u)
+typedef undefined4 DAT_1035f598_t;
+#define DAT_1035f598 XI_EA(DAT_1035f598_t, 0x1035F598u)
+typedef undefined4 DAT_1035f5fc_t;
+#define DAT_1035f5fc XI_EA(DAT_1035f5fc_t, 0x1035F5FCu)
+typedef undefined4 DAT_1035f600_t;
+#define DAT_1035f600 XI_EA(DAT_1035f600_t, 0x1035F600u)
+typedef undefined4 DAT_1035f604_t;
+#define DAT_1035f604 XI_EA(DAT_1035f604_t, 0x1035F604u)
+typedef undefined4 DAT_1035f608_t;
+#define DAT_1035f608 XI_EA(DAT_1035f608_t, 0x1035F608u)
 typedef char aNoOwnerChocobo_t[72];
 #define aNoOwnerChocobo XI_EA(aNoOwnerChocobo_t, 0x1035F638u)
 typedef char aNoOwnerGroundTarget_t[88];
@@ -2111,14 +2755,36 @@ typedef char aNoOwnerMagicCircle_t[72];
 #define aNoOwnerMagicCircle XI_EA(aNoOwnerMagicCircle_t, 0x1035F808u)
 typedef undefined4 DAT_1035f850_t;
 #define DAT_1035f850 XI_EA(DAT_1035f850_t, 0x1035F850u)
+typedef undefined4 DAT_1035f9a0_t;
+#define DAT_1035f9a0 XI_EA(DAT_1035f9a0_t, 0x1035F9A0u)
+typedef undefined4 c_msgActorGraphicsLoadFailed_t;
+#define c_msgActorGraphicsLoadFailed XI_EA(c_msgActorGraphicsLoadFailed_t, 0x1035FA30u)
+typedef undefined4 c_msgBadRaceChairActor_t;
+#define c_msgBadRaceChairActor XI_EA(c_msgBadRaceChairActor_t, 0x1035FA94u)
+typedef undefined4 c_msgBadRaceFishingRodActor_t;
+#define c_msgBadRaceFishingRodActor XI_EA(c_msgBadRaceFishingRodActor_t, 0x1035FAD0u)
+typedef undefined4 c_msgBadGrpNumber_t;
+#define c_msgBadGrpNumber XI_EA(c_msgBadGrpNumber_t, 0x1035FB0Cu)
+typedef undefined4 c_msgBadRaceNumber_t;
+#define c_msgBadRaceNumber XI_EA(c_msgBadRaceNumber_t, 0x1035FB3Cu)
 typedef undefined4 DAT_1035fc40_t;
 #define DAT_1035fc40 XI_EA(DAT_1035fc40_t, 0x1035FC40u)
 typedef void * g_pGameMode_t;
 #define g_pGameMode XI_EA(g_pGameMode_t, 0x103601BCu)
 typedef undefined * g_pGameMode_as_v0_t;
 #define g_pGameMode_as_v0 XI_EA(g_pGameMode_as_v0_t, 0x103601BCu)
+typedef char s__s_s_s_10360244_t[1];
+#define s__s_s_s_10360244 XI_EA(s__s_s_s_10360244_t, 0x10360244u)
+typedef char s_http___wh000_pol_com_polapps_s_f_1036024c_t[1];
+#define s_http___wh000_pol_com_polapps_s_f_1036024c XI_EA(s_http___wh000_pol_com_polapps_s_f_1036024c_t, 0x1036024Cu)
+typedef char s_http___wh000_pol_com_polapps_s_f_10360280_t[1];
+#define s_http___wh000_pol_com_polapps_s_f_10360280 XI_EA(s_http___wh000_pol_com_polapps_s_f_10360280_t, 0x10360280u)
+typedef undefined4 DAT_10361388_t;
+#define DAT_10361388 XI_EA(DAT_10361388_t, 0x10361388u)
 typedef undefined4 DAT_10361dc0_t;
 #define DAT_10361dc0 XI_EA(DAT_10361dc0_t, 0x10361DC0u)
+typedef undefined * PTR_LAB_1036202c_t;
+#define PTR_LAB_1036202c XI_EA(PTR_LAB_1036202c_t, 0x1036202Cu)
 typedef char s_unknown_1036203c_t[1];
 #define s_unknown_1036203c XI_EA(s_unknown_1036203c_t, 0x1036203Cu)
 typedef undefined4 DAT_10362058_t;
@@ -2153,6 +2819,8 @@ typedef char s__02x_1036be9c_t[1];
 #define s__02x_1036be9c XI_EA(s__02x_1036be9c_t, 0x1036BE9Cu)
 typedef undefined * PTR_DAT_1036c018_t;
 #define PTR_DAT_1036c018 XI_EA(PTR_DAT_1036c018_t, 0x1036C018u)
+typedef char s_lb_03d_bin_1036c078_t[1];
+#define s_lb_03d_bin_1036c078 XI_EA(s_lb_03d_bin_1036c078_t, 0x1036C078u)
 typedef char s_err_03d_bin_1036c084_t[1];
 #define s_err_03d_bin_1036c084 XI_EA(s_err_03d_bin_1036c084_t, 0x1036C084u)
 typedef char s_BLOCK_1036c090_t[1];
@@ -2199,6 +2867,10 @@ typedef undefined2 DAT_1036c190_t;
 #define DAT_1036c190 XI_EA(DAT_1036c190_t, 0x1036C190u)
 typedef int DAT_1036c190_as_s32_t;
 #define DAT_1036c190_as_s32 XI_EA(DAT_1036c190_as_s32_t, 0x1036C190u)
+typedef short DAT_1036c190_as_v1_t;
+#define DAT_1036c190_as_v1 XI_EA(DAT_1036c190_as_v1_t, 0x1036C190u)
+typedef undefined4 DAT_1036c190_as_v2_t;
+#define DAT_1036c190_as_v2 XI_EA(DAT_1036c190_as_v2_t, 0x1036C190u)
 typedef char aFontMoji_t[1];
 #define aFontMoji XI_EA(aFontMoji_t, 0x1036C224u)
 typedef char aCellTextureTex_1_t[1];
@@ -2243,8 +2915,16 @@ typedef char s_font_fontshp_1036cf1c_t[1];
 #define s_font_fontshp_1036cf1c XI_EA(s_font_fontshp_1036cf1c_t, 0x1036CF1Cu)
 typedef undefined1 DAT_1036cf5c_t;
 #define DAT_1036cf5c XI_EA(DAT_1036cf5c_t, 0x1036CF5Cu)
+typedef undefined4 DAT_1036cf60_t;
+#define DAT_1036cf60 XI_EA(DAT_1036cf60_t, 0x1036CF60u)
 typedef undefined4 DAT_1036d6b0_t;
 #define DAT_1036d6b0 XI_EA(DAT_1036d6b0_t, 0x1036D6B0u)
+typedef undefined4 DAT_1036d6b1_t;
+#define DAT_1036d6b1 XI_EA(DAT_1036d6b1_t, 0x1036D6B1u)
+typedef undefined2 DAT_1036da22_t;
+#define DAT_1036da22 XI_EA(DAT_1036da22_t, 0x1036DA22u)
+typedef void * PTR_FUN_1036db18_t;
+#define PTR_FUN_1036db18 XI_EA(PTR_FUN_1036db18_t, 0x1036DB18u)
 typedef undefined1 DAT_1036e0f0_t;
 #define DAT_1036e0f0 XI_EA(DAT_1036e0f0_t, 0x1036E0F0u)
 typedef undefined1 DAT_1036e0f1_t;
@@ -2253,9 +2933,9 @@ typedef int DAT_1036e0f8_t;
 #define DAT_1036e0f8 XI_EA(DAT_1036e0f8_t, 0x1036E0F8u)
 typedef int DAT_1036e0fc_t;
 #define DAT_1036e0fc XI_EA(DAT_1036e0fc_t, 0x1036E0FCu)
-typedef uint32_t DAT_1036e3a0_t;
+typedef undefined4 DAT_1036e3a0_t;
 #define DAT_1036e3a0 XI_EA(DAT_1036e3a0_t, 0x1036E3A0u)
-typedef undefined4 DAT_1036e3a0_as_v0_t;
+typedef uint32_t DAT_1036e3a0_as_v0_t;
 #define DAT_1036e3a0_as_v0 XI_EA(DAT_1036e3a0_as_v0_t, 0x1036E3A0u)
 typedef char s__heal_1036e3a4_t[1];
 #define s__heal_1036e3a4 XI_EA(s__heal_1036e3a4_t, 0x1036E3A4u)
@@ -2289,18 +2969,28 @@ typedef char s_menu_playermo_1036f5b4_t[1];
 #define s_menu_playermo_1036f5b4 XI_EA(s_menu_playermo_1036f5b4_t, 0x1036F5B4u)
 typedef char s__attackoff_1036f5d4_t[1];
 #define s__attackoff_1036f5d4 XI_EA(s__attackoff_1036f5d4_t, 0x1036F5D4u)
+typedef char s__help_1036f5e0_t[1];
+#define s__help_1036f5e0 XI_EA(s__help_1036f5e0_t, 0x1036F5E0u)
 typedef char s_menu_holdtime_1036f618_t[1];
 #define s_menu_holdtime_1036f618 XI_EA(s_menu_holdtime_1036f618_t, 0x1036F618u)
+typedef char s__d__02d_1036f6d0_t[1];
+#define s__d__02d_1036f6d0 XI_EA(s__d__02d_1036f6d0_t, 0x1036F6D0u)
 typedef char s_menu_mp_pmode_1036f840_t[1];
 #define s_menu_mp_pmode_1036f840 XI_EA(s_menu_mp_pmode_1036f840_t, 0x1036F840u)
+typedef undefined4 DAT_1036f890_t;
+#define DAT_1036f890 XI_EA(DAT_1036f890_t, 0x1036F890u)
 typedef char s__tell_1036f9b0_t[1];
 #define s__tell_1036f9b0 XI_EA(s__tell_1036f9b0_t, 0x1036F9B0u)
 typedef undefined4 DAT_1036f9fc_t;
 #define DAT_1036f9fc XI_EA(DAT_1036f9fc_t, 0x1036F9FCu)
+typedef char s__s__d_1036ff70_t[1];
+#define s__s__d_1036ff70 XI_EA(s__s__d_1036ff70_t, 0x1036FF70u)
 typedef char s_menu_windowps_1036ffb4_t[1];
 #define s_menu_windowps_1036ffb4 XI_EA(s_menu_windowps_1036ffb4_t, 0x1036FFB4u)
 typedef char aMenuKeytops3_t[1];
 #define aMenuKeytops3 XI_EA(aMenuKeytops3_t, 0x1036FFC8u)
+typedef undefined4 DAT_10370084_t;
+#define DAT_10370084 XI_EA(DAT_10370084_t, 0x10370084u)
 typedef undefined4 DAT_10371694_t;
 #define DAT_10371694 XI_EA(DAT_10371694_t, 0x10371694u)
 typedef undefined4 DAT_10371864_t;
@@ -2317,6 +3007,10 @@ typedef undefined2 DAT_10371b82_t;
 #define DAT_10371b82 XI_EA(DAT_10371b82_t, 0x10371B82u)
 typedef undefined4 DAT_10371da8_t;
 #define DAT_10371da8 XI_EA(DAT_10371da8_t, 0x10371DA8u)
+typedef undefined1 DAT_10371e88_t;
+#define DAT_10371e88 XI_EA(DAT_10371e88_t, 0x10371E88u)
+typedef undefined1 DAT_10371e8c_t;
+#define DAT_10371e8c XI_EA(DAT_10371e8c_t, 0x10371E8Cu)
 typedef undefined * PTR_DAT_10371ecc_t;
 #define PTR_DAT_10371ecc XI_EA(PTR_DAT_10371ecc_t, 0x10371ECCu)
 typedef undefined4 DAT_10371ee0_t;
@@ -2343,14 +3037,40 @@ typedef undefined1 DAT_10372301_t;
 #define DAT_10372301 XI_EA(DAT_10372301_t, 0x10372301u)
 typedef undefined2 DAT_10372302_t;
 #define DAT_10372302 XI_EA(DAT_10372302_t, 0x10372302u)
+typedef undefined4 DAT_1037629c_t;
+#define DAT_1037629c XI_EA(DAT_1037629c_t, 0x1037629Cu)
 typedef char s_menu_query_103762b0_t[1];
 #define s_menu_query_103762b0 XI_EA(s_menu_query_103762b0_t, 0x103762B0u)
+typedef char s_menu_mcr2edlo_103762d8_t[1];
+#define s_menu_mcr2edlo_103762d8 XI_EA(s_menu_mcr2edlo_103762d8_t, 0x103762D8u)
+typedef char s_menu_mcr2edit_103762ec_t[1];
+#define s_menu_mcr2edit_103762ec XI_EA(s_menu_mcr2edit_103762ec_t, 0x103762ECu)
+typedef char s_menu_mcr1edlo_10376300_t[1];
+#define s_menu_mcr1edlo_10376300 XI_EA(s_menu_mcr1edlo_10376300_t, 0x10376300u)
+typedef char s_menu_mcr1edit_10376314_t[1];
+#define s_menu_mcr1edit_10376314 XI_EA(s_menu_mcr1edit_10376314_t, 0x10376314u)
+typedef char s_menu_mcr2long_10376328_t[1];
+#define s_menu_mcr2long_10376328 XI_EA(s_menu_mcr2long_10376328_t, 0x10376328u)
 typedef char s_menu_mcr2pall_1037633c_t[1];
 #define s_menu_mcr2pall_1037633c XI_EA(s_menu_mcr2pall_1037633c_t, 0x1037633Cu)
+typedef char s_menu_mcr1long_10376350_t[1];
+#define s_menu_mcr1long_10376350 XI_EA(s_menu_mcr1long_10376350_t, 0x10376350u)
 typedef char s_menu_mcr1pall_10376364_t[1];
 #define s_menu_mcr1pall_10376364 XI_EA(s_menu_mcr1pall_10376364_t, 0x10376364u)
+typedef undefined4 DAT_10376378_t;
+#define DAT_10376378 XI_EA(DAT_10376378_t, 0x10376378u)
+typedef undefined4 DAT_1037637c_t;
+#define DAT_1037637c XI_EA(DAT_1037637c_t, 0x1037637Cu)
+typedef undefined4 DAT_103763b0_t;
+#define DAT_103763b0 XI_EA(DAT_103763b0_t, 0x103763B0u)
+typedef undefined4 DAT_103763b3_t;
+#define DAT_103763b3 XI_EA(DAT_103763b3_t, 0x103763B3u)
+typedef undefined1 DAT_10376470_t;
+#define DAT_10376470 XI_EA(DAT_10376470_t, 0x10376470u)
 typedef char c_byteSubstTable_t[256];
 #define c_byteSubstTable XI_EA(c_byteSubstTable_t, 0x10376AC0u)
+typedef undefined4 DAT_10376bc0_t;
+#define DAT_10376bc0 XI_EA(DAT_10376bc0_t, 0x10376BC0u)
 typedef char aCTestVsh_t[1];
 #define aCTestVsh XI_EA(aCTestVsh_t, 0x10376CA4u)
 typedef undefined1 DAT_10376ee8_t;
@@ -2563,6 +3283,10 @@ typedef char s_acq_dat_10377c78_t[1];
 #define s_acq_dat_10377c78 XI_EA(s_acq_dat_10377c78_t, 0x10377C78u)
 typedef char s_pec_dat_10377c80_t[1];
 #define s_pec_dat_10377c80 XI_EA(s_pec_dat_10377c80_t, 0x10377C80u)
+typedef char s__d__d_log_10377c8c_t[1];
+#define s__d__d_log_10377c8c XI_EA(s__d__d_log_10377c8c_t, 0x10377C8Cu)
+typedef char s__d_log_10377c98_t[1];
+#define s__d_log_10377c98 XI_EA(s__d_log_10377c98_t, 0x10377C98u)
 typedef char s_menu_fep_10377cbc_t[1];
 #define s_menu_fep_10377cbc XI_EA(s_menu_fep_10377cbc_t, 0x10377CBCu)
 typedef char s_menu_keypad3_10379908_t[1];
@@ -2599,6 +3323,8 @@ typedef char s_cnf_dat_10379a08_t[1];
 #define s_cnf_dat_10379a08 XI_EA(s_cnf_dat_10379a08_t, 0x10379A08u)
 typedef undefined2 DAT_1037a290_t;
 #define DAT_1037a290 XI_EA(DAT_1037a290_t, 0x1037A290u)
+typedef short DAT_1037a290_as_v0_t;
+#define DAT_1037a290_as_v0 XI_EA(DAT_1037a290_as_v0_t, 0x1037A290u)
 typedef char s_menu_key1top_1037a808_t[1];
 #define s_menu_key1top_1037a808 XI_EA(s_menu_key1top_1037a808_t, 0x1037A808u)
 typedef char s_menu_key1topu_1037a81c_t[1];
@@ -2609,6 +3335,20 @@ typedef char s_mcr_ttl_1037aa38_t[1];
 #define s_mcr_ttl_1037aa38 XI_EA(s_mcr_ttl_1037aa38_t, 0x1037AA38u)
 typedef char s_mcr_sys_1037aa40_t[1];
 #define s_mcr_sys_1037aa40 XI_EA(s_mcr_sys_1037aa40_t, 0x1037AA40u)
+typedef undefined1 DAT_1037aa48_t;
+#define DAT_1037aa48 XI_EA(DAT_1037aa48_t, 0x1037AA48u)
+typedef char g_1037AA50_t[1];
+#define g_1037AA50 XI_EA(g_1037AA50_t, 0x1037AA50u)
+typedef char g_1037AA5C_t[1];
+#define g_1037AA5C XI_EA(g_1037AA5C_t, 0x1037AA5Cu)
+typedef char s__s_s_d_s_1037aa64_t[1];
+#define s__s_s_d_s_1037aa64 XI_EA(s__s_s_d_s_1037aa64_t, 0x1037AA64u)
+typedef undefined1 DAT_1037aa70_t;
+#define DAT_1037aa70 XI_EA(DAT_1037aa70_t, 0x1037AA70u)
+typedef undefined4 DAT_1037aa74_t;
+#define DAT_1037aa74 XI_EA(DAT_1037aa74_t, 0x1037AA74u)
+typedef undefined1 DAT_1037ab30_t;
+#define DAT_1037ab30 XI_EA(DAT_1037ab30_t, 0x1037AB30u)
 typedef undefined4 DAT_1037ab74_t;
 #define DAT_1037ab74 XI_EA(DAT_1037ab74_t, 0x1037AB74u)
 typedef char s__jump_1037ab7c_t[1];
@@ -2651,8 +3391,26 @@ typedef undefined1 DAT_1037ad1c_t;
 #define DAT_1037ad1c XI_EA(DAT_1037ad1c_t, 0x1037AD1Cu)
 typedef undefined1 DAT_1037ad24_t;
 #define DAT_1037ad24 XI_EA(DAT_1037ad24_t, 0x1037AD24u)
+typedef char s__tell_1037ad2c_t[1];
+#define s__tell_1037ad2c XI_EA(s__tell_1037ad2c_t, 0x1037AD2Cu)
+typedef char s__assiste_1037ad3c_t[1];
+#define s__assiste_1037ad3c XI_EA(s__assiste_1037ad3c_t, 0x1037AD3Cu)
+typedef char s__assistj_1037ad50_t[1];
+#define s__assistj_1037ad50 XI_EA(s__assistj_1037ad50_t, 0x1037AD50u)
+typedef char s__unity_1037ad60_t[1];
+#define s__unity_1037ad60 XI_EA(s__unity_1037ad60_t, 0x1037AD60u)
+typedef char s__linkshell2_1037ad70_t[1];
+#define s__linkshell2_1037ad70 XI_EA(s__linkshell2_1037ad70_t, 0x1037AD70u)
+typedef char s__linkshell_1037ad84_t[1];
+#define s__linkshell_1037ad84 XI_EA(s__linkshell_1037ad84_t, 0x1037AD84u)
+typedef char s__party_1037ada4_t[1];
+#define s__party_1037ada4 XI_EA(s__party_1037ada4_t, 0x1037ADA4u)
 typedef undefined2 DAT_1037ade4_t;
 #define DAT_1037ade4 XI_EA(DAT_1037ade4_t, 0x1037ADE4u)
+typedef char g_1037AE34_t[1];
+#define g_1037AE34 XI_EA(g_1037AE34_t, 0x1037AE34u)
+typedef char s__attack_1037ae40_t[1];
+#define s__attack_1037ae40 XI_EA(s__attack_1037ae40_t, 0x1037AE40u)
 typedef undefined1 DAT_1037c4a0_t;
 #define DAT_1037c4a0 XI_EA(DAT_1037c4a0_t, 0x1037C4A0u)
 typedef undefined1 DAT_1037c668_t;
@@ -2665,12 +3423,18 @@ typedef undefined4 DAT_1037c9b4_t;
 #define DAT_1037c9b4 XI_EA(DAT_1037c9b4_t, 0x1037C9B4u)
 typedef undefined4 DAT_1037c9bc_t;
 #define DAT_1037c9bc XI_EA(DAT_1037c9bc_t, 0x1037C9BCu)
+typedef undefined1 DAT_1037c9cc_t;
+#define DAT_1037c9cc XI_EA(DAT_1037c9cc_t, 0x1037C9CCu)
 typedef char s_FINAL_FANTASY_XI_GAMEPAD_Config_1037ca70_t[1];
 #define s_FINAL_FANTASY_XI_GAMEPAD_Config_1037ca70 XI_EA(s_FINAL_FANTASY_XI_GAMEPAD_Config_1037ca70_t, 0x1037CA70u)
 typedef undefined4 DAT_1037cb34_t;
 #define DAT_1037cb34 XI_EA(DAT_1037cb34_t, 0x1037CB34u)
 typedef char s__s__s_1037cba0_t[1];
 #define s__s__s_1037cba0 XI_EA(s__s__s_1037cba0_t, 0x1037CBA0u)
+typedef char s__s__x_1037cbc8_t[1];
+#define s__s__x_1037cbc8 XI_EA(s__s__x_1037cbc8_t, 0x1037CBC8u)
+typedef char s__s__s__x_1037cbd0_t[1];
+#define s__s__s__x_1037cbd0 XI_EA(s__s__s__x_1037cbd0_t, 0x1037CBD0u)
 typedef char s_timestamp_dat_1037cbf4_t[1];
 #define s_timestamp_dat_1037cbf4 XI_EA(s_timestamp_dat_1037cbf4_t, 0x1037CBF4u)
 typedef char s_moix_dat_1037cc04_t[1];
@@ -2687,6 +3451,40 @@ typedef undefined4 DAT_1037d290_t;
 #define DAT_1037d290 XI_EA(DAT_1037d290_t, 0x1037D290u)
 typedef undefined4 DAT_1037d2d8_t;
 #define DAT_1037d2d8 XI_EA(DAT_1037d2d8_t, 0x1037D2D8u)
+typedef undefined4 DAT_1037d31c_t;
+#define DAT_1037d31c XI_EA(DAT_1037d31c_t, 0x1037D31Cu)
+typedef undefined4 DAT_1037d34c_t;
+#define DAT_1037d34c XI_EA(DAT_1037d34c_t, 0x1037D34Cu)
+typedef char s_menu_netmeter_1037d3e0_t[1];
+#define s_menu_netmeter_1037d3e0 XI_EA(s_menu_netmeter_1037d3e0_t, 0x1037D3E0u)
+typedef char s_menu_numctrl_1037d3f4_t[1];
+#define s_menu_numctrl_1037d3f4 XI_EA(s_menu_numctrl_1037d3f4_t, 0x1037D3F4u)
+typedef char s_menu_hpcol_1037d408_t[1];
+#define s_menu_hpcol_1037d408 XI_EA(s_menu_hpcol_1037d408_t, 0x1037D408u)
+typedef char s_anc_kaipage_1037d41c_t[1];
+#define s_anc_kaipage_1037d41c XI_EA(s_anc_kaipage_1037d41c_t, 0x1037D41Cu)
+typedef char s_anc_anc_equi_1037d430_t[1];
+#define s_anc_anc_equi_1037d430 XI_EA(s_anc_anc_equi_1037d430_t, 0x1037D430u)
+typedef char s_anc_anc_regi_1037d444_t[1];
+#define s_anc_anc_regi_1037d444 XI_EA(s_anc_anc_regi_1037d444_t, 0x1037D444u)
+typedef char s_anc_anc_scan_1037d458_t[1];
+#define s_anc_anc_scan_1037d458 XI_EA(s_anc_anc_scan_1037d458_t, 0x1037D458u)
+typedef char s_anc_anc_s_1037d46c_t[1];
+#define s_anc_anc_s_1037d46c XI_EA(s_anc_anc_s_1037d46c_t, 0x1037D46Cu)
+typedef char s_anc_anc_l_1037d480_t[1];
+#define s_anc_anc_l_1037d480 XI_EA(s_anc_anc_l_1037d480_t, 0x1037D480u)
+typedef char s_menu_contents_1037d494_t[1];
+#define s_menu_contents_1037d494 XI_EA(s_menu_contents_1037d494_t, 0x1037D494u)
+typedef char s_menu_pname_1037d4a8_t[1];
+#define s_menu_pname_1037d4a8 XI_EA(s_menu_pname_1037d4a8_t, 0x1037D4A8u)
+typedef char s__________1037d4bc_t[1];
+#define s__________1037d4bc XI_EA(s__________1037d4bc_t, 0x1037D4BCu)
+typedef char s__________1037d4c8_t[1];
+#define s__________1037d4c8 XI_EA(s__________1037d4c8_t, 0x1037D4C8u)
+typedef char s____________1037d4d4_t[1];
+#define s____________1037d4d4 XI_EA(s____________1037d4d4_t, 0x1037D4D4u)
+typedef char s__d__02d__02d_1037d4e0_t[1];
+#define s__d__02d__02d_1037d4e0 XI_EA(s__d__02d__02d_1037d4e0_t, 0x1037D4E0u)
 typedef undefined4 DAT_1037e330_t;
 #define DAT_1037e330 XI_EA(DAT_1037e330_t, 0x1037E330u)
 typedef undefined4 DAT_1037e334_t;
@@ -2697,10 +3495,18 @@ typedef undefined4 DAT_1037e530_t;
 #define DAT_1037e530 XI_EA(DAT_1037e530_t, 0x1037E530u)
 typedef undefined2 DAT_1037e630_t;
 #define DAT_1037e630 XI_EA(DAT_1037e630_t, 0x1037E630u)
+typedef char DAT_1037e862_t;
+#define DAT_1037e862 XI_EA(DAT_1037e862_t, 0x1037E862u)
 typedef char s__C__SQUARE_ENIX_1037e878_t[1];
 #define s__C__SQUARE_ENIX_1037e878 XI_EA(s__C__SQUARE_ENIX_1037e878_t, 0x1037E878u)
 typedef char s__c_SQUARE_ENIX_1037e88c_t[1];
 #define s__c_SQUARE_ENIX_1037e88c XI_EA(s__c_SQUARE_ENIX_1037e88c_t, 0x1037E88Cu)
+typedef char s_screenshots__s_jpg_1037e89c_t[1];
+#define s_screenshots__s_jpg_1037e89c XI_EA(s_screenshots__s_jpg_1037e89c_t, 0x1037E89Cu)
+typedef char s__s_jpg_1037e8b0_t[1];
+#define s__s_jpg_1037e8b0 XI_EA(s__s_jpg_1037e8b0_t, 0x1037E8B0u)
+typedef char s__c_c_c_02d_02d_02d_02d_02d_02d_c_1037e8b8_t[1];
+#define s__c_c_c_02d_02d_02d_02d_02d_02d_c_1037e8b8 XI_EA(s__c_c_c_02d_02d_02d_02d_02d_02d_c_1037e8b8_t, 0x1037E8B8u)
 typedef char s_menu_comyn_1037e8e0_t[1];
 #define s_menu_comyn_1037e8e0 XI_EA(s_menu_comyn_1037e8e0_t, 0x1037E8E0u)
 typedef undefined4 DAT_1037f1c4_t;
@@ -2711,6 +3517,62 @@ typedef undefined1 DAT_1037f1dc_t;
 #define DAT_1037f1dc XI_EA(DAT_1037f1dc_t, 0x1037F1DCu)
 typedef undefined4 DAT_1037f1e8_t;
 #define DAT_1037f1e8 XI_EA(DAT_1037f1e8_t, 0x1037F1E8u)
+typedef undefined4 DAT_1037f45c_t;
+#define DAT_1037f45c XI_EA(DAT_1037f45c_t, 0x1037F45Cu)
+typedef undefined4 DAT_1037f47c_t;
+#define DAT_1037f47c XI_EA(DAT_1037f47c_t, 0x1037F47Cu)
+typedef undefined4 DAT_1037f488_t;
+#define DAT_1037f488 XI_EA(DAT_1037f488_t, 0x1037F488u)
+typedef undefined4 DAT_1037f4c8_t;
+#define DAT_1037f4c8 XI_EA(DAT_1037f4c8_t, 0x1037F4C8u)
+typedef undefined4 DAT_1037f4d0_t;
+#define DAT_1037f4d0 XI_EA(DAT_1037f4d0_t, 0x1037F4D0u)
+typedef undefined4 DAT_1037f568_t;
+#define DAT_1037f568 XI_EA(DAT_1037f568_t, 0x1037F568u)
+typedef undefined4 DAT_1037f590_t;
+#define DAT_1037f590 XI_EA(DAT_1037f590_t, 0x1037F590u)
+typedef undefined2 DAT_1037f5d0_t;
+#define DAT_1037f5d0 XI_EA(DAT_1037f5d0_t, 0x1037F5D0u)
+typedef undefined4 DAT_1037f630_t;
+#define DAT_1037f630 XI_EA(DAT_1037f630_t, 0x1037F630u)
+typedef undefined4 DAT_1037fac0_t;
+#define DAT_1037fac0 XI_EA(DAT_1037fac0_t, 0x1037FAC0u)
+typedef undefined4 DAT_1037fba0_t;
+#define DAT_1037fba0 XI_EA(DAT_1037fba0_t, 0x1037FBA0u)
+typedef undefined4 DAT_1037fc70_t;
+#define DAT_1037fc70 XI_EA(DAT_1037fc70_t, 0x1037FC70u)
+typedef undefined4 DAT_1037fce8_t;
+#define DAT_1037fce8 XI_EA(DAT_1037fce8_t, 0x1037FCE8u)
+typedef undefined4 DAT_1037fcec_t;
+#define DAT_1037fcec XI_EA(DAT_1037fcec_t, 0x1037FCECu)
+typedef undefined4 DAT_1037fd6c_t;
+#define DAT_1037fd6c XI_EA(DAT_1037fd6c_t, 0x1037FD6Cu)
+typedef undefined4 DAT_1037ffcc_t;
+#define DAT_1037ffcc XI_EA(DAT_1037ffcc_t, 0x1037FFCCu)
+typedef undefined4 DAT_10381208_t;
+#define DAT_10381208 XI_EA(DAT_10381208_t, 0x10381208u)
+typedef undefined * DAT_1038120c_t;
+#define DAT_1038120c XI_EA(DAT_1038120c_t, 0x1038120Cu)
+typedef undefined4 DAT_1038122c_t;
+#define DAT_1038122c XI_EA(DAT_1038122c_t, 0x1038122Cu)
+typedef undefined4 DAT_103812cc_t;
+#define DAT_103812cc XI_EA(DAT_103812cc_t, 0x103812CCu)
+typedef undefined4 DAT_10381648_t;
+#define DAT_10381648 XI_EA(DAT_10381648_t, 0x10381648u)
+typedef undefined4 DAT_1038164c_t;
+#define DAT_1038164c XI_EA(DAT_1038164c_t, 0x1038164Cu)
+typedef undefined4 DAT_1038174c_t;
+#define DAT_1038174c XI_EA(DAT_1038174c_t, 0x1038174Cu)
+typedef undefined4 DAT_1038184c_t;
+#define DAT_1038184c XI_EA(DAT_1038184c_t, 0x1038184Cu)
+typedef undefined4 DAT_10381b88_t;
+#define DAT_10381b88 XI_EA(DAT_10381b88_t, 0x10381B88u)
+typedef undefined * DAT_10381b8c_t;
+#define DAT_10381b8c XI_EA(DAT_10381b8c_t, 0x10381B8Cu)
+typedef undefined4 DAT_10381bac_t;
+#define DAT_10381bac XI_EA(DAT_10381bac_t, 0x10381BACu)
+typedef undefined4 DAT_10381cac_t;
+#define DAT_10381cac XI_EA(DAT_10381cac_t, 0x10381CACu)
 typedef undefined2 DAT_103821f0_t;
 #define DAT_103821f0 XI_EA(DAT_103821f0_t, 0x103821F0u)
 typedef undefined4 DAT_103821f4_t;
@@ -2725,12 +3587,34 @@ typedef undefined4 DAT_103821fa_t;
 #define DAT_103821fa XI_EA(DAT_103821fa_t, 0x103821FAu)
 typedef undefined4 DAT_103821fc_t;
 #define DAT_103821fc XI_EA(DAT_103821fc_t, 0x103821FCu)
+typedef char s_______10384fe4_t[1];
+#define s_______10384fe4 XI_EA(s_______10384fe4_t, 0x10384FE4u)
+typedef char s___c__d__10384fec_t[1];
+#define s___c__d__10384fec XI_EA(s___c__d__10384fec_t, 0x10384FECu)
+typedef char s_menu_mapv3_10384ff4_t[1];
+#define s_menu_mapv3_10384ff4 XI_EA(s_menu_mapv3_10384ff4_t, 0x10384FF4u)
+typedef char s_M_03d_02d__08d_MRK_10385008_t[1];
+#define s_M_03d_02d__08d_MRK_10385008 XI_EA(s_M_03d_02d__08d_MRK_10385008_t, 0x10385008u)
+typedef char s_M_03d_02d_MRK_1038501c_t[1];
+#define s_M_03d_02d_MRK_1038501c XI_EA(s_M_03d_02d_MRK_1038501c_t, 0x1038501Cu)
+typedef char s_menu_map0_1038502c_t[1];
+#define s_menu_map0_1038502c XI_EA(s_menu_map0_1038502c_t, 0x1038502Cu)
+typedef char s_menu_mapscan_10385040_t[1];
+#define s_menu_mapscan_10385040 XI_EA(s_menu_mapscan_10385040_t, 0x10385040u)
+typedef char s_menu_scanlist_10385054_t[1];
+#define s_menu_scanlist_10385054 XI_EA(s_menu_scanlist_10385054_t, 0x10385054u)
+typedef char s_menu_mapv2_10385068_t[1];
+#define s_menu_mapv2_10385068 XI_EA(s_menu_mapv2_10385068_t, 0x10385068u)
 typedef undefined2 DAT_10385274_t;
 #define DAT_10385274 XI_EA(DAT_10385274_t, 0x10385274u)
+typedef undefined4 DAT_10385290_t;
+#define DAT_10385290 XI_EA(DAT_10385290_t, 0x10385290u)
 typedef undefined4 DAT_103852ac_t;
 #define DAT_103852ac XI_EA(DAT_103852ac_t, 0x103852ACu)
 typedef char DAT_103852b0_t;
 #define DAT_103852b0 XI_EA(DAT_103852b0_t, 0x103852B0u)
+typedef undefined4 DAT_10385420_t;
+#define DAT_10385420 XI_EA(DAT_10385420_t, 0x10385420u)
 typedef undefined2 DAT_103859bc_t;
 #define DAT_103859bc XI_EA(DAT_103859bc_t, 0x103859BCu)
 typedef undefined2 DAT_103859d4_t;
@@ -2753,12 +3637,16 @@ typedef undefined4 DAT_10385ea0_t;
 #define DAT_10385ea0 XI_EA(DAT_10385ea0_t, 0x10385EA0u)
 typedef undefined4 DAT_10385eb0_t;
 #define DAT_10385eb0 XI_EA(DAT_10385eb0_t, 0x10385EB0u)
+typedef uint32_t DAT_10385ecc_t;
+#define DAT_10385ecc XI_EA(DAT_10385ecc_t, 0x10385ECCu)
 typedef undefined1 DAT_10385ed0_t;
 #define DAT_10385ed0 XI_EA(DAT_10385ed0_t, 0x10385ED0u)
 typedef undefined * PTR_DAT_10385ed4_t;
 #define PTR_DAT_10385ed4 XI_EA(PTR_DAT_10385ed4_t, 0x10385ED4u)
 typedef char u_jmolknpq_10385ee8_t[1];
 #define u_jmolknpq_10385ee8 XI_EA(u_jmolknpq_10385ee8_t, 0x10385EE8u)
+typedef char s__d___d_10385f08_t[1];
+#define s__d___d_10385f08 XI_EA(s__d___d_10385f08_t, 0x10385F08u)
 typedef undefined4 DAT_10385f14_t;
 #define DAT_10385f14 XI_EA(DAT_10385f14_t, 0x10385F14u)
 typedef char s_x__02d_10385f1c_t[1];
@@ -2777,6 +3665,16 @@ typedef undefined2 DAT_10385f6c_t;
 #define DAT_10385f6c XI_EA(DAT_10385f6c_t, 0x10385F6Cu)
 typedef undefined * PTR_s_menu_windowps_10385f70_t;
 #define PTR_s_menu_windowps_10385f70 XI_EA(PTR_s_menu_windowps_10385f70_t, 0x10385F70u)
+typedef undefined4 DAT_10386158_t;
+#define DAT_10386158 XI_EA(DAT_10386158_t, 0x10386158u)
+typedef undefined4 DAT_10386278_t;
+#define DAT_10386278 XI_EA(DAT_10386278_t, 0x10386278u)
+typedef undefined4 DAT_1038627c_t;
+#define DAT_1038627c XI_EA(DAT_1038627c_t, 0x1038627Cu)
+typedef undefined4 DAT_10386280_t;
+#define DAT_10386280 XI_EA(DAT_10386280_t, 0x10386280u)
+typedef undefined4 DAT_10386284_t;
+#define DAT_10386284 XI_EA(DAT_10386284_t, 0x10386284u)
 typedef undefined4 DAT_103862c4_t;
 #define DAT_103862c4 XI_EA(DAT_103862c4_t, 0x103862C4u)
 typedef undefined1 DAT_103869c4_t;
@@ -2845,8 +3743,20 @@ typedef char s_D__build0001_FFXi_Win_Main_dance_1038969c_t[1];
 #define s_D__build0001_FFXi_Win_Main_dance_1038969c XI_EA(s_D__build0001_FFXi_Win_Main_dance_1038969c_t, 0x1038969Cu)
 typedef char s_jo_02d_103896cc_t[1];
 #define s_jo_02d_103896cc XI_EA(s_jo_02d_103896cc_t, 0x103896CCu)
+typedef char s_____Error__Chn_file_not_found____103896e0_t[1];
+#define s_____Error__Chn_file_not_found____103896e0 XI_EA(s_____Error__Chn_file_not_found____103896e0_t, 0x103896E0u)
+typedef char s_____Error__StChannelItemLoad___c_10389704_t[1];
+#define s_____Error__StChannelItemLoad___c_10389704 XI_EA(s_____Error__StChannelItemLoad___c_10389704_t, 0x10389704u)
 typedef char s_D__build0001_FFXi_Win_Main_dance_10389748_t[1];
 #define s_D__build0001_FFXi_Win_Main_dance_10389748 XI_EA(s_D__build0001_FFXi_Win_Main_dance_10389748_t, 0x10389748u)
+typedef char s_____Error__sqmoChannelBuildSQO___10389778_t[1];
+#define s_____Error__sqmoChannelBuildSQO___10389778 XI_EA(s_____Error__sqmoChannelBuildSQO___10389778_t, 0x10389778u)
+typedef char g_103897A8_t[1];
+#define g_103897A8 XI_EA(g_103897A8_t, 0x103897A8u)
+typedef char s_____StChannelItemResolve____call_103897c0_t[1];
+#define s_____StChannelItemResolve____call_103897c0 XI_EA(s_____StChannelItemResolve____call_103897c0_t, 0x103897C0u)
+typedef char s_____StChannelItemResolve____call_103897f8_t[1];
+#define s_____StChannelItemResolve____call_103897f8 XI_EA(s_____StChannelItemResolve____call_103897f8_t, 0x103897F8u)
 typedef char s_____Error__StChannelItemRegister_10389830_t[1];
 #define s_____Error__StChannelItemRegister_10389830 XI_EA(s_____Error__StChannelItemRegister_10389830_t, 0x10389830u)
 typedef float kF_0_9874_t[7];
@@ -2873,6 +3783,24 @@ typedef char s_D__build0001_FFXi_Win_Main_dance_10389a74_t[1];
 #define s_D__build0001_FFXi_Win_Main_dance_10389a74 XI_EA(s_D__build0001_FFXi_Win_Main_dance_10389a74_t, 0x10389A74u)
 typedef char s_StModelItemClear_A___called_with_10389aa4_t[1];
 #define s_StModelItemClear_A___called_with_10389aa4 XI_EA(s_StModelItemClear_A___called_with_10389aa4_t, 0x10389AA4u)
+typedef char g_10389ADC_t[1];
+#define g_10389ADC XI_EA(g_10389ADC_t, 0x10389ADCu)
+typedef char g_10389AF4_t[1];
+#define g_10389AF4 XI_EA(g_10389AF4_t, 0x10389AF4u)
+typedef char g_10389B0C_t[1];
+#define g_10389B0C XI_EA(g_10389B0C_t, 0x10389B0Cu)
+typedef char s_____Error__StModelItemReadStart__10389b28_t[1];
+#define s_____Error__StModelItemReadStart__10389b28 XI_EA(s_____Error__StModelItemReadStart__10389b28_t, 0x10389B28u)
+typedef char s_____Error__DMP_file_not_found____10389b68_t[1];
+#define s_____Error__DMP_file_not_found____10389b68 XI_EA(s_____Error__DMP_file_not_found____10389b68_t, 0x10389B68u)
+typedef char s_____Error__DMB_file_not_found____10389b8c_t[1];
+#define s_____Error__DMB_file_not_found____10389b8c XI_EA(s_____Error__DMB_file_not_found____10389b8c_t, 0x10389B8Cu)
+typedef char s_____StModelItemResolve____called_10389bc8_t[1];
+#define s_____StModelItemResolve____called_10389bc8 XI_EA(s_____StModelItemResolve____called_10389bc8_t, 0x10389BC8u)
+typedef char s_____Error__sqmdDMBResolve__p___p_10389bfc_t[1];
+#define s_____Error__sqmdDMBResolve__p___p_10389bfc XI_EA(s_____Error__sqmdDMBResolve__p___p_10389bfc_t, 0x10389BFCu)
+typedef char s_____StModelItemResolve____called_10389c28_t[1];
+#define s_____StModelItemResolve____called_10389c28 XI_EA(s_____StModelItemResolve____called_10389c28_t, 0x10389C28u)
 typedef undefined1 DAT_10389c64_t;
 #define DAT_10389c64 XI_EA(DAT_10389c64_t, 0x10389C64u)
 typedef char s_____Error__Trigger_file_not_foun_10389c6c_t[1];
@@ -2887,6 +3815,8 @@ typedef undefined4 DAT_10389d10_t;
 #define DAT_10389d10 XI_EA(DAT_10389d10_t, 0x10389D10u)
 typedef undefined4 DAT_10389d14_t;
 #define DAT_10389d14 XI_EA(DAT_10389d14_t, 0x10389D14u)
+typedef undefined4 DAT_10389d18_t;
+#define DAT_10389d18 XI_EA(DAT_10389d18_t, 0x10389D18u)
 typedef undefined * PTR_Read_10389dac_t;
 #define PTR_Read_10389dac XI_EA(PTR_Read_10389dac_t, 0x10389DACu)
 typedef void * PTR_DAT_10389db0_t;
@@ -2897,6 +3827,14 @@ typedef void * PTR_DAT_10389e30_t;
 #define PTR_DAT_10389e30 XI_EA(PTR_DAT_10389e30_t, 0x10389E30u)
 typedef void * PTR_DAT_10389e70_t;
 #define PTR_DAT_10389e70 XI_EA(PTR_DAT_10389e70_t, 0x10389E70u)
+typedef undefined4 DAT_10389eb0_t;
+#define DAT_10389eb0 XI_EA(DAT_10389eb0_t, 0x10389EB0u)
+typedef undefined4 DAT_10389eb4_t;
+#define DAT_10389eb4 XI_EA(DAT_10389eb4_t, 0x10389EB4u)
+typedef undefined4 DAT_10389eb8_t;
+#define DAT_10389eb8 XI_EA(DAT_10389eb8_t, 0x10389EB8u)
+typedef undefined4 DAT_10389ebc_t;
+#define DAT_10389ebc XI_EA(DAT_10389ebc_t, 0x10389EBCu)
 typedef char DAT_10389ec0_t;
 #define DAT_10389ec0 XI_EA(DAT_10389ec0_t, 0x10389EC0u)
 typedef undefined1 DAT_10389ec1_t;
@@ -2919,6 +3857,12 @@ typedef void * PTR_Read_10389fe0_t;
 #define PTR_Read_10389fe0 XI_EA(PTR_Read_10389fe0_t, 0x10389FE0u)
 typedef void * PTR_DAT_1038a020_t;
 #define PTR_DAT_1038a020 XI_EA(PTR_DAT_1038a020_t, 0x1038A020u)
+typedef undefined * PTR_DAT_1038a160_t;
+#define PTR_DAT_1038a160 XI_EA(PTR_DAT_1038a160_t, 0x1038A160u)
+typedef undefined * PTR_DAT_1038a164_t;
+#define PTR_DAT_1038a164 XI_EA(PTR_DAT_1038a164_t, 0x1038A164u)
+typedef undefined * PTR_s_solch_1038a168_t;
+#define PTR_s_solch_1038a168 XI_EA(PTR_s_solch_1038a168_t, 0x1038A168u)
 typedef char s_etwas_1038a26c_t[1];
 #define s_etwas_1038a26c XI_EA(s_etwas_1038a26c_t, 0x1038A26Cu)
 typedef undefined4 DAT_1038a274_t;
@@ -2961,6 +3905,8 @@ typedef undefined * PTR_DAT_1038a314_t;
 #define PTR_DAT_1038a314 XI_EA(PTR_DAT_1038a314_t, 0x1038A314u)
 typedef undefined * PTR_DAT_1038a318_t;
 #define PTR_DAT_1038a318 XI_EA(PTR_DAT_1038a318_t, 0x1038A318u)
+typedef undefined4 DAT_1038a350_t;
+#define DAT_1038a350 XI_EA(DAT_1038a350_t, 0x1038A350u)
 typedef undefined4 DAT_1038a364_t;
 #define DAT_1038a364 XI_EA(DAT_1038a364_t, 0x1038A364u)
 typedef undefined4 DAT_1038a374_t;
@@ -2969,8 +3915,16 @@ typedef undefined4 DAT_1038a378_t;
 #define DAT_1038a378 XI_EA(DAT_1038a378_t, 0x1038A378u)
 typedef undefined4 DAT_1038a37c_t;
 #define DAT_1038a37c XI_EA(DAT_1038a37c_t, 0x1038A37Cu)
+typedef undefined4 DAT_1038a388_t;
+#define DAT_1038a388 XI_EA(DAT_1038a388_t, 0x1038A388u)
+typedef undefined4 DAT_1038a548_t;
+#define DAT_1038a548 XI_EA(DAT_1038a548_t, 0x1038A548u)
+typedef undefined4 DAT_1038a708_t;
+#define DAT_1038a708 XI_EA(DAT_1038a708_t, 0x1038A708u)
 typedef undefined * PTR_s_menu_frames_1038a8d0_t;
 #define PTR_s_menu_frames_1038a8d0 XI_EA(PTR_s_menu_frames_1038a8d0_t, 0x1038A8D0u)
+typedef undefined4 DAT_1038ab08_t;
+#define DAT_1038ab08 XI_EA(DAT_1038ab08_t, 0x1038AB08u)
 typedef undefined * PTR_DAT_1038accc_t;
 #define PTR_DAT_1038accc XI_EA(PTR_DAT_1038accc_t, 0x1038ACCCu)
 typedef char s_chnArray_103b17a8_t[1];
@@ -2983,6 +3937,10 @@ typedef char g_103B19C0_t[1];
 #define g_103B19C0 XI_EA(g_103B19C0_t, 0x103B19C0u)
 typedef char s_Error__mdlRegister___will_overfl_103b19d0_t[1];
 #define s_Error__mdlRegister___will_overfl_103b19d0 XI_EA(s_Error__mdlRegister___will_overfl_103b19d0_t, 0x103B19D0u)
+typedef char s_Locked____d__First____d_103b1a0c_t[1];
+#define s_Locked____d__First____d_103b1a0c XI_EA(s_Locked____d__First____d_103b1a0c_t, 0x103B1A0Cu)
+typedef char s_____Warning__Forced_to_destroy_L_103b1a2c_t[1];
+#define s_____Warning__Forced_to_destroy_L_103b1a2c XI_EA(s_____Warning__Forced_to_destroy_L_103b1a2c_t, 0x103B1A2Cu)
 typedef char s_Error__mdlChannelRegister___will_103b1ac0_t[1];
 #define s_Error__mdlChannelRegister___will_103b1ac0 XI_EA(s_Error__mdlChannelRegister___will_103b1ac0_t, 0x103B1AC0u)
 typedef char s_Error__Couldn_t_register_channel_103b1b04_t[1];
@@ -3019,22 +3977,140 @@ typedef char s_C__dev_dancer_tools_mdlview_src__103b24f4_t[1];
 #define s_C__dev_dancer_tools_mdlview_src__103b24f4 XI_EA(s_C__dev_dancer_tools_mdlview_src__103b24f4_t, 0x103B24F4u)
 typedef char s_____Error__Couldn_t_find_link__d_103b2784_t[1];
 #define s_____Error__Couldn_t_find_link__d_103b2784 XI_EA(s_____Error__Couldn_t_find_link__d_103b2784_t, 0x103B2784u)
+typedef char s__f__f__f__f_103b27c8_t[1];
+#define s__f__f__f__f_103b27c8 XI_EA(s__f__f__f__f_103b27c8_t, 0x103B27C8u)
+typedef int DAT_103b27e8_t;
+#define DAT_103b27e8 XI_EA(DAT_103b27e8_t, 0x103B27E8u)
+typedef char s_Timer_failed_103b27ec_t[1];
+#define s_Timer_failed_103b27ec XI_EA(s_Timer_failed_103b27ec_t, 0x103B27ECu)
+typedef char s_Warning_in__s__line__d__103b27fc_t[1];
+#define s_Warning_in__s__line__d__103b27fc XI_EA(s_Warning_in__s__line__d__103b27fc_t, 0x103B27FCu)
+typedef char s_C__dev_dancer_modules_sqBase_src_103b2818_t[1];
+#define s_C__dev_dancer_modules_sqBase_src_103b2818 XI_EA(s_C__dev_dancer_modules_sqBase_src_103b2818_t, 0x103B2818u)
 typedef undefined4 DAT_103b2848_t;
 #define DAT_103b2848 XI_EA(DAT_103b2848_t, 0x103B2848u)
+typedef char s_VALID_103b2850_t[1];
+#define s_VALID_103b2850 XI_EA(s_VALID_103b2850_t, 0x103B2850u)
+typedef char s____________103b2950_t[1];
+#define s____________103b2950 XI_EA(s____________103b2950_t, 0x103B2950u)
+typedef char s_Memory_check_successful_103b295c_t[1];
+#define s_Memory_check_successful_103b295c XI_EA(s_Memory_check_successful_103b295c_t, 0x103B295Cu)
+typedef char s_sqMemCheck____________103b2978_t[1];
+#define s_sqMemCheck____________103b2978 XI_EA(s_sqMemCheck____________103b2978_t, 0x103B2978u)
+typedef char s___78s_103b2aa0_t[1];
+#define s___78s_103b2aa0 XI_EA(s___78s_103b2aa0_t, 0x103B2AA0u)
+typedef char s_Error__memory_pool___d__already_c_103b2aa8_t[1];
+#define s_Error__memory_pool___d__already_c_103b2aa8 XI_EA(s_Error__memory_pool___d__already_c_103b2aa8_t, 0x103B2AA8u)
+typedef char s_poolSize____d_bytes_103b2adc_t[1];
+#define s_poolSize____d_bytes_103b2adc XI_EA(s_poolSize____d_bytes_103b2adc_t, 0x103B2ADCu)
+typedef char s_poolMem___0x_08X_103b2af4_t[1];
+#define s_poolMem___0x_08X_103b2af4 XI_EA(s_poolMem___0x_08X_103b2af4_t, 0x103B2AF4u)
+typedef char s_couldn_t_realign_memory_103b2b0c_t[1];
+#define s_couldn_t_realign_memory_103b2b0c XI_EA(s_couldn_t_realign_memory_103b2b0c_t, 0x103B2B0Cu)
+typedef char s_Warning__poolMem__0x_08X__not__d_103b2b28_t[1];
+#define s_Warning__poolMem__0x_08X__not__d_103b2b28 XI_EA(s_Warning__poolMem__0x_08X__not__d_103b2b28_t, 0x103B2B28u)
+typedef char s_Hi___0x_08X_103b2b58_t[1];
+#define s_Hi___0x_08X_103b2b58 XI_EA(s_Hi___0x_08X_103b2b58_t, 0x103B2B58u)
+typedef char s_Lo___0x_08X_103b2b6c_t[1];
+#define s_Lo___0x_08X_103b2b6c XI_EA(s_Lo___0x_08X_103b2b6c_t, 0x103B2B6Cu)
+typedef char s_Head___0x_08X_103b2b80_t[1];
+#define s_Head___0x_08X_103b2b80 XI_EA(s_Head___0x_08X_103b2b80_t, 0x103B2B80u)
+typedef char s_Size____d_bytes_103b2b94_t[1];
+#define s_Size____d_bytes_103b2b94 XI_EA(s_Size____d_bytes_103b2b94_t, 0x103B2B94u)
+typedef char s__2d___Memory_Pool___s___s_103b2bac_t[1];
+#define s__2d___Memory_Pool___s___s_103b2bac XI_EA(s__2d___Memory_Pool___s___s_103b2bac_t, 0x103B2BACu)
+typedef char s_CURRENT_103b2bc8_t[1];
+#define s_CURRENT_103b2bc8 XI_EA(s_CURRENT_103b2bc8_t, 0x103B2BC8u)
+typedef char s_Invalid_size___sqRealloc__d_byte_103b2c68_t[1];
+#define s_Invalid_size___sqRealloc__d_byte_103b2c68 XI_EA(s_Invalid_size___sqRealloc__d_byte_103b2c68_t, 0x103B2C68u)
+typedef char s__sqRealloc_memory_move_warning__103b2ca0_t[1];
+#define s__sqRealloc_memory_move_warning__103b2ca0 XI_EA(s__sqRealloc_memory_move_warning__103b2ca0_t, 0x103B2CA0u)
+typedef char s_Memory_pool_full___sqRealloc__d_b_103b2cc4_t[1];
+#define s_Memory_pool_full___sqRealloc__d_b_103b2cc4 XI_EA(s_Memory_pool_full___sqRealloc__d_b_103b2cc4_t, 0x103B2CC4u)
+typedef char s_block_info_____s___d__103b2cfc_t[1];
+#define s_block_info_____s___d__103b2cfc XI_EA(s_block_info_____s___d__103b2cfc_t, 0x103B2CFCu)
+typedef char s__sqRealloc_encountered_corrupt_m_103b2d18_t[1];
+#define s__sqRealloc_encountered_corrupt_m_103b2d18 XI_EA(s__sqRealloc_encountered_corrupt_m_103b2d18_t, 0x103B2D18u)
+typedef char s_called_from____s___d__103b2d4c_t[1];
+#define s_called_from____s___d__103b2d4c XI_EA(s_called_from____s___d__103b2d4c_t, 0x103B2D4Cu)
+typedef char s_Invalid_realloc_address__0x_08x__103b2d68_t[1];
+#define s_Invalid_realloc_address__0x_08x__103b2d68 XI_EA(s_Invalid_realloc_address__0x_08x__103b2d68_t, 0x103B2D68u)
+typedef char s__sqFree_encountered_bad_memory_b_103b2d8c_t[1];
+#define s__sqFree_encountered_bad_memory_b_103b2d8c XI_EA(s__sqFree_encountered_bad_memory_b_103b2d8c_t, 0x103B2D8Cu)
+typedef char s_Attempt_to_free_moved_memory_in___103b2dc8_t[1];
+#define s_Attempt_to_free_moved_memory_in___103b2dc8 XI_EA(s_Attempt_to_free_moved_memory_in___103b2dc8_t, 0x103B2DC8u)
+typedef char s_Attempt_to_refree_memory_in___s__103b2df8_t[1];
+#define s_Attempt_to_refree_memory_in___s__103b2df8 XI_EA(s_Attempt_to_refree_memory_in___s__103b2df8_t, 0x103B2DF8u)
+typedef char s_Attempt_to_free_NULL_address_in___103b2e24_t[1];
+#define s_Attempt_to_free_NULL_address_in___103b2e24 XI_EA(s_Attempt_to_free_NULL_address_in___103b2e24_t, 0x103B2E24u)
 typedef char s_C__dev_dancer_modules_sqGrafix_s_103b2e54_t[1];
 #define s_C__dev_dancer_modules_sqGrafix_s_103b2e54 XI_EA(s_C__dev_dancer_modules_sqGrafix_s_103b2e54_t, 0x103B2E54u)
+typedef char s_sqsdAnisoSetNumDrawTris__Number_o_103b36f8_t[1];
+#define s_sqsdAnisoSetNumDrawTris__Number_o_103b36f8 XI_EA(s_sqsdAnisoSetNumDrawTris__Number_o_103b36f8_t, 0x103B36F8u)
+typedef char s_Number_of_triangles___d__must_be_103b3758_t[1];
+#define s_Number_of_triangles___d__must_be_103b3758 XI_EA(s_Number_of_triangles___d__must_be_103b3758_t, 0x103B3758u)
 typedef char s_Error_in__s__line__d__103b379c_t[1];
 #define s_Error_in__s__line__d__103b379c XI_EA(s_Error_in__s__line__d__103b379c_t, 0x103B379Cu)
+typedef char s_C__dev_dancer_modules_sqShader_s_103b37b4_t[1];
+#define s_C__dev_dancer_modules_sqShader_s_103b37b4 XI_EA(s_C__dev_dancer_modules_sqShader_s_103b37b4_t, 0x103B37B4u)
 typedef char s_C__dev_dancer_modules_sqModel_sr_103b37ec_t[1];
 #define s_C__dev_dancer_modules_sqModel_sr_103b37ec XI_EA(s_C__dev_dancer_modules_sqModel_sr_103b37ec_t, 0x103B37ECu)
+typedef char s_model_is_not_linked__validation_f_103b381c_t[1];
+#define s_model_is_not_linked__validation_f_103b381c XI_EA(s_model_is_not_linked__validation_f_103b381c_t, 0x103B381Cu)
+typedef char s_model_is_not_loaded__validation_f_103b3848_t[1];
+#define s_model_is_not_loaded__validation_f_103b3848 XI_EA(s_model_is_not_loaded__validation_f_103b3848_t, 0x103B3848u)
 typedef char s_____Error__sqmdDMBHdr_not_found_c_103b3874_t[1];
 #define s_____Error__sqmdDMBHdr_not_found_c_103b3874 XI_EA(s_____Error__sqmdDMBHdr_not_found_c_103b3874_t, 0x103B3874u)
+typedef char s_aborting___s__command__103b3ae4_t[1];
+#define s_aborting___s__command__103b3ae4 XI_EA(s_aborting___s__command__103b3ae4_t, 0x103B3AE4u)
+typedef char s_sqmdModelUpdate_103b3afc_t[1];
+#define s_sqmdModelUpdate_103b3afc XI_EA(s_sqmdModelUpdate_103b3afc_t, 0x103B3AFCu)
+typedef char s_eyelash_103b3b0c_t[1];
+#define s_eyelash_103b3b0c XI_EA(s_eyelash_103b3b0c_t, 0x103B3B0Cu)
+typedef char s_model_is_not_loaded__aborting____103b3b14_t[1];
+#define s_model_is_not_loaded__aborting____103b3b14 XI_EA(s_model_is_not_loaded__aborting____103b3b14_t, 0x103B3B14u)
+typedef undefined4 DAT_103b3b44_t;
+#define DAT_103b3b44 XI_EA(DAT_103b3b44_t, 0x103B3B44u)
+typedef char s__s_sort_103b3b4c_t[1];
+#define s__s_sort_103b3b4c XI_EA(s__s_sort_103b3b4c_t, 0x103B3B4Cu)
+typedef char s_sqmdModelAddIllumLight_103b3b54_t[1];
+#define s_sqmdModelAddIllumLight_103b3b54 XI_EA(s_sqmdModelAddIllumLight_103b3b54_t, 0x103B3B54u)
+typedef char s_sqmdModelAddShadowLightInLayer_103b3ba4_t[1];
+#define s_sqmdModelAddShadowLightInLayer_103b3ba4 XI_EA(s_sqmdModelAddShadowLightInLayer_103b3ba4_t, 0x103B3BA4u)
 typedef char s_Error__sqmdModelLookAt___called_w_103b3c30_t[1];
 #define s_Error__sqmdModelLookAt___called_w_103b3c30 XI_EA(s_Error__sqmdModelLookAt___called_w_103b3c30_t, 0x103B3C30u)
+typedef char s_illegal_component_type__d_103b3cfc_t[1];
+#define s_illegal_component_type__d_103b3cfc XI_EA(s_illegal_component_type__d_103b3cfc_t, 0x103B3CFCu)
+typedef char s_index__d_is_larger_that_number_o_103b3d18_t[1];
+#define s_index__d_is_larger_that_number_o_103b3d18 XI_EA(s_index__d_is_larger_that_number_o_103b3d18_t, 0x103B3D18u)
+typedef char s_negative_array_index__d__103b3d54_t[1];
+#define s_negative_array_index__d__103b3d54 XI_EA(s_negative_array_index__d__103b3d54_t, 0x103B3D54u)
 typedef char s_untitled_103b3d70_t[1];
 #define s_untitled_103b3d70 XI_EA(s_untitled_103b3d70_t, 0x103B3D70u)
+typedef char s_illegal_tag_type__d_103b3d7c_t[1];
+#define s_illegal_tag_type__d_103b3d7c XI_EA(s_illegal_tag_type__d_103b3d7c_t, 0x103B3D7Cu)
+typedef char s_object___s__of_type__s_not_found_103b3d94_t[1];
+#define s_object___s__of_type__s_not_found_103b3d94 XI_EA(s_object___s__of_type__s_not_found_103b3d94_t, 0x103B3D94u)
+typedef char s_undefined_103b3eb8_t[1];
+#define s_undefined_103b3eb8 XI_EA(s_undefined_103b3eb8_t, 0x103B3EB8u)
+typedef char s_matrix_103b3ec4_t[1];
+#define s_matrix_103b3ec4 XI_EA(s_matrix_103b3ec4_t, 0x103B3EC4u)
+typedef char s_shape_103b3ecc_t[1];
+#define s_shape_103b3ecc XI_EA(s_shape_103b3ecc_t, 0x103B3ECCu)
+typedef char s_updater_103b3ed4_t[1];
+#define s_updater_103b3ed4 XI_EA(s_updater_103b3ed4_t, 0x103B3ED4u)
+typedef char s_shader_103b3edc_t[1];
+#define s_shader_103b3edc XI_EA(s_shader_103b3edc_t, 0x103B3EDCu)
+typedef char s_texture_103b3ee4_t[1];
+#define s_texture_103b3ee4 XI_EA(s_texture_103b3ee4_t, 0x103B3EE4u)
+typedef char s_QfInvert__can_t_invert_the_singu_103b408c_t[1];
+#define s_QfInvert__can_t_invert_the_singu_103b408c XI_EA(s_QfInvert__can_t_invert_the_singu_103b408c_t, 0x103B408Cu)
+typedef char s_C__dev_dancer_modules_sqBase_src_103b40c0_t[1];
+#define s_C__dev_dancer_modules_sqBase_src_103b40c0 XI_EA(s_C__dev_dancer_modules_sqBase_src_103b40c0_t, 0x103B40C0u)
 typedef char s_C__dev_dancer_modules_sqSkeleton_103b40ec_t[1];
 #define s_C__dev_dancer_modules_sqSkeleton_103b40ec XI_EA(s_C__dev_dancer_modules_sqSkeleton_103b40ec_t, 0x103B40ECu)
+typedef char s_bone_is_not_found_in_a_skeleton_103b44fc_t[1];
+#define s_bone_is_not_found_in_a_skeleton_103b44fc XI_EA(s_bone_is_not_found_in_a_skeleton_103b44fc_t, 0x103B44FCu)
 typedef char s_node_index__d_is_out_of_range__0_103b4520_t[1];
 #define s_node_index__d_is_out_of_range__0_103b4520 XI_EA(s_node_index__d_is_out_of_range__0_103b4520_t, 0x103B4520u)
 typedef char s_C__dev_dancer_modules_sqMotion_s_103b4584_t[1];
@@ -3043,6 +4119,12 @@ typedef char s_entry__d_out_of_range__d_103b45b4_t[1];
 #define s_entry__d_out_of_range__d_103b45b4 XI_EA(s_entry__d_out_of_range__d_103b45b4_t, 0x103B45B4u)
 typedef char s_chnItemRegister_sqo_103b46e8_t[1];
 #define s_chnItemRegister_sqo_103b46e8 XI_EA(s_chnItemRegister_sqo_103b46e8_t, 0x103B46E8u)
+typedef char s__f__f__f__f__103b47ec_t[1];
+#define s__f__f__f__f__103b47ec XI_EA(s__f__f__f__f__103b47ec_t, 0x103B47ECu)
+typedef char s__f__f__f__f_103b47fc_t[1];
+#define s__f__f__f__f_103b47fc XI_EA(s__f__f__f__f_103b47fc_t, 0x103B47FCu)
+typedef char s___f__f__f__f_103b480c_t[1];
+#define s___f__f__f__f_103b480c XI_EA(s___f__f__f__f_103b480c_t, 0x103B480Cu)
 typedef undefined4 _DAT_103b484c_t;
 #define _DAT_103b484c XI_EA(_DAT_103b484c_t, 0x103B484Cu)
 typedef char aErrorCouldNotL_t[1];
@@ -3061,6 +4143,12 @@ typedef int g_sqgxVertexShaderKeyA_t[];
 #define g_sqgxVertexShaderKeyA XI_EA(g_sqgxVertexShaderKeyA_t, 0x103B5910u)
 typedef int g_sqgxVertexShaderKeyB_t[2047];
 #define g_sqgxVertexShaderKeyB XI_EA(g_sqgxVertexShaderKeyB_t, 0x103B5914u)
+typedef char g_103B7974_t[1];
+#define g_103B7974 XI_EA(g_103B7974_t, 0x103B7974u)
+typedef char s_C__dev_dancer_modules_sqMotion_s_103b79a8_t[1];
+#define s_C__dev_dancer_modules_sqMotion_s_103b79a8 XI_EA(s_C__dev_dancer_modules_sqMotion_s_103b79a8_t, 0x103B79A8u)
+typedef char s_____Error__memPtr_0x_08X__not_an_103b7a04_t[1];
+#define s_____Error__memPtr_0x_08X__not_an_103b7a04 XI_EA(s_____Error__memPtr_0x_08X__not_an_103b7a04_t, 0x103B7A04u)
 typedef char s_C__dev_dancer_modules_sqMotion_s_103b7ad8_t[1];
 #define s_C__dev_dancer_modules_sqMotion_s_103b7ad8 XI_EA(s_C__dev_dancer_modules_sqMotion_s_103b7ad8_t, 0x103B7AD8u)
 typedef char s_____Error__FrameChannel_version_m_103b7b08_t[1];
@@ -3087,10 +4175,90 @@ typedef char s_accum__103b7be8_t[1];
 #define s_accum__103b7be8 XI_EA(s_accum__103b7be8_t, 0x103B7BE8u)
 typedef char s_____Error__PlaybackChannel_versi_103b7bf4_t[1];
 #define s_____Error__PlaybackChannel_versi_103b7bf4 XI_EA(s_____Error__PlaybackChannel_versi_103b7bf4_t, 0x103B7BF4u)
+typedef char s_C__dev_dancer_modules_sqBase_src_103b7c6c_t[1];
+#define s_C__dev_dancer_modules_sqBase_src_103b7c6c XI_EA(s_C__dev_dancer_modules_sqBase_src_103b7c6c_t, 0x103B7C6Cu)
+typedef char g_103B7C98_t[1];
+#define g_103B7C98 XI_EA(g_103B7C98_t, 0x103B7C98u)
 typedef char s__06ld__adding__d_align_bytes_103b8850_t[1];
 #define s__06ld__adding__d_align_bytes_103b8850 XI_EA(s__06ld__adding__d_align_bytes_103b8850_t, 0x103B8850u)
+typedef char s_____Error__sqmdDMBResolve___call_103b8a4c_t[1];
+#define s_____Error__sqmdDMBResolve___call_103b8a4c XI_EA(s_____Error__sqmdDMBResolve___call_103b8a4c_t, 0x103B8A4Cu)
+typedef char g_103B8A8C_t[1];
+#define g_103B8A8C XI_EA(g_103B8A8C_t, 0x103B8A8Cu)
+typedef char g_103B8AC0_t[1];
+#define g_103B8AC0 XI_EA(g_103B8AC0_t, 0x103B8AC0u)
+typedef char g_103B8AF4_t[1];
+#define g_103B8AF4 XI_EA(g_103B8AF4_t, 0x103B8AF4u)
+typedef char g_103B8B2C_t[1];
+#define g_103B8B2C XI_EA(g_103B8B2C_t, 0x103B8B2Cu)
+typedef char g_103B8B60_t[1];
+#define g_103B8B60 XI_EA(g_103B8B60_t, 0x103B8B60u)
+typedef char g_103B8B94_t[1];
+#define g_103B8B94 XI_EA(g_103B8B94_t, 0x103B8B94u)
+typedef char g_103B8BC4_t[1];
+#define g_103B8BC4 XI_EA(g_103B8BC4_t, 0x103B8BC4u)
+typedef char g_103B8BF8_t[1];
+#define g_103B8BF8 XI_EA(g_103B8BF8_t, 0x103B8BF8u)
+typedef char g_103B8C28_t[1];
+#define g_103B8C28 XI_EA(g_103B8C28_t, 0x103B8C28u)
+typedef char g_103B8C54_t[1];
+#define g_103B8C54 XI_EA(g_103B8C54_t, 0x103B8C54u)
+typedef char g_103B8C84_t[1];
+#define g_103B8C84 XI_EA(g_103B8C84_t, 0x103B8C84u)
+typedef char g_103B8CB0_t[1];
+#define g_103B8CB0 XI_EA(g_103B8CB0_t, 0x103B8CB0u)
+typedef char g_103B8CE4_t[1];
+#define g_103B8CE4 XI_EA(g_103B8CE4_t, 0x103B8CE4u)
+typedef char g_103B8D14_t[1];
+#define g_103B8D14 XI_EA(g_103B8D14_t, 0x103B8D14u)
+typedef char g_103B8D44_t[1];
+#define g_103B8D44 XI_EA(g_103B8D44_t, 0x103B8D44u)
+typedef char g_103B8D78_t[1];
+#define g_103B8D78 XI_EA(g_103B8D78_t, 0x103B8D78u)
+typedef char g_103B8DA8_t[1];
+#define g_103B8DA8 XI_EA(g_103B8DA8_t, 0x103B8DA8u)
+typedef char g_103B8DDC_t[1];
+#define g_103B8DDC XI_EA(g_103B8DDC_t, 0x103B8DDCu)
+typedef char g_103B8E0C_t[1];
+#define g_103B8E0C XI_EA(g_103B8E0C_t, 0x103B8E0Cu)
+typedef char g_103B8E40_t[1];
+#define g_103B8E40 XI_EA(g_103B8E40_t, 0x103B8E40u)
+typedef char s__06ld_____sqmdDMBResolve___103b8e70_t[1];
+#define s__06ld_____sqmdDMBResolve___103b8e70 XI_EA(s__06ld_____sqmdDMBResolve___103b8e70_t, 0x103B8E70u)
+typedef char s_____Error__sqmdDMBResolve___expe_103b8e8c_t[1];
+#define s_____Error__sqmdDMBResolve___expe_103b8e8c XI_EA(s_____Error__sqmdDMBResolve___expe_103b8e8c_t, 0x103B8E8Cu)
 typedef char s__06ld__sqmdDMBAlignMem___adding___103b8ec8_t[1];
 #define s__06ld__sqmdDMBAlignMem___adding___103b8ec8 XI_EA(s__06ld__sqmdDMBAlignMem___adding___103b8ec8_t, 0x103B8EC8u)
+typedef char s__06ld__clutData___d_bytes__103b8ef8_t[1];
+#define s__06ld__clutData___d_bytes__103b8ef8 XI_EA(s__06ld__clutData___d_bytes__103b8ef8_t, 0x103B8EF8u)
+typedef char s_____Error__borrowTex_doesn_t_con_103b8f1c_t[1];
+#define s_____Error__borrowTex_doesn_t_con_103b8f1c XI_EA(s_____Error__borrowTex_doesn_t_con_103b8f1c_t, 0x103B8F1Cu)
+typedef char s_current__d_borrows_from__d_103b8f4c_t[1];
+#define s_current__d_borrows_from__d_103b8f4c XI_EA(s_current__d_borrows_from__d_103b8f4c_t, 0x103B8F4Cu)
+typedef char s_____Error__sqmdDMBResolveTexture_103b8f70_t[1];
+#define s_____Error__sqmdDMBResolveTexture_103b8f70 XI_EA(s_____Error__sqmdDMBResolveTexture_103b8f70_t, 0x103B8F70u)
+typedef char s__06ld__data___d_bytes__103b8fb8_t[1];
+#define s__06ld__data___d_bytes__103b8fb8 XI_EA(s__06ld__data___d_bytes__103b8fb8_t, 0x103B8FB8u)
+typedef char s__06ld__image_103b8fd8_t[1];
+#define s__06ld__image_103b8fd8 XI_EA(s__06ld__image_103b8fd8_t, 0x103B8FD8u)
+typedef char s__06ld__texture__3d_103b8fec_t[1];
+#define s__06ld__texture__3d_103b8fec XI_EA(s__06ld__texture__3d_103b8fec_t, 0x103B8FECu)
+typedef char s__06ld_____sqmdDMBResolveTextures_103b9004_t[1];
+#define s__06ld_____sqmdDMBResolveTextures_103b9004 XI_EA(s__06ld_____sqmdDMBResolveTextures_103b9004_t, 0x103B9004u)
+typedef char s_____Error__Encountered_unsupport_103b9028_t[1];
+#define s_____Error__Encountered_unsupport_103b9028 XI_EA(s_____Error__Encountered_unsupport_103b9028_t, 0x103B9028u)
+typedef char g_103B9058_t[1];
+#define g_103B9058 XI_EA(g_103B9058_t, 0x103B9058u)
+typedef char g_103B9074_t[1];
+#define g_103B9074 XI_EA(g_103B9074_t, 0x103B9074u)
+typedef char g_103B9094_t[1];
+#define g_103B9094 XI_EA(g_103B9094_t, 0x103B9094u)
+typedef char s__06ld_____sqmdDMBResolveShaders__103b90b0_t[1];
+#define s__06ld_____sqmdDMBResolveShaders__103b90b0 XI_EA(s__06ld_____sqmdDMBResolveShaders__103b90b0_t, 0x103B90B0u)
+typedef char s__word____d_103b90d4_t[1];
+#define s__word____d_103b90d4 XI_EA(s__word____d_103b90d4_t, 0x103B90D4u)
+typedef char s_____Error__sqmdDMBTextureLink___t_103b90e8_t[1];
+#define s_____Error__sqmdDMBTextureLink___t_103b90e8 XI_EA(s_____Error__sqmdDMBTextureLink___t_103b90e8_t, 0x103B90E8u)
 typedef char s__06ld_____sqmdDMBResolveMatrices_103b9134_t[1];
 #define s__06ld_____sqmdDMBResolveMatrices_103b9134 XI_EA(s__06ld_____sqmdDMBResolveMatrices_103b9134_t, 0x103B9134u)
 typedef char s__06ld__file_string__s_103b9158_t[1];
@@ -3099,6 +4267,42 @@ typedef char s__06ld__tag_string__s_103b9174_t[1];
 #define s__06ld__tag_string__s_103b9174 XI_EA(s__06ld__tag_string__s_103b9174_t, 0x103B9174u)
 typedef char s__06ld_____sqmdDMBResolveStrings__103b9190_t[1];
 #define s__06ld_____sqmdDMBResolveStrings__103b9190 XI_EA(s__06ld_____sqmdDMBResolveStrings__103b9190_t, 0x103B9190u)
+typedef char s_size____d_103b91b4_t[1];
+#define s_size____d_103b91b4 XI_EA(s_size____d_103b91b4_t, 0x103B91B4u)
+typedef char s_flags___0x_08X_103b91c4_t[1];
+#define s_flags___0x_08X_103b91c4 XI_EA(s_flags___0x_08X_103b91c4_t, 0x103B91C4u)
+typedef char s_shape__d_of__d_103b91d8_t[1];
+#define s_shape__d_of__d_103b91d8 XI_EA(s_shape__d_of__d_103b91d8_t, 0x103B91D8u)
+typedef char s_____Error__Non_shape_encountered_103b91ec_t[1];
+#define s_____Error__Non_shape_encountered_103b91ec XI_EA(s_____Error__Non_shape_encountered_103b91ec_t, 0x103B91ECu)
+typedef char s_____Error__sqshBuildSQO__p___d__f_103b921c_t[1];
+#define s_____Error__sqshBuildSQO__p___d__f_103b921c XI_EA(s_____Error__sqshBuildSQO__p___d__f_103b921c_t, 0x103B921Cu)
+typedef char s__06ld_____sqmdDMBBuildShapes___103b9244_t[1];
+#define s__06ld_____sqmdDMBBuildShapes___103b9244 XI_EA(s__06ld_____sqmdDMBBuildShapes___103b9244_t, 0x103B9244u)
+typedef char s_____Error__Non_updater_encounter_103b9264_t[1];
+#define s_____Error__Non_updater_encounter_103b9264 XI_EA(s_____Error__Non_updater_encounter_103b9264_t, 0x103B9264u)
+typedef char s_updater__d_of__d_103b9294_t[1];
+#define s_updater__d_of__d_103b9294 XI_EA(s_updater__d_of__d_103b9294_t, 0x103B9294u)
+typedef char s_____Error__sqmdDMBBuildUpdaters__103b92ac_t[1];
+#define s_____Error__sqmdDMBBuildUpdaters__103b92ac XI_EA(s_____Error__sqmdDMBBuildUpdaters__103b92ac_t, 0x103B92ACu)
+typedef char s_skel__d_expected_before_updater___103b92e4_t[1];
+#define s_skel__d_expected_before_updater___103b92e4 XI_EA(s_skel__d_expected_before_updater___103b92e4_t, 0x103B92E4u)
+typedef char s_shape__d_of__d_shapes_103b930c_t[1];
+#define s_shape__d_of__d_shapes_103b930c XI_EA(s_shape__d_of__d_shapes_103b930c_t, 0x103B930Cu)
+typedef char s_____Error__sqmdDMBBuildUpdaters__103b9328_t[1];
+#define s_____Error__sqmdDMBBuildUpdaters__103b9328 XI_EA(s_____Error__sqmdDMBBuildUpdaters__103b9328_t, 0x103B9328u)
+typedef char s_____Error__sqinBuildSQO__p___d__f_103b936c_t[1];
+#define s_____Error__sqinBuildSQO__p___d__f_103b936c XI_EA(s_____Error__sqinBuildSQO__p___d__f_103b936c_t, 0x103B936Cu)
+typedef char s_____Error__sqskBuildSQO__p___d__f_103b9394_t[1];
+#define s_____Error__sqskBuildSQO__p___d__f_103b9394 XI_EA(s_____Error__sqskBuildSQO__p___d__f_103b9394_t, 0x103B9394u)
+typedef char s_encounter__d___d_shapes__103b93bc_t[1];
+#define s_encounter__d___d_shapes__103b93bc XI_EA(s_encounter__d___d_shapes__103b93bc_t, 0x103B93BCu)
+typedef char s_____Error__sqmdDMBBuildUpdaters__103b93dc_t[1];
+#define s_____Error__sqmdDMBBuildUpdaters__103b93dc XI_EA(s_____Error__sqmdDMBBuildUpdaters__103b93dc_t, 0x103B93DCu)
+typedef char s__sort_103b9418_t[1];
+#define s__sort_103b9418 XI_EA(s__sort_103b9418_t, 0x103B9418u)
+typedef char s__06ld_____sqmdDMBBuildUpdaters___103b9420_t[1];
+#define s__06ld_____sqmdDMBBuildUpdaters___103b9420 XI_EA(s__06ld_____sqmdDMBBuildUpdaters___103b9420_t, 0x103B9420u)
 typedef char s_____Error__sqmdDMBResolveSkelRef_103b9444_t[1];
 #define s_____Error__sqmdDMBResolveSkelRef_103b9444 XI_EA(s_____Error__sqmdDMBResolveSkelRef_103b9444_t, 0x103B9444u)
 typedef char s_C__dev_dancer_modules_sqOpcode_s_103b9484_t[1];
@@ -3113,6 +4317,10 @@ typedef int g_sceneFadeMaskRT_t;
 #define g_sceneFadeMaskRT XI_EA(g_sceneFadeMaskRT_t, 0x103BA68Cu)
 typedef char s_C__dev_dancer_modules_sqScene_sr_103ba694_t[1];
 #define s_C__dev_dancer_modules_sqScene_sr_103ba694 XI_EA(s_C__dev_dancer_modules_sqScene_sr_103ba694_t, 0x103BA694u)
+typedef char s_too_many_lights_are_being_added_t_103ba94c_t[1];
+#define s_too_many_lights_are_being_added_t_103ba94c XI_EA(s_too_many_lights_are_being_added_t_103ba94c_t, 0x103BA94Cu)
+typedef char s_too_many_shadow_lights_are_being_103ba984_t[1];
+#define s_too_many_shadow_lights_are_being_103ba984 XI_EA(s_too_many_shadow_lights_are_being_103ba984_t, 0x103BA984u)
 typedef char s_Error__sqsnScenePreallocate___ca_103ba9c8_t[1];
 #define s_Error__sqsnScenePreallocate___ca_103ba9c8 XI_EA(s_Error__sqsnScenePreallocate___ca_103ba9c8_t, 0x103BA9C8u)
 typedef char s_Error__sqsnScenePreallocate___ca_103baa10_t[1];
@@ -3141,6 +4349,10 @@ typedef char s_C__dev_dancer_modules_sqHierarch_103baf34_t[1];
 #define s_C__dev_dancer_modules_sqHierarch_103baf34 XI_EA(s_C__dev_dancer_modules_sqHierarch_103baf34_t, 0x103BAF34u)
 typedef uint8_t DAT_103bb0c8_t;
 #define DAT_103bb0c8 XI_EA(DAT_103bb0c8_t, 0x103BB0C8u)
+typedef char s_swapping_non_2_aligned_data__exp_103bb0cc_t[1];
+#define s_swapping_non_2_aligned_data__exp_103bb0cc XI_EA(s_swapping_non_2_aligned_data__exp_103bb0cc_t, 0x103BB0CCu)
+typedef char s_C__dev_dancer_modules_sqBase_src_103bb100_t[1];
+#define s_C__dev_dancer_modules_sqBase_src_103bb100 XI_EA(s_C__dev_dancer_modules_sqBase_src_103bb100_t, 0x103BB100u)
 typedef char s_C__dev_dancer_modules_sqMotion_s_103bb254_t[1];
 #define s_C__dev_dancer_modules_sqMotion_s_103bb254 XI_EA(s_C__dev_dancer_modules_sqMotion_s_103bb254_t, 0x103BB254u)
 typedef char s_C__dev_dancer_modules_sqMotion_s_103bb558_t[1];
@@ -3161,12 +4373,62 @@ typedef char s_C__dev_dancer_modules_sqRend_src_103bbde4_t[1];
 #define s_C__dev_dancer_modules_sqRend_src_103bbde4 XI_EA(s_C__dev_dancer_modules_sqRend_src_103bbde4_t, 0x103BBDE4u)
 typedef char s_warning_not_implemented_yet_103bc04c_t[1];
 #define s_warning_not_implemented_yet_103bc04c XI_EA(s_warning_not_implemented_yet_103bc04c_t, 0x103BC04Cu)
+typedef char s_sqshBuildSQO_0x_08X___d__103bc128_t[1];
+#define s_sqshBuildSQO_0x_08X___d__103bc128 XI_EA(s_sqshBuildSQO_0x_08X___d__103bc128_t, 0x103BC128u)
+typedef char s_____Error__Unsupported_shape_typ_103bc148_t[1];
+#define s_____Error__Unsupported_shape_typ_103bc148 XI_EA(s_____Error__Unsupported_shape_typ_103bc148_t, 0x103BC148u)
+typedef char s_C__dev_dancer_modules_sqShape_sr_103bc174_t[1];
+#define s_C__dev_dancer_modules_sqShape_sr_103bc174 XI_EA(s_C__dev_dancer_modules_sqShape_sr_103bc174_t, 0x103BC174u)
+typedef char s_____Error__sqshTriStripNew___cau_103bc1a4_t[1];
+#define s_____Error__sqshTriStripNew___cau_103bc1a4 XI_EA(s_____Error__sqshTriStripNew___cau_103bc1a4_t, 0x103BC1A4u)
+typedef char s_____Error__TriStrip_version_mism_103bc1d8_t[1];
+#define s_____Error__TriStrip_version_mism_103bc1d8 XI_EA(s_____Error__TriStrip_version_mism_103bc1d8_t, 0x103BC1D8u)
 typedef char s_____Error__Invalid_vertex_number_103bc210_t[1];
 #define s_____Error__Invalid_vertex_number_103bc210 XI_EA(s_____Error__Invalid_vertex_number_103bc210_t, 0x103BC210u)
+typedef char s_____Error__sqshPointsNew___cause_103bc238_t[1];
+#define s_____Error__sqshPointsNew___cause_103bc238 XI_EA(s_____Error__sqshPointsNew___cause_103bc238_t, 0x103BC238u)
+typedef char s_____Error__Points_version_mismat_103bc26c_t[1];
+#define s_____Error__Points_version_mismat_103bc26c XI_EA(s_____Error__Points_version_mismat_103bc26c_t, 0x103BC26Cu)
+typedef char s_____Error__sqshCurvesNew___cause_103bc2a4_t[1];
+#define s_____Error__sqshCurvesNew___cause_103bc2a4 XI_EA(s_____Error__sqshCurvesNew___cause_103bc2a4_t, 0x103BC2A4u)
+typedef char s_____Error__Curves_version_mismat_103bc2d8_t[1];
+#define s_____Error__Curves_version_mismat_103bc2d8 XI_EA(s_____Error__Curves_version_mismat_103bc2d8_t, 0x103BC2D8u)
 typedef char s_C__dev_dancer_modules_sqSkin_src_103bc310_t[1];
 #define s_C__dev_dancer_modules_sqSkin_src_103bc310 XI_EA(s_C__dev_dancer_modules_sqSkin_src_103bc310_t, 0x103BC310u)
+typedef char s_____Error__Unknown_skin_type_0x0_103bc398_t[1];
+#define s_____Error__Unknown_skin_type_0x0_103bc398 XI_EA(s_____Error__Unknown_skin_type_0x0_103bc398_t, 0x103BC398u)
+typedef char s_sqinBuildSQO_0x_08X__0x_08X___d__103bc3c0_t[1];
+#define s_sqinBuildSQO_0x_08X__0x_08X___d__103bc3c0 XI_EA(s_sqinBuildSQO_0x_08X__0x_08X___d__103bc3c0_t, 0x103BC3C0u)
+typedef char s_____Error__Only_binary_formats_s_103bc3e8_t[1];
+#define s_____Error__Only_binary_formats_s_103bc3e8 XI_EA(s_____Error__Only_binary_formats_s_103bc3e8_t, 0x103BC3E8u)
+typedef char s_____Error__cluster__d___bad_vals_103bc414_t[1];
+#define s_____Error__cluster__d___bad_vals_103bc414 XI_EA(s_____Error__cluster__d___bad_vals_103bc414_t, 0x103BC414u)
+typedef char s_Error__cluster__d____d_weights_c_103bc440_t[1];
+#define s_Error__cluster__d____d_weights_c_103bc440 XI_EA(s_Error__cluster__d____d_weights_c_103bc440_t, 0x103BC440u)
+typedef char s_Error__cluster__d____d_ids_cause_103bc478_t[1];
+#define s_Error__cluster__d____d_ids_cause_103bc478 XI_EA(s_Error__cluster__d____d_ids_cause_103bc478_t, 0x103BC478u)
+typedef char s_C__dev_dancer_modules_sqSkin_src_103bc4ac_t[1];
+#define s_C__dev_dancer_modules_sqSkin_src_103bc4ac XI_EA(s_C__dev_dancer_modules_sqSkin_src_103bc4ac_t, 0x103BC4ACu)
+typedef char s_____Error__invalid_idMax__d__in_s_103bc4dc_t[1];
+#define s_____Error__invalid_idMax__d__in_s_103bc4dc XI_EA(s_____Error__invalid_idMax__d__in_s_103bc4dc_t, 0x103BC4DCu)
+typedef char s_____Error__invalid_clusterCount__103bc514_t[1];
+#define s_____Error__invalid_clusterCount__103bc514 XI_EA(s_____Error__invalid_clusterCount__103bc514_t, 0x103BC514u)
+typedef char s_____Error__Skin_version_mismatch_103bc554_t[1];
+#define s_____Error__Skin_version_mismatch_103bc554 XI_EA(s_____Error__Skin_version_mismatch_103bc554_t, 0x103BC554u)
+typedef char s_____Error__Only_binary_files_sup_103bc588_t[1];
+#define s_____Error__Only_binary_files_sup_103bc588 XI_EA(s_____Error__Only_binary_files_sup_103bc588_t, 0x103BC588u)
+typedef char s_sqskBuildSQO_0x_08X___d__103bc5b0_t[1];
+#define s_sqskBuildSQO_0x_08X___d__103bc5b0 XI_EA(s_sqskBuildSQO_0x_08X___d__103bc5b0_t, 0x103BC5B0u)
+typedef char s_____Error__Unknown_skeleton_type_103bc5d0_t[1];
+#define s_____Error__Unknown_skeleton_type_103bc5d0 XI_EA(s_____Error__Unknown_skeleton_type_103bc5d0_t, 0x103BC5D0u)
+typedef char s_____Error__invalid_boneCount__d__103bc5fc_t[1];
+#define s_____Error__invalid_boneCount__d__103bc5fc XI_EA(s_____Error__invalid_boneCount__d__103bc5fc_t, 0x103BC5FCu)
+typedef char s_____Error__Skeleton_version_mism_103bc634_t[1];
+#define s_____Error__Skeleton_version_mism_103bc634 XI_EA(s_____Error__Skeleton_version_mism_103bc634_t, 0x103BC634u)
 typedef char s_C__dev_dancer_modules_sqModel_sr_103bc66c_t[1];
 #define s_C__dev_dancer_modules_sqModel_sr_103bc66c XI_EA(s_C__dev_dancer_modules_sqModel_sr_103bc66c_t, 0x103BC66Cu)
+typedef char s_sort_updater_must_use_tri_strips_103bc69c_t[1];
+#define s_sort_updater_must_use_tri_strips_103bc69c XI_EA(s_sort_updater_must_use_tri_strips_103bc69c_t, 0x103BC69Cu)
 typedef char aCDevDancerModu_30_t[1];
 #define aCDevDancerModu_30 XI_EA(aCDevDancerModu_30_t, 0x103BC70Cu)
 typedef char s_Error__cannot_allocate_more_than_103bc744_t[1];
@@ -3183,12 +4445,28 @@ typedef char s_ERROR__shadow_group_does_not_cas_103bd604_t[1];
 #define s_ERROR__shadow_group_does_not_cas_103bd604 XI_EA(s_ERROR__shadow_group_does_not_cas_103bd604_t, 0x103BD604u)
 typedef char s_C__dev_dancer_modules_sqBase_src_103be750_t[1];
 #define s_C__dev_dancer_modules_sqBase_src_103be750 XI_EA(s_C__dev_dancer_modules_sqBase_src_103be750_t, 0x103BE750u)
+typedef char s_sqVtxAllocateField__slot__d_is_a_103be8e8_t[1];
+#define s_sqVtxAllocateField__slot__d_is_a_103be8e8 XI_EA(s_sqVtxAllocateField__slot__d_is_a_103be8e8_t, 0x103BE8E8u)
 typedef char s_C__dev_dancer_modules_sqShape_sr_103be980_t[1];
 #define s_C__dev_dancer_modules_sqShape_sr_103be980 XI_EA(s_C__dev_dancer_modules_sqShape_sr_103be980_t, 0x103BE980u)
+typedef char s_empty_or_missing_vertex__can_t___103beaa4_t[1];
+#define s_empty_or_missing_vertex__can_t___103beaa4 XI_EA(s_empty_or_missing_vertex__can_t___103beaa4_t, 0x103BEAA4u)
 typedef char s_C__dev_dancer_modules_sqShape_sr_103bec10_t[1];
 #define s_C__dev_dancer_modules_sqShape_sr_103bec10 XI_EA(s_C__dev_dancer_modules_sqShape_sr_103bec10_t, 0x103BEC10u)
 typedef char s_C__dev_dancer_modules_sqShape_sr_103bef68_t[1];
 #define s_C__dev_dancer_modules_sqShape_sr_103bef68 XI_EA(s_C__dev_dancer_modules_sqShape_sr_103bef68_t, 0x103BEF68u)
+typedef char s_compute_curve_normals_103bf024_t[1];
+#define s_compute_curve_normals_103bf024 XI_EA(s_compute_curve_normals_103bf024_t, 0x103BF024u)
+typedef char s_missing_normals_103bf03c_t[1];
+#define s_missing_normals_103bf03c XI_EA(s_missing_normals_103bf03c_t, 0x103BF03Cu)
+typedef char s_missing_control_vertices_103bf050_t[1];
+#define s_missing_control_vertices_103bf050 XI_EA(s_missing_control_vertices_103bf050_t, 0x103BF050u)
+typedef char s_compute_curve_tangents_103bf0dc_t[1];
+#define s_compute_curve_tangents_103bf0dc XI_EA(s_compute_curve_tangents_103bf0dc_t, 0x103BF0DCu)
+typedef char s_curve_with_less_than_2_points___103bf0f4_t[1];
+#define s_curve_with_less_than_2_points___103bf0f4 XI_EA(s_curve_with_less_than_2_points___103bf0f4_t, 0x103BF0F4u)
+typedef char s_missing_tangents_103bf118_t[1];
+#define s_missing_tangents_103bf118 XI_EA(s_missing_tangents_103bf118_t, 0x103BF118u)
 typedef char s_C__dev_dancer_modules_sqDeform_s_103bf324_t[1];
 #define s_C__dev_dancer_modules_sqDeform_s_103bf324 XI_EA(s_C__dev_dancer_modules_sqDeform_s_103bf324_t, 0x103BF324u)
 typedef char s__C__dev_dancer_modules_sqSkin_sr_103bf57f_t[1];
@@ -3211,6 +4489,8 @@ typedef uint32_t * DAT_103d3c88_as_v0_t;
 #define DAT_103d3c88_as_v0 XI_EA(DAT_103d3c88_as_v0_t, 0x103D3C88u)
 typedef int g_pAppSettings_t;
 #define g_pAppSettings XI_EA(g_pAppSettings_t, 0x103D3CB8u)
+typedef void * g_pAppSettings_as_v0_t;
+#define g_pAppSettings_as_v0 XI_EA(g_pAppSettings_as_v0_t, 0x103D3CB8u)
 typedef D3DHolder * g_pD3DHolder_t;
 #define g_pD3DHolder XI_EA(g_pD3DHolder_t, 0x103D3CBCu)
 typedef int g_pDebugOverlay_t;
@@ -3247,12 +4527,18 @@ typedef char DAT_10456549_t;
 #define DAT_10456549 XI_EA(DAT_10456549_t, 0x10456549u)
 typedef HMODULE DAT_1045654c_t;
 #define DAT_1045654c XI_EA(DAT_1045654c_t, 0x1045654Cu)
+typedef int DAT_1045654c_as_s32_t;
+#define DAT_1045654c_as_s32 XI_EA(DAT_1045654c_as_s32_t, 0x1045654Cu)
 typedef FARPROC DAT_10456550_t;
 #define DAT_10456550 XI_EA(DAT_10456550_t, 0x10456550u)
+typedef xi_codefn * DAT_10456550_as_v0_t;
+#define DAT_10456550_as_v0 XI_EA(DAT_10456550_as_v0_t, 0x10456550u)
 typedef FARPROC DAT_10456554_t;
 #define DAT_10456554 XI_EA(DAT_10456554_t, 0x10456554u)
 typedef FARPROC DAT_10456558_t;
 #define DAT_10456558 XI_EA(DAT_10456558_t, 0x10456558u)
+typedef xi_codefn * DAT_10456558_as_v0_t;
+#define DAT_10456558_as_v0 XI_EA(DAT_10456558_as_v0_t, 0x10456558u)
 typedef char CDx_DrawStereoOddFrameOverlay_staticGuard_t;
 #define CDx_DrawStereoOddFrameOverlay_staticGuard XI_EA(CDx_DrawStereoOddFrameOverlay_staticGuard_t, 0x10456560u)
 typedef CHAR g_currentDirectory_t[40];
@@ -3361,10 +4647,12 @@ typedef int g_modelsDrawnThisFrame_t;
 #define g_modelsDrawnThisFrame XI_EA(g_modelsDrawnThisFrame_t, 0x10456904u)
 typedef int g_modelDrawCallCount_t;
 #define g_modelDrawCallCount XI_EA(g_modelDrawCallCount_t, 0x10456908u)
-typedef undefined4 * DAT_1045690c_t;
+typedef undefined4 DAT_1045690c_t;
 #define DAT_1045690c XI_EA(DAT_1045690c_t, 0x1045690Cu)
-typedef undefined4 DAT_1045690c_as_v0_t;
+typedef int * DAT_1045690c_as_v0_t;
 #define DAT_1045690c_as_v0 XI_EA(DAT_1045690c_as_v0_t, 0x1045690Cu)
+typedef undefined4 * DAT_1045690c_as_v1_t;
+#define DAT_1045690c_as_v1 XI_EA(DAT_1045690c_as_v1_t, 0x1045690Cu)
 typedef int g_afterimageTex_t[];
 #define g_afterimageTex XI_EA(g_afterimageTex_t, 0x10456910u)
 typedef undefined4 g_afterimageTex_as_v0_t;
@@ -3455,6 +4743,8 @@ typedef undefined1 * _DAT_104569cc_t;
 #define _DAT_104569cc XI_EA(_DAT_104569cc_t, 0x104569CCu)
 typedef undefined1 g_sceneStateStorage_68_t;
 #define g_sceneStateStorage_68 XI_EA(g_sceneStateStorage_68_t, 0x104569ECu)
+typedef char g_sceneStateStorage_68_as_s8_t;
+#define g_sceneStateStorage_68_as_s8 XI_EA(g_sceneStateStorage_68_as_s8_t, 0x104569ECu)
 typedef undefined4 _DAT_104569f8_t;
 #define _DAT_104569f8 XI_EA(_DAT_104569f8_t, 0x104569F8u)
 typedef _BYTE g_sceneStateStorage_7C_t;
@@ -3467,6 +4757,10 @@ typedef uint32_t * g_pSceneState_as_v1_t;
 #define g_pSceneState_as_v1 XI_EA(g_pSceneState_as_v1_t, 0x10456A28u)
 typedef undefined4 * g_pSceneState_as_v2_t;
 #define g_pSceneState_as_v2 XI_EA(g_pSceneState_as_v2_t, 0x10456A28u)
+typedef void * g_pSceneState_as_v3_t;
+#define g_pSceneState_as_v3 XI_EA(g_pSceneState_as_v3_t, 0x10456A28u)
+typedef char DAT_10456a30_t;
+#define DAT_10456a30 XI_EA(DAT_10456a30_t, 0x10456A30u)
 typedef char DAT_10456a50_t;
 #define DAT_10456a50 XI_EA(DAT_10456a50_t, 0x10456A50u)
 typedef undefined1 DAT_10456a51_t;
@@ -3483,8 +4777,12 @@ typedef int g_windowMode_t;
 #define g_windowMode XI_EA(g_windowMode_t, 0x10456A7Cu)
 typedef int dword_10456A80_t;
 #define dword_10456A80 XI_EA(dword_10456A80_t, 0x10456A80u)
+typedef int DAT_10456a84_t;
+#define DAT_10456a84 XI_EA(DAT_10456a84_t, 0x10456A84u)
 typedef int g_cfgMenuResY_t;
 #define g_cfgMenuResY XI_EA(g_cfgMenuResY_t, 0x10456A90u)
+typedef int DAT_10456a94_t;
+#define DAT_10456a94 XI_EA(DAT_10456a94_t, 0x10456A94u)
 typedef int g_cfg0000_t;
 #define g_cfg0000 XI_EA(g_cfg0000_t, 0x10456A98u)
 typedef undefined1 g_cfg0000_as_v0_t;
@@ -3493,6 +4791,8 @@ typedef int g_cfgFontCompression_t;
 #define g_cfgFontCompression XI_EA(g_cfgFontCompression_t, 0x10456AA0u)
 typedef int g_cfg0023_t;
 #define g_cfg0023 XI_EA(g_cfg0023_t, 0x10456AA4u)
+typedef int DAT_10456aac_t;
+#define DAT_10456aac XI_EA(DAT_10456aac_t, 0x10456AACu)
 typedef undefined4 DAT_10456abc_t;
 #define DAT_10456abc XI_EA(DAT_10456abc_t, 0x10456ABCu)
 typedef int g_cfg0011_t;
@@ -3503,6 +4803,8 @@ typedef int g_shadowSetting_t;
 #define g_shadowSetting XI_EA(g_shadowSetting_t, 0x10456ACCu)
 typedef int g_depthBlurEnabled_Dead_t;
 #define g_depthBlurEnabled_Dead XI_EA(g_depthBlurEnabled_Dead_t, 0x10456AD8u)
+typedef char DAT_10456ae0_t;
+#define DAT_10456ae0 XI_EA(DAT_10456ae0_t, 0x10456AE0u)
 typedef int g_cfg0022_t;
 #define g_cfg0022 XI_EA(g_cfg0022_t, 0x10456BE4u)
 typedef undefined4 _DAT_10456be8_t;
@@ -3523,6 +4825,8 @@ typedef uint8_t DAT_10456c10_t;
 #define DAT_10456c10 XI_EA(DAT_10456c10_t, 0x10456C10u)
 typedef uint32_t DAT_10456c14_t;
 #define DAT_10456c14 XI_EA(DAT_10456c14_t, 0x10456C14u)
+typedef undefined1 DAT_10456c18_t;
+#define DAT_10456c18 XI_EA(DAT_10456c18_t, 0x10456C18u)
 typedef undefined1 DAT_10456d17_t;
 #define DAT_10456d17 XI_EA(DAT_10456d17_t, 0x10456D17u)
 typedef int g_pObj_Vtbl10329F8C_t;
@@ -3581,6 +4885,8 @@ typedef undefined4 DAT_10456d74_t;
 #define DAT_10456d74 XI_EA(DAT_10456d74_t, 0x10456D74u)
 typedef undefined4 _DAT_10456d78_t;
 #define _DAT_10456d78 XI_EA(_DAT_10456d78_t, 0x10456D78u)
+typedef float _DAT_10456d78_as_f32_t;
+#define _DAT_10456d78_as_f32 XI_EA(_DAT_10456d78_as_f32_t, 0x10456D78u)
 typedef undefined4 _DAT_10456d7c_t;
 #define _DAT_10456d7c XI_EA(_DAT_10456d7c_t, 0x10456D7Cu)
 typedef undefined4 DAT_10456d80_t;
@@ -3657,6 +4963,8 @@ typedef undefined * * DAT_10456fac_t;
 #define DAT_10456fac XI_EA(DAT_10456fac_t, 0x10456FACu)
 typedef int DAT_104570b0_t;
 #define DAT_104570b0 XI_EA(DAT_104570b0_t, 0x104570B0u)
+typedef undefined4 * DAT_104570b0_as_v0_t;
+#define DAT_104570b0_as_v0 XI_EA(DAT_104570b0_as_v0_t, 0x104570B0u)
 typedef void * DAT_104570b4_t;
 #define DAT_104570b4 XI_EA(DAT_104570b4_t, 0x104570B4u)
 typedef int DAT_104570b4_as_s32_t;
@@ -3669,6 +4977,8 @@ typedef void * DAT_104570bc_t;
 #define DAT_104570bc XI_EA(DAT_104570bc_t, 0x104570BCu)
 typedef int DAT_104570bc_as_s32_t;
 #define DAT_104570bc_as_s32 XI_EA(DAT_104570bc_as_s32_t, 0x104570BCu)
+typedef undefined4 DAT_104570bc_as_v1_t;
+#define DAT_104570bc_as_v1 XI_EA(DAT_104570bc_as_v1_t, 0x104570BCu)
 typedef void * DAT_104570c0_t;
 #define DAT_104570c0 XI_EA(DAT_104570c0_t, 0x104570C0u)
 typedef int DAT_104570c0_as_s32_t;
@@ -3677,6 +4987,8 @@ typedef void * DAT_104570c4_t;
 #define DAT_104570c4 XI_EA(DAT_104570c4_t, 0x104570C4u)
 typedef int DAT_104570c4_as_s32_t;
 #define DAT_104570c4_as_s32 XI_EA(DAT_104570c4_as_s32_t, 0x104570C4u)
+typedef undefined4 DAT_104570c4_as_v1_t;
+#define DAT_104570c4_as_v1 XI_EA(DAT_104570c4_as_v1_t, 0x104570C4u)
 typedef void * DAT_104570c8_t;
 #define DAT_104570c8 XI_EA(DAT_104570c8_t, 0x104570C8u)
 typedef int DAT_104570c8_as_s32_t;
@@ -3685,16 +4997,26 @@ typedef void * DAT_104570cc_t;
 #define DAT_104570cc XI_EA(DAT_104570cc_t, 0x104570CCu)
 typedef int DAT_104570cc_as_s32_t;
 #define DAT_104570cc_as_s32 XI_EA(DAT_104570cc_as_s32_t, 0x104570CCu)
+typedef undefined4 DAT_104570cc_as_v1_t;
+#define DAT_104570cc_as_v1 XI_EA(DAT_104570cc_as_v1_t, 0x104570CCu)
 typedef void * DAT_104570d0_t;
 #define DAT_104570d0 XI_EA(DAT_104570d0_t, 0x104570D0u)
 typedef int DAT_104570d0_as_s32_t;
 #define DAT_104570d0_as_s32 XI_EA(DAT_104570d0_as_s32_t, 0x104570D0u)
 typedef void * DAT_104570d4_t;
 #define DAT_104570d4 XI_EA(DAT_104570d4_t, 0x104570D4u)
+typedef int DAT_104570d4_as_s32_t;
+#define DAT_104570d4_as_s32 XI_EA(DAT_104570d4_as_s32_t, 0x104570D4u)
+typedef undefined4 DAT_104570d4_as_v1_t;
+#define DAT_104570d4_as_v1 XI_EA(DAT_104570d4_as_v1_t, 0x104570D4u)
 typedef void * DAT_104570d8_t;
 #define DAT_104570d8 XI_EA(DAT_104570d8_t, 0x104570D8u)
+typedef int DAT_104570d8_as_s32_t;
+#define DAT_104570d8_as_s32 XI_EA(DAT_104570d8_as_s32_t, 0x104570D8u)
 typedef uint32_t DAT_104570dc_t;
 #define DAT_104570dc XI_EA(DAT_104570dc_t, 0x104570DCu)
+typedef int DAT_104570dc_as_s32_t;
+#define DAT_104570dc_as_s32 XI_EA(DAT_104570dc_as_s32_t, 0x104570DCu)
 typedef int DAT_104570e0_t;
 #define DAT_104570e0 XI_EA(DAT_104570e0_t, 0x104570E0u)
 typedef undefined4 DAT_104570e0_as_v0_t;
@@ -3921,18 +5243,30 @@ typedef undefined1 DAT_10462438_t;
 #define DAT_10462438 XI_EA(DAT_10462438_t, 0x10462438u)
 typedef undefined4 DAT_10462538_t;
 #define DAT_10462538 XI_EA(DAT_10462538_t, 0x10462538u)
+typedef undefined4 * DAT_10462588_t;
+#define DAT_10462588 XI_EA(DAT_10462588_t, 0x10462588u)
 typedef undefined4 DAT_10462590_t;
 #define DAT_10462590 XI_EA(DAT_10462590_t, 0x10462590u)
 typedef undefined4 * DAT_10462690_t;
 #define DAT_10462690 XI_EA(DAT_10462690_t, 0x10462690u)
 typedef undefined4 * DAT_1046279c_t;
 #define DAT_1046279c XI_EA(DAT_1046279c_t, 0x1046279Cu)
+typedef undefined4 * DAT_104627c8_t;
+#define DAT_104627c8 XI_EA(DAT_104627c8_t, 0x104627C8u)
 typedef undefined4 * DAT_104627cc_t;
 #define DAT_104627cc XI_EA(DAT_104627cc_t, 0x104627CCu)
+typedef undefined4 * DAT_104627d0_t;
+#define DAT_104627d0 XI_EA(DAT_104627d0_t, 0x104627D0u)
+typedef undefined4 * DAT_104637d8_t;
+#define DAT_104637d8 XI_EA(DAT_104637d8_t, 0x104637D8u)
+typedef undefined4 * DAT_104637e0_t;
+#define DAT_104637e0 XI_EA(DAT_104637e0_t, 0x104637E0u)
 typedef undefined4 * DAT_104637e8_t;
 #define DAT_104637e8 XI_EA(DAT_104637e8_t, 0x104637E8u)
 typedef undefined1 DAT_104638f4_t;
 #define DAT_104638f4 XI_EA(DAT_104638f4_t, 0x104638F4u)
+typedef char DAT_104638f4_as_s8_t;
+#define DAT_104638f4_as_s8 XI_EA(DAT_104638f4_as_s8_t, 0x104638F4u)
 typedef char DAT_104638f5_t;
 #define DAT_104638f5 XI_EA(DAT_104638f5_t, 0x104638F5u)
 typedef void * DAT_104638f8_t;
@@ -3955,15 +5289,17 @@ typedef char DAT_10463909_as_s8_t;
 #define DAT_10463909_as_s8 XI_EA(DAT_10463909_as_s8_t, 0x10463909u)
 typedef uint32_t DAT_1046390c_t;
 #define DAT_1046390c XI_EA(DAT_1046390c_t, 0x1046390Cu)
+typedef int * DAT_1046390c_as_v0_t;
+#define DAT_1046390c_as_v0 XI_EA(DAT_1046390c_as_v0_t, 0x1046390Cu)
 typedef undefined4 DAT_10463910_t;
 #define DAT_10463910 XI_EA(DAT_10463910_t, 0x10463910u)
 typedef int DAT_10463910_as_s32_t;
 #define DAT_10463910_as_s32 XI_EA(DAT_10463910_as_s32_t, 0x10463910u)
-typedef void * DAT_10463914_t;
+typedef int DAT_10463914_t;
 #define DAT_10463914 XI_EA(DAT_10463914_t, 0x10463914u)
-typedef int DAT_10463914_as_s32_t;
-#define DAT_10463914_as_s32 XI_EA(DAT_10463914_as_s32_t, 0x10463914u)
-typedef undefined4 DAT_10463914_as_v1_t;
+typedef undefined4 DAT_10463914_as_v0_t;
+#define DAT_10463914_as_v0 XI_EA(DAT_10463914_as_v0_t, 0x10463914u)
+typedef void * DAT_10463914_as_v1_t;
 #define DAT_10463914_as_v1 XI_EA(DAT_10463914_as_v1_t, 0x10463914u)
 typedef undefined4 _DAT_10463918_t;
 #define _DAT_10463918 XI_EA(_DAT_10463918_t, 0x10463918u)
@@ -3973,6 +5309,8 @@ typedef int DAT_10463920_t;
 #define DAT_10463920 XI_EA(DAT_10463920_t, 0x10463920u)
 typedef undefined4 DAT_10463920_as_v0_t;
 #define DAT_10463920_as_v0 XI_EA(DAT_10463920_as_v0_t, 0x10463920u)
+typedef char DAT_10463924_t;
+#define DAT_10463924 XI_EA(DAT_10463924_t, 0x10463924u)
 typedef int * DAT_10463928_t;
 #define DAT_10463928 XI_EA(DAT_10463928_t, 0x10463928u)
 typedef int * DAT_1046392c_t;
@@ -3985,12 +5323,24 @@ typedef undefined4 * DAT_10463938_t;
 #define DAT_10463938 XI_EA(DAT_10463938_t, 0x10463938u)
 typedef int DAT_1046393c_t;
 #define DAT_1046393c XI_EA(DAT_1046393c_t, 0x1046393Cu)
+typedef void * DAT_1046393c_as_v0_t;
+#define DAT_1046393c_as_v0 XI_EA(DAT_1046393c_as_v0_t, 0x1046393Cu)
+typedef int DAT_10463940_t;
+#define DAT_10463940 XI_EA(DAT_10463940_t, 0x10463940u)
 typedef int DAT_10463944_t;
 #define DAT_10463944 XI_EA(DAT_10463944_t, 0x10463944u)
 typedef int * DAT_10463948_t;
 #define DAT_10463948 XI_EA(DAT_10463948_t, 0x10463948u)
+typedef undefined4 DAT_1046394f_t;
+#define DAT_1046394f XI_EA(DAT_1046394f_t, 0x1046394Fu)
 typedef int dword_10463950_t;
 #define dword_10463950 XI_EA(dword_10463950_t, 0x10463950u)
+typedef undefined1 dword_10463950_as_v0_t;
+#define dword_10463950_as_v0 XI_EA(dword_10463950_as_v0_t, 0x10463950u)
+typedef undefined1 DAT_10463951_t;
+#define DAT_10463951 XI_EA(DAT_10463951_t, 0x10463951u)
+typedef undefined4 DAT_10463952_t;
+#define DAT_10463952 XI_EA(DAT_10463952_t, 0x10463952u)
 typedef int dword_1047B950_t;
 #define dword_1047B950 XI_EA(dword_1047B950_t, 0x1047B950u)
 typedef int g_sceneCaptureTint_t;
@@ -4027,6 +5377,8 @@ typedef int g_pVbMng_t;
 #define g_pVbMng XI_EA(g_pVbMng_t, 0x1047B974u)
 typedef undefined4 g_pVbMng_as_v0_t;
 #define g_pVbMng_as_v0 XI_EA(g_pVbMng_as_v0_t, 0x1047B974u)
+typedef void * g_pVbMng_as_v1_t;
+#define g_pVbMng_as_v1 XI_EA(g_pVbMng_as_v1_t, 0x1047B974u)
 typedef int g_pVertexBufferListHead_t;
 #define g_pVertexBufferListHead XI_EA(g_pVertexBufferListHead_t, 0x1047B978u)
 typedef void * g_pVertexBufferListHead_as_v0_t;
@@ -4051,10 +5403,22 @@ typedef char CMoDistMorphElem_ApplyMorph_staticGuards_t;
 #define CMoDistMorphElem_ApplyMorph_staticGuards XI_EA(CMoDistMorphElem_ApplyMorph_staticGuards_t, 0x1047B9E4u)
 typedef _DWORD CMoDistMorphElem_ApplyMorph_stateBlock_t[3];
 #define CMoDistMorphElem_ApplyMorph_stateBlock XI_EA(CMoDistMorphElem_ApplyMorph_stateBlock_t, 0x1047B9E8u)
+typedef undefined4 Fn10040220_stateBlock4_t;
+#define Fn10040220_stateBlock4 XI_EA(Fn10040220_stateBlock4_t, 0x1047B9F4u)
+typedef undefined4 Fn10040220_stateBlock6_t;
+#define Fn10040220_stateBlock6 XI_EA(Fn10040220_stateBlock6_t, 0x1047BA00u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock4_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock4 XI_EA(CMoDistModelElem_DrawMesh_stateBlock4_t, 0x1047BA0Cu)
 typedef char CMoDistModelElem_DrawMesh_staticGuards_t;
 #define CMoDistModelElem_DrawMesh_staticGuards XI_EA(CMoDistModelElem_DrawMesh_staticGuards_t, 0x1047BA28u)
+typedef uint8_t Fn10040220_staticGuards_t;
+#define Fn10040220_staticGuards XI_EA(Fn10040220_staticGuards_t, 0x1047BA29u)
+typedef undefined4 Fn10040220_stateBlock3_t;
+#define Fn10040220_stateBlock3 XI_EA(Fn10040220_stateBlock3_t, 0x1047BA50u)
+typedef undefined4 Fn10040220_stateBlock_t;
+#define Fn10040220_stateBlock XI_EA(Fn10040220_stateBlock_t, 0x1047BA5Cu)
+typedef undefined4 Fn10040220_stateBlock2_t;
+#define Fn10040220_stateBlock2 XI_EA(Fn10040220_stateBlock2_t, 0x1047BA68u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock XI_EA(CMoDistModelElem_DrawMesh_stateBlock_t, 0x1047BA74u)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock3_t[3];
@@ -4063,6 +5427,8 @@ typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock2_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock2 XI_EA(CMoDistModelElem_DrawMesh_stateBlock2_t, 0x1047BA8Cu)
 typedef _DWORD CMoDistModelElem_DrawMesh_stateBlock5_t[3];
 #define CMoDistModelElem_DrawMesh_stateBlock5 XI_EA(CMoDistModelElem_DrawMesh_stateBlock5_t, 0x1047BA98u)
+typedef undefined4 Fn10040220_stateBlock5_t;
+#define Fn10040220_stateBlock5 XI_EA(Fn10040220_stateBlock5_t, 0x1047BAA8u)
 typedef int CMoDist_vf18_static_BB04_t;
 #define CMoDist_vf18_static_BB04 XI_EA(CMoDist_vf18_static_BB04_t, 0x1047BB04u)
 typedef int CMoDist_vf18_static_BB08_t;
@@ -4167,6 +5533,10 @@ typedef undefined4 g_zoneFogOut3_as_v0_t;
 #define g_zoneFogOut3_as_v0 XI_EA(g_zoneFogOut3_as_v0_t, 0x1047BBF8u)
 typedef int g_scratchValue_t;
 #define g_scratchValue XI_EA(g_scratchValue_t, 0x1047BC0Cu)
+typedef uint32_t g_scratchValue_as_v0_t;
+#define g_scratchValue_as_v0 XI_EA(g_scratchValue_as_v0_t, 0x1047BC0Cu)
+typedef undefined4 g_scratchValue_as_v1_t;
+#define g_scratchValue_as_v1 XI_EA(g_scratchValue_as_v1_t, 0x1047BC0Cu)
 typedef undefined4 Fn10045920_static_BC10_t;
 #define Fn10045920_static_BC10 XI_EA(Fn10045920_static_BC10_t, 0x1047BC10u)
 typedef undefined4 Fn10045920_static_BC14_t;
@@ -4215,6 +5585,8 @@ typedef int Fn10054D70_lookAtUp_z_t;
 #define Fn10054D70_lookAtUp_z XI_EA(Fn10054D70_lookAtUp_z_t, 0x1047BC84u)
 typedef int DAT_1047bc8c_t;
 #define DAT_1047bc8c XI_EA(DAT_1047bc8c_t, 0x1047BC8Cu)
+typedef undefined4 DAT_1047bc90_t;
+#define DAT_1047bc90 XI_EA(DAT_1047bc90_t, 0x1047BC90u)
 typedef void * dword_1047BC94_t;
 #define dword_1047BC94 XI_EA(dword_1047BC94_t, 0x1047BC94u)
 typedef undefined4 Fn10057E10_static_BEF8_t;
@@ -4253,6 +5625,136 @@ typedef char Fn1006C530_staticGuards_t;
 #define Fn1006C530_staticGuards XI_EA(Fn1006C530_staticGuards_t, 0x1047CADCu)
 typedef char Fn1006C530_stateBlock_t[1];
 #define Fn1006C530_stateBlock XI_EA(Fn1006C530_stateBlock_t, 0x1047CAE0u)
+typedef undefined4 DAT_1047caf0_t;
+#define DAT_1047caf0 XI_EA(DAT_1047caf0_t, 0x1047CAF0u)
+typedef undefined4 DAT_1047caf4_t;
+#define DAT_1047caf4 XI_EA(DAT_1047caf4_t, 0x1047CAF4u)
+typedef undefined4 _DAT_1047caf8_t;
+#define _DAT_1047caf8 XI_EA(_DAT_1047caf8_t, 0x1047CAF8u)
+typedef undefined4 _DAT_1047cafc_t;
+#define _DAT_1047cafc XI_EA(_DAT_1047cafc_t, 0x1047CAFCu)
+typedef undefined4 _DAT_1047cb00_t;
+#define _DAT_1047cb00 XI_EA(_DAT_1047cb00_t, 0x1047CB00u)
+typedef undefined4 _DAT_1047cb04_t;
+#define _DAT_1047cb04 XI_EA(_DAT_1047cb04_t, 0x1047CB04u)
+typedef undefined4 _DAT_1047cb08_t;
+#define _DAT_1047cb08 XI_EA(_DAT_1047cb08_t, 0x1047CB08u)
+typedef undefined4 _DAT_1047cb0c_t;
+#define _DAT_1047cb0c XI_EA(_DAT_1047cb0c_t, 0x1047CB0Cu)
+typedef undefined4 _DAT_1047cb10_t;
+#define _DAT_1047cb10 XI_EA(_DAT_1047cb10_t, 0x1047CB10u)
+typedef undefined4 _DAT_1047cb14_t;
+#define _DAT_1047cb14 XI_EA(_DAT_1047cb14_t, 0x1047CB14u)
+typedef undefined4 _DAT_1047cb18_t;
+#define _DAT_1047cb18 XI_EA(_DAT_1047cb18_t, 0x1047CB18u)
+typedef undefined4 _DAT_1047cb1c_t;
+#define _DAT_1047cb1c XI_EA(_DAT_1047cb1c_t, 0x1047CB1Cu)
+typedef undefined4 _DAT_1047cb20_t;
+#define _DAT_1047cb20 XI_EA(_DAT_1047cb20_t, 0x1047CB20u)
+typedef undefined4 _DAT_1047cb24_t;
+#define _DAT_1047cb24 XI_EA(_DAT_1047cb24_t, 0x1047CB24u)
+typedef undefined4 _DAT_1047cb28_t;
+#define _DAT_1047cb28 XI_EA(_DAT_1047cb28_t, 0x1047CB28u)
+typedef undefined4 _DAT_1047cb2c_t;
+#define _DAT_1047cb2c XI_EA(_DAT_1047cb2c_t, 0x1047CB2Cu)
+typedef float DAT_1047cb30_t;
+#define DAT_1047cb30 XI_EA(DAT_1047cb30_t, 0x1047CB30u)
+typedef undefined4 DAT_1047cb34_t;
+#define DAT_1047cb34 XI_EA(DAT_1047cb34_t, 0x1047CB34u)
+typedef float _DAT_1047cb38_t;
+#define _DAT_1047cb38 XI_EA(_DAT_1047cb38_t, 0x1047CB38u)
+typedef undefined4 _DAT_1047cb3c_t;
+#define _DAT_1047cb3c XI_EA(_DAT_1047cb3c_t, 0x1047CB3Cu)
+typedef undefined4 _DAT_1047cb40_t;
+#define _DAT_1047cb40 XI_EA(_DAT_1047cb40_t, 0x1047CB40u)
+typedef undefined4 _DAT_1047cb44_t;
+#define _DAT_1047cb44 XI_EA(_DAT_1047cb44_t, 0x1047CB44u)
+typedef undefined4 _DAT_1047cb48_t;
+#define _DAT_1047cb48 XI_EA(_DAT_1047cb48_t, 0x1047CB48u)
+typedef undefined4 _DAT_1047cb4c_t;
+#define _DAT_1047cb4c XI_EA(_DAT_1047cb4c_t, 0x1047CB4Cu)
+typedef float _DAT_1047cb50_t;
+#define _DAT_1047cb50 XI_EA(_DAT_1047cb50_t, 0x1047CB50u)
+typedef undefined4 _DAT_1047cb54_t;
+#define _DAT_1047cb54 XI_EA(_DAT_1047cb54_t, 0x1047CB54u)
+typedef float _DAT_1047cb58_t;
+#define _DAT_1047cb58 XI_EA(_DAT_1047cb58_t, 0x1047CB58u)
+typedef undefined4 _DAT_1047cb5c_t;
+#define _DAT_1047cb5c XI_EA(_DAT_1047cb5c_t, 0x1047CB5Cu)
+typedef undefined4 _DAT_1047cb60_t;
+#define _DAT_1047cb60 XI_EA(_DAT_1047cb60_t, 0x1047CB60u)
+typedef undefined4 _DAT_1047cb64_t;
+#define _DAT_1047cb64 XI_EA(_DAT_1047cb64_t, 0x1047CB64u)
+typedef undefined4 _DAT_1047cb68_t;
+#define _DAT_1047cb68 XI_EA(_DAT_1047cb68_t, 0x1047CB68u)
+typedef undefined4 _DAT_1047cb6c_t;
+#define _DAT_1047cb6c XI_EA(_DAT_1047cb6c_t, 0x1047CB6Cu)
+typedef undefined4 DAT_1047cbb0_t;
+#define DAT_1047cbb0 XI_EA(DAT_1047cbb0_t, 0x1047CBB0u)
+typedef undefined4 _DAT_1047cbb4_t;
+#define _DAT_1047cbb4 XI_EA(_DAT_1047cbb4_t, 0x1047CBB4u)
+typedef undefined4 _DAT_1047cbb8_t;
+#define _DAT_1047cbb8 XI_EA(_DAT_1047cbb8_t, 0x1047CBB8u)
+typedef undefined4 _DAT_1047cbbc_t;
+#define _DAT_1047cbbc XI_EA(_DAT_1047cbbc_t, 0x1047CBBCu)
+typedef undefined4 _DAT_1047cbc0_t;
+#define _DAT_1047cbc0 XI_EA(_DAT_1047cbc0_t, 0x1047CBC0u)
+typedef float _DAT_1047cbc4_t;
+#define _DAT_1047cbc4 XI_EA(_DAT_1047cbc4_t, 0x1047CBC4u)
+typedef float _DAT_1047cbc8_t;
+#define _DAT_1047cbc8 XI_EA(_DAT_1047cbc8_t, 0x1047CBC8u)
+typedef undefined4 _DAT_1047cbcc_t;
+#define _DAT_1047cbcc XI_EA(_DAT_1047cbcc_t, 0x1047CBCCu)
+typedef undefined4 _DAT_1047cbd0_t;
+#define _DAT_1047cbd0 XI_EA(_DAT_1047cbd0_t, 0x1047CBD0u)
+typedef float _DAT_1047cbd4_t;
+#define _DAT_1047cbd4 XI_EA(_DAT_1047cbd4_t, 0x1047CBD4u)
+typedef float _DAT_1047cbd8_t;
+#define _DAT_1047cbd8 XI_EA(_DAT_1047cbd8_t, 0x1047CBD8u)
+typedef undefined4 _DAT_1047cbdc_t;
+#define _DAT_1047cbdc XI_EA(_DAT_1047cbdc_t, 0x1047CBDCu)
+typedef undefined4 _DAT_1047cbe0_t;
+#define _DAT_1047cbe0 XI_EA(_DAT_1047cbe0_t, 0x1047CBE0u)
+typedef undefined4 _DAT_1047cbe4_t;
+#define _DAT_1047cbe4 XI_EA(_DAT_1047cbe4_t, 0x1047CBE4u)
+typedef undefined4 _DAT_1047cbe8_t;
+#define _DAT_1047cbe8 XI_EA(_DAT_1047cbe8_t, 0x1047CBE8u)
+typedef undefined4 _DAT_1047cbec_t;
+#define _DAT_1047cbec XI_EA(_DAT_1047cbec_t, 0x1047CBECu)
+typedef float DAT_1047cbf0_t;
+#define DAT_1047cbf0 XI_EA(DAT_1047cbf0_t, 0x1047CBF0u)
+typedef undefined4 DAT_1047cbf0_as_v0_t;
+#define DAT_1047cbf0_as_v0 XI_EA(DAT_1047cbf0_as_v0_t, 0x1047CBF0u)
+typedef float _DAT_1047cbf4_t;
+#define _DAT_1047cbf4 XI_EA(_DAT_1047cbf4_t, 0x1047CBF4u)
+typedef undefined4 _DAT_1047cbf8_t;
+#define _DAT_1047cbf8 XI_EA(_DAT_1047cbf8_t, 0x1047CBF8u)
+typedef undefined4 _DAT_1047cbfc_t;
+#define _DAT_1047cbfc XI_EA(_DAT_1047cbfc_t, 0x1047CBFCu)
+typedef float _DAT_1047cc00_t;
+#define _DAT_1047cc00 XI_EA(_DAT_1047cc00_t, 0x1047CC00u)
+typedef float _DAT_1047cc04_t;
+#define _DAT_1047cc04 XI_EA(_DAT_1047cc04_t, 0x1047CC04u)
+typedef undefined4 _DAT_1047cc08_t;
+#define _DAT_1047cc08 XI_EA(_DAT_1047cc08_t, 0x1047CC08u)
+typedef undefined4 _DAT_1047cc0c_t;
+#define _DAT_1047cc0c XI_EA(_DAT_1047cc0c_t, 0x1047CC0Cu)
+typedef undefined4 _DAT_1047cc10_t;
+#define _DAT_1047cc10 XI_EA(_DAT_1047cc10_t, 0x1047CC10u)
+typedef undefined4 _DAT_1047cc14_t;
+#define _DAT_1047cc14 XI_EA(_DAT_1047cc14_t, 0x1047CC14u)
+typedef undefined4 _DAT_1047cc18_t;
+#define _DAT_1047cc18 XI_EA(_DAT_1047cc18_t, 0x1047CC18u)
+typedef undefined4 _DAT_1047cc1c_t;
+#define _DAT_1047cc1c XI_EA(_DAT_1047cc1c_t, 0x1047CC1Cu)
+typedef undefined4 _DAT_1047cc20_t;
+#define _DAT_1047cc20 XI_EA(_DAT_1047cc20_t, 0x1047CC20u)
+typedef undefined4 _DAT_1047cc24_t;
+#define _DAT_1047cc24 XI_EA(_DAT_1047cc24_t, 0x1047CC24u)
+typedef undefined4 _DAT_1047cc28_t;
+#define _DAT_1047cc28 XI_EA(_DAT_1047cc28_t, 0x1047CC28u)
+typedef undefined4 _DAT_1047cc2c_t;
+#define _DAT_1047cc2c XI_EA(_DAT_1047cc2c_t, 0x1047CC2Cu)
 typedef undefined4 DAT_1047cc38_t;
 #define DAT_1047cc38 XI_EA(DAT_1047cc38_t, 0x1047CC38u)
 typedef undefined4 DAT_1047cc3c_t;
@@ -4317,8 +5819,82 @@ typedef int g_identityMatrix_1047CC80_m32_t;
 #define g_identityMatrix_1047CC80_m32 XI_EA(g_identityMatrix_1047CC80_m32_t, 0x1047CCB8u)
 typedef int g_identityMatrix_1047CC80_m33_t;
 #define g_identityMatrix_1047CC80_m33 XI_EA(g_identityMatrix_1047CC80_m33_t, 0x1047CCBCu)
+typedef uint8_t DAT_1047ccc0_t;
+#define DAT_1047ccc0 XI_EA(DAT_1047ccc0_t, 0x1047CCC0u)
+typedef float DAT_1047ccc8_t;
+#define DAT_1047ccc8 XI_EA(DAT_1047ccc8_t, 0x1047CCC8u)
+typedef undefined4 DAT_1047ccc8_as_v0_t;
+#define DAT_1047ccc8_as_v0 XI_EA(DAT_1047ccc8_as_v0_t, 0x1047CCC8u)
+typedef float _DAT_1047cccc_t;
+#define _DAT_1047cccc XI_EA(_DAT_1047cccc_t, 0x1047CCCCu)
+typedef undefined4 _DAT_1047ccd0_t;
+#define _DAT_1047ccd0 XI_EA(_DAT_1047ccd0_t, 0x1047CCD0u)
+typedef undefined4 _DAT_1047ccd4_t;
+#define _DAT_1047ccd4 XI_EA(_DAT_1047ccd4_t, 0x1047CCD4u)
+typedef float _DAT_1047ccd8_t;
+#define _DAT_1047ccd8 XI_EA(_DAT_1047ccd8_t, 0x1047CCD8u)
+typedef float _DAT_1047ccdc_t;
+#define _DAT_1047ccdc XI_EA(_DAT_1047ccdc_t, 0x1047CCDCu)
+typedef undefined4 _DAT_1047cce0_t;
+#define _DAT_1047cce0 XI_EA(_DAT_1047cce0_t, 0x1047CCE0u)
+typedef undefined4 _DAT_1047cce4_t;
+#define _DAT_1047cce4 XI_EA(_DAT_1047cce4_t, 0x1047CCE4u)
+typedef undefined4 _DAT_1047cce8_t;
+#define _DAT_1047cce8 XI_EA(_DAT_1047cce8_t, 0x1047CCE8u)
+typedef undefined4 _DAT_1047ccec_t;
+#define _DAT_1047ccec XI_EA(_DAT_1047ccec_t, 0x1047CCECu)
+typedef undefined4 _DAT_1047ccf0_t;
+#define _DAT_1047ccf0 XI_EA(_DAT_1047ccf0_t, 0x1047CCF0u)
+typedef undefined4 _DAT_1047ccf4_t;
+#define _DAT_1047ccf4 XI_EA(_DAT_1047ccf4_t, 0x1047CCF4u)
+typedef undefined4 _DAT_1047ccf8_t;
+#define _DAT_1047ccf8 XI_EA(_DAT_1047ccf8_t, 0x1047CCF8u)
+typedef undefined4 _DAT_1047ccfc_t;
+#define _DAT_1047ccfc XI_EA(_DAT_1047ccfc_t, 0x1047CCFCu)
+typedef undefined4 _DAT_1047cd00_t;
+#define _DAT_1047cd00 XI_EA(_DAT_1047cd00_t, 0x1047CD00u)
+typedef undefined4 _DAT_1047cd04_t;
+#define _DAT_1047cd04 XI_EA(_DAT_1047cd04_t, 0x1047CD04u)
+typedef uint8_t DAT_1047cd08_t;
+#define DAT_1047cd08 XI_EA(DAT_1047cd08_t, 0x1047CD08u)
+typedef uint8_t DAT_1047cd0a_t;
+#define DAT_1047cd0a XI_EA(DAT_1047cd0a_t, 0x1047CD0Au)
+typedef float DAT_1047cd10_t;
+#define DAT_1047cd10 XI_EA(DAT_1047cd10_t, 0x1047CD10u)
+typedef float DAT_1047cd14_t;
+#define DAT_1047cd14 XI_EA(DAT_1047cd14_t, 0x1047CD14u)
+typedef undefined4 _DAT_1047cd18_t;
+#define _DAT_1047cd18 XI_EA(_DAT_1047cd18_t, 0x1047CD18u)
+typedef undefined4 _DAT_1047cd1c_t;
+#define _DAT_1047cd1c XI_EA(_DAT_1047cd1c_t, 0x1047CD1Cu)
+typedef float _DAT_1047cd20_t;
+#define _DAT_1047cd20 XI_EA(_DAT_1047cd20_t, 0x1047CD20u)
+typedef float _DAT_1047cd24_t;
+#define _DAT_1047cd24 XI_EA(_DAT_1047cd24_t, 0x1047CD24u)
+typedef undefined4 _DAT_1047cd28_t;
+#define _DAT_1047cd28 XI_EA(_DAT_1047cd28_t, 0x1047CD28u)
+typedef undefined4 _DAT_1047cd2c_t;
+#define _DAT_1047cd2c XI_EA(_DAT_1047cd2c_t, 0x1047CD2Cu)
+typedef undefined4 _DAT_1047cd30_t;
+#define _DAT_1047cd30 XI_EA(_DAT_1047cd30_t, 0x1047CD30u)
+typedef undefined4 _DAT_1047cd34_t;
+#define _DAT_1047cd34 XI_EA(_DAT_1047cd34_t, 0x1047CD34u)
+typedef undefined4 _DAT_1047cd38_t;
+#define _DAT_1047cd38 XI_EA(_DAT_1047cd38_t, 0x1047CD38u)
+typedef undefined4 _DAT_1047cd3c_t;
+#define _DAT_1047cd3c XI_EA(_DAT_1047cd3c_t, 0x1047CD3Cu)
+typedef undefined4 _DAT_1047cd40_t;
+#define _DAT_1047cd40 XI_EA(_DAT_1047cd40_t, 0x1047CD40u)
+typedef undefined4 _DAT_1047cd44_t;
+#define _DAT_1047cd44 XI_EA(_DAT_1047cd44_t, 0x1047CD44u)
+typedef undefined4 _DAT_1047cd48_t;
+#define _DAT_1047cd48 XI_EA(_DAT_1047cd48_t, 0x1047CD48u)
+typedef undefined4 _DAT_1047cd4c_t;
+#define _DAT_1047cd4c XI_EA(_DAT_1047cd4c_t, 0x1047CD4Cu)
 typedef uint8_t DAT_1047cd90_t;
 #define DAT_1047cd90 XI_EA(DAT_1047cd90_t, 0x1047CD90u)
+typedef uint8_t DAT_1047cdd8_t;
+#define DAT_1047cdd8 XI_EA(DAT_1047cdd8_t, 0x1047CDD8u)
 typedef undefined4 DAT_1047cde0_t;
 #define DAT_1047cde0 XI_EA(DAT_1047cde0_t, 0x1047CDE0u)
 typedef undefined4 DAT_1047cde4_t;
@@ -4351,16 +5927,124 @@ typedef undefined4 _DAT_1047ce18_t;
 #define _DAT_1047ce18 XI_EA(_DAT_1047ce18_t, 0x1047CE18u)
 typedef undefined4 _DAT_1047ce1c_t;
 #define _DAT_1047ce1c XI_EA(_DAT_1047ce1c_t, 0x1047CE1Cu)
+typedef float DAT_1047ce20_t;
+#define DAT_1047ce20 XI_EA(DAT_1047ce20_t, 0x1047CE20u)
+typedef undefined4 DAT_1047ce20_as_v0_t;
+#define DAT_1047ce20_as_v0 XI_EA(DAT_1047ce20_as_v0_t, 0x1047CE20u)
+typedef undefined4 _DAT_1047ce24_t;
+#define _DAT_1047ce24 XI_EA(_DAT_1047ce24_t, 0x1047CE24u)
+typedef float _DAT_1047ce28_t;
+#define _DAT_1047ce28 XI_EA(_DAT_1047ce28_t, 0x1047CE28u)
+typedef undefined4 _DAT_1047ce2c_t;
+#define _DAT_1047ce2c XI_EA(_DAT_1047ce2c_t, 0x1047CE2Cu)
+typedef undefined4 _DAT_1047ce30_t;
+#define _DAT_1047ce30 XI_EA(_DAT_1047ce30_t, 0x1047CE30u)
+typedef undefined4 _DAT_1047ce34_t;
+#define _DAT_1047ce34 XI_EA(_DAT_1047ce34_t, 0x1047CE34u)
+typedef undefined4 _DAT_1047ce38_t;
+#define _DAT_1047ce38 XI_EA(_DAT_1047ce38_t, 0x1047CE38u)
+typedef undefined4 _DAT_1047ce3c_t;
+#define _DAT_1047ce3c XI_EA(_DAT_1047ce3c_t, 0x1047CE3Cu)
+typedef float _DAT_1047ce40_t;
+#define _DAT_1047ce40 XI_EA(_DAT_1047ce40_t, 0x1047CE40u)
+typedef undefined4 _DAT_1047ce44_t;
+#define _DAT_1047ce44 XI_EA(_DAT_1047ce44_t, 0x1047CE44u)
+typedef float _DAT_1047ce48_t;
+#define _DAT_1047ce48 XI_EA(_DAT_1047ce48_t, 0x1047CE48u)
+typedef undefined4 _DAT_1047ce4c_t;
+#define _DAT_1047ce4c XI_EA(_DAT_1047ce4c_t, 0x1047CE4Cu)
+typedef undefined4 _DAT_1047ce50_t;
+#define _DAT_1047ce50 XI_EA(_DAT_1047ce50_t, 0x1047CE50u)
+typedef undefined4 _DAT_1047ce54_t;
+#define _DAT_1047ce54 XI_EA(_DAT_1047ce54_t, 0x1047CE54u)
+typedef undefined4 _DAT_1047ce58_t;
+#define _DAT_1047ce58 XI_EA(_DAT_1047ce58_t, 0x1047CE58u)
+typedef undefined4 _DAT_1047ce5c_t;
+#define _DAT_1047ce5c XI_EA(_DAT_1047ce5c_t, 0x1047CE5Cu)
+typedef char DAT_1047ce60_t;
+#define DAT_1047ce60 XI_EA(DAT_1047ce60_t, 0x1047CE60u)
+typedef float DAT_1047cea8_t;
+#define DAT_1047cea8 XI_EA(DAT_1047cea8_t, 0x1047CEA8u)
+typedef undefined4 DAT_1047cea8_as_v0_t;
+#define DAT_1047cea8_as_v0 XI_EA(DAT_1047cea8_as_v0_t, 0x1047CEA8u)
+typedef undefined4 _DAT_1047ceac_t;
+#define _DAT_1047ceac XI_EA(_DAT_1047ceac_t, 0x1047CEACu)
+typedef float _DAT_1047ceb0_t;
+#define _DAT_1047ceb0 XI_EA(_DAT_1047ceb0_t, 0x1047CEB0u)
+typedef undefined4 _DAT_1047ceb4_t;
+#define _DAT_1047ceb4 XI_EA(_DAT_1047ceb4_t, 0x1047CEB4u)
+typedef undefined4 _DAT_1047ceb8_t;
+#define _DAT_1047ceb8 XI_EA(_DAT_1047ceb8_t, 0x1047CEB8u)
+typedef undefined4 _DAT_1047cebc_t;
+#define _DAT_1047cebc XI_EA(_DAT_1047cebc_t, 0x1047CEBCu)
+typedef undefined4 _DAT_1047cec0_t;
+#define _DAT_1047cec0 XI_EA(_DAT_1047cec0_t, 0x1047CEC0u)
+typedef undefined4 _DAT_1047cec4_t;
+#define _DAT_1047cec4 XI_EA(_DAT_1047cec4_t, 0x1047CEC4u)
+typedef float _DAT_1047cec8_t;
+#define _DAT_1047cec8 XI_EA(_DAT_1047cec8_t, 0x1047CEC8u)
+typedef undefined4 _DAT_1047cecc_t;
+#define _DAT_1047cecc XI_EA(_DAT_1047cecc_t, 0x1047CECCu)
+typedef float _DAT_1047ced0_t;
+#define _DAT_1047ced0 XI_EA(_DAT_1047ced0_t, 0x1047CED0u)
+typedef undefined4 _DAT_1047ced4_t;
+#define _DAT_1047ced4 XI_EA(_DAT_1047ced4_t, 0x1047CED4u)
+typedef undefined4 _DAT_1047ced8_t;
+#define _DAT_1047ced8 XI_EA(_DAT_1047ced8_t, 0x1047CED8u)
+typedef undefined4 _DAT_1047cedc_t;
+#define _DAT_1047cedc XI_EA(_DAT_1047cedc_t, 0x1047CEDCu)
+typedef undefined4 _DAT_1047cee0_t;
+#define _DAT_1047cee0 XI_EA(_DAT_1047cee0_t, 0x1047CEE0u)
+typedef undefined4 _DAT_1047cee4_t;
+#define _DAT_1047cee4 XI_EA(_DAT_1047cee4_t, 0x1047CEE4u)
 typedef uint8_t DAT_1047cee8_t;
 #define DAT_1047cee8 XI_EA(DAT_1047cee8_t, 0x1047CEE8u)
 typedef char CMoProcessor_InitRotationMatrices_staticGuard_t;
 #define CMoProcessor_InitRotationMatrices_staticGuard XI_EA(CMoProcessor_InitRotationMatrices_staticGuard_t, 0x1047CF31u)
+typedef uint8_t DAT_1047cf32_t;
+#define DAT_1047cf32 XI_EA(DAT_1047cf32_t, 0x1047CF32u)
+typedef undefined4 DAT_1047cf38_t;
+#define DAT_1047cf38 XI_EA(DAT_1047cf38_t, 0x1047CF38u)
+typedef undefined4 _DAT_1047cf3c_t;
+#define _DAT_1047cf3c XI_EA(_DAT_1047cf3c_t, 0x1047CF3Cu)
+typedef undefined4 _DAT_1047cf40_t;
+#define _DAT_1047cf40 XI_EA(_DAT_1047cf40_t, 0x1047CF40u)
+typedef undefined4 _DAT_1047cf44_t;
+#define _DAT_1047cf44 XI_EA(_DAT_1047cf44_t, 0x1047CF44u)
+typedef undefined4 _DAT_1047cf48_t;
+#define _DAT_1047cf48 XI_EA(_DAT_1047cf48_t, 0x1047CF48u)
+typedef float _DAT_1047cf4c_t;
+#define _DAT_1047cf4c XI_EA(_DAT_1047cf4c_t, 0x1047CF4Cu)
+typedef float _DAT_1047cf50_t;
+#define _DAT_1047cf50 XI_EA(_DAT_1047cf50_t, 0x1047CF50u)
+typedef undefined4 _DAT_1047cf54_t;
+#define _DAT_1047cf54 XI_EA(_DAT_1047cf54_t, 0x1047CF54u)
+typedef undefined4 _DAT_1047cf58_t;
+#define _DAT_1047cf58 XI_EA(_DAT_1047cf58_t, 0x1047CF58u)
+typedef float _DAT_1047cf5c_t;
+#define _DAT_1047cf5c XI_EA(_DAT_1047cf5c_t, 0x1047CF5Cu)
+typedef float _DAT_1047cf60_t;
+#define _DAT_1047cf60 XI_EA(_DAT_1047cf60_t, 0x1047CF60u)
+typedef undefined4 _DAT_1047cf64_t;
+#define _DAT_1047cf64 XI_EA(_DAT_1047cf64_t, 0x1047CF64u)
+typedef undefined4 _DAT_1047cf68_t;
+#define _DAT_1047cf68 XI_EA(_DAT_1047cf68_t, 0x1047CF68u)
+typedef undefined4 _DAT_1047cf6c_t;
+#define _DAT_1047cf6c XI_EA(_DAT_1047cf6c_t, 0x1047CF6Cu)
+typedef undefined4 _DAT_1047cf70_t;
+#define _DAT_1047cf70 XI_EA(_DAT_1047cf70_t, 0x1047CF70u)
+typedef undefined4 _DAT_1047cf74_t;
+#define _DAT_1047cf74 XI_EA(_DAT_1047cf74_t, 0x1047CF74u)
+typedef char DAT_1047cf78_t;
+#define DAT_1047cf78 XI_EA(DAT_1047cf78_t, 0x1047CF78u)
 typedef CMoProcessor * g_pProcessor_t;
 #define g_pProcessor XI_EA(g_pProcessor_t, 0x1047CF7Cu)
 typedef int g_pProcessor_as_s32_t;
 #define g_pProcessor_as_s32 XI_EA(g_pProcessor_as_s32_t, 0x1047CF7Cu)
 typedef int * g_pProcessor_as_v1_t;
 #define g_pProcessor_as_v1 XI_EA(g_pProcessor_as_v1_t, 0x1047CF7Cu)
+typedef undefined4 * g_pProcessor_as_v2_t;
+#define g_pProcessor_as_v2 XI_EA(g_pProcessor_as_v2_t, 0x1047CF7Cu)
 typedef undefined4 DAT_1047cf80_t;
 #define DAT_1047cf80 XI_EA(DAT_1047cf80_t, 0x1047CF80u)
 typedef int * DAT_1047cf84_t;
@@ -4381,6 +6065,8 @@ typedef undefined4 DAT_1047d120_t;
 #define DAT_1047d120 XI_EA(DAT_1047d120_t, 0x1047D120u)
 typedef int * DAT_1047d124_t;
 #define DAT_1047d124 XI_EA(DAT_1047d124_t, 0x1047D124u)
+typedef undefined4 DAT_1047d124_as_v0_t;
+#define DAT_1047d124_as_v0 XI_EA(DAT_1047d124_as_v0_t, 0x1047D124u)
 typedef int g_pMeshResourceMng_t;
 #define g_pMeshResourceMng XI_EA(g_pMeshResourceMng_t, 0x1047D128u)
 typedef undefined4 g_pMeshResourceMng_as_v0_t;
@@ -4391,6 +6077,8 @@ typedef char byte_1047D12C_t;
 #define byte_1047D12C XI_EA(byte_1047D12C_t, 0x1047D12Cu)
 typedef undefined1 byte_1047D12C_as_v0_t;
 #define byte_1047D12C_as_v0 XI_EA(byte_1047D12C_as_v0_t, 0x1047D12Cu)
+typedef uint8_t byte_1047D12C_as_v1_t;
+#define byte_1047D12C_as_v1 XI_EA(byte_1047D12C_as_v1_t, 0x1047D12Cu)
 typedef int g_resourceFindDepth_t;
 #define g_resourceFindDepth XI_EA(g_resourceFindDepth_t, 0x1047D130u)
 typedef undefined4 DAT_1047d138_t;
@@ -4493,8 +6181,22 @@ typedef char DAT_1047d3ec_t;
 #define DAT_1047d3ec XI_EA(DAT_1047d3ec_t, 0x1047D3ECu)
 typedef undefined4 DAT_1047d3f0_t;
 #define DAT_1047d3f0 XI_EA(DAT_1047d3f0_t, 0x1047D3F0u)
+typedef int DAT_1047d3f0_as_s32_t;
+#define DAT_1047d3f0_as_s32 XI_EA(DAT_1047d3f0_as_s32_t, 0x1047D3F0u)
+typedef int DAT_1047d3f4_t;
+#define DAT_1047d3f4 XI_EA(DAT_1047d3f4_t, 0x1047D3F4u)
+typedef undefined4 _DAT_1047d3f8_t;
+#define _DAT_1047d3f8 XI_EA(_DAT_1047d3f8_t, 0x1047D3F8u)
 typedef undefined2 DAT_1047d3fc_t;
 #define DAT_1047d3fc XI_EA(DAT_1047d3fc_t, 0x1047D3FCu)
+typedef char DAT_1047d3fe_t;
+#define DAT_1047d3fe XI_EA(DAT_1047d3fe_t, 0x1047D3FEu)
+typedef undefined4 DAT_1047d400_t;
+#define DAT_1047d400 XI_EA(DAT_1047d400_t, 0x1047D400u)
+typedef undefined4 DAT_1047d448_t;
+#define DAT_1047d448 XI_EA(DAT_1047d448_t, 0x1047D448u)
+typedef int _DAT_1047d490_t;
+#define _DAT_1047d490 XI_EA(_DAT_1047d490_t, 0x1047D490u)
 typedef char DAT_1047d494_t;
 #define DAT_1047d494 XI_EA(DAT_1047d494_t, 0x1047D494u)
 typedef uint8_t DAT_1047d495_t;
@@ -4505,6 +6207,8 @@ typedef undefined1 DAT_1047d497_t;
 #define DAT_1047d497 XI_EA(DAT_1047d497_t, 0x1047D497u)
 typedef undefined1 DAT_1047d498_t;
 #define DAT_1047d498 XI_EA(DAT_1047d498_t, 0x1047D498u)
+typedef char DAT_1047d498_as_s8_t;
+#define DAT_1047d498_as_s8 XI_EA(DAT_1047d498_as_s8_t, 0x1047D498u)
 typedef uint8_t DAT_1047d499_t;
 #define DAT_1047d499 XI_EA(DAT_1047d499_t, 0x1047D499u)
 typedef int DAT_1047d49c_t;
@@ -4523,6 +6227,10 @@ typedef int g_pActorDrawListHead_t;
 #define g_pActorDrawListHead XI_EA(g_pActorDrawListHead_t, 0x1047D578u)
 typedef undefined4 g_pActorDrawListHead_as_v0_t;
 #define g_pActorDrawListHead_as_v0 XI_EA(g_pActorDrawListHead_as_v0_t, 0x1047D578u)
+typedef int * g_pActorDrawListHead_as_v1_t;
+#define g_pActorDrawListHead_as_v1 XI_EA(g_pActorDrawListHead_as_v1_t, 0x1047D578u)
+typedef void * g_pActorDrawListHead_as_v2_t;
+#define g_pActorDrawListHead_as_v2 XI_EA(g_pActorDrawListHead_as_v2_t, 0x1047D578u)
 typedef char g_actorNameBuffer_t;
 #define g_actorNameBuffer XI_EA(g_actorNameBuffer_t, 0x1047D580u)
 typedef _DWORD g_targetActorHandle_t[3];
@@ -4549,6 +6257,8 @@ typedef undefined4 dword_1047D68C_as_v0_t;
 #define dword_1047D68C_as_v0 XI_EA(dword_1047D68C_as_v0_t, 0x1047D68Cu)
 typedef char byte_1047D694_t;
 #define byte_1047D694 XI_EA(byte_1047D694_t, 0x1047D694u)
+typedef undefined1 DAT_1047d695_t;
+#define DAT_1047d695 XI_EA(DAT_1047d695_t, 0x1047D695u)
 typedef float _DAT_1047d698_t;
 #define _DAT_1047d698 XI_EA(_DAT_1047d698_t, 0x1047D698u)
 typedef undefined1 DAT_1047d6a0_t;
@@ -4571,6 +6281,8 @@ typedef uint8_t DAT_1047fb40_as_v0_t;
 #define DAT_1047fb40_as_v0 XI_EA(DAT_1047fb40_as_v0_t, 0x1047FB40u)
 typedef undefined4 DAT_1047fb40_as_v1_t;
 #define DAT_1047fb40_as_v1 XI_EA(DAT_1047fb40_as_v1_t, 0x1047FB40u)
+typedef uint16_t DAT_1047fb40_as_v2_t;
+#define DAT_1047fb40_as_v2 XI_EA(DAT_1047fb40_as_v2_t, 0x1047FB40u)
 typedef undefined4 DAT_1047fb48_t;
 #define DAT_1047fb48 XI_EA(DAT_1047fb48_t, 0x1047FB48u)
 typedef undefined4 DAT_1047fca8_t;
@@ -4595,6 +6307,8 @@ typedef char DAT_104804c2_as_s8_t;
 #define DAT_104804c2_as_s8 XI_EA(DAT_104804c2_as_s8_t, 0x104804C2u)
 typedef undefined1 DAT_104804c3_t;
 #define DAT_104804c3 XI_EA(DAT_104804c3_t, 0x104804C3u)
+typedef char DAT_104804c3_as_s8_t;
+#define DAT_104804c3_as_s8 XI_EA(DAT_104804c3_as_s8_t, 0x104804C3u)
 typedef undefined2 DAT_104804c4_t;
 #define DAT_104804c4 XI_EA(DAT_104804c4_t, 0x104804C4u)
 typedef undefined4 DAT_104804c4_as_v0_t;
@@ -4651,10 +6365,14 @@ typedef char DAT_104808fa_as_s8_t;
 #define DAT_104808fa_as_s8 XI_EA(DAT_104808fa_as_s8_t, 0x104808FAu)
 typedef undefined1 DAT_104808fb_t;
 #define DAT_104808fb XI_EA(DAT_104808fb_t, 0x104808FBu)
+typedef char DAT_104808fb_as_s8_t;
+#define DAT_104808fb_as_s8 XI_EA(DAT_104808fb_as_s8_t, 0x104808FBu)
 typedef uint8_t DAT_104808fc_t;
 #define DAT_104808fc XI_EA(DAT_104808fc_t, 0x104808FCu)
 typedef undefined2 DAT_104808fc_as_v0_t;
 #define DAT_104808fc_as_v0 XI_EA(DAT_104808fc_as_v0_t, 0x104808FCu)
+typedef uint16_t DAT_104808fc_as_v1_t;
+#define DAT_104808fc_as_v1 XI_EA(DAT_104808fc_as_v1_t, 0x104808FCu)
 typedef undefined1 DAT_104808fe_t;
 #define DAT_104808fe XI_EA(DAT_104808fe_t, 0x104808FEu)
 typedef undefined4 DAT_10480900_t;
@@ -4759,6 +6477,8 @@ typedef undefined1 DAT_10483158_t;
 #define DAT_10483158 XI_EA(DAT_10483158_t, 0x10483158u)
 typedef undefined1 DAT_1048315c_t;
 #define DAT_1048315c XI_EA(DAT_1048315c_t, 0x1048315Cu)
+typedef char DAT_1048315c_as_s8_t;
+#define DAT_1048315c_as_s8 XI_EA(DAT_1048315c_as_s8_t, 0x1048315Cu)
 typedef undefined1 DAT_1048315d_t;
 #define DAT_1048315d XI_EA(DAT_1048315d_t, 0x1048315Du)
 typedef undefined1 DAT_10483160_t;
@@ -4907,6 +6627,8 @@ typedef undefined4 _DAT_10485fec_t;
 #define _DAT_10485fec XI_EA(_DAT_10485fec_t, 0x10485FECu)
 typedef undefined4 _DAT_10485ff0_t;
 #define _DAT_10485ff0 XI_EA(_DAT_10485ff0_t, 0x10485FF0u)
+typedef char DAT_10485ff4_t;
+#define DAT_10485ff4 XI_EA(DAT_10485ff4_t, 0x10485FF4u)
 typedef undefined4 DAT_10485ff8_t;
 #define DAT_10485ff8 XI_EA(DAT_10485ff8_t, 0x10485FF8u)
 typedef undefined4 _DAT_10485ffc_t;
@@ -4991,12 +6713,20 @@ typedef undefined4 DAT_10487ecc_t;
 #define DAT_10487ecc XI_EA(DAT_10487ecc_t, 0x10487ECCu)
 typedef LPVOID DAT_10487edc_t;
 #define DAT_10487edc XI_EA(DAT_10487edc_t, 0x10487EDCu)
+typedef undefined4 * DAT_10487edc_as_v0_t;
+#define DAT_10487edc_as_v0 XI_EA(DAT_10487edc_as_v0_t, 0x10487EDCu)
 typedef LPVOID DAT_10487ee0_t;
 #define DAT_10487ee0 XI_EA(DAT_10487ee0_t, 0x10487EE0u)
+typedef int * DAT_10487ee0_as_v0_t;
+#define DAT_10487ee0_as_v0 XI_EA(DAT_10487ee0_as_v0_t, 0x10487EE0u)
 typedef LPVOID DAT_10487ee4_t;
 #define DAT_10487ee4 XI_EA(DAT_10487ee4_t, 0x10487EE4u)
+typedef undefined4 * DAT_10487ee4_as_v0_t;
+#define DAT_10487ee4_as_v0 XI_EA(DAT_10487ee4_as_v0_t, 0x10487EE4u)
 typedef LPVOID DAT_10487ee8_t;
 #define DAT_10487ee8 XI_EA(DAT_10487ee8_t, 0x10487EE8u)
+typedef int * DAT_10487ee8_as_v0_t;
+#define DAT_10487ee8_as_v0 XI_EA(DAT_10487ee8_as_v0_t, 0x10487EE8u)
 typedef undefined2 DAT_10487eec_t;
 #define DAT_10487eec XI_EA(DAT_10487eec_t, 0x10487EECu)
 typedef char DAT_10487eee_t;
@@ -5007,6 +6737,8 @@ typedef undefined1 DAT_10487ef4_t;
 #define DAT_10487ef4 XI_EA(DAT_10487ef4_t, 0x10487EF4u)
 typedef undefined1 DAT_10487ef5_t;
 #define DAT_10487ef5 XI_EA(DAT_10487ef5_t, 0x10487EF5u)
+typedef uint32_t DAT_10487ef8_t;
+#define DAT_10487ef8 XI_EA(DAT_10487ef8_t, 0x10487EF8u)
 typedef undefined4 DAT_10487f0c_t;
 #define DAT_10487f0c XI_EA(DAT_10487f0c_t, 0x10487F0Cu)
 typedef undefined4 DAT_10487f14_t;
@@ -5035,12 +6767,18 @@ typedef uint32_t DAT_10487fb4_t;
 #define DAT_10487fb4 XI_EA(DAT_10487fb4_t, 0x10487FB4u)
 typedef undefined1 DAT_10487fc9_t;
 #define DAT_10487fc9 XI_EA(DAT_10487fc9_t, 0x10487FC9u)
+typedef char DAT_10488100_t;
+#define DAT_10488100 XI_EA(DAT_10488100_t, 0x10488100u)
 typedef undefined4 DAT_10488108_t;
 #define DAT_10488108 XI_EA(DAT_10488108_t, 0x10488108u)
 typedef char DAT_10488208_t;
 #define DAT_10488208 XI_EA(DAT_10488208_t, 0x10488208u)
+typedef undefined1 DAT_10488208_as_v0_t;
+#define DAT_10488208_as_v0 XI_EA(DAT_10488208_as_v0_t, 0x10488208u)
 typedef undefined4 DAT_104882b0_t;
 #define DAT_104882b0 XI_EA(DAT_104882b0_t, 0x104882B0u)
+typedef undefined1 DAT_104882b4_t;
+#define DAT_104882b4 XI_EA(DAT_104882b4_t, 0x104882B4u)
 typedef char DAT_104886f4_t;
 #define DAT_104886f4 XI_EA(DAT_104886f4_t, 0x104886F4u)
 typedef undefined4 DAT_104886f8_t;
@@ -5051,18 +6789,34 @@ typedef int DAT_10488978_t;
 #define DAT_10488978 XI_EA(DAT_10488978_t, 0x10488978u)
 typedef undefined4 DAT_10488980_t;
 #define DAT_10488980 XI_EA(DAT_10488980_t, 0x10488980u)
+typedef undefined4 DAT_10488b08_t;
+#define DAT_10488b08 XI_EA(DAT_10488b08_t, 0x10488B08u)
 typedef undefined4 DAT_10488d08_t;
 #define DAT_10488d08 XI_EA(DAT_10488d08_t, 0x10488D08u)
 typedef char DAT_104896e4_t;
 #define DAT_104896e4 XI_EA(DAT_104896e4_t, 0x104896E4u)
+typedef short DAT_104896e6_t;
+#define DAT_104896e6 XI_EA(DAT_104896e6_t, 0x104896E6u)
 typedef undefined4 DAT_104897ec_t;
 #define DAT_104897ec XI_EA(DAT_104897ec_t, 0x104897ECu)
 typedef undefined1 DAT_104897f4_t;
 #define DAT_104897f4 XI_EA(DAT_104897f4_t, 0x104897F4u)
+typedef undefined2 DAT_104897f6_t;
+#define DAT_104897f6 XI_EA(DAT_104897f6_t, 0x104897F6u)
 typedef undefined1 DAT_104898f8_t;
 #define DAT_104898f8 XI_EA(DAT_104898f8_t, 0x104898F8u)
 typedef char DAT_104898f9_t;
 #define DAT_104898f9 XI_EA(DAT_104898f9_t, 0x104898F9u)
+typedef undefined4 _DAT_104898fc_t;
+#define _DAT_104898fc XI_EA(_DAT_104898fc_t, 0x104898FCu)
+typedef undefined1 DAT_10489900_t;
+#define DAT_10489900 XI_EA(DAT_10489900_t, 0x10489900u)
+typedef char DAT_10489900_as_s8_t;
+#define DAT_10489900_as_s8 XI_EA(DAT_10489900_as_s8_t, 0x10489900u)
+typedef undefined4 DAT_10489904_t;
+#define DAT_10489904 XI_EA(DAT_10489904_t, 0x10489904u)
+typedef undefined4 DAT_10489908_t;
+#define DAT_10489908 XI_EA(DAT_10489908_t, 0x10489908u)
 typedef undefined4 DAT_10489948_t;
 #define DAT_10489948 XI_EA(DAT_10489948_t, 0x10489948u)
 typedef undefined4 DAT_104899b8_t;
@@ -5087,6 +6841,8 @@ typedef int PerActor_FourBucketStaggeredUpdate_static_A31C_t;
 #define PerActor_FourBucketStaggeredUpdate_static_A31C XI_EA(PerActor_FourBucketStaggeredUpdate_static_A31C_t, 0x1048A31Cu)
 typedef int PerActor_FourBucketStaggeredUpdate_static_A320_t;
 #define PerActor_FourBucketStaggeredUpdate_static_A320 XI_EA(PerActor_FourBucketStaggeredUpdate_static_A320_t, 0x1048A320u)
+typedef undefined4 _DAT_1048a324_t;
+#define _DAT_1048a324 XI_EA(_DAT_1048a324_t, 0x1048A324u)
 typedef char PerActor_FourBucketStaggeredUpdate_staticGuards_t;
 #define PerActor_FourBucketStaggeredUpdate_staticGuards XI_EA(PerActor_FourBucketStaggeredUpdate_staticGuards_t, 0x1048A328u)
 typedef int PerActor_FourBucketStaggeredUpdate_static_A32C_t;
@@ -5113,6 +6869,8 @@ typedef int g_actorUpdateInterval_t;
 #define g_actorUpdateInterval XI_EA(g_actorUpdateInterval_t, 0x1048A354u)
 typedef undefined4 g_actorUpdateInterval_as_v0_t;
 #define g_actorUpdateInterval_as_v0 XI_EA(g_actorUpdateInterval_as_v0_t, 0x1048A354u)
+typedef uint32_t g_actorUpdateInterval_as_v1_t;
+#define g_actorUpdateInterval_as_v1 XI_EA(g_actorUpdateInterval_as_v1_t, 0x1048A354u)
 typedef int g_actorUpdateBucketCountA_t[];
 #define g_actorUpdateBucketCountA XI_EA(g_actorUpdateBucketCountA_t, 0x1048A358u)
 typedef undefined4 g_actorUpdateBucketCountA_as_v0_t;
@@ -5175,18 +6933,22 @@ typedef undefined2 DAT_1048c05c_t;
 #define DAT_1048c05c XI_EA(DAT_1048c05c_t, 0x1048C05Cu)
 typedef undefined4 DAT_1048f490_t;
 #define DAT_1048f490 XI_EA(DAT_1048f490_t, 0x1048F490u)
-typedef int DAT_1048fdf4_t;
+typedef undefined * DAT_1048fdf4_t;
 #define DAT_1048fdf4 XI_EA(DAT_1048fdf4_t, 0x1048FDF4u)
-typedef undefined * DAT_1048fdf4_as_v0_t;
-#define DAT_1048fdf4_as_v0 XI_EA(DAT_1048fdf4_as_v0_t, 0x1048FDF4u)
+typedef int DAT_1048fdf4_as_s32_t;
+#define DAT_1048fdf4_as_s32 XI_EA(DAT_1048fdf4_as_s32_t, 0x1048FDF4u)
 typedef undefined4 * DAT_1048fdf8_t;
 #define DAT_1048fdf8 XI_EA(DAT_1048fdf8_t, 0x1048FDF8u)
 typedef int DAT_1048fdfc_t;
 #define DAT_1048fdfc XI_EA(DAT_1048fdfc_t, 0x1048FDFCu)
 typedef undefined4 DAT_1048fe10_t;
 #define DAT_1048fe10 XI_EA(DAT_1048fe10_t, 0x1048FE10u)
+typedef undefined4 DAT_1048fed0_t;
+#define DAT_1048fed0 XI_EA(DAT_1048fed0_t, 0x1048FED0u)
 typedef int DAT_10492db4_t;
 #define DAT_10492db4 XI_EA(DAT_10492db4_t, 0x10492DB4u)
+typedef undefined4 * DAT_10492db4_as_v0_t;
+#define DAT_10492db4_as_v0 XI_EA(DAT_10492db4_as_v0_t, 0x10492DB4u)
 typedef undefined4 DAT_10492db8_t;
 #define DAT_10492db8 XI_EA(DAT_10492db8_t, 0x10492DB8u)
 typedef int DAT_10492e10_t;
@@ -5199,6 +6961,18 @@ typedef undefined4 DAT_10492e18_t;
 #define DAT_10492e18 XI_EA(DAT_10492e18_t, 0x10492E18u)
 typedef undefined4 DAT_104adde0_t;
 #define DAT_104adde0 XI_EA(DAT_104adde0_t, 0x104ADDE0u)
+typedef undefined4 DAT_104adde4_t;
+#define DAT_104adde4 XI_EA(DAT_104adde4_t, 0x104ADDE4u)
+typedef undefined4 DAT_104ae334_t;
+#define DAT_104ae334 XI_EA(DAT_104ae334_t, 0x104AE334u)
+typedef int DAT_104ae348_t;
+#define DAT_104ae348 XI_EA(DAT_104ae348_t, 0x104AE348u)
+typedef undefined4 DAT_104ae348_as_v0_t;
+#define DAT_104ae348_as_v0 XI_EA(DAT_104ae348_as_v0_t, 0x104AE348u)
+typedef undefined4 DAT_104ae34c_t;
+#define DAT_104ae34c XI_EA(DAT_104ae34c_t, 0x104AE34Cu)
+typedef undefined4 DAT_104ae89c_t;
+#define DAT_104ae89c XI_EA(DAT_104ae89c_t, 0x104AE89Cu)
 typedef int DAT_104ae8ac_t;
 #define DAT_104ae8ac XI_EA(DAT_104ae8ac_t, 0x104AE8ACu)
 typedef undefined4 * DAT_104ae8ac_as_v0_t;
@@ -5295,10 +7069,14 @@ typedef undefined4 DAT_104ca648_t;
 #define DAT_104ca648 XI_EA(DAT_104ca648_t, 0x104CA648u)
 typedef int DAT_104ca648_as_s32_t;
 #define DAT_104ca648_as_s32 XI_EA(DAT_104ca648_as_s32_t, 0x104CA648u)
+typedef undefined4 DAT_104ca650_t;
+#define DAT_104ca650 XI_EA(DAT_104ca650_t, 0x104CA650u)
 typedef int DAT_104df770_t;
 #define DAT_104df770 XI_EA(DAT_104df770_t, 0x104DF770u)
 typedef uint32_t DAT_104df770_as_v0_t;
 #define DAT_104df770_as_v0 XI_EA(DAT_104df770_as_v0_t, 0x104DF770u)
+typedef undefined4 * DAT_104df770_as_v1_t;
+#define DAT_104df770_as_v1 XI_EA(DAT_104df770_as_v1_t, 0x104DF770u)
 typedef uint32_t * DAT_104df774_t;
 #define DAT_104df774 XI_EA(DAT_104df774_t, 0x104DF774u)
 typedef int DAT_104df774_as_s32_t;
@@ -5311,14 +7089,18 @@ typedef void * DAT_104df908_t;
 #define DAT_104df908 XI_EA(DAT_104df908_t, 0x104DF908u)
 typedef undefined * DAT_104df908_as_v0_t;
 #define DAT_104df908_as_v0 XI_EA(DAT_104df908_as_v0_t, 0x104DF908u)
-typedef int DAT_104df90c_t;
+typedef undefined4 * DAT_104df90c_t;
 #define DAT_104df90c XI_EA(DAT_104df90c_t, 0x104DF90Cu)
+typedef int DAT_104df90c_as_s32_t;
+#define DAT_104df90c_as_s32 XI_EA(DAT_104df90c_as_s32_t, 0x104DF90Cu)
 typedef uint16_t DAT_104df920_t;
 #define DAT_104df920 XI_EA(DAT_104df920_t, 0x104DF920u)
 typedef undefined2 DAT_104df920_as_v0_t;
 #define DAT_104df920_as_v0 XI_EA(DAT_104df920_as_v0_t, 0x104DF920u)
 typedef undefined4 DAT_104df924_t;
 #define DAT_104df924 XI_EA(DAT_104df924_t, 0x104DF924u)
+typedef char DAT_104df924_as_s8_t;
+#define DAT_104df924_as_s8 XI_EA(DAT_104df924_as_s8_t, 0x104DF924u)
 typedef uint32_t DAT_104df928_t;
 #define DAT_104df928 XI_EA(DAT_104df928_t, 0x104DF928u)
 typedef undefined4 DAT_104df928_as_v0_t;
@@ -5381,6 +7163,8 @@ typedef undefined4 DAT_104e1b44_t;
 #define DAT_104e1b44 XI_EA(DAT_104e1b44_t, 0x104E1B44u)
 typedef undefined4 DAT_104e1b68_t;
 #define DAT_104e1b68 XI_EA(DAT_104e1b68_t, 0x104E1B68u)
+typedef undefined4 * DAT_104e1b68_as_v0_t;
+#define DAT_104e1b68_as_v0 XI_EA(DAT_104e1b68_as_v0_t, 0x104E1B68u)
 typedef void * DAT_104e1b6c_t;
 #define DAT_104e1b6c XI_EA(DAT_104e1b6c_t, 0x104E1B6Cu)
 typedef D3DVIEWPORT8 g_viewport_1B70_t;
@@ -5397,6 +7181,24 @@ typedef void * g_pFontGlyphs_t;
 #define g_pFontGlyphs XI_EA(g_pFontGlyphs_t, 0x104E1B90u)
 typedef undefined4 DAT_104e1b98_t;
 #define DAT_104e1b98 XI_EA(DAT_104e1b98_t, 0x104E1B98u)
+typedef undefined4 DAT_104e1b9c_t;
+#define DAT_104e1b9c XI_EA(DAT_104e1b9c_t, 0x104E1B9Cu)
+typedef undefined4 DAT_104e1ba0_t;
+#define DAT_104e1ba0 XI_EA(DAT_104e1ba0_t, 0x104E1BA0u)
+typedef undefined4 DAT_104e1ba4_t;
+#define DAT_104e1ba4 XI_EA(DAT_104e1ba4_t, 0x104E1BA4u)
+typedef undefined4 DAT_104e1ba8_t;
+#define DAT_104e1ba8 XI_EA(DAT_104e1ba8_t, 0x104E1BA8u)
+typedef undefined4 DAT_104e1bac_t;
+#define DAT_104e1bac XI_EA(DAT_104e1bac_t, 0x104E1BACu)
+typedef uint32_t DAT_104e1bb0_t;
+#define DAT_104e1bb0 XI_EA(DAT_104e1bb0_t, 0x104E1BB0u)
+typedef uint32_t DAT_104e1bb4_t;
+#define DAT_104e1bb4 XI_EA(DAT_104e1bb4_t, 0x104E1BB4u)
+typedef undefined4 DAT_104e1bb8_t;
+#define DAT_104e1bb8 XI_EA(DAT_104e1bb8_t, 0x104E1BB8u)
+typedef undefined4 DAT_104e1bbc_t;
+#define DAT_104e1bbc XI_EA(DAT_104e1bbc_t, 0x104E1BBCu)
 typedef undefined4 DAT_104e1be0_t;
 #define DAT_104e1be0 XI_EA(DAT_104e1be0_t, 0x104E1BE0u)
 typedef int DAT_104e1be0_as_s32_t;
@@ -5415,6 +7217,8 @@ typedef undefined4 g_shapeMng_as_v0_t;
 #define g_shapeMng_as_v0 XI_EA(g_shapeMng_as_v0_t, 0x104E1BF8u)
 typedef undefined1 DAT_104e1c3c_t;
 #define DAT_104e1c3c XI_EA(DAT_104e1c3c_t, 0x104E1C3Cu)
+typedef char DAT_104e1c3c_as_s8_t;
+#define DAT_104e1c3c_as_s8 XI_EA(DAT_104e1c3c_as_s8_t, 0x104E1C3Cu)
 typedef undefined1 DAT_104e1c3e_t;
 #define DAT_104e1c3e XI_EA(DAT_104e1c3e_t, 0x104E1C3Eu)
 typedef undefined4 DAT_104e1c40_t;
@@ -5433,10 +7237,16 @@ typedef uint32_t g_pCursor_as_v1_t;
 #define g_pCursor_as_v1 XI_EA(g_pCursor_as_v1_t, 0x104E1D4Cu)
 typedef void * g_pCursor_as_v2_t;
 #define g_pCursor_as_v2 XI_EA(g_pCursor_as_v2_t, 0x104E1D4Cu)
+typedef undefined1 DAT_104e1d50_t;
+#define DAT_104e1d50 XI_EA(DAT_104e1d50_t, 0x104E1D50u)
 typedef void * DAT_104e2150_t;
 #define DAT_104e2150 XI_EA(DAT_104e2150_t, 0x104E2150u)
+typedef int DAT_104e2150_as_s32_t;
+#define DAT_104e2150_as_s32 XI_EA(DAT_104e2150_as_s32_t, 0x104E2150u)
 typedef void * DAT_104e2154_t;
 #define DAT_104e2154 XI_EA(DAT_104e2154_t, 0x104E2154u)
+typedef int DAT_104e2154_as_s32_t;
+#define DAT_104e2154_as_s32 XI_EA(DAT_104e2154_as_s32_t, 0x104E2154u)
 typedef int g_pTkMsgWinData_t;
 #define g_pTkMsgWinData XI_EA(g_pTkMsgWinData_t, 0x10578158u)
 typedef undefined4 g_pTkMsgWinData_as_v0_t;
@@ -5457,22 +7267,70 @@ typedef void * dword_10578160_as_v1_t;
 #define dword_10578160_as_v1 XI_EA(dword_10578160_as_v1_t, 0x10578160u)
 typedef int DAT_10578170_t;
 #define DAT_10578170 XI_EA(DAT_10578170_t, 0x10578170u)
+typedef void * DAT_10578170_as_v0_t;
+#define DAT_10578170_as_v0 XI_EA(DAT_10578170_as_v0_t, 0x10578170u)
+typedef void * DAT_1057817c_t;
+#define DAT_1057817c XI_EA(DAT_1057817c_t, 0x1057817Cu)
+typedef void * DAT_10578180_t;
+#define DAT_10578180 XI_EA(DAT_10578180_t, 0x10578180u)
+typedef void * DAT_10578184_t;
+#define DAT_10578184 XI_EA(DAT_10578184_t, 0x10578184u)
 typedef void * DAT_10578188_t;
 #define DAT_10578188 XI_EA(DAT_10578188_t, 0x10578188u)
+typedef undefined4 * DAT_1057818c_t;
+#define DAT_1057818c XI_EA(DAT_1057818c_t, 0x1057818Cu)
+typedef void * DAT_10578190_t;
+#define DAT_10578190 XI_EA(DAT_10578190_t, 0x10578190u)
+typedef undefined4 * DAT_10578194_t;
+#define DAT_10578194 XI_EA(DAT_10578194_t, 0x10578194u)
+typedef void * DAT_10578198_t;
+#define DAT_10578198 XI_EA(DAT_10578198_t, 0x10578198u)
 typedef undefined4 * DAT_1057819c_t;
 #define DAT_1057819c XI_EA(DAT_1057819c_t, 0x1057819Cu)
+typedef undefined4 * DAT_105781a0_t;
+#define DAT_105781a0 XI_EA(DAT_105781a0_t, 0x105781A0u)
+typedef undefined4 * DAT_105781a4_t;
+#define DAT_105781a4 XI_EA(DAT_105781a4_t, 0x105781A4u)
+typedef void * DAT_105781a8_t;
+#define DAT_105781a8 XI_EA(DAT_105781a8_t, 0x105781A8u)
+typedef void * DAT_105781ac_t;
+#define DAT_105781ac XI_EA(DAT_105781ac_t, 0x105781ACu)
 typedef int * DAT_105781b0_t;
 #define DAT_105781b0 XI_EA(DAT_105781b0_t, 0x105781B0u)
 typedef undefined4 * DAT_105781b4_t;
 #define DAT_105781b4 XI_EA(DAT_105781b4_t, 0x105781B4u)
+typedef void * DAT_105781b8_t;
+#define DAT_105781b8 XI_EA(DAT_105781b8_t, 0x105781B8u)
+typedef void * DAT_105781bc_t;
+#define DAT_105781bc XI_EA(DAT_105781bc_t, 0x105781BCu)
 typedef undefined4 DAT_105781c4_t;
 #define DAT_105781c4 XI_EA(DAT_105781c4_t, 0x105781C4u)
 typedef int * DAT_105781cc_t;
 #define DAT_105781cc XI_EA(DAT_105781cc_t, 0x105781CCu)
+typedef int DAT_105781cc_as_s32_t;
+#define DAT_105781cc_as_s32 XI_EA(DAT_105781cc_as_s32_t, 0x105781CCu)
+typedef void * DAT_105781cc_as_v1_t;
+#define DAT_105781cc_as_v1 XI_EA(DAT_105781cc_as_v1_t, 0x105781CCu)
+typedef void * DAT_105781d0_t;
+#define DAT_105781d0 XI_EA(DAT_105781d0_t, 0x105781D0u)
 typedef int * DAT_105781d4_t;
 #define DAT_105781d4 XI_EA(DAT_105781d4_t, 0x105781D4u)
+typedef void * DAT_105781d4_as_v0_t;
+#define DAT_105781d4_as_v0 XI_EA(DAT_105781d4_as_v0_t, 0x105781D4u)
 typedef int * DAT_105781d8_t;
 #define DAT_105781d8 XI_EA(DAT_105781d8_t, 0x105781D8u)
+typedef void * DAT_105781d8_as_v0_t;
+#define DAT_105781d8_as_v0 XI_EA(DAT_105781d8_as_v0_t, 0x105781D8u)
+typedef void * DAT_105781e0_t;
+#define DAT_105781e0 XI_EA(DAT_105781e0_t, 0x105781E0u)
+typedef void * DAT_105781e4_t;
+#define DAT_105781e4 XI_EA(DAT_105781e4_t, 0x105781E4u)
+typedef undefined4 * DAT_105781e8_t;
+#define DAT_105781e8 XI_EA(DAT_105781e8_t, 0x105781E8u)
+typedef undefined4 * DAT_105781ec_t;
+#define DAT_105781ec XI_EA(DAT_105781ec_t, 0x105781ECu)
+typedef void * DAT_105781f0_t;
+#define DAT_105781f0 XI_EA(DAT_105781f0_t, 0x105781F0u)
 typedef undefined4 * DAT_105781f4_t;
 #define DAT_105781f4 XI_EA(DAT_105781f4_t, 0x105781F4u)
 typedef void * g_pTkHelp_t;
@@ -5481,12 +7339,70 @@ typedef int g_pTkHelp_as_s32_t;
 #define g_pTkHelp_as_s32 XI_EA(g_pTkHelp_as_s32_t, 0x105781F8u)
 typedef void * DAT_105781fc_t;
 #define DAT_105781fc XI_EA(DAT_105781fc_t, 0x105781FCu)
+typedef int DAT_105781fc_as_s32_t;
+#define DAT_105781fc_as_s32 XI_EA(DAT_105781fc_as_s32_t, 0x105781FCu)
+typedef void * DAT_10578200_t;
+#define DAT_10578200 XI_EA(DAT_10578200_t, 0x10578200u)
+typedef void * DAT_10578204_t;
+#define DAT_10578204 XI_EA(DAT_10578204_t, 0x10578204u)
+typedef void * DAT_10578208_t;
+#define DAT_10578208 XI_EA(DAT_10578208_t, 0x10578208u)
+typedef void * DAT_1057820c_t;
+#define DAT_1057820c XI_EA(DAT_1057820c_t, 0x1057820Cu)
+typedef void * DAT_10578214_t;
+#define DAT_10578214 XI_EA(DAT_10578214_t, 0x10578214u)
+typedef undefined4 * DAT_10578218_t;
+#define DAT_10578218 XI_EA(DAT_10578218_t, 0x10578218u)
+typedef undefined4 * DAT_1057821c_t;
+#define DAT_1057821c XI_EA(DAT_1057821c_t, 0x1057821Cu)
+typedef undefined4 * DAT_10578224_t;
+#define DAT_10578224 XI_EA(DAT_10578224_t, 0x10578224u)
+typedef undefined4 * DAT_10578228_t;
+#define DAT_10578228 XI_EA(DAT_10578228_t, 0x10578228u)
+typedef undefined4 * DAT_1057822c_t;
+#define DAT_1057822c XI_EA(DAT_1057822c_t, 0x1057822Cu)
+typedef undefined4 * DAT_10578230_t;
+#define DAT_10578230 XI_EA(DAT_10578230_t, 0x10578230u)
+typedef undefined4 * DAT_10578234_t;
+#define DAT_10578234 XI_EA(DAT_10578234_t, 0x10578234u)
+typedef undefined4 * DAT_10578238_t;
+#define DAT_10578238 XI_EA(DAT_10578238_t, 0x10578238u)
+typedef void * DAT_1057823c_t;
+#define DAT_1057823c XI_EA(DAT_1057823c_t, 0x1057823Cu)
+typedef undefined4 * DAT_10578240_t;
+#define DAT_10578240 XI_EA(DAT_10578240_t, 0x10578240u)
+typedef undefined4 * DAT_10578244_t;
+#define DAT_10578244 XI_EA(DAT_10578244_t, 0x10578244u)
+typedef undefined4 * DAT_10578248_t;
+#define DAT_10578248 XI_EA(DAT_10578248_t, 0x10578248u)
+typedef void * DAT_1057824c_t;
+#define DAT_1057824c XI_EA(DAT_1057824c_t, 0x1057824Cu)
 typedef int DAT_10578250_t;
 #define DAT_10578250 XI_EA(DAT_10578250_t, 0x10578250u)
+typedef void * DAT_10578250_as_v0_t;
+#define DAT_10578250_as_v0 XI_EA(DAT_10578250_as_v0_t, 0x10578250u)
+typedef undefined4 * DAT_10578258_t;
+#define DAT_10578258 XI_EA(DAT_10578258_t, 0x10578258u)
+typedef undefined4 * DAT_1057827c_t;
+#define DAT_1057827c XI_EA(DAT_1057827c_t, 0x1057827Cu)
+typedef undefined4 * DAT_10578280_t;
+#define DAT_10578280 XI_EA(DAT_10578280_t, 0x10578280u)
+typedef undefined4 * DAT_10578290_t;
+#define DAT_10578290 XI_EA(DAT_10578290_t, 0x10578290u)
+typedef void * DAT_10578294_t;
+#define DAT_10578294 XI_EA(DAT_10578294_t, 0x10578294u)
+typedef undefined4 * DAT_10578298_t;
+#define DAT_10578298 XI_EA(DAT_10578298_t, 0x10578298u)
 typedef int DAT_1057829c_t;
 #define DAT_1057829c XI_EA(DAT_1057829c_t, 0x1057829Cu)
 typedef int DAT_105782a0_t;
 #define DAT_105782a0 XI_EA(DAT_105782a0_t, 0x105782A0u)
+typedef undefined4 * DAT_105782a4_t;
+#define DAT_105782a4 XI_EA(DAT_105782a4_t, 0x105782A4u)
+typedef void * DAT_105782b0_t;
+#define DAT_105782b0 XI_EA(DAT_105782b0_t, 0x105782B0u)
+typedef void * DAT_105782b4_t;
+#define DAT_105782b4 XI_EA(DAT_105782b4_t, 0x105782B4u)
 typedef undefined4 * DAT_105782b8_t;
 #define DAT_105782b8 XI_EA(DAT_105782b8_t, 0x105782B8u)
 typedef undefined4 * DAT_105782bc_t;
@@ -5503,6 +7419,8 @@ typedef undefined4 * DAT_105782d0_t;
 #define DAT_105782d0 XI_EA(DAT_105782d0_t, 0x105782D0u)
 typedef undefined4 * DAT_105783e0_t;
 #define DAT_105783e0 XI_EA(DAT_105783e0_t, 0x105783E0u)
+typedef void * DAT_105783e4_t;
+#define DAT_105783e4 XI_EA(DAT_105783e4_t, 0x105783E4u)
 typedef void * DAT_105783e8_t;
 #define DAT_105783e8 XI_EA(DAT_105783e8_t, 0x105783E8u)
 typedef undefined4 * DAT_105783ec_t;
@@ -5541,6 +7459,8 @@ typedef void * DAT_1057842c_t;
 #define DAT_1057842c XI_EA(DAT_1057842c_t, 0x1057842Cu)
 typedef undefined4 * DAT_10578430_t;
 #define DAT_10578430 XI_EA(DAT_10578430_t, 0x10578430u)
+typedef undefined4 * DAT_10578434_t;
+#define DAT_10578434 XI_EA(DAT_10578434_t, 0x10578434u)
 typedef void * DAT_10578438_t;
 #define DAT_10578438 XI_EA(DAT_10578438_t, 0x10578438u)
 typedef void * DAT_1057843c_t;
@@ -5551,18 +7471,44 @@ typedef undefined4 * DAT_10578444_t;
 #define DAT_10578444 XI_EA(DAT_10578444_t, 0x10578444u)
 typedef void * DAT_10578448_t;
 #define DAT_10578448 XI_EA(DAT_10578448_t, 0x10578448u)
+typedef void * DAT_10578450_t;
+#define DAT_10578450 XI_EA(DAT_10578450_t, 0x10578450u)
 typedef undefined4 * DAT_10578454_t;
 #define DAT_10578454 XI_EA(DAT_10578454_t, 0x10578454u)
+typedef void * DAT_10578458_t;
+#define DAT_10578458 XI_EA(DAT_10578458_t, 0x10578458u)
 typedef undefined4 DAT_1057845c_t;
 #define DAT_1057845c XI_EA(DAT_1057845c_t, 0x1057845Cu)
+typedef undefined4 * DAT_1057845c_as_v0_t;
+#define DAT_1057845c_as_v0 XI_EA(DAT_1057845c_as_v0_t, 0x1057845Cu)
+typedef undefined4 * DAT_10578460_t;
+#define DAT_10578460 XI_EA(DAT_10578460_t, 0x10578460u)
+typedef undefined4 * DAT_10578468_t;
+#define DAT_10578468 XI_EA(DAT_10578468_t, 0x10578468u)
+typedef undefined4 * DAT_1057846c_t;
+#define DAT_1057846c XI_EA(DAT_1057846c_t, 0x1057846Cu)
+typedef void * DAT_10578470_t;
+#define DAT_10578470 XI_EA(DAT_10578470_t, 0x10578470u)
+typedef void * DAT_10578474_t;
+#define DAT_10578474 XI_EA(DAT_10578474_t, 0x10578474u)
+typedef int DAT_10578474_as_s32_t;
+#define DAT_10578474_as_s32 XI_EA(DAT_10578474_as_s32_t, 0x10578474u)
 typedef void * DAT_10578478_t;
 #define DAT_10578478 XI_EA(DAT_10578478_t, 0x10578478u)
 typedef undefined4 DAT_10578478_as_v0_t;
 #define DAT_10578478_as_v0 XI_EA(DAT_10578478_as_v0_t, 0x10578478u)
+typedef int DAT_10578478_as_s32_t;
+#define DAT_10578478_as_s32 XI_EA(DAT_10578478_as_s32_t, 0x10578478u)
 typedef void * g_pTkTitle_t;
 #define g_pTkTitle XI_EA(g_pTkTitle_t, 0x1057847Cu)
 typedef int g_pTkTitle_as_s32_t;
 #define g_pTkTitle_as_s32 XI_EA(g_pTkTitle_as_s32_t, 0x1057847Cu)
+typedef undefined4 * DAT_10578480_t;
+#define DAT_10578480 XI_EA(DAT_10578480_t, 0x10578480u)
+typedef void * DAT_10578480_as_v0_t;
+#define DAT_10578480_as_v0 XI_EA(DAT_10578480_as_v0_t, 0x10578480u)
+typedef void * DAT_10578484_t;
+#define DAT_10578484 XI_EA(DAT_10578484_t, 0x10578484u)
 typedef undefined4 * DAT_10578488_t;
 #define DAT_10578488 XI_EA(DAT_10578488_t, 0x10578488u)
 typedef int DAT_10578490_t;
@@ -5589,6 +7535,8 @@ typedef undefined4 DAT_10578528_t;
 #define DAT_10578528 XI_EA(DAT_10578528_t, 0x10578528u)
 typedef undefined4 DAT_10578548_t;
 #define DAT_10578548 XI_EA(DAT_10578548_t, 0x10578548u)
+typedef int DAT_10578548_as_s32_t;
+#define DAT_10578548_as_s32 XI_EA(DAT_10578548_as_s32_t, 0x10578548u)
 typedef undefined4 DAT_10578618_t;
 #define DAT_10578618 XI_EA(DAT_10578618_t, 0x10578618u)
 typedef undefined4 DAT_10578628_t;
@@ -5613,6 +7561,8 @@ typedef undefined4 DAT_105786d8_t;
 #define DAT_105786d8 XI_EA(DAT_105786d8_t, 0x105786D8u)
 typedef uint8_t DAT_10578764_t;
 #define DAT_10578764 XI_EA(DAT_10578764_t, 0x10578764u)
+typedef void * DAT_10578768_t;
+#define DAT_10578768 XI_EA(DAT_10578768_t, 0x10578768u)
 typedef void * g_pTargetMng_t;
 #define g_pTargetMng XI_EA(g_pTargetMng_t, 0x1057876Cu)
 typedef int g_pTargetMng_as_s32_t;
@@ -5633,28 +7583,46 @@ typedef void * DAT_10621808_t;
 #define DAT_10621808 XI_EA(DAT_10621808_t, 0x10621808u)
 typedef undefined4 * DAT_1062180c_t;
 #define DAT_1062180c XI_EA(DAT_1062180c_t, 0x1062180Cu)
+typedef int DAT_1062180c_as_s32_t;
+#define DAT_1062180c_as_s32 XI_EA(DAT_1062180c_as_s32_t, 0x1062180Cu)
 typedef int DAT_10621810_t;
 #define DAT_10621810 XI_EA(DAT_10621810_t, 0x10621810u)
 typedef __int16 g_menuMng_t[14];
 #define g_menuMng XI_EA(g_menuMng_t, 0x10621838u)
 typedef undefined4 g_menuMng_as_v0_t;
 #define g_menuMng_as_v0 XI_EA(g_menuMng_as_v0_t, 0x10621838u)
+typedef int DAT_1062188c_t;
+#define DAT_1062188c XI_EA(DAT_1062188c_t, 0x1062188Cu)
+typedef uint8_t DAT_10621898_t;
+#define DAT_10621898 XI_EA(DAT_10621898_t, 0x10621898u)
+typedef uint32_t DAT_10621898_as_v0_t;
+#define DAT_10621898_as_v0 XI_EA(DAT_10621898_as_v0_t, 0x10621898u)
+typedef undefined3 DAT_10621898_1_t;
+#define DAT_10621898_1 XI_EA(DAT_10621898_1_t, 0x10621899u)
 typedef int g_screenRectTopLeft_t;
 #define g_screenRectTopLeft XI_EA(g_screenRectTopLeft_t, 0x106218B4u)
 typedef short g_screenRectTopLeft_as_v0_t;
 #define g_screenRectTopLeft_as_v0 XI_EA(g_screenRectTopLeft_as_v0_t, 0x106218B4u)
 typedef undefined4 g_screenRectTopLeft_as_v1_t;
 #define g_screenRectTopLeft_as_v1 XI_EA(g_screenRectTopLeft_as_v1_t, 0x106218B4u)
+typedef undefined2 g_screenRectTopLeft_as_v2_t;
+#define g_screenRectTopLeft_as_v2 XI_EA(g_screenRectTopLeft_as_v2_t, 0x106218B4u)
 typedef int g_screenRectBottomRight_t;
 #define g_screenRectBottomRight XI_EA(g_screenRectBottomRight_t, 0x106218B8u)
 typedef short g_screenRectBottomRight_as_v0_t;
 #define g_screenRectBottomRight_as_v0 XI_EA(g_screenRectBottomRight_as_v0_t, 0x106218B8u)
 typedef undefined4 g_screenRectBottomRight_as_v1_t;
 #define g_screenRectBottomRight_as_v1 XI_EA(g_screenRectBottomRight_as_v1_t, 0x106218B8u)
+typedef undefined2 g_screenRectBottomRight_as_v2_t;
+#define g_screenRectBottomRight_as_v2 XI_EA(g_screenRectBottomRight_as_v2_t, 0x106218B8u)
 typedef undefined1 DAT_106218ea_t;
 #define DAT_106218ea XI_EA(DAT_106218ea_t, 0x106218EAu)
 typedef int * DAT_106218f4_t;
 #define DAT_106218f4 XI_EA(DAT_106218f4_t, 0x106218F4u)
+typedef int DAT_106218f8_t;
+#define DAT_106218f8 XI_EA(DAT_106218f8_t, 0x106218F8u)
+typedef void * DAT_106218fc_t;
+#define DAT_106218fc XI_EA(DAT_106218fc_t, 0x106218FCu)
 typedef void * DAT_10621900_t;
 #define DAT_10621900 XI_EA(DAT_10621900_t, 0x10621900u)
 typedef D3DVIEWPORT8 g_viewport_1904_t;
@@ -5669,14 +7637,20 @@ typedef int DAT_1062193c_as_s32_t;
 #define DAT_1062193c_as_s32 XI_EA(DAT_1062193c_as_s32_t, 0x1062193Cu)
 typedef undefined4 DAT_1062193c_as_v1_t;
 #define DAT_1062193c_as_v1 XI_EA(DAT_1062193c_as_v1_t, 0x1062193Cu)
-typedef int * DAT_10621940_t;
+typedef void * DAT_1062193c_as_v2_t;
+#define DAT_1062193c_as_v2 XI_EA(DAT_1062193c_as_v2_t, 0x1062193Cu)
+typedef int DAT_10621940_t;
 #define DAT_10621940 XI_EA(DAT_10621940_t, 0x10621940u)
-typedef int DAT_10621940_as_s32_t;
-#define DAT_10621940_as_s32 XI_EA(DAT_10621940_as_s32_t, 0x10621940u)
+typedef int * DAT_10621940_as_v0_t;
+#define DAT_10621940_as_v0 XI_EA(DAT_10621940_as_v0_t, 0x10621940u)
 typedef undefined4 DAT_10621940_as_v1_t;
 #define DAT_10621940_as_v1 XI_EA(DAT_10621940_as_v1_t, 0x10621940u)
+typedef void * DAT_10621940_as_v2_t;
+#define DAT_10621940_as_v2 XI_EA(DAT_10621940_as_v2_t, 0x10621940u)
 typedef void * DAT_10621944_t;
 #define DAT_10621944 XI_EA(DAT_10621944_t, 0x10621944u)
+typedef void * DAT_10621950_t;
+#define DAT_10621950 XI_EA(DAT_10621950_t, 0x10621950u)
 typedef int g_upVerts_1988_t;
 #define g_upVerts_1988 XI_EA(g_upVerts_1988_t, 0x10621988u)
 typedef float g_upVerts_1988_v0_y_t;
@@ -5723,6 +7697,8 @@ typedef int g_dbgBoxList_t;
 #define g_dbgBoxList XI_EA(g_dbgBoxList_t, 0x10621A08u)
 typedef undefined4 g_dbgBoxList_as_v0_t;
 #define g_dbgBoxList_as_v0 XI_EA(g_dbgBoxList_as_v0_t, 0x10621A08u)
+typedef undefined4 * g_dbgBoxList_as_v1_t;
+#define g_dbgBoxList_as_v1 XI_EA(g_dbgBoxList_as_v1_t, 0x10621A08u)
 typedef undefined4 DAT_10621a0c_t;
 #define DAT_10621a0c XI_EA(DAT_10621a0c_t, 0x10621A0Cu)
 typedef int dword_10621A10_t;
@@ -6153,6 +8129,8 @@ typedef int g_boxPositionVB_t;
 #define g_boxPositionVB XI_EA(g_boxPositionVB_t, 0x10631F20u)
 typedef void * g_pZoneMap_t;
 #define g_pZoneMap XI_EA(g_pZoneMap_t, 0x10631F24u)
+typedef int g_pZoneMap_as_s32_t;
+#define g_pZoneMap_as_s32 XI_EA(g_pZoneMap_as_s32_t, 0x10631F24u)
 typedef undefined1 DAT_10631f38_t;
 #define DAT_10631f38 XI_EA(DAT_10631f38_t, 0x10631F38u)
 typedef int g_zbiasZoneMesh_t;
@@ -6331,6 +8309,8 @@ typedef void * DAT_10662698_t;
 #define DAT_10662698 XI_EA(DAT_10662698_t, 0x10662698u)
 typedef undefined4 * DAT_1066269c_t;
 #define DAT_1066269c XI_EA(DAT_1066269c_t, 0x1066269Cu)
+typedef void * DAT_1066269c_as_v0_t;
+#define DAT_1066269c_as_v0 XI_EA(DAT_1066269c_as_v0_t, 0x1066269Cu)
 typedef undefined4 * DAT_106626a0_t;
 #define DAT_106626a0 XI_EA(DAT_106626a0_t, 0x106626A0u)
 typedef undefined4 * DAT_106626a4_t;
@@ -6341,12 +8321,64 @@ typedef undefined4 _DAT_106626c4_t;
 #define _DAT_106626c4 XI_EA(_DAT_106626c4_t, 0x106626C4u)
 typedef void * DAT_106626cc_t;
 #define DAT_106626cc XI_EA(DAT_106626cc_t, 0x106626CCu)
+typedef undefined4 * DAT_10662718_t;
+#define DAT_10662718 XI_EA(DAT_10662718_t, 0x10662718u)
+typedef undefined4 * DAT_1066271c_t;
+#define DAT_1066271c XI_EA(DAT_1066271c_t, 0x1066271Cu)
+typedef undefined4 * DAT_10662720_t;
+#define DAT_10662720 XI_EA(DAT_10662720_t, 0x10662720u)
+typedef void * DAT_10662724_t;
+#define DAT_10662724 XI_EA(DAT_10662724_t, 0x10662724u)
+typedef void * DAT_10662728_t;
+#define DAT_10662728 XI_EA(DAT_10662728_t, 0x10662728u)
+typedef undefined4 * DAT_1066272c_t;
+#define DAT_1066272c XI_EA(DAT_1066272c_t, 0x1066272Cu)
+typedef undefined4 * DAT_10662730_t;
+#define DAT_10662730 XI_EA(DAT_10662730_t, 0x10662730u)
+typedef undefined4 * DAT_10662734_t;
+#define DAT_10662734 XI_EA(DAT_10662734_t, 0x10662734u)
+typedef void * DAT_10662738_t;
+#define DAT_10662738 XI_EA(DAT_10662738_t, 0x10662738u)
+typedef void * DAT_1066273c_t;
+#define DAT_1066273c XI_EA(DAT_1066273c_t, 0x1066273Cu)
+typedef undefined4 * DAT_10662740_t;
+#define DAT_10662740 XI_EA(DAT_10662740_t, 0x10662740u)
+typedef undefined4 * DAT_10662744_t;
+#define DAT_10662744 XI_EA(DAT_10662744_t, 0x10662744u)
+typedef undefined4 * DAT_10662748_t;
+#define DAT_10662748 XI_EA(DAT_10662748_t, 0x10662748u)
+typedef void * DAT_1066274c_t;
+#define DAT_1066274c XI_EA(DAT_1066274c_t, 0x1066274Cu)
+typedef void * DAT_10662750_t;
+#define DAT_10662750 XI_EA(DAT_10662750_t, 0x10662750u)
+typedef void * DAT_10662754_t;
+#define DAT_10662754 XI_EA(DAT_10662754_t, 0x10662754u)
+typedef void * DAT_10662758_t;
+#define DAT_10662758 XI_EA(DAT_10662758_t, 0x10662758u)
+typedef void * DAT_1066275c_t;
+#define DAT_1066275c XI_EA(DAT_1066275c_t, 0x1066275Cu)
+typedef void * DAT_10662760_t;
+#define DAT_10662760 XI_EA(DAT_10662760_t, 0x10662760u)
+typedef void * DAT_10662764_t;
+#define DAT_10662764 XI_EA(DAT_10662764_t, 0x10662764u)
+typedef void * DAT_10662768_t;
+#define DAT_10662768 XI_EA(DAT_10662768_t, 0x10662768u)
 typedef int DAT_1066276c_t;
 #define DAT_1066276c XI_EA(DAT_1066276c_t, 0x1066276Cu)
+typedef void * DAT_1066276c_as_v0_t;
+#define DAT_1066276c_as_v0 XI_EA(DAT_1066276c_as_v0_t, 0x1066276Cu)
 typedef void * DAT_10662770_t;
 #define DAT_10662770 XI_EA(DAT_10662770_t, 0x10662770u)
 typedef void * DAT_10662774_t;
 #define DAT_10662774 XI_EA(DAT_10662774_t, 0x10662774u)
+typedef void * DAT_10662778_t;
+#define DAT_10662778 XI_EA(DAT_10662778_t, 0x10662778u)
+typedef void * DAT_1066277c_t;
+#define DAT_1066277c XI_EA(DAT_1066277c_t, 0x1066277Cu)
+typedef void * DAT_10662780_t;
+#define DAT_10662780 XI_EA(DAT_10662780_t, 0x10662780u)
+typedef void * DAT_10662784_t;
+#define DAT_10662784 XI_EA(DAT_10662784_t, 0x10662784u)
 typedef undefined4 * DAT_10662788_t;
 #define DAT_10662788 XI_EA(DAT_10662788_t, 0x10662788u)
 typedef int DAT_10662794_t;
@@ -6401,6 +8433,8 @@ typedef LPVOID DAT_10662d40_as_v0_t;
 #define DAT_10662d40_as_v0 XI_EA(DAT_10662d40_as_v0_t, 0x10662D40u)
 typedef undefined4 * DAT_10662d40_as_v1_t;
 #define DAT_10662d40_as_v1 XI_EA(DAT_10662d40_as_v1_t, 0x10662D40u)
+typedef undefined4 DAT_10662d40_as_v2_t;
+#define DAT_10662d40_as_v2 XI_EA(DAT_10662d40_as_v2_t, 0x10662D40u)
 typedef undefined4 DAT_10662d46_t;
 #define DAT_10662d46 XI_EA(DAT_10662d46_t, 0x10662D46u)
 typedef undefined4 DAT_10662d47_t;
@@ -6423,12 +8457,16 @@ typedef undefined4 * DAT_10662da0_t;
 #define DAT_10662da0 XI_EA(DAT_10662da0_t, 0x10662DA0u)
 typedef undefined4 * DAT_10662da4_t;
 #define DAT_10662da4 XI_EA(DAT_10662da4_t, 0x10662DA4u)
+typedef void * DAT_10662da4_as_v0_t;
+#define DAT_10662da4_as_v0 XI_EA(DAT_10662da4_as_v0_t, 0x10662DA4u)
 typedef int dword_10662DA8_t;
 #define dword_10662DA8 XI_EA(dword_10662DA8_t, 0x10662DA8u)
 typedef undefined4 * dword_10662DA8_as_v0_t;
 #define dword_10662DA8_as_v0 XI_EA(dword_10662DA8_as_v0_t, 0x10662DA8u)
 typedef undefined4 * DAT_10662dac_t;
 #define DAT_10662dac XI_EA(DAT_10662dac_t, 0x10662DACu)
+typedef int DAT_10662dac_as_s32_t;
+#define DAT_10662dac_as_s32 XI_EA(DAT_10662dac_as_s32_t, 0x10662DACu)
 typedef void * DAT_10662db0_t;
 #define DAT_10662db0 XI_EA(DAT_10662db0_t, 0x10662DB0u)
 typedef int DAT_10662db0_as_s32_t;
@@ -6437,6 +8475,8 @@ typedef int DAT_10662db4_t;
 #define DAT_10662db4 XI_EA(DAT_10662db4_t, 0x10662DB4u)
 typedef void * DAT_10662db8_t;
 #define DAT_10662db8 XI_EA(DAT_10662db8_t, 0x10662DB8u)
+typedef undefined4 DAT_10662db8_as_v0_t;
+#define DAT_10662db8_as_v0 XI_EA(DAT_10662db8_as_v0_t, 0x10662DB8u)
 typedef void * ArgList_t;
 #define ArgList XI_EA(ArgList_t, 0x10662DBCu)
 typedef undefined4 ArgList_as_v0_t;
@@ -6445,20 +8485,68 @@ typedef void * DAT_10662dc0_t;
 #define DAT_10662dc0 XI_EA(DAT_10662dc0_t, 0x10662DC0u)
 typedef int g_pFileMng_t;
 #define g_pFileMng XI_EA(g_pFileMng_t, 0x10662DCCu)
-typedef undefined4 g_pFileMng_as_v0_t;
+typedef void * g_pFileMng_as_v0_t;
 #define g_pFileMng_as_v0 XI_EA(g_pFileMng_as_v0_t, 0x10662DCCu)
-typedef void * g_pFileMng_as_v1_t;
+typedef undefined4 g_pFileMng_as_v1_t;
 #define g_pFileMng_as_v1 XI_EA(g_pFileMng_as_v1_t, 0x10662DCCu)
 typedef undefined4 DAT_10662e50_t;
 #define DAT_10662e50 XI_EA(DAT_10662e50_t, 0x10662E50u)
+typedef undefined4 DAT_10662e54_t;
+#define DAT_10662e54 XI_EA(DAT_10662e54_t, 0x10662E54u)
+typedef undefined4 _DAT_10662e58_t;
+#define _DAT_10662e58 XI_EA(_DAT_10662e58_t, 0x10662E58u)
+typedef undefined4 _DAT_10662e5c_t;
+#define _DAT_10662e5c XI_EA(_DAT_10662e5c_t, 0x10662E5Cu)
+typedef undefined4 _DAT_10662e60_t;
+#define _DAT_10662e60 XI_EA(_DAT_10662e60_t, 0x10662E60u)
+typedef undefined4 _DAT_10662e64_t;
+#define _DAT_10662e64 XI_EA(_DAT_10662e64_t, 0x10662E64u)
+typedef undefined4 _DAT_10662e68_t;
+#define _DAT_10662e68 XI_EA(_DAT_10662e68_t, 0x10662E68u)
+typedef undefined4 _DAT_10662e6c_t;
+#define _DAT_10662e6c XI_EA(_DAT_10662e6c_t, 0x10662E6Cu)
+typedef undefined4 _DAT_10662e70_t;
+#define _DAT_10662e70 XI_EA(_DAT_10662e70_t, 0x10662E70u)
+typedef undefined4 _DAT_10662e74_t;
+#define _DAT_10662e74 XI_EA(_DAT_10662e74_t, 0x10662E74u)
+typedef undefined4 _DAT_10662e78_t;
+#define _DAT_10662e78 XI_EA(_DAT_10662e78_t, 0x10662E78u)
+typedef undefined4 _DAT_10662e7c_t;
+#define _DAT_10662e7c XI_EA(_DAT_10662e7c_t, 0x10662E7Cu)
+typedef undefined4 _DAT_10662e80_t;
+#define _DAT_10662e80 XI_EA(_DAT_10662e80_t, 0x10662E80u)
+typedef undefined4 _DAT_10662e84_t;
+#define _DAT_10662e84 XI_EA(_DAT_10662e84_t, 0x10662E84u)
+typedef undefined4 _DAT_10662e88_t;
+#define _DAT_10662e88 XI_EA(_DAT_10662e88_t, 0x10662E88u)
+typedef undefined4 _DAT_10662e8c_t;
+#define _DAT_10662e8c XI_EA(_DAT_10662e8c_t, 0x10662E8Cu)
+typedef undefined4 _DAT_10662e90_t;
+#define _DAT_10662e90 XI_EA(_DAT_10662e90_t, 0x10662E90u)
+typedef undefined4 _DAT_10662e94_t;
+#define _DAT_10662e94 XI_EA(_DAT_10662e94_t, 0x10662E94u)
+typedef undefined4 DAT_10662e98_t;
+#define DAT_10662e98 XI_EA(DAT_10662e98_t, 0x10662E98u)
+typedef undefined4 DAT_10662f18_t;
+#define DAT_10662f18 XI_EA(DAT_10662f18_t, 0x10662F18u)
+typedef undefined4 DAT_10662f20_t;
+#define DAT_10662f20 XI_EA(DAT_10662f20_t, 0x10662F20u)
+typedef xi_codefn * DAT_10662f60_t;
+#define DAT_10662f60 XI_EA(DAT_10662f60_t, 0x10662F60u)
+typedef undefined * DAT_10662f60_as_v0_t;
+#define DAT_10662f60_as_v0 XI_EA(DAT_10662f60_as_v0_t, 0x10662F60u)
+typedef undefined1 DAT_10662f64_t;
+#define DAT_10662f64 XI_EA(DAT_10662f64_t, 0x10662F64u)
 typedef undefined4 DAT_10662f78_t;
 #define DAT_10662f78 XI_EA(DAT_10662f78_t, 0x10662F78u)
 typedef undefined4 DAT_10663078_t;
 #define DAT_10663078 XI_EA(DAT_10663078_t, 0x10663078u)
-typedef short DAT_10663178_t;
+typedef undefined2 DAT_10663178_t;
 #define DAT_10663178 XI_EA(DAT_10663178_t, 0x10663178u)
-typedef undefined2 DAT_10663178_as_v0_t;
+typedef short DAT_10663178_as_v0_t;
 #define DAT_10663178_as_v0 XI_EA(DAT_10663178_as_v0_t, 0x10663178u)
+typedef char DAT_1066317a_t;
+#define DAT_1066317a XI_EA(DAT_1066317a_t, 0x1066317Au)
 typedef void * DAT_10663180_t;
 #define DAT_10663180 XI_EA(DAT_10663180_t, 0x10663180u)
 typedef void * DAT_10663184_t;
@@ -6557,6 +8645,8 @@ typedef undefined4 * DAT_106634b4_t;
 #define DAT_106634b4 XI_EA(DAT_106634b4_t, 0x106634B4u)
 typedef int DAT_106634b8_t;
 #define DAT_106634b8 XI_EA(DAT_106634b8_t, 0x106634B8u)
+typedef void * DAT_106634b8_as_v0_t;
+#define DAT_106634b8_as_v0 XI_EA(DAT_106634b8_as_v0_t, 0x106634B8u)
 typedef undefined4 * DAT_106634bc_t;
 #define DAT_106634bc XI_EA(DAT_106634bc_t, 0x106634BCu)
 typedef undefined4 * DAT_106634c0_t;
@@ -6595,8 +8685,40 @@ typedef undefined4 * DAT_10663550_t;
 #define DAT_10663550 XI_EA(DAT_10663550_t, 0x10663550u)
 typedef void * DAT_10663554_t;
 #define DAT_10663554 XI_EA(DAT_10663554_t, 0x10663554u)
+typedef undefined1 DAT_10663588_t;
+#define DAT_10663588 XI_EA(DAT_10663588_t, 0x10663588u)
+typedef undefined4 _DAT_1066358c_t;
+#define _DAT_1066358c XI_EA(_DAT_1066358c_t, 0x1066358Cu)
+typedef undefined4 DAT_10663644_t;
+#define DAT_10663644 XI_EA(DAT_10663644_t, 0x10663644u)
 typedef void * DAT_10663648_t;
 #define DAT_10663648 XI_EA(DAT_10663648_t, 0x10663648u)
+typedef undefined4 * DAT_1066364c_t;
+#define DAT_1066364c XI_EA(DAT_1066364c_t, 0x1066364Cu)
+typedef undefined4 * DAT_10663650_t;
+#define DAT_10663650 XI_EA(DAT_10663650_t, 0x10663650u)
+typedef undefined4 * DAT_10663654_t;
+#define DAT_10663654 XI_EA(DAT_10663654_t, 0x10663654u)
+typedef undefined4 * DAT_10663658_t;
+#define DAT_10663658 XI_EA(DAT_10663658_t, 0x10663658u)
+typedef undefined4 * DAT_1066365c_t;
+#define DAT_1066365c XI_EA(DAT_1066365c_t, 0x1066365Cu)
+typedef undefined4 * DAT_10663660_t;
+#define DAT_10663660 XI_EA(DAT_10663660_t, 0x10663660u)
+typedef undefined4 * DAT_10663664_t;
+#define DAT_10663664 XI_EA(DAT_10663664_t, 0x10663664u)
+typedef undefined4 * DAT_10663668_t;
+#define DAT_10663668 XI_EA(DAT_10663668_t, 0x10663668u)
+typedef undefined4 * DAT_1066366c_t;
+#define DAT_1066366c XI_EA(DAT_1066366c_t, 0x1066366Cu)
+typedef undefined4 * DAT_10663670_t;
+#define DAT_10663670 XI_EA(DAT_10663670_t, 0x10663670u)
+typedef undefined4 * DAT_10663674_t;
+#define DAT_10663674 XI_EA(DAT_10663674_t, 0x10663674u)
+typedef undefined4 * DAT_10663678_t;
+#define DAT_10663678 XI_EA(DAT_10663678_t, 0x10663678u)
+typedef undefined4 * DAT_1066367c_t;
+#define DAT_1066367c XI_EA(DAT_1066367c_t, 0x1066367Cu)
 typedef void * DAT_10663684_t;
 #define DAT_10663684 XI_EA(DAT_10663684_t, 0x10663684u)
 typedef void * DAT_10663688_t;
@@ -6661,6 +8783,8 @@ typedef undefined4 * DAT_1066378c_t;
 #define DAT_1066378c XI_EA(DAT_1066378c_t, 0x1066378Cu)
 typedef undefined4 * DAT_10663790_t;
 #define DAT_10663790 XI_EA(DAT_10663790_t, 0x10663790u)
+typedef undefined4 DAT_10663798_t;
+#define DAT_10663798 XI_EA(DAT_10663798_t, 0x10663798u)
 typedef char DAT_106637a8_t;
 #define DAT_106637a8 XI_EA(DAT_106637a8_t, 0x106637A8u)
 typedef undefined1 DAT_106637a8_as_v0_t;
@@ -6763,22 +8887,36 @@ typedef int DAT_106643e0_t;
 #define DAT_106643e0 XI_EA(DAT_106643e0_t, 0x106643E0u)
 typedef int DAT_106643e4_t;
 #define DAT_106643e4 XI_EA(DAT_106643e4_t, 0x106643E4u)
+typedef xi_codefn * DAT_106643e4_as_v0_t;
+#define DAT_106643e4_as_v0 XI_EA(DAT_106643e4_as_v0_t, 0x106643E4u)
 typedef undefined4 DAT_106643e8_t;
 #define DAT_106643e8 XI_EA(DAT_106643e8_t, 0x106643E8u)
+typedef int DAT_106643e8_as_s32_t;
+#define DAT_106643e8_as_s32 XI_EA(DAT_106643e8_as_s32_t, 0x106643E8u)
 typedef undefined4 DAT_106643ec_t;
 #define DAT_106643ec XI_EA(DAT_106643ec_t, 0x106643ECu)
+typedef int DAT_106643ec_as_s32_t;
+#define DAT_106643ec_as_s32 XI_EA(DAT_106643ec_as_s32_t, 0x106643ECu)
 typedef undefined1 DAT_106643f0_t;
 #define DAT_106643f0 XI_EA(DAT_106643f0_t, 0x106643F0u)
+typedef char DAT_106643f0_as_s8_t;
+#define DAT_106643f0_as_s8 XI_EA(DAT_106643f0_as_s8_t, 0x106643F0u)
 typedef undefined1 DAT_106643f1_t;
 #define DAT_106643f1 XI_EA(DAT_106643f1_t, 0x106643F1u)
+typedef char DAT_106643f1_as_s8_t;
+#define DAT_106643f1_as_s8 XI_EA(DAT_106643f1_as_s8_t, 0x106643F1u)
 typedef undefined1 DAT_106643f2_t;
 #define DAT_106643f2 XI_EA(DAT_106643f2_t, 0x106643F2u)
+typedef char DAT_106643f2_as_s8_t;
+#define DAT_106643f2_as_s8 XI_EA(DAT_106643f2_as_s8_t, 0x106643F2u)
 typedef char DAT_106643f3_t;
 #define DAT_106643f3 XI_EA(DAT_106643f3_t, 0x106643F3u)
 typedef char DAT_106643f4_t;
 #define DAT_106643f4 XI_EA(DAT_106643f4_t, 0x106643F4u)
 typedef undefined4 DAT_106643fc_t;
 #define DAT_106643fc XI_EA(DAT_106643fc_t, 0x106643FCu)
+typedef int DAT_106643fc_as_s32_t;
+#define DAT_106643fc_as_s32 XI_EA(DAT_106643fc_as_s32_t, 0x106643FCu)
 typedef undefined4 * DAT_10664404_t;
 #define DAT_10664404 XI_EA(DAT_10664404_t, 0x10664404u)
 typedef undefined4 * DAT_10664408_t;
@@ -7055,8 +9193,20 @@ typedef void * DAT_10668ed8_t;
 #define DAT_10668ed8 XI_EA(DAT_10668ed8_t, 0x10668ED8u)
 typedef int g_pKeyPrompt_t;
 #define g_pKeyPrompt XI_EA(g_pKeyPrompt_t, 0x10668FD8u)
+typedef void * g_pKeyPrompt_as_v0_t;
+#define g_pKeyPrompt_as_v0 XI_EA(g_pKeyPrompt_as_v0_t, 0x10668FD8u)
 typedef undefined4 DAT_10668fe4_t;
 #define DAT_10668fe4 XI_EA(DAT_10668fe4_t, 0x10668FE4u)
+typedef undefined4 DAT_10668ff4_t;
+#define DAT_10668ff4 XI_EA(DAT_10668ff4_t, 0x10668FF4u)
+typedef char * DAT_10668ff4_as_v0_t;
+#define DAT_10668ff4_as_v0 XI_EA(DAT_10668ff4_as_v0_t, 0x10668FF4u)
+typedef uint32_t DAT_10668ff8_t;
+#define DAT_10668ff8 XI_EA(DAT_10668ff8_t, 0x10668FF8u)
+typedef undefined4 * DAT_10668ff8_as_v0_t;
+#define DAT_10668ff8_as_v0 XI_EA(DAT_10668ff8_as_v0_t, 0x10668FF8u)
+typedef void * DAT_10668ff8_as_v1_t;
+#define DAT_10668ff8_as_v1 XI_EA(DAT_10668ff8_as_v1_t, 0x10668FF8u)
 typedef int dword_10669014_t;
 #define dword_10669014 XI_EA(dword_10669014_t, 0x10669014u)
 typedef void * DAT_10669098_t;
@@ -7081,6 +9231,8 @@ typedef int * DAT_106690f0_t;
 #define DAT_106690f0 XI_EA(DAT_106690f0_t, 0x106690F0u)
 typedef int DAT_10669108_t;
 #define DAT_10669108 XI_EA(DAT_10669108_t, 0x10669108u)
+typedef void * DAT_10669140_t;
+#define DAT_10669140 XI_EA(DAT_10669140_t, 0x10669140u)
 typedef void * DAT_10669144_t;
 #define DAT_10669144 XI_EA(DAT_10669144_t, 0x10669144u)
 typedef int g_stateBlock_914C_t;
@@ -7091,6 +9243,8 @@ typedef undefined4 DAT_10669158_t;
 #define DAT_10669158 XI_EA(DAT_10669158_t, 0x10669158u)
 typedef void * g_pStDancer_t;
 #define g_pStDancer XI_EA(g_pStDancer_t, 0x106693FCu)
+typedef undefined4 g_pStDancer_as_v0_t;
+#define g_pStDancer_as_v0 XI_EA(g_pStDancer_as_v0_t, 0x106693FCu)
 typedef int g_dancerMainMemSize_t;
 #define g_dancerMainMemSize XI_EA(g_dancerMainMemSize_t, 0x10669400u)
 typedef undefined4 g_dancerMainMemSize_as_v0_t;
@@ -7121,12 +9275,18 @@ typedef undefined4 DAT_10669454_t;
 #define DAT_10669454 XI_EA(DAT_10669454_t, 0x10669454u)
 typedef int DAT_10669464_t;
 #define DAT_10669464 XI_EA(DAT_10669464_t, 0x10669464u)
+typedef undefined * DAT_10669464_as_v0_t;
+#define DAT_10669464_as_v0 XI_EA(DAT_10669464_as_v0_t, 0x10669464u)
 typedef undefined4 DAT_1067a294_t;
 #define DAT_1067a294 XI_EA(DAT_1067a294_t, 0x1067A294u)
 typedef int DAT_1067a298_t;
 #define DAT_1067a298 XI_EA(DAT_1067a298_t, 0x1067A298u)
 typedef undefined4 DAT_1067a298_as_v0_t;
 #define DAT_1067a298_as_v0 XI_EA(DAT_1067a298_as_v0_t, 0x1067A298u)
+typedef int DAT_1067a29c_t;
+#define DAT_1067a29c XI_EA(DAT_1067a29c_t, 0x1067A29Cu)
+typedef undefined4 DAT_1067a2a0_t;
+#define DAT_1067a2a0 XI_EA(DAT_1067a2a0_t, 0x1067A2A0u)
 typedef undefined4 _DAT_1099aeb8_t;
 #define _DAT_1099aeb8 XI_EA(_DAT_1099aeb8_t, 0x1099AEB8u)
 typedef undefined4 _DAT_1099aebc_t;
@@ -7185,8 +9345,10 @@ typedef uint8_t DAT_1099b0d8_as_v0_t;
 #define DAT_1099b0d8_as_v0 XI_EA(DAT_1099b0d8_as_v0_t, 0x1099B0D8u)
 typedef undefined4 DAT_1099b0d8_as_v1_t;
 #define DAT_1099b0d8_as_v1 XI_EA(DAT_1099b0d8_as_v1_t, 0x1099B0D8u)
-typedef undefined4 DAT_1099b0dc_t;
+typedef int DAT_1099b0dc_t;
 #define DAT_1099b0dc XI_EA(DAT_1099b0dc_t, 0x1099B0DCu)
+typedef undefined4 DAT_1099b0dc_as_v0_t;
+#define DAT_1099b0dc_as_v0 XI_EA(DAT_1099b0dc_as_v0_t, 0x1099B0DCu)
 typedef undefined4 _DAT_1099b0e0_t;
 #define _DAT_1099b0e0 XI_EA(_DAT_1099b0e0_t, 0x1099B0E0u)
 typedef undefined4 DAT_1099b0e4_t;
@@ -7471,10 +9633,30 @@ typedef undefined4 _DAT_1099cdb4_t;
 #define _DAT_1099cdb4 XI_EA(_DAT_1099cdb4_t, 0x1099CDB4u)
 typedef undefined4 _DAT_1099cdb8_t;
 #define _DAT_1099cdb8 XI_EA(_DAT_1099cdb8_t, 0x1099CDB8u)
+typedef undefined4 DAT_1099cee0_t;
+#define DAT_1099cee0 XI_EA(DAT_1099cee0_t, 0x1099CEE0u)
+typedef int64_t DAT_1099cee0_as_v0_t;
+#define DAT_1099cee0_as_v0 XI_EA(DAT_1099cee0_as_v0_t, 0x1099CEE0u)
+typedef undefined4 DAT_1099cee8_t;
+#define DAT_1099cee8 XI_EA(DAT_1099cee8_t, 0x1099CEE8u)
+typedef undefined4 _DAT_1099ceec_t;
+#define _DAT_1099ceec XI_EA(_DAT_1099ceec_t, 0x1099CEECu)
+typedef int DAT_1099cef0_t;
+#define DAT_1099cef0 XI_EA(DAT_1099cef0_t, 0x1099CEF0u)
 typedef undefined4 DAT_1099cef8_t;
 #define DAT_1099cef8 XI_EA(DAT_1099cef8_t, 0x1099CEF8u)
+typedef undefined4 DAT_1099cefc_t;
+#define DAT_1099cefc XI_EA(DAT_1099cefc_t, 0x1099CEFCu)
+typedef undefined4 DAT_1099cf4c_t;
+#define DAT_1099cf4c XI_EA(DAT_1099cf4c_t, 0x1099CF4Cu)
+typedef undefined4 DAT_1099cf50_t;
+#define DAT_1099cf50 XI_EA(DAT_1099cf50_t, 0x1099CF50u)
+typedef undefined4 DAT_1099cf54_t;
+#define DAT_1099cf54 XI_EA(DAT_1099cf54_t, 0x1099CF54u)
 typedef undefined4 DAT_1099d1f8_t;
 #define DAT_1099d1f8 XI_EA(DAT_1099d1f8_t, 0x1099D1F8u)
+typedef int DAT_1099d1f8_as_s32_t;
+#define DAT_1099d1f8_as_s32 XI_EA(DAT_1099d1f8_as_s32_t, 0x1099D1F8u)
 typedef undefined4 _DAT_1099d1fc_t;
 #define _DAT_1099d1fc XI_EA(_DAT_1099d1fc_t, 0x1099D1FCu)
 typedef int * g_pSqgxContext_t;
@@ -7547,6 +9729,32 @@ typedef undefined4 g_sqgxShaderDirty_as_v0_t;
 #define g_sqgxShaderDirty_as_v0 XI_EA(g_sqgxShaderDirty_as_v0_t, 0x109A2740u)
 typedef int g_counter_109A2744_t;
 #define g_counter_109A2744 XI_EA(g_counter_109A2744_t, 0x109A2744u)
+typedef int DAT_109a2750_t;
+#define DAT_109a2750 XI_EA(DAT_109a2750_t, 0x109A2750u)
+typedef int DAT_109a2754_t;
+#define DAT_109a2754 XI_EA(DAT_109a2754_t, 0x109A2754u)
+typedef int DAT_109a2758_t;
+#define DAT_109a2758 XI_EA(DAT_109a2758_t, 0x109A2758u)
+typedef int DAT_109a275c_t;
+#define DAT_109a275c XI_EA(DAT_109a275c_t, 0x109A275Cu)
+typedef int DAT_109a2760_t;
+#define DAT_109a2760 XI_EA(DAT_109a2760_t, 0x109A2760u)
+typedef int DAT_109a2764_t;
+#define DAT_109a2764 XI_EA(DAT_109a2764_t, 0x109A2764u)
+typedef int DAT_109a2768_t;
+#define DAT_109a2768 XI_EA(DAT_109a2768_t, 0x109A2768u)
+typedef int DAT_109a276c_t;
+#define DAT_109a276c XI_EA(DAT_109a276c_t, 0x109A276Cu)
+typedef int DAT_109a2770_t;
+#define DAT_109a2770 XI_EA(DAT_109a2770_t, 0x109A2770u)
+typedef int DAT_109a2774_t;
+#define DAT_109a2774 XI_EA(DAT_109a2774_t, 0x109A2774u)
+typedef int DAT_109a2778_t;
+#define DAT_109a2778 XI_EA(DAT_109a2778_t, 0x109A2778u)
+typedef int DAT_109a277c_t;
+#define DAT_109a277c XI_EA(DAT_109a277c_t, 0x109A277Cu)
+typedef int DAT_109a2780_t;
+#define DAT_109a2780 XI_EA(DAT_109a2780_t, 0x109A2780u)
 typedef int DAT_109a2788_t;
 #define DAT_109a2788 XI_EA(DAT_109a2788_t, 0x109A2788u)
 typedef int DAT_109a278c_t;
@@ -7567,6 +9775,10 @@ typedef int DAT_109a2844_t;
 #define DAT_109a2844 XI_EA(DAT_109a2844_t, 0x109A2844u)
 typedef undefined4 DAT_109aaac0_t;
 #define DAT_109aaac0 XI_EA(DAT_109aaac0_t, 0x109AAAC0u)
+typedef int DAT_109aaac0_as_s32_t;
+#define DAT_109aaac0_as_s32 XI_EA(DAT_109aaac0_as_s32_t, 0x109AAAC0u)
+typedef undefined4 DAT_109f7640_t;
+#define DAT_109f7640 XI_EA(DAT_109f7640_t, 0x109F7640u)
 typedef undefined4 DAT_109f76a0_t;
 #define DAT_109f76a0 XI_EA(DAT_109f76a0_t, 0x109F76A0u)
 typedef char CMoCamera_GetSharedInstance_staticGuard_t;
@@ -7575,6 +9787,14 @@ typedef _BYTE g_pCameraSharedInstance_t;
 #define g_pCameraSharedInstance XI_EA(g_pCameraSharedInstance_t, 0x109F81C0u)
 typedef undefined4 DAT_109f8270_t;
 #define DAT_109f8270 XI_EA(DAT_109f8270_t, 0x109F8270u)
+typedef int DAT_109f8270_as_s32_t;
+#define DAT_109f8270_as_s32 XI_EA(DAT_109f8270_as_s32_t, 0x109F8270u)
+typedef int DAT_109f8274_t;
+#define DAT_109f8274 XI_EA(DAT_109f8274_t, 0x109F8274u)
+typedef int _DAT_109f8278_t;
+#define _DAT_109f8278 XI_EA(_DAT_109f8278_t, 0x109F8278u)
+typedef int _DAT_109f827c_t;
+#define _DAT_109f827c XI_EA(_DAT_109f827c_t, 0x109F827Cu)
 typedef undefined4 DAT_3f800000_t;
 #define DAT_3f800000 XI_EA(DAT_3f800000_t, 0x3F800000u)
 typedef undefined4 DAT_cccccccc_t;

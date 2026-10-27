@@ -2,9 +2,28 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10014350  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t __thiscall Unit10014350_RunStepThenLoadAll(void * self_)
+{
+  uint32_t xi_eax;
+  
+  xi_eax = orig::FUN_10014390(self_);
+  if ((char)xi_eax == '\0') {
+    return 0;
+  }
+  DAT_104570e0_as_v0 = 0;
+  orig::Unit1018BA60_LoadAllAndTimestamp_v1(xi_eax);
+  if (DAT_1045690c_as_v0 != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_1045690c_as_v0 + 0x18))))((void *)(DAT_1045690c_as_v0),1);
+    DAT_1045690c_as_v0 = (int *)0x0;
+  }
+  return 1;
+}
+
 // FUNCTION: FFXIMAIN 0x100149B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t __thiscall fn_100149B0(void * self_)
+XI_API uint8_t __thiscall Unit10014350_EnterState4AfterShutdown(void * self_)
 {
   uint32_t uVar1;
   
@@ -15,7 +34,7 @@ XI_API uint8_t __thiscall fn_100149B0(void * self_)
   *(uint32_t *)((int)self_ + 0x324) = 0x80000000;
   *(uint32_t *)((int)self_ + 0x328) = 0x80000000;
   orig::GameMode_PollPendingState_v1(g_pGameMode_as_v0);
-  uVar1 = orig::FUN_10014c90(self_);
+  uVar1 = orig::Unit10014350_ShutdownActorsAndTables(self_);
   if ((char)uVar1 == '\0') {
     return 0;
   }
@@ -25,12 +44,126 @@ XI_API uint8_t __thiscall fn_100149B0(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10014A20  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10014A20(void * self_)
+XI_API undefined4 __thiscall Unit10014350_TryShutdownActors(void * self_)
 {
   uint32_t uVar1;
   
-  uVar1 = orig::FUN_10014c90(self_);
+  uVar1 = orig::Unit10014350_ShutdownActorsAndTables(self_);
   return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),(char)uVar1 != '\0');
+}
+
+// FUNCTION: FFXIMAIN 0x10014A30  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __thiscall Unit10014350_StepStagedRelease(void * self_)
+{
+  int iVar1;
+  uint32_t uVar2;
+  
+  uVar2 = (uint32_t)*(short *)((int)self_ + 4);
+  switch(xi_sw(uVar2)) {
+  case 0:
+    uVar2 = orig::Unit10014350_ShutdownActorsAndTables(self_);
+    if ((char)uVar2 == '\0') goto switchD_10014a3c_default;
+    break;
+  case 1:
+    iVar1 = *(int *)((int)self_ + 0x24);
+    *(int *)((int)self_ + 0x24) = iVar1 + -1;
+    uVar2 = 0;
+    if (iVar1 != 0) {
+      uVar2 = orig::Unit100D7420_DestroyGlobal(0,iVar1);
+      if ((char)uVar2 == '\x01') {
+        *(short *)((int)self_ + 4) = *(short *)((int)self_ + 4) + 1;
+        *(uint32_t *)((int)self_ + 0x24) = 900;
+        return uVar2 & 0xffffff00;
+      }
+      goto switchD_10014a3c_default;
+    }
+    break;
+  case 2:
+    iVar1 = *(int *)((int)self_ + 0x24);
+    *(int *)((int)self_ + 0x24) = iVar1 + -1;
+    uVar2 = 0;
+    if (iVar1 != 0) {
+      uVar2 = orig::Unit100D7420_UpdateActive();
+      if (uVar2 == 0) {
+        *(short *)((int)self_ + 4) = *(short *)((int)self_ + 4) + 1;
+        return 0;
+      }
+      goto switchD_10014a3c_default;
+    }
+    goto LAB_10014a55;
+  case 3:
+    *(uint32_t *)((int)self_ + 0x44) = 0xe;
+    *(uint8_t *)((int)self_ + 10) = 0;
+    return ((uint32_t)(((uint32_t)((int32_t)(char)((uint16_t)*(short *)((int)self_ + 4) >> 8)) << 8) | (uint8_t)(1)));
+  default:
+    goto switchD_10014a3c_default;
+  }
+  *(uint32_t *)((int)self_ + 0x24) = 900;
+LAB_10014a55:
+  *(short *)((int)self_ + 4) = *(short *)((int)self_ + 4) + 1;
+switchD_10014a3c_default:
+  return uVar2 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x10014AD0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10014350_StepMenuOkThenRelease(void * self_)
+{
+  int *piVar1;
+  void *pvVar2;
+  int iVar3;
+  uint32_t uVar4;
+  uint32_t uVar5;
+  
+  orig::GameMode_PollPendingState_v1(g_pGameMode_as_v0);
+  *g_pSceneState_as_v2 = 0x90;
+  iVar3 = (int)*(short *)((int)self_ + 6);
+  if (iVar3 == 0) {
+    orig::Menu_CloseEntry(&g_menuMng_as_v0,aMenuChdummy);
+    orig::Unit1012AC80_SetPosition(*(void **)(DAT_104e2150_as_s32 + 0x30),0,0,0);
+    orig::Unit1012AC80_SetPosition(*(void **)(DAT_104e2154_as_s32 + 0x30),0,0,0);
+    uVar5 = DAT_10668ff8;
+    piVar1 = (int *)(DAT_10668ff8 + 0x14);
+    *(uint8_t *)(DAT_10668ff8 + 600) = 0;
+    if (*piVar1 == 0) {
+      *(uint32_t *)(uVar5 + 0x25c) = 0;
+      orig::Unit1018BA60_AssignWhole((void *)(uVar5 + 0x24c),0);
+      *(uint32_t *)(uVar5 + 0x14) = 0;
+    }
+    if (Code < 0) {
+      orig::Unit10237880_ForwardFlag1(Code);
+    }
+    orig::Unit1018BA60_AssignWhole((void *)(DAT_10668ff8 + 0x24c),DAT_10668ff4);
+    uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_ok_10350334,1,0);
+    orig::Unit10010370_IncrementShort6(self_);
+  }
+  else if (iVar3 == 1) {
+    uVar5 = DAT_10668ff8;
+    if (*(int *)(DAT_10668ff8 + 0x25c) == 1) {
+      uVar5 = orig::Menu_CloseEntry(&g_menuMng_as_v0,s_menu_ok_10350334);
+      orig::Unit10010370_IncrementShort6(self_);
+      return uVar5 & 0xffffff00;
+    }
+  }
+  else {
+    uVar5 = iVar3 - 2U;
+    if (iVar3 - 2U == 0) {
+      uVar4 = orig::Unit1018BA60_LoadAllAndTimestamp(0);
+      pvVar2 = g_C_106631D4_as_v1;
+      if (g_C_106631D4_as_v1 != (void *)0x0) {
+        orig::YkMyroom_Destructor(g_C_106631D4_as_v1);
+        uVar4 = orig::thunk_sub_10028AA0_v3(pvVar2);
+        g_C_106631D4_as_v1 = (void *)0x0;
+      }
+      if (DAT_1045690c_as_v0 != (int *)0x0) {
+        uVar4 = ((int (__thiscall *)(void *, XI_ANY))(*(code **)(*DAT_1045690c_as_v0 + 0x18)))((void *)(DAT_1045690c_as_v0), 1);
+        DAT_1045690c_as_v0 = (int *)0x0;
+      }
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+    }
+  }
+  return uVar5 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x10014C10  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -46,7 +179,7 @@ XI_API uint8_t __thiscall Camera_ReleaseAll(void * self_)
   orig::Unit100298D0_ReleaseAll();
   uVar1 = orig::Acter_ShutdownGlobals();
   if ((char)uVar1 != '\0') {
-    orig::FUN_10014c60();
+    orig::Unit10014350_ApplyTables103501F8();
     uVar1 = orig::Unit1012AC80_ReleaseAll32();
     if ((char)uVar1 != '\0') {
       return 1;
@@ -57,14 +190,14 @@ XI_API uint8_t __thiscall Camera_ReleaseAll(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10014C60  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10014C60(void)
+XI_API void __cdecl Unit10014350_ApplyTables103501F8(void)
 {
   uint8_t *puVar1;
   
   if (DAT_104570b0 != 0) {
     puVar1 =(uint8_t*)(&DAT_103501f8);
     do {
-      orig::FUN_10029390(puVar1);
+      orig::Unit10029260_ApplyFourTables(puVar1);
       puVar1 = puVar1 + 8;
     } while ((int)puVar1 < 0x10350210);
   }
@@ -73,7 +206,7 @@ XI_API void __cdecl fn_10014C60(void)
 
 // FUNCTION: FFXIMAIN 0x10014C90  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10014C90(void * self_)
+XI_API undefined4 __thiscall Unit10014350_ShutdownActorsAndTables(void * self_)
 {
   uint32_t uVar1;
   
@@ -81,13 +214,13 @@ XI_API undefined4 __thiscall fn_10014C90(void * self_)
   if ((char)uVar1 == '\0') {
     return uVar1;
   }
-  uVar1 = orig::FUN_10014cb0();
+  uVar1 = orig::Unit10014350_ApplyTables10350210();
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10014CB0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10014CB0(void)
+XI_API undefined4 __cdecl Unit10014350_ApplyTables10350210(void)
 {
   uint32_t uVar1;
   uint8_t *puVar2;
@@ -96,7 +229,7 @@ XI_API undefined4 __cdecl fn_10014CB0(void)
   if (DAT_104570b0 != 0) {
     puVar2 =(uint8_t*)(&DAT_10350210);
     do {
-      uVar1 = orig::FUN_10029390(puVar2);
+      uVar1 = orig::Unit10029260_ApplyFourTables(puVar2);
       puVar2 = puVar2 + 8;
     } while ((int)puVar2 < 0x10350228);
   }
@@ -180,7 +313,7 @@ XI_API void __thiscall Camera_SetClearColorPacked(void * self_, uint32_t param_1
 
 // FUNCTION: FFXIMAIN 0x10014E00  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10014E00(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API void __cdecl Camera_SetField304BytesOnGlobal(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   orig::Camera_SetField304Bytes(g_pCamera_as_v2,param_1,param_2,param_3);
   return;
@@ -229,7 +362,7 @@ XI_API void __cdecl Camera_SetField318(float param_1)
 
 // FUNCTION: FFXIMAIN 0x10015100  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10015100(undefined4 param_1)
+XI_API undefined4 __cdecl Camera_Call100151A0OnGlobal(undefined4 param_1)
 {
   uint32_t uVar1;
   
@@ -288,7 +421,7 @@ XI_API int __cdecl Camera_GetMatrix154Ptr(void)
 
 // FUNCTION: FFXIMAIN 0x10015290  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10015290(undefined4 param_1)
+XI_API void __cdecl Camera_SetField2F8OnGlobal(undefined4 param_1)
 {
   orig::Camera_SetField2F8(g_pCamera_as_v2,param_1);
   return;
@@ -451,7 +584,7 @@ XI_API int __cdecl Camera_PickNearestAspect(int param_1, int param_2, undefined4
 
 // FUNCTION: FFXIMAIN 0x10015740  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10015740(void)
+XI_API undefined4 __cdecl Unit10014350_ReturnTrue(void)
 {
   uint32_t xi_entry_eax = 0;
   
@@ -462,9 +595,54 @@ XI_API undefined4 __cdecl fn_10015740(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall App_WinMainClearFileMng(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
-  g_pFileMng_as_v0 = 0;
-  orig::App_WinMain();
+  g_pFileMng_as_v1 = 0;
+  orig::FUN_100157e0(param_2,param_3);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10015AB0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall App_RunWithCOM(undefined4 xi_s1, undefined4 xi_s2)
+{
+  HANDLE a1;
+  HRESULT HVar1;
+  void *self_;
+  undefined4 uVar2;
+  
+  a1 = GetCurrentProcess();
+  if (a1 != (HANDLE)0x0) {
+    uVar2 = 0x20;
+    if ((0 < DAT_10456aac) && (DAT_10456aac < 3)) {
+      uVar2 = *(undefined4 *)(((char *)&DAT_10350550) + DAT_10456aac * 4);
+    }
+    SetPriorityClass(a1,uVar2);
+  }
+  orig::FUN_10311c7a(0x8001f,0x8001f);
+  HVar1 = CoInitialize((LPVOID)0x0);
+  if (HVar1 < 0) {
+    return 1;
+  }
+  self_ = orig::Allocator_Generic_v3(0x10);
+  if (self_ == (void *)0x0) {
+    DAT_104570b0_as_v0 = (undefined4 *)0x0;
+  }
+  else {
+    DAT_104570b0_as_v0 = (undefined4 *)orig::FUN_10029220(self_);
+    if (DAT_104570b0_as_v0 != (undefined4 *)0x0) {
+      orig::FUN_10029290(DAT_104570b0_as_v0);
+      uVar2 = orig::App_CreateRendererAndApp();
+      if ((char)uVar2 != '\0') {
+        orig::App_RunMainLoopThenSetPtr();
+      }
+    }
+  }
+  orig::App_DestroyGlobalObjects();
+  if (DAT_104570b0_as_v0 != (undefined4 *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)*DAT_104570b0_as_v0)))((void *)(DAT_104570b0_as_v0),1);
+    DAT_104570b0_as_v0 = (undefined4 *)0x0;
+  }
+  CoUninitialize();
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -602,7 +780,7 @@ XI_API undefined4 __cdecl App_GetGlobal_104569C8(void)
 
 // FUNCTION: FFXIMAIN 0x100164B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100164B0(undefined4 xi_eax)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10014350_GetSceneStateByte68(undefined4 xi_eax)
 {
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(g_sceneStateStorage_68)));
 }
@@ -624,6 +802,232 @@ XI_API void __cdecl App_GetGlobalPair(undefined4 * param_1, undefined4 * param_2
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10016870  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API LRESULT __stdcall App_WndProc(HWND param_1, uint32_t param_2, uint32_t param_3, int param_4)
+{
+  int iVar1;
+  uint8_t bVar2;
+  char cVar3;
+  HANDLE pvVar4;
+  int iVar5;
+  int iVar6;
+  int iVar7;
+  BOOL BVar8;
+  LRESULT LVar9;
+  int iVar10;
+  uint8_t bVar11;
+  int64_t lVar12;
+  char xi_frame[100] __attribute__((aligned(4)));
+  int  &iStack_64 = *reinterpret_cast<int  *>(xi_frame + 0);
+  int  &iStack_60 = *reinterpret_cast<int  *>(xi_frame + 4);
+  tagRECT  &tStack_4c = *reinterpret_cast<tagRECT  *>(xi_frame + 24);
+  tagRECT  &tStack_3c = *reinterpret_cast<tagRECT  *>(xi_frame + 40);
+  WINDOWPLACEMENT  &WStack_2c = *reinterpret_cast<WINDOWPLACEMENT  *>(xi_frame + 56);
+  
+  cVar3 = DAT_10456a30;
+  if (param_2 < 0x47) {
+    if (param_2 == 0x46) {
+      if (((*(uint8_t *)(param_4 + 0x18) & 1) == 0) && (g_windowMode != 0)) {
+        iVar5 = GetSystemMetrics(0x20);
+        iStack_60 = GetSystemMetrics(0x21);
+        iStack_64 = GetSystemMetrics(4);
+        if (g_windowMode == 3) {
+          iVar5 = 0;
+          iStack_60 = 0;
+          iStack_64 = 0;
+        }
+        iVar6 = GetSystemMetrics(0x1c);
+        lVar12 = XI_CALL_ST0(0x10311C2Cu)(((long double)(iVar6 + iVar5 * -2) / (long double)xRight) *
+                        (long double)yBottom);
+        bVar2 = *(int *)(param_4 + 0x14) < (int)lVar12;
+        if (bVar2) {
+          *(int *)(param_4 + 0x10) = iVar5 * 2;
+          *(int *)(param_4 + 0x14) = (int)lVar12 + iStack_60 * 2 + iStack_64;
+        }
+        if ((cVar3 != '\0') || (bVar2)) {
+          GetWindowRect(param_1,&tStack_4c);
+          iVar6 = *(int *)(param_4 + 0x10);
+          iVar7 = (tStack_4c.right - iVar6) - tStack_4c.left;
+          if (iVar7 < 0) {
+            iVar7 = (iVar6 - tStack_4c.right) + tStack_4c.left;
+          }
+          iVar1 = *(int *)(param_4 + 0x14);
+          iVar10 = (tStack_4c.bottom - iVar1) - tStack_4c.top;
+          if (iVar10 < 0) {
+            iVar10 = (iVar1 - tStack_4c.bottom) + tStack_4c.top;
+          }
+          bVar11 = NAN((long double)iVar7) || NAN((long double)iVar10);
+          if (((bVar11 || (long double)iVar7 < (long double)iVar10) != bVar11) || (bVar2)) {
+            lVar12 = XI_CALL_ST0(0x10311C2Cu)((long double)xRight *
+                            (long double)(float)((long double)((iVar1 + iStack_60 * -2) - iStack_64) /
+                                            (long double)(float)(long double)yBottom) +
+                            (long double)(iVar5 * 2));
+            *(int *)(param_4 + 0x10) = (int)lVar12;
+          }
+          else {
+            lVar12 = XI_CALL_ST0(0x10311C2Cu)(((long double)(iVar6 + iVar5 * -2) / (long double)xRight) *
+                            (long double)(float)(long double)yBottom + (long double)(iStack_60 * 2) +
+                            (long double)iStack_64);
+            *(int *)(param_4 + 0x14) = (int)lVar12;
+          }
+        }
+      }
+      goto LAB_10016d37;
+    }
+    switch(xi_sw(param_2)) {
+    case 2:
+    case 0x10:
+      PostQuitMessage(0);
+      return 0;
+    default:
+      goto switchD_1001689e_caseD_3;
+    case 7:
+      pvVar4 = GetCurrentProcess();
+      if (pvVar4 != (HANDLE)0x0) {
+        SetPriorityClass(pvVar4,0x20);
+      }
+      if (g_pApp_as_s32 != 0) {
+        *(uint8_t *)(g_pApp_as_s32 + 0x1c) = 1;
+      }
+      break;
+    case 8:
+      pvVar4 = GetCurrentProcess();
+      if (pvVar4 != (HANDLE)0x0) {
+        SetPriorityClass(pvVar4,0x40);
+      }
+      if (g_pApp_as_s32 != 0) {
+        *(uint8_t *)(g_pApp_as_s32 + 0x1c) = 0;
+      }
+      break;
+    case 0x14:
+switchD_1001689e_caseD_14:
+      return 1;
+    }
+  }
+  else {
+    if (param_2 < 0x113) {
+      if (param_2 == 0x112) {
+        if (param_3 < 0xf091) {
+          if (param_3 == 0xf090) {
+            return 1;
+          }
+          if (param_3 < 0xf041) {
+            if (param_3 == 0xf040) {
+              return 1;
+            }
+            if (param_3 == 1) {
+              if (g_windowMode != 0) {
+                WStack_2c.length = 0x2c;
+                BVar8 = GetWindowPlacement(param_1,&WStack_2c);
+                if ((BVar8 == 0) || ((WStack_2c.showCmd != 2 && (WStack_2c.showCmd != 3)))) {
+                  GetWindowRect(param_1,&tStack_3c);
+                  tStack_4c.right = xRight;
+                  tStack_4c.bottom = yBottom;
+                  tStack_4c.left = 0;
+                  tStack_4c.top = 0;
+                  AdjustWindowRectEx(&tStack_4c,DAT_103505a8,0,DAT_103505a4);
+                  MoveWindow(param_1,tStack_3c.left,tStack_3c.top,tStack_4c.right - tStack_4c.left,
+                             tStack_4c.bottom - tStack_4c.top,1);
+                }
+                else {
+                  ShowWindow(param_1,1);
+                }
+              }
+              goto LAB_10016d37;
+            }
+            if (param_3 == 0xf000) {
+              return 1;
+            }
+            if (param_3 == 0xf010) {
+              return 1;
+            }
+          }
+          else {
+            if (param_3 == 0xf050) {
+              return 1;
+            }
+            if (param_3 == 0xf060) {
+              return 1;
+            }
+          }
+        }
+        else {
+          switch(xi_sw(param_3)) {
+          case 0xf100:
+          case 0xf130:
+          case 0xf140:
+          case 0xf150:
+          case 0xf170:
+          case 0xf180:
+            goto switchD_1001689e_caseD_14;
+          }
+        }
+        if (g_windowMode == 0) {
+          if (param_3 == 0xf020) {
+            return 1;
+          }
+          if (param_3 == 0xf030) {
+            return 1;
+          }
+          if (param_3 == 0xf120) {
+            return 1;
+          }
+        }
+        goto LAB_10016d37;
+      }
+      if (param_2 == 0x100) {
+        if (param_3 == 0x10) {
+          DAT_10456a30 = '\x01';
+        }
+        goto LAB_10016d37;
+      }
+      if (param_2 == 0x101) {
+        if (param_3 == 0x10) {
+          DAT_10456a30 = '\0';
+        }
+        goto LAB_10016d37;
+      }
+    }
+    else {
+      if (param_2 == 0x401) {
+        if (g_pApp_as_s32 == 0) {
+          return 1;
+        }
+        if (*(char *)(g_pApp_as_s32 + 0x1d) != '\0') {
+          orig::App_RenderFrameMaskedFPU_v1();
+          return 1;
+        }
+        return 1;
+      }
+      if (param_2 == 0x800b) {
+        if (g_pAppSettings_as_v0 != (void *)0x0) {
+          orig::FUN_10002840(g_pAppSettings_as_v0,0);
+        }
+        goto LAB_10016d37;
+      }
+    }
+switchD_1001689e_caseD_3:
+    if (param_2 < 0x283) {
+      if (param_2 == 0x282) {
+        if (((param_3 != 8) && ((param_3 != 0xe || ((param_4 != 5 && (param_4 != 0)))))) &&
+           ((g_sceneStateStorage_68_as_s8 != '\x01' || ((param_3 != 5 && (param_3 != 4)))))) {
+          return 0;
+        }
+      }
+      else if ((param_2 == 0x10d) || (param_2 == 0x10e)) {
+        return 0;
+      }
+    }
+    else if (param_2 == 0x283) {
+      return 0;
+    }
+  }
+LAB_10016d37:
+  LVar9 = DefWindowProcA(param_1,param_2,param_3,param_4);
+  return LVar9;
+}
+
 // FUNCTION: FFXIMAIN 0x100170A0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
@@ -632,6 +1036,19 @@ XI_API void __thiscall GammaRamp_SetRGB(void * self_, undefined4 param_1, undefi
   *(uint32_t *)((int)self_ + 0x608) = param_2;
   *(uint32_t *)((int)self_ + 0x60c) = param_3;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x100170D0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall GammaRamp_GetRGB(void * self_, undefined4 * param_1, undefined4 * param_2, undefined4 * param_3)
+{
+  uint32_t uVar1;
+  
+  *param_1 = *(uint32_t *)((int)self_ + 0x604);
+  *param_2 = *(uint32_t *)((int)self_ + 0x608);
+  uVar1 = *(uint32_t *)((int)self_ + 0x60c);
+  *param_3 = uVar1;
+  return uVar1;
 }
 
 // FUNCTION: FFXIMAIN 0x10017100  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -745,7 +1162,7 @@ XI_API undefined4 __cdecl App_SetGlobalAndClearCamera(void)
 {
   uint32_t uVar1;
   
-  orig::FUN_10010520();
+  orig::App_SaveAllSlotData_v1();
   orig::App_SetGlobal_104569C8_v1(1);
   uVar1 = orig::Camera_ClearByte0A();
   return uVar1;

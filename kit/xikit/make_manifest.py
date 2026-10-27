@@ -1,7 +1,8 @@
 """make_manifest.py -- xikit_manifest.txt: the functions the kit may swap, and what it must find at each entry.
 
 A function is listed only if (docs/KIT.md):
-  * it is verified: PASS on fuzz and the four dumps in the clean tree as built (verification/gate_clean_final.jsonl);
+  * it is verified: PASS in the clean tree as built (verification/gate_clean_final.jsonl: fuzz verdicts only since
+    the 22 Oct regeneration, 8ace87a; the four dumps' gates last run on the 4 Oct tree, docs/PROBLEMS.md P1);
   * the in-game reconstruction DLL exports it under the symbol the gate called (map_clean_cases.py);
   * its first 5 bytes are inside the function (data/func_extents.json), or the function is shorter and the rest
     is the int3/nop alignment padding after it (no function starts there);
@@ -151,6 +152,8 @@ def main(recon, out, report=None):
         name = place.get('0x%x' % ea, {}).get('symbol') or c['name'].split()[0]
         tr, tw = trampoline(ea, rs, img, targets)
         if tr == '-': rep['no_trampoline'][name] = tw
+        # xikit.c reads EXPORT into 256 bytes and NAME into 96 (Fn.exp, Fn.name): a longer one would make it drop the line
+        if len(c['candidate']) > 255 or len(name) > 95: sys.exit('make_manifest: %s: export or name too long for xikit.c' % name)
         lines.append('%08X %d %s %s %s %s T=%s' % (ea - BASE, flags, c['candidate'], raw.hex().upper(),
                                                    ','.join(map(str, rel)) or '-', name.replace(' ', '_'), tr))
     rd = open(recon, 'rb').read(); import zlib

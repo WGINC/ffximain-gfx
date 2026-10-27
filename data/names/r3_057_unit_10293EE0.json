@@ -1,0 +1,8 @@
+{
+ "0x10293F00": {
+  "name": "Unit10293EE0_SetHandlerByType",
+  "confidence": "low",
+  "evidence": "stores a function at +0x14 by arg2: 0x102934C0 for 2, 0x10293540 for 4, 0x10293590 for 8, 0x102935C0 for 0x10, else 0x102934B0; called by PlaybackChannel_Load",
+  "summary": "Picks a channel's handler function by its type."
+ }
+}

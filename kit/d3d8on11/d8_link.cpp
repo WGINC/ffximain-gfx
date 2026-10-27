@@ -131,9 +131,23 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
       if (hd->op == X_OPTION) xs.option((const uint8_t *)(hd + 1));
       if (is_sync(hd->op)) {
-        uint32_t n = (uint32_t)out.size();
-        if (n > h->reply_max) { d8_log("a reply of %u bytes is larger than the reply area (%u): cut", n, h->reply_max); n = h->reply_max; }
-        if (n) memcpy(reply, out.data(), n);
+        // a reply larger than the reply area goes in pieces of the area's size: each but the last is handed over by
+        // reply_part and waited for (reply_ack, the writer's copy of it; the writer holds its lock and waits in
+        // answer(), so nothing else comes meanwhile), the last is answered below. Before 26 Oct it was cut to the
+        // area (owner's log: 22,958,208 bytes against 16,777,216, nine times)
+        uint32_t n = (uint32_t)out.size(), o = 0;
+        while (n - o > h->reply_max) {
+          memcpy(reply, out.data() + o, h->reply_max); h->reply_bytes = h->reply_max;
+          uint32_t part = ld(&h->reply_part) + 1; st(&h->reply_part, part); SetEvent(replied);
+          while (ld(&h->reply_ack) != part) {
+            if (ld(&h->quit)) return;
+            HANDLE hs[2] = {wake, parent};
+            if (WaitForMultipleObjects(parent ? 2 : 1, hs, FALSE, 50) == WAIT_OBJECT_0 + 1) { d8_log("the game's process ended: the executor stops"); return; }
+          }
+          o += h->reply_max;
+        }
+        n -= o;
+        if (n) memcpy(reply, out.data() + o, n);
         h->reply_hr = hr; h->reply_bytes = n;
         st(&h->answered, ld(&h->answered) + 1);
         SetEvent(replied);
@@ -213,10 +227,20 @@ struct RingLink : Link {
   }
   int32_t answer(std::vector<uint8_t> *out) override {
     double t0 = qpc_ms();
-    while ((int32_t)(ld(&h->answered) - sent) < 0) wait_for(replied);
+    if (out) out->clear();
+    for (;;) {
+      if ((int32_t)(ld(&h->answered) - sent) >= 0) break;
+      uint32_t part = ld(&h->reply_part);
+      if (part != h->reply_ack) {                               // a piece of a reply larger than the reply area
+        if (out) out->insert(out->end(), reply, reply + h->reply_bytes);
+        st(&h->reply_ack, part); SetEvent(wake);
+        continue;
+      }
+      wait_for(replied);
+    }
     waited[2] += qpc_ms() - t0;
     int32_t hr = h->reply_hr;
-    if (out) out->assign(reply, reply + h->reply_bytes);
+    if (out) out->insert(out->end(), reply, reply + h->reply_bytes);
     LeaveCriticalSection(&lock);
     return hr;
   }

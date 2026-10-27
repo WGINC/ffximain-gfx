@@ -75,16 +75,54 @@ undefined4 __thiscall CMoAttachments::ResetAll(void * self)
   uint32_t uVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b6d0(self);
+  uVar2 = orig::CMoAttachments_GetCaster_v1(self);
   if ((int)uVar2 != 0) {
     orig::CMoAttachments_ClearCaster_v1(self,1);
   }
-  uVar2 = orig::FUN_1003b700(self);
+  uVar2 = orig::CMoAttachments_GetTarget_v1(self);
   if ((int)uVar2 != 0) {
     orig::CMoAttachments_ClearTarget_v1(self,1);
   }
   uVar1 = orig::CMoAttachments_Reset_v1(self);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B6D0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoAttachments::GetCaster(void * self)
+{
+  int iVar1;
+  uint64_t uVar2;
+  
+  if (*(int *)((int)self + 0x1c) == 0x4000000) {
+    return *(uint32_t *)((int)self + 0xc);
+  }
+  iVar1 = *(int *)((int)self + 0xc);
+  uVar2 = orig::ActorHandle_Resolve_v1((void *)((int)self + 0x14));
+  if ((int)uVar2 == iVar1) {
+    uVar2 = orig::ActorHandle_Resolve_v1((void *)((int)self + 0x14));
+    return (int)uVar2;
+  }
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1003B700  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoAttachments::GetTarget(void * self)
+{
+  int iVar1;
+  uint64_t uVar2;
+  
+  if (*(int *)((int)self + 0x28) == 0x4000000) {
+    return *(uint32_t *)((int)self + 0x10);
+  }
+  iVar1 = *(int *)((int)self + 0x10);
+  uVar2 = orig::ActorHandle_Resolve_v1((void *)((int)self + 0x20));
+  if ((int)uVar2 == iVar1) {
+    uVar2 = orig::ActorHandle_Resolve_v1((void *)((int)self + 0x20));
+    return (int)uVar2;
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B750  (placed by IDB name; static (takes no this))
@@ -118,11 +156,11 @@ void __thiscall CMoAttachments::SetCaster(void * self, int param_1)
   uint32_t uVar1;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b6d0(self);
+  uVar2 = orig::CMoAttachments_GetCaster_v1(self);
   if ((int)uVar2 != param_1) {
-    uVar2 = orig::FUN_1003b6d0(self);
+    uVar2 = orig::CMoAttachments_GetCaster_v1(self);
     if ((int)uVar2 != 0) {
-      uVar2 = orig::FUN_1003b6d0(self);
+      uVar2 = orig::CMoAttachments_GetCaster_v1(self);
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar2 + 1000))))((void *)((int *)uVar2),self);
     }
     orig::ActorHandle_SetFields((void *)((int)self + 0x14),DAT_10351d18,DAT_10351d1c);
@@ -148,12 +186,12 @@ undefined4 __thiscall CMoAttachments::SetTarget(void * self, int param_1)
   uint32_t uVar2;
   uint64_t uVar3;
   
-  uVar3 = orig::FUN_1003b700(self);
+  uVar3 = orig::CMoAttachments_GetTarget_v1(self);
   iVar1 = (int)uVar3;
   if (iVar1 != param_1) {
-    uVar3 = orig::FUN_1003b700(self);
+    uVar3 = orig::CMoAttachments_GetTarget_v1(self);
     if ((int)uVar3 != 0) {
-      uVar3 = orig::FUN_1003b700(self);
+      uVar3 = orig::CMoAttachments_GetTarget_v1(self);
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar3 + 0x3ec))))((void *)((int *)uVar3),self);
     }
     iVar1 = orig::ActorHandle_SetFields((void *)((int)self + 0x20),DAT_10351d20,DAT_10351d24);
@@ -180,7 +218,7 @@ int __thiscall CMoAttachments::FindKindInChain(void * self)
   void *this_01;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b6d0(self);
+  uVar2 = orig::CMoAttachments_GetCaster_v1(self);
   this_00 = (void *)uVar2;
   if (this_00 == (void *)0x0) {
     return 0;
@@ -191,7 +229,7 @@ int __thiscall CMoAttachments::FindKindInChain(void * self)
     if (cVar1 == '\0') {
       return (int)this_00;
     }
-    uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
+    uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
     uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
@@ -210,7 +248,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
   void *this_01;
   uint64_t uVar2;
   
-  uVar2 = orig::FUN_1003b700(self);
+  uVar2 = orig::CMoAttachments_GetTarget_v1(self);
   this_00 = (void *)uVar2;
   if (this_00 == (void *)0x0) {
     return 0;
@@ -221,7 +259,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
     if (cVar1 == '\0') {
       return (int)this_00;
     }
-    uVar2 = orig::FUN_1003b6d0((void *)((int)this_00 + 0xc4));
+    uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
     uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
@@ -231,11 +269,35 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
   return (int)this_00;
 }
 
+// FUNCTION: FFXIMAIN 0x1003B980  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_1003B980(int param_1, float * param_2, float * param_3)
+{
+  long double fVar1;
+  long double fVar2;
+  long double fVar3;
+  long double fVar4;
+  long double fVar5;
+  
+  fVar1 = (long double)param_3[1] - (long double)param_2[1];
+  fVar2 = (long double)*param_3 - (long double)*param_2;
+  fVar3 = (long double)param_3[2] - (long double)param_2[2];
+  fVar4 = xi_castbits<long double>(fpatan(fVar3,fVar2));
+  fVar5 = xi_castbits<long double>(fpatan(fVar1,SQRT((long double)(float)(fVar3 * fVar3) +
+                                     (long double)(float)(fVar2 * fVar2))));
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x58))))((void *)(g_pProcessor_as_v1),param_1,0,(float)-fVar4,(float)fVar5);
+  *(float *)(param_1 + 0x30) = (float)((long double)*(float *)(param_1 + 0x30) + (long double)*param_2);
+  *(float *)(param_1 + 0x34) = (float)((long double)*(float *)(param_1 + 0x34) + (long double)param_2[1]);
+  *(float *)(param_1 + 0x38) = (float)((long double)*(float *)(param_1 + 0x38) + (long double)param_2[2]);
+  return SQRT((long double)(float)(fVar3 * fVar3) + (long double)(float)(fVar1 * fVar1) +
+              (long double)(float)(fVar2 * fVar2));
+}
+
 // FUNCTION: FFXIMAIN 0x1003BD90  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_2, int * param_3)
 {
-  switch(param_2) {
+  switch(xi_sw(param_2)) {
   case 0x36:
     param_2 = 0x7e;
     break;
@@ -262,7 +324,7 @@ void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 90 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
 XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;
@@ -331,8 +393,8 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
   v8 = ((float * *)((char *)g_pProcessor + 0xA10))[v7];
   (*(int *)((char *)g_pProcessor + 0xA90)) = v7 + 1;
   v55 = v8;
-  v9 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
-  v10 = (int *)orig::sub_1003B700((_DWORD *)self_);
+  v9 = (float *)orig::CMoAttachments_GetCaster((_DWORD *)self_);
+  v10 = (int *)orig::CMoAttachments_GetTarget((_DWORD *)self_);
   if ( v9 == nullptr || (v11 = orig::CXiActor_GetSubModelResult(v9)) == 0 )
     v11 = (int)v10;
   v12 = *(_DWORD *)(self_ + 4);
@@ -392,24 +454,24 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
       if ( v9 == nullptr )
         goto LABEL_63;
       v30 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
-      v31 = orig::sub_1003B6D0((_DWORD *)self_);
+      v31 = orig::CMoAttachments_GetCaster((_DWORD *)self_);
       orig::CMoAttachments_SetMappedSlot((int)a2, v30, v31);
       break;
     case 0xAu:
       if ( v10 == nullptr )
         goto LABEL_63;
-      v32 = orig::sub_1003B700((_DWORD *)self_);
+      v32 = orig::CMoAttachments_GetTarget((_DWORD *)self_);
       orig::CMoAttachments_SetMappedSlot((int)a2, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v32);
       break;
     case 0xBu:
       if ( v9 == nullptr )
         goto LABEL_56;
       v33 = ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6);
-      v34 = orig::sub_1003B6D0((_DWORD *)self_);
+      v34 = orig::CMoAttachments_GetCaster((_DWORD *)self_);
       orig::CMoAttachments_SetMappedSlot(v54, v33, v34);
       v35 = ((*(_DWORD *)(self_ + 4) >> 4) & 0x3F) + (((*(_DWORD *)(self_ + 4) & 0x40000) != 0) << 6);
-      v49 = (int *)orig::sub_1003B700((_DWORD *)self_);
-      v36 = (float *)orig::sub_1003B6D0((_DWORD *)self_);
+      v49 = (int *)orig::CMoAttachments_GetTarget((_DWORD *)self_);
+      v36 = (float *)orig::CMoAttachments_GetCaster((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, v35, v36, v49, 0);
       v51 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
       (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
@@ -425,10 +487,10 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
     case 0xCu:
       if ( v10 == nullptr )
         goto LABEL_56;
-      v39 = orig::sub_1003B700((_DWORD *)self_);
+      v39 = orig::CMoAttachments_GetTarget((_DWORD *)self_);
       orig::CMoAttachments_SetMappedSlot(v54, (unsigned __int8)HIBYTE(*(_WORD *)(self_ + 4)) >> 2, v39);
-      v50 = (int *)orig::sub_1003B6D0((_DWORD *)self_);
-      v40 = (float *)orig::sub_1003B700((_DWORD *)self_);
+      v50 = (int *)orig::CMoAttachments_GetCaster((_DWORD *)self_);
+      v40 = (float *)orig::CMoAttachments_GetTarget((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, v40, v50, 0);
       v19 = a2;
       v52 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
@@ -606,9 +668,9 @@ void __thiscall CMoAttachments::NotifyCaster(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_1003b6d0(self);
+  uVar1 = orig::CMoAttachments_GetCaster_v1(self);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b6d0(self);
+    uVar1 = orig::CMoAttachments_GetCaster_v1(self);
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 1000))))((void *)((int *)uVar1),self);
   }
   return;
@@ -620,9 +682,9 @@ void __thiscall CMoAttachments::NotifyTarget(void * self)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_1003b700(self);
+  uVar1 = orig::CMoAttachments_GetTarget_v1(self);
   if ((int)uVar1 != 0) {
-    uVar1 = orig::FUN_1003b700(self);
+    uVar1 = orig::CMoAttachments_GetTarget_v1(self);
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)uVar1 + 0x3ec))))((void *)((int *)uVar1),self);
   }
   return;

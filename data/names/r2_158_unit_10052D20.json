@@ -1,0 +1,14 @@
+{
+ "0x10052D20": {
+  "name": "Unit10052D20_ReturnOne",
+  "confidence": "low",
+  "evidence": "returns 1.0 on the x87 stack",
+  "summary": "Returns 1.0."
+ },
+ "0x10052D30": {
+  "name": "Unit10052D20_ReturnSelf",
+  "confidence": "low",
+  "evidence": "returns this",
+  "summary": "Returns its object."
+ }
+}

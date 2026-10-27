@@ -1,0 +1,68 @@
+{
+ "0x10257830": {
+  "name": "Unit10253A20_GetDMsgTable",
+  "confidence": "medium",
+  "evidence": "returns the address 0x1033CE74, whose bytes begin \"d_msg\"; its callers load message tables from files",
+  "summary": "Returns the d_msg table object."
+ },
+ "0x10257840": {
+  "name": "Unit10253A20_CallFreeData",
+  "confidence": "low",
+  "evidence": "calls Unit10253A20_FreeData(this)",
+  "summary": "Frees the table's data."
+ },
+ "0x10257950": {
+  "name": "Unit10253A20_GetCellCol0",
+  "confidence": "medium",
+  "evidence": "returns Unit10253A20_GetCell(this, row, 0)",
+  "summary": "Returns the first cell of a table row."
+ },
+ "0x10257BD0": {
+  "name": "Unit10253A20_BindDataAndMark",
+  "confidence": "low",
+  "evidence": "calls Unit10253A20_BindData(this, data) and sets the byte at +8 to 1",
+  "summary": "Binds the table's data block and marks it bound."
+ },
+ "0x10257C60": {
+  "name": "Unit10253A20_GetDataField28",
+  "confidence": "low",
+  "evidence": "returns the dword at [this+4]+0x28",
+  "summary": "Returns a field of the bound data block."
+ },
+ "0x10258150": {
+  "name": "Unit10253A20_PickFormString",
+  "confidence": "low",
+  "evidence": "picks one of the 4-pointer rows at 0x10389DB0/DF0/E30/E70 by the first argument and returns its entry for the given index by two flag arguments, or the empty string",
+  "summary": "Selects a string from fixed tables by kind, index and flags."
+ },
+ "0x102581D0": {
+  "name": "Unit10253A20_FindFirstTypeByte",
+  "confidence": "medium",
+  "evidence": "steps through the Shift-JIS string (Sjis_GetCharByteLen) and returns the first byte in the range 2..15 (Unit10253A20_IsTypeRange), or 0 at the end",
+  "summary": "Returns the first control byte (2-15) in a Shift-JIS string."
+ },
+ "0x102586D0": {
+  "name": "Unit10253A20_FindFirstTypeByteInText",
+  "confidence": "low",
+  "evidence": "returns 0x102581D0 on the string held at +0xC (Unit1018BA60_GetCStr)",
+  "summary": "Returns the first control byte of the node's text."
+ },
+ "0x10258740": {
+  "name": "Unit10253A20_FormatTextAtC",
+  "confidence": "low",
+  "evidence": "calls 0x10258430(out, a, b, the string held at +0xC)",
+  "summary": "Formats the node's text at +0xC into an output buffer."
+ },
+ "0x10258AD0": {
+  "name": "Unit10253A20_GetText14",
+  "confidence": "medium",
+  "evidence": "returns the C string held at +0x14 (Unit1018BA60_GetCStr)",
+  "summary": "Returns the node's text at +0x14."
+ },
+ "0x10258D00": {
+  "name": "Unit10253A20_PickFormString2",
+  "confidence": "low",
+  "evidence": "picks the 4-pointer rows at 0x10389F10 or 0x10389ED0 by the first argument and returns an entry by index and flags, or the empty string",
+  "summary": "Selects a string from a second set of fixed tables."
+ }
+}

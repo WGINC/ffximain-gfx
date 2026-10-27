@@ -211,6 +211,130 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x1006ED10  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 60 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoProcessor::CalcScreenBoundsAndVisible(void * self, float * param_1, float * param_2, float param_3, float param_4, float param_5, undefined4 xi_s6, undefined4 xi_s7)
+{
+  long double fVar1;
+  long double fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float *a1;
+  int iVar15;
+  int *piVar16;
+  uint8_t bVar17;
+  long double fVar18;
+  long double fVar19;
+  long double fVar20;
+  float local_10;
+  float local_c;
+  float local_8;
+  
+  *(uint32_t *)((int)self + 0xa94) = 0;
+  *(uint32_t *)((int)self + 0xa98) = 0x461c4000;
+  *(uint32_t *)((int)self + 0xa9c) = 0xc61c4000;
+  local_c = 1e+04f;
+  local_10 = 1e+04f;
+  local_8 = (-1e+04f);
+  a1 = (float *)g_pProcessor_as_v1[g_pProcessor_as_v1[0x2a4] + 0x284];
+  g_pProcessor_as_v1[0x2a4] = g_pProcessor_as_v1[0x2a4] + 1;
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x24))))((void *)(g_pProcessor_as_v1),a1,param_4,param_5);
+  fVar18 = (long double)(-1e+04f);
+  if (0 < xi_castbits<int>(param_3)) {
+    do {
+      fVar1 = *param_2;
+      fVar2 = *a1;
+      fVar3 = a1[8];
+      fVar4 = param_2[2];
+      fVar5 = a1[4];
+      fVar6 = param_2[1];
+      fVar7 = a1[0xc];
+      fVar8 = a1[9];
+      fVar9 = param_2[2];
+      fVar10 = *param_2;
+      fVar11 = a1[1];
+      fVar12 = a1[5];
+      fVar13 = param_2[1];
+      fVar14 = a1[0xd];
+      fVar19 = (long double)a1[7] * (long double)param_2[1] +
+               (long double)param_2[2] * (long double)a1[0xb] + (long double)*param_2 * (long double)a1[3] +
+               (long double)a1[0xf];
+      bVar17 = NAN(fVar19) || NAN((long double)0.0f);
+      if (bVar17 == (bVar17 || fVar19 == (long double)0.0f)) {
+        fVar20 = ((long double)a1[10] * (long double)param_2[2] +
+                  (long double)a1[6] * (long double)param_2[1] + (long double)a1[2] * (long double)*param_2 +
+                 (long double)a1[0xe]) / fVar19;
+        bVar17 = NAN(fVar20) || NAN((long double)*(float *)((int)self + 0xa98));
+        if ((bVar17 || fVar20 < (long double)*(float *)((int)self + 0xa98)) != bVar17) {
+          *(float *)((int)self + 0xa98) = (float)fVar20;
+        }
+        if (fVar20 > (long double)*(float *)((int)self + 0xa9c)) {
+          *(float *)((int)self + 0xa9c) = (float)fVar20;
+        }
+        bVar17 = NAN(fVar19) || NAN((long double)0.0f);
+        if ((bVar17 || fVar19 < (long double)0.0f) != bVar17) {
+          fVar19 = -fVar19;
+        }
+      }
+      else {
+        fVar19 = (long double)1.0f;
+      }
+      fVar1 = (float)((((long double)1.0f / fVar19) *
+                       ((long double)fVar5 * (long double)fVar6 +
+                        (long double)fVar3 * (long double)fVar4 + (long double)fVar1 * (long double)fVar2 +
+                       (long double)fVar7) + (long double)1.0f) * (long double)xi_s6);
+      fVar2 = (float)(((long double)1.0f -
+                      ((long double)1.0f / fVar19) *
+                      ((long double)fVar12 * (long double)fVar13 +
+                       (long double)fVar10 * (long double)fVar11 + (long double)fVar8 * (long double)fVar9 +
+                      (long double)fVar14)) * (long double)xi_s7);
+      bVar17 = NAN((long double)fVar1) || NAN((long double)local_10);
+      if ((bVar17 || (long double)fVar1 < (long double)local_10) != bVar17) {
+        local_10 = fVar1;
+      }
+      if ((long double)fVar1 > (long double)local_8) {
+        local_8 = fVar1;
+      }
+      bVar17 = NAN((long double)fVar2) || NAN((long double)local_c);
+      if ((bVar17 || (long double)fVar2 < (long double)local_c) != bVar17) {
+        local_c = fVar2;
+      }
+      if ((long double)fVar2 > fVar18) {
+        fVar18 = (long double)fVar2;
+      }
+      if (((((long double)fVar1 > (long double)0.0f) &&
+           (fVar19 = (long double)xi_s6 + (long double)xi_s6,
+           (!NAN(fVar19) && !NAN((long double)fVar1)) && (long double)fVar1 < fVar19)) &&
+          ((long double)fVar2 > (long double)0.0f)) &&
+         (fVar19 = (long double)xi_s7 + (long double)xi_s7,
+         (!NAN(fVar19) && !NAN((long double)fVar2)) && (long double)fVar2 < fVar19)) {
+        *(int *)((int)self + 0xa94) = *(int *)((int)self + 0xa94) + 1;
+      }
+      param_2 = param_2 + 4;
+      param_3 = xi_castbits<float>((xi_castbits<int>(param_3) + -1));
+    } while (param_3 != 0.0f);
+  }
+  *param_1 = (float)(long double)local_10;
+  param_1[1] = local_c;
+  param_1[2] = local_8;
+  param_1[3] = (float)fVar18;
+  piVar16 = g_pProcessor_as_v1;
+  iVar15 = g_pProcessor_as_v1[0x2a4];
+  g_pProcessor_as_v1[0x2a4] = iVar15 + -1;
+  piVar16[iVar15 + 0x283] = (int)a1;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x1006F800  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 __attribute__((target("sse,fpmath=sse"))) float * __stdcall CMoProcessor::MulPointVec3(float * param_1, float * param_2, float * param_3)

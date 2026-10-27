@@ -1,0 +1,44 @@
+{
+ "0x1019CDC0": {
+  "name": "Unit1018BA60_HasTable1037A290CellByte",
+  "confidence": "low",
+  "evidence": "Body: walks the 10-byte entries at 0x1037A290 until a zero word; returns AL 1 when Cell_GetWord1036D6B0(entry) equals arg's low byte, else AL 0.",
+  "summary": "Tests whether an entry of the table at 0x1037A290 maps (through Cell_GetWord1036D6B0) to the given byte."
+ },
+ "0x1019EBB0": {
+  "name": "Unit1018BA60_DrawTextBlockOnce",
+  "confidence": "medium",
+  "evidence": "Body: unless this+0x54 is set, calls fn_1019EDB0 (which draws through sub_1019E290 / sub_1019E550, whose callees are Font_DrawStringDefault / Font_DrawStringFlags44) with the text at this+0x3C, colour 0x80808080 and at most 0x25 lines; a negative result sets this+0x54; returns 1. Called by Obj_10621944_Draw.",
+  "summary": "Draws the object's text block, and stops drawing it once a draw reports failure."
+ },
+ "0x1019ED10": {
+  "name": "Unit1018BA60_GetScaleTimes310",
+  "confidence": "low",
+  "evidence": "Body: ftol(this+0x4C * 310.0).",
+  "summary": "Returns the float at this+0x4C times 310, as an integer."
+ },
+ "0x1019ED20": {
+  "name": "Unit1018BA60_GetScaleTimes0",
+  "confidence": "low",
+  "evidence": "Body: ftol(this+0x4C * 0.0).",
+  "summary": "Returns the float at this+0x4C times 0, as an integer."
+ },
+ "0x1019ED30": {
+  "name": "Unit1018BA60_GetScaleTimes180",
+  "confidence": "low",
+  "evidence": "Body: ftol(this+0x4C * 180.0).",
+  "summary": "Returns the float at this+0x4C times 180, as an integer."
+ },
+ "0x1019EDB0": {
+  "name": "Unit1018BA60_DrawTextLines",
+  "confidence": "medium",
+  "evidence": "Body: splits the text at CR/LF into lines of up to 64 characters; each is drawn through sub_1019E290 (a tab-led line through sub_1019E550, shifted by fn_1019ED30) at y offset sub_1019ED50(14 * line), scale this+0x4C / this+0x50, for at most arg5 lines; the callees' callees are Font_DrawStringDefault and Font_DrawStringFlags44.",
+  "summary": "Draws a text line by line (CR/LF separated, tab-led lines indented), up to a number of lines."
+ },
+ "0x101A0770": {
+  "name": "Unit1018BA60_RunKind8WithCallback",
+  "confidence": "low",
+  "evidence": "Body: when arg2 == 8 and the callback argument (slot 72) is set, r = FUN_101BE690(&arg3); calls callback(0, r, arg73) (r = -1 on failure) and returns r; else -1.",
+  "summary": "For kind 8, runs 0x101BE690 on the argument block and reports its result through the given callback."
+ }
+}

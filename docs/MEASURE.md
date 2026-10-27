@@ -127,3 +127,13 @@ at hand.
 that follows the steps the way a name says (a speed that rises when you run, a flag that sets when you mount) settles
 that name; one that never changes in any step is reported as such, not named. Each result goes into
 data/community_judged.json as measured, with the recording it came from.
+
+## Block C: output slots and switch jumps (`facts=1`, 25 Oct)
+
+Not a `[watch]` block: set `facts=1` in `[xikit]` (it takes effect at the next start) with the `xikit_facts.txt` of
+the same kit build next to `xikit.dll`. Then play normally for a while, the more varied the better: zone, fight,
+open menus, craft or fish, use the map. Every listed call and switch jump that runs is recorded. Push
+`xikit_logs\...\xikit_facts_<pid>.csv` (written every `report_every` frames) to `requests/`. `pipeline/fact_sites.py
+ingest` turns it into `data/game_sp.json`, `data/game_switch.json` and `data/game_outs.json` (docs/KIT.md, "Output
+slots and switch jumps"). A site no session reaches stays unmeasured; nothing is guessed for it.
+

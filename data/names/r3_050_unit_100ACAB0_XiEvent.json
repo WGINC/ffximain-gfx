@@ -1,0 +1,8 @@
+{
+ "0x100AD7C0": {
+  "name": "XiEvent_IsIdOutsideList",
+  "confidence": "low",
+  "evidence": "returns 0 in AL when the byte 0x10482F43 or the object 0x104DFD98 is unset, or when the word +0x40D7C of 0x104DFD98 is one of 15 listed values (1, 3, 0x2E, 0x2F, 0x3A..0x3C, 0xDC, 0xDD, 0xDF..0xE4); else 1",
+  "summary": "Reports whether the current id at 0x104DFD98+0x40D7C is outside a fixed list."
+ }
+}

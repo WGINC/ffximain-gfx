@@ -62,60 +62,60 @@ XI_API void __cdecl App_RegisterSystemDats(void)
 
 // FUNCTION: FFXIMAIN 0x10010520  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10010520(void)
+XI_API void __cdecl App_SaveAllSlotData(void)
 {
   uint32_t uVar1;
   
   uVar1 = orig::Game_ClearFlagsBits();
-  uVar1 = orig::FUN_1021c100(DAT_10666e2c,0x103502d4,0x103502dc,uVar1);
-  uVar1 = orig::FUN_1021c100(DAT_10666e30,0x103502cc,0,uVar1);
+  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e2c,0x103502d4,0x103502dc,uVar1);
+  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e30,0x103502cc,0,uVar1);
   if (DAT_10666e34 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e34,0x103502c4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e34,0x103502c4,0,uVar1);
   }
   if (DAT_10666e38 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e38,0x103502bc,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e38,0x103502bc,0,uVar1);
   }
   if (DAT_10666e3c != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e3c,0x103502b4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e3c,0x103502b4,0,uVar1);
   }
   if (DAT_10666e40 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e40,0x103502ac,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e40,0x103502ac,0,uVar1);
   }
   if (DAT_10666e44 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e44,0x103502a4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e44,0x103502a4,0,uVar1);
   }
   if (DAT_10666e48 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e48,0x1035029c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e48,0x1035029c,0,uVar1);
   }
   if (DAT_10666e4c != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e4c,0x10350294,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e4c,0x10350294,0,uVar1);
   }
   if (DAT_10666e50 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e50,0x10350288,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e50,0x10350288,0,uVar1);
   }
   if (DAT_10666e54 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e54,0x1035027c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e54,0x1035027c,0,uVar1);
   }
   if (DAT_10666e58 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e58,0x10350270,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e58,0x10350270,0,uVar1);
   }
   if (DAT_10666e5c != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e5c,0x10350264,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e5c,0x10350264,0,uVar1);
   }
   if (DAT_10666e60 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e60,0x10350258,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e60,0x10350258,0,uVar1);
   }
   if (DAT_10666e64 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e64,0x1035024c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e64,0x1035024c,0,uVar1);
   }
   if (DAT_10666e68 != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e68,0x10350240,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e68,0x10350240,0,uVar1);
   }
   if (DAT_10666e6c != (void *)0x0) {
-    uVar1 = orig::FUN_1021c100(DAT_10666e6c,0x10350238,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e6c,0x10350238,0,uVar1);
   }
   if (DAT_10666e70 != (void *)0x0) {
-    orig::FUN_1021c100(DAT_10666e70,0,0,uVar1);
+    orig::Unit10211440_SaveAndRelease(DAT_10666e70,0,0,uVar1);
   }
   orig::Acter_Nop();
   orig::FUN_10240860();
@@ -126,16 +126,16 @@ XI_API void __cdecl fn_10010520(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall App_Constructor(void * self_)
 {
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x54));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x94));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0xd4));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x114));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x154));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x194));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x1d4));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x214));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x254));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x294));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x54));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x94));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0xd4));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x114));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x154));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x194));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x1d4));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x214));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x254));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x294));
   *(uint8_t ***)self_ = &PTR_FUN_10329c14;
   *(uint8_t *)((int)self_ + 0xb) = 1;
   *(uint16_t *)((int)self_ + 4) = 0;
@@ -165,7 +165,7 @@ XI_API void * __thiscall App_Constructor(void * self_)
   g_pTkMsgWinData_as_v0 = 0;
   dword_1057815C_as_v0 = 0;
   dword_10578160_as_v0 = 0;
-  DAT_1045690c_as_v0 = 0;
+  DAT_1045690c = 0;
   dword_1047D688_as_v0 = 0;
   dword_1047D68C_as_v0 = 0;
   g_pXiCapture_as_v0 = 0;
@@ -222,7 +222,7 @@ XI_API void __thiscall Unit10010370_IncrementShort6(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D20  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- UNRESOLVED
 XI_API char __thiscall App_InitScene(int self_, int a4)
 {
   _DWORD *v3;
@@ -422,7 +422,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
       if ( v4 != nullptr )
       {
         orig::Unit1012AC80_Clear32();
-        if ( orig::sub_10153C10(v5) != 0 )
+        if ( orig::Unit1012AC80_LoadAllMessageTables(v5) != 0 )
         {
           orig::CreateSharedVertexBuffers();
           orig::CreateProcessorInstance();
@@ -539,7 +539,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                   orig::CDx_EndScene(g_pCDx);
                   return 0;
                 }
-                v26 = orig::sub_10127190(v25);
+                v26 = orig::Unit100D7420_MsgWinDataCtor(v25);
                 g_pTkMsgWinData = (int)v26;
                 if ( v26 != nullptr )
                 {
@@ -550,7 +550,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                     orig::CDx_EndScene(g_pCDx);
                     return 0;
                   }
-                  dword_1057815C = (int)orig::sub_10127190(v27);
+                  dword_1057815C = (int)orig::Unit100D7420_MsgWinDataCtor(v27);
                   if ( dword_1057815C != 0 )
                   {
                     v28 = orig::Allocator_Generic(0x7Cu);
@@ -560,7 +560,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                       orig::CDx_EndScene(g_pCDx);
                       return 0;
                     }
-                    v29 = orig::sub_10127EE0(v28);
+                    v29 = orig::Unit100D7420_CtorResetAll(v28);
                     dword_10578160 = (int)v29;
                     if ( v29 != nullptr )
                     {
@@ -579,11 +579,11 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                       {
                         orig::CMoTask_RegisterWithMng(v31, 5);
                         orig::Unit10163E60_InitGlobalTables();
-                        orig::sub_101A8D40();
+                        orig::Unit1018BA60_CreateDatManager();
                         orig::Unit1018BA60_CreateAll();
                         orig::sub_101B8E70();
-                        orig::sub_101AB080();
-                        orig::sub_101AB0D0();
+                        orig::Unit1018BA60_CreateEmptyObject();
+                        orig::Unit1018BA60_CreateMenuSystem();
                         v32 = orig::Allocator_Generic(0x84u);
                         if ( v32 != nullptr )
                           g_pFontGlyphs = (void *)orig::Unit100D7420_InitColors((int)v32);
@@ -623,8 +623,8 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                         {
                           dword_104E1D44 = 0;
                         }
-                        orig::sub_10165070();
-                        orig::sub_101A8D60();
+                        orig::Unit10163E60_CreateUiObjects();
+                        orig::Unit1018BA60_CreateConfigObjects();
                         orig::YkInit();
                         orig::Unit10211440_Create();
                         v34 = orig::Allocator_Generic(0x20u);
@@ -632,7 +632,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                           g_pDebugOverlay = orig::Gfx_InitObject((int)v34);
                         else
                           g_pDebugOverlay = 0;
-                        orig::sub_102217A0();
+                        orig::Unit1021D930_InitMenuShapes();
                         orig::FontGlyphCache_GetCounterBlock();
                         orig::FontGlyphCache_ResetCounter();
                         v35 = orig::Mem_AllocFromArea(52, 4);
@@ -674,7 +674,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                           v38 = orig::Allocator_Generic(0x19Cu);
                           if ( v38 != nullptr )
                           {
-                            v39 = orig::sub_10018430(v38);
+                            v39 = orig::Unit10017C10_CtorVt10329F8C(v38);
                             g_pObj_Vtbl10329F8C = (int)v39;
                             if ( v39 != nullptr )
                             {
@@ -688,7 +688,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
                           }
                           v40 = orig::Allocator_Generic(4u);
                           if ( v40 != nullptr )
-                            g_pObj_Vtbl1033CE34 = (int)orig::sub_102532E0(v40);
+                            g_pObj_Vtbl1033CE34 = (int)orig::Unit10253210_Ctor(v40);
                           else
                             g_pObj_Vtbl1033CE34 = 0;
                           dword_10456954 = 0;

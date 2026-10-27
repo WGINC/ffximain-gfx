@@ -1,0 +1,200 @@
+{
+ "0x101A33E0": {
+  "name": "Unit1018BA60_CanOpenMenuShortcut",
+  "confidence": "low",
+  "evidence": "in scene state 0x60 with no menu busy (0x1015DCE0), no target lock (g_pTargetMng +0x59, +0xC4), no event (IsEvent) and the player's entity not in state 2/3: tests whether one of the four panels 0x10578170, 0x106627A0, 0x106627A4, 0x10578250 is the focused menu item (Menu_IsFocusedItem)",
+  "summary": "Tests whether a menu shortcut may act now and one of four panels has the focus."
+ },
+ "0x101A3550": {
+  "name": "Unit1018BA60_HandleReadPosKeys",
+  "confidence": "low",
+  "evidence": "for each of ten inputs 0x3E/0x59.. (0x10123A70) moves the reader +4 to its position (Unit1018BA60_SetReadPos 0, 2, 4, ...) and calls the matching handler (fn_101A3CF0, fn_101A43A0, ...); returns the last result or -1",
+  "summary": "Moves the reader position from ten key inputs."
+ },
+ "0x101A36F0": {
+  "name": "Unit1018BA60_PanelCtorVt10337320",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10333360, a new 8-byte string object at +0x18 (0x101B9650, FsTinyString_init), the owner arg1 at +0x20 and arg2 at +0x24, then the vtables 0x10337320 and its two secondary ones; created by 0x101AB0D0",
+  "summary": "Constructs a menu panel with vtable 0x10337320 and its string."
+ },
+ "0x101A3CF0": {
+  "name": "Unit1018BA60_SetFlag29A",
+  "confidence": "low",
+  "evidence": "stores 1 at +0x29",
+  "summary": "Sets the flag at +0x29."
+ },
+ "0x101A3DC0": {
+  "name": "Unit1018BA60_PanelCtorVt10337378",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10333360, a new 8-byte string object at +0x18 (0x101B9650, FsTinyString_init), the owner arg1 at +0x20 and arg2 at +0x24, then the vtables 0x10337378 and its two secondary ones; created by 0x101AB0D0",
+  "summary": "Constructs a menu panel with vtable 0x10337378 and its string."
+ },
+ "0x101A43A0": {
+  "name": "Unit1018BA60_SetFlag29B",
+  "confidence": "low",
+  "evidence": "stores 1 at +0x29",
+  "summary": "Sets the flag at +0x29."
+ },
+ "0x101A4440": {
+  "name": "Unit1018BA60_CtorVt103373BC",
+  "confidence": "low",
+  "evidence": "stores arg at +4, sets vtable 0x103373BC, +0xC = 1 and clears +0xD/+0xE",
+  "summary": "Constructs a small object with vtable 0x103373BC around a value."
+ },
+ "0x101A46C0": {
+  "name": "Unit1018BA60_PanelCtorVt103373C8",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10333360, a new 8-byte string object at +0x18 (0x101B9650, FsTinyString_init), the owner arg1 at +0x20 and arg2 at +0x24, then the vtables 0x103373C8 and its two secondary ones, clears +0x48; created by 0x101AB0D0",
+  "summary": "Constructs a menu panel with vtable 0x103373C8 and its string."
+ },
+ "0x101A4D70": {
+  "name": "Unit1018BA60_PanelCtorVt10337418",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x10333360, a new 8-byte string object at +0x18 (0x101B9650, FsTinyString_init), the owner arg1 at +0x20 and arg2 at +0x24, then the vtables 0x10337418 and its two secondary ones, clears +0x48; created by 0x101AB0D0",
+  "summary": "Constructs a menu panel with vtable 0x10337418 and its string."
+ },
+ "0x101A54F0": {
+  "name": "Unit1018BA60_CtorVt10337460",
+  "confidence": "low",
+  "evidence": "sets the base fields, vtable 0x10337460, arg1/arg2 at +0x14/+0x18, and creates the 0x6B4-byte text lists at +0x44 and +0x2C.. (0x101C5BE0 with the callback 0x101A5450)",
+  "summary": "Constructs a menu object with its text lists."
+ },
+ "0x101A6430": {
+  "name": "Unit1018BA60_CtorVt103374A8",
+  "confidence": "low",
+  "evidence": "sets the base fields and vtable 0x103374A8",
+  "summary": "Constructs a menu item with vtable 0x103374A8."
+ },
+ "0x101A6C10": {
+  "name": "Unit1018BA60_CtorVt103374F0",
+  "confidence": "low",
+  "evidence": "sets the base fields, arg at +0x14, clears +0x18..+0x24 and the 32 bytes from +0x25, vtable 0x103374F0",
+  "summary": "Constructs a menu item with vtable 0x103374F0."
+ },
+ "0x101A7280": {
+  "name": "Unit1018BA60_CtorVt10337538",
+  "confidence": "low",
+  "evidence": "sets the base fields, arg at +0x14 and vtable 0x10337538",
+  "summary": "Constructs a menu item with vtable 0x10337538."
+ },
+ "0x101A83C0": {
+  "name": "Unit1018BA60_CtorVt1033757C",
+  "confidence": "low",
+  "evidence": "clears +0x66C, sets vtable 0x1033757C and builds its slot links (Unit1018BA60_BuildSlotLinks -1)",
+  "summary": "Constructs the slot object with vtable 0x1033757C."
+ },
+ "0x101A8750": {
+  "name": "Unit1018BA60_CtorVt10337580",
+  "confidence": "low",
+  "evidence": "stores arg at +4 and sets vtable 0x10337580",
+  "summary": "Constructs an object with vtable 0x10337580 around a value."
+ },
+ "0x101A8D40": {
+  "name": "Unit1018BA60_CreateDatManager",
+  "confidence": "low",
+  "evidence": "stores 0x101B9E60's result in 0x10662DB0 (the DAT manager Unit1018BA60_Register uses); called by App_InitScene",
+  "summary": "Creates the DAT manager object 0x10662DB0."
+ },
+ "0x101AA300": {
+  "name": "Unit1018BA60_RegisterMenuHandlers",
+  "confidence": "low",
+  "evidence": "registers the handler 0x101965D0 for 56 ids (0x1B, 0x1D, 0x1E, ...) through 0x10193800",
+  "summary": "Registers one handler for 56 ids."
+ },
+ "0x101AB080": {
+  "name": "Unit1018BA60_CreateEmptyObject",
+  "confidence": "low",
+  "evidence": "allocates 1 byte, constructs it (0x101AB810 returns it) and stores it in 0x106627EC; called by App_InitScene",
+  "summary": "Creates the empty global object 0x106627EC."
+ },
+ "0x101AB0D0": {
+  "name": "Unit1018BA60_CreateMenuSystem",
+  "confidence": "low",
+  "evidence": "creates the menu objects 0x10662794 (Unit1018BA60_Create), 0x1066279C, 0x106627A0, 0x106627A4 (Unit1018BA60_PanelCtorVt...) and the others in order; called by App_InitScene",
+  "summary": "Creates the menu system's global objects."
+ },
+ "0x101AB6D0": {
+  "name": "Unit1018BA60_SaveAll",
+  "confidence": "low",
+  "evidence": "saves the two message windows' data (0x1018EB00 on g_pTkMsgWinData and 0x1057815C), the settings (0x10195220, Unit1018BA60_FlushThenTrue, 0x101953A0 on 0x106626CC) and clears the DAT manager's +8",
+  "summary": "Saves the message windows and settings."
+ },
+ "0x101AB720": {
+  "name": "Unit1018BA60_Call101953D0",
+  "confidence": "low",
+  "evidence": "calls 0x101953D0",
+  "summary": "Calls 0x101953D0."
+ },
+ "0x101AB730": {
+  "name": "Unit1018BA60_ReloadAll",
+  "confidence": "low",
+  "evidence": "calls 0x101AFF30, reads all DAT entries (Unit1018BA60_ReadAll on 0x10662DB0), reloads the settings (0x10195350) and rebuilds the slot links of 0x106627D8; called by CAtelIdleTask_Create",
+  "summary": "Reloads the DAT entries, settings and slots."
+ },
+ "0x101AB770": {
+  "name": "Unit1018BA60_HandleJumpMapKeys",
+  "confidence": "medium",
+  "evidence": "on input 0x3F/0xB9 runs the command \"/jump\" and on 0x3F/0xBA the command at 0x1037AB74 (\"/map\") (CommandCalc); called by Frame_Render",
+  "summary": "Runs the /jump and /map commands from their keys."
+ },
+ "0x101AB7D0": {
+  "name": "Unit1018BA60_LoadAllAndTimestamp",
+  "confidence": "low",
+  "evidence": "loads all DAT entries (Unit1018BA60_LoadAll), runs the settings update (Unit1018BA60_UpdateIfFlag9) and the file manager's timestamp call (0x101C4CF0)",
+  "summary": "Loads the DAT entries and settings and writes the timestamp."
+ },
+ "0x101AB810": {
+  "name": "Unit1018BA60_ReturnThis",
+  "confidence": "medium",
+  "evidence": "returns this",
+  "summary": "Returns this."
+ },
+ "0x101AB820": {
+  "name": "Unit1018BA60_HandleMenuKeys",
+  "confidence": "low",
+  "evidence": "when +0 is set (and the target lock allows), maps 23 inputs (0x10123A70, 0x3E/0x2B..) to menu events (Menu_HandleEvent, 19 calls); called by Frame_Render",
+  "summary": "Turns key inputs into menu events each frame."
+ },
+ "0x101ABB40": {
+  "name": "FsTextInput_Init",
+  "confidence": "low",
+  "evidence": "stores arg at +0x3C and clears the flag +0, the buffers +0x6C4/+0x88C with their lengths, the cursor +0xA58 and +0xC20..+0xC78, with +0xA54 = 120 (the width) and +0xC24 = 1; called by FsTextInput_init",
+  "summary": "Initialises the text input's buffers and width."
+ },
+ "0x101ABC50": {
+  "name": "FsTextInput_SetText",
+  "confidence": "low",
+  "evidence": "when 0 < length < 0x1C3, copies the text arg1 into the input, turning the pair 0x81 0x40 into a space (0x1018FA80 per byte), and rebuilds its display text (FsTextInput_BuildDisplayText)",
+  "summary": "Sets the input's text from a string, normalising full-width spaces."
+ },
+ "0x101ABE40": {
+  "name": "FsTextInput_GetFlag",
+  "confidence": "low",
+  "evidence": "returns the byte +0 in AL",
+  "summary": "Returns the text input's active flag."
+ },
+ "0x101ABE50": {
+  "name": "FsTextInput_ClearState",
+  "confidence": "low",
+  "evidence": "clears the history's first entry (0x101A16B0), +0, +0x38, +0xA4, +0x70, +0xC70 and +0xC74",
+  "summary": "Clears the text input's state."
+ },
+ "0x101ABE80": {
+  "name": "FsTextInput_GetCode",
+  "confidence": "low",
+  "evidence": "copies the 4 bytes at +1 to *arg and returns arg",
+  "summary": "Returns the text input's 4-byte code."
+ },
+ "0x101ABEF0": {
+  "name": "FsTextInput_CursorLeft",
+  "confidence": "low",
+  "evidence": "moves the cursor +0xA58 back by one character (Text_CountChars) and redraws (0x101ABF40 with 1); 0 when it goes below",
+  "summary": "Moves the input cursor one character left."
+ },
+ "0x101ABF40": {
+  "name": "FsTextInput_RebuildAtCursor",
+  "confidence": "low",
+  "evidence": "when the cursor +0xA58 is within the text, rebuilds the display text around it (Text_ClassifyChar, Text_CountChars, FsTextInput_BuildDisplayText, FsTextInput_BuildDisplayTextTrimmed)",
+  "summary": "Rebuilds the input's display text around the cursor."
+ }
+}

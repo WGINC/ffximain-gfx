@@ -52,6 +52,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
          ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
   if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
                     "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase, ab.settle);
+  // present_interval: Present's SyncInterval, 0 to 4, instead of the one the game's parameters map to (anything else,
+  // or nothing: the game's); D8ON11_PRESENT_INTERVAL overrides it (Dev::present_interval)
+  { char pv[16] = ""; GetPrivateProfileStringA("d3d8on11", "present_interval", "", pv, sizeof pv, ini);
+    ne = GetEnvironmentVariableA("D8ON11_PRESENT_INTERVAL", env, sizeof env);
+    if (ne > 0 && ne < sizeof env) strcpy(pv, env);
+    present_force = pv[0] >= '0' && pv[0] <= '4' && !pv[1] ? pv[0] - '0' : -1; }
+  sync = present_interval(*p, "CreateDevice");
   HRESULT hr = make_swap(false);
   if (FAILED(hr) && strcmp(link->name(), "thread") && strcmp(link->name(), "direct")) {
     // the executor process could not make the device or the swap chain (d3d8on11_exec.log says why): in-process instead
@@ -70,6 +77,36 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
          pp.EnableAutoDepthStencil ? "yes" : "no", (unsigned long)pp.AutoDepthStencilFormat, (unsigned long)beh, (void *)wnd);
   return D3D_OK;
 }
+// The game's presentation parameters, logged at CreateDevice and Reset as it passed them, and the SyncInterval of
+// IDXGISwapChain::Present they map to. DXGI: SyncInterval 0, "the presentation occurs immediately, there is no
+// synchronization"; 1 through 4, "synchronize presentation after the nth vertical blank" (IDXGISwapChain::Present).
+// D3D8 (DirectX 8.1 reference, D3DPRESENT_PARAMETERS and D3DSWAPEFFECT; the values from d3d8types.h and d3d8caps.h):
+//   - D3DSWAPEFFECT_COPY_VSYNC, a windowed swap effect, copies at the vertical retrace: 1;
+//   - full screen, FullScreen_PresentationInterval D3DPRESENT_INTERVAL_ONE, TWO, THREE, FOUR: Present waits for that
+//     many vertical retraces: 1 to 4;
+//   - IMMEDIATE, and windowed with another swap effect (FullScreen_PresentationInterval must be DEFAULT there): 0.
+// Full screen with D3DPRESENT_INTERVAL_DEFAULT is not mapped from a source here (this device renders windowed, and the
+// text that would say what DEFAULT does in full screen is not quoted in this repository): 0, as every Present was
+// before 26 Oct, and the log line says so. present_interval in d3d8on11.ini (present_force) overrides all of these.
+uint32_t Dev::present_interval(const D3DPRESENT_PARAMETERS &p, const char *at) {
+  static const char *se[] = {"?", "DISCARD", "FLIP", "COPY", "COPY_VSYNC"};
+  DWORD iv = p.FullScreen_PresentationInterval; uint32_t g = 0; const char *why;
+  if (p.SwapEffect == D3DSWAPEFFECT_COPY_VSYNC) { g = 1; why = "COPY_VSYNC"; }
+  else if (!p.Windowed && iv == D3DPRESENT_INTERVAL_ONE) { g = 1; why = "full screen, INTERVAL_ONE"; }
+  else if (!p.Windowed && iv == D3DPRESENT_INTERVAL_TWO) { g = 2; why = "full screen, INTERVAL_TWO"; }
+  else if (!p.Windowed && iv == D3DPRESENT_INTERVAL_THREE) { g = 3; why = "full screen, INTERVAL_THREE"; }
+  else if (!p.Windowed && iv == D3DPRESENT_INTERVAL_FOUR) { g = 4; why = "full screen, INTERVAL_FOUR"; }
+  else if (iv == D3DPRESENT_INTERVAL_IMMEDIATE) why = "INTERVAL_IMMEDIATE";
+  else if (p.Windowed) why = "windowed";
+  else why = "full screen, INTERVAL_DEFAULT or another value: not mapped from a source, 0 as before";
+  uint32_t v = present_force >= 0 ? (uint32_t)present_force : g;
+  d8_log("%s: the game asked SwapEffect %lu (%s), FullScreen_PresentationInterval 0x%lX, BackBufferCount %u, Flags 0x%lX, %s; "
+         "Present's SyncInterval %u (%s)", at, (unsigned long)p.SwapEffect, p.SwapEffect <= 4 ? se[p.SwapEffect] : "?", (unsigned long)iv,
+         p.BackBufferCount, (unsigned long)p.Flags, p.Windowed ? "windowed" : "full screen", v,
+         present_force >= 0 ? "present_interval in d3d8on11.ini" : why);
+  if (present_force >= 0) d8_log("%s: the game's parameters map to SyncInterval %u (%s); present_interval=%d is used instead", at, g, why, present_force);
+  return v;
+}
 HRESULT Dev::make_swap(bool resize) {
   if (!pp.Windowed) d8_once("fullscreen", "full screen was asked: rendered windowed");
   RECT cr; GetClientRect(wnd, &cr);
@@ -79,7 +116,7 @@ HRESULT Dev::make_swap(bool resize) {
   if (!pp.BackBufferCount) pp.BackBufferCount = 1;
   uint32_t ds_id = pp.EnableAutoDepthStencil ? new_id() : 0;
   if (pp.EnableAutoDepthStencil && (!d8_fmt(pp.AutoDepthStencilFormat).depth)) { d8_notimpl("this automatic depth-stencil format"); ds_id = 0; }
-  XInit x = {(uint64_t)(uintptr_t)wnd, pp.BackBufferWidth, pp.BackBufferHeight, ds_id ? (uint32_t)pp.AutoDepthStencilFormat : 0u, ds_id};
+  XInit x = {(uint64_t)(uintptr_t)wnd, pp.BackBufferWidth, pp.BackBufferHeight, ds_id ? (uint32_t)pp.AutoDepthStencilFormat : 0u, ds_id, sync, 0};
   int32_t hr = link->call(resize ? X_RESIZE : X_INIT, &x, sizeof x);
   if (hr < 0) return D3DERR_NOTAVAILABLE;
   backbuf = new Surf(this, SK_BACKBUFFER, pp.BackBufferWidth, pp.BackBufferHeight, pp.BackBufferFormat, D3DPOOL_DEFAULT, D3DUSAGE_RENDERTARGET);
@@ -195,6 +232,7 @@ void Dev::GetGammaRamp(D3DGAMMARAMP *r) { if (r) *r = gamma; }
 HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) {
   if (!p) return D3DERR_INVALIDCALL;
   release_swap();
+  sync = present_interval(*p, "Reset");
   pp = *p; if (pp.hDeviceWindow) wnd = pp.hDeviceWindow;
   HRESULT hr = make_swap(true);
   if (FAILED(hr)) { notReset = true; return D3DERR_DEVICELOST; }
@@ -353,8 +391,15 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
     if (sg && dg) {                                           // GPU to GPU
       XCopy c = {s->xref(), d->xref(), r.left, r.top, r.right, r.bottom, p.x, p.y}; link->put(X_COPY, &c, sizeof c);
       d->wseq++;
-      if (d->kind == SK_TEXLEVEL && d->pool != D3DPOOL_DEFAULT)
-        { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its CPU copy is not updated (a later LockRect reads the old texels); called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
+      // a texture level's CPU copy (what LockRect gives and UnlockRect sends whole) is now older than the GPU's: the
+      // next lock reads the level back (d8_res.cpp, TexCore::lock)
+      if (TexCore *tc = d->kind == SK_TEXLEVEL ? core_of(d) : nullptr) {
+        UINT sub = d->face * tc->levels + d->level;
+        if (tc->stale.size() < tc->cpu.size()) tc->stale.resize(tc->cpu.size(), 0);
+        tc->stale[sub] = 1;
+        if (tc->pool != D3DPOOL_DEFAULT || (tc->usage & D3DUSAGE_DYNAMIC))
+          { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its next LockRect reads it back (waits for the executor); first called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
+      }
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
       std::vector<uint8_t> out; XRef ref = s->xref();
       if (link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;

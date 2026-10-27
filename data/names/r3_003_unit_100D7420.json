@@ -1,0 +1,242 @@
+{
+ "0x100EDED0": {
+  "name": "Unit100D7420_Check10310CD2",
+  "confidence": "high",
+  "evidence": "Body: returns 0 when sub_10310CD2() is 0 or 1, else -1.",
+  "summary": "Maps the result of sub_10310CD2 to 0 (for 0 or 1) or -1."
+ },
+ "0x100EEE90": {
+  "name": "Unit100D7420_StepState1030FFxx",
+  "confidence": "low",
+  "evidence": "Switch on *param_1: state 0 stores sub_1030FFCD() at DAT_104DF770+0x136A8 and on a negative value copies it to +0x136AC and returns -1; other states call sub_1030FFB7/FFC2/FFD8. Called by sub_100DA750.",
+  "summary": "One step of a state machine in *param_1 driving the sub_1030FFxx imports and recording errors at DAT_104DF770+0x136AC."
+ },
+ "0x100EF5B0": {
+  "name": "Unit100D7420_UpdateSessionIfReady",
+  "confidence": "high",
+  "evidence": "Body: returns -1 when DAT_104DF770 is null; otherwise calls Unit100D7420_UpdateSession() and returns 1.",
+  "summary": "Calls Unit100D7420_UpdateSession when DAT_104DF770 exists (returns 1), else -1."
+ },
+ "0x100EF5BD": {
+  "name": "Unit100D7420_UpdateSessionReturn1",
+  "confidence": "high",
+  "evidence": "Body: Unit100D7420_UpdateSession(); return 1. It starts at 0x100EF5BD, inside fn_100EF5B0, after its null check.",
+  "summary": "Calls Unit100D7420_UpdateSession and returns 1 (the tail of fn_100EF5B0)."
+ },
+ "0x100EF730": {
+  "name": "Unit100D7420_CountWhileInactiveFlag8",
+  "confidence": "high",
+  "evidence": "Body: when Unit100D7420_UpdateActive() returns 0 and bit 8 of Unit100D7420_GetFlags() is set, increments *param_1; returns 0.",
+  "summary": "Increments a counter while Unit100D7420_UpdateActive returns 0 with flag 8 set."
+ },
+ "0x100EF780": {
+  "name": "Unit100D7420_ShutdownSessionsReturn1",
+  "confidence": "high",
+  "evidence": "Body: Unit100D7420_ShutdownSessions(); return 1.",
+  "summary": "Calls Unit100D7420_ShutdownSessions and returns 1."
+ },
+ "0x100EF870": {
+  "name": "Unit100D7420_StatusText80IfFlags44",
+  "confidence": "high",
+  "evidence": "When DAT_104DFD98 is set, bit 7 of GetFlags is clear and (flags & 0x44) == 0x44, calls Unit100D7420_ApplyStatusText(0x80) and returns 1.",
+  "summary": "Applies status text 0x80 when flags 0x04 and 0x40 are both set."
+ },
+ "0x100EF8B0": {
+  "name": "Unit100D7420_StatusText80IfFlag4Only",
+  "confidence": "high",
+  "evidence": "When DAT_104DFD98 is set, bit 7 of GetFlags is clear and (flags & 0x44) == 4, calls Unit100D7420_ApplyStatusText(0x80) and returns 1.",
+  "summary": "Applies status text 0x80 when flag 0x04 is set without 0x40."
+ },
+ "0x100EF8F0": {
+  "name": "Unit100D7420_GetSessionField13C",
+  "confidence": "high",
+  "evidence": "Body: when DAT_104DF770+0x13690 is non-null returns the value Unit100D7420_GetField13C writes for it, else 0.",
+  "summary": "Returns field 0x13C of the object at DAT_104DF770+0x13690, or 0."
+ },
+ "0x100F0070": {
+  "name": "Unit100D7420_ClearFlag2CFD4IfNoGlobal",
+  "confidence": "medium",
+  "evidence": "Body: when DAT_104DFD98 is 0 it writes 0 to the byte at absolute address 0x2CFD4 (as decompiled; the original instruction is the source of truth); returns 1 in AL.",
+  "summary": "Returns 1; clears the byte at offset 0x2CFD4 when there is no DAT_104DFD98 object."
+ },
+ "0x100F0090": {
+  "name": "Unit100D7420_ReturnTrue100F0090",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100F00A0": {
+  "name": "Unit100D7420_GetBlock2CF54IfFlag",
+  "confidence": "high",
+  "evidence": "Body: returns DAT_104DFD98+0x2CF54 when DAT_104DFD98 is set and its byte +0x2CFD4 is non-zero, else 0.",
+  "summary": "Returns the block at DAT_104DFD98+0x2CF54 when its flag byte +0x2CFD4 is set, else null."
+ },
+ "0x100F02A0": {
+  "name": "Unit100D7420_ReturnTrue100F02A0",
+  "confidence": "high",
+  "evidence": "Body: sets AL to 1 and returns.",
+  "summary": "Returns true."
+ },
+ "0x100F06B0": {
+  "name": "Unit100D7420_ReturnTrue100F06B0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100F09C0": {
+  "name": "Unit100D7420_ReturnTrue100F09C0",
+  "confidence": "high",
+  "evidence": "Body: return 1 (AL only).",
+  "summary": "Returns true."
+ },
+ "0x100F1160": {
+  "name": "Unit100D7420_StepBitGuardedTask",
+  "confidence": "low",
+  "evidence": "Switch on +0x24 of the task: state 0 returns 0 when Unit100D7420_IsBitSet(+8) is set, else sets the bit and moves to state 1; later states call Unit10017C10_Call10114F10NoArgs, Unit100D7420_ClearBit and _exit. Called by Unit100D7420_UpdateActive.",
+  "summary": "Steps a task state machine at +0x24 that holds a bit (Unit100D7420_SetBit/ClearBit) while it runs."
+ },
+ "0x100F1670": {
+  "name": "Unit100D7420_Query10310030",
+  "confidence": "low",
+  "evidence": "Calls sub_10310030 and then sub_1030FF75; returns -1 when bit 0 of a local result word is clear, otherwise a value from its low two bits.",
+  "summary": "Queries status through sub_10310030/sub_1030FF75 and returns a 2-bit state or -1."
+ },
+ "0x100F1870": {
+  "name": "Unit100D7420_Call10310067",
+  "confidence": "high",
+  "evidence": "Body: sub_10310067().",
+  "summary": "Calls sub_10310067."
+ },
+ "0x100F1900": {
+  "name": "Unit100D7420_Call10310072",
+  "confidence": "high",
+  "evidence": "Body: sub_10310072().",
+  "summary": "Calls sub_10310072."
+ },
+ "0x100F1D20": {
+  "name": "Unit100D7420_UpdateRequests",
+  "confidence": "low",
+  "evidence": "When the requests at +0x24 and +0x28 differ and +0x24 has a pending short +0x1058, runs its callbacks (Unit100D7420_RunCallbacks); then by byte +7 runs the callbacks of +0x28/+0x24 (x6 in all), fn_100F2C40 and Unit100D7420_Complete. Called by fn_100F7700.",
+  "summary": "Per-frame update of the two pending request slots at +0x24/+0x28, running their callbacks."
+ },
+ "0x100F1F00": {
+  "name": "Unit100D7420_BeginRequests",
+  "confidence": "low",
+  "evidence": "Clears +0, increments byte +7; when the short +4 is 0 and sub_10310D82() returns 1 sets it to 1, then uses Unit100D7420_ClearBit1Fc, GetWord132, GetEntryPtrA90 and fn_100F25F0/2690/2720 to start requests. ret 4 (purges).",
+  "summary": "Starts the request sequence on the global request object (called by fn_100F7740)."
+ },
+ "0x100F25F0": {
+  "name": "Unit100D7420_StartRequestSlot20",
+  "confidence": "high",
+  "evidence": "Returns 0x10 when +0x20 is null; otherwise increments the 16-bit sequence +8 (skipping 0) and returns fn_100F3BB0(+0x20, self, seq, param_1..param_4). ret 16 (purges).",
+  "summary": "Starts a request on the slot at +0x20 with the next sequence number."
+ },
+ "0x100F2690": {
+  "name": "Unit100D7420_StartRequestOnNewNodeA",
+  "confidence": "high",
+  "evidence": "Gets a node with Unit100D7420_AcquireNode(self) (0x10 when none) and returns fn_100F3C20(node, self, seq +8, param_1..param_4). ret 16 (purges).",
+  "summary": "Starts a request on a newly acquired node through fn_100F3C20."
+ },
+ "0x100F2720": {
+  "name": "Unit100D7420_StartRequestOnNewNodeB",
+  "confidence": "high",
+  "evidence": "Gets a node with Unit100D7420_AcquireNode(self) (0x10 when none) and returns fn_100F3C90(node, self, seq +8, param_1..param_4). ret 16 (purges).",
+  "summary": "Starts a request on a newly acquired node through fn_100F3C90."
+ },
+ "0x100F2760": {
+  "name": "Unit100D7420_StartRequestSlot24",
+  "confidence": "high",
+  "evidence": "Returns 0x10 when +0x24 is null; otherwise increments the 16-bit sequence +8 (skipping 0) and returns fn_100F3D00(+0x24, self, seq, param_1..param_3). ret 12 (purges).",
+  "summary": "Starts a request on the slot at +0x24 with the next sequence number."
+ },
+ "0x100F2C40": {
+  "name": "Unit100D7420_CallStateCallback3",
+  "confidence": "high",
+  "evidence": "When the short +0x1058 is set and the table +0x105C has a non-null entry at index (short +0x105A), calls it with (self, 3) and returns (result == 0) in AL; otherwise returns 1.",
+  "summary": "Calls the request's current state callback with code 3; returns true when there is none or it returns 0."
+ },
+ "0x100F3BB0": {
+  "name": "Unit100D7420_InitRequestA",
+  "confidence": "medium",
+  "evidence": "Same body as the other three request starters (fn_100F3BB0/3C20/3C90/3D00): returns 3 when the short +0x1058 is already set; otherwise stores the owner (param_1), the 16-bit sequence (param_2) and the arguments into +0x18.. and +0x1048..+0x1058 and calls Unit100D7420_StartCallbacks. ret 24 (purges).",
+  "summary": "Fills a request record (variant A) and starts its callbacks; 3 when the record is busy."
+ },
+ "0x100F3C20": {
+  "name": "Unit100D7420_InitRequestB",
+  "confidence": "medium",
+  "evidence": "Same body as the other three request starters (fn_100F3BB0/3C20/3C90/3D00): returns 3 when the short +0x1058 is already set; otherwise stores the owner (param_1), the 16-bit sequence (param_2) and the arguments into +0x18.. and +0x1048..+0x1058 and calls Unit100D7420_StartCallbacks. ret 24 (purges).",
+  "summary": "Fills a request record (variant B) and starts its callbacks; 3 when the record is busy."
+ },
+ "0x100F3C90": {
+  "name": "Unit100D7420_InitRequestC",
+  "confidence": "medium",
+  "evidence": "Same body as the other three request starters (fn_100F3BB0/3C20/3C90/3D00): returns 3 when the short +0x1058 is already set; otherwise stores the owner (param_1), the 16-bit sequence (param_2) and the arguments into +0x18.. and +0x1048..+0x1058 and calls Unit100D7420_StartCallbacks. ret 24 (purges).",
+  "summary": "Fills a request record (variant C) and starts its callbacks; 3 when the record is busy."
+ },
+ "0x100F3D00": {
+  "name": "Unit100D7420_InitRequestD",
+  "confidence": "medium",
+  "evidence": "Same body as the other three request starters (fn_100F3BB0/3C20/3C90/3D00): returns 3 when the short +0x1058 is already set; otherwise stores the owner (param_1), the 16-bit sequence (param_2) and the arguments into +0x18.. and +0x1048..+0x1058 and calls Unit100D7420_StartCallbacks. This variant stores param_4 at +0x104C, param_5 at +0x1048 and param_3 at +0xD0. ret 20 (purges).",
+  "summary": "Fills a request record (variant D) and starts its callbacks; 3 when the record is busy."
+ },
+ "0x100F7620": {
+  "name": "Unit100D7420_StartGlobalRequestSlot24",
+  "confidence": "high",
+  "evidence": "Body: returns 2 when DAT_104DF908 is null, else fn_100F2760(DAT_104DF908, param_1, param_2, param_3).",
+  "summary": "Starts a request on slot +0x24 of the global request object DAT_104DF908."
+ },
+ "0x100F7700": {
+  "name": "Unit100D7420_UpdateGlobalRequests",
+  "confidence": "high",
+  "evidence": "Body: when DAT_104DF908 is non-null calls fn_100F1D20 on it and returns 1 in AL, else 0.",
+  "summary": "Runs Unit100D7420_UpdateRequests on the global request object, if any."
+ },
+ "0x100F7740": {
+  "name": "Unit100D7420_BeginGlobalRequests",
+  "confidence": "high",
+  "evidence": "Body: Unit100D7420_EnsureGlobal(); when DAT_104DF908 is non-null fn_100F1F00(it, 1); return 1.",
+  "summary": "Ensures the global request object exists and starts its request sequence."
+ },
+ "0x100FC3C0": {
+  "name": "Unit100D7420_CheckTimer41B4",
+  "confidence": "low",
+  "evidence": "For DAT_104DFD98 and param_1 < 0x120: with param_2 0, when the dword +0x41B4+4*param_1 is set it compares it plus DAT_104DFD94+0x43E34+4*param_1 against Unit100D7420_GetTotalMilliseconds (with a wrap test at 0x7FFFFFFF) and continues to fn_100DDA60.",
+  "summary": "Tests the timer slot param_1 (of 0x120) against the millisecond clock; what it returns is not established."
+ },
+ "0x10115D50": {
+  "name": "Unit100D7420_ProcessRingEntries",
+  "confidence": "low",
+  "evidence": "Returns 1 with *param_2 = 0 when +0x4F1A8 is 0; otherwise peeks the ring at +0x2F0D4 (Unit1025C9E0_PeekRingC044) and by +0x4F1A8 pops entries (PopRingC044 x8), checks sizes (GetVerifiedSize x12), advances sequences and calls fn_10116DE0 (x4).",
+  "summary": "Processes queued entries from the ring at +0x2F0D4 by the state at +0x4F1A8."
+ },
+ "0x10116610": {
+  "name": "Unit100D7420_BuildRequestWithMd5",
+  "confidence": "medium",
+  "evidence": "Calls Unit100D7420_InitHeader(param_1, param_2), then Unit100D7420_Md5Init/Md5Update/FinalDigest over the data and stores the digest in the request. Called by the Unit100D7420_QueueRequestNN functions.",
+  "summary": "Builds a request header and its MD5 digest for the QueueRequest functions."
+ },
+ "0x10116DE0": {
+  "name": "Unit100D7420_ApplyEntrySequence",
+  "confidence": "medium",
+  "evidence": "Switch on +8 & 0x7FFFFFFF of the entry: case 5 copies +0x1C to +0x138 and advances it with Unit100D7420_NextSequence; other cases (3, ...) use NextSequence too; default returns 1. Called by fn_10115D50.",
+  "summary": "Updates the sequence counters from a received entry by its kind."
+ },
+ "0x10117EE0": {
+  "name": "Unit100D7420_MenuReleaseItemCount",
+  "confidence": "high",
+  "evidence": "When the signed byte +0x6F is positive, subtracts it from the short g_pTargetMng+0x6A and clears it; clears bytes +0x70 and +0x6E.",
+  "summary": "Gives back the item's count at +0x6F to the target manager's counter +0x6A and clears its open flags."
+ },
+ "0x10118260": {
+  "name": "Unit100D7420_MenuMoveSelection",
+  "confidence": "low",
+  "evidence": "Returns 0 for kind 0xE items or when the short +0x56 is positive; otherwise uses sub_101181D0, Unit100D7420_SelectEntry and SetMusicTrackVolume_A/B/C (x4 in all) and sub_10037C50. ret 4 (purges).",
+  "summary": "Moves a menu's selection (sub_101181D0, Unit100D7420_SelectEntry) and calls the SetMusicTrackVolume_A/B/C functions; details not established."
+ },
+ "0x101186A0": {
+  "name": "Unit100D7420_MenuUpdateFocusedHelp",
+  "confidence": "medium",
+  "evidence": "Returns unless self is Menu_GetFocusedItem(&g_menuMng); takes the current entry (sub_101181D0) and updates g_pTkHelp and g_pTkTitle through Unit1012AC80_ForwardToPanel / SetTextFwd with Unit100D7420_GetFocusedValueA/B.",
+  "summary": "Updates the help and title windows for the focused menu's current entry."
+ }
+}

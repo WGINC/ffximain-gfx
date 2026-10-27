@@ -209,6 +209,27 @@ What follows from the code:
   - below 60 fps, `frame_step` 1 and 2 remove the under-count of the table above, so what it drives moves faster
     than it does now (as fast as real time).
 
+### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
+
+The owner saw walking, camera, map movement and running animations speed up and slow down with the frame rate
+in runs A and B, both under d3d8on11, and not under dgVoodoo. What is known, and from where:
+- **The minimum is off.** The owner reports that Windower sets the frame divisor to 0. With `[this+0x30] = 0`
+  the wait loop never waits, and above 60 fps `Camera_GetFrameScale` answers 1.0 every frame (3a). So what the
+  112 users drive advances one tick (1/60 s) per frame, whatever the frame's real length.
+- **The frames were short.** In run A's timing log under d3d8on11, frames ran 5 to 7 ms for long stretches
+  (140 to 200 fps). By 3a, that is 2.4 to 3.3 times real time for step-driven motion, varying with the frame
+  rate as the owner saw.
+- **d3d8on11 does not wait for the display.** Its Present is DXGI_SWAP_EFFECT_DISCARD with `Present(0, 0)`:
+  the game's presentation interval and swap effect are not honoured (kit/d3d8on11/d8_exec.cpp:455 and :844). Under dgVoodoo the
+  frame is held to the display; that dgVoodoo honours the interval is inferred from the owner's observation,
+  not measured here.
+- **speedfix's limiter did not hold the frame either.** In run B (`precise_pacing`), the limiter's log shows
+  0 ms waits after its first phase, with `[this+0x30] = 1` read. Why is not settled.
+
+The fix on the d3d8on11 side is to honour the game's presentation interval (a sync interval of 1 for
+D3DPRESENT_INTERVAL_ONE / DEFAULT). At 60 fps, a minimum of 0 or 1 gives the game's own speed. Above 60, the
+step needs speedfix's `frame_step` (3a).
+
 ## 4. Coverage gaps that matter for the goals
 
 - **The CMoDX device users.** Before the 4 Oct export, 99 functions outside it used the device (93 through the

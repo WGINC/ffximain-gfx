@@ -1,0 +1,20 @@
+{
+ "0x1018AD50": {
+  "name": "Unit1018AD50_GetField4",
+  "confidence": "low",
+  "evidence": "returns the dword at +4",
+  "summary": "Returns the field at +4."
+ },
+ "0x1018AD60": {
+  "name": "Unit1018AD50_SetField10Of4",
+  "confidence": "low",
+  "evidence": "stores its argument at [this+4]+0x10",
+  "summary": "Sets the field at +0x10 of the object at +4."
+ },
+ "0x1018ADD0": {
+  "name": "Unit1018AD50_CallBlendUpdate",
+  "confidence": "low",
+  "evidence": "calls Blend_Update(this); called by ZoneMap_Update",
+  "summary": "Runs Blend_Update on the object."
+ }
+}

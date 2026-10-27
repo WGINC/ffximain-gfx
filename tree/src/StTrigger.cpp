@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10252CC0  (unit StTrigger: name StTrigger_ProcessOpcodesUpToTime)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t param_2, int param_3, undefined4 * param_4)
 {
   int *piVar1;
@@ -57,11 +57,11 @@ XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t
                 pcVar7 = pcVar7 + 1;
               } while (bVar8);
               if (bVar8) {
-                orig::FUN_10036f00(self_,0x40,0x7f);
+                orig::Unit10036B90_SetVolumeScalar(self_,0x40,0x7f);
                 param_2 = param_2 + 1;
                 goto LAB_10252e08;
               }
-              orig::FUN_10037020(self_,puVar3,0x40400000,0x41a00000,0x44000000,0x42800000,0,0,0x7f);
+              orig::Unit10036B90_CreateSoundElem(self_,puVar3,0x40400000,0x41a00000,0x44000000,0x42800000,0,0,0x7f);
             }
           }
           param_2 = param_2 + 1;
@@ -139,10 +139,10 @@ XI_API undefined4 __cdecl StTrigger_RegisterCallbacks(int param_1, uint32_t para
   
   *(uint32_t *)(param_1 + 0xc) = param_3;
   *(uint32_t *)(param_1 + 0x10) = param_2;
-  orig::FUN_101c4820(g_pFileMng_as_v1,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
-  iVar1 = orig::FUN_101c4820(g_pFileMng_as_v1,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
+  orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_3,0,0,param_1,0x10253020,XI_CODE(StTrigger_AllocFromPool));
+  iVar1 = orig::Unit1018BA60_FileMngQueueFileNumKind2(g_pFileMng_as_v0,param_2,0,0,param_1,0x102530c0,XI_CODE(StTrigger_AllocFromPool));
   if (iVar1 < 0) {
-    orig::nullsub_13_v2(s_____Error__Trigger_file_not_foun_10389c6c,param_2);
+    orig::Unit10017C10_NoOpVarargsA_v1(s_____Error__Trigger_file_not_foun_10389c6c,param_2);
     return 0xffffffff;
   }
   return 0;

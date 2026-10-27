@@ -7,21 +7,21 @@
 XI_API void __thiscall Unit10163E60_ResetFieldsA(void * self_)
 {
   int iVar1;
-  uint32_t *puVar2;
+  undefined4 *puVar2;
   
-  *(uint32_t *)((int)self_ + 0x14) = 0;
-  puVar2 = (uint32_t *)((int)self_ + 0x30);
+  *(undefined4 *)((int)self_ + 0x14) = 0;
+  puVar2 = (undefined4 *)((int)self_ + 0x30);
   for (iVar1 = 0x40; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x24) = 0;
-  *(uint32_t *)((int)self_ + 0x2c) = 0;
-  *(uint32_t *)((int)self_ + 0x130) = 0;
-  *(uint32_t *)((int)self_ + 0x134) = 0x1e;
+  *(undefined4 *)((int)self_ + 0x18) = 0;
+  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(undefined4 *)((int)self_ + 0x20) = 0;
+  *(undefined4 *)((int)self_ + 0x24) = 0;
+  *(undefined4 *)((int)self_ + 0x2c) = 0;
+  *(undefined4 *)((int)self_ + 0x130) = 0;
+  *(undefined4 *)((int)self_ + 0x134) = 0x1e;
   return;
 }
 
@@ -30,18 +30,18 @@ XI_API void __thiscall Unit10163E60_ResetFieldsA(void * self_)
 XI_API void __thiscall Unit10163E60_ResetFieldsB(void * self_)
 {
   *(uint8_t *)((int)self_ + 0xa90) = 1;
-  *(uint32_t *)((int)self_ + 0xaa4) = 0;
-  *(uint32_t *)((int)self_ + 0xa78) = 0;
-  *(uint32_t *)((int)self_ + 0xa7c) = 0;
-  *(uint32_t *)((int)self_ + 0xa80) = 0;
-  *(uint32_t *)((int)self_ + 0xa84) = 0;
-  *(uint32_t *)((int)self_ + 0xa88) = 0;
-  *(uint32_t *)((int)self_ + 0xa8c) = 0;
-  *(uint32_t *)((int)self_ + 0xa94) = 0;
-  *(uint32_t *)((int)self_ + 0xa98) = 0;
-  *(uint32_t *)((int)self_ + 0xa9c) = 0;
-  *(uint32_t *)((int)self_ + 0xaa0) = 0;
-  *(uint32_t *)((int)self_ + 0xaa8) = 0;
+  *(undefined4 *)((int)self_ + 0xaa4) = 0;
+  *(undefined4 *)((int)self_ + 0xa78) = 0;
+  *(undefined4 *)((int)self_ + 0xa7c) = 0;
+  *(undefined4 *)((int)self_ + 0xa80) = 0;
+  *(undefined4 *)((int)self_ + 0xa84) = 0;
+  *(undefined4 *)((int)self_ + 0xa88) = 0;
+  *(undefined4 *)((int)self_ + 0xa8c) = 0;
+  *(undefined4 *)((int)self_ + 0xa94) = 0;
+  *(undefined4 *)((int)self_ + 0xa98) = 0;
+  *(undefined4 *)((int)self_ + 0xa9c) = 0;
+  *(undefined4 *)((int)self_ + 0xaa0) = 0;
+  *(undefined4 *)((int)self_ + 0xaa8) = 0;
   return;
 }
 
@@ -49,22 +49,41 @@ XI_API void __thiscall Unit10163E60_ResetFieldsB(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335CE8(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
-  *(uint32_t *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
   *(uint8_t ***)self_ = &PTR_FUN_10335ce8;
   return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x10164530  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall Unit10163E60_InitA640AndCopyStar(void * self_)
+{
+  char cVar1;
+  char *pcVar2;
+  
+  *(undefined4 *)((int)self_ + 0xa640) = 0xffffffff;
+  *(undefined4 *)((int)self_ + 0xa644) = 0xffffffff;
+  pcVar2 = &DAT_10376470;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2[(int)self_ + -0x1036bd1c] = cVar1;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  orig::FUN_103108de();
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10164560  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10163E60_ResetFieldsC(void * self_)
 {
-  *(uint32_t *)((int)self_ + 0x14) = 1;
-  *(uint32_t *)((int)self_ + 0x30) = 0;
+  *(undefined4 *)((int)self_ + 0x14) = 1;
+  *(undefined4 *)((int)self_ + 0x30) = 0;
   *(uint8_t *)((int)self_ + 0xa5e1) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
+  *(undefined4 *)((int)self_ + 0x18) = 0;
   *(uint8_t *)((int)self_ + 0x20) = 0;
   *(uint8_t *)((int)self_ + 0xa5e0) = 0;
   return;
@@ -74,16 +93,16 @@ XI_API void __thiscall Unit10163E60_ResetFieldsC(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335D30(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0x30) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
+  *(undefined4 *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 0x30) = 0;
+  *(undefined4 *)((int)self_ + 0x18) = 0;
   *(uint8_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(undefined4 *)((int)self_ + 0x34) = 0;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint8_t *)((int)self_ + 0xc) = 1;
   *(uint8_t ***)self_ = &PTR_FUN_10335d30;
-  *(uint32_t *)((int)self_ + 0x14) = 1;
+  *(undefined4 *)((int)self_ + 0x14) = 1;
   return self_;
 }
 
@@ -92,19 +111,19 @@ XI_API void * __thiscall Unit10163E60_ConstructVt10335D30(void * self_)
 XI_API void __thiscall Unit10163E60_ResetFieldsD(void * self_)
 {
   int iVar1;
-  uint32_t *puVar2;
+  undefined4 *puVar2;
   
-  puVar2 = (uint32_t *)((int)self_ + 0x34);
+  puVar2 = (undefined4 *)((int)self_ + 0x34);
   for (iVar1 = 0x2c0; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
-  *(uint32_t *)((int)self_ + 0x14) = 0;
-  *(uint32_t *)((int)self_ + 0x18) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x24) = 0;
-  *(uint32_t *)((int)self_ + 0x2c) = 0;
+  *(undefined4 *)((int)self_ + 0x14) = 0;
+  *(undefined4 *)((int)self_ + 0x18) = 0;
+  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(undefined4 *)((int)self_ + 0x20) = 0;
+  *(undefined4 *)((int)self_ + 0x24) = 0;
+  *(undefined4 *)((int)self_ + 0x2c) = 0;
   *(uint8_t *)((int)self_ + 0x32) = 0;
   *(uint8_t *)((int)self_ + 0x30) = 0xff;
   *(uint8_t *)((int)self_ + 0x31) = 0xff;
@@ -115,12 +134,12 @@ XI_API void __thiscall Unit10163E60_ResetFieldsD(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10163E60_ResetFieldsE(void * self_)
 {
-  *(uint32_t *)((int)self_ + 0x2c) = 1;
-  *(uint32_t *)((int)self_ + 0x20) = 0;
-  *(uint32_t *)((int)self_ + 0x38) = 0;
-  *(uint32_t *)((int)self_ + 0x1c) = 0;
-  *(uint32_t *)((int)self_ + 0x24) = 0;
-  *(uint32_t *)((int)self_ + 0x28) = 0;
+  *(undefined4 *)((int)self_ + 0x2c) = 1;
+  *(undefined4 *)((int)self_ + 0x20) = 0;
+  *(undefined4 *)((int)self_ + 0x38) = 0;
+  *(undefined4 *)((int)self_ + 0x1c) = 0;
+  *(undefined4 *)((int)self_ + 0x24) = 0;
+  *(undefined4 *)((int)self_ + 0x28) = 0;
   return;
 }
 
@@ -128,9 +147,9 @@ XI_API void __thiscall Unit10163E60_ResetFieldsE(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335D78(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
-  *(uint32_t *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
   *(uint8_t ***)self_ = &PTR_FUN_10335d78;
   return self_;
@@ -140,13 +159,926 @@ XI_API void * __thiscall Unit10163E60_ConstructVt10335D78(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10163E60_ConstructVt10335DC0(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
-  *(uint32_t *)((int)self_ + 8) = 0;
-  *(uint32_t *)((int)self_ + 0x14) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 0x14) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
   *(uint8_t ***)self_ = &PTR_FUN_10335dc0;
   return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x10165070  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API void __cdecl Unit10163E60_CreateUiObjects(void)
+{
+  uint8_t *self_;
+  undefined4 uVar1;
+  undefined4 uVar2;
+  void *pvVar3;
+  undefined4 *puVar4;
+  
+  self_ = orig::Unit1012AC80_GetInstance_v1();
+  orig::Unit1012AC80_LoadMessageSet(self_);
+  orig::MenuMng_Init_v1(&g_menuMng_as_v0);
+  uVar1 = orig::Camera_GetWord16();
+  uVar2 = orig::Camera_GetWord14();
+  XI_PIECE(g_screenRectTopLeft_as_v2, 0, 2) = 0;
+  XI_PIECE(g_screenRectTopLeft_as_v2, 2, 2) = 0;
+  XI_PIECE(g_screenRectBottomRight_as_v2, 0, 2) = (uint16_t)uVar2;
+  XI_PIECE(g_screenRectBottomRight_as_v2, 2, 2) = (uint16_t)uVar1;
+  pvVar3 = orig::Allocator_Generic_v3(0x620);
+  if (pvVar3 == (void *)0x0) {
+    DAT_106218fc = (void *)0x0;
+  }
+  else {
+    DAT_106218fc = orig::Unit1012AC80_CtorVt10335334(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xc4);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578478 = (void *)0x0;
+  }
+  else {
+    DAT_10578478 = orig::Unit1012AC80_CtorVt10334F18(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x24);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781fc = (void *)0x0;
+  }
+  else {
+    DAT_105781fc = orig::Unit1012AC80_ConstructVt10333D10(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x3c4);
+  if (pvVar3 == (void *)0x0) {
+    g_pTkHelp = (void *)0x0;
+  }
+  else {
+    g_pTkHelp = orig::Unit1012AC80_ConstructVt10333D18(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x450);
+  if (pvVar3 == (void *)0x0) {
+    g_pTkTitle = (void *)0x0;
+  }
+  else {
+    g_pTkTitle = orig::Unit1012AC80_CtorVt10334F78(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x24);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578480 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *puVar4 = &PTR_FUN_10333360;
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    orig::Unit1012AC80_SetCopy(puVar4 + 5,0,0,0,0);
+    *puVar4 = &PTR_FUN_103365d0;
+    DAT_10578480 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xb0);
+  if (pvVar3 == (void *)0x0) {
+    g_pCursor_as_v2 = (void *)0x0;
+  }
+  else {
+    g_pCursor_as_v2 = orig::Cursor_Init(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x44c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781a8 = (void *)0x0;
+  }
+  else {
+    DAT_105781a8 = orig::Unit1012AC80_ConstructVt10333728(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xc4);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781ac = (void *)0x0;
+  }
+  else {
+    DAT_105781ac = orig::Unit1012AC80_ClearThenSetGlobal(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057846c = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336588;
+    DAT_1057846c = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578240 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336540;
+    DAT_10578240 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578244 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_103364f8;
+    DAT_10578244 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x154);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781b8 = (void *)0x0;
+  }
+  else {
+    DAT_105781b8 = orig::Unit1012AC80_ConstructVt103337E0(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xc0);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781bc = (void *)0x0;
+  }
+  else {
+    DAT_105781bc = orig::Unit1012AC80_ConstructVt10333898(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(100);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578170_as_v0 = (void *)0x0;
+  }
+  else {
+    DAT_10578170_as_v0 = orig::Unit100D7420_Construct(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xd4);
+  if (pvVar3 == (void *)0x0) {
+    g_pTargetMng = (void *)0x0;
+  }
+  else {
+    g_pTargetMng = orig::Unit1012AC80_TargetCtor(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xe4);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781e0 = (void *)0x0;
+  }
+  else {
+    DAT_105781e0 = orig::Unit1012AC80_ConstructVt10333B68(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x478);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781e4 = (void *)0x0;
+  }
+  else {
+    DAT_105781e4 = orig::Unit1012AC80_ConstructVt10333BB0(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x1c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10621808 = (void *)0x0;
+  }
+  else {
+    DAT_10621808 = orig::Unit1012AC80_FillSceneTable(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x3a8);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578204 = (void *)0x0;
+  }
+  else {
+    DAT_10578204 = orig::Unit1012AC80_CtorVt10333E20(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x3ac);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578208 = (void *)0x0;
+  }
+  else {
+    DAT_10578208 = orig::Unit1012AC80_CtorVt10333E70(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x14);
+  if (pvVar3 == (void *)0x0) {
+    DAT_1057820c = (void *)0x0;
+  }
+  else {
+    DAT_1057820c = orig::Unit1012AC80_CtorVt10333DD8(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x28);
+  if (pvVar3 == (void *)0x0) {
+    DAT_1057823c = (void *)0x0;
+  }
+  else {
+    DAT_1057823c = orig::Unit1012AC80_InitFromShape(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x28);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105783e4 = (void *)0x0;
+  }
+  else {
+    DAT_105783e4 = orig::Unit1012AC80_CtorVt10334928(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x1c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578248 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *puVar4 = &PTR_FUN_10333360;
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    orig::Unit1012AC80_SetCopy(puVar4 + 5,0,0,0,0);
+    *puVar4 = &PTR_FUN_103364b0;
+    DAT_10578248 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x148);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578484 = (void *)0x0;
+  }
+  else {
+    DAT_10578484 = orig::Unit1012AC80_CtorVt10335060(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x58);
+  if (puVar4 == (undefined4 *)0x0) {
+    puVar4 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *puVar4 = &PTR_FUN_10333360;
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    orig::Unit100D7420_Clear(puVar4 + 5);
+    orig::Unit1012AC80_SetCopy(puVar4 + 0xc,0,0,0,0);
+    *puVar4 = &PTR_FUN_10336468;
+  }
+  DAT_105781e8 = puVar4;
+  orig::Unit1012AC80_IsAlwaysTrue();
+  puVar4 = orig::Allocator_Generic_v3(0x1c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057818c = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336420;
+    DAT_1057818c = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578468 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_103363d8;
+    DAT_10578468 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x1c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105782b4 = (void *)0x0;
+  }
+  else {
+    DAT_105782b4 = orig::Unit1012AC80_CreateAll(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x78);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10669140 = (void *)0x0;
+  }
+  else {
+    DAT_10669140 = orig::LobbyThread_CtorVt1033CCA8(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(500);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578198 = (void *)0x0;
+  }
+  else {
+    DAT_10578198 = orig::Unit1012AC80_ConstructVt103335E8(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x28);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578450 = (void *)0x0;
+  }
+  else {
+    DAT_10578450 = orig::Unit1012AC80_CtorVt10334D00(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x170);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578470 = (void *)0x0;
+  }
+  else {
+    DAT_10578470 = orig::Unit1012AC80_CtorVt10334E58(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x30);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578200 = (void *)0x0;
+  }
+  else {
+    DAT_10578200 = orig::Unit1012AC80_CtorVt10333D78(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x38);
+  if (pvVar3 == (void *)0x0) {
+    DAT_1057824c = (void *)0x0;
+  }
+  else {
+    DAT_1057824c = orig::Unit1012AC80_CtorVt10334070(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x54c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057845c_as_v0 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit1012AC80_CtorVt10334DC0(puVar4);
+    *puVar4 = &PTR_FUN_10335280;
+    DAT_1057845c_as_v0 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x54c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578460 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit1012AC80_CtorVt10334DC0(puVar4);
+    *puVar4 = &PTR_FUN_103352c8;
+    DAT_10578460 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x168);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578214 = (void *)0x0;
+  }
+  else {
+    DAT_10578214 = orig::Unit1012AC80_CtorVt10333F28(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x18);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578218 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336388;
+    DAT_10578218 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x3c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057821c = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336340;
+    DAT_1057821c = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x4c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781f0 = (void *)0x0;
+  }
+  else {
+    DAT_105781f0 = orig::Unit1012AC80_ConstructVt10333CB0(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x5c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_1062193c_as_v2 = (void *)0x0;
+  }
+  else {
+    DAT_1062193c_as_v2 = orig::Unit1012AC80_CtorVt10335410(pvVar3,g_pTkMsgWinData_as_v0);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x60);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10621940_as_v2 = (void *)0x0;
+  }
+  else {
+    DAT_10621940_as_v2 = orig::Unit1012AC80_CtorVt10335470(pvVar3,dword_1057815C_as_v0);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x70);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781d4_as_v0 = (void *)0x0;
+  }
+  else {
+    DAT_105781d4_as_v0 = orig::Unit1012AC80_ConstructVt10333A40(pvVar3,DAT_1062193c_as_v2);
+  }
+  if (DAT_1062193c_as_v2 != (void *)0x0) {
+    *(void **)((int)DAT_1062193c_as_v2 + 0x1c) = DAT_105781d4_as_v0;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x70);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781d8_as_v0 = (void *)0x0;
+  }
+  else {
+    DAT_105781d8_as_v0 = orig::Unit1012AC80_ConstructVt10333A90(pvVar3,DAT_10621940_as_v2);
+  }
+  if (DAT_10621940_as_v2 != (void *)0x0) {
+    *(void **)((int)DAT_10621940_as_v2 + 0x1c) = DAT_105781d8_as_v0;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x70);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781cc_as_v1 = (void *)0x0;
+  }
+  else {
+    DAT_105781cc_as_v1 = orig::Unit1012AC80_ConstructVt10333950(pvVar3,DAT_1062193c_as_v2);
+  }
+  *(void **)((int)DAT_1062193c_as_v2 + 0x20) = DAT_105781cc_as_v1;
+  pvVar3 = orig::Allocator_Generic_v3(0x70);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105781d0 = (void *)0x0;
+  }
+  else {
+    DAT_105781d0 = orig::Unit1012AC80_ConstructVt103339A0(pvVar3,DAT_10621940_as_v2);
+  }
+  *(void **)((int)DAT_10621940_as_v2 + 0x20) = DAT_105781d0;
+  pvVar3 = orig::Allocator_Generic_v3(0x38);
+  if (pvVar3 == (void *)0x0) {
+    DAT_104e2150 = (void *)0x0;
+  }
+  else {
+    DAT_104e2150 = orig::Unit100D7420_ChatListCtorA(pvVar3,DAT_105781cc_as_v1);
+  }
+  *(void **)((int)DAT_105781cc_as_v1 + 0x68) = DAT_104e2150;
+  pvVar3 = orig::Allocator_Generic_v3(0x38);
+  if (pvVar3 == (void *)0x0) {
+    DAT_104e2154 = (void *)0x0;
+  }
+  else {
+    DAT_104e2154 = orig::Unit100D7420_ChatListCtorB(pvVar3,DAT_105781d0);
+  }
+  *(void **)((int)DAT_105781d0 + 0x68) = DAT_104e2154;
+  pvVar3 = orig::Allocator_Generic_v3(0x14);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10621944 = (void *)0x0;
+  }
+  else {
+    DAT_10621944 = orig::Unit1012AC80_CtorZeroed(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x154);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578190 = (void *)0x0;
+  }
+  else {
+    DAT_10578190 = orig::Unit1012AC80_ConstructVt10333500(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578224 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_103362f8;
+    DAT_10578224 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578228 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_103362b0;
+    DAT_10578228 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057822c = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336268;
+    DAT_1057822c = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578230 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336220;
+    DAT_10578230 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x30);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_105781ec = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *(uint16_t *)(puVar4 + 7) = 0;
+    *(uint16_t *)((int)puVar4 + 0x1e) = 0;
+    *(uint16_t *)(puVar4 + 8) = 0;
+    *(uint16_t *)((int)puVar4 + 0x22) = 0;
+    *puVar4 = &PTR_FUN_103361d8;
+    DAT_105781ec = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x24);
+  if (pvVar3 == (void *)0x0) {
+    DAT_1057817c = (void *)0x0;
+  }
+  else {
+    DAT_1057817c = orig::Unit1012AC80_ConstructVt103333C8(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x24);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578180 = (void *)0x0;
+  }
+  else {
+    DAT_10578180 = orig::Unit1012AC80_ConstructVt10333410(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x2c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578184 = (void *)0x0;
+  }
+  else {
+    DAT_10578184 = orig::Unit1012AC80_ConstructVt10333458(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x28);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578188 = (void *)0x0;
+  }
+  else {
+    DAT_10578188 = orig::Unit1012AC80_ConstructVt103334A0(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x28);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578194 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *(uint16_t *)(puVar4 + 5) = 0;
+    *(uint16_t *)((int)puVar4 + 0x16) = 0;
+    *(uint16_t *)(puVar4 + 6) = 0;
+    *(uint16_t *)((int)puVar4 + 0x1a) = 0;
+    *puVar4 = &PTR_FUN_10336190;
+    DAT_10578194 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0xa8);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578474 = (void *)0x0;
+  }
+  else {
+    DAT_10578474 = orig::Unit1012AC80_CtorVt10334EB8(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(100);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578458 = (void *)0x0;
+  }
+  else {
+    DAT_10578458 = orig::Unit1012AC80_CtorVt10334D60(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x87c);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578768 = (void *)0x0;
+  }
+  else {
+    DAT_10578768 = orig::Unit1012AC80_TableHolderCtor(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x10);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10621950 = (void *)0x0;
+  }
+  else {
+    DAT_10621950 = orig::Unit10163E60_Call10257860ReturnSelf(pvVar3);
+  }
+  orig::Unit1012AC80_LoadTable(DAT_10578768);
+  orig::Unit10163E60_LoadSceneFileAndBind(DAT_10621950);
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e2c = (void *)0x0;
+  }
+  else {
+    DAT_10666e2c = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e30 = (void *)0x0;
+  }
+  else {
+    DAT_10666e30 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e34 = (void *)0x0;
+  }
+  else {
+    DAT_10666e34 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e38 = (void *)0x0;
+  }
+  else {
+    DAT_10666e38 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e3c = (void *)0x0;
+  }
+  else {
+    DAT_10666e3c = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e40 = (void *)0x0;
+  }
+  else {
+    DAT_10666e40 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e44 = (void *)0x0;
+  }
+  else {
+    DAT_10666e44 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e48 = (void *)0x0;
+  }
+  else {
+    DAT_10666e48 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e4c = (void *)0x0;
+  }
+  else {
+    DAT_10666e4c = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e50 = (void *)0x0;
+  }
+  else {
+    DAT_10666e50 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e54 = (void *)0x0;
+  }
+  else {
+    DAT_10666e54 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e58 = (void *)0x0;
+  }
+  else {
+    DAT_10666e58 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e5c = (void *)0x0;
+  }
+  else {
+    DAT_10666e5c = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e60 = (void *)0x0;
+  }
+  else {
+    DAT_10666e60 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e64 = (void *)0x0;
+  }
+  else {
+    DAT_10666e64 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e68 = (void *)0x0;
+  }
+  else {
+    DAT_10666e68 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e6c = (void *)0x0;
+  }
+  else {
+    DAT_10666e6c = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x13bc);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10666e70 = (void *)0x0;
+  }
+  else {
+    DAT_10666e70 = orig::Unit10211440_ResetEntries(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x260);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10668ff8_as_v0 = (undefined4 *)0x0;
+    puVar4 = DAT_10668ff8_as_v0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *puVar4 = &PTR_FUN_10333360;
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    puVar4[5] = 0;
+    orig::Unit1018BA60_AssignCStr(puVar4 + 0x93,(char *)0x0);
+    *puVar4 = &PTR_FUN_10336148;
+    *(uint8_t *)(puVar4 + 0x96) = 0;
+    if (puVar4[5] == 0) {
+      puVar4[0x97] = 0;
+      orig::Unit1018BA60_AssignWhole(puVar4 + 0x93,0);
+      puVar4[5] = 0;
+    }
+  }
+  DAT_10668ff8_as_v0 = puVar4;
+  pvVar3 = orig::Allocator_Generic_v3(0x38);
+  if (pvVar3 == (void *)0x0) {
+    g_pKeyPrompt_as_v0 = (void *)0x0;
+  }
+  else {
+    g_pKeyPrompt_as_v0 = orig::KeyPrompt_Construct(pvVar3);
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x28);
+  if (pvVar3 == (void *)0x0) {
+    DAT_105782b0 = (void *)0x0;
+  }
+  else {
+    DAT_105782b0 = orig::Unit1012AC80_CtorVt10334260(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x28);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578258 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *(uint16_t *)(puVar4 + 5) = 0;
+    *(uint16_t *)((int)puVar4 + 0x16) = 0;
+    *(uint16_t *)(puVar4 + 6) = 0;
+    *(uint16_t *)((int)puVar4 + 0x1a) = 0;
+    *puVar4 = &PTR_FUN_10336100;
+    DAT_10578258 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x40);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578250_as_v0 = (void *)0x0;
+  }
+  else {
+    DAT_10578250_as_v0 = orig::Unit1012AC80_CtorVt103340D0(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_1057827c = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_103360b8;
+    DAT_1057827c = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x60);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578280 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit101D7020_CtorVt10339E48(puVar4);
+    *puVar4 = &PTR_FUN_10336048;
+    DAT_10578280 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x18);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578290 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10336000;
+    DAT_10578290 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x174);
+  if (pvVar3 == (void *)0x0) {
+    DAT_10578294 = (void *)0x0;
+  }
+  else {
+    DAT_10578294 = orig::Unit1012AC80_CtorVt10334200(pvVar3);
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578298 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335fb8;
+    DAT_10578298 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x1c);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_105782a4 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335f70;
+    DAT_105782a4 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578234 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335f28;
+    DAT_10578234 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578238 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335ee0;
+    DAT_10578238 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x18);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_105781a0 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335e98;
+    DAT_105781a0 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x18);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_105781a4 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335e50;
+    DAT_105781a4 = puVar4;
+  }
+  puVar4 = orig::Allocator_Generic_v3(0x14);
+  if (puVar4 == (undefined4 *)0x0) {
+    DAT_10578434 = (undefined4 *)0x0;
+  }
+  else {
+    orig::Unit100D7420_ClearWords_v1(puVar4 + 1);
+    *(uint16_t *)((int)puVar4 + 0xe) = 0xffff;
+    puVar4[2] = 0;
+    *(uint8_t *)(puVar4 + 3) = 1;
+    *puVar4 = &PTR_FUN_10335e08;
+    DAT_10578434 = puVar4;
+  }
+  pvVar3 = orig::Allocator_Generic_v3(0x24);
+  if (pvVar3 == (void *)0x0) {
+    g_pStDancer_as_v0 = 0;
+    orig::Unit1012AC80_SetMinId6C(&g_menuMng_as_v0,1,1);
+    return;
+  }
+  g_pStDancer_as_v0 = orig::Unit10251320_Init(pvVar3);
+  orig::Unit1012AC80_SetMinId6C(&g_menuMng_as_v0,1,1);
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x101671D0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
@@ -182,29 +1114,29 @@ XI_API void __cdecl Unit10163E60_InitGlobalTables(void)
   if (DAT_10667a74 != 0) {
     iVar2 = 0;
     do {
-      orig::FUN_1021e870(iVar2 + DAT_10667a74,100);
+      orig::Unit1021D930_RotateBytesByBitCount(iVar2 + DAT_10667a74,100);
       iVar2 = iVar2 + 100;
     } while (iVar2 < 0x19000);
   }
   if (DAT_1066714c != 0) {
     iVar2 = 0;
     do {
-      orig::FUN_1021e870(iVar2 + DAT_1066714c,0x30);
+      orig::Unit1021D930_RotateBytesByBitCount(iVar2 + DAT_1066714c,0x30);
       iVar2 = iVar2 + 0x30;
     } while (iVar2 < 0x21000);
   }
   puVar1 = orig::Unit1021D930_GetSingleton();
-  orig::FUN_1022be30(puVar1);
+  orig::Unit1021D930_LoadMessageTable(puVar1);
   puVar1 = orig::Unit1021D930_GetObjectOnce();
   orig::Unit1021D930_LoadFromFile(puVar1);
-  puVar1 = orig::FUN_10226180();
-  orig::FUN_10226210(puVar1);
+  puVar1 = orig::Unit1021D930_GetObject106670C8Once();
+  orig::Unit1021D930_LoadDMsgTable(puVar1);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10167330  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10167330(void * self_)
+XI_API void * __thiscall Unit10163E60_Call10257860ReturnSelf(void * self_)
 {
   orig::FUN_10257860(self_);
   return self_;
@@ -220,20 +1152,20 @@ XI_API undefined4 __thiscall Unit10163E60_LoadSceneFileAndBind(void * self_)
   uint8_t *pbVar4;
   uint32_t uVar5;
   uint8_t *pbVar6;
-  uint32_t uVar7;
+  undefined4 uVar7;
   uint8_t *pbVar8;
   uint8_t bVar9;
   uint64_t uVar10;
   
   iVar2 = orig::Scene_GetTableValue_v1(0x14);
-  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v1,iVar2);
+  uVar3 = orig::FileMng_ResolveOrExit_v1(g_pFileMng_as_v0,iVar2);
   uVar5 = uVar3;
   if (-1 < (int)uVar3) {
     uVar10 = orig::Allocator_Generic_v1(uVar3);
     pbVar4 = (uint8_t *)uVar10;
-    uVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v1,iVar2,pbVar4,uVar3,0);
+    uVar5 = orig::Unit1018BA60_ForwardOrExit(g_pFileMng_as_v0,iVar2,pbVar4,uVar3,0);
     if (-1 < (int)uVar5) {
-      pbVar6 = orig::FUN_10257830();
+      pbVar6 = orig::Unit10253A20_GetDMsgTable();
       pbVar8 = pbVar4;
       do {
         bVar1 = *pbVar8;
@@ -267,18 +1199,18 @@ XI_API void * __thiscall ZoneMap_ConstructVt10336614(void * self_)
 {
   int iVar1;
   int iVar2;
-  uint32_t *puVar3;
+  undefined4 *puVar3;
   
   iVar1 = 0x20;
   iVar2 = (int)self_ + 0x10;
   do {
-    orig::FUN_10001070(iVar2,4,0x20,XI_CODE(FUN_1005e100));
+    orig::Unit10001070_CallForEachElement(iVar2,4,0x20,XI_CODE(FUN_1005e100));
     iVar2 = iVar2 + 0x8c;
     iVar1 = iVar1 + -1;
   } while (iVar1 != 0);
   *(uint8_t ***)self_ = &PTR_FUN_10336614;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  puVar3 = (uint32_t *)((int)self_ + 8);
+  *(undefined4 *)((int)self_ + 4) = 0;
+  puVar3 = (undefined4 *)((int)self_ + 8);
   for (iVar2 = 0x460; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar3 = 0;
     puVar3 = puVar3 + 1;
@@ -332,7 +1264,7 @@ XI_API void * __thiscall ZoneMap_ConstructVt10336634(void * self_)
 XI_API void __thiscall ZoneMap_ReleaseBuffers(void * self_)
 {
   int iVar1;
-  uint32_t *puVar2;
+  undefined4 *puVar2;
   
   if (*(int *)((int)self_ + 0x14) != 0) {
     orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x14));
@@ -343,7 +1275,7 @@ XI_API void __thiscall ZoneMap_ReleaseBuffers(void * self_)
   if (*(int *)((int)self_ + 0x24) != 0) {
     orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0x24));
   }
-  puVar2 = (uint32_t *)((int)self_ + 8);
+  puVar2 = (undefined4 *)((int)self_ + 8);
   for (iVar1 = 0x1b; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
@@ -402,7 +1334,7 @@ XI_API void __thiscall ZoneMap_UnlinkSlotCells(void * self_, int param_1)
             }
           }
           else {
-            *(uint32_t *)(*(int *)((int)self_ + 0x60) + iVar9 * 4) = 0;
+            *(undefined4 *)(*(int *)((int)self_ + 0x60) + iVar9 * 4) = 0;
           }
         }
         puVar7 = puVar7 + (uVar2 & 0x7ff) * 2 + 2;
@@ -417,12 +1349,12 @@ XI_API void __thiscall ZoneMap_UnlinkSlotCells(void * self_, int param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_GetCount34154(void * self_)
 {
-  return *(uint32_t *)((int)self_ + 0x34154);
+  return *(undefined4 *)((int)self_ + 0x34154);
 }
 
 // FUNCTION: FFXIMAIN 0x10169290  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10169290(void * self_, float * param_1, float * param_2, undefined4 param_3, float param_4, float param_5, float param_6)
+XI_API undefined4 __thiscall Unit10163E60_ProbeAxis1(void * self_, float * param_1, float * param_2, undefined4 param_3, float param_4, float param_5, float param_6)
 {
   uint32_t uVar1;
   float fVar2;
@@ -447,7 +1379,7 @@ XI_API undefined4 __thiscall fn_10169290(void * self_, float * param_1, float * 
   local_8 = (float)((long double)param_5 + (long double)param_1[1]);
   if ((char)param_3 == '\0') {
     local_20 = (float)((long double)param_1[1] - (long double)0.5f);
-    uVar1 = orig::FUN_10169b40(self_,&local_24,&local_c,&local_18);
+    uVar1 = orig::Unit10163E60_SegmentHit34139(self_,&local_24,&local_c,&local_18);
     cVar3 = (char)uVar1;
     *param_2 = *param_1;
     param_2[1] = param_1[1];
@@ -478,7 +1410,7 @@ XI_API undefined4 __thiscall fn_10169290(void * self_, float * param_1, float * 
     fVar6 = (long double)param_6 + (long double)2.0f;
   }
   if (fVar5 > fVar6) {
-    *(uint32_t *)((int)self_ + 0x34148) = 0;
+    *(undefined4 *)((int)self_ + 0x34148) = 0;
   }
   param_2[1] = local_14;
   fVar2 = local_14;
@@ -488,7 +1420,7 @@ LAB_101693a6:
 
 // FUNCTION: FFXIMAIN 0x101693B0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentHit3413A(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -498,7 +1430,7 @@ XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * pa
   uint32_t uVar6;
   uint32_t uVar7;
   int iVar8;
-  uint32_t uVar9;
+  undefined4 uVar9;
   int iVar10;
   int *piVar11;
   uint16_t *puVar12;
@@ -541,7 +1473,7 @@ XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * pa
   int  &local_10 = *reinterpret_cast<int  *>(xi_frame + 157);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 169);
   
-  *(uint32_t *)((int)self_ + 0x1807c) = 0;
+  *(undefined4 *)((int)self_ + 0x1807c) = 0;
   uVar7 = 0;
   if (*(int *)((int)self_ + 0x60) != 0) {
     bVar13 = NAN((long double)param_1[1]) || NAN((long double)param_2[1]);
@@ -798,7 +1730,7 @@ XI_API uint32_t __thiscall fn_101693B0(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x10169B40  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentHit34139(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -808,7 +1740,7 @@ XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * pa
   uint32_t uVar6;
   uint32_t uVar7;
   int iVar8;
-  uint32_t uVar9;
+  undefined4 uVar9;
   int iVar10;
   int *piVar11;
   uint16_t *puVar12;
@@ -851,7 +1783,7 @@ XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * pa
   int  &local_10 = *reinterpret_cast<int  *>(xi_frame + 157);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 169);
   
-  *(uint32_t *)((int)self_ + 0x1807c) = 0;
+  *(undefined4 *)((int)self_ + 0x1807c) = 0;
   uVar7 = 0;
   if (*(int *)((int)self_ + 0x60) != 0) {
     bVar13 = NAN((long double)param_1[1]) || NAN((long double)param_2[1]);
@@ -1108,7 +2040,7 @@ XI_API uint32_t __thiscall fn_10169B40(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1016A2D0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
+XI_API uint32_t __thiscall Unit10163E60_SegmentTest34139(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
 {
   long double fVar1;
   uint32_t *puVar2;
@@ -1117,7 +2049,7 @@ XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * pa
   uint32_t uVar5;
   uint32_t uVar6;
   int iVar7;
-  uint32_t uVar8;
+  undefined4 uVar8;
   int iVar9;
   uint32_t *puVar10;
   uint16_t *puVar11;
@@ -1157,8 +2089,8 @@ XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * pa
   float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 165);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 177);
   
-  *(uint32_t *)((int)self_ + 0x1807c) = 0;
-  *(uint32_t *)((int)self_ + 0x34150) = 0;
+  *(undefined4 *)((int)self_ + 0x1807c) = 0;
+  *(undefined4 *)((int)self_ + 0x34150) = 0;
   uVar6 = 0;
   if (*(int *)((int)self_ + 0x60) != 0) {
     bVar12 = NAN((long double)param_1[1]) || NAN((long double)param_2[1]);
@@ -1396,9 +2328,334 @@ XI_API uint32_t __thiscall fn_1016A2D0(void * self_, float * param_1, float * pa
   return uVar6 & 0xffffff00;
 }
 
+// FUNCTION: FFXIMAIN 0x1016A990  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __thiscall fn_1016A990(void * self_, float * param_1, float * param_2, float * param_3)
+{
+  float *pfVar1;
+  long double fVar2;
+  long double fVar3;
+  long double fVar4;
+  long double fVar5;
+  int iVar6;
+  uint32_t *puVar7;
+  float *pfVar8;
+  uint32_t uVar9;
+  uint32_t uVar10;
+  int iVar11;
+  undefined4 uVar12;
+  int iVar13;
+  int *piVar14;
+  uint16_t *puVar15;
+  uint8_t bVar16;
+  long double fVar17;
+  long double fVar18;
+  int64_t lVar19;
+  char xi_frame[185] __attribute__((aligned(4)));
+  uint8_t  &local_b9 = *reinterpret_cast<uint8_t  *>(xi_frame + 0);
+  int  &local_b8 = *reinterpret_cast<int  *>(xi_frame + 1);
+  int  &local_b4 = *reinterpret_cast<int  *>(xi_frame + 5);
+  int  &local_b0 = *reinterpret_cast<int  *>(xi_frame + 9);
+  float  &local_9c = *reinterpret_cast<float  *>(xi_frame + 29);
+  float  &local_98 = *reinterpret_cast<float  *>(xi_frame + 33);
+  float  &local_94 = *reinterpret_cast<float  *>(xi_frame + 37);
+  float  &local_90 = *reinterpret_cast<float  *>(xi_frame + 41);
+  float  &local_8c = *reinterpret_cast<float  *>(xi_frame + 45);
+  float  &local_88 = *reinterpret_cast<float  *>(xi_frame + 49);
+  int  &local_84 = *reinterpret_cast<int  *>(xi_frame + 53);
+  uint32_t * &local_80 = *reinterpret_cast<uint32_t * *>(xi_frame + 57);
+  float  &local_7c = *reinterpret_cast<float  *>(xi_frame + 61);
+  float  &local_78 = *reinterpret_cast<float  *>(xi_frame + 65);
+  int * &local_74 = *reinterpret_cast<int * *>(xi_frame + 69);
+  int  &local_70 = *reinterpret_cast<int  *>(xi_frame + 73);
+  float  &local_6c = *reinterpret_cast<float  *>(xi_frame + 77);
+  float  &local_68 = *reinterpret_cast<float  *>(xi_frame + 81);
+  float  &local_64 = *reinterpret_cast<float  *>(xi_frame + 85);
+  float  &local_60 = *reinterpret_cast<float  *>(xi_frame + 89);
+  uint32_t  &local_5c = *reinterpret_cast<uint32_t  *>(xi_frame + 93);
+  int  &local_58 = *reinterpret_cast<int  *>(xi_frame + 97);
+  uint8_t  (&local_54)[36] = *reinterpret_cast<uint8_t  (*)[36]>(xi_frame + 101);
+  float  &local_30 = *reinterpret_cast<float  *>(xi_frame + 137);
+  float  &local_2c = *reinterpret_cast<float  *>(xi_frame + 141);
+  float  &local_28 = *reinterpret_cast<float  *>(xi_frame + 145);
+  float * &local_24 = *reinterpret_cast<float * *>(xi_frame + 149);
+  int  &local_20 = *reinterpret_cast<int  *>(xi_frame + 153);
+  int  &local_1c = *reinterpret_cast<int  *>(xi_frame + 157);
+  float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 161);
+  float  &local_14 = *reinterpret_cast<float  *>(xi_frame + 165);
+  float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 169);
+  float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 181);
+  
+  *(undefined4 *)((int)self_ + 0x1807c) = 0;
+  uVar10 = 0;
+  if (*(int *)((int)self_ + 0x60) != 0) {
+    bVar16 = NAN((long double)param_1[1]) || NAN((long double)param_2[1]);
+    if ((bVar16 || (long double)param_1[1] < (long double)param_2[1]) == bVar16) {
+      local_60 = param_2[1];
+      local_78 = param_1[1];
+    }
+    else {
+      local_78 = param_2[1];
+      local_60 = param_1[1];
+    }
+    lVar19 = XI_CALL_ST0(0x10311C2Cu)(((long double)*(float *)((int)self_ + 0x40) + (long double)*param_1) * (long double)0.25f);
+    uVar9 = (uint32_t)lVar19;
+    uVar10 = uVar9;
+    if ((-1 < (int)uVar9) && ((int)uVar9 < *(int *)((int)self_ + 0x48))) {
+      lVar19 = XI_CALL_ST0(0x10311C2Cu)(((long double)*(float *)((int)self_ + 0x44) + (long double)param_1[2]) * (long double)0.25f)
+      ;
+      uVar10 = (uint32_t)lVar19;
+      if ((-1 < (int)uVar10) && (iVar6 = *(int *)((int)self_ + 0x4c), (int)uVar10 < iVar6)) {
+        if (*(char *)((int)self_ + 0x3413a) == '\0') {
+          iVar13 = uVar9 - 1;
+          if (iVar13 < 0) {
+            local_b4 = 0;
+          }
+          else {
+            local_b4 = *(int *)((int)self_ + 0x48) + -1;
+            if (iVar13 <= local_b4) {
+              local_b4 = iVar13;
+            }
+          }
+          iVar13 = uVar9 + 1;
+          if (iVar13 < 0) {
+            local_b8 = 0;
+          }
+          else {
+            local_b8 = *(int *)((int)self_ + 0x48) + -1;
+            if (iVar13 <= local_b8) {
+              local_b8 = iVar13;
+            }
+          }
+          iVar13 = uVar10 - 1;
+          if (iVar13 < 0) {
+            iVar13 = 0;
+          }
+          else if (iVar6 + -1 < iVar13) {
+            iVar13 = iVar6 + -1;
+          }
+          iVar11 = uVar10 + 1;
+        }
+        else {
+          iVar13 = uVar9 - 2;
+          if (iVar13 < 0) {
+            local_b4 = 0;
+          }
+          else {
+            local_b4 = *(int *)((int)self_ + 0x48) + -1;
+            if (iVar13 <= local_b4) {
+              local_b4 = iVar13;
+            }
+          }
+          iVar13 = uVar9 + 2;
+          if (iVar13 < 0) {
+            local_b8 = 0;
+          }
+          else {
+            local_b8 = *(int *)((int)self_ + 0x48) + -1;
+            if (iVar13 <= local_b8) {
+              local_b8 = iVar13;
+            }
+          }
+          iVar13 = uVar10 - 2;
+          if (iVar13 < 0) {
+            iVar13 = 0;
+            iVar11 = uVar10 + 2;
+          }
+          else {
+            if (iVar6 + -1 < iVar13) {
+              iVar13 = iVar6 + -1;
+            }
+            iVar11 = uVar10 + 2;
+          }
+        }
+        if (iVar11 < 0) {
+          local_b0 = 0;
+        }
+        else {
+          local_b0 = iVar6 + -1;
+          if (iVar11 <= iVar6 + -1) {
+            local_b0 = iVar11;
+          }
+        }
+        local_7c = 1e+06f;
+        local_b9 = 0;
+        iVar6 = local_b0;
+        for (; local_58 = iVar13, local_70 = local_b4, iVar13 <= local_b0; iVar13 = iVar13 + 1) {
+          for (; local_70 <= local_b8; local_70 = local_70 + 1) {
+            puVar7 = *(uint32_t **)(*(int *)((int)self_ + 0x60) +
+                               (*(int *)((int)self_ + 0x48) * iVar13 + local_70) * 4);
+            while (puVar7 != (uint32_t *)0x0) {
+              local_80 = puVar7 + 1;
+              local_5c = *puVar7 & 0x7ff;
+              if ((*puVar7 & 0x2000) == 0) {
+                for (; local_5c != 0; local_5c = local_5c - 1) {
+                  piVar14 = (int *)local_80[1];
+                  if (piVar14 != (int *)0x0) {
+                    pfVar8 = (float *)*local_80;
+                    puVar15 = (uint16_t *)piVar14[2];
+                    if (((!((long double)pfVar8[0x2d] > (long double)local_78)) &&
+                        (bVar16 = NAN((long double)pfVar8[0x2e]) || NAN((long double)local_60),
+                        (bVar16 || (long double)pfVar8[0x2e] < (long double)local_60) == bVar16)) &&
+                       (*(float *)((int)self_ + 4) != pfVar8[0x2f])) {
+                      local_90 = (float)((long double)*param_1 * (long double)pfVar8[0x10] +
+                                         (long double)pfVar8[0x14] * (long double)param_1[1] +
+                                         (long double)pfVar8[0x18] * (long double)param_1[2] +
+                                        (long double)pfVar8[0x1c]);
+                      local_8c = (float)((long double)pfVar8[0x11] * (long double)*param_1 +
+                                         (long double)pfVar8[0x15] * (long double)param_1[1] +
+                                         (long double)pfVar8[0x19] * (long double)param_1[2] +
+                                        (long double)pfVar8[0x1d]);
+                      local_88 = (float)((long double)pfVar8[0x12] * (long double)*param_1 +
+                                         (long double)pfVar8[0x16] * (long double)param_1[1] +
+                                         (long double)pfVar8[0x1a] * (long double)param_1[2] +
+                                        (long double)pfVar8[0x1e]);
+                      local_4 = (float)((long double)pfVar8[0x16] * (long double)param_2[1] +
+                                        (long double)pfVar8[0x1a] * (long double)param_2[2] +
+                                        (long double)pfVar8[0x12] * (long double)*param_2 +
+                                       (long double)pfVar8[0x1e]);
+                      fVar2 = (float)(((long double)*param_2 * (long double)pfVar8[0x10] +
+                                       (long double)pfVar8[0x14] * (long double)param_2[1] +
+                                       (long double)pfVar8[0x18] * (long double)param_2[2] +
+                                      (long double)pfVar8[0x1c]) - (long double)local_90);
+                      fVar3 = (float)(((long double)pfVar8[0x15] * (long double)param_2[1] +
+                                       (long double)pfVar8[0x19] * (long double)param_2[2] +
+                                       (long double)pfVar8[0x11] * (long double)*param_2 +
+                                      (long double)pfVar8[0x1d]) - (long double)local_8c);
+                      fVar4 = (float)((long double)local_4 - (long double)local_88);
+                      fVar17 = (long double)1.0f /
+                               SQRT((long double)fVar2 * (long double)fVar2 +
+                                    (long double)fVar3 * (long double)fVar3 +
+                                    ((long double)local_4 - (long double)local_88) * (long double)fVar4);
+                      local_18 = (float)((long double)fVar2 * fVar17);
+                      local_84 = 0;
+                      local_14 = (float)((long double)fVar3 * fVar17);
+                      local_10 = (float)((long double)fVar4 * fVar17);
+                      local_74 = piVar14;
+                      if (0 < (short)piVar14[3]) {
+                        do {
+                          pfVar1 = (float *)(piVar14[1] + (puVar15[3] & 0x7fff) * 0xc);
+                          local_24 = (float *)(*piVar14 + (*puVar15 & 0x7fff) * 0xc);
+                          local_20 = *piVar14 + (puVar15[1] & 0x3fff) * 0xc;
+                          local_30 = (float)((long double)*pfVar1 * (long double)(-1.0f));
+                          local_1c = *piVar14 + (puVar15[2] & 0x3fff) * 0xc;
+                          local_2c = (float)((long double)pfVar1[1] * (long double)(-1.0f));
+                          local_28 = (float)((long double)pfVar1[2] * (long double)(-1.0f));
+                          fVar18 = (long double)local_30 * (long double)local_18 +
+                                   (long double)local_2c * (long double)local_14 +
+                                   (long double)pfVar1[2] * (long double)(-1.0f) * (long double)local_10;
+                          fVar17 = (long double)0.0f;
+                          if (((!(fVar18 <= fVar17)) &&
+                              (fVar17 = (long double)local_30 * (long double)fVar2 +
+                                        (long double)local_2c * (long double)fVar3 +
+                                        (long double)local_28 * (long double)fVar4,
+                              bVar16 = NAN(fVar17) || NAN((long double)0.0f),
+                              bVar16 == (bVar16 || fVar17 == (long double)0.0f))) &&
+                             ((fVar5 = (float)(((long double)(-1.0f) / fVar17) *
+                                              (((long double)local_30 * (long double)local_90 +
+                                               (long double)local_2c * (long double)local_8c +
+                                               (long double)local_28 * (long double)local_88) -
+                                              ((long double)local_30 * (long double)*local_24 +
+                                              (long double)local_2c * (long double)local_24[1] +
+                                              (long double)local_28 * (long double)local_24[2]))),
+                              bVar16 = NAN((long double)fVar5) || NAN((long double)0.0f),
+                              (bVar16 || (long double)fVar5 < (long double)0.0f) == bVar16 &&
+                              (!((long double)fVar5 >= (long double)1.0f))))) {
+                            local_9c = (float)((long double)fVar5 * (long double)fVar2 + (long double)local_90);
+                            local_98 = (float)((long double)fVar5 * (long double)fVar3 + (long double)local_8c);
+                            local_94 = (float)((long double)fVar5 * (long double)fVar4 + (long double)local_88);
+                            uVar12 = orig::ZoneMap_IsPointInTriangle(&local_9c,(int)local_54);
+                            piVar14 = local_74;
+                            if ((char)uVar12 != '\0') {
+                              local_6c = (float)((long double)local_9c * (long double)*pfVar8 +
+                                                 (long double)local_98 * (long double)pfVar8[4] +
+                                                 (long double)local_94 * (long double)pfVar8[8] +
+                                                (long double)pfVar8[0xc]);
+                              local_68 = (float)((long double)local_9c * (long double)pfVar8[1] +
+                                                 (long double)local_98 * (long double)pfVar8[5] +
+                                                 (long double)local_94 * (long double)pfVar8[9] +
+                                                (long double)pfVar8[0xd]);
+                              local_64 = (float)((long double)local_9c * (long double)pfVar8[2] +
+                                                 (long double)local_98 * (long double)pfVar8[6] +
+                                                 (long double)local_94 * (long double)pfVar8[10] +
+                                                (long double)pfVar8[0xe]);
+                              fVar18 = ((long double)*param_1 - (long double)local_6c) *
+                                       ((long double)*param_1 - (long double)local_6c) +
+                                       ((long double)param_1[1] - (long double)local_68) *
+                                       ((long double)param_1[1] - (long double)local_68) +
+                                       ((long double)param_1[2] - (long double)local_64) *
+                                       ((long double)param_1[2] - (long double)local_64);
+                              fVar17 = (long double)local_7c;
+                              if (!(fVar17 <= fVar18)) {
+                                local_7c = (float)fVar18;
+                                *param_3 = local_6c;
+                                param_3[1] = local_68;
+                                param_3[2] = local_64;
+                                *(float *)((int)self_ + 0x3413c) =
+                                     (float)((long double)local_30 * (long double)pfVar8[0x20] +
+                                            (long double)local_2c * (long double)pfVar8[0x23] +
+                                            (long double)local_28 * (long double)pfVar8[0x26]);
+                                *(float *)((int)self_ + 0x34140) =
+                                     (float)((long double)local_30 * (long double)pfVar8[0x21] +
+                                            (long double)local_2c * (long double)pfVar8[0x24] +
+                                            (long double)local_28 * (long double)pfVar8[0x27]);
+                                *(float *)((int)self_ + 0x34144) =
+                                     (float)((long double)local_30 * (long double)pfVar8[0x22] +
+                                            (long double)local_2c * (long double)pfVar8[0x25] +
+                                            (long double)local_28 * (long double)pfVar8[0x28]);
+                                *(float *)((int)self_ + 0x1a114) = local_30;
+                                *(float *)((int)self_ + 0x1a118) = local_2c;
+                                *(float *)((int)self_ + 0x1a11c) = local_28;
+                                *(uint32_t *)((int)self_ + 0x34148) =
+                                     (((uint32_t)(puVar15[3] >> 0xf) * 2 | (uint32_t)(puVar15[2] >> 0xf)) *
+                                      2 | (uint32_t)(puVar15[1] >> 0xf)) * 2 | (uint32_t)(*puVar15 >> 0xf);
+                                *(int *)((int)self_ + 0x3414c) = (xi_castbits<int>(pfVar8[0x29]) << 6) >> 0xc;
+                                *(uint32_t *)((int)self_ + 0x34150) = xi_castbits<uint32_t>(pfVar8[0x29]) >> 2 & 1;
+                                *(uint32_t *)((int)self_ + 0x34154) =
+                                     (xi_castbits<uint32_t>(pfVar8[0x29]) >> 0x1a & 3) << 3 |
+                                     xi_castbits<uint32_t>(pfVar8[0x29]) >> 3 & 7;
+                                *(float *)((int)self_ + 0x34158) = pfVar8[0x2c];
+                                *(uint8_t *)((int)self_ + 0x3415c) =
+                                     *(uint8_t *)(pfVar8 + 0x2b);
+                                *(uint8_t *)((int)self_ + 0x3415d) =
+                                     *(uint8_t *)((int)pfVar8 + 0xad);
+                                *(uint8_t *)((int)self_ + 0x3415e) =
+                                     *(uint8_t *)((int)pfVar8 + 0xae);
+                                local_b9 = 1;
+                                *(uint8_t *)((int)self_ + 0x3415f) =
+                                     *(uint8_t *)((int)pfVar8 + 0xaf);
+                                *(float *)((int)self_ + 0x1807c) = pfVar8[0x2a];
+                              }
+                            }
+                          }
+                          puVar15 = puVar15 + 4;
+                          local_84 = local_84 + 1;
+                        } while (local_84 < (short)piVar14[3]);
+                      }
+                    }
+                  }
+                  local_80 = local_80 + 2;
+                }
+              }
+              else {
+                local_80 = local_80 + local_5c * 2;
+              }
+              iVar13 = local_58;
+              puVar7 = (uint32_t *)*local_80;
+            }
+          }
+          iVar6 = local_b4;
+        }
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar6 >> 8)) << 8) | (uint8_t)(local_b9)));
+      }
+    }
+  }
+  return uVar10 & 0xffffff00;
+}
+
 // FUNCTION: FFXIMAIN 0x1016B1D0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API undefined4 __thiscall Unit10163E60_SegmentHitWithObjects(void * self_, float * param_1, float * param_2, float * param_3)
 {
   float *pfVar1;
   long double fVar2;
@@ -1408,7 +2665,7 @@ XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * 
   uint32_t uVar6;
   int iVar7;
   uint32_t uVar8;
-  uint32_t uVar9;
+  undefined4 uVar9;
   void *this_00;
   int *piVar10;
   uint32_t *puVar11;
@@ -1456,7 +2713,7 @@ XI_API undefined4 __thiscall fn_1016B1D0(void * self_, float * param_1, float * 
   float  (&local_20)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 173);
   float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 189);
   
-  *(uint32_t *)((int)self_ + 0x1807c) = 0;
+  *(undefined4 *)((int)self_ + 0x1807c) = 0;
   uVar6 = 0;
   if (*(int *)((int)self_ + 0x60) != 0) {
     lVar17 = XI_CALL_ST0(0x10311C2Cu)(((long double)*(float *)((int)self_ + 0x40) + (long double)*param_1) * (long double)0.25f);
@@ -1889,7 +3146,7 @@ XI_API void __cdecl Mat44_Multiply(float * param_1, int param_2, float * param_3
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_GetHitCount(void * self_)
 {
-  return *(uint32_t *)((int)self_ + 0x1807c);
+  return *(undefined4 *)((int)self_ + 0x1807c);
 }
 
 // FUNCTION: FFXIMAIN 0x1016C390  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
@@ -1900,9 +3157,9 @@ XI_API undefined4 __stdcall ZoneMap_IsPointInTriangle(float * param_1, int param
   float *pfVar2;
   float *pfVar3;
   long double fVar4;
-  uint32_t xi_entry_eax = 0;
+  undefined4 xi_entry_eax = 0;
   uint16_t uVar6;
-  uint32_t uVar5;
+  undefined4 uVar5;
   uint8_t bVar7;
   uint8_t bVar8;
   uint16_t uVar9;
@@ -2064,7 +3321,7 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3)
 
 // FUNCTION: FFXIMAIN 0x1016E930  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * param_2, float * param_3)
+XI_API uint64_t __thiscall Unit10163E60_SweepSetupAndTest(void * self_, float * param_1, float * param_2, float * param_3)
 {
   int iVar1;
   uint32_t *puVar2;
@@ -2075,7 +3332,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
   uint32_t uVar7;
   uint32_t uVar8;
   int iVar9;
-  uint32_t uVar10;
+  undefined4 uVar10;
   void *this_00;
   int iVar11;
   uint32_t *puVar12;
@@ -2106,10 +3363,10 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
   float  &local_a8 = *reinterpret_cast<float  *>(xi_frame + 60);
   uint32_t  &local_a4 = *reinterpret_cast<uint32_t  *>(xi_frame + 64);
   float  &local_a0 = *reinterpret_cast<float  *>(xi_frame + 68);
-  uint32_t  &local_9c = *reinterpret_cast<uint32_t  *>(xi_frame + 72);
-  uint32_t  &local_98 = *reinterpret_cast<uint32_t  *>(xi_frame + 76);
+  undefined4  &local_9c = *reinterpret_cast<undefined4  *>(xi_frame + 72);
+  undefined4  &local_98 = *reinterpret_cast<undefined4  *>(xi_frame + 76);
   float  &local_94 = *reinterpret_cast<float  *>(xi_frame + 80);
-  uint32_t  &local_90 = *reinterpret_cast<uint32_t  *>(xi_frame + 84);
+  undefined4  &local_90 = *reinterpret_cast<undefined4  *>(xi_frame + 84);
   float  &local_8c = *reinterpret_cast<float  *>(xi_frame + 88);
   float  &local_88 = *reinterpret_cast<float  *>(xi_frame + 92);
   float  &local_84 = *reinterpret_cast<float  *>(xi_frame + 96);
@@ -2123,7 +3380,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
   float  &local_58 = *reinterpret_cast<float  *>(xi_frame + 140);
   float  &local_54 = *reinterpret_cast<float  *>(xi_frame + 144);
   float  &local_50 = *reinterpret_cast<float  *>(xi_frame + 148);
-  uint32_t  &local_4c = *reinterpret_cast<uint32_t  *>(xi_frame + 152);
+  undefined4  &local_4c = *reinterpret_cast<undefined4  *>(xi_frame + 152);
   uint32_t * &local_48 = *reinterpret_cast<uint32_t * *>(xi_frame + 156);
   float  &local_44 = *reinterpret_cast<float  *>(xi_frame + 160);
   float  &local_40 = *reinterpret_cast<float  *>(xi_frame + 164);
@@ -2173,13 +3430,13 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
        (float)-((long double)local_58 * (long double)local_88 +
                (long double)local_84 * (long double)local_54 + (long double)local_80 * (long double)local_50);
   *(float *)((int)self_ + 0x34180) = local_74;
-  *(uint32_t *)((int)self_ + 0x341a8) = local_4c;
+  *(undefined4 *)((int)self_ + 0x341a8) = local_4c;
   *(float *)((int)self_ + 0x34184) = local_64;
   *(float *)((int)self_ + 0x34190) = local_70;
-  *(uint32_t *)((int)self_ + 0x34178) = 0;
-  *(uint32_t *)((int)self_ + 0x34188) = 0;
+  *(undefined4 *)((int)self_ + 0x34178) = 0;
+  *(undefined4 *)((int)self_ + 0x34188) = 0;
   *(float *)((int)self_ + 0x34194) = local_60;
-  *(uint32_t *)((int)self_ + 0x34198) = 0;
+  *(undefined4 *)((int)self_ + 0x34198) = 0;
   *(float *)((int)self_ + 0x341a0) =
        (float)-((long double)local_78 * (long double)local_58 +
                (long double)local_74 * (long double)local_54 + (long double)local_70 * (long double)local_50);
@@ -2400,7 +3657,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
           this_00 = (void *)uVar19;
         }
       }
-      uVar10 = orig::FUN_1016f0e0(this_01,&local_e0,&local_94);
+      uVar10 = orig::Unit10163E60_SweepStep(this_01,&local_e0,&local_94);
       if ((char)uVar10 != '\0') {
         *param_3 = local_e0;
         param_3[1] = (float)((long double)local_dc + (long double)0.5f);
@@ -2421,7 +3678,7 @@ XI_API uint64_t __thiscall fn_1016E930(void * self_, float * param_1, float * pa
 
 // FUNCTION: FFXIMAIN 0x1016F0E0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * param_2)
+XI_API undefined4 __thiscall Unit10163E60_SweepStep(void * self_, float * param_1, float * param_2)
 {
   float *pfVar1;
   float fVar2;
@@ -2446,7 +3703,7 @@ XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * 
   *(uint8_t *)((int)self_ + 0x34124) = 1;
   *(uint8_t *)((int)self_ + 0x34125) = 0;
   *(uint8_t *)((int)self_ + 0x34126) = 0;
-  *(uint32_t *)((int)self_ + 0x3412c) = 0x3e800000;
+  *(undefined4 *)((int)self_ + 0x3412c) = 0x3e800000;
   while( true ) {
     fVar7 = (long double)local_10 * (long double)*(float *)((int)self_ + 0x3418c) +
             ((long double)*(float *)((int)self_ + 0x3416c) + (long double)*(float *)((int)self_ + 0x3417c)) *
@@ -2456,8 +3713,8 @@ XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * 
                       ((long double)*(float *)((int)self_ + 0x34170) +
                       (long double)*(float *)((int)self_ + 0x34180)) * (long double)0.0f +
                      (long double)*(float *)((int)self_ + 0x341a0));
-    *(uint32_t *)((int)self_ + 0x34134) = 0x4b18967f;
-    *(uint32_t *)((int)self_ + 0x34130) = 0x4b18967f;
+    *(undefined4 *)((int)self_ + 0x34134) = 0x4b18967f;
+    *(undefined4 *)((int)self_ + 0x34130) = 0x4b18967f;
     local_4 = (float)((long double)local_10 * (long double)*(float *)((int)self_ + 0x34194) +
                       ((long double)*(float *)((int)self_ + 0x34184) +
                       (long double)*(float *)((int)self_ + 0x34174)) * (long double)0.0f +
@@ -2496,8 +3753,8 @@ XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * 
     local_8 = *(float *)((int)self_ + 0x341b0);
     iVar4 = 0;
     local_4 = *(float *)((int)self_ + 0x341b4);
-    *(uint32_t *)((int)self_ + 0x34130) = 0x4b18967f;
-    *(uint32_t *)((int)self_ + 0x34134) = 0x4b18967f;
+    *(undefined4 *)((int)self_ + 0x34130) = 0x4b18967f;
+    *(undefined4 *)((int)self_ + 0x34134) = 0x4b18967f;
     if ((int)uVar3 < 1) break;
     do {
       orig::FUN_1016f320(self_,iVar5,&local_c);
@@ -2522,12 +3779,22 @@ XI_API undefined4 __thiscall fn_1016F0E0(void * self_, float * param_1, float * 
 XI_API void * __thiscall ZoneMap_ConstructVt10336668(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_10336668;
-  orig::FUN_1016fc90(self_);
+  orig::Unit10163E60_ClearListFields(self_);
   return self_;
 }
 
+// FUNCTION: FFXIMAIN 0x1016FC90  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10163E60_ClearListFields(void * self_)
+{
+  *(undefined4 *)((int)self_ + 4) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 0xc) = 0;
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x1016FCD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 9 returned normally, 345 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 8 returned normally, 477 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API _DWORD * __thiscall ParseZoneMeshData(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8)
 {
   unsigned int v8;
@@ -3203,6 +4470,107 @@ LABEL_18:
   return v20;
 }
 
+// FUNCTION: FFXIMAIN 0x10170CD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10163E60_FreeNodeOrAll(void * self_, undefined4 * param_1)
+{
+  undefined4 *puVar1;
+  int *a1;
+  undefined4 *puVar2;
+  int iVar3;
+  int *piVar4;
+  int *piVar5;
+  int *piVar6;
+  int local_10;
+  int local_c;
+  undefined4 *local_8;
+  
+  local_8 = (undefined4 *)0x0;
+  puVar1 = *(undefined4 **)((int)self_ + 4);
+  do {
+    do {
+      puVar2 = local_8;
+      local_8 = puVar1;
+      if (local_8 == (undefined4 *)0x0) {
+        if (param_1 == (undefined4 *)0x0) {
+          param_1 = (undefined4 *)orig::Unit10163E60_ClearListFields_v1(self_);
+        }
+        return param_1;
+      }
+      puVar1 = (undefined4 *)*local_8;
+    } while ((param_1 != (undefined4 *)0x0) && (param_1 != local_8));
+    piVar4 = (int *)local_8[0x18];
+    local_c = 0;
+    if (0 < (int)local_8[0x11]) {
+      do {
+        if (piVar4[1] != 0) {
+          local_10 = 0;
+          if (0 < *piVar4) {
+            piVar5 = (int *)(piVar4[1] + 0x28);
+            do {
+              if (piVar5[-8] != 0) {
+                piVar6 = (int *)*piVar5;
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[0x24];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[1];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = (int *)piVar5[0x22];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+                piVar6 = piVar5 + 2;
+                iVar3 = 0x20;
+                do {
+                  a1 = (int *)*piVar6;
+                  if (a1 != (int *)0x0) {
+                    ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
+                  }
+                  piVar6 = piVar6 + 1;
+                  iVar3 = iVar3 + -1;
+                } while (iVar3 != 0);
+                piVar6 = (int *)piVar5[0x23];
+                if (piVar6 != (int *)0x0) {
+                  ((int (__stdcall *)(XI_ANY))((**(code **)(*piVar6 + 8))))(piVar6);
+                }
+              }
+              local_10 = local_10 + 1;
+              piVar5 = piVar5 + 0x30;
+            } while (local_10 < *piVar4);
+          }
+          orig::Mem_FreeObject_v1(piVar4[1]);
+          piVar4[1] = 0;
+        }
+        local_c = local_c + 1;
+        piVar4 = piVar4 + 9;
+      } while (local_c < (int)local_8[0x11]);
+    }
+    if (local_8[0x18] != 0) {
+      orig::Mem_FreeObject_v1(local_8[0x18]);
+      local_8[0x18] = 0;
+    }
+    orig::Mem_FreeObject_v1(local_8);
+  } while (param_1 == (undefined4 *)0x0);
+  if (puVar2 == (undefined4 *)0x0) {
+    *(undefined4 **)((int)self_ + 4) = puVar1;
+  }
+  else {
+    *puVar2 = puVar1;
+  }
+  if (*(undefined4 **)((int)self_ + 8) == param_1) {
+    *(undefined4 **)((int)self_ + 8) = puVar2;
+  }
+  iVar3 = *(int *)((int)self_ + 0xc) + -1;
+  *(int *)((int)self_ + 0xc) = iVar3;
+  return (undefined4 *)iVar3;
+}
+
 // FUNCTION: FFXIMAIN 0x10170F30  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __thiscall ZoneMap_FindEntryByName(void * self_, char * param_1, int param_2)
@@ -3213,7 +4581,7 @@ XI_API int * __thiscall ZoneMap_FindEntryByName(void * self_, char * param_1, in
   piVar1 = *(int **)((int)self_ + 4);
   if (param_2 == 0) {
     for (; piVar1 != (int *)0x0; piVar1 = (int *)*piVar1) {
-      uVar2 = orig::_strncmp(param_1,(char *)(piVar1 + 2),0x10);
+      uVar2 = orig::_strncmp_v1(param_1,(char *)(piVar1 + 2),0x10);
       if ((int)uVar2 == 0) {
         return piVar1;
       }
@@ -3222,14 +4590,14 @@ XI_API int * __thiscall ZoneMap_FindEntryByName(void * self_, char * param_1, in
   else {
     for (; piVar1 != (int *)0x0; piVar1 = (int *)*piVar1) {
       if ((*(char *)((int)piVar1 + 0xdd) != '\0') &&
-         (uVar2 = orig::_strncmp(param_1,(char *)(piVar1 + 2),0x10), (int)uVar2 == 0)) {
+         (uVar2 = orig::_strncmp_v1(param_1,(char *)(piVar1 + 2),0x10), (int)uVar2 == 0)) {
         return piVar1;
       }
     }
     piVar1 = *(int **)((int)self_ + 4);
     if (piVar1 != (int *)0x0) {
       while ((*(char *)((int)piVar1 + 0xdd) != '\0' ||
-             (uVar2 = orig::_strncmp(param_1,(char *)(piVar1 + 2),0x10), (int)uVar2 != 0))) {
+             (uVar2 = orig::_strncmp_v1(param_1,(char *)(piVar1 + 2),0x10), (int)uVar2 != 0))) {
         piVar1 = (int *)*piVar1;
         if (piVar1 == (int *)0x0) {
           return (int *)0x0;
@@ -3250,6 +4618,38 @@ XI_API void * __thiscall ZoneMap_ConstructVt1033668C(void * self_)
   return self_;
 }
 
+// FUNCTION: FFXIMAIN 0x10173AE0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall ZoneMap_FindDbgBoxMPosById(undefined4 * param_1, int param_2)
+{
+  undefined4 *puVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  
+  puVar1 = g_dbgBoxList_as_v1;
+  do {
+    if (puVar1 == (undefined4 *)0x0) {
+      return 0;
+    }
+    iVar3 = 0;
+    puVar2 = (undefined4 *)puVar1[1];
+    if (0 < (int)puVar1[2]) {
+      do {
+        if (((*(char *)(puVar2 + 0x19) == 'M') || (*(char *)(puVar2 + 0x19) == 'm')) &&
+           (puVar2[0x1b] == param_2)) {
+          *param_1 = puVar2[0x10];
+          param_1[1] = puVar2[0x11];
+          param_1[2] = puVar2[0x12];
+          return 1;
+        }
+        iVar3 = iVar3 + 1;
+        puVar2 = puVar2 + 0x10;
+      } while (iVar3 < (int)puVar1[2]);
+    }
+    puVar1 = (undefined4 *)*puVar1;
+  } while( true );
+}
+
 // FUNCTION: FFXIMAIN 0x10174770  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ResetDbgBoxList(void * self_)
@@ -3257,10 +4657,53 @@ XI_API void __thiscall ZoneMap_ResetDbgBoxList(void * self_)
   g_dbgBoxList_as_v0 = 0;
   DAT_10621a0c = 0;
   dword_10621A10_as_v0 = 0;
-  *(uint32_t *)((int)self_ + 0xc) = 0;
-  *(uint32_t *)((int)self_ + 0x10) = 0;
-  *(uint32_t *)((int)self_ + 4) = 0;
-  *(uint32_t *)((int)self_ + 8) = 0;
+  *(undefined4 *)((int)self_ + 0xc) = 0;
+  *(undefined4 *)((int)self_ + 0x10) = 0;
+  *(undefined4 *)((int)self_ + 4) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10174A60  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall ZoneMap_FreeDbgBoxList(void * self_)
+{
+  undefined4 *puVar1;
+  undefined4 *xi_s1;
+  int *piVar2;
+  int iVar3;
+  
+  xi_s1 = g_dbgBoxList_as_v1;
+  while (xi_s1 != (undefined4 *)0x0) {
+    iVar3 = 0;
+    puVar1 = (undefined4 *)*xi_s1;
+    if (0 < (int)xi_s1[4]) {
+      piVar2 = (int *)(xi_s1[3] + 0xd8);
+      do {
+        if (*piVar2 != 0) {
+          orig::Mem_FreeObject_v1(*piVar2);
+        }
+        iVar3 = iVar3 + 1;
+        piVar2 = piVar2 + 0x3d;
+      } while (iVar3 < (int)xi_s1[4]);
+    }
+    if (xi_s1[3] != 0) {
+      orig::Mem_FreeObject_v1(xi_s1[3]);
+    }
+    orig::Mem_FreeObject_v1(xi_s1);
+    xi_s1 = puVar1;
+  }
+  if (*(int *)((int)self_ + 0xc) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 0xc));
+  }
+  *(undefined4 *)((int)self_ + 0xc) = 0;
+  *(undefined4 *)((int)self_ + 0x10) = 0;
+  if (*(int *)((int)self_ + 4) != 0) {
+    orig::Mem_FreeObject_v1(*(int *)((int)self_ + 4));
+  }
+  *(undefined4 *)((int)self_ + 4) = 0;
+  *(undefined4 *)((int)self_ + 8) = 0;
+  orig::ZoneMap_ResetDbgBoxList(self_);
   return;
 }
 
@@ -3503,4 +4946,164 @@ XI_API void __cdecl Mat4_SetIdentity_2(undefined4 * param_1)
   param_1[0xe] = 0;
   param_1[0xf] = 0x3f800000;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10176620  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API float * __thiscall ZoneMap_FindDbgBoxHitBySegment(void * self_, float * param_1, float * param_2)
+{
+  undefined4 *puVar1;
+  int iVar2;
+  int iVar3;
+  float *pfVar4;
+  int *piVar5;
+  long double fVar6;
+  long double fVar7;
+  long double fVar8;
+  char xi_frame[60] __attribute__((aligned(4)));
+  float  &local_3c = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &local_38 = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &local_34 = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &local_30 = *reinterpret_cast<float  *>(xi_frame + 12);
+  float  &local_2c = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &local_28 = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 28);
+  float  &local_1c = *reinterpret_cast<float  *>(xi_frame + 32);
+  float  &local_14 = *reinterpret_cast<float  *>(xi_frame + 40);
+  float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 44);
+  float  &local_c = *reinterpret_cast<float  *>(xi_frame + 48);
+  float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 52);
+  float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 56);
+  
+  if (dword_10621A10 != 0) {
+    local_3c = *param_1;
+    local_38 = param_1[1];
+    local_34 = param_1[2];
+    local_30 = *param_2;
+    local_2c = param_2[1];
+    local_28 = param_2[2];
+    local_c = (float)((long double)local_30 - (long double)local_3c);
+    local_8 = (float)((long double)local_2c - (long double)local_38);
+    local_4 = (float)((long double)local_28 - (long double)local_34);
+    for (puVar1 = g_dbgBoxList_as_v1; puVar1 != (undefined4 *)0x0; puVar1 = (undefined4 *)*puVar1) {
+      pfVar4 = (float *)puVar1[3];
+      iVar3 = 0;
+      if (0 < (int)puVar1[4]) {
+        do {
+          if (*(char *)(pfVar4 + 0x10) == '@') {
+            fVar6 = (long double)local_38 * (long double)pfVar4[4] +
+                    (long double)local_34 * (long double)pfVar4[8] + (long double)local_3c * (long double)*pfVar4 +
+                    (long double)pfVar4[0xc];
+            local_14 = (float)((long double)local_38 * (long double)pfVar4[5] +
+                               (long double)local_34 * (long double)pfVar4[9] +
+                               (long double)local_3c * (long double)pfVar4[1] + (long double)pfVar4[0xd]);
+            local_10 = (float)((long double)local_3c * (long double)pfVar4[2] +
+                               (long double)local_38 * (long double)pfVar4[6] +
+                               (long double)local_34 * (long double)pfVar4[10] + (long double)pfVar4[0xe]);
+            fVar7 = (long double)local_2c * (long double)pfVar4[4] +
+                    (long double)local_28 * (long double)pfVar4[8] + (long double)local_30 * (long double)*pfVar4 +
+                    (long double)pfVar4[0xc];
+            local_20 = (float)((long double)local_2c * (long double)pfVar4[5] +
+                               (long double)local_28 * (long double)pfVar4[9] +
+                               (long double)local_30 * (long double)pfVar4[1] + (long double)pfVar4[0xd]);
+            local_1c = (float)((long double)local_30 * (long double)pfVar4[2] +
+                               (long double)local_2c * (long double)pfVar4[6] +
+                               (long double)local_28 * (long double)pfVar4[10] + (long double)pfVar4[0xe]);
+            if (((fVar7 >= (long double)(-0.5f)) &&
+                (fVar8 = (long double)0.5f,
+                (!NAN(fVar7) && !NAN(fVar8)) && fVar7 < fVar8 != (fVar7 == fVar8))) &&
+               ((long double)local_20 >= (long double)(-0.5f))) {
+              fVar8 = (long double)local_20;
+              fVar7 = (long double)0.5f;
+              if ((fVar8 <= fVar7) &&
+                 ((long double)local_1c >= (long double)(-0.5f))) {
+                fVar8 = (long double)local_1c;
+                fVar7 = (long double)0.5f;
+                if (fVar8 <= fVar7) {
+                  return pfVar4;
+                }
+              }
+            }
+            if (((fVar6 >= (long double)(-0.5f)) &&
+                (fVar7 = (long double)0.5f,
+                (!NAN(fVar6) && !NAN(fVar7)) && fVar6 < fVar7 != (fVar6 == fVar7))) &&
+               ((long double)local_14 >= (long double)(-0.5f))) {
+              fVar7 = (long double)local_14;
+              fVar6 = (long double)0.5f;
+              if ((fVar7 <= fVar6) &&
+                 ((long double)local_10 >= (long double)(-0.5f))) {
+                fVar7 = (long double)local_10;
+                fVar6 = (long double)0.5f;
+                if (fVar7 <= fVar6) {
+                  return pfVar4;
+                }
+              }
+            }
+            piVar5 = (int *)&DAT_10376bc0;
+            do {
+              iVar2 = orig::FUN_101768a0(&local_3c,&local_c,piVar5);
+              if (iVar2 != 0) {
+                return pfVar4;
+              }
+              piVar5 = piVar5 + 7;
+            } while ((int)piVar5 < 0x10376c68);
+          }
+          iVar3 = iVar3 + 1;
+          pfVar4 = pfVar4 + 0x3d;
+        } while (iVar3 < (int)puVar1[4]);
+      }
+    }
+  }
+  return (float *)0x0;
+}
+
+// FUNCTION: FFXIMAIN 0x10176DD0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(1))) Unit10163E60_SetFlag2000OnUnderscoreEntries(undefined4 xi_eax, int param_1)
+{
+  undefined4 *puVar1;
+  uint32_t *puVar2;
+  int iVar3;
+  char *pcVar4;
+  uint32_t uVar5;
+  int local_4;
+  
+  for (puVar1 = g_dbgBoxList_as_v1; puVar1 != (undefined4 *)0x0; puVar1 = (undefined4 *)*puVar1) {
+    xi_eax = puVar1[3];
+    local_4 = 0;
+    if (0 < (int)puVar1[4]) {
+      pcVar4 = (char *)(xi_eax + 0xf0);
+      do {
+        if (pcVar4[-0xb0] == '_') {
+          uVar5 = 0;
+          if (param_1 != 0) {
+            uVar5 = (uint32_t)(*pcVar4 == '\0');
+          }
+          iVar3 = 0;
+          if (0 < *(int *)(pcVar4 + -0x1c)) {
+            puVar2 = *(uint32_t **)(pcVar4 + -0x18);
+            do {
+              iVar3 = iVar3 + 1;
+              *puVar2 = (*puVar2 ^ uVar5 << 0xd) & 0x2000 ^ *puVar2;
+              puVar2 = puVar2 + 0x7c;
+            } while (iVar3 < *(int *)(pcVar4 + -0x1c));
+          }
+        }
+        xi_eax = local_4 + 1;
+        pcVar4 = pcVar4 + 0xf4;
+        local_4 = xi_eax;
+      } while (xi_eax < (int)puVar1[4]);
+    }
+  }
+  return xi_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x10176E80  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API undefined4 * __fastcall fn_10176E80(undefined4 * param_1, undefined4 xi_edx)
+{
+  orig::FUN_10071d80(param_1,xi_edx);
+  *param_1 = &PTR_CMoResource_GetRuntimeClass_variant3_10336698;
+  param_1[0xc] = 0;
+  return param_1;
 }

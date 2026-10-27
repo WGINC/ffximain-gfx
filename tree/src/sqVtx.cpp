@@ -37,6 +37,25 @@ XI_API void __cdecl SqVtx_Init(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x102A9980  (unit sqVtx: asserts sqVtx.c)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl SqVtx_AllocateField(int param_1, int param_2, int param_3)
+{
+  undefined4 *puVar1;
+  
+  if (*(int *)(param_1 + 0x18 + param_2 * 4) != 0) {
+    orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqBase_src_103be750,0x15a)
+    ;
+    orig::sqDebugPrintf_v1(s_sqVtxAllocateField__slot__d_is_a_103be8e8,param_2);
+    return;
+  }
+  *(int *)(param_1 + 0x18 + param_2 * 4) = param_3;
+  puVar1 = orig::SqMem_AllocZeroed(*(int *)(param_1 + 0x14) * param_3,4,
+                             s_C__dev_dancer_modules_sqBase_src_103be750,0x15f);
+  *(undefined4 **)(param_1 + 0x54 + param_2 * 4) = puVar1;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x102A9EF0  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_ClearEntries(int param_1)
@@ -45,7 +64,7 @@ XI_API void __cdecl SqVtx_ClearEntries(int param_1)
   int iVar2;
   
   if (*(int *)(param_1 + 0x58) == 0) {
-    orig::FUN_102a9980(param_1,1,3);
+    orig::SqVtx_AllocateField(param_1,1,3);
   }
   iVar2 = 0;
   if (0 < *(int *)(param_1 + 0x14)) {
@@ -69,7 +88,7 @@ XI_API void __cdecl SqVtx_ClearEntriesAlt(int param_1)
   int iVar2;
   
   if (*(int *)(param_1 + 100) == 0) {
-    orig::FUN_102a9980(param_1,4,3);
+    orig::SqVtx_AllocateField(param_1,4,3);
   }
   iVar2 = 0;
   if (0 < *(int *)(param_1 + 0x14)) {

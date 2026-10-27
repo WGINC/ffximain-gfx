@@ -1,0 +1,26 @@
+{
+ "0x10258040": {
+  "name": "Unit10253A20_GetFormString",
+  "confidence": "low",
+  "evidence": "returns one of the strings 0x1037AB30, 0x1034F7B0, ... selected by the type arg1 and the flags arg2/arg3 (switch); called by the text-composition functions",
+  "summary": "Returns the word-form string for a type and two flags."
+ },
+ "0x10258E10": {
+  "name": "Unit10253A20_GetSolchForm",
+  "confidence": "low",
+  "evidence": "returns the string at 0x1038A160, 0x1038A164 or 0x1038A168 (\"solch...\") for 0..2, else the empty string; used by Unit10253A20_ComposeTextA",
+  "summary": "Returns one of three word forms (the third \"solch...\") by an index."
+ },
+ "0x1025B4F0": {
+  "name": "Unit10253A20_SelectTableByLanguage",
+  "confidence": "medium",
+  "evidence": "sets the table pointer 0x10669464 to 0x1038AB08 (0), 0x1038A548 (1, or 2/3 with the scene flag), 0x1038A388 (2) or 0x1038A708 (3) by the language arg; called by Scene_GetTableValue",
+  "summary": "Selects the language's table of file numbers."
+ },
+ "0x1025BFB0": {
+  "name": "Unit10253A20_ConvertCharByLanguage",
+  "confidence": "low",
+  "evidence": "by the scene's language (g_pSceneState+8, +0x18) converts the Shift-JIS character arg3 into arg1 through 0x1011DC00, with language 3 mapping the codes 0x85BF/0x85C1 to 'A', 0x85C7/0x85C8 ... first",
+  "summary": "Converts a character by the current language's rules."
+ }
+}

@@ -51,6 +51,9 @@ struct TexCore {
   std::vector<std::vector<uint8_t>> cpu;         // per face*levels+level: what the game writes through LockRect
   std::vector<Surf *> surfs;                     // per face*levels+level, made on first GetSurfaceLevel
   std::vector<char> readonly;                    // per face*levels+level: the open lock is D3DLOCK_READONLY
+  // per face*levels+level: the GPU copy is newer than the CPU copy (a CopyRects from a GPU surface wrote it), so the
+  // next lock reads the level back first (TexCore::lock)
+  std::vector<char> stale;
   UINT lw(UINT l) const { UINT v = w >> l; return v ? v : 1; }
   UINT lh(UINT l) const { UINT v = h >> l; return v ? v : 1; }
   HRESULT init(Dev *d, UINT w_, UINT h_, UINT lv, UINT faces_, DWORD u, D3DFORMAT f, D3DPOOL p);
@@ -184,6 +187,10 @@ struct Dev final : public IDirect3DDevice8_Stub {
   // the executor's filter (d3d8on11.ini exec_filter) and its A/B (exec_ab: d8_device.cpp, Dev::ab_frame)
   struct AB { int on, after, phase, rounds, settle, filter, batch; uint32_t key; double t0, ph0, last, sum, max; int i, frames; } ab = {};
   void ab_frame();
+  // Present's SyncInterval (d8_device.cpp, Dev::present_interval): d3d8on11.ini present_interval=0..4 forces it (-1:
+  // not set, from the game's D3DPRESENT_PARAMETERS); `sync` is what X_INIT / X_RESIZE send the executor
+  int present_force = -1; uint32_t sync = 0;
+  uint32_t present_interval(const D3DPRESENT_PARAMETERS &p, const char *at);
   void destroy_obj(uint32_t id) { if (id && link) link->put(X_DESTROY, &id, 4); }
   // the snapshot slots (X_SNAP): handed out to lockable render targets as CopyRects first writes them, given back when
   // the surface goes; locks answered from a snapshot and by a readback, for the stats line

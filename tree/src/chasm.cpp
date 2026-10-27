@@ -64,7 +64,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 
 // FUNCTION: FFXIMAIN 0x10273D60  (unit chasm: between 0x10273C20 (asserts chasm.c) and 0x10273DB0 (asserts chasm.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   int iVar1;
   uint32_t uVar2;
@@ -98,16 +98,16 @@ XI_API undefined4 __cdecl Chasm_ToggleLayerState(int param_1, int param_2, int p
     if (param_3 == 0) {
       *(uint32_t *)(param_1 + 4) = 0xffffffff;
       if ((*puVar1 & 4) != 0) {
-        orig::FUN_1026f900(puVar1[1],0,0);
-        orig::FUN_1026f900(puVar1[2],0,0);
+        orig::Mdl_SetChannelActive(puVar1[1],0,0);
+        orig::Mdl_SetChannelActive(puVar1[2],0,0);
         *puVar1 = *puVar1 & 0xfffffffb;
       }
     }
     else {
       *(int *)(param_1 + 4) = param_2;
       if ((*puVar1 & 4) == 0) {
-        orig::FUN_1026f900(puVar1[1],4,1);
-        orig::FUN_1026f900(puVar1[2],4,1);
+        orig::Mdl_SetChannelActive(puVar1[1],4,1);
+        orig::Mdl_SetChannelActive(puVar1[2],4,1);
         *puVar1 = *puVar1 | 4;
         return *(uint32_t *)(param_1 + 4);
       }

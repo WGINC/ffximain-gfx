@@ -1,0 +1,14 @@
+{
+ "0x1018AAC0": {
+  "name": "YmCombineWeather_FindKind5A",
+  "confidence": "low",
+  "evidence": "returns Unit10071E50_FindInChainByKind(+0xC, 5, 0, callback 0x1018AAE0, 0)",
+  "summary": "Searches the resource chain for kind 5 with the first callback."
+ },
+ "0x1018AB40": {
+  "name": "YmCombineWeather_FindKind5B",
+  "confidence": "low",
+  "evidence": "returns Unit10071E50_FindInChainByKind(+0xC, 5, 0, callback 0x1018AB60, 0)",
+  "summary": "Searches the resource chain for kind 5 with the second callback."
+ }
+}

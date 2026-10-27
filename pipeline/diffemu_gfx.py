@@ -98,8 +98,21 @@ RET_BYTES = {'void': 0, 'unread': 0, 'bool': 1, 'word': 2}
 _RW_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'ret_width.json')
 RET_WIDTH = {int(k, 16): v for k, v in json.load(open(_RW_PATH)).items() if k.startswith('0x')} \
     if os.path.exists(_RW_PATH) else {}
+# the bytes each import's call pops, from the game's solved call sites (import_pops.py): a case with
+# "imports": "stub" answers an import that has no fake below like a stubbed game callee
+IMPORT_POPS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json'))) \
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json')) else {}
+# an import no solved call site covers: the bytes its import library's decorated symbol says it pops (`_Name@N`
+# __stdcall, `_Name` __cdecl; import_libs.py, which checks every import both list agrees)
+_IL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_libs.json')
+if os.path.exists(_IL):
+    for _k, _v in json.load(open(_IL))['stack_bytes'].items(): IMPORT_POPS.setdefault(_k, _v)
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
+# a __stdcall import import_nargs.json does not list: its import library's `_Name@N`, N / 4 (import_libs.py, checked
+# against import_nargs.json wherever both list one)
+if os.path.exists(_IL):
+    for _k, _v in json.load(open(_IL))['stdcall_args'].items(): IMPORT_NARGS.setdefault(_k, _v)
 
 def _bound(v, sh, mk, lo, hi):
     f = (v >> sh) & mk
@@ -309,6 +322,16 @@ class GfxMachine(G.Machine):
             uc.reg_write(UC_X86_REG_EAX, v & 0xFFFFFFFF)
             ret = struct.unpack('<I', uc.mem_read(esp, 4))[0]
             uc.reg_write(UC_X86_REG_ESP, esp + 4 + 4 * fake[0]); uc.reg_write(UC_X86_REG_EIP, ret)
+            return
+        pb = IMPORT_POPS.get(name.split('!')[-1]) if getattr(self, 'import_stub', False) else None
+        if pb is not None:
+            # the case asks for it ("imports": "stub"): the call is logged and compared like a stubbed game callee,
+            # EAX comes from the trial's stream (the same on both sides), nothing is written, and the import's own
+            # pops from the game's solved call sites are taken off the stack
+            self.calls.append((addr, 0, tuple(_stackref(a) for a in args))); self._keyed(self.calls[-1])
+            uc.reg_write(UC_X86_REG_EAX, self.rng.getrandbits(32))
+            ret = struct.unpack('<I', uc.mem_read(esp, 4))[0]
+            uc.reg_write(UC_X86_REG_ESP, esp + 4 + pb); uc.reg_write(UC_X86_REG_EIP, ret)
             return
         self.stop_reason = 'import:' + name
         self.stop_detail = 'args ' + ' '.join('%08X' % _stackref(a) for a in args)
@@ -552,6 +575,12 @@ class GfxMachine(G.Machine):
         # bytes the callee is only assumed to read (eax_inputs.json "reads" past "reads_seen": code caller_reads does
         # not follow): kept apart, a difference in them is not a difference shown (the gate's trial is unresolved)
         if spec.get('eax_may'): self.eax_unk.append((addr, _stackref(eax_in & spec['eax_may'])))
+        # stack slots the callers push past those compared (call_pushes.py) that the callee is not known not to read:
+        # kept apart like eax_may, a difference in them leaves the trial unresolved (docs/PROBLEMS.md P17)
+        if spec.get('args_may'):
+            na = spec.get('args', spec.get('pops', 0)); nm = min(spec['args_may'], MAX_STUB_ARGS)
+            extra = struct.unpack('<%dI' % nm, uc.mem_read(esp + 4 + 4 * na, 4 * nm))
+            self.eax_unk.append((addr, ('args',) + tuple(_stackref(x) for x in extra)))
         self.calls.append((addr, _stackref(ecx) if spec.get('conv', 'thiscall') == 'thiscall' or spec.get('ecx') else 0, logged)); self._keyed(self.calls[-1])
         k = self.rng.random()
         v = 0 if k < 0.3 else 1 if k < 0.5 else self.rng.randrange(2, 64) if k < 0.7 else self.rng.getrandbits(32)
@@ -1149,6 +1178,7 @@ def run_case(m, case, trials, seed):
         return {"name": case["name"], "original": case["original"], "candidate": case["candidate"],
                 "verdict": "ERROR", "reason": "export not found"}
     cand = m.exports[case["candidate"]]
+    m.import_stub = case.get("imports") == "stub"
     conv = case.get("conv", "thiscall"); ret = case.get("returns", "int")
     # EAX bytes past a return narrower than a dword (void, bool, a word) where no fact says no caller reads them: the
     # width is the decompiler's prototype, so a difference there is not counted as a pass (below). Bytes the
@@ -1247,7 +1277,12 @@ def run_case(m, case, trials, seed):
             # assumed to read: whether that is a difference is not known, so the trial is not counted as a pass
             n_ = next((i for i, (x, y) in enumerate(zip(a.eax_unk, b.eax_unk)) if x != y), min(len(a.eax_unk), len(b.eax_unk)))
             c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
-            k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
+            u_ = a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_]
+            if isinstance(u_[1], tuple) and u_[1][:1] == ('args',):
+                k_ = ('arguments pushed to 0x%08X past those it is known to read differ; whether it reads them is not '
+                      'settled (call_pushes.json, cdecl_args.json)' % c_)
+            else:
+                k_ = 'entry EAX passed to 0x%08X differs in bytes it is only assumed to read (eax_inputs.json)' % c_
             unresolved[k_] = unresolved.get(k_, 0) + 1
             statuses['return'] -= 1; statuses['unresolved'] = statuses.get('unresolved', 0) + 1; seen_unproven += 1
         if not why and b is not None and a.status == 'return' and ret_unproven and (eax_full[0] ^ eax_full[1]) & ret_unproven:

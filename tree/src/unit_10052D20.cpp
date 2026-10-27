@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x10052D20  (unit unit_10052D20: no unit evidence of its own; in the gap between 0x10052CD0 (CMoVuAnmElem) and 0x10052D60 (CMoDist) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API long double __cdecl fn_10052D20(void)
+XI_API long double __cdecl Unit10052D20_ReturnOne(void)
 {
   return (long double)1.0f;
 }
 
 // FUNCTION: FFXIMAIN 0x10052D30  (unit unit_10052D20: no unit evidence of its own; in the gap between 0x10052CD0 (CMoVuAnmElem) and 0x10052D60 (CMoDist) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10052D30(void * self_)
+XI_API undefined4 __thiscall Unit10052D20_ReturnSelf(void * self_)
 {
   return self_;
 }

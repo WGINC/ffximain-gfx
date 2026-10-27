@@ -1,0 +1,8 @@
+{
+ "0x1029AA80": {
+  "name": "SqinBuild_BuildSQO",
+  "confidence": "high",
+  "evidence": "its messages are \"sqinBuildSQO(0x%08X, 0x%08X, %d)\", \"Unknown skin type\" and \"Only binary formats ...\"; checks the tag \"SQLE\" and the skin type 0x150001, then creates a skin (SqinSkin_Create) and builds it from the binary data (sqinSkinBuildBinary)",
+  "summary": "Builds a skin from an SQLE-tagged binary block."
+ }
+}

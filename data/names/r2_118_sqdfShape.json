@@ -1,0 +1,8 @@
+{
+ "0x102AF170": {
+  "name": "SqdfShape_InitCallbacks",
+  "confidence": "low",
+  "evidence": "stores the header 0x30008 and three handlers (0x102AF290, 0x102AF2A0, 0x102AF2E0) and zeroes the rest (Unit10274050_ZeroDwords at +10); called by sqinCluster_Init",
+  "summary": "Initialises a shape record with its three handlers."
+ }
+}

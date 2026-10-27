@@ -1,0 +1,50 @@
+{
+ "0x101D0910": {
+  "name": "YkJpeg_PutBit",
+  "confidence": "medium",
+  "evidence": "ORs the mask byte +4 into the byte +5 when the bit is set, shifts the mask; when 8 bits are full stores the byte at [+8]+[+0xC] (bounded by +0x10), adds a 0x00 after a 0xFF (JPEG byte stuffing) and restarts with mask 0x80; called by YkJpeg_EncodeBlock through 0x101D0970",
+  "summary": "Writes one bit to the JPEG output, stuffing a zero byte after 0xFF."
+ },
+ "0x101D0970": {
+  "name": "YkJpeg_PutBits",
+  "confidence": "medium",
+  "evidence": "writes the low arg2 bits of arg1 most significant first through YkJpeg_PutBit; called by YkJpeg_EncodeBlock",
+  "summary": "Writes a code of the given length to the JPEG output, high bit first."
+ },
+ "0x101D09E0": {
+  "name": "YkJpeg_PutBytes",
+  "confidence": "medium",
+  "evidence": "copies arg2 bytes from arg1 to [+8]+[+0xC] while below the size +0x10; YkJpeg_InitTables and YkJpeg_Encode write their tables and headers with it",
+  "summary": "Writes raw bytes to the JPEG output buffer."
+ },
+ "0x101D0A60": {
+  "name": "YkJpeg_FlushBits",
+  "confidence": "medium",
+  "evidence": "fills the remaining bits of the partial byte with ones, stores it at [+8]+[+0xC] and restarts with mask 0x80; called by YkJpeg_Encode",
+  "summary": "Pads the partial byte with one bits and writes it out."
+ },
+ "0x101D0AB0": {
+  "name": "Unit101D0910_TriggerOnSceneState60",
+  "confidence": "low",
+  "evidence": "when 0x104DFD98 is set, the scene state (g_pSceneState) is 0x60, 0x10160700 reports the menu object's +0xB4 == 1 and [0x10663888]+8 is null: sets 0x10663178 to 2, calls 0x10037FB0, sets byte 0x106218EA and returns 1; else 0",
+  "summary": "Starts an action and returns true when the scene state is 0x60 and a menu condition holds."
+ },
+ "0x101D1060": {
+  "name": "YkJpeg_CaptureAndEncode",
+  "confidence": "medium",
+  "evidence": "allocates width*height*4 bytes, fills them from g_pXiCapture (fn_101CB770 \u2192 Unit10017C10_Begin), encodes them with YkJpeg_EncodeChecked at quality value 0x5A and frees the buffer; returns whether the encode succeeded",
+  "summary": "Captures a width x height image and encodes it as a JPEG."
+ },
+ "0x101D10C0": {
+  "name": "Unit101D0910_WriteWithFileMngA",
+  "confidence": "low",
+  "evidence": "when the object at +8 holds data (+0xC) and 0x104DFD98 is set, calls g_pFileMng's 0x101C0A40 (through 0x101C49A0) with arg2, +4 and that data; returns whether the result is >= 0",
+  "summary": "Hands the encoded data to the file manager through 0x101C0A40."
+ },
+ "0x101D1180": {
+  "name": "Unit101D0910_WriteWithFileMngB",
+  "confidence": "low",
+  "evidence": "as 0x101D10C0 through 0x101C0760 (0x101C4950)",
+  "summary": "Hands the encoded data to the file manager through 0x101C0760."
+ }
+}

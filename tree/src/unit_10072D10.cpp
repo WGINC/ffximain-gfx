@@ -67,7 +67,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
   
   iVar5 = 0;
   if (((uint8_t)*(undefined4 *)((int)param_2 + 4) & 0x7f) == 1) {
-    piVar1 = orig::FUN_10071270(param_2,0);
+    piVar1 = orig::MeshResourceMng_CreateResourceByKind(param_2,0);
     if (piVar1 == (int *)0x0) {
       *param_1 = 0;
       return param_1;
@@ -87,7 +87,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
     for (this_00 = (void *)((*(uint32_t *)((int)param_2 + 4) >> 7 & 0x7ffff) * 0x10 + (int)param_2);
         this_00 != (void *)0x0;
         this_00 = (void *)((int)this_00 + (*(uint32_t *)((int)this_00 + 4) >> 7 & 0x7ffff) * 0x10)) {
-      piVar2 = orig::FUN_10071270(this_00,piVar1);
+      piVar2 = orig::MeshResourceMng_CreateResourceByKind(this_00,piVar1);
       orig::MeshResourceMng_AllocHandle_v1(self_,&local_408,(int)piVar2);
       uVar3 = piVar2[9] & 0x7f;
       if (uVar3 == 1) {
@@ -193,7 +193,7 @@ XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * par
     }
   }
   else {
-    piVar1 = orig::FUN_10071270(param_2,0);
+    piVar1 = orig::MeshResourceMng_CreateResourceByKind(param_2,0);
     if (piVar1 == (int *)0x0) {
       *param_1 = 0;
       return param_1;

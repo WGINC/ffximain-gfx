@@ -1,0 +1,8 @@
+{
+ "0x10281A70": {
+  "name": "SqgxTexture_FreeSlot",
+  "confidence": "medium",
+  "evidence": "for a slot whose format is not -1, sets it to -1, calls slot 2 (+8, IUnknown::Release) on its texture and surface, and lowers g_counter_109A261C past trailing free slots",
+  "summary": "Releases a texture slot's Direct3D objects and marks it free."
+ }
+}

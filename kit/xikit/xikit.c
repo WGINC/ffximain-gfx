@@ -43,7 +43,7 @@
 #define SLOT_RESET 14
 #define SLOT_PRESENT 15
 #define NSLOTS 97
-#define MAXFN 2048
+#define MAXFN 12288     /* the manifest held 4,046 functions on 25 Oct; past this the loader logs what it left out */
 #define JMP_LEN 5
 #define STUB_LEN 12                    /* lock inc dword [count]; jmp target */
 
@@ -59,7 +59,7 @@ extern int d3dprof_call_time, d3dprof_kernel_calls; extern uint32_t d3dprof_via_
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
   int flags;                           /* 1 SEH, 2 speedfix site, 4 untested, 8 register input (no mod hook) */
-  char exp[160], name[96];
+  char exp[256], name[96];
   uint8_t expect[20];                  /* analysed bytes, entry-4 .. entry+16 */
   int nrel; int8_t rel[8];             /* relocated dwords touching that window (offsets -3..19) */
   uint8_t *site;                       /* live entry */
@@ -85,8 +85,8 @@ typedef struct {
 
 static Fn g_fn[MAXFN]; static int g_nfn;
 /* the reconstruction DLL's code symbols (manifest !code RVA SYMBOL): which function a fault inside it is in */
-#define MAXCODE 4096
-typedef struct { uint32_t rva; int fn; char sym[160]; } Code;   /* (sym as long as Fn.exp: a cut name would match nothing) */
+#define MAXCODE 12288
+typedef struct { uint32_t rva; int fn; char sym[256]; } Code;   /* (sym as long as Fn.exp: a cut name would match nothing) */
 static Code g_code[MAXCODE]; static int g_ncode;
 static Fn *g_by_target[MAXFN];         /* sorted by reconstruction address, for the exception handler */
 static Cfg g_cfg;
@@ -218,7 +218,9 @@ static const char DEFAULT_INI[] =
   ";    every sample_window seconds (kit/xisamp/read.py reads it)\r\n"
   "sample=0\r\nsample_ms=1\r\nsample_window=30\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
-  ";    goes; xikit_facts_<pid>.csv every report_every frames; takes effect at the next start\r\n"
+  ";    goes; for sites of kind out also whether the call changed the dwords its pointer arguments into the caller's\r\n"
+  ";    stack point to, and for kind jmp the targets a switch jump took; xikit_facts_<pid>.csv every report_every\r\n"
+  ";    frames; takes effect at the next start\r\n"
   "facts=0\r\n"
   "; 1: everything the kit writes (this log, profiles, traces, timing, samples, captures, A/B results) goes into a new\r\n"
   ";    folder per start, xikit_logs\\<date>_<time>_<pid>; 0: next to xikit.dll as before. Read at the start\r\n"
@@ -327,7 +329,7 @@ static int wanted(const Fn *f) {
 static int hexval(int c) { return c >= '0' && c <= '9' ? c - '0' : (c | 32) >= 'a' && (c | 32) <= 'f' ? (c | 32) - 'a' + 10 : -1; }
 
 static int load_manifest(const char *path) {
-  FILE *m = fopen(path, "r"); char line[1024];
+  FILE *m = fopen(path, "r"); char line[1024]; int code_full = 0;
   if (!m) { klog("no manifest at %s: nothing done", path); return 0; }
   while (fgets(line, sizeof line, m)) {
     if (line[0] == '#' || line[0] == '\n' || line[0] == '\r') continue;
@@ -341,13 +343,14 @@ static int load_manifest(const char *path) {
         if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 8) {
           int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
-      if (g_ncode < MAXCODE && sscanf(line + 1, "code %x %159s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
+      if (!strncmp(line + 1, "code ", 5) && g_ncode >= MAXCODE) { if (!code_full++) klog("manifest: more than %d !code lines; the rest are left out (MAXCODE)", MAXCODE); }
+      else if (sscanf(line + 1, "code %x %255s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
       continue;
     }
-    if (g_nfn >= MAXFN) break;
+    if (g_nfn >= MAXFN) { klog("manifest: more than %d functions; the rest are left out (MAXFN)", MAXFN); break; }
     Fn *f = &g_fn[g_nfn]; memset(f, 0, sizeof *f);
     char hex[64], rels[64]; unsigned rva;
-    if (sscanf(line, "%x %d %159s %63s %63s %95s", &rva, &f->flags, f->exp, hex, rels, f->name) != 6 || strlen(hex) != 40) {
+    if (sscanf(line, "%x %d %255s %63s %63s %95s", &rva, &f->flags, f->exp, hex, rels, f->name) != 6 || strlen(hex) != 40) {
       klog("manifest: bad line ignored: %.80s", line); continue;
     }
     f->rva = rva;
@@ -1383,7 +1386,7 @@ static void *build_tramp(Fn *f) {
   return f->tramp = t;
 }
 
-static int __cdecl host_hook(const char *what, void *repl, void **prev) {
+static int hook_impl(const char *what, void *repl, void **prev, int keeps_regs) {
   if (prev) *prev = NULL;
   if (!g_mods_open) { host_log("hook(%s): only inside xikit_mod_init", what ? what : "?"); return XIKIT_E_LATE; }
   Fn *f = what ? fn_named(what) : NULL;
@@ -1392,17 +1395,21 @@ static int __cdecl host_hook(const char *what, void *repl, void **prev) {
   int d = f->patched ? -1 : check_bytes(f);       /* (patched: a reload; the bytes were checked before the kit wrote its jmp) */
   if (d != -1) { host_log("hook(%s): the live entry differs from the analysed build at %+d", f->name, d); return XIKIT_E_REFUSED; }
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded) { host_log("hook(%s): speedfix (speedfix_hook or the speedfix mod) patches inside it (respect_speedfix=1)", f->name); return XIKIT_E_REFUSED; }
-  if (f->flags & 8) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
+  if ((f->flags & 8) && !keeps_regs) { host_log("hook(%s): the game's code reads a register at its entry that its declaration does not carry (manifest flag 8)", f->name); return XIKIT_E_REFUSED; }
   void *p = build_tramp(f); const char *via = "the game's code (trampoline)";
+  if (keeps_regs && !p) { host_log("hook_keeping_registers(%s): no trampoline, so no way to run the game's own code", f->name); return XIKIT_E_NOPREV; }
   if (!p) { p = f->target; via = "the reconstruction (no trampoline for this entry)"; }
   if (!p) { host_log("hook(%s): no way to reach its previous code", f->name); return XIKIT_E_NOPREV; }
   if (p == f->target && f->quarantined) { host_log("hook(%s): its previous would be the reconstruction, which is quarantined (xikit_quarantine.txt)", f->name); return XIKIT_E_REFUSED; }
   if (prev) *prev = p;
   f->mod_target = repl; f->mod = g_mod_cur + 1; f->mod_on_recon = p == f->target; f->refused = 0; g_dirty = 1;
-  host_log("hooked %s (0x%08X)%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
+  host_log("hooked %s (0x%08X)%s%s; previous = %s%s", f->name, f->rva + ANALYSED_BASE, f->flags & 4 ? " [gate coverage incomplete]" : "",
+           (f->flags & 8) ? " [manifest flag 8: the mod keeps the registers]" : "",
            via, (f->flags & 4) && p == f->target ? " [its gate coverage is incomplete]" : "");
   return XIKIT_OK;
 }
+static int __cdecl host_hook(const char *what, void *repl, void **prev) { return hook_impl(what, repl, prev, 0); }
+static int __cdecl host_hook_regs(const char *what, void *repl, void **prev) { return hook_impl(what, repl, prev, 1); }
 
 static void *__cdecl host_recon(const char *what) { Fn *f = what ? fn_named(what) : NULL; return f ? f->target : NULL; }
 
@@ -1549,7 +1556,7 @@ static void load_mods(void *dev, HMODULE rec) {
   make_dcode();
   g_host.version = XIKIT_API_VERSION; g_host.size = sizeof g_host;
   g_host.game_base = g_game_lo; g_host.rel = (intptr_t)g_rel; g_host.device = dev; g_host.recon = rec; g_host.dir = g_dir;
-  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon; g_host.device_hook = host_device_hook;
+  g_host.log = host_log; g_host.hook = host_hook; g_host.reconstruction = host_recon; g_host.device_hook = host_device_hook; g_host.hook_keeping_registers = host_hook_regs;
   for (char *p = list; *p && g_nmods < MAXMODS;) {
     char nm[64]; int n = 0;
     while (*p == ' ' || *p == ',' || *p == '\t') p++;
@@ -1785,18 +1792,31 @@ static void setup_captures(void) {
    records ESP just before the call and just after it returns (their difference is what the callee popped), and
    where it went (the call's target, read as the call reads it; for `call [reg+disp]` also reg, the vtable, and
    disp/4, the slot). xikit_facts_<pid>.csv every window; fact_sites.py ingest turns agreeing observations into
-   data/game_sp.json, a source the gate reads. */
+   data/game_sp.json, a source the gate reads.
+   Two more kinds of site (the 9th column of xikit_facts.txt):
+     out  a call as above, and also its output slots: ECX and the first 8 stack dwords, where one points into the
+          caller's stack (within 16 KB above ESP at the call), have the dword there read before the call and after it
+          returns. Per slot and per class of the returned EAX (<0, 0, >0 as a signed int): the calls, and how many
+          of them changed the dword. A change shows a write; no change does not show there was none (the same value
+          may have been written). Nothing in the game's memory is written.
+     jmp  an indirect jump (a switch, `jmp [reg*4 + table]`): the region is the jump itself; the stub records the
+          target it reads, then jumps there as the game's code does. */
 #define MAXSITE 4096
 #define SITE_OBS 8
 typedef struct { uint32_t pops, target, vt, slot; volatile LONG n; } SiteObs;
+#define OUT_SLOTS 9                 /* ECX, then stack dwords 0..7 */
+#define OUT_SPAN 0x4000u
+typedef struct { volatile LONG calls, changed; } OutObs;
+enum { SITE_CALL, SITE_OUT, SITE_JMP };
 typedef struct {
-  uint32_t site, start, len, calloff, func; int fix, nrel; int8_t rel[4]; uint8_t expect[16];
+  uint32_t site, start, len, calloff, func; int fix, nrel, kind; int8_t rel[4]; uint8_t expect[16];
+  OutObs out[OUT_SLOTS][3];
   uint8_t *at, *stub, saved[JMP_LEN]; int patched, refused;
   SiteObs obs[SITE_OBS]; volatile LONG nobs, overflow;
 } Site;
 static Site g_sites[MAXSITE]; static int g_facts; static DWORD g_fact_tls = TLS_OUT_OF_INDEXES;
 static volatile LONG g_fact_lock;
-typedef struct { int depth; struct { int idx; uint32_t esp, target, vt, slot; } e[16]; } FactThread;
+typedef struct { int depth; struct { int idx; uint32_t esp, target, vt, slot, optr[OUT_SLOTS], obefore[OUT_SLOTS]; } e[16]; } FactThread;
 static FactThread g_fact_pool[128]; static volatile LONG g_fact_npool;
 
 static int site_bytes_ok(Site *t) {
@@ -1809,6 +1829,14 @@ static FactThread *fact_thread(void) {
   if (!ft) { LONG k = InterlockedIncrement(&g_fact_npool) - 1; if (k >= 128) return NULL; ft = &g_fact_pool[k]; TlsSetValue(g_fact_tls, ft); }
   return ft;
 }
+static void site_obs(Site *t, uint32_t pops, uint32_t target, uint32_t vt, uint32_t slot) {
+  while (InterlockedCompareExchange(&g_fact_lock, 1, 0)) {}
+  int k = 0;
+  for (; k < t->nobs; k++) { SiteObs *o = &t->obs[k]; if (o->pops == pops && o->target == target && o->vt == vt && o->slot == slot) break; }
+  if (k == t->nobs) { if (k < SITE_OBS) { t->obs[k].pops = pops; t->obs[k].target = target; t->obs[k].vt = vt; t->obs[k].slot = slot; t->obs[k].n = 0; t->nobs++; } else { t->overflow++; k = -1; } }
+  if (k >= 0) t->obs[k].n++;
+  g_fact_lock = 0;
+}
 /* the stubs call these with the site index and the pushad/pushfd block: edi esi ebp esp(+4 = ESP at the call) ebx edx ecx eax eflags */
 static void __cdecl fact_pre(int idx, uint32_t *r) {
   Site *t = &g_sites[idx]; FactThread *ft = fact_thread();
@@ -1816,7 +1844,7 @@ static void __cdecl fact_pre(int idx, uint32_t *r) {
   uint32_t reg[8] = { r[7], r[6], r[5], r[4], r[3] + 4, r[2], r[1], r[0] };   /* eax ecx edx ebx esp ebp esi edi */
   const uint8_t *c = t->expect + t->calloff; uint32_t target = 0, vt = 0, slot = 0xFFFFFFFFu;
   if (c[0] == 0xE8) { int32_t d; memcpy(&d, c + 1, 4); target = t->site + 5 + d + g_rel; }
-  else if (c[0] == 0xFF && ((c[1] >> 3) & 7) == 2) {
+  else if (c[0] == 0xFF && (((c[1] >> 3) & 7) == 2 || ((c[1] >> 3) & 7) == 4)) {     /* call / jmp r/m32 */
     int mod = c[1] >> 6, rm = c[1] & 7; uint32_t ea = 0; const uint8_t *q = c + 2; int base = rm;
     if (mod == 3) target = reg[rm];
     else {
@@ -1830,7 +1858,16 @@ static void __cdecl fact_pre(int idx, uint32_t *r) {
       target = *(const uint32_t *)(uintptr_t)ea;                 /* the read the call itself makes next */
     }
   }
+  if (t->kind == SITE_JMP) { site_obs(t, 0xFFFFFFFFu, target, vt, slot); return; }     /* a jump: nothing comes back */
   int d = ft->depth++; ft->e[d].idx = idx; ft->e[d].esp = r[3] + 4; ft->e[d].target = target; ft->e[d].vt = vt; ft->e[d].slot = slot;
+  if (t->kind == SITE_OUT) {
+    uint32_t esp = r[3] + 4;
+    for (int s = 0; s < OUT_SLOTS; s++) {
+      uint32_t a = s == 0 ? reg[1] : *(const uint32_t *)(uintptr_t)(esp + 4 * (s - 1));
+      ft->e[d].optr[s] = (a > esp && a - esp < OUT_SPAN && !(a & 3)) ? a : 0;
+      if (ft->e[d].optr[s]) ft->e[d].obefore[s] = *(const uint32_t *)(uintptr_t)a;
+    }
+  }
 }
 static void __cdecl fact_post(int idx, uint32_t *r) {
   FactThread *ft = fact_thread(); Site *t = &g_sites[idx];
@@ -1838,12 +1875,15 @@ static void __cdecl fact_post(int idx, uint32_t *r) {
   while (ft->depth > 0 && ft->e[ft->depth - 1].idx != idx) ft->depth--;      /* (a callee that never returned here) */
   if (ft->depth <= 0) return;
   int d = --ft->depth; uint32_t pops = r[3] + 4 - ft->e[d].esp;
-  while (InterlockedCompareExchange(&g_fact_lock, 1, 0)) {}
-  int k = 0;
-  for (; k < t->nobs; k++) { SiteObs *o = &t->obs[k]; if (o->pops == pops && o->target == ft->e[d].target && o->vt == ft->e[d].vt && o->slot == ft->e[d].slot) break; }
-  if (k == t->nobs) { if (k < SITE_OBS) { t->obs[k].pops = pops; t->obs[k].target = ft->e[d].target; t->obs[k].vt = ft->e[d].vt; t->obs[k].slot = ft->e[d].slot; t->obs[k].n = 0; t->nobs++; } else { t->overflow++; k = -1; } }
-  if (k >= 0) t->obs[k].n++;
-  g_fact_lock = 0;
+  if (t->kind == SITE_OUT) {
+    int32_t eax = (int32_t)r[7]; int c = eax < 0 ? 0 : eax == 0 ? 1 : 2;
+    for (int s = 0; s < OUT_SLOTS; s++) {
+      uint32_t a = ft->e[d].optr[s]; if (!a) continue;
+      InterlockedIncrement(&t->out[s][c].calls);
+      if (*(const uint32_t *)(uintptr_t)a != ft->e[d].obefore[s]) InterlockedIncrement(&t->out[s][c].changed);
+    }
+  }
+  site_obs(t, pops, ft->e[d].target, ft->e[d].vt, ft->e[d].slot);
 }
 static uint8_t *emit_hook(uint8_t *p, int idx, void *fn) {
   p[0] = 0x9C; p[1] = 0x60; p[2] = 0x54; p[3] = 0x68; uint32_t v = (uint32_t)idx; memcpy(p + 4, &v, 4);
@@ -1860,9 +1900,11 @@ static void setup_facts(void) {
   g_fact_tls = TlsAlloc();
   while (stubs && g_fact_tls != TLS_OUT_OF_INDEXES && fgets(line, sizeof line, f) && g_nsites < MAXSITE) {
     if (line[0] == '#' || line[0] == '\n') continue;
-    Site *t = &g_sites[g_nsites]; char hex[64], rels[64];
-    if (sscanf(line, "%x %x %u %u %d %63s %63s %x", &t->site, &t->start, &t->len, &t->calloff, &t->fix, hex, rels, &t->func) != 8
-        || t->len < 5 || t->len > 16 || strlen(hex) != 2 * t->len) { klog("facts: bad line ignored: %.80s", line); continue; }
+    Site *t = &g_sites[g_nsites]; char hex[64], rels[64], kind[16] = "call";
+    int nf = sscanf(line, "%x %x %u %u %d %63s %63s %x %15s", &t->site, &t->start, &t->len, &t->calloff, &t->fix, hex, rels, &t->func, kind);
+    t->kind = !strcmp(kind, "out") ? SITE_OUT : !strcmp(kind, "jmp") ? SITE_JMP : !strcmp(kind, "call") ? SITE_CALL : -1;
+    if (nf < 8 || t->kind < 0 || t->len < 5 || t->len > 16 || strlen(hex) != 2 * t->len
+        || (t->kind == SITE_JMP && (t->calloff != 0 || t->fix >= 0))) { klog("facts: bad line ignored: %.80s", line); continue; }
     for (unsigned i = 0; i < t->len; i++) t->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
     t->nrel = 0;
     if (strcmp(rels, "-")) for (char *p = rels; *p && t->nrel < 4;) { t->rel[t->nrel++] = (int8_t)strtol(p, &p, 10); if (*p == ',') p++; }
@@ -1872,6 +1914,7 @@ static void setup_facts(void) {
     memcpy(p, t->at, t->calloff); p += t->calloff;
     p = emit_hook(p, g_nsites, (void *)fact_pre);
     unsigned clen = t->len - t->calloff; memcpy(p, t->at + t->calloff, clen);
+    if (t->kind == SITE_JMP) { g_nsites++; continue; }    /* the jump itself, copied (its table address as relocated), leaves */
     if (t->fix >= 0) { int32_t d; memcpy(&d, t->at + t->fix, 4); d += (int32_t)((uintptr_t)t->at - (uintptr_t)(t->stub + (p - t->stub) - t->calloff)); memcpy(p + (t->fix - t->calloff), &d, 4); }
     p += clen;
     p = emit_hook(p, g_nsites, (void *)fact_post);
@@ -1902,14 +1945,19 @@ static void report_facts(void) {
   if (!g_nsites) return;
   char path[MAX_PATH]; snprintf(path, sizeof path, "%s\\xikit_facts_%lu.csv", g_out, (unsigned long)GetCurrentProcessId());
   FILE *f = fopen(path, "w"); if (!f) return;
-  fprintf(f, "# xikit facts: per call site (analysed), what the callee popped (ESP after the call minus ESP before it), how often, where it went;"
+  fprintf(f, "# xikit facts: per call site (analysed), what the callee popped (ESP after the call minus ESP before it), how often, where it went"
+             " (pops 'jmp': a switch jump, where it went); out rows: out,site,slot,EAX class,calls,changed,function;"
              " frame %u; FFXiMain.dll at +0x%X\nsite,pops,calls,target,vtable,slot,function\n", g_frame, g_rel);
   for (int i = 0; i < g_nsites; i++) {
     Site *t = &g_sites[i]; char tw[300], vw[300];
     for (int k = 0; k < t->nobs; k++) {
       where(t->obs[k].target, tw, sizeof tw); if (t->obs[k].vt) where(t->obs[k].vt, vw, sizeof vw); else snprintf(vw, sizeof vw, "-");
-      fprintf(f, "0x%08X,%u,%ld,%s,%s,%ld,0x%08X\n", t->site, t->obs[k].pops, (long)t->obs[k].n, tw, vw, t->obs[k].slot == 0xFFFFFFFFu ? -1L : (long)t->obs[k].slot, t->func);
+      if (t->obs[k].pops == 0xFFFFFFFFu) fprintf(f, "0x%08X,jmp,%ld,%s,%s,%ld,0x%08X\n", t->site, (long)t->obs[k].n, tw, vw, t->obs[k].slot == 0xFFFFFFFFu ? -1L : (long)t->obs[k].slot, t->func);
+      else fprintf(f, "0x%08X,%u,%ld,%s,%s,%ld,0x%08X\n", t->site, t->obs[k].pops, (long)t->obs[k].n, tw, vw, t->obs[k].slot == 0xFFFFFFFFu ? -1L : (long)t->obs[k].slot, t->func);
     }
+    for (int s = 0; s < OUT_SLOTS; s++) for (int c = 0; c < 3; c++) if (t->out[s][c].calls)
+      fprintf(f, "out,0x%08X,%s%d,%s,%ld,%ld,0x%08X\n", t->site, s ? "arg" : "ecx", s ? s - 1 : 0, c == 0 ? "neg" : c == 1 ? "zero" : "pos",
+              (long)t->out[s][c].calls, (long)t->out[s][c].changed, t->func);
     if (t->refused) fprintf(f, "# 0x%08X refused (bytes)\n", t->site);
     if (t->overflow) fprintf(f, "# 0x%08X: %ld calls with an observation beyond the %d kept\n", t->site, (long)t->overflow, SITE_OBS);
   }

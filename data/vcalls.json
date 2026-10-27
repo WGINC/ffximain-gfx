@@ -4984,6 +4984,28 @@
 "0x101B3870"
 ]
 },
+"0x101B29B0": {
+"ecx": true,
+"exact": false,
+"func": "0x101B2810",
+"pops": 0,
+"ret": "eax",
+"slot": 8,
+"targets": [
+"0x101B3F00"
+]
+},
+"0x101B29C8": {
+"ecx": true,
+"exact": false,
+"func": "0x101B2810",
+"pops": 0,
+"ret": "eax",
+"slot": 0,
+"targets": [
+"0x101B13F0"
+]
+},
 "0x101B4070": {
 "ecx": true,
 "exact": false,
@@ -5026,6 +5048,50 @@
 "slot": 10,
 "targets": [
 "0x101B4360"
+]
+},
+"0x101B58CC": {
+"ecx": true,
+"exact": false,
+"func": "0x101B5850",
+"pops": 0,
+"ret": "eax",
+"slot": 12,
+"targets": [
+"0x101B4030"
+]
+},
+"0x101B58FB": {
+"ecx": true,
+"exact": false,
+"func": "0x101B5850",
+"pops": 0,
+"ret": "eax",
+"slot": 12,
+"targets": [
+"0x101B4030"
+]
+},
+"0x101B5935": {
+"ecx": false,
+"exact": false,
+"func": "0x101B5850",
+"pops": 0,
+"ret": "eax",
+"slot": 11,
+"targets": [
+"0x101B3FC0"
+]
+},
+"0x101B5990": {
+"ecx": true,
+"exact": false,
+"func": "0x101B5850",
+"pops": 0,
+"ret": "eax",
+"slot": 12,
+"targets": [
+"0x101B4030"
 ]
 },
 "0x101B5A82": {
@@ -6320,9 +6386,9 @@
 ]
 },
 "_unsettled": {
-"candidates disagree or pop unknown": 21,
+"candidates disagree or pop unknown": 24,
 "method reached by no vtable and no caller": 15,
-"this may be any object": 401
+"this may be any object": 428
 },
 "_vtables": 944
 }

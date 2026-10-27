@@ -4,14 +4,14 @@
 
 // FUNCTION: FFXIMAIN 0x10029390  (unit unit_10029260: no unit evidence of its own; in the gap between 0x10029240 (CYyLowerMemory) and 0x10029880 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_10029390(undefined4 param_1)
+XI_API undefined4 __stdcall Unit10029260_ApplyFourTables(undefined4 param_1)
 {
   uint32_t uVar1;
   
-  orig::FUN_10028c70(param_1);
-  orig::FUN_10028c90(param_1);
-  orig::FUN_10028c50(param_1);
-  uVar1 = orig::FUN_10028c30(param_1);
+  orig::Unit10028A50_CallEnabledList2(param_1);
+  orig::Unit10028A50_CallEnabledList3(param_1);
+  orig::Unit10028A50_CallEnabledList1(param_1);
+  uVar1 = orig::Unit10028A50_CallEnabledList0(param_1);
   return uVar1;
 }
 

@@ -7,6 +7,7 @@ class XI_API XiModelActor {
 public:
     static undefined4 __thiscall CopyRectFromSlot(void * self, undefined4 param_1, undefined4 * param_2);  // 0x100C4B00
     static undefined4 __thiscall BuildWorldMatrix(void * self, undefined4 param_1, void * param_2);  // 0x100C4B50
+    static undefined4 __thiscall BuildMatrixAndDraw(void * self);  // 0x100C4C20
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x790];

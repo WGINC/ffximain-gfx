@@ -1,0 +1,14 @@
+{
+ "0x1003B6D0": {
+  "name": "CMoAttachments_GetCaster",
+  "confidence": "medium",
+  "evidence": "returns +0xC when +0x1C is 0x4000000, else +0xC only while the actor handle +0x14 still resolves to it (ActorHandle_Resolve), else 0; used by CMoAttachments::SetCaster",
+  "summary": "Returns the attachment's caster while its handle is still valid."
+ },
+ "0x1003B700": {
+  "name": "CMoAttachments_GetTarget",
+  "confidence": "medium",
+  "evidence": "returns +0x10 when +0x28 is 0x4000000, else +0x10 only while the actor handle +0x20 still resolves to it, else 0; used by CMoAttachments::SetTarget",
+  "summary": "Returns the attachment's target while its handle is still valid."
+ }
+}

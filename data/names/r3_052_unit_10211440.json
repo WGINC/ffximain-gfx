@@ -1,0 +1,8 @@
+{
+ "0x1021BC20": {
+  "name": "Unit10211440_SetVtable1033BDA0",
+  "confidence": "low",
+  "evidence": "stores the vtable 0x1033BDA0; called by Unit10211440_CopyRecordCtor",
+  "summary": "Sets the record's vtable to 0x1033BDA0."
+ }
+}

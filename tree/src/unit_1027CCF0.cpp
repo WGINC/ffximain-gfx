@@ -7,33 +7,28 @@
 XI_API void __cdecl Unit1027CCF0_TransformOrigin(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   char xi_frame[12] __attribute__((aligned(4)));
-  float  (&local_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
-  
-  local_c[0] = 0.0f;
-  local_c[1] = 0.0f;
-  local_c[2] = 0.0f;
-  orig::Unit1027CCF0_TransformPoint(param_1,param_2,local_c,param_3);
+  orig::Unit1027CCF0_TransformPoint(param_1,param_2,&xi_frame[0],param_3,0,0,0);
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1027CD30  (unit unit_1027CCF0: no unit evidence of its own; in the gap between 0x1027CC70 (sqskSkeleton) and 0x1027D2E0 (sqmoUtil) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, float * param_3, undefined4 param_4)
+XI_API void __cdecl Unit1027CCF0_ComputeTransform(int param_1, int param_2, float * param_3, float * param_4)
 {
   int iVar1;
   char xi_frame[140] __attribute__((aligned(4)));
   float  (&local_8c)[19] = *reinterpret_cast<float  (*)[19]>(xi_frame + 0);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 76);
   
-  iVar1 = orig::FUN_1027c900(param_1,param_2);
+  iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
-  orig::thunk_FUN_1027ebd0(local_8c + 3);
+  orig::Unit1027E120_Forward1027EBD0(local_8c + 3);
   while( true ) {
     orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_8c + 3);
     orig::M4fSet_v1(local_8c + 3,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
-    iVar1 = orig::FUN_1027c900(param_1,param_2);
+    iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
   local_8c[0] = 0.0f;
@@ -53,15 +48,15 @@ XI_API void __cdecl Unit1027CCF0_TransformPoint(int param_1, int param_2, float 
   float  (&local_80)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 0);
   float  (&local_40)[16] = *reinterpret_cast<float  (*)[16]>(xi_frame + 64);
   
-  iVar1 = orig::FUN_1027c900(param_1,param_2);
+  iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
   iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
-  orig::thunk_FUN_1027ebd0(local_80);
+  orig::Unit1027E120_Forward1027EBD0(local_80);
   while( true ) {
     orig::sqMatrix4_10280140_v1(local_40,(float *)(iVar1 + 0x1c),local_80);
     orig::M4fSet_v1(local_80,local_40);
     param_2 = *(int *)(param_2 + 0x68);
     if (param_2 == 0) break;
-    iVar1 = orig::FUN_1027c900(param_1,param_2);
+    iVar1 = orig::SqskSkeleton_FindBoneIndex(param_1,param_2);
     iVar1 = *(int *)(param_1 + 0x24) + iVar1 * 0x9c;
   }
   orig::M4fTransform_v1(param_4,local_80,param_3);

@@ -1,0 +1,26 @@
+{
+ "0x1009AF60": {
+  "name": "Acter_SetFlagBits138",
+  "confidence": "low",
+  "evidence": "stores its three arguments in bit 26, bits 22-25 and bits 27-30 of +0x138, first calling Acter_ReleaseSlotD0 when bit 26 already equals the first and bits 22-25 change",
+  "summary": "Sets three bit fields in the flags at +0x138."
+ },
+ "0x1009F3F0": {
+  "name": "Acter_ClearGlobals10488800",
+  "confidence": "low",
+  "evidence": "zeroes 8 dwords at 0x10488800; called from Acter_ShutdownGlobals' helper",
+  "summary": "Clears eight global dwords."
+ },
+ "0x1009F4C0": {
+  "name": "Acter_StepAfterimageStates",
+  "confidence": "low",
+  "evidence": "a state machine in the byte at +0x15A that runs and kills AfterimageTask entries ('frst', 'stcr' and a table at 0x1035B6E0) and the actor's vtable slots 166/168 with 'res0'/'res2', with a countdown at +0x152 reduced by Camera_GetFrameScale",
+  "summary": "Advances the actor's afterimage effect sequence one step."
+ },
+ "0x100A19B0": {
+  "name": "Unit10086E90_CheckIdAgainstBlockBits",
+  "confidence": "low",
+  "evidence": "returns 1 without the block 0x2CFD8 (Unit100D7420_GetBlock2CFD8), else for ids below 0x146 whether the table byte at 0x1035B950[id] is less than bits 3-4 of the block's second byte",
+  "summary": "Compares a table value for an id with two bits of a zone-state block."
+ }
+}

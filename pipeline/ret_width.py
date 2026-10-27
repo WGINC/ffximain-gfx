@@ -12,11 +12,14 @@ bytes of EAX written since the entry on every path that reaches it (an intersect
   * a direct call sets what the callee's result sets (this fact, to a fixpoint), or nothing new where the
     callee leaves EAX untouched (data/reg_keeps.json); a call through a pointer, or an indirect jump the code
     does not bound, leaves the function out (no width);
-  * `ret`: the bytes set on every path to it; a tail jump: what its target sets.
+  * `ret`: the bytes set on every path to it; a tail jump: what its target sets (a target that is no function
+    start in the extents is decoded by control flow from the jump, add_jump_targets).
 
-    FFXI_DLL=... python3 ret_width.py data/ret_width.json
+    FFXI_DLL=... python3 ret_width.py data/ret_width.json [data/ret_full.json]
 Output: {"0xFUNC": 1 | 2 (only AL / AX set on every path)}; a function whose code sets all of EAX, or that
-cannot be followed, is not listed."""
+cannot be followed, is not listed. The second file lists the functions followed whose code sets all four bytes
+of EAX on every path to a return (["0xFUNC", ...]): their result is a full dword whatever type a decompiler
+prints for it."""
 import json, os, sys
 from capstone.x86 import X86_OP_IMM, X86_OP_REG
 P = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, P)
@@ -78,11 +81,48 @@ def walk(im, f, ins, width, keeps, labels):
     return out
 
 
-def main(out):
+def flow_code(im, t, starts):
+    """{address: insn} reached from t by control flow (fall-through, both edges of a conditional jump, direct jumps;
+    a call returns), up to a `ret`, an indirect jump, or a jump to a function start (a tail jump, left for walk)"""
+    ins, work, hi = {}, [t], im.base + len(im.img)
+    while work and len(ins) < 20000:
+        a = work.pop()
+        if a in ins or not im.base <= a < hi: continue
+        i = next(im.md.disasm(im.img[a - im.base:a - im.base + 16], a, 1), None)
+        if i is None: return None
+        ins[a] = i; m, o = i.mnemonic, i.operands
+        if m.startswith('ret') or m in ('int3', 'hlt', 'ud2'): continue
+        if m == 'jmp':
+            if o and o[0].type == X86_OP_IMM and o[0].imm not in starts: work.append(o[0].imm)
+            continue
+        if m.startswith(('j', 'loop')) and o and o[0].type == X86_OP_IMM and o[0].imm not in starts: work.append(o[0].imm)
+        work.append(a + i.size)
+    return ins if not work else None
+
+
+def add_jump_targets(im, code):
+    """a tail jump's target that is no function start in the extents (IDA folded it into the jumping function's
+    neighbour, 0x1011D010's `jmp 0x1011D000`): the code there is decoded by control flow from the target, so the
+    jump has a width like any other function's (to a fixpoint: that code's own tail jumps are added in turn)"""
+    starts = set(code); work = list(code)
+    while work:
+        f = work.pop(); ins = code[f]
+        for a, i in ins.items():
+            o = i.operands
+            if not (i.mnemonic.startswith('j') and o and o[0].type == X86_OP_IMM): continue
+            t = o[0].imm
+            if t in ins or t in starts: continue
+            c = flow_code(im, t, starts)
+            if c is None: continue
+            starts.add(t); code[t] = c; work.append(t)
+
+
+def main(out, out_full=None):
     im = S.Image(os.environ['FFXI_DLL'])
     ext = json.load(open(os.path.join(P, '..', 'data', 'func_extents.json')))
     keeps = {int(k, 16): set(v) for k, v in json.load(open(os.path.join(P, '..', 'data', 'reg_keeps.json'))).items()}
     code = {int(k, 16): im.code(e) for k, e in ext.items()}
+    add_jump_targets(im, code)
     labels = {f: S.labels_of(ins) for f, ins in code.items()}
     width = {}
     while True:                                                # widths only grow from unknown: a fixpoint
@@ -98,6 +138,7 @@ def main(out):
         if w == frozenset({0}): res['0x%08X' % f] = 1
         elif w == frozenset({0, 1}): res['0x%08X' % f] = 2
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
+    if out_full: json.dump(['0x%08X' % f for f, w in sorted(width.items()) if w == ALL], open(out_full, 'w'), indent=0)
     print('%d functions followed; %d set only AL, %d only AX' % (len(width), sum(v == 1 for v in res.values()), sum(v == 2 for v in res.values())))
 
 

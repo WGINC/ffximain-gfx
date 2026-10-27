@@ -1,0 +1,8 @@
+{
+ "0x100635B0": {
+  "name": "CMoSpline_BuildSegmentTables",
+  "confidence": "medium",
+  "evidence": "Called by CMoSpline_EnsureSamples on its +4 object. For the three arrays at this+0xC..0x14 extends the end points (wrapped when this+0x24); per segment the length of the coordinate deltas through g_pProcessor's method at +0x94 (at least 0.01; 1 when this+0x25), summed into this+8; a 4x4 matrix per segment from neighbouring lengths into this+0x1C; the lengths divided by the total.",
+  "summary": "Builds the spline's per-segment lengths (normalized by the total) and per-segment 4x4 basis matrices."
+ }
+}

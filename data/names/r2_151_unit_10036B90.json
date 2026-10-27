@@ -1,0 +1,20 @@
+{
+ "0x10036B90": {
+  "name": "Unit10036B90_SendStopToLobby",
+  "confidence": "low",
+  "evidence": "sets byte 0x10463909; when byte 0x104638F5 and dword 0x1046393C are set, LobbyThread_SendCmd0(arg, [this+0x38]); clears 0x104638F4 for ids 0x8BF and 0x80F",
+  "summary": "Sends command 0 for the object's id to the lobby thread and clears a flag for two ids."
+ },
+ "0x10036F00": {
+  "name": "Unit10036B90_SetVolumeScalar",
+  "confidence": "medium",
+  "evidence": "builds a 4-float vector {(float)(short)arg1, 0, 0, 0} and passes it with arg2 to 0x10036F50; called by SetMusicTrackVolume_A/B/C and the MusicTrack_SetVolumeId functions with 0x40",
+  "summary": "Sets a music track's volume from one value through the vector form 0x10036F50."
+ },
+ "0x10037020": {
+  "name": "Unit10036B90_CreateSoundElem",
+  "confidence": "medium",
+  "evidence": "allocates 0x2ED bytes, CYySoundElem_Constructor, links it under this (CMoResource_AddRefChain), copies this+0x14 to +0x104, the 4-dword position to +0x54 and the remaining arguments to +0x1B0..+0x1D8 and the word +0x1BE",
+  "summary": "Creates a sound element under this object with a position and its parameters."
+ }
+}

@@ -123,6 +123,43 @@ def fix_conventions(report):
     log('conventions: %d of %d retyped __thiscall' % (done, len(DATA['conv_fix'])))
 
 
+# ------------------------------------------------------------------ 2c: argument counts (call_pushes.py)
+def fix_arg_counts(report):
+    """caller-cleanup functions the IDB declares with fewer stack bytes than every settled caller pushes for them
+    (pipeline/call_pushes.py: each call followed by its own `add esp, N`, the depth exact): declared __cdecl with
+    the stack bytes the callers push, the IDB's own parameters first and each extra one `unsigned int` (4 bytes;
+    what it holds is not known). Hex-Rays then shows the arguments the callers pass. Never fewer bytes than now"""
+    done = 0
+    for k, want in sorted(DATA['arg_fix'].items()):
+        ea = int(k, 16); t = ida_typeinf.tinfo_t(); res = {'name': ida_name.get_name(ea), 'pushed': want}
+        report['arg_counts'][k] = res
+        if not ida_nalt.get_tinfo(t, ea) or not t.is_func(): res['result'] = 'no prototype'; continue
+        fd = ida_typeinf.func_type_data_t(); t.get_func_details(fd); cc = cc_name(fd); res['was'] = str(t)
+        have = stack_bytes(fd)
+        if t.is_vararg_cc(): res['result'] = 'left: variadic'; continue      # one count everywhere is not a fixed arity
+        if cc in ('thiscall', 'fastcall') or have >= want:
+            res['result'] = 'left: %s with %d stack bytes' % (cc, have); continue
+        nfd = ida_typeinf.func_type_data_t(); nfd.rettype = fd.rettype
+        try: nfd.set_cc(ida_typeinf.CM_CC_CDECL)
+        except Exception: nfd.cc = ida_typeinf.CM_CC_CDECL
+        for a in fd: nfd.push_back(a)
+        n = have; i = fd.size()
+        while n < want:
+            x = ida_typeinf.funcarg_t(); x.name = 'a%d' % (i + 1); x.type = ida_typeinf.tinfo_t(ida_typeinf.BT_INT32 | ida_typeinf.BTMT_USIGNED)
+            nfd.push_back(x); n += 4; i += 1
+        nt = ida_typeinf.tinfo_t()
+        if not nt.create_func(nfd) or not ida_typeinf.apply_tinfo(ea, nt, ida_typeinf.TINFO_DEFINITE):
+            res['result'] = 'not applied'; continue
+        t2 = ida_typeinf.tinfo_t(); ida_nalt.get_tinfo(t2, ea); fd2 = ida_typeinf.func_type_data_t(); t2.get_func_details(fd2)
+        res['now'] = str(t2); res['result'] = 'retyped' if stack_bytes(fd2) == want else 'did not take'
+        if res['result'] == 'retyped':
+            done += 1; add_note(ea, '[args 2026-10-26] __cdecl with %d stack bytes: every settled caller pushes that many and cleans '
+                                    'them itself (call_pushes.py); the parameters past the IDB\'s are 4 bytes of unknown type' % want)
+            ida_hexrays.mark_cfunc_dirty(ea)
+        log('arguments %s %s: %s' % (k, res['name'], res['result']))
+    log('argument counts: %d of %d retyped' % (done, len(DATA['arg_fix'])))
+
+
 # ------------------------------------------------------------------ 3b: class types (make_ida_types.py)
 def fnptr_decl(target, member):
     """a vtable member typed as a pointer to the target's own IDB prototype, or `void *` where it cannot be"""
@@ -603,12 +640,12 @@ def export_type_decls(report, export_file):
 
 
 def main():
-    t0 = time.time(); report = {'sp': {}, 'reverted': {}, 'call_types': {}, 'conventions': {}}
+    t0 = time.time(); report = {'sp': {}, 'reverted': {}, 'call_types': {}, 'conventions': {}, 'arg_counts': {}}
     log('ffxi_ida_fix: IDA %s, IDB %s' % (idaapi.get_kernel_version(), idc.get_idb_path()))
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
-        for step in (apply_names, apply_facts, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),
+        for step in (apply_names, apply_facts, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: fix_arg_counts(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),
                      lambda: revert(report), lambda: fix_sp(report), lambda: force_call_types(report), lambda: reexport(report)):
             try: step()
             except Exception: log('STEP FAILED:\n' + traceback.format_exc())

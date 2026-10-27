@@ -54,6 +54,7 @@ TRAP_BASE = 0x70000000       # one 16-byte slot per imported function
 RET_SENTINEL = 0x7F800000    # functions return here; emulation stops
 STACK_TOP = 0x7F000000
 STACK_SIZE = 0x100000
+STACK_FILL = struct.pack('<I', 0xA5A5A5A5)   # every stack dword before a run (Machine.__init__)
 SANDBOX = 0x30000000         # fuzzed objects, buffers and the pointee pool
 SANDBOX_SIZE = 0x01000000
 POOL = SANDBOX + 0x00800000  # second half: random bytes that fuzzed pointers aim into
@@ -121,6 +122,11 @@ class Machine:
         u.mem_map(TRAP_BASE, align_up(max(16 * len(self.trap_names), PAGE)), UC_PROT_ALL)
         u.mem_map(RET_SENTINEL, PAGE, UC_PROT_ALL)
         u.mem_map(STACK_TOP - STACK_SIZE, STACK_SIZE, UC_PROT_ALL)
+        # the stack starts as a constant non-zero fill, not zeros: a slot one side reads without having written it
+        # (an argument the reconstruction does not push, where the original pushes 0: 0x10028640, docs/PROBLEMS.md
+        # P17) would otherwise read 0 and look the same. Both sides start from the same fill, so a slot both read
+        # unwritten still agrees
+        u.mem_write(STACK_TOP - STACK_SIZE, STACK_FILL * (STACK_SIZE // 4))
         u.mem_map(SANDBOX, SANDBOX_SIZE, UC_PROT_ALL)
         u.mem_write(TRAP_BASE, b"\xF4" * (16 * len(self.trap_names) or 1))  # hlt
         u.mem_write(RET_SENTINEL, b"\xF4")

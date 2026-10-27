@@ -1,0 +1,8 @@
+{
+ "0x10299090": {
+  "name": "SqsdSampling_DrawPasses",
+  "confidence": "medium",
+  "evidence": "applies lighting, sets the base texture and shader and draws (sqDrawableDraw), then with a second texture and factor > 0.001 draws again with additive blending (sqgxBlendAdd/AddDestAlpha); restores blend, z-bias pass and z mask",
+  "summary": "Draws a drawable in its base pass and an optional additive second pass."
+ }
+}

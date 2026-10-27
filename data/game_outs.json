@@ -1,0 +1,2638 @@
+{
+ "0x1000A2DB": {
+  "func": "0x1000A2B0",
+  "slots": {
+   "arg2": {
+    "zero": {
+     "calls": 1916518,
+     "changed": 1916518,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10014350": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x10014350",
+  "slots": {
+   "arg2": {
+    "neg": {
+     "calls": 76303,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 8,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg6": {
+    "neg": {
+     "calls": 2244,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100143B7": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x10014390",
+  "slots": {
+   "arg5": {
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100144B2": {
+  "func": "0x10014390",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 32367,
+     "changed": 32367,
+     "written_on_every_observed_call": true
+    },
+    "pos": {
+     "calls": 43936,
+     "changed": 43936,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100144D9": {
+  "func": "0x10014390",
+  "slots": {
+   "arg4": {
+    "pos": {
+     "calls": 76303,
+     "changed": 76303,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100215CB": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100215D4": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 2,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100215EE": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021605": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 2,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002161C": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021630": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "neg": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021639": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021647": {
+  "func": "0x100215C0",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 1,
+     "changed": 1,
+     "written_on_every_observed_call": true
+    },
+    "pos": {
+     "calls": 1,
+     "changed": 1,
+     "written_on_every_observed_call": true
+    }
+   },
+   "ecx0": {
+    "neg": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002165D": {
+  "func": "0x100215C0",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002166D": {
+  "func": "0x100215C0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002168C": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100216E2": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 27,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100216FC": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021713": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 25,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002172A": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002173E": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "neg": {
+     "calls": 14,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002174D": {
+  "func": "0x10021680",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 27,
+     "changed": 27,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 18,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002175E": {
+  "func": "0x10021680",
+  "slots": {
+   "arg1": {
+    "neg": {
+     "calls": 16,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "neg": {
+     "calls": 16,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10021775": {
+  "func": "0x10021680",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 16,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002178A": {
+  "func": "0x10021680",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 14,
+     "changed": 14,
+     "written_on_every_observed_call": true
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 11,
+     "written_on_every_observed_call": true
+    },
+    "zero": {
+     "calls": 2,
+     "changed": 2,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100217A9": {
+  "func": "0x10021680",
+  "slots": {
+   "arg1": {
+    "neg": {
+     "calls": 14,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "neg": {
+     "calls": 14,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100217BE": {
+  "func": "0x10021680",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 14,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100218EE": {
+  "func": "0x10021680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 27,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002C69F": {
+  "func": "0x1002C680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 109380,
+     "changed": 109380,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002C6CD": {
+  "func": "0x1002C680",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 109380,
+     "changed": 81701,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 109380,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 109380,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1002C6D9": {
+  "func": "0x1002C680",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 109380,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100363FF": {
+  "func": "0x100363B0",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 137,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 361,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10043B9A": {
+  "func": "0x10043B00",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 120,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10043D9A": {
+  "func": "0x10043D00",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 4,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008363B": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10083644": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 20,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10083665": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 20,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10083683": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008368C": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100836A1": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "zero": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100836A8": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100836E2": {
+  "func": "0x10083620",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 73,
+     "changed": 73,
+     "written_on_every_observed_call": true
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 73,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10083702": {
+  "func": "0x10083620",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 47,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 47,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 47,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10083735": {
+  "func": "0x10083620",
+  "slots": {
+   "ecx0": {
+    "zero": {
+     "calls": 20,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008690E": {
+  "func": "0x10086900",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 211991,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086937": {
+  "func": "0x10086900",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 211991,
+     "changed": 211991,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086948": {
+  "func": "0x10086900",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 110034,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 101810,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 147,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "neg": {
+     "calls": 110034,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 101810,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 147,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008695D": {
+  "func": "0x10086900",
+  "slots": {
+   "arg1": {
+    "zero": {
+     "calls": 211991,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008696C": {
+  "func": "0x10086900",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 211991,
+     "changed": 211875,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 211991,
+     "changed": 211875,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100869AD": {
+  "func": "0x10086900",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 211991,
+     "changed": 211991,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100869BC": {
+  "func": "0x10086900",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 211991,
+     "changed": 211991,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086B69": {
+  "func": "0x10086900",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 11936,
+     "changed": 11936,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg2": {
+    "pos": {
+     "calls": 11936,
+     "changed": 11936,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg3": {
+    "pos": {
+     "calls": 11936,
+     "changed": 11936,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg4": {
+    "pos": {
+     "calls": 11936,
+     "changed": 11936,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086BDA": {
+  "func": "0x10086900",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 5968,
+     "changed": 5968,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg2": {
+    "pos": {
+     "calls": 5968,
+     "changed": 3264,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086D0A": {
+  "func": "0x10086900",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 71616,
+     "changed": 71616,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 71616,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg2": {
+    "pos": {
+     "calls": 71616,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 71616,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086D62": {
+  "func": "0x10086900",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 17904,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg2": {
+    "pos": {
+     "calls": 17904,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086E27": {
+  "func": "0x10086900",
+  "slots": {
+   "arg2": {
+    "zero": {
+     "calls": 17904,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10086E52": {
+  "func": "0x10086900",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 49499,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 162492,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008F955": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 4,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008F982": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 734,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008F9B9": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 139,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008F9DB": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FA9A": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FAAE": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FB70": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FBB1": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FBF6": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FC22": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FD08": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FDD1": {
+  "func": "0x1008F740",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 6,
+     "changed": 6,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FDDA": {
+  "func": "0x1008F740",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 6,
+     "changed": 6,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1008FDE8": {
+  "func": "0x1008F740",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 6,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100908D5": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg4": {
+    "pos": {
+     "calls": 4,
+     "changed": 1,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10091F5B": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1009204A": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10092113": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10092145": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10092179": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10092281": {
+  "func": "0x1008F740",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100964B9": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100964A0",
+  "slots": {
+   "arg4": {
+    "pos": {
+     "calls": 86,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg5": {
+    "pos": {
+     "calls": 51,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg6": {
+    "pos": {
+     "calls": 29,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg7": {
+    "pos": {
+     "calls": 59,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100AE7D7": {
+  "func": "0x100AE3F0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 3,
+     "changed": 3,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5C68": {
+  "func": "0x100D5B10",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 3748,
+     "changed": 3748,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5CE6": {
+  "func": "0x100D5B10",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 272049,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5CF2": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5CFB": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 276339,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5D17": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 270908,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5D25": {
+  "func": "0x100D5B10",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 270936,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5D2E": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5D3B": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5D9E": {
+  "func": "0x100D5B10",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 276339,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5E8F": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 266181,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5E98": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 266181,
+     "changed": 260750,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5EAF": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 266181,
+     "changed": 260750,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5EC3": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "neg": {
+     "calls": 132085,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 130135,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 3961,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5ECD": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 266181,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100D5EE0": {
+  "func": "0x100D5B10",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 266181,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100DAF4A": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100DAF30",
+  "slots": {
+   "arg4": {
+    "pos": {
+     "calls": 87590,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F7812": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "zero": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F782A": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "neg": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F7843": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F785C": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "zero": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F788A": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x100F78A3": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x100F7790",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015A4CA": {
+  "func": "0x10159FF0",
+  "slots": {
+   "ecx0": {
+    "pos": {
+     "calls": 1248,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015A4FD": {
+  "func": "0x10159FF0",
+  "slots": {
+   "arg3": {
+    "pos": {
+     "calls": 1248,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg4": {
+    "pos": {
+     "calls": 1248,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FACF": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x1015FA00",
+  "slots": {
+   "arg4": {
+    "zero": {
+     "calls": 87599,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FAD9": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x1015FA00",
+  "slots": {
+   "arg4": {
+    "pos": {
+     "calls": 87299,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 300,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FAF7": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 634085,
+     "changed": 634085,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FB51": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 633718,
+     "changed": 633718,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FBEA": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 3345,
+     "changed": 3345,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FC4E": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 178,
+     "changed": 178,
+     "written_on_every_observed_call": true
+    },
+    "zero": {
+     "calls": 104,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FC64": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 178,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FD4D": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 1154707,
+     "changed": 1154707,
+     "written_on_every_observed_call": true
+    },
+    "zero": {
+     "calls": 90,
+     "changed": 90,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FDCB": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 633673,
+     "changed": 633673,
+     "written_on_every_observed_call": true
+    },
+    "zero": {
+     "calls": 45,
+     "changed": 45,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FE33": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 633673,
+     "changed": 633673,
+     "written_on_every_observed_call": true
+    },
+    "zero": {
+     "calls": 45,
+     "changed": 45,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FF4F": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 244,
+     "changed": 244,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1015FFAD": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 241,
+     "changed": 241,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1016015B": {
+  "func": "0x1015FA00",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 57,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181E38": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 18198360,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 339736,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 18198360,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 339736,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181E59": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 18081431,
+     "changed": 17927103,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181E6C": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17931899,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 149532,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181E8D": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17883403,
+     "changed": 17704034,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 17883403,
+     "changed": 17704034,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181EA0": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17852156,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 31247,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181EC1": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17837717,
+     "changed": 17584540,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181ED4": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17813798,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 23919,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 17813798,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 23919,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181EF5": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17800619,
+     "changed": 17574062,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181F08": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17764149,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 36470,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181F29": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17752953,
+     "changed": 17596015,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10181F3C": {
+  "func": "0x10181BB0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 17728798,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 24155,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101822D4": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 384686,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 14680,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 384686,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 14680,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101822F5": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 324134,
+     "changed": 324134,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 324134,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10182308": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 321495,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 2639,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10182329": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 318995,
+     "changed": 318995,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 318995,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 318995,
+     "changed": 318995,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1018233C": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 313020,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 5975,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1018235D": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 290019,
+     "changed": 290018,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 290019,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10182370": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 289946,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 73,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 289946,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 73,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10182391": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 289677,
+     "changed": 289676,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 289677,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101823A4": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 289290,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 387,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101823C5": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 289209,
+     "changed": 289208,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 289209,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101823D8": {
+  "func": "0x10182070",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 289154,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "zero": {
+     "calls": 55,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1018C2E9": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x1018C2B0",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "arg7": {
+    "pos": {
+     "calls": 85637,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A03F2": {
+  "func": "0x101A03D0",
+  "slots": {
+   "arg0": {
+    "neg": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 4877,
+     "changed": 4877,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "neg": {
+     "calls": 1,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    },
+    "pos": {
+     "calls": 4877,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A0419": {
+  "func": "0x101A03D0",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 3,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A047C": {
+  "func": "0x101A03D0",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 1432,
+     "changed": 1381,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A0518": {
+  "func": "0x101A04E0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A0538": {
+  "func": "0x101A04E0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 11,
+     "changed": 11,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 11,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A06A4": {
+  "func": "0x101A0680",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 579,
+     "changed": 579,
+     "written_on_every_observed_call": true
+    }
+   },
+   "arg1": {
+    "pos": {
+     "calls": 579,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101A06CC": {
+  "func": "0x101A0680",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 258,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101C9FD4": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 24650,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101CA02A": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 8481,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101CA0C5": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 476,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 476,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101CA105": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg1": {
+    "pos": {
+     "calls": 2512,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101CA13E": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg2": {
+    "pos": {
+     "calls": 15693,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   },
+   "ecx0": {
+    "pos": {
+     "calls": 15693,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x101CA15E": {
+  "func": "0x101C9FA0",
+  "slots": {
+   "arg3": {
+    "pos": {
+     "calls": 2512,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10204301": {
+  "func": "0x102041D0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 132422,
+     "changed": 132422,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x1020432D": {
+  "func": "0x102041D0",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 75878,
+     "changed": 75878,
+     "written_on_every_observed_call": true
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x10221054": {
+  "func": "0x10221030",
+  "slots": {
+   "arg0": {
+    "pos": {
+     "calls": 7310,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ },
+ "0x102211A0": {
+  "argument_count": "not known: a stack dword may be a local of the caller",
+  "func": "0x10221030",
+  "slots": {
+   "arg6": {
+    "pos": {
+     "calls": 269,
+     "changed": 0,
+     "written_on_every_observed_call": false
+    }
+   }
+  },
+  "source": "measured in the running game (xikit facts=1, kind out): the dword a slot points to, before the call and after; changed shows a write, unchanged does not show none"
+ }
+}

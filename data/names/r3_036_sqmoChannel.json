@@ -1,0 +1,8 @@
+{
+ "0x10284F50": {
+  "name": "SqmoChannel_Evaluate",
+  "confidence": "low",
+  "evidence": "calls the channel's function +0x14 with arg2 and returns its result; reports an error (sqmoChannel.c line 0x48, the message 0x103B7974 with the channel and its type) when there is none",
+  "summary": "Evaluates a motion channel through its handler function."
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "0x10109100": {
+  "name": "Unit100D7420_RefStringClear",
+  "confidence": "low",
+  "evidence": "stores 0 at +4 (the shared buffer pointer)",
+  "summary": "Empties a shared-string handle."
+ },
+ "0x10109140": {
+  "name": "Unit100D7420_RefStringCtor",
+  "confidence": "low",
+  "evidence": "sets vtable 0x10332E30, clears the buffer pointer and assigns the string arg (Unit100D7420_RefStringAssign)",
+  "summary": "Constructs a shared-string object from a C string."
+ },
+ "0x101091D0": {
+  "name": "Unit100D7420_RefStringReserve",
+  "confidence": "low",
+  "evidence": "creates the 8-byte shared header (0x101085C0, count 1) when there is none, then reallocates its text to hold the current text plus arg bytes (Unit100D7420_AllocCopy) and returns a pointer to the text's end",
+  "summary": "Makes room for appending to a shared string and returns where to write."
+ },
+ "0x101092C0": {
+  "name": "Unit100D7420_RefStringAssign",
+  "confidence": "low",
+  "evidence": "releases the current text (Unit100D7420_RefStringRelease); with a null string frees the header and buffer, else copies the string into newly reserved space",
+  "summary": "Assigns a C string to a shared-string object."
+ },
+ "0x101094D0": {
+  "name": "Unit100D7420_RefStringRelease",
+  "confidence": "low",
+  "evidence": "when the header's count +2 is above 1 decrements it; otherwise either clears the first byte of the text (arg 0) or frees the text and header (0x10108600); then empties the handle",
+  "summary": "Releases a shared string's reference, freeing it on the last one."
+ },
+ "0x1010E040": {
+  "name": "Unit100D7420_Copy12",
+  "confidence": "low",
+  "evidence": "copies 12 bytes from arg to this unless they are the same object",
+  "summary": "Copies a 12-byte value."
+ },
+ "0x1010F8B0": {
+  "name": "Unit100D7420_CreateEventRecorder",
+  "confidence": "low",
+  "evidence": "allocates the 100-byte object 0x104E1708 (vtable 0x10332E9C) with its two list heads and the 8-entry code ring at +0x20 (indices +0x60/+0x62); called by FDtXiInit",
+  "summary": "Creates the global object that records codes and handlers (0x104E1708)."
+ },
+ "0x1010FA30": {
+  "name": "Unit100D7420_RecorderAddHandler",
+  "confidence": "low",
+  "evidence": "finds where the 3-dword key arg1 belongs in the list +0x10 and inserts a new 0x24-byte node (key, arg2, the callback args 3..5) before it (0x10110040), counting +6",
+  "summary": "Adds a handler entry under a 12-byte key to the recorder's list."
+ },
+ "0x1010FBD0": {
+  "name": "Unit100D7420_RecorderRecordCode",
+  "confidence": "low",
+  "evidence": "records (code arg1, count, value arg2) in the 8-entry ring at +0x20: when the newest entry has the same code its count goes up and its value is replaced; when the ring is full the oldest is dropped",
+  "summary": "Records a code and value in an 8-entry ring, merging repeats."
+ },
+ "0x1010FC50": {
+  "name": "Unit100D7420_RegisterHandlerByName",
+  "confidence": "low",
+  "evidence": "packs each of the two names (arg2, then arg1) into three dwords of 6-bit letters, five per dword (lower case folded), and adds the handler arg3 with arg4 under that key (Unit100D7420_RecorderAddHandler); FDtXiInit calls it with \"GENERIC\", \"PLATFORM\" and 0x10114CF0",
+  "summary": "Registers a handler under a key packed from two names."
+ },
+ "0x1010FEE0": {
+  "name": "Unit100D7420_Copy12B",
+  "confidence": "low",
+  "evidence": "copies 12 bytes from arg to this unless they are the same object",
+  "summary": "Copies a 12-byte value."
+ },
+ "0x10110040": {
+  "name": "Unit100D7420_ListInsertBefore",
+  "confidence": "low",
+  "evidence": "links this node before the node arg (prev/next at +4/+8)",
+  "summary": "Inserts a list node before another."
+ },
+ "0x10113220": {
+  "name": "Unit100D7420_ResetB44",
+  "confidence": "low",
+  "evidence": "clears the 8 dwords at 0x104E1B44 and calls 0x100FC370 with 0xB5 and 0xB6",
+  "summary": "Clears the block at 0x104E1B44 and two settings."
+ },
+ "0x10114070": {
+  "name": "Unit100D7420_ErrorLogDtor",
+  "confidence": "low",
+  "evidence": "clears 0x104E1B6C when it is this, closes the handle at +0 (CloseHandle) and releases the 16 entries at +0x10..+0x100 (reference counted, freeing their data)",
+  "summary": "Destroys the error log and releases its queued entries."
+ },
+ "0x10114120": {
+  "name": "Unit100D7420_ErrorLogPop",
+  "confidence": "low",
+  "evidence": "when the ring (read +0x108, write +0x10A, 16 entries of 16 bytes from +8) is not empty, takes the oldest entry under the mutex at +0 (WaitForSingleObject/ReleaseMutex), adding a reference to its data, and copies it to arg",
+  "summary": "Takes the oldest entry from the error log's ring under its mutex."
+ },
+ "0x10114320": {
+  "name": "Unit100D7420_ErrorLogFlush",
+  "confidence": "low",
+  "evidence": "when entries are queued and no write of \"err%03d.bin\" is pending (0x101C4AA0), takes up to 4 entries (Unit100D7420_ErrorLogPop) into 0x48-byte records at +0x110 and queues their write (0x101C4900); called by FDtGmNoticeProc",
+  "summary": "Writes up to four queued error records to the err file."
+ },
+ "0x10114500": {
+  "name": "Unit100D7420_ErrorLogReplay",
+  "confidence": "low",
+  "evidence": "formats \"err%03d.bin\" for the newest index, and when it exists reads it in 0x120-byte steps (0x101C47B0) and passes each 0x48-byte record's code and value to the recorder (Unit100D7420_ForwardToGlobal1708); called by FDtXiInit",
+  "summary": "Reads the last err file and records its entries again."
+ },
+ "0x10114620": {
+  "name": "Unit100D7420_SumWords16",
+  "confidence": "medium",
+  "evidence": "adds the 16-bit words of a buffer (length arg2 bytes) and folds the carries twice into the low 16 bits",
+  "summary": "Computes a 16-bit folded sum of a buffer's words."
+ },
+ "0x10114F10": {
+  "name": "Unit100D7420_ReportError",
+  "confidence": "low",
+  "evidence": "records the code arg1 with 0x100DBE10's value in the recorder, and queues it with a copy of up to 64 bytes of arg2 in the error log 0x104E1B6C (0x10114250)",
+  "summary": "Reports an error code with its data to the recorder and the error log."
+ },
+ "0x101152D0": {
+  "name": "Unit100D7420_ReturnOneA",
+  "confidence": "medium",
+  "evidence": "returns 1",
+  "summary": "Returns 1."
+ },
+ "0x101152E0": {
+  "name": "Unit100D7420_ReturnOneB",
+  "confidence": "medium",
+  "evidence": "returns 1",
+  "summary": "Returns 1."
+ },
+ "0x101152F0": {
+  "name": "Unit100D7420_CreateSession",
+  "confidence": "low",
+  "evidence": "allocates the 0x4F1B0-byte context and the 0x1A34-byte session data (both filled with -1), links them, sets up its channels (0x1026CC30, fn_1026D866, fn_1026D70C), copies the name arg1 to +0x20 of the data and the parameter blocks arg3..arg6 into it; returns the context",
+  "summary": "Creates a session context with its channels and copies its parameters."
+ },
+ "0x101154D0": {
+  "name": "Unit100D7420_CreateSessionFromParams",
+  "confidence": "low",
+  "evidence": "Unit100D7420_CreateSession with the fields of the parameter block arg",
+  "summary": "Creates a session from a parameter block."
+ },
+ "0x10115500": {
+  "name": "Unit100D7420_CreateSessionInto",
+  "confidence": "low",
+  "evidence": "stores Unit100D7420_CreateSessionFromParams(arg2) in *arg1; returns 1",
+  "summary": "Creates a session and stores it."
+ },
+ "0x10115520": {
+  "name": "Unit100D7420_StartChannel",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0, sets up the channel at +0x2F0D4 with the data's +0x20 and +0x120 (0x1026CDF4) and sets the state to 2; returns 1, else 0",
+  "summary": "Starts the session's channel and waits in state 2."
+ },
+ "0x10115570": {
+  "name": "Unit100D7420_StartChannelFwd",
+  "confidence": "low",
+  "evidence": "returns Unit100D7420_StartChannel(arg)",
+  "summary": "Starts the session's channel."
+ },
+ "0x10115580": {
+  "name": "Unit100D7420_QueueRequest26",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), takes one (fn_1026DBCE), builds request 0x26 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x3; returns 1, else 0",
+  "summary": "Builds request 0x26 into a free buffer, queues it and waits in state 0x3."
+ },
+ "0x10115600": {
+  "name": "Unit100D7420_QueueRequest26Fwd",
+  "confidence": "low",
+  "evidence": "returns Unit100D7420_QueueRequest26(arg)",
+  "summary": "Queues request 0x26."
+ },
+ "0x10115610": {
+  "name": "Unit100D7420_QueueRequest1F",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), takes one (fn_1026DBCE), builds request 0x1F into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x4; returns 1, else 0",
+  "summary": "Builds request 0x1F into a free buffer, queues it and waits in state 0x4."
+ },
+ "0x10115690": {
+  "name": "Unit100D7420_QueueRequest07",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x7 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x5; returns 1, else 0",
+  "summary": "Builds request 0x7 into a free buffer, queues it and waits in state 0x5."
+ },
+ "0x101157E0": {
+  "name": "Unit100D7420_RecycleBuffer",
+  "confidence": "low",
+  "evidence": "when the state is 0 moves one buffer back to the free ring (fn_1026CFA0) and sets the state to 8; returns 1, else 0",
+  "summary": "Returns one buffer to the free ring and waits in state 8."
+ },
+ "0x10115820": {
+  "name": "Unit100D7420_ResetChannel",
+  "confidence": "low",
+  "evidence": "when the state is 0, moves all buffers back (fn_1026D015) when +0x2F0F8 is 6, clears the data's +0x13C and sets the state to 9; returns 1, else 0",
+  "summary": "Resets the session's channel and waits in state 9."
+ },
+ "0x10115930": {
+  "name": "Unit100D7420_SetSessionData",
+  "confidence": "low",
+  "evidence": "when the state is 0, copies the 0x1A34 bytes of arg into the session data and sets the state to 0xD; returns 1, else 0",
+  "summary": "Replaces the session data and waits in state 0xD."
+ },
+ "0x10115970": {
+  "name": "Unit100D7420_GetSessionData",
+  "confidence": "low",
+  "evidence": "when the state is 0, copies the 0x1A34-byte session data into arg and sets the state to 0xE; returns 1, else 0",
+  "summary": "Copies out the session data and waits in state 0xE."
+ },
+ "0x10115A00": {
+  "name": "Unit100D7420_QueueRequest21",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x21 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x10; returns 1, else 0",
+  "summary": "Builds request 0x21 into a free buffer, queues it and waits in state 0x10."
+ },
+ "0x10115A90": {
+  "name": "Unit100D7420_QueueRequest14",
+  "confidence": "low",
+  "evidence": "when the state +0x4F1A8 is 0 and the ring at +0x2F0D4 has an entry (fn_1026DBF0), stores arg2 at +0x140 of the session data, takes one (fn_1026DBCE), builds request 0x14 into it from the session data +0x4F1AC (0x10116610), puts it on the +0x2C ring (fn_1026DC0D) and sets the state to 0x11; returns 1, else 0",
+  "summary": "Builds request 0x14 into a free buffer, queues it and waits in state 0x11."
+ }
+}

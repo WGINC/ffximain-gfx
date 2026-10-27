@@ -45,6 +45,52 @@ def dispatch_thunks(img, base, md, res):
     return n
 
 
+def call_targets(img, base, md, res, ext):
+    """a direct `call` target (or a function the Ghidra exports call) that is no function start in the extents (IDA folded it into another function's
+    chunk, 0x1011DAE0 inside 0x1011DC00): a function all the same, by the call. Its code is followed from the target
+    by control flow (fall-through, both branch edges, direct jumps); its purge is the N every `ret N` it reaches pops,
+    and none is recorded when a path leaves by an indirect jump or a jump to another function's start."""
+    starts = {int(k, 16) for k in ext}
+    hi = base + len(img)
+    tg = set()
+    for k, ranges in ext.items():
+        for a, b in ranges:
+            for i in md.disasm(img[a - base:b - base], a):
+                if i.mnemonic == 'call' and i.op_str.startswith('0x'):
+                    t = int(i.op_str, 16)
+                    if base <= t < hi and t not in starts: tg.add(t)
+    # and the functions the Ghidra route's text calls that are no start in the extents: Ghidra makes a function of
+    # shared code a `jmp` reaches (0x1011DAE0, the second chunk of 0x1011DC00) and prints the jump as a call
+    import glob
+    for f in glob.glob(os.path.join(D, 'exports', 'ghidra_*.jsonl')):
+        for l in open(f):
+            for o in (json.loads(l).get('objs') or {}).values():
+                if o.get('func') and not o.get('import') and base <= o['ea'] < hi and o['ea'] not in starts: tg.add(o['ea'])
+    n = 0
+    for t in sorted(tg):
+        pops, seen, work, ok = set(), set(), [t], True
+        while work and ok and len(seen) < 20000:
+            a = work.pop()
+            if a in seen: continue
+            seen.add(a)
+            i = next(md.disasm(img[a - base:a - base + 16], a, 1), None)
+            if i is None: ok = False; break
+            mn = i.mnemonic
+            if mn in ('ret', 'retn'): pops.add(int(i.op_str, 0) if i.op_str else 0); continue
+            if mn == 'jmp':
+                if not i.op_str.startswith('0x'): ok = False; break
+                d = int(i.op_str, 16)
+                if d in starts and d != t: ok = False; break
+                work.append(d); continue
+            if mn.startswith('j') or mn.startswith('loop'):
+                if i.op_str.startswith('0x'): work.append(int(i.op_str, 16))
+            if mn in ('int3', 'hlt', 'ud2'): continue
+            work.append(a + i.size)
+        if ok and len(pops) == 1 and '0x%08X' % t not in res:
+            res['0x%08X' % t] = pops.pop(); n += 1
+    return n
+
+
 def main(dll, out):
     pe = pefile.PE(dll, fast_load=True)
     base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_mapped_image()
@@ -58,8 +104,9 @@ def main(dll, out):
                     pops.add(int(i.op_str, 0) if i.op_str else 0)
         if len(pops) == 1: res['0x%08X' % int(k, 16)] = pops.pop()
     n = dispatch_thunks(img, base, md, res)
+    c = call_targets(img, base, md, res, json.load(open(os.path.join(D, 'func_extents.json'))))
     json.dump(res, open(out, 'w'), indent=0, sort_keys=True)
-    print(len(res), 'functions,', n, 'D3DX dispatch thunks')
+    print(len(res), 'functions,', n, 'D3DX dispatch thunks,', c, 'call targets outside the extents')
 
 
 if __name__ == '__main__':

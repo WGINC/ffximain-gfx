@@ -1,0 +1,8 @@
+{
+ "0x102755C0": {
+  "name": "SqMem_HexDump",
+  "confidence": "medium",
+  "evidence": "for each 16 bytes of the range formats a line with 0x102756A0 and prints it with sqDebugPrintf; the callee's formats are hex dump lines (\"0x%08X: %02X %02X ...\")",
+  "summary": "Prints a memory range as a hex dump."
+ }
+}

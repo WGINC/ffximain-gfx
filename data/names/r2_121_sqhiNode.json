@@ -1,0 +1,14 @@
+{
+ "0x10291C50": {
+  "name": "SqhiNode_Nop",
+  "confidence": "low",
+  "evidence": "bare return; called by SqskSkeleton_SetNodeCount",
+  "summary": "Does nothing."
+ },
+ "0x10291F00": {
+  "name": "SqhiNode_SetField64",
+  "confidence": "low",
+  "evidence": "stores its second argument at node+0x64 when the node is non-null",
+  "summary": "Sets a node's field at +0x64."
+ }
+}

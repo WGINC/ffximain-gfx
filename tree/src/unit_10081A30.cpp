@@ -39,13 +39,23 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
   return;
 }
 
-// FUNCTION: FFXIMAIN 0x10081CF0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
+// FUNCTION: FFXIMAIN 0x10081AE0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10081CF0(void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_LinkIntoDrawList(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  orig::CMoTask_Constructor_v1(self_);
-  orig::ActorHandle_Constructor_v1((void *)((int)self_ + 0x5c));
-  *(uint8_t ***)self_ = &PTR_CXiActor_GetRuntimeClass_variant0_1032cfe0;
-  orig::CXiActor_Init(self_);
-  return self_;
+  int iVar1;
+  
+  if ((*(uint8_t *)((int)self_ + 0x88) & 2) == 0) {
+    if (g_pActorDrawListHead_as_v2 != (void *)0x0) {
+      *(void **)((int)g_pActorDrawListHead_as_v2 + 0x58) = self_;
+    }
+    *(void **)((int)self_ + 0x54) = g_pActorDrawListHead_as_v2;
+    *(uint32_t *)((int)self_ + 0x58) = 0;
+    g_pActorDrawListHead_as_v2 = self_;
+    iVar1 = orig::Actor_CountAll();
+    *(int *)((int)self_ + 0x74) = iVar1;
+    xi_eax = *(uint32_t *)((int)self_ + 0x88) | 2;
+    *(uint32_t *)((int)self_ + 0x88) = xi_eax;
+  }
+  return xi_eax;
 }

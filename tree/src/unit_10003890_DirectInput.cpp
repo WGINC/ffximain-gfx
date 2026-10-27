@@ -301,7 +301,7 @@ LAB_10007a18:
       if (iVar5 == -2) {
         return;
       }
-      orig::CommandCalc((char *)(DAT_10578490 + 0x14),0);
+      orig::Command_RunLine((char *)(DAT_10578490 + 0x14),0);
     }
     else if (param_1 != 0x1b) {
       if (param_1 < 0x80) {
@@ -512,6 +512,249 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
       return 1;
     }
   }
+}
+
+// FUNCTION: FFXIMAIN 0x10008020  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10008020(void * self_)
+{
+  char cVar1;
+  HKL pHVar2;
+  int iVar3;
+  uint32_t uVar4;
+  int iVar5;
+  int *piVar6;
+  char *pcVar7;
+  char *_Str1;
+  int *piVar8;
+  uint32_t *puVar9;
+  char *pcVar10;
+  uint64_t uVar11;
+  char xi_frame[792] __attribute__((aligned(4)));
+  int  (&local_2f8)[8] = *reinterpret_cast<int  (*)[8]>(xi_frame + 32);
+  uint32_t  &local_2d8 = *reinterpret_cast<uint32_t  *>(xi_frame + 64);
+  uint32_t  &local_2d4 = *reinterpret_cast<uint32_t  *>(xi_frame + 68);
+  uint32_t  (&local_2d0)[7] = *reinterpret_cast<uint32_t  (*)[7]>(xi_frame + 72);
+  uint32_t  &local_2b4 = *reinterpret_cast<uint32_t  *>(xi_frame + 100);
+  uint32_t  &local_2b0 = *reinterpret_cast<uint32_t  *>(xi_frame + 104);
+  uint32_t  (&local_2ac)[7] = *reinterpret_cast<uint32_t  (*)[7]>(xi_frame + 108);
+  uint32_t  &local_290 = *reinterpret_cast<uint32_t  *>(xi_frame + 136);
+  uint32_t  &local_28c = *reinterpret_cast<uint32_t  *>(xi_frame + 140);
+  uint32_t  (&local_288)[7] = *reinterpret_cast<uint32_t  (*)[7]>(xi_frame + 144);
+  uint16_t  &local_26a = *reinterpret_cast<uint16_t  *>(xi_frame + 174);
+  uint32_t  &local_268 = *reinterpret_cast<uint32_t  *>(xi_frame + 176);
+  uint32_t  &local_264 = *reinterpret_cast<uint32_t  *>(xi_frame + 180);
+  uint16_t  &local_260 = *reinterpret_cast<uint16_t  *>(xi_frame + 184);
+  uint8_t  &local_25e = *reinterpret_cast<uint8_t  *>(xi_frame + 186);
+  uint32_t  (&local_25d)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 187);
+  uint32_t  &local_244 = *reinterpret_cast<uint32_t  *>(xi_frame + 212);
+  uint32_t  &local_240 = *reinterpret_cast<uint32_t  *>(xi_frame + 216);
+  uint16_t  &local_23c = *reinterpret_cast<uint16_t  *>(xi_frame + 220);
+  uint8_t  &local_23a = *reinterpret_cast<uint8_t  *>(xi_frame + 222);
+  uint32_t  (&local_239)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 223);
+  uint32_t  &local_220 = *reinterpret_cast<uint32_t  *>(xi_frame + 248);
+  uint32_t  &local_21c = *reinterpret_cast<uint32_t  *>(xi_frame + 252);
+  uint16_t  &local_218 = *reinterpret_cast<uint16_t  *>(xi_frame + 256);
+  uint8_t  &local_216 = *reinterpret_cast<uint8_t  *>(xi_frame + 258);
+  uint32_t  (&local_215)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 259);
+  uint32_t  &local_1fc = *reinterpret_cast<uint32_t  *>(xi_frame + 284);
+  uint32_t  &local_1f8 = *reinterpret_cast<uint32_t  *>(xi_frame + 288);
+  uint16_t  &local_1f4 = *reinterpret_cast<uint16_t  *>(xi_frame + 292);
+  uint8_t  &local_1f2 = *reinterpret_cast<uint8_t  *>(xi_frame + 294);
+  uint32_t  (&local_1f1)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 295);
+  uint32_t  &local_1d8 = *reinterpret_cast<uint32_t  *>(xi_frame + 320);
+  uint32_t  &local_1d4 = *reinterpret_cast<uint32_t  *>(xi_frame + 324);
+  uint16_t  &local_1d0 = *reinterpret_cast<uint16_t  *>(xi_frame + 328);
+  uint8_t  &local_1ce = *reinterpret_cast<uint8_t  *>(xi_frame + 330);
+  uint32_t  (&local_1cd)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 331);
+  uint32_t  &local_1b4 = *reinterpret_cast<uint32_t  *>(xi_frame + 356);
+  uint32_t  &local_1b0 = *reinterpret_cast<uint32_t  *>(xi_frame + 360);
+  uint16_t  &local_1ac = *reinterpret_cast<uint16_t  *>(xi_frame + 364);
+  uint8_t  &local_1aa = *reinterpret_cast<uint8_t  *>(xi_frame + 366);
+  uint32_t  (&local_1a9)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 367);
+  uint32_t  &local_190 = *reinterpret_cast<uint32_t  *>(xi_frame + 392);
+  uint32_t  &local_18c = *reinterpret_cast<uint32_t  *>(xi_frame + 396);
+  uint16_t  &local_188 = *reinterpret_cast<uint16_t  *>(xi_frame + 400);
+  uint8_t  &local_186 = *reinterpret_cast<uint8_t  *>(xi_frame + 402);
+  uint32_t  (&local_185)[6] = *reinterpret_cast<uint32_t  (*)[6]>(xi_frame + 403);
+  uint32_t  &local_16c = *reinterpret_cast<uint32_t  *>(xi_frame + 428);
+  uint32_t  &local_168 = *reinterpret_cast<uint32_t  *>(xi_frame + 432);
+  uint32_t  &local_151 = *reinterpret_cast<uint32_t  *>(xi_frame + 455);
+  uint32_t  &local_14d = *reinterpret_cast<uint32_t  *>(xi_frame + 459);
+  uint8_t  &local_149 = *reinterpret_cast<uint8_t  *>(xi_frame + 463);
+  uint32_t  &local_148 = *reinterpret_cast<uint32_t  *>(xi_frame + 464);
+  uint8_t  &local_144 = *reinterpret_cast<uint8_t  *>(xi_frame + 468);
+  uint32_t  &local_143 = *reinterpret_cast<uint32_t  *>(xi_frame + 469);
+  uint32_t  &local_124 = *reinterpret_cast<uint32_t  *>(xi_frame + 500);
+  uint8_t  &local_120 = *reinterpret_cast<uint8_t  *>(xi_frame + 504);
+  uint32_t  &local_11f = *reinterpret_cast<uint32_t  *>(xi_frame + 505);
+  CHAR  (&local_100)[256] = *reinterpret_cast<CHAR  (*)[256]>(xi_frame + 536);
+  
+  iVar5 = 0;
+  piVar8 = local_2f8;
+  local_2f8[0] = 0;
+  piVar6 = (int *)s_Microsoft_IME_95__Japanese__1034fa98;
+  for (iVar3 = 7; piVar8 = piVar8 + 1, iVar3 != 0; iVar3 = iVar3 + -1) {
+    *piVar8 = *piVar6;
+    piVar6 = piVar6 + 1;
+  }
+  local_2d8 = 0;
+  local_2d4 = 1;
+  pcVar7 = s_Microsoft_IME_97__Japanese__1034fa7c;
+  puVar9 = local_2d0;
+  for (iVar3 = 7; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = *(uint32_t *)pcVar7;
+    pcVar7 = pcVar7 + 4;
+    puVar9 = puVar9 + 1;
+  }
+  local_2b4 = 0;
+  local_2b0 = 2;
+  pcVar7 = s_Microsoft_IME_98__Japanese__1034fa58;
+  puVar9 = local_2ac;
+  for (iVar3 = 7; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = *(uint32_t *)pcVar7;
+    pcVar7 = pcVar7 + 4;
+    puVar9 = puVar9 + 1;
+  }
+  local_290 = 0;
+  local_28c = 3;
+  pcVar7 = s_Microsoft_IME_2000__Japanese__1034fa38;
+  puVar9 = local_288;
+  for (iVar3 = 7; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = *(uint32_t *)pcVar7;
+    pcVar7 = pcVar7 + 4;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint16_t *)puVar9 = *(uint16_t *)pcVar7;
+  local_264 = DAT_1034fa74;
+  local_260 = DAT_1034fa78;
+  local_26a = 0;
+  local_268 = 4;
+  local_25e = DAT_1034fa7a;
+  puVar9 = local_25d;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_23c = DAT_1034fa34;
+  local_240 = DAT_1034fa30;
+  local_244 = 5;
+  local_23a = DAT_1034fa36;
+  puVar9 = local_239;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_218 = DAT_1034fa2c;
+  local_21c = DAT_1034fa28;
+  local_220 = 6;
+  local_216 = DAT_1034fa2e;
+  puVar9 = local_215;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_1f4 = DAT_1034fa24;
+  local_1f8 = DAT_1034fa20;
+  local_1fc = 7;
+  local_1f2 = DAT_1034fa26;
+  puVar9 = local_1f1;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_1d8 = 8;
+  local_1d4 = DAT_1034fa18;
+  local_1d0 = DAT_1034fa1c;
+  local_1ce = DAT_1034fa1e;
+  puVar9 = local_1cd;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_1ac = DAT_1034fa14;
+  local_1b0 = DAT_1034fa10;
+  local_1b4 = 9;
+  local_1aa = DAT_1034fa16;
+  puVar9 = local_1a9;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_188 = DAT_1034fa0c;
+  local_18c = DAT_1034fa08;
+  local_190 = 10;
+  local_186 = DAT_1034fa0e;
+  puVar9 = local_185;
+  for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint8_t *)puVar9 = 0;
+  local_16c = 0xc;
+  pcVar7 = s_Microsoft_IME_Standard_1034f9f0;
+  puVar9 = &local_168;
+  for (iVar3 = 5; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = *(uint32_t *)pcVar7;
+    pcVar7 = pcVar7 + 4;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint16_t *)puVar9 = *(uint16_t *)pcVar7;
+  *(char *)((int)puVar9 + 2) = pcVar7[2];
+  local_151 = 0;
+  local_14d = 0;
+  local_149 = 0;
+  local_148 = 0xd;
+  local_144 = Read_as_v0;
+  puVar9 = &local_143;
+  for (iVar3 = 7; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint16_t *)puVar9 = 0;
+  *(uint8_t *)((int)puVar9 + 2) = 0;
+  local_124 = 0xf;
+  local_120 = Read_as_v0;
+  puVar9 = &local_11f;
+  for (iVar3 = 7; iVar3 != 0; iVar3 = iVar3 + -1) {
+    *puVar9 = 0;
+    puVar9 = puVar9 + 1;
+  }
+  *(uint16_t *)puVar9 = 0;
+  *(uint8_t *)((int)puVar9 + 2) = 0;
+  pHVar2 = GetKeyboardLayout(0);
+  orig::ImmGetDescriptionA_102BC826(pHVar2,local_100,0x100);
+  pcVar7 = &xi_frame[0];
+  iVar3 = local_2f8[0];
+  do {
+    if (0xe < iVar3) {
+      *(uint32_t *)((int)self_ + 0xda8) = 0xe;
+      return;
+    }
+    _Str1 = pcVar7 + 0x24;
+    uVar4 = 0xffffffff;
+    pcVar10 = _Str1;
+    do {
+      if (uVar4 == 0) break;
+      uVar4 = uVar4 - 1;
+      cVar1 = *pcVar10;
+      pcVar10 = pcVar10 + 1;
+    } while (cVar1 != '\0');
+    uVar11 = orig::_strncmp_v1(_Str1,local_100,~uVar4 - 1);
+    if ((int)uVar11 == 0) {
+      *(int *)((int)self_ + 0xda8) = local_2f8[iVar5 * 9];
+      return;
+    }
+    iVar3 = *(int *)(pcVar7 + 0x44);
+    iVar5 = iVar5 + 1;
+    pcVar7 = _Str1;
+  } while( true );
 }
 
 // FUNCTION: FFXIMAIN 0x100083D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
@@ -891,4 +1134,30 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
     }
   }
   return uVar1 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x10008EA0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API undefined4 __stdcall Unit10003890_CallPtr10456550IfEnabled(undefined4 param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  
+  if ((DAT_1045654c_as_s32 != 0) && (DAT_10456550_as_v0 != (code *)0x0)) {
+    uVar1 = (*DAT_10456550_as_v0)(param_1,param_2);
+    return uVar1;
+  }
+  return 1;
+}
+
+// FUNCTION: FFXIMAIN 0x10008F00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+XI_API undefined4 __stdcall Unit10003890_CallPtr10456558IfEnabled(undefined4 param_1)
+{
+  uint32_t uVar1;
+  
+  if ((DAT_1045654c_as_s32 != 0) && (DAT_10456558_as_v0 != (code *)0x0)) {
+    uVar1 = (*DAT_10456558_as_v0)(param_1);
+    return uVar1;
+  }
+  return 1;
 }

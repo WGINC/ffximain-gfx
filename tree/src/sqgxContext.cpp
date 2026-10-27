@@ -39,10 +39,10 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   param_1[0x50] = 0;
   orig::PackVec4_v1((float *)(param_1 + 0x4b),0.0f,1.0f,0.0f,0.0f);
   param_1[0xb4] = 0;
-  orig::FUN_1027ebd0(param_1 + 0x62);
-  orig::FUN_1027ebd0(param_1 + 0x82);
-  orig::FUN_1027ebd0(param_1 + 0x72);
-  orig::FUN_1027ebd0(param_1 + 0x52);
+  orig::Unit1027E120_SetIdentity(param_1 + 0x62);
+  orig::Unit1027E120_SetIdentity(param_1 + 0x82);
+  orig::Unit1027E120_SetIdentity(param_1 + 0x72);
+  orig::Unit1027E120_SetIdentity(param_1 + 0x52);
   param_1[0xab] = 0x42200000;
   param_1[0xac] = 0x44200000;
   param_1[0xad] = 0x43f00000;
@@ -62,7 +62,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
   do {
     param_1 = (undefined4 *)&DAT_00000008;
     do {
-      orig::FUN_1027ebd0(puVar3);
+      orig::Unit1027E120_SetIdentity(puVar3);
       puVar3 = puVar3 + 0x10;
       param_1 = (undefined4 *)((int)param_1 + -1);
       *puVar2 = 0;

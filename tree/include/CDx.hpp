@@ -17,7 +17,9 @@ public:
     int BeginScene();  // 0x10009730
     int EndScene();  // 0x10009740
     static void __stdcall SetHardwareCursor(HCURSOR param_1);  // 0x10009750
+    static undefined4 __thiscall ShowCursor(void * self, undefined4 param_1);  // 0x10009780
     HCURSOR SetCursorShape(int a2, int a3);  // 0x100097F0
+    static undefined4 __thiscall CreateDeviceObjectOnce(void * self, undefined4 param_1, int * param_2);  // 0x10009870
     static undefined4 __thiscall AppendStateRecord(void * self);  // 0x10009D20
     int SetViewport(const void *a2);  // 0x10009DC0
     unsigned __int8 * GetRenderTargetTop();  // 0x10009E00
@@ -25,6 +27,7 @@ public:
     static void __thiscall PushRenderTargetTexture_Flag1(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EA0
     static void __thiscall PushRenderTargetTexture_Flag0(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3);  // 0x10009EE0
     int PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8);  // 0x10009F20
+    static void __thiscall Call1000A0A0Zeroed(void * self, int * param_1, undefined4 param_2, undefined4 param_3);  // 0x1000A070
     int SetTexture(int a2, int a3);  // 0x1000A1D0
     static void __thiscall PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A200
     static void __thiscall PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x1000A230

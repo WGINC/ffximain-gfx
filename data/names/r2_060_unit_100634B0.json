@@ -1,0 +1,8 @@
+{
+ "0x10063890": {
+  "name": "CMoSpline_EvalCubicSegment",
+  "confidence": "medium",
+  "evidence": "wraps t into [0,1] when +0x24 is set, finds the segment by summing the lengths at +0x18, forms (u, u^2, u^3), multiplies by the segment's 0x40-byte matrix at +0x1C through g_pProcessor slot 16, and dots the result with four values of the argument array; called by CMoSpline_SetValue's helpers",
+  "summary": "Evaluates a cubic spline segment at a parameter."
+ }
+}

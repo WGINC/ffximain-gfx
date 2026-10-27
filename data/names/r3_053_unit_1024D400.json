@@ -1,0 +1,8 @@
+{
+ "0x10250DB0": {
+  "name": "StChannelItem_Load",
+  "confidence": "medium",
+  "evidence": "its messages are \"Error: StChannelItemLoad() c...\" and \"Error: Chn file not found\"; refuses an item already loading (+0x18), stores the file number at +4 and queues its kind-2 read (Unit1018BA60_FileMngQueueFileNumKind2 with StChannel_AllocFromPool and the callback 0x10250EC0)",
+  "summary": "Starts loading a channel item's file."
+ }
+}

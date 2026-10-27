@@ -1,0 +1,38 @@
+{
+ "0x10140090": {
+  "name": "Unit1012AC80_SetupMenuEntriesByState",
+  "confidence": "low",
+  "evidence": "Body: when IsEvent or the own actor's +0x170 is 2/3, only Unit1012AC80_MenuInitAndFadeItem on this+8's menu; otherwise sets its entries' texts (Unit1012AC80_GetMessageFwd tables 0xD/0xE via sub_1011ADB0 / sub_1011ADE0) and states (Unit100D7420_SetStateByIndex) by Unit100D7420_GetFlagsMasked, Unit10086E90_IsFlag40DB6OrState17 and Unit101D7020_IsSingleUncheckedEntry; stores 0/1 at this+0x14.",
+  "summary": "Fills in the texts and enabled states of a menu's entries according to the event and session flags."
+ },
+ "0x101532F0": {
+  "name": "Unit1012AC80_Call101532B0OnWordBE",
+  "confidence": "low",
+  "evidence": "Body: returns FUN_101532B0((p[0] << 8) | p[1]). Called by fn_10153310 on each position of a message string.",
+  "summary": "Passes the two bytes at p, read as a big-endian word, to 0x101532B0."
+ },
+ "0x10153310": {
+  "name": "Unit1012AC80_ExpandMessageCodes",
+  "confidence": "medium",
+  "evidence": "Body: text = Unit1012AC80_GetMessageFwd(arg3, arg4); copies it into arg1 (size arg2), and for each 0xFFFA-marked control code (cases 0x81..0x8E) inserts a nested message (recursive call), selects among choices and compares arguments (Unit1012AC80_ReadArgCode, Unit1012AC80_Read2Byte7Bit), writes a decimal (Unit1012AC80_FormatDecimal), copies a string argument, or an object's name by the scene language (Unit1012AC80_LookupObjectPtr, Unit10253A20_Compose*); returns the length or -1. Called by Unit1012AC80_FormatMessageWithArgs.",
+  "summary": "Expands a game message's control codes (nested messages, choices, numbers, string and name arguments) into a buffer; returns the length or -1."
+ },
+ "0x10160760": {
+  "name": "MenuMng_BuildMenuName",
+  "confidence": "medium",
+  "evidence": "Body: skips leading spaces of arg2, writes 16 characters into arg1: 'menu    ' (the 8 bytes at 0x10376378) and the name for names under 9 characters, else the name, space padded; clears bytes 0x10..0x1F; when this+0xB5 is clear replaces 'menu    mcr1pall'/'mcr2pall'/'mcr1edit'/'mcr2edit' with 'mcr1long'/'mcr2long'/'mcr1edlo'/'mcr2edlo'. Called by MenuMng_OpenByName and Menu_CloseEntry.",
+  "summary": "Builds the 16-character menu resource name ('menu    ' + name) for a menu, with the long variants of the macro menus when the flag is clear."
+ },
+ "0x10160960": {
+  "name": "Unit1012AC80_OpenNoticeDialog101608B0",
+  "confidence": "low",
+  "evidence": "Body: when Unit10086E90_NoneOfIdsInTable, message 0xE / (0x49 when the flags' byte 1 is negative, else 0x277 or 0x278 by flag 0x80000) opened with Unit101D7020_Open(DAT_10664520, callback 0x101608B0, ..., 1, 0).",
+  "summary": "Opens a dialog with one of three messages chosen by the session flags and the callback 0x101608B0."
+ },
+ "0x101609F0": {
+  "name": "Unit1012AC80_OpenNoticeDialog101608D0",
+  "confidence": "low",
+  "evidence": "Body: when Unit10086E90_NoneOfIdsInTable, message 0xE / (0x278 with flag 0x80000, else 0x49 or 0x48 by the flags' byte 1) opened with Unit101D7020_Open(DAT_10664520, callback 0x101608D0, ..., 1, 0).",
+  "summary": "Opens a dialog with one of three messages chosen by the session flags and the callback 0x101608D0."
+ }
+}

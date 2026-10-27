@@ -1,0 +1,14 @@
+{
+ "0x10021AE0": {
+  "name": "Camera_DiffersFromSaved",
+  "confidence": "medium",
+  "evidence": "returns 1 when the float at +0x7C is non-zero or any of the eight floats at +0x60..+0x7C differs from its pair at +0x44..+0x5C, else 0; called by Camera_ApplyViewProjection",
+  "summary": "Tells whether the camera's state differs from its saved copy."
+ },
+ "0x10021C10": {
+  "name": "Camera_BuildLookAtView",
+  "confidence": "high",
+  "evidence": "computes the yaw from eye (+0x44) to target (+0x50), rotates the up vector (+0xA8) by roll (+0x5C) and yaw, then D3DXMatrixLookAtRH (0x102D7FF9, byte-matched) into a matrix copied to +4 when all 16 values pass 0x1006CA60",
+  "summary": "Builds the camera's view matrix with D3DXMatrixLookAtRH and stores it when valid."
+ }
+}

@@ -29,7 +29,7 @@ XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
   param_1[0x1a] = 0;
   param_1[0x1b] = 0;
   param_1[0x1c] = 0;
-  orig::FUN_1027ebd0(param_1 + 9);
+  orig::Unit1027E120_SetIdentity(param_1 + 9);
   *(uint8_t *)(param_1 + 0x1d) = 0xff;
   orig::Unit1027E120_Zero(param_1 + 0x1e);
   orig::M4fSet_v1(param_1 + 0x2e,param_1 + 9);
@@ -38,14 +38,14 @@ XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10291C50  (unit sqhiNode: between 0x10291C20 (asserts sqhiNode.c) and 0x10291C60 (name sqhiNode_Dump), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291C50(void)
+XI_API void __cdecl SqhiNode_Nop(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10291F00  (unit sqhiNode: between 0x10291E90 (asserts sqhiNode.c) and 0x10291F40 (asserts sqhiNode.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291F00(int param_1, undefined4 param_2)
+XI_API void __cdecl SqhiNode_SetField64(int param_1, undefined4 param_2)
 {
   if (param_1 != 0) {
     *(uint32_t *)(param_1 + 100) = param_2;

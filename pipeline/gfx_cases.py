@@ -10,6 +10,8 @@ RET_KINDS = json.load(open(os.path.join(DATADIR, 'ret_kinds.json'))) if os.path.
 RET_WIDTH = json.load(open(os.path.join(DATADIR, 'ret_width.json'))) if os.path.exists(os.path.join(DATADIR, 'ret_width.json')) else {}
 # the bytes of EAX the callers read after the function returns (caller_reads.py): 0 none, 1 AL, 2 AX
 CALLER_READS = json.load(open(os.path.join(DATADIR, 'caller_reads.json'))) if os.path.exists(os.path.join(DATADIR, 'caller_reads.json')) else {}
+# whether any caller reads the ECX / EDX a function leaves (regs_after.py; listed only where every caller is known)
+REGS_AFTER = json.load(open(os.path.join(DATADIR, 'regs_after.json'))) if os.path.exists(os.path.join(DATADIR, 'regs_after.json')) else {}
 # the bytes of each stack argument a callee's code reads (arg_reads.py): a stub compares only those
 EAX_INPUTS = json.load(open(os.path.join(DATADIR, 'eax_inputs.json'))) if os.path.exists(os.path.join(DATADIR, 'eax_inputs.json')) else {}
 mask_of = lambda bs: sum(0xFF << (8 * b) for b in bs)
@@ -22,6 +24,20 @@ FP_SITES = json.load(open(os.path.join(DATADIR, 'fp_callsites.json'))) if os.pat
 RANGES = json.load(open(os.path.join(DATADIR, 'input_ranges.json')))['ranges'] if os.path.exists(os.path.join(DATADIR, 'input_ranges.json')) else []
 CDECL_ARGS = json.load(open(os.path.join(DATADIR, 'cdecl_args.json'))) if os.path.exists(os.path.join(DATADIR, 'cdecl_args.json')) else {}
 CDECL_LOW = CDECL_ARGS.pop('_at_least', {})
+# the bytes callers push for a caller-cleanup callee, from the callers' own code and exact depths (call_pushes.py;
+# one count over every settled call site, else null): what the caller passes, whatever the callee reads
+_cp = os.path.join(DATADIR, 'call_pushes.json')
+CALL_PUSHES = {k: v for k, v in (json.load(open(_cp)).get('_callees', {}) if os.path.exists(_cp) else {}).items() if v is not None}
+
+
+def pushed_args(ea, pops, nargs):
+    """the stack dwords past nargs that a stub of the caller-cleanup callee ea logs apart: its callers push them
+    (call_pushes.py) and no exact read set of the callee (cdecl_args) says it does not read them, so a difference in
+    them is not known to be a difference (the trial is unresolved, not failed; docs/PROBLEMS.md P17). 0 if none"""
+    k = '0x%08X' % ea
+    if pops == 0 and k not in CDECL_ARGS and CALL_PUSHES.get(k, 0) // 4 > (nargs or 0):
+        return min(CALL_PUSHES[k] // 4, 16) - (nargs or 0)
+    return 0
 # callees whose own code reads their entry ECX (vcall_resolve.py, data/ecx_use.json: the value is an instruction that
 # reads it). Their stubs log ECX whatever the declared convention, so a reconstruction that calls one without passing
 # the object (the IDB types DynVB_Reserve __stdcall(int); it reads ECX) differs from the original at the call
@@ -93,12 +109,16 @@ def arg_masks(ftype, cc):
         else: out.append(0xFFFFFFFF)
     return out[:16]
 
-def stub_masks(ea, ftype, cc):
-    """the argument masks of a stub for the function at ea: the bytes its code reads (arg_reads.py; an argument it
-    never reads is not compared), else the declared type's (arg_masks)"""
+def stub_masks(ea, ftype, cc, prev=None):
+    """the argument masks of a stub for the function at ea: per argument, the bytes its code reads (arg_reads.py; an
+    argument it never reads is not compared); where the code may read all four (arg_reads.py does not narrow it,
+    as for a function it does not list), the declared type's (arg_masks), or prev's (the mask an existing case
+    has, case_pushes.py)"""
+    decl = (arg_masks(ftype, cc) if ftype else list(prev or []))
     r = ARG_READS.get('0x%08X' % ea)
-    if r is not None: return r + [0] * (16 - len(r))
-    return arg_masks(ftype, cc) if ftype else []
+    if r is None: return decl
+    r = r + [0] * (16 - len(r))
+    return [d if m == 0xFFFFFFFF and k < len(decl) else m for k, (m, d) in enumerate(zip(r, decl + [None] * 16))]
 
 def conv_of(ftype):
     m = re.search(r'__(cdecl|stdcall|thiscall|fastcall)', ftype)
@@ -149,10 +169,17 @@ def main(exp, metaf, protof, out):
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']
+        # a __fastcall record (ECX, EDX, then the stack, which it pops) runs as a __thiscall one -- ECX, the stack,
+        # callee cleanup -- with EDX an entry register drawn per trial (edx_in, below), as a `regin EDX` record is;
+        # the reconstruction's __fastcall export takes the same registers and stack
+        if conv == 'fastcall' and (r.get('storage') or [])[:2] == ['ECX', 'EDX']: conv = 'thiscall'
         if conv not in ('cdecl', 'stdcall', 'thiscall'): continue
         args = r['args']
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],
-             'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret'])}
+             'candidate': mt['export'], 'conv': conv, 'returns': ret_kind(r['ret']),
+             # an import with no fake in diffemu_gfx.py answers like a stubbed game callee, popping what the game's
+             # solved call sites pop (import_pops.json); without it the trial stops at the import
+             'imports': 'stub'}
         if c['returns'] == 'float' and FPRET.get('0x%x' % r['ea']) == 'none': c['returns'] = 'void'   # see hx2cpp
         # the bytes of EAX the function's own code sets on every path (ret_width.py): the rest is its caller's
         # leftover, which the reconstruction cannot have; compared only where the code sets them (narrows, never widens)
@@ -164,6 +191,8 @@ def main(exp, metaf, protof, out):
         # a register input of the record's own signature (GfxExport, conv.txt `regin`): drawn per trial, as EAX above
         if 'EAX' in (r.get('storage') or []): c['eax_in'] = 1; w = None
         if 'EDX' in (r.get('storage') or []) and conv != 'fastcall': c['edx_in'] = 1
+        # an 8-byte return (EDX:EAX) whose EDX no caller reads (regs_after.json): only EAX is the result
+        if c['returns'] == 'int64' and REGS_AFTER.get('0x%08X' % r['ea'], {}).get('edx') is False: c['returns'] = 'int'
         cr = CALLER_READS.get('0x%08X' % r['ea'])
         if cr is not None and (w is None or cr < w): w = cr
         if w == 0 and c['returns'] in ('int', 'word', 'bool', 'ptr'): c['returns'] = 'unread'   # no caller reads EAX
@@ -216,12 +245,18 @@ def main(exp, metaf, protof, out):
                 if cc == 'cdecl' and ea in hx_patches.type_fixes() and r.get('source') != 'ghidra':  # a corrected IDA prototype (each with its evidence)
                     ps = [x for x in o['type'][o['type'].index('(') + 1:o['type'].rindex(')')].split(',') if x.strip() not in ('', 'void')]
                     nargs = sum(2 if re.match(r'\s*(double|__int64|_QWORD)\b', x) else 1 for x in ps)
+                # the caller pushes more than the count above, and no exact read set of the callee says the rest go
+                # unread (cdecl_args exact): those slots are what the caller passes, so they are compared. Without
+                # this a reconstruction that leaves out arguments to a callee whose code cannot be read (the dispatch
+                # thunk 0x10310067: six pushed, none declared) passes (docs/PROBLEMS.md P17)
+                may = pushed_args(ea, pops, nargs)
                 if '...' in o['type']:      # variadic: only the fixed parameters are defined; slots past
                     nargs = len([x for x in o['type'][o['type'].index('(') + 1:].split(',') if x.strip() and '...' not in x])
                     # them read whatever the caller's frame holds (saved registers etc.)
                 stubs['0x%08X' % ea] = {'returns': 'fuzz', 'pops': pops, 'args': min(nargs or 0, 16),
                                         'conv': 'thiscall' if cc == 'thiscall' else cc,
                                         'masks': stub_masks(ea, o['type'], cc)}
+                if may: stubs['0x%08X' % ea]['args_may'] = may
                 if RET_KINDS.get('0x%08X' % ea): stubs['0x%08X' % ea]['ret'] = RET_KINDS['0x%08X' % ea]
                 ei = EAX_INPUTS.get('0x%08X' % ea)
                 # the entry EAX bytes the callee is seen to read are compared like an argument; those it is only

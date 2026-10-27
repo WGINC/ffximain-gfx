@@ -1,0 +1,8 @@
+{
+ "0x100A5EC0": {
+  "name": "Unit100A57F0_CallUnlessFlag",
+  "confidence": "low",
+  "evidence": "when bit 1 of +0x88 is clear and the vtable slot at +0x310 returns 0, calls 0x100A6240(this, arg)",
+  "summary": "Calls 0x100A6240 unless a flag is set or slot 196 declines."
+ }
+}

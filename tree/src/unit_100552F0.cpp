@@ -28,7 +28,7 @@ XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_
        (float)((long double)(param_1 + 1) / (long double)(float)(fVar4 - (long double)param_2));
   puVar2 = orig::Mem_AllocObject_v1((param_1 + 1) * 0x20,4);
   *(undefined4 **)((int)self_ + 4) = puVar2;
-  orig::FUN_100554b0(self_);
+  orig::Unit100552F0_RelinkEntries(self_);
   iVar1 = *(int *)((int)self_ + 8);
   param_3 = 0.0f;
   if (-1 < iVar1) {
@@ -44,6 +44,38 @@ XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_
     } while (xi_castbits<int>(param_3) <= *(int *)((int)self_ + 8));
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x100554B0  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit100552F0_RelinkEntries(void * self_)
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  iVar3 = 0;
+  if (*(int *)((int)self_ + 4) != 0) {
+    iVar3 = *(int *)((int)self_ + 8);
+    if (iVar3 != 0) {
+      iVar1 = iVar3 << 5;
+      do {
+        iVar2 = *(int *)((int)self_ + 4) + iVar1;
+        *(int *)(iVar2 + 4) = iVar2 + -0x20;
+        *(int *)(iVar1 + 0x10 + *(int *)((int)self_ + 4)) = iVar1 + 0x20 + *(int *)((int)self_ + 4);
+        *(uint32_t *)(iVar1 + 0x14 + *(int *)((int)self_ + 4)) = 0;
+        iVar1 = iVar1 + -0x20;
+        iVar3 = iVar3 + -1;
+      } while (iVar3 != 0);
+    }
+    *(int *)(*(int *)((int)self_ + 4) + 0x10) = *(int *)((int)self_ + 4) + 0x20;
+    *(uint32_t *)(*(int *)((int)self_ + 4) + 4) = 0;
+    *(uint32_t *)(*(int *)((int)self_ + 4) + 0x14) = 0;
+    iVar3 = *(int *)((int)self_ + 8) * 0x20;
+    *(uint32_t *)(iVar3 + 0x10 + *(int *)((int)self_ + 4)) = 0;
+  }
+  DAT_1047bc90 = 0;
+  return iVar3;
 }
 
 // FUNCTION: FFXIMAIN 0x10055520  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)

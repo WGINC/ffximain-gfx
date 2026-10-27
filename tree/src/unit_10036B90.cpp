@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10036B90  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefined4 param_1)
 {
   uint32_t xi_entry_eax = 0;
   int iVar1;
@@ -23,9 +23,139 @@ XI_API undefined4 __thiscall fn_10036B90(void * self_, undefined4 param_1)
   return iVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x10036C70  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_10036C70(float * param_1, uint32_t * param_2, float * param_3, float param_4, float param_5, float param_6, undefined4 param_7, int param_8)
+{
+  long double fVar1;
+  int iVar2;
+  void *self_;
+  uint32_t uVar3;
+  uint8_t bVar4;
+  long double fVar5;
+  long double fVar6;
+  int64_t lVar7;
+  char xi_frame[36] __attribute__((aligned(4)));
+  float * &pfVar8 = *reinterpret_cast<float * *>(xi_frame + 0);
+  float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  &local_c = *reinterpret_cast<float  *>(xi_frame + 24);
+  float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 28);
+  
+  iVar2 = orig::Camera_GetField50_v1();
+  if (iVar2 == 0) {
+    *param_1 = 0.0f;
+    *param_2 = 0;
+    return 0;
+  }
+  bVar4 = NAN((long double)param_5) || NAN((long double)0.0f);
+  if (bVar4 != (bVar4 || (long double)param_5 == (long double)0.0f)) {
+    param_5 = DAT_103516e8;
+  }
+  bVar4 = NAN((long double)param_4) || NAN((long double)0.0f);
+  if (bVar4 != (bVar4 || (long double)param_4 == (long double)0.0f)) {
+    param_4 = DAT_103516ec;
+  }
+  bVar4 = NAN((long double)param_6) || NAN((long double)0.0f);
+  if (bVar4 == (bVar4 || (long double)param_6 == (long double)0.0f)) {
+    param_6 = (float)((long double)param_6 * (long double)512.0f);
+  }
+  else {
+    param_6 = DAT_103516f0;
+  }
+  iVar2 = orig::Camera_GetField50_v1();
+  local_10 = (float)((long double)*(float *)(iVar2 + 0x60) - (long double)*param_3);
+  iVar2 = orig::Camera_GetField50_v1();
+  local_c = (float)((long double)*(float *)(iVar2 + 100) - (long double)param_3[1]);
+  iVar2 = orig::Camera_GetField50_v1();
+  local_8 = (float)((long double)*(float *)(iVar2 + 0x68) - (long double)param_3[2]);
+  if (param_8 != 1) {
+    if (param_8 == 2) {
+      local_c = 0.0f;
+    }
+    else {
+      local_c = (float)((long double)local_c * (long double)3.0f);
+    }
+  }
+  fVar5 = orig::FUN_10027530(&local_10,&local_10);
+  fVar5 = SQRT(fVar5);
+  fVar1 = (float)fVar5;
+  bVar4 = NAN(fVar5) || NAN((long double)0.100000001490116119384765625f);
+  if ((bVar4 || fVar5 < (long double)0.100000001490116119384765625f) == bVar4) {
+    if (!((long double)fVar1 > (long double)param_5)) {
+      if ((long double)fVar1 > (long double)param_4) {
+        lVar7 = XI_CALL_ST0(0x10311C2Cu)(((long double)1.0f -
+                       ((long double)fVar1 - (long double)param_4) / ((long double)param_5 - (long double)param_4))
+                       * (long double)(int)*param_2);
+        *param_2 = (uint32_t)lVar7;
+      }
+    }
+    else {
+      if ((uint8_t)param_7 == 0) {
+        *param_2 = 0;
+        return 0;
+      }
+      *param_2 = 1;
+    }
+    pfVar8 = &local_10;
+    self_ = (void *)orig::Camera_GetViewMatrixPtr_v1();
+    orig::Mat4_TransformPoint_v1(self_,pfVar8,param_3);
+    fVar6 = (long double)local_8;
+    fVar5 = (long double)0.100000001490116119384765625f;
+    if (!(fVar6 <= fVar5)) {
+      lVar7 = XI_CALL_ST0(0x10311C2Cu)((long double)(int)*param_2 * (long double)_DAT_103516e4);
+      *param_2 = (uint32_t)lVar7;
+    }
+    else {
+      bVar4 = NAN(fVar6) || NAN((long double)0.0f);
+      if ((bVar4 || fVar6 < (long double)0.0f) != bVar4) {
+        fVar6 = -fVar6;
+      }
+    }
+    param_4 = (float)fVar6;
+    bVar4 = NAN((long double)param_4) || NAN((long double)1.0f);
+    if ((bVar4 || (long double)param_4 < (long double)1.0f) == bVar4) {
+      bVar4 = NAN((long double)param_4) || NAN((long double)0.0f);
+      if (bVar4 != (bVar4 || (long double)param_4 == (long double)0.0f)) {
+        param_4 = 0.001000000047497451305389404296875f;
+      }
+    }
+    else {
+      param_4 = 1.0f;
+    }
+    fVar5 = orig::Camera_GetField2F4();
+    fVar5 = ((fVar5 / (long double)param_4) * (long double)local_10) / (long double)param_6;
+    if (!(fVar5 > (long double)1.0f)) {
+      bVar4 = NAN(fVar5) || NAN((long double)(-1.0f));
+      if ((bVar4 || fVar5 < (long double)(-1.0f)) != bVar4) {
+        fVar5 = (long double)(-1.0f);
+      }
+    }
+    else {
+      fVar5 = (long double)1.0f;
+    }
+    fVar5 = fVar5 * (long double)*param_1 + (long double)64.0f;
+    *param_1 = (float)fVar5;
+    if (!(fVar5 > (long double)127.0f)) {
+      bVar4 = NAN(fVar5) || NAN((long double)0.0f);
+      if ((bVar4 || fVar5 < (long double)0.0f) != bVar4) {
+        *param_1 = 0.0f;
+      }
+    }
+    else {
+      *param_1 = 127.0f;
+    }
+    uVar3 = *param_2;
+    if (uVar3 == 0) {
+      uVar3 = (uint32_t)(uint8_t)param_7;
+    }
+    return uVar3;
+  }
+  return *param_2;
+}
+
 // FUNCTION: FFXIMAIN 0x10036F00  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint64_t __thiscall fn_10036F00(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API uint64_t __thiscall Unit10036B90_SetVolumeScalar(void * self_, undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
   char xi_frame[16] __attribute__((aligned(4)));
@@ -35,13 +165,30 @@ XI_API uint64_t __thiscall fn_10036F00(void * self_, undefined4 param_1, undefin
   local_10[0] = (float)(long double)(int)(short)param_1;
   local_10[1] = 0.0f;
   local_10[3] = 0.0f;
-  uVar1 = orig::FUN_10036f50(self_,local_10,param_2);
+  uVar1 = orig::Unit10036B90_SetVolumeVector(self_,local_10,param_2);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x10036F50  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefined4 param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  
+  if (DAT_104638f5 != '\0') {
+    uVar1 = orig::Unit10035B00_AddUniqueId(*(int *)((int)self_ + 0x14));
+    if (((char)uVar1 != '\0') && (DAT_10463909 = 1, DAT_1046393c != 0)) {
+      uVar2 = orig::Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit((int)self_ + 0x30,param_1,param_2);
+      return uVar2;
+    }
+  }
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10037020  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 37 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall fn_10037020(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
+XI_API void __thiscall Unit10036B90_CreateSoundElem(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int xi_eax;
   uint64_t uVar1;

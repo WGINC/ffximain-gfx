@@ -11,7 +11,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable2(void * self_)
   void *pvVar3;
   uint64_t uVar4;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   pcVar2 = &Read_as_v0;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -27,7 +27,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable2(void * self_)
   } while (cVar1 != '\0');
   uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,2,0xf,self_,&LAB_10238130,&Read_as_v0,0x14a,0xf,0x114);
+    pvVar3 = orig::Unit1018BA60_CtorVt10337C90((void *)uVar4,2,0xf,self_,&LAB_10238130,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x30) = pvVar3;
     return self_;
   }
@@ -42,7 +42,7 @@ XI_API void * __thiscall Unit10237880_ConstructNamed(void * self_)
   char cVar1;
   char *pcVar2;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   pcVar2 = &Read_as_v0;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -70,7 +70,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
   void *pvVar3;
   uint64_t uVar4;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   pcVar2 = &Read_as_v0;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -88,7 +88,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
   } while (cVar1 != '\0');
   uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,0xb,10,self_,&LAB_10238bc0,&Read_as_v0,0x14a,0xf,0x114);
+    pvVar3 = orig::Unit1018BA60_CtorVt10337C90((void *)uVar4,0xb,10,self_,&LAB_10238bc0,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x38) = pvVar3;
     return self_;
   }
@@ -100,7 +100,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall KeyPrompt_Construct(void * self_)
 {
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
@@ -227,6 +227,21 @@ XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x1023C140  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Unit10237880_StoreTextIfIdle(void * self_, char * param_1)
+{
+  char *pcVar1;
+  
+  pcVar1 = *(char **)((int)self_ + 0x14);
+  if (pcVar1 == (char *)0x0) {
+    pcVar1 = orig::_strncpy_v1((char *)((int)self_ + 0x1c),param_1,0x230);
+    *(uint8_t *)((int)self_ + 0x24b) = 0;
+    DAT_10668ff4_as_v0 = (char *)((int)self_ + 0x1c);
+  }
+  return pcVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x1023D610  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructBase(void * self_)
@@ -247,7 +262,7 @@ XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1)
   char cVar1;
   uint32_t uVar2;
   
-  uVar2 = orig::FUN_10245be0();
+  uVar2 = orig::LobbyThread_IsSystemState1();
   cVar1 = (char)uVar2;
   if (param_1 == (int *)0x0) {
     if (cVar1 == '\x01') {
@@ -260,7 +275,7 @@ XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1)
         return 0xffffffff;
       }
       if (*param_1 == 1) break;
-      uVar2 = orig::FUN_10245be0();
+      uVar2 = orig::LobbyThread_IsSystemState1();
       cVar1 = (char)uVar2;
     }
   }
@@ -278,12 +293,12 @@ XI_API void * __thiscall CIwHnList_Constructor(void * self_)
   int iVar5;
   uint32_t *puVar6;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   *(uint8_t ***)self_ = &PTR_FUN_10333360;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
-  orig::FUN_101c7c50((void *)((int)self_ + 0x50));
+  orig::Unit101C72E0_InitFourSlots((void *)((int)self_ + 0x50));
   puVar1 = (uint32_t *)((int)self_ + 0x18);
   *(uint8_t ***)self_ = &PTR_FUN_1033ca40;
   puVar6 = puVar1;
@@ -318,7 +333,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable3(void * self_)
   void *pvVar3;
   uint64_t uVar4;
   
-  orig::FUN_10126320((void *)((int)self_ + 4));
+  orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
   pcVar2 = &Read_as_v0;
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -334,7 +349,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable3(void * self_)
   *(uint32_t *)((int)self_ + 0x2c) = 0;
   uVar4 = orig::Allocator_Generic_v1(0x6b4);
   if ((void *)uVar4 != (void *)0x0) {
-    pvVar3 = orig::FUN_101c5be0((void *)uVar4,3,0xf,self_,&LAB_1023f920,&Read_as_v0,0x14a,0xf,0x114);
+    pvVar3 = orig::Unit1018BA60_CtorVt10337C90((void *)uVar4,3,0xf,self_,&LAB_1023f920,&Read_as_v0,0x14a,0xf,0x114);
     *(void **)((int)self_ + 0x34) = pvVar3;
     return self_;
   }

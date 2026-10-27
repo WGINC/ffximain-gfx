@@ -1,0 +1,32 @@
+{
+ "0x10028BF0": {
+  "name": "Unit10028A50_CallEnabledEntries",
+  "confidence": "low",
+  "evidence": "walks a linked list (+8) from its second argument to its third, and for entries with +4 == 1 and bit 1 of +0x18 clear calls slot 1 of the object at +0x20 with its first argument",
+  "summary": "Calls a method with the given argument on each enabled entry of a list range."
+ },
+ "0x10028C30": {
+  "name": "Unit10028A50_CallEnabledList0",
+  "confidence": "low",
+  "evidence": "Unit10028A50_CallEnabledEntries(arg, [0x104570B4], [0x104570B8]); called by fn_10029390",
+  "summary": "Calls the enabled entries of the list at 0x104570B4."
+ },
+ "0x10028C50": {
+  "name": "Unit10028A50_CallEnabledList1",
+  "confidence": "low",
+  "evidence": "as 0x10028C30 with the list at 0x104570BC",
+  "summary": "Calls the enabled entries of the list at 0x104570BC."
+ },
+ "0x10028C70": {
+  "name": "Unit10028A50_CallEnabledList2",
+  "confidence": "low",
+  "evidence": "as 0x10028C30 with the list at 0x104570C4",
+  "summary": "Calls the enabled entries of the list at 0x104570C4."
+ },
+ "0x10028C90": {
+  "name": "Unit10028A50_CallEnabledList3",
+  "confidence": "low",
+  "evidence": "as 0x10028C30 with the list at 0x104570CC",
+  "summary": "Calls the enabled entries of the list at 0x104570CC."
+ }
+}

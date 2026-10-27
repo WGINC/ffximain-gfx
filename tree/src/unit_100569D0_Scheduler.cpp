@@ -15,39 +15,38 @@ XI_API void __thiscall Scheduler_AddTask(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
-  uint32_t uVar1;
-  void *pvVar2;
-  uint64_t uVar3;
+  undefined4 uVar1;
+  undefined4 *this_00;
+  void *this_01;
   
-  uVar3 = orig::Mem_AllocFromArea_v1(0x14a,4);
-  pvVar2 = (void *)uVar3;
-  orig::CMoTask_ResetFields_v1(pvVar2);
+  this_00 = orig::Mem_AllocFromArea_v2(0x14a,4,0);
+  orig::CMoTask_ResetFields_v1(this_00);
   g_resourcesDirty_as_v0 = 1;
-  if (pvVar2 == (void *)0x0) {
-    pvVar2 = (void *)0x0;
+  if (this_00 == (undefined4 *)0x0) {
+    this_01 = (void *)0x0;
   }
   else {
-    pvVar2 = orig::CMoSchedularTask_Construct(pvVar2,self_,param_4,param_3);
+    this_01 = orig::CMoSchedularTask_Construct(this_00,self_,param_4,param_3);
   }
-  uVar1 = *(uint32_t *)((int)self_ + 0x74);
-  *(uint32_t *)((int)pvVar2 + 0x8c) = uVar1;
-  *(uint32_t *)((int)pvVar2 + 0x88) = uVar1;
+  uVar1 = *(undefined4 *)((int)self_ + 0x74);
+  *(undefined4 *)((int)this_01 + 0x8c) = uVar1;
+  *(undefined4 *)((int)this_01 + 0x88) = uVar1;
   if ((param_1 == 0) || (*(int *)(param_1 + 0x70) == 0)) {
-    *(uint32_t *)((int)pvVar2 + 0x18) = 0;
+    *(undefined4 *)((int)this_01 + 0x18) = 0;
   }
   else {
-    *(uint32_t *)((int)pvVar2 + 0x18) = *(uint32_t *)(*(int *)(param_1 + 0x70) + 0x78);
+    *(undefined4 *)((int)this_01 + 0x18) = *(undefined4 *)(*(int *)(param_1 + 0x70) + 0x78);
   }
-  *(uint32_t *)((int)pvVar2 + 0x1c) = 0x4d730000;
+  *(undefined4 *)((int)this_01 + 0x1c) = 0x4d730000;
   if (param_1 != 0) {
-    orig::AfterimageTask_SetCaster(pvVar2,param_1);
+    orig::AfterimageTask_SetCaster(this_01,param_1);
   }
   if (param_2 != 0) {
-    orig::AfterimageTask_SetTarget(pvVar2,param_2);
+    orig::AfterimageTask_SetTarget(this_01,param_2);
   }
-  *(uint32_t *)((int)pvVar2 + 0x94) = 0;
-  *(uint32_t *)((int)pvVar2 + 0x98) = 0;
-  return (int)pvVar2;
+  *(undefined4 *)((int)this_01 + 0x94) = 0;
+  *(undefined4 *)((int)this_01 + 0x98) = 0;
+  return (int)this_01;
 }
 
 // FUNCTION: FFXIMAIN 0x10056EB0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
@@ -76,4 +75,29 @@ LAB_10056eb9:
   } while( true );
   orig::CMoTask_Release(this_00);
   goto LAB_10056eb9;
+}
+
+// FUNCTION: FFXIMAIN 0x10056EF0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Scheduler_Kill(void * self_, int param_1, int param_2)
+{
+  int *this_00;
+  int iVar1;
+  
+  do {
+    this_00 = *(int **)(dword_1047D140 + 0xd50);
+    iVar1 = dword_1047D140;
+    while( true ) {
+      if (this_00 == (int *)0x0) {
+        return iVar1;
+      }
+      if ((((param_1 == 0) || (this_00[6] == *(int *)(*(int *)(param_1 + 0x70) + 0x78))) &&
+          (this_00[7] == 0x4d730000)) &&
+         (((iVar1 = *(int *)((int)self_ + 0x14), this_00[0x20] == iVar1 &&
+           (iVar1 = orig::AfterimageTask_FindFirstKind(this_00), iVar1 == param_1)) &&
+          (iVar1 = orig::Scheduler_ResolveOwner(this_00), iVar1 == param_2)))) break;
+      this_00 = (int *)this_00[3];
+    }
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
+  } while( true );
 }

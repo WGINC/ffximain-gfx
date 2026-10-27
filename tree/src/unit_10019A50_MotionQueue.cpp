@@ -2,6 +2,54 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10019A50  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5)
+{
+  uint8_t bVar1;
+  short sVar2;
+  int iVar3;
+  long double fVar4;
+  int *piVar5;
+  uint32_t uVar6;
+  int *piVar7;
+  uint8_t bVar8;
+  uint8_t bVar9;
+  long double fVar10;
+  
+  fVar10 = (long double)param_4;
+  fVar4 = (long double)xi_k4(0x38D1B717ull);
+  bVar9 = NAN(fVar10) || NAN(fVar4);
+  bVar8 = bVar9 || fVar10 < fVar4;
+  sVar2 = *(short *)((int)self_ + 0x32);
+  piVar5 = (int *)((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar8 << 8 | (uint16_t)bVar9 << 10 |
+                           (uint16_t)(bVar9 || fVar10 == fVar4) << 0xe)));
+  if (bVar8 == bVar9) {
+    piVar7 = (int *)0x0;
+    piVar5 = (int *)((int)self_ + 0x3a);
+    if ((int *)(int)sVar2 != (int *)0x0) {
+      do {
+        iVar3 = *piVar5;
+        bVar1 = *(uint8_t *)(DAT_1045f028_as_s32 + iVar3);
+        if (((char)bVar1 < '\0') && ((bVar1 & 0x40) != 0x40)) {
+          if ((bVar1 & 0x3f) == 0) {
+            uVar6 = orig::SampleAnimationTrack_ToBuffer(self_,param_2,piVar7,iVar3,param_3,param_5);
+            if ((char)uVar6 != '\0') {
+              *(uint8_t *)(DAT_1045f028_as_s32 + iVar3) = *(uint8_t *)(DAT_1045f028_as_s32 + iVar3) | 1;
+            }
+          }
+          else if ((bVar1 & 0x3f) == 1) {
+            orig::SampleAnimationTrack_Live(self_,param_2,piVar7,iVar3,param_3,param_4,param_5);
+          }
+        }
+        piVar7 = (int *)((int)piVar7 + 1);
+        piVar5 = piVar5 + 0x15;
+      } while (piVar7 < (int *)(int)sVar2);
+    }
+  }
+  return piVar5;
+}
+
 // FUNCTION: FFXIMAIN 0x10019B30  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5)
@@ -56,9 +104,9 @@ LAB_10019be3:
           puVar6[7] = 0x3f800000;
           puVar6[8] = 0x3f800000;
           puVar6[9] = 0x3f800000;
-          orig::FUN_10032a70();
+          orig::Unit100310A0_Nop();
         }
-        orig::FUN_10032a70();
+        orig::Unit100310A0_Nop();
         return (uint32_t)puVar6 & 0xffffff00;
       }
       uVar11 = uVar11 & 0x7fffffff;
@@ -77,7 +125,7 @@ LAB_10019be3:
       puVar6[1] = puVar7[1];
       puVar6[2] = puVar7[2];
       puVar6[3] = puVar7[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       if ((*(int *)((int)self_ + (int)param_2 * 0x54 + 0x5e) < 0) && (param_1 != 0)) {
         uVar11 = 0;
         param_2 = (int *)((int)self_ + (int)param_2 * 0x54 + 0x76);
@@ -160,7 +208,7 @@ LAB_10019be3:
         *(undefined4 *)(param_5 + 0x24) = 0x3f800000;
         pfVar8 = (float *)param_5;
       }
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pfVar8 >> 8)) << 8) | (uint8_t)(local_49)));
     }
   } while( true );
@@ -215,7 +263,7 @@ LAB_10019f63:
           puVar1[2] = puVar9[2];
           uVar7 = puVar9[3];
           puVar1[3] = uVar7;
-          orig::FUN_10032a70();
+          orig::Unit100310A0_Nop();
           fVar14 = (long double)1.0f - (long double)param_5;
           fVar13 = (long double)param_5 * (long double)0.0f;
           puVar1[4] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[4]) + fVar13);
@@ -232,8 +280,8 @@ LAB_10019f63:
             puVar1[9] = (float)(fVar14 * (long double)xi_castbits<float>(puVar1[9]) + (long double)param_5);
           }
         }
-        orig::FUN_10032a70();
-        orig::FUN_10032a70();
+        orig::Unit100310A0_Nop();
+        orig::Unit100310A0_Nop();
         return uVar7 & 0xffffff00;
       }
       uVar10 = uVar10 & 0x7fffffff;
@@ -250,14 +298,14 @@ LAB_10019f63:
       local_20[1] = pfVar8[1];
       local_20[2] = pfVar8[2];
       local_20[3] = pfVar8[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       puVar1 = (undefined4 *)(param_6 + param_3 * 0x34);
       puVar9 = (undefined4 *)orig::Quat_NLerp(puVar1,local_54 + 9,local_20,param_5);
       *puVar1 = *puVar9;
       puVar1[1] = puVar9[1];
       puVar1[2] = puVar9[2];
       puVar1[3] = puVar9[3];
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
       param_2 = (int *)((int)self_ + (int)param_2 * 0x54 + 0x76);
       uVar7 = 0;
       do {
@@ -318,8 +366,8 @@ LAB_10019f63:
                            fVar14 * (long double)xi_castbits<float>(puVar1[9]));
         param_6 = param_3;
       }
-      orig::FUN_10032a70();
-      orig::FUN_10032a70();
+      orig::Unit100310A0_Nop();
+      orig::Unit100310A0_Nop();
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_6 >> 8)) << 8) | (uint8_t)(1)));
     }
   } while( true );
@@ -327,7 +375,7 @@ LAB_10019f63:
 
 // FUNCTION: FFXIMAIN 0x1001A3E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall MotionQueList_ProcessAll(void * self_, undefined4 param_1)
+XI_API void __thiscall MotionQueList_ProcessAll(void * self_, int * param_1)
 {
   int iVar1;
   void *this_00;
@@ -446,7 +494,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
               *(undefined4 *)((int)&DAT_1045f034 + iVar6) = puVar7[1];
               *(undefined4 *)((int)&DAT_1045f038 + iVar6) = puVar7[2];
               *(undefined4 *)((int)&DAT_1045f03c + iVar6) = puVar7[3];
-              orig::FUN_10032a70();
+              orig::Unit100310A0_Nop();
               orig::Vec3_Lerp((float *)((int)&g_poseTranslation_as_v0 + iVar6),(float *)(((char *)&DAT_1045b830) + iVar6),
                         (float *)((int)&g_poseTranslation_as_v0 + iVar6),fVar2);
               uVar4 = orig::Vec3_Lerp((float *)(((char *)&g_poseScale_as_v0) + iVar6),(float *)(((char *)&DAT_1045b83c) + iVar6),
@@ -468,7 +516,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
 
 // FUNCTION: FFXIMAIN 0x1001A6E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
+XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, int * param_2, undefined4 * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
   uint32_t uVar1;
   uint32_t uVar2;

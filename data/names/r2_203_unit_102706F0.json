@@ -1,0 +1,26 @@
+{
+ "0x10270B60": {
+  "name": "Unit102706F0_InitScene",
+  "confidence": "low",
+  "evidence": "sets the avatar scene's globals 0x1099B0D8..0x1099B138 to their defaults, initialises the scene 0x1099B13C (0x1028E350, 0x10290610), its cameras (SqrdCamera_Init, sqxfXformTD_Init, 0x1028ED00) and lights (sqrdLight_Init, 0x1028ED50), and five parts (SqsdGeneric_Init, StAvatar_InitEntry); returns 0; called by StAvatarInit",
+  "summary": "Initialises the avatar scene's state, cameras, lights and parts."
+ },
+ "0x10270F30": {
+  "name": "Unit102706F0_UpdateScene",
+  "confidence": "low",
+  "evidence": "applies modes and effect flags when flag 8 of 0x1099B0D8 is set, advances the camera blend (fn_10273560) when flag 0x100 is, clears flags 0xF0, StAvatar_UpdateModels, then for each part with bit 2 set multiplies its quaternion by the current entry's (Unit1027B060_Mul), updates two transforms and scales the matrix by 0.25 (SqMatrix4_ScaleAxes); called by fn_1024DB60",
+  "summary": "Per-frame update of the avatar scene: modes, camera blend, models and part transforms."
+ },
+ "0x102720A0": {
+  "name": "Unit102706F0_NoOpA",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ },
+ "0x10272BA0": {
+  "name": "Unit102706F0_NoOpB",
+  "confidence": "medium",
+  "evidence": "returns at once",
+  "summary": "Does nothing."
+ }
+}

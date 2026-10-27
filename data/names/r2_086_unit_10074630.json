@@ -1,0 +1,8 @@
+{
+ "0x10074700": {
+  "name": "Unit10074630_ProcessorSlot41",
+  "confidence": "low",
+  "evidence": "calls g_pProcessor's vtable slot 41 (+0xA4) with this",
+  "summary": "Hands the object to the math processor's slot 41."
+ }
+}

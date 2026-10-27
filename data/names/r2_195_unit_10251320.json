@@ -1,0 +1,14 @@
+{
+ "0x10251780": {
+  "name": "Dancer_SetStateIfIdle",
+  "confidence": "low",
+  "evidence": "when +0x1C is below 2 stores the new value there and, with flag 4 at +4, passes it on to 0x10250760 for the record at 0x10669158; called by Dancer_WorldBegin",
+  "summary": "Sets the state at +0x1C when it is 0 or 1 and forwards it."
+ },
+ "0x102524B0": {
+  "name": "StAvatar_InitSlotRecord",
+  "confidence": "low",
+  "evidence": "sets a 9-dword record to {1, 0, -1, 0, ...}; StAvatarInit calls it for two records",
+  "summary": "Initialises a 9-dword slot record."
+ }
+}

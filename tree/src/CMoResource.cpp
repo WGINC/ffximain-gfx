@@ -46,6 +46,17 @@ char ** __cdecl CMoResource::GetRuntimeClass_variant3()
   return &CMoResource_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10071D80  (unit CMoResource: between 0x10071D70 (class model places it in CMoResource) and 0x10071DB0 (class model places it in CMoResource), both within 4 KB)
+// NOT VERIFIED -- FAIL
+XI_API undefined4 * __fastcall fn_10071D80(undefined4 * param_1, undefined4 xi_edx)
+{
+  *param_1 = &CYyObject_vtbl_ambiguous0_as_v0;
+  orig::Unit10070F90_Reset(param_1 + 1);
+  *param_1 = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
+  orig::FUN_10072990((int)param_1,xi_edx);
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource::vf008()
@@ -129,6 +140,35 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
   } while( true );
 }
 
+// FUNCTION: FFXIMAIN 0x10072030  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoResource::RegisterInTypeList(void * self)
+{
+  uint32_t uVar1;
+  char xi_frame[4] __attribute__((aligned(4)));
+  void * &local_4 = *reinterpret_cast<void * *>(xi_frame + 0);
+  
+  uVar1 = *(uint32_t *)((int)self + 0x24) >> 0x1b;
+  if ((uVar1 & 1) == 0) {
+    local_4 = self;
+    orig::MeshResourceMng_AllocHandle_v1(g_pMeshResourceMng_as_v1,(int *)&local_4,(int)self);
+    uVar1 = *(uint32_t *)((int)self + 0x24) & 0x7f;
+    if (0x60 < uVar1) {
+      uVar1 = 4;
+    }
+    if ((int *)(&DAT_1047cf80)[uVar1] != (int *)0x0) {
+      orig::Unit10070F90_CopyField14At8((void *)(*(int *)(&DAT_1047cf80)[uVar1] + 4),(int)self);
+    }
+    *(uint32_t *)((int)self + 0x10) = (&DAT_1047cf80)[uVar1];
+    (&DAT_1047cf80)[uVar1] = *(uint32_t *)((int)self + 0x14);
+    *(uint32_t *)((int)self + 0x2c) = DAT_1047d124_as_v0;
+    DAT_1047d124_as_v0 = *(uint32_t *)((int)self + 0x14);
+    uVar1 = *(uint32_t *)((int)self + 0x24) | 0x8000000;
+    *(uint32_t *)((int)self + 0x24) = uVar1;
+  }
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10072270  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CMoResource::GetParent(void * self)
@@ -152,7 +192,7 @@ void * __thiscall CMoResource::GetParent(void * self)
 
 // FUNCTION: FFXIMAIN 0x10072290  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 * param_1, undefined4 param_2, undefined4 param_3)
 {
   uint64_t uVar1;
   
@@ -267,9 +307,9 @@ undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int p
 {
   int iVar1;
   void *pvVar2;
+  int iVar3;
+  undefined4 *puVar4;
   void *self;
-  undefined4 *this_00;
-  uint64_t uVar3;
   
   iVar1 = param_2;
   if (DAT_1047cf84_as_v0 == (undefined4 *)0x0) {
@@ -280,27 +320,26 @@ undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int p
   }
   while( true ) {
     if (self == (void *)0x0) {
-      uVar3 = orig::FUN_10074f30(dword_1047D140_as_v1,iVar1,0x4d727400);
-      if ((int)uVar3 == 0) {
-        uVar3 = orig::Mem_AllocFromArea_v1(0x49,4);
-        this_00 = (undefined4 *)uVar3;
-        orig::CMoTask_ResetFields_v1(this_00);
+      iVar3 = orig::Unit10074CA0_FindTask(dword_1047D140_as_v1,iVar1,0x4d727400);
+      if (iVar3 == 0) {
+        puVar4 = orig::Mem_AllocFromArea_v2(0x49,4,0);
+        orig::CMoTask_ResetFields_v1(puVar4);
         g_resourcesDirty_as_v0 = 1;
-        if (this_00 == (undefined4 *)0x0) {
-          this_00 = (undefined4 *)0x0;
+        if (puVar4 == (undefined4 *)0x0) {
+          puVar4 = (undefined4 *)0x0;
         }
         else {
-          orig::CMoTask_Constructor_v1(this_00);
-          *this_00 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
-          this_00[0xe] = 0;
-          *(undefined4 *)((int)this_00 + 0x45) = 0;
+          orig::CMoTask_Constructor_v2(puVar4);
+          *puVar4 = &PTR_CMoTask_GetRuntimeClass_variant12_1032c908;
+          puVar4[0xe] = 0;
+          *(undefined4 *)((int)puVar4 + 0x45) = 0;
         }
-        orig::FUN_10074a00();
-        uVar3 = orig::Unit10072A50_Start(this_00,&param_2,iVar1);
-        *param_1 = *(undefined4 *)uVar3;
+        orig::FUN_10074a00_v1();
+        puVar4 = (undefined4 *)orig::Unit10072A50_Start(puVar4,&param_2,iVar1);
+        *param_1 = *puVar4;
         return param_1;
       }
-      *param_1 = *(undefined4 *)((int)uVar3 + 0x3d);
+      *param_1 = *(undefined4 *)(iVar3 + 0x3d);
       return param_1;
     }
     pvVar2 = orig::CMoResource_GetParent_v1(self);

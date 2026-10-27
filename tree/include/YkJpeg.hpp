@@ -16,6 +16,11 @@ public:
     static int __thiscall EncodeChecked(void * self, uint32_t param_1, uint32_t param_2, int param_3, int param_4);  // 0x101D0600
     static undefined4 __thiscall Destructor(void * self);  // 0x101D08C0
     static void __thiscall Release(void * self);  // 0x101D08D0
+    static void __thiscall PutBit(void * self, int param_1);  // 0x101D0910
+    static void __thiscall PutBits(void * self, uint32_t param_1, uint32_t param_2);  // 0x101D0970
+    static void __thiscall PutBytes(void * self, int param_1, int param_2);  // 0x101D09E0
+    static void __thiscall FlushBits(void * self);  // 0x101D0A60
+    static undefined4 __cdecl CaptureAndEncode(void * param_1, uint32_t param_2, uint32_t param_3);  // 0x101D1060
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xCF8];

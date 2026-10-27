@@ -13,7 +13,8 @@ XI_API void __cdecl Drawable_DrawTwoPass(int param_1, int * param_2)
   uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
   uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
   
-  if ((*(int *)(param_1 + 0x4c) != 0) && (iVar1 = orig::Unit102A1F20_TestSeparationHalf(*param_2), iVar1 == 2)) {
+  if ((*(int *)(param_1 + 0x4c) != 0) &&
+     (iVar1 = orig::Unit102A1F20_TestSeparationHalf(*param_2), iVar1 == 2)) {
     return;
   }
   local_10 = 0x3f800000;
@@ -30,17 +31,17 @@ XI_API void __cdecl Drawable_DrawTwoPass(int param_1, int * param_2)
   orig::sqgxTextureDecal_v1(0);
   orig::Unit102A34D0_ApplyLighting(param_1 + 0x14);
   if (*(int *)(param_1 + 0x50) == 0) {
-    orig::sqgxShader_v1(2,0);
+    orig::sqgxShader_v2(2,0);
   }
   else {
     orig::Texture_BindFromObject(*(int *)(param_1 + 0x50));
     orig::sqgxTextureUpdate_v1();
-    orig::sqgxShader_v1(6,0);
+    orig::sqgxShader_v2(6,0);
   }
   orig::sqDrawableDraw_v1(*param_2);
-  orig::sqgxBlendAdd();
+  orig::sqgxBlendAdd(0x3f800000);
   orig::sqgxPass(2000);
-  orig::sqgxShader_v1(0x2000000,0);
+  orig::sqgxShader_v2(0x2000000,0);
   orig::sqDrawableDraw_v1(*param_2);
   orig::sqgxPass(0);
   orig::sqgxBlendOff_v1();

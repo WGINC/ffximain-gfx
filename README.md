@@ -20,46 +20,46 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Status (6 Oct 2026, export 30cfb26)
+## Status (25 Oct 2026)
 
-867 graphics functions (the owner's IDA run of 4 Oct after `ida/ffxi_ida_fix.py`: 558 names applied, IDA's SP
-corrected in 4 functions), each with a stated outcome (`docs/RESIDUE.md`):
+The tree is selected by the frame, not the device: every function the frame is known to run (`pipeline/frame_set.py`,
+`data/frame_set.json`; a lower bound, since unproven indirect calls are not followed), from five exports
+(`tree/source.json`: IDA and Ghidra). Of the frame set's 4,765 game-code functions, 3,748 are in the tree and 1,017
+are not (`data/frame_set.json` `_summary`).
 
-| | Count |
-|---|---|
-| **Verified in the clean tree, as built** (`tree/`, 381 files) | **4,049** of the tree's 4,050 on the fuzz gate (22 Oct, under the P10/P13 gate rules; a function whose compiled code is unchanged keeps the verdict of the build it was gated on, `pipeline/code_same.py`). The four dumps' live gates (`verification/live/`) were run on the 4 Oct tree and have not been rerun on this build (the dumps are not in this environment) |
-| In the tree, not verified (`// NOT VERIFIED`) | 7: 0x10040220, 0x1006F0A0 and 0x1006F800 FAIL (as before); 0x1003C7D0 and 0x100CD540 FAIL in the clean build only: both were the gate's errors, since fixed and being re-gated (`docs/PROBLEMS.md` R1, R2); 0x10003890 UNRESOLVED (pop count of the call at 0x10003A50 unknown); 0x10016320 INCONCLUSIVE (the original never returns under the gate's inputs). `tree/left_out.json` lists 51 gate-passed functions left out: each calls a game function that may read a register its wrapper does not pass (49 EAX, 1 ECX, 1 EDX) |
-| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the previous tree's 4,205 (22 Oct; not yet rerun on the current tree): the function's tree text, rewritten only as `pipeline/msvc_tu.py` states for Visual C++ 6.0, compiles with the Processor Pack code generator and `/O2` to every byte the DLL holds, relocations by target (`verification/msvc_match_tree.json`). 943 compile to different bytes, 499 do not compile yet, 1,450 are left out with reasons (floating point, address-taken frames, calls through pointers, ...) |
-| Microsoft D3DX 8.1 (statically linked) | 48 |
-| Constructs C++ cannot express (`__userpurge`/`__usercall` callees, an `__asm` block, the x87 status word) | 11 |
-| Did not compile (8), or compiles with no gate case (1) | 9 |
-| Gate FAIL | 13 |
-| Gate UNRESOLVED (a call with no definitive pop; the call site is named) | 8 |
-| Gate INCONCLUSIVE | 1 |
+| | Count | Source |
+|---|---|---|
+| **Functions in the tree** (`tree/`) | **4,206** | `tree/placement.json` |
+| **PASS on the fuzz gate** | **4,205** | `verification/gate_clean_final.jsonl`, under the gate rules of 22 Oct (P10, P13 in `docs/PROBLEMS.md`) |
+| Not verified (`// NOT VERIFIED`) | 1: 0x10003890, INCONCLUSIVE (the original faults on every fuzzed input through objects in its own `this`) | same |
+| Gate-passed, left out of the tree | 9: each calls a game function that may read a register its wrapper does not pass | `tree/left_out.json` |
+| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the 22 Oct tree's 4,205 functions; 1,281 of them are in the 24 Oct tree. Not rerun on the current tree's text | `verification/msvc_match_tree.json` (Visual C++ 6.0, Processor Pack code generator, `/O2`; relocations by target) |
 
-Gates (`verification/`): the fuzz gate (100 random trials per function) and the live gate on each of four
-memory dumps of the running game, verified as the analysed build (`verification/live/`). Raw and clean,
-combined (`combine_gates.py`: a FAIL anywhere is a FAIL): 774 PASS. Since 6 Oct the gate also compares the data
-the Direct3D methods read through pointers (vertex lists, matrices, lights...); that found 7 functions drawing from
-uninitialised stack data (fixed) and leaves `Post_DrawRotatingGhostLayers` failing on the sign of a zero. Each function's `// GATE:` line lists
-every gate's verdict and returning trials. `pipeline/verify_all.py` re-derives every committed fact from the
-binary and re-gates the tree as committed (`verification/verify_all.json`, 6 Oct). It fails on exactly two known
-checks: `tree-gate`, on the 3 functions above, and `export-sp`, IDA's SP in the epilogue of 0x100412B0: the real depth (exact, and observed running the original) is 4 less than IDA's from
-0x100419F4. IDA's error is on a path that never ran and has an unsolved call, so no correction can be named.
-
-The open functions, each with a named cause (`docs/RESIDUE.md`):
-- **FAIL (13):** all among the newly exported device users, none a function that passed before. 10 have an
-  x87 comparison Hex-Rays left as condition variables it never assigns (`(c0 | c2) != 0`): the original stores
-  the value between `fcom` and `fnstsw` (`fcom; fst; fnstsw ax; test ah, 5; jp`). Which C value each compares
-  is not in the export.
-- **UNRESOLVED (8):** calls with no definitive pop count (named per call site in `docs/RESIDUE.md`).
-- **Constructs (11) and compile failures (9):** listed with the construct or the compiler's message.
+What "PASS" rests on, and what it does not:
+- The fuzz gate only: 100 random trials per function. The live gates on the four memory dumps of the running game
+  (`verification/live/`) were run on the 4 Oct tree (774 functions) and not since: the dumps are not in this
+  environment (PROBLEMS P1).
+- Not every verdict was re-gated on the current build. A function whose compiled code, case, call-site facts and
+  fixed inputs are unchanged since the build it was gated on keeps that verdict (`pipeline/code_same.py`;
+  docs/HISTORY.md, 22 Oct evening).
+- 0x10016320 passes only under the fixed inputs `data/case_inputs.json` states; its GATE line says so.
+- Open questions that can change verdicts are in `docs/PROBLEMS.md`. IDB call types of unrecorded origin are not
+  used (P13): an IDB type counts only where it is the SDK's, and the 912 indirect sites that rested on one alone are
+  UNRESOLVED wherever the gate reaches them. The owner can admit their own types by marking
+  `requests/review/02_user_types.md` (224 of 372 have no recorded origin).
+- Function names: many come from naming sessions, measured at 61-63 of 100 known names correct and 1-2 wrong
+  (PROBLEMS P16). A name says nothing about the code; the gate binds every object by address.
 
 One result rests on a declaration the owner accepted rather than a proof: `CDx+0xC` holds the device
 (`data/com_fields.json`, "accepted"); every call and stack balance that uses it carries the note.
 
-De-artifacting (types and names from evidence, so the tree reads like source) is planned in
-`docs/DEARTIFACT.md`; `pipeline/artifact_count.py` measures it per round.
+`pipeline/verify_all.py` re-derives every committed fact from the binary, regenerates the tree from its recorded
+sources and, without `--quick`, re-gates it (`verification/verify_all.json`). It fails on one known check,
+`export-sp` (PROBLEMS P5): IDA's stack depth in the epilogue of 0x100412B0 is 4 more than the real depth from
+0x100419F4, on a path that never ran and has an unsolved call, so no correction can be named.
+
+`docs/RESIDUE.md` still describes the 6 Oct graphics set (867 functions, before the frame set) and has not been
+regenerated for the current tree.
 
 ## Reproduce
 

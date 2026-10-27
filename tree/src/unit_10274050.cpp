@@ -22,11 +22,11 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
       do {
         if ((*piVar4 == iVar1) && (piVar4[1] == param_2)) {
           orig::Chasm_ToggleLayerState(param_1,iVar1,0);
-          uVar2 = orig::FUN_1027e450((uint8_t *)(piVar4 + 2));
-          orig::FUN_102857e0((int)(piVar4 + 10),0xff,uVar2);
-          orig::FUN_1027e190((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
-          uVar2 = orig::FUN_1027e450((uint8_t *)(piVar4 + 0x1c));
-          orig::FUN_102857e0((int)(piVar4 + 0x24),0xff,uVar2);
+          uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 2));
+          orig::Unit102857D0_SetByte14((int)(piVar4 + 10),0xff,uVar2);
+          orig::Unit1027E120_SetCallback((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
+          uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 0x1c));
+          orig::Unit102857D0_SetByte14((int)(piVar4 + 0x24),0xff,uVar2);
           *(int *)(param_1 + 0x14) = iVar3;
           return param_2;
         }
@@ -34,7 +34,7 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
         iVar3 = iVar3 + 1;
       } while (iVar3 < *(int *)(param_1 + 0x18));
     }
-    orig::sqDebugPrintf_v2(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
+    orig::sqDebugPrintf_v1(s_____Error__Couldn_t_find_link__d_103b2784,iVar1,param_2);
     orig::Chasm_ToggleLayerState(param_1,*(int *)(param_1 + 4),0);
     orig::Chasm_ToggleLayerState(param_1,param_2,1);
   }
@@ -50,10 +50,10 @@ XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2,
   undefined4 *puVar3;
   
   pbVar1 = (uint8_t *)(*(int *)(param_1 + 0x20) + 0x70 + param_2 * 0xd8);
-  iVar2 = orig::FUN_1027e440(pbVar1);
+  iVar2 = orig::Unit1027E120_IsConnected(pbVar1);
   if ((iVar2 != 0) && (iVar2 = *(int *)(pbVar1 + 0x3c), iVar2 != 0)) {
     puVar3 = (undefined4 *)
-             orig::FUN_10284f50(*(int *)(iVar2 + 0x28),
+             orig::SqmoChannel_Evaluate(*(int *)(iVar2 + 0x28),
                           (float)(((long double)*(float *)(pbVar1 + 0x10) -
                                   (long double)*(float *)(pbVar1 + 8)) /
                                  (long double)*(float *)(iVar2 + 0x24)));
@@ -78,6 +78,19 @@ XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10274650  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl Unit10274050_CopyVec3(undefined4 * param_1, undefined4 * param_2)
+{
+  uint32_t uVar1;
+  
+  *param_1 = *param_2;
+  param_1[1] = param_2[1];
+  uVar1 = param_2[2];
+  param_1[2] = uVar1;
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10274670  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float param_3, float param_4)
@@ -86,6 +99,16 @@ XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float pa
   param_1[1] = param_3;
   param_1[2] = param_4;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x102746C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_102746C0(undefined4 param_1)
+{
+  long double fVar1;
+  
+  fVar1 = orig::FUN_10274690(param_1);
+  return SQRT(fVar1);
 }
 
 // FUNCTION: FFXIMAIN 0x10274890  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
@@ -99,6 +122,25 @@ XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, 
   param_1[2] = (float)((long double)param_3[1] * (long double)*param_2 -
                       (long double)*param_3 * (long double)param_2[1]);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x102748F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl Unit10274050_ScaleVec3ByInverseOf102746C0(float * param_1)
+{
+  uint8_t bVar1;
+  long double fVar2;
+  long double fVar3;
+  
+  fVar2 = orig::FUN_102746c0(param_1);
+  bVar1 = NAN(fVar2) || NAN((long double)0.0f);
+  if (bVar1 == (bVar1 || fVar2 == (long double)0.0f)) {
+    fVar3 = (long double)1.0f / fVar2;
+    *param_1 = (float)(fVar3 * (long double)*param_1);
+    param_1[1] = (float)(fVar3 * (long double)param_1[1]);
+    param_1[2] = (float)(fVar3 * (long double)param_1[2]);
+  }
+  return fVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x102749C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)

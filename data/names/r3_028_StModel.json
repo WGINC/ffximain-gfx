@@ -1,0 +1,14 @@
+{
+ "0x10252610": {
+  "name": "StModelItem_ReadStart",
+  "confidence": "high",
+  "evidence": "its errors are \"Error: StModelItemReadStart...\", \"DMB file not found\" and \"DMP file not found\"; refuses an item with data pending (+0x18..+0x20), stores the file number at +4 and queues kind-2 reads of it and of the next file (Unit1018BA60_FileMngQueueFileNumKind2)",
+  "summary": "Starts reading a model item's DMB and DMP files."
+ },
+ "0x102528D0": {
+  "name": "StModelItem_Resolve",
+  "confidence": "high",
+  "evidence": "its messages are \"StModelItemResolve() called...\" and \"Error: sqmdDMBResolve(%p, %p)\"; with both files read (+0x18, +0x1C) builds the model (0x10287FB0) into +0x20, timing it (+0x14), and frees the buffers (StModel.cpp lines 0x152..) when that fails",
+  "summary": "Builds a model item's model from its two read files."
+ }
+}

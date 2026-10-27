@@ -1,0 +1,8 @@
+{
+ "0x1003DFE0": {
+  "name": "Unit1003D990_ScaleColorBytes",
+  "confidence": "low",
+  "evidence": "multiplies each of the bytes +2, +1, +0 by the float arg2 (a negative product gives 0) and converts them back to bytes (0x10311C2C) for the output arg1",
+  "summary": "Scales three colour bytes by a factor."
+ }
+}

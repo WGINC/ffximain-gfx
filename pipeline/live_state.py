@@ -120,12 +120,26 @@ class LiveState:
         self._purges[ea] = res
         return res
 
-    def sandbox(self, size=0x1000000):
+    def sandbox(self, size=0x1000000, avoid=()):
+        """a gap of size bytes the dump does not use, from 0x20000000 up, clear of the ranges in avoid ((start, end):
+        the reconstruction DLL's image, which the gate maps too) and of the emulator's own fixed regions (FIXED)"""
         a = 0x20000000
-        for s, n, _ in self.segs:
+        for s, e in sorted([(s, s + n) for s, n, _ in self.segs] + list(avoid) + FIXED):
             if s >= a + size and a >= 0x20000000: break
-            if s + n > a: a = (s + n + 0xFFFFF) & ~0xFFFFF
+            if e > a: a = (e + 0xFFFFF) & ~0xFFFFF
         return a
+
+
+# the emulator's fixed regions (diffemu_fixed.py, diffemu_gfx.py): COM objects and traps, import traps, the stack, the
+# return sentinel, the TEB and GDT, all from 0x6E000000 up
+FIXED = [(0x6E000000, 0x80000000)]
+
+
+def pe_range(path):
+    """(start, end) of a PE's image as the gate maps it (its ImageBase, SizeOfImage)"""
+    import pefile
+    pe = pefile.PE(path, fast_load=True)
+    return pe.OPTIONAL_HEADER.ImageBase, pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.SizeOfImage
 
 
 def data_writes(ls, sizes):

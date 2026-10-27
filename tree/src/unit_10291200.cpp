@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10291290  (unit unit_10291200: no unit evidence of its own; in the gap between 0x102911E0 (sqrdCamera) and 0x10291360 (sqskJoint) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10291290(int param_1)
+XI_API void __cdecl Unit10291200_CallHook2C(int param_1)
 {
   if (*(code **)(param_1 + 0x2c) != (code *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x1029129f. Too many branches */
@@ -17,7 +17,7 @@ XI_API void __cdecl fn_10291290(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102912D0  (unit unit_10291200: no unit evidence of its own; in the gap between 0x102911E0 (sqrdCamera) and 0x10291360 (sqskJoint) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102912D0(int param_1)
+XI_API void __cdecl Unit10291200_CallHook3C(int param_1)
 {
   if (*(code **)(param_1 + 0x3c) != (code *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x102912df. Too many branches */
@@ -30,7 +30,7 @@ XI_API void __cdecl fn_102912D0(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102912F0  (unit unit_10291200: no unit evidence of its own; in the gap between 0x102911E0 (sqrdCamera) and 0x10291360 (sqskJoint) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_102912F0(int param_1)
+XI_API void __cdecl Unit10291200_CallHook40(int param_1)
 {
   if (*(code **)(param_1 + 0x40) != (code *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x102912ff. Too many branches */

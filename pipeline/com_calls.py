@@ -51,7 +51,7 @@ def successors(im, ins, a, i, labels=frozenset()):
     if m == 'jmp':
         if ops[0].type == X86_OP_IMM: return [ops[0].imm] if ops[0].imm in ins else []      # tail jump: leaves
         if ops[0].type == X86_OP_MEM and ops[0].mem.index and not ops[0].mem.base and ops[0].mem.scale == 4:
-            prev = [ins[p] for p in sorted(x for x in ins if x < a)[-5:]]
+            prev = [ins[p] for p in sorted(x for x in ins if x < a)[-S.SWITCH_RUN:]]
             while prev and prev[-1].address + prev[-1].size != a: prev = []          # not straight-line: no bound
             t = S.switch_targets(im, prev, i, labels)
             return [x for x in t if x in ins] if t is not None else None

@@ -13,6 +13,8 @@ public:
     _DWORD * ScalarDeletingDtor(char a2);  // 0x1003B5A0
     static undefined4 __thiscall Reset(void * self);  // 0x1003B640
     static undefined4 __thiscall ResetAll(void * self);  // 0x1003B690
+    static undefined4 __thiscall GetCaster(void * self);  // 0x1003B6D0
+    static undefined4 __thiscall GetTarget(void * self);  // 0x1003B700
     static void __thiscall ClearCaster(void * self, undefined4 param_1);  // 0x1003B750
     static void __thiscall ClearTarget(void * self, undefined4 param_1);  // 0x1003B780
     static void __thiscall SetCaster(void * self, int param_1);  // 0x1003B7B0

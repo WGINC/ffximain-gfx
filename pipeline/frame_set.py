@@ -36,6 +36,7 @@ GAME = {}                                     # call site: the targets the runni
 UNRES = collections.defaultdict(list)         # each function's unresolved indirect call sites
 UNRES_J = collections.defaultdict(list)       # and jumps
 REC = collections.defaultdict(set)            # function: game functions its unresolved sites were seen calling
+SWITCH_TO = collections.defaultdict(set)      # function: recorded targets of its unbounded switch jumps (its own code)
 
 
 def load_code():
@@ -71,6 +72,11 @@ def load_code():
                     if i.mnemonic == 'call': n += 1
                     seen = [t for t in (r.get('recorded') or {}).get('targets', ()) if t.startswith('0x')]
                     if r.get('recorded'): GAME[i.address] = r['recorded']['targets']
+                    if i.mnemonic == 'jmp' and r.get('reason') == 'jmp_switch':
+                        # a table jump's recorded targets are where f's own code went on; they are function entries
+                        # only where some call reaches them, and the walk follows calls only (SWITCH_TO is reported)
+                        SWITCH_TO[f] |= {int(t, 16) for t in seen if int(t, 16) in ext and int(t, 16) != f}
+                        continue
                     REC[f] |= {int(t, 16) for t in seen if int(t, 16) in ext and int(t, 16) != f}
         calls[f] = {c for c in out if c in ext}; unresolved[f] = n; ends[f] = e2
     return ext, calls, unresolved, ends
@@ -146,12 +152,13 @@ def main():
         'unresolved_observed_in_game': sum(1 for f in static for a in UNRES[f] if a in GAME),
         'unresolved_indirect_jumps': sum(len(UNRES_J[f]) for f in static),
         'recorded_reach_unresolved_calls': sum(unresolved[f] for f in recorded),
+        'switch_targets_not_followed': sorted('0x%08X' % t for f in SWITCH_TO for t in SWITCH_TO[f] if t not in every),
     }
     json.dump({'_source': 'pipeline/frame_set.py on the analysed build (roots %s); evidence kinds in its docstring'
                           % ', '.join('0x%08X' % r for r in roots),
                '_roots': ['0x%08X' % r for r in roots], '_runs': runs, '_summary': summary, 'functions': funcs},
               open(o.out, 'w'), indent=1)
-    for k, v in summary.items(): print('%-28s %d' % (k, v))
+    for k, v in summary.items(): print('%-28s %s' % (k, v))
 
 
 if __name__ == '__main__':

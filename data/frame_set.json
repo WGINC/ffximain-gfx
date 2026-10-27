@@ -18,20 +18,25 @@
   }
  ],
  "_summary": {
-  "functions": 5433,
-  "game_code": 5214,
+  "functions": 5430,
+  "game_code": 5211,
   "d3dx": 219,
   "static": 4466,
-  "recorded": 494,
+  "recorded": 491,
   "only_observed": 473,
   "in_tree": 4015,
-  "game_code_not_in_tree": 1199,
+  "game_code_not_in_tree": 1196,
   "tree_not_in_frame_set": 448,
   "unresolved_indirect_calls": 1768,
   "functions_with_unresolved": 472,
   "unresolved_observed_in_game": 206,
   "unresolved_indirect_jumps": 121,
-  "recorded_reach_unresolved_calls": 83
+  "recorded_reach_unresolved_calls": 83,
+  "switch_targets_not_followed": [
+   "0x10223B4E",
+   "0x102262EE",
+   "0x1022635E"
+  ]
  },
  "functions": {
   "0x10001070": {
@@ -31127,13 +31132,6 @@
     ]
    }
   },
-  "0x10223B4E": {
-   "evidence": [
-    "recorded"
-   ],
-   "tree": false,
-   "d3dx": false
-  },
   "0x10223BB0": {
    "evidence": [
     "static"
@@ -31252,13 +31250,6 @@
     ]
    }
   },
-  "0x102262EE": {
-   "evidence": [
-    "recorded"
-   ],
-   "tree": false,
-   "d3dx": false
-  },
   "0x10226320": {
    "evidence": [
     "recorded"
@@ -31271,13 +31262,6 @@
      "0x1022635E"
     ]
    }
-  },
-  "0x1022635E": {
-   "evidence": [
-    "recorded"
-   ],
-   "tree": false,
-   "d3dx": false
   },
   "0x10226540": {
    "evidence": [

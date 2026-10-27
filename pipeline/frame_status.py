@@ -6,6 +6,8 @@ For each function of data/frame_set.json ("functions"), from these sources only:
   gate        its verdict in verification/gate_clean_final.jsonl (PASS / FAIL / INCONCLUSIVE / UNRESOLVED), if any
   bytes       its verdict in verification/vc6_sweep.json (IDENTICAL / DIFFERS / NO_COMPILE / LEFT_OUT), and the rule
               that made it IDENTICAL if one did (rule_identical)
+  recompiled  its verdict in verification/recompile_match.json: a hand-written recompile/ source compiled by the game's
+              compiler and compared by pipeline/vc6/match.py (IDENTICAL / DIFFERS / MISSING), and that file
   d3d         Direct3D call sites in it: "proven" (com_calls.json without an accepted declaration) and "accepted"
               (resting on a declaration the owner accepted, not proven)
   unresolved  its indirect call sites frame_set.py left unresolved
@@ -28,6 +30,7 @@ def main(out):
         r = json.loads(line)
         if r.get('original'): gate[r['original'].upper().replace('0X', '0x')] = r.get('verdict')
     sweep = J('verification', 'vc6_sweep.json')
+    hand = {k.upper().replace('0X', '0x'): v for k, v in J('verification', 'recompile_match.json').items()}
     d3d = collections.defaultdict(lambda: {'proven': 0, 'accepted': 0})
     for site, v in J('data', 'com_calls.json').items():
         if site.startswith('_') or not isinstance(v, dict) or 'func' not in v: continue
@@ -39,20 +42,21 @@ def main(out):
         r = {'tree': a in place, 'gate': gate.get(a), 'bytes': sw.get('verdict'),
              'unresolved': v.get('unresolved', 0), 'd3dx': bool(v.get('d3dx'))}
         if sw.get('rule_identical'): r['bytes_rule'] = sw['rule_identical']
+        if a in hand: r['recompiled'] = hand[a]['verdict']; r['recompiled_file'] = hand[a]['file']
         if a in d3d: r['d3d'] = dict(d3d[a])
         res[a] = r
     json.dump(dict(sorted(res.items())), open(out, 'w'), indent=0)
     n = len(res)
-    ident = sum(1 for r in res.values() if r['bytes'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or r.get('bytes_rule'))
+    ident = sum(1 for r in res.values() if r['bytes'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or r.get('bytes_rule') or r.get('recompiled') == 'IDENTICAL')
     rc = [r for r in res.values() if 'd3d' in r]
     c = collections.Counter
     print('frame set: %d functions' % n)
     print('  in the tree: %d; gate %s' % (sum(r['tree'] for r in res.values()), dict(c(r['gate'] for r in res.values() if r['gate']))))
-    print('  at the game\'s bytes (as written or by a rule): %d (%.1f%%)' % (ident, 100.0 * ident / n))
+    print('  at the game\'s bytes (as written, by a rule or recompiled): %d (%.1f%%)' % (ident, 100.0 * ident / n))
     print('  with unresolved indirect calls: %d functions, %d sites' % (sum(1 for r in res.values() if r['unresolved']), sum(r['unresolved'] for r in res.values())))
     print('  calling Direct3D: %d (in the tree %d, PASS %d, at the bytes %d)' % (
         len(rc), sum(r['tree'] for r in rc), sum(r['gate'] == 'PASS' for r in rc),
-        sum(1 for r in rc if r['bytes'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or r.get('bytes_rule'))))
+        sum(1 for r in rc if r['bytes'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or r.get('bytes_rule') or r.get('recompiled') == 'IDENTICAL')))
 
 
 if __name__ == '__main__':

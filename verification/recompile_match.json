@@ -195,6 +195,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_100472F0.cpp"
 },
+"0x10054D70": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3d_10054D70.cpp"
+},
 "0x1006AF00": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_1006AF00.cpp"

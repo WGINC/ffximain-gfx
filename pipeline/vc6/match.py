@@ -14,6 +14,8 @@ relocations. Against the game's bytes at the address:
     placement gives an address) the two must be the same, otherwise the target is reported, not compared;
   * a DIR32 relocation (an absolute address: a global, a jump table, a constant) is likewise compared when the
     symbol names an address (DAT_/g_ ... _XXXXXXXX), else reported;
+  * a symbol the source cannot name by address (a function-local static, its guard, the compiler's `$E` function)
+    is compared when the source gives its address: `// SYMBOL: <decorated name> 0xADDR`;
   * the length must be the game function's (data/func_extents.json, a single piece), up to alignment padding (0xCC /
     0x90) after the code on either side (a /Gy section is padded to its alignment).
 Verdict per function: IDENTICAL (every byte and every comparable target equal; uncompared targets are listed),
@@ -94,6 +96,7 @@ def compare(img, ext, ea, code, rels, place):
         a = None
         m = ADDR_RE.search(sym)
         if m: a = int(m.group(1), 16)
+        elif sym in place: a = place[sym]
         elif sym.lstrip('_?') in place: a = place[sym.lstrip('_?')]
         if rt == 0x14:                       # IMAGE_REL_I386_REL32
             got = (ea + off + 4 + struct.unpack_from('<i', orig, off)[0]) & 0xFFFFFFFF
@@ -147,6 +150,11 @@ def main():
     if os.path.exists(pl):
         for k, v in json.load(open(pl)).items():
             if isinstance(v, dict) and v.get('symbol'): place[v['symbol']] = int(k, 16)
+    # symbols the compiler names itself (a function-local static, its guard, the `$E` function that registers its
+    # destructor) or that the source cannot name by address (atexit), given their game address by the source:
+    # `// SYMBOL: <decorated name> 0xADDR`; their relocations are then compared like any other
+    for m in re.finditer(r'(?m)^//\s*SYMBOL:\s*(\S+)\s+(0x[0-9A-Fa-f]+)\s*$', open(o.src, errors='replace').read()):
+        place[m.group(1)] = int(m.group(2), 16)
     d = o.keep or tempfile.mkdtemp(prefix='vc6_'); os.makedirs(d, exist_ok=True)
     src = os.path.join(d, os.path.basename(o.src)); shutil.copy(o.src, src)
     rc, out = cl(os.path.basename(src), 'm.obj', o.flags.split() + ['/FAc', '/Fam.cod'], d)

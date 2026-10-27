@@ -171,6 +171,37 @@ XI_API undefined4 __thiscall ZoneMap_GetField342C8(void * self_)
   return *(uint32_t *)((int)self_ + 0x342c8);
 }
 
+// FUNCTION: FFXIMAIN 0x1017A590  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_1017A590(void * self_, undefined4 param_1)
+{
+  uint8_t *puVar1;
+  int *piVar2;
+  int iVar3;
+  int iVar4;
+  
+  piVar2 = (int *)((int)self_ + 0x84);
+  iVar4 = 2;
+  do {
+    if (piVar2[-9] != 0) {
+      iVar3 = 0;
+      if (0 < *piVar2) {
+        puVar1 = (uint8_t *)(piVar2[1] + 8);
+        do {
+          if (*(int *)(puVar1 + 0xbc) == 999) {
+            *puVar1 = (uint8_t)param_1;
+          }
+          iVar3 = iVar3 + 1;
+          puVar1 = puVar1 + 0x16c;
+        } while (iVar3 < *piVar2);
+      }
+    }
+    piVar2 = piVar2 + 0x1e;
+    iVar4 = iVar4 + -1;
+  } while (iVar4 != 0);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 58 returned normally, 359 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a2)
@@ -497,6 +528,152 @@ XI_API undefined4 __thiscall ZoneMap_Query1693B0(void * self_, float * xi_s1, fl
   
   uVar1 = orig::Unit10163E60_SegmentHit3413A((void *)((int)self_ + 0x178),xi_s1,xi_s2,xi_s3);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x101815D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 70 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint64_t __thiscall fn_101815D0(void * self_)
+{
+  int *this_00;
+  float *pfVar1;
+  int iVar2;
+  uint32_t uVar3;
+  long double fVar4;
+  long double fVar5;
+  uint64_t uVar6;
+  char xi_frame[168] __attribute__((aligned(4)));
+  float  &fStack_a8 = *reinterpret_cast<float  *>(xi_frame + 0);
+  float  &fStack_a4 = *reinterpret_cast<float  *>(xi_frame + 4);
+  float  &fStack_a0 = *reinterpret_cast<float  *>(xi_frame + 8);
+  float  &fStack_9c = *reinterpret_cast<float  *>(xi_frame + 12);
+  float  &fStack_98 = *reinterpret_cast<float  *>(xi_frame + 16);
+  float  &fStack_94 = *reinterpret_cast<float  *>(xi_frame + 20);
+  float  (&afStack_90)[33] = *reinterpret_cast<float  (*)[33]>(xi_frame + 24);
+  float  (&afStack_c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 156);
+  
+  uVar6 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  this_00 = (int *)uVar6;
+  if (this_00 != (int *)0x0) {
+    if (DAT_1065ca30 != '\0') {
+      return ((uint64_t)(((uint64_t)(uint32_t)((int)(uVar6 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)(uVar6 >> 8)) << 8) | (uint8_t)(1))))));
+    }
+    pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x1bc))))((void *)(this_00));
+    fStack_a8 = *pfVar1;
+    fStack_a4 = pfVar1[1];
+    fStack_a0 = pfVar1[2];
+    iVar2 = ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x1c0))))((void *)(this_00));
+    fVar4 = xi_castbits<long double>(fcos((long double)*(float *)(iVar2 + 4)));
+    afStack_90[0x10] = 1.0f;
+    afStack_90[0x11] = 0.0f;
+    afStack_90[0x12] = 0.0f;
+    afStack_90[0x13] = 0.0f;
+    afStack_90[0x14] = 0.0f;
+    afStack_90[0x15] = 1.0f;
+    afStack_90[0x16] = 0.0f;
+    afStack_90[0x17] = 0.0f;
+    afStack_90[0x18] = 0.0f;
+    afStack_90[0x19] = 0.0f;
+    afStack_90[0x1a] = 1.0f;
+    afStack_90[0x1b] = 0.0f;
+    afStack_90[0x1c] = 0.0f;
+    afStack_90[0x1d] = 0.0f;
+    afStack_90[0x1e] = 0.0f;
+    afStack_90[0x1f] = 1.0f;
+    afStack_90[1] = 0.0f;
+    afStack_90[3] = 0.0f;
+    afStack_90[4] = 0.0f;
+    afStack_90[5] = 1.0f;
+    afStack_90[6] = 0.0f;
+    afStack_90[7] = 0.0f;
+    afStack_90[9] = 0.0f;
+    afStack_90[0xb] = 0.0f;
+    afStack_90[0xc] = 0.0f;
+    afStack_90[0xd] = 0.0f;
+    afStack_90[0xe] = 0.0f;
+    afStack_90[0xf] = 1.0f;
+    afStack_90[0] = (float)fVar4;
+    fVar5 = xi_castbits<long double>(fsin((long double)*(float *)(iVar2 + 4)));
+    afStack_90[2] = (float)-fVar5;
+    afStack_90[8] = (float)fVar5;
+    afStack_90[10] = (float)fVar4;
+    orig::Mat44_Multiply_v1(afStack_90 + 0x10,(int)(afStack_90 + 0x10),afStack_90);
+    afStack_90[0] = 1.0f;
+    afStack_90[1] = 0.0f;
+    afStack_90[2] = 0.0f;
+    afStack_90[3] = 0.0f;
+    afStack_90[4] = 0.0f;
+    afStack_90[5] = 1.0f;
+    afStack_90[6] = 0.0f;
+    afStack_90[7] = 0.0f;
+    afStack_90[8] = 0.0f;
+    afStack_90[9] = 0.0f;
+    afStack_90[10] = 1.0f;
+    afStack_90[0xb] = 0.0f;
+    afStack_90[0xf] = 1.0f;
+    afStack_90[0xc] = fStack_a8;
+    afStack_90[0xd] = fStack_a4;
+    afStack_90[0xe] = fStack_a0;
+    orig::Mat44_Multiply_v1(afStack_90 + 0x10,(int)(afStack_90 + 0x10),afStack_90);
+    fVar4 = (long double)_DAT_1035818c;
+    fStack_9c = (float)((long double)afStack_90[0x10] * (long double)4.0f +
+                        (long double)afStack_90[0x18] * (long double)0.0f + (long double)afStack_90[0x14] * fVar4
+                       + (long double)afStack_90[0x1c]);
+    fStack_98 = (float)((long double)afStack_90[0x11] * (long double)4.0f +
+                        (long double)afStack_90[0x19] * (long double)0.0f + (long double)afStack_90[0x15] * fVar4
+                       + (long double)afStack_90[0x1d]);
+    fStack_94 = (float)((long double)afStack_90[0x12] * (long double)4.0f +
+                        (long double)afStack_90[0x1a] * (long double)0.0f + (long double)afStack_90[0x16] * fVar4
+                       + (long double)afStack_90[0x1e]);
+    fStack_a4 = (float)((long double)fStack_a4 - (long double)1.0f);
+    uVar6 = orig::Unit10163E60_SegmentHitWithObjects_v1
+                      ((void *)((int)self_ + 0x178),&fStack_a8,&fStack_9c,afStack_c);
+    if ((char)uVar6 == '\0') {
+      uVar6 = orig::ZoneMap_QueryBoxHeight_v1
+                        (self_,fStack_9c,(float)((long double)fStack_98 - (long double)1.0f),fStack_94,1e+02f,
+                         afStack_90 + 0x20);
+      uVar3 = (uint32_t)(uVar6 >> 0x20);
+      if ((char)uVar6 != '\0') {
+        iVar2 = orig::FUN_10168fc0((void *)((int)self_ + 0x178));
+        uVar6 = ((uint64_t)(((uint64_t)(uint32_t)(uVar3) << 32) | (uint32_t)(iVar2)));
+        if (iVar2 == 9) {
+          return ((uint64_t)(((uint64_t)(uint32_t)(uVar3) << 32) | (uint32_t)(1)));
+        }
+      }
+    }
+  }
+  return uVar6 & 0xffffffffffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x10181930  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 99 returned normally, 69 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint64_t __thiscall fn_10181930(void * self_)
+{
+  int *this_00;
+  uint32_t *puVar1;
+  int iVar2;
+  uint64_t uVar3;
+  uint64_t uVar4;
+  char xi_frame[16] __attribute__((aligned(4)));
+  float  &fStack_10 = *reinterpret_cast<float  *>(xi_frame + 0);
+  uint32_t  &uStack_c = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint32_t  &uStack_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
+  
+  uVar3 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  this_00 = (int *)uVar3;
+  if (this_00 == (int *)0x0) {
+    return uVar3 & 0xffffffffffffff00;
+  }
+  puVar1 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x1bc))))((void *)(this_00));
+  uStack_c = *puVar1;
+  uStack_4 = puVar1[2];
+  uVar4 = orig::ZoneMap_QueryBoxHeight_v1
+                    (self_,uStack_c,(float)((long double)xi_castbits<float>(puVar1[1]) - (long double)1.0f),uStack_4,1e+01f,
+                     &fStack_10);
+  if ((char)uVar4 == '\0') {
+    return uVar4;
+  }
+  iVar2 = orig::FUN_10168fc0((void *)((int)self_ + 0x178));
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar4 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_10377328)))[iVar2]))))));
 }
 
 // FUNCTION: FFXIMAIN 0x101819B0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)

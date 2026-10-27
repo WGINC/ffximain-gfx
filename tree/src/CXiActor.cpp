@@ -157,6 +157,21 @@ XI_API undefined4 __thiscall CXiActor_GetFieldA8(void * self_)
   return *(uint32_t *)((int)self_ + 0xa8);
 }
 
+// FUNCTION: FFXIMAIN 0x10082460  (unit CXiActor: class model places it in CXiActor)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_10082460(void * self_, undefined4 xi_s1)
+{
+  orig::FUN_100814f0_v1((void *)((int)self_ + 0x5c),xi_s1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10082780  (unit CXiActor: class model places it in CXiActor)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall CXiActor_GetSubActorStatus(void * self_)
+{
+  return *(uint32_t *)((int)self_ + 0xa4);
+}
+
 // FUNCTION: FFXIMAIN 0x10082790  (unit CXiActor: class model places it in CXiActor)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall CXiActor_SetSubActorStatus(void * self_, undefined4 param_1)

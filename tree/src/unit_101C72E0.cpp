@@ -1145,6 +1145,13 @@ XI_API undefined4 __cdecl Unit101C72E0_BeginCapture(undefined4 param_1, undefine
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }
 
+// FUNCTION: FFXIMAIN 0x101CBC60  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_101CBC60(int param_1)
+{
+  return orig::FUN_10097e80(param_1);
+}
+
 // FUNCTION: FFXIMAIN 0x101CBDF0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101C72E0_IsActorField170(undefined4 xi_eax, int param_1)
@@ -1206,6 +1213,28 @@ XI_API undefined4 __cdecl Unit101C72E0_TestFlags100Or40DAC(undefined4 param_1)
     return ((uint32_t)(((uint32_t)((int32_t)(DAT_104dfd98_as_v0 >> 8)) << 8) | (uint8_t)(1)));
   }
   return uVar1 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x101CC0A0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API unsigned char __cdecl fn_101CC0A0(void)
+{
+  uint32_t uVar1;
+  int iVar2;
+  
+  uVar1 = orig::FUN_100f9680(DAT_104dfd98);
+  if ((char)uVar1 == '\0') {
+    return false;
+  }
+  iVar2 = orig::FUN_100f9600(DAT_104dfd98);
+  return iVar2 == 0;
+}
+
+// FUNCTION: FFXIMAIN 0x101CC1B0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_101CC1B0(undefined4 xi_eax)
+{
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_1048098d)));
 }
 
 // FUNCTION: FFXIMAIN 0x101CC1D0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -1280,6 +1309,15 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101C72E0_ActorPairTest1
   }
 LAB_101cc318:
   return xi_eax & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x101CC320  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_101CC320(int param_1)
+{
+  uint32_t xi_entry_eax = 0;
+  
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(param_1 != 0xd3)));
 }
 
 // FUNCTION: FFXIMAIN 0x101CC350  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)

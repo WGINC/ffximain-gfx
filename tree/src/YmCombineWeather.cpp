@@ -3,6 +3,38 @@
 #include "YmCombineWeather.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x1018AA50  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_1018AA50(undefined4 * param_1, undefined4 param_2)
+{
+  uint32_t *puVar1;
+  undefined4 uVar2;
+  void *self_;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    self_ = (void *)0x0;
+  }
+  else {
+    self_ = (void *)*param_1;
+  }
+  puVar1 = (uint32_t *)(*(uint32_t *)((int)self_ + 0xd8) >> 0xc);
+  if (((uint32_t)puVar1 & 1) != 0) {
+    if (*(int *)(g_pXiZone_as_s32 + 0x1bc) != 0) {
+      uVar2 = orig::Generator_IsFlag400OrField22Zero_v1(self_);
+      if ((char)uVar2 == '\0') {
+        puVar1 = (uint32_t *)orig::FUN_100493c0(self_);
+        if ((*puVar1 & 4) != 0) goto LAB_1018aab0;
+      }
+      puVar1 = (uint32_t *)orig::FUN_100493c0(self_);
+      if ((*puVar1 & 0x4000000) != 0) goto LAB_1018aab0;
+    }
+    puVar1 = (uint32_t *)orig::SharedConditionalStateReset_v1(self_);
+    *(undefined4 *)((int)self_ + 100) = param_2;
+  }
+LAB_1018aab0:
+  return (uint32_t)puVar1 & 0xffffff00;
+}
+
 // FUNCTION: FFXIMAIN 0x1018AAC0  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5A(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
@@ -13,6 +45,36 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind
   return uVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x1018AAE0  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_1018AAE0(undefined4 * param_1)
+{
+  uint32_t *puVar1;
+  uint8_t *pbVar2;
+  void *self_;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    self_ = (void *)0x0;
+  }
+  else {
+    self_ = (void *)*param_1;
+  }
+  puVar1 = *(uint32_t **)((int)self_ + 0xd8);
+  if ((((uint32_t)puVar1 >> 0xc & 1) != 0) && (((uint32_t)puVar1 & 0x800) == 0)) {
+    puVar1 = (uint32_t *)orig::Generator_IsFlag400OrField22Zero_v1(self_);
+    if ((char)puVar1 == '\0') {
+      pbVar2 = orig::FUN_100493c0(self_);
+      if ((*pbVar2 & 4) == 0) {
+        puVar1 = (uint32_t *)orig::FUN_100493c0(self_);
+        if ((*puVar1 & 0x4000000) == 0) goto LAB_1018ab31;
+      }
+      puVar1 = (uint32_t *)orig::SharedConditionalStateReset_v1(self_);
+    }
+  }
+LAB_1018ab31:
+  return (uint32_t)puVar1 & 0xffffff00;
+}
+
 // FUNCTION: FFXIMAIN 0x1018AB40  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5B(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
@@ -21,6 +83,36 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind
   
   uVar1 = orig::Unit10071E50_FindInChainByKind(*(void **)((int)self_ + 0xc),5,0,&LAB_1018ab60,0,xi_eax);
   return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x1018AB60  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_1018AB60(undefined4 * param_1)
+{
+  uint32_t *puVar1;
+  uint8_t *pbVar2;
+  void *self_;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    self_ = (void *)0x0;
+  }
+  else {
+    self_ = (void *)*param_1;
+  }
+  puVar1 = *(uint32_t **)((int)self_ + 0xd8);
+  if (((uint32_t)puVar1 & 0x800) != 0) {
+    puVar1 = (uint32_t *)orig::Generator_IsFlag400OrField22Zero_v1(self_);
+    if ((char)puVar1 == '\0') {
+      pbVar2 = orig::FUN_100493c0(self_);
+      if ((*pbVar2 & 4) == 0) {
+        puVar1 = (uint32_t *)orig::FUN_100493c0(self_);
+        if ((*puVar1 & 0x4000000) == 0) goto LAB_1018aba9;
+      }
+      puVar1 = (uint32_t *)orig::FUN_1018abb0_v1(self_);
+    }
+  }
+LAB_1018aba9:
+  return (uint32_t)puVar1 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x1018ABF0  (placed by IDB name; static (takes no this))

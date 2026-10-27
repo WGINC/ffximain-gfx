@@ -30,6 +30,56 @@ XI_API void __thiscall LobbyThread_InitState(void * self_)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10245460  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10245460(int * param_1, int param_2)
+{
+  uint32_t *puVar1;
+  void *self_;
+  int *piVar2;
+  
+  piVar2 = (int *)orig::FUN_100731b0(g_pMeshResourceMng_as_v1,&param_2,param_2 + 0x17);
+  puVar1 = (uint32_t *)*piVar2;
+  if (puVar1 != (uint32_t *)0x0) {
+    orig::CMoResource_AddRefChain_v3((void *)*puVar1);
+    piVar2 = (int *)orig::CMoResource_FindByTypeAndId_v2((void *)*puVar1,&param_2,7,0x6e69616d);
+    if (((uint32_t *)*piVar2 != (uint32_t *)0x0) &&
+       (self_ = *(void **)*piVar2, self_ != (void *)0x0)) {
+      orig::FUN_10056b80(self_,0,0);
+    }
+  }
+  *param_1 = (int)puVar1;
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x102454E0  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_102454E0(void)
+{
+  if ((DAT_10669094 != (int *)0x0) && (*DAT_10669094 != 0)) {
+    orig::Unit10043E40_ReleaseResourcesOf(*DAT_10669094);
+    if (DAT_10669094 != (int *)0x0) {
+      orig::CMoResource_ReleaseChain_v2((void *)*DAT_10669094);
+      orig::ResHandle_FreeIfUnreferenced_v2(&DAT_10669094);
+      DAT_10669094 = (int *)0x0;
+    }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10245520  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10245520(undefined4 param_1)
+{
+  int *piVar1;
+  
+  if (DAT_10669094_as_s32 == 0) {
+    piVar1 = (int *)orig::FUN_10245460(&param_1,param_1);
+    DAT_10669094_as_s32 = *piVar1;
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10245600  (unit unit_10244EA0_LobbyThread: no unit evidence of its own; in the gap between 0x10244E90 (YkZip) and 0x1024D180 (StAvatar) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl LobbyThread_Start(undefined4 param_1)

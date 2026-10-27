@@ -31,6 +31,21 @@ XI_API int __thiscall Unit10048000_GetShort22ViaPtrE4(void * self_)
   return (int)*(short *)(*(int *)((int)self_ + 0xe4) + 0x22);
 }
 
+// FUNCTION: FFXIMAIN 0x100493C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t * __thiscall fn_100493C0(void * self_)
+{
+  uint32_t *puVar1;
+  
+  puVar1 = orig::CMoGeneratorClone_FindCmdByType_v1(self_,1);
+  if (puVar1 != (uint32_t *)0x0) {
+    puVar1 = orig::CMoGeneratorClone_FindCmdByType_v1(self_,1);
+    return (uint8_t *)(puVar1 + 1);
+  }
+  DAT_1047bc70 = 0;
+  return(uint8_t*)(&DAT_1047bc70);
+}
+
 // FUNCTION: FFXIMAIN 0x1004A870  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API bool __cdecl GateEffectBoxProjection(int a1, int a2, __int16 a3, __int16 *a4)

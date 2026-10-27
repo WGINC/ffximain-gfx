@@ -361,8 +361,8 @@ XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x1006CB50  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API void __fastcall CreateProcessorInstance(undefined4 xi_ecx, undefined4 xi_edx)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((stdcall, regparm(3))) CreateProcessorInstance(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 xi_ecx)
 {
   undefined4 *puVar1;
   

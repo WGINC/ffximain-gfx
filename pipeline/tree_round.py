@@ -129,7 +129,7 @@ def install(o):
     shutil.copy(os.path.join(o.out, 'g_alt', 'gate.jsonl'), R('verification', 'gate_clean_altcases_tree.jsonl'))
     s, exps, _ = order(o)
     old = {e['path']: e for e in s['ghidra_exports']}
-    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'], raw_gate=e['raw_gate'],
+    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'], **({'raw_gate': e['raw_gate']} if e.get('raw_gate') else {}),
                                 sha1=hashlib.sha1(open(R(e['path']), 'rb').read()).hexdigest()) for e in exps]
     subprocess.check_call([sys.executable, R('pipeline', 'annotate_gate.py'), o.out, R('verification', 'gate_clean_final.jsonl')])
     keep = json.dumps(s, indent=1)

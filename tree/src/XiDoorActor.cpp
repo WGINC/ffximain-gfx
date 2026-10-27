@@ -45,3 +45,10 @@ undefined4 __thiscall XiDoorActor::UpdateAndRunTimer(void * self)
   }
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)uVar1)));
 }
+
+// FUNCTION: FFXIMAIN 0x100AC9C0  (unit XiDoorActor: class model places it in XiDoorActor)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __thiscall fn_100AC9C0(void * self_)
+{
+  return (int)self_ + 0x5c4;
+}

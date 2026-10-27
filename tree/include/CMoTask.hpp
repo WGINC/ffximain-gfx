@@ -31,6 +31,7 @@ public:
     static char ** __cdecl GetRuntimeClass_variant12();  // 0x10074730
     static void * __thiscall Constructor(void * self);  // 0x10074740
     _DWORD * ScalarDeletingDtor(char a2);  // 0x10074770
+    static void __thiscall Destructor(void * self);  // 0x100747C0
     static void __thiscall DestroyChain(void * self);  // 0x10074890
     static undefined4 __thiscall ResetFields(void * self);  // 0x100748F0
     static undefined4 * __thiscall Clone(void * self, uint32_t param_1);  // 0x10074920

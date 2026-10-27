@@ -25,6 +25,71 @@ XI_API int __cdecl Yk_MapCodeOffset(int param_1)
   return iVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x101CCE50  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t * __cdecl fn_101CCE50(int param_1)
+{
+  return ((char *)&DAT_1037d7b4) + param_1 * 0x10;
+}
+
+// FUNCTION: FFXIMAIN 0x101CCE90  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint8_t * __cdecl fn_101CCE90(int param_1)
+{
+  if (*(short *)(g_C_106631D4 + 0x26) == 0x121) {
+    return (&PTR_DAT_10337df8)[param_1 * 2];
+  }
+  return (&PTR_DAT_10337df4)[param_1 * 2];
+}
+
+// FUNCTION: FFXIMAIN 0x101CD2D0  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __thiscall fn_101CD2D0(void * self_, void * param_1, undefined4 param_2)
+{
+  int iVar1;
+  int iVar2;
+  void *pvVar3;
+  int iVar4;
+  
+  iVar1 = orig::FUN_101ceac0(param_1);
+  iVar1 = *(int *)((int)self_ + 0x14) - iVar1;
+  iVar2 = orig::FUN_101ceae0(param_1);
+  iVar2 = *(int *)((int)self_ + 0x1c) - iVar2;
+  iVar4 = iVar1;
+  switch(xi_sw(param_2)) {
+  case 0:
+  case 2:
+    pvVar3 = orig::FUN_101ceaf0(param_1);
+    iVar2 = (int)pvVar3 - iVar2;
+    pvVar3 = orig::FUN_101ceb40(self_);
+    break;
+  case 1:
+  case 3:
+    pvVar3 = orig::FUN_101ceaf0(param_1);
+    iVar2 = (int)pvVar3 - iVar2;
+    pvVar3 = orig::FUN_101ceb40(self_);
+    break;
+  default:
+    goto switchD_101cd2fb_default;
+  }
+  iVar4 = iVar2 - (int)pvVar3;
+  iVar2 = iVar1;
+switchD_101cd2fb_default:
+  iVar1 = *(int *)((int)self_ + 0x20) + -1;
+  *(int *)((int)self_ + 0x20) = iVar1;
+  if (iVar1 < 0) {
+    *(uint32_t *)((int)self_ + 0x20) = 3;
+  }
+  iVar1 = orig::FUN_101ceac0(param_1);
+  *(int *)((int)self_ + 0x14) = iVar1 + iVar4;
+  iVar4 = orig::FUN_101ceae0(param_1);
+  *(int *)((int)self_ + 0x1c) = iVar4 + iVar2;
+  orig::FUN_101cdf50(self_,*(int *)((int)self_ + 0x20));
+  orig::FUN_101cdd90(self_,(int)*(char *)((int)self_ + 6),*(int *)((int)self_ + 0x14),
+               *(uint32_t *)((int)self_ + 0x18),*(uint32_t *)((int)self_ + 0x1c));
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x101CD900  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 147 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkFurniture::Destructor(void * self)

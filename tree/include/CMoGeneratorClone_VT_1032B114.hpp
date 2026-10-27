@@ -5,7 +5,6 @@
 #pragma pack(push, 1)
 class XI_API CMoGeneratorClone_VT_1032B114 {
 public:
-    static undefined4 * __fastcall Constructor(undefined4 * param_1, undefined4 xi_edx);  // 0x10047F80
     void * ScalarDeletingDtor(char a2);  // 0x10047FE0
 
     void **vftable;  // +0x0

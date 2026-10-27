@@ -337,6 +337,15 @@ _DWORD * CMoTask::ScalarDeletingDtor(char a2)
   return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
 }
 
+// FUNCTION: FFXIMAIN 0x100747C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::Destructor(void * self)
+{
+  *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032c978;
+  orig::CMoTask_DetachAndRecycle(self,1);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10074890  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 48 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoTask::DestroyChain(void * self)

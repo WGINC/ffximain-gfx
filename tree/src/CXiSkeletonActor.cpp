@@ -939,6 +939,56 @@ int CXiSkeletonActor::Constructor_1Arg(int a2)
   return self;
 }
 
+// FUNCTION: FFXIMAIN 0x100C5410  (unit CXiSkeletonActor: between 0x100C52A0 (name CXiSkeletonActor_Constructor_1Arg) and 0x100C5540 (class model places it in CXiSkeletonActor), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl TargetActor_SlotHandler1(void)
+{
+  int *self_;
+  uint32_t uVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  self_ = (int *)uVar2;
+  uVar1 = 0;
+  if (self_ != (int *)0x0) {
+    uVar1 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*self_ + 0x334))))((void *)(self_),1);
+  }
+  _DAT_10456dac = 0;
+  return uVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x100C5440  (unit CXiSkeletonActor: between 0x100C52A0 (name CXiSkeletonActor_Constructor_1Arg) and 0x100C5540 (class model places it in CXiSkeletonActor), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 156 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl TargetActor_SlotHandler0(void)
+{
+  int *self_;
+  int *this_00;
+  int iVar1;
+  uint64_t uVar2;
+  
+  uVar2 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  self_ = (int *)uVar2;
+  iVar1 = 0;
+  if (self_ != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*self_ + 0x334))))((void *)(self_),0);
+    this_00 = (int *)orig::FUN_10157cf0(g_pTargetMng);
+    if ((this_00 == (int *)0x0) &&
+       (this_00 = (int *)orig::ActorHandle_ResolveObject_v1(&XiControlActor_userControlTarget_as_v0), this_00 == (int *)0x0)) {
+      _DAT_10456dac = 0;
+      return 0;
+    }
+    ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x3f8))))((void *)(this_00));
+    iVar1 = orig::CXiActor_GetModelByteEF(self_);
+    if ((iVar1 != 5) && (iVar1 = orig::CXiActor_GetModelByteEF(self_), iVar1 != 6)) {
+      _DAT_10456dac = 0;
+      return iVar1;
+    }
+    _DAT_10456da8_as_f32 = (float)((long double)_DAT_10456da8_as_f32 * (long double)0.800000011920928955078125f);
+  }
+  _DAT_10456dac = 0;
+  return iVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x100C5540  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CXiSkeletonActor::ScalarDeletingDtor(char a1)

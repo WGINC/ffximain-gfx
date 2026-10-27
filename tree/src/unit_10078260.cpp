@@ -2,6 +2,59 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10079170  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10079170(uint8_t * param_1)
+{
+  int iVar1;
+  int iVar2;
+  uint8_t *pbVar3;
+  uint8_t *pbVar4;
+  uint8_t bVar5;
+  uint8_t bVar6;
+  
+  if (param_1 == (uint8_t *)0x0) {
+    return 0;
+  }
+  iVar2 = 3;
+  bVar5 = false;
+  iVar1 = 0;
+  bVar6 = true;
+  pbVar3 = param_1;
+  pbVar4 =(uint8_t*)(&DAT_10357d7c);
+  do {
+    if (iVar2 == 0) break;
+    iVar2 = iVar2 + -1;
+    bVar5 = *pbVar3 < *pbVar4;
+    bVar6 = *pbVar3 == *pbVar4;
+    pbVar3 = pbVar3 + 1;
+    pbVar4 = pbVar4 + 1;
+  } while (bVar6);
+  if (!bVar6) {
+    iVar1 = (1 - (uint32_t)bVar5) - (uint32_t)(bVar5 != 0);
+  }
+  if (iVar1 == 0) {
+    return 1;
+  }
+  iVar2 = 4;
+  bVar5 = false;
+  iVar1 = 0;
+  bVar6 = true;
+  pbVar3 =(uint8_t*)(&DAT_1034f488);
+  do {
+    if (iVar2 == 0) break;
+    iVar2 = iVar2 + -1;
+    bVar5 = *param_1 < *pbVar3;
+    bVar6 = *param_1 == *pbVar3;
+    param_1 = param_1 + 1;
+    pbVar3 = pbVar3 + 1;
+  } while (bVar6);
+  if (!bVar6) {
+    iVar1 = (1 - (uint32_t)bVar5) - (uint32_t)(bVar5 != 0);
+  }
+  return (-(uint32_t)(iVar1 != 0) & 0xfffffffe) + 2;
+}
+
 // FUNCTION: FFXIMAIN 0x10079A00  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Unit10078260_ParseNumber(char * param_1)
@@ -402,6 +455,59 @@ XI_API int __cdecl Actor_FindByName(char * param_1, uint32_t param_2, int param_
   return 0;
 }
 
+// FUNCTION: FFXIMAIN 0x1007A9A0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1007A9A0(undefined4 param_1, undefined4 param_2, int param_3)
+{
+  uint32_t *puVar1;
+  
+  puVar1 = (uint32_t *)orig::Unit100D7420_GetIdPair();
+  if (puVar1 == (uint32_t *)0x0) {
+    return -param_3;
+  }
+  orig::Unit10074CA0_BuildPacket1A_Default(*puVar1,puVar1[1],4,0,0);
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x1007AA80  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1007AA80(undefined4 param_1, undefined4 param_2, int param_3)
+{
+  uint32_t *puVar1;
+  
+  puVar1 = (uint32_t *)orig::Unit100D7420_GetIdPair();
+  if (puVar1 == (uint32_t *)0x0) {
+    return -param_3;
+  }
+  orig::Unit10074CA0_BuildPacket1A_Default(*puVar1,puVar1[1],0x12,0,0);
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x1007BB90  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1007BB90(undefined4 param_1, undefined4 param_2, int param_3)
+{
+  uint32_t *xi_eax;
+  uint32_t uVar1;
+  int iVar2;
+  
+  xi_eax = (uint32_t *)orig::Unit100D7420_GetIdPair();
+  if ((xi_eax != (uint32_t *)0x0) && (1 < _DAT_1047d490)) {
+    uVar1 = orig::FUN_101cc0d0(0x7f,0,xi_eax);
+    if ((char)uVar1 == '\0') {
+      return param_3;
+    }
+    iVar2 = orig::FUN_10227000(*(char **)(PTR_DAT_103551e0 + 4));
+    if ((-1 < iVar2) && (iVar2 < 0x40)) {
+      if (DAT_1047d498_as_s8 == '\0') {
+        orig::Unit10074CA0_BuildPacket1A_Default(*xi_eax,xi_eax[1],0x1a,iVar2,0);
+      }
+      return param_3;
+    }
+  }
+  return -param_3;
+}
+
 // FUNCTION: FFXIMAIN 0x1007BF30  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_1007BF30(uint32_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
@@ -632,6 +738,112 @@ XI_API int __cdecl Unit10078260_ToggleStatusMode1(undefined4 param_1, undefined4
   if ((iVar1 < 1) && (iVar1 != 0)) {
     param_3 = -param_3;
   }
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x1007D240  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_1007D240(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+{
+  if (DAT_10668ecc_as_s32 != 0) {
+    *(uint32_t *)(DAT_10668ecc_as_s32 + 0x68) = 0;
+  }
+  orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_quest00_103580e0,1,0);
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x1007E490  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1007E490(undefined4 param_1, undefined4 param_2, int param_3)
+{
+  uint32_t uVar1;
+  int iVar2;
+  uint32_t xi_eax;
+  
+  uVar1 = orig::Unit101C72E0_TestFlags100Or40DAC(0);
+  if ((char)uVar1 == '\0') {
+    return -param_3;
+  }
+  uVar1 = orig::FUN_100f9680(DAT_104dfd98);
+  if ((char)uVar1 == '\0') {
+    return -param_3;
+  }
+  iVar2 = orig::FUN_100f9600(DAT_104dfd98);
+  if (iVar2 != 0) {
+    orig::ChatLog_AddMessage7Code37B_v1(g_pTkMsgWinData_as_v1,0xbc);
+    return -param_3;
+  }
+  uVar1 = orig::FUN_101cc0d0(0x44,0,0);
+  iVar2 = DAT_105782b4_as_s32;
+  if ((char)uVar1 != '\0') {
+    xi_eax = orig::ntGameTimeGet();
+    if (xi_eax <= *(uint32_t *)(iVar2 + 0x18)) {
+      return -param_3;
+    }
+    uVar1 = orig::FUN_10160c80(&g_menuMng_as_v0,xi_eax);
+    if ((char)uVar1 != '\0') {
+      return -param_3;
+    }
+    uVar1 = orig::FUN_10097b40();
+    if ((char)uVar1 == '\0') {
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,6);
+      return param_3;
+    }
+    orig::FUN_100f7fa0(0xe);
+  }
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x1007E8D0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_1007E8D0(undefined4 param_1, undefined4 param_2, int param_3)
+{
+  uint32_t uVar1;
+  int iVar2;
+  uint32_t xi_eax;
+  
+  uVar1 = orig::Unit101C72E0_TestFlags100Or40DAC(0);
+  if ((char)uVar1 == '\0') {
+    return -param_3;
+  }
+  uVar1 = orig::FUN_100f9680(DAT_104dfd98);
+  if ((char)uVar1 == '\0') {
+    return -param_3;
+  }
+  iVar2 = orig::FUN_100f9600(DAT_104dfd98);
+  if (iVar2 != 0) {
+    orig::ChatLog_AddMessage7Code37B_v1(g_pTkMsgWinData_as_v1,0xbc);
+    return -param_3;
+  }
+  if (g_C_106631D4_as_v1 == (void *)0x0) {
+    return -param_3;
+  }
+  uVar1 = orig::FUN_101cc0d0(0x44,0,g_C_106631D4_as_v1);
+  iVar2 = DAT_105782b4_as_s32;
+  if ((char)uVar1 != '\0') {
+    xi_eax = orig::ntGameTimeGet();
+    if (xi_eax <= *(uint32_t *)(iVar2 + 0x18)) {
+      return -param_3;
+    }
+    uVar1 = orig::FUN_10160c80(&g_menuMng_as_v0,xi_eax);
+    if ((char)uVar1 != '\0') {
+      return -param_3;
+    }
+    uVar1 = orig::FUN_10097b40();
+    if ((char)uVar1 == '\0') {
+      orig::ChatLog_AddTableMessage7(g_pTkMsgWinData_as_v1,6);
+      return param_3;
+    }
+    orig::YkMyroom_ChangeMode(g_C_106631D4_as_v1,2,-1,1);
+  }
+  return param_3;
+}
+
+// FUNCTION: FFXIMAIN 0x10080340  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10080340(undefined4 param_1, undefined4 param_2, undefined4 param_3)
+{
+  orig::FUN_100a3040();
   return param_3;
 }
 

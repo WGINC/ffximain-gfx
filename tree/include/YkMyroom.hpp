@@ -8,6 +8,7 @@ public:
     static void __thiscall Destructor(void * self);  // 0x101D2F00
     static void __thiscall ReleaseObject38(void * self);  // 0x101D30B0
     static void __thiscall ReleaseResource8(void * self);  // 0x101D31B0
+    static undefined4 __thiscall ChangeMode(void * self, int param_1, int param_2, uint32_t param_3);  // 0x101D3380
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x858];

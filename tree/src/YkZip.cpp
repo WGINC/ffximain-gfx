@@ -3,6 +3,13 @@
 #include "YkZip.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x1012AC50  (unit YkZip: class model places it in YkZip)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_1012AC50(void)
+{
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10244DF0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall YkZip::Construct(void * self)
@@ -14,4 +21,23 @@ void * __thiscall YkZip::Construct(void * self)
   *(uint8_t ***)self = &PTR_FUN_1033cb98;
   orig::LobbyThread_NoOp();
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x10244E60  (unit YkZip: between 0x10244E50 (class model places it in YkZip) and 0x10244E90 (class model places it in YkZip), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10244E60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
+{
+  int iVar1;
+  uint32_t uVar2;
+  
+  iVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_2)));
+  if ((char)param_2 != '\0') {
+    uVar2 = 0x31;
+    iVar1 = *(short *)(*(int *)((int)self_ + 8) + 0x4c) + -2;
+    if (iVar1 == 0) {
+      uVar2 = 0x32;
+    }
+    *(uint32_t *)(DAT_10669078 + 0x2c) = uVar2;
+  }
+  return iVar1;
 }

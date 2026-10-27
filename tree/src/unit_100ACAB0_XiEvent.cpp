@@ -2,6 +2,37 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100AD660  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100AD660(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7)
+{
+  uint8_t *puVar1;
+  int iVar2;
+  void *pvVar3;
+  uint64_t uVar4;
+  uint32_t uVar5;
+  uint32_t uVar6;
+  
+  puVar1 = orig::Unit100ACAB0_GetSingleton();
+  iVar2 = orig::Unit100ACAB0_HasItems(puVar1);
+  if (iVar2 != 0) {
+    uVar4 = orig::Allocator_Generic_v1(0x1304);
+    if ((void *)uVar4 == (void *)0x0) {
+      pvVar3 = (void *)0x0;
+    }
+    else {
+      pvVar3 = orig::XiEvent_Init((void *)uVar4,param_2,param_3,
+                            ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)param_7 >> 0x10)) << 16) | (uint16_t)(DAT_10482f40))),
+                            ((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar4 >> 0x30)) << 16) | (uint16_t)(DAT_104855aa))),param_7,0,0);
+    }
+    uVar6 = 0;
+    uVar5 = 0;
+    puVar1 = orig::Unit100ACAB0_GetSingleton();
+    orig::Unit100ACAB0_AddEvent(puVar1,param_1,pvVar3,param_4,uVar5,param_5,uVar6);
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100AD6D0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7, undefined4 param_8, undefined4 param_9)
@@ -281,6 +312,23 @@ LAB_100ae529:
       return uVar3;
     }
   } while( true );
+}
+
+// FUNCTION: FFXIMAIN 0x100AEC20  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl _EventDataReadCallBack(undefined4 MemPtr, int resultLen, uint8_t * userData)
+{
+  uint64_t uVar1;
+  
+  if (resultLen < 0) {
+    orig::Unit10017C10_NoOpVarargsA_v1(s_ERROR__Read_Error_EventData_1035d0bc);
+    uVar1 = orig::operator_delete_v1(MemPtr);
+    *userData = 0xff;
+    return (int)uVar1;
+  }
+  *userData = 1;
+  DAT_10489904 = MemPtr;
+  return MemPtr;
 }
 
 // FUNCTION: FFXIMAIN 0x100BD5F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)

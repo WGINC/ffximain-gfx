@@ -12,7 +12,7 @@ typedef int (__stdcall *FARPROC)();                  // minwindef.h: INT_PTR (WI
 typedef void *LPVOID; typedef const void *LPCVOID; typedef char *LPSTR; typedef const char *LPCSTR;
 struct _SYSTEMTIME; typedef struct _SYSTEMTIME *LPSYSTEMTIME;
 typedef unsigned short *LPWSTR; typedef const unsigned short *LPCWSTR; typedef const unsigned short *LPCWCH;
-typedef const char *LPCCH; typedef unsigned int UINT; typedef unsigned int WPARAM; typedef int LPARAM;
+typedef long *LPLONG; typedef const char *LPCCH; typedef unsigned int UINT; typedef unsigned int WPARAM; typedef int LPARAM;
 typedef int LRESULT; typedef int HRESULT; typedef unsigned int SIZE_T; typedef unsigned long ULONG_PTR_;
 typedef unsigned int MMRESULT; typedef unsigned int DWORD_PTR_;
 // opaque types FLIRT attached to game functions (the names are false positives; only pointers are used)

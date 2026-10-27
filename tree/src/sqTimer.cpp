@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10275090  (unit sqTimer: asserts sqTimer.c)
-// NOT VERIFIED -- not gated in the clean build
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqTimer_GetMicroseconds(void)
 {
   int iVar1;

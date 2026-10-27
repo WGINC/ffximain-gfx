@@ -400,3 +400,13 @@ XI_API void * __thiscall Actor_InitIndexTable(void * self_)
   *(uint8_t *)((int)self_ + 0x25) = 0xff;
   return self_;
 }
+
+// FUNCTION: FFXIMAIN 0x10022320  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10022320(int param_1)
+{
+  if (param_1 < 9) {
+    return (int)(char)((uint8_t *)((&DAT_1032a41c)))[param_1];
+  }
+  return -1;
+}

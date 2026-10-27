@@ -2,6 +2,34 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x10035E80  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10035E80(undefined4 param_1)
+{
+  uint32_t xi_eax;
+  
+  _DAT_103516f8_as_v0 = param_1;
+  xi_eax = orig::Unit10035B00_SetScaled10351708(1.0f);
+  orig::Unit10035B00_SetScaled10351704(1.0f);
+  orig::Unit10035B00_SetScaled10351700(1.0f);
+  orig::Music_ApplyVolume_v1(1.0f,xi_eax);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10035EC0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10035EC0(undefined4 param_1)
+{
+  uint32_t xi_eax;
+  
+  _DAT_103516fc_as_v0 = param_1;
+  xi_eax = orig::Unit10035B00_SetScaled10351708(1.0f);
+  orig::Unit10035B00_SetScaled10351704(1.0f);
+  orig::Unit10035B00_SetScaled10351700(1.0f);
+  orig::Music_ApplyVolume_v1(1.0f,xi_eax);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10035F00  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillAllGlobalSlots(undefined4 xi_eax, undefined4 param_1)

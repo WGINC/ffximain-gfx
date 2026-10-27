@@ -11,3 +11,10 @@ XI_API void __thiscall CXiTimer_Constructor(void * self_)
   *(uint32_t *)((int)self_ + 8) = 0x3f800000;
   return;
 }
+
+// FUNCTION: FFXIMAIN 0x10019230  (unit CXiTimer: class model places it in CXiTimer)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __thiscall fn_10019230(void * self_)
+{
+  return (long double)*(float *)((int)self_ + 8);
+}

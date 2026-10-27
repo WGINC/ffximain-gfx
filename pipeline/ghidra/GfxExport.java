@@ -123,6 +123,7 @@ public class GfxExport extends GhidraScript {
     private void loadConv(String path) throws Exception {
         for (String l : Files.readAllLines(Paths.get(path))) {
             String[] p = l.trim().split("\\s+");
+            if (p.length == 3 && p[0].equals("ordinal")) { ordinals.put(p[1].toUpperCase(), p[2]); continue; }
             if (p.length == 3 && p[1].equals("regin")) regin.put(Long.parseLong(p[0].replace("0x", ""), 16), p[2].split(","));
             else if (p.length == 3 && p[1].equals("fret")) fret.add(Long.parseLong(p[0].replace("0x", ""), 16));
             else if (p.length == 3 && p[1].equals("varargs")) varargs.put(Long.parseLong(p[0].replace("0x", ""), 16), Integer.parseInt(p[2]));
@@ -663,6 +664,9 @@ public class GfxExport extends GhidraScript {
     // the Windows SDK's declared prototypes, as Ghidra ships them compiled from the SDK headers, applied by
     // name to the imported functions (externals); the names that got one
     private Set<String> sdkApplied = new HashSet<>();
+    // `ordinal DLL!N NAME`: an import by ordinal only (Ghidra's `Ordinal_N`), named by the SDK's import library for
+    // that DLL (import_ordinals.py: its IMPORT_ORDINAL members), so it gets that name's declared prototype
+    private Map<String, String> ordinals = new HashMap<>();
 
     private void applySdkPrototypes() throws Exception {
         ResourceFile rf = Application.getModuleDataFile("Base", "typeinfo/win32/windows_vs12_32.gdt");
@@ -671,7 +675,13 @@ public class GfxExport extends GhidraScript {
         Iterator<DataType> it = dtm.getAllDataTypes();
         while (it.hasNext()) { DataType t = it.next(); if (t instanceof FunctionDefinition) defs.putIfAbsent(t.getName(), (FunctionDefinition) t); }
         for (Function ext : currentProgram.getFunctionManager().getExternalFunctions()) {
-            FunctionDefinition fd = defs.get(ext.getName());
+            String nm = ext.getName();
+            java.util.regex.Matcher om = java.util.regex.Pattern.compile("Ordinal_(\\d+)").matcher(nm);
+            if (om.matches() && ext.getExternalLocation() != null) {
+                String k = (ext.getExternalLocation().getLibraryName() + "!" + om.group(1)).toUpperCase();
+                if (ordinals.containsKey(k)) nm = ordinals.get(k);
+            }
+            FunctionDefinition fd = defs.get(nm);
             if (fd == null) continue;
             if (new ApplyFunctionSignatureCmd(ext.getEntryPoint(), fd, SourceType.IMPORTED).applyTo(currentProgram)) sdkApplied.add(ext.getName());
         }

@@ -41,5 +41,15 @@ struct HKL__; typedef HKL__ *HKL; typedef void *PVOID; typedef void *HGLOBAL;
 // LPTHREAD_START_ROUTINE: DWORD (WINAPI *)(LPVOID)
 struct tagCANDIDATEFORM { unsigned int dwIndex; unsigned int dwStyle; tagPOINT ptCurrentPos; tagRECT rcArea; };
 typedef unsigned int (__stdcall *LPTHREAD_START_ROUTINE)(void *); typedef tagCANDIDATEFORM *LPCANDIDATEFORM; typedef tagCOMPOSITIONFORM *LPCOMPOSITIONFORM;
+// winsock2.h (Visual Studio 6 VC98/INCLUDE/WINSOCK2.H): the types the SDK prototypes of the WS2_32 imports mention
+// (named by their import library, import_libs.py)
+typedef unsigned char u_char; typedef unsigned short u_short; typedef unsigned int u_int; typedef unsigned long u_long;
+typedef u_int SOCKET;
+struct hostent { char *h_name; char **h_aliases; short h_addrtype; short h_length; char **h_addr_list; };
+struct in_addr { union { struct { u_char s_b1, s_b2, s_b3, s_b4; } S_un_b; struct { u_short s_w1, s_w2; } S_un_w;
+    u_long S_addr; } S_un; };
+struct WSAData { unsigned short wVersion; unsigned short wHighVersion; char szDescription[257]; char szSystemStatus[129];
+    unsigned short iMaxSockets; unsigned short iMaxUdpDg; char *lpVendorInfo; }; typedef WSAData WSADATA; typedef WSAData *LPWSADATA;
+static_assert(sizeof(hostent) == 16 && sizeof(in_addr) == 4 && sizeof(WSADATA) == 400, "winsock2.h sizes");
 static_assert(sizeof(_WIN32_FIND_DATAA) == 320 && sizeof(WINDOWPLACEMENT) == 44 && sizeof(tagCOMPOSITIONFORM) == 28
               && sizeof(tagCANDIDATEFORM) == 32, "SDK sizes");

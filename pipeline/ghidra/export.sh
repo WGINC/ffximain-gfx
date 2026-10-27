@@ -19,6 +19,9 @@ W=$(mktemp -d)
 python3 "$H/conv_facts.py" "$W/conv.txt" >/dev/null
 # XI_RETW: a file of addresses to export returning a 4-byte value in EAX where the prototype returns nothing
 # (GfxExport.java `retw`): the translation hands back what the original leaves in EAX, which the gate compares
+# imports by ordinal only, named by the SDK's import library (data/import_libs.json, import_libs.py)
+python3 -c 'import json,sys; [print("ordinal", k, v) for k, v in json.load(open(sys.argv[1]))["ordinals"].items()]' \
+  "$ROOT/data/import_libs.json" >> "$W/conv.txt"
 if [ -n "${XI_RETW:-}" ]; then sed -e 's/^\(0x[0-9A-Fa-f]*\).*/\1 retw 4/' "$XI_RETW" >> "$W/conv.txt"; fi
 python3 - "$ROOT/tree/placement.json" "$W/names.json" <<'EOF'
 import json, sys

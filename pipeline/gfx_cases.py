@@ -169,6 +169,10 @@ def main(exp, metaf, protof, out):
         mt = meta.get(key)
         if not mt or mt['status'] != 'translated': continue
         conv = r['cc']
+        # a __fastcall record (ECX, EDX, then the stack, which it pops) runs as a __thiscall one -- ECX, the stack,
+        # callee cleanup -- with EDX an entry register drawn per trial (edx_in, below), as a `regin EDX` record is;
+        # the reconstruction's __fastcall export takes the same registers and stack
+        if conv == 'fastcall' and (r.get('storage') or [])[:2] == ['ECX', 'EDX']: conv = 'thiscall'
         if conv not in ('cdecl', 'stdcall', 'thiscall'): continue
         args = r['args']
         c = {'name': '%s 0x%08X' % (r['name'], r['ea']), 'original': '0x%08X' % r['ea'],

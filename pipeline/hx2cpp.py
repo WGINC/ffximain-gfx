@@ -1289,6 +1289,13 @@ def translate(rec):
     # GfxExport `sse`: the original's float arithmetic is SSE (its code uses XMM registers), each operation rounded
     # to float; x87 code (the build's default) rounds only at a store
     sse = '__attribute__((target("sse,fpmath=sse"))) ' if rec.get('sse') else ''
+    # GCC passes a __fastcall's ECX/EDX parameter, or a __thiscall's ECX one, in its register only when it is an
+    # integer or pointer: Ghidra's `undefined4` (a struct here, xi_ghidra_shared.hpp) goes on the stack instead, so
+    # the export read EDX from a stack slot and popped it (fs22: 0x10071D80 `ret 4` for the game's `ret`). regparm
+    # passes it in the register (GCC manual, x86 function attributes), as for a register input
+    if not regentry and rec.get('source') == 'ghidra' and cc in ('__fastcall', '__thiscall') \
+            and any(re.match(r'^undefined4\s+\w+$', p) for p in _params(params)[:2 if cc == '__fastcall' else 1]):
+        regentry = True
     if regentry:
         rp, why = regparm_entry(ea, cc, params, rec.get('storage'))
         if rp is None: return None, why

@@ -102,8 +102,17 @@ RET_WIDTH = {int(k, 16): v for k, v in json.load(open(_RW_PATH)).items() if k.st
 # "imports": "stub" answers an import that has no fake below like a stubbed game callee
 IMPORT_POPS = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json'))) \
     if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_pops.json')) else {}
+# an import no solved call site covers: the bytes its import library's decorated symbol says it pops (`_Name@N`
+# __stdcall, `_Name` __cdecl; import_libs.py, which checks every import both list agrees)
+_IL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'import_libs.json')
+if os.path.exists(_IL):
+    for _k, _v in json.load(open(_IL))['stack_bytes'].items(): IMPORT_POPS.setdefault(_k, _v)
 IMPORT_NARGS = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json'))) \
     if os.path.exists(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'import_nargs.json')) else {}
+# a __stdcall import import_nargs.json does not list: its import library's `_Name@N`, N / 4 (import_libs.py, checked
+# against import_nargs.json wherever both list one)
+if os.path.exists(_IL):
+    for _k, _v in json.load(open(_IL))['stdcall_args'].items(): IMPORT_NARGS.setdefault(_k, _v)
 
 def _bound(v, sh, mk, lo, hi):
     f = (v >> sh) & mk

@@ -1,5 +1,5 @@
-/* Task #118: 0x1000CF20 at the game's bytes (pipeline/vc6/match.py, /O2). Behaviour: the tree's, gate-verified
-   (tree/src/CDx.cpp); written the way the game's bytes require, which recompile/d3d_round_118.md describes.
+/* Task #118: 0x1000CF20, a Direct3D-calling function, at the game's bytes (pipeline/vc6/match.py, /O2). Behaviour: the tree's,
+   gate-verified (tree/src/CDx.cpp); written the way the game's bytes require (recompile/d3d_round_118.md).
    Callees and globals are named by their addresses, so match.py compares every call target and address. */
 /* the tree's type names (pipeline/vc6/sweep.py vc6_shim.h), those used here */
 typedef unsigned char uint8_t; typedef signed char int8_t; typedef unsigned short uint16_t; typedef short int16_t;

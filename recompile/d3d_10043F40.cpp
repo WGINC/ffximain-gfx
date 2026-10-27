@@ -1,5 +1,5 @@
-/* Task #118: 0x10043F40 at the game's bytes (pipeline/vc6/match.py, /O2). Behaviour: the tree's, gate-verified
-   (tree/src/unit_10043E40.cpp); written the way the game's bytes require, which recompile/d3d_round_118.md describes.
+/* Task #118: 0x10043F40, a Direct3D-calling function, at the game's bytes (pipeline/vc6/match.py, /O2). Behaviour: the tree's,
+   gate-verified (tree/src/unit_10043E40.cpp); written the way the game's bytes require (recompile/d3d_round_118.md).
    Callees and globals are named by their addresses, so match.py compares every call target and address. */
 /* Direct3D 8, from tree/include/xi_d3d8.hpp (MinGW-w64 d3d8.h / d3d8types.h): the enums and structs used here;
    each interface in the SDK's C++ form (d3d8.h DECLARE_INTERFACE_ / STDMETHOD: __stdcall virtual methods in

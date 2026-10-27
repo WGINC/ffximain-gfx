@@ -21,7 +21,9 @@ the crash-safety rules the owner's `speedfix_hook` already follows.
 ## Which functions may be swapped (decided at build time, from the binary: `kit/xikit/make_manifest.py`)
 
 A function goes into the manifest only if all of these hold:
-- **verified**: PASS on fuzz and all four dumps, in the clean tree as built (`verification/gate_clean_final.jsonl`);
+- **verified**: PASS in the clean tree as built (`verification/gate_clean_final.jsonl`). Since the 22 Oct
+  regeneration (8ace87a) that file holds fuzz verdicts only; the four dumps' gates were last run on the 4 Oct tree
+  (docs/PROBLEMS.md P1);
 - **its export is found**: the in-game DLL exports it under the symbol the gate called (`verification/cases_clean_final.json`);
 - **its entry can hold the jump**: the first 5 bytes are inside the function;
 - **nothing jumps into those 5 bytes**: no branch or call anywhere in the DLL's code (every function in

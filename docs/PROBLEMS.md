@@ -178,29 +178,61 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
   and the prototype is not variadic. The extra parameters are `unsigned int`, their meaning unknown. The step
   has not been run in IDA yet.
 
-### P1. The live-dump gates were not run on the current tree (22 Oct)
-- **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree.
-  Some functions' code has changed since under the same symbol (0x10038E10 now comes from the frame-set export).
-- **Not known:** whether this build's functions pass on the dumps. The dumps are not in this environment.
-- **Consequence:** `verification/gate_clean_final.jsonl` holds fuzz verdicts only. The kit
-  (`kit/xikit/make_manifest.py`, "PASS on fuzz and the four dumps") is not rebuilt from it until the dumps are
-  rerun or the owner accepts fuzz alone.
+### P1. The live-dump gates were not run on the current tree (22 Oct; re-read 27 Oct, open)
+- **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree
+  (a43e697, the last commit to touch them). Some functions' code has changed since under the same symbol
+  (0x10038E10 now comes from the frame-set export). `verification/gate_clean_final.jsonl` holds fuzz verdicts
+  only (4,463 functions on 27 Oct).
+- **27 Oct, what changed:**
+  - The dumps are in this environment after all: `/root/ffxi_dumps/dumps/*.dmp` (dated 3 Oct, outside the
+    repository), with the 4 Oct live states `/root/ffxi_dumps/out/live_*.json`. dump_verify.json records the combat
+    dump as the analysed build (timestamp 0x6A995428). The 22 Oct line "the dumps are not in this environment" was
+    true of that session's container, not of this one.
+  - The kit was rebuilt from the fuzz-only file anyway: af692f3 (26 Oct, "kit rebuilt on the re-gated tree", 4,225
+    hookable), after ec1cdb7 (22 Oct). No owner decision that fuzz alone is enough is recorded in the repository.
+    `kit/xikit/make_manifest.py`'s docstring and docs/KIT.md said "PASS on fuzz and all four dumps"; both now say
+    what the manifest reads (27 Oct).
+- **Not known:** whether the current tree's functions pass on the dumps, and whether the 4 Oct live states still
+  serve the current gate: live_state.py precomputed the `this` sources and instances for the 4 Oct cases' vtables,
+  and the gate has changed since (the 0xA5 stack fill, import stubs, pushed slots).
+- **What would settle it:** a run, not a missing fact. With the new tree installed and no other gate running:
+  live_state.py on each dump with the current DLL and cases (`DUMP.dmp - OUT.json DLL CASES`), then
+  `LIVE="combat=... town=... town2=... zonetoinn=..." ./run.sh cleanlive RUN`, which combines them with the fuzz
+  gate (combine_gates.py: a FAIL anywhere is a FAIL). Until then the kit's "verified" means fuzz PASS only, and
+  that is for the owner to accept or not.
 
-### P2. 0x1001A850 (`CYyMotionQue_GetResource`): the game's load order is not reproduced (22 Oct)
+### P2. 0x1001A850 (`CYyMotionQue_GetResource`): the game's load order is not reproduced (22 Oct; re-read 27 Oct, open)
 - **Known:** the game's code is `mov eax,[esp+4]; mov ecx,[ecx+34h]; mov [eax],ecx; ret 4`, the parameter loaded
   before the field. Visual C++ 6.0 + c2.dll 13.0.9044 compiles `*p = field_34` the other way round.
 - **Tried, all compile to the other order:**
   - spellings: through a `self_` copy, through `this`, a member field, an `int` member, a 4-byte struct copy, an
     inline getter, a reference parameter;
   - options: `/O1`, `/Ox`, `/O2 /G5`, `/O2 /G6`, `/O2 /GX` (`/Oy-`, `/Og /Oi /Ot` and `/Od` add a frame).
-- **Not known:** what source or build gives that order.
+  - 27 Oct: the VC6 sweep (verification/vc6_sweep.json) still has it DIFFERS at +1 (`0x41 here, 0x44 in the game`:
+    ours loads into ECX first), with the `retthis` rule tried.
+- **Not tried:** a source that returns the parameter. The game's EAX at `ret 4` holds it (the bytes above); whether
+  any caller reads it is not looked up, and this is a spelling to try, not a finding.
+- **Not known:** what source or build gives that order. docs/RECOMPILE.md: 189 of the DLL's objects come from a
+  compiler build (9782) this toolchain does not reproduce; whether this function is in one of them is not known.
+- **What would settle it:** a spelling or option that match.py reports IDENTICAL, with the toolchain of
+  setup_vc6.sh (not installed in this environment on 27 Oct: `$VC6` unset), or a linker map of the game.
 
-### P3. A gate worker process exited mid-piece (22 Oct)
+### P3. A gate worker process exited mid-piece (22 Oct; re-read 27 Oct, open)
 - **Known:** in the clean gate of 22 Oct (runs/promo9), the worker for the piece holding 0x10257FF0 exited and left
-  no result. Run on its own, 0x10257FF0 gave PASS.
-- **Not known:** why the worker exited. Nothing in its log says.
+  no result. Run on its own, 0x10257FF0 gave PASS. The same happened to 0x1018EA50 in the promo12 run (9354bbe,
+  22 Oct: gated alone, PASS).
+- **What the gate does when it happens** (pipeline/gate_some.py): the dead worker's chunk has no results, the log
+  says `worker exited during ...` and `INCOMPLETE: N of M cases have results`, and the chunk's functions are
+  missing from the output. A missing function is never PASS.
+- **Since:** no `worker exited` line in any gate log kept under runs/ (searched 27 Oct). The `INCOMPLETE` lines in
+  the fs11 to fs19 logs (11 or 12 cases each) have no `worker exited` line before them, so they are cases that
+  gave no result for another reason. docs/FRAMESET_REMAINING.md names one (no DLL built, the `SQRT` row); that it
+  is the reason in each of these logs is not checked.
+- **Not known:** why the two workers exited. Neither log says, and the runs are not kept.
+- **What would settle it:** the next exit, with the worker's exit status recorded. gate_some.py does not record it
+  (it reads only the worker's stdout); `w.wait()`'s return code in the log would say whether a signal ended it.
 
-### P4. Clean-tree functions not verified (22 Oct, clean gate before the R2 fix)
+### P4. Clean-tree functions not verified (22 Oct, clean gate before the R2 fix; settled 27 Oct but 0x10003890)
 | Function | Verdict | What is known |
 |---|---|---|
 | 0x10040220 | FAIL | trial 1: AL 128 vs 144 (return byte differs) |
@@ -209,20 +241,57 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
 | 0x10003890 | UNRESOLVED | the call at 0x10003A50 has no definitive pop count |
 | 0x10016320 | INCONCLUSIVE | the original never returns under the gate's inputs |
 
-The causes of the three FAILs have not been looked into yet.
+- **Settled (27 Oct, from the history of verification/gate_clean_final.jsonl):**
+  - 0x1006F0A0, 0x1006F800: PASS since bae9357 (22 Oct evening). The FAIL was one ulp: the export's `sse` flag
+    reached the raw translation but not the clean tree; hx2clean now carries it (HISTORY, 22 Oct evening).
+  - 0x10016320: PASS since bae9357, under the fixed inputs data/case_inputs.json states (its GATE line says so).
+  - 0x10040220: left the tree in d3e3a50, back and PASS since 081ee53 (26 Oct: the fs16 export with XI_RETW, a
+    4-byte EAX return). It passes under the IDA case, which declares `bool` (P9), and under its other case
+    (gate_clean_altcases.jsonl).
+- **Still open, 0x10003890:** INCONCLUSIVE. The pop count is no longer the cause: data/sp_solved.json settles the
+  call at 0x10003A50 (pops 0). The original faults in all 100 trials through objects in its own `this`
+  (gate_clean_final.jsonl: reads at 0x0 to 0xD). Its 4 Oct live gates PASS on all four dumps, on the code of that
+  time. What would settle it: the live gates on the current tree (P1).
 
-### P5. verify_all `export-sp`: IDA's stack depths wrong in 0x100412B0 (before 21 Oct)
+### P5. verify_all `export-sp`: IDA's stack depths wrong in 0x100412B0 (before 21 Oct; re-read 27 Oct, open)
 - **Known:** from 0x100419F4 on, IDA's SP is 4 more than the exact depth (`data/ida_sp_audit.json`). The function's
   IDA-route raw gate FAILs, and it is not in the tree.
-- **Open:** verify_all reports this as a failure, because no correction is recorded for it.
+- **Open:** verify_all reports this as a failure, because no correction is recorded for it. Still so on 27 Oct
+  (verification/verify_all.json, `export-sp`: ok false; every commit since reports "all PASS but export-sp").
+- **Why the audit cannot name the cause (27 Oct):** ida_sp_check.py compares IDA's SP with the exact depth only
+  where sp_solve has one. 0x100419F4 is a block head that the jumps at 0x100412C0 and 0x100412FD reach at depth
+  28. On the path through the function's body, 13 calls have no pop count from any source (sp_solved, vcalls,
+  com_calls, purges, real_sp): 0x100413AF, 0x10041435, 0x10041453, 0x10041709, 0x10041729, 0x10041749,
+  0x10041769, 0x100417CE, 0x10041945, 0x10041965 (virtual calls), and 0x100414A2, 0x1004157F, 0x10041644 (to
+  0x1006AE30, which ends `jmp [ecx+0xd8]` and so has no `ret N` of its own). Past the first of them the exact
+  depth is not known, so where IDA's SP first goes wrong cannot be placed.
+- **Also:** the frame set reaches it by the Ghidra route, and there it is blocked on its own: in_stack / unaff reads
+  (docs/FRAMESET_REMAINING.md).
+- **What would settle it:** pop counts for those calls. Then the audit pins IDA's wrong change point, and
+  ida/ffxi_ida_fix.py can set it in the IDB (an owner IDA run) before a re-export.
 
-### P6. 51 gate-passed functions left out of the tree (22 Oct)
+### P6. 51 gate-passed functions left out of the tree (22 Oct; re-read 27 Oct, open for 9)
 - **Known:** each calls a game function that may read a register its wrapper does not pass: 49 EAX, 1 ECX, 1 EDX
   (`tree/left_out.json`).
 - **Needed to bring them back:** all callers known (`data/eax_inputs.json` `callers_known`), or declared void
   prototypes from the IDB, or the reads shown to be masked off.
+- **27 Oct, from the history of tree/left_out.json:** 51 (8ace87a) became 25 (d3e3a50), then 9 (bae9357,
+  pipeline/gate_sees_eax.py: a kept-EAX call the gate runs as the game does is the gate's to judge). 31b491b added
+  one function that does not compile (0x10018850), listed with the compiler's message. That makes 10.
+- **The 9, and the fact behind each** (hx2clean.wrapper_bad, from data/eax_inputs.json, eax_kept_sites.json,
+  ecx_use.json, edx_use.json):
+  - the callee reads its entry EAX: 0x10057FB0 (calls 0x10062D50), 0x1006B3B0 (0x10044490), 0x10125360
+    (0x10118DB0);
+  - the callee hands back EAX bytes this caller reads after the call: 0x10009920 (0x100098E0), 0x10013AD0
+    (0x1001E4B0), 0x10048000 (0x100538E0), 0x100C63D0 (0x10084350). `callers_known` is true for all seven
+    callees, so the first way out named above does not apply: the reads are facts;
+  - ECX: 0x10042D00 (0x1006AE30); EDX: 0x100A1AB0 (0x100A19B0).
+- **What would bring them back:** a call type that passes the register, a `/*regs:...*/` type, which
+  wrapper_bad already accepts, on the export's record of the callee from a proven entry read. For the kept EAX: a
+  callee wrapper that hands back all of EAX. The exports the tree was built from give these callees neither
+  (the reasons in left_out.json).
 
-### P7. msvc_tu.py covers only part of the tree (22 Oct)
+### P7. msvc_tu.py covers only part of the tree (22 Oct; settled 27 Oct)
 - **Covered:** integer code, member and free functions, globals (declared from `gfx_globals.hpp` and checked by
   address), calls to the game (`orig::`, typed wrappers and untyped XI_ANY arguments, checked by address).
 - **Left out, each with its reason:** floating point, address-taken frames (`xi_frame`), calls through a pointer,
@@ -231,16 +300,29 @@ The causes of the three FAILs have not been looked into yet.
   - implicit pointer conversions that GCC's `-fpermissive` accepts and MSVC6 rejects (`void *` to `T *`, between
     unrelated pointer types);
   - a few globals the body names that `gfx_globals.hpp` does not bind (e.g. `DAT_10485643`).
+- **Settled (27 Oct):** the two compile errors were fixed within the hour: cdb38d1 writes the implicit conversions
+  as their casts, e9b86c4 makes address-taken frames ordinary locals and finds every global. msvc_tu.py has since
+  been replaced as the measure by pipeline/vc6/sweep.py (129ddde, 25 Oct, to 331cf27, 26 Oct; docs/RECOMPILE.md).
+  verification/vc6_sweep.json gives every tree function a verdict: 1,650 IDENTICAL, 2,278 DIFFERS, 71 NO_COMPILE (cl
+  failed), and 252 LEFT_OUT, each with its reason. What is left is recorded there per function.
 
-### P8. The IDB declares `g_pCamera` (0x104568FC) as `std::codecvt_base *` (22 Oct)
+### P8. The IDB declares `g_pCamera` (0x104568FC) as `std::codecvt_base *` (22 Oct; re-read 27 Oct, open)
 - **Known:** the IDA export's code writes it from `App_Constructor`'s result: `g_pCamera = (std::codecvt_base *)v3;`
   (`data/exports/gfx_export.jsonl`). `tree/include/gfx_globals.hpp` carries that type. A C++ library facet type
   for an object the game's own constructor makes contradicts the code, so the declaration looks like a wrong
   library-signature match in the IDB.
-- **Not known:** the global's real type. It is left as declared until a source gives one (the class
-  `App_Constructor` builds, from its vtable or the PS2 debug data).
+- **Known since, from the game's code (27 Oct):** CApp_RunMainLoop allocates 0x33C bytes (0x10001569
+  `push 0x33c; call 0x10311BBB`), constructs them with 0x10010700 and stores the result at 0x104568FC (0x10001587).
+  0x10010700 stores the vtable 0x10329C14 at [this+0] (0x10010777). class_vtables.json does not name that vtable,
+  so data/this_class.json gives its methods no class. The dword before the vtable is no RTTI locator (the game
+  classes have none, docs/METHOD.md). 0x10010700 also calls 0x10027990 ten times, which the IDB names
+  `??0Iostream_init@@QAE@XZ_0`: another library name on game code. Windower 5 calls the pointer `render`
+  (data/community_objects.json), which is a community name, not a type.
+- **Not known:** the global's real type. It is left as declared until a source gives one.
+- **What would settle it:** a name for vtable 0x10329C14 (class_vtables.json), or a PS2 match of 0x10010700
+  (data/ps2_matches.json has none).
 
-### P9. A function's tree code and its clean-gate case can come from different routes (22 Oct)
+### P9. A function's tree code and its clean-gate case can come from different routes (22 Oct; settled 27 Oct)
 - **Known:** the clean cases come from `verification/cases_raw_final.json`, where a function with an IDA case keeps
   it. 3 tree functions take their code from another route because the IDA route's raw gate does not pass them, and
   for 2 the routes disagree on the return: 0x10040220 (IDA `bool`, frame set `void`) and 0x1003E910 (IDA `int`,
@@ -261,8 +343,15 @@ The causes of the three FAILs have not been looked into yet.
   - **Settled (26 Oct):** data/regs_after.json (pipeline/regs_after.py: every caller known, the callers' code
     followed from each return address) says some caller of 0x10119BC0 may read the EDX it leaves, so the older
     case's EDX comparison stands and so does its FAIL. 0x100180D0's callers are not all known: the same.
+- **Settled (27 Oct):** the rule that settles "which case holds" is the one applied since fs15: a function with two
+  cases is gated under both and keeps the stricter verdict (gate_clean_altcases.jsonl,
+  gate_clean_fs15_altcases.jsonl, gate_clean_regate_altcases.jsonl). Both return disagreements now pass the stricter
+  case. 0x10040220's code returns the 4-byte EAX (081ee53, fs16 XI_RETW) and PASSes the IDA `bool` case. 0x1003E910
+  PASSes its IDA `int` case. 0x10119BC0 and 0x100180D0 stay FAIL on EDX, a fact C++ cannot meet (P18). 0x100289F0
+  stays INCONCLUSIVE: under the older case's pointer arguments the original walks a list (`mov esi, [esi+0x10]; cmp
+  esi, ebx; jne`, 0x10028A18) through fuzzed memory and faults.
 
-### P10. The gate compared EAX only as wide as the decompiler's prototype (22 Oct; changed in b4d1d31)
+### P10. The gate compared EAX only as wide as the decompiler's prototype (22 Oct; changed in b4d1d31; settled 27 Oct)
 - **Known:** a case's `returns` of void, bool or a word limited the EAX comparison. Where `caller_reads.json` does
   not list the function, that width is only the prototype's. In the tree: 309 Ghidra-route `void` functions and 73
   IDA-route ones whose callers may read EAX, and 92 `bool` functions whose callers may read more than AL.
@@ -270,8 +359,15 @@ The causes of the three FAILs have not been looked into yet.
   UNRESOLVED. On a sample of 24, 5 differ there.
 - **Pending:** the four raw gates and then the clean gate rerun with it (started 22 Oct). Counts will drop where
   functions were PASS only because EAX went unseen.
+- **Settled (27 Oct):** the reruns were done. The raw gates: ida9, frameset9, fsfall9 (P12's numbers); the tree's raw
+  verdicts committed in 1f4fa1c (22 Oct). The clean gate: promo12 (d3e3a50, 22 Oct 06:38, after b4d1d31 at 01:26),
+  and the whole tree again in 9858cc1 (26 Oct). The rule is still in the gate (diffemu_gfx.py: "EAX at return
+  differs past the declared ..."). The functions it made UNRESOLVED were the subject of P12 and P20. One is left in
+  the tree: 0x1026E1F0 (P12).
+  verification/gate_raw_final.jsonl (5c295cd, 21 Oct) predates the rule; the tree is not built from it, and
+  gate_some.py reads it only to print changes.
 
-### P11. Ghidra's `CONCAT22(param >> 16, K)` returns: the source construct is not found (22 Oct)
+### P11. Ghidra's `CONCAT22(param >> 16, K)` returns: the source construct is not found (22 Oct; settled 27 Oct)
 - **Known:** 0x10005A00's game code loads its argument into EAX and returns with only AX written (`xor ax, ax` /
   `mov ax, 0x7f` / `mov ax, 0xff81`, then `ret`). The top half of EAX is the argument's.
 - **Tried, none gives that code:**
@@ -281,8 +377,15 @@ The causes of the three FAILs have not been looked into yet.
   - and/or masks;
   - early-return and if/else orders.
 - **Not known:** what source MSVC6 compiles to a partial-register write like this.
+- **Settled (27 Oct): the construct is a 16-bit return.** The VC6 sweep's `ret16` rule (4c1a60e, 25 Oct;
+  docs/RECOMPILE.md) writes `return (HIGH << 16) | (uint16_t)(LOW);` as `return LOW;` in a function returning
+  `unsigned short`. 14 functions are then IDENTICAL to the game's bytes (verification/vc6_sweep.json,
+  `rule_identical`). Among them is 0x100DB930, the same shape: `mov eax, [0x104DFD98]; test eax, eax; jne; xor ax,
+  ax; ret`. The upper half of EAX is whatever the compiler left there, as in the game. 0x10005A00 itself is not
+  reproduced: it DIFFERS with `ret16` tried, and as written its first difference is at +1 (`0x4C here, 0x44 in the
+  game`: the register its first load uses). Its tree code returns all of EAX and PASSes the gate.
 
-### P12. Functions called through vtables are UNRESOLVED on EAX past their declared return (22 Oct)
+### P12. Functions called through vtables are UNRESOLVED on EAX past their declared return (22 Oct; settled 27 Oct for the tree)
 - **Known:** with P10's rule, the IDA route's raw gate goes from 770 PASS to 666 (ida9, gate_raw10):
   - 99 functions differ in EAX bytes past their declared return: 69 `bool`, 22 `void`, 8 word;
   - 5 are made UNRESOLVED by an entry-EAX difference that one trial showed.
@@ -305,8 +408,14 @@ The causes of the three FAILs have not been looked into yet.
       that are not all known.
 
   For these, UNRESOLVED is correct. Recovering them needs the callers along the whole chain, not a local fix.
+- **Settled for the tree (27 Oct), by the reconstruction rather than by caller facts:** P20's XI_RETW (081ee53,
+  4fce05a, 26 Oct). A listed function is exported with a 4-byte EAX return, so the translation hands back what the
+  original leaves and the gate compares all of it. Of the tree's 4,463 functions, 1 is UNRESOLVED this way
+  (verification/gate_clean_final.jsonl): 0x1026E1F0. The tree still builds it from the `void` record. Its retw
+  records (ghidra_frameset16.jsonl, ghidra_frameset21.jsonl, `undefined4`) PASS raw. Why the tree does not use them
+  was not looked up here. The IDA route's raw gate under P10's rule is not re-measured here.
 
-### P13. IDB prototypes include types previous sessions inferred (22 Oct, from the owner)
+### P13. IDB prototypes include types previous sessions inferred (22 Oct, from the owner; re-read 27 Oct, open)
 - **Known:** the owner confirms some IDB types were inferred by earlier sessions. The ones `ida/ffxi_ida_fix.py`
   applied are listed in its data, with notes `[type 2026-10-02]`. Others cannot be told apart from declared ones,
   because the export records no prototype's origin.
@@ -351,8 +460,10 @@ The causes of the three FAILs have not been looked into yet.
   tree use. 148 have a recorded origin (143 `session`, 5 `library`); 224 are blank, and only the owner can say which
   are theirs. The gate does not yet read the marks: once there are `mine` entries, `site_pops` can take those types
   as a source too (an owner-typed prototype is a declared type), and the sites they settle re-gated.
+- **27 Oct:** unchanged. The file has no `mine` entry (the latest commit touching requests/ is 2a3eb35), and
+  `site_pops_init` still takes only the SDK-identical types. What would settle it: the owner's marks in that file.
 
-### P14. The Ghidra-route methods do not know their class (22 Oct)
+### P14. The Ghidra-route methods do not know their class (22 Oct; re-read 27 Oct, open)
 - **Known:** in the regenerated tree, 1,477 functions reach fields by raw offset from `self_` (9,543 accesses), as
   free `__thiscall` functions. Fields need the class.
 - **Measured** (`pipeline/this_class.py`, `data/this_class.json`; vcall_resolve's classes(F), vtables named by
@@ -363,8 +474,14 @@ The causes of the three FAILs have not been looked into yet.
   - 3,438 functions DLL-wide see a vtable `class_vtables.json` does not name.
 - **Needed for more:** the class from where the object is built (its constructor or allocation site), and names for
   the unnamed vtables. Both are larger analyses, not started.
+- **27 Oct:** the first was started the same day. pipeline/class_flow.py (c4755b1, 22 Oct 16:48) follows vtables,
+  vtable stores and callers to a fixpoint. It settles 983 functions DLL-wide (data/class_flow.json `_counts`: 694 by
+  vtable, 206 that store it, 83 by their callers), but only 23 of the tree's 1,108 class-less functions at the time.
+  data/this_class.json is unchanged since 9e3bc32 and still has 3,438 functions behind an unnamed vtable. Naming
+  the vtables is not started. What would settle more: names for those vtables, from a definitive source (a
+  constructor whose class is known, a PS2 match).
 
-### P15. Naming sessions invented area words (22 Oct)
+### P15. Naming sessions invented area words (22 Oct; settled 22 Oct, 519dee1)
 - **Found:** 653 of the 1,739 names the four naming sessions wrote (and 2 of my own pilot's) begin with an area word
   their batch's dossier never shows (`Crypt_` with no crypt anywhere in batch 031; `Pool_`, `Layout_`, `Ui_`).
   The README rule against it reached the sessions after most batches were written.
@@ -373,10 +490,13 @@ The causes of the three FAILs have not been looked into yet.
   `reprefix_names.py` applies the README's fallback (the batch's prefix) and keeps the session's name under
   `invented_prefix_name`; `merge_names.py` runs it on every merge. Where two names then collide, or two sessions
   gave one name to two functions, the entry is dropped (51): which one was meant is not known.
+- **Settled (27 Oct, re-read):** the prefix check is in check_names.py (519dee1, 22 Oct 06:00), and merge_names.py
+  runs reprefix_names.py and check_names.py on every names file it merges, through round 5 (42c6c25, 26 Oct). What
+  it does not cover is stated below and measured in P16.
 - **Not known:** the words after the prefix are not checked mechanically; `low` names (most) describe code
   mechanically by the README's own definition.
 
-### P16. How accurate the naming sessions are, measured (22 Oct)
+### P16. How accurate the naming sessions are, measured (22 Oct; settled 22 Oct, e0b9820)
 - **Method:** `pipeline/name_bench.py` builds the round-2 dossier for 100 functions whose names are known (23 PS2
   symbols matched on a unique literal; 77 DancingMad names in the frame set), with every spelling of the known name
   removed; the answer key is kept apart. Two models, a smaller (A) and a larger (B), each named all 100 under `batches/README.md`. A third
@@ -397,6 +517,8 @@ The causes of the three FAILs have not been looked into yet.
 - **Not a source of field names:** the PS2 DWARF types (2,758, with members) do not share the PC layouts
   (`XiActor` 160 bytes on PS2, `CXiActor` 196 on PC), so their member names apply only where a matched function pair
   shows the same field on both sides.
+- **Settled (27 Oct, re-read):** the entry records a measurement, made in e0b9820, and asks nothing further. Its
+  limits stand: "correct" is an upper bound, and a session's name is a reading of the dossier, not a fact.
 
 ## Resolved
 

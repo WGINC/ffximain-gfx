@@ -1,7 +1,8 @@
 """make_manifest.py -- xikit_manifest.txt: the functions the kit may swap, and what it must find at each entry.
 
 A function is listed only if (docs/KIT.md):
-  * it is verified: PASS on fuzz and the four dumps in the clean tree as built (verification/gate_clean_final.jsonl);
+  * it is verified: PASS in the clean tree as built (verification/gate_clean_final.jsonl: fuzz verdicts only since
+    the 22 Oct regeneration, 8ace87a; the four dumps' gates last run on the 4 Oct tree, docs/PROBLEMS.md P1);
   * the in-game reconstruction DLL exports it under the symbol the gate called (map_clean_cases.py);
   * its first 5 bytes are inside the function (data/func_extents.json), or the function is shorter and the rest
     is the int3/nop alignment padding after it (no function starts there);

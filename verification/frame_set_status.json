@@ -3462,7 +3462,9 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_10033800.cpp"
 },
 "0x10033A70": {
 "tree": true,
@@ -4437,6 +4439,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_1003DB60.cpp",
 "d3d": {
 "proven": 5,
 "accepted": 0
@@ -4511,6 +4515,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_1003E910.cpp",
 "d3d": {
 "proven": 1,
 "accepted": 0
@@ -4522,6 +4528,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_1003E9A0.cpp",
 "d3d": {
 "proven": 5,
 "accepted": 0
@@ -4968,6 +4976,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_100472F0.cpp",
 "d3d": {
 "proven": 2,
 "accepted": 0
@@ -6519,6 +6529,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_1006AF00.cpp",
 "d3d": {
 "proven": 4,
 "accepted": 0
@@ -6530,6 +6542,8 @@
 "bytes": "DIFFERS",
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3d_1006AF90.cpp",
 "d3d": {
 "proven": 4,
 "accepted": 0
@@ -14738,7 +14752,9 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 1,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_1011BBD0.cpp"
 },
 "0x1011BDC0": {
 "tree": true,

@@ -4,105 +4,105 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100353C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant0()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10036A80  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoElem::vf013(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10036A90  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoElem::vf014(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10036AA0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoElem::vf015()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10036AB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoElem::vf019()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x1003E690  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant1()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10041000  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant2()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10041120  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoElem::CMoElemFamily_IsKind0(int a1)
 {
   return a1 == 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100426A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant3()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100426D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant4()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043190  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant5()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043570  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant6()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043700  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant7()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10044880  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant8()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10044890  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoElem::Constructor(void * self)
 {
   uint64_t uVar1;
@@ -139,7 +139,7 @@ uint64_t __thiscall CMoElem::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10044950  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);
@@ -149,7 +149,7 @@ int * CMoElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10044970  (placed by callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CMoElem::CMoElemFamily_SharedCleanup()
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -214,7 +214,7 @@ char CMoElem::CMoElemFamily_SharedCleanup()
 }
 
 // FUNCTION: FFXIMAIN 0x10044AA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoElem::SetSourceAt0FC(void * self, int param_1)
 {
   uint32_t uVar1;
@@ -228,7 +228,7 @@ undefined4 __thiscall CMoElem::SetSourceAt0FC(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10044AC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 unsigned char __thiscall CMoElem::IsSourceAt0FCTest(void * self)
 {
   void *this_00;
@@ -248,7 +248,7 @@ unsigned char __thiscall CMoElem::IsSourceAt0FCTest(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10044AE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 95 returned normally, 74 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 undefined4 __thiscall CMoElem::AdvanceTimer(void * self)
 {
   uint32_t *puVar1;
@@ -330,7 +330,7 @@ LAB_10044bfd:
 }
 
 // FUNCTION: FFXIMAIN 0x10044C20  (unit CMoElem: class model places it in CMoElem)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CMoElem_SetSourceAt100(void * self_, int param_1)
 {
   *(uint32_t *)((int)self_ + 0x100) = *(uint32_t *)(param_1 + 0x14);
@@ -339,7 +339,7 @@ XI_API void __thiscall CMoElem_SetSourceAt100(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10045800  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __cdecl CMoElem::InvertInPlace(float * param_1)
 {
   float fVar1;
@@ -417,7 +417,7 @@ int __cdecl CMoElem::InvertInPlace(float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100458F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoElem::CheckAt138ThenCall(void * self)
 {
   uint32_t uVar1;
@@ -433,7 +433,7 @@ undefined4 __thiscall CMoElem::CheckAt138ThenCall(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10045920  (unit CMoElem: between 0x10044C20 (class model places it in CMoElem) and 0x100467C0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAndTest(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t a7;
@@ -479,7 +479,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAnd
 }
 
 // FUNCTION: FFXIMAIN 0x10045A40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoElem::PrepareDraw(void * self)
 {
   float fVar1;
@@ -519,7 +519,7 @@ undefined4 __thiscall CMoElem::PrepareDraw(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100467E0  (unit CMoElem: between 0x100467D0 (class model places it in CMoElem) and 0x100472D0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 76 returned normally, 1409 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 1409 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
 XI_API int __thiscall YmElem_SetupDevice(void *self_, int a1)
 {
   int **v2;
@@ -974,14 +974,14 @@ LABEL_9:
 }
 
 // FUNCTION: FFXIMAIN 0x100472E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoElem::vf018()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100472F0  (unit CMoElem: between 0x100472E0 (class model places it in CMoElem) and 0x100473E0 (class model places it in CMoElem), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall YmElem_RestoreDevice(_WORD *a1, __int16 a4)
 {
   __int16 v4;
@@ -1012,7 +1012,7 @@ XI_API int __thiscall YmElem_RestoreDevice(_WORD *a1, __int16 a4)
 }
 
 // FUNCTION: FFXIMAIN 0x100473F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 int __thiscall CMoElem::GetActiveField0A4(void * self)
 {
   int *piVar1;
@@ -1050,7 +1050,7 @@ int __thiscall CMoElem::GetActiveField0A4(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10047450  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoElem::GetAddr78(void * self)
 {
   int *piVar1;
@@ -1069,7 +1069,7 @@ int __thiscall CMoElem::GetAddr78(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10047490  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoElem::GetAddr84(void * self)
 {
   int *piVar1;
@@ -1088,35 +1088,35 @@ int __thiscall CMoElem::GetAddr84(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10047550  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant9()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10047570  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant10()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100548A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant11()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100562D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant12()
 {
   return &CMoElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10064160  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoElem::GetRuntimeClass_variant13()
 {
   return &CMoElem_classdesc;

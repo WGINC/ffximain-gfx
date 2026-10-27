@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A34D0  (unit unit_102A34D0: no unit evidence of its own; in the gap between 0x102A33F0 (sqrdMaterial) and 0x102A3780 (sqArray) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit102A34D0_ApplyLighting(int param_1)
 {
   char xi_frame[16] __attribute__((aligned(4)));
@@ -25,7 +25,7 @@ XI_API void __cdecl Unit102A34D0_ApplyLighting(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A3540  (unit unit_102A34D0: no unit evidence of its own; in the gap between 0x102A33F0 (sqrdMaterial) and 0x102A3780 (sqArray) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_SetParam9cc(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x9cc) = (float)(long double)param_1;
@@ -33,7 +33,7 @@ XI_API void __cdecl Sqgx_SetParam9cc(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A3760  (unit unit_102A34D0: no unit evidence of its own; in the gap between 0x102A33F0 (sqrdMaterial) and 0x102A3780 (sqArray) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_ResetCounter(void)
 {
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0xb18) = 0;
@@ -41,7 +41,7 @@ XI_API void __cdecl Sqgx_ResetCounter(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102A3770  (unit unit_102A34D0: no unit evidence of its own; in the gap between 0x102A33F0 (sqrdMaterial) and 0x102A3780 (sqArray) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_IncCounter(void)
 {
   *(int *)(g_pSqgxContext_as_s32 + 0xb18) = *(int *)(g_pSqgxContext_as_s32 + 0xb18) + 1;

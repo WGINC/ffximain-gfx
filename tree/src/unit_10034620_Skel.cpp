@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10034620  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 66
 XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
 {
   undefined4 *this_00;
@@ -65,7 +65,7 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100347D0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
 XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int param_2, int param_3, int param_4)
 {
   uint8_t bVar1;
@@ -205,7 +205,7 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
 }
 
 // FUNCTION: FFXIMAIN 0x10034B80  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Skel_ComposeFromBone(uint8_t * param_1)
 {
   uint16_t uVar1;
@@ -241,7 +241,7 @@ XI_API void __stdcall Skel_ComposeFromBone(uint8_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10035170  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 66
 XI_API void __thiscall Skel_OffsetAllTranslations(void * self_, float * param_1, int param_2)
 {
   int iVar1;
@@ -275,7 +275,7 @@ XI_API void __thiscall Skel_OffsetAllTranslations(void * self_, float * param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x100351F0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Skel_GetRecordAt(void * self_, int param_1)
 {
   int iVar1;
@@ -288,7 +288,7 @@ XI_API int __thiscall Skel_GetRecordAt(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10035210  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Skel_GetBoneTableBase(void * self_)
 {
   uint32_t uVar1;
@@ -305,7 +305,7 @@ XI_API int __thiscall Skel_GetBoneTableBase(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10035250  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint16_t * __thiscall Skel_GetTableAfterBones(void * self_)
 {
   uint16_t *puVar1;
@@ -318,7 +318,7 @@ XI_API uint16_t * __thiscall Skel_GetTableAfterBones(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10035270  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Skel_GetEntryAt(void * self_, int param_1)
 {
   uint16_t *puVar1;
@@ -331,7 +331,7 @@ XI_API int __thiscall Skel_GetEntryAt(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100352A0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 88
 XI_API undefined4 __thiscall Skel_ClearMarks(void * self_)
 {
   uint16_t uVar1;
@@ -357,7 +357,7 @@ XI_API undefined4 __thiscall Skel_ClearMarks(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100352F0  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44
 XI_API void __thiscall Skel_MarkMarkedChains(void * self_)
 {
   uint16_t uVar1;
@@ -376,7 +376,7 @@ XI_API void __thiscall Skel_MarkMarkedChains(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10035330  (unit unit_10034620_Skel: no unit evidence of its own; in the gap between 0x100343C0 (CXiSkeletonActor) and 0x100353D0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 21
 XI_API void __thiscall Skel_MarkChain(void * self_, int param_1, undefined4 param_2, uint32_t param_3)
 {
   uint32_t uVar1;

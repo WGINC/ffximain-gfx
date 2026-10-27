@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100426F0  (unit unit_100426F0: no unit evidence of its own; in the gap between 0x100426E0 (CMoDist) and 0x10042D00 (CMoDistMorphElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 69 returned normally, 332 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 332 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69
 XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
 {
   void (__thiscall **vftable)(CMoProcessor *, int *, char *, int, float *, int, int, int);

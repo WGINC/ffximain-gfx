@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100394D0  (unit CYyObject_VT_1032A9F8: between 0x10039470 (class model places it in CYyObject_VT_1032A9F8) and 0x100395D0 (class model places it in CYyObject_VT_1032A9F8), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   void *this_00;
@@ -29,7 +29,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
 }
 
 // FUNCTION: FFXIMAIN 0x10039550  (unit CYyObject_VT_1032A9F8: between 0x10039470 (class model places it in CYyObject_VT_1032A9F8) and 0x100395D0 (class model places it in CYyObject_VT_1032A9F8), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall ThreadPool_Shutdown(void * self_)
 {
   int *piVar1;
@@ -58,7 +58,7 @@ XI_API void __thiscall ThreadPool_Shutdown(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10039590  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CYyObject_VT_1032A9F8::Call10039700IfField8(void * self, undefined4 xi_s1)
 {
   uint32_t uVar1;
@@ -71,7 +71,7 @@ undefined4 __thiscall CYyObject_VT_1032A9F8::Call10039700IfField8(void * self, u
 }
 
 // FUNCTION: FFXIMAIN 0x100395D0  (unit CYyObject_VT_1032A9F8: class model places it in CYyObject_VT_1032A9F8)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall CYyObject_VT_1032A9F8_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_VT_1032A9F8_ScalarDeletingDtor_2_1032aa14;

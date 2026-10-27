@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100AB550  (unit unit_100AB450: no unit evidence of its own; in the gap between 0x100AB440 (CXiSklFurnitureActor) and 0x100AB590 (CXiMannequinActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit100AB450_ReleaseSlot(int param_1)
 {
   uint16_t uVar1;

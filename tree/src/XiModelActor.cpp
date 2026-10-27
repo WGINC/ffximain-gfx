@@ -4,21 +4,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100C3FB0  (unit XiModelActor: class model places it in XiModelActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall XiModelActor_GetPtr734(void * self_)
 {
   return (int)self_ + 0x734;
 }
 
 // FUNCTION: FFXIMAIN 0x100C3FC0  (unit XiModelActor: class model places it in XiModelActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall XiModelActor_GetPtr744(void * self_)
 {
   return (int)self_ + 0x744;
 }
 
 // FUNCTION: FFXIMAIN 0x100C4B00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall XiModelActor::CopyRectFromSlot(void * self, undefined4 param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
@@ -38,7 +38,7 @@ undefined4 __thiscall XiModelActor::CopyRectFromSlot(void * self, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x100C4B50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall XiModelActor::BuildWorldMatrix(void * self, undefined4 param_1, void * param_2)
 {
   int iVar1;
@@ -59,7 +59,7 @@ undefined4 __thiscall XiModelActor::BuildWorldMatrix(void * self, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x100C4C20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall XiModelActor::BuildMatrixAndDraw(void * self)
 {
   void *this_00;

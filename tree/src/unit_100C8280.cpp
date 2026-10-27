@@ -2,7 +2,7 @@
 #include "gfx_all.hpp"
 
 // FUNCTION: FFXIMAIN 0x100CB4E0  (unit unit_100C8280: no unit evidence of its own; in the gap between 0x100C63D0 (CXiSkeletonActor) and 0x100CBD60 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 547 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 547 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API int __thiscall Actor_SelectNearestLights(void *self_)
 {
   _BYTE *v1;

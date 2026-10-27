@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C74C.hpp"
 
 // FUNCTION: FFXIMAIN 0x10071B50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 unsigned int ** CMoResource_VT_1032C74C::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);

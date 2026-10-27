@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10036B90  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefined4 param_1)
 {
   uint32_t xi_entry_eax = 0;
@@ -24,7 +24,7 @@ XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x10036C70  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl fn_10036C70(float * param_1, uint32_t * param_2, float * param_3, float param_4, float param_5, float param_6, undefined4 param_7, int param_8)
 {
   long double fVar1;
@@ -154,7 +154,7 @@ XI_API uint32_t __cdecl fn_10036C70(float * param_1, uint32_t * param_2, float *
 }
 
 // FUNCTION: FFXIMAIN 0x10036F00  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __thiscall Unit10036B90_SetVolumeScalar(void * self_, undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
@@ -170,7 +170,7 @@ XI_API uint64_t __thiscall Unit10036B90_SetVolumeScalar(void * self_, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x10036F50  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
@@ -187,7 +187,7 @@ XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x10037020  (unit unit_10036B90: no unit evidence of its own; in the gap between 0x10036B80 (CYySepRes) and 0x10037290 (CYyMusicLoadTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 37 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 37 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 37
 XI_API void __thiscall Unit10036B90_CreateSoundElem(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int xi_eax;

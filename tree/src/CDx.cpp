@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10008F80  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _UNKNOWN ** __cdecl CDx::GetRuntimeClass()
 {
   return &CDx_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10009100  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * CDx::ScalarDeletingDtor(char a2)
 {
   orig::CDx_Destructor(this);
@@ -21,7 +21,7 @@ void * CDx::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100091B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CDx::Initialize()
 {
   unsigned __int8 *v2;
@@ -218,7 +218,7 @@ LABEL_69:
 }
 
 // FUNCTION: FFXIMAIN 0x10009620  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 {
   *(_DWORD *)&at<uint8_t>(this, 0x90) = a3;
@@ -227,7 +227,7 @@ char CDx::SetDefaultRenderTargets(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10009640  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetClearParams(int a2, int a3, int a4, int a5)
 {
   *(_DWORD *)&this->clearFlags = a2;
@@ -238,7 +238,7 @@ int CDx::SetClearParams(int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x10009670  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetClearColor(int a2)
 {
   *(_DWORD *)&this->clearColor = a2;
@@ -246,7 +246,7 @@ int CDx::SetClearColor(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100096B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -267,14 +267,14 @@ int CDx::EndClearBegin(int a2, int a3, int a4, int a5, int a6, int a7)
 }
 
 // FUNCTION: FFXIMAIN 0x10009710  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 bool CDx::TestCooperativeLevel()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 12))(at<_DWORD *>(this, 0xC)) == 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10009720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 124 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __cdecl CDx::Present()
 {
   D3DHolder *v0;
@@ -296,21 +296,21 @@ int __cdecl CDx::Present()
 }
 
 // FUNCTION: FFXIMAIN 0x10009730  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::BeginScene()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 136))(at<_DWORD *>(this, 0xC));
 }
 
 // FUNCTION: FFXIMAIN 0x10009740  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::EndScene()
 {
   return (*(int (__stdcall **)(_DWORD))(*at<_DWORD *>(this, 0xC) + 140))(at<_DWORD *>(this, 0xC));
 }
 
 // FUNCTION: FFXIMAIN 0x10009750  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __stdcall CDx::SetHardwareCursor(HCURSOR param_1)
 {
   if (g_cfgHardwareMouse != 0) {
@@ -323,7 +323,7 @@ void __stdcall CDx::SetHardwareCursor(HCURSOR param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10009770  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API BOOL __stdcall SetCursorPos(int X, int Y)
 {
   BOOL BVar1;
@@ -335,7 +335,7 @@ XI_API BOOL __stdcall SetCursorPos(int X, int Y)
 }
 
 // FUNCTION: FFXIMAIN 0x10009780  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 95 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CDx::ShowCursor(void * self, undefined4 param_1)
 {
   uint32_t uVar1;
@@ -372,7 +372,7 @@ undefined4 __thiscall CDx::ShowCursor(void * self, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100097F0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 HCURSOR CDx::SetCursorShape(int a2, int a3)
 {
   HCURSOR result;
@@ -412,7 +412,7 @@ HCURSOR CDx::SetCursorShape(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10009870  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 96 returned normally, 24 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 24 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
 undefined4 __thiscall CDx::CreateDeviceObjectOnce(void * self, undefined4 param_1, int * param_2)
 {
   if ((*(char *)((int)self + 0x909) == '\0') || (*(char *)((int)self + 0x90a) == '\0')) {
@@ -432,7 +432,7 @@ undefined4 __thiscall CDx::CreateDeviceObjectOnce(void * self, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x100098E0  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
-// GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_EndAndApplyStateBlock(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
 {
   int a2;
@@ -450,7 +450,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_EndAndApplyStateBlock
 }
 
 // FUNCTION: FFXIMAIN 0x10009D20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CDx::AppendStateRecord(void * self)
 {
   uint32_t uVar1;
@@ -470,7 +470,7 @@ undefined4 __thiscall CDx::AppendStateRecord(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10009DC0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetViewport(const void *a2)
 {
   qmemcpy(&((unsigned __int8 *)((char *)this + 0x10))[24 * this->renderTargetDepth + 136], a2, 0x18u);
@@ -478,7 +478,7 @@ int CDx::SetViewport(const void *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10009E00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 unsigned __int8 * CDx::GetRenderTargetTop()
 {
   unsigned __int8 * self = reinterpret_cast<unsigned __int8 *>(this);  // byte-exact view for the rest
@@ -486,7 +486,7 @@ unsigned __int8 * CDx::GetRenderTargetTop()
 }
 
 // FUNCTION: FFXIMAIN 0x10009E20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::PushRenderTarget(int a2, int a3, int a4)
 {
   __int16 v5[2];
@@ -496,7 +496,7 @@ int CDx::PushRenderTarget(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10009EA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::PushRenderTargetTexture_Flag1(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
@@ -508,7 +508,7 @@ void __thiscall CDx::PushRenderTargetTexture_Flag1(void * self, int * param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x10009EE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::PushRenderTargetTexture_Flag0(void * self, int * param_1, undefined4 xi_s2, undefined4 xi_s3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
@@ -520,7 +520,7 @@ void __thiscall CDx::PushRenderTargetTexture_Flag0(void * self, int * param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x10009F20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 80 returned normally, 438 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 438 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
 int CDx::PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a6, int a7, int a8)
 {
   int v9;
@@ -560,7 +560,7 @@ int CDx::PushRenderTargetTexture(int a2, int a3, int a4, __int16 *a5, __int16 *a
 }
 
 // FUNCTION: FFXIMAIN 0x1000A070  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::Call1000A0A0Zeroed(void * self, int * param_1, undefined4 param_2, undefined4 param_3)
 {
   char xi_frame[4] __attribute__((aligned(4)));
@@ -572,7 +572,7 @@ void __thiscall CDx::Call1000A0A0Zeroed(void * self, int * param_1, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x1000A1D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetTexture(int a2, int a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -581,7 +581,7 @@ int CDx::SetTexture(int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A200  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xf4))))(*(int **)((int)self + 0xc),0,0);
@@ -590,7 +590,7 @@ void __thiscall CDx::PopRenderTargetA(void * self, undefined4 xi_s1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1000A230  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self + 0xc) + 0xf4))))(*(int **)((int)self + 0xc),0,0);
@@ -599,7 +599,7 @@ void __thiscall CDx::PopRenderTargetB(void * self, undefined4 xi_s1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1000A290  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::PopRenderTargetDefault(void * self, undefined4 xi_s1, undefined4 xi_s2)
 {
   orig::CDx_PopRenderTarget_v1(self,xi_s1,xi_s2,1,1);
@@ -607,7 +607,7 @@ void __thiscall CDx::PopRenderTargetDefault(void * self, undefined4 xi_s1, undef
 }
 
 // FUNCTION: FFXIMAIN 0x1000A390  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::EndAndClearBegin(void * self, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   orig::CDx_EndClearBegin_v1(self,0,0,param_1,param_2,param_3,param_4);
@@ -615,7 +615,7 @@ void __thiscall CDx::EndAndClearBegin(void * self, uint32_t param_1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1000A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -683,7 +683,7 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A4F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::DrawTextureToViewport(void * self, undefined4 param_1, undefined4 param_2, undefined4 xi_s3)
 {
   uint32_t uVar1;
@@ -703,7 +703,7 @@ void __thiscall CDx::DrawTextureToViewport(void * self, undefined4 param_1, unde
 }
 
 // FUNCTION: FFXIMAIN 0x1000A550  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CDx::DrawTexturedScreenQuadUnit(void * self, undefined4 param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
 {
   char xi_frame[16] __attribute__((aligned(4)));
@@ -721,7 +721,7 @@ void __thiscall CDx::DrawTexturedScreenQuadUnit(void * self, undefined4 param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x1000A5A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -807,7 +807,7 @@ int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 229 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 229 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DWORD * a4, int a5, int a6)
 {
   int v7;
@@ -871,7 +871,7 @@ _DWORD * CDx::CreateTexture(unsigned __int16 width, unsigned __int16 height, _DW
 }
 
 // FUNCTION: FFXIMAIN 0x1000A800  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
 {
   orig::CDx_PushRenderTarget(this, a2, a3, a4);
@@ -879,7 +879,7 @@ char CDx::PushRenderTargetRet1(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000A820  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 1552 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1552 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawFadeQuad(int a1, int a2)
 {
   int v4;
@@ -936,7 +936,7 @@ int CDx::DrawFadeQuad(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000AAB0  (placed by typed this)
-// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::Post_DepthBlurComposite(int a1, int a2)
 {
   orig::CDx_SetDefaultRenderState(this);
@@ -959,7 +959,7 @@ int CDx::Post_DepthBlurComposite(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000AE40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CDx::StepFadeCounter(void * self, float param_1, float param_2, int param_3)
 {
   long double fVar1;
@@ -997,21 +997,21 @@ uint32_t __thiscall CDx::StepFadeCounter(void * self, float param_1, float param
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __cdecl CDx::NopA()
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __cdecl CDx::NopB()
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1000BB90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 384 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 384 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CDx::DrawStereoOddFrameOverlay(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1079,7 +1079,7 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BD50  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetTransform(int a2, const void *a3)
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest
@@ -1104,7 +1104,7 @@ LABEL_7:
 }
 
 // FUNCTION: FFXIMAIN 0x1000BDB0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::GetTransformCached(int a2, void *a3)
 {
   int result;
@@ -1131,7 +1131,7 @@ int CDx::GetTransformCached(int a2, void *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BE10  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_SetVertexShaderCached(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   if (param_2 == 0) {
@@ -1146,7 +1146,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_SetVertexShaderCached
 }
 
 // FUNCTION: FFXIMAIN 0x1000BE50  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
 {
   uint32_t uVar1;
@@ -1213,7 +1213,7 @@ XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1000BF30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 3 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::SetLight(int a2, float *a3)
 {
   float v5[26];
@@ -1239,7 +1239,7 @@ int CDx::SetLight(int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 3394 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 3394 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1428,7 +1428,7 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C6E0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1468,7 +1468,7 @@ int CDx::CreateStereoResources(unsigned __int16 a1, unsigned __int16 a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1000C7C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 464 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 464 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::ReleaseStereoResources()
 {
   int v2;
@@ -1517,7 +1517,7 @@ int CDx::ReleaseStereoResources()
 }
 
 // FUNCTION: FFXIMAIN 0x1000C850  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 136 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 136 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::CreateRampTexture1x16(int a1)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1581,7 +1581,7 @@ LABEL_12:
 }
 
 // FUNCTION: FFXIMAIN 0x1000C900  (placed by IDB name)
-// GATE: PASS -- 100 trials, 61 returned normally, 147 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 61 returned normally, 147 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61
 char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 {
   IDirect3DTexture8 **v3;
@@ -1633,7 +1633,7 @@ char CDx::CreateRampTextures1024x2(IDirect3DTexture8 **a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CB20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawPrimitive(int a1, int a2, int a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1665,7 +1665,7 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CC00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 169 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 169 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1711,7 +1711,7 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CD00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 168 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -1754,7 +1754,7 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1000CF20  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CDx::ApplyStereoEyeProjection()
 {
   int v2;
@@ -1780,7 +1780,7 @@ void CDx::ApplyStereoEyeProjection()
 }
 
 // FUNCTION: FFXIMAIN 0x1000CF90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CDx::RestoreProjection()
 {
   _DWORD ** self = reinterpret_cast<_DWORD **>(this);  // byte-exact view for the rest

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102AF540  (unit sqinCluster: asserts sqinCluster.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl sqinCluster_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl sqinCluster_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102AF570  (unit sqinCluster: name sqinCluster_Init)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl sqinCluster_Init(undefined4 * param_1)
 {
   *param_1 = 0x150002;

@@ -24,9 +24,9 @@ owner or a run in the game).
 | 168 | 15% | P17: pushed-argument counts from the caller's stack; the gate compares them | done | |
 | 169 | 10% | sp_solve round: drop the "no ret N = never returns" assumption | done | +3,820 solved calls |
 | 108 | 15% | Fix the 23 remaining fs14 FAILs | done | 6 fixed; the rest each with its cause or missing fact (PROBLEMS P18) |
-| 109 | 15% | Bring the remaining frame-set functions into the tree | partly | fs22 (52 raw PASS) and fs23 in tree r13; fs24's 387 raw PASS wait for tree r14 (HANDOFF 3.1); the rest by blocker in docs/FRAMESET_REMAINING.md |
+| 109 | 15% | Bring the remaining frame-set functions into the tree | done | tree r14: 4,449 frame-set functions in the tree, 4,437 PASS; what is left, by blocker, in docs/FRAMESET_REMAINING.md. Earlier: | fs22 (52 raw PASS) and fs23 in tree r13; fs24's 387 raw PASS wait for tree r14 (HANDOFF 3.1); the rest by blocker in docs/FRAMESET_REMAINING.md |
 | 110 | 15% | Clear the PROBLEMS.md open items P1 to P16 | done | re-read 27 Oct: settled, or each states what would settle it (P1, P3, P5, P6, P8, P13, P14 open) |
-| 111 | 15% | Settle 0x10003890 INCONCLUSIVE | owner | the original faults on every fuzzed input; needs the live gate (P1) or a capture where it runs |
+| 111 | 15% | Settle 0x10003890 INCONCLUSIVE | done | PASS on the live gate of the four dumps (3 returning trials each; HISTORY 27 Oct late) |
 | 112 | 15% | Raise gate coverage of hot flag-4 functions from captures | done | the owner's 8 captures replayed: 7 PASS, 1 UNRESOLVED (HISTORY 27 Oct) |
 | 113 | 15% | Occlusion readback 0x1006C8B0 into the tree | done | |
 | 170 | 15% | P18: read the FAILs and INCONCLUSIVEs of the 26 Oct re-gate | done | 4 translator defects fixed, 9 functions PASS raw (03cf30d) |

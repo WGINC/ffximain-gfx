@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10047B80  (unit unit_10047B80: no unit evidence of its own; in the gap between 0x10047960 (CMoSkeletonElem) and 0x10047C30 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __thiscall Unit10047B80_GetOffsetVec(void * self_)
 {
   int *piVar1;

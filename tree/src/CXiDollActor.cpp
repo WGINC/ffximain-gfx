@@ -3,35 +3,35 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100ABD90  (unit CXiDollActor: class model places it in CXiDollActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall fn_100ABD90(void * self_)
 {
   return (int)self_ + 0x404;
 }
 
 // FUNCTION: FFXIMAIN 0x100ABDA0  (unit CXiDollActor: class model places it in CXiDollActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall fn_100ABDA0(void * self_)
 {
   return (int)self_ + 0x414;
 }
 
 // FUNCTION: FFXIMAIN 0x100ABE30  (unit CXiDollActor: class model places it in CXiDollActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall fn_100ABE30(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x434);
 }
 
 // FUNCTION: FFXIMAIN 0x100ABE40  (unit CXiDollActor: class model places it in CXiDollActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall fn_100ABE40(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x438);
 }
 
 // FUNCTION: FFXIMAIN 0x100ABFB0  (unit CXiDollActor: between 0x100ABF80 (stores CXiDollActor vtable (ctor/dtor)) and 0x100AC2F0 (name CXiDollActor_thunk_C4_0), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall fn_100ABFB0(void * self_, int param_1, undefined4 * param_2)
 {
   uint32_t uVar1;

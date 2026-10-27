@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027B580  (unit sqskSkeleton: asserts sqskSkeleton.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl SqskSkeleton_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqskSkeleton_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1027B5A0  (unit sqskSkeleton: between 0x1027B580 (asserts sqskSkeleton.c) and 0x1027B5E0 (asserts sqskSkeleton.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqskSkeleton_Init(undefined4 * param_1)
 {
   *param_1 = 0xb0001;
@@ -32,7 +32,7 @@ XI_API void __cdecl SqskSkeleton_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027C4C0  (unit sqskSkeleton: asserts sqskSkeleton.c)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26
 XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2)
 {
   undefined4 *puVar1;
@@ -81,7 +81,7 @@ XI_API void __cdecl SqskSkeleton_SetNodeCount(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027C900  (unit sqskSkeleton: asserts sqskSkeleton.c)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 XI_API int __cdecl SqskSkeleton_FindBoneIndex(int param_1, int param_2)
 {
   int iVar1;
@@ -107,7 +107,7 @@ XI_API int __cdecl SqskSkeleton_FindBoneIndex(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027C980  (unit sqskSkeleton: asserts sqskSkeleton.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2)
 {
   if ((-1 < param_2) && (param_2 < *(int *)(param_1 + 0x28))) {
@@ -120,7 +120,7 @@ XI_API int __cdecl SqskSkeleton_GetNode(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027C9D0  (unit sqskSkeleton: between 0x1027C980 (asserts sqskSkeleton.c) and 0x1027CC70 (name sqskSkeleton_CountAnimChannels), both within 4 KB)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28
 XI_API void __cdecl SqskSkeleton_Release(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {
@@ -133,7 +133,7 @@ XI_API void __cdecl SqskSkeleton_Release(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A420  (unit sqskSkeleton: name sqskSkeleton_GetNodeByIndex)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl sqskSkeleton_GetNodeByIndex(int param_1, int param_2)
 {
   int iVar1;

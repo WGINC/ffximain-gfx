@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10299FE0  (unit sqinSkin: asserts sqinSkin.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl SqinSkin_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqinSkin_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A000  (unit sqinSkin: between 0x10299FE0 (asserts sqinSkin.c) and 0x1029A060 (asserts sqinSkin.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqinSkin_Init(undefined4 * param_1)
 {
   int iVar1;
@@ -37,7 +37,7 @@ XI_API void __cdecl SqinSkin_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A160  (unit sqinSkin: asserts sqinSkin.c)
-// GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 49
 XI_API void __cdecl SqinSkin_InitShapeData(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4, undefined4 param_5, uint32_t param_6)
 {
   undefined4 *puVar1;
@@ -84,7 +84,7 @@ XI_API void __cdecl SqinSkin_InitShapeData(int param_1, int param_2, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1029A230  (unit sqinSkin: between 0x1029A160 (asserts sqinSkin.c) and 0x1029A2E0 (asserts sqinSkin.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69
 XI_API void __cdecl SqinSkin_PropagateValue38(int param_1, undefined4 param_2)
 {
   int *piVar1;
@@ -108,7 +108,7 @@ XI_API void __cdecl SqinSkin_PropagateValue38(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A330  (unit sqinSkin: asserts sqinSkin.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
 {
   uint32_t xi_entry_eax = 0;
@@ -128,7 +128,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A450  (unit sqinSkin: asserts sqinSkin.c)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 52
 XI_API void __cdecl SqinSkin_BuildPartShapes(int param_1)
 {
   uint32_t *puVar1;
@@ -225,7 +225,7 @@ XI_API void __cdecl SqinSkin_BuildPartShapes(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029A6F0  (unit sqinSkin: between 0x1029A450 (asserts sqinSkin.c) and 0x1029A710 (asserts sqinSkin.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqinSkin_ReleaseIfHasData(int param_1)
 {
   if ((param_1 != 0) && (*(int *)(param_1 + 0x3c) != 0)) {

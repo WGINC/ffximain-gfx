@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10284EB0  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10284EB0_NoOp(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10284EF0  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 77 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 77 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl sqgxVertexShaderRelease(void)
 {
   int result;
@@ -25,7 +25,7 @@ XI_API int __cdecl sqgxVertexShaderRelease(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10284F20  (unit unit_10284EB0: no unit evidence of its own; in the gap between 0x10284B20 (sqgxContext) and 0x10284F50 (sqmoChannel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __cdecl Unit10284EB0_GetFloat20(int param_1)
 {
   return (long double)*(float *)(param_1 + 0x20);

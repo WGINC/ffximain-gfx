@@ -3,7 +3,7 @@
 #include "CMoOtTask_VT_1032AE64.hpp"
 
 // FUNCTION: FFXIMAIN 0x10042020  (placed by IDB name)
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
 char CMoOtTask_VT_1032AE64::vf8()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

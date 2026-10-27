@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101CCE00  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl Yk_MapCodeOffset(int param_1)
 {
   int iVar1;
@@ -26,14 +26,14 @@ XI_API int __cdecl Yk_MapCodeOffset(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CCE50  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl fn_101CCE50(int param_1)
 {
   return ((char *)&DAT_1037d7b4) + param_1 * 0x10;
 }
 
 // FUNCTION: FFXIMAIN 0x101CCE90  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl fn_101CCE90(int param_1)
 {
   if (*(short *)(g_C_106631D4 + 0x26) == 0x121) {
@@ -43,7 +43,7 @@ XI_API uint8_t * __cdecl fn_101CCE90(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CD2D0  (unit YkFurniture: between 0x101CCDF0 (class model places it in YkFurniture) and 0x101CD3B0 (stores YkFurniture vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53
 XI_API void __thiscall fn_101CD2D0(void * self_, void * param_1, undefined4 param_2)
 {
   int iVar1;
@@ -91,7 +91,7 @@ switchD_101cd2fb_default:
 }
 
 // FUNCTION: FFXIMAIN 0x101CD900  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 147 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 147 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall YkFurniture::Destructor(void * self)
 {
   int *piVar1;

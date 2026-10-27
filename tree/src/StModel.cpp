@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102524E0  (unit StModel: asserts StModel.cpp)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
 {
   uint32_t uVar1;
@@ -55,7 +55,7 @@ XI_API undefined4 __cdecl StModelItemClear(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10252610  (unit StModel: between 0x102524E0 (asserts StModel.cpp) and 0x102526F0 (asserts StModel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StModelItem_ReadStart(int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -83,7 +83,7 @@ XI_API undefined4 __cdecl StModelItem_ReadStart(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102528D0  (unit StModel: asserts StModel.cpp)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StModelItem_Resolve(uint32_t * param_1)
 {
   uint32_t uVar1;

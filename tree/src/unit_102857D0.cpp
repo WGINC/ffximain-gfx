@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102857D0  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit102857D0_GetFlagByte14(int param_1)
 {
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(param_1 + 0x14))));
 }
 
 // FUNCTION: FFXIMAIN 0x102857E0  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit102857D0_SetByte14(undefined4 xi_eax, int param_1, undefined4 param_2)
 {
   *(uint8_t *)(param_1 + 0x14) = (uint8_t)param_2;
@@ -18,7 +18,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit102857D0_SetByte14(unde
 }
 
 // FUNCTION: FFXIMAIN 0x102857F0  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26
 XI_API undefined4 __cdecl Unit102857D0_InvokeCallback18(int param_1)
 {
   uint32_t uVar1;
@@ -33,7 +33,7 @@ XI_API undefined4 __cdecl Unit102857D0_InvokeCallback18(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10285850  (unit unit_102857D0: no unit evidence of its own; in the gap between 0x10285780 (sqObject) and 0x102858D0 (sqError) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 15 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 15 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 15
 XI_API void __cdecl sqDrawableDraw(int param_1)
 {
   if (*(code **)(param_1 + 0x30) != (code *)0x0) {

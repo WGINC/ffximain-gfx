@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1029BCD0  (unit unit_1029BCD0: no unit evidence of its own; in the gap between 0x1029BB60 (sqgxDlist) and 0x1029C260 (sqgxAniso) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 50 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 50 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50
 XI_API void __cdecl Sqgx_CopyBlockToContext(int param_1)
 {
   int iVar1;
@@ -26,7 +26,7 @@ XI_API void __cdecl Sqgx_CopyBlockToContext(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029BD40  (unit unit_1029BCD0: no unit evidence of its own; in the gap between 0x1029BB60 (sqgxDlist) and 0x1029C260 (sqgxAniso) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_SetFloat18(float param_1)
 {
   *(float *)(g_pSqgxContext_as_s32 + 0x18) = (float)(long double)param_1;
@@ -34,7 +34,7 @@ XI_API void __cdecl Sqgx_SetFloat18(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029C180  (unit unit_1029BCD0: no unit evidence of its own; in the gap between 0x1029BB60 (sqgxDlist) and 0x1029C260 (sqgxAniso) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_ResetPendingList(void)
 {
   int iVar1;
@@ -51,7 +51,7 @@ XI_API void __cdecl Sqgx_ResetPendingList(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029C1B0  (unit unit_1029BCD0: no unit evidence of its own; in the gap between 0x1029BB60 (sqgxDlist) and 0x1029C260 (sqgxAniso) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sqgx_AddPendingEntry(undefined4 param_1, undefined4 * param_2, float param_3)
 {
   if (*(int *)(g_pSqgxContext_as_s32 + 0xaec) == 10) {

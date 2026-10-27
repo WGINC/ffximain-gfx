@@ -3641,3 +3641,27 @@ Export fs23 (data/exports/ghidra_frameset23.jsonl, 29 records, not promoted) and
 133 functions exported with the old and the new GfxExport, 99 records differ, 6 FAIL -> PASS and none worse; the 5
 tree records hx2cpp now prepares differently all PASS raw. The rest stay as they were, each with the fact that
 would settle it (EDX past a narrow return, stack nothing wrote, stub outputs, pop counts, P19).
+
+## 27 Oct (late): tree r14, and the live gate on the four dumps
+
+**Tree r14** (pipeline/tree_round.py, `--last fs24`): 4,897 functions, 4,881 PASS on fuzz. fs24's raw PASSes entered;
+the three switch cases (0x10223B4E, 0x102262EE, 0x1022635E) were left out with the reason. Against r13's records: 11
+FAIL -> PASS (hx2clean's regparm rule, 36639d3), none worse.
+
+**The live gate** (P1), first run on the current tree: the four dumps' states rebuilt with live_state.py (the dumps
+are of the analysed build), and the 16 functions not PASS on fuzz gated on each. combine_gates.py's rule (PASS where
+some gate compared and passed and none failed; a FAIL anywhere is a FAIL):
+
+| Function | Fuzz | Live, each of the four dumps (returning trials) | Combined |
+|---|---|---|---|
+| 0x10003890 | INCONCLUSIVE (every trial faults) | PASS (3 of 100) | PASS |
+| 0x100E08D0 | INCONCLUSIVE | PASS (2 of 100) | PASS |
+| 0x10010D20 | UNRESOLVED (argument bytes pushed to 0x10028FD0) | PASS (100) | PASS |
+| 0x100180D0, 0x10119BC0, 0x101BE6C0 | FAIL | PASS | FAIL (a FAIL anywhere) |
+| the other 10 | as on fuzz | as on fuzz | unchanged |
+
+The two INCONCLUSIVE -> PASS rest on 12 and 8 returning trials in all: the rest fault in the original code as well
+(state the dump does not hold). Recorded as the rule gives them, with the counts in each record's `gates` field
+(verification/gate_clean_final.jsonl; per dump verification/gate_clean_live14_*.jsonl).
+
+Tree: 4,897 functions, 4,884 PASS. Frame set: 4,449 in the tree, 4,437 PASS; 1,612 (29.7%) at the game's bytes.

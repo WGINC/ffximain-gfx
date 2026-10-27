@@ -3,7 +3,7 @@
 #include "Obj_10621944.hpp"
 
 // FUNCTION: FFXIMAIN 0x101630E0  (placed by callers pass the object in dword_10621944 as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 172 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 172 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int Obj_10621944::Obj_10621944_Draw()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

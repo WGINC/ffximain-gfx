@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1025D750  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API IDirect3DDevice8 * __cdecl FontGlyphCache_GetDevice(void)
 {
   return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
 }
 
 // FUNCTION: FFXIMAIN 0x1025D760  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl FontGlyphCache_CreateTexture(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4, D3DFORMAT a5, D3DPOOL a6)
 {
   int v6;
@@ -21,7 +21,7 @@ XI_API int __cdecl FontGlyphCache_CreateTexture(unsigned int a1, unsigned int a2
 }
 
 // FUNCTION: FFXIMAIN 0x1025D7B0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl FontGlyphCache_CreateVertexBuffer(unsigned int a1, unsigned int a2, unsigned int a3, D3DPOOL a4)
 {
   int v4;
@@ -32,14 +32,14 @@ XI_API int __cdecl FontGlyphCache_CreateVertexBuffer(unsigned int a1, unsigned i
 }
 
 // FUNCTION: FFXIMAIN 0x1025E020  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1025C9E0_ReturnFalse(undefined4 xi_eax)
 {
   return xi_eax & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x1025E050  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl FontGlyphCache_IsStateTwo(void)
 {
   if ((DAT_1066276c != 0) && (*(int *)(DAT_1066276c + 0x44) == 2)) {
@@ -49,14 +49,14 @@ XI_API undefined4 __cdecl FontGlyphCache_IsStateTwo(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0B0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl FontGlyphCache_GetCounterBlock(void)
 {
   return(uint8_t*)(&DAT_1067a294);
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0C0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl FontGlyphCache_ResetCounter(void)
 {
   orig::FontGlyphCache_ClearCounter();
@@ -64,7 +64,7 @@ XI_API void __cdecl FontGlyphCache_ResetCounter(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0E0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl FontGlyphCache_StepCounter(void)
 {
   orig::FontGlyphCache_DecayCounter();
@@ -72,14 +72,14 @@ XI_API void __cdecl FontGlyphCache_StepCounter(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E0F0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1025C9E0_ReturnFalseFwd(undefined4 xi_eax)
 {
   return orig::Unit1025C9E0_ReturnFalse(xi_eax);
 }
 
 // FUNCTION: FFXIMAIN 0x1025E210  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl FontGlyphCache_AddToCounter(int param_1)
 {
   DAT_1067a298 = DAT_1067a298 + param_1 * 2;
@@ -87,7 +87,7 @@ XI_API void __cdecl FontGlyphCache_AddToCounter(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E230  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl FontGlyphCache_ClearCounter(void)
 {
   DAT_1067a298_as_v0 = 0;
@@ -95,7 +95,7 @@ XI_API void __cdecl FontGlyphCache_ClearCounter(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E240  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl FontGlyphCache_DecayCounter(void)
 {
   if (DAT_1067a298 < 0) {
@@ -109,7 +109,7 @@ XI_API void __cdecl FontGlyphCache_DecayCounter(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1025E260  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 xi_s4)
 {
   char xi_frame[12] __attribute__((aligned(4)));
@@ -154,7 +154,7 @@ XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 * param_
 }
 
 // FUNCTION: FFXIMAIN 0x1025E380  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 154 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 154 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1025C9E0_BaseDtor(void * self_)
 {
   int *piVar1;
@@ -198,7 +198,7 @@ XI_API void __thiscall Unit1025C9E0_BaseDtor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1025F2F0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 58 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 58 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit1025C9E0_ReleaseField6C(void * self_)
 {
   int *a1;
@@ -250,7 +250,7 @@ XI_API undefined4 __thiscall fn_1025F640(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1025FD50  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_DerivedCtor(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   char xi_frame[12] __attribute__((aligned(4)));
@@ -279,7 +279,7 @@ XI_API void * __thiscall Unit1025C9E0_DerivedCtor(void * self_, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x1025FE40  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1025C9E0_ResetState(void * self_)
 {
   DWORD DVar1;
@@ -316,7 +316,7 @@ XI_API void __thiscall Unit1025C9E0_ResetState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1025FF10  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall FontGlyphCache_StoreElapsed158(void * self_)
 {
   DWORD DVar1;
@@ -327,14 +327,14 @@ XI_API undefined4 __thiscall FontGlyphCache_StoreElapsed158(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10260360  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl FontGlyphCache_NoOpZero(void)
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10261210  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_InnerCtor(void * self_, undefined4 param_1, void * param_2, undefined4 param_3, undefined4 * param_4)
 {
   uint32_t uVar1;
@@ -358,7 +358,7 @@ XI_API void * __thiscall Unit1025C9E0_InnerCtor(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x102612D0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_)
 {
   int *a1;
@@ -385,7 +385,7 @@ XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10265940  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_AddLibraryRef(void * self_, undefined4 xi_s1)
 {
   InterlockedIncrement(&DAT_1067a2a0);
@@ -393,7 +393,7 @@ XI_API void * __thiscall Unit1025C9E0_AddLibraryRef(void * self_, undefined4 xi_
 }
 
 // FUNCTION: FFXIMAIN 0x10265960  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_ReleaseLibraryRef(void)
 {
   int iVar1;
@@ -407,7 +407,7 @@ XI_API void __cdecl Unit1025C9E0_ReleaseLibraryRef(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102659B0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_1, void * param_2)
 {
   *(uint8_t ***)self_ = &PTR_LAB_10340924;
@@ -421,7 +421,7 @@ XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x10265B70  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1025C9E0_CreateEvent(void * self_, BOOL param_1)
 {
   uint32_t uVar1;
@@ -432,7 +432,7 @@ XI_API void * __thiscall Unit1025C9E0_CreateEvent(void * self_, BOOL param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026CC30  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_1026CC30(void)
 {
   int iVar1;
@@ -453,7 +453,7 @@ XI_API void __cdecl fn_1026CC30(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1026CCA5  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_ChannelInit(void * param_1, undefined4 param_2)
 {
   *(uint32_t *)((int)param_1 + 0x10) = 0xffffffff;
@@ -477,7 +477,7 @@ XI_API void __cdecl Unit1025C9E0_ChannelInit(void * param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026CFA0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1025C9E0_MoveOneUsedToFree(int param_1)
 {
   int iVar1;
@@ -507,7 +507,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_MoveOneUsedToFree(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026D015  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_MoveAllBack(int param_1)
 {
   int iVar1;
@@ -535,7 +535,7 @@ XI_API void __cdecl Unit1025C9E0_MoveAllBack(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026D0CA  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1025C9E0_RingPop(int param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -555,7 +555,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_RingPop(int param_1, undefined4 * param_2
 }
 
 // FUNCTION: FFXIMAIN 0x1026D179  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl FontGlyphCache_PeekRing(int param_1)
 {
   uint32_t uVar1;
@@ -570,7 +570,7 @@ XI_API undefined4 __cdecl FontGlyphCache_PeekRing(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026D70C  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1025C9E0_Restart(int param_1)
 {
   uint32_t uVar1;
@@ -582,7 +582,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_Restart(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026D866  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
 XI_API undefined4 __cdecl Unit1025C9E0_InitChannels(int param_1, undefined4 * param_2, uint8_t * param_3, int param_4, uint8_t * param_5, int param_6, int param_7)
 {
   uint32_t uVar1;
@@ -621,7 +621,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_InitChannels(int param_1, undefined4 * pa
 }
 
 // FUNCTION: FFXIMAIN 0x1026DB24  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API unsigned char __cdecl FontGlyphCache_MarkState3(int param_1)
 {
   if (param_1 != 0) {
@@ -631,7 +631,7 @@ XI_API unsigned char __cdecl FontGlyphCache_MarkState3(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026DB6D  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1025C9E0_PopRingC044(int param_1, undefined4 param_2)
 {
   uint32_t uVar1;
@@ -642,7 +642,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_PopRingC044(int param_1, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x1026DB8F  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_PeekRingC044(int param_1)
 {
   uint32_t xi_eax;
@@ -653,7 +653,7 @@ XI_API void __cdecl Unit1025C9E0_PeekRingC044(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026DBAC  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_PutRing803C(int param_1, undefined4 * param_2)
 {
   uint32_t xi_eax;
@@ -664,7 +664,7 @@ XI_API void __cdecl Unit1025C9E0_PutRing803C(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026DBCE  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_PopRing4034(int param_1, undefined4 param_2)
 {
   uint32_t xi_eax;
@@ -675,7 +675,7 @@ XI_API void __cdecl Unit1025C9E0_PopRing4034(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026DBF0  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1025C9E0_PeekRing4034(int param_1)
 {
   uint32_t uVar1;
@@ -686,7 +686,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_PeekRing4034(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026DC0D  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1025C9E0_PutRing2C(int param_1, undefined4 * param_2)
 {
   uint32_t xi_eax;

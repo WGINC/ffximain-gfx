@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10071050  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall ResHandle_FreeIfUnreferenced(void * self_)
 {
   uint32_t uVar1;
@@ -13,7 +13,7 @@ XI_API undefined4 __thiscall ResHandle_FreeIfUnreferenced(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10071060  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall ResourceHandle_IsResident(void * self_)
 {
   void *this_00;
@@ -36,7 +36,7 @@ XI_API undefined4 __thiscall ResourceHandle_IsResident(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100710F0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070F90_Create(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *this_00;
@@ -60,7 +60,7 @@ XI_API void __thiscall Unit10070F90_Create(void * self_, undefined4 param_1, und
 }
 
 // FUNCTION: FFXIMAIN 0x100711B0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070F90_Reset(void * self_)
 {
   *(uint16_t *)((int)self_ + 0x14) = 0x8000;
@@ -74,7 +74,7 @@ XI_API void __thiscall Unit10070F90_Reset(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100711D0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070F90_CopyField14At0(void * self_, int param_1)
 {
   if (param_1 != 0) {
@@ -84,7 +84,7 @@ XI_API void __thiscall Unit10070F90_CopyField14At0(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100711E0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070F90_CopyField14At4(void * self_, int param_1)
 {
   if (param_1 != 0) {
@@ -94,7 +94,7 @@ XI_API void __thiscall Unit10070F90_CopyField14At4(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10071200  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070F90_CopyField14At8(void * self_, int param_1)
 {
   if (param_1 != 0) {
@@ -104,7 +104,7 @@ XI_API void __thiscall Unit10070F90_CopyField14At8(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10071270  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 87 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87
 XI_API int * __thiscall MeshResourceMng_CreateResourceByKind(void * self_, undefined4 xi_s1)
 {
   int iVar1;

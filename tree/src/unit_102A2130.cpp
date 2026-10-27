@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A2130  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit102A2130_CopyBounds(int param_1, int param_2)
 {
   orig::Unit1028D970_Copy((uint32_t *)(param_1 + 0x14),(uint32_t *)(param_2 + 0x14));
@@ -12,7 +12,7 @@ XI_API void __cdecl Unit102A2130_CopyBounds(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2160  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 72
 XI_API undefined4 __cdecl Unit102A2130_ContainsInt(int param_1, int param_2)
 {
   int iVar1;
@@ -33,7 +33,7 @@ XI_API undefined4 __cdecl Unit102A2130_ContainsInt(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2190  (unit unit_102A2130: no unit evidence of its own; in the gap between 0x102A20D0 (sqshDispList) and 0x102A2430 (sqsnShadow) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
 XI_API undefined4 __cdecl Unit102A2130_ContainsInAnyEntry(int param_1, undefined4 param_2)
 {
   int iVar1;

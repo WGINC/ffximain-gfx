@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100430C0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoVuDist::GetRuntimeClass()
 {
   return &CMoVuDist_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10052DA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoVuDist::Construct(void * self)
 {
   uint64_t uVar1;
@@ -26,21 +26,21 @@ uint64_t __thiscall CMoVuDist::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052DD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoVuDist::vf012(int a1)
 {
   return a1 == 10;
 }
 
 // FUNCTION: FFXIMAIN 0x10052DE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoVuDist::vf008()
 {
   return ((int (__thiscall *)(CMoVuDist *))(*(CMoTask_vtbl * *)((char *)this + 0x0))[1].vf10_CMoTask_vf010)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x10052DF0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoVuDist::ScalarDeletingDtor(char a2)
 {
   orig::MoProgElem_FreeBuffer40((int *)&this->field_198);

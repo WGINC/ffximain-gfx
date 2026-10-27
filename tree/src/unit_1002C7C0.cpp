@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1002C7C0  (unit unit_1002C7C0: no unit evidence of its own; in the gap between 0x1002C7A0 (CYyNode) and 0x1002C880 (CYyObject_VT_103299F0) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall List_GetTail(void * self_)
 {
   void *pvVar1;
@@ -19,7 +19,7 @@ XI_API void * __thiscall List_GetTail(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1002C800  (unit unit_1002C7C0: no unit evidence of its own; in the gap between 0x1002C7A0 (CYyNode) and 0x1002C880 (CYyObject_VT_103299F0) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1002C7C0_PopHead(void * self_, int * param_1)
 {
   int iVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10053080  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10053080_SetField19C(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x19c) = param_1;
@@ -11,7 +11,7 @@ XI_API void __thiscall Unit10053080_SetField19C(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x10053090  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10053080_SetField1A0(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x1a0) = param_1;
@@ -19,28 +19,28 @@ XI_API void __thiscall Unit10053080_SetField1A0(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x100530A0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10053080_GetFloat19C(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x19c);
 }
 
 // FUNCTION: FFXIMAIN 0x100530B0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10053080_GetFloat1A0(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x1a0);
 }
 
 // FUNCTION: FFXIMAIN 0x100530C0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10053080_GetDword194(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x194);
 }
 
 // FUNCTION: FFXIMAIN 0x100530D0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10053080_SetField1A4(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x1a4) = param_1;
@@ -48,7 +48,7 @@ XI_API void __thiscall Unit10053080_SetField1A4(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x100530E0  (unit unit_10053080: no unit evidence of its own; in the gap between 0x10053060 (CMoLfdElem) and 0x100530F0 (CMoDisintegrateProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10053080_SetField1A8(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x1a8) = param_1;

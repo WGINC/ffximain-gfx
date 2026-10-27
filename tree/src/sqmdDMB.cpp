@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10287FB0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqmdDMB_Resolve(char * param_1, undefined4 param_2)
 {
   int iVar1;
@@ -297,7 +297,7 @@ XI_API int __cdecl SqmdDMB_Resolve(char * param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288660  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
 {
   if (DAT_109a278c == 0) {
@@ -308,7 +308,7 @@ XI_API int __cdecl SqmdDMB_TraceDelta(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10288680  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl SqmdDMB_AlignMem(uint32_t param_1)
 {
   int iVar1;
@@ -330,7 +330,7 @@ XI_API uint32_t __cdecl SqmdDMB_AlignMem(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102886D0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 46 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 46 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 46
 XI_API uint32_t __cdecl SqmdDMB_ResolveTextures(int param_1, uint32_t param_2)
 {
   int *piVar1;
@@ -453,7 +453,7 @@ LAB_102888c7:
 }
 
 // FUNCTION: FFXIMAIN 0x10288950  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int * __cdecl SqmdDMB_ResolveShaders(int param_1, uint32_t param_2)
 {
   int iVar1;
@@ -546,7 +546,7 @@ XI_API int * __cdecl SqmdDMB_ResolveShaders(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288B70  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl SqmdDMB_TextureLink(int param_1, uint32_t param_2)
 {
   if (param_2 != 0xefbeddba) {
@@ -560,7 +560,7 @@ XI_API undefined4 __cdecl SqmdDMB_TextureLink(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288BB0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40
 XI_API undefined4 __cdecl SqmdDMB_ResolveMatrices(int param_1, uint32_t param_2)
 {
   int iVar1;
@@ -591,7 +591,7 @@ XI_API undefined4 __cdecl SqmdDMB_ResolveMatrices(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288C20  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 12 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 12 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 12
 XI_API char * __cdecl SqmdDMB_ResolveStrings(int param_1, uint32_t param_2)
 {
   char cVar1;
@@ -691,7 +691,7 @@ XI_API char * __cdecl SqmdDMB_ResolveStrings(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10288DC0  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 34 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 34
 XI_API void __cdecl SqmdDMB_ClearTables(int param_1)
 {
   int iVar1;
@@ -714,7 +714,7 @@ XI_API void __cdecl SqmdDMB_ClearTables(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10288E00  (unit sqmdDMB: between 0x10287D60 (asserts sqmdDMB.c) and 0x10288E60 (name sqmdDMBBuildShapes), both within 4 KB)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26
 XI_API void __cdecl SqmdDMB_ResetCounts(int param_1)
 {
   int iVar1;
@@ -747,7 +747,7 @@ XI_API void __cdecl SqmdDMB_ResetCounts(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10288E60  (unit sqmdDMB: name sqmdDMBBuildShapes)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30
 XI_API uint8_t * __cdecl sqmdDMBBuildShapes(int param_1, uint32_t param_2)
 {
   uint32_t uVar1;

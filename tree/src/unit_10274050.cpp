@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102741F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
 XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
 {
   int iVar1;
@@ -42,7 +42,7 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10274370  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 87 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87
 XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4)
 {
   uint8_t *pbVar1;
@@ -69,7 +69,7 @@ XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x10274640  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
 {
   *param_1 = 0;
@@ -79,7 +79,7 @@ XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10274650  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10274050_CopyVec3(undefined4 * param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
@@ -92,7 +92,7 @@ XI_API undefined4 __cdecl Unit10274050_CopyVec3(undefined4 * param_1, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x10274670  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float param_3, float param_4)
 {
   *param_1 = (float)(long double)param_2;
@@ -102,7 +102,7 @@ XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float pa
 }
 
 // FUNCTION: FFXIMAIN 0x102746C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __cdecl fn_102746C0(undefined4 param_1)
 {
   long double fVar1;
@@ -112,7 +112,7 @@ XI_API long double __cdecl fn_102746C0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10274890  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)param_3[2] * (long double)param_2[1] -
@@ -125,7 +125,7 @@ XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x102748F0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __cdecl Unit10274050_ScaleVec3ByInverseOf102746C0(float * param_1)
 {
   uint8_t bVar1;
@@ -144,7 +144,7 @@ XI_API long double __cdecl Unit10274050_ScaleVec3ByInverseOf102746C0(float * par
 }
 
 // FUNCTION: FFXIMAIN 0x102749C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10274050_Sub(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 - (long double)*param_3);
@@ -154,7 +154,7 @@ XI_API void __cdecl Unit10274050_Sub(float * param_1, float * param_2, float * p
 }
 
 // FUNCTION: FFXIMAIN 0x10274A20  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10274050_LerpFactor(float * param_1, float * param_2, float * param_3, float param_4)
 {
   *param_1 = (float)(((long double)*param_3 - (long double)*param_2) * (long double)param_4 + (long double)*param_2)
@@ -167,7 +167,7 @@ XI_API void __cdecl Unit10274050_LerpFactor(float * param_1, float * param_2, fl
 }
 
 // FUNCTION: FFXIMAIN 0x10274D40  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl PackVec4(float * param_1, float param_2, float param_3, float param_4, float param_5)
 {
   param_1[1] = param_3;

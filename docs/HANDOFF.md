@@ -4,6 +4,8 @@ For a session that takes over on the branch `claude/gifted-archimedes-cjtg2d`. R
 for everything below (every fact from a named definitive source, otherwise UNRESOLVED; no model identifiers in commits
 or files; commits end with the `Claude-Session:` line only; push only to this branch; no pull request unless asked).
 
+The task list with every task's state: docs/PLAN_TASKS.md.
+
 Work alone: no parallel workers. The steps below are ordered so that each costs little. A full clean gate is the one
 expensive step (about 2 to 3 hours on 4 cores); do it once per tree, never for a single change.
 

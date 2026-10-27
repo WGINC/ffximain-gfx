@@ -4,8 +4,8 @@ Continues recompile/d3d_round_119.md (rules 1-15). Toolchain rebuilt in a new co
 pipeline/vc6/setup_vc6.sh: `match.py --compid` C 48 / C++ 49 build 9044; `match.py --all` on the 98 functions of
 round 119: all IDENTICAL before anything was added.
 
-New tools: pipeline/vc6/mdiff.py (the unified diff of our instructions against the game's, address operands blanked;
-the counts of "lines" below are its counts), and `// SYMBOL: <decorated name> 0xADDR` lines in a source, which
+New tools: pipeline/vc6/mdiff.py (the unified diff of our instructions against the game's, the address in an operand
+blanked, the rest of the operand kept; the counts of "lines" below are its counts), and `// SYMBOL: <decorated name> 0xADDR` lines in a source, which
 match.py now uses to compare the relocations of symbols the compiler names itself.
 
 ## Result
@@ -28,6 +28,14 @@ From the sweep's conversion (91 lines) to 0, each step kept only where the bytes
 | the eye read field by field from the matrix (`eye.x = m[12]; ...`), not as a struct through a pointer | 9 |
 | the up vector as a function-local static object with an inline constructor and an empty inline destructor | 4 |
 | the global read into a block-scoped local between the viewport's fields (rule 8's form, placed where the game loads it) | 0 |
+
+**#119: 0x10040E70 RebuildBlendWeights at the game's bytes** (recompile/d3dcaller_10040E70.cpp), every relocation
+compared. From the sweep's 131 lines to 0 in one rewrite: the game calls 0x10054D70 and 0x10054F80 as methods of one
+local object (`lea ecx, [esp+0x10]` before each, the same frame slot), so they are a local `Pass` and its `Begin` /
+`End` (SYMBOL lines give their game addresses, the calls' targets in the game's bytes); the 64-byte matrix copy a
+struct assignment (`rep movsd`); the null-checked pointer at +0x104 read with the decompiler's ternary.
+0x10054D70 itself does not read ECX: as a member that ignores `this` it compiles to the same bytes as the free
+function recompile/d3d_10054D70.cpp declares.
 
 ## Rules found in this round (each kept only where match.py said IDENTICAL, or where noted the bytes came closer)
 
@@ -58,7 +66,8 @@ matched functions differ (the device loads move), so it is not the build's setti
 | 0x1006A020 Gfx_CreateVertexBuffer (#118) | 2 | as round 119: the result loaded before the pops in the game; a separate buffer local in three forms, C and C++, `/O1`, `/Ox`, `/Oy-`, `/G3`-`/G5`, `/Gr` |
 | 0x1016DDF0 Dbg_DrawTriangleLines (#119) | 6 (from 117) | the global is loaded before the 16 matrix stores in the game (into EDX), after them in ours; a block-local copy, an inline CDx method, an argument-filling inline and a constructor tried |
 | 0x10026C70 CYyIcon::DrawSubRect (#119) | 86 (from 105) | the game spills y1 to a parameter slot and copies it by integer; which float lands in which dead parameter slot is not reproduced |
-| 0x10075700 TextureHolder_BindWarped (#118) | 122 (from 133) | a 12-byte frame in the game (8 in ours); the a4 == 0 return not merged with the last one in the game |
+| 0x10041160 BindTintedTexture (#119) | 3 (from 164) | the scratch colour loaded as 32 bits into EBX and its second byte taken by `xor eax, eax; mov al, bh` in the game; a 16-bit read gives `mov al, bh` but `mov bx` and an extra `and`, a 32-bit read gives EDI and shifts (15 lines); the second null check of the pointer at +0x1A8 comes from reading it through a one-member struct (`struct H { int *p; }`) in the condition |
+| 0x10075700 TextureHolder_BindWarped (#118) | 128 (from 133) | a 12-byte frame in the game (8 in ours); the a4 == 0 return not merged with the last one in the game |
 
 The sweep's conversion (pipeline/vc6/sweep.py) now compiles 8 of the functions round 119 listed as not compiling
 (`sin`/`cos`/`atan2`/`ABS`/`fpatan`, and two virtual-call spellings): 0x1002A3B0 252 lines, 0x10043720 214,
@@ -66,4 +75,4 @@ The sweep's conversion (pipeline/vc6/sweep.py) now compiles 8 of the functions r
 0x10003890 and 0x100426F0 still do not (a `__thiscall` pointer through another object; a local declared with a
 `__thiscall` pointer type).
 
-`match.py --all` after this round: 86 files, every function IDENTICAL: 101 marks, 99 addresses (0x10026E90 and 0x100272B0 are in two files each).
+`match.py --all` after this round: 87 files, every function IDENTICAL: 102 marks, 100 addresses (0x10026E90 and 0x100272B0 are in two files each).

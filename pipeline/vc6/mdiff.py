@@ -31,12 +31,15 @@ def rinsns(code, rels):
     for i in capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32).disasm(bytes(code), 0):
         op = i.op_str
         if i.mnemonic.startswith(('call', 'j', 'loop')): op = '<t>'
-        elif any(i.address <= o_ < i.address + i.size for o_ in offs) or _re.search(r'0x1[0-9a-f]{7}', op): op = '<r>'
+        elif any(i.address <= o_ < i.address + i.size for o_ in offs):    # the relocated number (the addend) as <a>
+            op = _re.sub(r'(?<![\w+*-])(0x[0-9a-f]+|\d+)(?=\]|,|$)', '<a>', op, count=1) if '[' in op or i.mnemonic == 'push' or ',' in op else '<a>'
+            op = _re.sub(r'0x1[0-9a-f]{7}', '<a>', op)
+        else: op = _re.sub(r'0x1[0-9a-f]{7}', '<a>', op)
         out.append((i.mnemonic, op))
     return out
 for ea in addrs:
     e = ext.get('0x%08X' % ea) or ext.get('0x%08x' % ea); s, t = e[0]
-    g = [(m, '<r>' if '<a>' in op else op) for m, op in D.insns(img[s - M.BASE:t - M.BASE], s)]
+    g = D.insns(img[s - M.BASE:t - M.BASE], s)
     best = None
     for nm in names:
         c = rinsns(objs[nm][0], objs[nm][1])

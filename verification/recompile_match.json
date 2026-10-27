@@ -179,6 +179,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_1003EB30.cpp"
 },
+"0x10040E70": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10040E70.cpp"
+},
 "0x10041AF0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_10041AF0.cpp"

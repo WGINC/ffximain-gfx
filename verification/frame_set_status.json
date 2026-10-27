@@ -4631,7 +4631,9 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_10040E70.cpp"
 },
 "0x10041020": {
 "tree": true,

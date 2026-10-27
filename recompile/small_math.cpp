@@ -51,3 +51,10 @@ bool RC::ResetCounters() { a = 0; b = 0; return true; }
 struct MQ { char pad[0x34]; unsigned int resource; unsigned int *GetResource(unsigned int *out); };
 // FUNCTION: FFXIMAIN 0x1001A850
 unsigned int *MQ::GetResource(unsigned int *out) { *out = resource; return out; }
+// FUNCTION: FFXIMAIN 0x10005A00
+extern "C" short Input_MapAxisHigh(unsigned int x) {
+  if (x == 0xffffffff) return 0;
+  if (x < 0x1a5e || x > 0x7242) return -127;
+  if (x <= 0x2bf2 || x >= 0x60ae) return 0;
+  return 0x7f;
+}

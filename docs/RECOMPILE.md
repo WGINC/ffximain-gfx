@@ -41,7 +41,8 @@ methods, a counter reset and Camera_GetFrameScale (a global read through a DIR32
 reported, not compared). What the bytes showed beyond the behaviour: 0x10126350 begins `mov eax, ecx`, which is a
 constructor returning `this` (as MSVC constructors do), its stores in the reverse order a chained assignment gives;
 0x101BA5C0 ends `mov al, 1`, a `bool` return. 27 Oct: a 15th, 0x1001A850, which stores a field through its
-parameter and returns the parameter (`mov eax, [esp+4]` first): the `void` spelling loads ECX first (docs/PROBLEMS.md P2).
+parameter and returns the parameter (`mov eax, [esp+4]` first): the `void` spelling loads ECX first (docs/PROBLEMS.md P2). A 16th, 0x10005A00, a
+`short` return with only AX written on each path (P11).
 
 ## The tree's own code, compiled as it is (`pipeline/vc6/sweep.py --calls`)
 

@@ -1,4 +1,8 @@
 {
+"0x10005A00": {
+"verdict": "IDENTICAL",
+"file": "recompile/small_math.cpp"
+},
 "0x100096B0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_100096B0.cpp"

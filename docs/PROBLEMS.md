@@ -386,9 +386,13 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
   docs/RECOMPILE.md) writes `return (HIGH << 16) | (uint16_t)(LOW);` as `return LOW;` in a function returning
   `unsigned short`. 14 functions are then IDENTICAL to the game's bytes (verification/vc6_sweep.json,
   `rule_identical`). Among them is 0x100DB930, the same shape: `mov eax, [0x104DFD98]; test eax, eax; jne; xor ax,
-  ax; ret`. The upper half of EAX is whatever the compiler left there, as in the game. 0x10005A00 itself is not
-  reproduced: it DIFFERS with `ret16` tried, and as written its first difference is at +1 (`0x4C here, 0x44 in the
-  game`: the register its first load uses). Its tree code returns all of EAX and PASSes the gate.
+  ax; ret`. The upper half of EAX is whatever the compiler left there, as in the game. 0x10005A00 itself (27 Oct):
+  `extern "C" short Input_MapAxisHigh(unsigned int x) { if (x == 0xffffffff) return 0; if (x < 0x1a5e || x > 0x7242)
+  return -127; if (x <= 0x2bf2 || x >= 0x60ae) return 0; return 0x7f; }` compiles to the game's bytes (match.py
+  IDENTICAL, build 9044; recompile/small_math.cpp, verification/recompile_match.json). The unsigned compares are the
+  game's own (`jb`, `ja`, `jbe`, `jae`). The same tests nested under `x != -1` DIFFER at +7: the order of the tests
+  shows in the bytes. The tree's code returns all of EAX and PASSes the gate; it is not changed, and no verdict
+  changes.
 
 ### P12. Functions called through vtables are UNRESOLVED on EAX past their declared return (22 Oct; settled 27 Oct for the tree)
 - **Known:** with P10's rule, the IDA route's raw gate goes from 770 PASS to 666 (ida9, gate_raw10):

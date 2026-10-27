@@ -455,7 +455,7 @@ XI_API void __cdecl SqgxContext_StoreEntryVec(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10283300  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10283300(undefined4 param_1)
+XI_API undefined4 __cdecl Unit102822A0_SetContextSlot854(undefined4 param_1)
 {
   int iVar1;
   
@@ -670,7 +670,7 @@ XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4)
 
 // FUNCTION: FFXIMAIN 0x10283C10  (unit unit_102822A0: no unit evidence of its own; in the gap between 0x10282190 (sqgxTexture) and 0x102848A0 (sqgxShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10283C10(float param_1, float param_2, float param_3)
+XI_API undefined4 __cdecl Unit102822A0_SetPerspective(float param_1, float param_2, float param_3)
 {
   int iVar1;
   long double fVar2;

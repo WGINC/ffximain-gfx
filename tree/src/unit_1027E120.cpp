@@ -122,7 +122,7 @@ XI_API void __cdecl Unit1027E120_Advance(uint8_t * param_1, int param_2)
   param_1[0x11] = 0;
   param_1[0x12] = 0;
   param_1[0x13] = 0;
-  orig::FUN_102857e0((int)(param_1 + 0x20),0,uVar2);
+  orig::Unit102857D0_SetByte14((int)(param_1 + 0x20),0,uVar2);
   if (*(code **)(param_1 + 0x60) != (code *)0x0) {
     (**(code **)(param_1 + 0x60))(param_1,*(uint32_t *)(param_1 + 100));
   }
@@ -135,7 +135,7 @@ LAB_1027e543:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit1027E120_Forward1027EBD0(undefined4 * param_1)
 {
-  orig::FUN_1027ebd0(param_1);
+  orig::Unit1027E120_SetIdentity(param_1);
   return;
 }
 
@@ -177,7 +177,7 @@ XI_API void __cdecl Unit1027E120_Set(float * param_1, float param_2, float param
 
 // FUNCTION: FFXIMAIN 0x1027EBD0  (unit unit_1027E120: no unit evidence of its own; in the gap between 0x1027E0F0 (chn) and 0x1027F0E0 (sqMatrix4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027EBD0(undefined4 * param_1)
+XI_API undefined4 __cdecl Unit1027E120_SetIdentity(undefined4 * param_1)
 {
   orig::Unit1027E120_Zero(param_1);
   param_1[0xf] = 0x3f800000;

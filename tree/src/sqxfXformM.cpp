@@ -12,6 +12,6 @@ XI_API void __cdecl SqxfXformM_Init(undefined4 * param_1)
   param_1[4] = XI_CODE(FUN_1028a040);
   *(uint8_t *)(param_1 + 5) = 0xff;
   param_1[6] = &DAT_1028a0a0;
-  orig::FUN_1027ebd0(param_1 + 7);
+  orig::Unit1027E120_SetIdentity(param_1 + 7);
   return;
 }

@@ -2,30 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1002A700  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 param_2)
-{
-  int *this_00;
-  int *piVar1;
-  int *piVar2;
-  char xi_frame[8] __attribute__((aligned(4)));
-  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
-  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
-  
-  local_4 = 0;
-  local_8 = 0;
-  piVar1 = (int *)orig::CYyModelBase_GetPartList_v1(self_);
-  this_00 = (int *)*piVar1;
-  piVar2 = piVar1;
-  while (this_00 != (int *)0x0) {
-    piVar2 = (int *)((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x20))))((void *)(this_00),param_1,self_,param_2,&local_4,&local_8);
-    piVar1 = (int *)(*piVar1 + 4);
-    this_00 = (int *)*piVar1;
-  }
-  return piVar2;
-}
-
 // FUNCTION: FFXIMAIN 0x1002A780  (unit unit_1002A0C0: no unit evidence of its own; in the gap between 0x1002A0A0 (CYyModelDt_VT_1032A72C) and 0x1002B4B0 (CYyModel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit1002A0C0_ApplyToVec4(void * self_, undefined4 param_1, undefined4 * param_2)
@@ -36,7 +12,7 @@ XI_API undefined4 __thiscall Unit1002A0C0_ApplyToVec4(void * self_, undefined4 p
   uint32_t  (&local_4c)[3] = *reinterpret_cast<uint32_t  (*)[3]>(xi_frame + 0);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 12);
   
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   psVar1 = (short *)orig::Skel_GetRecordAt((void *)((int)self_ + 8),param_1);
   uVar2 = 0;
   if (psVar1 != (short *)0x0) {
@@ -69,7 +45,7 @@ XI_API void __thiscall Part_AddTranslation(void * self_, int param_1, float * pa
   char xi_frame[64] __attribute__((aligned(4)));
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 0);
   
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   iVar1 = orig::Skel_GetRecordAt((void *)((int)self_ + 8),param_1);
   if (iVar1 != 0) {
     orig::Vec3_AddInPlace_v1(param_2,(float *)(iVar1 + 0xe));
@@ -100,7 +76,7 @@ XI_API undefined4 __stdcall Unit1002A0C0_ClampPointToLocalEllipse(float * param_
   float  &local_68 = *reinterpret_cast<float  *>(xi_frame + 24);
   float  (&local_60)[24] = *reinterpret_cast<float  (*)[24]>(xi_frame + 32);
   
-  orig::Unit10026C70_ReturnThis_v1(local_60 + 8);
+  orig::Unit10026C70_ReturnThis(local_60 + 8);
   local_60[4] = 0.0f;
   local_60[5] = 0.0f;
   local_60[6] = 0.0f;

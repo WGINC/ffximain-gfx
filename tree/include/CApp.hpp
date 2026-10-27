@@ -6,6 +6,7 @@
 class XI_API CApp {
 public:
     char RunMainLoop();  // 0x10001520
+    static void __thiscall CopyTextToClipboard(void * self, LPCSTR param_1);  // 0x10001CC0
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x19];

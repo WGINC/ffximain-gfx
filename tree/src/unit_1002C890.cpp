@@ -16,6 +16,6 @@ XI_API undefined4 __cdecl Mem_AllocDefault(undefined4 param_1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl thunk_sub_10028AA0(int param_1)
 {
-  orig::FUN_10028aa0(param_1);
+  orig::Mem_FreeBlockMergeNeighbours(param_1);
   return;
 }

@@ -31,11 +31,11 @@ XI_API uint32_t * __cdecl Chn_RegisterItem(uint32_t * param_1, uint32_t param_2)
   int iVar3;
   long double fVar4;
   
-  iVar1 = orig::FUN_10275090();
+  iVar1 = orig::SqTimer_GetMicroseconds_v1();
   uVar2 = orig::Unit10296080_CreateWithOwner(param_2,0);
   fVar4 = orig::Unit10284EB0_GetFloat20(param_2);
   *(float *)(uVar2 + 0x24) = (float)fVar4;
-  orig::_strncpy_v1((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
+  orig::_strncpy_v2((char *)(param_1 + 1),s_chnItemRegister_sqo_103b46e8,0x7f);
   param_1[0x29] = *(uint32_t *)(uVar2 + 0x20);
   fVar4 = orig::Unit1028D970_SumAxis(uVar2);
   param_1[0x2a] = xi_castbits<uint32_t>((float)fVar4);
@@ -48,7 +48,7 @@ XI_API uint32_t * __cdecl Chn_RegisterItem(uint32_t * param_1, uint32_t param_2)
   else {
     param_1[0x2c] = xi_castbits<uint32_t>((float)((long double)xi_castbits<float>(param_1[0x2a]) / (long double)(iVar3 + -1)));
   }
-  iVar3 = orig::FUN_10275090();
+  iVar3 = orig::SqTimer_GetMicroseconds_v1();
   param_1[0x21] = iVar3 - iVar1;
   *param_1 = *param_1 | 0x10;
   return param_1;

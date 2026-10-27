@@ -149,7 +149,7 @@ undefined4 __thiscall CYyModelDt::GetResourceWord5E(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 67 returned normally, 826 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 60 returned normally, 967 D3D calls compared (diffemu_gfx, clean build)
 __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

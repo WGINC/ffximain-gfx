@@ -58,7 +58,11 @@ static inline uint64_t xi_b64(double x) { uint64_t u; __builtin_memcpy(&u, &x, 8
 #define ROUND(x) ((long double)__builtin_rintl(x))
 #define TRUNC(x) ((long double)(long long)(x))
 #define ABS(x) ((x) < 0 ? -(x) : (x))
-#define SQRT(x) __builtin_sqrtl(x)
+// x87 fsqrt, the instruction Ghidra's FLOAT_SQRT comes from in the game's x87 code. __builtin_sqrtl inlines fsqrt
+// only where GCC proves the operand non-negative; elsewhere it calls sqrtl for errno, which the freestanding build
+// does not link (fs22: 12 functions without a DLL)
+static inline long double xi_fsqrt(long double x) { long double r; __asm__("fsqrt" : "=t"(r) : "0"(x)); return r; }
+#define SQRT(x) xi_fsqrt(x)
 #define POPCOUNT(x) __builtin_popcount(x)
 
 // Ghidra intrinsics

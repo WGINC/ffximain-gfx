@@ -38,7 +38,7 @@ XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param
 
 // FUNCTION: FFXIMAIN 0x100215C0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 396 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_2)
+XI_API undefined4 __thiscall Unit1001E6D0_PointToActorLocalSpace(void * self_, int param_1, int * param_2)
 {
   float *pfVar1;
   int iVar2;
@@ -48,7 +48,7 @@ XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_
   float  (&afStack_4c)[3] = *reinterpret_cast<float  (*)[3]>(xi_frame + 0);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 12);
   
-  orig::Unit10026C70_ReturnThis_v1(local_40);
+  orig::Unit10026C70_ReturnThis(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1c0))))((void *)(param_2));
   orig::Mat4_PostRotateX_v1(local_40,*pfVar1);
@@ -68,7 +68,7 @@ XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_
 
 // FUNCTION: FFXIMAIN 0x10021680  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10021680(void * self_, float * param_1, int * param_2)
+XI_API undefined4 __thiscall Camera_PlaceRelativeToActor(void * self_, float * param_1, int * param_2)
 {
   float *pfVar1;
   int iVar2;
@@ -82,7 +82,7 @@ XI_API undefined4 __thiscall fn_10021680(void * self_, float * param_1, int * pa
   float  &fStack_48 = *reinterpret_cast<float  *>(xi_frame + 16);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 24);
   
-  orig::Unit10026C70_ReturnThis_v1(local_40);
+  orig::Unit10026C70_ReturnThis(local_40);
   if (XiControlActor_isFirstPersonView == '\0') {
     bVar4 = NAN((long double)*param_1) || NAN((long double)0.0f);
     if (((bVar4 != (bVar4 || (long double)*param_1 == (long double)0.0f)) &&
@@ -125,7 +125,7 @@ XI_API undefined4 __thiscall fn_10021680(void * self_, float * param_1, int * pa
     puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*param_2 + 0x1bc))))((void *)(param_2));
     orig::Mat4_SetRow3_v1(local_40,puVar3);
     orig::Vec3_Copy_v2(&fStack_58,(uint32_t *)&DAT_1035126c);
-    orig::Mat4_TransformPointInPlace_v2(local_40,&fStack_58);
+    orig::Mat4_TransformPointInPlace_v1(local_40,&fStack_58);
     orig::Camera_SetTargetIfMoved_v1(self_,&fStack_58);
     orig::Vec3_Copy_v2((uint32_t *)((int)self_ + 0x98),&fStack_58);
     *(uint8_t *)((int)self_ + 0x89) = 1;
@@ -262,7 +262,7 @@ XI_API int __thiscall Camera_BuildLookAtView(void * self_)
   orig::Vec3_Copy_v1(local_90,(float *)((int)self_ + 0x50));
   pfVar1 = (float *)((int)self_ + 0x44);
   orig::Vec3_Sub_v1(&local_c0,(float *)((int)self_ + 0x50),pfVar1);
-  orig::Unit10026C70_ReturnThis(local_80);
+  orig::Unit10026C70_ReturnThis_v1(local_80);
   orig::Mat4_SetIdentity_v1(local_80);
   fVar4 = xi_castbits<long double>(fpatan(-(long double)local_c0,-(long double)local_b8));
   local_a8 = *(float *)((int)self_ + 0x5c);

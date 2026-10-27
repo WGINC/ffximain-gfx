@@ -91,13 +91,13 @@ XI_API void __cdecl XiEvent_ResetPending(void)
       DAT_104886f4 = '\0';
     }
   }
-  orig::FUN_10127ea0();
+  orig::Unit100D7420_ClearGlobalLists2150And2154();
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100AE3F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_100AE3F0(void)
+XI_API undefined4 __cdecl XiEvent_ResetActersAndGlobals(void)
 {
   char cVar1;
   int iVar2;
@@ -202,7 +202,7 @@ LAB_100ae529:
           *(uint32_t *)(iVar4 + 0x1a4) = *(uint32_t *)(iVar4 + 0x1a8);
           *(uint32_t *)(*(int *)(*piVar7 + 0xa0) + 0x7c8) = *(uint32_t *)(*piVar7 + 0x1a8);
           *(uint32_t *)(*(int *)(*piVar7 + 0xa0) + 0x7d8) = 0x20202020;
-          orig::FUN_100d5430_v1(*(void **)(*piVar7 + 0xa0),0);
+          orig::CXiSkeletonActor_SetFlag840Bit23_v2(*(void **)(*piVar7 + 0xa0),0);
           *(uint8_t *)(*(int *)(*piVar7 + 0xa0) + 0x8b4) = 1;
           ((int (__thiscall *)(void *, XI_ANY))((**(code **)(**(int **)(*piVar7 + 0xa0) + 0x150))))((void *)(*(int **)(*piVar7 + 0xa0)),0);
         }
@@ -227,7 +227,7 @@ LAB_100ae529:
             pfVar9 = &fStack_10;
             piVar7 = *(int **)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0xa0);
             pvVar5 = (void *)orig::Camera_GetField50_v1();
-            orig::FUN_10021680_v1(pvVar5,pfVar9,piVar7);
+            orig::Camera_PlaceRelativeToActor_v1(pvVar5,pfVar9,piVar7);
           }
         }
       }
@@ -258,7 +258,7 @@ LAB_100ae529:
       orig::XiZone_RestoreSavedFields();
       orig::Acter_ClearGlobals10488800();
       if (DAT_104896e6 != 0) {
-        orig::FUN_101fa420(DAT_10663888_as_v0,1);
+        orig::Unit101D7020_CloseMapMenus(DAT_10663888_as_v0,1);
       }
       DAT_104882b4 = 8;
       DAT_104896e6 = 0;
@@ -272,7 +272,7 @@ LAB_100ae529:
       uVar3 = orig::Unit1012AC80_SetPosition(*(void **)(DAT_104e2154_as_s32 + 0x30),0,0,0);
       pvVar5 = DAT_10578204;
       orig::Unit1012AC80_MenuInitAndFadeItem_v2(&g_menuMng_as_v0,*(int *)((int)DAT_10578204 + 8),1,uVar3);
-      orig::FUN_1013bf40_v1(pvVar5);
+      orig::Unit1012AC80_InitFields1CTo3A7_v1(pvVar5);
       uVar3 = orig::Unit1021D930_ClearMenu(DAT_106671d4);
       uVar3 = orig::FUN_101fcfb0(DAT_10663aac,uVar3);
       orig::CallMotd(uVar3);
@@ -315,7 +315,7 @@ XI_API void __thiscall XiEvent_RestoreActer(void * self_)
            *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0x1a8);
       *(uint32_t *)(*(int *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0xa0) + 0x7d8) =
            0x20202020;
-      orig::FUN_100d5430(*(void **)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0xa0),0);
+      orig::CXiSkeletonActor_SetFlag840Bit23_v1(*(void **)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 0xa0),0);
     }
   }
   return;
@@ -373,7 +373,7 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
     *(uint8_t *)((int)self_ + 0xc10) = 0;
   }
   else {
-    orig::_strncpy_v1((char *)((int)self_ + 0xc10),param_5,0x40);
+    orig::_strncpy_v2((char *)((int)self_ + 0xc10),param_5,0x40);
   }
   *(undefined4 *)((int)self_ + 0xc08) = param_7;
   *(undefined4 *)((int)self_ + 0xc04) = param_6;

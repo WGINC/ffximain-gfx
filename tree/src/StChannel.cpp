@@ -19,14 +19,14 @@ XI_API undefined4 __cdecl StChannelItemResolve(uint32_t * param_1)
     orig::Unit10017C10_NoOpVarargsA_v1(g_103897A8,param_1[6]);
     return 0xffffffff;
   }
-  uVar2 = orig::FUN_10275090();
+  uVar2 = orig::SqTimer_GetMicroseconds_v1();
   pcVar1 = (char *)param_1[6];
   param_1[4] = uVar2;
   orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
   uVar2 = orig::FUN_10285040(pcVar1,param_1[5]);
   param_1[6] = uVar2;
   orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
-  iVar3 = orig::FUN_10275090();
+  iVar3 = orig::SqTimer_GetMicroseconds_v1();
   param_1[4] = iVar3 - param_1[4];
   if (param_1[6] == 0) {
     orig::FUN_10251020(s_____Error__sqmoChannelBuildSQO___10389778,0);
@@ -154,9 +154,9 @@ XI_API undefined4 __cdecl StChannel_ApplyItem(uint8_t * param_1, undefined4 para
       if ((param_3 == 0) && (puVar3[0x2f] != 0)) {
         uVar2 = orig::Unit102857D0_GetFlagByte14(puVar3[0x2f]);
         if ((char)uVar2 == '\0') {
-          orig::FUN_102857e0(puVar3[0x2f],1,uVar2);
+          orig::Unit102857D0_SetByte14(puVar3[0x2f],1,uVar2);
           uVar2 = orig::Unit102857D0_InvokeCallback18(puVar3[0x2f]);
-          orig::FUN_102857e0(puVar3[0x2f],0,uVar2);
+          orig::Unit102857D0_SetByte14(puVar3[0x2f],0,uVar2);
         }
       }
       *puVar3 = *puVar3 & 0xfffffffd;

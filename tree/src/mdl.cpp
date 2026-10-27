@@ -274,7 +274,7 @@ XI_API undefined4 __cdecl Mdl_GetEntryTable(int * param_1, int * param_2)
 // GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Mdl_QueryEntryFlag(int param_1, undefined4 * param_2)
 {
-  orig::FUN_10285000(*(int **)(param_1 * 0xc0 + 0xb4 + DAT_1099aedc),&param_1);
+  orig::Unit10284F90_GetValueByItemKind(*(int **)(param_1 * 0xc0 + 0xb4 + DAT_1099aedc),&param_1);
   *param_2 = 1;
   if (param_1 == 0) {
     *param_2 = 0;
@@ -326,14 +326,14 @@ LAB_1026f964:
     if (uVar1 == 0) goto LAB_1026f979;
     uVar4 = 0;
   }
-  orig::FUN_102857e0(uVar1,uVar4,uVar1);
+  orig::Unit102857D0_SetByte14(uVar1,uVar4,uVar1);
 LAB_1026f979:
   if ((*puVar3 & 2) != 0) {
-    uVar1 = orig::FUN_10275090();
+    uVar1 = orig::SqTimer_GetMicroseconds_v1();
     puVar3[0x23] = uVar1;
     return;
   }
-  iVar2 = orig::FUN_10275090();
+  iVar2 = orig::SqTimer_GetMicroseconds_v1();
   puVar3[0x23] = iVar2 - puVar3[0x23];
   return;
 }
@@ -540,7 +540,7 @@ XI_API undefined4 __cdecl Mdl_ComputeSlotBounds(int param_1, float * param_2)
 
 // FUNCTION: FFXIMAIN 0x102700C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102700C0(int param_1, int param_2, undefined4 param_3)
+XI_API undefined4 __cdecl Mdl_LinkB0001ItemRefs(int param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
   int iVar2;
@@ -582,7 +582,7 @@ XI_API undefined4 __cdecl fn_102700C0(int param_1, int param_2, undefined4 param
                 iVar6 = orig::Unit1028DD50_CreateRef((int)piVar3,piVar5,0,*(uint32_t *)(iVar1 + 0x88));
                 if (iVar6 != 0) {
                   orig::SqmdModel_AppendPair44(iVar2,iVar6);
-                  orig::FUN_1027a220_v1(iVar2,iVar6);
+                  orig::SqmdModel_AppendPair68Flag100_v1(iVar2,iVar6);
                 }
                 iVar6 = *(int *)(iVar2 + 0x44);
               }
@@ -618,7 +618,7 @@ XI_API void __cdecl Mdl_SetSlotLock(int param_1, uint32_t param_2, undefined4 * 
   puVar1[0x25] = param_4;
   if ((uVar2 & 0x200) != 0) {
     puVar1[0x24] = param_2;
-    orig::FUN_10274650(puVar1 + 0x26,param_3);
+    orig::Unit10274050_CopyVec3(puVar1 + 0x26,param_3);
     return;
   }
   puVar1[0x24] = 0xffffffff;

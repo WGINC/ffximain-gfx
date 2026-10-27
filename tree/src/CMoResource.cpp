@@ -46,6 +46,17 @@ char ** __cdecl CMoResource::GetRuntimeClass_variant3()
   return &CMoResource_classdesc;
 }
 
+// FUNCTION: FFXIMAIN 0x10071D80  (unit CMoResource: between 0x10071D70 (class model places it in CMoResource) and 0x10071DB0 (class model places it in CMoResource), both within 4 KB)
+// NOT VERIFIED -- FAIL
+XI_API undefined4 * __fastcall fn_10071D80(undefined4 * param_1, undefined4 xi_edx)
+{
+  *param_1 = &CYyObject_vtbl_ambiguous0_as_v0;
+  orig::Unit10070F90_Reset(param_1 + 1);
+  *param_1 = &PTR_CMoResource_GetRuntimeClass_variant3_1032c8dc;
+  orig::FUN_10072990((int)param_1,xi_edx);
+  return param_1;
+}
+
 // FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource::vf008()

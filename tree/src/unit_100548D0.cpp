@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10054D70  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 25 returned normally, 150 D3D calls compared (diffemu_gfx, clean build)
+// NOT VERIFIED -- FAIL
 XI_API char __cdecl BeginEffectOffscreenPass(void)
 {
   int v0;

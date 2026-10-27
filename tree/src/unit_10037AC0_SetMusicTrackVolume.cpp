@@ -87,7 +87,7 @@ XI_API undefined4 __cdecl SetMusicTrackVolume_B(void)
 
 // FUNCTION: FFXIMAIN 0x10037C50  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10037C50(void)
+XI_API void __cdecl SetMusicTrackVolume_Tag0004(void)
 {
   void *self_;
   int *piVar1;
@@ -332,7 +332,7 @@ XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int par
 
 // FUNCTION: FFXIMAIN 0x10038440  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038440(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) LobbyThread_SendCmd3FromFloat(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3)
 {
   int64_t lVar1;
   

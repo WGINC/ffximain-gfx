@@ -105,7 +105,7 @@ XI_API void __thiscall Unit10070F90_CopyField14At8(void * self_, int param_1)
 
 // FUNCTION: FFXIMAIN 0x10071270  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 87 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
-XI_API int * __thiscall fn_10071270(void * self_, undefined4 xi_s1)
+XI_API int * __thiscall MeshResourceMng_CreateResourceByKind(void * self_, undefined4 xi_s1)
 {
   int iVar1;
   int *this_00;

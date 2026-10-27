@@ -220,7 +220,7 @@ undefined4 __thiscall CYySoundElem::UpdateTimerAndPosition(void * self)
           *(float *)((int)self + 0x1c8) = local_8;
           *(uint32_t *)((int)self + 0x1cc) = local_4;
           if (DAT_104638f5 != '\0') {
-            orig::FUN_10038440(*(uint32_t *)((int)self + 0x1e0),&local_10,0,
+            orig::LobbyThread_SendCmd3FromFloat(*(uint32_t *)((int)self + 0x1e0),&local_10,0,
                          *(uint32_t *)((int)self + 0x1e0));
           }
         }

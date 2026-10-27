@@ -60,7 +60,7 @@ XI_API void __cdecl SqsdGeneric_Init(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10290B60  (unit sqsdGeneric: between 0x10290A10 (asserts sqsdGeneric.c) and 0x10290FC0 (name sqsdGeneric_BakeOntoShape), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10290B60(int param_1, int * param_2)
+XI_API void __cdecl SqsdGeneric_DrawPasses(int param_1, int * param_2)
 {
   int iVar1;
   int iVar2;

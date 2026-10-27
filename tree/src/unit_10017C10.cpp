@@ -123,7 +123,7 @@ XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
 
 // FUNCTION: FFXIMAIN 0x100180D0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // NOT VERIFIED -- FAIL
-XI_API void __cdecl fn_100180D0(int param_1)
+XI_API void __cdecl Unit10017C10_DispatchErrorCode(int param_1)
 {
   int iVar1;
   uint8_t *puVar2;
@@ -163,7 +163,7 @@ XI_API void __cdecl Unit10017C10_SendMessage7_1To10668FF8(undefined4 param_1)
   uVar1 = orig::Unit1012AC80_GetMessageFwd_v1(7,1,param_1);
   orig::_sprintf_v1(local_400,uVar1);
   if (DAT_10668ff8_as_v1 != (void *)0x0) {
-    orig::FUN_1023c140(DAT_10668ff8_as_v1,local_400);
+    orig::Unit10237880_StoreTextIfIdle(DAT_10668ff8_as_v1,local_400);
   }
   return;
 }
@@ -250,7 +250,7 @@ XI_API void __cdecl Unit10017C10_SendMessage7_0To10668FF8(uint32_t param_1, char
     }
   }
   if (DAT_10668ff8_as_v1 != (void *)0x0) {
-    orig::FUN_1023c140(DAT_10668ff8_as_v1,local_200);
+    orig::Unit10237880_StoreTextIfIdle(DAT_10668ff8_as_v1,local_200);
   }
   return;
 }
@@ -278,7 +278,7 @@ XI_API uint64_t __cdecl _exit_0(undefined4 param_1)
 {
   uint64_t uVar1;
   
-  uVar1 = orig::FUN_10018310(param_1,0,0,param_1);
+  uVar1 = orig::Unit10017C10_ReportAndHandleError(param_1,0,0,param_1);
   return uVar1;
 }
 
@@ -292,7 +292,7 @@ XI_API void __cdecl Unit10017C10_Thunk10114F10(uint32_t param_1, undefined4 * pa
 
 // FUNCTION: FFXIMAIN 0x10018310  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10018310(undefined4 xi_eax, int param_1, undefined4 * param_2, undefined4 param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10017C10_ReportAndHandleError(undefined4 xi_eax, int param_1, undefined4 * param_2, undefined4 param_3)
 {
   uint32_t uVar1;
   
@@ -303,7 +303,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10018310(undefined4 xi_e
       uVar1 = orig::Unit10017C10_RegisterCallback(param_1);
       return uVar1;
     }
-    uVar1 = orig::fn_100180D0(param_1);
+    uVar1 = orig::Unit10017C10_DispatchErrorCode(param_1);
   }
   return uVar1;
 }

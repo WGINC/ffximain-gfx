@@ -124,11 +124,11 @@ XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 * param_
   orig::Unit1025C9E0_InnerCtor(self_,param_2,param_3,(LPCRITICAL_SECTION)((int)self_ + 0x7c),param_1);
   local_4 = 0;
   *(uint32_t *)((int)self_ + 0x50) = 0;
-  orig::FUN_10265b70((void *)((int)self_ + 0x54),0);
+  orig::Unit1025C9E0_CreateEvent((void *)((int)self_ + 0x54),0);
   XI_PIECE(local_4, 0, 1) = 1;
-  orig::FUN_10265b70((void *)((int)self_ + 0x58),1);
+  orig::Unit1025C9E0_CreateEvent((void *)((int)self_ + 0x58),1);
   local_4 = ((uint32_t)(((uint32_t)(XI_PIECE(local_4, 1, 3)) << 8) | (uint8_t)(2)));
-  orig::FUN_10265b70((uint32_t *)((int)self_ + 0x5c),1);
+  orig::Unit1025C9E0_CreateEvent((uint32_t *)((int)self_ + 0x5c),1);
   *(uint32_t *)((int)self_ + 0x60) = 0;
   *(uint32_t *)((int)self_ + 100) = 0;
   *(uint32_t *)((int)self_ + 0x68) = 0;
@@ -217,6 +217,32 @@ XI_API undefined4 __thiscall Unit1025C9E0_ReleaseField6C(void * self_)
   if (a1 != (int *)0x0) {
     ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
     *(uint32_t *)((int)self_ + 0x6c) = 0;
+  }
+  LeaveCriticalSection((LPCRITICAL_SECTION)((int)self_ + 0x94));
+  ExceptionList = pvStack_c;
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1025F640  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API undefined4 __thiscall fn_1025F640(void * self_)
+{
+  char xi_frame[12] __attribute__((aligned(4)));
+  void * &pvStack_c = *reinterpret_cast<void * *>(xi_frame + 0);
+  uint8_t * &puStack_8 = *reinterpret_cast<uint8_t * *>(xi_frame + 4);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 8);
+  
+  local_4 = 0xffffffff;
+  puStack_8 =(uint8_t*)(&LAB_10327738);
+  pvStack_c = ExceptionList;
+  ExceptionList = &pvStack_c;
+  EnterCriticalSection((LPCRITICAL_SECTION)((int)self_ + 0x94));
+  local_4 = 0;
+  *(uint32_t *)((int)self_ + 0x74) = 0;
+  if (*(int *)((int)self_ + 100) == 1) {
+    *(uint32_t *)((int)self_ + 100) = 0;
+    ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x44))))((void *)(self_));
+    timeEndPeriod(1);
   }
   LeaveCriticalSection((LPCRITICAL_SECTION)((int)self_ + 0x94));
   ExceptionList = pvStack_c;
@@ -352,7 +378,7 @@ XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_)
     *(uint32_t *)((int)self_ + 0x18) = 0;
   }
   local_4 = 0xffffffff;
-  orig::_dynamic_initializer_for__std__num_put_char_std__ostreambuf_iterator_char_std__char_traits_char_______id___47
+  orig::Unit1025C9E0_ReleaseLibraryRef
             ();
   ExceptionList = pvStack_c;
   return;
@@ -360,7 +386,7 @@ XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10265940  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10265940(void * self_, undefined4 xi_s1)
+XI_API void * __thiscall Unit1025C9E0_AddLibraryRef(void * self_, undefined4 xi_s1)
 {
   InterlockedIncrement(&DAT_1067a2a0);
   return self_;
@@ -368,7 +394,7 @@ XI_API void * __thiscall fn_10265940(void * self_, undefined4 xi_s1)
 
 // FUNCTION: FFXIMAIN 0x10265960  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void __cdecl fn_10265960(void)
+XI_API void __cdecl Unit1025C9E0_ReleaseLibraryRef(void)
 {
   int iVar1;
   
@@ -385,7 +411,7 @@ XI_API void __cdecl fn_10265960(void)
 XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_1, void * param_2)
 {
   *(uint8_t ***)self_ = &PTR_LAB_10340924;
-  orig::FUN_10265940((uint32_t *)((int)self_ + 4),param_1);
+  orig::Unit1025C9E0_AddLibraryRef((uint32_t *)((int)self_ + 4),param_1);
   if (param_2 == (void *)0x0) {
     param_2 = self_;
   }
@@ -396,13 +422,34 @@ XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_
 
 // FUNCTION: FFXIMAIN 0x10265B70  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_10265B70(void * self_, BOOL param_1)
+XI_API void * __thiscall Unit1025C9E0_CreateEvent(void * self_, BOOL param_1)
 {
   uint32_t uVar1;
   
   uVar1 = CreateEventA(0,param_1,0,0);
   *(uint32_t *)self_ = uVar1;
   return self_;
+}
+
+// FUNCTION: FFXIMAIN 0x1026CC30  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_1026CC30(void)
+{
+  int iVar1;
+  WSADATA *pWVar2;
+  char xi_frame[404] __attribute__((aligned(4)));
+  WSADATA  &local_194 = *reinterpret_cast<WSADATA  *>(xi_frame + 0);
+  
+  pWVar2 = &local_194;
+  for (iVar1 = 100; iVar1 != 0; iVar1 = iVar1 + -1) {
+    *(uint8_t **)pWVar2 =(uint8_t*)(&DAT_cccccccc);
+    pWVar2 = (WSADATA *)pWVar2->szDescription;
+  }
+  iVar1 = Ordinal_115(0x202,&local_194);
+  iVar1 = orig::FUN_10316d6b(iVar1);
+  local_194.lpVendorInfo = (char *)0x1026cc84;
+  orig::FUN_10316d6b((uint32_t)(iVar1 == 0));
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x1026CCA5  (unit unit_1025C9E0_FontGlyphCache: no unit evidence of its own; in the gap between 0x1025C900 (XiPng) and 0x1026DEE0 (sqxfXformTD) -- an unnamed source file)

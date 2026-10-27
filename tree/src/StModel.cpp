@@ -94,13 +94,13 @@ XI_API undefined4 __cdecl StModelItem_Resolve(uint32_t * param_1)
     return 0xffffffff;
   }
   if ((param_1[6] != 0) && (param_1[7] != 0)) {
-    uVar1 = orig::FUN_10275090();
+    uVar1 = orig::SqTimer_GetMicroseconds_v1();
     param_1[5] = uVar1;
     orig::Unit1018BA60_FileMngReleaseAt1F0(g_pFileMng_as_v0);
     uVar1 = orig::SqmdDMB_Resolve((char *)param_1[6],param_1[7]);
     param_1[8] = uVar1;
     orig::Unit1018BA60_FileMngGetValueAt1F0(g_pFileMng_as_v0);
-    iVar2 = orig::FUN_10275090();
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
     param_1[5] = iVar2 - param_1[5];
     if (param_1[8] == 0) {
       orig::sqDebugPrintf_v1(s_____Error__sqmdDMBResolve__p___p_10389bfc,param_1[6],param_1[7]);

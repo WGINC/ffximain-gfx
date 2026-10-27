@@ -64,7 +64,7 @@ void __thiscall CXiDancerActor::SetPosition(void * self, undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x100AB880  (unit CXiDancerActor: between 0x100AB6E0 (class model places it in CXiDancerActor) and 0x100ABC10 (class model places it in CXiDancerActor), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100AB880(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiDancerActor_SetAnglesWrapped(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2)
 {
   float *pfVar1;
   void *this_00;
@@ -144,7 +144,7 @@ void __thiscall CXiDancerActor::ApplyStateBlock(void * self, void * param_1, und
   orig::Unit100ABC20_CopyReturnZ((undefined4 *)((int)param_1 + 4),param_2);
   orig::CXiDancerActor_SetPosition(self,param_2);
   uVar6 = orig::Unit100ABC20_CopyReturnZ((undefined4 *)((int)param_1 + 0x14),param_3);
-  orig::FUN_100ab880(self,param_3,uVar6);
+  orig::CXiDancerActor_SetAnglesWrapped(self,param_3,uVar6);
   *(uint8_t *)((int)param_1 + 0xee) = 0;
   param_4 = (undefined4 *)(uint32_t)*(uint8_t *)(param_4 + 9);
   uVar7 = *(uint32_t *)((int)param_1 + 0x120) & 0x3fffffff ^ (int)param_4 << 0x1e;

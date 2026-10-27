@@ -103,7 +103,7 @@ void * __thiscall CYyCamMng2::Construct(void * self)
   uint32_t xi_eax;
   
   *(uint8_t ***)self = &CYyObject_vtbl_ambiguous0_as_v0;
-  orig::Unit10026C70_ReturnThis((void *)((int)self + 4));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self + 4));
   *(uint8_t *)((int)self + 0xf0) = 0;
   *(uint8_t ***)self = &PTR_CYyCamMng2_GetRuntimeClass_1032a37c;
   xi_eax = orig::CYyCamMng2_SetDefaultDistances(self);

@@ -18,7 +18,7 @@ XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, 
   if ((void *)uVar1 != (void *)0x0) {
     this_00 = (void *)orig::CYyObject_VT_1032A9F8_Construct((void *)uVar1);
     if (this_00 != (void *)0x0) {
-      orig::FUN_10039670(this_00,param_1,param_2,param_3);
+      orig::ThreadPool_CreateSuspendedThread(this_00,param_1,param_2,param_3);
       *(void **)((int)self_ + *(int *)((int)self_ + 8) * 4 + 0xc) = this_00;
       *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + 1;
       return;

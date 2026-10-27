@@ -43,16 +43,16 @@ XI_API void __thiscall Skel_LoadBoneRotTrans(void * self_)
         fVar2 = xi_castbits<float>(puVar6[4]);
         fVar3 = xi_castbits<float>(puVar6[5]);
         (&g_poseTranslation_as_v0)[iVar5 * 0xd] =
-             (float)((long double)xi_castbits<float>(puVar6[3]) + (long double)xi_castbits<float>((&g_poseTranslation_as_v0)[iVar5 * 0xd]));
+             xi_castbits<uint32_t>((float)((long double)xi_castbits<float>(puVar6[3]) + (long double)xi_castbits<float>((&g_poseTranslation_as_v0)[iVar5 * 0xd])));
         (&DAT_1045f044)[iVar5 * 0xd] =
-             (float)((long double)fVar2 + (long double)xi_castbits<float>((&DAT_1045f044)[iVar5 * 0xd]));
+             xi_castbits<uint32_t>((float)((long double)fVar2 + (long double)xi_castbits<float>((&DAT_1045f044)[iVar5 * 0xd])));
         (&DAT_1045f048)[iVar5 * 0xd] =
-             (float)((long double)fVar3 + (long double)xi_castbits<float>((&DAT_1045f048)[iVar5 * 0xd]));
+             xi_castbits<uint32_t>((float)((long double)fVar3 + (long double)xi_castbits<float>((&DAT_1045f048)[iVar5 * 0xd])));
         if (iVar5 == 0) {
           orig::Unit10026C70_ReturnThis(local_40);
           orig::Mat4_SetIdentity_v1(local_40);
           orig::Mat4_PostRotateY_v1(local_40,4.7123889923095703125f);
-          orig::Mat4_TransformPointInPlace_v1(local_40,(float *)&g_poseTranslation_as_v0);
+          orig::Mat4_TransformPointInPlace_v1(local_40,&g_poseTranslation_as_v0);
           orig::Unit10026C70_Nop();
         }
         puVar6 = (undefined4 *)((int)puVar6 + 0x1e);
@@ -189,7 +189,7 @@ XI_API undefined4 __thiscall Skel_ComposeMode(void * self_, int param_1, int par
                            (float *)(((char *)&DAT_1045f058) + (uint32_t)*local_48 * 0x34),
                            (float *)(((char *)&g_poseScale_as_v0) + iVar5 * 0x34));
             }
-            orig::Unit10026C70_ReturnThis(local_40);
+            orig::Unit10026C70_ReturnThis_v1(local_40);
             orig::Mat4_SetScale_v1(local_40,(undefined4 *)(((char *)&DAT_1045f058) + iVar5 * 0x34));
             orig::Mat4_PreMultiply_v1(g_boneWeightMatrixTable_as_v0 + iVar5 * 0x10,local_40);
             local_48 = local_48 + 0x1e;

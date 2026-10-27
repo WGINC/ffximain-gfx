@@ -26,6 +26,6 @@ XI_API void __cdecl CMoOt_Update(void)
 {
   orig::Zone_UpdateFogAmbient();
   orig::Unit100552F0_Free(dword_1047BC94);
-  orig::FUN_100554b0(dword_1047BC94);
+  orig::Unit100552F0_RelinkEntries(dword_1047BC94);
   return;
 }

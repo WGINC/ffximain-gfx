@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10014350  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build)
-XI_API uint8_t __thiscall fn_10014350(void * self_)
+XI_API uint8_t __thiscall Unit10014350_RunStepThenLoadAll(void * self_)
 {
   uint32_t xi_eax;
   
@@ -135,7 +135,7 @@ XI_API undefined4 __thiscall Unit10014350_StepMenuOkThenRelease(void * self_)
       orig::Unit10237880_ForwardFlag1(Code);
     }
     orig::Unit1018BA60_AssignWhole((void *)(DAT_10668ff8 + 0x24c),DAT_10668ff4);
-    uVar5 = orig::MenuMng_OpenByName_v3(&g_menuMng_as_v0,s_menu_ok_10350334,1,0);
+    uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_ok_10350334,1,0);
     orig::Unit10010370_IncrementShort6(self_);
   }
   else if (iVar3 == 1) {
@@ -598,6 +598,51 @@ XI_API void __stdcall App_WinMainClearFileMng(undefined4 param_1, undefined4 par
   g_pFileMng_as_v1 = 0;
   orig::FUN_100157e0(param_2,param_3);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10015AB0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __stdcall App_RunWithCOM(undefined4 xi_s1, undefined4 xi_s2)
+{
+  HANDLE a1;
+  HRESULT HVar1;
+  void *self_;
+  undefined4 uVar2;
+  
+  a1 = GetCurrentProcess();
+  if (a1 != (HANDLE)0x0) {
+    uVar2 = 0x20;
+    if ((0 < DAT_10456aac) && (DAT_10456aac < 3)) {
+      uVar2 = *(undefined4 *)(((char *)&DAT_10350550) + DAT_10456aac * 4);
+    }
+    SetPriorityClass(a1,uVar2);
+  }
+  orig::FUN_10311c7a(0x8001f,0x8001f);
+  HVar1 = CoInitialize((LPVOID)0x0);
+  if (HVar1 < 0) {
+    return 1;
+  }
+  self_ = orig::Allocator_Generic_v3(0x10);
+  if (self_ == (void *)0x0) {
+    DAT_104570b0_as_v0 = (undefined4 *)0x0;
+  }
+  else {
+    DAT_104570b0_as_v0 = (undefined4 *)orig::FUN_10029220(self_);
+    if (DAT_104570b0_as_v0 != (undefined4 *)0x0) {
+      orig::FUN_10029290(DAT_104570b0_as_v0);
+      uVar2 = orig::App_CreateRendererAndApp();
+      if ((char)uVar2 != '\0') {
+        orig::App_RunMainLoopThenSetPtr();
+      }
+    }
+  }
+  orig::App_DestroyGlobalObjects();
+  if (DAT_104570b0_as_v0 != (undefined4 *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)*DAT_104570b0_as_v0)))((void *)(DAT_104570b0_as_v0),1);
+    DAT_104570b0_as_v0 = (undefined4 *)0x0;
+  }
+  CoUninitialize();
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100161B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)

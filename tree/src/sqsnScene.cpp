@@ -119,7 +119,7 @@ XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float par
 
 // FUNCTION: FFXIMAIN 0x1028EC30  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1028EC30(int param_1, int param_2, undefined4 param_3)
+XI_API undefined4 __cdecl SqsnScene_SetEntryField8(int param_1, int param_2, undefined4 param_3)
 {
   *(uint32_t *)(*(int *)(param_1 + 0x48) + 8 + param_2 * 0x2c) = param_3;
   return param_3;
@@ -427,18 +427,18 @@ LAB_1028f62e:
   orig::SqgxContext_StoreVec14(iVar2);
   orig::SqgxContext_SetTransposedMatrix(*(uint32_t **)(iVar1 + param_2 * 0xc + 4));
   orig::SqgxContext_SetFloat72C(*(float *)(iVar2 + 0x24));
-  orig::FUN_10283300((uint32_t)(*(char *)(*(int *)(param_1 + 0x28) + param_2) != '\0'));
+  orig::Unit102822A0_SetContextSlot854((uint32_t)(*(char *)(*(int *)(param_1 + 0x28) + param_2) != '\0'));
   if (uVar5 < 4) {
     do {
       orig::SqgxContext_SetCurrentIndex(uVar5,0);
-      orig::FUN_10283300(0);
+      orig::Unit102822A0_SetContextSlot854(0);
       uVar5 = uVar5 + 1;
     } while ((int)uVar5 < 4);
   }
   if (uVar4 < 4) {
     do {
       orig::SqgxContext_SetCurrentIndex(uVar4,1);
-      orig::FUN_10283300(0);
+      orig::Unit102822A0_SetContextSlot854(0);
       uVar4 = uVar4 + 1;
     } while ((int)uVar4 < 4);
   }
@@ -482,7 +482,7 @@ XI_API void __cdecl SqsnScene_SetupLayerLights(int * param_1, int param_2)
           orig::SqgxContext_StoreVec14(iVar4);
           orig::SqgxContext_SetTransposedMatrix((uint32_t *)piVar1[1]);
           orig::SqgxContext_SetFloat72C(*(float *)(iVar4 + 0x24));
-          orig::FUN_10283300(1);
+          orig::Unit102822A0_SetContextSlot854(1);
         }
       }
       local_4 = local_4 + 1;
@@ -509,7 +509,7 @@ XI_API void __cdecl SqsnScene_SetupLayerLights(int * param_1, int param_2)
           orig::SqgxContext_StoreVec14(iVar3);
           orig::SqgxContext_SetTransposedMatrix((uint32_t *)piVar1[1]);
           orig::SqgxContext_SetFloat72C(*(float *)(iVar3 + 0x24));
-          orig::FUN_10283300(1);
+          orig::Unit102822A0_SetContextSlot854(1);
         }
       }
       local_4 = local_4 + 1;
@@ -518,11 +518,11 @@ XI_API void __cdecl SqsnScene_SetupLayerLights(int * param_1, int param_2)
   }
   for (; local_8 < 4; local_8 = local_8 + 1) {
     orig::SqgxContext_SetCurrentIndex(local_8,0);
-    orig::FUN_10283300(0);
+    orig::Unit102822A0_SetContextSlot854(0);
   }
   for (; local_c < 4; local_c = local_c + 1) {
     orig::SqgxContext_SetCurrentIndex(local_c,1);
-    orig::FUN_10283300(0);
+    orig::Unit102822A0_SetContextSlot854(0);
   }
   return;
 }

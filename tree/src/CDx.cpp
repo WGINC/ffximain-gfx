@@ -433,7 +433,7 @@ undefined4 __thiscall CDx::CreateDeviceObjectOnce(void * self, undefined4 param_
 
 // FUNCTION: FFXIMAIN 0x100098E0  (unit CDx: between 0x10009740 (name CDx_EndScene) and 0x10009920 (name CDx_SetDefaultRenderState), both within 4 KB)
 // GATE: PASS -- 100 trials, 95 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100098E0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_EndAndApplyStateBlock(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4)
 {
   int a2;
   uint32_t uVar1;
@@ -1132,7 +1132,7 @@ int CDx::GetTransformCached(int a2, void *a3)
 
 // FUNCTION: FFXIMAIN 0x1000BE10  (unit CDx: between 0x1000BDB0 (name CDx_GetTransformCached) and 0x1000BF30 (name CDx_SetLight), both within 4 KB)
 // GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1000BE10(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_SetVertexShaderCached(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   if (param_2 == 0) {
     *(uint32_t *)((int)self_ + 0x9fc) = 0;

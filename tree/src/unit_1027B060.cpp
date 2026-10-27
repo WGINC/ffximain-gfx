@@ -26,7 +26,7 @@ XI_API void __cdecl Unit1027B060_RotateVec(float * param_1, float * param_2, flo
   float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 8);
   float  &local_4 = *reinterpret_cast<float  *>(xi_frame + 12);
   
-  orig::Unit1027A4B0_Copy(&local_10,param_2);
+  orig::Unit1027A4B0_Copy_v1(&local_10,param_2);
   orig::Unit1027B060_NegateInPlace(&local_10);
   fVar1 = ((long double)param_2[3] * (long double)*param_3 + (long double)param_3[2] * (long double)param_2[1]) -
           (long double)param_3[1] * (long double)param_2[2];

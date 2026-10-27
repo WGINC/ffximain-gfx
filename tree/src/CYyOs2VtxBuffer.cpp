@@ -89,7 +89,7 @@ LAB_1002cd75:
 
 // FUNCTION: FFXIMAIN 0x1002D660  (unit CYyOs2VtxBuffer: class model places it in CYyOs2VtxBuffer)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_1002D660(void * self_, undefined4 param_1)
+XI_API void * __thiscall CYyOs2VtxBuffer_ScalarDeletingDtor(void * self_, undefined4 param_1)
 {
   orig::CYyOs2VtxBuffer_CYyOs2VtxBuffer_Destructor(self_);
   if ((param_1 & 1) != 0) {

@@ -269,6 +269,30 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
   return (int)this_00;
 }
 
+// FUNCTION: FFXIMAIN 0x1003B980  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_1003B980(int param_1, float * param_2, float * param_3)
+{
+  long double fVar1;
+  long double fVar2;
+  long double fVar3;
+  long double fVar4;
+  long double fVar5;
+  
+  fVar1 = (long double)param_3[1] - (long double)param_2[1];
+  fVar2 = (long double)*param_3 - (long double)*param_2;
+  fVar3 = (long double)param_3[2] - (long double)param_2[2];
+  fVar4 = xi_castbits<long double>(fpatan(fVar3,fVar2));
+  fVar5 = xi_castbits<long double>(fpatan(fVar1,SQRT((long double)(float)(fVar3 * fVar3) +
+                                     (long double)(float)(fVar2 * fVar2))));
+  ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0x58))))((void *)(g_pProcessor_as_v1),param_1,0,(float)-fVar4,(float)fVar5);
+  *(float *)(param_1 + 0x30) = (float)((long double)*(float *)(param_1 + 0x30) + (long double)*param_2);
+  *(float *)(param_1 + 0x34) = (float)((long double)*(float *)(param_1 + 0x34) + (long double)param_2[1]);
+  *(float *)(param_1 + 0x38) = (float)((long double)*(float *)(param_1 + 0x38) + (long double)param_2[2]);
+  return SQRT((long double)(float)(fVar3 * fVar3) + (long double)(float)(fVar1 * fVar1) +
+              (long double)(float)(fVar2 * fVar2));
+}
+
 // FUNCTION: FFXIMAIN 0x1003BD90  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_2, int * param_3)
@@ -300,7 +324,7 @@ void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 90 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
 XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;

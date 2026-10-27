@@ -41,7 +41,7 @@ XI_API void __cdecl Actor_ResetDrawLists(void)
 
 // FUNCTION: FFXIMAIN 0x10081AE0  (unit unit_10081A30: no unit evidence of its own; in the gap between 0x100817F0 (CXiActorNameDraw) and 0x10081D20 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10081AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_LinkIntoDrawList(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int iVar1;
   

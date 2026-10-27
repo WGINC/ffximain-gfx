@@ -759,7 +759,7 @@ XI_API int __cdecl Unit10253A20_FindFirstTypeByte(char * param_1)
 
 // FUNCTION: FFXIMAIN 0x10258430  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10258430(void * param_1, undefined4 param_2, undefined4 param_3, char * param_4)
+XI_API undefined4 __cdecl Unit10253A20_ExpandFormCodes(void * param_1, undefined4 param_2, undefined4 param_3, char * param_4)
 {
   char *pcVar1;
   char cVar2;
@@ -905,7 +905,7 @@ XI_API void __thiscall Unit10253A20_FormatTextAtC(void * self_, void * param_1, 
   char *pcVar1;
   
   pcVar1 = orig::Unit1018BA60_GetCStr((void *)((int)self_ + 0xc));
-  orig::FUN_10258430(param_1,param_2,param_3,pcVar1);
+  orig::Unit10253A20_ExpandFormCodes(param_1,param_2,param_3,pcVar1);
   return;
 }
 
@@ -1855,7 +1855,7 @@ XI_API uint32_t __thiscall Unit10253A20_BuildNodeString(void * self_, char * par
   iVar1 = orig::Sjis_IsCodeInSet(pcVar6);
   if (iVar1 == 0) {
     sVar3 = orig::Sjis_GetCharByteLen_v1(pcVar6);
-    orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
+    orig::_strncpy_v2((char *)&param_1,pcVar6,sVar3);
   }
   else {
     sVar3 = orig::Unit100D7420_LowercaseCharThen1011DAE0((uint8_t *)&param_1,pcVar6);
@@ -1873,7 +1873,7 @@ XI_API uint32_t __thiscall Unit10253A20_BuildNodeString(void * self_, char * par
       iVar1 = orig::Sjis_IsCodeInSet(pcVar6);
       if (iVar1 == 0) {
         sVar3 = orig::Sjis_GetCharByteLen_v1(pcVar6);
-        orig::_strncpy_v1((char *)&param_1,pcVar6,sVar3);
+        orig::_strncpy_v2((char *)&param_1,pcVar6,sVar3);
       }
       else {
         sVar3 = orig::Unit100D7420_LowercaseCharThen1011DAE0((uint8_t *)&param_1,pcVar6);
@@ -2595,7 +2595,7 @@ XI_API undefined4 __cdecl Unit10253A20_HasKnownPrefix(char * param_1)
   if ((1 < ~uVar3 - 1) && (PTR_DAT_1038accc != (uint8_t *)0x0)) {
     ppuVar4 = &PTR_DAT_1038accc;
     do {
-      uVar6 = orig::_strncmp(param_1,*ppuVar4,2);
+      uVar6 = orig::_strncmp_v1(param_1,*ppuVar4,2);
       if ((int)uVar6 == 0) {
         return 1;
       }
@@ -2635,7 +2635,7 @@ XI_API size_t __cdecl Unit10253A20_FindPrefixEntry(char * param_1, int param_2, 
   while( true ) {
     _MaxCount = *param_3;
     if (((int)_MaxCount <= param_2) &&
-       (uVar3 = orig::_strncmp(param_1,(char *)*psVar2,_MaxCount), (int)uVar3 == 0)) break;
+       (uVar3 = orig::_strncmp_v1(param_1,(char *)*psVar2,_MaxCount), (int)uVar3 == 0)) break;
     psVar1 = psVar2 + 2;
     param_3 = psVar2 + 1;
     psVar2 = psVar2 + 2;

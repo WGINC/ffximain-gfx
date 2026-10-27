@@ -88,14 +88,14 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
                            *(undefined4 *)(param_1 + 0x58));
             }
             else {
-              iVar2 = orig::FUN_10275090();
+              iVar2 = orig::SqTimer_GetMicroseconds_v1();
               iVar5 = orig::SqmdSort_CreateForStrips(*(int **)(*(int *)(param_1 + 0x4c) + iVar11 * 4),uVar12 & 0xf,
                                    *(undefined4 *)(*(int *)(param_1 + 0x50) + iVar11 * 4),0);
               *(int *)(*(int *)(param_1 + 0x3c) + uVar13 * 4) = iVar5;
-              orig::FUN_1027a220(param_1,iVar5);
+              orig::SqmdModel_AppendPair68Flag100(param_1,iVar5);
               *(uint32_t *)(*(int *)(param_1 + 0x54) + iVar11 * 4) =
                    *(uint32_t *)(*(int *)(param_1 + 0x54) + iVar11 * 4) | 0x4000;
-              iVar11 = orig::FUN_10275090();
+              iVar11 = orig::SqTimer_GetMicroseconds_v1();
               DAT_109a2758 = DAT_109a2758 + (iVar11 - iVar2);
             }
           }
@@ -112,7 +112,7 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
         pbVar14 = param_2 + 0x40;
         uVar12 = *(uint32_t *)(*(int *)(param_1 + 0x40) + uVar13 * 4);
         if (uVar12 == 0xedfeedfe) {
-          iVar11 = orig::FUN_10275090();
+          iVar11 = orig::SqTimer_GetMicroseconds_v1();
           iVar2 = orig::SqskSkeleton_BuildSQO((char *)pbVar14,*(undefined4 *)(param_2 + 4));
           if (iVar2 == 0) {
             orig::sqDebugPrintf_v1(s_____Error__sqskBuildSQO__p___d__f_103b9394,pbVar14,
@@ -122,19 +122,19 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
             if ((*param_2 & 1) != 0) {
               puVar6 = orig::SqhiNode_Create();
               puVar7 = orig::SqskJoint_Create();
-              orig::FUN_10274650(puVar7 + 0x17,(undefined4 *)(param_2 + 0x10));
-              orig::FUN_10274650(puVar7 + 0x1e,(undefined4 *)(param_2 + 0x30));
-              orig::Unit1027A4B0_Copy(puVar7 + 0x1a,(undefined4 *)(param_2 + 0x20));
+              orig::Unit10274050_CopyVec3(puVar7 + 0x17,(undefined4 *)(param_2 + 0x10));
+              orig::Unit10274050_CopyVec3(puVar7 + 0x1e,(undefined4 *)(param_2 + 0x30));
+              orig::Unit1027A4B0_Copy_v1(puVar7 + 0x1a,(undefined4 *)(param_2 + 0x20));
               orig::SqhiNode_SetField64((int)puVar6,puVar7);
               orig::SqhiNode_AppendChild((int)puVar6,*(int *)(iVar2 + 0x1c));
-              orig::FUN_1027a220(param_1,puVar6);
-              orig::FUN_1027a220(param_1,puVar7);
+              orig::SqmdModel_AppendPair68Flag100(param_1,puVar6);
+              orig::SqmdModel_AppendPair68Flag100(param_1,puVar7);
             }
             *(int *)(*(int *)(param_1 + 0x3c) + uVar13 * 4) = iVar2;
-            orig::FUN_1027a220(param_1,iVar2);
+            orig::SqmdModel_AppendPair68Flag100(param_1,iVar2);
             orig::Unit10288FF0_ResolveSkelRefs(param_1,iVar2,uVar13);
           }
-          iVar2 = orig::FUN_10275090();
+          iVar2 = orig::SqTimer_GetMicroseconds_v1();
           DAT_109a275c = DAT_109a275c + (iVar2 - iVar11);
         }
         else if ((uVar12 & 0xbc000000) == 0) {
@@ -147,18 +147,18 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
           iVar11 = (int)(uVar12 & 0x43ffffff) >> 0x10;
           uVar12 = uVar12 & 0xffff;
           if (((int)uVar12 < *(int *)(param_1 + 0x58)) && (iVar11 < (int)uVar13)) {
-            iVar5 = orig::FUN_10275090();
+            iVar5 = orig::SqTimer_GetMicroseconds_v1();
             iVar2 = *(int *)(*(int *)(param_1 + 0x4c) + uVar12 * 4);
             iVar11 = orig::SqinBuild_BuildSQO(*(undefined4 *)(*(int *)(param_1 + 0x3c) + iVar11 * 4),
                                   (char *)pbVar14,*(undefined4 *)(param_2 + 4));
-            iVar8 = orig::FUN_10275090();
+            iVar8 = orig::SqTimer_GetMicroseconds_v1();
             DAT_109a2760 = DAT_109a2760 + (iVar8 - iVar5);
             if (iVar11 == 0) {
               orig::sqDebugPrintf_v1(s_____Error__sqinBuildSQO__p___d__f_103b936c,pbVar14,
                            *(undefined4 *)(param_2 + 4));
             }
             else {
-              iVar9 = orig::FUN_10275090();
+              iVar9 = orig::SqTimer_GetMicroseconds_v1();
               *(int *)(*(int *)(param_1 + 0x3c) + uVar13 * 4) = iVar11;
               iVar8 = *(int *)(iVar2 + 0x34);
               puVar6 = (undefined4 *)0x0;
@@ -171,17 +171,17 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
               }
               orig::SqinSkin_InitShapeData(iVar11,*(int *)(iVar8 + 0x14),puVar6,local_14,
                           *(undefined4 *)(*(int *)(param_1 + 0x50) + uVar12 * 4),0xffffffe0);
-              iVar10 = orig::FUN_10275090();
+              iVar10 = orig::SqTimer_GetMicroseconds_v1();
               DAT_109a2764 = DAT_109a2764 + (iVar10 - iVar9);
-              iVar9 = orig::FUN_10275090();
+              iVar9 = orig::SqTimer_GetMicroseconds_v1();
               orig::SqinSkin_ReleaseIfHasData(iVar11);
               orig::SqinSkin_PropagateValue38(iVar11,iVar8);
-              iVar8 = orig::FUN_10275090();
+              iVar8 = orig::SqTimer_GetMicroseconds_v1();
               DAT_109a2768 = DAT_109a2768 + (iVar8 - iVar9);
-              orig::FUN_1027a220(param_1,iVar2);
-              orig::FUN_1027a220(param_1,iVar11);
+              orig::SqmdModel_AppendPair68Flag100(param_1,iVar2);
+              orig::SqmdModel_AppendPair68Flag100(param_1,iVar11);
             }
-            iVar11 = orig::FUN_10275090();
+            iVar11 = orig::SqTimer_GetMicroseconds_v1();
             DAT_109a276c = DAT_109a276c + (iVar11 - iVar5);
           }
           else {

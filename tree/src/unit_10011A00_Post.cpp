@@ -1124,7 +1124,7 @@ XI_API undefined4 __thiscall App_RunOpening(void * self_)
   
   if (*(short *)((int)self_ + 4) == 0) {
     if ((*(int *)(g_pAppSettings + 0x20) < 1) || (2 < *(int *)(g_pAppSettings + 0x20))) {
-      orig::_strncpy_v1(&DAT_10456798,s_c__image_ffxi_mov_10350310,0x103);
+      orig::_strncpy_v2(&DAT_10456798,s_c__image_ffxi_mov_10350310,0x103);
     }
     else {
       GetCurrentDirectoryA(0x104,(LPSTR)(&DAT_10456798));
@@ -1342,7 +1342,7 @@ XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
     uVar1 = orig::CAtelIdleTask_Create();
     return uVar1 & 0xffffff00;
   case 4:
-    uVar1 = orig::FUN_10014350(self_);
+    uVar1 = orig::Unit10014350_RunStepThenLoadAll(self_);
     if ((char)uVar1 != '\0') {
       return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
     }

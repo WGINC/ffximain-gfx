@@ -133,7 +133,7 @@ XI_API void __cdecl Unit102A2530_RenderShadowTexture(int param_1, int param_2)
   orig::sqgxTextureDraw_v1(piVar5[3],0);
   orig::sqgxTextureClear_v1(&local_10,0);
   iVar6 = *(int *)(*(int *)(param_1 + 0x18) + *(int *)(param_1 + 0x1c) * 0xc);
-  orig::sqgxPerspective(*(float *)(iVar4 + 0x24),*(float *)(iVar6 + 0x18),*(float *)(iVar6 + 0x1c));
+  orig::Unit102822A0_SetPerspective(*(float *)(iVar4 + 0x24),*(float *)(iVar6 + 0x18),*(float *)(iVar6 + 0x1c));
   orig::sqgxMatrixCamera_v1(*(uint32_t **)(iVar1 * 0xc + 4 + *(int *)(param_1 + 0x24)));
   orig::sqgxShader_v1(0,0);
   orig::sqgxZMask_v1(0);

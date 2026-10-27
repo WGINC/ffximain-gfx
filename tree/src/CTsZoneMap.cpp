@@ -230,7 +230,7 @@ void * __thiscall CTsZoneMap::Init(void * self)
   } while (iVar1 != 0);
   orig::ZoneMap_ConstructVt10336634((void *)((int)self + 0x178));
   orig::ZoneMap_ConstructVt1033668C((void *)((int)self + 0x34330));
-  orig::Unit10026C70_ReturnThis((void *)((int)self + 0x343e8));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self + 0x343e8));
   orig::ZoneMap_ConstructVt10336614((void *)((int)self + 0x34428));
   orig::Unit100548D0_Init((void *)((int)self + 0x3959c));
   *(uint8_t ***)self = &CTsZoneMap_vtbl_as_v0;

@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1006D0A0  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_1006D0A0(undefined4 xi_eax, undefined4 * param_1)
+XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoProcessor_VT_1032C368_SetIdentity(undefined4 xi_eax, undefined4 * param_1)
 {
   int iVar1;
   int iVar2;

@@ -229,13 +229,13 @@ XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1023C140  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1023C140(void * self_, char * param_1)
+XI_API undefined4 __thiscall Unit10237880_StoreTextIfIdle(void * self_, char * param_1)
 {
   char *pcVar1;
   
   pcVar1 = *(char **)((int)self_ + 0x14);
   if (pcVar1 == (char *)0x0) {
-    pcVar1 = orig::_strncpy_v2((char *)((int)self_ + 0x1c),param_1,0x230);
+    pcVar1 = orig::_strncpy_v1((char *)((int)self_ + 0x1c),param_1,0x230);
     *(uint8_t *)((int)self_ + 0x24b) = 0;
     DAT_10668ff4_as_v0 = (char *)((int)self_ + 0x1c);
   }
@@ -298,7 +298,7 @@ XI_API void * __thiscall CIwHnList_Constructor(void * self_)
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
-  orig::FUN_101c7c50((void *)((int)self_ + 0x50));
+  orig::Unit101C72E0_InitFourSlots((void *)((int)self_ + 0x50));
   puVar1 = (uint32_t *)((int)self_ + 0x18);
   *(uint8_t ***)self_ = &PTR_FUN_1033ca40;
   puVar6 = puVar1;

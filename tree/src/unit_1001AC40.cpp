@@ -10,7 +10,7 @@ XI_API void __thiscall KzMotionQueList_AdvanceAll(void * self_, float param_1)
   
   for (this_00 = *(void **)((int)self_ + 4); this_00 != (void *)0x0;
       this_00 = *(void **)((int)this_00 + 4)) {
-    orig::FUN_1001b520(this_00,param_1);
+    orig::Unit1001B510_StepStateByTime(this_00,param_1);
   }
   return;
 }

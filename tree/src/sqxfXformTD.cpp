@@ -20,8 +20,8 @@ XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E1F0  (unit sqxfXformTD: name sqxfXformTD_Update)
-// NOT VERIFIED -- UNRESOLVED
-XI_API void __cdecl sqxfXformTD_Update(int param_1)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl sqxfXformTD_Update(int param_1)
 {
   char xi_frame[36] __attribute__((aligned(4)));
   float  &local_24 = *reinterpret_cast<float  *>(xi_frame + 0);
@@ -57,5 +57,5 @@ XI_API void __cdecl sqxfXformTD_Update(int param_1)
   *(float *)(param_1 + 0x48) =
        (float)((long double)local_4 * (long double)*(float *)(param_1 + 0x78) +
               (long double)*(float *)(param_1 + 100));
-  return;
+  return 0;
 }

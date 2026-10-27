@@ -36,7 +36,7 @@ XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
     orig::SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[param_1]);
     iVar2 = 0;
     do {
-      orig::FUN_1028ec30(0x1099b13c,iVar2,(&DAT_1099b1b4)[DAT_1099b0f4]);
+      orig::SqsnScene_SetEntryField8(0x1099b13c,iVar2,(&DAT_1099b1b4)[DAT_1099b0f4]);
       iVar2 = iVar2 + 1;
     } while (iVar2 < 4);
     return;
@@ -47,7 +47,7 @@ XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
   orig::SqsnScene_SetCursorIfInRange(0x1099b13c,DAT_1099b1cc);
   iVar2 = 0;
   do {
-    orig::FUN_1028ec30(0x1099b13c,iVar2,DAT_1099b1cc);
+    orig::SqsnScene_SetEntryField8(0x1099b13c,iVar2,DAT_1099b1cc);
     iVar2 = iVar2 + 1;
   } while (iVar2 < 4);
   return;
@@ -75,8 +75,8 @@ XI_API void __cdecl Unit10272F20_SetCameraEntry(int param_1, int param_2, int pa
   }
   if (param_3 != 0) {
     orig::M4fSet_v1((uint32_t *)(((char *)&DAT_1099b358) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x1c));
-    orig::FUN_10274650(&DAT_1099b398 + param_1 * 0x1f,(uint32_t *)(param_3 + 0x5c));
-    orig::Unit1027A4B0_Copy((uint32_t *)(((char *)&DAT_1099b3a4) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x68));
+    orig::Unit10274050_CopyVec3(&DAT_1099b398 + param_1 * 0x1f,(uint32_t *)(param_3 + 0x5c));
+    orig::Unit1027A4B0_Copy_v1((uint32_t *)(((char *)&DAT_1099b3a4) + param_1 * 0x7c),(uint32_t *)(param_3 + 0x68));
     (&DAT_1099b3b4)[param_1 * 0x1f] = *(uint32_t *)(param_3 + 0x78);
     orig::sqxfXformTD_Update(param_3);
   }
@@ -118,7 +118,7 @@ XI_API void __cdecl Unit10272F20_UpdateCameraBlend(int param_1)
   orig::SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[DAT_1099b0f4]);
   iVar3 = 0;
   do {
-    orig::FUN_1028ec30(0x1099b13c,iVar3,(&DAT_1099b1b4)[DAT_1099b0f4]);
+    orig::SqsnScene_SetEntryField8(0x1099b13c,iVar3,(&DAT_1099b1b4)[DAT_1099b0f4]);
     iVar3 = iVar3 + 1;
   } while (iVar3 < 4);
   _DAT_1099b134_as_f32 = 0.0f;

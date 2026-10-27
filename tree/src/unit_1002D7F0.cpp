@@ -2,41 +2,6 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
-// FUNCTION: FFXIMAIN 0x1002D7F0  (unit unit_1002D7F0: no unit evidence of its own; in the gap between 0x1002D700 (CYyOs2VtxBuffer) and 0x1002D880 (CMoResource_VT_1032C854) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1002D7F0(void * self_)
-{
-  uint8_t bVar1;
-  uint32_t uVar2;
-  uint32_t uVar3;
-  void *pvVar4;
-  
-  if ((*(char *)((int)self_ + 0x30) != '\0') && (*(char *)((int)self_ + 0x30) != '\x01')) {
-    pvVar4 = self_;
-    orig::nullsub_90_v1();
-    bVar1 = *(uint8_t *)((int)self_ + 0x30);
-    orig::Unit10017C10_NoOpVarargsA_v1(s_Os2_Version_Error__d__10351654,(uint32_t)bVar1,pvVar4);
-    return (uint32_t)bVar1;
-  }
-  uVar2 = (uint32_t)*(uint8_t *)((int)self_ + 0x31);
-  if (*(uint8_t *)((int)self_ + 0x31) == 0) {
-    if ((*(uint8_t *)((int)self_ + 0x32) & 0x7f) == 0) {
-      *(uint32_t *)((int)self_ + 0x5e) = 0;
-      uVar2 = orig::FUN_1002d8f0(self_);
-    }
-    else {
-      uVar2 = (*(uint8_t *)((int)self_ + 0x32) & 0x7f) - 1;
-      if (uVar2 == 0) {
-        uVar3 = orig::FUN_10022470(self_);
-        *(uint8_t *)((int)self_ + 0x31) = 1;
-        return uVar3;
-      }
-    }
-    *(uint8_t *)((int)self_ + 0x31) = 1;
-  }
-  return uVar2;
-}
-
 // FUNCTION: FFXIMAIN 0x1002D860  (unit unit_1002D7F0: no unit evidence of its own; in the gap between 0x1002D700 (CYyOs2VtxBuffer) and 0x1002D880 (CMoResource_VT_1032C854) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 49 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) CMoResource_DropObjectAt5E(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)

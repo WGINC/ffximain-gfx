@@ -6,6 +6,7 @@
 class XI_API CXiTimerLow {
 public:
     static void * __thiscall Init(void * self);  // 0x10019490
+    static undefined4 __thiscall AccumulateElapsed(void * self);  // 0x100194F0
     static long double __thiscall GetFrameRate(void * self);  // 0x10019550
     static long double __thiscall GetElapsed(void * self);  // 0x10019590
 

@@ -72,7 +72,7 @@ XI_API int __cdecl SqskSkeleton_BuildBinary(int param_1, int param_2, int param_
   }
   iVar3 = orig::Unit1028A0A0_ReturnZero();
   if (iVar3 != 0) {
-    orig::FUN_10292130((uint8_t *)pfVar1,4,iVar4,iVar3);
+    orig::SqIO_SwapBytes((uint8_t *)pfVar1,4,iVar4,iVar3);
   }
   iVar3 = 0;
   local_2c = 0;

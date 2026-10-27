@@ -78,9 +78,9 @@ XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t 
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x32));
     orig::Quat_SetIdentityChained(local_50);
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
-    orig::Unit10026C70_ReturnThis(local_40);
+    orig::Unit10026C70_ReturnThis_v1(local_40);
     orig::Unit100310A0_FromQuat(local_50,local_40);
-    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v2(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x30) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);
@@ -97,7 +97,7 @@ XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t 
     orig::FUN_100274b0(&local_60,(int)*(char *)((int)param_1 + 0x12));
     orig::FUN_10033360(local_50,&local_70,&local_60,param_3);
     orig::Unit100310A0_FromQuat(local_50,local_40);
-    orig::Mat4_TransformPointInPlace_v1(local_40,&local_70);
+    orig::Mat4_TransformPointInPlace_v2(local_40,&local_70);
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_70 * (long double)127.0f);
     *(char *)((int)self_ + 0x10) = (char)lVar1;
     lVar1 = XI_CALL_ST0(0x10311C2Cu)((long double)local_6c * (long double)127.0f);

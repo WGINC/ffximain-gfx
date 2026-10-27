@@ -57,7 +57,7 @@ XI_API undefined4 __cdecl Unit10252A00_SetPositionAndScale(uint8_t * param_1, un
         if (((*piVar3 == 0xb0001) && (*(int *)(piVar3[7] + 0x68) != 0)) &&
            (iVar2 = *(int *)(*(int *)(piVar3[7] + 0x68) + 100), iVar2 != 0)) {
           orig::Unit10274050_SetXyz((float *)(iVar2 + 0x5c),xi_castbits<float>(*param_2),xi_castbits<float>(param_2[1]),xi_castbits<float>(param_2[2]));
-          orig::FUN_1027aae0((float *)(iVar2 + 0x68),xi_castbits<float>(*param_3),xi_castbits<float>(param_3[1]),xi_castbits<float>(param_3[2]));
+          orig::Unit1027A4B0_QuatFromEuler((float *)(iVar2 + 0x68),xi_castbits<float>(*param_3),xi_castbits<float>(param_3[1]),xi_castbits<float>(param_3[2]));
         }
         iVar4 = iVar4 + 1;
       } while (iVar4 < *(int *)(iVar1 + 0x44));

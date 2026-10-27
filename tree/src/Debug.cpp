@@ -52,7 +52,7 @@ XI_API void __thiscall DebugOverlay_Update(void * self_)
       do {
         local_8[1] = 0xffffffff;
         local_8[0] = uVar2;
-        orig::FUN_100037d0(self_,local_8,0.0f,0.0f,0.0f,0.0f,&DAT_1034f6bc,0x80808080,local_8);
+        orig::DebugOverlay_SetEntry(self_,local_8,0.0f,0.0f,0.0f,0.0f,&DAT_1034f6bc,0x80808080,local_8);
         uVar2 = uVar2 + 1;
       } while ((int)uVar2 < 0x900);
       *(int *)((int)self_ + 8) = *(int *)((int)self_ + 8) + 1;
@@ -68,7 +68,7 @@ XI_API void __thiscall DebugOverlay_Update(void * self_)
 
 // FUNCTION: FFXIMAIN 0x100037D0  (unit Debug: asserts Debug.cpp)
 // GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100037D0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t * param_2, float param_3, float param_4, float param_5, float param_6, char * param_7, undefined4 param_8)
+XI_API undefined4 __attribute__((stdcall, regparm(3))) DebugOverlay_SetEntry(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t * param_2, float param_3, float param_4, float param_5, float param_6, char * param_7, undefined4 param_8)
 {
   uint32_t uVar1;
   char *_Dest;
@@ -88,7 +88,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100037D0(undefined4 xi
     *(float *)(*param_2 * 0x10 + 8 + *(int *)((int)self_ + 0x10)) = (float)(long double)param_5;
     *(float *)(*param_2 * 0x10 + 0xc + *(int *)((int)self_ + 0x10)) = (float)(long double)param_6;
     _Dest = (char *)(*param_2 * 0x400 + *(int *)((int)self_ + 0x14));
-    orig::_strncpy_v2(_Dest,param_7,0x400);
+    orig::_strncpy_v1(_Dest,param_7,0x400);
     _Dest[0x3ff] = '\0';
     xi_eax = *param_2;
     *(uint32_t *)(*(int *)((int)self_ + 0x18) + xi_eax * 4) = param_8;

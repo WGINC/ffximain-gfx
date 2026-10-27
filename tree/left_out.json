@@ -8,5 +8,6 @@
 "0x1006B3B0": "sub_1006B3B0: calls 0x10044490 reads EAX, which its wrapper does not pass",
 "0x100A1AB0": "sub_100A1AB0: calls 0x100A19B0 reads EDX, which its wrapper does not pass",
 "0x100C63D0": "CXiSkeletonActor_OnMove: calls 0x10084350 reads EAX, which its wrapper does not pass",
-"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass"
+"0x10125360": "sub_10125360: calls 0x10118DB0 reads EAX, which its wrapper does not pass",
+"0x101B8E70": "sub_101B8E70: calls 0x101BC740 reads ECX, which its wrapper does not pass"
 }

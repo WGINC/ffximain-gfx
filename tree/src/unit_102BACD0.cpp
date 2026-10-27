@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x102BC820  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API UINT __stdcall fn_102BC820(HWND param_1)
+XI_API UINT __stdcall Imm_GetVirtualKeyJmp(HWND param_1)
 {
   UINT UVar1;
   
@@ -14,9 +14,45 @@ XI_API UINT __stdcall fn_102BC820(HWND param_1)
   return UVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x102BC826  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API UINT __stdcall fn_102BC826(HKL param_1, LPSTR lpszDescription, UINT uBufLen)
+{
+  UINT UVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc826. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  UVar1 = ImmGetDescriptionA(param_1,lpszDescription,uBufLen);
+  return UVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102BC82C  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API HIMC __stdcall fn_102BC82C(HWND param_1)
+{
+  HIMC pHVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc82c. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  pHVar1 = ImmGetContext(param_1);
+  return pHVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102BC832  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall fn_102BC832(HWND param_1, HIMC param_2)
+{
+  BOOL BVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc832. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  BVar1 = ImmReleaseContext(param_1,param_2);
+  return BVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x102BC838  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API BOOL __stdcall fn_102BC838(HIMC param_1, DWORD dwAction, DWORD dwIndex, DWORD dwValue)
+XI_API BOOL __stdcall Imm_NotifyIMEJmp(HIMC param_1, DWORD dwAction, DWORD dwIndex, DWORD dwValue)
 {
   BOOL BVar1;
   
@@ -26,9 +62,33 @@ XI_API BOOL __stdcall fn_102BC838(HIMC param_1, DWORD dwAction, DWORD dwIndex, D
   return BVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x102BC83E  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall fn_102BC83E(HIMC param_1, LPCANDIDATEFORM lpCandidate)
+{
+  BOOL BVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc83e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  BVar1 = ImmSetCandidateWindow(param_1,lpCandidate);
+  return BVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102BC844  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall fn_102BC844(HIMC param_1, LPCOMPOSITIONFORM lpCompForm)
+{
+  BOOL BVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc844. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  BVar1 = ImmSetCompositionWindow(param_1,lpCompForm);
+  return BVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x102BC856  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API BOOL __stdcall fn_102BC856(HIMC param_1, BOOL param_2)
+XI_API BOOL __stdcall Imm_SetOpenStatusJmp(HIMC param_1, BOOL param_2)
 {
   BOOL BVar1;
   
@@ -40,7 +100,7 @@ XI_API BOOL __stdcall fn_102BC856(HIMC param_1, BOOL param_2)
 
 // FUNCTION: FFXIMAIN 0x102BC85C  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API BOOL __stdcall fn_102BC85C(HIMC param_1)
+XI_API BOOL __stdcall Imm_GetOpenStatusJmp(HIMC param_1)
 {
   BOOL BVar1;
   
@@ -52,7 +112,7 @@ XI_API BOOL __stdcall fn_102BC85C(HIMC param_1)
 
 // FUNCTION: FFXIMAIN 0x102BC862  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API BOOL __stdcall fn_102BC862(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD lpfdwSentence)
+XI_API BOOL __stdcall Imm_GetConversionStatusJmp(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD lpfdwSentence)
 {
   BOOL BVar1;
   
@@ -64,7 +124,7 @@ XI_API BOOL __stdcall fn_102BC862(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD
 
 // FUNCTION: FFXIMAIN 0x102BC868  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API LONG __stdcall fn_102BC868(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWORD dwBufLen)
+XI_API LONG __stdcall Imm_GetCompositionStringAJmp(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWORD dwBufLen)
 {
   LONG LVar1;
   
@@ -76,12 +136,24 @@ XI_API LONG __stdcall fn_102BC868(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWO
 
 // FUNCTION: FFXIMAIN 0x102BC86E  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API BOOL __stdcall fn_102BC86E(HIMC param_1, DWORD dwIndex, LPVOID lpComp, DWORD dwCompLen, LPVOID lpRead, DWORD dwReadLen)
+XI_API BOOL __stdcall Imm_SetCompositionStringAJmp(HIMC param_1, DWORD dwIndex, LPVOID lpComp, DWORD dwCompLen, LPVOID lpRead, DWORD dwReadLen)
 {
   BOOL BVar1;
   
                     /* WARNING: Could not recover jumptable at 0x102bc86e. Too many branches */
                     /* WARNING: Treating indirect jump as call */
   BVar1 = ImmSetCompositionStringA(param_1,dwIndex,lpComp,dwCompLen,lpRead,dwReadLen);
+  return BVar1;
+}
+
+// FUNCTION: FFXIMAIN 0x102BC874  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall fn_102BC874(HIMC param_1, DWORD param_2, DWORD param_3)
+{
+  BOOL BVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x102bc874. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  BVar1 = ImmSetConversionStatus(param_1,param_2,param_3);
   return BVar1;
 }

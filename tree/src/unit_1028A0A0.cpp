@@ -50,7 +50,7 @@ XI_API undefined4 * __cdecl Unit1028A0A0_ReadBlock(undefined4 * param_1, int par
   }
   iVar2 = orig::Unit1028A0A0_ReturnZero();
   if (iVar2 != 0) {
-    orig::FUN_10292130((uint8_t *)param_1,param_2,param_3,param_3);
+    orig::SqIO_SwapBytes((uint8_t *)param_1,param_2,param_3,param_3);
   }
   return (undefined4 *)((int)param_4 + uVar1);
 }

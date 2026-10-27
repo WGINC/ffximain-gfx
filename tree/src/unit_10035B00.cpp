@@ -24,7 +24,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillAllGlobalSlots(u
     xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463934 + 0x18))))((void *)(DAT_10463934),1);
     DAT_10463934 = (int *)0x0;
   }
-  orig::FUN_10036020(param_1,xi_eax);
+  orig::Unit10035B00_Release10463928AndSetScaled(param_1,xi_eax);
   uVar1 = orig::Unit10035B00_ClearGlobal10463930(param_1);
   orig::MoTask_KillGlobalSlot1(param_1,uVar1);
   uVar1 = orig::Unit10035B00_ClearGlobal10463934(param_1);
@@ -78,7 +78,7 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
 
 // FUNCTION: FFXIMAIN 0x10036020  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10036020(undefined4 xi_eax, undefined4 xi_s1)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10035B00_Release10463928AndSetScaled(undefined4 xi_eax, undefined4 xi_s1)
 {
   if (DAT_10463928 != (int *)0x0) {
     xi_eax = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*DAT_10463928 + 0x18))))((void *)(DAT_10463928),1);

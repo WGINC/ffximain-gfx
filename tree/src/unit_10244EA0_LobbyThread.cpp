@@ -550,7 +550,7 @@ XI_API int __cdecl StAvatarInit(_DWORD *a1)
   a1[8] = -1;
   a1[16] = 30;
   a1[9] = -1;
-  a1[10] = orig::sub_10275090();
+  a1[10] = orig::SqTimer_GetMicroseconds();
   a1[11] = 0;
   a1[12] = 0;
   a1[13] = 0;

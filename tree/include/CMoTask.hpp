@@ -35,6 +35,7 @@ public:
     static undefined4 __thiscall ResetFields(void * self);  // 0x100748F0
     static undefined4 * __thiscall Clone(void * self, uint32_t param_1);  // 0x10074920
     static void __thiscall Release(void * self);  // 0x10074AB0
+    static undefined4 __thiscall DetachAndRecycle(void * self, int param_1);  // 0x10074AD0
     static void __cdecl Dispatch(int * param_1);  // 0x10075000
     int DrawQuadStates(float *a2, char arg4);  // 0x10076030
     int DrawQuadDynVB(float *a2, float *a3, char a4);  // 0x10076520

@@ -193,6 +193,29 @@ XI_API undefined4 __cdecl Vec3_Cross(undefined4 * param_1, float * param_2, floa
   return uVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x100275D0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_100275D0(float * param_1, float * param_2)
+{
+  long double fVar1;
+  char xi_frame[16] __attribute__((aligned(4)));
+  float  (&local_10)[4] = *reinterpret_cast<float  (*)[4]>(xi_frame + 0);
+  
+  orig::Vec3_Sub_v1(local_10,param_1,param_2);
+  fVar1 = orig::FUN_10027530(local_10,local_10);
+  return SQRT(fVar1);
+}
+
+// FUNCTION: FFXIMAIN 0x10027600  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_10027600(float * param_1)
+{
+  long double fVar1;
+  
+  fVar1 = orig::FUN_10027530(param_1,param_1);
+  return SQRT(fVar1);
+}
+
 // FUNCTION: FFXIMAIN 0x10027620  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Vec3_Call100275D0(float * param_1, float * param_2)
@@ -811,7 +834,7 @@ XI_API undefined4 * __cdecl Mem_AllocWithFallback(int param_1, int param_2)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Mem_FreeObject(undefined4 xi_s1)
 {
-  orig::FUN_10028aa0(xi_s1 + -4);
+  orig::Mem_FreeBlockMergeNeighbours(xi_s1 + -4);
   return;
 }
 
@@ -819,7 +842,7 @@ XI_API void __cdecl Mem_FreeObject(undefined4 xi_s1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SharedDeleteHelper(int param_1)
 {
-  orig::FUN_10028aa0(param_1);
+  orig::Mem_FreeBlockMergeNeighbours(param_1);
   return;
 }
 
@@ -946,7 +969,7 @@ XI_API uint64_t __cdecl MemBlock_AllocFromBack(int param_1, undefined4 param_2, 
 
 // FUNCTION: FFXIMAIN 0x100289F0  (unit unit_10026C70_Vec3: no unit evidence of its own; in the gap between 0x10026AD0 (CXiMovie) and 0x10028A40 (CYyDelayDeleteTask) -- an unnamed source file)
 // NOT VERIFIED -- INCONCLUSIVE
-XI_API int __cdecl fn_100289F0(int param_1, int param_2)
+XI_API int __cdecl MemBlock_FindLargestFreeSize(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;

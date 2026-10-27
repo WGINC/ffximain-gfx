@@ -28,7 +28,7 @@ XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_
        (float)((long double)(param_1 + 1) / (long double)(float)(fVar4 - (long double)param_2));
   puVar2 = orig::Mem_AllocObject_v1((param_1 + 1) * 0x20,4);
   *(undefined4 **)((int)self_ + 4) = puVar2;
-  orig::FUN_100554b0(self_);
+  orig::Unit100552F0_RelinkEntries(self_);
   iVar1 = *(int *)((int)self_ + 8);
   param_3 = 0.0f;
   if (-1 < iVar1) {
@@ -48,7 +48,7 @@ XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_
 
 // FUNCTION: FFXIMAIN 0x100554B0  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_100554B0(void * self_)
+XI_API undefined4 __thiscall Unit100552F0_RelinkEntries(void * self_)
 {
   int iVar1;
   int iVar2;

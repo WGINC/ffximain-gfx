@@ -137,6 +137,7 @@ class CYyModelDt;
 class CYyModelDt_VT_1032A430;
 class CYyModelDt_VT_1032A72C;
 class CYyMotionQue;
+class CYyMusicLoadTask;
 class CYyObject;
 class CYyObject_VT_1032A9F8;
 class CYyOs2VtxBuffer;
@@ -150,6 +151,7 @@ class CYyVbMng;
 class Obj_104E1B90;
 class Obj_104E1BF8;
 class Obj_10621944;
+class XiDoorActor;
 class XiFurnitureActor;
 class XiModelActor;
 class XiZone;
@@ -178,7 +180,6 @@ struct CMoTask_VT_1032BFB8;
 struct CMoTask_VT_1032C000;
 struct CMoTask_VT_1032C048;
 struct XiActorTimerTask;
-struct XiDoorActor;
 // Game types exported from the IDB (IDA print_decls); D3D types come from xi_d3d8.hpp.
 
 struct _RTL_CRITICAL_SECTION_DEBUG;

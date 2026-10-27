@@ -394,7 +394,7 @@ XI_API void * __thiscall Unit1018BA60_AssignN(void * self_, char * param_1, int 
       uVar6 = orig::Allocator_Generic_v1(uVar4);
       *(int *)self_ = (int)uVar6;
     }
-    orig::_strncpy_v1(*(char **)self_,param_1,*(size_t *)((int)self_ + 4));
+    orig::_strncpy_v2(*(char **)self_,param_1,*(size_t *)((int)self_ + 4));
     *(uint8_t *)(*(int *)((int)self_ + 4) + *(int *)self_) = 0;
   }
   return self_;
@@ -426,7 +426,7 @@ XI_API void * __thiscall Unit1018BA60_AppendN(void * self_, char * param_1, size
     }
     iVar2 = *(int *)((int)self_ + 4) + param_2;
     if (iVar2 < *(int *)((int)self_ + 8)) {
-      orig::_strncpy_v1((char *)(*(int *)self_ + *(int *)((int)self_ + 4)),param_1,param_2);
+      orig::_strncpy_v2((char *)(*(int *)self_ + *(int *)((int)self_ + 4)),param_1,param_2);
       iVar2 = *(int *)((int)self_ + 4) + param_2;
       *(int *)((int)self_ + 4) = iVar2;
       *(uint8_t *)(iVar2 + *(int *)self_) = 0;
@@ -1434,7 +1434,7 @@ XI_API int __cdecl Text_EncodeQuotes(char * param_1, int param_2, int param_3)
     } while (local_8 < param_2);
   }
   _Source[iVar6] = '\0';
-  orig::_strncpy_v1(param_1,_Source,iVar6 + 1);
+  orig::_strncpy_v2(param_1,_Source,iVar6 + 1);
   orig::operator_delete_v1(_Source);
   return iVar6;
 }
@@ -4001,7 +4001,7 @@ XI_API undefined4 __cdecl Unit1018BA60_Call101BE670(undefined4 xi_s1, undefined4
 {
   int iVar1;
   
-  iVar1 = orig::FUN_101be670((LPCSTR)&xi_s3);
+  iVar1 = orig::Unit1018BA60_DeleteFile((LPCSTR)&xi_s3);
   return iVar1;
 }
 
@@ -4691,7 +4691,7 @@ XI_API void __stdcall Unit1018BA60_FormatNumberedDatName(uint8_t * param_1, int 
 
 // FUNCTION: FFXIMAIN 0x101A2660  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101A2660(void * self_, undefined4 param_1, undefined4 param_2)
+XI_API undefined4 __thiscall Unit1018BA60_LoadNumberedDatIntoBuffer(void * self_, undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
   char xi_frame[352] __attribute__((aligned(4)));
@@ -4758,7 +4758,7 @@ LAB_101a28bf:
 LAB_101a28c8:
     param_1 = 0;
   }
-  orig::FUN_101a2660(self_,*(int *)((int)self_ + 0x1dbc) / 2,&Read_as_v0);
+  orig::Unit1018BA60_LoadNumberedDatIntoBuffer(self_,*(int *)((int)self_ + 0x1dbc) / 2,&Read_as_v0);
   *(int *)((int)self_ + 0x1db8) = param_1;
   iVar1 = param_1 + *(int *)((int)self_ + 0x1dc0) * 0x14;
   *(int *)((int)self_ + 0x1dbc) = iVar1;
@@ -4855,7 +4855,7 @@ XI_API void __thiscall Unit1018BA60_UpdateMenuState(void * self_)
       if (iVar4 == *(int *)((int)self_ + 0x14)) goto LAB_101a3024;
       *(uint8_t *)((int)self_ + 0x18) = 1;
 LAB_101a2f40:
-      uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c,1,0);
+      uVar5 = orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c,1,0);
       iVar3 = (int)uVar5;
       *(uint8_t *)((int)self_ + 0xc) = 2;
       goto LAB_101a3024;
@@ -4882,7 +4882,7 @@ LAB_101a2f40:
     *(uint8_t *)((int)self_ + 0x18) = 1;
     orig::Menu_CloseEntry(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c);
   }
-  uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mcr1pall_10376364,1,0);
+  uVar5 = orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_mcr1pall_10376364,1,0);
   iVar3 = (int)uVar5;
   *(uint8_t *)((int)self_ + 0xc) = 1;
 LAB_101a3024:
@@ -4923,7 +4923,7 @@ LAB_101a3024:
             *(uint8_t *)((int)self_ + 0x18) = 0;
             *(uint8_t *)((int)self_ + 0xc) = 2;
             orig::Menu_CloseEntry(&g_menuMng_as_v0,s_menu_mcr1pall_10376364);
-            uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c,1,0);
+            uVar5 = orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c,1,0);
             iVar3 = (int)uVar5;
           }
         }
@@ -4948,7 +4948,7 @@ LAB_101a3024:
           *(uint8_t *)((int)self_ + 0x18) = 0;
           *(uint8_t *)((int)self_ + 0xc) = 1;
           orig::Menu_CloseEntry(&g_menuMng_as_v0,s_menu_mcr2pall_1037633c);
-          uVar5 = orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_mcr1pall_10376364,1,0);
+          uVar5 = orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_mcr1pall_10376364,1,0);
           iVar3 = (int)uVar5;
         }
       }
@@ -5143,13 +5143,13 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1018BA60_HandleReadPo
   }
   if (-1 < (int)uVar3) {
     if (*(int *)((int)DAT_106627a0 + 8) != 0) {
-      uVar2 = orig::FUN_101a3d00(DAT_106627a0,1);
+      uVar2 = orig::Unit1018BA60_AddMsg10_27IfChangedA(DAT_106627a0,1);
       orig::Unit1018BA60_SetFlag29A(DAT_106627a0);
       return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
     }
     uVar2 = 0;
     if (*(int *)((int)DAT_106627a4 + 8) != 0) {
-      uVar2 = orig::FUN_101a43b0(DAT_106627a4,1);
+      uVar2 = orig::Unit1018BA60_AddMsg10_27IfChangedB(DAT_106627a4,1);
       orig::Unit1018BA60_SetFlag29B(DAT_106627a4);
     }
     return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
@@ -5200,7 +5200,7 @@ XI_API void __thiscall Unit1018BA60_SetFlag29A(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101A3D00  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101A3D00(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall Unit1018BA60_AddMsg10_27IfChangedA(void * self_, undefined4 param_1)
 {
   int iVar1;
   int iVar2;
@@ -5271,7 +5271,7 @@ XI_API void __thiscall Unit1018BA60_SetFlag29B(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101A43B0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101A43B0(void * self_, undefined4 param_1)
+XI_API undefined4 __thiscall Unit1018BA60_AddMsg10_27IfChangedB(void * self_, undefined4 param_1)
 {
   int iVar1;
   int iVar2;
@@ -7283,7 +7283,7 @@ XI_API int __thiscall FsTextInput_BuildDisplayText(void * self_, int param_1, in
         _Count = orig::Sjis_GetCharByteLen_v1(param_3 + iVar1);
         local_1cc = _Count + iVar3;
         if (param_2 <= local_1cc) break;
-        orig::_strncpy_v1((char *)(iVar3 + param_1),param_3 + iVar1,_Count);
+        orig::_strncpy_v2((char *)(iVar3 + param_1),param_3 + iVar1,_Count);
         *(uint8_t *)(local_1cc + param_1) = 0;
         iVar4 = local_1cc;
         local_1cc = iVar1 + _Count;
@@ -7292,7 +7292,7 @@ XI_API int __thiscall FsTextInput_BuildDisplayText(void * self_, int param_1, in
         _Count_00 = orig::FsTextInput_ExpandMarkedPhrase(local_1c8,(int)(param_3 + iVar1),param_2 - iVar3,
                                  (uint32_t *)local_1c4,0x1c2,&local_1cc,param_5,param_6);
         if (((int)_Count_00 < 0) || (iVar4 = _Count_00 + iVar3, param_2 <= iVar4)) break;
-        orig::_strncpy_v1((char *)(iVar3 + param_1),local_1c4,_Count_00);
+        orig::_strncpy_v2((char *)(iVar3 + param_1),local_1c4,_Count_00);
       }
       iVar3 = iVar4;
       if (param_3[local_1cc] == '\0') break;
@@ -7973,12 +7973,12 @@ XI_API void __thiscall Unit1018BA60_ProcessInputLine(void * self_, char * param_
     if ((char)uVar4 == '\0') {
       _Count = 0x80;
       pcVar2 = (char *)orig::FsTextInput_GetDataPtr8(self_);
-      orig::_strncpy_v1(local_1f0,pcVar2,_Count);
+      orig::_strncpy_v2(local_1f0,pcVar2,_Count);
       orig::_strncat(local_1f0,param_1,0x78);
       local_f9 = 0;
     }
     else {
-      orig::_strncpy_v1(local_1f0,local_f8,0xf8);
+      orig::_strncpy_v2(local_1f0,local_f8,0xf8);
     }
     uVar4 = orig::Unit1018BA60_Call101B72E0(self_,local_1f0);
     pcVar2 = local_1f0;
@@ -8000,7 +8000,7 @@ XI_API void __thiscall Unit1018BA60_ProcessInputLine(void * self_, char * param_
         pcVar2 = local_1f0;
       }
     }
-    orig::_strncpy_v1((char *)param_2,pcVar2,param_3);
+    orig::_strncpy_v2((char *)param_2,pcVar2,param_3);
   }
   return;
 }
@@ -8050,7 +8050,7 @@ XI_API undefined4 __stdcall Unit1018BA60_IsKnownCommand(char * param_1)
       cVar1 = *pcVar5;
       pcVar5 = pcVar5 + 1;
     } while (cVar1 != '\0');
-    uVar6 = orig::_strncmp(*(char **)((int)&PTR_DAT_1037ab98 + uVar4),param_1,~uVar3 - 1);
+    uVar6 = orig::_strncmp_v1(*(char **)((int)&PTR_DAT_1037ab98 + uVar4),param_1,~uVar3 - 1);
     uVar2 = (uint32_t)((uint64_t)uVar6 >> 8);
     if (((int)uVar6 == 0) && (param_1[~uVar3 - 1] == ' ')) {
       return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
@@ -8413,6 +8413,20 @@ XI_API void __cdecl Unit1018BA60_NoOpD(void)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x101AFF50  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API HIMC __stdcall fn_101AFF50(HWND param_1)
+{
+  return orig::FUN_102bc82c(param_1);
+}
+
+// FUNCTION: FFXIMAIN 0x101AFF60  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API BOOL __stdcall fn_101AFF60(HWND param_1, HIMC param_2)
+{
+  return orig::FUN_102bc832(param_1, param_2);
+}
+
 // FUNCTION: FFXIMAIN 0x101AFF70  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall FsTextInput_InitWithImeOffscreen(void * self_)
@@ -8437,13 +8451,13 @@ XI_API void __thiscall FsTextInput_InitWithImeOffscreen(void * self_)
   local_20.ptCurrentPos.y = -600;
   orig::FsTextInput_init(self_);
   *(uint8_t *)((int)self_ + 0xf120) = 0;
-  pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-  orig::ImmSetCompositionWindow(pHVar1,&local_3c);
-  orig::ImmSetCandidateWindow(pHVar1,&local_20);
-  orig::ImmNotifyIME_102BC838(pHVar1,0x15,4,0);
-  orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
-  orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
-  orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
+  pHVar1 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+  orig::ImmSetCompositionWindow_102BC844(pHVar1,&local_3c);
+  orig::ImmSetCandidateWindow_102BC83E(pHVar1,&local_20);
+  orig::Imm_NotifyIMEJmp(pHVar1,0x15,4,0);
+  orig::Imm_NotifyIMEJmp(pHVar1,0x17,0,0);
+  orig::Imm_NotifyIMEJmp(pHVar1,0x16,0,0);
+  orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
   *(uint32_t *)((int)self_ + 0xf128) = 0;
   return;
 }
@@ -8464,9 +8478,9 @@ XI_API void __thiscall Unit1018BA60_OnMessage(void * self_, int param_1, undefin
   if (param_1 == 5) {
     xi_entry_eax = g_pSceneState_as_v0;
     if (*g_pSceneState_as_v0 != 0x40) {
-      pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-      orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
-      orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
+      pHVar1 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::Imm_NotifyIMEJmp(pHVar1,0x17,0,0);
+      orig::Imm_NotifyIMEJmp(pHVar1,0x16,0,0);
       pHVar3 = *(HWND *)(g_pApp_as_s32 + 0x18);
       goto LAB_101b27bd;
     }
@@ -8484,14 +8498,14 @@ XI_API void __thiscall Unit1018BA60_OnMessage(void * self_, int param_1, undefin
   if (*g_pSceneState_as_v0 == 0x40) {
     return;
   }
-  pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-  orig::ImmNotifyIME_102BC838(pHVar1,0x17,0,0);
-  orig::ImmNotifyIME_102BC838(pHVar1,0x16,0,0);
+  pHVar1 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+  orig::Imm_NotifyIMEJmp(pHVar1,0x17,0,0);
+  orig::Imm_NotifyIMEJmp(pHVar1,0x16,0,0);
   pHVar3 = *(HWND *)(g_pApp_as_s32 + 0x18);
 LAB_101b27bd:
-  orig::ImmReleaseContext(pHVar3,pHVar1);
+  orig::ImmReleaseContext_101AFF60(pHVar3,pHVar1);
   *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
-  orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+  orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
   *(uint8_t *)((int)self_ + 0xf123) = 1;
   return;
 }
@@ -8512,7 +8526,7 @@ XI_API void __stdcall Unit1018BA60_NoOp2ArgsB(undefined4 xi_s1, undefined4 xi_s2
 
 // FUNCTION: FFXIMAIN 0x101B29F0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 91 returned normally, 161 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 xi_s2)
+XI_API undefined4 __thiscall Unit1018BA60_HandleKeyDownWithIme(void * self_, UINT param_1, undefined4 xi_s2)
 {
   char cVar1;
   HIMC pHVar2;
@@ -8537,17 +8551,17 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
     return 0;
   }
   *(uint8_t *)((int)self_ + 0xef22) = 0;
-  pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+  pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
   if ((param_1 == 0xe5) &&
-     (param_1 = orig::ImmGetVirtualKey_102BC820(*(HWND *)(g_pApp_as_s32 + 0x18)), param_1 == 0xff)) {
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+     (param_1 = orig::Imm_GetVirtualKeyJmp(*(HWND *)(g_pApp_as_s32 + 0x18)), param_1 == 0xff)) {
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     return 0;
   }
   *(uint8_t *)((int)self_ + 0xf124) = 1;
   local_1c8 = 0;
   uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
   if ((char)uVar3 == '\0') {
-    cVar1 = (**(code **)(*(int *)self_ + 0x40))();
+    cVar1 = ((int (__thiscall *)(void *))(*(code **)(*((int *)self_) + 0x40)))((void *)(((int *)self_)));
     if (cVar1 == '\0') {
       local_1c8 = 0;
       *(uint8_t *)((int)self_ + 0xf124) = 0;
@@ -8566,19 +8580,19 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       uVar3 = orig::Unit1018BA60_IsModeThree(self_);
       if (((char)uVar3 != '\0') &&
          (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
-        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-        BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+        BVar5 = orig::Imm_GetOpenStatusJmp(pHVar2);
         if (BVar5 != 0) {
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
           (**(code **)(*(int *)self_ + 0x60))(0);
-          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
           if (*(char *)((int)self_ + 0xf121) != '\0') {
             *(uint8_t *)((int)self_ + 0xf2f4) = 1;
           }
-          orig::ImmSetOpenStatus_102BC856(pHVar2,0);
+          orig::Imm_SetOpenStatusJmp(pHVar2,0);
         }
         if (BVar4 != 0) {
           orig::FsTextInput_OnChar(self_,0x2f);
@@ -8592,19 +8606,19 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
         ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
         goto LAB_101b3599;
       }
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       (**(code **)(*(int *)self_ + 0x58))();
       (**(code **)(*(int *)self_ + 0x60))(1);
       (**(code **)(*(int *)self_ + 0x70))();
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       uVar3 = orig::Unit1018BA60_IsModeThree(self_);
       if (((char)uVar3 != '\0') &&
          (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x40))))((void *)(self_)), (char)uVar3 != '\0')) {
-        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-        BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+        BVar5 = orig::Imm_GetOpenStatusJmp(pHVar2);
         if ((BVar5 != 0) && (BVar4 == 0)) {
           UVar13 = 0;
           DVar11 = 0;
@@ -8621,29 +8635,29 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   }
   uVar3 = orig::Scene_IsState70();
   if ((char)uVar3 != '\0') {
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     return 0;
   }
-  LVar8 = orig::ImmGetCompositionStringA_102BC868(pHVar2,8,local_1c4,0x1c2);
+  LVar8 = orig::Imm_GetCompositionStringAJmp(pHVar2,8,local_1c4,0x1c2);
   iVar9 = param_1 - 8;
   switch(xi_sw(param_1)) {
   case 8:
     (**(code **)(*(int *)self_ + 0x70))();
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     param_1 = 8;
     goto LAB_101b357c;
   case 9:
   case 0x13:
-    BVar4 = orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    BVar4 = orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,BVar4);
     if ((((char)uVar3 == '\0') &&
         (uVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_)), (char)uVar3 != '\0')) &&
        (uVar3 = orig::Unit1018BA60_IsModeTwo(self_), (char)uVar3 == '\0')) {
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-      orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::Imm_NotifyIMEJmp(pHVar2,0x15,3,0);
       (**(code **)(*(int *)self_ + 0x70))();
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-      orig::FUN_101b5d10(self_,9,0,0);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::Unit1018BA60_HandleEditKey(self_,9,0,0);
       orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
       *(uint8_t *)((int)self_ + 0xf123) = 0;
       orig::SetMusicTrackVolume_A_v1();
@@ -8657,7 +8671,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       else {
         uVar3 = 1;
       }
-      iVar9 = orig::FUN_101b5d10(self_,9,uVar3,0);
+      iVar9 = orig::Unit1018BA60_HandleEditKey(self_,9,uVar3,0);
       if (iVar9 == 1) {
         orig::SetMusicTrackVolume_C();
       }
@@ -8666,7 +8680,7 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   default:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 != '\0') goto LAB_101b3569;
-    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+    BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
     if ((((BVar4 == 0) || (param_1 == 0x2e)) || (param_1 == 0x22)) ||
        ((param_1 == 0x21 || (param_1 == 0x10)))) goto switchD_101b2d31_caseD_23;
     ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
@@ -8674,23 +8688,23 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   case 0xd:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 == '\0') {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-      iVar9 = orig::FUN_101b5d10(self_,0xd,0,0);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      iVar9 = orig::Unit1018BA60_HandleEditKey(self_,0xd,0,0);
       pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
     }
     else {
-      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+      BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
       if (BVar4 != 0) {
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         orig::Unit1018BA60_ResetComposition(self_,0);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       }
       *(uint8_t *)((int)self_ + 0xf120) = 0;
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-      iVar9 = orig::FUN_101b5d10(self_,0xd,0,0);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      iVar9 = orig::Unit1018BA60_HandleEditKey(self_,0xd,0,0);
       pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
     }
-    pHVar2 = orig::ImmGetContext(pHVar14);
+    pHVar2 = orig::ImmGetContext_101AFF50(pHVar14);
     if ((iVar9 == 1) && (orig::SetMusicTrackVolume_A_v1(), *(char *)((int)self_ + 0xf100) != '\0')) {
       if (*(int *)((int)self_ + 0xf0f4) == 0) {
         *(uint32_t *)(DAT_10662dac_as_s32 + 0x14) = 0;
@@ -8704,19 +8718,19 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 == '\0') {
       if (*(char *)((int)self_ + 0xf123) == '\0') {
-        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+        BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
         if ((BVar4 == 0) || (LVar8 < 1)) {
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-          orig::FUN_101b5d10(self_,0x1b,0,0);
-          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::Unit1018BA60_HandleEditKey(self_,0x1b,0,0);
+          pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
           orig::SetMusicTrackVolume_B_v2();
         }
         else {
           *(uint8_t *)((int)self_ + 0xf123) = 0;
           (**(code **)(*(int *)self_ + 0x70))();
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-          orig::FUN_101b5d10(self_,0x1b,0,0);
-          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::Unit1018BA60_HandleEditKey(self_,0x1b,0,0);
+          pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
           orig::SetMusicTrackVolume_B_v2();
         }
       }
@@ -8727,28 +8741,28 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
       }
     }
     else {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-      orig::FUN_101b5d10(self_,0x1b,0,0);
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::Unit1018BA60_HandleEditKey(self_,0x1b,0,0);
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       orig::SetMusicTrackVolume_B_v2();
     }
     break;
   case 0x1c:
     uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
     if ((char)uVar3 != '\0') {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       cVar1 = (**(code **)(*(int *)self_ + 0x20))();
       pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
       if (cVar1 == '\0') goto LAB_101b358d;
-      pHVar2 = orig::ImmGetContext(pHVar14);
-      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+      pHVar2 = orig::ImmGetContext_101AFF50(pHVar14);
+      BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
       if (BVar4 == 0) {
         (**(code **)(*(int *)self_ + 0x70))();
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         iVar9 = (**(code **)(*(int *)self_ + 0x68))();
         puVar10 = (uint8_t *)(**(code **)(*(int *)self_ + 100))();
         orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar9);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
         *(uint8_t *)((int)self_ + 0xf120) = 0;
       }
       else {
@@ -8759,15 +8773,15 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
         else {
           orig::Unit1018BA60_ResetCursor(self_);
           (**(code **)(*(int *)self_ + 0x70))();
-          orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
-          orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
-          orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
-          orig::ImmNotifyIME_102BC838(pHVar2,0x17,0,0);
-          orig::ImmNotifyIME_102BC838(pHVar2,0x16,0,0);
+          orig::Imm_NotifyIMEJmp(pHVar2,0x15,3,0);
+          orig::Imm_NotifyIMEJmp(pHVar2,0x15,2,0);
+          orig::Imm_NotifyIMEJmp(pHVar2,0x15,2,0);
+          orig::Imm_NotifyIMEJmp(pHVar2,0x17,0,0);
+          orig::Imm_NotifyIMEJmp(pHVar2,0x16,0,0);
           *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
           orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
-          pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+          pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
           *(uint8_t *)((int)self_ + 0xf123) = 1;
         }
       }
@@ -8775,40 +8789,40 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
     break;
   case 0x20:
     orig::Cursor_SetVisible_v2(g_pCursor_as_v2,0);
-    BVar4 = orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    BVar4 = orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,BVar4);
     if (((char)uVar3 == '\0') || (uVar3 = orig::Unit1018BA60_HasComposition(), (char)uVar3 == '\0')) {
       uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,uVar3);
       if ((char)uVar3 == '\0') goto LAB_101b3583;
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x2a);
       if (((char)uVar3 == '\0') &&
          (uVar3 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,0x36), (char)uVar3 == '\0')) {
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-        orig::FUN_101b5d10(self_,9,0,0);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::Unit1018BA60_HandleEditKey(self_,9,0,0);
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
         orig::SetMusicTrackVolume_C();
       }
       else {
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-        orig::FUN_101b5d10(self_,9,1,0);
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::Unit1018BA60_HandleEditKey(self_,9,1,0);
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
         orig::SetMusicTrackVolume_C();
       }
     }
     else {
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       orig::Unit1018BA60_ResetCursor(self_);
       (**(code **)(*(int *)self_ + 0x70))();
-      orig::ImmNotifyIME_102BC838(pHVar2,0x15,3,0);
-      orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
-      orig::ImmNotifyIME_102BC838(pHVar2,0x15,2,0);
-      orig::ImmNotifyIME_102BC838(pHVar2,0x17,0,0);
-      orig::ImmNotifyIME_102BC838(pHVar2,0x16,0,0);
+      orig::Imm_NotifyIMEJmp(pHVar2,0x15,3,0);
+      orig::Imm_NotifyIMEJmp(pHVar2,0x15,2,0);
+      orig::Imm_NotifyIMEJmp(pHVar2,0x15,2,0);
+      orig::Imm_NotifyIMEJmp(pHVar2,0x17,0,0);
+      orig::Imm_NotifyIMEJmp(pHVar2,0x16,0,0);
       *(int *)((int)self_ + 0xf128) = *(int *)((int)self_ + 0xf128) + 1;
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       orig::MenuMng_OpenByName_v4(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       *(uint8_t *)((int)self_ + 0xf123) = 1;
       orig::SetMusicTrackVolume_C();
     }
@@ -8817,19 +8831,19 @@ XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 
   case 0x24:
 switchD_101b2d31_caseD_23:
 LAB_101b3569:
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
 LAB_101b357c:
-    orig::FUN_101b5d10(self_,param_1,0,0);
+    orig::Unit1018BA60_HandleEditKey(self_,param_1,0,0);
 LAB_101b3583:
     pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
 LAB_101b358d:
-    pHVar2 = orig::ImmGetContext(pHVar14);
+    pHVar2 = orig::ImmGetContext_101AFF50(pHVar14);
     break;
   case 0x25:
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-    orig::FUN_101b5d10(self_,0x25,0,0);
-    pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::Unit1018BA60_HandleEditKey(self_,0x25,0,0);
+    pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+    BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
     if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
@@ -8838,25 +8852,25 @@ LAB_101b358d:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 == '\0') {
       if (*(int *)((int)self_ + 0xf128) == 0) {
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-        orig::FUN_101b5d10(self_,0x26,0,0);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::Unit1018BA60_HandleEditKey(self_,0x26,0,0);
         pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
         goto LAB_101b358d;
       }
       break;
     }
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
     uVar12 = 1;
     uVar3 = 9;
 LAB_101b3266:
-    orig::FUN_101b5d10(self_,uVar3,uVar12,0);
+    orig::Unit1018BA60_HandleEditKey(self_,uVar3,uVar12,0);
     pHVar14 = *(HWND *)(g_pApp_as_s32 + 0x18);
     goto LAB_101b358d;
   case 0x27:
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
-    orig::FUN_101b5d10(self_,0x27,0,0);
-    pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-    BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+    orig::Unit1018BA60_HandleEditKey(self_,0x27,0,0);
+    pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+    BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
     if ((BVar4 != 0) && (0 < *(int *)((int)self_ + 0xf128))) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
@@ -8864,12 +8878,12 @@ LAB_101b3266:
   case 0x28:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
     if ((char)uVar3 != '\0') {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       param_1 = 9;
       goto LAB_101b357c;
     }
     if (*(int *)((int)self_ + 0xf128) == 0) {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       uVar12 = 0;
       uVar3 = 0x28;
       goto LAB_101b3266;
@@ -8881,7 +8895,7 @@ LAB_101b3266:
   case 0x78:
   case 0x79:
     uVar3 = orig::Unit1018BA60_GetFlag8C81(self_,iVar9);
-    if (((char)uVar3 == '\0') && (BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2), BVar4 != 0)) {
+    if (((char)uVar3 == '\0') && (BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2), BVar4 != 0)) {
       ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
     }
     break;
@@ -8889,40 +8903,40 @@ LAB_101b3266:
   case 0xf4:
     (**(code **)(*(int *)self_ + 0x70))();
     if ((*(char *)((int)self_ + 0xf0ec) == '\0') && (*(int *)((int)self_ + 0xf10c) == 0)) {
-      orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+      orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
       iVar9 = (**(code **)(*(int *)self_ + 0x68))();
       puVar10 = (uint8_t *)(**(code **)(*(int *)self_ + 100))();
       orig::Unit1018BA60_InputSubmit(self_,puVar10,iVar9);
-      pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+      pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       *(uint8_t *)((int)self_ + 0xf120) = 0;
-      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+      BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
       if (BVar4 == 0) {
         *(uint8_t *)((int)self_ + 0xf2f4) = 0;
-        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
-        orig::ImmSetOpenStatus_102BC856(pHVar2,BVar4);
+        BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
+        orig::Imm_SetOpenStatusJmp(pHVar2,BVar4);
       }
       else {
         *(uint8_t *)((int)self_ + 0xf121) = 0;
-        BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
-        orig::ImmSetOpenStatus_102BC856(pHVar2,BVar4);
+        BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
+        orig::Imm_SetOpenStatusJmp(pHVar2,BVar4);
       }
     }
     else {
-      BVar4 = orig::ImmGetOpenStatus_102BC85C(pHVar2);
+      BVar4 = orig::Imm_GetOpenStatusJmp(pHVar2);
       if (BVar4 != 0) {
-        orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+        orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
         (**(code **)(*(int *)self_ + 0x5c))();
-        pHVar2 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+        pHVar2 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
       }
       *(uint8_t *)((int)self_ + 0xf120) = 0;
       *(uint8_t *)((int)self_ + 0xf2f4) = 0;
-      orig::ImmSetOpenStatus_102BC856(pHVar2,0);
+      orig::Imm_SetOpenStatusJmp(pHVar2,0);
     }
   }
 LAB_101b3594:
   local_1c8 = 1;
 LAB_101b3599:
-  orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
+  orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar2);
   return local_1c8;
 }
 
@@ -8948,26 +8962,26 @@ XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
     if (cVar2 != '\b') {
       if (cVar2 == ' ') {
         if (*g_pSceneState_as_v0 == 0x60) {
-          pHVar4 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-          BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar4);
+          pHVar4 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+          BVar5 = orig::Imm_GetOpenStatusJmp(pHVar4);
           uVar3 = orig::Unit1018BA60_IsModeThree(self_);
           if ((char)uVar3 != '\0') {
-            cVar2 = (**(code **)(*(int *)self_ + 0x40))();
+            cVar2 = ((int (__thiscall *)(void *))(*(code **)(*((int *)self_) + 0x40)))((void *)(((int *)self_)));
             if (cVar2 != '\0') {
               if (BVar5 != 0) {
-                orig::ImmSetCompositionStringA_102BC86E(pHVar4,9,&Read_as_v0,0,(LPVOID)0x0,0);
+                orig::Imm_SetCompositionStringAJmp(pHVar4,9,&Read_as_v0,0,(LPVOID)0x0,0);
               }
-              orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
+              orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
               (**(code **)(*(int *)self_ + 0x28))(4,0,5,0x78,0,0,0,10);
               return;
             }
           }
           uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
           if ((char)uVar3 == '\0') {
-            orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
+            orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
             return;
           }
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
           if (BVar5 == 0) {
             orig::FsTextInput_OnChar(self_,0x20);
             return;
@@ -8983,16 +8997,16 @@ XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1)
       else {
         uVar3 = orig::Unit1018BA60_IsModeFourOrFive(self_);
         if ((char)uVar3 != '\0') {
-          pHVar4 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-          BVar5 = orig::ImmGetOpenStatus_102BC85C(pHVar4);
-          orig::ImmGetConversionStatus_102BC862(pHVar4,&param_1,(LPDWORD)&local_4);
+          pHVar4 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+          BVar5 = orig::Imm_GetOpenStatusJmp(pHVar4);
+          orig::Imm_GetConversionStatusJmp(pHVar4,&param_1,(LPDWORD)&local_4);
           if ((BVar5 == 0) || ((param_1 & 0x100) != 0)) {
             iVar6 = orig::FsTextInput_OnChar(self_,uVar1);
             if (iVar6 == -1) {
-              orig::YmSePlayBeep();
+              orig::SetMusicTrackVolume_Tag0004_v1();
             }
           }
-          orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
+          orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar4);
           return;
         }
       }
@@ -9009,23 +9023,23 @@ XI_API void __thiscall Unit1018BA60_ResetComposition(void * self_, undefined4 pa
   uint32_t uVar1;
   BOOL BVar2;
   
-  xi_eax = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
+  xi_eax = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
   if (xi_eax != (HIMC)0x0) {
     uVar1 = orig::Unit10014350_GetSceneStateByte68(xi_eax);
     if ((char)uVar1 == '\x01') {
       if ((char)param_1 == '\0') {
-        orig::ImmNotifyIME_102BC838(xi_eax,0x15,4,0);
-        BVar2 = orig::ImmSetCompositionStringA_102BC86E(xi_eax,0x3f,&DAT_10662d46,0,&DAT_10662d47,0);
+        orig::Imm_NotifyIMEJmp(xi_eax,0x15,4,0);
+        BVar2 = orig::Imm_SetCompositionStringAJmp(xi_eax,0x3f,&DAT_10662d46,0,&DAT_10662d47,0);
         if (BVar2 == 0) {
-          orig::ImmSetCompositionStringA_102BC86E(xi_eax,9,&Read_as_v0,1,&Read_as_v0,1);
+          orig::Imm_SetCompositionStringAJmp(xi_eax,9,&Read_as_v0,1,&Read_as_v0,1);
         }
       }
     }
     else {
-      orig::ImmSetCompositionStringA_102BC86E(xi_eax,0x3f,&DAT_10662d48,0,&DAT_10662d49,0);
-      orig::ImmNotifyIME_102BC838(xi_eax,0x15,4,0);
+      orig::Imm_SetCompositionStringAJmp(xi_eax,0x3f,&DAT_10662d48,0,&DAT_10662d49,0);
+      orig::Imm_NotifyIMEJmp(xi_eax,0x15,4,0);
     }
-    orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),xi_eax);
+    orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),xi_eax);
   }
   *(uint8_t *)((int)self_ + 0xef22) = 0;
   *(uint8_t *)((int)self_ + 0xf120) = 0;
@@ -9042,9 +9056,9 @@ XI_API undefined4 __cdecl Unit1018BA60_HasComposition(void)
   char xi_frame[256] __attribute__((aligned(4)));
   uint8_t  (&local_100)[256] = *reinterpret_cast<uint8_t  (*)[256]>(xi_frame + 0);
   
-  pHVar1 = orig::ImmGetContext(*(HWND *)(g_pApp_as_s32 + 0x18));
-  LVar2 = orig::ImmGetCompositionStringA_102BC868(pHVar1,8,local_100,0x100);
-  orig::ImmReleaseContext(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
+  pHVar1 = orig::ImmGetContext_101AFF50(*(HWND *)(g_pApp_as_s32 + 0x18));
+  LVar2 = orig::Imm_GetCompositionStringAJmp(pHVar1,8,local_100,0x100);
+  orig::ImmReleaseContext_101AFF60(*(HWND *)(g_pApp_as_s32 + 0x18),pHVar1);
   return (uint32_t)(0 < LVar2);
 }
 
@@ -9427,7 +9441,7 @@ XI_API void __thiscall Unit1018BA60_MoveBack(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101B5020  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101B5020(void * self_)
+XI_API undefined4 __thiscall Unit1018BA60_MoveForward(void * self_)
 {
   int iVar1;
   int iVar2;
@@ -9556,7 +9570,7 @@ XI_API undefined4 __thiscall Unit1018BA60_IsModeThree(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101B5D10  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 17 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101B5D10(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
+XI_API undefined4 __thiscall Unit1018BA60_HandleEditKey(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   void *pvVar1;
   char cVar2;
@@ -9889,13 +9903,13 @@ LAB_101b65da:
       if ((char)uVar6 == '\0') {
         uVar6 = orig::Unit1018BA60_GetFlag8C81(self_,uVar6);
         if ((char)uVar6 != '\0') {
-          orig::FUN_101b5020((void *)((int)self_ + 0x8aac));
+          orig::Unit1018BA60_MoveForward((void *)((int)self_ + 0x8aac));
           return 1;
         }
         if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
           uVar6 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
           if ((char)uVar6 != '\0') {
-            orig::FUN_101b5020((void *)((int)self_ + 0x8aac));
+            orig::Unit1018BA60_MoveForward((void *)((int)self_ + 0x8aac));
             return 1;
           }
           if ((*(uint8_t *)((int)self_ + 0xf114) & 8) != 0) {
@@ -10057,14 +10071,15 @@ XI_API int __thiscall FsTextInput_OnChar(void * self_, undefined4 param_1)
         }
         uVar2 = orig::Unit1018BA60_GetFlag8C81(self_,iVar6);
         if (((char)uVar2 != '\0') &&
-           (iVar6 = orig::Unit1018BA60_SetWordForCompletion(self_,pcVar8,*(int *)((int)self_ + 0x8c70)), -1 < iVar6)) {
-          (**(code **)(*(int *)self_ + 0x70))();
-          orig::MenuMng_OpenByName_v3(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+           (iVar6 = orig::Unit1018BA60_SetWordForCompletion(self_,pcVar8,*(int *)((int)self_ + 0x8c70)),
+           -1 < iVar6)) {
+          ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+          orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
         }
         break;
       case ' ':
-        cVar1 = (**(code **)(*(int *)self_ + 0x20))();
-        if (cVar1 == '\0') {
+        uVar2 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x20))))((void *)(self_));
+        if ((char)uVar2 == '\0') {
           iVar6 = orig::Unit1018BA60_InputSubmit(self_,(uint8_t *)&c_strSpace_as_v0,1);
           if (iVar6 < 0) {
             return -1;
@@ -10077,16 +10092,18 @@ XI_API int __thiscall FsTextInput_OnChar(void * self_, undefined4 param_1)
             return -1;
           }
           if ((cVar7 == ' ') &&
-             (uVar2 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf118)), (char)uVar2 != '\0')) {
+             (uVar2 = orig::Unit1018BA60_GetFlag8C81(self_,*(int *)((int)self_ + 0xf118)),
+             (char)uVar2 != '\0')) {
             return -1;
           }
           uVar2 = orig::Unit1018BA60_AppendByte((char *)((int)self_ + 0x8aac),param_1);
           uVar2 = orig::Unit1018BA60_GetFlag8C81(self_,uVar2);
           if (((char)uVar2 != '\0') &&
-             (iVar6 = orig::Unit1018BA60_SetWordForCompletion(self_,(char *)((int)self_ + 0x8aac),*(int *)((int)self_ + 0x8c70)),
+             (iVar6 = orig::Unit1018BA60_SetWordForCompletion
+                                (self_,(char *)((int)self_ + 0x8aac),*(int *)((int)self_ + 0x8c70)),
              -1 < iVar6)) {
-            (**(code **)(*(int *)self_ + 0x70))();
-            orig::MenuMng_OpenByName_v3(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+            ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x70))))((void *)(self_));
+            orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
             return iVar5;
           }
         }
@@ -10105,12 +10122,13 @@ XI_API int __thiscall FsTextInput_OnChar(void * self_, undefined4 param_1)
     }
   }
   else {
-    uVar2 = orig::Unit1018BA60_AcceptsChar(self_,((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar10 >> 0x30)) << 16) | (uint16_t)((short)cVar7))),iVar5,
-                        (uint32_t)*(uint8_t *)((int)self_ + 0xf0ec));
+    uVar2 = orig::Unit1018BA60_AcceptsChar
+                      (self_,((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar10 >> 0x30)) << 16) | (uint16_t)((short)cVar7))),iVar5,
+                       (uint32_t)*(uint8_t *)((int)self_ + 0xf0ec));
     if ((char)uVar2 != '\0') {
       iVar6 = orig::FsTextInput_GetMaxLength((void *)((int)self_ + 0x7e30));
       if (*(int *)((int)self_ + 0xf118) < iVar6 + iVar5) {
-        orig::YmSePlayBeep();
+        orig::SetMusicTrackVolume_Tag0004();
         return -1;
       }
       orig::FsTextInput_SetText((void *)((int)self_ + 0x7e30),(int)local_20,iVar5);
@@ -10178,7 +10196,7 @@ LAB_101b6c63:
       if (iVar4 < 0) {
         return 1;
       }
-      orig::MenuMng_OpenByName_v1(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
+      orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,s_menu_fep_10377cbc,0,0);
       return 1;
     }
     iVar4 = *(int *)self_;
@@ -10341,7 +10359,7 @@ XI_API undefined4 __thiscall Unit1018BA60_SetWordForCompletion(void * self_, uin
     }
     if ((((bVar3 == 0) && (*(char *)((int)self_ + 0xec2d) == '\0')) &&
         (*(char *)((int)self_ + 0xec2e) == '\0')) && (*(char *)((int)self_ + 0xec2f) == '\0')) {
-      orig::_strncpy_v1(&DAT_10662d58,(char *)param_1,0x40);
+      orig::_strncpy_v2(&DAT_10662d58,(char *)param_1,0x40);
       DAT_10662d97 = 0;
     }
   }
@@ -10644,6 +10662,14 @@ XI_API void __attribute__((cdecl, regparm(1))) Unit1018BA60_DestroyInputGlobals(
     DAT_10662da0 = (undefined4 *)0x0;
   }
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x101B94A0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __stdcall fn_101B94A0(void)
+{
+                    /* WARNING: Subroutine does not return */
+  ExitThread(0x1234);
 }
 
 // FUNCTION: FFXIMAIN 0x101B9530  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
@@ -11142,7 +11168,7 @@ XI_API void * __thiscall Unit1018BA60_CtorVt10337B4C(void * self_)
   int iVar1;
   uint32_t *puVar2;
   
-  orig::FUN_101bc740(self_);
+  orig::Unit1018BA60_InitVt10337BA0(self_);
   *(uint8_t ***)self_ = &PTR_LAB_10337b4c;
   *(uint32_t *)((int)self_ + 0x18) = 0;
   *(uint32_t *)((int)self_ + 0x1c) = 0;
@@ -11163,7 +11189,7 @@ XI_API void * __thiscall Unit1018BA60_CtorVt10337B4C(void * self_)
 XI_API void __thiscall Unit1018BA60_Destruct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_LAB_10337b4c;
-  orig::FUN_101badd0(self_);
+  orig::Unit1018BA60_FreeBlocks18To24(self_);
   return;
 }
 
@@ -11178,7 +11204,7 @@ XI_API undefined4 __thiscall Unit1018BA60_ResetCounters(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101BADD0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101BADD0(void * self_)
+XI_API undefined4 __thiscall Unit1018BA60_FreeBlocks18To24(void * self_)
 {
   uint32_t uVar1;
   uint64_t uVar2;
@@ -11272,7 +11298,7 @@ XI_API void * __thiscall FsWordCompletion_Construct(void * self_)
   void *this_00;
   uint32_t *puVar2;
   
-  orig::FUN_101bc740((void *)((int)self_ + 0x18));
+  orig::Unit1018BA60_InitVt10337BA0((void *)((int)self_ + 0x18));
   this_00 = (void *)((int)self_ + 0x22c);
   *(uint8_t *)((int)self_ + 0x1f8) = 0;
   *(uint8_t *)((int)self_ + 0x1f9) = 0;
@@ -12711,7 +12737,7 @@ XI_API undefined4 __thiscall Unit1018BA60_FreeBuffer(void * self_)
 
 // FUNCTION: FFXIMAIN 0x101BC740  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_101BC740(void * self_)
+XI_API undefined4 __thiscall Unit1018BA60_InitVt10337BA0(void * self_)
 {
   *(uint8_t *)((int)self_ + 0x14) = 0;
   *(uint8_t *)((int)self_ + 0x15) = 0;
@@ -12771,7 +12797,7 @@ XI_API int __thiscall Entry_CompareKey(void * self_, int * param_1)
     }
     pcVar6 = *(char **)((int)self_ + 4);
     _Str1 = (char *)((int (__thiscall *)(void *))((**(code **)(*param_1 + 0x10))))((void *)(param_1));
-    uVar5 = orig::_strncmp(_Str1,pcVar6,_MaxCount);
+    uVar5 = orig::_strncmp_v1(_Str1,pcVar6,_MaxCount);
     return (int)uVar5;
   }
   pcVar6 = *(char **)((int)self_ + 4);
@@ -13231,7 +13257,7 @@ XI_API undefined4 __stdcall Unit1018BA60_Call10312296(undefined4 param_1, undefi
 
 // FUNCTION: FFXIMAIN 0x101BE670  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API int __stdcall fn_101BE670(LPCSTR param_1)
+XI_API int __stdcall Unit1018BA60_DeleteFile(LPCSTR param_1)
 {
   int iVar1;
   
@@ -13241,15 +13267,17 @@ XI_API int __stdcall fn_101BE670(LPCSTR param_1)
 
 // FUNCTION: FFXIMAIN 0x101BE6C0  (unit unit_1018BA60: no unit evidence of its own; in the gap between 0x1018BA20 (XiZone) and 0x101C6C40 (YkAlbum) -- an unnamed source file)
 // NOT VERIFIED -- FAIL
-XI_API undefined4 __stdcall Unit1018BA60_FillSizeAndThreeDates(void * param_1, undefined4 * param_2)
+XI_API undefined4 __stdcall Unit1018BA60_FillSizeAndThreeDates(undefined4 param_1, undefined4 * param_2)
 {
   int iVar1;
-  uint32_t local_10;
-  uint32_t local_c;
-  uint32_t local_8;
-  uint32_t local_4;
+  char xi_frame[36] __attribute__((aligned(4)));
+  int  (&local_24)[5] = *reinterpret_cast<int  (*)[5]>(xi_frame + 0);
+  uint32_t  &local_10 = *reinterpret_cast<uint32_t  *>(xi_frame + 20);
+  uint32_t  &local_c = *reinterpret_cast<uint32_t  *>(xi_frame + 24);
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 28);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 32);
   
-  iVar1 = orig::FUN_10312487(param_1);
+  iVar1 = orig::FUN_10312487(param_1,local_24);
   if (iVar1 != 0) {
     for (iVar1 = 8; iVar1 != 0; iVar1 = iVar1 + -1) {
       *param_2 = 0;
@@ -14807,7 +14835,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) Unit1018BA60_CreateDirect
   if (iVar2 == 0) {
     DVar3 = GetLastError();
     if (DVar3 != 0xb7) {
-      orig::_strncpy_v1(local_100,param_1,0x100);
+      orig::_strncpy_v2(local_100,param_1,0x100);
       local_1 = 0;
       if (local_100[0] != '\0') {
         pcVar4 = local_100;

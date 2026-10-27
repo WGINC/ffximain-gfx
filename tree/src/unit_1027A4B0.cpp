@@ -86,7 +86,7 @@ XI_API void __cdecl Unit1027A4B0_ToMatrix3(float * param_1, float * param_2)
 
 // FUNCTION: FFXIMAIN 0x1027AAE0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027AAE0(float * param_1, float param_2, float param_3, float param_4)
+XI_API undefined4 __cdecl Unit1027A4B0_QuatFromEuler(float * param_1, float param_2, float param_3, float param_4)
 {
   long double fVar1;
   long double fVar2;
@@ -200,7 +200,7 @@ XI_API void __cdecl Unit1027A4B0_Negate(float * param_1)
 
 // FUNCTION: FFXIMAIN 0x1027AF20  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027AF20(float * param_1)
+XI_API undefined4 __cdecl Unit1027A4B0_NormalizeVec4(float * param_1)
 {
   uint16_t uVar1;
   uint32_t uVar2;

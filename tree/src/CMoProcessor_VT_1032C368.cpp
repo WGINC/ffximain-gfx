@@ -40,9 +40,9 @@ float * CMoProcessor_VT_1032C368::vf043(float *a1, float *a2, float *a3)
   return a2;
 }
 
-// FUNCTION: FFXIMAIN 0x1006D720  (unit CMoProcessor_VT_1032C368: between 0x1006D6B0 (class model places it in CMoProcessor_VT_1032C368) and 0x1006D980 (class model places it in CMoProcessor_VT_1032C368), both within 4 KB)
+// FUNCTION: FFXIMAIN 0x1006D720  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_1006D720(float * param_1, float * param_2, float * param_3)
+undefined4 __stdcall CMoProcessor_VT_1032C368::TransformPoint(float * param_1, float * param_2, float * param_3)
 {
   long double fVar1;
   long double fVar2;
@@ -164,6 +164,98 @@ undefined4 __thiscall CMoProcessor_VT_1032C368::RotationFromAnglesZYX(void * sel
   iVar1 = *(int *)self;
   a2 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))))((void *)(self),param_1,&DAT_1047cbf0_as_v0,&DAT_1047ce20_as_v0);
   ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(iVar1 + 0x24))))((void *)(self),param_1,a2,a3);
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x1006E140  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __stdcall CMoProcessor_VT_1032C368::RotationY(undefined4 * param_1, float param_2)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  undefined4 *puVar3;
+  long double fVar4;
+  
+  if ((DAT_1047cf32 & 1) == 0) {
+    DAT_1047cf32 = DAT_1047cf32 | 1;
+    DAT_1047cb30 = 1.0f;
+    DAT_1047cb34 = 0;
+    _DAT_1047cb38 = 0.0f;
+    _DAT_1047cb3c = 0;
+    _DAT_1047cb40 = 0;
+    _DAT_1047cb44 = 0x3f800000;
+    _DAT_1047cb48 = 0;
+    _DAT_1047cb4c = 0;
+    _DAT_1047cb50 = 0.0f;
+    _DAT_1047cb54 = 0;
+    _DAT_1047cb58 = 1.0f;
+    _DAT_1047cb5c = 0;
+    _DAT_1047cb60 = 0;
+    _DAT_1047cb64 = 0;
+    _DAT_1047cb68 = 0;
+    _DAT_1047cb6c = 0x3f800000;
+    orig::_atexit_v1(&DAT_1006e250);
+  }
+  fVar4 = xi_castbits<long double>(fcos((long double)param_2));
+  iVar1 = 0x10;
+  _DAT_1047cb58 = (float)fVar4;
+  DAT_1047cb30 = (float)fVar4;
+  fVar4 = xi_castbits<long double>(fsin((long double)param_2));
+  _DAT_1047cb50 = (float)fVar4;
+  _DAT_1047cb38 = (float)-fVar4;
+  puVar2 =(undefined4*)(&DAT_1047cb30);
+  puVar3 = param_1;
+  for (; iVar1 != 0; iVar1 = iVar1 + -1) {
+    *puVar3 = *puVar2;
+    puVar2 = puVar2 + 1;
+    puVar3 = puVar3 + 1;
+  }
+  return param_1;
+}
+
+// FUNCTION: FFXIMAIN 0x1006E260  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __stdcall CMoProcessor_VT_1032C368::RotationZ(undefined4 * param_1, float param_2)
+{
+  int iVar1;
+  undefined4 *puVar2;
+  undefined4 *puVar3;
+  long double fVar4;
+  
+  if ((DAT_1047cd0a & 1) == 0) {
+    DAT_1047cd0a = DAT_1047cd0a | 1;
+    DAT_1047cd10 = 1.0f;
+    DAT_1047cd14 = 0.0f;
+    _DAT_1047cd18 = 0;
+    _DAT_1047cd1c = 0;
+    _DAT_1047cd20 = 0.0f;
+    _DAT_1047cd24 = 1.0f;
+    _DAT_1047cd28 = 0;
+    _DAT_1047cd2c = 0;
+    _DAT_1047cd30 = 0;
+    _DAT_1047cd34 = 0;
+    _DAT_1047cd38 = 0x3f800000;
+    _DAT_1047cd3c = 0;
+    _DAT_1047cd40 = 0;
+    _DAT_1047cd44 = 0;
+    _DAT_1047cd48 = 0;
+    _DAT_1047cd4c = 0x3f800000;
+    orig::_atexit_v1(&DAT_1006e370);
+  }
+  fVar4 = xi_castbits<long double>(fcos((long double)param_2));
+  iVar1 = 0x10;
+  _DAT_1047cd24 = (float)fVar4;
+  DAT_1047cd10 = (float)fVar4;
+  fVar4 = xi_castbits<long double>(fsin((long double)param_2));
+  DAT_1047cd14 = (float)fVar4;
+  _DAT_1047cd20 = (float)-fVar4;
+  puVar2 =(undefined4*)(&DAT_1047cd10);
+  puVar3 = param_1;
+  for (; iVar1 != 0; iVar1 = iVar1 + -1) {
+    *puVar3 = *puVar2;
+    puVar2 = puVar2 + 1;
+    puVar3 = puVar3 + 1;
+  }
   return param_1;
 }
 

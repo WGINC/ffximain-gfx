@@ -41,10 +41,10 @@ XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x102532C0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102532C0(undefined4 xi_eax, int param_1, int param_2, int param_3)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10253210_SubmitInfoBinIfObjSet(undefined4 xi_eax, int param_1, int param_2, int param_3)
 {
   if (g_pObj_Vtbl1033CE34 != 0) {
-    xi_eax = orig::FUN_102534f0(param_1,param_2,param_3);
+    xi_eax = orig::Unit10253210_SubmitInfoBinIfChanged(param_1,param_2,param_3);
   }
   return xi_eax;
 }
@@ -142,7 +142,7 @@ XI_API int __stdcall StAvatar_GetInfoBuffer(int param_1)
 
 // FUNCTION: FFXIMAIN 0x102534F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __stdcall fn_102534F0(int param_1, int param_2, int param_3)
+XI_API undefined4 __stdcall Unit10253210_SubmitInfoBinIfChanged(int param_1, int param_2, int param_3)
 {
   int iVar1;
   uint8_t bVar2;
@@ -219,7 +219,7 @@ XI_API uint64_t __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind
   uint64_t uVar1;
   
   XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
-  uVar1 = orig::FUN_102532c0(0,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
+  uVar1 = orig::Unit10253210_SubmitInfoBinIfObjSet(0,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
   return uVar1;
 }
 
@@ -250,7 +250,7 @@ XI_API void __cdecl Unit10253210_SendBytePairKind2(undefined4 param_1, undefined
   uint32_t xi_entry_eax = 0;
   
   XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
-  orig::FUN_102532c0(2,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
+  orig::Unit10253210_SubmitInfoBinIfObjSet(2,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
   return;
 }
 

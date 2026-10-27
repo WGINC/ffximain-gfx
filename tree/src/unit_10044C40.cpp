@@ -463,7 +463,7 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
 
 // FUNCTION: FFXIMAIN 0x10046070  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 99 returned normally, 142 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10046070(void * self_)
+XI_API undefined4 __thiscall YmElem_DrawWithOwnProjection(void * self_)
 {
   float *pfVar1;
   uint8_t bVar2;

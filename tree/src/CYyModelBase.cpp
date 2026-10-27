@@ -367,6 +367,30 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
   return result;
 }
 
+// FUNCTION: FFXIMAIN 0x1002A700  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CYyModelBase::CallPartsSlot20(void * self, undefined4 param_1, undefined4 param_2)
+{
+  int *this_00;
+  int *piVar1;
+  int *piVar2;
+  char xi_frame[8] __attribute__((aligned(4)));
+  uint32_t  &local_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  
+  local_4 = 0;
+  local_8 = 0;
+  piVar1 = (int *)orig::CYyModelBase_GetPartList_v1(self);
+  this_00 = (int *)*piVar1;
+  piVar2 = piVar1;
+  while (this_00 != (int *)0x0) {
+    piVar2 = (int *)((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x20))))((void *)(this_00),param_1,self,param_2,&local_4,&local_8);
+    piVar1 = (int *)(*piVar1 + 4);
+    this_00 = (int *)*piVar1;
+  }
+  return piVar2;
+}
+
 // FUNCTION: FFXIMAIN 0x1002A750  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelBase::TransformVec4ByPart(void * self, undefined4 param_1, undefined4 * param_2)

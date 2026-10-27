@@ -16,8 +16,25 @@ void * __thiscall CXiTimerLow::Init(void * self)
   *(uint32_t *)((int)self + 0x14) = 0;
   *(uint32_t *)((int)self + 0x18) = 0;
   *(uint32_t *)((int)self + 0x1c) = 0;
-  orig::FUN_100194f0(self);
+  orig::CXiTimerLow_AccumulateElapsed(self);
   return self;
+}
+
+// FUNCTION: FFXIMAIN 0x100194F0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CXiTimerLow::AccumulateElapsed(void * self)
+{
+  int iVar1;
+  DWORD DVar2;
+  
+  DVar2 = timeGetTime();
+  iVar1 = *(int *)((int)self + 0xc);
+  *(DWORD *)((int)self + 0xc) = DVar2;
+  *(DWORD *)((int)self + 0x14) =
+       *(int *)((int)self + 0x14) + ((DVar2 - iVar1) - *(int *)((int)self + 0x1c));
+  *(uint32_t *)((int)self + 0x18) = 0;
+  *(uint32_t *)((int)self + 0x1c) = 0;
+  return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10019550  (placed by IDB name; static (takes no this))

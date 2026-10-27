@@ -121,7 +121,7 @@ void __thiscall CYyModel::ApplyToParts(void * self, undefined4 xi_s1)
   piVar1 = (int *)orig::CYyModel_GetField44Addr_v1(self);
   this_00 = (void *)*piVar1;
   while (this_00 != (void *)0x0) {
-    orig::FUN_1002a700(this_00,self,0);
+    orig::CYyModelBase_CallPartsSlot20(this_00,self,0);
     piVar1 = (int *)(*piVar1 + 4);
     this_00 = (void *)*piVar1;
   }

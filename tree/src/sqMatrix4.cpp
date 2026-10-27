@@ -133,7 +133,7 @@ XI_API undefined4 __cdecl sqMatrix4_10280140(float * param_1, float * param_2, f
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqMatrix4_SetFields(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
-  orig::FUN_1027ebd0(param_1);
+  orig::Unit1027E120_SetIdentity(param_1);
   *(uint32_t *)(param_1 + 0xc) = param_2;
   *(uint32_t *)(param_1 + 0x1c) = param_3;
   *(uint32_t *)(param_1 + 0x2c) = param_4;

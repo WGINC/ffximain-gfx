@@ -21,12 +21,12 @@ XI_API undefined4 __stdcall Unit10082F60_ProjectThroughCamera(undefined4 * param
   float  &local_44 = *reinterpret_cast<float  *>(xi_frame + 12);
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 16);
   
-  orig::Unit10026C70_ReturnThis(local_40);
+  orig::Unit10026C70_ReturnThis_v1(local_40);
   orig::Vec3_Copy_v1(&local_50,param_1);
   local_44 = 1.0f;
   puVar2 = (uint32_t *)orig::Camera_GetViewMatrixPtr_v1();
   orig::Mat4_Copy_v1(local_40,puVar2);
-  orig::Mat4_TransformPointInPlace_v1(local_40,&local_50);
+  orig::Mat4_TransformPointInPlace_v2(local_40,&local_50);
   if ((long double)local_48 >= (long double)0.0f) {
     orig::Unit10026C70_Nop();
     return 0;

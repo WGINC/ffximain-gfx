@@ -36,7 +36,7 @@ XI_API int __cdecl SqmdDMB_Resolve(char * param_1, undefined4 param_2)
     *(code **)(uVar2 + 0x10) = XI_CODE(FUN_10277ff0);
     *(code **)(uVar2 + 0x18) = XI_CODE(SqmdModel_Update_v1);
     uVar3 = orig::SqmdDMB_AlignMem(uVar2 + 0xac);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     iVar1 = *(int *)(uVar2 + 0x28);
     if (*(int *)(uVar2 + 0x28) <= *(int *)(uVar2 + 0x24)) {
       iVar1 = *(int *)(uVar2 + 0x24);
@@ -260,33 +260,33 @@ XI_API int __cdecl SqmdDMB_Resolve(char * param_1, undefined4 param_2)
       }
       uVar3 = uVar3 + iVar1 * 4;
     }
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2770 = iVar1 - iVar4;
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     uVar3 = orig::SqmdDMB_ResolveTextures(uVar2,uVar3);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2774 = iVar4 - iVar1;
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     piVar7 = orig::SqmdDMB_ResolveShaders(uVar2,uVar3);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2778 = iVar4 - iVar1;
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     uVar3 = orig::SqmdDMB_ResolveMatrices(uVar2,(uint32_t)piVar7);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a277c = iVar4 - iVar1;
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     orig::SqmdDMB_ResolveStrings(uVar2,uVar3);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2780 = iVar4 - iVar1;
     orig::SqmdDMB_ClearTables(uVar2);
     orig::SqmdDMB_ResetCounts(uVar2);
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     pbVar8 = orig::FUN_10288e60(uVar2,param_2);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2750 = iVar4 - iVar1;
-    iVar1 = orig::FUN_10275090();
+    iVar1 = orig::SqTimer_GetMicroseconds_v1();
     orig::SqmdDMB_BuildUpdaters(uVar2,pbVar8);
-    iVar4 = orig::FUN_10275090();
+    iVar4 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109a2754 = iVar4 - iVar1;
     *(uint32_t *)(uVar2 + 0xa8) = *(uint32_t *)(uVar2 + 0xa8) | 0x200;
     return uVar2;
@@ -804,7 +804,7 @@ XI_API uint8_t * __cdecl sqmdDMBBuildShapes(int param_1, uint32_t param_2)
                 piVar4 = orig::sqsdAniso_BakeOntoShape((int)puVar2,piVar4);
               }
             }
-            orig::FUN_1027a220(param_1,piVar4);
+            orig::SqmdModel_AppendPair68Flag100(param_1,piVar4);
           }
           *(int **)(*(int *)(param_1 + 0x4c) + iVar6 * 4) = piVar4;
         }

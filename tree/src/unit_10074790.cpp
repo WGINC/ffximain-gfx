@@ -45,34 +45,3 @@ XI_API void __thiscall Unit10074790_RunAsCurrent(void * self_)
   *(uint32_t *)(dword_1047D140 + 0xd4c) = uVar1;
   return;
 }
-
-// FUNCTION: FFXIMAIN 0x10074AD0  (unit unit_10074790: no unit evidence of its own; in the gap between 0x10074770 (CMoTask) and 0x10074B50 (CMoTaskMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_10074AD0(void * self_, int param_1)
-{
-  uint32_t uVar1;
-  int iVar2;
-  
-  if (*(void **)((int)self_ + 0x10) != (void *)0x0) {
-    orig::Unit10074790_Remove(*(void **)((int)self_ + 0x10),(int)self_);
-  }
-  if (*(void **)((int)self_ + 0x24) != (void *)0x0) {
-    orig::CMoTask_DestroyChain(*(void **)((int)self_ + 0x24));
-  }
-  iVar2 = 0;
-  if (*(int *)((int)self_ + 4) != 0) {
-    uVar1 = 0;
-    if (param_1 != 0) {
-      uVar1 = orig::FUN_10074a20();
-    }
-    iVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x20))));
-    if (*(char *)((int)self_ + 0x20) == '\0') {
-      *(uint32_t *)(dword_1047D140 + 0xd5c) = *(uint32_t *)(dword_1047D140 + 0xd50);
-      *(void **)(dword_1047D140 + 0xd50) = self_;
-      *(uint32_t *)((int)self_ + 4) = 0;
-      iVar2 = dword_1047D140;
-      *(int *)(dword_1047D140 + 0xd44) = *(int *)(dword_1047D140 + 0xd44) + -1;
-    }
-  }
-  return iVar2;
-}

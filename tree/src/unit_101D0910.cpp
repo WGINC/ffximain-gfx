@@ -393,7 +393,7 @@ XI_API void __cdecl YkInit(void)
       puVar1[2] = 0;
       *(uint8_t *)(puVar1 + 3) = 1;
       *puVar1 = &PTR_FUN_10338320;
-      orig::FUN_10206420(puVar1);
+      orig::Unit101D7020_ClearFields14To24(puVar1);
       puVar1[0xe] = 0;
       DAT_10664404 = puVar1;
     }

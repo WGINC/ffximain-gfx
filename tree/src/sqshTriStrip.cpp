@@ -47,7 +47,7 @@ XI_API undefined4 __cdecl SqshTriStrip_GetGlobal(void)
 
 // FUNCTION: FFXIMAIN 0x102ABEC0  (unit sqshTriStrip: between 0x102ABDA0 (asserts sqshTriStrip.c) and 0x102AC030 (asserts sqshTriStrip.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102ABEC0(int param_1, uint8_t * param_2, undefined4 param_3)
+XI_API undefined4 __cdecl SqshTriStrip_ForEachTriangle(int param_1, uint8_t * param_2, undefined4 param_3)
 {
   int iVar1;
   int iVar2;

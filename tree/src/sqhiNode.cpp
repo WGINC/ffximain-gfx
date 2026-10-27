@@ -29,7 +29,7 @@ XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
   param_1[0x1a] = 0;
   param_1[0x1b] = 0;
   param_1[0x1c] = 0;
-  orig::FUN_1027ebd0(param_1 + 9);
+  orig::Unit1027E120_SetIdentity(param_1 + 9);
   *(uint8_t *)(param_1 + 0x1d) = 0xff;
   orig::Unit1027E120_Zero(param_1 + 0x1e);
   orig::M4fSet_v1(param_1 + 0x2e,param_1 + 9);

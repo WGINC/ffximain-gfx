@@ -24,7 +24,7 @@ XI_API void __cdecl Unit10284F90_SetValueByType(int * param_1, int param_2)
 
 // FUNCTION: FFXIMAIN 0x10285000  (unit unit_10284F90: no unit evidence of its own; in the gap between 0x10284F50 (sqmoChannel) and 0x10285040 (sqmoBuild) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10285000(int * param_1, int * param_2)
+XI_API undefined4 __cdecl Unit10284F90_GetValueByItemKind(int * param_1, int * param_2)
 {
   int iVar1;
   

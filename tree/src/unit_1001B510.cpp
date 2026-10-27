@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1001B520  (unit unit_1001B510: no unit evidence of its own; in the gap between 0x1001B4F0 (CYyQue) and 0x1001B700 (CYyResfList) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1001B520(void * self_, float param_1)
+XI_API undefined4 __thiscall Unit1001B510_StepStateByTime(void * self_, float param_1)
 {
   long double fVar1;
   uint32_t uVar2;

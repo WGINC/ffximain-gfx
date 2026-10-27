@@ -49,7 +49,7 @@ void __thiscall YkFurniture::Destructor(void * self)
   iVar2 = orig::Unit101CD990_GetValueAt56(self);
   if (iVar2 != 0) {
     iVar2 = orig::Unit101CD990_GetValueAt56(self);
-    orig::FUN_100ab320(iVar2);
+    orig::Acter_DestroyAndClearSlot(iVar2);
     *(uint16_t *)((int)self + 0x56) = 0;
   }
   piVar1 = *(int **)((int)self + 100);

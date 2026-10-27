@@ -27,7 +27,7 @@ XI_API void __cdecl SqshCurves_Init(undefined4 * param_1)
   param_1[0xd] = 0;
   param_1[0xe] = 0;
   param_1[0xf] = 0;
-  param_1[0x10] = XI_CODE(FUN_102ad770);
+  param_1[0x10] = XI_CODE(SqshCurves_ComputeTangents);
   param_1[0x11] = 0;
   param_1[0x12] = 0;
   param_1[0x14] = 0;
@@ -98,7 +98,7 @@ XI_API void __cdecl SqshCurves_ComputeNormals(int param_1, undefined4 xi_s2)
 
 // FUNCTION: FFXIMAIN 0x102AD770  (unit sqshCurves: asserts sqshCurves.c)
 // GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_102AD770(int param_1, undefined4 xi_s2)
+XI_API undefined4 __cdecl SqshCurves_ComputeTangents(int param_1, undefined4 xi_s2)
 {
   uint32_t *puVar1;
   int iVar2;
@@ -222,7 +222,7 @@ XI_API void __cdecl SqshCurves_RebuildIndex(int param_1)
     orig::SqshCurves_ComputeNormals(param_1,iVar3);
     iVar3 = *(int *)(param_1 + 0x34);
     orig::SqVtx_ClearEntriesAlt(iVar3);
-    orig::FUN_102ad770_v1(param_1,iVar3);
+    orig::SqshCurves_ComputeTangents_v1(param_1,iVar3);
     *(uint8_t **)(param_1 + 0x30) =(uint8_t*)(&LAB_102b3340);
   }
   return;

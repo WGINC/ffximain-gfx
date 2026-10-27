@@ -37,18 +37,18 @@ XI_API void * __thiscall Unit10211440_CtorVt1033BD58(void * self_)
   *(uint16_t *)((int)self_ + 0xe) = 0xffff;
   *(uint32_t *)((int)self_ + 8) = 0;
   *(uint8_t *)((int)self_ + 0xc) = 1;
-  orig::FUN_1021b330((void *)((int)self_ + 0x52));
-  orig::FUN_1021b330((void *)((int)self_ + 0x60));
+  orig::Unit10211440_ClearWords0To0A((void *)((int)self_ + 0x52));
+  orig::Unit10211440_ClearWords0To0A((void *)((int)self_ + 0x60));
   this_00 = (void *)((int)self_ + 0x6e);
   iVar3 = 0x20;
   do {
-    orig::FUN_1021b330(this_00);
+    orig::Unit10211440_ClearWords0To0A(this_00);
     this_00 = (void *)((int)this_00 + 0xe);
     iVar3 = iVar3 + -1;
   } while (iVar3 != 0);
-  orig::FUN_1021b330((void *)((int)self_ + 0x22e));
-  orig::FUN_1021b330((void *)((int)self_ + 0x23c));
-  orig::FUN_1021b330((void *)((int)self_ + 0x24a));
+  orig::Unit10211440_ClearWords0To0A((void *)((int)self_ + 0x22e));
+  orig::Unit10211440_ClearWords0To0A((void *)((int)self_ + 0x23c));
+  orig::Unit10211440_ClearWords0To0A((void *)((int)self_ + 0x24a));
   *(uint8_t ***)self_ = &PTR_FUN_1033bd58;
   *(uint8_t *)((int)self_ + 0x2c0) = 0;
   puVar4 = (uint32_t *)((int)self_ + 0x2c4);
@@ -78,7 +78,7 @@ XI_API void * __thiscall Unit10211440_CtorVt1033BD58(void * self_)
 
 // FUNCTION: FFXIMAIN 0x1021B330  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1021B330(void * self_)
+XI_API undefined4 __thiscall Unit10211440_ClearWords0To0A(void * self_)
 {
   *(uint8_t *)((int)self_ + 0xc) = 0;
   *(uint16_t *)((int)self_ + 2) = 0;

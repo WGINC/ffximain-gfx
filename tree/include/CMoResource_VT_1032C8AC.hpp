@@ -5,6 +5,7 @@
 #pragma pack(push, 1)
 class XI_API CMoResource_VT_1032C8AC {
 public:
+    static undefined4 __thiscall ReleaseTexture(void * self);  // 0x1001DBD0
     int vf004(int a2);  // 0x1001DC20
     unsigned int ** ScalarDeletingDtor(char a2);  // 0x10071A40
 

@@ -280,7 +280,7 @@ LAB_1007a375:
       pbVar10[3] = 0;
       pbVar10 = pbVar10 + 4;
     }
-    orig::_strncpy_v2((char *)local_18,param_1,0x17);
+    orig::_strncpy_v1((char *)local_18,param_1,0x17);
     local_1 = 0;
     orig::Unit10074CA0_MapNameLetters(local_18);
     piVar7 = (int *)orig::Actor_FindByName((char *)local_18,0x18,0x400,
@@ -400,6 +400,124 @@ XI_API int __cdecl Actor_FindByName(char * param_1, uint32_t param_2, int param_
     return local_20;
   }
   return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x1007BF30  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_1007BF30(uint32_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
+{
+  long double fVar1;
+  uint32_t uVar2;
+  int iVar3;
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar4;
+  int iVar5;
+  long double fVar6;
+  long double fVar7;
+  char xi_frame[168] __attribute__((aligned(4)));
+  uint32_t  &local_a8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
+  uint32_t  &local_a4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
+  uint16_t  &local_a0 = *reinterpret_cast<uint16_t  *>(xi_frame + 8);
+  uint32_t  &local_9c = *reinterpret_cast<uint32_t  *>(xi_frame + 12);
+  uint32_t  &local_98 = *reinterpret_cast<uint32_t  *>(xi_frame + 16);
+  uint8_t  &local_58 = *reinterpret_cast<uint8_t  *>(xi_frame + 80);
+  uint8_t  &local_57 = *reinterpret_cast<uint8_t  *>(xi_frame + 81);
+  uint32_t  &local_54 = *reinterpret_cast<uint32_t  *>(xi_frame + 84);
+  uint32_t  &local_50 = *reinterpret_cast<uint32_t  *>(xi_frame + 88);
+  uint16_t  &local_4c = *reinterpret_cast<uint16_t  *>(xi_frame + 92);
+  uint8_t  &local_4 = *reinterpret_cast<uint8_t  *>(xi_frame + 164);
+  
+  if (DAT_10487e48 != '\0') {
+    return 0;
+  }
+  if (DAT_10482f18 != '\0') {
+    return 0;
+  }
+  if (param_1 == (uint32_t *)0x0) {
+    return 0;
+  }
+  if (DAT_10485f7a == 0) {
+    return 0;
+  }
+  if (*param_1 == 0) {
+    return 0;
+  }
+  uVar4 = orig::Unit101C72E0_IsActorField170Is5(((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_10482f18))));
+  if (((char)uVar4 != '\0') ||
+     (uVar4 = orig::Unit101C72E0_IsActorField170Is55(uVar4), (char)uVar4 != '\0')) {
+    if ((char)param_5 == '\0') {
+      orig::ChatLog_AddMessage7Code37B_v1(g_pTkMsgWinData_as_v1,0x4b);
+    }
+    return 0;
+  }
+  uVar2 = *param_1;
+  iVar5 = (&ActerBuffPtr_as_v0)[DAT_10485f7a];
+  iVar3 = (&ActerBuffPtr_as_v0)[uVar2];
+  if (iVar5 == 0) {
+    return 0;
+  }
+  if (iVar3 == 0) {
+    return 0;
+  }
+  if ((param_1[1] & 0xff000000) != 0) {
+    if ((0x6ff < uVar2) && ((*(uint32_t *)(iVar3 + 300) >> 0x1e & 1) == 0)) {
+      return 0;
+    }
+    if ((*(uint32_t *)(iVar5 + 0x120) >> 9 & 1) == 0) {
+      return 0;
+    }
+    if ((char)param_4 == '\0') {
+      if ((*(uint32_t *)(iVar3 + 0x120) >> 9 & 1) == 0) {
+        return 0;
+      }
+      if ((*(int *)(iVar3 + 0xa0) != 0) && (*(short *)(*(int *)(iVar3 + 0xa0) + 0xb2) != 0))
+      goto LAB_1007c0ec;
+    }
+    if ((*(uint32_t *)(iVar5 + 0x128) >> 6 & 1) != 0) {
+      if ((char)param_5 != '\0') {
+        return 1;
+      }
+      local_a8 = *(uint32_t *)(iVar5 + 0x78);
+      local_a0 = 0xac;
+      local_9c = 0;
+      local_98 = 0;
+      local_58 = 0;
+      local_57 = 0;
+      local_a4 = local_a8;
+      orig::FUN_100a1ab0(&local_a8);
+      return 1;
+    }
+    if (((char)param_4 != '\0') ||
+       (fVar1 = (float)((long double)*(float *)(iVar3 + 4) - (long double)*(float *)(iVar5 + 4)),
+       fVar6 = (long double)*(float *)(iVar3 + 8) - (long double)*(float *)(iVar5 + 8),
+       fVar7 = (long double)*(float *)(iVar3 + 0xc) - (long double)*(float *)(iVar5 + 0xc),
+       fVar6 = SQRT((long double)fVar1 * (long double)fVar1 + fVar6 * fVar6 + fVar7 * fVar7),
+       (NAN(fVar6) || NAN((long double)6.0)) || fVar6 <= (long double)6.0)) {
+      if ((1 < *(int *)(iVar3 + 0x170)) && (*(int *)(iVar3 + 0x170) < 4)) {
+        return 0;
+      }
+      iVar5 = orig::Unit10074CA0_BuildPacket1A_Default(uVar2,param_1[1],0,param_2,param_3);
+      if (iVar5 != 0) {
+        return 0;
+      }
+      if ((*(uint32_t *)(iVar3 + 0x128) >> 5 & 1) == 0) {
+        DAT_10482f18 = '\x01';
+      }
+      DAT_10485a70 = 0;
+      orig::Unit100D7420_SetWord40DAA_v1((uint32_t)(uint16_t)*param_1);
+      return 1;
+    }
+  }
+LAB_1007c0ec:
+  if ((char)param_5 != '\0') {
+    return 1;
+  }
+  local_54 = *(uint32_t *)(iVar5 + 0x78);
+  local_50 = *(uint32_t *)(iVar5 + 0x78);
+  local_4c = 9;
+  local_4 = 0;
+  orig::FUN_100a1ab0(&local_54);
+  return 1;
 }
 
 // FUNCTION: FFXIMAIN 0x1007CD60  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)

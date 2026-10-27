@@ -43,7 +43,7 @@ undefined4 __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
       else {
         this_00 = (void *)**(uint32_t **)((int)self + 0x104);
       }
-      orig::FUN_10040220(this_00,&g_scratchValue_as_v1,(int)self);
+      orig::CMoDistModelElem_DrawBatches(this_00,&g_scratchValue_as_v1,(int)self);
     }
     else {
       orig::CMoElemFamily_SharedEarlyExit(self);

@@ -23,10 +23,10 @@ XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2)
         if ((*piVar4 == iVar1) && (piVar4[1] == param_2)) {
           orig::Chasm_ToggleLayerState(param_1,iVar1,0);
           uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 2));
-          orig::FUN_102857e0((int)(piVar4 + 10),0xff,uVar2);
+          orig::Unit102857D0_SetByte14((int)(piVar4 + 10),0xff,uVar2);
           orig::Unit1027E120_SetCallback((int)(piVar4 + 0x1c),XI_CODE(FUN_102742c0),param_1);
           uVar2 = orig::Unit1027E120_UpdateRange((uint8_t *)(piVar4 + 0x1c));
-          orig::FUN_102857e0((int)(piVar4 + 0x24),0xff,uVar2);
+          orig::Unit102857D0_SetByte14((int)(piVar4 + 0x24),0xff,uVar2);
           *(int *)(param_1 + 0x14) = iVar3;
           return param_2;
         }
@@ -80,7 +80,7 @@ XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1)
 
 // FUNCTION: FFXIMAIN 0x10274650  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10274650(undefined4 * param_1, undefined4 * param_2)
+XI_API undefined4 __cdecl Unit10274050_CopyVec3(undefined4 * param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
   
@@ -99,6 +99,16 @@ XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float pa
   param_1[1] = param_3;
   param_1[2] = param_4;
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x102746C0  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API long double __cdecl fn_102746C0(undefined4 param_1)
+{
+  long double fVar1;
+  
+  fVar1 = orig::FUN_10274690(param_1);
+  return SQRT(fVar1);
 }
 
 // FUNCTION: FFXIMAIN 0x10274890  (unit unit_10274050: no unit evidence of its own; in the gap between 0x10274020 (chasm) and 0x10275090 (sqTimer) -- an unnamed source file)

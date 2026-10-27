@@ -763,7 +763,7 @@ LAB_10076b29:
 code_r0x10076bb6:
     if (uVar6 == 0) break;
   }
-  uVar11 = orig::_strncmp(_Str1,&DAT_10357f88,~uVar6 - 1);
+  uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f88,~uVar6 - 1);
   if ((int)uVar11 == 0) {
     local_c = 0x7f;
     DAT_1047d494 = '\x03';
@@ -789,7 +789,7 @@ LAB_10076cb3:
     }
     _Count = (bufsize - iVar7) - 1;
     if ((_Count != 0) && (*orgstr == '/')) {
-      orig::_strncpy_v1(&DAT_103551e8,outbuf,_Count);
+      orig::_strncpy_v2(&DAT_103551e8,outbuf,_Count);
       DAT_1047d496 = DAT_1047d497;
       cVar3 = DAT_1047d494;
       bVar10 = DAT_1047d494 == '\x06';
@@ -842,7 +842,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f80,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f80,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0x1d;
       DAT_1047d494 = '\x04';
@@ -856,7 +856,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f78,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f78,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0xa0;
       DAT_1047d494 = '\x05';
@@ -870,7 +870,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f70,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f70,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 5;
       DAT_1047d494 = '\x06';
@@ -884,7 +884,7 @@ LAB_10076cb3:
       cVar2 = *pcVar8;
       pcVar8 = pcVar8 + 1;
     } while (cVar2 != '\0');
-    uVar11 = orig::_strncmp(_Str1,&DAT_10357f68,~uVar6 - 1);
+    uVar11 = orig::_strncmp_v1(_Str1,&DAT_10357f68,~uVar6 - 1);
     if ((int)uVar11 == 0) {
       local_c = 0xd;
       DAT_1047d494 = '\a';

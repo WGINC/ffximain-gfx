@@ -194,7 +194,7 @@ XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1)
     uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v0);
     cVar1 = (char)uVar2;
     while (cVar1 != '\0') {
-      orig::FUN_1024d850((uint32_t *)param_1);
+      orig::StAvatar_ResolveItemsAndStart((uint32_t *)param_1);
       Sleep(2);
       uVar2 = orig::Unit1018BA60_FileMngCall101C1A40(g_pFileMng_as_v0);
       cVar1 = (char)uVar2;
@@ -224,7 +224,7 @@ XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1)
 
 // FUNCTION: FFXIMAIN 0x1024D850  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1024D850(uint32_t * param_1)
+XI_API undefined4 __cdecl StAvatar_ResolveItemsAndStart(uint32_t * param_1)
 {
   uint32_t uVar1;
   uint32_t uVar2;
@@ -303,7 +303,7 @@ LAB_1024d95b:
   uVar1 = orig::StAvatar_SetStopped(param_1,1,uVar1);
   uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)((uint8_t)*param_1)));
   if (((uint8_t)*param_1 & 0x20) != 0) {
-    uVar2 = orig::FUN_100378b0(0xa9);
+    uVar2 = orig::CYyMusicLoadTask_StartTrack(0xa9);
   }
   if ((*param_1 & 0x40) != 0) {
     orig::StAvatar_SetTransition(param_1,1.0f,0x14);
@@ -345,11 +345,11 @@ XI_API undefined4 __cdecl StAvatar_Update(uint8_t * param_1)
   uint8_t *pbVar4;
   uint64_t uVar5;
   
-  iVar1 = orig::FUN_10275090();
+  iVar1 = orig::SqTimer_GetMicroseconds_v1();
   *(int *)(param_1 + 0x38) = iVar1;
   iVar1 = *(int *)(param_1 + 4);
   if (iVar1 < 2) {
-    orig::FUN_1024d850((uint32_t *)param_1);
+    orig::StAvatar_ResolveItemsAndStart((uint32_t *)param_1);
     iVar1 = *(int *)(param_1 + 4);
     if (iVar1 < 2) {
       if ((((char)*param_1 < '\0') && (param_1 + 0x160 != (uint8_t *)0x0)) &&
@@ -410,11 +410,11 @@ LAB_1024dcb3:
   orig::StAvatar_SetViewFromDancerCamera(param_1);
   orig::StAvatar_UpdateInput((uint32_t *)param_1,*(uint32_t *)(param_1 + 0x2c));
   orig::StAvatar_ProcessTriggers((int)param_1);
-  iVar3 = orig::FUN_10275090();
+  iVar3 = orig::SqTimer_GetMicroseconds_v1();
   iVar1 = *(int *)(param_1 + 0x28);
   *(int *)(param_1 + 0x28) = iVar3;
   *(int *)(param_1 + 0x2c) = iVar3 - iVar1;
-  iVar1 = orig::FUN_10275090();
+  iVar1 = orig::SqTimer_GetMicroseconds_v1();
   *(int *)(param_1 + 0x38) = iVar1 - *(int *)(param_1 + 0x38);
   return 0;
 }
@@ -522,7 +522,7 @@ XI_API void __cdecl StAvatar_UpdateCameraYaw(float param_1)
   *(float *)(xi_castbits<int>(fVar2) + 0x44) = param_1;
   orig::Unit1027A4B0_FromRotationY(local_20,param_1);
   orig::Unit1027B060_Mul(local_10,local_20,(float *)(local_38 + 0x68));
-  orig::Unit1027A4B0_Copy((uint32_t *)(local_38 + 0x68),local_10);
+  orig::Unit1027A4B0_Copy_v1((uint32_t *)(local_38 + 0x68),local_10);
   fVar5 = (long double)local_30;
   fVar4 = (long double)0.0f;
   bVar3 = !(fVar5 >= fVar4);
@@ -552,7 +552,7 @@ XI_API void __cdecl StAvatar_UpdateCameraYaw(float param_1)
   *(float *)(xi_castbits<int>(fVar2) + 0x48) = param_1;
   orig::Unit1027A4B0_FromRotationX(local_20,param_1);
   orig::Unit1027B060_Mul(local_10,(float *)(local_38 + 0x68),local_20);
-  orig::Unit1027A4B0_Copy((uint32_t *)(local_38 + 0x68),local_10);
+  orig::Unit1027A4B0_Copy_v1((uint32_t *)(local_38 + 0x68),local_10);
   orig::sqxfXformTD_Update(local_38);
   return;
 }
@@ -595,7 +595,7 @@ XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1)
   
   if (((uint8_t *)(param_1 + 0xcc) != (uint8_t *)0x0) && ((*(uint8_t *)(param_1 + 0xcc) & 4) != 0)) {
     orig::scnCameraGetInfo_v1(3,(uint32_t *)0x0,&local_84);
-    orig::Unit1027A4B0_Copy(&local_60,(uint32_t *)(local_84 + 0x68));
+    orig::Unit1027A4B0_Copy_v1(&local_60,(uint32_t *)(local_84 + 0x68));
     orig::scnCameraGetInfo_v1(4,(uint32_t *)0x0,&local_84);
     iVar3 = *(int *)(param_1 + 0xec);
     local_80 = 0.0f;
@@ -617,13 +617,13 @@ XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1)
             local_7c = (float)((long double)local_7c + (long double)*(float *)(iVar3 + 0x5c));
             local_78 = (float)((long double)local_78 + (long double)*(float *)(iVar3 + 0x60));
             local_74 = (float)((long double)local_74 + (long double)*(float *)(iVar3 + 100));
-            orig::Unit1027A4B0_Copy(&local_70,(float *)(iVar3 + 0x68));
+            orig::Unit1027A4B0_Copy_v1(&local_70,(float *)(iVar3 + 0x68));
             iVar3 = local_50;
             fVar4 = local_80;
           }
           orig::Unit1027A4B0_FromRotationY(local_2c + 3,3.1415927410125732421875f);
           orig::Unit1027B060_Mul(local_10,local_2c + 3,&local_70);
-          orig::Unit1027A4B0_Copy(&local_70,local_10);
+          orig::Unit1027A4B0_Copy_v1(&local_70,local_10);
           local_4c = (float)((long double)local_60 - (long double)local_70);
           local_48 = (float)((long double)local_5c - (long double)local_6c);
           local_44 = (float)((long double)local_58 - (long double)local_68);
@@ -640,7 +640,7 @@ XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1)
             orig::Unit1027A4B0_Negate(&local_70);
           }
           *(int *)(piVar2[7] + 0x68) = iVar1;
-          orig::Unit1027A4B0_Copy((uint32_t *)(local_84 + 0x68),&local_70);
+          orig::Unit1027A4B0_Copy_v1((uint32_t *)(local_84 + 0x68),&local_70);
           *(uint32_t *)(local_84 + 0x78) = 0x41a00000;
           local_2c[0] = 0.0f;
           local_2c[1] = 0.0f;
@@ -656,6 +656,178 @@ XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1)
         }
         local_80 = xi_castbits<float>((xi_castbits<int>(fVar4) + 1));
       } while (xi_castbits<int>(local_80) < *(int *)(iVar3 + 0x44));
+    }
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x1024E280  (unit unit_1024D400: no unit evidence of its own; in the gap between 0x1024D2C0 (StAvatar) and 0x10250E10 (StChannel) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_1024E280(uint32_t * param_1, int param_2)
+{
+  uint32_t *puVar1;
+  float *pfVar2;
+  int *piVar3;
+  float fVar4;
+  float fVar5;
+  uint32_t uVar6;
+  uint32_t *puVar7;
+  int iVar8;
+  int iVar9;
+  uint32_t uVar10;
+  uint8_t bVar11;
+  long double fVar12;
+  long double fVar13;
+  char xi_frame[41] __attribute__((aligned(4)));
+  uint8_t  &local_29 = *reinterpret_cast<uint8_t  *>(xi_frame + 0);
+  float  &local_28 = *reinterpret_cast<float  *>(xi_frame + 1);
+  float  &local_24 = *reinterpret_cast<float  *>(xi_frame + 5);
+  float  &local_20 = *reinterpret_cast<float  *>(xi_frame + 9);
+  float  &local_1c = *reinterpret_cast<float  *>(xi_frame + 13);
+  float  &local_18 = *reinterpret_cast<float  *>(xi_frame + 17);
+  float  &local_14 = *reinterpret_cast<float  *>(xi_frame + 21);
+  float  &local_10 = *reinterpret_cast<float  *>(xi_frame + 25);
+  float  &local_c = *reinterpret_cast<float  *>(xi_frame + 29);
+  float  &local_8 = *reinterpret_cast<float  *>(xi_frame + 33);
+  uint32_t  &local_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 37);
+  
+  puVar7 = param_1;
+  local_10 = 0.0f;
+  local_c = 0.0f;
+  local_8 = 0.0f;
+  local_4 = 0;
+  fVar12 = orig::GetAnalogKey(0x3f,4);
+  local_20 = (float)fVar12;
+  fVar12 = orig::GetAnalogKey(0x3f,5);
+  local_24 = (float)fVar12;
+  local_28 = (float)SQRT((long double)local_20 * (long double)local_20 + fVar12 * (long double)local_24);
+  local_18 = (float)((long double)1.0f / (long double)local_28);
+  if (!((long double)local_28 > (long double)0.89999997615814208984375f)) {
+    if ((long double)local_28 > (long double)0.0500000007450580596923828125f) {
+      uVar10 = 3;
+      goto LAB_1024e359;
+    }
+    uVar10 = 2;
+    if ((*param_1 & 0x1000) != 0) {
+      local_10 = 0.0f;
+      local_c = 0.0f;
+      local_8 = 0.0f;
+      local_4 = 0x3f800000;
+      orig::StAvatar_UpdateHeading((int)param_1,&local_10,2);
+      goto LAB_1024e359;
+    }
+  }
+  else {
+    uVar10 = 1;
+LAB_1024e359:
+    if (((((*param_1 & 0x1000) != 0) &&
+         ((long double)local_28 > (long double)0.0500000007450580596923828125f)) &&
+        ((long double)local_24 > (long double)0.0f)) &&
+       (bVar11 = NAN(ABS((long double)local_20)) || NAN(ABS((long double)local_24)),
+       (bVar11 || ABS((long double)local_20) < ABS((long double)local_24)) != bVar11)) {
+      uVar10 = 0;
+    }
+  }
+  puVar1 = param_1 + 0xa0;
+  local_28 = (float)(long double)*(float *)(((char *)&DAT_10389438) + (uVar10 + param_1[2] * 4) * 4);
+  iVar8 = orig::Chasm_ApplyAtCurrentIndex((int)puVar1,0,&local_14);
+  orig::FUN_1024e760(param_1);
+  if ((iVar8 != 0) &&
+     (bVar11 = NAN((long double)local_28) || NAN((long double)0.0f),
+     bVar11 != (bVar11 || (long double)local_28 == (long double)0.0f))) goto LAB_1024e649;
+  local_4 = 0x3f800000;
+  local_c = 0.0f;
+  if ((*param_1 & 0x1000) == 0) {
+    local_10 = (float)-(long double)local_24;
+    local_8 = local_20;
+    orig::StAvatar_GetCameraMatrix((int)param_1,&local_10);
+    fVar12 = xi_castbits<long double>(fpatan((long double)local_8,-(long double)local_10));
+    local_1c = (float)((long double)xi_castbits<float>(param_1[0x27]) - (long double)4.7123889923095703125f);
+    bVar11 = NAN((long double)local_28) || NAN((long double)0.0f);
+    if (bVar11 == (bVar11 || (long double)local_28 == (long double)0.0f)) {
+      fVar13 = ABS((long double)local_1c - fVar12);
+      param_1 = xi_castbits<uint32_t *>((float)((long double)param_2 * (long double)xi_k4(0x3745A6E5ull)));
+      if (fVar13 > (long double)3.1415927410125732421875f) {
+        fVar13 = (long double)6.283185482025146484375f - fVar13;
+        param_1 = xi_castbits<uint32_t *>((float)((long double)xi_castbits<float>(param_1) * (long double)(-1.0f)));
+      }
+      if ((!NAN(fVar13) && !NAN((long double)xi_castbits<float>(param_1))) && (long double)xi_castbits<float>(param_1) < fVar13) {
+        bVar11 = NAN((long double)local_1c) || NAN(fVar12);
+        if ((bVar11 || (long double)local_1c < fVar12) == bVar11) {
+          fVar12 = (long double)local_1c - (long double)xi_castbits<float>(param_1);
+        }
+        else {
+          fVar12 = (long double)local_1c + (long double)xi_castbits<float>(param_1);
+        }
+        if (fVar12 > (long double)3.1415927410125732421875f) {
+          puVar7[0x27] = xi_castbits<uint32_t>((float)((fVar12 - (long double)6.283185482025146484375f) + (long double)4.7123889923095703125f));
+          goto LAB_1024e539;
+        }
+        bVar11 = NAN(fVar12) || NAN((long double)(-3.1415927410125732421875f));
+        if ((bVar11 || fVar12 < (long double)(-3.1415927410125732421875f)) != bVar11) {
+          fVar12 = fVar12 + (long double)6.283185482025146484375f;
+        }
+      }
+      puVar7[0x27] = xi_castbits<uint32_t>((float)(fVar12 + (long double)4.7123889923095703125f));
+    }
+LAB_1024e539:
+    if (((iVar8 != 0) || ((int)puVar7[0xa5] < 0)) ||
+       (piVar3 = (int *)(puVar7[0xa8] + puVar7[0xa5] * 0xd8), piVar3 == (int *)0x0)) {
+      fVar12 = (long double)local_28;
+    }
+    else {
+      fVar12 = ((long double)local_28 -
+               (long double)*(float *)(((char *)&DAT_10389438) + (*piVar3 + puVar7[2] * 4) * 4)) *
+               (long double)local_14 +
+               (long double)*(float *)(((char *)&DAT_10389438) + (*piVar3 + puVar7[2] * 4) * 4);
+    }
+    local_c = 0.0f;
+    local_4 = 0x3f800000;
+    fVar12 = fVar12 * (long double)param_2 * (long double)xi_k4(0x387BA883ull) * (long double)local_18;
+    local_10 = (float)-((long double)local_24 * fVar12);
+    local_8 = (float)(fVar12 * (long double)local_20);
+    orig::StAvatar_GetCameraMatrix((int)puVar7,&local_10);
+    puVar7[0x22] = xi_castbits<uint32_t>((float)((long double)local_10 + (long double)xi_castbits<float>(puVar7[0x22])));
+    puVar7[0x23] = xi_castbits<uint32_t>((float)((long double)local_c + (long double)xi_castbits<float>(puVar7[0x23])));
+    puVar7[0x24] = xi_castbits<uint32_t>((float)((long double)local_8 + (long double)xi_castbits<float>(puVar7[0x24])));
+  }
+  else {
+    fVar12 = (long double)param_2 * (long double)local_28 * (long double)xi_k4(0x387BA883ull) * (long double)local_18;
+    local_10 = (float)-((long double)local_24 * fVar12);
+    local_8 = (float)(fVar12 * (long double)local_20);
+    orig::StAvatar_UpdateHeading((int)param_1,&local_10,uVar10);
+  }
+  pfVar2 = (float *)(puVar7 + 0x22);
+  fVar12 = SQRT((long double)xi_castbits<float>(puVar7[0x22]) * (long double)xi_castbits<float>(puVar7[0x22]) +
+                (long double)xi_castbits<float>(puVar7[0x24]) * (long double)xi_castbits<float>(puVar7[0x24]));
+  if (fVar12 > (long double)4e+02f) {
+    *pfVar2 = (float)(((long double)4e+02f / fVar12) * (long double)*pfVar2);
+    puVar7[0x24] = xi_castbits<uint32_t>((float)(((long double)4e+02f / fVar12) * (long double)xi_castbits<float>(puVar7[0x24])));
+  }
+  orig::StAvatar_SetFlagsBoth((int)puVar7,pfVar2,puVar7 + 0x26);
+LAB_1024e649:
+  orig::StAvatar_ProjectNodes((int)puVar7);
+  if ((-1 < (int)puVar7[0xa1]) && (puVar7[0xa1] != uVar10)) {
+    orig::Unit10274050_Relink((int)puVar1,uVar10);
+    uVar6 = puVar7[0xa5];
+    if (-1 < (int)uVar6) {
+      iVar8 = puVar7[0xa8] + 0x70 + uVar6 * 0xd8;
+      fVar12 = (long double)*(float *)(iVar8 + 0x10);
+      iVar9 = **(int **)(*(int *)(*(int *)(puVar7[0xa8] + 0x8c + uVar6 * 0xd8) + 0x2c) + 0x20);
+      fVar13 = (long double)*(float *)(iVar9 + 0x24);
+      if (fVar12 > fVar13) {
+        do {
+          fVar12 = fVar12 - fVar13;
+        } while (fVar12 > fVar13);
+      }
+      fVar4 = *(float *)(iVar9 + 0x20);
+      fVar5 = *(float *)(iVar9 + 0x24);
+      iVar8 = orig::Chn_GetSubIndex(*(int *)(iVar8 + 0x14));
+      iVar9 = orig::FUN_1027d110((float)((fVar12 - (long double)fVar4) / (long double)fVar5),iVar8,&local_29,
+                           &local_14);
+      if ((-1 < iVar9) && (iVar9 < iVar8)) {
+        orig::StTrigger_FindIndexAtLeast(puVar7 + 0x90,uVar10 + 2,iVar9);
+      }
     }
   }
   return;
@@ -688,7 +860,7 @@ XI_API void __cdecl StAvatar_GetCameraMatrix(int param_1, float * param_2)
     iVar1 = 6;
   }
   orig::scnCameraGetInfo_v1(iVar1,(uint32_t *)0x0,&local_44);
-  orig::FUN_1027ebd0(local_40);
+  orig::Unit1027E120_SetIdentity(local_40);
   orig::Unit1027E120_TransformVec3(param_2,local_40,param_2);
   return;
 }
@@ -722,9 +894,9 @@ XI_API void __cdecl StAvatar_UpdateHeading(int param_1, float * param_2, int par
     local_70 = (float)((long double)*(float *)(param_1 + 0x88) - (long double)local_50);
     local_6c = (float)((long double)*(float *)(param_1 + 0x8c) - (long double)2.0f);
     local_68 = (float)((long double)*(float *)(param_1 + 0x90) - (long double)local_48);
-    orig::FUN_1027ebd0(local_40);
+    orig::Unit1027E120_SetIdentity(local_40);
     orig::Unit1027E120_TransformVec3(&local_70,local_40,&local_70);
-    orig::FUN_10274650(local_60,&local_70);
+    orig::Unit10274050_CopyVec3(local_60,&local_70);
     orig::Unit10274050_ScaleVec3ByInverseOf102746C0(local_60);
     fVar4 = (long double)local_70;
     fVar5 = (long double)local_68;
@@ -1344,7 +1516,7 @@ XI_API undefined4 __cdecl StAvatar_RenderIfEnabled(int param_1, int param_2)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_10275090();
+  iVar1 = orig::SqTimer_GetMicroseconds_v1();
   *(int *)(param_1 + 0x34) = iVar1;
   if (param_2 == 0) {
     return 0xffffffff;
@@ -1466,10 +1638,10 @@ XI_API void __cdecl StAvatar_UpdateNodes(uint8_t * param_1)
     local_28 = 2.5f;
     param_1 = (uint8_t *)0x3fc90fdb;
   }
-  orig::FUN_1027aae0(local_10,0.0f,1.57079637050628662109375f,xi_castbits<float>(param_1));
+  orig::Unit1027A4B0_QuatFromEuler(local_10,0.0f,1.57079637050628662109375f,xi_castbits<float>(param_1));
   puVar3 = PTR_DAT_10389330;
   puVar2 = PTR_DAT_1038931c;
-  orig::Unit1027A4B0_Copy((uint32_t *)(PTR_DAT_10389330 + 0x68),local_10);
+  orig::Unit1027A4B0_Copy_v1((uint32_t *)(PTR_DAT_10389330 + 0x68),local_10);
   orig::sqxfXformTD_Update((int)puVar3);
   pfVar4 = (float *)orig::ZoneMap_GetAddr0E4(g_pXiZone);
   fVar1 = (float)((long double)1.0f / (long double)local_28);

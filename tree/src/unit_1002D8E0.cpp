@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x1002D8F0  (unit unit_1002D8E0: no unit evidence of its own; in the gap between 0x1002D880 (CMoResource_VT_1032C854) and 0x1002DC10 (CYyModelDt) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __thiscall fn_1002D8F0(void * self_)
+XI_API undefined4 __thiscall Unit1002D8E0_FixOffsetsAndCreateVtxBuffer(void * self_)
 {
   int iVar1;
   undefined4 *this_00;

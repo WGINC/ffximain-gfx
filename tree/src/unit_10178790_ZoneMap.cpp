@@ -58,7 +58,7 @@ XI_API void __thiscall ZoneMap_UpdateLoadState(void * self_)
       uVar3 = orig::Unit100D7420_SendTypeF2(1,((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar5 >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x48)))));
       DAT_10376ee8 = (uint8_t)uVar3;
       *(undefined4 *)((int)self_ + 0x17c) = *(undefined4 *)((int)self_ + 0x48);
-      orig::FUN_10176dd0(1,uVar3);
+      orig::Unit10163E60_SetFlag2000OnUnderscoreEntries(1,uVar3);
       orig::FUN_1017a630(self_);
       orig::FUN_10186d30(self_,piVar1[0x15],piVar1);
       iVar5 = orig::FUN_101889c0(0x30317665);
@@ -102,7 +102,7 @@ XI_API undefined4 __thiscall ZoneMap_SetArea(void * self_, int param_1, int para
         if (xi_eax != 0) {
           *(int *)((int)self_ + 0x48) = param_2;
           *(int *)((int)self_ + 0x38) = param_1;
-          iVar2 = orig::FUN_10176dd0(0,xi_eax);
+          iVar2 = orig::Unit10163E60_SetFlag2000OnUnderscoreEntries(0,xi_eax);
           *(uint32_t *)((int)self_ + 0x44) = 1;
         }
       }
@@ -251,7 +251,7 @@ XI_API undefined4 __thiscall ZoneMap_FreeSlot(void * self_, int param_1)
       ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),3);
       piVar2[0xf] = 0;
     }
-    orig::FUN_10170cd0(piVar2 + 0x11,(uint32_t *)0x0);
+    orig::Unit10163E60_FreeNodeOrAll(piVar2 + 0x11,(uint32_t *)0x0);
     orig::ZoneMap_FreeSubAreas(piVar2);
     orig::FUN_1017a690(piVar2[0x19]);
     if (piVar2[0x15] != 0) {
@@ -1848,7 +1848,7 @@ XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
   }
   fVar2 = (float)((long double)param_1 * (long double)xi_k4(0x344F204Aull) * (long double)6.28299999237060546875f);
   if ((**(uint8_t **)((int)self_ + 0x18) & 1) == 0) {
-    orig::Unit10026C70_ReturnThis(local_40);
+    orig::Unit10026C70_ReturnThis_v1(local_40);
     bVar9 = *(short *)(g_pXiZone_as_s32 + 0x1cc) != 0;
     if (bVar9) {
       orig::Mat4_SetIdentity_v1(local_40);
@@ -1863,7 +1863,7 @@ XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
     fVar11 = xi_castbits<long double>(fcos((long double)fVar2));
     *(float *)((int)self_ + 200) = (float)fVar11;
     if (bVar9) {
-      orig::Mat4_TransformPointInPlace_v1(local_40,pfVar8);
+      orig::Mat4_TransformPointInPlace_v2(local_40,pfVar8);
     }
     iVar4 = orig::Camera_GetField50_v1();
     *(float *)((int)self_ + 0xd4) =
@@ -1901,7 +1901,7 @@ XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
     fVar11 = xi_castbits<long double>(fcos(fVar11));
     *(float *)((int)self_ + 0xa8) = (float)fVar11;
     if (bVar9) {
-      orig::Mat4_TransformPointInPlace_v1(local_40,pfVar1);
+      orig::Mat4_TransformPointInPlace_v2(local_40,pfVar1);
     }
     iVar4 = orig::Camera_GetField50_v1();
     *(float *)((int)self_ + 0xb4) =

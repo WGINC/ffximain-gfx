@@ -108,15 +108,20 @@ public:
     double GetWidthScale();  // 0x100D08E0
     double GetHeightScale();  // 0x100D09B0
     double GetDepthScale();  // 0x100D0A80
+    static undefined4 __thiscall AddPartAndMarkSlot(void * self, int * param_1, int param_2, int param_3, undefined4 param_4);  // 0x100D0B50
     static undefined4 __thiscall SetField0B4IfField9EC(void * self, int * param_1, int param_2);  // 0x100D0D40
     static void __thiscall SelectStateMessage(void * self, undefined4 xi_s1, undefined4 xi_s2);  // 0x100D0FC0
+    static undefined4 __thiscall RunPendingPartStep(void * self);  // 0x100D1070
+    static undefined4 __thiscall ChoosePendingPartStep(void * self);  // 0x100D1190
     static char __cdecl OnSkeletonLoaded(int a1, int a2);  // 0x100D2F40
     static undefined4 __thiscall LoadSkeletonSync(void * self, uint32_t param_1);  // 0x100D2F60
     static undefined4 __thiscall LoadSkeletonResource(void * self, undefined4 param_1);  // 0x100D4330
     static int __cdecl GetSkeletonFileNo();  // 0x100D43E0
     static int __thiscall AddListEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100D4410
     static int __thiscall FindListEntry(void * self, int param_1);  // 0x100D4540
+    static undefined4 __thiscall SetFlag840Bit23(void * self, undefined4 param_1);  // 0x100D5430
     char IsDirectionLock_Set(char a2);  // 0x100D5460
+    static void __thiscall BuildBasisFromVf210(void * self, float * param_1);  // 0x100D59A0
     static void __thiscall UpdateHeadLook(void * self);  // 0x100D5B10
     static uint32_t __thiscall FindPartValue(void * self, int * param_1);  // 0x100D6240
     char * DrawResourceShadows();  // 0x100D62C0

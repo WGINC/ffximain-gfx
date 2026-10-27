@@ -359,3 +359,49 @@ XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param
   } while (iVar3 < 0x10);
   return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
 }
+
+// FUNCTION: FFXIMAIN 0x1006CB50  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API void __fastcall CreateProcessorInstance(undefined4 xi_ecx, undefined4 xi_edx)
+{
+  undefined4 *puVar1;
+  
+  orig::FUN_1006cce0(xi_ecx,xi_edx);
+  if (DAT_1047cf78 == '\0') {
+    if (DAT_1047ce60 == '\0') {
+      puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xaa0);
+      if (puVar1 != (undefined4 *)0x0) {
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+        orig::CMoProcessor_InitRotationMatrices(puVar1);
+        g_pProcessor_as_v2 = puVar1;
+        return;
+      }
+    }
+    else {
+      puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xbb0);
+      if (puVar1 != (undefined4 *)0x0) {
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+        orig::CMoProcessor_InitRotationMatrices(puVar1);
+        *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c1c8;
+        orig::Unit10070050_InitMatrices(puVar1);
+        g_pProcessor_as_v2 = puVar1;
+        return;
+      }
+    }
+  }
+  else {
+    puVar1 = (undefined4 *)orig::Mem_AllocDefault_v1(0xbb0);
+    if (puVar1 != (undefined4 *)0x0) {
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c434;
+      orig::Unit10001070_CallForEachElement(puVar1 + 0x204,0x40,4,&LAB_1006cc30);
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c368;
+      orig::CMoProcessor_InitRotationMatrices(puVar1);
+      *puVar1 = &PTR_CMoProcessor_VT_1032C1C8_CMoProcessor_GetRuntimeClass_1032c298;
+      orig::Processor_InitIdentityMatrices(puVar1);
+      g_pProcessor_as_v2 = puVar1;
+      return;
+    }
+  }
+  g_pProcessor_as_v2 = (undefined4 *)0x0;
+  return;
+}

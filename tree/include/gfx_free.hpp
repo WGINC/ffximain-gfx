@@ -1,7 +1,7 @@
 // gfx_free.hpp -- graphics functions with no established class.
 #pragma once
 #include "gfx_common.hpp"
-XI_API undefined4 __stdcall fn_10001070(undefined4 param_1, undefined4 param_2, int param_3, undefined * param_4);  // 0x10001070
+XI_API undefined4 __stdcall Unit10001070_CallForEachElement(undefined4 param_1, undefined4 param_2, int param_3, undefined * param_4);  // 0x10001070
 XI_API void __cdecl App_ForceForegroundWindow(HWND param_1);  // 0x100014A0
 XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void);  // 0x10001B50
 XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1);  // 0x10001BB0
@@ -32,7 +32,7 @@ XI_API void __thiscall Gfx_ResetObject(void * self_);  // 0x10003640
 XI_API void __thiscall DebugOverlay_Draw(void * self_);  // 0x10003650
 XI_API void __thiscall Debug_Construct(void * self_);  // 0x10003660
 XI_API void __thiscall DebugOverlay_Update(void * self_);  // 0x10003710
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100037D0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t * param_2, float param_3, float param_4, float param_5, float param_6, char * param_7, undefined4 param_8);  // 0x100037D0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) DebugOverlay_SetEntry(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t * param_2, float param_3, float param_4, float param_5, float param_6, char * param_7, undefined4 param_8);  // 0x100037D0
 XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_);  // 0x10003890
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_);  // 0x10003B60
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8);  // 0x10003D70
@@ -44,6 +44,7 @@ XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 p
 XI_API void __stdcall Input_HandleChar(uint32_t param_1, undefined4 xi_s2);  // 0x10007860
 XI_API undefined4 __thiscall DirectInput_InstallKeyboard(void * self_);  // 0x10007E20
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_);  // 0x10007EF0
+XI_API void __thiscall fn_10008020(void * self_);  // 0x10008020
 XI_API undefined4 __thiscall DirectInput_InstallJoystick(void * self_);  // 0x100083D0
 XI_API undefined4 __thiscall DirectInput_ReleaseDevice(void * self_, int param_1);  // 0x10008770
 XI_API void __stdcall Input_SetActive(int param_1, int param_2, undefined4 xi_s3);  // 0x100087D0
@@ -55,8 +56,8 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_);  // 0x10008E10
 XI_API undefined4 __stdcall Unit10003890_CallPtr10456550IfEnabled(undefined4 param_1, undefined4 param_2);  // 0x10008EA0
 XI_API undefined4 __stdcall Unit10003890_CallPtr10456558IfEnabled(undefined4 param_1);  // 0x10008F00
 XI_API BOOL __stdcall SetCursorPos(int X, int Y);  // 0x10009770
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100098E0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4);  // 0x100098E0
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1000BE10(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x1000BE10
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_EndAndApplyStateBlock(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int * param_3, undefined4 param_4);  // 0x100098E0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_SetVertexShaderCached(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x1000BE10
 XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1);  // 0x1000BE50
 XI_API uint32_t __cdecl Unit1000D0F0_Swap16(uint32_t param_1);  // 0x1000D100
 XI_API uint32_t __cdecl Unit1000D0F0_Swap32(uint32_t param_1);  // 0x1000D120
@@ -83,7 +84,7 @@ XI_API char __thiscall Game_InGameSubState0(_WORD *self_);  // 0x100141C0
 XI_API undefined4 __attribute__((stdcall, regparm(3))) App_SubStateInitCamera(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10014200
 XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1);  // 0x10014220
 XI_API undefined4 __thiscall App_SubStateAdvance(void * self_);  // 0x100142A0
-XI_API undefined1 __thiscall fn_10014350(void * self_);  // 0x10014350
+XI_API undefined1 __thiscall Unit10014350_RunStepThenLoadAll(void * self_);  // 0x10014350
 XI_API undefined1 __thiscall Unit10014350_EnterState4AfterShutdown(void * self_);  // 0x100149B0
 XI_API undefined4 __thiscall Unit10014350_TryShutdownActors(void * self_);  // 0x10014A20
 XI_API uint32_t __thiscall Unit10014350_StepStagedRelease(void * self_);  // 0x10014A30
@@ -129,6 +130,7 @@ XI_API undefined4 __cdecl Camera_GetViewportHeight(void);  // 0x10015690
 XI_API int __cdecl Camera_PickNearestAspect(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4);  // 0x100156A0
 XI_API undefined4 __cdecl Unit10014350_ReturnTrue(void);  // 0x10015740
 XI_API void __stdcall App_WinMainClearFileMng(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x100157B0
+XI_API undefined4 __stdcall App_RunWithCOM(undefined4 xi_s1, undefined4 xi_s2);  // 0x10015AB0
 XI_API char __cdecl App_CreateRendererAndApp(void);  // 0x100161B0
 XI_API void __cdecl App_RunMainLoopThenSetPtr(void);  // 0x10016300
 XI_API _DWORD * __cdecl App_DestroyGlobalObjects(void);  // 0x10016320
@@ -155,7 +157,7 @@ XI_API int __thiscall Unit10017C10_Begin(int *self_, int a2, int a3, int a4);  /
 XI_API void __cdecl Unit10017C10_NoOpVarargsA(undefined4 xi_s1, ...);  // 0x10017D20
 XI_API void __cdecl Unit10017C10_NoOpVarargsB(undefined4 xi_s1, ...);  // 0x10017D30
 XI_API undefined1 * __cdecl XiErrMsgGetErrCode(int param_1);  // 0x10017D90
-XI_API void __cdecl fn_100180D0(int param_1);  // 0x100180D0
+XI_API void __cdecl Unit10017C10_DispatchErrorCode(int param_1);  // 0x100180D0
 XI_API void __cdecl Unit10017C10_SendMessage7_1To10668FF8(undefined4 param_1);  // 0x10018140
 XI_API undefined8 __cdecl Unit10017C10_RegisterCallback(undefined4 param_1);  // 0x10018180
 XI_API void __cdecl Unit10017C10_SendMessage7_0To10668FF8(uint32_t param_1, char * param_2);  // 0x100181D0
@@ -163,7 +165,7 @@ XI_API undefined4 __cdecl Unit10017C10_IsRegistered(void);  // 0x10018270
 XI_API void __cdecl Unit10017C10_Call10114F10NoArgs(undefined4 param_1);  // 0x100182C0
 XI_API undefined8 __cdecl _exit_0(undefined4 param_1);  // 0x100182E0
 XI_API void __cdecl Unit10017C10_Thunk10114F10(uint32_t param_1, undefined4 * param_2, uint32_t param_3);  // 0x10018300
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10018310(undefined4 xi_eax, int param_1, undefined4 * param_2, undefined4 param_3);  // 0x10018310
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10017C10_ReportAndHandleError(undefined4 xi_eax, int param_1, undefined4 * param_2, undefined4 param_3);  // 0x10018310
 XI_API void * __thiscall Unit10017C10_CtorVt10329F88(void * self_);  // 0x10018350
 XI_API void * __thiscall Unit10017C10_CtorVt10329F8C(void * self_);  // 0x10018430
 XI_API void * __thiscall Unit10017C10_CtorVt10329F90(void * self_);  // 0x10018550
@@ -176,7 +178,6 @@ XI_API void * __thiscall Vt10329FE0_Constructor(void * self_);  // 0x10018C50
 XI_API void __thiscall Vt10329FE0_Reset(void * self_);  // 0x10018CE0
 XI_API int * __cdecl Unit10019140_CreateObject(void);  // 0x100191D0
 XI_API void __thiscall CXiTimer_Constructor(void * self_);  // 0x10019210
-XI_API undefined4 __thiscall fn_100194F0(void * self_);  // 0x100194F0
 XI_API undefined4 __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5);  // 0x10019A50
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5);  // 0x10019B30
 XI_API undefined4 __thiscall SampleAnimationTrack_Live(void * self_, int param_1, int * param_2, int param_3, float param_4, float param_5, int param_6);  // 0x10019EE0
@@ -187,7 +188,7 @@ XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param
 XI_API void __thiscall CYyMotionQueList_Init(void * self_);  // 0x1001ABF0
 XI_API void __thiscall KzMotionQueList_AdvanceAll(void * self_, float param_1);  // 0x1001B170
 XI_API void __thiscall KzMotionQueList_NotifyAll(void * self_, void * param_1, undefined4 param_2);  // 0x1001B1F0
-XI_API undefined4 __thiscall fn_1001B520(void * self_, float param_1);  // 0x1001B520
+XI_API undefined4 __thiscall Unit1001B510_StepStateByTime(void * self_, float param_1);  // 0x1001B520
 XI_API undefined4 __thiscall Unit1001B510_Update(void * self_);  // 0x1001B5D0
 XI_API void * __thiscall Unit1001B890_ReturnSelf(void * self_);  // 0x1001CF80
 XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void);  // 0x1001D0A0
@@ -197,15 +198,14 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_);  // 0x1001
 XI_API void __stdcall Unit1001B890_SetColorForce(undefined4 param_1, undefined4 param_2);  // 0x1001D390
 XI_API int __thiscall Model_CompositeTranslucentPass(void *self_);  // 0x1001D3B0
 XI_API void __thiscall TexRes_LoadBm2(void * self_);  // 0x1001D800
-XI_API undefined4 __thiscall fn_1001DBD0(void * self_);  // 0x1001DBD0
 XI_API int __thiscall Tex_DrawNamedTexturePreview(void *self_, int a1, int a2);  // 0x1001DC70
 XI_API int __stdcall Gfx_DrawScreenQuad256(int a1, int a2);  // 0x1001DD00
 XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_SetGlobalFlags(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x1001E2F0
 XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_CallGlobalVfunc1(undefined4 xi_eax);  // 0x1001E4B0
 XI_API undefined4 __thiscall Camera_SetPosition(void * self_, undefined4 * param_1);  // 0x1001E760
 XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param_1);  // 0x1001E780
-XI_API undefined4 __thiscall fn_100215C0(void * self_, int param_1, int * param_2);  // 0x100215C0
-XI_API undefined4 __thiscall fn_10021680(void * self_, float * param_1, int * param_2);  // 0x10021680
+XI_API undefined4 __thiscall Unit1001E6D0_PointToActorLocalSpace(void * self_, int param_1, int * param_2);  // 0x100215C0
+XI_API undefined4 __thiscall Camera_PlaceRelativeToActor(void * self_, float * param_1, int * param_2);  // 0x10021680
 XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_);  // 0x10021AE0
 XI_API int __thiscall Camera_SnapshotState(void * self_);  // 0x10021B70
 XI_API int __thiscall Camera_BuildLookAtView(void * self_);  // 0x10021C10
@@ -244,6 +244,8 @@ XI_API void __cdecl Vec3_MulInPlace(float * param_1, float * param_2);  // 0x100
 XI_API undefined4 __cdecl Vec3_MulComponents(float * param_1, float * param_2, float * param_3);  // 0x10027340
 XI_API void __cdecl Vec3_CopyThen100274B0(float * param_1, undefined4 * param_2);  // 0x10027510
 XI_API undefined4 __cdecl Vec3_Cross(undefined4 * param_1, float * param_2, float * param_3);  // 0x10027550
+XI_API long double __cdecl fn_100275D0(float * param_1, float * param_2);  // 0x100275D0
+XI_API long double __cdecl fn_10027600(float * param_1);  // 0x10027600
 XI_API long double __cdecl Vec3_Call100275D0(float * param_1, float * param_2);  // 0x10027620
 XI_API void __cdecl Gfx_ProjectWorldToClip(float *a1, _DWORD *a2);  // 0x100276F0
 XI_API void __cdecl Gfx_TransformWorldToView(float *a1, _DWORD *a2);  // 0x100277E0
@@ -280,9 +282,9 @@ XI_API void __cdecl Unit10026C70_Call10029150(undefined4 param_1);  // 0x1002872
 XI_API int __cdecl Mem_GetPtrMinus0x20(int param_1);  // 0x10028730
 XI_API undefined8 __cdecl MemBlock_AllocFromFront(int param_1, int param_2, int param_3);  // 0x10028850
 XI_API undefined8 __cdecl MemBlock_AllocFromBack(int param_1, undefined4 param_2, void * param_3);  // 0x10028930
-XI_API int __cdecl fn_100289F0(int param_1, int param_2);  // 0x100289F0
-XI_API undefined4 __cdecl fn_10028AA0(undefined4 param_1);  // 0x10028AA0
-XI_API undefined4 __cdecl fn_10028AC0(int param_1);  // 0x10028AC0
+XI_API int __cdecl MemBlock_FindLargestFreeSize(int param_1, int param_2);  // 0x100289F0
+XI_API undefined4 __cdecl Mem_FreeBlockMergeNeighbours(undefined4 param_1);  // 0x10028AA0
+XI_API undefined4 __cdecl Mem_FreeHeaderMergeNeighbours(int param_1);  // 0x10028AC0
 XI_API int __thiscall MemBlock_GetSize(void * self_);  // 0x10028B90
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10028A50_CallEnabledEntries(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3);  // 0x10028BF0
 XI_API undefined4 __cdecl Unit10028A50_CallEnabledList0(undefined4 param_1);  // 0x10028C30
@@ -299,7 +301,6 @@ XI_API void __thiscall CYyModelDtBase_Destructor(void * self_);  // 0x10029CD0
 XI_API undefined4 __thiscall Unit10029CD0_GetField20(void * self_);  // 0x10029D20
 XI_API int __thiscall Unit10029E50_FindTailLink(void * self_);  // 0x10029EB0
 XI_API void __thiscall Unit10029E50_AppendAtTail(void * self_, undefined4 param_1);  // 0x10029F00
-XI_API undefined4 __thiscall fn_1002A700(void * self_, undefined4 param_1, undefined4 param_2);  // 0x1002A700
 XI_API undefined4 __thiscall Unit1002A0C0_ApplyToVec4(void * self_, undefined4 param_1, undefined4 * param_2);  // 0x1002A780
 XI_API void __stdcall Part_CopyTranslation(int param_1, undefined4 * param_2);  // 0x1002A890
 XI_API void __thiscall Part_AddTranslation(void * self_, int param_1, float * param_2);  // 0x1002A8B0
@@ -308,10 +309,9 @@ XI_API void * __thiscall List_GetTail(void * self_);  // 0x1002C7C0
 XI_API void __thiscall Unit1002C7C0_PopHead(void * self_, int * param_1);  // 0x1002C800
 XI_API undefined4 __cdecl Mem_AllocDefault(undefined4 param_1);  // 0x1002C890
 XI_API void __cdecl thunk_sub_10028AA0(int param_1);  // 0x1002C8B0
-XI_API void * __thiscall fn_1002D660(void * self_, undefined4 param_1);  // 0x1002D660
-XI_API undefined4 __thiscall fn_1002D7F0(void * self_);  // 0x1002D7F0
+XI_API void * __thiscall CYyOs2VtxBuffer_ScalarDeletingDtor(void * self_, undefined4 param_1);  // 0x1002D660
 XI_API void __attribute__((stdcall, regparm(3))) CMoResource_DropObjectAt5E(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x1002D860
-XI_API undefined4 __thiscall fn_1002D8F0(void * self_);  // 0x1002D8F0
+XI_API undefined4 __thiscall Unit1002D8E0_FixOffsetsAndCreateVtxBuffer(void * self_);  // 0x1002D8F0
 XI_API void __cdecl Gfx_SetStreamSourceCached(int param_1, undefined4 param_2, undefined4 param_3);  // 0x1002F130
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1);  // 0x1002F160
 XI_API int __cdecl Gfx_ApplyCachedVertexShader(void);  // 0x1002F1A0
@@ -346,7 +346,7 @@ XI_API void __thiscall Skel_MarkChain(void * self_, int param_1, undefined4 para
 XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillAllGlobalSlots(undefined4 xi_eax, undefined4 param_1);  // 0x10035F00
 XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463930(undefined4 xi_s1);  // 0x10035F80
 XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1);  // 0x10035FB0
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10036020(undefined4 xi_eax, undefined4 xi_s1);  // 0x10036020
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10035B00_Release10463928AndSetScaled(undefined4 xi_eax, undefined4 xi_s1);  // 0x10036020
 XI_API void __cdecl Unit10035B00_SetScaled10351704(float param_1);  // 0x10036050
 XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillGlobalSlot1(undefined4 xi_eax, undefined4 xi_s1);  // 0x10036070
 XI_API void __cdecl Unit10035B00_SetScaled10351700(float param_1);  // 0x100360A0
@@ -357,16 +357,16 @@ XI_API void __cdecl Unit10035B00_ResetGlobals(void);  // 0x100361D0
 XI_API uint32_t __cdecl Unit10035B00_AddUniqueId(int param_1);  // 0x10036460
 XI_API uint32_t __attribute__((cdecl, regparm(1))) CYySoundElem_IsHandleInFrameList(undefined4 xi_eax, int param_1);  // 0x100367F0
 XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefined4 param_1);  // 0x10036B90
+XI_API uint32_t __cdecl fn_10036C70(float * param_1, uint32_t * param_2, float * param_3, float param_4, float param_5, float param_6, undefined4 param_7, int param_8);  // 0x10036C70
 XI_API undefined8 __thiscall Unit10036B90_SetVolumeScalar(void * self_, undefined4 param_1, undefined4 param_2);  // 0x10036F00
 XI_API undefined4 __thiscall Unit10036B90_SetVolumeVector(void * self_, undefined4 param_1, undefined4 param_2);  // 0x10036F50
 XI_API void __thiscall Unit10036B90_CreateSoundElem(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8);  // 0x10037020
-XI_API undefined4 __cdecl fn_100378B0(int param_1);  // 0x100378B0
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1);  // 0x10037960
 XI_API void __cdecl LobbyThread_SendCmd6IfRunning(void);  // 0x10037A10
 XI_API void __cdecl SetMusicTrackVolume_C(void);  // 0x10037B30
 XI_API void __cdecl SetMusicTrackVolume_A(void);  // 0x10037B90
 XI_API undefined4 __cdecl SetMusicTrackVolume_B(void);  // 0x10037BF0
-XI_API void __cdecl fn_10037C50(void);  // 0x10037C50
+XI_API void __cdecl SetMusicTrackVolume_Tag0004(void);  // 0x10037C50
 XI_API void __cdecl MusicTrack_SetVolumeId0009(void);  // 0x10037D70
 XI_API void __cdecl MusicTrack_SetVolumeId0010(void);  // 0x10037DD0
 XI_API void __cdecl MusicTrack_SetVolumeId0011(void);  // 0x10037E30
@@ -375,7 +375,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0016(void);  // 0x10037FB0
 XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, undefined4 param_3);  // 0x100380F0
 XI_API void __attribute__((cdecl, regparm(1))) Music_LoadTrackIfRunning(undefined4 xi_eax, undefined4 param_1, undefined4 param_2);  // 0x100382A0
 XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int param_1, float * param_2, int param_3);  // 0x10038330
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10038440(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3);  // 0x10038440
+XI_API undefined4 __attribute__((cdecl, regparm(1))) LobbyThread_SendCmd3FromFloat(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3);  // 0x10038440
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3);  // 0x10038470
 XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100384B0
 XI_API int __cdecl Font_DrawPass(void);  // 0x10038520
@@ -388,9 +388,9 @@ XI_API undefined4 __thiscall Post_DrawRotatingGhostLayers(void * self_);  // 0x1
 XI_API void __thiscall ThreadPool_StartThread(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x100394D0
 XI_API void __thiscall ThreadPool_Shutdown(void * self_);  // 0x10039550
 XI_API undefined4 __thiscall CYyObject_VT_1032A9F8_Construct(void * self_);  // 0x100395D0
-XI_API void __thiscall fn_10039670(void * self_, LPTHREAD_START_ROUTINE param_1, LPVOID param_2, undefined4 xi_s3);  // 0x10039670
+XI_API void __thiscall ThreadPool_CreateSuspendedThread(void * self_, LPTHREAD_START_ROUTINE param_1, LPVOID param_2, undefined4 xi_s3);  // 0x10039670
 XI_API void __thiscall Thread_ResumeAndWait(void * self_);  // 0x100396A0
-XI_API undefined4 __thiscall fn_100397A0(void * self_, char * param_1);  // 0x100397A0
+XI_API undefined4 __thiscall Unit100397A0_CopyName16(void * self_, char * param_1);  // 0x100397A0
 XI_API void __thiscall Util_Copy16Bytes(void * self_, int param_1);  // 0x10039810
 XI_API undefined4 __thiscall TexObj_Constructor(void * self_);  // 0x10039920
 XI_API void __thiscall TexObj_Release(void * self_);  // 0x100399D0
@@ -406,6 +406,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_);  // 0x1003ABB0
 XI_API int __thiscall TexMgr_FindByName(void * self_, int param_1, int param_2, undefined4 param_3);  // 0x1003AEA0
 XI_API void * __thiscall CYyVb_ScalarDelete(void * self_, undefined4 param_1);  // 0x1003B430
 XI_API void __thiscall VertexBufferList_Register(void * self_);  // 0x1003B4D0
+XI_API long double __cdecl fn_1003B980(int param_1, float * param_2, float * param_3);  // 0x1003B980
 XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4);  // 0x1003BE10
 XI_API void __thiscall Unit1003C6E0_CopyFields(void * self_, int param_1);  // 0x1003C740
 XI_API long double __attribute__((stdcall, regparm(3))) Unit1003C6E0_GetFactorFromAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint8_t * param_2, float param_3);  // 0x1003C7D0
@@ -426,9 +427,7 @@ XI_API void __thiscall Unit1003D990_AddScaledToByte3(void *self_, int a1);  // 0
 XI_API void __thiscall YmElem_DrawD3ASegment(void * self_, undefined4 param_1, undefined4 param_2, int param_3);  // 0x1003E910
 XI_API int __thiscall YmElem_SetD3ADrawState(int self_);  // 0x1003E9A0
 XI_API int __thiscall MoElem_GetVertexData(void * self_);  // 0x1003FD70
-XI_API undefined4 __thiscall fn_10040220(void * self_, uint32_t * param_1, int param_2);  // 0x10040220
 XI_API void * __thiscall CXi471011C8_VT_1032AD80_DeletingDtor(void * self_, undefined4 param_1);  // 0x10041130
-XI_API undefined4 __thiscall fn_10041160(void * self_);  // 0x10041160
 XI_API undefined8 __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1);  // 0x10041F40
 XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_);  // 0x100426F0
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10043DD0_ToggleByte45(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10043DD0
@@ -454,7 +453,7 @@ XI_API undefined4 __thiscall YmElem_ComputeViewDepthKey(void * self_);  // 0x100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAndTest(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10045920
 XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_);  // 0x10045C50
 XI_API void __thiscall RegisterWithProcessor(void * self_);  // 0x10045D40
-XI_API undefined4 __thiscall fn_10046070(void * self_);  // 0x10046070
+XI_API undefined4 __thiscall YmElem_DrawWithOwnProjection(void * self_);  // 0x10046070
 XI_API void __cdecl Zone_UpdateFogAmbient(void);  // 0x10046380
 XI_API int __cdecl Fog_SetRenderStates(void);  // 0x100464D0
 XI_API int __thiscall YmElem_SetupDevice(void *self_, int a1);  // 0x100467E0
@@ -484,7 +483,7 @@ XI_API double __cdecl ScaleElemVisibilityByProbe(int a1, int a2, __int16 *a3);  
 XI_API undefined4 __thiscall Unit10048000_GetByte(void * self_);  // 0x100527B0
 XI_API void __thiscall Unit10048000_SetDwords(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100527C0
 XI_API void __thiscall Unit10048000_CallProcessorSlot49(void * self_, undefined4 xi_s1);  // 0x100527E0
-XI_API void * __thiscall fn_100527F0(void * self_);  // 0x100527F0
+XI_API void * __thiscall Unit10048000_ReturnThis(void * self_);  // 0x100527F0
 XI_API void __thiscall Unit10048000_Set3Dwords(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10052800
 XI_API undefined4 __thiscall Unit10048000_SubInto(void * self_, float * param_1, float * param_2);  // 0x10052820
 XI_API undefined4 __thiscall Unit10048000_SetDwordAndCopyOut(void * self_, undefined4 * param_1, undefined4 param_2);  // 0x10052870
@@ -546,7 +545,6 @@ XI_API undefined4 __thiscall Generator_IsFlag400OrField22Zero(void * self_);  //
 XI_API undefined4 __thiscall Unit10053860_StopGenerators(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 * param_4);  // 0x10053A00
 XI_API undefined4 __thiscall YmGenerater_UpdateAttach(void * self_, int param_1, float * param_2);  // 0x10053C80
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_UpdateAttachIfPresent(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x10053DD0
-XI_API undefined4 __thiscall fn_10054220(void * self_);  // 0x10054220
 XI_API undefined4 __cdecl Unit10054360_Get10353710(void);  // 0x10054410
 XI_API void __cdecl Unit10054360_CopyFromPtr(undefined4 * param_1, undefined4 * param_2);  // 0x10054430
 XI_API long double __thiscall Unit100544A0_EvaluateWithFlag34(void * self_, undefined4 param_2, undefined4 param_3);  // 0x100544D0
@@ -560,7 +558,7 @@ XI_API void __attribute__((stdcall, regparm(3))) Unit100548D0_FreeSplineSet(unde
 XI_API void __thiscall LinkNode_Init(void * self_);  // 0x10055240
 XI_API void __thiscall Unit100552F0_ClearLink(void * self_);  // 0x100552F0
 XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_2, float param_3);  // 0x10055300
-XI_API undefined4 __thiscall fn_100554B0(void * self_);  // 0x100554B0
+XI_API undefined4 __thiscall Unit100552F0_RelinkEntries(void * self_);  // 0x100554B0
 XI_API void __thiscall Unit100552F0_Free(void * self_);  // 0x10055520
 XI_API void __cdecl CMoOt_InitSystem(void);  // 0x100555D0
 XI_API void __cdecl CMoOt_Update(void);  // 0x10055620
@@ -571,7 +569,6 @@ XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_
 XI_API void __thiscall Scheduler_RemoveTasksFor(void * self_);  // 0x10056EB0
 XI_API undefined4 __thiscall Scheduler_Kill(void * self_, int param_1, int param_2);  // 0x10056EF0
 XI_API void __thiscall CMoSchedularTask_ResetFlags(void * self_);  // 0x100573B0
-XI_API undefined4 __thiscall fn_100573E0(void * self_, int param_1, uint32_t param_2, short * param_3);  // 0x100573E0
 XI_API undefined4 __thiscall Unit1005DFF0_ClearDword0(void * self_, undefined4 xi_s1);  // 0x1005E110
 XI_API undefined8 __thiscall AfterimageTask_FindFirstKind(void * self_);  // 0x10062770
 XI_API undefined8 __thiscall Scheduler_ResolveOwner(void * self_);  // 0x100627D0
@@ -617,11 +614,9 @@ XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2);  // 0x10
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_);  // 0x1006C9B0
 XI_API undefined4 __cdecl Unit1006C210_IsFloatClassAccepted(float param_1);  // 0x1006CA20
 XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param_1);  // 0x1006CA60
-XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_1006D0A0(undefined4 xi_eax, undefined4 * param_1);  // 0x1006D0A0
+XI_API void __fastcall CreateProcessorInstance(undefined4 xi_ecx, undefined4 xi_edx);  // 0x1006CB50
+XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoProcessor_VT_1032C368_SetIdentity(undefined4 xi_eax, undefined4 * param_1);  // 0x1006D0A0
 XI_API void __stdcall Unit1006CF90_MultiplyTo(float * param_1, int param_2, float * param_3);  // 0x1006D270
-XI_API undefined4 __stdcall fn_1006D720(float * param_1, float * param_2, float * param_3);  // 0x1006D720
-XI_API undefined4 __stdcall fn_1006E140(undefined4 * param_1, float param_2);  // 0x1006E140
-XI_API undefined4 __stdcall fn_1006E260(undefined4 * param_1, float param_2);  // 0x1006E260
 XI_API void __thiscall Processor_InitIdentityMatrices(void * self_);  // 0x1006EF70
 XI_API float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3);  // 0x1006F0A0
 XI_API void __thiscall Unit10070050_InitMatrices(void * self_);  // 0x100700E0
@@ -632,7 +627,8 @@ XI_API void __thiscall Unit10070F90_Reset(void * self_);  // 0x100711B0
 XI_API void __thiscall Unit10070F90_CopyField14At0(void * self_, int param_1);  // 0x100711D0
 XI_API void __thiscall Unit10070F90_CopyField14At4(void * self_, int param_1);  // 0x100711E0
 XI_API void __thiscall Unit10070F90_CopyField14At8(void * self_, int param_1);  // 0x10071200
-XI_API int * __thiscall fn_10071270(void * self_, undefined4 xi_s1);  // 0x10071270
+XI_API int * __thiscall MeshResourceMng_CreateResourceByKind(void * self_, undefined4 xi_s1);  // 0x10071270
+XI_API undefined4 * __fastcall fn_10071D80(undefined4 * param_1, undefined4 xi_edx);  // 0x10071D80
 XI_API undefined4 __thiscall MoRes_FindPrevious(void * self_);  // 0x10071FD0
 XI_API undefined4 __thiscall WeatherRes_GetTimeKey(void * self_, undefined4 * param_1);  // 0x10072180
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x100721F0
@@ -640,6 +636,7 @@ XI_API void * __thiscall Unit10071E50_FindSelfLinkedNode(void * self_);  // 0x10
 XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoResource_FindInScope(undefined4 xi_eax, undefined4 * param_1, int param_2, uint32_t param_3, int param_4);  // 0x10072430
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmResourceFile_FindResourceUnder(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2, uint32_t param_3, int param_4);  // 0x100724C0
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10071E50_FindInChainByKind(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t param_2, int param_3, undefined * param_4, undefined4 param_5);  // 0x10072540
+XI_API void __fastcall fn_10072990(int param_1, undefined4 xi_edx);  // 0x10072990
 XI_API void __cdecl unknown_libname_61(void);  // 0x100729C0
 XI_API void __cdecl Unit10071E50_ClearGlobal1047D138(void);  // 0x100729D0
 XI_API void __thiscall Unit10072A50_Step(void * self_);  // 0x10072A70
@@ -665,7 +662,6 @@ XI_API void __thiscall MoProcessor_CallVSlot49(void * self_);  // 0x100746A0
 XI_API void __thiscall Unit10074630_ProcessorSlot41(void * self_);  // 0x10074700
 XI_API void __thiscall Unit10074790_Remove(void * self_, int param_1);  // 0x100747F0
 XI_API void __thiscall Unit10074790_RunAsCurrent(void * self_);  // 0x100748C0
-XI_API undefined4 __thiscall fn_10074AD0(void * self_, int param_1);  // 0x10074AD0
 XI_API int __thiscall Unit10074CA0_FindTask(void * self_, int param_1, int param_2);  // 0x10074F30
 XI_API int __cdecl Gfx_InitCubeMapTextures(void);  // 0x10075280
 XI_API undefined4 __thiscall TexRef_ResolveByName(void * self_, undefined4 param_1);  // 0x10075520
@@ -692,6 +688,7 @@ XI_API int __cdecl Unit10078260_ParseNumber(char * param_1);  // 0x10079A00
 XI_API int * __cdecl SeekIdByString(char * param_1, undefined4 param_2, int param_3, undefined4 param_4);  // 0x1007A1C0
 XI_API int __cdecl Actor_FindInRange(int param_1, int param_2, int param_3);  // 0x1007A440
 XI_API int __cdecl Actor_FindByName(char * param_1, uint32_t param_2, int param_3, int param_4, undefined4 param_5);  // 0x1007A4C0
+XI_API undefined4 __cdecl fn_1007BF30(uint32_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5);  // 0x1007BF30
 XI_API int __cdecl Unit10078260_ToggleStatusAndSend(undefined4 param_1, undefined4 param_2, int param_3, undefined4 param_4);  // 0x1007CD60
 XI_API int __cdecl Unit10078260_ToggleStatusMode1(undefined4 param_1, undefined4 param_2, int param_3);  // 0x1007CFD0
 XI_API undefined4 __cdecl Actor_GetObjectByName(char * param_1);  // 0x10080C70
@@ -708,7 +705,7 @@ XI_API undefined4 __thiscall ActorHandle_SetFields(void * self_, undefined4 para
 XI_API undefined4 __thiscall ActorHandle_ResolveObject(void * self_);  // 0x10081600
 XI_API void __cdecl Unit10081A30_ReleaseQueued(void);  // 0x10081A30
 XI_API void __cdecl Actor_ResetDrawLists(void);  // 0x10081A50
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10081AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10081AE0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_LinkIntoDrawList(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10081AE0
 XI_API void __thiscall CXiSkeletonActor_SetMoveSpeed(void * self_, undefined4 param_1);  // 0x10082080
 XI_API void __thiscall CXiSkeletonActor_SetMoveSpeedBase(void * self_, undefined4 param_1);  // 0x100820A0
 XI_API void __thiscall CXiSkeletonActor_SetWalkSpeed(void * self_, undefined4 param_1);  // 0x100820C0
@@ -720,7 +717,7 @@ XI_API void __thiscall CXiActor_SetSubActorStatus(void * self_, undefined4 param
 XI_API int __cdecl Actor_CountAll(void);  // 0x10082BF0
 XI_API undefined4 __stdcall Unit10082F60_ProjectThroughCamera(undefined4 * param_1, undefined4 * param_2);  // 0x10082FB0
 XI_API uint32_t __thiscall Unit10083300_GetModelFlag130Bit21(void * self_);  // 0x10083340
-XI_API int * __cdecl fn_10083620(undefined4 param_1, undefined4 param_2);  // 0x10083620
+XI_API int * __cdecl Target_FindNearestOnLocalPositiveX(undefined4 param_1, undefined4 param_2);  // 0x10083620
 XI_API uint32_t __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95790(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x10084330
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95680(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x10084350
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest956A0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x10084370
@@ -786,7 +783,7 @@ XI_API void __thiscall Acter_ReleaseSlotA4(void * self_);  // 0x10092870
 XI_API void __thiscall Acter_ReleaseAllSlots(void * self_);  // 0x10092900
 XI_API void __thiscall Acter_CopyPosToCached(void * self_);  // 0x100929A0
 XI_API void __thiscall Acter_SnapHeightToZoneMap(void * self_);  // 0x100929D0
-XI_API undefined4 __thiscall fn_10092C20(void * self_);  // 0x10092C20
+XI_API undefined4 __thiscall Acter_CopyPosAndAnglesToActorA0(void * self_);  // 0x10092C20
 XI_API void __thiscall Acter_CopyPosAndSnap(void * self_);  // 0x100933C0
 XI_API undefined4 __thiscall Acter_CopySixDwordsTo7C(void * self_, undefined4 * param_1);  // 0x10093430
 XI_API undefined4 __cdecl Unit10086E90_ResetGlobals(void);  // 0x10093720
@@ -796,7 +793,7 @@ XI_API void __cdecl Acter_ClearGlobalBlock182(void);  // 0x10093AD0
 XI_API void __cdecl Acter_ClearGlobalBlock2C(void);  // 0x10093AF0
 XI_API void __cdecl Acter_ClearGlobalBlock23(void);  // 0x10093B10
 XI_API void __cdecl Acter_ClearGlobalBlock71(void);  // 0x10093B30
-XI_API undefined4 __cdecl fn_10093B50(void);  // 0x10093B50
+XI_API undefined4 __cdecl Unit10086E90_ClearTable10488B08(void);  // 0x10093B50
 XI_API undefined4 __cdecl Acter_ShutdownGlobals(void);  // 0x10093B70
 XI_API void __cdecl Acter_Nop(void);  // 0x10093DA0
 XI_API undefined4 __cdecl Net_SendPacket00COnce(void);  // 0x10093DB0
@@ -815,7 +812,7 @@ XI_API void __cdecl Acter_UpdateActionState(void * param_1);  // 0x10095E90
 XI_API undefined4 __cdecl Unit10086E90_NoneOfIdsInTable(void);  // 0x10096270
 XI_API undefined4 __cdecl Acter_UpdateFrame(void);  // 0x10096640
 XI_API undefined4 __thiscall Unit10086E90_UpdateSkeletonParts(void * self_);  // 0x100973F0
-XI_API undefined4 __thiscall fn_100977F0(void * self_);  // 0x100977F0
+XI_API undefined4 __thiscall Unit10086E90_TestFlagsAndUpdateParts(void * self_);  // 0x100977F0
 XI_API undefined1 * __thiscall Entity_BuildDisplayName(void * self_);  // 0x10097840
 XI_API undefined4 __thiscall Entity_GetIndexedPtr(void * self_);  // 0x10097A40
 XI_API undefined4 __cdecl Unit10086E90_GetByte40DB4ByKind(void);  // 0x10097BC0
@@ -829,7 +826,7 @@ XI_API void __thiscall Acter_SendPositionPacket(void * self_);  // 0x100983F0
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit10086E90_GetTable10485830IfBit2(undefined4 xi_eax);  // 0x100991F0
 XI_API void __cdecl Unit10086E90_ResolveEntryNames(void);  // 0x10099730
 XI_API void __cdecl Unit10086E90_UpdateFrame997B0(void);  // 0x100997B0
-XI_API undefined4 __cdecl fn_10099AE0(undefined4 param_1, undefined4 param_2, uint16_t * param_3);  // 0x10099AE0
+XI_API undefined4 __cdecl Acter_ApplyUpdateRecord(undefined4 param_1, undefined4 param_2, uint16_t * param_3);  // 0x10099AE0
 XI_API undefined4 __thiscall Acter_IsByte123Mask7In234(void * self_);  // 0x1009AAF0
 XI_API void __thiscall Acter_SetFieldsAt130And134(void * self_, uint32_t param_1, uint32_t param_2, uint32_t param_3);  // 0x1009AD20
 XI_API void __thiscall Acter_SetFieldsAt134And138(void * self_, uint32_t param_1, uint32_t param_2, uint32_t param_3, int param_4, int param_5, int param_6);  // 0x1009ADE0
@@ -858,18 +855,17 @@ XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, float * param_1
 XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_);  // 0x100A5EF0
 XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRunning(undefined4 xi_eax, undefined4 param_1);  // 0x100A6070
 XI_API void __thiscall XiControlActor_NormalizeInput(void * self_, float * param_1, float * param_2, undefined4 xi_s3);  // 0x100A78D0
-XI_API undefined4 __cdecl fn_100AB320(int param_1);  // 0x100AB320
+XI_API undefined4 __cdecl Acter_DestroyAndClearSlot(int param_1);  // 0x100AB320
 XI_API void __cdecl Unit100AB450_ReleaseSlot(int param_1);  // 0x100AB550
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100AB880(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2);  // 0x100AB880
+XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiDancerActor_SetAnglesWrapped(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2);  // 0x100AB880
 XI_API void * __thiscall Unit100ABC20_CopyFrom(void * self_, char * param_1, int param_2);  // 0x100ABC20
 XI_API undefined4 __cdecl Unit100ABC20_CopyReturnZ(undefined4 * param_1, undefined4 * param_2);  // 0x100ABC70
 XI_API void __cdecl XiDoorActor_NopSlot161(void);  // 0x100AC380
-XI_API undefined4 __thiscall fn_100AC4E0(void * self_);  // 0x100AC4E0
 XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7, undefined4 param_8, undefined4 param_9);  // 0x100AD6D0
 XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void);  // 0x100AD7C0
 XI_API int __cdecl XiEvent_GetGlobalDword(void);  // 0x100AE350
 XI_API void __cdecl XiEvent_ResetPending(void);  // 0x100AE3A0
-XI_API undefined4 __cdecl fn_100AE3F0(void);  // 0x100AE3F0
+XI_API undefined4 __cdecl XiEvent_ResetActersAndGlobals(void);  // 0x100AE3F0
 XI_API void __thiscall XiEvent_RestoreActer(void * self_);  // 0x100BD5F0
 XI_API undefined * __cdecl XiEvent_GetSingleton(void);  // 0x100BD760
 XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, char * param_5, undefined4 param_6, undefined4 param_7);  // 0x100C2E20
@@ -886,23 +882,18 @@ XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 * param_1,
 XI_API undefined4 __thiscall Unit100ACAB0_StepTimedMessage(void * self_);  // 0x100C3480
 XI_API int __thiscall XiModelActor_GetPtr734(void * self_);  // 0x100C3FB0
 XI_API int __thiscall XiModelActor_GetPtr744(void * self_);  // 0x100C3FC0
-XI_API undefined4 __thiscall fn_100C4C20(void * self_);  // 0x100C4C20
 XI_API int __cdecl Unit100C51C0_MapCodeIndex(undefined4 param_1, int param_2);  // 0x100C51C0
 XI_API int __cdecl Unit100C51C0_AddOffset996B(int param_1);  // 0x100C5260
 XI_API int __cdecl Unit100C51C0_AddOffset19131(int param_1);  // 0x100C5270
 XI_API int __cdecl Unit100C51C0_AddOffset1889B(int param_1);  // 0x100C5280
 XI_API int __cdecl Unit100C51C0_ForwardToCce00(int param_1);  // 0x100C5290
 XI_API int __thiscall Actor_SelectNearestLights(void *self_);  // 0x100CB4E0
+XI_API long double __thiscall fn_100CD040(void * self_);  // 0x100CD040
 XI_API void __attribute__((stdcall, regparm(3))) CXiSkeletonActor_DrawName2IfVisible(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2, char * param_3, float param_4);  // 0x100D08B0
-XI_API undefined4 __thiscall fn_100D0B50(void * self_, int * param_1, int param_2, int param_3, undefined4 param_4);  // 0x100D0B50
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_AttachPartResource(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, int * param_3);  // 0x100D0D70
-XI_API undefined4 __thiscall fn_100D1070(void * self_);  // 0x100D1070
-XI_API undefined4 __thiscall fn_100D1190(void * self_);  // 0x100D1190
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_IsReadCompleteBody(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x100D12D0
-XI_API undefined4 __thiscall fn_100D1450(void * self_, int * param_1, int param_2);  // 0x100D1450
+XI_API undefined4 __thiscall Unit100D13B0_ProcessResidentListEntries(void * self_, int * param_1, int param_2);  // 0x100D1450
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiSkeletonActor_ReleaseListEntriesMatching(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x100D44B0
-XI_API undefined4 __thiscall fn_100D5430(void * self_, undefined4 param_1);  // 0x100D5430
-XI_API void __thiscall fn_100D59A0(void * self_, float * param_1);  // 0x100D59A0
 XI_API void __cdecl Unit100D7420_Md5Init(undefined4 * param_1);  // 0x100D7420
 XI_API void __cdecl Unit100D7420_Md5Update(int param_1, undefined4 * param_2, uint32_t param_3);  // 0x100D7450
 XI_API void __cdecl Unit100D7420_PadAndAppendLength(int param_1);  // 0x100D7510
@@ -911,12 +902,13 @@ XI_API void __cdecl Unit100D7420_Md5ComputeBlock(int * param_1, int * param_2); 
 XI_API int __cdecl Unit100D7420_AddOne(int param_1);  // 0x100D7E90
 XI_API void __cdecl Unit100D7420_HashStringWithSeed(undefined4 param_1, char * param_2, undefined4 * param_3);  // 0x100D7EA0
 XI_API void __cdecl Unit100D7420_HashBytesWithSeed(undefined4 param_1, undefined4 * param_2, undefined4 * param_3, uint32_t param_4);  // 0x100D7ED0
-XI_API undefined4 __cdecl fn_100D8490(undefined4 * param_1, undefined4 xi_s2);  // 0x100D8490
+XI_API undefined4 __cdecl Unit100D7420_CreateThreadObject(undefined4 * param_1, undefined4 xi_s2);  // 0x100D8490
 XI_API undefined4 __cdecl Mutex_WriteRecordLocked(int param_1, undefined4 param_2, undefined * param_3);  // 0x100D8A20
 XI_API undefined4 __cdecl Unit100D7420_InitGameGlobalsOnce(void);  // 0x100D9380
 XI_API undefined4 __cdecl Game_InitGlobal(void);  // 0x100D9410
 XI_API undefined4 __cdecl Unit100D7420_SetGlobalBlock1048BEB8(void);  // 0x100D9430
 XI_API undefined4 __cdecl Unit100D7420_Return0_100D9460(void);  // 0x100D9460
+XI_API undefined4 __cdecl fn_100D95D0(uint8_t * param_1, u_long * param_2);  // 0x100D95D0
 XI_API void __cdecl Game_ResetGlobals(void);  // 0x100D9830
 XI_API undefined4 __thiscall Game_InitOnce(void * self_);  // 0x100D9950
 XI_API undefined4 __thiscall Game_HasInitCount(void * self_);  // 0x100D9A70
@@ -956,9 +948,16 @@ XI_API undefined4 __cdecl Unit100D7420_GetWrapCount(void);  // 0x100DC250
 XI_API undefined4 __cdecl Unit100D7420_GetLastTick(void);  // 0x100DC260
 XI_API undefined4 __cdecl Unit100D7420_InitContext(void);  // 0x100DC270
 XI_API undefined4 __cdecl Unit100D7420_IsInitialized(void);  // 0x100DC2C0
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100DC2D0(undefined4 xi_eax);  // 0x100DC2D0
+XI_API uint8_t * __cdecl fn_100DC360(uint8_t * param_1);  // 0x100DC360
+XI_API undefined4 __cdecl fn_100DC3A0(in_addr param_1);  // 0x100DC3A0
+XI_API uint32_t __cdecl fn_100DC3B0(char * param_1);  // 0x100DC3B0
 XI_API undefined4 __cdecl Unit100D7420_GetContextField1AFC0(void);  // 0x100DC420
+XI_API undefined4 __cdecl fn_100DC650(SOCKET * param_1);  // 0x100DC650
+XI_API undefined * __cdecl fn_100DC670(SOCKET * param_1);  // 0x100DC670
 XI_API undefined4 __cdecl Unit100D7420_ReturnTrue100DC6C0(void);  // 0x100DC6C0
 XI_API undefined4 * __cdecl Unit100D7420_GetAddress104ADDE0(void);  // 0x100DC6D0
+XI_API unsigned char __cdecl fn_100DC6E0(SOCKET * param_1);  // 0x100DC6E0
 XI_API void __cdecl Unit100D7420_EncryptBlocks(uint32_t * param_1, int param_2, uint32_t param_3);  // 0x100DCA00
 XI_API void __cdecl Unit100D7420_DecryptBlocks(uint32_t * param_1, int param_2, uint32_t param_3);  // 0x100DCF60
 XI_API undefined4 __cdecl Unit100D7420_IncrementField109C(int param_1);  // 0x100DD570
@@ -1063,7 +1062,7 @@ XI_API undefined4 __cdecl Unit100D7420_StepStateWithEntries(int * param_1);  // 
 XI_API undefined4 __cdecl Unit100D7420_StepStateWithTimer(int * param_1);  // 0x100EF550
 XI_API undefined4 __cdecl Unit100D7420_UpdateSessionIfReady(void);  // 0x100EF5B0
 XI_API undefined4 __cdecl Unit100D7420_UpdateSessionReturn1(void);  // 0x100EF5BD
-XI_API int * __cdecl fn_100EF640(int * param_1);  // 0x100EF640
+XI_API int * __cdecl Unit100D7420_DispatchByKindAndUpdate(int * param_1);  // 0x100EF640
 XI_API undefined4 __cdecl Unit100D7420_UpdateThenAcquire(int * param_1);  // 0x100EF6F0
 XI_API undefined4 __cdecl Unit100D7420_CountWhileInactiveFlag8(int * param_1);  // 0x100EF730
 XI_API undefined4 __cdecl Unit100D7420_ShutdownSessionsReturn1(void);  // 0x100EF780
@@ -1080,6 +1079,7 @@ XI_API undefined4 __cdecl Unit100D7420_CopyToGlobalBuffer(char * param_1);  // 0
 XI_API undefined4 __cdecl Unit100D7420_ClearFlag2CFD4IfNoGlobal(void);  // 0x100F0070
 XI_API undefined1 __cdecl Unit100D7420_ReturnTrue100F0090(void);  // 0x100F0090
 XI_API int __cdecl Unit100D7420_GetBlock2CF54IfFlag(void);  // 0x100F00A0
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100F0130(undefined4 xi_eax, int param_1, undefined4 param_2, undefined4 param_3, char * param_4, char * param_5, char * param_6, undefined4 param_7);  // 0x100F0130
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_ReturnTrue100F02A0(undefined4 xi_eax);  // 0x100F02A0
 XI_API undefined4 __cdecl Unit100D7420_SetByte15110(undefined1 * param_1);  // 0x100F04F0
 XI_API undefined4 __cdecl Unit100D7420_SetByte15114(undefined1 * param_1);  // 0x100F0550
@@ -1130,6 +1130,9 @@ XI_API undefined4 __cdecl Unit100D7420_EnsureGlobal(void);  // 0x100F76B0
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_DestroyGlobal(undefined4 xi_eax, undefined4 param_1);  // 0x100F76D0
 XI_API undefined4 __cdecl Unit100D7420_UpdateGlobalRequests(void);  // 0x100F7700
 XI_API undefined1 __cdecl Unit100D7420_BeginGlobalRequests(void);  // 0x100F7740
+XI_API uint32_t __cdecl fn_100F7790(void);  // 0x100F7790
+XI_API undefined4 __cdecl fn_100F78C0(void);  // 0x100F78C0
+XI_API undefined4 __cdecl fn_100F7960(void);  // 0x100F7960
 XI_API void __cdecl Unit100D7420_InitEntryAt104DF90C(void);  // 0x100F7A00
 XI_API undefined4 __cdecl Unit100D7420_GetFieldCOf104DF90C(void);  // 0x100F7A80
 XI_API undefined1 __cdecl Unit100D7420_ReturnTrue_100F8910(void);  // 0x100F8910
@@ -1148,7 +1151,7 @@ XI_API undefined4 __cdecl Unit100D7420_ShutdownSessions(void);  // 0x100F9DB0
 XI_API undefined4 __cdecl Unit100D7420_ShutdownIfActive(int param_1);  // 0x100F9DF0
 XI_API undefined4 __cdecl Unit100D7420_ShutdownEntry(int * param_1);  // 0x100F9E10
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_SetPacketType(undefined4 xi_eax, undefined4 param_1);  // 0x100FA940
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100FA950(undefined4 xi_eax, undefined4 param_1);  // 0x100FA950
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_PushByteQueue4(undefined4 xi_eax, undefined4 param_1);  // 0x100FA950
 XI_API undefined4 __cdecl Unit100D7420_IncrementBucket(int param_1, uint32_t param_2);  // 0x100FA9C0
 XI_API undefined4 __cdecl Unit100D7420_BuildType1(undefined4 param_1, char * param_2, int param_3, undefined4 param_4, char * param_5, char * param_6, undefined4 param_7);  // 0x100FB920
 XI_API undefined4 __cdecl Unit100D7420_BuildType2(undefined4 param_1, char * param_2, int param_3, undefined4 param_4, undefined4 param_5, char * param_6);  // 0x100FBA40
@@ -1174,9 +1177,10 @@ XI_API void __cdecl Unit100D7420_AddAt0C(int param_1, int param_2);  // 0x100FCA
 XI_API void __cdecl Unit100D7420_UpdateRates(int param_1);  // 0x100FCAE0
 XI_API undefined4 __cdecl Unit100D7420_FindTimerKind10(void);  // 0x100FCD70
 XI_API undefined4 __cdecl Unit100D7420_IsId50To99Or88Or89(uint32_t param_1);  // 0x100FD3A0
-XI_API int __cdecl fn_100FDBF0(uint16_t * param_1, int * param_2, undefined4 param_3, uint16_t * param_4, undefined4 param_5, undefined4 param_6);  // 0x100FDBF0
+XI_API int __cdecl Unit100D7420_PackRingEntries(uint16_t * param_1, int * param_2, undefined4 param_3, uint16_t * param_4, undefined4 param_5, undefined4 param_6);  // 0x100FDBF0
 XI_API undefined4 __cdecl Unit100D7420_GetTableByteForTens(uint32_t param_1);  // 0x10101BC0
 XI_API uint32_t __cdecl Unit100D7420_CeilDiv10Max10(uint32_t param_1);  // 0x10101BF0
+XI_API void __cdecl fn_10103330(undefined4 * param_1);  // 0x10103330
 XI_API undefined4 __cdecl Unit100D7420_InitSessionAndStampTime(int param_1);  // 0x101033C0
 XI_API undefined4 __cdecl Game_GetField438(undefined4 * param_1);  // 0x10103700
 XI_API undefined4 __cdecl Game_ClearFlagsBits(void);  // 0x10103740
@@ -1233,7 +1237,7 @@ XI_API undefined4 __cdecl Unit100D7420_StartRequestSlot24WithCallback(undefined4
 XI_API void * __thiscall FDtXiErrorReportCtrl_Constructor(void * self_);  // 0x10113D30
 XI_API void __thiscall Unit100D7420_ErrorLogDtor(void * self_);  // 0x10114070
 XI_API undefined4 * __thiscall Unit100D7420_ErrorLogPop(void * self_, undefined4 * param_1);  // 0x10114120
-XI_API undefined4 __thiscall fn_10114250(void * self_, undefined4 * param_1);  // 0x10114250
+XI_API undefined4 __thiscall Unit100D7420_PushRingEntryLocked(void * self_, undefined4 * param_1);  // 0x10114250
 XI_API void __thiscall Unit100D7420_ErrorLogFlush(void * self_);  // 0x10114320
 XI_API void __thiscall Unit100D7420_ErrorLogReplay(void * self_);  // 0x10114500
 XI_API int __stdcall Unit100D7420_SumWords16(uint16_t * param_1, undefined4 param_2);  // 0x10114620
@@ -1323,17 +1327,17 @@ XI_API void * __thiscall Unit100D7420_LayoutCtor(void * self_, undefined4 param_
 XI_API void __thiscall Unit100D7420_SetState(void * self_, undefined4 param_1);  // 0x10119970
 XI_API undefined4 __thiscall Unit100D7420_SetNames(void * self_, int * param_1);  // 0x10119A50
 XI_API undefined4 __thiscall Unit100D7420_ComputeOffsets(void * self_, undefined4 param_1, undefined4 param_2, int param_3);  // 0x10119AD0
-XI_API uint32_t __thiscall fn_10119BC0(void * self_, int * param_1);  // 0x10119BC0
+XI_API uint32_t __thiscall Unit100D7420_ContainsPoint(void * self_, int * param_1);  // 0x10119BC0
 XI_API void __thiscall Unit100D7420_UpdateState(void * self_, undefined4 param_1);  // 0x10119C00
 XI_API void * __thiscall Unit100D7420_InitDefaults(void * self_);  // 0x10119DA0
 XI_API void __thiscall Unit100D7420_SetShape(void * self_, undefined4 param_1);  // 0x10119E20
 XI_API undefined4 __thiscall Unit100D7420_AttachTo(void * self_, int param_1);  // 0x10119E30
 XI_API void __thiscall Unit100D7420_ResolveShape(void * self_);  // 0x10119E70
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10119F20(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10119F20
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_StepFrameCycle(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10119F20
 XI_API undefined8 __thiscall Unit100D7420_DrawUnscaled(void * self_, void * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5);  // 0x10119F80
 XI_API undefined4 __thiscall Unit100D7420_InvokeCallback7C(void * self_);  // 0x1011A3B0
 XI_API void __thiscall Unit100D7420_ApplyHelpAndTitle(void * self_);  // 0x1011A490
-XI_API undefined4 __thiscall fn_1011A5A0(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7);  // 0x1011A5A0
+XI_API undefined4 __thiscall Unit100D7420_SetRectAndUpdateNodes(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7);  // 0x1011A5A0
 XI_API int __thiscall Unit100D7420_SetViewport(__int16 *self_);  // 0x1011AA40
 XI_API int __cdecl Gfx_ApplyViewport1B70(void);  // 0x1011AAC0
 XI_API undefined4 __thiscall Unit100D7420_GetCenter(void * self_, int * param_1);  // 0x1011ABF0
@@ -1413,7 +1417,7 @@ XI_API undefined4 __cdecl Cell_GetByte1036E0F0(undefined4 param_1);  // 0x101236
 XI_API undefined4 __cdecl Cell_SetByte1036E0F0(undefined4 param_1, undefined4 param_2);  // 0x10123650
 XI_API undefined4 __cdecl Cell_GetWord1036D6B0(undefined4 param_1);  // 0x10123670
 XI_API undefined4 __cdecl Cell_SetWord1036D6B0(undefined4 param_1, undefined4 param_2);  // 0x10123680
-XI_API undefined4 __cdecl fn_101236B0(undefined4 param_1, undefined4 param_2);  // 0x101236B0
+XI_API undefined4 __cdecl Unit100D7420_SetTable1036D6B0Word(undefined4 param_1, undefined4 param_2);  // 0x101236B0
 XI_API void __cdecl Cell_SetGlobal1036E3A0(undefined4 param_1);  // 0x101236E0
 XI_API undefined8 __cdecl Unit100D7420_Query123700UnlessBlocked(void);  // 0x10123700
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_TestCommand36CF60(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3, int param_4);  // 0x10123A70
@@ -1428,7 +1432,7 @@ XI_API void __cdecl Cell_SetFlag104E1C3C(void);  // 0x10123EA0
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Cell_GetByte1036CF5C(undefined4 xi_eax);  // 0x10123EE0
 XI_API void __thiscall Cell_SetFlagBit2(void * self_, uint32_t param_1);  // 0x10123F40
 XI_API void __thiscall Cell_SetFlagBit8(void * self_, uint32_t param_1);  // 0x10123F60
-XI_API undefined4 __thiscall fn_10123F80(void * self_, uint32_t param_1);  // 0x10123F80
+XI_API undefined4 __thiscall Unit100D7420_SetByteFlag1(void * self_, uint32_t param_1);  // 0x10123F80
 XI_API void __thiscall Cell_SetFlagBit4Dirty(void * self_, uint32_t param_1);  // 0x10123FC0
 XI_API void __thiscall Cell_SetFlagBit10(void * self_, uint32_t param_1);  // 0x10123FE0
 XI_API void __thiscall Cell_ClearByte(void * self_, uint32_t param_1);  // 0x10124000
@@ -1456,7 +1460,7 @@ XI_API void __thiscall Cursor_ToggleFlag2(void * self_);  // 0x10124AB0
 XI_API void __thiscall Cursor_EnterMode4(void * self_);  // 0x10124AD0
 XI_API void __thiscall Cursor_ToggleFlag4(void * self_);  // 0x10124B50
 XI_API undefined4 __thiscall Cursor_ResetPositionToMenu(void * self_);  // 0x10124B70
-XI_API undefined4 __thiscall fn_10124BC0(void * self_);  // 0x10124BC0
+XI_API undefined4 __thiscall Unit100D7420_CursorUpdateEdgeAxes(void * self_);  // 0x10124BC0
 XI_API undefined4 __thiscall Unit100D7420_UpdateHoldState4(void * self_);  // 0x10125040
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_UpdateHoldState5(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10125170
 XI_API undefined4 __thiscall Cursor_SetModeFromMenuActive(void * self_);  // 0x101252C0
@@ -1472,25 +1476,26 @@ XI_API undefined4 __thiscall Unit100D7420_Init(void * self_);  // 0x10126300
 XI_API undefined4 __thiscall Unit100D7420_ClearWords(void * self_);  // 0x10126320
 XI_API void __cdecl Unit100D7420_NoOp(void);  // 0x10126330
 XI_API void __thiscall Unit100D7420_Clear(void * self_);  // 0x10126350
-XI_API undefined4 __thiscall fn_10126370(void * self_);  // 0x10126370
+XI_API undefined4 __thiscall Unit100D7420_FreeBothLists(void * self_);  // 0x10126370
 XI_API undefined4 * __thiscall Unit100D7420_Alloc(void * self_);  // 0x101263B0
 XI_API undefined4 __stdcall Unit100D7420_GetCount(int param_1);  // 0x10126460
 XI_API undefined8 __thiscall Unit100D7420_PushBack(void * self_, undefined4 param_1);  // 0x10126480
 XI_API undefined8 __thiscall Unit100D7420_PushFront(void * self_, undefined4 param_1);  // 0x101264C0
 XI_API undefined4 __thiscall Unit100D7420_GetHead(void * self_);  // 0x10126500
 XI_API undefined4 __thiscall Unit100D7420_GetTail(void * self_);  // 0x10126510
-XI_API undefined4 __stdcall fn_10126550(int * param_1);  // 0x10126550
+XI_API undefined4 __stdcall Unit100D7420_NextActiveValue(int * param_1);  // 0x10126550
 XI_API void __thiscall Unit100D7420_Remove(void * self_, int * param_1);  // 0x10126580
-XI_API undefined4 __thiscall fn_101265D0(void * self_);  // 0x101265D0
+XI_API undefined4 __thiscall Unit100D7420_FreeListsAndReset(void * self_);  // 0x101265D0
 XI_API void __thiscall Unit100D7420_InsertBefore(void * self_, int param_1, int param_2);  // 0x101266B0
 XI_API undefined8 __thiscall Unit100D7420_InsertAfter(void * self_, int * param_1, int param_2);  // 0x10126700
 XI_API void * __thiscall Unit100D7420_ChatListCtorA(void * self_, undefined4 param_1);  // 0x10126750
 XI_API void * __thiscall Unit100D7420_ChatListCtorB(void * self_, undefined4 param_1);  // 0x10126770
 XI_API void * __thiscall Unit100D7420_ChatListInit(void * self_, undefined4 param_1);  // 0x10126790
 XI_API undefined4 __thiscall Unit100D7420_AddMessage(void * self_, char * param_1, char * param_2, undefined4 param_3);  // 0x101268F0
-XI_API undefined4 __thiscall fn_10126A00(void * self_);  // 0x10126A00
+XI_API undefined4 __thiscall Unit100D7420_ClearAllAndNotifyOwner(void * self_);  // 0x10126A00
 XI_API void * __thiscall Unit100D7420_MessageCtor(void * self_, undefined4 param_1, undefined4 param_2);  // 0x10126B60
 XI_API void __thiscall Unit100D7420_MessageSet(void * self_, char * param_1, char * param_2, undefined4 param_3, undefined4 param_4);  // 0x10126BC0
+XI_API undefined4 * __fastcall fn_10126C60(int param_1, undefined4 param_2, int * param_3, undefined1 * param_4);  // 0x10126C60
 XI_API void * __thiscall Unit100D7420_MsgWinDataCtor(void * self_);  // 0x10127190
 XI_API void __thiscall Unit100D7420_MsgWinDataReset(void * self_);  // 0x101271C0
 XI_API undefined8 __thiscall Unit100D7420_ResetEntryRing(void * self_);  // 0x10127250
@@ -1504,7 +1509,7 @@ XI_API void __cdecl Unit100D7420_ToLowerInPlace(char * param_1);  // 0x10127970
 XI_API uint32_t __cdecl GetCallNum(char * param_1, char * param_2);  // 0x10127990
 XI_API undefined4 __cdecl Unit100D7420_IsNearNamedActor(uint32_t * param_1);  // 0x10127AB0
 XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, uint8_t * param_2, undefined4 param_3, undefined4 param_4, int param_5);  // 0x10127C00
-XI_API undefined4 __cdecl fn_10127EA0(void);  // 0x10127EA0
+XI_API undefined4 __cdecl Unit100D7420_ClearGlobalLists2150And2154(void);  // 0x10127EA0
 XI_API void * __thiscall Unit100D7420_CtorResetAll(void * self_);  // 0x10127EE0
 XI_API void __thiscall Unit100D7420_ResetAll(void * self_);  // 0x10127F00
 XI_API int __cdecl Unit100D7420_FormatHexRecord(char * param_1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4, undefined4 xi_s5, undefined4 xi_s6, undefined4 xi_s7, undefined4 xi_s8, undefined4 xi_s9, undefined4 xi_s10, undefined4 xi_s11, undefined4 xi_s12, undefined4 xi_s13, undefined4 xi_s14, undefined4 xi_s15, undefined4 xi_s16, undefined4 xi_s17);  // 0x10127FA0
@@ -1529,6 +1534,7 @@ XI_API undefined8 __cdecl Font_DrawStringFlags44(int param_1, undefined4 param_2
 XI_API undefined4 __cdecl Unit100D7420_MapCode1BTo54(int param_1);  // 0x10129F80
 XI_API undefined4 __cdecl Unit100D7420_MapCode54ToIndex(undefined4 param_1);  // 0x1012A120
 XI_API void __thiscall Unit100D7420_CallClearBuffers(void * self_);  // 0x1012A350
+XI_API undefined4 * __fastcall fn_1012A360(undefined4 * param_1, undefined4 xi_edx);  // 0x1012A360
 XI_API void __thiscall Unit100D7420_ClearBuffers(void * self_);  // 0x1012A3B0
 XI_API undefined4 __thiscall Unit100D7420_GetWord1A(void * self_);  // 0x1012A400
 XI_API undefined4 __thiscall Unit100D7420_GetByte9(void * self_);  // 0x1012A410
@@ -1552,6 +1558,7 @@ XI_API void * __thiscall Unit1012AC80_ConstructVt103337E0(void * self_);  // 0x1
 XI_API void * __thiscall Unit1012AC80_ConstructVt10333898(void * self_);  // 0x10135850
 XI_API void * __thiscall Unit1012AC80_ConstructVt10333908(void * self_, undefined4 param_1);  // 0x10136380
 XI_API void __thiscall Unit1012AC80_UpdateLayout(void * self_);  // 0x10136560
+XI_API void __fastcall fn_10136670(int param_1, undefined4 param_2, char * param_3, undefined4 param_4, undefined4 param_5);  // 0x10136670
 XI_API undefined4 __thiscall Unit1012AC80_SetPosition(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10136870
 XI_API void * __thiscall Unit1012AC80_ClearBlock(void * self_);  // 0x10136900
 XI_API void * __thiscall Unit1012AC80_ConstructVt10333950(void * self_, undefined4 param_1);  // 0x10136950
@@ -1572,7 +1579,7 @@ XI_API void __thiscall Unit1012AC80_TickHelp(void * self_);  // 0x1013A010
 XI_API int __thiscall TkHelp_AdvanceTimer(void * self_);  // 0x1013A030
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1012AC80_IsEvent(undefined4 xi_eax);  // 0x1013A060
 XI_API undefined4 __thiscall Unit1012AC80_AdvanceHelpTimer(void * self_);  // 0x1013A070
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1013A100(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x1013A100
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_ResetHelpAndTitle(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x1013A100
 XI_API void * __thiscall Unit1012AC80_ConstructVt10333D18(void * self_);  // 0x1013A1E0
 XI_API void __thiscall Unit1012AC80_ForwardToPanel(void * self_, uint8_t * xi_s1, undefined4 xi_s2);  // 0x1013A320
 XI_API void __thiscall Unit1012AC80_TickMember20AndHelp(void * self_, undefined4 xi_s1);  // 0x1013A330
@@ -1582,11 +1589,11 @@ XI_API void * __thiscall Unit1012AC80_CtorVt10333DD8(void * self_);  // 0x1013A9
 XI_API void * __thiscall Unit1012AC80_CtorVt10333E20(void * self_);  // 0x1013AA60
 XI_API void * __thiscall Unit1012AC80_CtorVt10333E70(void * self_);  // 0x1013AB20
 XI_API void * __thiscall Unit1012AC80_CtorVt10333EC0(void * self_);  // 0x1013BE50
-XI_API undefined4 __thiscall fn_1013BF40(void * self_);  // 0x1013BF40
+XI_API undefined4 __thiscall Unit1012AC80_InitFields1CTo3A7(void * self_);  // 0x1013BF40
 XI_API void * __thiscall Unit1012AC80_CtorVt10333F28(void * self_);  // 0x1013E7F0
 XI_API void * __thiscall Unit1012AC80_InitFromShape(void * self_);  // 0x1013FBE0
 XI_API void __attribute__((stdcall, regparm(3))) Unit1012AC80_SetupMenuEntriesByState(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10140090
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10140270(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2);  // 0x10140270
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_UpdateEntryStates(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2);  // 0x10140270
 XI_API void * __thiscall Unit1012AC80_CtorVt10334070(void * self_);  // 0x10140950
 XI_API void * __thiscall Unit1012AC80_CtorVt103340D0(void * self_);  // 0x10140E70
 XI_API void __thiscall Unit1012AC80_DestroyDrawMenu(void * self_);  // 0x10141AD0
@@ -1608,8 +1615,8 @@ XI_API void * __thiscall Unit1012AC80_CtorVt10334C08(void * self_);  // 0x1014BA
 XI_API void * __thiscall Unit1012AC80_CtorVt10334D00(void * self_);  // 0x1014C750
 XI_API void * __thiscall Unit1012AC80_CtorVt10334D60(void * self_);  // 0x1014D970
 XI_API void * __thiscall Unit1012AC80_CtorVt10334DC0(void * self_);  // 0x1014DD30
-XI_API undefined4 __thiscall fn_1014E020(void * self_);  // 0x1014E020
-XI_API undefined4 __stdcall fn_1014E050(undefined4 * param_1);  // 0x1014E050
+XI_API undefined4 __thiscall Unit1012AC80_FillTable13CMinusOne(void * self_);  // 0x1014E020
+XI_API undefined4 __stdcall Unit1012AC80_Fill8DwordsMinusOne(undefined4 * param_1);  // 0x1014E050
 XI_API void * __thiscall Unit1012AC80_CtorVt10334E58(void * self_);  // 0x1014EDC0
 XI_API void * __thiscall Unit1012AC80_CtorVt10334EB8(void * self_);  // 0x1014F840
 XI_API void * __thiscall Unit1012AC80_CtorVt10334F18(void * self_);  // 0x1014FFE0
@@ -1691,14 +1698,14 @@ XI_API undefined4 __thiscall Unit1012AC80_GetField08(void * self_);  // 0x101568
 XI_API undefined4 __thiscall Unit1012AC80_GetField10A(void * self_);  // 0x10156860
 XI_API undefined4 __cdecl Unit1012AC80_PackRecordBytes(undefined1 * param_1, uint32_t param_2, undefined4 param_3, undefined4 param_4, char * param_5, char * param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9, char * param_10);  // 0x10156870
 XI_API void __thiscall Unit1012AC80_DtorVt103351D8(void * self_);  // 0x10156970
-XI_API undefined4 __thiscall fn_101569A0(void * self_);  // 0x101569A0
+XI_API undefined4 __thiscall Unit1012AC80_SetVt103351D8(void * self_);  // 0x101569A0
 XI_API void __thiscall Unit1012AC80_SetFields(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, char * param_8);  // 0x101569F0
 XI_API undefined4 __thiscall Unit1012AC80_GetField10B(void * self_);  // 0x10156B20
 XI_API undefined4 __thiscall Unit1012AC80_GetField14(void * self_);  // 0x10156B30
 XI_API undefined4 __thiscall Unit1012AC80_GetField20(void * self_);  // 0x10156B40
 XI_API undefined4 __cdecl Unit1012AC80_PackString(int * param_1, uint32_t param_2, char * param_3);  // 0x10156B50
 XI_API void __thiscall Unit1012AC80_DtorVt103351FC(void * self_);  // 0x10156BB0
-XI_API undefined4 __thiscall fn_10156BE0(void * self_);  // 0x10156BE0
+XI_API undefined4 __thiscall Unit1012AC80_InitVt103351FC(void * self_);  // 0x10156BE0
 XI_API void __thiscall Unit1012AC80_SetField04(void * self_, undefined4 param_1);  // 0x10156BF0
 XI_API void * __thiscall Unit1012AC80_TableHolderCtor(void * self_);  // 0x10156D90
 XI_API void __thiscall Unit1012AC80_LoadTable(void * self_);  // 0x10156E00
@@ -1781,12 +1788,13 @@ XI_API int * __thiscall Entry_ResolveValid(void * self_);  // 0x10159DE0
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Entry_IsActorFieldMatch(undefined4 xi_eax, int * param_1);  // 0x10159E10
 XI_API int __cdecl Unit1012AC80_FindRange(uint32_t param_1);  // 0x10159EB0
 XI_API undefined4 * __cdecl Unit1012AC80_FindByFirstDword(int param_1);  // 0x10159FB0
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1015AF60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x1015AF60
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_CallMember14CCSlot0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x1015AF60
 XI_API void * __thiscall Unit1012AC80_Init(void * self_);  // 0x1015AF80
 XI_API undefined8 __thiscall Unit1012AC80_ResetState(void * self_);  // 0x1015AFA0
 XI_API uint32_t __thiscall Unit1012AC80_IsCachedPtrMatch(void * self_);  // 0x1015B190
 XI_API undefined4 __thiscall Unit1012AC80_GetObjectPtr(void * self_);  // 0x1015B270
 XI_API void __thiscall Unit1012AC80_RotateBufferOnce(void * self_);  // 0x1015B3C0
+XI_API void __thiscall fn_1015B410(void * self_);  // 0x1015B410
 XI_API void * __thiscall Unit1012AC80_FillSceneTable(void * self_);  // 0x1015B720
 XI_API int __thiscall Unit1012AC80_FindCachedEntry(void * self_, int param_1, undefined4 param_2);  // 0x1015B970
 XI_API uint32_t __thiscall Unit1012AC80_GetCachedOrLoad(void * self_, uint32_t param_1);  // 0x1015B9E0
@@ -1812,9 +1820,9 @@ XI_API undefined4 __thiscall Menu_DispatchEvent6(void * self_);  // 0x1015DEF0
 XI_API void __thiscall Menu_DispatchEvent7(void * self_);  // 0x1015DF20
 XI_API void __stdcall Unit1012AC80_Nop(undefined4 xi_s1);  // 0x1015DFC0
 XI_API int __thiscall Menu_FindItemByNameAt1C(void * self_, char * param_1);  // 0x1015E030
-XI_API undefined4 __thiscall fn_1015E0F0(void * self_, char * param_1);  // 0x1015E0F0
+XI_API undefined4 __thiscall MenuMng_TestNameForSceneState(void * self_, char * param_1);  // 0x1015E0F0
 XI_API int __thiscall MenuMng_OpenByName(void * self_, char * param_1, undefined4 param_2, undefined4 param_3);  // 0x1015E350
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_1015E530(short * xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x1015E530
+XI_API undefined4 __attribute__((stdcall, regparm(3))) MenuMng_AttachWindowAndPosition(short * xi_eax, uint32_t xi_edx_unused, void * self_, int param_2);  // 0x1015E530
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_MenuItemFade(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, void * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6);  // 0x1015E6E0
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_MenuInitAndFadeItem(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, undefined4 param_3);  // 0x1015E790
 XI_API int __thiscall Menu_FindFirstActiveItem(void * self_);  // 0x1015E7E0
@@ -1835,7 +1843,7 @@ XI_API uint32_t __stdcall Unit1012AC80_GetNodeIfNotClosed(int * param_1);  // 0x
 XI_API undefined4 __cdecl Menu_OpenMenuWindowWhenIdle(void);  // 0x1015EE40
 XI_API void __cdecl Menu_CallSlot30ForEachEntry(void);  // 0x1015EEF0
 XI_API void __thiscall Menu_CallChildSlot34ForEachItem(void * self_);  // 0x1015EF20
-XI_API void __thiscall fn_1015EF60(void * self_);  // 0x1015EF60
+XI_API void __thiscall MenuMng_UpdateForSceneState(void * self_);  // 0x1015EF60
 XI_API undefined4 __thiscall Menu_ApplyFlagsToItems(void * self_, uint32_t param_1);  // 0x1015F3E0
 XI_API void __thiscall Menu_DrawLayers(void * self_);  // 0x1015F6A0
 XI_API undefined4 __stdcall Menu_PositionWindow(int * param_1, int param_2);  // 0x1015F790
@@ -1867,11 +1875,11 @@ XI_API void * __thiscall Unit1012AC80_CtorVt1033536C(void * self_);  // 0x101613
 XI_API void * __thiscall Unit1012AC80_CtorVt10335388(void * self_);  // 0x101615E0
 XI_API void * __thiscall Unit1012AC80_CtorVt10335410(void * self_, undefined4 param_1);  // 0x10161850
 XI_API void __thiscall Unit1012AC80_CallSlot17Then1626E0(void * self_, undefined4 param_1);  // 0x10161970
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10161990(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10161990
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_DrawImageAtRightOfRect(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10161990
 XI_API void * __thiscall Unit1012AC80_CtorVt10335470(void * self_, undefined4 param_1);  // 0x10161B80
 XI_API undefined4 __cdecl Unit1012AC80_HasActiveObject10621940(void);  // 0x10161BC0
 XI_API void __thiscall Menu_PositionWindowBySetting(void * self_, undefined4 xi_s1);  // 0x10161C70
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10161D60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10161D60
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1012AC80_DrawImageA4AtRightOfRect(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10161D60
 XI_API void * __thiscall Unit1012AC80_InitFromScreenRect(void * self_, undefined4 param_1);  // 0x10161ED0
 XI_API undefined4 __cdecl Unit1012AC80_SetTopByte(uint32_t * param_1, int param_2);  // 0x10161FF0
 XI_API int __cdecl Viewport_SetClipped(int a1, int a2);  // 0x10162010
@@ -1890,7 +1898,7 @@ XI_API int __stdcall Gfx_DrawSolidRect2D(int a1, int a2);  // 0x10163400
 XI_API void __thiscall Unit10163E60_ResetFieldsA(void * self_);  // 0x10163F30
 XI_API void __thiscall Unit10163E60_ResetFieldsB(void * self_);  // 0x10163FA0
 XI_API void * __thiscall Unit10163E60_ConstructVt10335CE8(void * self_);  // 0x101641B0
-XI_API void __thiscall fn_10164530(void * self_);  // 0x10164530
+XI_API void __thiscall Unit10163E60_InitA640AndCopyStar(void * self_);  // 0x10164530
 XI_API void __thiscall Unit10163E60_ResetFieldsC(void * self_);  // 0x10164560
 XI_API void * __thiscall Unit10163E60_ConstructVt10335D30(void * self_);  // 0x10164660
 XI_API void __thiscall Unit10163E60_ResetFieldsD(void * self_);  // 0x10164800
@@ -1910,6 +1918,7 @@ XI_API undefined4 __thiscall Unit10163E60_ProbeAxis1(void * self_, float * param
 XI_API uint32_t __thiscall Unit10163E60_SegmentHit3413A(void * self_, float * param_1, float * param_2, float * param_3);  // 0x101693B0
 XI_API uint32_t __thiscall Unit10163E60_SegmentHit34139(void * self_, float * param_1, float * param_2, float * param_3);  // 0x10169B40
 XI_API uint32_t __thiscall Unit10163E60_SegmentTest34139(void * self_, float * param_1, float * param_2, undefined4 xi_s3);  // 0x1016A2D0
+XI_API uint32_t __thiscall fn_1016A990(void * self_, float * param_1, float * param_2, float * param_3);  // 0x1016A990
 XI_API undefined4 __thiscall Unit10163E60_SegmentHitWithObjects(void * self_, float * param_1, float * param_2, float * param_3);  // 0x1016B1D0
 XI_API void __cdecl Mat44_Multiply(float * param_1, int param_2, float * param_3);  // 0x1016C060
 XI_API undefined4 __thiscall ZoneMap_GetHitCount(void * self_);  // 0x1016C150
@@ -1918,9 +1927,9 @@ XI_API int __stdcall Dbg_DrawTriangleLines(int a1, int a2, int a3);  // 0x1016DD
 XI_API uint64_t __thiscall Unit10163E60_SweepSetupAndTest(void * self_, float * param_1, float * param_2, float * param_3);  // 0x1016E930
 XI_API undefined4 __thiscall Unit10163E60_SweepStep(void * self_, float * param_1, float * param_2);  // 0x1016F0E0
 XI_API void * __thiscall ZoneMap_ConstructVt10336668(void * self_);  // 0x1016FC40
-XI_API undefined4 __thiscall fn_1016FC90(void * self_);  // 0x1016FC90
+XI_API undefined4 __thiscall Unit10163E60_ClearListFields(void * self_);  // 0x1016FC90
 XI_API _DWORD * __thiscall ParseZoneMeshData(void *self_, int *a2, int a3, int a4, int a5, int a6, _DWORD *a7, int a8);  // 0x1016FCD0
-XI_API undefined4 __thiscall fn_10170CD0(void * self_, undefined4 * param_1);  // 0x10170CD0
+XI_API undefined4 __thiscall Unit10163E60_FreeNodeOrAll(void * self_, undefined4 * param_1);  // 0x10170CD0
 XI_API int * __thiscall ZoneMap_FindEntryByName(void * self_, char * param_1, int param_2);  // 0x10170F30
 XI_API void * __thiscall ZoneMap_ConstructVt1033668C(void * self_);  // 0x101718E0
 XI_API undefined4 __stdcall ZoneMap_FindDbgBoxMPosById(undefined4 * param_1, int param_2);  // 0x10173AE0
@@ -1929,7 +1938,10 @@ XI_API void __thiscall ZoneMap_FreeDbgBoxList(void * self_);  // 0x10174A60
 XI_API int __cdecl Dbg_DrawOrientedBoxes(void);  // 0x10174EC0
 XI_API void __cdecl Mat4_SetIdentity_2(undefined4 * param_1);  // 0x10175740
 XI_API float * __thiscall ZoneMap_FindDbgBoxHitBySegment(void * self_, float * param_1, float * param_2);  // 0x10176620
-XI_API undefined4 __attribute__((stdcall, regparm(1))) fn_10176DD0(undefined4 xi_eax, int param_1);  // 0x10176DD0
+XI_API undefined4 __attribute__((stdcall, regparm(1))) Unit10163E60_SetFlag2000OnUnderscoreEntries(undefined4 xi_eax, int param_1);  // 0x10176DD0
+XI_API undefined4 * __fastcall fn_10176E80(undefined4 * param_1, undefined4 xi_edx);  // 0x10176E80
+XI_API undefined4 * __fastcall fn_10176F60(undefined4 * param_1, undefined4 xi_edx);  // 0x10176F60
+XI_API undefined4 * __fastcall fn_10176FE0(undefined4 * param_1, undefined4 xi_edx);  // 0x10176FE0
 XI_API int __stdcall Gfx_CompileVertexShader(int a1, int a2);  // 0x101771B0
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2);  // 0x10177240
 XI_API int __thiscall Gfx_CompilePixelShader(const char **self_, int a2);  // 0x101772E0
@@ -2014,6 +2026,7 @@ XI_API void __thiscall ZoneMap_FillDirLight(void * self_, undefined4 * param_1, 
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3);  // 0x10188E00
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2);  // 0x10188FA0
 XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * param_2, float * param_3, int param_4);  // 0x10189120
+XI_API undefined4 * __fastcall WeatherRes_Construct(undefined4 * param_1, undefined4 xi_edx);  // 0x101893B0
 XI_API void * __thiscall WeatherRes_InitKeyDefaults(void * self_);  // 0x10189400
 XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t * param_2, float param_3);  // 0x10189490
 XI_API undefined4 __cdecl Env_LerpFloat(float * param_1, float param_2, float param_3, float param_4);  // 0x10189810
@@ -2227,7 +2240,7 @@ XI_API undefined4 __thiscall Unit1018BA60_QueueEntry(void * self_, int param_1);
 XI_API undefined4 __thiscall Unit1018BA60_StepScript(void * self_);  // 0x101A1CC0
 XI_API undefined4 __stdcall Unit1018BA60_ParseWaitCommand(char * param_1, undefined4 * param_2, int * param_3);  // 0x101A2480
 XI_API void __stdcall Unit1018BA60_FormatNumberedDatName(undefined1 * param_1, int param_2, undefined4 xi_s3);  // 0x101A2610
-XI_API undefined4 __thiscall fn_101A2660(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A2660
+XI_API undefined4 __thiscall Unit1018BA60_LoadNumberedDatIntoBuffer(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A2660
 XI_API void __thiscall Unit1018BA60_LoadMacroDat(void * self_, int param_1, undefined4 xi_s2);  // 0x101A26C0
 XI_API undefined4 __thiscall Unit1018BA60_SetReadPos(void * self_, int param_1);  // 0x101A2890
 XI_API int __thiscall Unit1018BA60_GetEntryPtr(void * self_, int param_1);  // 0x101A29F0
@@ -2240,11 +2253,11 @@ XI_API undefined4 __thiscall Unit1018BA60_ApplyKeyAction(void * self_, int param
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1018BA60_HandleReadPosKeys(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x101A3550
 XI_API void * __thiscall Unit1018BA60_PanelCtorVt10337320(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A36F0
 XI_API void __thiscall Unit1018BA60_SetFlag29A(void * self_);  // 0x101A3CF0
-XI_API undefined4 __thiscall fn_101A3D00(void * self_, undefined4 param_1);  // 0x101A3D00
+XI_API undefined4 __thiscall Unit1018BA60_AddMsg10_27IfChangedA(void * self_, undefined4 param_1);  // 0x101A3D00
 XI_API void __cdecl Unit1018BA60_FormatMessage10_27(undefined1 * param_1, int param_2, undefined4 param_3);  // 0x101A3D60
 XI_API void * __thiscall Unit1018BA60_PanelCtorVt10337378(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A3DC0
 XI_API void __thiscall Unit1018BA60_SetFlag29B(void * self_);  // 0x101A43A0
-XI_API undefined4 __thiscall fn_101A43B0(void * self_, undefined4 param_1);  // 0x101A43B0
+XI_API undefined4 __thiscall Unit1018BA60_AddMsg10_27IfChangedB(void * self_, undefined4 param_1);  // 0x101A43B0
 XI_API undefined4 __thiscall Unit1018BA60_CtorVt103373BC(void * self_, undefined4 param_1);  // 0x101A4440
 XI_API void * __thiscall Unit1018BA60_PanelCtorVt103373C8(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A46C0
 XI_API void * __thiscall Unit1018BA60_PanelCtorVt10337418(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101A4D70
@@ -2317,11 +2330,13 @@ XI_API void * __thiscall Unit1018BA60_CtorVt10337940(void * self_);  // 0x101AEA
 XI_API undefined4 __thiscall Unit1018BA60_InitKeyTopShape(void * self_, undefined4 param_1);  // 0x101AEAC0
 XI_API void __cdecl Unit1018BA60_NoOpC(void);  // 0x101AFF30
 XI_API void __cdecl Unit1018BA60_NoOpD(void);  // 0x101AFF40
+XI_API HIMC __stdcall fn_101AFF50(HWND param_1);  // 0x101AFF50
+XI_API BOOL __stdcall fn_101AFF60(HWND param_1, HIMC param_2);  // 0x101AFF60
 XI_API void __thiscall FsTextInput_InitWithImeOffscreen(void * self_);  // 0x101AFF70
 XI_API void __thiscall Unit1018BA60_OnMessage(void * self_, int param_1, undefined4 xi_s2);  // 0x101B2710
 XI_API void __stdcall Unit1018BA60_NoOp2ArgsA(undefined4 xi_s1, undefined4 xi_s2);  // 0x101B27F0
 XI_API void __stdcall Unit1018BA60_NoOp2ArgsB(undefined4 xi_s1, undefined4 xi_s2);  // 0x101B2800
-XI_API undefined4 __thiscall fn_101B29F0(void * self_, UINT param_1, undefined4 xi_s2);  // 0x101B29F0
+XI_API undefined4 __thiscall Unit1018BA60_HandleKeyDownWithIme(void * self_, UINT param_1, undefined4 xi_s2);  // 0x101B29F0
 XI_API void __thiscall Unit1018BA60_OnChar(void * self_, uint32_t param_1);  // 0x101B36F0
 XI_API void __thiscall Unit1018BA60_ResetComposition(void * self_, undefined4 param_1);  // 0x101B3B50
 XI_API undefined4 __cdecl Unit1018BA60_HasComposition(void);  // 0x101B3F70
@@ -2339,13 +2354,13 @@ XI_API undefined4 __thiscall Unit1018BA60_DeleteLast(void * self_);  // 0x101B4D
 XI_API undefined4 __thiscall Unit1018BA60_DeleteForward(void * self_);  // 0x101B4E70
 XI_API void __thiscall Unit1018BA60_ClearAll(void * self_);  // 0x101B4F90
 XI_API void __thiscall Unit1018BA60_MoveBack(void * self_);  // 0x101B4FC0
-XI_API undefined4 __thiscall fn_101B5020(void * self_);  // 0x101B5020
+XI_API undefined4 __thiscall Unit1018BA60_MoveForward(void * self_);  // 0x101B5020
 XI_API undefined4 __thiscall FsTextInput_init(void * self_);  // 0x101B5210
 XI_API uint32_t __thiscall FsTextInput_copyDecidedString(void * self_, undefined4 * param_1, undefined4 xi_s2);  // 0x101B5BC0
 XI_API undefined4 __thiscall Unit1018BA60_IsModeTwo(void * self_);  // 0x101B5C80
 XI_API undefined4 __thiscall Unit1018BA60_IsModeFourOrFive(void * self_);  // 0x101B5C90
 XI_API undefined4 __thiscall Unit1018BA60_IsModeThree(void * self_);  // 0x101B5CC0
-XI_API undefined4 __thiscall fn_101B5D10(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x101B5D10
+XI_API undefined4 __thiscall Unit1018BA60_HandleEditKey(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x101B5D10
 XI_API int __thiscall FsTextInput_OnChar(void * self_, undefined4 param_1);  // 0x101B6810
 XI_API undefined4 __thiscall Unit1018BA60_InputSubmit(void * self_, undefined1 * param_1, int param_2);  // 0x101B6C00
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit1018BA60_AcceptsChar(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, int param_3);  // 0x101B6D50
@@ -2366,6 +2381,7 @@ XI_API int __thiscall Unit1018BA60_GetLastWord(void * self_, undefined4 * param_
 XI_API uint32_t __cdecl Unit1018BA60_IsState1Or3(void);  // 0x101B7EE0
 XI_API void * __thiscall Unit1018BA60_CandidatesCtor(void * self_);  // 0x101B9230
 XI_API void __attribute__((cdecl, regparm(1))) Unit1018BA60_DestroyInputGlobals(undefined4 xi_eax);  // 0x101B92B0
+XI_API void __stdcall fn_101B94A0(void);  // 0x101B94A0
 XI_API int __thiscall Unit1018BA60_ReleaseSemaphoreAt4(void * self_);  // 0x101B9530
 XI_API undefined8 __thiscall Event_Wait(void * self_, DWORD param_1);  // 0x101B9550
 XI_API int __thiscall Event_ResetAndWait(void * self_, DWORD param_1);  // 0x101B95D0
@@ -2392,7 +2408,7 @@ XI_API void __thiscall Unit1018BA60_ClearBufferB(void * self_);  // 0x101BA300
 XI_API void * __thiscall Unit1018BA60_CtorVt10337B4C(void * self_);  // 0x101BA570
 XI_API void __thiscall Unit1018BA60_Destruct(void * self_);  // 0x101BA5B0
 XI_API undefined4 __thiscall Unit1018BA60_ResetCounters(void * self_);  // 0x101BA5C0
-XI_API undefined4 __thiscall fn_101BADD0(void * self_);  // 0x101BADD0
+XI_API undefined4 __thiscall Unit1018BA60_FreeBlocks18To24(void * self_);  // 0x101BADD0
 XI_API undefined4 __thiscall FsWordCompletion_GetCount18(void * self_);  // 0x101BAE20
 XI_API undefined4 __thiscall FsWordCompletion_GetCount1C(void * self_);  // 0x101BAE30
 XI_API int __thiscall FsWordCompletion_FindNextByKey(void * self_, undefined4 param_1);  // 0x101BAE40
@@ -2420,7 +2436,7 @@ XI_API uint32_t __thiscall FsWordCompletion_lookUp(void * self_, uint32_t param_
 XI_API undefined4 __thiscall FsWordCompletion__prepareAllData(void * self_, undefined4 xi_s1);  // 0x101BC520
 XI_API undefined4 __thiscall Unit1018BA60_Store101BB070At8(void * self_);  // 0x101BC6F0
 XI_API undefined4 __thiscall Unit1018BA60_FreeBuffer(void * self_);  // 0x101BC720
-XI_API undefined4 __thiscall fn_101BC740(void * self_);  // 0x101BC740
+XI_API undefined4 __thiscall Unit1018BA60_InitVt10337BA0(void * self_);  // 0x101BC740
 XI_API uint32_t __thiscall Unit1018BA60_Set(void * self_, undefined4 param_1, uint32_t param_2, undefined4 param_3);  // 0x101BC7B0
 XI_API int __thiscall Entry_CompareKey(void * self_, int * param_1);  // 0x101BC900
 XI_API undefined4 __thiscall Unit1018BA60_GetUsed(void * self_);  // 0x101BC9B0
@@ -2444,8 +2460,8 @@ XI_API undefined4 __stdcall Unit1018BA60_Call10311F30(undefined4 param_1);  // 0
 XI_API int __stdcall Unit1018BA60_SeekWhence012(undefined4 param_1, undefined4 param_2, int param_3);  // 0x101BE540
 XI_API int __stdcall File_WriteChunked(int param_1, int param_2, uint32_t param_3);  // 0x101BE590
 XI_API undefined4 __stdcall Unit1018BA60_Call10312296(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x101BE650
-XI_API int __stdcall fn_101BE670(LPCSTR param_1);  // 0x101BE670
-XI_API undefined4 __stdcall Unit1018BA60_FillSizeAndThreeDates(void * param_1, undefined4 * param_2);  // 0x101BE6C0
+XI_API int __stdcall Unit1018BA60_DeleteFile(LPCSTR param_1);  // 0x101BE670
+XI_API undefined4 __stdcall Unit1018BA60_FillSizeAndThreeDates(undefined4 param_1, undefined4 * param_2);  // 0x101BE6C0
 XI_API undefined4 __stdcall File_CreateParentDirs(int param_1);  // 0x101BE730
 XI_API int __thiscall XiFileImpl_QueueLoad(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6);  // 0x101BECC0
 XI_API int __thiscall Unit1018BA60_SubmitFileNumKind1(void * self_, uint32_t param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x101BF280
@@ -2539,7 +2555,7 @@ XI_API undefined4 __thiscall Unit1018BA60_CommitTextInput(void * self_);  // 0x1
 XI_API void __thiscall Unit1018BA60_EndTextInput(void * self_);  // 0x101C60C0
 XI_API undefined4 __thiscall Unit1018BA60_CtorVt10337CA0(void * self_, undefined4 param_1, undefined4 param_2);  // 0x101C6810
 XI_API undefined4 __thiscall Unit1018BA60_CloseTextInput(void * self_);  // 0x101C68A0
-XI_API undefined4 __thiscall fn_101C7C50(void * self_);  // 0x101C7C50
+XI_API undefined4 __thiscall Unit101C72E0_InitFourSlots(void * self_);  // 0x101C7C50
 XI_API void __thiscall Unit101C72E0_Construct(void * self_);  // 0x101C7F80
 XI_API void * __thiscall Unit101C72E0_Clear(void * self_);  // 0x101C8070
 XI_API void __thiscall Unit101C72E0_FreeBuffer(void * self_);  // 0x101C80A0
@@ -2583,7 +2599,7 @@ XI_API undefined4 __cdecl Unit101C72E0_TestFlags100Or40DAC(undefined4 param_1); 
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit101C72E0_ActorTest1D0(undefined4 xi_eax, int param_1);  // 0x101CC1D0
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101C72E0_ActorPairTest1FF(undefined4 xi_eax, int param_1);  // 0x101CC220
 XI_API undefined4 __cdecl Unit101C72E0_CC4F0ActorTest400(undefined4 param_1, undefined4 param_2);  // 0x101CC350
-XI_API int __cdecl fn_101CC4F0(void);  // 0x101CC4F0
+XI_API int __cdecl Acter_GetActerAt10485F7A(void);  // 0x101CC4F0
 XI_API undefined4 __cdecl Unit101C72E0_GetCC4F0ActorByIndexAt1FA(void);  // 0x101CC510
 XI_API undefined4 __cdecl Acter_GetByIndexAt1FA(int param_1);  // 0x101CC520
 XI_API undefined4 __cdecl Unit101C72E0_GetCC4F0ActorAt2A0(void);  // 0x101CC550
@@ -2621,18 +2637,18 @@ XI_API void * __thiscall Unit101D7020_CtorVt10338D88(void * self_);  // 0x101DC4
 XI_API void * __thiscall Yk_CreateSecondaryObjects(void * self_);  // 0x101DCE20
 XI_API void * __thiscall Unit101D7020_CtorVt10338E60(void * self_);  // 0x101DD000
 XI_API void __thiscall Yk_InitSlots(void * self_);  // 0x101DDA70
-XI_API undefined4 __thiscall fn_101DDA90(void * self_, int param_1);  // 0x101DDA90
+XI_API undefined4 __thiscall Unit101D7020_ClearSlotBytes3(void * self_, int param_1);  // 0x101DDA90
 XI_API undefined4 __thiscall Unit101D7020_CtorVt10338EA4(void * self_);  // 0x101DDF90
 XI_API undefined4 __thiscall Unit101D7020_CtorVt10338ED4(void * self_);  // 0x101DE6B0
 XI_API void * __thiscall Unit101D7020_CtorVt10338F68(void * self_);  // 0x101DEDC0
 XI_API void * __thiscall YkWndList_Init(void * self_);  // 0x101DF210
-XI_API undefined4 __thiscall fn_101E06C0(void * self_);  // 0x101E06C0
-XI_API undefined4 __thiscall fn_101E0700(void * self_);  // 0x101E0700
+XI_API undefined4 __thiscall Unit101D7020_ClearFields14To3F(void * self_);  // 0x101E06C0
+XI_API undefined4 __thiscall Unit101D7020_ClearFields40To48(void * self_);  // 0x101E0700
 XI_API void * __thiscall Unit101D7020_CtorVt10339250(void * self_);  // 0x101E0A90
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101E11C0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3);  // 0x101E11C0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit101D7020_LoadDatListOrRun101E1A70(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3);  // 0x101E11C0
 XI_API void __thiscall Unit101D7020_ClearField74(void * self_);  // 0x101E15F0
 XI_API undefined4 __thiscall Yk_ClearEntries(void * self_);  // 0x101E1A00
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101E1AE0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x101E1AE0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit101D7020_LoadDatListSync(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x101E1AE0
 XI_API undefined4 __thiscall Unit101D7020_LoadDatSync(void * self_, undefined4 param_1);  // 0x101E24F0
 XI_API void * __thiscall Unit101D7020_CtorVt10339298(void * self_);  // 0x101E2B10
 XI_API void * __thiscall Unit101D7020_CtorVt103394C0(void * self_);  // 0x101E3F50
@@ -2646,15 +2662,15 @@ XI_API void * __thiscall Unit101D7020_CtorVt10339D78(void * self_);  // 0x101EB3
 XI_API void * __thiscall Unit101D7020_CtorVt10339DE8(void * self_);  // 0x101EB7E0
 XI_API void * __thiscall Unit101D7020_CtorVt10339E48(void * self_);  // 0x101EBE00
 XI_API void * __thiscall Unit101D7020_CtorVt10339EB8(void * self_);  // 0x101EC0D0
-XI_API undefined4 __thiscall fn_101EC3C0(void * self_);  // 0x101EC3C0
+XI_API undefined4 __thiscall Unit101D7020_InitFields1CTo3C(void * self_);  // 0x101EC3C0
 XI_API void * __thiscall Unit101D7020_CtorVt10339FA0(void * self_);  // 0x101ED450
 XI_API void * __thiscall Unit101D7020_CtorVt1033A000(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5);  // 0x101EE230
 XI_API void __thiscall Yk_ResetFields(void * self_);  // 0x101EFCA0
 XI_API void __thiscall Unit101D7020_ClearSixFlags(void * self_);  // 0x101EFEA0
 XI_API void * __thiscall Unit101D7020_CtorVt1033A5D8(void * self_);  // 0x101F17C0
 XI_API void * __thiscall Unit101D7020_CtorVt1033A6D0(void * self_);  // 0x101F43F0
-XI_API undefined4 __thiscall fn_101F4AF0(void * self_);  // 0x101F4AF0
-XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101F6700(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2);  // 0x101F6700
+XI_API undefined4 __thiscall Unit101D7020_InitEightSlots80808080(void * self_);  // 0x101F4AF0
+XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit101D7020_SetField18AndRemainder(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2);  // 0x101F6700
 XI_API void * __thiscall Yk_InitBase(void * self_, undefined4 param_1);  // 0x101F67C0
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit101D7020_GetValueIfLoaded(undefined4 xi_eax);  // 0x101F71A0
 XI_API uint32_t __cdecl Yk_GetSharePercent(int param_1, int param_2);  // 0x101F71C0
@@ -2670,7 +2686,7 @@ XI_API void __thiscall Unit101D7020_SubmitMarkerFile(void * self_, undefined4 xi
 XI_API void * __thiscall Unit101D7020_CtorVt1033A8B8(void * self_);  // 0x101F86C0
 XI_API void __thiscall Yk_ResetSlots(void * self_);  // 0x101F92B0
 XI_API void __thiscall Yk_FreeBuffers(void * self_);  // 0x101F9370
-XI_API undefined4 __thiscall fn_101FA420(void * self_, undefined4 param_1);  // 0x101FA420
+XI_API undefined4 __thiscall Unit101D7020_CloseMapMenus(void * self_, undefined4 param_1);  // 0x101FA420
 XI_API void * __thiscall Unit101D7020_CtorVt1033A918(void * self_);  // 0x101FB710
 XI_API void * __thiscall Unit101D7020_CtorVt1033A988(void * self_);  // 0x101FC2C0
 XI_API void * __thiscall Unit101D7020_CtorVt1033A9D0(void * self_);  // 0x101FCBC0
@@ -2681,7 +2697,7 @@ XI_API void * __thiscall Unit101D7020_CtorVt1033ABE0(void * self_);  // 0x101FF0
 XI_API void * __thiscall Unit101D7020_CtorVt1033AC28(void * self_);  // 0x10200B60
 XI_API void * __thiscall Unit101D7020_InitFromTablesA(void * self_);  // 0x10201020
 XI_API void * __thiscall Unit101D7020_InitFromTablesB(void * self_);  // 0x10201130
-XI_API undefined4 __thiscall fn_10201340(void * self_, int param_1, int param_2);  // 0x10201340
+XI_API undefined4 __thiscall Unit101D7020_DrawCountersAndGauge(void * self_, int param_1, int param_2);  // 0x10201340
 XI_API void __thiscall Yk_UpdateLayout(void * self_);  // 0x102015D0
 XI_API void __cdecl Unit101D7020_CreateMenuObjects(void);  // 0x102017A0
 XI_API void * __thiscall Unit101D7020_CtorVt1033B0C8(void * self_);  // 0x10201C90
@@ -2703,9 +2719,9 @@ XI_API void __stdcall Yk_SetCurrentIndex(int param_1);  // 0x10203520
 XI_API int __stdcall Yk_FindIndexById(int param_1);  // 0x10203540
 XI_API void __attribute__((stdcall, regparm(3))) Unit101D7020_UpdateEntryCycle(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_);  // 0x10203920
 XI_API void __stdcall Yk_SetStateFromFlag(undefined4 param_1, undefined4 xi_s2);  // 0x10203BC0
-XI_API undefined4 __stdcall fn_10203BE0(undefined4 param_1);  // 0x10203BE0
+XI_API undefined4 __stdcall Unit101D7020_ReadOrLoadGstEntry(undefined4 param_1);  // 0x10203BE0
 XI_API void * __thiscall Unit101D7020_CtorVt1033B110(void * self_);  // 0x10205500
-XI_API undefined4 __thiscall fn_10206420(void * self_);  // 0x10206420
+XI_API undefined4 __thiscall Unit101D7020_ClearFields14To24(void * self_);  // 0x10206420
 XI_API void * __thiscall Unit101D7020_CtorVt1033B248(void * self_);  // 0x10207730
 XI_API undefined4 __thiscall Unit101D7020_CtorVt1033B28C(void * self_);  // 0x10208500
 XI_API void * __thiscall Unit101D7020_CtorVt1033B340(void * self_);  // 0x10209300
@@ -2721,13 +2737,13 @@ XI_API void __thiscall Unit101D7020_ResetState(void * self_);  // 0x10210D60
 XI_API void * __thiscall Unit101D7020_Init(void * self_, undefined4 * param_1, undefined4 param_2);  // 0x10210DA0
 XI_API undefined4 __thiscall Unit101D7020_Open(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, int param_5, undefined4 param_6, int param_7);  // 0x10210E30
 XI_API void __thiscall Unit101D7020_Close(void * self_, undefined4 param_1);  // 0x10210FC0
-XI_API undefined4 __thiscall fn_10211050(void * self_);  // 0x10211050
+XI_API undefined4 __thiscall Unit101D7020_Call10156C30InRect(void * self_);  // 0x10211050
 XI_API undefined4 __thiscall Unit101D7020_HandleChoice(void * self_, undefined4 param_1);  // 0x102112B0
 XI_API undefined4 __cdecl Unit101D7020_ApplyMusicVolume(void);  // 0x10211340
 XI_API void __thiscall Unit101D7020_Refresh(void * self_);  // 0x10211370
 XI_API void * __thiscall Unit10211440_CtorVt1033BCF8(void * self_);  // 0x10216570
 XI_API void * __thiscall Unit10211440_CtorVt1033BD58(void * self_);  // 0x102175C0
-XI_API undefined4 __thiscall fn_1021B330(void * self_);  // 0x1021B330
+XI_API undefined4 __thiscall Unit10211440_ClearWords0To0A(void * self_);  // 0x1021B330
 XI_API void __cdecl Unit10211440_Create(void);  // 0x1021BB90
 XI_API void __thiscall Unit10211440_SetVtable1033BDA0(void * self_);  // 0x1021BC20
 XI_API undefined4 * __thiscall Unit10211440_CopyRecordCtor(void * self_, char * param_1);  // 0x1021BC30
@@ -2777,13 +2793,13 @@ XI_API void __thiscall Unit1021D930_Init(void * self_, undefined4 param_1, int p
 XI_API void __cdecl Unit1021D930_RotateBytesByBitCount(int param_1, int param_2);  // 0x1021E870
 XI_API void __cdecl Unit1021D930_CallPanel1021F240And102203B0(void);  // 0x1021ED90
 XI_API void __attribute__((cdecl, regparm(1))) Unit1021D930_CallPanel1021EF10(undefined4 xi_eax);  // 0x1021EDC0
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1021EDD0(undefined4 xi_eax);  // 0x1021EDD0
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_Call1021EF30If10666E84(undefined4 xi_eax);  // 0x1021EDD0
 XI_API undefined4 __cdecl Menu_GetPanelByte0D(void);  // 0x1021EDE0
 XI_API undefined4 __cdecl Menu_SetPanelWord28(undefined4 param_1);  // 0x1021EE00
 XI_API void __cdecl Menu_SetPanelWord2A(undefined4 param_1);  // 0x1021EE20
 XI_API void __cdecl Menu_SetPanelMetrics(float param_1, float param_2, undefined4 param_3);  // 0x1021EE70
-XI_API undefined4 __thiscall fn_1021EEB0(void * self_);  // 0x1021EEB0
-XI_API undefined4 __thiscall fn_1021EF10(void * self_);  // 0x1021EF10
+XI_API undefined4 __thiscall Unit1021D930_InitFieldsDTo38(void * self_);  // 0x1021EEB0
+XI_API undefined4 __thiscall Unit1021D930_SetFlagDAndField1C(void * self_);  // 0x1021EF10
 XI_API void __stdcall Unit1021D930_SetPanelMetricsByKind(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x1021EF60
 XI_API long double __stdcall ActerBuff_FindNearest(float * param_1, int * param_2);  // 0x1021F030
 XI_API int __stdcall ActerBuff_CollectNearby(int param_1, undefined4 param_2);  // 0x1021F140
@@ -2805,16 +2821,18 @@ XI_API void __cdecl ShapeMng_FillMenuShapes(void);  // 0x10220C80
 XI_API undefined4 __cdecl Menu_GetTableEntry(int param_1, int param_2);  // 0x10220CF0
 XI_API undefined4 __cdecl Menu_GetGlobalTableEntry(int param_1);  // 0x10220D10
 XI_API void * __thiscall Unit1021D930_InitPanelState(void * self_);  // 0x10220FD0
+XI_API undefined4 __thiscall fn_10221030(void * self_, uint8_t * param_1, int param_2);  // 0x10221030
 XI_API undefined4 __thiscall Entry_ClearText(void * self_, int param_1);  // 0x102211B0
 XI_API int __thiscall Unit1021D930_Draw(int *self_);  // 0x102214D0
+XI_API undefined4 __thiscall fn_10221680(void * self_);  // 0x10221680
 XI_API uint32_t __thiscall Unit1021D930_IsDone(void * self_);  // 0x10221740
 XI_API void __cdecl Unit1021D930_InitMenuShapes(void);  // 0x102217A0
 XI_API void * __thiscall Unit1021D930_Construct(void * self_);  // 0x102217C0
 XI_API void __thiscall Unit1021D930_InitRect(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x10221900
-XI_API undefined4 __thiscall fn_10221920(void * self_, undefined4 param_1, undefined4 param_2, int param_3, int param_4, int param_5);  // 0x10221920
-XI_API undefined4 __thiscall fn_10221A80(void * self_, int param_1, undefined4 param_2);  // 0x10221A80
+XI_API undefined4 __thiscall Unit1021D930_AllocEntriesAndSetCounts(void * self_, undefined4 param_1, undefined4 param_2, int param_3, int param_4, int param_5);  // 0x10221920
+XI_API undefined4 __thiscall Unit1021D930_SetCountAndRebuild(void * self_, int param_1, undefined4 param_2);  // 0x10221A80
 XI_API void __thiscall Unit1021D930_GetWindowLocate(void * self_, int * param_1, int * param_2);  // 0x10221BE0
-XI_API undefined4 __thiscall fn_10221F50(void * self_);  // 0x10221F50
+XI_API undefined4 __thiscall Unit1021D930_RunRowCallbacks(void * self_);  // 0x10221F50
 XI_API void __thiscall Unit1021D930_SetMode(void * self_, undefined4 param_1);  // 0x10222110
 XI_API void __cdecl Unit1021D930_CreateSubsystems(void);  // 0x10222960
 XI_API uint32_t __cdecl Unit1021D930_ResolveAlias(uint32_t param_1);  // 0x10222C10
@@ -2846,10 +2864,10 @@ XI_API void __thiscall Unit1021D930_LoadNamedEntries(void * self_);  // 0x102271
 XI_API void __cdecl Unit1021D930_CreateAndLoadEntries(void);  // 0x10227750
 XI_API void * __thiscall Unit1021D930_ConstructBuffersAt68(void * self_);  // 0x102278B0
 XI_API void __cdecl Unit1021D930_DrawMovie(int param_1, undefined4 param_2, int param_3, undefined4 param_4, int param_5);  // 0x10227F70
-XI_API undefined4 __cdecl fn_10228080(int param_1, undefined4 param_2, int param_3, int param_4, int param_5);  // 0x10228080
+XI_API undefined4 __cdecl Unit1021D930_DrawTimeLeftText(int param_1, undefined4 param_2, int param_3, int param_4, int param_5);  // 0x10228080
 XI_API void __thiscall Unit1021D930_ClearHeaderFields(void * self_);  // 0x102281C0
 XI_API void * __thiscall Unit1021D930_ConstructBuffersAt8(void * self_);  // 0x10228200
-XI_API undefined4 __thiscall fn_10228440(void * self_);  // 0x10228440
+XI_API undefined4 __thiscall Unit1021D930_DrawTargetEntryIcons(void * self_);  // 0x10228440
 XI_API void __cdecl Unit1021D930_InitGlobals(void);  // 0x10229430
 XI_API void * __thiscall Unit1021D930_ConstructInitAt64(void * self_);  // 0x10229670
 XI_API undefined4 __thiscall Unit1021D930_ClearMenu(void * self_);  // 0x1022A6D0
@@ -2895,7 +2913,7 @@ XI_API void __thiscall Ui_KeyPrompt_Init(void * self_, undefined4 param_1);  // 
 XI_API undefined4 __cdecl Unit10237880_GetGlobalDword(void);  // 0x10239490
 XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_);  // 0x102394A0
 XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1);  // 0x1023BF20
-XI_API undefined4 __thiscall fn_1023C140(void * self_, char * param_1);  // 0x1023C140
+XI_API undefined4 __thiscall Unit10237880_StoreTextIfIdle(void * self_, char * param_1);  // 0x1023C140
 XI_API void * __thiscall Unit10237880_ConstructBase(void * self_);  // 0x1023D610
 XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1);  // 0x1023E4B0
 XI_API void * __thiscall CIwHnList_Constructor(void * self_);  // 0x1023E830
@@ -2937,12 +2955,13 @@ XI_API undefined4 __cdecl StAvatar_Unload(uint32_t * param_1);  // 0x1024D610
 XI_API void __cdecl StAvatar_ApplyChannels(uint8_t * param_1);  // 0x1024D6B0
 XI_API undefined4 __cdecl StAvatar_SetTransition(uint32_t * param_1, float param_2, int param_3);  // 0x1024D740
 XI_API undefined4 __cdecl StAvatar_StopAndFreeBuffers(int param_1);  // 0x1024D790
-XI_API undefined4 __cdecl fn_1024D850(uint32_t * param_1);  // 0x1024D850
+XI_API undefined4 __cdecl StAvatar_ResolveItemsAndStart(uint32_t * param_1);  // 0x1024D850
 XI_API void __cdecl StAvatar_FormatNames(void);  // 0x1024D9D0
 XI_API undefined4 __cdecl StAvatar_Update(uint8_t * param_1);  // 0x1024DB60
 XI_API void __cdecl StAvatar_UpdateInput(uint32_t * param_1, undefined4 param_2);  // 0x1024DD10
 XI_API void __cdecl StAvatar_UpdateCameraYaw(float param_1);  // 0x1024DE20
 XI_API void __cdecl StAvatar_UpdateCameraFollow(int param_1);  // 0x1024DFE0
+XI_API void __cdecl fn_1024E280(uint32_t * param_1, int param_2);  // 0x1024E280
 XI_API void __cdecl StAvatar_SetFlagsBoth(int param_1, undefined4 * param_2, undefined4 * param_3);  // 0x1024E720
 XI_API void __cdecl StAvatar_GetCameraMatrix(int param_1, float * param_2);  // 0x1024F050
 XI_API void __cdecl StAvatar_UpdateHeading(int param_1, float * param_2, int param_3);  // 0x1024F0B0
@@ -3011,12 +3030,12 @@ XI_API undefined4 __cdecl StAvatar_CheckBuffersReady(uint32_t * param_1);  // 0x
 XI_API undefined4 __cdecl sqopSystemActivate(uint32_t * param_1);  // 0x102531B0
 XI_API undefined4 __cdecl StAvatar_ClearResource(uint32_t * param_1);  // 0x10253210
 XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1);  // 0x102532A0
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102532C0(undefined4 xi_eax, int param_1, int param_2, int param_3);  // 0x102532C0
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10253210_SubmitInfoBinIfObjSet(undefined4 xi_eax, int param_1, int param_2, int param_3);  // 0x102532C0
 XI_API void * __thiscall Unit10253210_Ctor(void * self_);  // 0x102532E0
 XI_API void __cdecl Unit10253210_NoOp(void);  // 0x10253330
 XI_API void __stdcall StAvatar_LoadInfoFile(int param_1);  // 0x10253360
 XI_API int __stdcall StAvatar_GetInfoBuffer(int param_1);  // 0x102534B0
-XI_API undefined4 __stdcall fn_102534F0(int param_1, int param_2, int param_3);  // 0x102534F0
+XI_API undefined4 __stdcall Unit10253210_SubmitInfoBinIfChanged(int param_1, int param_2, int param_3);  // 0x102534F0
 XI_API void __cdecl StAvatar_LoadInfo0(void);  // 0x102535B0
 XI_API undefined8 __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2);  // 0x102535F0
 XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer0(void);  // 0x10253620
@@ -3059,7 +3078,7 @@ XI_API undefined4 __cdecl Unit10253A20_IsTypeRange(char * param_1);  // 0x10257F
 XI_API undefined2 * __cdecl Unit10253A20_GetFormString(int param_1, int param_2, int param_3);  // 0x10258040
 XI_API undefined * __cdecl Unit10253A20_PickFormString(int param_1, int param_2, int param_3, int param_4, int param_5);  // 0x10258150
 XI_API int __cdecl Unit10253A20_FindFirstTypeByte(char * param_1);  // 0x102581D0
-XI_API undefined4 __cdecl fn_10258430(void * param_1, undefined4 param_2, undefined4 param_3, char * param_4);  // 0x10258430
+XI_API undefined4 __cdecl Unit10253A20_ExpandFormCodes(void * param_1, undefined4 param_2, undefined4 param_3, char * param_4);  // 0x10258430
 XI_API undefined4 __thiscall Unit10253A20_FindFirstTypeByteInText(void * self_);  // 0x102586D0
 XI_API undefined4 __thiscall Unit10253A20_GetDataPtr(void * self_);  // 0x102586F0
 XI_API void __thiscall Unit10253A20_FormatTextAtC(void * self_, void * param_1, int param_2, int param_3);  // 0x10258740
@@ -3128,16 +3147,18 @@ XI_API void __cdecl FontGlyphCache_DecayCounter(void);  // 0x1025E240
 XI_API void * __thiscall Unit1025C9E0_BaseCtor(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 xi_s4);  // 0x1025E260
 XI_API void __thiscall Unit1025C9E0_BaseDtor(void * self_);  // 0x1025E380
 XI_API undefined4 __thiscall Unit1025C9E0_ReleaseField6C(void * self_);  // 0x1025F2F0
+XI_API undefined4 __thiscall fn_1025F640(void * self_);  // 0x1025F640
 XI_API void * __thiscall Unit1025C9E0_DerivedCtor(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x1025FD50
 XI_API void __thiscall Unit1025C9E0_ResetState(void * self_);  // 0x1025FE40
 XI_API undefined4 __thiscall FontGlyphCache_StoreElapsed158(void * self_);  // 0x1025FF10
 XI_API undefined4 __cdecl FontGlyphCache_NoOpZero(void);  // 0x10260360
 XI_API void * __thiscall Unit1025C9E0_InnerCtor(void * self_, undefined4 param_1, void * param_2, undefined4 param_3, undefined4 * param_4);  // 0x10261210
 XI_API void __thiscall Unit1025C9E0_InnerDtor(void * self_);  // 0x102612D0
-XI_API void * __thiscall fn_10265940(void * self_, undefined4 xi_s1);  // 0x10265940
-XI_API void __cdecl fn_10265960(void);  // 0x10265960
+XI_API void * __thiscall Unit1025C9E0_AddLibraryRef(void * self_, undefined4 xi_s1);  // 0x10265940
+XI_API void __cdecl Unit1025C9E0_ReleaseLibraryRef(void);  // 0x10265960
 XI_API void * __thiscall Unit1025C9E0_RefObjCtor(void * self_, undefined4 param_1, void * param_2);  // 0x102659B0
-XI_API void * __thiscall fn_10265B70(void * self_, BOOL param_1);  // 0x10265B70
+XI_API void * __thiscall Unit1025C9E0_CreateEvent(void * self_, BOOL param_1);  // 0x10265B70
+XI_API void __cdecl fn_1026CC30(void);  // 0x1026CC30
 XI_API void __cdecl Unit1025C9E0_ChannelInit(void * param_1, undefined4 param_2);  // 0x1026CCA5
 XI_API undefined4 __cdecl Unit1025C9E0_MoveOneUsedToFree(int param_1);  // 0x1026CFA0
 XI_API void __cdecl Unit1025C9E0_MoveAllBack(int param_1);  // 0x1026D015
@@ -3153,7 +3174,7 @@ XI_API void __cdecl Unit1025C9E0_PopRing4034(int param_1, undefined4 param_2);  
 XI_API undefined4 __cdecl Unit1025C9E0_PeekRing4034(int param_1);  // 0x1026DBF0
 XI_API void __cdecl Unit1025C9E0_PutRing2C(int param_1, undefined4 * param_2);  // 0x1026DC0D
 XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1);  // 0x1026DF00
-XI_API void __cdecl sqxfXformTD_Update(int param_1);  // 0x1026E1F0
+XI_API undefined4 __cdecl sqxfXformTD_Update(int param_1);  // 0x1026E1F0
 XI_API void __cdecl sqrdLight_Init(undefined4 * param_1);  // 0x1026E2F0
 XI_API void __cdecl SqgxContext_StoreVec14(int param_1);  // 0x1026E3D0
 XI_API undefined4 __cdecl StAvatar_InitGlobals1099AEB8(void);  // 0x1026E400
@@ -3179,7 +3200,7 @@ XI_API void __cdecl Mdl_FindNthFlag40(int param_1, int * param_2);  // 0x1026FEA
 XI_API void __cdecl Mdl_CountSlotsFlag80(int * param_1);  // 0x1026FEF0
 XI_API void __cdecl Mdl_FindNthNegative(int param_1, int * param_2);  // 0x1026FF30
 XI_API undefined4 __cdecl Mdl_ComputeSlotBounds(int param_1, float * param_2);  // 0x1026FF80
-XI_API undefined4 __cdecl fn_102700C0(int param_1, int param_2, undefined4 param_3);  // 0x102700C0
+XI_API undefined4 __cdecl Mdl_LinkB0001ItemRefs(int param_1, int param_2, undefined4 param_3);  // 0x102700C0
 XI_API void __cdecl Mdl_SetSlotLock(int param_1, uint32_t param_2, undefined4 * param_3, uint32_t param_4, int param_5);  // 0x102701B0
 XI_API void __cdecl Mdl_GetSlotPtrs(int param_1, undefined4 * param_2, int * param_3);  // 0x10270240
 XI_API void __cdecl Mdl_GetSlotWord0(int param_1, undefined4 * param_2);  // 0x10270290
@@ -3190,6 +3211,7 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void);  // 0x10270B60
 XI_API void __cdecl StAvatar_UpdateTransform(void);  // 0x10270EC0
 XI_API undefined4 __cdecl Unit102706F0_UpdateScene(undefined4 param_1);  // 0x10270F30
 XI_API void __cdecl StAvatar_ApplyModes(undefined4 param_1);  // 0x10271030
+XI_API void __cdecl fn_102710B0(int param_1, int param_2, undefined4 param_3, int param_4);  // 0x102710B0
 XI_API void __cdecl StAvatar_ApplyEffectFlags(undefined4 param_1);  // 0x102715F0
 XI_API void __cdecl StAvatar_UpdateAngles(int param_1, int param_2, undefined4 param_3, float param_4);  // 0x10271630
 XI_API void __cdecl StAvatar_DrawScene(void);  // 0x102717F0
@@ -3229,14 +3251,15 @@ XI_API undefined4 __cdecl Chasm_ToggleLayerState(int param_1, int param_2, int p
 XI_API int __cdecl Unit10274050_Relink(int param_1, int param_2);  // 0x102741F0
 XI_API undefined4 __cdecl Unit10274050_GetInterpolated(int param_1, int param_2, undefined4 * param_3, undefined4 * param_4);  // 0x10274370
 XI_API void __cdecl Unit10274050_ZeroDwords(undefined4 * param_1);  // 0x10274640
-XI_API undefined4 __cdecl fn_10274650(undefined4 * param_1, undefined4 * param_2);  // 0x10274650
+XI_API undefined4 __cdecl Unit10274050_CopyVec3(undefined4 * param_1, undefined4 * param_2);  // 0x10274650
 XI_API void __cdecl Unit10274050_SetXyz(float * param_1, float param_2, float param_3, float param_4);  // 0x10274670
+XI_API long double __cdecl fn_102746C0(undefined4 param_1);  // 0x102746C0
 XI_API void __cdecl Unit10274050_CrossProduct(float * param_1, float * param_2, float * param_3);  // 0x10274890
 XI_API long double __cdecl Unit10274050_ScaleVec3ByInverseOf102746C0(float * param_1);  // 0x102748F0
 XI_API void __cdecl Unit10274050_Sub(float * param_1, float * param_2, float * param_3);  // 0x102749C0
 XI_API void __cdecl Unit10274050_LerpFactor(float * param_1, float * param_2, float * param_3, float param_4);  // 0x10274A20
 XI_API void __cdecl PackVec4(float * param_1, float param_2, float param_3, float param_4, float param_5);  // 0x10274D40
-XI_API int __cdecl fn_10275090(void);  // 0x10275090
+XI_API int __cdecl SqTimer_GetMicroseconds(void);  // 0x10275090
 XI_API void __cdecl sqMemInit(void);  // 0x10275150
 XI_API void __cdecl SqMem_InitBlock(undefined4 * param_1);  // 0x10275190
 XI_API undefined4 __cdecl SqMem_ClassifyBlock(int param_1);  // 0x102752F0
@@ -3278,20 +3301,20 @@ XI_API char * __cdecl SqmdModel_FindItemName(int param_1, int param_2, int param
 XI_API undefined4 __cdecl SqmdModel_FindItemByName(int param_1, int param_2, int param_3, undefined4 * param_4);  // 0x10279BF0
 XI_API undefined4 __cdecl SqmdModel_LookupKind2(undefined4 param_1, undefined4 param_2, int * param_3);  // 0x10279D50
 XI_API char * __cdecl SqmdModel_ItemKindName(undefined4 param_1);  // 0x1027A1C0
-XI_API undefined4 __cdecl fn_1027A220(int param_1, undefined4 param_2);  // 0x1027A220
+XI_API undefined4 __cdecl SqmdModel_AppendPair68Flag100(int param_1, undefined4 param_2);  // 0x1027A220
 XI_API void __cdecl SqmdModel_FreeItems(int * param_1);  // 0x1027A250
 XI_API void __cdecl Unit1027A4B0_SetIdentityFwd(undefined4 * param_1);  // 0x1027A6F0
 XI_API undefined4 __cdecl Unit1027A4B0_Copy(undefined4 * param_1, undefined4 * param_2);  // 0x1027A700
 XI_API void __cdecl Unit1027A4B0_Set(float * param_1, float param_2, float param_3, float param_4, float param_5);  // 0x1027A720
 XI_API void __cdecl Unit1027A4B0_ToMatrix3(float * param_1, float * param_2);  // 0x1027A9D0
-XI_API undefined4 __cdecl fn_1027AAE0(float * param_1, float param_2, float param_3, float param_4);  // 0x1027AAE0
+XI_API undefined4 __cdecl Unit1027A4B0_QuatFromEuler(float * param_1, float param_2, float param_3, float param_4);  // 0x1027AAE0
 XI_API void __cdecl Unit1027A4B0_FromRotationX(float * param_1, float param_2);  // 0x1027ABA0
 XI_API void __cdecl Unit1027A4B0_FromRotationY(undefined4 * param_1, float param_2);  // 0x1027ABD0
 XI_API void __cdecl Unit1027A4B0_FromRotationZ(undefined4 * param_1, float param_2);  // 0x1027AC00
 XI_API void __cdecl Unit1027A4B0_FromAxisAngle(float * param_1, float * param_2, float param_3);  // 0x1027AC30
 XI_API void __cdecl Unit1027A4B0_SetIdentity(undefined4 * param_1);  // 0x1027AE50
 XI_API void __cdecl Unit1027A4B0_Negate(float * param_1);  // 0x1027AEF0
-XI_API undefined4 __cdecl fn_1027AF20(float * param_1);  // 0x1027AF20
+XI_API undefined4 __cdecl Unit1027A4B0_NormalizeVec4(float * param_1);  // 0x1027AF20
 XI_API undefined4 __cdecl SqQuat_Invert(float * param_1);  // 0x1027AFB0
 XI_API void __cdecl Unit1027B060_NegateInPlace(float * param_1);  // 0x1027B060
 XI_API void __cdecl Unit1027B060_RotateVec(float * param_1, float * param_2, float * param_3);  // 0x1027B080
@@ -3323,7 +3346,7 @@ XI_API void __cdecl Unit1027E120_Advance(uint8_t * param_1, int param_2);  // 0x
 XI_API void __cdecl Unit1027E120_Forward1027EBD0(undefined4 * param_1);  // 0x1027EAF0
 XI_API void __cdecl Unit1027E120_Zero(undefined4 * param_1);  // 0x1027EB00
 XI_API void __cdecl Unit1027E120_Set(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6, float param_7, float param_8, float param_9, float param_10, float param_11, float param_12, float param_13, float param_14, float param_15, float param_16, float param_17);  // 0x1027EB50
-XI_API undefined4 __cdecl fn_1027EBD0(undefined4 * param_1);  // 0x1027EBD0
+XI_API undefined4 __cdecl Unit1027E120_SetIdentity(undefined4 * param_1);  // 0x1027EBD0
 XI_API void __cdecl M4fTransform(float * param_1, float * param_2, float * param_3);  // 0x1027EF20
 XI_API void __cdecl Unit1027E120_TransformVec3(float * param_1, float * param_2, float * param_3);  // 0x1027EF80
 XI_API void __cdecl Mat4x4_TransformVec4(float * param_1, float * param_2, float * param_3);  // 0x1027EFE0
@@ -3374,7 +3397,7 @@ XI_API void __cdecl SqgxContext_NoOpA(void);  // 0x10283240
 XI_API void __cdecl ___setargv_9(void);  // 0x10283250
 XI_API void __cdecl SqgxContext_SetCurrentIndex(undefined4 param_1, undefined4 param_2);  // 0x10283260
 XI_API void __cdecl SqgxContext_StoreEntryVec(undefined4 * param_1);  // 0x10283280
-XI_API undefined4 __cdecl fn_10283300(undefined4 param_1);  // 0x10283300
+XI_API undefined4 __cdecl Unit102822A0_SetContextSlot854(undefined4 param_1);  // 0x10283300
 XI_API void __cdecl sqgxColor(undefined4 * param_1);  // 0x10283330
 XI_API void __cdecl sqgxAmbient(float param_1);  // 0x10283380
 XI_API void __cdecl SqgxContext_SetFloat76C(float param_1);  // 0x102833A0
@@ -3384,7 +3407,7 @@ XI_API void __cdecl ___setargv_16(void);  // 0x10283870
 XI_API void __cdecl sqgxPixelSize(float param_1, float param_2);  // 0x102838A0
 XI_API void __cdecl SqgxContext_SetViewportVec4(undefined4 * param_1);  // 0x10283970
 XI_API int * __cdecl sqgxViewport(float a1, float a2, float a3, float a4);  // 0x10283A10
-XI_API undefined4 __cdecl fn_10283C10(float param_1, float param_2, float param_3);  // 0x10283C10
+XI_API undefined4 __cdecl Unit102822A0_SetPerspective(float param_1, float param_2, float param_3);  // 0x10283C10
 XI_API void __cdecl sqgxMatrixCamera(undefined4 * param_1);  // 0x10283D60
 XI_API void __cdecl SqgxContext_SetTransposedMatrix(undefined4 * param_1);  // 0x10283DA0
 XI_API void __cdecl SqgxContext_SetFloat72C(float param_1);  // 0x10283DE0
@@ -3403,13 +3426,13 @@ XI_API int __cdecl sqgxVertexShaderRelease(void);  // 0x10284EF0
 XI_API long double __cdecl Unit10284EB0_GetFloat20(int param_1);  // 0x10284F20
 XI_API undefined4 __cdecl SqmoChannel_Evaluate(int param_1, undefined4 param_2);  // 0x10284F50
 XI_API void __cdecl Unit10284F90_SetValueByType(int * param_1, int param_2);  // 0x10284FD0
-XI_API undefined4 __cdecl fn_10285000(int * param_1, int * param_2);  // 0x10285000
+XI_API undefined4 __cdecl Unit10284F90_GetValueByItemKind(int * param_1, int * param_2);  // 0x10285000
 XI_API int __cdecl SqmoBuild_ReadFrameChannel(undefined4 * param_1, int param_2);  // 0x102851C0
 XI_API int __cdecl SqmoBuild_ReadKeyChannel(undefined4 * param_1, int param_2);  // 0x102852E0
 XI_API int __cdecl PlaybackChannel_Load(undefined4 * param_1, undefined4 * param_2);  // 0x102853F0
 XI_API void __cdecl SqObject_Release(int * param_1);  // 0x10285740
 XI_API undefined4 __cdecl Unit102857D0_GetFlagByte14(int param_1);  // 0x102857D0
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_102857E0(undefined4 xi_eax, int param_1, undefined4 param_2);  // 0x102857E0
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit102857D0_SetByte14(undefined4 xi_eax, int param_1, undefined4 param_2);  // 0x102857E0
 XI_API undefined4 __cdecl Unit102857D0_InvokeCallback18(int param_1);  // 0x102857F0
 XI_API void __cdecl sqDrawableDraw(int param_1);  // 0x10285850
 XI_API int __cdecl SqmdDMB_Resolve(char * param_1, undefined4 param_2);  // 0x10287FB0
@@ -3446,7 +3469,7 @@ XI_API undefined4 __cdecl Unit1028D820_CreateFromFields(undefined4 param_1, unde
 XI_API long double __cdecl Unit1028D970_SumAxis(int param_1);  // 0x1028D990
 XI_API void __cdecl Unit1028D970_Reset(undefined4 * param_1);  // 0x1028D9A0
 XI_API void __cdecl Unit1028D970_Copy(undefined4 * param_1, undefined4 * param_2);  // 0x1028D9C0
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_1028DA20(float * xi_eax, float * param_1, float * param_2, int param_3);  // 0x1028DA20
+XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1028D970_ComputeBounds(float * xi_eax, float * param_1, float * param_2, int param_3);  // 0x1028DA20
 XI_API void __cdecl Unit1028D970_GetCenter(float * param_1, float * param_2);  // 0x1028DBB0
 XI_API undefined4 * __cdecl SqmdSnap_Create(void);  // 0x1028DC00
 XI_API void __cdecl SqmdSnap_Init(undefined4 * param_1);  // 0x1028DC20
@@ -3454,7 +3477,7 @@ XI_API undefined4 __cdecl Unit1028DD50_CreateRef(int param_1, undefined4 param_2
 XI_API void __cdecl SqsnScene_Free(int param_1);  // 0x1028E1B0
 XI_API void __cdecl SqsnScene_Init(undefined4 * param_1);  // 0x1028E350
 XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float param_3);  // 0x1028EBF0
-XI_API undefined4 __cdecl fn_1028EC30(int param_1, int param_2, undefined4 param_3);  // 0x1028EC30
+XI_API undefined4 __cdecl SqsnScene_SetEntryField8(int param_1, int param_2, undefined4 param_3);  // 0x1028EC30
 XI_API void __cdecl SqsnScene_SetItemByte19(int param_1, int param_2, undefined4 param_3);  // 0x1028EC50
 XI_API void __cdecl SqsnScene_SetByteAt28(int param_1, int param_2, undefined4 param_3);  // 0x1028ECC0
 XI_API void __cdecl SqsnScene_SetItemByte18(int param_1, int param_2, undefined4 param_3);  // 0x1028ECE0
@@ -3483,7 +3506,7 @@ XI_API void __cdecl SqsnScene_Preallocate(int param_1, int param_2, int param_3,
 XI_API void __cdecl SqsnScene_LayerPreallocate(int param_1, int param_2, int param_3);  // 0x102907C0
 XI_API void __cdecl SqsnScene_ShadowPreallocate(int param_1, int param_2, int param_3);  // 0x10290840
 XI_API void __cdecl SqsdGeneric_Init(undefined4 * param_1);  // 0x10290910
-XI_API void __cdecl fn_10290B60(int param_1, int * param_2);  // 0x10290B60
+XI_API void __cdecl SqsdGeneric_DrawPasses(int param_1, int * param_2);  // 0x10290B60
 XI_API int * __cdecl sqsdGeneric_BakeOntoShape(int param_1, int * param_2);  // 0x10290FC0
 XI_API void __cdecl SqrdCamera_Init(undefined4 * param_1);  // 0x10291110
 XI_API void __cdecl sqrdCamera_Apply(int param_1);  // 0x102911E0
@@ -3504,7 +3527,7 @@ XI_API void __cdecl SqhiNode_Init(undefined4 * param_1);  // 0x10291BA0
 XI_API void __cdecl SqhiNode_Nop(void);  // 0x10291C50
 XI_API void __cdecl SqhiNode_SetField64(int param_1, undefined4 param_2);  // 0x10291F00
 XI_API void __cdecl SqhiNode_AppendChild(int param_1, int param_2);  // 0x10291F10
-XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10292130(undefined4 xi_eax, undefined1 * param_1, uint32_t param_2, int param_3);  // 0x10292130
+XI_API undefined4 __attribute__((cdecl, regparm(1))) SqIO_SwapBytes(undefined4 xi_eax, undefined1 * param_1, uint32_t param_2, int param_3);  // 0x10292130
 XI_API void __cdecl Unit10292470_SwapNibblesXor(int param_1, uint32_t param_2);  // 0x10292490
 XI_API undefined4 * __cdecl SqmoPlaybackChannel_Create(void);  // 0x102924F0
 XI_API void __cdecl SqmoPlaybackChannel_Init(undefined4 * param_1);  // 0x10292520
@@ -3596,13 +3619,13 @@ XI_API void __cdecl SqVtx_PackFloatsToBytes(int param_1, int param_2);  // 0x102
 XI_API undefined4 * __cdecl SqshTriStrip_Create(void);  // 0x102AA2D0
 XI_API void __cdecl SqshTriStrip_Init(undefined4 * param_1);  // 0x102AA2F0
 XI_API undefined4 __cdecl SqshTriStrip_GetGlobal(void);  // 0x102ABEB0
-XI_API undefined4 __cdecl fn_102ABEC0(int param_1, undefined * param_2, undefined4 param_3);  // 0x102ABEC0
+XI_API undefined4 __cdecl SqshTriStrip_ForEachTriangle(int param_1, undefined * param_2, undefined4 param_3);  // 0x102ABEC0
 XI_API undefined4 * __cdecl SqshPoints_Create(void);  // 0x102ACB60
 XI_API void __cdecl SqshPoints_Init(undefined4 * param_1);  // 0x102ACB80
 XI_API undefined4 * __cdecl SqshCurves_Create(void);  // 0x102ACF20
 XI_API void __cdecl SqshCurves_Init(undefined4 * param_1);  // 0x102ACF40
 XI_API void __cdecl SqshCurves_ComputeNormals(int param_1, undefined4 xi_s2);  // 0x102AD1D0
-XI_API undefined4 __cdecl fn_102AD770(int param_1, undefined4 xi_s2);  // 0x102AD770
+XI_API undefined4 __cdecl SqshCurves_ComputeTangents(int param_1, undefined4 xi_s2);  // 0x102AD770
 XI_API void __cdecl SqshCurves_RebuildIndex(int param_1);  // 0x102AD990
 XI_API void __cdecl SqinShape_Reset(undefined4 * param_1);  // 0x102AEC50
 XI_API undefined4 * __cdecl SqdfShape_Create(void);  // 0x102AEE90
@@ -3611,10 +3634,16 @@ XI_API void __cdecl SqdfShape_InitCallbacks(undefined4 * param_1);  // 0x102AF17
 XI_API undefined4 * __cdecl sqinCluster_Create(void);  // 0x102AF540
 XI_API void __cdecl sqinCluster_Init(undefined4 * param_1);  // 0x102AF570
 XI_API void __cdecl Drawable_DrawTwoPass(int param_1, int * param_2);  // 0x102B2CA0
-XI_API UINT __stdcall fn_102BC820(HWND param_1);  // 0x102BC820
-XI_API BOOL __stdcall fn_102BC838(HIMC param_1, DWORD dwAction, DWORD dwIndex, DWORD dwValue);  // 0x102BC838
-XI_API BOOL __stdcall fn_102BC856(HIMC param_1, BOOL param_2);  // 0x102BC856
-XI_API BOOL __stdcall fn_102BC85C(HIMC param_1);  // 0x102BC85C
-XI_API BOOL __stdcall fn_102BC862(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD lpfdwSentence);  // 0x102BC862
-XI_API LONG __stdcall fn_102BC868(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWORD dwBufLen);  // 0x102BC868
-XI_API BOOL __stdcall fn_102BC86E(HIMC param_1, DWORD dwIndex, LPVOID lpComp, DWORD dwCompLen, LPVOID lpRead, DWORD dwReadLen);  // 0x102BC86E
+XI_API UINT __stdcall Imm_GetVirtualKeyJmp(HWND param_1);  // 0x102BC820
+XI_API UINT __stdcall fn_102BC826(HKL param_1, LPSTR lpszDescription, UINT uBufLen);  // 0x102BC826
+XI_API HIMC __stdcall fn_102BC82C(HWND param_1);  // 0x102BC82C
+XI_API BOOL __stdcall fn_102BC832(HWND param_1, HIMC param_2);  // 0x102BC832
+XI_API BOOL __stdcall Imm_NotifyIMEJmp(HIMC param_1, DWORD dwAction, DWORD dwIndex, DWORD dwValue);  // 0x102BC838
+XI_API BOOL __stdcall fn_102BC83E(HIMC param_1, LPCANDIDATEFORM lpCandidate);  // 0x102BC83E
+XI_API BOOL __stdcall fn_102BC844(HIMC param_1, LPCOMPOSITIONFORM lpCompForm);  // 0x102BC844
+XI_API BOOL __stdcall Imm_SetOpenStatusJmp(HIMC param_1, BOOL param_2);  // 0x102BC856
+XI_API BOOL __stdcall Imm_GetOpenStatusJmp(HIMC param_1);  // 0x102BC85C
+XI_API BOOL __stdcall Imm_GetConversionStatusJmp(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD lpfdwSentence);  // 0x102BC862
+XI_API LONG __stdcall Imm_GetCompositionStringAJmp(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWORD dwBufLen);  // 0x102BC868
+XI_API BOOL __stdcall Imm_SetCompositionStringAJmp(HIMC param_1, DWORD dwIndex, LPVOID lpComp, DWORD dwCompLen, LPVOID lpRead, DWORD dwReadLen);  // 0x102BC86E
+XI_API BOOL __stdcall fn_102BC874(HIMC param_1, DWORD param_2, DWORD param_3);  // 0x102BC874

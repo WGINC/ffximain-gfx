@@ -420,8 +420,39 @@ void __thiscall CMoTask::Release(void * self)
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
     return;
   }
-  orig::FUN_10074ad0(self,1);
+  orig::CMoTask_DetachAndRecycle(self,1);
   return;
+}
+
+// FUNCTION: FFXIMAIN 0x10074AD0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+undefined4 __thiscall CMoTask::DetachAndRecycle(void * self, int param_1)
+{
+  uint32_t uVar1;
+  int iVar2;
+  
+  if (*(void **)((int)self + 0x10) != (void *)0x0) {
+    orig::Unit10074790_Remove(*(void **)((int)self + 0x10),(int)self);
+  }
+  if (*(void **)((int)self + 0x24) != (void *)0x0) {
+    orig::CMoTask_DestroyChain(*(void **)((int)self + 0x24));
+  }
+  iVar2 = 0;
+  if (*(int *)((int)self + 4) != 0) {
+    uVar1 = 0;
+    if (param_1 != 0) {
+      uVar1 = orig::FUN_10074a20();
+    }
+    iVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x20))));
+    if (*(char *)((int)self + 0x20) == '\0') {
+      *(uint32_t *)(dword_1047D140 + 0xd5c) = *(uint32_t *)(dword_1047D140 + 0xd50);
+      *(void **)(dword_1047D140 + 0xd50) = self;
+      *(uint32_t *)((int)self + 4) = 0;
+      iVar2 = dword_1047D140;
+      *(int *)(dword_1047D140 + 0xd44) = *(int *)(dword_1047D140 + 0xd44) + -1;
+    }
+  }
+  return iVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x10075000  (placed by IDB name; static (takes no this))

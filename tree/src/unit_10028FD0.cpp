@@ -69,25 +69,25 @@ XI_API void __cdecl Unit10028FD0_CallListByKind(undefined4 param_1)
 {
   switch(xi_sw(param_1)) {
   case 0:
-    orig::FUN_100289f0_v1(DAT_104570b4_as_s32,DAT_104570b8_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570b4_as_s32,DAT_104570b8_as_s32);
     return;
   case 1:
-    orig::FUN_100289f0_v1(DAT_104570b4_as_s32,DAT_104570b8_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570b4_as_s32,DAT_104570b8_as_s32);
     return;
   case 2:
-    orig::FUN_100289f0_v1(DAT_104570bc_as_s32,DAT_104570c0_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570bc_as_s32,DAT_104570c0_as_s32);
     return;
   case 3:
-    orig::FUN_100289f0_v1(DAT_104570bc_as_s32,DAT_104570c0_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570bc_as_s32,DAT_104570c0_as_s32);
     return;
   default:
-    orig::FUN_100289f0_v1(DAT_104570c4_as_s32,DAT_104570c8_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570c4_as_s32,DAT_104570c8_as_s32);
     return;
   case 5:
-    orig::FUN_100289f0_v1(DAT_104570cc_as_s32,DAT_104570d0_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570cc_as_s32,DAT_104570d0_as_s32);
     return;
   case 6:
-    orig::FUN_100289f0_v1(DAT_104570d4_as_s32,DAT_104570d8_as_s32);
+    orig::MemBlock_FindLargestFreeSize(DAT_104570d4_as_s32,DAT_104570d8_as_s32);
     return;
   }
 }

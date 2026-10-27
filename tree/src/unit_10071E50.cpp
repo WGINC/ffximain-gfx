@@ -209,6 +209,17 @@ LAB_10072598:
   } while( true );
 }
 
+// FUNCTION: FFXIMAIN 0x10072990  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
+// NOT VERIFIED -- FAIL
+XI_API void __fastcall fn_10072990(int param_1, undefined4 xi_edx)
+{
+  *(uint32_t *)(param_1 + 0x14) = 0;
+  *(uint16_t *)(param_1 + 0x1a) = (uint16_t)(byte_1047D12C_as_v1 & 1) | *(uint16_t *)(param_1 + 0x1a) & 0xfffe;
+  byte_1047D12C_as_v1 = 0;
+  *(uint32_t *)(param_1 + 0x28) = 0;
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100729C0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl unknown_libname_61(void)

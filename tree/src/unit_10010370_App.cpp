@@ -126,16 +126,16 @@ XI_API void __cdecl App_SaveAllSlotData(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall App_Constructor(void * self_)
 {
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x54));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x94));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0xd4));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x114));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x154));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x194));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x1d4));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x214));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x254));
-  orig::Unit10026C70_ReturnThis((void *)((int)self_ + 0x294));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x54));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x94));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0xd4));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x114));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x154));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x194));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x1d4));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x214));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x254));
+  orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x294));
   *(uint8_t ***)self_ = &PTR_FUN_10329c14;
   *(uint8_t *)((int)self_ + 0xb) = 1;
   *(uint16_t *)((int)self_ + 4) = 0;

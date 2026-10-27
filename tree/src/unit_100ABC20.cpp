@@ -10,7 +10,7 @@ XI_API void * __thiscall Unit100ABC20_CopyFrom(void * self_, char * param_1, int
   int iVar2;
   uint16_t *puVar3;
   
-  orig::_strncpy_v1(self_,param_1,0xf);
+  orig::_strncpy_v2(self_,param_1,0xf);
   iVar2 = 0;
   *(uint8_t *)((int)self_ + 0xf) = 0;
   *(uint16_t *)((int)self_ + 0x22) = *(uint16_t *)(param_2 + 0x12);

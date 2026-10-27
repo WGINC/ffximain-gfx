@@ -34,7 +34,7 @@ XI_API int __cdecl SqshBuild_BuildTriStrip(undefined4 * param_1, int param_2)
   puVar5 = orig::SqMem_AllocZeroed(*piVar1,4,s_C__dev_dancer_modules_sqShape_sr_103bc174,0x84);
   *(undefined4 **)(iVar3 + 0x48) = puVar5;
   param_1 = orig::Unit1028A0A0_ReadBlock(puVar5,4,*piVar1,param_1,iVar2);
-  orig::FUN_1028da20((float *)(iVar3 + 0x14),*(float **)(iVar4 + 0x54),*(int *)(iVar4 + 0x14),
+  orig::Unit1028D970_ComputeBounds((float *)(iVar3 + 0x14),*(float **)(iVar4 + 0x54),*(int *)(iVar4 + 0x14),
                *(float **)(iVar4 + 0x54));
   if (param_2 < 2) {
     *(undefined4 *)(iVar3 + 0x50) = 0;
@@ -42,7 +42,7 @@ XI_API int __cdecl SqshBuild_BuildTriStrip(undefined4 * param_1, int param_2)
   else {
     param_1 = orig::Unit1028A0A0_ReadBlock((undefined4 *)(iVar3 + 0x50),4,1,param_1,iVar2);
   }
-  orig::FUN_102abec0(iVar3,(uint8_t *)0x0,iVar4);
+  orig::SqshTriStrip_ForEachTriangle(iVar3,(uint8_t *)0x0,iVar4);
   uVar6 = orig::SqshTriStrip_GetGlobal();
   *(undefined4 *)(iVar3 + 0x44) = uVar6;
   *(int *)(iVar3 + 0x34) = iVar4;
@@ -111,7 +111,7 @@ XI_API int __cdecl SqshBuild_BuildPoints(undefined4 * param_1, int param_2)
     return 0;
   }
   puVar2[0xd] = iVar3;
-  orig::FUN_1028da20((float *)(puVar2 + 5),*(float **)(iVar3 + 0x54),*(int *)(iVar3 + 0x14),
+  orig::Unit1028D970_ComputeBounds((float *)(puVar2 + 5),*(float **)(iVar3 + 0x54),*(int *)(iVar3 + 0x14),
                *(int *)(iVar3 + 0x14));
   return (int)puVar2;
 }
@@ -143,7 +143,7 @@ XI_API int __cdecl SqshBuild_BuildCurves(undefined4 * param_1, int param_2)
     return 0;
   }
   puVar4[0xd] = iVar5;
-  orig::FUN_1028da20((float *)(puVar4 + 5),*(float **)(iVar5 + 0x54),*(int *)(iVar5 + 0x14),
+  orig::Unit1028D970_ComputeBounds((float *)(puVar4 + 5),*(float **)(iVar5 + 0x54),*(int *)(iVar5 + 0x14),
                *(int *)(iVar5 + 0x14));
   puVar3 = orig::Unit1028A0A0_ReadBlock(puVar4 + 0x13,4,1,param_1,iVar2);
   piVar1 =(int*)(puVar4 + 0x11);

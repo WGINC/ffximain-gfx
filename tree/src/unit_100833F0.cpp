@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10083620  (unit unit_100833F0: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 93 returned normally, 227 D3D calls compared (diffemu_gfx, clean build)
-XI_API int * __cdecl fn_10083620(undefined4 param_1, undefined4 param_2)
+XI_API int * __cdecl Target_FindNearestOnLocalPositiveX(undefined4 param_1, undefined4 param_2)
 {
   int iVar1;
   uint32_t *puVar2;
@@ -24,7 +24,7 @@ XI_API int * __cdecl fn_10083620(undefined4 param_1, undefined4 param_2)
   if ((int)uVar7 == 0) {
     return (int *)0x0;
   }
-  orig::Unit10026C70_ReturnThis_v1(local_40);
+  orig::Unit10026C70_ReturnThis(local_40);
   orig::Mat4_SetIdentity_v1(local_40);
   uVar7 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
   iVar1 = ((int (__thiscall *)(void *))((**(code **)(*(int *)uVar7 + 0x1c0))))((void *)((int *)uVar7));

@@ -280,7 +280,7 @@ XI_API void __thiscall Unit10048000_CallProcessorSlot49(void * self_, undefined4
 
 // FUNCTION: FFXIMAIN 0x100527F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API void * __thiscall fn_100527F0(void * self_)
+XI_API void * __thiscall Unit10048000_ReturnThis(void * self_)
 {
   return self_;
 }

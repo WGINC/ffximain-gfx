@@ -4,7 +4,7 @@
 
 // FUNCTION: FFXIMAIN 0x10028AA0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10028AA0(undefined4 param_1)
+XI_API undefined4 __cdecl Mem_FreeBlockMergeNeighbours(undefined4 param_1)
 {
   int iVar1;
   int iVar2;
@@ -59,7 +59,7 @@ XI_API undefined4 __cdecl fn_10028AA0(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x10028AC0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_10028AC0(int param_1)
+XI_API undefined4 __cdecl Mem_FreeHeaderMergeNeighbours(int param_1)
 {
   int iVar1;
   int iVar2;

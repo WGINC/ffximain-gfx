@@ -269,7 +269,7 @@ XI_API void __cdecl SqmdModel_Update(int param_1)
     return;
   }
   if ((*(uint8_t *)(param_1 + 0xa8) & 4) != 0) {
-    iVar2 = orig::FUN_10275090();
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
     iVar6 = 0;
     if (0 < *(int *)(param_1 + 0x44)) {
       do {
@@ -331,9 +331,9 @@ LAB_10278576:
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)(param_1 + 0x44));
     }
-    iVar6 = orig::FUN_10275090();
+    iVar6 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109f8270_as_s32 = iVar6 - iVar2;
-    iVar2 = orig::FUN_10275090();
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
     iVar6 = 0;
     if (0 < *(int *)(param_1 + 0x58)) {
       do {
@@ -347,9 +347,9 @@ LAB_10278576:
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)(param_1 + 0x58));
     }
-    iVar6 = orig::FUN_10275090();
+    iVar6 = orig::SqTimer_GetMicroseconds_v1();
     DAT_109f8274 = iVar6 - iVar2;
-    iVar2 = orig::FUN_10275090();
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
     iVar6 = 0;
     if (0 < *(int *)(param_1 + 0x44)) {
       do {
@@ -361,9 +361,9 @@ LAB_10278576:
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)(param_1 + 0x44));
     }
-    _DAT_109f8278 = orig::FUN_10275090();
+    _DAT_109f8278 = orig::SqTimer_GetMicroseconds_v1();
     _DAT_109f8278 = _DAT_109f8278 - iVar2;
-    iVar2 = orig::FUN_10275090();
+    iVar2 = orig::SqTimer_GetMicroseconds_v1();
     iVar6 = 0;
     if (0 < *(int *)(param_1 + 0x44)) {
       do {
@@ -375,7 +375,7 @@ LAB_10278576:
         iVar6 = iVar6 + 1;
       } while (iVar6 < *(int *)(param_1 + 0x44));
     }
-    _DAT_109f827c = orig::FUN_10275090();
+    _DAT_109f827c = orig::SqTimer_GetMicroseconds_v1();
     _DAT_109f827c = _DAT_109f827c - iVar2;
   }
   return;
@@ -404,7 +404,7 @@ XI_API void __cdecl SqmdModel_Link(int param_1, undefined4 param_2, undefined4 p
         sVar5 = 7;
         pcVar4 = s_eyelash_103b3b0c;
         pcVar1 = (char *)orig::SqmdModel_GetItemNameKind3(param_1,iVar2);
-        uVar3 = orig::_strncmp(pcVar1,pcVar4,sVar5);
+        uVar3 = orig::_strncmp_v1(pcVar1,pcVar4,sVar5);
         if ((int)uVar3 != 0) {
           orig::SqmdModel_LinkShape(param_1,iVar2,param_2,param_3,param_4);
         }
@@ -419,7 +419,7 @@ XI_API void __cdecl SqmdModel_Link(int param_1, undefined4 param_2, undefined4 p
         sVar5 = 7;
         pcVar4 = s_eyelash_103b3b0c;
         pcVar1 = (char *)orig::SqmdModel_GetItemNameKind3(param_1,iVar2);
-        uVar3 = orig::_strncmp(pcVar1,pcVar4,sVar5);
+        uVar3 = orig::_strncmp_v1(pcVar1,pcVar4,sVar5);
         if ((int)uVar3 == 0) {
           orig::SqmdModel_LinkShape(param_1,iVar2,param_2,param_3,param_4);
         }
@@ -646,7 +646,7 @@ XI_API void __cdecl SqmdModel_LookAt(int param_1, int param_2, int param_3, floa
         orig::Unit10274050_Sub(&local_64,param_4,local_4c);
         if (iVar2 != 0) {
           iVar3 = *(int *)(iVar2 + 100);
-          orig::Unit1027A4B0_Copy(local_40,(uint32_t *)(iVar3 + 0x68));
+          orig::Unit1027A4B0_Copy_v1(local_40,(uint32_t *)(iVar3 + 0x68));
           orig::Unit1027B060_NegateInPlace(local_40);
           local_64 = (float)((long double)local_64 - (long double)*(float *)(iVar3 + 0x5c));
           local_60 = (float)((long double)local_60 - (long double)*(float *)(iVar3 + 0x60));
@@ -676,7 +676,7 @@ XI_API void __cdecl SqmdModel_LookAt(int param_1, int param_2, int param_3, floa
           orig::Unit1027A4B0_FromRotationX(local_20,local_6c);
           pfVar6 = (float *)(iVar1 + 0x68);
           orig::Unit1027B060_Mul(local_40,local_20,pfVar6);
-          orig::Unit1027A4B0_Copy(pfVar6,local_40);
+          orig::Unit1027A4B0_Copy_v1(pfVar6,local_40);
         }
         *(int *)(piVar5[7] + 0x68) = iVar2;
       }
@@ -977,7 +977,7 @@ XI_API char * __cdecl SqmdModel_ItemKindName(undefined4 param_1)
 
 // FUNCTION: FFXIMAIN 0x1027A220  (unit sqmdModel: between 0x1027A090 (asserts sqmdModel.c) and 0x1027A250 (asserts sqmdModel.c), both within 4 KB)
 // GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
-XI_API undefined4 __cdecl fn_1027A220(int param_1, undefined4 param_2)
+XI_API undefined4 __cdecl SqmdModel_AppendPair68Flag100(int param_1, undefined4 param_2)
 {
   uint32_t *puVar1;
   

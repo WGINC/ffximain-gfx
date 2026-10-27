@@ -214,8 +214,8 @@ public class GfxExport extends GhidraScript {
                 else continue;
                 Instruction in = currentProgram.getListing().getInstructionAt(op.getSeqnum().getTarget());
                 if (in == null || !in.getFlowType().isCall() || in.getFlowType().isComputed() || in.getFlows().length != 1) continue;
-                Function c = getFunctionAt(in.getFlows()[0]);
-                if (c == null || c.isExternal() || c.isThunk()) continue;
+                Function c = sigOwner(getFunctionAt(in.getFlows()[0]));     // a thunk's return is its target's
+                if (c == null) continue;
                 // a callee that leaves the register untouched does not return in it: the caller reads its own
                 // value from before the call (the callee's prototype model says so, keepModels)
                 if (kept(c).contains(w == 8 ? "edx" : "eax")) continue;
@@ -545,6 +545,39 @@ public class GfxExport extends GhidraScript {
 
     // set what the code establishes: the convention, the return in ST0, and for callee-cleanup the stack
     // parameters that `ret N` pops (N/4 dwords) when the decompiler's committed list pops a different amount
+    // the function whose signature a call to c uses: c itself, or for a thunk (`jmp target`, 0x10150CC0) the function
+    // it ends in, since a Ghidra thunk has no signature of its own (Function.isThunk: it is the thunked function's).
+    // Skipping thunks left their targets' conventions unset when no listed function called the target directly:
+    // 0x1013A100 then called the thunk 0x10150CC0 as `undefined f(void)` without the object its target reads in
+    // ECX (0x10150CED `mov esi, ecx`, data/ecx_use.json), and the tree passed whatever ECX the compiled C++ held.
+    private Function sigOwner(Function c) {
+        if (c != null && c.isThunk()) c = c.getThunkedFunction(true);
+        return c == null || c.isExternal() ? null : c;
+    }
+
+    // the address a function used as a value stands for. Ghidra prints a thunk under its target's name, so a pointer
+    // to the thunk reads as the target (0x1015B410 pushes 0x1011D980, `jmp 0x1011CF70`, and the text names
+    // Font_MeasureText, 0x1011CF70). Of g's code and the thunks of it, the one f's own instructions hold as an
+    // operand is the value; where that is not exactly one of them, g's entry as before
+    private Address valueAddress(Function f, Function g) {
+        Function t = g.isThunk() ? g.getThunkedFunction(true) : g;
+        if (t == null) return g.getEntryPoint();
+        Set<Long> cand = new HashSet<>();
+        cand.add(t.getEntryPoint().getOffset());
+        Address[] th = t.getFunctionThunkAddresses(true);
+        if (th != null) for (Address a : th) cand.add(a.getOffset());
+        if (cand.size() == 1) return g.getEntryPoint();
+        Set<Long> held = new HashSet<>();
+        for (Instruction in : currentProgram.getListing().getInstructions(f.getBody(), true))
+            for (int k = 0; k < in.getNumOperands(); k++)
+                for (Object o : in.getOpObjects(k)) {
+                    long v = o instanceof ghidra.program.model.scalar.Scalar ? ((ghidra.program.model.scalar.Scalar) o).getUnsignedValue()
+                           : o instanceof Address ? ((Address) o).getOffset() : -1;
+                    if (cand.contains(v)) held.add(v);
+                }
+        return held.size() == 1 ? currentProgram.getAddressFactory().getDefaultAddressSpace().getAddress(held.iterator().next()) : g.getEntryPoint();
+    }
+
     private boolean applyConv(Function f, boolean params) {
         String[] p = conv.get(f.getEntryPoint().getOffset());
         if (p == null) return false;
@@ -948,10 +981,10 @@ public class GfxExport extends GhidraScript {
             }
             for (Instruction in : currentProgram.getListing().getInstructions(f.getBody(), true)) {
                 if (!in.getFlowType().isCall() || in.getFlowType().isComputed() || in.getFlows().length != 1) continue;
-                Function c = getFunctionAt(in.getFlows()[0]);   // from the call instructions: getCalledFunctions missed 0x10071050
-                if (c != null && !c.isThunk() && !c.isExternal()) fixSig.add(c);
+                Function c = sigOwner(getFunctionAt(in.getFlows()[0]));   // from the call instructions: getCalledFunctions missed 0x10071050
+                if (c != null) fixSig.add(c);
             }
-            for (Function c : f.getCalledFunctions(monitor)) if (!c.isThunk() && !c.isExternal()) fixSig.add(c);
+            for (Function c : f.getCalledFunctions(monitor)) if ((c = sigOwner(c)) != null) fixSig.add(c);
         }
         int set = 0;
         for (Function f : fixSig) if (applyConv(f, false)) set++;
@@ -1120,7 +1153,7 @@ public class GfxExport extends GhidraScript {
                     Function g = getFunctionAt(sy.getAddress());
                     if (g != null)
                         objs.put(nm, String.format("{\"ea\": %d, \"func\": true, \"type\": %s, \"printed\": [%s], \"size\": 0, \"is_str\": false, \"purged\": %d, \"storage\": %s}",
-                                sy.getAddress().getOffset(), esc(g.getSignature(true).getPrototypeString(true).replaceFirst("\\s*" + java.util.regex.Pattern.quote(g.getName()) + "\\s*\\(", "(")), esc(nm), (g.getStackPurgeSize() == Function.UNKNOWN_STACK_DEPTH_CHANGE || g.getStackPurgeSize() < 0 ? -1 : g.getStackPurgeSize()), storage(g)));
+                                valueAddress(f, g).getOffset(), esc(g.getSignature(true).getPrototypeString(true).replaceFirst("\\s*" + java.util.regex.Pattern.quote(g.getName()) + "\\s*\\(", "(")), esc(nm), (g.getStackPurgeSize() == Function.UNKNOWN_STACK_DEPTH_CHANGE || g.getStackPurgeSize() < 0 ? -1 : g.getStackPurgeSize()), storage(g)));
                     else {
                         // the data defined at the symbol, if any; otherwise its address is all that is used
                         Data dd = getDataAt(sy.getAddress());

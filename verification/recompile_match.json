@@ -39,6 +39,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_1000A5A0.cpp"
 },
+"0x1000ABE0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000ABE0.cpp"
+},
 "0x1000BB90": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_1000BB90.cpp"

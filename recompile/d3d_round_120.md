@@ -145,3 +145,13 @@ path is the `if` body, the single draw after it (rule 5).
 0x100262C0 (#119; not in the tree), recompile/d3dcaller_100262C0.cpp, from the game's bytes: IDENTICAL. A chained
 assignment `a = b = x` stores b first: written `v[1].z = v[0].z = ...` for the game's store to v[0] then v[1].
 The pooled 8.0f at 0x1032A40C is the game's (its .rdata).
+
+0x1000ABE0 (#119; not in the tree; UNRESOLVED on the raw route for a call's pop count), recompile/d3dcaller_1000ABE0.cpp,
+from the game's bytes: IDENTICAL. Every call's pop is known here: its two callees' from data/purges.json, the device
+calls' from d3d8.h's prototypes.
+
+0x10043590 (#119): not matched. Written from the bytes with the callees' conventions from the facts (0x10042D00 pops
+16 and does not read ECX, but the game loads ECX = this + 0x1C0 before it), the scratch matrices as rule 9, the
+accessor as 0x1003FBB0: the instruction stream is the game's in shape; the registers differ throughout (the game:
+this in EBP, the object in ESI, EBX and EDI pushed only after the 0x10042D00 test; ours: ESI and EBX, all pushed at
+entry). Early returns, nested blocks and block-scoped matrix locals give the same allocation. 79 lines apart.

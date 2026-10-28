@@ -263,6 +263,14 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_1003FBB0.cpp"
 },
+"0x1003FCE0": {
+"verdict": "IDENTICAL",
+"file": "recompile/CMoDistModelElem_1003FCE0.cpp"
+},
+"0x1003FCF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/CMoDistModelElem_1003FCE0.cpp"
+},
 "0x10040BA0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_notree_r120.cpp"

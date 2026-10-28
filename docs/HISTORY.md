@@ -3762,4 +3762,14 @@ r14. The live verdicts carry over because the three functions they settle (0x100
 the same generated source in r14 and r15, and a declared type reaches a function's code only through a member access
 written in its source (the fields kept their offsets, the classes their sizes). 23 functions' source changed (their
 member accesses now name the declared fields); none changed verdict. `field_` names: CDx 70 to 64, CXiActor 8 to 0,
-CXiControlActor to 0. verify_all on r15: to run.
+CXiControlActor to 0. verify_all on r15 (`--quick --facts-from-state`): tree-regen identical (differing=[]), every check
+PASS but export-sp, which names 0x100412B0 as before (IDA's stack depths there, ida_wrong; not the tree's).
+
+**Round 121 (28 Oct): render-core functions, rules 24 to 28.** recompile/d3d_round_121.md. At the game's bytes:
+0x1000A6E0 (#118); 0x10025260, 0x100764C0, 0x10033A70, 0x10163400, 0x1006AA30, 0x1000A820 (#119); with them
+0x1006A560, 0x1003FCE0 and 0x1003FCF0 (frame set). #118 39 of 57, #119 51 of 100. Rule 28 is the finding: VC6
+keeps ECX or EDX live across a call to a function it compiled earlier in the same file (it knows that callee leaves
+them alone); compiled alone, the caller reloads them. 377 functions in the game keep ECX or EDX across a direct
+call (pipeline/vc6/livecall.py, verification/live_across_call.json; none of them among the sweep's IDENTICAL), 62 of them frame-set DIFFERS:
+the sweep, compiling each function alone, cannot match those; their callees must be compiled with them.
+

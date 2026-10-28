@@ -1,0 +1,5552 @@
+{
+"0x10005130": {
+"sites": [
+[
+"0x10005211",
+"0x10312a20",
+"edx",
+"mov dword ptr [ebp*8 + 0x10455c4c], edx"
+],
+[
+"0x1000522d",
+"0x10312a20",
+"edx",
+"mov dword ptr [esi*8 + 0x10455c4c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10005320": {
+"sites": [
+[
+"0x100053e5",
+"0x10312a20",
+"edx",
+"mov dword ptr [esi*8 + 0x1045604c], edx"
+],
+[
+"0x10005401",
+"0x10312a20",
+"edx",
+"mov dword ptr [edi*8 + 0x1045604c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10005A40": {
+"sites": [
+[
+"0x10006587",
+"0x100059c0",
+"edx",
+"mov ecx, dword ptr [edx]"
+],
+[
+"0x100065a6",
+"0x100059c0",
+"edx",
+"mov ecx, dword ptr [edx]"
+],
+[
+"0x100065c7",
+"0x10005a00",
+"edx",
+"mov ecx, dword ptr [edx]"
+],
+[
+"0x100065e6",
+"0x10005a00",
+"edx",
+"mov ecx, dword ptr [edx]"
+],
+[
+"0x10007477",
+"0x10123700",
+"edx",
+"mov ebx, edx"
+],
+[
+"0x100074c7",
+"0x10312a20",
+"edx",
+"and ecx, edx"
+],
+[
+"0x1000757e",
+"0x10312a20",
+"edx",
+"mov esi, edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1000A3B0": {
+"sites": [
+[
+"0x1000a3b9",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1000A820": {
+"sites": [
+[
+"0x1000a8d0",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000a8eb",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000a920",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000a93a",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000a970",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1000AEA0": {
+"sites": [
+[
+"0x1000afa6",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000afdc",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000aff6",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b02c",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b046",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000B1B0": {
+"sites": [
+[
+"0x1000b1ee",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b224",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b23e",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b274",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b28e",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000B7C0": {
+"sites": [
+[
+"0x1000b924",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b93d",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b973",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+],
+[
+"0x1000b98d",
+"0x10009e00",
+"ecx",
+"call 0x10009e00"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000DAD0": {
+"sites": [
+[
+"0x1000dad8",
+"0x10312150",
+"ecx",
+"mov dword ptr [ebp - 4], ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000E250": {
+"sites": [
+[
+"0x1000e258",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000EF30": {
+"sites": [
+[
+"0x1000ef38",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1000F420": {
+"sites": [
+[
+"0x1000f425",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10010D20": {
+"sites": [
+[
+"0x10010d86",
+"0x10029a50",
+"ecx",
+"call 0x1006cb50"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x1001A2B0": {
+"sites": [
+[
+"0x1001a3a3",
+"0x103134c7",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1001BC80": {
+"sites": [
+[
+"0x1001bf24",
+"0x1001b990",
+"ecx",
+"call 0x1001c260"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1001ED40": {
+"sites": [
+[
+"0x1001ed89",
+"0x1001ee30",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1001EE60": {
+"sites": [
+[
+"0x1002049a",
+"0x10032a40",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10021DD0": {
+"sites": [
+[
+"0x100220ab",
+"0x103134c7",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10027AA0": {
+"sites": [
+[
+"0x10027aa9",
+"0x100279b0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10027B80": {
+"sites": [
+[
+"0x10027b95",
+"0x100279b0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x10027BD0": {
+"sites": [
+[
+"0x10027be5",
+"0x100279b0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x10027C20": {
+"sites": [
+[
+"0x10027c35",
+"0x100279b0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x10029C90": {
+"sites": [
+[
+"0x10029c95",
+"0x10029bb0",
+"edx",
+"mov dword ptr [edx], 0x1032a6e0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1002A700": {
+"sites": [
+[
+"0x1002a711",
+"0x10029e70",
+"edx",
+"cmp ecx, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1002B6A0": {
+"sites": [
+[
+"0x1002b6c8",
+"0x1002b630",
+"edx",
+"mov eax, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1002C7E0": {
+"sites": [
+[
+"0x1002c7f1",
+"0x1002c7c0",
+"edx",
+"mov dword ptr [eax + 4], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10032E30": {
+"sites": [
+[
+"0x10032e48",
+"0x10032a80",
+"edx",
+"mov dword ptr [edx], ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10034190": {
+"sites": [
+[
+"0x100341fa",
+"0x103134c7",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1003D9A0": {
+"sites": [
+[
+"0x1003da79",
+"0x10014d70",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": false
+},
+"0x1003DB60": {
+"sites": [
+[
+"0x1003dced",
+"0x10014d70",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1003FCF0": {
+"sites": [
+[
+"0x1003fd06",
+"0x1003fce0",
+"ecx",
+"mov dl, byte ptr [ecx + 0x34]"
+],
+[
+"0x1003fd39",
+"0x1003fce0",
+"ecx",
+"mov dl, byte ptr [ecx + 0x35]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1003FEE0": {
+"sites": [
+[
+"0x1003ff25",
+"0x1003fce0",
+"edx",
+"mov cx, word ptr [eax + edx*2]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10040220": {
+"sites": [
+[
+"0x1004044c",
+"0x1003fce0",
+"ecx",
+"call 0x1003fcf0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10040670": {
+"sites": [
+[
+"0x10040b24",
+"0x1003fce0",
+"ecx",
+"call 0x1003fcf0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10044010": {
+"sites": [
+[
+"0x10044011",
+"0x10043de0",
+"ecx",
+"add edx, ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10044070": {
+"sites": [
+[
+"0x10044070",
+"0x10043de0",
+"ecx",
+"add edx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100440A0": {
+"sites": [
+[
+"0x100440a2",
+"0x10043de0",
+"ecx",
+"add edx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100440F0": {
+"sites": [
+[
+"0x100440f1",
+"0x10043de0",
+"ecx",
+"add eax, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10044130": {
+"sites": [
+[
+"0x10044132",
+"0x10043de0",
+"ecx",
+"add edx, ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x100441A0": {
+"sites": [
+[
+"0x100441a0",
+"0x10043de0",
+"ecx",
+"mov ecx, dword ptr [eax + ecx + 4]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x100446A0": {
+"sites": [
+[
+"0x10044723",
+"0x10071e90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10048000": {
+"sites": [
+[
+"0x10048062",
+"0x1003b690",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100496F0": {
+"sites": [
+[
+"0x1004a0c7",
+"0x100493b0",
+"ecx",
+"call 0x100493b0"
+],
+[
+"0x1004a247",
+"0x100493b0",
+"ecx",
+"call 0x100493b0"
+],
+[
+"0x1004a3c7",
+"0x100493b0",
+"ecx",
+"call 0x100493b0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1004A870": {
+"sites": [
+[
+"0x1004a928",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x1004a93e",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1004A980": {
+"sites": [
+[
+"0x1004c6e1",
+"0x10312c90",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d48e",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d4a2",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d4c2",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d4d6",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d4ff",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d51f",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d533",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d553",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d567",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d587",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d59b",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d5bb",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d5cf",
+"0x1004e570",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d636",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d666",
+"0x1004e4a0",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d68c",
+"0x1004e310",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d6a0",
+"0x1004e5c0",
+"ecx",
+"push ecx"
+],
+[
+"0x1004d764",
+"0x1004e3d0",
+"ecx",
+"push ecx"
+],
+[
+"0x1004db7d",
+"0x1004e620",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1004E630": {
+"sites": [
+[
+"0x1004e6c7",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x1004e6dd",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": false
+},
+"0x1004E8D0": {
+"sites": [
+[
+"0x100507a3",
+"0x100530b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100507db",
+"0x100530a0",
+"ecx",
+"push ecx"
+],
+[
+"0x100508d1",
+"0x10052d20",
+"ecx",
+"push ecx"
+],
+[
+"0x10050aaf",
+"0x10052a40",
+"ecx",
+"push ecx"
+],
+[
+"0x10050b00",
+"0x10052a50",
+"ecx",
+"push ecx"
+],
+[
+"0x1005153b",
+"0x10053090",
+"ecx",
+"push ecx"
+],
+[
+"0x1005154f",
+"0x100530e0",
+"ecx",
+"push ecx"
+],
+[
+"0x10052415",
+"0x10052a00",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100548D0": {
+"sites": [
+[
+"0x10054aa6",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x10054abc",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10057C00": {
+"sites": [
+[
+"0x10057c11",
+"0x10056ac0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10057FB0": {
+"sites": [
+[
+"0x10058043",
+"0x1018bc40",
+"ecx",
+"push ecx"
+],
+[
+"0x10059b54",
+"0x1005e590",
+"ecx",
+"push ecx"
+],
+[
+"0x10059e6f",
+"0x1005e590",
+"ecx",
+"push ecx"
+],
+[
+"0x1005af3e",
+"0x1005e590",
+"ecx",
+"push ecx"
+],
+[
+"0x1005b0f5",
+"0x100c8bb0",
+"ecx",
+"push ecx"
+],
+[
+"0x1005ce89",
+"0x1005e590",
+"ecx",
+"push ecx"
+],
+[
+"0x1005cfef",
+"0x1005e590",
+"ecx",
+"push ecx"
+],
+[
+"0x1005d2fe",
+"0x10060940",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10063B80": {
+"sites": [
+[
+"0x10063be2",
+"0x10063b50",
+"ecx",
+"call 0x10063b50"
+],
+[
+"0x10063bec",
+"0x10063b50",
+"ecx",
+"call 0x10063b50"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10064510": {
+"sites": [
+[
+"0x10064577",
+"0x10064410",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10065F00": {
+"sites": [
+[
+"0x10065f05",
+"0x10312150",
+"ecx",
+"mov edi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100683F0": {
+"sites": [
+[
+"0x10068451",
+"0x100699d0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069BB0": {
+"sites": [
+[
+"0x10069bbe",
+"0x10068300",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069BE0": {
+"sites": [
+[
+"0x10069bee",
+"0x10068320",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069C10": {
+"sites": [
+[
+"0x10069c23",
+"0x10068300",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069C40": {
+"sites": [
+[
+"0x10069c53",
+"0x10068300",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069C70": {
+"sites": [
+[
+"0x10069c7e",
+"0x10068340",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10069CA0": {
+"sites": [
+[
+"0x10069cae",
+"0x10068360",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1006AA30": {
+"sites": [
+[
+"0x1006aa70",
+"0x1006a560",
+"edx",
+"push edx"
+],
+[
+"0x1006aade",
+"0x1006a560",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": false
+},
+"0x1006B050": {
+"sites": [
+[
+"0x1006b055",
+"0x1006ad90",
+"edx",
+"mov dword ptr [edx], 0x1032c10c"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1006BC80": {
+"sites": [
+[
+"0x1006bc9f",
+"0x1006bc10",
+"ecx",
+"mov esi, dword ptr [ecx + eax*4]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10072030": {
+"sites": [
+[
+"0x10072070",
+"0x10071200",
+"edx",
+"mov eax, dword ptr [edx*4 + 0x1047cf80]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10072610": {
+"sites": [
+[
+"0x100726f2",
+"0x10072270",
+"edx",
+"cmp eax, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10072770": {
+"sites": [
+[
+"0x1007279e",
+"0x10072270",
+"edx",
+"mov dword ptr [eax + 0x38], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100730E0": {
+"sites": [
+[
+"0x100730fa",
+"0x10072270",
+"edx",
+"cmp eax, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10073430": {
+"sites": [
+[
+"0x100735d1",
+"0x100711d0",
+"ecx",
+"call 0x100711e0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10073750": {
+"sites": [
+[
+"0x10073894",
+"0x100711e0",
+"edx",
+"push edx"
+],
+[
+"0x10073947",
+"0x100711e0",
+"edx",
+"push edx"
+],
+[
+"0x10073950",
+"0x100711d0",
+"ecx",
+"call 0x100711e0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10074220": {
+"sites": [
+[
+"0x1007423a",
+"0x10072270",
+"edx",
+"cmp eax, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100743D0": {
+"sites": [
+[
+"0x10074456",
+"0x10072270",
+"edx",
+"mov eax, dword ptr [edx + 0x18]"
+],
+[
+"0x10074500",
+"0x10072270",
+"edx",
+"mov eax, dword ptr [edx + 0x18]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10074A80": {
+"sites": [
+[
+"0x10074a8b",
+"0x10074a50",
+"edx",
+"cmp word ptr [edx + 0x22], 0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10074BA0": {
+"sites": [
+[
+"0x10074bc0",
+"0x100748f0",
+"ecx",
+"mov edi, ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10074DB0": {
+"sites": [
+[
+"0x10074dc2",
+"0x100748f0",
+"ecx",
+"mov dword ptr [ecx + 0xc], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10074DF0": {
+"sites": [
+[
+"0x10074e02",
+"0x100748f0",
+"ecx",
+"mov dword ptr [ecx + 8], edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10074ED0": {
+"sites": [
+[
+"0x10074ee2",
+"0x100748f0",
+"ecx",
+"mov dword ptr [ecx + 0xc], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10075220": {
+"sites": [
+[
+"0x10075226",
+"0x100751b0",
+"ecx",
+"call 0x10074f80"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10075240": {
+"sites": [
+[
+"0x10075246",
+"0x100751b0",
+"ecx",
+"call 0x10075020"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10075260": {
+"sites": [
+[
+"0x10075266",
+"0x100751b0",
+"ecx",
+"call 0x10075060"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100766F0": {
+"sites": [
+[
+"0x1007670f",
+"0x10312a20",
+"edx",
+"or ebp, edx"
+],
+[
+"0x10076731",
+"0x10312a20",
+"edx",
+"or ebp, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1007FCC0": {
+"sites": [
+[
+"0x1007fe7a",
+"0x10152ef0",
+"ecx",
+"call 0x10314020"
+],
+[
+"0x1007fe93",
+"0x10152ef0",
+"ecx",
+"call 0x10314020"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10083F20": {
+"sites": [
+[
+"0x10083fb6",
+"0x10082fa0",
+"ecx",
+"call 0x10082fa0"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x10087F00": {
+"sites": [
+[
+"0x1008805a",
+"0x100279b0",
+"ecx",
+"push ecx"
+],
+[
+"0x1008806f",
+"0x10027c20",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10089FA0": {
+"sites": [
+[
+"0x10089fac",
+"0x10089f80",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10089FC0": {
+"sites": [
+[
+"0x10089fcc",
+"0x10089f80",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1008F740": {
+"sites": [
+[
+"0x1008fd34",
+"0x1008a160",
+"ecx",
+"call 0x1008a1a0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100940B0": {
+"sites": [
+[
+"0x100940b5",
+"0x1018bbc0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10094190": {
+"sites": [
+[
+"0x10095208",
+"0x1018bbc0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1009D0F0": {
+"sites": [
+[
+"0x1009d882",
+"0x1009acb0",
+"ecx",
+"call 0x1009ace0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100A0660": {
+"sites": [
+[
+"0x100a0691",
+"0x100a0580",
+"ecx",
+"mov word ptr [ecx + 0x12], ax"
+],
+[
+"0x100a06b2",
+"0x100a0570",
+"ecx",
+"mov dword ptr [ecx + 8], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100A3740": {
+"sites": [
+[
+"0x100a3762",
+"0x100a3680",
+"ecx",
+"mov eax, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100A6240": {
+"sites": [
+[
+"0x100a6cdd",
+"0x100279b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100a7003",
+"0x100279b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100a747a",
+"0x10027990",
+"ecx",
+"push ecx"
+],
+[
+"0x100a766a",
+"0x100279b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100A79A0": {
+"sites": [
+[
+"0x100a79d1",
+"0x100279b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100A8490": {
+"sites": [
+[
+"0x100a854d",
+"0x100279b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100AA4E0": {
+"sites": [
+[
+"0x100aa53f",
+"0x100279b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100AC5A0": {
+"sites": [
+[
+"0x100ac858",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x100ac86e",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100B49D0": {
+"sites": [
+[
+"0x100b4abd",
+"0x100b4350",
+"edx",
+"add eax, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100B4AF0": {
+"sites": [
+[
+"0x100b4bdd",
+"0x100b4350",
+"edx",
+"add eax, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100B62B0": {
+"sites": [
+[
+"0x100b6301",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b6322",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b633d",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b6358",
+"0x100af4b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100B7AF0": {
+"sites": [
+[
+"0x100b7b11",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b7b43",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b7b75",
+"0x100af4b0",
+"ecx",
+"push ecx"
+],
+[
+"0x100b7ba7",
+"0x100af4b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100BF3E0": {
+"sites": [
+[
+"0x100bfa4c",
+"0x100bf3a0",
+"ecx",
+"movsx eax, cx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100C0500": {
+"sites": [
+[
+"0x100c089f",
+"0x100be680",
+"edx",
+"test edx, edx"
+],
+[
+"0x100c0a80",
+"0x100be680",
+"edx",
+"test edx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100C33D0": {
+"sites": [
+[
+"0x100c3439",
+"0x100c2fc0",
+"ecx",
+"call 0x100c2fd0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100C3480": {
+"sites": [
+[
+"0x100c3628",
+"0x100c2fe0",
+"edx",
+"push edx"
+],
+[
+"0x100c37b9",
+"0x100c3100",
+"edx",
+"push edx"
+],
+[
+"0x100c3806",
+"0x100c2fe0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x100C3CF0": {
+"sites": [
+[
+"0x100c3d12",
+"0x100c3ca0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100C3D50": {
+"sites": [
+[
+"0x100c3d82",
+"0x100c3ca0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100C42F0": {
+"sites": [
+[
+"0x100c4350",
+"0x10073b20",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100C63D0": {
+"sites": [
+[
+"0x100c7c9d",
+"0x100279a0",
+"ecx",
+"push ecx"
+],
+[
+"0x100c7cb1",
+"0x10085000",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100C83C0": {
+"sites": [
+[
+"0x100c88d7",
+"0x10022380",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100C9310": {
+"sites": [
+[
+"0x100c9316",
+"0x100c9300",
+"ecx",
+"mov edx, dword ptr [ecx]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100CBDE0": {
+"sites": [
+[
+"0x100cc64c",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x100cc662",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x100CCF50": {
+"sites": [
+[
+"0x100ccfd3",
+"0x10015690",
+"ecx",
+"push ecx"
+],
+[
+"0x100ccfe9",
+"0x10015680",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100CFF40": {
+"sites": [
+[
+"0x100d0312",
+"0x10028140",
+"ecx",
+"push ecx"
+],
+[
+"0x100d0427",
+"0x10028140",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x100E6690": {
+"sites": [
+[
+"0x100e66c3",
+"0x100e6370",
+"edx",
+"inc dl"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100E6A60": {
+"sites": [
+[
+"0x100e6aa3",
+"0x100e7660",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100F4AA0": {
+"sites": [
+[
+"0x100f4ac9",
+"0x103103d7",
+"edx",
+"mov dword ptr [esi + 0x1c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FACF0": {
+"sites": [
+[
+"0x100fad28",
+"0x100f9650",
+"edx",
+"cmp dx, 0x100"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FEB50": {
+"sites": [
+[
+"0x100feb5a",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FEBB0": {
+"sites": [
+[
+"0x100febba",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FEC00": {
+"sites": [
+[
+"0x100fec0a",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FEC50": {
+"sites": [
+[
+"0x100fec5a",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FECA0": {
+"sites": [
+[
+"0x100fecaa",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FECF0": {
+"sites": [
+[
+"0x100fecfa",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FED40": {
+"sites": [
+[
+"0x100fed4a",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x100FED90": {
+"sites": [
+[
+"0x100fed9a",
+"0x100fea90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10109110": {
+"sites": [
+[
+"0x10109116",
+"0x10109100",
+"ecx",
+"mov eax, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10109120": {
+"sites": [
+[
+"0x10109129",
+"0x10109100",
+"ecx",
+"call 0x101092c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10109140": {
+"sites": [
+[
+"0x10109149",
+"0x10109100",
+"ecx",
+"call 0x101092c0"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x10109160": {
+"sites": [
+[
+"0x10109169",
+"0x10109100",
+"ecx",
+"call 0x1010a030"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10109180": {
+"sites": [
+[
+"0x10109189",
+"0x10109100",
+"ecx",
+"call 0x1010a090"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101091A0": {
+"sites": [
+[
+"0x101091a6",
+"0x10109100",
+"ecx",
+"mov eax, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101091B0": {
+"sites": [
+[
+"0x101091b9",
+"0x10109100",
+"ecx",
+"call 0x10109260"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10109430": {
+"sites": [
+[
+"0x1010943a",
+"0x10109110",
+"edx",
+"mov eax, dword ptr [edx + 4]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1010B200": {
+"sites": [
+[
+"0x1010b205",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1010EA10": {
+"sites": [
+[
+"0x1010ea15",
+"0x10312150",
+"ecx",
+"mov edi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10116610": {
+"sites": [
+[
+"0x10116627",
+"0x101165f0",
+"edx",
+"lea eax, [edx - 7]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10119C00": {
+"sites": [
+[
+"0x10119cb5",
+"0x10119870",
+"ecx",
+"movsx ecx, cx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1011AAF0": {
+"sites": [
+[
+"0x1011ab36",
+"0x10119f00",
+"ecx",
+"call 0x10119f20"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1011DB10": {
+"sites": [
+[
+"0x1011db1d",
+"0x1011da80",
+"edx",
+"add edx, eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10124050": {
+"sites": [
+[
+"0x10124053",
+"0x10124010",
+"edx",
+"inc edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10126C60": {
+"sites": [
+[
+"0x10126f59",
+"0x10315be0",
+"edx",
+"mov dword ptr [esi + 0x2c], edx"
+],
+[
+"0x10127038",
+"0x10315be0",
+"edx",
+"mov dword ptr [esi + 0x2c], edx"
+],
+[
+"0x101270ac",
+"0x10315be0",
+"edx",
+"mov dword ptr [esi + 0x2c], edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10129090": {
+"sites": [
+[
+"0x10129095",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x101295D0": {
+"sites": [
+[
+"0x10129910",
+"0x101293f0",
+"edx",
+"cmp dx, ax"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10130FD0": {
+"sites": [
+[
+"0x10130fd0",
+"0x10130f90",
+"ecx",
+"mov dword ptr [ecx], 0x10333654"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101312E0": {
+"sites": [
+[
+"0x101312e0",
+"0x10130f90",
+"ecx",
+"mov dword ptr [ecx], 0x10333660"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101393A0": {
+"sites": [
+[
+"0x1013940a",
+"0x1011fc80",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1013F430": {
+"sites": [
+[
+"0x1013f438",
+"0x1013f000",
+"edx",
+"cmp word ptr [edx + 0x22], ax"
+],
+[
+"0x1013f443",
+"0x1013f030",
+"edx",
+"cmp word ptr [edx + 0x1c], ax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10143590": {
+"sites": [
+[
+"0x101435d0",
+"0x10141fe0",
+"edx",
+"mov ecx, dword ptr [edx + 8]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10144480": {
+"sites": [
+[
+"0x10144489",
+"0x101443a0",
+"ecx",
+"call 0x10144370"
+],
+[
+"0x10144496",
+"0x101443a0",
+"ecx",
+"call 0x10144370"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10153310": {
+"sites": [
+[
+"0x101535a6",
+"0x101531b0",
+"edx",
+"add edx, 2"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10154DC0": {
+"sites": [
+[
+"0x10154dcc",
+"0x10154ab0",
+"edx",
+"mov dword ptr [edx], 0x1033512c"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101582F0": {
+"sites": [
+[
+"0x10158344",
+"0x10157880",
+"ecx",
+"call 0x101578a0"
+],
+[
+"0x1015834f",
+"0x101578a0",
+"ecx",
+"call 0x10157890"
+],
+[
+"0x10158358",
+"0x10157890",
+"ecx",
+"call 0x101578b0"
+],
+[
+"0x10158361",
+"0x101578b0",
+"ecx",
+"call 0x101578c0"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x101583F0": {
+"sites": [
+[
+"0x10158404",
+"0x101578d0",
+"ecx",
+"call 0x101578e0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10159B10": {
+"sites": [
+[
+"0x10159b57",
+"0x100279b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10159CC0": {
+"sites": [
+[
+"0x10159cd7",
+"0x101598a0",
+"edx",
+"cmp edi, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1015B9E0": {
+"sites": [
+[
+"0x1015ba00",
+"0x1015b190",
+"ecx",
+"and eax, ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1015BC40": {
+"sites": [
+[
+"0x1015bc45",
+"0x10312150",
+"ecx",
+"mov edi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x101602F0": {
+"sites": [
+[
+"0x1016030a",
+"0x10160290",
+"ecx",
+"call 0x101602c0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1016E930": {
+"sites": [
+[
+"0x1016ecf1",
+"0x1016c5c0",
+"edx",
+"cmp edx, eax"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10178B30": {
+"sites": [
+[
+"0x10178cea",
+"0x101781d0",
+"ecx",
+"call 0x101792a0"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x10179430": {
+"sites": [
+[
+"0x10179f41",
+"0x102d79a3",
+"ecx",
+"push ecx"
+],
+[
+"0x10179f57",
+"0x102d7b7f",
+"ecx",
+"push ecx"
+],
+[
+"0x10179f6d",
+"0x102d7ae2",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101873A0": {
+"sites": [
+[
+"0x10187408",
+"0x1018bbc0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101880C0": {
+"sites": [
+[
+"0x1018814d",
+"0x10186ff0",
+"ecx",
+"push ecx"
+],
+[
+"0x10188160",
+"0x10186fe0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10188190": {
+"sites": [
+[
+"0x101885c2",
+"0x10186fb0",
+"ecx",
+"call 0x10186fc0"
+],
+[
+"0x101885d8",
+"0x10186f40",
+"ecx",
+"call 0x10186f50"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x10188B70": {
+"sites": [
+[
+"0x10188b78",
+"0x10186fd0",
+"ecx",
+"push ecx"
+],
+[
+"0x10188c08",
+"0x10186fd0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10188CA0": {
+"sites": [
+[
+"0x10188d31",
+"0x10186f60",
+"ecx",
+"push ecx"
+],
+[
+"0x10188d6d",
+"0x10186fd0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10189120": {
+"sites": [
+[
+"0x101891e0",
+"0x10186f40",
+"ecx",
+"call 0x101892b0"
+],
+[
+"0x10189258",
+"0x10186fb0",
+"ecx",
+"call 0x101892b0"
+]
+],
+"sweep": "NO_COMPILE",
+"frame_set": true
+},
+"0x1018ABB0": {
+"sites": [
+[
+"0x1018abb7",
+"0x10071e90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1018C570": {
+"sites": [
+[
+"0x1018c5a7",
+"0x1018c550",
+"edx",
+"cmp edi, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10198C00": {
+"sites": [
+[
+"0x10198c04",
+"0x101986f0",
+"ecx",
+"mov dword ptr [ecx + 0x20], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1019E800": {
+"sites": [
+[
+"0x1019e805",
+"0x1019dfa0",
+"edx",
+"mov dword ptr [edx + 0x2c], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1019EF60": {
+"sites": [
+[
+"0x1019efac",
+"0x1019ed70",
+"edx",
+"dec edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101A4ED0": {
+"sites": [
+[
+"0x101a4efd",
+"0x101a44b0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101A5690": {
+"sites": [
+[
+"0x101a56a4",
+"0x101a44b0",
+"ecx",
+"mov al, byte ptr [ecx + 0xc]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101A5DA0": {
+"sites": [
+[
+"0x101a5db5",
+"0x101a44b0",
+"edx",
+"add ebp, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101A5E00": {
+"sites": [
+[
+"0x101a5e15",
+"0x101a44b0",
+"edx",
+"lea ebp, [eax + edx]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101AE8E0": {
+"sites": [
+[
+"0x101ae94d",
+"0x101ae5e0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101AF860": {
+"sites": [
+[
+"0x101af8c5",
+"0x101aebe0",
+"ecx",
+"call 0x101afbe0"
+],
+[
+"0x101af8f3",
+"0x101aebe0",
+"ecx",
+"call 0x101afbe0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B00B0": {
+"sites": [
+[
+"0x101b00b5",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B1D00": {
+"sites": [
+[
+"0x101b1d05",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B4710": {
+"sites": [
+[
+"0x101b471e",
+"0x101b45e0",
+"edx",
+"add edx, 0x10"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101B4780": {
+"sites": [
+[
+"0x101b479d",
+"0x101b4610",
+"edx",
+"dec edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B47B0": {
+"sites": [
+[
+"0x101b4809",
+"0x101b45e0",
+"edx",
+"add edx, 0x10"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B4850": {
+"sites": [
+[
+"0x101b4874",
+"0x101b4610",
+"edx",
+"dec edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101B8660": {
+"sites": [
+[
+"0x101b8665",
+"0x10312150",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101BCF80": {
+"sites": [
+[
+"0x101bcf85",
+"0x10312150",
+"ecx",
+"mov al, byte ptr [ecx + 5]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101BD880": {
+"sites": [
+[
+"0x101bd885",
+"0x10312150",
+"ecx",
+"mov dword ptr [esp + 0x18], ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101BE6C0": {
+"sites": [
+[
+"0x101be6fd",
+"0x101be2b0",
+"ecx",
+"call 0x101be2c0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101C6870": {
+"sites": [
+[
+"0x101c6882",
+"0x101c60a0",
+"edx",
+"mov eax, dword ptr [edx + 4]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101C9D50": {
+"sites": [
+[
+"0x101c9d6a",
+"0x101c8c30",
+"edx",
+"mov edi, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101CB110": {
+"sites": [
+[
+"0x101cb11b",
+"0x101c8c30",
+"ecx",
+"mov ecx, dword ptr [ecx]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CD0A0": {
+"sites": [
+[
+"0x101cd0b6",
+"0x101cce70",
+"ecx",
+"push ecx"
+],
+[
+"0x101cd0cf",
+"0x101cce80",
+"edx",
+"mov bl, byte ptr [eax + edx]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CD3B0": {
+"sites": [
+[
+"0x101cd7d0",
+"0x101cce80",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CDA60": {
+"sites": [
+[
+"0x101cdc3e",
+"0x101cd9a0",
+"ecx",
+"call 0x101cd9a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CE1E0": {
+"sites": [
+[
+"0x101ce21b",
+"0x101cd9a0",
+"ecx",
+"call 0x101cd9a0"
+],
+[
+"0x101ce235",
+"0x101cd9a0",
+"ecx",
+"call 0x101cda30"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101CE6A0": {
+"sites": [
+[
+"0x101ce6d8",
+"0x101cd9a0",
+"ecx",
+"call 0x101cd9a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CED80": {
+"sites": [
+[
+"0x101cedef",
+"0x101ceac0",
+"ecx",
+"call 0x101ceb40"
+],
+[
+"0x101cedff",
+"0x101ceae0",
+"ecx",
+"call 0x101cead0"
+],
+[
+"0x101cee5c",
+"0x101cebd0",
+"edx",
+"mov word ptr [edx + 2], ax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CF0A0": {
+"sites": [
+[
+"0x101cf0f4",
+"0x101ceae0",
+"ecx",
+"call 0x101ceac0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CF110": {
+"sites": [
+[
+"0x101cf127",
+"0x101ceab0",
+"ecx",
+"call 0x101cebe0"
+],
+[
+"0x101cf281",
+"0x101ceae0",
+"ecx",
+"call 0x101ceac0"
+],
+[
+"0x101cf2bf",
+"0x101ceae0",
+"ecx",
+"call 0x101ceac0"
+],
+[
+"0x101cf307",
+"0x101ceae0",
+"ecx",
+"call 0x101ceac0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101CF510": {
+"sites": [
+[
+"0x101cf51b",
+"0x101cce80",
+"edx",
+"push edx"
+],
+[
+"0x101cf53b",
+"0x101cce90",
+"edx",
+"push edx"
+],
+[
+"0x101cf548",
+"0x101cce90",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101D08C0": {
+"sites": [
+[
+"0x101d08c8",
+"0x101d0860",
+"edx",
+"mov eax, edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101D0A20": {
+"sites": [
+[
+"0x101d0a2b",
+"0x101d09c0",
+"ecx",
+"call 0x101d09c0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101D4D90": {
+"sites": [
+[
+"0x101d5058",
+"0x101d30f0",
+"ecx",
+"call 0x101d5ef0"
+],
+[
+"0x101d508d",
+"0x101d30f0",
+"ecx",
+"call 0x101d3ef0"
+],
+[
+"0x101d510d",
+"0x101d30f0",
+"ecx",
+"call 0x101d4080"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101D5680": {
+"sites": [
+[
+"0x101d5687",
+"0x101d30f0",
+"ecx",
+"call 0x101d3fc0"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101D6040": {
+"sites": [
+[
+"0x101d604f",
+"0x101d5fe0",
+"ecx",
+"mov edx, dword ptr [ecx + 0x38]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101EA330": {
+"sites": [
+[
+"0x101ea458",
+"0x101c9b50",
+"ecx",
+"push ecx"
+],
+[
+"0x101ea490",
+"0x101ea030",
+"ecx",
+"push ecx"
+],
+[
+"0x101ea4be",
+"0x101ea030",
+"ecx",
+"push ecx"
+],
+[
+"0x101ea4f2",
+"0x101ea030",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101EA910": {
+"sites": [
+[
+"0x101ea914",
+"0x101e6c90",
+"ecx",
+"mov ecx, dword ptr [ecx + 8]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101EAD70": {
+"sites": [
+[
+"0x101ead7a",
+"0x100e7660",
+"edx",
+"mov dword ptr [esi + 0xc], edx"
+],
+[
+"0x101ead8a",
+"0x100e7610",
+"edx",
+"mov dword ptr [esi + 0x2c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101EF0A0": {
+"sites": [
+[
+"0x101ef282",
+"0x10014cf0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101EFFF0": {
+"sites": [
+[
+"0x101f003f",
+"0x101effc0",
+"ecx",
+"mov eax, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101F17C0": {
+"sites": [
+[
+"0x101f1aec",
+"0x101efea0",
+"edx",
+"mov dword ptr [0x1066377c], edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x101F7020": {
+"sites": [
+[
+"0x101f7052",
+"0x101f66b0",
+"ecx",
+"mov eax, dword ptr [ecx + 8]"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x101F97A0": {
+"sites": [
+[
+"0x101f9834",
+"0x101cbdb0",
+"ecx",
+"sbb ecx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101FA550": {
+"sites": [
+[
+"0x101fa556",
+"0x101f9010",
+"ecx",
+"call 0x101fad40"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x101FAE40": {
+"sites": [
+[
+"0x101fae91",
+"0x101f8b00",
+"ecx",
+"call 0x101efc60"
+],
+[
+"0x101faf13",
+"0x101f8b00",
+"ecx",
+"call 0x101efc60"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10206610": {
+"sites": [
+[
+"0x10206610",
+"0x10206420",
+"ecx",
+"mov eax, dword ptr [ecx + 0x38]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10207A40": {
+"sites": [
+[
+"0x10207ac7",
+"0x10207980",
+"edx",
+"cmp edx, eax"
+],
+[
+"0x10207ad4",
+"0x10207980",
+"edx",
+"cmp edx, eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10207E80": {
+"sites": [
+[
+"0x102080d1",
+"0x10207980",
+"edx",
+"cmp edx, eax"
+],
+[
+"0x102080de",
+"0x10207980",
+"edx",
+"cmp edx, eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1020EBF0": {
+"sites": [
+[
+"0x1020ec7d",
+"0x1020a400",
+"ecx",
+"cmp ecx, eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10211830": {
+"sites": [
+[
+"0x102118f6",
+"0x10211440",
+"ecx",
+"call 0x10211440"
+],
+[
+"0x10211902",
+"0x10211440",
+"ecx",
+"call 0x10211440"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10211990": {
+"sites": [
+[
+"0x10211a4f",
+"0x10211440",
+"ecx",
+"call 0x10211530"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102133C0": {
+"sites": [
+[
+"0x102133c5",
+"0x10312150",
+"ecx",
+"mov ebp, ecx"
+],
+[
+"0x102133e2",
+"0x10212100",
+"edx",
+"add edx, 4"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10213C90": {
+"sites": [
+[
+"0x10213cb7",
+"0x10212100",
+"edx",
+"add edx, 4"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10213CE0": {
+"sites": [
+[
+"0x10213ce5",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102150C0": {
+"sites": [
+[
+"0x1021510c",
+"0x10212100",
+"edx",
+"add edx, 4"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10215120": {
+"sites": [
+[
+"0x10215125",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102157C0": {
+"sites": [
+[
+"0x102157d5",
+"0x10312150",
+"ecx",
+"mov esi, ecx"
+],
+[
+"0x102157f2",
+"0x10212100",
+"edx",
+"add edx, 4"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1021BAA0": {
+"sites": [
+[
+"0x1021baa2",
+"0x1021b330",
+"edx",
+"mov byte ptr [edx + 0xe], al"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1021BC30": {
+"sites": [
+[
+"0x1021bc35",
+"0x1021bc20",
+"edx",
+"lea ebx, [edx + 4]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1021BCC0": {
+"sites": [
+[
+"0x1021bcc5",
+"0x10312150",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1021BE50": {
+"sites": [
+[
+"0x1021be55",
+"0x10312150",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1021C4C0": {
+"sites": [
+[
+"0x1021c53f",
+"0x1021bcb0",
+"edx",
+"xor ebx, edx"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x102203B0": {
+"sites": [
+[
+"0x10220955",
+"0x102201f0",
+"ecx",
+"call 0x100f94d0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102226A0": {
+"sites": [
+[
+"0x102226f0",
+"0x102225f0",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102282C0": {
+"sites": [
+[
+"0x102282d0",
+"0x10228250",
+"ecx",
+"lea edx, [ecx + 0x234]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1022A360": {
+"sites": [
+[
+"0x1022a480",
+"0x102295a0",
+"ecx",
+"call 0x102295c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1022A590": {
+"sites": [
+[
+"0x1022a5d0",
+"0x102295c0",
+"edx",
+"add edx, eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1022DB40": {
+"sites": [
+[
+"0x1022db58",
+"0x1022db00",
+"ecx",
+"call 0x1022dbd0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102405D0": {
+"sites": [
+[
+"0x1024065d",
+"0x1023ffb0",
+"ecx",
+"mov dx, word ptr [ecx + 0x18]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10244600": {
+"sites": [
+[
+"0x10244617",
+"0x1000d230",
+"edx",
+"mov dword ptr [esi + 4], edx"
+],
+[
+"0x10244629",
+"0x1000d230",
+"edx",
+"mov dword ptr [esi + 0xc], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10244660": {
+"sites": [
+[
+"0x1024467e",
+"0x1000d230",
+"edx",
+"mov dword ptr [esi + 4], edx"
+],
+[
+"0x10244690",
+"0x1000d230",
+"edx",
+"mov dword ptr [esi + 0xc], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102460E0": {
+"sites": [
+[
+"0x10246101",
+"0x10245f30",
+"edx",
+"mov eax, dword ptr [eax + edx*4]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1024A0E0": {
+"sites": [
+[
+"0x1024a134",
+"0x10249c60",
+"edx",
+"mov dword ptr [edx + 8], 1"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1024B990": {
+"sites": [
+[
+"0x1024ba03",
+"0x10246950",
+"edx",
+"add edx, 0xf4"
+],
+[
+"0x1024ba43",
+"0x10246950",
+"edx",
+"add edx, 0x1c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10254DC0": {
+"sites": [
+[
+"0x10254de4",
+"0x10254bb0",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102575E0": {
+"sites": [
+[
+"0x102575ef",
+"0x102575d0",
+"edx",
+"mov eax, dword ptr [edx + 0x28]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10257670": {
+"sites": [
+[
+"0x102576b9",
+"0x102575d0",
+"edx",
+"mov ecx, dword ptr [edx + 0x28]"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10259180": {
+"sites": [
+[
+"0x102591b4",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x102591F0": {
+"sites": [
+[
+"0x1025922b",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10259320": {
+"sites": [
+[
+"0x1025934f",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+],
+[
+"0x10259362",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102593F0": {
+"sites": [
+[
+"0x10259446",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10259760": {
+"sites": [
+[
+"0x10259766",
+"0x10259100",
+"ecx",
+"cmp dword ptr [ecx], 1"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102598F0": {
+"sites": [
+[
+"0x1025992e",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+],
+[
+"0x10259942",
+"0x10259100",
+"ecx",
+"call 0x10259130"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025A120": {
+"sites": [
+[
+"0x1025a1c9",
+"0x10259ec0",
+"ecx",
+"call 0x10259f20"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025A1E0": {
+"sites": [
+[
+"0x1025a1e6",
+"0x10259ec0",
+"ecx",
+"cmp dword ptr [ecx], 1"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025A3E0": {
+"sites": [
+[
+"0x1025a414",
+"0x10259ec0",
+"ecx",
+"call 0x10259f20"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025A450": {
+"sites": [
+[
+"0x1025a48e",
+"0x10259ec0",
+"ecx",
+"call 0x10259f20"
+],
+[
+"0x1025a4a2",
+"0x10259ec0",
+"ecx",
+"call 0x10259f20"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025AEF0": {
+"sites": [
+[
+"0x1025af99",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1025B100": {
+"sites": [
+[
+"0x1025b106",
+"0x1025a860",
+"ecx",
+"cmp dword ptr [ecx], 1"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1025B1E0": {
+"sites": [
+[
+"0x1025b214",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x1025B250": {
+"sites": [
+[
+"0x1025b284",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025B320": {
+"sites": [
+[
+"0x1025b354",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025B390": {
+"sites": [
+[
+"0x1025b3c9",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1025B400": {
+"sites": [
+[
+"0x1025b43e",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+],
+[
+"0x1025b452",
+"0x1025a860",
+"ecx",
+"call 0x1025aa90"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10260A10": {
+"sites": [
+[
+"0x10260a85",
+"0x102662c0",
+"edx",
+"sbb ebp, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102662C0": {
+"sites": [
+[
+"0x10266382",
+"0x10315be0",
+"edx",
+"mov dword ptr [esp + 0x40], edx"
+],
+[
+"0x1026639b",
+"0x10315be0",
+"edx",
+"mov ebx, edx"
+],
+[
+"0x102663b0",
+"0x10315be0",
+"edx",
+"adc ebx, edx"
+],
+[
+"0x102663d3",
+"0x10315be0",
+"edx",
+"adc edx, ecx"
+],
+[
+"0x10266559",
+"0x10316930",
+"edx",
+"adc ebx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102665F0": {
+"sites": [
+[
+"0x10266661",
+"0x10315be0",
+"edx",
+"mov esi, edx"
+],
+[
+"0x10266679",
+"0x10315be0",
+"edx",
+"adc edx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10268430": {
+"sites": [
+[
+"0x10268449",
+"0x10311c2c",
+"edx",
+"mov dword ptr [esi + 0x24], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102684B0": {
+"sites": [
+[
+"0x102684c9",
+"0x10311c2c",
+"edx",
+"mov dword ptr [esi + 0x2c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10268C60": {
+"sites": [
+[
+"0x10268d0a",
+"0x10311c2c",
+"edx",
+"mov dword ptr [esi + 0x1c], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10268F20": {
+"sites": [
+[
+"0x10268f34",
+"0x10311c2c",
+"edx",
+"mov ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10269E90": {
+"sites": [
+[
+"0x10269ead",
+"0x10269b90",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10269F70": {
+"sites": [
+[
+"0x10269f8d",
+"0x10269b90",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102712E0": {
+"sites": [
+[
+"0x1027136c",
+"0x1027abd0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10273DB0": {
+"sites": [
+[
+"0x10273dc6",
+"0x10273d90",
+"edx",
+"mov eax, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10275450": {
+"sites": [
+[
+"0x102754aa",
+"0x10275320",
+"edx",
+"cmp ecx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10275610": {
+"sites": [
+[
+"0x10275656",
+"0x10275320",
+"edx",
+"mov ecx, dword ptr [edx + 0x58]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102756A0": {
+"sites": [
+[
+"0x102756b4",
+"0x102752f0",
+"ecx",
+"mov edx, dword ptr [ecx - 8]"
+],
+[
+"0x10275b19",
+"0x102752f0",
+"ecx",
+"mov edx, dword ptr [ecx - 4]"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10275D80": {
+"sites": [
+[
+"0x10275dfc",
+"0x10285890",
+"ecx",
+"call 0x102751d0"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10275E90": {
+"sites": [
+[
+"0x10276030",
+"0x10285890",
+"ecx",
+"call 0x102751d0"
+]
+],
+"sweep": "LEFT_OUT",
+"frame_set": true
+},
+"0x102768E0": {
+"sites": [
+[
+"0x10276a09",
+"0x1028a0b0",
+"ecx",
+"push ecx"
+],
+[
+"0x10276dc2",
+"0x1028a0b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1027ACF0": {
+"sites": [
+[
+"0x1027ae31",
+"0x1027ac30",
+"edx",
+"push edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1027C700": {
+"sites": [
+[
+"0x1027c738",
+"0x1027c6a0",
+"edx",
+"mov dword ptr [ebx + edx*4], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1027C760": {
+"sites": [
+[
+"0x1027c821",
+"0x1027c6a0",
+"edx",
+"test edx, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1027EBD0": {
+"sites": [
+[
+"0x1027ebd5",
+"0x1027eb00",
+"edx",
+"mov dword ptr [edx + 0x3c], eax"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10280680": {
+"sites": [
+[
+"0x10280685",
+"0x1027eb00",
+"edx",
+"mov dword ptr [edx], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10288680": {
+"sites": [
+[
+"0x102886a0",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x102886D0": {
+"sites": [
+[
+"0x102886e4",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x1028875c",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x102887b9",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288808",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x102888f7",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10288950": {
+"sites": [
+[
+"0x10288962",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288a02",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288a5f",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288b29",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10288BB0": {
+"sites": [
+[
+"0x10288bc1",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10288C20": {
+"sites": [
+[
+"0x10288c33",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288c6b",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288cb2",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288d18",
+"0x10288660",
+"edx",
+"push edx"
+],
+[
+"0x10288d62",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10288E60": {
+"sites": [
+[
+"0x10288e73",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10288FF0": {
+"sites": [
+[
+"0x10289007",
+"0x10288660",
+"edx",
+"push edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10290610": {
+"sites": [
+[
+"0x102906f8",
+"0x1028efb0",
+"edx",
+"inc edx"
+]
+],
+"sweep": "DIFFERS",
+"frame_set": true
+},
+"0x10292740": {
+"sites": [
+[
+"0x10292950",
+"0x1028a0b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102958B0": {
+"sites": [
+[
+"0x10295991",
+"0x1028a0b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102964A0": {
+"sites": [
+[
+"0x102964a5",
+"0x102963e0",
+"edx",
+"mov dword ptr [edx + 0x20], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10296C20": {
+"sites": [
+[
+"0x10296c25",
+"0x102963e0",
+"edx",
+"mov dword ptr [edx], eax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102A2F80": {
+"sites": [
+[
+"0x102a323f",
+"0x10283d60",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102A8D30": {
+"sites": [
+[
+"0x102a8d99",
+"0x103158ae",
+"ecx",
+"mov ax, word ptr [ecx + 6]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102B50C0": {
+"sites": [
+[
+"0x102b515d",
+"0x102b4f10",
+"ecx",
+"fld dword ptr [ecx + 0x103c0fbc]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102B6DF0": {
+"sites": [
+[
+"0x102b702c",
+"0x1028a0b0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102BB2E0": {
+"sites": [
+[
+"0x102bb3d8",
+"0x10312c90",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102C556A": {
+"sites": [
+[
+"0x102c5690",
+"0x102c4562",
+"edx",
+"mov word ptr [edx], ax"
+],
+[
+"0x102c569b",
+"0x102c4562",
+"edx",
+"mov word ptr [edx + 2], ax"
+],
+[
+"0x102c56a7",
+"0x102c4562",
+"edx",
+"mov word ptr [edx + 4], ax"
+],
+[
+"0x102c56b3",
+"0x102c4562",
+"edx",
+"mov word ptr [edx + 6], ax"
+],
+[
+"0x102c56c2",
+"0x102c4562",
+"edx",
+"mov word ptr [edx + 8], ax"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D3B59": {
+"sites": [
+[
+"0x102d3f43",
+"0x102d3b10",
+"edx",
+"fstp dword ptr [edx + eax*4 + 4]"
+],
+[
+"0x102d3fd1",
+"0x102d3b10",
+"edx",
+"fstp dword ptr [edx + eax*4 + 4]"
+],
+[
+"0x102d3ff2",
+"0x102d3b10",
+"edx",
+"fstp dword ptr [edx]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D47FD": {
+"sites": [
+[
+"0x102d4802",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D6236": {
+"sites": [
+[
+"0x102d623b",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D62F4": {
+"sites": [
+[
+"0x102d62f9",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D63D3": {
+"sites": [
+[
+"0x102d63d8",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D64A1": {
+"sites": [
+[
+"0x102d64a6",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D6586": {
+"sites": [
+[
+"0x102d658b",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D668E": {
+"sites": [
+[
+"0x102d6693",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D6A4A": {
+"sites": [
+[
+"0x102d6a4f",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D6B6B": {
+"sites": [
+[
+"0x102d6b70",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D6C8E": {
+"sites": [
+[
+"0x102d6c93",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D7A2A": {
+"sites": [
+[
+"0x102d7a2c",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D7AC6": {
+"sites": [
+[
+"0x102d7ac8",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D7B63": {
+"sites": [
+[
+"0x102d7b65",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D7C01": {
+"sites": [
+[
+"0x102d7c03",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D7E81": {
+"sites": [
+[
+"0x102d7e86",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D8BA3": {
+"sites": [
+[
+"0x102d8ba5",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D8F81": {
+"sites": [
+[
+"0x102d8f9c",
+"0x103137e0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D90AD": {
+"sites": [
+[
+"0x102d90af",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D91BA": {
+"sites": [
+[
+"0x102d91bf",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D91EA": {
+"sites": [
+[
+"0x102d9201",
+"0x102d90d1",
+"ecx",
+"push ecx"
+],
+[
+"0x102d9217",
+"0x102d90d1",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D9258": {
+"sites": [
+[
+"0x102d925d",
+"0x102e7650",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102D928D": {
+"sites": [
+[
+"0x102d92db",
+"0x102d90d1",
+"ecx",
+"push ecx"
+],
+[
+"0x102d92f1",
+"0x102d90d1",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102DD0EC": {
+"sites": [
+[
+"0x102dd0f1",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102DD912": {
+"sites": [
+[
+"0x102dd917",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DF0ED": {
+"sites": [
+[
+"0x102df0f2",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DF1DE": {
+"sites": [
+[
+"0x102df1e3",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DF3E0": {
+"sites": [
+[
+"0x102df3e5",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DF5E4": {
+"sites": [
+[
+"0x102df5e9",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DFA07": {
+"sites": [
+[
+"0x102dfa0c",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102DFF99": {
+"sites": [
+[
+"0x102dff9e",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102E037F": {
+"sites": [
+[
+"0x102e0384",
+"0x103176f0",
+"ecx",
+"mov esi, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102E0AB0": {
+"sites": [
+[
+"0x102e0ab5",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102E1B4B": {
+"sites": [
+[
+"0x102e1b50",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102E1BEB": {
+"sites": [
+[
+"0x102e1bf0",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102E228F": {
+"sites": [
+[
+"0x102e2294",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102E53E2": {
+"sites": [
+[
+"0x102e53e7",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x102E63F5": {
+"sites": [
+[
+"0x102e63fa",
+"0x103176f0",
+"ecx",
+"mov dword ptr [ebp - 0x10], ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102E6872": {
+"sites": [
+[
+"0x102e6877",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102E74F7": {
+"sites": [
+[
+"0x102e74fc",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102EA7D9": {
+"sites": [
+[
+"0x102ea7de",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102EA882": {
+"sites": [
+[
+"0x102ea887",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102ECC47": {
+"sites": [
+[
+"0x102ecc4c",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102F3794": {
+"sites": [
+[
+"0x102f37b1",
+"0x102f22cf",
+"edx",
+"mov dword ptr [ebp + 8], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102F53F0": {
+"sites": [
+[
+"0x102f53f5",
+"0x103176f0",
+"ecx",
+"mov ebx, ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102F57C0": {
+"sites": [
+[
+"0x102f57c0",
+"0x102f57a8",
+"ecx",
+"mov dword ptr [ecx], 0x103485fc"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102F57CE": {
+"sites": [
+[
+"0x102f57ce",
+"0x102f57a8",
+"ecx",
+"mov dword ptr [ecx], 0x10348618"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FC1BA": {
+"sites": [
+[
+"0x102fc1dc",
+"0x1030a5a0",
+"ecx",
+"call 0x1030a5a0"
+],
+[
+"0x102fc1ed",
+"0x1030a5a0",
+"ecx",
+"call 0x1030a5a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FC27F": {
+"sites": [
+[
+"0x102fc29b",
+"0x10301452",
+"ecx",
+"call 0x1030a5a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FC2EB": {
+"sites": [
+[
+"0x102fc390",
+"0x10309ec0",
+"ecx",
+"call 0x1030a6c0"
+],
+[
+"0x102fc3a3",
+"0x1030a6c0",
+"ecx",
+"call 0x1030a6c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FC5A5": {
+"sites": [
+[
+"0x102fc5d1",
+"0x10309fc0",
+"ecx",
+"call 0x1030a6c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FC793": {
+"sites": [
+[
+"0x102fcac3",
+"0x10309fc0",
+"ecx",
+"call 0x1030a6c0"
+],
+[
+"0x102fcb70",
+"0x10309fc0",
+"ecx",
+"call 0x1030a6c0"
+],
+[
+"0x102fcf2b",
+"0x10309fc0",
+"ecx",
+"call 0x1030a6c0"
+],
+[
+"0x102fcfd8",
+"0x10309fc0",
+"ecx",
+"call 0x1030a6c0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FEC2C": {
+"sites": [
+[
+"0x102fec5a",
+"0x1030a5a0",
+"ecx",
+"call 0x1030a5a0"
+],
+[
+"0x102fec6c",
+"0x1030a5a0",
+"ecx",
+"call 0x1030a5a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x102FF305": {
+"sites": [
+[
+"0x102ff32e",
+"0x10301452",
+"ecx",
+"call 0x1030a5a0"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1031287D": {
+"sites": [
+[
+"0x10312904",
+"0x10315be0",
+"edx",
+"adc esi, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10312CB2": {
+"sites": [
+[
+"0x10312cc1",
+"0x1031b155",
+"ecx",
+"and ecx, 0x7ff00000"
+],
+[
+"0x10312d01",
+"0x1031b140",
+"ecx",
+"cmp cl, 1"
+],
+[
+"0x10312e62",
+"0x10312e85",
+"ecx",
+"test cl, cl"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10314233": {
+"sites": [
+[
+"0x103143d8",
+"0x1031f665",
+"ecx",
+"push ecx"
+],
+[
+"0x103143f4",
+"0x1031f57e",
+"ecx",
+"push ecx"
+],
+[
+"0x10314446",
+"0x1031f665",
+"ecx",
+"push ecx"
+],
+[
+"0x10314462",
+"0x1031f57e",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x103149D0": {
+"sites": [
+[
+"0x10314bc0",
+"0x20417d10",
+"edx",
+"xor dword ptr [eax], edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x10318C5E": {
+"sites": [
+[
+"0x1031926a",
+"0x10316930",
+"edx",
+"mov dword ptr [ebp - 0x1c], edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1031A182": {
+"sites": [
+[
+"0x1031a9b9",
+"0x10312a20",
+"edx",
+"mov dword ptr [ebp - 0x34], edx"
+],
+[
+"0x1031aa2a",
+"0x10315be0",
+"edx",
+"mov dword ptr [ebp - 0x34], edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1031AD11": {
+"sites": [
+[
+"0x1031ad3f",
+"0x1031e791",
+"edx",
+"test dl, 0x40"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1031D06C": {
+"sites": [
+[
+"0x1031d0e4",
+"0x1031663e",
+"ecx",
+"mov eax, dword ptr [edi + ecx*4]"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1031D277": {
+"sites": [
+[
+"0x1031da0e",
+"0x10312a20",
+"edx",
+"mov dword ptr [ebp - 0x24], edx"
+],
+[
+"0x1031da6f",
+"0x10315be0",
+"edx",
+"mov dword ptr [ebp - 0x24], edx"
+]
+],
+"sweep": null,
+"frame_set": true
+},
+"0x1031DF2B": {
+"sites": [
+[
+"0x1031df3b",
+"0x1031df5e",
+"ecx",
+"call 0x1031af10"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1031F398": {
+"sites": [
+[
+"0x1031f4d6",
+"0x1031f57e",
+"ecx",
+"push ecx"
+],
+[
+"0x1031f524",
+"0x1031f57e",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x103238CA": {
+"sites": [
+[
+"0x103238e2",
+"0x10324698",
+"ecx",
+"call 0x10323823"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10324B69": {
+"sites": [
+[
+"0x10324b82",
+"0x10324698",
+"ecx",
+"call 0x10323823"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10325C5D": {
+"sites": [
+[
+"0x10325ca0",
+"0x10316930",
+"edx",
+"mov edi, edx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10326E20": {
+"sites": [
+[
+"0x10326e7f",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10326F08": {
+"sites": [
+[
+"0x10326f0d",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10326F61": {
+"sites": [
+[
+"0x10326f66",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x10326FBE": {
+"sites": [
+[
+"0x10326fc3",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+},
+"0x1032704C": {
+"sites": [
+[
+"0x103270ab",
+"0x103176f0",
+"ecx",
+"push ecx"
+]
+],
+"sweep": null,
+"frame_set": false
+}
+}

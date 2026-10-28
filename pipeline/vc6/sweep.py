@@ -1214,6 +1214,28 @@ def _rule_xiany(text, ret, name):
     return re.sub(r'\bXI_ANY\b', 'unsigned int', text)
 
 
+def _rule_retvoid(text, ret, name):
+    """the function as `void`: where the game's code returns whatever EAX holds (no `xor eax, eax`, no load for the
+    value the decompiler printed, which held only on the path it saw), the source returned nothing. `return E;` keeps
+    E's side effects (`E; return;`) unless E is a constant or a name. A result counts only where match.py says
+    IDENTICAL: then the function leaves in EAX what the game's leaves"""
+    if ret.strip() in ('void', '') or '*' in ret and False: return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    s2 = re.sub(r'^((?:extern "C"\s+)?)' + re.escape(ret) + r'(\s)', r'\1void\2', sig, count=1)
+    if s2 == sig: return None
+    def ret_(m):
+        e = m.group(1).strip()
+        if re.fullmatch(r'\(?[\w ]*\**\)?\s*(?:-?0x[0-9a-fA-F]+|-?\d+|\w+)u?', e): return 'return;'
+        return '{ %s; return; }' % e
+    b2 = re.sub(r'\breturn\s+([^;]+);', ret_, body)
+    hd = head[:head.rfind('\n') + 1]
+    hd = re.sub(r'(\bstruct XS \{ )' + re.escape(ret) + r'(\s+%s\()' % re.escape(name), r'\1void\2', hd)
+    return hd + s2 + b2
+
+
 def _rule_ret64(text, ret, name):
     """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
     the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
@@ -1249,6 +1271,7 @@ RULES = [
     ('retnarrow', _rule_retnarrow),
     ('uleq', _rule_ule0),
     ('xiany', _rule_xiany),
+    ('retvoid', _rule_retvoid),
 ]
 
 
@@ -1276,14 +1299,14 @@ def apply_rules(text, ret, name):
             t2 = f(t_b, ret, name)
             if t2: t_b = t2[-1] if isinstance(t2, list) else t2
         return t_b
-    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany')]
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid')]
     if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
     for g in ('ret64', 'xiany'):                       # calledon over a text these change (the callee's own declaration)
         if g in names:
             tg = dict(RULES)[g](text, ret, name)
             co = tg and _rule_calledon(tg, ret, name)
             if co: out += [('%s_calledon%d' % (g, k), x) for k, x in enumerate(co)]
-    for g in ('ret64', 'retnarrow', 'uleq', 'xiany'):  # and the others with each of these on its own
+    for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid'):  # and the others with each of these on its own
         if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
     return out
 

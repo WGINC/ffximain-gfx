@@ -1087,6 +1087,47 @@ def _rule_devlocal(text, ret, name):
     return ''.join(out) + text[i:]
 
 
+_ECXUSE = None
+def _rule_calledon(text, ret, name):
+    """a __stdcall callee that does not read ECX (data/ecx_use.json) called as a method on an object: the game loads
+    ECX before such calls (recompile/d3d_round_118.md rule 7), which a free call never does, and the decompiler drops
+    the object it does not see used. The object is not in the text, so each candidate is tried -- `this`, each
+    parameter, each local, each global the function names -- one call at a time, as `((FUNt_<addr> *)(OBJ))->f(...)`;
+    the callee keeps its stack arguments and pops (a __thiscall member pops what a __stdcall function pops). Variants;
+    a result counts only where match.py says IDENTICAL"""
+    global _ECXUSE
+    if _ECXUSE is None:
+        _ECXUSE = {k.upper().replace('0X', '0x') for k, v in json.load(open(os.path.join(ROOT, 'data', 'ecx_use.json'))).items() if v}
+    decls = {}
+    for m in re.finditer(r'(?m)^(template <[^>]*> )?(?:extern "C" )?([\w ]+?\**)\s*__stdcall (FUN_([0-9A-F]{8}))\(([^)]*)\);\n', text):
+        if '0x' + m.group(4) not in _ECXUSE: decls[m.group(3)] = m
+    if not decls: return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    cands = []
+    if '::' in sig: cands.append('this')
+    cands += re.findall(r'(\w+)\s*(?:,|\)$)', sig[sig.find('(') + 1:] + ')' if '(' in sig else '')
+    cands += re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\**(\w+)(?:\[\w+\])?;$', body)
+    cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
+    cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:12]
+    out = []
+    for fn, m in decls.items():
+        sites = [s.start() for s in re.finditer(r'(?<![\w>.])%s\(' % fn, body)]
+        tmpl = m.group(1) or ''
+        member = 'struct FUNt_%s { %s%s f(%s); };\n' % (fn[4:], tmpl, m.group(2).strip(), m.group(5))
+        h2 = head.replace(m.group(0), member)
+        if re.search(r'\bstruct FUNt_%s\b' % fn[4:], head): continue
+        for s in sites[:3]:
+            for c in cands:
+                b2 = body[:s] + '((FUNt_%s *)(%s))->f(' % (fn[4:], c) + body[s + len(fn) + 1:]
+                if len(sites) > 1:             # the other sites keep a free call through the same member
+                    b2 = re.sub(r'(?<![\w>.])%s\(' % fn, '((FUNt_%s *)0)->f(' % fn[4:], b2)
+                out.append(h2 + b2)
+    return out[:40] or None
+
+
 # the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
 # result counts only where match.py's comparison says IDENTICAL
 RULES = [
@@ -1100,6 +1141,7 @@ RULES = [
     ('frame', _rule_frame),
     ('float', _rule_float),
     ('frametight', _rule_frametight),
+    ('calledon', _rule_calledon),
 ]
 
 
@@ -1419,7 +1461,7 @@ def main():
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]
-            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float)\d+', rn) else rn
+            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon)\d+', rn) else rn
             if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1

@@ -1125,6 +1125,11 @@ def _ecx_objects(name, callees):
                 m = re.match(r'ecx, dword ptr \[(0x[0-9a-f]{8})\]$', j.op_str)
                 if j.mnemonic == 'mov' and m: out.append('(*(int *)%su)' % m.group(1))
                 elif j.mnemonic == 'mov' and re.match(r'ecx, 0x1[0-9a-f]{7}$', j.op_str): out.append('((void *)%su)' % j.op_str[5:])
+                else:              # a field of the object, or an address inside it: `this` (or self_) at that offset
+                    m2 = re.match(r'ecx, dword ptr \[e[a-ds][xip] \+ (0x[0-9a-f]+|\d+)\]$', j.op_str)
+                    m3 = re.match(r'ecx, (0x[0-9a-f]+|\d+)$', j.op_str) if j.mnemonic == 'add' else re.match(r'ecx, \[e[a-ds][xip] \+ (0x[0-9a-f]+|\d+)\]$', j.op_str) if j.mnemonic == 'lea' else None
+                    if j.mnemonic == 'mov' and m2: out.append('(*(int *)((char *)@THIS + %s))' % m2.group(1))
+                    elif m3: out.append('((char *)@THIS + %s)' % m3.group(1))
                 break
     return list(dict.fromkeys(out))
 
@@ -1139,8 +1144,10 @@ def _rule_calledon(text, ret, name):
     if _ECXUSE is None:
         _ECXUSE = {k.upper().replace('0X', '0x') for k, v in json.load(open(os.path.join(ROOT, 'data', 'ecx_use.json'))).items() if v}
     decls = {}
-    for m in re.finditer(r'(?m)^(template <[^>]*> )?(?:extern "C" )?([\w ]+?\**)\s*__stdcall (FUN_([0-9A-F]{8}))\(([^)]*)\);\n', text):
-        if '0x' + m.group(4) not in _ECXUSE: decls[m.group(3)] = m
+    for m in re.finditer(r'(?m)^(template <[^>]*> )?(?:extern "C" )?([\w ]+?\**)\s*(__stdcall|__cdecl) (FUN_([0-9A-F]{8}))\(([^)]*)\);\n', text):
+        # a __cdecl callee only without parameters: then it pops what a __thiscall one pops (nothing)
+        if m.group(3) == '__cdecl' and m.group(6).strip() not in ('', 'void'): continue
+        if '0x' + m.group(5) not in _ECXUSE: decls[m.group(4)] = m
     if not decls: return None
     i = text.find('\n{\n')
     if i < 0: return None
@@ -1152,12 +1159,14 @@ def _rule_calledon(text, ret, name):
     cands += re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\**(\w+)(?:\[\w+\])?;$', body)
     cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
     cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:12]
-    cands = _ecx_objects(name, {int(f[4:], 16) for f in decls}) + cands
+    this_ = 'this' if 'this' in cands else ('self_' if re.search(r'\bself_\b', body) else None)
+    gc = [c.replace('@THIS', this_) for c in _ecx_objects(name, {int(f[4:], 16) for f in decls}) if this_ or '@THIS' not in c]
+    cands = gc + cands
     out = []
     for fn, m in decls.items():
         sites = [s.start() for s in re.finditer(r'(?<![\w>.])%s\(' % fn, body)]
         tmpl = m.group(1) or ''
-        member = 'struct FUNt_%s { %s%s f(%s); };\n' % (fn[4:], tmpl, m.group(2).strip(), m.group(5))
+        member = 'struct FUNt_%s { %s%s f(%s); };\n' % (fn[4:], tmpl, m.group(2).strip(), m.group(6))
         h2 = head.replace(m.group(0), member)
         if re.search(r'\bstruct FUNt_%s\b' % fn[4:], head): continue
         for s in sites[:3]:

@@ -377,6 +377,16 @@ def candidates(only=None, calls=False):
 _CLASSES = None
 
 
+_D3DS = None
+def _d3d_structs():
+    """the struct and enum types tree/include/xi_d3d8.hpp defines (D3DCAPS8, D3DMATRIX, ...)"""
+    global _D3DS
+    if _D3DS is None:
+        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()
+        _D3DS = set(re.findall(r'(?m)^(?:struct|enum) (D3D\w+) \{', h)) | set(re.findall(r'(?m)^typedef [^;]*\b(D3D\w+);', h))
+    return _D3DS
+
+
 def class_fields(cls):
     """the field lines of tree/include's `class XI_API cls { ... };` (its methods and static_asserts left out), the
     other class names its fields point to, or None when there is no such class or a field is of a type the shim lacks"""
@@ -396,6 +406,7 @@ def class_fields(cls):
         for w in re.findall(r'[A-Za-z_]\w*', decl):
             if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64', 'const'): continue
             if re.search(r'\b%s\s*\*' % w, decl): ptrs.add(w); continue
+            if w in _d3d_structs(): continue              # a Direct3D 8 struct by value: the header defines it
             return None
         lines.append('  ' + s)
     return lines, ptrs
@@ -1208,6 +1219,16 @@ def apply_rules(text, ret, name):
         t2 = f(t_all, ret, name)
         if t2 is not None and not isinstance(t2, list): t_all = t2; names.append(rn)
     if len(names) > 1: out.append(('_'.join(names), t_all))
+    # and every rule together but the ones that try objects or widths (calledon, ret64): their variants are guesses
+    # to be confirmed one at a time, and one of them in the combination hides what the others give together
+    base = [rn for rn in names if rn not in ('calledon', 'ret64')]
+    if 1 < len(base) < len(names):
+        t_b = text
+        for rn, f in RULES:
+            if rn not in base: continue
+            t2 = f(t_b, ret, name)
+            if t2: t_b = t2[-1] if isinstance(t2, list) else t2
+        out.append(('_'.join(base), t_b))
     return out
 
 
@@ -1430,7 +1451,7 @@ def main():
         if bad: c = (None, 'hexadecimal floating literal read otherwise (%s)' % bad[0])
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
         text = _d3d_slot_calls(c[1])
-        if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text:
+        if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text or any(re.search(r'\b%s\b' % s, text) for s in ('D3DCAPS8', 'D3DMATRIX')):
             text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
         # a field or local declared as a pointer to __thiscall functions (VC6 takes the keyword on members only, C4234):
         # the declaration fixes a layout, a 4-byte pointer either way; a call through it compiles without ECX and the

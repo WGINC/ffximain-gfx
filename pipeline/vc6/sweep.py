@@ -1498,6 +1498,14 @@ def apply_rules(text, ret, name, ea=None):
                 if len(rns) == len(names): continue
                 t = combo(rns)
                 if t != text and t not in seen: seen.add(t); out.append(('_'.join(rns), t))
+    # and each of them with the others but one, and with each other alone (0x100746A0 is globvar with xiany,
+    # without retthis)
+    for g in guess:
+        for b in base:
+            for rns in ([r for r in base if r != b] + [g], [b, g]):
+                if not rns or len(rns) == len(names): continue
+                t = combo([r for r in names if r in rns])
+                if t != text and t not in seen: seen.add(t); out.append(('_'.join(r for r in names if r in rns), t))
     return out
 
 

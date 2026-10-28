@@ -10,8 +10,9 @@ Per function:
     become `this->field_XXX` (layout inferred from every member of the class). Anything left is
     reached through `self`, a byte-exact alias declared at the top of the body, so no pointer
     arithmetic ever changes meaning.
-  * D3D: `X->lpVtbl->M(X, a...)` -> `X->M(a...)`; literal render-state / texture-stage values get
-    their D3D enum names.
+  * D3D: `X->lpVtbl->M(X, a...)` -> `X->M(a...)`; a call through a proven holder field's cast vtable slot
+    (data/com_fields.json) -> the interface's method (holder_calls.py); literal render-state / texture-stage values
+    get their D3D enum names.
   * calls into the game: `orig::Name(...)` (always-inline wrapper around the original address);
     globals keep their IDB names, bound to their addresses in gfx_globals.hpp.
   * decompiler noise (register / stack-slot comments) removed.
@@ -26,6 +27,7 @@ from msvc_demangle import demangle
 import hx_patches
 import hx2cpp
 import partial_regs
+import holder_calls
 
 def _head_params(text):
     """the parameter list of a record's text, from its signature line"""
@@ -867,7 +869,11 @@ def main(exp, gate, manf, incdir, outdir):
         body = body.replace('->base.vftable', '->vftable')
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
         body = hx2cpp.body_rules(ea, body, 'cmps' in r)       # before strip_noise: exact_frame reads the [esp+..] comments
-        body = strip_noise(body); body = com_calls(body); body = name_d3d_values(body)
+        body = strip_noise(body); body = com_calls(body); body = holder_calls.typed_holder_calls(body)[0]
+        if cls:   # the class's own fields the IDB declares as Direct3D interfaces (KNOWN_FIELDS)
+            body = holder_calls.typed_self_calls(body, {o: re.match(r'(IDirect3D\w*8) \*$', v[0]).group(1) for (c, o), v in KNOWN_FIELDS.items()
+                                                        if c == cls and re.match(r'IDirect3D\w*8 \*$', v[0])})[0]
+        body = name_d3d_values(body)
         body = void_float_calls(ea, body)
         if r.get('ghidra'):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is

@@ -1205,6 +1205,15 @@ def _rule_ule0(text, ret, name):
     return out or None
 
 
+def _rule_xiany(text, ret, name):
+    """XI_ANY (the shim's "any 4 bytes" for a parameter the tree leaves untyped) as `unsigned int`: in C++ it is a
+    4-byte struct, which VC6 passes through a stack temporary (`push ecx; mov eax, esp; mov [eax], v`) where the game
+    pushes the word. The arguments' conversions are cast by the permissive rounds; a result counts only where
+    match.py says IDENTICAL"""
+    if not re.search(r'\bXI_ANY\b', text): return None
+    return re.sub(r'\bXI_ANY\b', 'unsigned int', text)
+
+
 def _rule_ret64(text, ret, name):
     """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
     the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
@@ -1239,6 +1248,7 @@ RULES = [
     ('ret64', _rule_ret64),
     ('retnarrow', _rule_retnarrow),
     ('uleq', _rule_ule0),
+    ('xiany', _rule_xiany),
 ]
 
 

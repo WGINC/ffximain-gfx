@@ -1024,6 +1024,15 @@ def _rule_storem1(text, ret, name):
     return t if t != text else None
 
 
+def _rule_pushinit(text, ret, name):
+    """a frame local Ghidra shows set to `this` before anything else, where the game's `push ecx` (which makes a
+    4-byte frame) left ECX there: the store is the push itself, not a statement (0x1018A220); the assignment is
+    dropped. A result counts only where match.py says IDENTICAL"""
+    if not re.search(r'\bchar xi_frame\[4\];', text): return None
+    t = re.sub(r'(?m)^  (\w+) = \([^()]*\)\((?:self_|this)\);\n', '', text, count=1)
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1378,6 +1387,7 @@ RULES = [
     ('select', _rule_select),
     ('shiftmask', _rule_shiftmask),
     ('storem1', _rule_storem1),
+    ('pushinit', _rule_pushinit),
 ]
 
 

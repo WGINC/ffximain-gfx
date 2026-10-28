@@ -1169,6 +1169,36 @@ _CONVP = re.compile(r"^C2664: '(?P<fn>[^']+)' : cannot convert parameter (?P<n>\
 _FPCALL = re.compile(r'\(\*?\((?P<ret>[^()]+?) \((?:__\w+ )?\*\*?\)\((?P<params>[^()]*)\)\)')
 
 
+def _d3d_slot_calls(text):
+    """a typed Direct3D call the tree writes through its interface's inline wrapper, `(*(IFACE **)(X))->M(a, b)` or
+    `((IFACE *)X)->M(a, b)` (pipeline/holder_calls.py), written as the slot call
+    `(*(int (__stdcall **)(IFACE *, A, B))(*(int *)OBJ + 4 * slot))(OBJ, a, b)`: the game was built against the SDK's
+    virtual interfaces, and VC6 compiles their calls as it compiles a slot call (the arguments pushed, then the object
+    read for `this` and the vtable), not as the tree's inline wrapper (the vtable read first). Same call, same
+    arguments; the slot is the method's place in the header (data/com_spec.json)"""
+    sys.path.insert(0, os.path.join(ROOT, 'pipeline'))
+    import holder_calls as H
+    rx = re.compile(r'(\(\*\((IDirect3D\w*8) \*\*\)\((?:[^()]|\([^()]*\))*\)\)|\(\((IDirect3D\w*8) \*\)(?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))->(\w+)\(')
+    out, pos = [], 0
+    for m in rx.finditer(text):
+        if m.start() < pos: continue
+        obj, iface, meth = m.group(1), m.group(2) or m.group(3), m.group(4)
+        names = [x['name'] for x in H.SPEC.get(iface, [])]
+        ptypes = H.WRAP.get(iface, {}).get(meth)
+        if meth not in names or ptypes is None: continue
+        args, end = H._split_args(text, m.end())
+        if args is None or len(args) != len(ptypes): continue
+        proto = ', '.join(['%s *' % iface] + ptypes)
+        # the object and its vtable read through one integer type, as the decompiler's text (and the game) has them:
+        # VC6 reads a value once only where both reads have the same type
+        if m.group(2): ref = '*(int *)' + obj[len('(*(%s **)' % iface):-1]           # (*(I **)(X)) -> *(int *)(X)
+        else: ref = '(int)' + obj[len('((%s *)' % iface):-1]                         # ((I *)E) -> (int)E
+        vt, this = '*(int *)%s' % ref if m.group(2) else '*(int *)(%s)' % ref, '(%s *)%s' % (iface, ref)
+        out.append(text[pos:m.start()] + '(*(int (__stdcall **)(%s))(%s + %d))(%s)' % (proto, vt, 4 * names.index(meth), ', '.join([this] + args)))
+        pos = end
+    return ''.join(out) + text[pos:] if out else text
+
+
 def same_file(text, fn, callee, ctext, cfn):
     """text with the callee's definition (its sweep text, ctext) put before the function's, named as text calls it:
     FUN_<addr> (a __cdecl/__stdcall function; C linkage in C++) or FUNt_<addr>::f (a __thiscall one); the callee's
@@ -1351,7 +1381,7 @@ def main():
         bad = c[0] and [x for x in hx if not hx[x] and re.search(r'(?<![\w.])%s(?![\w.])' % re.escape(x), c[1])]
         if bad: c = (None, 'hexadecimal floating literal read otherwise (%s)' % bad[0])
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
-        text = c[1]
+        text = _d3d_slot_calls(c[1])
         if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text:
             text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
         # a field or local declared as a pointer to __thiscall functions (VC6 takes the keyword on members only, C4234):

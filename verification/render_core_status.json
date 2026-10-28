@@ -384,7 +384,8 @@
    "in_tree": true
   },
   "0x1000A820": {
-   "bytes": "DIFFERS",
+   "by": "recompile/d3dcaller_1000A820.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": true
   },

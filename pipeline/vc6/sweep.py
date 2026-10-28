@@ -1214,25 +1214,6 @@ def _rule_xiany(text, ret, name):
     return re.sub(r'\bXI_ANY\b', 'unsigned int', text)
 
 
-def _rule_rettemp(text, ret, name):
-    """`v = E; return v;` with v used nowhere else as `return E;`: the decompiler's temporary for a returned value
-    changes VC6's code (a call's result returned at once lets it clean the stack with `pop ecx`). Same value"""
-    i = text.find('\n{\n')
-    if i < 0: return None
-    head, body = text[:i], text[i:]
-    n = 0
-    def sub(m):
-        nonlocal n
-        v = m.group(2)
-        if len(re.findall(r'\b%s\b' % v, body)) != 3: return m.group(0)        # its declaration, the store, the return
-        n += 1
-        return '%sreturn %s;' % (m.group(1), '%s(%s)' % (m.group(4), m.group(3)) if m.group(4) else m.group(3))
-    b2 = re.sub(r'(?m)^([ \t]+)(\w+) = ([^;\n]+);\n[ \t]*return (\([\w ]+\**\))?\2;', sub, body)
-    if not n: return None
-    b2 = re.sub(r'(?m)^[ \t]+[\w ]+?\**\s*\**(\w+);\n', lambda m: '' if not re.search(r'\b%s\b' % m.group(1), b2[b2.find(m.group(0)) + len(m.group(0)):]) else m.group(0), b2)
-    return head + b2
-
-
 def _rule_ret64(text, ret, name):
     """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
     the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
@@ -1268,7 +1249,6 @@ RULES = [
     ('retnarrow', _rule_retnarrow),
     ('uleq', _rule_ule0),
     ('xiany', _rule_xiany),
-    ('rettemp', _rule_rettemp),
 ]
 
 

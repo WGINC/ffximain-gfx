@@ -2190,7 +2190,9 @@
   "rules_tried": [
    "retnarrow",
    "retvoid"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10014A30": {
   "verdict": "DIFFERS",
@@ -19497,7 +19499,9 @@
   "rules_tried": [
    "retnarrow",
    "retvoid"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1009AD20": {
   "verdict": "DIFFERS",
@@ -33202,7 +33206,9 @@
    "retvoid",
    "ret8_globvar_calledon",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1013A1E0": {
   "verdict": "IDENTICAL",
@@ -36580,7 +36586,9 @@
    "retnarrow",
    "retvoid",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015DD00": {
   "verdict": "DIFFERS",
@@ -39512,7 +39520,9 @@
    "retnarrow",
    "retvoid",
    "float_retnarrow"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10181A10": {
   "verdict": "IDENTICAL",

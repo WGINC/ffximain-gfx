@@ -3806,3 +3806,13 @@ gates 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as r15 (the three live-g
 functions' text changed. The sweep writes such a typed call back as the slot call (sweep.py _d3d_slot_calls: VC6
 compiles the SDK's virtual calls that way, not as the tree's inline wrapper); the 34 keep their sweep verdicts.
 verify_all on r16 (`--quick --facts-from-state`): tree-regen identical, every check PASS but export-sp (0x100412B0, as before).
+
+**Sweep rules xiany, retnarrow, uleq; full sweep (28 Oct).** The near misses (within 8 differing lines) classified by
+what differs: XI_ANY, the shim's 4-byte stand-in, is a struct in C++, passed through a stack temporary where the game
+pushes the word (rule xiany: as `unsigned int`, 26 IDENTICAL); a 4-byte return where the game sets only AL or AX
+(retnarrow: as 1 or 2 bytes, 9); `jbe` against 0 where the text has `== 0` (uleq: an unsigned `<=`, 5); calledon
+now also with parameterless __cdecl callees and objects at an offset of this (43 in all). The earlier rules'
+combination kept, and tried with each newer rule on its own, so no earlier result is lost. Full sweep: 2,256 of the
+sweep's 4,664 at the game's bytes (2,216 before, none lost); frame set 2,024 (37.3%). A reorder.py search over the
+87 within 2 lines found none; a bit-field form for `shr; and` (0x10084500) did not give the `and`, and was dropped.
+

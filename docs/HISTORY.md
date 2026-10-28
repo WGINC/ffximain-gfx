@@ -3686,3 +3686,11 @@ IDENTICAL (`--calls --rules`, the whole tree r14, 4,664 functions):
 
 verification/vc6_sweep.json: 2,071 functions at the game's bytes as written or by a rule (was 1,819 of 4,251 on
 r13; 84 by the two new rules); none at the bytes before is lost. frame_set_status: 1,841 of the frame set (33.9%).
+
+Two more rules, the same way:
+- `frame` (d3d_round_119.md rule 12): the decompiler's `xi_frame` block as plain locals, each where its reference was
+  declared; only where nothing else names the block and no two locals overlap. Applied to 385, IDENTICAL in 1.
+- `float` (d3d_round_119.md rule 11): in the body only, `double` as `float` with `f` literals, or the literals
+  alone. Applied to 368, IDENTICAL in 4, and 1 more with globvar.
+The block and the double type are not what keeps most of those functions from the game's bytes. vc6_sweep.json: 2,077
+at the game's bytes, none lost; frame set 1,844 (34.0%).

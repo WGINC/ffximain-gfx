@@ -7155,7 +7155,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "frame"
 },
 "0x100721F0": {
 "tree": true,
@@ -15587,7 +15588,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "float0"
 },
 "0x10124700": {
 "tree": true,
@@ -32846,7 +32848,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 1,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "globvar_float"
 },
 "0x10283C10": {
 "tree": true,

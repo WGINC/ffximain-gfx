@@ -932,6 +932,54 @@ def _rule_globvar(text, ret, name):
     return t if t != text else None
 
 
+_FRAME_DECL = re.compile(r'(?m)^[ \t]*(?:alignas\(\d+\) )?(?:unsigned )?char xi_frame\[\w+\][^;\n]*;[^\n]*\n')
+_FRAME_REF = re.compile(r'(?m)^([ \t]*)([A-Za-z_][\w \t]*?(?:\s*\*+)?)\s*(?:&(\w+)|\(&(\w+)\)\[(\w+)\]) = '
+                        r'\*reinterpret_cast<[^>]*>\(xi_frame \+ (\w+)\);[ \t]*\n')
+_SIZES = {'char': 1, 'unsigned char': 1, 'uint8_t': 1, 'int8_t': 1, 'bool': 1, 'short': 2, 'uint16_t': 2, 'int16_t': 2,
+          'int': 4, 'unsigned int': 4, 'uint32_t': 4, 'int32_t': 4, 'float': 4, '_DWORD': 4, 'undefined4': 4,
+          'uint64_t': 8, 'int64_t': 8, 'double': 8}
+
+
+def _rule_frame(text, ret, name):
+    """the decompiler's frame block (`char xi_frame[N]` with each local a reference into it at its offset) as plain
+    locals, each declared where its reference was (recompile/d3d_round_119.md rule 12: the block gives a frame of its
+    size, the plain locals the compiler's own layout). Only where nothing else names the block and no two locals
+    overlap"""
+    if len(_FRAME_DECL.findall(text)) != 1: return None
+    spans = []
+    def plain(m):
+        ind, ty, ref, aref, n, off = m.groups()
+        ty = ty.strip()
+        sz = 4 if ty.endswith('*') else _SIZES.get(re.sub(r'\s+', ' ', ty))
+        if sz is None: raise ValueError(ty)
+        try: k = int(n, 0) if aref else 1; o = int(off, 0)
+        except ValueError: raise ValueError(n)
+        spans.append((o, o + sz * k))
+        return '%s%s %s%s;\n' % (ind, ty, ref or aref, '[%s]' % n if aref else '')
+    try: t = _FRAME_REF.sub(plain, _FRAME_DECL.sub('', text))
+    except ValueError: return None
+    if 'xi_frame' in t or not spans: return None
+    spans.sort()
+    if any(a[1] > b[0] for a, b in zip(spans, spans[1:])): return None
+    return t
+
+
+def _rule_float(text, ret, name):
+    """float arithmetic in float (recompile/d3d_round_119.md rule 11): the decompiler's double locals, casts and
+    constants give qword FPU operands where the game has dword ones. In the function's body only (its signature and
+    the callees' declarations are the calling convention): [`double` as `float` and an unsuffixed literal with an
+    `f`; the literals alone]"""
+    m = re.search(r'\b%s\s*\([^;{]*\)\s*\{' % re.escape(name), text)
+    if not m: return None
+    head, body = text[:m.end()], text[m.end():]
+    lit = lambda b: re.sub(r'(?<![\w.])(\d+\.\d*(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)(?![\w.])', r'\1f', b)
+    out = []
+    if re.search(r'\bdouble\b', body): out.append(head + lit(re.sub(r'\bdouble\b', 'float', body)))
+    b2 = lit(body)
+    if b2 != body: out.append(head + b2)
+    return out or None
+
+
 _KW = {'sizeof', 'if', 'while', 'for', 'switch', 'return'}
 _TYPEW = {'void', 'int', 'char', 'short', 'long', 'float', 'double', 'unsigned', 'signed', 'const', '_DWORD', '_BYTE',
           '_WORD', 'undefined4', 'bool', '__stdcall', '__thiscall', '__cdecl', '__fastcall'}   # `void (__stdcall **)(...)`
@@ -984,6 +1032,8 @@ RULES = [
     ('retthis', _rule_retthis),
     ('globvar', _rule_globvar),
     ('devlocal', _rule_devlocal),
+    ('frame', _rule_frame),
+    ('float', _rule_float),
 ]
 
 
@@ -1263,7 +1313,7 @@ def main():
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]
-            base = 'cmpk' if re.fullmatch(r'cmpk\d+', rn) else rn
+            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float)\d+', rn) else rn
             if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1

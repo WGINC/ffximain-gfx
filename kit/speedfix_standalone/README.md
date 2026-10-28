@@ -18,6 +18,15 @@ Every other lever is off; turning one on is as in kit/speedfix/README.md.
 What it does not do: anything about the renderer itself (dgVoodoo, d3d8on11 or the system's d3d8.dll stays as it is),
 or the 60 fps wait (Windower's frame divisor 0 already removes it; `uncap=1` does the same without Windower).
 
+## The Mac profile (`speedfix_mac_parallels.ini`)
+
+For the M5 MacBook Pro in Parallels with dgVoodoo (28 Oct: the shipped settings gave 35-82 ms frames there, the
+machine's baseline; `frame_step=1` made motion run at real time below 60 fps, faster than the game's own 83-90%, and
+in bursts when a fast frame gets no tick). Rename it to `speedfix.ini`. It turns `frame_step` off and the levers that
+cut frame time or stutter on that machine on (skin_merge, batch_up_draws, merge_scenes, lazy_state, block_cache,
+extended_state_cache, vs_dedupe, sse_skinning, occlusion_late), and runs the in-session A/B of the live ones: the log's
+`ab ...: A (off) X ms, B (on) Y ms` lines say what they gain there.
+
 ## Files (dist/, from build.sh)
 
 | File | What |
@@ -26,6 +35,7 @@ or the 60 fps wait (Windower's frame divisor 0 already removes it; `uncap=1` doe
 | `gfx_recon_ingame.dll` | the verified tree, in-game build: the forks call functions in it |
 | `speedfix_manifest.txt`, `speedfix_manifest_6AC37846.txt` | which bytes each hooked entry must have, for the analysed build and for 6AC37846 (the build the owner runs; its moved code ranges) |
 | `speedfix.ini` | the settings above (`speedfix.ini.example` keeps the shipped copy) |
+| `speedfix_mac_parallels.ini` | the profile for the Mac in Parallels (above) |
 | `VERSION.txt` | the source commit and each file's hash |
 
 ## Use

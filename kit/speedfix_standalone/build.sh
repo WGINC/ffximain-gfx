@@ -20,7 +20,7 @@ for b in "$X"/builds/*.json; do
   if [ -n "${!var:-}" ]; then python3 "$X/manifest_for_build.py" "$OUT/speedfix_manifest.txt" "$b" "${!var}" "$OUT/speedfix_manifest_$st.txt" | tail -1
   else echo "build $st: \$$var not set, no manifest for it"; rm -f "$OUT/speedfix_manifest_$st.txt"; fi
 done
-cp "$H/speedfix.ini" "$OUT/speedfix.ini.example"; [ -f "$OUT/speedfix.ini" ] || cp "$H/speedfix.ini" "$OUT/speedfix.ini"
+cp "$H/speedfix.ini" "$OUT/speedfix.ini.example"; cp "$H/speedfix_mac_parallels.ini" "$OUT/"; [ -f "$OUT/speedfix.ini" ] || cp "$H/speedfix.ini" "$OUT/speedfix.ini"
 python3 - "$OUT" "$(git -C "$ROOT" rev-parse --short HEAD)" <<'P'
 import hashlib, os, sys, datetime
 out, rev = sys.argv[1:3]

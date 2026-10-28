@@ -10957,7 +10957,12 @@
   "verdict": "DIFFERS",
   "why": "+20: 0xB8 here, 0xB0 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "retnarrow0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow"
+  ]
  },
  "0x10084390": {
   "verdict": "IDENTICAL",
@@ -11040,7 +11045,12 @@
   "verdict": "DIFFERS",
   "why": "+20: 0x33 here, 0x32 in the game",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "retnarrow0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow"
+  ]
  },
  "0x10084690": {
   "verdict": "DIFFERS",
@@ -13944,8 +13954,12 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "uleq",
+   "globvar_uleq"
+  ],
+  "rule_identical": "uleq1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100D8BA0": {
   "verdict": "DIFFERS",
@@ -14046,7 +14060,12 @@
   "verdict": "DIFFERS",
   "why": "+8: 0x25 here, 0xC3 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rule_identical": "retnarrow0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow"
+  ]
  },
  "0x100D9AD0": {
   "verdict": "IDENTICAL",
@@ -16228,8 +16247,12 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "retnarrow",
+   "globvar_retnarrow"
+  ],
+  "rule_identical": "retnarrow0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F9DB0": {
   "verdict": "DIFFERS",
@@ -16870,7 +16893,14 @@
   "verdict": "DIFFERS",
   "why": "+11: 0x74 here, 0x76 in the game",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "uleq0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x101088C0": {
   "verdict": "DIFFERS",
@@ -18388,8 +18418,12 @@
   "conv": "__thiscall",
   "size": 48,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "uleq",
+   "retthis_uleq"
+  ],
+  "rule_identical": "uleq0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1011E6D0": {
   "verdict": "DIFFERS",
@@ -28053,7 +28087,12 @@
   "verdict": "DIFFERS",
   "why": "+8: 0xB8 here, 0xB0 in the game",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rule_identical": "retnarrow0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow"
+  ]
  },
  "0x101BADD0": {
   "verdict": "DIFFERS",
@@ -35057,8 +35096,12 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "uleq",
+   "retthis_uleq"
+  ],
+  "rule_identical": "uleq0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10257C60": {
   "verdict": "IDENTICAL",
@@ -35528,7 +35571,14 @@
   "verdict": "DIFFERS",
   "why": "+13: 0x74 here, 0x76 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rule_identical": "uleq0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x1025B6C0": {
   "verdict": "DIFFERS",

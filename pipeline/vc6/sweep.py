@@ -1178,6 +1178,33 @@ def _rule_calledon(text, ret, name):
     return out[:40] or None
 
 
+def _rule_retnarrow(text, ret, name):
+    """a 4-byte return type as 1 or 2 bytes (`unsigned char`, `unsigned short`): where the game sets only AL or AX
+    on some path (`mov al, 1`, `or al, 0xff`), its function returned the narrower type and the caller reads only
+    that. Variants; a result counts only where match.py says IDENTICAL"""
+    if ret.strip() not in ('int', 'uint32_t', 'int32_t', 'undefined4', 'unsigned int', '_DWORD', 'uint', 'DWORD', 'long', 'char', 'bool', 'byte', 'uint8_t'): return None
+    out = []
+    for ty in ('unsigned char', 'unsigned short'):
+        t2 = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), text)
+        if t2 != text: out.append(t2)
+    return out or None
+
+
+def _rule_ule0(text, ret, name):
+    """`X == 0` as `X <= 0u` (and `X != 0` as `X > 0u`), one comparison at a time: the game's `jbe`/`ja` after a
+    compare with 0 is an unsigned `<=`/`>` the decompiler folded into `==`/`!=` (equal on unsigned values). Variants;
+    a result counts only where match.py says IDENTICAL"""
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    out = []
+    for m in re.finditer(r'(?<![=!<>])(==|!=) 0(?:x0)?(?![\w.])', body):
+        op = '<= 0u' if m.group(1) == '==' else '> 0u'
+        out.append(head + body[:m.start()] + op + body[m.end():])
+        if len(out) >= 12: break
+    return out or None
+
+
 def _rule_ret64(text, ret, name):
     """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
     the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
@@ -1210,6 +1237,8 @@ RULES = [
     ('frametight', _rule_frametight),
     ('calledon', _rule_calledon),
     ('ret64', _rule_ret64),
+    ('retnarrow', _rule_retnarrow),
+    ('uleq', _rule_ule0),
 ]
 
 
@@ -1230,7 +1259,7 @@ def apply_rules(text, ret, name):
     if len(names) > 1: out.append(('_'.join(names), t_all))
     # and every rule together but the ones that try objects or widths (calledon, ret64): their variants are guesses
     # to be confirmed one at a time, and one of them in the combination hides what the others give together
-    base = [rn for rn in names if rn not in ('calledon', 'ret64')]
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'ule0')]
     if 1 < len(base) < len(names):
         t_b = text
         for rn, f in RULES:
@@ -1580,7 +1609,7 @@ def main():
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]
-            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon)\d+', rn) else rn
+            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon|retnarrow|uleq)\d+', rn) else rn
             if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1

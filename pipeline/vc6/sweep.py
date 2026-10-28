@@ -1269,14 +1269,16 @@ def apply_rules(text, ret, name):
     if len(names) > 1: out.append(('_'.join(names), t_all))
     # and every rule together but the ones that try objects or widths (calledon, ret64): their variants are guesses
     # to be confirmed one at a time, and one of them in the combination hides what the others give together
-    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq')]
-    if 1 < len(base) < len(names):
+    def combo(rns):
         t_b = text
         for rn, f in RULES:
-            if rn not in base: continue
+            if rn not in rns: continue
             t2 = f(t_b, ret, name)
             if t2: t_b = t2[-1] if isinstance(t2, list) else t2
-        out.append(('_'.join(base), t_b))
+        return t_b
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany')]
+    if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
+    if base and 'xiany' in names and len(names) > len(base) + 1: out.append(('_'.join(base + ['xiany']), combo(base + ['xiany'])))
     return out
 
 

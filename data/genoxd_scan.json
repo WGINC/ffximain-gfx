@@ -1,0 +1,1517 @@
+{
+ "_doc": "genoxd_scan.py -- two community libraries' names and layouts for FFXiMain.dll, located in the analysed build.",
+ "ambiguous": [
+  {
+   "file": "engine/signatures.h",
+   "matches": 6,
+   "name": "kSigMogpostOpen",
+   "note": "The post menu's opener (this = mogpost's controller; mode): the mode at +0x14, then the open, keyed at kFieldOpenKey.",
+   "source": "ffxi_hide_ui"
+  },
+  {
+   "file": "engine/signatures.h",
+   "matches": 3,
+   "name": "kSigCommentSubOpen",
+   "note": "",
+   "source": "ffxi_hide_ui"
+  },
+  {
+   "file": "engine/signatures.h",
+   "matches": 2,
+   "name": "kSigTimerOpen",
+   "note": "The timers' opener (this = the timer's controller; kind, ticks), alike for casttime and eventtim.",
+   "source": "ffxi_hide_ui"
+  },
+  {
+   "file": "engine/signatures.h",
+   "matches": 2,
+   "name": "kSigPaletteEscape",
+   "note": "The macro palettes' Escape, the same in mcr1edit's and mcr2edit's input routines: the editor's close (mcrbedit, mcr1edit and mcr2edit by name), then titlewin's step back (0, 2).",
+   "source": "ffxi_hide_ui"
+  },
+  {
+   "file": "engine/signatures.h",
+   "matches": 2,
+   "name": "kSigTextColorEscape",
+   "note": "textcol1's Escape closes textcol2, then textcol1, by name.",
+   "source": "ffxi_hide_ui"
+  },
+  {
+   "file": "engine/signatures.h",
+   "matches": 4,
+   "name": "kSigInstinctsEscape",
+   "note": "mp_mncst's Escape closes mp_stat and mp_cstm through routines of theirs on their controllers (holes 0 and 2), then mp_mncst by name.",
+   "source": "ffxi_hide_ui"
+  }
+ ],
+ "fields": {
+  "camera (ffxi_world_draw)": {
+   "0x154": {
+    "claims": [
+     {
+      "name": "camera_projection_offset_",
+      "note": ""
+     }
+    ],
+    "functions_read": 119,
+    "used": "0x1001530C lea ecx, [eax + 0x154]"
+   },
+   "0x94": {
+    "claims": [
+     {
+      "name": "camera_view_offset_",
+      "note": ""
+     }
+    ],
+    "functions_read": 119,
+    "used": "0x1001242E lea eax, [esi + 0x94]"
+   }
+  },
+  "menu (ffxi_hide_ui game.h)": {
+   "0x10": {
+    "claims": [
+     {
+      "name": "kMenuState",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1000CD71 mov edx, dword ptr [esp + 0x10]"
+   },
+   "0x14": {
+    "claims": [
+     {
+      "name": "kMenuList",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1000CD75 mov eax, dword ptr [esp + 0x14]"
+   },
+   "0x34": {
+    "claims": [
+     {
+      "name": "kMenuPolicy",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101177FF test byte ptr [ebp + 0x34], 0x40"
+   },
+   "0x3A": {
+    "claims": [
+     {
+      "name": "kMenuRect",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101178BE mov cx, word ptr [esi + 0x3a]"
+   },
+   "0x4": {
+    "claims": [
+     {
+      "name": "kMenuRes",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1007D292 mov edx, dword ptr [eax + 4]"
+   },
+   "0x42": {
+    "claims": [
+     {
+      "name": "kMenuDefault",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x10139ACB cmp di, word ptr [esi + 0x42]"
+   },
+   "0x4C": {
+    "claims": [
+     {
+      "name": "kMenuCursor",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101178C2 cmp cx, word ptr [ebp + 0x4c]"
+   },
+   "0x52": {
+    "claims": [
+     {
+      "name": "kMenuOrigin",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x10119127 mov word ptr [esi + 0x52], bp"
+   },
+   "0x56": {
+    "claims": [
+     {
+      "name": "kMenuInputWait",
+      "note": "int16: the input dispatcher drops every event while it is above 0"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101177DE mov ax, word ptr [ebp + 0x56]"
+   },
+   "0x58": {
+    "claims": [
+     {
+      "name": "kMenuItems",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101182F8 cmp word ptr [esi + 0x58], 0"
+   },
+   "0x5D": {
+    "claims": [
+     {
+      "name": "kMenuBusy",
+      "note": "the input dispatcher passes nothing but a cancel while it is set"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x101182BB mov al, byte ptr [esi + 0x5d]"
+   },
+   "0x60": {
+    "claims": [
+     {
+      "name": "kMenuLayer",
+      "note": ""
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1011F505 lea esi, [edi + 0x60]"
+   },
+   "0x6A": {
+    "claims": [
+     {
+      "name": "kMenuDraws",
+      "note": "u8: the controller's draw runs only while set and not dormant"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x10117CF5 mov al, byte ptr [ebp + 0x6a]"
+   },
+   "0x6E": {
+    "claims": [
+     {
+      "name": "kMenuClosing",
+      "note": "close by instance sets it before its staged close"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1015E3F3 mov al, byte ptr [esi + 0x6e]"
+   },
+   "0x70": {
+    "claims": [
+     {
+      "name": "kMenuPendingDestroy",
+      "note": "close by instance sets it on a dormant menu, deferring its destruction"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x1015FB00 mov cl, byte ptr [eax + 0x70]"
+   },
+   "0x77": {
+    "claims": [
+     {
+      "name": "kMenuMouse",
+      "note": "0: the row hit test misses the menu; its constructor sets 1"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x10118D5E mov cl, byte ptr [esi + 0x77]"
+   },
+   "0x9A": {
+    "claims": [
+     {
+      "name": "kMenuFrameByte",
+      "note": "SetFrameRect's last argument lands here"
+     }
+    ],
+    "functions_read": 99,
+    "used": "0x10117E06 mov al, byte ptr [ebp + 0x9a]"
+   }
+  },
+  "renderer = CDx (ffxi_world_draw)": {
+   "0x10": {
+    "claims": [
+     {
+      "name": "renderer_target_stack_offset_",
+      "note": "The render-target stack the game pushes and pops: an array of targets, a one-byte depth into it, and the target the world is drawn to."
+     }
+    ],
+    "functions_read": 59,
+    "used": "0x10008FD4 mov eax, dword ptr [esp + 0x10]"
+   },
+   "0x158": {
+    "claims": [
+     {
+      "name": "renderer_target_depth_offset_",
+      "note": ""
+     }
+    ],
+    "functions_read": 59,
+    "ours": {
+     "evidence": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], CDx::GetRenderTargetTop returns it); 0 after construction",
+     "name": "renderTargetDepth"
+    },
+    "used": "0x10008FE9 mov byte ptr [esi + 0x158], al"
+   },
+   "0x194": {
+    "claims": [
+     {
+      "name": "renderer_world_target_offset_",
+      "note": ""
+     }
+    ],
+    "functions_read": 59,
+    "ours": {
+     "evidence": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0 surface (vtable +60 = GetSurfaceLevel)",
+     "name": "sceneTargetA"
+    },
+    "used": "0x1000CA42 mov eax, dword ptr [esi + 0x194]"
+   },
+   "0xC": {
+    "claims": [
+     {
+      "name": "renderer_device_offset_",
+      "note": ""
+     }
+    ],
+    "functions_read": 59,
+    "used": "0x10008FE1 mov dword ptr [esi + 0xc], ecx"
+   }
+  }
+ },
+ "functions": {
+  "0x1000CD00": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPrimitiveDraw",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1007CA90": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigFriendCommand",
+    "note": "The friend list's text command closes friend's controller and hands it to the friend list's opener with 0, which ends at kFriendOpensAt in friend's open, then titlehan's when its controller exists.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1007D240": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigQuestCommand",
+    "note": "The quest log command: quest00's mode word (hole 1) written 0, then quest00's open. quest00's confirm: two calls on its own controller, quest01's open, then quest01's setup on its controller with the row.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1007D270": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMissionsCommand",
+    "note": "The missions command runs, on miss00's controller, the missions menu's setter with 0 (the player's nation's log) or the by-name routine, then opens miss00. The setter writes the log word (kShapeMissionsSetter hole 1); the by-name routine tests each log's expansion bit (kShapeMissionsByName holes: 0 the table, 1 the test).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1007D300": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigRegionCommand",
+    "note": "The conquest map's text command runs, on cnqframe's closed controller, the Region Info opener (kind, the player's area: the word of hole 2 in the player's data), which writes the kind at kShapeRegionKind's hole, kRegionKindAt into it.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100B8450": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigLink5Latch",
+    "note": "The event's wait test reads the latch its callback clears; the 0x71 sub 0x40 handler opens link5 with the controller's global and that callback.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100E9490": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPartySend",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100EB800": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigFreeSlot",
+    "note": "The inventory's first free slot, never run: record by record from slot 1 while below the bag's size (cdecl (bag); al the size, slot 0 counted).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100F7FA0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPostRequest",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101177D0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMenuDraw",
+    "note": "Hooked to keep a hidden window and the target arrows from painting: the per-menu draw (this = the menu), the sprite draw (this = the sprite, eight arguments, ret 0x20) and the draw primitive (this = the renderer; DrawPrimitiveUP's arguments, ret 0x10). Prologues of 5, 5 and 7 bytes. The quad routine is found only for its call of the draw primitive at kQuadPrimitiveCall; another hook may have patched its first five bytes.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10118260": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMenuInput",
+    "note": "The menu input sink (this = the menu; the code), hooked. The routing routine hands every key and gamepad code to the active menu through its one call to the sink at kRoutingSinkCall, and is resolved only for that call's return address.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10118CB0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigRowHitTest",
+    "note": "The row hit test, only checked: it must still treat a menu whose kMenuMouse byte (game.h) is 0 as a miss, by the read below once in its first kHitTestBytes.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10118DB0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSetCursor",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10118E90": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSelectRow",
+    "note": "The cursor onto a row with no input event (this = a menu; the row): what the yes/no class's confirm runs on a question asked again whose default is no.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10119110": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSetPosition",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1011A5A0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSetFrameRect",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1011A8F0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigTemplateSwap",
+    "note": "The template swap (this = the menu; the key), hooked and called by the resize: the resizable windows' owners run it as their rows change, and it puts the frame on the new template's default spot. Its prologue is 5 bytes.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1011F300": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigQuadDraw",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1011FC80": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSpriteDraw",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101252C0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMouseMode",
+    "note": "The mouse mode picker, the whole routine.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101284F0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigGlyphConvert",
+    "note": "The text-to-glyph converter: the engine calls it only on the game thread, once, to build the inverse of its two-byte characters (game.h).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1012DFA0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigDeadTick",
+    "note": "The KO window's tick, only checked: the countdown's end at +0x1C in game clock seconds, the countdown at +0x20 as (end - now) * 60, which options('dead') reads. Past the end, its decider (the confirm's own) answering 1 holds the countdown at 0x1E.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1012E2D0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskDeliveryItem",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1012ED80": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskDeliveryGil",
+    "note": "The routines that ask through a number box, in game.h's kAskers order, each known by the callback it asks with. `setup_call` reaches the box's setup; `box_global` and `owner_global` are the imm32s of the box's and the asker's controller globals; 0 for none.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10133130": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigEquipOpen",
+    "note": "The equipment set's opener (this = the controller in equip's registry slot), called, never hooked. It returns early after three tests that print the game's refusal, and at kEquipOpenGuard while that controller is NULL or its word +0x1A is not 0.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10136BF0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigDialogueInput",
+    "note": "The NPC dialogue boxes' input routine (slot 6 of both vtables), never run: it calls the handler, again for a box in kDialogueGlobals. The handler hands the code to the box's text object's dispatch; its cancel (code 6, with the cancel-allowed byte 1) hands the box's lines back to the chat log, clears the text object, sets the event's wait flag to 2 and closes the box by instance.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101397B0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskHandoverItem",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10139A40": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigHandoverInput",
+    "note": "The NPC trade's input routine, never run: rows 1..8 give the inventory list's window the focus and write the row to +0x40; row 9 is the OK, then the close when it went, else the buzz; row 10 the close alone. The OK sends the items, the gil and the NPC; the close clears the NPC and closes the window by instance. The stage, which the item count's asker calls, puts the gil at +0x3C for index 0, else clears every entry holding the item.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1013A870": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigItemSetup",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1013A8D0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigItemConfirm",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10140D90": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMoneySetup",
+    "note": "The number boxes' setups, only checked: each must write its question where kBoxLayouts reads it before opening its own window. moneyctr's max 0 means the gil the player has; itemctrl's writes nothing for a max of 0, and for 1 calls the callback with no open.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10140DF0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMoneyConfirm",
+    "note": "The number boxes' confirms (this = the controller; the number), called: they call and clear the callback (moneyctr also its extra one), then close the window.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10141BA0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigInstinctsOpen",
+    "note": "The Monstrosity instincts' opener (cdecl), called as the main menu's equipment row runs it in Monstrosity.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10145C70": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigStorageOpen",
+    "note": "The storage list's opener (this = storage's or storage2's controller; mode): the mode at +0x14, then storage for 0, storage2 for 1.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10148BB0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigStatusClose",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014A550": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigJobPointsTest",
+    "note": "The Job Points job list's test of a job (1..22 at level 99; `this` unread), and the job's category list's opener (this = jbpcat's controller; job), which writes the job at +0x54 and the page at +0x58.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014AF70": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigJobPointsOpen",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014BB50": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigFpCat2Open",
+    "note": "fp_cat2's opener (this = its controller; category): the category at +0x50, then the open, keyed at kFieldOpenKey.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014D000": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPostRequestClose",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014F460": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigStringdlInput",
+    "note": "The text-entry windows' input routines, never run; what each reply does is read out of them. A shape is the game's bytes with ?? holes, compared where the code holds them (shape_is) or found once within a span (shape_once); its holes are numbered in order.  stringdl's routine hands the code to the slot's or the name's handler; with a reply written, it raises the outgoing box through the manager's focus. The name's handler commits on row 2 (the text into +0x58, +0x15C = 1) and writes +0x15C = 2 on its cancel; the slot's writes 3 and 4. The field's end clears +0x164 and takes the line from the field holding it.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10150FB0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskTradeItem",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101515E0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigTradeInput",
+    "note": "The trade's input routine from its row dispatch on, never run. Rows 1..8 hand an offered item's index and id to the stage with a count of 0, its removal; row 9 is the OK unless the player's is in (+0xC0 4); row 10 the cancel, then the trade's windows closed when it went. The stage un-OKs and sends the gil; the OK writes +0xC0 = 4 once sent; the cancel clears the partner's fields once sent; the close closes trade, then gift, by name. kShapeTradeTheirs' hole: the partner's offer's offset.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10151CB0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigTradeOpen",
+    "note": "The trade's open of its three windows, never run: it cancels when the partner's name (index and id at +0x6C) cannot be read, hands the inventory list its mode and opens money; it cancels and closes the windows when its own did not open. kShapeActorName's holes: the actor table, then the titled name's length word, the titled name and the name.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015DC70": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigRegistry",
+    "note": "The 148 signatures the engine scans for; build.sh checks the count. Not one verbatim.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015DD00": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMenuRouting",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015E350": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigOpen",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015E530": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigShow",
+    "note": "The show path's gate returns at once for a NULL menu, the closing byte +0x6E set, no registry entry at +0x04, or a state at +0x10 other than 0x0E; hook_show_pre tests the same.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015E6E0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigStagedClose",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015E910": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigCloseByName",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015F760": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigDockReset",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015FA00": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigUpdate",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10193830": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigCfgSet",
+    "note": "The store's set by id (cdecl; id, value) calls the store's set method (this = the store; id, value), which changes nothing for the value already stored, but for id 0xCE. A value outside kEntryMin..kEntryMax (-1: no range) takes kEntryDefault instead; it goes to kEntryValue, then the id's subscribers run.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101953F0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigCfgSave",
+    "note": "The store's save, never run: nothing unless its loaded byte is 1.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10198240": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigFilterState",
+    "note": "The chat filter page's row state, never run: the row table, 4 bytes a row (the mask bit, the second state's bit, the text's id). A negative second state is a system level, read from the page's copy of 0x35 at +0x3C; second state 2 with no mask bit is Tell's, with the page's copy of 0x47 at +0x40.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10198480": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigEffectRows",
+    "note": "The battle effects filter page's toggle, never run: its copy of 0x92 at +0x30, the row table 4 bytes a row (the bit, 0, the text's id).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10198620": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigTextColorTables",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10199170": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigConfynInput",
+    "note": "confyn's input routine, never run: the confirm on row 1 restores the defaults (cdecl; 1 in mode 0, 2 in mode 1, nothing in any other), and any confirm closes the window by instance.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019A760": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigRoutingGroups",
+    "note": "conf11s's load of a group, never run: its copy of 0xB9..0xBC written back and read again, then the group's table, 8 bytes a row (the text's id, the bit), ended by an id of -1. textcol1's open, never run: the category's table, 16 bytes a row (the label's id, the sample's, the color, the store word), ended by a label of -1. Both tables come from a kShapeFourTables getter: a jump table (hole 0) to a table for each of 0 to 3 (holes 1 to 4).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019CFF0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigKeyRows2",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019D3B0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigKeyRows1",
+    "note": "k1assign's and k2assign's opens, never run: their rows (30 and 29) and the table of each row's text id at kKeyRows1 and kKeyRows2, a dword a row.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101A33E0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMacroGate",
+    "note": "The macro key gate (no arguments, al 1 while the macro keys may act), hooked: the macro key handler, its only caller, asks it before it opens a bar and before each number key. The prologue's imm32 (+2) is a word known from nowhere else, so it is read out of the hit (on a patched site, the daemon's saved original) and pinned before the scan that resolves the site.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101A4540": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPaletteSwitch",
+    "note": "The macro editor's palette switch (this = the editor; row), Left or Right on a palette: the row written for both palettes (holes 1 and 2), the palette byte (hole 0) toggled, the other palette's window opened by name, then the switch's sound.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101A45C0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMacroPick",
+    "note": "The macro editor's pick (this = the editor; row) stores the row for the palette in its byte (hole 0; 1 Ctrl), closes mcrbedit, mcr1edit and mcr2edit by name, then opens mcrledit and macro.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101A6B10": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMacroEdit",
+    "note": "The macro set menu's input routine, never run: its edit row (the jump table at hole 4) selects the set (hole 5) and runs the editor's opener (hole 7, on the editor object in the global at hole 6), which opens mcrbedit and the two palettes, the one last used last.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101AE800": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigEquipShortcut",
+    "note": "The equipment shortcut's handler, never run: it runs the set's opener only when the Monstrosity check (kShapeMonstrosity, al 1 in Monstrosity) answers no. open_set('equipment') asks the check first, as the shortcut does.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101C5F30": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigFieldText",
+    "note": "A field's text set (this = the field; the text; ret 4), which no window's commit calls: the text converted into +0x1D5, up to the field's length at +0x398, through the converter its global names; a text converting to something is copied into +0x12 and +0x3A0 and its length into +0x690, any other empties them. The read stringdl's name handler calls returns +0x12 for a 0 argument, the field's text converted through the same converter first while the field holds the line.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D6540": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigDoorInput",
+    "note": "mogdoor's input routine, never run. Its confirm does nothing while the gate answers al 0. The exit byte +0x15: 0xFF stays (top row 1, which closes the window; row 4, which opens the list of areas, +0x18), 0 goes back (row 2), 0x7D plus the floor read's nonzero (row 3, with +0x1A set), 0x7F the Mog Garden (only with +0x19 set), else the area's place in the list. An exit of 0 or more sets the door actor's +0x880 routine, opens the door and writes bl, 1 at kDoorTailBytes.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D6CD0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigBankOpen",
+    "note": "bankmenu's open hook, then its begin-close, never run: the hook turns row 2 off unless the player has Mog Safe 2, a flag in the player data; the begin-close clears the pending callback.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D6D10": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigBankInput",
+    "note": "bankmenu's input routine, never run: row 1 is container 1, any other 9; the callback at +0x14 (cdecl) gets the container and 0 on a confirm, 1 on a cancel, then the window closes through its class's close.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D9500": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskAuctionBid",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D9A20": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskAuctionSell",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101DB980": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskStorage",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101DDE60": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigCommentInput",
+    "note": "comment's Escape ends the field keeping the line, then closes the window by instance; its begin-close ends a field still open, keeping its line. The field's end takes its 40 bytes into line +0x14 (0..2) of message slot +0x16, then sanitizes and trims it. The field's start (this = the controller; the line) trims the line and writes it to +0x14.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101DE5B0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskBazaarBuy",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101DF020": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSetSpellsOpen",
+    "note": "The blue magic set's and the automaton's openers (this = the controller in bluequip's or automato's registry slot), called as the magic menu's set row and the automaton menu's attachment row run them.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E0670": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAskSynthesis",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E4380": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigLink5Clear",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E5490": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigLink11Input",
+    "note": "link11's cancel with no field closes link11, opens link6 and raises link5's window. Row 5 buzzes on an empty name (+0x34), asks whether the second linkshell slot is taken, takes link5's selected row, encodes the name, sends the request with the colors +0x30..+0x32 and, queued, writes the item's word and the slot into the request's bytes and sets link5's +0x65 bit 0. The field's end takes the name into +0x34 whatever it is told.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E8B10": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigRegionEscape",
+    "note": "cnqframe's input routine does nothing while its closing bit is set; on Escape (event 6) it starts the fade (vtable +0x50), then closes kRegionEscapeNames by name, each a kShapeCloseByName at game.h's kRegionEscapeAt + kRegionEscapeStep * i.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F7810": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMapOpen",
+    "note": "The map's opener (mode; cdecl), called with mode 0 as the main menu's map row and the map command run it.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F7C60": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMap0Input",
+    "note": "map0's input routine, never run: its cancel (code 6, Escape) closes the window by instance, then calls the map's close with 0 on mapframe's controller, which closes kMapWindows by name, kMapClose bytes each from kMapClosesAt, then fades out (kMapClosesTail).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101FCD60": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMaplistClose",
+    "note": "maplist's close and reset (this = the controller), then its key handler, which first reads maplist's global, its registry slot. In the handler's first kMaplistHandlerBytes, once each, each ending in a call of the close and reset: a leaf row's confirm (the callback at +0x6C, cdecl, gets the row's entry), the confirm of a row with id 0x7FFFFFFF, and the cancel at the top level.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101FF3E0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMsglineInput",
+    "note": "msgline's commit sends nothing for an empty text or a NULL player data global, else the mode's case sends it. A sender's 0 marks the sending indicator and sets the busy byte before msgline's close by name; its Escape drops the text and closes the same way. The field's end takes its shown text into +0x53 (300 bytes) and zeroes +0x17E; the field is short in modes 2 and 7.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x102031E0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPartyClear",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10206420": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPassinpuReset",
+    "note": "Routines the replies, reset and resize call; none is hooked.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10206780": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigPassinpuInput",
+    "note": "passinpu's field's end takes its text into +0x24 when told to keep it. The field's start, from its open hook, ends in the text entry manager's unbind, then its bind of the field (holes as kShapeStringdlStop's).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10207670": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAttachmentsOpen",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020D7C0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigComgenreOpen",
+    "note": "comgenre's opener (this = its controller; mode) refuses a mode of 3 or more and writes it at +0x14 before the open. The comment sub-lists' opener (this = the list's controller; mode, base) is alike for sccompar, sccomite and sccomls.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020E3A0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigScnameInput",
+    "note": "scname's routine works only while the player search's global is set. Row 2 clears the search's criteria at +0x5C, names them from +0x18, starts the search, then closes scname and scsibori. The field's end takes its text into +0x18 when told to keep it.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020EED0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigArealistClose",
+    "note": "arealist's close and reset (this = the controller): an open instance's begin-close clears the latch and the mode, then the rows are freed. With no instance open, kSigArealistLatch, that begin-close, is called alone.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020F4F0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigArealistLatch",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10210DA0": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigYesNoClass",
+    "note": "The yes/no class's constructor, never run: its vtable is the imm32 at +31, and its 16-byte key lands at +0x20 (game.h's kYesNoKey).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10211370": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigYesNoConfirm",
+    "note": "The yes/no class's confirm, only checked: it must keep its question where game.h's replies read and write it (mode +0x40, callback +0x14, window +0x08, cursor row +0x4C, context +0x18, chained flag +0x3A, chained default +0x3B), with each read below once in its first kYesNoConfirmBytes.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1021ED90": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigCompassDraw",
+    "note": "The compass draw entry (no arguments, plain ret), hooked. Its global is the imm32 at +2 and again at +31, which must agree; a hook's patch may cover +2, so the engine reads +31 and pins +2 before the scan.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10222770": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigSortynSetup",
+    "note": "sortyn's setup, only checked: it must write the question where game.h's kSortyn* read it before opening its own key. It answers 1 whether the open was refused or not.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10222B90": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigAbilityOpen",
+    "note": "The ability opener (kind, flag, extra; cdecl), hooked: every open of the ability lists goes through it. It opens abisortw when flag is 1, then ability, and hands kind to the controller (game.h's kAbilityCategory). Its prologue's global (+1) is read out of the hit and pinned as the macro gate's word is.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10226490": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMountOpen",
+    "note": "The mount list's opener (list, sort; cdecl): abisortw for sort 1, mount, then its setup on mount's controller, which opens subwindo.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1022B220": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigMagicOpen",
+    "note": "The magic list's opener (category, sort, exclusion mask; cdecl), called, never hooked. The controller's rebuild opens subwindo, and with sort 1 mgcsortw, or blusortw for blue magic.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1023C270": [
+   {
+    "file": "engine/signatures.h",
+    "name": "kSigOkInput",
+    "note": "ok's input routine, never run: once acknowledged (+0x25C 1) it takes nothing; its confirm marks the window busy, writes 1 at +0x25C, calls the callback at +0x14 (cdecl) with the context at +0x18 when one is set, and closes the window by instance, again when +0x258 is set.",
+    "source": "ffxi_hide_ui"
+   }
+  ]
+ },
+ "globals": {
+  "0x1045666C": [
+   {
+    "file": "ffxi_world_draw.h",
+    "match": "0x100115E3",
+    "name": "renderer global",
+    "operand_at": 2,
+    "ours": "g_pCDx",
+    "source": "ffxi_world_draw"
+   },
+   {
+    "file": "ffxi_world_draw.h",
+    "match": "0x10015582",
+    "name": "renderer global",
+    "operand_at": 33,
+    "ours": "g_pCDx",
+    "source": "ffxi_world_draw"
+   }
+  ],
+  "0x104568FC": [
+   {
+    "file": "ffxi_world_draw.h",
+    "match": "0x10015582",
+    "name": "camera global",
+    "operand_at": 1,
+    "ours": "g_pCamera",
+    "source": "ffxi_world_draw"
+   }
+  ]
+ },
+ "sites": {
+  "0x1007C72B": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1007C6C0",
+    "name": "kSigBlacklistCommand",
+    "note": "The blacklist command's call of the blacklist's opener on blklist's controller; the opener ends at kBlklistOpensAt in blklist's open.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100A3D37": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x100A3D00",
+    "name": "kSigGmTellPoll",
+    "note": "The game's GM tell poller, never run by the engine: the question's result word (+0x548 of the window's controller) is 0 while waiting, 0xFF or below 0 when declined, else the option chosen. kGmTellTitleRead's imm32 is the queue's start + kGmTellTitle (game.h).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x100B8081": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x100B7E10",
+    "name": "kSigLink5Open",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1012E053": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1012E030",
+    "name": "kSigDeadConfirm",
+    "note": "The KO window's input handler from its confirm on, never run: the decider picks the question's message (kDeadTextIfSet when it answers 1, else kDeadTextOtherwise), and the yes/no class's ask takes the pushed values the offsets below name.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10139A91": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10139A40",
+    "name": "kSigAskHandoverGil",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10140493": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10140400",
+    "name": "kSigStatusRow",
+    "note": "The main menu's Status row: in Monstrosity (the check of hole 0) mp_stat's opener on its controller with 0, else persona's layout byte (hole 7) set 1 and persona's open.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10140555": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10140400",
+    "name": "kSigItemsRow",
+    "note": "The main menu's Items row: the item view (0, 1) on the object its global holds, inventor's byte (hole 3) set 1, then inventor's open with the list the global of hole 4 holds.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101405EE": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10140400",
+    "name": "kSigLinkshellRow",
+    "note": "The main menu's linkshell row, never run: its check (1, 1; al 1 refuses), then the linkshell list's opener (mode and two more, 0 each), which tail-jumps to the open routine with link5's key written over its arguments.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10140626": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10140400",
+    "name": "kSigSearchRow",
+    "note": "The main menu's Search row resets the search on scresult's controller with 0, then opens searchma. The results list's narrow row opens scsibori only while the results' mode (the word of hole 0) is 1 or 2, a search run.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101419D5": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101419D0",
+    "name": "kSigMpDeadInput",
+    "note": "mp_dead's input routine from its code test on, never run: the confirm writes 1 at +0x24 on row 1, else 2; the cancel hands the focus to the chat logs. Its tick (kMpDeadTick) writes the countdown at +0x20 from the deadline at +0x1C; past it, 2 at +0x24, the countdown 0, and the window closed.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10145A1C": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101459D0",
+    "name": "kSigJobChangeRow",
+    "note": "The job change menu's main and support rows write the row into a word (hole 1) of jobcselu's controller, then open by the key the language's lookup (6) answers. Its confirm, never run, tests the Mog House manager's global (hole 0) or the Nomad Moogle service's (hole 4), reading the row from that word (holes 1 and 5).",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10145ACC": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10145A90",
+    "name": "kSigJobChangeConfirm",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10148D1B": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10148D00",
+    "name": "kSigStatusEscape",
+    "note": "The Status screen's close: statcom2's Escape with no row picked closes its menu by instance with 1, and its begin-close closes persona and mp_stat by name; one vtable names both.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1014E45E": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1014E410",
+    "name": "kSigQueryCancelAllowed",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10150545": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101501A0",
+    "name": "kSigTargetArrow",
+    "note": "The target window's sprite draw calls of its two arrows: the one it always draws, and the one while the player picks a command's target. Each call's return address tells its arrow from every other sprite.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015058B": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101501A0",
+    "name": "kSigPickArrow",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10151691": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101515E0",
+    "name": "kSigAskTradeGil",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015F6FC": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1015F6A0",
+    "name": "kSigManager",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1015FD58": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1015FA00",
+    "name": "kSigDockMasks",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10198512": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101984F0",
+    "name": "kSigTextColorRows",
+    "note": "The text color menu's first row writes 0 at textcol1's, textcol2's and textcol3's category words (holes 1, 3 and 5); its tail opens textcol2, then textcol1.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019A12C": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1019A0E0",
+    "name": "kSigConf11mRows",
+    "note": "The configuration menu's message rows: conf11l's set word (holes 1 and 3) written 1 or 0, then conf11l's open.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019A912": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1019A900",
+    "name": "kSigAnonymousRows",
+    "note": "conf3win's open reads player flag 0 into its field +0x38, and its begin-close hands that field to the flag's request once a row has changed it. kShapeFlagGet holes: 0 the player's data's global, 3 the flags' jump table; flag 0 is bit 2 of the byte at kShapeFlagBit's hole.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019BA0C": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1019B9C0",
+    "name": "kSigLockRows",
+    "note": "conf12wi's equipment lock rows, never run: 0xBF read through the store's read and set through its set, then the request routine called with 4, 1 or 0, which sets 0xBF itself as it succeeds.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1019C345": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1019C300",
+    "name": "kSigIdleRows",
+    "note": "conf4's idle timer rows, never run: each row's minutes in seconds go to the timer's routine (cdecl; seconds), which stores seconds / 60 in 0x41 through the store's set, or -1 for 0.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101AB0EB": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101AB0D0",
+    "name": "kSigMacroObject",
+    "note": "The macro key object's global, read out of the macro subsystem's constructor (the imm32s at +15 and +23 must agree). It is NULL before the subsystem exists.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101D6099": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101D6040",
+    "name": "kSigDoorHandler",
+    "note": "The door's handler from its open on, never run: it writes the nation at +0x14 and +0x1B of mogdoor's controller, then opens mogdoor.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101DEB51": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101DEAF0",
+    "name": "kSigAskBazaarPrice",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E46A6": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101E48C0",
+    "name": "kSigLink5Cache",
+    "note": "Data read out of the code that uses it: link5's confirm adds the concierge cache to slot * 0x20; query's input handler compares the cancel-allowed byte with 1.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101E8984": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101E88B0",
+    "name": "kSigColoresuRow",
+    "note": "cnqframe's Colonization cursor on a region past the first: the region written at coloresu's word (hole 1), coloresu's open, colorank's close by name.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101EBCCE": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101EBC80",
+    "name": "kSigMessagesRow",
+    "note": "The friend menu's Messages row runs the mail list's opener on msglist's controller with (0, 0, 0), printing its refusal (al 0). The opener ends at kMsglistOpensAt in msglist's open, then titlehan's when its controller exists.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101ECC28": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101ECBA0",
+    "name": "kSigAskGuildBuy",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101ED34F": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101ED300",
+    "name": "kSigAskGuildSell",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F157A": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101F1230",
+    "name": "kSigInventorRows",
+    "note": "The inventory list's build of a row, never run: the item's lock byte (a u16 offset) is raised around its description, and the gil's row is gray. Then the mode's test of the row (vtable +0x30); unless it marks the row offered, a status at +8 above 0x1B grays the item, else its class picks a case: kept, kept only for the mode in the global of hole 4 (kRowsModalCase), or grayed (kRowsGrayCase). kShapeRowsTest holes 2 and 3: the class table and the cases' jump table.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F2A0C": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101F27A0",
+    "name": "kSigCompareSite",
+    "note": "The inventory's compare option: the item panel's set-and-open on itemxinf's controller with mode 5, the item's id, slot and bag, its record's extra data (the record + the byte of hole 3), and equip's and inventor's controllers.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F344B": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101F33A0",
+    "name": "kSigItemUse",
+    "note": "The item menu's use of the item under the cursor, never run: the maze editor's opener for a tabula (mode 0 or 1), and for a crystal a check (0x77, 0; al 0 refuses), then the synthesis's opener (al 0 refuses). Hole 3: the item data's offset of its pointer to the type word.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x101F7CC6": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x101F7C60",
+    "name": "kSigWideScanRow",
+    "note": "map0's Wide Scan row: while the map tracks (the routine of hole 0 answers a word of 1), a yes/no on comyn first; else scanlist's opener on its controller, which opens scanlist by name.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020C355": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1020C250",
+    "name": "kSigResultsNarrow",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1020FD72": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1020FC80",
+    "name": "kSigAskShopBuy",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1021022B": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x102101A0",
+    "name": "kSigAskShopSell",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x10222717": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10222710",
+    "name": "kSigEvitemInput",
+    "note": "evitem01's input routine from its code test on, never run: the cancel answers 0, the confirm 1 on the list's first row (+0x30 0), passed as a byte to the callback at +0x64 (cdecl); then the window closes by instance.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x102228D9": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x102228B0",
+    "name": "kSigSortynConfirm",
+    "note": "sortyn's input routine from its confirm on, only checked: row 1 answers 1, row 2 and the cancel 0; it calls and clears the callback, then closes its own key.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x1022ABAB": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x1022AAA0",
+    "name": "kSigEvitemAsk",
+    "note": "The key item list's ask, never run: it opens evitem01, then calls the setup, which writes the question at +0x74 and pushes the callback; the callback reads the key item list's global, its registry slot.",
+    "source": "ffxi_hide_ui"
+   }
+  ],
+  "0x102300EE": [
+   {
+    "file": "engine/signatures.h",
+    "function": "0x10230230",
+    "name": "kSigQuest00Confirm",
+    "note": "",
+    "source": "ffxi_hide_ui"
+   }
+  ]
+ },
+ "sources": {
+  "ffxi_hide_ui": {
+   "commit": "662a869",
+   "licence": "0BSD"
+  },
+  "ffxi_world_draw": {
+   "commit": "622e7c1",
+   "licence": "0BSD"
+  }
+ },
+ "unmatched": []
+}

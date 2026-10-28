@@ -7104,6 +7104,7 @@
    "ret64",
    "uleq",
    "retvoid",
+   "retthis64",
    "cmpk_globvar_ret64_uleq_retvoid",
    "cmpk_globvar",
    "cmpk_globvar_ret64",
@@ -7177,6 +7178,7 @@
    "uleq",
    "xiany",
    "retvoid",
+   "retthis64",
    "globvar_ret64_uleq_xiany_retvoid",
    "globvar_ret64",
    "globvar_uleq",
@@ -7396,10 +7398,13 @@
    "globvar",
    "uleq",
    "retvoid",
+   "retthis64",
    "globvar_uleq_retvoid",
    "globvar_uleq",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10043E20": {
   "verdict": "IDENTICAL",
@@ -7596,6 +7601,7 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
@@ -8667,6 +8673,7 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
@@ -8693,10 +8700,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052C50": {
   "verdict": "IDENTICAL",
@@ -8725,10 +8735,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052CB0": {
   "verdict": "IDENTICAL",
@@ -8745,6 +8758,7 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
@@ -8777,10 +8791,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052D60": {
   "verdict": "IDENTICAL",
@@ -8809,6 +8826,7 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
@@ -8841,10 +8859,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052E40": {
   "verdict": "IDENTICAL",
@@ -8879,10 +8900,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052F00": {
   "verdict": "DIFFERS",
@@ -8893,10 +8917,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052F20": {
   "verdict": "DIFFERS",
@@ -8907,10 +8934,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052F40": {
   "verdict": "IDENTICAL",
@@ -8939,10 +8969,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052FD0": {
   "verdict": "DIFFERS",
@@ -8953,10 +8986,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052FF0": {
   "verdict": "IDENTICAL",
@@ -8985,10 +9021,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10053050": {
   "verdict": "IDENTICAL",
@@ -9053,6 +9092,7 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
@@ -9085,10 +9125,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100531B0": {
   "verdict": "IDENTICAL",
@@ -9473,10 +9516,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100555D0": {
   "verdict": "DIFFERS",
@@ -9586,10 +9632,13 @@
    "globvar",
    "ret64",
    "retvoid",
+   "retthis64",
    "globvar_ret64_retvoid",
    "globvar_ret64",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10056360": {
   "verdict": "IDENTICAL",
@@ -21748,8 +21797,11 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "retvoid"
-  ]
+   "retvoid",
+   "retthis64"
+  ],
+  "rule_identical": "retthis64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101172C0": {
   "verdict": "DIFFERS",
@@ -21759,6 +21811,7 @@
   "rules_tried": [
    "ret64",
    "retvoid",
+   "retthis64",
    "ret64_retvoid"
   ]
  },
@@ -44549,7 +44602,9 @@
    "globvar_xiany_retvoid",
    "globvar_xiany",
    "globvar_retvoid"
-  ]
+  ],
+  "rule_identical": "xiany",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10265960": {
   "verdict": "IDENTICAL",

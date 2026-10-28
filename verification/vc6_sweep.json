@@ -4854,7 +4854,9 @@
    "retvoid",
    "calledon_retnarrow_uleq",
    "retnarrow_uleq"
-  ]
+  ],
+  "rule_identical": "calledon3",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1002C750": {
   "verdict": "DIFFERS",
@@ -4869,7 +4871,9 @@
    "retvoid",
    "ret8_calledon_uleq",
    "ret8_uleq"
-  ]
+  ],
+  "rule_identical": "calledon3",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1002C7C0": {
   "verdict": "DIFFERS",
@@ -5929,7 +5933,7 @@
    "xiany_calledon",
    "globvar_xiany"
   ],
-  "rule_identical": "globvar_calledon_xiany",
+  "rule_identical": "xiany_calledon0",
   "rule_verdict": "IDENTICAL"
  },
  "0x10037A10": {
@@ -31784,7 +31788,7 @@
    "retthis_globvar",
    "retthis_globvar_uleq"
   ],
-  "rule_identical": "calledon4",
+  "rule_identical": "calledon5",
   "rule_verdict": "IDENTICAL"
  },
  "0x10188970": {

@@ -86,6 +86,10 @@
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
+ "facts:reg_kept_audit.json": {
+  "ok": true,
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
+ },
  "facts:entry_regs.json": {
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
@@ -173,11 +177,6 @@
  "facts:reg_leftover_audit.json": {
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
- },
- "facts:reg_kept_audit.json": {
-  "ok": true,
-  "differing": [],
-  "n_differing": 0
  },
  "facts:idb_members.json": {
   "ok": true,

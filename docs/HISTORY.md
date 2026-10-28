@@ -3805,4 +3805,4 @@ virtual calls (data/vcalls.json gives no exact target for any) and 163 COM-style
 gates 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as r15 (the three live-gated functions' source unchanged); 34
 functions' text changed. The sweep writes such a typed call back as the slot call (sweep.py _d3d_slot_calls: VC6
 compiles the SDK's virtual calls that way, not as the tree's inline wrapper); the 34 keep their sweep verdicts.
-
+verify_all on r16 (`--quick --facts-from-state`): tree-regen identical, every check PASS but export-sp (0x100412B0, as before).

@@ -53,6 +53,8 @@ typedef unsigned char undefined, undefined1, byte, uchar; typedef unsigned short
 typedef unsigned int undefined4, uint, dword; typedef unsigned __int64 undefined8; typedef unsigned long ulong;
 /* Ghidra's x87 extended type, as the tree writes it (long double; VC6's is its 8-byte double) */
 typedef long double float10;
+/* Ghidra's 3-byte integer (CONCAT31((int3)(x >> 8), lo): the upper three bytes of a register), held in an int */
+typedef int int3;
 typedef unsigned int size_t; typedef int BOOL;
 typedef void *LPVOID; typedef unsigned long DWORD; typedef unsigned int _DWORD; typedef unsigned short _WORD;
 typedef unsigned char _BYTE;
@@ -224,7 +226,7 @@ FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?
                    r'#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
-         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'float10', 'size_t', 'BOOL', 'bool', 'code',
+         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'float10', 'int3', 'size_t', 'BOOL', 'bool', 'code',
          'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE',
          # Visual C++ 6.0's own sized integers; the tree's GCC build defines them as the same types (xi_decomp.hpp:
          # __int8 char, __int16 short, __int32 int; __int64 is GCC's own)
@@ -1508,6 +1510,17 @@ def _rule_retnarrow(text, ret, name):
         # K, of `x & 0xffffff00` it reads 0 (0x10123DC0)
         t3 = re.sub(r'\breturn\s+\(\(uint32_t\)\(.*?<<\s*%d\)\s*\|\s*\(%s\)\(([^()]+)\)\)\);' % (sh, lo), r'return \1;', t2)
         t3 = re.sub(r'\breturn\s+[^;]*&\s*%s;' % hi, 'return 0;', t3)
+        # and Ghidra's CONCAT31(hi, lo) / CONCAT22(hi, lo) returned: the caller reads lo
+        cc = 'CONCAT31' if sh == 8 else 'CONCAT22'
+        out3, pos = [], 0
+        for c in re.finditer(r'\breturn %s\(' % cc, t3):
+            if c.start() < pos: continue
+            e = _group(t3, c.end() - 1)
+            if e < 0 or t3[e:e + 1] != ';': continue
+            args = split_args(t3[c.end():e - 1])
+            if len(args) != 2: continue
+            out3.append(t3[pos:c.start()] + 'return %s' % args[1].strip()); pos = e
+        t3 = ''.join(out3) + t3[pos:]
         # and the `||` of two calls Ghidra prints as nested ifs that return the zero the second left in AL:
         # `v = f(a); if ((char)v == '\0') { v = g(b); if ((char)v == '\0') { return v; } } return 1;` (0x10123DC0)
         if sh == 8:

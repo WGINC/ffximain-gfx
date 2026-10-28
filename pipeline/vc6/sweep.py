@@ -1118,6 +1118,21 @@ def _rule_paramnarrow(text, ret, name):
     return t if t != text else None
 
 
+def _rule_retstore(text, ret, name):
+    """a function written as void whose last statement stores a constant, where the game leaves that constant in
+    EAX for its caller (`mov eax, 1; mov byte ptr [esi + 0xa], al`, 0x101953A0): written as returning it (int). A
+    result counts only where match.py says IDENTICAL"""
+    if ret != 'void': return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    m = re.search(r'(?m)^(  \*\([\w ]+\*\)[^;=]*= (-?(?:0x[0-9A-Fa-f]+|\d+));)\n(  return;\n)?\s*\}\s*$', text[i:])
+    if not m: return None
+    body = text[i:i + m.start()] + m.group(1) + '\n  return %s;\n}\n' % m.group(2)
+    head = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)void(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', r'\1int\2', text[:i])
+    t = head + body
+    return t if head != text[:i] else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1483,6 +1498,7 @@ RULES = [
     ('fastthis', _rule_fastthis),
     ('ushortcmp', _rule_ushortcmp),
     ('paramnarrow', _rule_paramnarrow),
+    ('retstore', _rule_retstore),
 ]
 
 
@@ -1513,17 +1529,17 @@ def apply_rules(text, ret, name, ea=None):
             t2 = f(t_b, ret, name)
             if t2: t_b = t2[-1] if isinstance(t2, list) else t2
         return t_b
-    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid')]
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore')]
     if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
     for g in ('ret64', 'xiany'):                       # calledon over a text these change (the callee's own declaration)
         if g in names:
             tg = dict(RULES)[g](text, ret, name)
             co = tg and _rule_calledon(tg, ret, name)
             if co: out += [('%s_calledon%d' % (g, k), x) for k, x in enumerate(co)]
-    for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid'):  # and the others with each of these on its own
+    for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore'):  # and the others with each of these on its own
         if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
     # each two of them together, alone and with the others (0x1003C6E0 is ret64 with xiany, without retthis)
-    guess = [g for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid') if g in names]
+    guess = [g for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore') if g in names]
     seen = {t for _, t in out}
     for i, g in enumerate(guess):
         for h in guess[i + 1:]:

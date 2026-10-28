@@ -172,3 +172,13 @@ to 44, 0x10075700 78 to 46, 0x1001DD00 106 to 60, 0x10041160 109 to 80, 0x100435
 - 0x1006A020 (Gfx_CreateVertexBuffer, __stdcall, C++ by the sweep): 7 lines; what is left is the order of the first
   argument's load and of the return's reload. A permuter candidate scoring 3 changes the output parameter (not the
   game's computation) and was discarded.
+
+**Worker B (28 Oct):** 0x10174B10 and 0x10183760 IDENTICAL (and 0x10183490, 0x10041C20 before). Not matched, with what
+is left: 0x10043320 (91 lines; `this` in EDI and four registers pushed at entry), 0x1003D640 (180), 0x100421A0 (59;
+the load before SetRenderState and the digit loop's stores), 0x1006A630 (197), 0x10086900 (223; our frame 4 bytes
+larger), 0x1003EBF0 (78; registers permuted), 0x1001C930 (data/func_extents.json's extent spans a wrapper and a body
+at 0x1001C940: an extent question, not a source one). Rules it found: where a local is first assigned decides the
+register allocation (0x10183760: 372 lines to IDENTICAL by moving one assignment after the SetTransform call); a
+pointer walked in a loop is biased toward its most used field; `!(z >= 1.0f) && !(z < 0.0f)` for the game's branch
+forms; a float temporary keeps a multiply chain's order (VC6 otherwise moves the constant to the end).
+match.py now compares pooled floating constants by value (`__real@<hex>` names its value): no more manual checks.

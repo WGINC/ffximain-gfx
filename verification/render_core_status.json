@@ -769,7 +769,8 @@
    "in_tree": true
   },
   "0x10174B10": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_10174B10.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
@@ -828,7 +829,8 @@
    "in_tree": false
   },
   "0x10183760": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_10183760.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": false
   },

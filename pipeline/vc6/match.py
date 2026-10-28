@@ -114,6 +114,14 @@ def compare(img, ext, ea, code, rels, place):
             got &= 0xFFFFFFFF
         else:
             notes.append('relocation type %d at +%d (%s): not compared' % (rt, off, sym)); continue
+        rm = re.match(r'^__real@([0-9a-f]{8}|[0-9a-f]{16})$', sym)
+        if a is None and rt == 0x06 and rm:
+            # a pooled floating constant: MSVC names it by its value (__real@3f800000 is 1.0f), so the game's constant at
+            # the address the instruction holds is compared with that value, byte for byte
+            want = bytes.fromhex(rm.group(1))[::-1]; o_ = got - BASE
+            if not (0 <= o_ <= len(img) - len(want)) or bytes(img[o_:o_ + len(want)]) != want:
+                return 'DIFFERS', '+%d: %s, the game\'s constant at 0x%08X is %s' % (off, sym, got, bytes(img[o_:o_ + len(want)])[::-1].hex() if 0 <= o_ <= len(img) - len(want) else '?'), notes
+            continue
         if a is None: notes.append('+%d %s -> 0x%08X in the game: not compared (%s carries no address)' % (off, 'call/jump' if rt == 0x14 else 'address', got, sym))
         elif a != got: return 'DIFFERS', '+%d: %s targets %s (0x%08X), the game 0x%08X' % (off, 'REL32' if rt == 0x14 else 'DIR32', sym, a, got), notes
     for k in range(len(code)):

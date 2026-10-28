@@ -419,6 +419,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/perm_10161FF0.c"
 },
+"0x10174B10": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10174B10.cpp"
+},
 "0x10177B40": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10177B40.cpp"
@@ -430,6 +434,10 @@
 "0x10183490": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10183490.cpp"
+},
+"0x10183760": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10183760.cpp"
 },
 "0x1018B860": {
 "verdict": "IDENTICAL",

@@ -24,8 +24,9 @@ For the M5 MacBook Pro in Parallels with dgVoodoo (28 Oct: the shipped settings 
 machine's baseline; `frame_step=1` made motion run at real time below 60 fps, faster than the game's own 83-90%, and
 in bursts when a fast frame gets no tick). Rename it to `speedfix.ini`. It turns `frame_step` off and the levers that
 cut frame time or stutter on that machine on (skin_merge, batch_up_draws, merge_scenes, lazy_state, block_cache,
-extended_state_cache, vs_dedupe, sse_skinning, occlusion_late), and runs the in-session A/B of the live ones: the log's
-`ab ...: A (off) X ms, B (on) Y ms` lines say what they gain there.
+extended_state_cache, vs_dedupe, sse_skinning, skip_actor_occlusion), and runs the in-session A/B of skip_actor_occlusion:
+the log's `ab ...: A (off) X ms, B (on) Y ms` line says what it gains there. occlusion_late is off: on dgVoodoo its late
+read waits as long as the game's (3 to 5 ms each; 15.6 to 21.5 ms a frame in a crowd, owner's run of 28 Oct).
 
 ## Files (dist/, from build.sh)
 

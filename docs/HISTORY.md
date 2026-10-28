@@ -3702,3 +3702,14 @@ is read as 0. 26 more functions IDENTICAL (ret8 25, ret8_globvar 1): 2,103 at th
 pipeline/vc6/differs.py skips the shim's helper functions in an object, as sweep.py does (it stopped on them).
 Found by grouping the DIFFERS functions by their few-instruction difference (differs.py): `mov al, 1` in the game
 where ours has `and al, ..; or al, ..` in 66 functions.
+
+**Leads from differs.py, not rules (28 Oct).** Grouping the DIFFERS functions no rule matches by their small
+difference (at most 4 instructions, 630 functions):
+- 28 this-adjusting thunks: the game's `sub ecx, 0x54; jmp`, ours `add ecx, -0x54` with the argument reloaded. A
+  `char` parameter passed on as `int` removes the reload (0x10042690); `(_DWORD *)this - 21`, `(char *)this - 0x54`,
+  `(int)this - 0x54` and `(unsigned int)this - 0x54` all give `add ecx, -0x54`. The game's form is that of the
+  compiler's own adjustor thunks (multiple inheritance); whether these are such is not established.
+- 67 where the game has one `mov` more; about 40 of them the game setting ECX just before a call. The callees there
+  (data/ecx_use.json): 42 read ECX, 24 do not, 7 not recorded. No single source form; not a rule.
+- 0x10002C80 and others with a 0x40C-byte `xi_frame` block: the `frame` rule gives the game's frame size; what is left
+  is the order of a call's argument loads (rule 14, for reorder.py).

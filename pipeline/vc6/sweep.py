@@ -984,6 +984,26 @@ def _rule_retthis64(text, ret, name):
     return t2 if t2 != t else None
 
 
+def _rule_negmask(text, ret, name):
+    """a mask of all ones or none from a comparison, which Ghidra prints as `-(uint32_t)(a != b)`, written as
+    `((a != b) ? -1 : 0)`: VC6 compiles the first with setne/neg and the second as `neg al; sbb eax, eax` (0x10087610).
+    The same value either way; a result counts only where match.py says IDENTICAL"""
+    out, pos, n = [], 0, 0
+    for m in re.finditer(r'-\(uint32_t\)\(', text):
+        if m.start() < pos: continue
+        e = _group(text, m.end() - 1)
+        if e < 0: continue
+        inner = text[m.end():e - 1]
+        depth, cmp_ = 0, False
+        for j, ch in enumerate(inner):
+            depth += {'(': 1, ')': -1}.get(ch, 0)
+            if depth == 0 and inner[j:j + 2] in ('!=', '==', '<=', '>=') or depth == 0 and ch in '<>' and inner[j + 1:j + 2] not in ('<', '>', '=') and inner[j - 1:j] not in ('<', '>', '-'):
+                cmp_ = True
+        if not cmp_: continue
+        out.append(text[pos:m.start()] + '((%s) ? -1 : 0)' % inner); pos = e; n += 1
+    return ''.join(out) + text[pos:] if n else None
+
+
 _GLOBDEF = re.compile(r'(?m)^#define (\w+) \(\*\((.+?) (\(\*\)(\[[^\]]*\](?:\[[^\]]*\])*)\)|\*\))(0x[0-9A-Fa-f]{8})u\)$')
 
 
@@ -1288,6 +1308,7 @@ RULES = [
     ('xiany', _rule_xiany),
     ('retvoid', _rule_retvoid),
     ('retthis64', _rule_retthis64),
+    ('negmask', _rule_negmask),
 ]
 
 

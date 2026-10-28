@@ -1272,9 +1272,20 @@ def _rule_retnarrow(text, ret, name):
     that. Variants; a result counts only where match.py says IDENTICAL"""
     if ret.strip() not in ('int', 'uint32_t', 'int32_t', 'undefined4', 'unsigned int', '_DWORD', 'uint', 'DWORD', 'long', 'char', 'bool', 'byte', 'uint8_t'): return None
     out = []
-    for ty in ('unsigned char', 'unsigned short'):
+    for ty, sh, lo, hi in (('unsigned char', 8, 'uint8_t', '0xffffff00'), ('unsigned short', 16, 'uint16_t', '0xffff0000')):
         t2 = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), text)
-        if t2 != text: out.append(t2)
+        if t2 == text: continue
+        out.append(t2)
+        # and Ghidra's partial-register returns at that width: of `((x >> 8) << 8) | (uint8_t)(K)` the caller reads
+        # K, of `x & 0xffffff00` it reads 0 (0x10123DC0)
+        t3 = re.sub(r'\breturn\s+\(\(uint32_t\)\(.*?<<\s*%d\)\s*\|\s*\(%s\)\(([^()]+)\)\)\);' % (sh, lo), r'return \1;', t2)
+        t3 = re.sub(r'\breturn\s+[^;]*&\s*%s;' % hi, 'return 0;', t3)
+        # and the `||` of two calls Ghidra prints as nested ifs that return the zero the second left in AL:
+        # `v = f(a); if ((char)v == '\0') { v = g(b); if ((char)v == '\0') { return v; } } return 1;` (0x10123DC0)
+        if sh == 8:
+            t3 = re.sub(r"(\w+) = ([^;]+);\s*if \(\(char\)\1 == '\\0'\) \{\s*\1 = ([^;]+);\s*if \(\(char\)\1 == '\\0'\) \{\s*"
+                        r"return \1;\s*\}\s*\}\s*return 1;", r'return (char)(\2) || (char)(\3);', t3)
+        if t3 != t2: out.append(t3)
     return out or None
 
 

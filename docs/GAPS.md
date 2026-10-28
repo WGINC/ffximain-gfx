@@ -25,7 +25,7 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 | Hookable by a mod | 774 (721 with a trampoline to the game's code) | kit manifest |
 | Functions named only by address or vtable slot | 346 of 777 | tree/placement.json |
 | Class fields named / unnamed (`field_XXX`) | 86 / 720, plus 528,778 bytes of padding not yet described | tree/include |
-| Virtual calls through an untyped slot in the tree | 810 | pipeline/artifact_count.py |
+| Virtual calls through an untyped slot in the tree | 286 (120 game-class, 163 COM-style without a proven object, 3 other; 242 Direct3D calls typed in r16) | verification/untyped_vcalls.json |
 | Memory dumps the gate runs on | 4 (town, town2, combat, zonetoinn) | verification/live |
 
 ## 2. Know: what the code does
@@ -97,7 +97,7 @@ as was done for the 4 Oct export.
 
 - 346 of 777 functions have only an address or slot name.
 - 720 fields are unnamed, against 86 named.
-- 810 virtual calls go through an untyped slot.
+- 286 virtual calls go through an untyped slot (verification/untyped_vcalls.json): none has a definitive source for its type.
 - 32,469 uses of Hex-Rays' numbered variables remain (`vN`, `aN`).
 
 A change to such code is reasoned from offsets and arithmetic, which is where guessing creeps back in.

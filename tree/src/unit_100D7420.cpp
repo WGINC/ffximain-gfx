@@ -2776,7 +2776,7 @@ XI_API uint8_t __cdecl Unit100D7420_ReturnTrue100E0100(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100E08D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 2 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, combat PASS 2, town PASS 2, town2 PASS 2, zonetoinn PASS 2
+// GATE: PASS -- 100 trials, 2 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, town PASS 2, town2 PASS 2, combat PASS 2, zonetoinn PASS 2
 XI_API int __cdecl Entry_FindByNormalizedName(char * param_1)
 {
   short *psVar1;

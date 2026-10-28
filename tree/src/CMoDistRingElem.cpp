@@ -144,9 +144,7 @@ void CMoDistRingElem::AllocRingGeometry()
       do
       {
         v23 = g_pResourceMng;
-        (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-          *(_DWORD *)(g_pResourceMng + 3772),
-          338);
+        (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(338);
         v24 = *(void **)(v23 + 3528);
         v25 = orig::Gfx_CalcFVFStride(0x152u);
         orig::CDx_DrawPrimitiveUP(v24, 5, a2a, (int)v19, v25);

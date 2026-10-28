@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10003890  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 3 returned normally, 9468 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, combat PASS 3, town PASS 3, town2 PASS 3, zonetoinn PASS 3
+// GATE: PASS -- 100 trials, 3 returned normally, 9441 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, town PASS 3, town2 PASS 3, combat PASS 3, zonetoinn PASS 3
 XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
 {
   int v2;

@@ -678,7 +678,7 @@ int CDx::DrawScreenQuadAtDepth(int a1, int a2)
   v26 = 1065353216;
   v27 = 1065353216;
   (*(void (__stdcall **)(int, _DWORD, int))(*(_DWORD *)v4 + 244))(v4, 0, a1);
-  (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
+  ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetVertexShader(324);
   return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)a3, 28);
 }
 
@@ -802,7 +802,7 @@ int CDx::DrawTexturedScreenQuad(int a1, int a2, int a3, int a4, int a5)
   v32 = v13 - 0.5;
   v39 = v32;
   (*(void (__stdcall **)(int, _DWORD, int))(*(_DWORD *)v14 + 244))(v14, 0, a1);
-  (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
+  ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetVertexShader(324);
   return orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)&v17, 28);
 }
 
@@ -1063,16 +1063,13 @@ char CDx::DrawStereoOddFrameOverlay(int a1)
     result = orig::CEnv_IsStereoMode(g_pEnv);
     if ( result != 0 && at<uint32_t>(this, 0x82C) != 0 )
     {
-      (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(*at<_DWORD *>(this, 0xC) + 244))(
-        at<uint32_t>(this, 0xC),
-        0,
-        at<uint32_t>(this, 0x82C));
-      (*(void (__stdcall **)(_DWORD, int))(*at<_DWORD *>(this, 0xC) + 304))(at<uint32_t>(this, 0xC), 324);
-      (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 0);
-      (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 0);
+      ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTexture(0, (IDirect3DBaseTexture8 *)(at<uint32_t>(this, 0x82C)));
+      ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetVertexShader(324);
+      ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+      ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
       orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)&CDx_DrawStereoOddFrameOverlay_quadVerts, 28);
-      (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 1);
-      return (*(char (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 1);
+      ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+      return ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     }
   }
   return result;
@@ -1297,22 +1294,22 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
     v22 = 0;
     v23 = 1065353216;
     (*(void (__stdcall **)(int, _DWORD, int, _DWORD))(v7 + 252))(v14, 0, 11, 0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 16, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 17, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 13, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 14, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 1, 5);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 2, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 3, 0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 4, 1);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 4, 1);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 1, 1);
-    (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 0);
-    (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 0);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 15, 1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 24, 127);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 25, 5);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 168, 15);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHAREF, 127);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_COLORWRITEENABLE, 15);
     v25[2] = 0;
     v25[3] = 1065353216;
     v8 = (double)*(int *)a3;
@@ -1365,60 +1362,52 @@ int CDx::CompositeSceneToBackBuffer(int a1, int a2, int a3, int a4)
     (*(void (__stdcall **)(int, _DWORD, int))(*(_DWORD *)v16 + 244))(v16, 0, v19);
     orig::CDx_DrawPrimitiveUP(self, 5, 2, (int)v25, 28);
     orig::CDx_SetTexture((_DWORD **)self, 0, 0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(
-      at<uint32_t>(this, 0xC),
-      0,
-      11,
-      0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 16, 1);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 17, 1);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 13, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 14, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 1, 5);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 2, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 3, 0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 4, 5);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 5, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 6, 0);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 4, 1);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 1, 1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 168, 15);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 15, 1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 24, 96);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 25, 8);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 1);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_POINT);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_COLORWRITEENABLE, 15);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHAREF, 96);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     orig::CDx_DrawTexturedScreenQuad(self, v6, a2, a3, (int)&v20, -1);
   }
   else
   {
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(
-      at<uint32_t>(this, 0xC),
-      0,
-      11,
-      0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 16, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 17, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 13, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 14, 3);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 1, 5);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 2, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 3, 0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 4, 5);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 5, 2);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 0, 6, 0);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 4, 1);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 252))(at<uint32_t>(this, 0xC), 1, 1, 1);
-    (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 0);
-    (*(void (__stdcall **)(_DWORD, int, _DWORD))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 0);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     v17 = *(_DWORD *)(a1 + 4);
     v20 = 0;
     v21 = 1065353216;
     v22 = 0;
     v23 = 1065353216;
     orig::CDx_DrawTexturedScreenQuad(self, v17, a2, a3, (int)&v20, -1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 7, 1);
-    (*(void (__stdcall **)(_DWORD, int, int))(*at<_DWORD *>(this, 0xC) + 200))(at<uint32_t>(this, 0xC), 14, 1);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+    ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
   }
   result = this->stereoEye + 1;
   this->stereoEye = result;
@@ -1644,20 +1633,16 @@ int CDx::DrawPrimitive(int a1, int a2, int a3)
   int &v9 = *reinterpret_cast<int *>(xi_frame + 0x14);
 
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v9, (int)&v8) == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(
-             at<uint32_t>(this, 0xC),
-             a1,
-             a2,
-             a3);
+    return ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3);
   v5 = this->stereoEye;
   this->stereoEye = 0;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(at<uint32_t>(this, 0xC), a1, a2, a3);
+  ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = 1;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
   orig::CDx_PushRenderTarget((CDx *)self, v9, 0, v8);
-  v6 = (*(int (__stdcall **)(_DWORD, int, int, int))(*at<_DWORD *>(this, 0xC) + 280))(at<uint32_t>(this, 0xC), a1, a2, a3);
+  v6 = ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3);
   orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = v5;
@@ -1676,34 +1661,16 @@ int CDx::DrawIndexedPrimitive(int a1, int a2, int a3, int a4, int a5)
   int &v11 = *reinterpret_cast<int *>(xi_frame + 0x1C);
 
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v11, (int)&v10) == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
-             at<uint32_t>(this, 0xC),
-             a1,
-             a2,
-             a3,
-             a4,
-             a5);
+    return ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawIndexedPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3, a4, a5);
   v7 = this->stereoEye;
   this->stereoEye = 0;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
-  (*(void (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
-    at<uint32_t>(this, 0xC),
-    a1,
-    a2,
-    a3,
-    a4,
-    a5);
+  ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawIndexedPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3, a4, a5);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = 1;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
   orig::CDx_PushRenderTarget((CDx *)self, v11, 0, v10);
-  v8 = (*(int (__stdcall **)(_DWORD, int, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 284))(
-         at<uint32_t>(this, 0xC),
-         a1,
-         a2,
-         a3,
-         a4,
-         a5);
+  v8 = ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawIndexedPrimitive((D3DPRIMITIVETYPE)(a1), a2, a3, a4, a5);
   orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = v7;
@@ -1722,31 +1689,16 @@ int CDx::DrawPrimitiveUP(int a1, int a2, int a3, int a4)
   int &v10 = *reinterpret_cast<int *>(xi_frame + 0x18);
 
   if ( orig::CDx_GetStereoSecondEyeTarget(self, (int)&v10, (int)&v9) == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
-             at<uint32_t>(this, 0xC),
-             a1,
-             a2,
-             a3,
-             a4);
+    return ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitiveUP((D3DPRIMITIVETYPE)(a1), a2, (void *)(a3), a4);
   v6 = this->stereoEye;
   this->stereoEye = 0;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
-  (*(void (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
-    at<uint32_t>(this, 0xC),
-    a1,
-    a2,
-    a3,
-    a4);
+  ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitiveUP((D3DPRIMITIVETYPE)(a1), a2, (void *)(a3), a4);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = 1;
   orig::CDx_ApplyStereoEyeProjection((CDx *)self);
   orig::CDx_PushRenderTarget((CDx *)self, v10, 0, v9);
-  v7 = (*(int (__stdcall **)(_DWORD, int, int, int, int))(*at<_DWORD *>(this, 0xC) + 288))(
-         at<uint32_t>(this, 0xC),
-         a1,
-         a2,
-         a3,
-         a4);
+  v7 = ((IDirect3DDevice8 *)at<uint32_t>(this, 0xC))->DrawPrimitiveUP((D3DPRIMITIVETYPE)(a1), a2, (void *)(a3), a4);
   orig::CDx_PopRenderTargetDefault(self, 0, 0);
   orig::CDx_RestoreProjection((_DWORD **)self);
   this->stereoEye = v6;

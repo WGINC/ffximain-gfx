@@ -39,18 +39,9 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
   v7 = self;
   if ( at<int8_t>(this, 0x32) < 0 )
   {
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      15,
-      1);
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      25,
-      5);
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      24,
-      96);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHAREF, 96);
   }
   if ( a7 == 0 )
     orig::TextureHolder_BindWarped((int *)(v7 + 64), 0, *(float *)(a2 + 320), *(float *)(a2 + 324), *(float *)(a2 + 328));
@@ -145,10 +136,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
     orig::_atexit(XI_CODE(unknown_libname_25));
   }
   orig::StateBlock_ApplyTSS(CMoDistMorphElem_ApplyMorph_stateBlock, (int)CMoDistMorphElem_ApplyMorph_textureStageStates);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    60,
-    *a3);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, *a3);
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
     ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
@@ -157,11 +145,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
     orig::MoProcessor_CallVSlot49(v28);
     v28[8] = *(float *)(a2 + 288);
     v28[9] = *(float *)(a2 + 292);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      24,
-      2);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v28);
     v29 = g_pProcessor;
     v30 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
@@ -172,11 +156,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, ((float *)((char *)g_pProcessor + 0x810)));
-    return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             0,
-             24,
-             0);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
   }
   return result;
 }

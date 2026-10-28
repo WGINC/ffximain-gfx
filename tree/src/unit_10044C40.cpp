@@ -638,16 +638,7 @@ XI_API void __cdecl Zone_UpdateFogAmbient(void)
 // GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API int __cdecl Fog_SetRenderStates(void)
 {
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    34,
-    g_zoneFogOut1);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    36,
-    g_zoneFogOut3);
-  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           37,
-           g_zoneFogOut2);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGCOLOR, g_zoneFogOut1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGSTART, g_zoneFogOut3);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGEND, g_zoneFogOut2);
 }

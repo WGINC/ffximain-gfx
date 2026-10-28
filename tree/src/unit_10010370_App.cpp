@@ -222,7 +222,7 @@ XI_API void __thiscall Unit10010370_IncrementShort6(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D20  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz UNRESOLVED 98, combat PASS 100, town PASS 100, town2 PASS 100, zonetoinn PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz UNRESOLVED 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
 XI_API char __thiscall App_InitScene(int self_, int a4)
 {
   _DWORD *v3;

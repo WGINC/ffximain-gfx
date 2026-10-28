@@ -40,7 +40,7 @@ owner or a run in the game).
 | 121 | 20% | Decide parallel matching workers | owner | answered "as many as you need", then "no workers" (27 Oct) |
 | 122 | 25% | Type the render objects: CDx, model, skin, skeleton | open | |
 | 123 | 25% | Type the actor, camera, font, zone objects | open | |
-| 124 | 25% | Type the 810 untyped virtual-call slots | open | |
+| 124 | 25% | Type the 810 untyped virtual-call slots | partly | 286 left, each without a definitive source (verification/untyped_vcalls.json); the 242 with one typed in r16 |
 | 125 | 25% | Naming round 5: remaining unnamed render-path functions | done | 153 named (42c6c25) |
 | 126 | 25% | Re-audit low-confidence names on the render path | open | |
 | 127 | 30% | Reach 60% byte-identical across the frame set | open | at 29.6% (1,609 of 5,430) |

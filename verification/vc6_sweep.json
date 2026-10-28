@@ -818,7 +818,9 @@
   "size": 272,
   "rules_tried": [
    "frame",
-   "frametight"
+   "frametight",
+   "retnarrow",
+   "frame_retnarrow"
   ]
  },
  "0x1000A4F0": {
@@ -848,6 +850,8 @@
    "frame",
    "float",
    "frametight",
+   "retnarrow",
+   "frame_float_retnarrow",
    "frame_float"
   ]
  },
@@ -910,6 +914,9 @@
   "rules_tried": [
    "globvar",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_float_retnarrow_uleq",
    "globvar_float"
   ]
  },
@@ -958,6 +965,8 @@
    "globvar",
    "float",
    "frametight",
+   "retnarrow",
+   "globvar_float_frametight_retnarrow",
    "globvar_float_frametight"
   ]
  },
@@ -1012,7 +1021,10 @@
   "size": 256,
   "rules_tried": [
    "frame",
-   "frametight"
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "frame_retnarrow_uleq"
   ]
  },
  "0x1000CC00": {
@@ -1022,7 +1034,10 @@
   "size": 304,
   "rules_tried": [
    "frame",
-   "frametight"
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "frame_retnarrow_uleq"
   ]
  },
  "0x1000CD00": {
@@ -1032,7 +1047,10 @@
   "size": 272,
   "rules_tried": [
    "frame",
-   "frametight"
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "frame_retnarrow_uleq"
   ]
  },
  "0x1000CF20": {
@@ -5448,8 +5466,11 @@
    "globvar",
    "devlocal",
    "float",
-   "globvar_devlocal_float",
-   "sametu"
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_calledon_retnarrow_uleq",
+   "globvar_devlocal_float"
   ]
  },
  "0x1003DB60": {
@@ -5462,8 +5483,11 @@
    "globvar",
    "devlocal",
    "float",
-   "globvar_devlocal_float",
-   "sametu"
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_calledon_retnarrow_uleq",
+   "globvar_devlocal_float"
   ]
  },
  "0x1003DFE0": {
@@ -5608,6 +5632,9 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_retnarrow_uleq",
    "globvar_devlocal"
   ]
  },
@@ -5678,6 +5705,9 @@
    "cmpk",
    "globvar",
    "devlocal",
+   "retnarrow",
+   "uleq",
+   "cmpk_globvar_devlocal_retnarrow_uleq",
    "cmpk_globvar_devlocal"
   ]
  },
@@ -5758,8 +5788,10 @@
   "rules_tried": [
    "globvar",
    "devlocal",
-   "globvar_devlocal",
-   "sametu"
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_retnarrow_uleq",
+   "globvar_devlocal"
   ]
  },
  "0x10040E70": {
@@ -5845,6 +5877,8 @@
    "globvar",
    "devlocal",
    "float",
+   "uleq",
+   "globvar_devlocal_float_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -5938,6 +5972,8 @@
    "devlocal",
    "float",
    "frametight",
+   "uleq",
+   "cmpk_globvar_devlocal_float_frametight_uleq",
    "cmpk_globvar_devlocal_float_frametight"
   ]
  },
@@ -5969,7 +6005,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": null,
-  "error": "f_100431B0.cpp(80): C2101: '&' on constant"
+  "error": "f_100431B0.cpp(70): C2101: '&' on constant"
  },
  "0x10043570": {
   "verdict": "IDENTICAL",
@@ -6006,7 +6042,8 @@
    "devlocal",
    "float",
    "calledon",
-   "globvar_devlocal_float_calledon",
+   "uleq",
+   "globvar_devlocal_float_calledon_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -6063,6 +6100,8 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "retnarrow",
+   "globvar_devlocal_retnarrow",
    "globvar_devlocal"
   ],
   "rule_identical": "globvar",
@@ -6087,6 +6126,10 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_calledon_retnarrow_uleq",
    "globvar_devlocal"
   ]
  },
@@ -6392,7 +6435,9 @@
    "devlocal",
    "float",
    "calledon",
-   "globvar_devlocal_float_calledon",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_calledon_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -6409,7 +6454,10 @@
   "size": 224,
   "casts": 1,
   "rules_tried": [
-   "globvar"
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "globvar_retnarrow_uleq"
   ]
  },
  "0x100473F0": {
@@ -7673,7 +7721,9 @@
    "float",
    "frametight",
    "calledon",
-   "globvar_devlocal_frame_float_calledon",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_frame_float_calledon_retnarrow_uleq",
    "globvar_devlocal_frame_float"
   ]
  },
@@ -8580,6 +8630,8 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "retnarrow",
+   "globvar_devlocal_retnarrow",
    "globvar_devlocal"
   ]
  },
@@ -8685,9 +8737,11 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "retnarrow",
+   "globvar_devlocal_retnarrow",
    "globvar_devlocal"
   ],
-  "rule_identical": "globvar_devlocal",
+  "rule_identical": "globvar_devlocal_retnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x1006AF90": {
@@ -8698,6 +8752,9 @@
   "rules_tried": [
    "globvar",
    "devlocal",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_retnarrow_uleq",
    "globvar_devlocal"
   ]
  },
@@ -8881,7 +8938,9 @@
    "frame",
    "frametight",
    "calledon",
-   "cmpk_globvar_devlocal_frame_calledon",
+   "retnarrow",
+   "uleq",
+   "cmpk_globvar_devlocal_frame_calledon_retnarrow_uleq",
    "cmpk_globvar_devlocal_frame"
   ]
  },
@@ -8894,6 +8953,9 @@
    "globvar",
    "devlocal",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -8907,6 +8969,9 @@
    "devlocal",
    "frame",
    "frametight",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_frame_retnarrow_uleq",
    "globvar_devlocal_frame"
   ]
  },
@@ -10112,6 +10177,9 @@
    "devlocal",
    "frame",
    "frametight",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_frame_retnarrow_uleq",
    "globvar_devlocal_frame"
   ]
  },
@@ -10148,6 +10216,9 @@
    "globvar",
    "devlocal",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -10157,7 +10228,10 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "globvar"
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "globvar_retnarrow_uleq"
   ]
  },
  "0x100759C0": {
@@ -10169,6 +10243,9 @@
    "globvar",
    "devlocal",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -10181,6 +10258,9 @@
    "globvar",
    "devlocal",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },
@@ -10193,6 +10273,9 @@
    "globvar",
    "devlocal",
    "float",
+   "retnarrow",
+   "uleq",
+   "globvar_devlocal_float_retnarrow_uleq",
    "globvar_devlocal_float"
   ]
  },

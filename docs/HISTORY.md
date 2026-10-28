@@ -3795,3 +3795,14 @@ sametu 9. Two fixes kept every earlier result: SDK structs by value in a class l
 since r15 had left six CDx methods out), and the all-rules combination without calledon/ret64 (the rules' pairings
 that had matched). 2,194 of the sweep's 4,664 at the game's bytes (2,147 before, none lost); frame set 1,969 (36.3%).
 
+**Tree r16 installed (28 Oct): typed Direct3D calls (#124).** hx2clean writes a call through a proven holder's cast
+vtable slot as the interface's method (pipeline/holder_calls.py): the device at [[0x1047BFA8]+0xEBC] (data/com_fields.json
+device_via_1047BFA8, re-checked by com_calls.py) and CDx's own +0xC (the IDB's `IDirect3DDevice8 *pDevice`, hx2clean's
+KNOWN_FIELDS), the method by its slot in the SDK's order (data/com_spec.json), each argument cast to the header's
+parameter type, a literal of an enum parameter by its enumerator. Untyped slot calls 528 to 286: 120 game-class
+virtual calls (data/vcalls.json gives no exact target for any) and 163 COM-style calls whose object no proof covers,
+3 other (verification/untyped_vcalls.json): nothing typed without a source. Gate: fuzz 4,881 PASS; with r14's live
+gates 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as r15 (the three live-gated functions' source unchanged); 34
+functions' text changed. The sweep writes such a typed call back as the slot call (sweep.py _d3d_slot_calls: VC6
+compiles the SDK's virtual calls that way, not as the tree's inline wrapper); the 34 keep their sweep verdicts.
+

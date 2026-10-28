@@ -605,10 +605,11 @@
    "uleq",
    "xiany",
    "retvoid",
-   "ret8_cmpk_globvar_frame_uleq_xiany",
-   "ret8_cmpk_globvar_frame",
-   "ret8_cmpk_globvar_frame_uleq",
-   "ret8_cmpk_globvar_frame_xiany",
+   "negmask",
+   "ret8_cmpk_globvar_frame_uleq_xiany_negmask",
+   "ret8_cmpk_globvar_frame_negmask",
+   "ret8_cmpk_globvar_frame_negmask_uleq",
+   "ret8_cmpk_globvar_frame_negmask_xiany",
    "uleq_xiany"
   ]
  },
@@ -12539,7 +12540,8 @@
   "rules_tried": [
    "retthis",
    "globvar",
-   "retthis_globvar"
+   "negmask",
+   "retthis_globvar_negmask"
   ]
  },
  "0x10074310": {
@@ -13242,9 +13244,11 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_retnarrow_uleq",
-   "globvar_retnarrow",
-   "globvar_uleq",
+   "negmask",
+   "globvar_retnarrow_uleq_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow",
+   "globvar_negmask_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -13274,12 +13278,13 @@
    "calledon",
    "uleq",
    "retvoid",
-   "globvar_frame_float_calledon_uleq_retvoid",
-   "globvar_frame_float",
-   "globvar_frame_float_uleq",
-   "globvar_frame_float_retvoid",
+   "negmask",
+   "globvar_frame_float_calledon_uleq_retvoid_negmask",
+   "globvar_frame_float_negmask",
+   "globvar_frame_float_negmask_uleq",
+   "globvar_frame_float_negmask_retvoid",
    "uleq_retvoid",
-   "globvar_frame_float_uleq_retvoid"
+   "globvar_frame_float_negmask_uleq_retvoid"
   ]
  },
  "0x1007A440": {
@@ -14427,9 +14432,13 @@
    "calledon",
    "retnarrow",
    "retvoid",
-   "globvar_calledon_retnarrow",
-   "globvar_retnarrow"
-  ]
+   "negmask",
+   "globvar_calledon_retnarrow_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10087630": {
   "verdict": "DIFFERS",
@@ -14441,9 +14450,13 @@
    "calledon",
    "retnarrow",
    "retvoid",
-   "globvar_calledon_retnarrow",
-   "globvar_retnarrow"
-  ]
+   "negmask",
+   "globvar_calledon_retnarrow_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10087670": {
   "verdict": "DIFFERS",
@@ -15609,16 +15622,18 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_ret64_retnarrow_uleq",
-   "globvar_ret64",
-   "globvar_retnarrow",
-   "globvar_uleq",
+   "negmask",
+   "globvar_ret64_retnarrow_uleq_negmask",
+   "globvar_negmask",
+   "globvar_negmask_ret64",
+   "globvar_negmask_retnarrow",
+   "globvar_negmask_uleq",
    "ret64_retnarrow",
-   "globvar_ret64_retnarrow",
+   "globvar_negmask_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_ret64_uleq",
+   "globvar_negmask_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq"
+   "globvar_negmask_retnarrow_uleq"
   ]
  },
  "0x100983F0": {
@@ -19599,9 +19614,11 @@
    "globvar",
    "uleq",
    "retvoid",
-   "globvar_uleq_retvoid",
-   "globvar_uleq",
-   "globvar_retvoid",
+   "negmask",
+   "globvar_uleq_retvoid_negmask",
+   "globvar_negmask",
+   "globvar_negmask_uleq",
+   "globvar_negmask_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -20683,9 +20700,11 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_retnarrow_uleq",
-   "cmpk_retnarrow",
-   "cmpk_uleq",
+   "negmask",
+   "cmpk_retnarrow_uleq_negmask",
+   "cmpk_negmask",
+   "cmpk_negmask_retnarrow",
+   "cmpk_negmask_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -20705,13 +20724,14 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_ge0_cmpk_frame_calledon_ret64_uleq",
-   "ret8_ge0_cmpk_frame",
+   "negmask",
+   "ret8_ge0_cmpk_frame_calledon_ret64_uleq_negmask",
+   "ret8_ge0_cmpk_frame_negmask",
    "ret64_calledon",
-   "ret8_ge0_cmpk_frame_ret64",
-   "ret8_ge0_cmpk_frame_uleq",
+   "ret8_ge0_cmpk_frame_negmask_ret64",
+   "ret8_ge0_cmpk_frame_negmask_uleq",
    "ret64_uleq",
-   "ret8_ge0_cmpk_frame_ret64_uleq"
+   "ret8_ge0_cmpk_frame_negmask_ret64_uleq"
   ]
  },
  "0x100F3010": {
@@ -21891,8 +21911,12 @@
   "size": 48,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
-  ]
+   "retvoid",
+   "negmask",
+   "retnarrow_negmask"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101088A0": {
   "verdict": "DIFFERS",
@@ -25432,17 +25456,18 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_ret64_retnarrow_uleq",
-   "globvar_frame",
-   "globvar_frame_ret64",
-   "globvar_frame_retnarrow",
-   "globvar_frame_uleq",
+   "negmask",
+   "globvar_frame_ret64_retnarrow_uleq_negmask",
+   "globvar_frame_negmask",
+   "globvar_frame_negmask_ret64",
+   "globvar_frame_negmask_retnarrow",
+   "globvar_frame_negmask_uleq",
    "ret64_retnarrow",
-   "globvar_frame_ret64_retnarrow",
+   "globvar_frame_negmask_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_frame_ret64_uleq",
+   "globvar_frame_negmask_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_frame_retnarrow_uleq"
+   "globvar_frame_negmask_retnarrow_uleq"
   ]
  },
  "0x10127AB0": {
@@ -28836,18 +28861,19 @@
    "uleq",
    "xiany",
    "retvoid",
-   "cmpk_globvar_calledon_retnarrow_uleq_xiany",
-   "cmpk_globvar",
+   "negmask",
+   "cmpk_globvar_calledon_retnarrow_uleq_xiany_negmask",
+   "cmpk_globvar_negmask",
    "xiany_calledon",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
-   "cmpk_globvar_xiany",
+   "cmpk_globvar_negmask_retnarrow",
+   "cmpk_globvar_negmask_uleq",
+   "cmpk_globvar_negmask_xiany",
    "retnarrow_uleq",
-   "cmpk_globvar_retnarrow_uleq",
+   "cmpk_globvar_negmask_retnarrow_uleq",
    "retnarrow_xiany",
-   "cmpk_globvar_retnarrow_xiany",
+   "cmpk_globvar_negmask_retnarrow_xiany",
    "uleq_xiany",
-   "cmpk_globvar_uleq_xiany",
+   "cmpk_globvar_negmask_uleq_xiany",
    "sametu"
   ]
  },
@@ -29333,11 +29359,18 @@
    "ret64",
    "uleq",
    "retvoid",
-   "calledon_ret64_uleq_retvoid",
+   "negmask",
+   "calledon_ret64_uleq_retvoid_negmask",
    "ret64_calledon",
+   "negmask_ret64",
+   "negmask_uleq",
+   "negmask_retvoid",
    "ret64_uleq",
+   "negmask_ret64_uleq",
    "ret64_retvoid",
-   "uleq_retvoid"
+   "negmask_ret64_retvoid",
+   "uleq_retvoid",
+   "negmask_uleq_retvoid"
   ]
  },
  "0x1015EE20": {
@@ -29351,12 +29384,21 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "calledon_ret64_retnarrow_uleq",
+   "negmask",
+   "calledon_ret64_retnarrow_uleq_negmask",
    "ret64_calledon",
+   "negmask_ret64",
+   "negmask_retnarrow",
+   "negmask_uleq",
    "ret64_retnarrow",
+   "negmask_ret64_retnarrow",
    "ret64_uleq",
-   "retnarrow_uleq"
-  ]
+   "negmask_ret64_uleq",
+   "retnarrow_uleq",
+   "negmask_retnarrow_uleq"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015EE40": {
   "verdict": "DIFFERS",
@@ -36012,7 +36054,9 @@
   "conv": "__thiscall",
   "size": 48,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "negmask",
+   "retthis_negmask"
   ]
  },
  "0x101B70D0": {
@@ -36145,17 +36189,21 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_retnarrow_uleq_xiany",
-   "globvar_retnarrow",
-   "globvar_uleq",
-   "globvar_xiany",
+   "negmask",
+   "globvar_retnarrow_uleq_xiany_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow",
+   "globvar_negmask_uleq",
+   "globvar_negmask_xiany",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq",
+   "globvar_negmask_retnarrow_uleq",
    "retnarrow_xiany",
-   "globvar_retnarrow_xiany",
+   "globvar_negmask_retnarrow_xiany",
    "uleq_xiany",
-   "globvar_uleq_xiany"
-  ]
+   "globvar_negmask_uleq_xiany"
+  ],
+  "rule_identical": "globvar_negmask_xiany",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101B9550": {
   "verdict": "DIFFERS",
@@ -36206,17 +36254,21 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_retnarrow_uleq_xiany",
-   "globvar_retnarrow",
-   "globvar_uleq",
-   "globvar_xiany",
+   "negmask",
+   "globvar_retnarrow_uleq_xiany_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow",
+   "globvar_negmask_uleq",
+   "globvar_negmask_xiany",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq",
+   "globvar_negmask_retnarrow_uleq",
    "retnarrow_xiany",
-   "globvar_retnarrow_xiany",
+   "globvar_negmask_retnarrow_xiany",
    "uleq_xiany",
-   "globvar_uleq_xiany"
-  ]
+   "globvar_negmask_uleq_xiany"
+  ],
+  "rule_identical": "globvar_negmask_xiany",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101B9650": {
   "verdict": "IDENTICAL",
@@ -37083,6 +37135,10 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "negmask",
+   "retnarrow_uleq_negmask",
+   "negmask_retnarrow",
+   "negmask_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -42681,10 +42737,11 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ge0_cmpk_globvar_retnarrow_uleq",
-   "ge0_cmpk_globvar",
-   "ge0_cmpk_globvar_retnarrow",
-   "ge0_cmpk_globvar_uleq",
+   "negmask",
+   "ge0_cmpk_globvar_retnarrow_uleq_negmask",
+   "ge0_cmpk_globvar_negmask",
+   "ge0_cmpk_globvar_negmask_retnarrow",
+   "ge0_cmpk_globvar_negmask_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -42756,12 +42813,13 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_calledon_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "negmask",
+   "cmpk_globvar_calledon_retnarrow_uleq_negmask",
+   "cmpk_globvar_negmask",
+   "cmpk_globvar_negmask_retnarrow",
+   "cmpk_globvar_negmask_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_retnarrow_uleq"
+   "cmpk_globvar_negmask_retnarrow_uleq"
   ]
  },
  "0x10223360": {
@@ -43249,18 +43307,19 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ge0_cmpk_globvar_frame_float_calledon_ret64_retnarrow_uleq",
-   "ge0_cmpk_globvar_frame_float",
+   "negmask",
+   "ge0_cmpk_globvar_frame_float_calledon_ret64_retnarrow_uleq_negmask",
+   "ge0_cmpk_globvar_frame_float_negmask",
    "ret64_calledon",
-   "ge0_cmpk_globvar_frame_float_ret64",
-   "ge0_cmpk_globvar_frame_float_retnarrow",
-   "ge0_cmpk_globvar_frame_float_uleq",
+   "ge0_cmpk_globvar_frame_float_negmask_ret64",
+   "ge0_cmpk_globvar_frame_float_negmask_retnarrow",
+   "ge0_cmpk_globvar_frame_float_negmask_uleq",
    "ret64_retnarrow",
-   "ge0_cmpk_globvar_frame_float_ret64_retnarrow",
+   "ge0_cmpk_globvar_frame_float_negmask_ret64_retnarrow",
    "ret64_uleq",
-   "ge0_cmpk_globvar_frame_float_ret64_uleq",
+   "ge0_cmpk_globvar_frame_float_negmask_ret64_uleq",
    "retnarrow_uleq",
-   "ge0_cmpk_globvar_frame_float_retnarrow_uleq"
+   "ge0_cmpk_globvar_frame_float_negmask_retnarrow_uleq"
   ]
  },
  "0x10229430": {
@@ -47900,8 +47959,12 @@
   "size": 64,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
-  ]
+   "retvoid",
+   "negmask",
+   "retnarrow_negmask"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10275320": {
   "verdict": "IDENTICAL",

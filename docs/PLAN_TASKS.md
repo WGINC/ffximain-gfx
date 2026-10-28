@@ -35,7 +35,7 @@ owner or a run in the game).
 | 116 | 20% | Sweep: fix the 582 NO_COMPILE conversions | done | 603 to 39 |
 | 117 | 20% | Sweep: handle the 577 LEFT_OUT forms | done | 419 to 252 |
 | 118 | 20% | Match the device-calling functions byte-identically | partly | 39 of 57 at the bytes (verification/render_core_status.json); misses listed in recompile/d3d_round_120.md, _121.md |
-| 119 | 20% | Match direct callers of the render core | partly | 49 of 100 at the bytes; the rest listed with their smallest diff |
+| 119 | 20% | Match direct callers of the render core | partly | 50 of 100 at the bytes; the rest listed with their smallest diff |
 | 120 | 20% | Identify the build-9782 objects' functions | done | |
 | 121 | 20% | Decide parallel matching workers | owner | answered "as many as you need", then "no workers" (27 Oct) |
 | 122 | 25% | Type the render objects: CDx, model, skin, skeleton | open | |

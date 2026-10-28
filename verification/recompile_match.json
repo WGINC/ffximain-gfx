@@ -311,6 +311,14 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_10054D70.cpp"
 },
+"0x1006A560": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1006AA30.cpp"
+},
+"0x1006AA30": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1006AA30.cpp"
+},
 "0x1006ADC0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_1006ADC0.cpp"

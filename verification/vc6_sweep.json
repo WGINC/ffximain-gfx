@@ -564,10 +564,15 @@
    "retthis",
    "globvar",
    "uleq",
-   "retthis_globvar_uleq",
-   "retthis_globvar",
+   "paramnarrow",
+   "retthis_globvar_uleq_paramnarrow",
+   "retthis_globvar_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "retthis_uleq",
+   "retthis_uleq_paramnarrow",
    "globvar_uleq",
-   "retthis_uleq"
+   "retthis_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10005660": {
@@ -620,7 +625,9 @@
   "rules_tried": [
    "ret16",
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "ret16_paramnarrow"
   ]
  },
  "0x10007860": {
@@ -1009,16 +1016,24 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_retnarrow_uleq_xiany",
-   "globvar_retnarrow",
-   "globvar_uleq",
-   "globvar_xiany",
+   "paramnarrow",
+   "globvar_retnarrow_uleq_xiany_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "globvar_paramnarrow_xiany",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq",
+   "globvar_paramnarrow_retnarrow_uleq",
    "retnarrow_xiany",
-   "globvar_retnarrow_xiany",
+   "globvar_paramnarrow_retnarrow_xiany",
    "uleq_xiany",
-   "globvar_uleq_xiany"
+   "globvar_paramnarrow_uleq_xiany",
+   "retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "uleq_paramnarrow",
+   "globvar_uleq",
+   "xiany_paramnarrow",
+   "globvar_xiany"
   ]
  },
  "0x100097F0": {
@@ -1963,11 +1978,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_calledon_uleq",
-   "ret8_globvar",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_calledon_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_uleq",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100142A0": {
@@ -6482,24 +6502,29 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_float_calledon_retnarrow_uleq",
-   "globvar_frame_float",
-   "globvar_frame_float_retnarrow",
-   "globvar_frame_float_uleq",
+   "paramnarrow",
+   "globvar_frame_float_calledon_retnarrow_uleq_paramnarrow",
+   "globvar_frame_float_paramnarrow",
+   "globvar_frame_float_paramnarrow_retnarrow",
+   "globvar_frame_float_paramnarrow_uleq",
    "retnarrow_uleq",
-   "globvar_frame_float_retnarrow_uleq",
-   "frame_float_retnarrow",
+   "globvar_frame_float_paramnarrow_retnarrow_uleq",
+   "frame_float_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_float_retnarrow",
+   "globvar_float_retnarrow_paramnarrow",
    "frame_retnarrow",
-   "globvar_frame_retnarrow",
+   "globvar_frame_retnarrow_paramnarrow",
    "float_retnarrow",
-   "frame_float_uleq",
+   "globvar_frame_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "frame_float_uleq_paramnarrow",
    "globvar_uleq",
-   "globvar_float_uleq",
+   "globvar_float_uleq_paramnarrow",
    "frame_uleq",
-   "globvar_frame_uleq",
-   "float_uleq"
+   "globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "globvar_frame_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10036F00": {
@@ -6765,10 +6790,15 @@
    "globvar",
    "float",
    "ret64",
-   "globvar_float_ret64",
-   "globvar_float",
+   "paramnarrow",
+   "globvar_float_ret64_paramnarrow",
+   "globvar_float_paramnarrow",
+   "float_ret64_paramnarrow",
+   "globvar_ret64",
+   "globvar_ret64_paramnarrow",
    "float_ret64",
-   "globvar_ret64"
+   "globvar_float_ret64",
+   "ret64_paramnarrow"
   ]
  },
  "0x10038330": {
@@ -6786,10 +6816,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_retnarrow_uleq",
+   "paramnarrow",
+   "globvar_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ]
  },
  "0x10038520": {
@@ -7246,10 +7282,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_retnarrow_uleq",
+   "paramnarrow",
+   "cmpk_retnarrow_uleq_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_retnarrow",
+   "cmpk_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "cmpk_uleq"
   ]
  },
  "0x1003AF10": {
@@ -12009,14 +12051,17 @@
    "retthis",
    "uleq",
    "shiftmask",
-   "cmpk_retthis_uleq_shiftmask",
-   "cmpk_retthis_shiftmask",
-   "retthis_uleq_shiftmask",
+   "paramnarrow",
+   "cmpk_retthis_uleq_shiftmask_paramnarrow",
+   "cmpk_retthis_shiftmask_paramnarrow",
+   "retthis_uleq_shiftmask_paramnarrow",
    "cmpk_uleq",
-   "cmpk_uleq_shiftmask",
+   "cmpk_uleq_shiftmask_paramnarrow",
    "retthis_uleq",
-   "cmpk_retthis_uleq",
-   "uleq_shiftmask"
+   "cmpk_retthis_uleq_paramnarrow",
+   "uleq_shiftmask",
+   "cmpk_retthis_uleq_shiftmask",
+   "uleq_paramnarrow"
   ]
  },
  "0x10063550": {
@@ -14776,6 +14821,10 @@
    "ret64",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "ret64_retnarrow_paramnarrow",
+   "paramnarrow_ret64",
+   "paramnarrow_retnarrow",
    "ret64_retnarrow"
   ]
  },
@@ -14830,28 +14879,33 @@
    "retvoid",
    "negmask",
    "select",
-   "globvar_frame_float_calledon_uleq_retvoid_negmask",
-   "globvar_frame_float_negmask",
-   "globvar_frame_float_negmask_uleq",
-   "globvar_frame_float_negmask_retvoid",
+   "paramnarrow",
+   "globvar_frame_float_calledon_uleq_retvoid_negmask_paramnarrow",
+   "globvar_frame_float_negmask_paramnarrow",
+   "globvar_frame_float_negmask_paramnarrow_uleq",
+   "globvar_frame_float_negmask_paramnarrow_retvoid",
    "uleq_retvoid",
-   "globvar_frame_float_negmask_uleq_retvoid",
-   "frame_float_uleq_negmask",
+   "globvar_frame_float_negmask_paramnarrow_uleq_retvoid",
+   "frame_float_uleq_negmask_paramnarrow",
    "globvar_uleq",
-   "globvar_float_uleq_negmask",
+   "globvar_float_uleq_negmask_paramnarrow",
    "frame_uleq",
-   "globvar_frame_uleq_negmask",
+   "globvar_frame_uleq_negmask_paramnarrow",
    "float_uleq",
-   "globvar_frame_float_uleq",
+   "globvar_frame_float_uleq_paramnarrow",
    "uleq_negmask",
-   "frame_float_retvoid_negmask",
+   "globvar_frame_float_uleq_negmask",
+   "uleq_paramnarrow",
+   "frame_float_retvoid_negmask_paramnarrow",
    "globvar_retvoid",
-   "globvar_float_retvoid_negmask",
+   "globvar_float_retvoid_negmask_paramnarrow",
    "frame_retvoid",
-   "globvar_frame_retvoid_negmask",
+   "globvar_frame_retvoid_negmask_paramnarrow",
    "float_retvoid",
-   "globvar_frame_float_retvoid",
-   "retvoid_negmask"
+   "globvar_frame_float_retvoid_paramnarrow",
+   "retvoid_negmask",
+   "globvar_frame_float_retvoid_negmask",
+   "retvoid_paramnarrow"
   ]
  },
  "0x1007A440": {
@@ -15056,6 +15110,7 @@
    "uleq",
    "retvoid",
    "shiftmask",
+   "paramnarrow",
    "ret8_globvar_uleq_shiftmask",
    "ret8_globvar_shiftmask",
    "globvar_uleq_shiftmask",
@@ -16059,10 +16114,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_retnarrow_uleq",
+   "paramnarrow",
+   "globvar_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ],
   "rule_identical": "globvar",
   "rule_verdict": "IDENTICAL"
@@ -16234,43 +16295,50 @@
    "ret64",
    "uleq",
    "xiany",
-   "retthis_globvar_frame_float_calledon_ret64_uleq_xiany",
-   "retthis_globvar_frame_float",
+   "ushortcmp",
+   "retthis_globvar_frame_float_calledon_ret64_uleq_xiany_ushortcmp",
+   "retthis_globvar_frame_float_ushortcmp",
    "ret64_calledon",
    "xiany_calledon",
-   "retthis_globvar_frame_float_ret64",
-   "retthis_globvar_frame_float_uleq",
-   "retthis_globvar_frame_float_xiany",
+   "retthis_globvar_frame_float_ushortcmp_ret64",
+   "retthis_globvar_frame_float_ushortcmp_uleq",
+   "retthis_globvar_frame_float_ushortcmp_xiany",
    "ret64_uleq",
-   "retthis_globvar_frame_float_ret64_uleq",
+   "retthis_globvar_frame_float_ushortcmp_ret64_uleq",
    "ret64_xiany",
-   "retthis_globvar_frame_float_ret64_xiany",
+   "retthis_globvar_frame_float_ushortcmp_ret64_xiany",
    "uleq_xiany",
-   "retthis_globvar_frame_float_uleq_xiany",
-   "globvar_frame_float_ret64",
+   "retthis_globvar_frame_float_ushortcmp_uleq_xiany",
+   "globvar_frame_float_ret64_ushortcmp",
    "retthis_ret64",
-   "retthis_frame_float_ret64",
+   "retthis_frame_float_ret64_ushortcmp",
    "globvar_ret64",
-   "retthis_globvar_float_ret64",
+   "retthis_globvar_float_ret64_ushortcmp",
    "frame_ret64",
-   "retthis_globvar_frame_ret64",
+   "retthis_globvar_frame_ret64_ushortcmp",
    "float_ret64",
-   "globvar_frame_float_uleq",
+   "retthis_globvar_frame_float_ret64",
+   "ret64_ushortcmp",
+   "globvar_frame_float_uleq_ushortcmp",
    "retthis_uleq",
-   "retthis_frame_float_uleq",
+   "retthis_frame_float_uleq_ushortcmp",
    "globvar_uleq",
-   "retthis_globvar_float_uleq",
+   "retthis_globvar_float_uleq_ushortcmp",
    "frame_uleq",
-   "retthis_globvar_frame_uleq",
+   "retthis_globvar_frame_uleq_ushortcmp",
    "float_uleq",
-   "globvar_frame_float_xiany",
+   "retthis_globvar_frame_float_uleq",
+   "uleq_ushortcmp",
+   "globvar_frame_float_xiany_ushortcmp",
    "retthis_xiany",
-   "retthis_frame_float_xiany",
+   "retthis_frame_float_xiany_ushortcmp",
    "globvar_xiany",
-   "retthis_globvar_float_xiany",
+   "retthis_globvar_float_xiany_ushortcmp",
    "frame_xiany",
-   "retthis_globvar_frame_xiany",
+   "retthis_globvar_frame_xiany_ushortcmp",
    "float_xiany",
+   "retthis_globvar_frame_float_xiany",
+   "xiany_ushortcmp",
    "sametu"
   ]
  },
@@ -16448,10 +16516,15 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_frame_uleq",
-   "ret8_frame",
+   "paramnarrow",
+   "ret8_frame_uleq_paramnarrow",
+   "ret8_frame_paramnarrow",
+   "frame_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "frame_uleq",
-   "ret8_uleq"
+   "ret8_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1008B380": {
@@ -17083,6 +17156,10 @@
    "cmpk",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "cmpk_paramnarrow",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow"
   ]
  },
@@ -17389,12 +17466,17 @@
    "ret64",
    "retnarrow",
    "retvoid",
-   "ret8_globvar_ret64",
-   "ret8_globvar",
+   "paramnarrow",
+   "ret8_globvar_ret64_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "globvar_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_ret64_paramnarrow",
    "globvar_ret64",
-   "ret8_ret64"
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow"
   ],
-  "rule_identical": "ret8_globvar_ret64",
+  "rule_identical": "ret8_globvar_ret64_paramnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x10098080": {
@@ -17475,14 +17557,17 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_cmpk_globvar_uleq",
-   "ret8_cmpk_globvar",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "ret8_cmpk_globvar_uleq_paramnarrow",
+   "ret8_cmpk_globvar_paramnarrow",
+   "cmpk_globvar_uleq_paramnarrow",
    "ret8_uleq",
-   "ret8_globvar_uleq",
+   "ret8_globvar_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret8_cmpk_uleq",
-   "globvar_uleq"
+   "ret8_cmpk_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100983A0": {
@@ -17742,12 +17827,18 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_calledon_ret64_uleq",
+   "paramnarrow",
+   "ret8_calledon_ret64_uleq_paramnarrow",
+   "ret8_paramnarrow",
    "ret64_calledon",
-   "ret8_ret64",
-   "ret8_uleq",
+   "ret8_paramnarrow_ret64",
+   "ret8_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_ret64_uleq"
+   "ret8_paramnarrow_ret64_uleq",
+   "ret64_paramnarrow",
+   "ret8_ret64",
+   "uleq_paramnarrow",
+   "ret8_uleq"
   ]
  },
  "0x100A1D50": {
@@ -18665,6 +18756,10 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "uleq_retvoid_paramnarrow",
+   "paramnarrow_uleq",
+   "paramnarrow_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -20992,15 +21087,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_retnarrow_uleq",
-   "globvar_frame",
-   "globvar_frame_retnarrow",
-   "globvar_frame_uleq",
+   "ushortcmp",
+   "globvar_frame_retnarrow_uleq_ushortcmp",
+   "globvar_frame_ushortcmp",
+   "globvar_frame_ushortcmp_retnarrow",
+   "globvar_frame_ushortcmp_uleq",
    "retnarrow_uleq",
-   "frame_retnarrow",
+   "frame_retnarrow_ushortcmp",
    "globvar_retnarrow",
+   "globvar_retnarrow_ushortcmp",
+   "frame_retnarrow",
+   "globvar_frame_retnarrow",
+   "retnarrow_ushortcmp",
+   "frame_uleq_ushortcmp",
+   "globvar_uleq",
+   "globvar_uleq_ushortcmp",
    "frame_uleq",
-   "globvar_uleq"
+   "globvar_frame_uleq",
+   "uleq_ushortcmp"
   ]
  },
  "0x100E09A0": {
@@ -21187,7 +21291,8 @@
    "frametight",
    "retnarrow",
    "retvoid",
-   "ret8_globvar_frame"
+   "paramnarrow",
+   "ret8_globvar_frame_paramnarrow"
   ]
  },
  "0x100E19C0": {
@@ -21253,16 +21358,25 @@
    "calledon",
    "uleq",
    "retvoid",
-   "cmpk_globvar_calledon_uleq_retvoid",
-   "cmpk_globvar",
-   "cmpk_globvar_uleq",
-   "cmpk_globvar_retvoid",
+   "paramnarrow",
+   "cmpk_globvar_calledon_uleq_retvoid_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
+   "cmpk_globvar_paramnarrow_retvoid",
    "uleq_retvoid",
-   "cmpk_globvar_uleq_retvoid",
-   "globvar_uleq",
+   "cmpk_globvar_paramnarrow_uleq_retvoid",
+   "globvar_uleq_paramnarrow",
    "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow",
+   "globvar_retvoid_paramnarrow",
+   "cmpk_retvoid",
+   "cmpk_retvoid_paramnarrow",
    "globvar_retvoid",
-   "cmpk_retvoid"
+   "cmpk_globvar_retvoid",
+   "retvoid_paramnarrow"
   ]
  },
  "0x100E1F20": {
@@ -21387,10 +21501,15 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_uleq",
-   "ret8_globvar",
+   "paramnarrow",
+   "ret8_globvar_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100E47A0": {
@@ -21489,8 +21608,12 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "ushortcmp",
+   "globvar_ushortcmp"
+  ],
+  "rule_identical": "ushortcmp",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E6370": {
   "verdict": "IDENTICAL",
@@ -21524,17 +21647,20 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_ge0_cmpk_globvar_calledon_uleq",
-   "ret8_ge0_cmpk_globvar",
-   "ret8_ge0_cmpk_globvar_uleq",
-   "ge0_cmpk_globvar_uleq",
+   "paramnarrow",
+   "ret8_ge0_cmpk_globvar_calledon_uleq_paramnarrow",
+   "ret8_ge0_cmpk_globvar_paramnarrow",
+   "ret8_ge0_cmpk_globvar_paramnarrow_uleq",
+   "ge0_cmpk_globvar_uleq_paramnarrow",
    "ret8_uleq",
-   "ret8_cmpk_globvar_uleq",
+   "ret8_cmpk_globvar_uleq_paramnarrow",
    "ge0_uleq",
-   "ret8_ge0_globvar_uleq",
+   "ret8_ge0_globvar_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret8_ge0_cmpk_uleq",
-   "globvar_uleq"
+   "ret8_ge0_cmpk_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_ge0_cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100E6650": {
@@ -21685,6 +21811,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "globvar_paramnarrow",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow"
   ]
  },
@@ -21796,15 +21926,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_ret64_uleq",
-   "ret8_globvar",
-   "ret8_globvar_ret64",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
    "ret64_uleq",
-   "globvar_ret64",
+   "globvar_ret64_paramnarrow",
    "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100EB090": {
@@ -21829,15 +21968,24 @@
    "uleq",
    "retvoid",
    "negmask",
-   "globvar_uleq_retvoid_negmask",
-   "globvar_negmask",
-   "globvar_negmask_uleq",
-   "globvar_negmask_retvoid",
+   "paramnarrow",
+   "globvar_uleq_retvoid_negmask_paramnarrow",
+   "globvar_negmask_paramnarrow",
+   "globvar_negmask_paramnarrow_uleq",
+   "globvar_negmask_paramnarrow_retvoid",
    "uleq_retvoid",
-   "uleq_negmask",
+   "uleq_negmask_paramnarrow",
    "globvar_uleq",
+   "globvar_uleq_paramnarrow",
+   "uleq_negmask",
+   "globvar_uleq_negmask",
+   "uleq_paramnarrow",
+   "retvoid_negmask_paramnarrow",
+   "globvar_retvoid",
+   "globvar_retvoid_paramnarrow",
    "retvoid_negmask",
-   "globvar_retvoid"
+   "globvar_retvoid_negmask",
+   "retvoid_paramnarrow"
   ]
  },
  "0x100EB8D0": {
@@ -21915,15 +22063,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100EC060": {
@@ -21944,15 +22101,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_ret64_uleq",
-   "ret8_globvar",
-   "ret8_globvar_ret64",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
    "ret64_uleq",
-   "globvar_ret64",
+   "globvar_ret64_paramnarrow",
    "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100ED720": {
@@ -22809,6 +22975,7 @@
    "retnarrow",
    "retvoid",
    "shiftmask",
+   "paramnarrow",
    "globvar_retnarrow_shiftmask",
    "globvar_shiftmask",
    "retnarrow_shiftmask",
@@ -22825,6 +22992,7 @@
   "rules_tried": [
    "globvar",
    "shiftmask",
+   "paramnarrow",
    "globvar_shiftmask"
   ],
   "rule_identical": "shiftmask",
@@ -22838,6 +23006,7 @@
   "rules_tried": [
    "globvar",
    "shiftmask",
+   "paramnarrow",
    "globvar_shiftmask"
   ],
   "rule_identical": "shiftmask",
@@ -22935,15 +23104,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_ret64_uleq",
-   "ret8_globvar",
-   "ret8_globvar_ret64",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
    "ret64_uleq",
-   "globvar_ret64",
+   "globvar_ret64_paramnarrow",
    "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ],
   "rule_identical": "ret8",
   "rule_verdict": "IDENTICAL"
@@ -22974,29 +23152,34 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_cmpk_globvar_frame_calledon_ret64_uleq",
-   "ret8_cmpk_globvar_frame",
+   "paramnarrow",
+   "ret8_cmpk_globvar_frame_calledon_ret64_uleq_paramnarrow",
+   "ret8_cmpk_globvar_frame_paramnarrow",
    "ret64_calledon",
-   "ret8_cmpk_globvar_frame_ret64",
-   "ret8_cmpk_globvar_frame_uleq",
+   "ret8_cmpk_globvar_frame_paramnarrow_ret64",
+   "ret8_cmpk_globvar_frame_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_cmpk_globvar_frame_ret64_uleq",
-   "cmpk_globvar_frame_ret64",
+   "ret8_cmpk_globvar_frame_paramnarrow_ret64_uleq",
+   "cmpk_globvar_frame_ret64_paramnarrow",
    "ret8_ret64",
-   "ret8_globvar_frame_ret64",
+   "ret8_globvar_frame_ret64_paramnarrow",
    "cmpk_ret64",
-   "ret8_cmpk_frame_ret64",
+   "ret8_cmpk_frame_ret64_paramnarrow",
    "globvar_ret64",
-   "ret8_cmpk_globvar_ret64",
+   "ret8_cmpk_globvar_ret64_paramnarrow",
    "frame_ret64",
-   "cmpk_globvar_frame_uleq",
+   "ret8_cmpk_globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "cmpk_globvar_frame_uleq_paramnarrow",
    "ret8_uleq",
-   "ret8_globvar_frame_uleq",
+   "ret8_globvar_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret8_cmpk_frame_uleq",
+   "ret8_cmpk_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_cmpk_globvar_uleq",
-   "frame_uleq"
+   "ret8_cmpk_globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "ret8_cmpk_globvar_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100F25F0": {
@@ -23095,33 +23278,38 @@
    "uleq",
    "retvoid",
    "negmask",
-   "ret8_ge0_cmpk_frame_calledon_ret64_uleq_negmask",
-   "ret8_ge0_cmpk_frame_negmask",
+   "paramnarrow",
+   "ret8_ge0_cmpk_frame_calledon_ret64_uleq_negmask_paramnarrow",
+   "ret8_ge0_cmpk_frame_negmask_paramnarrow",
    "ret64_calledon",
-   "ret8_ge0_cmpk_frame_negmask_ret64",
-   "ret8_ge0_cmpk_frame_negmask_uleq",
+   "ret8_ge0_cmpk_frame_negmask_paramnarrow_ret64",
+   "ret8_ge0_cmpk_frame_negmask_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_ge0_cmpk_frame_negmask_ret64_uleq",
-   "ge0_cmpk_frame_ret64_negmask",
+   "ret8_ge0_cmpk_frame_negmask_paramnarrow_ret64_uleq",
+   "ge0_cmpk_frame_ret64_negmask_paramnarrow",
    "ret8_ret64",
-   "ret8_cmpk_frame_ret64_negmask",
+   "ret8_cmpk_frame_ret64_negmask_paramnarrow",
    "ge0_ret64",
-   "ret8_ge0_frame_ret64_negmask",
+   "ret8_ge0_frame_ret64_negmask_paramnarrow",
    "cmpk_ret64",
-   "ret8_ge0_cmpk_ret64_negmask",
+   "ret8_ge0_cmpk_ret64_negmask_paramnarrow",
    "frame_ret64",
-   "ret8_ge0_cmpk_frame_ret64",
+   "ret8_ge0_cmpk_frame_ret64_paramnarrow",
    "ret64_negmask",
-   "ge0_cmpk_frame_uleq_negmask",
+   "ret8_ge0_cmpk_frame_ret64_negmask",
+   "ret64_paramnarrow",
+   "ge0_cmpk_frame_uleq_negmask_paramnarrow",
    "ret8_uleq",
-   "ret8_cmpk_frame_uleq_negmask",
+   "ret8_cmpk_frame_uleq_negmask_paramnarrow",
    "ge0_uleq",
-   "ret8_ge0_frame_uleq_negmask",
+   "ret8_ge0_frame_uleq_negmask_paramnarrow",
    "cmpk_uleq",
-   "ret8_ge0_cmpk_uleq_negmask",
+   "ret8_ge0_cmpk_uleq_negmask_paramnarrow",
    "frame_uleq",
-   "ret8_ge0_cmpk_frame_uleq",
-   "uleq_negmask"
+   "ret8_ge0_cmpk_frame_uleq_paramnarrow",
+   "uleq_negmask",
+   "ret8_ge0_cmpk_frame_uleq_negmask",
+   "uleq_paramnarrow"
   ]
  },
  "0x100F3010": {
@@ -23165,10 +23353,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_retnarrow_uleq",
+   "paramnarrow",
+   "globvar_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ]
  },
  "0x100F3C90": {
@@ -23298,7 +23492,9 @@
   "conv": "__cdecl",
   "size": 128,
   "rules_tried": [
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retvoid_paramnarrow"
   ]
  },
  "0x100F7FA0": {
@@ -23731,15 +23927,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_ret64_uleq",
-   "ret8_globvar",
-   "ret8_globvar_ret64",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
    "ret64_uleq",
-   "globvar_ret64",
+   "globvar_ret64_paramnarrow",
    "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x100FC9C0": {
@@ -23752,9 +23957,13 @@
    "ret64",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "ret8_ret64_paramnarrow",
+   "ret8_paramnarrow",
+   "ret64_paramnarrow",
    "ret8_ret64"
   ],
-  "rule_identical": "ret8_ret64",
+  "rule_identical": "ret8_ret64_paramnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x100FCA20": {
@@ -23858,6 +24067,7 @@
    "uleq",
    "retvoid",
    "shiftmask",
+   "paramnarrow",
    "ret8_globvar_uleq_shiftmask",
    "ret8_globvar_shiftmask",
    "globvar_uleq_shiftmask",
@@ -23882,16 +24092,25 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_calledon_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_calledon_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_retnarrow_uleq",
-   "globvar_retnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow_uleq",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10101BC0": {
@@ -24120,15 +24339,24 @@
    "uleq",
    "retvoid",
    "shiftmask",
-   "cmpk_uleq_retvoid_shiftmask",
-   "cmpk_shiftmask",
-   "cmpk_shiftmask_uleq",
-   "cmpk_shiftmask_retvoid",
+   "paramnarrow",
+   "cmpk_uleq_retvoid_shiftmask_paramnarrow",
+   "cmpk_shiftmask_paramnarrow",
+   "cmpk_shiftmask_paramnarrow_uleq",
+   "cmpk_shiftmask_paramnarrow_retvoid",
    "uleq_retvoid",
-   "uleq_shiftmask",
+   "uleq_shiftmask_paramnarrow",
    "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
+   "uleq_shiftmask",
+   "cmpk_uleq_shiftmask",
+   "uleq_paramnarrow",
+   "retvoid_shiftmask_paramnarrow",
+   "cmpk_retvoid",
+   "cmpk_retvoid_paramnarrow",
    "retvoid_shiftmask",
-   "cmpk_retvoid"
+   "cmpk_retvoid_shiftmask",
+   "retvoid_paramnarrow"
   ]
  },
  "0x10106CD0": {
@@ -24184,15 +24412,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101072B0": {
@@ -24364,7 +24601,9 @@
   "conv": "__thiscall",
   "size": 64,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "paramnarrow",
+   "retthis_paramnarrow"
   ]
  },
  "0x10108700": {
@@ -24495,6 +24734,10 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "uleq_retvoid_paramnarrow",
+   "paramnarrow_uleq",
+   "paramnarrow_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -24597,7 +24840,9 @@
   "conv": "__thiscall",
   "size": 128,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "paramnarrow",
+   "retthis_paramnarrow"
   ]
  },
  "0x1010FC50": {
@@ -24951,6 +25196,10 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "retnarrow_uleq_paramnarrow",
+   "paramnarrow_retnarrow",
+   "paramnarrow_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -25600,10 +25849,16 @@
    "retthis",
    "ret64",
    "uleq",
-   "retthis_ret64_uleq",
+   "paramnarrow",
+   "retthis_ret64_uleq_paramnarrow",
+   "retthis_paramnarrow",
+   "retthis_paramnarrow_ret64",
+   "retthis_paramnarrow_uleq",
+   "ret64_uleq",
+   "ret64_paramnarrow",
    "retthis_ret64",
-   "retthis_uleq",
-   "ret64_uleq"
+   "uleq_paramnarrow",
+   "retthis_uleq"
   ]
  },
  "0x101185E0": {
@@ -25928,35 +26183,42 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_float_ret64_retnarrow_uleq",
-   "globvar_frame_float",
-   "globvar_frame_float_ret64",
-   "globvar_frame_float_retnarrow",
-   "globvar_frame_float_uleq",
+   "paramnarrow",
+   "globvar_frame_float_ret64_retnarrow_uleq_paramnarrow",
+   "globvar_frame_float_paramnarrow",
+   "globvar_frame_float_paramnarrow_ret64",
+   "globvar_frame_float_paramnarrow_retnarrow",
+   "globvar_frame_float_paramnarrow_uleq",
    "ret64_retnarrow",
-   "globvar_frame_float_ret64_retnarrow",
+   "globvar_frame_float_paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_frame_float_ret64_uleq",
+   "globvar_frame_float_paramnarrow_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_frame_float_retnarrow_uleq",
-   "frame_float_ret64",
+   "globvar_frame_float_paramnarrow_retnarrow_uleq",
+   "frame_float_ret64_paramnarrow",
    "globvar_ret64",
-   "globvar_float_ret64",
+   "globvar_float_ret64_paramnarrow",
    "frame_ret64",
-   "globvar_frame_ret64",
+   "globvar_frame_ret64_paramnarrow",
    "float_ret64",
-   "frame_float_retnarrow",
+   "globvar_frame_float_ret64",
+   "ret64_paramnarrow",
+   "frame_float_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_float_retnarrow",
+   "globvar_float_retnarrow_paramnarrow",
    "frame_retnarrow",
-   "globvar_frame_retnarrow",
+   "globvar_frame_retnarrow_paramnarrow",
    "float_retnarrow",
-   "frame_float_uleq",
+   "globvar_frame_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "frame_float_uleq_paramnarrow",
    "globvar_uleq",
-   "globvar_float_uleq",
+   "globvar_float_uleq_paramnarrow",
    "frame_uleq",
-   "globvar_frame_uleq",
-   "float_uleq"
+   "globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "globvar_frame_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10119550": {
@@ -26054,35 +26316,42 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_float_ret64_retnarrow_uleq",
-   "globvar_frame_float",
-   "globvar_frame_float_ret64",
-   "globvar_frame_float_retnarrow",
-   "globvar_frame_float_uleq",
+   "paramnarrow",
+   "globvar_frame_float_ret64_retnarrow_uleq_paramnarrow",
+   "globvar_frame_float_paramnarrow",
+   "globvar_frame_float_paramnarrow_ret64",
+   "globvar_frame_float_paramnarrow_retnarrow",
+   "globvar_frame_float_paramnarrow_uleq",
    "ret64_retnarrow",
-   "globvar_frame_float_ret64_retnarrow",
+   "globvar_frame_float_paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_frame_float_ret64_uleq",
+   "globvar_frame_float_paramnarrow_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_frame_float_retnarrow_uleq",
-   "frame_float_ret64",
+   "globvar_frame_float_paramnarrow_retnarrow_uleq",
+   "frame_float_ret64_paramnarrow",
    "globvar_ret64",
-   "globvar_float_ret64",
+   "globvar_float_ret64_paramnarrow",
    "frame_ret64",
-   "globvar_frame_ret64",
+   "globvar_frame_ret64_paramnarrow",
    "float_ret64",
-   "frame_float_retnarrow",
+   "globvar_frame_float_ret64",
+   "ret64_paramnarrow",
+   "frame_float_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_float_retnarrow",
+   "globvar_float_retnarrow_paramnarrow",
    "frame_retnarrow",
-   "globvar_frame_retnarrow",
+   "globvar_frame_retnarrow_paramnarrow",
    "float_retnarrow",
-   "frame_float_uleq",
+   "globvar_frame_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "frame_float_uleq_paramnarrow",
    "globvar_uleq",
-   "globvar_float_uleq",
+   "globvar_float_uleq_paramnarrow",
    "frame_uleq",
-   "globvar_frame_uleq",
-   "float_uleq"
+   "globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "globvar_frame_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10119BC0": {
@@ -26108,16 +26377,19 @@
    "frame",
    "frametight",
    "uleq",
-   "cmpk_retthis_globvar_frame_uleq",
-   "cmpk_retthis_globvar_frame",
-   "retthis_globvar_frame_uleq",
+   "paramnarrow",
+   "cmpk_retthis_globvar_frame_uleq_paramnarrow",
+   "cmpk_retthis_globvar_frame_paramnarrow",
+   "retthis_globvar_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_globvar_frame_uleq",
+   "cmpk_globvar_frame_uleq_paramnarrow",
    "retthis_uleq",
-   "cmpk_retthis_frame_uleq",
+   "cmpk_retthis_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_retthis_globvar_uleq",
+   "cmpk_retthis_globvar_uleq_paramnarrow",
    "frame_uleq",
+   "cmpk_retthis_globvar_frame_uleq",
+   "uleq_paramnarrow",
    "sametu"
   ]
  },
@@ -26236,11 +26508,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_frame_calledon_uleq",
-   "ret8_frame",
-   "ret8_frame_uleq",
+   "paramnarrow",
+   "ret8_frame_calledon_uleq_paramnarrow",
+   "ret8_frame_paramnarrow",
+   "ret8_frame_paramnarrow_uleq",
+   "frame_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "frame_uleq",
-   "ret8_uleq"
+   "ret8_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1011A710": {
@@ -26319,6 +26596,10 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "ret16_uleq_paramnarrow",
+   "ret16_paramnarrow",
+   "uleq_paramnarrow",
    "ret16_uleq"
   ]
  },
@@ -26329,7 +26610,9 @@
   "size": 64,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retnarrow_paramnarrow"
   ]
  },
  "0x1011B2E0": {
@@ -26728,6 +27011,10 @@
    "frametight",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "frame_retnarrow_paramnarrow",
+   "frame_paramnarrow",
+   "retnarrow_paramnarrow",
    "frame_retnarrow"
   ]
  },
@@ -26740,6 +27027,10 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "retnarrow_uleq_paramnarrow",
+   "paramnarrow_retnarrow",
+   "paramnarrow_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -27527,9 +27818,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
-   "ret8_globvar"
+   "paramnarrow",
+   "ret8_globvar_paramnarrow"
   ],
-  "rule_identical": "ret8_globvar",
+  "rule_identical": "ret8_globvar_paramnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x10123650": {
@@ -27541,6 +27833,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "globvar_paramnarrow",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow"
   ],
   "rule_identical": "globvar",
@@ -27556,9 +27852,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
-   "ret8_globvar"
+   "paramnarrow",
+   "ret8_globvar_paramnarrow"
   ],
-  "rule_identical": "ret8_globvar",
+  "rule_identical": "ret8_globvar_paramnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x10123680": {
@@ -27570,6 +27867,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "globvar_paramnarrow",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow"
   ],
   "rule_identical": "retvoid",
@@ -27584,6 +27885,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "globvar_paramnarrow",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow"
   ],
   "rule_identical": "retvoid",
@@ -28036,10 +28341,16 @@
    "globvar",
    "ret64",
    "retvoid",
-   "globvar_ret64_retvoid",
+   "paramnarrow",
+   "globvar_ret64_retvoid_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_ret64",
+   "globvar_paramnarrow_retvoid",
+   "ret64_retvoid",
+   "ret64_paramnarrow",
    "globvar_ret64",
-   "globvar_retvoid",
-   "ret64_retvoid"
+   "retvoid_paramnarrow",
+   "globvar_retvoid"
   ]
  },
  "0x101260E0": {
@@ -28443,7 +28754,9 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retvoid_paramnarrow"
   ]
  },
  "0x101278D0": {
@@ -28578,29 +28891,34 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_cmpk_globvar_frame_calledon_ret64_uleq",
-   "ret8_cmpk_globvar_frame",
+   "paramnarrow",
+   "ret8_cmpk_globvar_frame_calledon_ret64_uleq_paramnarrow",
+   "ret8_cmpk_globvar_frame_paramnarrow",
    "ret64_calledon",
-   "ret8_cmpk_globvar_frame_ret64",
-   "ret8_cmpk_globvar_frame_uleq",
+   "ret8_cmpk_globvar_frame_paramnarrow_ret64",
+   "ret8_cmpk_globvar_frame_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_cmpk_globvar_frame_ret64_uleq",
-   "cmpk_globvar_frame_ret64",
+   "ret8_cmpk_globvar_frame_paramnarrow_ret64_uleq",
+   "cmpk_globvar_frame_ret64_paramnarrow",
    "ret8_ret64",
-   "ret8_globvar_frame_ret64",
+   "ret8_globvar_frame_ret64_paramnarrow",
    "cmpk_ret64",
-   "ret8_cmpk_frame_ret64",
+   "ret8_cmpk_frame_ret64_paramnarrow",
    "globvar_ret64",
-   "ret8_cmpk_globvar_ret64",
+   "ret8_cmpk_globvar_ret64_paramnarrow",
    "frame_ret64",
-   "cmpk_globvar_frame_uleq",
+   "ret8_cmpk_globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "cmpk_globvar_frame_uleq_paramnarrow",
    "ret8_uleq",
-   "ret8_globvar_frame_uleq",
+   "ret8_globvar_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret8_cmpk_frame_uleq",
+   "ret8_cmpk_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_cmpk_globvar_uleq",
-   "frame_uleq"
+   "ret8_cmpk_globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "ret8_cmpk_globvar_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10127EA0": {
@@ -28707,7 +29025,8 @@
   "rules_tried": [
    "cmpk",
    "retthis",
-   "cmpk_retthis"
+   "paramnarrow",
+   "cmpk_retthis_paramnarrow"
   ]
  },
  "0x10128680": {
@@ -28762,7 +29081,9 @@
   "conv": "__thiscall",
   "size": 320,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "paramnarrow",
+   "retthis_paramnarrow"
   ]
  },
  "0x10129BB0": {
@@ -28778,23 +29099,36 @@
    "ret64",
    "uleq",
    "retvoid",
-   "ge0_frame_ret64_uleq_retvoid",
-   "ge0_frame",
-   "ge0_frame_ret64",
-   "ge0_frame_uleq",
-   "ge0_frame_retvoid",
+   "paramnarrow",
+   "ge0_frame_ret64_uleq_retvoid_paramnarrow",
+   "ge0_frame_paramnarrow",
+   "ge0_frame_paramnarrow_ret64",
+   "ge0_frame_paramnarrow_uleq",
+   "ge0_frame_paramnarrow_retvoid",
    "ret64_uleq",
-   "ge0_frame_ret64_uleq",
+   "ge0_frame_paramnarrow_ret64_uleq",
    "ret64_retvoid",
-   "ge0_frame_ret64_retvoid",
+   "ge0_frame_paramnarrow_ret64_retvoid",
    "uleq_retvoid",
-   "ge0_frame_uleq_retvoid",
-   "frame_ret64",
+   "ge0_frame_paramnarrow_uleq_retvoid",
+   "frame_ret64_paramnarrow",
    "ge0_ret64",
-   "frame_uleq",
+   "ge0_ret64_paramnarrow",
+   "frame_ret64",
+   "ge0_frame_ret64",
+   "ret64_paramnarrow",
+   "frame_uleq_paramnarrow",
    "ge0_uleq",
+   "ge0_uleq_paramnarrow",
+   "frame_uleq",
+   "ge0_frame_uleq",
+   "uleq_paramnarrow",
+   "frame_retvoid_paramnarrow",
+   "ge0_retvoid",
+   "ge0_retvoid_paramnarrow",
    "frame_retvoid",
-   "ge0_retvoid"
+   "ge0_frame_retvoid",
+   "retvoid_paramnarrow"
   ]
  },
  "0x10129C20": {
@@ -28805,6 +29139,10 @@
   "rules_tried": [
    "cmpk",
    "retvoid",
+   "paramnarrow",
+   "cmpk_retvoid_paramnarrow",
+   "cmpk_paramnarrow",
+   "retvoid_paramnarrow",
    "cmpk_retvoid"
   ],
   "rule_identical": "cmpk0",
@@ -28819,10 +29157,16 @@
    "globvar",
    "uleq",
    "retvoid",
-   "globvar_uleq_retvoid",
+   "paramnarrow",
+   "globvar_uleq_retvoid_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_uleq",
+   "globvar_paramnarrow_retvoid",
+   "uleq_retvoid",
+   "uleq_paramnarrow",
    "globvar_uleq",
-   "globvar_retvoid",
-   "uleq_retvoid"
+   "retvoid_paramnarrow",
+   "globvar_retvoid"
   ]
  },
  "0x10129D00": {
@@ -28835,10 +29179,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_retnarrow_uleq",
+   "paramnarrow",
+   "globvar_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "globvar_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ]
  },
  "0x10129D90": {
@@ -28983,10 +29333,17 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret64_retnarrow_uleq",
+   "paramnarrow",
+   "ret64_retnarrow_uleq_paramnarrow",
+   "paramnarrow_ret64",
+   "paramnarrow_retnarrow",
+   "paramnarrow_uleq",
    "ret64_retnarrow",
+   "paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "retnarrow_uleq"
+   "paramnarrow_ret64_uleq",
+   "retnarrow_uleq",
+   "paramnarrow_retnarrow_uleq"
   ]
  },
  "0x1012A4E0": {
@@ -29295,10 +29652,15 @@
    "globvar",
    "retnarrow",
    "retvoid",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar",
+   "paramnarrow",
+   "cmpk_globvar_retnarrow_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "cmpk_retnarrow"
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow"
   ]
  },
  "0x10136900": {
@@ -29690,7 +30052,8 @@
   "rules_tried": [
    "retthis",
    "globvar",
-   "retthis_globvar"
+   "paramnarrow",
+   "retthis_globvar_paramnarrow"
   ]
  },
  "0x1013E4F0": {
@@ -29892,7 +30255,9 @@
   "conv": "__thiscall",
   "size": 48,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "paramnarrow",
+   "retthis_paramnarrow"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -30644,8 +31009,14 @@
    "cmpk",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "cmpk_paramnarrow",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow"
-  ]
+  ],
+  "rule_identical": "paramnarrow",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10154520": {
   "verdict": "IDENTICAL",
@@ -31217,6 +31588,10 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "retnarrow_uleq_paramnarrow",
+   "paramnarrow_retnarrow",
+   "paramnarrow_uleq",
    "retnarrow_uleq"
   ]
  },
@@ -31727,16 +32102,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_ret64_retnarrow_uleq",
-   "globvar_ret64",
-   "globvar_retnarrow",
-   "globvar_uleq",
+   "paramnarrow",
+   "globvar_ret64_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "globvar_paramnarrow_ret64",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
    "ret64_retnarrow",
-   "globvar_ret64_retnarrow",
+   "globvar_paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_ret64_uleq",
+   "globvar_paramnarrow_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq"
+   "globvar_paramnarrow_retnarrow_uleq",
+   "ret64_paramnarrow",
+   "globvar_ret64",
+   "retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ]
  },
  "0x10158CA0": {
@@ -31747,6 +32130,10 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "paramnarrow",
+   "uleq_retvoid_paramnarrow",
+   "paramnarrow_uleq",
+   "paramnarrow_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -32262,12 +32649,18 @@
    "retnarrow",
    "retvoid",
    "pushinit",
-   "frame_calledon_ret64_retnarrow",
+   "paramnarrow",
+   "frame_calledon_ret64_retnarrow_paramnarrow",
+   "frame_paramnarrow",
    "ret64_calledon",
-   "frame_ret64",
-   "frame_retnarrow",
+   "frame_paramnarrow_ret64",
+   "frame_paramnarrow_retnarrow",
    "ret64_retnarrow",
-   "frame_ret64_retnarrow"
+   "frame_paramnarrow_ret64_retnarrow",
+   "ret64_paramnarrow",
+   "frame_ret64",
+   "retnarrow_paramnarrow",
+   "frame_retnarrow"
   ]
  },
  "0x1015B9E0": {
@@ -32720,7 +33113,9 @@
   "rules_tried": [
    "ret8",
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "ret8_paramnarrow"
   ]
  },
  "0x1015EC50": {
@@ -32810,25 +33205,30 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_frame_calledon_ret64_uleq",
-   "ret8_globvar_frame",
+   "paramnarrow",
+   "ret8_globvar_frame_calledon_ret64_uleq_paramnarrow",
+   "ret8_globvar_frame_paramnarrow",
    "ret64_calledon",
-   "ret8_globvar_frame_ret64",
-   "ret8_globvar_frame_uleq",
+   "ret8_globvar_frame_paramnarrow_ret64",
+   "ret8_globvar_frame_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_globvar_frame_ret64_uleq",
-   "globvar_frame_ret64",
+   "ret8_globvar_frame_paramnarrow_ret64_uleq",
+   "globvar_frame_ret64_paramnarrow",
    "ret8_ret64",
-   "ret8_frame_ret64",
+   "ret8_frame_ret64_paramnarrow",
    "globvar_ret64",
-   "ret8_globvar_ret64",
+   "ret8_globvar_ret64_paramnarrow",
    "frame_ret64",
-   "globvar_frame_uleq",
+   "ret8_globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "globvar_frame_uleq_paramnarrow",
    "ret8_uleq",
-   "ret8_frame_uleq",
+   "ret8_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_globvar_uleq",
-   "frame_uleq"
+   "ret8_globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "ret8_globvar_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1015ED80": {
@@ -33102,7 +33502,8 @@
    "globvar",
    "float",
    "retvoid",
-   "globvar_float"
+   "paramnarrow",
+   "globvar_float_paramnarrow"
   ],
   "rule_identical": "float1",
   "rule_verdict": "IDENTICAL"
@@ -33116,7 +33517,8 @@
    "globvar",
    "float",
    "retvoid",
-   "globvar_float"
+   "paramnarrow",
+   "globvar_float_paramnarrow"
   ],
   "rule_identical": "float1",
   "rule_verdict": "IDENTICAL"
@@ -33464,10 +33866,15 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret16_cmpk_uleq",
-   "ret16_cmpk",
+   "paramnarrow",
+   "ret16_cmpk_uleq_paramnarrow",
+   "ret16_cmpk_paramnarrow",
+   "cmpk_uleq_paramnarrow",
+   "ret16_uleq",
+   "ret16_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret16_uleq"
+   "ret16_cmpk_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10162E00": {
@@ -33484,7 +33891,8 @@
   "rules_tried": [
    "cmpk",
    "retthis",
-   "cmpk_retthis"
+   "paramnarrow",
+   "cmpk_retthis_paramnarrow"
   ]
  },
  "0x10162E60": {
@@ -33511,7 +33919,9 @@
   "conv": "__stdcall",
   "size": 48,
   "rules_tried": [
-   "calledon"
+   "calledon",
+   "paramnarrow",
+   "calledon_paramnarrow"
   ]
  },
  "0x10162F60": {
@@ -33561,7 +33971,9 @@
    "calledon",
    "retnarrow",
    "retvoid",
-   "calledon_retnarrow"
+   "paramnarrow",
+   "calledon_retnarrow_paramnarrow",
+   "paramnarrow_retnarrow"
   ]
  },
  "0x10163070": {
@@ -33935,7 +34347,8 @@
    "frametight",
    "retnarrow",
    "retvoid",
-   "ret8_frame_float"
+   "paramnarrow",
+   "ret8_frame_float_paramnarrow"
   ]
  },
  "0x101693B0": {
@@ -34858,10 +35271,15 @@
    "cmpk",
    "retthis",
    "uleq",
-   "cmpk_retthis_uleq",
-   "cmpk_retthis",
+   "paramnarrow",
+   "cmpk_retthis_uleq_paramnarrow",
+   "cmpk_retthis_paramnarrow",
+   "retthis_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "retthis_uleq",
-   "cmpk_uleq"
+   "cmpk_retthis_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1017ADE0": {
@@ -36990,10 +37408,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_retnarrow_uleq",
+   "paramnarrow",
+   "cmpk_retnarrow_uleq_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_retnarrow",
+   "cmpk_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "cmpk_uleq"
   ]
  },
  "0x1018FA80": {
@@ -37006,10 +37430,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_retnarrow_uleq",
+   "paramnarrow",
+   "cmpk_retnarrow_uleq_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_retnarrow",
+   "cmpk_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_uleq",
-   "retnarrow_uleq"
+   "uleq_paramnarrow",
+   "cmpk_uleq"
   ]
  },
  "0x1018FB00": {
@@ -37282,6 +37712,7 @@
    "uleq",
    "retvoid",
    "shiftmask",
+   "paramnarrow",
    "ret8_uleq_shiftmask",
    "ret8_shiftmask",
    "uleq_shiftmask",
@@ -38894,7 +39325,9 @@
   "size": 80,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retnarrow_paramnarrow"
   ],
   "rule_identical": "retvoid",
   "rule_verdict": "IDENTICAL"
@@ -38939,7 +39372,9 @@
   "size": 96,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retnarrow_paramnarrow"
   ]
  },
  "0x101A3D60": {
@@ -38983,7 +39418,9 @@
   "size": 96,
   "rules_tried": [
    "retnarrow",
-   "retvoid"
+   "retvoid",
+   "paramnarrow",
+   "retnarrow_paramnarrow"
   ]
  },
  "0x101A4440": {
@@ -39378,14 +39815,17 @@
    "frame",
    "frametight",
    "uleq",
-   "cmpk_retthis_frame_uleq",
-   "cmpk_retthis_frame",
-   "retthis_frame_uleq",
+   "paramnarrow",
+   "cmpk_retthis_frame_uleq_paramnarrow",
+   "cmpk_retthis_frame_paramnarrow",
+   "retthis_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_frame_uleq",
+   "cmpk_frame_uleq_paramnarrow",
    "retthis_uleq",
-   "cmpk_retthis_uleq",
-   "frame_uleq"
+   "cmpk_retthis_uleq_paramnarrow",
+   "frame_uleq",
+   "cmpk_retthis_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101AC1B0": {
@@ -39587,7 +40027,9 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "paramnarrow",
+   "retthis_paramnarrow"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -40168,6 +40610,10 @@
    "cmpk",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "cmpk_paramnarrow",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow"
   ]
  },
@@ -40691,7 +41137,8 @@
   "rules_tried": [
    "retthis",
    "globvar",
-   "retthis_globvar"
+   "paramnarrow",
+   "retthis_globvar_paramnarrow"
   ]
  },
  "0x101B9910": {
@@ -40703,7 +41150,8 @@
   "rules_tried": [
    "retthis",
    "globvar",
-   "retthis_globvar"
+   "paramnarrow",
+   "retthis_globvar_paramnarrow"
   ]
  },
  "0x101B9980": {
@@ -41124,11 +41572,16 @@
    "retthis",
    "calledon",
    "uleq",
-   "cmpk_retthis_calledon_uleq",
-   "cmpk_retthis",
-   "cmpk_retthis_uleq",
+   "paramnarrow",
+   "cmpk_retthis_calledon_uleq_paramnarrow",
+   "cmpk_retthis_paramnarrow",
+   "cmpk_retthis_paramnarrow_uleq",
+   "retthis_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "retthis_uleq",
-   "cmpk_uleq"
+   "cmpk_retthis_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101BB5A0": {
@@ -43498,6 +43951,10 @@
   "rules_tried": [
    "cmpk",
    "retvoid",
+   "paramnarrow",
+   "cmpk_retvoid_paramnarrow",
+   "cmpk_paramnarrow",
+   "retvoid_paramnarrow",
    "cmpk_retvoid"
   ]
  },
@@ -43557,23 +44014,36 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_float_ret64_retnarrow_uleq",
-   "cmpk_float",
-   "cmpk_float_ret64",
-   "cmpk_float_retnarrow",
-   "cmpk_float_uleq",
+   "paramnarrow",
+   "cmpk_float_ret64_retnarrow_uleq_paramnarrow",
+   "cmpk_float_paramnarrow",
+   "cmpk_float_paramnarrow_ret64",
+   "cmpk_float_paramnarrow_retnarrow",
+   "cmpk_float_paramnarrow_uleq",
    "ret64_retnarrow",
-   "cmpk_float_ret64_retnarrow",
+   "cmpk_float_paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "cmpk_float_ret64_uleq",
+   "cmpk_float_paramnarrow_ret64_uleq",
    "retnarrow_uleq",
-   "cmpk_float_retnarrow_uleq",
-   "float_ret64",
+   "cmpk_float_paramnarrow_retnarrow_uleq",
+   "float_ret64_paramnarrow",
    "cmpk_ret64",
-   "float_retnarrow",
+   "cmpk_ret64_paramnarrow",
+   "float_ret64",
+   "cmpk_float_ret64",
+   "ret64_paramnarrow",
+   "float_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "float_retnarrow",
+   "cmpk_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "float_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "float_uleq",
-   "cmpk_uleq"
+   "cmpk_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101C9D50": {
@@ -43586,16 +44056,24 @@
    "ret64",
    "uleq",
    "retvoid",
-   "cmpk_ret64_uleq_retvoid",
-   "cmpk_ret64",
-   "cmpk_uleq",
-   "cmpk_retvoid",
+   "paramnarrow",
+   "cmpk_ret64_uleq_retvoid_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_ret64",
+   "cmpk_paramnarrow_uleq",
+   "cmpk_paramnarrow_retvoid",
    "ret64_uleq",
-   "cmpk_ret64_uleq",
+   "cmpk_paramnarrow_ret64_uleq",
    "ret64_retvoid",
-   "cmpk_ret64_retvoid",
+   "cmpk_paramnarrow_ret64_retvoid",
    "uleq_retvoid",
-   "cmpk_uleq_retvoid",
+   "cmpk_paramnarrow_uleq_retvoid",
+   "ret64_paramnarrow",
+   "cmpk_ret64",
+   "uleq_paramnarrow",
+   "cmpk_uleq",
+   "retvoid_paramnarrow",
+   "cmpk_retvoid",
    "sametu"
   ]
  },
@@ -43641,15 +44119,24 @@
    "float",
    "ret64",
    "uleq",
-   "cmpk_float_ret64_uleq",
-   "cmpk_float",
-   "cmpk_float_ret64",
-   "cmpk_float_uleq",
+   "paramnarrow",
+   "cmpk_float_ret64_uleq_paramnarrow",
+   "cmpk_float_paramnarrow",
+   "cmpk_float_paramnarrow_ret64",
+   "cmpk_float_paramnarrow_uleq",
    "ret64_uleq",
-   "float_ret64",
+   "float_ret64_paramnarrow",
    "cmpk_ret64",
+   "cmpk_ret64_paramnarrow",
+   "float_ret64",
+   "cmpk_float_ret64",
+   "ret64_paramnarrow",
+   "float_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "float_uleq",
-   "cmpk_uleq"
+   "cmpk_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101CAEC0": {
@@ -43667,10 +44154,16 @@
    "float",
    "uleq",
    "retvoid",
-   "float_uleq_retvoid",
+   "paramnarrow",
+   "float_uleq_retvoid_paramnarrow",
+   "float_paramnarrow",
+   "float_paramnarrow_uleq",
+   "float_paramnarrow_retvoid",
+   "uleq_retvoid",
+   "uleq_paramnarrow",
    "float_uleq",
-   "float_retvoid",
-   "uleq_retvoid"
+   "retvoid_paramnarrow",
+   "float_retvoid"
   ]
  },
  "0x101CB000": {
@@ -43688,7 +44181,10 @@
   "verdict": "DIFFERS",
   "why": "+38: __real@00000000, the game's constant at 0x6A03EB00 is ?",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "paramnarrow"
+  ]
  },
  "0x101CB090": {
   "verdict": "IDENTICAL",
@@ -43722,6 +44218,10 @@
   "rules_tried": [
    "float",
    "uleq",
+   "paramnarrow",
+   "float_uleq_paramnarrow",
+   "float_paramnarrow",
+   "uleq_paramnarrow",
    "float_uleq"
   ]
  },
@@ -43747,7 +44247,8 @@
    "globvar",
    "retnarrow",
    "retvoid",
-   "ret8_globvar"
+   "paramnarrow",
+   "ret8_globvar_paramnarrow"
   ],
   "rule_identical": "ret8",
   "rule_verdict": "IDENTICAL"
@@ -43770,11 +44271,16 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_globvar_calledon_uleq",
-   "ret8_globvar",
-   "ret8_globvar_uleq",
+   "paramnarrow",
+   "ret8_globvar_calledon_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_uleq",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "globvar_uleq",
-   "ret8_uleq"
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
   ],
   "rule_identical": "ret8",
   "rule_verdict": "IDENTICAL"
@@ -43820,17 +44326,26 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "ret8_cmpk_calledon_ret64_uleq",
-   "ret8_cmpk",
+   "paramnarrow",
+   "ret8_cmpk_calledon_ret64_uleq_paramnarrow",
+   "ret8_cmpk_paramnarrow",
    "ret64_calledon",
-   "ret8_cmpk_ret64",
-   "ret8_cmpk_uleq",
+   "ret8_cmpk_paramnarrow_ret64",
+   "ret8_cmpk_paramnarrow_uleq",
    "ret64_uleq",
-   "ret8_cmpk_ret64_uleq",
-   "cmpk_ret64",
+   "ret8_cmpk_paramnarrow_ret64_uleq",
+   "cmpk_ret64_paramnarrow",
    "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "cmpk_ret64",
+   "ret8_cmpk_ret64",
+   "ret64_paramnarrow",
+   "cmpk_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
    "cmpk_uleq",
-   "ret8_uleq"
+   "ret8_cmpk_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101CC4F0": {
@@ -45091,14 +45606,17 @@
    "globvar",
    "retvoid",
    "storem1",
-   "cmpk_globvar_retvoid_storem1",
-   "cmpk_globvar_storem1",
-   "globvar_retvoid_storem1",
+   "ushortcmp",
+   "cmpk_globvar_retvoid_storem1_ushortcmp",
+   "cmpk_globvar_storem1_ushortcmp",
+   "globvar_retvoid_storem1_ushortcmp",
    "cmpk_retvoid",
-   "cmpk_retvoid_storem1",
+   "cmpk_retvoid_storem1_ushortcmp",
    "globvar_retvoid",
-   "cmpk_globvar_retvoid",
-   "retvoid_storem1"
+   "cmpk_globvar_retvoid_ushortcmp",
+   "retvoid_storem1",
+   "cmpk_globvar_retvoid_storem1",
+   "retvoid_ushortcmp"
   ]
  },
  "0x101E7E90": {
@@ -45219,14 +45737,17 @@
    "float",
    "retvoid",
    "storem1",
-   "globvar_float_retvoid_storem1",
-   "globvar_float_storem1",
-   "float_retvoid_storem1",
+   "paramnarrow",
+   "globvar_float_retvoid_storem1_paramnarrow",
+   "globvar_float_storem1_paramnarrow",
+   "float_retvoid_storem1_paramnarrow",
    "globvar_retvoid",
-   "globvar_retvoid_storem1",
+   "globvar_retvoid_storem1_paramnarrow",
    "float_retvoid",
-   "globvar_float_retvoid",
-   "retvoid_storem1"
+   "globvar_float_retvoid_paramnarrow",
+   "retvoid_storem1",
+   "globvar_float_retvoid_storem1",
+   "retvoid_paramnarrow"
   ]
  },
  "0x101EFCA0": {
@@ -45337,10 +45858,15 @@
    "cmpk",
    "retnarrow",
    "retvoid",
-   "ge0_cmpk_retnarrow",
-   "ge0_cmpk",
+   "paramnarrow",
+   "ge0_cmpk_retnarrow_paramnarrow",
+   "ge0_cmpk_paramnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "ge0_retnarrow",
+   "ge0_retnarrow_paramnarrow",
    "cmpk_retnarrow",
-   "ge0_retnarrow"
+   "ge0_cmpk_retnarrow",
+   "retnarrow_paramnarrow"
   ],
   "rule_identical": "cmpk5",
   "rule_verdict": "IDENTICAL"
@@ -45359,10 +45885,15 @@
    "globvar",
    "retvoid",
    "storem1",
-   "globvar_retvoid_storem1",
-   "globvar_storem1",
+   "paramnarrow",
+   "globvar_retvoid_storem1_paramnarrow",
+   "globvar_storem1_paramnarrow",
+   "retvoid_storem1_paramnarrow",
+   "globvar_retvoid",
+   "globvar_retvoid_paramnarrow",
    "retvoid_storem1",
-   "globvar_retvoid"
+   "globvar_retvoid_storem1",
+   "retvoid_paramnarrow"
   ]
  },
  "0x101F68F0": {
@@ -45418,6 +45949,10 @@
    "globvar",
    "retnarrow",
    "retvoid",
+   "paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "globvar_paramnarrow",
+   "retnarrow_paramnarrow",
    "globvar_retnarrow"
   ]
  },
@@ -45493,32 +46028,49 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_frame_ret64_uleq_xiany_retvoid",
-   "globvar_frame",
-   "globvar_frame_ret64",
-   "globvar_frame_uleq",
-   "globvar_frame_xiany",
-   "globvar_frame_retvoid",
+   "paramnarrow",
+   "globvar_frame_ret64_uleq_xiany_retvoid_paramnarrow",
+   "globvar_frame_paramnarrow",
+   "globvar_frame_paramnarrow_ret64",
+   "globvar_frame_paramnarrow_uleq",
+   "globvar_frame_paramnarrow_xiany",
+   "globvar_frame_paramnarrow_retvoid",
    "ret64_uleq",
-   "globvar_frame_ret64_uleq",
+   "globvar_frame_paramnarrow_ret64_uleq",
    "ret64_xiany",
-   "globvar_frame_ret64_xiany",
+   "globvar_frame_paramnarrow_ret64_xiany",
    "ret64_retvoid",
-   "globvar_frame_ret64_retvoid",
+   "globvar_frame_paramnarrow_ret64_retvoid",
    "uleq_xiany",
-   "globvar_frame_uleq_xiany",
+   "globvar_frame_paramnarrow_uleq_xiany",
    "uleq_retvoid",
-   "globvar_frame_uleq_retvoid",
+   "globvar_frame_paramnarrow_uleq_retvoid",
    "xiany_retvoid",
-   "globvar_frame_xiany_retvoid",
-   "frame_ret64",
+   "globvar_frame_paramnarrow_xiany_retvoid",
+   "frame_ret64_paramnarrow",
    "globvar_ret64",
-   "frame_uleq",
+   "globvar_ret64_paramnarrow",
+   "frame_ret64",
+   "globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "frame_uleq_paramnarrow",
    "globvar_uleq",
-   "frame_xiany",
+   "globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "globvar_frame_uleq",
+   "uleq_paramnarrow",
+   "frame_xiany_paramnarrow",
    "globvar_xiany",
+   "globvar_xiany_paramnarrow",
+   "frame_xiany",
+   "globvar_frame_xiany",
+   "xiany_paramnarrow",
+   "frame_retvoid_paramnarrow",
+   "globvar_retvoid",
+   "globvar_retvoid_paramnarrow",
    "frame_retvoid",
-   "globvar_retvoid"
+   "globvar_frame_retvoid",
+   "retvoid_paramnarrow"
   ]
  },
  "0x101F7DB0": {
@@ -45693,16 +46245,19 @@
    "globvar",
    "float",
    "uleq",
-   "cmpk_retthis_globvar_float_uleq",
-   "cmpk_retthis_globvar_float",
-   "retthis_globvar_float_uleq",
+   "paramnarrow",
+   "cmpk_retthis_globvar_float_uleq_paramnarrow",
+   "cmpk_retthis_globvar_float_paramnarrow",
+   "retthis_globvar_float_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_globvar_float_uleq",
+   "cmpk_globvar_float_uleq_paramnarrow",
    "retthis_uleq",
-   "cmpk_retthis_float_uleq",
+   "cmpk_retthis_float_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_retthis_globvar_uleq",
-   "float_uleq"
+   "cmpk_retthis_globvar_uleq_paramnarrow",
+   "float_uleq",
+   "cmpk_retthis_globvar_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101F85F0": {
@@ -45799,14 +46354,17 @@
    "globvar",
    "float",
    "ret64",
-   "retthis_globvar_float_ret64",
-   "retthis_globvar_float",
-   "globvar_float_ret64",
+   "paramnarrow",
+   "retthis_globvar_float_ret64_paramnarrow",
+   "retthis_globvar_float_paramnarrow",
+   "globvar_float_ret64_paramnarrow",
    "retthis_ret64",
-   "retthis_float_ret64",
+   "retthis_float_ret64_paramnarrow",
    "globvar_ret64",
-   "retthis_globvar_ret64",
-   "float_ret64"
+   "retthis_globvar_ret64_paramnarrow",
+   "float_ret64",
+   "retthis_globvar_float_ret64",
+   "ret64_paramnarrow"
   ]
  },
  "0x101F8FB0": {
@@ -45833,16 +46391,25 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_calledon_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_calledon_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_retnarrow_uleq",
-   "globvar_retnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow_uleq",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101F92B0": {
@@ -45890,15 +46457,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_float_retnarrow_uleq",
-   "globvar_float",
-   "globvar_float_retnarrow",
-   "globvar_float_uleq",
+   "paramnarrow",
+   "globvar_float_retnarrow_uleq_paramnarrow",
+   "globvar_float_paramnarrow",
+   "globvar_float_paramnarrow_retnarrow",
+   "globvar_float_paramnarrow_uleq",
    "retnarrow_uleq",
-   "float_retnarrow",
+   "float_retnarrow_paramnarrow",
    "globvar_retnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "float_retnarrow",
+   "globvar_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "float_uleq_paramnarrow",
+   "globvar_uleq",
+   "globvar_uleq_paramnarrow",
    "float_uleq",
-   "globvar_uleq"
+   "globvar_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x101FA680": {
@@ -46287,25 +46863,30 @@
    "calledon",
    "ret64",
    "uleq",
-   "ge0_cmpk_globvar_calledon_ret64_uleq",
-   "ge0_cmpk_globvar",
+   "paramnarrow",
+   "ge0_cmpk_globvar_calledon_ret64_uleq_paramnarrow",
+   "ge0_cmpk_globvar_paramnarrow",
    "ret64_calledon",
-   "ge0_cmpk_globvar_ret64",
-   "ge0_cmpk_globvar_uleq",
+   "ge0_cmpk_globvar_paramnarrow_ret64",
+   "ge0_cmpk_globvar_paramnarrow_uleq",
    "ret64_uleq",
-   "ge0_cmpk_globvar_ret64_uleq",
-   "cmpk_globvar_ret64",
+   "ge0_cmpk_globvar_paramnarrow_ret64_uleq",
+   "cmpk_globvar_ret64_paramnarrow",
    "ge0_ret64",
-   "ge0_globvar_ret64",
+   "ge0_globvar_ret64_paramnarrow",
    "cmpk_ret64",
-   "ge0_cmpk_ret64",
+   "ge0_cmpk_ret64_paramnarrow",
    "globvar_ret64",
-   "cmpk_globvar_uleq",
+   "ge0_cmpk_globvar_ret64",
+   "ret64_paramnarrow",
+   "cmpk_globvar_uleq_paramnarrow",
    "ge0_uleq",
-   "ge0_globvar_uleq",
+   "ge0_globvar_uleq_paramnarrow",
    "cmpk_uleq",
-   "ge0_cmpk_uleq",
-   "globvar_uleq"
+   "ge0_cmpk_uleq_paramnarrow",
+   "globvar_uleq",
+   "ge0_cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10202F00": {
@@ -46364,17 +46945,26 @@
    "ret64",
    "retnarrow",
    "retvoid",
-   "cmpk_globvar_calledon_ret64_retnarrow",
-   "cmpk_globvar",
+   "paramnarrow",
+   "cmpk_globvar_calledon_ret64_retnarrow_paramnarrow",
+   "cmpk_globvar_paramnarrow",
    "ret64_calledon",
-   "cmpk_globvar_ret64",
-   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_paramnarrow_ret64",
+   "cmpk_globvar_paramnarrow_retnarrow",
    "ret64_retnarrow",
-   "cmpk_globvar_ret64_retnarrow",
-   "globvar_ret64",
+   "cmpk_globvar_paramnarrow_ret64_retnarrow",
+   "globvar_ret64_paramnarrow",
    "cmpk_ret64",
+   "cmpk_ret64_paramnarrow",
+   "globvar_ret64",
+   "cmpk_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "cmpk_retnarrow"
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow"
   ]
  },
  "0x10203480": {
@@ -46387,7 +46977,11 @@
    "calledon",
    "retnarrow",
    "retvoid",
-   "cmpk_calledon_retnarrow",
+   "paramnarrow",
+   "cmpk_calledon_retnarrow_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_retnarrow",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow"
   ],
   "rule_identical": "cmpk0",
@@ -46437,7 +47031,11 @@
    "calledon",
    "retnarrow",
    "retvoid",
-   "cmpk_calledon_retnarrow",
+   "paramnarrow",
+   "cmpk_calledon_retnarrow_paramnarrow",
+   "cmpk_paramnarrow",
+   "cmpk_paramnarrow_retnarrow",
+   "retnarrow_paramnarrow",
    "cmpk_retnarrow"
   ],
   "rule_identical": "cmpk0",
@@ -46499,15 +47097,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_frame_retnarrow_uleq",
-   "globvar_frame",
-   "globvar_frame_retnarrow",
-   "globvar_frame_uleq",
+   "paramnarrow",
+   "globvar_frame_retnarrow_uleq_paramnarrow",
+   "globvar_frame_paramnarrow",
+   "globvar_frame_paramnarrow_retnarrow",
+   "globvar_frame_paramnarrow_uleq",
    "retnarrow_uleq",
-   "frame_retnarrow",
+   "frame_retnarrow_paramnarrow",
    "globvar_retnarrow",
+   "globvar_retnarrow_paramnarrow",
+   "frame_retnarrow",
+   "globvar_frame_retnarrow",
+   "retnarrow_paramnarrow",
+   "frame_uleq_paramnarrow",
+   "globvar_uleq",
+   "globvar_uleq_paramnarrow",
    "frame_uleq",
-   "globvar_uleq"
+   "globvar_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10205500": {
@@ -46705,10 +47312,15 @@
    "globvar",
    "retvoid",
    "storem1",
-   "globvar_retvoid_storem1",
-   "globvar_storem1",
+   "paramnarrow",
+   "globvar_retvoid_storem1_paramnarrow",
+   "globvar_storem1_paramnarrow",
+   "retvoid_storem1_paramnarrow",
+   "globvar_retvoid",
+   "globvar_retvoid_paramnarrow",
    "retvoid_storem1",
-   "globvar_retvoid"
+   "globvar_retvoid_storem1",
+   "retvoid_paramnarrow"
   ]
  },
  "0x10210E30": {
@@ -46752,17 +47364,25 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_calledon_ret64_retnarrow_uleq",
+   "paramnarrow",
+   "globvar_calledon_ret64_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
    "ret64_calledon",
-   "globvar_ret64",
-   "globvar_retnarrow",
-   "globvar_uleq",
+   "globvar_paramnarrow_ret64",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
    "ret64_retnarrow",
-   "globvar_ret64_retnarrow",
+   "globvar_paramnarrow_ret64_retnarrow",
    "ret64_uleq",
-   "globvar_ret64_uleq",
+   "globvar_paramnarrow_ret64_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq"
+   "globvar_paramnarrow_retnarrow_uleq",
+   "ret64_paramnarrow",
+   "globvar_ret64",
+   "retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "uleq_paramnarrow",
+   "globvar_uleq"
   ]
  },
  "0x10211340": {
@@ -47172,14 +47792,17 @@
    "uleq",
    "retvoid",
    "storem1",
-   "ret8_globvar_uleq_storem1",
-   "ret8_globvar_storem1",
-   "globvar_uleq_storem1",
+   "paramnarrow",
+   "ret8_globvar_uleq_storem1_paramnarrow",
+   "ret8_globvar_storem1_paramnarrow",
+   "globvar_uleq_storem1_paramnarrow",
    "ret8_uleq",
-   "ret8_uleq_storem1",
+   "ret8_uleq_storem1_paramnarrow",
    "globvar_uleq",
-   "ret8_globvar_uleq",
-   "uleq_storem1"
+   "ret8_globvar_uleq_paramnarrow",
+   "uleq_storem1",
+   "ret8_globvar_uleq_storem1",
+   "uleq_paramnarrow"
   ]
  },
  "0x1021D380": {
@@ -47504,7 +48127,8 @@
    "globvar",
    "retnarrow",
    "retvoid",
-   "ret8_cmpk_globvar"
+   "paramnarrow",
+   "ret8_cmpk_globvar_paramnarrow"
   ]
  },
  "0x1021E690": {
@@ -47577,12 +48201,17 @@
    "globvar",
    "float",
    "uleq",
-   "globvar_float_uleq",
-   "globvar_float",
+   "paramnarrow",
+   "globvar_float_uleq_paramnarrow",
+   "globvar_float_paramnarrow",
+   "float_uleq_paramnarrow",
+   "globvar_uleq",
+   "globvar_uleq_paramnarrow",
    "float_uleq",
-   "globvar_uleq"
+   "globvar_float_uleq",
+   "uleq_paramnarrow"
   ],
-  "rule_identical": "globvar_float",
+  "rule_identical": "globvar_float_paramnarrow",
   "rule_verdict": "IDENTICAL"
  },
  "0x1021EEB0": {
@@ -47619,7 +48248,9 @@
   "conv": "__stdcall",
   "size": 208,
   "rules_tried": [
-   "float"
+   "float",
+   "paramnarrow",
+   "float_paramnarrow"
   ]
  },
  "0x1021F030": {
@@ -47655,23 +48286,28 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_float_retnarrow_uleq",
-   "cmpk_globvar_float",
-   "cmpk_globvar_float_retnarrow",
-   "cmpk_globvar_float_uleq",
+   "paramnarrow",
+   "cmpk_globvar_float_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_float_paramnarrow",
+   "cmpk_globvar_float_paramnarrow_retnarrow",
+   "cmpk_globvar_float_paramnarrow_uleq",
    "retnarrow_uleq",
-   "globvar_float_retnarrow",
+   "globvar_float_retnarrow_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_float_retnarrow",
+   "cmpk_float_retnarrow_paramnarrow",
    "globvar_retnarrow",
-   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_retnarrow_paramnarrow",
    "float_retnarrow",
-   "globvar_float_uleq",
+   "cmpk_globvar_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_float_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_float_uleq",
+   "cmpk_float_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_globvar_uleq",
-   "float_uleq"
+   "cmpk_globvar_uleq_paramnarrow",
+   "float_uleq",
+   "cmpk_globvar_float_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1021F360": {
@@ -47840,23 +48476,28 @@
    "frametight",
    "ret64",
    "uleq",
-   "cmpk_globvar_frame_ret64_uleq",
-   "cmpk_globvar_frame",
-   "cmpk_globvar_frame_ret64",
-   "cmpk_globvar_frame_uleq",
+   "paramnarrow",
+   "cmpk_globvar_frame_ret64_uleq_paramnarrow",
+   "cmpk_globvar_frame_paramnarrow",
+   "cmpk_globvar_frame_paramnarrow_ret64",
+   "cmpk_globvar_frame_paramnarrow_uleq",
    "ret64_uleq",
-   "globvar_frame_ret64",
+   "globvar_frame_ret64_paramnarrow",
    "cmpk_ret64",
-   "cmpk_frame_ret64",
+   "cmpk_frame_ret64_paramnarrow",
    "globvar_ret64",
-   "cmpk_globvar_ret64",
+   "cmpk_globvar_ret64_paramnarrow",
    "frame_ret64",
-   "globvar_frame_uleq",
+   "cmpk_globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "globvar_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_frame_uleq",
+   "cmpk_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_globvar_uleq",
-   "frame_uleq"
+   "cmpk_globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x1021FCE0": {
@@ -48316,16 +48957,25 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_calledon_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_calledon_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_retnarrow_uleq",
-   "globvar_retnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow_uleq",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ]
  },
  "0x10223040": {
@@ -48339,15 +48989,24 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_retnarrow_uleq",
-   "cmpk_globvar",
-   "cmpk_globvar_retnarrow",
-   "cmpk_globvar_uleq",
+   "paramnarrow",
+   "cmpk_globvar_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_retnarrow",
+   "cmpk_globvar_paramnarrow_uleq",
    "retnarrow_uleq",
-   "globvar_retnarrow",
+   "globvar_retnarrow_paramnarrow",
    "cmpk_retnarrow",
+   "cmpk_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow"
   ],
   "rule_identical": "globvar",
   "rule_verdict": "IDENTICAL"
@@ -48371,24 +49030,29 @@
    "retvoid",
    "negmask",
    "select",
-   "cmpk_globvar_calledon_retnarrow_uleq_negmask",
-   "cmpk_globvar_negmask",
-   "cmpk_globvar_negmask_retnarrow",
-   "cmpk_globvar_negmask_uleq",
+   "paramnarrow",
+   "cmpk_globvar_calledon_retnarrow_uleq_negmask_paramnarrow",
+   "cmpk_globvar_negmask_paramnarrow",
+   "cmpk_globvar_negmask_paramnarrow_retnarrow",
+   "cmpk_globvar_negmask_paramnarrow_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_negmask_retnarrow_uleq",
-   "globvar_retnarrow_negmask",
+   "cmpk_globvar_negmask_paramnarrow_retnarrow_uleq",
+   "globvar_retnarrow_negmask_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_retnarrow_negmask",
+   "cmpk_retnarrow_negmask_paramnarrow",
    "globvar_retnarrow",
-   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_retnarrow_paramnarrow",
    "retnarrow_negmask",
-   "globvar_uleq_negmask",
+   "cmpk_globvar_retnarrow_negmask",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_negmask_paramnarrow",
    "cmpk_uleq",
-   "cmpk_uleq_negmask",
+   "cmpk_uleq_negmask_paramnarrow",
    "globvar_uleq",
-   "cmpk_globvar_uleq",
-   "uleq_negmask"
+   "cmpk_globvar_uleq_paramnarrow",
+   "uleq_negmask",
+   "cmpk_globvar_uleq_negmask",
+   "uleq_paramnarrow"
   ]
  },
  "0x10223360": {
@@ -49184,24 +49848,29 @@
    "uleq",
    "retvoid",
    "shiftmask",
-   "cmpk_globvar_calledon_retnarrow_uleq_shiftmask",
-   "cmpk_globvar_shiftmask",
-   "cmpk_globvar_shiftmask_retnarrow",
-   "cmpk_globvar_shiftmask_uleq",
+   "paramnarrow",
+   "cmpk_globvar_calledon_retnarrow_uleq_shiftmask_paramnarrow",
+   "cmpk_globvar_shiftmask_paramnarrow",
+   "cmpk_globvar_shiftmask_paramnarrow_retnarrow",
+   "cmpk_globvar_shiftmask_paramnarrow_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_shiftmask_retnarrow_uleq",
-   "globvar_retnarrow_shiftmask",
+   "cmpk_globvar_shiftmask_paramnarrow_retnarrow_uleq",
+   "globvar_retnarrow_shiftmask_paramnarrow",
    "cmpk_retnarrow",
-   "cmpk_retnarrow_shiftmask",
+   "cmpk_retnarrow_shiftmask_paramnarrow",
    "globvar_retnarrow",
-   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_retnarrow_paramnarrow",
    "retnarrow_shiftmask",
-   "globvar_uleq_shiftmask",
+   "cmpk_globvar_retnarrow_shiftmask",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_shiftmask_paramnarrow",
    "cmpk_uleq",
-   "cmpk_uleq_shiftmask",
+   "cmpk_uleq_shiftmask_paramnarrow",
    "globvar_uleq",
-   "cmpk_globvar_uleq",
-   "uleq_shiftmask"
+   "cmpk_globvar_uleq_paramnarrow",
+   "uleq_shiftmask",
+   "cmpk_globvar_uleq_shiftmask",
+   "uleq_paramnarrow"
   ]
  },
  "0x1022B7D0": {
@@ -54617,35 +55286,42 @@
    "ret64",
    "uleq",
    "xiany",
-   "cmpk_globvar_frame_ret64_uleq_xiany",
-   "cmpk_globvar_frame",
-   "cmpk_globvar_frame_ret64",
-   "cmpk_globvar_frame_uleq",
-   "cmpk_globvar_frame_xiany",
+   "paramnarrow",
+   "cmpk_globvar_frame_ret64_uleq_xiany_paramnarrow",
+   "cmpk_globvar_frame_paramnarrow",
+   "cmpk_globvar_frame_paramnarrow_ret64",
+   "cmpk_globvar_frame_paramnarrow_uleq",
+   "cmpk_globvar_frame_paramnarrow_xiany",
    "ret64_uleq",
-   "cmpk_globvar_frame_ret64_uleq",
+   "cmpk_globvar_frame_paramnarrow_ret64_uleq",
    "ret64_xiany",
-   "cmpk_globvar_frame_ret64_xiany",
+   "cmpk_globvar_frame_paramnarrow_ret64_xiany",
    "uleq_xiany",
-   "cmpk_globvar_frame_uleq_xiany",
-   "globvar_frame_ret64",
+   "cmpk_globvar_frame_paramnarrow_uleq_xiany",
+   "globvar_frame_ret64_paramnarrow",
    "cmpk_ret64",
-   "cmpk_frame_ret64",
+   "cmpk_frame_ret64_paramnarrow",
    "globvar_ret64",
-   "cmpk_globvar_ret64",
+   "cmpk_globvar_ret64_paramnarrow",
    "frame_ret64",
-   "globvar_frame_uleq",
+   "cmpk_globvar_frame_ret64",
+   "ret64_paramnarrow",
+   "globvar_frame_uleq_paramnarrow",
    "cmpk_uleq",
-   "cmpk_frame_uleq",
+   "cmpk_frame_uleq_paramnarrow",
    "globvar_uleq",
-   "cmpk_globvar_uleq",
+   "cmpk_globvar_uleq_paramnarrow",
    "frame_uleq",
-   "globvar_frame_xiany",
+   "cmpk_globvar_frame_uleq",
+   "uleq_paramnarrow",
+   "globvar_frame_xiany_paramnarrow",
    "cmpk_xiany",
-   "cmpk_frame_xiany",
+   "cmpk_frame_xiany_paramnarrow",
    "globvar_xiany",
-   "cmpk_globvar_xiany",
-   "frame_xiany"
+   "cmpk_globvar_xiany_paramnarrow",
+   "frame_xiany",
+   "cmpk_globvar_frame_xiany",
+   "xiany_paramnarrow"
   ]
  },
  "0x10278990": {
@@ -54657,10 +55333,15 @@
    "cmpk",
    "globvar",
    "ret64",
-   "cmpk_globvar_ret64",
-   "cmpk_globvar",
+   "paramnarrow",
+   "cmpk_globvar_ret64_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "globvar_ret64_paramnarrow",
+   "cmpk_ret64",
+   "cmpk_ret64_paramnarrow",
    "globvar_ret64",
-   "cmpk_ret64"
+   "cmpk_globvar_ret64",
+   "ret64_paramnarrow"
   ]
  },
  "0x10278B50": {
@@ -54672,10 +55353,15 @@
    "cmpk",
    "globvar",
    "ret64",
-   "cmpk_globvar_ret64",
-   "cmpk_globvar",
+   "paramnarrow",
+   "cmpk_globvar_ret64_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "globvar_ret64_paramnarrow",
+   "cmpk_ret64",
+   "cmpk_ret64_paramnarrow",
    "globvar_ret64",
-   "cmpk_ret64"
+   "cmpk_globvar_ret64",
+   "ret64_paramnarrow"
   ]
  },
  "0x10278BF0": {

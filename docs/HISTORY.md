@@ -3713,3 +3713,15 @@ difference (at most 4 instructions, 630 functions):
   (data/ecx_use.json): 42 read ECX, 24 do not, 7 not recorded. No single source form; not a rule.
 - 0x10002C80 and others with a 0x40C-byte `xi_frame` block: the `frame` rule gives the game's frame size; what is left
   is the order of a call's argument loads (rule 14, for reorder.py).
+
+**28 Oct, #118/#119: sources the sweep could not compile.** Conversions added to pipeline/vc6/sweep.py (each a
+spelling VC6 takes for what the decompiled code says; a function counts only where match.py says IDENTICAL):
+- a __thiscall call through a slot of one object's vtable on another object, and one through a function pointer
+  read from memory: a call through a member-function pointer loaded from the slot (`mov ecx, X; call [slot]`);
+- a field or local declared as a pointer to __thiscall functions (C4234): the keyword dropped (a layout only);
+- RECT, FILE, MSG, SYSTEMTIME with their layouts from VC6's WINDEF.H, STDIO.H, WINUSER.H, WINBASE.H;
+- rule `frametight`: the decompiler's frame block kept whole (a vertex array passed by address stays one array) but
+  cut to the span its locals cover. 0x1000A3B0: frame 0x49C to 0x88, the game's 0x90; the rest is statement order.
+NO_COMPILE 91 to 80; none of the eleven is IDENTICAL yet; 2,103 at the game's bytes, none lost. Left: 0x10011A00
+uses `_mm_pause`, which VC6 lacks (only inline assembly would give `pause`); 0x1000A6E0, 0x10010D20, 0x10086210 fail
+on a conversion inside a statement spanning lines; 0x10025260 on a vtable member the shim's class lacks.

@@ -196,18 +196,19 @@ def plain(ty):
     return all(w in BASIC for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')))
 
 
-# Windows types as tree/include/xi_compat_win.hpp declares them (from the SDK headers)
+# Windows types as tree/include/xi_compat_win.hpp declares them (from the SDK headers); RECT and FILE with their
+# layouts, as VC6's WINDEF.H, STDIO.H, WINUSER.H (MSG; its POINT pt as two LONGs) and WINBASE.H (SYSTEMTIME) define them (a body indexing a RECT * or reading a FILE needs the size)
 WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef void *HMODULE;', 'CHAR': 'typedef char CHAR;',
         'UINT': 'typedef unsigned int UINT;', 'LPSTR': 'typedef char *LPSTR;', 'LPCSTR': 'typedef const char *LPCSTR;',
-        'LPSYSTEMTIME': 'struct _SYSTEMTIME; typedef struct _SYSTEMTIME *LPSYSTEMTIME;',
-        'LPRECT': 'struct tagRECT; typedef struct tagRECT *LPRECT;', 'LPMSG': 'struct tagMSG; typedef struct tagMSG *LPMSG;',
+        'LPSYSTEMTIME': '#ifndef XI_SYSTEMTIME\n#define XI_SYSTEMTIME\nstruct _SYSTEMTIME { unsigned short wYear, wMonth, wDayOfWeek, wDay, wHour, wMinute, wSecond, wMilliseconds; };\n#endif\ntypedef struct _SYSTEMTIME *LPSYSTEMTIME;',
+        'LPRECT': '#ifndef _WINDEF_\nstruct tagRECT { long left; long top; long right; long bottom; };\n#endif\ntypedef struct tagRECT *LPRECT;', 'LPMSG': '#ifndef XI_TAGMSG\n#define XI_TAGMSG\nstruct tagMSG { void *hwnd; unsigned int message; unsigned int wParam; long lParam; unsigned long time; long pt_x; long pt_y; };\n#endif\ntypedef struct tagMSG *LPMSG;',
         'HINSTANCE': 'struct HINSTANCE__; typedef struct HINSTANCE__ *HINSTANCE;',
         'HCURSOR': 'struct HICON__; typedef struct HICON__ *HCURSOR;', 'LRESULT': 'typedef int LRESULT;',
         'HWND': 'typedef void *HWND;', 'HANDLE': 'typedef void *HANDLE;', 'xi_codefn': 'typedef code xi_codefn;',
-        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;',
+        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': '#ifndef _FILE_DEFINED\nstruct _iobuf { char *_ptr; int _cnt; char *_base; int _flag; int _file; int _charbuf; int _bufsiz; char *_tmpfname; };\ntypedef struct _iobuf FILE;\n#define _FILE_DEFINED\n#endif',
         # xi_compat_win.hpp (imm.h DECLARE_HANDLE(HIMC); mmsystem.h; winuser.h's MSG) and gfx_types.hpp (LONG)
         'HIMC': 'struct HIMC__; typedef struct HIMC__ *HIMC;', 'MMRESULT': 'typedef unsigned int MMRESULT;',
-        'MSG': 'struct tagMSG; typedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
+        'MSG': '#ifndef XI_TAGMSG\n#define XI_TAGMSG\nstruct tagMSG { void *hwnd; unsigned int message; unsigned int wParam; long lParam; unsigned long time; long pt_x; long pt_y; };\n#endif\ntypedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
 
 
 def type_decls(ty):
@@ -570,6 +571,17 @@ def _vcalls(body, decls=''):
         params = [x.strip() for x in m.group('params').split(',')]
         ok = slot is not None and args and params and len(args) == len(params) and slot[1] % 4 == 0 \
             and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _same_obj(args[0], slot[0])
+        if not ok and m.re is _VCALL2 and args and params and len(args) == len(params) \
+                and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]):
+            # the slot read from one object's vtable, the call made on another (Hex-Rays'
+            # `(*(R (__thiscall **)(T, P...))(*(_DWORD *)Y + OFF))(X, A...)`): a call through a member-function pointer
+            # loaded from the slot, with X as `this` -- `mov ecx, X; call [slot]`, as the decompiled call
+            sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
+            name = 'XM_%s' % hashlib.sha1(sig.encode()).hexdigest()[:6]
+            VDECLS.append('struct %s { %s; };' % (name, sig))
+            mp = '%s (%s::**)(%s)' % (m.group('ret'), name, ', '.join(params[1:]) or 'void')
+            out.append(body[i:p] + '(((%s *)(%s))->*(*(%s)(%s)))(%s)' % (name, args[0], mp, body[m.end() - 1:e1 - 1], ', '.join(args[1:])))
+            i = e2; continue
         if not ok:
             out.append(body[i:m.end()]); i = m.end(); continue
         obj, off = slot
@@ -577,6 +589,33 @@ def _vcalls(body, decls=''):
         name = 'XV%d_%s' % (k, hashlib.sha1(sig.encode()).hexdigest()[:6])
         VDECLS.append('struct %s { %s virtual %s; };' % (name, ' '.join('virtual void s%d();' % n for n in range(k)), sig))
         out.append(body[i:p] + '((%s *)(%s))->f(%s)' % (name, obj, ', '.join(args[1:])))
+        i = e2
+
+
+_FPLOAD = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\*\(_DWORD \*\)\(')
+
+
+def _fpcalls(body):
+    """a __thiscall call through a function pointer read from memory, `((R (__thiscall *)(T, P...))*(_DWORD *)(ADDR))
+    (X, A...)` (Hex-Rays; Visual C++ 6.0 cannot spell the type), as a call through a member-function pointer loaded
+    from ADDR with X as `this`: `mov ecx, X; call [ADDR]`, as the decompiled call"""
+    out, i = [], 0
+    while True:
+        m = _FPLOAD.search(body, i)
+        if not m: out.append(body[i:]); return ''.join(out)
+        a0 = m.end() - 1; a1 = _group(body, a0)                       # (ADDR)
+        if a1 < 0 or not body.startswith(')(', a1):
+            out.append(body[i:m.end()]); i = m.end(); continue
+        e2 = _group(body, a1 + 1)
+        args = split_args(body[a1 + 2:e2 - 1]) if e2 > 0 else []
+        params = [x.strip() for x in m.group('params').split(',')]
+        if not args or len(args) != len(params) or not re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]):
+            out.append(body[i:m.end()]); i = m.end(); continue
+        sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
+        name = 'XM_%s' % hashlib.sha1(sig.encode()).hexdigest()[:6]
+        VDECLS.append('struct %s { %s; };' % (name, sig))
+        mp = '%s (%s::**)(%s)' % (m.group('ret'), name, ', '.join(params[1:]) or 'void')
+        out.append(body[i:m.start()] + '(((%s *)(%s))->*(*(%s)%s))(%s)' % (name, args[0], mp, body[a0:a1], ', '.join(args[1:])))
         i = e2
 
 
@@ -622,6 +661,7 @@ def macros(body, decls=''):
     if body is None: return None, 'xi_castbits not parsed'
     del VDECLS[:]
     body = _vcalls(body, decls)
+    body = _fpcalls(body)
     if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
     body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
     def code(m):
@@ -965,6 +1005,30 @@ def _rule_frame(text, ret, name):
     return t
 
 
+def _rule_frametight(text, ret, name):
+    """the decompiler's frame block kept as one block (its locals keep their places relative to each other: a pointer
+    into it, a vertex array passed by address, still reaches the same neighbours) but cut to the span its references
+    cover and based at the lowest of them: `char xi_frame[0x49C]` with references from +0x14 to +0x9C becomes
+    `xi_frame[0x88]` with each offset less 0x14 (0x1000A3B0: the frame the block made, 0x49C, against the game's 0x90).
+    Only where nothing else names the block"""
+    if len(_FRAME_DECL.findall(text)) != 1: return None
+    spans = []
+    for m in _FRAME_REF.finditer(text):
+        ty = re.sub(r'\s+', ' ', m.group(2).strip())
+        sz = 4 if ty.endswith('*') else _SIZES.get(ty)
+        try: k = int(m.group(5), 0) if m.group(4) else 1; o = int(m.group(6), 0)
+        except ValueError: return None
+        if sz is None: return None
+        spans.append((o, o + sz * k))
+    if not spans: return None
+    lo, hi = min(a for a, _ in spans), max(b for _, b in spans)
+    rest = _FRAME_REF.sub('', _FRAME_DECL.sub('', text))
+    if 'xi_frame' in rest: return None
+    t = re.sub(r'(char xi_frame\[)\w+(\])', lambda m: '%s0x%X%s' % (m.group(1), hi - lo, m.group(2)), text, count=1)
+    t = re.sub(r'xi_frame \+ (\w+)\);', lambda m: 'xi_frame + 0x%X);' % (int(m.group(1), 0) - lo), t)
+    return t if t != text else None
+
+
 def _rule_float(text, ret, name):
     """float arithmetic in float (recompile/d3d_round_119.md rule 11): the decompiler's double locals, casts and
     constants give qword FPU operands where the game has dword ones. In the function's body only (its signature and
@@ -1035,6 +1099,7 @@ RULES = [
     ('devlocal', _rule_devlocal),
     ('frame', _rule_frame),
     ('float', _rule_float),
+    ('frametight', _rule_frametight),
 ]
 
 
@@ -1215,6 +1280,13 @@ def main():
         text = c[1]
         if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text:
             text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
+        # a field or local declared as a pointer to __thiscall functions (VC6 takes the keyword on members only, C4234):
+        # the declaration fixes a layout, a 4-byte pointer either way; a call through it compiles without ECX and the
+        # comparison shows it
+        pv = re.findall(r'(?m)^\s*[\w ]+\(__thiscall \*\*?(\w+)\)\([^;=]*\);\s*$', text)
+        text = re.sub(r'(?m)^(\s*[\w ]+\()__thiscall (\*\*?\w+\)\([^;=]*\);\s*)$', r'\1\2', text)
+        for v_ in pv:                                    # and the casts assigned to it, to its new type
+            text = re.sub(r'(?m)^(\s*%s = \([\w ]+\()__thiscall (\*\*?\))' % v_, r'\1\2', text)
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))
     # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.

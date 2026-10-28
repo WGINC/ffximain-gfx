@@ -1,6 +1,6 @@
 """reorder_batch.py -- reorder.py over many of the sweep's DIFFERS functions, with the regions marked mechanically.
 
-For each address: the sweep's source as written (sweep.py --keep DIR: f_<ADDR>.c / .cpp), with the globvar and frame rules where
+For each address: the sweep's source as written (sweep.py --keep DIR: f_<ADDR>.c / .cpp), with the globvar and frametight rules where
 they apply (sweep.py RULES), gets the `// FUNCTION: FFXIMAIN 0x<ADDR>` mark (match.py confirms reorder.py's result by
 it: without one it would compare nothing) and `//@reorder` ... `//@end` around every run of two or more plain
 statements (lines ending in `;`, at one indentation, no braces, labels, `return`, `break`, `case` or declarations
@@ -45,7 +45,7 @@ def one(keep, work, ea, tries):
     if not src: return ea, 'no source'
     text = open(src[0]).read()
     text = S._rule_globvar(text, None, None) or text
-    text = S._rule_frame(text, None, None) or text          # the xi_frame block as plain locals, where it applies
+    text = S._rule_frametight(text, None, None) or text     # the xi_frame block cut to the span its locals use
     t = mark(text, ea)
     if t is None: return ea, 'no region'
     d = os.path.join(work, '%08X' % ea); os.makedirs(d, exist_ok=True)

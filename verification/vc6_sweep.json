@@ -20,10 +20,13 @@
   ]
  },
  "0x10001520": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+45: REL32 targets _FUN_10001BB0@4 (0x10001BB0), the game 0x165DFE1E",
   "conv": null,
-  "error": "f_10001520.cpp(60): C2036: 'struct tagRECT *' : unknown size"
+  "size": 400,
+  "rules_tried": [
+   "globvar"
+  ]
  },
  "0x10001B50": {
   "verdict": "DIFFERS",
@@ -105,6 +108,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -141,6 +145,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -152,6 +157,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -163,6 +169,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -281,6 +288,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -294,6 +302,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -348,10 +357,16 @@
   "conv": "__thiscall"
  },
  "0x10003890": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+226: REL32 targets ?f@FUNt_10027990@@QAEPAUIostream_init@@XZ (0x10027990), the game 0x50192176",
   "conv": "__thiscall",
-  "error": "f_10003890.cpp(72): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 768,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "cmpk_retthis_globvar"
+  ]
  },
  "0x10003B60": {
   "verdict": "DIFFERS",
@@ -438,6 +453,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -451,6 +467,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ]
  },
@@ -477,6 +494,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_globvar_frame"
   ]
  },
@@ -710,6 +728,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -721,6 +740,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -738,6 +758,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -784,7 +805,8 @@
   "conv": null,
   "size": 272,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1000A4F0": {
@@ -801,6 +823,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -812,6 +835,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -900,6 +924,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_globvar_frame_float"
   ]
  },
@@ -920,7 +945,8 @@
   "rules_tried": [
    "globvar",
    "float",
-   "globvar_float"
+   "frametight",
+   "globvar_float_frametight"
   ]
  },
  "0x1000C6E0": {
@@ -931,6 +957,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -949,6 +976,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -967,7 +995,8 @@
   "conv": null,
   "size": 256,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1000CC00": {
@@ -976,7 +1005,8 @@
   "conv": null,
   "size": 304,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1000CD00": {
@@ -985,7 +1015,8 @@
   "conv": null,
   "size": 272,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1000CF20": {
@@ -996,6 +1027,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -1121,7 +1153,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__thiscall",
-  "error": "f_10010D20.cpp(240): C2440: '=' : cannot convert from 'unsigned int *' to 'unsigned int'",
+  "error": "f_10010D20.cpp(244): C2440: '=' : cannot convert from 'unsigned int *' to 'unsigned int'",
   "casts": 17
  },
  "0x10011920": {
@@ -1152,7 +1184,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__thiscall",
-  "error": "f_10011A00.cpp(435): C2027: use of undefined type '_iobuf'",
+  "error": "f_10011A00.cpp(837): C2065: '_mm_pause' : undeclared identifier",
   "casts": 1
  },
  "0x10012F40": {
@@ -1175,6 +1207,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -1773,7 +1806,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__stdcall",
-  "error": "f_10016870.cpp(57): C2065: 'WINDOWPLACEMENT' : undeclared identifier",
+  "error": "f_10016870.cpp(60): C2065: 'WINDOWPLACEMENT' : undeclared identifier",
   "casts": 2
  },
  "0x100170A0": {
@@ -1891,6 +1924,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -1932,6 +1966,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -1956,6 +1991,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -2163,6 +2199,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_frame_float"
   ]
  },
@@ -2176,6 +2213,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_frame_float"
   ]
  },
@@ -2204,6 +2242,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_globvar_frame"
   ]
  },
@@ -2392,6 +2431,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -2428,6 +2468,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -2497,6 +2538,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -2506,7 +2548,8 @@
   "conv": "__thiscall",
   "size": 192,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10021680": {
@@ -2518,6 +2561,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -2917,6 +2961,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -3023,6 +3068,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -3078,6 +3124,7 @@
    "retthis",
    "frame",
    "float",
+   "frametight",
    "cmpk_retthis_frame_float"
   ]
  },
@@ -3091,6 +3138,7 @@
    "retthis",
    "frame",
    "float",
+   "frametight",
    "cmpk_retthis_frame_float"
   ]
  },
@@ -3161,6 +3209,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -3304,6 +3353,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -3379,6 +3429,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -3495,7 +3546,8 @@
   "size": 144,
   "casts": 1,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1002A750": {
@@ -3510,7 +3562,8 @@
   "conv": "__thiscall",
   "size": 176,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1002A890": {
@@ -3527,6 +3580,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -3655,6 +3709,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -3824,6 +3879,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_retthis_globvar_frame_float"
   ]
  },
@@ -3866,6 +3922,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -3900,6 +3957,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -4036,6 +4094,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "retthis_globvar_frame_float"
   ]
  },
@@ -4049,6 +4108,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -4352,6 +4412,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -4416,6 +4477,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4477,6 +4539,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4489,6 +4552,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4502,6 +4566,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4514,6 +4579,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4526,6 +4592,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4538,6 +4605,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4550,6 +4618,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4562,6 +4631,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4574,6 +4644,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4623,6 +4694,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -4837,6 +4909,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -5101,7 +5174,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__thiscall",
-  "error": "f_1003BE10.cpp(63): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "error": "f_1003BE10.cpp(275): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x1003C6E0": {
   "verdict": "DIFFERS",
@@ -5427,6 +5500,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -5502,6 +5576,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -5599,6 +5674,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -5651,11 +5727,19 @@
   "size": 16
  },
  "0x100426F0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+161: REL32 targets _FUN_10313486 (0x10313486), the game 0x100437DC",
   "conv": "__thiscall",
-  "error": "f_100426F0.cpp(51): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use",
-  "casts": 2
+  "size": 2192,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "devlocal",
+   "float",
+   "frametight",
+   "cmpk_globvar_devlocal_float_frametight"
+  ]
  },
  "0x100430B0": {
   "verdict": "IDENTICAL",
@@ -5820,7 +5904,8 @@
   "size": 176,
   "casts": 1,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x100441A0": {
@@ -5882,6 +5967,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -5958,6 +6044,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -5994,6 +6081,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -6053,6 +6141,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_globvar_frame_float"
   ]
  },
@@ -6229,6 +6318,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -6270,6 +6360,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -7190,6 +7281,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -7316,6 +7408,7 @@
    "devlocal",
    "frame",
    "float",
+   "frametight",
    "globvar_devlocal_frame_float"
   ]
  },
@@ -7471,6 +7564,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "cmpk_frame_float"
   ]
  },
@@ -7552,6 +7646,7 @@
    "retthis",
    "frame",
    "float",
+   "frametight",
    "retthis_frame_float"
   ]
  },
@@ -7751,7 +7846,8 @@
    "cmpk",
    "globvar",
    "float",
-   "ret8_cmpk_globvar_float"
+   "frametight",
+   "ret8_cmpk_globvar_float_frametight"
   ]
  },
  "0x1005EEF0": {
@@ -7764,6 +7860,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -7816,6 +7913,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -8052,6 +8150,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "retthis_globvar_frame_float"
   ]
  },
@@ -8468,6 +8567,7 @@
    "globvar",
    "devlocal",
    "frame",
+   "frametight",
    "cmpk_globvar_devlocal_frame"
   ]
  },
@@ -8492,6 +8592,7 @@
    "globvar",
    "devlocal",
    "frame",
+   "frametight",
    "globvar_devlocal_frame"
   ]
  },
@@ -8598,6 +8699,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -9151,6 +9253,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -9161,7 +9264,8 @@
   "size": 112,
   "casts": 1,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ],
   "rule_identical": "frame",
   "rule_verdict": "IDENTICAL"
@@ -9225,6 +9329,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_retthis_globvar_frame"
   ]
  },
@@ -9274,6 +9379,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -9646,6 +9752,7 @@
    "globvar",
    "devlocal",
    "frame",
+   "frametight",
    "globvar_devlocal_frame"
   ]
  },
@@ -9786,6 +9893,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -9830,6 +9938,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -9884,6 +9993,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -9908,6 +10018,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -10054,6 +10165,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -10336,6 +10448,7 @@
    "ret16",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -10389,6 +10502,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -10400,6 +10514,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -10411,6 +10526,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -10422,6 +10538,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -10609,6 +10726,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -10803,6 +10921,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "retthis_globvar_frame_float"
   ]
  },
@@ -10830,6 +10949,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -10923,6 +11043,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -10954,6 +11075,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_retthis_globvar_frame_float"
   ]
  },
@@ -11125,6 +11247,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -11449,6 +11572,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -11746,6 +11870,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ]
  },
@@ -12190,6 +12315,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -12263,6 +12389,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -12747,10 +12874,16 @@
   ]
  },
  "0x100C5D60": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+276: REL32 targets _FUN_10026EB0 (0x10026EB0), the game 0x100C6494",
   "conv": null,
-  "error": "f_100C5D60.cpp(280): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 2560,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "float",
+   "cmpk_globvar_float"
+  ]
  },
  "0x100C8280": {
   "verdict": "LEFT_OUT",
@@ -12784,7 +12917,8 @@
    "cmpk",
    "globvar",
    "float",
-   "cmpk_globvar_float"
+   "frametight",
+   "cmpk_globvar_float_frametight"
   ]
  },
  "0x100CBD60": {
@@ -12797,7 +12931,7 @@
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": null,
-  "error": "f_100CBDE0.cpp(522): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "error": "f_100CBDE0.cpp(970): C2065: 'COERCE_INT' : undeclared identifier"
  },
  "0x100CD040": {
   "verdict": "LEFT_OUT",
@@ -12827,6 +12961,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_globvar_frame_float"
   ]
  },
@@ -12839,6 +12974,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -12854,10 +12990,16 @@
   "size": 32
  },
  "0x100CE480": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+27: REL32 targets ?f@FUNt_1002C7C0@@QAEPAIXZ (0x1002C7C0), the game 0x3479709E",
   "conv": null,
-  "error": "f_100CE480.cpp(280): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 848,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "globvar_frame"
+  ]
  },
  "0x100CE9B0": {
   "verdict": "DIFFERS",
@@ -12867,6 +13009,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -12878,6 +13021,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -12889,6 +13033,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -12913,10 +13058,10 @@
   "conv": "__thiscall"
  },
  "0x100CF030": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+21: REL32 targets ?f@FUNt_1018CA20@@QAEHXZ (0x1018CA20), the game 0x675CF054",
   "conv": null,
-  "error": "f_100CF030.cpp(14): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 48
  },
  "0x100CF100": {
   "verdict": "DIFFERS",
@@ -12964,6 +13109,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -12974,10 +13120,10 @@
   "size": 16
  },
  "0x100D04C0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+74: REL32 targets ?f@FUNt_100830C0@@QAEDPAXH0H@Z (0x100830C0), the game 0x1CCF15D2",
   "conv": null,
-  "error": "f_100D04C0.cpp(197): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 96
  },
  "0x100D0510": {
   "verdict": "LEFT_OUT",
@@ -12985,10 +13131,10 @@
   "conv": "__thiscall"
  },
  "0x100D06F0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+0: 0x51 here, 0x53 in the game",
   "conv": null,
-  "error": "f_100D06F0.cpp(195): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 80
  },
  "0x100D0740": {
   "verdict": "DIFFERS",
@@ -13000,6 +13146,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_globvar_frame_float"
   ]
  },
@@ -13010,22 +13157,31 @@
   "size": 48
  },
  "0x100D08E0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets @FUN_10035250@8 (0x10035250), the game 0xD366671A",
   "conv": null,
-  "error": "f_100D08E0.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 192,
+  "rules_tried": [
+   "float"
+  ]
  },
  "0x100D09B0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets @FUN_10035250@8 (0x10035250), the game 0xD36667EA",
   "conv": null,
-  "error": "f_100D09B0.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 192,
+  "rules_tried": [
+   "float"
+  ]
  },
  "0x100D0A80": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets @FUN_10035250@8 (0x10035250), the game 0xD36668BA",
   "conv": null,
-  "error": "f_100D0A80.cpp(203): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
+  "size": 192,
+  "rules_tried": [
+   "float"
+  ]
  },
  "0x100D0B50": {
   "verdict": "DIFFERS",
@@ -13254,6 +13410,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -13269,7 +13426,8 @@
   "conv": "__cdecl",
   "size": 2272,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x100D7E90": {
@@ -13290,7 +13448,8 @@
   "conv": "__cdecl",
   "size": 176,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x100D8490": {
@@ -13509,6 +13668,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -13755,6 +13915,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -13842,6 +14003,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -13853,6 +14015,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -13864,6 +14027,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -13902,6 +14066,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -13914,6 +14079,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -13970,6 +14136,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -14050,6 +14217,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -14087,6 +14255,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -14729,6 +14898,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -14822,6 +14992,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -14861,6 +15032,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -14883,6 +15055,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -15127,6 +15300,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ge0_frame"
   ]
  },
@@ -15199,6 +15373,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ]
  },
@@ -15258,6 +15433,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_frame"
   ]
  },
@@ -15618,6 +15794,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -16070,6 +16247,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -16266,6 +16444,7 @@
    "cmpk",
    "retthis",
    "frame",
+   "frametight",
    "cmpk_retthis_frame"
   ]
  },
@@ -16287,6 +16466,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -16343,6 +16523,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -16368,6 +16549,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -16393,6 +16575,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -16406,6 +16589,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -16434,6 +16618,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -16468,7 +16653,8 @@
   "size": 480,
   "casts": 3,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x101154D0": {
@@ -16600,6 +16786,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ge0_frame"
   ]
  },
@@ -16671,6 +16858,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -16686,7 +16874,8 @@
   "conv": "__cdecl",
   "size": 1696,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10116C90": {
@@ -16697,6 +16886,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -16708,6 +16898,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -16744,6 +16935,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -16775,6 +16967,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -16793,7 +16986,8 @@
   "conv": "__thiscall",
   "size": 64,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10118520": {
@@ -16819,6 +17013,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -16830,6 +17025,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -16866,7 +17062,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10118BC0": {
@@ -16875,7 +17072,8 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10118C10": {
@@ -16897,6 +17095,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret16_globvar_frame_float"
   ]
  },
@@ -16921,6 +17120,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -16994,6 +17194,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -17008,6 +17209,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_retthis_globvar_frame_float"
   ]
  },
@@ -17047,6 +17249,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -17069,6 +17272,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -17100,6 +17304,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -17124,6 +17329,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -17135,6 +17341,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -17167,6 +17374,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -17289,6 +17497,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -17404,6 +17613,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -17431,7 +17641,8 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1011D380": {
@@ -17541,6 +17752,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_globvar_frame_float"
   ]
  },
@@ -17617,6 +17829,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -17628,6 +17841,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -17637,7 +17851,8 @@
   "conv": "__thiscall",
   "size": 112,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10120070": {
@@ -17649,6 +17864,7 @@
    "cmpk",
    "retthis",
    "frame",
+   "frametight",
    "cmpk_retthis_frame"
   ]
  },
@@ -17666,6 +17882,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -17677,6 +17894,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -17710,6 +17928,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -17731,6 +17950,7 @@
    "cmpk",
    "retthis",
    "frame",
+   "frametight",
    "cmpk_retthis_frame"
   ]
  },
@@ -18470,6 +18690,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -18522,6 +18743,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -18536,6 +18758,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_globvar_frame_float"
   ]
  },
@@ -18549,6 +18772,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ]
  },
@@ -18676,6 +18900,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ge0_frame"
   ]
  },
@@ -19094,6 +19319,7 @@
    "cmpk",
    "retthis",
    "frame",
+   "frametight",
    "cmpk_retthis_frame"
   ]
  },
@@ -19205,6 +19431,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -19269,6 +19496,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -19321,6 +19549,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -19612,6 +19841,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -19809,6 +20039,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -19888,6 +20119,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret16_cmpk_globvar_frame"
   ]
  },
@@ -19929,6 +20161,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -20922,7 +21155,8 @@
   "conv": "__thiscall",
   "size": 176,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10159A20": {
@@ -20938,6 +21172,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -20972,6 +21207,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -21047,6 +21283,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -21063,7 +21300,8 @@
   "size": 112,
   "casts": 1,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1015B9E0": {
@@ -21166,6 +21404,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -21175,7 +21414,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1015DC70": {
@@ -21211,6 +21451,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -21253,7 +21494,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1015E0F0": {
@@ -21272,7 +21514,8 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1015E910": {
@@ -21313,6 +21556,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -21325,6 +21569,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -21337,6 +21582,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -21401,6 +21647,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -21438,6 +21685,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -21687,6 +21935,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -21887,6 +22136,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -21981,6 +22231,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -22066,6 +22317,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -22080,6 +22332,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_ge0_cmpk_frame_float"
   ]
  },
@@ -22094,6 +22347,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_ge0_cmpk_frame_float"
   ]
  },
@@ -22108,6 +22362,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_ge0_cmpk_frame_float"
   ]
  },
@@ -22122,6 +22377,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_ge0_cmpk_frame_float"
   ]
  },
@@ -22137,6 +22393,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ret8_ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -22154,6 +22411,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -22213,6 +22471,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -22226,6 +22485,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_frame_float"
   ]
  },
@@ -22317,6 +22577,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -22336,6 +22597,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -22365,6 +22627,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -22414,6 +22677,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "retthis_globvar_frame_float"
   ]
  },
@@ -22441,6 +22705,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -22452,6 +22717,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -22629,6 +22895,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -22661,6 +22928,7 @@
    "ret8",
    "frame",
    "float",
+   "frametight",
    "ret8_frame_float"
   ]
  },
@@ -22673,6 +22941,7 @@
    "retthis",
    "frame",
    "float",
+   "frametight",
    "retthis_frame_float"
   ]
  },
@@ -22708,6 +22977,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -22744,6 +23014,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "cmpk_frame_float"
   ]
  },
@@ -22757,6 +23028,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -22814,7 +23086,8 @@
    "cmpk",
    "globvar",
    "float",
-   "cmpk_globvar_float"
+   "frametight",
+   "cmpk_globvar_float_frametight"
   ]
  },
  "0x10185CA0": {
@@ -22828,6 +23101,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -23129,6 +23403,7 @@
    "retthis",
    "frame",
    "float",
+   "frametight",
    "retthis_frame_float"
   ]
  },
@@ -23142,6 +23417,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "retthis_globvar_frame_float"
   ]
  },
@@ -23154,6 +23430,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -23166,6 +23443,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -23263,6 +23541,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -23275,6 +23554,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -23773,6 +24053,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -23802,6 +24083,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -23815,6 +24097,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -23896,6 +24179,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ge0_frame"
   ]
  },
@@ -23913,6 +24197,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -24218,6 +24503,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -24301,6 +24587,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -24370,6 +24657,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -24382,6 +24670,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -24708,7 +24997,8 @@
   "conv": "__thiscall",
   "size": 592,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1019F160": {
@@ -24746,6 +25036,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -25038,6 +25329,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -25050,6 +25342,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -25087,6 +25380,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -25105,7 +25399,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x101A26C0": {
@@ -25118,6 +25413,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -25461,6 +25757,7 @@
    "ret8",
    "cmpk",
    "frame",
+   "frametight",
    "ret8_cmpk_frame"
   ]
  },
@@ -25492,6 +25789,7 @@
    "cmpk",
    "retthis",
    "frame",
+   "frametight",
    "cmpk_retthis_frame"
   ]
  },
@@ -25599,6 +25897,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -25610,6 +25909,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -25669,7 +25969,8 @@
   "conv": "__thiscall",
   "size": 272,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x101AD0D0": {
@@ -25909,6 +26210,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ],
   "rule_identical": "cmpk0",
@@ -26438,6 +26740,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_globvar_frame"
   ]
  },
@@ -26452,6 +26755,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_globvar_frame"
   ]
  },
@@ -26663,6 +26967,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_frame"
   ]
  },
@@ -26707,6 +27012,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ret8_ge0_frame"
   ]
  },
@@ -26798,6 +27104,7 @@
    "ge0",
    "cmpk",
    "frame",
+   "frametight",
    "ret8_ge0_cmpk_frame"
   ]
  },
@@ -26906,6 +27213,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -27026,7 +27334,8 @@
   "conv": "__stdcall",
   "size": 128,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x101BE730": {
@@ -27038,6 +27347,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27052,6 +27362,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -27072,6 +27383,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27099,6 +27411,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27125,6 +27438,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_globvar_frame"
   ]
  },
@@ -27139,6 +27453,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -27153,6 +27468,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -27167,6 +27483,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -27180,6 +27497,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27193,6 +27511,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27244,6 +27563,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ],
   "rule_identical": "ret8",
@@ -27260,6 +27580,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ],
   "rule_identical": "ret8",
@@ -27276,6 +27597,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ],
   "rule_identical": "ret8",
@@ -27292,6 +27614,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ],
   "rule_identical": "ret8",
@@ -27307,6 +27630,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27348,6 +27672,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27375,6 +27700,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ret8_cmpk_globvar_frame"
   ]
  },
@@ -27445,6 +27771,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -27482,6 +27809,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -27495,6 +27823,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -27979,6 +28308,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -28047,6 +28377,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -28302,6 +28633,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -28472,6 +28804,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -28614,6 +28947,7 @@
    "ret8",
    "globvar",
    "frame",
+   "frametight",
    "ret8_globvar_frame"
   ]
  },
@@ -28988,7 +29322,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x101E2B10": {
@@ -29180,6 +29515,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -29326,6 +29662,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -29384,6 +29721,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_retthis_globvar_frame"
   ]
  },
@@ -29396,6 +29734,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -29431,6 +29770,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -29677,6 +30017,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -29688,6 +30029,7 @@
   "rules_tried": [
    "retthis",
    "frame",
+   "frametight",
    "retthis_frame"
   ]
  },
@@ -29884,6 +30226,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -30032,7 +30375,8 @@
   "conv": "__thiscall",
   "size": 112,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x102112B0": {
@@ -30134,6 +30478,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -30145,6 +30490,7 @@
   "rules_tried": [
    "ret8",
    "frame",
+   "frametight",
    "ret8_frame"
   ]
  },
@@ -30484,6 +30830,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -30668,6 +31015,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -30692,6 +31040,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -30717,6 +31066,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -30735,6 +31085,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -30747,6 +31098,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -30771,6 +31123,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_retthis_globvar_frame"
   ]
  },
@@ -30927,6 +31280,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -31038,6 +31392,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -31085,6 +31440,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "ge0_retthis_globvar_frame"
   ]
  },
@@ -31110,7 +31466,8 @@
   "size": 96,
   "casts": 1,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x10223E60": {
@@ -31324,6 +31681,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -31355,6 +31713,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -31477,6 +31836,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -31518,6 +31878,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "ge0_retthis_globvar_frame"
   ]
  },
@@ -31642,6 +32003,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -31669,6 +32031,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -31788,6 +32151,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ],
   "rule_identical": "globvar",
@@ -32023,6 +32387,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -32183,6 +32548,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -32210,6 +32576,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "cmpk_frame_float"
   ]
  },
@@ -32224,6 +32591,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -32239,7 +32607,8 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1024F0B0": {
@@ -32253,6 +32622,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -32266,6 +32636,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -32283,6 +32654,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -32305,6 +32677,7 @@
   "rules_tried": [
    "cmpk",
    "frame",
+   "frametight",
    "cmpk_frame"
   ]
  },
@@ -32349,6 +32722,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -32412,6 +32786,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -32440,6 +32815,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_globvar_frame"
   ]
  },
@@ -32518,6 +32894,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ge0_frame_float"
   ]
  },
@@ -32561,6 +32938,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -32780,6 +33158,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -32866,6 +33245,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -33357,6 +33737,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -33615,7 +33996,8 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1025BFB0": {
@@ -33718,6 +34100,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -33730,6 +34113,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -33741,6 +34125,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -33752,6 +34137,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -33763,6 +34149,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -33799,6 +34186,7 @@
    "retthis",
    "globvar",
    "frame",
+   "frametight",
    "retthis_globvar_frame"
   ]
  },
@@ -33924,6 +34312,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -33939,7 +34328,8 @@
   "conv": "__cdecl",
   "size": 48,
   "rules_tried": [
-   "frame"
+   "frame",
+   "frametight"
   ]
  },
  "0x1026E400": {
@@ -33979,6 +34369,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -34110,6 +34501,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -34163,6 +34555,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -34289,6 +34682,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -34379,6 +34773,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -34396,6 +34791,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -34424,6 +34820,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -34713,6 +35110,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -34856,6 +35254,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -34911,6 +35310,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -35155,6 +35555,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -35404,6 +35805,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -35446,6 +35848,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -35457,6 +35860,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -35850,6 +36254,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -35972,6 +36377,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -35985,6 +36391,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "cmpk_globvar_frame_float"
   ]
  },
@@ -36087,6 +36494,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -36338,6 +36746,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -36350,7 +36759,8 @@
   "rules_tried": [
    "globvar",
    "float",
-   "globvar_float"
+   "frametight",
+   "globvar_float_frametight"
   ]
  },
  "0x1028D6D0": {
@@ -36582,6 +36992,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -36621,6 +37032,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "cmpk_frame_float"
   ]
  },
@@ -36641,6 +37053,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "ge0_cmpk_globvar_frame_float"
   ]
  },
@@ -36962,6 +37375,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -37027,6 +37441,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -37058,6 +37473,7 @@
    "cmpk",
    "frame",
    "float",
+   "frametight",
    "ret8_cmpk_frame_float"
   ]
  },
@@ -37075,6 +37491,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -37093,6 +37510,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -37175,6 +37593,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -37192,6 +37611,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -37206,6 +37626,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "ge0_cmpk_globvar_frame"
   ]
  },
@@ -37217,6 +37638,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },
@@ -37269,6 +37691,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -37352,6 +37775,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -37394,6 +37818,7 @@
    "globvar",
    "frame",
    "float",
+   "frametight",
    "globvar_frame_float"
   ]
  },
@@ -37417,6 +37842,7 @@
    "cmpk",
    "globvar",
    "frame",
+   "frametight",
    "cmpk_globvar_frame"
   ]
  },
@@ -37452,6 +37878,7 @@
   "rules_tried": [
    "frame",
    "float",
+   "frametight",
    "frame_float"
   ]
  },
@@ -37658,6 +38085,7 @@
   "rules_tried": [
    "globvar",
    "frame",
+   "frametight",
    "globvar_frame"
   ]
  },

@@ -7830,6 +7830,7 @@
    "uleq",
    "xiany",
    "retvoid",
+   "pushinit",
    "frame_calledon_uleq_xiany_retvoid",
    "xiany_calledon",
    "frame_uleq",
@@ -22844,6 +22845,7 @@
    "calledon",
    "ret64",
    "uleq",
+   "pushinit",
    "retthis_frame_calledon_ret64_uleq",
    "retthis_frame",
    "ret64_calledon",
@@ -22885,6 +22887,7 @@
    "calledon",
    "ret64",
    "uleq",
+   "pushinit",
    "retthis_frame_calledon_ret64_uleq",
    "retthis_frame",
    "ret64_calledon",
@@ -28905,6 +28908,7 @@
    "ret64",
    "retnarrow",
    "retvoid",
+   "pushinit",
    "frame_calledon_ret64_retnarrow",
    "ret64_calledon",
    "frame_ret64",
@@ -29076,6 +29080,7 @@
    "frametight",
    "calledon",
    "ret64",
+   "pushinit",
    "retthis_frame_calledon_ret64",
    "retthis_frame",
    "ret64_calledon",
@@ -32047,9 +32052,12 @@
    "frame",
    "frametight",
    "uleq",
+   "pushinit",
    "retthis_frame_uleq",
    "retthis_frame"
-  ]
+  ],
+  "rule_identical": "pushinit",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1018A260": {
   "verdict": "DIFFERS",
@@ -32062,9 +32070,12 @@
    "frame",
    "frametight",
    "uleq",
+   "pushinit",
    "retthis_frame_uleq",
    "retthis_frame"
-  ]
+  ],
+  "rule_identical": "pushinit",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1018A2A0": {
   "verdict": "IDENTICAL",
@@ -32749,6 +32760,7 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "pushinit",
    "ge0_cmpk_globvar_frame_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar_frame",
    "ge0_cmpk_globvar_frame_ret64",
@@ -43163,6 +43175,7 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "pushinit",
    "frame_calledon_retnarrow_uleq",
    "frame_retnarrow",
    "frame_uleq",

@@ -1158,6 +1158,23 @@ def _rule_calledon(text, ret, name):
     return out[:40] or None
 
 
+def _rule_ret64(text, ret, name):
+    """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
+    the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
+    compiler then keeps no EDX temporary. Only in the function's body and the callees' declarations; a result counts
+    only where match.py says IDENTICAL (a value whose high half is used compiles otherwise)"""
+    if not re.search(r'\bundefined8\b', text): return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    h2 = head[:head.rfind('\n') + 1].replace('undefined8', 'undefined4') + sig
+    b2 = re.sub(r'\b(?:undefined8|uint64_t|ulonglong)\b(?=\s+\w+;)', 'uint32_t', body)
+    b2 = re.sub(r'\b(?:longlong|int64_t)\b(?=\s+\w+;)', 'int32_t', b2)
+    out = h2 + b2
+    return out if out != text else None
+
+
 # the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
 # result counts only where match.py's comparison says IDENTICAL
 RULES = [
@@ -1172,6 +1189,7 @@ RULES = [
     ('float', _rule_float),
     ('frametight', _rule_frametight),
     ('calledon', _rule_calledon),
+    ('ret64', _rule_ret64),
 ]
 
 

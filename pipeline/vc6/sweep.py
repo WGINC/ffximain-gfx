@@ -1065,6 +1065,28 @@ def _rule_adjthunk(text, ret, name):
             'XI_ADJ_%s::XI_ADJ_%s() {}\n' % (a, a))
 
 
+def _rule_fastthis(text, ret, name):
+    """a callee declared `__fastcall` with two register parameters, called on (object, x): it pops nothing, as a
+    __thiscall member without stack parameters does, and the game's call sets ECX alone where it sets no EDX; written
+    as a member call on the object (0x10029CB0, whose destructor call Ghidra typed __fastcall). A result counts only
+    where match.py says IDENTICAL, which shows the game passes nothing in EDX"""
+    t = text
+    for m in re.finditer(r'(?m)^(?:extern "C" )?([\w ]+?\**)\s*__fastcall (FUN_([0-9A-F]{8}))\(([^(),]+),([^(),]+)\);\n', text):
+        fn, a = m.group(2), m.group(3)
+        t2 = t.replace(m.group(0), 'struct FUNt_%s { %s f(void); };\n' % (a, m.group(1).strip()))
+        out, pos, n = [], 0, 0
+        for c in re.finditer(r'(?<![\w>.])%s\(' % fn, t2):
+            if c.start() < pos: continue
+            e = _group(t2, c.end() - 1)
+            if e < 0: break
+            args = split_args(t2[c.end():e - 1])
+            if len(args) != 2: break
+            out.append(t2[pos:c.start()] + '((FUNt_%s *)(%s))->f()' % (a, args[0])); pos = e; n += 1
+        else:
+            if n: t = ''.join(out) + t2[pos:]
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1427,6 +1449,7 @@ RULES = [
     ('storem1', _rule_storem1),
     ('pushinit', _rule_pushinit),
     ('adjthunk', _rule_adjthunk),
+    ('fastthis', _rule_fastthis),
 ]
 
 

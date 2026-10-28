@@ -4,9 +4,10 @@ Hex-Rays prints a call through a field it has no type for as a cast vtable slot:
     (*(R (__stdcall **)(P...))(**(_DWORD **)(G + OFF) + SLOT))(*(_DWORD *)(G + OFF), a, b)
 Where data/com_fields.json proves what G + OFF holds (an access path [global, offset] and its interface, with the
 proof com_calls.py re-checks against the binary), the call is that interface's method number SLOT / 4 in the D3D8
-header's order (data/com_spec.json) and is written
-    (*(IDirect3DDevice8 **)(G + OFF))->SetRenderState(a, b)
-through the header's C++ wrapper (tree/include/xi_d3d8.hpp). Each argument whose parameter the header types other than
+header's order (data/com_spec.json) and is written through the header's typed vtable (tree/include/xi_d3d8.hpp)
+    (*(IDirect3DDevice8 **)(G + OFF))->lpVtbl->SetRenderState((*(IDirect3DDevice8 **)(G + OFF)), a, b)
+with the object read twice, as the game's code reads it (once for the vtable, once for `this`); the C++ wrapper
+(`->SetRenderState(a, b)`) reads it once, which VC6 compiles to other registers (0x100464D0, 0x1006AF00). Each argument whose parameter the header types other than
 as a 4-byte integer is cast to that type (a literal of an enum parameter by its enumerator's name where the header has
 one): the value passed is the same 4 bytes, now typed. A call through a holder the proofs do not cover, through a
 local copy of the pointer, or whose slot or argument count the header does not give, is left as it is.
@@ -106,7 +107,7 @@ def _rewrite(body, objrx, objtext, iface):
         else: continue
         args, end = _split_args(body, j)
         if args is None or ptypes is None or len(args) != len(ptypes): continue
-        out.append(body[pos:m.start()] + '%s->%s(%s)' % (objtext, meth, ', '.join(_typed_arg(a, t) for a, t in zip(args, ptypes))))
+        out.append(body[pos:m.start()] + '%s->lpVtbl->%s(%s)' % (objtext, meth, ', '.join([objtext] + [_typed_arg(a, t) for a, t in zip(args, ptypes)])))
         pos = end; n += 1
     return ''.join(out) + body[pos:], n
 
@@ -145,7 +146,8 @@ def typed_holder_calls(body):
                 else: continue
                 args, end = _split_args(body, j)
                 if args is None or ptypes is None or len(args) != len(ptypes): continue
-                call = '(*(%s **)(%s + 0x%X))->%s(%s)' % (iface, gname, off, meth, ', '.join(_typed_arg(a, t) for a, t in zip(args, ptypes)))
+                o = '(*(%s **)(%s + 0x%X))' % (iface, gname, off)
+                call = '%s->lpVtbl->%s(%s)' % (o, meth, ', '.join([o] + [_typed_arg(a, t) for a, t in zip(args, ptypes)]))
                 out.append(body[pos:m.start()] + call); pos = end; n += 1
             body = ''.join(out) + body[pos:]
     return body, n

@@ -219,6 +219,8 @@ def main():
         if gg: ggate.append(gg)
     # raw verdicts given again under the gate's current rules (hx2clean.py, XI_REGATE), where recorded
     rg = ('XI_REGATE=%s ' % os.path.join(ROOT, src['raw_regate'])) if src.get('raw_regate') else ''
+    if src.get('given_drop'):        # functions the round left out with a reason (tree_round.py regen --drop --why)
+        json.dump(src['given_drop'], open(os.path.join(tmp, 'given_drop.json'), 'w')); rg += 'XI_DROP=%s ' % os.path.join(tmp, 'given_drop.json')
     t = os.path.join(tmp, 'tree'); rc, out = sh('%spipeline/regen_clean.sh %s %s %s' % (rg, ','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []

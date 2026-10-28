@@ -3665,3 +3665,10 @@ The two INCONCLUSIVE -> PASS rest on 12 and 8 returning trials in all: the rest 
 (verification/gate_clean_final.jsonl; per dump verification/gate_clean_live14_*.jsonl).
 
 Tree: 4,897 functions, 4,884 PASS. Frame set: 4,449 in the tree, 4,437 PASS; 1,612 (29.7%) at the game's bytes.
+
+**r14's left-out switch cases, carried into verify_all.** `tree_round.py regen --drop --why` wrote the drops to
+OUT.given_drop.json, but install did not record them and verify_all.py did not pass them on, so a verify_all regen
+would have put 0x10223B4E, 0x102262EE and 0x1022635E back. install now keeps the file in tree/source.json
+(`given_drop`) and verify_all.py hands it to regen_clean.sh as XI_DROP. r14's `given_drop` was rebuilt from
+tree/left_out.json (each entry `name: why`, hx2clean.py's form for a given reason). install also gives an export entry
+without `raw_gate` the default, as order() reads it. Not yet run: verify_all on a machine with the DLL and VC6.

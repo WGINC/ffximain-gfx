@@ -23,7 +23,7 @@ gate     every function under its case, and every function with a second case un
          game callees, data/import_pops.json).
 install  verification/gate_clean_final.jsonl, cases_clean_final.json, cases_raw_final.json, cases_raw_alt.json and
          gate_clean_altcases_tree.jsonl from OUT; the tree copied in, tree/source.json kept (and given the export order
-         the round used). Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
+         the round used, and the functions regen --drop left out, `given_drop`, which verify_all passes on). Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
 """
 import argparse, collections, hashlib, json, os, shutil, subprocess, sys
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
@@ -129,8 +129,12 @@ def install(o):
     shutil.copy(os.path.join(o.out, 'g_alt', 'gate.jsonl'), R('verification', 'gate_clean_altcases_tree.jsonl'))
     s, exps, _ = order(o)
     old = {e['path']: e for e in s['ghidra_exports']}
-    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'], **({'raw_gate': e['raw_gate']} if e.get('raw_gate') else {}),
+    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'],
+                                raw_gate=e.get('raw_gate') or s['ghidra_raw_gate'],             # an entry without one: the default, as order() reads it
                                 sha1=hashlib.sha1(open(R(e['path']), 'rb').read()).hexdigest()) for e in exps]
+    gd = o.out.rstrip('/') + '.given_drop.json'          # functions left out with a given reason (regen --drop --why)
+    if os.path.exists(gd): s['given_drop'] = json.load(open(gd))
+    else: s.pop('given_drop', None)
     subprocess.check_call([sys.executable, R('pipeline', 'annotate_gate.py'), o.out, R('verification', 'gate_clean_final.jsonl')])
     keep = json.dumps(s, indent=1)
     shutil.rmtree(R('tree')); shutil.copytree(o.out, R('tree'), ignore=shutil.ignore_patterns('build', 'b', 'g_*', '*.json.new', 'cases_*.json',

@@ -475,7 +475,6 @@ def main(exp, gate, manf, incdir, outdir):
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
     passed = set().union(*passed_in)                 # passed by some export's gate (as given again, XI_REGATE)
-    passed &= set(R)                                 # and translated (hx2cpp.ghidra_prepare: a record it cannot is not one)
     def reg_callee(o):
         m = re.search(CC_RE, o.get('type') or '')
         return bool(o.get('storage')) and bool(hx2cpp.extra_regs(m.group(0) if m else '__cdecl', o['storage']))
@@ -538,6 +537,7 @@ def main(exp, gate, manf, incdir, outdir):
     while True:
         drop = {}
         for ea in sorted(passed):
+            if ea not in R: continue                 # passed, but a record the translation refuses (no source of it)
             for nm, o in R[ea].get('objs', {}).items():
                 if not o['func'] or o.get('import'): continue
                 if R[ea].get('ghidra') and hx2cpp.FPRET_ALL.get('0x%x' % o['ea']) == 'consumes': continue   # XI_CALL_ST0
@@ -601,6 +601,7 @@ def main(exp, gate, manf, incdir, outdir):
             if all(c in ch for ch in chains): return c if c in sizes or c in bases else None
         return None
     for ea in sorted(passed):
+        if ea not in R: continue                     # a passed record the translation refused: no source of it
         r = R[ea]; nm = r['name']; sig = r['text'].split('\n{')[0]
         cls = meth = None; why = None
         self_t = r['args'][0][1] if r['cc'] == 'thiscall' and r['args'] else None
@@ -718,7 +719,7 @@ def main(exp, gate, manf, incdir, outdir):
     # a name two game functions carry (operator_delete: 0x101907D0 and 0x10311BB0) is spelt with its address
     _name_eas = collections.defaultdict(set)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func']: _name_eas[nm].add(o['ea'])
     # records can type one callee differently (IDA's prototype in one, the Ghidra route's in another): each was gated
     # with its own, so each prototype gets its own wrapper; the most common one the plain name, the others _vN
@@ -727,7 +728,7 @@ def main(exp, gate, manf, incdir, outdir):
             nm if len(_name_eas.get(nm, ())) <= 1 else '%s_%08X' % (nm, fea)
     _ftypes, _ftier = collections.defaultdict(collections.Counter), collections.defaultdict(dict)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func'] and not o.get('import'):
                 _k, _t = (o['ea'], obase(nm, o['ea'])), ftype_of(ea, o, nm)
                 _ftypes[_k][_t] += 1
@@ -743,7 +744,7 @@ def main(exp, gate, manf, incdir, outdir):
         k = _fvar.get((fea, base, ftype.strip())) if ftype else 0
         return base if not k else '%s_v%d' % (base, k)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func'] and o.get('import'):
                 # a Ghidra import: its address is the import table slot, which holds the function's address; bound
                 # as a pointer at the slot (as the IDA records bind it), called through it

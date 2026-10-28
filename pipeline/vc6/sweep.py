@@ -1324,6 +1324,15 @@ def apply_rules(text, ret, name):
             if co: out += [('%s_calledon%d' % (g, k), x) for k, x in enumerate(co)]
     for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid'):  # and the others with each of these on its own
         if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
+    # each two of them together, alone and with the others (0x1003C6E0 is ret64 with xiany, without retthis)
+    guess = [g for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid') if g in names]
+    seen = {t for _, t in out}
+    for i, g in enumerate(guess):
+        for h in guess[i + 1:]:
+            for rns in ([g, h], base + [g, h]):
+                if len(rns) == len(names): continue
+                t = combo(rns)
+                if t != text and t not in seen: seen.add(t); out.append(('_'.join(rns), t))
     return out
 
 

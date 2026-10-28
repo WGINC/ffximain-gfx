@@ -30,7 +30,8 @@
    "in_tree": true
   },
   "0x10009920": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_10009920.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": false
   },
@@ -389,22 +390,26 @@
    "in_tree": false
   },
   "0x1000AEA0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1000AEA0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
   "0x1000B1B0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1000B1B0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
   "0x1000B460": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1000B460.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
   "0x1000B7C0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1000B7C0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
@@ -812,7 +817,8 @@
    "in_tree": true
   },
   "0x10183490": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_10183490.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },

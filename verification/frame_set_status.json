@@ -582,6 +582,8 @@
 "bytes": null,
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_10009920.cpp",
 "d3d": {
 "proven": 0,
 "accepted": 49
@@ -606,7 +608,9 @@
 "gate": "PASS",
 "bytes": "IDENTICAL",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_1000AEA0.cpp"
 },
 "0x10009E20": {
 "tree": true,

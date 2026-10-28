@@ -15,6 +15,14 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3d_10009710.cpp"
 },
+"0x10009920": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10009920.cpp"
+},
+"0x10009E00": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000AEA0.cpp"
+},
 "0x10009E60": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_notree_r120.cpp"
@@ -42,6 +50,22 @@
 "0x1000ABE0": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_1000ABE0.cpp"
+},
+"0x1000AEA0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000AEA0.cpp"
+},
+"0x1000B1B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000B1B0.cpp"
+},
+"0x1000B460": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000B460.cpp"
+},
+"0x1000B7C0": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1000B7C0.cpp"
 },
 "0x1000BB90": {
 "verdict": "IDENTICAL",
@@ -378,6 +402,10 @@
 "0x10177C50": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10177C50.cpp"
+},
+"0x10183490": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10183490.cpp"
 },
 "0x1018B860": {
 "verdict": "IDENTICAL",

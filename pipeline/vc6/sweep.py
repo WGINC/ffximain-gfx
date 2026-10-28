@@ -1016,6 +1016,14 @@ def _rule_shiftmask(text, ret, name):
     return t if t != text else None
 
 
+def _rule_storem1(text, ret, name):
+    """a store of all ones to a 1- or 2-byte field, `*(uint16_t *)(p) = 0xffff;`, as the signed type's -1: the same
+    bytes, which VC6 makes with `or eax, 0xffffffff` / `or al, 0xff` for -1 and a `mov` for 0xffff (0x101EC3C0)"""
+    t = re.sub(r'\*\((?:uint16_t|ushort|unsigned short|undefined2|_WORD) \*\)(\([^;=]*?\)) = 0xffff;', r'*(short *)\1 = -1;', text)
+    t = re.sub(r'\*\((?:uint8_t|uchar|unsigned char|undefined1|byte|_BYTE) \*\)(\([^;=]*?\)) = 0xff;', r'*(char *)\1 = -1;', t)
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1356,6 +1364,7 @@ RULES = [
     ('negmask', _rule_negmask),
     ('select', _rule_select),
     ('shiftmask', _rule_shiftmask),
+    ('storem1', _rule_storem1),
 ]
 
 

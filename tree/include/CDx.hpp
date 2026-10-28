@@ -67,7 +67,7 @@ public:
     _DWORD * defaultBackBuffer;  // +0x90 default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge
     uint8_t defaultDepthSurface;  // +0x94 default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets
     uint8_t _pad_95[0xC3];
-    uint8_t renderTargetDepth;  // +0x158 index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], C
+    uint8_t renderTargetDepth;  // +0x158
     uint8_t _pad_159[0xB];
     uint8_t clearFlags;  // +0x164 first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Fla
     uint8_t _pad_165[0x3];
@@ -88,12 +88,10 @@ public:
     uint8_t _pad_821[0x3];
     uint8_t field_824;  // +0x824
     uint8_t _pad_825[0x7];
-    uint8_t stereoOddLineTexture;  // +0x82C the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I
-    uint8_t _pad_82D[0x3];
+    IDirect3DTexture8 * stereoOddLineTexture;  // +0x82C
     uint8_t field_830;  // +0x830
     uint8_t _pad_831[0x3];
-    uint8_t field_834;  // +0x834
-    uint8_t _pad_835[0xD3];
+    D3DCAPS8 caps;  // +0x834
     uint8_t field_908;  // +0x908
     uint8_t field_909;  // +0x909
     uint8_t field_90A;  // +0x90A
@@ -127,16 +125,12 @@ public:
     uint8_t field_930;  // +0x930
     uint8_t field_931;  // +0x931
     uint8_t _pad_932[0x2];
-    uint8_t field_934;  // +0x934
-    uint8_t _pad_935[0x3];
-    uint8_t field_938;  // +0x938
-    uint8_t _pad_939[0x3];
-    uint8_t cachedWorld;  // +0x93C D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached
-    uint8_t _pad_93D[0x3F];
-    uint8_t cachedView;  // +0x97C D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached
-    uint8_t _pad_97D[0x3F];
-    uint8_t cachedProjection;  // +0x9BC D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached
-    uint8_t _pad_9BD[0x43];
+    uint32_t maxTextureWidth;  // +0x934
+    uint32_t maxTextureHeight;  // +0x938
+    D3DMATRIX cachedWorld;  // +0x93C
+    D3DMATRIX cachedView;  // +0x97C
+    D3DMATRIX cachedProjection;  // +0x9BC
+    uint8_t _pad_9FC[0x4];
     uint8_t field_A00;  // +0xA00
     uint8_t _pad_A01[0x3];
     uint8_t field_A04;  // +0xA04
@@ -163,7 +157,7 @@ static_assert(XI_OFFSETOF(CDx, field_820) == 0x820, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_824) == 0x824, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoOddLineTexture) == 0x82C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_830) == 0x830, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_834) == 0x834, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, caps) == 0x834, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_908) == 0x908, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_909) == 0x909, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_90A) == 0x90A, "CDx: layout");
@@ -187,8 +181,8 @@ static_assert(XI_OFFSETOF(CDx, field_92E) == 0x92E, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_92F) == 0x92F, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_930) == 0x930, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_931) == 0x931, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_934) == 0x934, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_938) == 0x938, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, maxTextureWidth) == 0x934, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, maxTextureHeight) == 0x938, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedWorld) == 0x93C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedView) == 0x97C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedProjection) == 0x9BC, "CDx: layout");

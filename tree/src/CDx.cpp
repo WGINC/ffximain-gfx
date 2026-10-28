@@ -49,8 +49,8 @@ char CDx::Initialize()
   _BYTE (&v24)[1032] = *reinterpret_cast<_BYTE (*)[1032]>(xi_frame + 0x2D8);
   int &v25 = *reinterpret_cast<int *>(xi_frame + 0x6E0);
 
-  v2 = &this->field_834;
-  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->GetDeviceCaps((*(IDirect3DDevice8 * *)((char *)this + 0xC)), &this->field_834);
+  v2 = &at<uint8_t>(this, 0x834);
+  (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->GetDeviceCaps((*(IDirect3DDevice8 * *)((char *)this + 0xC)), &at<uint8_t>(this, 0x834));
   *(_DWORD *)&this->field_924 = 8;
   *(_DWORD *)&this->field_928 = 1;
   if ( (*((_DWORD *)v2 + 7) & 0x10000) != 0 )
@@ -97,9 +97,9 @@ char CDx::Initialize()
     this->field_930 = 1;
   if ( (v2[60] & 0x20) != 0 )
     this->field_931 = 1;
-  *(_DWORD *)&this->field_934 = *((_DWORD *)v2 + 22);
+  *(_DWORD *)&at<uint8_t>(this, 0x934) = *((_DWORD *)v2 + 22);
   pDevice = (*(IDirect3DDevice8 * *)((char *)this + 0xC));
-  *(_DWORD *)&this->field_938 = *((_DWORD *)v2 + 23);
+  *(_DWORD *)&at<uint8_t>(this, 0x938) = *((_DWORD *)v2 + 23);
   pDevice->GetDisplayMode(v21);
   v5 = v22;
   *(_DWORD *)&this->field_830 = 32;
@@ -1111,20 +1111,20 @@ int CDx::GetTransformCached(int a2, void *a3)
   result = a2 - 2;
   if ( a2 == 2 )
   {
-    qmemcpy(a3, &this->cachedView, 0x40u);
+    qmemcpy(a3, &at<uint8_t>(this, 0x97C), 0x40u);
   }
   else
   {
     result = a2 - 3;
     if ( a2 == 3 )
     {
-      qmemcpy(a3, &this->cachedProjection, 0x40u);
+      qmemcpy(a3, &at<uint8_t>(this, 0x9BC), 0x40u);
     }
     else
     {
       result = a2 - 256;
       if ( a2 == 256 )
-        qmemcpy(a3, &this->cachedWorld, 0x40u);
+        qmemcpy(a3, &at<uint8_t>(this, 0x93C), 0x40u);
     }
   }
   return result;
@@ -1507,11 +1507,11 @@ int CDx::ReleaseStereoResources()
     (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v6 + 8))(*(_DWORD *)&this->field_824);
     *(_DWORD *)&this->field_824 = 0;
   }
-  result = *(_DWORD *)&this->stereoOddLineTexture;
+  result = *(_DWORD *)&at<uint8_t>(this, 0x82C);
   if ( result != 0 )
   {
-    result = (*(int (__stdcall **)(_DWORD))(*(_DWORD *)result + 8))(*(_DWORD *)&this->stereoOddLineTexture);
-    *(_DWORD *)&this->stereoOddLineTexture = 0;
+    result = (*(int (__stdcall **)(_DWORD))(*(_DWORD *)result + 8))(*(_DWORD *)&at<uint8_t>(this, 0x82C));
+    *(_DWORD *)&at<uint8_t>(this, 0x82C) = 0;
   }
   return result;
 }
@@ -1774,7 +1774,7 @@ void CDx::ApplyStereoEyeProjection()
   {
     v4 = -*(float *)&g_stereoEyeOffset;
   }
-  orig::Mat4_PreMultiply(v3, (float *)&this->cachedProjection);
+  orig::Mat4_PreMultiply(v3, (float *)&at<uint8_t>(this, 0x9BC));
   (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)this + 0xC)), D3DTS_PROJECTION, v3);
   orig::Unit10026C70_Nop();
 }

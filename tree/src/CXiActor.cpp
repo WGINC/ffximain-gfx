@@ -80,7 +80,7 @@ void * __thiscall CXiActor::ConstructBase(void * self)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 double CXiActor::CXiSkeletonActor_GetMoveSpeed()
 {
-  return this->field_98;
+  return this->moveSpeed;
 }
 
 // FUNCTION: FFXIMAIN 0x10082080  (unit CXiActor: class model places it in CXiActor)
@@ -95,7 +95,7 @@ XI_API void __thiscall CXiSkeletonActor_SetMoveSpeed(void * self_, undefined4 pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
 {
-  return this->field_94;
+  return this->moveSpeedBase;
 }
 
 // FUNCTION: FFXIMAIN 0x100820A0  (unit CXiActor: class model places it in CXiActor)
@@ -110,7 +110,7 @@ XI_API void __thiscall CXiSkeletonActor_SetMoveSpeedBase(void * self_, undefined
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 double CXiActor::CXiSkeletonActor_GetWalkSpeed()
 {
-  return this->field_98 * 0x1.5555560000000p-2;
+  return this->moveSpeed * 0x1.5555560000000p-2;
 }
 
 // FUNCTION: FFXIMAIN 0x100820C0  (unit CXiActor: class model places it in CXiActor)
@@ -323,21 +323,21 @@ uint32_t __thiscall CXiActor::NameCalc(void * self, undefined4 * param_1, int pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_AddRef()
 {
-  ++this->field_80;
+  ++this->refCount;
 }
 
 // FUNCTION: FFXIMAIN 0x10083390  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_AddSchRef()
 {
-  ++this->field_84;
+  ++this->schRefCount;
 }
 
 // FUNCTION: FFXIMAIN 0x100833A0  (placed by tree manifest)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_SubSchRef()
 {
-  --this->field_84;
+  --this->schRefCount;
 }
 
 // FUNCTION: FFXIMAIN 0x10083430  (placed by IDB name; static (takes no this))

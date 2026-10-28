@@ -66,16 +66,22 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x7C];
-    uint32_t field_80;  // +0x80
-    uint32_t field_84;  // +0x84
+    uint32_t refCount;  // +0x80 unknown type, 4 bytes
+    uint32_t schRefCount;  // +0x84 unknown type, 4 bytes
     uint8_t _pad_88[0xC];
-    float field_94;  // +0x94
-    float field_98;  // +0x98
-    uint8_t _pad_9C[0x28];
+    float moveSpeedBase;  // +0x94
+    float moveSpeed;  // +0x98
+    uint8_t _pad_9C[0x8];
+    int32_t subActorStatus;  // +0xA4
+    uint8_t _pad_A8[0x14];
+    float distanceToCamera;  // +0xBC
+    uint8_t _pad_C0[0x4];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXiActor) == 0xC4, "CXiActor: sizeof");
-static_assert(XI_OFFSETOF(CXiActor, field_80) == 0x80, "CXiActor: layout");
-static_assert(XI_OFFSETOF(CXiActor, field_84) == 0x84, "CXiActor: layout");
-static_assert(XI_OFFSETOF(CXiActor, field_94) == 0x94, "CXiActor: layout");
-static_assert(XI_OFFSETOF(CXiActor, field_98) == 0x98, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, refCount) == 0x80, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, schRefCount) == 0x84, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, moveSpeedBase) == 0x94, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, moveSpeed) == 0x98, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, subActorStatus) == 0xA4, "CXiActor: layout");
+static_assert(XI_OFFSETOF(CXiActor, distanceToCamera) == 0xBC, "CXiActor: layout");

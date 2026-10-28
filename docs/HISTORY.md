@@ -3754,3 +3754,12 @@ game's bytes as mdiff.py counts, 0 only where match.py says IDENTICAL. Base scor
 Kept outside the repo (CPP_PERMUTER=, a build of the checkout), as decomp-permuter is.
 tree_round.py regen now carries tree/source.json's given drops into the round (r15's first regen had let the three
 switch cases back in).
+
+**Tree r15 installed (28 Oct): the typing batches' declared fields.** tree_round.py regen (the given drops carried
+over), cases, gate, install, regen_facts; then the live gates of r14 (verification/gate_clean_live14_*.jsonl) combined
+again (combine_gates.py). Fuzz: 4,881 PASS, as r14; combined: 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as
+r14. The live verdicts carry over because the three functions they settle (0x10003890, 0x10010D20, 0x100E08D0) have
+the same generated source in r14 and r15, and a declared type reaches a function's code only through a member access
+written in its source (the fields kept their offsets, the classes their sizes). 23 functions' source changed (their
+member accesses now name the declared fields); none changed verdict. `field_` names: CDx 70 to 64, CXiActor 8 to 0,
+CXiControlActor to 0. verify_all on r15: to run.

@@ -130,3 +130,11 @@ committed; checked again on 28 Oct: match.py 7 of 7 identical (comp.id 49 build 
 0x1006C140 (#118, CMoOcclusionMng's constructor; not in the tree), recompile/d3dcaller_1006C140.cpp, written from the
 game's bytes: IDENTICAL. Found on the way: a member constructed between the base's vtable store and the class's is
 the class's own member; written as the base's, VC6 drops the base's store as dead.
+
+0x1003FBB0 (#119; not in the tree), recompile/d3dcaller_1003FBB0.cpp, from the game's bytes: IDENTICAL. Found on the
+way: a pointer tested for null and then read as `p ? *p : 0` keeps the game's second test only when the read is an
+inline accessor; written in the body, VC6 drops it.
+
+reorder_batch.py over the 48 DIFFERS functions of the two sets (frametight, globvar; 60 tries each): none IDENTICAL.
+The closest after the search: 0x1000A820 256 to 90 differing lines, 0x1006AA30 110 to 82, 0x100263F0 123 to 95,
+0x1001DD00 106 to 95, 0x10163400 119 to 108. Statement order alone does not close them.

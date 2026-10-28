@@ -45,3 +45,21 @@ cpp_permuter (pipeline/vc6/cpp_perm.py) on 17 further in-tree misses: scores sta
 0x10038720 144 to 133 after 400 compiles); 0x10001520 and 0x100295A0 did not compile from the old sweep sources
 (MSG, before the WINT layouts). Not used further on these. Its candidates must be read before use: some best scores come from deleting statements
 or changing a type (0x10163400's 49 deleted the vertex stores; 0x10043590's 13 made a pointer a short).
+
+## Near misses kept (recompile/near/, outside `match.py --all`)
+
+- 0x10075700 TextureHolder_BindWarped (#118), recompile/near/d3d_10075700_6lines.cpp: 78 lines (the sweep's text) to 6.
+  Written from the game's bytes: the function-local static state block (rule 16), the strip loop with `v++` after
+  each vertex (the game's two `add eax, 0x1c`), the sine's angle accumulated in the parameter, the vertical
+  coordinate a float local set to 0 before the reciprocal (the game's early `mov [esp+0xc], 0`), the device read
+  through a local copy of the global for SetRenderState(27). Left: in the `a4 == 0` early return the game loads the
+  device into EDX (ours ECX); inline helpers, a device local, typed texture locals, and cpp_permuter (802 compiles)
+  did not move it.
+- 0x100759C0 TextureHolder_BindTinted (#118), recompile/near/d3d_100759C0_4lines.cpp: 84 to 4. The tex pointer taken
+  into a local on the two paths that reach the plain bind (the game skips the null test where the pointer is known
+  non-null), the quad as four 28-byte vertices, the device via a local copy for SetTexture(0, ...). Left: the cube
+  target's +8 loaded into EDX in the game, EAX in ours, before 0x1006A060; four condition forms tried.
+
+cpp_permuter note: it exits without output on a source that defines a macro used in the function (`#define DEV`), a
+`#pragma`, or an inline member function; expand them first.
+

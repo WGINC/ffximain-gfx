@@ -52,6 +52,12 @@ for _c, _d in _named.items():
         if _off == 0 or _n.startswith(('pad_', 'CMoTask_base')): continue
         _m = re.match(r'^(.*?)(\[\d+\])$', _t)
         KNOWN_FIELDS[(_c, _off)] = ((_m.group(1) if _m else _t).replace('void *', 'void *'), _n, _w, _m.group(2) if _m else '')
+# fields the typing batches declare from the game's code or the SDK headers, with their evidence (pipeline/declared_fields.py;
+# never a field the IDB declares)
+for _c, _d in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'declared_fields.json'))).items():
+    if _c.startswith('_'): continue
+    for _off, _v in _d.items():
+        KNOWN_FIELDS.setdefault((_c, int(_off, 16)), (_v['type'], _v['name'], _v['width'], ''))
 VAL = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'd3d_values.json')))
 # names for inferred fields (data/field_names.json): only the identifier changes, never the type or offset
 FIELD_NAMES = {(c, int(off, 16)): v for c, d in json.load(open(os.path.join(

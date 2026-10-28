@@ -3734,3 +3734,11 @@ passed by fs17's gate, its record taken from an export whose text it does not pr
 records it for that entry. verify_all also reports a regen that fails instead of crashing. The regen run alone from
 tree/source.json's inputs (given_drop included): build failed: none, 4 functions not compiled (0 new), tree/src and
 tree/include identical to the installed tree. (export-sp's FAIL for 0x100412B0 is the known one, line 291.)
+
+**28 Oct: declared field types from the typing batches (#122, #123), round r15 in progress.** pipeline/declared_fields.py
+takes from batches/r6_*.json each field with confidence high, a name and a type the tree's headers declare, with its
+evidence, into data/declared_fields.json (16 fields: CDx's D3D pointers, caps, cached matrices and texture limits;
+CXiActor and CXiControlActor floats); hx2clean.py declares them as it declares the IDB's named fields (never over one).
+Medium-confidence names (15) go to data/field_names.json. D3DMATRIX and D3DCAPS8 added to pipeline/xi_d3d8.hpp from
+MinGW-w64's d3d8types.h / d3d8caps.h (64 and 212 bytes, the SDK's sizes). Until the r15 tree is gated and installed,
+verify_all's tree-regen reports the difference these make against the installed r14 tree.

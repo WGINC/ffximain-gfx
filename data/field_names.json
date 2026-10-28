@@ -560,5 +560,120 @@
    "summary": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val",
    "evidence": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to ValidateMorphData"
   }
+ },
+ "CYyModelBase": {
+  "0x8": {
+   "name": "skeleton",
+   "confidence": "medium",
+   "summary": "CYySkl (embedded)",
+   "evidence": "constructor 0x10029D35-0x10029D3E `lea ecx, [esi+8]; call 0x10034230` (CYySkl constructor: stores vtable 0x1032A888, descriptor \"CYySkl\" size 0x18); destructor `lea ecx, [esi+8]` at 0x10029E3A",
+   "batch": "batches/r6_122_render_objects.json"
+  }
+ },
+ "CYySkl": {
+  "0xC": {
+   "name": "boneMatrices",
+   "confidence": "medium",
+   "summary": "pointer to count 64-byte 4x4 float matrices, 16-byte aligned",
+   "evidence": "0x100342D5-0x100342DC: (+0x8 + 15) & ~15; loop 0x100342E7-0x100342F5 calls 0x100279B0 on each 0x40-byte element, which stores 1.0f at element +0x0/+0x14/+0x28/+0x3C and 0 elsewhere (a 4x4 float identity). Same layout as D3DMATRIX; no D3D call taking them was traced here.",
+   "batch": "batches/r6_122_render_objects.json"
+  }
+ },
+ "CXiActor": {
+  "0x34": {
+   "name": "focal",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessor 0x10082450 `lea eax,[ecx+0x34]; ret` is matched to PS2 XiActor::GetFocal() (slot 75 -> PC 153; data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x70": {
+   "name": "pModelInfo",
+   "confidence": "medium",
+   "summary": "pointer (4 bytes)",
+   "evidence": "data/field_names.json (CXiSkeletonActor +0x70, medium): read by CXiActor_GetModelField170/GetModelByteEE",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x80": {
+   "name": "refCount",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "data/field_names.json (high there); accessors 0x100832D0 `inc dword [ecx+0x80]` / 0x100832E0 are matched to PS2 AddRef/SubRef slots 38/39 by elimination (data/dm_names.json), so the name rests on that match: medium",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x84": {
+   "name": "schRefCount",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessors 0x10083390 `inc dword [ecx+0x84]` / 0x100833A0 matched to PS2 AddSchRef/SubSchRef (slots 42/43 -> PC 90/91; data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xB4": {
+   "name": "model",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessor 0x10082200 `mov eax,[ecx+0xb4]` matched to PS2 XiActor GetModel (slot 65 -> PC 119; data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  }
+ },
+ "CXiControlActor": {
+  "0xF9": {
+   "name": "isFreeRun",
+   "confidence": "medium",
+   "summary": "unknown type, 1 bytes",
+   "evidence": "accessors 0x100A4670/0x100A4660 (byte) matched to PS2 XiControlActor::IsFreeRun() / IsFreeRun(char) (PS2 byte +0xD5; data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xFA": {
+   "name": "isWalkLock",
+   "confidence": "medium",
+   "summary": "unknown type, 1 bytes",
+   "evidence": "accessors 0x100A4690/0x100A4680 matched to PS2 IsWalkLock() / IsWalkLock(char) (PS2 byte +0xD6)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xFB": {
+   "name": "isParallelMove",
+   "confidence": "medium",
+   "summary": "unknown type, 1 bytes",
+   "evidence": "accessors 0x100A46B0/0x100A46A0 matched to PS2 IsParallelMove() / IsParallelMove(char) (PS2 byte +0xD7)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xFC": {
+   "name": "controlLock",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessor 0x100A46C0 matched to PS2 IsControlLock(), which returns this counter",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x160": {
+   "name": "groundNormal",
+   "confidence": "medium",
+   "summary": "float (4 bytes)",
+   "evidence": "accessor 0x100A4590 `lea eax,[ecx+0x160]` (PC slot 132) matched to the PS2 body `addiu v0,a0,0x140` returning ground_normal (data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  }
+ },
+ "CXiCollisionActor": {
+  "0x5C4": {
+   "name": "pos",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessor 0x100A4CD0 `lea eax,[ecx+0x5c4]` matched to PS2 slot 56 GetPos (-> PC 111; data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x5E0": {
+   "name": "isTouch",
+   "confidence": "medium",
+   "summary": "unknown type, 1 bytes",
+   "evidence": "accessor 0x100A46D0 matched to PS2 IsTouchDown (slot 47 -> PC 102), which reads IsTouch at PS2 +0x1C0 (data/dm_names.json)",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x5E4": {
+   "name": "currentAreaId",
+   "confidence": "medium",
+   "summary": "unknown type, 4 bytes",
+   "evidence": "accessors 0x100A4700/0x100A4710 (PC-only slots) set/get it; data/dm_names.json maps it to PS2 DWARF XiCollisionActor::current_area_id (+0x1C4) by the class-level shift",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  }
  }
 }

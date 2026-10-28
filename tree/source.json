@@ -19,7 +19,8 @@
   {
    "path": "data/exports/ghidra_export.jsonl",
    "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
-   "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export"
+   "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export",
+   "raw_gate": "verification/gate_raw_ghidra.jsonl"
   },
   {
    "path": "data/exports/ghidra_frameset.jsonl",

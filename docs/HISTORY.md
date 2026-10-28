@@ -3725,3 +3725,12 @@ spelling VC6 takes for what the decompiled code says; a function counts only whe
 NO_COMPILE 91 to 80; none of the eleven is IDENTICAL yet; 2,103 at the game's bytes, none lost. Left: 0x10011A00
 uses `_mm_pause`, which VC6 lacks (only inline assembly would give `pause`); 0x1000A6E0, 0x10010D20, 0x10086210 fail
 on a conversion inside a statement spanning lines; 0x10025260 on a vtable member the shim's class lacks.
+
+**verify_all's regen of tree r14 (28 Oct): passes after two fixes.** verify_all passed the gates of tree/source.json's
+Ghidra exports by position, skipping an entry without `raw_gate` unless it was the first; ghidra_export.jsonl (entry 2)
+has none, so every later export was paired with the next one's gate and hx2clean.py stopped (KeyError 0x10017D90:
+passed by fs17's gate, its record taken from an export whose text it does not prepare). Now every entry without
+`raw_gate` gets `ghidra_raw_gate`, as tree_round.py's order() gives it when it generates a tree, and source.json
+records it for that entry. verify_all also reports a regen that fails instead of crashing. The regen run alone from
+tree/source.json's inputs (given_drop included): build failed: none, 4 functions not compiled (0 new), tree/src and
+tree/include identical to the installed tree. (export-sp's FAIL for 0x100412B0 is the known one, line 291.)

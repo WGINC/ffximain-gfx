@@ -208,6 +208,14 @@ WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef vo
         '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': '#ifndef _FILE_DEFINED\nstruct _iobuf { char *_ptr; int _cnt; char *_base; int _flag; int _file; int _charbuf; int _bufsiz; char *_tmpfname; };\ntypedef struct _iobuf FILE;\n#define _FILE_DEFINED\n#endif',
         # xi_compat_win.hpp (imm.h DECLARE_HANDLE(HIMC); mmsystem.h; winuser.h's MSG) and gfx_types.hpp (LONG)
         'HIMC': 'struct HIMC__; typedef struct HIMC__ *HIMC;', 'MMRESULT': 'typedef unsigned int MMRESULT;',
+        # VC6's WINSOCK.H (in_addr, u_long, u_short), WINDEF.H (HGLOBAL, HKL), WINNT.H (HRESULT, LARGE_INTEGER),
+        # WINBASE.H (SECURITY_ATTRIBUTES), WINUSER.H (WINDOWPLACEMENT: its POINTs and RECT as LONGs)
+        'u_long': 'typedef unsigned long u_long;', 'u_short': 'typedef unsigned short u_short;',
+        'in_addr': '#ifndef XI_IN_ADDR\n#define XI_IN_ADDR\nstruct in_addr { union { struct { unsigned char s_b1, s_b2, s_b3, s_b4; } S_un_b; struct { unsigned short s_w1, s_w2; } S_un_w; unsigned long S_addr; } S_un; };\n#endif\ntypedef struct in_addr in_addr;',
+        'HGLOBAL': 'typedef void *HGLOBAL;', 'HKL': 'struct HKL__; typedef struct HKL__ *HKL;', 'HRESULT': 'typedef long HRESULT;',
+        'LARGE_INTEGER': '#ifndef XI_LARGE_INTEGER\n#define XI_LARGE_INTEGER\ntypedef union _LARGE_INTEGER { struct { unsigned long LowPart; long HighPart; } u; __int64 QuadPart; } LARGE_INTEGER;\n#endif',
+        'LPSECURITY_ATTRIBUTES': 'struct _SECURITY_ATTRIBUTES { unsigned long nLength; void *lpSecurityDescriptor; int bInheritHandle; }; typedef struct _SECURITY_ATTRIBUTES *LPSECURITY_ATTRIBUTES;',
+        'WINDOWPLACEMENT': '#ifndef XI_WINDOWPLACEMENT\n#define XI_WINDOWPLACEMENT\ntypedef struct tagWINDOWPLACEMENT { unsigned int length, flags, showCmd; long ptMinPosition_x, ptMinPosition_y, ptMaxPosition_x, ptMaxPosition_y; long rcNormalPosition_left, rcNormalPosition_top, rcNormalPosition_right, rcNormalPosition_bottom; } WINDOWPLACEMENT;\n#endif',
         'MSG': '#ifndef XI_TAGMSG\n#define XI_TAGMSG\nstruct tagMSG { void *hwnd; unsigned int message; unsigned int wParam; long lParam; unsigned long time; long pt_x; long pt_y; };\n#endif\ntypedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
 
 
@@ -745,7 +753,8 @@ def convert(m, src, orig=None, glob_=None):
     # a Direct3D interface's inline wrapper called (`dev->SetRenderState(...)`): C++, as the tree
     force_cpp = force_cpp or any(x in d3d_methods() for x in re.findall(r'->\s*(\w+)\s*\(', body))
     pre = list(dict.fromkeys(VDECLS))
-    words = set(re.findall(r'\b[A-Za-z_]\w*\b', body))
+    # the signature's types too (`HIMC __stdcall f(HWND param_1)`: a Windows type named only there)
+    words = set(re.findall(r'\b[A-Za-z_]\w*\b', body + ' ' + ret + ' ' + args))
     for h, (code, cpp) in HELPERS.items():
         if re.search(HELPER_USE[h], body): pre.append(code); force_cpp = force_cpp or cpp
     # the types a body names: a Windows typedef; a struct or class of tree/include used through a pointer, declared

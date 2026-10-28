@@ -67,7 +67,12 @@ def coff(path):
         for k in range(nrel):
             off, si, rt = struct.unpack_from('<IIH', b, relptr + 10 * k)
             t = syms[si]
-            rels.append((off - val, rt, t[0] if t else '?'))
+            # a label of this function's own section (a jump table's case, $L...): its place is known, the
+            # function's start plus its offset, so the relocation is compared like any other ('@self+N')
+            if t and t[2] == sec and (t[3] >> 4) != 2 and t[4] in (3, 6) and t[0].startswith('$L'):
+                rels.append((off - val, rt, '@self%+d' % (t[1] - val)))
+            else:
+                rels.append((off - val, rt, t[0] if t else '?'))
         out[nm_] = (code[val:], rels)
     return out, compid
 
@@ -96,7 +101,8 @@ def compare(img, ext, ea, code, rels, place):
         covered.update(range(off, off + 4))
         a = None
         m = ADDR_RE.search(sym)
-        if m: a = int(m.group(1), 16)
+        if sym.startswith('@self'): a = ea + int(sym[5:])
+        elif m: a = int(m.group(1), 16)
         elif sym in place: a = place[sym]
         elif sym.lstrip('_?') in place: a = place[sym.lstrip('_?')]
         elif re.match(r'^\?(\w+)@(\w+)@@', sym) and '%s::%s' % re.match(r'^\?(\w+)@(\w+)@@', sym).group(2, 1) in place:
@@ -115,7 +121,12 @@ def compare(img, ext, ea, code, rels, place):
             return 'DIFFERS', '+%d: 0x%02X here, 0x%02X in the game' % (k, code[k], orig[k]), notes
     if n is not None:
         tail = img[ea - BASE + len(code):ea - BASE + n]
-        if len(code) > n or any(x not in (0xCC, 0x90) for x in tail):
+        # past the function's extent: only a jump table the function's own relocations cover (compared above, against
+        # the game's bytes that follow the function) and padding
+        # (the alignment before the table, at most 7 bytes such as `mov edi, edi`, is compared byte for byte above)
+        first = min([k for k in covered if k >= n], default=len(code))
+        past = [k for k in range(n, len(code)) if k not in covered and code[k] not in (0xCC, 0x90) and not (k < first <= n + 7)]
+        if (len(code) > n and past) or any(x not in (0xCC, 0x90) for x in tail):
             return 'DIFFERS', 'length %d, the game function %d' % (len(code), n), notes
     return 'IDENTICAL', '', notes
 

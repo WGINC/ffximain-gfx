@@ -4697,6 +4697,8 @@
 "bytes": null,
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_100412B0.cpp",
 "d3d": {
 "proven": 18,
 "accepted": 0
@@ -4729,6 +4731,8 @@
 "bytes": null,
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_10042D00.cpp",
 "d3d": {
 "proven": 4,
 "accepted": 0

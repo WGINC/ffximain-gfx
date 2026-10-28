@@ -4413,8 +4413,14 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "fastthis",
+   "uleq_retvoid_fastthis",
+   "fastthis_uleq",
+   "fastthis_retvoid",
    "uleq_retvoid"
-  ]
+  ],
+  "rule_identical": "fastthis",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10029CD0": {
   "verdict": "DIFFERS",
@@ -4451,8 +4457,14 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "fastthis",
+   "uleq_retvoid_fastthis",
+   "fastthis_uleq",
+   "fastthis_retvoid",
    "uleq_retvoid"
-  ]
+  ],
+  "rule_identical": "fastthis",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10029DD0": {
   "verdict": "DIFFERS",
@@ -4547,8 +4559,14 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "fastthis",
+   "uleq_retvoid_fastthis",
+   "fastthis_uleq",
+   "fastthis_retvoid",
    "uleq_retvoid"
-  ]
+  ],
+  "rule_identical": "fastthis",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1002A0C0": {
   "verdict": "DIFFERS",
@@ -6921,8 +6939,14 @@
   "rules_tried": [
    "uleq",
    "retvoid",
+   "fastthis",
+   "uleq_retvoid_fastthis",
+   "fastthis_uleq",
+   "fastthis_retvoid",
    "uleq_retvoid"
-  ]
+  ],
+  "rule_identical": "fastthis",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1003D940": {
   "verdict": "IDENTICAL",
@@ -7982,16 +8006,18 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_calledon_retnarrow_uleq_retvoid",
-   "globvar_retnarrow",
-   "globvar_uleq",
-   "globvar_retvoid",
+   "fastthis",
+   "globvar_calledon_retnarrow_uleq_retvoid_fastthis",
+   "globvar_fastthis",
+   "globvar_fastthis_retnarrow",
+   "globvar_fastthis_uleq",
+   "globvar_fastthis_retvoid",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq",
+   "globvar_fastthis_retnarrow_uleq",
    "retnarrow_retvoid",
-   "globvar_retnarrow_retvoid",
+   "globvar_fastthis_retnarrow_retvoid",
    "uleq_retvoid",
-   "globvar_uleq_retvoid"
+   "globvar_fastthis_uleq_retvoid"
   ]
  },
  "0x10044AA0": {
@@ -8370,8 +8396,14 @@
    "retnarrow",
    "uleq",
    "retvoid",
+   "fastthis",
+   "retnarrow_uleq_fastthis",
+   "fastthis_retnarrow",
+   "fastthis_uleq",
    "retnarrow_uleq"
-  ]
+  ],
+  "rule_identical": "fastthis",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10047B80": {
   "verdict": "DIFFERS",
@@ -12018,24 +12050,25 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_float_ret64_uleq_xiany_retvoid",
-   "globvar_float",
-   "globvar_float_ret64",
-   "globvar_float_uleq",
-   "globvar_float_xiany",
-   "globvar_float_retvoid",
+   "fastthis",
+   "globvar_float_ret64_uleq_xiany_retvoid_fastthis",
+   "globvar_float_fastthis",
+   "globvar_float_fastthis_ret64",
+   "globvar_float_fastthis_uleq",
+   "globvar_float_fastthis_xiany",
+   "globvar_float_fastthis_retvoid",
    "ret64_uleq",
-   "globvar_float_ret64_uleq",
+   "globvar_float_fastthis_ret64_uleq",
    "ret64_xiany",
-   "globvar_float_ret64_xiany",
+   "globvar_float_fastthis_ret64_xiany",
    "ret64_retvoid",
-   "globvar_float_ret64_retvoid",
+   "globvar_float_fastthis_ret64_retvoid",
    "uleq_xiany",
-   "globvar_float_uleq_xiany",
+   "globvar_float_fastthis_uleq_xiany",
    "uleq_retvoid",
-   "globvar_float_uleq_retvoid",
+   "globvar_float_fastthis_uleq_retvoid",
    "xiany_retvoid",
-   "globvar_float_xiany_retvoid"
+   "globvar_float_fastthis_xiany_retvoid"
   ]
  },
  "0x10071980": {
@@ -12489,18 +12522,19 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
-   "cmpk_globvar_frame",
+   "fastthis",
+   "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq_fastthis",
+   "cmpk_globvar_frame_fastthis",
    "ret64_calledon",
-   "cmpk_globvar_frame_ret64",
-   "cmpk_globvar_frame_retnarrow",
-   "cmpk_globvar_frame_uleq",
+   "cmpk_globvar_frame_fastthis_ret64",
+   "cmpk_globvar_frame_fastthis_retnarrow",
+   "cmpk_globvar_frame_fastthis_uleq",
    "ret64_retnarrow",
-   "cmpk_globvar_frame_ret64_retnarrow",
+   "cmpk_globvar_frame_fastthis_ret64_retnarrow",
    "ret64_uleq",
-   "cmpk_globvar_frame_ret64_uleq",
+   "cmpk_globvar_frame_fastthis_ret64_uleq",
    "retnarrow_uleq",
-   "cmpk_globvar_frame_retnarrow_uleq",
+   "cmpk_globvar_frame_fastthis_retnarrow_uleq",
    "sametu"
   ]
  },
@@ -17187,16 +17221,18 @@
    "retnarrow",
    "uleq",
    "retvoid",
-   "globvar_calledon_retnarrow_uleq_retvoid",
-   "globvar_retnarrow",
-   "globvar_uleq",
-   "globvar_retvoid",
+   "fastthis",
+   "globvar_calledon_retnarrow_uleq_retvoid_fastthis",
+   "globvar_fastthis",
+   "globvar_fastthis_retnarrow",
+   "globvar_fastthis_uleq",
+   "globvar_fastthis_retvoid",
    "retnarrow_uleq",
-   "globvar_retnarrow_uleq",
+   "globvar_fastthis_retnarrow_uleq",
    "retnarrow_retvoid",
-   "globvar_retnarrow_retvoid",
+   "globvar_fastthis_retnarrow_retvoid",
    "uleq_retvoid",
-   "globvar_uleq_retvoid"
+   "globvar_fastthis_uleq_retvoid"
   ]
  },
  "0x100C5D60": {
@@ -17622,9 +17658,11 @@
    "float",
    "uleq",
    "retvoid",
-   "float_uleq_retvoid",
-   "float_uleq",
-   "float_retvoid",
+   "fastthis",
+   "float_uleq_retvoid_fastthis",
+   "float_fastthis",
+   "float_fastthis_uleq",
+   "float_fastthis_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -17637,9 +17675,11 @@
    "float",
    "uleq",
    "retvoid",
-   "float_uleq_retvoid",
-   "float_uleq",
-   "float_retvoid",
+   "fastthis",
+   "float_uleq_retvoid_fastthis",
+   "float_fastthis",
+   "float_fastthis_uleq",
+   "float_fastthis_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -17652,9 +17692,11 @@
    "float",
    "uleq",
    "retvoid",
-   "float_uleq_retvoid",
-   "float_uleq",
-   "float_retvoid",
+   "fastthis",
+   "float_uleq_retvoid_fastthis",
+   "float_fastthis",
+   "float_fastthis_uleq",
+   "float_fastthis_retvoid",
    "uleq_retvoid"
   ]
  },
@@ -48338,24 +48380,25 @@
    "uleq",
    "xiany",
    "retvoid",
-   "globvar_frame_ret64_uleq_xiany_retvoid",
-   "globvar_frame",
-   "globvar_frame_ret64",
-   "globvar_frame_uleq",
-   "globvar_frame_xiany",
-   "globvar_frame_retvoid",
+   "fastthis",
+   "globvar_frame_ret64_uleq_xiany_retvoid_fastthis",
+   "globvar_frame_fastthis",
+   "globvar_frame_fastthis_ret64",
+   "globvar_frame_fastthis_uleq",
+   "globvar_frame_fastthis_xiany",
+   "globvar_frame_fastthis_retvoid",
    "ret64_uleq",
-   "globvar_frame_ret64_uleq",
+   "globvar_frame_fastthis_ret64_uleq",
    "ret64_xiany",
-   "globvar_frame_ret64_xiany",
+   "globvar_frame_fastthis_ret64_xiany",
    "ret64_retvoid",
-   "globvar_frame_ret64_retvoid",
+   "globvar_frame_fastthis_ret64_retvoid",
    "uleq_xiany",
-   "globvar_frame_uleq_xiany",
+   "globvar_frame_fastthis_uleq_xiany",
    "uleq_retvoid",
-   "globvar_frame_uleq_retvoid",
+   "globvar_frame_fastthis_uleq_retvoid",
    "xiany_retvoid",
-   "globvar_frame_xiany_retvoid"
+   "globvar_frame_fastthis_xiany_retvoid"
   ]
  },
  "0x10275670": {

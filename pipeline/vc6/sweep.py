@@ -807,6 +807,7 @@ def _strip(e):
 def _low_part(e, bits):
     """for `(HIGH << bits) | (uintN_t)(LOW)` (a decompiler's register piece: HIGH what the register held), LOW"""
     e = _strip(e)
+    if re.fullmatch(r'\w+ & 0x%x' % ((0xFFFFFFFF << bits) & 0xFFFFFFFF), e): return '0'   # the low piece cleared
     t = ' << %d) | (uint%d_t)(' % (bits, bits)
     i = e.find(t)
     if i < 0 or not e.startswith('('): return None
@@ -832,7 +833,7 @@ def _rule_ret_piece(text, ret, name, bits, ty):
         pos = end
     if not n: return None
     t = ''.join(out) + text[pos:]
-    t2 = re.sub(r'(^|[{;]\s*|\n)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), t)
+    t2 = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), t)
     return t2 if t2 != t else None
 
 

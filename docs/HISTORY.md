@@ -3694,3 +3694,11 @@ Two more rules, the same way:
   alone. Applied to 368, IDENTICAL in 4, and 1 more with globvar.
 The block and the double type are not what keeps most of those functions from the game's bytes. vc6_sweep.json: 2,077
 at the game's bytes, none lost; frame set 1,844 (34.0%).
+
+**ret8 / ret16 on C-linkage functions.** The rules' return-type rewrite looked for the type at the start of a line;
+a function defined `extern "C" undefined4 __cdecl F(...)` (the sweep's form for a C-linkage function) never got it,
+so the rule was never tried there. Now it is, and the low piece of `V & 0xffffff00` (the decompiler's cleared byte)
+is read as 0. 26 more functions IDENTICAL (ret8 25, ret8_globvar 1): 2,103 at the game's bytes, none lost.
+pipeline/vc6/differs.py skips the shim's helper functions in an object, as sweep.py does (it stopped on them).
+Found by grouping the DIFFERS functions by their few-instruction difference (differs.py): `mov al, 1` in the game
+where ours has `and al, ..; or al, ..` in 66 functions.

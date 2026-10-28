@@ -31,8 +31,12 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10001BB0": {
   "verdict": "DIFFERS",
@@ -40,7 +44,9 @@
   "conv": "__stdcall",
   "size": 96,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10001CC0": {
@@ -1277,7 +1283,9 @@
   "size": 128,
   "casts": 1,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10014330": {
@@ -3672,7 +3680,10 @@
   "verdict": "DIFFERS",
   "why": "+16: REL32 targets ?FUN_1002B470@@YGII@Z (0x1002B470), the game 0x0FEFD34D",
   "conv": "__thiscall",
-  "size": 32
+  "size": 32,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1002C7C0": {
   "verdict": "DIFFERS",
@@ -4260,7 +4271,9 @@
    "ret8",
    "globvar",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10036420": {
   "verdict": "DIFFERS",
@@ -7801,7 +7814,9 @@
   "conv": "__cdecl",
   "size": 112,
   "rules_tried": [
-   "frame"
+   "ret8",
+   "frame",
+   "ret8_frame"
   ]
  },
  "0x10062F50": {
@@ -8339,7 +8354,9 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x1006B4C0": {
@@ -8493,9 +8510,10 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "float",
-   "cmpk_float"
+   "ret8_cmpk_float"
   ]
  },
  "0x1006CA60": {
@@ -9962,9 +9980,10 @@
   "conv": "__cdecl",
   "size": 128,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x10080D90": {
@@ -10313,9 +10332,11 @@
   "conv": "__stdcall",
   "size": 336,
   "rules_tried": [
+   "ret8",
+   "ret16",
    "frame",
    "float",
-   "frame_float"
+   "ret8_frame_float"
   ]
  },
  "0x100830C0": {
@@ -10662,7 +10683,9 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x100870E0": {
@@ -10898,7 +10921,9 @@
   "conv": "__cdecl",
   "size": 336,
   "rules_tried": [
-   "frame"
+   "ret8",
+   "frame",
+   "ret8_frame"
   ]
  },
  "0x1008B380": {
@@ -11000,7 +11025,9 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "cmpk"
+   "ret8",
+   "cmpk",
+   "ret8_cmpk"
   ]
  },
  "0x1008E9A0": {
@@ -11134,9 +11161,10 @@
   "conv": "__cdecl",
   "size": 784,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x10093A30": {
@@ -11406,7 +11434,9 @@
   "conv": "__thiscall",
   "size": 112,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10097840": {
@@ -11524,7 +11554,9 @@
    "ret8",
    "globvar",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10098100": {
   "verdict": "DIFFERS",
@@ -11535,7 +11567,9 @@
    "ret8",
    "globvar",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10098180": {
   "verdict": "DIFFERS",
@@ -11554,9 +11588,10 @@
   "conv": "__thiscall",
   "size": 304,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x100983A0": {
@@ -11707,10 +11742,11 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
+   "ret8_cmpk_globvar_frame"
   ]
  },
  "0x100A1A00": {
@@ -12960,10 +12996,11 @@
   "conv": "__stdcall",
   "size": 416,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
    "float",
-   "globvar_frame_float"
+   "ret8_globvar_frame_float"
   ]
  },
  "0x100D0880": {
@@ -13111,9 +13148,10 @@
   "conv": "__thiscall",
   "size": 144,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
-   "ge0_cmpk"
+   "ret8_ge0_cmpk"
   ]
  },
  "0x100D62C0": {
@@ -13714,9 +13752,10 @@
   "conv": "__cdecl",
   "size": 176,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x100DC420": {
@@ -13766,9 +13805,10 @@
   "conv": "__cdecl",
   "size": 400,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x100DCA00": {
@@ -13989,7 +14029,9 @@
   "conv": "__cdecl",
   "size": 1808,
   "rules_tried": [
-   "cmpk"
+   "ret8",
+   "cmpk",
+   "ret8_cmpk"
   ]
  },
  "0x100E13C0": {
@@ -14005,9 +14047,10 @@
   "size": 528,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x100E16A0": {
@@ -14031,7 +14074,9 @@
   "size": 48,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E1790": {
   "verdict": "DIFFERS",
@@ -14039,9 +14084,10 @@
   "conv": "__cdecl",
   "size": 160,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x100E19C0": {
@@ -14094,7 +14140,9 @@
   "size": 64,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100E2E70": {
   "verdict": "DIFFERS",
@@ -15127,7 +15175,9 @@
    "ret8",
    "globvar",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F1D20": {
   "verdict": "LEFT_OUT",
@@ -15268,8 +15318,12 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F7700": {
   "verdict": "DIFFERS",
@@ -15277,8 +15331,12 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100F7740": {
   "verdict": "IDENTICAL",
@@ -15349,7 +15407,9 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
-   "cmpk"
+   "ret8",
+   "cmpk",
+   "ret8_cmpk"
   ]
  },
  "0x100F8910": {
@@ -15555,9 +15615,10 @@
   "conv": "__cdecl",
   "size": 272,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x100FC300": {
@@ -17290,7 +17351,9 @@
   "size": 48,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1011C870": {
   "verdict": "IDENTICAL",
@@ -17305,9 +17368,10 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x1011C900": {
@@ -17738,7 +17802,9 @@
   "conv": "__cdecl",
   "size": 224,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10122E20": {
@@ -17776,7 +17842,9 @@
   "conv": "__cdecl",
   "size": 208,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10123640": {
@@ -17851,7 +17919,9 @@
   "conv": "__cdecl",
   "size": 48,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10123DF0": {
@@ -17860,7 +17930,9 @@
   "conv": "__cdecl",
   "size": 48,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10123E20": {
@@ -18169,8 +18241,12 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10126290": {
   "verdict": "IDENTICAL",
@@ -18403,7 +18479,9 @@
   "conv": "__cdecl",
   "size": 112,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x101278B0": {
@@ -18453,11 +18531,12 @@
   "conv": "__cdecl",
   "size": 448,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
    "float",
-   "cmpk_globvar_frame_float"
+   "ret8_cmpk_globvar_frame_float"
   ]
  },
  "0x10127C00": {
@@ -18479,8 +18558,12 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8_globvar",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10127EE0": {
   "verdict": "IDENTICAL",
@@ -18631,9 +18714,10 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
+   "ret8_cmpk_globvar"
   ]
  },
  "0x10129DE0": {
@@ -18642,9 +18726,10 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
-   "ge0_cmpk"
+   "ret8_ge0_cmpk"
   ]
  },
  "0x10129E30": {
@@ -18653,9 +18738,10 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
-   "ge0_cmpk"
+   "ret8_ge0_cmpk"
   ]
  },
  "0x10129E80": {
@@ -19018,7 +19104,9 @@
   "size": 80,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10137630": {
   "verdict": "DIFFERS",
@@ -19610,10 +19698,11 @@
   "size": 96,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
    "globvar",
-   "ge0_globvar"
+   "ret8_ge0_globvar"
   ]
  },
  "0x10153090": {
@@ -19727,13 +19816,19 @@
   "verdict": "DIFFERS",
   "why": "+5: REL32 targets _FUN_10152FF0 (0x10152FF0), the game 0x04FE162B",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10153B30": {
   "verdict": "DIFFERS",
   "why": "+5: REL32 targets _FUN_10152FF0 (0x10152FF0), the game 0xC4FE166B",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10153C10": {
   "verdict": "DIFFERS",
@@ -19752,10 +19847,11 @@
   "conv": "__cdecl",
   "size": 192,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
    "globvar",
-   "ge0_globvar"
+   "ret8_ge0_globvar"
   ]
  },
  "0x10153F80": {
@@ -19788,10 +19884,11 @@
   "conv": "__stdcall",
   "size": 400,
   "rules_tried": [
+   "ret16",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
+   "ret16_cmpk_globvar_frame"
   ]
  },
  "0x101544F0": {
@@ -20371,7 +20468,9 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10157720": {
@@ -20488,7 +20587,9 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x10157D60": {
@@ -20696,7 +20797,9 @@
   "size": 160,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101594D0": {
   "verdict": "IDENTICAL",
@@ -20914,7 +21017,9 @@
   "size": 112,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015B270": {
   "verdict": "IDENTICAL",
@@ -21205,9 +21310,10 @@
   "conv": "__stdcall",
   "size": 112,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x1015ECC0": {
@@ -21216,9 +21322,10 @@
   "conv": "__stdcall",
   "size": 80,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x1015ED10": {
@@ -21227,9 +21334,10 @@
   "conv": "__stdcall",
   "size": 112,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x1015ED80": {
@@ -21268,8 +21376,12 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015EEF0": {
   "verdict": "DIFFERS",
@@ -21324,7 +21436,9 @@
   "conv": "__stdcall",
   "size": 128,
   "rules_tried": [
-   "frame"
+   "ret8",
+   "frame",
+   "ret8_frame"
   ]
  },
  "0x1015F960": {
@@ -22897,7 +23011,10 @@
   "verdict": "DIFFERS",
   "why": "+56: 0x51 here, 0x41 in the game",
   "conv": "__thiscall",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x10187600": {
   "verdict": "DIFFERS",
@@ -23214,20 +23331,28 @@
   "conv": "__cdecl",
   "size": 112,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x1018AAE0": {
   "verdict": "DIFFERS",
   "why": "+34: REL32 targets ?f@FUNt_100539E0@@QAEIXZ (0x100539E0), the game 0xDEA3D87B",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1018AB60": {
   "verdict": "DIFFERS",
   "why": "+7: 0x75 here, 0x74 in the game",
   "conv": "__cdecl",
-  "size": 80
+  "size": 80,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x1018ABF0": {
   "verdict": "LEFT_OUT",
@@ -24922,9 +25047,10 @@
   "conv": "__cdecl",
   "size": 448,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x101A23D0": {
@@ -26180,7 +26306,9 @@
   "conv": "__cdecl",
   "size": 48,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x101B91B0": {
@@ -27112,11 +27240,14 @@
   "size": 224,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
-  ]
+   "ret8_cmpk_globvar_frame"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C13A0": {
   "verdict": "DIFFERS",
@@ -27125,11 +27256,14 @@
   "size": 192,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
-  ]
+   "ret8_cmpk_globvar_frame"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C1750": {
   "verdict": "DIFFERS",
@@ -27138,11 +27272,14 @@
   "size": 208,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
-  ]
+   "ret8_cmpk_globvar_frame"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C1820": {
   "verdict": "DIFFERS",
@@ -27151,11 +27288,14 @@
   "size": 192,
   "casts": 1,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
    "frame",
-   "cmpk_globvar_frame"
-  ]
+   "ret8_cmpk_globvar_frame"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C18E0": {
   "verdict": "DIFFERS",
@@ -27993,8 +28133,12 @@
   "conv": "__cdecl",
   "size": 48,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101CBC60": {
   "verdict": "IDENTICAL",
@@ -28011,7 +28155,9 @@
    "ret8",
    "globvar",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101CC0A0": {
   "verdict": "DIFFERS",
@@ -28465,22 +28611,31 @@
   "conv": "__cdecl",
   "size": 432,
   "rules_tried": [
+   "ret8",
    "globvar",
    "frame",
-   "globvar_frame"
+   "ret8_globvar_frame"
   ]
  },
  "0x101D1000": {
   "verdict": "DIFFERS",
   "why": "+13: REL32 targets ?FUN_1002C890@@YAIH@Z (0x1002C890), the game 0x14E19410",
   "conv": "__cdecl",
-  "size": 128
+  "size": 128,
+  "rules_tried": [
+   "ret8"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101D1060": {
   "verdict": "DIFFERS",
   "why": "+27: REL32 targets ?FUN_10311BBB@@YA_KI@Z (0x10311BBB), the game 0x940D9B7F",
   "conv": "__cdecl",
-  "size": 112
+  "size": 112,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101D10C0": {
   "verdict": "DIFFERS",
@@ -28488,17 +28643,21 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
    "globvar",
-   "ge0_globvar"
+   "ret8_ge0_globvar"
   ]
  },
  "0x101D1100": {
   "verdict": "DIFFERS",
   "why": "+10: REL32 targets _FUN_10015600 (0x10015600), the game 0x00A8780D",
   "conv": "__cdecl",
-  "size": 144
+  "size": 144,
+  "rules_tried": [
+   "ret8"
+  ]
  },
  "0x101D1180": {
   "verdict": "DIFFERS",
@@ -28506,10 +28665,11 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
+   "ret8",
    "ge0",
    "cmpk",
    "globvar",
-   "ge0_globvar"
+   "ret8_ge0_globvar"
   ]
  },
  "0x101D11C0": {
@@ -30173,7 +30333,9 @@
   "conv": "__cdecl",
   "size": 32,
   "rules_tried": [
-   "globvar"
+   "ret8",
+   "globvar",
+   "ret8_globvar"
   ]
  },
  "0x1021D490": {
@@ -30458,8 +30620,12 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "globvar"
-  ]
+   "ret8",
+   "globvar",
+   "ret8_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021EF60": {
   "verdict": "DIFFERS",
@@ -31485,10 +31651,13 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "globvar",
-   "cmpk_globvar"
-  ]
+   "ret8_cmpk_globvar"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1022F3D0": {
   "verdict": "DIFFERS",
@@ -32801,7 +32970,9 @@
   "size": 64,
   "rules_tried": [
    "ret8"
-  ]
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102575D0": {
   "verdict": "IDENTICAL",
@@ -36883,10 +37054,11 @@
   "conv": "__cdecl",
   "size": 192,
   "rules_tried": [
+   "ret8",
    "cmpk",
    "frame",
    "float",
-   "cmpk_frame_float"
+   "ret8_cmpk_frame_float"
   ]
  },
  "0x10299AB0": {

@@ -32,7 +32,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x10001BB0": {
 "tree": true,
@@ -3738,7 +3739,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100363B0": {
 "tree": false,
@@ -9505,14 +9507,16 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x10098100": {
 "tree": true,
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x10098180": {
 "tree": true,
@@ -11719,7 +11723,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100E1790": {
 "tree": true,
@@ -11778,7 +11783,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100E2060": {
 "tree": true,
@@ -12718,7 +12724,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100F1D20": {
 "tree": true,
@@ -12879,7 +12886,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100F76D0": {
 "tree": true,
@@ -12893,7 +12901,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x100F7740": {
 "tree": true,
@@ -14876,7 +14885,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x1011C870": {
 "tree": true,
@@ -15743,7 +15753,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x10126290": {
 "tree": true,
@@ -16051,7 +16062,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 2,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8_globvar"
 },
 "0x10127EE0": {
 "tree": true,
@@ -16657,7 +16669,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x10137630": {
 "tree": true,
@@ -18380,7 +18393,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101594D0": {
 "tree": true,
@@ -18620,7 +18634,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x1015B270": {
 "tree": true,
@@ -19012,7 +19027,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x1015EEA0": {
 "tree": false,
@@ -24599,28 +24615,32 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101C13A0": {
 "tree": true,
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101C1750": {
 "tree": true,
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101C1820": {
 "tree": true,
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101C18E0": {
 "tree": true,
@@ -25470,7 +25490,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101CBC10": {
 "tree": false,
@@ -25554,7 +25575,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101CC0A0": {
 "tree": true,
@@ -26056,7 +26078,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x101D1060": {
 "tree": true,
@@ -27990,7 +28013,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x1021EF60": {
 "tree": true,
@@ -28883,7 +28907,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x1022F3D0": {
 "tree": true,
@@ -30096,7 +30121,8 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"bytes_rule": "ret8"
 },
 "0x102575D0": {
 "tree": true,

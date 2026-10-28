@@ -1160,7 +1160,7 @@ def _rule_calledon(text, ret, name):
     cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
     cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:12]
     this_ = 'this' if 'this' in cands else ('self_' if re.search(r'\bself_\b', body) else None)
-    gc = [c.replace('@THIS', this_) for c in _ecx_objects(name, {int(f[4:], 16) for f in decls}) if this_ or '@THIS' not in c]
+    gc = [c.replace('@THIS', this_ or '') for c in _ecx_objects(name, {int(f[4:], 16) for f in decls}) if this_ or '@THIS' not in c]
     cands = gc + cands
     out = []
     for fn, m in decls.items():

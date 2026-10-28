@@ -602,7 +602,8 @@
    "in_tree": false
   },
   "0x1003EE70": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
@@ -617,7 +618,8 @@
    "in_tree": true
   },
   "0x10040BA0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": false
   },

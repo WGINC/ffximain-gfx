@@ -122,3 +122,7 @@ The sweep's conversion (pipeline/vc6/sweep.py) now compiles 8 of the functions r
 `__thiscall` pointer type).
 
 `match.py --all` after this round: 91 files, every function IDENTICAL: 106 marks, 104 addresses (0x10026E90 and 0x100272B0 are in two files each).
+0x10040BA0 and 0x1003EE70 (#119) were added to recompile/d3dcaller_notree_r120.cpp by the same session but not
+committed; checked again on 28 Oct: match.py 7 of 7 identical (comp.id 49 build 9044), and the pooled constant
+0x10040BA0 reads at +46 (__real@00000000, 0x103295D8, which match.py does not compare) is 00000000 in the game's
+.rdata. `match.py --all` exit 0.

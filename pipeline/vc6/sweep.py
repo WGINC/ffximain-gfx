@@ -1088,6 +1088,35 @@ def _rule_devlocal(text, ret, name):
 
 
 _ECXUSE = None
+_EA_OF_NAME = {}               # function name -> address, for rules that read the game's bytes (main fills it)
+_IMG = None
+def _ecx_objects(name, callees):
+    """the objects the game itself puts in ECX before its calls to `callees` in function `name`: a global's value
+    (`mov ecx, [G]`) or a global's address (`mov ecx, G`), from the game's bytes; the decompiler drops them, so the
+    text cannot name them"""
+    global _IMG
+    ea = _EA_OF_NAME.get(name)
+    if ea is None: return []
+    import capstone, pefile
+    if _IMG is None: _IMG = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+    ext = json.load(open(os.path.join(ROOT, 'data', 'func_extents.json'))) if not hasattr(_ecx_objects, 'ext') else _ecx_objects.ext
+    _ecx_objects.ext = ext
+    e = ext.get('0x%08x' % ea) or ext.get('0x%08X' % ea)
+    if not e: return []
+    s, t = e[0]
+    ins = list(capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32).disasm(bytes(_IMG[s - 0x10000000:t - 0x10000000]), s))
+    out = []
+    for k, i in enumerate(ins):
+        if i.mnemonic != 'call' or not i.op_str.startswith('0x') or int(i.op_str, 16) not in callees: continue
+        for j in reversed(ins[max(0, k - 10):k]):
+            if j.mnemonic in ('call', 'ret') or j.mnemonic.startswith('j'): break
+            if j.op_str.startswith('ecx,'):
+                m = re.match(r'ecx, dword ptr \[(0x[0-9a-f]{8})\]$', j.op_str)
+                if j.mnemonic == 'mov' and m: out.append('(*(int *)%su)' % m.group(1))
+                elif j.mnemonic == 'mov' and re.match(r'ecx, 0x1[0-9a-f]{7}$', j.op_str): out.append('((void *)%su)' % j.op_str[5:])
+                break
+    return list(dict.fromkeys(out))
+
 def _rule_calledon(text, ret, name):
     """a __stdcall callee that does not read ECX (data/ecx_use.json) called as a method on an object: the game loads
     ECX before such calls (recompile/d3d_round_118.md rule 7), which a free call never does, and the decompiler drops
@@ -1112,6 +1141,7 @@ def _rule_calledon(text, ret, name):
     cands += re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\**(\w+)(?:\[\w+\])?;$', body)
     cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
     cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:12]
+    cands = _ecx_objects(name, {int(f[4:], 16) for f in decls}) + cands
     out = []
     for fn, m in decls.items():
         sites = [s.start() for s in re.finditer(r'(?<![\w>.])%s\(' % fn, body)]
@@ -1393,6 +1423,7 @@ def main():
             text = re.sub(r'(?m)^(\s*%s = \([\w ]+\()__thiscall (\*\*?\))' % v_, r'\1\2', text)
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))
+        _EA_OF_NAME[m.group('name')] = ea
     # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.
     # An object is cached by the hash of what decides it: its source, the shim, the flags and the compiler's own
     # files (cache_key). The comparison with the game is redone every run: it depends on the DLL and the facts.
@@ -1485,9 +1516,19 @@ def main():
             if res['0x%08X' % ea]['verdict'] != 'DIFFERS': continue
             text = open(os.path.join(d, fn)).read()
             for rn, t in apply_rules(text, *sig[ea]):
-                vf = 'f_%08X_%s%s' % (ea, rn, os.path.splitext(fn)[1]); open(os.path.join(d, vf), 'w').write(t)
+                ext_ = os.path.splitext(fn)[1]
+                if rn.startswith('calledon') and ext_ == '.c': ext_ = '.cpp'     # a member call needs C++
+                vf = 'f_%08X_%s%s' % (ea, rn, ext_); open(os.path.join(d, vf), 'w').write(t)
                 var.append((ea, vf, cc)); meta[vf] = rn
         got = judge(var, 'rewrite rules')
+        for rnd in range(1, 9):                         # the variants' own conversions as casts, as for the tree's text
+            redo = []
+            for ea, vf, cc in var:
+                if got[vf]['verdict'] != 'NO_COMPILE': continue
+                t_, n_ = permissive(open(os.path.join(d, vf)).read(), errs.get(vf, []), vf)
+                if n_: open(os.path.join(d, vf), 'w').write(t_); redo.append((ea, vf, cc))
+            if not redo: break
+            got.update(judge(redo, 'rules: implicit conversions as casts, round %d (%d sources)' % (rnd, len(redo))))
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]

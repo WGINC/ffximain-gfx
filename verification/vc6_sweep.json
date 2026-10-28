@@ -1374,8 +1374,11 @@
   "rules_tried": [
    "cmpk",
    "globvar",
-   "cmpk_globvar"
-  ]
+   "calledon",
+   "cmpk_globvar_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10014C90": {
   "verdict": "DIFFERS",
@@ -8993,7 +8996,12 @@
   "verdict": "DIFFERS",
   "why": "+4: REL32 targets ?FUN_10073B20@@YGIPAH@Z (0x10073B20), the game 0x204EE180",
   "conv": "__thiscall",
-  "size": 16
+  "size": 16,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x10071060": {
   "verdict": "DIFFERS",
@@ -19025,7 +19033,12 @@
   "verdict": "DIFFERS",
   "why": "+11: REL32 targets _FUN_1011BFD0@8 (0x1011BFD0), the game 0x4F929EEF",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x10129F40": {
   "verdict": "IDENTICAL",
@@ -24410,8 +24423,11 @@
   "rules_tried": [
    "retthis",
    "globvar",
-   "retthis_globvar"
-  ]
+   "calledon",
+   "retthis_globvar_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10190BB0": {
   "verdict": "DIFFERS",
@@ -25108,25 +25124,45 @@
   "verdict": "DIFFERS",
   "why": "+17: REL32 targets _FUN_101BE510@4 (0x101BE510), the game 0x602A6D4C",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x101A0730": {
   "verdict": "DIFFERS",
   "why": "+14: REL32 targets _FUN_101BE6C0@8 (0x101BE6C0), the game 0x20802ECE",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x101A0750": {
   "verdict": "DIFFERS",
   "why": "+6: REL32 targets _FUN_101BE670@4 (0x101BE670), the game 0x602A6D81",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x101A0760": {
   "verdict": "DIFFERS",
   "why": "+6: REL32 targets _FUN_101BE690@4 (0x101BE690), the game 0x602A6D91",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x101A0770": {
   "verdict": "NO_COMPILE",
@@ -32417,7 +32453,12 @@
   "verdict": "DIFFERS",
   "why": "+29: REL32 targets _FUN_1024C060@32 (0x1024C060), the game 0x7A76637B",
   "conv": "__stdcall",
-  "size": 48
+  "size": 48,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x10246320": {
   "verdict": "DIFFERS",
@@ -32429,7 +32470,12 @@
   "verdict": "DIFFERS",
   "why": "+20: REL32 targets _FUN_1024C060@32 (0x1024C060), the game 0x7A746442",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x102463F0": {
   "verdict": "DIFFERS",
@@ -32463,13 +32509,23 @@
   "verdict": "DIFFERS",
   "why": "+23: REL32 targets _FUN_1024C060@32 (0x1024C060), the game 0x7A34CE4B",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x102467F0": {
   "verdict": "DIFFERS",
   "why": "+20: REL32 targets _FUN_1024C060@32 (0x1024C060), the game 0x7A746872",
   "conv": "__stdcall",
-  "size": 32
+  "size": 32,
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1024C060": {
   "verdict": "DIFFERS",

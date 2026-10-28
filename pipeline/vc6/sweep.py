@@ -1278,7 +1278,8 @@ def apply_rules(text, ret, name):
         return t_b
     base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany')]
     if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
-    if base and 'xiany' in names and len(names) > len(base) + 1: out.append(('_'.join(base + ['xiany']), combo(base + ['xiany'])))
+    for g in ('ret64', 'retnarrow', 'uleq', 'xiany'):  # and the others with each of these on its own
+        if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
     return out
 
 

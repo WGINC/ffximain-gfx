@@ -4225,8 +4225,12 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "calledon",
+   "globvar_calledon"
+  ],
+  "rule_identical": "calledon2",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10035D90": {
   "verdict": "DIFFERS",
@@ -4234,8 +4238,12 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "calledon",
+   "globvar_calledon"
+  ],
+  "rule_identical": "calledon2",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10035DE0": {
   "verdict": "DIFFERS",
@@ -4243,8 +4251,12 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "calledon",
+   "globvar_calledon"
+  ],
+  "rule_identical": "calledon2",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10035E80": {
   "verdict": "LEFT_OUT",
@@ -12410,8 +12422,12 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "calledon",
+   "retthis_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100AAF70": {
   "verdict": "DIFFERS",
@@ -18590,8 +18606,12 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "calledon",
+   "retthis_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101265D0": {
   "verdict": "DIFFERS",
@@ -24545,8 +24565,12 @@
   "conv": "__thiscall",
   "size": 112,
   "rules_tried": [
-   "cmpk"
-  ]
+   "cmpk",
+   "calledon",
+   "cmpk_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10195330": {
   "verdict": "DIFFERS",
@@ -25434,8 +25458,11 @@
    "globvar",
    "frame",
    "frametight",
-   "retthis_globvar_frame"
-  ]
+   "calledon",
+   "retthis_globvar_frame_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101A2870": {
   "verdict": "IDENTICAL",
@@ -26646,13 +26673,10 @@
   "size": 128
  },
  "0x101B94A0": {
-  "verdict": "DIFFERS",
-  "why": "length 16, the game function 11",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "size": 16,
-  "rules_tried": [
-   "globvar"
-  ]
+  "size": 16
  },
  "0x101B9530": {
   "verdict": "DIFFERS",
@@ -27432,8 +27456,11 @@
    "globvar",
    "frame",
    "frametight",
-   "cmpk_globvar_frame"
-  ]
+   "calledon",
+   "cmpk_globvar_frame_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101BF7F0": {
   "verdict": "DIFFERS",
@@ -27518,8 +27545,11 @@
    "globvar",
    "frame",
    "frametight",
-   "cmpk_globvar_frame"
-  ]
+   "calledon",
+   "cmpk_globvar_frame_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C0540": {
   "verdict": "DIFFERS",
@@ -27532,8 +27562,11 @@
    "globvar",
    "frame",
    "frametight",
-   "cmpk_globvar_frame"
-  ]
+   "calledon",
+   "cmpk_globvar_frame_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C0630": {
   "verdict": "LEFT_OUT",
@@ -27693,8 +27726,11 @@
    "globvar",
    "frame",
    "frametight",
-   "cmpk_globvar_frame"
-  ]
+   "calledon",
+   "cmpk_globvar_frame_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C2030": {
   "verdict": "IDENTICAL",
@@ -31051,8 +31087,11 @@
    "cmpk",
    "retthis",
    "globvar",
-   "cmpk_retthis_globvar"
-  ]
+   "calledon",
+   "cmpk_retthis_globvar_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1021F480": {
   "verdict": "DIFFERS",

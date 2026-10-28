@@ -3780,3 +3780,11 @@ FUNt_<addr>::f for a __thiscall callee), as written and with each rule's text, t
 "sametu". Frame set 1,893 at the game's bytes (34.9%). The rest differ for other reasons too (0x100441A0: the
 sweep's XI_ANY call stand-in).
 
+**Sweep rule calledon (28 Oct).** The 2,055 frame-set DIFFERS functions measured against the game (mdiff, differing
+instruction lines): 140 within 2 lines, 345 within 3 to 8. Of the nine 1-line misses, seven were the game loading ECX
+before a call to a __stdcall function that does not read it (data/ecx_use.json): a method called on an object the
+decompiler drops (recompile/d3d_round_118.md rule 7). Rule calledon tries each object in scope (`this`, parameters,
+locals, the function's globals) at each such call, one at a time. On the 485 within 8 lines: 12 IDENTICAL by
+calledon, 1 IDENTICAL as written (0x101B94A0, by match.py's switch-table and pooled-constant comparisons since the
+last full sweep). Frame set 1,906 at the game's bytes (35.1%).
+

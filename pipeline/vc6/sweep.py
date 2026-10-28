@@ -178,6 +178,42 @@ ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ 
 # a variadic wrapper: `template <class... R> XI_ORIG RET NAME(fixed..., R... rest) { ... (CC *)(...)>(XI_GAME(ADDR)) ...`
 VORIG = re.compile(r'^template <class\.\.\. R> XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*?),?\s*R\.\.\. rest\) \{ (?:return )?'
                    r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), (?:decltype[^>]*|\.\.\.\))>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
+# a wrapper that calls in inline assembly (gfx_orig.hpp, where the call site leaves a value in EAX, or the callee takes
+# ECX/EDX): `XI_ORIG RET NAME(T a0, ...) {\n    uint32_t xs[N] = {...}; uint32_t ra = .., rc = .., rd = ..;\n    __asm__ ...`
+AORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{\n\s*uint32_t xs\[\d+\] = \{(?P<xs>[^}]*)\}; '
+                   r'uint32_t ra = (?P<ra>[\w.]+), rc = (?P<rc>[\w.]+), rd = (?P<rd>[\w.]+);(?P<rest>[^\n]*\n\s*__asm__ volatile\((?P<asm>[^:]*):(?P<outs>[^:]*):[^\n]*"D"\((?P<addr>0x[0-9A-Fa-f]+)u\))', re.M)
+
+
+def asm_wrapper(m):
+    """an inline-assembly wrapper as a call VC6 can write, or None: its stack arguments (xs, pushed last to first) in
+    order; its ECX argument, if any, the object of a __thiscall; the caller's own `addl $N, %esp` after the call makes
+    it __cdecl, none __stdcall (the callee pops). Its EAX argument is what the call site leaves in EAX -- no C source
+    passes it -- and is not written. A result in ST0 (`"=t"`) is a float return, as VC6 returns one. One with an
+    EDX argument (no VC6 convention but __fastcall's ECX and EDX) is left as it is"""
+    params = [x.strip() for x in m.group('params').split(',') if x.strip()]
+    names = [re.search(r'(\w+)$', p).group(1) for p in params]
+    types = [re.sub(r'\s*\b\w+$', '', p).strip() for p in params]
+    idx = lambda e: names.index(e.split('.')[0]) if e.split('.')[0] in names else None
+    if m.group('rd') != '0': return None
+    asm = m.group('asm')
+    npush = len(re.findall(r'pushl', asm))
+    xs = [x.strip() for x in m.group('xs').split(',')]
+    stack = [idx(x) for x in xs[:npush]] if npush else []
+    if None in stack: return None
+    add = re.search(r'addl \$(\d+), %%esp', asm)
+    rc = idx(m.group('rc')) if m.group('rc') != '0' else None
+    if m.group('rc') != '0' and rc is None: return None
+    if rc is not None:
+        if add: return None
+        cc, order = '__thiscall', [rc] + stack
+    else:
+        if add and int(add.group(1)) != 4 * npush: return None
+        cc, order = ('__cdecl' if add else '__stdcall'), stack
+    rt = m.group('ret').replace('unsigned long long', 'uint64_t')
+    return {'name': m.group('name'), 'ret': rt, 'rt': rt, 'cc': cc, 'params': m.group('params'),
+            'types': ', '.join(types[i] for i in order), 'addr': m.group('addr'), 'order': order}
+
+
 GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 # a global holding a function pointer (an import's IAT slot, a vtable's first slot): `typedef R (CC *NAME_t)(P);`
 FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?P<name>\w+)_t\)\((?P<params>[^()]*)\);)\s*\n'
@@ -241,6 +277,9 @@ def externs():
     src = open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()
     o = {m.group('name'): m.groupdict() for m in ORIG.finditer(src)}
     for m in VORIG.finditer(src): o[m.group('name')] = dict(m.groupdict(), variadic=True)
+    for m in AORIG.finditer(src):
+        w = asm_wrapper(m)
+        if w: o.setdefault(m.group('name'), w)
     gt = open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read()
     g = {m.group('name'): m.groupdict() for m in GLOB.finditer(gt)}
     for m in FGLOB.finditer(gt):
@@ -328,6 +367,7 @@ def rewrite_calls(body, orig, c_mode=False):
         if w is None: return None, 'no wrapper for %s' % m.group(1)
         if c_mode and w['cc'] == '__thiscall': return None, 'thiscall callee'
         raw = [x.strip() for x in w['types'].split(',')] if w['types'].strip() else []
+        order = w.get('order')                    # an inline-assembly wrapper's arguments the call passes (asm_wrapper)
         # an XI_ANY parameter: unsigned int in C; in C++ a template parameter, deduced from the argument, so the call
         # passes the argument's own type (the mangled name still carries FUN_<address>)
         tpl = [] if c_mode else ['A%d' % n for n, x in enumerate(raw) if x == 'XI_ANY']
@@ -343,11 +383,17 @@ def rewrite_calls(body, orig, c_mode=False):
         while depth and j < len(body):
             depth += {'(': 1, ')': -1}.get(body[j], 0); j += 1
         args = split_args(body[k + m.end():j - 1])
+        if order is not None:
+            if max(order, default=-1) >= len(args): return None, 'wrapper arity'
+            args = [args[n] for n in order]
         if w.get('variadic') and len(args) < len(types): return None, 'variadic arity'
         sym = 'FUN_%08X' % int(w['addr'], 16)
         if w['cc'] == '__thiscall':
             if not types or len(args) != len(types): return None, 'thiscall arity'
             sname = 'FUNt_%08X' % int(w['addr'], 16)
+            # the member's template parameters: those of its own parameters (the object's is not one of them)
+            tpm = [x for x in tpl if x in types[1:]]
+            tp = 'template <%s> ' % ', '.join('class ' + x for x in tpm) if tpm else ''
             decls[sname] = 'struct %s { %s%s f(%s); };' % (sname, tp, w['rt'], ', '.join(types[1:]) or 'void')
             out += body[i:k] + '((%s *)(%s))->f(%s)' % (sname, args[0], ', '.join(args[1:]))
         else:

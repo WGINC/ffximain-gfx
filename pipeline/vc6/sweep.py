@@ -1096,6 +1096,28 @@ def _rule_ushortcmp(text, ret, name):
     return t if t != text else None
 
 
+def _rule_paramnarrow(text, ret, name):
+    """a 4-byte parameter the body uses only as `(short)p` (or `(char)p`, ...) declared as that type: an argument of 1
+    or 2 bytes still takes a 4-byte slot, so the caller is the same, and VC6 then reads it at its own width
+    (`mov si, word ptr [esp + 8]`, 0x101544F0). A result counts only where match.py says IDENTICAL"""
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    t_head, t_body = head, body
+    for m in re.finditer(r'\b(?:undefined4|uint32_t|int|unsigned int|uint|_DWORD|int32_t) (param_\d+|a\d+)\b', head[head.rfind('\n') + 1:]):
+        p = m.group(1)
+        uses = re.findall(r'(\([\w ]+\))?\s*\b%s\b' % p, body)
+        casts = {u for u in uses}
+        if len(casts) != 1: continue
+        c, = casts
+        ty = c.strip('()').strip() if c else ''
+        if ty not in ('short', 'char', 'unsigned short', 'unsigned char', 'uint16_t', 'uint8_t', 'int16_t', 'int8_t', 'ushort', 'uchar', 'byte'): continue
+        t_head = re.sub(r'\b(?:undefined4|uint32_t|int|unsigned int|uint|_DWORD|int32_t) %s\b' % p, '%s %s' % (ty, p), t_head)
+        t_body = re.sub(r'\(%s\)\s*\b%s\b' % (re.escape(ty), p), p, t_body)
+    t = t_head + t_body
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1460,6 +1482,7 @@ RULES = [
     ('adjthunk', _rule_adjthunk),
     ('fastthis', _rule_fastthis),
     ('ushortcmp', _rule_ushortcmp),
+    ('paramnarrow', _rule_paramnarrow),
 ]
 
 

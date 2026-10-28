@@ -3772,4 +3772,11 @@ keeps ECX or EDX live across a call to a function it compiled earlier in the sam
 them alone); compiled alone, the caller reloads them. 377 functions in the game keep ECX or EDX across a direct
 call (pipeline/vc6/livecall.py, verification/live_across_call.json; none of them among the sweep's IDENTICAL), 62 of them frame-set DIFFERS:
 the sweep, compiling each function alone, cannot match those; their callees must be compiled with them.
+sweep.py --sametu (rule 28 in the sweep): each DIFFERS function in verification/live_across_call.json compiled with
+its callee's sweep text defined before it in the same file, under the name the caller calls it by (FUN_<addr>, or
+FUNt_<addr>::f for a __thiscall callee), as written and with each rule's text, then the permissive casts. Run on the
+65 such functions and their callees (`--only`): 60 tried, 8 IDENTICAL (0x10029C90, 0x1006B050, 0x10074DF0,
+0x10124050, 0x101312E0, 0x10154DC0, 0x101D0A20, 0x1027EBD0), recorded in verification/vc6_sweep.json as rule
+"sametu". Frame set 1,893 at the game's bytes (34.9%). The rest differ for other reasons too (0x100441A0: the
+sweep's XI_ANY call stand-in).
 

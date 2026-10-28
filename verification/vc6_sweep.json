@@ -3411,8 +3411,11 @@
   "size": 32,
   "casts": 1,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10029CB0": {
   "verdict": "DIFFERS",
@@ -8405,8 +8408,11 @@
   "size": 32,
   "casts": 1,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1006B070": {
   "verdict": "IDENTICAL",
@@ -9699,7 +9705,12 @@
   "verdict": "DIFFERS",
   "why": "+22: REL32 targets ?f@FUNt_100748F0@@QAEIXZ (0x100748F0), the game 0x649DDA09",
   "conv": "__thiscall",
-  "size": 112
+  "size": 112,
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "sametu"
+  ]
  },
  "0x10074F30": {
   "verdict": "DIFFERS",
@@ -18245,8 +18256,11 @@
   "conv": "__thiscall",
   "size": 48,
   "rules_tried": [
-   "cmpk"
-  ]
+   "cmpk",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10124070": {
   "verdict": "DIFFERS",
@@ -19185,8 +19199,11 @@
   "size": 32,
   "casts": 2,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10131530": {
   "verdict": "IDENTICAL",
@@ -20237,8 +20254,11 @@
   "size": 32,
   "casts": 2,
   "rules_tried": [
-   "globvar"
-  ]
+   "globvar",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10154E30": {
   "verdict": "DIFFERS",
@@ -28901,8 +28921,11 @@
   "conv": "__thiscall",
   "size": 48,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101D0A40": {
   "verdict": "DIFFERS",
@@ -35762,7 +35785,12 @@
   "verdict": "DIFFERS",
   "why": "+7: REL32 targets _FUN_1027EB00 (0x1027EB00), the game 0xC927EBDA",
   "conv": "__cdecl",
-  "size": 32
+  "size": 32,
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL",
+  "rules_tried": [
+   "sametu"
+  ]
  },
  "0x1027EF20": {
   "verdict": "DIFFERS",

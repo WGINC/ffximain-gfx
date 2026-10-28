@@ -1127,6 +1127,37 @@ _CONVP = re.compile(r"^C2664: '(?P<fn>[^']+)' : cannot convert parameter (?P<n>\
 _FPCALL = re.compile(r'\(\*?\((?P<ret>[^()]+?) \((?:__\w+ )?\*\*?\)\((?P<params>[^()]*)\)\)')
 
 
+def same_file(text, fn, callee, ctext, cfn):
+    """text with the callee's definition (its sweep text, ctext) put before the function's, named as text calls it:
+    FUN_<addr> (a __cdecl/__stdcall function; C linkage in C++) or FUNt_<addr>::f (a __thiscall one); the callee's
+    declarations text lacks go with it, and text's own declaration of the callee goes. None where the forms differ
+    (C++ callee in C, a method called as a function)."""
+    a = '%08X' % callee
+    def split(t):
+        i = t.index('\n{\n'); j = t.rindex('\n', 0, i) + 1
+        return t[:j], t[j:]
+    cpre, cdef = split(ctext)
+    head, cline = cdef.split('\n', 1)
+    if re.search(r'\bFUN_%s\b' % a, text) and 'XS::' not in head:
+        if fn.endswith('.c') and cfn.endswith('.cpp'): return None
+        head = re.sub(r'([A-Za-z_]\w*)(\s*\()', lambda m: 'FUN_%s%s' % (a, m.group(2)), head, count=1)
+        if fn.endswith('.cpp') and not head.startswith('extern "C"'): head = 'extern "C" ' + head
+        drop_decl = r'(?m)^[^\n;{}]*\bFUN_%s\s*\([^\n]*\);\n' % a
+    elif re.search(r'\bFUNt_%s\b' % a, text) and 'XS::' in head and fn.endswith('.cpp'):
+        m = re.search(r'XS::(\w+)\(', head)
+        head = head.replace('XS::%s(' % m.group(1), 'FUNt_%s::f(' % a)
+        cpre = re.sub(r'\bstruct XS \{(.*?)\b%s\(' % m.group(1), lambda x: 'struct FUNt_%s {%sf(' % (a, x.group(1)), cpre)
+        cpre = re.sub(r'\bXS\b', 'FUNt_%s' % a, cpre); cline = re.sub(r'\bXS\b', 'FUNt_%s' % a, cline)
+        drop_decl = r'(?m)^struct FUNt_%s \{[^\n]*\};\n' % a
+    else:
+        return None
+    tpre, tdef = split(text)
+    tpre = re.sub(drop_decl, '', tpre)                 # the declaration only, never a call in the body
+    have = set((tpre + tdef).split('\n'))
+    extra = ''.join(l + '\n' for l in cpre.split('\n') if l.strip() and l not in have)
+    return tpre + extra + head + '\n' + cline + '\n' + tdef
+
+
 def _conv_kind(t):
     """'ptr' for a data or function pointer type as cl names it, 'int' for a 4-byte integer, 'enum' for an enum,
     else None"""
@@ -1250,6 +1281,7 @@ def main():
     ap.add_argument('--jobs', type=int, default=os.cpu_count())
     ap.add_argument('--rules', action='store_true', help='also try each DIFFERS function with the rewrite rules (RULES)')
     ap.add_argument('--cache', default=os.path.join(ROOT, 'runs', 'vc6_cache'), help="objects by source hash ('' for none)")
+    ap.add_argument('--sametu', action='store_true', help="also each function that keeps ECX/EDX across a call with that callee in the same file")
     ap.add_argument('--only', default=''); ap.add_argument('--calls', action='store_true', help='also functions that call the game or name its globals')
     o = ap.parse_args()
     only = {int(x, 16) for x in o.only.split(',') if x}
@@ -1300,6 +1332,7 @@ def main():
 
     d3dh = open(os.path.join(d, 'xi_d3d8_vc6.h'), 'rb').read(); d3dhc = open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'rb').read()
     errs = {}                  # file: [(where, line, cl's message)], its compile's errors
+    drop = {}                  # file: the symbols in it that are not the function (--sametu's callees)
     def key_of(fn):
         src = open(os.path.join(d, fn), 'rb').read()
         return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b''), SHIM, o.flags, tc)
@@ -1350,7 +1383,7 @@ def main():
             funcs, _ = M.coff(obj)
             # the shim's own inline helpers (XI_ANY's constructor, xi_castbits_) are emitted beside the function when
             # instantiated: they are not the function; a call to one is a relocation whose symbol names no address
-            own = {k: v for k, v in funcs.items() if not SHIM_HELPER.match(k)}
+            own = {k: v for k, v in funcs.items() if not SHIM_HELPER.match(k) and not (fn in drop and drop[fn].search(k))}
             if len(own) != 1: out[fn] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(own), 'conv': cc, 'funcs': sorted(funcs)}; continue
             (sym, (code, rels)), = own.items()
             v, why, notes = M.compare(img, ext, ea, code, rels, place)
@@ -1391,6 +1424,43 @@ def main():
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1
         for rn in sorted(tried): print('rule %s: applied to %d DIFFERS, IDENTICAL in %d' % (rn, tried[rn], won[rn]))
+    # --sametu: a function the game's code shows keeping ECX or EDX across a direct call (pipeline/vc6/livecall.py,
+    # verification/live_across_call.json) compiled with that callee's text earlier in the same file
+    # (recompile/d3d_round_121.md rule 28), as itself and with each rule's text; IDENTICAL is recorded as rule "sametu"
+    if o.sametu:
+        live = json.load(open(os.path.join(ROOT, 'verification', 'live_across_call.json')))
+        srcs = {ea: fn for ea, fn, cc in files}
+        var, meta = [], {}
+        for ea, fn, cc in files:
+            r = res['0x%08X' % ea]
+            if r['verdict'] != 'DIFFERS' or r.get('rule_identical') or '0x%08X' % ea not in live: continue
+            callees = sorted({int(s[1], 16) for s in live['0x%08X' % ea]['sites']})
+            if not all(c in srcs for c in callees): continue
+            text = open(os.path.join(d, fn)).read()
+            texts = [('', text)] + [('_' + rn, t) for rn, t in apply_rules(text, *sig[ea])]
+            for rn, t in texts:
+                for c in callees:
+                    t = t and same_file(t, fn, c, open(os.path.join(d, srcs[c])).read(), srcs[c])
+                if not t: continue
+                vf = 'f_%08X_sametu%s%s' % (ea, rn, os.path.splitext(fn)[1]); open(os.path.join(d, vf), 'w').write(t)
+                var.append((ea, vf, cc)); meta[vf] = callees
+        drop.update({vf: re.compile('|'.join('FUNt?_%08X' % c for c in cs)) for vf, cs in meta.items()})
+        got = judge(var, 'callees in the same file (sametu)')
+        for rnd in range(1, 9):                         # the callee's own types against the call's: as casts, as above
+            redo = []
+            for ea, vf, cc in var:
+                if got[vf]['verdict'] != 'NO_COMPILE': continue
+                t, n = permissive(open(os.path.join(d, vf)).read(), errs.get(vf, []), vf)
+                if n: open(os.path.join(d, vf), 'w').write(t); redo.append((ea, vf, cc))
+            if not redo: break
+            got.update(judge(redo, 'sametu: implicit conversions as casts, round %d (%d sources)' % (rnd, len(redo))))
+        won = set()
+        for ea, vf, cc in var:
+            r = res['0x%08X' % ea]; r.setdefault('rules_tried', []).count('sametu') or r['rules_tried'].append('sametu')
+            if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
+                r['rule_identical'] = 'sametu' + vf.split('_sametu', 1)[1].rsplit('.', 1)[0]; r['rule_verdict'] = got[vf]['verdict']
+                won.add(ea)
+        print('sametu: %d functions tried, IDENTICAL in %d' % (len({ea for ea, _, _ in var}), len(won)))
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)
     c = collections.Counter(v['verdict'] for v in res.values())
     print('%d functions: %s' % (len(res), ', '.join('%s %d' % kv for kv in sorted(c.items()))))

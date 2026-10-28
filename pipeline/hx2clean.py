@@ -475,6 +475,7 @@ def main(exp, gate, manf, incdir, outdir):
         R[r['ea']] = r
     canonicalise_names(R, REVIEWED)
     passed = set().union(*passed_in)                 # passed by some export's gate (as given again, XI_REGATE)
+    passed &= set(R)                                 # and translated (hx2cpp.ghidra_prepare: a record it cannot is not one)
     def reg_callee(o):
         m = re.search(CC_RE, o.get('type') or '')
         return bool(o.get('storage')) and bool(hx2cpp.extra_regs(m.group(0) if m else '__cdecl', o['storage']))
@@ -846,6 +847,7 @@ def main(exp, gate, manf, incdir, outdir):
             elif o['func'] and not o.get('import'):
                 tok = 'orig::' + oname(nm, o['ea'], ftype_of(ea, o, nm))
             elif o.get('import'):
+                if o['ea'] not in gnames: continue     # a slot no global names: left as written (it fails to compile)
                 tok = gnames[o['ea']]                  # the pointer at the import table slot
             elif o['ea'] not in gnames:
                 continue                               # a goto target left out of the globals above

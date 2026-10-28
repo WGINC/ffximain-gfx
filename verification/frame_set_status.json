@@ -6672,6 +6672,8 @@
 "bytes": null,
 "unresolved": 3,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_1006C140.cpp",
 "d3d": {
 "proven": 1,
 "accepted": 0

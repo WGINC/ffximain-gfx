@@ -251,6 +251,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_notree_r120.cpp"
 },
+"0x1006C140": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_1006C140.cpp"
+},
 "0x1006C220": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_1006C220.cpp"

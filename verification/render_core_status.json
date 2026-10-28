@@ -259,7 +259,8 @@
    "in_tree": true
   },
   "0x1006C140": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1006C140.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": false
   },

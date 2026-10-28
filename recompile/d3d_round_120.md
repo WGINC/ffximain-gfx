@@ -126,3 +126,7 @@ The sweep's conversion (pipeline/vc6/sweep.py) now compiles 8 of the functions r
 committed; checked again on 28 Oct: match.py 7 of 7 identical (comp.id 49 build 9044), and the pooled constant
 0x10040BA0 reads at +46 (__real@00000000, 0x103295D8, which match.py does not compare) is 00000000 in the game's
 .rdata. `match.py --all` exit 0.
+
+0x1006C140 (#118, CMoOcclusionMng's constructor; not in the tree), recompile/d3dcaller_1006C140.cpp, written from the
+game's bytes: IDENTICAL. Found on the way: a member constructed between the base's vtable store and the class's is
+the class's own member; written as the base's, VC6 drops the base's store as dead.

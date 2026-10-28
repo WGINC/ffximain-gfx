@@ -159,3 +159,16 @@ entry). Early returns, nested blocks and block-scoped matrix locals give the sam
 0x10040C20 (#118; not in the tree; in the frame set), recompile/d3dcaller_10040C20.cpp, from the game's bytes in
 0x100431B0's form: IDENTICAL. The game tests +0x16C before calling 0x10045D40 and calls it in both arms: an if/else
 whose arms both call it and the zone map (VC6 merges their common tail); `not dl` for bit 18: the test on a byte.
+
+**cpp_permuter on the nearest in-tree misses (28 Oct; pipeline/vc6/cpp_perm.py, 400-1,500 compiles each).** Base
+score (differing instruction lines, as mdiff.py) to best: 0x1000A820 256 to 30, 0x1006AA30 110 to 42, 0x100759C0 84
+to 44, 0x10075700 78 to 46, 0x1001DD00 106 to 60, 0x10041160 109 to 80, 0x10043590 79 to 13, 0x10033A70 17 to 7,
+0x1006B2B0 16 to 15, 0x10017310 27 to 23, 0x1002A3B0 34 to 24; none IDENTICAL. Closest by hand from there:
+- 0x10033A70: 5 lines with `< 4.0f` (rule 11). Left: the game compares g_actorShadowMode as a word
+  (`cmp word ptr [g], 1`) and jumps to a `return 0` at the end, while a second `return 0` (on *(this + 8) == 0) stays
+  inline; written as one early return VC6 puts it first, wrapped (`if (mode == 1) { ... } return 0;`) VC6 merges both.
+- 0x1006B2B0: 15 lines. `v8 = this` is dead in the game (`&v8` is an output argument), and the mesh manager's
+  object is loaded into a register of its own before the call.
+- 0x1006A020 (Gfx_CreateVertexBuffer, __stdcall, C++ by the sweep): 7 lines; what is left is the order of the first
+  argument's load and of the return's reload. A permuter candidate scoring 3 changes the output parameter (not the
+  game's computation) and was discarded.

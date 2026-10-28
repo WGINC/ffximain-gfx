@@ -3816,3 +3816,4 @@ combination kept, and tried with each newer rule on its own, so no earlier resul
 sweep's 4,664 at the game's bytes (2,216 before, none lost); frame set 2,024 (37.3%). A reorder.py search over the
 87 within 2 lines found none; a bit-field form for `shr; and` (0x10084500) did not give the `and`, and was dropped.
 Then: the compile cache keyed by language as well (a text compiled as C++ had reused the errors it gave as C), calledon over the ret64 and xiany texts and through tail jumps: 2,278 at the game's bytes (+22, none lost); calledon 62 in all. Frame set 2,046 (37.7%).
+Rule retvoid (the function as void where the game returns whatever EAX holds, the decompiler having printed the value it saw on one path): 28 IDENTICAL; 2,309 at the game's bytes (+31, none lost); frame set 2,072 (38.2%). Rule rettemp (a returned temporary folded) gained one and cost one, and was dropped.

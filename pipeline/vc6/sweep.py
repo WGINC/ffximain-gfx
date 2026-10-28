@@ -1952,7 +1952,8 @@ def main():
         if cache:
             for _, fn, _ in chunk:
                 obj, c = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'), os.path.join(cache, key_of(fn))
-                if os.path.exists(obj): shutil.copyfile(obj, c + '.tmp'); os.replace(c + '.tmp', c + '.obj')
+                if os.path.exists(obj):   # a name of its own: two chunks may hold the same source (one key)
+                    tmp = '%s.%d.%s.tmp' % (c, os.getpid(), fn); shutil.copyfile(obj, tmp); os.replace(tmp, c + '.obj')
                 else:       # the file's own name as '*' (another file of the same source shares the entry)
                     json.dump([('*' if w == fn else w, n, e) for w, n, e in errs.get(fn, [])], open(c + '.fail', 'w'))
 

@@ -1009,6 +1009,13 @@ def _rule_negmask(text, ret, name):
     return ''.join(out) + text[pos:] if n else None
 
 
+def _rule_shiftmask(text, ret, name):
+    """a shift count Ghidra prints with the CPU's own masking, `x << ((uint8_t)n & 0x1f)`, as `x << n`: the 386
+    masks a 32-bit shift's count to 5 bits itself, and VC6 emits no `and` for a plain `<< n` (0x100F13B0)"""
+    t = re.sub(r'(<<|>>)\s*\(\((?:uint8_t|byte|char|unsigned char|uchar)\)(\w+)\s*&\s*0x1f\)', r'\1 \2', text)
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1121,6 +1128,11 @@ def _rule_float(text, ret, name):
     if re.search(r'\bdouble\b', body): out.append(head + lit(re.sub(r'\b(?:long )?double\b', 'float', body)))   # Ghidra's long double too
     b2 = lit(body)
     if b2 != body: out.append(head + b2)
+    # and the function itself returning float: an x87 result is in ST0 whatever its width, so the caller is the same;
+    # the width shows only in the constants and the loads (0x10052D20 `return 1.0f;`, fld dword)
+    rx = r'\b(?:long )?double(\s+(?:__\w+\s+)?(?:XS::)?%s\()' % re.escape(name)
+    if re.search(r'\b(?:long )?double\b', ret or '') and re.search(rx, head):
+        out.append(re.sub(rx, r'float\1', head) + lit(re.sub(r'\b(?:long )?double\b', 'float', body)))
     return out or None
 
 
@@ -1343,6 +1355,7 @@ RULES = [
     ('retthis64', _rule_retthis64),
     ('negmask', _rule_negmask),
     ('select', _rule_select),
+    ('shiftmask', _rule_shiftmask),
 ]
 
 

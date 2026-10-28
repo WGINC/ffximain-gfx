@@ -902,5 +902,13 @@
 "0x10324BA5": {
 "verdict": "IDENTICAL",
 "file": "recompile/sweep/sw_10324BA5.c"
+},
+"0x1000CA00": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1000CA00.cpp"
+},
+"0x10063A60": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10063A60.cpp"
 }
 }

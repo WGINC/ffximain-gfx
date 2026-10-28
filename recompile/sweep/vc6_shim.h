@@ -3,6 +3,10 @@ typedef unsigned char uint8_t; typedef signed char int8_t; typedef unsigned shor
 typedef unsigned int uint32_t; typedef int int32_t; typedef unsigned __int64 uint64_t; typedef __int64 int64_t;
 typedef unsigned char undefined, undefined1, byte, uchar; typedef unsigned short undefined2, ushort, word;
 typedef unsigned int undefined4, uint, dword; typedef unsigned __int64 undefined8; typedef unsigned long ulong;
+/* Ghidra's x87 extended type, as the tree writes it (long double; VC6's is its 8-byte double) */
+typedef long double float10;
+/* Ghidra's 3-byte integer (CONCAT31((int3)(x >> 8), lo): the upper three bytes of a register), held in an int */
+typedef int int3;
 typedef unsigned int size_t; typedef int BOOL;
 typedef void *LPVOID; typedef unsigned long DWORD; typedef unsigned int _DWORD; typedef unsigned short _WORD;
 typedef unsigned char _BYTE;

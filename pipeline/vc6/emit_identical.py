@@ -34,8 +34,9 @@ def main():
         src = next((p for p in (os.path.join(o.keep, stem + x) for x in ('.cpp', '.c')) if os.path.exists(p)), None)
         if src is None: print('%s: no kept source %s' % (ea, stem)); continue
         lines = open(src).read().split('\n')
-        # the definition: the last line followed by a line `{` (the function is the last thing in a sweep source)
-        defs = [k for k in range(len(lines) - 1) if lines[k + 1].strip() == '{' and lines[k].strip() and not lines[k].lstrip().startswith(('struct', '#', '//'))]
+        # the definition: the last line followed by an unindented `{` (the function is the last thing in a sweep source;
+        # Hex-Rays puts its blocks' braces on lines of their own too, indented)
+        defs = [k for k in range(len(lines) - 1) if lines[k + 1].rstrip() == '{' and lines[k].strip() and not lines[k].lstrip().startswith(('struct', '#', '//'))]
         if not defs: print('%s: no definition found' % ea); continue
         k = defs[-1]
         head = ['/* %s at the game\'s bytes: pipeline/vc6/sweep.py\'s source of it%s, unchanged but for this note and the',

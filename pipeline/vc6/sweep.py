@@ -408,6 +408,55 @@ def rewrite_calls(body, orig, c_mode=False):
     return out, list(decls.values())
 
 
+REGPARM = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+__attribute__\(\((?P<cc>stdcall|cdecl), regparm\((?P<n>[123])\)\)\)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
+
+
+def regparm_vc6(src):
+    """a function the tree declares in GCC's register convention (`__attribute__((stdcall, regparm(3)))`: its first
+    parameters in EAX, EDX, ECX, in that order) as Visual C++ 6.0 declares it, or None where VC6 has no such convention:
+    ECX alone __thiscall (`void * self_` first), ECX and EDX __fastcall, neither __stdcall or __cdecl. The EAX
+    parameter is no C parameter: unused, or what the function leaves in EAX untouched on some path (`return xi_eax;`,
+    `xi_eax = call(...);`: the tree's way to return whatever EAX held), the function then returning void. A __cdecl
+    one taking ECX has no stack parameters (the callee pops nothing either way), or is left out"""
+    m = REGPARM.search(src)
+    if not m: return None
+    ps = [p.strip() for p in m.group('args').split(',') if p.strip()]
+    n = int(m.group('n'))
+    if len(ps) < n: return None
+    nm = lambda p: re.search(r'(\w+)$', p).group(1)
+    regs = dict(zip(('eax', 'edx', 'ecx'), ps[:n])); rest = ps[n:]
+    body = src[m.end():]
+    used = lambda p: p is not None and 'unused' not in nm(p) and re.search(r'\b%s\b' % nm(p), body)
+    ret = m.group('ret')
+    if used(regs.get('eax')):
+        e = nm(regs['eax'])
+        # a byte (word) returned in AL (AX), the rest of EAX left as it was: `((xi_eax >> 8) << 8) | (uint8_t)(x)`,
+        # `xi_eax & 0xffffff00` (x = 0): the function returns unsigned char (short)
+        for sh, lo, hi, ty in ((8, 'uint8_t', '0xffffff00', 'unsigned char'), (16, 'uint16_t', '0xffff0000', 'unsigned short')):
+            b2 = re.sub(r'\breturn \(\(uint32_t\)\(\(\(uint32_t\)\(\(int32_t\)\(\(uint32_t\)%s >> %d\)\) << %d\) \| \(%s\)\((.*)\)\)\);'
+                        % (e, sh, sh, lo), r'return (%s)(\1);' % ty, body)
+            b2 = re.sub(r'\breturn \(?(?:\(uint32_t\))?%s\)? & %s;' % (e, hi), 'return 0;', b2)
+            if b2 != body and not re.search(r'\b%s\b' % e, b2):
+                body, ret = b2, ty
+                break
+    if used(regs.get('eax')) and re.search(r'\b%s\b' % nm(regs['eax']), body):
+        e = nm(regs['eax'])
+        b2 = re.sub(r'\breturn %s;' % e, 'return;', body)
+        b2 = re.sub(r'(?m)^(\s*)%s = ([^;]*);' % e, r'\1\2;', b2)
+        if re.search(r'\b%s\b' % e, b2) or re.search(r'\breturn [^;]', b2): return None
+        body, ret = b2, 'void'
+    ecx, edx = used(regs.get('ecx')), used(regs.get('edx'))
+    if edx and not ecx: return None
+    if ecx and m.group('cc') == 'cdecl' and rest: return None
+    if ecx and edx: cc, args = '__fastcall', [regs['ecx'], regs['edx']] + rest
+    elif ecx:
+        self_ = nm(regs['ecx'])
+        body = re.sub(r'\b%s\b' % self_, 'self_', body) if self_ != 'self_' else body
+        cc, args = '__thiscall', ['void * self_'] + rest
+    else: cc, args = '__%s' % m.group('cc'), rest
+    return src[:m.start()] + 'XI_API %s %s %s(%s)' % (ret, cc, m.group('name'), ', '.join(args) or 'void') + body
+
+
 def candidates(only=None, calls=False):
     out = []
     for f in sorted(glob.glob(os.path.join(ROOT, 'tree', 'src', '*.cpp'))):
@@ -416,6 +465,9 @@ def candidates(only=None, calls=False):
         for i in range(1, len(parts), 2):
             ea = int(parts[i], 16); body = parts[i + 1]
             if only and ea not in only: continue
+            if REGPARM.search(body.split('{', 1)[0]):
+                body = regparm_vc6(body)                                  # a register convention VC6 can declare
+                if body is None: continue                                 # one it cannot
             m = SIG.search(body) or MSIG.search(body.split('{', 1)[0] + '{')
             if not m: continue
             end = body.find('\n}\n', m.end())

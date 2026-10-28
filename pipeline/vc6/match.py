@@ -32,9 +32,11 @@ FUNC_RE = re.compile(r'//\s*FUNCTION:\s*FFXIMAIN\s+(0x[0-9A-Fa-f]+)')
 ADDR_RE = re.compile(r'(?:FUN|sub|fn|DAT|LAB|g)_?[A-Za-z0-9]*?_?(1[0-9A-Fa-f]{7})\b')
 
 
-def cl(src, obj, flags, cwd):
+def cl(src, obj, flags, cwd, inc=None):
+    """inc: a directory searched after VC6's own (a source's directory, for a header beside it: recompile/sweep/)"""
     vc6 = os.environ['VC6']
-    env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(vc6, 'INCLUDE').replace('/', '\\'))
+    dirs = [os.path.join(vc6, 'INCLUDE')] + ([inc] if inc else [])
+    env = dict(os.environ, WINEDEBUG='-all', INCLUDE=';'.join('Z:' + x.replace('/', '\\') for x in dirs))
     r = subprocess.run(['wine', os.path.join(vc6, os.environ.get('VC6_BIN', 'BIN'), 'cl.exe'), '/nologo', '/c', '/Gy'] + flags + ['/Fo' + obj, src],
                        cwd=cwd, env=env, capture_output=True, text=True, errors='replace')
     return r.returncode, (r.stdout + r.stderr).strip()
@@ -159,7 +161,10 @@ def main():
     if o.all:
         import glob
         bad = 0
-        for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', '*.c'))):
+        # recompile/: written by hand; recompile/sweep/: the sweep's own sources of functions it found IDENTICAL
+        # (pipeline/vc6/emit_identical.py), beside the shim headers they include
+        for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', '*.c'))
+                        + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.c'))):
             r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', o.flags], capture_output=True, text=True)
             print(os.path.basename(f) + ': ' + (r.stdout.splitlines() or ['(no output) ' + r.stderr[-300:]])[0])
             bad += r.returncode != 0 or 'DIFFERS' in r.stdout or 'MISSING' in r.stdout
@@ -181,7 +186,7 @@ def main():
         place[m.group(1)] = int(m.group(2), 16)
     d = o.keep or tempfile.mkdtemp(prefix='vc6_'); os.makedirs(d, exist_ok=True)
     src = os.path.join(d, os.path.basename(o.src)); shutil.copy(o.src, src)
-    rc, out = cl(os.path.basename(src), 'm.obj', o.flags.split() + ['/FAc', '/Fam.cod'], d)
+    rc, out = cl(os.path.basename(src), 'm.obj', o.flags.split() + ['/FAc', '/Fam.cod'], d, inc=os.path.dirname(os.path.abspath(o.src)))
     if rc: print('compile failed:\n' + out); sys.exit(2)
     funcs, c = coff(os.path.join(d, 'm.obj'))
     lines = listing_lines(os.path.join(d, 'm.cod'))

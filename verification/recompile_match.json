@@ -570,5 +570,337 @@
 "0x102A3540": {
 "verdict": "IDENTICAL",
 "file": "recompile/perm_102A3540.c"
+},
+"0x10056B80": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10056B80.cpp"
+},
+"0x10057D60": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10057D60.cpp"
+},
+"0x10071F70": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10071F70.cpp"
+},
+"0x10077A00": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10077A00.cpp"
+},
+"0x100F1770": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1770.c"
+},
+"0x100F1780": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1780.c"
+},
+"0x100F1910": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1910.c"
+},
+"0x100F1920": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1920.c"
+},
+"0x100F1930": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1930.c"
+},
+"0x100F1940": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F1940.c"
+},
+"0x100F2A70": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_100F2A70.cpp"
+},
+"0x101086B0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_101086B0.c"
+},
+"0x1011A560": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1011A560.cpp"
+},
+"0x1012A340": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1012A340.c"
+},
+"0x1017A690": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1017A690.c"
+},
+"0x1018D3D0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1018D3D0.cpp"
+},
+"0x101A1CB0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_101A1CB0.cpp"
+},
+"0x101C6960": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_101C6960.cpp"
+},
+"0x101D6CC0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_101D6CC0.cpp"
+},
+"0x10281500": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10281500.c"
+},
+"0x102E1001": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_102E1001.cpp"
+},
+"0x102ED1CA": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_102ED1CA.c"
+},
+"0x102EFF35": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_102EFF35.c"
+},
+"0x102F07F7": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_102F07F7.c"
+},
+"0x102F0800": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_102F0800.c"
+},
+"0x103028F0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103028F0.c"
+},
+"0x103028F3": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103028F3.c"
+},
+"0x1030FED0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FED0.c"
+},
+"0x1030FF33": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FF33.c"
+},
+"0x1030FF49": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FF49.c"
+},
+"0x1030FF75": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FF75.c"
+},
+"0x1030FF8B": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FF8B.c"
+},
+"0x1030FF96": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FF96.c"
+},
+"0x1030FFA1": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFA1.c"
+},
+"0x1030FFB7": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFB7.c"
+},
+"0x1030FFC2": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFC2.c"
+},
+"0x1030FFCD": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFCD.c"
+},
+"0x1030FFD8": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFD8.c"
+},
+"0x1030FFE3": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFE3.c"
+},
+"0x1030FFEE": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1030FFEE.c"
+},
+"0x10310025": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310025.c"
+},
+"0x10310030": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310030.c"
+},
+"0x10310067": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310067.c"
+},
+"0x10310072": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310072.c"
+},
+"0x103100CA": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103100CA.c"
+},
+"0x103100E0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103100E0.c"
+},
+"0x103100EB": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103100EB.c"
+},
+"0x10310164": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310164.c"
+},
+"0x1031016F": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1031016F.c"
+},
+"0x10310353": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310353.c"
+},
+"0x1031040E": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1031040E.c"
+},
+"0x103108DE": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103108DE.c"
+},
+"0x10310AD8": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310AD8.c"
+},
+"0x10310B30": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310B30.c"
+},
+"0x10310B3B": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310B3B.c"
+},
+"0x10310B7D": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310B7D.c"
+},
+"0x10310CD2": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310CD2.c"
+},
+"0x10310D82": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310D82.c"
+},
+"0x10310D98": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310D98.c"
+},
+"0x10310DF0": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310DF0.c"
+},
+"0x10310DFB": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310DFB.c"
+},
+"0x10310E06": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310E06.c"
+},
+"0x10310E11": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310E11.c"
+},
+"0x10310E1C": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310E1C.c"
+},
+"0x10310E27": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310E27.c"
+},
+"0x10310E32": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310E32.c"
+},
+"0x10310F0E": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10310F0E.c"
+},
+"0x10311042": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311042.c"
+},
+"0x1031111E": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1031111E.c"
+},
+"0x10311344": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311344.c"
+},
+"0x1031135A": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1031135A.c"
+},
+"0x10311365": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311365.c"
+},
+"0x10311370": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311370.c"
+},
+"0x10311386": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311386.c"
+},
+"0x103113C8": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103113C8.c"
+},
+"0x103113D3": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_103113D3.c"
+},
+"0x10311877": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10311877.c"
+},
+"0x10315993": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10315993.c"
+},
+"0x1031599C": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_1031599C.c"
+},
+"0x10319C49": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10319C49.c"
+},
+"0x10319C52": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10319C52.c"
+},
+"0x10319FFA": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10319FFA.c"
+},
+"0x10324BA5": {
+"verdict": "IDENTICAL",
+"file": "recompile/sweep/sw_10324BA5.c"
 }
 }

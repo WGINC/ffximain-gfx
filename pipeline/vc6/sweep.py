@@ -44,11 +44,15 @@ import argparse, collections, glob, hashlib, json, os, re, shutil, subprocess, s
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..', '..'); sys.path.insert(0, P)
 import match as M
 
+TREE = os.path.join(ROOT, 'tree')     # the tree swept (--tree: another regeneration of it, e.g. a scratch one)
+
 SHIM = r'''/* vc6_shim.h: the tree's type names for Visual C++ 6.0 (pipeline/vc6/sweep.py) */
 typedef unsigned char uint8_t; typedef signed char int8_t; typedef unsigned short uint16_t; typedef short int16_t;
 typedef unsigned int uint32_t; typedef int int32_t; typedef unsigned __int64 uint64_t; typedef __int64 int64_t;
 typedef unsigned char undefined, undefined1, byte, uchar; typedef unsigned short undefined2, ushort, word;
 typedef unsigned int undefined4, uint, dword; typedef unsigned __int64 undefined8; typedef unsigned long ulong;
+/* Ghidra's x87 extended type, as the tree writes it (long double; VC6's is its 8-byte double) */
+typedef long double float10;
 typedef unsigned int size_t; typedef int BOOL;
 typedef void *LPVOID; typedef unsigned long DWORD; typedef unsigned int _DWORD; typedef unsigned short _WORD;
 typedef unsigned char _BYTE;
@@ -220,7 +224,7 @@ FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?
                    r'#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
-         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool', 'code',
+         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'float10', 'size_t', 'BOOL', 'bool', 'code',
          'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE',
          # Visual C++ 6.0's own sized integers; the tree's GCC build defines them as the same types (xi_decomp.hpp:
          # __int8 char, __int16 short, __int32 int; __int64 is GCC's own)
@@ -274,13 +278,13 @@ def type_decls(ty):
 
 
 def externs():
-    src = open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()
+    src = open(os.path.join(TREE, 'include', 'gfx_orig.hpp')).read()
     o = {m.group('name'): m.groupdict() for m in ORIG.finditer(src)}
     for m in VORIG.finditer(src): o[m.group('name')] = dict(m.groupdict(), variadic=True)
     for m in AORIG.finditer(src):
         w = asm_wrapper(m)
         if w: o.setdefault(m.group('name'), w)
-    gt = open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read()
+    gt = open(os.path.join(TREE, 'include', 'gfx_globals.hpp')).read()
     g = {m.group('name'): m.groupdict() for m in GLOB.finditer(gt)}
     for m in FGLOB.finditer(gt):
         # its parameter types (a parameter's name dropped), for the declarations they need
@@ -319,7 +323,7 @@ def d3d_names():
     """the struct, enum and typedef names tree/include/xi_d3d8.hpp declares"""
     global _D3DN
     if _D3DN is None:
-        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()
+        h = open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()
         _D3DN = set(re.findall(r'(?m)^(?:struct|enum) (\w+)\b', h)) | set(re.findall(r'(?m)^typedef [^;]*?\b(\w+);', h))
     return _D3DN
 
@@ -329,7 +333,7 @@ def opaque_names():
     used only through pointers) and `namespace std { struct codecvt_base; }`"""
     global _OPAQUE
     if _OPAQUE is None:
-        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_compat_win.hpp')).read()
+        h = open(os.path.join(TREE, 'include', 'xi_compat_win.hpp')).read()
         _OPAQUE = set(re.findall(r'\bstruct (\w+);', h))
         _OPAQUE |= {'std::%s' % n for ns in re.findall(r'namespace std \{([^}]*)\}', h) for n in re.findall(r'struct (\w+);', ns)}
     return _OPAQUE
@@ -459,7 +463,7 @@ def regparm_vc6(src):
 
 def candidates(only=None, calls=False):
     out = []
-    for f in sorted(glob.glob(os.path.join(ROOT, 'tree', 'src', '*.cpp'))):
+    for f in sorted(glob.glob(os.path.join(TREE, 'src', '*.cpp'))):
         t = open(f).read()
         parts = re.split(r'(?m)^// FUNCTION: FFXIMAIN (0x[0-9A-F]+).*\n', t)
         for i in range(1, len(parts), 2):
@@ -488,7 +492,7 @@ def _d3d_structs():
     """the struct and enum types tree/include/xi_d3d8.hpp defines (D3DCAPS8, D3DMATRIX, ...)"""
     global _D3DS
     if _D3DS is None:
-        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()
+        h = open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()
         _D3DS = set(re.findall(r'(?m)^(?:struct|enum) (D3D\w+) \{', h)) | set(re.findall(r'(?m)^typedef [^;]*\b(D3D\w+);', h))
     return _D3DS
 
@@ -499,7 +503,7 @@ def class_fields(cls):
     global _CLASSES
     if _CLASSES is None:
         _CLASSES = {}
-        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+        for f in glob.glob(os.path.join(TREE, 'include', '*.hpp')):
             for m in re.finditer(r'(?ms)^class XI_API (\w+) \{\n(.*?)^\};', open(f).read()):
                 _CLASSES[m.group(1)] = m.group(2)
     body = _CLASSES.get(cls)
@@ -546,7 +550,7 @@ def code_addrs():
     global _ADDRS
     if _ADDRS is None:
         _ADDRS = {m.group(1): int(m.group(2), 16) for m in re.finditer(r'constexpr uint32_t (\w+) = (0x[0-9A-Fa-f]+)u;',
-                                                                       open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
+                                                                       open(os.path.join(TREE, 'include', 'gfx_orig.hpp')).read())}
     return _ADDRS
 
 
@@ -823,7 +827,7 @@ def struct_names():
     global _STRUCTS
     if _STRUCTS is None:
         _STRUCTS = set()
-        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+        for f in glob.glob(os.path.join(TREE, 'include', '*.hpp')):
             _STRUCTS |= set(re.findall(r'(?m)^(?:struct|class(?: XI_API)?) (?:/\*\w*\*/ )?(\w+)\b', open(f).read()))
     return _STRUCTS
 
@@ -835,7 +839,7 @@ def d3d_methods():
     """the names of the inline wrappers tree/include/xi_d3d8.hpp gives its interfaces (`dev->SetRenderState(...)`)"""
     global _D3DM
     if _D3DM is None:
-        _D3DM = set(re.findall(r'(?m)^\s+[\w\s*]+?\b(\w+)\([^)]*\) \{ return lpVtbl->', open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()))
+        _D3DM = set(re.findall(r'(?m)^\s+[\w\s*]+?\b(\w+)\([^)]*\) \{ return lpVtbl->', open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()))
     return _D3DM
 
 
@@ -1861,8 +1865,11 @@ def main():
     ap.add_argument('--rules', action='store_true', help='also try each DIFFERS function with the rewrite rules (RULES)')
     ap.add_argument('--cache', default=os.path.join(ROOT, 'runs', 'vc6_cache'), help="objects by source hash ('' for none)")
     ap.add_argument('--sametu', action='store_true', help="also each function that keeps ECX/EDX across a call with that callee in the same file")
+    ap.add_argument('--tree', default='', help='a tree other than tree/ (its src/ and include/)')
     ap.add_argument('--only', default=''); ap.add_argument('--calls', action='store_true', help='also functions that call the game or name its globals')
     o = ap.parse_args()
+    global TREE
+    if o.tree: TREE = os.path.abspath(o.tree)
     only = {int(x, 16) for x in o.only.split(',') if x}
     import pefile
     img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
@@ -1873,7 +1880,7 @@ def main():
     open(os.path.join(d, 'vc6_shim.h'), 'w').write(SHIM)
     # the Direct3D 8 interfaces as the tree declares them (tree/include/xi_d3d8.hpp, from the SDK's d3d8.h), less the
     # static_asserts Visual C++ 6.0 does not have; included by the sources that name an IDirect3D interface
-    d3d = ''.join(l for l in open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
+    d3d = ''.join(l for l in open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
     open(os.path.join(d, 'xi_d3d8_vc6.h'), 'w').write(d3d)
     open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'w').write(d3d_c(d3d))
     res, files, sig = {}, [], {}

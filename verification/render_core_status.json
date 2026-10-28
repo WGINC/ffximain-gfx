@@ -413,7 +413,8 @@
    "in_tree": true
   },
   "0x1000CDF0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_1000CDF0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },
@@ -497,7 +498,8 @@
    "in_tree": true
   },
   "0x100262C0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_100262C0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },

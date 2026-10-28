@@ -138,3 +138,10 @@ inline accessor; written in the body, VC6 drops it.
 reorder_batch.py over the 48 DIFFERS functions of the two sets (frametight, globvar; 60 tries each): none IDENTICAL.
 The closest after the search: 0x1000A820 256 to 90 differing lines, 0x1006AA30 110 to 82, 0x100263F0 123 to 95,
 0x1001DD00 106 to 95, 0x10163400 119 to 108. Statement order alone does not close them.
+
+0x1000CDF0 (#119; not in the tree), recompile/d3dcaller_1000CDF0.cpp, from the game's bytes: IDENTICAL; the two-draw
+path is the `if` body, the single draw after it (rule 5).
+
+0x100262C0 (#119; not in the tree), recompile/d3dcaller_100262C0.cpp, from the game's bytes: IDENTICAL. A chained
+assignment `a = b = x` stores b first: written `v[1].z = v[0].z = ...` for the game's store to v[0] then v[1].
+The pooled 8.0f at 0x1032A40C is the game's (its .rdata).

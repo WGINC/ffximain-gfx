@@ -505,9 +505,40 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10003710": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for DebugOverlay_SetEntry",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?FUN_10311BBB@@YA_KH@Z (0x10311BBB), the game 0xF8CBC238",
+  "conv": "__thiscall",
+  "size": 192,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_globvar_frame_ret64_uleq",
+   "cmpk_retthis_globvar_frame",
+   "cmpk_retthis_globvar_frame_ret64",
+   "cmpk_retthis_globvar_frame_uleq",
+   "ret64_uleq",
+   "retthis_globvar_frame_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_frame_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_frame_ret64",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_ret64",
+   "frame_ret64",
+   "retthis_globvar_frame_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_frame_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x10003890": {
   "verdict": "DIFFERS",
@@ -1735,14 +1766,16 @@
   "size": 432
  },
  "0x10010520": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10211440_SaveAndRelease",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 416
  },
  "0x100106C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101d5370",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10010700": {
   "verdict": "DIFFERS",
@@ -1998,9 +2031,19 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10014170": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for App_SubStateInitCamera",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: DIR32 targets @self+64 (0x100141B0), the game 0x100141AC",
+  "conv": "__thiscall",
+  "size": 96,
+  "rules_tried": [
+   "ret8",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_calledon"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100141C0": {
   "verdict": "DIFFERS",
@@ -2084,9 +2127,25 @@
   "size": 32
  },
  "0x10014350": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_LoadAllAndTimestamp_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+25: 0xA1 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "xiany",
+   "retvoid",
+   "globvar_calledon_retnarrow_xiany",
+   "xiany_calledon",
+   "globvar_retnarrow",
+   "globvar_xiany",
+   "retnarrow_xiany",
+   "globvar_retnarrow_xiany"
+  ],
+  "rule_identical": "xiany",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100149B0": {
   "verdict": "DIFFERS",
@@ -2117,14 +2176,54 @@
   ]
  },
  "0x10014A30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_DestroyGlobal",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: DIR32 targets @self+140 (0x10014ABC), the game 0x10014AB4",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "ret8",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_calledon_uleq",
+   "ret8_uleq"
+  ]
  },
  "0x10014AD0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_LoadAllAndTimestamp",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+52: REL32 targets ?f@FUNt_1015E910@@QAEIPAD@Z (0x1015E910), the game 0x41D58093",
+  "conv": "__thiscall",
+  "size": 352,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ret8_cmpk_globvar_calledon_uleq_xiany",
+   "ret8_cmpk_globvar",
+   "xiany_calledon",
+   "ret8_cmpk_globvar_uleq",
+   "ret8_cmpk_globvar_xiany",
+   "uleq_xiany",
+   "ret8_cmpk_globvar_uleq_xiany",
+   "cmpk_globvar_uleq",
+   "ret8_uleq",
+   "ret8_globvar_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_xiany",
+   "ret8_xiany",
+   "ret8_globvar_xiany",
+   "cmpk_xiany",
+   "ret8_cmpk_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x10014C10": {
   "verdict": "DIFFERS",
@@ -2839,9 +2938,13 @@
   "casts": 1
  },
  "0x10017C20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Gfx_CopySurfaceRectToTexture",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+3: 0x83 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x10017C60": {
   "verdict": "DIFFERS",
@@ -2996,9 +3099,10 @@
   "size": 32
  },
  "0x100182E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10017C10_ReportAndHandleError",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10018300": {
   "verdict": "IDENTICAL",
@@ -3080,9 +3184,27 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10018A50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+91: REL32 targets ?f@FUNt_100731B0@@QAEIPAHPAI@Z (0x100731B0), the game 0x9B019056",
+  "conv": "__thiscall",
+  "size": 144,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "globvar_ret64_uleq_retvoid",
+   "globvar_ret64",
+   "globvar_uleq",
+   "globvar_retvoid",
+   "ret64_uleq",
+   "globvar_ret64_uleq",
+   "ret64_retvoid",
+   "globvar_ret64_retvoid",
+   "uleq_retvoid",
+   "globvar_uleq_retvoid"
+  ]
  },
  "0x10018B30": {
   "verdict": "IDENTICAL",
@@ -3392,9 +3514,21 @@
   ]
  },
  "0x1001AB60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10019a50",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: REL32 targets __ftol (0x10311C2C), the game 0x9911F1F9",
+  "conv": "__thiscall",
+  "size": 96,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "calledon",
+   "uleq",
+   "cmpk_retthis_calledon_uleq",
+   "cmpk_retthis",
+   "cmpk_retthis_uleq",
+   "retthis_uleq",
+   "cmpk_uleq"
+  ]
  },
  "0x1001ABF0": {
   "verdict": "DIFFERS",
@@ -3501,9 +3635,18 @@
   ]
  },
  "0x1001B5D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x6CDBB5DA",
+  "conv": "__thiscall",
+  "size": 352,
+  "rules_tried": [
+   "float",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "float_calledon_retnarrow",
+   "float_retnarrow"
+  ]
  },
  "0x1001B800": {
   "verdict": "IDENTICAL",
@@ -3753,9 +3896,17 @@
   "size": 32
  },
  "0x1001E600": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CYyCamMng2_SetGlobalFlags",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: 0x89 here, 0x53 in the game",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "globvar",
+   "retvoid",
+   "globvar_retvoid"
+  ],
+  "rule_identical": "globvar",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1001E760": {
   "verdict": "IDENTICAL",
@@ -3845,9 +3996,23 @@
   "size": 48
  },
  "0x10021C10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+187: __real@0000000000000000, the game's constant at 0x00008486 is ?",
+  "conv": "__thiscall",
+  "size": 368,
+  "rules_tried": [
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "frame_float_calledon_retnarrow",
+   "frame_float",
+   "frame_float_retnarrow",
+   "float_retnarrow",
+   "frame_retnarrow"
+  ]
  },
  "0x100220E0": {
   "verdict": "DIFFERS",
@@ -4376,9 +4541,10 @@
   "size": 48
  },
  "0x10027510": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10027550": {
   "verdict": "DIFFERS",
@@ -4820,24 +4986,28 @@
   "size": 16
  },
  "0x10028C30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10028A50_CallEnabledEntries",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10028C50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10028A50_CallEnabledEntries",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10028C70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10028A50_CallEnabledEntries",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10028C90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10028A50_CallEnabledEntries",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x10028FD0": {
   "verdict": "DIFFERS",
@@ -5264,9 +5434,10 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x1002B140": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__stdcall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__stdcall",
+  "error": "f_1002B140.cpp(24): C2065: 'unkbyte10' : undeclared identifier"
  },
  "0x1002B4B0": {
   "verdict": "DIFFERS",
@@ -5973,9 +6144,10 @@
   ]
  },
  "0x10033EA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10033EA0.cpp(69): C2065: 'fsin' : undeclared identifier"
  },
  "0x10034170": {
   "verdict": "IDENTICAL",
@@ -6306,14 +6478,22 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10035E80": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Music_ApplyVolume_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets _FUN_10035FB0 (0x10035FB0), the game 0x2DEB6EC5",
+  "conv": "__cdecl",
+  "size": 48,
+  "rules_tried": [
+   "globvar"
+  ]
  },
  "0x10035EC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Music_ApplyVolume_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets _FUN_10035FB0 (0x10035FB0), the game 0xEDEB6F05",
+  "conv": "__cdecl",
+  "size": 48,
+  "rules_tried": [
+   "globvar"
+  ]
  },
  "0x10035F80": {
   "verdict": "DIFFERS",
@@ -6332,9 +6512,26 @@
   ]
  },
  "0x10035FB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Music_SetTrackVolume",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+206: __real@405fc00000000000, the game's constant at 0xC71850FF is ?",
+  "conv": "__cdecl",
+  "size": 256,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_float_retnarrow_uleq",
+   "globvar_float",
+   "globvar_float_retnarrow",
+   "globvar_float_uleq",
+   "retnarrow_uleq",
+   "float_retnarrow",
+   "globvar_retnarrow",
+   "float_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x10036050": {
   "verdict": "DIFFERS",
@@ -6359,9 +6556,20 @@
   ]
  },
  "0x100360C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Music_ApplyVolume",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+40: REL32 targets ?FUN_100360F0@@YA_KI@Z (0x100360F0), the game 0xA093F17C",
+  "conv": "__cdecl",
+  "size": 48,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "xiany",
+   "retvoid",
+   "globvar_retnarrow_xiany",
+   "globvar_retnarrow",
+   "globvar_xiany",
+   "retnarrow_xiany"
+  ]
  },
  "0x10036170": {
   "verdict": "DIFFERS",
@@ -6469,9 +6677,47 @@
   "size": 64
  },
  "0x100364E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for LobbyThread_SendCmd3FromFloat",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: __real@0000000000000000, the game's constant at 0xDF103295 is ?",
+  "conv": "__thiscall",
+  "size": 864,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ret8_cmpk_globvar_frame_float_uleq_xiany",
+   "ret8_cmpk_globvar_frame_float",
+   "ret8_cmpk_globvar_frame_float_uleq",
+   "ret8_cmpk_globvar_frame_float_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_frame_float_uleq",
+   "ret8_uleq",
+   "ret8_globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "ret8_cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "cmpk_globvar_frame_float_xiany",
+   "ret8_xiany",
+   "ret8_globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "ret8_cmpk_frame_float_xiany",
+   "globvar_xiany",
+   "ret8_cmpk_globvar_float_xiany",
+   "frame_xiany",
+   "ret8_cmpk_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x10036770": {
   "verdict": "DIFFERS",
@@ -6491,9 +6737,21 @@
   ]
  },
  "0x100367C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CYySoundElem_IsHandleInFrameList",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: __real@0000000000000000, the game's constant at 0xB0037500 is ?",
+  "conv": "__thiscall",
+  "size": 112,
+  "rules_tried": [
+   "ret8",
+   "float",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_float_uleq",
+   "ret8_float",
+   "float_uleq",
+   "ret8_uleq"
+  ]
  },
  "0x10036830": {
   "verdict": "DIFFERS",
@@ -6673,9 +6931,25 @@
   ]
  },
  "0x10037020": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_100286B0@@YA_KHH@Z (0x100286B0), the game 0x18C7F432",
+  "conv": "__thiscall",
+  "size": 192,
+  "rules_tried": [
+   "retthis",
+   "ret64",
+   "uleq",
+   "paramnarrow",
+   "retthis_ret64_uleq_paramnarrow",
+   "retthis_paramnarrow",
+   "retthis_paramnarrow_ret64",
+   "retthis_paramnarrow_uleq",
+   "ret64_uleq",
+   "ret64_paramnarrow",
+   "retthis_ret64",
+   "uleq_paramnarrow",
+   "retthis_uleq"
+  ]
  },
  "0x10037280": {
   "verdict": "IDENTICAL",
@@ -6684,9 +6958,37 @@
   "size": 16
  },
  "0x100378B0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Music_LoadTrackIfRunning",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+70: REL32 targets ?FUN_102467A0@@YGXIH@Z (0x102467A0), the game 0x9913AE11",
+  "conv": "__cdecl",
+  "size": 192,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_float_calledon_retnarrow_uleq_xiany",
+   "globvar_float",
+   "xiany_calledon",
+   "globvar_float_retnarrow",
+   "globvar_float_uleq",
+   "globvar_float_xiany",
+   "retnarrow_uleq",
+   "globvar_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_float_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_float_uleq_xiany",
+   "float_retnarrow",
+   "globvar_retnarrow",
+   "float_uleq",
+   "globvar_uleq",
+   "float_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x10037960": {
   "verdict": "DIFFERS",
@@ -6925,9 +7227,27 @@
   ]
  },
  "0x10038330": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Acter_IsEvent",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+47: REL32 targets _FUN_10087060@0 (0x10087060), the game 0x84C40763",
+  "conv": "__cdecl",
+  "size": 176,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "float",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "cmpk_globvar_float_calledon_retnarrow",
+   "cmpk_globvar_float",
+   "cmpk_globvar_float_retnarrow",
+   "globvar_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "float_retnarrow"
+  ]
  },
  "0x100384B0": {
   "verdict": "DIFFERS",
@@ -7065,9 +7385,10 @@
   ]
  },
  "0x10038E10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10038E10.cpp(121): C2065: 'fsin' : undeclared identifier"
  },
  "0x10039440": {
   "verdict": "IDENTICAL",
@@ -7419,9 +7740,22 @@
   ]
  },
  "0x1003AF10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_FindInScope",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+41: REL32 targets ?FUN_10072430@@YG_KPAHHHH@Z (0x10072430), the game 0x84F5978F",
+  "conv": "__thiscall",
+  "size": 176,
+  "rules_tried": [
+   "cmpk",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_calledon_retnarrow_uleq",
+   "cmpk_retnarrow",
+   "cmpk_uleq",
+   "retnarrow_uleq",
+   "cmpk_retnarrow_uleq"
+  ]
  },
  "0x1003B210": {
   "verdict": "DIFFERS",
@@ -9079,9 +9413,41 @@
   ]
  },
  "0x10044AE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmGenerater_UpdateAttachIfPresent",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+41: __real@0000000000000000, the game's constant at 0xF6E0DF01 is ?",
+  "conv": "__thiscall",
+  "size": 528,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "float",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ret8_cmpk_globvar_float_uleq_xiany",
+   "ret8_cmpk_globvar_float",
+   "ret8_cmpk_globvar_float_uleq",
+   "ret8_cmpk_globvar_float_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_float_uleq",
+   "ret8_uleq",
+   "ret8_globvar_float_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_float_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "float_uleq",
+   "cmpk_globvar_float_xiany",
+   "ret8_xiany",
+   "ret8_globvar_float_xiany",
+   "cmpk_xiany",
+   "ret8_cmpk_float_xiany",
+   "globvar_xiany",
+   "ret8_cmpk_globvar_xiany",
+   "float_xiany"
+  ]
  },
  "0x10044C20": {
   "verdict": "DIFFERS",
@@ -9272,9 +9638,18 @@
   ]
  },
  "0x10045A40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmElem_BuildDrawMatrixAndTest",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_10044AE0@@QAEIXZ (0x10044AE0), the game 0x84C4DF61",
+  "conv": "__thiscall",
+  "size": 208,
+  "rules_tried": [
+   "ret8",
+   "ret16",
+   "float",
+   "retnarrow",
+   "retvoid",
+   "ret8_float"
+  ]
  },
  "0x10045C50": {
   "verdict": "DIFFERS",
@@ -10731,9 +11106,11 @@
   "size": 32
  },
  "0x100531D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmGenerater_Stop_v3",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_100531D0.cpp(58): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use",
+  "casts": 1
  },
  "0x10053350": {
   "verdict": "IDENTICAL",
@@ -10822,9 +11199,50 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10053A00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_1002C8F0@@QAE_KH@Z (0x1002C8F0), the game 0x9ED8221C",
+  "conv": "__thiscall",
+  "size": 1024,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ret8_globvar_frame_float_calledon_ret64_uleq_paramnarrow",
+   "ret8_globvar_frame_float_paramnarrow",
+   "ret64_calledon",
+   "ret8_globvar_frame_float_paramnarrow_ret64",
+   "ret8_globvar_frame_float_paramnarrow_uleq",
+   "ret64_uleq",
+   "ret8_globvar_frame_float_paramnarrow_ret64_uleq",
+   "globvar_frame_float_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_frame_float_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_float_ret64_paramnarrow",
+   "frame_ret64",
+   "ret8_globvar_frame_ret64_paramnarrow",
+   "float_ret64",
+   "ret8_globvar_frame_float_ret64",
+   "ret64_paramnarrow",
+   "globvar_frame_float_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_frame_float_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_globvar_float_uleq_paramnarrow",
+   "frame_uleq",
+   "ret8_globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "ret8_globvar_frame_float_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x10053C80": {
   "verdict": "DIFFERS",
@@ -10866,9 +11284,29 @@
   "casts": 1
  },
  "0x10054220": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100496f0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+41: REL32 targets ?f@FUNt_100496F0@@QAE_KH@Z (0x100496F0), the game 0x8F7B02D2",
+  "conv": "__thiscall",
+  "size": 144,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq_xiany",
+   "xiany_calledon",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "globvar_xiany",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_uleq_xiany"
+  ]
  },
  "0x100542E0": {
   "verdict": "IDENTICAL",
@@ -10877,9 +11315,26 @@
   "size": 16
  },
  "0x100542F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmGenerater_Stop_v3",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_100538E0@@QAE_KPAH@Z (0x100538E0), the game 0x100543D1",
+  "conv": "__thiscall",
+  "size": 112,
+  "casts": 1,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "uleq",
+   "xiany",
+   "retthis_globvar_uleq_xiany",
+   "retthis_globvar",
+   "retthis_globvar_uleq",
+   "retthis_globvar_xiany",
+   "uleq_xiany",
+   "globvar_uleq",
+   "retthis_uleq",
+   "globvar_xiany",
+   "retthis_xiany"
+  ]
  },
  "0x10054410": {
   "verdict": "IDENTICAL",
@@ -11530,9 +11985,28 @@
   ]
  },
  "0x100574A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10074a50",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?f@FUNt_1003B6D0@@QAE_KXZ (0x1003B6D0), the game 0x84C5FABF",
+  "conv": "__thiscall",
+  "size": 272,
+  "casts": 1,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "ret64",
+   "uleq",
+   "retthis_globvar_ret64_uleq",
+   "retthis_globvar",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ],
+  "rule_identical": "ret64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10057CC0": {
   "verdict": "IDENTICAL",
@@ -11742,9 +12216,19 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10062E20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Scheduler_Execute_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?f@FUNt_100731B0@@QAEIPAPAIPAI@Z (0x100731B0), the game 0x9B062F39",
+  "conv": "__cdecl",
+  "size": 96,
+  "rules_tried": [
+   "globvar",
+   "ret64",
+   "retvoid",
+   "globvar_ret64_retvoid",
+   "globvar_ret64",
+   "globvar_retvoid",
+   "ret64_retvoid"
+  ]
  },
  "0x10062E80": {
   "verdict": "DIFFERS",
@@ -12359,9 +12843,18 @@
   ]
  },
  "0x10069F90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+63: __real@3f50624de0000000, the game's constant at 0x2C0DD808 is ?",
+  "conv": "__thiscall",
+  "size": 128,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "retthis_globvar_float_calledon",
+   "retthis_globvar_float"
+  ]
  },
  "0x1006A020": {
   "verdict": "DIFFERS",
@@ -13668,9 +14161,15 @@
   "size": 32
  },
  "0x10071DE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_Destroy",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: 0x46 here, 0x76 in the game",
+  "conv": "__thiscall",
+  "size": 32,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "retthis_globvar"
+  ]
  },
  "0x10071E00": {
   "verdict": "DIFFERS",
@@ -13919,9 +14418,22 @@
   "size": 16
  },
  "0x10072ED0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets ?f@FUNt_10072FD0@@QAEIPAPAIPAI@Z (0x10072FD0), the game 0x9507B9E7",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retthis_globvar_calledon_ret64",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "globvar_ret64",
+   "retthis_ret64"
+  ]
  },
  "0x10072FB0": {
   "verdict": "IDENTICAL",
@@ -14020,9 +14532,17 @@
   ]
  },
  "0x10073B20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_Destroy",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?f@FUNt_10072240@@QAEPAXXZ (0x10072240), the game 0x0FEE3B28",
+  "conv": "__stdcall",
+  "size": 96,
+  "casts": 2,
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "retnarrow_uleq"
+  ]
  },
  "0x10073B80": {
   "verdict": "IDENTICAL",
@@ -14797,9 +15317,38 @@
   ]
  },
  "0x10076AB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+95: REL32 targets ?FUN_10077B40@@YAIPAIPAD@Z (0x10077B40), the game 0xD60CDF14",
+  "conv": "__cdecl",
+  "size": 1392,
+  "casts": 6,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_calledon_ret64_retnarrow_uleq",
+   "cmpk_globvar",
+   "ret64_calledon",
+   "cmpk_globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "ret64_retnarrow",
+   "cmpk_globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_ret64_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_retnarrow_uleq",
+   "globvar_ret64",
+   "cmpk_ret64",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_uleq",
+   "cmpk_uleq"
+  ]
  },
  "0x10077AD0": {
   "verdict": "DIFFERS",
@@ -14932,9 +15481,17 @@
   "size": 96
  },
  "0x10077FB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets _FUN_10078090 (0x10078090), the game 0x10085A9D",
+  "conv": "__cdecl",
+  "size": 272,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "uleq",
+   "globvar_calledon_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x100780A0": {
   "verdict": "IDENTICAL",
@@ -15114,19 +15671,106 @@
   "size": 48
  },
  "0x1007BB90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cc0d0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+93: REL32 targets _FUN_100780A0 (0x100780A0), the game 0x9407BBB5",
+  "conv": "__cdecl",
+  "size": 128,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ge0_cmpk_globvar_calledon_retnarrow",
+   "ge0_cmpk_globvar",
+   "ge0_cmpk_globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_retnarrow",
+   "globvar_retnarrow"
+  ],
+  "rule_identical": "cmpk3",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1007BF30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101C72E0_IsActorField170Is5",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+319: REL32 targets ?FUN_100A1AB0@@YAIPAI@Z (0x100A1AB0), the game 0x1261FD5B",
+  "conv": "__cdecl",
+  "size": 656,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "cmpk_globvar_frame_float_calledon_retnarrow_uleq_paramnarrow",
+   "cmpk_globvar_frame_float_paramnarrow",
+   "cmpk_globvar_frame_float_paramnarrow_retnarrow",
+   "cmpk_globvar_frame_float_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_float_paramnarrow_retnarrow_uleq",
+   "globvar_frame_float_retnarrow_paramnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_float_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_float_retnarrow_paramnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow_paramnarrow",
+   "float_retnarrow",
+   "cmpk_globvar_frame_float_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_frame_float_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq_paramnarrow",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq_paramnarrow",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "cmpk_globvar_frame_float_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x1007CD60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cc0d0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+243: REL32 targets _FUN_100FC180 (0x100FC180), the game 0xB159B957",
+  "conv": "__cdecl",
+  "size": 560,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "globvar_calledon_ret64_retnarrow_uleq_paramnarrow",
+   "globvar_paramnarrow",
+   "ret64_calledon",
+   "globvar_paramnarrow_ret64",
+   "globvar_paramnarrow_retnarrow",
+   "globvar_paramnarrow_uleq",
+   "ret64_retnarrow",
+   "globvar_paramnarrow_ret64_retnarrow",
+   "ret64_uleq",
+   "globvar_paramnarrow_ret64_uleq",
+   "retnarrow_uleq",
+   "globvar_paramnarrow_retnarrow_uleq",
+   "ret64_paramnarrow",
+   "globvar_ret64",
+   "retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "uleq_paramnarrow",
+   "globvar_uleq"
+  ]
  },
  "0x1007CFD0": {
   "verdict": "DIFFERS",
@@ -15151,14 +15795,40 @@
   "size": 48
  },
  "0x1007E490": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cc0d0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+4: REL32 targets ?FUN_101CC070@@YAIH@Z (0x101CC070), the game 0x9307F973",
+  "conv": "__cdecl",
+  "size": 208,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ]
  },
  "0x1007E8D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cc0d0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+4: REL32 targets ?FUN_101CC070@@YAIH@Z (0x101CC070), the game 0x9307FDAF",
+  "conv": "__cdecl",
+  "size": 224,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ]
  },
  "0x10080340": {
   "verdict": "IDENTICAL",
@@ -15167,9 +15837,10 @@
   "size": 16
  },
  "0x10080C70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for SeekIdByString",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x10080D20": {
   "verdict": "DIFFERS",
@@ -15218,9 +15889,64 @@
   ]
  },
  "0x10080DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10078260_CheckCommandAllowed",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+180: REL32 targets ?FUN_10077B40@@YAIPAIPAD@Z (0x10077B40), the game 0x9C080DE4",
+  "conv": "__cdecl",
+  "size": 1168,
+  "casts": 3,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "paramnarrow",
+   "ge0_cmpk_globvar_frame_retnarrow_uleq_xiany_paramnarrow",
+   "ge0_cmpk_globvar_frame_paramnarrow",
+   "ge0_cmpk_globvar_frame_paramnarrow_retnarrow",
+   "ge0_cmpk_globvar_frame_paramnarrow_uleq",
+   "ge0_cmpk_globvar_frame_paramnarrow_xiany",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_frame_paramnarrow_retnarrow_uleq",
+   "retnarrow_xiany",
+   "ge0_cmpk_globvar_frame_paramnarrow_retnarrow_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_globvar_frame_paramnarrow_uleq_xiany",
+   "cmpk_globvar_frame_retnarrow_paramnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_frame_retnarrow_paramnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_frame_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "ge0_cmpk_globvar_retnarrow_paramnarrow",
+   "frame_retnarrow",
+   "ge0_cmpk_globvar_frame_retnarrow",
+   "retnarrow_paramnarrow",
+   "cmpk_globvar_frame_uleq_paramnarrow",
+   "ge0_uleq",
+   "ge0_globvar_frame_uleq_paramnarrow",
+   "cmpk_uleq",
+   "ge0_cmpk_frame_uleq_paramnarrow",
+   "globvar_uleq",
+   "ge0_cmpk_globvar_uleq_paramnarrow",
+   "frame_uleq",
+   "ge0_cmpk_globvar_frame_uleq",
+   "uleq_paramnarrow",
+   "cmpk_globvar_frame_xiany_paramnarrow",
+   "ge0_xiany",
+   "ge0_globvar_frame_xiany_paramnarrow",
+   "cmpk_xiany",
+   "ge0_cmpk_frame_xiany_paramnarrow",
+   "globvar_xiany",
+   "ge0_cmpk_globvar_xiany_paramnarrow",
+   "frame_xiany",
+   "ge0_cmpk_globvar_frame_xiany",
+   "xiany_paramnarrow"
+  ]
  },
  "0x10081440": {
   "verdict": "IDENTICAL",
@@ -15383,9 +16109,39 @@
   ]
  },
  "0x10081BA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_LinkIntoDrawList",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+20: REL32 targets ?FUN_10026E90@@YA_KPAI0@Z (0x10026E90), the game 0x9C08160A",
+  "conv": "__thiscall",
+  "size": 352,
+  "casts": 1,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "xiany",
+   "retthis_globvar_float_calledon_ret64_xiany",
+   "retthis_globvar_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "retthis_globvar_float_ret64",
+   "retthis_globvar_float_xiany",
+   "ret64_xiany",
+   "retthis_globvar_float_ret64_xiany",
+   "globvar_float_ret64",
+   "retthis_ret64",
+   "retthis_float_ret64",
+   "globvar_ret64",
+   "retthis_globvar_ret64",
+   "float_ret64",
+   "globvar_float_xiany",
+   "retthis_xiany",
+   "retthis_float_xiany",
+   "globvar_xiany",
+   "retthis_globvar_xiany",
+   "float_xiany"
+  ]
  },
  "0x10081CF0": {
   "verdict": "IDENTICAL",
@@ -15696,9 +16452,47 @@
   "size": 16
  },
  "0x10083430": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101C72E0_ActorTest1D0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets ?f@FUNt_10081550@@QAE_KXZ (0x10081550), the game 0xF1181C4F",
+  "conv": "__cdecl",
+  "size": 544,
+  "rules_tried": [
+   "ret8",
+   "ge0",
+   "cmpk",
+   "globvar",
+   "float",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ret8_ge0_globvar_float_ret64_uleq_paramnarrow",
+   "ret8_ge0_globvar_float_paramnarrow",
+   "ret8_ge0_globvar_float_paramnarrow_ret64",
+   "ret8_ge0_globvar_float_paramnarrow_uleq",
+   "ret64_uleq",
+   "ge0_globvar_float_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_globvar_float_ret64_paramnarrow",
+   "ge0_ret64",
+   "ret8_ge0_float_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_ge0_globvar_ret64_paramnarrow",
+   "float_ret64",
+   "ret8_ge0_globvar_float_ret64",
+   "ret64_paramnarrow",
+   "ge0_globvar_float_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_globvar_float_uleq_paramnarrow",
+   "ge0_uleq",
+   "ret8_ge0_float_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_ge0_globvar_uleq_paramnarrow",
+   "float_uleq",
+   "ret8_ge0_globvar_float_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x10083620": {
   "verdict": "DIFFERS",
@@ -15859,9 +16653,58 @@
   "size": 32
  },
  "0x10083F20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101C72E0_ActorPairTest1FF",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?f@FUNt_10027990@@QAEIXZ (0x10027990), the game 0x5C963F3F",
+  "conv": "__cdecl",
+  "size": 592,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_frame_float_calledon_ret64_uleq_retvoid",
+   "cmpk_globvar_frame_float",
+   "ret64_calledon",
+   "cmpk_globvar_frame_float_ret64",
+   "cmpk_globvar_frame_float_uleq",
+   "cmpk_globvar_frame_float_retvoid",
+   "ret64_uleq",
+   "cmpk_globvar_frame_float_ret64_uleq",
+   "ret64_retvoid",
+   "cmpk_globvar_frame_float_ret64_retvoid",
+   "uleq_retvoid",
+   "cmpk_globvar_frame_float_uleq_retvoid",
+   "globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_ret64",
+   "float_ret64",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "globvar_frame_float_retvoid",
+   "cmpk_retvoid",
+   "cmpk_frame_float_retvoid",
+   "globvar_retvoid",
+   "cmpk_globvar_float_retvoid",
+   "frame_retvoid",
+   "cmpk_globvar_frame_retvoid",
+   "float_retvoid",
+   "sametu"
+  ]
  },
  "0x10084100": {
   "verdict": "DIFFERS",
@@ -16259,9 +17102,22 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100872C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_102213b0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+49: REL32 targets ?f@FUNt_10221340@@QAEII@Z (0x10221340), the game 0x0815FDF5",
+  "conv": "__cdecl",
+  "size": 256,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ]
  },
  "0x100875C0": {
   "verdict": "IDENTICAL",
@@ -16406,9 +17262,39 @@
   "size": 64
  },
  "0x10087E80": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0xAD9267A0",
+  "conv": "__thiscall",
+  "size": 144,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_float_calledon_ret64_uleq",
+   "cmpk_retthis_float",
+   "ret64_calledon",
+   "cmpk_retthis_float_ret64",
+   "cmpk_retthis_float_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_float_ret64_uleq",
+   "retthis_float_ret64",
+   "cmpk_ret64",
+   "cmpk_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_ret64",
+   "float_ret64",
+   "retthis_float_uleq",
+   "cmpk_uleq",
+   "cmpk_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "float_uleq"
+  ],
+  "rule_identical": "ret64",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10087F00": {
   "verdict": "DIFFERS",
@@ -16473,14 +17359,138 @@
   ]
  },
  "0x100883E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_10095750@@QAEIH@Z (0x10095750), the game 0x1FC90802",
+  "conv": "__thiscall",
+  "size": 1968,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "storem1",
+   "ge0_cmpk_retthis_globvar_float_calledon_ret64_uleq_xiany_storem1",
+   "ge0_cmpk_retthis_globvar_float_storem1",
+   "ret64_calledon",
+   "xiany_calledon",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64",
+   "ge0_cmpk_retthis_globvar_float_storem1_uleq",
+   "ge0_cmpk_retthis_globvar_float_storem1_xiany",
+   "ret64_uleq",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64_uleq",
+   "ret64_xiany",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_retthis_globvar_float_storem1_uleq_xiany",
+   "cmpk_retthis_globvar_float_ret64_storem1",
+   "ge0_ret64",
+   "ge0_retthis_globvar_float_ret64_storem1",
+   "cmpk_ret64",
+   "ge0_cmpk_globvar_float_ret64_storem1",
+   "retthis_ret64",
+   "ge0_cmpk_retthis_float_ret64_storem1",
+   "globvar_ret64",
+   "ge0_cmpk_retthis_globvar_ret64_storem1",
+   "float_ret64",
+   "ge0_cmpk_retthis_globvar_float_ret64",
+   "ret64_storem1",
+   "cmpk_retthis_globvar_float_uleq_storem1",
+   "ge0_uleq",
+   "ge0_retthis_globvar_float_uleq_storem1",
+   "cmpk_uleq",
+   "ge0_cmpk_globvar_float_uleq_storem1",
+   "retthis_uleq",
+   "ge0_cmpk_retthis_float_uleq_storem1",
+   "globvar_uleq",
+   "ge0_cmpk_retthis_globvar_uleq_storem1",
+   "float_uleq",
+   "ge0_cmpk_retthis_globvar_float_uleq",
+   "uleq_storem1",
+   "cmpk_retthis_globvar_float_xiany_storem1",
+   "ge0_xiany",
+   "ge0_retthis_globvar_float_xiany_storem1",
+   "cmpk_xiany",
+   "ge0_cmpk_globvar_float_xiany_storem1",
+   "retthis_xiany",
+   "ge0_cmpk_retthis_float_xiany_storem1",
+   "globvar_xiany",
+   "ge0_cmpk_retthis_globvar_xiany_storem1",
+   "float_xiany",
+   "ge0_cmpk_retthis_globvar_float_xiany",
+   "xiany_storem1"
+  ]
  },
  "0x10089100": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10089ff0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+30: REL32 targets ?f@FUNt_100956F0@@QAEIH@Z (0x100956F0), the game 0x1FC91522",
+  "conv": "__thiscall",
+  "size": 1984,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "storem1",
+   "ge0_cmpk_retthis_globvar_float_calledon_ret64_uleq_xiany_storem1",
+   "ge0_cmpk_retthis_globvar_float_storem1",
+   "ret64_calledon",
+   "xiany_calledon",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64",
+   "ge0_cmpk_retthis_globvar_float_storem1_uleq",
+   "ge0_cmpk_retthis_globvar_float_storem1_xiany",
+   "ret64_uleq",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64_uleq",
+   "ret64_xiany",
+   "ge0_cmpk_retthis_globvar_float_storem1_ret64_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_retthis_globvar_float_storem1_uleq_xiany",
+   "cmpk_retthis_globvar_float_ret64_storem1",
+   "ge0_ret64",
+   "ge0_retthis_globvar_float_ret64_storem1",
+   "cmpk_ret64",
+   "ge0_cmpk_globvar_float_ret64_storem1",
+   "retthis_ret64",
+   "ge0_cmpk_retthis_float_ret64_storem1",
+   "globvar_ret64",
+   "ge0_cmpk_retthis_globvar_ret64_storem1",
+   "float_ret64",
+   "ge0_cmpk_retthis_globvar_float_ret64",
+   "ret64_storem1",
+   "cmpk_retthis_globvar_float_uleq_storem1",
+   "ge0_uleq",
+   "ge0_retthis_globvar_float_uleq_storem1",
+   "cmpk_uleq",
+   "ge0_cmpk_globvar_float_uleq_storem1",
+   "retthis_uleq",
+   "ge0_cmpk_retthis_float_uleq_storem1",
+   "globvar_uleq",
+   "ge0_cmpk_retthis_globvar_uleq_storem1",
+   "float_uleq",
+   "ge0_cmpk_retthis_globvar_float_uleq",
+   "uleq_storem1",
+   "cmpk_retthis_globvar_float_xiany_storem1",
+   "ge0_xiany",
+   "ge0_retthis_globvar_float_xiany_storem1",
+   "cmpk_xiany",
+   "ge0_cmpk_globvar_float_xiany_storem1",
+   "retthis_xiany",
+   "ge0_cmpk_retthis_float_xiany_storem1",
+   "globvar_xiany",
+   "ge0_cmpk_retthis_globvar_xiany_storem1",
+   "float_xiany",
+   "ge0_cmpk_retthis_globvar_float_xiany",
+   "xiany_storem1"
+  ]
  },
  "0x1008A0D0": {
   "verdict": "IDENTICAL",
@@ -16534,9 +17544,20 @@
   "size": 64
  },
  "0x1008A1A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_IsIdAbove6ff",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+114: REL32 targets ?f@FUNt_1008A2F0@@QAEIXZ (0x1008A2F0), the game 0xA48F2D1E",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "cmpk",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_retnarrow_uleq",
+   "cmpk_retnarrow",
+   "cmpk_uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x1008A2F0": {
   "verdict": "DIFFERS",
@@ -16624,9 +17645,21 @@
   ]
  },
  "0x1008B100": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for XiControlActor_SetAutoRunning",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+50: REL32 targets ?f@FUNt_10181510@@QAEIHH@Z (0x10181510), the game 0xE7F0C199",
+  "conv": "__thiscall",
+  "size": 112,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "uleq",
+   "retthis_globvar_calledon_uleq",
+   "retthis_globvar",
+   "retthis_globvar_uleq",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x1008B270": {
   "verdict": "IDENTICAL",
@@ -16733,9 +17766,37 @@
   "size": 128
  },
  "0x1008DA00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+179: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x517CC2BB",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_float_calledon_ret64_uleq",
+   "cmpk_retthis_float",
+   "ret64_calledon",
+   "cmpk_retthis_float_ret64",
+   "cmpk_retthis_float_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_float_ret64_uleq",
+   "retthis_float_ret64",
+   "cmpk_ret64",
+   "cmpk_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_ret64",
+   "float_ret64",
+   "retthis_float_uleq",
+   "cmpk_uleq",
+   "cmpk_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "float_uleq"
+  ]
  },
  "0x1008DB40": {
   "verdict": "DIFFERS",
@@ -16814,14 +17875,55 @@
   ]
  },
  "0x1008E4D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10085a10",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets _FUN_101CC4F0 (0x101CC4F0), the game 0x309F6FDC",
+  "conv": "__thiscall",
+  "size": 608,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_globvar_calledon_ret64_uleq",
+   "cmpk_retthis_globvar",
+   "ret64_calledon",
+   "cmpk_retthis_globvar_ret64",
+   "cmpk_retthis_globvar_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_ret64_uleq",
+   "retthis_globvar_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_ret64",
+   "globvar_ret64",
+   "retthis_globvar_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x1008E740": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for XiControlActor_SetAutoRunning",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+45: REL32 targets ?FUN_100A6070@@YG_KH@Z (0x100A6070), the game 0x0CF0E7DB",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "retthis",
+   "calledon",
+   "uleq",
+   "xiany",
+   "retthis_calledon_uleq_xiany",
+   "xiany_calledon",
+   "retthis_uleq",
+   "retthis_xiany",
+   "uleq_xiany",
+   "retthis_uleq_xiany"
+  ]
  },
  "0x1008E8D0": {
   "verdict": "DIFFERS",
@@ -16841,9 +17943,51 @@
   ]
  },
  "0x1008E9A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_101CC4F0 (0x101CC4F0), the game 0x884F74AB",
+  "conv": "__thiscall",
+  "size": 1072,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_float_calledon_ret64_retnarrow_uleq",
+   "cmpk_globvar_float",
+   "ret64_calledon",
+   "cmpk_globvar_float_ret64",
+   "cmpk_globvar_float_retnarrow",
+   "cmpk_globvar_float_uleq",
+   "ret64_retnarrow",
+   "cmpk_globvar_float_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_float_ret64_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_float_retnarrow_uleq",
+   "globvar_float_ret64",
+   "cmpk_ret64",
+   "cmpk_float_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_ret64",
+   "float_ret64",
+   "globvar_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "float_retnarrow",
+   "globvar_float_uleq",
+   "cmpk_uleq",
+   "cmpk_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x1008EE30": {
   "verdict": "DIFFERS",
@@ -16953,14 +18097,40 @@
   ]
  },
  "0x10092870": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_ReleaseListEntriesMatching",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets ?f@FUNt_100D44B0@@QAE_KH@Z (0x100D44B0), the game 0x11732A3E",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "retthis",
+   "uleq",
+   "xiany",
+   "retstore",
+   "retthis_uleq_xiany",
+   "retthis_uleq",
+   "retthis_xiany",
+   "uleq_xiany"
+  ]
  },
  "0x10092900": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_ReleaseListEntriesMatching",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+156: REL32 targets _FUN_1008F1D0 (0x1008F1D0), the game 0xA099BA30",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "retthis",
+   "calledon",
+   "uleq",
+   "xiany",
+   "retthis_calledon_uleq_xiany",
+   "xiany_calledon",
+   "retthis_uleq",
+   "retthis_xiany",
+   "uleq_xiany",
+   "retthis_uleq_xiany"
+  ],
+  "rule_identical": "xiany_calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100929A0": {
   "verdict": "DIFFERS",
@@ -17116,9 +18286,39 @@
   "size": 32
  },
  "0x10093B70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1015eea0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?FUN_102467F0@@YG_KI@Z (0x102467F0), the game 0x2B35A86B",
+  "conv": "__cdecl",
+  "size": 576,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_calledon_ret64_uleq",
+   "ret8_cmpk_globvar",
+   "ret64_calledon",
+   "ret8_cmpk_globvar_ret64",
+   "ret8_cmpk_globvar_uleq",
+   "ret64_uleq",
+   "ret8_cmpk_globvar_ret64_uleq",
+   "cmpk_globvar_ret64",
+   "ret8_ret64",
+   "ret8_globvar_ret64",
+   "cmpk_ret64",
+   "ret8_cmpk_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_uleq",
+   "ret8_uleq",
+   "ret8_globvar_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x10093DA0": {
   "verdict": "IDENTICAL",
@@ -17247,9 +18447,10 @@
   ]
  },
  "0x10095900": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Acter_IsEvent",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_10095900.cpp(154): C2143: syntax error : missing ';' before '}'"
  },
  "0x10095DD0": {
   "verdict": "DIFFERS",
@@ -17369,9 +18570,44 @@
   "size": 32
  },
  "0x10096640": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets _FUN_100FC160 (0x100FC160), the game 0xB8096CA7",
+  "conv": "__cdecl",
+  "size": 1744,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_float_calledon_ret64_uleq",
+   "ret8_cmpk_globvar_float",
+   "ret64_calledon",
+   "ret8_cmpk_globvar_float_ret64",
+   "ret8_cmpk_globvar_float_uleq",
+   "ret64_uleq",
+   "ret8_cmpk_globvar_float_ret64_uleq",
+   "cmpk_globvar_float_ret64",
+   "ret8_ret64",
+   "ret8_globvar_float_ret64",
+   "cmpk_ret64",
+   "ret8_cmpk_float_ret64",
+   "globvar_ret64",
+   "ret8_cmpk_globvar_ret64",
+   "float_ret64",
+   "cmpk_globvar_float_uleq",
+   "ret8_uleq",
+   "ret8_globvar_float_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_float_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x100973F0": {
   "verdict": "DIFFERS",
@@ -17733,9 +18969,43 @@
   ]
  },
  "0x100983F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+227: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x26F1A64B",
+  "conv": "__thiscall",
+  "size": 608,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_frame_float_calledon_ret64_uleq",
+   "retthis_globvar_frame_float",
+   "ret64_calledon",
+   "retthis_globvar_frame_float_ret64",
+   "retthis_globvar_frame_float_uleq",
+   "ret64_uleq",
+   "retthis_globvar_frame_float_ret64_uleq",
+   "globvar_frame_float_ret64",
+   "retthis_ret64",
+   "retthis_frame_float_ret64",
+   "globvar_ret64",
+   "retthis_globvar_float_ret64",
+   "frame_ret64",
+   "retthis_globvar_frame_ret64",
+   "float_ret64",
+   "globvar_frame_float_uleq",
+   "retthis_uleq",
+   "retthis_frame_float_uleq",
+   "globvar_uleq",
+   "retthis_globvar_float_uleq",
+   "frame_uleq",
+   "retthis_globvar_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x10099680": {
   "verdict": "DIFFERS",
@@ -17798,9 +19068,33 @@
   ]
  },
  "0x10099AE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10099a40",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?FUN_1009AAD0@@YAII@Z (0x1009AAD0), the game 0x93099B04",
+  "conv": "__cdecl",
+  "size": 3856,
+  "casts": 1,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_frame_float_calledon_uleq",
+   "ret8_globvar_frame_float",
+   "ret8_globvar_frame_float_uleq",
+   "globvar_frame_float_uleq",
+   "ret8_uleq",
+   "ret8_frame_float_uleq",
+   "globvar_uleq",
+   "ret8_globvar_float_uleq",
+   "frame_uleq",
+   "ret8_globvar_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x1009AAF0": {
   "verdict": "DIFFERS",
@@ -17880,14 +19174,63 @@
   "size": 32
  },
  "0x1009F4C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_IsReadCompleteBody",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+53: REL32 targets ?f@FUNt_1002C8F0@@QAE_KH@Z (0x1002C8F0), the game 0x9B1D69B9",
+  "conv": "__thiscall",
+  "size": 864,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "cmpk_retthis_globvar_float_calledon_ret64_uleq_xiany",
+   "cmpk_retthis_globvar_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "cmpk_retthis_globvar_float_ret64",
+   "cmpk_retthis_globvar_float_uleq",
+   "cmpk_retthis_globvar_float_xiany",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_float_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_retthis_globvar_float_ret64_xiany",
+   "uleq_xiany",
+   "cmpk_retthis_globvar_float_uleq_xiany",
+   "retthis_globvar_float_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_float_ret64",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_ret64",
+   "float_ret64",
+   "retthis_globvar_float_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_float_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_uleq",
+   "float_uleq",
+   "retthis_globvar_float_xiany",
+   "cmpk_xiany",
+   "cmpk_globvar_float_xiany",
+   "retthis_xiany",
+   "cmpk_retthis_float_xiany",
+   "globvar_xiany",
+   "cmpk_retthis_globvar_xiany",
+   "float_xiany"
+  ]
  },
  "0x100A0080": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100a0010",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x100A1770": {
   "verdict": "DIFFERS",
@@ -18043,9 +19386,19 @@
   ]
  },
  "0x100A3040": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100a30e0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets _FUN_100A30E0@0 (0x100A30E0), the game 0x108AB55E",
+  "conv": "__cdecl",
+  "size": 160,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_globvar_calledon",
+   "ret8_globvar"
+  ]
  },
  "0x100A3CD0": {
   "verdict": "IDENTICAL",
@@ -18474,9 +19827,48 @@
   "size": 48
  },
  "0x100A5EF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0x4F747B9D",
+  "conv": "__thiscall",
+  "size": 400,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_float_calledon_ret64_retnarrow_uleq_xiany",
+   "globvar_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "globvar_float_ret64",
+   "globvar_float_retnarrow",
+   "globvar_float_uleq",
+   "globvar_float_xiany",
+   "ret64_retnarrow",
+   "globvar_float_ret64_retnarrow",
+   "ret64_uleq",
+   "globvar_float_ret64_uleq",
+   "ret64_xiany",
+   "globvar_float_ret64_xiany",
+   "retnarrow_uleq",
+   "globvar_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_float_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_float_uleq_xiany",
+   "float_ret64",
+   "globvar_ret64",
+   "float_retnarrow",
+   "globvar_retnarrow",
+   "float_uleq",
+   "globvar_uleq",
+   "float_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x100A78D0": {
   "verdict": "DIFFERS",
@@ -18659,9 +20051,13 @@
   "size": 80
  },
  "0x100AB9A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiDancerActor_SetAnglesWrapped",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets ?f@FUNt_10093430@@QAEIPAI@Z (0x10093430), the game 0x8A82A285",
+  "conv": "__thiscall",
+  "size": 624,
+  "rules_tried": [
+   "retthis"
+  ]
  },
  "0x100ABC20": {
   "verdict": "DIFFERS",
@@ -18728,9 +20124,20 @@
   "size": 16
  },
  "0x100AC4E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_100A57F0@@QAEIXZ (0x100A57F0), the game 0x9BE34FEB",
+  "conv": "__thiscall",
+  "size": 208,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "float",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_cmpk_float_calledon",
+   "ret8_cmpk_float"
+  ]
  },
  "0x100AC9C0": {
   "verdict": "IDENTICAL",
@@ -18811,9 +20218,65 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100AE3F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Cell_SetByte104E1C3E_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?f@FUNt_101C4AE0@@QAEXXZ (0x101C4AE0), the game 0xCBF2E413",
+  "conv": "__cdecl",
+  "size": 1408,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ge0_cmpk_globvar_frame_float_calledon_retnarrow_uleq_xiany",
+   "ge0_cmpk_globvar_frame_float",
+   "xiany_calledon",
+   "ge0_cmpk_globvar_frame_float_retnarrow",
+   "ge0_cmpk_globvar_frame_float_uleq",
+   "ge0_cmpk_globvar_frame_float_xiany",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_frame_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "ge0_cmpk_globvar_frame_float_retnarrow_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_globvar_frame_float_uleq_xiany",
+   "cmpk_globvar_frame_float_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_frame_float_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_frame_float_retnarrow",
+   "globvar_retnarrow",
+   "ge0_cmpk_globvar_float_retnarrow",
+   "frame_retnarrow",
+   "ge0_cmpk_globvar_frame_retnarrow",
+   "float_retnarrow",
+   "cmpk_globvar_frame_float_uleq",
+   "ge0_uleq",
+   "ge0_globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "ge0_cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "ge0_cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "cmpk_globvar_frame_float_xiany",
+   "ge0_xiany",
+   "ge0_globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "ge0_cmpk_frame_float_xiany",
+   "globvar_xiany",
+   "ge0_cmpk_globvar_float_xiany",
+   "frame_xiany",
+   "ge0_cmpk_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x100AEC20": {
   "verdict": "DIFFERS",
@@ -18846,9 +20309,10 @@
   "size": 64
  },
  "0x100BD5F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_ReleaseListEntriesMatching",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 304
  },
  "0x100BD760": {
   "verdict": "DIFFERS",
@@ -18868,9 +20332,47 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100C2E20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10086E90_IsParamBelow901",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+92: REL32 targets ?FUN_10086FC0@@YA_KI@Z (0x10086FC0), the game 0x7615A381",
+  "conv": "__thiscall",
+  "size": 432,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "cmpk_globvar_ret64_uleq_retvoid_paramnarrow",
+   "cmpk_globvar_paramnarrow",
+   "cmpk_globvar_paramnarrow_ret64",
+   "cmpk_globvar_paramnarrow_uleq",
+   "cmpk_globvar_paramnarrow_retvoid",
+   "ret64_uleq",
+   "cmpk_globvar_paramnarrow_ret64_uleq",
+   "ret64_retvoid",
+   "cmpk_globvar_paramnarrow_ret64_retvoid",
+   "uleq_retvoid",
+   "cmpk_globvar_paramnarrow_uleq_retvoid",
+   "globvar_ret64_paramnarrow",
+   "cmpk_ret64",
+   "cmpk_ret64_paramnarrow",
+   "globvar_ret64",
+   "cmpk_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_uleq_paramnarrow",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "uleq_paramnarrow",
+   "globvar_retvoid_paramnarrow",
+   "cmpk_retvoid",
+   "cmpk_retvoid_paramnarrow",
+   "globvar_retvoid",
+   "cmpk_globvar_retvoid",
+   "retvoid_paramnarrow"
+  ]
  },
  "0x100C3050": {
   "verdict": "IDENTICAL",
@@ -18944,14 +20446,74 @@
   "size": 48
  },
  "0x100C3300": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100ACAB0_GetWordBFE",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?f@FUNt_100C3020@@QAE_KXZ (0x100C3020), the game 0x100D3315",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "ret64",
+   "retthis_globvar_ret64",
+   "retthis_globvar",
+   "globvar_ret64",
+   "retthis_ret64"
+  ]
  },
  "0x100C3480": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+37: REL32 targets ?f@FUNt_100C3130@@QAEIXZ (0x100C3130), the game 0x1008BB91",
+  "conv": "__thiscall",
+  "size": 1120,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_frame_float_calledon_retnarrow_uleq_xiany",
+   "cmpk_globvar_frame_float",
+   "xiany_calledon",
+   "cmpk_globvar_frame_float_retnarrow",
+   "cmpk_globvar_frame_float_uleq",
+   "cmpk_globvar_frame_float_xiany",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "cmpk_globvar_frame_float_retnarrow_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_frame_float_uleq_xiany",
+   "globvar_frame_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_float_retnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "float_retnarrow",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "cmpk_frame_float_xiany",
+   "globvar_xiany",
+   "cmpk_globvar_float_xiany",
+   "frame_xiany",
+   "cmpk_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x100C3E70": {
   "verdict": "DIFFERS",
@@ -19029,9 +20591,20 @@
   "size": 96
  },
  "0x100C4C20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101844c0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+29: 0x8E here, 0xD8 in the game",
+  "conv": "__thiscall",
+  "size": 192,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x100C5190": {
   "verdict": "IDENTICAL",
@@ -19275,14 +20848,28 @@
   ]
  },
  "0x100C8280": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_ModelTest95680",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+9: REL32 targets ?f@FUNt_10084390@@QAEIXZ (0x10084390), the game 0x610C7E4E",
+  "conv": "__thiscall",
+  "size": 336,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_globvar_frame_float_calledon",
+   "ret8_globvar_frame_float"
+  ]
  },
  "0x100C9C10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_100C9C10.cpp(142): C2065: 'fsin' : undeclared identifier"
  },
  "0x100CB390": {
   "verdict": "DIFFERS",
@@ -19356,9 +20943,59 @@
   "error": "f_100CBDE0.cpp(970): C2065: 'COERCE_INT' : undeclared identifier"
  },
  "0x100CD040": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10085ad0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+52: __real@3f80000000000000, the game's constant at 0x3E4CCCCD is ?",
+  "conv": "__thiscall",
+  "size": 1328,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_frame_float_calledon_ret64_uleq_xiany",
+   "cmpk_globvar_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "cmpk_globvar_frame_float_ret64",
+   "cmpk_globvar_frame_float_uleq",
+   "cmpk_globvar_frame_float_xiany",
+   "ret64_uleq",
+   "cmpk_globvar_frame_float_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_globvar_frame_float_ret64_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_frame_float_uleq_xiany",
+   "globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_ret64",
+   "float_ret64",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "cmpk_frame_float_xiany",
+   "globvar_xiany",
+   "cmpk_globvar_float_xiany",
+   "frame_xiany",
+   "cmpk_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x100CD490": {
   "verdict": "IDENTICAL",
@@ -19473,9 +21110,31 @@
   ]
  },
  "0x100CDF90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+34: __real@0000000000000000, the game's constant at 0x00AE8A0F is ?",
+  "conv": "__thiscall",
+  "size": 288,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "xiany",
+   "retthis_globvar_frame_float_calledon_xiany",
+   "retthis_globvar_frame_float",
+   "xiany_calledon",
+   "retthis_globvar_frame_float_xiany",
+   "globvar_frame_float_xiany",
+   "retthis_xiany",
+   "retthis_frame_float_xiany",
+   "globvar_xiany",
+   "retthis_globvar_float_xiany",
+   "frame_xiany",
+   "retthis_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x100CE160": {
   "verdict": "IDENTICAL",
@@ -19591,9 +21250,40 @@
   ]
  },
  "0x100CEE40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Scheduler_Execute_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?f@FUNt_100CE480@@QAEIPAPAIHHIHH@Z (0x100CE480), the game 0x3881AEE9",
+  "conv": "__thiscall",
+  "size": 272,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_frame_calledon_ret64_uleq",
+   "ret8_globvar_frame",
+   "ret64_calledon",
+   "ret8_globvar_frame_ret64",
+   "ret8_globvar_frame_uleq",
+   "ret64_uleq",
+   "ret8_globvar_frame_ret64_uleq",
+   "globvar_frame_ret64",
+   "ret8_ret64",
+   "ret8_frame_ret64",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "frame_ret64",
+   "globvar_frame_uleq",
+   "ret8_uleq",
+   "ret8_frame_uleq",
+   "globvar_uleq",
+   "ret8_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x100CF030": {
   "verdict": "DIFFERS",
@@ -19637,9 +21327,20 @@
   ]
  },
  "0x100CFA50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+13: 0x75 here, 0x74 in the game",
+  "conv": "__thiscall",
+  "size": 128,
+  "rules_tried": [
+   "retthis",
+   "frame",
+   "frametight",
+   "uleq",
+   "retthis_frame_uleq",
+   "retthis_frame",
+   "frame_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x100CFAD0": {
   "verdict": "DIFFERS",
@@ -19657,9 +21358,16 @@
   ]
  },
  "0x100CFB40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_ModelTest95680",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "length 208, the game function 128",
+  "conv": "__thiscall",
+  "size": 208,
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "retnarrow_uleq"
+  ]
  },
  "0x100CFC10": {
   "verdict": "DIFFERS",
@@ -19728,9 +21436,39 @@
   ]
  },
  "0x100D0510": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10098320",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+77: REL32 targets ?f@FUNt_100845B0@@QAEIXZ (0x100845B0), the game 0xDE981BEC",
+  "conv": "__thiscall",
+  "size": 560,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_frame_calledon_retnarrow_uleq_xiany",
+   "globvar_frame",
+   "xiany_calledon",
+   "globvar_frame_retnarrow",
+   "globvar_frame_uleq",
+   "globvar_frame_xiany",
+   "retnarrow_uleq",
+   "globvar_frame_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_frame_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_frame_uleq_xiany",
+   "frame_retnarrow",
+   "globvar_retnarrow",
+   "frame_uleq",
+   "globvar_uleq",
+   "frame_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x100D06F0": {
   "verdict": "DIFFERS",
@@ -19870,9 +21608,27 @@
   ]
  },
  "0x100D1070": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_IsReadCompleteBody",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+6: REL32 targets ?f@FUNt_10084400@@QAEHXZ (0x10084400), the game 0x440D0BAD",
+  "conv": "__thiscall",
+  "size": 336,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_retnarrow_uleq_xiany",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "globvar_xiany",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_uleq_xiany"
+  ]
  },
  "0x100D1190": {
   "verdict": "DIFFERS",
@@ -19892,14 +21648,60 @@
   ]
  },
  "0x100D1450": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1001b7b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+76: REL32 targets ?f@FUNt_10071060@@QAEIXZ (0x10071060), the game 0x56972315",
+  "conv": "__thiscall",
+  "size": 128,
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "retnarrow_uleq"
+  ]
  },
  "0x100D14C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_ModelTest95680",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+87: REL32 targets ?FUN_100730E0@@YGPAIPAIH@Z (0x100730E0), the game 0x6721395F",
+  "conv": "__thiscall",
+  "size": 480,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "ge0_cmpk_retthis_globvar_frame_calledon_ret64_uleq",
+   "ge0_cmpk_retthis_globvar_frame",
+   "ret64_calledon",
+   "ge0_cmpk_retthis_globvar_frame_ret64",
+   "ge0_cmpk_retthis_globvar_frame_uleq",
+   "ret64_uleq",
+   "ge0_cmpk_retthis_globvar_frame_ret64_uleq",
+   "cmpk_retthis_globvar_frame_ret64",
+   "ge0_ret64",
+   "ge0_retthis_globvar_frame_ret64",
+   "cmpk_ret64",
+   "ge0_cmpk_globvar_frame_ret64",
+   "retthis_ret64",
+   "ge0_cmpk_retthis_frame_ret64",
+   "globvar_ret64",
+   "ge0_cmpk_retthis_globvar_ret64",
+   "frame_ret64",
+   "cmpk_retthis_globvar_frame_uleq",
+   "ge0_uleq",
+   "ge0_retthis_globvar_frame_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_globvar_frame_uleq",
+   "retthis_uleq",
+   "ge0_cmpk_retthis_frame_uleq",
+   "globvar_uleq",
+   "ge0_cmpk_retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x100D2F40": {
   "verdict": "IDENTICAL",
@@ -19908,9 +21710,11 @@
   "size": 32
  },
  "0x100D2F60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiSkeletonActor_AttachPartResource",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_100D2F60.cpp(171): C2440: '=' : cannot convert from 'void *' to 'unsigned int *'",
+  "casts": 22
  },
  "0x100D4330": {
   "verdict": "DIFFERS",
@@ -19993,14 +21797,67 @@
   ]
  },
  "0x100D59A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+342: REL32 targets _FUN_100279A0 (0x100279A0), the game 0xF84CDAFA",
+  "conv": "__thiscall",
+  "size": 368,
+  "rules_tried": [
+   "retthis",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retthis_frame_float_calledon_ret64",
+   "retthis_frame_float",
+   "ret64_calledon",
+   "retthis_frame_float_ret64",
+   "frame_float_ret64",
+   "retthis_ret64",
+   "retthis_float_ret64",
+   "frame_ret64",
+   "retthis_frame_ret64",
+   "float_ret64"
+  ]
  },
  "0x100D5B10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiActor_ModelTest95790",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?f@FUNt_1002B5A0@@QAEHXZ (0x1002B5A0), the game 0x9C0D507E",
+  "conv": "__thiscall",
+  "size": 1216,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "uleq",
+   "xiany",
+   "retthis_globvar_frame_float_calledon_uleq_xiany",
+   "retthis_globvar_frame_float",
+   "xiany_calledon",
+   "retthis_globvar_frame_float_uleq",
+   "retthis_globvar_frame_float_xiany",
+   "uleq_xiany",
+   "retthis_globvar_frame_float_uleq_xiany",
+   "globvar_frame_float_uleq",
+   "retthis_uleq",
+   "retthis_frame_float_uleq",
+   "globvar_uleq",
+   "retthis_globvar_float_uleq",
+   "frame_uleq",
+   "retthis_globvar_frame_uleq",
+   "float_uleq",
+   "globvar_frame_float_xiany",
+   "retthis_xiany",
+   "retthis_frame_float_xiany",
+   "globvar_xiany",
+   "retthis_globvar_float_xiany",
+   "frame_xiany",
+   "retthis_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x100D6240": {
   "verdict": "DIFFERS",
@@ -20895,9 +22752,25 @@
   "size": 16
  },
  "0x100DC270": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100dc2d0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+67: 0x24 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 80,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_calledon_uleq",
+   "ret8_globvar",
+   "ret8_globvar_uleq",
+   "globvar_uleq",
+   "ret8_uleq"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100DC2C0": {
   "verdict": "DIFFERS",
@@ -23340,14 +25213,29 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100F1D20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_CallStateCallback3",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+99: REL32 targets ?f@FUNt_100F2C40@@QAE_KXZ (0x100F2C40), the game 0x1655A7A1",
+  "conv": "__thiscall",
+  "size": 384,
+  "rules_tried": [
+   "ret8",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_uleq"
+  ]
  },
  "0x100F1E70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_CallStateCallback3",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+115: 0x74 here, 0x76 in the game",
+  "conv": "__thiscall",
+  "size": 144,
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "retnarrow_uleq"
+  ]
  },
  "0x100F1F00": {
   "verdict": "DIFFERS",
@@ -23952,14 +25840,60 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100FB920": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_SetPacketType",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+66: REL32 targets _FUN_100DD800 (0x100DD800), the game 0x1583CA5E",
+  "conv": "__cdecl",
+  "size": 304,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "retvoid",
+   "paramnarrow",
+   "ret8_cmpk_globvar_calledon_ret64_paramnarrow",
+   "ret8_cmpk_globvar_paramnarrow",
+   "ret64_calledon",
+   "ret8_cmpk_globvar_paramnarrow_ret64",
+   "cmpk_globvar_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_globvar_ret64_paramnarrow",
+   "cmpk_ret64",
+   "ret8_cmpk_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_cmpk_globvar_ret64",
+   "ret64_paramnarrow"
+  ]
  },
  "0x100FBA40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_SetPacketType",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+66: REL32 targets _FUN_100DD800 (0x100DD800), the game 0x1583CB7E",
+  "conv": "__cdecl",
+  "size": 272,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "retvoid",
+   "paramnarrow",
+   "ret8_cmpk_globvar_calledon_ret64_paramnarrow",
+   "ret8_cmpk_globvar_paramnarrow",
+   "ret64_calledon",
+   "ret8_cmpk_globvar_paramnarrow_ret64",
+   "cmpk_globvar_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_globvar_ret64_paramnarrow",
+   "cmpk_ret64",
+   "ret8_cmpk_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_cmpk_globvar_ret64",
+   "ret64_paramnarrow"
+  ]
  },
  "0x100FBB40": {
   "verdict": "DIFFERS",
@@ -24376,9 +26310,19 @@
   ]
  },
  "0x101033C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100f0130",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+1: REL32 targets _FUN_100DC270 (0x100DC270), the game 0x1834A850",
+  "conv": "__cdecl",
+  "size": 144,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_globvar_calledon",
+   "ret8_globvar"
+  ]
  },
  "0x10103700": {
   "verdict": "DIFFERS",
@@ -24996,9 +26940,19 @@
   "size": 16
  },
  "0x10109140": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_RefStringAssign",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+22: REL32 targets ?f@FUNt_101092C0@@QAE_KPAD@Z (0x101092C0), the game 0xD69B915A",
+  "conv": "__thiscall",
+  "size": 32,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "retvoid",
+   "globvar_retvoid",
+   "sametu"
+  ],
+  "rule_identical": "sametu",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101091D0": {
   "verdict": "DIFFERS",
@@ -25127,9 +27081,10 @@
   ]
  },
  "0x10113220": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for thunk_FUN_100fc370",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x101133A0": {
   "verdict": "IDENTICAL",
@@ -25978,9 +27933,48 @@
   ]
  },
  "0x101177D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuTestItem34Or6B",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets ?f@FUNt_10117520@@QAEXXZ (0x10117520), the game 0x66570348",
+  "conv": "__thiscall",
+  "size": 2464,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq",
+   "cmpk_retthis_globvar_frame_float",
+   "ret64_calledon",
+   "cmpk_retthis_globvar_frame_float_ret64",
+   "cmpk_retthis_globvar_frame_float_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_frame_float_ret64_uleq",
+   "retthis_globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_frame_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_retthis_globvar_frame_ret64",
+   "float_ret64",
+   "retthis_globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_retthis_globvar_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x10117F30": {
   "verdict": "DIFFERS",
@@ -25992,9 +27986,25 @@
   ]
  },
  "0x10117F40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_UpdateState",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_1011B310@@QAEIXZ (0x1011B310), the game 0x95EA0A55",
+  "conv": "__thiscall",
+  "size": 480,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_ret64_uleq",
+   "cmpk_retthis",
+   "cmpk_retthis_ret64",
+   "cmpk_retthis_uleq",
+   "ret64_uleq",
+   "retthis_ret64",
+   "cmpk_ret64",
+   "retthis_uleq",
+   "cmpk_uleq"
+  ]
  },
  "0x101180F0": {
   "verdict": "DIFFERS",
@@ -26195,9 +28205,10 @@
   ]
  },
  "0x10118870": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_SelectEntry",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10118B60": {
   "verdict": "DIFFERS",
@@ -26343,9 +28354,51 @@
   ]
  },
  "0x10119200": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1011a560",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+13: REL32 targets ?f@FUNt_10126500@@QAEIXZ (0x10126500), the game 0x10E480F9",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "retthis_globvar_frame_calledon_ret64_uleq_xiany",
+   "retthis_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
+   "retthis_globvar_frame_ret64",
+   "retthis_globvar_frame_uleq",
+   "retthis_globvar_frame_xiany",
+   "ret64_uleq",
+   "retthis_globvar_frame_ret64_uleq",
+   "ret64_xiany",
+   "retthis_globvar_frame_ret64_xiany",
+   "uleq_xiany",
+   "retthis_globvar_frame_uleq_xiany",
+   "globvar_frame_ret64",
+   "retthis_ret64",
+   "retthis_frame_ret64",
+   "globvar_ret64",
+   "retthis_globvar_ret64",
+   "frame_ret64",
+   "globvar_frame_uleq",
+   "retthis_uleq",
+   "retthis_frame_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "frame_uleq",
+   "globvar_frame_xiany",
+   "retthis_xiany",
+   "retthis_frame_xiany",
+   "globvar_xiany",
+   "retthis_globvar_xiany",
+   "frame_xiany"
+  ]
  },
  "0x101192B0": {
   "verdict": "IDENTICAL",
@@ -26958,9 +29011,41 @@
   ]
  },
  "0x1011BFD0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Font_AddGlyphAdvance_v1",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+51: REL32 targets ?FUN_1011DA80@@YAIPAD@Z (0x1011DA80), the game 0x9311C015",
+  "conv": "__stdcall",
+  "size": 208,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_frame_float_retnarrow_uleq",
+   "cmpk_globvar_frame_float",
+   "cmpk_globvar_frame_float_retnarrow",
+   "cmpk_globvar_frame_float_uleq",
+   "retnarrow_uleq",
+   "globvar_frame_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_float_retnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "float_retnarrow",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x1011C080": {
   "verdict": "DIFFERS",
@@ -28135,9 +30220,50 @@
   "size": 16
  },
  "0x10123700": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_HasTable1037A290CellByte",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?f@FUNt_101B5C90@@QAEIXZ (0x101B5C90), the game 0x9412403B",
+  "conv": "__cdecl",
+  "size": 752,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "storem1",
+   "cmpk_globvar_calledon_ret64_uleq_retvoid_storem1",
+   "cmpk_globvar_storem1",
+   "ret64_calledon",
+   "cmpk_globvar_storem1_ret64",
+   "cmpk_globvar_storem1_uleq",
+   "cmpk_globvar_storem1_retvoid",
+   "ret64_uleq",
+   "cmpk_globvar_storem1_ret64_uleq",
+   "ret64_retvoid",
+   "cmpk_globvar_storem1_ret64_retvoid",
+   "uleq_retvoid",
+   "cmpk_globvar_storem1_uleq_retvoid",
+   "globvar_ret64_storem1",
+   "cmpk_ret64",
+   "cmpk_ret64_storem1",
+   "globvar_ret64",
+   "cmpk_globvar_ret64",
+   "ret64_storem1",
+   "globvar_uleq_storem1",
+   "cmpk_uleq",
+   "cmpk_uleq_storem1",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "uleq_storem1",
+   "globvar_retvoid_storem1",
+   "cmpk_retvoid",
+   "cmpk_retvoid_storem1",
+   "globvar_retvoid",
+   "cmpk_globvar_retvoid",
+   "retvoid_storem1"
+  ]
  },
  "0x10123DC0": {
   "verdict": "DIFFERS",
@@ -28442,9 +30568,26 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101248A0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_GetStateB4_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_101606F0@@QAE_KXZ (0x101606F0), the game 0xD09648BF",
+  "conv": "__thiscall",
+  "size": 208,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "float",
+   "calledon",
+   "uleq",
+   "retthis_globvar_float_calledon_uleq",
+   "retthis_globvar_float",
+   "retthis_globvar_float_uleq",
+   "globvar_float_uleq",
+   "retthis_uleq",
+   "retthis_float_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x10124930": {
   "verdict": "DIFFERS",
@@ -28531,19 +30674,70 @@
   "size": 32
  },
  "0x10124B70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Cursor_SetPosition_v1",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10124BC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+200: REL32 targets __ftol (0x10311C2C), the game 0xD23D5CB0",
+  "conv": "__thiscall",
+  "size": 992,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_float_calledon_retnarrow_uleq_xiany",
+   "globvar_float",
+   "xiany_calledon",
+   "globvar_float_retnarrow",
+   "globvar_float_uleq",
+   "globvar_float_xiany",
+   "retnarrow_uleq",
+   "globvar_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_float_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_float_uleq_xiany",
+   "float_retnarrow",
+   "globvar_retnarrow",
+   "float_uleq",
+   "globvar_uleq",
+   "float_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x10125040": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+50: REL32 targets _FUN_1025E050 (0x1025E050), the game 0x10125101",
+  "conv": "__thiscall",
+  "size": 544,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "float",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_float_calledon_uleq",
+   "ret8_cmpk_globvar_float",
+   "ret8_cmpk_globvar_float_uleq",
+   "cmpk_globvar_float_uleq",
+   "ret8_uleq",
+   "ret8_globvar_float_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_float_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x101252C0": {
   "verdict": "IDENTICAL",
@@ -28860,9 +31054,31 @@
   ]
  },
  "0x10126A00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_ClearFlag12FromValue",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets ?f@FUNt_10129290@@QAE_KH@Z (0x10129290), the game 0x0AEC52F3",
+  "conv": "__thiscall",
+  "size": 160,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "pushinit",
+   "globvar_frame_calledon_retnarrow_uleq",
+   "globvar_frame",
+   "globvar_frame_retnarrow",
+   "globvar_frame_uleq",
+   "retnarrow_uleq",
+   "globvar_frame_retnarrow_uleq",
+   "frame_retnarrow",
+   "globvar_retnarrow",
+   "frame_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x10126B60": {
   "verdict": "DIFFERS",
@@ -29625,9 +31841,55 @@
   "size": 16
  },
  "0x1012B4B0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuItemFade_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+114: REL32 targets ?f@FUNt_1015E790@@QAE_KHH@Z (0x1015E790), the game 0x936E1385",
+  "conv": "__thiscall",
+  "size": 1088,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "paramnarrow",
+   "retstore",
+   "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq_paramnarrow",
+   "cmpk_retthis_globvar_frame_float_paramnarrow",
+   "ret64_calledon",
+   "cmpk_retthis_globvar_frame_float_paramnarrow_ret64",
+   "cmpk_retthis_globvar_frame_float_paramnarrow_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_frame_float_paramnarrow_ret64_uleq",
+   "retthis_globvar_frame_float_ret64_paramnarrow",
+   "cmpk_ret64",
+   "cmpk_globvar_frame_float_ret64_paramnarrow",
+   "retthis_ret64",
+   "cmpk_retthis_frame_float_ret64_paramnarrow",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_float_ret64_paramnarrow",
+   "frame_ret64",
+   "cmpk_retthis_globvar_frame_ret64_paramnarrow",
+   "float_ret64",
+   "cmpk_retthis_globvar_frame_float_ret64",
+   "ret64_paramnarrow",
+   "retthis_globvar_frame_float_uleq_paramnarrow",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_float_uleq_paramnarrow",
+   "retthis_uleq",
+   "cmpk_retthis_frame_float_uleq_paramnarrow",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_float_uleq_paramnarrow",
+   "frame_uleq",
+   "cmpk_retthis_globvar_frame_uleq_paramnarrow",
+   "float_uleq",
+   "cmpk_retthis_globvar_frame_float_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x1012BEF0": {
   "verdict": "IDENTICAL",
@@ -29684,9 +31946,10 @@
   ]
  },
  "0x1012E180": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1012E360": {
   "verdict": "DIFFERS",
@@ -29877,9 +32140,40 @@
   ]
  },
  "0x10136560": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_ClearFlag12FromValue",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+101: REL32 targets ?f@FUNt_10129290@@QAE_KH@Z (0x10129290), the game 0x945BAC53",
+  "conv": "__thiscall",
+  "size": 368,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_globvar_frame_ret64_uleq",
+   "cmpk_retthis_globvar_frame",
+   "cmpk_retthis_globvar_frame_ret64",
+   "cmpk_retthis_globvar_frame_uleq",
+   "ret64_uleq",
+   "retthis_globvar_frame_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_frame_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_frame_ret64",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_ret64",
+   "frame_ret64",
+   "retthis_globvar_frame_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_frame_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x10136870": {
   "verdict": "DIFFERS",
@@ -30083,24 +32377,54 @@
   ]
  },
  "0x10139FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for thunk_FUN_1013a100",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 16
  },
  "0x1013A010": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_ResetHelpAndTitle",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets _FUN_1013A0D0@0 (0x1013A0D0), the game 0x10C08927",
+  "conv": "__thiscall",
+  "size": 32,
+  "rules_tried": [
+   "retthis",
+   "calledon",
+   "retthis_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1013A030": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x8C03893A",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "float",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_cmpk_float_calledon",
+   "ret8_cmpk_float"
+  ]
  },
  "0x1013A070": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_IsEvent",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+26: REL32 targets _FUN_1013A060@0 (0x1013A060), the game 0x4B896112",
+  "conv": "__thiscall",
+  "size": 112,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_globvar_calledon",
+   "ret8_globvar"
+  ]
  },
  "0x1013A1E0": {
   "verdict": "IDENTICAL",
@@ -30414,9 +32738,10 @@
   ]
  },
  "0x10141AD0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101436C0": {
   "verdict": "IDENTICAL",
@@ -30554,29 +32879,45 @@
   ]
  },
  "0x10148ED0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_SetField18AndRemainder",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: 0xB0 here, 0x0C in the game",
+  "conv": "__thiscall",
+  "size": 112,
+  "rules_tried": [
+   "globvar",
+   "retvoid",
+   "storem1",
+   "globvar_retvoid_storem1",
+   "globvar_storem1",
+   "retvoid_storem1",
+   "globvar_retvoid"
+  ],
+  "rule_identical": "storem1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1014A170": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_SetField18AndRemainder",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1014A7D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_SetField18AndRemainder",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1014B670": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_SetField18AndRemainder",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1014BA60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_SetField18AndRemainder",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 96
  },
  "0x1014C750": {
   "verdict": "DIFFERS",
@@ -32122,19 +34463,69 @@
   "size": 16
  },
  "0x101579C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+0: 0x83 here, 0x51 in the game",
+  "conv": "__thiscall",
+  "size": 336,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_calledon_ret64_uleq",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "retthis_globvar_ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x10157B40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets ?f@FUNt_101590A0@@QAEIXZ (0x101590A0), the game 0x6F157B6C",
+  "conv": "__thiscall",
+  "size": 288,
+  "rules_tried": [
+   "ret8",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ret8_frame_calledon_uleq_paramnarrow",
+   "ret8_frame_paramnarrow",
+   "ret8_frame_paramnarrow_uleq",
+   "frame_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
+   "frame_uleq",
+   "ret8_frame_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x10157C60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Entry_IsActorFieldMatch",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+53: 0x52 here, 0x8B in the game",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x10157CB0": {
   "verdict": "DIFFERS",
@@ -32215,14 +34606,55 @@
   ]
  },
  "0x10157E20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+40: REL32 targets ?FUN_1015ECC0@@YGIH@Z (0x1015ECC0), the game 0x20779684",
+  "conv": "__thiscall",
+  "size": 384,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "cmpk_retthis_globvar_calledon_ret64_uleq",
+   "cmpk_retthis_globvar",
+   "ret64_calledon",
+   "cmpk_retthis_globvar_ret64",
+   "cmpk_retthis_globvar_uleq",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_ret64_uleq",
+   "retthis_globvar_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_ret64",
+   "globvar_ret64",
+   "retthis_globvar_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x101582F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_GetByte75",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+89: REL32 targets ?f@FUNt_10157880@@QAE_KXZ (0x10157880), the game 0x6C9E5BD7",
+  "conv": "__thiscall",
+  "size": 256,
+  "rules_tried": [
+   "retthis",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_calledon_ret64_uleq",
+   "ret64_calledon",
+   "retthis_ret64",
+   "retthis_uleq",
+   "ret64_uleq",
+   "retthis_ret64_uleq"
+  ]
  },
  "0x101583F0": {
   "verdict": "DIFFERS",
@@ -32265,9 +34697,15 @@
   ]
  },
  "0x10158550": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Entry_IsActorFieldMatch",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: REL32 targets ?FUN_10159E10@@YA_KPAH@Z (0x10159E10), the game 0x67D8E3D3",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "retvoid",
+   "negmask",
+   "retvoid_negmask"
+  ]
  },
  "0x10158590": {
   "verdict": "DIFFERS",
@@ -32319,19 +34757,31 @@
   ]
  },
  "0x101587B0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x10158B40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Target_TrySubSelect",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?f@FUNt_10158B00@@QAE_KH@Z (0x10158B00), the game 0x11C68B5B",
+  "conv": "__thiscall",
+  "size": 48,
+  "rules_tried": [
+   "ret8",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_uleq"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10158B60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_UpdateEntryCycle",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10158B60.cpp(30): C2106: '=' : left operand must be l-value"
  },
  "0x10158C40": {
   "verdict": "DIFFERS",
@@ -32388,14 +34838,54 @@
   "casts": 1
  },
  "0x10158DB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Target_CommitSubTarget",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+31: REL32 targets ?f@FUNt_101598A0@@QAEIXZ (0x101598A0), the game 0x08A15C5E",
+  "conv": "__thiscall",
+  "size": 592,
+  "casts": 2,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ret8_globvar_calledon_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret64_calledon",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
+   "ret64_uleq",
+   "ret8_globvar_paramnarrow_ret64_uleq",
+   "globvar_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x10158FF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Target_CommitSubTarget",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: 0x01 here, 0x00 in the game",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "cmpk",
+   "retnarrow",
+   "retvoid",
+   "cmpk_retnarrow"
+  ],
+  "rule_identical": "cmpk0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101590A0": {
   "verdict": "IDENTICAL",
@@ -32440,9 +34930,19 @@
   ]
  },
  "0x101591D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101C72E0_ActorPairTest1FF",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?FUN_101CC220@@YA_KH@Z (0x101CC220), the game 0x40397A52",
+  "conv": "__thiscall",
+  "size": 144,
+  "rules_tried": [
+   "ret8",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_uleq"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10159370": {
   "verdict": "IDENTICAL",
@@ -32531,9 +35031,10 @@
   "size": 16
  },
  "0x101594F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Target_CommitSubTarget",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x10159530": {
   "verdict": "IDENTICAL",
@@ -32687,9 +35188,30 @@
   ]
  },
  "0x10159A20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+98: REL32 targets ?FUN_10193850@@YA_KH@Z (0x10193850), the game 0x1C39DF61",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "retvoid",
+   "frame_float_calledon_ret64_retnarrow",
+   "frame_float",
+   "ret64_calledon",
+   "frame_float_ret64",
+   "frame_float_retnarrow",
+   "ret64_retnarrow",
+   "frame_float_ret64_retnarrow",
+   "float_ret64",
+   "frame_ret64",
+   "float_retnarrow",
+   "frame_retnarrow"
+  ]
  },
  "0x10159B10": {
   "verdict": "DIFFERS",
@@ -32757,9 +35279,15 @@
   ]
  },
  "0x10159DE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Entry_IsActorFieldMatch",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+5: REL32 targets ?f@FUNt_101597F0@@QAEIXZ (0x101597F0), the game 0x960629E8",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "retvoid",
+   "negmask",
+   "retvoid_negmask"
+  ]
  },
  "0x10159EB0": {
   "verdict": "DIFFERS",
@@ -33012,9 +35540,10 @@
   "size": 48
  },
  "0x1015D860": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1015eea0",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 32
  },
  "0x1015D900": {
   "verdict": "DIFFERS",
@@ -33156,19 +35685,88 @@
   ]
  },
  "0x1015DCE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_IsStateB4Eq1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?f@FUNt_10160700@@QAE_KXZ (0x10160700), the game 0xD099DCF6",
+  "conv": "__thiscall",
+  "size": 48,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "retnarrow",
+   "retvoid",
+   "ret8_globvar"
+  ]
  },
  "0x1015DD00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_IsStateB4Eq1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets ?f@FUNt_1015DCE0@@QAE_KXZ (0x1015DCE0), the game 0x4A8B9D90",
+  "conv": "__thiscall",
+  "size": 112,
+  "rules_tried": [
+   "calledon",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "calledon_ret64_uleq_retvoid",
+   "ret64_calledon",
+   "ret64_uleq",
+   "ret64_retvoid",
+   "uleq_retvoid"
+  ]
  },
  "0x1015DD90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_SelectEntryMoveCursor",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets ?f@FUNt_1015EDB0@@QAEHXZ (0x1015EDB0), the game 0x10A561C9",
+  "conv": "__thiscall",
+  "size": 224,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_frame_float_calledon_ret64_retnarrow_uleq",
+   "cmpk_globvar_frame_float",
+   "ret64_calledon",
+   "cmpk_globvar_frame_float_ret64",
+   "cmpk_globvar_frame_float_retnarrow",
+   "cmpk_globvar_frame_float_uleq",
+   "ret64_retnarrow",
+   "cmpk_globvar_frame_float_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_frame_float_ret64_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_float_retnarrow_uleq",
+   "globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_ret64",
+   "float_ret64",
+   "globvar_frame_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_float_retnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "float_retnarrow",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x1015DE50": {
   "verdict": "DIFFERS",
@@ -33293,14 +35891,79 @@
   ]
  },
  "0x1015E0F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+79: REL32 targets ?FUN_10312940@@YA_KPAD0H@Z (0x10312940), the game 0x9724E143",
+  "conv": "__thiscall",
+  "size": 640,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_frame_calledon_ret64_uleq",
+   "ret8_cmpk_globvar_frame",
+   "ret64_calledon",
+   "ret8_cmpk_globvar_frame_ret64",
+   "ret8_cmpk_globvar_frame_uleq",
+   "ret64_uleq",
+   "ret8_cmpk_globvar_frame_ret64_uleq",
+   "cmpk_globvar_frame_ret64",
+   "ret8_ret64",
+   "ret8_globvar_frame_ret64",
+   "cmpk_ret64",
+   "ret8_cmpk_frame_ret64",
+   "globvar_ret64",
+   "ret8_cmpk_globvar_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_uleq",
+   "ret8_uleq",
+   "ret8_globvar_frame_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_frame_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x1015E350": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_MenuReleaseItemCount",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?FUN_1015DC70@@YGIPADPAE@Z (0x1015DC70), the game 0x090CCC47",
+  "conv": "__thiscall",
+  "size": 496,
+  "rules_tried": [
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "frame_calledon_ret64_retnarrow_uleq_paramnarrow",
+   "frame_paramnarrow",
+   "ret64_calledon",
+   "frame_paramnarrow_ret64",
+   "frame_paramnarrow_retnarrow",
+   "frame_paramnarrow_uleq",
+   "ret64_retnarrow",
+   "frame_paramnarrow_ret64_retnarrow",
+   "ret64_uleq",
+   "frame_paramnarrow_ret64_uleq",
+   "retnarrow_uleq",
+   "frame_paramnarrow_retnarrow_uleq",
+   "ret64_paramnarrow",
+   "frame_ret64",
+   "retnarrow_paramnarrow",
+   "frame_retnarrow",
+   "uleq_paramnarrow",
+   "frame_uleq"
+  ]
  },
  "0x1015E7E0": {
   "verdict": "DIFFERS",
@@ -33329,9 +35992,23 @@
   ]
  },
  "0x1015E910": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+47: REL32 targets ?f@FUNt_1015E790@@QAE_KHH@Z (0x1015E790), the game 0x9374E942",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "frame",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "frame_retnarrow_uleq",
+   "frame_retnarrow",
+   "frame_uleq",
+   "retnarrow_uleq"
+  ],
+  "rule_identical": "retvoid",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1015E950": {
   "verdict": "DIFFERS",
@@ -33602,18 +36279,66 @@
   ]
  },
  "0x1015EF60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Acter_IsEvent",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+56: DIR32 targets @self+940 (0x1015F30C), the game 0x00020068",
+  "conv": "__thiscall",
+  "size": 1168,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_calledon_ret64_uleq",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "retthis_globvar_ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x1015F3E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_ClearTargetAndRedraw",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+186: REL32 targets ?FUN_100870E0@@YAIHH@Z (0x100870E0), the game 0x0F9B0B13",
+  "conv": "__thiscall",
+  "size": 656,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_calledon_ret64_retnarrow_uleq_xiany",
+   "ret64_calledon",
+   "xiany_calledon",
+   "globvar_ret64",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "globvar_xiany",
+   "ret64_retnarrow",
+   "globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "globvar_ret64_uleq",
+   "ret64_xiany",
+   "globvar_ret64_xiany",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_uleq_xiany"
+  ]
  },
  "0x1015F6A0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_IsStateB4Eq1",
+  "why": "no wrapper for Cursor_Draw",
   "conv": "__thiscall"
  },
  "0x1015F760": {
@@ -33631,9 +36356,42 @@
   ]
  },
  "0x1015F790": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent",
-  "conv": "__stdcall"
+  "verdict": "DIFFERS",
+  "why": "+151: REL32 targets ?f@FUNt_10118F70@@QAE_KPAI@Z (0x10118F70), the game 0xA759E033",
+  "conv": "__stdcall",
+  "size": 352,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_frame_ret64_uleq",
+   "ret8_cmpk_globvar_frame",
+   "ret8_cmpk_globvar_frame_ret64",
+   "ret8_cmpk_globvar_frame_uleq",
+   "ret64_uleq",
+   "cmpk_globvar_frame_ret64",
+   "ret8_ret64",
+   "ret8_globvar_frame_ret64",
+   "cmpk_ret64",
+   "ret8_cmpk_frame_ret64",
+   "globvar_ret64",
+   "ret8_cmpk_globvar_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_uleq",
+   "ret8_uleq",
+   "ret8_globvar_frame_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_frame_uleq",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x1015F8F0": {
   "verdict": "DIFFERS",
@@ -33708,9 +36466,10 @@
   "size": 32
  },
  "0x1015FA00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60_v1",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_1015FA00.cpp(205): C2440: 'type cast' : cannot convert from 'struct undefined3' to 'unsigned int'"
  },
  "0x101601D0": {
   "verdict": "DIFFERS",
@@ -33829,9 +36588,10 @@
   ]
  },
  "0x101609C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_101609C0.cpp(11): C2446: '==' : no conversion from 'unsigned int *' to 'unsigned char *'"
  },
  "0x101609F0": {
   "verdict": "DIFFERS",
@@ -35431,14 +38191,55 @@
   ]
  },
  "0x101787C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CMoResource_AddRefChain_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+15: REL32 targets ?f@FUNt_10178790@@QAEXXZ (0x10178790), the game 0x101788EC",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "uleq",
+   "cmpk_retthis_globvar_frame_calledon_uleq",
+   "cmpk_retthis_globvar_frame",
+   "cmpk_retthis_globvar_frame_uleq",
+   "retthis_globvar_frame_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_frame_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x10178A20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10163E60_SetFlag2000OnUnderscoreEntries",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+64: REL32 targets ?f@FUNt_10178AC0@@QAEXH@Z (0x10178AC0), the game 0x7A178A64",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_frame_calledon_retnarrow_uleq",
+   "globvar_frame",
+   "globvar_frame_retnarrow",
+   "globvar_frame_uleq",
+   "retnarrow_uleq",
+   "globvar_frame_retnarrow_uleq",
+   "frame_retnarrow",
+   "globvar_retnarrow",
+   "frame_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x10178AC0": {
   "verdict": "DIFFERS",
@@ -35471,14 +38272,34 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10178B30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?f@FUNt_10178250@@QAEXXZ (0x10178250), the game 0x1F1A73C8",
+  "conv": "__thiscall",
+  "size": 528,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "float",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_float_calledon_uleq",
+   "ret8_globvar_float",
+   "ret8_globvar_float_uleq",
+   "globvar_float_uleq",
+   "ret8_uleq",
+   "ret8_float_uleq",
+   "globvar_uleq",
+   "ret8_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x10178F70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100548D0_FreeSplineSet",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x101791F0": {
   "verdict": "IDENTICAL",
@@ -36188,9 +39009,10 @@
   ]
  },
  "0x10187720": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_10187720.cpp(75): C2065: 'fsin' : undeclared identifier"
  },
  "0x101880C0": {
   "verdict": "DIFFERS",
@@ -36208,9 +39030,25 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10188190": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+69: __real@3f70101020000000, the game's constant at 0x329E940D is ?",
+  "conv": "__thiscall",
+  "size": 2016,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "float",
+   "uleq",
+   "retthis_globvar_float_uleq",
+   "retthis_globvar_float",
+   "globvar_float_uleq",
+   "retthis_uleq",
+   "retthis_float_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "float_uleq",
+   "sametu"
+  ]
  },
  "0x10188900": {
   "verdict": "DIFFERS",
@@ -36305,9 +39143,22 @@
   "size": 64
  },
  "0x10188A50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+32: __real@0000000000000000, the game's constant at 0x29E8347A is ?",
+  "conv": "__thiscall",
+  "size": 320,
+  "rules_tried": [
+   "float",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "float_calledon_retnarrow_uleq",
+   "float_retnarrow",
+   "float_uleq",
+   "retnarrow_uleq",
+   "float_retnarrow_uleq"
+  ]
  },
  "0x10188B10": {
   "verdict": "DIFFERS",
@@ -36469,9 +39320,27 @@
   ]
  },
  "0x10189490": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_100274b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+281: __real@405fc00000000000, the game's constant at 0x1032A34C is 1034f2a442fe0000",
+  "conv": "__thiscall",
+  "size": 608,
+  "rules_tried": [
+   "retthis",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "uleq",
+   "retthis_frame_float_calledon_uleq",
+   "retthis_frame_float",
+   "retthis_frame_float_uleq",
+   "frame_float_uleq",
+   "retthis_uleq",
+   "retthis_float_uleq",
+   "frame_uleq",
+   "retthis_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x10189810": {
   "verdict": "DIFFERS",
@@ -36517,24 +39386,78 @@
   ]
  },
  "0x10189CA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmResourceFile_FindResourceUnder_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10189C60@@YGXPAH@Z (0x10189C60), the game 0x1018469E",
+  "conv": "__thiscall",
+  "size": 400,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "uleq",
+   "retthis_globvar_frame_calledon_uleq",
+   "retthis_globvar_frame",
+   "retthis_globvar_frame_uleq",
+   "globvar_frame_uleq",
+   "retthis_uleq",
+   "retthis_frame_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x10189E30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+98: REL32 targets ?f@FUNt_10072180@@QAEIPAI@Z (0x10072180), the game 0x8F50D895",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "frame",
+   "frametight",
+   "calledon",
+   "retvoid",
+   "frame_calledon_retvoid",
+   "frame_retvoid"
+  ]
  },
  "0x10189F20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for YmResourceFile_FindResourceUnder_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+18: REL32 targets ?FUN_10189C60@@YGXPAH@Z (0x10189C60), the game 0x1015C91E",
+  "conv": "__thiscall",
+  "size": 464,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "uleq",
+   "retthis_globvar_frame_calledon_uleq",
+   "retthis_globvar_frame",
+   "retthis_globvar_frame_uleq",
+   "globvar_frame_uleq",
+   "retthis_uleq",
+   "retthis_frame_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x1018A0F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+93: 0xB7 here, 0xB5 in the game",
+  "conv": "__thiscall",
+  "size": 304,
+  "rules_tried": [
+   "frame",
+   "frametight",
+   "calledon",
+   "retvoid",
+   "frame_calledon_retvoid",
+   "frame_retvoid"
+  ]
  },
  "0x1018A220": {
   "verdict": "DIFFERS",
@@ -36627,9 +39550,30 @@
   "size": 32
  },
  "0x1018A340": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+115: REL32 targets ?FUN_10189C60@@YGXPAH@Z (0x10189C60), the game 0x08C08C85",
+  "conv": "__thiscall",
+  "size": 1072,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "uleq",
+   "cmpk_retthis_frame_float_calledon_uleq",
+   "cmpk_retthis_frame_float",
+   "cmpk_retthis_frame_float_uleq",
+   "retthis_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_float_uleq",
+   "frame_uleq",
+   "cmpk_retthis_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x1018AA50": {
   "verdict": "DIFFERS",
@@ -36675,9 +39619,25 @@
   ]
  },
  "0x1018ABF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018abb0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+113: REL32 targets ?f@FUNt_10074310@@QAEXIHHI@Z (0x10074310), the game 0x57E9D472",
+  "conv": "__thiscall",
+  "size": 336,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "uleq",
+   "retthis_globvar_frame_uleq",
+   "retthis_globvar_frame",
+   "globvar_frame_uleq",
+   "retthis_uleq",
+   "retthis_frame_uleq",
+   "globvar_uleq",
+   "retthis_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x1018AD50": {
   "verdict": "IDENTICAL",
@@ -36719,9 +39679,21 @@
   "size": 16
  },
  "0x1018ADE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+40: REL32 targets ?f@FUNt_1018ABF0@@QAEXXZ (0x1018ABF0), the game 0x9B191835",
+  "conv": "__thiscall",
+  "size": 208,
+  "rules_tried": [
+   "retthis",
+   "float",
+   "calledon",
+   "uleq",
+   "retthis_float_calledon_uleq",
+   "retthis_float",
+   "retthis_float_uleq",
+   "float_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x1018AEB0": {
   "verdict": "IDENTICAL",
@@ -36736,19 +39708,32 @@
   "size": 64
  },
  "0x1018B170": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+422: REL32 targets ?f@FUNt_101880C0@@QAEXPAI@Z (0x101880C0), the game 0xCBBAC37F",
+  "conv": "__thiscall",
+  "size": 448,
+  "rules_tried": [
+   "globvar",
+   "retvoid",
+   "globvar_retvoid"
+  ]
  },
  "0x1018B5E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for XiZone_UpdateTree",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+25: REL32 targets ?f@FUNt_101889E0@@QAE_KXZ (0x101889E0), the game 0xE3FA9ECB",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "retthis",
+   "uleq",
+   "retthis_uleq"
+  ]
  },
  "0x1018B620": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 128
  },
  "0x1018B860": {
   "verdict": "DIFFERS",
@@ -36829,9 +39814,10 @@
   "casts": 1
  },
  "0x1018BBC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1018BC90": {
   "verdict": "IDENTICAL",
@@ -36864,39 +39850,59 @@
   "size": 32
  },
  "0x1018BDE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+78: 0xD0 here, 0xC2 in the game",
+  "conv": "__cdecl",
+  "size": 144,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "globvar_frame_calledon_retnarrow",
+   "globvar_frame",
+   "globvar_frame_retnarrow",
+   "frame_retnarrow",
+   "globvar_retnarrow"
+  ]
  },
  "0x1018BE80": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 48
  },
  "0x1018BEB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1018BF00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1018BF50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1018BFA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x1018C020": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1018bc40",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 64
  },
  "0x1018C1B0": {
   "verdict": "IDENTICAL",
@@ -36905,14 +39911,33 @@
   "size": 48
  },
  "0x1018C270": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+7: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x68269B7A",
+  "conv": "__thiscall",
+  "size": 48,
+  "rules_tried": [
+   "retthis",
+   "float",
+   "calledon",
+   "retthis_float_calledon",
+   "retthis_float"
+  ]
  },
  "0x1018C290": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+10: __real@c039000000000000, the game's constant at 0x1033685C is 37422e45c1c80000",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "float",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ret8_cmpk_float_calledon",
+   "ret8_cmpk_float"
+  ]
  },
  "0x1018D230": {
   "verdict": "IDENTICAL",
@@ -38116,9 +41141,10 @@
   ]
  },
  "0x10195350": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10253210_SendBytePairKind0",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x101953A0": {
   "verdict": "DIFFERS",
@@ -38637,24 +41663,58 @@
   "size": 64
  },
  "0x1019CE00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_FillTableBytes",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+5: REL32 targets ?f@FUNt_1019CD40@@QAEPAXXZ (0x1019CD40), the game 0x101904F1",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "retvoid",
+   "globvar_uleq_retvoid",
+   "globvar_uleq",
+   "globvar_retvoid",
+   "uleq_retvoid"
+  ]
  },
  "0x1019CE70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1019cfa0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+208: REL32 targets ?FUN_10193830@@YAIHI@Z (0x10193830), the game 0x9A19508B",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "cmpk_retthis_globvar"
+  ]
  },
  "0x1019D150": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1019d2b0",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+5: REL32 targets ?f@FUNt_1019CD40@@QAEPAXXZ (0x1019CD40), the game 0x1015B841",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "retvoid",
+   "globvar_uleq_retvoid",
+   "globvar_uleq",
+   "globvar_retvoid",
+   "uleq_retvoid"
+  ]
  },
  "0x1019D1C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1019d350",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+219: REL32 targets ?FUN_10193830@@YAIHI@Z (0x10193830), the game 0x8E83D222",
+  "conv": "__thiscall",
+  "size": 256,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "cmpk_retthis_globvar"
+  ]
  },
  "0x1019D580": {
   "verdict": "IDENTICAL",
@@ -39397,14 +42457,16 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101A2410": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101a2a10",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 48
  },
  "0x101A2440": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101a2a10",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x101A2480": {
   "verdict": "DIFFERS",
@@ -39580,9 +42642,28 @@
   "size": 32
  },
  "0x101A2E80": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+24: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0xF858989C",
+  "conv": "__thiscall",
+  "size": 1008,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_calledon_ret64_uleq",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "retthis_globvar_ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x101A3300": {
   "verdict": "DIFFERS",
@@ -39599,9 +42680,15 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101A3500": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0x941A2D19",
+  "conv": "__thiscall",
+  "size": 128,
+  "rules_tried": [
+   "ret8",
+   "retnarrow",
+   "retvoid"
+  ]
  },
  "0x101A36F0": {
   "verdict": "DIFFERS",
@@ -39996,9 +43083,28 @@
   "size": 16
  },
  "0x101AB820": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+80: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0xF85922A0",
+  "conv": "__thiscall",
+  "size": 816,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_calledon_ret64_uleq",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "retthis_globvar_ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x101ABB40": {
   "verdict": "DIFFERS",
@@ -40210,9 +43316,43 @@
   ]
  },
  "0x101AC5E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FsWordCompletion_lookUp",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+290: REL32 targets ?f@FUNt_101BC100@@QAE_KIPADH@Z (0x101BC100), the game 0xFD4EC639",
+  "conv": "__thiscall",
+  "size": 768,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ge0_cmpk_frame_calledon_retnarrow_uleq_paramnarrow",
+   "ge0_cmpk_frame_paramnarrow",
+   "ge0_cmpk_frame_paramnarrow_retnarrow",
+   "ge0_cmpk_frame_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "ge0_cmpk_frame_paramnarrow_retnarrow_uleq",
+   "cmpk_frame_retnarrow_paramnarrow",
+   "ge0_retnarrow",
+   "ge0_frame_retnarrow_paramnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_retnarrow_paramnarrow",
+   "frame_retnarrow",
+   "ge0_cmpk_frame_retnarrow",
+   "retnarrow_paramnarrow",
+   "cmpk_frame_uleq_paramnarrow",
+   "ge0_uleq",
+   "ge0_frame_uleq_paramnarrow",
+   "cmpk_uleq",
+   "ge0_cmpk_uleq_paramnarrow",
+   "frame_uleq",
+   "ge0_cmpk_frame_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x101AC990": {
   "verdict": "DIFFERS",
@@ -40547,14 +43687,42 @@
   ]
  },
  "0x101ADF20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?FUN_101AE010@@YAII@Z (0x101AE010), the game 0x84DB634F",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "cmpk",
+   "retnarrow",
+   "retvoid",
+   "cmpk_retnarrow"
+  ]
  },
  "0x101AE010": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets ?f@FUNt_10081550@@QAE_KXZ (0x10081550), the game 0x84DB661F",
+  "conv": "__cdecl",
+  "size": 336,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_calledon_ret64_uleq",
+   "ret8_globvar",
+   "ret64_calledon",
+   "ret8_globvar_ret64",
+   "ret8_globvar_uleq",
+   "ret64_uleq",
+   "ret8_globvar_ret64_uleq",
+   "globvar_ret64",
+   "ret8_ret64",
+   "globvar_uleq",
+   "ret8_uleq"
+  ]
  },
  "0x101AE140": {
   "verdict": "DIFFERS",
@@ -40645,14 +43813,44 @@
   "error": "f_101AFF70.cpp(23): C2027: use of undefined type 'tagCANDIDATEFORM'"
  },
  "0x101B0060": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10160c80",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+67: 0x24 here, 0xB0 in the game",
+  "conv": "__cdecl",
+  "size": 80,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_calledon_uleq",
+   "ret8_globvar",
+   "ret8_globvar_uleq",
+   "globvar_uleq",
+   "ret8_uleq"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101B2710": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10014350_GetSceneStateByte68",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+96: REL32 targets _FUN_100164B0@0 (0x100164B0), the game 0x4D560FEC",
+  "conv": "__thiscall",
+  "size": 224,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retstore",
+   "retthis_globvar_calledon_ret64",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "globvar_ret64",
+   "retthis_ret64"
+  ]
  },
  "0x101B27F0": {
   "verdict": "IDENTICAL",
@@ -40667,9 +43865,10 @@
   "size": 16
  },
  "0x101B29F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
-  "conv": "__thiscall"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__thiscall",
+  "error": "f_101B29F0.cpp(67): C2065: 'ULONG_PTR' : undeclared identifier"
  },
  "0x101B36F0": {
   "verdict": "NO_COMPILE",
@@ -40678,9 +43877,10 @@
   "error": "f_101B36F0.cpp(45): C4234: nonstandard extension used : '__thiscall' keyword reserved for future use"
  },
  "0x101B3B50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10014350_GetSceneStateByte68",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 192
  },
  "0x101B3F00": {
   "verdict": "DIFFERS",
@@ -40988,9 +44188,21 @@
   ]
  },
  "0x101B5850": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10160c80",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+66: DIR32 targets @self+536 (0x101B5A68), the game 0x0886C7CE",
+  "conv": "__thiscall",
+  "size": 560,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x101B5A80": {
   "verdict": "IDENTICAL",
@@ -41053,19 +44265,136 @@
   ]
  },
  "0x101B5D10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+43: DIR32 targets @self+2680 (0x101B6788), the game 0x101B67A0",
+  "conv": "__thiscall",
+  "size": 2784,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ge0_cmpk_globvar_frametight_retnarrow_uleq",
+   "ge0_cmpk_globvar_frametight",
+   "ge0_cmpk_globvar_frametight_retnarrow",
+   "ge0_cmpk_globvar_frametight_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_frametight_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_frametight_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_frametight_retnarrow",
+   "globvar_retnarrow",
+   "ge0_cmpk_globvar_retnarrow",
+   "frametight_retnarrow",
+   "cmpk_globvar_frametight_uleq",
+   "ge0_uleq",
+   "ge0_globvar_frametight_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_frametight_uleq",
+   "globvar_uleq",
+   "ge0_cmpk_globvar_uleq",
+   "frametight_uleq"
+  ]
  },
  "0x101B6810": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+62: REL32 targets _FUN_10311344@0 (0x10311344), the game 0x34602E7E",
+  "conv": "__thiscall",
+  "size": 880,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ge0_cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
+   "ge0_cmpk_globvar_frame",
+   "ret64_calledon",
+   "ge0_cmpk_globvar_frame_ret64",
+   "ge0_cmpk_globvar_frame_retnarrow",
+   "ge0_cmpk_globvar_frame_uleq",
+   "ret64_retnarrow",
+   "ge0_cmpk_globvar_frame_ret64_retnarrow",
+   "ret64_uleq",
+   "ge0_cmpk_globvar_frame_ret64_uleq",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_frame_retnarrow_uleq",
+   "cmpk_globvar_frame_ret64",
+   "ge0_ret64",
+   "ge0_globvar_frame_ret64",
+   "cmpk_ret64",
+   "ge0_cmpk_frame_ret64",
+   "globvar_ret64",
+   "ge0_cmpk_globvar_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_frame_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_frame_retnarrow",
+   "globvar_retnarrow",
+   "ge0_cmpk_globvar_retnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_uleq",
+   "ge0_uleq",
+   "ge0_globvar_frame_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_frame_uleq",
+   "globvar_uleq",
+   "ge0_cmpk_globvar_uleq",
+   "frame_uleq"
+  ]
  },
  "0x101B6C00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+109: REL32 targets ?f@FUNt_101B6D50@@QAE_KIH@Z (0x101B6D50), the game 0xDFA66C79",
+  "conv": "__thiscall",
+  "size": 368,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_ret64_retnarrow_uleq_xiany",
+   "cmpk_globvar",
+   "cmpk_globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "cmpk_globvar_xiany",
+   "ret64_retnarrow",
+   "cmpk_globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_globvar_ret64_xiany",
+   "retnarrow_uleq",
+   "cmpk_globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "cmpk_globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_uleq_xiany",
+   "globvar_ret64",
+   "cmpk_ret64",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_uleq",
+   "cmpk_uleq",
+   "globvar_xiany",
+   "cmpk_xiany"
+  ]
  },
  "0x101B6EA0": {
   "verdict": "IDENTICAL",
@@ -41149,9 +44478,15 @@
   ]
  },
  "0x101B7160": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_GetFlag8C81",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?f@FUNt_101B6E90@@QAE_KXZ (0x101B6E90), the game 0xD0A0717B",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "ret8",
+   "retnarrow",
+   "retvoid"
+  ]
  },
  "0x101B7190": {
   "verdict": "IDENTICAL",
@@ -41970,9 +45305,21 @@
   "size": 176
  },
  "0x101BBA90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Sjis_Remap82To83",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+163: REL32 targets ?f@FUNt_101BB740@@QAEIXZ (0x101BB740), the game 0x0757BA6A",
+  "conv": "__thiscall",
+  "size": 608,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_uleq",
+   "ret8_cmpk",
+   "cmpk_uleq",
+   "ret8_uleq"
+  ]
  },
  "0x101BBC60": {
   "verdict": "DIFFERS",
@@ -42982,14 +46329,99 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101C0630": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_CreateDirectories",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+120: REL32 targets ?f@FUNt_101C3E90@@QAEIPADH0@Z (0x101C3E90), the game 0x951C06E3",
+  "conv": "__thiscall",
+  "size": 304,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_calledon_ret64_uleq_retvoid",
+   "cmpk_globvar",
+   "ret64_calledon",
+   "cmpk_globvar_ret64",
+   "cmpk_globvar_uleq",
+   "cmpk_globvar_retvoid",
+   "ret64_uleq",
+   "cmpk_globvar_ret64_uleq",
+   "ret64_retvoid",
+   "cmpk_globvar_ret64_retvoid",
+   "uleq_retvoid",
+   "cmpk_globvar_uleq_retvoid",
+   "globvar_ret64",
+   "cmpk_ret64",
+   "globvar_uleq",
+   "cmpk_uleq",
+   "globvar_retvoid",
+   "cmpk_retvoid"
+  ]
  },
  "0x101C0760": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_CreateDirectories",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+146: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0xE213B6E8",
+  "conv": "__thiscall",
+  "size": 368,
+  "casts": 1,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ge0_cmpk_globvar_calledon_ret64_retnarrow_uleq_xiany",
+   "ge0_cmpk_globvar",
+   "ret64_calledon",
+   "xiany_calledon",
+   "ge0_cmpk_globvar_ret64",
+   "ge0_cmpk_globvar_retnarrow",
+   "ge0_cmpk_globvar_uleq",
+   "ge0_cmpk_globvar_xiany",
+   "ret64_retnarrow",
+   "ge0_cmpk_globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "ge0_cmpk_globvar_ret64_uleq",
+   "ret64_xiany",
+   "ge0_cmpk_globvar_ret64_xiany",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "ge0_cmpk_globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_globvar_uleq_xiany",
+   "cmpk_globvar_ret64",
+   "ge0_ret64",
+   "ge0_globvar_ret64",
+   "cmpk_ret64",
+   "ge0_cmpk_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "ge0_uleq",
+   "ge0_globvar_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_xiany",
+   "ge0_xiany",
+   "ge0_globvar_xiany",
+   "cmpk_xiany",
+   "ge0_cmpk_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x101C09B0": {
   "verdict": "DIFFERS",
@@ -43372,9 +46804,29 @@
   "size": 16
  },
  "0x101C2DC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1018BA60_CreateDirectories",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+68: REL32 targets _FUN_10311FF1 (0x10311FF1), the game 0x602C65D3",
+  "conv": "__thiscall",
+  "size": 192,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_calledon_retnarrow_xiany",
+   "cmpk_globvar",
+   "xiany_calledon",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_xiany",
+   "retnarrow_xiany",
+   "cmpk_globvar_retnarrow_xiany",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_xiany",
+   "cmpk_xiany"
+  ]
  },
  "0x101C33E0": {
   "verdict": "IDENTICAL",
@@ -44856,9 +48308,28 @@
   "size": 48
  },
  "0x101CDF50": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiDancerActor_SetAnglesWrapped",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+93: __real@3ff921fb00000000, the game's constant at 0x00000000 is ?",
+  "conv": "__thiscall",
+  "size": 528,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "frame",
+   "float",
+   "frametight",
+   "uleq",
+   "cmpk_retthis_frame_float_uleq",
+   "cmpk_retthis_frame_float",
+   "retthis_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_float_uleq",
+   "frame_uleq",
+   "cmpk_retthis_frame_uleq",
+   "float_uleq"
+  ]
  },
  "0x101CE1E0": {
   "verdict": "DIFFERS",
@@ -45261,14 +48732,58 @@
   ]
  },
  "0x101D0AB0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_IsStateB4Eq1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?f@FUNt_10160700@@QAE_KXZ (0x10160700), the game 0x84DD8FCF",
+  "conv": "__cdecl",
+  "size": 80,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_calledon_uleq",
+   "ret8_globvar",
+   "ret8_globvar_uleq",
+   "globvar_uleq",
+   "ret8_uleq"
+  ],
+  "rule_identical": "ret8",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101D0B00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_IsStateB4Eq1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets ?f@FUNt_10160700@@QAE_KXZ (0x10160700), the game 0x1FDD902A",
+  "conv": "__cdecl",
+  "size": 432,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retvoid",
+   "globvar_float_calledon_ret64_uleq_retvoid",
+   "globvar_float",
+   "ret64_calledon",
+   "globvar_float_ret64",
+   "globvar_float_uleq",
+   "globvar_float_retvoid",
+   "ret64_uleq",
+   "globvar_float_ret64_uleq",
+   "ret64_retvoid",
+   "globvar_float_ret64_retvoid",
+   "uleq_retvoid",
+   "globvar_float_uleq_retvoid",
+   "float_ret64",
+   "globvar_ret64",
+   "float_uleq",
+   "globvar_uleq",
+   "float_retvoid",
+   "globvar_retvoid"
+  ]
  },
  "0x101D0C40": {
   "verdict": "IDENTICAL",
@@ -45438,9 +48953,27 @@
   ]
  },
  "0x101D2F00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Menu_RemoveAndFreeItem",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+114: REL32 targets ?f@FUNt_1015E8A0@@QAE_KI@Z (0x1015E8A0), the game 0x21A83FEA",
+  "conv": "__thiscall",
+  "size": 272,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "ret64",
+   "xiany",
+   "retthis_globvar_ret64_xiany",
+   "retthis_globvar",
+   "retthis_globvar_ret64",
+   "retthis_globvar_xiany",
+   "ret64_xiany",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_xiany",
+   "retthis_xiany"
+  ],
+  "rule_identical": "xiany",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101D30B0": {
   "verdict": "DIFFERS",
@@ -45469,14 +49002,62 @@
   "size": 48
  },
  "0x101D3380": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+51: REL32 targets _FUN_10097B40 (0x10097B40), the game 0x951D1FFE",
+  "conv": "__thiscall",
+  "size": 1152,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ge0_cmpk_globvar_calledon_ret64_retnarrow_uleq",
+   "ge0_cmpk_globvar",
+   "ret64_calledon",
+   "ge0_cmpk_globvar_ret64",
+   "ge0_cmpk_globvar_retnarrow",
+   "ge0_cmpk_globvar_uleq",
+   "ret64_retnarrow",
+   "ge0_cmpk_globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "ge0_cmpk_globvar_ret64_uleq",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_retnarrow_uleq",
+   "cmpk_globvar_ret64",
+   "ge0_ret64",
+   "ge0_globvar_ret64",
+   "cmpk_ret64",
+   "ge0_cmpk_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "ge0_uleq",
+   "ge0_globvar_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x101D3910": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cd990",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets ?f@FUNt_101CE1E0@@QAEXHH@Z (0x101CE1E0), the game 0xAE0539AA",
+  "conv": "__thiscall",
+  "size": 144,
+  "rules_tried": [
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "retnarrow_uleq"
+  ]
  },
  "0x101D39A0": {
   "verdict": "IDENTICAL",
@@ -45496,9 +49077,23 @@
   ]
  },
  "0x101D3E70": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101cd990",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+60: REL32 targets ?f@FUNt_101CD990@@QAE_KXZ (0x101CD990), the game 0xA0AE3EAF",
+  "conv": "__thiscall",
+  "size": 64,
+  "rules_tried": [
+   "ret16",
+   "cmpk",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret16_cmpk_uleq",
+   "ret16_cmpk",
+   "cmpk_uleq",
+   "ret16_uleq"
+  ],
+  "rule_identical": "ret16",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101D3F60": {
   "verdict": "IDENTICAL",
@@ -45513,9 +49108,31 @@
   "size": 16
  },
  "0x101D3FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+58: REL32 targets ?FUN_101C8DA0@@YAXPAIPAG1@Z (0x101C8DA0), the game 0x93834422",
+  "conv": "__thiscall",
+  "size": 224,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "cmpk_retthis_frame_float_calledon_ret64",
+   "cmpk_retthis_frame_float",
+   "ret64_calledon",
+   "cmpk_retthis_frame_float_ret64",
+   "retthis_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_frame_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_float_ret64",
+   "frame_ret64",
+   "cmpk_retthis_frame_ret64",
+   "float_ret64"
+  ]
  },
  "0x101D55D0": {
   "verdict": "DIFFERS",
@@ -45996,9 +49613,15 @@
   ]
  },
  "0x101E7E90": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for MenuMng_AttachWindowAndPosition_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets ?f@FUNt_1015E530@@QAE_KH@Z (0x1015E530), the game 0x8E068F12",
+  "conv": "__cdecl",
+  "size": 64,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "globvar_uleq"
+  ]
  },
  "0x101EB390": {
   "verdict": "DIFFERS",
@@ -46179,7 +49802,7 @@
  },
  "0x101F23A0": {
   "verdict": "LEFT_OUT",
-  "why": "no wrapper for IsEvent_v1",
+  "why": "no wrapper for FUN_101f7080",
   "conv": "__thiscall"
  },
  "0x101F35A0": {
@@ -46249,9 +49872,36 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101F6720": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuTestItem34Or6B_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets ?f@FUNt_1015EDD0@@QAE_KH@Z (0x1015EDD0), the game 0xD0A46731",
+  "conv": "__thiscall",
+  "size": 176,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ge0_globvar_retnarrow_uleq_paramnarrow",
+   "ge0_globvar_paramnarrow",
+   "ge0_globvar_paramnarrow_retnarrow",
+   "ge0_globvar_paramnarrow_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_paramnarrow",
+   "ge0_retnarrow",
+   "ge0_retnarrow_paramnarrow",
+   "globvar_retnarrow",
+   "ge0_globvar_retnarrow",
+   "retnarrow_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ge0_uleq",
+   "ge0_uleq_paramnarrow",
+   "globvar_uleq",
+   "ge0_globvar_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x101F67C0": {
   "verdict": "DIFFERS",
@@ -46947,9 +50597,37 @@
   ]
  },
  "0x101FAFF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_101f79e0",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+95: REL32 targets ?FUN_101F79E0@@YA_KHHHH@Z (0x101F79E0), the game 0x94E30BB1",
+  "conv": "__cdecl",
+  "size": 144,
+  "casts": 1,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "storem1",
+   "ge0_globvar_retnarrow_uleq_storem1",
+   "ge0_globvar_storem1",
+   "ge0_globvar_storem1_retnarrow",
+   "ge0_globvar_storem1_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_storem1",
+   "ge0_retnarrow",
+   "ge0_retnarrow_storem1",
+   "globvar_retnarrow",
+   "ge0_globvar_retnarrow",
+   "retnarrow_storem1",
+   "globvar_uleq_storem1",
+   "ge0_uleq",
+   "ge0_uleq_storem1",
+   "globvar_uleq",
+   "ge0_globvar_uleq",
+   "uleq_storem1"
+  ]
  },
  "0x101FB1B0": {
   "verdict": "DIFFERS",
@@ -47162,9 +50840,24 @@
   ]
  },
  "0x10201690": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_IsSingleUncheckedEntry_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+19: REL32 targets _FUN_10203120 (0x10203120), the game 0x103A8F8F",
+  "conv": "__cdecl",
+  "size": 80,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ],
+  "rule_identical": "calledon3",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102017A0": {
   "verdict": "DIFFERS",
@@ -47281,9 +50974,28 @@
   ]
  },
  "0x10202F00": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+147: REL32 targets ?f@FUNt_1015E790@@QAE_KHH@Z (0x1015E790), the game 0x2694F01B",
+  "conv": "__cdecl",
+  "size": 224,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "uleq",
+   "retstore",
+   "globvar_frame_calledon_uleq_retstore",
+   "globvar_frame",
+   "globvar_frame_uleq",
+   "globvar_frame_retstore",
+   "uleq_retstore",
+   "globvar_frame_uleq_retstore",
+   "frame_uleq",
+   "globvar_uleq",
+   "frame_retstore",
+   "globvar_retstore"
+  ]
  },
  "0x10203120": {
   "verdict": "IDENTICAL",
@@ -47716,14 +51428,42 @@
   ]
  },
  "0x10210E30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_SelectEntry",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+106: REL32 targets ?f@FUNt_10150CC0@@QAEXHH@Z (0x10150CC0), the game 0x0E41F6EE",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "paramnarrow",
+   "ret8_globvar_ret64_uleq_paramnarrow",
+   "ret8_globvar_paramnarrow",
+   "ret8_globvar_paramnarrow_ret64",
+   "ret8_globvar_paramnarrow_uleq",
+   "ret64_uleq",
+   "globvar_ret64_paramnarrow",
+   "ret8_ret64",
+   "ret8_ret64_paramnarrow",
+   "globvar_ret64",
+   "ret8_globvar_ret64",
+   "ret64_paramnarrow",
+   "globvar_uleq_paramnarrow",
+   "ret8_uleq",
+   "ret8_uleq_paramnarrow",
+   "globvar_uleq",
+   "ret8_globvar_uleq",
+   "uleq_paramnarrow"
+  ]
  },
  "0x10210FC0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 80
  },
  "0x10211050": {
   "verdict": "DIFFERS",
@@ -47799,9 +51539,28 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10211370": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+12: REL32 targets _FUN_10037B90 (0x10037B90), the game 0x9C20F5E8",
+  "conv": "__thiscall",
+  "size": 160,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "retthis_globvar_calledon_ret64_uleq",
+   "retthis_globvar",
+   "ret64_calledon",
+   "retthis_globvar_ret64",
+   "retthis_globvar_uleq",
+   "ret64_uleq",
+   "retthis_globvar_ret64_uleq",
+   "globvar_ret64",
+   "retthis_ret64",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x10216570": {
   "verdict": "IDENTICAL",
@@ -48067,9 +51826,29 @@
   ]
  },
  "0x1021C4C0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10211440_RebuildWithGlobalFlag",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+34: REL32 targets ?f@FUNt_1021C160@@QAEIXZ (0x1021C160), the game 0x10DB49F5",
+  "conv": "__thiscall",
+  "size": 272,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_calledon_uleq",
+   "ret8_cmpk_globvar",
+   "ret8_cmpk_globvar_uleq",
+   "cmpk_globvar_uleq",
+   "ret8_uleq",
+   "ret8_globvar_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq",
+   "globvar_uleq",
+   "sametu"
+  ]
  },
  "0x1021C5B0": {
   "verdict": "DIFFERS",
@@ -48116,9 +51895,32 @@
   ]
  },
  "0x1021C7E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_103156b3",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+360: REL32 targets ?FUN_103156B3@@YA_KPAI0H0@Z (0x103156B3), the game 0x9D2E13D7",
+  "conv": "__thiscall",
+  "size": 640,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "storem1",
+   "paramnarrow",
+   "ret8_cmpk_globvar_uleq_storem1_paramnarrow",
+   "ret8_cmpk_globvar_storem1_paramnarrow",
+   "cmpk_globvar_uleq_storem1_paramnarrow",
+   "ret8_uleq",
+   "ret8_globvar_uleq_storem1_paramnarrow",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq_storem1_paramnarrow",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq_paramnarrow",
+   "uleq_storem1",
+   "ret8_cmpk_globvar_uleq_storem1",
+   "uleq_paramnarrow"
+  ]
  },
  "0x1021CB80": {
   "verdict": "DIFFERS",
@@ -48213,9 +52015,23 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x1021D3D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for CXiMovie_DestroyGlobal",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets ?f@FUNt_1021D7F0@@QAEPAXXZ (0x1021D7F0), the game 0x2F95E471",
+  "conv": "__cdecl",
+  "size": 96,
+  "rules_tried": [
+   "ret8",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_globvar_calledon_uleq",
+   "ret8_globvar",
+   "ret8_globvar_uleq",
+   "globvar_uleq",
+   "ret8_uleq"
+  ]
  },
  "0x1021D440": {
   "verdict": "DIFFERS",
@@ -48810,9 +52626,19 @@
   ]
  },
  "0x1021F950": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101D7020_GetValueIfLoaded",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?FUN_1021F360@@YGXPAF@Z (0x1021F360), the game 0x101BE160",
+  "conv": "__thiscall",
+  "size": 336,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retthis_globvar_frame_calledon",
+   "retthis_globvar_frame"
+  ]
  },
  "0x1021FA90": {
   "verdict": "DIFFERS",
@@ -48929,9 +52755,65 @@
   ]
  },
  "0x1021FE10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10086E90_GetByte10480824IfFlag",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+39: REL32 targets _FUN_100876B0@0 (0x100876B0), the game 0x6309FE3B",
+  "conv": "__thiscall",
+  "size": 1024,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq_xiany",
+   "cmpk_retthis_globvar_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "cmpk_retthis_globvar_frame_float_ret64",
+   "cmpk_retthis_globvar_frame_float_uleq",
+   "cmpk_retthis_globvar_frame_float_xiany",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_frame_float_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_retthis_globvar_frame_float_ret64_xiany",
+   "uleq_xiany",
+   "cmpk_retthis_globvar_frame_float_uleq_xiany",
+   "retthis_globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_frame_float_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_retthis_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_retthis_globvar_frame_ret64",
+   "float_ret64",
+   "retthis_globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_frame_float_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_retthis_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_retthis_globvar_frame_uleq",
+   "float_uleq",
+   "retthis_globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "cmpk_globvar_frame_float_xiany",
+   "retthis_xiany",
+   "cmpk_retthis_frame_float_xiany",
+   "globvar_xiany",
+   "cmpk_retthis_globvar_float_xiany",
+   "frame_xiany",
+   "cmpk_retthis_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x102201A0": {
   "verdict": "DIFFERS",
@@ -48997,9 +52879,30 @@
   ]
  },
  "0x10220350": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+23: REL32 targets _FUN_10014CF0@0 (0x10014CF0), the game 0x7CFB034A",
+  "conv": "__thiscall",
+  "size": 112,
+  "casts": 1,
+  "rules_tried": [
+   "globvar",
+   "float",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "retvoid",
+   "globvar_float_calledon_ret64_retnarrow",
+   "globvar_float",
+   "ret64_calledon",
+   "globvar_float_ret64",
+   "globvar_float_retnarrow",
+   "ret64_retnarrow",
+   "globvar_float_ret64_retnarrow",
+   "float_ret64",
+   "globvar_ret64",
+   "float_retnarrow",
+   "globvar_retnarrow"
+  ]
  },
  "0x10220C20": {
   "verdict": "DIFFERS",
@@ -49249,9 +53152,15 @@
   ]
  },
  "0x10222110": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+36: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0x85E2A548",
+  "conv": "__thiscall",
+  "size": 80,
+  "rules_tried": [
+   "retthis",
+   "xiany",
+   "retthis_xiany"
+  ]
  },
  "0x10222960": {
   "verdict": "DIFFERS",
@@ -49406,9 +53315,28 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x102231F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10087b20",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+6: 0x8B here, 0x84 in the game",
+  "conv": "__cdecl",
+  "size": 112,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "ret8_cmpk_globvar_calledon_uleq",
+   "ret8_cmpk_globvar",
+   "ret8_cmpk_globvar_uleq",
+   "cmpk_globvar_uleq",
+   "ret8_uleq",
+   "ret8_globvar_uleq",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x10223240": {
   "verdict": "DIFFERS",
@@ -50139,9 +54067,10 @@
   "size": 112
  },
  "0x1022A6D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1012AC80_MenuInitAndFadeItem",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x1022AF80": {
   "verdict": "IDENTICAL",
@@ -50283,9 +54212,31 @@
   ]
  },
  "0x1022B7D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10086E90_GetTable10485830IfBit2",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+79: REL32 targets _FUN_100991F0@0 (0x100991F0), the game 0x6F4A2F31",
+  "conv": "__cdecl",
+  "size": 160,
+  "rules_tried": [
+   "ret8",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "shiftmask",
+   "ret8_cmpk_globvar_calledon_uleq_shiftmask",
+   "ret8_cmpk_globvar_shiftmask",
+   "ret8_cmpk_globvar_shiftmask_uleq",
+   "cmpk_globvar_uleq_shiftmask",
+   "ret8_uleq",
+   "ret8_globvar_uleq_shiftmask",
+   "cmpk_uleq",
+   "ret8_cmpk_uleq_shiftmask",
+   "globvar_uleq",
+   "ret8_cmpk_globvar_uleq",
+   "uleq_shiftmask"
+  ]
  },
  "0x1022B850": {
   "verdict": "NO_COMPILE",
@@ -50486,9 +54437,15 @@
   ]
  },
  "0x1022D510": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit101C72E0_ActorPairTest1FF_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+51: DIR32 targets @self+204 (0x1022D5DC), the game 0x1022D5E4",
+  "conv": "__cdecl",
+  "size": 240,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "globvar_uleq"
+  ]
  },
  "0x1022DB80": {
   "verdict": "IDENTICAL",
@@ -50690,9 +54647,16 @@
   ]
  },
  "0x10234910": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60_v1",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets ?FUN_10123A70@@YA_KHHHH@Z (0x10123A70), the game 0x4E8D4940",
+  "conv": "__thiscall",
+  "size": 224,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "retstore",
+   "retthis_globvar"
+  ]
  },
  "0x10234A00": {
   "verdict": "DIFFERS",
@@ -50801,9 +54765,44 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10239240": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10035B00_Release10463928AndSetScaled",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+112: DIR32 targets @self+488 (0x10239428), the game 0x5E244689",
+  "conv": "__thiscall",
+  "size": 544,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "negmask",
+   "select",
+   "cmpk_globvar_frame_calledon_retnarrow_uleq_negmask",
+   "cmpk_globvar_frame_negmask",
+   "cmpk_globvar_frame_negmask_retnarrow",
+   "cmpk_globvar_frame_negmask_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_negmask_retnarrow_uleq",
+   "globvar_frame_retnarrow_negmask",
+   "cmpk_retnarrow",
+   "cmpk_frame_retnarrow_negmask",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow_negmask",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "retnarrow_negmask",
+   "globvar_frame_uleq_negmask",
+   "cmpk_uleq",
+   "cmpk_frame_uleq_negmask",
+   "globvar_uleq",
+   "cmpk_globvar_uleq_negmask",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "uleq_negmask"
+  ]
  },
  "0x10239460": {
   "verdict": "IDENTICAL",
@@ -51373,9 +55372,26 @@
   "size": 80
  },
  "0x1024D180": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for StAvatar_SetStopped",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets _FUN_1024D5C0 (0x1024D5C0), the game 0x6B2D9646",
+  "conv": "__cdecl",
+  "size": 288,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_retnarrow_uleq",
+   "cmpk_globvar",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_uleq",
+   "cmpk_uleq"
+  ]
  },
  "0x1024D2C0": {
   "verdict": "DIFFERS",
@@ -51488,9 +55504,18 @@
   ]
  },
  "0x1024D850": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for StAvatar_SetStopped",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+246: REL32 targets _FUN_10250790 (0x10250790), the game 0xFB27434E",
+  "conv": "__cdecl",
+  "size": 400,
+  "rules_tried": [
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "calledon_retnarrow_uleq",
+   "retnarrow_uleq"
+  ]
  },
  "0x1024D9D0": {
   "verdict": "DIFFERS",
@@ -51537,19 +55562,60 @@
   ]
  },
  "0x1024DB60": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+34: REL32 targets _FUN_1024D850 (0x1024D850), the game 0x93292211",
+  "conv": "__cdecl",
+  "size": 448,
+  "rules_tried": [
+   "cmpk",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_calledon_retnarrow_uleq",
+   "cmpk_retnarrow",
+   "cmpk_uleq",
+   "retnarrow_uleq",
+   "cmpk_retnarrow_uleq"
+  ]
  },
  "0x1024DD10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+29: REL32 targets _FUN_10123A70 (0x10123A70), the game 0x20E96130",
+  "conv": "__cdecl",
+  "size": 304,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "float",
+   "uleq",
+   "cmpk_globvar_float_uleq",
+   "cmpk_globvar_float",
+   "globvar_float_uleq",
+   "cmpk_uleq",
+   "cmpk_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "float_uleq"
+  ]
  },
  "0x1024DE20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Camera_GetFrameScale_v1",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets ?FUN_10271E90@@YAXPAI@Z (0x10271E90), the game 0x34996949",
+  "conv": "__cdecl",
+  "size": 848,
+  "rules_tried": [
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "uleq",
+   "frame_float_calledon_uleq",
+   "frame_float",
+   "frame_float_uleq",
+   "float_uleq",
+   "frame_uleq"
+  ]
  },
  "0x1024DFE0": {
   "verdict": "DIFFERS",
@@ -51669,9 +55735,10 @@
   ]
  },
  "0x1024F5E0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit100D7420_TestCommand36CF60",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_1024F5E0.cpp(90): C2065: 'fsin' : undeclared identifier"
  },
  "0x1024F900": {
   "verdict": "DIFFERS",
@@ -51825,9 +55892,31 @@
   ]
  },
  "0x102504D0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for MoTask_KillAllGlobalSlots",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+111: 0xC7 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 176,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_calledon_retnarrow_uleq_xiany",
+   "xiany_calledon",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "globvar_xiany",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_uleq_xiany"
+  ],
+  "rule_identical": "globvar",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10250580": {
   "verdict": "DIFFERS",
@@ -52166,9 +56255,10 @@
   ]
  },
  "0x10251200": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit102857D0_SetByte14",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 176
  },
  "0x102512B0": {
   "verdict": "DIFFERS",
@@ -52253,9 +56343,34 @@
   "casts": 1
  },
  "0x10251500": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Dancer_SetStateIfIdle",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+63: REL32 targets _FUN_10017D20 (0x10017D20), the game 0x6E29D9C6",
+  "conv": "__thiscall",
+  "size": 240,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "uleq",
+   "xiany",
+   "cmpk_retthis_globvar_uleq_xiany",
+   "cmpk_retthis_globvar",
+   "cmpk_retthis_globvar_uleq",
+   "cmpk_retthis_globvar_xiany",
+   "uleq_xiany",
+   "retthis_globvar_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "globvar_uleq",
+   "retthis_globvar_xiany",
+   "cmpk_xiany",
+   "cmpk_globvar_xiany",
+   "retthis_xiany",
+   "cmpk_retthis_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x102515F0": {
   "verdict": "IDENTICAL",
@@ -52896,9 +57011,13 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10253670": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit10253210_SubmitInfoBinIfObjSet",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+25: REL32 targets _FUN_102532C0 (0x102532C0), the game 0x10216975",
+  "conv": "__cdecl",
+  "size": 48,
+  "rules_tried": [
+   "paramnarrow"
+  ]
  },
  "0x102536A0": {
   "verdict": "IDENTICAL",
@@ -53109,9 +57228,19 @@
   "size": 48
  },
  "0x102579B0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10257310",
-  "conv": "__thiscall"
+  "verdict": "DIFFERS",
+  "why": "+143: REL32 targets ?FUN_10257310@@YA_KH@Z (0x10257310), the game 0x5FAEBA8B",
+  "conv": "__thiscall",
+  "size": 368,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "uleq",
+   "retthis_globvar_uleq",
+   "retthis_globvar",
+   "globvar_uleq",
+   "retthis_uleq"
+  ]
  },
  "0x10257AF0": {
   "verdict": "IDENTICAL",
@@ -53147,9 +57276,10 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10257BA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10257310",
-  "conv": "__thiscall"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__thiscall",
+  "size": 32
  },
  "0x10257BC0": {
   "verdict": "IDENTICAL",
@@ -54286,29 +58416,71 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x1026CC30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "NO_COMPILE",
+  "why": "cl failed",
+  "conv": "__cdecl",
+  "error": "f_1026CC30.cpp(9): C2065: 'WSADATA' : undeclared identifier",
+  "casts": 1
  },
  "0x1026CCA5": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+20: REL32 targets _FUN_10316D90 (0x10316D90), the game 0xB0F8B50E",
+  "conv": "__cdecl",
+  "size": 128,
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1026CFA0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+42: REL32 targets ?FUN_1026D0CA@@YAIHPAPAE@Z (0x1026D0CA), the game 0x952F9451",
+  "conv": "__cdecl",
+  "size": 96,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "cmpk_globvar_frame_calledon_retnarrow",
+   "cmpk_globvar_frame",
+   "cmpk_globvar_frame_retnarrow",
+   "globvar_frame_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow",
+   "frame_retnarrow"
+  ]
  },
  "0x1026D015": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+44: REL32 targets ?FUN_1026D0CA@@YAIHPAPAE@Z (0x1026D0CA), the game 0x18EB5345",
+  "conv": "__cdecl",
+  "size": 192,
+  "rules_tried": [
+   "ge0",
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "ge0_globvar_frame_calledon",
+   "ge0_globvar_frame"
+  ]
  },
  "0x1026D0CA": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+38: REL32 targets _FUN_103169A0 (0x103169A0), the game 0x4812D0BC",
+  "conv": "__cdecl",
+  "size": 80,
+  "rules_tried": [
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "calledon_retnarrow"
+  ]
  },
  "0x1026D179": {
   "verdict": "DIFFERS",
@@ -54321,14 +58493,41 @@
   ]
  },
  "0x1026D70C": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_1026d634",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+16: REL32 targets _FUN_1026D634 (0x1026D634), the game 0x614798A3",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "calledon_retnarrow"
+  ]
  },
  "0x1026D866": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+82: REL32 targets ?FUN_1026CCA5@@YAXPAXH@Z (0x1026CCA5), the game 0x5DB1E180",
+  "conv": "__cdecl",
+  "size": 352,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "frametight",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_frame_calledon_retnarrow_uleq",
+   "globvar_frame",
+   "globvar_frame_retnarrow",
+   "globvar_frame_uleq",
+   "retnarrow_uleq",
+   "globvar_frame_retnarrow_uleq",
+   "frame_retnarrow",
+   "globvar_retnarrow",
+   "frame_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x1026DB24": {
   "verdict": "DIFFERS",
@@ -54342,34 +58541,64 @@
   ]
  },
  "0x1026DB6D": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_1026D0CA (0x1026D0CA), the game 0x101C236A",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "calledon_retnarrow"
+  ]
  },
  "0x1026DB8F": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets _FUN_1026D179 (0x1026D179), the game 0x0600C3EE",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1026DBAC": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_1026D1B4 (0x1026D1B4), the game 0x101CCEA9",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1026DBCE": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+17: REL32 targets _FUN_1026D0CA (0x1026D0CA), the game 0x101BC2CB",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1026DBF0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+11: REL32 targets _FUN_1026D179 (0x1026D179), the game 0x059FC44F",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "calledon_retnarrow"
+  ]
  },
  "0x1026DC0D": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for FUN_10316d6b",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets _FUN_1026D1B4 (0x1026D1B4), the game 0x101C7107",
+  "conv": "__cdecl",
+  "size": 32,
+  "rules_tried": [
+   "calledon"
+  ]
  },
  "0x1026DF00": {
   "verdict": "IDENTICAL",
@@ -54625,9 +58854,17 @@
   "size": 32
  },
  "0x1026F900": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit102857D0_SetByte14",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+109: REL32 targets _FUN_102857E0 (0x102857E0), the game 0x6027637C",
+  "conv": "__cdecl",
+  "size": 160,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "uleq",
+   "globvar_calledon_uleq",
+   "globvar_uleq"
+  ]
  },
  "0x1026F9A0": {
   "verdict": "IDENTICAL",
@@ -55300,9 +59537,26 @@
   ]
  },
  "0x102741F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit102857D0_SetByte14",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+180: REL32 targets _FUN_102857E0 (0x102857E0), the game 0x346BCDA8",
+  "conv": "__cdecl",
+  "size": 208,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "ret64",
+   "retnarrow",
+   "retvoid",
+   "cmpk_globvar_ret64_retnarrow",
+   "cmpk_globvar",
+   "cmpk_globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "ret64_retnarrow",
+   "globvar_ret64",
+   "cmpk_ret64",
+   "globvar_retnarrow",
+   "cmpk_retnarrow"
+  ]
  },
  "0x10274370": {
   "verdict": "DIFFERS",
@@ -56169,9 +60423,10 @@
   ]
  },
  "0x1027B480": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Sq_PrintIndent",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 64
  },
  "0x1027B580": {
   "verdict": "IDENTICAL",
@@ -56403,9 +60658,15 @@
   ]
  },
  "0x1027E490": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit102857D0_SetByte14",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+241: REL32 targets _FUN_102857E0 (0x102857E0), the game 0xE92C5E10",
+  "conv": "__cdecl",
+  "size": 288,
+  "rules_tried": [
+   "float",
+   "uleq",
+   "float_uleq"
+  ]
  },
  "0x1027EAF0": {
   "verdict": "IDENTICAL",
@@ -56528,9 +60789,10 @@
   ]
  },
  "0x10280D10": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Sq_PrintIndent",
-  "conv": "__cdecl"
+  "verdict": "IDENTICAL",
+  "why": "",
+  "conv": "__cdecl",
+  "size": 208
  },
  "0x102813B0": {
   "verdict": "DIFFERS",
@@ -57917,9 +62179,17 @@
   "size": 16
  },
  "0x1028A0F0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for SqIO_SwapBytes",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+72: REL32 targets _FUN_10292490 (0x10292490), the game 0x5CB3BD60",
+  "conv": "__cdecl",
+  "size": 128,
+  "rules_tried": [
+   "calledon",
+   "uleq",
+   "retvoid",
+   "calledon_uleq_retvoid",
+   "uleq_retvoid"
+  ]
  },
  "0x1028A150": {
   "verdict": "DIFFERS",
@@ -58950,9 +63220,37 @@
   ]
  },
  "0x10299C30": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1028D970_ComputeBounds",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+251: REL32 targets _FUN_1028A0F0 (0x1028A0F0), the game 0x1814AD53",
+  "conv": "__cdecl",
+  "size": 304,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "cmpk_globvar_calledon_ret64_retnarrow_uleq",
+   "cmpk_globvar",
+   "ret64_calledon",
+   "cmpk_globvar_ret64",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "ret64_retnarrow",
+   "cmpk_globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_ret64_uleq",
+   "retnarrow_uleq",
+   "cmpk_globvar_retnarrow_uleq",
+   "globvar_ret64",
+   "cmpk_ret64",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_uleq",
+   "cmpk_uleq"
+  ]
  },
  "0x10299D60": {
   "verdict": "DIFFERS",
@@ -59004,14 +63302,54 @@
   ]
  },
  "0x10299E40": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1028D970_ComputeBounds",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+25: REL32 targets _FUN_1028A0F0 (0x1028A0F0), the game 0x08B59E5C",
+  "conv": "__cdecl",
+  "size": 160,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
+   "globvar_ret64",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "ret64_retnarrow",
+   "globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "globvar_ret64_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ]
  },
  "0x10299EE0": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for Unit1028D970_ComputeBounds",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+5: 0x56 here, 0x8B in the game",
+  "conv": "__cdecl",
+  "size": 256,
+  "rules_tried": [
+   "globvar",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "retvoid",
+   "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
+   "globvar_ret64",
+   "globvar_retnarrow",
+   "globvar_uleq",
+   "ret64_retnarrow",
+   "globvar_ret64_retnarrow",
+   "ret64_uleq",
+   "globvar_ret64_uleq",
+   "retnarrow_uleq",
+   "globvar_retnarrow_uleq"
+  ]
  },
  "0x10299FE0": {
   "verdict": "IDENTICAL",
@@ -59275,9 +63613,75 @@
   ]
  },
  "0x1029AF20": {
-  "verdict": "LEFT_OUT",
-  "why": "no wrapper for SqIO_SwapBytes",
-  "conv": "__cdecl"
+  "verdict": "DIFFERS",
+  "why": "+33: REL32 targets _FUN_10285890 (0x10285890), the game 0x3CEE32A2",
+  "conv": "__cdecl",
+  "size": 496,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "calledon",
+   "ret64",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_frame_float_calledon_ret64_retnarrow_uleq_xiany",
+   "cmpk_globvar_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
+   "cmpk_globvar_frame_float_ret64",
+   "cmpk_globvar_frame_float_retnarrow",
+   "cmpk_globvar_frame_float_uleq",
+   "cmpk_globvar_frame_float_xiany",
+   "ret64_retnarrow",
+   "cmpk_globvar_frame_float_ret64_retnarrow",
+   "ret64_uleq",
+   "cmpk_globvar_frame_float_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_globvar_frame_float_ret64_xiany",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "cmpk_globvar_frame_float_retnarrow_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_frame_float_uleq_xiany",
+   "globvar_frame_float_ret64",
+   "cmpk_ret64",
+   "cmpk_frame_float_ret64",
+   "globvar_ret64",
+   "cmpk_globvar_float_ret64",
+   "frame_ret64",
+   "cmpk_globvar_frame_ret64",
+   "float_ret64",
+   "globvar_frame_float_retnarrow",
+   "cmpk_retnarrow",
+   "cmpk_frame_float_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_float_retnarrow",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "float_retnarrow",
+   "globvar_frame_float_uleq",
+   "cmpk_uleq",
+   "cmpk_frame_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_float_uleq",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "float_uleq",
+   "globvar_frame_float_xiany",
+   "cmpk_xiany",
+   "cmpk_frame_float_xiany",
+   "globvar_xiany",
+   "cmpk_globvar_float_xiany",
+   "frame_xiany",
+   "cmpk_globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x1029B100": {
   "verdict": "IDENTICAL",

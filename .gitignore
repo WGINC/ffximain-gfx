@@ -24,3 +24,4 @@ kit/d3d8on11/d8_gen.h
 kit/fcap/dist/
 kit/fcap/*.exe
 kit/fcap/test/*.exe
+kit/speedfix_standalone/dist/

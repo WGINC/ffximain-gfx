@@ -33,7 +33,7 @@ checked against the analysed build, and each change to the game's code checks th
 | `vs_dedupe` | 0 | Lever: a vertex shader of a declaration already made (no shader code) is made once; its handle is given out again (below) |
 | `sse_skinning` | 0 | Lever: the game's SSE skinning loops on any CPU that reports SSE (below) |
 | `merge_scenes` | 0 | Lever: one BeginScene/EndScene pair a frame (below) |
-| `skin_merge` | 0 | Lever: a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
+| `skin_merge` | 0 | Lever: 1, a model's runs of consecutive triangle-list records drawn as one DrawIndexedPrimitive; 2, also its opaque draws under the same state grouped into one; forks SkinAndDrawV2 when on at the start (below, docs/SKINMERGE.md) |
 | `precise_pacing` | 0 | Lever: the game's own frame limiter timed with the performance counter and waited on precisely: 60.0 frames a second instead of 58.8; live both ways (below) |
 | `uncap` | 0 | The game's minimum ticks a frame (`[g_pCamera+0x30]`) read as 0 by speedfix's gated fork of Frame_Render: no 60 fps wait; the game's value is not written; forked at the start when this or `frame_step` is on there, then live (below) |
 | `frame_step` | 0 | 1 = the game's step answered in whole ticks with the fraction carried, so its time follows real time at any frame rate; 2 = that, and the untruncated step at 14 call sites that only compare or accumulate it; gated forks of verified code, made at the start when this or `uncap` is on there, then live (below) |
@@ -203,6 +203,23 @@ and what each lever does about it. Each is off by default; the lever A/B measure
     the fork is the game's function (the gate, no declarations).
   - Checked: test_skinmerge.py (the gate both ways, and the owner's captures with the merge on). Not known: the time it
     saves, and the picture: an A/B (`ab_levers=skin_merge`) and a look at characters, with it on and off.
+  - **skin_merge=2** (set at the start; the fork then runs inside speedfix's hook of SkinAndDrawV2, sf_fork.cpp). The
+    plaza trace (HISTORY 6 Oct): between consecutive character draws, 49% change only the vertex buffer and 36% only a
+    light; grouping by the whole state leaves at most 764 of the 1,620 draws, against about 1,330 for skin_merge=1.
+    What it does (sf_device.cpp, "skin_merge=2"): the device calls one SkinAndDrawV2 makes are held. At its end each
+    triangle-list draw with alpha blending known off, from an index buffer it set, joins the others drawn under the
+    same state (every state the model set, as it stood at that draw); each group goes out once, in the order of its
+    first draw, as one DrawIndexedPrimitive of an index list joined from the draws' ranges. The joined list is made
+    once (a managed index buffer, from the model's index buffer read back; not for dynamic or default-pool buffers)
+    and kept, up to 4,096. A blended draw, another primitive type or a draw from an index buffer set before the model
+    keeps its place; any other device call in the model sends what is held first, in the game's order. The device is
+    left with the game's state. The skinning's vertex-buffer locks are all before the record loop (the fork's source,
+    lines 104 to 160), so a held draw reads what the game wrote.
+    Changed against the game: the order of a model's opaque triangle-list draws (the picture can differ only where two
+    of them meet at the same depth) and the index buffer they draw from. Checked: test_speedfix.py `group` (a fake
+    device: grouping, reuse, a blended draw keeping its place, another call in between). Logged each stats_every:
+    `skin_merge=2: N model draws grouped: ... (X% fewer)`. Not known: the time it saves on the owner's machine and the
+    picture; the A/B `ab_levers=skin_merge` compares off (A) with 2 (B).
 - **merge_scenes: frame time.** The profiles show several BeginScene/EndScene pairs a frame. The owner's Bedau run
   made 7.7 a frame, its EndScene calls taking 4.6 ms a frame in all, about 0.6 ms each. Under dgVoodoo that may be
   where queued work is submitted.

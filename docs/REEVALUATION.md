@@ -241,6 +241,30 @@ Each test answers a "not known" from section 5. Each is an A/B within one run, s
 
 With all three results the plan follows from data. Without them, any next lever is a guess.
 
+**T3, measured (run B of 26 Oct, kit/sessions/pending_26oct; log folder 2026-10-26_144659_4616, the owner's
+pending_26oct_results.zip, read with pipeline/run_ledger.py).** One run, the owner's ARM64 machine (the game
+emulated), standing in the Port Jeuno plaza; `skip_all_occlusion_readbacks=1` from the start, so A and B both skip the
+readbacks (every minute's log line: "0 run"), and `ab_levers=null_draws`, 8 phases of 30 s:
+
+| Phase | 1 A | 2 B | 3 B | 4 A | 5 A | 6 B | 7 B | 8 A |
+|---|---|---|---|---|---|---|---|---|
+| frames | 2084 | 3764 | 3348 | 2101 | 1979 | 3576 | 3262 | 1048 |
+| median ms | 12.88 | 7.52 | 7.71 | 13.22 | 13.97 | 7.51 | 7.67 | 23.37 |
+| p95 ms | 17.77 | 9.43 | 11.68 | 17.92 | 18.77 | 11.13 | 15.56 | 45.12 |
+
+(xikit.log lines 146, 148, 160, 162, 174, 185, 187, 199.) The kit's summary (line 200): A 17.39 ms, B 8.48 ms, B − A
+−8.90 ms (−51.2%), medians −8.26 ms; it calls the difference "within" the 13.54 ms spread between phases of one
+label, a spread phase 8 alone makes (its median 23.37 ms against 12.88 to 13.97 in the other A phases; why is not
+known). The game's limiter did not hold any frame: precise_pacing waited 0.0 ms in all, with [+0x30] = 1 (line 198).
+
+What follows, for this run: **the frame without drawing stays well below 16.7 ms** (B medians 7.51 to 7.71 ms, p95 9.4
+to 15.6 ms), so the first row of T3 does not hold: the game's own CPU work, under emulation, fits in a 60 fps frame
+here. The second row assumed the game's limiter as the floor; with it not waiting, the frame went below 16.7 ms and
+shows the floor directly. The rendering path (the draw calls and what they cost through the d3d8.dll in use) is
+about 5.4 to 6.5 ms of the median frame (A medians 12.88 to 13.97 against B 7.51 to 7.71). Not known from this run:
+which d3d8.dll it ran on (the log prints its path, the PlayOnline folder, and no version: line 115), and whether
+another machine or scene gives the same split.
+
 **Not proposed, and why:**
 - More lever A/Bs, until T1 to T3 say where the floor is.
 - The ARM mode as a speed path: phase 0 measured a 3% difference. It can be run once after T3 if T3 says

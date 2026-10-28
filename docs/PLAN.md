@@ -59,7 +59,7 @@ rules of CLAUDE.md hold throughout: every fact names a definitive source, and an
 | Render core at the bytes | #118 30 of 57, #119 26 of 100 | verification/render_core_status.json |
 | D3D8 surface | 57 functions with proven device calls (34 in the tree), 370 proven call sites | data/ facts, kit facts=1 |
 | D3D11 device | d3d8on11 milestones 1–2 and the ring, Wine-tested; runs the game (plaza, house) | kit/d3d8on11/README.md, HISTORY.md 17 Oct |
-| In-game tests | T2 done (readbacks cost about 10.5 ms a frame, runs 8980/8452); T1 done (the smaller size was about 3 ms faster); T3 (`null_draws`) not run | HISTORY.md 18 Oct |
+| In-game tests | T2 done (readbacks cost about 10.5 ms a frame, runs 8980/8452); T1 done (the smaller size was about 3 ms faster); T3 done (no drawing: medians 7.5 to 7.7 ms, run B of 26 Oct; REEVALUATION.md section 7) | HISTORY.md 18 Oct |
 | Objects whose compiler is not reproduced | 189 (stamp 10/11 build 9782) | docs/RECOMPILE.md |
 
 ## The steps, in 5%

@@ -63,7 +63,7 @@ owner or a run in the game).
 | 144 | 75% | Asynchronous occlusion queries | open | |
 | 145 | 75% | Batched text and UI quads | open | |
 | 146 | 75% | GPU skinning (evaluate) | open | |
-| 147 | 80% | Owner test T3 (null_draws); T1, T2 done | partly | measured in run B of 26 Oct (frames about 7.7 ms median with null_draws); not yet written into docs/REEVALUATION.md |
+| 147 | 80% | Owner test T3 (null_draws); T1, T2 done | done | run B of 26 Oct, written into docs/REEVALUATION.md section 7: B (no drawing) medians 7.51 to 7.71 ms, A 12.88 to 13.97 ms; the frame without drawing is well below 16.7 ms on that machine |
 | 148 | 80% | P0 baseline table on two machines | owner | |
 | 149 | 85% | Redundant state removal at the source | open | |
 | 150 | 85% | Zone mesh sort and large buffers (fn_1017C9C0) | open | |

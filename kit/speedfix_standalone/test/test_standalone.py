@@ -17,7 +17,7 @@ subprocess.run(['i686-w64-mingw32-gcc', '-O1', '-Wall', '-Wno-unused-parameter',
 for f in os.listdir(os.path.join(SA, 'dist')): shutil.copy(os.path.join(SA, 'dist', f), d)
 shutil.copy(os.environ['FFXI_DLL'], os.path.join(d, 'FFXiMain.dll'))
 bad = 0
-for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step'):
+for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step', 'group'):
     for f in ('speedfix_standalone.log', 'speedfix.ini'):
         if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))
     r = subprocess.run(['wine', 'sf_host.exe', mode], cwd=d, capture_output=True, text=True, timeout=900, env=dict(os.environ, WINEDEBUG='-all'))

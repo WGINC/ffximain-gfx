@@ -463,6 +463,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   apply_uncap_step();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
+  sf_group_on = sf_cfg.skin_merge >= 2 && sf_skinmerge_installed && sf_hooks_live();   // skin_merge=2: a model's draws grouped (sf_device.cpp)
   log_cpu_tier();
 }
 

@@ -111,6 +111,12 @@ static void apply_pending(void);
 // a call from another thread: whatever is pending goes out first, and nothing seen so far is trusted any more
 static inline void foreign(void) { flush(); apply_pending(); forget_all(); g_recording = 0; g_recOk = false; g_foreign++; }
 
+// skin_merge=2 (below, "grouping"): inside one SkinAndDrawV2, the calls are held and replayed through these hooks
+enum { G_RS, G_TSS, G_TEX, G_VS, G_XF, G_MAT, G_LIGHT, G_LEN, G_SS, G_SI, G_VP, G_DIP };
+static bool g_grp;                      // holding (render thread, between sf_group_begin and sf_group_end)
+static bool grp_hold(int ty, DWORD a, DWORD b, DWORD c, DWORD d, DWORD e, const void *blob, int nb);
+static void grp_order(void);            // what is held goes out as the game made it, in its order
+
 // ---- lazy_state: changes held until something reads them --------------------------------------------------------
 // Keys: 0..255 render states, PK_TSS + stage * 32 + type texture stage states, PK_TEX + stage textures. Each held key
 // is in g_pl once (g_pos: where; an undone change leaves -1 there), in the order it was first held.
@@ -167,6 +173,7 @@ static bool other_state(int s) {
 static void close_held(void);
 static void mot_count(int id);
 static void __cdecl stub_enter(int id, DWORD *sp) {      // sp[0] = return address, sp[1] = this, sp[2...] = arguments
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return; }
   flush();
   if (g_npl && id < NSLOT && !other_state(id)) apply_pending();
@@ -321,6 +328,7 @@ static void close_held(void) {
   PREV(PFN_Dev, S_EndScene)(g_heldDev);
 }
 static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
+  if (g_grp) grp_order();
   close_held();
   flush(); drop_pending(); forget_all();
   sf_occl_reset();                              // occlusion_late's surfaces (default-pool ones must go before Reset)
@@ -329,6 +337,7 @@ static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
   return hr;
 }
 static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w, const RGNDATA *r) {
+  if (g_grp) grp_order();
   if (!g_render_tid) { g_render_tid = GetCurrentThreadId(); H->log("speedfix: render thread %lu", (unsigned long)g_render_tid); }
   else if (!render_thread()) foreign();
   commit();
@@ -340,6 +349,7 @@ static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w
 // Frames that passed without these hooks (the kit turns mod hooks off for F9 and a trace's unswapped frames) set
 // state the shadow never saw: then it is forgotten whatever the switch. Held changes go out at each boundary.
 static HRESULT __stdcall h_BeginScene(void *d) {
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_Dev, S_BeginScene)(d); }
   commit();
   if (g_last_scene_frame >= 0 && g_frame - g_last_scene_frame > 1) { drop_pending(); forget_all(); g_forgot_gap++; }
@@ -355,6 +365,7 @@ static HRESULT __stdcall h_BeginScene(void *d) {
   return hr;
 }
 static HRESULT __stdcall h_EndScene(void *d) {
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_Dev, S_EndScene)(d); }
   commit();
   if (sf_cfg.merge_scenes && sf_hooks_live() && !g_sceneHeld) {
@@ -368,6 +379,7 @@ static HRESULT __stdcall h_EndScene(void *d) {
 }
 // a state block records, applies or captures state: what is held goes out first, in its place in the order
 static HRESULT __stdcall h_BeginSB(void *d) {
+  if (g_grp) grp_order();
   bool mine = render_thread();
   if (!mine && g_render_tid) foreign(); else commit();
   HRESULT hr = PREV(PFN_Dev, S_BeginSB)(d);
@@ -375,6 +387,7 @@ static HRESULT __stdcall h_BeginSB(void *d) {
   return hr;
 }
 static HRESULT __stdcall h_EndSB(void *d, DWORD *tok) {
+  if (g_grp) grp_order();
   bool mine = render_thread();
   if (!mine && g_render_tid) foreign(); else commit();
   bool follow = g_recOk && mine; g_recording = 0; g_recOk = false;
@@ -383,6 +396,7 @@ static HRESULT __stdcall h_EndSB(void *d, DWORD *tok) {
   return hr;
 }
 static HRESULT __stdcall h_ApplySB(void *d, DWORD tok) {
+  if (g_grp) grp_order();
   bool mine = render_thread();
   if (!mine && g_render_tid) foreign(); else commit();
   HRESULT hr = PREV(PFN_D1, S_ApplySB)(d, tok);
@@ -408,14 +422,17 @@ static HRESULT __stdcall h_ApplySB(void *d, DWORD tok) {
 typedef HRESULT (__stdcall *PFN_CreateSB)(void *, DWORD, DWORD *);
 // these change no device state; what is held goes out first, as the flushing stub in their slots did
 static HRESULT __stdcall h_CaptureSB(void *d, DWORD tok) {
+  if (g_grp) grp_order();
   if (!render_thread() && g_render_tid) foreign(); else commit();
   blk_drop(tok); return PREV(PFN_D1, S_CaptureSB)(d, tok);
 }
 static HRESULT __stdcall h_DeleteSB(void *d, DWORD tok) {
+  if (g_grp) grp_order();
   if (!render_thread() && g_render_tid) foreign(); else commit();
   blk_drop(tok); return PREV(PFN_D1, S_DeleteSB)(d, tok);
 }
 static HRESULT __stdcall h_CreateSB(void *d, DWORD ty, DWORD *tok) {
+  if (g_grp) grp_order();
   if (!render_thread() && g_render_tid) foreign(); else commit();
   HRESULT hr = PREV(PFN_CreateSB, S_CreateSB)(d, ty, tok);
   if (SUCCEEDED(hr) && tok) blk_drop(*tok);
@@ -424,6 +441,7 @@ static HRESULT __stdcall h_CreateSB(void *d, DWORD ty, DWORD *tok) {
 
 // The cached setters. lazy_state: a value the device holds undoes a held change (or is skipped); another is held.
 static HRESULT __stdcall h_SetRenderState(void *d, D3DRENDERSTATETYPE st, DWORD v) {
+  if (g_grp && !g_recording && grp_hold(G_RS, (DWORD)st, v, 0, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_D2, S_SetRenderState)(d, st, v); }
   if ((unsigned)st < 256 && lazy_on()) {
     int k = (int)st;
@@ -438,6 +456,7 @@ static HRESULT __stdcall h_SetRenderState(void *d, D3DRENDERSTATETYPE st, DWORD 
 }
 static void mot_texture(const void *t);
 static HRESULT __stdcall h_SetTexture(void *d, DWORD stage, IDirect3DBaseTexture8 *t) {
+  if (g_grp && !g_recording && grp_hold(G_TEX, stage, (DWORD)(uintptr_t)t, 0, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetTexture)(d, stage, t); }
   if (g_motion && t) mot_texture(t);
   if (stage < 8 && lazy_on()) {
@@ -456,6 +475,7 @@ static HRESULT __stdcall h_SetTexture(void *d, DWORD stage, IDirect3DBaseTexture
   return fwd_tex(stage, t);
 }
 static HRESULT __stdcall h_SetTSS(void *d, DWORD stage, D3DTEXTURESTAGESTATETYPE ty, DWORD v) {
+  if (g_grp && !g_recording && grp_hold(G_TSS, stage, (DWORD)ty, v, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_D3, S_SetTSS)(d, stage, ty, v); }
   if (stage < 8 && (unsigned)ty < 32 && lazy_on()) {
     int k = PK_TSS + (int)stage * 32 + (int)ty;
@@ -469,6 +489,7 @@ static HRESULT __stdcall h_SetTSS(void *d, DWORD stage, D3DTEXTURESTAGESTATETYPE
   return fwd_tss(stage, ty, v);
 }
 static HRESULT __stdcall h_SetVS(void *d, DWORD h) {
+  if (g_grp && !g_recording && grp_hold(G_VS, h, 0, 0, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); HRESULT hr = PREV(PFN_D1, S_SetVS)(d, h); g_curVS = 1; return hr; }
   bool use = sf_cfg.vs_cache && !g_recording;
   if (use && g_vsV && g_vs == h) { g_skip++; return D3D_OK; }
@@ -500,6 +521,7 @@ static int decl_tokens(const DWORD *d) {
 typedef HRESULT (__stdcall *PFN_CreateVS)(void *, const DWORD *, const DWORD *, DWORD *, DWORD);
 // creation sets no state: no flush, and a call from another thread leaves the shadow alone
 static HRESULT __stdcall h_CreateVS(void *d, const DWORD *decl, const DWORD *fn, DWORD *ph, DWORD usage) {
+  if (g_grp) grp_order();
   if (g_motion && render_thread()) mot_count(75);
   int n = sf_cfg.vs_dedupe && decl && !fn && ph ? decl_tokens(decl) : -1;
   if (n > 0) {
@@ -535,6 +557,7 @@ static bool vsd_keep(DWORD h) {
 
 // a deleted shader's handle can be given out again by the next CreateVertexShader
 static HRESULT __stdcall h_DeleteVS(void *d, DWORD h) {
+  if (g_grp) grp_order();
   if (vsd_keep(h)) { g_vsdKept++; return D3D_OK; }     // others still use it: the shadow stays true
   if (!render_thread()) { if (g_render_tid) foreign(); }
   else flush();
@@ -549,6 +572,7 @@ static HRESULT __stdcall h_DeleteVS(void *d, DWORD h) {
 // the switch on
 static void mot_view(const D3DMATRIX *m);
 static HRESULT __stdcall h_SetTransform(void *d, D3DTRANSFORMSTATETYPE st, const D3DMATRIX *m) {
+  if (g_grp && !g_recording && m && grp_hold(G_XF, (DWORD)st, 0, 0, 0, 0, m, sizeof *m)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetTransform)(d, st, m); }
   if (g_motion && st == D3DTS_VIEW && m) mot_view(m);
   if (!g_recording && (unsigned)st < 512 && m) {
@@ -564,6 +588,7 @@ static HRESULT __stdcall h_SetTransform(void *d, D3DTRANSFORMSTATETYPE st, const
   return hr;
 }
 static HRESULT __stdcall h_SetViewport(void *d, const D3DVIEWPORT8 *v) {
+  if (g_grp && !g_recording && v && grp_hold(G_VP, 0, 0, 0, 0, 0, v, sizeof *v)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_P, S_SetViewport)(d, v); }
   if (!g_recording && v && g_vpV && !memcmp(&g_vp, v, sizeof *v) && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   flush(); g_fwd++;
@@ -573,11 +598,13 @@ static HRESULT __stdcall h_SetViewport(void *d, const D3DVIEWPORT8 *v) {
   return hr;
 }
 static HRESULT __stdcall h_SetMaterial(void *d, const D3DMATERIAL8 *m) {
+  if (g_grp && !g_recording && m && grp_hold(G_MAT, 0, 0, 0, 0, 0, m, sizeof *m)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_P, S_SetMaterial)(d, m); }
   if (!(g_upPrims && g_upRhw)) flush();                   // materials feed lighting only
   return PREV(PFN_P, S_SetMaterial)(d, m);
 }
 static HRESULT __stdcall h_SetLight(void *d, DWORD i, const D3DLIGHT8 *l) {
+  if (g_grp && !g_recording && l && grp_hold(G_LIGHT, i, 0, 0, 0, 0, l, sizeof *l)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DP, S_SetLight)(d, i, l); }
   if (!g_recording && i < 32 && l && g_lightV[i] && !memcmp(&g_light[i], l, sizeof *l) && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   if (!(g_upPrims && g_upRhw)) flush();                   // lights never reach pre-transformed vertices
@@ -588,6 +615,7 @@ static HRESULT __stdcall h_SetLight(void *d, DWORD i, const D3DLIGHT8 *l) {
   return hr;
 }
 static HRESULT __stdcall h_LightEnable(void *d, DWORD i, BOOL on) {
+  if (g_grp && !g_recording && grp_hold(G_LEN, i, (DWORD)on, 0, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_D2, S_LightEnable)(d, i, on); }
   if (!g_recording && i < 32 && g_leV[i] && (g_le[i] != 0) == (on != 0) && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   if (!(g_upPrims && g_upRhw)) flush();
@@ -599,6 +627,7 @@ static HRESULT __stdcall h_LightEnable(void *d, DWORD i, BOOL on) {
 }
 // re-binding the buffer the device already holds a reference to
 static HRESULT __stdcall h_SetStream(void *d, UINT n, IDirect3DVertexBuffer8 *vb, UINT stride) {
+  if (g_grp && !g_recording && grp_hold(G_SS, n, (DWORD)(uintptr_t)vb, stride, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_SS, S_SetStream)(d, n, vb, stride); }
   if (!g_recording && n < 16 && g_ssV[n] && g_ssVb[n] == vb && g_ssStride[n] == stride && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   flush(); g_fwd++;
@@ -608,6 +637,7 @@ static HRESULT __stdcall h_SetStream(void *d, UINT n, IDirect3DVertexBuffer8 *vb
   return hr;
 }
 static HRESULT __stdcall h_SetIndices(void *d, IDirect3DIndexBuffer8 *ib, UINT base) {
+  if (g_grp && !g_recording && grp_hold(G_SI, (DWORD)(uintptr_t)ib, base, 0, 0, 0, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_SI, S_SetIndices)(d, ib, base); }
   if (!g_recording && g_ibV && g_ib == ib && g_ibBase == base && sf_cfg.ext_cache) { g_skip++; return D3D_OK; }
   flush(); g_fwd++;
@@ -645,6 +675,7 @@ static void expand(D3DPRIMITIVETYPE t, UINT n, const BYTE *src, UINT stride, BYT
   }
 }
 static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
   g_upIn++;
   if (g_motion) mot_count(S_DPUP);
@@ -678,12 +709,14 @@ static inline void draw_enter(int id) {          // what stub_enter does for a d
   if (g_motion) mot_count(id);
 }
 static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT start, UINT prims) {
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPr4, S_DP)(d, t, start, prims); }
   draw_enter(S_DP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
   return PREV(PFN_DPr4, S_DP)(d, t, start, prims);
 }
 static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT startIdx, UINT prims) {
+  if (g_grp && !g_recording && grp_hold(G_DIP, (DWORD)t, minIdx, nv, startIdx, prims, NULL, 0)) return D3D_OK;
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims); }
   draw_enter(S_DIP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
@@ -691,11 +724,214 @@ static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv
 }
 static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT prims, const void *idx, D3DFORMAT fmt,
                                  const void *vtx, UINT stride) {
+  if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DIPUP, S_DIPUP)(d, t, minIdx, nv, prims, idx, fmt, vtx, stride); }
   draw_enter(S_DIPUP);
   g_ssV[0] = false; g_ibV = false;               // DrawIndexedPrimitiveUP leaves stream 0 and the indices unset
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
   return PREV(PFN_DIPUP, S_DIPUP)(d, t, minIdx, nv, prims, idx, fmt, vtx, stride);
+}
+
+// ---- skin_merge=2: grouping a model's draws (docs/SKINMERGE.md; HISTORY.md 6 Oct, "Reordering within a model") ---
+// Inside one CYyModelDt::SkinAndDrawV2 (sf_group_begin / sf_group_end, from speedfix's hook of it: sf_fork.cpp) the
+// device calls above are held here. At the end each triangle-list DrawIndexedPrimitive drawn without alpha blending is
+// put with the others drawn under the same state (every state the call set, as it stood at that draw), and each such
+// group goes out once: its state, then one DrawIndexedPrimitive of an index list made of its draws' index ranges, built
+// once from the model's index buffer and kept. A draw with blending, any other primitive or any state not known keeps
+// its place: it closes the groups before it (they go out first, in the order of their first draws), then goes out as
+// the game made it. Groups go out in the order of their first draws, so a state first set after some draws is set
+// after the groups drawn before it (their draws had the value from before). Any other device call, or more held than
+// fits, sends everything held in the game's order first. What is changed against the game's own calls is the order of
+// opaque triangle-list draws inside one model (the picture differs only where two of them meet at the same depth) and
+// the index buffer they are drawn from; the state the device holds afterwards is the game's.
+enum { GOPS = 2048, GKEYS = 160, GDRAWS = 512, GBLOB = 104, GCACHE = 4096 };
+struct GOp { BYTE ty; DWORD a, b, c, d, e; BYTE blob[GBLOB]; BYTE nb; };
+static GOp g_go[GOPS]; static int g_ngo;
+static DWORD g_gkey[GKEYS]; static int g_ngkey;                      // the state keys the held calls set
+static short g_gcur[GKEYS];                                          // per key: the held call that set it last (-1 none)
+struct GDraw { int op; int snap; bool reord; };
+static GDraw g_gd[GDRAWS]; static int g_ngd;
+static short g_gsnap[GDRAWS * GKEYS];                                // each draw's g_gcur as it was at that draw
+static volatile LONG g_gModels, g_gIn, g_gOut, g_gBarrier, g_gOrder, g_gBuilt, g_gHit, g_gNoCache;
+static inline DWORD gkey(const GOp &o) {
+  switch (o.ty) {
+  case G_RS: return (G_RS << 16) | (o.a & 0xFFFF); case G_TSS: return (G_TSS << 16) | ((o.a & 7) << 5) | (o.b & 31);
+  case G_TEX: case G_LIGHT: case G_LEN: case G_SS: case G_XF: return ((DWORD)o.ty << 16) | (o.a & 0xFFFF);
+  default: return (DWORD)o.ty << 16;
+  }
+}
+static int gslot(DWORD k) {
+  for (int i = 0; i < g_ngkey; i++) if (g_gkey[i] == k) return i;
+  if (g_ngkey == GKEYS) return -1;
+  g_gkey[g_ngkey] = k; g_gcur[g_ngkey] = -1; return g_ngkey++;
+}
+static bool gsame(int i, int j) {             // two held calls set their key to the same value
+  if (i == j) return true;
+  if (i < 0 || j < 0) return false;
+  const GOp &x = g_go[i], &y = g_go[j];
+  return x.a == y.a && x.b == y.b && x.c == y.c && x.nb == y.nb && !memcmp(x.blob, y.blob, x.nb);
+}
+static void greplay(int i) {                  // one held call, through the hooks (g_grp is off)
+  const GOp &o = g_go[i];
+  switch (o.ty) {
+  case G_RS: h_SetRenderState(g_dev, (D3DRENDERSTATETYPE)o.a, o.b); break;
+  case G_TSS: h_SetTSS(g_dev, o.a, (D3DTEXTURESTAGESTATETYPE)o.b, o.c); break;
+  case G_TEX: h_SetTexture(g_dev, o.a, (IDirect3DBaseTexture8 *)(uintptr_t)o.b); break;
+  case G_VS: h_SetVS(g_dev, o.a); break;
+  case G_XF: h_SetTransform(g_dev, (D3DTRANSFORMSTATETYPE)o.a, (const D3DMATRIX *)o.blob); break;
+  case G_MAT: h_SetMaterial(g_dev, (const D3DMATERIAL8 *)o.blob); break;
+  case G_LIGHT: h_SetLight(g_dev, o.a, (const D3DLIGHT8 *)o.blob); break;
+  case G_LEN: h_LightEnable(g_dev, o.a, (BOOL)o.b); break;
+  case G_SS: h_SetStream(g_dev, o.a, (IDirect3DVertexBuffer8 *)(uintptr_t)o.b, o.c); break;
+  case G_SI: h_SetIndices(g_dev, (IDirect3DIndexBuffer8 *)(uintptr_t)o.a, o.b); break;
+  case G_VP: h_SetViewport(g_dev, (const D3DVIEWPORT8 *)o.blob); break;
+  case G_DIP: h_DIP(g_dev, (D3DPRIMITIVETYPE)o.a, o.b, o.c, o.d, o.e); break;
+  }
+}
+static void grp_reset(void) { g_ngo = 0; g_ngkey = 0; g_ngd = 0; }
+static void grp_order(void) {
+  if (!g_ngo) return;
+  bool was = g_grp; g_grp = false;
+  for (int i = 0; i < g_ngo; i++) greplay(i);
+  g_gOrder++; grp_reset(); g_grp = was;
+}
+static bool grp_hold(int ty, DWORD a, DWORD b, DWORD c, DWORD d, DWORD e, const void *blob, int nb) {
+  if (g_ngo == GOPS || nb > GBLOB || (ty == G_DIP && g_ngd == GDRAWS)) grp_order();
+  GOp &o = g_go[g_ngo]; o.ty = (BYTE)ty; o.a = a; o.b = b; o.c = c; o.d = d; o.e = e; o.nb = (BYTE)nb;
+  if (nb) memcpy(o.blob, blob, nb);
+  if (ty != G_DIP) {
+    int k = gslot(gkey(o));
+    if (k < 0) { grp_order(); return false; }  // more keys than fit: this call goes out after what was held
+    g_gcur[k] = (short)g_ngo++;
+    return true;
+  }
+  // a draw: reorderable when a triangle list, from an index buffer set here, with ALPHABLENDENABLE known to be 0
+  int si = -1, ab = -1;
+  for (int k = 0; k < g_ngkey; k++) { if (g_gkey[k] == ((DWORD)G_SI << 16)) si = g_gcur[k]; if (g_gkey[k] == ((DWORD)G_RS << 16 | D3DRS_ALPHABLENDENABLE)) ab = g_gcur[k]; }
+  bool blendOff = ab >= 0 ? g_go[ab].b == 0 : (g_rsV[D3DRS_ALPHABLENDENABLE] && g_rs[D3DRS_ALPHABLENDENABLE] == 0 && !g_isP[D3DRS_ALPHABLENDENABLE]);
+  GDraw &dr = g_gd[g_ngd];
+  dr.op = g_ngo; dr.reord = a == D3DPT_TRIANGLELIST && si >= 0 && g_go[si].a != 0 && blendOff;
+  dr.snap = g_ngd * GKEYS; memcpy(&g_gsnap[dr.snap], g_gcur, sizeof(short) * g_ngkey);
+  for (int k = g_ngkey; k < GKEYS; k++) g_gsnap[dr.snap + k] = -1;
+  g_ngd++; g_ngo++; g_gIn++;
+  return true;
+}
+
+// the joined index lists, kept: by index buffer and the ranges joined
+struct GIb { IDirect3DIndexBuffer8 *src, *ib; DWORD hash; int n; DWORD *rng; UINT minI, nvI, prims; int frame; bool nocache; };
+static GIb g_gib[GCACHE]; static int g_ngib;
+typedef HRESULT (__stdcall *PFN_CreateIB)(void *, UINT, DWORD, D3DFORMAT, D3DPOOL, IDirect3DIndexBuffer8 **);
+static GIb *gib_get(IDirect3DIndexBuffer8 *src, const DWORD *rng, int n) {   // rng: start, prims, min, nv per draw
+  DWORD h = 2166136261u ^ (DWORD)(uintptr_t)src;
+  for (int i = 0; i < 4 * n; i++) h = (h ^ rng[i]) * 16777619u;
+  for (int i = 0; i < g_ngib; i++) {
+    GIb &c = g_gib[i];
+    if (c.hash == h && c.src == src && c.n == n && !memcmp(c.rng, rng, 16 * n)) { c.frame = g_frame; g_gHit++; return &c; }
+  }
+  int slot = g_ngib;
+  if (g_ngib == GCACHE) {                     // full: the one used longest ago goes
+    slot = 0; for (int i = 1; i < GCACHE; i++) if (g_gib[i].frame < g_gib[slot].frame) slot = i;
+    GIb &o = g_gib[slot]; if (o.ib) o.ib->Release(); if (o.src) o.src->Release(); free(o.rng); memset(&o, 0, sizeof o);
+  } else g_ngib++;
+  GIb &c = g_gib[slot]; memset(&c, 0, sizeof c);
+  c.src = src; src->AddRef(); c.hash = h; c.n = n; c.frame = g_frame;
+  c.rng = (DWORD *)malloc(16 * n); memcpy(c.rng, rng, 16 * n);
+  UINT lo = 0xFFFFFFFFu, hi = 0, prims = 0;
+  for (int i = 0; i < n; i++) { prims += rng[4 * i + 1]; if (rng[4 * i + 2] < lo) lo = rng[4 * i + 2]; if (rng[4 * i + 2] + rng[4 * i + 3] > hi) hi = rng[4 * i + 2] + rng[4 * i + 3]; }
+  c.minI = lo; c.nvI = hi - lo; c.prims = prims;
+  D3DINDEXBUFFER_DESC desc;
+  // a buffer the game may rewrite (dynamic) or one that cannot be read back (default pool) is not joined
+  if (prims > g_maxPrims || FAILED(src->GetDesc(&desc)) || (desc.Usage & D3DUSAGE_DYNAMIC) || desc.Pool == D3DPOOL_DEFAULT || !g_prev[24]) { c.nocache = true; g_gNoCache++; return &c; }
+  UINT isz = desc.Format == D3DFMT_INDEX32 ? 4 : 2;
+  BYTE *sp = NULL, *dp = NULL; IDirect3DIndexBuffer8 *ib = NULL;
+  if (FAILED(src->Lock(0, 0, &sp, D3DLOCK_READONLY))) { c.nocache = true; g_gNoCache++; return &c; }
+  bool ok = SUCCEEDED(PREV(PFN_CreateIB, 24)(g_dev, prims * 3 * isz, D3DUSAGE_WRITEONLY, desc.Format, D3DPOOL_MANAGED, &ib)) && ib
+         && SUCCEEDED(ib->Lock(0, 0, &dp, 0));
+  if (ok) {
+    UINT at = 0;
+    for (int i = 0; i < n; i++) {
+      UINT st = rng[4 * i], cnt = rng[4 * i + 1] * 3;
+      if ((st + cnt) * isz > desc.Size) { ok = false; break; }
+      memcpy(dp + at * isz, sp + st * isz, cnt * isz); at += cnt;
+    }
+    ib->Unlock();
+  }
+  src->Unlock();
+  if (!ok) { if (ib) ib->Release(); c.nocache = true; g_gNoCache++; return &c; }
+  c.ib = ib; g_gBuilt++;
+  return &c;
+}
+
+static short g_gem[GKEYS];                    // per key: the held call whose value the device holds now (-1: the value before)
+static bool g_gemOurs;                        // the device's indices are a joined list's
+static void gem_to(const short *snap) {       // the device to the state of a draw's snapshot
+  for (int k = 0; k < g_ngkey; k++) {
+    int want = snap[k];
+    if (want < 0) continue;                    // not set before this draw: the device still has the value before
+    bool si = g_gkey[k] == ((DWORD)G_SI << 16);
+    if ((si && g_gemOurs) || !gsame(g_gem[k], want)) { greplay(want); g_gem[k] = (short)want; if (si) g_gemOurs = false; }
+  }
+}
+static void grp_emit_group(const int *ds, int n) {   // draws (indices into g_gd) of one group
+  const short *snap = &g_gsnap[g_gd[ds[0]].snap];
+  gem_to(snap);
+  if (n > 1) {
+    int sik = -1; for (int k = 0; k < g_ngkey; k++) if (g_gkey[k] == ((DWORD)G_SI << 16)) sik = k;
+    const GOp &si = g_go[snap[sik]];
+    static DWORD rng[4 * GDRAWS];
+    for (int i = 0; i < n; i++) { const GOp &o = g_go[g_gd[ds[i]].op]; rng[4 * i] = o.d; rng[4 * i + 1] = o.e; rng[4 * i + 2] = o.b; rng[4 * i + 3] = o.c; }
+    GIb *c = gib_get((IDirect3DIndexBuffer8 *)(uintptr_t)si.a, rng, n);
+    if (c && c->ib) {
+      h_SetIndices(g_dev, c->ib, si.b); g_gemOurs = true;
+      h_DIP(g_dev, D3DPT_TRIANGLELIST, c->minI, c->nvI, 0, c->prims); g_gOut++;
+      return;
+    }
+  }
+  for (int i = 0; i < n; i++) { greplay(g_gd[ds[i]].op); g_gOut++; }
+}
+static void grp_emit_segment(int from, int to) {      // reorderable draws from..to-1: grouped, first-seen order
+  static int gid[GDRAWS], order[GDRAWS], members[GDRAWS];
+  int ng = 0;
+  for (int i = from; i < to; i++) {
+    const short *s = &g_gsnap[g_gd[i].snap]; int g = -1;
+    for (int j = 0; j < ng && g < 0; j++) {
+      const short *t = &g_gsnap[g_gd[order[j]].snap]; bool eq = true;
+      for (int k = 0; k < g_ngkey && eq; k++) eq = gsame(s[k], t[k]) || (s[k] < 0 && t[k] < 0);
+      if (eq) g = j;
+    }
+    if (g < 0) { g = ng; order[ng++] = i; }
+    gid[i] = g;
+  }
+  for (int g = 0; g < ng; g++) {
+    int n = 0; for (int i = from; i < to; i++) if (gid[i] == g) members[n++] = i;
+    grp_emit_group(members, n);
+  }
+}
+static int g_gdepth;
+volatile int sf_group_on;
+extern "C" __declspec(dllexport) void sf_group_begin(void) {
+  if (g_gdepth++ || !sf_group_on || !render_thread() || g_recording) return;
+  grp_reset(); g_grp = true; g_gModels++;
+}
+extern "C" __declspec(dllexport) void sf_group_end(void) {
+  if (--g_gdepth || !g_grp) return;
+  g_grp = false;
+  for (int k = 0; k < g_ngkey; k++) g_gem[k] = -1;
+  g_gemOurs = false;
+  int seg = 0;
+  for (int i = 0; i < g_ngd; i++) {
+    if (g_gd[i].reord) continue;
+    grp_emit_segment(seg, i);                    // what comes before a draw that keeps its place
+    gem_to(&g_gsnap[g_gd[i].snap]); greplay(g_gd[i].op); g_gOut++; g_gBarrier++;
+    seg = i + 1;
+  }
+  grp_emit_segment(seg, g_ngd);
+  // the device to the state the game left it in: every key's last held value
+  for (int k = 0; k < g_ngkey; k++) {
+    bool si = g_gkey[k] == ((DWORD)G_SI << 16);
+    if (g_gcur[k] >= 0 && ((si && g_gemOurs) || !gsame(g_gem[k], g_gcur[k]))) greplay(g_gcur[k]);
+  }
+  grp_reset();
 }
 
 // with batch_up_draws, extended_state_cache and lazy_state off at the start, only these are hooked (the draws for
@@ -744,7 +980,7 @@ extern "C" int sf_device_install(const XikitHost *host) {
   // its setters; with both off at the start only the cached setters and the methods that change or bound their
   // state are hooked (the owner's first capture: some 20,000 calls a frame were otherwise passed through for nothing).
   // lazy_state needs every method that reads the state it holds (other_state: the rest)
-  g_level = sf_cfg.batch_up || sf_cfg.ext_cache ? 2 : sf_cfg.lazy_state ? 1 : 0;
+  g_level = sf_cfg.batch_up || sf_cfg.ext_cache || sf_cfg.skin_merge >= 2 ? 2 : sf_cfg.lazy_state ? 1 : 0;
   g_motion = sf_cfg.motion_stats != 0;
   // 0-2 (QueryInterface, AddRef, Release) do not render. Every other method: its own hook, or a flushing stub
   for (int s = 3; s < NSLOT; s++) {
@@ -906,6 +1142,11 @@ extern "C" void sf_device_stats(void) {
   if (sf_cfg.block_cache && bk + bf) H->log("speedfix: block_cache: %ld state blocks applied with their contents known, %ld not (the shadow forgotten)", bk, bf);
   LONG nd = InterlockedExchange(&g_nullDrawn, 0);
   if (nd || sf_cfg.null_draws) H->log("speedfix: null_draws: %ld draw calls not sent to the device", nd);
+  LONG gm = InterlockedExchange(&g_gModels, 0), gi = InterlockedExchange(&g_gIn, 0), go = InterlockedExchange(&g_gOut, 0);
+  LONG gb = InterlockedExchange(&g_gBarrier, 0), gor = InterlockedExchange(&g_gOrder, 0), gbu = InterlockedExchange(&g_gBuilt, 0);
+  LONG gh = InterlockedExchange(&g_gHit, 0), gn = InterlockedExchange(&g_gNoCache, 0);
+  if (gm) H->log("speedfix: skin_merge=2: %ld model draws grouped: %ld draws held, %ld sent (%.1f%% fewer), %ld kept in place (blended or not a list), %ld times sent in the game's order (another call between); index lists: %ld built, %ld reused, %ld not joinable (%d kept)",
+                 gm, gi, go, gi ? 100.0 * (gi - go) / (double)gi : 0.0, gb, gor, gbu, gh, gn, g_ngib);
   LONG me = InterlockedExchange(&g_mergedEnds, 0);
   if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
   if (g_motion) mot_log();

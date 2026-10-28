@@ -10,8 +10,17 @@
 // fork/skinmerge.declare.json); with xi_skinmerge_on 0 it is the game's function (the gate without declarations)
 extern "C" int sf_skinmerge_installed;
 int sf_skinmerge_installed;
+// skin_merge=2: the fork runs between sf_group_begin and sf_group_end (sf_device.cpp, the grouping of a model's draws)
+extern "C" { void sf_group_begin(void); void sf_group_end(void); }
+static __int16 __attribute__((thiscall)) sfg_wrap(CYyModelDt *self, int a2, int a3, int a4, int a5, _DWORD *a6, _DWORD *a7) {
+  sf_group_begin();
+  __int16 r = self->SkinAndDrawV2(a2, a3, a4, a5, a6, a7);
+  sf_group_end();
+  return r;
+}
 extern "C" int sf_fork_skinmerge(const XikitHost *host) {
-  int r = XI_FORK(host, CYyModelDt::SkinAndDrawV2);
+  int r = sf_cfg.skin_merge >= 2 && ::xikit::code_of(&CYyModelDt::SkinAndDrawV2)
+        ? host->hook("CYyModelDt::SkinAndDrawV2", (void *)sfg_wrap, nullptr) : XI_FORK(host, CYyModelDt::SkinAndDrawV2);
   sf_skinmerge_installed = r == XIKIT_OK;
   return r;
 }

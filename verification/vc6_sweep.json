@@ -88,10 +88,26 @@
   ]
  },
  "0x10001CC0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+1: 0x8B here, 0x55 in the game",
   "conv": "__thiscall",
-  "error": "f_10001CC0.cpp(27): C2065: 'HGLOBAL' : undeclared identifier"
+  "size": 160,
+  "casts": 2,
+  "rules_tried": [
+   "retthis",
+   "globvar",
+   "uleq",
+   "xiany",
+   "retthis_globvar_uleq_xiany",
+   "retthis_globvar",
+   "retthis_globvar_uleq",
+   "retthis_globvar_xiany",
+   "uleq_xiany",
+   "globvar_uleq",
+   "retthis_uleq",
+   "globvar_xiany",
+   "retthis_xiany"
+  ]
  },
  "0x10001D90": {
   "verdict": "IDENTICAL",
@@ -482,6 +498,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -702,10 +719,51 @@
   "error": "f_10007EF0.cpp(38): C2664: 'int (unsigned int,void *,unsigned int ** ,unsigned int)' : cannot convert parameter 1 from 'unsigned int *' to 'unsigned int'"
  },
  "0x10008020": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+921: REL32 targets ?FUN_102BC826@@YGIPAUHKL__@@PADH@Z (0x102BC826), the game 0x34450EC3",
   "conv": "__thiscall",
-  "error": "f_10008020.cpp(41): C2065: 'HKL' : undeclared identifier"
+  "size": 1056,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "retthis",
+   "globvar",
+   "calledon",
+   "ret64",
+   "uleq",
+   "xiany",
+   "cmpk_retthis_globvar_calledon_ret64_uleq_xiany",
+   "cmpk_retthis_globvar",
+   "ret64_calledon",
+   "xiany_calledon",
+   "cmpk_retthis_globvar_ret64",
+   "cmpk_retthis_globvar_uleq",
+   "cmpk_retthis_globvar_xiany",
+   "ret64_uleq",
+   "cmpk_retthis_globvar_ret64_uleq",
+   "ret64_xiany",
+   "cmpk_retthis_globvar_ret64_xiany",
+   "uleq_xiany",
+   "cmpk_retthis_globvar_uleq_xiany",
+   "retthis_globvar_ret64",
+   "cmpk_ret64",
+   "cmpk_globvar_ret64",
+   "retthis_ret64",
+   "cmpk_retthis_ret64",
+   "globvar_ret64",
+   "retthis_globvar_uleq",
+   "cmpk_uleq",
+   "cmpk_globvar_uleq",
+   "retthis_uleq",
+   "cmpk_retthis_uleq",
+   "globvar_uleq",
+   "retthis_globvar_xiany",
+   "cmpk_xiany",
+   "cmpk_globvar_xiany",
+   "retthis_xiany",
+   "cmpk_retthis_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x100083D0": {
   "verdict": "DIFFERS",
@@ -2524,11 +2582,30 @@
   "size": 32
  },
  "0x10015AB0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+68: REL32 targets ?FUN_10311C7A@@YAIHH@Z (0x10311C7A), the game 0xA091EB88",
   "conv": "__stdcall",
-  "error": "f_10015AB0.cpp(25): C2065: 'HRESULT' : undeclared identifier",
-  "casts": 1
+  "size": 224,
+  "casts": 1,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_calledon_retnarrow_xiany",
+   "cmpk_globvar",
+   "xiany_calledon",
+   "cmpk_globvar_retnarrow",
+   "cmpk_globvar_xiany",
+   "retnarrow_xiany",
+   "cmpk_globvar_retnarrow_xiany",
+   "globvar_retnarrow",
+   "cmpk_retnarrow",
+   "globvar_xiany",
+   "cmpk_xiany"
+  ]
  },
  "0x100161B0": {
   "verdict": "NO_COMPILE",
@@ -2591,11 +2668,50 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x10016870": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+199: REL32 targets __ftol (0x10311C2C), the game 0x3445F15B",
   "conv": "__stdcall",
-  "error": "f_10016870.cpp(60): C2065: 'WINDOWPLACEMENT' : undeclared identifier",
-  "casts": 2
+  "size": 1824,
+  "casts": 2,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "float",
+   "calledon",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "cmpk_globvar_float_calledon_uleq_xiany_retvoid",
+   "cmpk_globvar_float",
+   "xiany_calledon",
+   "cmpk_globvar_float_uleq",
+   "cmpk_globvar_float_xiany",
+   "cmpk_globvar_float_retvoid",
+   "uleq_xiany",
+   "cmpk_globvar_float_uleq_xiany",
+   "uleq_retvoid",
+   "cmpk_globvar_float_uleq_retvoid",
+   "xiany_retvoid",
+   "cmpk_globvar_float_xiany_retvoid",
+   "globvar_float_uleq",
+   "cmpk_uleq",
+   "cmpk_float_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_uleq",
+   "float_uleq",
+   "globvar_float_xiany",
+   "cmpk_xiany",
+   "cmpk_float_xiany",
+   "globvar_xiany",
+   "cmpk_globvar_xiany",
+   "float_xiany",
+   "globvar_float_retvoid",
+   "cmpk_retvoid",
+   "cmpk_float_retvoid",
+   "globvar_retvoid",
+   "cmpk_globvar_retvoid",
+   "float_retvoid"
+  ]
  },
  "0x100170A0": {
   "verdict": "IDENTICAL",
@@ -3035,6 +3151,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -3287,6 +3404,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -3739,6 +3857,7 @@
   "rules_tried": [
    "retthis",
    "storem1",
+   "retstore",
    "retthis_storem1"
   ]
  },
@@ -4829,6 +4948,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -5156,6 +5276,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ]
  },
@@ -5380,6 +5501,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -5875,6 +5997,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -6919,6 +7042,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -10939,6 +11063,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -10950,7 +11075,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -11066,7 +11192,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -12374,7 +12501,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -12618,7 +12746,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -14044,6 +14173,7 @@
    "retthis",
    "globvar",
    "uleq",
+   "retstore",
    "cmpk_retthis_globvar_uleq",
    "cmpk_retthis_globvar",
    "retthis_globvar_uleq",
@@ -16815,6 +16945,7 @@
    "retthis",
    "uleq",
    "xiany",
+   "retstore",
    "retthis_uleq_xiany",
    "retthis_uleq",
    "retthis_xiany",
@@ -20066,10 +20197,20 @@
   ]
  },
  "0x100D8490": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+8: REL32 targets _FUN_10311BBB (0x10311BBB), the game 0x33A4A384",
   "conv": "__cdecl",
-  "error": "f_100D8490.c(27): C2065: 'LPSECURITY_ATTRIBUTES' : undeclared identifier"
+  "size": 144,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "xiany",
+   "retvoid",
+   "globvar_retnarrow_xiany",
+   "globvar_retnarrow",
+   "globvar_xiany",
+   "retnarrow_xiany"
+  ]
  },
  "0x100D8A20": {
   "verdict": "DIFFERS",
@@ -20263,10 +20404,57 @@
   "size": 16
  },
  "0x100D95D0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+64: REL32 targets ?FUN_10315140@@YAIHH@Z (0x10315140), the game 0x93579A9E",
   "conv": "__cdecl",
-  "error": "f_100D95D0.cpp(8): C2061: syntax error : identifier 'u_long'"
+  "size": 640,
+  "rules_tried": [
+   "cmpk",
+   "globvar",
+   "frame",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "negmask",
+   "select",
+   "cmpk_globvar_frame_retnarrow_uleq_xiany_negmask",
+   "cmpk_globvar_frame_negmask",
+   "cmpk_globvar_frame_negmask_retnarrow",
+   "cmpk_globvar_frame_negmask_uleq",
+   "cmpk_globvar_frame_negmask_xiany",
+   "retnarrow_uleq",
+   "cmpk_globvar_frame_negmask_retnarrow_uleq",
+   "retnarrow_xiany",
+   "cmpk_globvar_frame_negmask_retnarrow_xiany",
+   "uleq_xiany",
+   "cmpk_globvar_frame_negmask_uleq_xiany",
+   "globvar_frame_retnarrow_negmask",
+   "cmpk_retnarrow",
+   "cmpk_frame_retnarrow_negmask",
+   "globvar_retnarrow",
+   "cmpk_globvar_retnarrow_negmask",
+   "frame_retnarrow",
+   "cmpk_globvar_frame_retnarrow",
+   "retnarrow_negmask",
+   "globvar_frame_uleq_negmask",
+   "cmpk_uleq",
+   "cmpk_frame_uleq_negmask",
+   "globvar_uleq",
+   "cmpk_globvar_uleq_negmask",
+   "frame_uleq",
+   "cmpk_globvar_frame_uleq",
+   "uleq_negmask",
+   "globvar_frame_xiany_negmask",
+   "cmpk_xiany",
+   "cmpk_frame_xiany_negmask",
+   "globvar_xiany",
+   "cmpk_globvar_xiany_negmask",
+   "frame_xiany",
+   "cmpk_globvar_frame_xiany",
+   "xiany_negmask"
+  ]
  },
  "0x100D9830": {
   "verdict": "DIFFERS",
@@ -20731,16 +20919,32 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x100DC360": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+14: REL32 targets _FUN_100D95D0 (0x100D95D0), the game 0xD491C371",
   "conv": "__cdecl",
-  "error": "f_100DC360.c(11): C2065: 'u_long' : undeclared identifier"
+  "size": 64,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_uleq_xiany_retvoid",
+   "globvar_uleq",
+   "globvar_xiany",
+   "globvar_retvoid",
+   "uleq_xiany",
+   "globvar_uleq_xiany",
+   "uleq_retvoid",
+   "globvar_uleq_retvoid",
+   "xiany_retvoid",
+   "globvar_xiany_retvoid"
+  ]
  },
  "0x100DC3A0": {
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__cdecl",
-  "error": "f_100DC3A0.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "error": "f_100DC3A0.c(13): C2115: 'function' : incompatible types"
  },
  "0x100DC3B0": {
   "verdict": "DIFFERS",
@@ -21117,15 +21321,24 @@
    "globvar",
    "ret64",
    "uleq",
-   "cmpk_globvar_ret64_uleq",
+   "retstore",
+   "cmpk_globvar_ret64_uleq_retstore",
    "cmpk_globvar",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq",
+   "cmpk_globvar_retstore",
    "ret64_uleq",
+   "cmpk_globvar_ret64_uleq",
+   "ret64_retstore",
+   "cmpk_globvar_ret64_retstore",
+   "uleq_retstore",
+   "cmpk_globvar_uleq_retstore",
    "globvar_ret64",
    "cmpk_ret64",
    "globvar_uleq",
-   "cmpk_uleq"
+   "cmpk_uleq",
+   "globvar_retstore",
+   "cmpk_retstore"
   ]
  },
  "0x100E0A00": {
@@ -23318,7 +23531,9 @@
   "conv": "__cdecl",
   "size": 80,
   "rules_tried": [
-   "uleq"
+   "uleq",
+   "retstore",
+   "uleq_retstore"
   ]
  },
  "0x100F32B0": {
@@ -24139,10 +24354,26 @@
   ]
  },
  "0x10103330": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+20: 0x68 here, 0x8B in the game",
   "conv": "__cdecl",
-  "error": "f_10103330.c(6): C2065: 'u_short' : undeclared identifier"
+  "size": 144,
+  "rules_tried": [
+   "globvar",
+   "uleq",
+   "xiany",
+   "retstore",
+   "globvar_uleq_xiany_retstore",
+   "globvar_uleq",
+   "globvar_xiany",
+   "globvar_retstore",
+   "uleq_xiany",
+   "globvar_uleq_xiany",
+   "uleq_retstore",
+   "globvar_uleq_retstore",
+   "xiany_retstore",
+   "globvar_xiany_retstore"
+  ]
  },
  "0x101033C0": {
   "verdict": "LEFT_OUT",
@@ -24701,6 +24932,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -25958,6 +26190,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ]
  },
@@ -26870,6 +27103,7 @@
    "retthis",
    "ret64",
    "xiany",
+   "retstore",
    "retthis_ret64_xiany",
    "retthis_ret64",
    "retthis_xiany",
@@ -28441,7 +28675,8 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -28773,7 +29008,10 @@
   "verdict": "DIFFERS",
   "why": "+5: 0x8B here, 0x56 in the game",
   "conv": "__cdecl",
-  "size": 64
+  "size": 64,
+  "rules_tried": [
+   "retstore"
+  ]
  },
  "0x10127970": {
   "verdict": "DIFFERS",
@@ -28951,6 +29189,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -29799,6 +30038,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -30523,6 +30763,7 @@
    "retthis",
    "globvar",
    "uleq",
+   "retstore",
    "retthis_globvar_uleq",
    "retthis_globvar",
    "globvar_uleq",
@@ -31114,6 +31355,7 @@
    "retthis",
    "globvar",
    "uleq",
+   "retstore",
    "retthis_globvar_uleq",
    "retthis_globvar",
    "globvar_uleq",
@@ -31869,7 +32111,8 @@
   "conv": "__thiscall",
   "size": 192,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x101579B0": {
@@ -32737,7 +32980,9 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "xiany"
+   "xiany",
+   "retstore",
+   "xiany_retstore"
   ],
   "rule_identical": "xiany",
   "rule_verdict": "IDENTICAL"
@@ -34055,7 +34300,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x10163400": {
@@ -34144,6 +34390,7 @@
    "retthis",
    "uleq",
    "storem1",
+   "retstore",
    "retthis_uleq_storem1",
    "retthis_storem1",
    "uleq_storem1",
@@ -35201,6 +35448,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -36300,6 +36548,7 @@
    "frametight",
    "uleq",
    "pushinit",
+   "retstore",
    "retthis_frame_uleq",
    "retthis_frame",
    "frame_uleq",
@@ -36320,6 +36569,7 @@
    "frametight",
    "uleq",
    "pushinit",
+   "retstore",
    "retthis_frame_uleq",
    "retthis_frame",
    "frame_uleq",
@@ -36458,6 +36708,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -36691,6 +36942,7 @@
   "rules_tried": [
    "retthis",
    "ret64",
+   "retstore",
    "retthis_ret64"
   ],
   "rule_identical": "ret64",
@@ -37303,6 +37555,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -37873,8 +38126,11 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
-  ]
+   "retthis",
+   "retstore"
+  ],
+  "rule_identical": "retstore",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101953C0": {
   "verdict": "IDENTICAL",
@@ -38142,6 +38398,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -38674,10 +38931,19 @@
   "rule_verdict": "IDENTICAL"
  },
  "0x101A0770": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+28: REL32 targets _FUN_101BE690@4 (0x101BE690), the game 0xF86A17F6",
   "conv": "__cdecl",
-  "error": "f_101A0770.c(3): C2143: syntax error : missing ')' before '*'"
+  "size": 96,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "calledon",
+   "retnarrow",
+   "retvoid",
+   "ge0_calledon_retnarrow",
+   "ge0_retnarrow"
+  ]
  },
  "0x101A0910": {
   "verdict": "DIFFERS",
@@ -39742,6 +40008,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -39759,6 +40026,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -39816,6 +40084,7 @@
    "frametight",
    "uleq",
    "paramnarrow",
+   "retstore",
    "cmpk_retthis_frame_uleq_paramnarrow",
    "cmpk_retthis_frame_paramnarrow",
    "retthis_frame_uleq_paramnarrow",
@@ -39872,6 +40141,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -40249,6 +40519,7 @@
    "retthis",
    "globvar",
    "uleq",
+   "retstore",
    "retthis_globvar_uleq",
    "retthis_globvar",
    "globvar_uleq",
@@ -40261,7 +40532,8 @@
   "conv": "__thiscall",
   "size": 80,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x101ADEC0": {
@@ -40270,7 +40542,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x101ADF20": {
@@ -40354,16 +40627,16 @@
   "size": 16
  },
  "0x101AFF50": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_101AFF50.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x101AFF60": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_101AFF60.c(3): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x101AFF70": {
   "verdict": "NO_COMPILE",
@@ -40570,6 +40843,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ]
  },
@@ -40650,6 +40924,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -41468,6 +41743,7 @@
    "retthis",
    "globvar",
    "uleq",
+   "retstore",
    "retthis_globvar_uleq",
    "retthis_globvar",
    "globvar_uleq",
@@ -41709,6 +41985,7 @@
    "retthis",
    "uleq",
    "xiany",
+   "retstore",
    "ge0_cmpk_retthis_uleq_xiany",
    "ge0_cmpk_retthis",
    "ge0_cmpk_retthis_uleq",
@@ -42035,6 +42312,7 @@
   "rules_tried": [
    "retthis",
    "uleq",
+   "retstore",
    "retthis_uleq"
   ]
  },
@@ -42159,10 +42437,37 @@
   "size": 32
  },
  "0x101BE670": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+15: 0xF7 here, 0x83 in the game",
   "conv": "__stdcall",
-  "error": "f_101BE670.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 32,
+  "rules_tried": [
+   "globvar",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "negmask",
+   "globvar_retnarrow_uleq_xiany_negmask",
+   "globvar_negmask",
+   "globvar_negmask_retnarrow",
+   "globvar_negmask_uleq",
+   "globvar_negmask_xiany",
+   "retnarrow_uleq",
+   "globvar_negmask_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_negmask_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_negmask_uleq_xiany",
+   "retnarrow_negmask",
+   "globvar_retnarrow",
+   "uleq_negmask",
+   "globvar_uleq",
+   "xiany_negmask",
+   "globvar_xiany"
+  ],
+  "rule_identical": "negmask",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101BE6C0": {
   "verdict": "DIFFERS",
@@ -42687,17 +42992,85 @@
   "conv": "__thiscall"
  },
  "0x101C09B0": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+66: REL32 targets ?f@FUNt_1019FA90@@QAEHXZ (0x1019FA90), the game 0x08A70A0B",
   "conv": "__thiscall",
-  "error": "f_101C09B0.cpp(20): C2065: 'LPSECURITY_ATTRIBUTES' : undeclared identifier"
+  "size": 144,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ge0_globvar_calledon_retnarrow_uleq_xiany",
+   "ge0_globvar",
+   "xiany_calledon",
+   "ge0_globvar_retnarrow",
+   "ge0_globvar_uleq",
+   "ge0_globvar_xiany",
+   "retnarrow_uleq",
+   "ge0_globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "ge0_globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "ge0_globvar_uleq_xiany",
+   "globvar_retnarrow",
+   "ge0_retnarrow",
+   "globvar_uleq",
+   "ge0_uleq",
+   "globvar_xiany",
+   "ge0_xiany"
+  ]
  },
  "0x101C0A40": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+96: REL32 targets ?FUN_10311370@@YAII@Z (0x10311370), the game 0x2524D68C",
   "conv": "__thiscall",
-  "error": "f_101C0A40.cpp(55): C2065: 'LPSECURITY_ATTRIBUTES' : undeclared identifier",
-  "casts": 1
+  "size": 368,
+  "casts": 1,
+  "rules_tried": [
+   "ge0",
+   "cmpk",
+   "globvar",
+   "calledon",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "ge0_cmpk_globvar_calledon_retnarrow_uleq_xiany",
+   "ge0_cmpk_globvar",
+   "xiany_calledon",
+   "ge0_cmpk_globvar_retnarrow",
+   "ge0_cmpk_globvar_uleq",
+   "ge0_cmpk_globvar_xiany",
+   "retnarrow_uleq",
+   "ge0_cmpk_globvar_retnarrow_uleq",
+   "retnarrow_xiany",
+   "ge0_cmpk_globvar_retnarrow_xiany",
+   "uleq_xiany",
+   "ge0_cmpk_globvar_uleq_xiany",
+   "cmpk_globvar_retnarrow",
+   "ge0_retnarrow",
+   "ge0_globvar_retnarrow",
+   "cmpk_retnarrow",
+   "ge0_cmpk_retnarrow",
+   "globvar_retnarrow",
+   "cmpk_globvar_uleq",
+   "ge0_uleq",
+   "ge0_globvar_uleq",
+   "cmpk_uleq",
+   "ge0_cmpk_uleq",
+   "globvar_uleq",
+   "cmpk_globvar_xiany",
+   "ge0_xiany",
+   "ge0_globvar_xiany",
+   "cmpk_xiany",
+   "ge0_cmpk_xiany",
+   "globvar_xiany"
+  ]
  },
  "0x101C0FC0": {
   "verdict": "IDENTICAL",
@@ -43711,6 +44084,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -44774,7 +45148,8 @@
   "conv": "__thiscall",
   "size": 32,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x101D0880": {
@@ -45075,6 +45450,7 @@
   "rules_tried": [
    "retthis",
    "xiany",
+   "retstore",
    "retthis_xiany"
   ],
   "rule_identical": "xiany",
@@ -45756,7 +46132,8 @@
   "conv": "__thiscall",
   "size": 96,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ]
  },
  "0x101EFEA0": {
@@ -46864,13 +47241,19 @@
    "ret64",
    "uleq",
    "paramnarrow",
-   "ge0_cmpk_globvar_calledon_ret64_uleq_paramnarrow",
+   "retstore",
+   "ge0_cmpk_globvar_calledon_ret64_uleq_paramnarrow_retstore",
    "ge0_cmpk_globvar_paramnarrow",
    "ret64_calledon",
    "ge0_cmpk_globvar_paramnarrow_ret64",
    "ge0_cmpk_globvar_paramnarrow_uleq",
+   "ge0_cmpk_globvar_paramnarrow_retstore",
    "ret64_uleq",
    "ge0_cmpk_globvar_paramnarrow_ret64_uleq",
+   "ret64_retstore",
+   "ge0_cmpk_globvar_paramnarrow_ret64_retstore",
+   "uleq_retstore",
+   "ge0_cmpk_globvar_paramnarrow_uleq_retstore",
    "cmpk_globvar_ret64_paramnarrow",
    "ge0_ret64",
    "ge0_globvar_ret64_paramnarrow",
@@ -46886,7 +47269,15 @@
    "ge0_cmpk_uleq_paramnarrow",
    "globvar_uleq",
    "ge0_cmpk_globvar_uleq",
-   "uleq_paramnarrow"
+   "uleq_paramnarrow",
+   "cmpk_globvar_paramnarrow_retstore",
+   "ge0_retstore",
+   "ge0_globvar_paramnarrow_retstore",
+   "cmpk_retstore",
+   "ge0_cmpk_paramnarrow_retstore",
+   "globvar_retstore",
+   "ge0_cmpk_globvar_retstore",
+   "paramnarrow_retstore"
   ]
  },
  "0x10202F00": {
@@ -47254,6 +47645,7 @@
    "cmpk",
    "retthis",
    "globvar",
+   "retstore",
    "cmpk_retthis_globvar"
   ]
  },
@@ -48139,6 +48531,7 @@
   "rules_tried": [
    "retthis",
    "globvar",
+   "retstore",
    "retthis_globvar"
   ],
   "rule_identical": "retthis",
@@ -48153,6 +48546,7 @@
    "cmpk",
    "retthis",
    "ret64",
+   "retstore",
    "cmpk_retthis_ret64",
    "cmpk_retthis",
    "retthis_ret64",
@@ -49102,14 +49496,24 @@
    "frame",
    "frametight",
    "uleq",
-   "cmpk_globvar_frame_uleq",
+   "retstore",
+   "cmpk_globvar_frame_uleq_retstore",
    "cmpk_globvar_frame",
+   "cmpk_globvar_frame_uleq",
+   "cmpk_globvar_frame_retstore",
+   "uleq_retstore",
    "globvar_frame_uleq",
    "cmpk_uleq",
    "cmpk_frame_uleq",
    "globvar_uleq",
    "cmpk_globvar_uleq",
-   "frame_uleq"
+   "frame_uleq",
+   "globvar_frame_retstore",
+   "cmpk_retstore",
+   "cmpk_frame_retstore",
+   "globvar_retstore",
+   "cmpk_globvar_retstore",
+   "frame_retstore"
   ]
  },
  "0x10223760": {
@@ -49635,7 +50039,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -49788,7 +50193,11 @@
   "rules_tried": [
    "globvar",
    "uleq",
-   "globvar_uleq"
+   "retstore",
+   "globvar_uleq_retstore",
+   "globvar_uleq",
+   "globvar_retstore",
+   "uleq_retstore"
   ]
  },
  "0x1022B290": {
@@ -50108,7 +50517,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -52730,7 +53140,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -52998,7 +53409,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -53220,7 +53632,8 @@
   "conv": "__thiscall",
   "size": 16,
   "rules_tried": [
-   "retthis"
+   "retthis",
+   "retstore"
   ],
   "rule_identical": "retthis",
   "rule_verdict": "IDENTICAL"
@@ -54976,10 +55389,49 @@
   ]
  },
  "0x10275090": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "DIFFERS",
+  "why": "+55: REL32 targets _FUN_10285890 (0x10285890), the game 0xD4AA50CC",
   "conv": "__cdecl",
-  "error": "f_10275090.cpp(25): C2065: 'LARGE_INTEGER' : undeclared identifier"
+  "size": 208,
+  "rules_tried": [
+   "globvar",
+   "frame",
+   "float",
+   "frametight",
+   "retnarrow",
+   "uleq",
+   "xiany",
+   "retvoid",
+   "globvar_frame_float_retnarrow_uleq_xiany",
+   "globvar_frame_float",
+   "globvar_frame_float_retnarrow",
+   "globvar_frame_float_uleq",
+   "globvar_frame_float_xiany",
+   "retnarrow_uleq",
+   "globvar_frame_float_retnarrow_uleq",
+   "retnarrow_xiany",
+   "globvar_frame_float_retnarrow_xiany",
+   "uleq_xiany",
+   "globvar_frame_float_uleq_xiany",
+   "frame_float_retnarrow",
+   "globvar_retnarrow",
+   "globvar_float_retnarrow",
+   "frame_retnarrow",
+   "globvar_frame_retnarrow",
+   "float_retnarrow",
+   "frame_float_uleq",
+   "globvar_uleq",
+   "globvar_float_uleq",
+   "frame_uleq",
+   "globvar_frame_uleq",
+   "float_uleq",
+   "frame_float_xiany",
+   "globvar_xiany",
+   "globvar_float_xiany",
+   "frame_xiany",
+   "globvar_frame_xiany",
+   "float_xiany"
+  ]
  },
  "0x10275150": {
   "verdict": "IDENTICAL",
@@ -57288,7 +57740,9 @@
   "conv": "__cdecl",
   "size": 64,
   "rules_tried": [
-   "cmpk"
+   "cmpk",
+   "retstore",
+   "cmpk_retstore"
   ]
  },
  "0x10288E00": {
@@ -57297,7 +57751,9 @@
   "conv": "__cdecl",
   "size": 96,
   "rules_tried": [
-   "cmpk"
+   "cmpk",
+   "retstore",
+   "cmpk_retstore"
   ]
  },
  "0x10288E60": {
@@ -59383,81 +59839,81 @@
   ]
  },
  "0x102BC820": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC820.c(5): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC826": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC826.c(5): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC82C": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC82C.c(5): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC832": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC832.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC838": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC838.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC83E": {
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__stdcall",
-  "error": "f_102BC83E.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "error": "f_102BC83E.c(5): C2146: syntax error : missing ')' before identifier 'lpCandidate'"
  },
  "0x102BC844": {
   "verdict": "NO_COMPILE",
   "why": "cl failed",
   "conv": "__stdcall",
-  "error": "f_102BC844.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "error": "f_102BC844.c(5): C2146: syntax error : missing ')' before identifier 'lpCompForm'"
  },
  "0x102BC856": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC856.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC85C": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC85C.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC862": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC862.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC868": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC868.c(5): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC86E": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC86E.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  },
  "0x102BC874": {
-  "verdict": "NO_COMPILE",
-  "why": "cl failed",
+  "verdict": "IDENTICAL",
+  "why": "",
   "conv": "__stdcall",
-  "error": "f_102BC874.c(4): C2146: syntax error : missing ')' before identifier 'param_1'"
+  "size": 16
  }
 }

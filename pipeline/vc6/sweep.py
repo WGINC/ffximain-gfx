@@ -1246,7 +1246,9 @@ def _rule_calledon(text, ret, name):
     cands += re.findall(r'(\w+)\s*(?:,|\)$)', sig[sig.find('(') + 1:] + ')' if '(' in sig else '')
     cands += re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\**(\w+)(?:\[\w+\])?;$', body)
     cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
-    cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:12]
+    # and what a pointer local points to: the object a call returned the address of (0x1002C710 `mov ecx, [eax]`)
+    cands += ['*' + p for p in re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\*+(\w+);$', body)]
+    cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:14]
     this_ = 'this' if 'this' in cands else ('self_' if re.search(r'\bself_\b', body) else None)
     gc = [c.replace('@THIS', this_ or '') for c in _ecx_objects(name, {int(f[4:], 16) for f in decls}) if this_ or '@THIS' not in c]
     cands = gc + cands

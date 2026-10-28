@@ -24631,7 +24631,9 @@
    "retnarrow",
    "retvoid",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10123DF0": {
   "verdict": "DIFFERS",
@@ -24644,7 +24646,9 @@
    "retnarrow",
    "retvoid",
    "ret8_globvar"
-  ]
+  ],
+  "rule_identical": "retnarrow1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10123E20": {
   "verdict": "DIFFERS",

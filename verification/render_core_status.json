@@ -763,7 +763,8 @@
    "in_tree": true
   },
   "0x10163400": {
-   "bytes": "DIFFERS",
+   "by": "recompile/d3dcaller_10163400.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": true
   },

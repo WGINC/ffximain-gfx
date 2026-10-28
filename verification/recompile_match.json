@@ -435,6 +435,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/perm_10161FF0.c"
 },
+"0x10163400": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10163400.cpp"
+},
 "0x10174B10": {
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10174B10.cpp"

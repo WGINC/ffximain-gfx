@@ -3672,3 +3672,17 @@ would have put 0x10223B4E, 0x102262EE and 0x1022635E back. install now keeps the
 (`given_drop`) and verify_all.py hands it to regen_clean.sh as XI_DROP. r14's `given_drop` was rebuilt from
 tree/left_out.json (each entry `name: why`, hx2clean.py's form for a given reason). install also gives an export entry
 without `raw_gate` the default, as order() reads it. Not yet run: verify_all on a machine with the DLL and VC6.
+
+## 28 Oct: two hand-found rules in the sweep (#163)
+
+`pipeline/vc6/sweep.py` RULES gains two rules from the hand matches, each kept only where match.py's comparison says
+IDENTICAL (`--calls --rules`, the whole tree r14, 4,664 functions):
+- `globvar` (recompile/d3d_round_118.md rule 1): a global the sweep reads through its cast address,
+  `(*(int *)0x1047BFA8u)`, declared as a variable `extern int xi_g_1047BFA8;` (the name carries the address, so
+  match.py still compares it). Applied to 1,390 DIFFERS: IDENTICAL in 72 alone, 11 more with ret8 / cmpk.
+- `devlocal` (d3d_round_119.md rule 8): a call through an object an integer global points to, the global read once
+  into a block-scoped local; only where the statement holds no other call and no assignment. Applied to 24, IDENTICAL
+  in 1 (0x1006AF00, with globvar: the function the rule was found on, now from the tree's own source).
+
+verification/vc6_sweep.json: 2,071 functions at the game's bytes as written or by a rule (was 1,819 of 4,251 on
+r13; 84 by the two new rules); none at the bytes before is lost. frame_set_status: 1,841 of the frame set (33.9%).

@@ -917,6 +917,63 @@ def _rule_retthis(text, ret, name):
     return t2 if t2 != t else None
 
 
+_GLOBDEF = re.compile(r'(?m)^#define (\w+) \(\*\((.+?) (\(\*\)(\[[^\]]*\](?:\[[^\]]*\])*)\)|\*\))(0x[0-9A-Fa-f]{8})u\)$')
+
+
+def _rule_globvar(text, ret, name):
+    """a global read through its cast address (glob_lines) declared as a variable instead: `(*(int *)0x1047BFA8)`
+    makes the compiler reload it where the declared `extern int` is loaded once (recompile/d3d_round_118.md rule 1).
+    The variable's name carries the address (match.py's ADDR_RE), so its relocations are still compared"""
+    def decl(m):
+        g, ty, arr, ea = m.group(1), m.group(2), m.group(4) or '', m.group(5)
+        v = 'xi_g_%08X' % int(ea, 16)
+        return 'extern %s %s%s;\n#define %s %s' % (ty, v, arr, g, v)
+    t = _GLOBDEF.sub(decl, text)
+    return t if t != text else None
+
+
+_KW = {'sizeof', 'if', 'while', 'for', 'switch', 'return'}
+_TYPEW = {'void', 'int', 'char', 'short', 'long', 'float', 'double', 'unsigned', 'signed', 'const', '_DWORD', '_BYTE',
+          '_WORD', 'undefined4', 'bool', '__stdcall', '__thiscall', '__cdecl', '__fastcall'}   # `void (__stdcall **)(...)`
+
+
+def _rule_devlocal(text, ret, name):
+    """a call statement through an object a 4-byte integer global points to (`(*(...)(**(_DWORD **)(G + 3772) + S))
+    (*(_DWORD *)(G + 3772), ...)`) with the global read once into a block-scoped local: the game reads the global
+    afresh for each device call into the register that then holds the device (recompile/d3d_round_119.md rule 8).
+    Only a statement with no other call and no assignment, so nothing in it can change the global between the reads
+    it replaces"""
+    ints = {m.group(1) for m in re.finditer(r'(?m)^#define (\w+) \(\*\((?:int|_DWORD|unsigned int|undefined4) \*\)0x[0-9A-Fa-f]{8}u\)$', text)}
+    for m in re.finditer(r'(?m)^extern (?:int|_DWORD|unsigned int|undefined4) (xi_g_[0-9A-F]{8});\n#define (\w+) \1$', text):
+        ints.add(m.group(2))
+    if not ints: return None
+    out, i, n = [], 0, 0
+    for m in re.finditer(r'(?m)^([ \t]*)(\(\*\()', text):
+        if m.start() < i: continue
+        depth, j = 0, m.start(2)
+        while j < len(text):
+            c = text[j]
+            if c == '(': depth += 1
+            elif c == ')': depth -= 1
+            elif c in ';{}' and depth == 0: break
+            j += 1
+        if j >= len(text) or text[j] != ';': continue
+        st = text[m.start(2):j]
+        gs = [g for g in ints if len(re.findall(r'\b%s\b' % g, st)) >= 2]
+        if len(gs) != 1: continue
+        k = _group(st, 0)                                    # the callee `(*(...)(...))`, then its arguments
+        args = st[k:]
+        if not args.startswith('(') or _group(args, 0) != len(args): continue
+        if ')(' in re.sub(r'\((?:const |unsigned |signed )*[A-Za-z_]\w*(?: \*+)?\)', 'C', args) or any(w not in _KW and w not in _TYPEW for w in re.findall(r'\b([A-Za-z_]\w*)\s*\(', st)): continue   # another call
+        if re.search(r'(?<![=!<>])=(?!=)|\+\+|--', st): continue                             # an assignment
+        g = gs[0]
+        out.append(text[i:m.start(2)])
+        out.append('{ int xi_l = %s; %s; }' % (g, re.sub(r'\b%s\b' % g, 'xi_l', st)))
+        i = j + 1; n += 1
+    if not n: return None
+    return ''.join(out) + text[i:]
+
+
 # the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
 # result counts only where match.py's comparison says IDENTICAL
 RULES = [
@@ -925,6 +982,8 @@ RULES = [
     ('ge0', _rule_ge0),
     ('cmpk', _rule_cmpk),
     ('retthis', _rule_retthis),
+    ('globvar', _rule_globvar),
+    ('devlocal', _rule_devlocal),
 ]
 
 

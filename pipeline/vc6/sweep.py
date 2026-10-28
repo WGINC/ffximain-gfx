@@ -984,6 +984,16 @@ def _rule_retthis64(text, ret, name):
     return t2 if t2 != t else None
 
 
+def _is_cmp(e):
+    """whether e is a comparison at its top level (a value 0 or 1)"""
+    depth = 0
+    for j, ch in enumerate(e):
+        depth += {'(': 1, ')': -1}.get(ch, 0)
+        if depth == 0 and (e[j:j + 2] in ('!=', '==', '<=', '>=') or ch in '<>' and e[j + 1:j + 2] not in ('<', '>', '=') and e[j - 1:j] not in ('<', '>', '-')):
+            return True
+    return False
+
+
 def _rule_negmask(text, ret, name):
     """a mask of all ones or none from a comparison, which Ghidra prints as `-(uint32_t)(a != b)`, written as
     `((a != b) ? -1 : 0)`: VC6 compiles the first with setne/neg and the second as `neg al; sbb eax, eax` (0x10087610).
@@ -994,13 +1004,36 @@ def _rule_negmask(text, ret, name):
         e = _group(text, m.end() - 1)
         if e < 0: continue
         inner = text[m.end():e - 1]
-        depth, cmp_ = 0, False
-        for j, ch in enumerate(inner):
-            depth += {'(': 1, ')': -1}.get(ch, 0)
-            if depth == 0 and inner[j:j + 2] in ('!=', '==', '<=', '>=') or depth == 0 and ch in '<>' and inner[j + 1:j + 2] not in ('<', '>', '=') and inner[j - 1:j] not in ('<', '>', '-'):
-                cmp_ = True
-        if not cmp_: continue
+        if not _is_cmp(inner): continue
         out.append(text[pos:m.start()] + '((%s) ? -1 : 0)' % inner); pos = e; n += 1
+    return ''.join(out) + text[pos:] if n else None
+
+
+_INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
+
+
+def _rule_select(text, ret, name):
+    """a choice between two constants, which Ghidra prints from VC6's branchless forms as `(uint32_t)(c) * K + B`
+    (setcc; lea) or `(-(uint32_t)(c) & K) + B` (neg; sbb; and; add), written as `((c) ? K + B : B)` (0x10191B20).
+    The same value either way; a result counts only where match.py says IDENTICAL"""
+    out, pos, n = [], 0, 0
+    for m in re.finditer(r'(?:\(-)?\(uint32_t\)\(', text):
+        if m.start() < pos: continue
+        neg = text[m.start():m.start() + 2] == '(-'
+        e = _group(text, m.end() - 1)
+        if e < 0: continue
+        cond = text[m.end():e - 1]
+        if not _is_cmp(cond): continue
+        if neg:
+            t = re.match(r'\s*&\s*' + _INTLIT + r'\)\s*\+\s*' + _INTLIT, text[e:])
+            if not t: continue
+            start, end = m.start(), e + t.end()
+        else:
+            t = re.match(r'\s*\*\s*' + _INTLIT + r'\s*\+\s*' + _INTLIT, text[e:])
+            if not t: continue
+            start, end = m.start(), e + t.end()
+        k, b = (int(x.replace(' ', ''), 0) for x in t.groups())
+        out.append(text[pos:start] + '((%s) ? %d : %d)' % (cond, k + b, b)); pos = end; n += 1
     return ''.join(out) + text[pos:] if n else None
 
 
@@ -1309,6 +1342,7 @@ RULES = [
     ('retvoid', _rule_retvoid),
     ('retthis64', _rule_retthis64),
     ('negmask', _rule_negmask),
+    ('select', _rule_select),
 ]
 
 

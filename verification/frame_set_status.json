@@ -2532,7 +2532,7 @@
 "unresolved": 0,
 "d3dx": false,
 "recompiled": "IDENTICAL",
-"recompiled_file": "recompile/small_math.cpp"
+"recompiled_file": "recompile/perm_100272B0.c"
 },
 "0x100272E0": {
 "tree": true,
@@ -2595,7 +2595,9 @@
 "gate": "PASS",
 "bytes": "DIFFERS",
 "unresolved": 0,
-"d3dx": false
+"d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/perm_10027600.c"
 },
 "0x10027620": {
 "tree": true,

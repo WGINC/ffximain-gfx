@@ -173,7 +173,11 @@
 },
 "0x100272B0": {
 "verdict": "IDENTICAL",
-"file": "recompile/small_math.cpp"
+"file": "recompile/perm_100272B0.c"
+},
+"0x10027600": {
+"verdict": "IDENTICAL",
+"file": "recompile/perm_10027600.c"
 },
 "0x10027990": {
 "verdict": "IDENTICAL",

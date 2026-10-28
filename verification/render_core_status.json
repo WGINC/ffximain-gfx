@@ -576,7 +576,8 @@
    "in_tree": true
   },
   "0x10033A70": {
-   "bytes": "DIFFERS",
+   "by": "recompile/d3dcaller_10033A70.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": true
   },

@@ -215,6 +215,10 @@
 "verdict": "IDENTICAL",
 "file": "recompile/d3dcaller_10033800.cpp"
 },
+"0x10033A70": {
+"verdict": "IDENTICAL",
+"file": "recompile/d3dcaller_10033A70.cpp"
+},
 "0x10036050": {
 "verdict": "IDENTICAL",
 "file": "recompile/perm_10036050.c"

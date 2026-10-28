@@ -969,6 +969,21 @@ def _rule_retthis(text, ret, name):
     return t2 if t2 != t else None
 
 
+_RET64THIS = re.compile(r'\breturn\s+(\(.*<<\s*(?:32|0x20)\)\s*\|\s*\(uint32_t\)\((?:self_|this)\)\)+);')
+
+
+def _rule_retthis64(text, ret, name):
+    """a `__thiscall` function Ghidra writes as returning a 64-bit pair whose low half is `this` and whose high half
+    is whatever EDX held (a constructor, whose callee left EDX set): every such return returns `this` and the
+    function returns `void *`. Applied only where every return of the function is of that form"""
+    if 'XS::' not in text or ret not in ('uint64_t', 'undefined8', 'unsigned __int64', '__int64', 'longlong', 'ulonglong'): return None
+    rets = re.findall(r'\breturn\b[^;]*;', text)
+    if not rets or len(rets) != len(_RET64THIS.findall(text)): return None
+    t = _RET64THIS.sub('return this;', text)
+    t2 = re.sub(r'(^|[{;]\s*|\n)' + re.escape(ret) + r'(\s+(?:XS::)?' + re.escape(name) + r'\()', lambda m: m.group(1) + 'void *' + m.group(2), t)
+    return t2 if t2 != t else None
+
+
 _GLOBDEF = re.compile(r'(?m)^#define (\w+) \(\*\((.+?) (\(\*\)(\[[^\]]*\](?:\[[^\]]*\])*)\)|\*\))(0x[0-9A-Fa-f]{8})u\)$')
 
 
@@ -1272,6 +1287,7 @@ RULES = [
     ('uleq', _rule_ule0),
     ('xiany', _rule_xiany),
     ('retvoid', _rule_retvoid),
+    ('retthis64', _rule_retthis64),
 ]
 
 
@@ -1422,9 +1438,14 @@ def permissive(text, errors, fn):
                 k = ks[0].end() - 1
             else:                                         # the one call on the line through a function-pointer cast
                 ks = [x for x in _FPCALL.finditer(l)]
-                if len(ks) != 1: continue
-                k = _group(l, ks[0].start())
-                if k < 0 or k >= len(l) or l[k] != '(': continue
+                if len(ks) == 1:
+                    k = _group(l, ks[0].start())
+                    if k < 0 or k >= len(l) or l[k] != '(': continue
+                else:                                     # none: the one named call on the line (an IAT macro)
+                    ks = [x for x in re.finditer(r'(?<![\w.>])([A-Za-z_]\w*)\s*\(', l)
+                          if x.group(1) not in ('if', 'while', 'for', 'switch', 'return', 'sizeof')]
+                    if _FPCALL.search(l) or len(ks) != 1: continue
+                    k = ks[0].end() - 1
             e = _group(l, k)
             if e < 0: continue
             args = split_args(l[k + 1:e - 1]); n = int(n)

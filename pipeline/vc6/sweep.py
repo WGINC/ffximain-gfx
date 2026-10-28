@@ -1118,7 +1118,7 @@ def _ecx_objects(name, callees):
     ins = list(capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32).disasm(bytes(_IMG[s - 0x10000000:t - 0x10000000]), s))
     out = []
     for k, i in enumerate(ins):
-        if i.mnemonic != 'call' or not i.op_str.startswith('0x') or int(i.op_str, 16) not in callees: continue
+        if i.mnemonic not in ('call', 'jmp') or not i.op_str.startswith('0x') or int(i.op_str, 16) not in callees: continue   # a tail jump too
         for j in reversed(ins[max(0, k - 10):k]):
             if j.mnemonic in ('call', 'ret') or j.mnemonic.startswith('j'): break
             if j.op_str.startswith('ecx,'):
@@ -1278,6 +1278,11 @@ def apply_rules(text, ret, name):
         return t_b
     base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany')]
     if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
+    for g in ('ret64', 'xiany'):                       # calledon over a text these change (the callee's own declaration)
+        if g in names:
+            tg = dict(RULES)[g](text, ret, name)
+            co = tg and _rule_calledon(tg, ret, name)
+            if co: out += [('%s_calledon%d' % (g, k), x) for k, x in enumerate(co)]
     for g in ('ret64', 'retnarrow', 'uleq', 'xiany'):  # and the others with each of these on its own
         if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
     return out
@@ -1528,7 +1533,8 @@ def main():
     drop = {}                  # file: the symbols in it that are not the function (--sametu's callees)
     def key_of(fn):
         src = open(os.path.join(d, fn), 'rb').read()
-        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b''), SHIM, o.flags, tc)
+        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b'') +
+                         os.path.splitext(fn)[1].encode(), SHIM, o.flags, tc)      # C and C++ compile one text differently
 
     def compile_chunk(chunk):
         r = subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],
@@ -1607,7 +1613,7 @@ def main():
             text = open(os.path.join(d, fn)).read()
             for rn, t in apply_rules(text, *sig[ea]):
                 ext_ = os.path.splitext(fn)[1]
-                if rn.startswith('calledon') and ext_ == '.c': ext_ = '.cpp'     # a member call needs C++
+                if 'calledon' in rn and ext_ == '.c': ext_ = '.cpp'     # a member call needs C++
                 vf = 'f_%08X_%s%s' % (ea, rn, ext_); open(os.path.join(d, vf), 'w').write(t)
                 var.append((ea, vf, cc)); meta[vf] = rn
         got = judge(var, 'rewrite rules')
@@ -1622,7 +1628,7 @@ def main():
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]
-            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon|retnarrow|uleq)\d+', rn) else rn
+            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon|retnarrow|uleq|ret64_calledon|xiany_calledon)\d+', rn) else rn
             if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1

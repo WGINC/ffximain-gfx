@@ -1259,7 +1259,7 @@ def apply_rules(text, ret, name):
     if len(names) > 1: out.append(('_'.join(names), t_all))
     # and every rule together but the ones that try objects or widths (calledon, ret64): their variants are guesses
     # to be confirmed one at a time, and one of them in the combination hides what the others give together
-    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'ule0')]
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq')]
     if 1 < len(base) < len(names):
         t_b = text
         for rn, f in RULES:

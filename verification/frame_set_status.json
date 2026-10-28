@@ -4641,6 +4641,8 @@
 "bytes": null,
 "unresolved": 0,
 "d3dx": false,
+"recompiled": "IDENTICAL",
+"recompiled_file": "recompile/d3dcaller_10040C20.cpp",
 "d3d": {
 "proven": 6,
 "accepted": 0

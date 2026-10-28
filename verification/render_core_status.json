@@ -155,7 +155,8 @@
    "in_tree": true
   },
   "0x10040C20": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_10040C20.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": false
   },

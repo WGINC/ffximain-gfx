@@ -155,3 +155,7 @@ calls' from d3d8.h's prototypes.
 accessor as 0x1003FBB0: the instruction stream is the game's in shape; the registers differ throughout (the game:
 this in EBP, the object in ESI, EBX and EDI pushed only after the 0x10042D00 test; ours: ESI and EBX, all pushed at
 entry). Early returns, nested blocks and block-scoped matrix locals give the same allocation. 79 lines apart.
+
+0x10040C20 (#118; not in the tree; in the frame set), recompile/d3dcaller_10040C20.cpp, from the game's bytes in
+0x100431B0's form: IDENTICAL. The game tests +0x16C before calling 0x10045D40 and calls it in both arms: an if/else
+whose arms both call it and the zone map (VC6 merges their common tail); `not dl` for bit 18: the test on a byte.

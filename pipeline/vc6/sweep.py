@@ -1087,6 +1087,15 @@ def _rule_fastthis(text, ret, name):
     return t if t != text else None
 
 
+def _rule_ushortcmp(text, ret, name):
+    """a 2-byte value compared with -1 as `short`, `*(short *)p != -1`, as the unsigned 0xffff: the same test, which
+    VC6 encodes with a 2-byte immediate (66 81 .. FF FF) where the game has it, and with a sign-extended byte for -1
+    (0x100E6300)"""
+    t = re.sub(r'\*\((?:short|int16_t|undefined2|_WORD|ushort|uint16_t) \*\)(\([^;]*?\)) (==|!=) (?:-1|0xffff)\b',
+               r'*(unsigned short *)\1 \2 0xffff', text)
+    return t if t != text else None
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1450,6 +1459,7 @@ RULES = [
     ('pushinit', _rule_pushinit),
     ('adjthunk', _rule_adjthunk),
     ('fastthis', _rule_fastthis),
+    ('ushortcmp', _rule_ushortcmp),
 ]
 
 

@@ -3788,3 +3788,10 @@ locals, the function's globals) at each such call, one at a time. On the 485 wit
 calledon, 1 IDENTICAL as written (0x101B94A0, by match.py's switch-table and pooled-constant comparisons since the
 last full sweep). Frame set 1,906 at the game's bytes (35.1%).
 
+**Full sweep with the new rules (28 Oct).** `sweep.py --rules --calls --sametu` over the tree (r15): calledon 28
+IDENTICAL (now also the objects the game loads into ECX from a global, read from its bytes, and C sources tried as
+C++), float 26 (Ghidra's `long double` now taken), ret64 17 (a callee declared 8-byte-returning, as 4 bytes),
+sametu 9. Two fixes kept every earlier result: SDK structs by value in a class layout (CDx's D3DCAPS8 and D3DMATRIX
+since r15 had left six CDx methods out), and the all-rules combination without calledon/ret64 (the rules' pairings
+that had matched). 2,194 of the sweep's 4,664 at the game's bytes (2,147 before, none lost); frame set 1,969 (36.3%).
+

@@ -1039,7 +1039,7 @@ def _rule_float(text, ret, name):
     head, body = text[:m.end()], text[m.end():]
     lit = lambda b: re.sub(r'(?<![\w.])(\d+\.\d*(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)(?![\w.])', r'\1f', b)
     out = []
-    if re.search(r'\bdouble\b', body): out.append(head + lit(re.sub(r'\bdouble\b', 'float', body)))
+    if re.search(r'\bdouble\b', body): out.append(head + lit(re.sub(r'\b(?:long )?double\b', 'float', body)))   # Ghidra's long double too
     b2 = lit(body)
     if b2 != body: out.append(head + b2)
     return out or None

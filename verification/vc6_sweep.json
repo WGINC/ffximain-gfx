@@ -2172,7 +2172,9 @@
    "globvar",
    "float",
    "globvar_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10019590": {
   "verdict": "IDENTICAL",
@@ -6829,7 +6831,9 @@
    "retthis",
    "float",
    "retthis_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052B80": {
   "verdict": "DIFFERS",
@@ -6840,7 +6844,9 @@
    "retthis",
    "float",
    "retthis_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052B90": {
   "verdict": "DIFFERS",
@@ -6851,7 +6857,9 @@
    "retthis",
    "float",
    "retthis_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10052BA0": {
   "verdict": "IDENTICAL",
@@ -23537,7 +23545,9 @@
   "size": 32,
   "rules_tried": [
    "float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101898E0": {
   "verdict": "IDENTICAL",
@@ -25025,7 +25035,9 @@
   "size": 16,
   "rules_tried": [
    "float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1019ED20": {
   "verdict": "DIFFERS",
@@ -25034,7 +25046,9 @@
   "size": 16,
   "rules_tried": [
    "float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1019ED30": {
   "verdict": "DIFFERS",
@@ -25043,7 +25057,9 @@
   "size": 16,
   "rules_tried": [
    "float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1019ED70": {
   "verdict": "DIFFERS",
@@ -35973,7 +35989,9 @@
    "float",
    "frametight",
    "cmpk_globvar_frame_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10281510": {
   "verdict": "DIFFERS",
@@ -36471,7 +36489,9 @@
    "globvar",
    "float",
    "globvar_float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10283F70": {
   "verdict": "DIFFERS",
@@ -36929,7 +36949,9 @@
   "size": 80,
   "rules_tried": [
    "float"
-  ]
+  ],
+  "rule_identical": "float0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1028DC00": {
   "verdict": "IDENTICAL",

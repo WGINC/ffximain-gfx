@@ -389,7 +389,9 @@
    "retthis",
    "calledon",
    "retthis_calledon"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10003650": {
   "verdict": "IDENTICAL",
@@ -2431,6 +2433,7 @@
    "ret64",
    "cmpk_retthis_calledon_ret64",
    "cmpk_retthis",
+   "ret64_calledon",
    "cmpk_retthis_ret64"
   ]
  },
@@ -2897,6 +2900,7 @@
    "xiany",
    "retthis_globvar_frame_calledon_xiany",
    "retthis_globvar_frame",
+   "xiany_calledon",
    "retthis_globvar_frame_xiany"
   ]
  },
@@ -4516,6 +4520,7 @@
    "xiany",
    "ret8_cmpk_globvar_calledon_uleq_xiany",
    "ret8_cmpk_globvar",
+   "xiany_calledon",
    "ret8_cmpk_globvar_uleq",
    "ret8_cmpk_globvar_xiany"
   ]
@@ -4565,6 +4570,7 @@
    "uleq",
    "xiany",
    "globvar_calledon_retnarrow_uleq_xiany",
+   "xiany_calledon",
    "globvar_retnarrow",
    "globvar_uleq",
    "globvar_xiany"
@@ -4646,6 +4652,8 @@
    "xiany",
    "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq_xiany",
    "cmpk_retthis_globvar_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_retthis_globvar_frame_float_ret64",
    "cmpk_retthis_globvar_frame_float_uleq",
    "cmpk_retthis_globvar_frame_float_xiany"
@@ -5185,6 +5193,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq"
   ]
@@ -5426,6 +5435,7 @@
    "calledon",
    "xiany",
    "globvar_calledon_xiany",
+   "xiany_calledon",
    "globvar_xiany"
   ],
   "rule_identical": "globvar_calledon_xiany",
@@ -5441,7 +5451,9 @@
    "calledon",
    "uleq",
    "globvar_uleq"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10037B30": {
   "verdict": "DIFFERS",
@@ -5819,6 +5831,8 @@
    "ret64",
    "xiany",
    "globvar_calledon_ret64_xiany",
+   "ret64_calledon",
+   "xiany_calledon",
    "globvar_ret64",
    "globvar_xiany"
   ]
@@ -6050,8 +6064,11 @@
    "xiany",
    "retthis_globvar_calledon_xiany",
    "retthis_globvar",
+   "xiany_calledon",
    "retthis_globvar_xiany"
-  ]
+  ],
+  "rule_identical": "xiany_calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x1003B4D0": {
   "verdict": "IDENTICAL",
@@ -7105,6 +7122,7 @@
    "uleq",
    "xiany",
    "frame_calledon_uleq_xiany",
+   "xiany_calledon",
    "frame_uleq",
    "frame_xiany",
    "sametu"
@@ -7120,6 +7138,7 @@
    "calledon",
    "xiany",
    "retthis_calledon_xiany",
+   "xiany_calledon",
    "retthis_xiany",
    "sametu"
   ]
@@ -7182,6 +7201,7 @@
    "uleq",
    "globvar_frame_calledon_ret64_uleq",
    "globvar_frame",
+   "ret64_calledon",
    "globvar_frame_ret64",
    "globvar_frame_uleq"
   ]
@@ -7418,6 +7438,7 @@
    "xiany",
    "ret8_globvar_frame_float_calledon_uleq_xiany",
    "ret8_globvar_frame_float",
+   "xiany_calledon",
    "ret8_globvar_frame_float_uleq",
    "ret8_globvar_frame_float_xiany"
   ]
@@ -8634,6 +8655,7 @@
    "xiany",
    "retthis_globvar_calledon_uleq_xiany",
    "retthis_globvar",
+   "xiany_calledon",
    "retthis_globvar_uleq",
    "retthis_globvar_xiany"
   ]
@@ -9261,6 +9283,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ],
@@ -9430,7 +9453,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ]
  },
  "0x10062ED0": {
@@ -11110,6 +11134,7 @@
    "calledon",
    "ret64",
    "globvar_calledon_ret64",
+   "ret64_calledon",
    "globvar_ret64"
   ]
  },
@@ -11162,6 +11187,7 @@
    "uleq",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq",
@@ -11477,6 +11503,7 @@
    "uleq",
    "xiany",
    "globvar_calledon_uleq_xiany",
+   "xiany_calledon",
    "globvar_uleq",
    "globvar_xiany"
   ]
@@ -12211,7 +12238,9 @@
    "calledon",
    "ret64",
    "xiany",
-   "calledon_ret64_xiany"
+   "calledon_ret64_xiany",
+   "ret64_calledon",
+   "xiany_calledon"
   ],
   "rule_identical": "xiany",
   "rule_verdict": "IDENTICAL"
@@ -12540,6 +12569,7 @@
    "uleq",
    "globvar_frame_float_calledon_ret64_uleq",
    "globvar_frame_float",
+   "ret64_calledon",
    "globvar_frame_float_ret64",
    "globvar_frame_float_uleq"
   ]
@@ -12559,6 +12589,8 @@
    "xiany",
    "frame_float_calledon_ret64_uleq_xiany",
    "frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
    "frame_float_ret64",
    "frame_float_uleq",
    "frame_float_xiany"
@@ -12577,6 +12609,7 @@
    "ret64",
    "frame_float_calledon_ret64",
    "frame_float",
+   "ret64_calledon",
    "frame_float_ret64"
   ]
  },
@@ -12593,6 +12626,7 @@
    "ret64",
    "frame_float_calledon_ret64",
    "frame_float",
+   "ret64_calledon",
    "frame_float_ret64"
   ]
  },
@@ -12976,6 +13010,7 @@
    "uleq",
    "ret8_globvar_calledon_ret64_uleq",
    "ret8_globvar",
+   "ret64_calledon",
    "ret8_globvar_ret64",
    "ret8_globvar_uleq"
   ],
@@ -13093,6 +13128,8 @@
    "xiany",
    "retthis_globvar_frame_float_calledon_ret64_uleq_xiany",
    "retthis_globvar_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
    "retthis_globvar_frame_float_ret64",
    "retthis_globvar_frame_float_uleq",
    "retthis_globvar_frame_float_xiany",
@@ -13287,6 +13324,7 @@
    "uleq",
    "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq",
    "cmpk_retthis_globvar_frame_float",
+   "ret64_calledon",
    "cmpk_retthis_globvar_frame_float_ret64",
    "cmpk_retthis_globvar_frame_float_uleq"
   ]
@@ -13318,6 +13356,7 @@
    "uleq",
    "ge0_cmpk_retthis_globvar_float_calledon_ret64_uleq",
    "ge0_cmpk_retthis_globvar_float",
+   "ret64_calledon",
    "ge0_cmpk_retthis_globvar_float_ret64",
    "ge0_cmpk_retthis_globvar_float_uleq"
   ]
@@ -13506,6 +13545,7 @@
    "uleq",
    "retthis_globvar_frame_calledon_ret64_uleq",
    "retthis_globvar_frame",
+   "ret64_calledon",
    "retthis_globvar_frame_ret64",
    "retthis_globvar_frame_uleq"
   ]
@@ -13860,6 +13900,8 @@
    "xiany",
    "ret8_cmpk_calledon_ret64_uleq_xiany",
    "ret8_cmpk",
+   "ret64_calledon",
+   "xiany_calledon",
    "ret8_cmpk_ret64",
    "ret8_cmpk_uleq",
    "ret8_cmpk_xiany"
@@ -14142,6 +14184,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq"
   ]
@@ -14291,6 +14334,7 @@
    "retnarrow",
    "uleq",
    "ret8_calledon_ret64_uleq",
+   "ret64_calledon",
    "ret8_ret64",
    "ret8_uleq"
   ]
@@ -15022,6 +15066,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -15037,6 +15082,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -15068,8 +15114,11 @@
   "size": 80,
   "rules_tried": [
    "globvar",
-   "calledon"
-  ]
+   "calledon",
+   "globvar_calledon"
+  ],
+  "rule_identical": "globvar_calledon",
+  "rule_verdict": "IDENTICAL"
  },
  "0x100AE3F0": {
   "verdict": "LEFT_OUT",
@@ -15201,6 +15250,7 @@
    "calledon",
    "ret64",
    "globvar_calledon_ret64",
+   "ret64_calledon",
    "globvar_ret64"
   ]
  },
@@ -15714,6 +15764,8 @@
    "xiany",
    "ret8_frame_float_calledon_ret64_uleq_xiany",
    "ret8_frame_float",
+   "ret64_calledon",
+   "xiany_calledon",
    "ret8_frame_float_ret64",
    "ret8_frame_float_uleq",
    "ret8_frame_float_xiany"
@@ -15814,7 +15866,8 @@
    "ret64",
    "retnarrow",
    "uleq",
-   "calledon_ret64_retnarrow_uleq"
+   "calledon_ret64_retnarrow_uleq",
+   "ret64_calledon"
   ]
  },
  "0x100D0D40": {
@@ -17057,6 +17110,7 @@
    "retnarrow",
    "ret8_globvar_calledon_ret64",
    "ret8_globvar",
+   "ret64_calledon",
    "ret8_globvar_ret64"
   ]
  },
@@ -17606,6 +17660,7 @@
    "ret64",
    "retnarrow",
    "cmpk_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "cmpk_ret64",
    "cmpk_retnarrow"
   ]
@@ -17986,6 +18041,7 @@
    "uleq",
    "globvar_frame_calledon_ret64_uleq",
    "globvar_frame",
+   "ret64_calledon",
    "globvar_frame_ret64",
    "globvar_frame_uleq"
   ]
@@ -18599,6 +18655,7 @@
    "uleq",
    "ret8_cmpk_globvar_frame_calledon_ret64_uleq",
    "ret8_cmpk_globvar_frame",
+   "ret64_calledon",
    "ret8_cmpk_globvar_frame_ret64",
    "ret8_cmpk_globvar_frame_uleq"
   ]
@@ -18687,6 +18744,7 @@
    "uleq",
    "ret8_ge0_cmpk_frame_calledon_ret64_uleq",
    "ret8_ge0_cmpk_frame",
+   "ret64_calledon",
    "ret8_ge0_cmpk_frame_ret64",
    "ret8_ge0_cmpk_frame_uleq"
   ]
@@ -20032,6 +20090,7 @@
    "xiany",
    "cmpk_globvar_frame_calledon_uleq_xiany",
    "cmpk_globvar_frame",
+   "xiany_calledon",
    "cmpk_globvar_frame_uleq",
    "cmpk_globvar_frame_xiany"
   ]
@@ -20155,6 +20214,7 @@
    "ret64",
    "retnarrow",
    "globvar_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow"
   ]
@@ -20175,6 +20235,7 @@
    "uleq",
    "cmpk_globvar_frame_calledon_ret64_uleq",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_uleq"
   ]
@@ -20194,6 +20255,8 @@
    "xiany",
    "cmpk_globvar_calledon_ret64_uleq_xiany",
    "cmpk_globvar",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq",
    "cmpk_globvar_xiany"
@@ -20224,6 +20287,7 @@
    "ret64",
    "uleq",
    "frame_calledon_ret64_uleq",
+   "ret64_calledon",
    "frame_ret64",
    "frame_uleq"
   ]
@@ -20570,6 +20634,7 @@
    "uleq",
    "retthis_frame_calledon_ret64_uleq",
    "retthis_frame",
+   "ret64_calledon",
    "retthis_frame_ret64",
    "retthis_frame_uleq"
   ]
@@ -20608,6 +20673,7 @@
    "uleq",
    "retthis_frame_calledon_ret64_uleq",
    "retthis_frame",
+   "ret64_calledon",
    "retthis_frame_ret64",
    "retthis_frame_uleq"
   ]
@@ -20623,6 +20689,7 @@
    "ret64",
    "uleq",
    "retthis_calledon_ret64_uleq",
+   "ret64_calledon",
    "retthis_ret64",
    "retthis_uleq"
   ]
@@ -20639,6 +20706,7 @@
    "ret64",
    "uleq",
    "frame_calledon_ret64_uleq",
+   "ret64_calledon",
    "frame_ret64",
    "frame_uleq"
   ]
@@ -20678,6 +20746,7 @@
    "uleq",
    "globvar_frame_calledon_ret64_retnarrow_uleq",
    "globvar_frame",
+   "ret64_calledon",
    "globvar_frame_ret64",
    "globvar_frame_retnarrow",
    "globvar_frame_uleq"
@@ -20698,6 +20767,7 @@
    "uleq",
    "globvar_frame_calledon_ret64_retnarrow_uleq",
    "globvar_frame",
+   "ret64_calledon",
    "globvar_frame_ret64",
    "globvar_frame_retnarrow",
    "globvar_frame_uleq"
@@ -20747,6 +20817,7 @@
    "ret64",
    "retnarrow",
    "frame_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "frame_ret64",
    "frame_retnarrow"
   ]
@@ -20792,6 +20863,7 @@
    "uleq",
    "ret16_globvar_frame_float_calledon_ret64_uleq",
    "ret16_globvar_frame_float",
+   "ret64_calledon",
    "ret16_globvar_frame_float_ret64",
    "ret16_globvar_frame_float_uleq"
   ]
@@ -20867,6 +20939,7 @@
    "calledon",
    "ret64",
    "retthis_calledon_ret64",
+   "ret64_calledon",
    "retthis_ret64"
   ],
   "rule_identical": "calledon0",
@@ -20927,6 +21000,7 @@
    "uleq",
    "cmpk_retthis_globvar_frame_float_calledon_ret64_uleq",
    "cmpk_retthis_globvar_frame_float",
+   "ret64_calledon",
    "cmpk_retthis_globvar_frame_float_ret64",
    "cmpk_retthis_globvar_frame_float_uleq"
   ]
@@ -21082,6 +21156,7 @@
    "uleq",
    "retthis_globvar_frame_calledon_ret64_uleq",
    "retthis_globvar_frame",
+   "ret64_calledon",
    "retthis_globvar_frame_ret64",
    "retthis_globvar_frame_uleq"
   ]
@@ -21140,6 +21215,7 @@
    "retnarrow",
    "ret8_frame_calledon_ret64",
    "ret8_frame",
+   "ret64_calledon",
    "ret8_frame_ret64"
   ]
  },
@@ -21268,6 +21344,7 @@
    "retnarrow",
    "cmpk_globvar_calledon_ret64_retnarrow",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow"
   ]
@@ -21338,6 +21415,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq"
   ]
@@ -21724,6 +21802,7 @@
    "uleq",
    "cmpk_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow",
    "cmpk_frame_uleq"
@@ -21744,6 +21823,7 @@
    "uleq",
    "cmpk_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow",
    "cmpk_frame_uleq"
@@ -21760,6 +21840,7 @@
    "calledon",
    "ret64",
    "frame_calledon_ret64",
+   "ret64_calledon",
    "frame_ret64"
   ]
  },
@@ -21778,6 +21859,7 @@
    "uleq",
    "cmpk_retthis_frame_calledon_ret64_uleq",
    "cmpk_retthis_frame",
+   "ret64_calledon",
    "cmpk_retthis_frame_ret64",
    "cmpk_retthis_frame_uleq"
   ]
@@ -21803,6 +21885,7 @@
    "uleq",
    "cmpk_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow",
    "cmpk_frame_uleq"
@@ -21823,6 +21906,7 @@
    "uleq",
    "cmpk_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow",
    "cmpk_frame_uleq"
@@ -21877,6 +21961,7 @@
    "uleq",
    "cmpk_retthis_globvar_frame_calledon_ret64_uleq",
    "cmpk_retthis_globvar_frame",
+   "ret64_calledon",
    "cmpk_retthis_globvar_frame_ret64",
    "cmpk_retthis_globvar_frame_uleq"
   ]
@@ -21910,6 +21995,7 @@
    "uleq",
    "cmpk_retthis_frame_calledon_ret64_uleq",
    "cmpk_retthis_frame",
+   "ret64_calledon",
    "cmpk_retthis_frame_ret64",
    "cmpk_retthis_frame_uleq"
   ]
@@ -22392,6 +22478,7 @@
    "uleq",
    "retthis_globvar_calledon_ret64_uleq",
    "retthis_globvar",
+   "ret64_calledon",
    "retthis_globvar_ret64",
    "retthis_globvar_uleq"
   ]
@@ -22415,6 +22502,7 @@
    "uleq",
    "retthis_globvar_calledon_ret64_uleq",
    "retthis_globvar",
+   "ret64_calledon",
    "retthis_globvar_ret64",
    "retthis_globvar_uleq"
   ]
@@ -22436,6 +22524,7 @@
    "ret64",
    "uleq",
    "retthis_calledon_ret64_uleq",
+   "ret64_calledon",
    "retthis_ret64",
    "retthis_uleq"
   ]
@@ -22819,6 +22908,7 @@
    "uleq",
    "retthis_frame_calledon_ret64_uleq",
    "retthis_frame",
+   "ret64_calledon",
    "retthis_frame_ret64",
    "retthis_frame_uleq"
   ]
@@ -22927,6 +23017,7 @@
    "uleq",
    "ret8_cmpk_globvar_frame_calledon_ret64_uleq",
    "ret8_cmpk_globvar_frame",
+   "ret64_calledon",
    "ret8_cmpk_globvar_frame_ret64",
    "ret8_cmpk_globvar_frame_uleq"
   ]
@@ -23564,6 +23655,7 @@
    "uleq",
    "cmpk_retthis_frame_calledon_ret64_uleq",
    "cmpk_retthis_frame",
+   "ret64_calledon",
    "cmpk_retthis_frame_ret64",
    "cmpk_retthis_frame_uleq"
   ]
@@ -23686,6 +23778,7 @@
    "ret64",
    "retthis_globvar_frame_calledon_ret64",
    "retthis_globvar_frame",
+   "ret64_calledon",
    "retthis_globvar_frame_ret64"
   ],
   "rule_identical": "calledon0",
@@ -23848,7 +23941,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ]
  },
  "0x1013FBE0": {
@@ -24451,6 +24545,7 @@
    "uleq",
    "ret8_ge0_globvar_calledon_ret64_uleq",
    "ret8_ge0_globvar",
+   "ret64_calledon",
    "ret8_ge0_globvar_ret64",
    "ret8_ge0_globvar_uleq"
   ]
@@ -24525,7 +24620,9 @@
    "calledon",
    "cmpk_globvar_calledon",
    "cmpk_globvar"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10154570": {
   "verdict": "DIFFERS",
@@ -24545,6 +24642,7 @@
    "uleq",
    "ge0_cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar_frame",
+   "ret64_calledon",
    "ge0_cmpk_globvar_frame_ret64",
    "ge0_cmpk_globvar_frame_retnarrow",
    "ge0_cmpk_globvar_frame_uleq"
@@ -25166,6 +25264,7 @@
    "retnarrow",
    "uleq",
    "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow",
    "globvar_uleq"
@@ -25366,6 +25465,7 @@
    "ret64",
    "uleq",
    "retthis_calledon_ret64_uleq",
+   "ret64_calledon",
    "retthis_ret64",
    "retthis_uleq",
    "sametu"
@@ -25423,6 +25523,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow",
    "cmpk_globvar_uleq"
@@ -25914,6 +26015,7 @@
    "ret64",
    "retnarrow",
    "frame_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "frame_ret64",
    "frame_retnarrow"
   ]
@@ -25932,6 +26034,7 @@
    "xiany",
    "cmpk_globvar_calledon_retnarrow_uleq_xiany",
    "cmpk_globvar",
+   "xiany_calledon",
    "cmpk_globvar_retnarrow",
    "cmpk_globvar_uleq",
    "cmpk_globvar_xiany",
@@ -26022,6 +26125,7 @@
    "uleq",
    "cmpk_retthis_calledon_ret64_uleq",
    "cmpk_retthis",
+   "ret64_calledon",
    "cmpk_retthis_ret64",
    "cmpk_retthis_uleq"
   ]
@@ -26060,6 +26164,7 @@
    "ret64",
    "retthis_frame_calledon_ret64",
    "retthis_frame",
+   "ret64_calledon",
    "retthis_frame_ret64"
   ]
  },
@@ -26076,6 +26181,7 @@
    "retnarrow",
    "uleq",
    "frame_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "frame_ret64",
    "frame_retnarrow",
    "frame_uleq"
@@ -26128,6 +26234,7 @@
    "uleq",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq"
@@ -26186,6 +26293,7 @@
    "retnarrow",
    "uleq",
    "frame_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "frame_ret64",
    "frame_retnarrow",
    "frame_uleq"
@@ -26214,6 +26322,7 @@
    "retnarrow",
    "uleq",
    "frame_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "frame_ret64",
    "frame_retnarrow",
    "frame_uleq"
@@ -26267,6 +26376,7 @@
    "uleq",
    "ret8_globvar_frame_calledon_ret64_uleq",
    "ret8_globvar_frame",
+   "ret64_calledon",
    "ret8_globvar_frame_ret64",
    "ret8_globvar_frame_uleq"
   ]
@@ -26287,6 +26397,7 @@
    "uleq",
    "ret8_globvar_frame_calledon_ret64_uleq",
    "ret8_globvar_frame",
+   "ret64_calledon",
    "ret8_globvar_frame_ret64",
    "ret8_globvar_frame_uleq"
   ]
@@ -26307,6 +26418,7 @@
    "uleq",
    "ret8_globvar_frame_calledon_ret64_uleq",
    "ret8_globvar_frame",
+   "ret64_calledon",
    "ret8_globvar_frame_ret64",
    "ret8_globvar_frame_uleq"
   ]
@@ -26344,7 +26456,8 @@
    "calledon",
    "ret64",
    "uleq",
-   "calledon_ret64_uleq"
+   "calledon_ret64_uleq",
+   "ret64_calledon"
   ]
  },
  "0x1015EE20": {
@@ -26357,7 +26470,8 @@
    "ret64",
    "retnarrow",
    "uleq",
-   "calledon_ret64_retnarrow_uleq"
+   "calledon_ret64_retnarrow_uleq",
+   "ret64_calledon"
   ]
  },
  "0x1015EE40": {
@@ -26399,6 +26513,7 @@
    "ret64",
    "retthis_frame_calledon_ret64",
    "retthis_frame",
+   "ret64_calledon",
    "retthis_frame_ret64"
   ]
  },
@@ -26883,6 +26998,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -26895,7 +27011,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ]
  },
  "0x10162FE0": {
@@ -26938,7 +27055,9 @@
    "uleq",
    "retthis_calledon_uleq",
    "retthis_uleq"
-  ]
+  ],
+  "rule_identical": "calledon2",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101630E0": {
   "verdict": "DIFFERS",
@@ -27127,6 +27246,7 @@
    "uleq",
    "ret8_ge0_globvar_calledon_ret64_uleq",
    "ret8_ge0_globvar",
+   "ret64_calledon",
    "ret8_ge0_globvar_ret64",
    "ret8_ge0_globvar_uleq"
   ]
@@ -27308,6 +27428,7 @@
    "uleq",
    "ret8_ge0_cmpk_globvar_frame_float_calledon_ret64_uleq",
    "ret8_ge0_cmpk_globvar_frame_float",
+   "ret64_calledon",
    "ret8_ge0_cmpk_globvar_frame_float_ret64",
    "ret8_ge0_cmpk_globvar_frame_float_uleq"
   ]
@@ -27400,6 +27521,7 @@
    "uleq",
    "ge0_cmpk_globvar_frame_float_calledon_ret64_uleq",
    "ge0_cmpk_globvar_frame_float",
+   "ret64_calledon",
    "ge0_cmpk_globvar_frame_float_ret64",
    "ge0_cmpk_globvar_frame_float_uleq"
   ]
@@ -27653,6 +27775,7 @@
    "xiany",
    "retthis_globvar_frame_float_calledon_xiany",
    "retthis_globvar_frame_float",
+   "xiany_calledon",
    "retthis_globvar_frame_float_xiany"
   ]
  },
@@ -27665,7 +27788,9 @@
    "calledon",
    "retnarrow",
    "calledon_retnarrow"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101779C0": {
   "verdict": "DIFFERS",
@@ -27736,6 +27861,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -27901,7 +28027,8 @@
    "retnarrow",
    "uleq",
    "xiany",
-   "calledon_retnarrow_uleq_xiany"
+   "calledon_retnarrow_uleq_xiany",
+   "xiany_calledon"
   ]
  },
  "0x1017B1E0": {
@@ -29180,6 +29307,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow",
    "cmpk_globvar_uleq"
@@ -29880,6 +30008,7 @@
    "uleq",
    "globvar_frame_calledon_ret64_uleq",
    "globvar_frame",
+   "ret64_calledon",
    "globvar_frame_ret64",
    "globvar_frame_uleq"
   ]
@@ -29914,6 +30043,7 @@
    "retnarrow",
    "uleq",
    "cmpk_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "cmpk_ret64",
    "cmpk_retnarrow",
    "cmpk_uleq"
@@ -29991,6 +30121,7 @@
    "retnarrow",
    "cmpk_globvar_frame_calledon_ret64_retnarrow",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow"
   ]
@@ -31368,6 +31499,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -31382,7 +31514,12 @@
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets _FUN_101953D0 (0x101953D0), the game 0x76418332",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101AB730": {
   "verdict": "IDENTICAL",
@@ -31604,6 +31741,7 @@
    "retnarrow",
    "cmpk_frame_calledon_ret64_retnarrow",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow"
   ]
@@ -31748,6 +31886,7 @@
    "uleq",
    "cmpk_retthis_globvar_calledon_ret64_uleq",
    "cmpk_retthis_globvar",
+   "ret64_calledon",
    "cmpk_retthis_globvar_ret64",
    "cmpk_retthis_globvar_uleq"
   ]
@@ -31776,7 +31915,9 @@
    "calledon",
    "retnarrow",
    "calledon_retnarrow"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101ADBE0": {
   "verdict": "DIFFERS",
@@ -31808,10 +31949,13 @@
    "retnarrow",
    "uleq",
    "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow",
    "globvar_uleq"
-  ]
+  ],
+  "rule_identical": "ret64_calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101ADE00": {
   "verdict": "DIFFERS",
@@ -33478,6 +33622,7 @@
    "uleq",
    "ge0_cmpk_globvar_calledon_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar",
+   "ret64_calledon",
    "ge0_cmpk_globvar_ret64",
    "ge0_cmpk_globvar_retnarrow",
    "ge0_cmpk_globvar_uleq"
@@ -33563,6 +33708,7 @@
    "uleq",
    "ge0_cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar_frame",
+   "ret64_calledon",
    "ge0_cmpk_globvar_frame_ret64",
    "ge0_cmpk_globvar_frame_retnarrow",
    "ge0_cmpk_globvar_frame_uleq"
@@ -33585,6 +33731,7 @@
    "uleq",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq"
@@ -33609,6 +33756,7 @@
    "uleq",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar_frame",
+   "ret64_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq"
@@ -33873,6 +34021,7 @@
    "uleq",
    "xiany",
    "globvar_calledon_retnarrow_uleq_xiany",
+   "xiany_calledon",
    "globvar_retnarrow",
    "globvar_uleq",
    "globvar_xiany"
@@ -34005,6 +34154,8 @@
    "xiany",
    "retthis_globvar_frame_calledon_ret64_uleq_xiany",
    "retthis_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "retthis_globvar_frame_ret64",
    "retthis_globvar_frame_uleq",
    "retthis_globvar_frame_xiany"
@@ -34180,7 +34331,9 @@
    "calledon",
    "retnarrow",
    "calledon_retnarrow"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C4AE0": {
   "verdict": "DIFFERS",
@@ -34191,7 +34344,9 @@
    "retthis",
    "calledon",
    "retthis_calledon"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C4AF0": {
   "verdict": "IDENTICAL",
@@ -34232,7 +34387,9 @@
    "retthis",
    "calledon",
    "retthis_calledon"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C4C70": {
   "verdict": "IDENTICAL",
@@ -34267,7 +34424,9 @@
    "calledon",
    "retnarrow",
    "calledon_retnarrow"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x101C4D10": {
   "verdict": "IDENTICAL",
@@ -34854,6 +35013,7 @@
    "uleq",
    "ret8_cmpk_calledon_ret64_uleq",
    "ret8_cmpk",
+   "ret64_calledon",
    "ret8_cmpk_ret64",
    "ret8_cmpk_uleq"
   ]
@@ -34873,7 +35033,8 @@
    "calledon",
    "ret64",
    "retnarrow",
-   "calledon_ret64_retnarrow"
+   "calledon_ret64_retnarrow",
+   "ret64_calledon"
   ],
   "rule_identical": "ret64",
   "rule_verdict": "IDENTICAL"
@@ -34893,7 +35054,8 @@
    "calledon",
    "ret64",
    "retnarrow",
-   "calledon_ret64_retnarrow"
+   "calledon_ret64_retnarrow",
+   "ret64_calledon"
   ],
   "rule_identical": "ret64",
   "rule_verdict": "IDENTICAL"
@@ -35201,6 +35363,7 @@
    "uleq",
    "cmpk_frame_calledon_ret64_retnarrow_uleq",
    "cmpk_frame",
+   "ret64_calledon",
    "cmpk_frame_ret64",
    "cmpk_frame_retnarrow",
    "cmpk_frame_uleq"
@@ -35364,6 +35527,7 @@
    "xiany",
    "ret8_globvar_frame_calledon_uleq_xiany",
    "ret8_globvar_frame",
+   "xiany_calledon",
    "ret8_globvar_frame_uleq",
    "ret8_globvar_frame_xiany"
   ]
@@ -35450,6 +35614,7 @@
    "calledon",
    "ret64",
    "globvar_calledon_ret64",
+   "ret64_calledon",
    "globvar_ret64"
   ]
  },
@@ -36219,6 +36384,7 @@
    "uleq",
    "retthis_globvar_calledon_ret64_uleq",
    "retthis_globvar",
+   "ret64_calledon",
    "retthis_globvar_ret64",
    "retthis_globvar_uleq"
   ]
@@ -36753,6 +36919,7 @@
    "uleq",
    "ge0_cmpk_globvar_calledon_ret64_uleq",
    "ge0_cmpk_globvar",
+   "ret64_calledon",
    "ge0_cmpk_globvar_ret64",
    "ge0_cmpk_globvar_uleq"
   ]
@@ -36800,6 +36967,7 @@
    "retnarrow",
    "cmpk_globvar_calledon_ret64_retnarrow",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow"
   ]
@@ -37102,6 +37270,7 @@
    "retnarrow",
    "uleq",
    "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow",
    "globvar_uleq"
@@ -37118,10 +37287,11 @@
    "ret64",
    "retnarrow",
    "globvar_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow"
   ],
-  "rule_identical": "calledon5",
+  "rule_identical": "calledon4",
   "rule_verdict": "IDENTICAL"
  },
  "0x10211370": {
@@ -37165,6 +37335,7 @@
    "calledon",
    "ret64",
    "globvar_calledon_ret64",
+   "ret64_calledon",
    "globvar_ret64"
   ],
   "rule_identical": "ret64",
@@ -37892,6 +38063,7 @@
    "uleq",
    "cmpk_retthis_globvar_calledon_ret64_uleq",
    "cmpk_retthis_globvar",
+   "ret64_calledon",
    "cmpk_retthis_globvar_ret64",
    "cmpk_retthis_globvar_uleq"
   ],
@@ -37914,6 +38086,8 @@
    "xiany",
    "cmpk_globvar_frame_calledon_ret64_uleq_xiany",
    "cmpk_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_uleq",
    "cmpk_globvar_frame_xiany"
@@ -37994,6 +38168,7 @@
    "uleq",
    "retthis_globvar_frame_calledon_ret64_uleq",
    "retthis_globvar_frame",
+   "ret64_calledon",
    "retthis_globvar_frame_ret64",
    "retthis_globvar_frame_uleq"
   ]
@@ -38029,6 +38204,8 @@
    "xiany",
    "cmpk_retthis_globvar_frame_calledon_ret64_uleq_xiany",
    "cmpk_retthis_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_retthis_globvar_frame_ret64",
    "cmpk_retthis_globvar_frame_uleq",
    "cmpk_retthis_globvar_frame_xiany"
@@ -38289,7 +38466,12 @@
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets _FUN_102250F0 (0x102250F0), the game 0x20889CB5",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10222E20": {
   "verdict": "DIFFERS",
@@ -38441,6 +38623,7 @@
    "uleq",
    "ge0_retthis_globvar_frame_calledon_ret64_uleq",
    "ge0_retthis_globvar_frame",
+   "ret64_calledon",
    "ge0_retthis_globvar_frame_ret64",
    "ge0_retthis_globvar_frame_uleq"
   ]
@@ -38612,6 +38795,7 @@
    "uleq",
    "ge0_retthis_globvar_calledon_ret64_uleq",
    "ge0_retthis_globvar",
+   "ret64_calledon",
    "ge0_retthis_globvar_ret64",
    "ge0_retthis_globvar_uleq"
   ]
@@ -38620,7 +38804,12 @@
   "verdict": "DIFFERS",
   "why": "+1: REL32 targets _FUN_10226E30 (0x10226E30), the game 0x2088D589",
   "conv": "__cdecl",
-  "size": 16
+  "size": 16,
+  "rules_tried": [
+   "calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10226550": {
   "verdict": "IDENTICAL",
@@ -38683,6 +38872,7 @@
    "uleq",
    "ge0_retthis_globvar_calledon_ret64_uleq",
    "ge0_retthis_globvar",
+   "ret64_calledon",
    "ge0_retthis_globvar_ret64",
    "ge0_retthis_globvar_uleq"
   ]
@@ -38718,6 +38908,7 @@
    "uleq",
    "cmpk_globvar_float_calledon_ret64_uleq",
    "cmpk_globvar_float",
+   "ret64_calledon",
    "cmpk_globvar_float_ret64",
    "cmpk_globvar_float_uleq"
   ]
@@ -38738,6 +38929,7 @@
    "xiany",
    "cmpk_globvar_frame_calledon_retnarrow_uleq_xiany",
    "cmpk_globvar_frame",
+   "xiany_calledon",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq",
    "cmpk_globvar_frame_xiany"
@@ -38778,6 +38970,7 @@
    "uleq",
    "ge0_cmpk_globvar_frame_float_calledon_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar_frame_float",
+   "ret64_calledon",
    "ge0_cmpk_globvar_frame_float_ret64",
    "ge0_cmpk_globvar_frame_float_retnarrow",
    "ge0_cmpk_globvar_frame_float_uleq"
@@ -38838,6 +39031,7 @@
    "calledon",
    "ret64",
    "globvar_calledon_ret64",
+   "ret64_calledon",
    "globvar_ret64"
   ]
  },
@@ -38979,6 +39173,7 @@
    "uleq",
    "ge0_retthis_globvar_frame_calledon_ret64_uleq",
    "ge0_retthis_globvar_frame",
+   "ret64_calledon",
    "ge0_retthis_globvar_frame_ret64",
    "ge0_retthis_globvar_frame_uleq"
   ]
@@ -39134,6 +39329,7 @@
    "uleq",
    "ge0_cmpk_globvar_frame_calledon_ret64_retnarrow_uleq",
    "ge0_cmpk_globvar_frame",
+   "ret64_calledon",
    "ge0_cmpk_globvar_frame_ret64",
    "ge0_cmpk_globvar_frame_retnarrow",
    "ge0_cmpk_globvar_frame_uleq"
@@ -39508,8 +39704,11 @@
    "calledon",
    "ret64",
    "retnarrow",
-   "calledon_ret64_retnarrow"
-  ]
+   "calledon_ret64_retnarrow",
+   "ret64_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10246030": {
   "verdict": "DIFFERS",
@@ -39522,6 +39721,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -39548,7 +39748,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ],
   "rule_identical": "calledon0",
   "rule_verdict": "IDENTICAL"
@@ -39562,8 +39763,11 @@
    "calledon",
    "ret64",
    "retnarrow",
-   "calledon_ret64_retnarrow"
-  ]
+   "calledon_ret64_retnarrow",
+   "ret64_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102463C0": {
   "verdict": "DIFFERS",
@@ -39573,7 +39777,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ],
   "rule_identical": "calledon0",
   "rule_verdict": "IDENTICAL"
@@ -39590,6 +39795,7 @@
    "retnarrow",
    "uleq",
    "globvar_calledon_ret64_retnarrow_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow",
    "globvar_uleq"
@@ -39612,6 +39818,8 @@
    "xiany",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq_xiany",
    "cmpk_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq",
@@ -39626,8 +39834,11 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
-  ]
+   "calledon_ret64",
+   "ret64_calledon"
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102467A0": {
   "verdict": "DIFFERS",
@@ -39637,7 +39848,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ],
   "rule_identical": "calledon0",
   "rule_verdict": "IDENTICAL"
@@ -39650,7 +39862,8 @@
   "rules_tried": [
    "calledon",
    "ret64",
-   "calledon_ret64"
+   "calledon_ret64",
+   "ret64_calledon"
   ],
   "rule_identical": "calledon0",
   "rule_verdict": "IDENTICAL"
@@ -40210,6 +40423,7 @@
    "uleq",
    "xiany",
    "globvar_calledon_retnarrow_uleq_xiany",
+   "xiany_calledon",
    "globvar_retnarrow",
    "globvar_uleq",
    "globvar_xiany"
@@ -40527,6 +40741,8 @@
    "uleq",
    "xiany",
    "globvar_calledon_ret64_retnarrow_uleq_xiany",
+   "ret64_calledon",
+   "xiany_calledon",
    "globvar_ret64",
    "globvar_retnarrow",
    "globvar_uleq",
@@ -40721,7 +40937,9 @@
    "globvar_calledon_retnarrow_uleq",
    "globvar_retnarrow",
    "globvar_uleq"
-  ]
+  ],
+  "rule_identical": "calledon1",
+  "rule_verdict": "IDENTICAL"
  },
  "0x102532E0": {
   "verdict": "IDENTICAL",
@@ -40798,7 +41016,9 @@
    "calledon",
    "uleq",
    "globvar_uleq"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10253620": {
   "verdict": "IDENTICAL",
@@ -40816,7 +41036,9 @@
    "calledon",
    "uleq",
    "globvar_uleq"
-  ]
+  ],
+  "rule_identical": "calledon0",
+  "rule_verdict": "IDENTICAL"
  },
  "0x10253670": {
   "verdict": "LEFT_OUT",
@@ -41355,6 +41577,7 @@
    "xiany",
    "globvar_frame_calledon_retnarrow_uleq_xiany",
    "globvar_frame",
+   "xiany_calledon",
    "globvar_frame_retnarrow",
    "globvar_frame_uleq",
    "globvar_frame_xiany"
@@ -41477,7 +41700,8 @@
    "ret64",
    "retnarrow",
    "uleq",
-   "calledon_ret64_retnarrow_uleq"
+   "calledon_ret64_retnarrow_uleq",
+   "ret64_calledon"
   ]
  },
  "0x1025AA90": {
@@ -41919,6 +42143,8 @@
    "xiany",
    "retthis_globvar_frame_calledon_ret64_xiany",
    "retthis_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "retthis_globvar_frame_ret64",
    "retthis_globvar_frame_xiany"
   ]
@@ -42168,6 +42394,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_retnarrow_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow",
    "cmpk_globvar_uleq"
@@ -43131,6 +43358,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq"
   ]
@@ -43625,6 +43853,7 @@
    "ret64",
    "globvar_float_calledon_ret64",
    "globvar_float",
+   "ret64_calledon",
    "globvar_float_ret64"
   ]
  },
@@ -44599,6 +44828,7 @@
    "retnarrow",
    "cmpk_globvar_calledon_ret64_retnarrow",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_retnarrow"
   ]
@@ -44614,6 +44844,7 @@
    "ret64",
    "retnarrow",
    "globvar_calledon_ret64_retnarrow",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_retnarrow"
   ]
@@ -44636,6 +44867,8 @@
    "xiany",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_uleq_xiany",
    "cmpk_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_uleq",
@@ -44818,6 +45051,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq",
    "sametu"
@@ -44836,6 +45070,7 @@
    "uleq",
    "cmpk_globvar_calledon_ret64_uleq",
    "cmpk_globvar",
+   "ret64_calledon",
    "cmpk_globvar_ret64",
    "cmpk_globvar_uleq",
    "sametu"
@@ -45375,6 +45610,7 @@
    "ret64",
    "uleq",
    "globvar_calledon_ret64_uleq",
+   "ret64_calledon",
    "globvar_ret64",
    "globvar_uleq"
   ]
@@ -45858,6 +46094,8 @@
    "xiany",
    "cmpk_globvar_frame_calledon_ret64_retnarrow_xiany",
    "cmpk_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "cmpk_globvar_frame_ret64",
    "cmpk_globvar_frame_retnarrow",
    "cmpk_globvar_frame_xiany"
@@ -45989,6 +46227,8 @@
    "xiany",
    "globvar_frame_calledon_ret64_retnarrow_uleq_xiany",
    "globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "globvar_frame_ret64",
    "globvar_frame_retnarrow",
    "globvar_frame_uleq",
@@ -46013,6 +46253,8 @@
    "xiany",
    "ge0_cmpk_globvar_frame_calledon_ret64_uleq_xiany",
    "ge0_cmpk_globvar_frame",
+   "ret64_calledon",
+   "xiany_calledon",
    "ge0_cmpk_globvar_frame_ret64",
    "ge0_cmpk_globvar_frame_uleq",
    "ge0_cmpk_globvar_frame_xiany"

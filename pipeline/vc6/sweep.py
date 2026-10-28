@@ -413,7 +413,7 @@ def class_fields(cls):
 
 
 # the shim's inline functions (and HELPERS), by their decorated names
-SHIM_HELPER = re.compile(r'^\?\?0XI_ANY@@|^\?xi_castbits_@@|^_?(?:builtin_strncpy|xi_k4|xi_k8)$|^\?(?:builtin_strncpy|xi_k4|xi_k8|xi_b32|xi_b64)@@')
+SHIM_HELPER = re.compile(r'^\?\?0XI_ADJ_[0-9A-F]{8}@@|^\?\?0XI_ANY@@|^\?xi_castbits_@@|^_?(?:builtin_strncpy|xi_k4|xi_k8)$|^\?(?:builtin_strncpy|xi_k4|xi_k8|xi_b32|xi_b64)@@')
 FTOL = 0x10311C2C          # LIBC.LIB's __ftol, the same 39 bytes at this address (checked by ftol_check below)
 _ADDRS = None
 
@@ -1033,6 +1033,38 @@ def _rule_pushinit(text, ret, name):
     return t if t != text else None
 
 
+def _rule_adjthunk(text, ret, name):
+    """an adjustor thunk: a method that is only a call of another on `this - K` (`sub ecx, K; jmp f`) is what VC6
+    emits itself, not a statement, for a virtual function a class overrides for two bases, the second at offset K
+    (?f@D@@W..@: `[thunk]: D::f adjustor{K}`). Written as such a class -- a first base of K bytes, a second, both
+    declaring f, D overriding it -- whose constructor (a shim helper, so that the vtables and the thunk are emitted)
+    is the only other function; f is named fn_<target>, the address match.py compares the jump against (0x10043DB0)"""
+    i = text.find('\n{\n')
+    if i < 0 or 'XS::' not in text: return None
+    body = text[i + 3:text.rstrip().rfind('}')]
+    body = re.sub(r'(?m)^\s*(?:void \*|\w+ \* )self_ = (?:this|reinterpret_cast<\w+ \*>\(this\));.*$', '', body).strip()
+    body = re.sub(r'\s*return;$', '', body)
+    # one statement, one call, to X (the decompiler prints the object as `this - K`, `self_ - N` through a typed
+    # view, or drops it): K and X are the game's own `sub ecx, K; jmp X` (83 E9 K E9 rel32), the call's X the same
+    xs = re.findall(r'\b(?:FUNt_|FUN_)([0-9A-F]{8})\b', body)
+    if body.count(';') != 1 or len(xs) != 1: return None
+    ea = _ea_of(name)
+    if ea is None: return None
+    global _IMG
+    import pefile
+    if _IMG is None: _IMG = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+    b = bytes(_IMG[ea - 0x10000000:ea - 0x10000000 + 8])
+    if b[:2] != b'\x83\xe9' or b[3] != 0xE9 or ea + 8 + int.from_bytes(b[4:8], 'little', signed=True) != int(xs[0], 16): return None
+    a, k = xs[0], b[2]
+    if not 4 <= k < 0x80 or k % 4: return None
+    pad = ' char pad[%d];' % (k - 4) if k > 4 else ''
+    return ('#include "vc6_shim.h"\n'
+            'struct XI_ADJB1_%s { virtual void fn_%s();%s };\n' % (a, a, pad) +
+            'struct XI_ADJB2_%s { virtual void fn_%s(); };\n' % (a, a) +
+            'struct XI_ADJ_%s : XI_ADJB1_%s, XI_ADJB2_%s { void fn_%s(); XI_ADJ_%s(); };\n' % (a, a, a, a, a) +
+            'XI_ADJ_%s::XI_ADJ_%s() {}\n' % (a, a))
+
+
 _INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
 
 
@@ -1197,13 +1229,19 @@ def _rule_devlocal(text, ret, name):
 
 _ECXUSE = None
 _EA_OF_NAME = {}               # function name -> address, for rules that read the game's bytes (main fills it)
+_CUR_EA = None                 # the address of the function the rules are applied to (names repeat: vf001)
+
+
+def _ea_of(name):
+    return _CUR_EA if _CUR_EA is not None else _EA_OF_NAME.get(name)
+
 _IMG = None
 def _ecx_objects(name, callees):
     """the objects the game itself puts in ECX before its calls to `callees` in function `name`: a global's value
     (`mov ecx, [G]`) or a global's address (`mov ecx, G`), from the game's bytes; the decompiler drops them, so the
     text cannot name them"""
     global _IMG
-    ea = _EA_OF_NAME.get(name)
+    ea = _ea_of(name)
     if ea is None: return []
     import capstone, pefile
     if _IMG is None: _IMG = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
@@ -1388,11 +1426,15 @@ RULES = [
     ('shiftmask', _rule_shiftmask),
     ('storem1', _rule_storem1),
     ('pushinit', _rule_pushinit),
+    ('adjthunk', _rule_adjthunk),
 ]
 
 
-def apply_rules(text, ret, name):
-    """[(rule, text)] for every rule that changes the text, and every rule together"""
+def apply_rules(text, ret, name, ea=None):
+    """[(rule, text)] for every rule that changes the text, and every rule together; ea, the function's address, for
+    the rules that read the game's bytes"""
+    global _CUR_EA
+    _CUR_EA = ea
     out, t_all, names = [], text, []
     for rn, f in RULES:
         t = f(text, ret, name)
@@ -1764,7 +1806,7 @@ def main():
         for ea, fn, cc in files:
             if res['0x%08X' % ea]['verdict'] != 'DIFFERS': continue
             text = open(os.path.join(d, fn)).read()
-            for rn, t in apply_rules(text, *sig[ea]):
+            for rn, t in apply_rules(text, *sig[ea], ea=ea):
                 ext_ = os.path.splitext(fn)[1]
                 if 'calledon' in rn and ext_ == '.c': ext_ = '.cpp'     # a member call needs C++
                 vf = 'f_%08X_%s%s' % (ea, rn, ext_); open(os.path.join(d, vf), 'w').write(t)
@@ -1799,7 +1841,7 @@ def main():
             callees = sorted({int(s[1], 16) for s in live['0x%08X' % ea]['sites']})
             if not all(c in srcs for c in callees): continue
             text = open(os.path.join(d, fn)).read()
-            texts = [('', text)] + [('_' + rn, t) for rn, t in apply_rules(text, *sig[ea])]
+            texts = [('', text)] + [('_' + rn, t) for rn, t in apply_rules(text, *sig[ea], ea=ea)]
             for rn, t in texts:
                 for c in callees:
                     t = t and same_file(t, fn, c, open(os.path.join(d, srcs[c])).read(), srcs[c])

@@ -59,7 +59,8 @@
    "in_tree": true
   },
   "0x1000A6E0": {
-   "bytes": "NO_COMPILE",
+   "by": "recompile/d3d_1000A6E0.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": true
   },
@@ -493,7 +494,8 @@
    "in_tree": false
   },
   "0x10025260": {
-   "bytes": "NO_COMPILE",
+   "by": "recompile/d3dcaller_r121.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": true,
    "in_tree": true
   },
@@ -733,7 +735,8 @@
    "in_tree": false
   },
   "0x100764C0": {
-   "bytes": "not in the tree",
+   "by": "recompile/d3dcaller_r121.cpp",
+   "bytes": "IDENTICAL",
    "frame_set": false,
    "in_tree": false
   },

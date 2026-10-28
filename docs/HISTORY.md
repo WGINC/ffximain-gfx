@@ -3742,3 +3742,15 @@ CXiActor and CXiControlActor floats); hx2clean.py declares them as it declares t
 Medium-confidence names (15) go to data/field_names.json. D3DMATRIX and D3DCAPS8 added to pipeline/xi_d3d8.hpp from
 MinGW-w64's d3d8types.h / d3d8caps.h (64 and 212 bytes, the SDK's sizes). Until the r15 tree is gated and installed,
 verify_all's tree-regen reports the difference these make against the installed r14 tree.
+
+**A C++ permuter (28 Oct).** decomp-permuter takes C only (pycparser): of the 15 C-convention render-core misses, 14
+are compiled as C++ by the sweep, so permute.py has 1 to work on. pipeline/vc6/mutate.py (abb3595) was a first,
+line-level try (8 rewrites): 0x10043590 79 to 68 lines in 120 tries, 0x1006A020 unmoved. The owner pointed to
+cpp_permuter (github.com/CriminalRETeam/cpp_permuter, MIT, built for MSVC 6 matching in gta2_re): it parses the
+function and has 33 passes, among them the quirks found by hand here (`negate_const`: sub vs add -N, as the
+this-adjusting thunks; `use_getter`; `chain_assign`; `branch_dup`; `early_return`; `scope_block`), an exhaustive mode,
+checkpoints. It is the better tool; pipeline/vc6/cpp_perm.py runs it with VC6 (match.py's cl) and scores against the
+game's bytes as mdiff.py counts, 0 only where match.py says IDENTICAL. Base score of 0x10043590: 79, as mdiff.py.
+Kept outside the repo (CPP_PERMUTER=, a build of the checkout), as decomp-permuter is.
+tree_round.py regen now carries tree/source.json's given drops into the round (r15's first regen had let the three
+switch cases back in).

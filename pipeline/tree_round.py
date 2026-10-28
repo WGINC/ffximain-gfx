@@ -47,12 +47,14 @@ def order(o):
 
 
 def regen(o):
-    _, _, exps = order(o)
+    s, _, exps = order(o)
     env = dict(os.environ)
+    f = o.out.rstrip('/') + '.given_drop.json'
+    given = dict(s.get('given_drop') or {})    # the installed tree's drops carry over (verify_all passes the same)
     if o.drop:                     # XI_DROP is a file {ea: why} (hx2clean.py, drop_failed.py); OUT itself is rebuilt
         if not o.why: sys.exit('--drop needs --why (the reason left_out.json gives)')
-        f = o.out.rstrip('/') + '.given_drop.json'
-        json.dump({n(a): 'left out: ' + o.why for a in o.drop}, open(f, 'w'), indent=1); env['XI_DROP'] = f
+        given.update({n(a): 'left out: ' + o.why for a in o.drop})
+    if given: json.dump(given, open(f, 'w'), indent=1); env['XI_DROP'] = f
     env.setdefault('XI_REGATE', R('verification', 'gate_raw_regate.jsonl'))
     cmd = [R('pipeline', 'regen_clean.sh'), ','.join(e for e, _ in exps), ','.join(g for _, g in exps), o.out]
     print(' '.join(cmd)); sys.exit(subprocess.call(cmd, cwd=ROOT, env=env))

@@ -37,6 +37,7 @@ def _head_params(text):
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 PS2_NAMES = {}
+GENOXD_NAMES = {}              # ffxi_hide_ui's names (data/genoxd_scan.json, docs/COMMUNITY.md), by address
 REVIEWED = {}                  # reviewed_names(): this repository's reviewed names, by address
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
          'unsigned __int16': 2, '_DWORD': 4, 'int': 4, 'float': 4, 'unsigned int': 4, '__int32': 4,
@@ -406,6 +407,11 @@ def reviewed_names():
 def main(exp, gate, manf, incdir, outdir):
     R = {}
     PS2_NAMES.update(ps2_names()); REVIEWED.update(reviewed_names())
+    _gx = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'genoxd_scan.json')
+    if os.path.exists(_gx):       # a function its pattern locates (at a function start), named kSigX: UI_X
+        for a, recs in json.load(open(_gx)).get('functions', {}).items():
+            nm = [r['name'] for r in recs if r.get('source') == 'ffxi_hide_ui' and r['name'].startswith('kSig')]
+            if len(nm) == 1: GENOXD_NAMES[int(a, 16)] = 'UI_' + nm[0][4:]
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     # EXP and GATE may each be a comma-separated list: the IDA export first, then Ghidra exports (GfxExport.java) of
     # functions it does not hold; a later record of an address already read is ignored
@@ -467,6 +473,8 @@ def main(exp, gate, manf, incdir, outdir):
         rv = REVIEWED.get('0x%08X' % r['ea'])
         if rv and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', rv['name']):
             r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
+        if PLACEHOLDER.match(r['name']) and r['ea'] in GENOXD_NAMES:
+            r['name'] = GENOXD_NAMES[r['ea']]        # ffxi_hide_ui's name (genoxd_scan.py), where ours is a placeholder
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
         if r.get('ghidra') and r['name'] != _gname0 and re.match(r'^[A-Za-z_]\w*$', r['name']):

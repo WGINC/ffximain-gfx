@@ -1,0 +1,30 @@
+/* 0x102827D0 at the game's bytes: pipeline/vc6/sweep.py's source of it as the tree writes it, unchanged but for this note and the
+   mark below (pipeline/vc6/emit_identical.py). Its record: an alternative decompiler export's text for this function (not the one the tree takes); the bytes are its proof. */
+#include "vc6_shim.h"
+#define g_pDancerDevice (*(int * *)0x1066941Cu)
+#define g_pSqgxContext (*(int *)0x1099D200u)
+// FUNCTION: FFXIMAIN 0x102827D0
+void __cdecl Unit102822A0_SetMultiplyAdd(void)
+{
+  if (*(int *)(g_pSqgxContext + 0xb18) == 0) {
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 200))))(g_pDancerDevice,0x1b,1);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 200))))(g_pDancerDevice,0xab,1);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 200))))(g_pDancerDevice,0x13,2);
+    ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 200))))(g_pDancerDevice,0x14,2);
+    return;
+  }
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))))(g_pDancerDevice,*(int *)(g_pSqgxContext + 0xb18),1,0x19);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),0x1a,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),3,2);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),2,0x20);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),4,2);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),5,1);
+  ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*g_pDancerDevice + 0xfc))
+            ))(g_pDancerDevice,*(undefined4 *)(g_pSqgxContext + 0xb18),6,2);
+  return;
+}

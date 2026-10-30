@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1018AD50  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit1018AD50_GetField4(void * self_)
 {
   return *(uint32_t *)((int)self_ + 4);
 }
 
 // FUNCTION: FFXIMAIN 0x1018AD60  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit1018AD50_SetField10Of4(void * self_, undefined4 param_1)
 {
   *(uint32_t *)(*(int *)((int)self_ + 4) + 0x10) = param_1;
@@ -18,7 +18,7 @@ XI_API void __thiscall Unit1018AD50_SetField10Of4(void * self_, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x1018AD80  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Blend_FindPrevious(void * self_)
 {
   void *pvVar1;
@@ -38,7 +38,7 @@ XI_API void * __thiscall Blend_FindPrevious(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018ADA0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Blend_FreeResult(void * self_)
 {
   uint32_t *xi_s1;
@@ -52,7 +52,7 @@ XI_API void __thiscall Blend_FreeResult(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018ADD0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit1018AD50_CallBlendUpdate(void * self_)
 {
   orig::Blend_Update(self_);
@@ -60,7 +60,7 @@ XI_API void __thiscall Unit1018AD50_CallBlendUpdate(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018ADE0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Blend_Update(void * self_)
 {
   int *this_00;
@@ -107,7 +107,7 @@ XI_API void __thiscall Blend_Update(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018AEB0  (unit unit_1018AD50: no unit evidence of its own; in the gap between 0x1018ABF0 (YmCombineWeather) and 0x1018B100 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall Blend_AllocResult(undefined4 xi_s1, undefined4 xi_s2)
 {
   uint32_t *puVar1;

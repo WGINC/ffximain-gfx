@@ -3,7 +3,7 @@
 #include "CMoGeneratorClone_VT_1032B69C.hpp"
 
 // FUNCTION: FFXIMAIN 0x10053840  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char * CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor(char a2)
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -14,7 +14,7 @@ char * CMoGeneratorClone_VT_1032B69C::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100542E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoGeneratorClone_VT_1032B69C::CMoGeneratorClone_GetRuntimeClass()
 {
   return &CMoGeneratorClone_classdesc;

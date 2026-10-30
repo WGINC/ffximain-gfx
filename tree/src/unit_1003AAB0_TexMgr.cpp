@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003AAB0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexMgr_GetField8(void * self_)
 {
   return (int)self_ + 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1003AAF0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __thiscall TexMgr_GetTailLink(void * self_)
 {
   int iVar1;
@@ -24,7 +24,7 @@ XI_API int * __thiscall TexMgr_GetTailLink(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AB70  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __thiscall TexMgr_UploadPumpEntry(void * self_)
 {
   orig::TexMgr_UploadPump(self_);
@@ -32,7 +32,7 @@ XI_API uint8_t __thiscall TexMgr_UploadPumpEntry(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AB80  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexMgr_Enqueue(void * self_, int param_1)
 {
   *(uint32_t *)(param_1 + 0x3c) = 1;
@@ -41,7 +41,7 @@ XI_API void __thiscall TexMgr_Enqueue(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003ABB0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
 {
   int *piVar1;
@@ -88,7 +88,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AEA0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65
+// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexMgr_FindByName(void * self_, int param_1, int param_2, undefined4 param_3)
 {
   int iVar1;

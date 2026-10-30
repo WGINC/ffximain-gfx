@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10273370  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl scnCameraGetInfo(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   if (param_1 == -1) {
@@ -19,7 +19,7 @@ XI_API void __cdecl scnCameraGetInfo(int param_1, undefined4 * param_2, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x102733B0  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
 {
   long double fVar1;
@@ -54,7 +54,7 @@ XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10273490  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68
+// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10272F20_SetCameraEntry(int param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -84,7 +84,7 @@ XI_API void __cdecl Unit10272F20_SetCameraEntry(int param_1, int param_2, int pa
 }
 
 // FUNCTION: FFXIMAIN 0x10273560  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10272F20_UpdateCameraBlend(int param_1)
 {
   int iVar1;
@@ -127,7 +127,7 @@ XI_API void __cdecl Unit10272F20_UpdateCameraBlend(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102736D0  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10272F20_SetVtable1099B138(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
@@ -137,7 +137,7 @@ XI_API void __cdecl Unit10272F20_SetVtable1099B138(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102736E0  (unit unit_10272F20: no unit evidence of its own; in the gap between 0x10272BB0 (cam_%04d) and 0x10273810 (sqmdModel) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10272F20_ApplySceneToModel(undefined4 param_1, int param_2)
 {
   int *piVar1;

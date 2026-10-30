@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1012AC50  (unit YkZip: class model places it in YkZip)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_1012AC50(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10244DF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall YkZip::Construct(void * self)
 {
   orig::Unit100D7420_ClearWords((void *)((int)self + 4));
@@ -24,7 +24,7 @@ void * __thiscall YkZip::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10244E60  (unit YkZip: between 0x10244E50 (class model places it in YkZip) and 0x10244E90 (class model places it in YkZip), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10244E60(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   int iVar1;

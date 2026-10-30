@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10281830  (unit sqgxTexture: name sqgxTextureAdd)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *a4)
 {
   IDirect3DTexture8 *v4;
@@ -86,7 +86,7 @@ XI_API int __cdecl sqgxTextureAdd(int a1, int a2, IDirect3DTexture8 *a3, _BYTE *
 }
 
 // FUNCTION: FFXIMAIN 0x102819C0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqgxTexture_ClearPaletteUsed(int param_1)
 {
   ((uint8_t *)((&g_sqgxPaletteUsed_as_v0)))[param_1] = 0;
@@ -94,7 +94,7 @@ XI_API void __cdecl SqgxTexture_ClearPaletteUsed(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102819D0  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
-// GATE: PASS -- 100 trials, 49 returned normally, 49 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 49
+// GATE: PASS -- 100 trials, 49 returned normally, 49 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 {
   signed int i;
@@ -127,7 +127,7 @@ XI_API int __cdecl sqgxTextureClutAdd(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10281A70  (unit sqgxTexture: between 0x10281830 (name sqgxTextureAdd) and 0x10281B60 (name sqgxTextureGetSize), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
+// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqgxTexture_FreeSlot(int param_1)
 {
   int *piVar1;
@@ -157,7 +157,7 @@ XI_API void __cdecl SqgxTexture_FreeSlot(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281B60  (unit sqgxTexture: name sqgxTextureGetSize)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxTextureGetSize(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   *param_2 = (&g_sqgxTex_width_as_v0)[param_1 * 10];
@@ -166,7 +166,7 @@ XI_API void __cdecl sqgxTextureGetSize(int param_1, undefined4 * param_2, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x10281C20  (unit sqgxTexture: name sqgxTextureSet)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqgxTextureSet(int param_1)
 {
   int *piVar1;
@@ -180,7 +180,7 @@ XI_API undefined4 __cdecl sqgxTextureSet(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281C50  (unit sqgxTexture: name sqgxTextureDecal)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqgxTextureDecal(undefined4 param_1)
 {
   int iVar1;
@@ -192,7 +192,7 @@ XI_API undefined4 __cdecl sqgxTextureDecal(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281C80  (unit sqgxTexture: name sqgxTextureClamp)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxTextureClamp(undefined4 param_1)
 {
   *(uint32_t *)(g_pSqgxContext_as_s32 + 0x8c8 + *(int *)(g_pSqgxContext_as_s32 + 0xb18) * 4) = param_1;
@@ -202,7 +202,7 @@ XI_API void __cdecl sqgxTextureClamp(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281D60  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 79 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 79 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureClut(int a1)
 {
   int result;
@@ -219,7 +219,7 @@ XI_API int __cdecl sqgxTextureClut(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10281DB0  (unit sqgxTexture: between 0x10281C80 (name sqgxTextureClamp) and 0x10282010 (name sqgxTextureStencilClear), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 1134 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1134 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureUpdate(void)
 {
   int result;
@@ -298,7 +298,7 @@ LABEL_22:
 }
 
 // FUNCTION: FFXIMAIN 0x10282010  (unit sqgxTexture: name sqgxTextureStencilClear)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureStencilClear(int a1)
 {
   return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, _DWORD, _DWORD, int))g_pDancerDevice->lpVtbl->Clear)(
@@ -312,7 +312,7 @@ XI_API int __cdecl sqgxTextureStencilClear(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10282030  (unit sqgxTexture: name sqgxTextureClear)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
 {
   struct IDirect3DDevice8Vtbl *lpVtbl;
@@ -341,7 +341,7 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102820E0  (unit sqgxTexture: between 0x10282030 (name sqgxTextureClear) and 0x10282190 (name sqgxTextureDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 99 returned normally, 193 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 193 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxTextureDrawZ(IDirect3DSurface8 *a1)
 {
   IDirect3DSurface8 *v1;
@@ -377,7 +377,7 @@ XI_API int * __cdecl sqgxTextureDrawZ(IDirect3DSurface8 *a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10282190  (unit sqgxTexture: name sqgxTextureDraw)
-// GATE: PASS -- 100 trials, 100 returned normally, 144 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 144 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxTextureDraw(int a1, char a2)
 {
   int v2;

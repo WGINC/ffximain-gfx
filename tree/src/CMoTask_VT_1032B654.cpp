@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10053350  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoTask_VT_1032B654::ScalarDeletingDtor(char a2)
 {
   orig::CMoTask_VT_1032B654_Destructor(this);
@@ -14,7 +14,7 @@ _DWORD * CMoTask_VT_1032B654::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10054220  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 94 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94
+// GATE: PASS -- 100 trials, 94 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CMoTask_VT_1032B654::RunGeneratorAndFinish(void * self)
 {
   int *piVar1;
@@ -74,14 +74,14 @@ undefined4 __thiscall CMoTask_VT_1032B654::RunGeneratorAndFinish(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10054460  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoTask_VT_1032B654::vf011()
 {
   return (int)orig::CMoGeneratorClone_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x10054470  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoTask_VT_1032B654::vf012(int a1)
 {
   Vt_1032B680 * self = reinterpret_cast<Vt_1032B680 *>(this);  // byte-exact view for the rest

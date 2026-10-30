@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102778C0  (unit unit_102778B0: no unit evidence of its own; in the gap between 0x102778A0 (sqgxContext) and 0x102778F0 (sqsdAnisoCommon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Shader_SetFlagBit0(int param_1, uint32_t param_2)
 {
   *(uint32_t *)(param_1 + 0x68) = *(uint32_t *)(param_1 + 0x68) & 0xfffffffe | param_2 & 0xff;

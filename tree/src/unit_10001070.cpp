@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10001070  (unit unit_10001070: no unit evidence of its own; in the gap between image start and 0x100010F0 (CApp) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 33
+// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall Unit10001070_CallForEachElement(undefined4 param_1, undefined4 param_2, int param_3, uint8_t * param_4)
 {
   int iVar1;

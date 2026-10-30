@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A2530  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 19 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
+// GATE: PASS -- 100 trials, 93 returned normally, 19 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 {
   int *v3;
@@ -94,7 +94,7 @@ XI_API void __cdecl sqsnPlanarShadowDraw(int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2720  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32
+// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102A2530_RenderShadowTexture(int param_1, int param_2)
 {
   int iVar1;
@@ -161,7 +161,7 @@ XI_API void __cdecl Unit102A2530_RenderShadowTexture(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2A30  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Sqgx_SetTextureAt(int param_1, int param_2)
 {
   orig::sqgxTextureSet_v1(*(int *)(*(int *)(param_1 + 0x40) + 0xc + param_2 * 0x30));
@@ -169,7 +169,7 @@ XI_API void __cdecl Sqgx_SetTextureAt(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2A50  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Sqgx_CheckShadowGroupMember(undefined4 param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -191,7 +191,7 @@ XI_API void __cdecl Sqgx_CheckShadowGroupMember(undefined4 param_1, int param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x102A2C00  (unit unit_102A2530: no unit evidence of its own; in the gap between 0x102A2430 (sqsnShadow) and 0x102A3330 (sqrdMaterial) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102A2530_DrawShadowedShape(int param_1, int * param_2, int param_3, int param_4)
 {
   int iVar1;

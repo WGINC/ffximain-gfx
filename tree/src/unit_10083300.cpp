@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10083340  (unit unit_10083300: no unit evidence of its own; in the gap between 0x100832E0 (CXiSkeletonActor) and 0x10083390 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall Unit10083300_GetModelFlag130Bit21(void * self_)
 {
   if (*(int *)((int)self_ + 0x70) != 0) {

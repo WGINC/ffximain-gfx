@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10018840  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit10018840_IsStateFour(void * self_)
 {
   uint32_t xi_entry_eax = 0;
@@ -12,7 +12,7 @@ XI_API undefined4 __thiscall Unit10018840_IsStateFour(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10018A50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75
+// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
 {
   uint32_t *puVar1;
@@ -52,7 +52,7 @@ XI_API void * __thiscall OpeningSubtitle_Constructor(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10018B30  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall OpeningSubtitle_Reset(void * self_)
 {
   if ((*(int **)((int)self_ + 4) != (int *)0x0) && (**(int **)((int)self_ + 4) != 0)) {
@@ -63,7 +63,7 @@ XI_API void __thiscall OpeningSubtitle_Reset(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10018B50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10018840_UpdateRangeEntries(void * self_)
 {
   void *this_00;
@@ -108,7 +108,7 @@ XI_API void __thiscall Unit10018840_UpdateRangeEntries(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10018C50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Vt10329FE0_Constructor(void * self_)
 {
   int iVar1;
@@ -125,7 +125,7 @@ XI_API void * __thiscall Vt10329FE0_Constructor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10018CE0  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Vt10329FE0_Reset(void * self_)
 {
   int iVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10043DD0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10043DD0_ToggleByte45(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   char cVar1;
@@ -14,14 +14,14 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10043DD0_ToggleByte45
 }
 
 // FUNCTION: FFXIMAIN 0x10043DE0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10043DD0_ReturnZero(void)
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x10043DF0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __thiscall DynVB_Constructor(void * self_)
 {
   uint32_t *puVar1;

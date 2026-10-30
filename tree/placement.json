@@ -8615,7 +8615,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file",
-"symbol": "fn_1007D240",
+"symbol": "UI_QuestCommand",
 "unit": "unit_10078260"
 },
 "0x1007e490": {
@@ -13550,7 +13550,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file",
-"symbol": "fn_100F7FA0",
+"symbol": "UI_PostRequest",
 "unit": "unit_100D7420"
 },
 "0x100f8910": {
@@ -19166,7 +19166,7 @@
 "class": null,
 "method": null,
 "why": "unit: no unit evidence of its own; in the gap between 0x1012AC70 (YkZip) and 0x10163640 (g_pStAvatarCoordinator) -- an unnamed source file",
-"symbol": "fn_1015F760",
+"symbol": "UI_DockReset",
 "unit": "unit_1012AC80"
 },
 "0x1015f790": {

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A3390  (unit sqrdMaterial: between 0x102A3360 (asserts sqrdMaterial.c) and 0x102A33F0 (name sqrdMaterialPrint), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqrdMaterial_Init(undefined4 * param_1)
 {
   param_1[5] = 0x3f000000;

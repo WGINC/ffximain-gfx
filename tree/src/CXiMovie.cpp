@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10026AD0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 554 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 554 D3D calls compared (diffemu_gfx, clean build)
 int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -72,7 +72,7 @@ int CXiMovie::Draw(int a1, int a2, int a3, int a4, int a5)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D3D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
 {
   int iVar1;
@@ -102,7 +102,7 @@ undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D440  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CXiMovie::UpdateIfPresent()
 {
   uint32_t xi_entry_eax = 0;
@@ -116,7 +116,7 @@ undefined4 __cdecl CXiMovie::UpdateIfPresent()
 }
 
 // FUNCTION: FFXIMAIN 0x1021D460  (unit CXiMovie: between 0x1021D3C0 (class model places it in CXiMovie) and 0x1021D7F0 (stores CXiMovie vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) CXiMovie_DestroyGlobal(undefined4 xi_eax)
 {
   if (g_pMovie_as_v0 != (int *)0x0) {
@@ -130,7 +130,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CXiMovie_DestroyGlobal(unde
 }
 
 // FUNCTION: FFXIMAIN 0x1021D490  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CXiMovie::GetField4()
 {
   if (g_pMovie != 0) {
@@ -140,7 +140,7 @@ undefined4 __cdecl CXiMovie::GetField4()
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 long double __cdecl CXiMovie::GetDoubleField8()
 {
   if (g_pMovie != 0) {
@@ -150,7 +150,7 @@ long double __cdecl CXiMovie::GetDoubleField8()
 }
 
 // FUNCTION: FFXIMAIN 0x1021D4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 25 returned normally, 51 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 25
+// GATE: PASS -- 100 trials, 25 returned normally, 51 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom, float * scale)
 {
   int result;
@@ -261,7 +261,7 @@ int __cdecl CXiMovie::DrawFrame(int rcLeft, int rcTop, int rcRight, int rcBottom
 }
 
 // FUNCTION: FFXIMAIN 0x1021D7F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CXiMovie::Construct(void * self)
 {
   int *piVar1;

@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100250F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelBase::AllocParts(void * self, int param_1)
 {
   int iVar1;
@@ -22,14 +22,14 @@ undefined4 __thiscall CYyModelBase::AllocParts(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100298A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyModelBase::GetRuntimeClass()
 {
   return &CYyModelBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10029D30  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CYyModelBase::Construct(void * self)
 {
   int iVar1;
@@ -57,7 +57,7 @@ void * __thiscall CYyModelBase::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10029DB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModelBase::ScalarDeletingDtor(char a1)
 {
   int v2;
@@ -68,7 +68,7 @@ int * CYyModelBase::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10029DD0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 152 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 152 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelBase::Destructor(void * self)
 {
   int *piVar1;
@@ -108,7 +108,7 @@ void __thiscall CYyModelBase::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10029E50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelBase::SetResourceAndRebuild(void * self, undefined4 param_1)
 {
   *(uint32_t *)((int)self + 0xc) = param_1;
@@ -118,14 +118,14 @@ void __thiscall CYyModelBase::SetResourceAndRebuild(void * self, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x10029E70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __thiscall CYyModelBase::GetPartList(void * self)
 {
   return (int)self + 0x20;
 }
 
 // FUNCTION: FFXIMAIN 0x10029F70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined4 * param_1)
 {
   int iVar1;
@@ -157,7 +157,7 @@ undefined4 * __thiscall CYyModelBase::AddPartFromResource(void * self, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1002A0C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 93 returned normally, 128 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
+// GATE: PASS -- 100 trials, 93 returned normally, 128 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelBase::RefreshParts(void * self)
 {
   int a1;
@@ -191,7 +191,7 @@ void __thiscall CYyModelBase::RefreshParts(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A3B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 79 returned normally, 984 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 984 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelBase::DrawLit(int a2, int a3, int a4)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -368,7 +368,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A700  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87
+// GATE: PASS -- 100 trials, 87 returned normally, 282 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelBase::CallPartsSlot20(void * self, undefined4 param_1, undefined4 param_2)
 {
   int *this_00;
@@ -392,7 +392,7 @@ undefined4 __thiscall CYyModelBase::CallPartsSlot20(void * self, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x1002A750  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelBase::TransformVec4ByPart(void * self, undefined4 param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
@@ -403,7 +403,7 @@ undefined4 __thiscall CYyModelBase::TransformVec4ByPart(void * self, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1002A9B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __thiscall CYyModelBase::FindPartIndex(void * self, uint32_t param_1)
 {
   short *psVar1;
@@ -419,7 +419,7 @@ int __thiscall CYyModelBase::FindPartIndex(void * self, uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100342A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64
+// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelBase::AllocMatrixBuffers(void * self)
 {
   int iVar1;

@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006B040  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoDxStatusMng::GetRuntimeClass()
 {
   return &CMoDxStatusMng_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1006B050  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CMoDxStatusMng::Constructor(void * self)
 {
   orig::Unit10069DD0_SetInvalid((void *)((int)self + 4));
@@ -20,7 +20,7 @@ undefined4 * __thiscall CMoDxStatusMng::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B070  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoDxStatusMng::ScalarDeletingDtor(char a2)
 {
   orig::CMoDxStatusMng_Destructor(this);

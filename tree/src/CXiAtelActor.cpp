@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10082960  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CXiAtelActor::IsAtelType82(void * self)
 {
   if ((0x51 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x53)) {
@@ -14,7 +14,7 @@ undefined4 __thiscall CXiAtelActor::IsAtelType82(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100829C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CXiAtelActor::IsAtelType83(void * self)
 {
   if ((0x52 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x54)) {
@@ -24,7 +24,7 @@ undefined4 __thiscall CXiAtelActor::IsAtelType83(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10085C90  (unit CXiAtelActor: name CXiAtelActor_UnlinkCasterAttachments)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkCasterAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   int iVar1;
@@ -59,7 +59,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkCaster
 }
 
 // FUNCTION: FFXIMAIN 0x10085CF0  (unit CXiAtelActor: name CXiAtelActor_UnlinkTargetAttachments)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkTargetAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   int iVar1;
@@ -94,7 +94,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiAtelActor_UnlinkTarget
 }
 
 // FUNCTION: FFXIMAIN 0x10086210  (unit CXiAtelActor: between 0x10085CF0 (name CXiAtelActor_UnlinkTargetAttachments) and 0x10086E80 (class model places it in CXiAtelActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 216 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Actor_DrawWorldText(_DWORD *a1, const char *a2, float a3, unsigned int a4, int a5)
 {
   __int16 v5; // fps
@@ -431,7 +431,7 @@ LABEL_63:
 }
 
 // FUNCTION: FFXIMAIN 0x10086E90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CXiAtelActor::CopyAndWrapAngles(void * self)
 {
   float *pfVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10072ED0  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 1
+// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
 XI_API void __thiscall MeshResourceMng_LoadSystemResources(void * self_, undefined4 * param_1)
 {
   undefined4 *xi_eax;
@@ -37,7 +37,7 @@ XI_API void __thiscall MeshResourceMng_LoadSystemResources(void * self_, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x10072FB0  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall ResourceHandle_Deref(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
@@ -47,7 +47,7 @@ XI_API undefined4 __stdcall ResourceHandle_Deref(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10073430  (unit unit_10072D10: no unit evidence of its own; in the gap between 0x10072D00 (CMoResourceMng) and 0x10073730 (CMoResource_VT_1032C934) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MeshResourceMng_ResolveTree(void * self_, int * param_1, void * param_2, undefined4 * param_3)
 {
   int *piVar1;

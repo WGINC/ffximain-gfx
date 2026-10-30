@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1001A660  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
   uint32_t uVar1;
@@ -23,7 +23,7 @@ void __thiscall CYyMotionQue::SetSlotMotion(void * self, int * param_1, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x1001A850  (unit CYyMotionQue: class model places it in CYyMotionQue)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param_1)
 {
   *param_1 = *(uint32_t *)((int)self_ + 0x34);
@@ -31,7 +31,7 @@ XI_API void __thiscall CYyMotionQue_GetResource(void * self_, undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x1001AB60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 param_2, undefined4 param_3, int param_4)
 {
   undefined4 uVar1;
@@ -54,7 +54,7 @@ void __thiscall CYyMotionQue::StartMotion(void * self, int param_1, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x1001ACB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::AppendSync(void * self, int * param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int iVar1;
@@ -68,7 +68,7 @@ void __thiscall CYyMotionQue::AppendSync(void * self, int * param_1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1001B230  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 87 returned normally, 268 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87
+// GATE: PASS -- 100 trials, 87 returned normally, 268 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -110,7 +110,7 @@ undefined4 __thiscall CYyMotionQue::SampleInto(void * self, int param_1, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x1001B2E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 96 returned normally, 157 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
+// GATE: PASS -- 100 trials, 96 returned normally, 157 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyMotionQue::Update(void * self, int * param_1, int param_2)
 {
   int *piVar1;

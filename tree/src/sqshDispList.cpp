@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A2000  (unit sqshDispList: asserts sqshDispList.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqshDispList_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqshDispList_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102A2020  (unit sqshDispList: between 0x102A2000 (asserts sqshDispList.c) and 0x102A2080 (asserts sqshDispList.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqshDispList_Init(undefined4 * param_1)
 {
   *param_1 = 0xa000b;

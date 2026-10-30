@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102AA2D0  (unit sqshTriStrip: asserts sqshTriStrip.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqshTriStrip_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqshTriStrip_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102AA2F0  (unit sqshTriStrip: between 0x102AA2D0 (asserts sqshTriStrip.c) and 0x102AA370 (asserts sqshTriStrip.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqshTriStrip_Init(undefined4 * param_1)
 {
   *param_1 = 0xa0009;
@@ -39,14 +39,14 @@ XI_API void __cdecl SqshTriStrip_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102ABEB0  (unit sqshTriStrip: between 0x102ABDA0 (asserts sqshTriStrip.c) and 0x102AC030 (asserts sqshTriStrip.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl SqshTriStrip_GetGlobal(void)
 {
   return DAT_109aaac0;
 }
 
 // FUNCTION: FFXIMAIN 0x102ABEC0  (unit sqshTriStrip: between 0x102ABDA0 (asserts sqshTriStrip.c) and 0x102AC030 (asserts sqshTriStrip.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 22
+// GATE: PASS -- 100 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl SqshTriStrip_ForEachTriangle(int param_1, uint8_t * param_2, undefined4 param_3)
 {
   int iVar1;

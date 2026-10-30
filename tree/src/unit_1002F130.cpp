@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1002F130  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_SetStreamSourceCached(int param_1, undefined4 param_2, undefined4 param_3)
 {
   *(uint32_t *)(((char *)&g_streamSourceVB_as_v0) + param_1 * 4) = param_2;
@@ -13,7 +13,7 @@ XI_API void __cdecl Gfx_SetStreamSourceCached(int param_1, undefined4 param_2, u
 }
 
 // FUNCTION: FFXIMAIN 0x1002F160  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 36 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 36 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 {
   IDirect3DVertexBuffer8 *v1;
@@ -25,7 +25,7 @@ XI_API int __cdecl Gfx_ApplyCachedStreamSource(unsigned int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002F1A0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_ApplyCachedVertexShader(void)
 {
   if ( g_vertexShader_B6A0 != 0 )
@@ -35,7 +35,7 @@ XI_API int __cdecl Gfx_ApplyCachedVertexShader(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1002F1D0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 37 returned normally, 18 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 37
+// GATE: PASS -- 100 trials, 37 returned normally, 18 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
 {
   long double fVar1;
@@ -758,7 +758,7 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100303B0  (unit unit_1002F130: no unit evidence of its own; in the gap between 0x1002DC10 (CYyModelDt) and 0x10030BF0 (CYyOsmTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24
+// GATE: PASS -- 100 trials, 24 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Skin_BlendWeightMatrices(void * self_)
 {
   int iVar1;

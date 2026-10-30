@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10043E50  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 56 returned normally, 26 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
+// GATE: PASS -- 100 trials, 56 returned normally, 26 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a4)
 {
   _DWORD *v4;
@@ -40,7 +40,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10043F00  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 64 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 64 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10043E40_ReturnBuffersToPool(void * self_)
 {
   uint32_t uVar1;
@@ -64,7 +64,7 @@ XI_API void __thiscall Unit10043E40_ReturnBuffersToPool(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10043F40  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 138 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 138 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigned int a5, int a6)
 {
   int v7;
@@ -97,7 +97,7 @@ XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigne
 }
 
 // FUNCTION: FFXIMAIN 0x10044010  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall DynVB_Reserve(void * self_, int param_1)
 {
   int iVar1;
@@ -118,7 +118,7 @@ XI_API void __thiscall DynVB_Reserve(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10044130  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t * __thiscall DynVB_Lock(void * self_)
 {
   int *a1;
@@ -149,7 +149,7 @@ XI_API uint8_t * __thiscall DynVB_Lock(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100441A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 81 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall DynVB_Unlock(void * self_)
 {
   int *a1;
@@ -164,7 +164,7 @@ XI_API void __thiscall DynVB_Unlock(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100441C0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall CameraCache_CacheViewProjection(_DWORD *self_)
 {
   _DWORD *v1;
@@ -183,21 +183,21 @@ XI_API int __thiscall CameraCache_CacheViewProjection(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10044210  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_SetViewMatrixFromField10(int self_)
 {
   return orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 2, (const void *)(self_ + 16));
 }
 
 // FUNCTION: FFXIMAIN 0x10044230  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_SetViewMatrixFromField90(int self_)
 {
   return orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 2, (const void *)(self_ + 144));
 }
 
 // FUNCTION: FFXIMAIN 0x10044270  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
 {
   int *v0;
@@ -274,7 +274,7 @@ XI_API _DWORD * __cdecl Mo_InitSharedRenderResources(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10044540  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Unit10043E40_ToggleDynVBs(void)
 {
   if (g_pDynVB_FVF42_as_v0 != (void *)0x0) {
@@ -297,7 +297,7 @@ XI_API void __stdcall Unit10043E40_ToggleDynVBs(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100446A0  (unit unit_10043E40: no unit evidence of its own; in the gap between 0x10043E20 (CMoTask_VT_1032AFA8) and 0x10044880 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27
+// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10043E40_ReleaseResourcesOf(int param_1)
 {
   void *pvVar1;

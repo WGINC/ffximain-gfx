@@ -3,14 +3,14 @@
 #include "CMoSkeletonElem.hpp"
 
 // FUNCTION: FFXIMAIN 0x10047580  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoSkeletonElem::GetRuntimeClass()
 {
   return &CMoSkeletonElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10047940  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoSkeletonElem::ScalarDeletingDtor(char a1)
 {
   int v2;

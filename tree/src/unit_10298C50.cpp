@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10298C50  (unit unit_10298C50: no unit evidence of its own; in the gap between 0x10298C10 (sqrdTexture) and 0x10298EA0 (sqsdSampling) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Texture_BindFromObject(int param_1)
 {
   if (param_1 != 0) {
@@ -17,7 +17,7 @@ XI_API void __cdecl Texture_BindFromObject(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10298E10  (unit unit_10298C50: no unit evidence of its own; in the gap between 0x10298C10 (sqrdTexture) and 0x10298EA0 (sqsdSampling) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Texture_CreateEntry(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   undefined4 *puVar1;

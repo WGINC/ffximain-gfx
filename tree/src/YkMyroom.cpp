@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101D2F00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkMyroom::Destructor(void * self)
 {
   *(uint8_t ***)self = &PTR_YkMyroom_GetRuntimeClass_103384a4;
@@ -40,7 +40,7 @@ void __thiscall YkMyroom::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D30B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkMyroom::ReleaseObject38(void * self)
 {
   int *this_00;
@@ -57,7 +57,7 @@ void __thiscall YkMyroom::ReleaseObject38(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D31B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkMyroom::ReleaseResource8(void * self)
 {
   if (*(uint32_t **)((int)self + 8) != (uint32_t *)0x0) {
@@ -69,7 +69,7 @@ void __thiscall YkMyroom::ReleaseResource8(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D3380  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall YkMyroom::ChangeMode(void * self, int param_1, int param_2, uint32_t param_3)
 {
   void *this_00;

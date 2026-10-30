@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100AC380  (unit XiDoorActor: class model places it in XiDoorActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl XiDoorActor_NopSlot161(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x100AC4E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall XiDoorActor::UpdateAndRunTimer(void * self)
 {
   uint32_t uVar1;
@@ -47,7 +47,7 @@ undefined4 __thiscall XiDoorActor::UpdateAndRunTimer(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100AC9C0  (unit XiDoorActor: class model places it in XiDoorActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall fn_100AC9C0(void * self_)
 {
   return (int)self_ + 0x5c4;

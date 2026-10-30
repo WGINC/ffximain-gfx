@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1002CCB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 90
+// GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint32_t __thiscall CYyOs2VtxBuffer::CreateBuffersStep(void * self, undefined4 xi_s1)
 {
   int *a1;
@@ -88,7 +88,7 @@ LAB_1002cd75:
 }
 
 // FUNCTION: FFXIMAIN 0x1002D660  (unit CYyOs2VtxBuffer: class model places it in CYyOs2VtxBuffer)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall CYyOs2VtxBuffer_ScalarDeletingDtor(void * self_, undefined4 param_1)
 {
   orig::CYyOs2VtxBuffer_CYyOs2VtxBuffer_Destructor(self_);
@@ -99,7 +99,7 @@ XI_API void * __thiscall CYyOs2VtxBuffer_ScalarDeletingDtor(void * self_, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x1002D680  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -134,7 +134,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1002D700  (placed by callers pass their own this (CYyOs2VtxBuffer))
-// GATE: PASS -- 100 trials, 100 returned normally, 158 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 158 D3D calls compared (diffemu_gfx, clean build)
 char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
 {
   unsigned int v2;

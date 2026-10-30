@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10252A00  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_Activate(uint8_t * param_1, uint32_t param_2)
 {
   int iVar1;
@@ -20,7 +20,7 @@ XI_API undefined4 __cdecl Unit10252A00_Activate(uint8_t * param_1, uint32_t para
 }
 
 // FUNCTION: FFXIMAIN 0x10252A40  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_CheckFileRefs(uint32_t * param_1)
 {
   uint32_t uVar1;
@@ -40,7 +40,7 @@ XI_API undefined4 __cdecl Unit10252A00_CheckFileRefs(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10252AC0  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_SetPositionAndScale(uint8_t * param_1, undefined4 * param_2, undefined4 * param_3)
 {
   int iVar1;
@@ -67,7 +67,7 @@ XI_API undefined4 __cdecl Unit10252A00_SetPositionAndScale(uint8_t * param_1, un
 }
 
 // FUNCTION: FFXIMAIN 0x10252B50  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_SetVec78(uint8_t * param_1, undefined4 param_2)
 {
   int iVar1;
@@ -93,7 +93,7 @@ XI_API undefined4 __cdecl Unit10252A00_SetVec78(uint8_t * param_1, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x10252C10  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_ClearModelItem(uint8_t * param_1)
 {
   if ((*param_1 & 1) != 0) {
@@ -103,7 +103,7 @@ XI_API undefined4 __cdecl Unit10252A00_ClearModelItem(uint8_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10252C30  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_Refresh(uint32_t * param_1, undefined4 param_2)
 {
   uint32_t *puVar1;
@@ -123,7 +123,7 @@ XI_API undefined4 __cdecl Unit10252A00_Refresh(uint32_t * param_1, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x10252C80  (unit unit_10252A00: no unit evidence of its own; in the gap between 0x102528D0 (StModel) and 0x10252CC0 (StTrigger) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10252A00_Init(undefined4 * param_1)
 {
   if (param_1 == (undefined4 *)0x0) {

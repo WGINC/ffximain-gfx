@@ -3,7 +3,7 @@
 #include "CMoResource_VT_103367E8.hpp"
 
 // FUNCTION: FFXIMAIN 0x101893D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource_VT_103367E8::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);
@@ -13,7 +13,7 @@ unsigned int ** CMoResource_VT_103367E8::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x101893F0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource_VT_103367E8::vf008()
 {
   ;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100399D0  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 165 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 165 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexObj_Release(void * self_)
 {
   int *piVar1;
@@ -28,7 +28,7 @@ XI_API void __thiscall TexObj_Release(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10039A30  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __thiscall TexObj_CreateAndUpload(void * self_)
 {
   uint32_t uVar1;
@@ -45,7 +45,7 @@ XI_API uint8_t __thiscall TexObj_CreateAndUpload(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10039A60  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __thiscall TexObj_Reupload(void * self_)
 {
   uint32_t uVar1;
@@ -59,7 +59,7 @@ XI_API uint8_t __thiscall TexObj_Reupload(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10039E50  (unit unit_100399D0_TexObj: no unit evidence of its own; in the gap between 0x10039970 (CYyTex) and 0x1003AA40 (CYyTexMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 11 returned normally, 47 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 11
+// GATE: PASS -- 100 trials, 11 returned normally, 47 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall TexObj_Upload(void *self_)
 {
   int v1;

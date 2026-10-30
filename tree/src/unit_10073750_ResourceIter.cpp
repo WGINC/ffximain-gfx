@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10073B20  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
 {
   uint8_t bVar1;
@@ -46,7 +46,7 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10073BA0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall ResourceIter_FindById(undefined4 * param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -94,7 +94,7 @@ LAB_10073c18:
 }
 
 // FUNCTION: FFXIMAIN 0x10073D80  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall ResourceIter_FindOrStartTask(undefined4 * param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
@@ -143,7 +143,7 @@ XI_API void __stdcall ResourceIter_FindOrStartTask(undefined4 * param_1, int par
 }
 
 // FUNCTION: FFXIMAIN 0x100740C0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 21
+// GATE: PASS -- 100 trials, 21 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
 {
   int *piVar1;
@@ -177,7 +177,7 @@ XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10074110  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __thiscall ResourceIter_PopFreeNode(void * self_, undefined4 * param_1)
 {
   uint32_t *puVar1;
@@ -194,7 +194,7 @@ XI_API uint64_t __thiscall ResourceIter_PopFreeNode(void * self_, undefined4 * p
 }
 
 // FUNCTION: FFXIMAIN 0x10074140  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall MeshResourceMng_AllocHandle(void * self_, int * param_1, int param_2)
 {
   int *piVar1;
@@ -216,7 +216,7 @@ XI_API void __thiscall MeshResourceMng_AllocHandle(void * self_, int * param_1, 
 }
 
 // FUNCTION: FFXIMAIN 0x10074180  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall NodePool_ReleaseNode(void * self_, uint32_t * param_1)
 {
   int iVar1;
@@ -253,7 +253,7 @@ XI_API undefined4 __thiscall NodePool_ReleaseNode(void * self_, uint32_t * param
 }
 
 // FUNCTION: FFXIMAIN 0x100741E0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ResourceIter_InPoolRange(void * self_, undefined4 * param_1)
 {
   undefined4 *puVar1;
@@ -282,7 +282,7 @@ LAB_10074218:
 }
 
 // FUNCTION: FFXIMAIN 0x10074280  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl ResourceIter_SetCurrentGlobal(undefined4 param_1)
 {
   DAT_1047d114 = param_1;
@@ -290,7 +290,7 @@ XI_API void __cdecl ResourceIter_SetCurrentGlobal(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100742B0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ResourceIter_FindFirst(void * self_, int param_1, int param_2, uint32_t param_3, uint32_t param_4)
 {
   uint32_t uVar1;
@@ -313,7 +313,7 @@ XI_API void __thiscall ResourceIter_FindFirst(void * self_, int param_1, int par
 }
 
 // FUNCTION: FFXIMAIN 0x10074310  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ResourceIter_Start(void * self_, undefined4 param_1, int param_2, uint32_t param_3, uint32_t param_4)
 {
   uint32_t uVar1;
@@ -341,7 +341,7 @@ XI_API void __thiscall ResourceIter_Start(void * self_, undefined4 param_1, int 
 }
 
 // FUNCTION: FFXIMAIN 0x10074380  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall ResourceIter_MatchCurrent(void * self_)
 {
   uint32_t *puVar1;
@@ -366,7 +366,7 @@ XI_API uint32_t __thiscall ResourceIter_MatchCurrent(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100743D0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ResourceIter_Advance(void * self_)
 {
   int *piVar1;
@@ -522,7 +522,7 @@ LAB_1007444e:
 }
 
 // FUNCTION: FFXIMAIN 0x100745C0  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ResourceIter_FindNext(void * self_, undefined4 xi_s1)
 {
   uint32_t uVar1;

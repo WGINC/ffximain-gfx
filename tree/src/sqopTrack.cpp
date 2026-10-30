@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10289B40  (unit sqopTrack: between 0x10289B20 (asserts sqopTrack.c) and 0x10289B70 (asserts sqopTrack.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqopTrack_Reset(undefined4 * param_1)
 {
   *param_1 = 0xffffffff;
@@ -14,7 +14,7 @@ XI_API void __cdecl SqopTrack_Reset(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10289BA0  (unit sqopTrack: asserts sqopTrack.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqopTrack_Free(int param_1)
 {
   if (*(int *)(param_1 + 0xc) != 0) {
@@ -25,7 +25,7 @@ XI_API void __cdecl SqopTrack_Free(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10289EF0  (unit sqopTrack: name sqopTrackSetIndex)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqopTrackSetIndex(int * param_1, int param_2)
 {
   if ((-1 < param_2) && (param_2 < param_1[1])) {
@@ -37,7 +37,7 @@ XI_API int __cdecl sqopTrackSetIndex(int * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10289F10  (unit sqopTrack: name sqopTrackAdvance)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqopTrackAdvance(int * param_1)
 {
   int iVar1;

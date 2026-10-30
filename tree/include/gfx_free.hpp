@@ -717,7 +717,7 @@ XI_API int __cdecl fn_1007BB90(undefined4 param_1, undefined4 param_2, int param
 XI_API undefined4 __cdecl fn_1007BF30(uint32_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5);  // 0x1007BF30
 XI_API int __cdecl Unit10078260_ToggleStatusAndSend(undefined4 param_1, undefined4 param_2, int param_3, undefined4 param_4);  // 0x1007CD60
 XI_API int __cdecl Unit10078260_ToggleStatusMode1(undefined4 param_1, undefined4 param_2, int param_3);  // 0x1007CFD0
-XI_API undefined4 __cdecl fn_1007D240(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x1007D240
+XI_API undefined4 __cdecl UI_QuestCommand(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x1007D240
 XI_API int __cdecl fn_1007E490(undefined4 param_1, undefined4 param_2, int param_3);  // 0x1007E490
 XI_API int __cdecl fn_1007E8D0(undefined4 param_1, undefined4 param_2, int param_3);  // 0x1007E8D0
 XI_API undefined4 __cdecl fn_10080340(undefined4 param_1, undefined4 param_2, undefined4 param_3);  // 0x10080340
@@ -1231,7 +1231,7 @@ XI_API undefined4 __cdecl fn_100F7960(void);  // 0x100F7960
 XI_API void __cdecl Unit100D7420_InitEntryAt104DF90C(void);  // 0x100F7A00
 XI_API undefined4 __cdecl Unit100D7420_GetFieldCOf104DF90C(void);  // 0x100F7A80
 XI_API uint16_t * __cdecl fn_100F7BC0(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4);  // 0x100F7BC0
-XI_API undefined4 __cdecl fn_100F7FA0(int param_1);  // 0x100F7FA0
+XI_API undefined4 __cdecl UI_PostRequest(int param_1);  // 0x100F7FA0
 XI_API undefined1 __cdecl Unit100D7420_ReturnTrue_100F8910(void);  // 0x100F8910
 XI_API undefined1 __cdecl Unit100D7420_ReturnTrue_100F8920(void);  // 0x100F8920
 XI_API undefined1 __cdecl Unit100D7420_ReturnTrue_100F8CA0(void);  // 0x100F8CA0
@@ -2029,7 +2029,7 @@ XI_API void __thiscall Menu_CallChildSlot34ForEachItem(void * self_);  // 0x1015
 XI_API void __thiscall MenuMng_UpdateForSceneState(void * self_);  // 0x1015EF60
 XI_API undefined4 __thiscall Menu_ApplyFlagsToItems(void * self_, uint32_t param_1);  // 0x1015F3E0
 XI_API void __thiscall Menu_DrawLayers(void * self_);  // 0x1015F6A0
-XI_API undefined4 __thiscall fn_1015F760(void * self_, int param_1, int param_2);  // 0x1015F760
+XI_API undefined4 __thiscall UI_DockReset(void * self_, int param_1, int param_2);  // 0x1015F760
 XI_API undefined4 __stdcall Menu_PositionWindow(int * param_1, int param_2);  // 0x1015F790
 XI_API undefined4 __stdcall Unit1012AC80_MenuGetItemRect(int * param_1, short * param_2);  // 0x1015F8F0
 XI_API undefined4 __thiscall Menu_GetDwordAt8C(void * self_, undefined4 param_1);  // 0x1015F960

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102967E0  (unit sqMatrix3: between 0x102966C0 (asserts sqMatrix3.c) and 0x10296DC0 (asserts sqMatrix3.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl SqMatrix3_Determinant(float * param_1)
 {
   return ((((long double)param_1[8] * (long double)*param_1 * (long double)param_1[4] +

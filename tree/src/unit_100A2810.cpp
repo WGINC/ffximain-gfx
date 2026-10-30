@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100A28E0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_100A28E0(void * self_)
 {
   uint32_t *puVar1;
@@ -66,7 +66,7 @@ XI_API undefined4 __thiscall fn_100A28E0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100A2B70  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall fn_100A2B70(void * self_, uint8_t * param_1, uint32_t param_2)
 {
   uint32_t uVar1;
@@ -94,7 +94,7 @@ XI_API uint32_t __thiscall fn_100A2B70(void * self_, uint8_t * param_1, uint32_t
 }
 
 // FUNCTION: FFXIMAIN 0x100A2FD0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A2FD0(undefined4 xi_eax, uint8_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 * param_5, uint32_t param_6)
 {
   int iVar1;
@@ -136,7 +136,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A2FD0(undefined4 xi_e
 }
 
 // FUNCTION: FFXIMAIN 0x100A3040  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl fn_100A3040(void)
 {
   undefined4 uVar1;
@@ -171,7 +171,7 @@ XI_API undefined4 __cdecl fn_100A3040(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100A30E0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A30E0(undefined4 xi_eax)
 {
   uint32_t uVar1;
@@ -197,7 +197,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A30E0(undefined4 xi_e
 }
 
 // FUNCTION: FFXIMAIN 0x100A3CD0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100A2810_ResetRecords(void)
 {
   uint16_t *puVar1;

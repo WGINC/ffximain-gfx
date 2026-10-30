@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C588.hpp"
 
 // FUNCTION: FFXIMAIN 0x10071C90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);
@@ -13,14 +13,14 @@ unsigned int ** CMoResource_VT_1032C588::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100745E0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource_VT_1032C588::vf011()
 {
   return (int)orig::CMoCamera_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x100745F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource_VT_1032C588::vf012(int a1)
 {
   Vt_1032C5B4 * self = reinterpret_cast<Vt_1032C5B4 *>(this);  // byte-exact view for the rest
@@ -28,7 +28,7 @@ int CMoResource_VT_1032C588::vf012(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10074610  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource_VT_1032C588::vf008()
 {
   ;

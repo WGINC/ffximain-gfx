@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100014A0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94
+// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl App_ForceForegroundWindow(HWND param_1)
 {
   HWND hWnd;
@@ -29,7 +29,7 @@ XI_API void __cdecl App_ForceForegroundWindow(HWND param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10001B50  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
 {
   uint32_t uVar1;
@@ -50,7 +50,7 @@ XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10001BB0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
 {
   uint32_t uVar1;
@@ -75,7 +75,7 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10001D90  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100014A0_ForwardMouseMove(undefined4 param_1)
 {
   int iVar1;
@@ -94,7 +94,7 @@ XI_API void __cdecl Unit100014A0_ForwardMouseMove(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10001E70  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
 {
   char cVar1;
@@ -192,7 +192,7 @@ XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10001F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit100014A0_FindTokenCopyDefault(char * param_1, char * param_2)
 {
   char *pcVar1;
@@ -202,7 +202,7 @@ XI_API undefined4 __cdecl Unit100014A0_FindTokenCopyDefault(char * param_1, char
 }
 
 // FUNCTION: FFXIMAIN 0x10001F40  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char * __cdecl Unit100014A0_FindTokenCopy(char * param_1, char * param_2, int param_3)
 {
   char cVar1;
@@ -275,7 +275,7 @@ LAB_10002023:
 }
 
 // FUNCTION: FFXIMAIN 0x10002040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 263 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 263 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, const struct tagRECT *a2, unsigned int *a3, int a4)
 {
   unsigned __int16 v4;
@@ -313,7 +313,7 @@ XI_API char __cdecl Gfx_CopySurfaceRectToTexture(struct IDirect3DSurface8 *a1, c
 }
 
 // FUNCTION: FFXIMAIN 0x10002130  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 21 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 21
+// GATE: PASS -- 100 trials, 21 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_ProbeDeviceCaps(int a1, unsigned int *a2, int *a3)
 {
   int v4;
@@ -501,14 +501,14 @@ LABEL_25:
 }
 
 // FUNCTION: FFXIMAIN 0x10002440  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Unit100014A0_SwapRedBlue(uint32_t param_1)
 {
   return param_1 & 0xff00ff00 | param_1 >> 0x10 & 0xff | (param_1 & 0xff) << 0x10;
 }
 
 // FUNCTION: FFXIMAIN 0x10002BE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Gfx_IsGammaSupported(void)
 {
   if (g_pCDx_as_s32 != 0) {
@@ -518,7 +518,7 @@ XI_API undefined4 __cdecl Gfx_IsGammaSupported(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C00  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 {
   CDx *result;
@@ -529,7 +529,7 @@ XI_API CDx * __cdecl Gfx_SetGammaRGB(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C30  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 {
   CDx *result;
@@ -549,7 +549,7 @@ XI_API CDx * __cdecl Gfx_SetGammaR(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002C80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 {
   CDx *result;
@@ -569,7 +569,7 @@ XI_API CDx * __cdecl Gfx_SetGammaG(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002CD0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 {
   CDx *result;
@@ -589,7 +589,7 @@ XI_API CDx * __cdecl Gfx_SetGammaB(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 {
   int result;
@@ -600,7 +600,7 @@ XI_API int __cdecl Gfx_GetGammaRGB(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D50  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002D50(undefined4 param_1)
 {
   g_shadowSetting_as_v0 = param_1;
@@ -608,7 +608,7 @@ XI_API void __cdecl fn_10002D50(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D70  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002D70(undefined4 param_1)
 {
   _DAT_10456a68_as_v0 = param_1;
@@ -616,7 +616,7 @@ XI_API void __cdecl fn_10002D70(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002D80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __attribute__((cdecl, regparm(1))) Unit100014A0_GetFloat10456A68Or1(undefined4 xi_eax)
 {
   uint32_t uVar1;
@@ -629,7 +629,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) Unit100014A0_GetFloat10456
 }
 
 // FUNCTION: FFXIMAIN 0x10002DA0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002DA0(undefined4 param_1)
 {
   _DAT_10456a5c = param_1;
@@ -637,7 +637,7 @@ XI_API void __cdecl fn_10002DA0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002DC0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002DC0(undefined4 param_1)
 {
   _DAT_10456a6c = param_1;
@@ -645,7 +645,7 @@ XI_API void __cdecl fn_10002DC0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002DE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002DE0(undefined4 param_1)
 {
   _DAT_10456ab8 = param_1;
@@ -653,7 +653,7 @@ XI_API void __cdecl fn_10002DE0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002E00  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002E00(undefined4 param_1)
 {
   _DAT_10456aa8 = param_1;
@@ -661,7 +661,7 @@ XI_API void __cdecl fn_10002E00(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002E20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002E20(undefined4 param_1)
 {
   DAT_10456a70 = param_1;
@@ -669,7 +669,7 @@ XI_API void __cdecl fn_10002E20(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002E40  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10002E40(undefined4 param_1)
 {
   g_cfg0020_as_v0 = param_1;
@@ -677,7 +677,7 @@ XI_API void __cdecl fn_10002E40(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002E60  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_SetAspectIndex(undefined4 param_1)
 {
   _DAT_10456be8 = param_1;
@@ -686,7 +686,7 @@ XI_API void __cdecl Gfx_SetAspectIndex(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002E80  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Gfx_ApplyAspectScale(undefined4 param_1)
 {
   long double fVar1;
@@ -700,7 +700,7 @@ XI_API void __cdecl Gfx_ApplyAspectScale(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002EC0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Gfx_GetAspectTableA(int param_1)
 {
   if (5 < param_1) {
@@ -710,7 +710,7 @@ XI_API long double __cdecl Gfx_GetAspectTableA(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002EE0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Gfx_GetAspectTableB(int param_1)
 {
   if (5 < param_1) {
@@ -720,7 +720,7 @@ XI_API long double __cdecl Gfx_GetAspectTableB(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10002F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5)
 {
   _DWORD *v5;
@@ -775,7 +775,7 @@ XI_API char __cdecl Gfx_CreateD3DHolder(int a1, int a2, int a3, char a4, char a5
 }
 
 // FUNCTION: FFXIMAIN 0x10003040  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 {
   int result;
@@ -792,7 +792,7 @@ XI_API int __cdecl Gfx_DestroyD3DHolder(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100031F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 79 returned normally, 315507 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 315507 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char a5, char a6, int a7)
 {
   int v8;
@@ -886,7 +886,7 @@ XI_API char __thiscall Gfx_D3DBootstrap(int self_, int a2, int a3, int a4, char 
 }
 
 // FUNCTION: FFXIMAIN 0x100033C0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3, int a4, char a5, char a6, int a7, int a8)
 {
   int *i;
@@ -919,7 +919,7 @@ XI_API char __thiscall Gfx_TryCreateDeviceForMode(_DWORD **self_, int a2, int a3
 }
 
 // FUNCTION: FFXIMAIN 0x100034B0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 182 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, int a5, int a6, char a7, char a8, int a9)
 {
   _DWORD *v10;
@@ -992,7 +992,7 @@ XI_API char __thiscall Gfx_CreateDevice(_DWORD *self_, int a2, int a3, int a4, i
 }
 
 // FUNCTION: FFXIMAIN 0x100035F0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Gfx_InitObject(void * self_)
 {
   orig::Debug_Construct((void *)((int)self_ + 4));
@@ -1002,7 +1002,7 @@ XI_API void * __thiscall Gfx_InitObject(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003640  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Gfx_ResetObject(void * self_)
 {
   orig::FUN_10003700();

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10035E80  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10035E80(undefined4 param_1)
 {
   uint32_t xi_eax;
@@ -17,7 +17,7 @@ XI_API void __cdecl fn_10035E80(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10035EC0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_10035EC0(undefined4 param_1)
 {
   uint32_t xi_eax;
@@ -31,7 +31,7 @@ XI_API void __cdecl fn_10035EC0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10035F00  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillAllGlobalSlots(undefined4 xi_eax, undefined4 param_1)
 {
   uint32_t uVar1;
@@ -60,7 +60,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillAllGlobalSlots(u
 }
 
 // FUNCTION: FFXIMAIN 0x10035F80  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463930(undefined4 xi_s1)
 {
   uint32_t uVar1;
@@ -74,7 +74,7 @@ XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463930(undefined4 xi_s1)
 }
 
 // FUNCTION: FFXIMAIN 0x10035FB0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
 {
   long double fVar1;
@@ -105,7 +105,7 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10036020  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10035B00_Release10463928AndSetScaled(undefined4 xi_eax, undefined4 xi_s1)
 {
   if (DAT_10463928 != (int *)0x0) {
@@ -117,7 +117,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10035B00_Release1046392
 }
 
 // FUNCTION: FFXIMAIN 0x10036050  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_SetScaled10351704(float param_1)
 {
   DAT_10351704 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
@@ -125,7 +125,7 @@ XI_API void __cdecl Unit10035B00_SetScaled10351704(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10036070  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillGlobalSlot1(undefined4 xi_eax, undefined4 xi_s1)
 {
   if (DAT_1046392c != (int *)0x0) {
@@ -137,7 +137,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) MoTask_KillGlobalSlot1(unde
 }
 
 // FUNCTION: FFXIMAIN 0x100360A0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_SetScaled10351700(float param_1)
 {
   DAT_10351700 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
@@ -145,7 +145,7 @@ XI_API void __cdecl Unit10035B00_SetScaled10351700(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100360C0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463934(undefined4 xi_s1)
 {
   uint32_t xi_entry_eax = 0;
@@ -160,7 +160,7 @@ XI_API undefined4 __cdecl Unit10035B00_ClearGlobal10463934(undefined4 xi_s1)
 }
 
 // FUNCTION: FFXIMAIN 0x100360F0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_ApplyVolume(undefined4 xi_eax, float param_1)
 {
   long double fVar1;
@@ -193,7 +193,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_ApplyVolume(undefined
 }
 
 // FUNCTION: FFXIMAIN 0x10036170  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
 {
   int64_t lVar1;
@@ -217,7 +217,7 @@ XI_API void __cdecl Unit10035B00_SetCurrent10463914(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100361D0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10035B00_ResetGlobals(void)
 {
   DAT_10463914_as_v0 = 0;
@@ -229,7 +229,7 @@ XI_API void __cdecl Unit10035B00_ResetGlobals(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10036460  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Unit10035B00_AddUniqueId(int param_1)
 {
   uint32_t xi_entry_eax = 0;
@@ -253,7 +253,7 @@ LAB_10036496:
 }
 
 // FUNCTION: FFXIMAIN 0x100367F0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65
+// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __attribute__((cdecl, regparm(1))) CYySoundElem_IsHandleInFrameList(undefined4 xi_eax, int param_1)
 {
   if (param_1 != 0) {

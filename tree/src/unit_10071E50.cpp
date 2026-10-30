@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10071FD0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall MoRes_FindPrevious(void * self_)
 {
   void *pvVar1;
@@ -29,7 +29,7 @@ XI_API undefined4 __thiscall MoRes_FindPrevious(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10072180  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall WeatherRes_GetTimeKey(void * self_, undefined4 * param_1)
 {
   uint32_t uVar1;
@@ -47,7 +47,7 @@ XI_API undefined4 __thiscall WeatherRes_GetTimeKey(void * self_, undefined4 * pa
 }
 
 // FUNCTION: FFXIMAIN 0x100721F0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint8_t bVar1;
@@ -68,7 +68,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undef
 }
 
 // FUNCTION: FFXIMAIN 0x10072240  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10071E50_FindSelfLinkedNode(void * self_)
 {
   void *pvVar1;
@@ -90,7 +90,7 @@ XI_API void * __thiscall Unit10071E50_FindSelfLinkedNode(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10072430  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoResource_FindInScope(undefined4 xi_eax, undefined4 * param_1, int param_2, uint32_t param_3, int param_4)
 {
   int iVar1;
@@ -129,7 +129,7 @@ LAB_1007246a:
 }
 
 // FUNCTION: FFXIMAIN 0x100724C0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmResourceFile_FindResourceUnder(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2, uint32_t param_3, int param_4)
 {
   int iVar1;
@@ -168,7 +168,7 @@ LAB_100724f6:
 }
 
 // FUNCTION: FFXIMAIN 0x10072540  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10071E50_FindInChainByKind(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t param_2, int param_3, uint8_t * param_4, undefined4 param_5)
 {
   uint32_t uVar1;
@@ -210,7 +210,7 @@ LAB_10072598:
 }
 
 // FUNCTION: FFXIMAIN 0x10072990  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) fn_10072990(uint32_t xi_eax_unused, undefined4 xi_edx, int param_1)
 {
   *(uint32_t *)(param_1 + 0x14) = 0;
@@ -221,7 +221,7 @@ XI_API void __attribute__((stdcall, regparm(3))) fn_10072990(uint32_t xi_eax_unu
 }
 
 // FUNCTION: FFXIMAIN 0x100729C0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl unknown_libname_61(void)
 {
   orig::Unit10071E50_ClearGlobal1047D138();
@@ -230,7 +230,7 @@ XI_API void __cdecl unknown_libname_61(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100729D0  (unit unit_10071E50: no unit evidence of its own; in the gap between 0x10071E30 (CMoCamera) and 0x10072A30 (CMoTask_VT_1032C908) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10071E50_ClearGlobal1047D138(void)
 {
   DAT_1047d138 = 0;

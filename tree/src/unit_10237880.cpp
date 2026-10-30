@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102380A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructTable2(void * self_)
 {
   char cVar1;
@@ -36,7 +36,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable2(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102388C0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructNamed(void * self_)
 {
   char cVar1;
@@ -62,7 +62,7 @@ XI_API void * __thiscall Unit10237880_ConstructNamed(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10238B30  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
 {
   char cVar1;
@@ -97,7 +97,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable11(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10239170  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall KeyPrompt_Construct(void * self_)
 {
   orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
@@ -110,7 +110,7 @@ XI_API void * __thiscall KeyPrompt_Construct(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102391D0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_102391D0(void * self_)
 {
   char xi_frame[8] __attribute__((aligned(4)));
@@ -129,7 +129,7 @@ XI_API void __thiscall fn_102391D0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10239240  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_10239240(void * self_, undefined4 xi_s1)
 {
   int iVar1;
@@ -258,7 +258,7 @@ switchD_1023929a_default:
 }
 
 // FUNCTION: FFXIMAIN 0x10239460  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Ui_KeyPrompt_Init(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x24) = 0x80;
@@ -272,14 +272,14 @@ XI_API void __thiscall Ui_KeyPrompt_Init(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10239490  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10237880_GetGlobalDword(void)
 {
   return DAT_10668fe4;
 }
 
 // FUNCTION: FFXIMAIN 0x102394A0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 48 returned normally, 36 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 48
+// GATE: PASS -- 100 trials, 48 returned normally, 36 D3D calls compared (diffemu_gfx, clean build)
 XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
 {
   char *result;
@@ -368,7 +368,7 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1023BF20  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1)
 {
   orig::FUN_1023be10(param_1,1);
@@ -376,7 +376,7 @@ XI_API void __cdecl Unit10237880_ForwardFlag1(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1023C140  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit10237880_StoreTextIfIdle(void * self_, char * param_1)
 {
   char *pcVar1;
@@ -391,7 +391,7 @@ XI_API undefined4 __thiscall Unit10237880_StoreTextIfIdle(void * self_, char * p
 }
 
 // FUNCTION: FFXIMAIN 0x1023C540  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) fn_1023C540(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 xi_s1)
 {
   char cVar1;
@@ -512,7 +512,7 @@ LAB_1023c6cb:
 }
 
 // FUNCTION: FFXIMAIN 0x1023D610  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructBase(void * self_)
 {
   orig::Yk_InitBase(self_,0);
@@ -525,7 +525,7 @@ XI_API void * __thiscall Unit10237880_ConstructBase(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1023E4B0  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1)
 {
   char cVar1;
@@ -552,7 +552,7 @@ XI_API undefined4 __cdecl Unit10237880_WaitForState1(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1023E830  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall CIwHnList_Constructor(void * self_)
 {
   uint32_t *puVar1;
@@ -594,7 +594,7 @@ XI_API void * __thiscall CIwHnList_Constructor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1023F890  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10237880_ConstructTable3(void * self_)
 {
   char cVar1;
@@ -627,7 +627,7 @@ XI_API void * __thiscall Unit10237880_ConstructTable3(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10241800  (unit unit_10237880: no unit evidence of its own; in the gap between 0x10237710 (StAvatar) and 0x102441C0 (YkZip) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10241800(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   uint32_t xi_eax_00;

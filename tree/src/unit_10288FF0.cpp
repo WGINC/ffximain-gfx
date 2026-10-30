@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10288FF0  (unit unit_10288FF0: no unit evidence of its own; in the gap between 0x10288E60 (sqmdDMB) and 0x10289600 (sqopSystem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
 {
   char cVar1;
@@ -207,7 +207,7 @@ XI_API uint8_t * __cdecl SqmdDMB_BuildUpdaters(int param_1, uint8_t * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102894E0  (unit unit_10288FF0: no unit evidence of its own; in the gap between 0x10288E60 (sqmdDMB) and 0x10289600 (sqopSystem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60
+// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10288FF0_ResolveSkelRefs(int param_1, int param_2, uint32_t param_3)
 {
   uint32_t uVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1024D180  (unit StAvatar: name StAvatar_Teardown)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, uint32_t param_3)
 {
   uint32_t uVar1;
@@ -57,7 +57,7 @@ XI_API uint32_t __cdecl StAvatar_Teardown(uint32_t * param_1, uint32_t param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x1024D2C0  (unit StAvatar: asserts StAvatar.cpp)
-// GATE: PASS -- 100 trials, 50 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 50
+// GATE: PASS -- 100 trials, 50 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl StAvatar_ReleaseResources(uint32_t * param_1, int param_2)
 {
   uint32_t uVar1;

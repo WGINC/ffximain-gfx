@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102957B0  (unit sqmoKeyChannel: asserts sqmoKeyChannel.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqmoKeyChannel_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqmoKeyChannel_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102957D0  (unit sqmoKeyChannel: between 0x102957B0 (asserts sqmoKeyChannel.c) and 0x10295830 (asserts sqmoKeyChannel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmoKeyChannel_Init(undefined4 * param_1)
 {
   *param_1 = 0x50002;

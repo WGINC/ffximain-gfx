@@ -3,14 +3,14 @@
 #include "CYyModelDt_VT_1032A430.hpp"
 
 // FUNCTION: FFXIMAIN 0x10025090  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt_VT_1032A430::vf011()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x100250A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
 {
   orig::CYyModelDt_Destructor(this);
@@ -20,7 +20,7 @@ int * CYyModelDt_VT_1032A430::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100252D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt_VT_1032A430::ScalarDeletingDtor_2(int a1)
 {
   Vt_1032A460 * self = reinterpret_cast<Vt_1032A460 *>(this);  // byte-exact view for the rest

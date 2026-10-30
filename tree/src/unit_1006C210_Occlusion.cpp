@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006C210  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall j_OcclusionMng_CreateTarget(void * self_)
 {
   orig::OcclusionMng_CreateTarget_v1(self_);
@@ -11,7 +11,7 @@ XI_API void __thiscall j_OcclusionMng_CreateTarget(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006C260  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall OcclusionQuery_Init(void * self_)
 {
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -20,7 +20,7 @@ XI_API void __thiscall OcclusionQuery_Init(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006C280  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a3, int a4, int a5, int a6, int a7, int a8, char a9, int a10)
 {
   unsigned __int8 v11;
@@ -36,7 +36,7 @@ XI_API int __thiscall Occlusion_QueryScreenRect(__int16 *self_, float *a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x1006C300  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 2 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
+// GATE: PASS -- 100 trials, 54 returned normally, 2 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0, int a2, int a5, int a6, int a7, int a8, int _60, char a9, int a10)
 {
   int v10;
@@ -104,7 +104,7 @@ XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C530  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
   double v9;
@@ -203,7 +203,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
 }
 
 // FUNCTION: FFXIMAIN 0x1006C8B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 486 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 486 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2)
 {
   int v2;
@@ -265,7 +265,7 @@ XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006C9B0  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 94 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94
+// GATE: PASS -- 100 trials, 94 returned normally, 94 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 {
   int result;
@@ -294,7 +294,7 @@ XI_API int __thiscall OcclusionMng_Prepare(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006CA20  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit1006C210_IsFloatClassAccepted(float param_1)
 {
   uint32_t uVar1;
@@ -316,7 +316,7 @@ LAB_1006ca55:
 }
 
 // FUNCTION: FFXIMAIN 0x1006CA60  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param_1)
 {
   uint32_t uVar1;
@@ -337,7 +337,7 @@ XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x1006CB50  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((stdcall, regparm(3))) CreateProcessorInstance(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 xi_ecx)
 {
   undefined4 *puVar1;

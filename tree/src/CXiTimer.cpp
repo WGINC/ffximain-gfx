@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10019210  (unit CXiTimer: class model places it in CXiTimer)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall CXiTimer_Constructor(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CXiTimer_GetRuntimeClass_variant0_1032a08c;
@@ -13,7 +13,7 @@ XI_API void __thiscall CXiTimer_Constructor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10019230  (unit CXiTimer: class model places it in CXiTimer)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall fn_10019230(void * self_)
 {
   return (long double)*(float *)((int)self_ + 8);

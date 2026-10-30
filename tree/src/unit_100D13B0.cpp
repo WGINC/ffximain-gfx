@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100D1450  (unit unit_100D13B0: no unit evidence of its own; in the gap between 0x100D12D0 (CXiSkeletonActor) and 0x100D2F40 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit100D13B0_ProcessResidentListEntries(void * self_, int * param_1, int param_2)
 {
   void *pvVar1;

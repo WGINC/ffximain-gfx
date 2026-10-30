@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100555D0  (unit unit_10055570: no unit evidence of its own; in the gap between 0x10055560 (CMoOtTask) and 0x10055780 (CMoPathObject) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl CMoOt_InitSystem(void)
 {
   void *self_;
@@ -21,7 +21,7 @@ XI_API void __cdecl CMoOt_InitSystem(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10055620  (unit unit_10055570: no unit evidence of its own; in the gap between 0x10055560 (CMoOtTask) and 0x10055780 (CMoPathObject) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl CMoOt_Update(void)
 {
   orig::Zone_UpdateFogAmbient();

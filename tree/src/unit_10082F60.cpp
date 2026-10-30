@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10082FB0  (unit unit_10082F60: no unit evidence of its own; in the gap between 0x10082F20 (CXiSkeletonActor) and 0x100830C0 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __stdcall Unit10082F60_ProjectThroughCamera(undefined4 * param_1, undefined4 * param_2)
 {
   long double fVar1;

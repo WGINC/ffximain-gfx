@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1026DF00  (unit sqxfXformTD: name sqxfXformTD_Init)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1)
 {
   orig::SqxfXformM_Init(param_1);
@@ -20,7 +20,7 @@ XI_API void __cdecl sqxfXformTD_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E1F0  (unit sqxfXformTD: name sqxfXformTD_Update)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqxfXformTD_Update(int param_1)
 {
   char xi_frame[36] __attribute__((aligned(4)));

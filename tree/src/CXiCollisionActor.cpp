@@ -4,28 +4,28 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100A46D0  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __attribute__((stdcall, regparm(3))) CXiCollisionActor_IsTouchDown(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return *(uint8_t *)((int)self_ + 0x5e0);
 }
 
 // FUNCTION: FFXIMAIN 0x100A46F0  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t __attribute__((stdcall, regparm(3))) CXiCollisionActor_IsOnLift(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return *(uint8_t *)((int)self_ + 0x5e2);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4710  (unit CXiCollisionActor: class model places it in CXiCollisionActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall CXiCollisionActor_GetCurrentAreaId(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x5e4);
 }
 
 // FUNCTION: FFXIMAIN 0x100A4C20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CXiCollisionActor::Constructor(void * self)
 {
   int iVar1;

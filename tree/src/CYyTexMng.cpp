@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003AA40  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyTexMng::GetRuntimeClass()
 {
   return &CYyTexMng_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003AA50  (unit CYyTexMng: stores CYyTexMng vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall CYyTexMng_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyTexMng_GetRuntimeClass_1032aa90;
@@ -23,7 +23,7 @@ XI_API undefined4 __thiscall CYyTexMng_Init(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AA70  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTexMng::ScalarDeletingDtor(char a2)
 {
   orig::CYyTexMng_Destructor(this);
@@ -33,7 +33,7 @@ _DWORD * CYyTexMng::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AC80  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68
+// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint64_t __thiscall CYyTexMng::FindByName(void * self, int param_1)
 {
   int iVar1;
@@ -62,7 +62,7 @@ uint64_t __thiscall CYyTexMng::FindByName(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003AF10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __thiscall CYyTexMng::FindByNameInResource(void * self, char * param_1, int param_2)
 {
   char *pcVar1;

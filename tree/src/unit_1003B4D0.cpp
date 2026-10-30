@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003B4D0  (unit unit_1003B4D0: no unit evidence of its own; in the gap between 0x1003B4A0 (CYyVb) and 0x1003B530 (CMoAttachments) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall VertexBufferList_Register(void * self_)
 {
   uint32_t uVar1;

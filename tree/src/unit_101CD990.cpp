@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101CD990  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101CD990(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x58))));
 }
 
 // FUNCTION: FFXIMAIN 0x101CD9A0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CD9A0(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x58) != 0) && ((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x58)] != 0))
@@ -21,7 +21,7 @@ XI_API undefined4 __thiscall fn_101CD9A0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CD9D0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit101CD990_GetValueAt54(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x54) != 0) &&
@@ -32,7 +32,7 @@ XI_API undefined4 __thiscall Unit101CD990_GetValueAt54(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CDA00  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit101CD990_GetValueAt56(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x56) != 0) &&
@@ -43,7 +43,7 @@ XI_API undefined4 __thiscall Unit101CD990_GetValueAt56(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CDA30  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit101CD990_GetValueAt5A(void * self_)
 {
   if ((*(uint16_t *)((int)self_ + 0x5a) != 0) &&
@@ -54,7 +54,7 @@ XI_API undefined4 __thiscall Unit101CD990_GetValueAt5A(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CDF50  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CDF50(void * self_, int param_1)
 {
   float *pfVar1;
@@ -140,7 +140,7 @@ LAB_101ce013:
 }
 
 // FUNCTION: FFXIMAIN 0x101CE1E0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CE1E0(void * self_, int param_1, undefined4 xi_s2)
 {
   int iVar1;
@@ -226,7 +226,7 @@ switchD_101ce26e_default:
 }
 
 // FUNCTION: FFXIMAIN 0x101CE9E0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CE9E0(void * self_, undefined4 param_1)
 {
   int iVar1;
@@ -256,7 +256,7 @@ XI_API undefined4 __thiscall fn_101CE9E0(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CEA30  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CEA30(void * self_, int param_1)
 {
   int iVar1;
@@ -283,7 +283,7 @@ XI_API void __thiscall fn_101CEA30(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CEA80  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CEA80(void * self_, undefined4 param_1)
 {
   int iVar1;
@@ -302,28 +302,28 @@ XI_API void __thiscall fn_101CEA80(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101CEAC0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CEAC0(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x14);
 }
 
 // FUNCTION: FFXIMAIN 0x101CEAD0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CEAD0(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x18);
 }
 
 // FUNCTION: FFXIMAIN 0x101CEAE0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CEAE0(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x1c);
 }
 
 // FUNCTION: FFXIMAIN 0x101CEAF0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_101CEAF0(void * self_)
 {
   switch(xi_sw(*(uint32_t *)((int)self_ + 0x20))) {
@@ -339,7 +339,7 @@ XI_API void * __thiscall fn_101CEAF0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CEB40  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall fn_101CEB40(void * self_)
 {
   switch(xi_sw(*(uint32_t *)((int)self_ + 0x20))) {
@@ -355,28 +355,28 @@ XI_API void * __thiscall fn_101CEB40(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101CEBE0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CEBE0(void * self_)
 {
   return **(uint8_t **)((int)self_ + 0xf0) & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x101CEBF0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CEBF0(void * self_)
 {
   return **(uint8_t **)((int)self_ + 0xf0) >> 1 & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x101CECB0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall fn_101CECB0(void * self_, int param_1, int param_2, int param_3)
 {
   return (uint32_t)*(uint8_t *)(param_3 + (param_2 + param_1 * 0x1a) * 8 + (int)self_);
 }
 
 // FUNCTION: FFXIMAIN 0x101CEEF0  (unit unit_101CD990: no unit evidence of its own; in the gap between 0x101CD900 (YkFurniture) and 0x101CF630 (YkJpgBit) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_101CEEF0(void * self_, void * param_1)
 {
   uint32_t uVar1;

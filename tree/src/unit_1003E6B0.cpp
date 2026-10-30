@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003E910  (unit unit_1003E6B0: no unit evidence of its own; in the gap between 0x1003E6A0 (CMoD3aElem) and 0x1003EE60 (CMoD3aLightmapElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 70 returned normally, 68 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
+// GATE: PASS -- 100 trials, 70 returned normally, 68 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall YmElem_DrawD3ASegment(void * self_, undefined4 param_1, undefined4 param_2, int param_3)
 {
   short *psVar1;
@@ -25,7 +25,7 @@ XI_API void __thiscall YmElem_DrawD3ASegment(void * self_, undefined4 param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x1003E9A0  (unit unit_1003E6B0: no unit evidence of its own; in the gap between 0x1003E6A0 (CMoD3aElem) and 0x1003EE60 (CMoD3aLightmapElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall YmElem_SetD3ADrawState(int self_)
 {
   int v2;

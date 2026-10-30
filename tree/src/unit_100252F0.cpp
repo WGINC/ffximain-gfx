@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10025330  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1778 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1778 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD *a4)
 {
   _DWORD v6[16];
@@ -50,7 +50,7 @@ XI_API char __thiscall ProjTex_BeginPass(_DWORD *self_, int *a2, int a3, _DWORD 
 }
 
 // FUNCTION: FFXIMAIN 0x100255C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 53 returned normally, 498 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53
+// GATE: PASS -- 100 trials, 53 returned normally, 498 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 {
   int result;
@@ -123,7 +123,7 @@ XI_API int __thiscall ProjTex_EndPass(void *self_, int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10025870  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1278 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1278 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a3, int a4)
 {
   __int64 v6; // rcx
@@ -220,21 +220,21 @@ XI_API int __thiscall ProjTex_CaptureToTarget(void *self_, int a1, int a2, int a
 }
 
 // FUNCTION: FFXIMAIN 0x10025BD0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100252F0_Nop_10025BD0(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10025BE0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100252F0_Nop_10025BE0(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10025BF0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit100252F0_ClearCounter(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032a480;
@@ -243,7 +243,7 @@ XI_API void __thiscall Unit100252F0_ClearCounter(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10025C40  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2471 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2471 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
   float v4[16];
@@ -298,7 +298,7 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10025F70  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 41 returned normally, 671 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 41
+// GATE: PASS -- 100 trials, 41 returned normally, 671 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall EnvMap_EndPass(int a1)
 {
   int result;
@@ -371,7 +371,7 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x100263F0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 {
   alignas(16) unsigned char xi_frame[0x588];  // address-taken locals at their original offsets
@@ -440,7 +440,7 @@ XI_API void __cdecl Dbg_DrawViewAxisGizmo(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100266C0  (unit unit_100252F0: no unit evidence of its own; in the gap between 0x100252D0 (CYyModelDt_VT_1032A430) and 0x10026880 (CYyIcon) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Dbg_DrawAxesAt(int a1)
 {
   alignas(16) unsigned char xi_frame[0x4F8];  // address-taken locals at their original offsets

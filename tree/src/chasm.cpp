@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10273920  (unit chasm: asserts chasm.c)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 {
   int iVar1;
@@ -63,7 +63,7 @@ XI_API void __cdecl chasm_10273920(uint8_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10273D60  (unit chasm: between 0x10273C20 (asserts chasm.c) and 0x10273DB0 (asserts chasm.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 * param_2, undefined4 * param_3)
 {
   int iVar1;
@@ -78,7 +78,7 @@ XI_API undefined4 __cdecl Chasm_ApplyAtCurrentIndex(int param_1, undefined4 * pa
 }
 
 // FUNCTION: FFXIMAIN 0x10273E80  (unit chasm: between 0x10273DF0 (asserts chasm.c) and 0x10273FD0 (asserts chasm.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Chasm_ToggleLayerState(int param_1, int param_2, int param_3)
 {
   uint32_t *puVar1;

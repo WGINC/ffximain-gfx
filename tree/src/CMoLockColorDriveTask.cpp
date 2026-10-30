@@ -3,21 +3,21 @@
 #include "CMoLockColorDriveTask.hpp"
 
 // FUNCTION: FFXIMAIN 0x10056960  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoLockColorDriveTask::GetRuntimeClass()
 {
   return &CMoLockColorDriveTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100630F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoLockColorDriveTask::vf011()
 {
   return (int)orig::CMoLockLookAtDriveTask_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x10063100  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoLockColorDriveTask::vf012(int a1)
 {
   Vt_1032BA18 * self = reinterpret_cast<Vt_1032BA18 *>(this);  // byte-exact view for the rest

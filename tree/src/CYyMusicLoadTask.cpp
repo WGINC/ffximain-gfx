@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100378B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CYyMusicLoadTask::StartTrack(int param_1)
 {
   uint32_t uVar1;
@@ -31,7 +31,7 @@ undefined4 __cdecl CYyMusicLoadTask::StartTrack(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10037960  (unit CYyMusicLoadTask: stores CYyMusicLoadTask vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SwitchMusicTask(int param_1)
 {
   int *self_;

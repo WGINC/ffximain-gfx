@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100AB320  (unit unit_100AB2A0: no unit evidence of its own; in the gap between 0x100AB290 (CXiGeomActor) and 0x100AB360 (CXiSklFurnitureActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Acter_DestroyAndClearSlot(int param_1)
 {
   uint16_t uVar1;

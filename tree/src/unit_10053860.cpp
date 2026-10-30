@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10053890  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 62 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 62 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Generator_ClearSubobjectOrSetFlag(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   int *this_00;
@@ -25,7 +25,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Generator_ClearSubobjectO
 }
 
 // FUNCTION: FFXIMAIN 0x100538E0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_Stop(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2)
 {
   uint16_t uVar1;
@@ -83,7 +83,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_Stop(undefine
 }
 
 // FUNCTION: FFXIMAIN 0x100539E0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Generator_IsFlag400OrField22Zero(void * self_)
 {
   int iVar1;
@@ -96,7 +96,7 @@ XI_API undefined4 __thiscall Generator_IsFlag400OrField22Zero(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10053A00  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 83 returned normally, 254 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83
+// GATE: PASS -- 100 trials, 83 returned normally, 254 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit10053860_StopGenerators(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 * param_4)
 {
   uint16_t uVar1;
@@ -244,7 +244,7 @@ LAB_10053b75:
 }
 
 // FUNCTION: FFXIMAIN 0x10053C80  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall YmGenerater_UpdateAttach(void * self_, int param_1, float * param_2)
 {
   uint32_t *puVar1;
@@ -331,7 +331,7 @@ XI_API undefined4 __thiscall YmGenerater_UpdateAttach(void * self_, int param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x10053DD0  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74
+// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_UpdateAttachIfPresent(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   uint32_t *puVar1;

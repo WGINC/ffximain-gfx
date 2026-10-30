@@ -3,7 +3,7 @@
 #include "CMoTask_VT_1032AF60.hpp"
 
 // FUNCTION: FFXIMAIN 0x10043A90  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * CMoTask_VT_1032AF60::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

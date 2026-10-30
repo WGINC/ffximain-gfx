@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102997A0  (unit sqsdCartoon: between 0x10299780 (asserts sqsdCartoon.c) and 0x10299840 (name sqsdCartoon_BakeOntoShape_Stub), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqsdCartoon_Draw(int param_1, int * param_2)
 {
   int iVar1;
@@ -26,7 +26,7 @@ XI_API void __cdecl SqsdCartoon_Draw(int param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10299840  (unit sqsdCartoon: name sqsdCartoon_BakeOntoShape_Stub)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqsdCartoon_BakeOntoShape_Stub(void)
 {
   orig::sqDebugPrintf_v1(s_warning_not_implemented_yet_103bc04c);

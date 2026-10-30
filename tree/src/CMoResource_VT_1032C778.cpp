@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C778.hpp"
 
 // FUNCTION: FFXIMAIN 0x10071A20  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoResource_VT_1032C778::vf008()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest
@@ -31,7 +31,7 @@ char CMoResource_VT_1032C778::vf008()
 }
 
 // FUNCTION: FFXIMAIN 0x10071A30  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CMoResource_VT_1032C778::vf009()
 {
   char * self = reinterpret_cast<char *>(this);  // byte-exact view for the rest

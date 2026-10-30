@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102999A0  (unit sqsdGlow: between 0x10299910 (name sqsdGlow_Dump) and 0x10299AB0 (name sqsdGlow_BakeOntoShape), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl SqsdGlow_ApplyShader(int param_1, int param_2)
 {
   int iVar1;
@@ -43,7 +43,7 @@ XI_API undefined4 __cdecl SqsdGlow_ApplyShader(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10299AB0  (unit sqsdGlow: name sqsdGlow_BakeOntoShape)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqsdGlow_BakeOntoShape(int param_1, int * param_2)
 {
   undefined4 uVar1;

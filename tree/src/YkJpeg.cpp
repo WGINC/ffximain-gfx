@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101CF870  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 57 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57
+// GATE: PASS -- 100 trials, 57 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::InitTables(void * self)
 {
   orig::Unit101CF660_BuildCodeTable((int)self + 0x8bc,(int)self + 0x69c,0x1037e6c4,0x1037e6b0);
@@ -35,7 +35,7 @@ void __thiscall YkJpeg::InitTables(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101CFDB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __stdcall YkJpeg::CopyBlock(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6)
 {
   uint32_t uVar1;
@@ -64,7 +64,7 @@ void __stdcall YkJpeg::CopyBlock(int param_1, int param_2, int param_3, int para
 }
 
 // FUNCTION: FFXIMAIN 0x101CFE20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __stdcall YkJpeg::Unpack565(uint32_t param_1, int * param_2, int * param_3, int param_4)
 {
   int iVar1;
@@ -84,7 +84,7 @@ int __stdcall YkJpeg::Unpack565(uint32_t param_1, int * param_2, int * param_3, 
 }
 
 // FUNCTION: FFXIMAIN 0x101CFEB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::UnpackBlock565(void * self, int param_1, int param_2, int param_3, int param_4, int param_5, int * param_6)
 {
   uint32_t uVar1;
@@ -123,7 +123,7 @@ void __thiscall YkJpeg::UnpackBlock565(void * self, int param_1, int param_2, in
 }
 
 // FUNCTION: FFXIMAIN 0x101CFF60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __stdcall YkJpeg::ForwardDct(int param_1)
 {
   int *piVar1;
@@ -210,7 +210,7 @@ void __stdcall YkJpeg::ForwardDct(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0210  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::EncodeBlock(void * self, int * param_1, char * param_2)
 {
   uint16_t *puVar1;
@@ -292,7 +292,7 @@ void __thiscall YkJpeg::EncodeBlock(void * self, int * param_1, char * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0370  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 13 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 13
+// GATE: PASS -- 100 trials, 13 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall YkJpeg::Encode(void * self, uint32_t param_1, uint32_t param_2, int param_3, int param_4)
 {
   char cVar1;
@@ -396,7 +396,7 @@ undefined4 __thiscall YkJpeg::Encode(void * self, uint32_t param_1, uint32_t par
 }
 
 // FUNCTION: FFXIMAIN 0x101D05E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint8_t * __cdecl YkJpeg::GetCopyrightString()
 {
   orig::Unit101C72E0_GetOffset();
@@ -405,7 +405,7 @@ uint8_t * __cdecl YkJpeg::GetCopyrightString()
 }
 
 // FUNCTION: FFXIMAIN 0x101D0600  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int __thiscall YkJpeg::EncodeChecked(void * self, uint32_t param_1, uint32_t param_2, int param_3, int param_4)
 {
   int iVar1;
@@ -418,7 +418,7 @@ int __thiscall YkJpeg::EncodeChecked(void * self, uint32_t param_1, uint32_t par
 }
 
 // FUNCTION: FFXIMAIN 0x101D08C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall YkJpeg::Destructor(void * self)
 {
   *(uint8_t ***)self = &PTR_YkJpeg_GetRuntimeClass_10337e80;
@@ -427,7 +427,7 @@ undefined4 __thiscall YkJpeg::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D08D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::Release(void * self)
 {
   *(uint8_t ***)self = &PTR_YkJpeg_GetRuntimeClass_10337e80;
@@ -436,7 +436,7 @@ void __thiscall YkJpeg::Release(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0910  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::PutBit(void * self, int param_1)
 {
   uint8_t bVar1;
@@ -463,7 +463,7 @@ void __thiscall YkJpeg::PutBit(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0970  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74
+// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::PutBits(void * self, uint32_t param_1, uint32_t param_2)
 {
   uint32_t uVar1;
@@ -481,7 +481,7 @@ void __thiscall YkJpeg::PutBits(void * self, uint32_t param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x101D09E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::PutBytes(void * self, int param_1, int param_2)
 {
   int iVar1;
@@ -502,7 +502,7 @@ void __thiscall YkJpeg::PutBytes(void * self, int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0A60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall YkJpeg::FlushBits(void * self)
 {
   uint8_t bVar1;
@@ -529,7 +529,7 @@ void __thiscall YkJpeg::FlushBits(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x101D1060  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl YkJpeg::CaptureAndEncode(void * param_1, uint32_t param_2, uint32_t param_3)
 {
   LPVOID pvVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10275150  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqMemInit(void)
 {
   undefined4 *puVar1;
@@ -20,7 +20,7 @@ XI_API void __cdecl sqMemInit(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10275190  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqMem_InitBlock(undefined4 * param_1)
 {
   *param_1 = 0;
@@ -32,7 +32,7 @@ XI_API void __cdecl SqMem_InitBlock(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102752F0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl SqMem_ClassifyBlock(int param_1)
 {
   int iVar1;
@@ -48,14 +48,14 @@ XI_API undefined4 __cdecl SqMem_ClassifyBlock(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10275320  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqMem_GetPayloadEnd(int param_1)
 {
   return *(int *)(param_1 + 4) + 0x10 + param_1;
 }
 
 // FUNCTION: FFXIMAIN 0x10275510  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __cdecl SqMem_Check(void)
 {
   int iVar1;
@@ -98,7 +98,7 @@ LAB_1027559c:
 }
 
 // FUNCTION: FFXIMAIN 0x102755C0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((cdecl, regparm(2))) SqMem_HexDump(undefined4 xi_eax, undefined4 xi_edx, int param_1, int param_2)
 {
   int iVar1;
@@ -125,7 +125,7 @@ XI_API void __attribute__((cdecl, regparm(2))) SqMem_HexDump(undefined4 xi_eax, 
 }
 
 // FUNCTION: FFXIMAIN 0x10275670  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqMem_FindArena(uint32_t param_1)
 {
   undefined4 *puVar1;
@@ -144,7 +144,7 @@ XI_API undefined4 * __cdecl SqMem_FindArena(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10275B60  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqMemPoolRegister(int param_1, uint32_t param_2, int param_3, undefined4 xi_s4)
 {
   if ((param_2 & 0xf) != 0) {
@@ -173,7 +173,7 @@ XI_API void __cdecl sqMemPoolRegister(int param_1, uint32_t param_2, int param_3
 }
 
 // FUNCTION: FFXIMAIN 0x10275CC0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqMem_PrintPools(void)
 {
   char *pcVar1;
@@ -199,7 +199,7 @@ XI_API void __cdecl SqMem_PrintPools(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10275D40  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqMem_AllocZeroed(int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;
@@ -222,7 +222,7 @@ XI_API undefined4 * __cdecl SqMem_AllocZeroed(int param_1, int param_2, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x10275E90  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqMem_Realloc(undefined4 * param_1, uint32_t param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;
@@ -344,7 +344,7 @@ XI_API undefined4 * __cdecl SqMem_Realloc(undefined4 * param_1, uint32_t param_2
 }
 
 // FUNCTION: FFXIMAIN 0x102760F0  (unit unit_10275140: no unit evidence of its own; in the gap between 0x10275090 (sqTimer) and 0x10276260 (sqgxContext) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqFree(int param_1, undefined4 param_2, undefined4 param_3)
 {
   int iVar1;

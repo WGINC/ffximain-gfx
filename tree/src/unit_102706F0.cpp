@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10270B60  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
 {
   int iVar1;
@@ -118,7 +118,7 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10270EC0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_UpdateTransform(void)
 {
   int iVar1;
@@ -137,7 +137,7 @@ XI_API void __cdecl StAvatar_UpdateTransform(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10270F30  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit102706F0_UpdateScene(undefined4 param_1)
 {
   int iVar1;
@@ -174,7 +174,7 @@ XI_API undefined4 __cdecl Unit102706F0_UpdateScene(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10271030  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_ApplyModes(undefined4 param_1)
 {
   uint32_t uVar1;
@@ -203,7 +203,7 @@ XI_API void __cdecl StAvatar_ApplyModes(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102710B0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl fn_102710B0(int param_1, int param_2, undefined4 param_3, int param_4)
 {
   int iVar1;
@@ -280,7 +280,7 @@ XI_API void __cdecl fn_102710B0(int param_1, int param_2, undefined4 param_3, in
 }
 
 // FUNCTION: FFXIMAIN 0x102715F0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_ApplyEffectFlags(undefined4 param_1)
 {
   uint8_t bVar1;
@@ -296,7 +296,7 @@ XI_API void __cdecl StAvatar_ApplyEffectFlags(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10271630  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_UpdateAngles(int param_1, int param_2, undefined4 param_3, float param_4)
 {
   int iVar1;
@@ -346,7 +346,7 @@ XI_API void __cdecl StAvatar_UpdateAngles(int param_1, int param_2, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x102717F0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_DrawScene(void)
 {
   orig::sqsnSceneDraw(0x1099b13c);
@@ -354,7 +354,7 @@ XI_API void __cdecl StAvatar_DrawScene(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10271B40  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl scnFini(void)
 {
   if (DAT_1099ccf8 != 0) {
@@ -366,7 +366,7 @@ XI_API undefined4 __cdecl scnFini(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10271B90  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_UpdateFlagBits(uint32_t param_1, int param_2)
 {
   if (param_2 == -1) {
@@ -382,7 +382,7 @@ XI_API void __cdecl StAvatar_UpdateFlagBits(uint32_t param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10271C30  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetOffsets(int param_1, int param_2, int param_3)
 {
   (&DAT_1099b0e4)[param_1] = param_2;
@@ -394,7 +394,7 @@ XI_API void __cdecl StAvatar_SetOffsets(int param_1, int param_2, int param_3)
 }
 
 // FUNCTION: FFXIMAIN 0x10271C60  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetSceneValue1(undefined4 param_1, undefined4 param_2)
 {
   orig::SqsnScene_LayerPreallocate(0x1099b13c,param_1,param_2);
@@ -402,7 +402,7 @@ XI_API void __cdecl StAvatar_SetSceneValue1(undefined4 param_1, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x10271C80  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetSceneValue2(undefined4 param_1, undefined4 param_2)
 {
   orig::SqsnScene_ShadowPreallocate(0x1099b13c,param_1,param_2);
@@ -410,7 +410,7 @@ XI_API void __cdecl StAvatar_SetSceneValue2(undefined4 param_1, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x10271CA0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_StoreParams(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8, undefined4 param_9)
 {
   DAT_1099b104 = param_1;
@@ -426,7 +426,7 @@ XI_API void __cdecl StAvatar_StoreParams(undefined4 param_1, undefined4 param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x10271D00  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_StoreEntry(void)
 {
   uint32_t uVar1;
@@ -453,7 +453,7 @@ XI_API void __cdecl StAvatar_StoreEntry(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10271D70  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SelectEntry(int param_1)
 {
   if (DAT_1099b128 != 0xd) {
@@ -473,7 +473,7 @@ XI_API void __cdecl StAvatar_SelectEntry(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10271E90  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl scnGetFlags(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
@@ -483,7 +483,7 @@ XI_API void __cdecl scnGetFlags(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10271F20  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_InitEntry(int param_1)
 {
   uint32_t *puVar1;
@@ -548,14 +548,14 @@ XI_API void __cdecl StAvatar_InitEntry(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102720A0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102706F0_NoOpA(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x102725A0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetEntryPosition(int param_1, float * param_2)
 {
   int iVar1;
@@ -577,7 +577,7 @@ XI_API void __cdecl StAvatar_SetEntryPosition(int param_1, float * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10272630  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetEntryFlag(int param_1, int param_2)
 {
   int iVar1;
@@ -598,7 +598,7 @@ XI_API void __cdecl StAvatar_SetEntryFlag(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102726E0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetFlag3(int param_1)
 {
   if (param_1 == -1) {
@@ -616,7 +616,7 @@ XI_API void __cdecl StAvatar_SetFlag3(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10272750  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetEntryFlag2(int param_1, int param_2)
 {
   uint32_t uVar1;
@@ -649,7 +649,7 @@ XI_API void __cdecl StAvatar_SetEntryFlag2(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102727F0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetEntryColor(int param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -670,7 +670,7 @@ XI_API void __cdecl StAvatar_SetEntryColor(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10272880  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68
+// GATE: PASS -- 100 trials, 68 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SetEntryTransform(int param_1, int param_2, int param_3)
 {
   if (param_1 == -1) {
@@ -696,7 +696,7 @@ XI_API void __cdecl StAvatar_SetEntryTransform(int param_1, int param_2, int par
 }
 
 // FUNCTION: FFXIMAIN 0x102729E0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_ToggleFlag168(int param_1)
 {
   if (param_1 == -1) {
@@ -708,7 +708,7 @@ XI_API void __cdecl StAvatar_ToggleFlag168(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10272A10  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94
+// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl StAvatar_SelectIndex(int param_1)
 {
   if (param_1 == -1) {
@@ -725,7 +725,7 @@ XI_API void __cdecl StAvatar_SelectIndex(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10272BA0  (unit unit_102706F0: no unit evidence of its own; in the gap between 0x10270690 (mdl) and 0x10272BB0 (cam_%04d) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit102706F0_NoOpB(void)
 {
   return;

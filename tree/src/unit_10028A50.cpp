@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10028AA0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Mem_FreeBlockMergeNeighbours(undefined4 param_1)
 {
   int iVar1;
@@ -58,7 +58,7 @@ XI_API undefined4 __cdecl Mem_FreeBlockMergeNeighbours(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10028AC0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Mem_FreeHeaderMergeNeighbours(int param_1)
 {
   int iVar1;
@@ -111,7 +111,7 @@ XI_API undefined4 __cdecl Mem_FreeHeaderMergeNeighbours(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10028B90  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall MemBlock_GetSize(void * self_)
 {
   if (*(int *)((int)self_ + 8) != 0) {
@@ -121,7 +121,7 @@ XI_API int __thiscall MemBlock_GetSize(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10028BF0  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 24 returned normally, 9 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24
+// GATE: PASS -- 100 trials, 24 returned normally, 9 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10028A50_CallEnabledEntries(undefined4 xi_eax, undefined4 param_1, int param_2, int param_3)
 {
   do {
@@ -135,7 +135,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10028A50_CallEnabledEnt
 }
 
 // FUNCTION: FFXIMAIN 0x10028C30  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10028A50_CallEnabledList0(undefined4 param_1)
 {
   uint32_t uVar1;
@@ -145,7 +145,7 @@ XI_API undefined4 __cdecl Unit10028A50_CallEnabledList0(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10028C50  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10028A50_CallEnabledList1(undefined4 param_1)
 {
   orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570bc_as_s32,DAT_104570c0_as_s32,DAT_104570c0_as_s32);
@@ -153,7 +153,7 @@ XI_API void __cdecl Unit10028A50_CallEnabledList1(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10028C70  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10028A50_CallEnabledList2(undefined4 param_1)
 {
   orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570c4_as_s32,DAT_104570c8_as_s32,DAT_104570c8_as_s32);
@@ -161,7 +161,7 @@ XI_API void __cdecl Unit10028A50_CallEnabledList2(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10028C90  (unit unit_10028A50: no unit evidence of its own; in the gap between 0x10028A40 (CYyDelayDeleteTask) and 0x10028F00 (CYyUpperMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10028A50_CallEnabledList3(undefined4 param_1)
 {
   orig::Unit10028A50_CallEnabledEntries(param_1,DAT_104570cc_as_s32,DAT_104570d0_as_s32,DAT_104570d0_as_s32);

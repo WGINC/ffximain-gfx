@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1002C890  (unit unit_1002C890: no unit evidence of its own; in the gap between 0x1002C880 (CYyObject_VT_103299F0) and 0x1002C8F0 (CYyObject) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Mem_AllocDefault(undefined4 param_1)
 {
   undefined4 *puVar1;
@@ -13,7 +13,7 @@ XI_API undefined4 __cdecl Mem_AllocDefault(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002C8B0  (unit unit_1002C890: no unit evidence of its own; in the gap between 0x1002C880 (CYyObject_VT_103299F0) and 0x1002C8F0 (CYyObject) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl thunk_sub_10028AA0(int param_1)
 {
   orig::Mem_FreeBlockMergeNeighbours(param_1);

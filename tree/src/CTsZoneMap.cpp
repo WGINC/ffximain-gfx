@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10177240  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 255 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 255 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 {
   char *Text;
@@ -32,21 +32,21 @@ XI_API int __thiscall Gfx_AssembleVertexShader(void *self_, int a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x101773F0  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl ZoneMap_GetMatrixGlobal(void)
 {
   return &DAT_10631ed0;
 }
 
 // FUNCTION: FFXIMAIN 0x10177400  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_SetZBias(unsigned int a1)
 {
   return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZBIAS, a1);
 }
 
 // FUNCTION: FFXIMAIN 0x10177420  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_SetOverlayProjection(void * self_)
 {
   float fVar1;
@@ -73,7 +73,7 @@ XI_API void __thiscall ZoneMap_SetOverlayProjection(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10177770  (unit CTsZoneMap: between 0x101773D0 (class model places it in CTsZoneMap) and 0x10177800 (name CTsZoneMap_LogZoneMetrics), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __attribute__((cdecl, regparm(1))) ZoneMap_QueryBoxHeightGlobal(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3, float * param_4)
 {
   uint32_t uVar1;
@@ -86,7 +86,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) ZoneMap_QueryBoxHeightGlobal(
 }
 
 // FUNCTION: FFXIMAIN 0x101779B0  (unit CTsZoneMap: class model places it in CTsZoneMap)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_Call10173AE0(void * self_, undefined4 * param_1, int param_2)
 {
   uint32_t uVar1;
@@ -96,7 +96,7 @@ XI_API undefined4 __thiscall ZoneMap_Call10173AE0(void * self_, undefined4 * par
 }
 
 // FUNCTION: FFXIMAIN 0x101779C0  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 900 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_SetupLineDrawState(void)
 {
   _DWORD v1[16];
@@ -120,7 +120,7 @@ XI_API int __cdecl Gfx_SetupLineDrawState(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10177B40  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 38 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8, unsigned __int8 a4, char a5, char a6)
 {
   int v6;
@@ -184,7 +184,7 @@ XI_API int __cdecl Gfx_DrawQuadOutline(float *a1, char a2, unsigned __int8 arg8,
 }
 
 // FUNCTION: FFXIMAIN 0x10177C50  (unit CTsZoneMap: between 0x101779B0 (class model places it in CTsZoneMap) and 0x10177D00 (stores CTsZoneMap vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6)
 {
   int v6;
@@ -213,7 +213,7 @@ XI_API int __cdecl Gfx_DrawLine3D(int a1, int a2, int a3, int a4, int a5, int a6
 }
 
 // FUNCTION: FFXIMAIN 0x10177D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CTsZoneMap::Init(void * self)
 {
   void *this_00;
@@ -338,7 +338,7 @@ void * __thiscall CTsZoneMap::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10177FA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CTsZoneMap::SetLayerOrder(void * self)
 {
   *(uint32_t *)((int)self + 0x394ac) = 0;
@@ -359,7 +359,7 @@ void __thiscall CTsZoneMap::SetLayerOrder(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10178070  (placed by callers pass their own this (CTsZoneMap))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CTsZoneMap::CTsZoneMap_Destructor()
 {
   unsigned __int8 *v2;
@@ -398,7 +398,7 @@ char CTsZoneMap::CTsZoneMap_Destructor()
 }
 
 // FUNCTION: FFXIMAIN 0x101781D0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CTsZoneMap::InitZBiasPresets()
 {
   int result;
@@ -422,7 +422,7 @@ int CTsZoneMap::InitZBiasPresets()
 }
 
 // FUNCTION: FFXIMAIN 0x101784E0  (unit CTsZoneMap: between 0x10178070 (stores CTsZoneMap vtable (ctor/dtor)) and 0x10178780 (class model places it in CTsZoneMap), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl ZoneMap_ResetGlobalTables(void)
 {
   undefined4 *puVar1;
@@ -450,7 +450,7 @@ XI_API void __cdecl ZoneMap_ResetGlobalTables(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10178B00  (unit CTsZoneMap: called only from CTsZoneMap (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_ReleaseStateBlock(CTsZoneMap *self_)
 {
   unsigned int v2;
@@ -465,7 +465,7 @@ XI_API int __thiscall ZoneMap_ReleaseStateBlock(CTsZoneMap *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10178B30  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint32_t __thiscall CTsZoneMap::Render(void * self)
 {
   undefined4 uVar1;
@@ -559,7 +559,7 @@ LAB_10178cf8:
 }
 
 // FUNCTION: FFXIMAIN 0x10179390  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CTsZoneMap::UpdateViewerPosition(void * self)
 {
   uint32_t uVar1;
@@ -586,7 +586,7 @@ void __thiscall CTsZoneMap::UpdateViewerPosition(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10182700  (placed by IDB name)
-// GATE: PASS -- 100 trials, 55 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55
+// GATE: PASS -- 100 trials, 55 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
 float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTexture8 *a4, float a5)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -960,7 +960,7 @@ LABEL_41:
 }
 
 // FUNCTION: FFXIMAIN 0x10184FE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest

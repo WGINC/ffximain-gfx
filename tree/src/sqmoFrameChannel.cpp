@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10293F80  (unit sqmoFrameChannel: asserts sqmoFrameChannel.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqmoFrameChannel_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqmoFrameChannel_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10293FA0  (unit sqmoFrameChannel: between 0x10293F80 (asserts sqmoFrameChannel.c) and 0x10294000 (asserts sqmoFrameChannel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmoFrameChannel_Init(undefined4 * param_1)
 {
   *param_1 = 0x50001;
@@ -36,7 +36,7 @@ XI_API void __cdecl SqmoFrameChannel_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102944E0  (unit sqmoFrameChannel: between 0x10294400 (asserts sqmoFrameChannel.c) and 0x102945A0 (asserts sqmoFrameChannel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmoFrameChannel_Apply(int param_1, int param_2)
 {
   orig::SqmoUtil_MarkSlot(*(int *)(param_1 + 0x38),*(int *)(param_1 + 0x1c),param_2,

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102A9520  (unit sqVtx: asserts sqVtx.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqVtx_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqVtx_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9550  (unit sqVtx: between 0x102A9520 (asserts sqVtx.c) and 0x102A95A0 (asserts sqVtx.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_Init(undefined4 * param_1)
 {
   int iVar1;
@@ -38,7 +38,7 @@ XI_API void __cdecl SqVtx_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9980  (unit sqVtx: asserts sqVtx.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_AllocateField(int param_1, int param_2, int param_3)
 {
   undefined4 *puVar1;
@@ -57,7 +57,7 @@ XI_API void __cdecl SqVtx_AllocateField(int param_1, int param_2, int param_3)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9EF0  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60
+// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_ClearEntries(int param_1)
 {
   uint32_t *puVar1;
@@ -81,7 +81,7 @@ XI_API void __cdecl SqVtx_ClearEntries(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9F30  (unit sqVtx: between 0x102A9DB0 (asserts sqVtx.c) and 0x102A9FB0 (asserts sqVtx.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59
+// GATE: PASS -- 100 trials, 59 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_ClearEntriesAlt(int param_1)
 {
   uint32_t *puVar1;
@@ -105,7 +105,7 @@ XI_API void __cdecl SqVtx_ClearEntriesAlt(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102A9FB0  (unit sqVtx: asserts sqVtx.c)
-// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64
+// GATE: PASS -- 100 trials, 64 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqVtx_PackFloatsToBytes(int param_1, int param_2)
 {
   int iVar1;

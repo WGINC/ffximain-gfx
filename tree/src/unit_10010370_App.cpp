@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10010370  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl App_RegisterSystemDats(void)
 {
   orig::Unit10211440_Construct(DAT_10666e2c,0,0x103502d4,0x103502dc);
@@ -61,7 +61,7 @@ XI_API void __cdecl App_RegisterSystemDats(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10010520  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl App_SaveAllSlotData(void)
 {
   uint32_t uVar1;
@@ -123,7 +123,7 @@ XI_API void __cdecl App_SaveAllSlotData(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10010700  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall App_Constructor(void * self_)
 {
   orig::Unit10026C70_ReturnThis_v1((void *)((int)self_ + 0x54));
@@ -196,7 +196,7 @@ XI_API void * __thiscall App_Constructor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010CE0  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall App_SetSeqStep(void * self_, undefined4 param_1)
 {
   *(uint16_t *)((int)self_ + 6) = 0;
@@ -205,7 +205,7 @@ XI_API void __thiscall App_SetSeqStep(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D00  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall App_AdvanceSeqStep(void * self_)
 {
   *(short *)((int)self_ + 4) = *(short *)((int)self_ + 4) + 1;
@@ -214,7 +214,7 @@ XI_API void __thiscall App_AdvanceSeqStep(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D10  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10010370_IncrementShort6(void * self_)
 {
   *(short *)((int)self_ + 6) = *(short *)((int)self_ + 6) + 1;
@@ -222,7 +222,7 @@ XI_API void __thiscall Unit10010370_IncrementShort6(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10010D20  (unit unit_10010370_App: no unit evidence of its own; in the gap between 0x10010360 (CAtelIdleTask) and 0x10011920 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz UNRESOLVED 98, town PASS 100, town2 PASS 100, combat PASS 100, zonetoinn PASS 100
+// NOT VERIFIED -- UNRESOLVED
 XI_API char __thiscall App_InitScene(int self_, int a4)
 {
   _DWORD *v3;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1028A0B0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65
+// GATE: PASS -- 100 trials, 65 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __attribute__((cdecl, regparm(1))) Sq_PrintIndent(undefined4 xi_eax, int param_1)
 {
   if (0 < param_1) {
@@ -16,14 +16,14 @@ XI_API void __attribute__((cdecl, regparm(1))) Sq_PrintIndent(undefined4 xi_eax,
 }
 
 // FUNCTION: FFXIMAIN 0x1028A0E0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit1028A0A0_ReturnZero(void)
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x1028A0F0  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl Unit1028A0A0_ReadBlock(undefined4 * param_1, int param_2, int param_3, undefined4 * param_4, int param_5)
 {
   uint32_t uVar1;
@@ -56,7 +56,7 @@ XI_API undefined4 * __cdecl Unit1028A0A0_ReadBlock(undefined4 * param_1, int par
 }
 
 // FUNCTION: FFXIMAIN 0x1028A150  (unit unit_1028A0A0: no unit evidence of its own; in the gap between 0x1028A040 (sqxfXformM) and 0x1028A2D0 (sqUtil) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqScript_TokenEquals(char * param_1, char * param_2)
 {
   uint32_t uVar1;

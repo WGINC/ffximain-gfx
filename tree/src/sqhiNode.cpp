@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10291B70  (unit sqhiNode: asserts sqhiNode.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqhiNode_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqhiNode_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10291BA0  (unit sqhiNode: between 0x10291B70 (asserts sqhiNode.c) and 0x10291C20 (asserts sqhiNode.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
 {
   *param_1 = 0xd0001;
@@ -37,14 +37,14 @@ XI_API void __cdecl SqhiNode_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10291C50  (unit sqhiNode: between 0x10291C20 (asserts sqhiNode.c) and 0x10291C60 (name sqhiNode_Dump), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqhiNode_Nop(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10291F00  (unit sqhiNode: between 0x10291E90 (asserts sqhiNode.c) and 0x10291F40 (asserts sqhiNode.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqhiNode_SetField64(int param_1, undefined4 param_2)
 {
   if (param_1 != 0) {
@@ -54,7 +54,7 @@ XI_API void __cdecl SqhiNode_SetField64(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10291F10  (unit sqhiNode: between 0x10291E90 (asserts sqhiNode.c) and 0x10291F40 (asserts sqhiNode.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqhiNode_AppendChild(int param_1, int param_2)
 {
   int iVar1;

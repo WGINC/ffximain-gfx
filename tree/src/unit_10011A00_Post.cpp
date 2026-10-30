@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 68 returned normally, 560 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 68
+// GATE: PASS -- 100 trials, 68 returned normally, 560 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned __int8 __thiscall Frame_Render(void * self_)
 {
   double v2;
@@ -826,7 +826,7 @@ LABEL_102:
 }
 
 // FUNCTION: FFXIMAIN 0x10012F40  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 2268 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 2268 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Post_Afterimage(void)
 {
   int result;
@@ -930,7 +930,7 @@ LABEL_17:
 }
 
 // FUNCTION: FFXIMAIN 0x100132B0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 3334 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 3334 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Post_FlashAndZoomFeedback(void *self_)
 {
   int result;
@@ -1116,7 +1116,7 @@ LABEL_28:
 }
 
 // FUNCTION: FFXIMAIN 0x100139E0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall App_RunOpening(void * self_)
 {
   int *piVar1;
@@ -1159,7 +1159,7 @@ XI_API undefined4 __thiscall App_RunOpening(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10013AC0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10011A00_ReturnTrue(void)
 {
   uint32_t xi_entry_eax = 0;
@@ -1168,7 +1168,7 @@ XI_API undefined4 __cdecl Unit10011A00_ReturnTrue(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState6(_WORD *self_)
 {
   char result;
@@ -1218,7 +1218,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10013F10  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState7(_WORD *self_)
 {
   char result;
@@ -1267,7 +1267,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014030  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall App_StepGameState8(_WORD *self_)
 {
   char result;
@@ -1311,7 +1311,7 @@ LABEL_6:
 }
 
 // FUNCTION: FFXIMAIN 0x10014120  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API bool __cdecl App_StepGameState9(void)
 {
   orig::App_RegisterSystemDats();
@@ -1322,7 +1322,7 @@ XI_API bool __cdecl App_StepGameState9(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10014170  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
 {
   uint32_t uVar1;
@@ -1351,7 +1351,7 @@ XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100141C0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Game_InGameSubState0(_WORD *self_)
 {
   if ( *(_DWORD *)(g_pAppSettings + 8) != 0 )
@@ -1362,7 +1362,7 @@ XI_API char __thiscall Game_InGameSubState0(_WORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10014200  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) App_SubStateInitCamera(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t uVar1;
@@ -1376,7 +1376,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) App_SubStateInitCamera(un
 }
 
 // FUNCTION: FFXIMAIN 0x10014220  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1)
 {
   uint32_t uVar1;
@@ -1406,7 +1406,7 @@ XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100142A0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall App_SubStateAdvance(void * self_)
 {
   uint32_t xi_entry_eax = 0;

@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1028D990  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Unit1028D970_SumAxis(int param_1)
 {
   return (long double)*(float *)(param_1 + 0x24) + (long double)*(float *)(param_1 + 0x20);
 }
 
 // FUNCTION: FFXIMAIN 0x1028D9A0  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit1028D970_Reset(undefined4 * param_1)
 {
   *param_1 = 0x7f7fffff;
@@ -23,7 +23,7 @@ XI_API void __cdecl Unit1028D970_Reset(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1028D9C0  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit1028D970_Copy(undefined4 * param_1, undefined4 * param_2)
 {
   *param_1 = *param_2;
@@ -36,7 +36,7 @@ XI_API void __cdecl Unit1028D970_Copy(undefined4 * param_1, undefined4 * param_2
 }
 
 // FUNCTION: FFXIMAIN 0x1028DA20  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1028D970_ComputeBounds(float * xi_eax, float * param_1, float * param_2, int param_3)
 {
   int iVar1;
@@ -109,7 +109,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1028D970_ComputeBounds(
 }
 
 // FUNCTION: FFXIMAIN 0x1028DBB0  (unit unit_1028D970: no unit evidence of its own; in the gap between 0x1028D910 (sqmoMotion) and 0x1028DC00 (sqmdSnap) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit1028D970_GetCenter(float * param_1, float * param_2)
 {
   if (param_1 == (float *)0x0) {

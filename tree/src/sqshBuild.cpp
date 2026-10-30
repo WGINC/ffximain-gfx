@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10299C30  (unit sqshBuild: asserts sqshBuild.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqshBuild_BuildTriStrip(undefined4 * param_1, int param_2)
 {
   int *piVar1;
@@ -51,7 +51,7 @@ XI_API int __cdecl SqshBuild_BuildTriStrip(undefined4 * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10299D60  (unit sqshBuild: between 0x10299C30 (asserts sqshBuild.c) and 0x10299EE0 (asserts sqshBuild.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, int param_3)
 {
   int iVar1;
@@ -88,7 +88,7 @@ XI_API int __cdecl SqshBuild_Read(undefined4 * param_1, undefined4 * param_2, in
 }
 
 // FUNCTION: FFXIMAIN 0x10299E40  (unit sqshBuild: between 0x10299C30 (asserts sqshBuild.c) and 0x10299EE0 (asserts sqshBuild.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqshBuild_BuildPoints(undefined4 * param_1, int param_2)
 {
   undefined4 *puVar1;
@@ -117,7 +117,7 @@ XI_API int __cdecl SqshBuild_BuildPoints(undefined4 * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10299EE0  (unit sqshBuild: asserts sqshBuild.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqshBuild_BuildCurves(undefined4 * param_1, int param_2)
 {
   int *piVar1;

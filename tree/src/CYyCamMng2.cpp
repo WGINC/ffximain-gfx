@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1001E2F0  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_SetGlobalFlags(undefined4 xi_eax, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   if (((DAT_10456db0 == '\0') && ((char)param_1 != '\0')) || ((char)param_2 != '\0')) {
@@ -16,7 +16,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_SetGlobalFlags(u
 }
 
 // FUNCTION: FFXIMAIN 0x1001E470  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CYyCamMng2::CreateGlobal()
 {
   void *self;
@@ -35,7 +35,7 @@ undefined4 __cdecl CYyCamMng2::CreateGlobal()
 }
 
 // FUNCTION: FFXIMAIN 0x1001E4B0  (unit CYyCamMng2: between 0x1001E2A0 (class model places it in CYyCamMng2) and 0x1001E600 (stores CYyCamMng2 vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_CallGlobalVfunc1(undefined4 xi_eax)
 {
   if (DAT_10456d6c_as_v0 != (int *)0x0) {
@@ -45,7 +45,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_CallGlobalVfunc1
 }
 
 // FUNCTION: FFXIMAIN 0x1001E4D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 long double __cdecl CYyCamMng2::GetYaw()
 {
   int iVar1;
@@ -59,7 +59,7 @@ long double __cdecl CYyCamMng2::GetYaw()
 }
 
 // FUNCTION: FFXIMAIN 0x1001E4F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyCamMng2::Reset(void * self)
 {
   uint32_t *puVar1;
@@ -85,7 +85,7 @@ undefined4 __thiscall CYyCamMng2::Reset(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1001E590  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyCamMng2::SetDefaultDistances(void * self)
 {
   uint32_t uVar1;
@@ -97,7 +97,7 @@ undefined4 __thiscall CYyCamMng2::SetDefaultDistances(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1001E600  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CYyCamMng2::Construct(void * self)
 {
   uint32_t xi_eax;

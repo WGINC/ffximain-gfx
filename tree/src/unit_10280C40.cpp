@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10280D10  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Sq_PrintFloat4x4Indented(float * param_1, undefined4 param_2, int param_3)
 {
   uint32_t xi_entry_eax = 0;
@@ -27,7 +27,7 @@ XI_API void __cdecl Sq_PrintFloat4x4Indented(float * param_1, undefined4 param_2
 }
 
 // FUNCTION: FFXIMAIN 0x102813B0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61
+// GATE: PASS -- 100 trials, 61 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2)
 {
   char xi_frame[8] __attribute__((aligned(4)));
@@ -53,7 +53,7 @@ XI_API void __cdecl Unit10280C40_CompositeBlendPasses(int param_1, float param_2
 }
 
 // FUNCTION: FFXIMAIN 0x10281510  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 296 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 296 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 {
   int v2;
@@ -146,7 +146,7 @@ XI_API int __cdecl sqgxTextureCreateFromImage(int a1, _BYTE *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x102816E0  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 79 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
+// GATE: PASS -- 100 trials, 82 returned normally, 79 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
 {
   int v3;
@@ -216,7 +216,7 @@ XI_API int __cdecl sqgxTextureAddZ(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10281810  (unit unit_10280C40: no unit evidence of its own; in the gap between 0x10280780 (sqMatrix4) and 0x10281830 (sqgxTexture) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 88
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxCeilLog2(int param_1)
 {
   int iVar1;

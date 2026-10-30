@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102853F0  (unit unit_102853F0: no unit evidence of its own; in the gap between 0x102852E0 (sqmoBuild) and 0x10285700 (sqObject) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl PlaybackChannel_Load(undefined4 * param_1, undefined4 * param_2)
 {
   int *piVar1;

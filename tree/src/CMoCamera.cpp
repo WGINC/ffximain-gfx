@@ -3,21 +3,21 @@
 #include "CMoCamera.hpp"
 
 // FUNCTION: FFXIMAIN 0x1003C880  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoCamera::GetRuntimeClass()
 {
   return &CMoCamera_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003C890  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoCamera::vf008()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x1003CB30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoCamera::SetPathData(_DWORD *a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -36,7 +36,7 @@ int CMoCamera::SetPathData(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10071980  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __cdecl CMoCamera::GetSharedInstance()
 {
   if ( (CMoCamera_GetSharedInstance_staticGuard & 1) == 0 )
@@ -48,7 +48,7 @@ void * __cdecl CMoCamera::GetSharedInstance()
 }
 
 // FUNCTION: FFXIMAIN 0x100719F0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoCamera::vf009()
 {
   ;

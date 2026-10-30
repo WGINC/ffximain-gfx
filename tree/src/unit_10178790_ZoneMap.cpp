@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101787C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_UpdateLoadState(void * self_)
 {
   int *piVar1;
@@ -72,7 +72,7 @@ XI_API void __thiscall ZoneMap_UpdateLoadState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10178A20  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_SetArea(void * self_, int param_1, int param_2)
 {
   uint32_t uVar1;
@@ -112,7 +112,7 @@ XI_API undefined4 __thiscall ZoneMap_SetArea(void * self_, int param_1, int para
 }
 
 // FUNCTION: FFXIMAIN 0x10178AC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ReleaseSlot(void * self_, int param_1)
 {
   if (*(int *)((int)self_ + param_1 * 0x78 + 0x6c) != 0) {
@@ -124,7 +124,7 @@ XI_API void __thiscall ZoneMap_ReleaseSlot(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10178F70  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_Reset(void * self_)
 {
   uint32_t xi_eax;
@@ -136,7 +136,7 @@ XI_API void __thiscall ZoneMap_Reset(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101791F0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 600 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 {
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
@@ -149,7 +149,7 @@ XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101792A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 {
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_zoneVSDeclA, nullptr, self_ + 234580, 0);
@@ -157,7 +157,7 @@ XI_API int __thiscall ZoneMap_CreateVertexShaders(char *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10179410  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_CopyField342C8ToField39450(void * self_)
 {
   *(uint32_t *)((int)self_ + 0x39450) = *(uint32_t *)((int)self_ + 0x342c8);
@@ -165,14 +165,14 @@ XI_API void __thiscall ZoneMap_CopyField342C8ToField39450(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10179420  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_GetField342C8(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x342c8);
 }
 
 // FUNCTION: FFXIMAIN 0x1017A590  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 52
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall fn_1017A590(void * self_, undefined4 param_1)
 {
   uint8_t *puVar1;
@@ -203,7 +203,7 @@ XI_API void __thiscall fn_1017A590(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1017ADE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 359 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
+// GATE: PASS -- 100 trials, 58 returned normally, 359 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a2)
 {
   IDirect3DDevice8 *pDevice;
@@ -264,7 +264,7 @@ LABEL_4:
 }
 
 // FUNCTION: FFXIMAIN 0x1017B110  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 30 returned normally, 48 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30
+// GATE: PASS -- 100 trials, 30 returned normally, 48 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_FreeSlot(void * self_, int param_1)
 {
   int *this_00;
@@ -305,7 +305,7 @@ XI_API undefined4 __thiscall ZoneMap_FreeSlot(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1017B1E0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
 {
   int iVar1;
@@ -366,7 +366,7 @@ XI_API undefined4 __thiscall ZoneMap_TeardownStep(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101811D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBandThenGetCount34154(void * self_, undefined4 param_1, float param_2, float param_3)
 {
   uint32_t uVar1;
@@ -380,7 +380,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBandThenGetCount34154(void * 
 }
 
 // FUNCTION: FFXIMAIN 0x10181210  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_QueryBoxHeight(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
@@ -410,7 +410,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryBoxHeight(void * self_, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x10181290  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBand(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
@@ -426,7 +426,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightBand(void * self_, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x10181300  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightByRadius(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
 {
   uint32_t uVar1;
@@ -445,7 +445,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryBoxHeightByRadius(void * self_, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x10181370  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_QueryExpandedBox(void * self_, float param_1, float param_2, float param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
@@ -474,7 +474,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryExpandedBox(void * self_, float param_
 }
 
 // FUNCTION: FFXIMAIN 0x101813F0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_FindGroundHeight(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float param_4, float * param_5)
 {
   uint32_t uVar1;
@@ -510,7 +510,7 @@ XI_API void __thiscall ZoneMap_FindGroundHeight(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x101814D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_Query169290(void * self_, float * param_1, float * param_2, undefined4 param_3)
 {
   uint32_t uVar1;
@@ -521,7 +521,7 @@ XI_API undefined4 __thiscall ZoneMap_Query169290(void * self_, float * param_1, 
 }
 
 // FUNCTION: FFXIMAIN 0x10181590  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_Query1693B0(void * self_, float * xi_s1, float * xi_s2, float * xi_s3)
 {
   uint32_t uVar1;
@@ -531,7 +531,7 @@ XI_API undefined4 __thiscall ZoneMap_Query1693B0(void * self_, float * xi_s1, fl
 }
 
 // FUNCTION: FFXIMAIN 0x101815D0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 70 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 70 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __thiscall fn_101815D0(void * self_)
 {
   int *this_00;
@@ -645,7 +645,7 @@ XI_API uint64_t __thiscall fn_101815D0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10181930  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 69 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 69 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __thiscall fn_10181930(void * self_)
 {
   int *this_00;
@@ -677,7 +677,7 @@ XI_API uint64_t __thiscall fn_10181930(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101819B0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_IsBoxHeightHitByRadius(void * self_, undefined4 param_1, float param_2, undefined4 param_3, float * param_4)
 {
   uint32_t uVar1;
@@ -689,7 +689,7 @@ XI_API undefined4 __thiscall ZoneMap_IsBoxHeightHitByRadius(void * self_, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x10181A10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_Query16E7E0(void * self_, float * param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t uVar1;
@@ -699,7 +699,7 @@ XI_API undefined4 __thiscall ZoneMap_Query16E7E0(void * self_, float * param_1, 
 }
 
 // FUNCTION: FFXIMAIN 0x10181F60  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl Unit10178790_MulPointXyz(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)*param_2 * (long double)*param_3 +
@@ -717,7 +717,7 @@ XI_API long double __cdecl Unit10178790_MulPointXyz(float * param_1, float * par
 }
 
 // FUNCTION: FFXIMAIN 0x10182490  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Unit10178790_BuildPerspective(float * param_1, float param_2, float param_3, float param_4, float param_5, float param_6)
 {
   float fVar1;
@@ -841,7 +841,7 @@ XI_API void __stdcall Unit10178790_BuildPerspective(float * param_1, float param
 }
 
 // FUNCTION: FFXIMAIN 0x10182F10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 400 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __stdcall Gfx_DrawWireBox(int a1)
 {
   double v1;
@@ -964,7 +964,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10183420  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_FindSlotByName(void * self_, int param_1)
 {
   int *piVar1;
@@ -985,7 +985,7 @@ XI_API int __thiscall ZoneMap_FindSlotByName(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10183DA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 5 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 {
   _DWORD *result;
@@ -1322,7 +1322,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x101844C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 22423 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 66
+// GATE: PASS -- 100 trials, 66 returned normally, 22423 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) ModelActor_Draw(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2, undefined4 xi_s2)
 {
   int iVar1;
@@ -1571,7 +1571,7 @@ LAB_101846e1:
 }
 
 // FUNCTION: FFXIMAIN 0x10186DB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ClearSlots(void * self_)
 {
   int iVar1;
@@ -1588,7 +1588,7 @@ XI_API void __thiscall ZoneMap_ClearSlots(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10186DD0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall ZoneMap_FreeSubAreas(int * param_1)
 {
   void *self_;
@@ -1617,161 +1617,161 @@ XI_API void __stdcall ZoneMap_FreeSubAreas(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10186E90  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr0B4(void * self_)
 {
   return (int)self_ + 0xb4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr0C4(void * self_)
 {
   return (int)self_ + 0xc4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr0D4(void * self_)
 {
   return (int)self_ + 0xd4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr024(void * self_)
 {
   return (int)self_ + 0x24;
 }
 
 // FUNCTION: FFXIMAIN 0x10186EE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr044(void * self_)
 {
   return (int)self_ + 0x44;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F00  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr064(void * self_)
 {
   return (int)self_ + 100;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr074(void * self_)
 {
   return (int)self_ + 0x74;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F20  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Env_GetColorPtr84(void * self_)
 {
   return (int)self_ + 0x84;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F30  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr094(void * self_)
 {
   return (int)self_ + 0x94;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F40  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddrRef18Plus1C(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x1c;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F50  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddrRef18Plus20(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x20;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F70  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr0E4(void * self_)
 {
   return (int)self_ + 0xe4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F80  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr0F4(void * self_)
 {
   return (int)self_ + 0xf4;
 }
 
 // FUNCTION: FFXIMAIN 0x10186F90  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddr114(void * self_)
 {
   return (int)self_ + 0x114;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FA0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Env_GetAmbientColorPtr(void * self_)
 {
   return (int)self_ + 0x104;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FB0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddrRef18Plus3C(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x3c;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FC0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall ZoneMap_GetAddrRef18Plus40(void * self_)
 {
   return *(int *)((int)self_ + 0x18) + 0x40;
 }
 
 // FUNCTION: FFXIMAIN 0x10186FD0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall ZoneMap_GetFloatRef18Plus44(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x18) + 0x44);
 }
 
 // FUNCTION: FFXIMAIN 0x10186FE0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus4(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 4);
 }
 
 // FUNCTION: FFXIMAIN 0x10186FF0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus8(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 8);
 }
 
 // FUNCTION: FFXIMAIN 0x10187000  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall ZoneMap_GetByteRef1CPlus10(void * self_)
 {
   return (uint32_t)*(uint8_t *)(*(int *)((int)self_ + 0x1c) + 0x10);
 }
 
 // FUNCTION: FFXIMAIN 0x10187020  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall ZoneMap_GetFloatRef1CPlus0C(void * self_)
 {
   return (long double)*(float *)(*(int *)((int)self_ + 0x1c) + 0xc);
 }
 
 // FUNCTION: FFXIMAIN 0x10187030  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ReleaseChain(void * self_)
 {
   if (*(void **)((int)self_ + 4) != (void *)0x0) {
@@ -1783,7 +1783,7 @@ XI_API void __thiscall ZoneMap_ReleaseChain(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10187050  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Env_ApplyRecord(void * self_)
 {
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -1872,7 +1872,7 @@ XI_API void __thiscall Env_ApplyRecord(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10187380  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall ZoneMap_SetVtableApplyRecord(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
@@ -1881,7 +1881,7 @@ XI_API void * __thiscall ZoneMap_SetVtableApplyRecord(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10187470  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_Destroy(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
@@ -1894,7 +1894,7 @@ XI_API void __thiscall ZoneMap_Destroy(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101874A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __thiscall ZoneMap_Update(void * self_)
 {
   uint32_t uVar1;
@@ -1915,7 +1915,7 @@ XI_API uint32_t __thiscall ZoneMap_Update(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101875C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) ZoneMap_ForEachFindKind5B(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   void *this_00;
@@ -1928,7 +1928,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) ZoneMap_ForEachFindKind5B
 }
 
 // FUNCTION: FFXIMAIN 0x101875E0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) ZoneMap_ForEachFindKind5A(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   void *this_00;
@@ -1941,7 +1941,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) ZoneMap_ForEachFindKind5A
 }
 
 // FUNCTION: FFXIMAIN 0x10187600  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_SaveState(void * self_)
 {
   if ((*(int *)((int)self_ + 0x10) == 0) && ((**(uint8_t **)((int)self_ + 0x18) & 1) == 0)) {
@@ -1976,7 +1976,7 @@ XI_API void __thiscall ZoneMap_SaveState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10187720  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
 {
   float *pfVar1;
@@ -2309,7 +2309,7 @@ XI_API void __thiscall ZoneMap_UpdateOrbit(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101880C0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_SetRecord(void * self_, undefined4 * param_1)
 {
   undefined4 uVar1;
@@ -2341,7 +2341,7 @@ XI_API void __thiscall ZoneMap_SetRecord(void * self_, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10188190  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_ApplyColors(void * self_, uint8_t * param_1)
 {
   uint8_t bVar1;
@@ -2508,7 +2508,7 @@ XI_API void __thiscall ZoneMap_ApplyColors(void * self_, uint8_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10188900  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl ZoneMap_GetCurrent(void)
 {
   int iVar1;
@@ -2521,7 +2521,7 @@ XI_API int __cdecl ZoneMap_GetCurrent(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10188910  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall ZoneMap_AppendToList(void * self_)
 {
   void *pvVar1;
@@ -2539,7 +2539,7 @@ XI_API void __thiscall ZoneMap_AppendToList(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10188970  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall ZoneMap_FindPrevious(void * self_)
 {
   void *pvVar1;
@@ -2559,7 +2559,7 @@ XI_API void * __thiscall ZoneMap_FindPrevious(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101889A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl ZoneMap_GetTail(void)
 {
   int iVar1;

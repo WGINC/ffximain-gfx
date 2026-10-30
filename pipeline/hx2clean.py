@@ -473,10 +473,10 @@ def main(exp, gate, manf, incdir, outdir):
         rv = REVIEWED.get('0x%08X' % r['ea'])
         if rv and PLACEHOLDER.match(r['name']) and re.match(r'^[A-Za-z_]\w*$', rv['name']):
             r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
-        if PLACEHOLDER.match(r['name']) and r['ea'] in GENOXD_NAMES:
-            r['name'] = GENOXD_NAMES[r['ea']]        # ffxi_hide_ui's name (genoxd_scan.py), where ours is a placeholder
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
+        if PLACEHOLDER.match(r['name']) and r['ea'] in GENOXD_NAMES:
+            r['name'] = GENOXD_NAMES[r['ea']]        # ffxi_hide_ui's name (genoxd_scan.py), after every other source
         if r.get('ghidra') and r['name'] != _gname0 and re.match(r'^[A-Za-z_]\w*$', r['name']):
             # a Ghidra record's recursive calls were written with its first name (above): they take the new one
             r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])

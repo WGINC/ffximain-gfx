@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10069E90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10069DD0_Nop(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10069EA0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10069DD0_ClearByteTables(void * self_)
 {
   uint8_t *puVar1;
@@ -30,7 +30,7 @@ XI_API void __thiscall Unit10069DD0_ClearByteTables(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10069F90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10069DD0_Update(void * self_)
 {
   int iVar1;
@@ -56,7 +56,7 @@ XI_API void __thiscall Unit10069DD0_Update(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006A020  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API unsigned int __stdcall Gfx_CreateVertexBuffer(unsigned int a1, int a2, int a3, int a4)
 {
   unsigned int v4;
@@ -68,7 +68,7 @@ XI_API unsigned int __stdcall Gfx_CreateVertexBuffer(unsigned int a1, int a2, in
 }
 
 // FUNCTION: FFXIMAIN 0x1006A180  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 64 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64
+// GATE: PASS -- 100 trials, 64 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_SetupMatrices(void * self_, undefined4 xi_s1, undefined4 xi_s2, undefined4 xi_s3, undefined4 xi_s4)
 {
   uint32_t *puVar1;
@@ -136,7 +136,7 @@ XI_API undefined4 __thiscall Camera_SetupMatrices(void * self_, undefined4 xi_s1
 }
 
 // FUNCTION: FFXIMAIN 0x1006A540  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Dx_GetCachedTransform2(void * self_, undefined4 * param_1)
 {
   orig::CDx_GetTransformCached_v1(*(void **)((int)self_ + 0xdc8),2,param_1);
@@ -144,7 +144,7 @@ XI_API void __thiscall Dx_GetCachedTransform2(void * self_, undefined4 * param_1
 }
 
 // FUNCTION: FFXIMAIN 0x1006A560  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Gfx_CalcFVFStride(uint32_t param_1)
 {
   int iVar1;
@@ -182,7 +182,7 @@ XI_API int __cdecl Gfx_CalcFVFStride(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AA30  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 16
+// GATE: PASS -- 100 trials, 16 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Batch_DrawPrimitives(_DWORD *self_, int arg0)
 {
   int v3;
@@ -222,7 +222,7 @@ XI_API int __thiscall Batch_DrawPrimitives(_DWORD *self_, int arg0)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AD30  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Attach_SetTranslation(int param_1, undefined4 * param_2)
 {
   *(uint32_t *)(param_1 + 0x30) = *param_2;
@@ -232,7 +232,7 @@ XI_API void __cdecl Attach_SetTranslation(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AD50  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Processor_ApplyPair(int param_1, int param_2)
 {
   if (param_1 == param_2) {
@@ -244,7 +244,7 @@ XI_API int __cdecl Processor_ApplyPair(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AD90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10069DD0_SetInvalid(void * self_)
 {
   *(uint32_t *)self_ = 0xffffffff;
@@ -254,7 +254,7 @@ XI_API void __thiscall Unit10069DD0_SetInvalid(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006ADF0  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10069DD0_Insert(void * self_)
 {
   *(uint32_t *)((int)self_ + 8) = *(uint32_t *)(g_pDxStatusMng + 0xc);
@@ -266,7 +266,7 @@ XI_API void __thiscall Unit10069DD0_Insert(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF00  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86
+// GATE: PASS -- 100 trials, 86 returned normally, 69298 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall StateBlockHolder_ApplyRenderStates(_DWORD *self_, int *a2)
 {
   int v4;
@@ -291,7 +291,7 @@ XI_API int __thiscall StateBlockHolder_ApplyRenderStates(_DWORD *self_, int *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 86 returned normally, 61466 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86
+// GATE: PASS -- 100 trials, 86 returned normally, 61466 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
 {
   int v4;

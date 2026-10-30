@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10285740  (unit sqObject: asserts sqObject.c)
-// GATE: PASS -- 100 trials, 23 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23
+// GATE: PASS -- 100 trials, 23 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqObject_Release(int * param_1)
 {
   uint32_t *puVar1;

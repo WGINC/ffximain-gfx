@@ -3,7 +3,7 @@
 #include "CMoTask_VT_1032C490.hpp"
 
 // FUNCTION: FFXIMAIN 0x10070F60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoTask_VT_1032C490::ScalarDeletingDtor(char a2)
 {
   orig::CMoTask_VT_1032C490_Destructor(this);

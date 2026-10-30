@@ -3,14 +3,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1001CF80  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit1001B890_ReturnSelf(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x1001D0A0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 {
   unsigned __int16 ViewportWidth;
@@ -38,7 +38,7 @@ XI_API _DWORD * __cdecl Model_CreateTranslucentTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D170  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 187 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 187 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit1001B890_Construct(void * self_)
 {
   int *piVar1;
@@ -68,7 +68,7 @@ XI_API void __thiscall Unit1001B890_Construct(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D240  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_BeginTranslucentPass(int self_)
 {
   int v2;
@@ -108,7 +108,7 @@ XI_API char __thiscall Model_BeginTranslucentPass(int self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D350  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 {
   if ( *(self_ + 2) == 0 || g_translucentForce == 0 && (g_translucentColor & 0xFF000000) == 0x80000000 )
@@ -118,7 +118,7 @@ XI_API char __thiscall Model_TranslucentUnbindTexture(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1001D390  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Unit1001B890_SetColorForce(undefined4 param_1, undefined4 param_2)
 {
   g_translucentColor_as_v0 = param_1;
@@ -127,7 +127,7 @@ XI_API void __stdcall Unit1001B890_SetColorForce(undefined4 param_1, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x1001D3B0  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1232 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 1232 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Model_CompositeTranslucentPass(void *self_)
 {
   int result;
@@ -227,7 +227,7 @@ LABEL_11:
 }
 
 // FUNCTION: FFXIMAIN 0x1001D800  (unit unit_1001B890: no unit evidence of its own; in the gap between 0x1001B870 (CYyAfterImage) and 0x1001DC20 (CMoResource_VT_1032C8AC) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall TexRes_LoadBm2(void * self_)
 {
   uint8_t bVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1001E760  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_SetPosition(void * self_, undefined4 * param_1)
 {
   uint32_t uVar1;
@@ -13,7 +13,7 @@ XI_API undefined4 __thiscall Camera_SetPosition(void * self_, undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x1001E780  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param_1)
 {
   uint16_t uVar1;
@@ -37,7 +37,7 @@ XI_API undefined4 __thiscall Camera_SetTargetIfMoved(void * self_, float * param
 }
 
 // FUNCTION: FFXIMAIN 0x100215C0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 396 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 396 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Unit1001E6D0_PointToActorLocalSpace(void * self_, int param_1, int * param_2)
 {
   float *pfVar1;
@@ -67,7 +67,7 @@ XI_API undefined4 __thiscall Unit1001E6D0_PointToActorLocalSpace(void * self_, i
 }
 
 // FUNCTION: FFXIMAIN 0x10021680  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 500 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_PlaceRelativeToActor(void * self_, float * param_1, int * param_2)
 {
   float *pfVar1;
@@ -149,7 +149,7 @@ XI_API undefined4 __thiscall Camera_PlaceRelativeToActor(void * self_, float * p
 }
 
 // FUNCTION: FFXIMAIN 0x10021AE0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)
 {
   long double fVar1;
@@ -230,7 +230,7 @@ XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10021B70  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Camera_SnapshotState(void * self_)
 {
   orig::Camera_BuildLookAtView(self_);
@@ -241,7 +241,7 @@ XI_API int __thiscall Camera_SnapshotState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10021C10  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Camera_BuildLookAtView(void * self_)
 {
   float *pfVar1;
@@ -290,7 +290,7 @@ XI_API int __thiscall Camera_BuildLookAtView(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100220E0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Actor_ClearIndexTable(void * self_)
 {
   *(uint8_t *)self_ = 0xff;
@@ -313,7 +313,7 @@ XI_API void __thiscall Actor_ClearIndexTable(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10022120  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Actor_GetPercentScaleByIndex(void * self_, int no)
 {
   uint8_t bVar1;
@@ -330,7 +330,7 @@ XI_API long double __thiscall Actor_GetPercentScaleByIndex(void * self_, int no)
 }
 
 // FUNCTION: FFXIMAIN 0x10022170  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Actor_MapPercentScaleIndex(int param_1)
 {
   uint32_t uVar1;
@@ -346,7 +346,7 @@ XI_API undefined4 __cdecl Actor_MapPercentScaleIndex(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10022190  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Actor_LookupPercentScaleA(void * self_, int param_2)
 {
   int iVar1;
@@ -363,7 +363,7 @@ XI_API long double __thiscall Actor_LookupPercentScaleA(void * self_, int param_
 }
 
 // FUNCTION: FFXIMAIN 0x100221E0  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Actor_LookupPercentScaleB(void * self_, int param_2)
 {
   int iVar1;
@@ -380,7 +380,7 @@ XI_API long double __thiscall Actor_LookupPercentScaleB(void * self_, int param_
 }
 
 // FUNCTION: FFXIMAIN 0x10022230  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Actor_InitIndexTable(void * self_)
 {
   uint8_t *puVar1;
@@ -402,7 +402,7 @@ XI_API void * __thiscall Actor_InitIndexTable(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10022320  (unit unit_1001E6D0: no unit evidence of its own; in the gap between 0x1001E6C0 (CYyCamMng2) and 0x100224D0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl fn_10022320(int param_1)
 {
   if (param_1 < 9) {

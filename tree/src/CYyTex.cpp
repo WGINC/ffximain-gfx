@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10039790  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _UNKNOWN ** __cdecl CYyTex::GetRuntimeClass()
 {
   return &CYyTex_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10039920  (unit CYyTex: stores CYyTex vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall TexObj_Constructor(void * self_)
 {
   orig::CYyTexBase_Constructor(self_);
@@ -25,7 +25,7 @@ XI_API undefined4 __thiscall TexObj_Constructor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10039950  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyTex::ScalarDeletingDtor(char a2)
 {
   orig::CYyTex_Destructor(this);

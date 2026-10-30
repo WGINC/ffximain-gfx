@@ -3,21 +3,21 @@
 #include "CMoActorColorDriveTask.hpp"
 
 // FUNCTION: FFXIMAIN 0x100569A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoActorColorDriveTask::GetRuntimeClass()
 {
   return &CMoActorColorDriveTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10062FE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoActorColorDriveTask::vf011()
 {
   return (int)orig::CMoActorRotationDriveTask_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x10062FF0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 tagRECT * CMoActorColorDriveTask::vf012(char a2)
 {
   Vt_1032BAA8 * self = reinterpret_cast<Vt_1032BAA8 *>(this);  // byte-exact view for the rest

@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10041130  (unit CXi471011C8_VT_1032AD80: class model places it in CXi471011C8_VT_1032AD80)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall CXi471011C8_VT_1032AD80_DeletingDtor(void * self_, undefined4 param_1)
 {
   *(uint8_t ***)self_ = &PTR_CMoElem_GetRuntimeClass_variant8_1032ad80;
@@ -16,7 +16,7 @@ XI_API void * __thiscall CXi471011C8_VT_1032AD80_DeletingDtor(void * self_, unde
 }
 
 // FUNCTION: FFXIMAIN 0x10052F00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint64_t __thiscall CXi471011C8_VT_1032AD80::Ctor(void * self)
 {
   uint64_t uVar1;

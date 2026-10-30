@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100684F0  (unit unit_10064190: no unit evidence of its own; in the gap between 0x10064180 (CMoVuLineProgElem) and 0x10069D60 (CMoDX) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10064190_SetDwordValue(void * self_, undefined4 xi_s1)
 {
   orig::Unit10064190_AssignTyped(self_,&xi_s1,0);
@@ -11,7 +11,7 @@ XI_API void __thiscall Unit10064190_SetDwordValue(void * self_, undefined4 xi_s1
 }
 
 // FUNCTION: FFXIMAIN 0x10068590  (unit unit_10064190: no unit evidence of its own; in the gap between 0x10064180 (CMoVuLineProgElem) and 0x10069D60 (CMoDX) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10064190_AssignTyped(void * self_, undefined4 * param_1, undefined4 param_2)
 {
   uint32_t uVar1;

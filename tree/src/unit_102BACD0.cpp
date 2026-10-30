@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102BC820  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API UINT __stdcall Imm_GetVirtualKeyJmp(HWND param_1)
 {
   UINT UVar1;
@@ -15,7 +15,7 @@ XI_API UINT __stdcall Imm_GetVirtualKeyJmp(HWND param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC826  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API UINT __stdcall fn_102BC826(HKL param_1, LPSTR lpszDescription, UINT uBufLen)
 {
   UINT UVar1;
@@ -27,7 +27,7 @@ XI_API UINT __stdcall fn_102BC826(HKL param_1, LPSTR lpszDescription, UINT uBufL
 }
 
 // FUNCTION: FFXIMAIN 0x102BC82C  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API HIMC __stdcall fn_102BC82C(HWND param_1)
 {
   HIMC pHVar1;
@@ -39,7 +39,7 @@ XI_API HIMC __stdcall fn_102BC82C(HWND param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC832  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall fn_102BC832(HWND param_1, HIMC param_2)
 {
   BOOL BVar1;
@@ -51,7 +51,7 @@ XI_API BOOL __stdcall fn_102BC832(HWND param_1, HIMC param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC838  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall Imm_NotifyIMEJmp(HIMC param_1, DWORD dwAction, DWORD dwIndex, DWORD dwValue)
 {
   BOOL BVar1;
@@ -63,7 +63,7 @@ XI_API BOOL __stdcall Imm_NotifyIMEJmp(HIMC param_1, DWORD dwAction, DWORD dwInd
 }
 
 // FUNCTION: FFXIMAIN 0x102BC83E  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall fn_102BC83E(HIMC param_1, LPCANDIDATEFORM lpCandidate)
 {
   BOOL BVar1;
@@ -75,7 +75,7 @@ XI_API BOOL __stdcall fn_102BC83E(HIMC param_1, LPCANDIDATEFORM lpCandidate)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC844  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall fn_102BC844(HIMC param_1, LPCOMPOSITIONFORM lpCompForm)
 {
   BOOL BVar1;
@@ -87,7 +87,7 @@ XI_API BOOL __stdcall fn_102BC844(HIMC param_1, LPCOMPOSITIONFORM lpCompForm)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC856  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall Imm_SetOpenStatusJmp(HIMC param_1, BOOL param_2)
 {
   BOOL BVar1;
@@ -99,7 +99,7 @@ XI_API BOOL __stdcall Imm_SetOpenStatusJmp(HIMC param_1, BOOL param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC85C  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall Imm_GetOpenStatusJmp(HIMC param_1)
 {
   BOOL BVar1;
@@ -111,7 +111,7 @@ XI_API BOOL __stdcall Imm_GetOpenStatusJmp(HIMC param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102BC862  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall Imm_GetConversionStatusJmp(HIMC param_1, LPDWORD lpfdwConversion, LPDWORD lpfdwSentence)
 {
   BOOL BVar1;
@@ -123,7 +123,7 @@ XI_API BOOL __stdcall Imm_GetConversionStatusJmp(HIMC param_1, LPDWORD lpfdwConv
 }
 
 // FUNCTION: FFXIMAIN 0x102BC868  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API LONG __stdcall Imm_GetCompositionStringAJmp(HIMC param_1, DWORD param_2, LPVOID lpBuf, DWORD dwBufLen)
 {
   LONG LVar1;
@@ -135,7 +135,7 @@ XI_API LONG __stdcall Imm_GetCompositionStringAJmp(HIMC param_1, DWORD param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x102BC86E  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall Imm_SetCompositionStringAJmp(HIMC param_1, DWORD dwIndex, LPVOID lpComp, DWORD dwCompLen, LPVOID lpRead, DWORD dwReadLen)
 {
   BOOL BVar1;
@@ -147,7 +147,7 @@ XI_API BOOL __stdcall Imm_SetCompositionStringAJmp(HIMC param_1, DWORD dwIndex, 
 }
 
 // FUNCTION: FFXIMAIN 0x102BC874  (unit unit_102BACD0: no unit evidence of its own; in the gap between 0x102BAC20 (sqshIndex) and 0x103159BF (type_info) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API BOOL __stdcall fn_102BC874(HIMC param_1, DWORD param_2, DWORD param_3)
 {
   BOOL BVar1;

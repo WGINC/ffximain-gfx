@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10032A40  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Quat_SetIdentityChained(void * self_)
 {
   orig::Quat_SetIdentityB(self_);
@@ -11,7 +11,7 @@ XI_API void * __thiscall Quat_SetIdentityChained(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10032A50  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Quat_SetIdentityB(void * self_)
 {
   *(uint32_t *)((int)self_ + 0xc) = 0x3f800000;
@@ -22,14 +22,14 @@ XI_API void __thiscall Quat_SetIdentityB(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10032A70  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100310A0_Nop(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10032B50  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Quat_Multiply(void * self_, float * param_1, float * param_2)
 {
   float fVar1;
@@ -100,7 +100,7 @@ XI_API undefined4 __thiscall Quat_Multiply(void * self_, float * param_1, float 
 }
 
 // FUNCTION: FFXIMAIN 0x10032DA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Quat_NormalizeInPlace(void * self_)
 {
   long double fVar1;
@@ -123,7 +123,7 @@ XI_API void __thiscall Quat_NormalizeInPlace(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10032FE0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit100310A0_FromQuat(void * self_, float * param_1)
 {
   long double fVar1;
@@ -178,7 +178,7 @@ XI_API void __thiscall Unit100310A0_FromQuat(void * self_, float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10033220  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Quat_NLerp(void * self_, float * param_1, float * param_2, float param_3)
 {
   long double fVar1;
@@ -233,7 +233,7 @@ XI_API undefined4 __thiscall Quat_NLerp(void * self_, float * param_1, float * p
 }
 
 // FUNCTION: FFXIMAIN 0x100336B0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100310A0_InitTargets(void)
 {
   Fn10033710_targetTex_as_v1 = 0;
@@ -245,7 +245,7 @@ XI_API void __cdecl Unit100310A0_InitTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100336D0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100310A0_ReleaseTargets(void)
 {
   if (Fn10033710_targetTex_as_v0 != (int *)0x0) {
@@ -260,7 +260,7 @@ XI_API void __cdecl Unit100310A0_ReleaseTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10033710  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 187 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 187 D3D calls compared (diffemu_gfx, clean build)
 XI_API _DWORD * __thiscall Unit100310A0_Construct(_DWORD *self_)
 {
   _DWORD *Texture;
@@ -295,7 +295,7 @@ XI_API _DWORD * __thiscall Unit100310A0_Construct(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10033800  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 36 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 36 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
 {
   alignas(16) unsigned char xi_frame[0x528];  // address-taken locals at their original offsets
@@ -348,7 +348,7 @@ XI_API char __thiscall Model_BeginOffscreenPass(int self_, int *a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10033A70  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 50 D3D calls compared (diffemu_gfx, clean build)
 XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
 {
   IDirect3DBaseTexture8 *v4;
@@ -422,7 +422,7 @@ XI_API char __thiscall Model_EndOffscreenPassBindTextures(_DWORD *self_, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10033DA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
 {
   uint32_t xi_entry_eax = 0;
@@ -468,7 +468,7 @@ XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10033EA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Shadow_SmoothLightDirection(void * self_, float * param_1)
 {
   float *pfVar1;

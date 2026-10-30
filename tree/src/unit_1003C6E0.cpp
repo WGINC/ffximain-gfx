@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003C740  (unit unit_1003C6E0: no unit evidence of its own; in the gap between 0x1003C6D0 (CMoAttachments) and 0x1003C880 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit1003C6E0_CopyFields(void * self_, int param_1)
 {
   uint32_t uVar1;
@@ -27,7 +27,7 @@ XI_API void __thiscall Unit1003C6E0_CopyFields(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003C7D0  (unit unit_1003C6E0: no unit evidence of its own; in the gap between 0x1003C6D0 (CMoAttachments) and 0x1003C880 (CMoCamera) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 98 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
+// GATE: PASS -- 100 trials, 99 returned normally, 98 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __attribute__((stdcall, regparm(3))) Unit1003C6E0_GetFactorFromAttachments(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint8_t * param_2, float param_3)
 {
   int iVar1;

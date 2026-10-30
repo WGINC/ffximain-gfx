@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006BD90  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Rand_SeedMT19937(uint32_t param_1)
 {
   uint32_t uVar1;
@@ -24,7 +24,7 @@ XI_API void __cdecl Rand_SeedMT19937(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006BE20  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Unit1006B3B0_Next(void)
 {
   uint32_t uVar1;
@@ -66,7 +66,7 @@ XI_API uint32_t __cdecl Unit1006B3B0_Next(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1006BF40  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Rand_NextMod(int param_1)
 {
   uint32_t uVar1;
@@ -79,7 +79,7 @@ XI_API int __cdecl Rand_NextMod(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006BF60  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Rand_NextModUnsigned(uint32_t param_1)
 {
   uint32_t uVar1;
@@ -92,7 +92,7 @@ XI_API uint32_t __cdecl Rand_NextModUnsigned(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006BF80  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __attribute__((cdecl, regparm(1))) Rand_UniformTimes(undefined4 xi_eax, float param_1)
 {
   uint32_t uVar1;
@@ -107,7 +107,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) Rand_UniformTimes(undefine
 }
 
 // FUNCTION: FFXIMAIN 0x1006BFD0  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __attribute__((cdecl, regparm(1))) Rand_SignedUniformTimes(undefined4 xi_eax, float param_1)
 {
   uint32_t uVar1;
@@ -122,7 +122,7 @@ XI_API long double __attribute__((cdecl, regparm(1))) Rand_SignedUniformTimes(un
 }
 
 // FUNCTION: FFXIMAIN 0x1006C0F0  (unit unit_1006B3B0: no unit evidence of its own; in the gap between 0x1006B2B0 (CMoDX) and 0x1006C130 (CMoOcclusionMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl Mem_AllocWithHeader12(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;

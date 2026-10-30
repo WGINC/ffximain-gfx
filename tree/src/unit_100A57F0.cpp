@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100A5E10  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 63 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 63 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl XiControlActor_UpdateCamera(int * param_1)
 {
   void *pvVar1;
@@ -45,7 +45,7 @@ XI_API undefined4 __cdecl XiControlActor_UpdateCamera(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100A5EC0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 56 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 56 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, float * param_1)
 {
   int iVar1;
@@ -60,7 +60,7 @@ XI_API void __thiscall Unit100A57F0_CallUnlessFlag(void * self_, float * param_1
 }
 
 // FUNCTION: FFXIMAIN 0x100A5EF0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 30 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
 {
   int iVar1;
@@ -148,7 +148,7 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100A6070  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRunning(undefined4 xi_eax, undefined4 param_1)
 {
   uint64_t uVar1;
@@ -170,7 +170,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRun
 }
 
 // FUNCTION: FFXIMAIN 0x100A78D0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall XiControlActor_NormalizeInput(void * self_, float * param_1, float * param_2, undefined4 xi_s3)
 {
   float *pfVar1;

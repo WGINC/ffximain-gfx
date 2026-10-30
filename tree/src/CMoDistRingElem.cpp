@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10043710  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoDistRingElem::GetRuntimeClass()
 {
   return &CMoDistRingElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10043720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 1220 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
+// GATE: PASS -- 100 trials, 77 returned normally, 1220 D3D calls compared (diffemu_gfx, clean build)
 void CMoDistRingElem::AllocRingGeometry()
 {
   float *v2;
@@ -159,7 +159,7 @@ void CMoDistRingElem::AllocRingGeometry()
 }
 
 // FUNCTION: FFXIMAIN 0x10052FD0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint64_t __thiscall CMoDistRingElem::Construct(void * self)
 {
   uint64_t uVar1;
@@ -171,14 +171,14 @@ uint64_t __thiscall CMoDistRingElem::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052FF0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 BOOL CMoDistRingElem::vf012(int a1)
 {
   return a1 == 5;
 }
 
 // FUNCTION: FFXIMAIN 0x10053000  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoDistRingElem::set_field_1B6(int a2)
 {
   (*(unsigned __int32 *)((char *)this + 0x1B6)) = a2;
@@ -186,7 +186,7 @@ int CMoDistRingElem::set_field_1B6(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10053010  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int * CMoDistRingElem::ScalarDeletingDtor(char a2)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

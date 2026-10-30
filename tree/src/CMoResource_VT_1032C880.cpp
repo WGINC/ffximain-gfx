@@ -3,7 +3,7 @@
 #include "CMoResource_VT_1032C880.hpp"
 
 // FUNCTION: FFXIMAIN 0x1001E050  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CMoResource_VT_1032C880::vf004(int a2)
 {
   *this->field_14 = a2;
@@ -11,14 +11,14 @@ int CMoResource_VT_1032C880::vf004(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1001E060  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void CMoResource_VT_1032C880::vf005(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071A60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned int ** CMoResource_VT_1032C880::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10273840  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10273840_SetEntryField18(undefined4 param_1, uint32_t param_2, undefined4 param_3)
 {
   *(uint32_t *)
@@ -13,7 +13,7 @@ XI_API void __cdecl Unit10273840_SetEntryField18(undefined4 param_1, uint32_t pa
 }
 
 // FUNCTION: FFXIMAIN 0x10273870  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10273840_ClearGroupField4(int param_1)
 {
   if ((-1 < param_1) && (param_1 < DAT_1099b180)) {
@@ -23,7 +23,7 @@ XI_API void __cdecl Unit10273840_ClearGroupField4(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102738A0  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10273840_ClearCurrentField4(void)
 {
   int iVar1;
@@ -36,7 +36,7 @@ XI_API void __cdecl Unit10273840_ClearCurrentField4(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102738D0  (unit unit_10273840: no unit evidence of its own; in the gap between 0x10273810 (sqmdModel) and 0x10273900 (chasm) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit10273840_InitRecord(undefined4 * param_1)
 {
   *param_1 = 1;

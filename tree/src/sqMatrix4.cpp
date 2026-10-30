@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027FCC0  (unit sqMatrix4: name sqMatrix4_1027FCC0)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
 {
   float fVar1;
@@ -59,7 +59,7 @@ XI_API long double __cdecl sqMatrix4_1027FCC0(float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10280140  (unit sqMatrix4: name sqMatrix4_10280140)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqMatrix4_10280140(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)((long double)param_2[3] * (long double)param_3[0xc] +
@@ -130,7 +130,7 @@ XI_API undefined4 __cdecl sqMatrix4_10280140(float * param_1, float * param_2, f
 }
 
 // FUNCTION: FFXIMAIN 0x10280650  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqMatrix4_SetFields(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   orig::Unit1027E120_SetIdentity(param_1);
@@ -141,7 +141,7 @@ XI_API void __cdecl SqMatrix4_SetFields(int param_1, undefined4 param_2, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x102806B0  (unit sqMatrix4: between 0x10280140 (name sqMatrix4_10280140) and 0x10280780 (asserts sqMatrix4.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl SqMatrix4_ScaleAxes(int param_1, float param_2, float param_3, float param_4)
 {
   float *pfVar1;

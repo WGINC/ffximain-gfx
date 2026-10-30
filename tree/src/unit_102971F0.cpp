@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102972D0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqgxContext_SetCotHalfAngle(float param_1)
 {
   long double fVar1;
@@ -14,7 +14,7 @@ XI_API void __cdecl SqgxContext_SetCotHalfAngle(float param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10297CC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 227 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 {
   int result;
@@ -61,7 +61,7 @@ XI_API int __cdecl sqsnShadowVolumeSetPass(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10297EC0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 674 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 674 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 {
   g_pSqgxContext[73] = a1;
@@ -84,7 +84,7 @@ XI_API int __cdecl sqgxShadowStencilEnable(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x102981E0  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 29 returned normally, 258 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 29
+// GATE: PASS -- 100 trials, 29 returned normally, 258 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 {
   g_pSqgxContext[81] = 0;
@@ -109,7 +109,7 @@ XI_API int __cdecl sqsnShadowVolumeBeginVB(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10298350  (unit unit_102971F0: no unit evidence of its own; in the gap between 0x10296DC0 (sqMatrix3) and 0x102984B0 (sqimImage) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxShadowPlaneMatrix(float * param_1)
 {
   float fVar1;

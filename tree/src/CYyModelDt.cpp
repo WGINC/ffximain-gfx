@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10022FA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
 int __cdecl CYyModelDt::SetVertexShader(int a1)
 {
   g_vertexShader_6E4C = a1;
@@ -15,7 +15,7 @@ int __cdecl CYyModelDt::SetVertexShader(int a1)
 }
 
 // FUNCTION: FFXIMAIN 0x10025010  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void * __thiscall CYyModelDt::Construct(void * self)
 {
   orig::CYyModelDt_Init(self);
@@ -26,7 +26,7 @@ void * __thiscall CYyModelDt::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10025030  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6, int a7)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -36,7 +36,7 @@ char CYyModelDt::PrepareRenderStateEntry(int a2, int a3, int a4, int a5, int a6,
 }
 
 // FUNCTION: FFXIMAIN 0x10025060  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a4, int a5, int a6)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -46,7 +46,7 @@ unsigned __int16 CYyModelDt::PrepareRenderStateSimpleEntry(int a2, int a3, int a
 }
 
 // FUNCTION: FFXIMAIN 0x100251A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 int CYyModelDt::MarkReferencedBones(int a2)
 {
   int v2;
@@ -69,14 +69,14 @@ int CYyModelDt::MarkReferencedBones(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10029880  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CYyModelDt::GetRuntimeClass()
 {
   return &CYyModelDt_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10029BB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelDt::InitBase(void * self)
 {
   *(uint8_t ***)self = &PTR_FUN_1032a6dc;
@@ -94,7 +94,7 @@ void __thiscall CYyModelDt::InitBase(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10029C90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 * __thiscall CYyModelDt::Init(void * self)
 {
   orig::CYyModelDt_InitBase((void *)((int)self + 0x10));
@@ -106,7 +106,7 @@ undefined4 * __thiscall CYyModelDt::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10029CB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 {
   int v2;
@@ -117,7 +117,7 @@ _DWORD * CYyModelDt::ScalarDeletingDtor(char a1)
 }
 
 // FUNCTION: FFXIMAIN 0x1002A000  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 * param_5, undefined4 * param_6)
 {
   void *this_00;
@@ -128,7 +128,7 @@ void __thiscall CYyModelDt::PrepareRenderStateV2Entry(void * self, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x1002A040  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelDt::PrepareRenderStateV2SimpleEntry(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   uint32_t uVar1;
@@ -139,7 +139,7 @@ undefined4 __thiscall CYyModelDt::PrepareRenderStateV2SimpleEntry(void * self, u
 }
 
 // FUNCTION: FFXIMAIN 0x1002A080  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYyModelDt::GetResourceWord5E(void * self)
 {
   int iVar1;
@@ -149,7 +149,7 @@ undefined4 __thiscall CYyModelDt::GetResourceWord5E(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1002DC10  (placed by IDB name)
-// GATE: PASS -- 100 trials, 60 returned normally, 967 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60
+// GATE: PASS -- 100 trials, 60 returned normally, 967 D3D calls compared (diffemu_gfx, clean build)
 __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, _DWORD *a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest

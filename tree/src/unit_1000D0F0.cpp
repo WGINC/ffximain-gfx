@@ -3,21 +3,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1000D100  (unit unit_1000D0F0: no unit evidence of its own; in the gap between 0x1000D080 (CAcc2) and 0x1000D370 (CEnv) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Unit1000D0F0_Swap16(uint32_t param_1)
 {
   return (param_1 & 0xffff) >> 8 | (param_1 & 0xffff) << 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1000D120  (unit unit_1000D0F0: no unit evidence of its own; in the gap between 0x1000D080 (CAcc2) and 0x1000D370 (CEnv) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint32_t __cdecl Unit1000D0F0_Swap32(uint32_t param_1)
 {
   return (param_1 & 0xff00 | param_1 << 0x10) << 8 | (param_1 & 0xff0000 | param_1 >> 0x10) >> 8;
 }
 
 // FUNCTION: FFXIMAIN 0x1000D150  (unit unit_1000D0F0: no unit evidence of its own; in the gap between 0x1000D080 (CAcc2) and 0x1000D370 (CEnv) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __cdecl Unit1000D0F0_ByteSwap32(uint32_t param_1)
 {
   uint32_t uVar1;

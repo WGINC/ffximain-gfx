@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10029EB0  (unit unit_10029E50: no unit evidence of its own; in the gap between 0x10029DD0 (CYyModelBase) and 0x1002A000 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __thiscall Unit10029E50_FindTailLink(void * self_)
 {
   int iVar1;
@@ -17,7 +17,7 @@ XI_API int __thiscall Unit10029E50_FindTailLink(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10029F00  (unit unit_10029E50: no unit evidence of its own; in the gap between 0x10029DD0 (CYyModelBase) and 0x1002A000 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Unit10029E50_AppendAtTail(void * self_, undefined4 param_1)
 {
   uint32_t *puVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1029B100  (unit sqmdSort: asserts sqmdSort.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 * __cdecl SqmdSort_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqmdSort_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B120  (unit sqmdSort: between 0x1029B100 (asserts sqmdSort.c) and 0x1029B1A0 (asserts sqmdSort.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmdSort_Init(undefined4 * param_1)
 {
   *param_1 = 0x1c0003;
@@ -35,7 +35,7 @@ XI_API void __cdecl SqmdSort_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1029B310  (unit sqmdSort: asserts sqmdSort.c)
-// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28
+// GATE: PASS -- 100 trials, 28 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl SqmdSort_AllocLists(int * param_1, int * param_2, int param_3)
 {
   int iVar1;
@@ -66,7 +66,7 @@ XI_API void __cdecl SqmdSort_AllocLists(int * param_1, int * param_2, int param_
 }
 
 // FUNCTION: FFXIMAIN 0x1029B3A0  (unit sqmdSort: asserts sqmdSort.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API int __cdecl SqmdSort_CreateForStrips(int * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;

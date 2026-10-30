@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10276260  (unit sqgxContext: asserts sqgxContext.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl sqgxContext_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 __cdecl sqgxContext_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10276290  (unit sqgxContext: name sqgxContext_Init)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
 {
   undefined4 *puVar1;
@@ -232,7 +232,7 @@ XI_API void __cdecl sqgxContext_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10284B20  (unit sqgxContext: name sqgxContext_SelectShaderMode)
-// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
 XI_API int * __cdecl sqgxShader(int a1, int a2)
 {
   int v2;

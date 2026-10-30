@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10041010  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoD3mSpecularElem::GetRuntimeClass()
 {
   return &CMoD3mSpecularElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10041020  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint64_t __thiscall CMoD3mSpecularElem::Ctor(void * self)
 {
   orig::CMoElem_Constructor(self);
@@ -46,14 +46,14 @@ uint64_t __thiscall CMoD3mSpecularElem::Ctor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100410E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 BOOL CMoD3mSpecularElem::vf012(int a1)
 {
   return a1 == 7;
 }
 
 // FUNCTION: FFXIMAIN 0x100410F0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
 {
   orig::CXi471011C8_VT_1032AD80_Dtor(this);
@@ -63,7 +63,7 @@ _DWORD * CMoD3mSpecularElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10041160  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 91
+// GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CMoD3mSpecularElem::BindTintedTexture(void * self)
 {
   uint32_t uVar1;

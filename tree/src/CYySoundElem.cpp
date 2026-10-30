@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10036230  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 11 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 11
+// GATE: PASS -- 100 trials, 11 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __cdecl CYySoundElem::UpdateQueue()
 {
   void *pvVar1;
@@ -85,7 +85,7 @@ void __cdecl CYySoundElem::UpdateQueue()
 }
 
 // FUNCTION: FFXIMAIN 0x10036360  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CYySoundElem::QueueIfAbsent(int * param_1)
 {
   uint32_t xi_entry_eax = 0;
@@ -109,7 +109,7 @@ undefined4 __cdecl CYySoundElem::QueueIfAbsent(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10036420  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::ClearHandle(void * self)
 {
   void *this_00;
@@ -128,7 +128,7 @@ undefined4 __thiscall CYySoundElem::ClearHandle(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100364A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYySoundElem::UpdateOne(void * self)
 {
   uint32_t uVar1;
@@ -148,7 +148,7 @@ void __thiscall CYySoundElem::UpdateOne(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100364E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 119 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::UpdateTimerAndPosition(void * self)
 {
   int iVar1;
@@ -249,7 +249,7 @@ LAB_10036741:
 }
 
 // FUNCTION: FFXIMAIN 0x10036770  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::IsFinished(void * self)
 {
   int *piVar1;
@@ -275,7 +275,7 @@ undefined4 __thiscall CYySoundElem::IsFinished(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100367C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 72
+// GATE: PASS -- 100 trials, 72 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::IsTimerPositive(void * self)
 {
   uint16_t uVar1;
@@ -297,7 +297,7 @@ undefined4 __thiscall CYySoundElem::IsTimerPositive(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10036830  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84
+// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 uint32_t __cdecl CYySoundElem::FindInQueue(undefined4 * param_1)
 {
   int *piVar1;
@@ -323,7 +323,7 @@ uint32_t __cdecl CYySoundElem::FindInQueue(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10036870  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __cdecl CYySoundElem::AppendToQueue(int * param_1)
 {
   int iVar1;
@@ -338,7 +338,7 @@ undefined4 __cdecl CYySoundElem::AppendToQueue(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100368B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::UpdateFromCamera(void * self)
 {
   float fVar1;
@@ -384,7 +384,7 @@ undefined4 __thiscall CYySoundElem::UpdateFromCamera(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10036980  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CYySoundElem::PushActive(void * self)
 {
   *(void **)((int)self + 0x194) = DAT_104638f8;
@@ -393,7 +393,7 @@ void __thiscall CYySoundElem::PushActive(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100369F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 undefined4 __thiscall CYySoundElem::Constructor(void * self)
 {
   orig::CMoElem_Constructor(self);

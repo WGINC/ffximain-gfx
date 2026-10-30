@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100544D0  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Unit100544A0_EvaluateWithFlag34(void * self_, undefined4 param_2, undefined4 param_3)
 {
   uint32_t uVar1;
@@ -17,7 +17,7 @@ XI_API long double __thiscall Unit100544A0_EvaluateWithFlag34(void * self_, unde
 }
 
 // FUNCTION: FFXIMAIN 0x10054500  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Unit100544A0_Evaluate(void * self_, float param_2)
 {
   float *pfVar1;
@@ -59,7 +59,7 @@ XI_API long double __thiscall Unit100544A0_Evaluate(void * self_, float param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x100546F0  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Unit100544A0_EvaluateEaseIn(void * self_, float param_2, undefined4 param_3)
 {
   float fVar1;
@@ -106,7 +106,7 @@ XI_API long double __thiscall Unit100544A0_EvaluateEaseIn(void * self_, float pa
 }
 
 // FUNCTION: FFXIMAIN 0x100547A0  (unit unit_100544A0: no unit evidence of its own; in the gap between 0x10054490 (CMoResource_VT_1032C5FC) and 0x100548B0 (CMoLfdElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API long double __thiscall Unit100544A0_EvaluateEaseInOut(void * self_, float param_2)
 {
   float *pfVar1;

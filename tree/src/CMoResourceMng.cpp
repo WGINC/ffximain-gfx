@@ -3,7 +3,7 @@
 #include "CMoResourceMng.hpp"
 
 // FUNCTION: FFXIMAIN 0x10072D00  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 char ** __cdecl CMoResourceMng::GetRuntimeClass()
 {
   return &CMoResourceMng_classdesc;

@@ -17,6 +17,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('sweep'); ap.add_argument('keep'); ap.add_argument('out')
     ap.add_argument('--only', default=''); ap.add_argument('--why', default='')
+    ap.add_argument('--flags', default='', help="the sweep's flags when not /O2: written as the file's `// VC6FLAGS:` mark (match.py --all reads it)")
     o = ap.parse_args()
     res = json.load(open(o.sweep))
     only = {'0x%08X' % int(x, 16) for x in o.only.split(',') if x}
@@ -42,7 +43,7 @@ def main():
         head = ['/* %s at the game\'s bytes: pipeline/vc6/sweep.py\'s source of it%s, unchanged but for this note and the',
                 '   mark below (pipeline/vc6/emit_identical.py). %s */']
         head = [head[0] % (ea, ' under rule ' + rule if rule else ' as the tree writes it'), head[1] % (o.why or 'match.py checks it.')]
-        lines = head + lines[:k] + ['// FUNCTION: FFXIMAIN %s' % ea] + lines[k:]
+        lines = head + (['// VC6FLAGS: %s' % o.flags] if o.flags else []) + lines[:k] + ['// FUNCTION: FFXIMAIN %s' % ea] + lines[k:]
         open(os.path.join(o.out, 'sw_%s%s' % (ea[2:], os.path.splitext(src)[1])), 'w').write('\n'.join(lines))
         n += 1
     print('%d sources written to %s' % (n, o.out))

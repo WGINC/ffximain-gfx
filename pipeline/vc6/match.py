@@ -165,7 +165,8 @@ def main():
         # (pipeline/vc6/emit_identical.py), beside the shim headers they include
         for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', '*.c'))
                         + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.c'))):
-            r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', o.flags], capture_output=True, text=True)
+            fm = re.search(r'(?m)^//\s*VC6FLAGS:\s*(.+?)\s*$', open(f, errors='replace').read())   # a file's own flags
+            r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', fm.group(1) if fm else o.flags], capture_output=True, text=True)
             print(os.path.basename(f) + ': ' + (r.stdout.splitlines() or ['(no output) ' + r.stderr[-300:]])[0])
             bad += r.returncode != 0 or 'DIFFERS' in r.stdout or 'MISSING' in r.stdout
         sys.exit(1 if bad else 0)

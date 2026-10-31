@@ -455,6 +455,16 @@ static HRESULT __stdcall buf_unlock(void *self) {
   return hr;
 }
 
+/* the world's render target as CDx holds it when the call is made: [g_pCDx] + 0x194 (sceneTargetA; docs/RENDERER.md
+   section 9, read in the game's push/pop code). Recorded as SetRenderTarget's hash, so trace_diff.py can find where
+   the world pass ends -- ffxi_world_draw's rule: a pop that lowers the depth while that target is bound -- and the
+   trace measures the rule (is the target set away from it by the pop's call site, 0x1000A2F6?). 0 if unreadable. */
+static uint32_t world_target(void) {
+  uint32_t *g = (uint32_t *)(uintptr_t)(G_PCDX + g_rel);
+  if (IsBadReadPtr(g, 4) || !*g || IsBadReadPtr((void *)(uintptr_t)(*g + 0x194), 4)) return 0;
+  return *(uint32_t *)(uintptr_t)(*g + 0x194);
+}
+
 static void trace_call(int slot, uint32_t *a, uint32_t site) {
   if (g_hookbufs && GetCurrentThreadId() == g_thread) {
     if (slot == S_SSS) hook_buf((void *)a[3], 0);
@@ -468,6 +478,7 @@ static void trace_call(int slot, uint32_t *a, uint32_t site) {
   uint32_t h = 0;
   switch (slot) {
   case 37: case 39: h = fnv((void *)a[3], 64); break;                       /* SetTransform, MultiplyTransform */
+  case 31: h = world_target(); break;                                       /* SetRenderTarget: the world's target (above) */
   case 40: h = fnv((void *)a[2], 24); break;                                /* SetViewport */
   case 42: h = fnv((void *)a[2], 68); break;                                /* SetMaterial */
   case 44: h = fnv((void *)a[3], 104); break;                               /* SetLight */

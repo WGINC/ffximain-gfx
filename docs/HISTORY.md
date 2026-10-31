@@ -3866,3 +3866,18 @@ third, _6156, is not in this container) at the game's bytes, or its remaining di
 at the bytes now. Found on the way: render_core_status.py counted a sweep rule match by a field the sweep does not
 write (`rule`; it writes `rule_identical`, as frame_status.py reads it); corrected (no #118/#119 function was a rule
 match; the hot set's count is 63 with them). The frame-set percentage stays reported (45.6%).
+
+**31 Oct: #131 started at the world-pass boundary.** Two routes, measured:
+- *Emulated* (pipeline/frame_diff.py, Frame_Render 0x10011A00 on a dump, original code then the swaps): the four scene
+  dumps are not in this container now (only their 4 Oct states, which need the .dmp); on the full dump
+  (runs/dump/live.json) the original frame runs 25 foreign/Direct3D calls and faults in DynVB_Unlock (0x100441B3): the
+  vertex-buffer slot it reads holds 0x80000000, so `call [eax+0x30]` reads unmapped memory. Where that value came from
+  is not traced (the foreign calls before it are answered with fuzz values, as in the gate). Added `--this-global`
+  (`this` from a dump global; the dump's own `this` already came out the same, 0x0CE8AD30).
+- *In the game* (the kit's A/B trace, already a whole-frame differential on real hardware): d3dprof.c now records,
+  with each SetRenderTarget, the world target CDx holds at +0x194 (`world_target`); trace_diff.py `--part world|after`
+  cuts each frame where the target leaves the world's and compares each part separately, printing where the cut fell
+  (the end-of-pass rule from ffxi_world_draw holds if it is the pop's call in every unswapped frame). Checked: the
+  13 Oct trace (no field) is refused with the reason; the same trace with a value written in by hand cuts every frame
+  at the pop (a test of the code, not a measurement). Builds: d3dprof.dll and the XIKIT object compile. Waiting on a
+  trace from the owner with a kit built from this commit.

@@ -3,7 +3,9 @@
 The two sets, as recompile/d3d_round_118.md defines them:
   * #118: every function a site in data/com_calls.json names (`func`), proven or accepted;
   * #119: every function (data/func_extents.json) holding a `call rel32` to one of those, read from the game's bytes,
-    less the ones in the first set.
+    less the ones in the first set;
+  * hot: the functions of data/hot_functions.json (the sampling profiler's measured hot set), and `render_path`, the
+    three together: #127's target (docs/PLAN_TASKS.md, 31 Oct).
 For each: in the frame set (data/frame_set.json), in the tree (tree/placement.json), and at the game's bytes -- by the
 sweep as written or by a proven rule (verification/vc6_sweep.json), or by a hand-written source
 (verification/recompile_match.json) -- with the source of that verdict.
@@ -38,15 +40,18 @@ def main(out):
         r = {'frame_set': a in fset, 'in_tree': a in place}
         sw = sweep.get(a, {})
         if hand.get(a, {}).get('verdict') == 'IDENTICAL': r['bytes'] = 'IDENTICAL'; r['by'] = hand[a]['file']
-        elif sw.get('verdict') in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or sw.get('rule'):
-            r['bytes'] = 'IDENTICAL'; r['by'] = 'vc6_sweep.json' + (' rule ' + sw['rule'] if sw.get('rule') else '')
+        elif sw.get('verdict') in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') or sw.get('rule_identical'):    # as frame_status.py
+            r['bytes'] = 'IDENTICAL'; r['by'] = 'vc6_sweep.json' + (' rule ' + sw['rule_identical'] if sw.get('rule_identical') else '')
         else: r['bytes'] = sw.get('verdict') or ('not in the tree' if a not in place else 'no sweep verdict')
         return r
-    res = {'_doc': __doc__.split('\n\n')[0], '118': {a: row(a) for a in dev}, '119': {a: row(a) for a in callers}}
+    hot = sorted(n(a) for a in J('data', 'hot_functions.json')['functions'])
+    res = {'_doc': __doc__.split('\n\n')[0], '118': {a: row(a) for a in dev}, '119': {a: row(a) for a in callers},
+           'hot': {a: row(a) for a in hot}}
+    res['render_path'] = {a: row(a) for a in sorted(set(dev) | set(callers) | set(hot))}
     json.dump(res, open(out, 'w'), indent=1, sort_keys=True)
-    for t in ('118', '119'):
+    for t in ('118', '119', 'hot', 'render_path'):
         rows = res[t].values(); done = sum(r['bytes'] == 'IDENTICAL' for r in rows)
-        print('#%s: %d functions, %d at the game\'s bytes (%d in the frame set, %d of them at the bytes)' % (
+        print('%s: %d functions, %d at the game\'s bytes (%d in the frame set, %d of them at the bytes)' % (
             t, len(rows), done, sum(r['frame_set'] for r in rows), sum(r['frame_set'] and r['bytes'] == 'IDENTICAL' for r in rows)))
 
 

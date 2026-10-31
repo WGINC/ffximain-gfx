@@ -17,7 +17,7 @@ XI_ORIG char * Unit100014A0_FindTokenCopy(XI_ANY a0, XI_ANY a1, XI_ANY a2) { ret
 XI_ORIG unsigned long long Gfx_CopySurfaceRectToTexture(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10002040u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10002040u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG char Gfx_ProbeDeviceCaps(int a0, void * a1, void * a2) { return reinterpret_cast<char (__cdecl *)(int, void *, void *)>(XI_GAME(0x10002130u))(a0, a1, a2); }
@@ -57,7 +57,7 @@ XI_ORIG void DebugOverlay_Update(void * a0) { reinterpret_cast<void (__thiscall 
 XI_ORIG unsigned long long DebugOverlay_SetEntry(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6, XI_ANY a7, XI_ANY a8) {
     uint32_t xs[7] = {a1.bits, a2.bits, a3.bits, a4.bits, a5.bits, a6.bits, a7.bits}; uint32_t ra = a8.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 24(%%esi)\n\t""pushl 20(%%esi)\n\t""pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100037D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100037D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10003890_DrawActorAxes(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10003890u))(a0); }
@@ -180,7 +180,7 @@ XI_ORIG undefined4 Game_InGameSubState0(void * a0) { return reinterpret_cast<und
 XI_ORIG unsigned long long App_SubStateInitCamera(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10014200u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10014200u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 App_InitCamera(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10014220u))(a0, a1); }
@@ -202,7 +202,7 @@ XI_ORIG double Camera_GetFrameScale() { return reinterpret_cast<double (__cdecl 
 XI_ORIG long double Camera_GetFrameScale_v1(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0; long double st0;
     __asm__ volatile("call *%%edi\n\t"
-        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10014CF0u) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10014CF0u)) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return st0;
 }
 XI_ORIG long double Camera_GetFrameScale_v2() { return reinterpret_cast<long double (__cdecl *)()>(XI_GAME(0x10014CF0u))(); }
@@ -262,7 +262,7 @@ XI_ORIG undefined4 App_GetGlobal_104569C8_v1() { return reinterpret_cast<undefin
 XI_ORIG unsigned long long Unit10014350_GetSceneStateByte68(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100164B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100164B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int App_SetErrorCode(int a0) { return reinterpret_cast<int (__cdecl *)(int)>(XI_GAME(0x100164C0u))(a0); }
@@ -298,7 +298,7 @@ XI_ORIG void Unit10017C10_Thunk10114F10(XI_ANY a0, XI_ANY a1, XI_ANY a2) { reint
 XI_ORIG unsigned long long Unit10017C10_ReportAndHandleError(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10018310u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10018310u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit10017C10_CtorVt10329F88(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x10018350u))(a0); }
@@ -323,7 +323,7 @@ XI_ORIG void CXiTimerLow_AccumulateElapsed(void * a0) { reinterpret_cast<void (_
 XI_ORIG unsigned long long FUN_10019a50(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) {
     uint32_t xs[4] = {a1.bits, a2.bits, a3.bits, a4.bits}; uint32_t ra = a5.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10019A50u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10019A50u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 SampleAnimationTrack_ToBuffer(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10019B30u))(a0, a1, a2, a3, a4, a5); }
@@ -351,7 +351,7 @@ XI_ORIG undefined4 FUN_1001b710(void * a0) { return reinterpret_cast<undefined4 
 XI_ORIG unsigned long long FUN_1001b7b0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1001B7B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1001B7B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1001B890_ReturnSelf(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x1001CF80u))(a0); }
@@ -369,7 +369,7 @@ XI_ORIG unsigned int Tex_HeightToNormalMap(void * a0, int a1, int a2) { return r
 XI_ORIG unsigned long long CYyCamMng2_SetGlobalFlags(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1001E2F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1001E2F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 CYyCamMng2_CreateGlobal() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x1001E470u))(); }
@@ -450,7 +450,7 @@ XI_ORIG void Vec3_MulComponents_v2(XI_ANY a0, XI_ANY a1, XI_ANY a2) { reinterpre
 XI_ORIG unsigned long long FUN_100274b0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100274B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100274B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void sub_100274B0(void * a0) { reinterpret_cast<void (__cdecl *)(void *)>(XI_GAME(0x100274B0u))(a0); }
@@ -534,7 +534,7 @@ XI_ORIG int MemBlock_GetSize_v1(void * a0) { return reinterpret_cast<int (__this
 XI_ORIG unsigned long long Unit10028A50_CallEnabledEntries(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10028BF0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10028BF0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10028A50_CallEnabledList0(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x10028C30u))(a0); }
@@ -649,7 +649,7 @@ XI_ORIG void FUN_10035ec0(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)
 XI_ORIG unsigned long long MoTask_KillAllGlobalSlots(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10035F00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10035F00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10035B00_ClearGlobal10463930(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x10035F80u))(a0); }
@@ -657,14 +657,14 @@ XI_ORIG undefined4 Unit10035B00_SetScaled10351708(XI_ANY a0) { return reinterpre
 XI_ORIG unsigned long long Unit10035B00_Release10463928AndSetScaled(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10036020u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10036020u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10035B00_SetScaled10351704(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x10036050u))(a0); }
 XI_ORIG unsigned long long MoTask_KillGlobalSlot1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10036070u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10036070u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10035B00_SetScaled10351700(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x100360A0u))(a0); }
@@ -672,13 +672,13 @@ XI_ORIG undefined4 Unit10035B00_ClearGlobal10463934(XI_ANY a0) { return reinterp
 XI_ORIG unsigned long long Music_ApplyVolume(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100360F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100360F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Music_ApplyVolume_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100360F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100360F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10035B00_SetCurrent10463914(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x10036170u))(a0); }
@@ -694,7 +694,7 @@ XI_ORIG undefined4 CYySoundElem_IsTimerPositive(void * a0) { return reinterpret_
 XI_ORIG unsigned long long CYySoundElem_IsHandleInFrameList(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100367F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100367F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint32_t CYySoundElem_FindInQueue(XI_ANY a0) { return reinterpret_cast<uint32_t (__cdecl *)(XI_ANY)>(XI_GAME(0x10036830u))(a0); }
@@ -730,20 +730,20 @@ XI_ORIG void Unit10037AC0_Create(XI_ANY a0, XI_ANY a1, XI_ANY a2) { reinterpret_
 XI_ORIG unsigned long long Music_LoadTrackIfRunning(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100382A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100382A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10038330u))(a0, a1, a2); }
 XI_ORIG unsigned long long LobbyThread_SendCmd3FromFloat(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10038440u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10038440u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Music_SetTrackVolume(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10038470u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10038470u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned int Font_QueueText(void * a0, int a1, int a2, char a3) { return reinterpret_cast<unsigned int (__cdecl *)(void *, int, int, char)>(XI_GAME(0x100384B0u))(a0, a1, a2, a3); }
@@ -919,7 +919,7 @@ XI_ORIG undefined4 CMoElem_CheckAt138ThenCall(void * a0) { return reinterpret_ca
 XI_ORIG unsigned long long YmElem_BuildDrawMatrixAndTest(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10045920u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10045920u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int Unit10044C40_GetFlaggedMatrix(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10045C50u))(a0); }
@@ -957,7 +957,7 @@ XI_ORIG undefined4 CMoGeneratorClone_ResolveTarget_v1(void * a0) { return reinte
 XI_ORIG unsigned long long FUN_100496f0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100496F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100496F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint8_t sub_100496F0(int a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(int, int)>(XI_GAME(0x100496F0u))(a0, a1); }
@@ -975,7 +975,7 @@ XI_ORIG int Generator_ClearSubobjectOrSetFlag(int a0, char a1) { return reinterp
 XI_ORIG unsigned long long Generator_ClearSubobjectOrSetFlag_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10053890u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10053890u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Generator_ClearSubobjectOrSetFlag_v2(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10053890u))(a0, a1); }
@@ -983,14 +983,14 @@ XI_ORIG char YmGenerater_Stop(int a0, void * a1) { return reinterpret_cast<char 
 XI_ORIG unsigned long long YmGenerater_Stop_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100538E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100538E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 YmGenerater_Stop_v2(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x100538E0u))(a0, a1); }
 XI_ORIG unsigned long long YmGenerater_Stop_v3(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100538E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100538E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint8_t Generator_IsFlag400OrField22Zero(void * a0) { return reinterpret_cast<uint8_t (__thiscall *)(void *)>(XI_GAME(0x100539E0u))(a0); }
@@ -1000,7 +1000,7 @@ XI_ORIG undefined4 YmGenerater_UpdateAttach(void * a0, XI_ANY a1, XI_ANY a2) { r
 XI_ORIG unsigned long long YmGenerater_UpdateAttachIfPresent(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10053DD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10053DD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_10053e60(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x10053E60u))(a0); }
@@ -1021,7 +1021,7 @@ XI_ORIG int Vt1032B6D8_Destructor(void * a0) { return reinterpret_cast<int (__th
 XI_ORIG unsigned long long Unit100548D0_FreeSplineSet(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100550F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100550F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_10055130(void * a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x10055130u))(a0, a1, a2); }
@@ -1057,7 +1057,7 @@ XI_ORIG int * Scheduler_Execute(void * a0, void * a1, void * a2, int a3, int a4)
 XI_ORIG unsigned long long Scheduler_Execute_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) {
     uint32_t xs[4] = {a1.bits, a2.bits, a3.bits, a4.bits}; uint32_t ra = a5.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10056C70u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10056C70u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Scheduler_RemoveTasksFor(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10056EB0u))(a0); }
@@ -1130,7 +1130,7 @@ XI_ORIG _DWORD * MoProgElem_FreeBuffer40(void * a0) { return reinterpret_cast<_D
 XI_ORIG unsigned long long FUN_100683d0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100683D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100683D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10064190_SetDwordValue(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x100684F0u))(a0, a1); }
@@ -1237,7 +1237,7 @@ XI_ORIG int * CMoResource_AddRefChain(int a0) { return reinterpret_cast<int * (_
 XI_ORIG unsigned long long CMoResource_AddRefChain_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10071E90u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10071E90u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined8 CMoResource_AddRefChain_v2(void * a0) { return reinterpret_cast<undefined8 (__thiscall *)(void *)>(XI_GAME(0x10071E90u))(a0); }
@@ -1257,7 +1257,7 @@ XI_ORIG undefined4 FUN_10072180(void * a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long CMoResource_Destroy(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100721F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100721F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit10071E50_FindSelfLinkedNode(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x10072240u))(a0); }
@@ -1271,7 +1271,7 @@ XI_ORIG undefined8 FUN_100722c0(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_A
 XI_ORIG unsigned long long CMoResource_FindInScope(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10072430u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10072430u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 CMoResource_FindInScope_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) { return reinterpret_cast<undefined4 (__stdcall *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10072430u))(a0, a1, a2, a3); }
@@ -1279,13 +1279,13 @@ XI_ORIG _DWORD * YmResourceFile_FindResourceUnder(int a0, void * a1, int a2, int
 XI_ORIG unsigned long long YmResourceFile_FindResourceUnder_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100724C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100724C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit10071E50_FindInChainByKind(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) {
     uint32_t xs[4] = {a1.bits, a2.bits, a3.bits, a4.bits}; uint32_t ra = a5.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10072540u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10072540u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_10072970() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10072970u))(); }
@@ -1352,7 +1352,7 @@ XI_ORIG undefined4 FUN_10074a20() { return reinterpret_cast<undefined4 (__cdecl 
 XI_ORIG unsigned long long FUN_10074a50(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10074A50u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10074A50u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void CMoTask_Release(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10074AB0u))(a0); }
@@ -1386,7 +1386,7 @@ XI_ORIG undefined1 * getNounFromPronoun(XI_ANY a0, XI_ANY a1) { return reinterpr
 XI_ORIG unsigned long long FUN_10077a00(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10077A00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10077A00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint8_t * Arg_FindInSortedTable(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<uint8_t * (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10077AD0u))(a0, a1); }
@@ -1407,7 +1407,7 @@ XI_ORIG int Unit10078260_ParseNumber(XI_ANY a0) { return reinterpret_cast<int (_
 XI_ORIG unsigned long long SeekIdByString(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1007A1C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1007A1C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int Actor_FindInRange(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<int (__cdecl *)(XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x1007A440u))(a0, a1, a2); }
@@ -1419,7 +1419,7 @@ XI_ORIG undefined4 Actor_GetObjectByName(XI_ANY a0) { return reinterpret_cast<un
 XI_ORIG unsigned long long Unit10078260_GetWord1047D3FC(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10080D00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10080D00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10078260_IsIdNotInTable10357BB8(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x10080D20u))(a0); }
@@ -1428,7 +1428,7 @@ XI_ORIG int Command_RunLine(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<int 
 XI_ORIG unsigned long long Unit10078260_CheckCommandAllowed(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10081230u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10081230u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10078260_SetFlag1047D498(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x10081440u))(a0); }
@@ -1451,7 +1451,7 @@ XI_ORIG void Actor_ResetDrawLists() { reinterpret_cast<void (__cdecl *)()>(XI_GA
 XI_ORIG unsigned long long CXiActor_LinkIntoDrawList(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10081AE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10081AE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void CXiActor_Init(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10081BA0u))(a0); }
@@ -1475,20 +1475,20 @@ XI_ORIG uint32_t CXiActor_IsModelMissingOrFlag2000_v1(void * a0) { return reinte
 XI_ORIG unsigned long long CXiActor_ModelTest95790(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10084330u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10084330u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long CXiActor_ModelTest95680(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10084350u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10084350u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint8_t CXiActor_ModelTest956A0(void * a0, int a1) { return reinterpret_cast<uint8_t (__thiscall *)(void *, int)>(XI_GAME(0x10084370u))(a0, a1); }
 XI_ORIG unsigned long long CXiActor_ModelTest956A0_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10084370u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10084370u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int CXiActor_GetModelField170(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x10084390u))(a0); }
@@ -1522,7 +1522,7 @@ XI_ORIG uint32_t CXiActor_GetField88Bit3(void * a0) { return reinterpret_cast<ui
 XI_ORIG unsigned long long FUN_10085a10(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10085A10u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10085A10u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_10085a50(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10085A50u))(a0); }
@@ -1531,7 +1531,7 @@ XI_ORIG void FUN_10085ac0(void * a0, XI_ANY a1) { reinterpret_cast<void (__thisc
 XI_ORIG unsigned long long FUN_10085ad0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10085AD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10085AD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_10085b10(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10085B10u))(a0, a1); }
@@ -1543,7 +1543,7 @@ XI_ORIG void DrawNameplateSecondString(XI_ANY a0, XI_ANY a1, XI_ANY a2) { reinte
 XI_ORIG unsigned long long Unit10086E90_IsParamBelow901(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10086FC0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10086FC0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint32_t ActerBuff_FindByField78_10086FD0(XI_ANY a0) { return reinterpret_cast<uint32_t (__cdecl *)(XI_ANY)>(XI_GAME(0x10086FD0u))(a0); }
@@ -1553,26 +1553,26 @@ XI_ORIG uint32_t Unit10086E90_GetGlobalFlag() { return reinterpret_cast<uint32_t
 XI_ORIG unsigned long long Acter_IsEvent(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087060u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087060u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long IsEvent(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087070u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087070u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long IsEvent_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087070u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087070u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Menu_HasAnyFlag(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x100870E0u))(a0, a1); }
 XI_ORIG unsigned long long Unit10086E90_GetGlobalByte(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087110u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087110u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined thunk_FUN_10087230() { return reinterpret_cast<undefined (__cdecl *)()>(XI_GAME(0x10087220u))(); }
@@ -1580,7 +1580,7 @@ XI_ORIG undefined4 Help_UpdateFromFlags() { return reinterpret_cast<undefined4 (
 XI_ORIG unsigned long long Unit10086E90_UpdateObject10578184(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100873B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100873B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10086E90_TargetClearAndSetFlag53() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x100875C0u))(); }
@@ -1589,51 +1589,51 @@ XI_ORIG uint32_t FUN_10087630() { return reinterpret_cast<uint32_t (__cdecl *)()
 XI_ORIG unsigned long long FUN_10087650(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087650u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087650u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit10086E90_GetMaskedFlagByte(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087660u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087660u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10086E90_IsGlobalNonzero() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x10087670u))(); }
 XI_ORIG unsigned long long FUN_10087680(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087680u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087680u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit10086E90_GetDword10480800IfFlag(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087690u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087690u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint32_t Unit10086E90_GetDword10480800IfFlag_v1() { return reinterpret_cast<uint32_t (__cdecl *)()>(XI_GAME(0x10087690u))(); }
 XI_ORIG unsigned long long Unit10086E90_GetByte10480824IfFlag(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100876B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100876B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long FUN_100876d0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100876D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100876D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long FUN_100876e0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100876E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100876E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit10086E90_GetTable10480828IfFlag(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087760u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087760u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG long double FUN_10087770() { return reinterpret_cast<long double (__cdecl *)()>(XI_GAME(0x10087770u))(); }
@@ -1648,7 +1648,7 @@ XI_ORIG uint32_t FUN_10087ad0() { return reinterpret_cast<uint32_t (__cdecl *)()
 XI_ORIG unsigned long long FUN_10087b20(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10087B20u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10087B20u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10086E90_ApplyPair1EC1F4(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10087D40u))(a0); }
@@ -1671,7 +1671,7 @@ XI_ORIG int FUN_10089850(void * a0) { return reinterpret_cast<int (__thiscall *)
 XI_ORIG unsigned long long FUN_10089ff0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10089FF0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10089FF0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Camera_SetField30(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1008A0E0u))(a0); }
@@ -1699,7 +1699,7 @@ XI_ORIG undefined4 FUN_1008c6c0(void * a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long FUN_1008cce0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1008CCE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1008CCE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_1008cd20(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x1008CD20u))(a0, a1); }
@@ -1711,7 +1711,7 @@ XI_ORIG void Unit10086E90_SetModelField78FromTable(void * a0) { reinterpret_cast
 XI_ORIG unsigned long long CXiActor_IsIdAbove6ff(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1008E130u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1008E130u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 CXiActor_IsField78HighZero(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x1008E140u))(a0); }
@@ -1762,7 +1762,7 @@ XI_ORIG undefined4 FUN_10094190() { return reinterpret_cast<undefined4 (__cdecl 
 XI_ORIG unsigned long long CallMotd(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100955D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100955D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_10095660() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10095660u))(); }
@@ -1814,7 +1814,7 @@ XI_ORIG undefined4 Acter_IsSpecialIdRange(void * a0) { return reinterpret_cast<u
 XI_ORIG unsigned long long FUN_10098320(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10098320u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10098320u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_10098360() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x10098360u))(); }
@@ -1825,7 +1825,7 @@ XI_ORIG undefined4 FUN_10098f90(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long Unit10086E90_GetTable10485830IfBit2(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100991F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100991F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_10099680() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x10099680u))(); }
@@ -1834,7 +1834,7 @@ XI_ORIG void Unit10086E90_UpdateFrame997B0() { reinterpret_cast<void (__cdecl *)
 XI_ORIG unsigned long long FUN_10099a40(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10099A40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10099A40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_1009aad0(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1009AAD0u))(a0); }
@@ -1843,7 +1843,7 @@ XI_ORIG void FUN_1009ab40(void * a0, XI_ANY a1) { reinterpret_cast<void (__thisc
 XI_ORIG unsigned long long FUN_1009acb0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1009ACB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1009ACB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_1009ace0(void * a0, XI_ANY a1, XI_ANY a2) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x1009ACE0u))(a0, a1, a2); }
@@ -1858,7 +1858,7 @@ XI_ORIG void Acter_StepAfterimageStates(void * a0) { reinterpret_cast<void (__th
 XI_ORIG unsigned long long FUN_100a0010(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100A0010u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100A0010u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_100a0080() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x100A0080u))(); }
@@ -1874,14 +1874,14 @@ XI_ORIG uint32_t FUN_100a2b70(void * a0, XI_ANY a1, XI_ANY a2) { return reinterp
 XI_ORIG unsigned long long FUN_100a2fd0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6) {
     uint32_t xs[6] = {a0.bits, a1.bits, a2.bits, a3.bits, a4.bits, a5.bits}; uint32_t ra = a6.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 20(%%esi)\n\t""pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $24, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100A2FD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100A2FD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_100a3040() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x100A3040u))(); }
 XI_ORIG unsigned long long FUN_100a30e0(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100A30E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100A30E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100A2810_ResetRecords() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x100A3CD0u))(); }
@@ -1896,7 +1896,7 @@ XI_ORIG undefined4 XiControlActor_UpdateView(void * a0) { return reinterpret_cas
 XI_ORIG unsigned long long XiControlActor_SetAutoRunning(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100A6070u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100A6070u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_100a6240(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x100A6240u))(a0, a1); }
@@ -1908,7 +1908,7 @@ XI_ORIG _DWORD * CMoTask_VT_1032E808_ScalarDeletingDtor(void * a0, char a1) { re
 XI_ORIG unsigned long long FUN_100aaee0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100AAEE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100AAEE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG long double CXiControlActor_GetSpeed(XI_ANY a0) { return reinterpret_cast<long double (__stdcall *)(XI_ANY)>(XI_GAME(0x100AAEF0u))(a0); }
@@ -1920,7 +1920,7 @@ XI_ORIG void CXiDancerActor_SetPosition(void * a0, XI_ANY a1) { reinterpret_cast
 XI_ORIG unsigned long long CXiDancerActor_SetAnglesWrapped(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100AB880u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100AB880u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void CXiDancerActor_ApplyStateBlock(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x100AB9A0u))(a0, a1, a2, a3, a4); }
@@ -1945,13 +1945,13 @@ XI_ORIG int FUN_100c2fe0(void * a0) { return reinterpret_cast<int (__thiscall *)
 XI_ORIG unsigned long long Unit100ACAB0_GetWordBFE(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100C3020u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100C3020u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100ACAB0_GetWordC00(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100C3030u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100C3030u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100ACAB0_FreeData(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x100C3050u))(a0); }
@@ -2009,7 +2009,7 @@ XI_ORIG void CXiSkeletonActor_DrawNameIfVisible(void * a0, XI_ANY a1, XI_ANY a2,
 XI_ORIG unsigned long long CXiSkeletonActor_DrawName2IfVisible(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100D08B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100D08B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 CXiSkeletonActor_AddPartAndMarkSlot(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x100D0B50u))(a0, a1, a2, a3, a4); }
@@ -2017,7 +2017,7 @@ XI_ORIG undefined4 CXiSkeletonActor_SetField0B4IfField9EC(void * a0, XI_ANY a1, 
 XI_ORIG unsigned long long CXiSkeletonActor_AttachPartResource(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100D0D70u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100D0D70u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined FUN_100d0e80() { return reinterpret_cast<undefined (__cdecl *)()>(XI_GAME(0x100D0E80u))(); }
@@ -2026,7 +2026,7 @@ XI_ORIG undefined4 CXiSkeletonActor_ChoosePendingPartStep(void * a0) { return re
 XI_ORIG unsigned long long CXiSkeletonActor_IsReadCompleteBody(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100D12D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100D12D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D13B0_ProcessResidentListEntries(void * a0, XI_ANY a1, XI_ANY a2) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x100D1450u))(a0, a1, a2); }
@@ -2049,7 +2049,7 @@ XI_ORIG int CXiSkeletonActor_AddListEntry(void * a0, XI_ANY a1, XI_ANY a2, XI_AN
 XI_ORIG unsigned long long CXiSkeletonActor_ReleaseListEntriesMatching(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100D44B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100D44B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int CXiSkeletonActor_DeleteOwnedList(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x100D44F0u))(a0); }
@@ -2084,7 +2084,7 @@ XI_ORIG int * FUN_100d8aa0(XI_ANY a0) { return reinterpret_cast<int * (__cdecl *
 XI_ORIG unsigned long long FUN_100d8ae0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100D8AE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100D8AE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_100d8ba0(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x100D8BA0u))(a0); }
@@ -2136,7 +2136,7 @@ XI_ORIG undefined4 Unit100D7420_IsInitialized() { return reinterpret_cast<undefi
 XI_ORIG unsigned long long FUN_100dc2d0(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100DC2D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100DC2D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint32_t FUN_100dc3b0(XI_ANY a0) { return reinterpret_cast<uint32_t (__cdecl *)(XI_ANY)>(XI_GAME(0x100DC3B0u))(a0); }
@@ -2230,13 +2230,13 @@ XI_ORIG int Unit100D7420_GetBlock2CF54IfFlag() { return reinterpret_cast<int (__
 XI_ORIG unsigned long long FUN_100f0130(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6, XI_ANY a7) {
     uint32_t xs[7] = {a0.bits, a1.bits, a2.bits, a3.bits, a4.bits, a5.bits, a6.bits}; uint32_t ra = a7.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 24(%%esi)\n\t""pushl 20(%%esi)\n\t""pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $28, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100F0130u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100F0130u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_ReturnTrue100F02A0(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100F02A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100F02A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit100D7420_SetByte15110(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x100F04F0u))(a0); }
@@ -2287,7 +2287,7 @@ XI_ORIG void Unit100D7420_Complete_v1(void * a0) { reinterpret_cast<void (__this
 XI_ORIG unsigned long long Unit100D7420_CallStateCallback3(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100F2C40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100F2C40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit100D7420_RunCallbacks(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x100F2C80u))(a0, a1); }
@@ -2302,7 +2302,7 @@ XI_ORIG undefined4 Unit100D7420_EnsureGlobal() { return reinterpret_cast<undefin
 XI_ORIG unsigned long long Unit100D7420_DestroyGlobal(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100F76D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100F76D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit100D7420_UpdateGlobalRequests() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x100F7700u))(); }
@@ -2328,7 +2328,7 @@ XI_ORIG undefined4 FUN_100fa4a0(XI_ANY a0) { return reinterpret_cast<undefined4 
 XI_ORIG unsigned long long Unit100D7420_SetPacketType(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100FA940u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100FA940u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_100fc0f0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x100FC0F0u))(a0, a1, a2, a3); }
@@ -2343,7 +2343,7 @@ XI_ORIG void Unit100D7420_SetWord40DAA_v1(XI_ANY a0) { reinterpret_cast<void (__
 XI_ORIG unsigned long long thunk_FUN_100fc370(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x100FC3B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x100FC3B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined8 Unit100D7420_CheckTimer41B4(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<undefined8 (__cdecl *)(XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x100FC3C0u))(a0, a1, a2); }
@@ -2413,13 +2413,13 @@ XI_ORIG int Unit100D7420_RefStringReserve(void * a0, XI_ANY a1) { return reinter
 XI_ORIG unsigned long long Unit100D7420_RefStringAssign(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101092C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101092C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_RefStringRelease(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101094D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101094D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_Copy12(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x1010E040u))(a0, a1); }
@@ -2478,13 +2478,13 @@ XI_ORIG undefined8 Menu_DrawWindowItems(void * a0) { return reinterpret_cast<und
 XI_ORIG unsigned long long Unit100D7420_MenuReleaseItemCount(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10117EE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10117EE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_MenuReleaseItemCount_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10117EE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10117EE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_InvokeChild34(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10117F30u))(a0); }
@@ -2497,7 +2497,7 @@ XI_ORIG short * Unit100D7420_FindFreeEntry(void * a0) { return reinterpret_cast<
 XI_ORIG unsigned long long Unit100D7420_MenuMoveSelection(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118260u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118260u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int Unit100D7420_GetFocusedValueA(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x101185E0u))(a0); }
@@ -2517,32 +2517,32 @@ XI_ORIG undefined4 Unit100D7420_PickEntry(void * a0, XI_ANY a1, XI_ANY a2) { ret
 XI_ORIG unsigned long long Unit100D7420_SelectEntryMoveCursor(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118DB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118DB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_SelectEntryMoveCursor_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118DB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118DB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_SelectEntry(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118E90u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118E90u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_SelectEntry_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118E90u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118E90u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_SetChildOwner(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10118F20u))(a0, a1); }
 XI_ORIG unsigned long long Unit100D7420_CallMember0CSlot2(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10118F30u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10118F30u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_FreeChild(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10118F40u))(a0); }
@@ -2560,7 +2560,7 @@ XI_ORIG void Unit100D7420_ClearField34(void * a0) { reinterpret_cast<void (__thi
 XI_ORIG unsigned long long Unit100D7420_StartFade(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101193A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101193A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_StopFade(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101193B0u))(a0); }
@@ -2578,7 +2578,7 @@ XI_ORIG uint32_t Unit100D7420_ContainsPoint(void * a0, XI_ANY a1) { return reint
 XI_ORIG unsigned long long Unit100D7420_UpdateState(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10119C00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10119C00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit100D7420_InitDefaults(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x10119DA0u))(a0); }
@@ -2589,7 +2589,7 @@ XI_ORIG void Unit100D7420_ResolveShape(void * a0) { reinterpret_cast<void (__thi
 XI_ORIG unsigned long long Unit100D7420_StepFrameCycle(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10119F20u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10119F20u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_DrawUnscaled(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10119F80u))(a0, a1, a2, a3, a4, a5); }
@@ -2601,7 +2601,7 @@ XI_ORIG void Unit100D7420_ApplyHelpAndTitle(void * a0) { reinterpret_cast<void (
 XI_ORIG unsigned long long FUN_1011a560(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1011A560u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1011A560u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit100D7420_SetRectAndUpdateNodes(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6, XI_ANY a7) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x1011A5A0u))(a0, a1, a2, a3, a4, a5, a6, a7); }
@@ -2657,7 +2657,7 @@ XI_ORIG char Font_AddGlyphAdvance(unsigned __int16 a0, void * a1) { return reint
 XI_ORIG unsigned long long Font_AddGlyphAdvance_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1011D840u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1011D840u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Font_IsPrintableAscii(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1011D8B0u))(a0); }
@@ -2666,7 +2666,7 @@ XI_ORIG undefined Font_MeasureText_1011D980() { return reinterpret_cast<undefine
 XI_ORIG unsigned long long Font_GetCharWidthAt(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = 0, rc = 0, rd = a1.bits;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1011D990u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1011D990u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Sjis_IsLeadByte(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1011DA30u))(a0); }
@@ -2717,13 +2717,13 @@ XI_ORIG long double GetAnalogKey(XI_ANY a0, XI_ANY a1) { return reinterpret_cast
 XI_ORIG unsigned long long Unit100D7420_TestCommand36CF60(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10123A70u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10123A70u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_TestCommand36CF60_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10123A70u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10123A70u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Cursor_TestAny1DOr9D() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x10123DC0u))(); }
@@ -2733,13 +2733,13 @@ XI_ORIG undefined4 Cell_TestGlobal1036E3A0Mask(XI_ANY a0) { return reinterpret_c
 XI_ORIG unsigned long long Cell_SetByte104E1C3E(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10123E60u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10123E60u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Cell_SetByte104E1C3E_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10123E60u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10123E60u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Cell_ClearFlag104E1C3C() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x10123E90u))(); }
@@ -2747,7 +2747,7 @@ XI_ORIG void Cell_SetFlag104E1C3C() { reinterpret_cast<void (__cdecl *)()>(XI_GA
 XI_ORIG unsigned long long Cell_GetByte1036CF5C(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10123EE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10123EE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Cell_ClearFlag01And08(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10124010u))(a0, a1); }
@@ -2766,13 +2766,13 @@ XI_ORIG void Cursor_SetPosition(int a0, void * a1, float a2) { reinterpret_cast<
 XI_ORIG unsigned long long Cursor_SetPosition_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10124700u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10124700u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Cursor_SetPosition_v2(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10124700u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10124700u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Cursor_UpdateTimer(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101248A0u))(a0); }
@@ -2788,7 +2788,7 @@ XI_ORIG undefined8 Unit100D7420_CursorUpdateEdgeAxes(void * a0) { return reinter
 XI_ORIG unsigned long long Cursor_Draw(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {0}; uint32_t ra = a2.bits, rc = a0.bits, rd = a1.bits;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10124EB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10124EB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Cursor_SetModeFromMenuActive(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x101252C0u))(a0); }
@@ -2803,7 +2803,7 @@ XI_ORIG void Cursor_StoreScreenCenter_v1(void * a0) { reinterpret_cast<void (__t
 XI_ORIG unsigned long long FUN_101262e0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101262E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101262E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit100D7420_Init(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x10126300u))(a0); }
@@ -2863,20 +2863,20 @@ XI_ORIG undefined4 FUN_10128ce0(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_A
 XI_ORIG unsigned long long Unit100D7420_ClearFlag12FromValue(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10129290u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10129290u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit100D7420_RingStepBack(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101292E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101292E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_101295d0(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x101295D0u))(a0, a1, a2, a3, a4); }
 XI_ORIG unsigned long long Unit100D7420_GetRingHead14(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10129C60u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10129C60u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined8 Unit100D7420_FindKindRecord(XI_ANY a0) { return reinterpret_cast<undefined8 (__cdecl *)(XI_ANY)>(XI_GAME(0x10129CD0u))(a0); }
@@ -2942,14 +2942,14 @@ XI_ORIG void * Unit1012AC80_ConstructVt10333D10(void * a0) { return reinterpret_
 XI_ORIG unsigned long long FUN_10139f40(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10139F40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10139F40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_10139fb0(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10139FB0u))(a0, a1); }
 XI_ORIG unsigned long long thunk_FUN_1013a100(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10139FE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10139FE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit1012AC80_CallIfNot3(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10139FF0u))(a0, a1); }
@@ -2958,7 +2958,7 @@ XI_ORIG int TkHelp_AdvanceTimer(void * a0) { return reinterpret_cast<int (__this
 XI_ORIG unsigned long long Unit1012AC80_IsEvent(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1013A060u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1013A060u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1012AC80_AdvanceHelpTimer(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x1013A070u))(a0); }
@@ -2966,7 +2966,7 @@ XI_ORIG void FUN_1013a0d0() { reinterpret_cast<void (__stdcall *)()>(XI_GAME(0x1
 XI_ORIG unsigned long long Unit1012AC80_ResetHelpAndTitle(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1013A100u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1013A100u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1012AC80_ConstructVt10333D18(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x1013A1E0u))(a0); }
@@ -3099,13 +3099,13 @@ XI_ORIG void * Unit1012AC80_TargetCtor(void * a0) { return reinterpret_cast<void
 XI_ORIG unsigned long long Unit1012AC80_ClearTargetAndRedraw(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10157610u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10157610u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_ClearField68AndDraw(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10157620u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10157620u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit1012AC80_ClearField68AndDraw_v1(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10157620u))(a0); }
@@ -3119,25 +3119,25 @@ XI_ORIG void Unit1012AC80_SetFields78D0_v1(void * a0, XI_ANY a1, XI_ANY a2) { re
 XI_ORIG unsigned long long Unit1012AC80_GetByte75(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10157880u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10157880u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_GetByte76(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10157890u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10157890u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_GetByte77(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101578A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101578A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_GetWord80(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101578B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101578B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1012AC80_GetField7C(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x101578C0u))(a0); }
@@ -3157,13 +3157,13 @@ XI_ORIG void Target_CycleMenuStep(void * a0) { reinterpret_cast<void (__thiscall
 XI_ORIG unsigned long long Target_IssueStateCommand(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10157FA0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10157FA0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Target_UpdateSelectionByState(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101581E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101581E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Target_InvokeFieldCallback(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101582F0u))(a0); }
@@ -3173,7 +3173,7 @@ XI_ORIG undefined8 Target_HasActor_v1(void * a0) { return reinterpret_cast<undef
 XI_ORIG unsigned long long Target_UpdateSelection(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10158480u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10158480u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Target_SendAttackOff(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10158510u))(a0); }
@@ -3185,13 +3185,13 @@ XI_ORIG undefined4 FUN_101587f0(void * a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long Unit1012AC80_IsCommand76Or77Active(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10158AA0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10158AA0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Target_TrySubSelect(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10158B00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10158B00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Target_ActOrTrySubSelect(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10158B40u))(a0, a1); }
@@ -3201,7 +3201,7 @@ XI_ORIG undefined4 Target_ClearAll(void * a0) { return reinterpret_cast<undefine
 XI_ORIG unsigned long long Target_CommitSubTarget(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10159040u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10159040u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Target_ClearAndSetFlag53(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x101590A0u))(a0); }
@@ -3221,7 +3221,7 @@ XI_ORIG void * Target_ResetRecordReturnSelf(void * a0) { return reinterpret_cast
 XI_ORIG unsigned long long Target_IsRecordStillValid(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10159540u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10159540u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Target_CanTarget(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101595D0u))(a0, a1); }
@@ -3246,7 +3246,7 @@ XI_ORIG int * Entry_ResolveValid(void * a0) { return reinterpret_cast<int * (__t
 XI_ORIG unsigned long long Entry_IsActorFieldMatch(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10159E10u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10159E10u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined8 Unit1012AC80_FindRange(XI_ANY a0) { return reinterpret_cast<undefined8 (__cdecl *)(XI_ANY)>(XI_GAME(0x10159EB0u))(a0); }
@@ -3302,43 +3302,43 @@ XI_ORIG void * MenuMng_OpenByName_v4(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3)
 XI_ORIG unsigned long long MenuMng_AttachWindowAndPosition(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E530u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E530u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long MenuMng_AttachWindowAndPosition_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E530u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E530u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuItemFade(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6) {
     uint32_t xs[5] = {a1.bits, a2.bits, a3.bits, a4.bits, a5.bits}; uint32_t ra = a6.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E6E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E6E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuItemFade_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6) {
     uint32_t xs[5] = {a1.bits, a2.bits, a3.bits, a4.bits, a5.bits}; uint32_t ra = a6.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E6E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E6E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuInitAndFadeItem(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E790u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E790u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuInitAndFadeItem_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E790u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E790u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuInitAndFadeItem_v2(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E790u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E790u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int Menu_FindFirstActiveItem(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1015E7E0u))(a0); }
@@ -3347,19 +3347,19 @@ XI_ORIG void FUN_1015e850(void * a0, XI_ANY a1) { reinterpret_cast<void (__thisc
 XI_ORIG unsigned long long Menu_SetItemAt54(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E850u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E850u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Menu_SetItemAt54_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E850u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E850u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Menu_RemoveAndFreeItem(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015E8A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015E8A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Menu_CloseEntry(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x1015E910u))(a0, a1); }
@@ -3375,13 +3375,13 @@ XI_ORIG int Menu_HasFocusedItem(void * a0) { return reinterpret_cast<int (__this
 XI_ORIG unsigned long long Unit1012AC80_MenuTestItem34Or6B(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015EDD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015EDD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1012AC80_MenuTestItem34Or6B_v1(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015EDD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015EDD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined8 Menu_NextVisibleItem(XI_ANY a0) { return reinterpret_cast<undefined8 (__stdcall *)(XI_ANY)>(XI_GAME(0x1015EE00u))(a0); }
@@ -3390,7 +3390,7 @@ XI_ORIG undefined8 Menu_OpenMenuWindowWhenIdle() { return reinterpret_cast<undef
 XI_ORIG unsigned long long FUN_1015eea0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1015EEA0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1015EEA0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Menu_CallSlot30ForEachEntry() { reinterpret_cast<void (__cdecl *)()>(XI_GAME(0x1015EEF0u))(); }
@@ -3425,19 +3425,19 @@ XI_ORIG int Menu_GetStateB4(_DWORD a0) { return reinterpret_cast<int (__thiscall
 XI_ORIG unsigned long long Menu_GetStateB4_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101606F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101606F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Menu_IsStateB4Eq1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10160700u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10160700u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Menu_SetStateB4(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10160710u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10160710u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void MenuMng_BuildMenuName(void * a0, XI_ANY a1, XI_ANY a2) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x10160760u))(a0, a1, a2); }
@@ -3449,7 +3449,7 @@ XI_ORIG void Unit101D7020_CloseIfAt14() { reinterpret_cast<void (__cdecl *)()>(X
 XI_ORIG unsigned long long FUN_10160c80(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10160C80u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10160C80u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Menu_GetFocusedItem(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x10160C90u))(a0); }
@@ -3463,7 +3463,7 @@ XI_ORIG void * Unit1012AC80_InitFromScreenRect(void * a0, XI_ANY a1) { return re
 XI_ORIG unsigned long long FUN_10162510(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10162510u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10162510u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_101626e0(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101626E0u))(a0, a1); }
@@ -3544,7 +3544,7 @@ XI_ORIG undefined4 FUN_101768a0(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinte
 XI_ORIG unsigned long long Unit10163E60_SetFlag2000OnUnderscoreEntries(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10176DD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10176DD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 * FUN_10176e80(void * a0, void * a1) { return reinterpret_cast<undefined4 * (__fastcall *)(void *, void *)>(XI_GAME(0x10176E80u))(a0, a1); }
@@ -3563,13 +3563,13 @@ XI_ORIG undefined4 FUN_10177730() { return reinterpret_cast<undefined4 (__cdecl 
 XI_ORIG unsigned long long ZoneMap_QueryBoxHeightGlobal(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10177770u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10177770u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long CTsZoneMap_LogZoneMetrics(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10177800u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10177800u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 ZoneMap_Call10173AE0(void * a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x101779B0u))(a0, a1, a2); }
@@ -3614,7 +3614,7 @@ XI_ORIG _DWORD * ZoneMap_DrawMeshById(int a0, int a1, int a2) { return reinterpr
 XI_ORIG unsigned long long FUN_101844c0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101844C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101844C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 XiZone_DrawGroundShadowQuad(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10184C90u))(a0, a1, a2, a3); }
@@ -3660,13 +3660,13 @@ XI_ORIG uint32_t ZoneMap_Update(void * a0) { return reinterpret_cast<uint32_t (_
 XI_ORIG unsigned long long ZoneMap_ForEachFindKind5B(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101875C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101875C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long ZoneMap_ForEachFindKind5A(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101875E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101875E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void ZoneMap_SaveState(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10187600u))(a0); }
@@ -3682,7 +3682,7 @@ XI_ORIG void FUN_101889e0(void * a0) { reinterpret_cast<void (__thiscall *)(void
 XI_ORIG unsigned long long XiZone_UpdateTree(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101889E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101889E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_10188a10(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x10188A10u))(a0); }
@@ -3724,19 +3724,19 @@ XI_ORIG void FUN_1018a340(void * a0) { reinterpret_cast<void (__thiscall *)(void
 XI_ORIG unsigned long long YmCombineWeather_FindKind5A(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1018AAC0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1018AAC0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long YmCombineWeather_FindKind5B(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1018AB40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1018AB40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long FUN_1018abb0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1018ABB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1018ABB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_1018abb0_v1(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1018ABB0u))(a0); }
@@ -3772,7 +3772,7 @@ XI_ORIG void * Time_SetNormalized(void * a0, XI_ANY a1) { return reinterpret_cas
 XI_ORIG unsigned long long FUN_1018bc40(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1018BC40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1018BC40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int Time_GetDiv5184000(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x1018BD30u))(a0); }
@@ -3840,7 +3840,7 @@ XI_ORIG int Text_CountChars(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpre
 XI_ORIG unsigned long long Sjis_Remap82To83(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1018FD90u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1018FD90u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int FUN_1018fdf0(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<int (__cdecl *)(XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x1018FDF0u))(a0, a1, a2); }
@@ -3919,7 +3919,7 @@ XI_ORIG void * Unit1018BA60_ByteTableCtor(void * a0) { return reinterpret_cast<v
 XI_ORIG unsigned long long Unit1018BA60_HasTable1037A290CellByte(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1019CDC0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1019CDC0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1018BA60_ByteTableDefaultCtor(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x1019CE00u))(a0); }
@@ -3927,13 +3927,13 @@ XI_ORIG void Config_LoadDefaultTable(void * a0) { reinterpret_cast<void (__thisc
 XI_ORIG unsigned long long Unit1018BA60_FillTableBytes(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1019CF60u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1019CF60u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long FUN_1019cfa0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1019CFA0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1019CFA0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1018BA60_ByteTableAltCtor(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x1019D150u))(a0); }
@@ -3941,14 +3941,14 @@ XI_ORIG void Config_LoadAltTable(void * a0) { reinterpret_cast<void (__thiscall 
 XI_ORIG unsigned long long FUN_1019d2b0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1019D2B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1019D2B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_1019d320(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x1019D320u))(a0); }
 XI_ORIG unsigned long long FUN_1019d350(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1019D350u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1019D350u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1018BA60_CtorVt103370F8(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x1019D580u))(a0); }
@@ -4010,7 +4010,7 @@ XI_ORIG int Unit1018BA60_GetEntryPtr(void * a0, XI_ANY a1) { return reinterpret_
 XI_ORIG unsigned long long FUN_101a2a10(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101A2A10u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101A2A10u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1018BA60_CtorVt10337314(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101A2E00u))(a0, a1); }
@@ -4020,14 +4020,14 @@ XI_ORIG undefined4 Unit1018BA60_SetSlot(void * a0, XI_ANY a1, XI_ANY a2) { retur
 XI_ORIG unsigned long long Unit1018BA60_CanOpenMenuShortcut(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101A33E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101A33E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1018BA60_ApplyKeyAction(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x101A3500u))(a0, a1, a2, a3); }
 XI_ORIG unsigned long long Unit1018BA60_HandleReadPosKeys(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101A3550u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101A3550u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1018BA60_PanelCtorVt10337320(void * a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<void * (__thiscall *)(void *, XI_ANY, XI_ANY)>(XI_GAME(0x101A36F0u))(a0, a1, a2); }
@@ -4058,13 +4058,13 @@ XI_ORIG char Unit1018BA60_HandleJumpMapKeys() { return reinterpret_cast<char (__
 XI_ORIG unsigned long long Unit1018BA60_LoadAllAndTimestamp(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101AB7D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101AB7D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1018BA60_LoadAllAndTimestamp_v1(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101AB7D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101AB7D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit1018BA60_ReturnThis(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x101AB810u))(a0); }
@@ -4076,7 +4076,7 @@ XI_ORIG undefined4 FsTextInput_SetText(void * a0, XI_ANY a1, XI_ANY a2) { return
 XI_ORIG unsigned long long FsTextInput_GetFlag(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101ABE40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101ABE40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FsTextInput_ClearState(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101ABE50u))(a0); }
@@ -4151,19 +4151,19 @@ XI_ORIG undefined4 Unit1018BA60_InputSubmit(void * a0, XI_ANY a1, XI_ANY a2) { r
 XI_ORIG unsigned long long Unit1018BA60_AcceptsChar(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101B6D50u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101B6D50u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1018BA60_InputNotify(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101B6E40u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101B6E40u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1018BA60_GetFlag8C81(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101B6E90u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101B6E90u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1018BA60_ResetCursor(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x101B6EA0u))(a0); }
@@ -4237,7 +4237,7 @@ XI_ORIG undefined4 FsWordCompletion_getEntryList(void * a0, XI_ANY a1, XI_ANY a2
 XI_ORIG unsigned long long FsWordCompletion_lookUp(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101BC100u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101BC100u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FsWordCompletion__prepareAllData(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101BC520u))(a0, a1); }
@@ -4327,7 +4327,7 @@ XI_ORIG undefined4 Unit1018BA60_MapCode012(XI_ANY a0) { return reinterpret_cast<
 XI_ORIG unsigned long long Unit1018BA60_CreateDirectories(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101C3FE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101C3FE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int FUN_101c4080(XI_ANY a0) { return reinterpret_cast<int (__stdcall *)(XI_ANY)>(XI_GAME(0x101C4080u))(a0); }
@@ -4430,25 +4430,25 @@ XI_ORIG undefined4 FUN_101cbc60(XI_ANY a0) { return reinterpret_cast<undefined4 
 XI_ORIG unsigned long long Unit101C72E0_IsActorField170(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CBDF0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CBDF0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_IsActorField170Is5(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CBE50u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CBE50u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_IsActorField170Is55(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CBE60u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CBE60u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_IsActorField170Is6(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CBE70u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CBE70u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit101C72E0_TestFlags100Or40DAC(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x101CC070u))(a0); }
@@ -4456,25 +4456,25 @@ XI_ORIG undefined4 FUN_101cc0a0() { return reinterpret_cast<undefined4 (__cdecl 
 XI_ORIG unsigned long long FUN_101cc0d0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CC0D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CC0D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_ActorTest1D0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CC1D0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CC1D0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_ActorPairTest1FF(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CC220u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CC220u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101C72E0_ActorPairTest1FF_v1(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CC220u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CC220u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit101C72E0_CC4F0ActorTest400(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x101CC350u))(a0, a1); }
@@ -4493,7 +4493,7 @@ XI_ORIG void YkFurniture_Destructor(void * a0) { reinterpret_cast<void (__thisca
 XI_ORIG unsigned long long FUN_101cd990(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101CD990u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101CD990u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_101cd9a0(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x101CD9A0u))(a0); }
@@ -4567,7 +4567,7 @@ XI_ORIG undefined4 FUN_101d4a20(void * a0) { return reinterpret_cast<undefined4 
 XI_ORIG unsigned long long FUN_101d5370(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101D5370u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101D5370u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FUN_101d55d0(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101D55D0u))(a0, a1); }
@@ -4601,7 +4601,7 @@ XI_ORIG undefined4 FUN_101e1a70(void * a0) { return reinterpret_cast<undefined4 
 XI_ORIG unsigned long long Unit101D7020_LoadDatListSync(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101E1AE0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101E1AE0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit101D7020_LoadDatSync(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101E24F0u))(a0, a1); }
@@ -4625,7 +4625,7 @@ XI_ORIG void * Unit101D7020_CtorVt1033A000(void * a0, XI_ANY a1, XI_ANY a2, XI_A
 XI_ORIG unsigned long long FUN_101efad0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101EFAD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101EFAD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Yk_ResetFields(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x101EFCA0u))(a0); }
@@ -4639,13 +4639,13 @@ XI_ORIG void Unit101D7020_InitEightSlots80808080(void * a0) { reinterpret_cast<v
 XI_ORIG unsigned long long FUN_101f66b0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {0}; uint32_t ra = a2.bits, rc = a0.bits, rd = a1.bits;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F66B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F66B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101D7020_SetField18AndRemainder(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F6700u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F6700u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit101D7020_SetField18AndRemainder_v1(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101F6700u))(a0, a1); }
@@ -4654,14 +4654,14 @@ XI_ORIG void * Yk_InitBase(void * a0, XI_ANY a1) { return reinterpret_cast<void 
 XI_ORIG unsigned long long FUN_101f7080(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[2] = {a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = a1.bits;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F7080u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F7080u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int FUN_101f7100(void * a0) { return reinterpret_cast<int (__thiscall *)(void *)>(XI_GAME(0x101F7100u))(a0); }
 XI_ORIG unsigned long long Unit101D7020_GetValueIfLoaded(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F71A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F71A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG uint32_t Yk_GetSharePercent(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<uint32_t (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x101F71C0u))(a0, a1); }
@@ -4676,7 +4676,7 @@ XI_ORIG undefined * Unit101D7020_FormatTargetMapGrid(XI_ANY a0) { return reinter
 XI_ORIG unsigned long long FUN_101f79e0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F79E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F79E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_101f7ec0(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5) { reinterpret_cast<void (__cdecl *)(XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x101F7EC0u))(a0, a1, a2, a3, a4, a5); }
@@ -4694,7 +4694,7 @@ XI_ORIG void Yk_FreeBuffers(void * a0) { reinterpret_cast<void (__thiscall *)(vo
 XI_ORIG unsigned long long FUN_101f9a50(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4, XI_ANY a5, XI_ANY a6, XI_ANY a7, XI_ANY a8) {
     uint32_t xs[7] = {a1.bits, a2.bits, a3.bits, a4.bits, a5.bits, a6.bits, a7.bits}; uint32_t ra = a8.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 24(%%esi)\n\t""pushl 20(%%esi)\n\t""pushl 16(%%esi)\n\t""pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101F9A50u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101F9A50u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit101D7020_CloseMapMenus(void * a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x101FA420u))(a0, a1); }
@@ -4709,7 +4709,7 @@ XI_ORIG void * Unit101D7020_CtorVt1033A9D0(void * a0) { return reinterpret_cast<
 XI_ORIG unsigned long long FUN_101fcfb0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x101FCFB0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x101FCFB0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * Unit101D7020_CtorVt1033AAB0(void * a0) { return reinterpret_cast<void * (__thiscall *)(void *)>(XI_GAME(0x101FD000u))(a0); }
@@ -4728,13 +4728,13 @@ XI_ORIG undefined4 Yk_CheckFlagAndWord1C(XI_ANY a0) { return reinterpret_cast<un
 XI_ORIG unsigned long long Unit101D7020_IsSingleUncheckedEntry(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10201F00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10201F00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit101D7020_IsSingleUncheckedEntry_v1(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10201F00u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10201F00u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined * Yk_GetActiveEntry(XI_ANY a0) { return reinterpret_cast<undefined * (__stdcall *)(XI_ANY)>(XI_GAME(0x10202C90u))(a0); }
@@ -4748,7 +4748,7 @@ XI_ORIG undefined4 * FUN_10203120() { return reinterpret_cast<undefined4 * (__cd
 XI_ORIG unsigned long long Unit101D7020_FindActiveEntryById(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102031F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102031F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Yk_GetActerIfValid(XI_ANY a0) { return reinterpret_cast<undefined4 (__stdcall *)(XI_ANY)>(XI_GAME(0x102033C0u))(a0); }
@@ -4762,7 +4762,7 @@ XI_ORIG int Yk_FindIndexById(XI_ANY a0) { return reinterpret_cast<int (__stdcall
 XI_ORIG unsigned long long Unit101D7020_UpdateEntryCycle(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {0}; uint32_t ra = a1.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10203920u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10203920u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit101D7020_ReadOrLoadGstEntry(XI_ANY a0) { reinterpret_cast<void (__stdcall *)(XI_ANY)>(XI_GAME(0x10203BE0u))(a0); }
@@ -4802,7 +4802,7 @@ XI_ORIG undefined4 Unit10211440_Construct(void * a0, XI_ANY a1, XI_ANY a2, XI_AN
 XI_ORIG unsigned long long Unit10211440_SaveAndRelease(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021C100u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021C100u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10211440_CanUpdate(void * a0) { return reinterpret_cast<undefined4 (__thiscall *)(void *)>(XI_GAME(0x1021C160u))(a0); }
@@ -4817,7 +4817,7 @@ XI_ORIG int Unit10211440_RemoveByKey(void * a0, XI_ANY a1) { return reinterpret_
 XI_ORIG unsigned long long Unit10211440_RebuildWithGlobalFlag(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[3] = {a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021C7C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021C7C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10211440_Rebuild(void * a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) { return reinterpret_cast<undefined4 (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x1021C7E0u))(a0, a1, a2, a3, a4); }
@@ -4828,7 +4828,7 @@ XI_ORIG undefined4 Unit10211440_SetId(void * a0, XI_ANY a1, XI_ANY a2) { return 
 XI_ORIG unsigned long long CXiMovie_DestroyGlobal(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021D460u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021D460u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int CXiMovie_DrawFrame(int a0, int a1, int a2, int a3, void * a4) { return reinterpret_cast<int (__cdecl *)(int, int, int, int, void *)>(XI_GAME(0x1021D4C0u))(a0, a1, a2, a3, a4); }
@@ -4839,7 +4839,7 @@ XI_ORIG char Movie_Update(int a0) { return reinterpret_cast<char (__thiscall *)(
 XI_ORIG unsigned long long Unit1021D930_ReleaseReturnTrue(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021D9A0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021D9A0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG int FUN_1021d9b0(void * a0, XI_ANY a1) { return reinterpret_cast<int (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x1021D9B0u))(a0, a1); }
@@ -4860,13 +4860,13 @@ XI_ORIG void Unit1021D930_CallPanel1021F240And102203B0() { reinterpret_cast<void
 XI_ORIG unsigned long long Unit1021D930_CallPanel1021EF10(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021EDC0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021EDC0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG unsigned long long Unit1021D930_Call1021EF30If10666E84(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1021EDD0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1021EDD0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Menu_GetPanelByte0D() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x1021EDE0u))(); }
@@ -4905,7 +4905,7 @@ XI_ORIG undefined4 FUN_10221340(void * a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long FUN_102213b0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102213B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102213B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void FUN_102213e0(void * a0) { reinterpret_cast<void (__thiscall *)(void *)>(XI_GAME(0x102213E0u))(a0); }
@@ -5076,7 +5076,7 @@ XI_ORIG undefined4 StAvatar_GetOffset(XI_ANY a0, XI_ANY a1) { return reinterpret
 XI_ORIG unsigned long long FUN_10250030(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10250030u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10250030u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 StAvatar_RenderIfEnabled(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10250190u))(a0, a1); }
@@ -5088,7 +5088,7 @@ XI_ORIG undefined4 StAvatar_SetFlagBit(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return
 XI_ORIG unsigned long long StAvatar_SetStopped(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102506C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102506C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 StAvatar_SetField10(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10250760u))(a0, a1); }
@@ -5123,7 +5123,7 @@ XI_ORIG undefined4 StAvatar_SetLevel(void * a0, XI_ANY a1) { return reinterpret_
 XI_ORIG unsigned long long Dancer_SetStateIfIdle(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[1] = {a1.bits}; uint32_t ra = a2.bits, rc = a0.bits, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10251780u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10251780u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void StDancer_SetJobLock(void * a0, XI_ANY a1) { reinterpret_cast<void (__thiscall *)(void *, XI_ANY)>(XI_GAME(0x10251890u))(a0, a1); }
@@ -5155,7 +5155,7 @@ XI_ORIG undefined4 Unit10253210_GetInfoBuffer(XI_ANY a0) { return reinterpret_ca
 XI_ORIG unsigned long long Unit10253210_SubmitInfoBinIfObjSet(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102532C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102532C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG _DWORD * Unit10253210_Ctor(void * a0) { return reinterpret_cast<_DWORD * (__thiscall *)(void *)>(XI_GAME(0x102532E0u))(a0); }
@@ -5166,7 +5166,7 @@ XI_ORIG undefined4 Unit10253210_SubmitInfoBinIfChanged(XI_ANY a0, XI_ANY a1, XI_
 XI_ORIG unsigned long long Unit10253210_SendBytePairKind0(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102535F0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102535F0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit10253210_GetInfoBuffer0() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x10253620u))(); }
@@ -5177,14 +5177,14 @@ XI_ORIG undefined4 Unit10253A20_InvertBytes(XI_ANY a0, XI_ANY a1, XI_ANY a2) { r
 XI_ORIG unsigned long long FUN_10257310(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10257310u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10257310u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10253A20_SwapEndianPair(XI_ANY a0) { reinterpret_cast<void (__cdecl *)(XI_ANY)>(XI_GAME(0x102573C0u))(a0); }
 XI_ORIG unsigned long long FUN_102573e0(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102573E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102573E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG short * Unit10253A20_GetEntryPtr(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<short * (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x102574F0u))(a0, a1); }
@@ -5287,7 +5287,7 @@ XI_ORIG undefined4 Unit1025C9E0_ReturnFalse(XI_ANY a0) { return reinterpret_cast
 XI_ORIG unsigned long long Unit1025C9E0_ReturnFalse_v1(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1025E020u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1025E020u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 FontGlyphCache_IsStateTwo() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x1025E050u))(); }
@@ -5323,7 +5323,7 @@ XI_ORIG undefined4 FUN_1026d1b4(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long FUN_1026d634(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1026D634u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1026D634u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1025C9E0_Restart(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x1026D70Cu))(a0); }
@@ -5446,7 +5446,7 @@ XI_ORIG undefined8 SqMem_Check() { return reinterpret_cast<undefined8 (__cdecl *
 XI_ORIG unsigned long long SqMem_HexDump(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = a3.bits;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102755C0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102755C0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 * SqMem_FindArena(XI_ANY a0) { return reinterpret_cast<undefined4 * (__cdecl *)(XI_ANY)>(XI_GAME(0x10275670u))(a0); }
@@ -5656,7 +5656,7 @@ XI_ORIG undefined4 Unit102857D0_GetFlagByte14(XI_ANY a0) { return reinterpret_ca
 XI_ORIG unsigned long long Unit102857D0_SetByte14(XI_ANY a0, XI_ANY a1, XI_ANY a2) {
     uint32_t xs[2] = {a0.bits, a1.bits}; uint32_t ra = a2.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $8, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x102857E0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x102857E0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit102857D0_InvokeCallback18(XI_ANY a0) { return reinterpret_cast<undefined4 (__cdecl *)(XI_ANY)>(XI_GAME(0x102857F0u))(a0); }
@@ -5694,7 +5694,7 @@ XI_ORIG undefined FUN_1028a040() { return reinterpret_cast<undefined (__cdecl *)
 XI_ORIG unsigned long long Sq_PrintIndent(XI_ANY a0, XI_ANY a1) {
     uint32_t xs[1] = {a0.bits}; uint32_t ra = a1.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $4, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1028A0B0u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1028A0B0u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG undefined4 Unit1028A0A0_ReturnZero() { return reinterpret_cast<undefined4 (__cdecl *)()>(XI_GAME(0x1028A0E0u))(); }
@@ -5717,7 +5717,7 @@ XI_ORIG void Unit1028D970_Copy(XI_ANY a0, XI_ANY a1) { reinterpret_cast<void (__
 XI_ORIG unsigned long long Unit1028D970_ComputeBounds(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x1028DA20u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x1028DA20u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit1028D970_GetCenter(XI_ANY a0, XI_ANY a1) { reinterpret_cast<void (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x1028DBB0u))(a0, a1); }
@@ -5790,7 +5790,7 @@ XI_ORIG undefined FUN_10291fe0() { return reinterpret_cast<undefined (__cdecl *)
 XI_ORIG unsigned long long SqIO_SwapBytes(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3) {
     uint32_t xs[3] = {a0.bits, a1.bits, a2.bits}; uint32_t ra = a3.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $12, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10292130u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10292130u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void Unit10292470_SwapNibblesXor(XI_ANY a0, XI_ANY a1) { reinterpret_cast<void (__cdecl *)(XI_ANY, XI_ANY)>(XI_GAME(0x10292490u))(a0, a1); }
@@ -6064,7 +6064,7 @@ XI_ORIG uint32_t * FUN_103151d0(XI_ANY a0, XI_ANY a1) { return reinterpret_cast<
 XI_ORIG unsigned long long FUN_103156b3(XI_ANY a0, XI_ANY a1, XI_ANY a2, XI_ANY a3, XI_ANY a4) {
     uint32_t xs[4] = {a0.bits, a1.bits, a2.bits, a3.bits}; uint32_t ra = a4.bits, rc = 0, rd = 0;
     __asm__ volatile("pushl 12(%%esi)\n\t""pushl 8(%%esi)\n\t""pushl 4(%%esi)\n\t""pushl 0(%%esi)\n\t""call *%%edi\n\t""addl $16, %%esp\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x103156B3u) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x103156B3u)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG char * __strlwr(void * a0) { return reinterpret_cast<char * (__cdecl *)(void *)>(XI_GAME(0x10315AA8u))(a0); }
@@ -6074,7 +6074,7 @@ XI_ORIG undefined4 * FUN_103169a0(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return rein
 XI_ORIG unsigned long long FUN_10316d6b(XI_ANY a0) {
     uint32_t xs[1] = {0}; uint32_t ra = a0.bits, rc = 0, rd = 0;
     __asm__ volatile("call *%%edi\n\t"
-        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x10316D6Bu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
+        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x10316D6Bu)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");
     return ((unsigned long long)rd << 32) | ra;
 }
 XI_ORIG void * _memset(XI_ANY a0, XI_ANY a1, XI_ANY a2) { return reinterpret_cast<void * (__cdecl *)(XI_ANY, XI_ANY, XI_ANY)>(XI_GAME(0x10316D90u))(a0, a1, a2); }

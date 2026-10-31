@@ -1196,8 +1196,8 @@ def ghidra_reg_call(name, o, body, tok):
                  rv.get('EAX', '0'), rv.get('ECX', '0'), rv.get('EDX', '0'), ' long double st0;' if fp else ''),
              '    __asm__ volatile(' + ''.join('"pushl %d(%%%%esi)\\n\\t"' % (4 * k) for k in reversed(range(len(stk))))
              + '"call *%%edi\\n\\t"' + ('"addl $%d, %%%%esp\\n\\t"' % (4 * len(stk)) if stk and not purge else ''),
-             ('        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' if fp else
-              '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(0x%08Xu) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");') % o['ea'],
+             ('        : "=t"(st0), "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x%08Xu)) : "memory", "cc", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");' if fp else
+              '        : "+a"(ra), "+c"(rc), "+d"(rd) : "S"(xs), "D"(XI_GAME(0x%08Xu)) : "memory", "cc", "st", "st(1)", "st(2)", "st(3)", "st(4)", "st(5)", "st(6)", "st(7)");') % o['ea'],
              '    return st0;' if fp else '    return ((unsigned long long)rd << 32) | ra;', '}',
              '#define %s %s' % (tok, fn)]
     return lines, None

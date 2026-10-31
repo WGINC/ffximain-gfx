@@ -1,4 +1,9 @@
-# Two A/B traces with the swaps (31 Oct)
+# Two A/B traces with the swaps (31 Oct, second build)
+
+**Second build, after the first crashed** (your log 2026-10-31_024811_10780: pol.exe faulted executing 0x100D12D0, 36
+seconds in). The reconstruction called some game functions at their analysed-build address instead of where your
+game's DLL is loaded. Fixed for those calls; the kit build now finds every such address left in its code and leaves
+the 89 functions that have one out of the swap set (docs/HISTORY.md, 31 Oct). Use this build's files.
 
 One start, about 10 minutes. It answers what only the game can: whether the game draws the same with the
 reconstruction swapped in as without it, on your real device, and where the world pass ends (#131). The emulator

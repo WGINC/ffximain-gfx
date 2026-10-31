@@ -3905,3 +3905,22 @@ every byte changed outside the stack, EAX, ESP) through the end of the world pas
 answer, in what follows). town2 is identical to its 50,000,000-instruction limit, which falls before the world pass
 ends. verification/frame_diff_<dump>.json. What this does not cover: functions outside the swap set run as the game's
 code on both sides; the Direct3D answers are the declared input, not a device's; the UI pass after the stop.
+
+**31 Oct: the owner's first run of the 31 Oct kit crashed -- unrebased game addresses in the in-game build.** pol.exe
+faulted executing 0x100D12D0 (Windows' event: module unknown, offset 0x100d12d0; xikit.log: FFXiMain.dll at 0x14160000,
+580 swapped, crash about frame 290, before the first trace). 0x100D12D0 is CXiSkeletonActor_IsReadCompleteBody's
+analysed address: gfx_orig.hpp's 226 inline-asm wrappers (register-argument calls into the game, hx2cpp.py since
+22 Oct) loaded their target as a constant, `"D"(0x100D12D0u)`, not through XI_GAME, so in the game they jumped to
+nothing. The gate cannot see it: it loads the game at 0x10000000, where the constant is right. Fixed in hx2cpp.py and
+the installed header (`"D"(XI_GAME(0x...u))`); the gate's build is unchanged (its .text and .rdata byte-identical to
+r17's), so its verdicts and cache stand.
+The same class elsewhere: a literal game address the source writes without XI_GAME (a class descriptor passed to
+IsKindOf, a loop bound that is a table's end, a callback's address). Found by a probe build (tree/build.sh XI_PROBE=1:
+XI_GAME moves every address by 0x01000000 at compile time, so a game-range constant left in the code was not rebased;
+pipeline/raw_game_addrs.py charges each to its function by the DLL's symbols and to every exported function reaching
+it by direct calls). With the asm fix: 207 such constants in 95 functions, 90 exports holding or reaching one (some
+are plain integers in that range, e.g. MD5's 0x10325476; left out all the same). Before the fix the probe lists 373
+exports, the crashing one among them. make_manifest.py now refuses those functions (89 of them PASS functions):
+4,792 listed, 580 swapped by default. Kit test: 257 checks pass (one run's sampler timing check failed and passed
+on rerun, as before). Open: rebase those literals at the source, which needs a definitive rule for which literal is an
+address -- the game's relocation table (an operand the game itself relocates is an address) -- and a tree round.

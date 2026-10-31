@@ -11,6 +11,9 @@ FLAGS=(-O2 -mfpmath=387 -march=i686 -ffreestanding -fno-builtin -fno-asynchronou
 # written to build/gfx_recon_ingame.dll; the default build is the one the gate verifies
 OUTDLL=build/gfx_recon.dll; CFL=()
 if [ -n "${XI_INGAME:-}" ]; then FLAGS+=(-DXI_INGAME); CFL=(-DXI_INGAME); OUTDLL=build/gfx_recon_ingame.dll; fi
+# XI_PROBE=1 ./build.sh: the in-game build with every rebased address moved at compile time (xi_decomp.hpp), to
+# build/gfx_recon_probe.dll: never run, only read (pipeline/raw_game_addrs.py)
+if [ -n "${XI_PROBE:-}" ]; then FLAGS+=(-DXI_INGAME -DXI_PROBE); CFL=(-DXI_INGAME); OUTDLL=build/gfx_recon_probe.dll; fi
 mkdir -p build/obj build/err
 $CC -O2 -ffreestanding -fno-builtin "${CFL[@]}" -c rt.c -o build/obj/rt.o
 # every file compiled in parallel (JOBS, default: all CPUs); the link order stays the sorted file order

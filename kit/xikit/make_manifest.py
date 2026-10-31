@@ -7,7 +7,10 @@ A function is listed only if (docs/KIT.md):
   * its first 5 bytes are inside the function (data/func_extents.json), or the function is shorter and the rest
     is the int3/nop alignment padding after it (no function starts there);
   * no branch or call anywhere in the game's code targets entry+1 .. entry+4 (every function in
-    func_extents.json decoded): such a jump would land inside the kit's `jmp`.
+    func_extents.json decoded): such a jump would land inside the kit's `jmp`;
+  * its in-game code holds, or reaches by direct calls, no game address left unrebased (pipeline/raw_game_addrs.py
+    on the probe build, RAW_JSON: such an address is right in the gate, which loads the game at 0x10000000, and wrong
+    in the game; 31 Oct). Without RAW_JSON this check is not made, and the report says so.
 Flags, which leave a function out by default:
   1  SEH: the original installs an exception frame (reads fs:[0] in its first 64 bytes); the reconstruction has none
   2  speedfix: speedfix_hook patches an instruction inside it (its documented sites)
@@ -30,7 +33,7 @@ Each line: RVA FLAGS EXPORT EXPECTED RELOCS NAME T=TRAMPOLINE
   T=        how a mod's hook reaches the game's own code (trampoline() below): N bytes of whole instructions
             copied from the entry, ':o,o' rel32 displacements to re-aim, or '-' (no trampoline; the hook's
             'previous' is then the reconstruction's export). Older kits read the first six columns only.
-Usage: python3 make_manifest.py RECON_INGAME_DLL OUT_MANIFEST [OUT_REPORT.json]     (uses $FFXI_DLL)"""
+Usage: python3 make_manifest.py RECON_INGAME_DLL OUT_MANIFEST [OUT_REPORT.json] [RAW_JSON]     (uses $FFXI_DLL)"""
 import bisect, json, os, re, struct, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..', '..')
 sys.path.insert(0, os.path.join(ROOT, 'pipeline'))
@@ -81,7 +84,7 @@ def trampoline(ea, rs, img, targets):
     return ('%d:%s' % (n, ','.join(map(str, fix))) if fix else '%d' % n), None
 
 
-def main(recon, out, report=None):
+def main(recon, out, report=None, raw_json=None):
     D = os.path.join(ROOT, 'data'); V = os.path.join(ROOT, 'verification')
     tmp = out + '.cases.json'
     subprocess.run([sys.executable, os.path.join(ROOT, 'pipeline', 'map_clean_cases.py'), recon,
@@ -114,6 +117,8 @@ def main(recon, out, report=None):
     owner = lambda a: (lambda j: fstart[j][2] if j >= 0 and a < fstart[j][1] else None)(bisect.bisect_right(fk, a) - 1)
     speedfix = {owner(a) for a in SPEEDFIX_SITES}
     lines, rep = [], {'listed': 0, 'refused': {}, 'no_trampoline': {}}
+    raw_fx = json.load(open(raw_json))['exports'] if raw_json else None
+    rep['raw_address_check'] = 'made (%s)' % raw_json if raw_json else 'NOT made: no RAW_JSON given'
     cp = os.path.join(ROOT, 'verification', 'coverage_clean.json')
     coverage = json.load(open(cp)) if os.path.exists(cp) else {}
     # the trials in which the original returned normally (the only ones compared), over every gate of the record
@@ -138,6 +143,8 @@ def main(recon, out, report=None):
         if not why and c and rs:
             hit = [t for t in range(ea + 1, ea + 5) if t in targets]
             if hit: why = 'a jump into its first 5 bytes (0x%08X targets 0x%08X)' % (targets[hit[0]], hit[0])
+        if not why and raw_fx is not None and c['candidate'] in raw_fx:
+            why = 'its in-game code uses a game address without rebasing it (raw_game_addrs.py): %s' % raw_fx[c['candidate']][0]
         if why: rep['refused'][key] = why; continue
         raw = bytes(img[ea - 4 - BASE:ea + 16 - BASE])            # a 20-byte window: 4 before the entry, 16 from it
         rel = [r - (ea - 4) for r in sorted(relocs) if ea - 7 <= r <= ea + 15]   # relocated dwords touching the window
@@ -182,4 +189,4 @@ def main(recon, out, report=None):
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])

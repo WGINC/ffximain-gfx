@@ -3881,3 +3881,27 @@ match; the hot set's count is 63 with them). The frame-set percentage stays repo
   13 Oct trace (no field) is refused with the reason; the same trace with a value written in by hand cuts every frame
   at the pop (a test of the code, not a measurement). Builds: d3dprof.dll and the XIKIT object compile. Waiting on a
   trace from the owner with a kit built from this commit.
+
+**31 Oct (later): the whole-frame differential runs through the world pass.** The owner sent the four scene dumps
+again (ffxi_combat/town/town2/zonetoinn.dmp, 3 Oct; in /root/ffxi_dumps/dumps, outside the repository, as the live
+states expect). pipeline/frame_diff.py runs Frame_Render (0x10011A00, `this` = [0x104568FC]) on a dump with the game's
+code only, then with the kit's swap set (kit/xikit/dist/xikit_manifest.txt, 581 functions not flagged untested)
+redirected to the reconstruction (tree r17's DLL), callees running as the game's code or the reconstruction, only
+other modules' calls answered. What stopped it, and what changed (frame_diff.py only; the gate's harness and cache are
+untouched):
+- a vertex buffer's Lock (IDirect3DVertexBuffer8/IndexBuffer8::Lock, d3d8.h: the third parameter is BYTE **ppbData)
+  was answered without writing ppbData, so the frame wrote its vertices over DynVB's own manager and faulted at
+  0x100441B3 (25-28 calls in, every dump). A successful Lock now gets a fresh zeroed block;
+- the gate's COM answer fails 20% of calls (to test error paths); a failed Lock left the same stale pointer. The run's
+  declared input is now: every Direct3D method returns D3D_OK;
+- the first difference then (town call 6,288, combat 6,522) was SetLight's D3DLIGHT8 for a directional light (Type 3):
+  Position.z was a stale return address (0x1000CA22) in the original's stack and 0 in the reconstruction's. The SDK
+  says Position "has no meaning for directional lights and is ignored" (DirectX 8.1 reference, D3DLIGHT8) and that
+  directional lights do not use Range (programmer's guide); those two fields of a directional light are left out of
+  the comparison, every other field counts.
+Result: town, combat and zonetoinn identical (every Direct3D and foreign call in order with its arguments and data,
+every byte changed outside the stack, EAX, ESP) through the end of the world pass -- the pop from depth 1, at call
+26,120 of 26,147, 6,888 of 6,915 and 2,398 of 2,425 -- to where the run stops (GetKeyboardState, an import with no
+answer, in what follows). town2 is identical to its 50,000,000-instruction limit, which falls before the world pass
+ends. verification/frame_diff_<dump>.json. What this does not cover: functions outside the swap set run as the game's
+code on both sides; the Direct3D answers are the declared input, not a device's; the UI pass after the stop.

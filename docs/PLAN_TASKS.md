@@ -43,7 +43,7 @@ owner or a run in the game).
 | 124 | 25% | Type the 810 untyped virtual-call slots | partly | 286 left, each without a definitive source (verification/untyped_vcalls.json); the 242 with one typed in r16 |
 | 125 | 25% | Naming round 5: remaining unnamed render-path functions | done | 153 named (42c6c25) |
 | 126 | 25% | Re-audit low-confidence names on the render path | open | |
-| 127 | 30% | Reach 60% byte-identical across the frame set | open | at 45.6% (2,474 of 5,430) |
+| 127 | 30% | Render path at the game's bytes (retargeted 31 Oct from 60% of the frame set) | open | 147 of 306 (#118's 57, #119's 100, and data/hot_functions.json's 164: 90% of the render thread's game samples), each at the bytes or its remaining difference named; verification/render_core_status.json `render_path`. Frame set overall 45.6% (2,474 of 5,430), still reported |
 | 128 | 35% | Document model and skin formats from their readers | done | docs/FORMATS.md |
 | 129 | 35% | Document texture, effect, scene and shader formats | done | docs/FORMATS.md |
 | 130 | 40% | Standalone render core build with a listed boundary | open | |

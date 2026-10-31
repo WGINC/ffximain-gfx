@@ -3855,3 +3855,14 @@ change. Re-installed for r17: 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, 
 dumps: its text changed since r14). Incremental gating already exists: r17's gate reused 5,232 of its 5,243 pieces
 (gate_cache.py over build.sh's pinned file slots), so the round's cost was the 11 it ran. README's stale figures
 updated (tree r17; 2,474 of 5,430 at the bytes).
+
+**31 Oct: #127 retargeted to the render path.** The frame-set percentage counts every function alike; the D3D11 work
+(#130, #132, #136, #143) edits and swaps the render path, where a byte-identical baseline is what shows a change
+altered only what it meant to. Nothing outside the render path loses its check: it stays gate-verified (and is swapped
+in unchanged). New target: every function of #118 (57, Direct3D-calling), #119 (100, their direct callers) and the
+sampling profiler's hot set (pipeline/hot_functions.py -> data/hot_functions.json: the 164 functions holding 90% of the
+render thread's 2,812 game samples in xikit_samples_12764.csv and _11952.csv, two of the frame set's three runs; the
+third, _6156, is not in this container) at the game's bytes, or its remaining difference named. 306 functions, 147
+at the bytes now. Found on the way: render_core_status.py counted a sweep rule match by a field the sweep does not
+write (`rule`; it writes `rule_identical`, as frame_status.py reads it); corrected (no #118/#119 function was a rule
+match; the hot set's count is 63 with them). The frame-set percentage stays reported (45.6%).

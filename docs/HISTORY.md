@@ -3963,3 +3963,20 @@ moving). trace_diff.py, swapped frames against their unswapped neighbours, with 
   kit test 259 checks pass, the sampler timing check failing once more (99 samples, threshold 100).
 - kit/xikit/build.sh: make_manifest's output went through `head -1`, which could end the build early under pipefail
   once the refusal list grew (the 31 Oct 20:27 build stopped after the manifest); it goes to a log now.
+
+**1 Nov: the block traces (pending_01nov_b) -- no difference from the swaps in the game's own drawing.** Two traces,
+20 frames each, the swaps flipped every 4 (00001111000011110000), 580 swapped; every unswapped frame cut at the pop
+(0x1000A337), as before. trace_diff.py, each swapped frame against the unswapped frames 4 before and after, control
+the unswapped frames against those 8 away:
+- busy scene: nothing beyond the control, whole frame, world pass and after (62,923 world-pass calls compared);
+- town: after the world pass identical; two findings above the control, both texture animation that runs straight
+  through swapped and unswapped frames alike: SetTransform(0x11) element 9 scrolls about 0.0077 a frame and wraps
+  (frames 3-4-5: 0.0203 0.0273 0.0350, 7-8-9: 0.0413 0.0322 0.0399), and a DrawPrimitiveUP's texture coordinate cycles
+  0.015625, 0.34375, 0.671875 every 3 frames without a break in all 20. A wrap inside 4 frames, or a 3-frame cycle, puts a
+  value outside its partners' range whatever the swaps do. The rest (2 of 8 swapped frames against 1 of 4 control,
+  SetLight as often in the control) is below the threshold.
+- the halves traces' step of about 23 draws (1 Nov) does not recur: the scene's, not the swaps'.
+With the emulated frames identical through the world pass on three dumps (31 Oct), the 580 swapped functions draw the
+same frames as the game's own code, in the game, on the owner's machine (dgVoodoo), in the scenes traced. Not covered:
+the functions not swapped (the untested-flagged and the 89 with unrebased addresses), scenes not traced, and what a
+trace does not record (texture contents; vertex buffers only as hashes per filling function).

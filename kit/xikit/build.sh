@@ -16,7 +16,8 @@ cp "$W/tree/build/gfx_recon_ingame.dll" "$OUT/"
 (cd "$W/tree" && XI_PROBE=1 ./build.sh | tail -1)
 python3 "$ROOT/pipeline/raw_game_addrs.py" "$W/tree/build/gfx_recon_probe.dll" "$W/raw_game_addrs.json"
 python3 "$H/close_gaps.py" "$OUT/gfx_recon_ingame.dll"        # Windows refuses gaps between sections (error 193)
-python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" "$W/raw_game_addrs.json" | head -1
+python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" "$W/raw_game_addrs.json" > "$W/make_manifest.log"
+head -1 "$W/make_manifest.log"                                # (the refusals follow it there; piping into head could cut the run short)
 python3 "$ROOT/sdk/gen_sdk.py"                                # sdk/include/xikit_game.hpp follows the manifest
 # other builds of the game (build translation, docs/KIT.md): a manifest for each builds/<stamp>.json whose unpacked DLL
 # is given as $FFXI_DLL_<stamp> (pipeline/unpack_pol.py; game binaries never enter the repository)

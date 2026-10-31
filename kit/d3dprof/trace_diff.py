@@ -13,11 +13,14 @@ function that contains it (RVA of the function's entry <= site, nearest below), 
 proof the site is inside that function. Nothing here says which side is right: it says where the two differ.
 
 --part world | after: each frame cut at the end of the world pass, and only the part before (world) or from it on
-(after) compared. The cut is the first SetRenderTarget that sets a target other than the world's while the world's
-is bound -- ffxi_world_draw's rule (docs/RENDERER.md section 9; their statement, measured here, not a fact of ours).
-The world's target is what CDx held at +0x194 at each SetRenderTarget (the trace's hash for that method, d3dprof.c
-world_target; traces from 31 Oct on). The cut's call site in the frames without swaps is printed: the rule holds in
-a trace where it is the pop's (return address 0x1000A2F9, the call at 0x1000A2F6) in every frame. A frame with no such call is left out of the part."""
+(after) compared. The cut is ffxi_world_draw's rule (docs/RENDERER.md section 9; their statement, measured here):
+the first SetRenderTarget made by CDx's pop (its call site inside 0x1000A2B0, data/func_extents.json) that sets a
+target other than the world's while the world's is bound. A push on top of the world's target (a nested pass, popped
+back to it) is not the end. The world's target is the surface of the texture CDx holds at +0x194, recorded with each
+SetRenderTarget (the trace's hash for that method, d3dprof.c world_target; traces from 1 Nov on). The cut's call
+site in the frames without swaps is printed. It needs the pop to run as the game's code (its sites are then game
+addresses): true while 0x1000A200/0x1000A2B0 are not swapped (flagged untested in the 1 Nov kit). A frame with no
+such call is left out of the part."""
 import argparse, bisect, collections, json, os, re, sys
 H = os.path.dirname(os.path.abspath(__file__))
 
@@ -215,6 +218,10 @@ def alternating(path, owners, top):
     A group whose count differs in the swapped frame while both neighbours agree is reported as COUNT. Where the two
     neighbours differ and no bytes were kept (a light, a hash only), the call is undecided and only counted."""
     fr, meta = parse_alt(path)
+    # the block size (xikit.c trace_alternate=K: the swaps flip every K frames; traces before 1 Nov: every frame). A swapped
+    # frame is compared with the unswapped frames K either side; the control, unswapped frames with those 2K either side
+    m_ = next((re.search(r'; block (\d+);', x) for x in meta if '; block ' in x), None)
+    K = int(m_.group(1)) if m_ else 1
     for m in meta[:3]: print(m)
     labels = ''.join({0: '0', 1: '1'}.get(fr[f][0], 'x') for f in sorted(fr))
     print('frames (0 swaps off, 1 on, x mixed: left out): %s' % labels)
@@ -253,12 +260,12 @@ def alternating(path, owners, top):
     lab = lambda f: fr.get(f, [None])[0]
     found = collections.defaultdict(list); stats = collections.Counter(); triples = 0
     for f in sorted(fr):
-        if lab(f) == 1 and lab(f - 1) == 0 and lab(f + 1) == 0: triples += 1; test(f - 1, f, f + 1, found, stats)
+        if lab(f) == 1 and lab(f - K) == 0 and lab(f + K) == 0: triples += 1; test(f - K, f, f + K, found, stats)
     # the control: the same test on unswapped frames between the unswapped frames two either side (twice as far apart,
     # so the scene changes more between them than between a swapped frame's neighbours): what the scene alone gives
     ctrl = collections.defaultdict(list); cstats = collections.Counter(); ctriples = 0
     for f in sorted(fr):
-        if lab(f) == 0 and lab(f - 2) == 0 and lab(f + 2) == 0: ctriples += 1; test(f - 2, f, f + 2, ctrl, cstats)
+        if lab(f) == 0 and lab(f - 2 * K) == 0 and lab(f + 2 * K) == 0: ctriples += 1; test(f - 2 * K, f, f + 2 * K, ctrl, cstats)
     print('swapped frames compared with both neighbours: %d; %s' % (triples, ', '.join('%s %d' % kv for kv in stats.most_common())))
     if not triples: print('no swapped frame lies between two unswapped ones (a trace with trace_alternate=0? use the default comparison)'); return
     if not found: print('no call of a swapped frame differs from its neighbours beyond what they differ among themselves'); return
@@ -281,6 +288,8 @@ def fmtval(v, d):
     return s
 
 
+_EXT = json.load(open(os.path.join(H, '..', '..', 'data', 'func_extents.json')))
+POP_LO, POP_HI = min(a for a, b in _EXT['0x1000a2b0']), max(b for a, b in _EXT['0x1000a2b0'])   # CDx's pop worker
 POP_SITE = 0x1000A2F9          # the return address of SetRenderTarget's call at 0x1000A2F6 in CDx's pop worker 0x1000A2B0
                                # (docs/RENDERER.md section 9; the trace's call site is the return address)
 
@@ -295,7 +304,7 @@ def world_part(path, part, out):
         if l.startswith('#') or len(p) < 7 or p[3] != 'SetRenderTarget': continue
         fr = (p[0], p[1]); np_ = int(p[5]); tgt = p[6]; h = p[6 + min(np_, 6)]
         if h == '00000000': old += 1; continue
-        if fr not in cut and bound.get(fr) == h and tgt != h:
+        if fr not in cut and bound.get(fr) == h and tgt != h and POP_LO <= int(p[4], 16) < POP_HI:
             cut[fr] = i
             if p[0] == '0': sites['0x%08X' % int(p[4], 16)] += 1
         bound[fr] = tgt
@@ -322,8 +331,7 @@ def main():
         sites, none, old = world_part(o.trace, o.part, out)
         if old and not sites: sys.exit('this trace has no world target recorded (a trace before 31 Oct): no cut')
         print('world pass cut (frames without swaps), by call site: %s; frames with no cut, left out: %s%s' % (
-            dict(sites), len(none), '' if set(sites) <= {'0x%08X' % POP_SITE} else
-            ' -- a cut not at the pop 0x%08X: the rule does not hold as stated in this trace' % POP_SITE))
+            dict(sites), len(none), ''))
         o.trace = out
     head = open(o.trace).readline()
     if 'alternating' in head:

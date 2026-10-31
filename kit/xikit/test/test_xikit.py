@@ -43,7 +43,7 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736',
                 '--out', '0x10027C7A,0x10027C94', '--jmp', '0x101AFB56'], check=True)
-ALL_MODES = ('base', 'relocated', 'profile', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native')
+ALL_MODES = ('base', 'relocated', 'profile', 'traceblock', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native')
 for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)

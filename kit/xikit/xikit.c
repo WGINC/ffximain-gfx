@@ -127,6 +127,10 @@ static DWORD g_tr_next;
 static int g_tr_pictures, g_tr_labels[32];       /* trace_pictures=K; the label each recorded frame got */
 #define TR_FRAMES 4
 #define TR_ALT_FRAMES 17           /* alternating trace: off, on, off, ... off: 8 swapped frames, each between two unswapped */
+/* trace_alternate=K > 1: the swaps flip every K frames, five blocks (off, on, off, on, off): each swapped frame f is
+   compared with the unswapped frames f-K and f+K (trace_diff.py), both sides of it in time, and with K = 4 at the same
+   value of the game's frame counter modulo 4 (its per-actor occlusion schedule, 0x100CC58A: docs/HISTORY.md 1 Nov) */
+static int tr_alt_frames(void) { return g_tr_alt > 1 ? 5 * g_tr_alt : TR_ALT_FRAMES; }
 
 /* ------------------------------------------------------------------------------------------------ log */
 static void klog(const char *fmt, ...) {
@@ -173,7 +177,8 @@ static const char DEFAULT_INI[] =
   ";    unswapped frames either side of it: which replaced function makes the game draw differently). Stand still in a\r\n"
   ";    scene first; takes effect at the next start\r\n"
   "trace=0\r\n"
-  "; 0: the older trace instead, 4 frames with every swap off, then 4 with the swaps on\r\n"
+  "; 0: the older trace instead, 4 frames with every swap off, then 4 with the swaps on; K > 1: the swaps flip every K\r\n"
+  ";    frames, five blocks (off, on, off, on, off); 4 matches the game's 4-frame schedules (docs/KIT.md)\r\n"
   "trace_alternate=1\r\n"
   "; the keys do not reach every game window: with trace=1, trace_after=SECONDS runs the trace by itself that many seconds after\r\n"
   ";    the start (then every trace_every seconds, trace_count times in all; each writes xikit_trace_<pid>_<n>.txt). Creating\r\n"
@@ -656,7 +661,7 @@ static void trace_finish(const char *mode) {
   g_tr_n++; g_tr_state_started = 0;
   snprintf(p, sizeof p, "%s\\xikit_trace_%lu_%d.txt", g_out, (unsigned long)GetCurrentProcessId(), g_tr_n);
   if (!strcmp(mode, "alternating"))
-    snprintf(note, sizeof note, "alternating: label 0 = swaps off, 1 = swaps on (%d functions swapped), 2 = mixed; %d frames; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_ALT_FRAMES, g_rel, g_recon_lo);
+    snprintf(note, sizeof note, "alternating: label 0 = swaps off, 1 = swaps on (%d functions swapped), 2 = mixed; %d frames; block %d; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, tr_alt_frames(), g_tr_alt > 1 ? g_tr_alt : 1, g_rel, g_recon_lo);
   else
     snprintf(note, sizeof note, "label 0 = swaps off, label 1 = swaps on (%d functions swapped); %d frames each; FFXiMain.dll at +0x%X; reconstruction at 0x%08X", now, TR_FRAMES, g_rel, g_recon_lo);
   klog("trace: %s %s", d3dprof_trace_write(p, note) ? "written" : "could not write", p);
@@ -693,12 +698,12 @@ static void trace_step(void) {
   switch (g_tr_state) {
   case 1: if (++g_tr_wait >= 8 && !g_dirty) {
             d3dprof_trace_start(0);
-            if (g_tr_alt) { g_tr_state = 5; klog("trace: recording %d frames, the swaps alternating (off, on, off, ...)", TR_ALT_FRAMES); }
+            if (g_tr_alt) { g_tr_state = 5; klog("trace: recording %d frames, the swaps alternating every %d frame(s) (off, on, off, ...)", tr_alt_frames(), g_tr_alt > 1 ? g_tr_alt : 1); }
             else { g_tr_state = 2; klog("trace: recording %d frames, swaps off", TR_FRAMES); }
           } break;
   case 5: d3dprof_trace_frames(&n);           /* (the frame that just ended was frame n-1; the label of frame n is set in trace_label) */
-          if (n >= TR_ALT_FRAMES) { trace_finish("alternating"); break; }
-          g_master_off = !g_master_off; g_dirty = 1;
+          if (n >= tr_alt_frames()) { trace_finish("alternating"); break; }
+          if (g_tr_alt <= 1 || n % g_tr_alt == 0) { g_master_off = !g_master_off; g_dirty = 1; }
           break;
   case 2: d3dprof_trace_frames(&n);
           if (n >= TR_FRAMES) { d3dprof_trace_stop(); g_master_off = 0; g_dirty = 1; g_tr_state = 3; g_tr_wait = 0; klog("trace: swaps on, waiting for the swaps"); }

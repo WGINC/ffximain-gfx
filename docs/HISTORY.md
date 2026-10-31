@@ -3944,3 +3944,22 @@ moving). trace_diff.py, swapped frames against their unswapped neighbours, with 
   0x10009E20; Post_Afterimage indexes +0x194 as an array of them), so its value never equalled a bound target
   (12ACAD98 in this trace). d3dprof.c now records that texture's level-0 surface (GetSurfaceLevel, slot 15). The
   section 9 reading "the world's target at +0x194" stands for the texture; the rule is still to be measured.
+
+**1 Nov: the traces in halves (pending_01nov).** Two traces, 4 frames swaps off then 4 on, 580 swapped, no crash.
+- World-pass split: every unswapped frame of both traces is cut at a SetRenderTarget inside CDx's pop worker (call
+  site 0x1000A337, moving from the world's surface to the backbuffer), after which the frame draws about 3,800 calls
+  (the UI) and presents; the nested passes pushed on the world's surface (0x10009F5A) and popped back to it
+  (0x1000A2F9) are not the end. trace_diff.py's cut now requires the pop (its first version took the first move
+  away from the world's surface, a push). ffxi_world_draw's end-of-pass rule holds in these 8 frames.
+- After the world pass (UI): identical with the swaps on, both traces (0 changes beyond the scene's own).
+- The world pass: 61 (town) and 54 (busy) call groups change between the halves; in town about 23 more state-block 8/A
+  draws per frame with the swaps on (ApplyStateBlock 8 and A 137..143 -> 160..166, SetMaterial, GetTransform), and in
+  both the values are constant within each half and step between them. With the swapped half always the later one,
+  a change in the scene between the halves cannot be told from one the swaps made. Not settled.
+- Next (pending_01nov_b): `trace_alternate=K` (xikit.c), the swaps flipped every K frames in five blocks (off, on, off,
+  on, off); trace_diff.py compares each swapped frame with the unswapped frames K before and K after (and, as control,
+  unswapped frames with those 2K away). With K = 4 both partners are at the same step of the 4-frame occlusion
+  schedule, and on both sides in time. Tested under Wine (host.c `traceblock`: 20 frames, labels in blocks of 4);
+  kit test 259 checks pass, the sampler timing check failing once more (99 samples, threshold 100).
+- kit/xikit/build.sh: make_manifest's output went through `head -1`, which could end the build early under pipefail
+  once the refusal list grew (the 31 Oct 20:27 build stopped after the manifest); it goes to a log now.

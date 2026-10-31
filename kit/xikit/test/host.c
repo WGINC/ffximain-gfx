@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
   int abrun = argc > 1 && !strcmp(argv[1], "ab");
   int realrun = argc > 1 && !strcmp(argv[1], "realdev");
   int nativerun = argc > 1 && !strcmp(argv[1], "native");
+  int blockrun = argc > 1 && !strcmp(argv[1], "traceblock");
   g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
@@ -174,12 +175,27 @@ int main(int argc, char **argv) {
                  : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
                  : modrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\nmods=mod_test.dll\n"
                  : factrun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nfacts=1\n"
+                 : blockrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\ntrace=1\ntrace_after=4\ntrace_count=1\ntrace_alternate=4\n"
                  : nativerun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nsample=2\nsample_ms=1\nsample_window=1\n"
                  : caprun ? "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\ncapture=CXiSkeletonActor::GetColor,CXiSkeletonActor::SetColor\ncapture_count=1\ncapture_pages=4096\n"
                          : "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "the kit hooked the device (its own vtable copy)");
+  if (blockrun) {
+    /* trace_alternate=4: 20 frames, the swaps flipped every 4 (frames 0-3 off, 4-7 on, 8-11 off, 12-15 on, 16-19 off);
+       trace_after counts from the first frame the kit sees: frames every 20 ms for 7 s, so the timer and the 28 frames
+       of the trace (8 to settle, 20 recorded) fall inside them whenever the kit's start-up ends */
+    for (int i = 0; i < 350; i++) { present(1); Sleep(20); }
+    char name[64], line[512]; snprintf(name, sizeof name, "xikit_trace_%lu_1.txt", GetCurrentProcessId());
+    FILE *tr = fopen(name, "r"); int hdr = 0, last = -1, bad = 0, seen = 0;
+    if (tr) { while (fgets(line, sizeof line, tr)) { if (!strncmp(line, "# d3d trace v1: alternating", 27) && strstr(line, "; 20 frames; block 4;")) hdr = 1;
+                unsigned lab, fr; if (line[0] != '#' && sscanf(line, "%u %u 15", &lab, &fr) == 2) { seen++; if (lab != ((fr / 4) & 1)) bad = 1; if ((int)fr > last) last = fr; } } fclose(tr); }
+    if (!(hdr && seen >= 20 && last == 19 && !bad)) printf("  (header %d, Present lines %d, last frame %d, wrong label %d)\n", hdr, seen, last, bad);
+    check(hdr && seen >= 20 && last == 19 && !bad, "trace_alternate=4: the trace has 20 frames, the swaps off in frames 0-3, 8-11, 16-19 and on in 4-7, 12-15");
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   check(g_vtbl[15] == (void *)fake_present, "the original vtable was not written");
   {   /* build translation: the moved code ranges the kit read from this build's manifest reach the reconstruction */
     int32_t *xs = (int32_t *)GetProcAddress(GetModuleHandleA("gfx_recon_ingame.dll"), "xi_shift");

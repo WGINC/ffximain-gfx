@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003EE60  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoD3aLightmapElem::GetRuntimeClass()
 {
   return &CMoD3aLightmapElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10052C30  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoD3aLightmapElem::Init(void * self)
 {
   uint64_t uVar1;
@@ -23,7 +23,7 @@ uint64_t __thiscall CMoD3aLightmapElem::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052C50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoD3aLightmapElem::set_field_194(int a2)
 {
   (*(unsigned __int32 *)((char *)this + 0x194)) = a2;
@@ -31,14 +31,14 @@ int CMoD3aLightmapElem::set_field_194(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052C60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoD3aLightmapElem::get_field_194()
 {
   return (*(unsigned __int32 *)((char *)this + 0x194));
 }
 
 // FUNCTION: FFXIMAIN 0x10052C70  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoD3aLightmapElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

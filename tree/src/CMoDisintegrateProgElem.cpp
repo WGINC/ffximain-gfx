@@ -4,21 +4,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100426B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoDisintegrateProgElem::GetRuntimeClass()
 {
   return &CMoDisintegrateProgElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100426C0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoDisintegrateProgElem::vf018()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x100530F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoDisintegrateProgElem::Construct(void * self, undefined4 param_1)
 {
   uint64_t uVar1;
@@ -34,21 +34,21 @@ uint64_t __thiscall CMoDisintegrateProgElem::Construct(void * self, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x10053130  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoDisintegrateProgElem::vf012(int a1)
 {
   return a1 == 13;
 }
 
 // FUNCTION: FFXIMAIN 0x10053140  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoDisintegrateProgElem::vf008()
 {
   return ((int (__thiscall *)(CMoDisintegrateProgElem *))(*(CMoTask_vtbl * *)((char *)this + 0x0))[1].vf10_CMoTask_vf010)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x10053150  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoDisintegrateProgElem::ScalarDeletingDtor(char a2)
 {
   orig::MoProgElem_FreeBuffer40((int *)((unsigned __int8 *)((char *)this + 0x194)));

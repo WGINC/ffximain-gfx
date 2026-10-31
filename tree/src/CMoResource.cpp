@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10036B70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant0()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10047FC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoResource::CMoCamera_SetLinkedObject(int a2)
 {
   *this->field_14 = a2;
@@ -19,35 +19,35 @@ int CMoResource::CMoCamera_SetLinkedObject(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047FD0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoResource::vf005(int a1)
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10056250  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant1()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10056290  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant2()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071D70  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoResource::GetRuntimeClass_variant3()
 {
   return &CMoResource_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10071D80  (unit CMoResource: between 0x10071D70 (class model places it in CMoResource) and 0x10071DB0 (class model places it in CMoResource), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __attribute__((stdcall, regparm(3))) fn_10071D80(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 * param_1)
 {
   *param_1 = &CYyObject_vtbl_ambiguous0_as_v0;
@@ -58,14 +58,14 @@ XI_API undefined4 * __attribute__((stdcall, regparm(3))) fn_10071D80(uint32_t xi
 }
 
 // FUNCTION: FFXIMAIN 0x10071DB0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoResource::vf008()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10071DC0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);
@@ -75,7 +75,7 @@ unsigned int ** CMoResource::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10071DE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoResource::Destructor(void * self)
 {
   uint32_t xi_entry_eax = 0;
@@ -87,7 +87,7 @@ void __thiscall CMoResource::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10071EC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoResource::ReleaseChain(void * self)
 {
   uint16_t uVar1;
@@ -141,7 +141,7 @@ undefined4 __thiscall CMoResource::ReleaseChain(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10072030  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 88
 undefined4 __thiscall CMoResource::RegisterInTypeList(void * self)
 {
   uint32_t uVar1;
@@ -170,7 +170,7 @@ undefined4 __thiscall CMoResource::RegisterInTypeList(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10072270  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CMoResource::GetParent(void * self)
 {
   void *pvVar1;
@@ -191,7 +191,7 @@ void * __thiscall CMoResource::GetParent(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10072290  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 * param_1, undefined4 param_2, undefined4 param_3)
 {
   uint64_t uVar1;
@@ -202,7 +202,7 @@ uint64_t __thiscall CMoResource::FindByTypeAndId(void * self, undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x100722C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 5 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 5
 uint64_t __thiscall CMoResource::FindWorker(void * self, undefined4 * param_1, uint32_t param_2, int param_3, int param_4)
 {
   uint32_t uVar1;
@@ -302,7 +302,7 @@ LAB_10072343:
 }
 
 // FUNCTION: FFXIMAIN 0x100730E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
 undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int param_2)
 {
   int iVar1;
@@ -357,7 +357,7 @@ undefined4 * __stdcall CMoResource::FindOrCreateTask(undefined4 * param_1, int p
 }
 
 // FUNCTION: FFXIMAIN 0x10073A60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 31 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __stdcall CMoResource::RegisterAndMark(int * param_1, undefined4 param_2)
 {
   uint32_t uVar1;
@@ -387,7 +387,7 @@ void __stdcall CMoResource::RegisterAndMark(int * param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10073B80  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __stdcall CMoResource::InitAndGetFlag(int * param_1)
 {
   uint32_t uVar1;

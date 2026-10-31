@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10037B30  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SetMusicTrackVolume_C(void)
 {
   void *self_;
@@ -30,7 +30,7 @@ XI_API void __cdecl SetMusicTrackVolume_C(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037B90  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SetMusicTrackVolume_A(void)
 {
   void *self_;
@@ -57,7 +57,7 @@ XI_API void __cdecl SetMusicTrackVolume_A(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037BF0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl SetMusicTrackVolume_B(void)
 {
   void *self_;
@@ -86,7 +86,7 @@ XI_API undefined4 __cdecl SetMusicTrackVolume_B(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037C50  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SetMusicTrackVolume_Tag0004(void)
 {
   void *self_;
@@ -113,7 +113,7 @@ XI_API void __cdecl SetMusicTrackVolume_Tag0004(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037D70  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl MusicTrack_SetVolumeId0009(void)
 {
   void *self_;
@@ -140,7 +140,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0009(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037DD0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl MusicTrack_SetVolumeId0010(void)
 {
   void *self_;
@@ -166,7 +166,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0010(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037E30  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl MusicTrack_SetVolumeId0011(void)
 {
   void *self_;
@@ -193,7 +193,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0011(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037E90  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl MusicTrack_SetVolumeId0013(void)
 {
   void *self_;
@@ -220,7 +220,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0013(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10037FB0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl MusicTrack_SetVolumeId0016(void)
 {
   void *self_;
@@ -246,7 +246,7 @@ XI_API void __cdecl MusicTrack_SetVolumeId0016(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100380F0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, undefined4 param_3)
 {
   void *self_;
@@ -284,7 +284,7 @@ XI_API void __cdecl Unit10037AC0_Create(uint32_t param_1, undefined4 param_2, un
 }
 
 // FUNCTION: FFXIMAIN 0x100382A0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __attribute__((cdecl, regparm(1))) Music_LoadTrackIfRunning(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
   if (DAT_1046393c != 0) {
@@ -294,7 +294,7 @@ XI_API void __attribute__((cdecl, regparm(1))) Music_LoadTrackIfRunning(undefine
 }
 
 // FUNCTION: FFXIMAIN 0x10038330  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int param_1, float * param_2, int param_3)
 {
   uint32_t uVar1;
@@ -331,7 +331,7 @@ XI_API undefined4 __cdecl Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit(int par
 }
 
 // FUNCTION: FFXIMAIN 0x10038440  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) LobbyThread_SendCmd3FromFloat(undefined4 xi_eax, undefined4 param_1, float * param_2, undefined4 param_3)
 {
   int64_t lVar1;
@@ -344,7 +344,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) LobbyThread_SendCmd3FromFlo
 }
 
 // FUNCTION: FFXIMAIN 0x10038470  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefined4 xi_eax, int param_1, int param_2, undefined4 param_3)
 {
   if (-1 < param_1) {
@@ -365,7 +365,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_SetTrackVolume(undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100384B0  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   char cVar1;
@@ -400,7 +400,7 @@ XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, und
 }
 
 // FUNCTION: FFXIMAIN 0x10038520  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 12 returned normally, 1336 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 12
 XI_API int __cdecl Font_DrawPass(void)
 {
   int *v0;
@@ -453,7 +453,7 @@ XI_API int __cdecl Font_DrawPass(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038720  (unit unit_10037AC0_SetMusicTrackVolume: no unit evidence of its own; in the gap between 0x10037AB0 (CYySepRes) and 0x10038920 (CMoResource_VT_1032C7A4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 24 returned normally, 174795 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 24 returned normally, 174795 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 24
 XI_API unsigned __int8 * __cdecl Font_DrawString(unsigned __int8 *a1, float a2, float arg8, float a4)
 {
   unsigned __int8 *v4;

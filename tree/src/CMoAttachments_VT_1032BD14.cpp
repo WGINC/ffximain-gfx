@@ -3,7 +3,7 @@
 #include "CMoAttachments_VT_1032BD14.hpp"
 
 // FUNCTION: FFXIMAIN 0x10062FB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * CMoAttachments_VT_1032BD14::vf001(char a2)
 {
   return orig::CMoAttachments_VT_1032BD14_VectorDeletingDtor((_DWORD *)this - 13, a2);

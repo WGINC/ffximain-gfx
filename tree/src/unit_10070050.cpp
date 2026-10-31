@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100700E0  (unit unit_10070050: no unit evidence of its own; in the gap between 0x10070040 (CMoProcessor_VT_1032C298) and 0x10070780 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10070050_InitMatrices(void * self_)
 {
   int iVar1;

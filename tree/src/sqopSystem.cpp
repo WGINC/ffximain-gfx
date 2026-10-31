@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102531B0  (unit sqopSystem: name sqopSystemActivate)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
 XI_API undefined4 __cdecl sqopSystemActivate(uint32_t * param_1)
 {
   int iVar1;
@@ -27,7 +27,7 @@ XI_API undefined4 __cdecl sqopSystemActivate(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10289620  (unit sqopSystem: between 0x10289600 (asserts sqopSystem.c) and 0x10289670 (asserts sqopSystem.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqopSystem_Init(undefined4 * param_1)
 {
   *param_1 = 0x1d0001;
@@ -43,7 +43,7 @@ XI_API void __cdecl SqopSystem_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102896A0  (unit sqopSystem: asserts sqopSystem.c)
-// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 74 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 74
 XI_API void __cdecl SqopSystem_ClearOpcodes(undefined4 * param_1)
 {
   int iVar1;

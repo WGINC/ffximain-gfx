@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102B2CA0  (unit unit_102B2CA0: no unit evidence of its own; in the gap between 0x102B2C80 (sqsdBRDF) and 0x102B2DE0 (sqshDraw) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
 XI_API void __cdecl Drawable_DrawTwoPass(int param_1, int * param_2)
 {
   int iVar1;

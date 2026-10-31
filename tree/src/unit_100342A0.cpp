@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10034330  (unit unit_100342A0: no unit evidence of its own; in the gap between 0x10034270 (CYySkl) and 0x100343C0 (CXiSkeletonActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 90 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 90
 XI_API undefined4 __thiscall Skel_BindShared(void * self_)
 {
   uint32_t uVar1;

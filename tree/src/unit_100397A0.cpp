@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100397A0  (unit unit_100397A0: no unit evidence of its own; in the gap between 0x10039790 (CYyTex) and 0x100398B0 (CYyTexBase) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit100397A0_CopyName16(void * self_, char * param_1)
 {
   char cVar1;
@@ -63,7 +63,7 @@ XI_API undefined4 __thiscall Unit100397A0_CopyName16(void * self_, char * param_
 }
 
 // FUNCTION: FFXIMAIN 0x10039810  (unit unit_100397A0: no unit evidence of its own; in the gap between 0x10039790 (CYyTex) and 0x100398B0 (CYyTexBase) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53
 XI_API void __thiscall Util_Copy16Bytes(void * self_, int param_1)
 {
   int iVar1;

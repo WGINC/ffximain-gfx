@@ -3841,3 +3841,17 @@ Part of the game was compiled /O1 (size), not /O2: the near misses differing by 
 The flag matrix (600 frame-set near misses of the tree, at most 400 bytes, base text, no rules): beyond /O2 and /O1, /G5, /GB, /Ob0, /Ob2, /Oy-, /Op, /Ox and /O2 without /Oi make none IDENTICAL; /G6, /Oa and /Ow one or two each, 3 functions in all. Those three are single functions, not a family: a flag that changes a function's scheduling can reproduce its bytes without having built it, so they are not taken as the game's flags (and not recorded). The game's code is /O2 with a size-optimised (/O1) part, almost all of it outside the tree; no other VC6 option is evidenced.
 The 210 frame-set functions held only by ghidra_frameset18 (an export the tree does not read; no raw gate of its own): a scratch regeneration with it appended (regen_clean.sh; one record refused, 0x102FAA80), swept /O2 and /O1: 14 and 14 more IDENTICAL, in recompile/sweep/ (match.py --all: 289 files IDENTICAL). Frame set 2,448 (45.1%).
 Alternative records: 882 frame-set functions not at the bytes have 2 to 6 different decompiled texts across the exports. Two scratch regenerations taking another export's record first (the IDA export last; the Ghidra exports newest first), swept /O2 and /O1: 26 functions IDENTICAL (23 /O2, 3 /O1), in recompile/sweep/ (match.py --all: 315 files IDENTICAL). Frame set 2,474 (45.6%).
+
+**31 Oct: r17's three "flips" were an install step left out, not the gate.** The r17 record said 0x10003890, 0x10010D20
+and 0x100E08D0 left PASS with unchanged source. Read again: their fuzz verdicts are the same as in every round since
+r14 (INCONCLUSIVE, UNRESOLVED, INCONCLUSIVE); their PASS was combine_gates.py's, from the live gates of r14
+(verification/gate_clean_live14_*.jsonl), which r15 and r16 re-applied by hand and r17's install did not. The gate is
+deterministic on them: gated twice more on r17's DLL without the cache (gate_some.py --no-cache), both runs byte-identical
+to r17's records. Fixed: tree_round.py install now combines the fuzz verdicts with the live gates
+verification/live_gates.json lists, a live record counting only for a function whose text (FUNCTION line to the next,
+gate notes aside) is identical to its text in the tree that gate ran on (1184f75, r14): 4,850 of 4,897 functions. The
+gate step compares against the installed fuzz verdict (`gates.fuzz`), so it no longer reports the combination as a
+change. Re-installed for r17: 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as r16 (one record's `gates` lists fewer
+dumps: its text changed since r14). Incremental gating already exists: r17's gate reused 5,232 of its 5,243 pieces
+(gate_cache.py over build.sh's pinned file slots), so the round's cost was the 11 it ran. README's stale figures
+updated (tree r17; 2,474 of 5,430 at the bytes).

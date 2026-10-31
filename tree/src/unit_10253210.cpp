@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10253210  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StAvatar_ClearResource(uint32_t * param_1)
 {
   uint32_t *self_;
@@ -27,7 +27,7 @@ XI_API undefined4 __cdecl StAvatar_ClearResource(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102532A0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1)
 {
   int iVar1;
@@ -40,7 +40,7 @@ XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102532C0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10253210_SubmitInfoBinIfObjSet(undefined4 xi_eax, int param_1, int param_2, int param_3)
 {
   if (g_pObj_Vtbl1033CE34 != 0) {
@@ -50,7 +50,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10253210_SubmitInfoBinI
 }
 
 // FUNCTION: FFXIMAIN 0x102532E0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit10253210_Ctor(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1033ce34;
@@ -59,14 +59,14 @@ XI_API void * __thiscall Unit10253210_Ctor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10253330  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10253210_NoOp(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10253360  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
 XI_API void __stdcall StAvatar_LoadInfoFile(int param_1)
 {
   int iVar1;
@@ -122,7 +122,7 @@ XI_API void __stdcall StAvatar_LoadInfoFile(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102534B0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __stdcall StAvatar_GetInfoBuffer(int param_1)
 {
   int iVar1;
@@ -141,7 +141,7 @@ XI_API int __stdcall StAvatar_GetInfoBuffer(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102534F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
 XI_API undefined4 __stdcall Unit10253210_SubmitInfoBinIfChanged(int param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -203,7 +203,7 @@ XI_API undefined4 __stdcall Unit10253210_SubmitInfoBinIfChanged(int param_1, int
 }
 
 // FUNCTION: FFXIMAIN 0x102535B0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl StAvatar_LoadInfo0(void)
 {
   if (g_pObj_Vtbl1033CE34 != 0) {
@@ -213,7 +213,7 @@ XI_API void __cdecl StAvatar_LoadInfo0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102535F0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind0(undefined4 xi_eax, undefined4 param_1, undefined4 param_2)
 {
   uint64_t uVar1;
@@ -224,7 +224,7 @@ XI_API uint64_t __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind
 }
 
 // FUNCTION: FFXIMAIN 0x10253620  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer0(void)
 {
   uint32_t uVar1;
@@ -234,7 +234,7 @@ XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10253630  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl StAvatar_LoadInfo2(void)
 {
   if (g_pObj_Vtbl1033CE34 != 0) {
@@ -244,7 +244,7 @@ XI_API void __cdecl StAvatar_LoadInfo2(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10253670  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10253210_SendBytePairKind2(undefined4 param_1, undefined4 param_2)
 {
   uint32_t xi_entry_eax = 0;
@@ -255,7 +255,7 @@ XI_API void __cdecl Unit10253210_SendBytePairKind2(undefined4 param_1, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x102536A0  (unit unit_10253210: no unit evidence of its own; in the gap between 0x102531B0 (sqopSystem) and 0x10253710 (XiPng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10253210_GetInfoBuffer2(void)
 {
   uint32_t uVar1;

@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10055290  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoOT::GetRuntimeClass()
 {
   return &CMoOT_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100552A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CMoOT::Constructor(void * self)
 {
   *(uint8_t ***)self = &PTR_CMoOT_GetRuntimeClass_1032b6f4;
@@ -20,7 +20,7 @@ void * __thiscall CMoOT::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100552C0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoOT::ScalarDeletingDtor(char a2)
 {
   orig::CMoOT_Destructor(this);

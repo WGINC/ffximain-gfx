@@ -1,0 +1,6 @@
+{
+ "_doc": "The live gates tree_round.py install combines with the fuzz gate (combine_gates.py). Each was run on the clean tree of `tree_commit` (docs/HISTORY.md, 'Live gate on the four dumps', 8b0b614: the r14 tree, 1184f75). A live verdict counts for a function only while that function's text in the tree is identical to its text at tree_commit; otherwise it is left out and the function stands on its other gates.",
+ "tree_commit": "1184f75",
+ "gates": {"town": "verification/gate_clean_live14_town.jsonl", "town2": "verification/gate_clean_live14_town2.jsonl",
+           "combat": "verification/gate_clean_live14_combat.jsonl", "zonetoinn": "verification/gate_clean_live14_zonetoinn.jsonl"}
+}

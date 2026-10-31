@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100552F0  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit100552F0_ClearLink(void * self_)
 {
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -11,7 +11,7 @@ XI_API void __thiscall Unit100552F0_ClearLink(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10055300  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55
 XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_2, float param_3)
 {
   int iVar1;
@@ -47,7 +47,7 @@ XI_API void __thiscall Unit100552F0_Init(void * self_, int param_1, float param_
 }
 
 // FUNCTION: FFXIMAIN 0x100554B0  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
 XI_API undefined4 __thiscall Unit100552F0_RelinkEntries(void * self_)
 {
   int iVar1;
@@ -79,7 +79,7 @@ XI_API undefined4 __thiscall Unit100552F0_RelinkEntries(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10055520  (unit unit_100552F0: no unit evidence of its own; in the gap between 0x100552E0 (CMoOT) and 0x10055560 (CMoOtTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 292 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 292 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
 XI_API void __thiscall Unit100552F0_Free(void * self_)
 {
   int iVar1;

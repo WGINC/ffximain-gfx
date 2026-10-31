@@ -106,7 +106,7 @@ owner or a run in the game).
 | 59 | Gate speed 1: split slow functions' trials across workers | done |
 | 60 | Gate speed 2: profile and fix 0x1006E970's live slowness | done |
 | 61 | Gate speed 3: cache with coverage, default on | done |
-| 62 | Gate speed 4: stable function addresses in the tree build | open |
+| 62 | Gate speed 4: stable function addresses in the tree build | done at file level: tree/build.sh gives each file a fixed slot, so a change re-gates only that file's functions (tree r17: 5,232 of 5,243 gate pieces reused by gate_cache.py, 11 run; HISTORY 31 Oct). Functions within a changed file are not pinned |
 | 63 | Full gate of the fixed tree (regen11) with the fuzz dictionary; promote, rebuild kit, deliver | done |
 | 64 | Fix the register-preserving-callee blind spot in ecx_use/edx_use | done |
 | 66 | SDK: trampoline data in the manifest | done |

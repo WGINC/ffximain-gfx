@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10038930  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 {
   _DWORD *result;
@@ -27,7 +27,7 @@ XI_API _DWORD * __cdecl Post_CreateScreenEffectTargets(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100389C0  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 398 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void __cdecl Unit10038930_ReleaseTextures(void)
 {
   if (g_sceneCaptureTex_as_v0 != (int *)0x0) {
@@ -50,7 +50,7 @@ XI_API void __cdecl Unit10038930_ReleaseTextures(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A20  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10038930_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032a9ec;
@@ -60,7 +60,7 @@ XI_API void __thiscall Unit10038930_Init(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038A80  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 1022 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 1022 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 {
   int result;
@@ -141,7 +141,7 @@ XI_API int __thiscall Post_CaptureSceneToTarget(void *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10038E10  (unit unit_10038930: no unit evidence of its own; in the gap between 0x10038920 (CMoResource_VT_1032C7A4) and 0x10039470 (CYyObject_VT_1032A9F8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 10062 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 10062 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Post_DrawRotatingGhostLayers(void * self_)
 {
   long double fVar1;

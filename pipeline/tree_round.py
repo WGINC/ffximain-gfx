@@ -23,9 +23,11 @@ gate     every function under its case, and every function with a second case un
          game callees, data/import_pops.json).
 install  verification/gate_clean_final.jsonl, cases_clean_final.json, cases_raw_final.json, cases_raw_alt.json and
          gate_clean_altcases_tree.jsonl from OUT; the tree copied in, tree/source.json kept (and given the export order
-         the round used, and the functions regen --drop left out, `given_drop`, which verify_all passes on). Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
+         the round used, and the functions regen --drop left out, `given_drop`, which verify_all passes on). The fuzz
+         verdicts are combined with the live gates verification/live_gates.json lists (combine_gates.py), each live
+         record counting only for a function whose text is the same as in the tree that gate ran on. Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
 """
-import argparse, collections, hashlib, json, os, shutil, subprocess, sys
+import argparse, collections, glob, hashlib, json, os, re, shutil, subprocess, sys
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
 R = lambda *p: os.path.join(ROOT, *p)
 n = lambda a: '0x%08X' % int(a, 16)
@@ -112,15 +114,50 @@ def gate(o):
         for k, x in gate_one(o, os.path.join(o.out, 'stub_clean.json'), 'g_stub').items(): fin[k] = x
         json.dump(sorted(n(c['original']) for c in stub), open(os.path.join(o.out, 'stubbed.json'), 'w'))
     json.dump(fin, open(os.path.join(o.out, 'final.json'), 'w'))
-    old = {n(json.loads(l)['original']): json.loads(l)['verdict'] for l in open(R('verification', 'gate_clean_final.jsonl'))}
+    # against the installed fuzz verdict (a combined record keeps it in `gates`): this step is the fuzz gate only
+    old = {n(x['original']): (x.get('gates') or {}).get('fuzz', [x['verdict']])[0]
+           for x in map(json.loads, open(R('verification', 'gate_clean_final.jsonl')))}
     print(len(fin), dict(collections.Counter(x['verdict'] for x in fin.values())))
     for k in sorted(fin):
         if fin[k]['verdict'] != old.get(k): print('  %s %s -> %s' % (k, old.get(k), fin[k]['verdict']))
 
 
+def texts(files):
+    """{address: the function's text} -- from its `// FUNCTION: FFXIMAIN` line to the next one, gate notes left out
+    (annotate_gate.py writes them; they are not the source)"""
+    res = {}
+    for src in files:
+        cur = None
+        for line in src.split('\n'):
+            m = re.match(r'// FUNCTION: FFXIMAIN (0x[0-9A-F]{8})', line)
+            if m: cur = n(m.group(1)); res[cur] = []
+            elif cur and not line.startswith(('// GATE:', '// NOT VERIFIED')): res[cur].append(line)
+    return {k: '\n'.join(v).rstrip() for k, v in res.items()}
+
+
+def combine_live(o, fuzz_path, out_path):
+    """combine_gates.py over the live gates of verification/live_gates.json, each restricted to the functions whose
+    text is unchanged since the tree that gate ran on (a live verdict is of that code)"""
+    lg = json.load(open(R('verification', 'live_gates.json')))
+    git = lambda *a: subprocess.run(['git', '-C', ROOT] + list(a), capture_output=True, text=True, check=True).stdout
+    then = texts(git('show', '%s:tree/src/%s' % (lg['tree_commit'], f)) for f in git('ls-tree', '--name-only', '%s:tree/src' % lg['tree_commit']).split())
+    now = texts(open(p).read() for p in sorted(glob.glob(os.path.join(o.out, 'src', '*'))))
+    same = {a for a in now if then.get(a) == now[a]}
+    args = []
+    for name, path in lg['gates'].items():
+        kept = [l for l in open(R(path)) if n(json.loads(l)['original']) in same]
+        tmp = os.path.join(o.out, 'live_%s.jsonl' % name); open(tmp, 'w').write(''.join(kept))
+        args.append('%s=%s' % (name, tmp))
+    print('live gates (tree %s): %d of %d functions unchanged since' % (lg['tree_commit'], len(same), len(now)))
+    subprocess.check_call([sys.executable, R('pipeline', 'combine_gates.py'), fuzz_path, out_path] + args)
+
+
 def install(o):
     fin = json.load(open(os.path.join(o.out, 'final.json')))
-    open(R('verification', 'gate_clean_final.jsonl'), 'w').write(''.join(json.dumps(fin[k]) + '\n' for k in sorted(fin)))
+    fz = os.path.join(o.out, 'final_fuzz.jsonl'); comb = os.path.join(o.out, 'final_combined.jsonl')
+    open(fz, 'w').write(''.join(json.dumps(fin[k]) + '\n' for k in sorted(fin)))
+    combine_live(o, fz, comb)
+    shutil.copy(comb, R('verification', 'gate_clean_final.jsonl'))
     stub = set(json.load(open(os.path.join(o.out, 'stubbed.json')))) if os.path.exists(os.path.join(o.out, 'stubbed.json')) else set()
     for src, dst in (('cases_clean.json', 'cases_clean_final.json'), ('cases_raw.json', 'cases_raw_final.json')):
         cc = json.load(open(os.path.join(o.out, src)))
@@ -140,7 +177,7 @@ def install(o):
     subprocess.check_call([sys.executable, R('pipeline', 'annotate_gate.py'), o.out, R('verification', 'gate_clean_final.jsonl')])
     keep = json.dumps(s, indent=1)
     shutil.rmtree(R('tree')); shutil.copytree(o.out, R('tree'), ignore=shutil.ignore_patterns('build', 'b', 'g_*', '*.json.new', 'cases_*.json',
-                                                                                       'alt_*.json', 'stub*.json', 'final.json', 'drop_reasons.json'))
+                                                                                       'alt_*.json', 'stub*.json', 'final.json', 'final_*.jsonl', 'live_*.jsonl', 'drop_reasons.json'))
     open(R('tree', 'source.json'), 'w').write(keep)
     print('installed; now: regen_facts.py, frame_status.py verification/frame_set_status.json, verify_all.py --quick --facts-from-state')
 

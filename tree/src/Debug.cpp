@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10003650  (unit Debug: name DebugOverlay_Draw)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall DebugOverlay_Draw(void * self_)
 {
   orig::DebugOverlay_Update((void *)((int)self_ + 4));
@@ -11,7 +11,7 @@ XI_API void __thiscall DebugOverlay_Draw(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003660  (unit Debug: between 0x10003650 (name DebugOverlay_Draw) and 0x100037D0 (asserts Debug.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Debug_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_10329660;
@@ -23,7 +23,7 @@ XI_API void __thiscall Debug_Construct(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003710  (unit Debug: between 0x10003650 (name DebugOverlay_Draw) and 0x100037D0 (asserts Debug.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 88 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 88
 XI_API void __thiscall DebugOverlay_Update(void * self_)
 {
   int iVar1;
@@ -67,7 +67,7 @@ XI_API void __thiscall DebugOverlay_Update(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100037D0  (unit Debug: asserts Debug.cpp)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 XI_API undefined4 __attribute__((stdcall, regparm(3))) DebugOverlay_SetEntry(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, uint32_t * param_2, float param_3, float param_4, float param_5, float param_6, char * param_7, undefined4 param_8)
 {
   uint32_t uVar1;
@@ -97,7 +97,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) DebugOverlay_SetEntry(und
 }
 
 // FUNCTION: FFXIMAIN 0x10003B60  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 42 returned normally, 1726 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 42 returned normally, 1726 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 42
 XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 {
   int v1;
@@ -140,7 +140,7 @@ XI_API int __thiscall Debug_DrawTextTable(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10003D70  (unit Debug: called only from Debug (1 call site) and adjacent to its code)
-// GATE: PASS -- 100 trials, 100 returned normally, 292 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 292 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Debug_DrawWorldText(_DWORD *a1, const char *a2, int arg8)
 {
   int v3;

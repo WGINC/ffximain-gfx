@@ -32,11 +32,11 @@ lower bound). The frame set has 5,430 functions: 219 are D3DX library code, 4,44
 
 | | Count | Source |
 |---|---|---|
-| **Functions in the tree** (`tree/`, tree r14) | **4,897** | `tree/placement.json`; exports in `tree/source.json` (IDA, then Ghidra fs23, fs21, ..., fs22, fs24) |
+| **Functions in the tree** (`tree/`, tree r17) | **4,897** | `tree/placement.json`; exports in `tree/source.json` (IDA, then Ghidra fs23, fs21, ..., fs22, fs24) |
 | **PASS** (fuzz gate, combined with the live gates on the four dumps) | **4,884** | `verification/gate_clean_final.jsonl` |
 | Not verified (`// NOT VERIFIED`) | 13: 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, each with its cause | same; docs/PROBLEMS.md P18 |
 | Gate-passed, left out of the tree | 15, each with its reason | `tree/left_out.json` |
-| **At the game's exact bytes** (Visual C++ 6.0 SP6, Processor Pack code generator) | **1,612 of the frame set's 5,430 (29.7%)**: the sweep's conversions of the tree (1,819 of 4,251 swept, 26 Oct) and 110 hand-written functions in `recompile/` | `verification/vc6_sweep.json`, `verification/recompile_match.json`, `pipeline/vc6/match.py` |
+| **At the game's exact bytes** (Visual C++ 6.0 SP6, Processor Pack code generator) | **2,474 of the frame set's 5,430 (45.6%)**: the sweep's conversions (2,557 of 4,766 swept, as written or under a rule) and the 317 sources in `recompile/` (122 hand-written, 195 the sweep's sources of functions outside the tree or under /O1, `recompile/sweep/`) | `verification/vc6_sweep.json`, `verification/recompile_match.json`, `pipeline/vc6/match.py` |
 
 What "PASS" rests on, and what it does not:
 - Every function is gated on 100 fuzzed trials. The 16 not PASS on fuzz were also gated on the four memory dumps of

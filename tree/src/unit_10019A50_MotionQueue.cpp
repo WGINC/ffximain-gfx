@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10019A50  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 71 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71
 XI_API undefined4 __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2, undefined4 param_3, float param_4, undefined4 param_5)
 {
   uint8_t bVar1;
@@ -51,7 +51,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) MotionQueue_ApplyPolicy(u
 }
 
 // FUNCTION: FFXIMAIN 0x10019B30  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API undefined4 __thiscall SampleAnimationTrack_ToBuffer(void * self_, int param_1, int * param_2, int param_3, float param_4, int param_5)
 {
   float *pfVar1;
@@ -215,7 +215,7 @@ LAB_10019be3:
 }
 
 // FUNCTION: FFXIMAIN 0x10019EE0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 91 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 91
 XI_API undefined4 __thiscall SampleAnimationTrack_Live(void * self_, int param_1, int * param_2, int param_3, float param_4, float param_5, int param_6)
 {
   undefined4 *puVar1;
@@ -374,7 +374,7 @@ LAB_10019f63:
 }
 
 // FUNCTION: FFXIMAIN 0x1001A3E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall MotionQueList_ProcessAll(void * self_, int * param_1)
 {
   int iVar1;
@@ -393,7 +393,7 @@ XI_API void __thiscall MotionQueList_ProcessAll(void * self_, int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1001A420  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 52
 XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefined4 xi_s1)
 {
   uint8_t bVar1;
@@ -515,7 +515,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x1001A6E0  (unit unit_10019A50_MotionQueue: no unit evidence of its own; in the gap between 0x10019A40 (CMoResource_VT_1032C7FC) and 0x1001A7F0 (CYyMotionQue) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 42 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall MotionQueList_QueueMotion(void * self_, int * param_1, int * param_2, undefined4 * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, int param_8, undefined4 param_9, undefined4 param_10)
 {
   uint32_t uVar1;

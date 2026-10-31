@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10250F10  (unit StChannel: asserts StChannel.cpp)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
 XI_API undefined4 __cdecl StChannelItemResolve(uint32_t * param_1)
 {
   char *pcVar1;
@@ -46,7 +46,7 @@ XI_API undefined4 __cdecl StChannelItemResolve(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10251070  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl StChannel_RegisterItem(uint32_t * param_1, int param_2, float param_3)
 {
   long double fVar1;
@@ -93,7 +93,7 @@ XI_API uint32_t __cdecl StChannel_RegisterItem(uint32_t * param_1, int param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x10251160  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StChannel_ClearFlags(uint32_t * param_1)
 {
   param_1[3] = 0xffffffff;
@@ -102,7 +102,7 @@ XI_API undefined4 __cdecl StChannel_ClearFlags(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10251180  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
 {
   uint32_t uVar1;
@@ -117,7 +117,7 @@ XI_API undefined4 __cdecl StChannel_MarkIfLoaded(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102511B0  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StChannel_SetValue9C(uint8_t * param_1, float param_2)
 {
   int iVar1;
@@ -137,7 +137,7 @@ XI_API undefined4 __cdecl StChannel_SetValue9C(uint8_t * param_1, float param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10251200  (unit StChannel: between 0x10250F10 (asserts StChannel.cpp) and 0x102512B0 (asserts StChannel.cpp), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StChannel_ApplyItem(uint8_t * param_1, undefined4 param_2, int param_3)
 {
   uint8_t *pbVar1;
@@ -167,7 +167,7 @@ XI_API undefined4 __cdecl StChannel_ApplyItem(uint8_t * param_1, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x102512B0  (unit StChannel: asserts StChannel.cpp)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StChannelItemClear(uint32_t * param_1)
 {
   uint32_t uVar1;

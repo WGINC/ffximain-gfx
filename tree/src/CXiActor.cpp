@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10081BA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiActor::Init(void * self)
 {
   char cVar1;
@@ -66,7 +66,7 @@ void __thiscall CXiActor::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10081CF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CXiActor::ConstructBase(void * self)
 {
   orig::CMoTask_Constructor_v1(self);
@@ -77,14 +77,14 @@ void * __thiscall CXiActor::ConstructBase(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10082070  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 double CXiActor::CXiSkeletonActor_GetMoveSpeed()
 {
   return this->moveSpeed;
 }
 
 // FUNCTION: FFXIMAIN 0x10082080  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiSkeletonActor_SetMoveSpeed(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x98) = param_1;
@@ -92,14 +92,14 @@ XI_API void __thiscall CXiSkeletonActor_SetMoveSpeed(void * self_, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x10082090  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float CXiActor::CXiSkeletonActor_GetMoveSpeedBase()
 {
   return this->moveSpeedBase;
 }
 
 // FUNCTION: FFXIMAIN 0x100820A0  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiSkeletonActor_SetMoveSpeedBase(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x94) = param_1;
@@ -107,14 +107,14 @@ XI_API void __thiscall CXiSkeletonActor_SetMoveSpeedBase(void * self_, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x100820B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 double CXiActor::CXiSkeletonActor_GetWalkSpeed()
 {
   return this->moveSpeed * 0x1.5555560000000p-2;
 }
 
 // FUNCTION: FFXIMAIN 0x100820C0  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiSkeletonActor_SetWalkSpeed(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x9c) = param_1;
@@ -122,28 +122,28 @@ XI_API void __thiscall CXiSkeletonActor_SetWalkSpeed(void * self_, undefined4 pa
 }
 
 // FUNCTION: FFXIMAIN 0x100820D0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CXiActor::CXiSkeletonActor_GetEquip(int a1)
 {
   return 1952805748;
 }
 
 // FUNCTION: FFXIMAIN 0x100820E0  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall GetEmbeddedMember_0x34(void * self_)
 {
   return (int)self_ + 0x34;
 }
 
 // FUNCTION: FFXIMAIN 0x100820F0  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall GetEmbeddedMember_0x44(void * self_)
 {
   return (int)self_ + 0x44;
 }
 
 // FUNCTION: FFXIMAIN 0x10082200  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiActor_GetModel(void * self_, undefined4 * param_1)
 {
   *param_1 = *(uint32_t *)((int)self_ + 0xb4);
@@ -151,14 +151,14 @@ XI_API void __thiscall CXiActor_GetModel(void * self_, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10082380  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall CXiActor_GetFieldA8(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0xa8);
 }
 
 // FUNCTION: FFXIMAIN 0x10082460  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall fn_10082460(void * self_, undefined4 xi_s1)
 {
   orig::FUN_100814f0_v1((void *)((int)self_ + 0x5c),xi_s1);
@@ -166,14 +166,14 @@ XI_API void __thiscall fn_10082460(void * self_, undefined4 xi_s1)
 }
 
 // FUNCTION: FFXIMAIN 0x10082780  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall CXiActor_GetSubActorStatus(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0xa4);
 }
 
 // FUNCTION: FFXIMAIN 0x10082790  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiActor_SetSubActorStatus(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0xa4) = param_1;
@@ -181,7 +181,7 @@ XI_API void __thiscall CXiActor_SetSubActorStatus(void * self_, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x100827A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsChocobo(void * self)
 {
   if ((0 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 5)) {
@@ -191,7 +191,7 @@ undefined4 __thiscall CXiActor::IsChocobo(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100827F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsStateA4Eq54(void * self)
 {
   if ((0x53 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x55)) {
@@ -201,7 +201,7 @@ undefined4 __thiscall CXiActor::IsStateA4Eq54(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10082860  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsA4InRange3DTo51(void * self)
 {
   if ((0x3c < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x52)) {
@@ -211,7 +211,7 @@ undefined4 __thiscall CXiActor::IsA4InRange3DTo51(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100828B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsA4InRange25To34(void * self)
 {
   if ((0x24 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x35)) {
@@ -221,7 +221,7 @@ undefined4 __thiscall CXiActor::IsA4InRange25To34(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10082900  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsA4InRange35To3C(void * self)
 {
   if ((0x34 < *(int *)((int)self + 0xa4)) && (*(int *)((int)self + 0xa4) < 0x3d)) {
@@ -231,7 +231,7 @@ undefined4 __thiscall CXiActor::IsA4InRange35To3C(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10082F60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint8_t * __thiscall CXiActor::GetName(void * self)
 {
   char cVar1;
@@ -258,7 +258,7 @@ uint8_t * __thiscall CXiActor::GetName(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10082FA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::GetField78Of70(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -268,7 +268,7 @@ undefined4 __thiscall CXiActor::GetField78Of70(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100830C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::NameCalc(void * self, undefined4 * param_1, int param_2, float * param_3, uint32_t * param_4)
 {
   uint8_t bVar1;
@@ -320,28 +320,28 @@ uint32_t __thiscall CXiActor::NameCalc(void * self, undefined4 * param_1, int pa
 }
 
 // FUNCTION: FFXIMAIN 0x100832D0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_AddRef()
 {
   ++this->refCount;
 }
 
 // FUNCTION: FFXIMAIN 0x10083390  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_AddSchRef()
 {
   ++this->schRefCount;
 }
 
 // FUNCTION: FFXIMAIN 0x100833A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CXiActor::CXiSkeletonActor_SubSchRef()
 {
   --this->schRefCount;
 }
 
 // FUNCTION: FFXIMAIN 0x10083430  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint32_t param_3, uint32_t param_4, undefined4 param_5)
 {
   void *self;
@@ -426,7 +426,7 @@ undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint3
 }
 
 // FUNCTION: FFXIMAIN 0x10083750  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 98 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 98 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 int * __cdecl CXiActor::FindNearestToPoint(float * param_1, uint32_t param_2, uint32_t param_3)
 {
   long double fVar1;
@@ -501,7 +501,7 @@ int * __cdecl CXiActor::FindNearestToPoint(float * param_1, uint32_t param_2, ui
 }
 
 // FUNCTION: FFXIMAIN 0x10083B40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 97 returned normally, 219 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 219 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
 int * __cdecl CXiActor::FindNearestLowerInView(int * param_1, uint32_t param_2, float param_3)
 {
   long double fVar1;
@@ -587,7 +587,7 @@ int * __cdecl CXiActor::FindNearestLowerInView(int * param_1, uint32_t param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x10083D00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 97 returned normally, 219 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 219 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
 int * __cdecl CXiActor::FindNearestHigherInView(int * param_1, uint32_t param_2, float param_3)
 {
   long double fVar1;
@@ -672,7 +672,7 @@ int * __cdecl CXiActor::FindNearestHigherInView(int * param_1, uint32_t param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x10083EC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CXiActor::FindNearestToTarget_Mode0(undefined4 param_1, undefined4 param_2)
 {
   int *piVar1;
@@ -682,7 +682,7 @@ undefined4 __cdecl CXiActor::FindNearestToTarget_Mode0(undefined4 param_1, undef
 }
 
 // FUNCTION: FFXIMAIN 0x10083EE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CXiActor::FindNearestToTarget_Mode1(uint32_t param_1, uint32_t param_2)
 {
   int *piVar1;
@@ -692,7 +692,7 @@ undefined4 __cdecl CXiActor::FindNearestToTarget_Mode1(uint32_t param_1, uint32_
 }
 
 // FUNCTION: FFXIMAIN 0x10083F00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CXiActor::FindNearestToTarget_Mode2(uint32_t param_1, uint32_t param_2)
 {
   int *piVar1;
@@ -702,7 +702,7 @@ undefined4 __cdecl CXiActor::FindNearestToTarget_Mode2(uint32_t param_1, uint32_
 }
 
 // FUNCTION: FFXIMAIN 0x10083F20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 89 returned normally, 210 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 89 returned normally, 210 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
 int * __cdecl CXiActor::FindNearestToTarget(uint32_t param_1, uint32_t param_2, int param_3)
 {
   uint8_t bVar1;
@@ -802,7 +802,7 @@ LAB_10084048:
 }
 
 // FUNCTION: FFXIMAIN 0x10084100  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CXiActor::IsWithinRadius(int param_1, int param_2, float param_3)
 {
   long double fVar1;
@@ -820,7 +820,7 @@ undefined4 __cdecl CXiActor::IsWithinRadius(int param_1, int param_2, float para
 }
 
 // FUNCTION: FFXIMAIN 0x10084140  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::IsModelMissingOrFlag2000(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -830,7 +830,7 @@ uint32_t __thiscall CXiActor::IsModelMissingOrFlag2000(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084330  (unit CXiActor: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95790(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   uint32_t uVar1;
@@ -843,7 +843,7 @@ XI_API uint32_t __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95790(und
 }
 
 // FUNCTION: FFXIMAIN 0x10084350  (unit CXiActor: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95680(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   uint32_t uVar1;
@@ -856,7 +856,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest95680(u
 }
 
 // FUNCTION: FFXIMAIN 0x10084370  (unit CXiActor: between 0x100833C0 (name CXiActor_SubLock) and 0x100848E0 (class model places it in CXiActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest956A0(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, int param_2)
 {
   uint32_t uVar1;
@@ -869,7 +869,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_ModelTest956A0(u
 }
 
 // FUNCTION: FFXIMAIN 0x10084390  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::GetModelField170(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -879,7 +879,7 @@ undefined4 __thiscall CXiActor::GetModelField170(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100843B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::HasNonzeroField150or158(void * self)
 {
   int iVar1;
@@ -916,7 +916,7 @@ undefined4 __thiscall CXiActor::HasNonzeroField150or158(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084400  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CXiActor::GetModelByteEE(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -926,7 +926,7 @@ int __thiscall CXiActor::GetModelByteEE(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084420  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CXiActor::GetModelByteEF(void * self)
 {
   int iVar1;
@@ -946,7 +946,7 @@ int __thiscall CXiActor::GetModelByteEF(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084480  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetModelPartWord(void * self, int param_1)
 {
   int iVar1;
@@ -966,7 +966,7 @@ uint32_t __thiscall CXiActor::GetModelPartWord(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10084500  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetModelFlags120Top2(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -976,7 +976,7 @@ uint32_t __thiscall CXiActor::GetModelFlags120Top2(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084520  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetModelFlags130Top2(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -986,7 +986,7 @@ uint32_t __thiscall CXiActor::GetModelFlags130Top2(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084540  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 long double __thiscall CXiActor::GetModelFloat9AEC0(void * self)
 {
   long double fVar1;
@@ -999,7 +999,7 @@ long double __thiscall CXiActor::GetModelFloat9AEC0(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084580  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::IsModelMissingOrSuppressed(void * self)
 {
   if ((*(int *)((int)self + 0x70) != 0) && ((*(uint8_t *)((int)self + 0x88) & 8) == 0)) {
@@ -1009,7 +1009,7 @@ uint32_t __thiscall CXiActor::IsModelMissingOrSuppressed(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100845E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::GetSubModelResult(void * self)
 {
   uint32_t uVar1;
@@ -1022,7 +1022,7 @@ undefined4 __thiscall CXiActor::GetSubModelResult(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084640  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::TestModelFlags100000_200000_4000(void * self)
 {
   int iVar1;
@@ -1036,7 +1036,7 @@ uint32_t __thiscall CXiActor::TestModelFlags100000_200000_4000(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084670  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetModelFlag120Bit5(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -1046,7 +1046,7 @@ uint32_t __thiscall CXiActor::GetModelFlag120Bit5(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084690  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::GetModelWord166(void * self)
 {
   int iVar1;
@@ -1059,7 +1059,7 @@ undefined4 __thiscall CXiActor::GetModelWord166(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::GetModelByte1DB(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -1069,7 +1069,7 @@ undefined4 __thiscall CXiActor::GetModelByte1DB(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100849A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 long double __thiscall CXiActor::GetModelField204(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -1079,7 +1079,7 @@ long double __thiscall CXiActor::GetModelField204(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084BA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetModelField12CBit17(void * self)
 {
   if (*(int *)((int)self + 0x70) != 0) {
@@ -1089,7 +1089,7 @@ uint32_t __thiscall CXiActor::GetModelField12CBit17(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10084BC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsModelField210Set(void * self)
 {
   int iVar1;
@@ -1102,7 +1102,7 @@ undefined4 __thiscall CXiActor::IsModelField210Set(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10085010  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiActor_SetField0B4(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0xb4) = param_1;
@@ -1110,7 +1110,7 @@ XI_API void __thiscall CXiActor_SetField0B4(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10085060  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
 void __thiscall CXiActor::SpawnResourceGenerators(void * self, undefined4 * file)
 {
   int iVar1;
@@ -1205,7 +1205,7 @@ joined_r0x100851b9:
 }
 
 // FUNCTION: FFXIMAIN 0x10085490  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CXiActor::IsInModelSlotTable(void * self)
 {
   int iVar1;
@@ -1228,14 +1228,14 @@ int __thiscall CXiActor::IsInModelSlotTable(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10085500  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __thiscall CXiActor_GetField88Bit3(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x88) >> 3 & 1;
 }
 
 // FUNCTION: FFXIMAIN 0x10085BF0  (unit CXiActor: class model places it in CXiActor)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CXiActor_SetField0BC(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0xbc) = param_1;
@@ -1243,7 +1243,7 @@ XI_API void __thiscall CXiActor_SetField0BC(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10087DC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::GetTwoBitField(void * self)
 {
   if ((*(uint32_t *)((int)self + 300) & 0x80000) != 0) {
@@ -1253,7 +1253,7 @@ uint32_t __thiscall CXiActor::GetTwoBitField(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008A120  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::Construct(void * self)
 {
   *(uint8_t ***)self = &PTR_CYyObject_GetRuntimeClass_variant18_1032d69c;
@@ -1262,7 +1262,7 @@ undefined4 __thiscall CXiActor::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008A1A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::SelectMotionTags(void * self)
 {
   uint16_t uVar1;
@@ -1325,7 +1325,7 @@ LAB_1008a1d4:
 }
 
 // FUNCTION: FFXIMAIN 0x1008A2F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::PushTagsToObject(void * self)
 {
   uint32_t uVar1;
@@ -1346,7 +1346,7 @@ undefined4 __thiscall CXiActor::PushTagsToObject(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008A350  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::InitDefaults(void * self, int param_1)
 {
   int iVar1;
@@ -1510,7 +1510,7 @@ undefined4 __thiscall CXiActor::InitDefaults(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1008A7B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiActor::Destroy(void * self)
 {
   *(uint8_t ***)self = &PTR_CYyObject_GetRuntimeClass_variant18_1032d69c;
@@ -1520,7 +1520,7 @@ void __thiscall CXiActor::Destroy(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008D980  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiActor::ResetRandomTimer(void * self)
 {
   int iVar1;
@@ -1546,7 +1546,7 @@ void __thiscall CXiActor::ResetRandomTimer(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008DA00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiActor::TickRandomTimer(void * self)
 {
   char cVar1;
@@ -1592,14 +1592,14 @@ void __thiscall CXiActor::TickRandomTimer(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1008E140  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsField78HighZero(void * self)
 {
   return (uint32_t)((*(uint32_t *)((int)self + 0x78) & 0xff000000) == 0);
 }
 
 // FUNCTION: FFXIMAIN 0x1008E150  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiActor::IsFlag1d0Clear(void * self)
 {
   if ((((*(uint32_t *)((int)self + 0x1d0) & 1) == 0) && ((*(uint32_t *)((int)self + 0x1d0) & 0x100) == 0))
@@ -1610,7 +1610,7 @@ undefined4 __thiscall CXiActor::IsFlag1d0Clear(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100C8280  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::CorrectOnZoneMap(void * self)
 {
   float *pfVar1;
@@ -1661,7 +1661,7 @@ LAB_100c83b3:
 }
 
 // FUNCTION: FFXIMAIN 0x100D14C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiActor::RequestModelParts(void * self)
 {
   uint32_t *puVar1;

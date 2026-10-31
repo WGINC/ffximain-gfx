@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10040E70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 148 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 148 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
 {
   uint32_t *puVar1;
@@ -73,7 +73,7 @@ undefined4 __thiscall CXi471011C8_VT_1032B3B8::RebuildBlendWeights(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052E90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CXi471011C8_VT_1032B3B8::Ctor(void * self)
 {
   uint64_t uVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10044C40  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 54 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10044C40_ComputeWorldPos(void * self_, float * param_1)
 {
   int iVar1;
@@ -37,7 +37,7 @@ XI_API undefined4 __thiscall Unit10044C40_ComputeWorldPos(void * self_, float * 
 }
 
 // FUNCTION: FFXIMAIN 0x10044CF0  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API undefined4 __thiscall Unit10044C40_IsActive(void * self_)
 {
   uint32_t xi_entry_eax = 0;
@@ -55,7 +55,7 @@ XI_API undefined4 __thiscall Unit10044C40_IsActive(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10044D40  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 40 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 40
 XI_API void __thiscall Unit10044C40_UpdateTransform(void * self_)
 {
   float *this_00;
@@ -146,7 +146,7 @@ LAB_10044ee5:
 }
 
 // FUNCTION: FFXIMAIN 0x10044F10  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 83 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall YmElem_ComputeViewDepthKey(void * self_)
 {
   float *a1;
@@ -278,7 +278,7 @@ LAB_1004513e:
 }
 
 // FUNCTION: FFXIMAIN 0x10045C50  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_)
 {
   int v1;
@@ -323,7 +323,7 @@ XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10045D40  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 88 returned normally, 77 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 88 returned normally, 77 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 88
 XI_API void __thiscall RegisterWithProcessor(void * self_)
 {
   uint32_t *this_00;
@@ -462,7 +462,7 @@ XI_API void __thiscall RegisterWithProcessor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10046070  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 142 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 142 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API undefined4 __thiscall YmElem_DrawWithOwnProjection(void * self_)
 {
   float *pfVar1;
@@ -573,7 +573,7 @@ LAB_10046358:
 }
 
 // FUNCTION: FFXIMAIN 0x10046380  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Zone_UpdateFogAmbient(void)
 {
   char cVar1;
@@ -635,7 +635,7 @@ XI_API void __cdecl Zone_UpdateFogAmbient(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100464D0  (unit unit_10044C40: no unit evidence of its own; in the gap between 0x10044C20 (CMoElem) and 0x100467C0 (CMoElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 297 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API int __cdecl Fog_SetRenderStates(void)
 {
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGCOLOR, g_zoneFogOut1);

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100746A0  (unit unit_10074630: no unit evidence of its own; in the gap between 0x10074620 (CMoResource_VT_1032C588) and 0x10074730 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall MoProcessor_CallVSlot49(void * self_)
 {
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0xc4))))((void *)(g_pProcessor_as_v1),self_);
@@ -11,7 +11,7 @@ XI_API void __thiscall MoProcessor_CallVSlot49(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10074700  (unit unit_10074630: no unit evidence of its own; in the gap between 0x10074620 (CMoResource_VT_1032C588) and 0x10074730 (CMoTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10074630_ProcessorSlot41(void * self_)
 {
   ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pProcessor_as_v1 + 0xa4))))((void *)(g_pProcessor_as_v1),self_);

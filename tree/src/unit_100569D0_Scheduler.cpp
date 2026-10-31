@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100569D0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 19
 XI_API undefined4 __thiscall fn_100569D0(void * self_, undefined4 * param_1)
 {
   undefined4 uVar1;
@@ -37,7 +37,7 @@ XI_API undefined4 __thiscall fn_100569D0(void * self_, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10056AA0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Scheduler_AddTask(void * self_)
 {
   orig::CMoTaskMng_RemoveByKey(dword_1047D140_as_v1,(int)self_,0x4d730000);
@@ -46,7 +46,7 @@ XI_API void __thiscall Scheduler_AddTask(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10056CE0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 uVar1;
@@ -84,7 +84,7 @@ XI_API int __thiscall Scheduler_CreateTask(void * self_, int param_1, int param_
 }
 
 // FUNCTION: FFXIMAIN 0x10056EB0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Scheduler_RemoveTasksFor(void * self_)
 {
   void *pvVar1;
@@ -112,7 +112,7 @@ LAB_10056eb9:
 }
 
 // FUNCTION: FFXIMAIN 0x10056EF0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Scheduler_Kill(void * self_, int param_1, int param_2)
 {
   int *this_00;
@@ -137,7 +137,7 @@ XI_API undefined4 __thiscall Scheduler_Kill(void * self_, int param_1, int param
 }
 
 // FUNCTION: FFXIMAIN 0x10057010  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Scheduler_IsMoving(void * self_, int param_1, int param_2)
 {
   void *this_00;

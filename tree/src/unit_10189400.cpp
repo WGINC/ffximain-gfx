@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10189400  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall WeatherRes_InitKeyDefaults(void * self_)
 {
   int iVar1;
@@ -50,7 +50,7 @@ XI_API void * __thiscall WeatherRes_InitKeyDefaults(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10189490  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t * param_2, float param_3)
 {
   int64_t lVar1;
@@ -115,7 +115,7 @@ XI_API void __thiscall Env_BlendKeys(void * self_, uint32_t * param_1, uint32_t 
 }
 
 // FUNCTION: FFXIMAIN 0x10189810  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Env_LerpFloat(float * param_1, float param_2, float param_3, float param_4)
 {
   *param_1 = (float)(((long double)param_2 - (long double)param_3) * (long double)param_4 + (long double)param_3);
@@ -123,7 +123,7 @@ XI_API undefined4 __cdecl Env_LerpFloat(float * param_1, float param_2, float pa
 }
 
 // FUNCTION: FFXIMAIN 0x101898E0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_LerpKeyValues(void * self_, int param_1, int param_2, undefined4 param_3)
 {
   orig::FUN_10189750(self_,param_1,(char *)param_2,param_3);
@@ -140,7 +140,7 @@ XI_API void __thiscall Env_LerpKeyValues(void * self_, int param_1, int param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x10189BD0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78
 XI_API undefined4 __stdcall WeatherRes_IsTimeKeyName(int param_1)
 {
   uint32_t uVar1;
@@ -189,7 +189,7 @@ LAB_10189c18:
 }
 
 // FUNCTION: FFXIMAIN 0x10189C60  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Zone_GetClock(int * param_1)
 {
   if ((*(char *)(g_pCamera_as_s32 + 9) != '\0') && (-1 < *(int *)(g_pXiZone_as_s32 + 0x1c8))) {
@@ -201,7 +201,7 @@ XI_API void __stdcall Zone_GetClock(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10189CA0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void __thiscall Env_FindPrevKey(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
   void *pvVar1;
@@ -288,7 +288,7 @@ LAB_10189e17:
 }
 
 // FUNCTION: FFXIMAIN 0x10189E30  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s1)
 {
   int iVar1;
@@ -339,7 +339,7 @@ XI_API void * __thiscall WeatherRes_FindAtOrBefore(void * self_, undefined4 xi_s
 }
 
 // FUNCTION: FFXIMAIN 0x10189F20  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void __thiscall Env_FindNextKey(void * self_, undefined4 * param_1, undefined4 xi_s2)
 {
   void *pvVar1;
@@ -440,7 +440,7 @@ LAB_1018a0d9:
 }
 
 // FUNCTION: FFXIMAIN 0x1018A0F0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
 XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
 {
   int iVar1;
@@ -502,7 +502,7 @@ XI_API void * __thiscall WeatherRes_FindNeighbor(void * self_, undefined4 xi_s1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A220  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_UpdatePrevKey(void * self_)
 {
   char xi_frame[4] __attribute__((aligned(4)));
@@ -519,7 +519,7 @@ XI_API void __thiscall Env_UpdatePrevKey(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A260  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_UpdateNextKey(void * self_)
 {
   char xi_frame[4] __attribute__((aligned(4)));
@@ -536,7 +536,7 @@ XI_API void __thiscall Env_UpdateNextKey(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2A0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_UpdateKeyAtOrBefore(void * self_)
 {
   void *pvVar1;
@@ -549,7 +549,7 @@ XI_API void __thiscall Env_UpdateKeyAtOrBefore(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2C0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Env_UpdateKeyNeighbor(void * self_)
 {
   void *pvVar1;
@@ -564,7 +564,7 @@ XI_API undefined4 __thiscall Env_UpdateKeyNeighbor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2E0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_SetKeyField2C(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x2c) = param_1;
@@ -572,7 +572,7 @@ XI_API void __thiscall Env_SetKeyField2C(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A2F0  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_SetKeyField30(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x30) = param_1;
@@ -580,7 +580,7 @@ XI_API void __thiscall Env_SetKeyField30(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A300  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_SetKeyField24(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x24) = param_1;
@@ -588,7 +588,7 @@ XI_API void __thiscall Env_SetKeyField24(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A310  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Env_SetKeyField28(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x28) = param_1;
@@ -596,7 +596,7 @@ XI_API undefined4 __thiscall Env_SetKeyField28(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A320  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Env_UpdateTimeKeys(void * self_)
 {
   uint32_t uVar1;
@@ -609,7 +609,7 @@ XI_API undefined4 __thiscall Env_UpdateTimeKeys(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1018A340  (unit unit_10189400: no unit evidence of its own; in the gap between 0x101893F0 (CMoResource_VT_103367E8) and 0x1018A790 (YmCombineWeather) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_BlendTimeOfDay(void * self_)
 {
   int *piVar1;

@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10057090  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoSchedularTask::GetRuntimeClass()
 {
   return &CMoSchedularTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10057250  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * CMoSchedularTask::ScalarDeletingDtor(char a2)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -22,7 +22,7 @@ void * CMoSchedularTask::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10057270  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CMoSchedularTask::Construct(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t *puVar1;
@@ -47,7 +47,7 @@ void * __thiscall CMoSchedularTask::Construct(void * self, undefined4 param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x100573B0  (unit CMoSchedularTask: class model places it in CMoSchedularTask)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall CMoSchedularTask_ResetFlags(void * self_)
 {
   *(uint8_t *)((int)self_ + 0x141) = 0;
@@ -60,7 +60,7 @@ XI_API void __thiscall CMoSchedularTask_ResetFlags(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100573E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67
 undefined4 __thiscall CMoSchedularTask::InitFromSource(void * self, int param_1, uint32_t param_2, short * param_3)
 {
   uint32_t uVar1;
@@ -97,7 +97,7 @@ LAB_1005742f:
 }
 
 // FUNCTION: FFXIMAIN 0x100574A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 28 returned normally, 144 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 28 returned normally, 144 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 28
 void __thiscall CMoSchedularTask::Destructor(void * self)
 {
   uint32_t *this_00;
@@ -149,7 +149,7 @@ void __thiscall CMoSchedularTask::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10057CC0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSchedularTask::SetSharedRef(void * self, short * param_1)
 {
   if (param_1 != (short *)0x0) {
@@ -162,7 +162,7 @@ void __thiscall CMoSchedularTask::SetSharedRef(void * self, short * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10057E10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoSchedularTask::vf8(void * self)
 {
   uint32_t uVar1;

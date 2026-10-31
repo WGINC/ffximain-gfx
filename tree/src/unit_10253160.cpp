@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10253160  (unit unit_10253160: no unit evidence of its own; in the gap between 0x102530C0 (StTrigger) and 0x102531B0 (sqopSystem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StAvatar_CheckBuffersReady(uint32_t * param_1)
 {
   uint32_t uVar1;

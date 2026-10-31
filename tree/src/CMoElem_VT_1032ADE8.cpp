@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10041AF0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 95 returned normally, 30 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 30 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 void CMoElem_VT_1032ADE8::vf18()
 {
   int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
@@ -51,7 +51,7 @@ void CMoElem_VT_1032ADE8::vf18()
 }
 
 // FUNCTION: FFXIMAIN 0x10041F40  (unit CMoElem_VT_1032ADE8: between 0x10041F30 (class model places it in CMoElem_VT_1032ADE8) and 0x10041FE0 (class model places it in CMoElem_VT_1032ADE8), both within 4 KB)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API uint64_t __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
 {
   uint8_t *puVar1;
@@ -86,7 +86,7 @@ XI_API uint64_t __thiscall CXiSub_10041E70_Ctor(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10041FE0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoElem_VT_1032ADE8::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

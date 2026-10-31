@@ -3,7 +3,7 @@
 #include "CMoAttachments_VT_1032B140.hpp"
 
 // FUNCTION: FFXIMAIN 0x10054450  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * CMoAttachments_VT_1032B140::vf001(char a2)
 {
   return orig::CMoGeneratorClone_VT_1032B114_ScalarDeletingDtor((char *)this - 48, a2);

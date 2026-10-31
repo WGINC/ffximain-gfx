@@ -44,9 +44,7 @@ XI_API char __cdecl BeginEffectOffscreenPass(void)
   v15[0] = 0;
   v15[4] = 0;
   v15[5] = 1065353216;
-  (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(g_pResourceMng + 3772) + 160))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    v15);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetViewport((void *)(v15));
   if ( (Fn10054D70_staticGuards & 1) == 0 )
   {
     Fn10054D70_lookAtUp = 0;

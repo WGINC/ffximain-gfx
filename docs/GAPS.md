@@ -15,8 +15,8 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 | Measure | Value | Source |
 |---|---|---|
 | Graphics functions exported from IDA | 867 | data/exports/gfx_export.jsonl |
-| Verified in the tree (all routes) | 4,205 PASS on fuzz of 4,206 in the tree (1 INCONCLUSIVE: 0x10003890); the live gates were run on the 4 Oct tree, not this one | verification/gate_clean_final.jsonl |
-| Exported but not in the verified tree | 90: 48 D3DX library, 13 FAIL, 11 constructs, 9 compile, 8 UNRESOLVED, 1 INCONCLUSIVE | docs/RESIDUE.md |
+| Verified in the tree (all routes) | 4,884 PASS of 4,897 in the tree (27 Oct, tree r14; fuzz combined with the live gates on the four dumps) | verification/gate_clean_final.jsonl |
+| Frame-set game code not in the tree | 762 of 5,211 (27 Oct, tree r14), by blocker | docs/FRAMESET_REMAINING.md, verification/frame_set_status.json |
 | Functions outside the export that use the device | 0 | data/gfx_device_users.json |
 | Functions outside the export that call graphics code | 267: tier 1 (named in a graphics family, or calls D3DX) 43, tier 2 (unnamed, calls 2 or more) 62, tier 3 (calls exactly one) 162 | data/gfx_extension.json |
 | Instructions of the tree's functions the gate's trials ran | 63.3% (46,960 of 74,133) | verification/coverage_clean.json |
@@ -25,7 +25,7 @@ counts are from the repo's data as of 6 Oct; the source is named with each.
 | Hookable by a mod | 774 (721 with a trampoline to the game's code) | kit manifest |
 | Functions named only by address or vtable slot | 346 of 777 | tree/placement.json |
 | Class fields named / unnamed (`field_XXX`) | 86 / 720, plus 528,778 bytes of padding not yet described | tree/include |
-| Virtual calls through an untyped slot in the tree | 810 | pipeline/artifact_count.py |
+| Virtual calls through an untyped slot in the tree | 286 (120 game-class, 163 COM-style without a proven object, 3 other; 242 Direct3D calls typed in r16) | verification/untyped_vcalls.json |
 | Memory dumps the gate runs on | 4 (town, town2, combat, zonetoinn) | verification/live |
 
 ## 2. Know: what the code does
@@ -74,7 +74,7 @@ hold a loaded model, a full zone or a busy scheduler at the moment a function st
   or an hx_patch.
 - **11 constructs** C++ cannot express: `__userpurge`/`__usercall` callees, an `__asm` block, the x87 status
   word. Each needs a hand-written assembly shim with the exact register contract, checked by the gate.
-- **9 compile failures** (translator gaps; named in RESIDUE.md).
+- **9 compile failures** (translator gaps; named in docs/FRAMESET_REMAINING.md).
 - **The tree's own 3:**
   - `Post_DrawRotatingGhostLayers`: a FAIL on -0.0 against +0.0;
   - sub_10016320 and sub_1006B3B0: INCONCLUSIVE, the original never returns under the gate's inputs. The input
@@ -97,7 +97,7 @@ as was done for the 4 Oct export.
 
 - 346 of 777 functions have only an address or slot name.
 - 720 fields are unnamed, against 86 named.
-- 810 virtual calls go through an untyped slot.
+- 286 virtual calls go through an untyped slot (verification/untyped_vcalls.json): none has a definitive source for its type.
 - 32,469 uses of Hex-Rays' numbered variables remain (`vN`, `aN`).
 
 A change to such code is reasoned from offsets and arithmetic, which is where guessing creeps back in.

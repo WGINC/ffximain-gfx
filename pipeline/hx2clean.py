@@ -10,8 +10,9 @@ Per function:
     become `this->field_XXX` (layout inferred from every member of the class). Anything left is
     reached through `self`, a byte-exact alias declared at the top of the body, so no pointer
     arithmetic ever changes meaning.
-  * D3D: `X->lpVtbl->M(X, a...)` -> `X->M(a...)`; literal render-state / texture-stage values get
-    their D3D enum names.
+  * D3D: `X->lpVtbl->M(X, a...)` -> `X->M(a...)`; a call through a proven holder field's cast vtable slot
+    (data/com_fields.json) -> the interface's method (holder_calls.py); literal render-state / texture-stage values
+    get their D3D enum names.
   * calls into the game: `orig::Name(...)` (always-inline wrapper around the original address);
     globals keep their IDB names, bound to their addresses in gfx_globals.hpp.
   * decompiler noise (register / stack-slot comments) removed.
@@ -26,6 +27,7 @@ from msvc_demangle import demangle
 import hx_patches
 import hx2cpp
 import partial_regs
+import holder_calls
 
 def _head_params(text):
     """the parameter list of a record's text, from its signature line"""
@@ -35,6 +37,7 @@ def _head_params(text):
 
 CC_RE = r'(__cdecl|__stdcall|__thiscall|__fastcall)'
 PS2_NAMES = {}
+GENOXD_NAMES = {}              # ffxi_hide_ui's names (data/genoxd_scan.json, docs/COMMUNITY.md), by address
 REVIEWED = {}                  # reviewed_names(): this repository's reviewed names, by address
 WIDTH = {'_BYTE': 1, 'char': 1, '__int8': 1, 'unsigned __int8': 1, '_WORD': 2, '__int16': 2,
          'unsigned __int16': 2, '_DWORD': 4, 'int': 4, 'float': 4, 'unsigned int': 4, '__int32': 4,
@@ -52,6 +55,12 @@ for _c, _d in _named.items():
         if _off == 0 or _n.startswith(('pad_', 'CMoTask_base')): continue
         _m = re.match(r'^(.*?)(\[\d+\])$', _t)
         KNOWN_FIELDS[(_c, _off)] = ((_m.group(1) if _m else _t).replace('void *', 'void *'), _n, _w, _m.group(2) if _m else '')
+# fields the typing batches declare from the game's code or the SDK headers, with their evidence (pipeline/declared_fields.py;
+# never a field the IDB declares)
+for _c, _d in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'declared_fields.json'))).items():
+    if _c.startswith('_'): continue
+    for _off, _v in _d.items():
+        KNOWN_FIELDS.setdefault((_c, int(_off, 16)), (_v['type'], _v['name'], _v['width'], ''))
 VAL = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'd3d_values.json')))
 # names for inferred fields (data/field_names.json): only the identifier changes, never the type or offset
 FIELD_NAMES = {(c, int(off, 16)): v for c, d in json.load(open(os.path.join(
@@ -398,6 +407,11 @@ def reviewed_names():
 def main(exp, gate, manf, incdir, outdir):
     R = {}
     PS2_NAMES.update(ps2_names()); REVIEWED.update(reviewed_names())
+    _gx = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'genoxd_scan.json')
+    if os.path.exists(_gx):       # a function its pattern locates (at a function start), named kSigX: UI_X
+        for a, recs in json.load(open(_gx)).get('functions', {}).items():
+            nm = [r['name'] for r in recs if r.get('source') == 'ffxi_hide_ui' and r['name'].startswith('kSig')]
+            if len(nm) == 1: GENOXD_NAMES[int(a, 16)] = 'UI_' + nm[0][4:]
     _dm = json.load(open(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'), 'dm_names.json')))
     # EXP and GATE may each be a comma-separated list: the IDA export first, then Ghidra exports (GfxExport.java) of
     # functions it does not hold; a later record of an address already read is ignored
@@ -461,6 +475,8 @@ def main(exp, gate, manf, incdir, outdir):
             r['name'] = rv['name']                   # this repository's reviewed name (names_pending_idb, data/names/)
         if PLACEHOLDER.match(r['name']) and r['ea'] in PS2_NAMES:
             r['name'] = PS2_NAMES[r['ea']]           # the PS2 build's name (ps2_match.py), where none other is known
+        if PLACEHOLDER.match(r['name']) and r['ea'] in GENOXD_NAMES:
+            r['name'] = GENOXD_NAMES[r['ea']]        # ffxi_hide_ui's name (genoxd_scan.py), after every other source
         if r.get('ghidra') and r['name'] != _gname0 and re.match(r'^[A-Za-z_]\w*$', r['name']):
             # a Ghidra record's recursive calls were written with its first name (above): they take the new one
             r['text'] = re.sub(r'\b%s\b' % re.escape(_gname0), r['name'], r['text'])
@@ -529,6 +545,7 @@ def main(exp, gate, manf, incdir, outdir):
     while True:
         drop = {}
         for ea in sorted(passed):
+            if ea not in R: continue                 # passed, but a record the translation refuses (no source of it)
             for nm, o in R[ea].get('objs', {}).items():
                 if not o['func'] or o.get('import'): continue
                 if R[ea].get('ghidra') and hx2cpp.FPRET_ALL.get('0x%x' % o['ea']) == 'consumes': continue   # XI_CALL_ST0
@@ -538,7 +555,9 @@ def main(exp, gate, manf, incdir, outdir):
         passed -= set(drop); left_out.update(drop)
     os.makedirs(outdir, exist_ok=True)
     lo = {'0x%08X' % ea: '%s: calls %s, which its wrapper does not pass' % (R[ea]['name'], why) for ea, why in left_out.items()}
-    lo.update({'0x%08X' % ea: '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
+    # a reason given by the caller (tree_round.py --drop --why, starting 'left out:') stands as written
+    lo.update({'0x%08X' % ea: '%s: %s' % (R[ea]['name'] if ea in R else '?', why) if why.startswith('left out:') else
+               '%s: does not compile in this tree: %s' % (R[ea]['name'] if ea in R else '?', why) for ea, why in dropped.items()})
     json.dump(dict(sorted(lo.items())), open(os.path.join(outdir, 'left_out.json'), 'w'), indent=0)
     man = {int(k, 16): v for k, v in json.load(open(manf)).items()}
     sizes, bases = {}, {}
@@ -590,6 +609,7 @@ def main(exp, gate, manf, incdir, outdir):
             if all(c in ch for ch in chains): return c if c in sizes or c in bases else None
         return None
     for ea in sorted(passed):
+        if ea not in R: continue                     # a passed record the translation refused: no source of it
         r = R[ea]; nm = r['name']; sig = r['text'].split('\n{')[0]
         cls = meth = None; why = None
         self_t = r['args'][0][1] if r['cc'] == 'thiscall' and r['args'] else None
@@ -707,7 +727,7 @@ def main(exp, gate, manf, incdir, outdir):
     # a name two game functions carry (operator_delete: 0x101907D0 and 0x10311BB0) is spelt with its address
     _name_eas = collections.defaultdict(set)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func']: _name_eas[nm].add(o['ea'])
     # records can type one callee differently (IDA's prototype in one, the Ghidra route's in another): each was gated
     # with its own, so each prototype gets its own wrapper; the most common one the plain name, the others _vN
@@ -716,7 +736,7 @@ def main(exp, gate, manf, incdir, outdir):
             nm if len(_name_eas.get(nm, ())) <= 1 else '%s_%08X' % (nm, fea)
     _ftypes, _ftier = collections.defaultdict(collections.Counter), collections.defaultdict(dict)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func'] and not o.get('import'):
                 _k, _t = (o['ea'], obase(nm, o['ea'])), ftype_of(ea, o, nm)
                 _ftypes[_k][_t] += 1
@@ -732,7 +752,7 @@ def main(exp, gate, manf, incdir, outdir):
         k = _fvar.get((fea, base, ftype.strip())) if ftype else 0
         return base if not k else '%s_v%d' % (base, k)
     for ea in passed:
-        for nm, o in R[ea].get('objs', {}).items():
+        for nm, o in R.get(ea, {}).get('objs', {}).items():
             if o['func'] and o.get('import'):
                 # a Ghidra import: its address is the import table slot, which holds the function's address; bound
                 # as a pointer at the slot (as the IDA records bind it), called through it
@@ -836,6 +856,7 @@ def main(exp, gate, manf, incdir, outdir):
             elif o['func'] and not o.get('import'):
                 tok = 'orig::' + oname(nm, o['ea'], ftype_of(ea, o, nm))
             elif o.get('import'):
+                if o['ea'] not in gnames: continue     # a slot no global names: left as written (it fails to compile)
                 tok = gnames[o['ea']]                  # the pointer at the import table slot
             elif o['ea'] not in gnames:
                 continue                               # a goto target left out of the globals above
@@ -859,7 +880,11 @@ def main(exp, gate, manf, incdir, outdir):
         body = body.replace('->base.vftable', '->vftable')
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
         body = hx2cpp.body_rules(ea, body, 'cmps' in r)       # before strip_noise: exact_frame reads the [esp+..] comments
-        body = strip_noise(body); body = com_calls(body); body = name_d3d_values(body)
+        body = strip_noise(body); body = com_calls(body); body = holder_calls.typed_holder_calls(body)[0]
+        if cls:   # the class's own fields the IDB declares as Direct3D interfaces (KNOWN_FIELDS)
+            body = holder_calls.typed_self_calls(body, {o: re.match(r'(IDirect3D\w*8) \*$', v[0]).group(1) for (c, o), v in KNOWN_FIELDS.items()
+                                                        if c == cls and re.match(r'IDirect3D\w*8 \*$', v[0])})[0]
+        body = name_d3d_values(body)
         body = void_float_calls(ea, body)
         if r.get('ghidra'):
             # as the raw translation (hx2cpp.ghidra_bool): Ghidra's bool is a byte of any value; the signature is

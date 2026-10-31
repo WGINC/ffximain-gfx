@@ -327,8 +327,8 @@ LAB_10189287:
 }
 
 // FUNCTION: FFXIMAIN 0x101893B0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API undefined4 * __fastcall WeatherRes_Construct(undefined4 * param_1, undefined4 xi_edx)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 * __attribute__((stdcall, regparm(3))) WeatherRes_Construct(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 * param_1)
 {
   orig::FUN_10071d80(param_1,xi_edx);
   orig::WeatherRes_InitKeyDefaults(param_1 + 0xc);

@@ -98,14 +98,8 @@ XI_API int __thiscall Occlusion_QueryScreenRectImpl(__int16 *self_, float *arg0,
   *(float *)&a3 = (float)(16 * v14 / (v23 - a1));
   orig::DrawScreenProbe((int)&a1, a2, a3, a4, a5, a6, a7, a8, 0);
   v16 = orig::sub_1006C8B0(self_, 0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    14,
-    1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
   return v16;
 }
 
@@ -175,20 +169,13 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
   orig::StateBlock_ApplyRSTSS(Fn1006C530_stateBlock, (int)Fn1006C530_renderStates, (int)Fn1006C530_textureStageStates);
   orig::CDx_PushRenderTargetTexture_Flag1(*(void **)(g_pResourceMng + 3528), a7, a8, *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x1A4)));
   v15 = g_pResourceMng;
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    68);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(68);
   v16 = *(void **)(v15 + 3528);
   v17 = orig::Gfx_CalcFVFStride(0x44u);
   orig::CDx_DrawPrimitiveUP(v16, 5, 2, (int)&Fn1006C530_quadVerts, v17);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
   v18 = g_pResourceMng;
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    68);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(68);
   v19 = *(void **)(v18 + 3528);
   v20 = orig::Gfx_CalcFVFStride(0x44u);
   orig::CDx_DrawPrimitiveUP(v19, 5, 2, (int)&Fn1006C530_quadVerts2, v20);
@@ -198,10 +185,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
     *(_DWORD *)(g_pOcclusionMng + 12),
     *(_DWORD *)(g_pOcclusionMng + 16),
     *(_DWORD *)(g_pOcclusionMng + 20));
-  (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    a7);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(a7));
   orig::CDx_EndAndClearBegin(*(_DWORD ***)(g_pResourceMng + 3528), 1, 0, 1065353216, 0);
   if ( (Fn1006C530_staticGuards & 2) == 0 )
   {
@@ -211,9 +195,7 @@ XI_API int __stdcall Occlusion_DrawQuery(int a1, int a2, int a3, int a4, int a5,
   }
   orig::StateBlock_ApplyRSTSS(Fn1006C530_stateBlock2, (int)Fn1006C530_renderStates2, (int)Fn1006C530_textureStageStates2);
   v21 = g_pResourceMng;
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    260);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(260);
   v22 = *(void **)(v21 + 3528);
   v23 = orig::Gfx_CalcFVFStride(0x104u);
   orig::CDx_DrawPrimitiveUP(v22, 5, 2, (int)&Fn1006C530_quadVerts3, v23);
@@ -245,13 +227,7 @@ XI_API int __thiscall Occlusion_ReadbackCount(__int16 *self_, char a2)
     &v12);
   if ( a2 != 0 )
     v2 = *self_;
-  (*(void (__stdcall **)(_DWORD, int, void *, int, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 112))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    v12,
-    &unk_1032C18C,
-    1,
-    *((_DWORD *)self_ + v2 + 1),
-    0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->CopyRects((IDirect3DSurface8 *)(v12), (void *)(&unk_1032C18C), 1, (IDirect3DSurface8 *)(*((_DWORD *)self_ + v2 + 1)), (void *)(0));
   (*(void (__stdcall **)(int))(*(_DWORD *)v12 + 8))(v12);
   v5 = *((_DWORD *)self_ + 1);
   if ( (*(int (__stdcall **)(int, _DWORD *, void *, int))(*(_DWORD *)v5 + 36))(v5, v14, &unk_1032C17C, 16) == 0 )
@@ -361,8 +337,8 @@ XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param
 }
 
 // FUNCTION: FFXIMAIN 0x1006CB50  (unit unit_1006C210_Occlusion: no unit evidence of its own; in the gap between 0x1006C1E0 (CMoOcclusionMng) and 0x1006CC40 (CMoProcessor_VT_1032C1C8) -- an unnamed source file)
-// NOT VERIFIED -- FAIL
-XI_API void __fastcall CreateProcessorInstance(undefined4 xi_ecx, undefined4 xi_edx)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __attribute__((stdcall, regparm(3))) CreateProcessorInstance(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 xi_ecx)
 {
   undefined4 *puVar1;
   

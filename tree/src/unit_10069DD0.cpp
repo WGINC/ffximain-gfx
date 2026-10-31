@@ -63,13 +63,7 @@ XI_API unsigned int __stdcall Gfx_CreateVertexBuffer(unsigned int a1, int a2, in
   int v5;
   v4 = a1;
   v5 = orig::Gfx_CalcFVFStride(a1);
-  (*(void (__stdcall **)(_DWORD, int, int, unsigned int, int, unsigned int *))(**(_DWORD **)(g_pResourceMng + 3772) + 92))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    a2 * v5,
-    8,
-    v4,
-    1,
-    &a1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->CreateVertexBuffer(a2 * v5, 8, v4, D3DPOOL_MANAGED, (IDirect3DVertexBuffer8 **)(&a1));
   return a1;
 }
 
@@ -278,29 +272,22 @@ XI_API int __thiscall StateBlockHolder_ApplyRenderStates(_DWORD *self_, int *a2)
   int v4;
   while ( *self_ == -1 )
   {
-    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(_DWORD *)(g_pResourceMng + 3772));
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->BeginStateBlock();
     if ( a2 != nullptr )
     {
       v4 = *a2;
       do
       {
-        (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-          *(_DWORD *)(g_pResourceMng + 3772),
-          v4,
-          a2[1]);
+        (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState((D3DRENDERSTATETYPE)(v4), a2[1]);
         v4 = a2[2];
         a2 += 2;
       }
       while ( v4 != 0x7FFFFFFF );
     }
-    (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      self_);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->EndStateBlock((void *)(self_));
     orig::Unit10069DD0_Insert(self_);
   }
-  return (*(int (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 216))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           *self_);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->ApplyStateBlock(*self_);
 }
 
 // FUNCTION: FFXIMAIN 0x1006AF90  (unit unit_10069DD0: no unit evidence of its own; in the gap between 0x10069DB0 (CMoDX) and 0x1006B040 (CMoDxStatusMng) -- an unnamed source file)
@@ -310,28 +297,20 @@ XI_API int __thiscall StateBlock_ApplyTSS(void *self_, int a1)
   int v4;
   while ( *(_DWORD *)self_ == -1 )
   {
-    (*(void (__stdcall **)(_DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 208))(*(_DWORD *)(g_pResourceMng + 3772));
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->BeginStateBlock();
     if ( a1 != 0 )
     {
       v4 = *(_DWORD *)(a1 + 4);
       do
       {
-        (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-          *(_DWORD *)(g_pResourceMng + 3772),
-          *(_DWORD *)a1,
-          v4,
-          *(_DWORD *)(a1 + 8));
+        (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(*(_DWORD *)a1, (D3DTEXTURESTAGESTATETYPE)(v4), *(_DWORD *)(a1 + 8));
         v4 = *(_DWORD *)(a1 + 16);
         a1 += 12;
       }
       while ( v4 != 0x7FFFFFFF );
     }
-    (*(void (__stdcall **)(_DWORD, void *))(**(_DWORD **)(g_pResourceMng + 3772) + 212))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      self_);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->EndStateBlock((void *)(self_));
     orig::Unit10069DD0_Insert(self_);
   }
-  return (*(int (__stdcall **)(_DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 216))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           *(_DWORD *)self_);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->ApplyStateBlock(*(_DWORD *)self_);
 }

@@ -9,6 +9,13 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_IsParamBelow90
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(param_1 < 0x901)));
 }
 
+// FUNCTION: FFXIMAIN 0x10086FD0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_10086FD0(int param_1)
+{
+  return orig::ActerBuff_FindByField78_10086FE0_v1(param_1);
+}
+
 // FUNCTION: FFXIMAIN 0x10086FE0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint64_t __cdecl ActerBuff_FindByField78(int param_1)
@@ -260,6 +267,23 @@ XI_API uint32_t __cdecl Unit10086E90_GetDwordIfIdMatch(void)
   return -(uint32_t)((char)uVar1 != '\0') & DAT_10482f34;
 }
 
+// FUNCTION: FFXIMAIN 0x10087630  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_10087630(void)
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::Unit10086E90_IsIdMatchGlobal();
+  return -(uint32_t)((char)uVar1 != '\0') & DAT_10482f38;
+}
+
+// FUNCTION: FFXIMAIN 0x10087650  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10087650(undefined4 xi_eax)
+{
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(XI_PIECE_S(DAT_104802b8, 2, 2) != 0)));
+}
+
 // FUNCTION: FFXIMAIN 0x10087660  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_GetMaskedFlagByte(undefined4 xi_eax)
@@ -322,6 +346,13 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_GetByte1048082
   
   uVar1 = orig::FUN_10087680(xi_eax);
   return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),-((char)uVar1 != '\0') & DAT_10480826);
+}
+
+// FUNCTION: FFXIMAIN 0x10087B20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10087B20(undefined4 xi_eax)
+{
+  return CONCAT31((int32_t)((uint32_t)xi_eax >> 8),DAT_10483158_as_s8 != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x10087D40  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -1963,6 +1994,13 @@ LAB_1008e0b3:
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_IsIdAbove6ff(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(0x6ff < *(uint16_t *)((int)self_ + 0x74))));
+}
+
+// FUNCTION: FFXIMAIN 0x1008E220  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1008E220(void * self_)
+{
+  return (&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x2a4)];
 }
 
 // FUNCTION: FFXIMAIN 0x1008E260  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3642,6 +3680,31 @@ XI_API void __cdecl Acter_UpdateActionState(void * param_1)
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x10096220  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10096220(int param_1, undefined4 param_2)
+{
+  uint32_t uVar1;
+  
+  if (-1 < (short)param_2) {
+    uVar1 = orig::FUN_10096250(param_1);
+    if ((int)(short)param_2 <= (int)uVar1) {
+      return *(int *)(param_1 + 4 + (short)param_2 * 4) + 4 + param_1;
+    }
+  }
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x10096250  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __cdecl fn_10096250(int param_1)
+{
+  if (param_1 == 0) {
+    return 0xffffffff;
+  }
+  return *(int *)(param_1 + 4) - 4U >> 2;
+}
+
 // FUNCTION: FFXIMAIN 0x10096270  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10086E90_NoneOfIdsInTable(void)
@@ -3665,6 +3728,73 @@ XI_API undefined4 __cdecl Unit10086E90_NoneOfIdsInTable(void)
     }
   }
   return uVar1 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x100962C0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100962C0(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10489908_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100962F0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100962F0(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e58_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10096350  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10096350(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e64_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10096380  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10096380(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e68_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100963B0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100963B0(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e70_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100963E0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100963E0(undefined4 param_1)
+{
+  if (0x10ff < (short)param_1) {
+    param_1 = 0;
+  }
+  orig::FUN_10096220(DAT_10487e7c_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10096410  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10096410(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e84_as_s32,param_1);
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x10096470  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_10096470(undefined4 param_1)
+{
+  orig::FUN_10096220(DAT_10487e80_as_s32,param_1);
+  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10096640  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4116,6 +4246,52 @@ XI_API undefined4 __thiscall Entity_GetIndexedPtr(void * self_)
   return (&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x2a2)];
 }
 
+// FUNCTION: FFXIMAIN 0x10097B40  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10097B40(void)
+{
+  int iVar1;
+  
+  iVar1 = orig::FUN_10097b50();
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 != 0)));
+}
+
+// FUNCTION: FFXIMAIN 0x10097B50  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API int __cdecl fn_10097B50(void)
+{
+  uint16_t uVar1;
+  uint16_t uVar2;
+  short *psVar3;
+  int iVar4;
+  int iVar5;
+  short *psVar6;
+  
+  if (((DAT_10485824 & 1) != 0) && (DAT_104dfd98 != 0)) {
+    uVar1 = *(uint16_t *)(DAT_104dfd98 + 0x40d7c);
+    iVar5 = 0;
+    psVar6 = &DAT_1035b680;
+    do {
+      iVar4 = 0;
+      psVar3 = psVar6;
+      do {
+        uVar2 = uVar1;
+        if (699 < uVar1) {
+          uVar2 = uVar1 - 0x1bc;
+        }
+        if ((uint32_t)uVar2 == (int)*psVar3) {
+          return iVar5 * 8 + 0x1035b630;
+        }
+        iVar4 = iVar4 + 1;
+        psVar3 = psVar3 + 1;
+      } while (iVar4 < 4);
+      psVar6 = psVar6 + 4;
+      iVar5 = iVar5 + 1;
+    } while ((int)psVar6 < 0x1035b6d0);
+  }
+  return 0;
+}
+
 // FUNCTION: FFXIMAIN 0x10097BC0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Unit10086E90_GetByte40DB4ByKind(void)
@@ -4241,6 +4417,16 @@ XI_API undefined4 __cdecl Acter_TestFlagTable(int param_1, uint32_t param_2)
   return (uint32_t)uVar1 << 8;
 }
 
+// FUNCTION: FFXIMAIN 0x10097E80  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10097E80(int param_1)
+{
+  uint32_t uVar1;
+  
+  uVar1 = orig::Acter_TestFlagTable(param_1 >> 5,1 << ((uint8_t)param_1 & 0x1f));
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10097FD0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API undefined4 __cdecl Net_BuildPacket61(undefined4 param_1, undefined4 param_2)
@@ -4258,6 +4444,65 @@ XI_API undefined4 __cdecl Net_BuildPacket61(undefined4 param_1, undefined4 param
     return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
   }
   return (uint32_t)(uint32_t)((uint64_t)uVar3 >> 8) << 8;
+}
+
+// FUNCTION: FFXIMAIN 0x10098080  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10098080(undefined4 param_1, undefined4 param_2)
+{
+  uint16_t *puVar1;
+  
+  puVar1 = orig::Unit100D7420_CheckTimer41B4_v1(0x112,0,0);
+  if (puVar1 != (uint16_t *)0x0) {
+    *(uint8_t *)(puVar1 + 2) = 0;
+    orig::Unit100D7420_SendRaw(puVar1,6,0);
+    DAT_10487e9c = param_1;
+    DAT_10487ea0 = param_2;
+    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  }
+  return 0;
+}
+
+// FUNCTION: FFXIMAIN 0x100980C0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100980C0(undefined4 param_1)
+{
+  uint16_t *puVar1;
+  uint32_t uVar2;
+  
+  uVar2 = DAT_10487e9c_as_v0;
+  if (DAT_10487e9c_as_v0 == 0) {
+    puVar1 = orig::Unit100D7420_CheckTimer41B4_v1(0x112,0,0);
+    uVar2 = 0;
+    if (puVar1 != (uint16_t *)0x0) {
+      *(uint8_t *)(puVar1 + 2) = 1;
+      orig::Unit100D7420_SendRaw(puVar1,6,0);
+      DAT_10487e9c_as_v0 = param_1;
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+    }
+  }
+  return uVar2 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x10098100  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10098100(undefined4 param_1)
+{
+  uint16_t *puVar1;
+  uint32_t uVar2;
+  
+  uVar2 = DAT_10487e9c_as_v0;
+  if (DAT_10487e9c_as_v0 == 0) {
+    puVar1 = orig::Unit100D7420_CheckTimer41B4_v1(0x112,0,0);
+    uVar2 = 0;
+    if (puVar1 != (uint16_t *)0x0) {
+      *(uint8_t *)(puVar1 + 2) = 2;
+      orig::Unit100D7420_SendRaw(puVar1,6,0);
+      DAT_10487ea0 = param_1;
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+    }
+  }
+  return uVar2 & 0xffffff00;
 }
 
 // FUNCTION: FFXIMAIN 0x10098180  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4478,6 +4723,24 @@ XI_API void __thiscall Acter_SendPositionPacket(void * self_)
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit10086E90_GetTable10485830IfBit2(undefined4 xi_eax)
 {
   return -(uint32_t)((DAT_10485824 & 4) != 0) & 0x10485830;
+}
+
+// FUNCTION: FFXIMAIN 0x10099680  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10099680(void)
+{
+  uint32_t uVar1;
+  uint32_t uVar3;
+  uint32_t uVar2;
+  
+  uVar1 = orig::FUN_100fd5b0();
+  uVar3 = (uint32_t)((uint32_t)uVar1 >> 8);
+  if ((char)uVar1 != '\0') {
+    uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(DAT_10485824_as_v0))) & 0xfffffff7;
+    DAT_10485824_as_v0 = (char)uVar2;
+    return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  }
+  return (uint32_t)uVar3 << 8;
 }
 
 // FUNCTION: FFXIMAIN 0x10099730  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4933,6 +5196,17 @@ XI_API undefined4 __thiscall Acter_IsByte123Mask7In234(void * self_)
   return ((uint32_t)(((uint32_t)(uVar4) << 8) | (uint8_t)(1)));
 }
 
+// FUNCTION: FFXIMAIN 0x1009AB20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1009AB20(void * self_)
+{
+  uint32_t xi_entry_eax = 0;
+  uint32_t uVar1;
+  
+  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x123)))) & 0xffffff07;
+  return CONCAT31((int32_t)(uVar1 >> 8),(char)uVar1 == '\x03');
+}
+
 // FUNCTION: FFXIMAIN 0x1009AD20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Acter_SetFieldsAt130And134(void * self_, uint32_t param_1, uint32_t param_2, uint32_t param_3)
@@ -4968,7 +5242,7 @@ XI_API void __thiscall Acter_SetFieldsAt134And138(void * self_, uint32_t param_1
   uVar1 = (param_4 << 8 ^ *(uint32_t *)((int)self_ + 0x138)) & 0xf00 ^ *(uint32_t *)((int)self_ + 0x138);
   *(uint32_t *)((int)self_ + 0x134) = (param_2 << 0x15 ^ uVar2) & 0x1e00000 ^ uVar2;
   *(uint32_t *)((int)self_ + 0x138) = (param_5 << 0xc ^ uVar1) & 0x3ff000 ^ uVar1;
-  uVar3 = orig::ActerBuff_FindByField78(param_6);
+  uVar3 = orig::ActerBuff_FindByField78_10086FE0(param_6);
   *(short *)((int)self_ + 0x2a6) = (short)uVar3;
   uVar1 = orig::Acter_GetPartnerIfKind(self_);
   if (uVar1 == 0) {
@@ -5164,6 +5438,51 @@ LAB_1009f77c:
   return;
 }
 
+// FUNCTION: FFXIMAIN 0x100A0010  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A0010(undefined4 xi_eax, undefined4 param_1)
+{
+  char cVar1;
+  short sVar2;
+  int iVar3;
+  int iVar4;
+  uint16_t uVar5;
+  
+  uVar5 = (uint16_t)((uint32_t)xi_eax >> 0x10);
+  iVar4 = ((uint32_t)(((uint32_t)(uint16_t)(uVar5) << 16) | (uint16_t)((short)param_1)));
+  iVar3 = (&ActerBuffPtr_as_v0)[(short)param_1];
+  if ((((iVar3 == 0) || ((*(uint32_t *)(iVar3 + 0x120) >> 9 & 1) == 0)) ||
+      ((*(uint32_t *)(iVar3 + 0x78) & 0xff000000) != 0x1000000)) ||
+     ((((cVar1 = *(char *)(iVar3 + 0xee), cVar1 != '\x01' && (cVar1 != '\x02')) && (cVar1 != '\a'))
+      || (((sVar2 = *(short *)(iVar3 + 0xfc), sVar2 != 0x52 && (sVar2 != 0x3d5)) &&
+          ((sVar2 != 0x58a && (sVar2 != 0x939)))))))) {
+    iVar4 = (uint32_t)uVar5 << 0x10;
+  }
+  return iVar4;
+}
+
+// FUNCTION: FFXIMAIN 0x100A0080  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100A0080(void)
+{
+  uint32_t xi_eax;
+  int iVar1;
+  
+  xi_eax = orig::FUN_100fc300();
+  if (((short)xi_eax != 0) && (xi_eax = orig::FUN_100a0010(xi_eax,xi_eax), (short)xi_eax != 0)) {
+    return xi_eax;
+  }
+  iVar1 = 0;
+  do {
+    xi_eax = orig::FUN_100a0010(iVar1,xi_eax);
+    if ((short)xi_eax != 0) {
+      return xi_eax;
+    }
+    iVar1 = iVar1 + 1;
+  } while (iVar1 < 0x900);
+  return xi_eax;
+}
+
 // FUNCTION: FFXIMAIN 0x100A1770  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API uint8_t * __cdecl Unit10086E90_FindStringById(int param_1)
@@ -5190,6 +5509,22 @@ XI_API uint8_t * __cdecl Unit10086E90_FindStringById(int param_1)
     return (uint8_t *)(iVar1 + 0x214);
   }
   return (uint8_t *)(iVar1 + 0x7c);
+}
+
+// FUNCTION: FFXIMAIN 0x100A17F0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100A17F0(undefined4 param_1)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  
+  uVar1 = orig::FUN_100a0080();
+  uVar2 = 0;
+  if ((short)uVar1 != 0) {
+    uVar2 = *(uint32_t *)((&ActerBuffPtr_as_v0)[(short)uVar1] + 0x120) & 0xffff7fff;
+    *(uint32_t *)((&ActerBuffPtr_as_v0)[(short)uVar1] + 0x120) = (param_1 & 1) << 0xf ^ uVar2;
+  }
+  return uVar2;
 }
 
 // FUNCTION: FFXIMAIN 0x100A19B0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -5299,4 +5634,25 @@ XI_API uint8_t * __cdecl ActerBuff_GetStringByIdLookup(int param_1)
     return (uint8_t *)(iVar2 + 0x214);
   }
   return (uint8_t *)(iVar2 + 0x7c);
+}
+
+// FUNCTION: FFXIMAIN 0x100A2790  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void * __thiscall fn_100A2790(void * self_, undefined4 param_1)
+{
+  orig::CMoTask_Constructor_v2(self_);
+  *(uint32_t *)((int)self_ + 0x38) = 2;
+  *(uint8_t *)((int)self_ + 0x40) = 2;
+  *(uint8_t ***)self_ = &PTR_CMoTask_GetRuntimeClass_variant12_1032d6d4;
+  *(uint32_t *)((int)self_ + 0x34) = 0;
+  *(uint32_t *)((int)self_ + 0x3c) = 0x1c2;
+  *(uint32_t *)((int)self_ + 0x44) = 3;
+  *(uint32_t *)((int)self_ + 0x4c) = 0;
+  *(uint32_t *)((int)self_ + 0x50) = 0;
+  *(uint32_t *)((int)self_ + 0x54) = 0;
+  *(uint32_t *)((int)self_ + 0x48) = param_1;
+  if (DAT_10487f08 == (void *)0x0) {
+    DAT_10487f08 = self_;
+  }
+  return self_;
 }

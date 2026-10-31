@@ -40,7 +40,21 @@ typedef short XI_PS2;
 typedef int XI_PS4;
 typedef __int64 XI_PS8;
 void *memcpy(void *, const void *, size_t);
+void *memset(void *, int, size_t);
+char *strcpy(char *, const char *);
+int memcmp(const void *, const void *, size_t);
+char *strcat(char *, const char *);
+int strcmp(const char *, const char *);
+size_t strlen(const char *);
+int _isnan(double);
+typedef signed char sbyte;
+typedef __int64 longlong;
+typedef unsigned __int64 ulonglong;
+typedef unsigned __int64 qword;
+typedef unsigned char xi_bool;
+typedef unsigned __int64 _QWORD;
 DWORD timeGetTime(void);
+typedef unsigned int XI_ANY;
 // FUNCTION: FFXIMAIN 0x100272B0
 void Vec3_ScaleInPlace(float *param_1, float param_2)
 {

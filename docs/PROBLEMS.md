@@ -178,11 +178,16 @@ with the fixes, current facts, verification/gate_raw_frameset23.jsonl):
   and the prototype is not variadic. The extra parameters are `unsigned int`, their meaning unknown. The step
   has not been run in IDA yet.
 
-### P1. The live-dump gates were not run on the current tree (22 Oct; re-read 27 Oct, open)
+### P1. The live-dump gates were not run on the current tree (22 Oct; 27 Oct: run for the functions not PASS on fuzz; partly open)
 - **Known:** `verification/live/gate_clean_*.jsonl` (combat, town, town2, zonetoinn) were run on the 4 Oct tree
   (a43e697, the last commit to touch them). Some functions' code has changed since under the same symbol
   (0x10038E10 now comes from the frame-set export). `verification/gate_clean_final.jsonl` holds fuzz verdicts
   only (4,463 functions on 27 Oct).
+- **27 Oct, late:** the four dumps' states rebuilt with live_state.py and the 16 tree r14 functions not PASS on fuzz
+  gated on each (verification/gate_clean_live14_*.jsonl), combined by combine_gates.py: 0x10003890, 0x100E08D0 and
+  0x10010D20 PASS (the first two on 3 and 2 returning trials per dump; docs/HISTORY.md 27 Oct late). **Still open:**
+  the other 4,881 verdicts are fuzz-only; a full live gate of the tree, or the owner's decision that fuzz is enough
+  for the kit.
 - **27 Oct, what changed:**
   - The dumps are in this environment after all: `/root/ffxi_dumps/dumps/*.dmp` (dated 3 Oct, outside the
     repository), with the 4 Oct live states `/root/ffxi_dumps/out/live_*.json`. dump_verify.json records the combat

@@ -40,13 +40,26 @@ typedef short XI_PS2;
 typedef int XI_PS4;
 typedef __int64 XI_PS8;
 void *memcpy(void *, const void *, size_t);
+void *memset(void *, int, size_t);
+char *strcpy(char *, const char *);
+int memcmp(const void *, const void *, size_t);
+char *strcat(char *, const char *);
+int strcmp(const char *, const char *);
+size_t strlen(const char *);
+int _isnan(double);
+typedef signed char sbyte;
+typedef __int64 longlong;
+typedef unsigned __int64 ulonglong;
+typedef unsigned __int64 qword;
+typedef unsigned char xi_bool;
+typedef unsigned __int64 _QWORD;
 DWORD timeGetTime(void);
+typedef unsigned int XI_ANY;
 // FUNCTION: FFXIMAIN 0x10036050
 void Unit10035B00_SetScaled10351704(float param_1)
 {
-  long double new_var;
-  float new_var2;
-  new_var = (long double) (*((float *) 0x103516F8u));
-  *((float *) 0x10351704u) = (float) ((((long double) (new_var2 = *((float *) 0x103516FCu))) * new_var) * ((long double) param_1));
+  float *new_var;
+  new_var = &(*((float *) 0x103516F8u));
+  *((float *) 0x10351704u) = (float) ((((long double) (*((float *) 0x103516FCu))) * ((long double) (*new_var))) * ((long double) param_1));
   return;
 }

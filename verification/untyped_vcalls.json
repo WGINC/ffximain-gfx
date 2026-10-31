@@ -1,0 +1,268 @@
+{
+ "0x10002040": {
+  "stdcall": 3
+ },
+ "0x10002130": {
+  "stdcall": 3
+ },
+ "0x10003040": {
+  "thiscall": 1
+ },
+ "0x100031F0": {
+  "stdcall": 3
+ },
+ "0x100033C0": {
+  "stdcall": 1
+ },
+ "0x100034B0": {
+  "stdcall": 3
+ },
+ "0x10003890": {
+  "thiscall": 2
+ },
+ "0x10007EF0": {
+  "stdcall": 7
+ },
+ "0x100096B0": {
+  "stdcall": 1
+ },
+ "0x10009710": {
+  "stdcall": 1
+ },
+ "0x10009730": {
+  "stdcall": 1
+ },
+ "0x10009740": {
+  "stdcall": 1
+ },
+ "0x10009F20": {
+  "stdcall": 3
+ },
+ "0x1000A1D0": {
+  "stdcall": 1
+ },
+ "0x1000A3B0": {
+  "stdcall": 1
+ },
+ "0x1000A5A0": {
+  "stdcall": 1
+ },
+ "0x1000A6E0": {
+  "stdcall": 6
+ },
+ "0x1000BD50": {
+  "stdcall": 1
+ },
+ "0x1000C0B0": {
+  "stdcall": 4
+ },
+ "0x1000C7C0": {
+  "stdcall": 6
+ },
+ "0x1000C850": {
+  "stdcall": 2
+ },
+ "0x1000CF90": {
+  "stdcall": 1
+ },
+ "0x10011A00": {
+  "other": 1,
+  "thiscall": 3
+ },
+ "0x100161B0": {
+  "stdcall": 2
+ },
+ "0x10016320": {
+  "thiscall": 2
+ },
+ "0x100177A0": {
+  "stdcall": 1
+ },
+ "0x10017810": {
+  "stdcall": 1
+ },
+ "0x10017C60": {
+  "stdcall": 3
+ },
+ "0x10025260": {
+  "stdcall": 2
+ },
+ "0x10029A50": {
+  "stdcall": 1
+ },
+ "0x1002A3B0": {
+  "thiscall": 3
+ },
+ "0x1002D700": {
+  "stdcall": 1
+ },
+ "0x1002DC10": {
+  "stdcall": 10
+ },
+ "0x10033710": {
+  "stdcall": 2
+ },
+ "0x10038930": {
+  "stdcall": 1
+ },
+ "0x10039E50": {
+  "other": 1,
+  "stdcall": 12
+ },
+ "0x1003B210": {
+  "thiscall": 1
+ },
+ "0x1003BE10": {
+  "thiscall": 9
+ },
+ "0x10042020": {
+  "thiscall": 3
+ },
+ "0x100426F0": {
+  "thiscall": 1
+ },
+ "0x10043F40": {
+  "stdcall": 1
+ },
+ "0x100467E0": {
+  "stdcall": 6,
+  "thiscall": 7
+ },
+ "0x1004A870": {
+  "thiscall": 1
+ },
+ "0x1004E630": {
+  "thiscall": 1
+ },
+ "0x10054D70": {
+  "stdcall": 1,
+  "thiscall": 1
+ },
+ "0x10063C80": {
+  "thiscall": 3
+ },
+ "0x1006AA30": {
+  "stdcall": 4
+ },
+ "0x1006C8B0": {
+  "stdcall": 4
+ },
+ "0x1006C9B0": {
+  "stdcall": 4
+ },
+ "0x1006CC40": {
+  "thiscall": 1
+ },
+ "0x1006CC50": {
+  "thiscall": 1
+ },
+ "0x1006CC60": {
+  "thiscall": 1
+ },
+ "0x1006CC70": {
+  "thiscall": 1
+ },
+ "0x1006CC80": {
+  "thiscall": 1
+ },
+ "0x1006CC90": {
+  "thiscall": 1
+ },
+ "0x1006E6B0": {
+  "thiscall": 2
+ },
+ "0x10075280": {
+  "stdcall": 5
+ },
+ "0x100755A0": {
+  "thiscall": 1
+ },
+ "0x100817F0": {
+  "thiscall": 1
+ },
+ "0x100C5C00": {
+  "thiscall": 1
+ },
+ "0x100C5D60": {
+  "thiscall": 11
+ },
+ "0x100CB4E0": {
+  "thiscall": 5
+ },
+ "0x100CBDE0": {
+  "thiscall": 42
+ },
+ "0x100CE480": {
+  "thiscall": 3
+ },
+ "0x100CE9B0": {
+  "thiscall": 1
+ },
+ "0x100CEB00": {
+  "thiscall": 1
+ },
+ "0x100CEC90": {
+  "thiscall": 1
+ },
+ "0x100CEE00": {
+  "thiscall": 1
+ },
+ "0x100CF030": {
+  "thiscall": 1
+ },
+ "0x100D04C0": {
+  "thiscall": 2
+ },
+ "0x100D06F0": {
+  "stdcall": 1,
+  "thiscall": 2
+ },
+ "0x100D62C0": {
+  "thiscall": 1
+ },
+ "0x1016FCD0": {
+  "stdcall": 10
+ },
+ "0x101771B0": {
+  "stdcall": 2
+ },
+ "0x10177240": {
+  "stdcall": 2
+ },
+ "0x101772E0": {
+  "stdcall": 2
+ },
+ "0x1021D4C0": {
+  "stdcall": 1
+ },
+ "0x1021E060": {
+  "stdcall": 1
+ },
+ "0x10251A80": {
+  "stdcall": 1
+ },
+ "0x1028AA70": {
+  "stdcall": 1
+ },
+ "0x1028AB50": {
+  "stdcall": 11
+ },
+ "0x1028AFE0": {
+  "stdcall": 15
+ },
+ "0x102981E0": {
+  "stdcall": 1
+ },
+ "0x1029B620": {
+  "stdcall": 4
+ },
+ "0x102A21F0": {
+  "other": 1
+ },
+ "_counts": {
+  "other": 3,
+  "stdcall": 163,
+  "thiscall": 120
+ },
+ "_doc": "Virtual calls the tree (tree/src) still writes through a cast slot `(__cc **)`, after holder_calls.py typed the Direct3D calls through proven holders (#124). why: thiscall = a game class's virtual call (data/vcalls.json has no exact target for any); stdcall = a COM-style call whose object no proof covers (data/com_fields.json); the call text is kept, the type not guessed."
+}

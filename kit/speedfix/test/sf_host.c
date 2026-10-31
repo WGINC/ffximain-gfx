@@ -24,6 +24,18 @@ static void rec(int slot, uint32_t a0, uint32_t a1, uint32_t a2, uint32_t a3, co
   c->nbytes = n > 256 ? 256 : n; if (data && n > 0) memcpy(c->bytes, data, c->nbytes);
 }
 static DWORD g_rs[256];
+/* index buffers (skin_merge=2 joins a model's index ranges into one it creates): Lock, Unlock, GetDesc */
+typedef struct { void **vt; DWORD fmt, usage, pool, size; uint16_t ix[512]; LONG refs; } FIb;
+static void *g_ivt[14]; static FIb g_ib1, *g_made[64]; static int g_nmade;
+static ULONG __stdcall i_addref(FIb *b) { return ++b->refs; }
+static ULONG __stdcall i_release(FIb *b) { return --b->refs; }
+static HRESULT __stdcall i_lock(FIb *b, UINT off, UINT n, BYTE **p, DWORD f) { *p = (BYTE *)b->ix + off; return 0; }
+static HRESULT __stdcall i_unlock(FIb *b) { return 0; }
+static HRESULT __stdcall i_getdesc(FIb *b, DWORD *d) { d[0] = b->fmt; d[1] = 7; d[2] = b->usage; d[3] = b->pool; d[4] = b->size; return 0; }
+static HRESULT __stdcall d_createib(void *d, UINT len, DWORD us, DWORD fmt, DWORD pool, FIb **o) {
+  FIb *b = (FIb *)calloc(1, sizeof *b); b->vt = g_ivt; b->fmt = fmt; b->usage = us; b->pool = pool; b->size = len; b->refs = 1;
+  if (g_nmade < 64) g_made[g_nmade++] = b; rec(24, len, us, fmt, pool, 0, 0); *o = b; return 0; }
+static HRESULT __stdcall d_setindices(void *d, void *ib, UINT base) { rec(85, (uint32_t)(uintptr_t)ib, base, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_present(void *d, const RECT *a, const RECT *b, HWND w, const void *r) { rec(15, 0, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_caps(void *d, void *caps) { return 0x8876086C; }       /* D3DERR_INVALIDCALL: speedfix keeps 65535 */
 static HRESULT __stdcall d_begin(void *d) { rec(34, 0, 0, 0, 0, 0, 0); return 0; }
@@ -38,7 +50,7 @@ static HRESULT __stdcall d_dpup(void *d, DWORD t, UINT n, const void *data, UINT
   rec(72, t, n, stride, 0, data, v * (int)stride); return 0;
 }
 static HRESULT __stdcall d_dp(void *d, DWORD t, UINT start, UINT n) { rec(70, t, start, n, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_dip(void *d, DWORD t, UINT mi, UINT nv, UINT si, UINT n) { rec(71, t, mi, nv, n, 0, 0); return 0; }
+static HRESULT __stdcall d_dip(void *d, DWORD t, UINT mi, UINT nv, UINT si, UINT n) { rec(71, t, mi, nv, n, &si, 4); return 0; }
 static HRESULT __stdcall d_dipup(void *d, DWORD t, UINT mi, UINT nv, UINT n, const void *ix, DWORD f, const void *v, UINT st) {
   rec(73, t, nv, n, st, 0, 0); return 0; }
 static HRESULT __stdcall d_clear(void *d, DWORD n, const void *r, DWORD f, DWORD c, float z, DWORD s) { rec(36, n, f, c, 0, 0, 0); return 0; }
@@ -109,6 +121,8 @@ static void dp(UINT n) { DEV(70, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT
 static void dip(UINT n) { DEV(71, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, UINT))(&g_dev, 4, 0, 3, 0, n); }
 static void dipup(const void *ix, const void *v) {
   DEV(73, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, const void *, DWORD, const void *, UINT))(&g_dev, 4, 0, 3, 1, ix, 101 /* D3DFMT_INDEX16 */, v, 16); }
+static void dipr(UINT mi, UINT nv, UINT si, UINT n) { DEV(71, HRESULT (__stdcall *)(void *, DWORD, UINT, UINT, UINT, UINT))(&g_dev, 4, mi, nv, si, n); }
+static void setindices(void *ib) { DEV(85, HRESULT (__stdcall *)(void *, void *, UINT))(&g_dev, ib, 0); }
 static void beginsb(void) { DEV(52, HRESULT (__stdcall *)(void *))(&g_dev); }
 static DWORD endsb(void) { DWORD t = 0; DEV(53, HRESULT (__stdcall *)(void *, DWORD *))(&g_dev, &t); return t; }
 static void applysb(DWORD t) { DEV(54, HRESULT (__stdcall *)(void *, DWORD))(&g_dev, t); }
@@ -329,10 +343,64 @@ static int step_test(void) {
   return fails ? 1 : 0;
 }
 
+/* skin_merge=2: inside sf_group_begin / sf_group_end (as speedfix's hook of SkinAndDrawV2 calls them) a model's
+   opaque triangle-list draws under the same state go out as one draw of a joined index list; the rest keep the order */
+static int group_test(void) {
+  HMODULE sf = GetModuleHandleA("speedfix.dll");
+  void (*gb)(void) = (void (*)(void))GetProcAddress(sf, "sf_group_begin"), (*ge)(void) = (void (*)(void))GetProcAddress(sf, "sf_group_end");
+  check(gb && ge, "skin_merge=2: sf_group_begin and sf_group_end found");
+  if (!gb || !ge) { printf("FAILED (%d)\n", fails); return 1; }
+  check(jumps_into(0x1002DC10u, sf), "skin_merge=2 at the start: SkinAndDrawV2's entry jumps into speedfix.dll");
+  g_ib1.vt = g_ivt; g_ib1.fmt = 101; g_ib1.pool = 1; g_ib1.size = sizeof g_ib1.ix; g_ib1.refs = 1;
+  for (int i = 0; i < 512; i++) g_ib1.ix[i] = (uint16_t)(i % 40);
+  begin(); setrs(27, 0);                           /* ALPHABLENDENABLE off, known before the model */
+  LONG from = g_n;
+  gb();
+  setindices(&g_ib1);
+  settex(0, &g_tex1); dipr(0, 10, 0, 2);           /* A: indices 0..5 */
+  settex(0, &g_tex2); dipr(10, 10, 6, 2);          /* B: 6..11 */
+  settex(0, &g_tex1); dipr(20, 10, 12, 1);         /* A: 12..14 */
+  settex(0, &g_tex2); dipr(30, 10, 18, 1);         /* B: 18..20 */
+  check(count(71, from) == 0, "... nothing drawn while the model's calls are held");
+  ge();
+  check(count(71, from) == 2, "... four draws under two textures: two draws");
+  Call *d1 = NULL, *d2 = NULL; for (LONG i = from; i < g_n; i++) if (g_log[i].slot == 71) { if (!d1) d1 = &g_log[i]; else d2 = &g_log[i]; }
+  check(d1 && d2 && d1->a[3] == 3 && d2->a[3] == 3 && d1->a[1] == 0 && d1->a[2] == 30 && d2->a[1] == 10 && d2->a[2] == 30,
+        "... each of 3 triangles, over the union of the vertex ranges");
+  check(g_nmade == 2 && g_made[0]->pool == 1 && g_made[0]->size == 18 && g_made[0]->ix[6] == 12 % 40 && g_made[0]->ix[8] == 14 % 40
+        && g_made[1]->ix[0] == 6 && g_made[1]->ix[6] == 18, "... from two index lists made of the draws' ranges (managed pool)");
+  { int texA = 0; LONG d1i = (LONG)(d1 - g_log); for (LONG i = from; i < d1i; i++) if (g_log[i].slot == 61) texA = g_log[i].a[1] == (uint32_t)(uintptr_t)&g_tex1; check(texA, "... the first draw under texture A (its first draw came first)"); }
+  Call *si = last(85), *tx = last(61);
+  check(si && si->a[0] == (uint32_t)(uintptr_t)&g_ib1 && tx && tx->a[1] == (uint32_t)(uintptr_t)&g_tex2, "... and the device left with the game's index buffer and last texture");
+  /* the same model again: the joined lists are reused, not made again */
+  from = g_n; gb(); setindices(&g_ib1);
+  settex(0, &g_tex1); dipr(0, 10, 0, 2); settex(0, &g_tex2); dipr(10, 10, 6, 2); settex(0, &g_tex1); dipr(20, 10, 12, 1); settex(0, &g_tex2); dipr(30, 10, 18, 1);
+  ge();
+  check(count(71, from) == 2 && g_nmade == 2, "... the same model again: two draws, the joined lists reused");
+  /* a blended draw keeps its place: the opaque draws before it go out first, those after it after */
+  from = g_n; gb(); setindices(&g_ib1);
+  settex(0, &g_tex1); dipr(0, 10, 0, 2); setrs(27, 1); dipr(10, 10, 6, 2); setrs(27, 0); dipr(20, 10, 12, 1);
+  ge();
+  { int k = 0; UINT st[3] = {0}; for (LONG i = from; i < g_n; i++) if (g_log[i].slot == 71 && k < 3) st[k++] = *(UINT *)g_log[i].bytes;
+    check(count(71, from) == 3 && st[0] == 0 && st[1] == 6 && st[2] == 12, "... a blended draw between two opaque ones: three draws in the game's order"); }
+  check(last(50)->a[0] == 27 && last(50)->a[1] == 0, "... and alpha blending left off, as the game left it");
+  /* another device call in the model: what was held goes out first, in the game's order */
+  from = g_n; gb(); setindices(&g_ib1);
+  settex(0, &g_tex1); dipr(0, 10, 0, 2); settex(0, &g_tex2); dipr(10, 10, 6, 2); dp(1); settex(0, &g_tex1); dipr(20, 10, 12, 1);
+  ge();
+  { LONG p = -1; for (LONG i = from; i < g_n; i++) if (g_log[i].slot == 70) p = i;
+    check(p >= 0 && count(71, from) == 3 && count(71, p) == 1, "... a DrawPrimitive in the model: the two draws before it go out before it, as made"); }
+  end(); present();
+  Sleep(1100); frames(2);                          /* stats_every=1: logged after a second */
+  check(log_has("skin_merge=2: "), "... the grouping counted in the log");
+  printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
+  return fails ? 1 : 0;
+}
+
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
-  int pacing = argc > 1 && !strcmp(argv[1], "pacing"), step = argc > 1 && !strcmp(argv[1], "step");
+  int pacing = argc > 1 && !strcmp(argv[1], "pacing"), step = argc > 1 && !strcmp(argv[1], "step"), group = argc > 1 && !strcmp(argv[1], "group");
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
@@ -353,6 +421,9 @@ int main(int argc, char **argv) {
   g_vt[56] = (void *)d_deletesb; g_vt[57] = (void *)d_createsb;
   g_vt[70] = (void *)d_dp; g_vt[71] = (void *)d_dip; g_vt[73] = (void *)d_dipup; g_vt[72] = (void *)d_dpup; g_vt[76] = (void *)d_setvs; g_vt[75] = (void *)d_createvs; g_vt[78] = (void *)d_deletevs;
   for (int k = 0; k < 16; k++) g_tvt[k] = (void *)d_other;
+  g_vt[24] = (void *)d_createib; g_vt[85] = (void *)d_setindices;
+  for (int k = 0; k < 14; k++) g_ivt[k] = (void *)d_other;
+  g_ivt[1] = (void *)i_addref; g_ivt[2] = (void *)i_release; g_ivt[11] = (void *)i_lock; g_ivt[12] = (void *)i_unlock; g_ivt[13] = (void *)i_getdesc;
   g_tvt[10] = (void *)t_gettype; g_tvt[1] = (void *)t_addref; g_tvt[2] = (void *)t_release;
   g_rs[8] = 3; g_rs[9] = 2;                        /* the device's defaults: FILL_SOLID, SHADE_GOURAUD */
   *(void **)(g_cdx + 0xC) = &g_dev;
@@ -381,6 +452,7 @@ int main(int argc, char **argv) {
   else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
   else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
   else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\n");
+  else if (group) touch("speedfix.ini", "[speedfix]\nskin_merge=2\nstats_every=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */
@@ -396,11 +468,13 @@ int main(int argc, char **argv) {
     void *to = e[0] == 0xE9 ? e + 5 + *(int32_t *)(e + 1) : NULL;
     if (to) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)to, &m);
     int forked = m && m == GetModuleHandleA("speedfix.dll");
-    if (!minimal && !lazy && !blocks && !pacing && !step) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
+    if (group) {}
+    else if (!minimal && !lazy && !blocks && !pacing && !step) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
     else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
   }
   if (pacing) { frames(1); return pacing_test(); }
   if (step) { frames(1); return step_test(); }
+  if (group) { frames(1); return group_test(); }
   if (minimal) {
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);

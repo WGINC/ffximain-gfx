@@ -44,8 +44,9 @@
   "0x10076030": {
     "name": "CMoTask_DrawQuadStates",
     "confidence": "low",
-    "evidence": "fills a 0x5D4-byte frame with 1.0f and -2.14e38 constants, sets nine render states and fifteen texture stage states on the device, then calls CDx_DrawPrimitiveUP twice",
-    "summary": "Draws a textured quad with a fixed render state setup."
+    "evidence": "fills its frame (sub esp, 0x64; the 0x5D4 was the decompiler's frame block) with 1.0f and -2.14e38 constants, sets nine render states and sixteen texture stage states on the device, then calls CDx_DrawPrimitiveUP twice",
+    "summary": "Draws a textured quad with a fixed render state setup.",
+    "audit": "28 Oct (#126): counts checked against the game's code: 9 SetRenderState, 16 SetTextureStageState, CDx_DrawPrimitiveUP (0x1000CD00) twice, frame 0x64; confidence stays low"
   },
   "0x10076520": {
     "name": "CMoTask_DrawQuadDynVB",

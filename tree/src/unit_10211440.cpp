@@ -800,6 +800,33 @@ LAB_1021c9ee:
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar7 >> 8)) << 8) | (uint8_t)(1)));
 }
 
+// FUNCTION: FFXIMAIN 0x1021CB80  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1021CB80(void * self_, uint32_t param_1)
+{
+  int iVar1;
+  short *psVar2;
+  
+  if (DAT_104dfd98 == 0) {
+    return 0;
+  }
+  iVar1 = *(int *)((int)self_ + 0xc) * 0x51 + (param_1 & 0xff);
+  psVar2 = orig::Unit100D7420_GetSlotPtr
+                     (*(int *)self_,
+                      ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + iVar1 * 8 + 0x80a)))));
+  return psVar2;
+}
+
+// FUNCTION: FFXIMAIN 0x1021CCB0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_1021CCB0(void * self_)
+{
+  if (DAT_104dfd98 == 0) {
+    return 1;
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 0x14) != *(int *)(DAT_104dfd98 + 0x198c8))));
+}
+
 // FUNCTION: FFXIMAIN 0x1021D250  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void * __thiscall Unit10211440_ResetEntryCtor(void * self_)

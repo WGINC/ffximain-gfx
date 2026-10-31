@@ -48,3 +48,14 @@ undefined4 __cdecl CAtelIdleTask::Create()
   DAT_1045690c_as_v1 = (undefined4 *)0x0;
   return uVar1 & 0xffffff00;
 }
+
+// FUNCTION: FFXIMAIN 0x10014330  (unit CAtelIdleTask: class model places it in CAtelIdleTask)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void * __thiscall fn_10014330(void * self_, undefined4 param_1)
+{
+  orig::CMoTask_Destructor_v1(self_);
+  if ((param_1 & 1) != 0) {
+    orig::SharedDeleteHelper_v1(self_);
+  }
+  return self_;
+}

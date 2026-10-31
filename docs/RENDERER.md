@@ -235,7 +235,7 @@ step needs speedfix's `frame_step` (3a).
 - **The CMoDX device users.** Before the 4 Oct export, 99 functions outside it used the device (93 through the
   CMoDX object at 0x1047BFA8, whose +0xEBC is the device, proven in com_fields.json). The 4 Oct export (867
   functions) includes them; data/gfx_device_users.json now finds none outside it. Some are not in the verified
-  tree: the occlusion readback (0x1006C8B0) is UNRESOLVED at one call (docs/RESIDUE.md, docs/GAPS.md).
+  tree: the occlusion readback (0x1006C8B0) is UNRESOLVED at one call (docs/GAPS.md).
 - **The 3D world path.** The world update/draw functions called from the state machine (section 2) are
   outside the export.
 - **The x87 comparison artifacts.** The `__builtin_isunordered` chains in the tree (Frame_Render's pacing
@@ -384,3 +384,23 @@ window. Both captures show 3,220, so those calls were made once, early, and not 
 
 **Not measured:** time inside the calls. The 38 fps here against 46 fps in the first capture goes with
 18 times the primitives (445,652 against 23,977), but which calls cost the time needs timing, not counts.
+
+## 9. Where the world pass ends (28 Oct 2026)
+
+ffxi_world_draw (docs/COMMUNITY.md) draws its geometry at the end of the game's world pass, and finds that end in
+the game's own state. What our checks show, and what is that source's statement:
+
+- **Checked here.** CDx (`g_pCDx`, 0x1045666C) keeps a render-target stack: entries indexed by the one-byte depth
+  at +0x158 (`renderTargetDepth`), the world's target at +0x194 (`sceneTargetA`), the device at +0x0C. The push
+  (CDx::PushRenderTargetTexture, 0x10009F20) and the pop's worker (0x1000A2B0, from PopRenderTargetA 0x1000A200)
+  both store the new depth to +0x158 (0x10009F3B, 0x1000A2BC) before their first call through vtable slot +0x7C,
+  SetRenderTarget's (0x10009F57, 0x1000A2F6). Which object those calls go through is not traced here.
+- **The source's statement.** A pop that lowers the depth while +0x194 is still the bound target is the end of the
+  world pass; at that moment the target, its depth buffer and viewport are the world's. The camera to draw with is
+  the game's camera object (`g_pCamera`, 0x104568FC: view at +0x94, projection at +0x154, both accessed by the
+  functions that load it), not the device's transforms: the model pass draws with the view set to identity, and
+  the game restores its view from that object after each borrower.
+
+For the goals: this is a boundary in the game's own state between the world and what follows (UI), for the
+whole-frame differential (#131), work inserted into the world pass on the D3D11 path (#143, #144), and the UI pass
+(#140, #145). Before it is used as a fact, the end-of-pass rule is to be measured (a capture that marks the pop).

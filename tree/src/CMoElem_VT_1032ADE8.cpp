@@ -44,10 +44,7 @@ void CMoElem_VT_1032ADE8::vf18()
       *(float *)&a4[1] = (double)v8 * v7 * 0x1.3333340000000p-9;
       if ( (g_scratchValue & 0xFFFFFF) == 0x808080 )
         v6 = (unsigned int)at<int *>(this, 0x194) | g_scratchValue & 0xFF000000;
-      (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-        *(_DWORD *)(g_pResourceMng + 3772),
-        60,
-        g_scratchValue);
+      (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, g_scratchValue);
       orig::Font_DrawProjectedText3D((int)a1, (int)(self + 102), v6, (int)a4, 1036831949);
     }
   }

@@ -148,3 +148,29 @@ XI_API uint64_t __cdecl AfterimageTask_Kill(undefined4 param_1, undefined4 param
   }
   return uVar2;
 }
+
+// FUNCTION: FFXIMAIN 0x10062ED0  (unit unit_1005FFD0_AfterimageTask: no unit evidence of its own; in the gap between 0x1005FE30 (CMoActorRotationDriveTask) and 0x10062F50 (CMoAttachments_VT_1032BCCC) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_10062ED0(undefined4 * param_1, undefined4 param_2, int param_3, int param_4)
+{
+  int *piVar1;
+  undefined4 uVar2;
+  char xi_frame[4] __attribute__((aligned(4)));
+  undefined4  &local_4 = *reinterpret_cast<undefined4  *>(xi_frame + 0);
+  
+  piVar1 = (int *)orig::ResourceIter_FindOrStartTask_v1(&local_4,(int)param_1,1);
+  param_1 = (undefined4 *)*piVar1;
+  if (param_1 != (undefined4 *)0x0) {
+    uVar2 = orig::ResourceHandle_IsResident_v1(&param_1);
+    if ((char)uVar2 == '\0') {
+      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    }
+    piVar1 = (int *)orig::CMoResource_FindByTypeAndId_v2((void *)*param_1,&param_2,7,param_2);
+    param_1 = (undefined4 *)*piVar1;
+    if (param_1 != (undefined4 *)0x0) {
+      uVar2 = orig::FUN_10057010((void *)*param_1,param_3,param_4);
+      return uVar2;
+    }
+  }
+  return 0;
+}

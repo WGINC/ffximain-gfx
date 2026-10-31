@@ -51,26 +51,11 @@ XI_API int __thiscall YmElem_SetD3ADrawState(int self_)
     orig::StateBlock_ApplyTSS(Fn1003E9A0_stateBlock2, (int)Fn1003E9A0_textureStageStates2);
     v2 = 1;
   }
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    60,
-    g_scratchValue);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    137,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    28,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    48,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    14,
-    0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, g_scratchValue);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_LIGHTING, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
   if ( *(_BYTE *)(self_ + 364) == 64 )
   {
     if ( (Fn1003E9A0_staticGuards & 4) == 0 )

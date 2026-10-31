@@ -16,6 +16,7 @@ has none, and the reverse, and the length difference.
 import collections, json, os, re, sys
 P = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, P)
 import match as M
+from sweep import SHIM_HELPER
 import capstone, pefile
 
 
@@ -48,6 +49,8 @@ def main():
         e = ext.get(k) or ext.get(k.lower()) or ext.get('0x%08x' % ea)
         if not obj or not e or len(e) != 1: rows[k] = {'class': 'UNREAD'}; cls['UNREAD'] += 1; continue
         funcs, _ = M.coff(obj[0])
+        funcs = {k_: v_ for k_, v_ in funcs.items() if not SHIM_HELPER.match(k_)}   # the shim's helpers beside it (sweep.py)
+        if len(funcs) != 1: rows[k] = {'class': 'UNREAD'}; cls['UNREAD'] += 1; continue
         (_, (code, rels)), = funcs.items()
         n = e[0][1] - e[0][0]
         game = img[ea - M.BASE:ea - M.BASE + n]

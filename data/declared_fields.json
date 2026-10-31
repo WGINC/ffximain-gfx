@@ -1,0 +1,121 @@
+{
+ "_doc": "declared_fields.py -- the typing batches' fields that carry a definitive type, as data/declared_fields.json.",
+ "CDx": {
+  "0x8": {
+   "name": "pD3D",
+   "type": "IDirect3D8 *",
+   "width": 4,
+   "evidence": "constructor 0x10008FDC stores arg1; its only caller passes [[0x103D3CBC]+4] (0x100161E8/0x100161EC); that holder field is written at 0x10003204 with the return of Direct3DCreate8 (call 0x102D2600 = jmp [0x10329498], the d3d8.dll import; d3d8.h: IDirect3D8* WINAPI Direct3DCreate8(UINT)). Uses agree: 0x1000935E calls IDirect3D8 slot 0x20 (GetAdapterDisplayMode). One write to +0x8 found (the constructor).",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0xC": {
+   "name": "pDevice",
+   "type": "IDirect3DDevice8 *",
+   "width": 4,
+   "evidence": "constructor 0x10008FE1 stores arg2 = [[0x103D3CBC]+8]; that holder field is the ppReturnedDeviceInterface of IDirect3D8::CreateDevice (slot 0x3C) at 0x1000356E and 0x1000358A (`add esi, 8; push esi`, object [holder+4]) in 0x100034B0, reached from the holder's own methods (0x10003110 -> 0x100031F0 -> 0x100033C0 -> 0x100034B0, each passing its this). 1547 accesses, the only write is 0x10008FE1. This closes the value stored at construction; that nothing outside the scanned paths overwrites +0xC is not shown (com_fields.json device_via_CDx_this states the same limit).",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x158": {
+   "name": "renderTargetDepth",
+   "type": "uint8_t",
+   "width": 1,
+   "evidence": "byte loads after `xor eax, eax` (zero-extended: 0x10009D22/0x10009D24), used as index *24 and *4; incremented in 0x10009F37, decremented in 0x1000A2BA; constructor stores 0 at 0x10008FE9",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x82C": {
+   "name": "stereoOddLineTexture",
+   "type": "IDirect3DTexture8 *",
+   "width": 4,
+   "evidence": "&+0x82C is arg1 of 0x1000C850 (0x1000C76D), pushed as ppTexture of _D3DXCreateTexture@32 at 0x1000C86E/0x1000C87B",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x834": {
+   "name": "caps",
+   "type": "D3DCAPS8",
+   "width": 212,
+   "evidence": "Initialize 0x100091BF-0x100091C9: `lea esi, [ebp+0x834]` passed to IDirect3DDevice8::GetDeviceCaps (slot 0x1C, D3DCAPS8*); the code then reads caps members at their d3d8caps.h offsets (DevCaps +0x1C at 0x100091E2, VertexShaderVersion +0xC4, PixelShaderVersion +0xCC, MaxTextureWidth/Height +0x58/+0x5C). sizeof(D3DCAPS8)=0xD4 (compiled), ending exactly at +0x908.",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x934": {
+   "name": "maxTextureWidth",
+   "type": "uint32_t",
+   "width": 4,
+   "evidence": "0x10009305-0x10009308 copies caps.MaxTextureWidth (D3DCAPS8 +0x58); compared unsigned (jae)",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x938": {
+   "name": "maxTextureHeight",
+   "type": "uint32_t",
+   "width": 4,
+   "evidence": "0x1000930E-0x10009314 copies caps.MaxTextureHeight (+0x5C); compared unsigned (jae)",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x93C": {
+   "name": "cachedWorld",
+   "type": "D3DMATRIX",
+   "width": 64,
+   "evidence": "proven 0x1000BD50: for State 0x100 (D3DTS_WORLD) `lea edi, [eax+0x93c]; rep movsd` x16 from the matrix it then passes to IDirect3DDevice8::SetTransform (slot 0x94, CONST D3DMATRIX*) at 0x1000BD96; 0x1000BDB0 copies it back out",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x97C": {
+   "name": "cachedView",
+   "type": "D3DMATRIX",
+   "width": 64,
+   "evidence": "same, State 2 (D3DTS_VIEW): 0x1000BD7F / 0x1000BDF5",
+   "batch": "batches/r6_122_render_objects.json"
+  },
+  "0x9BC": {
+   "name": "cachedProjection",
+   "type": "D3DMATRIX",
+   "width": 64,
+   "evidence": "same, State 3 (D3DTS_PROJECTION): 0x1000BD77 / 0x1000BDDF",
+   "batch": "batches/r6_122_render_objects.json"
+  }
+ },
+ "CXiActor": {
+  "0x94": {
+   "name": "moveSpeedBase",
+   "type": "float",
+   "width": 4,
+   "evidence": "x87 float operand: 10082090 `fld dword ptr [ecx + 0x94]`",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x98": {
+   "name": "moveSpeed",
+   "type": "float",
+   "width": 4,
+   "evidence": "x87 float operand: 10082070 `fld dword ptr [ecx + 0x98]`",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xA4": {
+   "name": "subActorStatus",
+   "type": "int32_t",
+   "width": 4,
+   "evidence": "compared with a signed jump: 100827A0 `load` then 100827A6 cmp eax, 1 ; jl",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0xBC": {
+   "name": "distanceToCamera",
+   "type": "float",
+   "width": 4,
+   "evidence": "x87 float operand: 100A5081 `fld dword ptr [esi + 0xbc]`",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  }
+ },
+ "CXiControlActor": {
+  "0x170": {
+   "name": "groundHeight",
+   "type": "float",
+   "width": 4,
+   "evidence": "x87 float operand: 100A45B0 `fld dword ptr [ecx + 0x170]`",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  },
+  "0x178": {
+   "name": "waterHeight",
+   "type": "float",
+   "width": 4,
+   "evidence": "x87 float operand: 100A45F0 `fld dword ptr [ecx + 0x178]`",
+   "batch": "batches/r6_123_actor_camera_font_zone.json"
+  }
+ }
+}

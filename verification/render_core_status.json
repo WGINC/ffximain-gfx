@@ -1,0 +1,882 @@
+{
+ "118": {
+  "0x100091B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x100096B0": {
+   "by": "recompile/d3d_100096B0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009710": {
+   "by": "recompile/d3d_10009710.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009730": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009740": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009920": {
+   "by": "recompile/d3dcaller_10009920.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x10009F20": {
+   "by": "recompile/d3d_10009F20.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A1D0": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A3B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A5A0": {
+   "by": "recompile/d3d_1000A5A0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A6E0": {
+   "by": "recompile/d3d_1000A6E0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000AAB0": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000BB90": {
+   "by": "recompile/d3d_1000BB90.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000BF30": {
+   "by": "recompile/d3d_1000BF30.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000C0B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CB20": {
+   "by": "recompile/d3d_1000CB20.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CC00": {
+   "by": "recompile/d3d_1000CC00.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CD00": {
+   "by": "recompile/d3d_1000CD00.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CF20": {
+   "by": "recompile/d3d_1000CF20.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CF90": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003D9A0": {
+   "by": "recompile/d3d_1003D9A0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1003DB60": {
+   "by": "recompile/d3d_1003DB60.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003E910": {
+   "by": "recompile/d3d_1003E910.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003E9A0": {
+   "by": "recompile/d3d_1003E9A0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003F130": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1003F440": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10040220": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10040C20": {
+   "by": "recompile/d3dcaller_10040C20.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x100412B0": {
+   "by": "recompile/d3dcaller_100412B0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x10041AF0": {
+   "by": "recompile/d3d_10041AF0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100426F0": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10042D00": {
+   "by": "recompile/d3dcaller_10042D00.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x100431B0": {
+   "by": "recompile/d3d_100431B0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10043720": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10043F40": {
+   "by": "recompile/d3d_10043F40.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10046070": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x100464D0": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10046550": {
+   "by": "recompile/d3dcaller_10046550.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x100467E0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x100472F0": {
+   "by": "recompile/d3d_100472F0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10054D70": {
+   "by": "recompile/d3d_10054D70.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100565A0": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1006A020": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1006ADC0": {
+   "by": "recompile/d3d_1006ADC0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1006AF00": {
+   "by": "recompile/d3d_1006AF00.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006AF90": {
+   "by": "recompile/d3d_1006AF90.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006C140": {
+   "by": "recompile/d3dcaller_1006C140.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1006C300": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006C530": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006C8B0": {
+   "by": "recompile/d3d_1006C8B0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10075280": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10075700": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10075960": {
+   "by": "recompile/d3d_10075960.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x100759C0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10075C40": {
+   "by": "recompile/d3dcaller_10075C40.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10076030": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10076520": {
+   "by": "recompile/d3d_10076520.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  }
+ },
+ "119": {
+  "0x10001520": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10002040": {
+   "by": "recompile/d3dcaller_10002040.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10003890": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10003D70": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009E20": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009E60": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10009EA0": {
+   "by": "recompile/d3dcaller_10009EA0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10009EE0": {
+   "by": "recompile/d3dcaller_10009EE0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A390": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A550": {
+   "by": "recompile/d3dcaller_1000A550.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000A820": {
+   "by": "recompile/d3dcaller_1000A820.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000ABE0": {
+   "by": "recompile/d3dcaller_1000ABE0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1000AEA0": {
+   "by": "recompile/d3dcaller_1000AEA0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1000B1B0": {
+   "by": "recompile/d3dcaller_1000B1B0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1000B460": {
+   "by": "recompile/d3dcaller_1000B460.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1000B7C0": {
+   "by": "recompile/d3dcaller_1000B7C0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1000C6E0": {
+   "by": "recompile/d3dcaller_1000C6E0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1000CDF0": {
+   "by": "recompile/d3dcaller_1000CDF0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10010D20": {
+   "bytes": "NO_COMPILE",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10011A00": {
+   "bytes": "NO_COMPILE",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10012F40": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x100132B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10017310": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1001C930": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1001D0A0": {
+   "by": "recompile/d3dcaller_1001D0A0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1001D240": {
+   "by": "recompile/d3dcaller_1001D240.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1001D350": {
+   "by": "recompile/d3dcaller_1001D350.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1001D3B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1001DD00": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100224D0": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10025260": {
+   "by": "recompile/d3dcaller_r121.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10025870": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10025C40": {
+   "by": "recompile/d3dcaller_10025C40.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100262C0": {
+   "by": "recompile/d3dcaller_100262C0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x100263F0": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100266C0": {
+   "by": "recompile/d3dcaller_100266C0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10026990": {
+   "by": "recompile/d3dcaller_10026990.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10026AD0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10026C70": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x100295A0": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1002A3B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1002B6E0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1002DC10": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10033710": {
+   "by": "recompile/d3dcaller_10033710.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10033800": {
+   "by": "recompile/d3dcaller_10033800.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10033A70": {
+   "by": "recompile/d3dcaller_10033A70.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10038720": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10038930": {
+   "by": "recompile/d3dcaller_10038930.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10038A80": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10038E10": {
+   "bytes": "LEFT_OUT",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003D640": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1003EB30": {
+   "by": "recompile/d3dcaller_1003EB30.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1003EBF0": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1003EE70": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1003FBB0": {
+   "by": "recompile/d3dcaller_1003FBB0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10040670": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10040BA0": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x10040E70": {
+   "by": "recompile/d3dcaller_10040E70.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10041160": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10041C20": {
+   "by": "recompile/d3dcaller_10041C20.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x100421A0": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10043320": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x10043590": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10044250": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10057FB0": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1006A150": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006A630": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1006AA30": {
+   "by": "recompile/d3dcaller_1006AA30.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1006B090": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x1006B2B0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006C220": {
+   "by": "recompile/d3dcaller_1006C220.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1006C280": {
+   "by": "recompile/d3dcaller_1006C280.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10075690": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10075FF0": {
+   "by": "recompile/d3dcaller_notree_r120.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x100764C0": {
+   "by": "recompile/d3dcaller_r121.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10086210": {
+   "bytes": "NO_COMPILE",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10086900": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1011BBD0": {
+   "by": "recompile/d3dcaller_1011BBD0.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1011F300": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10163400": {
+   "by": "recompile/d3dcaller_10163400.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1016DDF0": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10174B10": {
+   "by": "recompile/d3dcaller_10174B10.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10174EC0": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10177B40": {
+   "by": "recompile/d3dcaller_10177B40.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10177C50": {
+   "by": "recompile/d3dcaller_10177C50.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x101791F0": {
+   "by": "vc6_sweep.json",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x1017B510": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1017C9C0": {
+   "bytes": "not in the tree",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x1017DE20": {
+   "bytes": "not in the tree",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10182700": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10182F10": {
+   "bytes": "DIFFERS",
+   "frame_set": false,
+   "in_tree": true
+  },
+  "0x10183490": {
+   "by": "recompile/d3dcaller_10183490.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": false,
+   "in_tree": false
+  },
+  "0x10183760": {
+   "by": "recompile/d3dcaller_10183760.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": false
+  },
+  "0x10183DA0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x101844C0": {
+   "bytes": "no sweep verdict",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10184C90": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10184FE0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x10185CA0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1018B860": {
+   "by": "recompile/d3dcaller_1018B860.cpp",
+   "bytes": "IDENTICAL",
+   "frame_set": true,
+   "in_tree": true
+  },
+  "0x1021D4C0": {
+   "bytes": "DIFFERS",
+   "frame_set": true,
+   "in_tree": true
+  }
+ },
+ "_doc": "render_core_status.py -- where docs/PLAN.md step 20 stands: the Direct3D-calling functions and their direct callers."
+}

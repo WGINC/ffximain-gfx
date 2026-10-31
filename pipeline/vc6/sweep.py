@@ -44,11 +44,17 @@ import argparse, collections, glob, hashlib, json, os, re, shutil, subprocess, s
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..', '..'); sys.path.insert(0, P)
 import match as M
 
+TREE = os.path.join(ROOT, 'tree')     # the tree swept (--tree: another regeneration of it, e.g. a scratch one)
+
 SHIM = r'''/* vc6_shim.h: the tree's type names for Visual C++ 6.0 (pipeline/vc6/sweep.py) */
 typedef unsigned char uint8_t; typedef signed char int8_t; typedef unsigned short uint16_t; typedef short int16_t;
 typedef unsigned int uint32_t; typedef int int32_t; typedef unsigned __int64 uint64_t; typedef __int64 int64_t;
 typedef unsigned char undefined, undefined1, byte, uchar; typedef unsigned short undefined2, ushort, word;
 typedef unsigned int undefined4, uint, dword; typedef unsigned __int64 undefined8; typedef unsigned long ulong;
+/* Ghidra's x87 extended type, as the tree writes it (long double; VC6's is its 8-byte double) */
+typedef long double float10;
+/* Ghidra's 3-byte integer (CONCAT31((int3)(x >> 8), lo): the upper three bytes of a register), held in an int */
+typedef int int3;
 typedef unsigned int size_t; typedef int BOOL;
 typedef void *LPVOID; typedef unsigned long DWORD; typedef unsigned int _DWORD; typedef unsigned short _WORD;
 typedef unsigned char _BYTE;
@@ -64,7 +70,10 @@ typedef int code(...);
 #define NAN(x) ((x) != (x))
 #define CONCAT31(h, l) ((uint32_t)(((uint32_t)(h) << 8) | (uint8_t)(l)))
 #define xi_sw(x) ((uint32_t)(x))
-double __cdecl sqrt(double);
+#ifdef __cplusplus
+extern "C"
+#endif
+double __cdecl sqrt(double);  /* C linkage, as <math.h> declares it */
 #define SQRT(x) sqrt(x)
 #define XI_GAME(ea) (ea)
 /* XI_CALL_ST0(0x10311C2C)(x): 0x10311C2C is the CRT's __ftol, byte for byte LIBC.LIB's (sweep.py FTOL), which the
@@ -175,13 +184,49 @@ ORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{ 
 # a variadic wrapper: `template <class... R> XI_ORIG RET NAME(fixed..., R... rest) { ... (CC *)(...)>(XI_GAME(ADDR)) ...`
 VORIG = re.compile(r'^template <class\.\.\. R> XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*?),?\s*R\.\.\. rest\) \{ (?:return )?'
                    r'reinterpret_cast<(?P<rt>.+?) \((?P<cc>__\w+) \*\)\((?P<types>[^)]*?), (?:decltype[^>]*|\.\.\.\))>\(XI_GAME\((?P<addr>0x[0-9A-Fa-f]+)u\)\)', re.M)
+# a wrapper that calls in inline assembly (gfx_orig.hpp, where the call site leaves a value in EAX, or the callee takes
+# ECX/EDX): `XI_ORIG RET NAME(T a0, ...) {\n    uint32_t xs[N] = {...}; uint32_t ra = .., rc = .., rd = ..;\n    __asm__ ...`
+AORIG = re.compile(r'^XI_ORIG (?P<ret>.+?) (?P<name>\w+)\((?P<params>[^)]*)\) \{\n\s*uint32_t xs\[\d+\] = \{(?P<xs>[^}]*)\}; '
+                   r'uint32_t ra = (?P<ra>[\w.]+), rc = (?P<rc>[\w.]+), rd = (?P<rd>[\w.]+);(?P<rest>[^\n]*\n\s*__asm__ volatile\((?P<asm>[^:]*):(?P<outs>[^:]*):[^\n]*"D"\((?P<addr>0x[0-9A-Fa-f]+)u\))', re.M)
+
+
+def asm_wrapper(m):
+    """an inline-assembly wrapper as a call VC6 can write, or None: its stack arguments (xs, pushed last to first) in
+    order; its ECX argument, if any, the object of a __thiscall; the caller's own `addl $N, %esp` after the call makes
+    it __cdecl, none __stdcall (the callee pops). Its EAX argument is what the call site leaves in EAX -- no C source
+    passes it -- and is not written. A result in ST0 (`"=t"`) is a float return, as VC6 returns one. One with an
+    EDX argument (no VC6 convention but __fastcall's ECX and EDX) is left as it is"""
+    params = [x.strip() for x in m.group('params').split(',') if x.strip()]
+    names = [re.search(r'(\w+)$', p).group(1) for p in params]
+    types = [re.sub(r'\s*\b\w+$', '', p).strip() for p in params]
+    idx = lambda e: names.index(e.split('.')[0]) if e.split('.')[0] in names else None
+    if m.group('rd') != '0': return None
+    asm = m.group('asm')
+    npush = len(re.findall(r'pushl', asm))
+    xs = [x.strip() for x in m.group('xs').split(',')]
+    stack = [idx(x) for x in xs[:npush]] if npush else []
+    if None in stack: return None
+    add = re.search(r'addl \$(\d+), %%esp', asm)
+    rc = idx(m.group('rc')) if m.group('rc') != '0' else None
+    if m.group('rc') != '0' and rc is None: return None
+    if rc is not None:
+        if add: return None
+        cc, order = '__thiscall', [rc] + stack
+    else:
+        if add and int(add.group(1)) != 4 * npush: return None
+        cc, order = ('__cdecl' if add else '__stdcall'), stack
+    rt = m.group('ret').replace('unsigned long long', 'uint64_t')
+    return {'name': m.group('name'), 'ret': rt, 'rt': rt, 'cc': cc, 'params': m.group('params'),
+            'types': ', '.join(types[i] for i in order), 'addr': m.group('addr'), 'order': order}
+
+
 GLOB = re.compile(r'^typedef (?P<type>.+?) (?P<name>\w+)_t(?P<arr>\[\d*\])?;\s*\n#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 # a global holding a function pointer (an import's IAT slot, a vtable's first slot): `typedef R (CC *NAME_t)(P);`
 FGLOB = re.compile(r'^(?P<td>typedef (?P<rt>[^()\n]+?) \((?:(?P<cc>__\w+) )?\*(?P<name>\w+)_t\)\((?P<params>[^()]*)\);)\s*\n'
                    r'#define (?P=name) XI_EA\((?P=name)_t, (?P<addr>0x[0-9A-Fa-f]+)u\)', re.M)
 BASIC = {'void', 'char', 'short', 'int', 'long', 'float', 'double', 'unsigned', 'signed', 'uint8_t', 'int8_t', 'uint16_t',
          'int16_t', 'uint32_t', 'int32_t', 'uint64_t', 'int64_t', 'undefined', 'undefined1', 'undefined2', 'undefined4',
-         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'size_t', 'BOOL', 'bool', 'code',
+         'undefined8', 'byte', 'uchar', 'ushort', 'word', 'uint', 'dword', 'ulong', 'float10', 'int3', 'size_t', 'BOOL', 'bool', 'code',
          'LPVOID', 'DWORD', '_DWORD', '_WORD', '_BYTE',
          # Visual C++ 6.0's own sized integers; the tree's GCC build defines them as the same types (xi_decomp.hpp:
          # __int8 char, __int16 short, __int32 int; __int64 is GCC's own)
@@ -193,18 +238,27 @@ def plain(ty):
     return all(w in BASIC for w in re.findall(r'[A-Za-z_]\w*', ty.replace('const', '')))
 
 
-# Windows types as tree/include/xi_compat_win.hpp declares them (from the SDK headers)
+# Windows types as tree/include/xi_compat_win.hpp declares them (from the SDK headers); RECT and FILE with their
+# layouts, as VC6's WINDEF.H, STDIO.H, WINUSER.H (MSG; its POINT pt as two LONGs) and WINBASE.H (SYSTEMTIME) define them (a body indexing a RECT * or reading a FILE needs the size)
 WINT = {'FARPROC': 'typedef int (__stdcall *FARPROC)();', 'HMODULE': 'typedef void *HMODULE;', 'CHAR': 'typedef char CHAR;',
         'UINT': 'typedef unsigned int UINT;', 'LPSTR': 'typedef char *LPSTR;', 'LPCSTR': 'typedef const char *LPCSTR;',
-        'LPSYSTEMTIME': 'struct _SYSTEMTIME; typedef struct _SYSTEMTIME *LPSYSTEMTIME;',
-        'LPRECT': 'struct tagRECT; typedef struct tagRECT *LPRECT;', 'LPMSG': 'struct tagMSG; typedef struct tagMSG *LPMSG;',
+        'LPSYSTEMTIME': '#ifndef XI_SYSTEMTIME\n#define XI_SYSTEMTIME\nstruct _SYSTEMTIME { unsigned short wYear, wMonth, wDayOfWeek, wDay, wHour, wMinute, wSecond, wMilliseconds; };\n#endif\ntypedef struct _SYSTEMTIME *LPSYSTEMTIME;',
+        'LPRECT': '#ifndef _WINDEF_\nstruct tagRECT { long left; long top; long right; long bottom; };\n#endif\ntypedef struct tagRECT *LPRECT;', 'LPMSG': '#ifndef XI_TAGMSG\n#define XI_TAGMSG\nstruct tagMSG { void *hwnd; unsigned int message; unsigned int wParam; long lParam; unsigned long time; long pt_x; long pt_y; };\n#endif\ntypedef struct tagMSG *LPMSG;',
         'HINSTANCE': 'struct HINSTANCE__; typedef struct HINSTANCE__ *HINSTANCE;',
         'HCURSOR': 'struct HICON__; typedef struct HICON__ *HCURSOR;', 'LRESULT': 'typedef int LRESULT;',
         'HWND': 'typedef void *HWND;', 'HANDLE': 'typedef void *HANDLE;', 'xi_codefn': 'typedef code xi_codefn;',
-        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': 'struct _iobuf; typedef struct _iobuf FILE;',
+        '_UNKNOWN': 'typedef unsigned char _UNKNOWN;', 'FILE': '#ifndef _FILE_DEFINED\nstruct _iobuf { char *_ptr; int _cnt; char *_base; int _flag; int _file; int _charbuf; int _bufsiz; char *_tmpfname; };\ntypedef struct _iobuf FILE;\n#define _FILE_DEFINED\n#endif',
         # xi_compat_win.hpp (imm.h DECLARE_HANDLE(HIMC); mmsystem.h; winuser.h's MSG) and gfx_types.hpp (LONG)
         'HIMC': 'struct HIMC__; typedef struct HIMC__ *HIMC;', 'MMRESULT': 'typedef unsigned int MMRESULT;',
-        'MSG': 'struct tagMSG; typedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
+        # VC6's WINSOCK.H (in_addr, u_long, u_short), WINDEF.H (HGLOBAL, HKL), WINNT.H (HRESULT, LARGE_INTEGER),
+        # WINBASE.H (SECURITY_ATTRIBUTES), WINUSER.H (WINDOWPLACEMENT: its POINTs and RECT as LONGs)
+        'u_long': 'typedef unsigned long u_long;', 'u_short': 'typedef unsigned short u_short;',
+        'in_addr': '#ifndef XI_IN_ADDR\n#define XI_IN_ADDR\nstruct in_addr { union { struct { unsigned char s_b1, s_b2, s_b3, s_b4; } S_un_b; struct { unsigned short s_w1, s_w2; } S_un_w; unsigned long S_addr; } S_un; };\n#endif\ntypedef struct in_addr in_addr;',
+        'HGLOBAL': 'typedef void *HGLOBAL;', 'HKL': 'struct HKL__; typedef struct HKL__ *HKL;', 'HRESULT': 'typedef long HRESULT;',
+        'LARGE_INTEGER': '#ifndef XI_LARGE_INTEGER\n#define XI_LARGE_INTEGER\ntypedef union _LARGE_INTEGER { struct { unsigned long LowPart; long HighPart; } u; __int64 QuadPart; } LARGE_INTEGER;\n#endif',
+        'LPSECURITY_ATTRIBUTES': 'struct _SECURITY_ATTRIBUTES { unsigned long nLength; void *lpSecurityDescriptor; int bInheritHandle; }; typedef struct _SECURITY_ATTRIBUTES *LPSECURITY_ATTRIBUTES;',
+        'WINDOWPLACEMENT': '#ifndef XI_WINDOWPLACEMENT\n#define XI_WINDOWPLACEMENT\ntypedef struct tagWINDOWPLACEMENT { unsigned int length, flags, showCmd; long ptMinPosition_x, ptMinPosition_y, ptMaxPosition_x, ptMaxPosition_y; long rcNormalPosition_left, rcNormalPosition_top, rcNormalPosition_right, rcNormalPosition_bottom; } WINDOWPLACEMENT;\n#endif',
+        'MSG': '#ifndef XI_TAGMSG\n#define XI_TAGMSG\nstruct tagMSG { void *hwnd; unsigned int message; unsigned int wParam; long lParam; unsigned long time; long pt_x; long pt_y; };\n#endif\ntypedef struct tagMSG MSG;', 'LONG': 'typedef int LONG;'}
 
 
 def type_decls(ty):
@@ -226,10 +280,13 @@ def type_decls(ty):
 
 
 def externs():
-    src = open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()
+    src = open(os.path.join(TREE, 'include', 'gfx_orig.hpp')).read()
     o = {m.group('name'): m.groupdict() for m in ORIG.finditer(src)}
     for m in VORIG.finditer(src): o[m.group('name')] = dict(m.groupdict(), variadic=True)
-    gt = open(os.path.join(ROOT, 'tree', 'include', 'gfx_globals.hpp')).read()
+    for m in AORIG.finditer(src):
+        w = asm_wrapper(m)
+        if w: o.setdefault(m.group('name'), w)
+    gt = open(os.path.join(TREE, 'include', 'gfx_globals.hpp')).read()
     g = {m.group('name'): m.groupdict() for m in GLOB.finditer(gt)}
     for m in FGLOB.finditer(gt):
         # its parameter types (a parameter's name dropped), for the declarations they need
@@ -268,7 +325,7 @@ def d3d_names():
     """the struct, enum and typedef names tree/include/xi_d3d8.hpp declares"""
     global _D3DN
     if _D3DN is None:
-        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()
+        h = open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()
         _D3DN = set(re.findall(r'(?m)^(?:struct|enum) (\w+)\b', h)) | set(re.findall(r'(?m)^typedef [^;]*?\b(\w+);', h))
     return _D3DN
 
@@ -278,7 +335,7 @@ def opaque_names():
     used only through pointers) and `namespace std { struct codecvt_base; }`"""
     global _OPAQUE
     if _OPAQUE is None:
-        h = open(os.path.join(ROOT, 'tree', 'include', 'xi_compat_win.hpp')).read()
+        h = open(os.path.join(TREE, 'include', 'xi_compat_win.hpp')).read()
         _OPAQUE = set(re.findall(r'\bstruct (\w+);', h))
         _OPAQUE |= {'std::%s' % n for ns in re.findall(r'namespace std \{([^}]*)\}', h) for n in re.findall(r'struct (\w+);', ns)}
     return _OPAQUE
@@ -316,6 +373,7 @@ def rewrite_calls(body, orig, c_mode=False):
         if w is None: return None, 'no wrapper for %s' % m.group(1)
         if c_mode and w['cc'] == '__thiscall': return None, 'thiscall callee'
         raw = [x.strip() for x in w['types'].split(',')] if w['types'].strip() else []
+        order = w.get('order')                    # an inline-assembly wrapper's arguments the call passes (asm_wrapper)
         # an XI_ANY parameter: unsigned int in C; in C++ a template parameter, deduced from the argument, so the call
         # passes the argument's own type (the mangled name still carries FUN_<address>)
         tpl = [] if c_mode else ['A%d' % n for n, x in enumerate(raw) if x == 'XI_ANY']
@@ -331,11 +389,17 @@ def rewrite_calls(body, orig, c_mode=False):
         while depth and j < len(body):
             depth += {'(': 1, ')': -1}.get(body[j], 0); j += 1
         args = split_args(body[k + m.end():j - 1])
+        if order is not None:
+            if max(order, default=-1) >= len(args): return None, 'wrapper arity'
+            args = [args[n] for n in order]
         if w.get('variadic') and len(args) < len(types): return None, 'variadic arity'
         sym = 'FUN_%08X' % int(w['addr'], 16)
         if w['cc'] == '__thiscall':
             if not types or len(args) != len(types): return None, 'thiscall arity'
             sname = 'FUNt_%08X' % int(w['addr'], 16)
+            # the member's template parameters: those of its own parameters (the object's is not one of them)
+            tpm = [x for x in tpl if x in types[1:]]
+            tp = 'template <%s> ' % ', '.join('class ' + x for x in tpm) if tpm else ''
             decls[sname] = 'struct %s { %s%s f(%s); };' % (sname, tp, w['rt'], ', '.join(types[1:]) or 'void')
             out += body[i:k] + '((%s *)(%s))->f(%s)' % (sname, args[0], ', '.join(args[1:]))
         else:
@@ -350,14 +414,66 @@ def rewrite_calls(body, orig, c_mode=False):
     return out, list(decls.values())
 
 
+REGPARM = re.compile(r'^XI_API\s+(?P<ret>.+?)\s+__attribute__\(\((?P<cc>stdcall|cdecl), regparm\((?P<n>[123])\)\)\)\s+(?P<name>\w+)\((?P<args>[^)]*)\)\s*$', re.M)
+
+
+def regparm_vc6(src):
+    """a function the tree declares in GCC's register convention (`__attribute__((stdcall, regparm(3)))`: its first
+    parameters in EAX, EDX, ECX, in that order) as Visual C++ 6.0 declares it, or None where VC6 has no such convention:
+    ECX alone __thiscall (`void * self_` first), ECX and EDX __fastcall, neither __stdcall or __cdecl. The EAX
+    parameter is no C parameter: unused, or what the function leaves in EAX untouched on some path (`return xi_eax;`,
+    `xi_eax = call(...);`: the tree's way to return whatever EAX held), the function then returning void. A __cdecl
+    one taking ECX has no stack parameters (the callee pops nothing either way), or is left out"""
+    m = REGPARM.search(src)
+    if not m: return None
+    ps = [p.strip() for p in m.group('args').split(',') if p.strip()]
+    n = int(m.group('n'))
+    if len(ps) < n: return None
+    nm = lambda p: re.search(r'(\w+)$', p).group(1)
+    regs = dict(zip(('eax', 'edx', 'ecx'), ps[:n])); rest = ps[n:]
+    body = src[m.end():]
+    used = lambda p: p is not None and 'unused' not in nm(p) and re.search(r'\b%s\b' % nm(p), body)
+    ret = m.group('ret')
+    if used(regs.get('eax')):
+        e = nm(regs['eax'])
+        # a byte (word) returned in AL (AX), the rest of EAX left as it was: `((xi_eax >> 8) << 8) | (uint8_t)(x)`,
+        # `xi_eax & 0xffffff00` (x = 0): the function returns unsigned char (short)
+        for sh, lo, hi, ty in ((8, 'uint8_t', '0xffffff00', 'unsigned char'), (16, 'uint16_t', '0xffff0000', 'unsigned short')):
+            b2 = re.sub(r'\breturn \(\(uint32_t\)\(\(\(uint32_t\)\(\(int32_t\)\(\(uint32_t\)%s >> %d\)\) << %d\) \| \(%s\)\((.*)\)\)\);'
+                        % (e, sh, sh, lo), r'return (%s)(\1);' % ty, body)
+            b2 = re.sub(r'\breturn \(?(?:\(uint32_t\))?%s\)? & %s;' % (e, hi), 'return 0;', b2)
+            if b2 != body and not re.search(r'\b%s\b' % e, b2):
+                body, ret = b2, ty
+                break
+    if used(regs.get('eax')) and re.search(r'\b%s\b' % nm(regs['eax']), body):
+        e = nm(regs['eax'])
+        b2 = re.sub(r'\breturn %s;' % e, 'return;', body)
+        b2 = re.sub(r'(?m)^(\s*)%s = ([^;]*);' % e, r'\1\2;', b2)
+        if re.search(r'\b%s\b' % e, b2) or re.search(r'\breturn [^;]', b2): return None
+        body, ret = b2, 'void'
+    ecx, edx = used(regs.get('ecx')), used(regs.get('edx'))
+    if edx and not ecx: return None
+    if ecx and m.group('cc') == 'cdecl' and rest: return None
+    if ecx and edx: cc, args = '__fastcall', [regs['ecx'], regs['edx']] + rest
+    elif ecx:
+        self_ = nm(regs['ecx'])
+        body = re.sub(r'\b%s\b' % self_, 'self_', body) if self_ != 'self_' else body
+        cc, args = '__thiscall', ['void * self_'] + rest
+    else: cc, args = '__%s' % m.group('cc'), rest
+    return src[:m.start()] + 'XI_API %s %s %s(%s)' % (ret, cc, m.group('name'), ', '.join(args) or 'void') + body
+
+
 def candidates(only=None, calls=False):
     out = []
-    for f in sorted(glob.glob(os.path.join(ROOT, 'tree', 'src', '*.cpp'))):
+    for f in sorted(glob.glob(os.path.join(TREE, 'src', '*.cpp'))):
         t = open(f).read()
         parts = re.split(r'(?m)^// FUNCTION: FFXIMAIN (0x[0-9A-F]+).*\n', t)
         for i in range(1, len(parts), 2):
             ea = int(parts[i], 16); body = parts[i + 1]
             if only and ea not in only: continue
+            if REGPARM.search(body.split('{', 1)[0]):
+                body = regparm_vc6(body)                                  # a register convention VC6 can declare
+                if body is None: continue                                 # one it cannot
             m = SIG.search(body) or MSIG.search(body.split('{', 1)[0] + '{')
             if not m: continue
             end = body.find('\n}\n', m.end())
@@ -373,13 +489,23 @@ def candidates(only=None, calls=False):
 _CLASSES = None
 
 
+_D3DS = None
+def _d3d_structs():
+    """the struct and enum types tree/include/xi_d3d8.hpp defines (D3DCAPS8, D3DMATRIX, ...)"""
+    global _D3DS
+    if _D3DS is None:
+        h = open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()
+        _D3DS = set(re.findall(r'(?m)^(?:struct|enum) (D3D\w+) \{', h)) | set(re.findall(r'(?m)^typedef [^;]*\b(D3D\w+);', h))
+    return _D3DS
+
+
 def class_fields(cls):
     """the field lines of tree/include's `class XI_API cls { ... };` (its methods and static_asserts left out), the
     other class names its fields point to, or None when there is no such class or a field is of a type the shim lacks"""
     global _CLASSES
     if _CLASSES is None:
         _CLASSES = {}
-        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+        for f in glob.glob(os.path.join(TREE, 'include', '*.hpp')):
             for m in re.finditer(r'(?ms)^class XI_API (\w+) \{\n(.*?)^\};', open(f).read()):
                 _CLASSES[m.group(1)] = m.group(2)
     body = _CLASSES.get(cls)
@@ -392,13 +518,14 @@ def class_fields(cls):
         for w in re.findall(r'[A-Za-z_]\w*', decl):
             if w in BASIC or w in ('__int16', '__int8', '__int32', '__int64', 'const'): continue
             if re.search(r'\b%s\s*\*' % w, decl): ptrs.add(w); continue
+            if w in _d3d_structs(): continue              # a Direct3D 8 struct by value: the header defines it
             return None
         lines.append('  ' + s)
     return lines, ptrs
 
 
 # the shim's inline functions (and HELPERS), by their decorated names
-SHIM_HELPER = re.compile(r'^\?\?0XI_ANY@@|^\?xi_castbits_@@|^_?(?:builtin_strncpy|xi_k4|xi_k8)$|^\?(?:builtin_strncpy|xi_k4|xi_k8|xi_b32|xi_b64)@@')
+SHIM_HELPER = re.compile(r'^\?\?0XI_ADJ_[0-9A-F]{8}@@|^\?\?0XI_ANY@@|^\?xi_castbits_@@|^_?(?:builtin_strncpy|xi_k4|xi_k8)$|^\?(?:builtin_strncpy|xi_k4|xi_k8|xi_b32|xi_b64)@@')
 FTOL = 0x10311C2C          # LIBC.LIB's __ftol, the same 39 bytes at this address (checked by ftol_check below)
 _ADDRS = None
 
@@ -425,7 +552,7 @@ def code_addrs():
     global _ADDRS
     if _ADDRS is None:
         _ADDRS = {m.group(1): int(m.group(2), 16) for m in re.finditer(r'constexpr uint32_t (\w+) = (0x[0-9A-Fa-f]+)u;',
-                                                                       open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read())}
+                                                                       open(os.path.join(TREE, 'include', 'gfx_orig.hpp')).read())}
     return _ADDRS
 
 
@@ -477,6 +604,7 @@ def _castbits(body):
 # with FN the slot's value, Hex-Rays' `(*(R (__thiscall **)(P))(SLOT))(A)` with SLOT the slot's address
 _VCALL = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\(')
 _VCALL2 = re.compile(r'\(\*\((?P<ret>[^()]+?) \(__thiscall \*\*\)\((?P<params>[^()]*)\)\)\(')
+_VCALL3 = re.compile(r'\(\*\(\((?P<ret>[^()]+?) \(__thiscall \*\*\)\((?P<params>[^()]*)\)\)\(')
 _INT4 = r'(?:int|uint|uint32_t|_DWORD|undefined4|dword|DWORD|unsigned int)'
 VDECLS = []      # stand-in classes the virtual calls of the last macros() body need (convert puts them at file scope)
 
@@ -517,7 +645,17 @@ def _vtable_slot(addr, decls):
         if m and re.search(r'(?:^|[;{(,\n])\s*%s\s*\*\s*%s\s*[;,)]' % (_INT4, re.escape(m.group(1))), decls): x = m.group(1)
         m = re.match(r'^\*(\*\(%s \*\*\)\s*\(.*\))$' % _INT4, vt)
         if m and _group(m.group(1), m.group(1).index('(', m.group(1).index('**)'))) == len(m.group(1)): x = m.group(1)
+        m = re.match(r'^\*(\*\(%s \*\*\)\s*\w+)$' % _INT4, vt)                 # **(T **)v: the vtable of *(T **)v
+        if m: x = m.group(1)
+        m = re.match(r'^\*\(void \* \*\)\(\(char \*\)(\w+) \+ 0x0\)$', vt)   # *(void * *)((char *)X + 0x0)
+        if m: x = m.group(1)
     return (x, off) if x and _pure(x) else None
+
+
+def _same_obj(a, b):
+    """the same object: equal once outer pointer casts are dropped, `*(T **)E` read as `*(T *)E` for a 4-byte T"""
+    f = lambda e: re.sub(r'\*\(%s \*\*\)' % _INT4, lambda m: m.group(0)[:-2] + ')', _strip_ptr_cast(e))
+    return f(a) == f(b)
 
 
 def _vcalls(body, decls=''):
@@ -530,14 +668,22 @@ def _vcalls(body, decls=''):
     `(*(R (__thiscall **)(T, P...))(*(_DWORD *)X + OFF))(X, A...)`. Anything else is left as it is"""
     out, i = [], 0
     while True:
-        ms = [x for x in (_VCALL.search(body, i), _VCALL2.search(body, i)) if x]
+        ms = [x for x in (_VCALL.search(body, i), _VCALL2.search(body, i), _VCALL3.search(body, i)) if x]
         if not ms: out.append(body[i:]); return ''.join(out)
         m = min(ms, key=lambda x: x.start())
         p = m.start(); e1 = _group(body, p)
         if e1 < 0 or e1 >= len(body) or body[e1] != '(':
             out.append(body[i:m.end()]); i = m.end(); continue
         slot = None
-        if m.re is _VCALL:
+        if m.re is _VCALL3:
+            v1 = _group(body, m.end() - 1)                                  # the (VT) group
+            mk = re.match(r'\s*\+\s*(\d+)\)\)\(', body[v1:]) if v1 > 0 else None
+            if not mk:
+                out.append(body[i:m.end()]); i = m.end(); continue
+            e1 = v1 + mk.end() - 1
+            vs = _vtable_slot(body[m.end() - 1:v1], decls + '\n' + body)
+            slot = (vs[0], vs[1] + 4 * int(mk.group(1))) if vs and vs[1] == 0 else None
+        elif m.re is _VCALL:
             fn = _strip_parens(body[m.end() - 1:e1 - 1])
             fm = re.match(r'^\*\*?\(code \*\*\)(.*)$', fn)
             if fm: slot = _vtable_slot(fm.group(1), decls + '\n' + body)
@@ -547,7 +693,18 @@ def _vcalls(body, decls=''):
         args = split_args(body[e1 + 1:e2 - 1]) if e2 > 0 else []
         params = [x.strip() for x in m.group('params').split(',')]
         ok = slot is not None and args and params and len(args) == len(params) and slot[1] % 4 == 0 \
-            and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _strip_ptr_cast(args[0]) == _strip_ptr_cast(slot[0])
+            and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]) and _same_obj(args[0], slot[0])
+        if not ok and m.re is _VCALL2 and args and params and len(args) == len(params) \
+                and re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]):
+            # the slot read from one object's vtable, the call made on another (Hex-Rays'
+            # `(*(R (__thiscall **)(T, P...))(*(_DWORD *)Y + OFF))(X, A...)`): a call through a member-function pointer
+            # loaded from the slot, with X as `this` -- `mov ecx, X; call [slot]`, as the decompiled call
+            sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
+            name = 'XM_%s' % hashlib.sha1(sig.encode()).hexdigest()[:6]
+            VDECLS.append('struct %s { %s; };' % (name, sig))
+            mp = '%s (%s::**)(%s)' % (m.group('ret'), name, ', '.join(params[1:]) or 'void')
+            out.append(body[i:p] + '(((%s *)(%s))->*(*(%s)(%s)))(%s)' % (name, args[0], mp, body[m.end() - 1:e1 - 1], ', '.join(args[1:])))
+            i = e2; continue
         if not ok:
             out.append(body[i:m.end()]); i = m.end(); continue
         obj, off = slot
@@ -555,6 +712,33 @@ def _vcalls(body, decls=''):
         name = 'XV%d_%s' % (k, hashlib.sha1(sig.encode()).hexdigest()[:6])
         VDECLS.append('struct %s { %s virtual %s; };' % (name, ' '.join('virtual void s%d();' % n for n in range(k)), sig))
         out.append(body[i:p] + '((%s *)(%s))->f(%s)' % (name, obj, ', '.join(args[1:])))
+        i = e2
+
+
+_FPLOAD = re.compile(r'\(\((?P<ret>[^()]+?) \(__thiscall \*\)\((?P<params>[^()]*)\)\)\*\(_DWORD \*\)\(')
+
+
+def _fpcalls(body):
+    """a __thiscall call through a function pointer read from memory, `((R (__thiscall *)(T, P...))*(_DWORD *)(ADDR))
+    (X, A...)` (Hex-Rays; Visual C++ 6.0 cannot spell the type), as a call through a member-function pointer loaded
+    from ADDR with X as `this`: `mov ecx, X; call [ADDR]`, as the decompiled call"""
+    out, i = [], 0
+    while True:
+        m = _FPLOAD.search(body, i)
+        if not m: out.append(body[i:]); return ''.join(out)
+        a0 = m.end() - 1; a1 = _group(body, a0)                       # (ADDR)
+        if a1 < 0 or not body.startswith(')(', a1):
+            out.append(body[i:m.end()]); i = m.end(); continue
+        e2 = _group(body, a1 + 1)
+        args = split_args(body[a1 + 2:e2 - 1]) if e2 > 0 else []
+        params = [x.strip() for x in m.group('params').split(',')]
+        if not args or len(args) != len(params) or not re.match(r'^(?:%s|[\w ]+\*+)$' % _INT4, params[0]):
+            out.append(body[i:m.end()]); i = m.end(); continue
+        sig = '%s f(%s)' % (m.group('ret'), ', '.join(params[1:]) or 'void')
+        name = 'XM_%s' % hashlib.sha1(sig.encode()).hexdigest()[:6]
+        VDECLS.append('struct %s { %s; };' % (name, sig))
+        mp = '%s (%s::**)(%s)' % (m.group('ret'), name, ', '.join(params[1:]) or 'void')
+        out.append(body[i:m.start()] + '(((%s *)(%s))->*(*(%s)%s))(%s)' % (name, args[0], mp, body[a0:a1], ', '.join(args[1:])))
         i = e2
 
 
@@ -600,6 +784,7 @@ def macros(body, decls=''):
     if body is None: return None, 'xi_castbits not parsed'
     del VDECLS[:]
     body = _vcalls(body, decls)
+    body = _fpcalls(body)
     if re.search(r'XI_CALL_ST0\((?!0x10311C2Cu\))', body): return None, 'XI_CALL_ST0 of another function'
     body = body.replace('XI_CALL_ST0(0x10311C2Cu)', 'XI_FTOL')
     def code(m):
@@ -625,9 +810,14 @@ HELPERS = {
                '#define SUB41(x, b) ((uint8_t)(xi_b32(x) >> (8 * (b))))\n#define SUB42(x, b) ((uint16_t)(xi_b32(x) >> (8 * (b))))\n'
                '#define SUB81(x, b) ((uint8_t)(xi_b64(x) >> (8 * (b))))\n#define SUB84(x, b) ((uint32_t)(xi_b64(x) >> (8 * (b))))\n'
                '#define SUB82(x, b) ((uint16_t)(xi_b64(x) >> (8 * (b))))', True),
+    # the CRT's math functions (tree/include/xi_decomp.hpp: the x87 instructions /Oi gives them) from the compiler's own
+    # <math.h>; ABS as tree/include/xi_ghidra.hpp defines it
+    'math': ('#include <math.h>\n#define fpatan(y, x) atan2((y), (x))   /* x87 fpatan: atan(ST1 / ST0), what /Oi gives atan2 */', False),
+    'ABS': ('#define ABS(x) ((x) < 0 ? -(x) : (x))', False),
 }
 HELPER_USE = {'builtin_strncpy': r'\bbuiltin_strncpy\b', 'xi_k4': r'\bxi_k4\b', 'xi_k8': r'\bxi_k8\b',
-              'xi_b32': r'\b(?:SUB4[12]|SUB8[124]|xi_b32|xi_b64)\b'}
+              'xi_b32': r'\b(?:SUB4[12]|SUB8[124]|xi_b32|xi_b64)\b',
+              'math': r'\b(?:sin|cos|tan|atan|atan2|sqrt|fabs|floor|ceil|fmod|pow|exp|log|fpatan)\s*\(', 'ABS': r'\bABS\s*\('}
 # Windows types a body names (tree/include/xi_compat_win.hpp and gfx_types.hpp, from the SDK headers)
 BODYT = dict(WINT, LPDWORD='typedef unsigned int *LPDWORD;', PVOID='typedef void *PVOID;',
              LPCRITICAL_SECTION='struct _RTL_CRITICAL_SECTION; typedef struct _RTL_CRITICAL_SECTION *LPCRITICAL_SECTION;')
@@ -639,7 +829,7 @@ def struct_names():
     global _STRUCTS
     if _STRUCTS is None:
         _STRUCTS = set()
-        for f in glob.glob(os.path.join(ROOT, 'tree', 'include', '*.hpp')):
+        for f in glob.glob(os.path.join(TREE, 'include', '*.hpp')):
             _STRUCTS |= set(re.findall(r'(?m)^(?:struct|class(?: XI_API)?) (?:/\*\w*\*/ )?(\w+)\b', open(f).read()))
     return _STRUCTS
 
@@ -651,7 +841,7 @@ def d3d_methods():
     """the names of the inline wrappers tree/include/xi_d3d8.hpp gives its interfaces (`dev->SetRenderState(...)`)"""
     global _D3DM
     if _D3DM is None:
-        _D3DM = set(re.findall(r'(?m)^\s+[\w\s*]+?\b(\w+)\([^)]*\) \{ return lpVtbl->', open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')).read()))
+        _D3DM = set(re.findall(r'(?m)^\s+[\w\s*]+?\b(\w+)\([^)]*\) \{ return lpVtbl->', open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')).read()))
     return _D3DM
 
 
@@ -667,7 +857,8 @@ def convert(m, src, orig=None, glob_=None):
     # a Direct3D interface's inline wrapper called (`dev->SetRenderState(...)`): C++, as the tree
     force_cpp = force_cpp or any(x in d3d_methods() for x in re.findall(r'->\s*(\w+)\s*\(', body))
     pre = list(dict.fromkeys(VDECLS))
-    words = set(re.findall(r'\b[A-Za-z_]\w*\b', body))
+    # the signature's types too (`HIMC __stdcall f(HWND param_1)`: a Windows type named only there)
+    words = set(re.findall(r'\b[A-Za-z_]\w*\b', body + ' ' + ret + ' ' + args))
     for h, (code, cpp) in HELPERS.items():
         if re.search(HELPER_USE[h], body): pre.append(code); force_cpp = force_cpp or cpp
     # the types a body names: a Windows typedef; a struct or class of tree/include used through a pointer, declared
@@ -780,6 +971,7 @@ def _strip(e):
 def _low_part(e, bits):
     """for `(HIGH << bits) | (uintN_t)(LOW)` (a decompiler's register piece: HIGH what the register held), LOW"""
     e = _strip(e)
+    if re.fullmatch(r'\w+ & 0x%x' % ((0xFFFFFFFF << bits) & 0xFFFFFFFF), e): return '0'   # the low piece cleared
     t = ' << %d) | (uint%d_t)(' % (bits, bits)
     i = e.find(t)
     if i < 0 or not e.startswith('('): return None
@@ -805,7 +997,7 @@ def _rule_ret_piece(text, ret, name, bits, ty):
         pos = end
     if not n: return None
     t = ''.join(out) + text[pos:]
-    t2 = re.sub(r'(^|[{;]\s*|\n)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), t)
+    t2 = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), t)
     return t2 if t2 != t else None
 
 
@@ -890,6 +1082,517 @@ def _rule_retthis(text, ret, name):
     return t2 if t2 != t else None
 
 
+_RET64THIS = re.compile(r'\breturn\s+(\(.*<<\s*(?:32|0x20)\)\s*\|\s*\(uint32_t\)\((?:self_|this)\)\)+);')
+
+
+def _rule_retthis64(text, ret, name):
+    """a `__thiscall` function Ghidra writes as returning a 64-bit pair whose low half is `this` and whose high half
+    is whatever EDX held (a constructor, whose callee left EDX set): every such return returns `this` and the
+    function returns `void *`. Applied only where every return of the function is of that form"""
+    if 'XS::' not in text or ret not in ('uint64_t', 'undefined8', 'unsigned __int64', '__int64', 'longlong', 'ulonglong'): return None
+    rets = re.findall(r'\breturn\b[^;]*;', text)
+    if not rets or len(rets) != len(_RET64THIS.findall(text)): return None
+    t = _RET64THIS.sub('return this;', text)
+    t2 = re.sub(r'(^|[{;]\s*|\n)' + re.escape(ret) + r'(\s+(?:XS::)?' + re.escape(name) + r'\()', lambda m: m.group(1) + 'void *' + m.group(2), t)
+    return t2 if t2 != t else None
+
+
+def _is_cmp(e):
+    """whether e is a comparison at its top level (a value 0 or 1)"""
+    depth = 0
+    for j, ch in enumerate(e):
+        depth += {'(': 1, ')': -1}.get(ch, 0)
+        if depth == 0 and (e[j:j + 2] in ('!=', '==', '<=', '>=') or ch in '<>' and e[j + 1:j + 2] not in ('<', '>', '=') and e[j - 1:j] not in ('<', '>', '-')):
+            return True
+    return False
+
+
+def _rule_negmask(text, ret, name):
+    """a mask of all ones or none from a comparison, which Ghidra prints as `-(uint32_t)(a != b)`, written as
+    `((a != b) ? -1 : 0)`: VC6 compiles the first with setne/neg and the second as `neg al; sbb eax, eax` (0x10087610).
+    The same value either way; a result counts only where match.py says IDENTICAL"""
+    out, pos, n = [], 0, 0
+    for m in re.finditer(r'-\(uint32_t\)\(', text):
+        if m.start() < pos: continue
+        e = _group(text, m.end() - 1)
+        if e < 0: continue
+        inner = text[m.end():e - 1]
+        if not _is_cmp(inner): continue
+        out.append(text[pos:m.start()] + '((%s) ? -1 : 0)' % inner); pos = e; n += 1
+    return ''.join(out) + text[pos:] if n else None
+
+
+def _rule_shiftmask(text, ret, name):
+    """a shift count Ghidra prints with the CPU's own masking, `x << ((uint8_t)n & 0x1f)`, as `x << n`: the 386
+    masks a 32-bit shift's count to 5 bits itself, and VC6 emits no `and` for a plain `<< n` (0x100F13B0)"""
+    t = re.sub(r'(<<|>>)\s*\(\((?:uint8_t|byte|char|unsigned char|uchar)\)(\w+)\s*&\s*0x1f\)', r'\1 \2', text)
+    return t if t != text else None
+
+
+def _rule_storem1(text, ret, name):
+    """a store of all ones to a 1- or 2-byte field, `*(uint16_t *)(p) = 0xffff;`, as the signed type's -1: the same
+    bytes, which VC6 makes with `or eax, 0xffffffff` / `or al, 0xff` for -1 and a `mov` for 0xffff (0x101EC3C0)"""
+    t = re.sub(r'\*\((?:uint16_t|ushort|unsigned short|undefined2|_WORD) \*\)(\([^;=]*?\)) = 0xffff;', r'*(short *)\1 = -1;', text)
+    t = re.sub(r'\*\((?:uint8_t|uchar|unsigned char|undefined1|byte|_BYTE) \*\)(\([^;=]*?\)) = 0xff;', r'*(char *)\1 = -1;', t)
+    return t if t != text else None
+
+
+def _rule_pushinit(text, ret, name):
+    """a frame local Ghidra shows set to `this` before anything else, where the game's `push ecx` (which makes a
+    4-byte frame) left ECX there: the store is the push itself, not a statement (0x1018A220); the assignment is
+    dropped. A result counts only where match.py says IDENTICAL"""
+    if not re.search(r'\bchar xi_frame\[4\];', text): return None
+    t = re.sub(r'(?m)^  (\w+) = \([^()]*\)\((?:self_|this)\);\n', '', text, count=1)
+    return t if t != text else None
+
+
+def _rule_adjthunk(text, ret, name):
+    """an adjustor thunk: a method that is only a call of another on `this - K` (`sub ecx, K; jmp f`) is what VC6
+    emits itself, not a statement, for a virtual function a class overrides for two bases, the second at offset K
+    (?f@D@@W..@: `[thunk]: D::f adjustor{K}`). Written as such a class -- a first base of K bytes, a second, both
+    declaring f, D overriding it -- whose constructor (a shim helper, so that the vtables and the thunk are emitted)
+    is the only other function; f is named fn_<target>, the address match.py compares the jump against (0x10043DB0)"""
+    i = text.find('\n{\n')
+    if i < 0 or 'XS::' not in text: return None
+    body = text[i + 3:text.rstrip().rfind('}')]
+    body = re.sub(r'(?m)^\s*(?:void \*|\w+ \* )self_ = (?:this|reinterpret_cast<\w+ \*>\(this\));.*$', '', body).strip()
+    body = re.sub(r'\s*return;$', '', body)
+    # one statement, one call, to X (the decompiler prints the object as `this - K`, `self_ - N` through a typed
+    # view, or drops it): K and X are the game's own `sub ecx, K; jmp X` (83 E9 K E9 rel32), the call's X the same
+    xs = re.findall(r'\b(?:FUNt_|FUN_)([0-9A-F]{8})\b', body)
+    if body.count(';') != 1 or len(xs) != 1: return None
+    ea = _ea_of(name)
+    if ea is None: return None
+    global _IMG
+    import pefile
+    if _IMG is None: _IMG = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+    b = bytes(_IMG[ea - 0x10000000:ea - 0x10000000 + 8])
+    if b[:2] != b'\x83\xe9' or b[3] != 0xE9 or ea + 8 + int.from_bytes(b[4:8], 'little', signed=True) != int(xs[0], 16): return None
+    a, k = xs[0], b[2]
+    if not 4 <= k < 0x80 or k % 4: return None
+    pad = ' char pad[%d];' % (k - 4) if k > 4 else ''
+    return ('#include "vc6_shim.h"\n'
+            'struct XI_ADJB1_%s { virtual void fn_%s();%s };\n' % (a, a, pad) +
+            'struct XI_ADJB2_%s { virtual void fn_%s(); };\n' % (a, a) +
+            'struct XI_ADJ_%s : XI_ADJB1_%s, XI_ADJB2_%s { void fn_%s(); XI_ADJ_%s(); };\n' % (a, a, a, a, a) +
+            'XI_ADJ_%s::XI_ADJ_%s() {}\n' % (a, a))
+
+
+def _rule_fastthis(text, ret, name):
+    """a callee declared `__fastcall` with two register parameters, called on (object, x): it pops nothing, as a
+    __thiscall member without stack parameters does, and the game's call sets ECX alone where it sets no EDX; written
+    as a member call on the object (0x10029CB0, whose destructor call Ghidra typed __fastcall). A result counts only
+    where match.py says IDENTICAL, which shows the game passes nothing in EDX"""
+    t = text
+    for m in re.finditer(r'(?m)^(?:extern "C" )?([\w ]+?\**)\s*__fastcall (FUN_([0-9A-F]{8}))\(([^(),]+),([^(),]+)\);\n', text):
+        fn, a = m.group(2), m.group(3)
+        t2 = t.replace(m.group(0), 'struct FUNt_%s { %s f(void); };\n' % (a, m.group(1).strip()))
+        out, pos, n = [], 0, 0
+        for c in re.finditer(r'(?<![\w>.])%s\(' % fn, t2):
+            if c.start() < pos: continue
+            e = _group(t2, c.end() - 1)
+            if e < 0: break
+            args = split_args(t2[c.end():e - 1])
+            if len(args) != 2: break
+            out.append(t2[pos:c.start()] + '((FUNt_%s *)(%s))->f()' % (a, args[0])); pos = e; n += 1
+        else:
+            if n: t = ''.join(out) + t2[pos:]
+    return t if t != text else None
+
+
+def _rule_ushortcmp(text, ret, name):
+    """a 2-byte value compared with -1 as `short`, `*(short *)p != -1`, as the unsigned 0xffff: the same test, which
+    VC6 encodes with a 2-byte immediate (66 81 .. FF FF) where the game has it, and with a sign-extended byte for -1
+    (0x100E6300)"""
+    t = re.sub(r'\*\((?:short|int16_t|undefined2|_WORD|ushort|uint16_t) \*\)(\([^;]*?\)) (==|!=) (?:-1|0xffff)\b',
+               r'*(unsigned short *)\1 \2 0xffff', text)
+    return t if t != text else None
+
+
+def _rule_paramnarrow(text, ret, name):
+    """a 4-byte parameter the body uses only as `(short)p` (or `(char)p`, ...) declared as that type: an argument of 1
+    or 2 bytes still takes a 4-byte slot, so the caller is the same, and VC6 then reads it at its own width
+    (`mov si, word ptr [esp + 8]`, 0x101544F0). A result counts only where match.py says IDENTICAL"""
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    t_head, t_body = head, body
+    for m in re.finditer(r'\b(?:undefined4|uint32_t|int|unsigned int|uint|_DWORD|int32_t) (param_\d+|a\d+)\b', head[head.rfind('\n') + 1:]):
+        p = m.group(1)
+        uses = re.findall(r'(\([\w ]+\))?\s*\b%s\b' % p, body)
+        casts = {u for u in uses}
+        if len(casts) != 1: continue
+        c, = casts
+        ty = c.strip('()').strip() if c else ''
+        if ty not in ('short', 'char', 'unsigned short', 'unsigned char', 'uint16_t', 'uint8_t', 'int16_t', 'int8_t', 'ushort', 'uchar', 'byte'): continue
+        t_head = re.sub(r'\b(?:undefined4|uint32_t|int|unsigned int|uint|_DWORD|int32_t) %s\b' % p, '%s %s' % (ty, p), t_head)
+        t_body = re.sub(r'\(%s\)\s*\b%s\b' % (re.escape(ty), p), p, t_body)
+    t = t_head + t_body
+    return t if t != text else None
+
+
+def _rule_retstore(text, ret, name):
+    """a function written as void whose last statement stores a constant, where the game leaves that constant in
+    EAX for its caller (`mov eax, 1; mov byte ptr [esi + 0xa], al`, 0x101953A0): written as returning it (int). A
+    result counts only where match.py says IDENTICAL"""
+    if ret != 'void': return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    m = re.search(r'(?m)^(  \*\([\w ]+\*\)[^;=]*= (-?(?:0x[0-9A-Fa-f]+|\d+));)\n(  return;\n)?\s*\}\s*$', text[i:])
+    if not m: return None
+    body = text[i:i + m.start()] + m.group(1) + '\n  return %s;\n}\n' % m.group(2)
+    head = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)void(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', r'\1int\2', text[:i])
+    t = head + body
+    return t if head != text[:i] else None
+
+
+_INTLIT = r'(-?\s*(?:0x[0-9A-Fa-f]+|\d+))[uU]?'
+
+
+def _rule_select(text, ret, name):
+    """a choice between two constants, which Ghidra prints from VC6's branchless forms as `(uint32_t)(c) * K + B`
+    (setcc; lea) or `(-(uint32_t)(c) & K) + B` (neg; sbb; and; add), written as `((c) ? K + B : B)` (0x10191B20).
+    The same value either way; a result counts only where match.py says IDENTICAL"""
+    out, pos, n = [], 0, 0
+    for m in re.finditer(r'(?:\(-)?\(uint32_t\)\(', text):
+        if m.start() < pos: continue
+        neg = text[m.start():m.start() + 2] == '(-'
+        e = _group(text, m.end() - 1)
+        if e < 0: continue
+        cond = text[m.end():e - 1]
+        if not _is_cmp(cond): continue
+        if neg:
+            t = re.match(r'\s*&\s*' + _INTLIT + r'\)\s*\+\s*' + _INTLIT, text[e:])
+            if not t: continue
+            start, end = m.start(), e + t.end()
+        else:
+            t = re.match(r'\s*\*\s*' + _INTLIT + r'\s*\+\s*' + _INTLIT, text[e:])
+            if not t: continue
+            start, end = m.start(), e + t.end()
+        k, b = (int(x.replace(' ', ''), 0) for x in t.groups())
+        out.append(text[pos:start] + '((%s) ? %d : %d)' % (cond, k + b, b)); pos = end; n += 1
+    return ''.join(out) + text[pos:] if n else None
+
+
+_GLOBDEF = re.compile(r'(?m)^#define (\w+) \(\*\((.+?) (\(\*\)(\[[^\]]*\](?:\[[^\]]*\])*)\)|\*\))(0x[0-9A-Fa-f]{8})u\)$')
+
+
+def _rule_globvar(text, ret, name):
+    """a global read through its cast address (glob_lines) declared as a variable instead: `(*(int *)0x1047BFA8)`
+    makes the compiler reload it where the declared `extern int` is loaded once (recompile/d3d_round_118.md rule 1).
+    The variable's name carries the address (match.py's ADDR_RE), so its relocations are still compared"""
+    def decl(m):
+        g, ty, arr, ea = m.group(1), m.group(2), m.group(4) or '', m.group(5)
+        v = 'xi_g_%08X' % int(ea, 16)
+        return 'extern %s %s%s;\n#define %s %s' % (ty, v, arr, g, v)
+    t = _GLOBDEF.sub(decl, text)
+    return t if t != text else None
+
+
+_FRAME_DECL = re.compile(r'(?m)^[ \t]*(?:alignas\(\d+\) )?(?:unsigned )?char xi_frame\[\w+\][^;\n]*;[^\n]*\n')
+_FRAME_REF = re.compile(r'(?m)^([ \t]*)([A-Za-z_][\w \t]*?(?:\s*\*+)?)\s*(?:&(\w+)|\(&(\w+)\)\[(\w+)\]) = '
+                        r'\*reinterpret_cast<[^>]*>\(xi_frame \+ (\w+)\);[ \t]*\n')
+_SIZES = {'char': 1, 'unsigned char': 1, 'uint8_t': 1, 'int8_t': 1, 'bool': 1, 'short': 2, 'uint16_t': 2, 'int16_t': 2,
+          'int': 4, 'unsigned int': 4, 'uint32_t': 4, 'int32_t': 4, 'float': 4, '_DWORD': 4, 'undefined4': 4,
+          'uint64_t': 8, 'int64_t': 8, 'double': 8}
+
+
+def _rule_frame(text, ret, name):
+    """the decompiler's frame block (`char xi_frame[N]` with each local a reference into it at its offset) as plain
+    locals, each declared where its reference was (recompile/d3d_round_119.md rule 12: the block gives a frame of its
+    size, the plain locals the compiler's own layout). Only where nothing else names the block and no two locals
+    overlap"""
+    if len(_FRAME_DECL.findall(text)) != 1: return None
+    spans = []
+    def plain(m):
+        ind, ty, ref, aref, n, off = m.groups()
+        ty = ty.strip()
+        sz = 4 if ty.endswith('*') else _SIZES.get(re.sub(r'\s+', ' ', ty))
+        if sz is None: raise ValueError(ty)
+        try: k = int(n, 0) if aref else 1; o = int(off, 0)
+        except ValueError: raise ValueError(n)
+        spans.append((o, o + sz * k))
+        return '%s%s %s%s;\n' % (ind, ty, ref or aref, '[%s]' % n if aref else '')
+    try: t = _FRAME_REF.sub(plain, _FRAME_DECL.sub('', text))
+    except ValueError: return None
+    if 'xi_frame' in t or not spans: return None
+    spans.sort()
+    if any(a[1] > b[0] for a, b in zip(spans, spans[1:])): return None
+    return t
+
+
+def _rule_frametight(text, ret, name):
+    """the decompiler's frame block kept as one block (its locals keep their places relative to each other: a pointer
+    into it, a vertex array passed by address, still reaches the same neighbours) but cut to the span its references
+    cover and based at the lowest of them: `char xi_frame[0x49C]` with references from +0x14 to +0x9C becomes
+    `xi_frame[0x88]` with each offset less 0x14 (0x1000A3B0: the frame the block made, 0x49C, against the game's 0x90).
+    Only where nothing else names the block"""
+    if len(_FRAME_DECL.findall(text)) != 1: return None
+    spans = []
+    for m in _FRAME_REF.finditer(text):
+        ty = re.sub(r'\s+', ' ', m.group(2).strip())
+        sz = 4 if ty.endswith('*') else _SIZES.get(ty)
+        try: k = int(m.group(5), 0) if m.group(4) else 1; o = int(m.group(6), 0)
+        except ValueError: return None
+        if sz is None: return None
+        spans.append((o, o + sz * k))
+    if not spans: return None
+    lo, hi = min(a for a, _ in spans), max(b for _, b in spans)
+    rest = _FRAME_REF.sub('', _FRAME_DECL.sub('', text))
+    if 'xi_frame' in rest: return None
+    t = re.sub(r'(char xi_frame\[)\w+(\])', lambda m: '%s0x%X%s' % (m.group(1), hi - lo, m.group(2)), text, count=1)
+    t = re.sub(r'xi_frame \+ (\w+)\);', lambda m: 'xi_frame + 0x%X);' % (int(m.group(1), 0) - lo), t)
+    return t if t != text else None
+
+
+def _rule_float(text, ret, name):
+    """float arithmetic in float (recompile/d3d_round_119.md rule 11): the decompiler's double locals, casts and
+    constants give qword FPU operands where the game has dword ones. In the function's body only (its signature and
+    the callees' declarations are the calling convention): [`double` as `float` and an unsuffixed literal with an
+    `f`; the literals alone]"""
+    m = re.search(r'\b%s\s*\([^;{]*\)\s*\{' % re.escape(name), text)
+    if not m: return None
+    head, body = text[:m.end()], text[m.end():]
+    lit = lambda b: re.sub(r'(?<![\w.])(\d+\.\d*(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)(?![\w.])', r'\1f', b)
+    out = []
+    if re.search(r'\bdouble\b', body): out.append(head + lit(re.sub(r'\b(?:long )?double\b', 'float', body)))   # Ghidra's long double too
+    b2 = lit(body)
+    if b2 != body: out.append(head + b2)
+    # and the function itself returning float: an x87 result is in ST0 whatever its width, so the caller is the same;
+    # the width shows only in the constants and the loads (0x10052D20 `return 1.0f;`, fld dword)
+    rx = r'\b(?:long )?double(\s+(?:__\w+\s+)?(?:XS::)?%s\()' % re.escape(name)
+    if re.search(r'\b(?:long )?double\b', ret or '') and re.search(rx, head):
+        out.append(re.sub(rx, r'float\1', head) + lit(re.sub(r'\b(?:long )?double\b', 'float', body)))
+    return out or None
+
+
+_KW = {'sizeof', 'if', 'while', 'for', 'switch', 'return'}
+_TYPEW = {'void', 'int', 'char', 'short', 'long', 'float', 'double', 'unsigned', 'signed', 'const', '_DWORD', '_BYTE',
+          '_WORD', 'undefined4', 'bool', '__stdcall', '__thiscall', '__cdecl', '__fastcall'}   # `void (__stdcall **)(...)`
+
+
+def _rule_devlocal(text, ret, name):
+    """a call statement through an object a 4-byte integer global points to (`(*(...)(**(_DWORD **)(G + 3772) + S))
+    (*(_DWORD *)(G + 3772), ...)`) with the global read once into a block-scoped local: the game reads the global
+    afresh for each device call into the register that then holds the device (recompile/d3d_round_119.md rule 8).
+    Only a statement with no other call and no assignment, so nothing in it can change the global between the reads
+    it replaces"""
+    ints = {m.group(1) for m in re.finditer(r'(?m)^#define (\w+) \(\*\((?:int|_DWORD|unsigned int|undefined4) \*\)0x[0-9A-Fa-f]{8}u\)$', text)}
+    for m in re.finditer(r'(?m)^extern (?:int|_DWORD|unsigned int|undefined4) (xi_g_[0-9A-F]{8});\n#define (\w+) \1$', text):
+        ints.add(m.group(2))
+    if not ints: return None
+    out, i, n = [], 0, 0
+    for m in re.finditer(r'(?m)^([ \t]*)(\(\*\()', text):
+        if m.start() < i: continue
+        depth, j = 0, m.start(2)
+        while j < len(text):
+            c = text[j]
+            if c == '(': depth += 1
+            elif c == ')': depth -= 1
+            elif c in ';{}' and depth == 0: break
+            j += 1
+        if j >= len(text) or text[j] != ';': continue
+        st = text[m.start(2):j]
+        gs = [g for g in ints if len(re.findall(r'\b%s\b' % g, st)) >= 2]
+        if len(gs) != 1: continue
+        k = _group(st, 0)                                    # the callee `(*(...)(...))`, then its arguments
+        args = st[k:]
+        if not args.startswith('(') or _group(args, 0) != len(args): continue
+        if ')(' in re.sub(r'\((?:const |unsigned |signed )*[A-Za-z_]\w*(?: \*+)?\)', 'C', args) or any(w not in _KW and w not in _TYPEW for w in re.findall(r'\b([A-Za-z_]\w*)\s*\(', st)): continue   # another call
+        if re.search(r'(?<![=!<>])=(?!=)|\+\+|--', st): continue                             # an assignment
+        g = gs[0]
+        out.append(text[i:m.start(2)])
+        out.append('{ int xi_l = %s; %s; }' % (g, re.sub(r'\b%s\b' % g, 'xi_l', st)))
+        i = j + 1; n += 1
+    if not n: return None
+    return ''.join(out) + text[i:]
+
+
+_ECXUSE = None
+_EA_OF_NAME = {}               # function name -> address, for rules that read the game's bytes (main fills it)
+_CUR_EA = None                 # the address of the function the rules are applied to (names repeat: vf001)
+
+
+def _ea_of(name):
+    return _CUR_EA if _CUR_EA is not None else _EA_OF_NAME.get(name)
+
+_IMG = None
+def _ecx_objects(name, callees):
+    """the objects the game itself puts in ECX before its calls to `callees` in function `name`: a global's value
+    (`mov ecx, [G]`) or a global's address (`mov ecx, G`), from the game's bytes; the decompiler drops them, so the
+    text cannot name them"""
+    global _IMG
+    ea = _ea_of(name)
+    if ea is None: return []
+    import capstone, pefile
+    if _IMG is None: _IMG = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
+    ext = json.load(open(os.path.join(ROOT, 'data', 'func_extents.json'))) if not hasattr(_ecx_objects, 'ext') else _ecx_objects.ext
+    _ecx_objects.ext = ext
+    e = ext.get('0x%08x' % ea) or ext.get('0x%08X' % ea)
+    if not e: return []
+    s, t = e[0]
+    ins = list(capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32).disasm(bytes(_IMG[s - 0x10000000:t - 0x10000000]), s))
+    out = []
+    for k, i in enumerate(ins):
+        if i.mnemonic not in ('call', 'jmp') or not i.op_str.startswith('0x') or int(i.op_str, 16) not in callees: continue   # a tail jump too
+        for j in reversed(ins[max(0, k - 10):k]):
+            if j.mnemonic in ('call', 'ret') or j.mnemonic.startswith('j'): break
+            if j.op_str.startswith('ecx,'):
+                m = re.match(r'ecx, dword ptr \[(0x[0-9a-f]{8})\]$', j.op_str)
+                if j.mnemonic == 'mov' and m: out.append('(*(int *)%su)' % m.group(1))
+                elif j.mnemonic == 'mov' and re.match(r'ecx, 0x1[0-9a-f]{7}$', j.op_str): out.append('((void *)%su)' % j.op_str[5:])
+                else:              # a field of the object, or an address inside it: `this` (or self_) at that offset
+                    m2 = re.match(r'ecx, dword ptr \[e[a-ds][xip] \+ (0x[0-9a-f]+|\d+)\]$', j.op_str)
+                    m3 = re.match(r'ecx, (0x[0-9a-f]+|\d+)$', j.op_str) if j.mnemonic == 'add' else re.match(r'ecx, \[e[a-ds][xip] \+ (0x[0-9a-f]+|\d+)\]$', j.op_str) if j.mnemonic == 'lea' else None
+                    if j.mnemonic == 'mov' and m2: out.append('(*(int *)((char *)@THIS + %s))' % m2.group(1))
+                    elif m3: out.append('((char *)@THIS + %s)' % m3.group(1))
+                break
+    return list(dict.fromkeys(out))
+
+def _rule_calledon(text, ret, name):
+    """a __stdcall callee that does not read ECX (data/ecx_use.json) called as a method on an object: the game loads
+    ECX before such calls (recompile/d3d_round_118.md rule 7), which a free call never does, and the decompiler drops
+    the object it does not see used. The object is not in the text, so each candidate is tried -- `this`, each
+    parameter, each local, each global the function names -- one call at a time, as `((FUNt_<addr> *)(OBJ))->f(...)`;
+    the callee keeps its stack arguments and pops (a __thiscall member pops what a __stdcall function pops). Variants;
+    a result counts only where match.py says IDENTICAL"""
+    global _ECXUSE
+    if _ECXUSE is None:
+        _ECXUSE = {k.upper().replace('0X', '0x') for k, v in json.load(open(os.path.join(ROOT, 'data', 'ecx_use.json'))).items() if v}
+    decls = {}
+    for m in re.finditer(r'(?m)^(template <[^>]*> )?(?:extern "C" )?([\w ]+?\**)\s*(__stdcall|__cdecl) (FUN_([0-9A-F]{8}))\(([^)]*)\);\n', text):
+        # a __cdecl callee only without parameters: then it pops what a __thiscall one pops (nothing)
+        if m.group(3) == '__cdecl' and m.group(6).strip() not in ('', 'void'): continue
+        if '0x' + m.group(5) not in _ECXUSE: decls[m.group(4)] = m
+    if not decls: return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    cands = []
+    if '::' in sig: cands.append('this')
+    cands += re.findall(r'(\w+)\s*(?:,|\)$)', sig[sig.find('(') + 1:] + ')' if '(' in sig else '')
+    cands += re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\**(\w+)(?:\[\w+\])?;$', body)
+    cands += re.findall(r'(?m)^#define (\w+) \(\*\(', head)
+    # and what a pointer local points to: the object a call returned the address of (0x1002C710 `mov ecx, [eax]`)
+    cands += ['*' + p for p in re.findall(r'(?m)^  (?:(?:const|unsigned|signed|struct) )*[A-Za-z_]\w* +\*+(\w+);$', body)]
+    cands = [c for c in dict.fromkeys(cands) if c not in ('void', '', 'return', 'break', 'continue') and not c.isdigit()][:14]
+    this_ = 'this' if 'this' in cands else ('self_' if re.search(r'\bself_\b', body) else None)
+    gc = [c.replace('@THIS', this_ or '') for c in _ecx_objects(name, {int(f[4:], 16) for f in decls}) if this_ or '@THIS' not in c]
+    cands = gc + cands
+    out = []
+    for fn, m in decls.items():
+        sites = [s.start() for s in re.finditer(r'(?<![\w>.])%s\(' % fn, body)]
+        tmpl = m.group(1) or ''
+        member = 'struct FUNt_%s { %s%s f(%s); };\n' % (fn[4:], tmpl, m.group(2).strip(), m.group(6))
+        h2 = head.replace(m.group(0), member)
+        if re.search(r'\bstruct FUNt_%s\b' % fn[4:], head): continue
+        for s in sites[:3]:
+            for c in cands:
+                b2 = body[:s] + '((FUNt_%s *)(%s))->f(' % (fn[4:], c) + body[s + len(fn) + 1:]
+                if len(sites) > 1:             # the other sites keep a free call through the same member
+                    b2 = re.sub(r'(?<![\w>.])%s\(' % fn, '((FUNt_%s *)0)->f(' % fn[4:], b2)
+                out.append(h2 + b2)
+    return out[:40] or None
+
+
+def _rule_retnarrow(text, ret, name):
+    """a 4-byte return type as 1 or 2 bytes (`unsigned char`, `unsigned short`): where the game sets only AL or AX
+    on some path (`mov al, 1`, `or al, 0xff`), its function returned the narrower type and the caller reads only
+    that. Variants; a result counts only where match.py says IDENTICAL"""
+    if ret.strip() not in ('int', 'uint32_t', 'int32_t', 'undefined4', 'unsigned int', '_DWORD', 'uint', 'DWORD', 'long', 'char', 'bool', 'byte', 'uint8_t'): return None
+    out = []
+    for ty, sh, lo, hi in (('unsigned char', 8, 'uint8_t', '0xffffff00'), ('unsigned short', 16, 'uint16_t', '0xffff0000')):
+        t2 = re.sub(r'(^|[{;]\s*|\n|extern "C"\s+)' + re.escape(ret) + r'(\s+(?:__\w+\s+)?(?:XS::)?' + re.escape(name) + r'\()', lambda mm: mm.group(1) + ty + mm.group(2), text)
+        if t2 == text: continue
+        out.append(t2)
+        # and Ghidra's partial-register returns at that width: of `((x >> 8) << 8) | (uint8_t)(K)` the caller reads
+        # K, of `x & 0xffffff00` it reads 0 (0x10123DC0)
+        t3 = re.sub(r'\breturn\s+\(\(uint32_t\)\(.*?<<\s*%d\)\s*\|\s*\(%s\)\(([^()]+)\)\)\);' % (sh, lo), r'return \1;', t2)
+        t3 = re.sub(r'\breturn\s+[^;]*&\s*%s;' % hi, 'return 0;', t3)
+        # and Ghidra's CONCAT31(hi, lo) / CONCAT22(hi, lo) returned: the caller reads lo
+        cc = 'CONCAT31' if sh == 8 else 'CONCAT22'
+        out3, pos = [], 0
+        for c in re.finditer(r'\breturn %s\(' % cc, t3):
+            if c.start() < pos: continue
+            e = _group(t3, c.end() - 1)
+            if e < 0 or t3[e:e + 1] != ';': continue
+            args = split_args(t3[c.end():e - 1])
+            if len(args) != 2: continue
+            out3.append(t3[pos:c.start()] + 'return %s' % args[1].strip()); pos = e
+        t3 = ''.join(out3) + t3[pos:]
+        # and the `||` of two calls Ghidra prints as nested ifs that return the zero the second left in AL:
+        # `v = f(a); if ((char)v == '\0') { v = g(b); if ((char)v == '\0') { return v; } } return 1;` (0x10123DC0)
+        if sh == 8:
+            t3 = re.sub(r"(\w+) = ([^;]+);\s*if \(\(char\)\1 == '\\0'\) \{\s*\1 = ([^;]+);\s*if \(\(char\)\1 == '\\0'\) \{\s*"
+                        r"return \1;\s*\}\s*\}\s*return 1;", r'return (char)(\2) || (char)(\3);', t3)
+        if t3 != t2: out.append(t3)
+    return out or None
+
+
+def _rule_ule0(text, ret, name):
+    """`X == 0` as `X <= 0u` (and `X != 0` as `X > 0u`), one comparison at a time: the game's `jbe`/`ja` after a
+    compare with 0 is an unsigned `<=`/`>` the decompiler folded into `==`/`!=` (equal on unsigned values). Variants;
+    a result counts only where match.py says IDENTICAL"""
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    out = []
+    for m in re.finditer(r'(?<![=!<>])(==|!=) 0(?:x0)?(?![\w.])', body):
+        op = '<= 0u' if m.group(1) == '==' else '> 0u'
+        out.append(head + body[:m.start()] + op + body[m.end():])
+        if len(out) >= 12: break
+    return out or None
+
+
+def _rule_xiany(text, ret, name):
+    """XI_ANY (the shim's "any 4 bytes" for a parameter the tree leaves untyped) as `unsigned int`: in C++ it is a
+    4-byte struct, which VC6 passes through a stack temporary (`push ecx; mov eax, esp; mov [eax], v`) where the game
+    pushes the word. The arguments' conversions are cast by the permissive rounds; a result counts only where
+    match.py says IDENTICAL"""
+    if not re.search(r'\bXI_ANY\b', text): return None
+    return re.sub(r'\bXI_ANY\b', 'unsigned int', text)
+
+
+def _rule_retvoid(text, ret, name):
+    """the function as `void`: where the game's code returns whatever EAX holds (no `xor eax, eax`, no load for the
+    value the decompiler printed, which held only on the path it saw), the source returned nothing. `return E;` keeps
+    E's side effects (`E; return;`) unless E is a constant or a name. A result counts only where match.py says
+    IDENTICAL: then the function leaves in EAX what the game's leaves"""
+    if ret.strip() in ('void', '') or '*' in ret and False: return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    s2 = re.sub(r'^((?:extern "C"\s+)?)' + re.escape(ret) + r'(\s)', r'\1void\2', sig, count=1)
+    if s2 == sig: return None
+    def ret_(m):
+        e = m.group(1).strip()
+        if re.fullmatch(r'\(?[\w ]*\**\)?\s*(?:-?0x[0-9a-fA-F]+|-?\d+|\w+)u?', e): return 'return;'
+        return '{ %s; return; }' % e
+    b2 = re.sub(r'\breturn\s+([^;]+);', ret_, body)
+    hd = head[:head.rfind('\n') + 1]
+    hd = re.sub(r'(\bstruct XS \{ )' + re.escape(ret) + r'(\s+%s\()' % re.escape(name), r'\1void\2', hd)
+    return hd + s2 + b2
+
+
+def _rule_ret64(text, ret, name):
+    """a callee the decompiler declares returning 8 bytes (`undefined8`, Ghidra's guess where EDX might be read) and
+    the 8-byte locals that take its value, as 4 bytes: where the game's code reads only EAX after the call the
+    compiler then keeps no EDX temporary. Only in the function's body and the callees' declarations; a result counts
+    only where match.py says IDENTICAL (a value whose high half is used compiles otherwise)"""
+    if not re.search(r'\bundefined8\b', text): return None
+    i = text.find('\n{\n')
+    if i < 0: return None
+    head, body = text[:i], text[i:]
+    sig = head[head.rfind('\n') + 1:]
+    h2 = head[:head.rfind('\n') + 1].replace('undefined8', 'undefined4') + sig
+    b2 = re.sub(r'\b(?:undefined8|uint64_t|ulonglong)\b(?=\s+\w+;)', 'uint32_t', body)
+    b2 = re.sub(r'\b(?:longlong|int64_t)\b(?=\s+\w+;)', 'int32_t', b2)
+    out = h2 + b2
+    return out if out != text else None
+
+
 # the rewrite rules (--rules): each a mechanical change of how the code is written, never of what it computes; a
 # result counts only where match.py's comparison says IDENTICAL
 RULES = [
@@ -898,11 +1601,36 @@ RULES = [
     ('ge0', _rule_ge0),
     ('cmpk', _rule_cmpk),
     ('retthis', _rule_retthis),
+    ('globvar', _rule_globvar),
+    ('devlocal', _rule_devlocal),
+    ('frame', _rule_frame),
+    ('float', _rule_float),
+    ('frametight', _rule_frametight),
+    ('calledon', _rule_calledon),
+    ('ret64', _rule_ret64),
+    ('retnarrow', _rule_retnarrow),
+    ('uleq', _rule_ule0),
+    ('xiany', _rule_xiany),
+    ('retvoid', _rule_retvoid),
+    ('retthis64', _rule_retthis64),
+    ('negmask', _rule_negmask),
+    ('select', _rule_select),
+    ('shiftmask', _rule_shiftmask),
+    ('storem1', _rule_storem1),
+    ('pushinit', _rule_pushinit),
+    ('adjthunk', _rule_adjthunk),
+    ('fastthis', _rule_fastthis),
+    ('ushortcmp', _rule_ushortcmp),
+    ('paramnarrow', _rule_paramnarrow),
+    ('retstore', _rule_retstore),
 ]
 
 
-def apply_rules(text, ret, name):
-    """[(rule, text)] for every rule that changes the text, and every rule together"""
+def apply_rules(text, ret, name, ea=None):
+    """[(rule, text)] for every rule that changes the text, and every rule together; ea, the function's address, for
+    the rules that read the game's bytes"""
+    global _CUR_EA
+    _CUR_EA = ea
     out, t_all, names = [], text, []
     for rn, f in RULES:
         t = f(text, ret, name)
@@ -916,6 +1644,41 @@ def apply_rules(text, ret, name):
         t2 = f(t_all, ret, name)
         if t2 is not None and not isinstance(t2, list): t_all = t2; names.append(rn)
     if len(names) > 1: out.append(('_'.join(names), t_all))
+    # and every rule together but the ones that try objects or widths (calledon, ret64): their variants are guesses
+    # to be confirmed one at a time, and one of them in the combination hides what the others give together
+    def combo(rns):
+        t_b = text
+        for rn, f in RULES:
+            if rn not in rns: continue
+            t2 = f(t_b, ret, name)
+            if t2: t_b = t2[-1] if isinstance(t2, list) else t2
+        return t_b
+    base = [rn for rn in names if rn not in ('calledon', 'ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore')]
+    if 1 < len(base) < len(names): out.append(('_'.join(base), combo(base)))
+    for g in ('ret64', 'xiany'):                       # calledon over a text these change (the callee's own declaration)
+        if g in names:
+            tg = dict(RULES)[g](text, ret, name)
+            co = tg and _rule_calledon(tg, ret, name)
+            if co: out += [('%s_calledon%d' % (g, k), x) for k, x in enumerate(co)]
+    for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore'):  # and the others with each of these on its own
+        if base and g in names and len(names) > len(base) + 1: out.append(('_'.join(base + [g]), combo(base + [g])))
+    # each two of them together, alone and with the others (0x1003C6E0 is ret64 with xiany, without retthis)
+    guess = [g for g in ('ret64', 'retnarrow', 'uleq', 'xiany', 'retvoid', 'retstore') if g in names]
+    seen = {t for _, t in out}
+    for i, g in enumerate(guess):
+        for h in guess[i + 1:]:
+            for rns in ([g, h], base + [g, h]):
+                if len(rns) == len(names): continue
+                t = combo(rns)
+                if t != text and t not in seen: seen.add(t); out.append(('_'.join(rns), t))
+    # and each of them with the others but one, and with each other alone (0x100746A0 is globvar with xiany,
+    # without retthis)
+    for g in guess:
+        for b in base:
+            for rns in ([r for r in base if r != b] + [g], [b, g]):
+                if not rns or len(rns) == len(names): continue
+                t = combo([r for r in names if r in rns])
+                if t != text and t not in seen: seen.add(t); out.append(('_'.join(r for r in names if r in rns), t))
     return out
 
 
@@ -923,6 +1686,67 @@ _CONV = re.compile(r"^C2440: '(?P<op>=|return|initializing)' : cannot convert fr
 _CONVP = re.compile(r"^C2664: '(?P<fn>[^']+)' : cannot convert parameter (?P<n>\d+) from '(?P<a>[^']+)' to '(?P<b>[^']+)'$")
 # a call through a function-pointer cast: `(*(R (CC **)(P))(SLOT))(` or `((R (CC *)(P))(FN))(`
 _FPCALL = re.compile(r'\(\*?\((?P<ret>[^()]+?) \((?:__\w+ )?\*\*?\)\((?P<params>[^()]*)\)\)')
+
+
+def _d3d_slot_calls(text):
+    """a typed Direct3D call the tree writes through its interface's inline wrapper, `(*(IFACE **)(X))->M(a, b)` or
+    `((IFACE *)X)->M(a, b)` (pipeline/holder_calls.py), written as the slot call
+    `(*(int (__stdcall **)(IFACE *, A, B))(*(int *)OBJ + 4 * slot))(OBJ, a, b)`: the game was built against the SDK's
+    virtual interfaces, and VC6 compiles their calls as it compiles a slot call (the arguments pushed, then the object
+    read for `this` and the vtable), not as the tree's inline wrapper (the vtable read first). Same call, same
+    arguments; the slot is the method's place in the header (data/com_spec.json)"""
+    sys.path.insert(0, os.path.join(ROOT, 'pipeline'))
+    import holder_calls as H
+    rx = re.compile(r'(\(\*\((IDirect3D\w*8) \*\*\)\((?:[^()]|\([^()]*\))*\)\)|\(\((IDirect3D\w*8) \*\)(?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))->(\w+)\(')
+    out, pos = [], 0
+    for m in rx.finditer(text):
+        if m.start() < pos: continue
+        obj, iface, meth = m.group(1), m.group(2) or m.group(3), m.group(4)
+        names = [x['name'] for x in H.SPEC.get(iface, [])]
+        ptypes = H.WRAP.get(iface, {}).get(meth)
+        if meth not in names or ptypes is None: continue
+        args, end = H._split_args(text, m.end())
+        if args is None or len(args) != len(ptypes): continue
+        proto = ', '.join(['%s *' % iface] + ptypes)
+        # the object and its vtable read through one integer type, as the decompiler's text (and the game) has them:
+        # VC6 reads a value once only where both reads have the same type
+        if m.group(2): ref = '*(int *)' + obj[len('(*(%s **)' % iface):-1]           # (*(I **)(X)) -> *(int *)(X)
+        else: ref = '(int)' + obj[len('((%s *)' % iface):-1]                         # ((I *)E) -> (int)E
+        vt, this = '*(int *)%s' % ref if m.group(2) else '*(int *)(%s)' % ref, '(%s *)%s' % (iface, ref)
+        out.append(text[pos:m.start()] + '(*(int (__stdcall **)(%s))(%s + %d))(%s)' % (proto, vt, 4 * names.index(meth), ', '.join([this] + args)))
+        pos = end
+    return ''.join(out) + text[pos:] if out else text
+
+
+def same_file(text, fn, callee, ctext, cfn):
+    """text with the callee's definition (its sweep text, ctext) put before the function's, named as text calls it:
+    FUN_<addr> (a __cdecl/__stdcall function; C linkage in C++) or FUNt_<addr>::f (a __thiscall one); the callee's
+    declarations text lacks go with it, and text's own declaration of the callee goes. None where the forms differ
+    (C++ callee in C, a method called as a function)."""
+    a = '%08X' % callee
+    def split(t):
+        i = t.index('\n{\n'); j = t.rindex('\n', 0, i) + 1
+        return t[:j], t[j:]
+    cpre, cdef = split(ctext)
+    head, cline = cdef.split('\n', 1)
+    if re.search(r'\bFUN_%s\b' % a, text) and 'XS::' not in head:
+        if fn.endswith('.c') and cfn.endswith('.cpp'): return None
+        head = re.sub(r'([A-Za-z_]\w*)(\s*\()', lambda m: 'FUN_%s%s' % (a, m.group(2)), head, count=1)
+        if fn.endswith('.cpp') and not head.startswith('extern "C"'): head = 'extern "C" ' + head
+        drop_decl = r'(?m)^[^\n;{}]*\bFUN_%s\s*\([^\n]*\);\n' % a
+    elif re.search(r'\bFUNt_%s\b' % a, text) and 'XS::' in head and fn.endswith('.cpp'):
+        m = re.search(r'XS::(\w+)\(', head)
+        head = head.replace('XS::%s(' % m.group(1), 'FUNt_%s::f(' % a)
+        cpre = re.sub(r'\bstruct XS \{(.*?)\b%s\(' % m.group(1), lambda x: 'struct FUNt_%s {%sf(' % (a, x.group(1)), cpre)
+        cpre = re.sub(r'\bXS\b', 'FUNt_%s' % a, cpre); cline = re.sub(r'\bXS\b', 'FUNt_%s' % a, cline)
+        drop_decl = r'(?m)^struct FUNt_%s \{[^\n]*\};\n' % a
+    else:
+        return None
+    tpre, tdef = split(text)
+    tpre = re.sub(drop_decl, '', tpre)                 # the declaration only, never a call in the body
+    have = set((tpre + tdef).split('\n'))
+    extra = ''.join(l + '\n' for l in cpre.split('\n') if l.strip() and l not in have)
+    return tpre + extra + head + '\n' + cline + '\n' + tdef
 
 
 def _conv_kind(t):
@@ -969,9 +1793,14 @@ def permissive(text, errors, fn):
                 k = ks[0].end() - 1
             else:                                         # the one call on the line through a function-pointer cast
                 ks = [x for x in _FPCALL.finditer(l)]
-                if len(ks) != 1: continue
-                k = _group(l, ks[0].start())
-                if k < 0 or k >= len(l) or l[k] != '(': continue
+                if len(ks) == 1:
+                    k = _group(l, ks[0].start())
+                    if k < 0 or k >= len(l) or l[k] != '(': continue
+                else:                                     # none: the one named call on the line (an IAT macro)
+                    ks = [x for x in re.finditer(r'(?<![\w.>])([A-Za-z_]\w*)\s*\(', l)
+                          if x.group(1) not in ('if', 'while', 'for', 'switch', 'return', 'sizeof')]
+                    if _FPCALL.search(l) or len(ks) != 1: continue
+                    k = ks[0].end() - 1
             e = _group(l, k)
             if e < 0: continue
             args = split_args(l[k + 1:e - 1]); n = int(n)
@@ -1048,8 +1877,12 @@ def main():
     ap.add_argument('--jobs', type=int, default=os.cpu_count())
     ap.add_argument('--rules', action='store_true', help='also try each DIFFERS function with the rewrite rules (RULES)')
     ap.add_argument('--cache', default=os.path.join(ROOT, 'runs', 'vc6_cache'), help="objects by source hash ('' for none)")
+    ap.add_argument('--sametu', action='store_true', help="also each function that keeps ECX/EDX across a call with that callee in the same file")
+    ap.add_argument('--tree', default='', help='a tree other than tree/ (its src/ and include/)')
     ap.add_argument('--only', default=''); ap.add_argument('--calls', action='store_true', help='also functions that call the game or name its globals')
     o = ap.parse_args()
+    global TREE
+    if o.tree: TREE = os.path.abspath(o.tree)
     only = {int(x, 16) for x in o.only.split(',') if x}
     import pefile
     img = pefile.PE(os.environ['FFXI_DLL'], fast_load=True).get_memory_mapped_image()
@@ -1060,7 +1893,7 @@ def main():
     open(os.path.join(d, 'vc6_shim.h'), 'w').write(SHIM)
     # the Direct3D 8 interfaces as the tree declares them (tree/include/xi_d3d8.hpp, from the SDK's d3d8.h), less the
     # static_asserts Visual C++ 6.0 does not have; included by the sources that name an IDirect3D interface
-    d3d = ''.join(l for l in open(os.path.join(ROOT, 'tree', 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
+    d3d = ''.join(l for l in open(os.path.join(TREE, 'include', 'xi_d3d8.hpp')) if 'static_assert' not in l)
     open(os.path.join(d, 'xi_d3d8_vc6.h'), 'w').write(d3d)
     open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'w').write(d3d_c(d3d))
     res, files, sig = {}, [], {}
@@ -1075,11 +1908,19 @@ def main():
         bad = c[0] and [x for x in hx if not hx[x] and re.search(r'(?<![\w.])%s(?![\w.])' % re.escape(x), c[1])]
         if bad: c = (None, 'hexadecimal floating literal read otherwise (%s)' % bad[0])
         if c[0] is None: res[k] = {'verdict': 'LEFT_OUT', 'why': c[1], 'conv': m.group('cc')}; continue
-        text = c[1]
-        if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text:
+        text = _d3d_slot_calls(c[1])
+        if re.search(r'\bIDirect3D\w*8\b', text) or D3D_MARK in text or any(re.search(r'\b%s\b' % s, text) for s in ('D3DCAPS8', 'D3DMATRIX')):
             text = text.replace('#include "vc6_shim.h"\n', '#include "vc6_shim.h"\n#include "xi_d3d8_vc6%s.h"\n' % ('c' if c[0] == '.c' else ''), 1)
+        # a field or local declared as a pointer to __thiscall functions (VC6 takes the keyword on members only, C4234):
+        # the declaration fixes a layout, a 4-byte pointer either way; a call through it compiles without ECX and the
+        # comparison shows it
+        pv = re.findall(r'(?m)^\s*[\w ]+\(__thiscall \*\*?(\w+)\)\([^;=]*\);\s*$', text)
+        text = re.sub(r'(?m)^(\s*[\w ]+\()__thiscall (\*\*?\w+\)\([^;=]*\);\s*)$', r'\1\2', text)
+        for v_ in pv:                                    # and the casts assigned to it, to its new type
+            text = re.sub(r'(?m)^(\s*%s = \([\w ]+\()__thiscall (\*\*?\))' % v_, r'\1\2', text)
         fn = 'f_%08X%s' % (ea, c[0]); open(os.path.join(d, fn), 'w').write(text); files.append((ea, fn, m.group('cc')))
         sig[ea] = (m.group('ret').strip(), m.group('name'))
+        _EA_OF_NAME[m.group('name')] = ea
     # compile in chunks (one cl run per chunk; an error stops only that file's object), --jobs chunks at a time.
     # An object is cached by the hash of what decides it: its source, the shim, the flags and the compiler's own
     # files (cache_key). The comparison with the game is redone every run: it depends on the DLL and the facts.
@@ -1091,9 +1932,11 @@ def main():
 
     d3dh = open(os.path.join(d, 'xi_d3d8_vc6.h'), 'rb').read(); d3dhc = open(os.path.join(d, 'xi_d3d8_vc6c.h'), 'rb').read()
     errs = {}                  # file: [(where, line, cl's message)], its compile's errors
+    drop = {}                  # file: the symbols in it that are not the function (--sametu's callees)
     def key_of(fn):
         src = open(os.path.join(d, fn), 'rb').read()
-        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b''), SHIM, o.flags, tc)
+        return cache_key(src + (d3dh if b'xi_d3d8_vc6.h' in src else b'') + (d3dhc if b'xi_d3d8_vc6c.h' in src else b'') +
+                         os.path.splitext(fn)[1].encode(), SHIM, o.flags, tc)      # C and C++ compile one text differently
 
     def compile_chunk(chunk):
         r = subprocess.run(['wine', os.path.join(os.environ['VC6'], 'BIN', 'cl.exe'), '/nologo', '/c', '/Gy'] + o.flags.split() + [f for _, f, _ in chunk],
@@ -1109,7 +1952,8 @@ def main():
         if cache:
             for _, fn, _ in chunk:
                 obj, c = os.path.join(d, fn.rsplit('.', 1)[0] + '.obj'), os.path.join(cache, key_of(fn))
-                if os.path.exists(obj): shutil.copyfile(obj, c + '.tmp'); os.replace(c + '.tmp', c + '.obj')
+                if os.path.exists(obj):   # a name of its own: two chunks may hold the same source (one key)
+                    tmp = '%s.%d.%s.tmp' % (c, os.getpid(), fn); shutil.copyfile(obj, tmp); os.replace(tmp, c + '.obj')
                 else:       # the file's own name as '*' (another file of the same source shares the entry)
                     json.dump([('*' if w == fn else w, n, e) for w, n, e in errs.get(fn, [])], open(c + '.fail', 'w'))
 
@@ -1141,7 +1985,7 @@ def main():
             funcs, _ = M.coff(obj)
             # the shim's own inline helpers (XI_ANY's constructor, xi_castbits_) are emitted beside the function when
             # instantiated: they are not the function; a call to one is a relocation whose symbol names no address
-            own = {k: v for k, v in funcs.items() if not SHIM_HELPER.match(k)}
+            own = {k: v for k, v in funcs.items() if not SHIM_HELPER.match(k) and not (fn in drop and drop[fn].search(k))}
             if len(own) != 1: out[fn] = {'verdict': 'NO_COMPILE', 'why': '%d functions in the object' % len(own), 'conv': cc, 'funcs': sorted(funcs)}; continue
             (sym, (code, rels)), = own.items()
             v, why, notes = M.compare(img, ext, ea, code, rels, place)
@@ -1170,18 +2014,65 @@ def main():
         for ea, fn, cc in files:
             if res['0x%08X' % ea]['verdict'] != 'DIFFERS': continue
             text = open(os.path.join(d, fn)).read()
-            for rn, t in apply_rules(text, *sig[ea]):
-                vf = 'f_%08X_%s%s' % (ea, rn, os.path.splitext(fn)[1]); open(os.path.join(d, vf), 'w').write(t)
+            for rn, t in apply_rules(text, *sig[ea], ea=ea):
+                ext_ = os.path.splitext(fn)[1]
+                if 'calledon' in rn and ext_ == '.c': ext_ = '.cpp'     # a member call needs C++
+                vf = 'f_%08X_%s%s' % (ea, rn, ext_); open(os.path.join(d, vf), 'w').write(t)
                 var.append((ea, vf, cc)); meta[vf] = rn
         got = judge(var, 'rewrite rules')
+        for rnd in range(1, 9):                         # the variants' own conversions as casts, as for the tree's text
+            redo = []
+            for ea, vf, cc in var:
+                if got[vf]['verdict'] != 'NO_COMPILE': continue
+                t_, n_ = permissive(open(os.path.join(d, vf)).read(), errs.get(vf, []), vf)
+                if n_: open(os.path.join(d, vf), 'w').write(t_); redo.append((ea, vf, cc))
+            if not redo: break
+            got.update(judge(redo, 'rules: implicit conversions as casts, round %d (%d sources)' % (rnd, len(redo))))
         tried = collections.Counter(); won = collections.Counter()
         for ea, vf, cc in var:
             rn = meta[vf]; r = res['0x%08X' % ea]
-            base = 'cmpk' if re.fullmatch(r'cmpk\d+', rn) else rn
+            base = re.sub(r'\d+$', '', rn) if re.fullmatch(r'(cmpk|float|calledon|retnarrow|uleq|ret64_calledon|xiany_calledon)\d+', rn) else rn
             if base not in r.setdefault('rules_tried', []): r['rules_tried'].append(base); tried[base] += 1
             if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
                 r['rule_identical'] = rn; r['rule_verdict'] = got[vf]['verdict']; won[base] += 1
         for rn in sorted(tried): print('rule %s: applied to %d DIFFERS, IDENTICAL in %d' % (rn, tried[rn], won[rn]))
+    # --sametu: a function the game's code shows keeping ECX or EDX across a direct call (pipeline/vc6/livecall.py,
+    # verification/live_across_call.json) compiled with that callee's text earlier in the same file
+    # (recompile/d3d_round_121.md rule 28), as itself and with each rule's text; IDENTICAL is recorded as rule "sametu"
+    if o.sametu:
+        live = json.load(open(os.path.join(ROOT, 'verification', 'live_across_call.json')))
+        srcs = {ea: fn for ea, fn, cc in files}
+        var, meta = [], {}
+        for ea, fn, cc in files:
+            r = res['0x%08X' % ea]
+            if r['verdict'] != 'DIFFERS' or r.get('rule_identical') or '0x%08X' % ea not in live: continue
+            callees = sorted({int(s[1], 16) for s in live['0x%08X' % ea]['sites']})
+            if not all(c in srcs for c in callees): continue
+            text = open(os.path.join(d, fn)).read()
+            texts = [('', text)] + [('_' + rn, t) for rn, t in apply_rules(text, *sig[ea], ea=ea)]
+            for rn, t in texts:
+                for c in callees:
+                    t = t and same_file(t, fn, c, open(os.path.join(d, srcs[c])).read(), srcs[c])
+                if not t: continue
+                vf = 'f_%08X_sametu%s%s' % (ea, rn, os.path.splitext(fn)[1]); open(os.path.join(d, vf), 'w').write(t)
+                var.append((ea, vf, cc)); meta[vf] = callees
+        drop.update({vf: re.compile('|'.join('FUNt?_%08X' % c for c in cs)) for vf, cs in meta.items()})
+        got = judge(var, 'callees in the same file (sametu)')
+        for rnd in range(1, 9):                         # the callee's own types against the call's: as casts, as above
+            redo = []
+            for ea, vf, cc in var:
+                if got[vf]['verdict'] != 'NO_COMPILE': continue
+                t, n = permissive(open(os.path.join(d, vf)).read(), errs.get(vf, []), vf)
+                if n: open(os.path.join(d, vf), 'w').write(t); redo.append((ea, vf, cc))
+            if not redo: break
+            got.update(judge(redo, 'sametu: implicit conversions as casts, round %d (%d sources)' % (rnd, len(redo))))
+        won = set()
+        for ea, vf, cc in var:
+            r = res['0x%08X' % ea]; r.setdefault('rules_tried', []).count('sametu') or r['rules_tried'].append('sametu')
+            if got[vf]['verdict'] in ('IDENTICAL', 'IDENTICAL_UNCOMPARED') and 'rule_identical' not in r:
+                r['rule_identical'] = 'sametu' + vf.split('_sametu', 1)[1].rsplit('.', 1)[0]; r['rule_verdict'] = got[vf]['verdict']
+                won.add(ea)
+        print('sametu: %d functions tried, IDENTICAL in %d' % (len({ea for ea, _, _ in var}), len(won)))
     json.dump(dict(sorted(res.items())), open(o.out, 'w'), indent=1)
     c = collections.Counter(v['verdict'] for v in res.values())
     print('%d functions: %s' % (len(res), ', '.join('%s %d' % kv for kv in sorted(c.items()))))

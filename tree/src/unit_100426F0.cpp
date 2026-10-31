@@ -216,19 +216,13 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
     v33[23] = 0.0;
     v33[24] = 1.0;
     orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
-    (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      0);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(0));
     orig::CDx_PushRenderTargetTexture_Flag1(
       *(void **)(g_pResourceMng + 3528),
       *(_DWORD *)(g_pMoAccumTarget + 4),
       *(_DWORD *)(g_pMoAccumTarget + 8),
       *(_DWORD *)(g_pMoAccumTarget + 12));
-    (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      v10);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(v10));
     if ( (CMoDist_vf18_staticGuards & 2) == 0 )
     {
       CMoDist_vf18_staticGuards |= 2u;
@@ -237,10 +231,7 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
     }
     orig::StateBlock_ApplyRSTSS(CMoDist_vf18_stateBlock, (int)CMoDist_vf18_renderStates, (int)CMoDist_vf18_textureStageStates);
     orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
-    (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      0);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(0));
     orig::sub_1006A0E0(g_pResourceMng, 0, 0);
     orig::DynVB_Reserve((void *)g_pDynVB_FVF142, 6);
     v49 = orig::DynVB_Lock((void *)g_pDynVB_FVF142);
@@ -288,10 +279,7 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
     v56[12] = v57[101] + v56[12];
     v56[13] = v57[101] + v56[13];
     orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v56);
-    (*(void (__stdcall **)(_DWORD, _DWORD, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      *(_DWORD *)(g_pMoAccumTarget + 4));
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(*(_DWORD *)(g_pMoAccumTarget + 4)));
     if ( (CMoDist_vf18_staticGuards & 4) == 0 )
     {
       CMoDist_vf18_staticGuards |= 4u;

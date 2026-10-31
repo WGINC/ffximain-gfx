@@ -48,18 +48,18 @@ rules of CLAUDE.md hold throughout: every fact names a definitive source, and an
   integrates. Their number is the owner's decision. Published accounts of agent-assisted matching show fast early
   gains, then a stall on the hard tail.
 
-## Where it stands (sources)
+## Where it stands (sources; 27 Oct, late)
 
 | Measure | Value | Source |
 |---|---|---|
-| Frame-set functions (game code) | 4,984 (4,765) | the frame-set closure data, task #86 |
-| In the verified tree | 4,280 functions, 4,279 PASS, 1 INCONCLUSIVE (0x10003890) | tree/README.md, verification/gate_clean_final.jsonl |
-| Unresolved indirect call sites | 1,929 in 484 functions | task #88 working data |
-| Byte-identical (sweep of the tree as written) | 1,433 of 4,121 (1,529 DIFFERS, 582 NO_COMPILE, 577 LEFT_OUT) | verification/vc6_sweep.json |
-| Hand-matched | 14 functions | recompile/small_math.cpp |
+| Frame-set functions (game code) | 5,430 (5,211), 27 Oct: recorded indirect targets followed | data/frame_set.json |
+| In the verified tree | tree r14: 4,897 functions, 4,884 PASS; frame set: 4,449 in the tree, 4,437 PASS | verification/gate_clean_final.jsonl, verification/frame_set_status.json |
+| Unresolved indirect call sites | 1,768 in 472 functions (206 observed in game) | data/indirect_targets.json |
+| Byte-identical | 1,612 of the frame set (29.7%): the sweep (1,819 of 4,251 swept) and 110 hand-written | verification/vc6_sweep.json, verification/recompile_match.json |
+| Render core at the bytes | #118 30 of 57, #119 26 of 100 | verification/render_core_status.json |
 | D3D8 surface | 57 functions with proven device calls (34 in the tree), 370 proven call sites | data/ facts, kit facts=1 |
 | D3D11 device | d3d8on11 milestones 1–2 and the ring, Wine-tested; runs the game (plaza, house) | kit/d3d8on11/README.md, HISTORY.md 17 Oct |
-| In-game tests | T2 done (readbacks cost about 10.5 ms a frame, runs 8980/8452); T1 done (the smaller size was about 3 ms faster); T3 (`null_draws`) not run | HISTORY.md 18 Oct |
+| In-game tests | T2 done (readbacks cost about 10.5 ms a frame, runs 8980/8452); T1 done (the smaller size was about 3 ms faster); T3 done (no drawing: medians 7.5 to 7.7 ms, run B of 26 Oct; REEVALUATION.md section 7) | HISTORY.md 18 Oct |
 | Objects whose compiler is not reproduced | 189 (stamp 10/11 build 9782) | docs/RECOMPILE.md |
 
 ## The steps, in 5%
@@ -129,7 +129,7 @@ What was done, and what it measured:
    devices in one sitting, with a collect script.
 6. **Fewer stalls of my own.** Tool changes are made and tested in a separate worktree while long runs use the main
    one. Long runs log their progress (regen_facts prints each tool as it ends).
-7. **More machines** (docs/WORKERS.md) when the owner says how many. Not started.
+7. **More machines.** Tried 25 to 27 Oct (parallel worker sessions), then stopped by the owner on cost: one session at a time (docs/EFFICIENCY.md).
 
 ## Who does what
 

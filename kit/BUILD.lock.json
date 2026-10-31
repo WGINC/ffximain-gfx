@@ -1,18 +1,18 @@
 {
- "kit/d3d11probe/dist/probe11_arm64.exe": "b92b97c7a87f25fbd2dee95544506c514a8a3003c9c7a7c879792c00a9c8470e",
- "kit/d3d11probe/dist/probe11_x86.exe": "240cd68231f71d2f2423f1e9d7dc8442ebf680cca1a3969113cc01fe79bf3927",
+ "kit/d3d11probe/dist/probe11_arm64.exe": "3513225ef4eb1523c8a32e2b22dd0b95a4e2fa44d9c0a53f016c4192a17aaab4",
+ "kit/d3d11probe/dist/probe11_x86.exe": "2e93b806b618c5fe46e3dec350a306d58ea7652226c9f49e5a3ce60463a6d040",
  "kit/d3d11probe/dist/probe8_x86.exe": "d1914bbc2bcd4438e11af672614f9b24d0308ac67611353fa92f53e286263a39",
  "kit/d3d8on11/dist/d3d8.dll": "060f0615168a9e1dc72d4b538e9948ab26dab1acd069c28a0792414c82b785e4",
  "kit/d3d8on11/dist/d8x.exe": "bfaa3a877241e9328b2e9e059400ff7091929491312047a7f6ea724309f89863",
- "kit/d3d8on11/dist/d8x_arm64.exe": "31ddf26e85c51fe8534a574d99158492111e1a52e9878e84e926d3e2e5b964c1",
+ "kit/d3d8on11/dist/d8x_arm64.exe": "06c8955038c2159e3224adabfab5399fb1922951c8ee7bc5b5136df814bca0a4",
  "kit/d3dprof/d3dprof.dll": "6abeb60c71fe7c68fa999dff6c91294370f7ddfcbb4037c492f393b93ddf4cba",
  "kit/fcap/dist/fcap_replay.exe": "4aec1fe84c48475ffb86359984f200d9e9130402f65d01ac94a4f0f64e632517",
  "kit/speedfix/dist/speedfix.dll": "068dbbeb6a6ad2a496548a0b64b77b31d98c7ce9048ef5abd0e10dd8ef2a9f5a",
- "kit/xikit/dist/gfx_recon_ingame.dll": "542f78629da394ddc3827b81e8619ffc07f638d011664dde1e0c18eeffad7a01",
+ "kit/xikit/dist/gfx_recon_ingame.dll": "1f0ebe1cbe63403a6b93c0e6019465b8f4bb5acd92a1aa1421541b05b4186b7f",
  "kit/xikit/dist/xikit.dll": "fa9f72fa54672879992ba6a5cfe94d1a17fe062acff6a1d648ae71f7ed2ca39d",
  "kit/xikit/dist/xikit.ini": "e43719bd86d3a7be066b5b112b3cdd6a23827897ed2c3e226e21317214169b72",
- "kit/xikit/dist/xikit_facts.txt": "480c535c5deb5e79f5fdc8c72140f1ffa7eab13f43e0517d514cd4a802a9ab90",
- "kit/xikit/dist/xikit_manifest.txt": "1cbfcb5793bfa084eca4ec4f48527fa3380fd19c999ab4f9660cc75bf8104c65",
- "kit/xikit/dist/xisamp_arm64.exe": "8be9f49d16b012303ebca440b42723e1efc19a6f359c563f06491023a12f6845",
- "kit/xikit/dist/xisamp_x64.exe": "1dbe43d30ae88ab06d51fb3e55265b30c6eb7936c8402d9a022e82cd615840d3"
+ "kit/xikit/dist/xikit_facts.txt": "715ac7bb6c29ec89d5f3e27b355506592f67351e2d2261770c13e1455ee9f784",
+ "kit/xikit/dist/xikit_manifest.txt": "c13067eaac7490e54621653c45d9ae08c4b18cb98afca31c1b230f8e183a370f",
+ "kit/xikit/dist/xisamp_arm64.exe": "6bccac1ae9e5ab709da0152844dcdb99c39cc14ac650444ac3874dab70ff57c4",
+ "kit/xikit/dist/xisamp_x64.exe": "e7396f5b84b815905394c23b3018d555012e92e664dd0923977fe8778552a9cf"
 }

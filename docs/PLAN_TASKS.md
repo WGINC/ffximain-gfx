@@ -1,4 +1,4 @@
-# The plan's tasks and their state (27 Oct)
+# The plan's tasks and their state (27 Oct, late)
 
 Every task of the plan as tracked in the sessions, done and not done. The percent tag is the point of the plan
 (docs/PLAN.md) the task belongs to; `[parallel N%]` tasks run alongside the main line; `[speed]` tasks make the tools
@@ -24,9 +24,9 @@ owner or a run in the game).
 | 168 | 15% | P17: pushed-argument counts from the caller's stack; the gate compares them | done | |
 | 169 | 10% | sp_solve round: drop the "no ret N = never returns" assumption | done | +3,820 solved calls |
 | 108 | 15% | Fix the 23 remaining fs14 FAILs | done | 6 fixed; the rest each with its cause or missing fact (PROBLEMS P18) |
-| 109 | 15% | Bring the remaining frame-set functions into the tree | partly | fs22 (52 raw PASS) and fs23 in tree r13; fs24's 387 raw PASS wait for tree r14 (HANDOFF 3.1); the rest by blocker in docs/FRAMESET_REMAINING.md |
+| 109 | 15% | Bring the remaining frame-set functions into the tree | done | tree r14: 4,449 frame-set functions in the tree, 4,437 PASS; what is left, by blocker, in docs/FRAMESET_REMAINING.md. Earlier: | fs22 (52 raw PASS) and fs23 in tree r13; fs24's 387 raw PASS wait for tree r14 (HANDOFF 3.1); the rest by blocker in docs/FRAMESET_REMAINING.md |
 | 110 | 15% | Clear the PROBLEMS.md open items P1 to P16 | done | re-read 27 Oct: settled, or each states what would settle it (P1, P3, P5, P6, P8, P13, P14 open) |
-| 111 | 15% | Settle 0x10003890 INCONCLUSIVE | owner | the original faults on every fuzzed input; needs the live gate (P1) or a capture where it runs |
+| 111 | 15% | Settle 0x10003890 INCONCLUSIVE | done | PASS on the live gate of the four dumps (3 returning trials each; HISTORY 27 Oct late) |
 | 112 | 15% | Raise gate coverage of hot flag-4 functions from captures | done | the owner's 8 captures replayed: 7 PASS, 1 UNRESOLVED (HISTORY 27 Oct) |
 | 113 | 15% | Occlusion readback 0x1006C8B0 into the tree | done | |
 | 170 | 15% | P18: read the FAILs and INCONCLUSIVEs of the 26 Oct re-gate | done | 4 translator defects fixed, 9 functions PASS raw (03cf30d) |
@@ -34,16 +34,16 @@ owner or a run in the game).
 | 115 | 20% | Sweep: classify the 1,529 DIFFERS by cause | done | |
 | 116 | 20% | Sweep: fix the 582 NO_COMPILE conversions | done | 603 to 39 |
 | 117 | 20% | Sweep: handle the 577 LEFT_OUT forms | done | 419 to 252 |
-| 118 | 20% | Match the device-calling functions byte-identically | partly | 23 matched in rounds 118 and 119; 25 of the frame set's 41 at the bytes; misses listed in recompile/d3d_round_119.md |
-| 119 | 20% | Match direct callers of the render core | partly | 17 of 62 matched; the rest listed with their smallest diff |
+| 118 | 20% | Match the device-calling functions byte-identically | partly | 39 of 57 at the bytes (verification/render_core_status.json); misses listed in recompile/d3d_round_120.md, _121.md |
+| 119 | 20% | Match direct callers of the render core | partly | 51 of 100 at the bytes; the rest listed with their smallest diff |
 | 120 | 20% | Identify the build-9782 objects' functions | done | |
 | 121 | 20% | Decide parallel matching workers | owner | answered "as many as you need", then "no workers" (27 Oct) |
 | 122 | 25% | Type the render objects: CDx, model, skin, skeleton | open | |
 | 123 | 25% | Type the actor, camera, font, zone objects | open | |
-| 124 | 25% | Type the 810 untyped virtual-call slots | open | |
+| 124 | 25% | Type the 810 untyped virtual-call slots | partly | 286 left, each without a definitive source (verification/untyped_vcalls.json); the 242 with one typed in r16 |
 | 125 | 25% | Naming round 5: remaining unnamed render-path functions | done | 153 named (42c6c25) |
 | 126 | 25% | Re-audit low-confidence names on the render path | open | |
-| 127 | 30% | Reach 60% byte-identical across the frame set | open | at 29.6% (1,609 of 5,430) |
+| 127 | 30% | Reach 60% byte-identical across the frame set | open | at 45.6% (2,474 of 5,430) |
 | 128 | 35% | Document model and skin formats from their readers | done | docs/FORMATS.md |
 | 129 | 35% | Document texture, effect, scene and shader formats | done | docs/FORMATS.md |
 | 130 | 40% | Standalone render core build with a listed boundary | open | |
@@ -63,7 +63,7 @@ owner or a run in the game).
 | 144 | 75% | Asynchronous occlusion queries | open | |
 | 145 | 75% | Batched text and UI quads | open | |
 | 146 | 75% | GPU skinning (evaluate) | open | |
-| 147 | 80% | Owner test T3 (null_draws); T1, T2 done | partly | measured in run B of 26 Oct (frames about 7.7 ms median with null_draws); not yet written into docs/REEVALUATION.md |
+| 147 | 80% | Owner test T3 (null_draws); T1, T2 done | done | run B of 26 Oct, written into docs/REEVALUATION.md section 7: B (no drawing) medians 7.51 to 7.71 ms, A 12.88 to 13.97 ms; the frame without drawing is well below 16.7 ms on that machine |
 | 148 | 80% | P0 baseline table on two machines | owner | |
 | 149 | 85% | Redundant state removal at the source | open | |
 | 150 | 85% | Zone mesh sort and large buffers (fn_1017C9C0) | open | |
@@ -137,5 +137,5 @@ owner or a run in the game).
 | 97 | Naming round 4 | done |
 | 98 | Byte-identical recompilation: assess and start | done |
 
-Count: of the 63 percent-tagged tasks (5% to 100%, parallel included), 24 are done, 4 partly, 4 with the owner and 31
+Count: of the 63 percent-tagged tasks (5% to 100%, parallel included), 26 are done, 3 partly, 3 with the owner and 31
 open.

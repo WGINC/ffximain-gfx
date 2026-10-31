@@ -30,13 +30,7 @@ XI_API int __thiscall DynVB_Create(_DWORD *self_, int a2, unsigned int a3, int a
     }
     else
     {
-      (*(void (__stdcall **)(_DWORD, int, int, unsigned int, _DWORD, _DWORD *))(**(_DWORD **)(g_pResourceMng + 3772) + 92))(
-        *(_DWORD *)(g_pResourceMng + 3772),
-        a2 * v5[7],
-        520,
-        a3,
-        0,
-        v5);
+      (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->CreateVertexBuffer(a2 * v5[7], 520, a3, D3DPOOL_DEFAULT, (IDirect3DVertexBuffer8 **)(v5));
     }
     v5 += 8;
     result = ++v8;
@@ -86,9 +80,7 @@ XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigne
   {
     if ( a5 != 0 )
     {
-      (*(void (__stdcall **)(_DWORD, unsigned int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-        *(_DWORD *)(g_pResourceMng + 3772),
-        a5);
+      (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(a5);
       v10 = *(int **)(g_pResourceMng + 3772);
       v11 = *v10;
       v12 = orig::Gfx_CalcFVFStride(a5);
@@ -96,14 +88,8 @@ XI_API int __thiscall CMoVuElem_Draw(int *self_, int a2, int a3, int a1, unsigne
     }
     else
     {
-      (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-        *(_DWORD *)(g_pResourceMng + 3772),
-        v8[6]);
-      (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 332))(
-        *(_DWORD *)(g_pResourceMng + 3772),
-        0,
-        v8[1],
-        *(self_ + 8 * v7 + 8));
+      (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(v8[6]);
+      (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetStreamSource(0, (IDirect3DVertexBuffer8 *)(v8[1]), *(self_ + 8 * v7 + 8));
     }
     return orig::CDx_DrawPrimitive(*(void **)(g_pResourceMng + 3528), a1, a2 + v8[3], a3);
   }

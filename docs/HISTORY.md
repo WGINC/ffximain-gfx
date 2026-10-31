@@ -3641,3 +3641,203 @@ Export fs23 (data/exports/ghidra_frameset23.jsonl, 29 records, not promoted) and
 133 functions exported with the old and the new GfxExport, 99 records differ, 6 FAIL -> PASS and none worse; the 5
 tree records hx2cpp now prepares differently all PASS raw. The rest stay as they were, each with the fact that
 would settle it (EDX past a narrow return, stack nothing wrote, stub outputs, pop counts, P19).
+
+## 27 Oct (late): tree r14, and the live gate on the four dumps
+
+**Tree r14** (pipeline/tree_round.py, `--last fs24`): 4,897 functions, 4,881 PASS on fuzz. fs24's raw PASSes entered;
+the three switch cases (0x10223B4E, 0x102262EE, 0x1022635E) were left out with the reason. Against r13's records: 11
+FAIL -> PASS (hx2clean's regparm rule, 36639d3), none worse.
+
+**The live gate** (P1), first run on the current tree: the four dumps' states rebuilt with live_state.py (the dumps
+are of the analysed build), and the 16 functions not PASS on fuzz gated on each. combine_gates.py's rule (PASS where
+some gate compared and passed and none failed; a FAIL anywhere is a FAIL):
+
+| Function | Fuzz | Live, each of the four dumps (returning trials) | Combined |
+|---|---|---|---|
+| 0x10003890 | INCONCLUSIVE (every trial faults) | PASS (3 of 100) | PASS |
+| 0x100E08D0 | INCONCLUSIVE | PASS (2 of 100) | PASS |
+| 0x10010D20 | UNRESOLVED (argument bytes pushed to 0x10028FD0) | PASS (100) | PASS |
+| 0x100180D0, 0x10119BC0, 0x101BE6C0 | FAIL | PASS | FAIL (a FAIL anywhere) |
+| the other 10 | as on fuzz | as on fuzz | unchanged |
+
+The two INCONCLUSIVE -> PASS rest on 12 and 8 returning trials in all: the rest fault in the original code as well
+(state the dump does not hold). Recorded as the rule gives them, with the counts in each record's `gates` field
+(verification/gate_clean_final.jsonl; per dump verification/gate_clean_live14_*.jsonl).
+
+Tree: 4,897 functions, 4,884 PASS. Frame set: 4,449 in the tree, 4,437 PASS; 1,612 (29.7%) at the game's bytes.
+
+**r14's left-out switch cases, carried into verify_all.** `tree_round.py regen --drop --why` wrote the drops to
+OUT.given_drop.json, but install did not record them and verify_all.py did not pass them on, so a verify_all regen
+would have put 0x10223B4E, 0x102262EE and 0x1022635E back. install now keeps the file in tree/source.json
+(`given_drop`) and verify_all.py hands it to regen_clean.sh as XI_DROP. r14's `given_drop` was rebuilt from
+tree/left_out.json (each entry `name: why`, hx2clean.py's form for a given reason). install also gives an export entry
+without `raw_gate` the default, as order() reads it. Not yet run: verify_all on a machine with the DLL and VC6.
+
+## 28 Oct: two hand-found rules in the sweep (#163)
+
+`pipeline/vc6/sweep.py` RULES gains two rules from the hand matches, each kept only where match.py's comparison says
+IDENTICAL (`--calls --rules`, the whole tree r14, 4,664 functions):
+- `globvar` (recompile/d3d_round_118.md rule 1): a global the sweep reads through its cast address,
+  `(*(int *)0x1047BFA8u)`, declared as a variable `extern int xi_g_1047BFA8;` (the name carries the address, so
+  match.py still compares it). Applied to 1,390 DIFFERS: IDENTICAL in 72 alone, 11 more with ret8 / cmpk.
+- `devlocal` (d3d_round_119.md rule 8): a call through an object an integer global points to, the global read once
+  into a block-scoped local; only where the statement holds no other call and no assignment. Applied to 24, IDENTICAL
+  in 1 (0x1006AF00, with globvar: the function the rule was found on, now from the tree's own source).
+
+verification/vc6_sweep.json: 2,071 functions at the game's bytes as written or by a rule (was 1,819 of 4,251 on
+r13; 84 by the two new rules); none at the bytes before is lost. frame_set_status: 1,841 of the frame set (33.9%).
+
+Two more rules, the same way:
+- `frame` (d3d_round_119.md rule 12): the decompiler's `xi_frame` block as plain locals, each where its reference was
+  declared; only where nothing else names the block and no two locals overlap. Applied to 385, IDENTICAL in 1.
+- `float` (d3d_round_119.md rule 11): in the body only, `double` as `float` with `f` literals, or the literals
+  alone. Applied to 368, IDENTICAL in 4, and 1 more with globvar.
+The block and the double type are not what keeps most of those functions from the game's bytes. vc6_sweep.json: 2,077
+at the game's bytes, none lost; frame set 1,844 (34.0%).
+
+**ret8 / ret16 on C-linkage functions.** The rules' return-type rewrite looked for the type at the start of a line;
+a function defined `extern "C" undefined4 __cdecl F(...)` (the sweep's form for a C-linkage function) never got it,
+so the rule was never tried there. Now it is, and the low piece of `V & 0xffffff00` (the decompiler's cleared byte)
+is read as 0. 26 more functions IDENTICAL (ret8 25, ret8_globvar 1): 2,103 at the game's bytes, none lost.
+pipeline/vc6/differs.py skips the shim's helper functions in an object, as sweep.py does (it stopped on them).
+Found by grouping the DIFFERS functions by their few-instruction difference (differs.py): `mov al, 1` in the game
+where ours has `and al, ..; or al, ..` in 66 functions.
+
+**Leads from differs.py, not rules (28 Oct).** Grouping the DIFFERS functions no rule matches by their small
+difference (at most 4 instructions, 630 functions):
+- 28 this-adjusting thunks: the game's `sub ecx, 0x54; jmp`, ours `add ecx, -0x54` with the argument reloaded. A
+  `char` parameter passed on as `int` removes the reload (0x10042690); `(_DWORD *)this - 21`, `(char *)this - 0x54`,
+  `(int)this - 0x54` and `(unsigned int)this - 0x54` all give `add ecx, -0x54`. The game's form is that of the
+  compiler's own adjustor thunks (multiple inheritance); whether these are such is not established.
+- 67 where the game has one `mov` more; about 40 of them the game setting ECX just before a call. The callees there
+  (data/ecx_use.json): 42 read ECX, 24 do not, 7 not recorded. No single source form; not a rule.
+- 0x10002C80 and others with a 0x40C-byte `xi_frame` block: the `frame` rule gives the game's frame size; what is left
+  is the order of a call's argument loads (rule 14, for reorder.py).
+
+**28 Oct, #118/#119: sources the sweep could not compile.** Conversions added to pipeline/vc6/sweep.py (each a
+spelling VC6 takes for what the decompiled code says; a function counts only where match.py says IDENTICAL):
+- a __thiscall call through a slot of one object's vtable on another object, and one through a function pointer
+  read from memory: a call through a member-function pointer loaded from the slot (`mov ecx, X; call [slot]`);
+- a field or local declared as a pointer to __thiscall functions (C4234): the keyword dropped (a layout only);
+- RECT, FILE, MSG, SYSTEMTIME with their layouts from VC6's WINDEF.H, STDIO.H, WINUSER.H, WINBASE.H;
+- rule `frametight`: the decompiler's frame block kept whole (a vertex array passed by address stays one array) but
+  cut to the span its locals cover. 0x1000A3B0: frame 0x49C to 0x88, the game's 0x90; the rest is statement order.
+NO_COMPILE 91 to 80; none of the eleven is IDENTICAL yet; 2,103 at the game's bytes, none lost. Left: 0x10011A00
+uses `_mm_pause`, which VC6 lacks (only inline assembly would give `pause`); 0x1000A6E0, 0x10010D20, 0x10086210 fail
+on a conversion inside a statement spanning lines; 0x10025260 on a vtable member the shim's class lacks.
+
+**verify_all's regen of tree r14 (28 Oct): passes after two fixes.** verify_all passed the gates of tree/source.json's
+Ghidra exports by position, skipping an entry without `raw_gate` unless it was the first; ghidra_export.jsonl (entry 2)
+has none, so every later export was paired with the next one's gate and hx2clean.py stopped (KeyError 0x10017D90:
+passed by fs17's gate, its record taken from an export whose text it does not prepare). Now every entry without
+`raw_gate` gets `ghidra_raw_gate`, as tree_round.py's order() gives it when it generates a tree, and source.json
+records it for that entry. verify_all also reports a regen that fails instead of crashing. The regen run alone from
+tree/source.json's inputs (given_drop included): build failed: none, 4 functions not compiled (0 new), tree/src and
+tree/include identical to the installed tree. (export-sp's FAIL for 0x100412B0 is the known one, line 291.)
+
+**28 Oct: declared field types from the typing batches (#122, #123), round r15 in progress.** pipeline/declared_fields.py
+takes from batches/r6_*.json each field with confidence high, a name and a type the tree's headers declare, with its
+evidence, into data/declared_fields.json (16 fields: CDx's D3D pointers, caps, cached matrices and texture limits;
+CXiActor and CXiControlActor floats); hx2clean.py declares them as it declares the IDB's named fields (never over one).
+Medium-confidence names (15) go to data/field_names.json. D3DMATRIX and D3DCAPS8 added to pipeline/xi_d3d8.hpp from
+MinGW-w64's d3d8types.h / d3d8caps.h (64 and 212 bytes, the SDK's sizes). Until the r15 tree is gated and installed,
+verify_all's tree-regen reports the difference these make against the installed r14 tree.
+
+**A C++ permuter (28 Oct).** decomp-permuter takes C only (pycparser): of the 15 C-convention render-core misses, 14
+are compiled as C++ by the sweep, so permute.py has 1 to work on. pipeline/vc6/mutate.py (abb3595) was a first,
+line-level try (8 rewrites): 0x10043590 79 to 68 lines in 120 tries, 0x1006A020 unmoved. The owner pointed to
+cpp_permuter (github.com/CriminalRETeam/cpp_permuter, MIT, built for MSVC 6 matching in gta2_re): it parses the
+function and has 33 passes, among them the quirks found by hand here (`negate_const`: sub vs add -N, as the
+this-adjusting thunks; `use_getter`; `chain_assign`; `branch_dup`; `early_return`; `scope_block`), an exhaustive mode,
+checkpoints. It is the better tool; pipeline/vc6/cpp_perm.py runs it with VC6 (match.py's cl) and scores against the
+game's bytes as mdiff.py counts, 0 only where match.py says IDENTICAL. Base score of 0x10043590: 79, as mdiff.py.
+Kept outside the repo (CPP_PERMUTER=, a build of the checkout), as decomp-permuter is.
+tree_round.py regen now carries tree/source.json's given drops into the round (r15's first regen had let the three
+switch cases back in).
+
+**Tree r15 installed (28 Oct): the typing batches' declared fields.** tree_round.py regen (the given drops carried
+over), cases, gate, install, regen_facts; then the live gates of r14 (verification/gate_clean_live14_*.jsonl) combined
+again (combine_gates.py). Fuzz: 4,881 PASS, as r14; combined: 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as
+r14. The live verdicts carry over because the three functions they settle (0x10003890, 0x10010D20, 0x100E08D0) have
+the same generated source in r14 and r15, and a declared type reaches a function's code only through a member access
+written in its source (the fields kept their offsets, the classes their sizes). 23 functions' source changed (their
+member accesses now name the declared fields); none changed verdict. `field_` names: CDx 70 to 64, CXiActor 8 to 0,
+CXiControlActor to 0. verify_all on r15 (`--quick --facts-from-state`): tree-regen identical (differing=[]), every check
+PASS but export-sp, which names 0x100412B0 as before (IDA's stack depths there, ida_wrong; not the tree's).
+
+**Round 121 (28 Oct): render-core functions, rules 24 to 28.** recompile/d3d_round_121.md. At the game's bytes:
+0x1000A6E0 (#118); 0x10025260, 0x100764C0, 0x10033A70, 0x10163400, 0x1006AA30, 0x1000A820 (#119); with them
+0x1006A560, 0x1003FCE0 and 0x1003FCF0 (frame set). #118 39 of 57, #119 51 of 100. Rule 28 is the finding: VC6
+keeps ECX or EDX live across a call to a function it compiled earlier in the same file (it knows that callee leaves
+them alone); compiled alone, the caller reloads them. 377 functions in the game keep ECX or EDX across a direct
+call (pipeline/vc6/livecall.py, verification/live_across_call.json; none of them among the sweep's IDENTICAL), 62 of them frame-set DIFFERS:
+the sweep, compiling each function alone, cannot match those; their callees must be compiled with them.
+sweep.py --sametu (rule 28 in the sweep): each DIFFERS function in verification/live_across_call.json compiled with
+its callee's sweep text defined before it in the same file, under the name the caller calls it by (FUN_<addr>, or
+FUNt_<addr>::f for a __thiscall callee), as written and with each rule's text, then the permissive casts. Run on the
+65 such functions and their callees (`--only`): 60 tried, 8 IDENTICAL (0x10029C90, 0x1006B050, 0x10074DF0,
+0x10124050, 0x101312E0, 0x10154DC0, 0x101D0A20, 0x1027EBD0), recorded in verification/vc6_sweep.json as rule
+"sametu". Frame set 1,893 at the game's bytes (34.9%). The rest differ for other reasons too (0x100441A0: the
+sweep's XI_ANY call stand-in).
+
+**Sweep rule calledon (28 Oct).** The 2,055 frame-set DIFFERS functions measured against the game (mdiff, differing
+instruction lines): 140 within 2 lines, 345 within 3 to 8. Of the nine 1-line misses, seven were the game loading ECX
+before a call to a __stdcall function that does not read it (data/ecx_use.json): a method called on an object the
+decompiler drops (recompile/d3d_round_118.md rule 7). Rule calledon tries each object in scope (`this`, parameters,
+locals, the function's globals) at each such call, one at a time. On the 485 within 8 lines: 12 IDENTICAL by
+calledon, 1 IDENTICAL as written (0x101B94A0, by match.py's switch-table and pooled-constant comparisons since the
+last full sweep). Frame set 1,906 at the game's bytes (35.1%).
+
+**Full sweep with the new rules (28 Oct).** `sweep.py --rules --calls --sametu` over the tree (r15): calledon 28
+IDENTICAL (now also the objects the game loads into ECX from a global, read from its bytes, and C sources tried as
+C++), float 26 (Ghidra's `long double` now taken), ret64 17 (a callee declared 8-byte-returning, as 4 bytes),
+sametu 9. Two fixes kept every earlier result: SDK structs by value in a class layout (CDx's D3DCAPS8 and D3DMATRIX
+since r15 had left six CDx methods out), and the all-rules combination without calledon/ret64 (the rules' pairings
+that had matched). 2,194 of the sweep's 4,664 at the game's bytes (2,147 before, none lost); frame set 1,969 (36.3%).
+
+**Tree r16 installed (28 Oct): typed Direct3D calls (#124).** hx2clean writes a call through a proven holder's cast
+vtable slot as the interface's method (pipeline/holder_calls.py): the device at [[0x1047BFA8]+0xEBC] (data/com_fields.json
+device_via_1047BFA8, re-checked by com_calls.py) and CDx's own +0xC (the IDB's `IDirect3DDevice8 *pDevice`, hx2clean's
+KNOWN_FIELDS), the method by its slot in the SDK's order (data/com_spec.json), each argument cast to the header's
+parameter type, a literal of an enum parameter by its enumerator. Untyped slot calls 528 to 286: 120 game-class
+virtual calls (data/vcalls.json gives no exact target for any) and 163 COM-style calls whose object no proof covers,
+3 other (verification/untyped_vcalls.json): nothing typed without a source. Gate: fuzz 4,881 PASS; with r14's live
+gates 4,884 PASS, 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, as r15 (the three live-gated functions' source unchanged); 34
+functions' text changed. The sweep writes such a typed call back as the slot call (sweep.py _d3d_slot_calls: VC6
+compiles the SDK's virtual calls that way, not as the tree's inline wrapper); the 34 keep their sweep verdicts.
+verify_all on r16 (`--quick --facts-from-state`): tree-regen identical, every check PASS but export-sp (0x100412B0, as before).
+
+**Sweep rules xiany, retnarrow, uleq; full sweep (28 Oct).** The near misses (within 8 differing lines) classified by
+what differs: XI_ANY, the shim's 4-byte stand-in, is a struct in C++, passed through a stack temporary where the game
+pushes the word (rule xiany: as `unsigned int`, 26 IDENTICAL); a 4-byte return where the game sets only AL or AX
+(retnarrow: as 1 or 2 bytes, 9); `jbe` against 0 where the text has `== 0` (uleq: an unsigned `<=`, 5); calledon
+now also with parameterless __cdecl callees and objects at an offset of this (43 in all). The earlier rules'
+combination kept, and tried with each newer rule on its own, so no earlier result is lost. Full sweep: 2,256 of the
+sweep's 4,664 at the game's bytes (2,216 before, none lost); frame set 2,024 (37.3%). A reorder.py search over the
+87 within 2 lines found none; a bit-field form for `shr; and` (0x10084500) did not give the `and`, and was dropped.
+Then: the compile cache keyed by language as well (a text compiled as C++ had reused the errors it gave as C), calledon over the ret64 and xiany texts and through tail jumps: 2,278 at the game's bytes (+22, none lost); calledon 62 in all. Frame set 2,046 (37.7%).
+Rule retvoid (the function as void where the game returns whatever EAX holds, the decompiler having printed the value it saw on one path): 28 IDENTICAL; 2,309 at the game's bytes (+31, none lost); frame set 2,072 (38.2%). Rule rettemp (a returned temporary folded) gained one and cost one, and was dropped.
+Argument casts for a call through an import macro (cl names only the callee's type), and rule retthis64 (a constructor Ghidra printed as returning a 64-bit pair whose low half is this, written as returning this): 2,325 at the game's bytes (+16, none lost); frame set 2,088 (38.5%).
+The rules that guess an object or a width (ret64, retnarrow, uleq, xiany, retvoid) also tried two at a time, alone and with the others (0x1003C6E0 and 0x1003C700 are ret64 with xiany, without retthis): 2,329 at the game's bytes (+4, none lost); frame set 2,092 (38.5%).
+Rule negmask (a mask from a comparison, -(uint32_t)(a != b), as ((a != b) ? -1 : 0): VC6's neg al; sbb eax, eax): 2,336 at the game's bytes (+7, none lost); frame set 2,099 (38.7%).
+Rules select (a choice between two constants from VC6's branchless forms, written as c ? a : b), shiftmask (a shift count without Ghidra's & 0x1f) and float returning float (an x87 result is in ST0 at any width): 2,349 at the game's bytes (+13, none lost); frame set 2,112 (38.9%). Still open: a constant store VC6 sinks below later stores where the game keeps it in place (0x1013A480 and three more, +[esi+0xc]): a struct and the field as bool, char or short do not change it.
+Rule storem1 (a store of all ones to a 1- or 2-byte field as the signed -1: VC6's or eax, -1): 2,354 at the game's bytes (+5, none lost); frame set 2,117 (39.0%).
+retnarrow at one byte with Ghidra's partial-register returns and the || of two calls it prints as nested ifs: 2,356 at the game's bytes (+2, none lost; the same in C gives an int ||, which sets all of EAX, and stays out); frame set 2,119 (39.0%). Still open: a value tested twice that VC6 threads into one test where the game keeps both (0x10044AC0 and three more, `jmp; xor eax, eax`): an if/else, a ?: and an inline function all thread.
+calledon also over what a pointer local points to (a tail call on *piVar1): 2,358 at the game's bytes (+2, none lost); frame set 2,121 (39.1%). Still open: 0x10223C90, whose byte read of its frame local is 4 bytes lower than the game's.
+Rule pushinit (a frame local set to this where the game's push ecx put it there): 2,360 at the game's bytes (+2, none lost); frame set 2,123 (39.1%).
+Rule adjthunk (an adjustor thunk, sub ecx, K; jmp X, written as the two-base class VC6 emits it for; K and X from the game's bytes, the text only one call to X): 2,398 at the game's bytes (+38, none lost); frame set 2,123 (39.1%). Rules that read the game's bytes now find the function by its address, not its name (names such as vf001 repeat).
+Rule fastthis (a callee Ghidra typed __fastcall with two register parameters, called on an object, as a member call; it pops nothing either way and IDENTICAL shows the game sets no EDX): 2,403 at the game's bytes (+5, none lost); frame set 2,125 (39.1%).
+Each guessing rule also with the safe rules but one, and with each safe rule alone (0x100746A0: globvar with xiany, without retthis): 2,409 at the game's bytes (+6, none lost); frame set 2,131 (39.2%). Still open: 0x10127F00 (a 0x78-byte clear and the word after it; the game keeps the end pointer: a memset and the loop's own pointer both give [edx + 0x78]) and 0x100F1300 (a zero the game keeps in EDX for its return; a result variable folds).
+Rules ushortcmp (a 2-byte value compared with -1 as the unsigned 0xffff, VC6's 2-byte immediate) and paramnarrow (a 4-byte parameter used only through one narrow cast, declared as that type): 2,411 at the game's bytes (+2, none lost); frame set 2,133 (39.3%).
+Rule retstore (a void function whose last statement stores a constant, as returning it), and the Windows types of a function's own signature declared (with in_addr, u_long, u_short, HGLOBAL, HKL, HRESULT, LARGE_INTEGER, SECURITY_ATTRIBUTES, WINDOWPLACEMENT as VC6's headers define them): 2,426 at the game's bytes (+15, none lost); frame set 2,148 (39.6%).
+Calls through the tree's inline-assembly wrappers written as VC6 calls (stack arguments in push order, the ECX argument a __thiscall's object, the caller's addl making it __cdecl; the EAX argument, what the call site leaves in EAX, not written): 2,490 at the game's bytes (+64, none lost); frame set 2,212 (40.7%).
+Functions the tree declares in GCC's register convention (regparm) written as VC6 declares them where it can (ECX alone __thiscall, ECX and EDX __fastcall, neither __stdcall/__cdecl; the EAX parameter unused, passed through, or around a returned byte or word): 102 of 230 written, 2,552 at the game's bytes (+62, none lost); frame set 2,274 (41.9%). The other 128 use EAX in ways no VC6 declaration gives. Not in the tree at all: 970 frame-set functions (a tree round, not a sweep rule).
+Frame-set functions outside the tree (966 held by a decompiler export whose raw gate did not pass them): a scratch regeneration with them included (pipeline/tree_round.py regen under a scratch XI_REGATE; nothing installed), swept with sweep.py --tree. 84 of the 472 it adds came out IDENTICAL; their sweep sources, unchanged but for a note and a FUNCTION mark, are in recompile/sweep/ (pipeline/vc6/emit_identical.py) beside the shim headers they include, recorded in verification/recompile_match.json. match.py --all (now also reading recompile/sweep/, and the source's own directory on the include path): 203 files, all IDENTICAL, exit 0. 83 counted (0x1000CA00's mark fell outside its function and is left out). Their raw gate verdicts stand as they were: the bytes, not the gate, are what these files prove. Frame set 2,357 (43.4%).
+Ghidra's float10 and int3 in the shim, retnarrow over CONCAT31/CONCAT22 returns: 2,557 at the game's bytes (+5, none lost; a full sweep from an empty cache, after a run whose cache entries the full disk had cut short appeared to lose 104); frame set 2,362 (43.5%).
+recompile/sweep: 0x10063A60 (the shim with float10) and 0x1000CA00 (emit_identical.py's mark now above the definition's own unindented brace, not a Hex-Rays block's) added, the shim headers updated; match.py --all: 205 files, all IDENTICAL; frame set 2,364 (43.5%).
+ffxi_hide_ui and ffxi_world_draw (github.com/genoxd, 0BSD) read as community sources (pipeline/genoxd_scan.py, data/genoxd_scan.json): 148 + 2 patterns located in this build (99 functions, 43 sites, g_pCDx and g_pCamera), all 23 claimed field offsets used in the code, names agreeing with the tree's where both name a function; the menu layer's draw reaches DrawPrimitiveUP by direct calls (docs/UI.md); the world-pass boundary written up in docs/RENDERER.md section 9. Names enter the tree at its next round.
+Tree r17 installed: ffxi_hide_ui's names where the tree's name is a placeholder (applied after every other source: UI_DockReset, UI_PostRequest, UI_QuestCommand; 0x10193830 keeps the PS2 build's SetConfig, which r17's regeneration had applied in the wrong order, corrected in hx2clean.py and in the installed files). Gate: PASS 4,881, INCONCLUSIVE 5, FAIL 8, UNRESOLVED 3; with their source unchanged, 0x10003890 (task #111), 0x10010D20 and 0x100E08D0 left PASS in this run: verdicts as measured.
+Part of the game was compiled /O1 (size), not /O2: the near misses differing by `pop ecx` for `add esp, 4` and `push [esp+N]` for a load and push. The compiler is ours (the Rich header: 1,007 objects by 12.00.9044, prodid 48/49, as match.py --compid reports); flags are recorded nowhere in the binary, so each set is tried against the code. /O1 sweeps: 1 of 2,137 tree functions not yet at the bytes, 55 of 353 outside the tree (all frame set); their sources in recompile/sweep/ with a `// VC6FLAGS: /O1` mark (match.py --all honours it: 261 files, all IDENTICAL). Frame set 2,420 (44.6%). A matrix of the other VC6 options (/G5 /G6 /GB, /Ob0 /Ob2, /Oy-, /Op, /Oa, /Ow, /Ox) on 600 near misses is running.
+The flag matrix (600 frame-set near misses of the tree, at most 400 bytes, base text, no rules): beyond /O2 and /O1, /G5, /GB, /Ob0, /Ob2, /Oy-, /Op, /Ox and /O2 without /Oi make none IDENTICAL; /G6, /Oa and /Ow one or two each, 3 functions in all. Those three are single functions, not a family: a flag that changes a function's scheduling can reproduce its bytes without having built it, so they are not taken as the game's flags (and not recorded). The game's code is /O2 with a size-optimised (/O1) part, almost all of it outside the tree; no other VC6 option is evidenced.
+The 210 frame-set functions held only by ghidra_frameset18 (an export the tree does not read; no raw gate of its own): a scratch regeneration with it appended (regen_clean.sh; one record refused, 0x102FAA80), swept /O2 and /O1: 14 and 14 more IDENTICAL, in recompile/sweep/ (match.py --all: 289 files IDENTICAL). Frame set 2,448 (45.1%).
+Alternative records: 882 frame-set functions not at the bytes have 2 to 6 different decompiled texts across the exports. Two scratch regenerations taking another export's record first (the IDA export last; the Ghidra exports newest first), swept /O2 and /O1: 26 functions IDENTICAL (23 /O2, 3 /O1), in recompile/sweep/ (match.py --all: 315 files IDENTICAL). Frame set 2,474 (45.6%).

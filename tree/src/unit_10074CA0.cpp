@@ -40,26 +40,11 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   _DWORD (&v13)[8] = *reinterpret_cast<_DWORD (*)[8]>(xi_frame + 0x80);
 
   g_pCubeMapTarget = 0;
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    27,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    14,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    15,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    22,
-    1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
   (*(void (__stdcall **)(_DWORD, _DWORD *))(**(_DWORD **)(*(_DWORD *)(g_pResourceMng + 3528) + 144) + 32))(
     *(_DWORD *)(*(_DWORD *)(g_pResourceMng + 3528) + 144),
     v13);
@@ -109,9 +94,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
         Gfx_InitCubeMapTextures_quadVerts_v3_x = Gfx_InitCubeMapTextures_quadVerts_v3_y;
         Gfx_InitCubeMapTextures_quadVerts_v2_y = Gfx_InitCubeMapTextures_quadVerts_v3_y;
         Gfx_InitCubeMapTextures_quadVerts_v1_x = Gfx_InitCubeMapTextures_quadVerts_v3_y;
-        (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-          *(_DWORD *)(g_pResourceMng + 3772),
-          68);
+        (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(68);
         v8 = *(void **)(v7 + 3528);
         v9 = orig::Gfx_CalcFVFStride(0x44u);
         orig::CDx_DrawPrimitiveUP(v8, 5, 2, (int)&Gfx_InitCubeMapTextures_quadVerts, v9);
@@ -229,19 +212,13 @@ XI_API int __thiscall TextureHolder_BindWarped(int *self_, int a2, float a3, flo
   int v21;
   v6 = *self_;
   if ( v6 == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             0);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(0));
   if ( a4 == 0.0 )
   {
     v7 = *(_DWORD *)(v6 + 64);
     if ( v7 == 0 )
       v7 = *(_DWORD *)(v6 + 68);
-    return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             v7);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(v7));
   }
   else
   {
@@ -256,10 +233,7 @@ XI_API int __thiscall TextureHolder_BindWarped(int *self_, int a2, float a3, flo
       v10 = *(_DWORD *)(v9 + 64);
     else
       v10 = *(_DWORD *)(v9 + 68);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      v10);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(v10));
     if ( (Fn10075700_staticGuards & 1) == 0 )
     {
       Fn10075700_staticGuards |= 1u;
@@ -304,19 +278,10 @@ XI_API int __thiscall TextureHolder_BindWarped(int *self_, int a2, float a3, flo
     }
     orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
     orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2 * g_cubeMapTargetHeight, 5, 0, -1);
-    (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      27,
-      0);
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      15,
-      1);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     orig::sub_1006A0E0(g_pResourceMng, 0, 0);
-    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             *(_DWORD *)(g_pCubeMapTarget + 4));
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(*(_DWORD *)(g_pCubeMapTarget + 4)));
   }
 }
 
@@ -328,18 +293,12 @@ XI_API int __thiscall TexRef_SetTexture(int *self_, int a2)
   int v3;
   v2 = *self_;
   if ( *self_ == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             0);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(0));
   if ( *(_DWORD *)(v2 + 64) != 0 )
     v3 = *(_DWORD *)(v2 + 64);
   else
     v3 = *(_DWORD *)(v2 + 68);
-  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           a2,
-           v3);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(v3));
 }
 
 // FUNCTION: FFXIMAIN 0x100759C0  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)
@@ -358,17 +317,11 @@ XI_API int __thiscall TextureHolder_BindTinted(int *self_, int a2, int a3)
   {
     v4 = *self_;
     if ( *self_ == 0 )
-      return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-               *(_DWORD *)(g_pResourceMng + 3772),
-               a2,
-               0);
+      return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(0));
     goto LABEL_13;
   }
   if ( *self_ == 0 )
-    return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             0);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(0));
   orig::TexRef_EnsureRenderTarget(self_);
   v5 = *(_DWORD *)(g_pCubeMapTarget + 4);
   if ( v5 == 0 || *(_DWORD *)(g_pCubeMapTarget + 12) == 0 )
@@ -378,10 +331,7 @@ LABEL_13:
     v12 = *(_DWORD *)(v4 + 64);
     if ( v12 == 0 )
       v12 = *(_DWORD *)(v4 + 68);
-    return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             a2,
-             v12);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(v12));
   }
   orig::sub_1006A060((void **)g_pResourceMng, v5, *(_DWORD *)(g_pCubeMapTarget + 8), *(_DWORD *)(g_pCubeMapTarget + 12));
   if ( (Fn100759C0_staticGuards & 1) == 0 )
@@ -391,10 +341,7 @@ LABEL_13:
     orig::_atexit(XI_CODE(unknown_libname_64));
   }
   orig::StateBlock_ApplyRSTSS(Fn100759C0_stateBlock, (int)Fn100759C0_renderStates, (int)Fn100759C0_textureStageStates);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    60,
-    a3);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, a3);
   orig::DynVB_Reserve((void *)g_pDynVB_FVF144, 4);
   v6 = (float *)orig::DynVB_Lock((void *)g_pDynVB_FVF144);
   *v6 = 0.0;
@@ -428,32 +375,14 @@ LABEL_13:
   v10 = *(_DWORD *)(*self_ + 64);
   if ( v10 == 0 )
     v10 = *(_DWORD *)(*self_ + 68);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    v10);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(0, (IDirect3DBaseTexture8 *)(v10));
   orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    27,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    15,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    14,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
   orig::sub_1006A0E0(g_pResourceMng, 0, 0);
-  return (*(int (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 244))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           a2,
-           *(_DWORD *)(g_pCubeMapTarget + 4));
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTexture(a2, (IDirect3DBaseTexture8 *)(*(_DWORD *)(g_pCubeMapTarget + 4)));
 }
 
 // FUNCTION: FFXIMAIN 0x10076830  (unit unit_10074CA0: no unit evidence of its own; in the gap between 0x10074C30 (CMoTaskMng) and 0x10078170 (winfiles) -- an unnamed source file)

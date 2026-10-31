@@ -11,8 +11,8 @@ The steps the 27 Oct rounds (r12, r13) ran by hand, in one place. Each step is a
 regen    the export list is tree/source.json's (IDA export, then `ghidra_exports` in order); --first puts the named
          exports (data/exports/ghidra_frameset<N>.jsonl with N from fsN, raw gate verification/gate_raw_frameset<N>.jsonl)
          right after the IDA export, --last after the others. hx2clean.py takes each function from the first export
-         whose raw gate passed it, so --first is how a re-exported record replaces an older one. --drop: XI_DROP
-         (left out, with the reason given in OUT/drop_reasons.json by the caller).
+         whose raw gate passed it, so --first is how a re-exported record replaces an older one. --drop ADDR...
+         --why TEXT: left out (XI_DROP, the file OUT.given_drop.json), each listed in left_out.json with TEXT.
 cases    the raw cases: verification/cases_raw_final.json; for a function a --first export passes raw, that export's
          case (runs/fsN/cases.json, made with `./run.sh translate|cases` if missing), the older one kept as a second
          case when it differs (verification/cases_raw_alt.json); a function with no case takes the --last export's.
@@ -23,7 +23,7 @@ gate     every function under its case, and every function with a second case un
          game callees, data/import_pops.json).
 install  verification/gate_clean_final.jsonl, cases_clean_final.json, cases_raw_final.json, cases_raw_alt.json and
          gate_clean_altcases_tree.jsonl from OUT; the tree copied in, tree/source.json kept (and given the export order
-         the round used). Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
+         the round used, and the functions regen --drop left out, `given_drop`, which verify_all passes on). Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
 """
 import argparse, collections, hashlib, json, os, shutil, subprocess, sys
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
@@ -47,9 +47,14 @@ def order(o):
 
 
 def regen(o):
-    _, _, exps = order(o)
+    s, _, exps = order(o)
     env = dict(os.environ)
-    if o.drop: env['XI_DROP'] = ','.join(o.drop)
+    f = o.out.rstrip('/') + '.given_drop.json'
+    given = dict(s.get('given_drop') or {})    # the installed tree's drops carry over (verify_all passes the same)
+    if o.drop:                     # XI_DROP is a file {ea: why} (hx2clean.py, drop_failed.py); OUT itself is rebuilt
+        if not o.why: sys.exit('--drop needs --why (the reason left_out.json gives)')
+        given.update({n(a): 'left out: ' + o.why for a in o.drop})
+    if given: json.dump(given, open(f, 'w'), indent=1); env['XI_DROP'] = f
     env.setdefault('XI_REGATE', R('verification', 'gate_raw_regate.jsonl'))
     cmd = [R('pipeline', 'regen_clean.sh'), ','.join(e for e, _ in exps), ','.join(g for _, g in exps), o.out]
     print(' '.join(cmd)); sys.exit(subprocess.call(cmd, cwd=ROOT, env=env))
@@ -126,8 +131,12 @@ def install(o):
     shutil.copy(os.path.join(o.out, 'g_alt', 'gate.jsonl'), R('verification', 'gate_clean_altcases_tree.jsonl'))
     s, exps, _ = order(o)
     old = {e['path']: e for e in s['ghidra_exports']}
-    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'], raw_gate=e['raw_gate'],
+    s['ghidra_exports'] = [dict(old.get(e['path'], {'_doc': 'added by tree_round.py; see docs/HISTORY.md'}), path=e['path'],
+                                raw_gate=e.get('raw_gate') or s['ghidra_raw_gate'],             # an entry without one: the default, as order() reads it
                                 sha1=hashlib.sha1(open(R(e['path']), 'rb').read()).hexdigest()) for e in exps]
+    gd = o.out.rstrip('/') + '.given_drop.json'          # functions left out with a given reason (regen --drop --why)
+    if os.path.exists(gd): s['given_drop'] = json.load(open(gd))
+    else: s.pop('given_drop', None)
     subprocess.check_call([sys.executable, R('pipeline', 'annotate_gate.py'), o.out, R('verification', 'gate_clean_final.jsonl')])
     keep = json.dumps(s, indent=1)
     shutil.rmtree(R('tree')); shutil.copytree(o.out, R('tree'), ignore=shutil.ignore_patterns('build', 'b', 'g_*', '*.json.new', 'cases_*.json',
@@ -139,6 +148,7 @@ def install(o):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(); ap.add_argument('step', choices=('regen', 'cases', 'gate', 'install')); ap.add_argument('out')
     ap.add_argument('--first', nargs='*', default=[]); ap.add_argument('--last', nargs='*', default=[])
-    ap.add_argument('--drop', nargs='*', default=[]); ap.add_argument('--jobs', type=int, default=2)
+    ap.add_argument('--drop', nargs='*', default=[]); ap.add_argument('--why', default='')
+    ap.add_argument('--jobs', type=int, default=2)
     o = ap.parse_args(); o.out = os.path.abspath(o.out)
     {'regen': regen, 'cases': cases, 'gate': gate, 'install': install}[o.step](o)

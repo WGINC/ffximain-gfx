@@ -47,8 +47,8 @@ char ** __cdecl CMoResource::GetRuntimeClass_variant3()
 }
 
 // FUNCTION: FFXIMAIN 0x10071D80  (unit CMoResource: between 0x10071D70 (class model places it in CMoResource) and 0x10071DB0 (class model places it in CMoResource), both within 4 KB)
-// NOT VERIFIED -- FAIL
-XI_API undefined4 * __fastcall fn_10071D80(undefined4 * param_1, undefined4 xi_edx)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 * __attribute__((stdcall, regparm(3))) fn_10071D80(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 * param_1)
 {
   *param_1 = &CYyObject_vtbl_ambiguous0_as_v0;
   orig::Unit10070F90_Reset(param_1 + 1);

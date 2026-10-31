@@ -214,18 +214,21 @@ def main():
         gs = hashlib.sha1(open(os.path.join(ROOT, g['path']), 'rb').read()).hexdigest()
         report('tree-source:' + g['path'], gs == g['sha1'], sha1=gs, expected=g['sha1'])
         gexp.append(os.path.join(ROOT, g['path']))
-        # each export's raw gate, in the same order (the first may be the older single `ghidra_raw_gate`)
-        gg = g.get('raw_gate') or (src.get('ghidra_raw_gate') if k == 0 else None)
-        if gg: ggate.append(gg)
+        # each export's raw gate, in the same order; an entry without one has the default `ghidra_raw_gate`, as
+        # tree_round.py's order() gives it (skipping it would pair every later export with the wrong gate)
+        ggate.append(g.get('raw_gate') or src['ghidra_raw_gate'])
     # raw verdicts given again under the gate's current rules (hx2clean.py, XI_REGATE), where recorded
     rg = ('XI_REGATE=%s ' % os.path.join(ROOT, src['raw_regate'])) if src.get('raw_regate') else ''
+    if src.get('given_drop'):        # functions the round left out with a reason (tree_round.py regen --drop --why)
+        json.dump(src['given_drop'], open(os.path.join(tmp, 'given_drop.json'), 'w')); rg += 'XI_DROP=%s ' % os.path.join(tmp, 'given_drop.json')
     t = os.path.join(tmp, 'tree'); rc, out = sh('%spipeline/regen_clean.sh %s %s %s' % (rg, ','.join([texp] + gexp), ','.join([src['raw_gate']] + ggate), t))
     sh('python3 pipeline/annotate_gate.py %s verification/gate_clean_final.jsonl' % t)      # each function's // GATE: line
     diff = []
     for sub in ('src', 'include'):
+        if not os.path.isdir(os.path.join(t, sub)): diff.append(sub + '/ (not generated)'); continue   # the regen failed
         c = filecmp.dircmp(os.path.join(ROOT, 'tree', sub), os.path.join(t, sub))
         diff += [sub + '/' + x for x in c.left_only + c.right_only + c.diff_files]
-    report('tree-regen', not diff and 'failed: none' in out, differing=diff, build=out.strip().splitlines()[-1:])
+    report('tree-regen', not diff and 'failed: none' in out, differing=diff, rc=rc, build=out.strip().splitlines()[-8:])
 
     # 8 the committed tree, built, against the original in the DLL
     if quick: report('tree-gate', None, skipped='--quick'); return finish(tmp)

@@ -11,7 +11,7 @@ This is private work: nothing here is published, and no game bytes are in the re
 |---|---|
 | `tree/` | **The deliverable.** Clean, class-shaped C++ (`include/`, `src/`, `build.sh`); each function carries its `// GATE:` result. Generated; see `tree/README.md` |
 | `verification/` | Gate results for the tree: fuzz raw (`gate_raw_final`), fuzz and live combined (`gate_raw_combined`, `gate_clean_final`), the live gates per dump and the dumps' verification (`live/`), cases, first divergences, the mutation test |
-| `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `RESIDUE.md` (every graphics function not in the tree, with the reason; generated), `NAMES.md` (naming evidence), `KIT.md` and `SDK.md` (the in-game tools), `ROADMAP.md`, `GAPS.md`, `RENDERER.md`, `UI.md`, `DEARTIFACT.md`, `LOCALS.md` |
+| `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `HANDOFF.md` (state and next steps), `EFFICIENCY.md` (working cheaply), `PLAN.md` and `PLAN_TASKS.md` (the plan and its tasks), `FRAMESET_REMAINING.md` (the frame set outside the tree, by blocker), `NAMES.md` (naming evidence), `KIT.md` and `SDK.md` (the in-game tools), `ROADMAP.md`, `GAPS.md`, `RENDERER.md`, `UI.md`, `DEARTIFACT.md`, `LOCALS.md` |
 | `pipeline/` | Everything that runs outside IDA: translator, gate, fact tools, tests (`pipeline/tests/`) |
 | `ida/` | What runs inside IDA: `ffxi_ida_fix.py` (generated, self-contained), its template, the graphics-set exporter `ida_gfx.py`, `ida_regflow.py` |
 | `kit/` | The in-game kit: `xikit` (swaps reconstructed functions into the running game, traces, bisect, capture) and `d3dprof` (per-call-site Direct3D profiler). `kit/README.md`, `docs/KIT.md` |
@@ -20,46 +20,41 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Status (25 Oct 2026)
+## Status (27 Oct 2026)
 
-The tree is selected by the frame, not the device: every function the frame is known to run (`pipeline/frame_set.py`,
-`data/frame_set.json`; a lower bound, since unproven indirect calls are not followed), from five exports
-(`tree/source.json`: IDA and Ghidra). Of the frame set's 4,765 game-code functions, 3,748 are in the tree and 1,017
-are not (`data/frame_set.json` `_summary`).
+Where to start: `docs/HANDOFF.md` (the state and the next steps), `docs/EFFICIENCY.md` (how to work on it cheaply),
+`docs/PLAN.md` (the plan) and `docs/PLAN_TASKS.md` (every task of the plan and its state).
+
+The tree is selected by the frame: every function the frame is known to run (`pipeline/frame_set.py`,
+`data/frame_set.json`; it follows proven indirect targets and the targets recorded in the running game, so it is a
+lower bound). The frame set has 5,430 functions: 219 are D3DX library code, 4,449 are in the tree
+(`verification/frame_set_status.json`). What is left of it, by blocker: `docs/FRAMESET_REMAINING.md`.
 
 | | Count | Source |
 |---|---|---|
-| **Functions in the tree** (`tree/`) | **4,206** | `tree/placement.json` |
-| **PASS on the fuzz gate** | **4,205** | `verification/gate_clean_final.jsonl`, under the gate rules of 22 Oct (P10, P13 in `docs/PROBLEMS.md`) |
-| Not verified (`// NOT VERIFIED`) | 1: 0x10003890, INCONCLUSIVE (the original faults on every fuzzed input through objects in its own `this`) | same |
-| Gate-passed, left out of the tree | 9: each calls a game function that may read a register its wrapper does not pass | `tree/left_out.json` |
-| **Compiled by the game's own compiler to the game's exact bytes** | **1,313** of the 22 Oct tree's 4,205 functions; 1,281 of them are in the 24 Oct tree. Not rerun on the current tree's text | `verification/msvc_match_tree.json` (Visual C++ 6.0, Processor Pack code generator, `/O2`; relocations by target) |
+| **Functions in the tree** (`tree/`, tree r14) | **4,897** | `tree/placement.json`; exports in `tree/source.json` (IDA, then Ghidra fs23, fs21, ..., fs22, fs24) |
+| **PASS** (fuzz gate, combined with the live gates on the four dumps) | **4,884** | `verification/gate_clean_final.jsonl` |
+| Not verified (`// NOT VERIFIED`) | 13: 8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED, each with its cause | same; docs/PROBLEMS.md P18 |
+| Gate-passed, left out of the tree | 15, each with its reason | `tree/left_out.json` |
+| **At the game's exact bytes** (Visual C++ 6.0 SP6, Processor Pack code generator) | **1,612 of the frame set's 5,430 (29.7%)**: the sweep's conversions of the tree (1,819 of 4,251 swept, 26 Oct) and 110 hand-written functions in `recompile/` | `verification/vc6_sweep.json`, `verification/recompile_match.json`, `pipeline/vc6/match.py` |
 
 What "PASS" rests on, and what it does not:
-- The fuzz gate only: 100 random trials per function. The live gates on the four memory dumps of the running game
-  (`verification/live/`) were run on the 4 Oct tree (774 functions) and not since: the dumps are not in this
-  environment (PROBLEMS P1).
-- Not every verdict was re-gated on the current build. A function whose compiled code, case, call-site facts and
-  fixed inputs are unchanged since the build it was gated on keeps that verdict (`pipeline/code_same.py`;
-  docs/HISTORY.md, 22 Oct evening).
-- 0x10016320 passes only under the fixed inputs `data/case_inputs.json` states; its GATE line says so.
-- Open questions that can change verdicts are in `docs/PROBLEMS.md`. IDB call types of unrecorded origin are not
-  used (P13): an IDB type counts only where it is the SDK's, and the 912 indirect sites that rested on one alone are
-  UNRESOLVED wherever the gate reaches them. The owner can admit their own types by marking
-  `requests/review/02_user_types.md` (224 of 372 have no recorded origin).
-- Function names: many come from naming sessions, measured at 61-63 of 100 known names correct and 1-2 wrong
-  (PROBLEMS P16). A name says nothing about the code; the gate binds every object by address.
+- Every function is gated on 100 fuzzed trials. The 16 not PASS on fuzz were also gated on the four memory dumps of
+  the running game (27 Oct); `combine_gates.py` makes a function PASS where some gate compared it and passed and none
+  failed. Three passed that way, two of them on few returning trials (0x10003890: 3 per dump; 0x100E08D0: 2); the
+  counts are in each record's `gates` field.
+- A function with a second case (a case from another export) is gated under both, and the stricter verdict stands.
+- Open questions that can change verdicts are in `docs/PROBLEMS.md`. IDB call types of unrecorded origin are not used
+  (P13); the owner can admit their own by marking `requests/review/02_user_types.md`.
+- Function names come partly from naming sessions, measured at 61-63 of 100 known names correct (P16). A name says
+  nothing about the code; the gate binds every object by address.
 
 One result rests on a declaration the owner accepted rather than a proof: `CDx+0xC` holds the device
 (`data/com_fields.json`, "accepted"); every call and stack balance that uses it carries the note.
 
 `pipeline/verify_all.py` re-derives every committed fact from the binary, regenerates the tree from its recorded
-sources and, without `--quick`, re-gates it (`verification/verify_all.json`). It fails on one known check,
-`export-sp` (PROBLEMS P5): IDA's stack depth in the epilogue of 0x100412B0 is 4 more than the real depth from
-0x100419F4, on a path that never ran and has an unsolved call, so no correction can be named.
-
-`docs/RESIDUE.md` still describes the 6 Oct graphics set (867 functions, before the frame set) and has not been
-regenerated for the current tree.
+sources and, without `--quick`, re-gates it (`verification/verify_all.json`). Its one known failing check is
+`export-sp` (PROBLEMS P5).
 
 ## Reproduce
 

@@ -248,18 +248,9 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     return result;
   if ( (this->field_32 & 1) != 0 )
   {
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      15,
-      1);
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      25,
-      5);
-    (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      24,
-      96);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHAREF, 96);
   }
   v7 = a3;
   if ( *(_BYTE *)(a3 + 364) == 68 )
@@ -273,10 +264,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   {
     v8 = *(_DWORD *)a2;
   }
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    60,
-    v8);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, v8);
   if ( this->field_34 == 0 && (_BYTE)a4 != 0 )
   {
     if ( (CMoDistModelElem_DrawMesh_staticGuards & 1) == 0 )
@@ -325,16 +313,8 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     orig::MoProcessor_CallVSlot49(v11);
     v11[8] = *(float *)(a3 + 288);
     v11[9] = *(float *)(a3 + 292);
-    (*(void (__stdcall **)(_DWORD, int, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      1,
-      11,
-      0);
-    (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      1,
-      24,
-      2);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, 2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 17, v11);
     v12 = g_pProcessor;
     v13 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
@@ -414,25 +394,13 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     }
   }
 LABEL_49:
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    28,
-    1);
-  result = (*(int (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             1,
-             1,
-             1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_RESULTARG, 1);
+  result = (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
   result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*(_BYTE *)(v7 + 379)) << 0));
   if ( (result & 3) != 0 )
   {
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 17, ((float *)((char *)g_pProcessor + 0x810)));
-    return (*(int (__stdcall **)(_DWORD, int, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-             *(_DWORD *)(g_pResourceMng + 3772),
-             1,
-             24,
-             0);
+    return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
   }
   return result;
 }
@@ -461,11 +429,7 @@ int CMoDistModelElem::Draw()
     orig::MoProcessor_CallVSlot49(v3);
     v3[8] = this->field_120;
     v3[9] = this->field_124;
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      24,
-      2);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v3);
     v4 = g_pProcessor;
     v5 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
@@ -474,16 +438,8 @@ int CMoDistModelElem::Draw()
   }
   else
   {
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      11,
-      0);
-    (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-      *(_DWORD *)(g_pResourceMng + 3772),
-      0,
-      24,
-      0);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+    (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
   }
   if ( (Fn100431B0_staticGuards & 1) == 0 )
   {
@@ -492,17 +448,10 @@ int CMoDistModelElem::Draw()
     orig::_atexit(XI_CODE(unknown_libname_49));
   }
   orig::StateBlock_ApplyTSS(&Fn100431B0_stateBlock, (int)&Fn100431B0_textureStageStates);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    60,
-    g_scratchValue);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, g_scratchValue);
   orig::RegisterWithProcessor((int)self);
   orig::XiZone_DrawModelAtMatrix((float *)g_pZoneMap, (float *)self + 40, this->field_104);
-  return (*(int (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           0,
-           24,
-           0);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
 }
 
 // FUNCTION: FFXIMAIN 0x10052F20  (placed by IDB name; static (takes no this))

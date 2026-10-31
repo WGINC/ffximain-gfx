@@ -2,6 +2,40 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100569D0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 19 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_100569D0(void * self_, undefined4 * param_1)
+{
+  undefined4 uVar1;
+  int iVar2;
+  undefined4 *puVar3;
+  undefined4 *puVar4;
+  
+  *(undefined4 *)((int)self_ + 0x20) = *param_1;
+  *(undefined4 *)((int)self_ + 0x24) = param_1[1];
+  *(undefined4 *)((int)self_ + 0x28) = param_1[2];
+  *(undefined4 *)((int)self_ + 0x2c) = param_1[3];
+  *(undefined4 *)((int)self_ + 0x34) = param_1[4];
+  *(undefined4 *)((int)self_ + 0x38) = param_1[5];
+  *(undefined4 *)((int)self_ + 0x3c) = param_1[6];
+  *(undefined4 *)((int)self_ + 0x40) = param_1[7];
+  puVar3 = param_1 + 8;
+  puVar4 = (undefined4 *)((int)self_ + 0x70);
+  for (iVar2 = (((uint32_t)param_1[1] >> 7 & 0x7ffff) - 2 & 0xfffffff) << 2; iVar2 != 0;
+      iVar2 = iVar2 + -1) {
+    *puVar4 = *puVar3;
+    puVar3 = puVar3 + 1;
+    puVar4 = puVar4 + 1;
+  }
+  for (iVar2 = 0; iVar2 != 0; iVar2 = iVar2 + -1) {
+    *(uint8_t *)puVar4 = *(uint8_t *)puVar3;
+    puVar3 = (undefined4 *)((int)puVar3 + 1);
+    puVar4 = (undefined4 *)((int)puVar4 + 1);
+  }
+  uVar1 = orig::CMoAttachments_Reset_v1((void *)((int)self_ + 0x30));
+  return uVar1;
+}
+
 // FUNCTION: FFXIMAIN 0x10056AA0  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __thiscall Scheduler_AddTask(void * self_)
@@ -100,4 +134,27 @@ XI_API undefined4 __thiscall Scheduler_Kill(void * self_, int param_1, int param
     }
     ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*this_00 + 0x18))))((void *)(this_00),1);
   } while( true );
+}
+
+// FUNCTION: FFXIMAIN 0x10057010  (unit unit_100569D0_Scheduler: no unit evidence of its own; in the gap between 0x100569C0 (CMoActorRotationDriveTask) and 0x10057090 (CMoSchedularTask) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall Scheduler_IsMoving(void * self_, int param_1, int param_2)
+{
+  void *this_00;
+  uint32_t uVar1;
+  
+  this_00 = *(void **)(dword_1047D140_as_v2 + 0xd50);
+  uVar1 = dword_1047D140_as_v2;
+  while( true ) {
+    if (this_00 == (void *)0x0) {
+      return uVar1 & 0xffffff00;
+    }
+    if ((((*(int *)((int)this_00 + 0x18) == *(int *)(*(int *)(param_1 + 0x70) + 0x78)) &&
+         (*(int *)((int)this_00 + 0x1c) == 0x4d730000)) &&
+        (uVar1 = *(uint32_t *)((int)self_ + 0x14), *(uint32_t *)((int)this_00 + 0x80) == uVar1)) &&
+       ((uVar1 = orig::AfterimageTask_FindFirstKind(this_00), uVar1 == param_1 &&
+        (uVar1 = orig::Scheduler_ResolveOwner(this_00), uVar1 == param_2)))) break;
+    this_00 = *(void **)((int)this_00 + 0xc);
+  }
+  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
 }

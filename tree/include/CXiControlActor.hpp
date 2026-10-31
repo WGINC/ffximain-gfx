@@ -13,7 +13,13 @@ public:
     static void __thiscall Slot138_Scan3F0(void * self, undefined4 * param_1);  // 0x100AAF70
 
     void **vftable;  // +0x0
-    uint8_t _pad_4[0x5C0];
+    uint8_t _pad_4[0x16C];
+    float groundHeight;  // +0x170
+    uint8_t _pad_174[0x4];
+    float waterHeight;  // +0x178
+    uint8_t _pad_17C[0x448];
 };
 #pragma pack(pop)
 static_assert(sizeof(CXiControlActor) == 0x5C4, "CXiControlActor: sizeof");
+static_assert(XI_OFFSETOF(CXiControlActor, groundHeight) == 0x170, "CXiControlActor: layout");
+static_assert(XI_OFFSETOF(CXiControlActor, waterHeight) == 0x178, "CXiControlActor: layout");

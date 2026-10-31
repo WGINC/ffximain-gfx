@@ -179,6 +179,36 @@ void * __thiscall CXiControlActor::Constructor(void * self)
   return self;
 }
 
+// FUNCTION: FFXIMAIN 0x100A8C20  (unit CXiControlActor: between 0x100A8C10 (class model places it in CXiControlActor) and 0x100A8C60 (class model places it in CXiControlActor), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100A8C20(void)
+{
+  int *self_;
+  uint64_t uVar1;
+  
+  uVar1 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  self_ = (int *)uVar1;
+  if (self_ != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*self_ + 0x33c))))((void *)(self_),0);
+  }
+  return;
+}
+
+// FUNCTION: FFXIMAIN 0x100A8C40  (unit CXiControlActor: between 0x100A8C10 (class model places it in CXiControlActor) and 0x100A8C60 (class model places it in CXiControlActor), both within 4 KB)
+// GATE: PASS -- 100 trials, 100 returned normally, 73 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __cdecl fn_100A8C40(void)
+{
+  int *self_;
+  uint64_t uVar1;
+  
+  uVar1 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
+  self_ = (int *)uVar1;
+  if (self_ != (int *)0x0) {
+    ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*self_ + 0x33c))))((void *)(self_),1);
+  }
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x100AAEF0  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
 long double __stdcall CXiControlActor::GetSpeed(int * param_1)

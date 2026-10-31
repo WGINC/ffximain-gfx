@@ -40,6 +40,80 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoProcessor_VT_1032C368_
   return iVar1;
 }
 
+// FUNCTION: FFXIMAIN 0x1006D190  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API void __stdcall fn_1006D190(float * param_1)
+{
+  float fVar1;
+  int iVar2;
+  int iVar3;
+  float *pfVar4;
+  float *pfVar5;
+  float *pfVar6;
+  float *pfVar7;
+  float *pfVar8;
+  float *pfVar9;
+  uint8_t bVar10;
+  long double fVar11;
+  long double fVar12;
+  int iStack_10;
+  float *pfStack_c;
+  float *pfStack_8;
+  
+  iStack_10 = 0;
+  pfStack_8 = param_1;
+  pfStack_c = param_1;
+  pfVar8 = param_1;
+  do {
+    fVar11 = (long double)*pfStack_c;
+    bVar10 = NAN(fVar11) || NAN((long double)0.0f);
+    if (bVar10 != (bVar10 || fVar11 == (long double)0.0f)) {
+      fVar11 = (long double)xi_k4(0x3727C5ACull);
+    }
+    fVar11 = (long double)1.0f / fVar11;
+    iVar2 = 4;
+    pfVar5 = pfVar8;
+    do {
+      pfVar6 = pfVar5 + 1;
+      iVar2 = iVar2 + -1;
+      *pfVar5 = (float)(fVar11 * (long double)*pfVar5);
+      pfVar5 = pfVar6;
+    } while (iVar2 != 0);
+    *pfStack_c = (float)fVar11;
+    iVar2 = 0;
+    pfVar5 = pfStack_8;
+    pfVar9 = param_1;
+    do {
+      if (iVar2 != iStack_10) {
+        fVar1 = *pfVar5;
+        iVar3 = 0;
+        pfVar4 = pfVar9;
+        pfVar7 = pfVar8;
+        do {
+          if (iVar3 == iStack_10) {
+            fVar12 = -((long double)fVar1 * fVar11);
+          }
+          else {
+            fVar12 = (long double)*pfVar4 - (long double)fVar1 * (long double)*pfVar7;
+          }
+          *pfVar4 = (float)fVar12;
+          iVar3 = iVar3 + 1;
+          pfVar7 = pfVar7 + 1;
+          pfVar4 = pfVar4 + 1;
+        } while (iVar3 < 4);
+      }
+      iVar2 = iVar2 + 1;
+      pfVar5 = pfVar5 + 4;
+      pfVar9 = pfVar9 + 4;
+    } while (iVar2 < 4);
+    iStack_10 = iStack_10 + 1;
+    pfStack_c = pfStack_c + 5;
+    pfStack_8 = pfStack_8 + 1;
+    pfVar8 = pfVar6;
+  } while (iStack_10 < 4);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x1006D270  (unit unit_1006CF90: no unit evidence of its own; in the gap between 0x1006CE70 (CMoProcessor) and 0x1006D380 (CMoProcessor_VT_1032C298) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 45 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __stdcall Unit1006CF90_MultiplyTo(float * param_1, int param_2, float * param_3)

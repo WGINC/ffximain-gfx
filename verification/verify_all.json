@@ -42,6 +42,10 @@
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
  },
+ "facts:indirect_targets.json": {
+  "ok": true,
+  "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
+ },
  "facts:sp_solved.json": {
   "ok": true,
   "from_state": "runs/regen_facts/state.json: inputs and output unchanged"
@@ -181,11 +185,12 @@
  },
  "wrapper-regs": {
   "ok": true,
-  "wrappers": 4197,
+  "wrappers": 4481,
   "reads_a_register_it_is_not_given": [],
   "via_a_callee": [
    "0x1006CB50 CreateProcessorInstance __cdecl reads ECX",
    "0x1006CB50 CreateProcessorInstance __cdecl reads EDX",
+   "0x1012A350 Unit100D7420_CallClearBuffers __cdecl reads ECX",
    "0x10150CC0 Unit1012AC80_SetTextFwd_v1 __stdcall reads ECX",
    "0x102590E0 Unit10253A20_DeleteNodesA __cdecl reads ECX",
    "0x1025A800 Unit10253A20_DeleteNodesB __cdecl reads ECX"
@@ -271,6 +276,16 @@
   "sha1": "d8fc5e34d52441338c770b47028134dc7ce2eac8",
   "same_as_committed_export": true
  },
+ "tree-source:data/exports/ghidra_frameset23.jsonl": {
+  "ok": true,
+  "sha1": "ce1a35a00fe3249c3d1380780535b4b1be0241e4",
+  "expected": "ce1a35a00fe3249c3d1380780535b4b1be0241e4"
+ },
+ "tree-source:data/exports/ghidra_frameset21.jsonl": {
+  "ok": true,
+  "sha1": "5a7a79b03db073a42a54058052fcbab8f7a47229",
+  "expected": "5a7a79b03db073a42a54058052fcbab8f7a47229"
+ },
  "tree-source:data/exports/ghidra_export.jsonl": {
   "ok": true,
   "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
@@ -316,11 +331,29 @@
   "sha1": "44fff29906369f16bcad56ef3584c5701852b935",
   "expected": "44fff29906369f16bcad56ef3584c5701852b935"
  },
+ "tree-source:data/exports/ghidra_frameset22.jsonl": {
+  "ok": true,
+  "sha1": "07bb644d3b977fe4cf3cfb96cc9b0cef8f90d87b",
+  "expected": "07bb644d3b977fe4cf3cfb96cc9b0cef8f90d87b"
+ },
+ "tree-source:data/exports/ghidra_frameset24.jsonl": {
+  "ok": true,
+  "sha1": "377b7983589c124177bed593a94d3b4816d546f8",
+  "expected": "377b7983589c124177bed593a94d3b4816d546f8"
+ },
  "tree-regen": {
   "ok": true,
   "differing": [],
+  "rc": 0,
   "build": [
-   "1 functions do not compile (0 new)"
+   "functions 4898 classes 161 Counter({None: 3757, 'IDB name; static (takes no this)': 434, 'tree manifest': 239, 'takes EAX in a register: a free function': 215, 'tree manifest; does not use this': 122, 'IDB name': 104, 'an undefined4 register parameter: a free function with regparm': 13, 'typed this': 1, 'callers pass their own this (CShader)': 1, 'callers pass their own this (CXiOpening)': 1, 'callers pass their own this (CYyOs2VtxBuffer)': 1, 'callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)': 1, 'callers pass the object in dword_1047C004 as this (1 of 1 call sites); 0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable)': 1, 'callers pass their own this (CXiSkeletonActor)': 1, 'callers pass the object in dword_104E1B90 as this (3 of 3 call sites); singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified': 1, 'takes EDX in a register: a free function': 1, 'callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified': 1, 'callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified': 1, 'callers pass the object in dword_10621944 as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified': 1, 'callers pass their own this (CTsZoneMap)': 1, 'takes EAX, EDX in a register: a free function': 1})",
+   "built build/gfx_recon.dll from 409 files; failed: src/unit_10018840.cpp",
+   "0x10018850 unit_10018840.cpp: no match for 'operator!=' (operand types are 'PTR_s_mov999_pmv_10350e54_t' {aka 'undefined4'} and 'undefined*' {aka 'uns",
+   "4 functions do not compile (1 new)",
+   "regenerating without the functions that do not compile (4)",
+   "functions 4897 classes 161 Counter({None: 3756, 'IDB name; static (takes no this)': 434, 'tree manifest': 239, 'takes EAX in a register: a free function': 215, 'tree manifest; does not use this': 122, 'IDB name': 104, 'an undefined4 register parameter: a free function with regparm': 13, 'typed this': 1, 'callers pass their own this (CShader)': 1, 'callers pass their own this (CXiOpening)': 1, 'callers pass their own this (CYyOs2VtxBuffer)': 1, 'callers pass their own this (CMoD3aElem, CMoD3aLightmapElem, CMoDisintegrateProgElem, CMoDist, CMoDistModelElem, CMoDistRingElem, CMoElem, CMoElem_VT_1032ADE8, CMoNullProgElem, CMoVuDist, CMoVuLineProgElem, CXi471011C8_VT_1032AD80, CXi471011C8_VT_1032B3B8, CXi471011C8_VT_1032B478)': 1, 'callers pass the object in dword_1047C004 as this (1 of 1 call sites); 0x1006B2B0 stores the result of 0x1006C140 (stores the CMoOcclusionMng vtable)': 1, 'callers pass their own this (CXiSkeletonActor)': 1, 'callers pass the object in dword_104E1B90 as this (3 of 3 call sites); singleton created in App_InitScene (Allocator_Generic + 0x1011BA90); no vtable, class not identified': 1, 'takes EDX in a register: a free function': 1, 'callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified': 1, 'callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified': 1, 'callers pass the object in dword_10621944 as this (1 of 1 call sites); singleton created in 0x10165070 (Allocator_Generic + 0x10163090); no vtable, class not identified': 1, 'callers pass their own this (CTsZoneMap)': 1, 'takes EAX, EDX in a register: a free function': 1})",
+   "built build/gfx_recon.dll from 410 files; failed: none",
+   "4 functions do not compile (0 new)"
   ]
  },
  "tree-gate": {

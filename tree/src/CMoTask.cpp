@@ -337,6 +337,15 @@ _DWORD * CMoTask::ScalarDeletingDtor(char a2)
   return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
 }
 
+// FUNCTION: FFXIMAIN 0x100747C0  (placed by IDB name; static (takes no this))
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+void __thiscall CMoTask::Destructor(void * self)
+{
+  *(uint8_t ***)self = &PTR_CMoTask_GetRuntimeClass_variant12_1032c978;
+  orig::CMoTask_DetachAndRecycle(self,1);
+  return;
+}
+
 // FUNCTION: FFXIMAIN 0x10074890  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 48 returned normally, 95 D3D calls compared (diffemu_gfx, clean build)
 void __thiscall CMoTask::DestroyChain(void * self)
@@ -526,91 +535,25 @@ int CMoTask::DrawQuadStates(float *a2, char arg4)
   Fn10076030_static_D1D0 = 1065353216;
   if ( arg4 != 0 )
     orig::TexRef_SetTexture(self, 0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    24,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    11,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    4,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    5,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    7,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    52,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    15,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    27,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    22,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    137,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    28,
-    0);
-  (*(void (__stdcall **)(_DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    48,
-    0);
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    324);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_LIGHTING, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_FOGENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(324);
   orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 5, 2, (int)&Fn10076030_static_D180, 28);
   v17 = 0;
   v12 = 0;
@@ -633,44 +576,15 @@ int CMoTask::DrawQuadStates(float *a2, char arg4)
   v16 = a2[1] + a2[3];
   v11 = v16;
   qmemcpy(v20, a3, sizeof(v20));
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
-  (*(void (__stdcall **)(_DWORD, int))(**(_DWORD **)(g_pResourceMng + 3772) + 304))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    68);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetVertexShader(68);
   orig::CDx_DrawPrimitiveUP(*(void **)(g_pResourceMng + 3528), 3, 4, (int)a3, 20);
-  return (*(int (__stdcall **)(_DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 200))(
-           *(_DWORD *)(g_pResourceMng + 3772),
-           7,
-           1);
+  return (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 }
 
 // FUNCTION: FFXIMAIN 0x10076520  (placed by IDB name)
@@ -728,56 +642,16 @@ int CMoTask::DrawQuadDynVB(float *a2, float *a3, char a4)
   orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   if ( a4 != 0 )
     orig::TexRef_SetTexture(self, 0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    24,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    11,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    1,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    2,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    4,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, _DWORD))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    5,
-    0);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    16,
-    2);
-  (*(void (__stdcall **)(_DWORD, _DWORD, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    0,
-    17,
-    2);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    1,
-    1);
-  (*(void (__stdcall **)(_DWORD, int, int, int))(**(_DWORD **)(g_pResourceMng + 3772) + 252))(
-    *(_DWORD *)(g_pResourceMng + 3772),
-    1,
-    4,
-    1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   return orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF144, 0, 2, 5, 0, -1);
 }
 

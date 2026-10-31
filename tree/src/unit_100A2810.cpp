@@ -2,6 +2,200 @@
 #include "gfx_all.hpp"
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
+// FUNCTION: FFXIMAIN 0x100A28E0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __thiscall fn_100A28E0(void * self_)
+{
+  uint32_t *puVar1;
+  uint8_t bVar2;
+  uint32_t uVar3;
+  uint8_t *pbVar4;
+  int iVar5;
+  uint32_t *puVar6;
+  
+  puVar1 = (uint32_t *)((int)self_ + 0x70);
+  *(uint8_t *)((int)self_ + 0x58) = 0;
+  *(uint8_t *)((int)self_ + 0x59) = 0;
+  *(uint8_t *)((int)self_ + 0x5a) = 0;
+  *(uint8_t *)((int)self_ + 0x5b) = 0;
+  *(uint32_t *)((int)self_ + 0x5c) = 0;
+  *(uint32_t *)((int)self_ + 0x60) = 0;
+  *(uint32_t *)((int)self_ + 100) = 0;
+  *(uint32_t *)((int)self_ + 0x68) = 0;
+  *(uint32_t *)((int)self_ + 0x6c) = 0;
+  puVar6 = puVar1;
+  for (iVar5 = 0x20; iVar5 != 0; iVar5 = iVar5 + -1) {
+    *puVar6 = 0;
+    puVar6 = puVar6 + 1;
+  }
+  pbVar4 = *(uint8_t **)((int)self_ + 0x48);
+  if (pbVar4 != (uint8_t *)0x0) {
+    bVar2 = *pbVar4;
+    if (bVar2 == 1) {
+      *(uint8_t *)((int)self_ + 0x58) = 1;
+      bVar2 = pbVar4[2];
+      *(uint8_t *)((int)self_ + 0x5a) = bVar2;
+      *(uint8_t *)((int)self_ + 0x5b) = pbVar4[3];
+      if (bVar2 == 1) {
+        *(uint32_t *)((int)self_ + 100) = 0xec;
+      }
+      else if (bVar2 == 2) {
+        *(uint32_t *)((int)self_ + 100) = 0xb4;
+      }
+      else {
+        *(uint32_t *)((int)self_ + 100) = 0;
+      }
+      uVar3 = orig::FUN_100a2b70(self_,(uint8_t *)puVar1,*(uint32_t *)((int)self_ + 100));
+      *(uint32_t *)((int)self_ + 0x34) = 0;
+      pbVar4 = (uint8_t *)(*(int *)((int)self_ + 0x38) + -1);
+      *(uint32_t *)((int)self_ + 0x6c) = *(int *)((int)self_ + 0x6c) + uVar3;
+      *(uint8_t **)((int)self_ + 0x38) = pbVar4;
+    }
+    else if ((9 < bVar2) && (bVar2 < 0xe)) {
+      *(uint8_t *)((int)self_ + 0x58) = bVar2;
+      *(uint8_t *)((int)self_ + 0x5a) = pbVar4[2];
+      *(uint8_t *)((int)self_ + 0x5b) = pbVar4[3];
+      uVar3 = orig::FUN_100a2b70(self_,(uint8_t *)puVar1,0);
+      *(uint32_t *)((int)self_ + 0x38) = 0;
+      *(uint32_t *)((int)self_ + 0x34) = 0;
+      *(uint32_t *)((int)self_ + 0x6c) = *(int *)((int)self_ + 0x6c) + uVar3;
+      return uVar3;
+    }
+  }
+  return (uint32_t)pbVar4;
+}
+
+// FUNCTION: FFXIMAIN 0x100A2B70  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API uint32_t __thiscall fn_100A2B70(void * self_, uint8_t * param_1, uint32_t param_2)
+{
+  uint32_t uVar1;
+  
+  if (0xec < param_2) {
+    param_2 = 0xec;
+  }
+  *param_1 = *(uint8_t *)((int)self_ + 0x58);
+  param_1[1] = *(uint8_t *)((int)self_ + 0x5a);
+  param_1[2] = *(uint8_t *)((int)self_ + 0x5b);
+  if ((*(uint8_t *)((int)self_ + 0x58) == 0) || (2 < *(uint8_t *)((int)self_ + 0x58))) {
+    param_1[3] = 1;
+  }
+  else {
+    param_1[3] = *(uint8_t *)((int)self_ + 0x40);
+  }
+  *(uint32_t *)(param_1 + 8) = 0;
+  *(uint32_t *)(param_1 + 0xc) = 0;
+  *(uint32_t *)(param_1 + 0x10) = *(uint32_t *)((int)self_ + 0x5c);
+  *(uint32_t *)(param_1 + 0x14) = *(uint32_t *)((int)self_ + 0x60);
+  uVar1 = *(uint32_t *)((int)self_ + 0x6c);
+  *(uint32_t *)(param_1 + 0x1c) = param_2;
+  *(uint32_t *)(param_1 + 0x18) = uVar1;
+  return param_2;
+}
+
+// FUNCTION: FFXIMAIN 0x100A2FD0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A2FD0(undefined4 xi_eax, uint8_t * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 * param_5, uint32_t param_6)
+{
+  int iVar1;
+  uint32_t uVar2;
+  undefined4 *puVar3;
+  
+  if (param_1 != (uint8_t *)0x0) {
+    *param_1 = (uint8_t)param_2;
+    param_1[2] = (uint8_t)param_3;
+    param_1[3] = (uint8_t)param_4;
+    xi_eax = 0;
+    param_1[1] = 0;
+    *(undefined4 *)(param_1 + 4) = 0;
+    *(undefined4 *)(param_1 + 8) = 0;
+    *(undefined4 *)(param_1 + 0x18) = 0;
+    puVar3 = (undefined4 *)(param_1 + 0x1c);
+    for (iVar1 = 9; iVar1 != 0; iVar1 = iVar1 + -1) {
+      *puVar3 = 0;
+      puVar3 = puVar3 + 1;
+    }
+    *(undefined4 *)(param_1 + 0xc) = 0;
+    if ((param_5 != (undefined4 *)0x0) && (0 < (int)param_6)) {
+      *(uint32_t *)(param_1 + 0x10) = param_6;
+      *(undefined4 **)(param_1 + 0x14) = param_5;
+      for (uVar2 = param_6 >> 2; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *param_5 = 0;
+        param_5 = param_5 + 1;
+      }
+      for (uVar2 = param_6 & 3; uVar2 != 0; uVar2 = uVar2 - 1) {
+        *(uint8_t *)param_5 = 0;
+        param_5 = (undefined4 *)((int)param_5 + 1);
+      }
+      return xi_eax;
+    }
+    *(undefined4 *)(param_1 + 0x10) = 0;
+    *(undefined4 *)(param_1 + 0x14) = 0;
+  }
+  return xi_eax;
+}
+
+// FUNCTION: FFXIMAIN 0x100A3040  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __cdecl fn_100A3040(void)
+{
+  undefined4 uVar1;
+  void *pvVar2;
+  undefined4 *puVar3;
+  uint32_t uVar4;
+  
+  pvVar2 = DAT_10487f08;
+  if (DAT_10487f08 == (void *)0x0) {
+    uVar4 = 0x400;
+    puVar3 = (undefined4 *)0x10485178;
+    uVar1 = orig::FUN_100a30e0(0);
+    orig::FUN_100a2fd0((uint8_t *)0x104808b0,1,1,uVar1,puVar3,uVar4,uVar1);
+    puVar3 = orig::Mem_AllocFromArea_v2(0xf0,4,0);
+    pvVar2 = (void *)orig::CMoTask_ResetFields_v1(puVar3);
+    g_resourcesDirty_as_v0 = 1;
+    if (puVar3 == (undefined4 *)0x0) {
+      DAT_10487f08 = (void *)0x0;
+    }
+    else {
+      DAT_10487f08 = orig::FUN_100a2790(puVar3,0x104808b0);
+      pvVar2 = (void *)0x0;
+      if (DAT_10487f08 != (void *)0x0) {
+        *(undefined4 *)((int)DAT_10487f08 + 0x50) = 0x100a3160;
+        *(undefined4 *)((int)DAT_10487f08 + 0x54) = 0x100a3130;
+        uVar1 = orig::FUN_100a28e0(DAT_10487f08);
+        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      }
+    }
+  }
+  return (uint32_t)pvVar2 & 0xffffff00;
+}
+
+// FUNCTION: FFXIMAIN 0x100A30E0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100A30E0(undefined4 xi_eax)
+{
+  uint32_t uVar1;
+  uint32_t uVar2;
+  uint32_t uVar3;
+  
+  uVar3 = (uint32_t)((uint32_t)xi_eax >> 8);
+  uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(1)));
+  uVar1 = *(uint32_t *)(g_pSceneState + 8);
+  if (((*(char *)(g_pSceneState + 0x18) < '\0') && ((uVar1 == 2 || (uVar1 == 3)))) || (uVar1 < 4)) {
+    switch(xi_sw(uVar1)) {
+    case 0:
+      return ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(1)));
+    default:
+      return ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(2)));
+    case 2:
+      return ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(3)));
+    case 3:
+      uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(4)));
+    }
+  }
+  return uVar2;
+}
+
 // FUNCTION: FFXIMAIN 0x100A3CD0  (unit unit_100A2810: no unit evidence of its own; in the gap between 0x100A27F0 (CMoTask_VT_1032D6D4) and 0x100A4420 (XiChocoboActor2) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
 XI_API void __cdecl Unit100A2810_ResetRecords(void)

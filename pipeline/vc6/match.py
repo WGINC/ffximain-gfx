@@ -13,7 +13,10 @@ relocations. Against the game's bytes at the address:
     its own bytes; when the symbol's name carries an address (FUN_/sub_/fn_ + 8 hex digits, or a name the tree's
     placement gives an address) the two must be the same, otherwise the target is reported, not compared;
   * a DIR32 relocation (an absolute address: a global, a jump table, a constant) is likewise compared when the
-    symbol names an address (DAT_/g_ ... _XXXXXXXX), else reported;
+    symbol names an address (DAT_/g_ ... _XXXXXXXX), or is a name tree/placement.json gives one address (a member's
+    decorated `?Method@Class@@...` read as Class::Method), else reported;
+  * a symbol the source cannot name by address (a function-local static, its guard, the compiler's `$E` function)
+    is compared when the source gives its address: `// SYMBOL: <decorated name> 0xADDR`;
   * the length must be the game function's (data/func_extents.json, a single piece), up to alignment padding (0xCC /
     0x90) after the code on either side (a /Gy section is padded to its alignment).
 Verdict per function: IDENTICAL (every byte and every comparable target equal; uncompared targets are listed),
@@ -29,9 +32,11 @@ FUNC_RE = re.compile(r'//\s*FUNCTION:\s*FFXIMAIN\s+(0x[0-9A-Fa-f]+)')
 ADDR_RE = re.compile(r'(?:FUN|sub|fn|DAT|LAB|g)_?[A-Za-z0-9]*?_?(1[0-9A-Fa-f]{7})\b')
 
 
-def cl(src, obj, flags, cwd):
+def cl(src, obj, flags, cwd, inc=None):
+    """inc: a directory searched after VC6's own (a source's directory, for a header beside it: recompile/sweep/)"""
     vc6 = os.environ['VC6']
-    env = dict(os.environ, WINEDEBUG='-all', INCLUDE='Z:' + os.path.join(vc6, 'INCLUDE').replace('/', '\\'))
+    dirs = [os.path.join(vc6, 'INCLUDE')] + ([inc] if inc else [])
+    env = dict(os.environ, WINEDEBUG='-all', INCLUDE=';'.join('Z:' + x.replace('/', '\\') for x in dirs))
     r = subprocess.run(['wine', os.path.join(vc6, os.environ.get('VC6_BIN', 'BIN'), 'cl.exe'), '/nologo', '/c', '/Gy'] + flags + ['/Fo' + obj, src],
                        cwd=cwd, env=env, capture_output=True, text=True, errors='replace')
     return r.returncode, (r.stdout + r.stderr).strip()
@@ -64,7 +69,12 @@ def coff(path):
         for k in range(nrel):
             off, si, rt = struct.unpack_from('<IIH', b, relptr + 10 * k)
             t = syms[si]
-            rels.append((off - val, rt, t[0] if t else '?'))
+            # a label of this function's own section (a jump table's case, $L...): its place is known, the
+            # function's start plus its offset, so the relocation is compared like any other ('@self+N')
+            if t and t[2] == sec and (t[3] >> 4) != 2 and t[4] in (3, 6) and t[0].startswith('$L'):
+                rels.append((off - val, rt, '@self%+d' % (t[1] - val)))
+            else:
+                rels.append((off - val, rt, t[0] if t else '?'))
         out[nm_] = (code[val:], rels)
     return out, compid
 
@@ -93,8 +103,12 @@ def compare(img, ext, ea, code, rels, place):
         covered.update(range(off, off + 4))
         a = None
         m = ADDR_RE.search(sym)
-        if m: a = int(m.group(1), 16)
+        if sym.startswith('@self'): a = ea + int(sym[5:])
+        elif m: a = int(m.group(1), 16)
+        elif sym in place: a = place[sym]
         elif sym.lstrip('_?') in place: a = place[sym.lstrip('_?')]
+        elif re.match(r'^\?(\w+)@(\w+)@@', sym) and '%s::%s' % re.match(r'^\?(\w+)@(\w+)@@', sym).group(2, 1) in place:
+            a = place['%s::%s' % re.match(r'^\?(\w+)@(\w+)@@', sym).group(2, 1)]    # ?Method@Class@@...: the tree's Class::Method
         if rt == 0x14:                       # IMAGE_REL_I386_REL32
             got = (ea + off + 4 + struct.unpack_from('<i', orig, off)[0]) & 0xFFFFFFFF
         elif rt == 0x06:                     # IMAGE_REL_I386_DIR32
@@ -102,6 +116,14 @@ def compare(img, ext, ea, code, rels, place):
             got &= 0xFFFFFFFF
         else:
             notes.append('relocation type %d at +%d (%s): not compared' % (rt, off, sym)); continue
+        rm = re.match(r'^__real@([0-9a-f]{8}|[0-9a-f]{16})$', sym)
+        if a is None and rt == 0x06 and rm:
+            # a pooled floating constant: MSVC names it by its value (__real@3f800000 is 1.0f), so the game's constant at
+            # the address the instruction holds is compared with that value, byte for byte
+            want = bytes.fromhex(rm.group(1))[::-1]; o_ = got - BASE
+            if not (0 <= o_ <= len(img) - len(want)) or bytes(img[o_:o_ + len(want)]) != want:
+                return 'DIFFERS', '+%d: %s, the game\'s constant at 0x%08X is %s' % (off, sym, got, bytes(img[o_:o_ + len(want)])[::-1].hex() if 0 <= o_ <= len(img) - len(want) else '?'), notes
+            continue
         if a is None: notes.append('+%d %s -> 0x%08X in the game: not compared (%s carries no address)' % (off, 'call/jump' if rt == 0x14 else 'address', got, sym))
         elif a != got: return 'DIFFERS', '+%d: %s targets %s (0x%08X), the game 0x%08X' % (off, 'REL32' if rt == 0x14 else 'DIR32', sym, a, got), notes
     for k in range(len(code)):
@@ -109,7 +131,12 @@ def compare(img, ext, ea, code, rels, place):
             return 'DIFFERS', '+%d: 0x%02X here, 0x%02X in the game' % (k, code[k], orig[k]), notes
     if n is not None:
         tail = img[ea - BASE + len(code):ea - BASE + n]
-        if len(code) > n or any(x not in (0xCC, 0x90) for x in tail):
+        # past the function's extent: only a jump table the function's own relocations cover (compared above, against
+        # the game's bytes that follow the function) and padding
+        # (the alignment before the table, at most 7 bytes such as `mov edi, edi`, is compared byte for byte above)
+        first = min([k for k in covered if k >= n], default=len(code))
+        past = [k for k in range(n, len(code)) if k not in covered and code[k] not in (0xCC, 0x90) and not (k < first <= n + 7)]
+        if (len(code) > n and past) or any(x not in (0xCC, 0x90) for x in tail):
             return 'DIFFERS', 'length %d, the game function %d' % (len(code), n), notes
     return 'IDENTICAL', '', notes
 
@@ -134,8 +161,12 @@ def main():
     if o.all:
         import glob
         bad = 0
-        for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', '*.c'))):
-            r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', o.flags], capture_output=True, text=True)
+        # recompile/: written by hand; recompile/sweep/: the sweep's own sources of functions it found IDENTICAL
+        # (pipeline/vc6/emit_identical.py), beside the shim headers they include
+        for f in sorted(glob.glob(os.path.join(ROOT, 'recompile', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', '*.c'))
+                        + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.cpp')) + glob.glob(os.path.join(ROOT, 'recompile', 'sweep', '*.c'))):
+            fm = re.search(r'(?m)^//\s*VC6FLAGS:\s*(.+?)\s*$', open(f, errors='replace').read())   # a file's own flags
+            r = subprocess.run([sys.executable, os.path.abspath(__file__), f, '--flags', fm.group(1) if fm else o.flags], capture_output=True, text=True)
             print(os.path.basename(f) + ': ' + (r.stdout.splitlines() or ['(no output) ' + r.stderr[-300:]])[0])
             bad += r.returncode != 0 or 'DIFFERS' in r.stdout or 'MISSING' in r.stdout
         sys.exit(1 if bad else 0)
@@ -146,10 +177,17 @@ def main():
     place = {}
     if os.path.exists(pl):
         for k, v in json.load(open(pl)).items():
-            if isinstance(v, dict) and v.get('symbol'): place[v['symbol']] = int(k, 16)
+            if isinstance(v, dict) and v.get('symbol'):
+                n_ = v['symbol']; place[n_] = int(k, 16) if place.get(n_, int(k, 16)) == int(k, 16) else None   # a name twice: none
+    place = {k: v for k, v in place.items() if v is not None}
+    # symbols the compiler names itself (a function-local static, its guard, the `$E` function that registers its
+    # destructor) or that the source cannot name by address (atexit), given their game address by the source:
+    # `// SYMBOL: <decorated name> 0xADDR`; their relocations are then compared like any other
+    for m in re.finditer(r'(?m)^//\s*SYMBOL:\s*(\S+)\s+(0x[0-9A-Fa-f]+)\s*$', open(o.src, errors='replace').read()):
+        place[m.group(1)] = int(m.group(2), 16)
     d = o.keep or tempfile.mkdtemp(prefix='vc6_'); os.makedirs(d, exist_ok=True)
     src = os.path.join(d, os.path.basename(o.src)); shutil.copy(o.src, src)
-    rc, out = cl(os.path.basename(src), 'm.obj', o.flags.split() + ['/FAc', '/Fam.cod'], d)
+    rc, out = cl(os.path.basename(src), 'm.obj', o.flags.split() + ['/FAc', '/Fam.cod'], d, inc=os.path.dirname(os.path.abspath(o.src)))
     if rc: print('compile failed:\n' + out); sys.exit(2)
     funcs, c = coff(os.path.join(d, 'm.obj'))
     lines = listing_lines(os.path.join(d, 'm.cod'))

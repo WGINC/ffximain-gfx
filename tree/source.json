@@ -19,7 +19,8 @@
   {
    "path": "data/exports/ghidra_export.jsonl",
    "sha1": "4b647e4554f35ee40b3a57d11eb54cd6288bb752",
-   "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export"
+   "_doc": "functions the IDA export does not hold, decompiled by pipeline/ghidra/export.sh (GfxExport.java); appended after the IDA export",
+   "raw_gate": "verification/gate_raw_ghidra.jsonl"
   },
   {
    "path": "data/exports/ghidra_frameset.jsonl",
@@ -73,9 +74,20 @@
    "sha1": "07bb644d3b977fe4cf3cfb96cc9b0cef8f90d87b",
    "raw_gate": "verification/gate_raw_frameset22.jsonl",
    "_doc": "the 384 game-code frame-set functions outside the tree, exported with current facts and the import-library, fsqrt and __fastcall fixes"
+  },
+  {
+   "_doc": "added by tree_round.py; see docs/HISTORY.md",
+   "path": "data/exports/ghidra_frameset24.jsonl",
+   "raw_gate": "verification/gate_raw_frameset24.jsonl",
+   "sha1": "377b7983589c124177bed593a94d3b4816d546f8"
   }
  ],
  "ghidra_raw_gate": "verification/gate_raw_ghidra.jsonl",
  "raw_regate": "verification/gate_raw_regate.jsonl",
- "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw; second round: the older records of the 32 tree functions fs17 passes raw"
+ "_doc_raw_regate": "raw verdicts given again under the gate rules of 26 Oct (stack filled with 0xA5, args_may) for records of older exports whose earlier verdict predates them; each replaces that export's earlier verdict (hx2clean.py, XI_REGATE). Re-gated: the records, in every older export, of the tree functions not PASS that another export passes raw; second round: the older records of the 32 tree functions fs17 passes raw",
+ "given_drop": {
+  "0x10223B4E": "left out: a switch case of its caller, reached only by a recorded table jump (frame_set.py switch_targets_not_followed), not a function entry",
+  "0x102262EE": "left out: a switch case of its caller, reached only by a recorded table jump (frame_set.py switch_targets_not_followed), not a function entry",
+  "0x1022635E": "left out: a switch case of its caller, reached only by a recorded table jump (frame_set.py switch_targets_not_followed), not a function entry"
+ }
 }

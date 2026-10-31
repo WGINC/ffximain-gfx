@@ -55,7 +55,17 @@ These are matches, not proofs of the whole layout:
 | CTkMenuCtrlData `m_DrawShapes` | +0x14 | ResizeWindow (0x1011A5A0): `lea ecx,[esi+14h]` |
 | CTkMenuPrimitive `m_pParentMCD` | +0x08 | RePosition and ResizeWindow get `this` from `mov ecx,[reg+8]` at 59 of their 67 and 26 of their 40 call sites |
 
-## Relation to the renderer: not established
+## Relation to the renderer: established by direct calls (28 Oct)
+
+From the per-menu draw that ffxi_hide_ui's kSigMenuDraw locates (0x101177D0, our Menu_DrawWindowItems), the
+game's own direct calls reach the renderer: 0x101177D0 calls the sprite draw 0x1011FC80 (kSigSpriteDraw), which
+reaches DrawPrimitiveUP (0x1000CD00, kSigPrimitiveDraw) through 0x1011E980 and 0x1011F300; within four calls of
+the per-menu draw lie two of the nine Cell_/Font_ callers below, 0x1011F2D0 and 0x10120000. The walk of 26 Oct
+went up from Cell_/Font_ to the manager's eleven functions, and the per-menu draw is not one of them
+(data/genoxd_scan.json, docs/COMMUNITY.md).
+
+The earlier finding, kept as written:
+
 
 - The 10 Cell_/Font_ draw functions in the export have 9 direct callers outside it: 0x100D7FA0, 0x1011BBA0,
   0x1011BE10, 0x1011ED70, 0x1011F2D0, 0x1011FF70, 0x10120000, 0x1013A350 and 0x10150B40.

@@ -128,6 +128,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('recon'); ap.add_argument('manifest')
     ap.add_argument('--entry', default='0x10011A00'); ap.add_argument('--include-untested', action='store_true')
+    ap.add_argument('--this-global', default=None, help="`this` is the dword at this game address in the dump (Frame_Render's: "
+                    "0x104568FC, as App_RenderFrameMaskedFPU 0x10001B50 loads it; docs/RENDERER.md section 2)")
     ap.add_argument('--only', default=None); ap.add_argument('--limit', type=int, default=200000000)
     ap.add_argument('--assume-pops', dest='assume', action='store_true', help='exploratory: unresolved call pops are ASSUMED (see _on_foreign), not facts'); ap.add_argument('--seed', type=int, default=1); ap.add_argument('--out', default=None)
     o = ap.parse_args()
@@ -143,6 +145,9 @@ def main():
     fz = G.Fuzzer(m, o.seed); fz.rng = X.random.Random(o.seed)
     m.trial_no = 0
     this, args, tseed = X.setup_trial(m, case, fz)
+    if o.this_global:
+        this = struct.unpack('<I', m.uc.mem_read(int(o.this_global, 16), 4))[0]
+        if not this: sys.exit('%s holds 0 in this dump' % o.this_global)
     print('entry %s this=%s, %d swapped (%d with exports)' % (o.entry, hex(this or 0), len(sw), len(redirect)), flush=True)
     a, ta = run_once(m, entry, this, o.limit, None, tseed)
     print('stop eip 0x%08X' % a.stop_eip); print('original:        %s %s  %d foreign/D3D calls, %d bytes changed, %.1f s, pops from %s' % (a.status, a.detail, len(a.calls), len(a.changes), ta, dict(m.pop_src)), flush=True); print('  assumed sites: %d' % len(m.assumed), flush=True)

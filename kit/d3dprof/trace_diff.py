@@ -10,7 +10,14 @@ is left, per (method, call site, parameter values), is a count that changed when
 
 The call site is the analysed address (0x10xxxxxx) of the return address; --manifest names it with the swapped
 function that contains it (RVA of the function's entry <= site, nearest below), which is a naming aid and no
-proof the site is inside that function. Nothing here says which side is right: it says where the two differ."""
+proof the site is inside that function. Nothing here says which side is right: it says where the two differ.
+
+--part world | after: each frame cut at the end of the world pass, and only the part before (world) or from it on
+(after) compared. The cut is the first SetRenderTarget that sets a target other than the world's while the world's
+is bound -- ffxi_world_draw's rule (docs/RENDERER.md section 9; their statement, measured here, not a fact of ours).
+The world's target is what CDx held at +0x194 at each SetRenderTarget (the trace's hash for that method, d3dprof.c
+world_target; traces from 31 Oct on). The cut's call site in the frames without swaps is printed: the rule holds in
+a trace where it is the pop's (return address 0x1000A2F9, the call at 0x1000A2F6) in every frame. A frame with no such call is left out of the part."""
 import argparse, bisect, collections, json, os, re, sys
 H = os.path.dirname(os.path.abspath(__file__))
 
@@ -274,12 +281,50 @@ def fmtval(v, d):
     return s
 
 
+POP_SITE = 0x1000A2F9          # the return address of SetRenderTarget's call at 0x1000A2F6 in CDx's pop worker 0x1000A2B0
+                               # (docs/RENDERER.md section 9; the trace's call site is the return address)
+
+
+def world_part(path, part, out):
+    """write to OUT the trace with each frame cut at the end of the world pass (see the docstring); returns the cut
+    sites of the frames without swaps and the frames with no cut"""
+    recs = [l for l in open(path)]
+    cut = {}; bound = {}; sites = collections.Counter(); old = 0
+    for i, l in enumerate(recs):
+        p = l.split()
+        if l.startswith('#') or len(p) < 7 or p[3] != 'SetRenderTarget': continue
+        fr = (p[0], p[1]); np_ = int(p[5]); tgt = p[6]; h = p[6 + min(np_, 6)]
+        if h == '00000000': old += 1; continue
+        if fr not in cut and bound.get(fr) == h and tgt != h:
+            cut[fr] = i
+            if p[0] == '0': sites['0x%08X' % int(p[4], 16)] += 1
+        bound[fr] = tgt
+    frames = {(l.split()[0], l.split()[1]) for l in recs if not l.startswith('#') and len(l.split()) >= 7}
+    with open(out, 'w') as f:
+        for i, l in enumerate(recs):
+            p = l.split()
+            if l.startswith('#') or len(p) < 7: f.write(l); continue
+            c = cut.get((p[0], p[1]))
+            if c is None: continue
+            if (part == 'world') == (i < c): f.write(l)
+    return sites, sorted(frames - set(cut)), old
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('trace'); ap.add_argument('--manifest', default=os.path.join(H, '..', 'xikit', 'dist', 'xikit_manifest.txt'));
     ap.add_argument('--recon', default=os.path.join(H, '..', 'xikit', 'dist', 'gfx_recon_ingame.dll'))
     ap.add_argument('--extents', default=os.path.join(H, '..', '..', 'data', 'func_extents.json')); ap.add_argument('--by-site', action='store_true', help='keep the call site in the token (sites inside the reconstruction are addresses of the reconstruction, not of the game: a swapped run then differs at every swapped function)'); ap.add_argument('--top', type=int, default=40)
+    ap.add_argument('--part', choices=('world', 'after'), help='compare only the world pass, or what follows it (see above)')
     o = ap.parse_args()
+    if o.part:
+        out = o.trace + '.' + o.part
+        sites, none, old = world_part(o.trace, o.part, out)
+        if old and not sites: sys.exit('this trace has no world target recorded (a trace before 31 Oct): no cut')
+        print('world pass cut (frames without swaps), by call site: %s; frames with no cut, left out: %s%s' % (
+            dict(sites), len(none), '' if set(sites) <= {'0x%08X' % POP_SITE} else
+            ' -- a cut not at the pop 0x%08X: the rule does not hold as stated in this trace' % POP_SITE))
+        o.trace = out
     head = open(o.trace).readline()
     if 'alternating' in head:
         meta = [head]; alternating(o.trace, Owners(meta, o.recon, o.manifest, o.extents) if os.path.exists(o.manifest) else None, o.top); return

@@ -1466,7 +1466,7 @@ inline ::xikit::fn<decltype(&::fn_1007BB90)> fn_1007BB90() { return reinterpret_
 inline ::xikit::fn<decltype(&::fn_1007BF30)> fn_1007BF30() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007BF30)> >(XI_GAME(0x1007BF30u)); }
 inline ::xikit::fn<decltype(&::Unit10078260_ToggleStatusAndSend)> Unit10078260_ToggleStatusAndSend() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit10078260_ToggleStatusAndSend)> >(XI_GAME(0x1007CD60u)); }
 inline ::xikit::fn<decltype(&::Unit10078260_ToggleStatusMode1)> Unit10078260_ToggleStatusMode1() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit10078260_ToggleStatusMode1)> >(XI_GAME(0x1007CFD0u)); }
-inline ::xikit::fn<decltype(&::fn_1007D240)> fn_1007D240() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007D240)> >(XI_GAME(0x1007D240u)); }
+inline ::xikit::fn<decltype(&::UI_QuestCommand)> UI_QuestCommand() { return reinterpret_cast< ::xikit::fn<decltype(&::UI_QuestCommand)> >(XI_GAME(0x1007D240u)); }
 inline ::xikit::fn<decltype(&::fn_1007E490)> fn_1007E490() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007E490)> >(XI_GAME(0x1007E490u)); }
 inline ::xikit::fn<decltype(&::fn_1007E8D0)> fn_1007E8D0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1007E8D0)> >(XI_GAME(0x1007E8D0u)); }
 inline ::xikit::fn<decltype(&::fn_10080340)> fn_10080340() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_10080340)> >(XI_GAME(0x10080340u)); }
@@ -2196,7 +2196,7 @@ inline ::xikit::fn<decltype(&::fn_100F7960)> fn_100F7960() { return reinterpret_
 inline ::xikit::fn<decltype(&::Unit100D7420_InitEntryAt104DF90C)> Unit100D7420_InitEntryAt104DF90C() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit100D7420_InitEntryAt104DF90C)> >(XI_GAME(0x100F7A00u)); }
 inline ::xikit::fn<decltype(&::Unit100D7420_GetFieldCOf104DF90C)> Unit100D7420_GetFieldCOf104DF90C() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit100D7420_GetFieldCOf104DF90C)> >(XI_GAME(0x100F7A80u)); }
 inline ::xikit::fn<decltype(&::fn_100F7BC0)> fn_100F7BC0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F7BC0)> >(XI_GAME(0x100F7BC0u)); }
-inline ::xikit::fn<decltype(&::fn_100F7FA0)> fn_100F7FA0() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_100F7FA0)> >(XI_GAME(0x100F7FA0u)); }
+inline ::xikit::fn<decltype(&::UI_PostRequest)> UI_PostRequest() { return reinterpret_cast< ::xikit::fn<decltype(&::UI_PostRequest)> >(XI_GAME(0x100F7FA0u)); }
 inline ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8910)> Unit100D7420_ReturnTrue_100F8910() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8910)> >(XI_GAME(0x100F8910u)); }
 inline ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8920)> Unit100D7420_ReturnTrue_100F8920() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8920)> >(XI_GAME(0x100F8920u)); }
 inline ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8CA0)> Unit100D7420_ReturnTrue_100F8CA0() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit100D7420_ReturnTrue_100F8CA0)> >(XI_GAME(0x100F8CA0u)); }
@@ -2997,7 +2997,7 @@ inline ::xikit::fn<decltype(&::Menu_CallChildSlot34ForEachItem)> Menu_CallChildS
 inline ::xikit::fn<decltype(&::MenuMng_UpdateForSceneState)> MenuMng_UpdateForSceneState() { return reinterpret_cast< ::xikit::fn<decltype(&::MenuMng_UpdateForSceneState)> >(XI_GAME(0x1015EF60u)); }
 inline ::xikit::fn<decltype(&::Menu_ApplyFlagsToItems)> Menu_ApplyFlagsToItems() { return reinterpret_cast< ::xikit::fn<decltype(&::Menu_ApplyFlagsToItems)> >(XI_GAME(0x1015F3E0u)); }
 inline ::xikit::fn<decltype(&::Menu_DrawLayers)> Menu_DrawLayers() { return reinterpret_cast< ::xikit::fn<decltype(&::Menu_DrawLayers)> >(XI_GAME(0x1015F6A0u)); }
-inline ::xikit::fn<decltype(&::fn_1015F760)> fn_1015F760() { return reinterpret_cast< ::xikit::fn<decltype(&::fn_1015F760)> >(XI_GAME(0x1015F760u)); }
+inline ::xikit::fn<decltype(&::UI_DockReset)> UI_DockReset() { return reinterpret_cast< ::xikit::fn<decltype(&::UI_DockReset)> >(XI_GAME(0x1015F760u)); }
 inline ::xikit::fn<decltype(&::Menu_PositionWindow)> Menu_PositionWindow() { return reinterpret_cast< ::xikit::fn<decltype(&::Menu_PositionWindow)> >(XI_GAME(0x1015F790u)); }
 inline ::xikit::fn<decltype(&::Unit1012AC80_MenuGetItemRect)> Unit1012AC80_MenuGetItemRect() { return reinterpret_cast< ::xikit::fn<decltype(&::Unit1012AC80_MenuGetItemRect)> >(XI_GAME(0x1015F8F0u)); }
 inline ::xikit::fn<decltype(&::Menu_GetDwordAt8C)> Menu_GetDwordAt8C() { return reinterpret_cast< ::xikit::fn<decltype(&::Menu_GetDwordAt8C)> >(XI_GAME(0x1015F960u)); }
@@ -6363,7 +6363,7 @@ constexpr unsigned fn_1007BB90 = 4, fn_1007BB90_TRAMP = 1;  // "fn_1007BB90" 0x1
 constexpr unsigned fn_1007BF30 = 4, fn_1007BF30_TRAMP = 1;  // "fn_1007BF30" 0x1007BF30
 constexpr unsigned Unit10078260_ToggleStatusAndSend = 4, Unit10078260_ToggleStatusAndSend_TRAMP = 1;  // "Unit10078260_ToggleStatusAndSend" 0x1007CD60
 constexpr unsigned Unit10078260_ToggleStatusMode1 = 4, Unit10078260_ToggleStatusMode1_TRAMP = 1;  // "Unit10078260_ToggleStatusMode1" 0x1007CFD0
-constexpr unsigned fn_1007D240 = 4, fn_1007D240_TRAMP = 1;  // "fn_1007D240" 0x1007D240
+constexpr unsigned UI_QuestCommand = 4, UI_QuestCommand_TRAMP = 1;  // "UI_QuestCommand" 0x1007D240
 constexpr unsigned fn_1007E490 = 4, fn_1007E490_TRAMP = 1;  // "fn_1007E490" 0x1007E490
 constexpr unsigned fn_1007E8D0 = 4, fn_1007E8D0_TRAMP = 1;  // "fn_1007E8D0" 0x1007E8D0
 constexpr unsigned fn_10080340 = 4, fn_10080340_TRAMP = 1;  // "fn_10080340" 0x10080340
@@ -7089,7 +7089,7 @@ constexpr unsigned fn_100F7960 = 4, fn_100F7960_TRAMP = 1;  // "fn_100F7960" 0x1
 constexpr unsigned Unit100D7420_InitEntryAt104DF90C = 4, Unit100D7420_InitEntryAt104DF90C_TRAMP = 1;  // "Unit100D7420_InitEntryAt104DF90C" 0x100F7A00
 constexpr unsigned Unit100D7420_GetFieldCOf104DF90C = 4, Unit100D7420_GetFieldCOf104DF90C_TRAMP = 1;  // "Unit100D7420_GetFieldCOf104DF90C" 0x100F7A80
 constexpr unsigned fn_100F7BC0 = 4, fn_100F7BC0_TRAMP = 1;  // "fn_100F7BC0" 0x100F7BC0
-constexpr unsigned fn_100F7FA0 = 4, fn_100F7FA0_TRAMP = 1;  // "fn_100F7FA0" 0x100F7FA0
+constexpr unsigned UI_PostRequest = 4, UI_PostRequest_TRAMP = 1;  // "UI_PostRequest" 0x100F7FA0
 constexpr unsigned Unit100D7420_ReturnTrue_100F8910 = 4, Unit100D7420_ReturnTrue_100F8910_TRAMP = 0;  // "Unit100D7420_ReturnTrue_100F8910" 0x100F8910
 constexpr unsigned Unit100D7420_ReturnTrue_100F8920 = 4, Unit100D7420_ReturnTrue_100F8920_TRAMP = 0;  // "Unit100D7420_ReturnTrue_100F8920" 0x100F8920
 constexpr unsigned Unit100D7420_ReturnTrue_100F8CA0 = 4, Unit100D7420_ReturnTrue_100F8CA0_TRAMP = 0;  // "Unit100D7420_ReturnTrue_100F8CA0" 0x100F8CA0
@@ -7888,7 +7888,7 @@ constexpr unsigned Menu_CallChildSlot34ForEachItem = 4, Menu_CallChildSlot34ForE
 constexpr unsigned MenuMng_UpdateForSceneState = 4, MenuMng_UpdateForSceneState_TRAMP = 1;  // "MenuMng_UpdateForSceneState" 0x1015EF60
 constexpr unsigned Menu_ApplyFlagsToItems = 4, Menu_ApplyFlagsToItems_TRAMP = 1;  // "Menu_ApplyFlagsToItems" 0x1015F3E0
 constexpr unsigned Menu_DrawLayers = 4, Menu_DrawLayers_TRAMP = 1;  // "Menu_DrawLayers" 0x1015F6A0
-constexpr unsigned fn_1015F760 = 4, fn_1015F760_TRAMP = 1;  // "fn_1015F760" 0x1015F760
+constexpr unsigned UI_DockReset = 4, UI_DockReset_TRAMP = 1;  // "UI_DockReset" 0x1015F760
 constexpr unsigned Menu_PositionWindow = 4, Menu_PositionWindow_TRAMP = 1;  // "Menu_PositionWindow" 0x1015F790
 constexpr unsigned Unit1012AC80_MenuGetItemRect = 4, Unit1012AC80_MenuGetItemRect_TRAMP = 1;  // "Unit1012AC80_MenuGetItemRect" 0x1015F8F0
 constexpr unsigned Menu_GetDwordAt8C = 4, Menu_GetDwordAt8C_TRAMP = 1;  // "Menu_GetDwordAt8C" 0x1015F960

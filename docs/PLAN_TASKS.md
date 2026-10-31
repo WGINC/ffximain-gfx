@@ -47,7 +47,7 @@ owner or a run in the game).
 | 128 | 35% | Document model and skin formats from their readers | done | docs/FORMATS.md |
 | 129 | 35% | Document texture, effect, scene and shader formats | done | docs/FORMATS.md |
 | 130 | 40% | Standalone render core build with a listed boundary | open | |
-| 131 | 45% | Whole-frame differential | started | at the world-pass boundary: the kit's trace records the world target with each SetRenderTarget, trace_diff.py --part world/after compares each side of the cut and checks the end-of-pass rule; needs the owner's trace (HISTORY 31 Oct). The emulated frame (frame_diff.py) stops at call 25 on the full dump |
+| 131 | 45% | Whole-frame differential | world pass done on 3 dumps | pipeline/frame_diff.py, Frame_Render with the kit's 581 swaps: town, combat, zonetoinn identical through the end of the world pass (26,120 / 6,888 / 2,398 device calls), town2 identical to its instruction limit before it (verification/frame_diff_*.json; HISTORY 31 Oct). Open: the UI pass (stops at GetKeyboardState), more swaps, the in-game trace check |
 | 132 | 45% | Swap the render core as one block in the game | open | |
 | 133 | 50% | One shared definition set with the UI kit | open | |
 | 134 | 50% | Fork, gate and match workflows in the SDK | open | |

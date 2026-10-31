@@ -23,6 +23,15 @@ from unicorn import UC_HOOK_CODE
 from unicorn.x86_const import UC_X86_REG_EIP
 
 
+class _FirstDraw:
+    """a random stream whose next random() is 0.0 (D3D_OK in the gate's COM answer), the rest the stream's own"""
+    def __init__(self, r): self.r = r; self.used = False
+    def random(self):
+        if self.used: return self.r.random()
+        self.used = True; return 0.0
+    def __getattr__(self, k): return getattr(self.r, k)
+
+
 class FrameMachine(X.GfxMachine):
     """the gate's machine, with the write log made to tolerate a first write to a page the dump holds: the gate maps
     every page in a discovery run first and runs again; one run of a whole frame cannot afford that"""
@@ -37,6 +46,48 @@ class FrameMachine(X.GfxMachine):
             old = bytes(uc.mem_read(addr, size))
         self.writes.append((addr, old))
 
+
+    # IDirect3DVertexBuffer8 / IDirect3DIndexBuffer8::Lock(UINT OffsetToLock, UINT SizeToLock, BYTE **ppbData, DWORD Flags)
+    # (d3d8.h): on D3D_OK the method stores the locked memory's address through ppbData. The gate's COM model leaves it
+    # unwritten (data/com_spec.json gives Lock no output; the gate is not changed here, so its cache stands), and a
+    # frame then writes its vertices wherever the slot pointed (31 Oct: DynVB_Unlock's own manager object, a fault at
+    # 0x100441B3 on every dump). Here a successful Lock gets a fresh zeroed block of SizeToLock bytes (0 = the whole
+    # buffer, whose size the call does not give: the allocator's largest block, 64 KB), the same on both runs.
+    BUFFER_LOCK = {('IDirect3DVertexBuffer8', 'Lock'), ('IDirect3DIndexBuffer8', 'Lock')}
+
+    def _on_com(self, uc, addr, size, _):
+        t = self.trap.get(addr)
+        lock = None
+        if t and t[0] != '*wild' and (t[0], X.SPEC[t[0]][t[1]]['name']) in self.BUFFER_LOCK:
+            esp = uc.reg_read(X.UC_X86_REG_ESP)
+            _, _, _, size_, pp, _ = struct.unpack('<6I', uc.mem_read(esp, 24))     # return, this, the four parameters
+            lock = (size_, pp)
+        masked = None
+        if t and t[0] == 'IDirect3DDevice8' and X.SPEC[t[0]][t[1]]['name'] == 'SetLight':
+            # SetLight(DWORD Index, CONST D3DLIGHT8 *): for a directional light (Type 3) the SDK says Position "has no
+            # meaning for directional lights and is ignored" (DirectX 8.1 reference, D3DLIGHT8) and "directional
+            # lights don't use the range property" (programmer's guide, Light Position, Range, and Attenuation), so
+            # those two fields (dwords 13-15 and 19) are left out of the call's data hash; every other field counts.
+            esp = uc.reg_read(X.UC_X86_REG_ESP); pl = struct.unpack('<I', uc.mem_read(esp + 12, 4))[0]
+            try:
+                if struct.unpack('<I', uc.mem_read(pl, 4))[0] == 3:
+                    masked = (pl, bytes(uc.mem_read(pl + 52, 12)), bytes(uc.mem_read(pl + 76, 4)))
+                    uc.mem_write(pl + 52, bytes(12)); uc.mem_write(pl + 76, bytes(4))
+            except Exception: masked = None
+        if t and t[0] != '*wild' and X.SPEC[t[0]][t[1]]['ret'] == 'hresult':
+            # the run's declared input: every Direct3D method returns D3D_OK (the gate draws a failure for 20% of
+            # calls to test both sides' error paths; a frame of the game running normally is the input here). The
+            # HRESULT is the gate's first draw from the trial stream in this call, so that one draw is answered 0.0.
+            self.rng = _FirstDraw(self.rng)
+        super()._on_com(uc, addr, size, _)
+        if isinstance(self.rng, _FirstDraw): self.rng = self.rng.r
+        if masked: uc.mem_write(masked[0] + 52, masked[1]); uc.mem_write(masked[0] + 76, masked[2])
+        if lock and uc.reg_read(X.UC_X86_REG_EAX) == 0:
+            blk = self.alloc(lock[0] or 0x10000)
+            if blk:
+                self.writes.append((lock[1], bytes(uc.mem_read(lock[1], 4))))
+                uc.mem_write(lock[1], struct.pack('<I', blk))
+                self.locks += 1
 
     def _on_foreign(self, uc, addr, size, _):
         """as the gate's: a call into another module of the dump is logged and answered. What it pops: the call site's
@@ -110,8 +161,17 @@ def fmt(c):
     return '0x%08X(ecx=0x%08X%s)' % (c[0], c[1], ''.join(', 0x%08X' % v for v in c[2]))
 
 
+POP_WORKER = 0x1000A2B0      # CDx's render-target pop worker (docs/RENDERER.md section 9)
+
+
 def run_once(m, entry_fn, this, limit, redirect, seed):
-    hooks = []; m.pop_src.clear(); m.assumed.clear()
+    hooks = []; m.pop_src.clear(); m.assumed.clear(); m.pops = []
+    def on_pop(uc, addr, size, _):
+        # each pop: the call count so far, the depth it lowers (CDx +0x158) and the world target bound (+0x194); the
+        # end of the world pass by ffxi_world_draw's rule is the pop from depth 1 (their statement, not checked here)
+        cdx = struct.unpack('<I', uc.mem_read(0x1045666C, 4))[0]
+        m.pops.append((len(m.calls), uc.mem_read(cdx + 0x158, 1)[0], struct.unpack('<I', uc.mem_read(cdx + 0x194, 4))[0]))
+    hooks.append(m.uc.hook_add(UC_HOOK_CODE, on_pop, begin=POP_WORKER, end=POP_WORKER))
     if redirect:
         def on_entry(uc, addr, size, _):
             t = redirect.get(addr)
@@ -135,7 +195,7 @@ def main():
     o = ap.parse_args()
     game = os.environ['FFXI_DLL']
     m = FrameMachine(game, o.recon, {}, [])
-    m.pop_src = {}; m.assume = o.assume; m.assumed = {}; m.assumed_cache = {}
+    m.pop_src = {}; m.locks = 0; m.assume = o.assume; m.assumed = {}; m.assumed_cache = {}
     m.demand_limit = 1 << 20; m.synth_limit = 96
     sw = [(a, f, n) for a, f, n in read_manifest(o.manifest) if (o.include_untested or not f & 4)]
     if o.only: keep = set(o.only.split(',')); sw = [s for s in sw if s[2] in keep]
@@ -151,11 +211,17 @@ def main():
     print('entry %s this=%s, %d swapped (%d with exports)' % (o.entry, hex(this or 0), len(sw), len(redirect)), flush=True)
     a, ta = run_once(m, entry, this, o.limit, None, tseed)
     print('stop eip 0x%08X' % a.stop_eip); print('original:        %s %s  %d foreign/D3D calls, %d bytes changed, %.1f s, pops from %s' % (a.status, a.detail, len(a.calls), len(a.changes), ta, dict(m.pop_src)), flush=True); print('  assumed sites: %d' % len(m.assumed), flush=True)
-    m.reset_demand()
+    pops_a = list(m.pops); m.reset_demand()
     cand_entry = redirect.get(entry, entry)
     b, tb = run_once(m, cand_entry, this, o.limit, redirect, tseed)
     print('reconstruction:  %s %s  %d foreign/D3D calls, %d bytes changed, %.1f s' % (b.status, b.detail, len(b.calls), len(b.changes), tb), flush=True)
-    rep = {'entry': o.entry, 'swapped': len(redirect), 'original': [a.status, a.detail, len(a.calls)], 'recon': [b.status, b.detail, len(b.calls)]}
+    rep = {'entry': o.entry, 'swapped': len(redirect), 'original': [a.status, a.detail, len(a.calls)], 'recon': [b.status, b.detail, len(b.calls)],
+           'dump': os.environ.get('FFXI_LIVE'), 'recon_dll': o.recon, 'manifest': o.manifest,
+           'declared_input': 'every Direct3D method returns D3D_OK; a buffer Lock returns a fresh zeroed block',
+           'not_compared': 'SetLight of a directional light: Position and Range (DirectX 8.1 SDK, D3DLIGHT8)'}
+    wend = next((c for c, d, w in pops_a if d == 1), None)      # the original run's pops
+    rep['world_pass_end_call'] = wend
+    print('world pass end (pop from depth 1): %s' % ('at call %d of %d' % (wend, len(a.calls)) if wend is not None else 'not reached'))
     why = G.compare(a, b, 'int')
     rep['difference'] = why
     n = next((i for i, (x, y) in enumerate(zip(a.calls, b.calls)) if x != y), None)

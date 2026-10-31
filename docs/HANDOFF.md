@@ -32,7 +32,7 @@ and #121 (the owner's). docs/PLAN_TASKS.md has every task.
 | The live build 6AC37846 (for the kit's second manifest) | /home/user/tools/ffximain_oct | the owner's FFXiMain.dll; `FFXI_DLL_6AC37846=...` |
 | Ghidra and the analysed project | /home/user/tools/ghidra_deb, /home/user/tools/ghproj | pipeline/ghidra/export.sh header: install Ghidra, `analyzeHeadless $PROJ ffxi -import $FFXI_DLL` (about 20 min) |
 | Visual C++ 6.0 SP6 + Processor Pack (the game's compiler) | scratchpad `vc6tc` | `VC6_ZIP=en_vs6_ent.zip VC6=... pipeline/vc6/setup_vc6.sh` (the owner's archive); check `match.py --compid` prints 48/49 build 9044 |
-| The four live dumps | /root/ffxi_dumps | the owner (only needed for the live gate, P1) |
+| The four live dumps | /root/ffxi_dumps/dumps/*.dmp (owner's Drive file dumps.zip, 31 Oct) | the owner (live gate P1, frame_diff.py #131) |
 | The owner's sampler runs (frame_set.py --samples) | scratchpad: xikit_samples_12764.csv, _11952.csv, _6156.csv | the owner's log folders of 6 Oct (runs gd/x/mutil/1, gd5/x/Gumba/2, run2/xikit_logs) |
 
 The owner was sent these on 27 Oct as zips with a SETUP.txt (where each goes): ffxi_ghidra_project.zip, ghidra.deb in two

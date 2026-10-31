@@ -1,0 +1,21 @@
+{
+ "entry": "0x10011A00",
+ "swapped": 581,
+ "original": [
+  "import:USER32.dll!GetKeyboardState",
+  "args 0E8EA428",
+  6915
+ ],
+ "recon": [
+  "import:USER32.dll!GetKeyboardState",
+  "args 0E8EA428",
+  6915
+ ],
+ "dump": "/root/ffxi_dumps/out/live_combat.json",
+ "recon_dll": "/tmp/claude-0/-home-user-ffximain-gfx/faef6f6c-e6aa-5996-93cf-f51755e85789/scratchpad/r17/build/gfx_recon.dll",
+ "manifest": "kit/xikit/dist/xikit_manifest.txt",
+ "declared_input": "every Direct3D method returns D3D_OK; a buffer Lock returns a fresh zeroed block",
+ "not_compared": "SetLight of a directional light: Position and Range (DirectX 8.1 SDK, D3DLIGHT8)",
+ "world_pass_end_call": 6888,
+ "difference": null
+}

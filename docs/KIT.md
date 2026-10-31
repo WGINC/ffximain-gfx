@@ -515,6 +515,7 @@ it (transform, viewport, material, light, clip plane, shader constants, vertex d
 With `trace_buffers=1` (default) every vertex and index buffer the game binds during a trace gets its `Lock`/`Unlock` wrapped (a vtable copy for that object, as for the device): at `Unlock` the locked range is hashed and recorded with the call site of the `Lock`, so `trace_diff.py` lists buffer contents by the function that filled them (reconstruction addresses are named through the reconstruction's exports and the load address in the trace header). Texture contents are not traced.
 
     python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --manifest xikit_manifest.txt
+    python3 kit/d3dprof/trace_diff.py xikit_trace_<pid>.txt --part world    # only the world pass (or --part after: what follows it); traces from 31 Oct on
 
 For an alternating trace, each swapped frame is compared with the unswapped frames just before and after it. Calls are
 paired by method, the state they set (render state, stage and type, transform, light index, ...) and their order in

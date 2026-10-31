@@ -58,7 +58,7 @@ extern int d3dprof_call_time, d3dprof_kernel_calls; extern uint32_t d3dprof_via_
 
 typedef struct {
   uint32_t rva;                        /* entry - 0x10000000 */
-  int flags;                           /* 1 SEH, 2 speedfix site, 4 untested, 8 register input (no mod hook) */
+  int flags;                           /* 1 SEH, 2 speedfix site, 4 untested, 8 register input (no mod hook), 16 render path */
   char exp[256], name[96];
   uint8_t expect[20];                  /* analysed bytes, entry-4 .. entry+16 */
   int nrel; int8_t rel[8];             /* relocated dwords touching that window (offsets -3..19) */
@@ -79,6 +79,7 @@ typedef struct {
 
 typedef struct {
   int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
+  int set_render;                       /* swap_set=render_path: only the manifest's flag-16 functions, untested included */
   int ab, ab_after, ab_phase, ab_rounds, ab_settle, spike_ms;
   char only[4096], exclude[4096];
 } Cfg;
@@ -156,6 +157,9 @@ static const char DEFAULT_INI[] =
   "; 1: also swap functions whose gate runs did not reach all of the original's code (flag 4 in the manifest).\r\n"
   ";    Their PASS says nothing about the code no compared trial reached; only= / exclude= still apply\r\n"
   "include_untested=0\r\n"
+  "; render_path: swap only the render path (manifest flag 16: the Direct3D-calling functions, their direct callers and\r\n"
+  ";    the profiler's hot set), the untested ones among them included; empty = every function the lines above allow\r\n"
+  "swap_set=\r\n"
   "; 1: leave out the functions speedfix_hook patches inside, when speedfix_hook.dll is loaded\r\n"
   "respect_speedfix=1\r\n"
   "; 1: count the calls of every swapped function (xikit_calls_<pid>.csv)\r\n"
@@ -258,6 +262,7 @@ static void read_cfg(void) {
   c.respect_speedfix = GetPrivateProfileIntA("xikit", "respect_speedfix", 1, g_ini);
   c.include_flagged = GetPrivateProfileIntA("xikit", "include_flagged", 0, g_ini);
   c.include_untested = GetPrivateProfileIntA("xikit", "include_untested", 0, g_ini);
+  { char b[32]; GetPrivateProfileStringA("xikit", "swap_set", "", b, sizeof b, g_ini); c.set_render = !strcmp(b, "render_path"); }
   c.report_every = GetPrivateProfileIntA("xikit", "report_every", 600, g_ini);
   c.hotkey = GetPrivateProfileIntA("xikit", "hotkey", 1, g_ini);
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
@@ -313,7 +318,8 @@ static int base_wanted(const Fn *f) {
   if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
-  if ((f->flags & 4) && !g_cfg.include_untested) return 0;
+  if (g_cfg.set_render && !(f->flags & 16)) return 0;
+  if ((f->flags & 4) && !g_cfg.include_untested && !g_cfg.set_render) return 0;
   if (g_cfg.only[0] && !listed(g_cfg.only, f)) return 0;
   if (g_cfg.exclude[0] && listed(g_cfg.exclude, f)) return 0;
   for (int k = 0; k < g_bis_nfound; k++) if (&g_fn[g_bis_found[k]] == f) return 0;

@@ -1,0 +1,1169 @@
+{
+ "0x102D622A": {
+  "kind": "jmp",
+  "slot": "0x103CC4C8",
+  "targets": [
+   "0x102D6223",
+   "0x102D97A5",
+   "0x1030200B"
+  ]
+ },
+ "0x102D6230": {
+  "kind": "jmp",
+  "slot": "0x103CC4C8",
+  "targets": [
+   "0x102D6223",
+   "0x102D97A5",
+   "0x1030200B"
+  ]
+ },
+ "0x102D6256": {
+  "kind": "call",
+  "slot": "0x103CC454",
+  "targets": [
+   "0x102D6236",
+   "0x102D6266",
+   "0x102F9C90",
+   "0x10301F2A"
+  ]
+ },
+ "0x102D6260": {
+  "kind": "jmp",
+  "slot": "0x103CC454",
+  "targets": [
+   "0x102D6236",
+   "0x102D6266",
+   "0x102F9C90",
+   "0x10301F2A"
+  ]
+ },
+ "0x102D6314": {
+  "kind": "call",
+  "slot": "0x103CC4CC",
+  "targets": [
+   "0x102D62F4",
+   "0x102D6324",
+   "0x102F99F0",
+   "0x1030204E"
+  ]
+ },
+ "0x102D631E": {
+  "kind": "jmp",
+  "slot": "0x103CC4CC",
+  "targets": [
+   "0x102D62F4",
+   "0x102D6324",
+   "0x102F99F0",
+   "0x1030204E"
+  ]
+ },
+ "0x102D63F8": {
+  "kind": "call",
+  "slot": "0x103CC4D0",
+  "targets": [
+   "0x102D63D3",
+   "0x102D6408",
+   "0x102F9DD0",
+   "0x10301FC2"
+  ]
+ },
+ "0x102D6402": {
+  "kind": "jmp",
+  "slot": "0x103CC4D0",
+  "targets": [
+   "0x102D63D3",
+   "0x102D6408",
+   "0x102F9DD0",
+   "0x10301FC2"
+  ]
+ },
+ "0x102D6452": {
+  "kind": "jmp",
+  "slot": "0x103CC410",
+  "targets": [
+   "0x102D644B",
+   "0x102D9832",
+   "0x102F42CB",
+   "0x102F8AF0",
+   "0x10301E38"
+  ]
+ },
+ "0x102D6458": {
+  "kind": "jmp",
+  "slot": "0x103CC410",
+  "targets": [
+   "0x102D644B",
+   "0x102D9832",
+   "0x102F42CB",
+   "0x102F8AF0",
+   "0x10301E38"
+  ]
+ },
+ "0x102D6465": {
+  "kind": "jmp",
+  "slot": "0x103CC434",
+  "targets": [
+   "0x102D645E",
+   "0x102D989D",
+   "0x102F8B30",
+   "0x10301EC6"
+  ]
+ },
+ "0x102D646B": {
+  "kind": "jmp",
+  "slot": "0x103CC434",
+  "targets": [
+   "0x102D645E",
+   "0x102D989D",
+   "0x102F8B30",
+   "0x10301EC6"
+  ]
+ },
+ "0x102D6478": {
+  "kind": "jmp",
+  "slot": "0x103CC424",
+  "targets": [
+   "0x102D6471",
+   "0x102D991D",
+   "0x102F4334",
+   "0x102F8B90",
+   "0x10301E8D"
+  ]
+ },
+ "0x102D647E": {
+  "kind": "jmp",
+  "slot": "0x103CC424",
+  "targets": [
+   "0x102D6471",
+   "0x102D991D",
+   "0x102F4334",
+   "0x102F8B90",
+   "0x10301E8D"
+  ]
+ },
+ "0x102D648B": {
+  "kind": "jmp",
+  "slot": "0x103CC42C",
+  "targets": [
+   "0x102D6484",
+   "0x102D9959",
+   "0x102F4531",
+   "0x102F9060",
+   "0x102FABD0",
+   "0x10301452"
+  ]
+ },
+ "0x102D6491": {
+  "kind": "jmp",
+  "slot": "0x103CC42C",
+  "targets": [
+   "0x102D6484",
+   "0x102D9959",
+   "0x102F4531",
+   "0x102F9060",
+   "0x102FABD0",
+   "0x10301452"
+  ]
+ },
+ "0x102D64C1": {
+  "kind": "call",
+  "slot": "0x103CC4D4",
+  "targets": [
+   "0x102D64A1",
+   "0x102D64D1",
+   "0x102F9B30",
+   "0x10301522"
+  ]
+ },
+ "0x102D64CB": {
+  "kind": "jmp",
+  "slot": "0x103CC4D4",
+  "targets": [
+   "0x102D64A1",
+   "0x102D64D1",
+   "0x102F9B30",
+   "0x10301522"
+  ]
+ },
+ "0x102D65A6": {
+  "kind": "call",
+  "slot": "0x103CC4D8",
+  "targets": [
+   "0x102D6586",
+   "0x102D65B6",
+   "0x102F9930",
+   "0x103015F6"
+  ]
+ },
+ "0x102D65B0": {
+  "kind": "jmp",
+  "slot": "0x103CC4D8",
+  "targets": [
+   "0x102D6586",
+   "0x102D65B6",
+   "0x102F9930",
+   "0x103015F6"
+  ]
+ },
+ "0x102D66B3": {
+  "kind": "call",
+  "slot": "0x103CC4DC",
+  "targets": [
+   "0x102D668E",
+   "0x102D66C3",
+   "0x102F9D20",
+   "0x103014B1"
+  ]
+ },
+ "0x102D66BD": {
+  "kind": "jmp",
+  "slot": "0x103CC4DC",
+  "targets": [
+   "0x102D668E",
+   "0x102D66C3",
+   "0x102F9D20",
+   "0x103014B1"
+  ]
+ },
+ "0x102D672D": {
+  "kind": "jmp",
+  "slot": "0x103CC414",
+  "targets": [
+   "0x102D6726",
+   "0x102D6739",
+   "0x102F4369",
+   "0x102F8C90",
+   "0x102FA800",
+   "0x1030137A"
+  ]
+ },
+ "0x102D6733": {
+  "kind": "jmp",
+  "slot": "0x103CC414",
+  "targets": [
+   "0x102D6726",
+   "0x102D6739",
+   "0x102F4369",
+   "0x102F8C90",
+   "0x102FA800",
+   "0x1030137A"
+  ]
+ },
+ "0x102D67CB": {
+  "kind": "jmp",
+  "slot": "0x103CC438",
+  "targets": [
+   "0x102D67C4",
+   "0x102D99F9",
+   "0x102F8D50",
+   "0x102FA8C0",
+   "0x10301932"
+  ]
+ },
+ "0x102D67D1": {
+  "kind": "jmp",
+  "slot": "0x103CC438",
+  "targets": [
+   "0x102D67C4",
+   "0x102D99F9",
+   "0x102F8D50",
+   "0x102FA8C0",
+   "0x10301932"
+  ]
+ },
+ "0x102D67E4": {
+  "kind": "jmp",
+  "slot": "0x103CC428",
+  "targets": [
+   "0x102D67DD",
+   "0x102D6802",
+   "0x102F43F4",
+   "0x102F8BD0",
+   "0x102FA740",
+   "0x103013EB"
+  ]
+ },
+ "0x102D67FC": {
+  "kind": "jmp",
+  "slot": "0x103CC428",
+  "targets": [
+   "0x102D67DD",
+   "0x102D6802",
+   "0x102F43F4",
+   "0x102F8BD0",
+   "0x102FA740",
+   "0x103013EB"
+  ]
+ },
+ "0x102D6873": {
+  "kind": "jmp",
+  "slot": "0x103CC448",
+  "targets": [
+   "0x102D6868",
+   "0x102D9AB8",
+   "0x10301937"
+  ]
+ },
+ "0x102D6890": {
+  "kind": "jmp",
+  "slot": "0x103CC448",
+  "targets": [
+   "0x102D6868",
+   "0x102D9AB8",
+   "0x10301937"
+  ]
+ },
+ "0x102D68BE": {
+  "kind": "jmp",
+  "slot": "0x103CC44C",
+  "targets": [
+   "0x102D68B3",
+   "0x102D9C45",
+   "0x10301ABF",
+   "0x10301CE5"
+  ]
+ },
+ "0x102D68C4": {
+  "kind": "jmp",
+  "slot": "0x103CC44C",
+  "targets": [
+   "0x102D68B3",
+   "0x102D9C45",
+   "0x10301ABF",
+   "0x10301CE5"
+  ]
+ },
+ "0x102D68D1": {
+  "kind": "jmp",
+  "slot": "0x103CC450",
+  "targets": [
+   "0x102D68CA",
+   "0x102D68FC",
+   "0x102F96D0",
+   "0x102FB240",
+   "0x103021DA"
+  ]
+ },
+ "0x102D68F6": {
+  "kind": "jmp",
+  "slot": "0x103CC450",
+  "targets": [
+   "0x102D68CA",
+   "0x102D68FC",
+   "0x102F96D0",
+   "0x102FB240",
+   "0x103021DA"
+  ]
+ },
+ "0x102D6A3E": {
+  "kind": "jmp",
+  "slot": "0x103CC430",
+  "targets": [
+   "0x102D6A37",
+   "0x102D9DEB",
+   "0x102F9780",
+   "0x1030217B"
+  ]
+ },
+ "0x102D6A44": {
+  "kind": "jmp",
+  "slot": "0x103CC430",
+  "targets": [
+   "0x102D6A37",
+   "0x102D9DEB",
+   "0x102F9780",
+   "0x1030217B"
+  ]
+ },
+ "0x102D6A6A": {
+  "kind": "call",
+  "slot": "0x103CC4E0",
+  "targets": [
+   "0x102D6A4A",
+   "0x102D6A9A",
+   "0x102F9BF0",
+   "0x1030237D"
+  ]
+ },
+ "0x102D6A74": {
+  "kind": "jmp",
+  "slot": "0x103CC4E0",
+  "targets": [
+   "0x102D6A4A",
+   "0x102D6A9A",
+   "0x102F9BF0",
+   "0x1030237D"
+  ]
+ },
+ "0x102D6B8B": {
+  "kind": "call",
+  "slot": "0x103CC4E4",
+  "targets": [
+   "0x102D6B6B",
+   "0x102D6B9B",
+   "0x102F9A80",
+   "0x10302445"
+  ]
+ },
+ "0x102D6B95": {
+  "kind": "jmp",
+  "slot": "0x103CC4E4",
+  "targets": [
+   "0x102D6B6B",
+   "0x102D6B9B",
+   "0x102F9A80",
+   "0x10302445"
+  ]
+ },
+ "0x102D6CB3": {
+  "kind": "call",
+  "slot": "0x103CC4E8",
+  "targets": [
+   "0x102D6C8E",
+   "0x102D6CC3",
+   "0x102F9D80",
+   "0x1030230C"
+  ]
+ },
+ "0x102D6CBD": {
+  "kind": "jmp",
+  "slot": "0x103CC4E8",
+  "targets": [
+   "0x102D6C8E",
+   "0x102D6CC3",
+   "0x102F9D80",
+   "0x1030230C"
+  ]
+ },
+ "0x102D6D6E": {
+  "kind": "jmp",
+  "slot": "0x103CC418",
+  "targets": [
+   "0x102D6D67",
+   "0x102D6D7A",
+   "0x102F4453",
+   "0x102F8E50",
+   "0x102FA9C0",
+   "0x103020F9"
+  ]
+ },
+ "0x102D6D74": {
+  "kind": "jmp",
+  "slot": "0x103CC418",
+  "targets": [
+   "0x102D6D67",
+   "0x102D6D7A",
+   "0x102F4453",
+   "0x102F8E50",
+   "0x102FA9C0",
+   "0x103020F9"
+  ]
+ },
+ "0x102D6E20": {
+  "kind": "jmp",
+  "slot": "0x103CC43C",
+  "targets": [
+   "0x102D6E19",
+   "0x102D6E2C",
+   "0x102F9F80",
+   "0x102FB400",
+   "0x102FD41E"
+  ]
+ },
+ "0x102D6E26": {
+  "kind": "jmp",
+  "slot": "0x103CC43C",
+  "targets": [
+   "0x102D6E19",
+   "0x102D6E2C",
+   "0x102F9F80",
+   "0x102FB400",
+   "0x102FD41E"
+  ]
+ },
+ "0x102D6EFD": {
+  "kind": "jmp",
+  "slot": "0x103CC41C",
+  "targets": [
+   "0x102D6EF6",
+   "0x102D6F09",
+   "0x102F45FB",
+   "0x102F8F10",
+   "0x102FAA80",
+   "0x102FD1EC"
+  ]
+ },
+ "0x102D6F03": {
+  "kind": "jmp",
+  "slot": "0x103CC41C",
+  "targets": [
+   "0x102D6EF6",
+   "0x102D6F09",
+   "0x102F45FB",
+   "0x102F8F10",
+   "0x102FAA80",
+   "0x102FD1EC"
+  ]
+ },
+ "0x102D7146": {
+  "kind": "jmp",
+  "slot": "0x103CC4A4",
+  "targets": [
+   "0x102D713F",
+   "0x102D7152",
+   "0x102FD865"
+  ]
+ },
+ "0x102D714C": {
+  "kind": "jmp",
+  "slot": "0x103CC4A4",
+  "targets": [
+   "0x102D713F",
+   "0x102D7152",
+   "0x102FD865"
+  ]
+ },
+ "0x102D71C6": {
+  "kind": "jmp",
+  "slot": "0x103CC420",
+  "targets": [
+   "0x102D71BF",
+   "0x102D71D2",
+   "0x102F46DE",
+   "0x102F9570",
+   "0x102FB0E0",
+   "0x10300C32"
+  ]
+ },
+ "0x102D71CC": {
+  "kind": "jmp",
+  "slot": "0x103CC420",
+  "targets": [
+   "0x102D71BF",
+   "0x102D71D2",
+   "0x102F46DE",
+   "0x102F9570",
+   "0x102FB0E0",
+   "0x10300C32"
+  ]
+ },
+ "0x102D742F": {
+  "kind": "jmp",
+  "slot": "0x103CC458",
+  "targets": [
+   "0x102D7428",
+   "0x102D743B",
+   "0x102F92B0",
+   "0x102FAE20",
+   "0x10300950",
+   "0x1030135E"
+  ]
+ },
+ "0x102D7435": {
+  "kind": "jmp",
+  "slot": "0x103CC458",
+  "targets": [
+   "0x102D7428",
+   "0x102D743B",
+   "0x102F92B0",
+   "0x102FAE20",
+   "0x10300950",
+   "0x1030135E"
+  ]
+ },
+ "0x102D78EA": {
+  "kind": "call",
+  "slot": "0x103CC494",
+  "targets": [
+   "0x102D78C5",
+   "0x102D78F9",
+   "0x102FD81E"
+  ]
+ },
+ "0x102D78F3": {
+  "kind": "jmp",
+  "slot": "0x103CC494",
+  "targets": [
+   "0x102D78C5",
+   "0x102D78F9",
+   "0x102FD81E"
+  ]
+ },
+ "0x102D797A": {
+  "kind": "call",
+  "slot": "0x103CC478",
+  "targets": [
+   "0x102D7955",
+   "0x102D79A9",
+   "0x102FD4ED"
+  ]
+ },
+ "0x102D79A3": {
+  "kind": "jmp",
+  "slot": "0x103CC478",
+  "targets": [
+   "0x102D7955",
+   "0x102D79A9",
+   "0x102FD4ED"
+  ]
+ },
+ "0x102D7A3D": {
+  "kind": "call",
+  "slot": "0x103CC488",
+  "targets": [
+   "0x102D7A2A",
+   "0x102D7A4C",
+   "0x102FB2F0",
+   "0x102FD704"
+  ]
+ },
+ "0x102D7A46": {
+  "kind": "jmp",
+  "slot": "0x103CC488",
+  "targets": [
+   "0x102D7A2A",
+   "0x102D7A4C",
+   "0x102FB2F0",
+   "0x102FD704"
+  ]
+ },
+ "0x102D7AD9": {
+  "kind": "call",
+  "slot": "0x103CC48C",
+  "targets": [
+   "0x102D7AC6",
+   "0x102D7AE8",
+   "0x102FB370",
+   "0x102FD767"
+  ]
+ },
+ "0x102D7AE2": {
+  "kind": "jmp",
+  "slot": "0x103CC48C",
+  "targets": [
+   "0x102D7AC6",
+   "0x102D7AE8",
+   "0x102FB370",
+   "0x102FD767"
+  ]
+ },
+ "0x102D7B76": {
+  "kind": "call",
+  "slot": "0x103CC490",
+  "targets": [
+   "0x102D7B63",
+   "0x102D7B85",
+   "0x102FD7C5"
+  ]
+ },
+ "0x102D7B7F": {
+  "kind": "jmp",
+  "slot": "0x103CC490",
+  "targets": [
+   "0x102D7B63",
+   "0x102D7B85",
+   "0x102FD7C5"
+  ]
+ },
+ "0x102D7C18": {
+  "kind": "call",
+  "slot": "0x103CC4B8",
+  "targets": [
+   "0x102D7C01",
+   "0x102D7C27",
+   "0x102FF305"
+  ]
+ },
+ "0x102D7C21": {
+  "kind": "jmp",
+  "slot": "0x103CC4B8",
+  "targets": [
+   "0x102D7C01",
+   "0x102D7C27",
+   "0x102FF305"
+  ]
+ },
+ "0x102D7D30": {
+  "kind": "jmp",
+  "slot": "0x103CC4A8",
+  "targets": [
+   "0x102D7D29",
+   "0x102D7D3C",
+   "0x102FD90D",
+   "0x102FD9DF"
+  ]
+ },
+ "0x102D7D36": {
+  "kind": "jmp",
+  "slot": "0x103CC4A8",
+  "targets": [
+   "0x102D7D29",
+   "0x102D7D3C",
+   "0x102FD90D",
+   "0x102FD9DF"
+  ]
+ },
+ "0x102D7E43": {
+  "kind": "call",
+  "slot": "0x103CC4B0",
+  "targets": [
+   "0x102D7E1E",
+   "0x102D9ECB",
+   "0x102FEC2C"
+  ]
+ },
+ "0x102D7E4C": {
+  "kind": "jmp",
+  "slot": "0x103CC4B0",
+  "targets": [
+   "0x102D7E1E",
+   "0x102D9ECB",
+   "0x102FEC2C"
+  ]
+ },
+ "0x102D7E5D": {
+  "kind": "jmp",
+  "slot": "0x103CC4AC",
+  "targets": [
+   "0x102D7E52",
+   "0x102D9F04",
+   "0x102FDA94",
+   "0x102FF7FC"
+  ]
+ },
+ "0x102D7E63": {
+  "kind": "jmp",
+  "slot": "0x103CC4AC",
+  "targets": [
+   "0x102D7E52",
+   "0x102D9F04",
+   "0x102FDA94",
+   "0x102FF7FC"
+  ]
+ },
+ "0x102D7E9E": {
+  "kind": "call",
+  "slot": "0x103CC4B4",
+  "targets": [
+   "0x102D7E81",
+   "0x102D7ED1",
+   "0x102FEDD1"
+  ]
+ },
+ "0x102D7ECB": {
+  "kind": "jmp",
+  "slot": "0x103CC4B4",
+  "targets": [
+   "0x102D7E81",
+   "0x102D7ED1",
+   "0x102FEDD1"
+  ]
+ },
+ "0x102D898D": {
+  "kind": "jmp",
+  "slot": "0x103CC47C",
+  "targets": [
+   "0x102D8986",
+   "0x102DA1B8",
+   "0x102FA140",
+   "0x102FB5C0",
+   "0x102FD53D"
+  ]
+ },
+ "0x102D8993": {
+  "kind": "jmp",
+  "slot": "0x103CC47C",
+  "targets": [
+   "0x102D8986",
+   "0x102DA1B8",
+   "0x102FA140",
+   "0x102FB5C0",
+   "0x102FD53D"
+  ]
+ },
+ "0x102D89A0": {
+  "kind": "jmp",
+  "slot": "0x103CC480",
+  "targets": [
+   "0x102D8999",
+   "0x102DA292",
+   "0x102FA2D0",
+   "0x102FB750",
+   "0x102FD628"
+  ]
+ },
+ "0x102D89A6": {
+  "kind": "jmp",
+  "slot": "0x103CC480",
+  "targets": [
+   "0x102D8999",
+   "0x102DA292",
+   "0x102FA2D0",
+   "0x102FB750",
+   "0x102FD628"
+  ]
+ },
+ "0x102D89B3": {
+  "kind": "jmp",
+  "slot": "0x103CC46C",
+  "targets": [
+   "0x102D89AC",
+   "0x102D89BF",
+   "0x102FBCD6"
+  ]
+ },
+ "0x102D89B9": {
+  "kind": "jmp",
+  "slot": "0x103CC46C",
+  "targets": [
+   "0x102D89AC",
+   "0x102D89BF",
+   "0x102FBCD6"
+  ]
+ },
+ "0x102D8A63": {
+  "kind": "jmp",
+  "slot": "0x103CC470",
+  "targets": [
+   "0x102D8A5C",
+   "0x102D8A6F",
+   "0x102FA550",
+   "0x102FB9F0",
+   "0x102FBD89",
+   "0x102FBFA5"
+  ]
+ },
+ "0x102D8A69": {
+  "kind": "jmp",
+  "slot": "0x103CC470",
+  "targets": [
+   "0x102D8A5C",
+   "0x102D8A6F",
+   "0x102FA550",
+   "0x102FB9F0",
+   "0x102FBD89",
+   "0x102FBFA5"
+  ]
+ },
+ "0x102D8BBA": {
+  "kind": "call",
+  "slot": "0x103CC484",
+  "targets": [
+   "0x102D8BA3",
+   "0x102D8BC9",
+   "0x102FC27F"
+  ]
+ },
+ "0x102D8BC3": {
+  "kind": "jmp",
+  "slot": "0x103CC484",
+  "targets": [
+   "0x102D8BA3",
+   "0x102D8BC9",
+   "0x102FC27F"
+  ]
+ },
+ "0x102D8C4A": {
+  "kind": "call",
+  "slot": "0x103CC474",
+  "targets": [
+   "0x102D8C25",
+   "0x102D8C59",
+   "0x102FA670",
+   "0x102FBB10",
+   "0x102FC1BA"
+  ]
+ },
+ "0x102D8C53": {
+  "kind": "jmp",
+  "slot": "0x103CC474",
+  "targets": [
+   "0x102D8C25",
+   "0x102D8C59",
+   "0x102FA670",
+   "0x102FBB10",
+   "0x102FC1BA"
+  ]
+ },
+ "0x102D8D39": {
+  "kind": "jmp",
+  "slot": "0x103CC45C",
+  "targets": [
+   "0x102D8D32",
+   "0x102D8D45",
+   "0x102FA3B0",
+   "0x102FBBE0"
+  ]
+ },
+ "0x102D8D3F": {
+  "kind": "jmp",
+  "slot": "0x103CC45C",
+  "targets": [
+   "0x102D8D32",
+   "0x102D8D45",
+   "0x102FA3B0",
+   "0x102FBBE0"
+  ]
+ },
+ "0x102D8DE2": {
+  "kind": "jmp",
+  "slot": "0x103CC460",
+  "targets": [
+   "0x102D8DDB",
+   "0x102D8DEE",
+   "0x102FA440",
+   "0x102FBC79"
+  ]
+ },
+ "0x102D8DE8": {
+  "kind": "jmp",
+  "slot": "0x103CC460",
+  "targets": [
+   "0x102D8DDB",
+   "0x102D8DEE",
+   "0x102FA440",
+   "0x102FBC79"
+  ]
+ },
+ "0x102D8EAE": {
+  "kind": "jmp",
+  "slot": "0x103CC4C0",
+  "targets": [
+   "0x102D8EA7",
+   "0x102D8EBA",
+   "0x102FA4E0",
+   "0x102FC541"
+  ]
+ },
+ "0x102D8EB4": {
+  "kind": "jmp",
+  "slot": "0x103CC4C0",
+  "targets": [
+   "0x102D8EA7",
+   "0x102D8EBA",
+   "0x102FA4E0",
+   "0x102FC541"
+  ]
+ },
+ "0x102D8F75": {
+  "kind": "jmp",
+  "slot": "0x103CC4EC",
+  "targets": [
+   "0x00000000",
+   "0x102D8F81",
+   "0x102FC5A5"
+  ]
+ },
+ "0x102D8F7B": {
+  "kind": "jmp",
+  "slot": "0x103CC4EC",
+  "targets": [
+   "0x00000000",
+   "0x102D8F81",
+   "0x102FC5A5"
+  ]
+ },
+ "0x102D9006": {
+  "kind": "jmp",
+  "slot": "0x103CC4F0",
+  "targets": [
+   "0x00000000",
+   "0x102D9012",
+   "0x102FC64C"
+  ]
+ },
+ "0x102D900C": {
+  "kind": "jmp",
+  "slot": "0x103CC4F0",
+  "targets": [
+   "0x00000000",
+   "0x102D9012",
+   "0x102FC64C"
+  ]
+ },
+ "0x102D90C8": {
+  "kind": "call",
+  "slot": "0x103CC49C",
+  "targets": [
+   "0x102D90AD",
+   "0x102D90D7",
+   "0x102FC2EB"
+  ]
+ },
+ "0x102D90D1": {
+  "kind": "jmp",
+  "slot": "0x103CC49C",
+  "targets": [
+   "0x102D90AD",
+   "0x102D90D7",
+   "0x102FC2EB"
+  ]
+ },
+ "0x102D91DA": {
+  "kind": "call",
+  "slot": "0x103CC4BC",
+  "targets": [
+   "0x102D91BA",
+   "0x102D91EA",
+   "0x102FC4AF"
+  ]
+ },
+ "0x102D91E4": {
+  "kind": "jmp",
+  "slot": "0x103CC4BC",
+  "targets": [
+   "0x102D91BA",
+   "0x102D91EA",
+   "0x102FC4AF"
+  ]
+ },
+ "0x102D924C": {
+  "kind": "jmp",
+  "slot": "0x103CC4C4",
+  "targets": [
+   "0x102D9241",
+   "0x102DA351",
+   "0x102FC793"
+  ]
+ },
+ "0x102D9252": {
+  "kind": "jmp",
+  "slot": "0x103CC4C4",
+  "targets": [
+   "0x102D9241",
+   "0x102DA351",
+   "0x102FC793"
+  ]
+ },
+ "0x102D927D": {
+  "kind": "call",
+  "slot": "0x103CC4A0",
+  "targets": [
+   "0x102D9258",
+   "0x102D928D",
+   "0x102FC422"
+  ]
+ },
+ "0x102D9287": {
+  "kind": "jmp",
+  "slot": "0x103CC4A0",
+  "targets": [
+   "0x102D9258",
+   "0x102D928D",
+   "0x102FC422"
+  ]
+ },
+ "0x102D931F": {
+  "kind": "jmp",
+  "slot": "0x103CC464",
+  "targets": [
+   "0x102D9318",
+   "0x102D932B",
+   "0x102F9130",
+   "0x102FACA0",
+   "0x10302708"
+  ]
+ },
+ "0x102D9325": {
+  "kind": "jmp",
+  "slot": "0x103CC464",
+  "targets": [
+   "0x102D9318",
+   "0x102D932B",
+   "0x102F9130",
+   "0x102FACA0",
+   "0x10302708"
+  ]
+ },
+ "0x102D93D6": {
+  "kind": "jmp",
+  "slot": "0x103CC468",
+  "targets": [
+   "0x102D93CF",
+   "0x102D93E2",
+   "0x102F9E30",
+   "0x1030264A"
+  ]
+ },
+ "0x102D93DC": {
+  "kind": "jmp",
+  "slot": "0x103CC468",
+  "targets": [
+   "0x102D93CF",
+   "0x102D93E2",
+   "0x102F9E30",
+   "0x1030264A"
+  ]
+ },
+ "0x102D948B": {
+  "kind": "jmp",
+  "slot": "0x103CC440",
+  "targets": [
+   "0x102D9484",
+   "0x102D9497",
+   "0x10302523"
+  ]
+ },
+ "0x102D9491": {
+  "kind": "jmp",
+  "slot": "0x103CC440",
+  "targets": [
+   "0x102D9484",
+   "0x102D9497",
+   "0x10302523"
+  ]
+ },
+ "0x102D94D6": {
+  "kind": "jmp",
+  "slot": "0x103CC444",
+  "targets": [
+   "0x102D94CF",
+   "0x102D94E2",
+   "0x102FA050",
+   "0x102FB4D0",
+   "0x10302566"
+  ]
+ },
+ "0x102D94DC": {
+  "kind": "jmp",
+  "slot": "0x103CC444",
+  "targets": [
+   "0x102D94CF",
+   "0x102D94E2",
+   "0x102FA050",
+   "0x102FB4D0",
+   "0x10302566"
+  ]
+ },
+ "0x102D958B": {
+  "kind": "jmp",
+  "slot": "0x103CC498",
+  "targets": [
+   "0x102D9584",
+   "0x102D9597",
+   "0x1030276C"
+  ]
+ },
+ "0x102D9591": {
+  "kind": "jmp",
+  "slot": "0x103CC498",
+  "targets": [
+   "0x102D9584",
+   "0x102D9597",
+   "0x1030276C"
+  ]
+ },
+ "_doc": "dispatch_slots.py -- the functions a `jmp dword ptr [slot]` of the game's D3DX dispatch table can reach.",
+ "_fill": {
+  "default": "0x103CC4F8",
+  "fill": "0x102E7650",
+  "fillers": [
+   "0x102F476C",
+   "0x102F40A5",
+   "0x102F3EC0",
+   "0x102F3DB0"
+  ],
+  "slots": 57,
+  "table": "0x103CC410"
+ }
+}

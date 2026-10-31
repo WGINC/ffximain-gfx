@@ -19,6 +19,9 @@ Flags, which leave a function out by default:
      neither __thiscall nor __fastcall (data/ecx_use.json): a value its declaration does not carry. Swapping is
      unaffected (the reconstruction was gated as it is); a mod may not hook it (its replacement could not see the
      register, nor pass it on to the previous code)
+  16 render path: in verification/render_core_status.json's `render_path` (#118's Direct3D-calling functions, #119's
+     direct callers, the profiler's hot set: pipeline/vc6/render_core_status.py). Not a reason to leave it out: the kit's
+     swap_set=render_path swaps exactly these, the untested ones among them included (#132, the render core as one block)
   4  untested: the gate's compared trials did not reach all of the original's instructions
      (verification/coverage_clean.json, pipeline/combine_coverage.py); a PASS says nothing about that code.
      Every function is flagged when the coverage file is missing. Also set for a PASS on fewer than THIN (10)
@@ -119,6 +122,8 @@ def main(recon, out, report=None, raw_json=None):
     lines, rep = [], {'listed': 0, 'refused': {}, 'no_trampoline': {}}
     raw_fx = json.load(open(raw_json))['exports'] if raw_json else None
     rep['raw_address_check'] = 'made (%s)' % raw_json if raw_json else 'NOT made: no RAW_JSON given'
+    rp = os.path.join(ROOT, 'verification', 'render_core_status.json')
+    render_path = set(json.load(open(rp))['render_path']) if os.path.exists(rp) else set()
     cp = os.path.join(ROOT, 'verification', 'coverage_clean.json')
     coverage = json.load(open(cp)) if os.path.exists(cp) else {}
     # the trials in which the original returned normally (the only ones compared), over every gate of the record
@@ -156,6 +161,7 @@ def main(recon, out, report=None, raw_json=None):
         cv = coverage.get('0x%08X' % ea)
         if not cv or cv.get('uncovered') is None or cv['uncovered'] or cv.get('missing'): flags |= 4
         if returned.get('0x%08X' % ea, 0) < THIN: flags |= 4             # thin evidence: too few compared trials
+        if '0x%08X' % ea in render_path: flags |= 16
         name = place.get('0x%x' % ea, {}).get('symbol') or c['name'].split()[0]
         tr, tw = trampoline(ea, rs, img, targets)
         if tr == '-': rep['no_trampoline'][name] = tw
@@ -175,14 +181,15 @@ def main(recon, out, report=None, raw_json=None):
             sym = p[2][1:] if p[2].startswith('_') else p[2]        # (the i686 C symbol underscore)
             code.append('!code %X %s' % (int(p[0], 16) - rbase, sym[:-5] if sym.endswith('.cold') else sym))
     with open(out, 'w', newline='\n') as f:
-        f.write('# xikit manifest: RVA FLAGS EXPORT EXPECTED RELOCS NAME T=TRAMPOLINE (kit/xikit/make_manifest.py; flags 1=SEH 2=speedfix site 4=untested 8=register input)\n')
+        f.write('# xikit manifest: RVA FLAGS EXPORT EXPECTED RELOCS NAME T=TRAMPOLINE (kit/xikit/make_manifest.py; flags 1=SEH 2=speedfix site 4=untested 8=register input 16=render path)\n')
         f.write('# FFXiMain.dll TimeDateStamp 0x%08X\n' % pe.FILE_HEADER.TimeDateStamp)
         f.write('!game_timestamp %08X\n!recon_size %d\n!recon_crc32 %08X\n' % (pe.FILE_HEADER.TimeDateStamp, len(rd), zlib.crc32(rd) & 0xFFFFFFFF))
         f.write('\n'.join(lines) + '\n')
         f.write('\n'.join(code) + '\n')
     rep['listed'] = len(lines)
     rep['flags'] = {'seh': sum(1 for l in lines if int(l.split()[1]) & 1), 'speedfix': sum(1 for l in lines if int(l.split()[1]) & 2),
-                    'untested': sum(1 for l in lines if int(l.split()[1]) & 4), 'register_input': sum(1 for l in lines if int(l.split()[1]) & 8)}
+                    'untested': sum(1 for l in lines if int(l.split()[1]) & 4), 'register_input': sum(1 for l in lines if int(l.split()[1]) & 8),
+                    'render_path': sum(1 for l in lines if int(l.split()[1]) & 16)}
     if report: json.dump(rep, open(report, 'w'), indent=1)
     print('%d listed (%s); %d refused; %d without a trampoline' % (len(lines), rep['flags'], len(rep['refused']), len(rep['no_trampoline'])))
     for k, v in sorted(rep['refused'].items()): print('  refused %s: %s' % (k, v))

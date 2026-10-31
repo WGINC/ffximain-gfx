@@ -8,7 +8,7 @@ the game's own code or as the reconstruction, whichever the swap set says; only 
 dump (D3D8, polcore, Windows) are answered as in the gate (fake COM objects, pops from the call site).
 
     FFXI_DLL=... FFXI_LIVE=live_town.json python3 frame_diff.py RECON.dll MANIFEST.txt [--entry 0x10011A00]
-        [--include-untested] [--only EXPORT,...] [--limit N] [--out report.json]
+        [--include-untested | --swap-set render_path] [--only EXPORT,...] [--limit N] [--out report.json]
 
 The swap set is the kit's manifest (flag 4 = untested is left out unless --include-untested), the entry the
 redirect applies to is each function's original address (RVA + 0x10000000). Compared: the order, callee,
@@ -190,6 +190,7 @@ def main():
     ap.add_argument('--entry', default='0x10011A00'); ap.add_argument('--include-untested', action='store_true')
     ap.add_argument('--this-global', default=None, help="`this` is the dword at this game address in the dump (Frame_Render's: "
                     "0x104568FC, as App_RenderFrameMaskedFPU 0x10001B50 loads it; docs/RENDERER.md section 2)")
+    ap.add_argument('--swap-set', default=None, choices=['render_path'], help='as the kit\'s swap_set: manifest flag 16, untested included')
     ap.add_argument('--only', default=None); ap.add_argument('--limit', type=int, default=200000000)
     ap.add_argument('--assume-pops', dest='assume', action='store_true', help='exploratory: unresolved call pops are ASSUMED (see _on_foreign), not facts'); ap.add_argument('--seed', type=int, default=1); ap.add_argument('--out', default=None)
     o = ap.parse_args()
@@ -197,7 +198,8 @@ def main():
     m = FrameMachine(game, o.recon, {}, [])
     m.pop_src = {}; m.locks = 0; m.assume = o.assume; m.assumed = {}; m.assumed_cache = {}
     m.demand_limit = 1 << 20; m.synth_limit = 96
-    sw = [(a, f, n) for a, f, n in read_manifest(o.manifest) if (o.include_untested or not f & 4)]
+    sw = [(a, f, n) for a, f, n in read_manifest(o.manifest) if (o.include_untested or not f & 4)] if not o.swap_set else \
+         [(a, f, n) for a, f, n in read_manifest(o.manifest) if f & 16]
     if o.only: keep = set(o.only.split(',')); sw = [s for s in sw if s[2] in keep]
     redirect = {a: m.exports[n] for a, f, n in sw if n in m.exports}
     entry = int(o.entry, 16)

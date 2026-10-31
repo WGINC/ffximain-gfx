@@ -896,7 +896,21 @@ def ghidra_bool(text):
     # Ghidra's `bool` is a 1-byte type and its `(bool)x` a change of type, not of value: `cmp cl, al` against a
     # sete result compares the whole byte (0x10227C09). C++'s bool would turn 2 into 1, so it is a plain byte.
     parts = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\')', text)
-    return ''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts))
+    return ghidra_odd_casts(''.join(x if i % 2 else re.sub(r'\bbool\b', 'xi_bool', x) for i, x in enumerate(parts)))
+
+
+def ghidra_odd_casts(text):
+    """`(uint3)x` / `(int3)x`: Ghidra's cast to a 3-byte integer keeps the low 24 bits of x. xi_ghidra.hpp's uint3 and
+    int3 are 32-bit types (no C++ type has 3 bytes), so the cast as written changes nothing; it is written
+    xi_trunc24(x) / xi_strunc24(x) (xi_ghidra.hpp: the low 24 bits, zero- or sign-extended to 32). 1 Nov: Env_ComputeFog
+    0x10189120's `(uint)(uint3)param_3` is the original's `mov byte ptr [esp+0x1b], 0` (0x101891D3), the fog colour's
+    top byte cleared; as a plain 32-bit cast the colour kept a pointer's top byte (frame_diff.py, three dumps)."""
+    out = text
+    for m in reversed(list(re.finditer(r'\(\s*(u?int3)\s*\)', text))):
+        e = _cast_operand_end(out, m.end())
+        if e is None: continue
+        out = out[:m.start()] + ('xi_trunc24(' if m.group(1) == 'uint3' else 'xi_strunc24(') + out[m.end():e] + ')' + out[e:]
+    return out
 
 _GTYPE = re.compile(r'\(\s*((?:unsigned |signed |const |struct )*[A-Za-z_]\w*(?:\s*\*)*)\s*\)')
 

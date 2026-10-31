@@ -269,7 +269,14 @@ struct IDirect3DCubeTexture8;
 struct IDirect3DTexture8;
 struct IDirect3DVolumeTexture8;
 struct IDirect3DDevice8;
-struct IDirect3D8Vtbl {
+// XI_SDKVTBL(i): the SDK's vtable struct of interface i: IFooVtbl, or with XI_BACKEND IFooVtbl_sdk (the name IFooVtbl
+// is then the proxy's, xi_d3d8_backend.hpp)
+#ifdef XI_BACKEND
+#define XI_SDKVTBL(i) i##Vtbl_sdk
+#else
+#define XI_SDKVTBL(i) i##Vtbl
+#endif
+struct XI_SDKVTBL(IDirect3D8) {
   int (__stdcall *QueryInterface)(IDirect3D8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3D8 *This);
   int (__stdcall *Release)(IDirect3D8 *This);
@@ -288,7 +295,7 @@ struct IDirect3D8Vtbl {
   int (__stdcall *CreateDevice)(IDirect3D8 *This, unsigned int Adapter, D3DDEVTYPE DeviceType, unsigned int hFocusWindow, unsigned int BehaviorFlags, void * pPresentationParameters, IDirect3DDevice8 ** ppReturnedDeviceInterface);
 };
 
-struct IDirect3DVolume8Vtbl {
+struct XI_SDKVTBL(IDirect3DVolume8) {
   int (__stdcall *QueryInterface)(IDirect3DVolume8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DVolume8 *This);
   int (__stdcall *Release)(IDirect3DVolume8 *This);
@@ -302,7 +309,7 @@ struct IDirect3DVolume8Vtbl {
   int (__stdcall *UnlockBox)(IDirect3DVolume8 *This);
 };
 
-struct IDirect3DSwapChain8Vtbl {
+struct XI_SDKVTBL(IDirect3DSwapChain8) {
   int (__stdcall *QueryInterface)(IDirect3DSwapChain8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DSwapChain8 *This);
   int (__stdcall *Release)(IDirect3DSwapChain8 *This);
@@ -310,7 +317,7 @@ struct IDirect3DSwapChain8Vtbl {
   int (__stdcall *GetBackBuffer)(IDirect3DSwapChain8 *This, unsigned int BackBuffer, D3DBACKBUFFER_TYPE Type, IDirect3DSurface8 ** ppBackBuffer);
 };
 
-struct IDirect3DSurface8Vtbl {
+struct XI_SDKVTBL(IDirect3DSurface8) {
   int (__stdcall *QueryInterface)(IDirect3DSurface8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DSurface8 *This);
   int (__stdcall *Release)(IDirect3DSurface8 *This);
@@ -324,7 +331,7 @@ struct IDirect3DSurface8Vtbl {
   int (__stdcall *UnlockRect)(IDirect3DSurface8 *This);
 };
 
-struct IDirect3DResource8Vtbl {
+struct XI_SDKVTBL(IDirect3DResource8) {
   int (__stdcall *QueryInterface)(IDirect3DResource8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DResource8 *This);
   int (__stdcall *Release)(IDirect3DResource8 *This);
@@ -338,7 +345,7 @@ struct IDirect3DResource8Vtbl {
   int (__stdcall *GetType)(IDirect3DResource8 *This);
 };
 
-struct IDirect3DVertexBuffer8Vtbl {
+struct XI_SDKVTBL(IDirect3DVertexBuffer8) {
   int (__stdcall *QueryInterface)(IDirect3DVertexBuffer8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DVertexBuffer8 *This);
   int (__stdcall *Release)(IDirect3DVertexBuffer8 *This);
@@ -355,7 +362,7 @@ struct IDirect3DVertexBuffer8Vtbl {
   int (__stdcall *GetDesc)(IDirect3DVertexBuffer8 *This, void * pDesc);
 };
 
-struct IDirect3DIndexBuffer8Vtbl {
+struct XI_SDKVTBL(IDirect3DIndexBuffer8) {
   int (__stdcall *QueryInterface)(IDirect3DIndexBuffer8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DIndexBuffer8 *This);
   int (__stdcall *Release)(IDirect3DIndexBuffer8 *This);
@@ -372,7 +379,7 @@ struct IDirect3DIndexBuffer8Vtbl {
   int (__stdcall *GetDesc)(IDirect3DIndexBuffer8 *This, void * pDesc);
 };
 
-struct IDirect3DBaseTexture8Vtbl {
+struct XI_SDKVTBL(IDirect3DBaseTexture8) {
   int (__stdcall *QueryInterface)(IDirect3DBaseTexture8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DBaseTexture8 *This);
   int (__stdcall *Release)(IDirect3DBaseTexture8 *This);
@@ -389,7 +396,7 @@ struct IDirect3DBaseTexture8Vtbl {
   int (__stdcall *GetLevelCount)(IDirect3DBaseTexture8 *This);
 };
 
-struct IDirect3DCubeTexture8Vtbl {
+struct XI_SDKVTBL(IDirect3DCubeTexture8) {
   int (__stdcall *QueryInterface)(IDirect3DCubeTexture8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DCubeTexture8 *This);
   int (__stdcall *Release)(IDirect3DCubeTexture8 *This);
@@ -411,7 +418,7 @@ struct IDirect3DCubeTexture8Vtbl {
   int (__stdcall *AddDirtyRect)(IDirect3DCubeTexture8 *This, unsigned int face, void * dirty_rect);
 };
 
-struct IDirect3DTexture8Vtbl {
+struct XI_SDKVTBL(IDirect3DTexture8) {
   int (__stdcall *QueryInterface)(IDirect3DTexture8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DTexture8 *This);
   int (__stdcall *Release)(IDirect3DTexture8 *This);
@@ -433,7 +440,7 @@ struct IDirect3DTexture8Vtbl {
   int (__stdcall *AddDirtyRect)(IDirect3DTexture8 *This, void * dirty_rect);
 };
 
-struct IDirect3DVolumeTexture8Vtbl {
+struct XI_SDKVTBL(IDirect3DVolumeTexture8) {
   int (__stdcall *QueryInterface)(IDirect3DVolumeTexture8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DVolumeTexture8 *This);
   int (__stdcall *Release)(IDirect3DVolumeTexture8 *This);
@@ -455,7 +462,7 @@ struct IDirect3DVolumeTexture8Vtbl {
   int (__stdcall *AddDirtyBox)(IDirect3DVolumeTexture8 *This, void * dirty_box);
 };
 
-struct IDirect3DDevice8Vtbl {
+struct XI_SDKVTBL(IDirect3DDevice8) {
   int (__stdcall *QueryInterface)(IDirect3DDevice8 *This, unsigned int riid, void ** ppvObject);
   int (__stdcall *AddRef)(IDirect3DDevice8 *This);
   int (__stdcall *Release)(IDirect3DDevice8 *This);
@@ -555,6 +562,10 @@ struct IDirect3DDevice8Vtbl {
   int (__stdcall *DeletePatch)(IDirect3DDevice8 *This, unsigned int Handle);
 };
 
+
+// With XI_BACKEND, IFooVtbl is xi_d3d8_backend.hpp's proxy (#136): every call through it routed through xi_backend[],
+// the object's memory unchanged; the SDK's vtable layout is then IFooVtbl_sdk.
+#include "xi_d3d8_backend.hpp"
 
 // Interfaces: one vtable pointer (the COM layout) plus inline wrappers.
 struct IDirect3D8 {

@@ -150,22 +150,27 @@ def strip_noise(body):
 _RL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'reloc_literals.json')
 RELOC_LIT = {int(k, 16): {int(v, 16) for v in vs} for k, vs in json.load(open(_RL)).items() if not k.startswith('_')} \
     if os.path.exists(_RL) else {}
+_RB = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'reloc_bounds.json')
+RELOC_BOUND = {int(k, 16): {int(a, 16): int(b, 16) for a, b in vs.items()} for k, vs in json.load(open(_RB)).items()
+               if not k.startswith('_')} if os.path.exists(_RB) else {}
 
 
 def reloc_literals(ea, body):
     """an integer literal whose value the function's own code holds only as relocated immediates (an address,
     data/reloc_literals.json) -> XI_GAME(0x...u), cast back to the literal's own type (int, or unsigned int
     with a u suffix), so the verified build compiles the same constant and the in-game build rebases it"""
-    vals = RELOC_LIT.get(ea)
-    if not vals: return body, 0
+    vals = RELOC_LIT.get(ea, set()); bnd = RELOC_BOUND.get(ea, {})
+    if not vals and not bnd: return body, 0
     n = [0]
     def sub(m):
         lit, suf = m.group(1), m.group(2) or ''
         if len(lit) > 1 and lit[0] == '0' and lit[1] not in 'xX': return m.group(0)       # octal: not an address
-        v = int(lit, 0)
-        if v not in vals: return m.group(0)
-        n[0] += 1
-        return '(%s)XI_GAME(0x%08Xu)' % ('unsigned int' if suf else 'int', v)
+        v = int(lit, 0); ty = 'unsigned int' if suf else 'int'
+        if v in vals: n[0] += 1; return '(%s)XI_GAME(0x%08Xu)' % (ty, v)
+        if v in bnd:          # a comparison bound, one off a relocated value (reloc_literals.py, data/reloc_bounds.json)
+            n[0] += 1; r = bnd[v]
+            return '(%s)(XI_GAME(0x%08Xu) %s 1u)' % (ty, r, '-' if v < r else '+')
+        return m.group(0)
     body = re.sub(r'(?<![\w.])(0[xX][0-9A-Fa-f]+|\d+)([uU])?(?![\w.])', sub, body)
     return body, n[0]
 
@@ -193,6 +198,13 @@ def name_d3d_values(body):
     return body
 
 EXPR = r'[\w]+(?:(?:->|\.)[\w]+|\[\w+\])*'
+def vtbl_slot_reads(body):
+    """`lpVtbl->Clear)`: a vtable slot read as a value (Hex-Rays casts it and calls the cast, `((fn)dev->lpVtbl->Clear)(..)`,
+    where the call's prototype differs from the SDK's) -> `lpVtbl->XI_SLOT(Clear))`: the same slot without XI_BACKEND,
+    the slot the backend routes to with it (xi_d3d8_backend.hpp, #136)"""
+    return re.sub(r'\blpVtbl->(\w+)\)', r'lpVtbl->XI_SLOT(\1))', body)
+
+
 def com_calls(body):
     return re.sub(r'(' + EXPR + r')->lpVtbl->(\w+)\(\1(?:, )?', lambda m: '%s->%s(' % (m.group(1), m.group(2)), body)
 
@@ -881,6 +893,7 @@ def main(exp, gate, manf, incdir, outdir):
         body = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', body); sig = re.sub(r'\benum\s+_?(D3D\w+)', r'\1', sig)
         body = hx2cpp.body_rules(ea, body, 'cmps' in r)       # before strip_noise: exact_frame reads the [esp+..] comments
         body = strip_noise(body); body = com_calls(body); body = holder_calls.typed_holder_calls(body)[0]
+        body = vtbl_slot_reads(body)
         if cls:   # the class's own fields the IDB declares as Direct3D interfaces (KNOWN_FIELDS)
             body = holder_calls.typed_self_calls(body, {o: re.match(r'(IDirect3D\w*8) \*$', v[0]).group(1) for (c, o), v in KNOWN_FIELDS.items()
                                                         if c == cls and re.match(r'IDirect3D\w*8 \*$', v[0])})[0]

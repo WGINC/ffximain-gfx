@@ -25,6 +25,10 @@ known:
     import: the bytes still held reach the function's own `ret`).
   * A virtual call vcall_resolve.py settles (data/vcalls.json) reads what any of its targets reads and keeps what
     any of them keeps (its reads seen: what every target is seen to read).
+  * A jump into the body of another function, past its entry, is followed there: the code it runs is that function's.
+  * A call or jump through a slot of the D3DX dispatch table (data/dispatch_slots.json, dispatch_slots.py: the closed
+    set of routines the slot can hold, from the code that fills it) is a call, or a tail call, to one of those
+    routines, as a settled virtual call is.
   * Any other call through a pointer, an indirect jump the code does not bound, or a jump out of the function
     counts as reading every byte still held: what it reads is not followed.
 
@@ -69,6 +73,15 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
     code = {int(k, 16): im.code(e) for k, e in ext.items()}
     owner = {a: f for f, ins in code.items() for a in ins}
     starts = set(code)
+    # a `jmp` into the body of another function, past its entry, runs that function's code from there: the walk
+    # follows it (1 Nov: the D3DX SSE routines' aligned entries, 0x102FAA80 and 0x102F8F10, align ESP and jump past
+    # the first two instructions of 0x102FAA8E / 0x102F8F1E)
+    for f in sorted(code):
+        for a, i in list(code[f].items()):
+            if i.mnemonic == 'jmp' and i.operands and i.operands[0].type == X86_OP_IMM:
+                t = i.operands[0].imm & 0xFFFFFFFF
+                if t not in code[f] and t not in starts and t in owner:
+                    code[f] = dict(code[f]); code[f].update({k: v for k, v in code[owner[t]].items() if k not in code[f]})
     sites, taken = {}, set()
     for f, ins in code.items():
         for a, i in ins.items():
@@ -103,6 +116,10 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
         return frozenset() if (IR.get(iat[slot]) or {}).get('size') == 4 else lv
     eread = {f: frozenset() for f in starts}; keep = {f: frozenset() for f in starts}   # grow to a fixpoint
     VCALLS = {k: v for k, v in json.load(open(os.path.join(P, '..', 'data', 'vcalls.json'))).items() if not k.startswith('_')}
+    _ds = os.path.join(P, '..', 'data', 'dispatch_slots.json')
+    DISPATCH = {int(k, 16): [int(t, 16) for t in v['targets']] for k, v in json.load(open(_ds)).items()
+                if not k.startswith('_')} if os.path.exists(_ds) else {}
+    VCALLS.update({'0x%08X' % k: {'targets': ['0x%08X' % t for t in v]} for k, v in DISPATCH.items()})
     _dj = lambda n: json.load(open(os.path.join(P, '..', 'data', n)))
     ECX_USE, EDX_USE = _dj('ecx_use.json'), _dj('edx_use.json')                 # a callee's reads of ECX / EDX
     RKEEPS = {int(k, 16): set(v) for k, v in _dj('reg_keeps.json').items()}       # registers it never writes
@@ -205,6 +222,14 @@ def main(out, entry_out=None, inputs_out=None, sites_out=None):
             else:
                 if m.startswith('ret'):
                     g, k = ret_here(st); got |= g; kept |= k; continue
+                if m == 'jmp' and x in DISPATCH and all(v in starts for v in DISPATCH[x]):
+                    # a tail call through a D3DX dispatch slot: one of its routines runs, and its return is f's
+                    ts = DISPATCH[x]
+                    pos = frozenset.intersection(*[edef[v] for v in ts]) if seen_only else frozenset().union(*[eread[v] for v in ts])
+                    got |= eax_srcs(st, pos)
+                    s2, r = after_callee(st, None, frozenset().union(*[keep[v] for v in ts]))
+                    if not seen_only: got |= r
+                    g, k = ret_here(s2); got |= g; kept |= k; continue
                 slot = import_jmp(i)
                 if slot is None and m == 'jmp' and o and o[0].type == X86_OP_IMM and o[0].imm not in ins and o[0].imm not in starts:
                     slot = import_thunk(o[0].imm)

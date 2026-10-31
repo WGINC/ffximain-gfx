@@ -13,16 +13,89 @@ that range; it is listed all the same (leaving a function out of the swap set is
 the function holding it (the DLL's symbol table: from a symbol to the next) and to every exported function that
 reaches it by direct calls inside the DLL.
 
-    python3 pipeline/raw_game_addrs.py PROBE.dll OUT.json
-OUT: {"exports": {export symbol: [first finding, ...]}, "holders": {symbol: [findings]}}"""
-import bisect, collections, json, subprocess, sys
+A constant in the code is not always one the source wrote. GCC derives constants: a loop over a rebased table may
+count in analysed addresses (`p < XI_GAME(0x10487020u)` compiled to `cmp esi, 0x1048701f`, the shift cancelled on both
+sides), and `x / 1000` compiles to `imul 0x10624dd3`. So with TREE (the tree's directory) and $FFXI_DLL given, a
+holder is charged only if its source text (the tree's `// FUNCTION: FFXIMAIN` block of the function the symbol names)
+holds an integer literal in the game range written outside XI_GAME, other than one the game's code shows to be a
+plain integer (every immediate or displacement of the original function with that value unrelocated: the relocation
+table, as reloc_literals.py reads it). A holder whose text has none is listed under "explained", with why; one whose
+text cannot be found stays charged.
+
+    python3 pipeline/raw_game_addrs.py PROBE.dll OUT.json [TREE]
+OUT: {"exports": {export symbol: [first finding, ...]}, "holders": {symbol: [findings]}, "explained": {symbol: why}}"""
+import bisect, collections, glob, json, os, re, subprocess, sys
 import capstone, pefile
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM
 
 LO, HI = 0x10001000, 0x10700000
 
 
-def main(dll, out):
+LIT = re.compile(r'(?<![\w.])(0[xX][0-9A-Fa-f]+|[1-9]\d*)[uUlL]*(?![\w.])')
+
+
+def source_texts(tree):
+    """{function name as declared: (analysed address, text)} from the tree's FUNCTION blocks"""
+    res = {}
+    for f in glob.glob(os.path.join(tree, 'src', '*.cpp')):
+        cur = None
+        for line in open(f, errors='replace'):
+            m = re.match(r'// FUNCTION: FFXIMAIN (0x[0-9A-Fa-f]{8})', line)
+            if m: cur = [int(m.group(1), 16), [], None]; continue
+            if cur is None: continue
+            if cur[2] is None and '(' in line and not line.startswith('//'):
+                n = re.search(r'([~\w:]+)\s*\(', line)
+                if n: cur[2] = n.group(1); res[cur[2]] = (cur[0], cur[1])
+            cur[1].append(line)
+    return {k: (a, ''.join(t)) for k, (a, t) in res.items()}
+
+
+def raw_literals(text):
+    """the game-range integer literals of a text written outside XI_GAME (strings and comments removed)"""
+    t = re.sub(r'"(?:[^"\\\n]|\\.)*"', '""', text)
+    t = re.sub(r'//[^\n]*', '', t)
+    t = re.sub(r'XI_GAME\(\s*0[xX][0-9A-Fa-f]+[uU]?\s*\)', 'XI_GAME()', t)
+    return {int(m.group(1), 0) for m in LIT.finditer(t) if not (len(m.group(1)) > 1 and m.group(1)[0] == '0' and m.group(1)[1] not in 'xX')
+            and LO <= int(m.group(1), 0) < HI}
+
+
+def plain_integers(ea):
+    """the values the original function's code holds only unrelocated (relocation table; reloc_literals.py's reading)"""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import sp_solve as S, dump_verify as D_V
+    g = plain_integers.__dict__
+    if 'im' not in g:
+        dll = os.environ['FFXI_DLL']; pe = pefile.PE(dll, fast_load=True); base = pe.OPTIONAL_HEADER.ImageBase
+        blocks, _ = D_V.reloc_blocks(pe, pe.get_memory_mapped_image())
+        g['rel'] = {base + page + (e & 0xFFF) for page, ents in blocks for e in ents if e >> 12 == 3}
+        g['im'] = S.Image(dll)
+        g['ext'] = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'func_extents.json')))
+    im, rel = g['im'], g['rel']; seen = collections.defaultdict(set)
+    for a, i in im.code(g['ext'].get('0x%x' % ea, [])).items():
+        b = bytes(im.img[a - im.base:a - im.base + i.size])
+        for off, size in ((i.disp_offset, i.disp_size), (i.imm_offset, i.imm_size)):
+            if size == 4 and off: seen[int.from_bytes(b[off:off + 4], 'little')].add(a + off in rel)
+    return {v for v, r in seen.items() if r == {False}}
+
+
+def explain(found, tree):
+    """the holders whose source writes no raw game address: {symbol: why}"""
+    texts = source_texts(tree); res = {}
+    dm = subprocess.run(['i686-w64-mingw32-c++filt'], input='\n'.join('_' + h for h in found), capture_output=True, text=True).stdout.split('\n')
+    for h, d in zip(found, dm):
+        name = d.split('(')[0].strip()
+        if name not in texts: continue
+        ea, text = texts[name]
+        raw = raw_literals(text)
+        left = raw - plain_integers(ea) if raw else raw
+        if left: continue
+        res[h] = ('its source writes every game-range literal through XI_GAME' if not raw else
+                  'its source writes outside XI_GAME only %s, which the original (0x%08X) holds only unrelocated: plain integers'
+                  % (', '.join('0x%08X' % v for v in sorted(raw)), ea)) + '; the constants are the compiler\'s'
+    return res
+
+
+def main(dll, out, tree=None):
     pe = pefile.PE(dll); pe.parse_data_directories(); ib = pe.OPTIONAL_HEADER.ImageBase
     syms = {}
     for l in subprocess.run(['i686-w64-mingw32-nm', dll], capture_output=True, text=True, check=True).stdout.split('\n'):
@@ -51,9 +124,11 @@ def main(dll, out):
                     t = holder(i.operands[0].imm)
                     if t and t != h: calls[t].add(h)                                  # callee -> callers
             if off == last: off += 1                                                  # undecodable byte
+    expl = explain(found, tree) if tree else {}
     # each holder's findings reach every function that calls it, directly or through others
     reach = collections.defaultdict(set)
     for h in found:
+        if h in expl: continue
         seen, todo = {h}, [h]
         while todo:
             x = todo.pop()
@@ -61,11 +136,12 @@ def main(dll, out):
                 if c not in seen: seen.add(c); todo.append(c)
         for x in seen: reach[x].add(h)
     exp = {x: ['%s: %s' % (h, found[h][0]) for h in sorted(hs)] for x, hs in sorted(reach.items()) if x in exports}
-    json.dump({'_doc': __doc__.split('\n\n')[0], 'exports': exp, 'holders': {h: v for h, v in sorted(found.items())}},
+    json.dump({'_doc': __doc__.split('\n\n')[0], 'exports': exp, 'holders': {h: v for h, v in sorted(found.items()) if h not in expl},
+               'explained': {h: [expl[h]] + found[h] for h in sorted(expl)}},
               open(out, 'w'), indent=1)
-    print('%d game-range constants in %d functions; %d exported functions hold or reach one' % (
-        sum(map(len, found.values())), len(found), len(exp)))
+    print('%d game-range constants in %d functions (%d explained by their source); %d exported functions hold or reach one' % (
+        sum(map(len, found.values())), len(found), len(expl), len(exp)))
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:3])
+    main(*sys.argv[1:4])

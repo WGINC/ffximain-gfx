@@ -42,7 +42,7 @@ def main():
             o.append('inline ::xikit::fn<decltype(&::%s)> %s() { return reinterpret_cast< ::xikit::fn<decltype(&::%s)> >(XI_GAME(0x%08Xu)); }'
                      % (s, ident(s), s, a))
         o += ['}', '', 'namespace xihook {',
-              '// the functions in the kit\'s manifest: flags 1 SEH, 2 speedfix site, 4 gate coverage incomplete, 8 register',
+              '// the functions in the kit\'s manifest: flags 1 SEH, 2 speedfix site, 4 gate coverage incomplete, 16 render path, 8 register',
               '// input its declaration lacks (the kit refuses a hook of it);',
               '// TRAMP = 1 if the hook\'s previous is a trampoline to the game\'s own code, 0 if it is the reconstruction']
         for a, s in ok:

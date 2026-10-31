@@ -39,8 +39,15 @@ static inline uintptr_t xi_code(uint32_t ea) {
     if (ea >= static_cast<uint32_t>(xi_shift[1 + 3 * i]) && ea < static_cast<uint32_t>(xi_shift[2 + 3 * i])) d = xi_shift[3 + 3 * i];
   return static_cast<uintptr_t>(ea) + xi_rel + d;
 }
+#ifndef XI_PROBE
 #define XI_GAME(ea) ((static_cast<uint32_t>(ea) >= 0x10001000u && static_cast<uint32_t>(ea) < 0x10329000u) \
                      ? xi_code(static_cast<uint32_t>(ea)) : static_cast<uintptr_t>(ea) + xi_rel)
+#else
+// the probe build (build.sh XI_PROBE=1, never run): every rebased address is moved by 0x01000000 at compile time, so
+// a game-range constant (0x10001000-0x10700000) left in its code was not written through XI_GAME
+// (pipeline/raw_game_addrs.py, which kit/xikit/make_manifest.py reads)
+#define XI_GAME(ea) (static_cast<uintptr_t>(static_cast<uint32_t>(ea) + 0x01000000u) + xi_rel)
+#endif
 #else
 #define XI_GAME(ea) (static_cast<uintptr_t>(ea))
 #endif
